@@ -1,0 +1,13 @@
+.stache-layout {}
+
+.stache-layout-header {}
+
+.stache-layout-body {}
+
+.stache-layout-primary {
+  stache-page-anchor:first-child .stache-page-anchor {
+    margin-top: 0;
+  }
+}
+
+.stache-layout-secondary {}

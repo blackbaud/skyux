@@ -1,0 +1,40 @@
+.stache-layout {
+  margin-top: $stache-padding-size;
+}
+
+@mixin create_columns($screen-size: sm) {
+  @for $i from 1 through $stache-grid-columns {
+    .stache-col-#{$screen-size}-#{$i} {
+      width: ($i / $stache-grid-columns) * 100%;
+    }
+
+    .stache-col-#{$screen-size}-#{$i} {
+      padding-right: $stache-padding-size;
+
+      &:last-child {
+        padding-right: 0;
+      }
+    }
+  }
+}
+
+.stache-row {
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: $stache-screen-sm) {
+    flex-direction: row;
+  }
+}
+
+@media (min-width: $stache-screen-sm) {
+  @include create_columns(sm);
+}
+
+@media (min-width: $stache-screen-md) {
+  @include create_columns(md);
+}
+
+@media (min-width: $stache-screen-lg) {
+  @include create_columns(lg);
+}

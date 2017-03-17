@@ -1,0 +1,25 @@
+.stache-menu {
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 5px 0;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+
+    > li {
+      > a {
+        display: block;
+        width: 100%;
+        padding: 8px 15px;
+        color: $stache-color-text;
+
+        &:hover,
+        &.active {
+          background-color: #e2e2e2;
+        }
+      }
+    }
+  }
+}

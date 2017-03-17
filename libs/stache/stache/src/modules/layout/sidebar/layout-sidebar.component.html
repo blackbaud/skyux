@@ -1,0 +1,15 @@
+<div class="stache-layout stache-layout-sidebar">
+  <div class="stache-layout-header">
+    <stache-page-header *ngIf="pageTitle">
+      {{pageTitle}}
+    </stache-page-header>
+  </div>
+  <div class="stache-layout-body stache-row">
+    <aside class="stache-layout-secondary stache-col-sm-3">
+      <stache-menu [routes]="routes"></stache-menu>
+    </aside>
+    <div class="stache-layout-primary stache-col-sm-9">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+<nav class="stache-menu">
+  <ul>
+    <li *ngFor="let route of routes">
+      <a [routerLink]="route.path" 
+        fragment="{{route.fragment}}" 
+        [ngClass]="{'active': isActive(route)}">{{route.label}}</a>
+    </li>
+  </ul>
+</nav>

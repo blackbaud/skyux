@@ -1,0 +1,21 @@
+<template #content>
+  <ng-content></ng-content>
+</template>
+
+<template #default>
+  <stache-layout-default pageTitle="{{pageTitle}}">
+    <template [ngTemplateOutlet]="content"></template>
+  </stache-layout-default>
+</template>
+
+<template #sidebar>
+  <stache-layout-sidebar pageTitle="{{pageTitle}}" [routes]="routes">
+    <template [ngTemplateOutlet]="content"></template>
+  </stache-layout-sidebar>
+</template>
+
+<div class="stache-layout">
+  <div class="sky-container">
+    <template [ngTemplateOutlet]="templateRef"></template>
+  </div>
+</div>
