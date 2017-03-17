@@ -1,12 +1,17 @@
 <div class="stache-layout stache-layout-default">
   <div class="stache-layout-header">
+    <stache-breadcrumbs></stache-breadcrumbs>
     <stache-page-header *ngIf="pageTitle">
       {{pageTitle}}
     </stache-page-header>
   </div>
-  <div class="stache-layout-body stache-row">
-    <div class="stache-layout-primary stache-col-sm-12">
-      <ng-content></ng-content>
+  <div class="stache-layout-body">
+    <div class="stache-row">
+      <div class="stache-col-sm-12">
+        <main class="stache-layout-primary">
+          <ng-content></ng-content>
+        </main>
+      </div>
     </div>
   </div>
 </div>

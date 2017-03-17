@@ -9,7 +9,7 @@
     }
 
     .stache-col-#{$screen-size}-#{$i} {
-      padding-right: $stache-padding-size;
+      padding-right: $stache-grid-padding;
 
       &:last-child {
         padding-right: 0;
