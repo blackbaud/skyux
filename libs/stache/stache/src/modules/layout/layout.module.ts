@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { StacheMenuModule } from '../menu/menu.module';
+import { StacheGridModule } from '../grid/grid.module';
 import { StachePageHeaderModule } from '../page-header/page-header.module';
 import { StacheBreadcrumbsModule } from '../breadcrumbs/breadcrumbs.module';
 
@@ -12,6 +13,7 @@ import { StacheLayoutSidebarComponent } from './sidebar/layout-sidebar.component
 @NgModule({
   imports: [
     CommonModule,
+    StacheGridModule,
     StacheMenuModule,
     StacheBreadcrumbsModule,
     StachePageHeaderModule

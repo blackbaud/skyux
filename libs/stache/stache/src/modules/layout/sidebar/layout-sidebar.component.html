@@ -6,17 +6,17 @@
     </stache-page-header>
   </div>
   <div class="stache-layout-body">
-    <div class="stache-row">
-      <div class="stache-col-sm-3">
+    <stache-row>
+      <stache-column>
         <aside class="stache-layout-secondary">
           <stache-menu [routes]="routes"></stache-menu>
         </aside>
-      </div>
-      <div class="stache-col-sm-9">
+      </stache-column>
+      <stache-column>
         <main class="stache-layout-primary">
           <ng-content></ng-content>
         </main>
-      </div>
-    </div>
+      </stache-column>
+    </stache-row>
   </div>
 </div>
