@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 
+import { StacheCodeModule } from './modules/code/code.module';
 import { StacheGridModule } from './modules/grid/grid.module';
 import { StachePageAnchorModule } from './modules/page-anchor/page-anchor.module';
 import { StacheMenuModule } from './modules/menu/menu.module';
@@ -12,6 +13,7 @@ require('./styles/stache.scss');
 
 @NgModule({
   exports: [
+    StacheCodeModule,
     StacheGridModule,
     StachePageAnchorModule,
     StacheMenuModule,

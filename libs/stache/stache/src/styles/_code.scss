@@ -1,0 +1,11 @@
+.stache-code {
+  background-color: #e2e2e2;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,0.1);
+  padding: 15px;
+  border-radius: 5px;
+  border-bottom: 1px solid rgba(255,255,255,0.85);
+
+  > pre {
+    margin: 0;
+  }
+}

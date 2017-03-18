@@ -12,4 +12,7 @@ export class StacheMenuDemoComponent {
       label: 'My Link'
     }
   ];
+  public code: string = `
+    <stache-menu></stache-menu>
+  `;
 }
