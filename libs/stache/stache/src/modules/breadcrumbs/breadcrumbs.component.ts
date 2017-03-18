@@ -6,7 +6,14 @@ import { Component, Input } from '@angular/core';
 })
 export class StacheBreadcrumbsComponent {
   @Input()
-  public routes: any[];
+  public routes: any[] = [
+    {
+      label: 'Learn'
+    },
+    {
+      label: 'Components'
+    }
+  ];
 
   public constructor() {}
 }

@@ -1,8 +1,8 @@
 .stache-page-anchor {
-  margin-top: $stache-padding-size;
-  margin-bottom: $stache-padding-size / 2;
 
   &:hover {
+    color: $stache-color-menu-link-hover;
+
     .stache-page-anchor-icon {
       display: block;
     }
@@ -12,18 +12,18 @@
 .stache-page-anchor-heading {
   position: relative;
   margin: 0;
+  
+  > a {
+    color: $stache-color-text;
+  }
 }
 
-.stache-page-anchor-icon {
+.fa.stache-page-anchor-icon {
   display: none;
   position: absolute;
   right: 100%;
   top: .25em;
   padding-right: 4px;
   font-size: .75em;
-  color: $stache-color-text;
-
-  &:hover {
-    color: $stache-color-text;
-  }
+  color: $stache-color-menu-link-hover;
 }

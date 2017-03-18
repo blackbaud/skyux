@@ -1,14 +1,25 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'stache-column',
-  template: `
-    <div class="stache-column">
-      <ng-content></ng-content>
-    </div>
-  `
+  templateUrl: './column.component.html'
 })
-export class StacheColumnComponent {
+export class StacheColumnComponent implements OnInit {
   @Input()
   public screenSmall: number = 12;
+
+  @HostBinding('class')
+  public classnames: string;
+
+  public getClassNames(): string {
+    let classnames = [
+      'stache-column'
+    ];
+    classnames.push(`stache-column-sm-${this.screenSmall}`);
+    return classnames.join(' ');
+  }
+
+  public ngOnInit(): void {
+    this.classnames = this.getClassNames();
+  }
 }

@@ -1,18 +1,11 @@
 .stache-menu {
-  background-color: #fff;
-  padding: 8px;
-  border-radius: 5px;
-  box-shadow: 0 1px 1px rgba(0,0,0,0.25);
 
   ul {
-    background-color: #f7f7f7;
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
-    border-radius: 3px;
-    overflow: hidden;
 
     > li {
       > a {
