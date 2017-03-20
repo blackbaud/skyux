@@ -12,6 +12,7 @@ export class StacheWrapperComponent implements OnInit, AfterContentInit {
   @Input() public pageTitle: string;
   @Input() public documentTitle: string = 'Browser Title';
   @Input() public routes: any[] = [];
+
   public inPageRoutes: any[] = [];
 
   @ContentChildren(StachePageAnchorComponent) private pageAnchors;
