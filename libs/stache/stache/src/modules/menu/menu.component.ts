@@ -12,6 +12,11 @@ export class StacheMenuComponent {
   public constructor(private router: Router) {}
 
   public isActive(route: any): boolean {
-    return (this.router.url === `${route.path.join('/')}#${route.fragment}`);
+    let path = route.path.join('/');
+    if (this.router.url.includes('#')) {
+      return (this.router.url === `${path}#${route.fragment}`);
+    } else {
+      return this.router.url === path;
+    }
   }
 }

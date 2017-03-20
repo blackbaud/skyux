@@ -1,9 +1,4 @@
-import { Component,
-         OnInit,
-         Input,
-         ContentChildren,
-         AfterContentInit } from '@angular/core';
-
+import { Component, OnInit, Input, AfterContentInit, ContentChildren } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
 import { StachePageAnchorComponent } from '../page-anchor/page-anchor.component';
@@ -13,19 +8,13 @@ import { StachePageAnchorComponent } from '../page-anchor/page-anchor.component'
   templateUrl: './wrapper.component.html'
 })
 export class StacheWrapperComponent implements OnInit, AfterContentInit {
-  @Input()
-  public layout: string = 'default';
+  @Input() public layout: string = 'default';
+  @Input() public pageTitle: string;
+  @Input() public documentTitle: string = 'Browser Title';
+  @Input() public routes: any[] = [];
+  public inPageRoutes: any[] = [];
 
-  @Input()
-  public pageTitle: string;
-
-  @Input()
-  public documentTitle: string = 'Browser Title';
-
-  public routes: any[] = [];
-
-  @ContentChildren(StachePageAnchorComponent, { descendants: true })
-  private headings;
+  @ContentChildren(StachePageAnchorComponent) private pageAnchors;
 
   public constructor(private titleService: Title) {}
 
@@ -34,8 +23,8 @@ export class StacheWrapperComponent implements OnInit, AfterContentInit {
   }
 
   public ngAfterContentInit(): void {
-    this.headings.forEach(h => {
-      this.routes.push({
+    this.pageAnchors.forEach(h => {
+      this.inPageRoutes.push({
         path: h.path,
         fragment: h.anchor,
         label: h.label

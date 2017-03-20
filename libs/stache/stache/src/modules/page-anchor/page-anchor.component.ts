@@ -6,9 +6,7 @@ import { Router } from '@angular/router';
   templateUrl: './page-anchor.component.html'
 })
 export class StachePageAnchorComponent implements OnInit {
-  @Input()
-  public navItemLabel: string;
-
+  @Input() public navItemLabel: string;
   public label: string;
   public anchor: string;
   public path: string[];

@@ -14,6 +14,9 @@ export class StacheLayoutComponent implements OnInit {
   @Input()
   public routes: any[];
 
+  @Input()
+  public inPageRoutes: any[];
+
   public templateRef;
 
   @ViewChild('default')
@@ -22,10 +25,16 @@ export class StacheLayoutComponent implements OnInit {
   @ViewChild('sidebar')
   private sidebarTemplateRef;
 
+  @ViewChild('document')
+  private documentTemplateRef;
+
   public ngOnInit(): void {
     switch (this.type) {
       case 'sidebar':
         this.templateRef = this.sidebarTemplateRef;
+        break;
+      case 'document':
+        this.templateRef = this.documentTemplateRef;
         break;
       default:
         this.templateRef = this.defaultTemplateRef;
