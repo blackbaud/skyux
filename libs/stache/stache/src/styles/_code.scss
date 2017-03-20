@@ -1,11 +1,8 @@
-.stache-code {
-  background-color: #e2e2e2;
-  box-shadow: inset 0 1px 1px rgba(0,0,0,0.1);
-  padding: 15px;
-  border-radius: 5px;
-  border-bottom: 1px solid rgba(255,255,255,0.85);
-
-  > pre {
-    margin: 0;
-  }
+code {
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-size: 90%;
+  background-color: scale-color($color: $sky-color-red, $lightness: 90%);
+  border-radius: 4px;
+  color: scale-color($color: $sky-color-red, $lightness: -20%);
+  padding: 2px 4px;
 }

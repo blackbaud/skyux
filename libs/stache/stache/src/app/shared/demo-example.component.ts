@@ -4,7 +4,7 @@ import { Component, Input } from '@angular/core';
   selector: 'stache-demo-example',
   template: `
     <h2>Code:</h2>
-    <stache-code>{{code}}</stache-code>
+    <stache-code code="{{code}}"></stache-code>
     <h2>Result:</h2>
     <div class="stache-demo-example-result">
       <ng-content></ng-content>

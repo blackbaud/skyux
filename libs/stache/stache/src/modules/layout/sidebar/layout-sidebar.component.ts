@@ -6,7 +6,7 @@ import { StacheLayoutComponent } from '../layout.component';
   selector: 'stache-layout-sidebar',
   templateUrl: './layout-sidebar.component.html'
 })
-export class StacheLayoutSidebarComponent extends StacheLayoutComponent { 
+export class StacheLayoutSidebarComponent extends StacheLayoutComponent {
   public constructor() {
     super();
   }
