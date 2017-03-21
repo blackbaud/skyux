@@ -8,42 +8,154 @@ export class StacheDemoComponentService {
     {
       name: 'Stache Wrapper',
       route: '/components/wrapper',
-      summary: ''
+      summary: '',
+      getCodeFiles: () => {
+        return [
+          {
+            name: 'wrapper-demo.component.html',
+            fileContents: require('!!raw!./wrapper/wrapper-demo.component.html'),
+            language: 'markup'
+          },
+          {
+            name: 'wrapper-demo.component.ts',
+            fileContents: require('!!raw!./wrapper/wrapper-demo.component.ts'),
+            language: 'typescript'
+          }
+        ];
+      }
     },
     {
       name: 'Layout',
       route: '/components/layout',
-      summary: ''
+      summary: '',
+      getCodeFiles: () => {
+        return [
+          {
+            name: 'layout-demo.component.html',
+            fileContents: require('!!raw!./layout/layout-demo.component.html'),
+            language: 'markup'
+          },
+          {
+            name: 'layout-demo.component.ts',
+            fileContents: require('!!raw!./layout/layout-demo.component.ts'),
+            language: 'typescript'
+          }
+        ];
+      }
     },
     {
       name: 'Layout: Sidebar',
       route: '/components/layout-sidebar',
-      summary: ''
+      summary: '',
+      getCodeFiles: () => {
+        return [
+          {
+            name: 'layout-sidebar-demo.component.html',
+            fileContents: require('!!raw!./layout-sidebar/layout-sidebar-demo.component.html'),
+            language: 'markup'
+          },
+          {
+            name: 'layout-sidebar-demo.component.ts',
+            fileContents: require('!!raw!./layout-sidebar/layout-sidebar-demo.component.ts'),
+            language: 'typescript'
+          }
+        ];
+      }
     },
     {
       name: 'Page Header',
       route: '/components/page-header',
-      summary: `This is the Page Header component.`
+      summary: `This is the Page Header component.`,
+      getCodeFiles: () => {
+        return [
+          {
+            name: 'page-header-demo.component.html',
+            fileContents: require('!!raw!./page-header/page-header-demo.component.html'),
+            language: 'markup'
+          },
+          {
+            name: 'page-header-demo.component.ts',
+            fileContents: require('!!raw!./page-header/page-header-demo.component.ts'),
+            language: 'typescript'
+          }
+        ];
+      }
     },
     {
       name: 'Page Anchor',
       route: '/components/page-anchor',
-      summary: ''
+      summary: '',
+      getCodeFiles: () => {
+        return [
+          {
+            name: 'page-anchor-demo.component.html',
+            fileContents: require('!!raw!./page-anchor/page-anchor-demo.component.html'),
+            language: 'markup'
+          },
+          {
+            name: 'page-anchor-demo.component.ts',
+            fileContents: require('!!raw!./page-anchor/page-anchor-demo.component.ts'),
+            language: 'typescript'
+          }
+        ];
+      }
     },
     {
       name: 'Page Contents',
       route: '/components/page-contents',
-      summary: ''
+      summary: '',
+      getCodeFiles: () => {
+        return [
+          {
+            name: 'page-contents-demo.component.html',
+            fileContents: require('!!raw!./page-contents/page-contents-demo.component.html'),
+            language: 'markup'
+          },
+          {
+            name: 'page-contents-demo.component.ts',
+            fileContents: require('!!raw!./page-contents/page-contents-demo.component.ts'),
+            language: 'typescript'
+          }
+        ];
+      }
     },
     {
       name: 'Sidebar',
       route: '/components/sidebar',
-      summary: ''
+      summary: '',
+      getCodeFiles: () => {
+        return [
+          {
+            name: 'sidebar-demo.component.html',
+            fileContents: require('!!raw!./sidebar/sidebar-demo.component.html'),
+            language: 'markup'
+          },
+          {
+            name: 'sidebar-demo.component.ts',
+            fileContents: require('!!raw!./sidebar/sidebar-demo.component.ts'),
+            language: 'typescript'
+          }
+        ];
+      }
     },
     {
-      name: 'Grid System',
+      name: 'Grid',
       route: '/components/grid',
-      summary: ''
+      summary: '',
+      getCodeFiles: () => {
+        return [
+          {
+            name: 'grid-demo.component.html',
+            fileContents: require('!!raw!./grid/grid-demo.component.html'),
+            language: 'markup'
+          },
+          {
+            name: 'grid-demo.component.ts',
+            fileContents: require('!!raw!./grid/grid-demo.component.ts'),
+            language: 'typescript'
+          }
+        ];
+      }
     },
     {
       name: 'Code Block',
