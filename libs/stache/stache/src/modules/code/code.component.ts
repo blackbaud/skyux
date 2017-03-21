@@ -10,14 +10,10 @@ import 'prismjs/components/prism-typescript';
   styleUrls: ['./code.component.scss']
 })
 export class StacheCodeComponent implements AfterViewInit {
-  @ViewChild('code')
-  public codeTemplateRef;
+  @Input() public code: string;
+  @Input() public languageType: string = 'markup';
 
-  @Input()
-  public code: string;
-
-  @Input()
-  public language: string = 'markup';
+  @ViewChild('code') public codeTemplateRef;
 
   public output: string;
 
@@ -30,10 +26,10 @@ export class StacheCodeComponent implements AfterViewInit {
       html = this.codeTemplateRef.nativeElement.innerHTML;
     }
 
-    this.output = Prism.highlight(html, Prism.languages[this.language]);
+    this.output = Prism.highlight(html, Prism.languages[this.languageType]);
   }
 
   public getClassNames(): string {
-    return `language-${this.language}`;
+    return `language-${this.languageType}`;
   }
 }

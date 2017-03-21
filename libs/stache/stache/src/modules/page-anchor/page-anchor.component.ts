@@ -1,14 +1,15 @@
 import { Component, Input, OnInit, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { StacheNavLink } from '../nav/nav-link';
+
 @Component({
   selector: 'stache-page-anchor',
   templateUrl: './page-anchor.component.html'
 })
-export class StachePageAnchorComponent implements OnInit {
-  @Input() public navItemLabel: string;
+export class StachePageAnchorComponent implements OnInit, StacheNavLink {
   public label: string;
-  public anchor: string;
+  public fragment: string;
   public path: string[];
 
   public constructor(
@@ -17,14 +18,14 @@ export class StachePageAnchorComponent implements OnInit {
 
   public ngOnInit(): void {
     const element = this.elementRef.nativeElement;
-    let label, anchor;
+    let label, fragment;
 
     label = element.innerText || element.textContent;
     label = label.trim();
-    anchor = label.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+    fragment = label.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
 
     this.label = label;
-    this.anchor = anchor;
+    this.fragment = fragment;
     this.path = [this.router.url.split('#')[0]];
   }
 }

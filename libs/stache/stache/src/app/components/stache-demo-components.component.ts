@@ -35,8 +35,12 @@ export class StacheDemoComponentsComponent {
       path: ['page-anchor']
     },
     {
-      label: 'Menu',
-      path: ['menu']
+      label: 'Page Contents',
+      path: ['page-contents']
+    },
+    {
+      label: 'Sidebar',
+      path: ['sidebar']
     },
     {
       label: 'Grid System',

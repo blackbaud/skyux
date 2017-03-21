@@ -1,22 +1,16 @@
 <div class="stache-layout stache-layout-sidebar">
-  <div class="stache-layout-header">
+  <stache-container>
     <stache-breadcrumbs></stache-breadcrumbs>
     <stache-page-header *ngIf="pageTitle">
       {{pageTitle}}
     </stache-page-header>
-  </div>
-  <div class="stache-layout-body">
     <stache-row>
       <stache-column screenSmall="3">
-        <aside class="stache-layout-secondary">
-          <stache-menu [routes]="routes"></stache-menu>
-        </aside>
+        <stache-sidebar [routes]="routes"></stache-sidebar>
       </stache-column>
       <stache-column screenSmall="9">
-        <main class="stache-layout-primary">
-          <ng-content></ng-content>
-        </main>
+        <ng-content></ng-content>
       </stache-column>
     </stache-row>
-  </div>
+  </stache-container>
 </div>

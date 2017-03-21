@@ -8,36 +8,25 @@ import { StachePageAnchorComponent } from '../page-anchor/page-anchor.component'
   templateUrl: './wrapper.component.html'
 })
 export class StacheWrapperComponent implements OnInit, AfterContentInit {
-  @Input()
-  public layout: string = 'default';
+  @Input() public pageTitle;
+  @Input() public browserTitle = 'Browser Title';
+  @Input() public layout = 'default';
+  @Input() public routes = [];
 
-  @Input()
-  public pageTitle: string;
-
-  @Input()
-  public documentTitle: string = 'Browser Title';
-
-  @Input()
-  public routes: any[] = [];
-
-  public inPageRoutes: any[] = [];
+  public inPageRoutes = [];
 
   @ContentChildren(StachePageAnchorComponent)
   private pageAnchors;
 
-  public constructor(private titleService: Title) {}
+  public constructor(private titleService: Title) { }
 
   public ngOnInit(): void {
-    this.titleService.setTitle(this.documentTitle);
+    this.titleService.setTitle(this.browserTitle);
   }
 
   public ngAfterContentInit(): void {
-    this.pageAnchors.forEach(h => {
-      this.inPageRoutes.push({
-        path: h.path,
-        fragment: h.anchor,
-        label: h.label
-      });
+    this.pageAnchors.forEach(anchor => {
+      this.inPageRoutes.push(anchor);
     });
   }
 }

@@ -6,10 +6,11 @@ import { StacheGridModule } from '../grid/grid.module';
 import { StachePageHeaderModule } from '../page-header/page-header.module';
 import { StachePageAnchorModule } from '../page-anchor/page-anchor.module';
 
+import { StacheContainerComponent } from './container.component';
 import { StacheLayoutComponent } from './layout.component';
-import { StacheLayoutDefaultComponent } from './default/layout-default.component';
-import { StacheLayoutDocumentComponent } from './document/layout-document.component';
-import { StacheLayoutSidebarComponent } from './sidebar/layout-sidebar.component';
+import { StacheLayoutDefaultComponent } from './layout-default.component';
+import { StacheLayoutDocumentComponent } from './layout-document.component';
+import { StacheLayoutSidebarComponent } from './layout-sidebar.component';
 
 @NgModule({
   imports: [
@@ -20,12 +21,14 @@ import { StacheLayoutSidebarComponent } from './sidebar/layout-sidebar.component
     StachePageAnchorModule
   ],
   declarations: [
+    StacheContainerComponent,
     StacheLayoutComponent,
     StacheLayoutDefaultComponent,
     StacheLayoutDocumentComponent,
     StacheLayoutSidebarComponent
   ],
   exports: [
+    StacheContainerComponent,
     StacheLayoutComponent,
     StacheLayoutDefaultComponent,
     StacheLayoutDocumentComponent,
