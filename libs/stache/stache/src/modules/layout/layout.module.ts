@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { StacheMenuModule } from '../menu/menu.module';
+import { StacheNavModule } from '../nav/nav.module';
 import { StacheGridModule } from '../grid/grid.module';
 import { StachePageHeaderModule } from '../page-header/page-header.module';
-import { StacheBreadcrumbsModule } from '../breadcrumbs/breadcrumbs.module';
 import { StachePageAnchorModule } from '../page-anchor/page-anchor.module';
 
 import { StacheLayoutComponent } from './layout.component';
@@ -16,8 +15,7 @@ import { StacheLayoutSidebarComponent } from './sidebar/layout-sidebar.component
   imports: [
     CommonModule,
     StacheGridModule,
-    StacheMenuModule,
-    StacheBreadcrumbsModule,
+    StacheNavModule,
     StachePageHeaderModule,
     StachePageAnchorModule
   ],

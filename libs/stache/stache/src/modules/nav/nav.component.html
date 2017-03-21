@@ -1,4 +1,4 @@
-<nav class="stache-menu">
+<nav class="stache-nav" [ngClass]="classname">
   <ul>
     <li *ngFor="let route of routes">
       <a [routerLink]="route.path" 

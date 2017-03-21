@@ -8,14 +8,22 @@ import { StachePageAnchorComponent } from '../page-anchor/page-anchor.component'
   templateUrl: './wrapper.component.html'
 })
 export class StacheWrapperComponent implements OnInit, AfterContentInit {
-  @Input() public layout: string = 'default';
-  @Input() public pageTitle: string;
-  @Input() public documentTitle: string = 'Browser Title';
-  @Input() public routes: any[] = [];
+  @Input()
+  public layout: string = 'default';
+
+  @Input()
+  public pageTitle: string;
+
+  @Input()
+  public documentTitle: string = 'Browser Title';
+
+  @Input()
+  public routes: any[] = [];
 
   public inPageRoutes: any[] = [];
 
-  @ContentChildren(StachePageAnchorComponent) private pageAnchors;
+  @ContentChildren(StachePageAnchorComponent)
+  private pageAnchors;
 
   public constructor(private titleService: Title) {}
 

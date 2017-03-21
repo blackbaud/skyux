@@ -3,11 +3,10 @@ import { NgModule } from '@angular/core';
 import { StacheCodeModule } from './modules/code/code.module';
 import { StacheGridModule } from './modules/grid/grid.module';
 import { StachePageAnchorModule } from './modules/page-anchor/page-anchor.module';
-import { StacheMenuModule } from './modules/menu/menu.module';
+import { StacheNavModule } from './modules/nav/nav.module';
 import { StacheLayoutModule } from './modules/layout/layout.module';
 import { StacheWrapperModule } from './modules/wrapper/wrapper.module';
 import { StachePageHeaderModule } from './modules/page-header/page-header.module';
-import { StacheBreadcrumbsModule } from './modules/breadcrumbs/breadcrumbs.module';
 
 require('./styles/stache.scss');
 
@@ -16,11 +15,10 @@ require('./styles/stache.scss');
     StacheCodeModule,
     StacheGridModule,
     StachePageAnchorModule,
-    StacheMenuModule,
+    StacheNavModule,
     StachePageHeaderModule,
     StacheLayoutModule,
-    StacheWrapperModule,
-    StacheBreadcrumbsModule
+    StacheWrapperModule
   ]
 })
 export class StacheModule { }
