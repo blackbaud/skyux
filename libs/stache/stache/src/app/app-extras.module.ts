@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { StacheModule } from '../core';
 
+import { StacheDemoComponentService } from './components/demo-component.service';
+
 require('style!../styles/stache.scss');
 
 // Specify entry components, module-level providers, etc. here.
@@ -11,7 +13,9 @@ require('style!../styles/stache.scss');
   exports: [
     StacheModule
   ],
-  providers: [],
+  providers: [
+    StacheDemoComponentService
+  ],
   entryComponents: []
 })
 export class AppExtrasModule { }

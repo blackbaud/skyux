@@ -1,0 +1,13 @@
+<stache pageTitle="{{component.name}}" layout="sidebar" [routes]="routes">
+  <div>
+    {{component.summary}}
+  </div>
+  <h2>Demo</h2>
+  <ng-content></ng-content>
+  <h2>Code</h2>
+  <div class="stache-demo-code" *ngFor="let file of demoFiles">
+    <h4>{{file.name}}</h4>
+    <stache-code code="{{file.fileContents}}" languageType="{{file.language}}">
+    </stache-code>
+  </div>
+</stache>

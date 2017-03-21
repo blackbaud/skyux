@@ -24,6 +24,14 @@ export class StacheNavComponent implements OnInit {
     }
   }
 
+  public navigate(route: any): void {
+    let extras: { fragment?: string; } = {};
+    if (route.fragment) {
+      extras.fragment = route.fragment;
+    }
+    this.router.navigate(route.path, extras);
+  }
+
   public ngOnInit(): void {
     if (this.navType) {
       this.classname = `stache-nav-${this.navType}`;
