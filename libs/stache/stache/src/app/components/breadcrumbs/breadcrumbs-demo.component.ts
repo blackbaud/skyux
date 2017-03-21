@@ -11,15 +11,15 @@ export class StacheBreadcrumbsDemoComponent implements OnInit {
     this.routes = [
       {
         label: 'Home',
-        path: ['']
+        path: ['/']
       },
       {
         label: 'Parent',
-        path: ['']
+        path: ['/', 'parent']
       },
       {
         label: 'Child',
-        path: ['']
+        path: ['/', 'parent', 'child']
       }
     ];
   }

@@ -16,11 +16,6 @@ export class StacheDemoComponentService {
       summary: ''
     },
     {
-      name: 'Layout: Document',
-      route: '/components/layout-document',
-      summary: ''
-    },
-    {
       name: 'Layout: Sidebar',
       route: '/components/layout-sidebar',
       summary: ''
@@ -28,7 +23,7 @@ export class StacheDemoComponentService {
     {
       name: 'Page Header',
       route: '/components/page-header',
-      summary: ''
+      summary: `This is the Page Header component.`
     },
     {
       name: 'Page Anchor',
@@ -53,7 +48,16 @@ export class StacheDemoComponentService {
     {
       name: 'Code Block',
       route: '/components/code',
-      summary: ''
+      summary: '',
+      getCodeFiles: () => {
+        return [
+          {
+            name: 'code-demo.component.html',
+            fileContents: require('!!raw!./code/code-demo.component.html'),
+            language: 'markup'
+          }
+        ];
+      }
     },
     {
       name: 'Breadcrumbs',

@@ -14,10 +14,4 @@
   </stache-layout-sidebar>
 </template>
 
-<template #document>
-  <stache-layout-document pageTitle="{{pageTitle}}" [routes]="inPageRoutes">
-    <template [ngTemplateOutlet]="content"></template>
-  </stache-layout-document>
-</template>
-
 <template [ngTemplateOutlet]="templateRef"></template>
