@@ -8,6 +8,7 @@ import { StachePageAnchorModule } from '../page-anchor/page-anchor.module';
 
 import { StacheContainerComponent } from './container.component';
 import { StacheLayoutComponent } from './layout.component';
+import { StacheLayoutBlankComponent } from './layout-blank.component';
 import { StacheLayoutDefaultComponent } from './layout-default.component';
 import { StacheLayoutSidebarComponent } from './layout-sidebar.component';
 
@@ -22,12 +23,14 @@ import { StacheLayoutSidebarComponent } from './layout-sidebar.component';
   declarations: [
     StacheContainerComponent,
     StacheLayoutComponent,
+    StacheLayoutBlankComponent,
     StacheLayoutDefaultComponent,
     StacheLayoutSidebarComponent
   ],
   exports: [
     StacheContainerComponent,
     StacheLayoutComponent,
+    StacheLayoutBlankComponent,
     StacheLayoutDefaultComponent,
     StacheLayoutSidebarComponent
   ],
