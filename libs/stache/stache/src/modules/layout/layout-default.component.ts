@@ -1,18 +1,23 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { StacheLayout } from './layout';
+import { InputConverter } from '../shared';
 
 @Component({
   selector: 'stache-layout-default',
   templateUrl: './layout-default.component.html'
 })
-export class StacheLayoutDefaultComponent implements StacheLayout, OnInit {
-  @Input() public pageTitle;
-  @Input() public breadcrumbsRoutes;
-  @Input() public inPageRoutes;
-  @Input() public showBreadcrumbs;
+export class StacheLayoutDefaultComponent implements StacheLayout {
+  @Input()
+  public pageTitle;
 
-  public ngOnInit(): void {
-    this.showBreadcrumbs = (this.showBreadcrumbs === true || this.showBreadcrumbs === 'true');
-  }
+  @Input()
+  public breadcrumbsRoutes;
+
+  @Input()
+  public inPageRoutes;
+
+  @Input()
+  @InputConverter()
+  public showBreadcrumbs: boolean;
 }

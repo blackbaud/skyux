@@ -1,19 +1,27 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { StacheLayout } from './layout';
+import { InputConverter } from '../shared';
+
 
 @Component({
   selector: 'stache-layout-sidebar',
   templateUrl: './layout-sidebar.component.html'
 })
-export class StacheLayoutSidebarComponent implements StacheLayout, OnInit {
-  @Input() public pageTitle;
-  @Input() public breadcrumbsRoutes;
-  @Input() public inPageRoutes;
-  @Input() public showBreadcrumbs;
-  @Input() public sidebarRoutes;
+export class StacheLayoutSidebarComponent implements StacheLayout {
+  @Input()
+  public pageTitle;
 
-  public ngOnInit(): void {
-    this.showBreadcrumbs = (this.showBreadcrumbs === true || this.showBreadcrumbs === 'true');
-  }
+  @Input()
+  public breadcrumbsRoutes;
+
+  @Input()
+  public inPageRoutes;
+
+  @Input()
+  public sidebarRoutes;
+
+  @Input()
+  @InputConverter()
+  public showBreadcrumbs: boolean;
 }
