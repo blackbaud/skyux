@@ -2,6 +2,12 @@
   <ng-content></ng-content>
 </template>
 
+<template #blank>
+  <stache-layout-blank>
+    <template [ngTemplateOutlet]="content"></template>
+  </stache-layout-blank>
+</template>
+
 <template #default>
   <stache-layout-default 
     pageTitle="{{pageTitle}}"
