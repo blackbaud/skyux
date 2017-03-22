@@ -10,15 +10,15 @@ export class StacheBreadcrumbsDemoComponent implements OnInit {
   public ngOnInit(): void {
     this.routes = [
       {
-        label: 'Home',
+        name: 'Home',
         path: ['/']
       },
       {
-        label: 'Parent',
+        name: 'Parent',
         path: ['/', 'parent']
       },
       {
-        label: 'Child',
+        name: 'Child',
         path: ['/', 'parent', 'child']
       }
     ];

@@ -12,6 +12,10 @@ export class AppNavComponent {
       path: '/'
     },
     {
+      name: 'Learn',
+      path: '/learn'
+    },
+    {
       name: 'Components',
       path: '/components'
     }

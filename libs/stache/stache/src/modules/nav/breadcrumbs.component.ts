@@ -11,10 +11,10 @@ import { StacheNav } from './nav';
 export class StacheBreadcrumbsComponent implements StacheNav {
   @Input()
   public routes = [{
-    label: 'Home',
+    name: 'Home',
     path: ['/']
   }, {
-    label: 'Components',
+    name: 'Components',
     path: ['/', 'components']
   }];
 }

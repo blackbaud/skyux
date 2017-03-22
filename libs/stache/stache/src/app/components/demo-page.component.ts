@@ -10,7 +10,7 @@ export class StacheDemoPageComponent implements OnInit {
   @Input() public name: string;
 
   public routes = [{
-    label: 'Overview',
+    name: 'Overview',
     path: ['/components']
   }];
   public component;
@@ -26,7 +26,7 @@ export class StacheDemoPageComponent implements OnInit {
     components.forEach((component) => {
       this.routes.push({
         path: [component.route],
-        label: component.name
+        name: component.name
       });
     });
   }

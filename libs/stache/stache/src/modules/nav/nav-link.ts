@@ -1,5 +1,5 @@
 export interface StacheNavLink {
-  label: string;
+  name: string;
   path: string[] | string;
   fragment?: string;
 }

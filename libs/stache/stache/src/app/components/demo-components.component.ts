@@ -9,7 +9,7 @@ import { StacheDemoComponentService } from './demo-component.service';
 export class StacheDemoComponentsComponent implements OnInit {
   public components;
   public routes = [{
-    label: 'Overview',
+    name: 'Overview',
     path: ['/components']
   }];
 
@@ -20,7 +20,7 @@ export class StacheDemoComponentsComponent implements OnInit {
     this.components.forEach((component) => {
       this.routes.push({
         path: [component.route],
-        label: component.name
+        name: component.name
       });
     });
   }

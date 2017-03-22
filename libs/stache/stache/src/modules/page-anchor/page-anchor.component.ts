@@ -8,7 +8,7 @@ import { StacheNavLink } from '../nav/nav-link';
   templateUrl: './page-anchor.component.html'
 })
 export class StachePageAnchorComponent implements OnInit, StacheNavLink {
-  public label: string;
+  public name: string;
   public fragment: string;
   public path: string[];
 
@@ -18,13 +18,13 @@ export class StachePageAnchorComponent implements OnInit, StacheNavLink {
 
   public ngOnInit(): void {
     const element = this.elementRef.nativeElement;
-    let label, fragment;
+    let name, fragment;
 
-    label = element.innerText || element.textContent;
-    label = label.trim();
-    fragment = label.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+    name = element.innerText || element.textContent;
+    name = name.trim();
+    fragment = name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
 
-    this.label = label;
+    this.name = name;
     this.fragment = fragment;
     this.path = [this.router.url.split('#')[0]];
   }
