@@ -1,16 +1,16 @@
 <app-nav></app-nav>
-<stache>
-  <h1>SKY UX Template</h1>
+<stache 
+  pageTitle="SKY UX Template" 
+  browserTitle="SKY UX 2 Docs" 
+  layout="sidebar" 
+  showBreadcrumbs="true"
+  [breadcrumbsRoutes]="[{ label: 'Home', path: ['/'] }]"
+  [sidebarRoutes]="[{ label: 'Home', path: ['/'] }]">
+
+  <stache-page-anchor>
+    Getting Started
+  </stache-page-anchor>
 
   <p>Welcome to the SKY UX template.  This template is dynamically cloned anytime `skyux new` is run.  For more information about SKY UX, visit the README.</p>
 
-  <sky-alert alertType="info">
-    You've just taken your first step into a larger world.
-  </sky-alert>
-
-  <p>
-    <a href="https://github.com/blackbaud/skyux-cli" target="_blank" rel="noopener noreferrer">
-      Learn more about SKY UX
-    </a>
-  <p>
 </stache>

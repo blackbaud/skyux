@@ -1,6 +1,6 @@
 <div class="stache-layout stache-layout-default">
   <stache-container>
-    <stache-breadcrumbs></stache-breadcrumbs>
+    <stache-breadcrumbs *ngIf="showBreadcrumbs" [routes]="breadcrumbsRoutes"></stache-breadcrumbs>
     <stache-page-header *ngIf="pageTitle">
       {{pageTitle}}
     </stache-page-header>

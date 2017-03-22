@@ -7,10 +7,12 @@ import { StacheLayout } from './layout';
   templateUrl: './layout.component.html'
 })
 export class StacheLayoutComponent implements OnInit, StacheLayout {
-  @Input() public pageTitle: string;
-  @Input() public routes;
-  @Input() public layoutType: string = 'default';
+  @Input() public pageTitle;
+  @Input() public layoutType = 'default';
   @Input() public inPageRoutes;
+  @Input() public sidebarRoutes;
+  @Input() public breadcrumbsRoutes;
+  @Input() public showBreadcrumbs;
 
   public templateRef;
 

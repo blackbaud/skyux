@@ -2,5 +2,8 @@ import { StacheNavLink } from '../nav/nav-link';
 
 export interface StacheLayout {
   pageTitle: string;
-  routes?: StacheNavLink[];
+  breadcrumbsRoutes: StacheNavLink[];
+  inPageRoutes: StacheNavLink[];
+  showBreadcrumbs: boolean;
+  sidebarRoutes?: StacheNavLink[];
 }

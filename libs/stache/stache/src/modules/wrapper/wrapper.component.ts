@@ -11,7 +11,9 @@ export class StacheWrapperComponent implements OnInit, AfterContentInit {
   @Input() public pageTitle;
   @Input() public browserTitle = 'Browser Title';
   @Input() public layout = 'default';
-  @Input() public routes = [];
+  @Input() public sidebarRoutes = [];
+  @Input() public breadcrumbsRoutes = [];
+  @Input() public showBreadcrumbs: boolean = false;
 
   public inPageRoutes = [];
 
