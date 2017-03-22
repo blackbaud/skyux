@@ -1,16 +1,17 @@
 <app-nav></app-nav>
-<stache 
-  pageTitle="SKY UX Template" 
-  browserTitle="SKY UX 2 Docs" 
-  layout="sidebar" 
-  showBreadcrumbs="true"
-  [breadcrumbsRoutes]="[{ label: 'Home', path: '/' }]"
-  [sidebarRoutes]="[{ label: 'Home', path: '/' }]">
 
-  <stache-page-anchor>
-    Getting Started
-  </stache-page-anchor>
+<stache-hero backgroundImageUrl="/assets/hero-sample-1.jpg">
+  <stache-hero-heading>
+    Stache Components for SKY UX 2
+  </stache-hero-heading>
+</stache-hero>
 
-  <p>Welcome to the SKY UX template.  This template is dynamically cloned anytime `skyux new` is run.  For more information about SKY UX, visit the README.</p>
+<stache>
+  <stache-container>
+    <stache-page-anchor>
+      Getting Started
+    </stache-page-anchor>
 
+    <p>Welcome to the SKY UX template.  This template is dynamically cloned anytime `skyux new` is run.  For more information about SKY UX, visit the README.</p>
+  </stache-container>
 </stache>
