@@ -3,8 +3,10 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'stache-page-contents',
   template: `
-    <h4>Page Contents</h4>
-    <stache-nav navType="page-contents" [routes]="routes"></stache-nav>
+    <div class="stache-page-contents">
+      <h4 class="stache-page-contents-heading">Contents</h4>
+      <stache-nav navType="page-contents" [routes]="routes"></stache-nav>
+    </div>
   `
 })
 export class StachePageContentsComponent {

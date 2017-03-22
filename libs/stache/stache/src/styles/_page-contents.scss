@@ -1,0 +1,29 @@
+.stache-page-contents {
+  background-color: $stache-color-gray-lightest;
+  padding: 15px;
+  width: auto;
+  float: left;
+  margin: 0 30px 15px 0;
+  position: relative;
+  z-index: 2;
+}
+
+.stache-nav-page-contents {
+  > ul {
+    display: block;
+    list-style: number;
+
+    > li {
+      margin: 0 0 3px;
+      white-space: nowrap;
+
+      > a {
+        color: $stache-color-link;
+      }
+    }
+  }
+}
+
+.stache-page-contents-heading {
+  margin: 0 0 15px;
+}

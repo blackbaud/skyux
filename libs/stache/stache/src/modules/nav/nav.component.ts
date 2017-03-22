@@ -8,8 +8,11 @@ import { StacheNavLink } from '../nav-link';
   templateUrl: './nav.component.html'
 })
 export class StacheNavComponent implements OnInit {
-  @Input() public routes: StacheNavLink[];
-  @Input() public navType: string;
+  @Input()
+  public routes: StacheNavLink[];
+
+  @Input()
+  public navType: string;
 
   public classname: string = '';
 

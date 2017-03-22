@@ -20,4 +20,8 @@ export class StacheLayoutDefaultComponent implements StacheLayout {
   @Input()
   @InputConverter()
   public showBreadcrumbs: boolean;
+
+  @Input()
+  @InputConverter()
+  public showPageContents: boolean;
 }

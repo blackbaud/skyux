@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, AfterContentInit, ContentChildren } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { StachePageAnchorComponent } from '../page-anchor/page-anchor.component';
 
@@ -14,16 +15,28 @@ export class StacheWrapperComponent implements OnInit, AfterContentInit {
   @Input() public sidebarRoutes = [];
   @Input() public breadcrumbsRoutes = [];
   @Input() public showBreadcrumbs: boolean = false;
+  @Input() public showPageContents: boolean = false;
 
   public inPageRoutes = [];
 
   @ContentChildren(StachePageAnchorComponent)
   private pageAnchors;
 
-  public constructor(private titleService: Title) { }
+  public constructor(
+    private titleService: Title,
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   public ngOnInit(): void {
     this.titleService.setTitle(this.browserTitle);
+    this.route.fragment.subscribe(fragment => {
+      setImmediate(() => {
+        const element = document.getElementById(fragment);
+        if (element) {
+          element.scrollIntoView();
+        }
+      });
+    });
   }
 
   public ngAfterContentInit(): void {
