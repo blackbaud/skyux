@@ -16,8 +16,13 @@ export class StacheNavComponent implements OnInit {
   public constructor(private router: Router) {}
 
   public isActive(route: any): boolean {
-    let path = route.path.join('/');
-    if (this.router.url.includes('#')) {
+    let path = route.path;
+
+    if (path.join) {
+      path = path.join('/');
+    }
+
+    if (route.fragment) {
       return (this.router.url === `${path}#${route.fragment}`);
     } else {
       return this.router.url === path;
@@ -26,9 +31,11 @@ export class StacheNavComponent implements OnInit {
 
   public navigate(route: any): void {
     let extras: { fragment?: string; } = {};
+
     if (route.fragment) {
       extras.fragment = route.fragment;
     }
+
     this.router.navigate(route.path, extras);
   }
 
