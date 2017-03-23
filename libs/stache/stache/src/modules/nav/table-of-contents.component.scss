@@ -2,9 +2,7 @@
 
 .stache-table-of-contents {
   background-color: #fff;
-  border: 1px solid #ddd;
-  border-bottom-color: #ccc;
-  border-radius: $stache-border-radius-sm;
+  border: 1px solid $stache-color-gray-light;
   overflow: hidden;
   display: inline-block;
   max-width: 100%;
@@ -13,7 +11,7 @@
 .stache-table-of-contents-header {
   background-color: $stache-color-gray-lightest;
   padding: 10px 14px 8px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid $stache-color-gray-light;
 }
 
 .stache-table-of-contents-body {

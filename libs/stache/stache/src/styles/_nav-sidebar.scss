@@ -1,44 +1,26 @@
 .stache-nav-sidebar {
-
+  background-color: $stache-color-gray-lightest;
+  
   > ul,
   > ol {
     flex-direction: column;
 
     > li {
-      margin-bottom: 4px;
 
       > a {
         display: block;
         width: 100%;
         padding: 8px 15px;
         color: $stache-color-text;
-        position: relative;
-        overflow: hidden;
-        border-radius: $stache-border-radius-sm;
-
-        &:before {
-          content: "";
-          width: 4px;
-          border-radius: $stache-border-radius-sm;
-          height: 100%;
-          display: block;
-          background-color: transparent;
-          position: absolute;
-          left: 0;
-          top: 0;
-        }
 
         &:hover {
-          background-color: $stache-color-gray-lightest;
+          background-color: $stache-color-gray-light;
         }
 
         &.active,
         &.active:hover {
-          background-color: $stache-color-gray-lightest;
-
-          &:before {
-            background-color: $stache-color-blue;
-          }
+          background-color: $stache-color-blue;
+          color: #fff;
         }
       }
     }
