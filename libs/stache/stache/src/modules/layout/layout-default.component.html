@@ -6,8 +6,8 @@
     </stache-page-header>
     <stache-row>
       <stache-column>
-        <stache-page-contents *ngIf="showPageContents" [routes]="inPageRoutes">
-        </stache-page-contents>
+        <stache-table-of-contents *ngIf="showTableOfContents" [routes]="inPageRoutes">
+        </stache-table-of-contents>
         <ng-content></ng-content>
       </stache-column>
     </stache-row>

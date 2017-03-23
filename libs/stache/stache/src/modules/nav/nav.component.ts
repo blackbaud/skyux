@@ -25,7 +25,7 @@ export class StacheNavComponent implements OnInit {
       path = path.join('/');
     }
 
-    if (route.fragment) {
+    if (this.router.url.includes('#')) {
       return (this.router.url === `${path}#${route.fragment}`);
     } else {
       return this.router.url === path;

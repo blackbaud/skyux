@@ -15,7 +15,7 @@ export class StacheWrapperComponent implements OnInit, AfterContentInit {
   @Input() public sidebarRoutes = [];
   @Input() public breadcrumbsRoutes = [];
   @Input() public showBreadcrumbs: boolean = false;
-  @Input() public showPageContents: boolean = false;
+  @Input() public showTableOfContents: boolean = false;
 
   public inPageRoutes = [];
 

@@ -1,4 +1,4 @@
-.stache-page-contents {
+.stache-table-of-contents {
   background-color: $stache-color-gray-lightest;
   padding: 15px;
   width: auto;
@@ -8,7 +8,7 @@
   z-index: 2;
 }
 
-.stache-nav-page-contents {
+.stache-nav-table-of-contents {
   > ul {
     display: block;
     list-style: number;
@@ -24,6 +24,6 @@
   }
 }
 
-.stache-page-contents-heading {
+.stache-table-of-contents-heading {
   margin: 0 0 15px;
 }

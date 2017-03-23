@@ -102,18 +102,18 @@ export class StacheDemoComponentService {
     },
     {
       name: 'Page Contents',
-      route: '/components/page-contents',
+      route: '/components/table-of-contents',
       summary: '',
       getCodeFiles: () => {
         return [
           {
-            name: 'page-contents-demo.component.html',
-            fileContents: require('!!raw!./page-contents/page-contents-demo.component.html'),
+            name: 'table-of-contents-demo.component.html',
+            fileContents: require('!!raw!./table-of-contents/table-of-contents-demo.component.html'),
             language: 'markup'
           },
           {
-            name: 'page-contents-demo.component.ts',
-            fileContents: require('!!raw!./page-contents/page-contents-demo.component.ts'),
+            name: 'table-of-contents-demo.component.ts',
+            fileContents: require('!!raw!./table-of-contents/table-of-contents-demo.component.ts'),
             language: 'typescript'
           }
         ];

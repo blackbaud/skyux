@@ -5,6 +5,6 @@ export interface StacheLayout {
   breadcrumbsRoutes: StacheNavLink[];
   inPageRoutes: StacheNavLink[];
   showBreadcrumbs: boolean;
-  showPageContents: boolean;
+  showTableOfContents: boolean;
   sidebarRoutes?: StacheNavLink[];
 }
