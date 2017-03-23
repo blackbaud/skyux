@@ -5,12 +5,12 @@
     flex-direction: column;
 
     > li {
-      margin-bottom: 2px;
+      margin-bottom: 4px;
 
       > a {
         display: block;
         width: 100%;
-        padding: 5px 15px;
+        padding: 8px 15px;
         color: $stache-color-text;
         position: relative;
         overflow: hidden;

@@ -1,6 +1,9 @@
 .stache-nav-breadcrumbs {
   color: $stache-color-text-muted;
   margin-bottom: $stache-grid-padding;
+  background-color: $stache-color-gray-lightest;
+  border-radius: 4px;
+  padding: 8px 15px;
 
   > ol,
   > ul {
