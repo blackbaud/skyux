@@ -3,24 +3,25 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { StachePageAnchorComponent } from '../page-anchor/page-anchor.component';
+import { StacheNavLink } from '../nav/nav-link';
 
 @Component({
   selector: 'stache',
   templateUrl: './wrapper.component.html'
 })
 export class StacheWrapperComponent implements OnInit, AfterContentInit {
-  @Input() public pageTitle;
+  @Input() public pageTitle: string;
   @Input() public browserTitle = 'Browser Title';
   @Input() public layout = 'default';
-  @Input() public sidebarRoutes = [];
-  @Input() public breadcrumbsRoutes = [];
+  @Input() public sidebarRoutes: StacheNavLink[] = [];
+  @Input() public breadcrumbsRoutes: StacheNavLink[] = [];
   @Input() public showBreadcrumbs: boolean = false;
   @Input() public showTableOfContents: boolean = false;
 
-  public inPageRoutes = [];
+  public inPageRoutes: StacheNavLink[] = [];
 
   @ContentChildren(StachePageAnchorComponent)
-  private pageAnchors;
+  private pageAnchors: any;
 
   public constructor(
     private titleService: Title,
@@ -40,7 +41,7 @@ export class StacheWrapperComponent implements OnInit, AfterContentInit {
   }
 
   public ngAfterContentInit(): void {
-    this.pageAnchors.forEach(anchor => {
+    this.pageAnchors.forEach((anchor: StacheNavLink) => {
       this.inPageRoutes.push(anchor);
     });
   }

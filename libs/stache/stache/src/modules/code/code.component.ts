@@ -17,12 +17,12 @@ export class StacheCodeComponent implements AfterViewInit {
   public languageType: string = 'markup';
 
   @ViewChild('codeFromContent')
-  public codeTemplateRef;
+  public codeTemplateRef: any;
 
   public output: string;
 
   public ngAfterViewInit(): void {
-    let html;
+    let html = '';
 
     if (this.code) {
       html = this.code;

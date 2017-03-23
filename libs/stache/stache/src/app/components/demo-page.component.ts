@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import { StacheDemoComponentService } from './demo-component.service';
+import { StacheDemoComponent } from './demo-component';
+import { StacheNavLink } from '../../modules/nav/nav-link';
 
 @Component({
   selector: 'stache-demo-page',
@@ -10,12 +12,12 @@ import { StacheDemoComponentService } from './demo-component.service';
 export class StacheDemoPageComponent implements OnInit {
   @Input() public name: string;
 
-  public routes = [{
+  public routes: StacheNavLink[] = [{
     name: 'Overview',
-    path: ['/components']
+    path: '/components'
   }];
-  public component;
-  public demoFiles;
+  public component: StacheDemoComponent;
+  public demoFiles: any;
 
   public constructor(private componentService: StacheDemoComponentService) {}
 

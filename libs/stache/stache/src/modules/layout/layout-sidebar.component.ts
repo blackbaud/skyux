@@ -1,3 +1,4 @@
+import { StacheNavLink } from '../nav/nav-link';
 import { Component, Input } from '@angular/core';
 
 import { StacheLayout } from './layout';
@@ -10,16 +11,16 @@ import { InputConverter } from '../shared';
 })
 export class StacheLayoutSidebarComponent implements StacheLayout {
   @Input()
-  public pageTitle;
+  public pageTitle: string;
 
   @Input()
-  public breadcrumbsRoutes;
+  public breadcrumbsRoutes: StacheNavLink[];
 
   @Input()
-  public inPageRoutes;
+  public inPageRoutes: StacheNavLink[];
 
   @Input()
-  public sidebarRoutes;
+  public sidebarRoutes: StacheNavLink[];
 
   @Input()
   @InputConverter()

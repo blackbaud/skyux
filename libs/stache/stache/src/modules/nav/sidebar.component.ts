@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 
+import { StacheNavLink } from './nav-link';
+
 @Component({
   selector: 'stache-sidebar',
   templateUrl: './sidebar.component.html',
@@ -7,5 +9,5 @@ import { Component, Input } from '@angular/core';
 })
 export class StacheSidebarComponent {
   @Input()
-  public routes;
+  public routes: StacheNavLink[];
 }

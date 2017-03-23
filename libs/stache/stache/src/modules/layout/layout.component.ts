@@ -1,3 +1,4 @@
+import { StacheNavLink } from '../nav/nav-link';
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 
 import { StacheLayout } from './layout';
@@ -8,36 +9,36 @@ import { StacheLayout } from './layout';
 })
 export class StacheLayoutComponent implements OnInit, StacheLayout {
   @Input()
-  public pageTitle;
+  public pageTitle: string;
 
   @Input()
   public layoutType = 'default';
 
   @Input()
-  public inPageRoutes;
+  public inPageRoutes: StacheNavLink[];
 
   @Input()
-  public showTableOfContents;
+  public showTableOfContents: boolean;
 
   @Input()
-  public sidebarRoutes;
+  public sidebarRoutes: StacheNavLink[];
 
   @Input()
-  public breadcrumbsRoutes;
+  public breadcrumbsRoutes: StacheNavLink[];
 
   @Input()
-  public showBreadcrumbs;
+  public showBreadcrumbs: boolean;
 
-  public templateRef;
+  public templateRef: any;
 
   @ViewChild('blank')
-  private blankTemplateRef;
+  private blankTemplateRef: any;
 
   @ViewChild('default')
-  private defaultTemplateRef;
+  private defaultTemplateRef: any;
 
   @ViewChild('sidebar')
-  private sidebarTemplateRef;
+  private sidebarTemplateRef: any;
 
   public ngOnInit(): void {
     switch (this.layoutType) {

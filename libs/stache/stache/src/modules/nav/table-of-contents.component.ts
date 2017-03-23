@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 
+import { StacheNavLink } from './nav-link';
+
 @Component({
   selector: 'stache-table-of-contents',
   templateUrl: './table-of-contents.component.html',
@@ -7,5 +9,5 @@ import { Component, Input } from '@angular/core';
 })
 export class StacheTableOfContentsComponent {
   @Input()
-  public routes;
+  public routes: StacheNavLink[];
 }

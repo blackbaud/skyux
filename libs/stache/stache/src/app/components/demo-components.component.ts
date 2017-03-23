@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 
 import { StacheDemoComponentService } from './demo-component.service';
+import { StacheDemoComponent } from './demo-component';
+import { StacheNavLink } from '../../modules/nav/nav-link';
 
 @Component({
   selector: 'stache-demo-components',
   templateUrl: './demo-components.component.html'
 })
 export class StacheDemoComponentsComponent implements OnInit {
-  public components;
-  public routes = [{
+  public components: StacheDemoComponent[];
+  public routes: StacheNavLink[] = [{
     name: 'Overview',
-    path: ['/components']
+    path: '/components'
   }];
 
   public constructor(private componentService: StacheDemoComponentService) { }
