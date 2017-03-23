@@ -1,0 +1,20 @@
+.stache-nav-table-of-contents {
+  > ol {
+    display: block;
+    list-style-type: decimal;
+    margin-left: 15px;
+
+    > li {
+      margin: 0 0 7px;
+      white-space: nowrap;
+
+      > a {
+        color: $stache-color-link;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

@@ -4,9 +4,8 @@ import { StacheNav } from './nav';
 
 @Component({
   selector: 'stache-breadcrumbs',
-  template: `
-    <stache-nav navType="breadcrumbs" [routes]="routes"></stache-nav>
-  `
+  templateUrl: './breadcrumbs.component.html',
+  styleUrls: ['./breadcrumbs.component.scss']
 })
 export class StacheBreadcrumbsComponent implements StacheNav {
   @Input()

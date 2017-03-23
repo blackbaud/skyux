@@ -2,15 +2,13 @@
 <stache 
   pageTitle="Learn"
   layout="sidebar"
+  showBreadcrumbs="true"
+  showTableOfContents="true"
   [sidebarRoutes]="[{ name: 'Overview', path: '/learn' }]"
-  showTableOfContents="true">
+  [breadcrumbsRoutes]="[{ name: 'Home', path: '/' }, { name: 'Learn', path: '/learn' }]">
 
   <stache-page-anchor>
-    Installation
-  </stache-page-anchor>
-
-  <stache-page-anchor>
-    Usage
+    Summary
   </stache-page-anchor>
 
   <p>

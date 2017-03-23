@@ -2,9 +2,8 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'stache-sidebar',
-  template: `
-    <stache-nav navType="sidebar" [routes]="routes"></stache-nav>
-  `
+  templateUrl: './sidebar.component.html',
+  styleUrls: ['./sidebar.component.scss']
 })
 export class StacheSidebarComponent {
   @Input()

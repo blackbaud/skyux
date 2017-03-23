@@ -1,0 +1,27 @@
+@import '../../styles/_variables';
+
+.stache-table-of-contents {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-bottom-color: #ccc;
+  border-radius: $stache-border-radius-sm;
+  overflow: hidden;
+  display: inline-block;
+  max-width: 100%;
+}
+
+.stache-table-of-contents-header {
+  background-color: $stache-color-gray-lightest;
+  padding: 10px 14px 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+.stache-table-of-contents-body {
+  padding: 15px;
+}
+
+.stache-table-of-contents-heading {
+  text-transform: uppercase;
+  font-size: .7em;
+  margin: 0;
+}

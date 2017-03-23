@@ -1,7 +1,7 @@
-<nav class="stache-nav" [ngClass]="classname">
-  <ul>
+<nav class="stache-nav" [ngClass]="classname" *ngIf="routes.length">
+  <ol>
     <li *ngFor="let route of routes">
       <a (click)="navigate(route)" [ngClass]="{'active': isActive(route)}">{{route.name}}</a>
     </li>
-  </ul>
+  </ol>
 </nav>

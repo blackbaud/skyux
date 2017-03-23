@@ -1,7 +1,8 @@
 .stache-nav-breadcrumbs {
   color: $stache-color-text-muted;
-  margin-bottom: 15px;
+  margin-bottom: $stache-grid-padding;
 
+  > ol,
   > ul {
     margin: 0;
     padding: 0;
@@ -14,6 +15,7 @@
       margin-right: 10px;
 
       & + li {
+
         &:before {
           content: '/';
           margin-right: 5px;
@@ -21,6 +23,7 @@
       }
 
       &:last-child {
+
         > a {
           color: $stache-color-text-muted;
 

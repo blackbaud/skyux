@@ -2,12 +2,8 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'stache-table-of-contents',
-  template: `
-    <div class="stache-table-of-contents">
-      <h4 class="stache-table-of-contents-heading">Contents</h4>
-      <stache-nav navType="table-of-contents" [routes]="routes"></stache-nav>
-    </div>
-  `
+  templateUrl: './table-of-contents.component.html',
+  styleUrls: ['./table-of-contents.component.scss']
 })
 export class StacheTableOfContentsComponent {
   @Input()
