@@ -1,4 +1,4 @@
-<nav class="stache-nav" [ngClass]="classname" *ngIf="routes.length">
+<nav class="stache-nav" [ngClass]="classname" *ngIf="hasRoutes()">
   <ol>
     <li *ngFor="let route of routes">
       <a (click)="navigate(route)" [ngClass]="{'active': isActive(route)}">{{route.name}}</a>

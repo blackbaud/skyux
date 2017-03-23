@@ -101,7 +101,7 @@ export class StacheDemoComponentService {
       }
     },
     {
-      name: 'Page Contents',
+      name: 'Table of Contents',
       route: '/components/table-of-contents',
       summary: '',
       getCodeFiles: () => {

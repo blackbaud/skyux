@@ -3,7 +3,9 @@
     {{component.summary}}
   </div>
   <h2>Demo</h2>
-  <ng-content></ng-content>
+  <div class="stache-demo-page-result">
+    <ng-content></ng-content>
+  </div>
   <h2>Code</h2>
   <div class="stache-demo-code" *ngFor="let file of demoFiles">
     <h4>{{file.name}}</h4>

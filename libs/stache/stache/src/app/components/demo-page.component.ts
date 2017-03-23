@@ -4,7 +4,8 @@ import { StacheDemoComponentService } from './demo-component.service';
 
 @Component({
   selector: 'stache-demo-page',
-  templateUrl: './demo-page.component.html'
+  templateUrl: './demo-page.component.html',
+  styleUrls: ['./demo-page.component.scss']
 })
 export class StacheDemoPageComponent implements OnInit {
   @Input() public name: string;

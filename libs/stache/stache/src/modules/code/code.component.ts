@@ -1,5 +1,4 @@
 import { Component, Input, ViewChild, AfterViewInit } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 declare let Prism: any;
 import 'prismjs/prism';
@@ -11,15 +10,16 @@ import 'prismjs/components/prism-typescript';
   styleUrls: ['./code.component.scss']
 })
 export class StacheCodeComponent implements AfterViewInit {
-  @Input() public code: string;
-  public safeCode: SafeHtml;
-  @Input() public languageType: string = 'markup';
+  @Input()
+  public code: string;
 
-  @ViewChild('code') public codeTemplateRef;
+  @Input()
+  public languageType: string = 'markup';
 
-  public output: SafeHtml;
+  @ViewChild('codeFromContent')
+  public codeTemplateRef;
 
-  public constructor(private sanitized: DomSanitizer) {}
+  public output: string;
 
   public ngAfterViewInit(): void {
     let html;
@@ -30,9 +30,7 @@ export class StacheCodeComponent implements AfterViewInit {
       html = this.codeTemplateRef.nativeElement.innerHTML;
     }
 
-    this.output = this.sanitized.bypassSecurityTrustHtml(
-      Prism.highlight(html, Prism.languages[this.languageType])
-    );
+    this.output = Prism.highlight(html, Prism.languages[this.languageType]);
   }
 
   public getClassNames(): string {

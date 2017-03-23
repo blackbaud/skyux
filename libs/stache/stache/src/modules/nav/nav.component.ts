@@ -19,6 +19,10 @@ export class StacheNavComponent implements OnInit {
 
   public constructor(private router: Router) {}
 
+  public hasRoutes(): boolean {
+    return (this.routes && this.routes.length > 0);
+  }
+
   public isActive(route: any): boolean {
     let path = route.path;
 
