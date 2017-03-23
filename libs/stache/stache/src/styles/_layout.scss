@@ -1,6 +1,7 @@
 .stache-layout {
-  margin-top: $stache-grid-padding;
-  margin-bottom: $stache-grid-padding;
+  padding-top: $stache-grid-padding;
+  padding-bottom: $stache-grid-padding;
+  background-color: #fff;
 }
 
 .stache-container {

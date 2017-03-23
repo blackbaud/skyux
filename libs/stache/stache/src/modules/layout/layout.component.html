@@ -12,7 +12,7 @@
   <stache-layout-default 
     pageTitle="{{pageTitle}}"
     [showBreadcrumbs]="showBreadcrumbs"
-    [showPageContents]="showPageContents"
+    [showTableOfContents]="showTableOfContents"
     [inPageRoutes]="inPageRoutes"
     [breadcrumbsRoutes]="breadcrumbsRoutes">
     <template [ngTemplateOutlet]="content"></template>
@@ -23,7 +23,7 @@
   <stache-layout-sidebar 
     pageTitle="{{pageTitle}}" 
     [showBreadcrumbs]="showBreadcrumbs"
-    [showPageContents]="showPageContents"
+    [showTableOfContents]="showTableOfContents"
     [sidebarRoutes]="sidebarRoutes"
     [inPageRoutes]="inPageRoutes"
     [breadcrumbsRoutes]="breadcrumbsRoutes">

@@ -4,14 +4,14 @@ import { RouterModule } from '@angular/router';
 
 import { StacheNavComponent } from './nav.component';
 import { StacheSidebarComponent } from './sidebar.component';
-import { StachePageContentsComponent } from './page-contents.component';
+import { StacheTableOfContentsComponent } from './table-of-contents.component';
 import { StacheBreadcrumbsComponent } from './breadcrumbs.component';
 
 @NgModule({
   declarations: [
     StacheNavComponent,
     StacheSidebarComponent,
-    StachePageContentsComponent,
+    StacheTableOfContentsComponent,
     StacheBreadcrumbsComponent
   ],
   imports: [
@@ -21,7 +21,7 @@ import { StacheBreadcrumbsComponent } from './breadcrumbs.component';
   exports: [
     StacheNavComponent,
     StacheSidebarComponent,
-    StachePageContentsComponent,
+    StacheTableOfContentsComponent,
     StacheBreadcrumbsComponent
   ]
 })

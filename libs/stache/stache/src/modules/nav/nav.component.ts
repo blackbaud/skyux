@@ -5,18 +5,23 @@ import { StacheNavLink } from '../nav-link';
 
 @Component({
   selector: 'stache-nav',
-  templateUrl: './nav.component.html'
+  templateUrl: './nav.component.html',
+  styleUrls: ['./nav.component.scss']
 })
 export class StacheNavComponent implements OnInit {
   @Input()
   public routes: StacheNavLink[];
 
   @Input()
-  public navType: string;
+  public type: string;
 
   public classname: string = '';
 
   public constructor(private router: Router) {}
+
+  public hasRoutes(): boolean {
+    return (this.routes && this.routes.length > 0);
+  }
 
   public isActive(route: any): boolean {
     let path = route.path;
@@ -25,10 +30,10 @@ export class StacheNavComponent implements OnInit {
       path = path.join('/');
     }
 
-    if (route.fragment) {
-      return (this.router.url === `${path}#${route.fragment}`);
+    if (this.router.url.includes('#')) {
+      return (this.router.url.split('#')[0] === path);
     } else {
-      return this.router.url === path;
+      return (this.router.url === path);
     }
   }
 
@@ -39,12 +44,16 @@ export class StacheNavComponent implements OnInit {
       extras.fragment = route.fragment;
     }
 
-    this.router.navigate(route.path, extras);
+    if (Array.isArray(route.path)) {
+      this.router.navigate(route.path, extras);
+    } else {
+      this.router.navigate([route.path], extras);
+    }
   }
 
   public ngOnInit(): void {
-    if (this.navType) {
-      this.classname = `stache-nav-${this.navType}`;
+    if (this.type) {
+      this.classname = `stache-nav-${this.type}`;
     }
   }
 }

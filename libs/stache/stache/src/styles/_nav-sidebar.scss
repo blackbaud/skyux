@@ -1,8 +1,12 @@
 .stache-nav-sidebar {
-  ul {
+  background-color: $stache-color-gray-lightest;
+  
+  > ul,
+  > ol {
     flex-direction: column;
 
     > li {
+
       > a {
         display: block;
         width: 100%;
@@ -10,7 +14,7 @@
         color: $stache-color-text;
 
         &:hover {
-          background-color: #e2e2e2;
+          background-color: $stache-color-gray-light;
         }
 
         &.active,

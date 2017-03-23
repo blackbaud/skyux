@@ -2,20 +2,19 @@
 <stache 
   pageTitle="Learn"
   layout="sidebar"
+  showBreadcrumbs="true"
+  showTableOfContents="true"
   [sidebarRoutes]="[{ name: 'Overview', path: '/learn' }]"
-  showPageContents="true">
+  [breadcrumbsRoutes]="[{ name: 'Home', path: '/' }, { name: 'Learn', path: '/learn' }]">
 
   <stache-page-anchor>
-    Installation
-  </stache-page-anchor>
-
-  <stache-page-anchor>
-    Usage
+    Summary
   </stache-page-anchor>
 
   <p>
     The SKY UX framework provides a consistent, cohesive user experience for Blackbaud products and for third-party developers. SKY UX provides the components, services, and modules that developers need to incorporate Blackbaud styles and patterns.
   </p>
+
   <p>
     And with SKY UX 2, the framework now provides additional benefits. First, the SKY UX Builder developer tool now abstracts many of the complexities of modern web development. SKY UX Builder takes the application-building aspects of Angular 2 and wraps them up. We still expect developers to write JavaScript/TypeScript and build features, but we don’t expect them to handle all the underlying details. In addition, SKY UX 2 includes a continuous integration layer for testing and validation, and SKY UX Host provides a hosting solution for Blackbaud applications.
   </p>

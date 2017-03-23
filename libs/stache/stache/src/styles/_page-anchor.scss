@@ -16,6 +16,7 @@
   > a {
     color: $stache-color-text;
     position: relative;
+    display: inline-block;
   }
 }
 
@@ -23,8 +24,8 @@
   display: none;
   position: absolute;
   right: 100%;
-  top: .25em;
+  top: 30%;
   padding-right: 4px;
-  font-size: .75em;
-  color: $stache-color-menu-link-hover;
+  font-size: .6em;
+  color: #444;
 }

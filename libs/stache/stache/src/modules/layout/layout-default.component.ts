@@ -23,5 +23,5 @@ export class StacheLayoutDefaultComponent implements StacheLayout {
 
   @Input()
   @InputConverter()
-  public showPageContents: boolean;
+  public showTableOfContents: boolean;
 }

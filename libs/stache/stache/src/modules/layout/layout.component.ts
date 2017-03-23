@@ -17,7 +17,7 @@ export class StacheLayoutComponent implements OnInit, StacheLayout {
   public inPageRoutes;
 
   @Input()
-  public showPageContents;
+  public showTableOfContents;
 
   @Input()
   public sidebarRoutes;

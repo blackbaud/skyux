@@ -3,18 +3,21 @@ import { CommonModule } from '@angular/common';
 
 import { StacheHeroComponent } from './hero.component';
 import { StacheHeroHeadingComponent } from './hero-heading.component';
+import { StacheHeroSubheadingComponent } from './hero-subheading.component';
 
 @NgModule({
   declarations: [
     StacheHeroComponent,
-    StacheHeroHeadingComponent
+    StacheHeroHeadingComponent,
+    StacheHeroSubheadingComponent
   ],
   imports: [
     CommonModule
   ],
   exports: [
     StacheHeroComponent,
-    StacheHeroHeadingComponent
+    StacheHeroHeadingComponent,
+    StacheHeroSubheadingComponent
   ]
 })
 export class StacheHeroModule { }

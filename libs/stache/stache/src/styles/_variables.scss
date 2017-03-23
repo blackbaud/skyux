@@ -6,12 +6,15 @@ $stache-padding-size: $sky-padding !default;
 $stache-grid-columns: 12 !default;
 $stache-grid-padding: 30px !default;
 
+$stache-border-radius-sm: 3px;
+
 $stache-color-text: $sky-text-color !default;
 $stache-color-text-muted: $sky-text-deemphasized-color !default;
 $stache-color-blue: $sky-color-blue !default;
 $stache-color-link: $sky-link-color !default;
 $stache-color-link-hover: $sky-link-hover-color !default;
-$stache-color-gray-lightest: $sky-color-gray-lightest !default;
+$stache-color-gray-lightest: #f2f2f2 !default;
+$stache-color-gray-light: #e6e6e6 !default;
 $stache-color-menu-link-hover: $sky-link-hover-color !default;
 
 $stache-screen-sm: 768px !default;
