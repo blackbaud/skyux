@@ -7,8 +7,8 @@ import { Component, Input } from '@angular/core';
 })
 export class StacheHeroComponent {
   @Input('backgroundImageUrl')
-  set backgroundImageUrl(value: string) {
-    this._backgroundImageUrl = value;
+  set backgroundImageUrl(imageUrl: string) {
+    this._backgroundImageUrl = imageUrl;
   }
 
   get backgroundImageUrl(): string {

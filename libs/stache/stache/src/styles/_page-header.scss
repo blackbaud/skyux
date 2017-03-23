@@ -1,7 +1,7 @@
 .stache-page-header {
-  padding-bottom: 17px;
-  margin-bottom: 20px;
-  border-bottom: 1px solid $stache-color-gray-lightest;
+  padding-bottom: 20px;
+  margin-bottom: $stache-grid-padding;
+  border-bottom: 1px solid $stache-color-gray-light;
 }
 
 .stache-page-heading {
