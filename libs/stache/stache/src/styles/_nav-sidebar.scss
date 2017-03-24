@@ -1,5 +1,9 @@
 .stache-nav-sidebar {
-  background-color: $stache-color-gray-lightest;
+  background-color: #f2f2f2;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-radius: $stache-border-radius;
+  border-bottom: 1px solid #e2e2e2;
   
   > ul,
   > ol {

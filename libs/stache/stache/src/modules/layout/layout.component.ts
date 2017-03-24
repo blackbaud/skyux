@@ -31,13 +31,13 @@ export class StacheLayoutComponent implements OnInit, StacheLayout {
 
   public templateRef: any;
 
-  @ViewChild('blank')
+  @ViewChild('blankLayout')
   private blankTemplateRef: any;
 
-  @ViewChild('default')
+  @ViewChild('defaultLayout')
   private defaultTemplateRef: any;
 
-  @ViewChild('sidebar')
+  @ViewChild('sidebarLayout')
   private sidebarTemplateRef: any;
 
   public ngOnInit(): void {

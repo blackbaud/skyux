@@ -5,8 +5,8 @@
     margin-left: 15px;
 
     > li {
-      margin: 0 0 7px;
-      white-space: nowrap;
+      margin: 0 0 .5em;
+      padding-left: .5em;
 
       &:last-child {
         margin-bottom: 0;

@@ -1,25 +1,21 @@
 @import '../../styles/_variables';
 
 .stache-table-of-contents {
-  background-color: #fff;
   border: 1px solid $stache-color-gray-light;
+  background-color: $stache-color-gray-lightest;
   overflow: hidden;
-  display: inline-block;
-  max-width: 100%;
+  max-width: 50%;
+  margin: 1em 0 1.5em;
+  padding: 15px 20px;
 }
 
 .stache-table-of-contents-header {
-  background-color: $stache-color-gray-lightest;
-  padding: 10px 14px 8px;
-  border-bottom: 1px solid $stache-color-gray-light;
 }
 
 .stache-table-of-contents-body {
-  padding: 15px;
 }
 
 .stache-table-of-contents-heading {
-  text-transform: uppercase;
-  font-size: .7em;
-  margin: 0;
+  text-align: center;
+  margin: 0 0 .7em;
 }

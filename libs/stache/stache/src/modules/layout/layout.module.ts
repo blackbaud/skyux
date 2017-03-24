@@ -5,6 +5,7 @@ import { StacheNavModule } from '../nav/nav.module';
 import { StacheGridModule } from '../grid/grid.module';
 import { StachePageHeaderModule } from '../page-header/page-header.module';
 import { StachePageAnchorModule } from '../page-anchor/page-anchor.module';
+import { StachePageSummaryModule } from '../page-summary/page-summary.module';
 
 import { StacheContainerComponent } from './container.component';
 import { StacheLayoutComponent } from './layout.component';
@@ -17,6 +18,7 @@ import { StacheLayoutSidebarComponent } from './layout-sidebar.component';
     CommonModule,
     StacheGridModule,
     StacheNavModule,
+    StachePageSummaryModule,
     StachePageHeaderModule,
     StachePageAnchorModule
   ],

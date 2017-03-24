@@ -13,7 +13,7 @@ export class StacheNavComponent implements OnInit {
   public routes: StacheNavLink[];
 
   @Input()
-  public type: string;
+  public navType: string;
 
   public classname: string = '';
 
@@ -52,8 +52,8 @@ export class StacheNavComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    if (this.type) {
-      this.classname = `stache-nav-${this.type}`;
+    if (this.navType) {
+      this.classname = `stache-nav-${this.navType}`;
     }
   }
 }

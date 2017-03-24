@@ -6,6 +6,9 @@
         <stache-page-header *ngIf="pageTitle">
           {{pageTitle}}
         </stache-page-header>
+        <stache-page-summary>
+          <ng-content select="[page-summary]"></ng-content>
+        </stache-page-summary>
         <stache-table-of-contents *ngIf="showTableOfContents" [routes]="inPageRoutes">
         </stache-table-of-contents>
         <ng-content></ng-content>

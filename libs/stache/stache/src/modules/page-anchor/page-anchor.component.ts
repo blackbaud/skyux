@@ -5,7 +5,8 @@ import { StacheNavLink } from '../nav/nav-link';
 
 @Component({
   selector: 'stache-page-anchor',
-  templateUrl: './page-anchor.component.html'
+  templateUrl: './page-anchor.component.html',
+  styleUrls: ['./page-anchor.component.scss']
 })
 export class StachePageAnchorComponent implements OnInit, StacheNavLink {
   public name: string;

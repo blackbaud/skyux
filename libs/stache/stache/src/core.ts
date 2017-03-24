@@ -8,6 +8,7 @@ import { StacheNavModule } from './modules/nav/nav.module';
 import { StacheLayoutModule } from './modules/layout/layout.module';
 import { StacheWrapperModule } from './modules/wrapper/wrapper.module';
 import { StachePageHeaderModule } from './modules/page-header/page-header.module';
+import { StachePageSummaryModule } from './modules/page-summary/page-summary.module';
 
 require('./styles/stache.scss');
 
@@ -18,6 +19,7 @@ require('./styles/stache.scss');
     StacheHeroModule,
     StachePageAnchorModule,
     StacheNavModule,
+    StachePageSummaryModule,
     StachePageHeaderModule,
     StacheLayoutModule,
     StacheWrapperModule

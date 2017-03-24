@@ -2,24 +2,29 @@
   <ng-content></ng-content>
 </template>
 
-<template #blank>
+<template #contentSummary>
+  <ng-content select="[page-summary]"></ng-content>
+</template>
+
+<template #blankLayout>
   <stache-layout-blank>
     <template [ngTemplateOutlet]="content"></template>
   </stache-layout-blank>
 </template>
 
-<template #default>
+<template #defaultLayout>
   <stache-layout-default 
     pageTitle="{{pageTitle}}"
     [showBreadcrumbs]="showBreadcrumbs"
     [showTableOfContents]="showTableOfContents"
     [inPageRoutes]="inPageRoutes"
     [breadcrumbsRoutes]="breadcrumbsRoutes">
+    <template page-summary [ngTemplateOutlet]="contentSummary"></template>
     <template [ngTemplateOutlet]="content"></template>
   </stache-layout-default>
 </template>
 
-<template #sidebar>
+<template #sidebarLayout>
   <stache-layout-sidebar 
     pageTitle="{{pageTitle}}" 
     [showBreadcrumbs]="showBreadcrumbs"
@@ -27,6 +32,7 @@
     [sidebarRoutes]="sidebarRoutes"
     [inPageRoutes]="inPageRoutes"
     [breadcrumbsRoutes]="breadcrumbsRoutes">
+    <template page-summary [ngTemplateOutlet]="contentSummary"></template>
     <template [ngTemplateOutlet]="content"></template>
   </stache-layout-sidebar>
 </template>
