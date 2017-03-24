@@ -82,6 +82,25 @@ export class StacheDemoComponentService {
       }
     },
     {
+      name: 'Page Summary',
+      route: '/components/page-summary',
+      summary: '',
+      getCodeFiles: () => {
+        return [
+          {
+            name: 'page-summary-demo.component.html',
+            fileContents: require('!!raw!./page-summary/page-summary-demo.component.html'),
+            language: 'markup'
+          },
+          {
+            name: 'page-summary-demo.component.ts',
+            fileContents: require('!!raw!./page-summary/page-summary-demo.component.ts'),
+            language: 'typescript'
+          }
+        ];
+      }
+    },
+    {
       name: 'Page Anchor',
       route: '/components/page-anchor',
       summary: '',
