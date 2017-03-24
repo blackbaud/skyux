@@ -1,0 +1,10 @@
+@import '../styles/_variables';
+
+.stache-demo-page-result {
+  border: 1px solid #ccc;
+
+  .stache-column {
+    background-color: lighten($sky-color-aqua, 30%);
+    border: 1px solid lighten($sky-color-aqua, 15%);
+  }
+}

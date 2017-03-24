@@ -1,12 +1,14 @@
 @import '../../styles/_variables';
 
 .stache-table-of-contents {
+  margin: 1em 0;
+}
+
+.stache-table-of-contents-wrapper {
   border: 1px solid $stache-color-gray-light;
   background-color: $stache-color-gray-lightest;
-  overflow: hidden;
-  max-width: 50%;
-  margin: 1em 0 1.5em;
-  padding: 15px 20px;
+  padding: 15px 20px 18px;
+  display: inline-block;
 }
 
 .stache-table-of-contents-header {

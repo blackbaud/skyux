@@ -11,7 +11,7 @@ import { StacheNavLink } from '../nav/nav-link';
 })
 export class StacheWrapperComponent implements OnInit, AfterContentInit {
   @Input() public pageTitle: string;
-  @Input() public browserTitle = 'Browser Title';
+  @Input() public browserTitle: string;
   @Input() public layout = 'default';
   @Input() public sidebarRoutes: StacheNavLink[] = [];
   @Input() public breadcrumbsRoutes: StacheNavLink[] = [];
@@ -29,7 +29,10 @@ export class StacheWrapperComponent implements OnInit, AfterContentInit {
     private router: Router) { }
 
   public ngOnInit(): void {
-    this.titleService.setTitle(this.browserTitle);
+    if (this.browserTitle) {
+      this.titleService.setTitle(this.browserTitle);
+    }
+
     this.route.fragment.subscribe(fragment => {
       setImmediate(() => {
         const element = document.getElementById(fragment);

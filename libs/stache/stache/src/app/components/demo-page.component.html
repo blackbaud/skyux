@@ -4,7 +4,9 @@
   </div>
   <h2>Demo</h2>
   <div class="stache-demo-page-result">
-    <ng-content></ng-content>
+    <stache-container>
+      <ng-content></ng-content>
+    </stache-container>
   </div>
   <h2>Code</h2>
   <div class="stache-demo-code" *ngFor="let file of demoFiles">
