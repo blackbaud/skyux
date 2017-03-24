@@ -2,16 +2,19 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { StachePageHeaderComponent } from './page-header.component';
+import { StachePageTitleComponent } from './page-title.component';
 
 @NgModule({
   declarations: [
-    StachePageHeaderComponent
+    StachePageHeaderComponent,
+    StachePageTitleComponent
   ],
   imports: [
     CommonModule
   ],
   exports: [
-    StachePageHeaderComponent
+    StachePageHeaderComponent,
+    StachePageTitleComponent
   ]
 })
 export class StachePageHeaderModule { }

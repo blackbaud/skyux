@@ -1,7 +1,7 @@
-import { StacheNavLink } from '../nav/nav-link';
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 
 import { StacheLayout } from './layout';
+import { StacheNavLink } from '../nav/nav-link';
 
 @Component({
   selector: 'stache-layout',

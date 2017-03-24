@@ -3,11 +3,13 @@
 </template>
 
 <template #contentSummary>
-  <ng-content select="[page-summary]"></ng-content>
+  <ng-content select="[stachePageSummary]"></ng-content>
+  <ng-content select="stache-page-summary"></ng-content>
 </template>
 
 <template #blankLayout>
   <stache-layout-blank>
+    <template stachePageSummary [ngTemplateOutlet]="contentSummary"></template>
     <template [ngTemplateOutlet]="content"></template>
   </stache-layout-blank>
 </template>
@@ -19,20 +21,20 @@
     [showTableOfContents]="showTableOfContents"
     [inPageRoutes]="inPageRoutes"
     [breadcrumbsRoutes]="breadcrumbsRoutes">
-    <template page-summary [ngTemplateOutlet]="contentSummary"></template>
+    <template stachePageSummary [ngTemplateOutlet]="contentSummary"></template>
     <template [ngTemplateOutlet]="content"></template>
   </stache-layout-default>
 </template>
 
 <template #sidebarLayout>
-  <stache-layout-sidebar 
+  <stache-layout-sidebar
     pageTitle="{{pageTitle}}" 
     [showBreadcrumbs]="showBreadcrumbs"
     [showTableOfContents]="showTableOfContents"
     [sidebarRoutes]="sidebarRoutes"
     [inPageRoutes]="inPageRoutes"
     [breadcrumbsRoutes]="breadcrumbsRoutes">
-    <template page-summary [ngTemplateOutlet]="contentSummary"></template>
+    <template stachePageSummary [ngTemplateOutlet]="contentSummary"></template>
     <template [ngTemplateOutlet]="content"></template>
   </stache-layout-sidebar>
 </template>

@@ -10,11 +10,5 @@ import { StacheNavLink } from './nav-link';
 })
 export class StacheBreadcrumbsComponent implements StacheNav {
   @Input()
-  public routes: StacheNavLink[] = [{
-    name: 'Home',
-    path: ['/']
-  }, {
-    name: 'Components',
-    path: ['/', 'components']
-  }];
+  public routes: StacheNavLink[];
 }

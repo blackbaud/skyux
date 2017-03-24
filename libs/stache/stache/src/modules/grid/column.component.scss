@@ -1,23 +1,14 @@
+@import '../../styles/_variables';
+
 @mixin create_columns($screen-size: sm) {
   @for $i from 1 through $stache-grid-columns {
-    .stache-column-#{$screen-size}-#{$i} {
+    :host.stache-column-#{$screen-size}-#{$i} {
       width: ($i / $stache-grid-columns) * 100%;
     }
   }
 }
 
-.stache-row {
-  display: flex;
-  flex-direction: column-reverse;
-  margin-left: -$stache-grid-padding / 2;
-  margin-right: -$stache-grid-padding / 2;
-
-  @media (min-width: $stache-screen-sm) {
-    flex-direction: row;
-  }
-}
-
-.stache-column {
+:host.stache-column {
   padding-right: $stache-grid-padding / 2;
   padding-left: $stache-grid-padding / 2;
 }

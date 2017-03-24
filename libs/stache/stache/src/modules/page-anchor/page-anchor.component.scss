@@ -2,5 +2,32 @@
 
 .stache-page-anchor {
   border-bottom: 1px solid $stache-color-gray-light;
-  padding-bottom: 10px;
+  padding-bottom: 1em;
+  margin: 3em 0 2em;
+
+  &:hover {
+    .stache-page-anchor-icon {
+      display: block;
+    }
+  }
+}
+
+.stache-page-anchor-heading {
+  margin: 0;
+  position: relative;
+
+  &:hover {
+    color: $stache-color-link;
+    cursor: pointer;
+  }
+}
+
+.fa.stache-page-anchor-icon {
+  display: none;
+  position: absolute;
+  right: 100%;
+  top: 30%;
+  padding-right: 4px;
+  font-size: .6em;
+  color: $stache-color-text;
 }

@@ -1,14 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { StacheNavLink } from '../nav-link';
+import { StacheNavLink } from './nav-link';
+import { StacheNav } from './nav';
 
 @Component({
   selector: 'stache-nav',
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss']
 })
-export class StacheNavComponent implements OnInit {
+export class StacheNavComponent implements OnInit, StacheNav {
   @Input()
   public routes: StacheNavLink[];
 
@@ -38,7 +39,7 @@ export class StacheNavComponent implements OnInit {
   }
 
   public navigate(route: any): void {
-    let extras: { fragment?: string; } = {};
+    let extras: any = {};
 
     if (route.fragment) {
       extras.fragment = route.fragment;

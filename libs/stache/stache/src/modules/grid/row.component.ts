@@ -2,10 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'stache-row',
-  template: `
-    <div class="stache-row">
-      <ng-content></ng-content>
-    </div>
-  `
+  templateUrl: './row.component.html',
+  styleUrls: ['./row.component.scss']
 })
 export class StacheRowComponent {}

@@ -27,4 +27,8 @@ export class StachePageAnchorComponent implements OnInit, StacheNavLink {
     this.fragment = fragment;
     this.path = [this.router.url.split('#')[0]];
   }
+
+  public addHashToUrl(): void {
+    window.location.hash = this.fragment;
+  }
 }

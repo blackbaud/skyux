@@ -1,8 +1,6 @@
 <div id="{{fragment}}" class="stache-page-anchor">
-  <h2 class="stache-page-anchor-heading">
-    <a [routerLink]="path" fragment="{{fragment}}">
-      <i class="fa fa-chain stache-page-anchor-icon"></i>
-      <ng-content></ng-content>
-    </a>
+  <h2 class="stache-page-anchor-heading" (click)="addHashToUrl()">
+    <i class="fa fa-chain stache-page-anchor-icon"></i>
+    <ng-content></ng-content>
   </h2>
 </div>

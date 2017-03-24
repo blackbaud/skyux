@@ -1,8 +1,14 @@
-import { Component, Input, OnInit, HostBinding } from '@angular/core';
+import { 
+  Component, 
+  Input, 
+  OnInit, 
+  HostBinding
+} from '@angular/core';
 
 @Component({
   selector: 'stache-column',
-  templateUrl: './column.component.html'
+  templateUrl: './column.component.html',
+  styleUrls: ['./column.component.scss']
 })
 export class StacheColumnComponent implements OnInit {
   @Input()
