@@ -8,9 +8,9 @@ import { Component, Input, OnInit } from '@angular/core';
       <ng-content></ng-content>
     </div>
     <h2>Code</h2>
-    <stache-code code="{{code}}"></stache-code>
+    <stache-code-block code="{{code}}"></stache-code-block>
   `,
-  styleUrls: ['./demo-example.component.scss']
+  styleUrls: ['./demo1-example.component.scss']
 })
 export class StacheDemoExampleComponent implements OnInit {
   @Input()

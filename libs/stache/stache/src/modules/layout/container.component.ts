@@ -2,10 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'stache-container',
-  template: `
-    <div class="stache-container sky-container">
-      <ng-content></ng-content>
-    </div>
-  `
+  templateUrl: './container.component.html',
+  styleUrls: ['./container.component.scss']
 })
 export class StacheContainerComponent {}

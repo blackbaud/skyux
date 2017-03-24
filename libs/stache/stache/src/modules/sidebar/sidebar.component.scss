@@ -1,0 +1,26 @@
+@import '../../styles/_variables';
+
+/deep/ 
+.stache-sidebar {
+  background-color: $stache-color-gray-lightest;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-radius: $stache-border-radius;
+  border-bottom: 1px solid #ccc;
+
+  .stache-nav-anchor {
+    padding: 8px 15px;
+    color: $stache-color-text;
+    display: block;
+
+    &:hover {
+      background-color: $stache-color-gray-light;
+    }
+
+    &.active,
+    &.active:hover {
+      background-color: $stache-color-blue;
+      color: #fff;
+    }
+  }
+}

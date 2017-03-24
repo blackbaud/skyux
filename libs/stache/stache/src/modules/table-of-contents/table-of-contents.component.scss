@@ -1,0 +1,40 @@
+@import '../../styles/_variables';
+
+/deep/
+.stache-table-of-contents {
+  margin: 2em 0;
+
+  .stache-nav-list {
+    list-style-type: decimal;
+    margin-left: 15px;
+  }
+
+  .stache-nav-list-item {
+    margin: 0 0 .5em;
+    padding-left: .5em;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .stache-nav-anchor {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.stache-table-of-contents-wrapper {
+  border: 1px solid $stache-color-gray-light;
+  background-color: #fff;
+  padding: 20px 30px 25px;
+  display: inline-block;
+  border-radius: $stache-border-radius;
+  border-bottom: 1px solid #ccc;
+}
+
+.stache-table-of-contents-heading {
+  text-align: center;
+  margin: 0 0 .7em;
+}

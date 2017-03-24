@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { StacheNavLink } from './nav-link';
-import { StacheNav } from './nav';
+import { StacheNav, StacheNavLink } from '../nav';
 
 @Component({
   selector: 'stache-table-of-contents',

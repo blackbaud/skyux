@@ -1,49 +1,10 @@
-@import '../../styles/_variables.scss';
+@import '../../styles/_variables';
 
-.stache-code-input {
-  display: none;
-}
-
-.stache-code-output {
-  background-color: $stache-color-gray-lightest;
-  padding: $stache-padding-size;
-  overflow-x: auto;
-}
-
-/* Prism overrides */
-/* All colors were chosen to meet accessibility contrast ratio requirements */
-.token {
-  &.atrule,
-  &.attr-value,
-  &.keyword {
-    color: scale-color($color: $sky-color-blue, $lightness: -20%);
-  }
-
-  &.selector,
-  &.attr-name,
-  &.string,
-  &.char,
-  &.builtin,
-  &.inserted {
-    color: scale-color($color: $sky-color-green, $lightness: -30%);
-  }
-
-  &.property,
-  &.tag,
-  &.boolean,
-  &.number,
-  &.constant,
-  &.symbol,
-  &.deleted {
-    color: scale-color($color: $sky-color-red, $lightness: -20%);
-  }
-
-  &.function {
-    color: scale-color($color: $sky-color-purple, $lightness: -20%);
-  }
-
-  &.punctuation,
-  &.operator {
-    color: scale-color($color: $sky-color-gray, $lightness: -20%);
-  }
+.stache-code {
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-size: 90%;
+  background-color: scale-color($color: $sky-color-red, $lightness: 90%);
+  border-radius: $stache-border-radius-sm;
+  color: scale-color($color: $sky-color-red, $lightness: -20%);
+  padding: 0 4px;
 }

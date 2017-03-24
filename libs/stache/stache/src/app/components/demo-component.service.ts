@@ -178,13 +178,13 @@ export class StacheDemoComponentService {
     },
     {
       name: 'Code Block',
-      route: '/components/code',
+      route: '/components/code-block',
       summary: '',
       getCodeFiles: () => {
         return [
           {
-            name: 'code-demo.component.html',
-            fileContents: require('!!raw!./code/code-demo.component.html'),
+            name: 'code-block-demo.component.html',
+            fileContents: require('!!raw!./code-block/code-block-demo.component.html'),
             language: 'markup'
           }
         ];

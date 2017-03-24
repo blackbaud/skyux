@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { StacheNav } from './nav';
-import { StacheNavLink } from './nav-link';
+import { StacheNav, StacheNavLink } from '../nav';
 
 @Component({
   selector: 'stache-breadcrumbs',
