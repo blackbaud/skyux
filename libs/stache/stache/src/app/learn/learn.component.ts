@@ -6,15 +6,15 @@ import { Component } from '@angular/core';
 })
 export class LearnComponent {
   public sidebarRoutes: any[] = [
-    { name: 'Overview', path: '/learn' }, 
-    { name: 'Tutorials', path: '/learn/tutorials' }, 
-    { name: 'Technical Reference', path: '/learn/reference' }, 
-    { name: 'Resources', path: '/learn/resources' }, 
+    { name: 'Overview', path: '/learn' },
+    { name: 'Tutorials', path: '/learn/tutorials' },
+    { name: 'Technical Reference', path: '/learn/reference' },
+    { name: 'Resources', path: '/learn/resources' },
     { name: 'FAQ', path: '/learn/faq' }
   ];
 
   public breadcrumbsRoutes: any[] = [
-    { name: 'Home', path: '/' }, 
+    { name: 'Home', path: '/' },
     { name: 'Learn', path: '/learn' }
   ];
 }
