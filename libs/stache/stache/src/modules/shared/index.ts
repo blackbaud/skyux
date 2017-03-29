@@ -1,5 +1,1 @@
-export {
-  InputConverter,
-  StringConverter,
-  BooleanConverter,
-  NumberConverter } from './input-converter';
+export { InputConverter } from './input-converter';

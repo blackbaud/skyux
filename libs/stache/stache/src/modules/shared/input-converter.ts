@@ -1,21 +1,21 @@
-export const StringConverter = (value: any) => {
-  if (value === null || value === undefined || typeof value === 'string') {
+const stringConverter = (value: any) => {
+  if (value === undefined || typeof value === 'string') {
     return value;
   }
 
   return value.toString();
 };
 
-export const BooleanConverter = (value: any) => {
-  if (value === null || value === undefined || typeof value === 'boolean') {
+const booleanConverter = (value: any) => {
+  if (value === undefined || typeof value === 'boolean') {
     return value;
   }
 
   return value.toString() === 'true';
 };
 
-export const NumberConverter = (value: any) => {
-  if (value === null || value === undefined || typeof value === 'number') {
+const numberConverter = (value: any) => {
+  if (value === undefined || typeof value === 'number') {
     return value;
   }
 
@@ -27,16 +27,16 @@ export function InputConverter(converter?: (value: any) => any) {
     if (converter === undefined) {
       let metadata = (<any>Reflect).getMetadata('design:type', target, key);
 
-      if (metadata === undefined || metadata === null) {
+      if (!metadata) {
         throw new Error('The reflection metadata could not be found.');
       }
 
       if (metadata.name === 'String') {
-        converter = StringConverter;
+        converter = stringConverter;
       } else if (metadata.name === 'Boolean') {
-        converter = BooleanConverter;
+        converter = booleanConverter;
       } else if (metadata.name === 'Number') {
-        converter = NumberConverter;
+        converter = numberConverter;
       } else {
         throw new Error(`There is no converter for the given property type ${metadata.name}.`);
       }
@@ -47,7 +47,7 @@ export function InputConverter(converter?: (value: any) => any) {
       Object.defineProperty(target, key, {
         get: definition.get,
         set: newValue => {
-            definition.set(converter(newValue));
+          definition.set(converter(newValue));
         },
         enumerable: true,
         configurable: true
@@ -55,10 +55,10 @@ export function InputConverter(converter?: (value: any) => any) {
     } else {
       Object.defineProperty(target, key, {
         get: function () {
-            return this['__' + key];
+          return this['__' + key];
         },
         set: function (newValue) {
-            this['__' + key] = converter(newValue);
+          this['__' + key] = converter(newValue);
         },
         enumerable: true,
         configurable: true
