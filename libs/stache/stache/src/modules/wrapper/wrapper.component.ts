@@ -10,13 +10,29 @@ import { StacheNavLink } from '../nav/nav-link';
   templateUrl: './wrapper.component.html'
 })
 export class StacheWrapperComponent implements OnInit, AfterContentInit {
-  @Input() public pageTitle: string;
-  @Input() public browserTitle: string;
-  @Input() public layout = 'default';
-  @Input() public sidebarRoutes: StacheNavLink[] = [];
-  @Input() public breadcrumbsRoutes: StacheNavLink[] = [];
-  @Input() public showBreadcrumbs: boolean = false;
-  @Input() public showTableOfContents: boolean = false;
+  @Input()
+  public pageTitle: string;
+
+  @Input()
+  public browserTitle: string;
+
+  @Input()
+  public layout = 'default';
+
+  @Input()
+  public sidebarRoutes: StacheNavLink[] = [];
+
+  @Input()
+  public breadcrumbsRoutes: StacheNavLink[] = [];
+
+  @Input()
+  public showBreadcrumbs: boolean = false;
+
+  @Input()
+  public showTableOfContents: boolean = false;
+
+  @Input()
+  public showBackToTop: boolean = true;
 
   public inPageRoutes: StacheNavLink[] = [];
 

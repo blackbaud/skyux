@@ -1,7 +1,8 @@
-<stache 
+<stache
   layout="sidebar"
   pageTitle="Learn"
   browserTitle="Learn"
+  showBackToTop="true"
   showBreadcrumbs="true"
   showTableOfContents="true"
   [sidebarRoutes]="sidebarRoutes"
@@ -12,7 +13,7 @@
       The SKY UX framework provides a consistent, cohesive user experience for Blackbaud products and for third-party developers. SKY UX provides the components, services, and modules that developers need to incorporate Blackbaud styles and patterns.
     </p>
   </stache-page-summary>
-  
+
   <p>
     And with SKY UX 2, the framework now provides additional benefits. First, the SKY UX Builder developer tool now abstracts many of the complexities of modern web development. SKY UX Builder takes the application-building aspects of Angular 2 and wraps them up. We still expect developers to write JavaScript/TypeScript and build features, but we don’t expect them to handle all the underlying details. In addition, SKY UX 2 includes a continuous integration layer for testing and validation, and SKY UX Host provides a hosting solution for Blackbaud applications.
   </p>
@@ -47,7 +48,7 @@
       SKY UX Host acts as a gateway for all requests to SKY UX SPAs. When serving locally, it pulls files locally. And for production, it pulls files from a registry that stores static files.
     </li>
   </ul>
-  
+
   <stache-page-anchor>
     SKY UX Builder
   </stache-page-anchor>
@@ -59,7 +60,7 @@
   <p>
     In addition, SKY UX Builder also:
   </p>
-  
+
   <ul>
     <li>
       Handles details such as transpilation, linting, unit testing, and bundling/chunking/minifying.
@@ -74,7 +75,7 @@
       Allows for easy implementation of Blackbaud Authentication.
     </li>
   </ul>
-  
+
   <stache-page-anchor>
     Continuous integration layer
   </stache-page-anchor>
@@ -82,7 +83,7 @@
   <p>
     The continuous integration layer of SKY UX runs unit tests, visual regression tests, and end-to-end tests in multiple platforms and browsers when the SPA code changes or when an SPA dependency releases a new version. It also handles staging the SPA for additional testing and validation.
   </p>
-  
+
   <stache-page-anchor>
     SKY UX Host
   </stache-page-anchor>
@@ -90,7 +91,7 @@
   <p>
     SKY UX Host is the gateway for requests to SKY UX SPAs. During local development, SKY UX Host loads local files. And for production, SKY UX Host loads bundled files from a CDN where SKY UX Builder stores them.
   </p>
-  
+
   <p>
     SKY UX Host also creates a web service that:
   </p>

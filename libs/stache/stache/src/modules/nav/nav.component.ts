@@ -43,6 +43,10 @@ export class StacheNavComponent implements OnInit, StacheNav {
 
     if (route.fragment) {
       extras.fragment = route.fragment;
+      let element = document.getElementById(route.fragment);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
 
     if (Array.isArray(route.path)) {

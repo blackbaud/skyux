@@ -15,8 +15,9 @@
 </template>
 
 <template #defaultLayout>
-  <stache-layout-default 
+  <stache-layout-default
     pageTitle="{{pageTitle}}"
+    [showBackToTop]="showBackToTop"
     [showBreadcrumbs]="showBreadcrumbs"
     [showTableOfContents]="showTableOfContents"
     [inPageRoutes]="inPageRoutes"
@@ -28,7 +29,8 @@
 
 <template #sidebarLayout>
   <stache-layout-sidebar
-    pageTitle="{{pageTitle}}" 
+    pageTitle="{{pageTitle}}"
+    [showBackToTop]="showBackToTop"
     [showBreadcrumbs]="showBreadcrumbs"
     [showTableOfContents]="showTableOfContents"
     [sidebarRoutes]="sidebarRoutes"

@@ -12,13 +12,13 @@
             {{pageTitle}}
           </stache-page-title>
         </stache-page-header>
-        
+
         <ng-content select="[stachePageSummary]"></ng-content>
         <ng-content select="stache-page-summary"></ng-content>
-        
+
         <stache-table-of-contents *ngIf="showTableOfContents" [routes]="inPageRoutes">
         </stache-table-of-contents>
-        
+
         <ng-content></ng-content>
 
       </stache-column>
@@ -26,8 +26,9 @@
 
         <stache-sidebar [routes]="sidebarRoutes">
         </stache-sidebar>
-        
+
       </stache-column>
     </stache-row>
   </stache-container>
 </stache-layout-blank>
+<stache-back-to-top *ngIf="showBackToTop"></stache-back-to-top>

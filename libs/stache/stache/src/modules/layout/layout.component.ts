@@ -29,6 +29,9 @@ export class StacheLayoutComponent implements OnInit, StacheLayout {
   @Input()
   public showBreadcrumbs: boolean;
 
+  @Input()
+  public showBackToTop: boolean;
+
   public templateRef: any;
 
   @ViewChild('blankLayout')

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { StacheCodeBlockComponent } from './code-block.component';
 
-require('style!prismjs/themes/prism.css');
+require('style-loader!prismjs/themes/prism.css');
 
 @NgModule({
   declarations: [

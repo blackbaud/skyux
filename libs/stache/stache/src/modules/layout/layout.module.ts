@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { StacheBackToTopModule } from '../back-to-top/back-to-top.module';
 import { StacheNavModule } from '../nav/nav.module';
 import { StacheBreadcrumbsModule } from '../breadcrumbs/breadcrumbs.module';
 import { StacheSidebarModule } from '../sidebar/sidebar.module';
@@ -19,6 +20,7 @@ import { StacheLayoutSidebarComponent } from './layout-sidebar.component';
 @NgModule({
   imports: [
     CommonModule,
+    StacheBackToTopModule,
     StacheGridModule,
     StacheNavModule,
     StacheBreadcrumbsModule,

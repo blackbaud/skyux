@@ -4,7 +4,7 @@ import { StacheModule } from '../core';
 
 import { StacheDemoComponentService } from './components/demo-component.service';
 
-require('style!./app.scss');
+require('style-loader!./app.scss');
 
 // Specify entry components, module-level providers, etc. here.
 @NgModule({

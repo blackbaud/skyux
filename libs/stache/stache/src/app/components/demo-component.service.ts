@@ -13,12 +13,12 @@ export class StacheDemoComponentService {
         return [
           {
             name: 'wrapper-demo.component.html',
-            fileContents: require('!!raw!./wrapper/wrapper-demo.component.html'),
+            fileContents: require('!!raw-loader!./wrapper/wrapper-demo.component.html'),
             language: 'markup'
           },
           {
             name: 'wrapper-demo.component.ts',
-            fileContents: require('!!raw!./wrapper/wrapper-demo.component.ts'),
+            fileContents: require('!!raw-loader!./wrapper/wrapper-demo.component.ts'),
             language: 'typescript'
           }
         ];
@@ -32,12 +32,12 @@ export class StacheDemoComponentService {
         return [
           {
             name: 'layout-demo.component.html',
-            fileContents: require('!!raw!./layout/layout-demo.component.html'),
+            fileContents: require('!!raw-loader!./layout/layout-demo.component.html'),
             language: 'markup'
           },
           {
             name: 'layout-demo.component.ts',
-            fileContents: require('!!raw!./layout/layout-demo.component.ts'),
+            fileContents: require('!!raw-loader!./layout/layout-demo.component.ts'),
             language: 'typescript'
           }
         ];
@@ -51,12 +51,12 @@ export class StacheDemoComponentService {
         return [
           {
             name: 'layout-sidebar-demo.component.html',
-            fileContents: require('!!raw!./layout-sidebar/layout-sidebar-demo.component.html'),
+            fileContents: require('!!raw-loader!./layout-sidebar/layout-sidebar-demo.component.html'),
             language: 'markup'
           },
           {
             name: 'layout-sidebar-demo.component.ts',
-            fileContents: require('!!raw!./layout-sidebar/layout-sidebar-demo.component.ts'),
+            fileContents: require('!!raw-loader!./layout-sidebar/layout-sidebar-demo.component.ts'),
             language: 'typescript'
           }
         ];
@@ -70,12 +70,12 @@ export class StacheDemoComponentService {
         return [
           {
             name: 'page-header-demo.component.html',
-            fileContents: require('!!raw!./page-header/page-header-demo.component.html'),
+            fileContents: require('!!raw-loader!./page-header/page-header-demo.component.html'),
             language: 'markup'
           },
           {
             name: 'page-header-demo.component.ts',
-            fileContents: require('!!raw!./page-header/page-header-demo.component.ts'),
+            fileContents: require('!!raw-loader!./page-header/page-header-demo.component.ts'),
             language: 'typescript'
           }
         ];
@@ -89,12 +89,12 @@ export class StacheDemoComponentService {
         return [
           {
             name: 'page-summary-demo.component.html',
-            fileContents: require('!!raw!./page-summary/page-summary-demo.component.html'),
+            fileContents: require('!!raw-loader!./page-summary/page-summary-demo.component.html'),
             language: 'markup'
           },
           {
             name: 'page-summary-demo.component.ts',
-            fileContents: require('!!raw!./page-summary/page-summary-demo.component.ts'),
+            fileContents: require('!!raw-loader!./page-summary/page-summary-demo.component.ts'),
             language: 'typescript'
           }
         ];
@@ -108,12 +108,12 @@ export class StacheDemoComponentService {
         return [
           {
             name: 'page-anchor-demo.component.html',
-            fileContents: require('!!raw!./page-anchor/page-anchor-demo.component.html'),
+            fileContents: require('!!raw-loader!./page-anchor/page-anchor-demo.component.html'),
             language: 'markup'
           },
           {
             name: 'page-anchor-demo.component.ts',
-            fileContents: require('!!raw!./page-anchor/page-anchor-demo.component.ts'),
+            fileContents: require('!!raw-loader!./page-anchor/page-anchor-demo.component.ts'),
             language: 'typescript'
           }
         ];
@@ -127,12 +127,12 @@ export class StacheDemoComponentService {
         return [
           {
             name: 'table-of-contents-demo.component.html',
-            fileContents: require('!!raw!./table-of-contents/table-of-contents-demo.component.html'),
+            fileContents: require('!!raw-loader!./table-of-contents/table-of-contents-demo.component.html'),
             language: 'markup'
           },
           {
             name: 'table-of-contents-demo.component.ts',
-            fileContents: require('!!raw!./table-of-contents/table-of-contents-demo.component.ts'),
+            fileContents: require('!!raw-loader!./table-of-contents/table-of-contents-demo.component.ts'),
             language: 'typescript'
           }
         ];
@@ -146,12 +146,12 @@ export class StacheDemoComponentService {
         return [
           {
             name: 'sidebar-demo.component.html',
-            fileContents: require('!!raw!./sidebar/sidebar-demo.component.html'),
+            fileContents: require('!!raw-loader!./sidebar/sidebar-demo.component.html'),
             language: 'markup'
           },
           {
             name: 'sidebar-demo.component.ts',
-            fileContents: require('!!raw!./sidebar/sidebar-demo.component.ts'),
+            fileContents: require('!!raw-loader!./sidebar/sidebar-demo.component.ts'),
             language: 'typescript'
           }
         ];
@@ -165,12 +165,12 @@ export class StacheDemoComponentService {
         return [
           {
             name: 'grid-demo.component.html',
-            fileContents: require('!!raw!./grid/grid-demo.component.html'),
+            fileContents: require('!!raw-loader!./grid/grid-demo.component.html'),
             language: 'markup'
           },
           {
             name: 'grid-demo.component.ts',
-            fileContents: require('!!raw!./grid/grid-demo.component.ts'),
+            fileContents: require('!!raw-loader!./grid/grid-demo.component.ts'),
             language: 'typescript'
           }
         ];
@@ -184,7 +184,7 @@ export class StacheDemoComponentService {
         return [
           {
             name: 'code-block-demo.component.html',
-            fileContents: require('!!raw!./code-block/code-block-demo.component.html'),
+            fileContents: require('!!raw-loader!./code-block/code-block-demo.component.html'),
             language: 'markup'
           }
         ];
@@ -198,12 +198,12 @@ export class StacheDemoComponentService {
         return [
           {
             name: 'breadcrumbs-demo.component.html',
-            fileContents: require('!!raw!./breadcrumbs/breadcrumbs-demo.component.html'),
+            fileContents: require('!!raw-loader!./breadcrumbs/breadcrumbs-demo.component.html'),
             language: 'markup'
           },
           {
             name: 'breadcrumbs-demo.component.ts',
-            fileContents: require('!!raw!./breadcrumbs/breadcrumbs-demo.component.ts'),
+            fileContents: require('!!raw-loader!./breadcrumbs/breadcrumbs-demo.component.ts'),
             language: 'typescript'
           }
         ];

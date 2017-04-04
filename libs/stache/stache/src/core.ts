@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
+import * as smoothscroll from 'smoothscroll-polyfill';
 
+import { StacheBackToTopModule } from './modules/back-to-top/back-to-top.module';
 import { StacheCodeModule } from './modules/code/code.module';
 import { StacheCodeBlockModule } from './modules/code-block/code-block.module';
 import { StacheGridModule } from './modules/grid/grid.module';
@@ -14,8 +16,11 @@ import { StacheWrapperModule } from './modules/wrapper/wrapper.module';
 import { StachePageHeaderModule } from './modules/page-header/page-header.module';
 import { StachePageSummaryModule } from './modules/page-summary/page-summary.module';
 
+smoothscroll.polyfill();
+
 @NgModule({
   exports: [
+    StacheBackToTopModule,
     StacheCodeModule,
     StacheCodeBlockModule,
     StacheGridModule,
