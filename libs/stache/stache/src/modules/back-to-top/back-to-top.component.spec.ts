@@ -1,18 +1,21 @@
-import { ComponentFixture, fakeAsync, tick, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, inject, tick, TestBed } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 import { TestUtility } from '../testing/testutility';
 
 import { StacheBackToTopComponent } from './back-to-top.component';
+import { WindowRefService } from '../shared';
 
 describe('StacheBackToTopComponent', () => {
   let component: StacheBackToTopComponent;
   let fixture: ComponentFixture<StacheBackToTopComponent>;
   let debugElement: DebugElement;
+  let windowRef: WindowRefService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ StacheBackToTopComponent ]
+      declarations: [ StacheBackToTopComponent ],
+      providers: [ WindowRefService ]
     })
     .compileComponents();
 
@@ -20,6 +23,10 @@ describe('StacheBackToTopComponent', () => {
     component = fixture.componentInstance;
     debugElement = fixture.debugElement;
   });
+
+  beforeEach(inject([WindowRefService], service => {
+    windowRef = service.nativeWindow;
+  }));
 
   it('should have a default offset value of 200', () => {
     fixture.detectChanges();
@@ -45,7 +52,7 @@ describe('StacheBackToTopComponent', () => {
 
   it('should show when the window y offset is greater than the specified offset', fakeAsync(() => {
     component.offset = 0;
-    TestUtility.fireDomEvent(window, 'scroll');
+    TestUtility.fireDomEvent(windowRef, 'scroll');
     tick();
 
     expect(component.isHidden).toBe(false);

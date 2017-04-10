@@ -1,6 +1,7 @@
 import { Component, HostListener, Input } from '@angular/core';
 
 import { InputConverter } from '../shared';
+import { WindowRefService } from '../shared';
 
 @Component({
   selector: 'stache-back-to-top',
@@ -14,13 +15,15 @@ export class StacheBackToTopComponent {
 
   public isHidden: boolean = true;
 
+  public constructor(private windowRef: WindowRefService) {}
+
   @HostListener('window:scroll')
   public onWindowScroll() {
-    this.isHidden = (window.pageYOffset < this.offset);
+    this.isHidden = (this.windowRef.nativeWindow.pageYOffset < this.offset);
   }
 
   public scrollToTop() {
-    window.scroll({
+    this.windowRef.nativeWindow.scroll({
       top: 0,
       left: 0,
       behavior: 'smooth'
