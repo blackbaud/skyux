@@ -24,7 +24,7 @@ describe('StacheBackToTopComponent', () => {
     debugElement = fixture.debugElement;
   });
 
-  beforeEach(inject([WindowRefService], service => {
+  beforeEach(inject([WindowRefService], (service: any) => {
     windowRef = service.nativeWindow;
   }));
 
