@@ -1,3 +1,4 @@
+/* tslint:disable:component-selector-name */
 import { Component, OnInit, Input, AfterContentInit, ContentChildren } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';

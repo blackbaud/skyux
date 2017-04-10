@@ -51,7 +51,8 @@ export class StacheDemoComponentService {
         return [
           {
             name: 'layout-sidebar-demo.component.html',
-            fileContents: require('!!raw-loader!./layout-sidebar/layout-sidebar-demo.component.html'),
+            fileContents:
+              require('!!raw-loader!./layout-sidebar/layout-sidebar-demo.component.html'),
             language: 'markup'
           },
           {
@@ -127,12 +128,14 @@ export class StacheDemoComponentService {
         return [
           {
             name: 'table-of-contents-demo.component.html',
-            fileContents: require('!!raw-loader!./table-of-contents/table-of-contents-demo.component.html'),
+            fileContents:
+              require('!!raw-loader!./table-of-contents/table-of-contents-demo.component.html'),
             language: 'markup'
           },
           {
             name: 'table-of-contents-demo.component.ts',
-            fileContents: require('!!raw-loader!./table-of-contents/table-of-contents-demo.component.ts'),
+            fileContents:
+              require('!!raw-loader!./table-of-contents/table-of-contents-demo.component.ts'),
             language: 'typescript'
           }
         ];
@@ -193,7 +196,8 @@ export class StacheDemoComponentService {
     {
       name: 'Breadcrumbs',
       route: '/components/breadcrumbs',
-      summary: 'The breadcrumbs component displays a menu at the top of the page to help users keep track of their location within the app.',
+      summary: `The breadcrumbs component displays a menu at the top of the page to 
+        help users keep track of their location within the app.`,
       getCodeFiles: () => {
         return [
           {
