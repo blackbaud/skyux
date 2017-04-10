@@ -3,8 +3,10 @@
 .stache-row {
   display: flex;
   flex-direction: column-reverse;
-  margin-left: -$stache-grid-padding / 2;
-  margin-right: -$stache-grid-padding / 2;
+  flex-wrap: wrap;
+  margin-left: -$stache-grid-padding;
+  margin-right: -$stache-grid-padding;
+  margin-bottom: $stache-grid-padding;
 
   @media (min-width: $stache-screen-sm) {
     flex-direction: row;

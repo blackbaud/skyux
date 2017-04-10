@@ -1,16 +1,11 @@
 @import '../../styles/_variables';
-
-@mixin create_columns($screen-size: sm) {
-  @for $i from 1 through $stache-grid-columns {
-    :host.stache-column-#{$screen-size}-#{$i} {
-      width: ($i / $stache-grid-columns) * 100%;
-    }
-  }
-}
+@import '../../styles/mixins/_grid';
 
 :host.stache-column {
-  padding-right: $stache-grid-padding / 2;
-  padding-left: $stache-grid-padding / 2;
+  padding-right: $stache-grid-padding;
+  padding-left: $stache-grid-padding;
+  width: 100%;
+  min-height: 1px;
 }
 
 @media (min-width: $stache-screen-sm) {

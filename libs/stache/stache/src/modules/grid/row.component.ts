@@ -5,4 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './row.component.html',
   styleUrls: ['./row.component.scss']
 })
-export class StacheRowComponent {}
+export class StacheRowComponent { }

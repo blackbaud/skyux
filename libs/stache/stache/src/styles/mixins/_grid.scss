@@ -1,0 +1,9 @@
+@import '../_variables';
+
+@mixin create_columns($screen-size: sm) {
+  @for $i from 1 through $stache-grid-columns {
+    :host.stache-column-#{$screen-size}-#{$i} {
+      width: ($i / $stache-grid-columns) * 100%;
+    }
+  }
+}
