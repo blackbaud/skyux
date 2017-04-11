@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { SkyModule } from '@blackbaud/skyux/dist/core';
 
 import { StacheBackToTopModule } from '../back-to-top/back-to-top.module';
 import { StacheNavModule } from '../nav/nav.module';
@@ -16,9 +17,11 @@ import { StacheLayoutComponent } from './layout.component';
 import { StacheLayoutBlankComponent } from './layout-blank.component';
 import { StacheLayoutDefaultComponent } from './layout-default.component';
 import { StacheLayoutSidebarComponent } from './layout-sidebar.component';
+import { StacheLayoutActionButtonsComponent } from './layout-action-buttons.component';
 
 @NgModule({
   imports: [
+    SkyModule,
     CommonModule,
     StacheBackToTopModule,
     StacheGridModule,
@@ -35,14 +38,16 @@ import { StacheLayoutSidebarComponent } from './layout-sidebar.component';
     StacheLayoutComponent,
     StacheLayoutBlankComponent,
     StacheLayoutDefaultComponent,
-    StacheLayoutSidebarComponent
+    StacheLayoutSidebarComponent,
+    StacheLayoutActionButtonsComponent
   ],
   exports: [
     StacheContainerComponent,
     StacheLayoutComponent,
     StacheLayoutBlankComponent,
     StacheLayoutDefaultComponent,
-    StacheLayoutSidebarComponent
+    StacheLayoutSidebarComponent,
+    StacheLayoutActionButtonsComponent
   ],
   providers: []
 })

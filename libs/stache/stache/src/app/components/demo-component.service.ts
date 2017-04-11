@@ -8,6 +8,7 @@ export class StacheDemoComponentService {
     {
       name: 'Stache Wrapper',
       route: '/components/wrapper',
+      icon: 'gift',
       summary: '',
       getCodeFiles: () => {
         return [
@@ -27,7 +28,8 @@ export class StacheDemoComponentService {
     {
       name: 'Layout',
       route: '/components/layout',
-      summary: '',
+      icon: 'map-o',
+      summary: 'Basic page layouts using Stache and skyux pattern, for quick page layouts.',
       getCodeFiles: () => {
         return [
           {
@@ -44,9 +46,36 @@ export class StacheDemoComponentService {
       }
     },
     {
+      name: 'Layout: Action Buttons',
+      route: '/components/layout-action-buttons',
+      icon: 'th-list',
+      summary: 'Basic page layouts using Stache and skyux pattern, for quick page layouts.',
+      getCodeFiles: () => {
+        return [
+          {
+            name: 'layout-action-buttons-demo.component.html',
+            fileContents:
+              require(
+                `!!raw-loader!./layout-action-buttons/layout-action-buttons-demo.component.html`
+              ),
+            language: 'markup'
+          },
+          {
+            name: 'layout-action-buttons-demo.component.ts',
+            fileContents:
+              require(
+                `!!raw-loader!./layout-action-buttons/layout-action-buttons-demo.component.ts`
+              ),
+            language: 'typescript'
+          }
+        ];
+      }
+    },
+    {
       name: 'Layout: Sidebar',
       route: '/components/layout-sidebar',
-      summary: '',
+      icon: 'columns',
+      summary: 'Side bar navigation layout pattern for creating quick documentation.',
       getCodeFiles: () => {
         return [
           {
@@ -66,6 +95,7 @@ export class StacheDemoComponentService {
     {
       name: 'Page Header',
       route: '/components/page-header',
+      icon: 'header',
       summary: `This is the Page Header component.`,
       getCodeFiles: () => {
         return [
@@ -85,7 +115,8 @@ export class StacheDemoComponentService {
     {
       name: 'Page Summary',
       route: '/components/page-summary',
-      summary: '',
+      icon: 'file-text',
+      summary: 'lorem and things',
       getCodeFiles: () => {
         return [
           {
@@ -104,7 +135,8 @@ export class StacheDemoComponentService {
     {
       name: 'Page Anchor',
       route: '/components/page-anchor',
-      summary: '',
+      icon: 'link',
+      summary: 'Anchored stuff on the page',
       getCodeFiles: () => {
         return [
           {
@@ -123,7 +155,8 @@ export class StacheDemoComponentService {
     {
       name: 'Table of Contents',
       route: '/components/table-of-contents',
-      summary: '',
+      icon: 'list-ol',
+      summary: 'list of page items',
       getCodeFiles: () => {
         return [
           {
@@ -144,6 +177,7 @@ export class StacheDemoComponentService {
     {
       name: 'Sidebar',
       route: '/components/sidebar',
+      icon: 'columns',
       summary: '',
       getCodeFiles: () => {
         return [
@@ -163,6 +197,7 @@ export class StacheDemoComponentService {
     {
       name: 'Grid',
       route: '/components/grid',
+      icon: 'table',
       summary: '',
       getCodeFiles: () => {
         return [
@@ -182,6 +217,7 @@ export class StacheDemoComponentService {
     {
       name: 'Code Block',
       route: '/components/code-block',
+      icon: 'table',
       summary: '',
       getCodeFiles: () => {
         return [
@@ -196,6 +232,7 @@ export class StacheDemoComponentService {
     {
       name: 'Breadcrumbs',
       route: '/components/breadcrumbs',
+      icon: 'exchange',
       summary: `The breadcrumbs component displays a menu at the top of the page to 
         help users keep track of their location within the app.`,
       getCodeFiles: () => {

@@ -1,0 +1,22 @@
+@import '../../styles/_variables';
+
+/deep/
+.stache-action-buttons {
+  display: inline-flex;
+  flex-wrap: wrap;
+
+  .stache-column {
+    display: inline-flex;
+  }
+
+  .stache-action-button-override {
+    flex: 100%;
+    display: inline-flex;
+
+    .sky-action-button {
+      width: 100%;
+      max-width: none;
+      margin: 0 0 $stache-grid-padding * 2;
+    }
+  }
+}

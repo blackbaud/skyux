@@ -1,21 +1,17 @@
-<stache pageTitle="Components" layout="sidebar" [sidebarRoutes]="routes" [breadcrumbsRoutes]="[{ name: 'Home', path: ['/'] }]" showBreadcrumbs="true">
+<stache 
+  pageTitle="Components" 
+  layout="action-buttons" 
+  [actionButtonRoutes]="routes"
+  [breadcrumbsRoutes]="[
+    { name: 'Home', path: ['/'] },
+    { name: 'Components', path: ['/components']}
+  ]"
+  showBreadcrumbs="true">
 
   <stache-page-anchor>
     Summary
   </stache-page-anchor>
   
   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed maximus molestie aliquam. Vestibulum scelerisque auctor efficitur. Etiam pulvinar rutrum magna at rutrum.</p>
-
-  <stache-page-anchor>
-    Getting started
-  </stache-page-anchor>
   
-  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed maximus molestie aliquam. Vestibulum scelerisque auctor efficitur. Etiam pulvinar rutrum magna at rutrum.</p>
-
-  <stache-page-anchor>
-    Installation instructions
-  </stache-page-anchor>
-  
-  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed maximus molestie aliquam. Vestibulum scelerisque auctor efficitur. Etiam pulvinar rutrum magna at rutrum.</p>
-
 </stache>

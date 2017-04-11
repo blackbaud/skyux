@@ -12,7 +12,9 @@ export class StacheDemoComponentsComponent implements OnInit {
   public components: StacheDemoComponent[];
   public routes: StacheNavLink[] = [{
     name: 'Overview',
-    path: '/components'
+    path: '/components',
+    icon: 'cog',
+    summary: 'Lorem and stuff.'
   }];
 
   public constructor(private componentService: StacheDemoComponentService) { }
@@ -22,7 +24,9 @@ export class StacheDemoComponentsComponent implements OnInit {
     this.components.forEach((component) => {
       this.routes.push({
         path: [component.route],
-        name: component.name
+        name: component.name,
+        icon: component.icon,
+        summary: component.summary
       });
     });
   }

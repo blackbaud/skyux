@@ -6,6 +6,6 @@
   .stache-column {
     background-color: lighten($sky-color-aqua, 30%);
     border: 1px solid lighten($sky-color-aqua, 15%);
-    word-break: break-all;
+    overflow-wrap: break-word;
   }
 }

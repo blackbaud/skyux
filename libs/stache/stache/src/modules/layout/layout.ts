@@ -8,4 +8,5 @@ export interface StacheLayout {
   showBreadcrumbs: boolean;
   showTableOfContents: boolean;
   sidebarRoutes?: StacheNavLink[];
+  actionButtonRoutes?: StacheNavLink[];
 }
