@@ -2,33 +2,34 @@
 
 /deep/ 
 .stache-breadcrumbs {
-
-  color: $stache-color-text-muted;
-  margin-bottom: $stache-grid-padding;
-  background-color: $stache-color-gray-lightest;
-  border-radius: $stache-border-radius;
-  padding: 8px 15px;
-  
-  .stache-nav-list {
-    flex-direction: row;
-  }
-
-  .stache-nav-list-item {
-    margin-right: 10px;
-
-    & + li {
-      &:before {
-        content: '/';
-        margin-right: 5px;
-      }
+  .stache-nav-breadcrumbs {
+    color: $stache-color-text-muted;
+    margin-bottom: $stache-grid-padding;
+    background-color: $stache-color-gray-lightest;
+    border-radius: $stache-border-radius;
+    padding: 8px 15px;
+    
+    .stache-nav-list {
+      flex-direction: row;
     }
 
-    &:last-child {
-      > .stache-nav-anchor {
-        color: $stache-color-text-muted;
+    .stache-nav-list-item {
+      margin-right: 10px;
 
-        &:hover {
-          cursor: default;
+      & + li {
+        &:before {
+          content: '/';
+          margin-right: 5px;
+        }
+      }
+
+      &:last-child {
+        > .stache-nav-anchor {
+          color: $stache-color-text-muted;
+
+          &:hover {
+            cursor: default;
+          }
         }
       }
     }
