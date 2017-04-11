@@ -1,15 +1,20 @@
 <stache-layout-blank identifier="action-button">
   <stache-container>
+
     <stache-breadcrumbs *ngIf="showBreadcrumbs" [routes]="breadcrumbsRoutes">
     </stache-breadcrumbs>
+    
     <stache-row>
       <stache-column>
+
         <stache-page-header *ngIf="pageTitle">
           <stache-page-title>
             {{pageTitle}}
           </stache-page-title>
         </stache-page-header>
+
         <ng-content></ng-content>
+
       </stache-column>
     </stache-row>
     <div class="stache-action-buttons" *ngIf="actionButtonRoutes">
@@ -19,11 +24,10 @@
           screenSmall="6" 
           screenMedium="4" 
           screenLarge="3">
-          <sky-action-button
-            class="stache-action-button-override"
+
+          <sky-action-button class="stache-action-button-override"
             (actionClick)="navigate(route)">
-            <sky-action-button-icon
-              iconType="{{route.icon}}">
+            <sky-action-button-icon iconType="{{route.icon}}">
             </sky-action-button-icon>
             <sky-action-button-header>
               {{route.name}}
@@ -32,10 +36,12 @@
               {{route.summary}}
             </sky-action-button-details>
           </sky-action-button>
+
         </stache-column>
       </stache-row>
     </div>
   </stache-container>
 </stache-layout-blank>
+
 <stache-back-to-top *ngIf="showBackToTop">
 </stache-back-to-top>

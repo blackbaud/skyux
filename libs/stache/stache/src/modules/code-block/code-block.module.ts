@@ -16,4 +16,4 @@ require('style-loader!prismjs/themes/prism.css');
     StacheCodeBlockComponent
   ]
 })
-export class StacheCodeBlockModule {}
+export class StacheCodeBlockModule { }

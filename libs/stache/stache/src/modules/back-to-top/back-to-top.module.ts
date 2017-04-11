@@ -14,4 +14,4 @@ import { StacheBackToTopComponent } from './back-to-top.component';
     StacheBackToTopComponent
   ]
 })
-export class StacheBackToTopModule {}
+export class StacheBackToTopModule { }

@@ -5,4 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './code.component.html',
   styleUrls: ['./code.component.scss']
 })
-export class StacheCodeComponent {}
+export class StacheCodeComponent { }

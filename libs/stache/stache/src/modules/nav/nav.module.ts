@@ -16,4 +16,4 @@ import { StacheNavComponent } from './nav.component';
     StacheNavComponent
   ]
 })
-export class StacheNavModule {}
+export class StacheNavModule { }

@@ -14,7 +14,7 @@ export class StacheCodeBlockComponent implements AfterViewInit {
   public code: string;
 
   @Input()
-  public languageType: string = 'markup';
+  public languageType = 'markup';
 
   @ViewChild('codeFromContent')
   public codeTemplateRef: any;

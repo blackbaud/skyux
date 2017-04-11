@@ -16,4 +16,4 @@ import { StacheTableOfContentsComponent } from './table-of-contents.component';
     StacheTableOfContentsComponent
   ]
 })
-export class StacheTableOfContentsModule {}
+export class StacheTableOfContentsModule { }

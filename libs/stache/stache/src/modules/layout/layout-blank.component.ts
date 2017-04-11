@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class StacheLayoutBlankComponent {
   @Input()
-  public identifier: string = 'blank';
+  public identifier = 'blank';
 
   public getClassName(): string {
     return `stache-layout-${this.identifier}`;

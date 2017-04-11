@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DebugElement } from '@angular/core';
 import { Router } from '@angular/router';
+
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 
 import { StacheNavComponent } from './nav.component';
@@ -8,7 +8,6 @@ import { StacheNavComponent } from './nav.component';
 describe('StacheNavComponent', () => {
   let component: StacheNavComponent;
   let fixture: ComponentFixture<StacheNavComponent>;
-  let debugElement: DebugElement;
   let mockRouter: any;
 
   class MockRouter {
@@ -27,7 +26,6 @@ describe('StacheNavComponent', () => {
 
     fixture = TestBed.createComponent(StacheNavComponent);
     component = fixture.componentInstance;
-    debugElement = fixture.debugElement;
   });
 
   it('should have the given inputs', () => {

@@ -14,7 +14,9 @@
   line-height: 1;
   opacity: 1;
   transition: opacity .5s;
-  &:hover, &:focus {
+
+  &:hover, 
+  &:focus {
     background: $stache-color-link-hover;
     cursor: pointer;
   }

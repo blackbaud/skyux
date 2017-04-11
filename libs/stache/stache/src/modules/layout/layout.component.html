@@ -9,48 +9,57 @@
 
 <template #blankLayout>
   <stache-layout-blank>
-    <template stachePageSummary [ngTemplateOutlet]="contentSummary"></template>
-    <template [ngTemplateOutlet]="content"></template>
+    <template stachePageSummary [ngTemplateOutlet]="contentSummary">
+    </template>
+    <template [ngTemplateOutlet]="content">
+    </template>
   </stache-layout-blank>
 </template>
 
 <template #defaultLayout>
   <stache-layout-default
-    pageTitle="{{pageTitle}}"
+    [pageTitle]="pageTitle"
     [showBackToTop]="showBackToTop"
     [showBreadcrumbs]="showBreadcrumbs"
     [showTableOfContents]="showTableOfContents"
     [inPageRoutes]="inPageRoutes"
     [breadcrumbsRoutes]="breadcrumbsRoutes">
-    <template stachePageSummary [ngTemplateOutlet]="contentSummary"></template>
-    <template [ngTemplateOutlet]="content"></template>
+    <template stachePageSummary [ngTemplateOutlet]="contentSummary">
+    </template>
+    <template [ngTemplateOutlet]="content">
+    </template>
   </stache-layout-default>
 </template>
 
 <template #sidebarLayout>
   <stache-layout-sidebar
-    pageTitle="{{pageTitle}}"
+    [pageTitle]="pageTitle"
     [showBackToTop]="showBackToTop"
     [showBreadcrumbs]="showBreadcrumbs"
     [showTableOfContents]="showTableOfContents"
     [sidebarRoutes]="sidebarRoutes"
     [inPageRoutes]="inPageRoutes"
     [breadcrumbsRoutes]="breadcrumbsRoutes">
-    <template stachePageSummary [ngTemplateOutlet]="contentSummary"></template>
-    <template [ngTemplateOutlet]="content"></template>
+    <template stachePageSummary [ngTemplateOutlet]="contentSummary">
+    </template>
+    <template [ngTemplateOutlet]="content">
+    </template>
   </stache-layout-sidebar>
 </template>
 
 <template #actionButtonsLayout>
   <stache-layout-action-buttons
-    pageTitle="{{pageTitle}}"
+    [pageTitle]="pageTitle"
     [showBackToTop]="showBackToTop"
     [showBreadcrumbs]="showBreadcrumbs"
     [breadcrumbsRoutes]="breadcrumbsRoutes"
     [actionButtonRoutes]="actionButtonRoutes">
-    <template stachePageSummary [ngTemplateOutlet]="contentSummary"></template>
-    <template [ngTemplateOutlet]="content"></template>
+    <template stachePageSummary [ngTemplateOutlet]="contentSummary">
+    </template>
+    <template [ngTemplateOutlet]="content">
+    </template>
   </stache-layout-action-buttons>
 </template>
 
-<template [ngTemplateOutlet]="templateRef"></template>
+<template [ngTemplateOutlet]="templateRef">
+</template>

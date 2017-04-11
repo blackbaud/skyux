@@ -14,4 +14,4 @@ import { StacheCodeComponent } from './code.component';
     StacheCodeComponent
   ]
 })
-export class StacheCodeModule {}
+export class StacheCodeModule { }

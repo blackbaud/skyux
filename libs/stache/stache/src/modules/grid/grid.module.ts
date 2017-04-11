@@ -17,4 +17,4 @@ import { StacheColumnComponent } from './column.component';
     StacheColumnComponent
   ]
 })
-export class StacheGridModule {}
+export class StacheGridModule { }

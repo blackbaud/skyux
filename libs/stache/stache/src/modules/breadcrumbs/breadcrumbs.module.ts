@@ -16,4 +16,4 @@ import { StacheBreadcrumbsComponent } from './breadcrumbs.component';
     StacheBreadcrumbsComponent
   ]
 })
-export class StacheBreadcrumbsModule {}
+export class StacheBreadcrumbsModule { }

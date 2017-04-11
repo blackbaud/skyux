@@ -1,8 +1,8 @@
 import {
   Component,
+  HostBinding,
   Input,
-  OnInit,
-  HostBinding
+  OnInit
 } from '@angular/core';
 
 @Component({

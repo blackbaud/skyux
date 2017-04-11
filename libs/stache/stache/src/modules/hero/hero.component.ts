@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./hero.component.scss']
 })
 export class StacheHeroComponent {
-  @Input('backgroundImageUrl')
+  @Input()
   set backgroundImageUrl(imageUrl: string) {
     this._backgroundImageUrl = imageUrl;
   }
@@ -15,5 +15,5 @@ export class StacheHeroComponent {
     return this._backgroundImageUrl;
   }
 
-  private _backgroundImageUrl: string = 'none';
+  private _backgroundImageUrl = 'none';
 }
