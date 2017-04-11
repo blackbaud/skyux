@@ -2,14 +2,15 @@
 
 /deep/
 .stache-sidebar {
-  background-color: $stache-color-gray-lightest;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  border-radius: $stache-border-radius;
-  border-bottom: 1px solid #ccc;
+
+  .stache-nav-sidebar {
+    background-color: $stache-color-gray-lightest;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
 
   .stache-nav-anchor {
-    padding: 8px 15px;
+    padding: $stache-nav-item-padding/2 $stache-nav-item-padding;
     color: $stache-color-text;
     display: block;
 
@@ -24,7 +25,17 @@
     }
   }
 
-  .stache-nav-list .stache-nav-list {
-    padding-left: 10px;
+  .stache-nav-sidebar .stache-nav-sidebar {
+    background-color: $stache-color-gray-light;
+    padding: 0; 
+    margin-bottom: 8px;
+
+    .stache-nav-anchor {
+      padding-left:$stache-nav-item-padding * 2;
+
+      &:hover {
+        background-color: $stache-color-gray;
+      }
+    }
   }
 }

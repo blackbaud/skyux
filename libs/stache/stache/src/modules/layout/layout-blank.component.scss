@@ -1,7 +1,7 @@
 @import '../../styles/_variables';
 
 .stache-layout {
-  padding-top: $stache-grid-padding;
-  padding-bottom: $stache-grid-padding;
+  padding-top: $stache-grid-padding * 2;
+  padding-bottom: $stache-grid-padding * 2;
   background-color: #fff;
 }

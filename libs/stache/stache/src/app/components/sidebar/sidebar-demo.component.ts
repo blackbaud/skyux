@@ -12,7 +12,17 @@ export class StacheSidebarDemoComponent {
     },
     {
       name: 'Installation',
-      path: '/'
+      path: '/',
+      children: [
+        {
+          name: 'Requirements',
+          path: '/requirements'
+        },
+        {
+          name: 'Common Problems',
+          path: '/problems'
+        }
+      ]
     },
     {
       name: 'How to use',
