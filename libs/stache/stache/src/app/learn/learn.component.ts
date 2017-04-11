@@ -6,7 +6,10 @@ import { Component } from '@angular/core';
 })
 export class LearnComponent {
   public sidebarRoutes: any[] = [
-    { name: 'Overview', path: '/learn' },
+    { name: 'Overview', path: '/learn', children: [
+      { name: 'Test1', path: '/learn/test-1' },
+      { name: 'Test2', path: '/learn/test-2' }
+    ]},
     { name: 'Tutorials', path: '/learn/tutorials' },
     { name: 'Technical Reference', path: '/learn/reference' },
     { name: 'Resources', path: '/learn/resources' },

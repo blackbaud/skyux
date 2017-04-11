@@ -2,6 +2,7 @@
   <ol class="stache-nav-list">
     <li class="stache-nav-list-item" *ngFor="let route of routes">
       <a class="stache-nav-anchor" (click)="navigate(route)" [ngClass]="{'active': isActive(route)}">{{route.name}}</a>
+      <stache-nav navType="sidebar" [routes]="route.children" *ngIf="hasChildRoutes(route)"></stache-nav>
     </li>
   </ol>
 </nav>

@@ -21,7 +21,11 @@ export class StacheNavComponent implements OnInit, StacheNav {
   public constructor(private router: Router) {}
 
   public hasRoutes(): boolean {
-    return (this.routes && this.routes.length > 0);
+    return (Array.isArray(this.routes) && this.routes.length > 0);
+  }
+
+  public hasChildRoutes(route: StacheNavLink): boolean {
+    return Array.isArray(route.children);
   }
 
   public isActive(route: any): boolean {

@@ -1,6 +1,6 @@
 @import '../../styles/_variables';
 
-/deep/ 
+/deep/
 .stache-sidebar {
   background-color: $stache-color-gray-lightest;
   padding-top: 8px;
@@ -22,5 +22,9 @@
       background-color: $stache-color-blue;
       color: #fff;
     }
+  }
+
+  .stache-nav-list .stache-nav-list {
+    padding-left: 10px;
   }
 }
