@@ -2,7 +2,7 @@
 
 .stache-row {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   flex-wrap: wrap;
   margin-left: -$stache-grid-padding;
   margin-right: -$stache-grid-padding;
@@ -10,5 +10,9 @@
 
   @media (min-width: $stache-screen-sm) {
     flex-direction: row;
+
+    &.stache-row-reverse {
+      flex-direction: row-reverse;
+    }
   }
 }
