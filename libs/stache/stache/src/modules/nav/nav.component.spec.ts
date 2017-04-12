@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 
 import { StacheNavComponent } from './nav.component';
+import { StacheNavTestComponent } from './fixtures/nav.component.fixture';
+import { WindowRefService } from '../shared';
 
 describe('StacheNavComponent', () => {
   let component: StacheNavComponent;
@@ -19,8 +21,14 @@ describe('StacheNavComponent', () => {
     mockRouter = new MockRouter();
 
     TestBed.configureTestingModule({
-      declarations: [ StacheNavComponent ],
-      providers: [{ provide: Router, useValue: mockRouter }]
+      declarations: [
+        StacheNavComponent,
+        StacheNavTestComponent
+      ],
+      providers: [
+        { provide: Router, useValue: mockRouter },
+        WindowRefService
+      ]
     })
     .compileComponents();
 
@@ -133,5 +141,18 @@ describe('StacheNavComponent', () => {
     fixture.detectChanges();
 
     expect(component.classname).toBe('stache-nav-sidebar');
+  });
+
+  it('should call scrollToElement if a fragment is passed in', () => {
+    let testFixture = TestBed.createComponent(StacheNavTestComponent);
+    let testComponent = fixture.componentInstance;
+    let target = testFixture.nativeElement.querySelector('#some-header');
+
+    spyOn(target, 'scrollIntoView');
+    testComponent.routes = [{ name: 'Some Header', path: '/test', fragment: 'some-header' }];
+    testFixture.detectChanges();
+    component.navigate(testComponent.routes[0]);
+
+    expect(target.scrollIntoView).toHaveBeenCalled();
   });
 });

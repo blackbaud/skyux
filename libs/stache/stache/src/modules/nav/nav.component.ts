@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { StacheNavLink } from './nav-link';
 import { StacheNav } from './nav';
+import { WindowRefService } from '../shared';
 
 @Component({
   selector: 'stache-nav',
@@ -19,7 +20,8 @@ export class StacheNavComponent implements OnInit, StacheNav {
   public classname: string = '';
 
   public constructor(
-    private router: Router) {}
+    private router: Router,
+    private windowRef: WindowRefService) {}
 
   public hasRoutes(): boolean {
     return (Array.isArray(this.routes) && this.routes.length > 0);
@@ -43,15 +45,19 @@ export class StacheNavComponent implements OnInit, StacheNav {
     }
   }
 
+  public scrollToElement(id: string) {
+    let element = this.windowRef.nativeWindow.document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
   public navigate(route: any): void {
     let extras: any = {};
 
     if (route.fragment) {
       extras.fragment = route.fragment;
-      let element = document.getElementById(route.fragment);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
+      this.scrollToElement(route.fragment);
     }
 
     if (Array.isArray(route.path)) {
