@@ -47,19 +47,5 @@
   </stache-layout-sidebar>
 </template>
 
-<template #actionButtonsLayout>
-  <stache-layout-action-buttons
-    [pageTitle]="pageTitle"
-    [showBackToTop]="showBackToTop"
-    [showBreadcrumbs]="showBreadcrumbs"
-    [breadcrumbsRoutes]="breadcrumbsRoutes"
-    [actionButtonRoutes]="actionButtonRoutes">
-    <template stachePageSummary [ngTemplateOutlet]="contentSummary">
-    </template>
-    <template [ngTemplateOutlet]="content">
-    </template>
-  </stache-layout-action-buttons>
-</template>
-
 <template [ngTemplateOutlet]="templateRef">
 </template>

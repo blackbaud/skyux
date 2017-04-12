@@ -46,32 +46,6 @@ export class StacheDemoComponentService {
       }
     },
     {
-      name: 'Layout: Action Buttons',
-      route: '/components/layout-action-buttons',
-      icon: 'th-list',
-      summary: 'Basic page layouts using Stache and skyux pattern, for quick page layouts.',
-      getCodeFiles: () => {
-        return [
-          {
-            name: 'layout-action-buttons-demo.component.html',
-            fileContents:
-              require(
-                `!!raw-loader!./layout-action-buttons/layout-action-buttons-demo.component.html`
-              ),
-            language: 'markup'
-          },
-          {
-            name: 'layout-action-buttons-demo.component.ts',
-            fileContents:
-              require(
-                `!!raw-loader!./layout-action-buttons/layout-action-buttons-demo.component.ts`
-              ),
-            language: 'typescript'
-          }
-        ];
-      }
-    },
-    {
       name: 'Layout: Sidebar',
       route: '/components/layout-sidebar',
       icon: 'columns',
@@ -189,6 +163,32 @@ export class StacheDemoComponentService {
           {
             name: 'sidebar-demo.component.ts',
             fileContents: require('!!raw-loader!./sidebar/sidebar-demo.component.ts'),
+            language: 'typescript'
+          }
+        ];
+      }
+    },
+    {
+      name: 'Action Buttons',
+      route: '/components/action-buttons',
+      icon: 'th-list',
+      summary: 'Basic page layouts using Stache and skyux pattern, for quick page layouts.',
+      getCodeFiles: () => {
+        return [
+          {
+            name: 'action-buttons-demo.component.html',
+            fileContents:
+              require(
+                `!!raw-loader!./action-buttons/action-buttons-demo.component.html`
+              ),
+            language: 'markup'
+          },
+          {
+            name: 'action-buttons-demo.component.ts',
+            fileContents:
+              require(
+                `!!raw-loader!./action-buttons/action-buttons-demo.component.ts`
+              ),
             language: 'typescript'
           }
         ];

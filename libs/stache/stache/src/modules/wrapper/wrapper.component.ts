@@ -21,9 +21,6 @@ export class StacheWrapperComponent implements OnInit, AfterContentInit {
   public layout = 'default';
 
   @Input()
-  public actionButtonRoutes: StacheNavLink[] = [];
-
-  @Input()
   public sidebarRoutes: StacheNavLink[] = [];
 
   @Input()

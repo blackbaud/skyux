@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
 
-import { StacheNavLink } from '../../modules/nav/nav-link';
-
 @Component({
-  selector: 'stache-layout-action-buttons-demo',
-  templateUrl: 'layout-action-buttons-demo.component.html'
+  selector: 'stache-action-buttons-demo',
+  templateUrl: 'action-buttons-demo.component.html'
 })
-export class StacheLayoutActionButtonsDemoComponent {
-  public actionButtonRoutes: StacheNavLink[] = [
+export class StacheActionButtonsDemoComponent {
+  public routes = [
     {
       name: 'Layout',
       route: '/components/layout',

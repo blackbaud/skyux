@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SkyModule } from '@blackbaud/skyux/dist/core';
 
+import { StacheActionButtonsModule } from '../action-buttons/action-buttons.module';
 import { StacheBackToTopModule } from '../back-to-top/back-to-top.module';
 import { StacheNavModule } from '../nav/nav.module';
 import { StacheBreadcrumbsModule } from '../breadcrumbs/breadcrumbs.module';
@@ -17,12 +18,12 @@ import { StacheLayoutComponent } from './layout.component';
 import { StacheLayoutBlankComponent } from './layout-blank.component';
 import { StacheLayoutDefaultComponent } from './layout-default.component';
 import { StacheLayoutSidebarComponent } from './layout-sidebar.component';
-import { StacheLayoutActionButtonsComponent } from './layout-action-buttons.component';
 
 @NgModule({
   imports: [
     SkyModule,
     CommonModule,
+    StacheActionButtonsModule,
     StacheBackToTopModule,
     StacheGridModule,
     StacheNavModule,
@@ -38,16 +39,11 @@ import { StacheLayoutActionButtonsComponent } from './layout-action-buttons.comp
     StacheLayoutComponent,
     StacheLayoutBlankComponent,
     StacheLayoutDefaultComponent,
-    StacheLayoutSidebarComponent,
-    StacheLayoutActionButtonsComponent
+    StacheLayoutSidebarComponent
   ],
   exports: [
     StacheContainerComponent,
-    StacheLayoutComponent,
-    StacheLayoutBlankComponent,
-    StacheLayoutDefaultComponent,
-    StacheLayoutSidebarComponent,
-    StacheLayoutActionButtonsComponent
+    StacheLayoutComponent
   ],
   providers: []
 })

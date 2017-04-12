@@ -18,9 +18,6 @@ export class StacheLayoutComponent implements OnInit, StacheLayout {
   public inPageRoutes: StacheNavLink[];
 
   @Input()
-  public actionButtonRoutes: StacheNavLink[];
-
-  @Input()
   public showTableOfContents: boolean;
 
   @Input()
@@ -46,9 +43,6 @@ export class StacheLayoutComponent implements OnInit, StacheLayout {
   @ViewChild('sidebarLayout')
   private sidebarTemplateRef: any;
 
-  @ViewChild('actionButtonsLayout')
-  private actionButtonsTemplateRef: any;
-
   public ngOnInit(): void {
     switch (this.layoutType) {
       case 'blank':
@@ -56,9 +50,6 @@ export class StacheLayoutComponent implements OnInit, StacheLayout {
         break;
       case 'sidebar':
         this.templateRef = this.sidebarTemplateRef;
-        break;
-      case 'action-buttons':
-        this.templateRef = this.actionButtonsTemplateRef;
         break;
       default:
         this.templateRef = this.defaultTemplateRef;

@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
+
 import * as smoothscroll from 'smoothscroll-polyfill';
 
+import { StacheActionButtonsModule } from './modules/action-buttons/action-buttons.module';
 import { StacheBackToTopModule } from './modules/back-to-top/back-to-top.module';
 import { StacheCodeModule } from './modules/code/code.module';
 import { StacheCodeBlockModule } from './modules/code-block/code-block.module';
@@ -21,6 +23,7 @@ smoothscroll.polyfill();
 
 @NgModule({
   exports: [
+    StacheActionButtonsModule,
     StacheBackToTopModule,
     StacheCodeModule,
     StacheCodeBlockModule,
