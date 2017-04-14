@@ -16,7 +16,7 @@
   &.atrule,
   &.attr-value,
   &.keyword {
-    color: scale-color($color: $sky-color-blue, $lightness: -20%);
+    color: scale-color($color: $stache-color-blue, $lightness: -20%);
   }
 
   &.selector,
@@ -25,7 +25,7 @@
   &.char,
   &.builtin,
   &.inserted {
-    color: scale-color($color: $sky-color-green, $lightness: -30%);
+    color: scale-color($color: $stache-color-green, $lightness: -30%);
   }
 
   &.property,
@@ -35,15 +35,15 @@
   &.constant,
   &.symbol,
   &.deleted {
-    color: scale-color($color: $sky-color-red, $lightness: -20%);
+    color: scale-color($color: $stache-color-red, $lightness: -20%);
   }
 
   &.function {
-    color: scale-color($color: $sky-color-purple, $lightness: -20%);
+    color: scale-color($color: $stache-color-purple, $lightness: -20%);
   }
 
   &.punctuation,
   &.operator {
-    color: scale-color($color: $sky-color-gray, $lightness: -20%);
+    color: scale-color($color: $stache-color-gray, $lightness: -20%);
   }
 }

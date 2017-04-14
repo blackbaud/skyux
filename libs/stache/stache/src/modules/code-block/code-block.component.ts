@@ -1,8 +1,9 @@
-import { Component, Input, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Input, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 
 declare let Prism: any;
 import 'prismjs/prism';
 import 'prismjs/components/prism-typescript';
+import 'prismjs/plugins/normalize-whitespace/prism-normalize-whitespace';
 
 @Component({
   selector: 'stache-code-block',
@@ -14,26 +15,63 @@ export class StacheCodeBlockComponent implements AfterViewInit {
   public code: string;
 
   @Input()
-  public languageType = 'markup';
+  public set languageType(value: string) {
+    if (this.validLanguages.indexOf(value) > -1) {
+      this._languageType = value;
+    } else {
+      this._languageType = this.defaultLanguage;
+    }
+  }
+  public get languageType(): string {
+    return this._languageType;
+  };
 
   @ViewChild('codeFromContent')
   public codeTemplateRef: any;
 
   public output: string;
+  private readonly defaultLanguage: string = 'markup';
+  private validLanguages: string[];
+  private _languageType: string = this.defaultLanguage;
 
-  public ngAfterViewInit(): void {
-    let html = '';
-
-    if (this.code) {
-      html = this.code;
-    } else {
-      html = this.codeTemplateRef.nativeElement.innerHTML;
+  public constructor(
+    private cdRef: ChangeDetectorRef) {
+      this.validLanguages = Object.keys(Prism.languages);
     }
 
-    this.output = Prism.highlight(html, Prism.languages[this.languageType]);
+  public ngAfterViewInit(): void {
+    let code = '';
+
+    if (this.code) {
+      code = this.code;
+    } else {
+      code = this.codeTemplateRef.nativeElement.innerText;
+    }
+
+    code = this.formatCode(code);
+    this.output = this.highlightCode(code);
+    this.cdRef.detectChanges();
   }
 
   public getClassNames(): string {
-    return `language-${this.languageType}`;
+    if (this.languageType) {
+      return `language-${this.languageType}`;
+    }
+  }
+
+  private formatCode(code: string): string {
+    return Prism.plugins.NormalizeWhitespace.normalize(code, {
+      'remove-trailing': true,
+      'remove-indent': true,
+      'left-trim': true,
+      'right-trim': true,
+      'indent': 0,
+      'remove-initial-line-feed': true,
+      'tabs-to-spaces': 2
+    });
+  }
+
+  private highlightCode(code: string): string {
+    return Prism.highlight(code, Prism.languages[this.languageType]);
   }
 }
