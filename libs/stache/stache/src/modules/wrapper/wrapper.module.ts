@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { Title } from '@angular/platform-browser';
 
+import { StacheTitleService } from './title.service';
 import { StachePageAnchorModule } from '../page-anchor/page-anchor.module';
 import { StacheLayoutModule } from '../layout/layout.module';
 
@@ -22,7 +22,7 @@ import { StacheWrapperComponent } from './wrapper.component';
     StacheWrapperComponent
   ],
   providers: [
-    Title
+    StacheTitleService
   ]
 })
 export class StacheWrapperModule { }

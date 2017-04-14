@@ -1,8 +1,8 @@
 /* tslint:disable:component-selector-name */
 import { Component, OnInit, Input, AfterContentInit, ContentChildren } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { StacheTitleService } from './title.service';
 import { StachePageAnchorComponent } from '../page-anchor/page-anchor.component';
 import { StacheNavLink } from '../nav/nav-link';
 
@@ -15,7 +15,7 @@ export class StacheWrapperComponent implements OnInit, AfterContentInit {
   public pageTitle: string;
 
   @Input()
-  public browserTitle: string;
+  public windowTitle: string;
 
   @Input()
   public layout = 'default';
@@ -41,14 +41,12 @@ export class StacheWrapperComponent implements OnInit, AfterContentInit {
   private pageAnchors: any;
 
   public constructor(
-    private titleService: Title,
+    private titleService: StacheTitleService,
     private route: ActivatedRoute,
     private router: Router) { }
 
   public ngOnInit(): void {
-    if (this.browserTitle) {
-      this.titleService.setTitle(this.browserTitle);
-    }
+    this.titleService.setTitle(this.windowTitle || this.pageTitle);
 
     this.route.fragment.subscribe(fragment => {
       setImmediate(() => {
