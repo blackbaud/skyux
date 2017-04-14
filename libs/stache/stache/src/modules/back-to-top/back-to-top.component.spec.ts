@@ -10,7 +10,7 @@ describe('StacheBackToTopComponent', () => {
   let component: StacheBackToTopComponent;
   let fixture: ComponentFixture<StacheBackToTopComponent>;
   let debugElement: DebugElement;
-  let windowRef: WindowRefService;
+  let windowRef: any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -65,6 +65,16 @@ describe('StacheBackToTopComponent', () => {
 
     fixture.whenStable().then(() => {
       expect(component.scrollToTop).toHaveBeenCalled();
+    });
+  });
+
+  it('should call the scroll method on the window when clicked', () => {
+    spyOn(windowRef, 'scroll');
+    let button = debugElement.nativeElement.querySelector('.stache-back-to-top');
+    button.click();
+
+    fixture.whenStable().then(() => {
+      expect(windowRef.scroll).toHaveBeenCalled();
     });
   });
 
