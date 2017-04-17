@@ -1,8 +1,9 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { SkyAppWindowRef } from '@blackbaud/skyux-builder/runtime';
+
 import { StacheNavLink } from '../nav/nav-link';
-import { WindowRefService } from '../shared/';
 
 @Component({
   selector: 'stache-page-anchor',
@@ -17,7 +18,7 @@ export class StachePageAnchorComponent implements OnInit, StacheNavLink {
   public constructor(
     private router: Router,
     private elementRef: ElementRef,
-    private windowRef: WindowRefService) { }
+    private windowRef: SkyAppWindowRef) { }
 
   public ngOnInit(): void {
     const element = this.elementRef.nativeElement;

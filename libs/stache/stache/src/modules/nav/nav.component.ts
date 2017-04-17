@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { SkyAppWindowRef } from '@blackbaud/skyux-builder/runtime';
+
 import { StacheNavLink } from './nav-link';
 import { StacheNav } from './nav';
-import { WindowRefService } from '../shared';
 
 @Component({
   selector: 'stache-nav',
@@ -21,7 +22,7 @@ export class StacheNavComponent implements OnInit, StacheNav {
 
   public constructor(
     private router: Router,
-    private windowRef: WindowRefService) {}
+    private windowRef: SkyAppWindowRef) {}
 
   public hasRoutes(): boolean {
     return (Array.isArray(this.routes) && this.routes.length > 0);

@@ -17,7 +17,6 @@ import { StacheLayoutModule } from './modules/layout/layout.module';
 import { StacheWrapperModule } from './modules/wrapper/wrapper.module';
 import { StachePageHeaderModule } from './modules/page-header/page-header.module';
 import { StachePageSummaryModule } from './modules/page-summary/page-summary.module';
-import { WindowRefService } from './modules/shared';
 
 smoothscroll.polyfill();
 
@@ -38,7 +37,6 @@ smoothscroll.polyfill();
     StachePageHeaderModule,
     StacheLayoutModule,
     StacheWrapperModule
-  ],
-  providers: [ WindowRefService ]
+  ]
 })
 export class StacheModule { }

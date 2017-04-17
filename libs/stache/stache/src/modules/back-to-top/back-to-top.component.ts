@@ -1,6 +1,8 @@
 import { Component, HostListener, Input } from '@angular/core';
 
-import { InputConverter, WindowRefService } from '../shared';
+import { SkyAppWindowRef } from '@blackbaud/skyux-builder/runtime';
+
+import { InputConverter } from '../shared';
 
 @Component({
   selector: 'stache-back-to-top',
@@ -15,7 +17,7 @@ export class StacheBackToTopComponent {
   public isHidden: boolean = true;
 
   public constructor(
-    private windowRef: WindowRefService) { }
+    private windowRef: SkyAppWindowRef) { }
 
   @HostListener('window:scroll')
   public onWindowScroll() {

@@ -1,10 +1,11 @@
 import { ComponentFixture, fakeAsync, inject, tick, TestBed } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
-import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
-import { TestUtility } from '../testing/testutility';
 
+import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
+import { SkyAppWindowRef } from '@blackbaud/skyux-builder/runtime';
+
+import { TestUtility } from '../testing/testutility';
 import { StacheBackToTopComponent } from './back-to-top.component';
-import { WindowRefService } from '../shared';
 
 describe('StacheBackToTopComponent', () => {
   let component: StacheBackToTopComponent;
@@ -15,7 +16,7 @@ describe('StacheBackToTopComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ StacheBackToTopComponent ],
-      providers: [ WindowRefService ]
+      providers: [ SkyAppWindowRef ]
     })
     .compileComponents();
 
@@ -24,7 +25,7 @@ describe('StacheBackToTopComponent', () => {
     debugElement = fixture.debugElement;
   });
 
-  beforeEach(inject([WindowRefService], (service: any) => {
+  beforeEach(inject([SkyAppWindowRef], (service: any) => {
     windowRef = service.nativeWindow;
   }));
 
