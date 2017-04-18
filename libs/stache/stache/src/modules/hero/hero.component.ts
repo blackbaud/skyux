@@ -7,13 +7,41 @@ import { Component, Input } from '@angular/core';
 })
 export class StacheHeroComponent {
   @Input()
-  set backgroundImageUrl(imageUrl: string) {
-    this._backgroundImageUrl = imageUrl;
+  public backgroundImageUrl: string;
+
+  @Input()
+  set overlayOpacity(opacityCandidate: string) {
+    let sanitizedCandidate = opacityCandidate.replace(/[^\d.-]/g, '');
+    let parsedInterval = this.parseInterval(sanitizedCandidate);
+    this._overlayOpacity = parsedInterval.toString();
   }
 
-  get backgroundImageUrl(): string {
-    return this._backgroundImageUrl;
+  get overlayOpacity(): string {
+    return this._overlayOpacity || this.defaultOpacity;
   }
 
-  private _backgroundImageUrl = 'none';
+  private readonly defaultOpacity: string = '0.4';
+  private _overlayOpacity: string;
+
+  private parseInterval(value: string): number {
+    let interval = parseFloat(value);
+
+    if (isNaN(interval)) {
+      return 0.4;
+    }
+
+    if (interval > 100) {
+      return 1;
+    }
+
+    if (interval < 0) {
+      return 0;
+    }
+
+    if (interval % 1 > 0) {
+      return interval;
+    }
+
+    return interval / 100;
+  }
 }
