@@ -22,9 +22,11 @@ export class StachePageAnchorComponent implements OnInit, StacheNavLink {
 
   public ngOnInit(): void {
     const element = this.elementRef.nativeElement;
-    let name = element.innerText || element.textContent;
-    name = name.trim();
-    let fragment = name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+    let name = element.textContent.trim();
+    let fragment = name
+      .toLowerCase()
+      .replace(/ /g, '-')
+      .replace(/[^\w-]+/g, '');
 
     this.name = name;
     this.fragment = fragment;
