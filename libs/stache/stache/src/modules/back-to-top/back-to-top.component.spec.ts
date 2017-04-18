@@ -4,7 +4,7 @@ import { DebugElement } from '@angular/core';
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 import { SkyAppWindowRef } from '@blackbaud/skyux-builder/runtime';
 
-import { TestUtility } from '../testing/testutility';
+import { TestUtility } from '../shared';
 import { StacheBackToTopComponent } from './back-to-top.component';
 
 describe('StacheBackToTopComponent', () => {
@@ -53,12 +53,12 @@ describe('StacheBackToTopComponent', () => {
 
   it('should show when the window y offset is greater than the specified offset', fakeAsync(() => {
     component.offset = 0;
-    TestUtility.fireDomEvent(windowRef, 'scroll');
+    TestUtility.triggerDomEvent(windowRef, 'scroll');
     tick();
     expect(component.isHidden).toBe(false);
   }));
 
-  it('should fire a click event on button click', () => {
+  it('should trigger a click event on button click', () => {
     spyOn(component, 'scrollToTop');
     let button = debugElement.nativeElement.querySelector('.stache-back-to-top');
     button.click();
