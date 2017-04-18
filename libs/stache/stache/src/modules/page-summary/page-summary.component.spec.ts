@@ -5,7 +5,7 @@ import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 import { StachePageSummaryComponent } from './page-summary.component';
 import { StachePageSummaryTestComponent } from './fixtures/page-summary.component.fixture';
 
-describe('Stache Page Summary Component', () => {
+describe('StachePageSummaryComponent', () => {
   let component: StachePageSummaryComponent;
   let fixture: ComponentFixture<StachePageSummaryComponent>;
 

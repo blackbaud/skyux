@@ -15,8 +15,12 @@ describe('StacheBackToTopComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ StacheBackToTopComponent ],
-      providers: [ SkyAppWindowRef ]
+      declarations: [
+        StacheBackToTopComponent
+      ],
+      providers: [
+        SkyAppWindowRef
+      ]
     })
     .compileComponents();
 
@@ -31,23 +35,19 @@ describe('StacheBackToTopComponent', () => {
 
   it('should have a default offset value of 200', () => {
     fixture.detectChanges();
-
     const expectedOffsetValue = component.offset;
     expect(expectedOffsetValue).toBe(200);
   });
 
   it('should have the set offset value', () => {
     component.offset = 400;
-
     fixture.detectChanges();
-
     const expectedOffsetValue = component.offset;
     expect(expectedOffsetValue).toBe(400);
   });
 
   it('should be hidden when the window y offset is less than the specified offset', () => {
     fixture.detectChanges();
-
     expect(component.isHidden).toBe(true);
   });
 
@@ -55,7 +55,6 @@ describe('StacheBackToTopComponent', () => {
     component.offset = 0;
     TestUtility.fireDomEvent(windowRef, 'scroll');
     tick();
-
     expect(component.isHidden).toBe(false);
   }));
 
@@ -63,20 +62,19 @@ describe('StacheBackToTopComponent', () => {
     spyOn(component, 'scrollToTop');
     let button = debugElement.nativeElement.querySelector('.stache-back-to-top');
     button.click();
-
-    fixture.whenStable().then(() => {
-      expect(component.scrollToTop).toHaveBeenCalled();
-    });
+    fixture.whenStable()
+      .then(() => {
+        expect(component.scrollToTop).toHaveBeenCalled();
+      });
   });
 
   it('should call the scroll method on the window when clicked', () => {
     spyOn(windowRef, 'scroll');
     let button = debugElement.nativeElement.querySelector('.stache-back-to-top');
     button.click();
-
-    fixture.whenStable().then(() => {
-      expect(windowRef.scroll).toHaveBeenCalled();
-    });
+    fixture.whenStable()
+      .then(() => {
+        expect(windowRef.scroll).toHaveBeenCalled();
+      });
   });
-
 });

@@ -63,17 +63,16 @@ describe('StacheNavComponent', () => {
   });
 
   it('should return true if a given route has child routes', () => {
-    component.routes = [{
-      name: 'Test',
-      path: '/test',
-      children: [{
-        name: 'Child', path: '/test/child'
-      }]
-    },
-    {
-      name: 'No Child',
-      path: '/no-child'
-    }];
+    component.routes = [
+      {
+        name: 'Test',
+        path: '/test',
+        children: [
+          { name: 'Child', path: '/test/child' }
+        ]
+      },
+      { name: 'No Child', path: '/no-child' }
+    ];
 
     const route = component.routes[0];
     const route2 = component.routes[1];
@@ -98,8 +97,8 @@ describe('StacheNavComponent', () => {
     const route = component.routes[0];
 
     fixture.detectChanges();
-
     component.navigate(route);
+
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/test'], {});
   });
 
@@ -108,8 +107,8 @@ describe('StacheNavComponent', () => {
     const route = component.routes[0];
 
     fixture.detectChanges();
-
     component.navigate(route);
+
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/', 'test'], {});
   });
 
@@ -119,8 +118,8 @@ describe('StacheNavComponent', () => {
     const route = component.routes[0];
 
     fixture.detectChanges();
-
     component.navigate(route);
+
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/test#heading'], {});
   });
 
@@ -129,15 +128,15 @@ describe('StacheNavComponent', () => {
     const route = component.routes[0];
 
     fixture.detectChanges();
-
     component.navigate(route);
+
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/test'], { fragment: 'Test' });
   });
 
   it('should set the classname based on the navType on init', () => {
     component.navType = 'sidebar';
-    component.ngOnInit();
 
+    component.ngOnInit();
     fixture.detectChanges();
 
     expect(component.classname).toBe('stache-nav-sidebar');
@@ -149,6 +148,7 @@ describe('StacheNavComponent', () => {
     let target = testFixture.nativeElement.querySelector('#some-header');
 
     spyOn(target, 'scrollIntoView');
+
     testComponent.routes = [{ name: 'Some Header', path: '/test', fragment: 'some-header' }];
     testFixture.detectChanges();
     component.navigate(testComponent.routes[0]);

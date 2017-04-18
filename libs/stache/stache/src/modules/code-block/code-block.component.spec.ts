@@ -39,19 +39,19 @@ describe('StacheCodeBlockComponent', () => {
   });
 
   it('should convert inner HTML to a string', () => {
-    const code = '$(document).ready(() => {';
+    const code = '<p>Hello, {{name}}!</p>';
     const testFixture = TestBed.createComponent(StacheCodeBlockTestComponent);
     const testElement = testFixture.nativeElement;
     testFixture.detectChanges();
-    expect(testElement.querySelector('.stache-code-output').innerText).toContain(code);
+    expect(testElement.querySelector('.stache-code-output').textContent).toContain(code);
   });
 
   it('should not honor angular bindings in the inner HTML', () => {
-    const code = '<p>Hey! {{name}}</p>';
+    const code = '<p>Hello, {{name}}!</p>';
     const testFixture = TestBed.createComponent(StacheCodeBlockTestComponent);
     const testElement = testFixture.nativeElement;
     testFixture.detectChanges();
-    expect(testElement.querySelector('.stache-code-output').innerText).toContain(code);
+    expect(testElement.querySelector('.stache-code-output').textContent).toContain(code);
   });
 
   it('should handle invalid language types', () => {
