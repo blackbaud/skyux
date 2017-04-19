@@ -53,10 +53,8 @@ export class StacheCodeBlockComponent implements AfterViewInit {
     this.cdRef.detectChanges();
   }
 
-  public getClassNames(): string {
-    if (this.languageType) {
-      return `language-${this.languageType}`;
-    }
+  public getClassName(): string {
+    return `language-${this.languageType}`;
   }
 
   private formatCode(code: string): string {

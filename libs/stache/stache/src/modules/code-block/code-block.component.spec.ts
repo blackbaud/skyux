@@ -67,5 +67,9 @@ describe('StacheCodeBlockComponent', () => {
     component.languageType = 'javascript';
     fixture.detectChanges();
     expect(element.querySelector('code.language-javascript')).toExist();
+
+    component.languageType = undefined;
+    fixture.detectChanges();
+    expect(element.querySelector('code.language-markup')).toExist();
   });
 });
