@@ -1,6 +1,8 @@
 /* tslint:disable:component-selector-name */
 import { Component, OnInit, Input, AfterContentInit, ContentChildren } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+
+import { SkyAppWindowRef } from '@blackbaud/skyux-builder/runtime';
 
 import { StacheTitleService } from './title.service';
 import { StachePageAnchorComponent } from '../page-anchor/page-anchor.component';
@@ -43,14 +45,14 @@ export class StacheWrapperComponent implements OnInit, AfterContentInit {
   public constructor(
     private titleService: StacheTitleService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private windowRef: SkyAppWindowRef) { }
 
   public ngOnInit(): void {
     this.titleService.setTitle(this.windowTitle || this.pageTitle);
 
     this.route.fragment.subscribe(fragment => {
-      setImmediate(() => {
-        const element = document.getElementById(fragment);
+      return Promise.resolve().then(() => {
+        const element = this.windowRef.nativeWindow.document.getElementById(fragment);
         if (element) {
           element.scrollIntoView();
         }
