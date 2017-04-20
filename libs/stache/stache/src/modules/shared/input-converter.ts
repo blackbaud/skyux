@@ -1,4 +1,10 @@
-const stringConverter = (value: any) => {
+import {} from 'reflect-metadata';
+
+// Inspiration for this script was taken from:
+// https://blog.rsuter.com/
+//  angular-2-typescript-property-decorator-that-converts-input-values-to-the-correct-type/
+
+export const stringConverter = (value: any) => {
   if (value === undefined || typeof value === 'string') {
     return value;
   }
@@ -6,7 +12,7 @@ const stringConverter = (value: any) => {
   return value.toString();
 };
 
-const booleanConverter = (value: any) => {
+export const booleanConverter = (value: any) => {
   if (value === undefined || typeof value === 'boolean') {
     return value;
   }
@@ -14,7 +20,7 @@ const booleanConverter = (value: any) => {
   return value.toString() === 'true';
 };
 
-const numberConverter = (value: any) => {
+export const numberConverter = (value: any) => {
   if (value === undefined || typeof value === 'number') {
     return value;
   }
@@ -22,10 +28,14 @@ const numberConverter = (value: any) => {
   return parseFloat(value.toString());
 };
 
+const getMetaData = (target: Object, key: string) => {
+  return Reflect.getMetadata('design:type', target, key);
+};
+
 export function InputConverter(converter?: (value: any) => any) {
   return (target: Object, key: string) => {
     if (converter === undefined) {
-      let metadata = (<any>Reflect).getMetadata('design:type', target, key);
+      let metadata = getMetaData(target, key);
 
       if (!metadata) {
         throw new Error('The reflection metadata could not be found.');
@@ -42,27 +52,15 @@ export function InputConverter(converter?: (value: any) => any) {
       }
     }
 
-    let definition = Object.getOwnPropertyDescriptor(target, key);
-    if (definition) {
-      Object.defineProperty(target, key, {
-        get: definition.get,
-        set: newValue => {
-          definition.set(converter(newValue));
-        },
-        enumerable: true,
-        configurable: true
-      });
-    } else {
-      Object.defineProperty(target, key, {
-        get: function () {
-          return this['__' + key];
-        },
-        set: function (newValue) {
-          this['__' + key] = converter(newValue);
-        },
-        enumerable: true,
-        configurable: true
-      });
-    }
+    Object.defineProperty(target, key, {
+      get: () => {
+        return this['__' + key];
+      },
+      set: value => {
+        this['__' + key] = converter(value);
+      },
+      enumerable: true,
+      configurable: true
+    });
   };
 }
