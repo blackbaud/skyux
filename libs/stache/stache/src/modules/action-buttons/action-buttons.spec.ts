@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { SkyModule } from '@blackbaud/skyux/dist/core';
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
@@ -13,19 +13,17 @@ describe('StacheActionButtonsComponent', () => {
   let component: StacheActionButtonsComponent;
   let fixture: ComponentFixture<StacheActionButtonsComponent>;
 
-  class MockRouter { }
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         SkyModule,
-        StacheGridModule
+        StacheGridModule,
+        RouterTestingModule
       ],
       declarations: [
         StacheActionButtonsComponent
       ],
       providers: [
-        { provide: Router, useClass: MockRouter },
         SkyAppWindowRef
       ]
     })

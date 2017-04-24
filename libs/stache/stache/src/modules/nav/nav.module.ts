@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { StacheNavComponent } from './nav.component';
+import { StacheNavService } from './nav.service';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,9 @@ import { StacheNavComponent } from './nav.component';
   ],
   exports: [
     StacheNavComponent
+  ],
+  providers: [
+    StacheNavService
   ]
 })
 export class StacheNavModule { }

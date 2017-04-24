@@ -22,7 +22,7 @@ export class StacheNavComponent implements OnInit, StacheNav {
 
   public constructor(
     private router: Router,
-    private windowRef: SkyAppWindowRef) {}
+    private windowRef: SkyAppWindowRef) { }
 
   public hasRoutes(): boolean {
     return (Array.isArray(this.routes) && this.routes.length > 0);
@@ -33,17 +33,20 @@ export class StacheNavComponent implements OnInit, StacheNav {
   }
 
   public isActive(route: any): boolean {
+    const activeUrl = this.router.url.split('#')[0];
     let path = route.path;
+    let navDepth: number;
 
     if (path.join) {
+      navDepth = path.length;
       path = path.join('/');
+    } else {
+      navDepth = path.split('/').length;
     }
 
-    if (this.router.url.includes('#')) {
-      return (this.router.url.split('#')[0] === path);
-    } else {
-      return (this.router.url === path);
-    }
+    const isActiveParent = (navDepth > 2  && `${activeUrl}/`.indexOf(`${path}/`) === 0);
+
+    return (isActiveParent || activeUrl === path);
   }
 
   public scrollToElement(id: string) {
@@ -59,6 +62,7 @@ export class StacheNavComponent implements OnInit, StacheNav {
     if (route.fragment) {
       extras.fragment = route.fragment;
       this.scrollToElement(route.fragment);
+      return;
     }
 
     if (Array.isArray(route.path)) {

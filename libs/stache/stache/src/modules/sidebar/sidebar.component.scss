@@ -9,6 +9,15 @@
     padding-bottom: 8px;
   }
 
+  .stache-nav-list-item {
+    &.active {
+      > .stache-nav-anchor {
+        background-color: $stache-color-blue;
+        color: #fff;
+      }
+    }
+  }
+
   .stache-nav-anchor {
     padding: $stache-nav-item-padding/2 $stache-nav-item-padding;
     color: $stache-color-text;
@@ -17,24 +26,33 @@
     &:hover {
       background-color: $stache-color-gray-light;
     }
-
-    &.active,
-    &.active:hover {
-      background-color: $stache-color-blue;
-      color: #fff;
-    }
   }
 
-  .stache-nav-sidebar .stache-nav-sidebar {
-    background-color: $stache-color-gray-light;
-    padding: 0; 
-    margin-bottom: 8px;
+  .stache-nav-sidebar {
+    .stache-nav-sub {
+      background-color: $stache-color-gray-light;
+      padding: 0; 
+      margin-bottom: 8px;
+      display: none;
 
-    .stache-nav-anchor {
-      padding-left:$stache-nav-item-padding * 2;
+      .stache-nav-anchor {
+        padding-left:$stache-nav-item-padding * 2;
 
-      &:hover {
-        background-color: $stache-color-gray;
+        &:hover {
+          background-color: $stache-color-gray;
+        }
+      }
+
+      .stache-nav-sub {
+        display: none;
+      }
+    }
+
+    .stache-nav-list-item {
+      &.active {
+        > stache-nav > .stache-nav {
+          display: block;
+        }
       }
     }
   }

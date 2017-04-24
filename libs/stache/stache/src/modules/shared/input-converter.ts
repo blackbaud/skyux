@@ -53,10 +53,10 @@ export function InputConverter(converter?: (value: any) => any) {
     }
 
     Object.defineProperty(target, key, {
-      get: () => {
+      get: function () {
         return this['__' + key];
       },
-      set: value => {
+      set: function (value) {
         this['__' + key] = converter(value);
       },
       enumerable: true,

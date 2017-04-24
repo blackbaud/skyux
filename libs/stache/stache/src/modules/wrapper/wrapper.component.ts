@@ -23,10 +23,10 @@ export class StacheWrapperComponent implements OnInit, AfterContentInit {
   public layout = 'default';
 
   @Input()
-  public sidebarRoutes: StacheNavLink[] = [];
+  public sidebarRoutes: StacheNavLink[];
 
   @Input()
-  public breadcrumbsRoutes: StacheNavLink[] = [];
+  public breadcrumbsRoutes: StacheNavLink[];
 
   @Input()
   public showBreadcrumbs: boolean = false;

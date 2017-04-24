@@ -124,13 +124,14 @@ describe('StacheNavComponent', () => {
   });
 
   it('should pass in a fragment with the route if provided', () => {
+    spyOn(component, 'scrollToElement');
     component.routes = [{ name: 'Test', path: '/test', fragment: 'Test' }];
     const route = component.routes[0];
 
     fixture.detectChanges();
     component.navigate(route);
 
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['/test'], { fragment: 'Test' });
+    expect(component.scrollToElement).toHaveBeenCalled();
   });
 
   it('should set the classname based on the navType on init', () => {
@@ -154,5 +155,19 @@ describe('StacheNavComponent', () => {
     component.navigate(testComponent.routes[0]);
 
     expect(target.scrollIntoView).toHaveBeenCalled();
+  });
+
+  it('should not call scrollToElement if the fragment does not match an element ID', () => {
+    let testFixture = TestBed.createComponent(StacheNavTestComponent);
+    let testComponent = fixture.componentInstance;
+    let target = testFixture.nativeElement.querySelector('#some-header');
+
+    spyOn(target, 'scrollIntoView');
+
+    testComponent.routes = [{ name: '', path: '', fragment: 'invalid-fragment' }];
+    testFixture.detectChanges();
+    component.navigate(testComponent.routes[0]);
+
+    expect(target.scrollIntoView).not.toHaveBeenCalled();
   });
 });

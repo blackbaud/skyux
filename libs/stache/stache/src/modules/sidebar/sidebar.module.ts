@@ -16,4 +16,4 @@ import { StacheSidebarComponent } from './sidebar.component';
     StacheSidebarComponent
   ]
 })
-export class StacheSidebarModule {}
+export class StacheSidebarModule { }
