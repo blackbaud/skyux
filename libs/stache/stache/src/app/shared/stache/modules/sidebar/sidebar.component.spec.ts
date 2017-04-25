@@ -7,13 +7,13 @@ import { Observable } from 'rxjs';
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 import { SkyAppWindowRef, SkyAppConfig } from '@blackbaud/skyux-builder/runtime';
 
-import { StacheBreadcrumbsComponent } from './breadcrumbs.component';
-import { StacheNavModule } from '../nav/nav.module';
+import { StacheSidebarComponent } from './sidebar.component';
+import { StacheNavComponent } from '../nav/nav.component';
+import { StacheNavService } from '../nav/nav.service';
 
-describe('StacheBreadcrumbsComponent', () => {
-  let component: StacheBreadcrumbsComponent;
-  let fixture: ComponentFixture<StacheBreadcrumbsComponent>;
-  let router: Router;
+describe('StacheSidebarComponent', () => {
+  let component: StacheSidebarComponent;
+  let fixture: ComponentFixture<StacheSidebarComponent>;
 
   class MockSkyAppConfig {
     public runtime: any = {
@@ -29,6 +29,9 @@ describe('StacheBreadcrumbsComponent', () => {
         },
         {
           routePath: 'parent/child/grandchild'
+        },
+        {
+          routePath: 'parent/child/grandchild/grand-grandchild'
         },
         {
           routePath: 'other-route'
@@ -53,22 +56,20 @@ describe('StacheBreadcrumbsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StacheNavModule
-      ],
       declarations: [
-        StacheBreadcrumbsComponent
+        StacheNavComponent,
+        StacheSidebarComponent
       ],
       providers: [
         SkyAppWindowRef,
+        StacheNavService,
         { provide: SkyAppConfig, useClass: MockSkyAppConfig },
         { provide: Router, useClass: MockRouter }
       ]
     })
     .compileComponents();
 
-    router = TestBed.get(Router);
-    fixture = TestBed.createComponent(StacheBreadcrumbsComponent);
+    fixture = TestBed.createComponent(StacheSidebarComponent);
     component = fixture.componentInstance;
   });
 
@@ -88,15 +89,14 @@ describe('StacheBreadcrumbsComponent', () => {
     expect(links.length).toBe(2);
   });
 
-  it('should generate routes from SkyAppConfig', () => {
+  it('should automatically generate routes from SkyAppConfig', () => {
     fixture.detectChanges();
-    expect(component.routes.length).toBe(4);
+    expect(component.routes.length).toBe(2);
+    expect(component.routes[1].children.length).toBe(1);
   });
 
-  it('should add a link to the home page', () => {
-    router.url = '/';
-    component.ngOnInit();
+  it('should automatically add a link to an overview page', () => {
     fixture.detectChanges();
-    expect(component.routes[0].name).toBe('Home');
+    expect(component.routes[0].name).toBe('Overview');
   });
 });

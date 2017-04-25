@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { StacheNavLink } from '../../../modules/nav/nav-link';
+import { StacheNavLink } from '../../shared/stache/modules/nav/nav-link';
 
 @Component({
   selector: 'stache-breadcrumbs-demo',

@@ -1,22 +1,20 @@
 import { NgModule } from '@angular/core';
 
-import { StacheModule } from '../core';
+require('smoothscroll-polyfill').polyfill();
 
 import { StacheDemoComponentService } from './components/demo-component.service';
+import { StacheTitleService } from './shared/stache/modules/wrapper/title.service';
+import { StacheNavService } from './shared/stache/modules/nav/nav.service';
 
 require('style-loader!./app.scss');
+require('style-loader!prismjs/themes/prism.css');
 
 // Specify entry components, module-level providers, etc. here.
 @NgModule({
-  imports: [
-    StacheModule
-  ],
-  exports: [
-    StacheModule
-  ],
   providers: [
-    StacheDemoComponentService
-  ],
-  entryComponents: []
+    StacheDemoComponentService,
+    StacheTitleService,
+    StacheNavService
+  ]
 })
 export class AppExtrasModule { }

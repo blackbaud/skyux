@@ -6,7 +6,8 @@ import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 import { SkyAppWindowRef } from '@blackbaud/skyux-builder/runtime';
 
 import { StacheTableOfContentsComponent } from './table-of-contents.component';
-import { StacheNavModule } from '../nav/nav.module';
+import { StacheNavComponent } from '../nav/nav.component';
+import { StacheNavService } from '../nav/nav.service';
 
 describe('StacheTableOfContentsComponent', () => {
   let component: StacheTableOfContentsComponent;
@@ -18,15 +19,14 @@ describe('StacheTableOfContentsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StacheNavModule
-      ],
       declarations: [
+        StacheNavComponent,
         StacheTableOfContentsComponent
       ],
       providers: [
         { provide: Router, useClass: MockRouter },
-        SkyAppWindowRef
+        SkyAppWindowRef,
+        StacheNavService
       ]
     })
     .compileComponents();
