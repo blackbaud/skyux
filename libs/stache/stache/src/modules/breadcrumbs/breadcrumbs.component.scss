@@ -4,10 +4,9 @@
 .stache-breadcrumbs {
   .stache-nav-breadcrumbs {
     color: $stache-color-text-muted;
-    margin-bottom: $stache-grid-padding;
+    margin-bottom: $stache-grid-padding * 2;
     background-color: $stache-color-gray-lightest;
-    border-radius: $stache-border-radius;
-    padding: 8px 15px;
+    padding: 8px $stache-grid-padding;
     
     .stache-nav-list {
       flex-direction: row;
@@ -20,6 +19,7 @@
         &:before {
           content: '/';
           margin-right: 5px;
+          color: $stache-color-text-muted;
         }
       }
 

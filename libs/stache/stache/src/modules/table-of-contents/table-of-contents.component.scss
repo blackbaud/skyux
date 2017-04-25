@@ -2,16 +2,18 @@
 
 /deep/
 .stache-table-of-contents {
-  margin: 2em 0;
+  margin: 1.2em 0;
 
   .stache-nav-list {
     list-style-type: decimal;
     margin-left: 15px;
+    color: $stache-color-text;
   }
 
   .stache-nav-list-item {
     margin: 0 0 .5em;
     padding-left: .5em;
+    line-height: 1em;
 
     &:last-child {
       margin-bottom: 0;
@@ -26,15 +28,11 @@
 }
 
 .stache-table-of-contents-wrapper {
-  border: 1px solid $stache-color-gray-light;
-  background-color: #fff;
-  padding: 15px 20px;
-  display: inline-block;
-  border-radius: $stache-border-radius;
-  border-bottom: 1px solid #ccc;
+  border-left: 4px solid $stache-color-blue;
+  padding: 6px 0 12px 19px;
 }
 
 .stache-table-of-contents-heading {
-  text-align: center;
   margin: 0 0 .7em;
+  font-size: 1.1em;
 }

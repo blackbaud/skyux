@@ -92,6 +92,15 @@ describe('StacheNavComponent', () => {
     expect(component.isActive(route)).toBe(true);
   });
 
+  it('should return true if a given route is current', () => {
+    component.routes = [{ name: 'Test', path: '/test' }];
+    const route = component.routes[0];
+
+    fixture.detectChanges();
+
+    expect(component.isCurrent(route)).toBe(true);
+  });
+
   it('should navigate to the route passed in', () => {
     component.routes = [{ name: 'Test', path: '/test' }];
     const route = component.routes[0];

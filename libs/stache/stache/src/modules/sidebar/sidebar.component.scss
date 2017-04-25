@@ -2,46 +2,41 @@
 
 /deep/
 .stache-sidebar {
-
-  .stache-nav-sidebar {
-    background-color: $stache-color-gray-lightest;
-    padding-top: 8px;
-    padding-bottom: 8px;
-  }
-
   .stache-nav-list-item {
+    margin: 3px 0;
+
     &.active {
       > .stache-nav-anchor {
-        background-color: $stache-color-blue;
-        color: #fff;
+        border-left-color: $stache-color-blue;
+        color: $stache-color-text;
+      }
+    }
+
+    &.current {
+      > .stache-nav-anchor {
+        font-weight: 600;
+      }
+    }
+
+    &:hover {
+      > .stache-nav-anchor {
+        color: $stache-color-text;
       }
     }
   }
 
   .stache-nav-anchor {
-    padding: $stache-nav-item-padding/2 $stache-nav-item-padding;
-    color: $stache-color-text;
+    padding: 3px 5px 3px 11px;
+    color: $stache-color-text-muted;
+    border-left: 4px solid transparent;
     display: block;
-
-    &:hover {
-      background-color: $stache-color-gray-light;
-    }
+    line-height: 1;
   }
 
   .stache-nav-sidebar {
     .stache-nav-sub {
-      background-color: $stache-color-gray-light;
-      padding: 0; 
-      margin-bottom: 8px;
+      padding: 4px 0 4px 15px; 
       display: none;
-
-      .stache-nav-anchor {
-        padding-left:$stache-nav-item-padding * 2;
-
-        &:hover {
-          background-color: $stache-color-gray;
-        }
-      }
 
       .stache-nav-sub {
         display: none;

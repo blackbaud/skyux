@@ -1,3 +1,22 @@
+@import '../../styles/_variables';
+
 .stache-container {
   max-width: 100%;
+}
+
+/deep/
+.stache-container {
+  p,
+  ul,
+  ol,
+  li,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: $stache-line-height;
+    color: $stache-color-text;
+  }
 }

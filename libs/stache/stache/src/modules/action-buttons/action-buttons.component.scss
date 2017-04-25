@@ -1,22 +1,28 @@
 @import '../../styles/_variables';
 
-/deep/
 .stache-action-buttons {
   display: inline-flex;
   flex-wrap: wrap;
+  margin: 1em 0;
+}
 
+.stache-action-button-override {
+  flex: 100%;
+  display: inline-flex;
+}
+
+/deep/
+.stache-action-buttons {
   .stache-column {
     display: inline-flex;
   }
+}
 
-  .stache-action-button-override {
-    flex: 100%;
-    display: inline-flex;
-
-    .sky-action-button {
-      width: 100%;
-      max-width: none;
-      margin: 0 0 $stache-grid-padding * 2;
-    }
+/deep/
+.stache-action-button-override {
+  .sky-action-button {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 0 $stache-grid-padding * 2 !important;
   }
 }

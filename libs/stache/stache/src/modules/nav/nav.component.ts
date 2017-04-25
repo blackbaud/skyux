@@ -49,6 +49,17 @@ export class StacheNavComponent implements OnInit, StacheNav {
     return (isActiveParent || activeUrl === path);
   }
 
+  public isCurrent(route: any): boolean {
+    const activeUrl = this.router.url.split('#')[0];
+    let path = route.path;
+
+    if (path.join) {
+      path = path.join('/');
+    }
+
+    return (activeUrl === path);
+  }
+
   public scrollToElement(id: string) {
     let element = this.windowRef.nativeWindow.document.getElementById(id);
     if (element) {

@@ -1,33 +1,32 @@
 @import '../../styles/_variables';
 
 .stache-page-anchor {
-  border-bottom: 1px solid $stache-color-gray-light;
-  padding-bottom: 1em;
-  margin: 3em 0 2em;
+  padding-top: 2em;
+  margin: 0 0 1em;
+  padding-bottom: 0.6em;
+  border-bottom: 1px solid $stache-color-gray-lighter;
 
   &:hover {
     .stache-page-anchor-icon {
-      display: block;
+      opacity: 1;
     }
   }
 }
 
 .stache-page-anchor-heading {
   margin: 0;
-  position: relative;
-
-  &:hover {
-    color: $stache-color-link;
-    cursor: pointer;
-  }
+  display: inline-block;
+  color: $stache-color-text;
 }
 
-.fa.stache-page-anchor-icon {
-  display: none;
-  position: absolute;
-  right: 100%;
-  top: 30%;
-  padding-right: 4px;
-  font-size: .6em;
-  color: $stache-color-text;
+.stache-page-anchor-icon {
+  opacity: 0;
+  display: inline-block;
+  margin-left: 3px;
+  height: 1.1em;
+  transition: opacity 300ms;
+
+  &:hover {
+    cursor: pointer;
+  }
 }

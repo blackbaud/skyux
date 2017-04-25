@@ -18,12 +18,15 @@ $stache-color-green: $sky-color-green !default;
 $stache-color-purple: $sky-color-purple !default;
 $stache-color-link: $sky-link-color !default;
 $stache-color-link-hover: $sky-link-hover-color !default;
-$stache-color-gray-lightest: #f2f2f2 !default;
-$stache-color-gray-light: #e6e6e6 !default;
-$stache-color-gray: #d6d6d6 !default;
+
+$stache-color-gray: $sky-color-gray !default;
+$stache-color-gray-light: $sky-color-gray-light !default;
+$stache-color-gray-lighter: #eaecef !default;
+$stache-color-gray-lightest: #f7f7f7 !default;
+
 $stache-color-menu-link-hover: $sky-link-hover-color !default;
 $stache-color-white: $sky-color-white !default;
 
-$stache-screen-sm: 768px !default;
-$stache-screen-md: 992px !default;
-$stache-screen-lg: 1200px !default;
+$stache-screen-sm: $sky-screen-sm-min !default;
+$stache-screen-md: $sky-screen-md-min !default;
+$stache-screen-lg: $sky-screen-lg-min !default;

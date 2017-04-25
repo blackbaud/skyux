@@ -19,6 +19,22 @@ $sky-color-gray-10: #e2e3e4 !default;
 
 // end of new colors
 
+$sky-info-background-color: #d9edf7 !default;
+$sky-info-border-color: #bce8f1 !default;
+$sky-info-text-color: #31708f !default;
+
+$sky-success-background-color: #dff0d8 !default;
+$sky-success-border-color: #d6e9c6 !default;
+$sky-success-text-color: #3c763d !default;
+
+$sky-warning-background-color: #fcf8e3 !default;
+$sky-warning-border-color: #faebcc !default;
+$sky-warning-text-color: #8a6d3b !default;
+
+$sky-danger-background-color: #f2dede !default;
+$sky-danger-border-color: #ebccd1 !default;
+$sky-danger-text-color: #ca2a2a !default;
+
 $sky-color-green: #1ab394 !default;
 $sky-color-blue: #1c84c6 !default;
 $sky-color-aqua: #23c6c8 !default;
@@ -164,7 +180,7 @@ $sky-toolbar-min-height: 49px;
 
 // begin wait
 $sky-wait-color: $sky-color-blue !default;
-$sky-wait-mask-color: $sky-color-white !default;
+$sky-wait-mask-color: rgba(255, 255, 255, 0.7) !default;
 $sky-page-wait-z-index: 2000 !default;
 // end wait
 

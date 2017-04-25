@@ -53,10 +53,10 @@ describe('StachePageAnchorComponent', () => {
     expect(id).toBe('test-content');
   });
 
-  it('should call the addHashToUrl method when the heading is clicked', () => {
+  it('should call the addHashToUrl method when the icon is clicked', () => {
     spyOn(component, 'addHashToUrl');
-    const heading = debugElement.nativeElement.querySelector('.stache-page-anchor-heading');
-    heading.click();
+    const icon = debugElement.nativeElement.querySelector('.stache-page-anchor-icon');
+    icon.click();
     fixture.whenStable()
       .then(() => {
         expect(component.addHashToUrl).toHaveBeenCalled();
