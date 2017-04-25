@@ -15,6 +15,10 @@ export class StacheDemoPageComponent implements OnInit {
   public routes: StacheNavLink[] = [{
     name: 'Overview',
     path: '/components'
+  },
+  {
+    name: 'Hero',
+    path: '/components/hero'
   }];
   public component: StacheDemoComponent;
   public demoFiles: any;

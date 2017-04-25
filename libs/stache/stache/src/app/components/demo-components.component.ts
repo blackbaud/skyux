@@ -15,6 +15,12 @@ export class StacheDemoComponentsComponent implements OnInit {
     path: '/components',
     icon: 'cog',
     summary: 'Lorem and stuff.'
+  },
+  {
+    name: 'Hero',
+    path: '/components/hero',
+    icon: 'picture-o',
+    summary: 'Add a banner image with header information to your Stache pages.'
   }];
 
   public constructor(private componentService: StacheDemoComponentService) { }
