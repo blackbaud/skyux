@@ -88,9 +88,16 @@ describe('StacheBreadcrumbsComponent', () => {
     expect(links.length).toBe(2);
   });
 
-  it('should generate routes from SkyAppConfig', () => {
+  it('should generate grandchild routes from SkyAppConfig', () => {
     fixture.detectChanges();
     expect(component.routes.length).toBe(4);
+  });
+
+  it('should generate child routes from SkyAppConfig', () => {
+    router.url = '/parent/child';
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(component.routes.length).toBe(3);
   });
 
   it('should add a link to the home page', () => {
