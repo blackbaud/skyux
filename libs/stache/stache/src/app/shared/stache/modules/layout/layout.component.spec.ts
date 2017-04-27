@@ -77,9 +77,9 @@ describe('StacheLayoutComponent', () => {
     expect(component.showBackToTop).toBe(true);
   });
 
-  it('should set the input, layoutType, to default by default', () => {
+  it('should set the input, layoutType, to sidebar by default', () => {
     fixture.detectChanges();
-    expect(component.layoutType).toBe('default');
+    expect(component.layoutType).toBe('sidebar');
   });
 
   it('should set the template ref to blank given the layoutType', () => {
@@ -89,10 +89,10 @@ describe('StacheLayoutComponent', () => {
     expect(component.templateRef).toBe(layout);
   });
 
-  it('should set the template ref to default given the layoutType', () => {
-    component.layoutType = 'default';
+  it('should set the template ref to container given the layoutType', () => {
+    component.layoutType = 'container';
     fixture.detectChanges();
-    let layout = component['defaultTemplateRef'];
+    let layout = component['containerTemplateRef'];
     expect(component.templateRef).toBe(layout);
   });
 

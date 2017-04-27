@@ -16,8 +16,8 @@
   </stache-layout-blank>
 </template>
 
-<template #defaultLayout>
-  <stache-layout-default
+<template #containerLayout>
+  <stache-layout-container
     [pageTitle]="pageTitle"
     [showBackToTop]="showBackToTop"
     [showBreadcrumbs]="showBreadcrumbs"
@@ -28,7 +28,7 @@
     </template>
     <template [ngTemplateOutlet]="content">
     </template>
-  </stache-layout-default>
+  </stache-layout-container>
 </template>
 
 <template #sidebarLayout>

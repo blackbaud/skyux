@@ -5,10 +5,10 @@ import { InputConverter } from '../shared';
 import { StacheNavLink } from '../nav/nav-link';
 
 @Component({
-  selector: 'stache-layout-default',
-  templateUrl: './layout-default.component.html'
+  selector: 'stache-layout-container',
+  templateUrl: './layout-container.component.html'
 })
-export class StacheLayoutDefaultComponent implements StacheLayout {
+export class StacheLayoutContainerComponent implements StacheLayout {
   @Input()
   public pageTitle: string;
 

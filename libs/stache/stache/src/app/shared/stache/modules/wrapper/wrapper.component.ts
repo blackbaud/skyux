@@ -20,7 +20,7 @@ export class StacheWrapperComponent implements OnInit, AfterContentInit {
   public windowTitle: string;
 
   @Input()
-  public layout = 'default';
+  public layout = 'sidebar';
 
   @Input()
   public sidebarRoutes: StacheNavLink[];
@@ -29,7 +29,7 @@ export class StacheWrapperComponent implements OnInit, AfterContentInit {
   public breadcrumbsRoutes: StacheNavLink[];
 
   @Input()
-  public showBreadcrumbs: boolean = false;
+  public showBreadcrumbs: boolean = true;
 
   @Input()
   public showTableOfContents: boolean = false;

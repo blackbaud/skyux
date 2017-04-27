@@ -16,7 +16,7 @@ import { StachePageSummaryModule } from '../page-summary/page-summary.module';
 import { StacheContainerComponent } from './container.component';
 import { StacheLayoutComponent } from './layout.component';
 import { StacheLayoutBlankComponent } from './layout-blank.component';
-import { StacheLayoutDefaultComponent } from './layout-default.component';
+import { StacheLayoutContainerComponent } from './layout-container.component';
 import { StacheLayoutSidebarComponent } from './layout-sidebar.component';
 
 @NgModule({
@@ -38,7 +38,7 @@ import { StacheLayoutSidebarComponent } from './layout-sidebar.component';
     StacheContainerComponent,
     StacheLayoutComponent,
     StacheLayoutBlankComponent,
-    StacheLayoutDefaultComponent,
+    StacheLayoutContainerComponent,
     StacheLayoutSidebarComponent
   ],
   exports: [

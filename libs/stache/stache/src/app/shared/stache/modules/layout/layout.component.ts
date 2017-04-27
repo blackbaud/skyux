@@ -12,7 +12,7 @@ export class StacheLayoutComponent implements OnInit, StacheLayout {
   public pageTitle: string;
 
   @Input()
-  public layoutType = 'default';
+  public layoutType = 'sidebar';
 
   @Input()
   public inPageRoutes: StacheNavLink[];
@@ -37,8 +37,8 @@ export class StacheLayoutComponent implements OnInit, StacheLayout {
   @ViewChild('blankLayout')
   private blankTemplateRef: any;
 
-  @ViewChild('defaultLayout')
-  private defaultTemplateRef: any;
+  @ViewChild('containerLayout')
+  private containerTemplateRef: any;
 
   @ViewChild('sidebarLayout')
   private sidebarTemplateRef: any;
@@ -52,7 +52,7 @@ export class StacheLayoutComponent implements OnInit, StacheLayout {
         this.templateRef = this.sidebarTemplateRef;
         break;
       default:
-        this.templateRef = this.defaultTemplateRef;
+        this.templateRef = this.containerTemplateRef;
         break;
     }
   }

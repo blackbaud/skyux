@@ -123,14 +123,14 @@ describe('StacheWrapperComponent', () => {
     expect(component.showBackToTop).toBe(false);
   });
 
-  it('should set the input, showBreadcrumbs, to false by default', () => {
+  it('should set the input, showBreadcrumbs, to true by default', () => {
     fixture.detectChanges();
-    expect(component.showBreadcrumbs).toBe(false);
+    expect(component.showBreadcrumbs).toBe(true);
   });
 
-  it('should set the input, layout, to "default" by default', () => {
+  it('should set the input, layout, to "sidebar" by default', () => {
     fixture.detectChanges();
-    expect(component.layout).toBe('default');
+    expect(component.layout).toBe('sidebar');
   });
 
   it('should set the input, showTableOfContents, to false by default', () => {

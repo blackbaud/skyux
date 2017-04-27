@@ -3,17 +3,17 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 
-import { StacheLayoutDefaultComponent } from './layout-default.component';
+import { StacheLayoutContainerComponent } from './layout-container.component';
 
-describe('StacheLayoutDefaultComponent', () => {
-  let component: StacheLayoutDefaultComponent;
-  let fixture: ComponentFixture<StacheLayoutDefaultComponent>;
+describe('StacheLayoutContainerComponent', () => {
+  let component: StacheLayoutContainerComponent;
+  let fixture: ComponentFixture<StacheLayoutContainerComponent>;
   let sampleRoutes = [{ name: 'test', path: '/test' }];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
-        StacheLayoutDefaultComponent
+        StacheLayoutContainerComponent
       ],
       schemas: [
         NO_ERRORS_SCHEMA
@@ -21,7 +21,7 @@ describe('StacheLayoutDefaultComponent', () => {
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(StacheLayoutDefaultComponent);
+    fixture = TestBed.createComponent(StacheLayoutContainerComponent);
     component = fixture.componentInstance;
   });
 
