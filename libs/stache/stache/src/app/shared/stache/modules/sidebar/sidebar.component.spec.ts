@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router, NavigationStart } from '@angular/router';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
@@ -65,7 +66,8 @@ describe('StacheSidebarComponent', () => {
         StacheNavService,
         { provide: SkyAppConfig, useClass: MockSkyAppConfig },
         { provide: Router, useClass: MockRouter }
-      ]
+      ],
+      schemas: [ NO_ERRORS_SCHEMA ]
     })
     .compileComponents();
 
@@ -91,12 +93,12 @@ describe('StacheSidebarComponent', () => {
 
   it('should automatically generate routes from SkyAppConfig', () => {
     fixture.detectChanges();
-    expect(component.routes.length).toBe(2);
-    expect(component.routes[1].children.length).toBe(1);
+    expect(component.routes.length).toBe(1);
+    expect(component.routes[0].children.length).toBe(1);
   });
 
-  it('should automatically add a link to an overview page', () => {
+  it('should automatically add a link to the top-level page', () => {
     fixture.detectChanges();
-    expect(component.routes[0].name).toBe('Overview');
+    expect(component.routes[0].name).toBe('Child');
   });
 });

@@ -1,5 +1,26 @@
 @import '../../styles/_variables';
 
+.stache-sidebar-heading {
+  font-size: 1.5em;
+  font-weight: 300;
+  font-family: $stache-font-family-narrow;
+  margin: 0.7em 0 0.85em;
+  cursor: pointer;
+  color: $stache-color-text;
+  display: inline-block;
+  padding-left: 11px;
+  line-height: 1.1;
+  border-left: 4px solid transparent;
+
+  &.active {
+    border-left-color: $stache-color-blue;
+  }
+
+  &:hover {
+    color: $stache-color-link;
+  }
+}
+
 /deep/
 .stache-sidebar {
   .stache-nav-list-item {

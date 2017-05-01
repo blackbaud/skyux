@@ -10,6 +10,8 @@ import { StacheNav, StacheNavLink, StacheNavService } from '../nav';
 export class StacheSidebarComponent implements StacheNav, OnInit {
   @Input()
   public routes: StacheNavLink[];
+  public heading: string;
+  public headingRoute: string | string[];
 
   public constructor(
     private navService: StacheNavService) { }
@@ -21,13 +23,16 @@ export class StacheSidebarComponent implements StacheNav, OnInit {
     }
   }
 
+  public isActive(): boolean {
+    const url = this.navService.getActiveUrl();
+    return (url === this.headingRoute);
+  }
+
   private filterRoutes(activeRoutes: StacheNavLink[]): StacheNavLink[] {
     const root = activeRoutes[0];
 
-    root.children.unshift({
-      name: 'Overview',
-      path: root.path
-    } as StacheNavLink);
+    this.heading = root.name;
+    this.headingRoute = root.path;
 
     return root.children;
   }
