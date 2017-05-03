@@ -14,7 +14,8 @@ import { StacheNavService } from './nav.service';
     RouterModule
   ],
   exports: [
-    StacheNavComponent
+    StacheNavComponent,
+    RouterModule
   ],
   providers: [
     StacheNavService

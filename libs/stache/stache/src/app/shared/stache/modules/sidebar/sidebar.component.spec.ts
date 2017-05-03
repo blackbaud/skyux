@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router, NavigationStart } from '@angular/router';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { Observable } from 'rxjs';
-
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 import { SkyAppWindowRef, SkyAppConfig } from '@blackbaud/skyux-builder/runtime';
 
 import { StacheSidebarComponent } from './sidebar.component';
 import { StacheNavComponent } from '../nav/nav.component';
 import { StacheNavService } from '../nav/nav.service';
+
+import { RouterLinkStubDirective } from './fixtures/router-link-stub.directive';
 
 describe('StacheSidebarComponent', () => {
   let component: StacheSidebarComponent;
@@ -59,15 +59,15 @@ describe('StacheSidebarComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         StacheNavComponent,
-        StacheSidebarComponent
+        StacheSidebarComponent,
+        RouterLinkStubDirective
       ],
       providers: [
         SkyAppWindowRef,
         StacheNavService,
         { provide: SkyAppConfig, useClass: MockSkyAppConfig },
         { provide: Router, useClass: MockRouter }
-      ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      ]
     })
     .compileComponents();
 
