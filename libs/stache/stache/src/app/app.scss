@@ -1,9 +1,0 @@
-@import './shared/stache/styles/_variables';
-
-.highlight-columns {
-  .stache-column {
-    background-color: lighten($sky-color-aqua, 30%);
-    border: 1px solid lighten($sky-color-aqua, 15%);
-    overflow-wrap: break-word;
-  }
-}
