@@ -1,15 +1,16 @@
 @import '../../styles/_variables';
 
-/deep/ 
+/deep/
 .stache-breadcrumbs {
   .stache-nav-breadcrumbs {
     color: $stache-color-text-muted;
     margin-bottom: $stache-grid-padding * 2;
     background-color: $stache-color-gray-lightest;
     padding: 8px $stache-grid-padding;
-    
+
     .stache-nav-list {
       flex-direction: row;
+      flex-wrap: wrap;
     }
 
     .stache-nav-list-item {
