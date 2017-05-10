@@ -3,10 +3,10 @@ import { DebugElement } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
-import { SkyAppWindowRef } from '@blackbaud/skyux-builder/runtime';
 
 import { StachePageAnchorTestComponent } from './fixtures/page-anchor.component.fixture';
 import { StachePageAnchorComponent } from './page-anchor.component';
+import { StacheWindowRef } from '../shared';
 
 describe('StachePageAnchorComponent', () => {
   let component: StachePageAnchorComponent;
@@ -26,7 +26,7 @@ describe('StachePageAnchorComponent', () => {
         RouterTestingModule
       ],
       providers: [
-        SkyAppWindowRef
+        StacheWindowRef
       ]
     })
     .compileComponents();

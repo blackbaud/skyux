@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 
-import { SkyAppWindowRef } from '@blackbaud/skyux-builder/runtime';
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 
 import { StacheNavComponent } from './nav.component';
 import { StacheNavTestComponent } from './fixtures/nav.component.fixture';
+import { StacheWindowRef } from '../shared';
 
 describe('StacheNavComponent', () => {
   let component: StacheNavComponent;
@@ -27,7 +27,7 @@ describe('StacheNavComponent', () => {
       ],
       providers: [
         { provide: Router, useValue: mockRouter },
-        SkyAppWindowRef
+        StacheWindowRef
       ]
     })
     .compileComponents();

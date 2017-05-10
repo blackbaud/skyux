@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 
-require('smoothscroll-polyfill').polyfill();
+import * as smoothscroll from 'smoothscroll-polyfill';
+smoothscroll.polyfill();
 
 import { StacheActionButtonsModule } from './modules/action-buttons/action-buttons.module';
 import { StacheBackToTopModule } from './modules/back-to-top/back-to-top.module';
@@ -18,6 +19,8 @@ import { StacheWrapperModule } from './modules/wrapper/wrapper.module';
 import { StachePageHeaderModule } from './modules/page-header/page-header.module';
 import { StachePageSummaryModule } from './modules/page-summary/page-summary.module';
 
+import { StacheWindowRef } from './modules/shared';
+
 @NgModule({
   exports: [
     StacheActionButtonsModule,
@@ -34,7 +37,11 @@ import { StachePageSummaryModule } from './modules/page-summary/page-summary.mod
     StachePageSummaryModule,
     StachePageHeaderModule,
     StacheLayoutModule,
+    StacheWindowRef,
     StacheWrapperModule
+  ],
+  providers: [
+    StacheWindowRef
   ]
 })
 export class StacheModule { }

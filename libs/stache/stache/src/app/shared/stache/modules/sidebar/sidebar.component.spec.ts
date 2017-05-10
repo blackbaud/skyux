@@ -4,11 +4,12 @@ import { Router, NavigationStart } from '@angular/router';
 
 import { Observable } from 'rxjs';
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
-import { SkyAppWindowRef, SkyAppConfig } from '@blackbaud/skyux-builder/runtime';
+import { SkyAppConfig } from '@blackbaud/skyux-builder/runtime';
 
 import { StacheSidebarComponent } from './sidebar.component';
 import { StacheNavComponent } from '../nav/nav.component';
 import { StacheNavService } from '../nav/nav.service';
+import { StacheWindowRef } from '../shared';
 
 import { RouterLinkStubDirective } from './fixtures/router-link-stub.directive';
 
@@ -63,7 +64,7 @@ describe('StacheSidebarComponent', () => {
         RouterLinkStubDirective
       ],
       providers: [
-        SkyAppWindowRef,
+        StacheWindowRef,
         StacheNavService,
         { provide: SkyAppConfig, useClass: MockSkyAppConfig },
         { provide: Router, useClass: MockRouter }

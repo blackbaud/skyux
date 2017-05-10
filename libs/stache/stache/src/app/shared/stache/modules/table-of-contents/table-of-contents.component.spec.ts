@@ -3,11 +3,11 @@ import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
-import { SkyAppWindowRef } from '@blackbaud/skyux-builder/runtime';
 
 import { StacheTableOfContentsComponent } from './table-of-contents.component';
 import { StacheNavComponent } from '../nav/nav.component';
 import { StacheNavService } from '../nav/nav.service';
+import { StacheWindowRef } from '../shared';
 
 describe('StacheTableOfContentsComponent', () => {
   let component: StacheTableOfContentsComponent;
@@ -25,7 +25,7 @@ describe('StacheTableOfContentsComponent', () => {
       ],
       providers: [
         { provide: Router, useClass: MockRouter },
-        SkyAppWindowRef,
+        StacheWindowRef,
         StacheNavService
       ]
     })

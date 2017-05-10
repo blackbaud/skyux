@@ -5,11 +5,12 @@ import { Router, NavigationStart } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
-import { SkyAppWindowRef, SkyAppConfig } from '@blackbaud/skyux-builder/runtime';
+import { SkyAppConfig } from '@blackbaud/skyux-builder/runtime';
 
 import { StacheBreadcrumbsComponent } from './breadcrumbs.component';
 import { StacheNavComponent } from '../nav/nav.component';
 import { StacheNavService } from '../nav/nav.service';
+import { StacheWindowRef } from '../shared';
 
 describe('StacheBreadcrumbsComponent', () => {
   let component: StacheBreadcrumbsComponent;
@@ -60,7 +61,7 @@ describe('StacheBreadcrumbsComponent', () => {
       ],
       providers: [
         StacheNavService,
-        SkyAppWindowRef,
+        StacheWindowRef,
         { provide: SkyAppConfig, useClass: MockSkyAppConfig },
         { provide: Router, useClass: MockRouter }
       ]

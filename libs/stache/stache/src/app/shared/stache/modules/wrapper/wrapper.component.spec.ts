@@ -5,10 +5,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
-import { SkyAppWindowRef } from '@blackbaud/skyux-builder/runtime';
 
 import { StacheWrapperComponent } from './wrapper.component';
 import { StacheTitleService } from './title.service';
+import { StacheWindowRef } from '../shared';
 
 describe('StacheWrapperComponent', () => {
   let component: StacheWrapperComponent;
@@ -59,7 +59,7 @@ describe('StacheWrapperComponent', () => {
       providers: [
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: StacheTitleService, useValue: mockTitleService },
-        { provide: SkyAppWindowRef, useValue: mockWindowService }
+        { provide: StacheWindowRef, useValue: mockWindowService }
       ],
       schemas: [
         NO_ERRORS_SCHEMA

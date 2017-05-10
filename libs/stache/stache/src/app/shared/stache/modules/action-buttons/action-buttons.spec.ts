@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { SkyModule } from '@blackbaud/skyux/dist/core';
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
-import { SkyAppWindowRef } from '@blackbaud/skyux-builder/runtime';
+import { StacheWindowRef } from '../shared';
 
 import { StacheGridModule } from '../grid/grid.module';
 import { StacheActionButtonsComponent } from './action-buttons.component';
@@ -24,7 +24,7 @@ describe('StacheActionButtonsComponent', () => {
         StacheActionButtonsComponent
       ],
       providers: [
-        SkyAppWindowRef
+        StacheWindowRef
       ]
     })
     .compileComponents();

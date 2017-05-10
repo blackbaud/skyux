@@ -2,11 +2,10 @@
 import { Component, OnInit, Input, AfterContentInit, ContentChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { SkyAppWindowRef } from '@blackbaud/skyux-builder/runtime';
-
 import { StacheTitleService } from './title.service';
 import { StachePageAnchorComponent } from '../page-anchor/page-anchor.component';
 import { StacheNavLink } from '../nav/nav-link';
+import { StacheWindowRef } from '../shared';
 
 @Component({
   selector: 'stache',
@@ -45,7 +44,7 @@ export class StacheWrapperComponent implements OnInit, AfterContentInit {
   public constructor(
     private titleService: StacheTitleService,
     private route: ActivatedRoute,
-    private windowRef: SkyAppWindowRef) { }
+    private windowRef: StacheWindowRef) { }
 
   public ngOnInit(): void {
     this.titleService.setTitle(this.windowTitle || this.pageTitle);
