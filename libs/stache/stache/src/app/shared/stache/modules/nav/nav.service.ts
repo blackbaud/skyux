@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 
-import { SkyAppConfig } from '@blackbaud/skyux-builder/runtime';
-
+import { StacheConfigService } from '../shared';
 import { StacheNavLink } from './nav-link';
 
 @Injectable()
@@ -10,7 +9,7 @@ export class StacheNavService {
   private activeRoutes: StacheNavLink[];
 
   public constructor(
-    private appConfig: SkyAppConfig,
+    private configService: StacheConfigService,
     private router: Router
   ) {
     router.events.subscribe((val: any) => {
@@ -30,7 +29,7 @@ export class StacheNavService {
     }
 
     const rootPath = this.getActiveUrl().replace(/^\//, '').split('/')[0];
-    const appRoutes = this.clone(this.appConfig.runtime.routes);
+    const appRoutes = this.clone(this.configService.runtime.routes);
 
     let activeChildRoutes = appRoutes
       .filter((route: any) => {

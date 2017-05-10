@@ -1,25 +1,26 @@
 import { Title } from '@angular/platform-browser';
 
-import { SkyAppConfig } from '@blackbaud/skyux-builder/runtime';
-import { SkyuxConfig } from '@blackbaud/skyux-builder/runtime/config';
-
 import { StacheTitleService } from './title.service';
+import { StacheConfigService } from '../shared';
+
+class MockStacheConfigService {
+  public skyux = {
+    app: {
+      title: 'My Title'
+    }
+  };
+
+  public runtime = { };
+}
 
 describe('StacheTitleService', () => {
   let titleService: StacheTitleService;
   let ngTitle: Title;
 
   beforeEach(() => {
-    let skyAppConfig = new SkyAppConfig();
+    const appConfig = new MockStacheConfigService() as StacheConfigService;
     ngTitle = new Title();
-
-    skyAppConfig.skyux = {
-      app: {
-        title: 'My Title'
-      }
-    } as SkyuxConfig;
-
-    titleService = new StacheTitleService(ngTitle, skyAppConfig);
+    titleService = new StacheTitleService(ngTitle, appConfig);
   });
 
   it('should set the window title with the config app title', () => {

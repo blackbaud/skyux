@@ -4,11 +4,11 @@ import { Router, NavigationStart } from '@angular/router';
 
 import { Observable } from 'rxjs';
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
-import { SkyAppConfig } from '@blackbaud/skyux-builder/runtime';
 
 import { StacheSidebarComponent } from './sidebar.component';
 import { StacheNavComponent } from '../nav/nav.component';
 import { StacheNavService } from '../nav/nav.service';
+import { StacheConfigService } from '../shared';
 import { StacheWindowRef } from '../shared';
 
 import { RouterLinkStubDirective } from './fixtures/router-link-stub.directive';
@@ -17,8 +17,8 @@ describe('StacheSidebarComponent', () => {
   let component: StacheSidebarComponent;
   let fixture: ComponentFixture<StacheSidebarComponent>;
 
-  class MockSkyAppConfig {
-    public runtime: any = {
+  class MockStacheConfigService {
+    public runtime = {
       routes: [
         {
           routePath: ''
@@ -66,7 +66,7 @@ describe('StacheSidebarComponent', () => {
       providers: [
         StacheWindowRef,
         StacheNavService,
-        { provide: SkyAppConfig, useClass: MockSkyAppConfig },
+        { provide: StacheConfigService, useClass: MockStacheConfigService },
         { provide: Router, useClass: MockRouter }
       ]
     })
@@ -92,7 +92,7 @@ describe('StacheSidebarComponent', () => {
     expect(links.length).toBe(2);
   });
 
-  it('should automatically generate routes from SkyAppConfig', () => {
+  it('should automatically generate routes from config', () => {
     fixture.detectChanges();
     expect(component.routes.length).toBe(1);
     expect(component.routes[0].children.length).toBe(1);
