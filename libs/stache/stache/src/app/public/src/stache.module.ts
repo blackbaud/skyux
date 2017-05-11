@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import * as smoothscroll from 'smoothscroll-polyfill';
+const smoothscroll = require('smoothscroll-polyfill');
 smoothscroll.polyfill();
 
 import { StacheActionButtonsModule } from './modules/action-buttons/action-buttons.module';
@@ -18,8 +18,9 @@ import { StacheLayoutModule } from './modules/layout/layout.module';
 import { StacheWrapperModule } from './modules/wrapper/wrapper.module';
 import { StachePageHeaderModule } from './modules/page-header/page-header.module';
 import { StachePageSummaryModule } from './modules/page-summary/page-summary.module';
-
 import { StacheWindowRef } from './modules/shared';
+
+export { StacheConfigService } from './modules/shared';
 
 @NgModule({
   exports: [
@@ -37,7 +38,6 @@ import { StacheWindowRef } from './modules/shared';
     StachePageSummaryModule,
     StachePageHeaderModule,
     StacheLayoutModule,
-    StacheWindowRef,
     StacheWrapperModule
   ],
   providers: [

@@ -2,24 +2,30 @@ import { NgModule } from '@angular/core';
 
 import { SkyAppConfig } from '@blackbaud/skyux-builder/runtime';
 
-import * as smoothscroll from 'smoothscroll-polyfill';
-smoothscroll.polyfill();
+/* start module hacks */
 
-import { StacheConfigService } from './shared/stache/modules/shared';
-import { StacheTitleService } from './shared/stache/modules/wrapper/title.service';
-import { StacheNavService } from './shared/stache/modules/nav/nav.service';
-import { StacheWindowRef } from './shared/stache/modules/shared';
+// We need to import these providers here because Builder automatically registers
+// Stache's components. If we imported the StacheModule, each component would have two
+// declared modules, which Angular does not allow.
 
+import { StacheConfigService } from './public/src/modules/shared';
+import { StacheTitleService } from './public/src/modules/wrapper/title.service';
+import { StacheNavService } from './public/src/modules/nav/nav.service';
+import { StacheWindowRef } from './public/src/modules/shared';
+
+require('smoothscroll-polyfill').polyfill();
 require('style-loader!prismjs/themes/prism.css');
-require('style-loader!./app.scss');
 
-// Specify entry components, module-level providers, etc. here.
+/* end module hacks */
+
 @NgModule({
   providers: [
     {
       provide: StacheConfigService,
       useExisting: SkyAppConfig
     },
+
+    // These services would normally be provided in the StacheModule:
     StacheTitleService,
     StacheNavService,
     StacheWindowRef
