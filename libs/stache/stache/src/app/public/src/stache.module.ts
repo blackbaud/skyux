@@ -19,6 +19,8 @@ import { StacheLayoutModule } from './modules/layout/layout.module';
 import { StacheWrapperModule } from './modules/wrapper/wrapper.module';
 import { StachePageHeaderModule } from './modules/page-header/page-header.module';
 import { StachePageSummaryModule } from './modules/page-summary/page-summary.module';
+import { StacheVideoModule } from './modules/video/video.module';
+
 import { StacheWindowRef } from './modules/shared';
 
 export { StacheConfigService } from './modules/shared';
@@ -40,6 +42,8 @@ export { StacheConfigService } from './modules/shared';
     StachePageSummaryModule,
     StachePageHeaderModule,
     StacheLayoutModule,
+    StacheVideoModule,
+    StacheWindowRef,
     StacheWrapperModule
   ],
   providers: [
