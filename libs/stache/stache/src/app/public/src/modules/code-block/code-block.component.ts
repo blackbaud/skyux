@@ -1,4 +1,5 @@
 import { Component, Input, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 declare let Prism: any;
 import 'prismjs/prism';
@@ -29,13 +30,14 @@ export class StacheCodeBlockComponent implements AfterViewInit {
   @ViewChild('codeFromContent')
   public codeTemplateRef: any;
 
-  public output: string;
+  public output: SafeHtml;
   private readonly defaultLanguage: string = 'markup';
   private validLanguages: string[];
   private _languageType: string = this.defaultLanguage;
 
   public constructor(
-    private cdRef: ChangeDetectorRef) {
+    private cdRef: ChangeDetectorRef,
+    private sanitizer: DomSanitizer) {
       this.validLanguages = Object.keys(Prism.languages);
     }
 
@@ -49,7 +51,8 @@ export class StacheCodeBlockComponent implements AfterViewInit {
     }
 
     code = this.formatCode(code);
-    this.output = this.highlightCode(code);
+    code = this.highlightCode(code);
+    this.output = this.sanitizer.bypassSecurityTrustHtml(code);
     this.cdRef.detectChanges();
   }
 
