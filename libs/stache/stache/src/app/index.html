@@ -33,7 +33,8 @@
     You can display blocks of code this way:
   </p>
 
-  <stache-code-block languageType="js">
+  <stache-code-block 
+    languageType="js">
     $(document).ready(() => {
       // do something
     });
@@ -54,5 +55,13 @@
   <stache-video
     videoSource="https://player.vimeo.com/video/121445495?title=0&portrait=0&byline=0">
   </stache-video>
+
+  <stache-page-anchor>
+    Include
+  </stache-page-anchor>
+
+  <stache-include 
+    fileName="example.html">
+  </stache-include>
 
 </stache>

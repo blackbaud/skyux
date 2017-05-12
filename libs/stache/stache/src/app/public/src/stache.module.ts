@@ -10,6 +10,7 @@ import { StacheCodeBlockModule } from './modules/code-block/code-block.module';
 import { StacheGridModule } from './modules/grid/grid.module';
 import { StacheHeroModule } from './modules/hero/hero.module';
 import { StacheImageModule } from './modules/image/image.module';
+import { StacheIncludeModule } from './modules/include/include.module';
 import { StachePageAnchorModule } from './modules/page-anchor/page-anchor.module';
 import { StacheNavModule } from './modules/nav/nav.module';
 import { StacheBreadcrumbsModule } from './modules/breadcrumbs/breadcrumbs.module';
@@ -34,6 +35,7 @@ export { StacheConfigService } from './modules/shared';
     StacheGridModule,
     StacheHeroModule,
     StacheImageModule,
+    StacheIncludeModule,
     StachePageAnchorModule,
     StacheNavModule,
     StacheBreadcrumbsModule,
