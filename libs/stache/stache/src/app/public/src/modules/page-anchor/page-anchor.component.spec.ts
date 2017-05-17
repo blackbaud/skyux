@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -53,7 +53,7 @@ describe('StachePageAnchorComponent', () => {
     expect(id).toBe('test-content');
   });
 
-  it('should call the addHashToUrl method when the icon is clicked', () => {
+  it('should call the addHashToUrl method when the icon is clicked', async(() => {
     spyOn(component, 'addHashToUrl');
     const icon = debugElement.nativeElement.querySelector('.stache-page-anchor-icon');
     icon.click();
@@ -61,14 +61,14 @@ describe('StachePageAnchorComponent', () => {
       .then(() => {
         expect(component.addHashToUrl).toHaveBeenCalled();
       });
-  });
+  }));
 
-  it('should call scrollIntoView on the heading when clicked', () => {
+  it('should call scrollIntoView on the heading when clicked', async(() => {
     spyOn(debugElement.nativeElement, 'scrollIntoView');
     component.addHashToUrl();
     fixture.whenStable()
       .then(() => {
         expect(debugElement.nativeElement.scrollIntoView).toHaveBeenCalled();
       });
-  });
+  }));
 });

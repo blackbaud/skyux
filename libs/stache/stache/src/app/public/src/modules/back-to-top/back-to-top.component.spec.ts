@@ -1,4 +1,4 @@
-import { ComponentFixture, fakeAsync, inject, tick, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, inject, tick, TestBed } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
@@ -57,7 +57,7 @@ describe('StacheBackToTopComponent', () => {
     expect(component.isHidden).toBe(false);
   }));
 
-  it('should trigger a click event on button click', () => {
+  it('should trigger a click event on button click', async(() => {
     spyOn(component, 'scrollToTop');
     let button = debugElement.nativeElement.querySelector('.stache-back-to-top');
     button.click();
@@ -65,9 +65,9 @@ describe('StacheBackToTopComponent', () => {
       .then(() => {
         expect(component.scrollToTop).toHaveBeenCalled();
       });
-  });
+  }));
 
-  it('should call the scroll method on the window when clicked', () => {
+  it('should call the scroll method on the window when clicked', async(() => {
     spyOn(windowRef, 'scroll');
     let button = debugElement.nativeElement.querySelector('.stache-back-to-top');
     button.click();
@@ -75,5 +75,5 @@ describe('StacheBackToTopComponent', () => {
       .then(() => {
         expect(windowRef.scroll).toHaveBeenCalled();
       });
-  });
+  }));
 });

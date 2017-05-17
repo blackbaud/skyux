@@ -158,28 +158,31 @@ describe('StacheWrapperComponent', () => {
   it('should grab the element from the fragment', async(() => {
     component.ngOnInit();
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(mockWindowService.nativeWindow.document.getElementById)
-        .toHaveBeenCalledWith('test-route');
-    });
+    fixture.whenStable()
+      .then(() => {
+        expect(mockWindowService.nativeWindow.document.getElementById)
+          .toHaveBeenCalledWith('test-route');
+      });
   }));
 
   it('should scroll the element into view if a fragment exists', async(() => {
     mockActivatedRoute.setFragment(undefined);
 
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(mockWindowService.nativeWindow.document.getElementById)
-        .toHaveBeenCalledWith(undefined);
-    });
+    fixture.whenStable()
+      .then(() => {
+        expect(mockWindowService.nativeWindow.document.getElementById)
+          .toHaveBeenCalledWith(undefined);
+      });
   }));
 
   it('should update inPageRoutes after content is rendered', async(() => {
     component['pageAnchors'] = [{ name: 'test', path: '/test' }];
     component.ngAfterContentInit();
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(component.inPageRoutes.length).toBe(1);
-    });
+    fixture.whenStable()
+      .then(() => {
+        expect(component.inPageRoutes.length).toBe(1);
+      });
   }));
 });
