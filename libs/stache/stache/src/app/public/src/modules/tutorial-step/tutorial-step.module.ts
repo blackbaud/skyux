@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { StachePageAnchorModule } from '../page-anchor/page-anchor.module';
 import { StacheTutorialStepComponent } from './tutorial-step.component';
 import { StacheTutorialStepBodyComponent } from './tutorial-step-body.component';
 import { StacheTutorialStepHeadingComponent } from './tutorial-step-heading.component';
@@ -12,7 +13,8 @@ import { StacheTutorialStepHeadingComponent } from './tutorial-step-heading.comp
     StacheTutorialStepHeadingComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    StachePageAnchorModule
   ],
   exports: [
     StacheTutorialStepComponent,

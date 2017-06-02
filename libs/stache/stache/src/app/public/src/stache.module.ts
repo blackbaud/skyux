@@ -20,7 +20,7 @@ import { StachePageSummaryModule } from './modules/page-summary/page-summary.mod
 import { StacheSidebarModule } from './modules/sidebar/sidebar.module';
 import { StacheTableOfContentsModule } from './modules/table-of-contents/table-of-contents.module';
 import { StacheTutorialModule } from './modules/tutorial/tutorial.module';
-import { StacheTutorialStepModule } from './modules/tutorial/tutorial-step.module';
+import { StacheTutorialStepModule } from './modules/tutorial-step/tutorial-step.module';
 import { StacheVideoModule } from './modules/video/video.module';
 import { StacheWrapperModule } from './modules/wrapper/wrapper.module';
 import { StacheWindowRef } from './modules/shared';

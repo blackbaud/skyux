@@ -2,14 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { StacheTutorialHeadingComponent } from './tutorial-heading.component';
-import { StacheTutorialBodyComponent } from './tutorial-body.component';
+import { StacheTutorialSummaryComponent } from './tutorial-summary.component';
 import { StacheTutorialComponent } from './tutorial.component';
 
 @NgModule({
   declarations: [
     StacheTutorialComponent,
     StacheTutorialHeadingComponent,
-    StacheTutorialBodyComponent
+    StacheTutorialSummaryComponent
   ],
   imports: [
     CommonModule
@@ -17,7 +17,7 @@ import { StacheTutorialComponent } from './tutorial.component';
   exports: [
     StacheTutorialComponent,
     StacheTutorialHeadingComponent,
-    StacheTutorialBodyComponent
+    StacheTutorialSummaryComponent
   ]
 })
 export class StacheTutorialModule { }
