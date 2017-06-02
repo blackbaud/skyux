@@ -1,0 +1,136 @@
+<app-nav>
+</app-nav>
+
+<stache layout="blank">
+
+  <stache-container>
+
+    <stache-tutorial>
+      <stache-tutorial-heading>
+        Tutorial Option 2
+      </stache-tutorial-heading>
+
+      <stache-tutorial-summary>
+        To successfully create an application with SKY API, follow this step-by-step guide.
+      </stache-tutorial-summary>
+
+      <stache-tutorial-step showNumber="false">
+        <stache-tutorial-step-heading>
+          Intro, not a step
+        </stache-tutorial-step-heading>
+        <stache-tutorial-step-body>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque esse animi vitae nostrum natus rem mollitia praesentium aperiam officiis, fugiat quidem dolore blanditiis, temporibus repellat sint ex ratione cumque sunt.
+          </p>
+        </stache-tutorial-step-body>
+      </stache-tutorial-step>
+
+      <stache-tutorial-step>
+        <stache-tutorial-step-heading>
+          Clone the repository
+        </stache-tutorial-step-heading>
+        <stache-tutorial-step-body>
+          <p>
+            Go to the folder where you want to store your project, and clone the new repository:
+          </p>
+          <stache-code-block languageType="js">
+            function foo() {
+              console.log('Bar');
+            }
+          </stache-code-block>
+        </stache-tutorial-step-body>
+      </stache-tutorial-step>
+
+      <stache-tutorial-step>
+        <stache-tutorial-step-heading>
+          Include columns and rows
+        </stache-tutorial-step-heading>
+        <stache-tutorial-step-body>
+          <stache-row>
+            <stache-column screenSmall="4">
+              <h3>
+                Column 1
+              </h3>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit consequuntur in aut nisi, doloribus laborum laudantium suscipit doloremque autem quod quasi, vero veniam pariatur corrupti hic et sapiente minus labore!
+              </p>
+            </stache-column>
+            <stache-column screenSmall="4">
+              <h3>
+                Column 2
+              </h3>
+              <stache-image imageSource="https://unsplash.it/300/200">
+              </stache-image>
+            </stache-column>
+            <stache-column screenSmall="4">
+              <h3>
+                Column 3
+              </h3>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas accusantium sequi, ab, voluptate ipsam aliquam officia excepturi et qui aspernatur officiis laborum voluptas doloremque dolore corrupti delectus eligendi ratione quisquam.
+              </p>
+            </stache-column>
+          </stache-row>
+        </stache-tutorial-step-body>
+      </stache-tutorial-step>
+
+      <stache-tutorial-step showNumber="false">
+        <stache-tutorial-step-heading>
+          Before we continue...
+        </stache-tutorial-step-heading>
+        <stache-tutorial-step-body>
+          This step does not include a number.
+        </stache-tutorial-step-body>
+      </stache-tutorial-step>
+
+      <stache-tutorial-step>
+        <stache-tutorial-step-heading>
+          This step only has a header
+        </stache-tutorial-step-heading>
+      </stache-tutorial-step>
+
+      <stache-tutorial-step>
+        <stache-tutorial-step-heading>
+          This step has a very very long title that should probably be shortened but the styles should support it anyway
+        </stache-tutorial-step-heading>
+      </stache-tutorial-step>
+
+      <stache-tutorial-step>
+        <stache-tutorial-step-body>
+          <p>
+            <stache-code>Steps without headers</stache-code> should look like this.
+          </p>
+          <stache-code-block languageType="markup">
+            <p>
+              This is paragraph... Do this.
+            </p>
+          </stache-code-block>
+          <p>
+            <stache-code>main.js</stache-code> should look like this.
+          </p>
+          <stache-code-block languageType="js">
+            function foo() {
+              console.log('Bar');
+            }
+          </stache-code-block>
+        </stache-tutorial-step-body>
+      </stache-tutorial-step>
+
+      <sky-alert alertType="info">
+        You can put other components between steps!
+      </sky-alert>
+
+      <stache-tutorial-step>
+        <stache-tutorial-step-body>
+          This step only includes the content component.
+        </stache-tutorial-step-body>
+      </stache-tutorial-step>
+
+      <stache-tutorial-step>
+        <p>
+          This step only includes a paragraph. (This allows unrelated components to provide their own custom padding.)
+        </p>
+      </stache-tutorial-step>
+    </stache-tutorial>
+  </stache-container>
+</stache>

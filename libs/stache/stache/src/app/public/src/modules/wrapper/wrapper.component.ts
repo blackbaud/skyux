@@ -19,6 +19,9 @@ export class StacheWrapperComponent implements OnInit, AfterContentInit {
   public windowTitle: string;
 
   @Input()
+  public navTitle: string;
+
+  @Input()
   public layout = 'sidebar';
 
   @Input()

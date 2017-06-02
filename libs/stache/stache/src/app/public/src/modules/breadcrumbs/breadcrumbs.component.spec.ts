@@ -10,7 +10,7 @@ import { StacheConfigService } from '../shared';
 import { StacheBreadcrumbsComponent } from './breadcrumbs.component';
 import { StacheNavComponent } from '../nav/nav.component';
 import { StacheNavService } from '../nav/nav.service';
-import { StacheWindowRef } from '../shared';
+import { StacheWindowRef, StacheRouteMetadataService } from '../shared';
 
 describe('StacheBreadcrumbsComponent', () => {
   let component: StacheBreadcrumbsComponent;
@@ -63,7 +63,8 @@ describe('StacheBreadcrumbsComponent', () => {
         StacheNavService,
         StacheWindowRef,
         { provide: StacheConfigService, useClass: MockStacheConfigService },
-        { provide: Router, useClass: MockRouter }
+        { provide: Router, useClass: MockRouter },
+        { provide: StacheRouteMetadataService, useValue: { routes: [] } }
       ]
     })
     .compileComponents();

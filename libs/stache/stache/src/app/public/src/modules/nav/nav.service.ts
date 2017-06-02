@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 
-import { StacheConfigService } from '../shared';
+import { StacheConfigService, StacheRouteMetadataService } from '../shared';
 import { StacheNavLink } from './nav-link';
 
 @Injectable()
@@ -9,9 +9,9 @@ export class StacheNavService {
   private activeRoutes: StacheNavLink[];
 
   public constructor(
+    private router: Router,
     private configService: StacheConfigService,
-    private router: Router
-  ) {
+    private routeMetadataService: StacheRouteMetadataService) {
     router.events.subscribe((val: any) => {
       if (val instanceof NavigationStart) {
         this.clearActiveRoutes();
@@ -76,14 +76,36 @@ export class StacheNavService {
 
   private formatRoutes(routes: any[]): StacheNavLink[] {
     let formatted = routes.map(route => {
+      let name = this.getPreferredName(route.path);
+
+      if (name === '') {
+        name = this.getNameFromPath(route.segments[route.segments.length - 1]);
+      }
+
       return {
-        name: this.getNameFromPath(route.segments[route.segments.length - 1]),
+        name: name,
         path: `/${route.path}`,
         children: this.formatRoutes(route.children)
       } as any;
     });
 
     return formatted as StacheNavLink[];
+  }
+
+  private getPreferredName(path: string): string {
+    const routeMetadata = this.routeMetadataService.routes;
+
+    if (routeMetadata) {
+      let foundRoute = routeMetadata.filter((route: any) => {
+        return route.path === path;
+      })[0];
+
+      if (foundRoute) {
+        return foundRoute.name;
+      }
+    }
+
+    return '';
   }
 
   private getNameFromPath(path: string): string {

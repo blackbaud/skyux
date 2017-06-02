@@ -8,8 +8,11 @@ import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 import { StacheSidebarComponent } from './sidebar.component';
 import { StacheNavComponent } from '../nav/nav.component';
 import { StacheNavService } from '../nav/nav.service';
-import { StacheConfigService } from '../shared';
-import { StacheWindowRef } from '../shared';
+import {
+  StacheConfigService,
+  StacheWindowRef,
+  StacheRouteMetadataService
+} from '../shared';
 
 import { RouterLinkStubDirective } from './fixtures/router-link-stub.directive';
 
@@ -67,7 +70,8 @@ describe('StacheSidebarComponent', () => {
         StacheWindowRef,
         StacheNavService,
         { provide: StacheConfigService, useClass: MockStacheConfigService },
-        { provide: Router, useClass: MockRouter }
+        { provide: Router, useClass: MockRouter },
+        { provide: StacheRouteMetadataService, useValue: { routes: [] } }
       ]
     })
     .compileComponents();

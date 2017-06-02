@@ -3,8 +3,9 @@ import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { StacheNavService } from './nav.service';
+import { StacheConfigService, StacheRouteMetadataService } from '../shared';
 
-class MockSkyAppConfig {
+class MockStacheConfigService {
   public runtime: any = {
     routes: [
       {
@@ -44,22 +45,35 @@ class MockRouter {
   public events = Observable.of(new NavigationStart(0, ''));
 }
 
+class MockStacheRouteMetadataService {
+  public routes: any[] = [
+    { path: 'other-parent', name: 'Custom Route Name' }
+  ];
+}
+
 describe('StacheNavService', () => {
   let navService: StacheNavService;
-  let skyAppConfig: MockSkyAppConfig;
+  let configService: MockStacheConfigService;
   let router: MockRouter;
+  let routeMetadataService: MockStacheRouteMetadataService;
 
   beforeEach(() => {
-    skyAppConfig = new MockSkyAppConfig();
+    configService = new MockStacheConfigService();
     router = new MockRouter();
-    navService = new StacheNavService(skyAppConfig, router as Router);
+    routeMetadataService = new MockStacheRouteMetadataService();
+
+    navService = new StacheNavService(
+      router as Router,
+      configService as StacheConfigService,
+      routeMetadataService as StacheRouteMetadataService
+    );
   });
 
   it('should only assemble the active routes once', () => {
     let activeRoutes = navService.getActiveRoutes();
     expect(activeRoutes[0].children.length).toBe(1);
 
-    skyAppConfig.runtime.routes = [];
+    configService.runtime.routes = [];
     activeRoutes = navService.getActiveRoutes();
     expect(activeRoutes[0].children.length).toBe(1);
   });
@@ -67,7 +81,11 @@ describe('StacheNavService', () => {
   it('should only unset the active routes on NavigationStart', () => {
     router.events = Observable.of(new NavigationEnd(0, '', ''));
     spyOn(StacheNavService.prototype, 'clearActiveRoutes');
-    navService = new StacheNavService(skyAppConfig, router as Router);
+    navService = new StacheNavService(
+      router as Router,
+      configService as StacheConfigService,
+      routeMetadataService as StacheRouteMetadataService
+    );
     expect(StacheNavService.prototype.clearActiveRoutes).not.toHaveBeenCalled();
   });
 
@@ -83,10 +101,22 @@ describe('StacheNavService', () => {
     expect(activeRoutes[0].children[0].children[0].path).toBe('/parent/child/grandchild');
   });
 
-  it('should create the route\'s name from the path', () => {
+  it('should create the route\'s name from the path by default', () => {
     let activeRoutes = navService.getActiveRoutes();
     expect(activeRoutes[0].name).toBe('Parent');
     expect(activeRoutes[0].children[0].name).toBe('Child');
     expect(activeRoutes[0].children[0].children[0].name).toBe('Grandchild');
+  });
+
+  it('should use the route\'s name provided in route metadata service', () => {
+    router.url = '/other-parent';
+    let activeRoutes = navService.getActiveRoutes();
+    expect(activeRoutes[0].name).toBe('Custom Route Name');
+  });
+
+  it('should handle an undefined routes property in route metadata service', () => {
+    delete routeMetadataService.routes;
+    let activeRoutes = navService.getActiveRoutes();
+    expect(activeRoutes[0].name).toBe('Parent');
   });
 });

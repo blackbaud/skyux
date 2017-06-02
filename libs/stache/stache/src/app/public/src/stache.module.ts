@@ -25,7 +25,10 @@ import { StacheTutorialStepModule } from './modules/tutorial-step/tutorial-step.
 import { StacheVideoModule } from './modules/video/video.module';
 import { StacheWrapperModule } from './modules/wrapper/wrapper.module';
 
-import { StacheWindowRef } from './modules/shared';
+import {
+  StacheWindowRef,
+  StacheRouteMetadataService
+} from './modules/shared';
 
 export { StacheConfigService } from './modules/shared';
 
@@ -54,7 +57,8 @@ export { StacheConfigService } from './modules/shared';
     StacheWrapperModule
   ],
   providers: [
-    StacheWindowRef
+    StacheWindowRef,
+    StacheRouteMetadataService
   ]
 })
 export class StacheModule { }
