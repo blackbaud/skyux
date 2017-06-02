@@ -18,6 +18,17 @@
   showTableOfContents="true">
 
   <stache-page-anchor>
+    Action Buttons
+  </stache-page-anchor>
+
+  <stache-action-buttons [routes]="[
+    { name: 'Action Button 1', path: '/', icon: 'book', summary: 'Short summary here.' },
+    { name: 'Action Button 2', path: '/', icon: 'bookmark', summary: 'Short summary here.' },
+    { name: 'Action Button 3', path: '/', icon: 'certificate', summary: 'Short summary here.' }
+  ]">
+  </stache-action-buttons>
+
+  <stache-page-anchor>
     Code
   </stache-page-anchor>
 

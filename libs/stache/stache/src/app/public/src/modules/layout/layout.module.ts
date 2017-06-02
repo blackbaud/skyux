@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SkyModule } from '@blackbaud/skyux/dist/core';
 
 import { StacheActionButtonsModule } from '../action-buttons/action-buttons.module';
 import { StacheBackToTopModule } from '../back-to-top/back-to-top.module';
@@ -21,7 +20,6 @@ import { StacheLayoutSidebarComponent } from './layout-sidebar.component';
 
 @NgModule({
   imports: [
-    SkyModule,
     CommonModule,
     StacheActionButtonsModule,
     StacheBackToTopModule,
