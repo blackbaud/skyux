@@ -5,3 +5,13 @@
   padding-bottom: $stache-grid-padding * 2;
   background-color: #fff;
 }
+
+.stache-layout-blank {
+  padding: 0;
+  background-color: transparent;
+
+  /deep/
+  .stache-tutorial {
+    border: none;
+  }
+}

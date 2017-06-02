@@ -1,0 +1,23 @@
+@import '../../styles/_variables';
+
+.stache-tutorial {
+  counter-reset: myCounter;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0 16px 40px 34px;
+  background: $stache-body-background-color;
+  border: 1px solid $stache-color-gray-lighter;
+
+  @media (min-width: $stache-screen-sm) {
+    margin: 0 auto 70px;
+    padding: 0 20px 20px;
+    max-width: 980px;
+  }
+
+  @media (min-width: $stache-screen-md) {
+    margin: 0 auto 70px;
+    padding: 0 40px 40px;
+    max-width: 980px;
+  }
+}

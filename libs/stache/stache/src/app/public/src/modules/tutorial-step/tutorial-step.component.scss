@@ -1,0 +1,72 @@
+@import '../../styles/_variables';
+
+:host {
+  &:first-child {
+    .stache-tutorial-step {
+      margin-top: 0;
+    }
+  }
+
+  &:last-child {
+    .stache-tutorial-step {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.stache-tutorial-step {
+  border: 1px solid $stache-color-gray-lighter;
+  background-color: $stache-color-white;
+  position: relative;
+  margin-top: 8px;
+  margin-bottom: 8px;
+
+  @media (min-width: $stache-screen-sm) {
+    margin-top: 35px;
+    margin-bottom: 35px;
+    margin-left: 0;
+  }
+}
+
+.stache-tutorial-step-numbered {
+  &:after {
+    height: 34px;
+    width: 31px;
+    font-size: 16px;
+    line-height: 34px;
+    left: -31px;
+    top: 11px;
+    background-color: $stache-color-blue;
+    border-radius: 34px 0 0 34px;
+    font-weight: 100;
+    color: $stache-color-white;
+    counter-increment: myCounter;
+    content: counter(myCounter);
+    position: absolute;
+    text-align: center;
+    z-index: 100;
+
+    @media (min-width: $stache-screen-sm) {
+      height: 58px;
+      width: 58px;
+      line-height: 58px;
+      font-size: 30px;
+      left: -15px;
+      top: -15px;
+      border-radius: 50%;
+    }
+  }
+}
+
+/deep/
+.stache-tutorial-step {
+  stache-tutorial-step-heading + stache-tutorial-step-body {
+    .stache-tutorial-step-body {
+      margin-top: -5px;
+
+      @media (min-width: $stache-screen-sm) {
+        margin-top: -25px;
+      }
+    }
+  }
+}

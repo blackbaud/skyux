@@ -9,6 +9,10 @@ export class AppNavComponent {
     {
       name: 'Home',
       path: '/'
+    },
+    {
+      name: 'Tutorials',
+      path: '/tutorials'
     }
   ];
 }

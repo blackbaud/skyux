@@ -1,0 +1,31 @@
+@import '../../styles/_variables';
+
+.stache-tutorial-step-heading {
+  margin: 15px;
+
+  @media (min-width: $stache-screen-sm) {
+    margin: 40px 120px 45px;
+  }
+}
+
+/deep/
+.stache-tutorial-step-heading {
+  div.stache-page-anchor {
+    border-bottom: none;
+    padding: 0;
+    margin: 0;
+
+    @media (min-width: $stache-screen-sm) {
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 1.4em;
+      line-height: $stache-line-height;
+
+      @media (min-width: $stache-screen-sm) {
+        font-size: 28px;
+      }
+    }
+  }
+}
