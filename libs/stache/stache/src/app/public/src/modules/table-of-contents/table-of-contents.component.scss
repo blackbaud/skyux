@@ -11,9 +11,9 @@
   }
 
   .stache-nav-list-item {
-    margin: 0 0 .5em;
+    margin: 0 0 .25em;
     padding-left: .5em;
-    line-height: 1em;
+    line-height: $stache-line-height;
 
     &:last-child {
       margin-bottom: 0;

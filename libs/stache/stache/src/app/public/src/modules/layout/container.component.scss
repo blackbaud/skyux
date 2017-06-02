@@ -19,4 +19,18 @@
     line-height: $stache-line-height;
     color: $stache-color-text;
   }
+
+  ul:not([class]),
+  ol:not([class]) {
+    margin-top: $stache-grid-padding;
+    margin-bottom: $stache-grid-padding;
+  }
+
+  li:not([class]) {
+    margin-bottom: $stache-padding-size;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
 }

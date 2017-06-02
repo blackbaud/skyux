@@ -47,11 +47,11 @@
   }
 
   .stache-nav-anchor {
-    padding: 3px 5px 3px 11px;
+    padding: 1px 5px 1px 11px;
     color: $stache-color-text-muted;
     border-left: 4px solid transparent;
     display: block;
-    line-height: 1;
+    line-height: $stache-line-height;
   }
 
   .stache-nav-sidebar {
