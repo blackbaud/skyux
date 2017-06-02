@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { StacheAffixComponent } from './affix.component';
+import { StacheAffixTopDirective } from './affix-top.directive';
 
 @NgModule({
   declarations: [

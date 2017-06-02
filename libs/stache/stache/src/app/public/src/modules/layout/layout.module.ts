@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { StacheActionButtonsModule } from '../action-buttons/action-buttons.module';
+import { StacheAffixModule } from '../affix/affix.module';
 import { StacheBackToTopModule } from '../back-to-top/back-to-top.module';
 import { StacheNavModule } from '../nav/nav.module';
 import { StacheBreadcrumbsModule } from '../breadcrumbs/breadcrumbs.module';
@@ -22,6 +23,7 @@ import { StacheLayoutSidebarComponent } from './layout-sidebar.component';
   imports: [
     CommonModule,
     StacheActionButtonsModule,
+    StacheAffixModule,
     StacheBackToTopModule,
     StacheGridModule,
     StacheNavModule,

@@ -25,10 +25,7 @@ import { StacheTutorialStepModule } from './modules/tutorial-step/tutorial-step.
 import { StacheVideoModule } from './modules/video/video.module';
 import { StacheWrapperModule } from './modules/wrapper/wrapper.module';
 
-import {
-  StacheWindowRef,
-  StacheConfigService
-} from './modules/shared';
+import { StacheWindowRef } from './modules/shared';
 
 export { StacheConfigService } from './modules/shared';
 
@@ -40,7 +37,6 @@ export { StacheConfigService } from './modules/shared';
     StacheBreadcrumbsModule,
     StacheCodeModule,
     StacheCodeBlockModule,
-    StacheConfigService,
     StacheGridModule,
     StacheHeroModule,
     StacheImageModule,
