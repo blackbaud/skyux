@@ -18,6 +18,7 @@ require('style-loader!prismjs/themes/prism.css');
 
 /* end module hacks */
 
+/* istanbul ignore next */
 @NgModule({
   providers: [
     {
