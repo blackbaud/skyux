@@ -6,7 +6,8 @@ import { InputConverter } from '../shared';
 
 @Component({
   selector: 'stache-layout-sidebar',
-  templateUrl: './layout-sidebar.component.html'
+  templateUrl: './layout-sidebar.component.html',
+  styleUrls: ['./layout-sidebar.component.scss']
 })
 export class StacheLayoutSidebarComponent implements StacheLayout {
   @Input()

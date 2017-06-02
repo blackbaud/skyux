@@ -4,6 +4,7 @@ const smoothscroll = require('smoothscroll-polyfill');
 smoothscroll.polyfill();
 
 import { StacheActionButtonsModule } from './modules/action-buttons/action-buttons.module';
+import { StacheAffixModule } from './modules/affix/affix.module';
 import { StacheBackToTopModule } from './modules/back-to-top/back-to-top.module';
 import { StacheBreadcrumbsModule } from './modules/breadcrumbs/breadcrumbs.module';
 import { StacheCodeBlockModule } from './modules/code-block/code-block.module';
@@ -23,17 +24,23 @@ import { StacheTutorialModule } from './modules/tutorial/tutorial.module';
 import { StacheTutorialStepModule } from './modules/tutorial-step/tutorial-step.module';
 import { StacheVideoModule } from './modules/video/video.module';
 import { StacheWrapperModule } from './modules/wrapper/wrapper.module';
-import { StacheWindowRef } from './modules/shared';
+
+import {
+  StacheWindowRef,
+  StacheConfigService
+} from './modules/shared';
 
 export { StacheConfigService } from './modules/shared';
 
 @NgModule({
   exports: [
     StacheActionButtonsModule,
+    StacheAffixModule,
     StacheBackToTopModule,
     StacheBreadcrumbsModule,
     StacheCodeModule,
     StacheCodeBlockModule,
+    StacheConfigService,
     StacheGridModule,
     StacheHeroModule,
     StacheImageModule,

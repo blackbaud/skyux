@@ -24,8 +24,10 @@
       </stache-column>
       <stache-column screenSmall="4" screenMedium="3" screenLarge="2">
 
-        <stache-sidebar [routes]="sidebarRoutes">
-        </stache-sidebar>
+        <stache-affix>
+          <stache-sidebar [routes]="sidebarRoutes">
+          </stache-sidebar>
+        </stache-affix>
 
       </stache-column>
     </stache-row>

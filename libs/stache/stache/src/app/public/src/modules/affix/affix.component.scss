@@ -1,0 +1,6 @@
+.stache-affix {
+  &:after {
+    content: '';
+    display: flex;
+  }
+}

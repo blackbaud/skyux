@@ -1,0 +1,82 @@
+<stache-hero
+  backgroundImageUrl="~/assets/hero-sample-1.jpg">
+  <stache-hero-heading>
+    Stache Component Library
+  </stache-hero-heading>
+  <stache-hero-subheading>
+    v2.0.0-beta.0
+  </stache-hero-subheading>
+</stache-hero>
+
+<stache
+  pageTitle="Welcome"
+  layout="sidebar"
+  showBreadcrumbs="true"
+  showTableOfContents="true"
+  [sidebarRoutes]="sidebarRoutes">
+
+  <stache-page-anchor>
+    Affix Top
+  </stache-page-anchor>
+
+  <stache-affix>
+    <sky-alert>
+      This alert is affixed to the top of the page.
+    </sky-alert>
+  </stache-affix>
+
+  <stache-page-anchor>
+    Action Buttons
+  </stache-page-anchor>
+
+  <stache-action-buttons [routes]="actionButtonRoutes">
+  </stache-action-buttons>
+
+  <stache-page-anchor>
+    Code
+  </stache-page-anchor>
+
+  <p>
+    To build this library, type <stache-code>npm run build</stache-code>.
+  </p>
+
+  <stache-page-anchor>
+    Code Block
+  </stache-page-anchor>
+
+  <p>
+    You can display blocks of code this way:
+  </p>
+
+  <stache-code-block
+    languageType="js">
+    $(document).ready(() => {
+      // do something
+    });
+  </stache-code-block>
+
+  <stache-page-anchor>
+    Images
+  </stache-page-anchor>
+
+  <stache-image
+    imageSource="https://unsplash.it/200/300">
+  </stache-image>
+
+  <stache-page-anchor>
+    Videos
+  </stache-page-anchor>
+
+  <stache-video
+    videoSource="https://player.vimeo.com/video/121445495?title=0&portrait=0&byline=0">
+  </stache-video>
+
+  <stache-page-anchor>
+    Include
+  </stache-page-anchor>
+
+  <stache-include
+    fileName="example.html">
+  </stache-include>
+
+</stache>

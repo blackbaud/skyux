@@ -8,10 +8,14 @@ import { SkyAppConfig } from '@blackbaud/skyux-builder/runtime';
 // Stache's components. If we imported the StacheModule, each component would have two
 // declared modules, which Angular does not allow.
 
-import { StacheConfigService } from './public/src/modules/shared';
+import {
+  StacheWindowRef,
+  StacheConfigService
+} from './public/src/modules/shared';
+
 import { StacheTitleService } from './public/src/modules/wrapper/title.service';
 import { StacheNavService } from './public/src/modules/nav/nav.service';
-import { StacheWindowRef } from './public/src/modules/shared';
+import { StacheAffixTopDirective } from './public/src/modules/affix/affix-top.directive';
 
 require('smoothscroll-polyfill').polyfill();
 require('style-loader!prismjs/themes/prism.css');
@@ -30,6 +34,12 @@ require('style-loader!prismjs/themes/prism.css');
     StacheTitleService,
     StacheNavService,
     StacheWindowRef
+  ],
+  declarations: [
+    StacheAffixTopDirective
+  ],
+  exports: [
+    StacheAffixTopDirective
   ]
 })
 export class AppExtrasModule { }

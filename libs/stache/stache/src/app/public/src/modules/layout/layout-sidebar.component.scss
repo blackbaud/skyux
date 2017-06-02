@@ -1,0 +1,18 @@
+@import '../../styles/_variables';
+
+/deep/
+.stache-layout-sidebar {
+  .stache-affix-top {
+    @media (min-width: $stache-screen-sm) {
+      display: flex;
+      overflow-y: auto;
+      height: 100%;
+      max-height: 100%;
+    }
+
+    @media (max-width: $stache-screen-xs-max) {
+      position: static !important;
+      top: auto !important;
+    }
+  }
+}
