@@ -9,6 +9,9 @@ import { StacheGoogleAnalyticsDirective } from './google-analytics.directive';
   ],
   declarations: [
     StacheGoogleAnalyticsDirective
+  ],
+  exports: [
+    StacheGoogleAnalyticsDirective
   ]
 })
 export class StacheAnalyticsModule { }
