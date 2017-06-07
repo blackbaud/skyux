@@ -17,6 +17,9 @@ import {
 import { StacheTitleService } from './public/src/modules/wrapper/title.service';
 import { StacheNavService } from './public/src/modules/nav/nav.service';
 import { StacheAffixTopDirective } from './public/src/modules/affix/affix-top.directive';
+import {
+  StacheGoogleAnalyticsDirective
+} from './public/src/modules/analytics/google-analytics.directive';
 
 require('smoothscroll-polyfill').polyfill();
 require('style-loader!prismjs/themes/prism.css');
@@ -38,10 +41,12 @@ require('style-loader!prismjs/themes/prism.css');
     StacheRouteMetadataService
   ],
   declarations: [
-    StacheAffixTopDirective
+    StacheAffixTopDirective,
+    StacheGoogleAnalyticsDirective
   ],
   exports: [
-    StacheAffixTopDirective
+    StacheAffixTopDirective,
+    StacheGoogleAnalyticsDirective
   ]
 })
 export class AppExtrasModule { }

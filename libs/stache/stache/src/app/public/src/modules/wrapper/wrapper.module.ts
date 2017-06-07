@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { StacheTitleService } from './title.service';
 import { StachePageAnchorModule } from '../page-anchor/page-anchor.module';
 import { StacheLayoutModule } from '../layout/layout.module';
+import { StacheAnalyticsModule } from '../analytics/analytics.module';
 
 import { StacheWrapperComponent } from './wrapper.component';
 
@@ -12,6 +13,7 @@ import { StacheWrapperComponent } from './wrapper.component';
   imports: [
     CommonModule,
     RouterModule,
+    StacheAnalyticsModule,
     StachePageAnchorModule,
     StacheLayoutModule
   ],

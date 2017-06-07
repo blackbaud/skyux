@@ -5,6 +5,7 @@ smoothscroll.polyfill();
 
 import { StacheActionButtonsModule } from './modules/action-buttons/action-buttons.module';
 import { StacheAffixModule } from './modules/affix/affix.module';
+import { StacheAnalyticsModule } from './modules/analytics/analytics.module';
 import { StacheBackToTopModule } from './modules/back-to-top/back-to-top.module';
 import { StacheBreadcrumbsModule } from './modules/breadcrumbs/breadcrumbs.module';
 import { StacheCodeBlockModule } from './modules/code-block/code-block.module';
@@ -36,6 +37,7 @@ export { StacheConfigService } from './modules/shared';
   exports: [
     StacheActionButtonsModule,
     StacheAffixModule,
+    StacheAnalyticsModule,
     StacheBackToTopModule,
     StacheBreadcrumbsModule,
     StacheCodeModule,
