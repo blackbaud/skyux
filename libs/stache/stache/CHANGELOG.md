@@ -1,3 +1,20 @@
+# 2.0.0-beta.2 (2017-06-08)
+
+- 100% function code coverage
+- Implemented new components and directives: `StacheTutorialComponent`, `StacheAffixComponent`, `StacheGoogleAnalyticsDirective`.
+- Implemented service to convert JSON files into usable JavaScript objects, `StacheJsonDataService`.
+- Route names can be changed using the `<stache>` attributes `pageTitle` or `navTitle`.
+- New SKY UX Builder plugins were created for various reasons (check each plugin's README for more information): 
+  - [`@blackbaud/skyux-builder-plugin-auth-email-whitelist`](https://github.com/blackbaud/skyux-builder-plugin-auth-email-whitelist)
+  - [`@blackbaud/skyux-builder-plugin-stache-json-data`](https://github.com/blackbaud/skyux-builder-plugin-stache-json-data)
+  - [`@blackbaud/skyux-builder-plugin-stache-template-reference-variable`](https://github.com/blackbaud/skyux-builder-plugin-stache-template-reference-variable)
+  - [`@blackbaud/skyux-builder-plugin-stache-route-metadata/collector`](https://github.com/blackbaud/skyux-builder-plugin-stache-route-metadata)
+  - [`@blackbaud/skyux-builder-plugin-stache-route-metadata/generator`](https://github.com/blackbaud/skyux-builder-plugin-stache-route-metadata)
+- Fixed line-heights for list items and navigation. [#158](https://github.com/blackbaud/stache2/issues/158)
+- Fixed StacheActionButtonsComponent styles when displaying less than 4 Action Buttons. [#171](https://github.com/blackbaud/stache2/issues/171)
+
+
+
 # 2.0.0-beta.1 (2017-05-31)
 
 - Updated dependencies and included the Auth Email Whitelist plugin.
