@@ -11,7 +11,8 @@ import { SkyAppConfig } from '@blackbaud/skyux-builder/runtime';
 import {
   StacheWindowRef,
   StacheRouteMetadataService,
-  StacheConfigService
+  StacheConfigService,
+  StacheJsonDataService
 } from './public/src/modules/shared';
 
 import { StacheTitleService } from './public/src/modules/wrapper/title.service';
@@ -37,6 +38,7 @@ require('style-loader!prismjs/themes/prism.css');
     // These services would normally be provided in the StacheModule:
     StacheTitleService,
     StacheNavService,
+    StacheJsonDataService,
     StacheWindowRef,
     StacheRouteMetadataService
   ],

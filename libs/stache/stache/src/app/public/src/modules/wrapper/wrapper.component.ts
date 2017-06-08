@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { StacheTitleService } from './title.service';
 import { StachePageAnchorComponent } from '../page-anchor/page-anchor.component';
+import { StacheJsonDataService } from '../shared';
 import { StacheNavLink } from '../nav/nav-link';
 import { StacheWindowRef } from '../shared';
 
@@ -39,18 +40,23 @@ export class StacheWrapperComponent implements OnInit, AfterContentInit {
   @Input()
   public showBackToTop: boolean = true;
 
+  public jsonData: any;
+
   public inPageRoutes: StacheNavLink[] = [];
 
   @ContentChildren(StachePageAnchorComponent)
   private pageAnchors: any;
 
   public constructor(
+    private dataService: StacheJsonDataService,
     private titleService: StacheTitleService,
     private route: ActivatedRoute,
     private windowRef: StacheWindowRef) { }
 
   public ngOnInit(): void {
     this.titleService.setTitle(this.windowTitle || this.pageTitle);
+
+    this.jsonData = this.dataService.getAll();
 
     this.route.fragment.subscribe(fragment => {
       return Promise.resolve().then(() => {

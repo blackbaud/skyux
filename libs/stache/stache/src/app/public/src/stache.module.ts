@@ -8,8 +8,9 @@ import { StacheAffixModule } from './modules/affix/affix.module';
 import { StacheAnalyticsModule } from './modules/analytics/analytics.module';
 import { StacheBackToTopModule } from './modules/back-to-top/back-to-top.module';
 import { StacheBreadcrumbsModule } from './modules/breadcrumbs/breadcrumbs.module';
-import { StacheCodeBlockModule } from './modules/code-block/code-block.module';
 import { StacheCodeModule } from './modules/code/code.module';
+import { StacheCodeBlockModule } from './modules/code-block/code-block.module';
+import { StacheJsonDataService } from './modules/shared';
 import { StacheGridModule } from './modules/grid/grid.module';
 import { StacheHeroModule } from './modules/hero/hero.module';
 import { StacheImageModule } from './modules/image/image.module';
@@ -59,8 +60,9 @@ export { StacheConfigService } from './modules/shared';
     StacheWrapperModule
   ],
   providers: [
-    StacheWindowRef,
-    StacheRouteMetadataService
+    StacheJsonDataService,
+    StacheRouteMetadataService,
+    StacheWindowRef
   ]
 })
 export class StacheModule { }

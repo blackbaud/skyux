@@ -7,6 +7,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 
 import { StacheWrapperComponent } from './wrapper.component';
+import { StacheJsonDataService } from '../shared';
 import { StacheTitleService } from './title.service';
 import { StacheWindowRef } from '../shared';
 
@@ -57,6 +58,7 @@ describe('StacheWrapperComponent', () => {
         StacheWrapperComponent
       ],
       providers: [
+        StacheJsonDataService,
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: StacheTitleService, useValue: mockTitleService },
         { provide: StacheWindowRef, useValue: mockWindowService }
@@ -185,4 +187,9 @@ describe('StacheWrapperComponent', () => {
         expect(component.inPageRoutes.length).toBe(1);
       });
   }));
+
+  it('should set the jsonData property on init', () => {
+    fixture.detectChanges();
+    expect(component.jsonData.global.productNameLong).toBe('Stache 2');
+  });
 });
