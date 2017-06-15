@@ -1,3 +1,10 @@
+# 2.0.0-beta.3 (2017-06-15)
+
+- Fixed JSON Data, Route Metadata, and Config Service providers.
+- Consolidated all plugins into a single plugin. ([blackbaud/skyux-builder-plugin-stache](https://github.com/blackbaud/skyux-builder-plugin-stache))
+- Fixed StacheAffixTopDirective width bug. ([#221](https://github.com/blackbaud/stache2/issues/221))
+- Removed `StacheConfigService` and `SkyAppConfig` from **app-extras.module.ts**.
+
 # 2.0.0-beta.2 (2017-06-08)
 
 - 100% function code coverage
