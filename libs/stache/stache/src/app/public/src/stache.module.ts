@@ -10,7 +10,6 @@ import { StacheBackToTopModule } from './modules/back-to-top/back-to-top.module'
 import { StacheBreadcrumbsModule } from './modules/breadcrumbs/breadcrumbs.module';
 import { StacheCodeModule } from './modules/code/code.module';
 import { StacheCodeBlockModule } from './modules/code-block/code-block.module';
-import { StacheJsonDataService } from './modules/shared';
 import { StacheGridModule } from './modules/grid/grid.module';
 import { StacheHeroModule } from './modules/hero/hero.module';
 import { StacheImageModule } from './modules/image/image.module';
@@ -29,10 +28,12 @@ import { StacheWrapperModule } from './modules/wrapper/wrapper.module';
 
 import {
   StacheWindowRef,
-  StacheRouteMetadataService
+  StacheConfigService,
+  STACHE_JSON_DATA_PROVIDERS,
+  STACHE_ROUTE_METADATA_PROVIDERS
 } from './modules/shared';
 
-export { StacheConfigService } from './modules/shared';
+export * from './modules/shared';
 
 @NgModule({
   exports: [
@@ -60,9 +61,10 @@ export { StacheConfigService } from './modules/shared';
     StacheWrapperModule
   ],
   providers: [
-    StacheJsonDataService,
-    StacheRouteMetadataService,
-    StacheWindowRef
+    StacheConfigService,
+    StacheWindowRef,
+    STACHE_JSON_DATA_PROVIDERS,
+    STACHE_ROUTE_METADATA_PROVIDERS
   ]
 })
 export class StacheModule { }

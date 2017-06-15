@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 
-import { SkyAppConfig } from '@blackbaud/skyux-builder/runtime';
-
 /* start module hacks */
 
 // We need to import these providers here because Builder automatically registers
@@ -9,10 +7,7 @@ import { SkyAppConfig } from '@blackbaud/skyux-builder/runtime';
 // declared modules, which Angular does not allow.
 
 import {
-  StacheWindowRef,
-  StacheRouteMetadataService,
-  StacheConfigService,
-  StacheJsonDataService
+  StacheWindowRef
 } from './public/src/modules/shared';
 
 import { StacheTitleService } from './public/src/modules/wrapper/title.service';
@@ -29,24 +24,17 @@ require('style-loader!prismjs/themes/prism.css');
 
 /* istanbul ignore next */
 @NgModule({
-  providers: [
-    {
-      provide: StacheConfigService,
-      useExisting: SkyAppConfig
-    },
-
-    // These services would normally be provided in the StacheModule:
-    StacheTitleService,
-    StacheNavService,
-    StacheJsonDataService,
-    StacheWindowRef,
-    StacheRouteMetadataService
-  ],
-  declarations: [
+  imports: [],
+  exports: [
     StacheAffixTopDirective,
     StacheGoogleAnalyticsDirective
   ],
-  exports: [
+  providers: [
+    StacheTitleService,
+    StacheNavService,
+    StacheWindowRef
+  ],
+  declarations: [
     StacheAffixTopDirective,
     StacheGoogleAnalyticsDirective
   ]

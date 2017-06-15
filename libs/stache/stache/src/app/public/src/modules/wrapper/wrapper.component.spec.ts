@@ -9,7 +9,11 @@ import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 import { StacheWrapperComponent } from './wrapper.component';
 import { StacheJsonDataService } from '../shared';
 import { StacheTitleService } from './title.service';
-import { StacheWindowRef } from '../shared';
+import {
+  StacheWindowRef,
+  STACHE_JSON_DATA_PROVIDERS,
+  STACHE_ROUTE_METADATA_PROVIDERS
+} from '../shared';
 
 describe('StacheWrapperComponent', () => {
   let component: StacheWrapperComponent;
@@ -61,7 +65,9 @@ describe('StacheWrapperComponent', () => {
         StacheJsonDataService,
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: StacheTitleService, useValue: mockTitleService },
-        { provide: StacheWindowRef, useValue: mockWindowService }
+        { provide: StacheWindowRef, useValue: mockWindowService },
+        STACHE_JSON_DATA_PROVIDERS,
+        STACHE_ROUTE_METADATA_PROVIDERS
       ],
       schemas: [
         NO_ERRORS_SCHEMA
@@ -190,6 +196,6 @@ describe('StacheWrapperComponent', () => {
 
   it('should set the jsonData property on init', () => {
     fixture.detectChanges();
-    expect(component.jsonData.global.productNameLong).toBe('Stache 2');
+    expect(component.jsonData).toEqual(jasmine.any(Object));
   });
 });

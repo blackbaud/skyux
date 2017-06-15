@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, OpaqueToken } from '@angular/core';
+
+export const STACHE_JSON_DATA_SERVICE_CONFIG
+  = new OpaqueToken('Injection token for StacheJsonDataService config.');
 
 @Injectable()
 export class StacheJsonDataService {
-  // The noop gets populated automatically by JSON file contents.
-  // https://github.com/blackbaud/skyux-builder-plugin-stache-parse-json-file
-  // (Disabling TSLint for this line because the file contents do not conform to linting rules.)
-  /* tslint:disable:quotemark whitespace max-line-length */
-  private jsonData: any = 'noop';
-  /* tslint:enable:quotemark whitespace max-line-length */
+  constructor(
+    @Inject(STACHE_JSON_DATA_SERVICE_CONFIG)
+    private jsonData: any) { }
 
   public getAll(): any {
     return this.jsonData;
@@ -21,3 +21,8 @@ export class StacheJsonDataService {
     return this.jsonData[name];
   }
 }
+
+export let STACHE_JSON_DATA_PROVIDERS: any[] = [
+  { provide: STACHE_JSON_DATA_SERVICE_CONFIG, useValue: { } },
+  { provide: StacheJsonDataService, useClass: StacheJsonDataService }
+];
