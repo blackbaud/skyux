@@ -4,3 +4,10 @@
     display: flex;
   }
 }
+
+/deep/
+.stache-affix {
+  .stache-affix-top {
+    max-width: inherit;
+  }
+}

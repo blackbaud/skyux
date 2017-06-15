@@ -16,7 +16,7 @@ export class HomeComponent {
       path: '/',
       children: [
         {
-          name: 'Sidebar Link',
+          name: 'Sidebar Link is super long and even longer foo bar baz',
           path: '/0'
         },
         {

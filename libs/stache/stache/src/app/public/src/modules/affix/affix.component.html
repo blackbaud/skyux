@@ -1,6 +1,8 @@
 <div #stacheAffixTarget
   class="stache-affix"
-  [style.min-height]="minHeightFormatted">
+  [style.min-height]="minHeightFormatted"
+  [style.max-width]="maxWidthFormatted"
+  [ngStyle]="{'position': cssPosition() }">
   <div stacheAffixTop>
     <ng-content></ng-content>
   </div>

@@ -1,5 +1,9 @@
 @import '../../styles/_variables';
 
+:host {
+  width: 100%;
+}
+
 .stache-sidebar-heading {
   font-size: 1.5em;
   font-weight: 300;
