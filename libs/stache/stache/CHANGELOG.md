@@ -1,3 +1,7 @@
+# 2.0.0-beta.4 (2017-06-16)
+
+- Updated version of plugin to accept all patch releases.
+
 # 2.0.0-beta.3 (2017-06-15)
 
 - Fixed JSON Data, Route Metadata, and Config Service providers.
