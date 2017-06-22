@@ -1,3 +1,7 @@
+# 2.0.0-beta.6 (2017-06-22)
+
+- Moved `@blackbaud/skyux` to package dependencies.
+
 # 2.0.0-beta.5 (2017-06-22)
 
 - Updated SKY UX to `2.0.0-rc.0`.
