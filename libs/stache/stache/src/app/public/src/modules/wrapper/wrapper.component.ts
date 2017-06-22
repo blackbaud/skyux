@@ -1,4 +1,4 @@
-/* tslint:disable:component-selector-name */
+/* tslint:disable:component-selector */
 import { Component, OnInit, Input, AfterContentInit, ContentChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 

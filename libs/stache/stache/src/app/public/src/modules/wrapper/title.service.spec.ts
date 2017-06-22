@@ -13,14 +13,20 @@ class MockStacheConfigService {
   public runtime = { };
 }
 
+class MockTitle extends Title {
+  constructor() {
+    super({});
+  }
+}
+
 describe('StacheTitleService', () => {
   let titleService: StacheTitleService;
-  let ngTitle: Title;
+  let ngTitle: MockTitle;
 
   beforeEach(() => {
     const appConfig = new MockStacheConfigService() as StacheConfigService;
-    ngTitle = new Title();
-    titleService = new StacheTitleService(ngTitle, appConfig);
+    ngTitle = new MockTitle();
+    titleService = new StacheTitleService(ngTitle as Title, appConfig);
   });
 
   it('should set the window title with the config app title', () => {

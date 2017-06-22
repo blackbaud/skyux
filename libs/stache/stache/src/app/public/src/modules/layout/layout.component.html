@@ -1,22 +1,22 @@
-<template #content>
+<ng-template #content>
   <ng-content></ng-content>
-</template>
+</ng-template>
 
-<template #contentSummary>
+<ng-template #contentSummary>
   <ng-content select="[stachePageSummary]"></ng-content>
   <ng-content select="stache-page-summary"></ng-content>
-</template>
+</ng-template>
 
-<template #blankLayout>
+<ng-template #blankLayout>
   <stache-layout-blank>
-    <template stachePageSummary [ngTemplateOutlet]="contentSummary">
-    </template>
-    <template [ngTemplateOutlet]="content">
-    </template>
+    <ng-template stachePageSummary [ngTemplateOutlet]="contentSummary">
+    </ng-template>
+    <ng-template [ngTemplateOutlet]="content">
+    </ng-template>
   </stache-layout-blank>
-</template>
+</ng-template>
 
-<template #containerLayout>
+<ng-template #containerLayout>
   <stache-layout-container
     [pageTitle]="pageTitle"
     [showBackToTop]="showBackToTop"
@@ -24,14 +24,14 @@
     [showTableOfContents]="showTableOfContents"
     [inPageRoutes]="inPageRoutes"
     [breadcrumbsRoutes]="breadcrumbsRoutes">
-    <template stachePageSummary [ngTemplateOutlet]="contentSummary">
-    </template>
-    <template [ngTemplateOutlet]="content">
-    </template>
+    <ng-template stachePageSummary [ngTemplateOutlet]="contentSummary">
+    </ng-template>
+    <ng-template [ngTemplateOutlet]="content">
+    </ng-template>
   </stache-layout-container>
-</template>
+</ng-template>
 
-<template #sidebarLayout>
+<ng-template #sidebarLayout>
   <stache-layout-sidebar
     [pageTitle]="pageTitle"
     [showBackToTop]="showBackToTop"
@@ -40,12 +40,12 @@
     [sidebarRoutes]="sidebarRoutes"
     [inPageRoutes]="inPageRoutes"
     [breadcrumbsRoutes]="breadcrumbsRoutes">
-    <template stachePageSummary [ngTemplateOutlet]="contentSummary">
-    </template>
-    <template [ngTemplateOutlet]="content">
-    </template>
+    <ng-template stachePageSummary [ngTemplateOutlet]="contentSummary">
+    </ng-template>
+    <ng-template [ngTemplateOutlet]="content">
+    </ng-template>
   </stache-layout-sidebar>
-</template>
+</ng-template>
 
-<template [ngTemplateOutlet]="templateRef">
-</template>
+<ng-template [ngTemplateOutlet]="templateRef">
+</ng-template>

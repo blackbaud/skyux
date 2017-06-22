@@ -1,7 +1,7 @@
-import { Inject, Injectable, OpaqueToken } from '@angular/core';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
 
 export const STACHE_JSON_DATA_SERVICE_CONFIG
-  = new OpaqueToken('Injection token for StacheJsonDataService config.');
+  = new InjectionToken<any>('Injection token for StacheJsonDataService config.');
 
 @Injectable()
 export class StacheJsonDataService {

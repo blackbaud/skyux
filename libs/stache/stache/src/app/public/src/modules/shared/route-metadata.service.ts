@@ -1,7 +1,14 @@
-import { Inject, Injectable, OpaqueToken } from '@angular/core';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
+
+export interface StacheRouteMetadataConfig {
+  path: string;
+  name: string;
+}
 
 export const STACHE_ROUTE_METADATA_SERVICE_CONFIG
-  = new OpaqueToken('Injection token for StacheRouteMetadataService config.');
+  = new InjectionToken<StacheRouteMetadataConfig[]>(
+    'Injection token for StacheRouteMetadataService config.'
+  );
 
 @Injectable()
 export class StacheRouteMetadataService {

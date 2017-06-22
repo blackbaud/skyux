@@ -25,7 +25,7 @@ export class StacheCodeBlockComponent implements AfterViewInit {
   }
   public get languageType(): string {
     return this._languageType;
-  };
+  }
 
   @ViewChild('codeFromContent')
   public codeTemplateRef: any;

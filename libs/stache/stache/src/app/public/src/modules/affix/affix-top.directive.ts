@@ -3,7 +3,7 @@ import {
   Directive,
   ElementRef,
   HostListener,
-  Renderer
+  Renderer2
 } from '@angular/core';
 
 import { StacheWindowRef } from '../shared';
@@ -19,7 +19,7 @@ export class StacheAffixTopDirective implements AfterViewInit {
   private element: any;
 
   constructor (
-    private renderer: Renderer,
+    private renderer: Renderer2,
     private elementRef: ElementRef,
     private windowRef: StacheWindowRef) { }
 
@@ -65,18 +65,18 @@ export class StacheAffixTopDirective implements AfterViewInit {
   private affixToTop(): void {
     if (!this.isAffixed) {
       this.isAffixed = true;
-      this.renderer.setElementStyle(this.element, 'position', 'fixed');
-      this.renderer.setElementStyle(this.element, 'top', '0px');
-      this.renderer.setElementClass(this.element, StacheAffixTopDirective.AFFIX_CLASS_NAME, true);
+      this.renderer.setStyle(this.element, 'position', 'fixed');
+      this.renderer.setStyle(this.element, 'top', '0px');
+      this.renderer.addClass(this.element, StacheAffixTopDirective.AFFIX_CLASS_NAME);
     }
   }
 
   private resetElement(): void {
     if (this.isAffixed) {
       this.isAffixed = false;
-      this.renderer.setElementStyle(this.element, 'position', 'initial');
-      this.renderer.setElementStyle(this.element, 'top', `${this.offsetTop}px`);
-      this.renderer.setElementClass(this.element, StacheAffixTopDirective.AFFIX_CLASS_NAME, false);
+      this.renderer.setStyle(this.element, 'position', 'initial');
+      this.renderer.setStyle(this.element, 'top', `${this.offsetTop}px`);
+      this.renderer.removeClass(this.element, StacheAffixTopDirective.AFFIX_CLASS_NAME);
     }
   }
 }
