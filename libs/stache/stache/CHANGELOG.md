@@ -1,3 +1,9 @@
+# 2.0.0-beta.5 (2017-06-22)
+
+- Updated SKY UX to `2.0.0-rc.0`.
+- Updated SKY UX Builder to `1.0.0-rc.2`.
+- Adjusted components to support Angular `4.x`. ([#101](https://github.com/blackbaud/stache2/issues/101))
+
 # 2.0.0-beta.4 (2017-06-16)
 
 - Updated version of plugin to accept all patch releases.
