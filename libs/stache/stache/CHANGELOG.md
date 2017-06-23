@@ -1,3 +1,7 @@
+# 2.0.0-beta.7 (2017-06-22)
+
+- Updated SKY UX to `2.0.0-rc.1`.
+
 # 2.0.0-beta.6 (2017-06-22)
 
 - Moved `@blackbaud/skyux` to package dependencies.
@@ -25,7 +29,7 @@
 - Implemented new components and directives: `StacheTutorialComponent`, `StacheAffixComponent`, `StacheGoogleAnalyticsDirective`.
 - Implemented service to convert JSON files into usable JavaScript objects, `StacheJsonDataService`.
 - Route names can be changed using the `<stache>` attributes `pageTitle` or `navTitle`.
-- New SKY UX Builder plugins were created for various reasons (check each plugin's README for more information): 
+- New SKY UX Builder plugins were created for various reasons (check each plugin's README for more information):
   - [`@blackbaud/skyux-builder-plugin-auth-email-whitelist`](https://github.com/blackbaud/skyux-builder-plugin-auth-email-whitelist)
   - [`@blackbaud/skyux-builder-plugin-stache-json-data`](https://github.com/blackbaud/skyux-builder-plugin-stache-json-data)
   - [`@blackbaud/skyux-builder-plugin-stache-template-reference-variable`](https://github.com/blackbaud/skyux-builder-plugin-stache-template-reference-variable)
