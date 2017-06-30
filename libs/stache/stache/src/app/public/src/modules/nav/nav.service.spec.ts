@@ -12,6 +12,39 @@ class MockStacheConfigService {
         routePath: ''
       },
       {
+        routePath: 'order-routes'
+      },
+      {
+        routePath: 'order-routes/first'
+      },
+      {
+        routePath: 'order-routes/first/order-one'
+      },
+      {
+        routePath: 'order-routes/first/order-two'
+      },
+      {
+        routePath: 'order-routes/first/order-three'
+      },
+      {
+        routePath: 'order-routes/first/order-four'
+      },
+      {
+        routePath: 'order-routes/first/order-five'
+      },
+      {
+        routePath: 'order-routes/first/sample'
+      },
+      {
+        routePath: 'order-routes/first/sample-two'
+      },
+      {
+        routePath: 'order-routes/third'
+      },
+      {
+        routePath: 'order-routes/second'
+      },
+      {
         routePath: 'parent'
       },
       {
@@ -22,9 +55,6 @@ class MockStacheConfigService {
       },
       {
         routePath: 'parent/child/grandchild/grand-grandchild'
-      },
-      {
-        routePath: 'other-route'
       },
       {
         routePath: 'other-parent'
@@ -46,8 +76,56 @@ class MockRouter {
 }
 
 class MockStacheRouteMetadataService {
-  public routes: any[] = [
-    { path: 'other-parent', name: 'Custom Route Name' }
+  public metadata: any[] = [
+      {
+        path: 'other-parent',
+        name: 'Custom Route Name'
+      },
+      {
+        path: 'order-routes/first',
+        name: 'A First'
+      },
+      {
+        path: 'order-routes/third',
+        name: 'C Third'
+      },
+      {
+        path: 'order-routes/second',
+        name: 'B Second'
+      },
+      {
+        path: 'order-routes/first/order-two',
+        order: 2,
+        name: 'B Three'
+      },
+      {
+        path: 'order-routes/first/order-one',
+        order: 1
+      },
+      {
+        path: 'order-routes/first/order-five',
+        name: 'A'
+      },
+      {
+        path: 'order-routes/first/order-three',
+        order: 3,
+        name: 'B Three'
+      },
+      {
+        path: 'order-routes/first/sample',
+        order: 4,
+        name: 'A Three'
+      },
+      {
+        path: 'order-routes/first/order-four',
+        order: 3,
+        name: 'A Three'
+      },
+      {
+        path: 'order-routes/first/sample-two',
+        order: 5,
+        name: 'A Three'
+      }
   ];
 }
 
@@ -115,8 +193,26 @@ describe('StacheNavService', () => {
   });
 
   it('should handle an undefined routes property in route metadata service', () => {
-    delete routeMetadataService.routes;
+    delete routeMetadataService.metadata;
     let activeRoutes = navService.getActiveRoutes();
     expect(activeRoutes[0].name).toBe('Parent');
+  });
+
+  it('should order routes alphabetically by name', () => {
+    router.url = '/order-routes';
+    let activeRoutes = navService.getActiveRoutes();
+    expect(activeRoutes[0].children[0].name).toBe('A First');
+    expect(activeRoutes[0].children[2].name).toBe('C Third');
+  });
+
+  it('should order routes by order over alphabetical if order exists', () => {
+    router.url = '/order-routes';
+    let activeRoutes = navService.getActiveRoutes();
+    expect(activeRoutes[0].children[0].children[0].name).toBe('Order One');
+    expect(activeRoutes[0].children[0].children[2].name).toBe('A Three');
+    expect(activeRoutes[0].children[0].children[2].order).toBe(3);
+    expect(activeRoutes[0].children[0].children[3].name).toBe('B Three');
+    expect(activeRoutes[0].children[0].children[3].order).toBe(3);
+    expect(activeRoutes[0].children[0].children[6].name).toBe('A');
   });
 });

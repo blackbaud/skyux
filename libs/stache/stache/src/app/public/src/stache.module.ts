@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 
 const smoothscroll = require('smoothscroll-polyfill');
+const objectAssign = require('es6-object-assign');
+objectAssign.polyfill();
 smoothscroll.polyfill();
 
 import { StacheActionButtonsModule } from './modules/action-buttons/action-buttons.module';

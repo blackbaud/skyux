@@ -1,8 +1,11 @@
 import { Inject, Injectable, InjectionToken } from '@angular/core';
 
+import { numberConverter } from './input-converter';
+
 export interface StacheRouteMetadataConfig {
   path: string;
   name: string;
+  order?: number;
 }
 
 export const STACHE_ROUTE_METADATA_SERVICE_CONFIG
@@ -14,7 +17,13 @@ export const STACHE_ROUTE_METADATA_SERVICE_CONFIG
 export class StacheRouteMetadataService {
   constructor(
     @Inject(STACHE_ROUTE_METADATA_SERVICE_CONFIG)
-    public routes: any[]) { }
+    public metadata: any[]) {
+      this.metadata.forEach(route => {
+        if (route.order) {
+          route.order = numberConverter(route.order);
+        }
+      });
+    }
 }
 
 export let STACHE_ROUTE_METADATA_PROVIDERS: any[] = [

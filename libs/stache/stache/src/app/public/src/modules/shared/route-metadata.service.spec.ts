@@ -9,7 +9,17 @@ import {
 
 describe('StacheRouteMetadataService', () => {
   let routeMetadataService: StacheRouteMetadataService;
-  let config: any[] = [];
+  let config: any[] = [
+    {
+      path: '/',
+      name: 'foo',
+      order: '1'
+    },
+        {
+      path: '/',
+      name: 'bar'
+    }
+  ];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -25,6 +35,11 @@ describe('StacheRouteMetadataService', () => {
   });
 
   it('should have a routes property', () => {
-    expect(routeMetadataService.routes).toBeDefined();
+    expect(routeMetadataService.metadata).toBeDefined();
+  });
+
+  it('should convert values to appropriate type', () => {
+    expect(typeof routeMetadataService.metadata[0].order).toBe('number');
+    expect(typeof routeMetadataService.metadata[0].name).toBe('string');
   });
 });

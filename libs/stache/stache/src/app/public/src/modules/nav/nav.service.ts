@@ -19,10 +19,6 @@ export class StacheNavService {
     });
   }
 
-  public getActiveUrl(): string {
-    return this.router.url.split('#')[0];
-  }
-
   public getActiveRoutes(): StacheNavLink[] {
     if (this.activeRoutes) {
       return this.activeRoutes;
@@ -45,7 +41,7 @@ export class StacheNavService {
     let activeRoutes = [{
       path: rootPath,
       segments: [rootPath],
-      children: this.orderRoutes(activeChildRoutes, rootPath)
+      children: this.assignChildren(activeChildRoutes, rootPath)
     }];
 
     this.activeRoutes = this.formatRoutes(activeRoutes);
@@ -53,12 +49,20 @@ export class StacheNavService {
     return this.clone(this.activeRoutes) as StacheNavLink[];
   }
 
+  public getActiveUrl(): string {
+    return this.router.url.split('#')[0];
+  }
+
   public clearActiveRoutes() {
     this.activeRoutes = undefined;
   }
 
-  private orderRoutes(routes: any[], parentPath: string): any[] {
-    const ordered: any[] = [];
+  private clone(thing: any): any {
+    return JSON.parse(JSON.stringify(thing));
+  }
+
+  private assignChildren(routes: any[], parentPath: string): any[] {
+    const assignedRoutes: any[] = [];
     const depth = parentPath.split('/').length + 1;
 
     routes.forEach(route => {
@@ -66,46 +70,46 @@ export class StacheNavService {
       const isChildRoute = (depth === routeDepth && route.path.indexOf(parentPath) > -1);
 
       if (isChildRoute) {
-        route.children = this.orderRoutes(routes, route.path);
-        ordered.push(route);
+        route.children = this.assignChildren(routes, route.path);
+        assignedRoutes.push(route);
       }
     });
 
-    return ordered;
+    return assignedRoutes;
   }
 
   private formatRoutes(routes: any[]): StacheNavLink[] {
     let formatted = routes.map(route => {
-      let name = this.getPreferredName(route.path);
+      let pathMetadata = this.getRouteMetadata(route);
 
-      if (name === '') {
-        name = this.getNameFromPath(route.segments[route.segments.length - 1]);
-      }
+      let formattedRoute = Object.assign({},
+        {
+          path: `/${route.path}`,
+          children: this.formatRoutes(route.children),
+          name: this.getNameFromPath(route.segments[route.segments.length - 1])
+        },
+        pathMetadata);
 
-      return {
-        name: name,
-        path: `/${route.path}`,
-        children: this.formatRoutes(route.children)
-      } as any;
+      return formattedRoute as any;
     });
 
-    return formatted as StacheNavLink[];
+    return this.sortRoutes(formatted) as StacheNavLink[];
   }
 
-  private getPreferredName(path: string): string {
-    const routeMetadata = this.routeMetadataService.routes;
+  private getRouteMetadata(route: any): any {
+    const allMetadata = this.routeMetadataService.metadata;
 
-    if (routeMetadata) {
-      let foundRoute = routeMetadata.filter((route: any) => {
-        return route.path === path;
+    if (allMetadata) {
+      let foundRoute = allMetadata.filter((metaRoute: any) => {
+        return metaRoute.path === route.path;
       })[0];
 
       if (foundRoute) {
-        return foundRoute.name;
+        return foundRoute;
       }
     }
 
-    return '';
+    return {};
   }
 
   private getNameFromPath(path: string): string {
@@ -120,7 +124,37 @@ export class StacheNavService {
       .join(' ');
   }
 
-  private clone(thing: any): any {
-    return JSON.parse(JSON.stringify(thing));
+  private sortRoutes(routes: StacheNavLink[]): StacheNavLink[] {
+
+    const sortByName = (a: any, b: any): number  => {
+      if (a.name.toLowerCase() < b.name.toLowerCase()) {
+        return -1;
+      } else if (a.name.toLowerCase() > b.name.toLowerCase()) {
+        return 1;
+      } else {
+        return 0;
+      }
+    };
+
+    const sortByOrder = (a: any, b: any): number => {
+      if (a.order < b.order) {
+        return -1;
+      } else if (a.order > b.order) {
+        return 1;
+      } else {
+        return 0;
+      }
+    };
+
+    const orderedRoutes = routes.filter(route => route.hasOwnProperty('order'))
+      .sort(sortByName)
+      .sort(sortByOrder);
+
+    const unorderedRoutes = routes.filter(route => !route.hasOwnProperty('order'))
+      .sort(sortByName);
+
+    const sortedRoutes = orderedRoutes.concat(unorderedRoutes);
+
+    return sortedRoutes;
   }
 }
