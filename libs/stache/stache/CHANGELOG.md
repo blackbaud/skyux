@@ -1,3 +1,8 @@
+# 2.0.0-beta.8 (2017-06-30)
+
+- Added support for SKY UX `2.0.0-rc.2`.
+- Added support for SKY UX Builder `1.0.0-rc.4`.
+
 # 2.0.0-beta.7 (2017-06-22)
 
 - Updated SKY UX to `2.0.0-rc.1`.
