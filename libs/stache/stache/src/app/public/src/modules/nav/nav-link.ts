@@ -6,4 +6,6 @@ export interface StacheNavLink {
   fragment?: string;
   icon?: string;
   summary?: string;
+  isActive?: boolean;
+  isCurrent?: boolean;
 }

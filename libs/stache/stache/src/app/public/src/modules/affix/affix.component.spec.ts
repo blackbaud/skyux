@@ -6,6 +6,8 @@ import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 import { StacheAffixComponent } from './affix.component';
 import { StacheAffixTestComponent } from './fixtures/affix.component.fixture';
 import { StacheAffixTopDirective } from './affix-top.directive';
+import { StacheAffixModule } from './affix.module';
+import { StacheWindowRef } from '../shared/window-ref';
 
 describe('StacheAffixComponent', () => {
   let component: StacheAffixComponent;
@@ -13,9 +15,14 @@ describe('StacheAffixComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [
+        StacheAffixModule
+      ],
       declarations: [
-        StacheAffixComponent,
         StacheAffixTestComponent
+      ],
+      providers: [
+        StacheWindowRef
       ]
     })
     .compileComponents();
@@ -29,13 +36,13 @@ describe('StacheAffixComponent', () => {
   });
 
   it('should format the wrapping DIVs minHeight', () => {
-    fixture.componentInstance.ngAfterViewInit();
-    expect(fixture.componentInstance.minHeightFormatted).toBeDefined();
+    fixture.detectChanges();
+    expect(component.minHeightFormatted).toBeDefined();
   });
 
   it('should format the wrapping DIVs maxWidth', () => {
-    fixture.componentInstance.ngAfterViewInit();
-    expect(fixture.componentInstance.maxWidthFormatted).toBeDefined();
+    fixture.detectChanges();
+    expect(component.maxWidthFormatted).toBeDefined();
   });
 
   it('should transclude content', () => {

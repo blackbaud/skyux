@@ -89,7 +89,7 @@ describe('StacheNavComponent', () => {
 
     fixture.detectChanges();
 
-    expect(component.isActive(route)).toBe(true);
+    expect(route.isActive).toBe(true);
   });
 
   it('should return true if a given route is current', () => {
@@ -98,7 +98,7 @@ describe('StacheNavComponent', () => {
 
     fixture.detectChanges();
 
-    expect(component.isCurrent(route)).toBe(true);
+    expect(route.isCurrent).toBe(true);
   });
 
   it('should navigate to the route passed in', () => {

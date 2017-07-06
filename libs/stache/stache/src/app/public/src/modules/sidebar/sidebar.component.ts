@@ -23,7 +23,7 @@ export class StacheSidebarComponent implements StacheNav, OnInit {
     }
   }
 
-  public isActive(): boolean {
+  public isHeadingActive(): boolean {
     const url = this.navService.getActiveUrl();
     return (url === this.headingRoute);
   }
@@ -32,7 +32,7 @@ export class StacheSidebarComponent implements StacheNav, OnInit {
     const root = activeRoutes[0];
 
     this.heading = root.name;
-    this.headingRoute = root.path;
+    this.headingRoute = `/${root.path}`;
 
     return root.children;
   }

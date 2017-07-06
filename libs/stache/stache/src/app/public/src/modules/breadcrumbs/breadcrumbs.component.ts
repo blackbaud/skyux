@@ -30,7 +30,7 @@ export class StacheBreadcrumbsComponent implements StacheNav, OnInit {
       path: '/'
     });
 
-    if (root.path === '/') {
+    if (root.path === '') {
       return breadcrumbRoutes;
     }
 
@@ -58,7 +58,7 @@ export class StacheBreadcrumbsComponent implements StacheNav, OnInit {
   private findActiveBranch(routes: StacheNavLink[], callback: (navLink: StacheNavLink) => void) {
     const activeUrl = `${this.navService.getActiveUrl()}/`;
     routes.forEach((route: StacheNavLink) => {
-      if (activeUrl.indexOf(`${route.path}/`) === 0) {
+      if (activeUrl.indexOf(`/${route.path}/`) === 0) {
         callback(route);
       }
     });

@@ -174,9 +174,9 @@ describe('StacheNavService', () => {
 
   it('should order routes in hierarchies', () => {
     let activeRoutes = navService.getActiveRoutes();
-    expect(activeRoutes[0].path).toBe('/parent');
-    expect(activeRoutes[0].children[0].path).toBe('/parent/child');
-    expect(activeRoutes[0].children[0].children[0].path).toBe('/parent/child/grandchild');
+    expect(activeRoutes[0].path).toBe('parent');
+    expect(activeRoutes[0].children[0].path).toBe('parent/child');
+    expect(activeRoutes[0].children[0].children[0].path).toBe('parent/child/grandchild');
   });
 
   it('should create the route\'s name from the path by default', () => {

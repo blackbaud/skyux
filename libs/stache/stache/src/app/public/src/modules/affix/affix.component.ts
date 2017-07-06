@@ -1,4 +1,10 @@
-import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  AfterViewInit,
+  ViewChild,
+  ElementRef
+} from '@angular/core';
 
 import { StacheAffixTopDirective } from './affix-top.directive';
 
@@ -16,9 +22,13 @@ export class StacheAffixComponent implements AfterViewInit {
   @ViewChild(StacheAffixTopDirective)
   public stacheAffixTop: StacheAffixTopDirective;
 
+  public constructor(
+    private cdRef: ChangeDetectorRef) { }
+
   public ngAfterViewInit() {
     this.minHeightFormatted = `${this.stacheAffixTarget.nativeElement.offsetHeight}px`;
     this.maxWidthFormatted = `${this.stacheAffixTarget.nativeElement.offsetWidth}px`;
+    this.cdRef.detectChanges();
   }
 
   public cssPosition(): string {

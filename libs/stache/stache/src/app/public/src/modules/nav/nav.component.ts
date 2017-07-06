@@ -31,34 +31,6 @@ export class StacheNavComponent implements OnInit, StacheNav {
     return Array.isArray(route.children);
   }
 
-  public isActive(route: any): boolean {
-    const activeUrl = this.router.url.split('#')[0];
-    let path = route.path;
-    let navDepth: number;
-
-    if (path.join) {
-      navDepth = path.length;
-      path = path.join('/');
-    } else {
-      navDepth = path.split('/').length;
-    }
-
-    const isActiveParent = (navDepth > 2  && `${activeUrl}/`.indexOf(`${path}/`) === 0);
-
-    return (isActiveParent || activeUrl === path);
-  }
-
-  public isCurrent(route: any): boolean {
-    const activeUrl = this.router.url.split('#')[0];
-    let path = route.path;
-
-    if (path.join) {
-      path = path.join('/');
-    }
-
-    return (activeUrl === path);
-  }
-
   public scrollToElement(id: string) {
     let element = this.windowRef.nativeWindow.document.getElementById(id);
     if (element) {
@@ -86,5 +58,52 @@ export class StacheNavComponent implements OnInit, StacheNav {
     if (this.navType) {
       this.classname = `stache-nav-${this.navType}`;
     }
+
+    this.assignActiveStates();
+  }
+
+  private assignActiveStates() {
+    const activeUrl = this.router.url.split('#')[0];
+    if (this.hasRoutes()) {
+      this.routes.forEach((route: any) => {
+        if (this.isActive(activeUrl, route)) {
+          route.isActive = true;
+        }
+
+        if (this.isCurrent(activeUrl, route)) {
+          route.isCurrent = true;
+        }
+      });
+    }
+  }
+
+  private isActive(activeUrl: string, route: any): boolean {
+    let path = route.path;
+    let navDepth: number;
+
+    if (path.join) {
+      navDepth = path.length;
+      path = path.join('/');
+    } else {
+      navDepth = path.split('/').length;
+    }
+
+    if (path.indexOf('/') !== 0) {
+      path = `/${path}`;
+    }
+
+    const isActiveParent = (navDepth > 2  && `${activeUrl}/`.indexOf(`${path}/`) === 0);
+
+    return (isActiveParent || activeUrl === path);
+  }
+
+  private isCurrent(activeUrl: string, route: any): boolean {
+    let path = route.path;
+
+    if (path.join) {
+      path = path.join('/');
+    }
+
+    return (activeUrl === path);
   }
 }

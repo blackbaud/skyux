@@ -84,7 +84,7 @@ export class StacheNavService {
 
       let formattedRoute = Object.assign({},
         {
-          path: `/${route.path}`,
+          path: route.path,
           children: this.formatRoutes(route.children),
           name: this.getNameFromPath(route.segments[route.segments.length - 1])
         },

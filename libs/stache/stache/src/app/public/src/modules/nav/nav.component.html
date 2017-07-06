@@ -2,7 +2,7 @@
   <ol class="stache-nav-list">
     <li class="stache-nav-list-item"
       *ngFor="let route of routes"
-      [ngClass]="{'active': isActive(route), 'current': isCurrent(route)}">
+      [ngClass]="{'active': route.isActive, 'current': route.isCurrent}">
       <a class="stache-nav-anchor" (click)="navigate(route)">{{route.name}}</a>
       <stache-nav
         navType="sidebar stache-nav-sub"
