@@ -1,3 +1,11 @@
+# 2.0.0-beta.9 (2017-07-06)
+
+- Added `navOrder` to `<stache>` tag, to allow ordering of sidebar routes. ([#242](https://github.com/blackbaud/stache2/pull/242))
+- Added more language options for `StacheCodeBlockComponent`. ([#245](https://github.com/blackbaud/stache2/pull/245))
+- Added support for SKY UX `2.0.0-rc.4`.
+- Added support for SKY UX Builder `1.0.0-rc.6`.
+- Fixed bug with `StacheAffixComponent`. ([#250](https://github.com/blackbaud/stache2/pull/250))
+
 # 2.0.0-beta.8 (2017-06-30)
 
 - Added support for SKY UX `2.0.0-rc.2`.
