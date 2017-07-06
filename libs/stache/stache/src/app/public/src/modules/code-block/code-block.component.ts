@@ -3,8 +3,28 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 declare let Prism: any;
 import 'prismjs/prism';
-import 'prismjs/components/prism-typescript';
 import 'prismjs/plugins/normalize-whitespace/prism-normalize-whitespace';
+import 'prismjs/components/prism-aspnet';
+import 'prismjs/components/prism-bash';
+import 'prismjs/components/prism-csharp';
+import 'prismjs/components/prism-docker';
+import 'prismjs/components/prism-fsharp';
+import 'prismjs/components/prism-git';
+import 'prismjs/components/prism-handlebars';
+import 'prismjs/components/prism-http';
+import 'prismjs/components/prism-java';
+import 'prismjs/components/prism-json';
+import 'prismjs/components/prism-markdown';
+import 'prismjs/components/prism-php';
+import 'prismjs/components/prism-powershell';
+import 'prismjs/components/prism-python';
+import 'prismjs/components/prism-ruby';
+import 'prismjs/components/prism-sass';
+import 'prismjs/components/prism-scss';
+import 'prismjs/components/prism-sql';
+import 'prismjs/components/prism-swift';
+import 'prismjs/components/prism-typescript';
+import 'prismjs/components/prism-yaml';
 
 @Component({
   selector: 'stache-code-block',

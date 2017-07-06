@@ -63,6 +63,236 @@
     });
   </stache-code-block>
 
+  <stache-code-block
+    languageType="csharp">
+    using System;
+
+    public class Hello1
+    {
+      public static void Main()
+      {
+          System.Console.WriteLine("Hello, World!");
+      }
+    }
+  </stache-code-block>
+
+  <stache-code-block
+    languageType="aspnet">
+    <%: Page.Title %>
+    <a href="ProductDetails.aspx?productID=<%#:Item.ProductID%>">
+      <span>
+          <%#:Item.ProductName%>
+      </span>
+    </a>
+  </stache-code-block>
+
+  <stache-code-block
+    languageType="bash">
+    #!/bin/bash
+    # Counting the number of lines in a list of files
+    # for loop over arguments
+
+    if [ $# -lt 1 ]
+    then
+    echo "Usage: $0 file ..."
+    exit 1
+    fi
+
+    echo "$0 counts the lines of code"
+    l=0
+    n=0
+    s=0
+    for f in $*
+    do
+    l=`wc -l $f | sed 's/^\([0-9]*\).*$/\1/'`
+    echo "$f: $l"
+    n=$[ $n + 1 ]
+    s=$[ $s + $l ]
+    done
+
+    echo "$n files in total, with $s lines in total"
+  </stache-code-block>
+
+  <stache-code-block
+    languageType="docker">
+    FROM ubuntu
+    MAINTAINER Kimbro Staken
+
+    RUN apt-get install -y software-properties-common python
+    RUN add-apt-repository ppa:chris-lea/node.js
+    RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ precise universe" >> /etc/apt/sources.list
+    RUN apt-get update
+    RUN apt-get install -y nodejs
+    #RUN apt-get install -y nodejs=0.6.12~dfsg1-1ubuntu1
+    RUN mkdir /var/www
+
+    ADD app.js /var/www/app.js
+
+    CMD ["/usr/bin/node", "/var/www/app.js"]
+  </stache-code-block>
+
+  <stache-code-block
+    languageType="fsharp">
+    open System
+
+    [<EntryPoint>]
+    let main argv =
+    printfn "Hello World"
+    Console.ReadLine() |> ignore
+    0
+  </stache-code-block>
+
+  <stache-code-block
+    languageType="git">
+    git add .
+    git commit -m"Added some stuff"
+    git push origin master
+  </stache-code-block>
+
+  <stache-code-block
+    languageType="handlebars">
+    {{# if true}}
+      // do some stuff
+    {{ else }}
+      // do this instead
+    {{/ if }}
+  </stache-code-block>
+
+  <stache-code-block
+    languageType="http">
+    GET /docs/index.html HTTP/1.1
+    Host: www.nowhere123.com
+    Accept: image/gif, image/jpeg, */*
+    Accept-Language: en-us
+    Accept-Encoding: gzip, deflate
+    User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)
+    (blank line)
+  </stache-code-block>
+
+  <stache-code-block
+    languageType="java">
+    public class HelloWorld
+      {
+        public static void main(String[] args) {
+        System.out.println("Hello World!");
+      }
+    }
+  </stache-code-block>
+
+  <stache-code-block
+    languageType="json">
+    {
+      "productNameLong": "Stache 2",
+      "productNameShort": "Stache"
+    }
+  </stache-code-block>
+
+  <stache-code-block
+    languageType="markdown">
+    #Heading
+    ##SubHeading
+    - list item
+    - list item
+    - list item
+  </stache-code-block>
+
+  <stache-code-block
+    languageType="php">
+    $json = json_encode($my_object);
+    $array1 = array("a" => "green", "red", "blue", "red");
+    $array2 = array("b" => "green", "yellow", "red");
+    $result = array_diff($array1, $array2);
+  </stache-code-block>
+
+  <stache-code-block
+    languageType="powershell">
+    Function SayHello([string]$name) {
+      Write-Host "Hello, $name."
+    }
+    $Names = @("Bob", "Alice")
+
+    $Names | ForEach {
+      SayHello $_
+    }
+  </stache-code-block>
+
+  <stache-code-block
+    languageType="python">
+    def median(pool):
+      '''Statistical median to demonstrate doctest.
+      >>> median([2, 9, 9, 7, 9, 2, 4, 5, 8])
+      7
+      '''
+      copy = sorted(pool)
+      size = len(copy)
+      if size % 2 == 1:
+      return copy[(size - 1) / 2]
+      else:
+      return (copy[size/2 - 1] + copy[size/2]) / 2
+    if __name__ == '__main__':
+      import doctest
+      doctest.testmod()
+  </stache-code-block>
+
+  <stache-code-block
+    languageType="sass">
+    @mixin large-text
+      color: #ff0000
+
+    @media (min-width: 600px)
+      h1
+        @include large-text
+
+    =large-text
+      color: #ff0000
+
+    h1
+      +large-text
+  </stache-code-block>
+
+  <stache-code-block
+    languageType="scss">
+    @font-face {
+      font-family: "opensans";
+      src: font-url("opensans.ttf");
+    }
+  </stache-code-block>
+
+  <stache-code-block
+    languageType="sql">
+    SELECT COUNT(*) AS cpt, MAX(t.pos) AS max_pos
+    FROM `my_table`
+    LEFT JOIN `other_table` AS t
+    WHERE `somecol` IS NOT NULL
+    ORDER BY t.other_col DESC
+  </stache-code-block>
+
+  <stache-code-block
+    languageType="swift">
+    let someString = "Some string literal value"
+    var emptyString = ""
+    // String interpolation
+    let multiplier = 3
+    "\(multiplier) times 2.5 is \(Double(multiplier) * 2.5)"
+  </stache-code-block>
+
+  <stache-code-block
+    languageType="typescript">
+    interface SearchFunc {
+      (source: string, subString: string): boolean;
+    }
+  </stache-code-block>
+
+  <stache-code-block
+    languageType="yaml">
+    ---
+    layout: layout-base
+    order: 0
+    name: Name of Page
+    description: This is a description
+    ---
+  </stache-code-block>
+
   <stache-page-anchor>
     Images
   </stache-page-anchor>
