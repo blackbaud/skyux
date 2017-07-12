@@ -8,6 +8,9 @@ import { StachePageAnchorTestComponent } from './fixtures/page-anchor.component.
 import { StachePageAnchorComponent } from './page-anchor.component';
 import { StacheWindowRef } from '../shared';
 
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
 describe('StachePageAnchorComponent', () => {
   let component: StachePageAnchorComponent;
   let fixture: ComponentFixture<StachePageAnchorComponent>;
@@ -71,4 +74,15 @@ describe('StachePageAnchorComponent', () => {
         expect(debugElement.nativeElement.scrollIntoView).toHaveBeenCalled();
       });
   }));
+
+  it('should create a behavior subject and a navlink stream', () => {
+    expect(component['_subject'] instanceof BehaviorSubject).toEqual(true);
+    expect(component.navLinkStream instanceof Observable).toEqual(true);
+  });
+
+  it('should broadcast changes', () => {
+    spyOn(component['_subject'], 'next').and.callThrough();
+    component.ngAfterViewInit();
+    expect(component['_subject'].next).toHaveBeenCalled();
+  });
 });

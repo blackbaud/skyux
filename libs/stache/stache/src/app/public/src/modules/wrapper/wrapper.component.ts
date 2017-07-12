@@ -1,6 +1,10 @@
 /* tslint:disable:component-selector */
-import { Component, OnInit, Input, AfterContentInit, ContentChildren } from '@angular/core';
+import {
+  Component, OnInit, Input, AfterContentInit, ContentChildren, QueryList, OnDestroy
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
+import { Subscription } from 'rxjs/Subscription';
 
 import { StacheTitleService } from './title.service';
 import { StachePageAnchorComponent } from '../page-anchor';
@@ -11,7 +15,7 @@ import { StacheNavLink } from '../nav';
   selector: 'stache',
   templateUrl: './wrapper.component.html'
 })
-export class StacheWrapperComponent implements OnInit, AfterContentInit {
+export class StacheWrapperComponent implements OnInit, AfterContentInit, OnDestroy {
   @Input()
   public pageTitle: string;
 
@@ -40,11 +44,11 @@ export class StacheWrapperComponent implements OnInit, AfterContentInit {
   public showBackToTop: boolean = true;
 
   public jsonData: any;
-
   public inPageRoutes: StacheNavLink[] = [];
 
   @ContentChildren(StachePageAnchorComponent)
-  private pageAnchors: any;
+  private pageAnchors: QueryList<StachePageAnchorComponent>;
+  private pageAnchorSubscriptions: Subscription[] = [];
 
   public constructor(
     private dataService: StacheJsonDataService,
@@ -57,7 +61,7 @@ export class StacheWrapperComponent implements OnInit, AfterContentInit {
 
     this.jsonData = this.dataService.getAll();
 
-    this.route.fragment.subscribe(fragment => {
+    this.route.fragment.subscribe((fragment: string) => {
       return Promise.resolve().then(() => {
         const element = this.windowRef.nativeWindow.document.getElementById(fragment);
         if (element) {
@@ -68,8 +72,37 @@ export class StacheWrapperComponent implements OnInit, AfterContentInit {
   }
 
   public ngAfterContentInit(): void {
-    this.pageAnchors.forEach((anchor: StacheNavLink) => {
-      this.inPageRoutes.push(anchor);
+    this.registerPageAnchors();
+  }
+
+  public ngOnDestroy(): void {
+    this.destroyPageAnchorSubscriptions();
+  }
+
+  private registerPageAnchors(): void {
+    this.inPageRoutes = [];
+    this.destroyPageAnchorSubscriptions();
+
+    // Save each subscription so we can unsubscribe after the component is destroyed.
+    this.pageAnchorSubscriptions = this.pageAnchors.map(
+      (anchor: StachePageAnchorComponent, index: number) => {
+
+        // First, create a placeholder for the route, until it's processed.
+        this.inPageRoutes.push({ name: '', path: '' });
+
+        // This will allow the wrapper to subscribe to each Page Anchor's changes.
+        return anchor.navLinkStream
+          .subscribe((link: StacheNavLink) => {
+            this.inPageRoutes[index] = link;
+          });
+      }
+    );
+  }
+
+  private destroyPageAnchorSubscriptions(): void {
+    this.pageAnchorSubscriptions.forEach((subscription: Subscription) => {
+      subscription.unsubscribe();
     });
+    this.pageAnchorSubscriptions = [];
   }
 }

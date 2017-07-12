@@ -1,19 +1,26 @@
-import { Observable } from 'rxjs/Observable';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+
+import { Observable } from 'rxjs/Observable';
 
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 
+import { StacheWrapperTestComponent } from './fixtures/wrapper.component.fixture';
 import { StacheWrapperComponent } from './wrapper.component';
 import { StacheTitleService } from './title.service';
+
 import {
   StacheWindowRef,
+  StacheConfigService,
   StacheJsonDataService,
   STACHE_JSON_DATA_PROVIDERS,
   STACHE_ROUTE_METADATA_PROVIDERS
 } from '../shared';
+
+import { StacheLayoutModule } from '../layout';
+import { StachePageAnchorModule } from '../page-anchor';
 
 describe('StacheWrapperComponent', () => {
   let component: StacheWrapperComponent;
@@ -53,24 +60,31 @@ describe('StacheWrapperComponent', () => {
     mockActivatedRoute = new MockActivatedRoute();
     mockTitleService = new MockTitleService();
     mockWindowService = new MockWindowService();
+    const mockConfigService = {
+      skyux: {},
+      runtime: {
+        routes: []
+      }
+    };
 
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        StachePageAnchorModule,
+        StacheLayoutModule
       ],
       declarations: [
-        StacheWrapperComponent
+        StacheWrapperComponent,
+        StacheWrapperTestComponent
       ],
       providers: [
         StacheJsonDataService,
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: StacheTitleService, useValue: mockTitleService },
         { provide: StacheWindowRef, useValue: mockWindowService },
+        { provide: StacheConfigService, useValue: mockConfigService },
         STACHE_JSON_DATA_PROVIDERS,
         STACHE_ROUTE_METADATA_PROVIDERS
-      ],
-      schemas: [
-        NO_ERRORS_SCHEMA
       ]
     })
     .compileComponents();
@@ -175,7 +189,6 @@ describe('StacheWrapperComponent', () => {
 
   it('should scroll the element into view if a fragment exists', async(() => {
     mockActivatedRoute.setFragment(undefined);
-
     fixture.detectChanges();
     fixture.whenStable()
       .then(() => {
@@ -184,18 +197,30 @@ describe('StacheWrapperComponent', () => {
       });
   }));
 
-  it('should update inPageRoutes after content is rendered', async(() => {
-    component['pageAnchors'] = [{ name: 'test', path: '/test' }];
-    component.ngAfterContentInit();
-    fixture.detectChanges();
-    fixture.whenStable()
-      .then(() => {
-        expect(component.inPageRoutes.length).toBe(1);
-      });
-  }));
-
   it('should set the jsonData property on init', () => {
     fixture.detectChanges();
     expect(component.jsonData).toEqual(jasmine.any(Object));
+  });
+
+  it('should update inPageRoutes after content is rendered', () => {
+    const testFixture = TestBed.createComponent(StacheWrapperTestComponent);
+    const testComponent = testFixture.componentInstance;
+
+    testFixture.detectChanges();
+
+    const inPageRoutes = testComponent.testWrapper.inPageRoutes;
+    expect(inPageRoutes[0].name).toEqual('First Heading');
+    expect(inPageRoutes[1].name).toEqual('Second Heading');
+  });
+
+  it('should unsubscribe page anchor subscriptions after component is destroyed', () => {
+    const testFixture = TestBed.createComponent(StacheWrapperTestComponent);
+    const testComponent = testFixture.componentInstance;
+
+    testFixture.detectChanges();
+    expect(testComponent.testWrapper.pageAnchorSubscriptions.length).toEqual(2);
+
+    testComponent.testWrapper.ngOnDestroy();
+    expect(testComponent.testWrapper.pageAnchorSubscriptions.length).toEqual(0);
   });
 });
