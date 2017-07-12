@@ -11,12 +11,8 @@ export class AppNavComponent {
       path: '/'
     },
     {
-      name: 'Tutorial Demo',
-      path: '/tutorial-demo'
-    },
-    {
-      name: 'Route Metadata Demo',
-      path: '/route-metadata-demo'
+      name: 'Demos',
+      path: '/demos'
     }
   ];
 }

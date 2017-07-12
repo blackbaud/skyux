@@ -3,14 +3,16 @@ $sky-font-family-narrow: 'Oswald', sans-serif !default;
 
 $sky-padding: 10px !default;
 $sky-padding-half: $sky-padding / 2 !default;
-$sky-padding-double: $sky-padding * 2 !default;
-$sky-padding-plus-half: $sky-padding + $sky-padding-half !default;
 $sky-padding-3_4: floor(($sky-padding * 0.75)) !default;
+$sky-padding-plus-half: $sky-padding + $sky-padding-half !default;
+$sky-padding-double: $sky-padding * 2 !default;
+$sky-padding-triple: $sky-padding * 3 !default;
 
 $sky-margin: 10px !default;
 $sky-margin-half: $sky-margin / 2 !default;
-$sky-margin-double: $sky-margin * 2 !default;
+$sky-margin-3_4: floor(($sky-margin * 0.75)) !default;
 $sky-margin-plus-half: $sky-margin + $sky-margin-half !default;
+$sky-margin-double: $sky-margin * 2 !default;
 $sky-margin-triple: $sky-margin * 3 !default;
 
 // start of new colors
@@ -66,18 +68,18 @@ $sky-line-height-base: 1.428571429 !default;
 
 $sky-font-size-base: 14px !default;
 
-$sky-font-size-xxxl: floor(($sky-font-size-base * 3.5)) !default; // ~42px
-$sky-font-size-xxl: floor(($sky-font-size-base * 2.5)) !default; // ~30px
-$sky-font-size-xl: floor(($sky-font-size-base * 1.333)) !default; // ~16px
-$sky-font-size-lg: ceil(($sky-font-size-base * 1.07)) !default; // ~14px
-$sky-font-size-sm: ceil(($sky-font-size-base * 0.833)) !default; // ~10px
+$sky-font-size-xxxl: ceil(($sky-font-size-base * 3.21)) !default; // ~45px
+$sky-font-size-xxl: ceil(($sky-font-size-base * 2.28)) !default; // ~32px
+$sky-font-size-xl: ceil(($sky-font-size-base * 1.21)) !default; // ~17px
+$sky-font-size-lg: ceil(($sky-font-size-base)) !default; // ~14px
+$sky-font-size-sm: ceil(($sky-font-size-base * 0.78)) !default; // ~11px
 
-$sky-alternate-font-size-xxxl: floor(($sky-font-size-base * 4)) !default; // ~48px
-$sky-alternate-font-size-xxl: floor(($sky-font-size-base * 3.5)) !default; // ~42px
-$sky-alternate-font-size-xl: floor(($sky-font-size-base * 2.333)) !default; // ~28px
-$sky-alternate-font-size-lg: ceil(($sky-font-size-base * 2)) !default; // ~24px
-$sky-alternate-font-size-base: ceil(($sky-font-size-base * 1.833)) !default; // ~22px
-$sky-alternate-font-size-sm: ceil(($sky-font-size-base * 1.667)) !default; // ~20px
+$sky-alternate-font-size-xxxl: ceil(($sky-font-size-base * 3.71)) !default; // ~52px
+$sky-alternate-font-size-xxl: ceil(($sky-font-size-base * 3.21)) !default; // ~45px
+$sky-alternate-font-size-xl: ceil(($sky-font-size-base * 2.1)) !default; // ~30px
+$sky-alternate-font-size-lg: ceil(($sky-font-size-base * 1.85)) !default; // ~26px
+$sky-alternate-font-size-base: ceil(($sky-font-size-base * 1.7)) !default; // ~24px
+$sky-alternate-font-size-sm: ceil(($sky-font-size-base * 1.55)) !default; // ~22px
 
 $sky-text-color: $sky-color-black !default;
 $sky-selected-color: #eeeffb !default;
@@ -151,7 +153,7 @@ $sky-dropdown-z-index: 1000 !default;
 // end dropdown
 
 // begin grid
-$sky-grid-odd-background-color: $sky-body-background-color !default;
+$sky-grid-odd-background-color: #f8f8f9 !default;
 $sky-grid-even-background-color: $sky-color-white !default;
 $sky-grid-header-background-color: $sky-color-white !default;
 $sky-grid-header-dragging-background-color: $sky-color-gray-lightest !default;
@@ -182,6 +184,7 @@ $sky-toolbar-min-height: 49px;
 $sky-wait-color: $sky-color-blue !default;
 $sky-wait-mask-color: rgba(255, 255, 255, 0.7) !default;
 $sky-page-wait-z-index: 2000 !default;
+$sky-component-wait-z-index: 1000 !default;
 // end wait
 
 // Support for mozilla in experimental css3 properties (-moz).
