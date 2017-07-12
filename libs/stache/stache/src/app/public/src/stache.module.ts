@@ -21,19 +21,13 @@ import { StacheNavModule } from './modules/nav/nav.module';
 import { StachePageAnchorModule } from './modules/page-anchor/page-anchor.module';
 import { StachePageHeaderModule } from './modules/page-header/page-header.module';
 import { StachePageSummaryModule } from './modules/page-summary/page-summary.module';
+import { StacheSharedModule } from './modules/shared';
 import { StacheSidebarModule } from './modules/sidebar/sidebar.module';
 import { StacheTableOfContentsModule } from './modules/table-of-contents/table-of-contents.module';
 import { StacheTutorialModule } from './modules/tutorial/tutorial.module';
 import { StacheTutorialStepModule } from './modules/tutorial-step/tutorial-step.module';
 import { StacheVideoModule } from './modules/video/video.module';
 import { StacheWrapperModule } from './modules/wrapper/wrapper.module';
-
-import {
-  StacheWindowRef,
-  StacheConfigService,
-  STACHE_JSON_DATA_PROVIDERS,
-  STACHE_ROUTE_METADATA_PROVIDERS
-} from './modules/shared';
 
 export * from './modules/shared';
 
@@ -55,18 +49,13 @@ export * from './modules/shared';
     StachePageAnchorModule,
     StachePageHeaderModule,
     StachePageSummaryModule,
+    StacheSharedModule,
     StacheSidebarModule,
     StacheTableOfContentsModule,
     StacheTutorialModule,
     StacheTutorialStepModule,
     StacheVideoModule,
     StacheWrapperModule
-  ],
-  providers: [
-    StacheConfigService,
-    StacheWindowRef,
-    STACHE_JSON_DATA_PROVIDERS,
-    STACHE_ROUTE_METADATA_PROVIDERS
   ]
 })
 export class StacheModule { }

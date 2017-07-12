@@ -7,7 +7,7 @@ import { StacheAffixComponent } from './affix.component';
 import { StacheAffixTestComponent } from './fixtures/affix.component.fixture';
 import { StacheAffixTopDirective } from './affix-top.directive';
 import { StacheAffixModule } from './affix.module';
-import { StacheWindowRef } from '../shared/window-ref';
+import { StacheWindowRef } from '../shared';
 
 describe('StacheAffixComponent', () => {
   let component: StacheAffixComponent;

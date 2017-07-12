@@ -1,6 +1,7 @@
-export { InputConverter } from './input-converter';
-export { TestUtility } from './testing/test-utility';
-export { StacheConfigService } from './config.service';
-export { StacheWindowRef } from './window-ref';
+export * from './input-converter';
+export * from './testing/test-utility';
+export * from './config.service';
+export * from './window-ref';
 export * from './json-data.service';
 export * from './route-metadata.service';
+export * from './shared.module';

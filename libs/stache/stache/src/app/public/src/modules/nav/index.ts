@@ -1,4 +1,5 @@
-export { StacheNavLink } from './nav-link';
-export { StacheNav } from './nav';
-export { StacheNavComponent } from './nav.component';
-export { StacheNavService } from './nav.service';
+export * from './nav-link';
+export * from './nav';
+export * from './nav.component';
+export * from './nav.service';
+export * from './nav.module';
