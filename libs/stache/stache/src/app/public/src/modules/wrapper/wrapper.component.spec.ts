@@ -7,10 +7,10 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 
 import { StacheWrapperComponent } from './wrapper.component';
-import { StacheJsonDataService } from '../shared';
 import { StacheTitleService } from './title.service';
 import {
   StacheWindowRef,
+  StacheJsonDataService,
   STACHE_JSON_DATA_PROVIDERS,
   STACHE_ROUTE_METADATA_PROVIDERS
 } from '../shared';

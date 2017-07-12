@@ -5,8 +5,7 @@ import { Router } from '@angular/router';
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 
 import { StacheTableOfContentsComponent } from './table-of-contents.component';
-import { StacheNavComponent } from '../nav/nav.component';
-import { StacheNavService } from '../nav/nav.service';
+import { StacheNavComponent, StacheNavService } from '../nav';
 import { StacheWindowRef } from '../shared';
 
 describe('StacheTableOfContentsComponent', () => {

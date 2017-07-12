@@ -5,12 +5,10 @@ import { Router, NavigationStart } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
-import { StacheConfigService } from '../shared';
 
 import { StacheBreadcrumbsComponent } from './breadcrumbs.component';
-import { StacheNavComponent } from '../nav/nav.component';
-import { StacheNavService } from '../nav/nav.service';
-import { StacheWindowRef, StacheRouteMetadataService } from '../shared';
+import { StacheNavComponent, StacheNavService } from '../nav';
+import { StacheConfigService, StacheWindowRef, StacheRouteMetadataService } from '../shared';
 
 describe('StacheBreadcrumbsComponent', () => {
   let component: StacheBreadcrumbsComponent;

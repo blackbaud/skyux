@@ -6,7 +6,7 @@ import { SkyModule } from '@blackbaud/skyux/dist/core';
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 import { StacheWindowRef } from '../shared';
 
-import { StacheGridModule } from '../grid/grid.module';
+import { StacheGridModule } from '../grid';
 import { StacheActionButtonsComponent } from './action-buttons.component';
 
 describe('StacheActionButtonsComponent', () => {

@@ -5,7 +5,7 @@ import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 
 import { StacheAffixTopDirective } from './affix-top.directive';
 import { AffixTopTestComponent } from './fixtures/affix-top.component.fixture';
-import { StacheCodeComponent } from '../code/code.component';
+import { StacheCodeComponent } from '../code';
 
 import { StacheWindowRef, TestUtility } from '../shared';
 

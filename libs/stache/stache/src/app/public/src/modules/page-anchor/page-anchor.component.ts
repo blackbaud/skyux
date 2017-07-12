@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { StacheNavLink } from '../nav/nav-link';
+import { StacheNavLink } from '../nav';
 import { StacheWindowRef } from '../shared';
 
 @Component({

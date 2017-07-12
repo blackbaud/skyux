@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { StacheNavModule } from '../nav/nav.module';
+import { StacheNavModule } from '../nav';
 import { StacheSidebarComponent } from './sidebar.component';
 
 @NgModule({

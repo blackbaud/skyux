@@ -3,10 +3,9 @@ import { Component, OnInit, Input, AfterContentInit, ContentChildren } from '@an
 import { ActivatedRoute } from '@angular/router';
 
 import { StacheTitleService } from './title.service';
-import { StachePageAnchorComponent } from '../page-anchor/page-anchor.component';
-import { StacheJsonDataService } from '../shared';
-import { StacheNavLink } from '../nav/nav-link';
-import { StacheWindowRef } from '../shared';
+import { StachePageAnchorComponent } from '../page-anchor';
+import { StacheJsonDataService, StacheWindowRef } from '../shared';
+import { StacheNavLink } from '../nav';
 
 @Component({
   selector: 'stache',

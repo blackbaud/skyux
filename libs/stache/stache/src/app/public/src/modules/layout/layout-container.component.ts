@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 import { StacheLayout } from './layout';
 import { InputConverter } from '../shared';
-import { StacheNavLink } from '../nav/nav-link';
+import { StacheNavLink } from '../nav';
 
 @Component({
   selector: 'stache-layout-container',

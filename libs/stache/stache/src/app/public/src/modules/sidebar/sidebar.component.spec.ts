@@ -6,8 +6,7 @@ import { Observable } from 'rxjs';
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 
 import { StacheSidebarComponent } from './sidebar.component';
-import { StacheNavComponent } from '../nav/nav.component';
-import { StacheNavService } from '../nav/nav.service';
+import { StacheNavComponent, StacheNavService } from '../nav';
 import {
   StacheConfigService,
   StacheWindowRef,
