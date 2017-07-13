@@ -45,7 +45,7 @@ describe('StacheWrapperComponent', () => {
       document: {
         getElementById: jasmine.createSpy('getElementById').and.callFake(function(id: any) {
             if (id !== undefined) {
-              return { scrollIntoView: jasmine.createSpy('scrollIntoView')};
+              return { scrollIntoView: jasmine.createSpy('scrollIntoView') };
             }
             return id;
           })

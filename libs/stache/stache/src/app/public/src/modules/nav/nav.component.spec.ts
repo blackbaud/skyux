@@ -11,6 +11,27 @@ describe('StacheNavComponent', () => {
   let component: StacheNavComponent;
   let fixture: ComponentFixture<StacheNavComponent>;
   let mockRouter: any;
+  let mockWindowService: any;
+
+  class MockWindowService {
+    public nativeWindow = {
+      document: {
+        getElementById: jasmine.createSpy('getElementById').and.callFake((id: any) => {
+            if (id === 'some-header') {
+              return this.testElement;
+            }
+            return undefined;
+          })
+      },
+      location: {
+        href: ''
+      }
+    };
+
+    public testElement = {
+      scrollIntoView: jasmine.createSpy('scrollIntoView')
+    };
+  }
 
   class MockRouter {
     public navigate = jasmine.createSpy('navigate');
@@ -19,6 +40,7 @@ describe('StacheNavComponent', () => {
 
   beforeEach(() => {
     mockRouter = new MockRouter();
+    mockWindowService = new MockWindowService();
 
     TestBed.configureTestingModule({
       declarations: [
@@ -27,7 +49,7 @@ describe('StacheNavComponent', () => {
       ],
       providers: [
         { provide: Router, useValue: mockRouter },
-        StacheWindowRef
+        { provide: StacheWindowRef, useValue: mockWindowService }
       ]
     })
     .compileComponents();
@@ -101,6 +123,15 @@ describe('StacheNavComponent', () => {
     expect(route.isCurrent).toBe(true);
   });
 
+  it('should return true if a given route is external', () => {
+    component.routes = [{ name: 'Test', path: 'https://google.com' }];
+    const route = component.routes[0];
+    let result = component['isExternal'](route);
+    fixture.detectChanges();
+
+    expect(result).toBe(true);
+  });
+
   it('should navigate to the route passed in', () => {
     component.routes = [{ name: 'Test', path: '/test' }];
     const route = component.routes[0];
@@ -119,6 +150,16 @@ describe('StacheNavComponent', () => {
     component.navigate(route);
 
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/', 'test'], {});
+  });
+
+  it('should navigate to an external url', () => {
+    component.routes = [{ name: 'Test', path: 'https://google.com' }];
+    const route = component.routes[0];
+
+    fixture.detectChanges();
+    component.navigate(route);
+
+    expect(mockWindowService.nativeWindow.location.href).toBe(route.path);
   });
 
   it('should navigate to a hash if given an anchor route', () => {
@@ -153,30 +194,16 @@ describe('StacheNavComponent', () => {
   });
 
   it('should call scrollToElement if a fragment is passed in', () => {
-    let testFixture = TestBed.createComponent(StacheNavTestComponent);
-    let testComponent = fixture.componentInstance;
-    let target = testFixture.nativeElement.querySelector('#some-header');
+    fixture.detectChanges();
+    component.navigate({ name: 'Some Header', path: '/test', fragment: 'some-header' });
 
-    spyOn(target, 'scrollIntoView');
-
-    testComponent.routes = [{ name: 'Some Header', path: '/test', fragment: 'some-header' }];
-    testFixture.detectChanges();
-    component.navigate(testComponent.routes[0]);
-
-    expect(target.scrollIntoView).toHaveBeenCalled();
+    expect(mockWindowService.testElement.scrollIntoView).toHaveBeenCalled();
   });
 
   it('should not call scrollToElement if the fragment does not match an element ID', () => {
-    let testFixture = TestBed.createComponent(StacheNavTestComponent);
-    let testComponent = fixture.componentInstance;
-    let target = testFixture.nativeElement.querySelector('#some-header');
+    fixture.detectChanges();
+    component.navigate({ name: '', path: '', fragment: 'invalid-fragment' });
 
-    spyOn(target, 'scrollIntoView');
-
-    testComponent.routes = [{ name: '', path: '', fragment: 'invalid-fragment' }];
-    testFixture.detectChanges();
-    component.navigate(testComponent.routes[0]);
-
-    expect(target.scrollIntoView).not.toHaveBeenCalled();
+    expect(mockWindowService.testElement.scrollIntoView).not.toHaveBeenCalled();
   });
 });

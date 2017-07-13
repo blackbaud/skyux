@@ -6,9 +6,24 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
   public actionButtonRoutes = [
-    { name: 'Action Button 1', path: '/', icon: 'book', summary: 'Short summary here.' },
-    { name: 'Action Button 2', path: '/', icon: 'bookmark', summary: 'Short summary here.' },
-    { name: 'Action Button 3', path: '/', icon: 'certificate', summary: 'Short summary here.' }
+    {
+      name: 'Action Button 1',
+      path: '/demos',
+      icon: 'book',
+      summary: 'Short summary here.'
+    },
+    {
+      name: 'Action Button 2',
+      path: 'mailto:brandon.hare@blackbaud.com',
+      icon: 'bookmark',
+      summary: 'Short summary here.'
+    },
+    {
+      name: 'Action Button 3',
+      path: 'http://facebook.com',
+      icon: 'certificate',
+      summary: 'Short summary here.'
+    }
   ];
   public sidebarRoutes = [
     {

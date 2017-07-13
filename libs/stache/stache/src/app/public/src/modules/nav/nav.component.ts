@@ -41,6 +41,11 @@ export class StacheNavComponent implements OnInit, StacheNav {
   public navigate(route: any): void {
     let extras: any = {};
 
+    if (this.isExternal(route)) {
+      this.windowRef.nativeWindow.location.href = route.path;
+      return;
+    }
+
     if (route.fragment) {
       extras.fragment = route.fragment;
       this.scrollToElement(route.fragment);
@@ -105,5 +110,14 @@ export class StacheNavComponent implements OnInit, StacheNav {
     }
 
     return (activeUrl === path);
+  }
+
+  private isExternal(route: any): boolean {
+    let path = route.path;
+
+    if (typeof path !== 'string') {
+      return false;
+    }
+    return /^(https?|mailto|ftp):+|^(www)/.test(path);
   }
 }
