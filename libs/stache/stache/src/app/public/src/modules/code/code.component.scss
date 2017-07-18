@@ -5,6 +5,7 @@
   font-size: 90%;
   background-color: scale-color($color: $stache-color-red, $lightness: 90%);
   border-radius: $stache-border-radius-sm;
+  border: 1px solid scale-color($color: $stache-color-red, $lightness: 70%);
   color: scale-color($color: $stache-color-red, $lightness: -20%);
   padding: 0 4px;
 }
