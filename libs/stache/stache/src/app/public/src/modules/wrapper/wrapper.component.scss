@@ -1,0 +1,45 @@
+@import '../../styles/_variables';
+
+/deep/
+.stache-wrapper {
+  p,
+  ul,
+  ol,
+  li,
+  td,
+  th {
+    line-height: $stache-line-height;
+    color: $stache-color-text;
+    font-size: inherit;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: $stache-line-height-headings;
+    color: $stache-color-text;
+    margin: $stache-padding-double 0;
+  }
+
+  p,
+  blockquote,
+  table {
+    margin: $stache-padding-double 0;
+  }
+
+  ul:not([class]),
+  ol:not([class]) {
+    margin: $stache-padding-double 0;
+
+    > li {
+      margin-bottom: $stache-padding;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

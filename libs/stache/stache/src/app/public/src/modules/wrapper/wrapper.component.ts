@@ -13,7 +13,8 @@ import { StacheNavLink } from '../nav';
 
 @Component({
   selector: 'stache',
-  templateUrl: './wrapper.component.html'
+  templateUrl: './wrapper.component.html',
+  styleUrls: ['./wrapper.component.scss']
 })
 export class StacheWrapperComponent implements OnInit, AfterContentInit, OnDestroy {
   @Input()

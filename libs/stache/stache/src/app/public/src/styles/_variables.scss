@@ -1,19 +1,16 @@
 @import '_sky-variables.scss';
 
-$stache-font-family-base: $sky-font-family-base !default;
 $stache-font-family-narrow: $sky-font-family-narrow !default;
 $stache-line-height: $sky-line-height-base !default;
+$stache-line-height-headings: 1.1 !default;
 
-$stache-padding-size: $sky-padding !default;
 $stache-grid-columns: 12 !default;
 $stache-grid-padding: $sky-margin-plus-half !default;
-$stache-nav-item-padding: $sky-nav-item-padding !default;
 
 $stache-padding: $sky-padding !default;
 $stache-padding-double: $sky-padding-double !default;
 
-$stache-border-radius: 5px;
-$stache-border-radius-sm: 3px;
+$stache-border-radius: 3px;
 
 $stache-color-text: $sky-text-color !default;
 $stache-color-text-muted: $sky-text-deemphasized-color !default;
@@ -24,16 +21,13 @@ $stache-color-purple: $sky-color-purple !default;
 $stache-color-link: $sky-link-color !default;
 $stache-color-link-hover: $sky-link-hover-color !default;
 
+$stache-color-white: $sky-color-white !default;
 $stache-color-gray: $sky-color-gray !default;
 $stache-color-gray-light: $sky-color-gray-light !default;
 $stache-color-gray-lighter: $sky-color-gray-lighter !default;
 $stache-color-gray-lightest: $sky-color-gray-lightest !default;
 $stache-custom-color-gray-lighter: #e2e2e2 !default;
 $stache-custom-color-gray-lightest: #f5f5f5 !default;
-
-$stache-color-menu-link-hover: $sky-link-hover-color !default;
-$stache-color-white: $sky-color-white !default;
-
 $stache-body-background-color: $sky-body-background-color !default;
 
 $stache-screen-xs-max: $sky-screen-xs-max !default;

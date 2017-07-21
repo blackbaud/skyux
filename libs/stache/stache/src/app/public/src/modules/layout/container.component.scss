@@ -3,34 +3,3 @@
 .stache-container {
   max-width: 100%;
 }
-
-/deep/
-.stache-container {
-  p,
-  ul,
-  ol,
-  li,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    line-height: $stache-line-height;
-    color: $stache-color-text;
-  }
-
-  ul:not([class]),
-  ol:not([class]) {
-    margin-top: $stache-grid-padding;
-    margin-bottom: $stache-grid-padding;
-  }
-
-  li:not([class]) {
-    margin-bottom: $stache-padding-size;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-}
