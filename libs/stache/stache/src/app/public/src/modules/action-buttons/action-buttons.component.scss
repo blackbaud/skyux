@@ -9,10 +9,20 @@
   display: inline-flex;
 }
 
+.stache-action-buttons-search-container {
+  position: relative;
+  display: flex;
+  min-height: 49px;
+  margin-bottom: 10px;
+}
+
 /deep/
 .stache-action-buttons {
   .stache-column {
     display: inline-flex;
+  }
+  .sky-search-dismiss-absolute {
+    padding: 5px 0 !important;
   }
 }
 

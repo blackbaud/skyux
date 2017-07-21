@@ -50,4 +50,66 @@ describe('StacheActionButtonsComponent', () => {
 
     expect(actionButtons.length).toBe(1);
   });
+
+  it('should pass the value of the search input to searchApplied on key up', () => {
+    component.routes = [{
+      name: 'Test',
+      icon: 'fa-circle',
+      summary: '',
+      path: []
+    }];
+
+    const e = Object.assign({ target: { value: 'Test' } }, new KeyboardEvent('keyup'));
+    spyOn(component, 'searchApplied');
+    component.onKeyUp(e);
+    fixture.detectChanges();
+
+    expect(component.searchApplied).toHaveBeenCalledWith('Test');
+  });
+
+  it('should filter out the buttons that do not meet the search criteria', () => {
+    component.routes = [
+      {
+        name: 'Test',
+        path: '/'
+      },
+      {
+        name: 'Different',
+        path: '/'
+      },
+      {
+        name: 'Still good',
+        path: '/',
+        summary: 'Test'
+      }
+    ];
+    fixture.detectChanges();
+    component.searchApplied('Test');
+    fixture.detectChanges();
+
+    expect(component.filteredRoutes.length).toBe(2);
+  });
+
+  it('should return all routes if no search text is passed in', () => {
+    component.routes = [
+      {
+        name: 'Test',
+        path: '/'
+      },
+      {
+        name: 'Different',
+        path: '/'
+      },
+      {
+        name: 'Still good',
+        path: '/',
+        summary: 'Test'
+      }
+    ];
+    fixture.detectChanges();
+    component.searchApplied('');
+    fixture.detectChanges();
+
+    expect(component.filteredRoutes.length).toBe(3);
+  });
 });
