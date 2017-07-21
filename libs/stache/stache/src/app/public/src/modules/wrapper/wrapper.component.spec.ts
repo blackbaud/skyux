@@ -11,8 +11,11 @@ import { StacheWrapperTestComponent } from './fixtures/wrapper.component.fixture
 import { StacheWrapperComponent } from './wrapper.component';
 import { StacheTitleService } from './title.service';
 
+import { StacheNavService } from '../nav';
+
 import {
   StacheWindowRef,
+  StacheRouteService,
   StacheConfigService,
   StacheJsonDataService,
   STACHE_JSON_DATA_PROVIDERS,
@@ -31,6 +34,7 @@ describe('StacheWrapperComponent', () => {
 
   class MockActivatedRoute {
     public fragment: Observable<string> = Observable.of('test-route');
+    public url: Observable<string[]> = Observable.of(['test', 'routes']);
     public setFragment(fragString: any) {
       this.fragment = Observable.of(fragString);
     }
@@ -44,15 +48,18 @@ describe('StacheWrapperComponent', () => {
     public nativeWindow = {
       document: {
         getElementById: jasmine.createSpy('getElementById').and.callFake(function(id: any) {
-            if (id !== undefined) {
-              return { scrollIntoView: jasmine.createSpy('scrollIntoView') };
-            }
-            return id;
-          })
+          if (id !== undefined) {
+            return { scrollIntoView: jasmine.createSpy('scrollIntoView') };
+          }
+          return id;
+        })
       },
       setTimeout: jasmine.createSpy('setTimeout').and.callFake(function(callback: any) {
         return callback();
-      })
+      }),
+      location: {
+        href: ''
+      }
     };
   }
 
@@ -78,6 +85,8 @@ describe('StacheWrapperComponent', () => {
         StacheWrapperTestComponent
       ],
       providers: [
+        StacheNavService,
+        StacheRouteService,
         StacheJsonDataService,
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: StacheTitleService, useValue: mockTitleService },
@@ -192,8 +201,7 @@ describe('StacheWrapperComponent', () => {
     fixture.detectChanges();
     fixture.whenStable()
       .then(() => {
-        expect(mockWindowService.nativeWindow.document.getElementById)
-          .toHaveBeenCalledWith(undefined);
+        expect(mockWindowService.nativeWindow.document.getElementById).not.toHaveBeenCalled();
       });
   }));
 

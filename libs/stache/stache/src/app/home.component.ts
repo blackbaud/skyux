@@ -23,6 +23,20 @@ export class HomeComponent {
       path: 'http://facebook.com',
       icon: 'certificate',
       summary: 'Short summary here.'
+    },
+    {
+      name: 'Action Button 4',
+      path: '/demos/tutorial/tutorial-one',
+      fragment: 'clone-the-repository',
+      icon: 'certificate',
+      summary: 'Short summary here.'
+    },
+    {
+      name: 'Action Button 5',
+      path: '/demos/tutorial/tutorial-one',
+      fragment: 'does-not-exist',
+      icon: 'certificate',
+      summary: 'Short summary here.'
     }
   ];
   public sidebarRoutes = [

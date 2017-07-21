@@ -8,6 +8,7 @@ import { StacheWindowRef } from '../shared';
 
 import { StacheGridModule } from '../grid';
 import { StacheActionButtonsComponent } from './action-buttons.component';
+import { StacheNavService } from '../nav';
 
 describe('StacheActionButtonsComponent', () => {
   let component: StacheActionButtonsComponent;
@@ -24,7 +25,8 @@ describe('StacheActionButtonsComponent', () => {
         StacheActionButtonsComponent
       ],
       providers: [
-        StacheWindowRef
+        StacheWindowRef,
+        StacheNavService
       ]
     })
     .compileComponents();

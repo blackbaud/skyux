@@ -8,7 +8,11 @@ import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 
 import { StacheBreadcrumbsComponent } from './breadcrumbs.component';
 import { StacheNavComponent, StacheNavService } from '../nav';
-import { StacheConfigService, StacheWindowRef, StacheRouteMetadataService } from '../shared';
+import {
+  StacheConfigService,
+  StacheWindowRef,
+  StacheRouteService,
+  StacheRouteMetadataService } from '../shared';
 
 describe('StacheBreadcrumbsComponent', () => {
   let component: StacheBreadcrumbsComponent;
@@ -60,6 +64,7 @@ describe('StacheBreadcrumbsComponent', () => {
       providers: [
         StacheNavService,
         StacheWindowRef,
+        StacheRouteService,
         { provide: StacheConfigService, useClass: MockStacheConfigService },
         { provide: Router, useClass: MockRouter },
         { provide: StacheRouteMetadataService, useValue: { routes: [] } }

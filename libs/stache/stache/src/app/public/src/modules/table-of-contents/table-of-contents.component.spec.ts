@@ -6,7 +6,9 @@ import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 
 import { StacheTableOfContentsComponent } from './table-of-contents.component';
 import { StacheNavComponent, StacheNavService } from '../nav';
-import { StacheWindowRef } from '../shared';
+import {
+  StacheWindowRef,
+  StacheRouteService } from '../shared';
 
 describe('StacheTableOfContentsComponent', () => {
   let component: StacheTableOfContentsComponent;
@@ -25,7 +27,8 @@ describe('StacheTableOfContentsComponent', () => {
       providers: [
         { provide: Router, useClass: MockRouter },
         StacheWindowRef,
-        StacheNavService
+        StacheNavService,
+        StacheRouteService
       ]
     })
     .compileComponents();

@@ -1,22 +1,22 @@
 /* tslint:disable:component-selector */
 import {
-  Component, OnInit, Input, AfterContentInit, ContentChildren, QueryList, OnDestroy
+  Component, OnInit, OnDestroy, Input, AfterContentInit, AfterViewInit, ContentChildren, QueryList
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { StacheTitleService } from './title.service';
 import { StachePageAnchorComponent } from '../page-anchor';
-import { StacheJsonDataService, StacheWindowRef } from '../shared';
-import { StacheNavLink } from '../nav';
+import { StacheJsonDataService } from '../shared';
+import { StacheNavLink, StacheNavService } from '../nav';
 
 @Component({
   selector: 'stache',
   templateUrl: './wrapper.component.html',
   styleUrls: ['./wrapper.component.scss']
 })
-export class StacheWrapperComponent implements OnInit, AfterContentInit, OnDestroy {
+export class StacheWrapperComponent implements OnInit, AfterContentInit, OnDestroy, AfterViewInit {
   @Input()
   public pageTitle: string;
 
@@ -55,25 +55,19 @@ export class StacheWrapperComponent implements OnInit, AfterContentInit, OnDestr
     private dataService: StacheJsonDataService,
     private titleService: StacheTitleService,
     private route: ActivatedRoute,
-    private windowRef: StacheWindowRef) { }
+    private navService: StacheNavService) { }
 
   public ngOnInit(): void {
     this.titleService.setTitle(this.windowTitle || this.pageTitle);
-
     this.jsonData = this.dataService.getAll();
-
-    this.route.fragment.subscribe((fragment: string) => {
-      return Promise.resolve().then(() => {
-        const element = this.windowRef.nativeWindow.document.getElementById(fragment);
-        if (element) {
-          element.scrollIntoView();
-        }
-      });
-    });
   }
 
   public ngAfterContentInit(): void {
     this.registerPageAnchors();
+  }
+
+  public ngAfterViewInit() {
+    this.checkRouteHash();
   }
 
   public ngOnDestroy(): void {
@@ -98,6 +92,18 @@ export class StacheWrapperComponent implements OnInit, AfterContentInit, OnDestr
           });
       }
     );
+  }
+
+  private checkRouteHash(): void {
+    this.route.fragment
+      .subscribe((fragment: string) => {
+        let url = '';
+        this.route.url.subscribe(segments => url = segments.join('/')).unsubscribe();
+        if (fragment) {
+          this.navService.navigate({path: url, fragment});
+        }
+      })
+      .unsubscribe();
   }
 
   private destroyPageAnchorSubscriptions(): void {

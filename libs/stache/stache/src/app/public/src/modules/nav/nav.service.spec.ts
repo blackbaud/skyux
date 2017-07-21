@@ -1,218 +1,112 @@
-import { Router, NavigationStart, NavigationEnd } from '@angular/router';
-
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 import { StacheNavService } from './nav.service';
-import { StacheConfigService, StacheRouteMetadataService } from '../shared';
 
-class MockStacheConfigService {
-  public runtime: any = {
-    routes: [
-      {
-        routePath: ''
-      },
-      {
-        routePath: 'order-routes'
-      },
-      {
-        routePath: 'order-routes/first'
-      },
-      {
-        routePath: 'order-routes/first/order-one'
-      },
-      {
-        routePath: 'order-routes/first/order-two'
-      },
-      {
-        routePath: 'order-routes/first/order-three'
-      },
-      {
-        routePath: 'order-routes/first/order-four'
-      },
-      {
-        routePath: 'order-routes/first/order-five'
-      },
-      {
-        routePath: 'order-routes/first/sample'
-      },
-      {
-        routePath: 'order-routes/first/sample-two'
-      },
-      {
-        routePath: 'order-routes/third'
-      },
-      {
-        routePath: 'order-routes/second'
-      },
-      {
-        routePath: 'parent'
-      },
-      {
-        routePath: 'parent/child'
-      },
-      {
-        routePath: 'parent/child/grandchild'
-      },
-      {
-        routePath: 'parent/child/grandchild/grand-grandchild'
-      },
-      {
-        routePath: 'other-parent'
-      },
-      {
-        routePath: 'other-parent/other-child'
-      },
-      {
-        routePath: 'other-parent/other-child/other-grandchild'
-      }
-    ]
-  };
-  public skyux: any = {};
-}
+import { StacheWindowRef } from '../shared';
 
 class MockRouter {
-  public url = '/parent/child/grandchild';
-  public events = Observable.of(new NavigationStart(0, ''));
+  public url = '/internal#element-id';
+  public navigate = (path: any, extras: any) => true;
 }
 
-class MockStacheRouteMetadataService {
-  public metadata: any[] = [
-      {
-        path: 'other-parent',
-        name: 'Custom Route Name'
-      },
-      {
-        path: 'order-routes/first',
-        name: 'A First'
-      },
-      {
-        path: 'order-routes/third',
-        name: 'C Third'
-      },
-      {
-        path: 'order-routes/second',
-        name: 'B Second'
-      },
-      {
-        path: 'order-routes/first/order-two',
-        order: 2,
-        name: 'B Three'
-      },
-      {
-        path: 'order-routes/first/order-one',
-        order: 1
-      },
-      {
-        path: 'order-routes/first/order-five',
-        name: 'A'
-      },
-      {
-        path: 'order-routes/first/order-three',
-        order: 3,
-        name: 'B Three'
-      },
-      {
-        path: 'order-routes/first/sample',
-        order: 4,
-        name: 'A Three'
-      },
-      {
-        path: 'order-routes/first/order-four',
-        order: 3,
-        name: 'A Three'
-      },
-      {
-        path: 'order-routes/first/sample-two',
-        order: 5,
-        name: 'A Three'
-      }
-  ];
+class MockWindowService {
+  public nativeWindow = {
+    document: {
+        getElementById: jasmine.createSpy('getElementById').and.callFake((id: any) => {
+          if (id === 'element-id') {
+            return this.testElement;
+          }
+          return false;
+        })
+    },
+    setTimeout: jasmine.createSpy('setTimeout').and.callFake(function(callback: any) {
+      return callback();
+    }),
+    location: {
+      href: '',
+      hash: ''
+    },
+    scroll: jasmine.createSpy('scroll')
+  };
+  public testElement = {
+    scrollIntoView: jasmine.createSpy('scrollIntoView')
+  };
 }
 
 describe('StacheNavService', () => {
   let navService: StacheNavService;
-  let configService: MockStacheConfigService;
+  let windowRef: MockWindowService;
   let router: MockRouter;
-  let routeMetadataService: MockStacheRouteMetadataService;
 
   beforeEach(() => {
-    configService = new MockStacheConfigService();
     router = new MockRouter();
-    routeMetadataService = new MockStacheRouteMetadataService();
+    windowRef = new MockWindowService();
 
     navService = new StacheNavService(
       router as Router,
-      configService as StacheConfigService,
-      routeMetadataService as StacheRouteMetadataService
+      windowRef as StacheWindowRef
     );
   });
 
-  it('should only assemble the active routes once', () => {
-    let activeRoutes = navService.getActiveRoutes();
-    expect(activeRoutes[0].children.length).toBe(1);
-
-    configService.runtime.routes = [];
-    activeRoutes = navService.getActiveRoutes();
-    expect(activeRoutes[0].children.length).toBe(1);
+  it('should return true if a given route is external www', () => {
+    let www = navService['isExternal']({path: 'www.external.com'});
+    expect(www).toBe(true);
   });
 
-  it('should only unset the active routes on NavigationStart', () => {
-    router.events = Observable.of(new NavigationEnd(0, '', ''));
-    spyOn(StacheNavService.prototype, 'clearActiveRoutes');
-    navService = new StacheNavService(
-      router as Router,
-      configService as StacheConfigService,
-      routeMetadataService as StacheRouteMetadataService
-    );
-    expect(StacheNavService.prototype.clearActiveRoutes).not.toHaveBeenCalled();
+  it('should return true if a given route is external http', () => {
+    let isHttp = navService['isExternal']({path: 'http://www.external.com'});
+    expect(isHttp).toBe(true);
   });
 
-  it('should return the active URL', () => {
-    let url = navService.getActiveUrl();
-    expect(url).toBe(router.url);
+  it('should return true if a given route is external mailto', () => {
+    let mailto = navService['isExternal']({path: 'mailto:test@email.com'});
+    expect(mailto).toBe(true);
   });
 
-  it('should order routes in hierarchies', () => {
-    let activeRoutes = navService.getActiveRoutes();
-    expect(activeRoutes[0].path).toBe('parent');
-    expect(activeRoutes[0].children[0].path).toBe('parent/child');
-    expect(activeRoutes[0].children[0].children[0].path).toBe('parent/child/grandchild');
+  it('should return true if a given route is external ftp', () => {
+    let ftp = navService['isExternal']({path: 'ftp://address'});
+    expect(ftp).toBe(true);
   });
 
-  it('should create the route\'s name from the path by default', () => {
-    let activeRoutes = navService.getActiveRoutes();
-    expect(activeRoutes[0].name).toBe('Parent');
-    expect(activeRoutes[0].children[0].name).toBe('Child');
-    expect(activeRoutes[0].children[0].children[0].name).toBe('Grandchild');
+  it('should return false if a given route is not external', () => {
+    let isExternal = navService['isExternal']('/internal-route');
+    expect(isExternal).toBe(false);
   });
 
-  it('should use the route\'s name provided in route metadata service', () => {
-    router.url = '/other-parent';
-    let activeRoutes = navService.getActiveRoutes();
-    expect(activeRoutes[0].name).toBe('Custom Route Name');
+  it('should return false if no path is present', () => {
+    let noPath = navService['isExternal']({});
+    expect(noPath).toBe(false);
   });
 
-  it('should handle an undefined routes property in route metadata service', () => {
-    delete routeMetadataService.metadata;
-    let activeRoutes = navService.getActiveRoutes();
-    expect(activeRoutes[0].name).toBe('Parent');
+  it('should find an element by id and scroll to it when given a valid fragment', () => {
+    navService['scrollToElement'](windowRef.testElement, 'element-id');
+    expect(windowRef.testElement.scrollIntoView).toHaveBeenCalled();
   });
 
-  it('should order routes alphabetically by name', () => {
-    router.url = '/order-routes';
-    let activeRoutes = navService.getActiveRoutes();
-    expect(activeRoutes[0].children[0].name).toBe('A First');
-    expect(activeRoutes[0].children[2].name).toBe('C Third');
+  it('should set the hash to the valid fragment when an element is found', () => {
+    navService['scrollToElement'](windowRef.testElement, 'element-id');
+    expect(windowRef.nativeWindow.location.hash).toEqual('element-id');
   });
 
-  it('should order routes by order over alphabetical if order exists', () => {
-    router.url = '/order-routes';
-    let activeRoutes = navService.getActiveRoutes();
-    expect(activeRoutes[0].children[0].children[0].name).toBe('Order One');
-    expect(activeRoutes[0].children[0].children[2].name).toBe('A Three');
-    expect(activeRoutes[0].children[0].children[2].order).toBe(3);
-    expect(activeRoutes[0].children[0].children[3].name).toBe('B Three');
-    expect(activeRoutes[0].children[0].children[3].order).toBe(3);
-    expect(activeRoutes[0].children[0].children[6].name).toBe('A');
+  it('should not scroll to any element if no element is found', () => {
+    navService['scrollToElement'](undefined, 'not-found');
+    expect(windowRef.testElement.scrollIntoView).not.toHaveBeenCalled();
+  });
+
+  it('should navigate to an external url', () => {
+    navService.navigate({path: 'www.external.com' });
+    expect(windowRef.nativeWindow.location.href).toEqual('www.external.com');
+  });
+
+  it('should navigate to an internal url with a fragment', () => {
+    navService.navigate({path: '/internal', fragment: 'element-id'});
+    expect(windowRef.nativeWindow.location.hash).toEqual('element-id');
+  });
+
+  it('should navigate to an internal url and remove a fragment that doesn\'t exist on the page',
+   () => {
+    navService.navigate({path: 'internal', fragment: 'does-not-exist'});
+    expect(windowRef.nativeWindow.location.hash).toEqual('');
+    expect(windowRef.nativeWindow.scroll).toHaveBeenCalled();
   });
 });

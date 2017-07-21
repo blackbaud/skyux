@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { StacheNav, StacheNavLink, StacheNavService } from '../nav';
+import { StacheNav, StacheNavLink } from '../nav';
+import { StacheRouteService } from '../shared';
 
 @Component({
   selector: 'stache-breadcrumbs',
@@ -12,11 +13,11 @@ export class StacheBreadcrumbsComponent implements StacheNav, OnInit {
   public routes: StacheNavLink[];
 
   public constructor(
-    private navService: StacheNavService) { }
+    private routeService: StacheRouteService) { }
 
   public ngOnInit(): void {
     if (!this.routes) {
-      const activeRoutes = this.navService.getActiveRoutes();
+      const activeRoutes = this.routeService.getActiveRoutes();
       this.routes = this.filterRoutes(activeRoutes);
     }
   }
@@ -56,7 +57,7 @@ export class StacheBreadcrumbsComponent implements StacheNav, OnInit {
   }
 
   private findActiveBranch(routes: StacheNavLink[], callback: (navLink: StacheNavLink) => void) {
-    const activeUrl = `${this.navService.getActiveUrl()}/`;
+    const activeUrl = `${this.routeService.getActiveUrl()}/`;
     routes.forEach((route: StacheNavLink) => {
       if (activeUrl.indexOf(`/${route.path}/`) === 0) {
         callback(route);

@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { StacheNav, StacheNavLink, StacheNavService } from '../nav';
+import { StacheNav, StacheNavLink } from '../nav';
+import { StacheRouteService } from '../shared';
 
 @Component({
   selector: 'stache-sidebar',
@@ -14,17 +15,17 @@ export class StacheSidebarComponent implements StacheNav, OnInit {
   public headingRoute: string | string[];
 
   public constructor(
-    private navService: StacheNavService) { }
+    private routeService: StacheRouteService) { }
 
   public ngOnInit(): void {
     if (!this.routes) {
-      const activeRoutes = this.navService.getActiveRoutes();
+      const activeRoutes = this.routeService.getActiveRoutes();
       this.routes = this.filterRoutes(activeRoutes);
     }
   }
 
   public isHeadingActive(): boolean {
-    const url = this.navService.getActiveUrl();
+    const url = this.routeService.getActiveUrl();
     return (url === this.headingRoute);
   }
 

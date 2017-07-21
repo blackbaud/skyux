@@ -6,6 +6,7 @@ import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 import { StacheNavComponent } from './nav.component';
 import { StacheNavTestComponent } from './fixtures/nav.component.fixture';
 import { StacheWindowRef } from '../shared';
+import { StacheNavService } from './nav.service';
 
 describe('StacheNavComponent', () => {
   let component: StacheNavComponent;
@@ -48,6 +49,7 @@ describe('StacheNavComponent', () => {
         StacheNavTestComponent
       ],
       providers: [
+        StacheNavService,
         { provide: Router, useValue: mockRouter },
         { provide: StacheWindowRef, useValue: mockWindowService }
       ]
@@ -123,15 +125,6 @@ describe('StacheNavComponent', () => {
     expect(route.isCurrent).toBe(true);
   });
 
-  it('should return true if a given route is external', () => {
-    component.routes = [{ name: 'Test', path: 'https://google.com' }];
-    const route = component.routes[0];
-    let result = component['isExternal'](route);
-    fixture.detectChanges();
-
-    expect(result).toBe(true);
-  });
-
   it('should navigate to the route passed in', () => {
     component.routes = [{ name: 'Test', path: '/test' }];
     const route = component.routes[0];
@@ -171,17 +164,6 @@ describe('StacheNavComponent', () => {
     component.navigate(route);
 
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/test#heading'], {});
-  });
-
-  it('should pass in a fragment with the route if provided', () => {
-    spyOn(component, 'scrollToElement');
-    component.routes = [{ name: 'Test', path: '/test', fragment: 'Test' }];
-    const route = component.routes[0];
-
-    fixture.detectChanges();
-    component.navigate(route);
-
-    expect(component.scrollToElement).toHaveBeenCalled();
   });
 
   it('should set the classname based on the navType on init', () => {

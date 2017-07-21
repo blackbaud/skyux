@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { StacheNavLink } from './nav-link';
 import { StacheNav } from './nav';
-import { StacheWindowRef } from '../shared';
+import { StacheNavService } from './nav.service';
 
 @Component({
   selector: 'stache-nav',
@@ -21,7 +21,7 @@ export class StacheNavComponent implements OnInit, StacheNav {
 
   public constructor(
     private router: Router,
-    private windowRef: StacheWindowRef) { }
+    private navService: StacheNavService) { }
 
   public hasRoutes(): boolean {
     return (Array.isArray(this.routes) && this.routes.length > 0);
@@ -31,32 +31,8 @@ export class StacheNavComponent implements OnInit, StacheNav {
     return Array.isArray(route.children);
   }
 
-  public scrollToElement(id: string) {
-    let element = this.windowRef.nativeWindow.document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  }
-
   public navigate(route: any): void {
-    let extras: any = {};
-
-    if (this.isExternal(route)) {
-      this.windowRef.nativeWindow.location.href = route.path;
-      return;
-    }
-
-    if (route.fragment) {
-      extras.fragment = route.fragment;
-      this.scrollToElement(route.fragment);
-      return;
-    }
-
-    if (Array.isArray(route.path)) {
-      this.router.navigate(route.path, extras);
-    } else {
-      this.router.navigate([route.path], extras);
-    }
+    this.navService.navigate(route);
   }
 
   public ngOnInit(): void {
@@ -110,14 +86,5 @@ export class StacheNavComponent implements OnInit, StacheNav {
     }
 
     return (activeUrl === path);
-  }
-
-  private isExternal(route: any): boolean {
-    let path = route.path;
-
-    if (typeof path !== 'string') {
-      return false;
-    }
-    return /^(https?|mailto|ftp):+|^(www)/.test(path);
   }
 }
