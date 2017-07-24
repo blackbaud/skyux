@@ -11,10 +11,16 @@ import { StacheActionButtonsComponent } from './action-buttons.component';
 import { StacheNavService } from '../nav';
 
 describe('StacheActionButtonsComponent', () => {
+  class MockNavService {
+    public navigate = jasmine.createSpy('navigate').and.callFake(() => true);
+  }
+
   let component: StacheActionButtonsComponent;
   let fixture: ComponentFixture<StacheActionButtonsComponent>;
+  let mockNavService: MockNavService;
 
   beforeEach(() => {
+    mockNavService = new MockNavService();
     TestBed.configureTestingModule({
       imports: [
         SkyModule,
@@ -26,7 +32,7 @@ describe('StacheActionButtonsComponent', () => {
       ],
       providers: [
         StacheWindowRef,
-        StacheNavService
+        { provide: StacheNavService, useValue: mockNavService }
       ]
     })
     .compileComponents();
@@ -113,5 +119,10 @@ describe('StacheActionButtonsComponent', () => {
     fixture.detectChanges();
 
     expect(component.filteredRoutes.length).toBe(3);
+  });
+
+  it('should call the StacheNavService Navigate method to change routes', () => {
+    component.navigate({name: 'Test', path: '/'});
+    expect(mockNavService.navigate).toHaveBeenCalledWith({name: 'Test', path: '/'});
   });
 });

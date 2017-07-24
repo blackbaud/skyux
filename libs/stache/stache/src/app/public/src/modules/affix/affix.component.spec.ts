@@ -45,27 +45,21 @@ describe('StacheAffixComponent', () => {
     expect(component.maxWidthFormatted).toBeDefined();
   });
 
-  it('should transclude content', () => {
-    const testFixture = TestBed.createComponent(StacheAffixTestComponent);
-    const affixElement = testFixture.debugElement.query(By.css('.stache-affix')).nativeElement;
-    expect(affixElement).toHaveText('This will be affixed.');
-  });
-
   it('should add a min-height property to the wrapping DIV', () => {
-    const testFixture = TestBed.createComponent(StacheAffixTestComponent);
-    const affixElement = testFixture.debugElement.query(By.css('.stache-affix')).nativeElement;
+    fixture.detectChanges();
+    let affixElement = fixture.debugElement.query(By.css('.stache-affix')).nativeElement;
     expect(affixElement.style.minHeight).toBeDefined();
   });
 
   it('should add a max-width property to the wrapping DIV', () => {
-    const testFixture = TestBed.createComponent(StacheAffixTestComponent);
-    const affixElement = testFixture.debugElement.query(By.css('.stache-affix')).nativeElement;
+    fixture.detectChanges();
+    let affixElement = fixture.debugElement.query(By.css('.stache-affix')).nativeElement;
     expect(affixElement.style.maxWidth).toBeDefined();
   });
 
   it('should add a position property to the wrapping DIV', () => {
-    const testFixture = TestBed.createComponent(StacheAffixTestComponent);
-    const affixElement = testFixture.debugElement.query(By.css('.stache-affix')).nativeElement;
+    fixture.detectChanges();
+    let affixElement = fixture.debugElement.query(By.css('.stache-affix')).nativeElement;
     expect(affixElement.style.position).toBeDefined();
   });
 
@@ -86,8 +80,8 @@ describe('StacheAffixComponent', () => {
   });
 
   it('should wrap transcluded content with the stacheAffixTop directive', () => {
-    const testFixture = TestBed.createComponent(StacheAffixTestComponent);
-    const affixElement = testFixture.debugElement.query(By.css('.stache-affix')).nativeElement;
+    fixture.detectChanges();
+    let affixElement = fixture.debugElement.query(By.css('.stache-affix')).nativeElement;
     expect(affixElement.children[0].getAttribute('stacheaffixtop')).toBeDefined();
   });
 });

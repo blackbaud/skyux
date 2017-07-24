@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { StacheNav, StacheNavLink, StacheNavComponent } from '../nav';
+import { StacheNav, StacheNavLink, StacheNavService } from '../nav';
 import { InputConverter } from '../shared';
 
 @Component({
@@ -8,7 +8,7 @@ import { InputConverter } from '../shared';
   templateUrl: './action-buttons.component.html',
   styleUrls: ['./action-buttons.component.scss']
 })
-export class StacheActionButtonsComponent extends StacheNavComponent implements StacheNav, OnInit {
+export class StacheActionButtonsComponent implements StacheNav, OnInit {
   @Input()
   public routes: StacheNavLink[];
 
@@ -22,8 +22,14 @@ export class StacheActionButtonsComponent extends StacheNavComponent implements 
 
   private searchKeys: string[] = ['name', 'summary'];
 
+  public constructor(private navService: StacheNavService) { }
+
   public ngOnInit() {
     this.filteredRoutes = this.routes;
+  }
+
+  public navigate(route: any) {
+    this.navService.navigate(route);
   }
 
   public onKeyUp(event: KeyboardEvent) {
