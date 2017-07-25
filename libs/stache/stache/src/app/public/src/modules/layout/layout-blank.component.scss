@@ -2,13 +2,13 @@
 
 .stache-layout {
   padding-top: 20px;
-  padding-bottom: $stache-grid-padding * 2;
+  padding-bottom: $stache-grid-gutter;
   background-color: #fff;
 }
 
 .stache-layout-blank {
   padding: 0;
-  background-color: transparent;
+  background-color: $stache-background-color-neutral-light;
 
   /deep/
   .stache-tutorial {

@@ -15,13 +15,13 @@
 }
 
 .stache-tutorial-step {
-  border: 1px solid $stache-color-gray-lighter;
-  background-color: $stache-color-white;
+  border: 1px solid $stache-border-color-neutral-medium;
+  background-color: #fff;
   position: relative;
   margin-top: 8px;
   margin-bottom: 8px;
 
-  @media (min-width: $stache-screen-sm) {
+  @media (min-width: $stache-screen-sm-min) {
     margin-top: 35px;
     margin-bottom: 35px;
     margin-left: 0;
@@ -36,17 +36,17 @@
     line-height: 34px;
     left: -31px;
     top: 11px;
-    background-color: $stache-color-blue;
+    background-color: $stache-background-color-primary-dark;
     border-radius: 34px 0 0 34px;
     font-weight: 100;
-    color: $stache-color-white;
+    color: $stache-text-color-on-dark;
     counter-increment: myCounter;
     content: counter(myCounter);
     position: absolute;
     text-align: center;
     z-index: 100;
 
-    @media (min-width: $stache-screen-sm) {
+    @media (min-width: $stache-screen-sm-min) {
       height: 58px;
       width: 58px;
       line-height: 58px;
@@ -64,7 +64,7 @@
     .stache-tutorial-step-body {
       margin-top: -5px;
 
-      @media (min-width: $stache-screen-sm) {
+      @media (min-width: $stache-screen-sm-min) {
         margin-top: -25px;
       }
     }

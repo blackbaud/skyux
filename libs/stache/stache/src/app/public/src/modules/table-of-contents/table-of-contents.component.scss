@@ -7,13 +7,13 @@
   .stache-nav-list {
     list-style-type: decimal;
     margin-left: 15px;
-    color: $stache-color-text;
+    color: $stache-text-color-default;
   }
 
   .stache-nav-list-item {
     margin: 0 0 .25em;
     padding-left: .5em;
-    line-height: $stache-line-height;
+    line-height: $stache-line-height-base;
 
     &:last-child {
       margin-bottom: 0;
@@ -28,7 +28,7 @@
 }
 
 .stache-table-of-contents-wrapper {
-  border-left: 4px solid $stache-color-blue;
+  border-left: 4px solid $stache-background-color-primary-dark;
   padding: 6px 0 12px 19px;
 }
 

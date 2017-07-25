@@ -1,12 +1,15 @@
 @import '../../styles/_variables';
 
+.stache-breadcrumbs {
+  margin-bottom: $stache-margin * 2;
+}
+
 /deep/
 .stache-breadcrumbs {
   .stache-nav-breadcrumbs {
-    color: $stache-color-text-muted;
-    margin-bottom: $stache-grid-padding * 2;
-    background-color: $stache-custom-color-gray-lightest;
-    padding: 8px $stache-grid-padding;
+    color: $stache-text-color-deemphasized;
+    background-color: $stache-background-color-neutral-light;
+    padding: $stache-padding;
 
     .stache-nav-list {
       flex-direction: row;
@@ -14,19 +17,20 @@
     }
 
     .stache-nav-list-item {
-      margin-right: 10px;
+      margin-right: $stache-margin;
+      line-height: 1;
 
       & + li {
         &:before {
           content: '/';
-          margin-right: 5px;
-          color: $stache-color-text-muted;
+          margin-right: $stache-margin / 2;
+          color: $stache-text-color-deemphasized;
         }
       }
 
       &:last-child {
         > .stache-nav-anchor {
-          color: $stache-color-text-muted;
+          color: $stache-text-color-deemphasized;
 
           &:hover {
             cursor: default;

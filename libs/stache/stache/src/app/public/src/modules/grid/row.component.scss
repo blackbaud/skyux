@@ -4,15 +4,15 @@
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  margin-left: -$stache-grid-padding;
-  margin-right: -$stache-grid-padding;
-  margin-bottom: $stache-grid-padding;
+  margin-left: -$stache-grid-gutter;
+  margin-right: -$stache-grid-gutter;
+  margin-bottom: $stache-grid-gutter;
 
   &.stache-row-reverse {
     flex-direction: column-reverse;
   }
 
-  @media (min-width: $stache-screen-sm) {
+  @media (min-width: $stache-screen-sm-min) {
     flex-direction: row;
 
     &.stache-row-reverse {

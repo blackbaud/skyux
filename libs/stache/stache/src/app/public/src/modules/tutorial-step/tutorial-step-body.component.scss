@@ -3,11 +3,11 @@
 .stache-tutorial-step-body {
   margin: 15px;
 
-  @media (min-width: $stache-screen-sm) {
+  @media (min-width: $stache-screen-sm-min) {
     margin: 30px 60px;
   }
 
-  @media (min-width: $stache-screen-md) {
+  @media (min-width: $stache-screen-md-min) {
     margin: 60px 120px;
   }
 }

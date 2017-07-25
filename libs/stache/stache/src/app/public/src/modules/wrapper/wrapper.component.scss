@@ -8,8 +8,8 @@
   li,
   td,
   th {
-    line-height: $stache-line-height;
-    color: $stache-color-text;
+    line-height: $stache-line-height-base;
+    color: $stache-text-color-default;
     font-size: inherit;
   }
 
@@ -20,22 +20,22 @@
   h5,
   h6 {
     line-height: $stache-line-height-headings;
-    color: $stache-color-text;
-    margin: $stache-padding-double 0;
+    color: $stache-text-color-default;
+    margin: ($stache-margin * 2) 0;
   }
 
   p,
   blockquote,
   table {
-    margin: $stache-padding-double 0;
+    margin: ($stache-margin * 2) 0;
   }
 
   ul:not([class]),
   ol:not([class]) {
-    margin: $stache-padding-double 0;
+    margin: ($stache-margin * 2) 0;
 
     > li {
-      margin-bottom: $stache-padding;
+      margin-bottom: $stache-margin;
 
       &:last-child {
         margin-bottom: 0;

@@ -3,7 +3,7 @@
 /deep/
 .stache-layout-sidebar {
   .stache-affix-top {
-    @media (min-width: $stache-screen-sm) {
+    @media (min-width: $stache-screen-sm-min) {
       display: flex;
       overflow-y: auto;
       max-height: 100%;

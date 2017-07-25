@@ -4,8 +4,8 @@
   position: fixed;
   bottom: 10px;
   right: 10px;
-  color: $stache-color-white;
-  background: $stache-color-blue;
+  color: $stache-text-color-on-dark;
+  background-color: $stache-text-color-action-primary;
   border-radius: 5px;
   height: 30px;
   width: 30px;
@@ -15,10 +15,10 @@
   opacity: 1;
   transition: opacity .5s;
 
-  &:hover, 
+  &:hover,
   &:focus {
-    background: $stache-color-link-hover;
     cursor: pointer;
+    background-color: darken($stache-text-color-action-primary, 10%);
   }
 }
 

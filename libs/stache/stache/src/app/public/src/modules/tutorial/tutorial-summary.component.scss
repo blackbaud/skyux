@@ -6,13 +6,13 @@
   text-align: center;
   margin: 0 0 20px;
 
-  @media (min-width: $stache-screen-sm) {
+  @media (min-width: $stache-screen-sm-min) {
     font-size: 19.5px;
   }
 
   &,
   p {
-    color: $stache-color-gray;
+    color: $stache-text-color-default;
   }
 
   p + p {

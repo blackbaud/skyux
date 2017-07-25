@@ -4,7 +4,7 @@
   padding-top: 2em;
   margin: 0 0 1em;
   padding-bottom: 0.6em;
-  border-bottom: 1px solid $stache-custom-color-gray-lighter;
+  border-bottom: 1px solid $stache-border-color-neutral-light;
 
   &:hover {
     .stache-page-anchor-icon {
@@ -16,7 +16,7 @@
 .stache-page-anchor-heading {
   margin: 0;
   display: inline-block;
-  color: $stache-color-text;
+  color: $stache-text-color-default;
 }
 
 .stache-page-anchor-icon {

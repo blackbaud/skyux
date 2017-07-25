@@ -5,12 +5,12 @@
 }
 
 .stache-code-output {
-  border-left: 4px solid $stache-color-blue;
-  background-color: $stache-custom-color-gray-lightest;
-  padding: 25px 25px 21px;
+  border-left: 4px solid $stache-background-color-primary-dark;
+  background-color: $stache-background-color-selected;
+  padding: $stache-padding * 2;
   overflow-x: auto;
-  margin-top: 25px;
-  margin-bottom: 25px;
+  margin-top: $stache-margin * 2;
+  margin-bottom: $stache-margin * 2;
 }
 
 /deep/
@@ -18,43 +18,5 @@
   .stache-code-output {
     margin-top: 0px;
     border: none;
-  }
-}
-
-/* Prism overrides */
-/* All colors were chosen to meet accessibility contrast ratio requirements */
-.token {
-  &.atrule,
-  &.attr-value,
-  &.keyword {
-    color: scale-color($color: $stache-color-blue, $lightness: -20%);
-  }
-
-  &.selector,
-  &.attr-name,
-  &.string,
-  &.char,
-  &.builtin,
-  &.inserted {
-    color: scale-color($color: $stache-color-green, $lightness: -30%);
-  }
-
-  &.property,
-  &.tag,
-  &.boolean,
-  &.number,
-  &.constant,
-  &.symbol,
-  &.deleted {
-    color: scale-color($color: $stache-color-red, $lightness: -20%);
-  }
-
-  &.function {
-    color: scale-color($color: $stache-color-purple, $lightness: -20%);
-  }
-
-  &.punctuation,
-  &.operator {
-    color: scale-color($color: $stache-color-gray, $lightness: -20%);
   }
 }

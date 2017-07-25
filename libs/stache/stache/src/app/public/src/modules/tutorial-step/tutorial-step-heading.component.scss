@@ -3,7 +3,7 @@
 .stache-tutorial-step-heading {
   margin: 15px;
 
-  @media (min-width: $stache-screen-sm) {
+  @media (min-width: $stache-screen-sm-min) {
     margin: 40px 120px 45px;
   }
 }
@@ -15,15 +15,15 @@
     padding: 0;
     margin: 0;
 
-    @media (min-width: $stache-screen-sm) {
+    @media (min-width: $stache-screen-sm-min) {
       text-align: center;
     }
 
     h2 {
       font-size: 1.4em;
-      line-height: $stache-line-height;
+      line-height: $stache-line-height-base;
 
-      @media (min-width: $stache-screen-sm) {
+      @media (min-width: $stache-screen-sm-min) {
         font-size: 28px;
       }
     }

@@ -7,21 +7,25 @@
 .stache-sidebar-heading {
   font-size: 1.5em;
   font-weight: 300;
-  font-family: $stache-font-family-narrow;
   margin: 1em 0 0.85em;
   cursor: pointer;
-  color: $stache-color-text;
+  color: $stache-text-color-default;
   display: inline-block;
   padding-left: 11px;
   line-height: 1.1;
   border-left: 4px solid transparent;
 
   &.active {
-    border-left-color: $stache-color-blue;
+    border-left-color: $stache-background-color-primary-dark;
   }
 
   &:hover {
-    color: $stache-color-link;
+    text-decoration: underline;
+  }
+
+  &:active,
+  &:focus {
+    outline: none;
   }
 }
 
@@ -32,8 +36,8 @@
 
     &.active {
       > .stache-nav-anchor {
-        border-left-color: $stache-color-blue;
-        color: $stache-color-text;
+        border-left-color: $stache-background-color-primary-dark;
+        color: $stache-text-color-default;
       }
     }
 
@@ -45,17 +49,17 @@
 
     &:hover {
       > .stache-nav-anchor {
-        color: $stache-color-text;
+        color: $stache-text-color-default;
       }
     }
   }
 
   .stache-nav-anchor {
     padding: 1px 5px 1px 11px;
-    color: $stache-color-text-muted;
+    color: $stache-text-color-deemphasized;
     border-left: 4px solid transparent;
     display: block;
-    line-height: $stache-line-height;
+    line-height: $stache-line-height-base;
   }
 
   .stache-nav-sidebar {
