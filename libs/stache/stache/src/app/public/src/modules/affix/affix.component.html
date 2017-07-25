@@ -1,9 +1,7 @@
-<div #stacheAffixTarget
-  class="stache-affix"
-  [style.min-height]="minHeightFormatted"
-  [style.max-width]="maxWidthFormatted"
-  [ngStyle]="{'position': cssPosition() }">
-  <div stacheAffixTop>
-    <ng-content></ng-content>
+<div #stacheAffixWrapper>
+  <div class="stache-affix" [ngStyle]="getStyles()">
+    <div stacheAffixTop>
+      <ng-content></ng-content>
+    </div>
   </div>
 </div>

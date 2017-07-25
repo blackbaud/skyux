@@ -61,12 +61,22 @@ describe('StacheWrapperComponent', () => {
         href: ''
       }
     };
+
+    get onResize$() {
+      return Observable.of({});
+    }
+
+    constructor(private eventManager: any) {
+      this.eventManager = {
+        addGlobalEventListener: () => {}
+      };
+    }
   }
 
   beforeEach(() => {
     mockActivatedRoute = new MockActivatedRoute();
     mockTitleService = new MockTitleService();
-    mockWindowService = new MockWindowService();
+    mockWindowService = new MockWindowService({});
     const mockConfigService = {
       skyux: {},
       runtime: {

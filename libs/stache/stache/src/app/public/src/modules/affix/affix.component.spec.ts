@@ -65,18 +65,18 @@ describe('StacheAffixComponent', () => {
 
   it('should determine the position property from the directive status', () => {
     fixture.componentInstance.ngAfterViewInit();
-    fixture.componentInstance.stacheAffixTop = {
+    fixture.componentInstance.affixTopDirective = {
       isAffixed: true
     } as StacheAffixTopDirective;
 
     fixture.detectChanges();
-    let result = fixture.componentInstance.cssPosition();
-    expect(result).toEqual('relative');
+    let result = fixture.componentInstance.getStyles();
+    expect(result.position).toEqual('relative');
 
     fixture.detectChanges();
-    fixture.componentInstance.stacheAffixTop.isAffixed = false;
-    result = fixture.componentInstance.cssPosition();
-    expect(result).toEqual('static');
+    fixture.componentInstance.affixTopDirective.isAffixed = false;
+    result = fixture.componentInstance.getStyles();
+    expect(result.position).toEqual('static');
   });
 
   it('should wrap transcluded content with the stacheAffixTop directive', () => {
