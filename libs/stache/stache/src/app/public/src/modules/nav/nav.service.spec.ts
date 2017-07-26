@@ -1,8 +1,4 @@
-import { Router } from '@angular/router';
-
 import { StacheNavService } from './nav.service';
-
-import { StacheWindowRef } from '../shared';
 
 class MockRouter {
   public url = '/internal#element-id';
@@ -41,11 +37,7 @@ describe('StacheNavService', () => {
   beforeEach(() => {
     router = new MockRouter();
     windowRef = new MockWindowService();
-
-    navService = new StacheNavService(
-      router as Router,
-      windowRef as StacheWindowRef
-    );
+    navService = new StacheNavService((router as any), (windowRef as any));
   });
 
   it('should return true if a given route is external www', () => {
