@@ -1,3 +1,7 @@
+# 2.0.0-rc.1 (2017-07-26)
+
+- Moved SKY UX to peer dependency. [#283](https://github.com/blackbaud/stache2/pull/283)
+
 # 2.0.0-rc.0 (2017-07-26)
 
 - Converted `StachePageAnchorComponent` to an anchor tag, to allow users to open the link in a new window. [#277](https://github.com/blackbaud/stache2/pull/277)
