@@ -1,10 +1,23 @@
+# 2.0.0-rc.0 (2017-07-26)
+
+- Converted `StachePageAnchorComponent` to an anchor tag, to allow users to open the link in a new window. [#277](https://github.com/blackbaud/stache2/pull/277)
+- Added search form to `StacheActionButtonsComponent`. [#270](https://github.com/blackbaud/stache2/pull/270)
+- Removed custom bundling commands, relying on SKY UX Builder's new `skyux build-public-library` command. (#234)[https://github.com/blackbaud/stache2/pull/234]
+- Added support for external URLs in `StacheActionButtonsComponent`. [#262](https://github.com/blackbaud/stache2/pull/262)
+- Added ability to include property bindings in `StacheTableOfContentsComponent`. [#261](https://github.com/blackbaud/stache2/pull/261)
+- Added support for SKY UX `2.0.0-rc.9`. [#278](https://github.com/blackbaud/stache2/pull/278)
+- Added support for SKY UX Builder `1.0.0-rc.12`.
+- Updated version of Node.JS due to security implications. [#264](https://github.com/blackbaud/stache2/pull/264)
+- Fixed `StacheAffixComponent` sizing issues on smaller screens. [#279](https://github.com/blackbaud/stache2/pull/279)
+- General cleanup and refactoring of existing code. [#276](https://github.com/blackbaud/stache2/pull/276) [#269](https://github.com/blackbaud/stache2/pull/269) [#267](https://github.com/blackbaud/stache2/pull/267) [#259](https://github.com/blackbaud/stache2/pull/259) [#260](https://github.com/blackbaud/stache2/pull/260)
+
 # 2.0.0-beta.9 (2017-07-06)
 
-- Added `navOrder` to `<stache>` tag, to allow ordering of sidebar routes. ([#242](https://github.com/blackbaud/stache2/pull/242))
-- Added more language options for `StacheCodeBlockComponent`. ([#245](https://github.com/blackbaud/stache2/pull/245))
+- Added `navOrder` to `<stache>` tag, to allow ordering of sidebar routes. [#242](https://github.com/blackbaud/stache2/pull/242)
+- Added more language options for `StacheCodeBlockComponent`. [#245](https://github.com/blackbaud/stache2/pull/245)
 - Added support for SKY UX `2.0.0-rc.4`.
 - Added support for SKY UX Builder `1.0.0-rc.6`.
-- Fixed bug with `StacheAffixComponent`. ([#250](https://github.com/blackbaud/stache2/pull/250))
+- Fixed bug with `StacheAffixComponent`. [#250](https://github.com/blackbaud/stache2/pull/250)
 
 # 2.0.0-beta.8 (2017-06-30)
 
@@ -23,7 +36,7 @@
 
 - Updated SKY UX to `2.0.0-rc.0`.
 - Updated SKY UX Builder to `1.0.0-rc.2`.
-- Adjusted components to support Angular `4.x`. ([#101](https://github.com/blackbaud/stache2/issues/101))
+- Adjusted components to support Angular `4.x`. [#101](https://github.com/blackbaud/stache2/issues/101)
 
 # 2.0.0-beta.4 (2017-06-16)
 
@@ -32,8 +45,8 @@
 # 2.0.0-beta.3 (2017-06-15)
 
 - Fixed JSON Data, Route Metadata, and Config Service providers.
-- Consolidated all plugins into a single plugin. ([blackbaud/skyux-builder-plugin-stache](https://github.com/blackbaud/skyux-builder-plugin-stache))
-- Fixed StacheAffixTopDirective width bug. ([#221](https://github.com/blackbaud/stache2/issues/221))
+- Consolidated all plugins into a single plugin. [blackbaud/skyux-builder-plugin-stache](https://github.com/blackbaud/skyux-builder-plugin-stache)
+- Fixed StacheAffixTopDirective width bug. [#221](https://github.com/blackbaud/stache2/issues/221)
 - Removed `StacheConfigService` and `SkyAppConfig` from **app-extras.module.ts**.
 
 # 2.0.0-beta.2 (2017-06-08)
@@ -50,8 +63,6 @@
   - [`@blackbaud/skyux-builder-plugin-stache-route-metadata/generator`](https://github.com/blackbaud/skyux-builder-plugin-stache-route-metadata)
 - Fixed line-heights for list items and navigation. [#158](https://github.com/blackbaud/stache2/issues/158)
 - Fixed StacheActionButtonsComponent styles when displaying less than 4 Action Buttons. [#171](https://github.com/blackbaud/stache2/issues/171)
-
-
 
 # 2.0.0-beta.1 (2017-05-31)
 
