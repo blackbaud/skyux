@@ -46,6 +46,9 @@ class MockStacheConfigService {
         routePath: 'order-routes/second'
       },
       {
+        routePath: 'order-routes/fourth'
+      },
+      {
         routePath: 'parent'
       },
       {
@@ -95,6 +98,11 @@ class MockStacheRouteMetadataService {
         name: 'B Second'
       },
       {
+        path: 'order-routes/fourth',
+        name: 'fourth route',
+        order: 4
+      },
+      {
         path: 'order-routes/first/order-two',
         order: 2,
         name: 'B Three'
@@ -124,7 +132,7 @@ class MockStacheRouteMetadataService {
       },
       {
         path: 'order-routes/first/sample-two',
-        order: 5,
+        order: 999,
         name: 'A Three'
       }
   ];
@@ -206,14 +214,28 @@ describe('StacheRouteService', () => {
     expect(activeRoutes[0].children[2].name).toBe('C Third');
   });
 
-  it('should order routes by order over alphabetical if order exists', () => {
+  it('should arrange routes in their nav Order locations', () => {
     router.url = '/order-routes';
     let activeRoutes = routeService.getActiveRoutes();
     expect(activeRoutes[0].children[0].children[0].name).toBe('Order One');
+    expect(activeRoutes[0].children[0].children[6].name).toBe('A Three');
+  });
+
+  it('should order routes with the same navOrder alphabetically', () => {
+    router.url = '/order-routes';
+    let activeRoutes = routeService.getActiveRoutes();
     expect(activeRoutes[0].children[0].children[2].name).toBe('A Three');
     expect(activeRoutes[0].children[0].children[2].order).toBe(3);
     expect(activeRoutes[0].children[0].children[3].name).toBe('B Three');
     expect(activeRoutes[0].children[0].children[3].order).toBe(3);
-    expect(activeRoutes[0].children[0].children[6].name).toBe('A');
+  });
+
+  it('should place routes in their assigned order, skipping non ordered routes', () => {
+    router.url = '/order-routes';
+    let activeRoutes = routeService.getActiveRoutes();
+    expect(activeRoutes[0].children[0].children[5].name).toBe('A');
+    expect(activeRoutes[0].children[0].children[5].order).toBe(undefined);
+    expect(activeRoutes[0].children[0].children[6].name).toBe('A Three');
+    expect(activeRoutes[0].children[0].children[6].order).toBe(999);
   });
 });

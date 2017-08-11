@@ -126,36 +126,48 @@ export class StacheRouteService {
   }
 
   private sortRoutes(routes: StacheNavLink[]): StacheNavLink[] {
+    const sortedRoutes = routes.filter((route: any) => !route.hasOwnProperty('order'))
+      .sort(this.sortByName);
 
-    const sortByName = (a: any, b: any): number  => {
-      if (a.name.toLowerCase() < b.name.toLowerCase()) {
-        return -1;
-      } else if (a.name.toLowerCase() > b.name.toLowerCase()) {
-        return 1;
+    const routesWithNavOrder = routes.filter((route: any) => route.hasOwnProperty('order'))
+      .sort(this.sortByName)
+      .sort(this.sortByOrder);
+
+    routesWithNavOrder.forEach((route: any) => {
+      let newIdx = route.order - 1;
+      const validPosition = (): boolean => newIdx < sortedRoutes.length;
+      const positionPreviouslyAssigned = (): boolean => sortedRoutes[newIdx].order <= route.order;
+
+      if (validPosition()) {
+        while (validPosition() && positionPreviouslyAssigned()) {
+          newIdx++;
+        }
+        sortedRoutes.splice(newIdx, 0, route);
       } else {
-        return 0;
+        sortedRoutes.push(route);
       }
-    };
-
-    const sortByOrder = (a: any, b: any): number => {
-      if (a.order < b.order) {
-        return -1;
-      } else if (a.order > b.order) {
-        return 1;
-      } else {
-        return 0;
-      }
-    };
-
-    const orderedRoutes = routes.filter(route => route.hasOwnProperty('order'))
-      .sort(sortByName)
-      .sort(sortByOrder);
-
-    const unorderedRoutes = routes.filter(route => !route.hasOwnProperty('order'))
-      .sort(sortByName);
-
-    const sortedRoutes = orderedRoutes.concat(unorderedRoutes);
+    });
 
     return sortedRoutes;
+  }
+
+  private sortByName(a: any, b: any): number {
+    if (a.name.toLowerCase() < b.name.toLowerCase()) {
+      return -1;
+    } else if (a.name.toLowerCase() > b.name.toLowerCase()) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
+  private sortByOrder(a: any, b: any): number {
+    if (a.order < b.order) {
+      return -1;
+    } else if (a.order > b.order) {
+      return 1;
+    } else {
+      return 0;
+    }
   }
 }

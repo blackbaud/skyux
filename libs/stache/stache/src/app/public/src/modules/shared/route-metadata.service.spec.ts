@@ -15,9 +15,19 @@ describe('StacheRouteMetadataService', () => {
       name: 'foo',
       order: '1'
     },
-        {
+    {
       path: '/',
       name: 'bar'
+    },
+    {
+      path: '/one',
+      name: 'one',
+      order: '-100'
+    },
+    {
+      path: '/two',
+      name: 'two',
+      order: 0
     }
   ];
 
@@ -41,5 +51,11 @@ describe('StacheRouteMetadataService', () => {
   it('should convert values to appropriate type', () => {
     expect(typeof routeMetadataService.metadata[0].order).toBe('number');
     expect(typeof routeMetadataService.metadata[0].name).toBe('string');
+  });
+
+  it('should remove the order attribute for non valid inputs', () => {
+    expect(routeMetadataService.metadata[2].order).toBe(undefined);
+    expect(routeMetadataService.metadata[0].order).toBe(1);
+    expect(routeMetadataService.metadata[3].order).toBe(undefined);
   });
 });
