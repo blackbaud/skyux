@@ -8,5 +8,5 @@ import { Component, ViewChild } from '@angular/core';
    public heading = 'Second Heading';
 
    @ViewChild('testWrapper')
-   public testWrapper;
+   public testWrapper: any;
  }

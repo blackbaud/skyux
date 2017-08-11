@@ -31,6 +31,7 @@ describe('StacheWrapperComponent', () => {
   let mockActivatedRoute: any;
   let mockTitleService: any;
   let mockWindowService: any;
+  let mockConfigService: any;
 
   class MockActivatedRoute {
     public fragment: Observable<string> = Observable.of('test-route');
@@ -73,16 +74,18 @@ describe('StacheWrapperComponent', () => {
     }
   }
 
+  class MockConfigService {
+    public skyux: any = {};
+    public runtime: any = {
+      routes: []
+    };
+  }
+
   beforeEach(() => {
     mockActivatedRoute = new MockActivatedRoute();
     mockTitleService = new MockTitleService();
     mockWindowService = new MockWindowService({});
-    const mockConfigService = {
-      skyux: {},
-      runtime: {
-        routes: []
-      }
-    };
+    mockConfigService = new MockConfigService();
 
     TestBed.configureTestingModule({
       imports: [

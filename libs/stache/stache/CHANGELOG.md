@@ -1,3 +1,11 @@
+# 2.0.0-rc.2 (2017-08-11)
+
+- Added support for `<stache-code-block>`'s in `<stache-include>` blocks to contain `{` and `}`. [#13](https://github.com/blackbaud/skyux-builder-plugin-stache/pull/13)
+- Updated `navOrder` to allow nav order to be set on only one item. [#288](https://github.com/blackbaud/stache2/pull/288)
+- Limited support for `navOrder` values to [Counting Numbers](https://www.mathsisfun.com/definitions/counting-number.html). [#288](https://github.com/blackbaud/stache2/pull/288)
+- Added support for SKY UX Builder `1.0.0-rc.15`. [#289](https://github.com/blackbaud/stache2/pull/288)
+- Added support for SKY UX `2.0.0-rc.10`.[#287](https://github.com/blackbaud/stache2/pull/287)
+
 # 2.0.0-rc.1 (2017-07-26)
 
 - Moved SKY UX to peer dependency. [#283](https://github.com/blackbaud/stache2/pull/283)
