@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class LibraryConfigService {
+export class BBHelpConfigService {
   public skyux: any = {
     app: {
       title: ''

@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 
 import { LibrarySampleModule } from './modules/sample';
-import { LibrarySharedModule } from './modules/shared';
+import { BBHelpSharedModule } from './modules/shared';
 
 export * from './modules/shared';
 
 @NgModule({
   exports: [
     LibrarySampleModule,
-    LibrarySharedModule
+    BBHelpSharedModule
   ]
 })
-export class LibraryModule { }
+export class BBHelpModule { }

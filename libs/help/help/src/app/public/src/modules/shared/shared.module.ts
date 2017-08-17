@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 
-import { LibraryConfigService } from './config.service';
+import { BBHelpConfigService } from './config.service';
 
 @NgModule({
   providers: [
-    LibraryConfigService
+    BBHelpConfigService
   ]
 })
-export class LibrarySharedModule { }
+export class BBHelpSharedModule { }

@@ -1,8 +1,8 @@
-import { LibraryConfigService } from './config.service';
+import { BBHelpConfigService } from './config.service';
 
-describe('LibraryConfigService', () => {
+describe('BBHelpConfigService', () => {
   it('should return configuration', () => {
-    const configService = new LibraryConfigService();
+    const configService = new BBHelpConfigService();
     expect(configService).toBeDefined();
   });
 });

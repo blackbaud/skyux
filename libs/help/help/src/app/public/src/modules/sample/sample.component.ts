@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { LibraryConfigService } from '../shared';
+import { BBHelpConfigService } from '../shared';
 
 @Component({
   selector: 'lib-sample',
@@ -8,5 +8,5 @@ import { LibraryConfigService } from '../shared';
   styleUrls: ['./sample.component.scss']
 })
 export class LibrarySampleComponent {
-  constructor(public configService: LibraryConfigService) {}
+  constructor(public configService: BBHelpConfigService) {}
 }
