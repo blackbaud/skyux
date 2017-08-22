@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 
 import { LibrarySampleComponent } from './sample.component';
-import { LibraryConfigService } from '../shared';
+import { BBHelpConfigService } from '../shared';
 
 class MockSkyAppConfig {
   public runtime: any = {};
@@ -27,7 +27,7 @@ describe('LibrarySampleComponent', () => {
         LibrarySampleComponent
       ],
       providers: [
-        { provide: LibraryConfigService, useClass: MockSkyAppConfig }
+        { provide: BBHelpConfigService, useClass: MockSkyAppConfig }
       ]
     })
     .compileComponents();
