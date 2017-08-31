@@ -1,3 +1,9 @@
+# 2.0.0-rc.3 (2017-08-31)
+
+- Added support for SKY UX Builder `1.0.0-rc.17` and SKY UX `2.0.0-rc.12`. [#299](https://github.com/blackbaud/stache2/pull/299)
+- Added `<stache-blockquote>` component. [#297](https://github.com/blackbaud/stache2/pull/297)
+- Fixed a bug causing Stache 2 sites without the `name` property set in `skyuxconfig` to show as `unknown` in analytics. [#298](https://github.com/blackbaud/stache2/pull/298)
+
 # 2.0.0-rc.2 (2017-08-11)
 
 - Added support for `<stache-code-block>`'s in `<stache-include>` blocks to contain `{` and `}`. [#13](https://github.com/blackbaud/skyux-builder-plugin-stache/pull/13)
