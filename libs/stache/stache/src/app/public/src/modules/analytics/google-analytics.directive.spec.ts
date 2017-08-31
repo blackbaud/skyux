@@ -35,7 +35,10 @@ describe('StacheGoogleAnalyticsDirective', () => {
 
   class MockConfigService {
     public runtime = {
-      command: 'build'
+      command: 'build',
+      app: {
+        base: '/test-base/'
+      }
     };
     public skyux = {
       appSettings: {
@@ -97,6 +100,13 @@ describe('StacheGoogleAnalyticsDirective', () => {
     expect(directiveInstance['tagManagerContainerId']).toEqual('1');
     expect(directiveInstance['analyticsClientId']).toEqual('2');
     expect(directiveInstance['isEnabled']).toEqual(false);
+  });
+
+  it('should format and store the appName from the runtime.base', () => {
+    let directiveInstance = directiveElement.injector.get(StacheGoogleAnalyticsDirective);
+    directiveInstance.updateDefaultConfigs();
+    expect(directiveInstance['configService'].runtime.app.base).toEqual('/test-base/');
+    expect(directiveInstance['appName']).toEqual('test-base');
   });
 
   it('should add the Google Tag Manager script if it does not exist, from ngOnInit', () => {

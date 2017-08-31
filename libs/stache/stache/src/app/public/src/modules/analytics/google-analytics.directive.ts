@@ -10,6 +10,7 @@ export class StacheGoogleAnalyticsDirective implements OnInit {
   private tagManagerContainerId: string = 'GTM-W56QP9';
   private analyticsClientId: string = 'UA-2418840-1';
   private isEnabled: boolean = true;
+  private appName: string;
 
   public constructor(
     private windowRef: StacheWindowRef,
@@ -61,7 +62,8 @@ export class StacheGoogleAnalyticsDirective implements OnInit {
       /* istanbul ignore else*/
       if (event instanceof NavigationEnd) {
         const ga = this.windowRef.nativeWindow.ga;
-        ga('set', 'page', `${this.configService.skyux.name}${event.urlAfterRedirects}`);
+
+        ga('set', 'page', `${this.appName}${event.urlAfterRedirects}`);
         ga('send', 'pageview');
       }
     });
@@ -80,6 +82,8 @@ export class StacheGoogleAnalyticsDirective implements OnInit {
     if (appSettings.stache.googleAnalytics.clientId) {
       this.analyticsClientId = appSettings.stache.googleAnalytics.clientId;
     }
+
+    this.appName = this.configService.runtime.app.base.replace(/^\/|\/$/g, '');
 
     switch (appSettings.stache.googleAnalytics.enabled) {
       case false:
