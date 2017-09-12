@@ -8,4 +8,7 @@ import { Component, Input } from '@angular/core';
 export class StacheImageComponent {
   @Input()
   public imageSource: string;
+
+  @Input()
+  public imageAlt: string = '';
 }
