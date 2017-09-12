@@ -24,6 +24,7 @@ import { StachePageHeaderModule } from './modules/page-header';
 import { StachePageSummaryModule } from './modules/page-summary';
 import { StacheSharedModule } from './modules/shared';
 import { StacheSidebarModule } from './modules/sidebar';
+import { StacheSwaggerModule } from './modules/swagger';
 import { StacheTableOfContentsModule } from './modules/table-of-contents';
 import { StacheTutorialModule } from './modules/tutorial';
 import { StacheTutorialStepModule } from './modules/tutorial-step';
@@ -53,6 +54,7 @@ export * from './modules/shared';
     StachePageSummaryModule,
     StacheSharedModule,
     StacheSidebarModule,
+    StacheSwaggerModule,
     StacheTableOfContentsModule,
     StacheTutorialModule,
     StacheTutorialStepModule,
