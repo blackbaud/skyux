@@ -1,0 +1,26 @@
+<div>
+  <h1>Demo 3</h1>
+
+    <ul>
+      <li><a href="" routerLink="/">Home</a></li>
+      <li><a href="" routerLink="/demo1">Demo 1</a></li>
+      <li><a href="" routerLink="/demo2">Demo 2</a></li>
+    </ul>
+
+  <p>
+    The client uses <strong>default.html</strong> as the default help key.
+  </p>
+
+  <p>
+    Opening the widget from the invoker should load the <strong>default.html</strong> help page in renxt. The <strong>bb-help-key</strong>
+    component is not on this page, so it reverts to the default <strong>helpKey</strong> in the client.
+  </p>
+
+  <p>
+    Opening the widget from the test button (will be in skyux) should open the <strong>default.html</strong> help
+    page from renxt. This helpKey is not defined on the <strong>bb-help-button</strong> component, and no <strong>bb-help-key</strong> component
+    exists on the page, so it defaults to the <strong>default.html</strong> from the <strong>help-client</strong>.
+  </p>
+
+  <bb-help-button></bb-help-button>
+</div>

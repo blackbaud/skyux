@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 
-import { BBHelpConfigService } from './config.service';
+import { HelpWidgetService } from './widget.service';
+import { HelpInitializationService } from './initialization.service';
 
 @NgModule({
   providers: [
-    BBHelpConfigService
+    HelpWidgetService,
+    HelpInitializationService
   ]
 })
 export class BBHelpSharedModule { }

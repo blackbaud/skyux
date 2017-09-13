@@ -1,11 +1,28 @@
-<div class="sky-container">
+<div>
   <h1>
-    Component Library
+    Home
   </h1>
+  <ul>
+    <li><a href="" routerLink="/demo1">Demo 1</a></li>
+    <li><a href="" routerLink="/demo2">Demo 2</a></li>
+    <li><a href="" routerLink="/demo3">Demo 3</a></li>
+  </ul>
 
-  <h3>
-    Demo:
-  </h3>
+  <bb-help-key helpKey="bb-gifts.html"></bb-help-key>
 
-  <lib-sample></lib-sample>
+    <p>
+       The client uses <strong>default.html</strong> as the default help key.efault help key.
+    </p>
+
+    <p>
+      Opening the widget from the invoker should load the <strong>bb-gifts.html</strong> help page from renxt.
+      This helpkey is defined with the <strong>bb-help-key</strong> component.
+    </p>
+
+    <p>
+      Opening the widget from the test button (will be in skyux) should open the <strong>bb-gift-record.html</strong> help page from renxt.
+      This helpKey is defined on the <strong>bb-help-button</strong> component.
+    </p>
+
+     <bb-help-button helpKey="bb-gift-record.html"></bb-help-button>
 </div>

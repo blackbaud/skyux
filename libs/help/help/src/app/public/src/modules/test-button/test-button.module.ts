@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { LibrarySampleComponent } from './sample.component';
+import { TestButtonComponent } from './test-button.component';
 
 @NgModule({
   declarations: [
-    LibrarySampleComponent
+    TestButtonComponent
   ],
   imports: [
     CommonModule
   ],
   exports: [
-    LibrarySampleComponent
+    TestButtonComponent
   ]
 })
-export class LibrarySampleModule { }
+export class TestButtonModule { }
