@@ -5,8 +5,8 @@
   margin: 1.2em 0;
 
   .stache-nav-list {
-    list-style-type: decimal;
-    margin-left: 15px;
+    list-style-type: decimal !important;
+    margin-left: 15px !important;
     color: $stache-text-color-default;
   }
 
