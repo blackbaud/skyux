@@ -1,3 +1,11 @@
+# 2.0.0 (2017-09-27)
+
+- Added support for SKY UX Builder `^1.0.0` and SKY UX `^2.0.0`. [#324](https://github.com/blackbaud/stache2/pull/324)
+- Added Swagger UI component. [#306](https://github.com/blackbaud/stache2/pull/306)
+- Added `alt` attribute support for image component. [#310](https://github.com/blackbaud/stache2/pull/310)
+- Fixed omnibar covering page anchors. [#317](https://github.com/blackbaud/stache2/pull/317)
+- Fixed incorrect styles for table of contents component. [#314](https://github.com/blackbaud/stache2/pull/314)
+
 # 2.0.0-rc.3 (2017-08-31)
 
 - Added support for SKY UX Builder `1.0.0-rc.17` and SKY UX `2.0.0-rc.12`. [#299](https://github.com/blackbaud/stache2/pull/299)
