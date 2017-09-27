@@ -5,4 +5,5 @@ export * from './window-ref';
 export * from './json-data.service';
 export * from './route.service';
 export * from './route-metadata.service';
+export * from './omnibar-adapter.service';
 export * from './shared.module';

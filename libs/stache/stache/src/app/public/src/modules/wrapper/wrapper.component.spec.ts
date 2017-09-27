@@ -17,6 +17,7 @@ import {
   StacheWindowRef,
   StacheRouteService,
   StacheConfigService,
+  StacheOmnibarAdapterService,
   StacheJsonDataService,
   STACHE_JSON_DATA_PROVIDERS,
   STACHE_ROUTE_METADATA_PROVIDERS
@@ -53,6 +54,14 @@ describe('StacheWrapperComponent', () => {
             return { scrollIntoView: jasmine.createSpy('scrollIntoView') };
           }
           return id;
+        }),
+        querySelector: jasmine.createSpy('querySelector').and.callFake(function(selector: string) {
+          return {
+            classList: {
+              add(cssClass: string) { }
+            },
+            offsetHeight: 50
+          };
         })
       },
       setTimeout: jasmine.createSpy('setTimeout').and.callFake(function(callback: any) {
@@ -101,6 +110,7 @@ describe('StacheWrapperComponent', () => {
         StacheNavService,
         StacheRouteService,
         StacheJsonDataService,
+        StacheOmnibarAdapterService,
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: StacheTitleService, useValue: mockTitleService },
         { provide: StacheWindowRef, useValue: mockWindowService },

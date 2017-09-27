@@ -7,11 +7,19 @@ import { StacheAffixTopDirective } from './affix-top.directive';
 import { AffixTopTestComponent } from './fixtures/affix-top.component.fixture';
 import { StacheCodeComponent } from '../code';
 
-import { StacheWindowRef, TestUtility } from '../shared';
+import { StacheWindowRef, StacheOmnibarAdapterService, TestUtility } from '../shared';
 
 describe('AffixTopTestDirective', () => {
   const className: string = StacheAffixTopDirective.AFFIX_CLASS_NAME;
+  let testOmnibarHeight: number = 0;
 
+  class MockOmnibarService {
+    public getHeight(): number {
+      return testOmnibarHeight;
+    }
+  }
+
+  const mockOmnibarService = new MockOmnibarService();
   let component: AffixTopTestComponent;
   let fixture: ComponentFixture<AffixTopTestComponent>;
   let directiveElements: any[];
@@ -25,7 +33,11 @@ describe('AffixTopTestDirective', () => {
         StacheCodeComponent
       ],
       providers: [
-        StacheWindowRef
+        StacheWindowRef,
+        {
+          provide: StacheOmnibarAdapterService,
+          useValue: mockOmnibarService
+        }
       ]
     })
     .compileComponents();
@@ -43,8 +55,7 @@ describe('AffixTopTestDirective', () => {
     expect(directiveElements[0]).not.toBeNull();
   });
 
-  it('should call the on window scroll method when the window scrolls',
-    fakeAsync(() => {
+  it('should call the on window scroll method when the window scrolls', fakeAsync(() => {
       const directiveInstance = directiveElements[0].injector.get(StacheAffixTopDirective);
 
       fixture.detectChanges();
@@ -72,6 +83,26 @@ describe('AffixTopTestDirective', () => {
       windowRef.scrollTo(0, 0);
       TestUtility.triggerDomEvent(windowRef, 'scroll');
       expect(element).not.toHaveCssClass(className);
+    })
+  );
+
+  it('should take the omnibar height into consideration in the offset to window ratio',
+    fakeAsync(() => {
+      const element = directiveElements[0].nativeElement;
+      element.style.marginTop = '50px';
+
+      windowRef.scrollTo(0, 25);
+      fixture.detectChanges();
+      tick();
+
+      TestUtility.triggerDomEvent(windowRef, 'scroll');
+      expect(element).not.toHaveCssClass(className);
+
+      testOmnibarHeight = 50;
+      TestUtility.triggerDomEvent(windowRef, 'scroll');
+      expect(element).toHaveCssClass(className);
+
+      testOmnibarHeight = 0;
     })
   );
 

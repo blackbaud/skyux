@@ -11,6 +11,12 @@
       opacity: 1;
     }
   }
+
+  /deep/
+  .stache-omnibar-enabled & {
+    padding-top: 5em !important;
+    margin-top: -3em;
+  }
 }
 
 .stache-page-anchor-heading {

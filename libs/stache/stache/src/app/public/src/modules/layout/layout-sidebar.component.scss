@@ -15,3 +15,15 @@
     }
   }
 }
+
+/deep/
+.stache-omnibar-enabled {
+  .stache-layout-sidebar {
+    .stache-affix-top {
+      @media (min-width: $stache-screen-sm-min) {
+        max-height: calc(100% - #{ $stache-omnibar-height });
+        overflow-y: auto;
+      }
+    }
+  }
+}

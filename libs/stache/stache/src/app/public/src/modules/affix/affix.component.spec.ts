@@ -7,7 +7,7 @@ import { StacheAffixComponent } from './affix.component';
 import { StacheAffixTestComponent } from './fixtures/affix.component.fixture';
 import { StacheAffixTopDirective } from './affix-top.directive';
 import { StacheAffixModule } from './affix.module';
-import { StacheWindowRef } from '../shared';
+import { StacheWindowRef, StacheOmnibarAdapterService } from '../shared';
 
 describe('StacheAffixComponent', () => {
   let component: StacheAffixComponent;
@@ -22,7 +22,8 @@ describe('StacheAffixComponent', () => {
         StacheAffixTestComponent
       ],
       providers: [
-        StacheWindowRef
+        StacheWindowRef,
+        StacheOmnibarAdapterService
       ]
     })
     .compileComponents();

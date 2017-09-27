@@ -6,7 +6,7 @@ import {
   Renderer2
 } from '@angular/core';
 
-import { StacheWindowRef } from '../shared';
+import { StacheWindowRef, StacheOmnibarAdapterService } from '../shared';
 
 @Directive({
   selector: '[stacheAffixTop]'
@@ -21,6 +21,7 @@ export class StacheAffixTopDirective implements AfterViewInit {
   constructor (
     private renderer: Renderer2,
     private elementRef: ElementRef,
+    private omnibarService: StacheOmnibarAdapterService,
     private windowRef: StacheWindowRef) { }
 
   public ngAfterViewInit(): void {
@@ -35,12 +36,14 @@ export class StacheAffixTopDirective implements AfterViewInit {
 
   @HostListener('window:scroll')
   public onWindowScroll(): void {
+    const omnibarHeight = this.omnibarService.getHeight();
+
     if (!this.isAffixed) {
       this.offsetTop = this.element.offsetTop;
     }
 
     const windowIsScrolledBeyondElement =
-      (this.offsetTop <= this.windowRef.nativeWindow.scrollY);
+      ((this.offsetTop - omnibarHeight) <= this.windowRef.nativeWindow.scrollY);
 
     if (windowIsScrolledBeyondElement) {
       this.affixToTop();
