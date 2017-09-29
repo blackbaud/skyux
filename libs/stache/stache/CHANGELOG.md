@@ -1,3 +1,8 @@
+# 2.0.1 (2017-09-29)
+
+- Removed Swagger UI component due to build-time issues. [#328](https://github.com/blackbaud/stache2/pull/328)
+- Fixed style bug with tutorial header component. [#329](https://github.com/blackbaud/stache2/pull/329)
+
 # 2.0.0 (2017-09-27)
 
 - Added support for SKY UX Builder `^1.0.0` and SKY UX `^2.0.0`. [#324](https://github.com/blackbaud/stache2/pull/324)
