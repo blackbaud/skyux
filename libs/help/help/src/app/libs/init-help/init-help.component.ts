@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { HelpInitializationService } from '../public';
+import { HelpInitializationService } from '../../public';
 
-import { HelpWindowRef } from './window-ref';
+import { HelpWindowRef } from '../window-ref';
 
 @Component({
   selector: 'init-help',
@@ -13,7 +13,7 @@ export class HelpInitComponent {
     private initService: HelpInitializationService) {
     if (!this.windowRef.nativeWindow.BBHELP) {
       this.initService.load({
-        extends: 'renxt'
+        extends: 'bb-help'
       });
     }
   }

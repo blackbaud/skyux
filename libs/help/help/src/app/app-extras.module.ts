@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { BBHelpModule } from './public';
 
-import { HelpWindowRef } from './local-shared/window-ref';
+import { HelpWindowRef } from './libs/window-ref/window-ref';
 
 // Specify entry components, module-level providers, etc. here.
 @NgModule({
