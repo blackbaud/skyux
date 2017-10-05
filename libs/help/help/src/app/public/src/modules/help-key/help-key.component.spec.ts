@@ -11,9 +11,8 @@ describe('HelpKeyComponent', () => {
   let mockWidgetService: any;
 
   class MockWidgetService {
-    public setCurrentHelpKey = jasmine.createSpy('setCurrentHelpKey').and.callFake(() => {});
-    public setHelpKeyToDefault = jasmine.createSpy('setHelpKeyToDefault')
-      .and.callFake(() => {});
+    public setCurrentHelpKey = jasmine.createSpy('setCurrentHelpKey').and.callFake(() => { });
+    public setHelpKeyToDefault = jasmine.createSpy('setHelpKeyToDefault').and.callFake(() => { });
   }
 
   beforeEach(() => {
@@ -33,12 +32,24 @@ describe('HelpKeyComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it('should call call the help service\'s setCurrentHelpKey method with its helpKey', () => {
+  it('should call the help service\'s setCurrentHelpKey method with its helpKey', () => {
     const testHelpKey = 'test-key.html';
     component.helpKey = testHelpKey;
-    component.ngOnInit();
     fixture.detectChanges();
     expect(mockWidgetService.setCurrentHelpKey).toHaveBeenCalledWith(testHelpKey);
+  });
+
+  it('should call the setCurrentHelpKey method with the current helpKey on helpKey changes', () => {
+    const testHelpKey1 = 'test-key1.html';
+    const testHelpKey2 = 'test-key2.html';
+
+    component.helpKey = testHelpKey1;
+    fixture.detectChanges();
+    expect(mockWidgetService.setCurrentHelpKey).toHaveBeenCalledWith(testHelpKey1);
+
+    component.helpKey = testHelpKey2;
+    fixture.detectChanges();
+    expect(mockWidgetService.setCurrentHelpKey).toHaveBeenCalledWith(testHelpKey2);
   });
 
   it('should set the helpKey on the client to default when destroyed', () => {

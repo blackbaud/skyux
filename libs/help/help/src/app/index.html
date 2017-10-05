@@ -8,15 +8,14 @@
     <li><a href="" routerLink="/demo2">Demo 2</a></li>
     <li><a href="" routerLink="/demo3">Demo 3</a></li>
   </ul>
-  <toggle-widget></toggle-widget>
-  <bb-help-key helpKey="advocacy.html"></bb-help-key>
+  <toggle-key></toggle-key>
   <h3>
     Setup:
   </h3>
   <ul>
     <li>
       <p>
-        Has a <strong>bb-help-key</strong> with the helpKey <strong>advocacy.html</strong>.
+        Has a <strong>bb-help-key</strong> through local demo component <strong>toggle-key</strong> switching between two helpKeys: <strong>advocay.html</strong> and <strong>bb-new-features.html</strong>.
       </p>
     </li>
     <li>
@@ -32,7 +31,7 @@
   <ul>
     <li>
       <p>
-        <strong><code>Invoker/Toggle Widget:</code></strong> Should open the <strong>advocacy.html</strong> help page from bb-help.
+        <strong><code>Invoker/Toggle Widget:</code></strong> Should load the current toggled helpKey, either <strong>advocacy.html</strong> or <strong>bb-new-features.html</strong>.
       </p>
     </li>
     <li>

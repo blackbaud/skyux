@@ -1,0 +1,11 @@
+<div class="toggle-key-divider">
+  <p>
+    Clicking the Switch button will toggle between help keys.
+  </p>
+  <button class="sky-btn sky-btn-default" (click)="toggleHelpKey()">Switch helpKey</button>
+  <p>
+    <em>current Help Key</em>: <strong>{{ helpKey }}</strong>
+  </p>
+  <bb-help-key helpKey="{{helpKey}}"></bb-help-key>
+  <toggle-widget></toggle-widget>
+</div>
