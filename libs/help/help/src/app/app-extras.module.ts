@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { BBHelpModule } from './public';
 
-import { HelpWindowRef } from './libs/window-ref/window-ref';
+import { SkyModalDemoFormComponent, HelpWindowRef } from './libs';
 
 // Specify entry components, module-level providers, etc. here.
 @NgModule({
@@ -15,6 +15,8 @@ import { HelpWindowRef } from './libs/window-ref/window-ref';
   providers: [
     HelpWindowRef
   ],
-  entryComponents: []
+  entryComponents: [
+    SkyModalDemoFormComponent
+  ]
 })
 export class AppExtrasModule { }

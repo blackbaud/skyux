@@ -1,26 +1,34 @@
 <init-help></init-help>
 <div>
+
   <h1>
     Home
   </h1>
+
   <ul>
     <li><a href="" routerLink="/demo1">Demo 1</a></li>
     <li><a href="" routerLink="/demo2">Demo 2</a></li>
     <li><a href="" routerLink="/demo3">Demo 3</a></li>
   </ul>
-  <toggle-key></toggle-key>
+    <toggle-key></toggle-key>
+    <sky-modal-demo-launcher></sky-modal-demo-launcher>
   <h3>
     Setup:
   </h3>
   <ul>
     <li>
       <p>
-        Has a <strong>bb-help-key</strong> through local demo component <strong>toggle-key</strong> switching between two helpKeys: <strong>advocay.html</strong> and <strong>bb-new-features.html</strong>.
+        Has a <strong>bb-help-key</strong> through local demo component <strong>toggle-key</strong> switching between two pageDefaultKey's: <strong>advocay.html</strong> and <strong>bb-new-features.html</strong>.
       </p>
     </li>
     <li>
       <p>
         Has a <strong>bb-help-button</strong> with the helpKey <strong>BetaFAQ.html</strong>.
+      </p>
+    </li>
+    <li>
+      <p>
+        Has a <strong>Sky Modal</strong> with a <strong>bb-help-key</strong> with the helpKey <strong>overview_sustaininggifts.html</strong>.
       </p>
     </li>
   </ul>
@@ -31,12 +39,17 @@
   <ul>
     <li>
       <p>
-        <strong><code>Invoker/Toggle Widget:</code></strong> Should load the current toggled helpKey, either <strong>advocacy.html</strong> or <strong>bb-new-features.html</strong>.
+        <strong><code>Invoker/Toggle Widget:</code></strong> Should load the current toggled pageDefaultKey, either <strong>advocacy.html</strong> or <strong>bb-new-features.html</strong>.
       </p>
     </li>
     <li>
       <p>
         <strong><code>Help Button:</code></strong> Should open the <strong>BetaFAQ.html</strong> help page from bb-help.
+      </p>
+    </li>
+    <li>
+      <p>
+        <strong><code>Invoker/Toggle Widget:</code></strong> (<em>with modal open</em>) Should open the <strong>overview_sustaininggifts.html</strong> help page from bb-help.
       </p>
     </li>
   </ul>
