@@ -60,4 +60,11 @@ describe('BBHelpClientService', () => {
 
     expect(spyHelp).toHaveBeenCalledWith(defaultPageKey);
   });
+
+  it('should call the helpClient\'s toggleOpen method', () => {
+    let spyHelp = spyOn(BBHelpClient, 'toggleOpen').and.callFake(() => { });
+    dataService.toggleOpen();
+
+    expect(spyHelp).toHaveBeenCalled();
+  });
 });
