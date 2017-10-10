@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 
-import { HelpWindowRef } from '../window-ref';
+import { HelpWidgetService } from '../../public/src/modules/shared';
 
 @Component({
   selector: 'toggle-widget',
   templateUrl: './toggle-widget.component.html'
 })
 export class ToggleWidgetComponent {
-  constructor(private windowRef: HelpWindowRef) { }
+  constructor(private widgetService: HelpWidgetService) { }
 
   public toggleWidget(): void {
-    this.windowRef.nativeWindow.BBHELP.HelpWidget.toggleOpen();
+    this.widgetService.toggleOpen();
   }
 }

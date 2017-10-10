@@ -34,4 +34,8 @@ export class HelpWidgetService {
     BBHelpClient.setHelpKeyToDefault();
     this.pageDefaultKey = '';
   }
+
+  public toggleOpen(): void {
+    BBHelpClient.toggleOpen();
+  }
 }
