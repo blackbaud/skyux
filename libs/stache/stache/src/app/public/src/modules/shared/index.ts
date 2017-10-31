@@ -7,3 +7,4 @@ export * from './route.service';
 export * from './route-metadata.service';
 export * from './omnibar-adapter.service';
 export * from './shared.module';
+export * from './search-results-provider';
