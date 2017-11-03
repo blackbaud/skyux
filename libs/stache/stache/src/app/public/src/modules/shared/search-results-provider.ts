@@ -1,6 +1,5 @@
-import { Injectable, Optional } from '@angular/core';
-import { SkyAuthHttp } from '@blackbaud/skyux-builder/runtime';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { StacheHttpService } from './http.service';
 import { StacheConfigService } from './config.service';
 import { StacheSearchResult } from './search-result';
 import 'rxjs/add/operator/toPromise';
@@ -23,9 +22,8 @@ export class StacheSearchResultsProvider {
   private searchConfig: any  = {};
 
   constructor(
-    private http: HttpClient,
-    private config: StacheConfigService,
-    @Optional() private authHttp: SkyAuthHttp
+    private http: StacheHttpService,
+    private config: StacheConfigService
   ) {
     this.initSearchConfig();
     this.initResultsConfig();
@@ -74,13 +72,6 @@ export class StacheSearchResultsProvider {
 
       return results;
     };
-
-    if (this.config.skyux.auth === true) {
-      return this.authHttp.post(this.getQueryUrl(), body)
-        .toPromise()
-        .then(handleResponse)
-        .catch(handleError);
-    }
 
     return this.http.post(this.getQueryUrl(), body)
       .toPromise()

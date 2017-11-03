@@ -1,5 +1,7 @@
-# 2.1.0 (2017-10-31)
+# 2.1.0 (2017-11-3)
+
 - Added Search Provider for site search. [#320](https://github.com/blackbaud/stache2/pull/320)
+- Added HTTP Service. [#342](https://github.com/blackbaud/stache2/pull/342)
 
 # 2.0.1 (2017-09-29)
 

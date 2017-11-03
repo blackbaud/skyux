@@ -2,11 +2,10 @@ import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 import { Response, ResponseOptions } from '@angular/http';
 import { Observable } from 'rxjs';
 
-import { StacheSearchResultsProvider, StacheConfigService } from './index';
+import { StacheSearchResultsProvider, StacheHttpService, StacheConfigService } from './index';
 
-class MockAuthHttpService {
+class MockHttpService {
   public post = jasmine.createSpy('post').and.callFake((url: string, body: any) => {
-    console.log('Auth HTTP');
     console.log(url);
     console.log(body);
     let options = new ResponseOptions({
@@ -41,45 +40,7 @@ class MockAuthHttpService {
     let response = new Response(options);
     return Observable.of(response);
   });
-}
-
-class MockRegularHttpService {
-  public post = jasmine.createSpy('post').and.callFake((url: string, body: any) => {
-    console.log('Regular HTTP');
-    console.log(url);
-    console.log(body);
-    let options = new ResponseOptions({
-      body: {
-        count: 2,
-        results: [
-          {
-            document: {
-              title: 'Test Page',
-              site_name: 'stache2',
-              text: 'This is a page',
-              host: 'https://host.nxt.blackbaud.com',
-              path: '/test-one'
-            }
-          },
-          {
-            document: {
-              title: 'Test With Highlights',
-              site_name: 'stache2',
-              text: 'This is a page with highlights',
-              host: 'https://host.nxt.blackbaud.com',
-              path: '/test-highlight'
-            },
-            highlights: {
-              text: ['Highlight one', 'Highlight two']
-            }
-          }
-        ]
-      },
-      url: url
-    });
-    let response = new Response(options);
-    return Observable.of(response);
-  });
+  public get = function () {};
 }
 
 class MockConfigService {
@@ -99,22 +60,19 @@ class MockConfigService {
 
 describe('Stache Search Results Provider', () => {
   let stacheSearchResultsProvider: StacheSearchResultsProvider;
-  let mockAuthHttpService: MockAuthHttpService;
-  let mockRegularHttpService: MockRegularHttpService;
+  let mockHttpService: MockHttpService;
   let mockConfigService: MockConfigService;
   let searchObject: any = {
     searchText: 'test'
   };
 
   beforeEach(() => {
-    mockAuthHttpService = new MockAuthHttpService();
-    mockRegularHttpService = new MockRegularHttpService();
+    mockHttpService = new MockHttpService();
     mockConfigService = new MockConfigService();
 
     stacheSearchResultsProvider = new StacheSearchResultsProvider(
-      mockRegularHttpService as any,
-      mockConfigService as StacheConfigService,
-      mockAuthHttpService as any
+      mockHttpService as StacheHttpService,
+      mockConfigService as StacheConfigService
     );
   });
 
@@ -125,41 +83,13 @@ describe('Stache Search Results Provider', () => {
   it('should use all defaults if config not provided', () => {
     mockConfigService.skyux.appSettings.stache = undefined;
     stacheSearchResultsProvider = new StacheSearchResultsProvider(
-      mockRegularHttpService as any,
-      mockConfigService as StacheConfigService,
-      mockAuthHttpService as any
+      mockHttpService as StacheHttpService,
+      mockConfigService as StacheConfigService
     );
     stacheSearchResultsProvider.getSearchResults(searchObject)
       .then((results: any) => {
         expect(console.log).toHaveBeenCalledWith('Auth HTTP');
         expect(console.log).toHaveBeenCalledWith('https://stache-search-query.sky.blackbaud.com/query');
-      });
-  });
-
-  it('should use SkyAuth if auth set to true', () => {
-    spyOn(console, 'log');
-    stacheSearchResultsProvider = new StacheSearchResultsProvider(
-      mockRegularHttpService as any,
-      mockConfigService as StacheConfigService,
-      mockAuthHttpService as any
-    );
-    stacheSearchResultsProvider.getSearchResults(searchObject)
-      .then((results: any) => {
-        expect(console.log).toHaveBeenCalledWith('Auth HTTP');
-      });
-  });
-
-  it('should default to angular\'s http if SkyAuth not available', () => {
-    spyOn(console, 'log');
-    mockConfigService.skyux.auth = false;
-    stacheSearchResultsProvider = new StacheSearchResultsProvider(
-      mockRegularHttpService as any,
-      mockConfigService as StacheConfigService,
-      undefined
-    );
-    stacheSearchResultsProvider.getSearchResults(searchObject)
-      .then((results: any) => {
-        expect(console.log).toHaveBeenCalledWith('Regular HTTP');
       });
   });
 
@@ -175,9 +105,8 @@ describe('Stache Search Results Provider', () => {
     spyOn(console, 'log');
     mockConfigService.skyux.appSettings.stache.searchConfig.is_internal = false;
     stacheSearchResultsProvider = new StacheSearchResultsProvider(
-      mockRegularHttpService as any,
-      mockConfigService as StacheConfigService,
-      mockAuthHttpService as any
+      mockHttpService as StacheHttpService,
+      mockConfigService as StacheConfigService
     );
 
     stacheSearchResultsProvider.getSearchResults(searchObject)
@@ -197,9 +126,8 @@ describe('Stache Search Results Provider', () => {
       public: 'public-test'
     };
     stacheSearchResultsProvider = new StacheSearchResultsProvider(
-      mockRegularHttpService as any,
-      mockConfigService as StacheConfigService,
-      mockAuthHttpService as any
+      mockHttpService as StacheHttpService,
+      mockConfigService as StacheConfigService
     );
 
     stacheSearchResultsProvider.getSearchResults(searchObject)
@@ -215,9 +143,8 @@ describe('Stache Search Results Provider', () => {
       'stache2'
     ];
     stacheSearchResultsProvider = new StacheSearchResultsProvider(
-      mockRegularHttpService as any,
-      mockConfigService as StacheConfigService,
-      mockAuthHttpService as any
+      mockHttpService as StacheHttpService,
+      mockConfigService as StacheConfigService
     );
 
     stacheSearchResultsProvider.getSearchResults(searchObject)
@@ -233,9 +160,8 @@ describe('Stache Search Results Provider', () => {
     spyOn(console, 'log');
     mockConfigService.skyux.appSettings.stache.searchConfig.url = 'https://google.com';
     stacheSearchResultsProvider = new StacheSearchResultsProvider(
-      mockRegularHttpService as any,
-      mockConfigService as StacheConfigService,
-      mockAuthHttpService as any
+      mockHttpService as StacheHttpService,
+      mockConfigService as StacheConfigService
     );
 
     stacheSearchResultsProvider.getSearchResults(searchObject)
@@ -253,9 +179,8 @@ describe('Stache Search Results Provider', () => {
     };
 
     stacheSearchResultsProvider = new StacheSearchResultsProvider(
-      mockRegularHttpService as any,
-      mockConfigService as StacheConfigService,
-      mockAuthHttpService as any
+      mockHttpService as StacheHttpService,
+      mockConfigService as StacheConfigService
     );
 
     stacheSearchResultsProvider.getSearchResults(searchObject)
@@ -277,7 +202,7 @@ describe('Stache Search Results Provider', () => {
   });
 
   it('should return a message if there are no search results', () => {
-    mockAuthHttpService.post = jasmine.createSpy('post').and.callFake(() => {
+    mockHttpService.post = jasmine.createSpy('post').and.callFake(() => {
       let options = new ResponseOptions({
         body: {
           count: 0
@@ -287,9 +212,8 @@ describe('Stache Search Results Provider', () => {
       return Observable.of(response);
     });
     stacheSearchResultsProvider = new StacheSearchResultsProvider(
-      mockRegularHttpService as any,
-      mockConfigService as StacheConfigService,
-      mockAuthHttpService as any
+      mockHttpService as StacheHttpService,
+      mockConfigService as StacheConfigService
     );
 
     stacheSearchResultsProvider.getSearchResults(searchObject)
@@ -301,7 +225,7 @@ describe('Stache Search Results Provider', () => {
 
   it('should show more search results if the count is greater than 10 and the results url is defined', () => {
     mockConfigService.skyux.appSettings.stache.searchConfig.moreResultsUrl = 'https://google.com';
-    mockAuthHttpService.post = jasmine.createSpy('post').and.callFake(() => {
+    mockHttpService.post = jasmine.createSpy('post').and.callFake(() => {
       let options = new ResponseOptions({
         body: {
           count: 11,
@@ -440,9 +364,8 @@ describe('Stache Search Results Provider', () => {
       return Observable.of(response);
     });
     stacheSearchResultsProvider = new StacheSearchResultsProvider(
-      mockRegularHttpService as any,
-      mockConfigService as StacheConfigService,
-      mockAuthHttpService as any
+      mockHttpService as StacheHttpService,
+      mockConfigService as StacheConfigService
     );
 
     stacheSearchResultsProvider.getSearchResults(searchObject)
@@ -455,7 +378,7 @@ describe('Stache Search Results Provider', () => {
   });
 
   it('should return an error if there is a problem with the query', () => {
-    mockAuthHttpService.post = jasmine.createSpy('post').and.callFake(() => {
+    mockHttpService.post = jasmine.createSpy('post').and.callFake(() => {
       let options = new ResponseOptions({
         status: 500
       });
@@ -463,9 +386,8 @@ describe('Stache Search Results Provider', () => {
       return Observable.of(response);
     });
     stacheSearchResultsProvider = new StacheSearchResultsProvider(
-      mockRegularHttpService as any,
-      mockConfigService as StacheConfigService,
-      mockAuthHttpService as any
+      mockHttpService as StacheHttpService,
+      mockConfigService as StacheConfigService
     );
 
     stacheSearchResultsProvider.getSearchResults(searchObject)

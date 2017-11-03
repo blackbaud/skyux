@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 
 import { StacheWindowRef } from './window-ref';
 import { StacheConfigService } from './config.service';
@@ -8,13 +8,15 @@ import { StacheSearchResultsProvider } from './search-results-provider';
 import { STACHE_JSON_DATA_PROVIDERS } from './json-data.service';
 import { STACHE_ROUTE_METADATA_PROVIDERS } from './route-metadata.service';
 import { StacheOmnibarAdapterService } from './omnibar-adapter.service';
+import { StacheHttpService } from './http.service';
 
 @NgModule({
   imports: [
-    HttpClientModule
+    HttpModule
   ],
   providers: [
     StacheConfigService,
+    StacheHttpService,
     StacheRouteService,
     StacheSearchResultsProvider,
     StacheWindowRef,
