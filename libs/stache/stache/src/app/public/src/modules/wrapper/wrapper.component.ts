@@ -47,7 +47,7 @@ export class StacheWrapperComponent implements OnInit, AfterContentInit, OnDestr
   public jsonData: any;
   public inPageRoutes: StacheNavLink[] = [];
 
-  @ContentChildren(StachePageAnchorComponent)
+  @ContentChildren(StachePageAnchorComponent, { descendants: true })
   private pageAnchors: QueryList<StachePageAnchorComponent>;
   private pageAnchorSubscriptions: Subscription[] = [];
 

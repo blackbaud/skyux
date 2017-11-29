@@ -18,6 +18,7 @@ import { StacheHeroModule } from './modules/hero';
 import { StacheImageModule } from './modules/image';
 import { StacheIncludeModule } from './modules/include';
 import { StacheLayoutModule } from './modules/layout';
+import { StacheMarkdownModule } from './modules/markdown';
 import { StacheNavModule } from './modules/nav';
 import { StachePageAnchorModule } from './modules/page-anchor';
 import { StachePageHeaderModule } from './modules/page-header';
@@ -47,6 +48,7 @@ export * from './modules/shared';
     StacheImageModule,
     StacheIncludeModule,
     StacheLayoutModule,
+    StacheMarkdownModule,
     StacheNavModule,
     StachePageAnchorModule,
     StachePageHeaderModule,

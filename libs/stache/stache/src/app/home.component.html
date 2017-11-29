@@ -18,6 +18,47 @@
   <p>
     Tutorial One: <a [routerLink]="['/demos', 'tutorial', 'tutorial-one']" [fragment]="'clone-the-repository'">Clone the repository</a>.
   </p>
+  <stache-page-anchor>
+    Markdown
+  </stache-page-anchor>
+
+  <stache-markdown>
+  # This is a title
+
+  ## This is a page anchor
+
+  ### This is an h3
+
+  #### This is an h4
+  - item1
+  - item2
+  - item3
+    - item4
+    - item5
+
+  inline `code stuff` and stuff.
+
+  ```js
+    function () { This is stuff }
+  ```
+
+   [google](https://www.google.com)
+
+  </stache-markdown>
+
+<stache-markdown>
+
+  <stache-code escapeCharacters="true">
+    <stuff></stuff>
+  </stache-code>
+
+<ul>
+  <li>
+    list item
+  </li>
+</ul>
+
+</stache-markdown>
 
   <stache-page-anchor>
     Blockquote
