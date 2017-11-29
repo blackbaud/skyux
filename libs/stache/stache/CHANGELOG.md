@@ -1,3 +1,8 @@
+# 2.2.0 (2017-11-29)
+
+- Removed Search Provider. [#361](https://github.com/blackbaud/stache2/pull/361)
+- Added Markdown component. [#353](https://github.com/blackbaud/stache2/pull/353)
+
 # 2.1.0 (2017-11-3)
 
 - Added Search Provider for site search. [#320](https://github.com/blackbaud/stache2/pull/320)
