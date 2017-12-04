@@ -31,6 +31,16 @@
 
 /deep/
 .stache-sidebar {
+  -ms-word-break: break-word;
+  word-break: break-word;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+
+  @media (min-width: $stache-screen-sm-min) {
+    max-height: 95vh;
+  }
+
   .stache-nav-list-item {
     margin: 3px 0;
 
