@@ -42,7 +42,8 @@ export class StachePageAnchorComponent implements OnInit, StacheNavLink, AfterVi
   }
 
   public addHashToUrl(): void {
-    this.elementRef.nativeElement.scrollIntoView({ behavior: 'smooth' });
+    let domRect = this.elementRef.nativeElement.getBoundingClientRect();
+    this.windowRef.nativeWindow.scroll(0, domRect.y);
     this.windowRef.nativeWindow.location.hash = this.fragment;
   }
 

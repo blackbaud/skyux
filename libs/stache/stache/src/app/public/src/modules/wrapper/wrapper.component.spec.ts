@@ -51,7 +51,13 @@ describe('StacheWrapperComponent', () => {
       document: {
         getElementById: jasmine.createSpy('getElementById').and.callFake(function(id: any) {
           if (id !== undefined) {
-            return { scrollIntoView: jasmine.createSpy('scrollIntoView') };
+            return {
+              getBoundingClientRect() {
+                return {
+                  y: 0
+                };
+              }
+            };
           }
           return id;
         }),
@@ -66,6 +72,9 @@ describe('StacheWrapperComponent', () => {
       },
       setTimeout: jasmine.createSpy('setTimeout').and.callFake(function(callback: any) {
         return callback();
+      }),
+      scroll: jasmine.createSpy('scroll').and.callFake(function (x: number, y: number) {
+        return true;
       }),
       location: {
         href: ''

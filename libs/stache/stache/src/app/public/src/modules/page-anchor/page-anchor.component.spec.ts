@@ -66,12 +66,12 @@ describe('StachePageAnchorComponent', () => {
       });
   }));
 
-  it('should call scrollIntoView on the heading when clicked', async(() => {
-    spyOn(debugElement.nativeElement, 'scrollIntoView');
+  it('should call getBoundingClientRect on the heading when clicked, and scroll the window', async(() => {
+    spyOn(debugElement.nativeElement, 'getBoundingClientRect').and.callFake(() => { return { y: 0 }; });
     component.addHashToUrl();
     fixture.whenStable()
       .then(() => {
-        expect(debugElement.nativeElement.scrollIntoView).toHaveBeenCalled();
+        expect(debugElement.nativeElement.getBoundingClientRect).toHaveBeenCalled();
       });
   }));
 

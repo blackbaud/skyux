@@ -25,7 +25,9 @@ class MockWindowService {
     scroll: jasmine.createSpy('scroll')
   };
   public testElement = {
-    scrollIntoView: jasmine.createSpy('scrollIntoView')
+    getBoundingClientRect() {
+      return { y: 0 };
+    }
   };
 }
 
@@ -70,24 +72,25 @@ describe('StacheNavService', () => {
     expect(noPath).toBe(false);
   });
 
-  it('should find an element by id and scroll to it when given a valid fragment', () => {
-    navService['scrollToElement'](windowRef.testElement, 'element-id');
-    expect(windowRef.testElement.scrollIntoView).toHaveBeenCalled();
-  });
-
   it('should set the hash to the valid fragment when an element is found', () => {
     navService['scrollToElement'](windowRef.testElement, 'element-id');
     expect(windowRef.nativeWindow.location.hash).toEqual('element-id');
   });
 
-  it('should not scroll to any element if no element is found', () => {
+  it('should not set the hash to the valid fragment when an element is not found', () => {
     navService['scrollToElement'](undefined, 'not-found');
-    expect(windowRef.testElement.scrollIntoView).not.toHaveBeenCalled();
+    expect(windowRef.nativeWindow.location.hash).not.toEqual('not-found');
   });
 
   it('should navigate to an external url', () => {
     navService.navigate({path: 'www.external.com' });
     expect(windowRef.nativeWindow.location.href).toEqual('www.external.com');
+  });
+
+  it('should navigate to a new page with a fragment', () => {
+    spyOn(router, 'navigate').and.callThrough();
+    navService.navigate({ path: '/internal-foo', fragment: 'foo'});
+    expect(router.navigate).toHaveBeenCalledWith(['/internal-foo'], { fragment: 'foo'});
   });
 
   it('should navigate to an internal url with a fragment', () => {

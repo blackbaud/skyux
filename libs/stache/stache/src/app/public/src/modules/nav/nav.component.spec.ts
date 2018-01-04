@@ -30,7 +30,9 @@ describe('StacheNavComponent', () => {
     };
 
     public testElement = {
-      scrollIntoView: jasmine.createSpy('scrollIntoView')
+      getBoundingClientRect() {
+        return { y: 0 };
+      }
     };
   }
 
@@ -173,19 +175,5 @@ describe('StacheNavComponent', () => {
     fixture.detectChanges();
 
     expect(component.classname).toBe('stache-nav-sidebar');
-  });
-
-  it('should call scrollToElement if a fragment is passed in', () => {
-    fixture.detectChanges();
-    component.navigate({ name: 'Some Header', path: '/test', fragment: 'some-header' });
-
-    expect(mockWindowService.testElement.scrollIntoView).toHaveBeenCalled();
-  });
-
-  it('should not call scrollToElement if the fragment does not match an element ID', () => {
-    fixture.detectChanges();
-    component.navigate({ name: '', path: '', fragment: 'invalid-fragment' });
-
-    expect(mockWindowService.testElement.scrollIntoView).not.toHaveBeenCalled();
   });
 });

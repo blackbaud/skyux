@@ -44,7 +44,8 @@ export class StacheNavService {
 
   private scrollToElement(element: any, fragment: string) {
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      let domRect = element.getBoundingClientRect();
+      this.windowRef.nativeWindow.scroll(0, domRect.y);
       this.windowRef.nativeWindow.location.hash = fragment;
     }
   }
