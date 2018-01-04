@@ -1,3 +1,10 @@
+# 2.3.0 (2018-12-4)
+
+- Fixed a bug with the Affix overlapping when used with the omnibar. [#374](https://github.com/blackbaud/stache2/pull/374)
+- Removed Smooth Scroll. [#378](https://github.com/blackbaud/stache2/pull/378)
+- Added Search as an explicit dependency. [#381](https://github.com/blackbaud/stache2/pull/381)
+- Fixed various bugs with the sidebar, including text overlapping issues, jumping issue with long sidebars. [#334](https://github.com/blackbaud/stache2/pull/334)
+
 # 2.2.0 (2017-11-29)
 
 - Removed Search Provider. [#361](https://github.com/blackbaud/stache2/pull/361)
