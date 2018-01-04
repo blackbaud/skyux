@@ -3,19 +3,20 @@ import { StacheOmnibarAdapterService, StacheWindowRef } from './index';
 let classes: string[] = [];
 let mockEnabled: boolean = false;
 
+let mockElement: any = {
+  classList: {
+    add(cssClass: string) {
+      classes.push(cssClass);
+    }
+  }
+};
+
 class MockWindowService {
   public nativeWindow: any = {
     document: {
       querySelector(selector: string) {
         if (mockEnabled) {
-          return {
-            classList: {
-              add(cssClass: string) {
-                classes.push(cssClass);
-              }
-            },
-            offsetHeight: 50
-          };
+          return mockElement;
         }
         return undefined;
       }
@@ -42,13 +43,13 @@ describe('StacheOmnibarAdapterService', () => {
     expect(testHeight).toBe(0);
   });
 
-  it('should return the height of the omnibar if it does exist', () => {
+  it('should return the expected height of the omnibar if it does exist', () => {
     mockEnabled = true;
     omnibarService = new StacheOmnibarAdapterService(
       mockWindowService as StacheWindowRef
     );
     const testHeight = omnibarService.getHeight();
-    expect(testHeight).toBe(50);
+    expect(testHeight).toBe(StacheOmnibarAdapterService.EXPECTED_OMNIBAR_HEIGHT);
   });
 
   it('should add the class stache-omnibar-enabled to the body if omnibar exists', () => {
@@ -66,7 +67,7 @@ describe('StacheOmnibarAdapterService', () => {
     expect(omnibarService.omnibarEnabled()).toBe(false);
   });
 
-  it('should return false if the omnibar exists', () => {
+  it('should return true if the omnibar exists', () => {
     mockEnabled = true;
     omnibarService = new StacheOmnibarAdapterService(
       mockWindowService as StacheWindowRef

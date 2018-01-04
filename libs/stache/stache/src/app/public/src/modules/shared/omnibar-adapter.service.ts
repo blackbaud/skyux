@@ -5,27 +5,25 @@ import { StacheWindowRef } from './window-ref';
 @Injectable()
 export class StacheOmnibarAdapterService {
   private static readonly HAS_OMNIBAR_CLASS_NAME: string = 'stache-omnibar-enabled';
+  public static readonly EXPECTED_OMNIBAR_HEIGHT: number = 50;
   private element: any = this.windowRef.nativeWindow.document.querySelector('.sky-omnibar-iframe');
-  private omnibarHeight: number = 0;
 
   constructor(private windowRef: StacheWindowRef) {
     if (this.omnibarEnabled()) {
       this.applyClassToBody();
-      this.setHeight();
     }
   }
 
   public getHeight(): number {
-    return this.omnibarHeight;
+    if (this.omnibarEnabled()) {
+      return StacheOmnibarAdapterService.EXPECTED_OMNIBAR_HEIGHT;
+    }
+    return 0;
   }
 
   public omnibarEnabled(): boolean {
-    // Converts the elements existence to a boolean.
+    // Converts the element's existence to a boolean.
     return !!this.element;
-  }
-
-  private setHeight(): void {
-    this.omnibarHeight = this.element.offsetHeight;
   }
 
   private applyClassToBody(): void {
