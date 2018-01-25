@@ -59,6 +59,12 @@ describe('StacheLayoutContainerComponent', () => {
     expect(component.showBreadcrumbs).toBe(true);
   });
 
+  it('should have a showEditButton input', () => {
+    component.showEditButton = true;
+    fixture.detectChanges();
+    expect(component.showEditButton).toBe(true);
+  });
+
   it('should have a showTableOfContents input', () => {
     component.showTableOfContents = true;
     fixture.detectChanges();

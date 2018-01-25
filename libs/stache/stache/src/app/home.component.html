@@ -12,12 +12,14 @@
   pageTitle="Welcome"
   layout="sidebar"
   showBreadcrumbs="true"
+  showEditButton="false"
   showTableOfContents="true"
   [sidebarRoutes]="sidebarRoutes">
 
   <p>
     Tutorial One: <a [routerLink]="['/demos', 'tutorial', 'tutorial-one']" [fragment]="'clone-the-repository'">Clone the repository</a>.
   </p>
+
   <stache-page-anchor>
     Markdown
   </stache-page-anchor>
@@ -147,5 +149,4 @@
   <stache-include
     fileName="example.html">
   </stache-include>
-
 </stache>

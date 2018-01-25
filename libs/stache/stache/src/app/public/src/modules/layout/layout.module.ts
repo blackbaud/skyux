@@ -6,6 +6,7 @@ import { StacheAffixModule } from '../affix';
 import { StacheBackToTopModule } from '../back-to-top';
 import { StacheNavModule } from '../nav';
 import { StacheBreadcrumbsModule } from '../breadcrumbs';
+import { StacheEditButtonModule } from '../edit-button';
 import { StacheSidebarModule } from '../sidebar';
 import { StacheTableOfContentsModule } from '../table-of-contents';
 import { StacheGridModule } from '../grid';
@@ -28,6 +29,7 @@ import { StacheLayoutSidebarComponent } from './layout-sidebar.component';
     StacheGridModule,
     StacheNavModule,
     StacheBreadcrumbsModule,
+    StacheEditButtonModule,
     StacheSidebarModule,
     StacheTableOfContentsModule,
     StachePageSummaryModule,

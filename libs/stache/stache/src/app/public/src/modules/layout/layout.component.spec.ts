@@ -71,6 +71,12 @@ describe('StacheLayoutComponent', () => {
     expect(component.showBreadcrumbs).toBe(false);
   });
 
+  it('should have a showEditButton input', () => {
+    component.showBreadcrumbs = true;
+    fixture.detectChanges();
+    expect(component.showBreadcrumbs).toBe(true);
+  });
+
   it('should have a showBackToTop input', () => {
     component.showBackToTop = true;
     fixture.detectChanges();

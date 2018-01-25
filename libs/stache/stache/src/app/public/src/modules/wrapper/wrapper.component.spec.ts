@@ -19,7 +19,6 @@ import {
   StacheConfigService,
   StacheOmnibarAdapterService,
   StacheJsonDataService,
-  STACHE_JSON_DATA_PROVIDERS,
   STACHE_ROUTE_METADATA_PROVIDERS
 } from '../shared';
 
@@ -30,9 +29,10 @@ describe('StacheWrapperComponent', () => {
   let component: StacheWrapperComponent;
   let fixture: ComponentFixture<StacheWrapperComponent>;
   let mockActivatedRoute: any;
+  let mockConfigService: any;
+  let mockJsonDataService: any;
   let mockTitleService: any;
   let mockWindowService: any;
-  let mockConfigService: any;
 
   class MockActivatedRoute {
     public fragment: Observable<string> = Observable.of('test-route');
@@ -40,6 +40,27 @@ describe('StacheWrapperComponent', () => {
     public setFragment(fragString: any) {
       this.fragment = Observable.of(fragString);
     }
+  }
+
+  class MockConfigService {
+    public skyux: any = {
+      appSettings: {
+        stache: {
+          editButton: {
+            url: 'https://google.com'
+          }
+        }
+      }
+    };
+    public runtime: any = {
+      routes: []
+    };
+  }
+
+  class MockJsonDataService {
+    public getAll = jasmine.createSpy('getAll').and.callFake(() => {
+      return {};
+    });
   }
 
   class MockTitleService {
@@ -92,18 +113,12 @@ describe('StacheWrapperComponent', () => {
     }
   }
 
-  class MockConfigService {
-    public skyux: any = {};
-    public runtime: any = {
-      routes: []
-    };
-  }
-
   beforeEach(() => {
     mockActivatedRoute = new MockActivatedRoute();
+    mockConfigService = new MockConfigService();
+    mockJsonDataService = new MockJsonDataService();
     mockTitleService = new MockTitleService();
     mockWindowService = new MockWindowService({});
-    mockConfigService = new MockConfigService();
 
     TestBed.configureTestingModule({
       imports: [
@@ -118,13 +133,12 @@ describe('StacheWrapperComponent', () => {
       providers: [
         StacheNavService,
         StacheRouteService,
-        StacheJsonDataService,
         StacheOmnibarAdapterService,
+        { provide: StacheJsonDataService, useValue: mockJsonDataService },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: StacheTitleService, useValue: mockTitleService },
         { provide: StacheWindowRef, useValue: mockWindowService },
         { provide: StacheConfigService, useValue: mockConfigService },
-        STACHE_JSON_DATA_PROVIDERS,
         STACHE_ROUTE_METADATA_PROVIDERS
       ]
     })
@@ -169,9 +183,15 @@ describe('StacheWrapperComponent', () => {
   });
 
   it('should have a showBreadcrumbs input', () => {
-    component.showBreadcrumbs = true;
+    component.showBreadcrumbs = false;
     fixture.detectChanges();
-    expect(component.showBreadcrumbs).toBe(true);
+    expect(component.showBreadcrumbs).toBe(false);
+  });
+
+  it('should have a showEditButton input', () => {
+    component.showEditButton = true;
+    fixture.detectChanges();
+    expect(component.showEditButton).toBe(true);
   });
 
   it('should have a showTableOfContents input', () => {
@@ -190,6 +210,25 @@ describe('StacheWrapperComponent', () => {
     fixture.detectChanges();
     expect(component.showBreadcrumbs).toBe(true);
   });
+
+  it('should set the showEditButton based on the config option if set', () => {
+    fixture.detectChanges();
+    fixture.whenStable()
+      .then(() => {
+        expect(component.showEditButton).toBe(true);
+      });
+  });
+
+  it('should set the showEditButton to false by default', async(() => {
+    mockConfigService.skyux.appSettings.stache.editButton = undefined;
+    fixture = TestBed.createComponent(StacheWrapperComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    fixture.whenStable()
+      .then(() => {
+        expect(component.showEditButton).toBe(false);
+      });
+  }));
 
   it('should set the input, layout, to "sidebar" by default', () => {
     fixture.detectChanges();

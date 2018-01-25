@@ -1,6 +1,6 @@
 @import '../../styles/_variables';
 
-/deep/
+::ng-deep
 .stache-wrapper {
   p,
   ul,
@@ -41,5 +41,10 @@
         margin-bottom: 0;
       }
     }
+  }
+
+  ::ng-deep
+  .stache-edit-button {
+    text-align: right;
   }
 }

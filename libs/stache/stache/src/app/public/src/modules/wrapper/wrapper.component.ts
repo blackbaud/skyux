@@ -8,8 +8,10 @@ import { Subscription } from 'rxjs';
 
 import { StacheTitleService } from './title.service';
 import { StachePageAnchorComponent } from '../page-anchor';
-import { StacheJsonDataService } from '../shared';
+import { StacheConfigService, StacheJsonDataService } from '../shared';
 import { StacheNavLink, StacheNavService } from '../nav';
+
+const _get = require('lodash.get');
 
 @Component({
   selector: 'stache',
@@ -39,6 +41,9 @@ export class StacheWrapperComponent implements OnInit, AfterContentInit, OnDestr
   public showBreadcrumbs: boolean = true;
 
   @Input()
+  public showEditButton: boolean = this.checkEditButtonUrl();
+
+  @Input()
   public showTableOfContents: boolean = false;
 
   @Input()
@@ -52,6 +57,7 @@ export class StacheWrapperComponent implements OnInit, AfterContentInit, OnDestr
   private pageAnchorSubscriptions: Subscription[] = [];
 
   public constructor(
+    private config: StacheConfigService,
     private dataService: StacheJsonDataService,
     private titleService: StacheTitleService,
     private route: ActivatedRoute,
@@ -92,6 +98,11 @@ export class StacheWrapperComponent implements OnInit, AfterContentInit, OnDestr
           });
       }
     );
+  }
+
+  private checkEditButtonUrl(): boolean {
+    const url = _get(this.config, 'skyux.appSettings.stache.editButton.url');
+    return url !== undefined;
   }
 
   private checkRouteHash(): void {

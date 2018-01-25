@@ -30,6 +30,9 @@ export class StacheLayoutComponent implements OnInit, StacheLayout {
   public showBreadcrumbs: boolean;
 
   @Input()
+  public showEditButton: boolean;
+
+  @Input()
   public showBackToTop: boolean;
 
   public templateRef: any;

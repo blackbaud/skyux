@@ -11,6 +11,7 @@ import { StacheBlockquoteModule } from './modules/blockquote';
 import { StacheBreadcrumbsModule } from './modules/breadcrumbs';
 import { StacheCodeModule } from './modules/code';
 import { StacheCodeBlockModule } from './modules/code-block';
+import { StacheEditButtonModule } from './modules/edit-button';
 import { StacheGridModule } from './modules/grid';
 import { StacheHeroModule } from './modules/hero';
 import { StacheImageModule } from './modules/image';
@@ -42,6 +43,7 @@ export * from './modules/shared';
     StacheBreadcrumbsModule,
     StacheCodeModule,
     StacheCodeBlockModule,
+    StacheEditButtonModule,
     StacheGridModule,
     StacheHeroModule,
     StacheImageModule,

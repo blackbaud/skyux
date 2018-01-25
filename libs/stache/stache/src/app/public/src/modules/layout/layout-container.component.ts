@@ -28,5 +28,9 @@ export class StacheLayoutContainerComponent implements StacheLayout {
 
   @Input()
   @InputConverter()
+  public showEditButton: boolean;
+
+  @Input()
+  @InputConverter()
   public showTableOfContents: boolean;
 }
