@@ -1,4 +1,9 @@
-# 2.3.0 (2018-12-4)
+# 2.4.0 (2018-1-25)
+
+- Added link directive. [#382](https://github.com/blackbaud/stache2/pull/382)
+- Added edit button component. [#379](https://github.com/blackbaud/stache2/pull/379)
+
+# 2.3.0 (2017-12-4)
 
 - Fixed a bug with the Affix overlapping when used with the omnibar. [#374](https://github.com/blackbaud/stache2/pull/374)
 - Removed Smooth Scroll. [#378](https://github.com/blackbaud/stache2/pull/378)
