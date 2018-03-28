@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Router, NavigationStart } from '@angular/router';
 
-import { Observable } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 
@@ -17,42 +16,43 @@ import {
 describe('StacheBreadcrumbsComponent', () => {
   let component: StacheBreadcrumbsComponent;
   let fixture: ComponentFixture<StacheBreadcrumbsComponent>;
-  let router: Router;
+
+  let mockRoutes = [
+    {
+      path: '',
+      children: [
+        {
+          path: 'parent',
+          children: [
+            {
+              path: 'parent/child',
+              children: [
+                {
+                  path: 'parent/child/grandchild'
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ];
+
+  let mockActiveUrl = '';
+
+  class MockRouteService {
+    public getActiveRoutes() {
+      return mockRoutes;
+    }
+    public getActiveUrl() {
+      return mockActiveUrl;
+    }
+  }
 
   class MockStacheConfigService {
     public runtime: any = {
-      routes: [
-        {
-          routePath: ''
-        },
-        {
-          routePath: 'parent'
-        },
-        {
-          routePath: 'parent/child'
-        },
-        {
-          routePath: 'parent/child/grandchild'
-        },
-        {
-          routePath: 'other-route'
-        },
-        {
-          routePath: 'other-parent'
-        },
-        {
-          routePath: 'other-parent/other-child'
-        },
-        {
-          routePath: 'other-parent/other-child/other-grandchild'
-        }
-      ]
+      routes: mockRoutes
     };
-  }
-
-  class MockRouter {
-    public url = '/parent/child/grandchild';
-    public events = Observable.of(new NavigationStart(0, ''));
   }
 
   beforeEach(() => {
@@ -61,24 +61,40 @@ describe('StacheBreadcrumbsComponent', () => {
         StacheNavComponent,
         StacheBreadcrumbsComponent
       ],
+      imports: [
+        RouterTestingModule
+      ],
       providers: [
         StacheNavService,
         StacheWindowRef,
-        StacheRouteService,
+        { provide: StacheRouteService, useClass: MockRouteService },
         { provide: StacheConfigService, useClass: MockStacheConfigService },
-        { provide: Router, useClass: MockRouter },
         { provide: StacheRouteMetadataService, useValue: { routes: [] } }
       ]
     })
     .compileComponents();
 
-    router = TestBed.get(Router);
     fixture = TestBed.createComponent(StacheBreadcrumbsComponent);
     component = fixture.componentInstance;
   });
 
   it('should render the component', () => {
     expect(fixture).toExist();
+  });
+
+  it('should only have one route on base root path', () => {
+    component.routes = undefined;
+    mockActiveUrl = '';
+    mockRoutes = [
+      {
+        path: '',
+        children: []
+      }
+    ];
+    fixture.detectChanges();
+    const links = fixture.debugElement.queryAll(By.css('.stache-nav-anchor'));
+
+    expect(links.length).toBe(1);
   });
 
   it('should display navigation links', () => {
@@ -93,20 +109,40 @@ describe('StacheBreadcrumbsComponent', () => {
     expect(links.length).toBe(2);
   });
 
-  it('should generate grandchild routes from SkyAppConfig', () => {
-    fixture.detectChanges();
-    expect(component.routes.length).toBe(4);
-  });
-
   it('should generate child routes from SkyAppConfig', () => {
-    (router as any).url = '/parent/child';
+    mockActiveUrl = '/parent/child';
+    mockRoutes = [
+      {
+        path: 'parent',
+        children: [{
+          path: 'parent/child',
+          children: [{
+            path: 'parent/child/grandchild',
+            children: []
+          }]
+        }]
+      }
+    ];
     component.ngOnInit();
     fixture.detectChanges();
     expect(component.routes.length).toBe(3);
   });
 
+  it('should not generate routes beyond the current path', () => {
+    mockActiveUrl = '/parent/child';
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(component.routes.length).toBe(3);
+  });
+
+  it('should generate grandchild routes from SkyAppConfig', () => {
+    mockActiveUrl = '/parent/child/grandchild';
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(component.routes.length).toBe(4);
+  });
+
   it('should add a link to the home page', () => {
-    (router as any).url = '/';
     component.ngOnInit();
     fixture.detectChanges();
     expect(component.routes[0].name).toBe('Home');

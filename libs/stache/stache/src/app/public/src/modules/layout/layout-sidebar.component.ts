@@ -37,5 +37,4 @@ export class StacheLayoutSidebarComponent implements StacheLayout {
   @Input()
   @InputConverter()
   public showTableOfContents: boolean;
-
 }

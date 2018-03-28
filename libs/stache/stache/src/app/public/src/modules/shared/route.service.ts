@@ -25,7 +25,10 @@ export class StacheRouteService {
       return this.activeRoutes;
     }
 
-    const rootPath = this.getActiveUrl().replace(/^\//, '').split('/')[0];
+    const rootPath = this.getActiveUrl()
+      .replace(/^\//, '')
+      .split('/')[0];
+
     const appRoutes = this.clone(this.configService.runtime.routes);
 
     let activeChildRoutes = appRoutes
@@ -51,7 +54,7 @@ export class StacheRouteService {
   }
 
   public getActiveUrl(): string {
-    return this.router.url.split('#')[0];
+    return this.router.url.split('?')[0].split('#')[0];
   }
 
   public clearActiveRoutes() {

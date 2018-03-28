@@ -1,18 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
+
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 
 import { StacheNavComponent } from './nav.component';
 import { StacheNavTestComponent } from './fixtures/nav.component.fixture';
-import { StacheWindowRef } from '../shared';
+import { StacheWindowRef, StacheRouteService } from '../shared';
 import { StacheNavService } from './nav.service';
 
 describe('StacheNavComponent', () => {
   let component: StacheNavComponent;
   let fixture: ComponentFixture<StacheNavComponent>;
-  let mockRouter: any;
   let mockWindowService: any;
+  let mockNavService: any;
+  let mockRouteService: any;
+  let activeUrl: string = '/test';
 
   class MockWindowService {
     public nativeWindow = {
@@ -36,23 +39,39 @@ describe('StacheNavComponent', () => {
     };
   }
 
-  class MockRouter {
-    public navigate = jasmine.createSpy('navigate');
-    public url = '/test';
+  class MockNavService {
+    public navigate(route: any) {
+      if (Array.isArray(route.path)) {
+        activeUrl = route.path.join('');
+        return;
+      }
+
+      activeUrl = route.path;
+    }
+  }
+
+  class MockRouteService {
+    public getActiveUrl() {
+      return activeUrl;
+     }
   }
 
   beforeEach(() => {
-    mockRouter = new MockRouter();
     mockWindowService = new MockWindowService();
+    mockNavService = new MockNavService();
+    mockRouteService = new MockRouteService();
 
     TestBed.configureTestingModule({
       declarations: [
         StacheNavComponent,
         StacheNavTestComponent
       ],
+      imports: [
+        RouterTestingModule
+      ],
       providers: [
-        StacheNavService,
-        { provide: Router, useValue: mockRouter },
+        { provide: StacheNavService, useValue: mockNavService },
+        { provide: StacheRouteService, useValue: mockRouteService },
         { provide: StacheWindowRef, useValue: mockWindowService }
       ]
     })
@@ -110,7 +129,7 @@ describe('StacheNavComponent', () => {
   });
 
   it('should return true if a given route is active', () => {
-    component.routes = [{ name: 'Test', path: '/test' }];
+    component.routes = [{ name: 'Test', path: 'test' }];
     const route = component.routes[0];
 
     fixture.detectChanges();
@@ -128,44 +147,26 @@ describe('StacheNavComponent', () => {
   });
 
   it('should navigate to the route passed in', () => {
-    component.routes = [{ name: 'Test', path: '/test' }];
+    component.routes = [{ name: 'Test Route', path: '/test/route' }];
     const route = component.routes[0];
+    const navSpy = spyOn(mockNavService, 'navigate').and.callThrough();
 
     fixture.detectChanges();
     component.navigate(route);
 
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['/test'], {});
+    expect(navSpy).toHaveBeenCalledWith({path: '/test/route', name: 'Test Route'});
+    expect(activeUrl).toBe('/test/route');
   });
 
   it('should navigate to the route if passed an array', () => {
     component.routes = [{ name: 'Test', path: ['/', 'test'] }];
     const route = component.routes[0];
+    const navSpy = spyOn(mockNavService, 'navigate').and.callThrough();
 
     fixture.detectChanges();
     component.navigate(route);
 
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['/', 'test'], {});
-  });
-
-  it('should navigate to an external url', () => {
-    component.routes = [{ name: 'Test', path: 'https://google.com' }];
-    const route = component.routes[0];
-
-    fixture.detectChanges();
-    component.navigate(route);
-
-    expect(mockWindowService.nativeWindow.location.href).toBe(route.path);
-  });
-
-  it('should navigate to a hash if given an anchor route', () => {
-    mockRouter.url = '/test#heading';
-    component.routes = [{ name: 'Test', path: '/test#heading' }];
-    const route = component.routes[0];
-
-    fixture.detectChanges();
-    component.navigate(route);
-
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['/test#heading'], {});
+    expect(navSpy).toHaveBeenCalledWith({path: ['/', 'test'], name: 'Test'});
   });
 
   it('should set the classname based on the navType on init', () => {

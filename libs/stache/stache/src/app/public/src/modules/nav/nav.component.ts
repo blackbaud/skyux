@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { StacheNavLink } from './nav-link';
 import { StacheNav } from './nav';
 import { StacheNavService } from './nav.service';
+
+import { StacheRouteService } from '../shared';
 
 @Component({
   selector: 'stache-nav',
@@ -20,7 +21,7 @@ export class StacheNavComponent implements OnInit, StacheNav {
   public classname: string = '';
 
   public constructor(
-    private router: Router,
+    private routerService: StacheRouteService,
     private navService: StacheNavService) { }
 
   public hasRoutes(): boolean {
@@ -44,7 +45,7 @@ export class StacheNavComponent implements OnInit, StacheNav {
   }
 
   private assignActiveStates() {
-    const activeUrl = this.router.url.split('#')[0];
+    const activeUrl = this.routerService.getActiveUrl();
     if (this.hasRoutes()) {
       this.routes.forEach((route: any) => {
         if (this.isActive(activeUrl, route)) {

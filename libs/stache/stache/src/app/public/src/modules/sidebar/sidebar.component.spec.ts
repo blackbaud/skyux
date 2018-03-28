@@ -1,15 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Router, NavigationStart } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
-import { Observable } from 'rxjs';
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 
 import { StacheSidebarComponent } from './sidebar.component';
 import { StacheNavComponent, StacheNavService } from '../nav';
 
 import {
-  StacheConfigService,
   StacheWindowRef,
   StacheRouteMetadataService,
   StacheRouteService
@@ -20,59 +18,55 @@ import { RouterLinkStubDirective } from './fixtures/router-link-stub.directive';
 describe('StacheSidebarComponent', () => {
   let component: StacheSidebarComponent;
   let fixture: ComponentFixture<StacheSidebarComponent>;
+  let mockRouteService: any;
+  let activeUrl: string = '/';
 
-  class MockStacheConfigService {
-    public runtime = {
-      routes: [
+  let routes = [
+    {
+      name: 'Home',
+      path: '',
+      children: [
         {
-          routePath: ''
-        },
-        {
-          routePath: 'parent'
-        },
-        {
-          routePath: 'parent/child'
-        },
-        {
-          routePath: 'parent/child/grandchild'
-        },
-        {
-          routePath: 'parent/child/grandchild/grand-grandchild'
-        },
-        {
-          routePath: 'other-route'
-        },
-        {
-          routePath: 'other-parent'
-        },
-        {
-          routePath: 'other-parent/other-child'
-        },
-        {
-          routePath: 'other-parent/other-child/other-grandchild'
+          name: 'Test',
+          path: '/test',
+          children: [
+            {
+              name: 'Test Child',
+              path: '/test/child'
+            }
+          ]
         }
       ]
-    };
-  }
+    }
+  ];
 
-  class MockRouter {
-    public url = '/parent/child/grandchild';
-    public events = Observable.of(new NavigationStart(0, ''));
+  class MockRouteService {
+    public getActiveUrl() {
+      return activeUrl;
+    }
+
+    public getActiveRoutes() {
+      return routes;
+    }
   }
 
   beforeEach(() => {
+    mockRouteService = new MockRouteService();
+
     TestBed.configureTestingModule({
       declarations: [
         StacheNavComponent,
         StacheSidebarComponent,
         RouterLinkStubDirective
       ],
+      imports: [
+        RouterTestingModule
+      ],
       providers: [
         StacheWindowRef,
         StacheNavService,
         StacheRouteService,
-        { provide: StacheConfigService, useClass: MockStacheConfigService },
-        { provide: Router, useClass: MockRouter },
+        { provide: StacheRouteService, useValue: mockRouteService },
         { provide: StacheRouteMetadataService, useValue: { routes: [] } }
       ]
     })
@@ -99,13 +93,21 @@ describe('StacheSidebarComponent', () => {
   });
 
   it('should automatically generate routes from config', () => {
+    component.routes = undefined;
+    component.ngOnInit();
     fixture.detectChanges();
     expect(component.routes.length).toBe(1);
     expect(component.routes[0].children.length).toBe(1);
   });
 
+  it('should add add a heading for the root level route', () => {
+    fixture.detectChanges();
+    expect(component.heading).toEqual('Home');
+    expect(component.headingRoute).toEqual('/');
+  });
+
   it('should automatically add a link to the top-level page', () => {
     fixture.detectChanges();
-    expect(component.routes[0].name).toBe('Child');
+    expect(component.routes[0].name).toBe('Test');
   });
 });

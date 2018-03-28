@@ -4,12 +4,15 @@ import { RouterModule } from '@angular/router';
 
 import { StachePageAnchorComponent } from './page-anchor.component';
 
+import { StacheLinkModule } from '../link';
+
 @NgModule({
   declarations: [
     StachePageAnchorComponent
   ],
   imports: [
     CommonModule,
+    StacheLinkModule,
     RouterModule
   ],
   exports: [

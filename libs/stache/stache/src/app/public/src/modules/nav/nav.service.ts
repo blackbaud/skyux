@@ -10,18 +10,19 @@ export class StacheNavService {
     private windowRef: StacheWindowRef) { }
 
   public navigate(route: any): void {
-    let extras: any = {};
-    const currentPath = this.router.url.split('#')[0].substring(1);
+    let extras: any = { queryParamsHandling: 'merge'};
+    const currentPath = this.router.url.split('?')[0].split('#')[0].substring(1);
+
     if (this.isExternal(route)) {
       this.windowRef.nativeWindow.location.href = route.path;
       return;
     }
 
     if (route.fragment) {
-      const element = this.windowRef.nativeWindow.document.getElementById(route.fragment);
+      const element = this.windowRef.nativeWindow.document.querySelector(`#${route.fragment}`);
 
       if (element) {
-        this.scrollToElement(element, route.fragment);
+        element.scrollIntoView();
         return;
       }
 
@@ -39,14 +40,6 @@ export class StacheNavService {
       this.router.navigate(route.path, extras);
     } else {
       this.router.navigate([route.path], extras);
-    }
-  }
-
-  private scrollToElement(element: any, fragment: string) {
-    if (element) {
-      let domRect = element.getBoundingClientRect();
-      this.windowRef.nativeWindow.scroll(0, domRect.y);
-      this.windowRef.nativeWindow.location.hash = fragment;
     }
   }
 

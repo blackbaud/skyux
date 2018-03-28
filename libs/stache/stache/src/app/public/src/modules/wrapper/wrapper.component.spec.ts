@@ -73,11 +73,7 @@ describe('StacheWrapperComponent', () => {
         getElementById: jasmine.createSpy('getElementById').and.callFake(function(id: any) {
           if (id !== undefined) {
             return {
-              getBoundingClientRect() {
-                return {
-                  y: 0
-                };
-              }
+              scrollIntoView() { }
             };
           }
           return id;
@@ -87,6 +83,7 @@ describe('StacheWrapperComponent', () => {
             classList: {
               add(cssClass: string) { }
             },
+            scrollIntoView() { },
             offsetHeight: 50
           };
         })
@@ -257,25 +254,6 @@ describe('StacheWrapperComponent', () => {
     expect(mockTitleService.setTitle).toHaveBeenCalledWith('Page Title');
   });
 
-  it('should grab the element from the fragment', async(() => {
-    component.ngOnInit();
-    fixture.detectChanges();
-    fixture.whenStable()
-      .then(() => {
-        expect(mockWindowService.nativeWindow.document.getElementById)
-          .toHaveBeenCalledWith('test-route');
-      });
-  }));
-
-  it('should scroll the element into view if a fragment exists', async(() => {
-    mockActivatedRoute.setFragment(undefined);
-    fixture.detectChanges();
-    fixture.whenStable()
-      .then(() => {
-        expect(mockWindowService.nativeWindow.document.getElementById).not.toHaveBeenCalled();
-      });
-  }));
-
   it('should set the jsonData property on init', () => {
     fixture.detectChanges();
     expect(component.jsonData).toEqual(jasmine.any(Object));
@@ -301,5 +279,19 @@ describe('StacheWrapperComponent', () => {
 
     testComponent.testWrapper.ngOnDestroy();
     expect(testComponent.testWrapper.pageAnchorSubscriptions.length).toEqual(0);
+  });
+
+  it('should not navigate to a fragment if none exist', () => {
+    spyOn(mockActivatedRoute.fragment, 'subscribe').and.callFake((callback: any): any => {
+      callback();
+      return {
+        unsubscribe() { }
+      };
+    });
+    const testFixture = TestBed.createComponent(StacheWrapperTestComponent);
+    const testComponent = testFixture.componentInstance;
+
+    testFixture.detectChanges();
+    expect(testComponent.testWrapper.pageAnchorSubscriptions.length).toEqual(2);
   });
 });

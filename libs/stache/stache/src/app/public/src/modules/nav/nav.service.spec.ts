@@ -5,29 +5,32 @@ class MockRouter {
   public navigate = (path: any, extras: any) => true;
 }
 
+let elementScrollCalled: boolean = false;
+
 class MockWindowService {
   public nativeWindow = {
     document: {
-        getElementById: jasmine.createSpy('getElementById').and.callFake((id: any) => {
-          if (id === 'element-id') {
+      querySelector: jasmine.createSpy('querySelector').and.callFake((id: any) => {
+          if (id === '#element-id') {
             return this.testElement;
           }
           return false;
         })
     },
-    setTimeout: jasmine.createSpy('setTimeout').and.callFake(function(callback: any) {
-      return callback();
-    }),
     location: {
-      href: '',
-      hash: ''
+      href: ''
     },
     scroll: jasmine.createSpy('scroll')
   };
+
   public testElement = {
     getBoundingClientRect() {
       return { y: 0 };
-    }
+    },
+    scrollIntoView() {
+      elementScrollCalled = true;
+      return;
+     }
   };
 }
 
@@ -40,6 +43,7 @@ describe('StacheNavService', () => {
     router = new MockRouter();
     windowRef = new MockWindowService();
     navService = new StacheNavService((router as any), (windowRef as any));
+    elementScrollCalled = false;
   });
 
   it('should return true if a given route is external www', () => {
@@ -72,36 +76,37 @@ describe('StacheNavService', () => {
     expect(noPath).toBe(false);
   });
 
-  it('should set the hash to the valid fragment when an element is found', () => {
-    navService['scrollToElement'](windowRef.testElement, 'element-id');
-    expect(windowRef.nativeWindow.location.hash).toEqual('element-id');
-  });
-
-  it('should not set the hash to the valid fragment when an element is not found', () => {
-    navService['scrollToElement'](undefined, 'not-found');
-    expect(windowRef.nativeWindow.location.hash).not.toEqual('not-found');
-  });
-
   it('should navigate to an external url', () => {
     navService.navigate({path: 'www.external.com' });
     expect(windowRef.nativeWindow.location.href).toEqual('www.external.com');
   });
 
+  it('should navigate to an internal url without a fragment', () => {
+    spyOn(router, 'navigate').and.callThrough();
+    navService.navigate({path: '/internal' });
+    expect(router.navigate).toHaveBeenCalledWith(['/internal'], { queryParamsHandling: 'merge' });
+  });
+
+  it('should navigate to an internal url when the path is an array of paths', () => {
+    spyOn(router, 'navigate').and.callThrough();
+    navService.navigate({path: ['/internal', '/deeper-internal'] });
+    expect(router.navigate).toHaveBeenCalledWith(['/internal', '/deeper-internal'], { queryParamsHandling: 'merge' });
+  });
+
   it('should navigate to a new page with a fragment', () => {
     spyOn(router, 'navigate').and.callThrough();
     navService.navigate({ path: '/internal-foo', fragment: 'foo'});
-    expect(router.navigate).toHaveBeenCalledWith(['/internal-foo'], { fragment: 'foo'});
+    expect(router.navigate).toHaveBeenCalledWith(['/internal-foo'], { queryParamsHandling: 'merge',  fragment: 'foo' });
   });
 
   it('should navigate to an internal url with a fragment', () => {
     navService.navigate({path: '/internal', fragment: 'element-id'});
-    expect(windowRef.nativeWindow.location.hash).toEqual('element-id');
+    expect(elementScrollCalled).toBe(true);
   });
 
-  it('should navigate to an internal url and remove a fragment that doesn\'t exist on the page',
+  it('should navigate to an internal url',
    () => {
     navService.navigate({path: 'internal', fragment: 'does-not-exist'});
-    expect(windowRef.nativeWindow.location.hash).toEqual('');
     expect(windowRef.nativeWindow.scroll).toHaveBeenCalled();
   });
 });
