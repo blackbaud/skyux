@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 
 import { StacheWindowRef } from './window-ref';
 
@@ -6,9 +6,16 @@ import { StacheWindowRef } from './window-ref';
 export class StacheOmnibarAdapterService {
   private static readonly HAS_OMNIBAR_CLASS_NAME: string = 'stache-omnibar-enabled';
   public static readonly EXPECTED_OMNIBAR_HEIGHT: number = 50;
+  private renderer: Renderer2;
   private element: any = this.windowRef.nativeWindow.document.querySelector('.sky-omnibar-iframe');
 
-  constructor(private windowRef: StacheWindowRef) {
+  constructor(
+    private windowRef: StacheWindowRef,
+    private rendererFactory: RendererFactory2) {
+      this.renderer = this.rendererFactory.createRenderer(undefined, undefined);
+    }
+
+  public checkForOmnibar(): void {
     if (this.omnibarEnabled()) {
       this.applyClassToBody();
     }
@@ -27,7 +34,9 @@ export class StacheOmnibarAdapterService {
   }
 
   private applyClassToBody(): void {
-    const bodyElement = this.windowRef.nativeWindow.document.querySelector('body');
-    bodyElement.classList.add(StacheOmnibarAdapterService.HAS_OMNIBAR_CLASS_NAME);
+    this.renderer.addClass(
+      this.windowRef.nativeWindow.document.body,
+      StacheOmnibarAdapterService.HAS_OMNIBAR_CLASS_NAME
+    );
   }
 }

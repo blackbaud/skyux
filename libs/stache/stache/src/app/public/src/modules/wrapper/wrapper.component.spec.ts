@@ -33,6 +33,7 @@ describe('StacheWrapperComponent', () => {
   let mockJsonDataService: any;
   let mockTitleService: any;
   let mockWindowService: any;
+  let mockOmnibarService: any;
 
   class MockActivatedRoute {
     public fragment: Observable<string> = Observable.of('test-route');
@@ -40,6 +41,10 @@ describe('StacheWrapperComponent', () => {
     public setFragment(fragString: any) {
       this.fragment = Observable.of(fragString);
     }
+  }
+
+  class MockOmbibarService {
+    public checkForOmnibar() {}
   }
 
   class MockConfigService {
@@ -116,6 +121,7 @@ describe('StacheWrapperComponent', () => {
     mockJsonDataService = new MockJsonDataService();
     mockTitleService = new MockTitleService();
     mockWindowService = new MockWindowService({});
+    mockOmnibarService = new MockOmbibarService();
 
     TestBed.configureTestingModule({
       imports: [
@@ -130,7 +136,7 @@ describe('StacheWrapperComponent', () => {
       providers: [
         StacheNavService,
         StacheRouteService,
-        StacheOmnibarAdapterService,
+        { provide: StacheOmnibarAdapterService, useValue: mockOmnibarService },
         { provide: StacheJsonDataService, useValue: mockJsonDataService },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: StacheTitleService, useValue: mockTitleService },
@@ -257,6 +263,12 @@ describe('StacheWrapperComponent', () => {
   it('should set the jsonData property on init', () => {
     fixture.detectChanges();
     expect(component.jsonData).toEqual(jasmine.any(Object));
+  });
+
+  it('should detect the omnibar if it exists on init', () => {
+    spyOn(mockOmnibarService, 'checkForOmnibar').and.callThrough();
+    component.ngOnInit();
+    expect(mockOmnibarService.checkForOmnibar).toHaveBeenCalled();
   });
 
   it('should update inPageRoutes after content is rendered', () => {

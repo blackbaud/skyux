@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+
 import { By } from '@angular/platform-browser';
 
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
@@ -8,6 +9,12 @@ import { StacheAffixTestComponent } from './fixtures/affix.component.fixture';
 import { StacheAffixTopDirective } from './affix-top.directive';
 import { StacheAffixModule } from './affix.module';
 import { StacheWindowRef, StacheOmnibarAdapterService } from '../shared';
+
+class MockOmnibarService {
+  public getHeight(): number {
+    return 0;
+  }
+}
 
 describe('StacheAffixComponent', () => {
   let component: StacheAffixComponent;
@@ -23,7 +30,7 @@ describe('StacheAffixComponent', () => {
       ],
       providers: [
         StacheWindowRef,
-        StacheOmnibarAdapterService
+        { provide: StacheOmnibarAdapterService, useClass: MockOmnibarService }
       ]
     })
     .compileComponents();

@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 
 import { StacheTitleService } from './title.service';
 import { StachePageAnchorComponent } from '../page-anchor';
-import { StacheConfigService, StacheJsonDataService } from '../shared';
+import { StacheConfigService, StacheJsonDataService, StacheOmnibarAdapterService } from '../shared';
 import { StacheNavLink, StacheNavService } from '../nav';
 
 const _get = require('lodash.get');
@@ -61,9 +61,11 @@ export class StacheWrapperComponent implements OnInit, AfterContentInit, OnDestr
     private dataService: StacheJsonDataService,
     private titleService: StacheTitleService,
     private route: ActivatedRoute,
+    private omnibarService: StacheOmnibarAdapterService,
     private navService: StacheNavService) { }
 
   public ngOnInit(): void {
+    this.omnibarService.checkForOmnibar();
     this.titleService.setTitle(this.windowTitle || this.pageTitle);
     this.jsonData = this.dataService.getAll();
   }
