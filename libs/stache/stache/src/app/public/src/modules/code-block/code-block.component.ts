@@ -67,7 +67,7 @@ export class StacheCodeBlockComponent implements AfterViewInit {
     if (this.code) {
       code = this.code;
     } else {
-      code = this.codeTemplateRef.nativeElement.innerText;
+      code = this.codeTemplateRef.nativeElement.textContent;
     }
 
     code = this.formatCode(code);
