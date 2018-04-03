@@ -1,6 +1,11 @@
+# 2.5.1 (2018-4-2)
+
+- Fixed a bug that caused `stache-code-block` to render without new lines in IE11. [#433](https://github.com/blackbaud/stache2/pull/433)
+- Fixed a bug that caused the window to scroll too far down on `stache-page-anchors` when omnibar was present without `affix-top` being called first. [#431](https://github.com/blackbaud/stache2/pull/431)
+
 # 2.5.0 (2018-3-28)
 
-- Routing and navigation updates: [#382](https://github.com/blackbaud/stache2/pull/426)
+- Routing and navigation updates: [#426](https://github.com/blackbaud/stache2/pull/426)
   - Updated nav component to support the use of route params in the url.
   - Refactored components to use the router service when determining active URL.
   - Refactored `scrollToElement` to use `element.scrollIntoView`.
