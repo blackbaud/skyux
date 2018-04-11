@@ -39,6 +39,7 @@
 
   @media (min-width: $stache-screen-sm-min) {
     max-height: 95vh;
+    overflow: auto;
   }
 
   .stache-nav-list-item {
