@@ -1,3 +1,7 @@
+# 2.5.2 (2018-4-11)
+
+- Fixed a bug that caused the sidebar to jitter when it required a scroll bar while the main content did not. [#438](https://github.com/blackbaud/stache2/pull/438)
+
 # 2.5.1 (2018-4-2)
 
 - Fixed a bug that caused `stache-code-block` to render without new lines in IE11. [#433](https://github.com/blackbaud/stache2/pull/433)
