@@ -1,3 +1,10 @@
+#2.6.0 (2018-4-13)
+
+- Refactored Table of Contents and Page Anchor components. [#441](https://github.com/blackbaud/stache2/pull/441) - Thanks [@Blackbaud-StacyCarlos](https://github.com/Blackbaud-StacyCarlos)!
+  - Fixed a bug where the TOC would not load links until the user scrolled.
+  - Refactored the page anchors to allow nested anchors from child components to still load in the TOC.
+- Fixed a bug that caused tutorial card headers to have too much space above the title when the Omnibar was present. [#440](https://github.com/blackbaud/stache2/pull/440)
+
 # 2.5.2 (2018-4-11)
 
 - Fixed a bug that caused the sidebar to jitter when it required a scroll bar while the main content did not. [#438](https://github.com/blackbaud/stache2/pull/438)
