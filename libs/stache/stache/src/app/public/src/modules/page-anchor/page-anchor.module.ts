@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { StachePageAnchorComponent } from './page-anchor.component';
 
 import { StacheLinkModule } from '../link';
+import { StachePageAnchorService } from './page-anchor.service';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,9 @@ import { StacheLinkModule } from '../link';
     CommonModule,
     StacheLinkModule,
     RouterModule
+  ],
+  providers: [
+    StachePageAnchorService
   ],
   exports: [
     StachePageAnchorComponent

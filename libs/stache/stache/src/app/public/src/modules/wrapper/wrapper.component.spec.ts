@@ -11,7 +11,7 @@ import { StacheWrapperTestComponent } from './fixtures/wrapper.component.fixture
 import { StacheWrapperComponent } from './wrapper.component';
 import { StacheTitleService } from './title.service';
 
-import { StacheNavService } from '../nav';
+import { StacheNavService, StacheNavLink } from '../nav';
 
 import {
   StacheWindowRef,
@@ -24,23 +24,33 @@ import {
 
 import { StacheLayoutModule } from '../layout';
 import { StachePageAnchorModule } from '../page-anchor';
+import { StachePageAnchorService } from '../page-anchor/page-anchor.service';
 
 describe('StacheWrapperComponent', () => {
   let component: StacheWrapperComponent;
   let fixture: ComponentFixture<StacheWrapperComponent>;
   let mockActivatedRoute: any;
   let mockConfigService: any;
+  let mockNavService: any;
   let mockJsonDataService: any;
   let mockTitleService: any;
   let mockWindowService: any;
+  let mockAnchorService: any;
   let mockOmnibarService: any;
 
   class MockActivatedRoute {
     public fragment: Observable<string> = Observable.of('test-route');
     public url: Observable<string[]> = Observable.of(['test', 'routes']);
+    // snapshot is a required prop on activatedRoute to avoid an error with `'_lastPathIndex' of undefined`
+    // https://stackoverflow.com/questions/41245783/angular-testing-router-params-breaks-test-bed
+    public snapshot = {};
     public setFragment(fragString: any) {
       this.fragment = Observable.of(fragString);
     }
+  }
+
+  class MockNavService {
+    public navigate(route: any) { }
   }
 
   class MockOmbibarService {
@@ -72,6 +82,23 @@ describe('StacheWrapperComponent', () => {
     public setTitle = jasmine.createSpy('setTitle');
   }
 
+  class MockAnchorService {
+    public anchorStream = Observable.of(
+      {
+        path: 'Second Path',
+        name: 'Second Heading',
+        fragment: 'Second Fragment'
+      } as StacheNavLink,
+      {
+        path: 'First Path',
+        name: 'First Heading',
+        fragment: 'First Fragment',
+        order: 0
+      } as StacheNavLink
+    );
+    public addPageAnchor = function() {};
+  }
+
   class MockWindowService {
     public nativeWindow = {
       document: {
@@ -91,6 +118,9 @@ describe('StacheWrapperComponent', () => {
             scrollIntoView() { },
             offsetHeight: 50
           };
+        }),
+        querySelectorAll: jasmine.createSpy('querySelectorAll').and.callFake((selector: string): any[] => {
+            return [];
         })
       },
       setTimeout: jasmine.createSpy('setTimeout').and.callFake(function(callback: any) {
@@ -117,10 +147,12 @@ describe('StacheWrapperComponent', () => {
 
   beforeEach(() => {
     mockActivatedRoute = new MockActivatedRoute();
+    mockNavService = new MockNavService();
     mockConfigService = new MockConfigService();
     mockJsonDataService = new MockJsonDataService();
     mockTitleService = new MockTitleService();
     mockWindowService = new MockWindowService({});
+    mockAnchorService = new MockAnchorService();
     mockOmnibarService = new MockOmbibarService();
 
     TestBed.configureTestingModule({
@@ -134,14 +166,15 @@ describe('StacheWrapperComponent', () => {
         StacheWrapperTestComponent
       ],
       providers: [
-        StacheNavService,
         StacheRouteService,
+        { provide: StacheNavService, useValue: mockNavService },
         { provide: StacheOmnibarAdapterService, useValue: mockOmnibarService },
         { provide: StacheJsonDataService, useValue: mockJsonDataService },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: StacheTitleService, useValue: mockTitleService },
         { provide: StacheWindowRef, useValue: mockWindowService },
         { provide: StacheConfigService, useValue: mockConfigService },
+        { provide: StachePageAnchorService, useValue: mockAnchorService },
         STACHE_ROUTE_METADATA_PROVIDERS
       ]
     })
@@ -287,23 +320,23 @@ describe('StacheWrapperComponent', () => {
     const testComponent = testFixture.componentInstance;
 
     testFixture.detectChanges();
-    expect(testComponent.testWrapper.pageAnchorSubscriptions.length).toEqual(2);
+    expect(testComponent.testWrapper.pageAnchorSubscription).not.toBe(undefined);
+
+    testComponent.testWrapper.ngOnInit();
+    expect(testComponent.testWrapper.pageAnchorSubscription).not.toBe(undefined);
 
     testComponent.testWrapper.ngOnDestroy();
-    expect(testComponent.testWrapper.pageAnchorSubscriptions.length).toEqual(0);
+    expect(testComponent.testWrapper.pageAnchorSubscription).toBe(undefined);
   });
 
   it('should not navigate to a fragment if none exist', () => {
-    spyOn(mockActivatedRoute.fragment, 'subscribe').and.callFake((callback: any): any => {
-      callback();
-      return {
-        unsubscribe() { }
-      };
-    });
+    mockActivatedRoute.setFragment(undefined);
+    let subscribeSpy = spyOn(mockActivatedRoute.fragment, 'subscribe').and.callThrough();
+    let navSpy = spyOn(mockNavService, 'navigate').and.callThrough();
     const testFixture = TestBed.createComponent(StacheWrapperTestComponent);
-    const testComponent = testFixture.componentInstance;
 
     testFixture.detectChanges();
-    expect(testComponent.testWrapper.pageAnchorSubscriptions.length).toEqual(2);
+    expect(subscribeSpy).toHaveBeenCalled();
+    expect(navSpy).not.toHaveBeenCalled();
   });
 });

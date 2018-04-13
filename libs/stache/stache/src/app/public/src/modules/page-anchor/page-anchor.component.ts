@@ -6,10 +6,9 @@ import {
   AfterViewInit
 } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-
 import { StacheNavLink } from '../nav';
+
+import { StachePageAnchorService } from './page-anchor.service';
 import { StacheWindowRef, StacheRouteService } from '../shared';
 
 @Component({
@@ -18,20 +17,19 @@ import { StacheWindowRef, StacheRouteService } from '../shared';
   styleUrls: ['./page-anchor.component.scss']
 })
 export class StachePageAnchorComponent implements OnInit, StacheNavLink, AfterViewInit {
+
   public name: string;
   public fragment: string;
   public path: string[];
-  public navLinkStream: Observable<StacheNavLink>;
-
-  private _subject: BehaviorSubject<StacheNavLink>;
+  public order: number;
 
   public constructor(
     private routerService: StacheRouteService,
     private elementRef: ElementRef,
     private windowRef: StacheWindowRef,
-    private cdRef: ChangeDetectorRef) {
-      this._subject = new BehaviorSubject<StacheNavLink>({ name: '', path: '' });
-      this.navLinkStream = this._subject.asObservable();
+    private cdRef: ChangeDetectorRef,
+    private anchorService: StachePageAnchorService) {
+      this.name = '';
     }
 
   public ngOnInit(): void {
@@ -47,7 +45,8 @@ export class StachePageAnchorComponent implements OnInit, StacheNavLink, AfterVi
   public ngAfterViewInit(): void {
     this.name = this.getName();
     this.fragment = this.getFragment();
-    this.sendChanges();
+    this.getOrder();
+    this.registerAnchor();
     this.cdRef.detectChanges();
   }
 
@@ -62,11 +61,21 @@ export class StachePageAnchorComponent implements OnInit, StacheNavLink, AfterVi
       .replace(/[^\w-]+/g, '');
   }
 
-  private sendChanges(): void {
-    this._subject.next({
+  private getOrder(): void {
+    let anchors = this.windowRef.nativeWindow.document.querySelectorAll('stache-page-anchor div');
+    for (let i = 0; i < anchors.length; i++) {
+      if (this.fragment === anchors[i].id) {
+        this.order = i;
+      }
+    }
+  }
+
+  private registerAnchor(): void {
+    this.anchorService.addPageAnchor({
       path: this.path,
       name: this.name,
-      fragment: this.fragment
+      fragment: this.fragment,
+      order: this.order
     } as StacheNavLink);
   }
 }
