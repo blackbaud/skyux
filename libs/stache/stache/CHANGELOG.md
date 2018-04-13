@@ -1,4 +1,4 @@
-#2.6.0 (2018-4-13)
+# 2.6.0 (2018-4-13)
 
 - Refactored Table of Contents and Page Anchor components. [#441](https://github.com/blackbaud/stache2/pull/441) - Thanks [@Blackbaud-StacyCarlos](https://github.com/Blackbaud-StacyCarlos)!
   - Fixed a bug where the TOC would not load links until the user scrolled.
