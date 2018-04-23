@@ -86,8 +86,10 @@ describe('BBHelpClientService', () => {
     resolvePromise = false;
 
     dataService.openWidget()
-      .then(() => {
+      .then(() => {})
+      .catch((error: string) => {
         expect(spyHelp).not.toHaveBeenCalled();
+        expect(error).toEqual('reason');
       });
   });
 
@@ -98,6 +100,18 @@ describe('BBHelpClientService', () => {
     dataService.openWidget()
       .then(() => {
         expect(spyHelp).toHaveBeenCalled();
+        expect(spyHelp).toHaveBeenCalledWith(undefined);
+      });
+  });
+
+  it('should call the helpClient\'s openWidget method with a helpKey', () => {
+    let spyHelp = spyOn(BBHelpClient, 'openWidget').and.callFake(() => { });
+    resolvePromise = true;
+    let testKey = 'foo.html';
+
+    dataService.openWidget(testKey)
+      .then(() => {
+        expect(spyHelp).toHaveBeenCalledWith(testKey);
       });
   });
 
@@ -117,12 +131,17 @@ describe('BBHelpClientService', () => {
   });
 
   it('should increase the disableCount each time disableWidget is called', fakeAsync(() => {
+    let spyHelp = spyOn(BBHelpClient, 'disableWidget').and.callFake(() => { });
     expect(dataService.disabledCount).toEqual(0);
     dataService.disableWidget();
+    tick(1000);
     expect(dataService.disabledCount).toEqual(1);
     dataService.disableWidget();
+    tick(1000);
     dataService.disableWidget();
+    tick(1000);
     expect(dataService.disabledCount).toEqual(3);
+    expect(spyHelp).toHaveBeenCalledTimes(3);
   }));
 
   it('should enable the HelpWidget when the disabledCount decreases below 1', fakeAsync(() => {
@@ -159,5 +178,12 @@ describe('BBHelpClientService', () => {
     tick(1000);
     expect(dataService.disabledCount).toEqual(0);
     expect(spyHelpEnable).toHaveBeenCalled();
+  }));
+
+  it('should provide a ready check for async methods', fakeAsync(() => {
+    dataService.ready()
+      .then(() => {
+        expect(BBHelpClient.ready).toHaveBeenCalled();
+      });
   }));
 });

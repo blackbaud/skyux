@@ -41,23 +41,26 @@ export class HelpWidgetService {
     BBHelpClient.toggleOpen();
   }
 
-  public openWidget(): Promise<any> {
-    return this.executeWhenClientReady(() => {
-      BBHelpClient.openWidget();
+  public openWidget(helpKey?: string): Promise<any> {
+    return this.ready()
+    .then(() => {
+      BBHelpClient.openWidget(helpKey);
     });
   }
 
   public closeWidget(): Promise<any> {
-    return this.executeWhenClientReady(() => {
-      BBHelpClient.closeWidget();
-    });
+    return this.ready()
+      .then(() => {
+        BBHelpClient.closeWidget();
+      });
   }
 
   public disableWidget(): Promise<any> {
     this.disabledCount++;
-    return this.executeWhenClientReady(() => {
-      BBHelpClient.disableWidget();
-    });
+    return this.ready()
+      .then(() => {
+        BBHelpClient.disableWidget();
+      });
   }
 
   public enableWidget(): Promise<any> {
@@ -66,21 +69,16 @@ export class HelpWidgetService {
     }
 
     if (this.disabledCount === 0) {
-      return this.executeWhenClientReady(() => {
-        BBHelpClient.enableWidget();
-      });
+      return this.ready()
+        .then(() => {
+          BBHelpClient.enableWidget();
+        });
     }
 
     return Promise.resolve();
   }
 
-  public executeWhenClientReady(callBack: any): Promise<any> {
-    return BBHelpClient.ready()
-      .then(() => {
-        return callBack();
-      })
-      .catch((error: string) => {
-        return error;
-      });
+  public ready(): Promise<any> {
+    return BBHelpClient.ready();
   }
 }
