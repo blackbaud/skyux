@@ -1,5 +1,3 @@
-import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
-
 import { BBHelpModule } from './bb-help.module';
 
 describe('BBHelpModule', () => {

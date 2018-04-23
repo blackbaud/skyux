@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { BBHelpModule } from './public';
 
-import { SkyModalDemoFormComponent, HelpWindowRef } from './libs';
+import { SkyModalDemoFormComponent, HelpWindowRef } from './lib';
 
 // Specify entry components, module-level providers, etc. here.
 @NgModule({

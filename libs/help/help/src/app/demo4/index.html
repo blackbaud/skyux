@@ -1,0 +1,52 @@
+<init-help></init-help>
+<bb-help bbHelpDisableWidget></bb-help>
+<bb-help-key pageDefaultKey="get_started.html"></bb-help-key>
+<div>
+  <h1>Demo 4 (Disabled)</h1>
+
+    <ul>
+      <li><a href="" routerLink="/">Home</a></li>
+      <li><a href="" routerLink="/demo1">Demo 1</a></li>
+      <li><a href="" routerLink="/demo2">Demo 2</a></li>
+      <li><a href="" routerLink="/demo3">Demo 3</a></li>
+    </ul>
+    <toggle-widget></toggle-widget>
+    <sky-modal-demo-launcher></sky-modal-demo-launcher>
+    <h3>
+      Setup:
+    </h3>
+    <ul>
+      <li>
+        <p>
+          Has a <strong>bb-help-key</strong> component with a help key of <strong>get_started.html</strong>.
+        </p>
+      </li>
+      <li>
+        <p>
+          Has a <strong>bb-help-button</strong> with a helpKey <strong>BetaFAQ.html</strong> defined.
+        </p>
+      </li>
+      <li>
+        <p>
+          Has a <strong>bb-help</strong> component with <strong>bbHelpDisableWidget</strong> directive.
+        </p>
+      </li>
+    </ul>
+
+    <h3>
+      Expected Behavior:
+    </h3>
+    <ul>
+      <li>
+        <p>
+          <strong><code>Invoker/Toggle Widget:</code></strong> Should be hidden and not clickable
+        </p>
+      </li>
+      <li>
+        <p>
+          <strong><code>Triggering the Widget via other methods:</code></strong> The widget should not open or be displayed. The console should display an error "The Help Widget is disabled on this page."
+        </p>
+      </li>
+    </ul>
+  <bb-help-button helpKey="BetaFAQ.html"></bb-help-button>
+</div>

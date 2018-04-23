@@ -16,4 +16,5 @@ export interface HelpWidgetConfig {
   hideHelpChat?: boolean;
   useFlareSearch?: boolean;
   getChatData?: any;
+  authEnabled?: boolean;
 }
