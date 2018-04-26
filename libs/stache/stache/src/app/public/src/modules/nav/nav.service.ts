@@ -19,17 +19,8 @@ export class StacheNavService {
     }
 
     if (route.fragment) {
-      const element = this.windowRef.nativeWindow.document.querySelector(`#${route.fragment}`);
-
-      if (element) {
-        element.scrollIntoView();
-        return;
-      }
-
-      // The current page is the path intended, but no element with the fragment exists, scroll to
-      // the top of the page.
-      if (route.path === currentPath) {
-        this.windowRef.nativeWindow.scroll(0, 0);
+      if (route.path === currentPath || route.path === '.') {
+        this.navigateInPage(route.fragment);
         return;
       }
 
@@ -40,6 +31,19 @@ export class StacheNavService {
       this.router.navigate(route.path, extras);
     } else {
       this.router.navigate([route.path], extras);
+    }
+  }
+
+  private navigateInPage(fragment: string): void {
+    const element = this.windowRef.nativeWindow.document.querySelector(`#${fragment}`);
+
+    if (element) {
+      element.scrollIntoView();
+      this.windowRef.nativeWindow.location.hash = fragment;
+    } else {
+      // The current page is the path intended, but no element with the fragment exists, scroll to
+      // the top of the page.
+      this.windowRef.nativeWindow.scroll(0, 0);
     }
   }
 

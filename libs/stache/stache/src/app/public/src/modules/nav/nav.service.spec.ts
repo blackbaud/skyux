@@ -100,7 +100,12 @@ describe('StacheNavService', () => {
   });
 
   it('should navigate to an internal url with a fragment', () => {
-    navService.navigate({path: '/internal', fragment: 'element-id'});
+    navService.navigate({path: 'internal', fragment: 'element-id'});
+    expect(elementScrollCalled).toBe(true);
+  });
+
+  it('should navigate to an internal url if the path provided is .', () => {
+    navService.navigate({path: '.', fragment: 'element-id'});
     expect(elementScrollCalled).toBe(true);
   });
 
