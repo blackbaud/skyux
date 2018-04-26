@@ -6,7 +6,8 @@ const _get = require('lodash.get');
 
 @Component({
   selector: 'stache-edit-button',
-  templateUrl: './edit-button.component.html'
+  templateUrl: './edit-button.component.html',
+  styleUrls: ['./edit-button.component.scss']
 })
 export class StacheEditButtonComponent implements OnInit {
   public editButtonText: string;
