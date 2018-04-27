@@ -8,11 +8,9 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
 import { Subscription } from 'rxjs';
-
 import { StacheTitleService } from './title.service';
-import { StacheConfigService, StacheJsonDataService, StacheOmnibarAdapterService } from '../shared';
+import { StacheConfigService, StacheJsonDataService, StacheOmnibarAdapterService, StacheWindowRef } from '../shared';
 import { StacheNavLink, StacheNavService } from '../nav';
 import { StachePageAnchorService } from '../page-anchor/page-anchor.service';
 
@@ -66,22 +64,35 @@ export class StacheWrapperComponent implements OnInit, OnDestroy, AfterViewInit 
     private navService: StacheNavService,
     private anchorService: StachePageAnchorService,
     private cdr: ChangeDetectorRef,
+    private windowRef: StacheWindowRef,
     private omnibarService: StacheOmnibarAdapterService) { }
 
   public ngOnInit(): void {
     this.omnibarService.checkForOmnibar();
-    this.titleService.setTitle(this.windowTitle || this.pageTitle);
     this.jsonData = this.dataService.getAll();
     this.registerPageAnchors();
   }
 
   public ngAfterViewInit() {
+    const preferredDocumentTitle = this.getPreferredDocumentTitle();
+    this.titleService.setTitle(preferredDocumentTitle);
     this.checkRouteHash();
     this.cdr.detectChanges();
   }
 
   public ngOnDestroy(): void {
     this.destroyPageAnchorSubscription();
+  }
+
+  private getPreferredDocumentTitle(): string {
+    return this.windowTitle || this.pageTitle || this.navTitle || this.getTutorialHeader();
+  }
+
+  private getTutorialHeader(): string {
+    const currentTutorialHeader = this.windowRef.nativeWindow.document.querySelector(`.stache-tutorial-heading`);
+    if (currentTutorialHeader && currentTutorialHeader.textContent) {
+      return currentTutorialHeader.textContent.trim();
+    }
   }
 
   private registerPageAnchors(): void {
