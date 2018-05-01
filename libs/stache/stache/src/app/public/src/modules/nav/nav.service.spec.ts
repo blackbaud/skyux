@@ -109,6 +109,16 @@ describe('StacheNavService', () => {
     expect(elementScrollCalled).toBe(true);
   });
 
+  it('should navigate to an internal url if the path provided is an array of paths', () => {
+    navService.navigate({path: ['/internal'], fragment: 'element-id'});
+    expect(elementScrollCalled).toBe(true);
+  });
+
+  it('should not navigate to an internal url if the path provided is an array of paths that do not match currentUrl', () => {
+    navService.navigate({path: ['/internal', 'not-in-page'], fragment: 'element-id'});
+    expect(elementScrollCalled).toBe(false);
+  });
+
   it('should navigate to an internal url',
    () => {
     navService.navigate({path: 'internal', fragment: 'does-not-exist'});

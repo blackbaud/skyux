@@ -11,7 +11,7 @@ export class StacheNavService {
 
   public navigate(route: any): void {
     let extras: any = { queryParamsHandling: 'merge'};
-    const currentPath = this.router.url.split('?')[0].split('#')[0].substring(1);
+    const currentPath = this.router.url.split('?')[0].split('#')[0];
 
     if (this.isExternal(route)) {
       this.windowRef.nativeWindow.location.href = route.path;
@@ -19,11 +19,10 @@ export class StacheNavService {
     }
 
     if (route.fragment) {
-      if (route.path === currentPath || route.path === '.') {
+      if (this.isCurrentRoute(route.path, currentPath)) {
         this.navigateInPage(route.fragment);
         return;
       }
-
       extras.fragment = route.fragment;
     }
 
@@ -32,6 +31,16 @@ export class StacheNavService {
     } else {
       this.router.navigate([route.path], extras);
     }
+  }
+
+  private isCurrentRoute(routePath: string | string[], currentPath: string): boolean {
+   let path = routePath;
+
+   if (Array.isArray(path)) {
+    path = path.join('/');
+   }
+
+   return (path === '.' || currentPath.replace(/^\//, '') === path.replace(/^\//, ''));
   }
 
   private navigateInPage(fragment: string): void {

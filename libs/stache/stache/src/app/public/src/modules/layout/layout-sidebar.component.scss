@@ -5,7 +5,6 @@
   .stache-affix-top {
     @media (min-width: $stache-screen-sm-min) {
       display: flex;
-      overflow-y: auto;
       max-height: 100%;
     }
 
@@ -22,7 +21,6 @@
     .stache-affix-top {
       @media (min-width: $stache-screen-sm-min) {
         max-height: calc(100% - #{ $stache-omnibar-height });
-        overflow-y: auto;
       }
     }
   }
