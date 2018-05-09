@@ -1,3 +1,15 @@
+# 2.7.0 (2018-5-9)
+
+- StacheRouterLink bugfixes [#452](https://github.com/blackbaud/stache2/pull/452)
+  - Fixed issues that stopped the page from navigating to a fragment on another page, if the current page also contained a fragment with the same name.
+  - Fixed issue where navigation would not occure if path was `.` and it contained a fragment.
+- Fixed spacing under stache-edit-button. [#454](https://github.com/blackbaud/stache2/pull/454)
+- Updated functionality that set browser Page Title. [#448](https://github.com/blackbaud/stache2/pull/448)
+  - Included navTitle and tutorialHeader as options for browser page title when pageTitle stache attribute is absent.
+  - Fixed issue where page title would display as ` - AppName` when no title was provided.
+- Fixed an issue where multiple scrollbars would appear with sidebar. [#456](https://github.com/blackbaud/stache2/pull/456)
+- Fixed an issue where if the route.path was an array, it would never match the currentPath. [#456](https://github.com/blackbaud/stache2/pull/456)
+
 # 2.6.0 (2018-4-13)
 
 - Refactored Table of Contents and Page Anchor components. [#441](https://github.com/blackbaud/stache2/pull/441) - Thanks [@Blackbaud-StacyCarlos](https://github.com/Blackbaud-StacyCarlos)!
