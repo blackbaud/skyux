@@ -1,3 +1,7 @@
+# 1.3.0 (2018-05-09)
+
+- Added the `bbHelpOpenOnClick` directive, allowing users to add an onClick event to elements to trigger the Help Widget. [#32](https://github.com/blackbaud/skyux-lib-help/pull/32)
+
 # 1.2.0 (2018-04-23)
 
 - Added an async `ready` check method to determine when the widget and client are both loaded and ready. [#30](https://github.com/blackbaud/skyux-lib-help/pull/30)
