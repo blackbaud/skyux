@@ -1,3 +1,7 @@
+# 2.7.1 (2018-5-11)
+
+- Fixed an issue with the anchor icon on stache-page-anchor's not displaying. [#462](https://github.com/blackbaud/stache2/pull/462)
+
 # 2.7.0 (2018-5-9)
 
 - StacheRouterLink bugfixes [#452](https://github.com/blackbaud/stache2/pull/452)
