@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 
 import { StacheNavComponent } from './nav.component';
 import { StacheNavService } from './nav.service';
+import { StacheLinkModule } from '../link';
 
 @NgModule({
   declarations: [
@@ -11,7 +12,8 @@ import { StacheNavService } from './nav.service';
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    StacheLinkModule
   ],
   exports: [
     StacheNavComponent,

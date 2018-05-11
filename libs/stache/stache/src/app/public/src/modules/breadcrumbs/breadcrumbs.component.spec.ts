@@ -12,6 +12,7 @@ import {
   StacheWindowRef,
   StacheRouteService,
   StacheRouteMetadataService } from '../shared';
+import { StacheLinkModule } from '../link';
 
 describe('StacheBreadcrumbsComponent', () => {
   let component: StacheBreadcrumbsComponent;
@@ -62,7 +63,8 @@ describe('StacheBreadcrumbsComponent', () => {
         StacheBreadcrumbsComponent
       ],
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        StacheLinkModule
       ],
       providers: [
         StacheNavService,

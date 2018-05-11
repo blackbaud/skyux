@@ -4,10 +4,9 @@
       *ngFor="let route of routes"
       [ngClass]="{'active': route.isActive, 'current': route.isCurrent}">
       <a class="stache-nav-anchor"
-        routerLink="{{route.path}}"
+        stacheRouterLink="{{route.path}}"
         fragment="{{route.fragment}}"
-        queryParamsHandling="merge"
-        (click)="navigate(route)">{{route.name}}</a>
+        queryParamsHandling="merge">{{route.name}}</a>
       <stache-nav
         navType="sidebar stache-nav-sub"
         [routes]="route.children"

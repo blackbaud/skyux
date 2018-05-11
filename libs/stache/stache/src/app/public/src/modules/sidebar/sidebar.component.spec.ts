@@ -14,6 +14,7 @@ import {
 } from '../shared';
 
 import { RouterLinkStubDirective } from './fixtures/router-link-stub.directive';
+import { StacheLinkModule } from '../link';
 
 describe('StacheSidebarComponent', () => {
   let component: StacheSidebarComponent;
@@ -60,7 +61,8 @@ describe('StacheSidebarComponent', () => {
         RouterLinkStubDirective
       ],
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        StacheLinkModule
       ],
       providers: [
         StacheWindowRef,

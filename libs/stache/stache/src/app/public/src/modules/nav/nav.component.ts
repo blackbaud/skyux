@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { StacheNavLink } from './nav-link';
 import { StacheNav } from './nav';
-import { StacheNavService } from './nav.service';
 
 import { StacheRouteService } from '../shared';
 
@@ -21,8 +20,7 @@ export class StacheNavComponent implements OnInit, StacheNav {
   public classname: string = '';
 
   public constructor(
-    private routerService: StacheRouteService,
-    private navService: StacheNavService) { }
+    private routerService: StacheRouteService) { }
 
   public hasRoutes(): boolean {
     return (Array.isArray(this.routes) && this.routes.length > 0);
@@ -30,10 +28,6 @@ export class StacheNavComponent implements OnInit, StacheNav {
 
   public hasChildRoutes(route: StacheNavLink): boolean {
     return Array.isArray(route.children);
-  }
-
-  public navigate(route: any): void {
-    this.navService.navigate(route);
   }
 
   public ngOnInit(): void {
@@ -74,7 +68,7 @@ export class StacheNavComponent implements OnInit, StacheNav {
       path = `/${path}`;
     }
 
-    const isActiveParent = (navDepth > 1  && `${activeUrl}/`.indexOf(`${path}/`) === 0);
+    const isActiveParent = (navDepth > 1 && `${activeUrl}/`.indexOf(`${path}/`) === 0);
 
     return (isActiveParent || activeUrl === path);
   }
