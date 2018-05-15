@@ -1,3 +1,7 @@
+# 2.7.2 (2018-5-15)
+
+- Updated StacheRouterLink to include browser context menu options on right-click and shift/ctrl/cmd+click functionality for opening new tabs/windows. Users should now use StacheRouterLink instead of Angular RouterLink. [#458](https://github.com/blackbaud/stache2/pull/458)
+
 # 2.7.1 (2018-5-11)
 
 - Fixed an issue with the anchor icon on stache-page-anchor's not displaying. [#462](https://github.com/blackbaud/stache2/pull/462)
