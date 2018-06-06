@@ -84,8 +84,14 @@ describe('StacheSidebarComponent', () => {
 
   it('should display navigation links', () => {
     component.routes = [
-      { name: 'Test 1', path: [] },
-      { name: 'Test 2', path: [] }
+      {
+        name: 'Header',
+        path: '/',
+        children: [
+          { name: 'Test 1', path: [] },
+          { name: 'Test 2', path: [] }
+        ]
+      }
     ];
 
     fixture.detectChanges();
@@ -102,7 +108,51 @@ describe('StacheSidebarComponent', () => {
     expect(component.routes[0].children.length).toBe(1);
   });
 
-  it('should add add a heading for the root level route', () => {
+  it('should add a \/ to a heading route when one is not present', () => {
+    component.routes = [
+      {
+        name: 'Header',
+        path: '',
+        children: []
+      }
+    ];
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(component.heading).toEqual('Header');
+    expect(component.headingRoute).toEqual('/');
+  });
+
+  it('should not add a \/ to a heading route when one is present', () => {
+    component.routes = [
+      {
+        name: 'Header',
+        path: '/',
+        children: []
+      }
+    ];
+
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(component.heading).toEqual('Header');
+    expect(component.headingRoute).toEqual('/');
+  });
+
+  it('should handle header paths if the path is an array', () => {
+    component.routes = [
+      {
+        name: 'Foo',
+        path: ['home', 'foo'],
+        children: []
+      }
+    ];
+
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(component.heading).toEqual('Foo');
+    expect(component.headingRoute).toEqual('/home/foo');
+  });
+
+  it('should add a heading for the root level route', () => {
     fixture.detectChanges();
     expect(component.heading).toEqual('Home');
     expect(component.headingRoute).toEqual('/');
@@ -110,6 +160,6 @@ describe('StacheSidebarComponent', () => {
 
   it('should automatically add a link to the top-level page', () => {
     fixture.detectChanges();
-    expect(component.routes[0].name).toBe('Test');
+    expect(component.routes[0].name).toBe('Home');
   });
 });

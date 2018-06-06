@@ -13,15 +13,18 @@ export class StacheSidebarComponent implements StacheNav, OnInit {
   public routes: StacheNavLink[];
   public heading: string;
   public headingRoute: string | string[];
+  public childRoutes: StacheNavLink[];
 
   public constructor(
     private routeService: StacheRouteService) { }
 
   public ngOnInit(): void {
+
     if (!this.routes) {
-      const activeRoutes = this.routeService.getActiveRoutes();
-      this.routes = this.filterRoutes(activeRoutes);
+      this.routes = this.routeService.getActiveRoutes();
     }
+
+    this.childRoutes = this.filterRoutes(this.routes);
   }
 
   public isHeadingActive(): boolean {
@@ -29,11 +32,13 @@ export class StacheSidebarComponent implements StacheNav, OnInit {
     return (url === this.headingRoute);
   }
 
-  private filterRoutes(activeRoutes: StacheNavLink[]): StacheNavLink[] {
-    const root = activeRoutes[0];
-
+  private filterRoutes(routes: StacheNavLink[]): StacheNavLink[] {
+    const root = routes[0];
+    let headingPath = Array.isArray(root.path) ? root.path.join('/') : root.path;
+    headingPath = headingPath.replace(/^\//, '');
     this.heading = root.name;
-    this.headingRoute = `/${root.path}`;
+
+    this.headingRoute = `/${headingPath}`;
 
     return root.children;
   }
