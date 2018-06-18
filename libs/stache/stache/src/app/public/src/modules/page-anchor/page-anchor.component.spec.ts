@@ -93,6 +93,13 @@ describe('StachePageAnchorComponent', () => {
     expect(component.fragment).toBe('test-content');
   });
 
+  it('should add the fragment from the anchorId input', () => {
+    component.anchorId = 'input-anchor-id';
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(component.fragment).toBe('input-anchor-id');
+  });
+
   it('should add the path from the route service', () => {
     const routeSpy = spyOn(mockRouteService, 'getActiveUrl').and.callThrough();
     component.ngOnInit();

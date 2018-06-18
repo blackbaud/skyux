@@ -3,9 +3,9 @@ import {
   Component,
   ElementRef,
   OnInit,
-  AfterViewInit
+  AfterViewInit,
+  Input
 } from '@angular/core';
-
 import { StacheNavLink } from '../nav';
 
 import { StachePageAnchorService } from './page-anchor.service';
@@ -22,6 +22,9 @@ export class StachePageAnchorComponent implements OnInit, StacheNavLink, AfterVi
   public fragment: string;
   public path: string[];
   public order: number;
+
+  @Input()
+  public anchorId?: string;
 
   public constructor(
     private routerService: StacheRouteService,
@@ -55,7 +58,7 @@ export class StachePageAnchorComponent implements OnInit, StacheNavLink, AfterVi
   }
 
   private getFragment(): string {
-    return this.name
+    return this.anchorId || this.name
       .toLowerCase()
       .replace(/ /g, '-')
       .replace(/[^\w-]+/g, '');
