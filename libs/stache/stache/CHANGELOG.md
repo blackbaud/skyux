@@ -1,3 +1,20 @@
+# 2.8.0 (2018-6-19)
+
+- Refactored and restyled the sidebar layout. [#475](https://github.com/blackbaud/stache2/pull/475)
+  - Created a `stache-sidebar-wrapper` component.
+  - Refactored the styles for the `stache-container` component.
+  - Removed use of the `sky-container` class.
+  - Made better use of the page real estate.
+  - Visually separated the nav from the page content as desired.
+  - Fixed a bug with jumping sidebar when switching between pages that contained a vertical scroll bar vrs no scroll bar.
+  - Fixed an issue with the sidebar not affixing in Internet Explorer.
+  - Fixed a bug where the `isCurrent` styles were not being applied to the current route.
+  - Collapsible sidebar made accessing the sidebar nav easier on mobile devices.
+  - Meet accessibility testing standards for keyboard and screen reader navigation.
+  - Updated the `nav-component` to make use of aria labels and attributes.
+- Fixed a bug where the sidebar header was not displaying properly when route's were passed into the sidebar manually. [#474](https://github.com/blackbaud/stache2/pull/474)
+- Added an optional input to the `stache-page-anchor` component allowing users to specify an id for their anchors. [#484](https://github.com/blackbaud/stache2/pull/484) - Thanks [@Blackbaud-LoriWeiss](https://github.com/Blackbaud-LoriWeiss)!
+
 # 2.7.2 (2018-5-15)
 
 - Updated StacheRouterLink to include browser context menu options on right-click and shift/ctrl/cmd+click functionality for opening new tabs/windows. Users should now use StacheRouterLink instead of Angular RouterLink. [#458](https://github.com/blackbaud/stache2/pull/458)
