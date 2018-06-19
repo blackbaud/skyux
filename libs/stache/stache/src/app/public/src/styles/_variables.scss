@@ -11,6 +11,7 @@ $stache-background-color-danger-dark: $sky-background-color-danger-dark !default
 $stache-background-color-selected: $sky-background-color-selected !default;
 $stache-border-color-neutral-light: $sky-border-color-neutral-light !default;
 $stache-border-color-neutral-medium: $sky-border-color-neutral-medium !default;
+$stache-text-color-icon-borderless: $sky-text-color-icon-borderless !default;
 
 $stache-line-height-base: 1.428571429 !default;
 $stache-line-height-headings: 1.1 !default;
@@ -19,7 +20,12 @@ $stache-font-size-base: 15px !default;
 $stache-border-radius: 3px !default;
 
 $stache-padding: 10px !default;
+$stache-padding-half: $stache-padding / 2 !default;
+$stache-padding-plus-half: $stache-padding + $stache-padding-half !default;
+
 $stache-margin: 10px !default;
+$stache-margin-half: $stache-margin / 2 !default;
+$stache-margin-plus-half: $stache-margin + $stache-margin-half !default;
 
 $stache-grid-columns: 12 !default;
 $stache-grid-gutter: 15px !default;
@@ -33,3 +39,8 @@ $stache-screen-sm-max: $stache-screen-md-min - 1 !default;
 $stache-screen-md-max: $stache-screen-lg-min - 1 !default;
 
 $stache-omnibar-height: 50px !default;
+
+$stache-container-padding: 45px !default;
+
+$stache-sidebar-column-width: 260px !default;
+$stache-sidebar-z-index: 99 !default;

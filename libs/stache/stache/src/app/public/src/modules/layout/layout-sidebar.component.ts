@@ -6,8 +6,7 @@ import { StacheNavLink } from '../nav';
 
 @Component({
   selector: 'stache-layout-sidebar',
-  templateUrl: './layout-sidebar.component.html',
-  styleUrls: ['./layout-sidebar.component.scss']
+  templateUrl: './layout-sidebar.component.html'
 })
 export class StacheLayoutSidebarComponent implements StacheLayout {
   @Input()

@@ -1,0 +1,26 @@
+<div class="stache-sidebar-wrapper"
+  aria-label="Sidebar Navigation"
+  [ngClass]="{
+    'sidebar-closed': !sidebarOpen,
+    'sidebar-open': sidebarOpen  }">
+
+  <div class="stache-sidebar-buttons">
+    <button
+      type="button"
+      class="sky-btn sky-btn-default stache-sidebar-button"
+      (click)="toggleSidebar()"
+      aria-controls="stache-sidebar-content-panel"
+      [attr.aria-expanded]="sidebarOpen"
+      [attr.aria-label]="sidebarLabel">
+
+      <i *ngIf="sidebarOpen" class="fa fa-chevron-left" aria-hidden="true"></i>
+      <i *ngIf="!sidebarOpen" class="fa fa-chevron-right" aria-hidden="true"></i>
+
+    </button>
+  </div>
+
+  <div id="stache-sidebar-content-panel" class="stache-sidebar-content">
+    <stache-sidebar [routes]="sidebarRoutes">
+    </stache-sidebar>
+  </div>
+</div>

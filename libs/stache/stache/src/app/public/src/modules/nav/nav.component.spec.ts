@@ -125,7 +125,7 @@ describe('StacheNavComponent', () => {
   });
 
   it('should return true if a given route is current', () => {
-    component.routes = [{ name: 'Test', path: '/test' }];
+    component.routes = [{ name: 'Test', path: 'test' }];
     const route = component.routes[0];
 
     fixture.detectChanges();

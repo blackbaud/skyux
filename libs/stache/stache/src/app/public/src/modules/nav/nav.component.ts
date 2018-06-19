@@ -80,6 +80,6 @@ export class StacheNavComponent implements OnInit, StacheNav {
       path = path.join('/');
     }
 
-    return (activeUrl === path);
+    return (activeUrl === `/${path}`);
   }
 }

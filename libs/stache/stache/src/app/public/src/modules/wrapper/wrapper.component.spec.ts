@@ -56,6 +56,7 @@ describe('StacheWrapperComponent', () => {
 
   class MockOmbibarService {
     public checkForOmnibar() {}
+    public getHeight() {}
   }
 
   class MockConfigService {

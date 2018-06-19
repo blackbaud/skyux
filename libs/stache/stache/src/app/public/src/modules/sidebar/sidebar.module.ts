@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 
 import { StacheNavModule } from '../nav';
 import { StacheSidebarComponent } from './sidebar.component';
+import { StacheSidebarWrapperComponent } from './sidebar-wrapper.component';
 import { StacheLinkModule } from '../link';
 
 @NgModule({
   declarations: [
-    StacheSidebarComponent
+    StacheSidebarComponent,
+    StacheSidebarWrapperComponent
   ],
   imports: [
     CommonModule,
@@ -15,7 +17,8 @@ import { StacheLinkModule } from '../link';
     StacheLinkModule
   ],
   exports: [
-    StacheSidebarComponent
+    StacheSidebarComponent,
+    StacheSidebarWrapperComponent
   ]
 })
 export class StacheSidebarModule { }

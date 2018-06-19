@@ -9,6 +9,7 @@ import { StacheAffixTestComponent } from './fixtures/affix.component.fixture';
 import { StacheAffixTopDirective } from './affix-top.directive';
 import { StacheAffixModule } from './affix.module';
 import { StacheWindowRef, StacheOmnibarAdapterService } from '../shared';
+import { Subject } from 'rxjs';
 
 class MockOmnibarService {
   public getHeight(): number {
@@ -16,11 +17,17 @@ class MockOmnibarService {
   }
 }
 
+class MockWindowRef {
+  public onResize$ = new Subject();
+}
+
 describe('StacheAffixComponent', () => {
+  let mockWindowRef: any;
   let component: StacheAffixComponent;
   let fixture: ComponentFixture<StacheAffixComponent>;
 
   beforeEach(() => {
+    mockWindowRef = new MockWindowRef();
     TestBed.configureTestingModule({
       imports: [
         StacheAffixModule
@@ -29,7 +36,7 @@ describe('StacheAffixComponent', () => {
         StacheAffixTestComponent
       ],
       providers: [
-        StacheWindowRef,
+        { provide: StacheWindowRef, useValue: mockWindowRef },
         { provide: StacheOmnibarAdapterService, useClass: MockOmnibarService }
       ]
     })
@@ -91,5 +98,24 @@ describe('StacheAffixComponent', () => {
     fixture.detectChanges();
     let affixElement = fixture.debugElement.query(By.css('.stache-affix')).nativeElement;
     expect(affixElement.children[0].getAttribute('stacheaffixtop')).toBeDefined();
+  });
+
+  it('should set the minHeight and maxWidth on window resize', () => {
+    component.wrapper = {
+      nativeElement: {
+        offsetHeight: 10,
+        offsetWidth: 20
+      }
+    };
+    mockWindowRef.onResize$.next();
+    expect(component.minHeightFormatted).toEqual('10px');
+    expect(component.maxWidthFormatted).toEqual('20px');
+  });
+
+  it('should not update the minHeight and maxWidth if no wrapper exists', () => {
+    component.wrapper = undefined;
+    mockWindowRef.onResize$.next();
+    expect(component.minHeightFormatted).toEqual(undefined);
+    expect(component.maxWidthFormatted).toEqual(undefined);
   });
 });

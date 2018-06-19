@@ -7,13 +7,14 @@
 .stache-sidebar-heading {
   font-size: 1.5em;
   font-weight: 300;
-  margin: 1em 0 0.85em;
-  cursor: pointer;
-  color: $stache-text-color-default;
-  display: inline-block;
-  padding-left: 11px;
-  line-height: 1.1;
   border-left: 4px solid transparent;
+
+  .stach-sidebar-heading-link {
+    margin: 1em 0 0.85em;
+    color: $stache-text-color-default;
+    padding-left: 11px;
+    line-height: 1.1;
+  }
 
   &.active {
     border-left-color: $stache-background-color-primary-dark;
@@ -36,11 +37,6 @@
   -webkit-hyphens: auto;
   -ms-hyphens: auto;
   hyphens: auto;
-
-  @media (min-width: $stache-screen-sm-min) {
-    max-height: 90vh;
-    overflow: auto;
-  }
 
   .stache-nav-list-item {
     margin: 3px 0;

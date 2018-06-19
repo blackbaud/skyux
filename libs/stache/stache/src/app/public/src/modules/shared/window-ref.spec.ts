@@ -22,4 +22,16 @@ describe('StacheWindowRef', () => {
     expect(windowRef).toBeDefined();
     expect(eventManager.addGlobalEventListener).toHaveBeenCalled();
   });
+
+  it('should trigger the onResize observable next method on window resize', () => {
+    let resized = false;
+    const eventManager = new MockEventManager();
+    const windowRef = new StacheWindowRef(eventManager as EventManager);
+    windowRef.onResize$.subscribe((event) => {
+      resized = true;
+    });
+
+    windowRef.nativeWindow.dispatchEvent(new Event('resize'));
+    expect(resized).toEqual(true);
+  });
 });
