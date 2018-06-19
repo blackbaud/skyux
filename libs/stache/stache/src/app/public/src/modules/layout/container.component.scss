@@ -16,7 +16,7 @@
 @media (min-width: $stache-screen-md-min) {
   .stache-container {
     width: 100%;
-    padding-left: calc(#{ $stache-sidebar-column-width } + #{ $stache-container-padding) };
+    padding-left: calc(#{ $stache-sidebar-column-width } + #{ $stache-container-padding });
     padding-right: $stache-container-padding;
   }
 }
