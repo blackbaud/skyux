@@ -21,8 +21,10 @@ import { RouterLinkStubDirective } from './fixtures/router-link-stub.directive';
 import { StacheLinkModule } from '../link';
 
 describe('StacheSidebarWrapperComponent', () => {
+  const CONTAINER_SIDEBAR_CLASSNAME = 'stache-container-sidebar';
   let component: StacheSidebarWrapperComponent;
   let fixture: ComponentFixture<StacheSidebarWrapperComponent>;
+  let mockElement: HTMLElement;
   let mockRouteService: any;
   let mockOmnibarService: any;
   let mockWindowRef: any;
@@ -60,11 +62,17 @@ describe('StacheSidebarWrapperComponent', () => {
 
   class MockWindowRef {
     public nativeWindow = {
-     innerWidth: windowWidth
+     innerWidth: windowWidth,
+     document: {
+        querySelector() {
+          return mockElement;
+        },
+        querySelectorAll() {}
+      }
     };
 
     public onResize$ = new Subject();
-  }
+}
 
   class MockOmnibarService {
     public getHeight() {
@@ -154,4 +162,20 @@ describe('StacheSidebarWrapperComponent', () => {
     fixture.detectChanges();
     expect(fixture.debugElement.nativeElement).toBeAccessible();
   }));
+
+  it(`should add the class ${ CONTAINER_SIDEBAR_CLASSNAME } to the stache-container if one exists`, () => {
+    mockElement = document.createElement('div');
+    component.ngAfterViewInit();
+    expect(mockElement.className).toContain(CONTAINER_SIDEBAR_CLASSNAME);
+    mockElement.remove();
+  });
+
+  it(`should remove the class ${ CONTAINER_SIDEBAR_CLASSNAME } from the stache-container on destroy`, () => {
+    mockElement = document.createElement('div');
+    component.ngAfterViewInit();
+    expect(mockElement.className).toContain(CONTAINER_SIDEBAR_CLASSNAME);
+    component.ngOnDestroy();
+    expect(mockElement.className).not.toContain(CONTAINER_SIDEBAR_CLASSNAME);
+    mockElement.remove();
+  });
 });

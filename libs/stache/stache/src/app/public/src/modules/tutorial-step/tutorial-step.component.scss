@@ -44,7 +44,7 @@
     content: counter(myCounter);
     position: absolute;
     text-align: center;
-    z-index: 100;
+    z-index: 50;
 
     @media (min-width: $stache-screen-sm-min) {
       height: 58px;

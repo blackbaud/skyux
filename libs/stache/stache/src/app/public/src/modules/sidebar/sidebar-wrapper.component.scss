@@ -54,7 +54,7 @@
   .stache-sidebar-buttons {
     background-color: #fff;
     position: absolute;
-    right: 5px;
+    right: 17px;
     top: 20px;
 
     .stache-sidebar-button {
@@ -68,9 +68,20 @@
   }
 }
 
+::ng-deep
+.stache-sidebar-heading  {
+  // Keep the title from over-lapping the close button
+  max-width: calc(100% - 25px);
+}
+
 @media (min-width: $stache-screen-md-min) {
   .stache-sidebar-buttons {
     display: none;
+  }
+  ::ng-deep
+  .stache-sidebar-heading  {
+    // Keep the title from over-lapping the close button
+    max-width: 100%;
   }
 }
 
