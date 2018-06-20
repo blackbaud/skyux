@@ -1,3 +1,12 @@
+# 2.8.1 (2019-6-20)
+
+- Style bugfixes. [#487](https://github.com/blackbaud/stache2/pull/487)
+  - Style bugfix with sidebar button overlapping scroll bar.
+  - Style bugfix with the container layout being off center.
+  - Style change tutorial pattern width.
+  - Style bugfix tutorial number z-index lowered.
+  - Style enhancement the `sidebar-wrapper` now adds a class to the `stache-container` component to always add padding for the sidebar.
+
 # 2.8.0 (2018-6-19)
 
 - Refactored and restyled the sidebar layout. [#475](https://github.com/blackbaud/stache2/pull/475)
