@@ -1,4 +1,14 @@
-# 2.8.1 (2019-6-20)
+# 2.9.0 (2018-06-28)
+- Style fixes. [#489](https://github.com/blackbaud/stache2/pull/489)
+  - The sidebar now properly positions itself under the omnibar, dev bar, and elements above the stache-layout.
+  - The sidebar now adjusts its height to not overlap the footer.
+  - The page layouts are now a max-width of 1600px.
+- Created the `stache-footer` component.
+  - Added to the footer component to the layout's.
+- Fixed a bug with the affix not functioning properly in IE.
+- Fixed a bug with the affix not calculating the heights properly when applied to a nested element with a relative parent.
+
+# 2.8.1 (2018-6-20)
 
 - Style bugfixes. [#487](https://github.com/blackbaud/stache2/pull/487)
   - Style bugfix with sidebar button overlapping scroll bar.
