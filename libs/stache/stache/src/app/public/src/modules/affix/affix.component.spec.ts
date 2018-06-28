@@ -19,6 +19,16 @@ class MockOmnibarService {
 
 class MockWindowRef {
   public onResize$ = new Subject();
+  public nativeWindow = {
+    document: {
+      body: document.createElement('div'),
+      querySelector(selector: string) {
+        if (selector === '.stache-footer-wrapper') {
+          return document.createElement('div');
+        }
+      }
+    }
+  };
 }
 
 describe('StacheAffixComponent', () => {

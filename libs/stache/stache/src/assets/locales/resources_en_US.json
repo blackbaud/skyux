@@ -1,0 +1,14 @@
+{
+  "stache_copyright_label": {
+    "message": "Blackbaud, Inc. All rights reserved.",
+    "_description": "Text to accompany the copyright date in the footer"
+  },
+  "stache_sidebar_label": {
+    "message": "Sidebar Navigation",
+    "_description": "Label for the sidebar navigation"
+  },
+  "stache_sidebar_toggle_button": {
+    "message": "Toggle sidebar",
+    "_description": "Button text to show or hide sidebar menu"
+  }
+}

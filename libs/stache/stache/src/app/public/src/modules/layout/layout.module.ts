@@ -37,15 +37,16 @@ import { StacheLayoutSidebarComponent } from './layout-sidebar.component';
     StachePageAnchorModule
   ],
   declarations: [
-    StacheContainerComponent,
     StacheLayoutComponent,
     StacheLayoutBlankComponent,
     StacheLayoutContainerComponent,
-    StacheLayoutSidebarComponent
+    StacheLayoutSidebarComponent,
+    StacheContainerComponent
+
   ],
   exports: [
-    StacheContainerComponent,
-    StacheLayoutComponent
+    StacheLayoutComponent,
+    StacheContainerComponent
   ],
   providers: []
 })

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { By } from '@angular/platform-browser';
+import {Pipe, PipeTransform} from '@angular/core';
 
 import { expect } from '@blackbaud/skyux-lib-testing';
 
@@ -19,15 +19,44 @@ import {
 
 import { RouterLinkStubDirective } from './fixtures/router-link-stub.directive';
 import { StacheLinkModule } from '../link';
+import { SkyAppResourcesService } from '@blackbaud/skyux-builder/runtime/i18n';
+import { SkyMediaQueryModule } from '@blackbaud/skyux/dist/core';
+
+@Pipe({
+  name: 'skyAppResources'
+})
+export class MockSkyAppResourcesPipe implements PipeTransform {
+  public transform(value: number): number {
+    return value;
+  }
+}
+
+class MockSkyAppResourcesService {
+  public getString(): any {
+    return {
+      subscribe: (cb: any) => {
+        cb();
+      },
+      take: () => {
+        return {
+          subscribe: (cb: any) => {
+            cb();
+          }
+        };
+      }
+    };
+  }
+}
 
 describe('StacheSidebarWrapperComponent', () => {
-  const CONTAINER_SIDEBAR_CLASSNAME = 'stache-container-sidebar';
+  const CONTAINER_SIDEBAR_CLASSNAME = 'stache-sidebar-enabled';
   let component: StacheSidebarWrapperComponent;
   let fixture: ComponentFixture<StacheSidebarWrapperComponent>;
-  let mockElement: HTMLElement;
+  let mockElement: HTMLElement = document.createElement('div');
   let mockRouteService: any;
   let mockOmnibarService: any;
   let mockWindowRef: any;
+  let mockSkyAppResourcesService: any;
 
   let activeUrl: string = '/';
   let windowWidth = 1000;
@@ -64,10 +93,7 @@ describe('StacheSidebarWrapperComponent', () => {
     public nativeWindow = {
      innerWidth: windowWidth,
      document: {
-        querySelector() {
-          return mockElement;
-        },
-        querySelectorAll() {}
+       body: mockElement
       }
     };
 
@@ -84,20 +110,24 @@ describe('StacheSidebarWrapperComponent', () => {
     mockRouteService = new MockRouteService();
     mockOmnibarService = new MockOmnibarService();
     mockWindowRef = new MockWindowRef();
+    mockSkyAppResourcesService = new MockSkyAppResourcesService();
 
     TestBed.configureTestingModule({
       declarations: [
         StacheNavComponent,
         StacheSidebarComponent,
         StacheSidebarWrapperComponent,
-        RouterLinkStubDirective
+        RouterLinkStubDirective,
+        MockSkyAppResourcesPipe
       ],
       imports: [
         RouterTestingModule,
-        StacheLinkModule
+        StacheLinkModule,
+        SkyMediaQueryModule
       ],
       providers: [
         StacheNavService,
+        { provide: SkyAppResourcesService, useValue: mockSkyAppResourcesService },
         { provide: StacheWindowRef, useValue: mockWindowRef },
         { provide: StacheOmnibarAdapterService, useValue: mockOmnibarService },
         { provide: StacheRouteService, useValue: mockRouteService },
@@ -115,39 +145,12 @@ describe('StacheSidebarWrapperComponent', () => {
     expect(fixture).toExist();
   });
 
-  it('should set the top value for the wrapper based on the omnibar height', () => {
-    component.ngOnInit();
-    let el = fixture.debugElement.query(By.css('.stache-sidebar-wrapper')).nativeElement;
-    expect(el.style.top).toEqual(`${omnibarHeight}px`);
-
-    omnibarHeight = 0;
-    component.ngOnInit();
-    fixture.detectChanges();
-    expect(el.style.top).toEqual(`0px`);
-  });
-
   it('should open and close the sidebar', () => {
-    expect(component.sidebarOpen).toEqual(false);
+    component.sidebarOpen = false;
     component.toggleSidebar();
     expect(component.sidebarOpen).toEqual(true);
     component.toggleSidebar();
     expect(component.sidebarOpen).toEqual(false);
-  });
-
-  it('should close the sidebar when the window size is below the WINDOW_SIZE_MID', () => {
-    component.sidebarOpen = true;
-    mockWindowRef.nativeWindow.innerWidth = 10;
-    component.ngOnInit();
-    fixture.detectChanges();
-    expect(component.sidebarOpen).toBe(false);
-  });
-
-  it('should open the sidebar when the window size is above the WINDOW_SIZE_MID', () => {
-    component.sidebarOpen = false;
-    mockWindowRef.nativeWindow.innerWidth = 1000;
-    component.ngOnInit();
-    fixture.detectChanges();
-    expect(component.sidebarOpen).toBe(true);
   });
 
   it('should call the check the window width on window resize', () => {
@@ -163,15 +166,13 @@ describe('StacheSidebarWrapperComponent', () => {
     expect(fixture.debugElement.nativeElement).toBeAccessible();
   }));
 
-  it(`should add the class ${ CONTAINER_SIDEBAR_CLASSNAME } to the stache-container if one exists`, () => {
-    mockElement = document.createElement('div');
+  it(`should add the class ${ CONTAINER_SIDEBAR_CLASSNAME } to the body if one exists`, () => {
     component.ngAfterViewInit();
     expect(mockElement.className).toContain(CONTAINER_SIDEBAR_CLASSNAME);
     mockElement.remove();
   });
 
-  it(`should remove the class ${ CONTAINER_SIDEBAR_CLASSNAME } from the stache-container on destroy`, () => {
-    mockElement = document.createElement('div');
+  it(`should remove the class ${ CONTAINER_SIDEBAR_CLASSNAME } from the body on destroy`, () => {
     component.ngAfterViewInit();
     expect(mockElement.className).toContain(CONTAINER_SIDEBAR_CLASSNAME);
     component.ngOnDestroy();

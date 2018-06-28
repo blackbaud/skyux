@@ -1,13 +1,15 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, Renderer2, AfterViewInit } from '@angular/core';
 
 import { StacheLayout } from './layout';
 import { StacheNavLink } from '../nav';
+import { StacheWindowRef } from '../shared';
 
 @Component({
   selector: 'stache-layout',
-  templateUrl: './layout.component.html'
+  templateUrl: './layout.component.html',
+  styleUrls: ['./layout.component.scss']
 })
-export class StacheLayoutComponent implements OnInit, StacheLayout {
+export class StacheLayoutComponent implements OnInit, StacheLayout, AfterViewInit {
   @Input()
   public pageTitle: string;
 
@@ -46,6 +48,14 @@ export class StacheLayoutComponent implements OnInit, StacheLayout {
   @ViewChild('sidebarLayout')
   private sidebarTemplateRef: any;
 
+  constructor(
+    private elementRef: ElementRef,
+    private renderer: Renderer2,
+    private windowRef: StacheWindowRef
+  ) {
+
+  }
+
   public ngOnInit(): void {
     switch (this.layoutType) {
       case 'blank':
@@ -58,5 +68,15 @@ export class StacheLayoutComponent implements OnInit, StacheLayout {
         this.templateRef = this.containerTemplateRef;
         break;
     }
+  }
+
+  public ngAfterViewInit() {
+    this.setMinHeight();
+  }
+
+  private setMinHeight() {
+    let wrapper = this.elementRef.nativeElement.querySelector('.stache-layout-wrapper');
+    let minHeight = this.windowRef.nativeWindow.innerHeight - wrapper.getBoundingClientRect().top;
+    this.renderer.setStyle(wrapper, 'min-height', `${minHeight}px`);
   }
 }

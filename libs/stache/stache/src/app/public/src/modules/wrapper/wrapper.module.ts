@@ -6,7 +6,7 @@ import { StacheTitleService } from './title.service';
 import { StachePageAnchorModule } from '../page-anchor';
 import { StacheLayoutModule } from '../layout';
 import { StacheAnalyticsModule } from '../analytics';
-
+import { StacheFooterModule } from '../footer';
 import { StacheWrapperComponent } from './wrapper.component';
 
 @NgModule({
@@ -15,7 +15,8 @@ import { StacheWrapperComponent } from './wrapper.component';
     RouterModule,
     StacheAnalyticsModule,
     StachePageAnchorModule,
-    StacheLayoutModule
+    StacheLayoutModule,
+    StacheFooterModule
   ],
   declarations: [
     StacheWrapperComponent

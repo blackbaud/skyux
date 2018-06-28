@@ -1,0 +1,17 @@
+<footer class="stache-footer-wrapper">
+  <div class="stache-footer-content stache-max-width-container">
+    <h1 class="stache-footer-heading">
+      {{ siteName }}
+    </h1>
+    <stache-nav
+      navType="footer"
+      [routes]="footerLinks"
+    >
+    </stache-nav>
+    <p *ngIf="copyrightLabel"
+      class="stache-footer-copyright-label"
+    >
+      &copy; {{ copyrightDate | date: 'yyyy' }} {{ copyrightLabel }}
+    </p>
+  </div>
+</footer>

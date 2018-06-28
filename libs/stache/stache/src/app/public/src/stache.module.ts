@@ -29,6 +29,7 @@ import { StacheTableOfContentsModule } from './modules/table-of-contents';
 import { StacheTutorialModule } from './modules/tutorial';
 import { StacheTutorialStepModule } from './modules/tutorial-step';
 import { StacheVideoModule } from './modules/video';
+import { StacheFooterModule } from './modules/footer';
 import { StacheWrapperModule } from './modules/wrapper';
 
 export * from './modules/shared';
@@ -44,6 +45,7 @@ export * from './modules/shared';
     StacheCodeModule,
     StacheCodeBlockModule,
     StacheEditButtonModule,
+    StacheFooterModule,
     StacheGridModule,
     StacheHeroModule,
     StacheImageModule,

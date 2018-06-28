@@ -12,7 +12,6 @@ import { StacheWindowRef, StacheOmnibarAdapterService, TestUtility } from '../sh
 describe('AffixTopTestDirective', () => {
   const className: string = StacheAffixTopDirective.AFFIX_CLASS_NAME;
   let testOmnibarHeight: number = 0;
-
   class MockOmnibarService {
     public getHeight(): number {
       return testOmnibarHeight;
@@ -127,7 +126,7 @@ describe('AffixTopTestDirective', () => {
     fakeAsync(() => {
       const element = directiveElements[0].nativeElement;
       element.style.marginTop = '500px';
-
+      windowRef.scrollTo(0, 0);
       fixture.detectChanges();
       tick();
 
@@ -136,6 +135,31 @@ describe('AffixTopTestDirective', () => {
 
       TestUtility.triggerDomEvent(windowRef, 'scroll');
       expect(element).not.toHaveCssClass(className);
+    })
+  );
+
+  it('should set the maxHeight of the element based on footer offset - window pageYOffset - omnibar height',
+    fakeAsync(() => {
+      const element = directiveElements[0].nativeElement;
+      const directiveInstance = directiveElements[0].injector.get(StacheAffixTopDirective);
+      fixture.detectChanges();
+      tick();
+      directiveInstance.footerWrapper = {
+        offsetParent: undefined,
+        offsetTop: 450,
+        getBoundingClientRect() {
+          return {
+            top: 0
+          };
+        }
+      } as HTMLElement;
+
+      windowRef.innerHeight = 800;
+      windowRef.pageYOffset = 350;
+      testOmnibarHeight = 50;
+
+      TestUtility.triggerDomEvent(windowRef, 'scroll');
+      expect(element.style.height).toEqual('50px');
     })
   );
 });

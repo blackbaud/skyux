@@ -1,0 +1,29 @@
+@import '../../styles/_variables';
+
+.stache-footer-wrapper {
+  background-color: $stache-background-color-neutral-light;
+  position: relative;
+  z-index: $stache-footer-z-index;
+
+  ::ng-deep
+  .stache-nav-anchor {
+      color: #007399;
+  }
+
+  .stache-footer-content {
+    padding: $stache-padding $stache-container-padding;
+  }
+}
+
+.stache-footer-heading {
+  margin: $stache-margin 0;
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+.stache-footer-copyright-label {
+  color: $stache-text-color-deemphasized;
+  font-size: 85%;
+}
+
+

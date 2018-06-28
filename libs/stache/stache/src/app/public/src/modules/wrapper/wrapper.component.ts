@@ -13,6 +13,7 @@ import { StacheTitleService } from './title.service';
 import { StacheConfigService, StacheJsonDataService, StacheOmnibarAdapterService, StacheWindowRef } from '../shared';
 import { StacheNavLink, StacheNavService } from '../nav';
 import { StachePageAnchorService } from '../page-anchor/page-anchor.service';
+import { InputConverter } from '../shared';
 
 const _get = require('lodash.get');
 
@@ -45,6 +46,10 @@ export class StacheWrapperComponent implements OnInit, OnDestroy, AfterViewInit 
 
   @Input()
   public showEditButton: boolean = this.checkEditButtonUrl();
+
+  @Input()
+  @InputConverter()
+  public showFooter: boolean = this.checkFooterData();
 
   @Input()
   public showTableOfContents: boolean = false;
@@ -112,6 +117,11 @@ export class StacheWrapperComponent implements OnInit, OnDestroy, AfterViewInit 
   private checkEditButtonUrl(): boolean {
     const url = _get(this.config, 'skyux.appSettings.stache.editButton.url');
     return url !== undefined;
+  }
+
+  private checkFooterData(): boolean {
+    const footerData = _get(this.config, 'skyux.appSettings.stache.footer');
+    return footerData !== undefined;
   }
 
   private checkRouteHash(): void {

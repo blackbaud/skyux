@@ -4,16 +4,30 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 
 import { StacheLayoutComponent } from './layout.component';
+import { StacheWindowRef } from '../shared';
 
 describe('StacheLayoutComponent', () => {
   let component: StacheLayoutComponent;
   let fixture: ComponentFixture<StacheLayoutComponent>;
   let sampleRoutes = [{ name: 'test', path: '/test' }];
+  let mockWindowRef: any;
+
+  class MockWindowRef {
+    public nativeWindow = {
+      document: {
+        body: document.createElement('div')
+      }
+    };
+  }
 
   beforeEach(() => {
+    mockWindowRef = new MockWindowRef;
     TestBed.configureTestingModule({
       declarations: [
         StacheLayoutComponent
+      ],
+      providers: [
+        { provide: StacheWindowRef, useValue: mockWindowRef }
       ],
       schemas: [
         NO_ERRORS_SCHEMA

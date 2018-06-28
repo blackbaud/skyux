@@ -1,16 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-
 import { Observable } from 'rxjs/Observable';
-
+import { SkyAppResourcesService } from '@blackbaud/skyux-builder/runtime/i18n';
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 
 import { StacheWrapperTestComponent } from './fixtures/wrapper.component.fixture';
 import { StacheWrapperComponent } from './wrapper.component';
+import { StacheFooterModule } from '../footer';
 import { StacheTitleService } from './title.service';
-
 import { StacheNavService, StacheNavLink } from '../nav';
 
 import {
@@ -23,8 +21,18 @@ import {
 } from '../shared';
 
 import { StacheLayoutModule } from '../layout';
-import { StachePageAnchorModule } from '../page-anchor';
-import { StachePageAnchorService } from '../page-anchor/page-anchor.service';
+import { StachePageAnchorModule, StachePageAnchorService } from '../page-anchor';
+import { SkyMediaQueryModule } from '@blackbaud/skyux/dist/core';
+import {Pipe, PipeTransform} from '@angular/core';
+
+@Pipe({
+  name: 'skyAppResources'
+})
+export class MockSkyAppResourcesPipe implements PipeTransform {
+  public transform(value: number): number {
+    return value;
+  }
+}
 
 describe('StacheWrapperComponent', () => {
   let component: StacheWrapperComponent;
@@ -38,6 +46,24 @@ describe('StacheWrapperComponent', () => {
   let mockAnchorService: any;
   let mockOmnibarService: any;
   let mockTextContent: string = '';
+  let mockSkyAppResourcesService: any;
+
+  class MockSkyAppResourcesService {
+    public getString(): any {
+      return {
+        subscribe: (cb: any) => {
+          cb();
+        },
+        take: () => {
+          return {
+            subscribe: (cb: any) => {
+              cb();
+            }
+          };
+        }
+      };
+    }
+  }
 
   class MockActivatedRoute {
     public fragment: Observable<string> = Observable.of('test-route');
@@ -72,6 +98,16 @@ describe('StacheWrapperComponent', () => {
     public runtime: any = {
       routes: []
     };
+    public stache: any = {
+      footer: {
+        nav: [
+          {
+            title: 'Some Title',
+            text: 'Some text'
+          }
+        ]
+      }
+    };
   }
 
   class MockJsonDataService {
@@ -104,6 +140,7 @@ describe('StacheWrapperComponent', () => {
   class MockWindowService {
     public nativeWindow = {
       document: {
+        body: document.createElement('div'),
         getElementById: jasmine.createSpy('getElementById').and.callFake(function(id: any) {
           if (id !== undefined) {
             return {
@@ -113,19 +150,25 @@ describe('StacheWrapperComponent', () => {
           return id;
         }),
         querySelector: jasmine.createSpy('querySelector').and.callFake(function(selector: string) {
-          if (selector === '.stache-container') {
-            return document.createElement('div');
-          }
           return {
             textContent: mockTextContent,
             classList: {
               add(cssClass: string) { }
             },
             scrollIntoView() { },
-            offsetHeight: 50
+            offsetHeight: 50,
+            getBoundingClientRect() {
+              return {
+                top: 100
+              };
+            }
           };
         }),
         querySelectorAll: jasmine.createSpy('querySelectorAll').and.callFake((selector: string): any[] => {
+          if (selector === '.stache-container') {
+            let mockDiv = document.createElement('div');
+            return [mockDiv];
+          }
             return [];
         })
       },
@@ -160,16 +203,20 @@ describe('StacheWrapperComponent', () => {
     mockWindowService = new MockWindowService({});
     mockAnchorService = new MockAnchorService();
     mockOmnibarService = new MockOmbibarService();
+    mockSkyAppResourcesService = new MockSkyAppResourcesService();
 
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
         StachePageAnchorModule,
-        StacheLayoutModule
+        StacheLayoutModule,
+        StacheFooterModule,
+        SkyMediaQueryModule
       ],
       declarations: [
         StacheWrapperComponent,
-        StacheWrapperTestComponent
+        StacheWrapperTestComponent,
+        MockSkyAppResourcesPipe
       ],
       providers: [
         StacheRouteService,
@@ -181,6 +228,7 @@ describe('StacheWrapperComponent', () => {
         { provide: StacheWindowRef, useValue: mockWindowService },
         { provide: StacheConfigService, useValue: mockConfigService },
         { provide: StachePageAnchorService, useValue: mockAnchorService },
+        { provide: SkyAppResourcesService, useValue: mockSkyAppResourcesService },
         STACHE_ROUTE_METADATA_PROVIDERS
       ]
     })
@@ -188,6 +236,7 @@ describe('StacheWrapperComponent', () => {
 
     fixture = TestBed.createComponent(StacheWrapperComponent);
     component = fixture.componentInstance;
+    component.showFooter = false;
   });
 
   it('should render the component', () => {

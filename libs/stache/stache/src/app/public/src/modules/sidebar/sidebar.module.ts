@@ -5,6 +5,9 @@ import { StacheNavModule } from '../nav';
 import { StacheSidebarComponent } from './sidebar.component';
 import { StacheSidebarWrapperComponent } from './sidebar-wrapper.component';
 import { StacheLinkModule } from '../link';
+import {
+  SkyAppRuntimeModule
+} from '@blackbaud/skyux-builder/runtime';
 
 @NgModule({
   declarations: [
@@ -14,7 +17,8 @@ import { StacheLinkModule } from '../link';
   imports: [
     CommonModule,
     StacheNavModule,
-    StacheLinkModule
+    StacheLinkModule,
+    SkyAppRuntimeModule
   ],
   exports: [
     StacheSidebarComponent,

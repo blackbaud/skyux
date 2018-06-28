@@ -1,87 +1,51 @@
 @import '../../styles/_variables';
 
 .stache-sidebar-wrapper {
-  position: fixed;
+  background-color: #fff;
+  position: absolute !important;
   z-index: $stache-sidebar-z-index;
-  bottom: 0;
   left: 0;
+  top: 0;
+  bottom: 0;
   border-right: 1px solid $stache-border-color-neutral-medium;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
 
-  &.sidebar-closed {
-    border-right: none;
-    box-shadow: none;
-    transition: 300ms;
-
-    .stache-sidebar-buttons {
-      transition: 300ms;
-      right: -36px;
-      top: 20px;
-      border-bottom-left-radius: 0;
-      border-top-left-radius: 0;
-      border-left: none;
-    }
-
-    .stache-sidebar-content {
-      transition: 300ms;
-      margin-left: -$stache-sidebar-column-width;
-    }
-
-    .stache-sidebar-button {
-      border-bottom-left-radius: 0;
-      border-top-left-radius: 0;
-      border-left: none;
-    }
+  .stache-sidebar-buttons {
+    position: absolute;
+    right: 17px;
+    top: 20px;
   }
 
-  &.sidebar-open {
-    .stache-sidebar-content {
-      transition: 300ms;
-      margin-left: 0;
+  @media (min-width: $stache-screen-md-min) {
+    box-shadow: none;
+    .stache-sidebar-buttons {
+      display: none;
     }
   }
 
   .stache-sidebar-content {
-    background-color: #fff;
     width: $stache-sidebar-column-width;
-    padding: $stache-padding-plus-half;
     padding-top: $stache-padding-half;
-    padding-bottom: $stache-padding * 2;
-    height: 100%;
+    padding-right: 55px;
+    padding-bottom: $stache-padding-plus-half;
+    padding-left: $stache-padding-half;
+    max-height: 100%;
     overflow-y: auto;
   }
 
-  .stache-sidebar-buttons {
-    background-color: #fff;
-    position: absolute;
-    right: 17px;
-    top: 20px;
+  &.stache-sidebar-closed {
+    border-right: none;
+    margin-left: -$stache-sidebar-column-width;
 
-    .stache-sidebar-button {
-      display: initial;
-      color: $stache-text-color-icon-borderless;
-
-      &:hover {
-        color: darken($stache-text-color-icon-borderless, 10%);
-      }
+    .stache-sidebar-buttons {
+      right: -36px;
+      top: 20px;
     }
   }
-}
 
-::ng-deep
-.stache-sidebar-heading  {
-  // Keep the title from over-lapping the close button
-  max-width: calc(100% - 25px);
-}
-
-@media (min-width: $stache-screen-md-min) {
-  .stache-sidebar-buttons {
-    display: none;
-  }
   ::ng-deep
-  .stache-sidebar-heading  {
-    // Keep the title from over-lapping the close button
-    max-width: 100%;
+  &.stache-affix-top {
+    position: fixed !important;
+    left: auto;
   }
 }
-

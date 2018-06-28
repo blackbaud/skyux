@@ -3,25 +3,27 @@
 .stache-container {
   max-width: 100%;
   margin: 0 auto;
-  padding-left: $stache-container-mobile-padding;
+  padding-left: $stache-container-padding;
   padding-right: $stache-padding-plus-half;
 }
 
 @media (min-width: $stache-screen-sm-min) {
   .stache-container {
-    padding: 0 $stache-container-mobile-padding;
+    padding: 0 $stache-container-padding;
   }
 }
 
 @media (min-width: $stache-screen-md-min) {
   .stache-container {
     width: 100%;
-    padding: 0 $stache-container-padding;
   }
+}
 
-  // stache-container-sidebar class is added by the sidebar-wrapper component.
-  .stache-container.stache-container-sidebar {
-    transition: 300ms;
-    padding-left: calc( #{ $stache-sidebar-column-width } + #{ $stache-container-mobile-padding });
+::ng-deep
+.stache-sidebar-enabled {
+  @media (min-width: $stache-screen-md-min) {
+    .stache-container {
+      padding-left: calc( #{ $stache-sidebar-column-width } + #{ $stache-container-padding });
+    }
   }
 }

@@ -1,5 +1,6 @@
-<stache-sidebar-wrapper [sidebarRoutes]="sidebarRoutes">
+<stache-sidebar-wrapper stacheAffixTop [sidebarRoutes]="sidebarRoutes">
 </stache-sidebar-wrapper>
+
 
 <stache-layout-blank identifier="sidebar">
   <stache-container>
@@ -24,6 +25,5 @@
       <ng-content></ng-content>
   </stache-container>
 </stache-layout-blank>
-
 <stache-back-to-top *ngIf="showBackToTop">
 </stache-back-to-top>

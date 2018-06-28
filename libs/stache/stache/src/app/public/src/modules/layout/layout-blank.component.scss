@@ -1,9 +1,8 @@
 @import '../../styles/_variables';
 
 .stache-layout {
-  padding-top: 20px;
-  padding-bottom: $stache-grid-gutter;
-  background-color: #fff;
+  padding-top: $stache-padding * 2;
+  padding-bottom: $stache-padding * 4;
 }
 
 .stache-layout-blank {
