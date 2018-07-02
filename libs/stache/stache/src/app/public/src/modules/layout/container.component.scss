@@ -3,8 +3,7 @@
 .stache-container {
   max-width: 100%;
   margin: 0 auto;
-  padding-left: $stache-container-padding;
-  padding-right: $stache-padding-plus-half;
+  padding: 0 $stache-padding-plus-half;
 }
 
 @media (min-width: $stache-screen-sm-min) {
@@ -21,9 +20,11 @@
 
 ::ng-deep
 .stache-sidebar-enabled {
-  @media (min-width: $stache-screen-md-min) {
-    .stache-container {
-      padding-left: calc( #{ $stache-sidebar-column-width } + #{ $stache-container-padding });
+  .stache-container {
+    padding-left: $stache-container-padding;
+
+    @media (min-width: $stache-screen-md-min) {
+        padding-left: calc( #{ $stache-sidebar-column-width } + #{ $stache-container-padding });
     }
   }
 }

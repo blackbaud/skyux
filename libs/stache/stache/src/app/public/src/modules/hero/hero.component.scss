@@ -18,6 +18,15 @@
   margin: 100px 0 80px;
   text-align: center;
   z-index: 1;
+  padding: 0 $stache-padding-plus-half;
+
+  @media (min-width: $stache-screen-md-min) {
+    padding: 0 $stache-container-padding;
+  }
+
+  @media (min-width: $stache-container-max-width) {
+    padding: 0;
+  }
 }
 
 .stache-hero-overlay {
