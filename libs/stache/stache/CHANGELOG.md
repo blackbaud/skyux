@@ -1,3 +1,8 @@
+# 2.9.2 (2018-07-02)
+- Style adjustments [#498](https://github.com/blackbaud/stache2/pull/498)
+  - Added padding to the `stache-hero` at mobile sizes.
+  - Adjusted padding to be even at mobile sizes on the container layout.
+
 # 2.9.1 (2018-07-02)
 - Fixed a style bug that was adding extra margin to the `stache-hero` component. [#496](https://github.com/blackbaud/stache2/pull/496)
 
