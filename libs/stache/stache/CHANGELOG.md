@@ -1,3 +1,6 @@
+# 2.9.1 (2018-07-02)
+- Fixed a style bug that was adding extra margin to the `stache-hero` component. [#496](https://github.com/blackbaud/stache2/pull/496)
+
 # 2.9.0 (2018-06-28)
 - Style fixes. [#489](https://github.com/blackbaud/stache2/pull/489)
   - The sidebar now properly positions itself under the omnibar, dev bar, and elements above the stache-layout.
