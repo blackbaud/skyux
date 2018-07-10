@@ -2,6 +2,7 @@
 
 .stache-back-to-top {
   position: fixed;
+  z-index: $stache-back-to-top-z-index;
   bottom: 10px;
   right: 10px;
   color: $stache-text-color-on-dark;
