@@ -5,28 +5,8 @@
   z-index: $stache-back-to-top-z-index;
   bottom: 10px;
   right: 10px;
-  color: $stache-text-color-on-dark;
-  background-color: $stache-text-color-action-primary;
-  border-radius: 5px;
-  height: 30px;
-  width: 30px;
-  text-align: center;
-  font-size: 2em;
-  line-height: 1;
   opacity: 1;
   transition: opacity .5s;
-
-  &:hover,
-  &:focus {
-    cursor: pointer;
-    background-color: darken($stache-text-color-action-primary, 10%);
-  }
-}
-
-i.fa {
-  font-size: 16px;
-  display: block;
-  margin-top: 5px;
 }
 
 .hidden {

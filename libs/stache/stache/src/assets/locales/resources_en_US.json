@@ -10,5 +10,9 @@
   "stache_sidebar_toggle_button": {
     "message": "Toggle sidebar",
     "_description": "Button text to show or hide sidebar menu"
+  },
+  "stache_back_to_top_button": {
+    "message": "Scroll back to the top of the page",
+    "_description": "Button title for back to top button"
   }
 }

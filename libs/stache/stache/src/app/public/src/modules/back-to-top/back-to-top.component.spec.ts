@@ -1,23 +1,57 @@
 import { async, ComponentFixture, fakeAsync, inject, tick, TestBed } from '@angular/core/testing';
-import { DebugElement } from '@angular/core';
+import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 
-import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
+import { expect } from '@blackbaud/skyux-lib-testing';
 
 import { StacheWindowRef, TestUtility } from '../shared';
 import { StacheBackToTopComponent } from './back-to-top.component';
+import { SkyAppResourcesService } from '@blackbaud/skyux-builder/runtime/i18n';
+import { SkyMediaQueryModule } from '@blackbaud/skyux/dist/core';
+
+@Pipe({
+  name: 'skyAppResources'
+})
+export class MockSkyAppResourcesPipe implements PipeTransform {
+  public transform(value: number): number {
+    return value;
+  }
+}
+
+class MockSkyAppResourcesService {
+  public getString(): any {
+    return {
+      subscribe: (cb: any) => {
+        cb();
+      },
+      take: () => {
+        return {
+          subscribe: (cb: any) => {
+            cb();
+          }
+        };
+      }
+    };
+  }
+}
 
 describe('StacheBackToTopComponent', () => {
   let component: StacheBackToTopComponent;
   let fixture: ComponentFixture<StacheBackToTopComponent>;
   let debugElement: DebugElement;
   let windowRef: any;
+  let mockSkyAppResourcesService: any;
 
   beforeEach(() => {
+    mockSkyAppResourcesService = new MockSkyAppResourcesService();
+
     TestBed.configureTestingModule({
       declarations: [
-        StacheBackToTopComponent
+        StacheBackToTopComponent,
+        MockSkyAppResourcesPipe
       ],
       providers: [
+        { provide: SkyAppResourcesService, useValue: mockSkyAppResourcesService },
+        SkyMediaQueryModule,
         StacheWindowRef
       ]
     })
@@ -75,5 +109,10 @@ describe('StacheBackToTopComponent', () => {
       .then(() => {
         expect(windowRef.scroll).toHaveBeenCalled();
       });
+  }));
+
+  it('should be accessible', async(() => {
+    fixture.detectChanges();
+    expect(fixture.debugElement.nativeElement).toBeAccessible();
   }));
 });

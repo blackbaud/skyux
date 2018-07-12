@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {
+  SkyAppRuntimeModule
+} from '@blackbaud/skyux-builder/runtime';
 
 import { StacheBackToTopComponent } from './back-to-top.component';
 
@@ -8,7 +11,8 @@ import { StacheBackToTopComponent } from './back-to-top.component';
     StacheBackToTopComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    SkyAppRuntimeModule
   ],
   exports: [
     StacheBackToTopComponent
