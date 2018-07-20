@@ -1,3 +1,9 @@
+# 2.10.0 (2018-07-20)
+- Created a `stache-copy-to-clipboard` component. [#506](https://github.com/blackbaud/stache2/pull/506)
+- Added the `stache-copy-to-clipboard` to the `stache-code-block`.
+- Added accessibility changes to the back to top button. [#505](https://github.com/blackbaud/stache2/pull/505)
+- Fixed a bug causing the back to top button to move under the footer. [#504](https://github.com/blackbaud/stache2/pull/504)
+
 # 2.9.2 (2018-07-02)
 - Style adjustments [#498](https://github.com/blackbaud/stache2/pull/498)
   - Added padding to the `stache-hero` at mobile sizes.
