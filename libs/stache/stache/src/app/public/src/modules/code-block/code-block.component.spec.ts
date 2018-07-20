@@ -1,20 +1,75 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
-
+import { ComponentFixture, TestBed, async} from '@angular/core/testing';
+import {
+  expect
+} from '@blackbaud/skyux-lib-testing';
 import { StacheCodeBlockTestComponent } from './fixtures/code-block.component.fixture';
 import { StacheCodeBlockComponent } from './code-block.component';
+import { SkyAppRuntimeModule } from '@blackbaud/skyux-builder/runtime';
+import { HttpModule } from '@angular/http';
+import { PipeTransform, Pipe } from '@angular/core';
+import { SkyAppResourcesService } from '@blackbaud/skyux-builder/runtime/i18n';
+import { StacheClipboardModule, StacheCopyToClipboardService } from '../clipboard';
+import { StacheWindowRef } from '../shared';
+
+class MockClipboardService {
+  public copyContent(content: string) { }
+  public verifyCopyCommandBrowserSupport() {
+    return true;
+  }
+}
+
+@Pipe({
+  name: 'skyAppResources'
+})
+export class MockSkyAppResourcesPipe implements PipeTransform {
+  public transform(value: number): number {
+    return value;
+  }
+}
+
+class MockSkyAppResourcesService {
+  public getString(): any {
+    return {
+      subscribe: (cb: any) => {
+        cb();
+      },
+      take: () => {
+        return {
+          subscribe: (cb: any) => {
+            cb();
+          }
+        };
+      }
+    };
+  }
+}
 
 describe('StacheCodeBlockComponent', () => {
   let component: StacheCodeBlockComponent;
   let fixture: ComponentFixture<StacheCodeBlockComponent>;
   let element: HTMLElement;
+  let mockSkyAppResourcesService: any;
+  let mockClipboardService: any;
 
   beforeEach(() => {
+    mockSkyAppResourcesService = new MockSkyAppResourcesService();
+    mockClipboardService = new MockClipboardService();
+
     TestBed.configureTestingModule({
       declarations: [
         StacheCodeBlockTestComponent,
-        StacheCodeBlockComponent
+        StacheCodeBlockComponent,
+        MockSkyAppResourcesPipe
+      ],
+      providers: [
+        StacheWindowRef,
+        { provide: SkyAppResourcesService, useValue: mockSkyAppResourcesService },
+        { provide: StacheCopyToClipboardService, useValue: mockClipboardService }
+      ],
+      imports: [
+        SkyAppRuntimeModule,
+        StacheClipboardModule,
+        HttpModule
       ]
     })
     .compileComponents();
@@ -72,4 +127,9 @@ describe('StacheCodeBlockComponent', () => {
     fixture.detectChanges();
     expect(element.querySelector('code.language-markup')).toExist();
   });
+
+  it('should pass accessibility', async(() => {
+    fixture.detectChanges();
+    expect(element).toBeAccessible();
+  }));
 });

@@ -1,6 +1,15 @@
 <div class="stache-code-block">
-  <div #codeFromContent class="stache-code-input"><ng-content></ng-content></div>
-  <pre class="stache-code-output"><code
-    [ngClass]="getClassName()"
-    [innerHTML]="output"></code></pre>
+  <div #codeFromContent class="stache-code-input">
+    <ng-content></ng-content>
+  </div>
+  <div>
+    <pre #stacheCodeOutput class="stache-code-output"><code
+        [ngClass]="getClassName()"
+        [innerHTML]="output"></code></pre>
+  </div>
+  <stache-copy-to-clipboard
+    [copyTarget]="stacheCodeOutput"
+    buttonText="{{ 'stache_copy_to_clipboard_button' | skyAppResources }}"
+    buttonClickedText="{{ 'stache_copy_to_clipboard_button_success' | skyAppResources }}">
+  </stache-copy-to-clipboard>
 </div>

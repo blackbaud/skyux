@@ -9,6 +9,7 @@ import { StacheAnalyticsModule } from './modules/analytics';
 import { StacheBackToTopModule } from './modules/back-to-top';
 import { StacheBlockquoteModule } from './modules/blockquote';
 import { StacheBreadcrumbsModule } from './modules/breadcrumbs';
+import { StacheClipboardModule } from './modules/clipboard';
 import { StacheCodeModule } from './modules/code';
 import { StacheCodeBlockModule } from './modules/code-block';
 import { StacheEditButtonModule } from './modules/edit-button';
@@ -42,6 +43,7 @@ export * from './modules/shared';
     StacheBackToTopModule,
     StacheBlockquoteModule,
     StacheBreadcrumbsModule,
+    StacheClipboardModule,
     StacheCodeModule,
     StacheCodeBlockModule,
     StacheEditButtonModule,

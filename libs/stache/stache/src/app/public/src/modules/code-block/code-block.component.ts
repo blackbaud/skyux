@@ -43,6 +43,7 @@ export class StacheCodeBlockComponent implements AfterViewInit {
       this._languageType = this.defaultLanguage;
     }
   }
+
   public get languageType(): string {
     return this._languageType;
   }

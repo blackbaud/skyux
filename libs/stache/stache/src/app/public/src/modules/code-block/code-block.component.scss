@@ -13,7 +13,31 @@
   margin-bottom: $stache-margin * 2;
 }
 
-/deep/
+.stache-code-block {
+  position: relative;
+
+  ::ng-deep
+  .stache-clipboard-btn {
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    position: absolute;
+    right: 2px;
+    top: 2px;
+
+    &:focus {
+      opacity: 100;
+    }
+  }
+
+  &:hover {
+    ::ng-deep
+    .stache-clipboard-btn {
+      opacity: 100;
+    }
+  }
+}
+
+::ng-deep
 .sky-tab {
   .stache-code-output {
     margin-top: 0px;

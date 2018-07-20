@@ -1,0 +1,44 @@
+<stache
+  pageTitle="Copy to clipboard"
+  showBreadcrumbs="false"
+  showEditButton="true">
+
+  <form style="border: 1px solid black; padding: 10px; margin-bottom: 10px;">
+    <label for="input-demo">
+      Copy from an Input
+    </label>
+    <input name="input-demo" #inputReference type="text" placeHolder="test demo stuff"/>
+    <stache-copy-to-clipboard [copyTarget]="inputReference">
+    </stache-copy-to-clipboard>
+  </form>
+
+  <div style="border: 1px solid black; padding: 10px; margin-bottom: 10px;">
+    <div #divReference>
+      Copy text within a div
+      <p>
+        Nested Content within the div
+      </p>
+    </div>
+    <stache-copy-to-clipboard buttonText="Copy From Div" buttonClickedText="Copied!" [copyTarget]="divReference"></stache-copy-to-clipboard>
+  </div>
+
+  <stache-code-block
+    languageType="js">
+    $(document).ready(() => {
+      // do something
+    });
+  </stache-code-block>
+
+  <stache-code-block
+    languageType="csharp">
+    using System;
+
+    public class Hello1
+    {
+      public static void Main()
+      {
+          System.Console.WriteLine("Hello, World!");
+      }
+    }
+  </stache-code-block>
+</stache>
