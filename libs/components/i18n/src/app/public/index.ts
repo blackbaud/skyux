@@ -1,3 +1,4 @@
+export * from './testing';
 export * from './host-locale-provider';
 export * from './i18n.module';
 export * from './locale-provider';
