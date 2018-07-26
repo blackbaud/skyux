@@ -1,3 +1,5 @@
+import { Injectable } from '@angular/core';
+
 import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/observable/of';
@@ -6,12 +8,13 @@ import { SkyAppResources } from '../resources';
 
 import { SkyAppFormat } from '@blackbaud/skyux-builder/runtime/format';
 
-declare const ROOT_DIR: string;
-declare const require: { context: any };
+export declare const ROOT_DIR: string;
+export declare const require: { context: any };
 
 /**
  * Provides a replacement for the SkyAppResourcesService to use in unit tests.
  */
+@Injectable()
 export class SkyAppResourcesTestService {
 
   private skyAppFormat: SkyAppFormat;
