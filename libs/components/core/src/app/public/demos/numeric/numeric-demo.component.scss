@@ -1,0 +1,11 @@
+.sky-numeric-demo {
+  td,
+  th {
+    padding: 4px 8px;
+    text-align: left;
+
+    &:first-child {
+      text-align: right;
+    }
+  }
+}

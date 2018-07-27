@@ -1,0 +1,92 @@
+<div class="sky-numeric-demo">
+  <table>
+    <thead>
+      <tr>
+        <th>Expectation</th>
+        <th>Result</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1 with zero digits:</td>
+        <td>{{1 | skyNumeric:{digits: 0} }}</td>
+      </tr>
+      <tr>
+        <td>1000 with zero digits:</td>
+        <td>{{1000 | skyNumeric:{digits: 0} }}</td>
+      </tr>
+      <tr>
+        <td>1000 with one digit:</td>
+        <td>{{1000 | skyNumeric}}</td>
+      </tr>
+      <tr>
+        <td>1100 with zero digits:</td>
+        <td>{{1100 | skyNumeric:{digits: 0} }}</td>
+      </tr>
+      <tr>
+        <td>1100 with one digit:</td>
+        <td>{{1100 | skyNumeric}}</td>
+      </tr>
+      <tr>
+        <td>1500 with zero digits:</td>
+        <td>{{1500 | skyNumeric:{digits: 0} }}</td>
+      </tr>
+      <tr>
+        <td>1500 with one digit:</td>
+        <td>{{1500 | skyNumeric}}</td>
+      </tr>
+      <tr>
+        <td>1000000 with any digits:</td>
+        <td>{{1000000 | skyNumeric:{digits: 0} }}</td>
+      </tr>
+      <tr>
+        <td>1000000000 with any digits:</td>
+        <td>{{1000000000 | skyNumeric:{digits: 0} }}</td>
+      </tr>
+      <tr>
+        <td>1000000000000 with any digits:</td>
+        <td>{{1000000000000 | skyNumeric:{digits: 0} }}</td>
+      </tr>
+      <tr>
+        <td>1234000 with 2 digits:</td>
+        <td>{{1234000 | skyNumeric:{digits: 2} }}</td>
+      </tr>
+      <tr>
+        <td>1235000000 with 2 digits:</td>
+        <td>{{1235000000 | skyNumeric:{digits: 2} }}</td>
+      </tr>
+      <tr>
+        <td>1.45 with 1 digit:</td>
+        <td>{{1.45 | skyNumeric}}</td>
+      </tr>
+      <tr>
+        <td>1234567 with 1 digit:</td>
+        <td>{{1234567 | skyNumeric}}</td>
+      </tr>
+      <tr>
+        <td>15.50 as US dollar currency with 2 digits:</td>
+        <td>{{15.50 | skyNumeric:{digits: 2, format: 'currency', iso: 'USD'} }}</td>
+      </tr>
+      <tr>
+        <td>-15.50 as US dollar currency with 2 digits:</td>
+        <td>{{-15.50 | skyNumeric:{digits: 2, format: 'currency', iso: 'USD'} }}</td>
+      </tr>
+      <tr>
+        <td>1234567 as Euro currency with 2 digits:</td>
+        <td>{{1234567 | skyNumeric:{digits: 2, format: 'currency', iso: 'EUR'} }}</td>
+      </tr>
+      <tr>
+        <td>1450 as UK Pound currency with 2 digits:</td>
+        <td>{{1450 | skyNumeric:{digits: 2, format: 'currency', iso: 'GBP'} }}</td>
+      </tr>
+      <tr>
+        <td>1750 as Hong Kong Dollar currency with 1 digit:</td>
+        <td>{{1750 | skyNumeric:{digits: 1, format: 'currency', iso: 'HKD'} }}</td>
+      </tr>
+      <tr>
+        <td>1234567 as Japanese Yen currency with 3 digit:</td>
+        <td>{{1234567 | skyNumeric:{digits: 3, format: 'currency', iso: 'JPY'} }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
