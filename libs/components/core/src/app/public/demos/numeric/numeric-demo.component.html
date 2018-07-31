@@ -87,6 +87,14 @@
         <td>1234567 as Japanese Yen currency with 3 digit:</td>
         <td>{{1234567 | skyNumeric:{digits: 3, format: 'currency', iso: 'JPY'} }}</td>
       </tr>
+      <tr>
+        <td>1234567 without truncation</td>
+        <td>{{1234567 | skyNumeric:{truncate: false} }}</td>
+      </tr>
+      <tr>
+        <td>15501 with truncation after 10000 and 1 digit</td>
+        <td>{{15501 | skyNumeric:{digits: 1, truncateAfter: 10000} }}</td>
+      </tr>
     </tbody>
   </table>
 </div>

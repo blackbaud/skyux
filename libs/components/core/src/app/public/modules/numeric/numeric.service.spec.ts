@@ -25,6 +25,14 @@ describe('Numeric service', () => {
     expect(skyNumeric.formatNumber(value, options)).toBe('0');
   });
 
+  it('formats undefined as blank', () => {
+    const value: any = undefined;
+    const options = new NumericOptions();
+    options.digits = 0;
+
+    expect(skyNumeric.formatNumber(value, options)).toBe('');
+  });
+
   it('formats 100 with 0 digits as 100', () => {
     const value = 100;
     const options = new NumericOptions();
@@ -40,11 +48,27 @@ describe('Numeric service', () => {
     expect(skyNumeric.formatNumber(value, options)).toBe('1K');
   });
 
+  it('does not truncate 1000 with 2 digits as 1K when truncate is false', () => {
+    const value = 1000;
+    const options = new NumericOptions();
+    options.digits = 2;
+    options.truncate = false;
+    expect(skyNumeric.formatNumber(value, options)).toBe('1,000.00');
+  });
+
   it('formats 1000000 with 0 digits as 1M', () => {
     const value = 1000000;
     const options = new NumericOptions();
     options.digits = 0;
     expect(skyNumeric.formatNumber(value, options)).toBe('1M');
+  });
+
+  it('does not truncate 1000000 with 2 digits as 1M when truncate is false', () => {
+    const value = 1000000;
+    const options = new NumericOptions();
+    options.digits = 2;
+    options.truncate = false;
+    expect(skyNumeric.formatNumber(value, options)).toBe('1,000,000.00');
   });
 
   it('formats 1000000000 with 0 digits as 1B', () => {
@@ -54,11 +78,27 @@ describe('Numeric service', () => {
     expect(skyNumeric.formatNumber(value, options)).toBe('1B');
   });
 
+  it('does not truncate 1000000000 with 2 digits as 1B when truncate is false', () => {
+    const value = 1000000000;
+    const options = new NumericOptions();
+    options.digits = 2;
+    options.truncate = false;
+    expect(skyNumeric.formatNumber(value, options)).toBe('1,000,000,000.00');
+  });
+
   it('formats 1000000000000 with 0 digits as 1T', () => {
     const value = 1000000000000;
     const options = new NumericOptions();
     options.digits = 0;
     expect(skyNumeric.formatNumber(value, options)).toBe('1T');
+  });
+
+  it('does not truncate 1000000000000 with 2 digits as 1T when truncate is false', () => {
+    const value = 1000000000000;
+    const options = new NumericOptions();
+    options.digits = 2;
+    options.truncate = false;
+    expect(skyNumeric.formatNumber(value, options)).toBe('1,000,000,000,000.00');
   });
 
   it('formats 999000000 as 999M', () => {
@@ -124,6 +164,25 @@ describe('Numeric service', () => {
     options.format = 'currency';
     expect(skyNumeric.formatNumber(value, options)).toBe('£15.50');
   });
+
+  // Testing ability only after a certain value is specified
+  // using the truncateAfter configuration property
+  it('does not truncate 5000 to 5K when truncateAfter set to 10000', () => {
+    const value = 5000;
+    const options = new NumericOptions();
+    options.digits = 0;
+    options.truncateAfter = 10000;
+    expect(skyNumeric.formatNumber(value, options)).toBe('5,000');
+  });
+
+  it('formats 10001 to 10K when truncateAfter set to 10000', () => {
+    const value = 10001;
+    const options = new NumericOptions();
+    options.digits = 0;
+    options.truncateAfter = 10000;
+    expect(skyNumeric.formatNumber(value, options)).toBe('10K');
+  });
+
   // Adjusting test to expect either format of a negative.  MS browsers use system's Region
   // setting for Currency formatting.  For Negative currency, the windows default is parentheses
   // around the number. All other browsers use a preceeding negative sign (-).
