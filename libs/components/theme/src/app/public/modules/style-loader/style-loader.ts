@@ -1,13 +1,19 @@
 import * as FontFaceObserver from 'fontfaceobserver';
 
-import { Injectable } from '@angular/core';
+import {
+  Injectable
+} from '@angular/core';
 
 @Injectable()
 export class SkyAppStyleLoader {
-  public static readonly LOAD_TIMEOUT: number = 3000;
-  public isLoaded: boolean = false;
+  public static readonly LOAD_TIMEOUT = 3000;
+  public isLoaded = false;
 
   public loadStyles(): Promise<any> {
+    if (this.isLoaded) {
+      return Promise.resolve();
+    }
+
     const fontAwesome = new FontFaceObserver('FontAwesome');
     const blackbaudSans = new FontFaceObserver('Blackbaud Sans');
 
@@ -26,7 +32,7 @@ export class SkyAppStyleLoader {
         // Errors loading the font should not stop the page from rendering.
         // Passing the error along in case the client wants to do something with it.
         return Promise.resolve({
-          error: error
+          error
         });
       });
   }
