@@ -6,7 +6,9 @@ import {
   SkyAppStyleLoader
 } from './modules/style-loader';
 
-require('style-loader!@skyux/theme/css/sky.css');
+// Switch these lines after initial release:
+// require('style-loader!@skyux/theme/css/sky.css');
+require('style-loader!@skyux/theme/src/app/public/styles/sky.scss');
 
 @NgModule({
   providers: [
