@@ -1,0 +1,71 @@
+@import "mixins";
+
+.sky-page-heading {
+  @include sky-page-heading();
+}
+
+.sky-section-heading {
+  @include sky-section-heading();
+}
+
+.sky-subsection-heading {
+  @include sky-subsection-heading();
+}
+
+.sky-headline {
+  @include sky-headline();
+}
+
+.sky-emphasized {
+  @include sky-emphasized();
+}
+
+.sky-deemphasized {
+  @include sky-deemphasized();
+}
+
+.sky-field-label {
+  @include sky-field-label();
+}
+
+// Status text
+.sky-text-info {
+  color: $sky-text-color-default;
+
+  &:before {
+    content: "\f06a";
+    font-family: FontAwesome;
+    margin-right: 5px;
+    color: $sky-highlight-color-info;
+  }
+}
+
+.sky-text-success {
+  color: $sky-text-color-default;
+
+  &:before {
+    content: "\f00c";
+    font-family: FontAwesome;
+    margin-right: 5px;
+    color: $sky-highlight-color-success;
+  }
+}
+
+.sky-text-warning {
+  color: $sky-text-color-default;
+
+  &:before {
+    content: "\f071";
+    font-family: FontAwesome;
+    margin-right: 5px;
+    color: $sky-highlight-color-warning;
+  }
+}
+
+.sky-text-danger {
+  color: $sky-text-color-default;
+
+  &:before {
+    @include sky-danger;
+  }
+}
