@@ -37,6 +37,7 @@ export class StacheCodeBlockComponent implements AfterViewInit {
 
   @Input()
   public set languageType(value: string) {
+    this.setDisplayName(value);
     if (this.validLanguages.indexOf(value) > -1) {
       this._languageType = value;
     } else {
@@ -52,6 +53,7 @@ export class StacheCodeBlockComponent implements AfterViewInit {
   public codeTemplateRef: any;
 
   public output: SafeHtml;
+  public displayName: string;
   private readonly defaultLanguage: string = 'markup';
   private validLanguages: string[];
   private _languageType: string = this.defaultLanguage;
@@ -79,6 +81,13 @@ export class StacheCodeBlockComponent implements AfterViewInit {
 
   public getClassName(): string {
     return `language-${this.languageType}`;
+  }
+
+  private setDisplayName(value: string = '') {
+    this.displayName = value
+      .replace('sharp', '#')
+      .replace('net', '.net')
+      .replace(/\bjs\b/, 'javascript');
   }
 
   private formatCode(code: string): string {

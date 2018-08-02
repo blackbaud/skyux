@@ -20,6 +20,7 @@ $stache-font-size-base: 15px !default;
 $stache-border-radius: 3px !default;
 
 $stache-padding: 10px !default;
+$stache-padding-double: $stache-padding * 2;
 $stache-padding-half: $stache-padding / 2 !default;
 $stache-padding-plus-half: $stache-padding + $stache-padding-half !default;
 
