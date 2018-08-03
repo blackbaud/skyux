@@ -1,4 +1,7 @@
 
+# 2.11.1 (2018-08-03)
+- Updated version number for `skyux-builder-plugin-stache` to `1.5.0`, allowing users to have nested directories in the global Stache application data.
+
 # 2.11.0 (2018-08-02)
 - Added a header to the `stache-code-block` component that holds the copy-to-clipboard button and shows which language is being displayed. [#515](https://github.com/blackbaud/stache2/pull/515)
 
