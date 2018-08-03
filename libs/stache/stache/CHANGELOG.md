@@ -1,3 +1,7 @@
+
+# 2.11.0 (2018-08-02)
+- Added a header to the `stache-code-block` component that holds the copy-to-clipboard button and shows which language is being displayed. [#515](https://github.com/blackbaud/stache2/pull/515)
+
 # 2.10.0 (2018-07-20)
 - Created a `stache-copy-to-clipboard` component. [#506](https://github.com/blackbaud/stache2/pull/506)
 - Added the `stache-copy-to-clipboard` to the `stache-code-block`.
