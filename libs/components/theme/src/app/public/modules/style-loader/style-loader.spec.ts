@@ -50,4 +50,19 @@ describe('Style loader', () => {
         done();
       });
   });
+
+  it('should resolve if fonts already loaded', (done) => {
+    const spy = spyOn(FontFaceObserver.prototype, 'load').and.returnValue(
+      Promise.resolve()
+    );
+
+    const styleLoader = new SkyAppStyleLoader();
+    styleLoader.isLoaded = true;
+
+    styleLoader.loadStyles()
+      .then(() => {
+        expect(spy).not.toHaveBeenCalled();
+        done();
+      });
+  });
 });
