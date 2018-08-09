@@ -93,6 +93,7 @@ fieldset {
 
 .sky-switch-control {
   width: $sky-switch-size;
+  max-width: $sky-switch-size;
   height: $sky-switch-size;
   flex: 1 0 $sky-switch-size;
   margin: auto;
