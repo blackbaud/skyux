@@ -6,11 +6,11 @@ import {
 
 import {
   SkyAppConfig
-} from '@skyux-sdk/builder/runtime';
+} from '@blackbaud/skyux-builder/runtime';
 
 import {
   SkyAppTestModule
-} from '@skyux-sdk/builder/runtime/testing/browser';
+} from '@blackbaud/skyux-builder/runtime/testing/browser';
 
 import { expect } from './matchers';
 

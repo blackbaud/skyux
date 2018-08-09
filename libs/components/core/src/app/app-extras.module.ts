@@ -7,8 +7,6 @@ import {
   SkyNumericDemoModule
 } from './public';
 
-require('style-loader!./public/styles/sky.scss');
-
 @NgModule({
   imports: [
     SkyMediaQueryDemoModule,
