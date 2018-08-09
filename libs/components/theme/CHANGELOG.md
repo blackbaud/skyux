@@ -1,3 +1,8 @@
+# 3.0.0-alpha.2 (2018-08-09)
+
+- Removed unused dependencies. [#6](https://github.com/blackbaud/skyux-theme/pull/6)
+- Merged changes from SKY UX 2. [#6](https://github.com/blackbaud/skyux-theme/pull/6)
+
 # 3.0.0-alpha.1 (2018-08-03)
 
 - Added types for `fontfaceobserver` NPM package. (#4)[https://github.com/blackbaud/skyux-theme/pull/4]
