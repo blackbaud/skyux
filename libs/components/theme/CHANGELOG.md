@@ -1,3 +1,7 @@
+# 3.0.0-alpha.3 (2018-08-13)
+
+- Added BrowserStack testing to CI. [#3](https://github.com/blackbaud/skyux-theme/pull/3)
+
 # 3.0.0-alpha.2 (2018-08-09)
 
 - Removed unused dependencies. [#6](https://github.com/blackbaud/skyux-theme/pull/6)
