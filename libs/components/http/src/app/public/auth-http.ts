@@ -18,7 +18,7 @@ import {
 
 import {
   SkyAppConfig
-} from '@blackbaud/skyux-builder/runtime';
+} from '@skyux/builder-utils';
 
 import {
   Observable

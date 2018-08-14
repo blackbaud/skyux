@@ -22,7 +22,7 @@ import {
 import {
   SkyAppConfig,
   SkyAppRuntimeConfigParams
-} from '@blackbaud/skyux-builder/runtime';
+} from '@skyux/builder-utils';
 
 import {
   SkyAuthHttp
