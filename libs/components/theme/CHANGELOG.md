@@ -1,3 +1,7 @@
+# 3.0.0-alpha.4 (2018-08-14)
+
+- Added `SkyAppViewportService`. [#9](https://github.com/blackbaud/skyux-theme/pull/9)
+
 # 3.0.0-alpha.3 (2018-08-13)
 
 - Added BrowserStack testing to CI. [#3](https://github.com/blackbaud/skyux-theme/pull/3)
