@@ -33,6 +33,19 @@ export class StacheNavService {
     }
   }
 
+  public isExternal(route: any): boolean {
+    let path = route;
+
+    if (route.path) {
+      path = route.path;
+    }
+
+    if (typeof path !== 'string') {
+      return false;
+    }
+    return /^(https?|mailto|ftp):+|^(www)/.test(path);
+  }
+
   private isCurrentRoute(routePath: string | string[], currentPath: string): boolean {
    let path = routePath;
 
@@ -54,14 +67,5 @@ export class StacheNavService {
       // the top of the page.
       this.windowRef.nativeWindow.scroll(0, 0);
     }
-  }
-
-  private isExternal(route: any): boolean {
-    let path = route.path;
-
-    if (typeof path !== 'string') {
-      return false;
-    }
-    return /^(https?|mailto|ftp):+|^(www)/.test(path);
   }
 }

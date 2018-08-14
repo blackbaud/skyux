@@ -78,6 +78,10 @@ describe('StacheWrapperComponent', () => {
 
   class MockNavService {
     public navigate(route: any) { }
+
+    public isExternal() {
+      return false;
+    }
   }
 
   class MockOmbibarService {

@@ -76,9 +76,15 @@ export class StacheRouterLinkDirective implements OnChanges, AfterViewInit {
 
   private updateTargetUrlAndHref(): void {
     let path = `${this.stacheRouterLink}`;
+
     if (this.fragment) {
       path += `#${this.fragment}`;
     }
-    this.href = this.locationStrategy.prepareExternalUrl(path);
+
+    if (this.navService.isExternal(path)) {
+      this.href = path;
+    } else {
+      this.href = this.locationStrategy.prepareExternalUrl(path);
+    }
   }
 }

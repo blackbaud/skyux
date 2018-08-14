@@ -26,6 +26,15 @@ describe('StacheLinkDirective', () => {
       path = routeObj.path;
       fragment = routeObj.fragment;
     });
+
+    public isExternal(route: any): boolean {
+      let testPath = route;
+
+      if (typeof testPath !== 'string') {
+        return false;
+      }
+      return /^(https?|mailto|ftp):+|^(www)/.test(testPath);
+    }
   }
 
   let mockRoutes = [
@@ -111,14 +120,38 @@ describe('StacheLinkDirective', () => {
       });
   }));
 
-  it('should set stacheRouterLink input', async(() => {
+  it('should set stacheRouterLink input to internal urls', async(() => {
     fixture = TestBed.createComponent(StacheRouterLinkTestLocalRouteComponent);
     component = fixture.componentInstance;
     directiveElement = fixture.debugElement.query(By.directive(StacheRouterLinkDirective));
 
     const directiveInstance = directiveElement.injector.get(StacheRouterLinkDirective);
-    fixture.detectChanges();
-    expect(directiveInstance._stacheRouterLink).toBe('');
+    directiveInstance.stacheRouterLink = '/demos';
+    directiveInstance.ngAfterViewInit();
+    expect(directiveInstance._stacheRouterLink).toBe('/demos');
+  }));
+
+  it('should set stacheRouterLink input to same page urls', async(() => {
+    mockActiveUrl = '/test-page';
+    fixture = TestBed.createComponent(StacheRouterLinkTestLocalRouteComponent);
+    component = fixture.componentInstance;
+    directiveElement = fixture.debugElement.query(By.directive(StacheRouterLinkDirective));
+
+    const directiveInstance = directiveElement.injector.get(StacheRouterLinkDirective);
+    directiveInstance.stacheRouterLink = '.';
+    expect(directiveInstance._stacheRouterLink).toBe('/test-page');
+    mockActiveUrl = '';
+  }));
+
+  it('should set stacheRouterLink input to external urls', async(() => {
+    fixture = TestBed.createComponent(StacheRouterLinkTestLocalRouteComponent);
+    component = fixture.componentInstance;
+    directiveElement = fixture.debugElement.query(By.directive(StacheRouterLinkDirective));
+
+    const directiveInstance = directiveElement.injector.get(StacheRouterLinkDirective);
+    directiveInstance.stacheRouterLink = 'https://www.google.com';
+    directiveInstance.ngAfterViewInit();
+    expect(directiveInstance._stacheRouterLink).toBe('https://www.google.com');
   }));
 
   it('should open in new window when shift clicked', async(() => {
