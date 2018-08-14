@@ -1,3 +1,6 @@
+# 2.11.3 (2018-08-14)
+- Fixed a bug with the `stacheNavLink` directive that prevented the use of external urls. [#521](https://github.com/blackbaud/stache2/pull/521)
+- Updated the dependencies to `"@blackbaud/skyux": "2.19.0"` and ` "@blackbaud/skyux-builder": "1.19.2"`. [#521](https://github.com/blackbaud/stache2/pull/521)
 
 # 2.11.2 (2018-08-07)
 - Updated the [skyux-builder-plugin-stache](https://github.com/blackbaud/skyux-builder-plugin-stache/blob/master/CHANGELOG.md#151-2018-08-02) to `1.5.1`.
