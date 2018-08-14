@@ -4,14 +4,19 @@ import {
 
 import {
   SkyAppStyleLoader
-} from './modules/style-loader';
+} from './style-loader';
+
+import {
+  SkyAppViewportService
+} from './viewport.service';
 
 // Automatically insert the global stylesheet for consumers of this module:
 require('style-loader!@skyux/theme/css/sky.css');
 
 @NgModule({
   providers: [
-    SkyAppStyleLoader
+    SkyAppStyleLoader,
+    SkyAppViewportService
   ]
 })
 export class SkyThemeModule { }
