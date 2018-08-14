@@ -6,11 +6,7 @@ import {
 
 import {
   SkyAppConfig
-} from '@blackbaud/skyux-builder/runtime';
-
-import {
-  SkyAppTestModule
-} from '@blackbaud/skyux-builder/runtime/testing/browser';
+} from '@skyux/builder-utils';
 
 import { expect } from './matchers';
 
@@ -54,7 +50,7 @@ describe('Jasmine matchers', () => {
   it('should check element for specific styles', () => {
     const elem = document.createElement('div');
     elem.style.fontSize = '10px';
-    elem.style.fontWeight = 'bold';
+    elem.style.top = '0px';
     document.body.appendChild(elem);
 
     // One success
@@ -65,7 +61,7 @@ describe('Jasmine matchers', () => {
     // Two successes
     expect(elem).toHaveStyle({
       'font-size': '10px',
-      'font-weight': '700'
+      'top': '0px'
     });
 
     // One failure
@@ -77,14 +73,6 @@ describe('Jasmine matchers', () => {
     expect(elem).not.toHaveStyle({
       'font-family': 'sans-serif',
       'font-size': '12px'
-    });
-
-    // Two successes, two failures
-    expect(elem).not.toHaveStyle({
-      'font-size': '10px',
-      'font-weight': '700',
-      'font-family': 'sans-serif',
-      'color': 'white'
     });
   });
 
@@ -109,7 +97,7 @@ describe('Jasmine matchers', () => {
     function createFailingElement(): any {
       // Make every DIV have the same ID:
       const element = createPassingElement();
-      element.querySelectorAll('div').forEach((elem: any) => {
+      [].slice.call(element.querySelectorAll('div')).forEach((elem: any) => {
         elem.setAttribute('id', 'same-id');
       });
       return element;
@@ -138,8 +126,15 @@ describe('Jasmine matchers', () => {
     describe('configuration', () => {
       beforeEach(() => {
         TestBed.configureTestingModule({
-          imports: [
-            SkyAppTestModule
+          providers: [
+            {
+              provide: SkyAppConfig,
+              useValue: {
+                skyux: {
+                  a11y: {}
+                }
+              }
+            }
           ]
         });
       });

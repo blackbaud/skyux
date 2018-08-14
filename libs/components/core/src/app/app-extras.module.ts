@@ -3,18 +3,22 @@ import {
 } from '@angular/core';
 
 import {
-  SkyMediaQueryDemoModule,
-  SkyNumericDemoModule
+  SkyMediaQueryModule,
+  SkyNumericModule
 } from './public';
+
+import { SkyAppRuntimeModule } from '@blackbaud/skyux-builder/runtime';
 
 @NgModule({
   imports: [
-    SkyMediaQueryDemoModule,
-    SkyNumericDemoModule
+    SkyAppRuntimeModule,
+    SkyMediaQueryModule,
+    SkyNumericModule
   ],
   exports: [
-    SkyMediaQueryDemoModule,
-    SkyNumericDemoModule
+    SkyAppRuntimeModule,
+    SkyMediaQueryModule,
+    SkyNumericModule
   ],
   providers: [],
   entryComponents: []
