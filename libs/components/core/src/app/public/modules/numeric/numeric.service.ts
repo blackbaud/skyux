@@ -21,6 +21,9 @@ import {
 export class SkyNumericService {
   public shortSymbol: string;
 
+  // TODO: The following require statement is not recommended, but was done
+  // to avoid a breaking change (SkyResources is synchronous, but SkyAppResources is asynchronous).
+  // We should switch to using SkyAppResources in the next major release.
   private symbols: any = require('!json-loader!.skypageslocales/resources_en_US.json');
 
   private symbolIndex: SkyNumericSymbol[] = [
