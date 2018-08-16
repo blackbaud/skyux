@@ -21,7 +21,7 @@ import {
 export class SkyNumericService {
   public shortSymbol: string;
 
-  private symbols: any = require('.skypageslocales/resources_en_US.json');
+  private symbols: any = require('!json-loader!.skypageslocales/resources_en_US.json');
 
   private symbolIndex: SkyNumericSymbol[] = [
     { value: 1E12, label: this.getSymbol('skyux_numeric_trillions_symbol') },
