@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 
+import { SkyAppFormat } from '@skyux/core';
+
 import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/observable/of';
 
 import { SkyAppResources } from '../resources';
-
-import { SkyAppFormat } from '@blackbaud/skyux-builder/runtime/format';
 
 export declare const ROOT_DIR: string;
 export declare const require: { context: any };

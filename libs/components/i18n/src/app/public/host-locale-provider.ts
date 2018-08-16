@@ -9,7 +9,7 @@ import {
 
 import {
   SkyAppWindowRef
-} from '@blackbaud/skyux-builder/runtime';
+} from '@skyux/core';
 
 import {
   SkyAppLocaleInfo

@@ -18,14 +18,16 @@ import {
   Observable
 } from 'rxjs/Observable';
 
-import {
-  SkyAppAssetsService,
-  SkyAppWindowRef
-} from '@blackbaud/skyux-builder/runtime';
+import 'rxjs/add/observable/throw';
 
 import {
-  SkyAppFormat
-} from '@blackbaud/skyux-builder/runtime/format';
+  SkyAppAssetsService
+} from '@skyux/builder-utils';
+
+import {
+  SkyAppFormat,
+  SkyAppWindowRef
+} from '@skyux/core';
 
 import {
   SkyAppHostLocaleProvider,
