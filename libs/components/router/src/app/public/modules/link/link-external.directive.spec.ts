@@ -19,11 +19,11 @@ import {
 
 import {
   SkyAppConfig
-} from '../config';
+} from '@skyux/builder-utils/config';
 
 import {
   SkyAppWindowRef
-} from '../window-ref';
+} from '@skyux/core';
 
 import {
   SkyAppLinkExternalDirective
@@ -50,7 +50,7 @@ describe('SkyAppLinkExternal Directive', () => {
       private name: string
     ) { }
 
-    public get nativeWindow() {
+    public get nativeWindow(): any {
       return {
         window: {
           name: this.name
@@ -59,7 +59,11 @@ describe('SkyAppLinkExternal Directive', () => {
     }
   }
 
-  function setup(params: any, windowName: string, useQueryParams: boolean) {
+  function setup(
+    params: any,
+    windowName: string,
+    useQueryParams: boolean
+  ): void {
     const mockWindowService = new MockWindowService(windowName);
     const componentToUse = useQueryParams ?
       SkyAppLinkExternalWithParamsTestComponent :

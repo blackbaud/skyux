@@ -19,11 +19,11 @@ import {
 
 import {
   SkyAppConfig
-} from '../config';
+} from '@skyux/builder-utils/config';
 
 import {
   SkyAppLinkDirective
-} from './sky-app-link.directive';
+} from './link.directive';
 
 @Component({
   template: '<a skyAppLink="test">Test</a>'
@@ -40,7 +40,10 @@ describe('SkyAppLink Directive', () => {
   let debugElement: DebugElement;
   let getAllParam: boolean;
 
-  function setup(params: any, useQueryParams: boolean) {
+  function setup(
+    params: any,
+    useQueryParams: boolean
+  ): void {
     const componentToUse = useQueryParams ?
       SkyAppLinkWithParamsTestComponent :
       SkyAppLinkTestComponent;

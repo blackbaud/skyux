@@ -15,13 +15,15 @@ import {
 
 import {
   SkyAppConfig
-} from '@blackbaud/skyux-builder/runtime/config';
+} from '@skyux/builder-utils/config';
+
+import { SkyAppLinkQueryParams } from './link-query-params';
 
 @Directive({
   selector: '[skyAppLink]'
 })
 export class SkyAppLinkDirective extends RouterLinkWithHref {
-  private _queryParams: { [k: string]: any };
+  private _queryParams: SkyAppLinkQueryParams;
 
   @Input()
   set skyAppLink(commands: any[] | string) {
@@ -33,7 +35,7 @@ export class SkyAppLinkDirective extends RouterLinkWithHref {
     this._queryParams = Object.assign(params, this.skyAppConfig.runtime.params.getAll(true));
   }
 
-  get queryParams() {
+  get queryParams(): SkyAppLinkQueryParams {
     if (!this._queryParams) {
       this._queryParams = Object.assign({}, this.skyAppConfig.runtime.params.getAll(true));
     }

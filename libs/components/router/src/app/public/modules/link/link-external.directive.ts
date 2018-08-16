@@ -16,18 +16,20 @@ import {
 
 import {
   SkyAppConfig
-} from '../config';
+} from '@skyux/builder-utils/config';
 
 import {
   SkyAppWindowRef
-} from '../window-ref';
+} from '@skyux/core';
+
+import { SkyAppLinkQueryParams } from './link-query-params';
 
 @Directive({
   selector: '[skyAppLinkExternal]'
 })
 export class SkyAppLinkExternalDirective extends RouterLinkWithHref {
 
-  private _queryParams: { [k: string]: any };
+  private _queryParams: SkyAppLinkQueryParams;
 
   @Input()
   set skyAppLinkExternal(commands: any[] | string) {
@@ -35,11 +37,11 @@ export class SkyAppLinkExternalDirective extends RouterLinkWithHref {
   }
 
   @Input()
-  set queryParams(params: { [k: string]: any }) {
+  set queryParams(params: SkyAppLinkQueryParams) {
     this._queryParams = Object.assign(params, this.skyAppConfig.runtime.params.getAll());
   }
 
-  get queryParams() {
+  get queryParams(): SkyAppLinkQueryParams {
     if (!this._queryParams) {
       this._queryParams = Object.assign({}, this.skyAppConfig.runtime.params.getAll());
     }
