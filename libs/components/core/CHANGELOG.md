@@ -1,3 +1,7 @@
+# 3.0.0-alpha.3 (2018-08-16)
+
+- Exported Jasmine matchers and a11y utilities. [#11](https://github.com/blackbaud/skyux-core/pull/11)
+
 # 3.0.0-alpha.2 (2018-08-16)
 
 - Exported testing components and services. [#9](https://github.com/blackbaud/skyux-core/pull/9)
