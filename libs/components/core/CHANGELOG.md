@@ -1,3 +1,7 @@
+# 3.0.0-alpha.4 (2018-08-16)
+
+- Removed testing utilities; moved to `@skyux-sdk/testing`. [#13](https://github.com/blackbaud/skyux-core/pull/13)
+
 # 3.0.0-alpha.3 (2018-08-16)
 
 - Exported Jasmine matchers and a11y utilities. [#11](https://github.com/blackbaud/skyux-core/pull/11)
