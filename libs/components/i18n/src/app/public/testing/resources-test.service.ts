@@ -8,6 +8,7 @@ import 'rxjs/add/observable/of';
 
 import { SkyAppResources } from '../resources';
 
+export declare const ROOT_DIR: string;
 export declare const require: { context: any };
 
 /**
@@ -36,9 +37,9 @@ export class SkyAppResourcesTestService {
     // that has no resource files from erroring during a unit test run unless it
     // explicitly tries to reference a resource string.
     const resourcesContext = require.context(
-      'json-loader!',
+      'json-loader!' + ROOT_DIR + '/..',
       true,
-      /\.\/src\/assets\/locales\/resources_en_US\.json$/
+      /\.\/assets\/locales\/resources_en_US\.json$/
     );
 
     const resources: SkyAppResources = resourcesContext.keys().map(resourcesContext)[0];
