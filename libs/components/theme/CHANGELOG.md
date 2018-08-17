@@ -1,3 +1,8 @@
+# 3.0.0-alpha.5 (2018-08-17)
+
+- Added support for `@skyux-sdk/e2e`.
+- Updated Travis-CI config.
+
 # 3.0.0-alpha.4 (2018-08-14)
 
 - Added `SkyAppViewportService`. [#9](https://github.com/blackbaud/skyux-theme/pull/9)
