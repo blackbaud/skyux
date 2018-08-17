@@ -1,3 +1,8 @@
+# 3.0.0-alpha.2 (2018-08-17)
+
+- Added `@skyux/builder-utils` to peer dependencies. [#6](https://github.com/blackbaud/skyux-i18n/pull/6)
+- Reverted changes to require context. [#6](https://github.com/blackbaud/skyux-i18n/pull/6)
+
 # 3.0.0-alpha.1 (2018-08-17)
 
 - Fixed require context. [#4](https://github.com/blackbaud/skyux-i18n/pull/4)
