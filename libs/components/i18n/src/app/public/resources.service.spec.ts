@@ -22,12 +22,15 @@ import 'rxjs/add/observable/throw';
 
 import {
   SkyAppAssetsService
-} from '@skyux/builder-utils';
+} from '@skyux/builder-utils/assets.service';
 
 import {
-  SkyAppFormat,
+  SkyAppFormat
+} from '@skyux/core/modules/format';
+
+import {
   SkyAppWindowRef
-} from '@skyux/core';
+} from '@skyux/core/modules/window/window-ref';
 
 import {
   SkyAppHostLocaleProvider,

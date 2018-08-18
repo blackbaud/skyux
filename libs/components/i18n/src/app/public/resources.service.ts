@@ -22,11 +22,11 @@ import 'rxjs/add/operator/switchMap';
 
 import {
   SkyAppAssetsService
-} from '@skyux/builder-utils';
+} from '@skyux/builder-utils/assets.service';
 
 import {
   SkyAppFormat
-} from '@skyux/core';
+} from '@skyux/core/modules/format';
 
 import {
   SkyAppLocaleProvider

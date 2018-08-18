@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { SkyAppFormat } from '@skyux/core';
+import { SkyAppFormat } from '@skyux/core/modules/format';
 
 import { Observable } from 'rxjs/Observable';
 

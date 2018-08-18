@@ -9,7 +9,7 @@ import {
 
 import {
   SkyAppWindowRef
-} from '@skyux/core';
+} from '@skyux/core/modules/window';
 
 import {
   SkyAppLocaleInfo
