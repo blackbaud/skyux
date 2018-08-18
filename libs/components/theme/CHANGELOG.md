@@ -1,3 +1,7 @@
+# 3.0.0-alpha.6 (2018-08-17)
+
+- Added RxJS to peer dependencies. [#15](https://github.com/blackbaud/skyux-theme/pull/15)
+
 # 3.0.0-alpha.5 (2018-08-17)
 
 - Added support for `@skyux-sdk/e2e`.
