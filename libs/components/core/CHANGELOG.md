@@ -1,3 +1,7 @@
+# 3.0.0-alpha.5 (2018-08-18)
+
+- Bugfix to remove Builder config from dependency.
+
 # 3.0.0-alpha.4 (2018-08-16)
 
 - Removed testing utilities; moved to `@skyux-sdk/testing`. [#13](https://github.com/blackbaud/skyux-core/pull/13)
