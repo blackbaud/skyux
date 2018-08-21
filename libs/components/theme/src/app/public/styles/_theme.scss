@@ -81,13 +81,40 @@ button {
 }
 
 select {
-  background-color: #fff;
-  background-image: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  background: #fff url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0Ljk1IDEwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9LmNscy0ye2ZpbGw6IzQ0NDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmFycm93czwvdGl0bGU+PHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iNC45NSIgaGVpZ2h0PSIxMCIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxLjQxIDQuNjcgMi40OCAzLjE4IDMuNTQgNC42NyAxLjQxIDQuNjciLz48cG9seWdvbiBjbGFzcz0iY2xzLTIiIHBvaW50cz0iMy41NCA1LjMzIDIuNDggNi44MiAxLjQxIDUuMzMgMy41NCA1LjMzIi8+PC9zdmc+) no-repeat right 50%;
+  background-size: 15px 30px;
   @include sky-border(light, top, bottom, left, right);
-  border-radius: 1px;
+  border-radius: $sky-border-radius;
   font-size: $sky-font-size-base;
   height: 34px;
-  padding: $sky-padding-half $sky-padding;
+  padding: $sky-padding-half $sky-padding + 11 $sky-padding-half $sky-padding;
+}
+// Firefox-specific padding
+@-moz-document url-prefix() {
+  select {
+    padding: $sky-padding-half $sky-padding + 7 $sky-padding-half $sky-padding - 3;
+  }
+}
+// Disable MS-specific arrows
+select::-ms-expand {
+  display: none;
+}
+// IE11-specific padding
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  select {
+    padding: $sky-padding-half $sky-padding + 9 $sky-padding-half $sky-padding - 2;
+  }
+}
+// Edge-specific padding
+@supports (-ms-ime-align: auto) {
+  select {
+    padding: $sky-padding-half $sky-padding + 8 $sky-padding-half $sky-padding - 3;
+  }
 }
 
 .sky-container {
