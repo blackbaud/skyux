@@ -22,7 +22,7 @@ import {
 import {
   SkyAppConfig,
   SkyAppRuntimeConfigParams
-} from '@skyux/builder-utils';
+} from '@skyux/config';
 
 import {
   SkyAuthHttp

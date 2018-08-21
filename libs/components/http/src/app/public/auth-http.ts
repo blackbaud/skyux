@@ -18,7 +18,7 @@ import {
 
 import {
   SkyAppConfig
-} from '@skyux/builder-utils';
+} from '@skyux/config';
 
 import {
   Observable
