@@ -22,7 +22,7 @@ import 'rxjs/add/operator/switchMap';
 
 import {
   SkyAppAssetsService
-} from '@skyux/builder-utils/assets.service';
+} from '@skyux/assets/assets.service';
 
 import {
   SkyAppFormat

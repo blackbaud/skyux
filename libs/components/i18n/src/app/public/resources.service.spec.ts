@@ -22,7 +22,7 @@ import 'rxjs/add/observable/throw';
 
 import {
   SkyAppAssetsService
-} from '@skyux/builder-utils/assets.service';
+} from '@skyux/assets/assets.service';
 
 import {
   SkyAppFormat
