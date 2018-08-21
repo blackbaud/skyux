@@ -15,7 +15,7 @@ import {
 
 import {
   SkyAppConfig
-} from '@skyux/builder-utils/config';
+} from '@skyux/config';
 
 import { SkyAppLinkQueryParams } from './link-query-params';
 
