@@ -1,3 +1,7 @@
+# 3.0.0-alpha.8 (2018-08-22)
+
+- Created `_compat` directory for styles that are used only by SKY UX components.
+
 # 3.0.0-alpha.7 (2018-08-18)
 
 - Bugfix to remove Builder config from dependency.
