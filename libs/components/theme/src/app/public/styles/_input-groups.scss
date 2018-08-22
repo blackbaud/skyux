@@ -24,7 +24,8 @@
 
   &:first-child > .sky-btn,
   &:last-child > .sky-btn:not(:last-child) {
-    @include sky-border-right-radius(0);
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
   }
 
   &:not(:first-child):not(:last-child) > .sky-btn {
@@ -34,7 +35,8 @@
   &:last-child > .sky-btn,
   &:first-child > .sky-btn:not(:first-child),
   &:not(:first-child) > .sky-btn {
-    @include sky-border-left-radius(0);
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
   }
 
   & > .sky-btn {

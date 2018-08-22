@@ -1,11 +1,17 @@
 @import "mixins";
 
 .sky-page-heading {
-  @include sky-page-heading();
+  font-family: $sky-font-family-condensed;
+  color: $sky-text-color-default;
+  font-weight: 300;
+  font-size: 34px;
 }
 
 .sky-section-heading {
-  @include sky-section-heading();
+  font-family: $sky-font-family-condensed;
+  color: $sky-text-color-default;
+  font-weight: 300;
+  font-size: 26px;
 }
 
 .sky-subsection-heading {
@@ -13,11 +19,17 @@
 }
 
 .sky-headline {
-  @include sky-headline();
+  font-family: $sky-font-family-condensed;
+  color: $sky-text-color-default;
+  font-weight: 500;
+  font-size: 22px;
 }
 
 .sky-emphasized {
-  @include sky-emphasized();
+  font-family: $sky-font-family;
+  color: $sky-text-color-default;
+  font-weight: 600;
+  font-size: 16px;
 }
 
 .sky-deemphasized {
@@ -25,7 +37,10 @@
 }
 
 .sky-field-label {
-  @include sky-field-label();
+  font-family: $sky-font-family;
+  color: $sky-text-color-deemphasized;
+  font-weight: 400;
+  font-size: $sky-font-size-base;
 }
 
 // Status text

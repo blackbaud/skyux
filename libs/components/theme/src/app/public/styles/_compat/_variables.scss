@@ -1,0 +1,37 @@
+// PADDING
+$sky-padding: $sky-space-md !default;
+$sky-padding-half: $sky-padding / 2 !default;
+$sky-padding-3_4: floor(($sky-padding * 0.75)) !default;
+$sky-padding-plus-half: $sky-padding + $sky-padding-half !default;
+$sky-padding-double: $sky-padding * 2 !default;
+$sky-padding-triple: $sky-padding * 3 !default;
+
+// MARGIN
+$sky-margin: $sky-space-md !default;
+$sky-margin-half: $sky-margin / 2 !default;
+$sky-margin-3_4: floor(($sky-margin * 0.75)) !default;
+$sky-margin-plus-half: $sky-margin + $sky-margin-half !default;
+$sky-margin-double: $sky-margin * 2 !default;
+$sky-margin-triple: $sky-margin * 3 !default;
+
+// THEME
+$sky-font-family: "Blackbaud Sans", "Helvetica Neue", Arial, sans-serif !default;
+$sky-font-size-base: 15px !default;
+$sky-line-height-base: 1.428571429 !default;
+
+// COMPONENTS
+$sky-avatar-border-width: 2px !default;
+$sky-avatar-height: 100px !default;
+$sky-avatar-width: $sky-avatar-height !default;
+
+$sky-context-menu-size: 24px !default;
+
+$sky-nav-selected-border-width: 4px !default;
+
+$sky-tab-btn-padding-top-bottom: 8px !default;
+$sky-tab-btn-padding-left-right: 16px !default;
+
+$sky-tile-header-tool-padding: $sky-padding-plus-half !default;
+
+$sky-transition-time-short: 150ms !default;
+$sky-transition-time-medium: 250ms !default;

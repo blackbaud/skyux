@@ -77,7 +77,7 @@
   @include sky-btn-tab();
 }
 
-.sky-btn-tab-close {
+.sky-btn-tab-close:not(.sky-btn-tab-close-disabled) {
   background-color: transparent;
   border: none;
   color: $sky-text-color-deemphasized;
@@ -91,13 +91,21 @@
   }
 }
 
+.sky-btn-tab-close-disabled {
+  background-color: transparent;
+  border: none;
+  color: $sky-text-color-deemphasized;
+  line-height: 1.4;
+  margin-left: $sky-margin-half;
+}
+
 .sky-tab-header-count {
     font-weight: 400;
     color: $sky-text-color-action-primary;
     margin-left: $sky-margin-half;
 }
 
-.sky-btn-tab-selected {
+.sky-btn-tab-selected:not(.sky-btn-tab-disabled) {
   @include sky-btn-tab-selected;
 
   .sky-btn-tab-close, .sky-tab-header-count {
