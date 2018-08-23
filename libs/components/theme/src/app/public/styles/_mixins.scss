@@ -2,8 +2,6 @@
 @import "variables";
 @import "_compat/mixins";
 
-// Begin typography
-
 @mixin sky-deemphasized {
   font-family: $sky-font-family;
   color: $sky-text-color-deemphasized;
@@ -12,9 +10,9 @@
   font-style: italic;
 }
 
-// End typography
-
-@mixin sky-experimental($property, $value,
+@mixin sky-experimental(
+  $property,
+  $value,
   $moz      : $sky-experimental-support-for-mozilla,
   $webkit   : $sky-experimental-support-for-webkit,
   $o        : $sky-experimental-support-for-opera,
@@ -30,7 +28,12 @@
   @if $official                                        {         #{$property} : $value; }
 }
 
-@mixin sky-button-variant($color, $background, $border, $hoverbackground:darken($background, 10%)) {
+@mixin sky-button-variant(
+  $color,
+  $background,
+  $border,
+  $hoverbackground: darken($background, 10%)
+) {
   color: $color;
   background-color: $background;
   border-color: $border;

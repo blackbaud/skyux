@@ -1,0 +1,68 @@
+$sky-switch-size: 22px !default;
+
+.sky-switch {
+  cursor: pointer;
+  display: inline-flex;
+  white-space: nowrap;
+
+  &:hover .sky-switch-control {
+    border-color: $sky-highlight-color-info;
+    border-width: 2px;
+  }
+}
+
+.sky-switch-disabled {
+  cursor: default;
+
+  input {
+    cursor: default;
+  }
+}
+
+.sky-switch-input {
+  position: absolute;
+  opacity: 0;
+
+  &:checked + .sky-switch-control {
+    background-color: $sky-background-color-info-light;
+    border-color: $sky-highlight-color-info;
+    border-width: 2px;
+  }
+
+  &:disabled + .sky-switch-control {
+    background-color: $sky-background-color-disabled;
+    border-color: transparent;
+  }
+
+  &:focus + .sky-switch-control {
+    @include sky-focus-outline;
+  }
+}
+
+.sky-switch-control {
+  width: $sky-switch-size;
+  max-width: $sky-switch-size;
+  height: $sky-switch-size;
+  flex: 1 0 $sky-switch-size;
+  margin: auto;
+  margin-right: 5px;
+  display: inline-flex;
+  position: relative;
+  border: 1px solid $sky-background-color-disabled;
+  background-color: $sky-color-white;
+  color: $sky-text-color-default;
+  text-align: center;
+  line-height: 1;
+  align-items: center;
+  justify-content: center;
+
+  &::before {
+    content: '';
+  }
+}
+
+.sky-switch-label {
+  line-height: $sky-switch-size;
+  flex: 1 1 auto;
+  width: 100%;
+}

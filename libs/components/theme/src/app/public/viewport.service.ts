@@ -2,14 +2,15 @@ import {
   Injectable
 } from '@angular/core';
 
-import { ReplaySubject } from 'rxjs/ReplaySubject';
+import {
+  ReplaySubject
+} from 'rxjs/ReplaySubject';
 
 /**
  * Provides information about the state of the application's viewport.
  */
 @Injectable()
 export class SkyAppViewportService {
-
   /**
    * Updated when the viewport becomes visible.  While the page is rendered, the
    * viewport may remain hidden as fonts and styles are loaded asynchronously;
@@ -17,5 +18,4 @@ export class SkyAppViewportService {
    * and styles are ready.
    */
   public visible = new ReplaySubject<boolean>(1);
-
 }

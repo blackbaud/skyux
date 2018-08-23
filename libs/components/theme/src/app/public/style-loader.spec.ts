@@ -1,5 +1,3 @@
-/* tslint:disable:no-console */
-
 import * as FontFaceObserver from 'fontfaceobserver';
 
 import {
