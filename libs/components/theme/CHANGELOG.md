@@ -1,3 +1,8 @@
+# 3.0.0-alpha.9 (2018-08-23)
+
+- Cleaned up code presentation and style. [#18](https://github.com/blackbaud/skyux-theme/pull/18)
+- Removed automatic require statement for global style sheet. [#18](https://github.com/blackbaud/skyux-theme/pull/18)
+
 # 3.0.0-alpha.8 (2018-08-22)
 
 - Created `_compat` directory for styles that are used only by SKY UX components.
