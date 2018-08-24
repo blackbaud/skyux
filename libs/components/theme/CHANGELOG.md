@@ -1,3 +1,7 @@
+# 3.0.0 (2018-08-23)
+
+- Initial major release.
+
 # 3.0.0-alpha.10 (2018-08-23)
 
 - Added `z-index` SASS variables to be used by various components. [#19](https://github.com/blackbaud/skyux-theme/pull/19)
