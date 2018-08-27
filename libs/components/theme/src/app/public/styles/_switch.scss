@@ -27,6 +27,21 @@ $sky-switch-size: 22px !default;
     background-color: $sky-background-color-info-light;
     border-color: $sky-highlight-color-info;
     border-width: 2px;
+
+    &.sky-switch-control-success {
+      background-color: lighten($sky-background-color-success, 10%);
+      border-color: $sky-highlight-color-success
+    }
+
+    &.sky-switch-control-warning {
+      background-color: lighten($sky-background-color-warning, 10%);
+      border-color: $sky-highlight-color-warning
+    }
+
+    &.sky-switch-control-danger {
+      background-color: lighten($sky-background-color-danger, 10%);
+      border-color: $sky-highlight-color-danger;
+    }
   }
 
   &:disabled + .sky-switch-control {
@@ -56,6 +71,14 @@ $sky-switch-size: 22px !default;
   align-items: center;
   justify-content: center;
 
+  &.sky-switch-control-icon {
+    max-width: none;
+		width: 35px;
+    height: 35px;
+    flex: 1 0 35px;
+    font-size: 18px;
+  }
+
   &::before {
     content: '';
   }
@@ -65,4 +88,24 @@ $sky-switch-size: 22px !default;
   line-height: $sky-switch-size;
   flex: 1 1 auto;
   width: 100%;
+}
+
+.sky-switch-icon-group {
+	display: flex;
+
+	.sky-switch-control-icon {
+    margin-left: 0;
+    margin-right: 0;
+    border-radius: 0;
+	}
+
+	sky-radio:first-of-type .sky-switch-control-icon, sky-checkbox:first-of-type .sky-switch-control-icon {
+		border-top-left-radius: $sky-border-radius;
+		border-bottom-left-radius: $sky-border-radius;
+	}
+
+	sky-radio:last-of-type .sky-switch-control-icon, sky-checkbox:last-of-type .sky-switch-control-icon {
+		border-top-right-radius: $sky-border-radius;
+		border-bottom-right-radius: $sky-border-radius;
+	}
 }
