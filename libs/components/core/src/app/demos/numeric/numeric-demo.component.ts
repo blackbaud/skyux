@@ -7,4 +7,4 @@ import {
   templateUrl: './numeric-demo.component.html',
   styleUrls: ['./numeric-demo.component.scss']
 })
-export class SkyNumericDemoComponent {}
+export class SkyNumericDemoComponent { }
