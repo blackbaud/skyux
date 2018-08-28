@@ -1,3 +1,7 @@
+# 3.1.0 (2018-8-28)
+
+- Added icon styles for `sky-switch-control` form elements. [#23](https://github.com/blackbaud/skyux-theme/pull/23)
+
 # 3.0.0 (2018-08-23)
 
 - Initial major release.
