@@ -1,3 +1,7 @@
+# 3.0.0-alpha.6 (2018-08-28)
+
+- Added log and mutation to package export. [#16](https://github.com/blackbaud/skyux-core/pull/16)
+
 # 3.0.0-alpha.5 (2018-08-18)
 
 - Bugfix to remove Builder config from dependency.
