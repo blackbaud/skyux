@@ -1,3 +1,7 @@
+# 3.0.1 (2018-09-10)
+
+- Fixed `NumericOptions` to provide `truncate` and `truncateAfter` as optional. [#27](https://github.com/blackbaud/skyux-core/pull/27)
+
 # 3.0.0 (2018-09-10)
 
 - Initial major release.
