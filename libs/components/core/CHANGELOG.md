@@ -1,3 +1,7 @@
+# 3.0.0 (2018-09-10)
+
+- Initial major release.
+
 # 3.0.0-alpha.6 (2018-08-28)
 
 - Added log and mutation to package export. [#16](https://github.com/blackbaud/skyux-core/pull/16)
