@@ -11,4 +11,7 @@ export class StacheImageComponent {
 
   @Input()
   public imageAlt: string = '';
+
+  @Input()
+  public caption: string;
 }
