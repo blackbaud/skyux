@@ -221,4 +221,15 @@ describe('Numeric service', () => {
 
     skyNumeric['symbolIndex'][3] = originalValue;
   });
+
+  it('should allow truncate options to be optional', () => {
+    const value = 1450;
+    const options: NumericOptions = {
+      digits: 1,
+      format: 'currency',
+      iso: 'USD'
+    };
+
+    expect(skyNumeric.formatNumber(value, options)).toBe('$1,450');
+  });
 });
