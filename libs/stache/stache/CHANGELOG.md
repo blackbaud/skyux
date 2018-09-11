@@ -1,3 +1,8 @@
+# 2.11.4 (2018-09-10)
+- Updated the SKYUX dependencies to the latest to avoid certifiacation issues when serving [#529](https://github.com/blackbaud/stache2/pull/529)
+- Added a `caption` input to the `stache-image` component, allowing users to add a caption to their images. [#528](https://github.com/blackbaud/stache2/pull/528)
+- Thanks [@Blackbaud-ThomasOrtiz](https://github.com/Blackbaud-ThomasOrtiz)!
+
 # 2.11.3 (2018-08-14)
 - Fixed a bug with the `stacheNavLink` directive that prevented the use of external urls. [#521](https://github.com/blackbaud/stache2/pull/521)
 - Updated the dependencies to `"@blackbaud/skyux": "2.19.0"` and ` "@blackbaud/skyux-builder": "1.19.2"`. [#521](https://github.com/blackbaud/stache2/pull/521)
