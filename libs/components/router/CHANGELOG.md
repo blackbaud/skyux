@@ -1,3 +1,7 @@
+# 3.0.0-alpha.3 (2018-08-21)
+
+- Updated peer dependencies.
+
 # 3.0.0-alpha.2 (2018-08-21)
 
 - Updated dependencies.
