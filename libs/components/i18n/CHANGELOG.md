@@ -1,3 +1,7 @@
+# 3.0.0-alpha.5 (2018-09-11)
+
+- Added support for `@skyux/core@3.0.1`.
+
 # 3.0.0-alpha.4 (2018-08-21)
 
 - Updated dependencies.
