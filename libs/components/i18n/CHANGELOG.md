@@ -1,6 +1,7 @@
 # 3.0.0-alpha.6 (2018-09-17)
 
 - Added `HttpModule` to list of providers.
+- Updated directory structure.
 
 # 3.0.0-alpha.5 (2018-09-11)
 
