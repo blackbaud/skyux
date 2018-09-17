@@ -1,3 +1,7 @@
+# 3.0.0-alpha.6 (2018-09-17)
+
+- Added `HttpModule` to list of providers.
+
 # 3.0.0-alpha.5 (2018-09-11)
 
 - Added support for `@skyux/core@3.0.1`.

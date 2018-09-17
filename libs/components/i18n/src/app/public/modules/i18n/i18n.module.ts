@@ -3,6 +3,10 @@ import {
 } from '@angular/core';
 
 import {
+  HttpModule
+} from '@angular/http';
+
+import {
   SkyAppHostLocaleProvider
 } from './host-locale-provider';
 
@@ -22,6 +26,7 @@ import {
     SkyAppResourcesPipe
   ],
   providers: [
+    HttpModule,
     SkyAppHostLocaleProvider,
     SkyAppResourcesService
   ]
