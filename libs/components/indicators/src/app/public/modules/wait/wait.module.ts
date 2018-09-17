@@ -4,7 +4,7 @@ import { SkyWaitComponent } from './wait.component';
 import { SkyWaitService } from './wait.service';
 import { SkyWaitPageAdapterService } from './wait-page-adapter.service';
 import { SkyWaitPageComponent } from './wait-page.component';
-import { SkyWindowRefService } from '../window';
+import { SkyWindowRefService } from '@skyux/core';
 
 @NgModule({
   declarations: [

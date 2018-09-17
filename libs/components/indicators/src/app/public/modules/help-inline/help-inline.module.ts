@@ -7,8 +7,9 @@ import {
 } from '@angular/common';
 
 import {
-  SkyResourcesModule
-} from '../resources';
+  SkyI18nModule
+} from '@skyux/i18n';
+
 import {
   SkyIconModule
 } from '../icon';
@@ -23,7 +24,7 @@ import {
   ],
   imports: [
     CommonModule,
-    SkyResourcesModule,
+    SkyI18nModule,
     SkyIconModule
   ],
   exports: [

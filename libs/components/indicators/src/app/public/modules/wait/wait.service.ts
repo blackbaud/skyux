@@ -13,7 +13,7 @@ import {
 } from './wait-page-adapter.service';
 import {
   SkyWindowRefService
-} from '../window';
+} from '@skyux/core';
 
 @Injectable()
 export class SkyWaitService {

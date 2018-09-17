@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { SkyTextHighlightDirective } from './text-highlight.directive';
-import { MutationObserverService } from '../mutation/mutation-observer-service';
+import { MutationObserverService } from '@skyux/core';
 
 @NgModule({
   declarations: [

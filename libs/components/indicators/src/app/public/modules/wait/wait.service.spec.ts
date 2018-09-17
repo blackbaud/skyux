@@ -17,7 +17,7 @@ import {
 } from './wait.service';
 import {
   SkyWindowRefService
-} from '../window';
+} from '@skyux/core';
 
 describe('Wait service', () => {
   let waitService: SkyWaitService;

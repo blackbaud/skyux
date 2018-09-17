@@ -1,1 +1,18 @@
-{}
+{
+  "sky_chevron_collapse": {
+    "_description": "Screen reader text for when clicking the chevron would collapse the corresponding section",
+    "message": "Collapse"
+  },
+  "sky_chevron_expand": {
+    "_description": "Screen reader text for when clicking the chevron would expand the corresponding section",
+    "message": "Expand"
+  },
+  "sky_help_inline_button_title": {
+    "_description": "The title for the help button.",
+    "message": "Show help content"
+  },
+  "sky_tokens_dismiss_button_title": {
+    "_description": "The default text for the token dismiss button title.",
+    "message": "Remove item"
+  }
+}

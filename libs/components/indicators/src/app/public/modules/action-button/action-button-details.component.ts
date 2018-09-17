@@ -4,7 +4,7 @@ import {
 
 @Component({
   selector: 'sky-action-button-details',
-  templateUrl: '../shared/simple-content.html'
+  templateUrl: './action-button-details.component.html'
 })
 export class SkyActionButtonDetailsComponent {
 }

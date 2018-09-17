@@ -6,9 +6,8 @@ import {
 import { FormsModule } from '@angular/forms';
 
 import { SkyTextHighlightTestComponent } from './fixtures/text-highlight.component.fixture';
-import { SkyCheckboxModule } from '../checkbox/checkbox.module';
 import { SkyTextHighlightModule } from './text-highlight.module';
-import { MutationObserverService } from '../mutation/mutation-observer-service';
+import { MutationObserverService } from '@skyux/core';
 
 function updateInputText(fixture: ComponentFixture<SkyTextHighlightTestComponent>, text: string) {
   let params = {
@@ -58,7 +57,6 @@ describe('Text Highlight', () => {
         SkyTextHighlightTestComponent
       ],
       imports: [
-        SkyCheckboxModule,
         SkyTextHighlightModule,
         FormsModule
       ],

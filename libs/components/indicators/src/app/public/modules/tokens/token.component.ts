@@ -6,7 +6,6 @@ import {
   Input,
   Output
 } from '@angular/core';
-import { SkyResourcesService } from '../resources';
 
 @Component({
   selector: 'sky-token',
@@ -29,7 +28,7 @@ export class SkyTokenComponent {
     this._ariaLabel = value;
   }
   public get ariaLabel() {
-    return this._ariaLabel || this.skyResourcesService.getString('token_dismiss_button_title');
+    return this._ariaLabel || this.getString('sky_tokens_dismiss_button_title');
   }
 
   @Input()
@@ -60,14 +59,18 @@ export class SkyTokenComponent {
     return (this.focusable) ? 0 : -1;
   }
 
+  // TODO: The following require statement is not recommended, but was done
+  // to avoid a breaking change (SkyResources is synchronous, but SkyAppResources is asynchronous).
+  // We should switch to using SkyAppResources in the next major release.
+  private resources: any = require('!json-loader!.skypageslocales/resources_en_US.json');
+
   private _ariaLabel: string;
   private _disabled: boolean;
   private _dismissible: boolean;
   private _focusable: boolean;
 
   constructor(
-    private elementRef: ElementRef,
-    private skyResourcesService: SkyResourcesService
+    private elementRef: ElementRef
   ) { }
 
   public dismissToken() {
@@ -76,5 +79,18 @@ export class SkyTokenComponent {
 
   public focusElement() {
     this.elementRef.nativeElement.querySelector('.sky-token').focus();
+  }
+
+  private getString(key: string): string {
+
+  }
+
+  /**
+   * This method is a stand-in for the old SkyResources service from skyux2.
+   * TODO: We should consider using Builder's resources service instead.
+   * @param key
+   */
+  private getString(key: string): string {
+    return this.resources[key].message;
   }
 }

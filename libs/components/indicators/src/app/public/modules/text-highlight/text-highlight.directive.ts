@@ -9,7 +9,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 
-import { MutationObserverService } from '../mutation/mutation-observer-service';
+import { MutationObserverService } from '@skyux/core';
 
 const className = 'sky-highlight-mark';
 

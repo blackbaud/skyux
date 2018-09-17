@@ -4,7 +4,7 @@ import {
 
 import {
   expect
-} from '@blackbaud/skyux-builder/runtime/testing/browser';
+} from '@skyux-sdk/testing';
 
 import { SkyLabelFixturesModule } from './fixtures/label-fixtures.module';
 import { LabelTestComponent } from './fixtures/label.component.fixture';
