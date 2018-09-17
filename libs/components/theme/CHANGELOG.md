@@ -1,4 +1,8 @@
-# 3.1.0 (2018-8-28)
+# 3.1.1 (2018-09-17)
+
+- Fixed text input styles for iOS devices. [#28](https://github.com/blackbaud/skyux-theme/pull/28)
+
+# 3.1.0 (2018-08-28)
 
 - Added icon styles for `sky-switch-control` form elements. [#23](https://github.com/blackbaud/skyux-theme/pull/23)
 
