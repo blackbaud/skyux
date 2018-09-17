@@ -1,0 +1,55 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-chevron {
+    border: none;
+    background-color: transparent;
+    flex-shrink: 0;
+    height: $sky-context-menu-size;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    width: $sky-context-menu-size;
+    cursor: pointer;
+
+  &:hover .sky-chevron-part {
+    border-color: darken($sky-text-color-icon-borderless, 20%);
+  }
+}
+
+.sky-chevron-part {
+    border-color: $sky-text-color-icon-borderless;
+    border-style: solid;
+    border-width: 3px 0 0 0;
+    display: inline-block;
+    height: 10px;
+    position: relative;
+    top: 6px;
+    transition: transform $sky-transition-time-medium, left $sky-transition-time-medium;
+    vertical-align: top;
+    width: 10px;
+}
+
+.sky-chevron-up {
+    .sky-chevron-left {
+        left: 7px;
+        transform: rotate(-45deg);
+    }
+
+    .sky-chevron-right {
+        left: -6px;
+        transform: rotate(45deg);
+    }
+}
+
+.sky-chevron-down {
+    .sky-chevron-left {
+        left: 2px;
+        transform: rotate(45deg);
+    }
+
+    .sky-chevron-right {
+        left: -1px;
+        transform: rotate(-45deg);
+    }
+}

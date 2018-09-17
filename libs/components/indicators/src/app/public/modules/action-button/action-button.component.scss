@@ -1,0 +1,40 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-action-button {
+  @include sky-border(dark, top, bottom, left, right);
+  max-width: 236px;
+  cursor: pointer;
+  display: inline-block;
+  padding-top: $sky-padding-double;
+  padding-right: $sky-padding-double;
+  padding-left: $sky-padding-double;
+  padding-bottom: 30px;
+  text-align: center;
+  text-decoration: none;
+
+  &:hover{
+    border-color: darken($sky-border-color-neutral-light, 12%)
+  }
+
+}
+
+@media (min-width: $sky-screen-sm-min) {
+  .sky-action-button {
+    padding: 30px $sky-padding-double;
+  }
+}
+
+@media (max-width: $sky-screen-xs-max) {
+  .sky-action-button-icon-header-container {
+    margin-bottom: $sky-margin-double;
+  }
+  .sky-action-button {
+    max-width: none;
+    display: block;
+    margin-left: $sky-margin-plus-half;
+    margin-right: $sky-margin-plus-half;
+
+  }
+}
+

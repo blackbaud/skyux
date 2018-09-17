@@ -1,0 +1,16 @@
+<sky-tokens
+  [disabled]="disabled"
+  [dismissible]="dismissible"
+  [displayWith]="displayWith"
+  [focusable]="focusable"
+  [messageStream]="messageStream"
+  [(tokens)]="tokens"
+  (focusIndexOverRange)="onFocusIndexOverRange()"
+  (focusIndexUnderRange)="onFocusIndexUnderRange()"
+  (tokenSelected)="onTokenSelected($event)">
+  INNER CONTENT
+</sky-tokens>
+
+<sky-token
+  *ngIf="includeSingleToken"
+  [ariaLabel]="ariaLabel"></sky-token>

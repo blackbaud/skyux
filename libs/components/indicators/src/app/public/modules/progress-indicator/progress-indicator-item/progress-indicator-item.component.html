@@ -1,0 +1,36 @@
+<div *ngIf="!isHorizontal && (!isComplete || isActive)"
+  class="sky-progress-indicator-item-step"
+  [ngClass]="{
+    'sky-progress-indicator-item-step-active': isActive
+  }"
+>
+</div>
+<div *ngIf="!isHorizontal || isActive"
+  [ngClass]="{
+    'sky-text-success': isComplete && !isActive && !isHorizontal,
+    'sky-progress-indicator-item-step-complete': isComplete && !isActive && !isHorizontal
+  }"
+>
+  <div
+    [ngClass]="{
+      'sky-emphasized': isHorizontal
+    }"
+  >
+    {{ itemNumber }} - {{ title }}
+  </div>
+</div>
+<div *ngIf="!isHorizontal || isActive"
+  class="sky-progress-indicator-item-line"
+  [ngClass]="{
+    'sky-progress-indicator-item-horizontal': isHorizontal,
+    'sky-progress-indicator-item-last': isLastItem,
+    'sky-progress-indicator-item-line-inactive': !isActive && !isComplete,
+    'sky-progress-indicator-item-line-next-inactive': isNextToInactive
+  }"
+>
+  <div *ngIf="isActive || isComplete"
+    class="sky-progress-indicator-item-content"
+  >
+    <ng-content></ng-content>
+  </div>
+</div>

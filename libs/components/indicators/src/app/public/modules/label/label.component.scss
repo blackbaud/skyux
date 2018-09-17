@@ -1,0 +1,48 @@
+@import "~@skyux/theme/scss/mixins";
+
+.sky-label {
+  color: $sky-text-color-default;
+  display: inline;
+  border-radius: 10rem;
+  font-weight: 400;
+  line-height: 2.2;
+  margin: 0 3px;
+  padding: .3em .6em .3em .6em;
+  white-space: nowrap;
+}
+
+.sky-label-success {
+  background-color: $sky-background-color-success;
+
+  &:before {
+    content: "\f00c";
+    font-family: FontAwesome;
+  }
+}
+
+.sky-label-info {
+  background-color: $sky-background-color-info;
+
+  &:before {
+    content: "\f06a";
+    font-family: FontAwesome;
+  }
+}
+
+.sky-label-warning {
+  background-color: $sky-background-color-warning;
+
+  &:before {
+    content: "\f071";
+    font-family: FontAwesome;
+  }
+}
+
+.sky-label-danger {
+  background-color: $sky-background-color-danger;
+
+  &:before {
+    content: "\f071";
+    font-family: FontAwesome;
+  }
+}

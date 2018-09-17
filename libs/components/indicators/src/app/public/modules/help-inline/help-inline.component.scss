@@ -1,0 +1,16 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-help-inline {
+  color: $sky-text-color-action-primary;
+  font-size: $sky-font-size-base;
+  background-color: transparent;
+  border: none;
+  display: inline-block;
+
+  &:hover {
+    color: darken($sky-text-color-action-primary, 10%);
+    transition: color $sky-transition-time-short;
+    cursor: pointer;
+  }
+}

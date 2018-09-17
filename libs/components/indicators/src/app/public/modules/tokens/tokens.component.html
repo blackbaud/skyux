@@ -1,0 +1,25 @@
+<div
+  *ngIf="tokens"
+  class="sky-tokens"
+  role="list">
+
+  <sky-token
+    *ngFor="let token of tokens; let i = index"
+    role="listitem"
+    [ariaLabel]="ariaLabel"
+    [disabled]="disabled"
+    [dismissible]="dismissible"
+    [focusable]="focusable"
+    (dismiss)="removeToken(token)"
+    (click)="onTokenClick(token)"
+    (keydown)="onTokenKeyDown($event)"
+    (keyup.enter)="selectToken(token);$event.preventDefault();"
+    (tokenFocus)="activeIndex = i">
+    {{ token.value[displayWith] }}
+  </sky-token>
+
+  <div class="sky-tokens-content">
+    <ng-content>
+    </ng-content>
+  </div>
+</div>
