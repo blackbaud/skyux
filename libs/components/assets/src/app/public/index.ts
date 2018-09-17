@@ -1,1 +1,1 @@
-export * from './assets.service';
+export * from './modules';
