@@ -81,10 +81,6 @@ export class SkyTokenComponent {
     this.elementRef.nativeElement.querySelector('.sky-token').focus();
   }
 
-  private getString(key: string): string {
-
-  }
-
   /**
    * This method is a stand-in for the old SkyResources service from skyux2.
    * TODO: We should consider using Builder's resources service instead.
