@@ -1,3 +1,8 @@
+# 3.0.0-alpha.7 (2018-09-17)
+
+- Reverted directory structure changes.
+- Isolated "testing" module from production module.
+
 # 3.0.0-alpha.6 (2018-09-17)
 
 - Added `HttpModule` to list of providers.

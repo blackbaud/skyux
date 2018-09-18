@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/observable/of';
 
-import { SkyAppResources } from '../modules/i18n';
+import { SkyAppResources } from '../';
 
 export declare const ROOT_DIR: string;
 export declare const require: { context: any };
