@@ -1,3 +1,7 @@
+# 3.0.0-alpha.8 (2018-09-18)
+
+- Added library support for `SkyAppResourcesTestService`. [#10](https://github.com/blackbaud/skyux-i18n/pull/10)
+
 # 3.0.0-alpha.7 (2018-09-17)
 
 - Reverted directory structure changes.
