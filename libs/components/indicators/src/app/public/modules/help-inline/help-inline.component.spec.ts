@@ -12,6 +12,10 @@ import {
   By
 } from '@angular/platform-browser';
 
+import {
+  SkyAppTestModule
+} from '@blackbaud/skyux-builder/runtime/testing/browser';
+
 import { SkyHelpInlineModule } from '../help-inline/help-inline.module';
 import { HelpInlineTestComponent } from './fixtures/help-inline.component.fixture';
 
@@ -27,6 +31,7 @@ describe('Help inline component', () => {
       ],
       imports: [
         BrowserModule,
+        SkyAppTestModule,
         SkyHelpInlineModule
       ]
     });

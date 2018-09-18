@@ -5,14 +5,19 @@ import {
 import { SkyChevronComponent } from './chevron.component';
 import { SkyChevronModule } from './chevron.module';
 
+import {
+  SkyAppTestModule
+} from '@blackbaud/skyux-builder/runtime/testing/browser';
+
 describe('Chevron component', () => {
-    beforeEach(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          SkyChevronModule
-        ]
-      });
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        SkyAppTestModule,
+        SkyChevronModule
+      ]
     });
+  });
 
   function validateDirection(fixture: any, cmp: SkyChevronComponent, expectedDirection: string) {
     let el = fixture.nativeElement;
