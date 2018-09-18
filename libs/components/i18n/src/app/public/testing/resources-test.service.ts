@@ -36,11 +36,22 @@ export class SkyAppResourcesTestService {
     // Requiring through context allows for an "optional" require, which keeps an app
     // that has no resource files from erroring during a unit test run unless it
     // explicitly tries to reference a resource string.
-    const resourcesContext = require.context(
-      'json-loader!' + ROOT_DIR + '/..',
-      true,
-      /\.\/assets\/locales\/resources_en_US\.json$/
-    );
+    let resourcesContext;
+    if (ROOT_DIR.indexOf('public') === -1) {
+      resourcesContext = require.context(
+        `json-loader!${ROOT_DIR}/..`,
+        true,
+        /\.\/assets\/locales\/resources_en_US\.json$/
+      );
+    } else {
+      // Source code for libraries is located in a different directory.
+      // NOTE: We must duplicate the require statement to allow webpack to build it properly.
+      resourcesContext = require.context(
+        `json-loader!${ROOT_DIR}/../..`,
+        true,
+        /\.\/assets\/locales\/resources_en_US\.json$/
+      );
+    }
 
     const resources: SkyAppResources = resourcesContext.keys().map(resourcesContext)[0];
 
