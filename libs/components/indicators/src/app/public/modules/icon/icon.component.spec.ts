@@ -1,4 +1,5 @@
 import {
+  async,
   ComponentFixture,
   TestBed
 } from '@angular/core/testing';
@@ -35,14 +36,19 @@ describe('Icon component', () => {
     element = fixture.nativeElement as HTMLElement;
   });
 
-  it('should display an icon based on the given icon', () => {
+  it('should display an icon based on the given icon', async(() => {
     fixture.detectChanges();
     expect(element.querySelector('.sky-icon')).toHaveCssClass('fa-circle');
     expect(element.querySelector('.sky-icon')).toHaveCssClass('fa-3x');
     expect(element.querySelector('.sky-icon')).not.toHaveCssClass('fa-fw');
     expect(element.querySelector('.sky-icon').getAttribute('aria-hidden')).toBe('true');
     expect(element.querySelector('.sky-icon').classList.length).toBe(4);
-  });
+
+    // Accessibility checks
+    fixture.whenStable().then(() => {
+      expect(fixture.nativeElement).toBeAccessible();
+    });
+  }));
 
   it('should display a different icon with a different size and a fixedWidth', () => {
     cmp.icon = 'broom';

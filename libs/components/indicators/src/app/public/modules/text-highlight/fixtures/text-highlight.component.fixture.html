@@ -1,8 +1,23 @@
-<input class="sky-input-search-term" type="text" [(ngModel)]="searchTerm" />
-<input class="sky-test-checkbox" type="checkbox" [(ngModel)]="showAdditionalContent" />
+<input
+  aria-label="noop"
+  class="sky-input-search-term"
+  type="text"
+  [(ngModel)]="searchTerm"
+/>
 
-<div class="sky-test-div-container" [skyHighlight]="searchTerm">Here is some test text.
-    <div *ngIf="showAdditionalContent">
-        Here is additional text that was previously hidden in src\app.
-    </div>
+<input
+  aria-label="noop"
+  class="sky-test-checkbox"
+  type="checkbox"
+  [(ngModel)]="showAdditionalContent"
+/>
+
+<div
+  class="sky-test-div-container"
+  [skyHighlight]="searchTerm"
+>
+  Here is some test text.
+  <div *ngIf="showAdditionalContent">
+    Here is additional text that was previously hidden in src\app.
+  </div>
 </div>

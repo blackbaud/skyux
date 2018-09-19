@@ -3,6 +3,7 @@ import {
 } from '@angular/core';
 
 import {
+  async,
   ComponentFixture,
   TestBed
 } from '@angular/core/testing';
@@ -15,6 +16,10 @@ import {
 import {
   SkyAppTestModule
 } from '@blackbaud/skyux-builder/runtime/testing/browser';
+
+import {
+  expect
+} from '@skyux-sdk/testing';
 
 import { SkyHelpInlineModule } from '../help-inline/help-inline.module';
 import { HelpInlineTestComponent } from './fixtures/help-inline.component.fixture';
@@ -48,4 +53,11 @@ describe('Help inline component', () => {
     fixture.detectChanges();
     expect(cmp.buttonIsClicked).toBe(true);
   });
+
+  it('should pass accessibility', async(() => {
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(fixture.nativeElement).toBeAccessible();
+    });
+  }));
 });

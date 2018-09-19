@@ -1,6 +1,11 @@
 import {
+  async,
   TestBed
 } from '@angular/core/testing';
+
+import {
+  expect
+} from '@skyux-sdk/testing';
 
 import {
   SkyWaitTestComponent
@@ -15,7 +20,6 @@ import {
 } from './wait.component';
 
 describe('Wait component', () => {
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -24,7 +28,7 @@ describe('Wait component', () => {
     });
   });
 
-  it('should show the wait element when isWaiting is set to true', () => {
+  it('should show the wait element when isWaiting is set to true', async(() => {
     let fixture = TestBed.createComponent(SkyWaitComponent);
 
     fixture.detectChanges();
@@ -37,7 +41,10 @@ describe('Wait component', () => {
 
     expect(el.querySelector('.sky-wait')).not.toBeNull();
 
-  });
+    fixture.whenStable().then(() => {
+      expect(fixture.nativeElement).toBeAccessible();
+    });
+  }));
 
   it('should set relative position on the wait component parent element', () => {
      let fixture = TestBed.createComponent(SkyWaitTestComponent);
@@ -99,7 +106,7 @@ describe('Wait component', () => {
     expect(el.querySelector('.sky-wait-mask-loading-blocking')).toBeNull();
   });
 
-  it('should set aria-busy on document body when fullPage is true', () => {
+  it('should set aria-busy on document body when fullPage is true', async(() => {
     let fixture = TestBed.createComponent(SkyWaitTestComponent);
 
     fixture.detectChanges();
@@ -109,10 +116,14 @@ describe('Wait component', () => {
     fixture.detectChanges();
     expect(document.body.getAttribute('aria-busy')).toBe('true');
 
-    fixture.componentInstance.isWaiting = false;
-    fixture.detectChanges();
-    expect(document.body.getAttribute('aria-busy')).toBeNull();
-  });
+    fixture.whenStable().then(() => {
+      expect(fixture.nativeElement).toBeAccessible(() => {
+        fixture.componentInstance.isWaiting = false;
+        fixture.detectChanges();
+        expect(document.body.getAttribute('aria-busy')).toBeNull();
+      });
+    });
+  }));
 
   it('should set aria-busy on containing div when fullPage is set to false', () => {
     let fixture = TestBed.createComponent(SkyWaitTestComponent);

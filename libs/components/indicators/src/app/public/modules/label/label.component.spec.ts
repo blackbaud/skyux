@@ -1,4 +1,5 @@
 import {
+  async,
   TestBed
 } from '@angular/core/testing';
 
@@ -27,12 +28,17 @@ describe('Label component', () => {
     expect(el.querySelector('.sky-label')).toHaveCssClass('sky-label-danger');
   });
 
-  it('should render the label\'s contents in the expected location', () => {
+  it('should render the label\'s contents in the expected location', async(() => {
     let fixture = TestBed.createComponent(LabelTestComponent);
     let el = fixture.nativeElement as HTMLElement;
 
     fixture.detectChanges();
 
     expect(el.querySelector('.sky-label')).toHaveText('Test label');
-  });
+
+    // Accessibility checks
+    fixture.whenStable().then(() => {
+      expect(fixture.nativeElement).toBeAccessible();
+    });
+  }));
 });

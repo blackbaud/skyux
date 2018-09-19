@@ -1,13 +1,23 @@
 import {
-  TestBed,
-  ComponentFixture
+  async,
+  ComponentFixture,
+  TestBed
 } from '@angular/core/testing';
 
-import { FormsModule } from '@angular/forms';
+import {
+  FormsModule
+} from '@angular/forms';
+
+import {
+  expect
+} from '@skyux-sdk/testing';
+
+import {
+  MutationObserverService
+} from '@skyux/core';
 
 import { SkyTextHighlightTestComponent } from './fixtures/text-highlight.component.fixture';
 import { SkyTextHighlightModule } from './text-highlight.module';
-import { MutationObserverService } from '@skyux/core';
 
 function updateInputText(fixture: ComponentFixture<SkyTextHighlightTestComponent>, text: string) {
   let params = {
@@ -25,12 +35,12 @@ function updateInputText(fixture: ComponentFixture<SkyTextHighlightTestComponent
 }
 
 const additionalTextHidden = `
-    <!--bindings={
+  <!--bindings={
   "ng-reflect-ng-if": "false"
 }-->`;
 
 const additionalTextVisible = `
-    <!--bindings={
+  <!--bindings={
   "ng-reflect-ng-if": "true"
 }-->`;
 
@@ -40,8 +50,8 @@ function getHtmlOutput(text: string) {
 
 function getHtmlOutputAdditionalText(text: string, additionalText: string) {
   return `${text}${additionalTextVisible}<div>
-        ${additionalText}
-    </div>`;
+    ${additionalText}
+  </div>`;
 }
 
 describe('Text Highlight', () => {
@@ -82,14 +92,19 @@ describe('Text Highlight', () => {
     fixture.detectChanges();
   });
 
-  it('should not highlight any text when search term is blank', () => {
+  it('should not highlight any text when search term is blank', async(() => {
     const containerEl = nativeElement.querySelector('.sky-test-div-container');
     const expectedHtml = getHtmlOutput('Here is some test text.');
 
     expect(containerEl.innerHTML.trim()).toBe(expectedHtml);
-  });
 
-  it('should highlight search term', () => {
+    // Accessibility checks
+    fixture.whenStable().then(() => {
+      expect(fixture.nativeElement).toBeAccessible();
+    });
+  }));
+
+  it('should highlight search term', async(() => {
     updateInputText(fixture, 'text');
 
     const containerEl = nativeElement.querySelector('.sky-test-div-container') as HTMLElement;
@@ -97,7 +112,12 @@ describe('Text Highlight', () => {
       getHtmlOutput('Here is some test <mark class="sky-highlight-mark">text</mark>.');
 
     expect(containerEl.innerHTML.trim()).toBe(expectedHtml);
-  });
+
+    // Accessibility checks
+    fixture.whenStable().then(() => {
+      expect(fixture.nativeElement).toBeAccessible();
+    });
+  }));
 
   it('should highlight case insensitive search term', () => {
     updateInputText(fixture, 'here');

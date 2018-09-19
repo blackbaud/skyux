@@ -1,4 +1,5 @@
 import {
+  async,
   ComponentFixture,
   TestBed,
   fakeAsync,
@@ -10,7 +11,9 @@ import {
   SkyAppTestUtility
 } from '@skyux-sdk/testing';
 
-import { SkyTokensComponent } from './tokens.component';
+import {
+  SkyTokensComponent
+} from './tokens.component';
 
 import {
   SkyTokensMessageType
@@ -97,7 +100,7 @@ describe('Tokens component', function () {
   });
 
   describe('basic setup', function () {
-    it('should set defaults', function () {
+    it('should set defaults', async(function () {
       expect(tokensComponent.tokens).toEqual([]);
       fixture.detectChanges();
       expect(tokensComponent.disabled).toEqual(false);
@@ -105,7 +108,11 @@ describe('Tokens component', function () {
       expect(tokensComponent.displayWith).toEqual('name');
       expect(tokensComponent.messageStream).toBeUndefined();
       expect(tokensComponent.activeIndex).toEqual(0);
-    });
+
+      fixture.whenStable().then(() => {
+        expect(fixture.nativeElement).toBeAccessible();
+      });
+    }));
 
     it('should wrap internal content', function () {
       fixture.detectChanges();
@@ -387,7 +394,7 @@ describe('Tokens component', function () {
       expect(spy).toHaveBeenCalledWith(removedToken);
     });
 
-    it('should add a sky-btn-disabled class if disabled', function () {
+    it('should add a sky-btn-disabled class if disabled', async(function () {
       component.disabled = true;
       fixture.detectChanges();
       component.publishTokens();
@@ -405,9 +412,13 @@ describe('Tokens component', function () {
       expect(tokenElements.item(0).querySelector('.sky-btn-disabled')).not.toBeNull();
       expect(tokensComponent.tokens.length).toEqual(3);
       expect(spy).not.toHaveBeenCalled();
-    });
 
-    it('should adjust the tabindex if set to not-focusable', function () {
+      fixture.whenStable().then(() => {
+        expect(fixture.nativeElement).toBeAccessible();
+      });
+    }));
+
+    it('should adjust the tabindex if set to not-focusable', async(function () {
       fixture.detectChanges();
       component.publishTokens();
       fixture.detectChanges();
@@ -422,6 +433,10 @@ describe('Tokens component', function () {
       tokenDivs = component.tokensElementRef.nativeElement
         .querySelectorAll('.sky-token');
       expect(tokenDivs.item(0).tabIndex).toEqual(-1);
-    });
+
+      fixture.whenStable().then(() => {
+        expect(fixture.nativeElement).toBeAccessible();
+      });
+    }));
   });
 });

@@ -1,10 +1,9 @@
 <div
   *ngIf="tokens"
   class="sky-tokens"
-  role="list">
-
-  <sky-token
-    *ngFor="let token of tokens; let i = index"
+  [attr.role]="(tokens && tokens.length) ? 'list' : null"
+>
+  <sky-token *ngFor="let token of tokens; let i = index"
     role="listitem"
     [ariaLabel]="ariaLabel"
     [disabled]="disabled"
@@ -17,7 +16,6 @@
     (tokenFocus)="activeIndex = i">
     {{ token.value[displayWith] }}
   </sky-token>
-
   <div class="sky-tokens-content">
     <ng-content>
     </ng-content>
