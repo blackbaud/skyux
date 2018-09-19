@@ -21,4 +21,4 @@ import {
   ]
 })
 /* istanbul ignore next */
-export class SkyAppRouterLinkModule { }
+export class SkyAppLinkModule { }
