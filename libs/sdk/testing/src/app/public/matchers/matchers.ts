@@ -1,7 +1,7 @@
 import {
   SkyA11yAnalyzer,
   SkyA11yAnalyzerConfig
-} from './a11y';
+} from '../a11y';
 
 const windowRef: any = window;
 
