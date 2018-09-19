@@ -1,3 +1,7 @@
+# 3.0.0-alpha.3 (2018-09-19)
+
+- Modified directory structure.
+
 # 3.0.0-alpha.2 (2018-09-11)
 
 - Updated dependencies.
