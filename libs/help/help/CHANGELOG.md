@@ -1,3 +1,7 @@
+# 1.3.1 (2018-09-19)
+
+- Fixed a bug with the Help Config interface to represent the current Help Widget config options. [#40](https://github.com/blackbaud/skyux-lib-help/pull/40)
+
 # 1.3.0 (2018-05-09)
 
 - Added the `bbHelpOpenOnClick` directive, allowing users to add an onClick event to elements to trigger the Help Widget. [#32](https://github.com/blackbaud/skyux-lib-help/pull/32)
