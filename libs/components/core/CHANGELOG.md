@@ -1,3 +1,7 @@
+# 3.1.0 (2018-09-19)
+
+- Added `MockSkyMediaQueryService` for unit tests. [#33](https://github.com/blackbaud/skyux-core/pull/33)
+
 # 3.0.2 (2018-09-17)
 
 - Fixed locale resource imports to not produce 404s when the consuming app's execution context did not include SKY UX Builder. [#31](https://github.com/blackbaud/skyux-core/pull/31)
