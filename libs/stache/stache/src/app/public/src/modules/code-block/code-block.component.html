@@ -4,6 +4,7 @@
         {{displayName}}
       </div>
       <stache-copy-to-clipboard
+        *ngIf="!hideCopyToClipboard"
         [copyTarget]="stacheCodeOutput"
         buttonText="{{ 'stache_copy_to_clipboard_button' | skyAppResources }}"
         buttonClickedText="{{ 'stache_copy_to_clipboard_button_success' | skyAppResources }}">

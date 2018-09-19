@@ -45,6 +45,9 @@ export class StacheCodeBlockComponent implements AfterViewInit {
     }
   }
 
+  @Input()
+  public hideCopyToClipboard: boolean = false;
+
   public get languageType(): string {
     return this._languageType;
   }

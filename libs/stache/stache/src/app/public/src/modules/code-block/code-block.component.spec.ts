@@ -128,6 +128,21 @@ describe('StacheCodeBlockComponent', () => {
     expect(element.querySelector('code.language-markup')).toExist();
   });
 
+  it('should show copy to clipboard button', () => {
+    const code = '<p></p>';
+    component.code = code;
+    fixture.detectChanges();
+    expect(element.querySelector('.stache-clipboard-btn')).toExist();
+  });
+
+  it('should hide copy to clipboard button', () => {
+    const code = '<p></p>';
+    component.code = code;
+    component.hideCopyToClipboard = true;
+    fixture.detectChanges();
+    expect(element.querySelector('.stache-clipboard-btn')).not.toExist();
+  });
+
   it('should pass accessibility', async(() => {
     fixture.detectChanges();
     expect(element).toBeAccessible();
