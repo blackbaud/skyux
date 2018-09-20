@@ -4,7 +4,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 declare let Prism: any;
 import 'prismjs/prism';
 import 'prismjs/plugins/normalize-whitespace/prism-normalize-whitespace';
-import './prism-languages';
+import * as PrismLanguages from './prism-languages';
 
 @Component({
   selector: 'stache-code-block',
@@ -39,12 +39,14 @@ export class StacheCodeBlockComponent implements AfterViewInit {
   public displayName: string;
   private readonly defaultLanguage: string = 'markup';
   private validLanguages: string[];
+  private prismLanguages: any;
   private _languageType: string = this.defaultLanguage;
 
   public constructor(
     private cdRef: ChangeDetectorRef,
     private sanitizer: DomSanitizer) {
       this.validLanguages = Object.keys(Prism.languages);
+      this.prismLanguages = PrismLanguages.languages;
     }
 
   public ngAfterViewInit(): void {
@@ -67,12 +69,7 @@ export class StacheCodeBlockComponent implements AfterViewInit {
   }
 
   private setDisplayName(value: string = '') {
-    this.displayName = value
-      .replace(/-/g, ' ')
-      .replace('cpp', 'c++')
-      .replace('sharp', '#')
-      .replace('net', '.net')
-      .replace(/\bjs\b/, 'javascript');
+    this.displayName = this.prismLanguages[value];
   }
 
   private formatCode(code: string): string {
