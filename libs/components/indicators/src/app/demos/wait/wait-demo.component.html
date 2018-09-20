@@ -1,12 +1,75 @@
-<button type="button" class="sky-btn sky-btn-default" (click)="isWaiting = !isWaiting">Toggle element wait</button>
+<div
+  class="sky-wait-demo"
+>
+  <button
+    class="sky-btn sky-btn-primary sky-test-wait"
+    type="button"
+    (click)="isWaiting = !isWaiting"
+  >
+    Toggle wait
+  </button>
 
+  <button
+    class="sky-btn sky-btn-primary sky-test-full-page"
+    type="button"
+    (click)="isFullPage = !isFullPage"
+  >
+    Toggle Full page
+  </button>
 
-<div style="height: 200px; width: 200px; margin-top: 10px;">
-  A large area that can be waited with the <code>sky-wait</code> directive.
-  <sky-wait [isWaiting]="isWaiting">
-  </sky-wait>
+  <button
+    class="sky-btn sky-btn-primary sky-test-non-blocking"
+    type="button"
+    style="margin-bottom: 10px;"
+    (click)="isNonBlocking = !isNonBlocking"
+  >
+    Toggle Full page
+  </button>
+
+  <div
+    class="sky-wait-demo-parent"
+    style="width: 500px; height: 500px"
+  >
+    <div style="height: 200px; width: 200px">
+      Wait inside this element with text
+      <sky-wait
+        [isWaiting]="isWaiting"
+        [isFullPage]="isFullPage"
+        [isNonBlocking]="isNonBlocking"
+      >
+      </sky-wait>
+    </div>
+  </div>
+
+  <div
+    class="sky-wait-demo-absolute"
+    style="height: 200px; width: 200px; margin-top: 10px;"
+  >
+    <sky-wait
+      [isWaiting]="isWaiting"
+    >
+    </sky-wait>
+    <div>
+      <p style="position:absolute; background-color: red">
+        A large area that can be waited with the <code>sky-wait</code> directive.
+      </p>
+    </div>
+  </div>
+
+  <div
+    class="sky-wait-demo-absolute-behind"
+    style="height: 200px; width: 200px; margin-top: 10px;"
+  >
+    <sky-wait
+      [isWaiting]="isWaiting"
+    >
+    </sky-wait>
+    <div>
+      <p
+        style="position:absolute; background-color: red; z-index: 1040; color: #000;"
+      >
+        A large area that can be waited with the <code>sky-wait</code> directive.
+      </p>
+    </div>
+  </div>
 </div>
-
-<button type="button" class="sky-btn sky-btn-default" (click)="showPageWait(true)">Show page wait</button>
-
-<button type="button" class="sky-btn sky-btn-default" (click)="showPageWait(false)">Show non-blocking page wait</button>

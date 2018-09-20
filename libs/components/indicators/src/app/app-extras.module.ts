@@ -3,7 +3,6 @@ import {
 } from '@angular/core';
 
 import {
-  SkyActionButtonModule,
   SkyChevronModule,
   SkyHelpInlineModule,
   SkyIconModule,
@@ -15,7 +14,6 @@ import {
 
 @NgModule({
   imports: [
-    SkyActionButtonModule,
     SkyChevronModule,
     SkyHelpInlineModule,
     SkyIconModule,
@@ -25,7 +23,6 @@ import {
     SkyWaitModule
   ],
   exports: [
-    SkyActionButtonModule,
     SkyChevronModule,
     SkyHelpInlineModule,
     SkyIconModule,

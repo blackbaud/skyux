@@ -1,4 +1,3 @@
-export * from './action-button';
 export * from './chevron';
 export * from './help-inline';
 export * from './icon';

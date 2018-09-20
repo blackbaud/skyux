@@ -5,6 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './text-highlight-demo.component.html'
 })
 export class SkyTextHighlightDemoComponent {
-  public searchTerm: string;
-  public showAdditionalContent = false;
+  public normalSearchTerm = 'enter';
+  public blankSearchTerm = '';
+  public notMatchedSearchTerm = 'xnotmatched';
 }

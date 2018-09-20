@@ -1,29 +1,14 @@
-import { Component } from '@angular/core';
-
 import {
-  SkyWaitService
-} from '../../public';
+  Component
+} from '@angular/core';
 
 @Component({
   selector: 'sky-wait-demo',
-  templateUrl: './wait-demo.component.html'
+  templateUrl: './wait-demo.component.html',
+  styleUrls: ['./wait-demo.component.scss']
 })
 export class SkyWaitDemoComponent {
-  public isWaiting = false;
-
-  constructor(private waitSvc: SkyWaitService) { }
-
-  public showPageWait(isBlocking: boolean) {
-    if (isBlocking) {
-      this.waitSvc.beginBlockingPageWait();
-      setTimeout(() => {
-        this.waitSvc.endBlockingPageWait();
-      }, 2000);
-    } else {
-      this.waitSvc.beginNonBlockingPageWait();
-      setTimeout(() => {
-        this.waitSvc.endNonBlockingPageWait();
-      }, 2000);
-    }
-  }
+  public isWaiting: boolean;
+  public isFullPage: boolean;
+  public isNonBlocking: boolean;
 }

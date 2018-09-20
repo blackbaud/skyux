@@ -1,124 +1,33 @@
-<h3 class="sky-subsection-heading">
-  Default setup
-</h3>
+<div class="sky-tokens-demo">
+  <p>
+    <sky-tokens
+      [tokens]="colors"
+    >
+    </sky-tokens>
+  </p>
 
-<p>
-  These tokens can be navigated with the arrow keys, and they can be dismissed with the close buttons.
-</p>
+  <p>
+    <sky-tokens
+      [tokens]="colors"
+      [dismissible]="false"
+    >
+    </sky-tokens>
+  </p>
 
-<p>
-  <sky-tokens
-    [(tokens)]="colors">
-  </sky-tokens>
-</p>
+  <p>
+    <sky-tokens
+      [disabled]="true"
+      [tokens]="colors"
+    >
+    </sky-tokens>
+  </p>
 
-<hr>
-
-<h3 class="sky-subsection-heading">
-  Non-dismissible tokens
-</h3>
-
-<p>
-  These tokens cannot be dismissed, but they can still be navigated with the arrow keys.
-</p>
-
-<p>
-  <sky-tokens
-    [(tokens)]="colors"
-    [dismissible]="false">
-  </sky-tokens>
-</p>
-
-<hr>
-
-<h3 class="sky-subsection-heading">
-  Non-focusable tokens
-</h3>
-
-<p>
-  These tokens cannot be focused using the tab key, but they can still be clicked and navigated with the arrow keys.
-</p>
-
-<p>
-  <sky-tokens
-    [(tokens)]="colors"
-    [dismissible]="false"
-    [focusable]="false">
-  </sky-tokens>
-</p>
-
-<hr>
-
-<h3 class="sky-subsection-heading">
-  Disabled tokens
-</h3>
-
-<p>
-  These tokens are disabled and cannot be dismissed or navigated with the arrow keys.
-</p>
-
-<p>
-  <sky-tokens
-    [(tokens)]="colors"
-    [disabled]="true">
-  </sky-tokens>
-</p>
-
-<hr>
-
-<h3 class="sky-subsection-heading">
-  Token value interactions
-</h3>
-
-<p>
-  <button
-    class="sky-btn sky-btn-default"
-    type="button"
-    (click)="changeColors()">
-    Change tokens
-  </button>
-
-  <button
-    class="sky-btn sky-btn-default"
-    type="button"
-    (click)="resetColors()">
-    Reset tokens
-  </button>
-
-  <button
-    class="sky-btn sky-btn-default"
-    type="button"
-    (click)="destroyColors()">
-    Destroy tokens
-  </button>
-</p>
-
-<hr>
-
-<h3 class="sky-subsection-heading">
-  Custom setup
-</h3>
-
-<p>
-  These tokens define a custom property to display their values. When users select a token, it emits an event.
-</p>
-
-<p>
-  <sky-tokens
-    displayWith="label"
-    [(tokens)]="filters"
-    [messageStream]="tokensController"
-    (focusIndexOverRange)="onFocusIndexOverRange()"
-    (focusIndexUnderRange)="onFocusIndexUnderRange()"
-    (tokenSelected)="onTokenSelected($event)">
-    (You may also include content inside the tokens component.)
-  </sky-tokens>
-</p>
-
-<p>
-  <button
-    class="sky-btn sky-btn-default"
-    (click)="focusLastToken()">
-    Focus last token
-  </button>
-</p>
+  <p>
+    <sky-tokens
+      displayWith="label"
+      [tokens]="filters"
+    >
+      (You may also include content inside the tokens component.)
+    </sky-tokens>
+  </p>
+</div>
