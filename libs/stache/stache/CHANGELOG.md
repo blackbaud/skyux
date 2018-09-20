@@ -1,5 +1,12 @@
+# 2.12.0 (2018-09-20)
+- Updated prismjs to version `1.15.0` to support all of the latest languages. [#532](https://github.com/blackbaud/stache2/pull/532) [#537](https://github.com/blackbaud/stache2/pull/537)
+- Updated `code-block` component to allow for users to hide the `copy-to-clipboard` button. [#536](https://github.com/blackbaud/stache2/pull/536)
+- Added `showInNav` property to `stache-wrapper`to allow users to hide pages from the sidebar. [#531](https://github.com/blackbaud/stache2/pull/531)
+  - Updated to version [1.6.0](https://github.com/blackbaud/skyux-builder-plugin-stache/blob/70d6c2a1ce2b4d97a1b058abd3d13698f9a88375/CHANGELOG.md) of `skyux-builder-plugin-stache` to support this update.
+- Fixed an issue where Stache header styles were overwriting Skyux style classes. [#535](https://github.com/blackbaud/stache2/pull/535)
+
 # 2.11.4 (2018-09-10)
-- Updated the SKYUX dependencies to the latest to avoid certifiacation issues when serving [#529](https://github.com/blackbaud/stache2/pull/529)
+- Updated the SKYUX dependencies to the latest to avoid certifiacation issues when serving. [#529](https://github.com/blackbaud/stache2/pull/529)
 - Added a `caption` input to the `stache-image` component, allowing users to add a caption to their images. [#528](https://github.com/blackbaud/stache2/pull/528)
 - Thanks [@Blackbaud-ThomasOrtiz](https://github.com/Blackbaud-ThomasOrtiz)!
 
