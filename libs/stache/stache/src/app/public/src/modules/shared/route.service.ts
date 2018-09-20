@@ -95,7 +95,7 @@ export class StacheRouteService {
         pathMetadata);
 
       return formattedRoute as any;
-    });
+    }).filter(route => route.showInNav !== false);
 
     return this.sortRoutes(formatted) as StacheNavLink[];
   }

@@ -8,4 +8,5 @@ export interface StacheNavLink {
   summary?: string;
   isActive?: boolean;
   isCurrent?: boolean;
+  showInNav?: boolean;
 }

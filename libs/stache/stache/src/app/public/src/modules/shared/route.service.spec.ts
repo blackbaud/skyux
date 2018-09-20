@@ -40,6 +40,12 @@ class MockStacheConfigService {
         routePath: 'order-routes/first/sample-two'
       },
       {
+        routePath: 'order-routes/first/hidden-child'
+      },
+      {
+        routePath: 'order-routes/first/shown-child'
+      },
+      {
         routePath: 'order-routes/third'
       },
       {
@@ -47,6 +53,12 @@ class MockStacheConfigService {
       },
       {
         routePath: 'order-routes/fourth'
+      },
+      {
+        routePath: 'order-routes/shown-child'
+      },
+      {
+        routePath: 'order-routes/hidden-child'
       },
       {
         routePath: 'parent'
@@ -90,6 +102,16 @@ class MockStacheRouteMetadataService {
         name: 'A First'
       },
       {
+        path: 'order-routes/hidden-child',
+        showInNav: false,
+        name: 'Z Hidden Route'
+      },
+      {
+        path: 'order-routes/shown-child',
+        showInNav: true,
+        name: 'Z Shown route'
+      },
+      {
         path: 'order-routes/third',
         name: 'C Third'
       },
@@ -119,6 +141,18 @@ class MockStacheRouteMetadataService {
         path: 'order-routes/first/order-three',
         order: 3,
         name: 'B Three'
+      },
+      {
+        path: 'order-routes/first/hidden-child',
+        showInNav: false,
+        name: 'Hidden grandchild route',
+        order: 9999
+      },
+      {
+        path: 'order-routes/first/shown-child',
+        showInNav: true,
+        name: 'Shown grandchild route',
+        order: 99999
       },
       {
         path: 'order-routes/first/sample',
@@ -214,11 +248,53 @@ describe('StacheRouteService', () => {
     expect(activeRoutes[0].children[2].name).toBe('C Third');
   });
 
+  it('should filter out routes with showInNav: false', () => {
+    router.url = '/order-routes';
+    let activeRoutes = routeService.getActiveRoutes();
+    expect(activeRoutes[0].children[0].name).toBe('A First');
+    expect(activeRoutes[0].children[2].name).toBe('C Third');
+    expect(activeRoutes[0].children).not.toContain({
+      path: 'order-routes/hidden-child',
+      children: [],
+      name: 'Z Hidden Route',
+      showInNav: false
+    });
+
+    expect(activeRoutes[0].children).toContain(      {
+      path: 'order-routes/shown-child',
+      showInNav: true,
+      name: 'Z Shown route',
+      children: [ ]
+    });
+  });
+
   it('should arrange routes in their nav Order locations', () => {
     router.url = '/order-routes';
     let activeRoutes = routeService.getActiveRoutes();
     expect(activeRoutes[0].children[0].children[0].name).toBe('Order One');
     expect(activeRoutes[0].children[0].children[6].name).toBe('A Three');
+  });
+
+  it('should filter out all decendant routes containing showInNav: true', () => {
+    router.url = '/order-routes';
+    let activeRoutes = routeService.getActiveRoutes();
+    expect(activeRoutes[0].children[0].children[0].name).toBe('Order One');
+    expect(activeRoutes[0].children[0].children[6].name).toBe('A Three');
+    expect(activeRoutes[0].children[0].children).not.toContain({
+      path: 'order-routes/first/hidden-child',
+      children: [  ],
+      name: 'Hidden grandchild route',
+      showInNav: true,
+      order: 9999
+    });
+
+    expect(activeRoutes[0].children[0].children).toContain({
+      path: 'order-routes/first/shown-child',
+      children: [  ],
+      name: 'Shown grandchild route',
+      showInNav: true,
+      order: 99999
+    });
   });
 
   it('should order routes with the same navOrder alphabetically', () => {

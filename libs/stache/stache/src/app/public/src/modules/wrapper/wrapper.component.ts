@@ -57,6 +57,9 @@ export class StacheWrapperComponent implements OnInit, OnDestroy, AfterViewInit 
   @Input()
   public showBackToTop: boolean = true;
 
+  @Input()
+  public showInNav: boolean = true;
+
   public jsonData: any;
   public inPageRoutes: StacheNavLink[] = [];
   private pageAnchorSubscription: Subscription;
