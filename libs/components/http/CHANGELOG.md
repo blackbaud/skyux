@@ -1,3 +1,7 @@
+# 3.0.0 (2018-09-19)
+
+- Initial major release.
+
 # 3.0.0-alpha.4 (2018-09-19)
 
 - Added `SkyAuthHttpModule`. [#10](https://github.com/blackbaud/skyux-http/pull/10)
