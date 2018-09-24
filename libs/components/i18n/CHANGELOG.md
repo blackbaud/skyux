@@ -1,3 +1,7 @@
+# 3.0.1 (2018-09-24)
+
+- Fixed `SkyI18nModule` to properly import `HttpModule`. [#11](https://github.com/blackbaud/skyux-i18n/pull/11)
+
 # 3.0.0 (2018-09-20)
 
 - Initial major release.
