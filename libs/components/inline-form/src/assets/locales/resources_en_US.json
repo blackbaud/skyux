@@ -1,18 +1,6 @@
 {
-  "skyux_numeric_billions_symbol": {
-    "_description": "Symbol to be used when abbreviating a \"billion\" number.",
-    "message": "B"
-  },
-  "skyux_numeric_millions_symbol": {
-    "_description": "Symbol to be used when abbreviating a \"million\" number.",
-    "message": "M"
-  },
-  "skyux_numeric_thousands_symbol": {
-    "_description": "Symbol to be used when abbreviating a \"thousand\" number.",
-    "message": "K"
-  },
-  "skyux_numeric_trillions_symbol": {
-    "_description": "Symbol to be used when abbreviating a \"trillion\" number.",
-    "message": "T"
+  "skyux_some_key": {
+    "_description": "",
+    "message": ""
   }
 }
