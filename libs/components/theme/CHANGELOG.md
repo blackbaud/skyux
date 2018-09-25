@@ -1,3 +1,7 @@
+# 3.2.0 (2018-09-25)
+
+- Added support for `@skyux/theme@0.0.10`.
+
 # 3.1.1 (2018-09-17)
 
 - Fixed text input styles for iOS devices. [#28](https://github.com/blackbaud/skyux-theme/pull/28)
