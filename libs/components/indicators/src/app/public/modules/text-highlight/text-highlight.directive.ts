@@ -27,7 +27,7 @@ export class SkyTextHighlightDirective
 
   private static getRegexMatch(node: HTMLElement, searchText: string): RegExpExecArray {
     const text = node.nodeValue;
-    const newSearchText = searchText.replace(/\\/g, '\\\\');
+    const newSearchText = this.cleanRegex(searchText);
     const searchRegex = new RegExp(newSearchText, 'gi');
     return searchRegex.exec(text);
   }
@@ -146,5 +146,15 @@ export class SkyTextHighlightDirective
       const config = { attributes: true, childList: true, characterData: true };
       this.observer.observe(this.el.nativeElement, config);
     }
+  }
+
+  private static cleanRegex(regex: string) {
+    return regex
+      .replace(/\\/g, '\\\\')
+      .replace(/\(/g, '\\(')
+      .replace(/\)/g, '\\)')
+      .replace(/\{/g, '\\{')
+      .replace(/\}/g, '\\}')
+      .replace(/\./g, '\\.');
   }
 }
