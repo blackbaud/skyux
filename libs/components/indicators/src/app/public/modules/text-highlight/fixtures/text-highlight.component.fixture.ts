@@ -8,4 +8,6 @@ import { Component } from '@angular/core';
 export class SkyTextHighlightTestComponent {
   public searchTerm: string;
   public showAdditionalContent: boolean = false;
+  public innerText1: string = 'Here is some test text.';
+  public innerText2: string = 'Here is additional text that was previously hidden in src\\app.';
 }

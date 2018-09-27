@@ -16,8 +16,8 @@
   class="sky-test-div-container"
   [skyHighlight]="searchTerm"
 >
-  Here is some test text.
+  {{innerText1}}
   <div *ngIf="showAdditionalContent">
-    Here is (additional) {{"{text}"}} that was previously hidden in src\app.
+    {{innerText2}}
   </div>
 </div>

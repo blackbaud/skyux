@@ -149,12 +149,6 @@ export class SkyTextHighlightDirective
   }
 
   private static cleanRegex(regex: string) {
-    return regex
-      .replace(/\\/g, '\\\\')
-      .replace(/\(/g, '\\(')
-      .replace(/\)/g, '\\)')
-      .replace(/\{/g, '\\{')
-      .replace(/\}/g, '\\}')
-      .replace(/\./g, '\\.');
+    return regex.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
   }
 }
