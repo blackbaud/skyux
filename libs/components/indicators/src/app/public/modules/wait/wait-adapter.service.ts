@@ -17,9 +17,17 @@ export class SkyWaitAdapterService {
     this.renderer.setElementStyle(waitEl.nativeElement.parentElement, 'position', undefined);
   }
 
-  public setBusyState(waitEl: ElementRef, isFullPage: boolean, isWaiting: boolean) {
+  public setBusyState(
+    waitEl: ElementRef,
+    isFullPage: boolean,
+    isWaiting: boolean,
+    isNonBlocking = false
+  ): void {
     let busyEl = isFullPage ? document.body : waitEl.nativeElement.parentElement;
     let state = isWaiting ? 'true' : undefined;
-    this.renderer.setElementAttribute(busyEl, 'aria-busy', state);
+
+    if (!isNonBlocking) {
+      this.renderer.setElementAttribute(busyEl, 'aria-busy', state);
+    }
   }
 }

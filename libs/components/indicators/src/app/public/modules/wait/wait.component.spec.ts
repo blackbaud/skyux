@@ -4,6 +4,14 @@ import {
 } from '@angular/core/testing';
 
 import {
+  SkyAppResourcesService
+} from '@skyux/i18n';
+
+import {
+  SkyAppResourcesTestService
+} from '@skyux/i18n/testing';
+
+import {
   expect
 } from '@skyux-sdk/testing';
 
@@ -24,12 +32,18 @@ describe('Wait component', () => {
     TestBed.configureTestingModule({
       imports: [
         SkyWaitFixturesModule
+      ],
+      providers: [
+        {
+          provide: SkyAppResourcesService,
+          useClass: SkyAppResourcesTestService
+        }
       ]
     });
   });
 
   it('should show the wait element when isWaiting is set to true', async(() => {
-    let fixture = TestBed.createComponent(SkyWaitComponent);
+    const fixture = TestBed.createComponent(SkyWaitComponent);
 
     fixture.detectChanges();
 
@@ -47,7 +61,7 @@ describe('Wait component', () => {
   }));
 
   it('should set relative position on the wait component parent element', () => {
-     let fixture = TestBed.createComponent(SkyWaitTestComponent);
+     const fixture = TestBed.createComponent(SkyWaitTestComponent);
 
     fixture.detectChanges();
 
@@ -65,7 +79,7 @@ describe('Wait component', () => {
   });
 
   it('should set the appropriate class when wait component fullPage is set to true', () => {
-    let fixture = TestBed.createComponent(SkyWaitTestComponent);
+    const fixture = TestBed.createComponent(SkyWaitTestComponent);
 
     fixture.detectChanges();
 
@@ -90,7 +104,7 @@ describe('Wait component', () => {
   });
 
   it('should set the appropriate class when nonBlocking is set to true', () => {
-    let fixture = TestBed.createComponent(SkyWaitTestComponent);
+    const fixture = TestBed.createComponent(SkyWaitTestComponent);
 
     fixture.detectChanges();
 
@@ -107,7 +121,7 @@ describe('Wait component', () => {
   });
 
   it('should set aria-busy on document body when fullPage is true', async(() => {
-    let fixture = TestBed.createComponent(SkyWaitTestComponent);
+    const fixture = TestBed.createComponent(SkyWaitTestComponent);
 
     fixture.detectChanges();
 
@@ -126,7 +140,7 @@ describe('Wait component', () => {
   }));
 
   it('should set aria-busy on containing div when fullPage is set to false', () => {
-    let fixture = TestBed.createComponent(SkyWaitTestComponent);
+    const fixture = TestBed.createComponent(SkyWaitTestComponent);
 
     fixture.detectChanges();
 
@@ -139,4 +153,85 @@ describe('Wait component', () => {
     fixture.detectChanges();
     expect(el.querySelector('.sky-wait-test-component').getAttribute('aria-busy')).toBeNull();
   });
+
+  function getAriaLabel(): string {
+    return document.body.querySelector('.sky-wait-mask').getAttribute('aria-label');
+  }
+
+  it('should use inputted aria-label', async(() => {
+    const fixture = TestBed.createComponent(SkyWaitTestComponent);
+
+    fixture.componentInstance.ariaLabel = 'test label';
+    fixture.componentInstance.isWaiting = true;
+    fixture.componentInstance.isNonBlocking = false;
+    fixture.detectChanges();
+
+    const ariaLabel = getAriaLabel();
+    expect(ariaLabel).toBe('test label');
+  }));
+
+  it('should set aria-label on document body when fullPage is true and is blocking',
+    async(() => {
+      const fixture = TestBed.createComponent(SkyWaitTestComponent);
+
+      fixture.componentInstance.isFullPage = true;
+      fixture.componentInstance.isWaiting = true;
+      fixture.componentInstance.isNonBlocking = false;
+      fixture.detectChanges();
+
+      const ariaLabel = getAriaLabel();
+      expect(ariaLabel).toBe('Page loading. Please wait.');
+    }));
+
+  it('should set aria-label on document body when fullPage is true and is not blocking',
+    async(() => {
+      const fixture = TestBed.createComponent(SkyWaitTestComponent);
+
+      fixture.componentInstance.isFullPage = true;
+      fixture.componentInstance.isWaiting = true;
+      fixture.componentInstance.isNonBlocking = true;
+      fixture.detectChanges();
+
+      const ariaLabel = getAriaLabel();
+      expect(ariaLabel).toBe('Page loading.');
+    }));
+
+  it('should set aria-label on containing div when fullPage is set to false and is blocking',
+    async(() => {
+      const fixture = TestBed.createComponent(SkyWaitTestComponent);
+
+      fixture.componentInstance.isFullPage = false;
+      fixture.componentInstance.isWaiting = true;
+      fixture.componentInstance.isNonBlocking = false;
+      fixture.detectChanges();
+
+      const ariaLabel = getAriaLabel();
+      expect(ariaLabel).toBe('Loading. Please wait.');
+    }));
+
+  it('should set aria-label on containing div when fullPage is set to false and is not blocking',
+    async(() => {
+      const fixture = TestBed.createComponent(SkyWaitTestComponent);
+
+      fixture.componentInstance.isFullPage = false;
+      fixture.componentInstance.isWaiting = true;
+      fixture.componentInstance.isNonBlocking = true;
+      fixture.detectChanges();
+
+      const ariaLabel = getAriaLabel();
+      expect(ariaLabel).toBe('Loading.');
+    }));
+
+  it('should not use default aria-label when one is provided', async(() => {
+    const fixture = TestBed.createComponent(SkyWaitTestComponent);
+
+    fixture.componentInstance.isFullPage = false;
+    fixture.componentInstance.isWaiting = true;
+    fixture.componentInstance.isNonBlocking = false;
+    fixture.componentInstance.ariaLabel = 'Waiting on the page to load.';
+    fixture.detectChanges();
+
+    const ariaLabel = getAriaLabel();
+    expect(ariaLabel).toBe('Waiting on the page to load.');
+  }));
 });

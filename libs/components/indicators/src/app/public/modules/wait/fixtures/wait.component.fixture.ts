@@ -16,4 +16,7 @@ export class SkyWaitTestComponent {
 
   @Input()
   public isNonBlocking: boolean;
+
+  @Input()
+  public ariaLabel: string;
 }

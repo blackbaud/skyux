@@ -14,5 +14,21 @@
   "sky_tokens_dismiss_button_title": {
     "_description": "The default text for the token dismiss button title.",
     "message": "Remove item"
+  },
+  "sky_wait_aria_alt_text": {
+    "_description": "The default alt text for a non-blocking section wait component.",
+    "message": "Loading."
+  },
+  "sky_wait_blocking_aria_alt_text": {
+    "_description": "The default alt text for a blocking section wait component.",
+    "message": "Loading. Please wait."
+  },
+  "sky_wait_page_aria_alt_text": {
+    "_description": "The default alt text for a non-blocking page wait component.",
+    "message": "Page loading."
+  },
+  "sky_wait_page_blocking_aria_alt_text": {
+    "_description": "The default alt text for a blocking page wait component.",
+    "message": "Page loading. Please wait."
   }
 }
