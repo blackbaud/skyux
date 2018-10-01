@@ -1,0 +1,46 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+:host {
+  display: flex;
+  padding: 0 $sky-padding;
+}
+
+.sky-tile-dashboard-layout-multi {
+  display: block;
+}
+
+.sky-tile-dashboard-layout-single {
+  display: none;
+}
+
+@media (max-width: $sky-screen-sm-max) {
+  :host {
+    display: block;
+    padding: 0;
+  }
+
+  .sky-tile-dashboard-layout-multi {
+    display: none;
+  }
+
+  .sky-tile-dashboard-layout-single {
+    display: block;
+  }
+
+  :host ::ng-deep .sky-tile-dashboard-column {
+    padding: 0;
+  }
+}
+
+@media (max-width: $sky-screen-xs-max) {
+  :host ::ng-deep .sky-tile {
+    margin-bottom: 0 !important;
+  }
+}
+
+.sky-assistive-text {
+  @media screen {
+    @include sky-screen-reader-only();
+  }
+}

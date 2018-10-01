@@ -1,0 +1,7 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-tile-title {
+  margin: 0;
+  padding: $sky-padding $sky-tile-header-tool-padding;
+}

@@ -1,0 +1,48 @@
+<section
+    class="sky-tile"
+    [ngClass]="{
+      'sky-tile-collapsed': isCollapsed
+    }"
+>
+  <header class="sky-tile-header">
+    <div class="sky-tile-header-content" (click)="titleClick()">
+      <div #titleContainer>
+        <ng-content select="sky-tile-title"></ng-content>
+      </div>
+      <div class="sky-tile-summary sky-headline">
+        <ng-content select="sky-tile-summary"></ng-content>
+      </div>
+    </div>
+    <div class="sky-tile-header-column-tools">
+      <div class="sky-tile-tools">
+        <sky-chevron
+            [direction]="isCollapsed ? 'down' : 'up'"
+            (directionChange)="chevronDirectionChange($event)"
+        >
+        </sky-chevron>
+        <button
+            type="button"
+            *ngIf="hasSettings"
+            class="sky-tile-settings"
+            [attr.aria-label]="'tile_settings' | skyAppResources"
+            (click)="settingsButtonClicked();"
+        >
+          <sky-icon icon="cog"></sky-icon>
+        </button>
+        <sky-icon
+          *ngIf="isInDashboardColumn"
+          class="sky-tile-grab-handle"
+          icon="th"
+          tabindex="0"
+          [attr.aria-label]="'tile_grab_handle' | skyAppResources"
+          (keydown)="moveTile($event)"
+          #grabHandle
+        >
+        </sky-icon>
+      </div>
+    </div>
+  </header>
+  <div class="sky-tile-content" [@skyAnimationSlide]="isCollapsed ? 'up' : 'down'">
+    <ng-content select="sky-tile-content"></ng-content>
+  </div>
+</section>

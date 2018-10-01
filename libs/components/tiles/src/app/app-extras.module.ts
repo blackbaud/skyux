@@ -3,17 +3,27 @@ import {
 } from '@angular/core';
 
 import {
-  SkySampleModule
+  SkyTilesModule
 } from './public';
+
+import {
+  SkyTileDemoTile1Component
+} from './visual/tiles/tile-demo-tile1.component';
+import {
+  SkyTileDemoTile2Component
+} from './visual/tiles/tile-demo-tile2.component';
 
 @NgModule({
   imports: [
-    SkySampleModule
+    SkyTilesModule
   ],
   exports: [
-    SkySampleModule
+    SkyTilesModule
   ],
   providers: [],
-  entryComponents: []
+  entryComponents: [
+    SkyTileDemoTile1Component,
+    SkyTileDemoTile2Component
+  ]
 })
 export class AppExtrasModule { }
