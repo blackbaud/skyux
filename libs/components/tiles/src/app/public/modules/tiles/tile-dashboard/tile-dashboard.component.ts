@@ -88,14 +88,14 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
           this.mediaQuery.current === SkyMediaBreakpoints.xs ||
           this.mediaQuery.current === SkyMediaBreakpoints.sm
         ) {
-          messageObservable = this.resourcesService.getString('tile_moved_assistive_text',
+          messageObservable = this.resourcesService.getString('skyux_tile_moved_assistive_text',
             config.movedTile.tileDescription,
             '1',
             '1',
             config.movedTile.position.toString(),
             config.layout.singleColumn.tiles.length.toString());
         } else {
-          messageObservable = this.resourcesService.getString('tile_moved_assistive_text',
+          messageObservable = this.resourcesService.getString('skyux_tile_moved_assistive_text',
             config.movedTile.tileDescription,
             config.movedTile.column.toString(),
             config.layout.multiColumn.length.toString(),

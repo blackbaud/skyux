@@ -1,13 +1,13 @@
 {
-  "tile_settings": {
+  "skyux_tile_settings": {
     "_description": "Label for settings button in the tile",
     "message": "Settings"
   },
-  "tile_grab_handle": {
+  "skyux_tile_grab_handle": {
     "_description": "Label for grab handle in the tile",
     "message": "Use arrow keys to reorder. Press up and down arrow keys to change position in column. Press left and right arrow keys to change position to another column."
   },
-  "tile_moved_assistive_text": {
+  "skyux_tile_moved_assistive_text": {
     "_description": "Report of the new location of a recently moved tile",
     "message": "{0} moved. Current column: {1} of {2}. Current position in column: {3} of {4}"
   }
