@@ -1,0 +1,138 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-file-drop-col {
+  margin-bottom: $sky-margin;
+  padding-left: $sky-margin-half;
+  padding-right: $sky-margin-half;
+  position: relative;
+}
+
+@media (min-width: $sky-screen-sm-min) {
+  .sky-file-drop-row {
+    display: flex;
+  }
+
+  .sky-file-drop-col {
+    flex-basis: 100%;
+  }
+
+  .sky-file-drop-allow-links.sky-file-drop-col {
+    flex-basis: 50%;
+  }
+}
+
+button.sky-file-drop {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.sky-file-drop-contents {
+  @include sky-border(dark, top, bottom, left, right);
+  background-color: $sky-background-color-neutral-light;
+  color: $sky-text-color-default;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  height: 100%;
+
+  .sky-file-drop-link-header {
+    margin-bottom: $sky-margin-half;
+  }
+}
+
+.sky-file-drop-noclick {
+  .sky-file-drop-contents {
+    cursor: default;
+  }
+}
+
+.sky-file-drop-accept,
+.sky-file-drop-reject {
+  .sky-file-drop-contents {
+    border-style: dashed;
+    border-width: 1px;
+  }
+
+  .sky-file-drop-contents-not-over {
+    display: none;
+  }
+}
+
+.sky-file-drop-accept {
+  .sky-file-drop-contents {
+    border-color: $sky-highlight-color-success;
+    color: $sky-text-color-default;
+  }
+  .sky-file-drop-contents-accept {
+    display: block;
+  }
+}
+
+.sky-file-drop-reject {
+  .sky-file-drop-contents {
+    border-color: $sky-highlight-color-danger;
+    color: $sky-text-color-default;
+  }
+  .sky-file-drop-contents-reject {
+    display: block;
+  }
+}
+
+.sky-file-drop-contents-accept,
+.sky-file-drop-contents-reject {
+  display: none;
+}
+
+.sky-file-upload-icon {
+  display: block;
+  font-size: 40px;
+  max-height: 40px;
+  margin-top: $sky-margin;
+}
+
+.sky-file-drop-link {
+  cursor: default;
+}
+
+.sky-file-drop-text-header {
+  margin: 0;
+}
+
+.sky-file-drop-text {
+  font-size: $sky-font-size-base;
+  margin-top: $sky-margin-half;
+  margin-bottom: $sky-margin-double;
+}
+
+.sky-file-drop-text,
+.sky-file-drop-text-header {
+  line-height: 1.1;
+  display: block;
+}
+
+.sky-file-upload-icon {
+  color: $sky-text-color-deemphasized;
+}
+
+.sky-file-drop {
+  background-color: transparent;
+  border: none;
+  display: block;
+  -webkit-appearance: none;
+  width: 100%;
+  padding: 0;
+}
+
+.sky-file-input-hidden {
+  display: none;
+}

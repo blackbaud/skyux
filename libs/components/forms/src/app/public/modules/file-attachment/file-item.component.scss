@@ -1,0 +1,55 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-file-item {
+  @include sky-border(light, top, bottom, left, right);
+  background-color: $sky-background-color-neutral-light;
+  margin-bottom: $sky-margin;
+}
+
+.sky-file-item-name-container {
+  display: inline-block;
+  width: 85%;
+}
+
+.sky-file-item-name {
+  white-space: nowrap;
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+}
+
+.sky-file-item-title {
+  margin-bottom: $sky-margin;
+}
+
+.sky-file-item-content {
+  display: flex;
+}
+
+.sky-file-item-preview {
+  flex-basis: 25%;
+}
+
+.sky-file-item-content-custom {
+  flex-basis: 75%;
+}
+
+.sky-file-item-preview-img-container {
+  text-align: center;
+}
+
+.sky-file-item-preview-img {
+  max-width: 100%;
+  height: auto;
+  box-shadow: 0 0 5px #666;
+}
+
+.sky-file-item-preview-other {
+  color: $sky-text-color-deemphasized;
+  font-size: 100px;
+  line-height: 1;
+  text-align: center;
+  width: 100%;
+}

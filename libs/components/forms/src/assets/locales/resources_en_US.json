@@ -1,6 +1,66 @@
 {
-  "skyux_some_key": {
+  "skyux_file_attachment_file_item_delete": {
+    "_description": "Label for the button that deletes a file",
+    "message": "Delete file"
+  },
+  "skyux_file_attachment_file_size_b_plural": {
     "_description": "",
-    "message": ""
+    "message": "{0} bytes"
+  },
+  "skyux_file_attachment_file_size_b_singular": {
+    "_description": "",
+    "message": "{0} byte"
+  },
+  "skyux_file_attachment_file_size_gb": {
+    "_description": "",
+    "message": "{0} GB"
+  },
+  "skyux_file_attachment_file_size_kb": {
+    "_description": "",
+    "message": "{0} KB"
+  },
+  "skyux_file_attachment_file_size_mb": {
+    "_description": "",
+    "message": "{0} MB"
+  },
+  "skyux_file_attachment_file_upload_drag_file_here": {
+    "_description": "",
+    "message": "Drag a file here"
+  },
+  "skyux_file_attachment_file_upload_drag_or_click": {
+    "_description": "Label for file drop",
+    "message": "Drag a file here or click to browse"
+  },
+  "skyux_file_attachment_file_upload_drop_files_here": {
+    "_description": "",
+    "message": "Drop files here"
+  },
+  "skyux_file_attachment_file_upload_image_preview_alt_text": {
+    "_description": "Alt text for uploaded image",
+    "message": "Image preview"
+  },
+  "skyux_file_attachment_file_upload_invalid_file": {
+    "_description": "",
+    "message": "This file type is invalid"
+  },
+  "skyux_file_attachment_file_upload_link_input": {
+    "_description": "Label for input to upload file",
+    "message": "Add a link to a file"
+  },
+  "skyux_file_attachment_file_upload_link_placeholder": {
+    "_description": "",
+    "message": "http://www.something.com/file"
+  },
+  "skyux_file_attachment_file_upload_or_click_to_browse": {
+    "_description": "",
+    "message": "or click to browse"
+  },
+  "skyux_file_attachment_file_upload_paste_link": {
+    "_description": "",
+    "message": "Paste a link to a file"
+  },
+  "skyux_file_attachment_file_upload_paste_link_done": {
+    "_description": "",
+    "message": "Done"
   }
 }

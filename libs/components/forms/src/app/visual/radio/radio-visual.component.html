@@ -1,0 +1,83 @@
+<form
+  novalidate
+  [formGroup]="radioForm"
+>
+  <h3
+    id="favorite-id"
+  >
+    What is your favorite season?
+  </h3>
+  <div id="screenshot-radio">
+    <sky-radio-group
+      ariaLabelledBy="favorite-id"
+      formControlName="favoriteSeason"
+    >
+      <ul
+        class="sky-list-unstyled"
+      >
+        <li *ngFor="let value of seasons">
+          <sky-radio
+            name="radiotest"
+            [disabled]="value.disabled"
+            [value]="value"
+          >
+            <sky-radio-label>
+              {{ value.name }}
+            </sky-radio-label>
+          </sky-radio>
+        </li>
+      </ul>
+    </sky-radio-group>
+  </div>
+</form>
+<form
+  novalidate
+>
+  <h3
+    id="icon-radio-group-label"
+  >
+    Do you like it?
+  </h3>
+  <div id="screenshot-icon-radio">
+    <ul
+      class="sky-list-unstyled"
+      aria-labelledby="icon-radio-group-label"
+      role="radiogroup"
+    >
+      <li>
+        <sky-radio
+          icon="thumbs-o-up"
+          label="I like it"
+          name="iconradiotest"
+          value="1"
+          [(ngModel)]="iconSelectedValue"
+          #cb="ngModel"
+        >
+        </sky-radio>
+      </li>
+      <li>
+        <sky-radio
+          disabled="true"
+          icon="balance-scale"
+          label="meh"
+          name="iconradiotest"
+          [ngModel]="iconSelectedValue"
+          [value]="valueGuy"
+          (ngModelChange)="iconSelectedValue = $event"
+        >
+        </sky-radio>
+      </li>
+      <li>
+        <sky-radio
+          icon="thumbs-o-down"
+          label="I hate it"
+          name="iconradiotest"
+          value="3"
+          [ngModel]="iconSelectedValue"
+          (ngModelChange)="iconSelectedValue = $event"
+        >
+        </sky-radio>
+      </li>
+    </ul>
+  </div>
+</form>
