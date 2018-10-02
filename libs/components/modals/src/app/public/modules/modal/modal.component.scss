@@ -1,0 +1,126 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-modal {
+  @include sky-border(dark, top, bottom, left, right);
+  position: fixed;
+  width: auto;
+  left: 0;
+  right: 0;
+  top: 20px;
+  margin: $sky-margin;
+  display: flex;
+  flex-direction: column;
+}
+
+.sky-modal:focus {
+  outline: none;
+}
+
+@media (min-width: $sky-screen-sm-min) {
+  .sky-modal:not(.sky-modal-large) {
+    margin: 0 auto;
+  }
+
+  .sky-modal-small {
+    width: 300px;
+  }
+
+  .sky-modal-medium {
+    width: 600px;
+  }
+}
+
+@media (min-width: 920px) {
+  .sky-modal-large {
+    margin: 0 auto;
+    width: 900px;
+  }
+}
+
+.sky-modal-content {
+  background-color: #fff;
+}
+
+.sky-modal-tiled .sky-modal-content {
+  background-color: $sky-background-color-neutral-light;
+
+  ::ng-deep .sky-tile-title {
+    @include sky-subsection-heading();
+  }
+
+  ::ng-deep .sky-tile-tools .sky-chevron {
+    margin: 9px ($sky-tile-header-tool-padding - 6) 8px 0;
+  }
+}
+
+.sky-modal-header {
+  /* Need less padding because of the close button padding */
+  padding-left: $sky-padding-plus-half;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  padding-right: 3px;
+
+  background-color: #fff;
+
+  display: flex;
+  align-items: baseline;
+  @include sky-border(light, bottom);
+}
+
+
+.sky-modal-header-buttons {
+  .sky-btn {
+    border: none;
+    @include sky-icon-button-borderless;
+  }
+}
+
+.sky-modal-header-content {
+  flex-grow: 1;
+}
+
+.sky-modal-header {
+  flex-shrink: 0;
+}
+
+.sky-modal-content {
+  overflow-y: auto;
+}
+
+.sky-modal-footer {
+  flex-shrink: 0;
+  ::ng-deep sky-tabset-nav-button + sky-tabset-nav-button {
+    margin-left: $sky-margin;
+  }
+   ::ng-deep sky-tabset-nav-button + .sky-btn {
+    margin-left: $sky-margin;
+  }
+
+  ::ng-deep .sky-btn + .sky-btn {
+    margin-left: $sky-margin;
+  }
+
+  ::ng-deep .sky-btn + .sky-btn-link {
+    margin-left: -2px; /* offset the padding of the btn-link */
+  }
+}
+
+.sky-modal-full-page {
+  width:100%;
+  top:0;
+  margin:0;
+
+  .sky-modal-header-buttons sky-icon[icon="close"] {
+    font-size: 20px;
+  }
+
+}
+.sky-modal-full-page .sky-modal-content {
+    flex-grow: 1;
+}
+
+:host ::ng-deep .sky-sectioned-form {
+  height: 460px;
+  margin: -$sky-margin-plus-half;
+}

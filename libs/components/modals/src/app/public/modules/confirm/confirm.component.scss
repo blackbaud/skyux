@@ -1,0 +1,21 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-confirm-message {
+  margin-top: $sky-margin-half;
+}
+
+.sky-confirm-body {
+  margin-top: $sky-margin;
+}
+
+.sky-confirm-buttons {
+  margin-top: $sky-margin-double;
+  .sky-btn {
+    margin-right: $sky-margin-half;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}

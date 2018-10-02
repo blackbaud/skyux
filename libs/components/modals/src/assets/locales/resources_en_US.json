@@ -1,6 +1,34 @@
 {
-  "skyux_some_key": {
-    "_description": "",
-    "message": ""
+  "skyux_confirm_dialog_default_ok_text": {
+    "_description": "Default text for confirm dialog's OK button",
+    "message": "OK"
+  },
+  "skyux_confirm_dialog_default_yes_text": {
+    "_description": "Default text for confirm dialog's Yes button",
+    "message": "Yes"
+  },
+  "skyux_confirm_dialog_default_no_text": {
+    "_description": "Default text for confirm dialog's No button",
+    "message": "No"
+  },
+  "skyux_confirm_dialog_default_cancel_text": {
+    "_description": "Default text for confirm dialog's Cancel button",
+    "message": "Cancel"
+  },
+  "skyux_modal_close": {
+    "_description": "Text for modal close button",
+    "message": "Close modal"
+  },
+  "skyux_modal_open_help": {
+    "_description": "Text for modal header Open Help button",
+    "message": "Open Help"
+  },
+  "skyux_modal_footer_cancel_button": {
+    "_description": "Default label text for modal cancel button",
+    "message": "Cancel"
+  },
+  "skyux_modal_footer_primary_button": {
+    "_description": "Default label text for modal primary button",
+    "message": "Save"
   }
 }
