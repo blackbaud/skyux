@@ -1,0 +1,55 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-dropdown {
+  ::ng-deep .sky-popover-container {
+    padding: 0;
+    min-width: auto;
+    max-width: none;
+
+    .sky-popover {
+      border-radius: 0 !important;
+      border: 0 !important;
+    }
+
+    .sky-popover-body {
+      padding: 0;
+    }
+
+    .sky-popover-arrow {
+      display: none;
+    }
+  }
+}
+
+.sky-dropdown-button-type-tab {
+  @include sky-btn-tab();
+  @include sky-btn-tab-selected();
+  max-width: 100%;
+}
+
+.sky-dropdown-button-type-context-menu {
+  border-radius: 50%;
+  padding-bottom: 3px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 3px;
+}
+
+.sky-dropdown-caret {
+  margin-left: $sky-margin;
+}
+
+.sky-dropdown-button-container {
+  display: flex;
+}
+
+.sky-dropdown-button-content-container {
+  flex-shrink: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sky-dropdown-button-icon-container {
+  flex-grow: 1;
+}

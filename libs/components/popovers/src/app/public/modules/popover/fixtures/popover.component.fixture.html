@@ -1,0 +1,61 @@
+<div>
+  <button type="button" [skyPopover]="mypopover1">
+    Open
+  </button>
+
+  <sky-popover #mypopover1>
+    Some text.
+  </sky-popover>
+
+  <button type="button" [skyPopover]="mypopover2" skyPopoverPlacement="below">
+    Open
+  </button>
+
+  <sky-popover #mypopover2>
+    Some text.
+  </sky-popover>
+
+  <button type="button" [skyPopover]="mypopover3" skyPopoverPlacement="below" skyPopoverTrigger="mouseenter">
+    Open
+  </button>
+
+  <sky-popover #mypopover3>
+    Some text.
+  </sky-popover>
+
+  <button type="button" [skyPopover]="mypopover4" skyPopoverPlacement="above" skyPopoverAlignment="left">
+    Open
+  </button>
+
+  <sky-popover #mypopover4>
+    Some text.
+  </sky-popover>
+
+  <button
+    type="button"
+    class="sky-btn sky-btn-default"
+    [skyPopover]="asyncPopoverRef">
+    This trigger has an asynchronous popover
+  </button>
+
+  <sky-popover #asyncPopover>
+    My asynchronous popover.
+  </sky-popover>
+
+  <sky-popover #anotherAsyncPopover>
+    My asynchronous popover.
+  </sky-popover>
+
+  <button
+    type="button"
+    class="sky-btn sky-btn-defauilt"
+    [skyPopover]="programmaticPopover"
+    [skyPopoverMessageStream]="messageStream"
+  >
+    Open
+  </button>
+
+  <sky-popover #programmaticPopover>
+    My programmatic popover.
+  </sky-popover>
+</div>

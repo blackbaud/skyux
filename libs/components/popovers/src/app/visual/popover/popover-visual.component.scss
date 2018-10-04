@@ -1,0 +1,33 @@
+::ng-deep
+.sky-popover-container:not(.hidden) {
+  animation-play-state: visible !important;
+}
+
+#screenshot-all-popovers {
+  display: flex;
+  flex-wrap: wrap;
+
+  .popover-visual-container {
+    padding: 10px;
+
+    ::ng-deep .sky-popover-container {
+      position: relative !important;
+      width: 100% !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      z-index: 1;
+      left: auto !important;
+      top: auto !important;
+
+      .sky-popover {
+        margin: 0;
+      }
+    }
+  }
+}
+
+#screenshot-popover-placements,
+#screenshot-popover-with-dropdown,
+screenshot-popover-positioned-parent {
+  padding: 200px 350px;
+}

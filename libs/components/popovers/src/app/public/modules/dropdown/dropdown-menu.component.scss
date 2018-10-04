@@ -1,0 +1,12 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-dropdown-menu {
+  display: flex;
+  flex-direction: column;
+
+  ::ng-deep button {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

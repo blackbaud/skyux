@@ -3,15 +3,18 @@ import {
 } from '@angular/core';
 
 import {
-  SkySampleModule
+  SkyDropdownModule,
+  SkyPopoverModule
 } from './public';
 
 @NgModule({
   imports: [
-    SkySampleModule
+    SkyDropdownModule,
+    SkyPopoverModule
   ],
   exports: [
-    SkySampleModule
+    SkyDropdownModule,
+    SkyPopoverModule
   ],
   providers: [],
   entryComponents: []
