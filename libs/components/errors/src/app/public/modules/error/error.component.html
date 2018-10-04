@@ -1,0 +1,29 @@
+<div class="sky-error">
+  <div>
+    <div class="sky-error-image-container">
+      <div *ngIf="showBrokenImage()" class="sky-error-broken-image">
+      </div>
+      <div *ngIf="showNotFoundImage()" class="sky-error-notfound-image">
+      </div>
+      <div *ngIf="showConstructionImage()" class="sky-error-construction-image">
+      </div>
+      <div *ngIf="showSecurityImage()" class="sky-error-security-image">
+      </div>
+
+      <ng-content select="sky-error-image"></ng-content>
+    </div>
+    <div class="sky-error-content sky-error-title sky-emphasized">
+      <span *ngIf="title">{{ title }}</span>
+
+      <ng-content select="sky-error-title"></ng-content>
+    </div>
+    <div class="sky-error-content sky-error-description">
+      <span *ngIf="description">{{ description }}</span>
+
+      <ng-content select="sky-error-description"></ng-content>
+    </div>
+    <div class="sky-error-content sky-error-action">
+      <ng-content select="sky-error-action"></ng-content>
+    </div>
+  </div>
+</div>

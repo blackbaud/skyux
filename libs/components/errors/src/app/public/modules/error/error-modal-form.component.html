@@ -1,0 +1,17 @@
+<sky-modal>
+  <sky-modal-content>
+    <div class="sky-error-modal-container">
+      <span class="sky-error-modal-title">{{ context.errorTitle }}</span>
+      <span class="sky-error-modal-description">{{ context.errorDescription }}</span>
+      <div class="sky-error-modal-close">
+        <button
+          type="button"
+          class="sky-btn sky-btn-primary"
+          (click)="instance.close()"
+        >
+          {{ context.errorCloseText }}
+        </button>
+      </div>
+    </div>
+  </sky-modal-content>
+</sky-modal>

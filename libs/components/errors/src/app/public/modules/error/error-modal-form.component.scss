@@ -1,0 +1,17 @@
+.sky-error-modal-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sky-error-modal-title {
+  font-weight: bold;
+}
+
+.sky-error-modal-description {
+  max-width: 100%;
+}
+
+.sky-error-modal-close {
+  margin-top: 10px;
+}
