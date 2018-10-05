@@ -92,7 +92,7 @@ export class SkyWaitComponent implements OnInit {
     if (this.resourceService) {
       const type = (this.isFullPage) ? '_page' : '';
       const blocking = (this.isNonBlocking) ? '' : '_blocking';
-      const key = `sky_wait${type}${blocking}_aria_alt_text`;
+      const key = `skyux_wait${type}${blocking}_aria_alt_text`;
       this.resourceService.getString(key).subscribe((value: string) => {
         this.ariaLabelStream.next(value);
       });

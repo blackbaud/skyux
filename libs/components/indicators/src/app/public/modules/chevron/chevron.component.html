@@ -3,7 +3,7 @@
     class="sky-chevron"
     [ngClass]="['sky-chevron-' + direction]"
     (click)="$event.stopPropagation();chevronClick()"
-    [attr.aria-label]="(direction === 'down' ? 'sky_chevron_expand' : 'sky_chevron_collapse') | skyAppResources"
+    [attr.aria-label]="(direction === 'down' ? 'skyux_chevron_expand' : 'skyux_chevron_collapse') | skyAppResources"
     [disabled]="disabled"
 >
   <i class="sky-chevron-part sky-chevron-left" aria-hidden="true"></i>

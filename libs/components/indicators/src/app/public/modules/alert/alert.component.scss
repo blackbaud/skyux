@@ -1,0 +1,110 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-alert {
+  padding: 0 $sky-padding;
+  margin-bottom: $sky-margin-double;
+  border-left: solid 30px;
+  color: $sky-text-color-default;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .sky-alert-content {
+    padding-top: $sky-padding;
+    padding-bottom: $sky-padding;
+    width: 100%;
+
+		::ng-deep a {
+			color: change-color($sky-text-color-default, $alpha: 0.8);
+			text-decoration: underline;
+
+			&:hover {
+				color: $sky-text-color-default;
+			}
+		}
+  }
+
+
+
+  button {
+    margin-left: auto;
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.sky-alert-info {
+  background-color: $sky-background-color-info;
+  border-color: $sky-highlight-color-info;
+
+  &:before {
+    content: "\f06a";
+    font-family: FontAwesome;
+    margin-left: -31px;
+    margin-right: 20px;
+    color: $sky-color-white;
+  }
+}
+
+.sky-alert-success {
+  background-color: $sky-background-color-success;
+  border-color: $sky-highlight-color-success;
+
+  &:before {
+    content: "\f00c";
+    font-family: FontAwesome;
+    margin-left: -32px;
+    margin-right: 19px;
+    color: $sky-color-white;
+  }
+}
+
+.sky-alert-warning {
+  background-color: $sky-background-color-warning;
+  border-color: $sky-highlight-color-warning;
+
+  &:before {
+    content: "\f071";
+    font-family: FontAwesome;
+    margin-left: -32px;
+    margin-right: 19px;
+    color: $sky-color-white;
+  }
+}
+
+.sky-alert-danger {
+  background-color: $sky-background-color-danger;
+  border-color: $sky-highlight-color-danger;
+
+  &:before {
+    content: "\f071";
+    font-family: FontAwesome;
+    margin-left: -32px;
+    margin-right: 19px;
+    color: $sky-color-white;
+  }
+}
+
+.sky-alert-close {
+  cursor: pointer;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0;
+  padding: 0;
+  color: $sky-text-color-default;
+  opacity: 0.8;
+  border: none;
+  background-color: transparent;
+  display: none;
+
+  &:hover {
+    opacity: 1.0;
+  }
+}
+
+.sky-alert-closeable {
+  .sky-alert-close {
+    display: block;
+  }
+}

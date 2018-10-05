@@ -28,7 +28,7 @@ export class SkyTokenComponent {
     this._ariaLabel = value;
   }
   public get ariaLabel() {
-    return this._ariaLabel || this.getString('sky_tokens_dismiss_button_title');
+    return this._ariaLabel || this.getString('skyux_tokens_dismiss_button_title');
   }
 
   @Input()
