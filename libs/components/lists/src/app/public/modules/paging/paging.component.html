@@ -1,0 +1,44 @@
+<ul *ngIf="pageCount > 1"
+  role="navigation"
+  [attr.aria-label]="pagingLabel || 'skyux_paging_label' | skyAppResources"
+>
+  <li>
+    <button
+      class="sky-btn sky-btn-default sky-paging-btn sky-paging-btn-previous"
+      sky-cmp-id="previous"
+      type="button"
+      [attr.aria-label]="'skyux_paging_previous' | skyAppResources"
+      [disabled]="isPreviousButtonDisabled"
+      (click)="previousPage()"
+    >
+      <sky-icon icon="caret-left "></sky-icon>
+    </button>
+  </li>
+  <li *ngFor="let pageNumber of displayedPages"
+    class="sky-list-paging-link"
+  >
+    <button
+      class="sky-btn sky-btn-default sky-paging-btn"
+      type="button"
+      [attr.aria-current]="currentPage === pageNumber"
+      [attr.sky-cmp-id]="pageNumber"
+      [disabled]="currentPage === pageNumber"
+      [ngClass]="{ 'sky-paging-current': currentPage === pageNumber }"
+      (click)="setPage(pageNumber)"
+    >
+      {{ pageNumber }}
+    </button>
+  </li>
+  <li>
+    <button
+      class="sky-btn sky-btn-default sky-paging-btn sky-paging-btn-next"
+      sky-cmp-id="next"
+      type="button"
+      [attr.aria-label]="'skyux_paging_next' | skyAppResources"
+      [disabled]="isNextButtonDisabled"
+      (click)="nextPage()"
+    >
+      <sky-icon icon="caret-right "></sky-icon>
+    </button>
+  </li>
+</ul>

@@ -1,0 +1,18 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-filter-summary-header {
+  margin-right: $sky-margin;
+  font-weight: 600;
+}
+
+.sky-filter-summary {
+  background-color: $sky-color-white;
+  overflow-x: auto;
+  display: flex;
+  align-items: center;
+}
+
+.sky-filter-summary-items {
+  white-space: nowrap;
+}

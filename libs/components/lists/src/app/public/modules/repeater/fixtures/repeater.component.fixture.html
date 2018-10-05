@@ -1,0 +1,23 @@
+<sky-repeater [expandMode]="expandMode">
+  <sky-repeater-item>
+    <sky-repeater-item-context-menu *ngIf="showContextMenu">
+      a
+    </sky-repeater-item-context-menu>
+    <sky-repeater-item-title>Title 1</sky-repeater-item-title>
+    <sky-repeater-item-content>Content 1</sky-repeater-item-content>
+  </sky-repeater-item>
+  <sky-repeater-item>
+    <sky-repeater-item-context-menu *ngIf="showContextMenu">
+      a
+    </sky-repeater-item-context-menu>
+    <sky-repeater-item-title>Title 2</sky-repeater-item-title>
+    <sky-repeater-item-content>Content 2</sky-repeater-item-content>
+  </sky-repeater-item>
+  <sky-repeater-item *ngIf="!removeLastItem" [isExpanded]="lastItemExpanded">
+    <sky-repeater-item-context-menu *ngIf="showContextMenu">
+      a
+    </sky-repeater-item-context-menu>
+    <sky-repeater-item-title>Title 3</sky-repeater-item-title>
+    <sky-repeater-item-content>Content 3</sky-repeater-item-content>
+  </sky-repeater-item>
+</sky-repeater>

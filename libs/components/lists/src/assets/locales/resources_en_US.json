@@ -1,6 +1,42 @@
 {
-  "skyux_some_key": {
-    "_description": "",
-    "message": ""
+  "skyux_filter_button_title": {
+    "_description": "Text for the filter button title",
+    "message": "Filter"
+  },
+  "skyux_filter_summary_close": {
+    "_description": "Text for the filter summary component's close button",
+    "message": "Remove filter"
+  },
+  "skyux_filter_summary_header": {
+    "_description": "Text for the filter summary component",
+    "message": "Filter"
+  },
+  "skyux_infinite_scroll_load_more_button": {
+    "_description": "Text for loading more in the infinite scroll button",
+    "message": "Load more"
+  },
+  "skyux_paging_label": {
+    "_description": "Default text for the label for the pagination component",
+    "message": "Pagination"
+  },
+  "skyux_paging_next": {
+    "_description": "Text for the label for the next button on the pagination component",
+    "message": "Next"
+  },
+  "skyux_paging_previous": {
+    "_description": "Text for the label for the previous button on the pagination component",
+    "message": "Previous"
+  },
+  "skyux_repeater_item_checkbox_label": {
+    "_description": "Label for the repeater item checkbox for the repeater component",
+    "message": "Select row"
+  },
+  "skyux_sort_button_label": {
+    "_description": "Text for the sort button",
+    "message": "Sort"
+  },
+  "skyux_sort_menu_heading": {
+    "_description": "Text for the heading in the sort dropdown",
+    "message": "Sort by"
   }
 }

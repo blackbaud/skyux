@@ -1,0 +1,23 @@
+@import "~@skyux/theme/scss/mixins";
+
+.sky-filter-btn-active, .sky-filter-btn-active:hover, .sky-filter-btn-active:focus   {
+   color: $sky-highlight-color-success;
+   border: 2px solid $sky-highlight-color-success;
+   padding: 5px 11px; /* offset the thicker border to avoid button size change */
+}
+
+.sky-filter-btn-active:hover, .sky-filter-btn-active:focus   {
+   color: $sky-text-color-default;
+}
+
+@media (max-width: $sky-screen-xs-max) {
+  .sky-filter-btn-text {
+    display: none;
+  }
+
+  ::ng-deep {
+    .sky-dropdown-caret {
+      display: none;
+    }
+  }
+}

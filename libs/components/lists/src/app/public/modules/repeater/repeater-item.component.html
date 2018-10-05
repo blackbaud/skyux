@@ -1,0 +1,52 @@
+<div
+  class="sky-repeater-item sky-padding-even-default"
+  [ngClass]="{
+    'sky-repeater-item-collapsible': isCollapsible,
+    'sky-repeater-item-selected': isSelected
+  }"
+>
+
+  <div class="sky-repeater-item-left">
+    <sky-checkbox
+      *ngIf="selectable"
+      class="sky-repeater-item-checkbox"
+      [checked]="isSelected"
+      [label]="'skyux_repeater_item_checkbox_label' | skyAppResources"
+      (change)="updateIsSelected($event)"
+    >
+    </sky-checkbox>
+    <div
+        class="sky-repeater-item-context-menu"
+        [hidden]="contextMenuEl.children.length === 0"
+        #contextMenuEl
+    >
+      <ng-content select="sky-repeater-item-context-menu"></ng-content>
+    </div>
+  </div>
+  <div class="sky-repeater-item-right">
+    <header
+        class="sky-repeater-item-header"
+        [hidden]="titleEl.children.length === 0"
+        (click)="headerClick()"
+    >
+      <div class="sky-repeater-item-title sky-emphasized" #titleEl>
+        <ng-content select="sky-repeater-item-title"></ng-content>
+      </div>
+      <div class="sky-repeater-item-chevron" [hidden]="!isCollapsible">
+        <sky-chevron
+            [attr.aria-controls]="contentId"
+            [attr.aria-expanded]="isExpanded"
+            [direction]="isExpanded ? 'up' : 'down'"
+            (directionChange)="chevronDirectionChange($event)"
+        >
+        </sky-chevron>
+      </div>
+    </header>
+    <div
+      class="sky-repeater-item-content"
+      [id]="contentId"
+      [@skyAnimationSlide]="slideDirection">
+      <ng-content select="sky-repeater-item-content"></ng-content>
+    </div>
+  </div>
+</div>

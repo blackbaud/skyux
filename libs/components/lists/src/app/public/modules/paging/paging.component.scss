@@ -1,0 +1,60 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+:host {
+  display: block;
+}
+
+ul {
+  margin: $sky-margin-plus-half 0 0 0;
+  display: inline-block;
+  padding-left: 0;
+  border-radius: 4px;
+}
+
+li {
+  display: inline;
+}
+
+.sky-paging-btn {
+  @include sky-border(light, top, right, bottom, left);
+  border-radius: 0;
+  background-color: $sky-color-white;
+  color: inherit;
+  float: left;
+  margin-left: -1px;
+  padding: 4px 10px;
+  text-decoration: none;
+  line-height: $sky-line-height-base;
+  font-size: $sky-font-size-base;
+  cursor: pointer;
+
+  &.sky-paging-caret {
+    transform: none;
+  }
+
+  &.sky-paging-current,
+  &.sky-paging-current:disabled,
+  &.sky-paging-current[disabled] {
+    background-color: $sky-background-color-neutral-light;
+    cursor: default;
+    color: inherit;
+    opacity: 1;
+  }
+
+  &:hover {
+    background-color: darken($sky-background-color-neutral-light, 10%);
+  }
+
+   &:disabled {
+    color: $sky-text-color-deemphasized;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  &.sky-paging-btn-previous,
+  &.sky-paging-btn-next {
+    padding-left: 8.5px;
+    padding-right: 8.5px;
+  }
+}

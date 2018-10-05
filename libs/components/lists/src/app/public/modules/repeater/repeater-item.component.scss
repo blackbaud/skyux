@@ -1,0 +1,65 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-repeater-item {
+  display: flex;
+  @include sky-border(row);
+}
+
+.sky-repeater-item-left {
+  padding-top: 7px;
+}
+
+.sky-repeater-item-right {
+  flex-grow: 1;
+}
+
+.sky-repeater-item-header {
+  align-items: center;
+  display: flex;
+}
+
+.sky-repeater-item-chevron {
+  margin-left: $sky-margin;
+}
+
+.sky-repeater-item-context-menu {
+  padding: $sky-padding-half $sky-padding 0 0;
+}
+
+.sky-repeater-item-checkbox {
+  padding: 0 $sky-padding 0 0;
+}
+
+.sky-repeater-item-selected {
+  background-color: $sky-background-color-selected;
+  transition: background-color 150ms;
+}
+
+.sky-repeater-item-title {
+  margin: 0;
+  flex-grow: 1;
+  line-height: 1.1;
+  color: $sky-text-color-default;
+}
+
+::ng-deep sky-repeater-item-content {
+  display: block;
+  margin: $sky-margin 0 0;
+}
+
+.sky-repeater-item-collapsible {
+  .sky-repeater-item-header {
+    cursor: pointer;
+  }
+
+  .sky-repeater-item-content {
+    padding-right: $sky-context-menu-size + $sky-padding;
+  }
+}
+
+.sky-repeater-item-collapsed {
+  .sky-repeater-item-content {
+    display: none;
+  }
+}

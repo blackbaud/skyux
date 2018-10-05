@@ -1,0 +1,60 @@
+<div id="screenshot-repeater">
+  <sky-repeater>
+    <sky-repeater-item>
+      <sky-repeater-item-title>Title 1</sky-repeater-item-title>
+      <sky-repeater-item-content>
+        <p>
+          Content 1
+        </p>
+        <div id="drop-shadow-box"></div>
+      </sky-repeater-item-content>
+    </sky-repeater-item>
+    <sky-repeater-item>
+      <sky-repeater-item-title>Title 2</sky-repeater-item-title>
+      <sky-repeater-item-content>Content 2</sky-repeater-item-content>
+    </sky-repeater-item>
+  </sky-repeater>
+</div>
+
+<div id="screenshot-repeater-collapsed">
+  <sky-repeater [expandMode]="'single'">
+    <sky-repeater-item [isExpanded]="false">
+      <sky-repeater-item-title>Title 1</sky-repeater-item-title>
+      <sky-repeater-item-content>Content 1</sky-repeater-item-content>
+    </sky-repeater-item>
+    <sky-repeater-item [isExpanded]="false">
+      <sky-repeater-item-title>Title 2</sky-repeater-item-title>
+      <sky-repeater-item-content>Content 2</sky-repeater-item-content>
+    </sky-repeater-item>
+  </sky-repeater>
+</div>
+
+<div id="screenshot-repeater-single">
+  <sky-repeater [expandMode]="'single'">
+    <sky-repeater-item [isExpanded]="false">
+      <sky-repeater-item-title>Title 1</sky-repeater-item-title>
+      <sky-repeater-item-content>Content 1</sky-repeater-item-content>
+    </sky-repeater-item>
+    <sky-repeater-item [isExpanded]="true">
+      <sky-repeater-item-title>Title 2</sky-repeater-item-title>
+      <sky-repeater-item-content>Content 2</sky-repeater-item-content>
+    </sky-repeater-item>
+  </sky-repeater>
+</div>
+
+<div id="screenshot-repeater-multiple">
+  <sky-repeater [expandMode]="'multiple'">
+    <sky-repeater-item [isExpanded]="true">
+      <sky-repeater-item-title>Title 1</sky-repeater-item-title>
+      <sky-repeater-item-content>Content 1</sky-repeater-item-content>
+    </sky-repeater-item>
+    <sky-repeater-item [isExpanded]="false">
+      <sky-repeater-item-title>Title 2</sky-repeater-item-title>
+      <sky-repeater-item-content>Content 2</sky-repeater-item-content>
+    </sky-repeater-item>
+    <sky-repeater-item [isExpanded]="true">
+      <sky-repeater-item-title>Title 3</sky-repeater-item-title>
+      <sky-repeater-item-content>Content 3</sky-repeater-item-content>
+    </sky-repeater-item>
+  </sky-repeater>
+</div>

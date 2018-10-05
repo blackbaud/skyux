@@ -1,0 +1,21 @@
+<div id="screenshot-sort-full" style="height: 500px;">
+  <sky-sort [showButtonText]="false">
+    <sky-sort-item
+      *ngFor="let item of sortOptions"
+      [active]="initialState === item.id"
+      (itemSelect)="sortItems(item)">
+      {{item.label}}
+    </sky-sort-item>
+  </sky-sort>
+</div>
+
+<div id="screenshot-sort-text" style="height: 500px;">
+  <sky-sort [showButtonText]="true">
+    <sky-sort-item
+      *ngFor="let item of sortOptions"
+      [active]="initialState === item.id"
+      (itemSelect)="sortItems(item)">
+      {{item.label}}
+    </sky-sort-item>
+  </sky-sort>
+</div>
