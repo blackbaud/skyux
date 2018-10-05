@@ -1,0 +1,36 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-avatar-wrapper {
+  height: $sky-avatar-height + ($sky-avatar-border-width * 2);
+  width: $sky-avatar-width + ($sky-avatar-border-width * 2);
+  border: solid $sky-avatar-border-width transparent;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  top: -$sky-avatar-border-width;
+  left: -$sky-avatar-border-width;
+}
+
+.sky-avatar-image,
+.sky-avatar-initials {
+  height: $sky-avatar-height;
+  width: $sky-avatar-width;
+  background-position: 50%;
+  background-size: cover;
+
+  /* this removes the "ghost margin" from the bottom of the canvas element that would otherwise be imposed by line height rules for inline elements */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sky-avatar-initials-inner {
+  color: #fff;
+  cursor: default;
+  font-size: $sky-avatar-height / 2;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

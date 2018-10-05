@@ -1,0 +1,12 @@
+<div class="sky-avatar-wrapper">
+  <div class="sky-avatar-image" [hidden]="!src"></div>
+  <div
+    class="sky-avatar-initials"
+    [ngClass]="'sky-palette-multi-' + (colorIndex + 1)"
+    [hidden]="src || !name"
+    >
+    <div class="sky-avatar-initials-inner">
+      {{initials}}
+    </div>
+  </div>
+</div>
