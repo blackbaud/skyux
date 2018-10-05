@@ -14,7 +14,7 @@ import {
 })
 export class RadioVisualComponent implements OnInit {
   public selectedValue = '3';
-  public iconSelectedValue = '2';
+  public iconSelectedValue = '1';
   public valueGuy = '2';
   public radioForm: FormGroup;
 

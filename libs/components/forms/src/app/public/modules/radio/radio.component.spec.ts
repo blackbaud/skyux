@@ -178,6 +178,14 @@ describe('Radio component', function () {
       expect(radios.item(2).getAttribute('aria-labelledby')).toBe('label-id');
     }));
 
+    it('should use 0 when a tabindex is not specified', fakeAsync(function () {
+      fixture.detectChanges();
+      tick();
+
+      const radios = fixture.nativeElement.querySelectorAll('input');
+      expect(radios.item(1).getAttribute('tabindex')).toBe('0');
+    }));
+
     it('should pass a tabindex when specified', fakeAsync(function () {
       componentInstance.tabindex2 = '3';
       fixture.detectChanges();
