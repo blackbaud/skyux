@@ -1,0 +1,37 @@
+@import "~@skyux/theme/scss/mixins";
+
+.sky-datepicker-calendar-inner {
+  border-radius: 5px;
+  background-color: $sky-color-white;
+  @include sky-border(light, top, bottom, left, right);
+
+  ::ng-deep .sky-btn-default {
+    border-color: $sky-color-white;
+  }
+
+  ::ng-deep .sky-btn-default:hover, ::ng-deep .sky-btn-active {
+    border-color: darken($sky-border-color-neutral-light, 12%);
+  }
+
+  ::ng-deep .sky-datepicker-center {
+    text-align: center;
+  }
+
+  ::ng-deep .sky-datepicker-btn-selected {
+    color: $sky-color-white;
+    background-color: $sky-background-color-primary-dark;
+    @include sky-border(dark, top, bottom, left, right);
+  }
+
+  ::ng-deep .sky-datepicker-secondary {
+    color: $sky-text-color-deemphasized;
+  }
+
+  ::ng-deep .sky-datepicker-btn-date {
+    min-width: 100%;
+  }
+
+  ::ng-deep .sky-datepicker-calendar-title {
+    width: 100%;
+  }
+}

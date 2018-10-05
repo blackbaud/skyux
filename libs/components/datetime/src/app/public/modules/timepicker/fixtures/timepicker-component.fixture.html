@@ -1,0 +1,10 @@
+<div>
+<sky-timepicker #timePicker >
+  <input type="text"
+  [skyTimepickerInput]="timePicker"
+  [(ngModel)]="selectedTime"
+  [timeFormat]="timeFormat"
+  [returnFormat]="returnFormat"
+  [disabled]="isDisabled"/>
+</sky-timepicker>
+</div>

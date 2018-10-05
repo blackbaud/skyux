@@ -1,0 +1,24 @@
+<div class="sky-datepicker">
+  <div class="sky-input-group">
+    <ng-content></ng-content>
+
+    <div class="sky-input-group-btn sky-input-group-datepicker-btn">
+      <sky-dropdown
+        alignment="right"
+        aria-hidden="true"
+        buttonType="calendar"
+        [disabled]="disabled"
+        [messageStream]="dropdownController">
+        <sky-dropdown-menu ariaRole="none">
+          <sky-datepicker-calendar
+            (selectedDateChange)="dateSelected($event)"
+            (calendarModeChange)="onCalendarModeChange()"
+            [maxDate]="maxDate"
+            [minDate]="minDate"
+            [startingDay]="startingDay">
+          </sky-datepicker-calendar>
+        </sky-dropdown-menu>
+      </sky-dropdown>
+    </div>
+  </div>
+</div>
