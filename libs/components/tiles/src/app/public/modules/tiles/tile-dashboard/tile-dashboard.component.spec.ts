@@ -8,7 +8,7 @@ import {
 
 import {
   expect
-} from '@blackbaud/skyux-builder/runtime/testing/browser';
+} from '@skyux-sdk/testing';
 
 import { SkyTileDashboardColumnComponent } from '../tile-dashboard-column';
 import { SkyTileDashboardComponent } from './tile-dashboard.component';

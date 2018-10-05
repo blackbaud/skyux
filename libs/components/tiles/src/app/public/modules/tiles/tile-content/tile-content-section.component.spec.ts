@@ -7,7 +7,7 @@ import { TileContentSectionTestComponent } from './fixtures';
 
 import {
   expect
-} from '@blackbaud/skyux-builder/runtime/testing/browser';
+} from '@skyux-sdk/testing';
 
 describe('Tile content section component', () => {
   beforeEach(() => {
