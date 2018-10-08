@@ -1,0 +1,19 @@
+@import "scss/variables";
+
+.sky-toolbar-container {
+    min-height: $sky-toolbar-min-height;
+    background-color: $sky-toolbar-background-color;
+    padding: $sky-padding-half $sky-padding;
+    @include sky-border(dark, top, bottom);
+    display: flex;
+    align-items: center;
+    position: relative;
+    ::ng-deep sky-toolbar-section:not(:first-child) .sky-toolbar-section {
+      @include sky-border(dark, top);
+    }
+}
+
+.sky-toolbar-sectioned {
+  display: block;
+  padding: 0;
+}

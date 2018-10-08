@@ -1,0 +1,52 @@
+<div id="screenshot-action-button">
+    <sky-action-button (actionClick)="buttonClicked()">
+      <sky-action-button-icon
+        iconType="filter"
+      ></sky-action-button-icon>
+      <sky-action-button-header>
+        Build a new list
+      </sky-action-button-header>
+      <sky-action-button-details>
+        Start from scratch and fine-tune with filters
+      </sky-action-button-details>
+    </sky-action-button>
+</div>
+
+<div id="screenshot-action-button-container">
+  <sky-action-button-container>
+    <sky-action-button (actionClick)="buttonClicked()">
+      <sky-action-button-icon
+        iconType="filter"
+      ></sky-action-button-icon>
+      <sky-action-button-header>
+        Build a new list
+      </sky-action-button-header>
+      <sky-action-button-details>
+        Start from scratch and fine-tune with filters
+      </sky-action-button-details>
+    </sky-action-button>
+    <sky-action-button (actionClick)="buttonClicked()">
+      <sky-action-button-icon
+        iconType="filter"
+      ></sky-action-button-icon>
+      <sky-action-button-header>
+        Build a new list
+      </sky-action-button-header>
+      <sky-action-button-details>
+        Start from scratch and fine-tune with filters. Using filters can help narrow down to records you really care about.
+      </sky-action-button-details>
+    </sky-action-button>
+    <sky-action-button
+      [permalink]="permalink">
+      <sky-action-button-icon
+        iconType="link">
+      </sky-action-button-icon>
+      <sky-action-button-header>
+        Open a link
+      </sky-action-button-header>
+      <sky-action-button-details>
+        Open a link
+      </sky-action-button-details>
+    </sky-action-button>
+  </sky-action-button-container>
+</div>
