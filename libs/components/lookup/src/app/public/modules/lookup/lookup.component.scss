@@ -1,0 +1,61 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-lookup {
+  textarea {
+    resize: none;
+    border: 0;
+    overflow: hidden;
+    height: #{$sky-line-height-base}em;
+    box-sizing: content-box;
+    padding: 0;
+    display: inline-flex;
+    background-color: transparent;
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+
+  ::ng-deep
+  sky-tokens {
+    &:focus {
+      outline: none;
+    }
+
+    .sky-tokens {
+      margin-top: -5px;
+      margin-bottom: -5px;
+
+      .sky-tokens-content {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 11px;
+        flex-basis: 100px;
+      }
+    }
+  }
+}
+
+.sky-lookup-search {
+  cursor: text;
+  background-color: $sky-color-white;
+  padding-left: 3px;
+}
+
+.sky-lookup-disabled {
+  .sky-lookup-search {
+    cursor: default;
+  }
+}
+
+.sky-lookup-focused {
+  ::ng-deep .sky-tokens-content {
+    flex-basis: 100px;
+  }
+}
+
+:host(.ng-invalid.ng-touched) .sky-lookup-search {
+  @include sky-field-status(invalid);
+}

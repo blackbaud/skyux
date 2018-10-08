@@ -1,0 +1,49 @@
+<div
+  class="sky-lookup"
+  [ngClass]="{
+    'sky-lookup-focused': isInputFocused,
+    'sky-lookup-disabled': disabled
+  }">
+  <sky-autocomplete
+    [data]="data"
+    [descriptorProperty]="descriptorProperty"
+    [propertiesToSearch]="propertiesToSearch"
+    [search]="search"
+    [searchFilters]="searchFilters"
+    [searchResultsLimit]="searchResultsLimit"
+    [searchResultTemplate]="searchResultTemplate"
+    [searchTextMinimumCharacters]="searchTextMinimumCharacters"
+    (selectionChange)="onAutocompleteSelectionChange($event)">
+
+    <div
+      class="sky-lookup-search sky-form-control"
+      [ngClass]="{
+        'sky-field-status-active': isInputFocused
+      }"
+    >
+      <sky-tokens
+        [disabled]="disabled"
+        [displayWith]="descriptorProperty"
+        [focusable]="false"
+        [messageStream]="tokensController"
+        [tokens]="tokens"
+        (keyup)="onTokensKeyUp($event)"
+        (tokensChange)="onTokensChange($event)"
+        (focusIndexOverRange)="onTokensFocusIndexOverRange()">
+
+        <textarea
+          skyAutocomplete
+          class="sky-form-control"
+          [disabled]="disabled"
+          [attr.aria-label]="ariaLabel"
+          [attr.aria-labelledby]="ariaLabelledBy"
+          [attr.placeholder]="placeholderText"
+          (keydown.enter)="$event.preventDefault();"
+          (keyup.escape)="clearSearchText();$event.preventDefault();"
+          (keyup.delete)="$event.stopPropagation();"
+          #lookupInput>
+        </textarea>
+      </sky-tokens>
+    </div>
+  </sky-autocomplete>
+</div>

@@ -1,0 +1,28 @@
+<div id="lookup-visual" style="padding: 20px;height:250px;">
+  <form [formGroup]="form" novalidate>
+
+    <div class="sky-form-group">
+      <label
+        id="my-friends-label"
+        class="sky-control-label">
+        Who are your friends?
+      </label>
+      <sky-lookup
+        ariaLabelledBy="my-friends-label"
+        formControlName="friends"
+        placeholderText="Type a person's name..."
+        [data]="people">
+      </sky-lookup>
+    </div>
+
+    <p>
+      <button
+        id="btn-disable-lookup"
+        type="button"
+        class="sky-btn sky-btn-default"
+        (click)="disableLookup()">
+        Disable lookup
+      </button>
+    </p>
+  </form>
+</div>

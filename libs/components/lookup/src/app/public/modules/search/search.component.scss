@@ -1,0 +1,112 @@
+@import "scss/variables";
+
+.sky-search-input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: 0 none;
+
+  &:focus {
+    border: 0 none;
+    box-shadow: none;
+    outline: none;
+  }
+
+  /**
+   * Prevents the IE clear icon from displaying in the input
+   * because our search control already includes a clear icon.
+   */
+  &::-ms-clear {
+    display: none;
+  }
+}
+
+.sky-search-btn {
+  border-left: 0 none;
+
+  &:hover,
+  &:focus {
+    background-color: $sky-color-white;
+  }
+}
+
+.sky-search-btn-apply {
+  padding-left: 6px;
+  @include sky-border(dark, top, bottom, right);
+}
+
+.sky-search-btn-clear {
+  border-right: 0 none;
+  padding-right: 6px;
+  @include sky-border(dark, top, bottom);
+}
+
+.sky-search-input-focused {
+  .sky-search-btn {
+    border-color: transparent;
+    border-top: 0 none;
+    border-bottom: 0 none;
+  }
+
+  .sky-search-btn-apply {
+    border-right: 0 none;
+  }
+}
+
+/**
+ * Mobile styles
+ */
+
+@media (min-width: $sky-screen-sm-min) {
+  .sky-search-input-container {
+    min-width: $sky-search-width !important;
+  }
+}
+
+/**
+ * On iOS, the input will zoom when focused,
+ * setting the font-size prevents this.
+ */
+@media (max-width: $sky-screen-xs-max) {
+  .sky-search-input,
+  .sky-search-btn-apply,
+  .sky-search-btn-clear {
+    font-size: $sky-font-size-base;
+  }
+}
+
+.sky-search-btn-open-applied {
+  &.sky-search-btn-open,
+  &.sky-search-btn-open:hover {
+    color: $sky-highlight-color-success;
+    border: 2px solid $sky-highlight-color-success;
+    padding: 5px 11px;
+  }
+}
+
+.sky-search-dismiss-container {
+  display: flex;
+}
+
+.sky-search-item-dismiss {
+  flex-shrink: 0;
+  display: flex;
+
+  > .sky-btn {
+    border-color: transparent;
+  }
+}
+
+.sky-search-item-input {
+  flex-grow: 1;
+  display: flex;
+}
+
+.sky-search-dismiss-absolute {
+  position: absolute;
+  background-color: $sky-search-background-color;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  padding: $sky-padding-half;
+}

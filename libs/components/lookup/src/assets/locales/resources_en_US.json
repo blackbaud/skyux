@@ -1,6 +1,18 @@
 {
-  "skyux_some_key": {
-    "_description": "",
-    "message": ""
+  "skyux_search_dismiss": {
+    "_description": "Label for dismissing search input",
+    "message": "Dismiss search"
+  },
+  "skyux_search_label": {
+    "_description": "Label for search component functionality",
+    "message": "Search items"
+  },
+  "skyux_search_open": {
+    "_description": "Label for opening search input",
+    "message": "Open search"
+  },
+  "skyux_search_placeholder": {
+    "_description": "Placeholder text for search input component",
+    "message": "Find in this list"
   }
 }

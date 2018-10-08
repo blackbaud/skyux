@@ -3,15 +3,21 @@ import {
 } from '@angular/core';
 
 import {
-  SkySampleModule
+  SkyAutocompleteModule,
+  SkyLookupModule,
+  SkySearchModule
 } from './public';
 
 @NgModule({
   imports: [
-    SkySampleModule
+    SkyAutocompleteModule,
+    SkyLookupModule,
+    SkySearchModule
   ],
   exports: [
-    SkySampleModule
+    SkyAutocompleteModule,
+    SkyLookupModule,
+    SkySearchModule
   ],
   providers: [],
   entryComponents: []

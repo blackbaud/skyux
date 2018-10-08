@@ -1,0 +1,99 @@
+<div class="sky-search-container">
+  <div class="sky-search-button-container">
+    <button
+      class="sky-btn sky-btn-default sky-search-btn-open"
+      type="button"
+      [attr.title]="'skyux_search_open' | skyAppResources"
+      [hidden]="!searchButtonShown"
+      [ngClass]="{'sky-search-btn-open-applied': clearButtonShown}"
+      (click)="toggleSearchInput(true)"
+    >
+      <sky-icon
+        icon="search"
+        size="lg"
+      >
+      </sky-icon>
+    </button>
+  </div>
+  <div
+    class="sky-search-dismiss-container"
+    [hidden]="searchButtonShown"
+    [ngClass]="{'sky-search-dismiss-absolute': mobileSearchShown || isFullWidth }"
+  >
+    <div class="sky-search-item-input">
+      <div
+        class="sky-search-input-container sky-input-group"
+        [ngClass]="{
+          'sky-search-input-focused sky-field-status-active sky-rounded-corners': searchInputFocused
+        }"
+        [@inputState]="inputAnimate"
+        (@inputState.start)="inputAnimationStart($event)"
+        (@inputState.done)="inputAnimationEnd($event)"
+      >
+        <input
+          class="sky-form-control sky-search-input sky-rounded-corners"
+          type="text"
+          [attr.aria-label]="'skyux_search_label' | skyAppResources"
+          [attr.placeholder]="placeholderText || ('skyux_search_placeholder' | skyAppResources)"
+          [disabled]="disabled"
+          [ngModel]="searchText"
+          (blur)="inputFocused(false)"
+          (focus)="inputFocused(true)"
+          (keyup)="enterPress($event, searchText)"
+          (ngModelChange)="searchTextChanged($event)"/>
+        <span
+          class="sky-input-group-btn sky-input-group-clear"
+          [hidden]="!clearButtonShown"
+        >
+          <button
+            aria-hidden="true"
+            class="sky-btn sky-btn-default sky-search-btn sky-search-btn-clear"
+            tabindex="-1"
+            type="button"
+            [disabled]="disabled"
+            (click)="clearSearchText()"
+          >
+            <sky-icon
+              icon="times"
+            >
+            </sky-icon>
+          </button>
+        </span>
+        <span
+          class="sky-input-group-btn"
+        >
+          <button
+            class="sky-btn sky-btn-default sky-search-btn sky-search-btn-apply"
+            type="button"
+            [attr.aria-label]="'skyux_search_label' | skyAppResources"
+            [disabled]="disabled"
+            (click)="applySearchText(searchText)"
+          >
+            <sky-icon
+              icon="search"
+              size="lg"
+            >
+            </sky-icon>
+          </button>
+        </span>
+      </div>
+    </div>
+    <div
+      class="sky-search-item-dismiss"
+    >
+      <button
+        *ngIf="mobileSearchShown"
+        class="sky-btn sky-btn-secondary sky-search-btn-dismiss"
+        type="button"
+        [attr.title]="'skyux_search_dismiss' | skyAppResources"
+        (click)="toggleSearchInput(false)"
+      >
+        <sky-icon
+          icon="chevron-circle-left"
+          size="lg"
+        >
+        </sky-icon>
+      </button>
+    </div>
+  </div>
+</div>

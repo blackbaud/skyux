@@ -1,0 +1,37 @@
+<div class="sky-autocomplete">
+  <ng-content>
+  </ng-content>
+  <div class="sky-autocomplete-results">
+
+    <sky-dropdown
+      [dismissOnBlur]="false"
+      [messageStream]="dropdownController">
+
+      <sky-dropdown-button>
+      </sky-dropdown-button>
+
+      <sky-dropdown-menu
+        [useNativeFocus]="false"
+        [skyHighlight]="highlightText"
+        (menuChanges)="onMenuChanges($event)">
+
+        <sky-dropdown-item
+          *ngFor="let result of searchResults; let i = index">
+
+          <button
+            type="button">
+            <ng-container
+              *ngTemplateOutlet="searchResultTemplate; context: { item: result }">
+            </ng-container>
+          </button>
+
+        </sky-dropdown-item>
+      </sky-dropdown-menu>
+    </sky-dropdown>
+  </div>
+  <ng-template
+    let-item="item"
+    #defaultSearchResultTemplate>
+    {{ item[descriptorProperty] }}
+  </ng-template>
+</div>

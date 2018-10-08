@@ -1,0 +1,22 @@
+<style type="text/css">
+  input.sky-form-control.sky-search-input {
+    color: transparent;
+    text-shadow: 0px 0px 0px #000;
+  }
+</style>
+
+<div id="search-visual" [@.disabled]="true">
+
+  <button
+    type="button"
+    (click)="applySearchText('Robert')"
+    class="sky-btn sky-btn-secondary">
+    Set search text
+  </button>
+
+  <sky-search
+    [searchText]="searchText"
+    (searchApply)="applySearchText(searchText)">
+  </sky-search>
+
+</div>
