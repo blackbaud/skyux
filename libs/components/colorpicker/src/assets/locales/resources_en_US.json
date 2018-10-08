@@ -1,6 +1,66 @@
 {
-  "skyux_some_key": {
-    "_description": "",
-    "message": ""
+  "skyux_colorpicker_alpha": {
+    "_description": "Label for the alpha input",
+    "message": "A:"
+  },
+  "skyux_colorpicker_apply": {
+    "_description": "Label for the apply button",
+    "message": "Apply"
+  },
+  "skyux_colorpicker_aria_alpha": {
+    "_description": "aria label for the alpha input",
+    "message": "Alpha channel value between 0 and 1"
+  },
+  "skyux_colorpicker_aria_blue": {
+    "_description": "aria label for the blue input",
+    "message": "Blue value between 0 and 255"
+  },
+  "skyux_colorpicker_aria_green": {
+    "_description": "aria label for the green input",
+    "message": "Green value between 0 and 255"
+  },
+  "skyux_colorpicker_aria_hex": {
+    "_description": "aria label for the hex input",
+    "message": "Hexadecimal color code"
+  },
+  "skyux_colorpicker_aria_red": {
+    "_description": "aria label for the red input",
+    "message": "Red value between 0 and 255"
+  },
+  "skyux_colorpicker_blue": {
+    "_description": "Label for the blue input",
+    "message": "B:"
+  },
+  "skyux_colorpicker_close": {
+    "_description": "Label for the close button",
+    "message": "Close"
+  },
+ "skyux_colorpicker_dropdown_button": {
+    "_description": "Label for the dropdown button",
+    "message": "Select color value"
+  },
+  "skyux_colorpicker_green": {
+    "_description": "Label for the green input",
+    "message": "G:"
+  },
+  "skyux_colorpicker_hex": {
+    "_description": "aria label for the hex input",
+    "message": "Hex:"
+  },
+  "skyux_colorpicker_input_default_label": {
+    "_description": "The label for the colorpicker component's input field for screen readers when the consumer has not specified a label.",
+    "message": "Color value"
+  },
+  "skyux_colorpicker_preset_color": {
+    "_description": "Label for the preset colors",
+    "message": "Preset Color:"
+  },
+  "skyux_colorpicker_red": {
+    "_description": "Label for the red input",
+    "message": "R:"
+  },
+  "skyux_colorpicker_reset": {
+    "_description": "Label for the reset button to change the color back to the initial color",
+    "message": "Reset color value to white"
   }
 }

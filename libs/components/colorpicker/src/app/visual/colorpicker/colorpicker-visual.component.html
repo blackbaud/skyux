@@ -1,0 +1,21 @@
+<div id="screenshot-colorpicker">
+  <sky-colorpicker #colorPickerExample1>
+    <input
+      [skyColorpickerInput]="colorPickerExample1"
+      [(ngModel)]="color1"
+      [presetColors]="presetColors1"
+      [initialColor]="selectedColor1"
+      [outputFormat]="selectedOutputFormat1">
+  </sky-colorpicker>
+</div>
+
+<div id="screenshot-colorpicker2" style="height:520px;padding:10px;">
+  <sky-colorpicker #colorPickerExample2>
+    <input
+      [skyColorpickerInput]="colorPickerExample2"
+      [(ngModel)]="color2"
+      [presetColors]="presetColors2"
+      [initialColor]="selectedColor2"
+      [outputFormat]="selectedOutputFormat2">
+  </sky-colorpicker>
+</div>
