@@ -3,17 +3,37 @@ import {
 } from '@angular/core';
 
 import {
-  SkySampleModule
+  NoopAnimationsModule
+} from '@angular/platform-browser/animations';
+
+import {
+  SkyDropdownModule
+} from '@skyux/popovers';
+
+import {
+  SkyFlyoutModule,
+  SkyFlyoutService
 } from './public';
+
+import {
+  FlyoutDemoComponent
+} from './visual/flyout/flyout-demo.component';
 
 @NgModule({
   imports: [
-    SkySampleModule
+    NoopAnimationsModule,
+    SkyFlyoutModule,
+    SkyDropdownModule
   ],
   exports: [
-    SkySampleModule
+    SkyFlyoutModule,
+    SkyDropdownModule
   ],
-  providers: [],
-  entryComponents: []
+  providers: [
+    SkyFlyoutService
+  ],
+  entryComponents: [
+    FlyoutDemoComponent
+  ]
 })
 export class AppExtrasModule { }

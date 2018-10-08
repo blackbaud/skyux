@@ -1,0 +1,85 @@
+<div
+  class="sky-flyout sky-shadow"
+  tabindex="-1"
+  [attr.role]="config?.ariaRole"
+  [attr.aria-describedby]="config?.ariaDescribedBy"
+  [attr.aria-labelledby]="config?.ariaLabelledBy"
+  [id]="flyoutId"
+  [ngClass]="{ 'sky-flyout-hidden': !isOpen && !isOpening }"
+  (@flyoutState.done)="animationDone($event)"
+  [@flyoutState]="getAnimationState()"
+  [style.width.px]="flyoutWidth">
+
+  <input
+    class="sky-flyout-resize-handle"
+    role="separator"
+    step="10"
+    type="range"
+    [attr.aria-controls]="flyoutId"
+    [attr.aria-label]="'skyux_flyout_resize_handle' | skyAppResources"
+    [attr.aria-valuemax]="config.maxWidth"
+    [attr.aria-valuemin]="config.minWidth"
+    [attr.aria-valuenow]="flyoutWidth"
+    [max]="config.maxWidth"
+    [min]="config.minWidth"
+    [(ngModel)]="flyoutWidth"
+    (mousedown)="onMouseDown($event)" />
+
+  <div class="sky-flyout-header sky-padding-squish-large" #flyoutHeader>
+    <div class="sky-flyout-header-content"></div>
+    <div class="sky-flyout-header-buttons">
+      <ng-container *ngTemplateOutlet="permalinkTemplate">
+      </ng-container>
+      <ng-container *ngTemplateOutlet="primaryActionTemplate">
+      </ng-container>
+      <button
+        class="sky-btn sky-btn-default sky-flyout-btn-close"
+        type="button"
+        [attr.aria-label]="'skyux_flyout_close' | skyAppResources"
+        (click)="close()"
+      >
+        <sky-icon icon="close"></sky-icon>
+      </button>
+    </div>
+  </div>
+  <div class="sky-flyout-content">
+    <div #target></div>
+  </div>
+</div>
+
+<ng-template #permalinkTemplate>
+  <ng-template [ngIf]="permalink">
+    <ng-template [ngIf]="permalink.url">
+      <a
+        class="sky-btn sky-btn-default sky-flyout-btn-permalink"
+        [href]="permalink.url"
+        (click)="close()"
+      >
+        {{ permalinkLabel }}
+      </a>
+    </ng-template>
+    <ng-template [ngIf]="permalink.route">
+      <a
+        class="sky-btn sky-btn-default sky-flyout-btn-permalink"
+        [routerLink]="permalink.route.commands"
+        [fragment]="permalink.route.extras?.fragment"
+        [queryParams]="permalink.route.extras?.queryParams"
+        [queryParamsHandling]="permalink.route.extras?.queryParamsHandling"
+        (click)="close()"
+      >
+        {{ permalinkLabel }}
+      </a>
+    </ng-template>
+  </ng-template>
+</ng-template>
+
+<ng-template #primaryActionTemplate>
+  <ng-template [ngIf]="primaryAction && primaryAction.callback">
+    <button
+      type="button"
+      class="sky-btn sky-btn-default sky-flyout-btn-primary-action"
+      (click)="invokePrimaryAction()">
+        {{ primaryActionLabel }}
+    </button>
+  </ng-template>
+</ng-template>
