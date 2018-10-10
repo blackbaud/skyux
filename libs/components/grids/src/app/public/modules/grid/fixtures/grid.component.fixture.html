@@ -1,0 +1,63 @@
+
+<sky-grid
+  [fit]="fitType"
+  [selectedColumnIds]="selectedColumnIds"
+  [hasToolbar]="hasToolbar"
+  [data]="data"
+  [width]="600"
+  [height]="400"
+  [sortField]="sortField"
+  (sortFieldChange)="onSort($event)"
+  (columnWidthChange)=onResize($event)>
+  <sky-grid-column
+    field="column1"
+    heading="Column1"
+    [locked]="true">
+  </sky-grid-column>
+  <sky-grid-column
+    field="column2"
+    heading="Column2"
+    [width]="150"
+    [isSortable]="false"
+    [search]="searchFunction">
+    <ng-template
+      let-row="row">
+      {{row?.column2}}
+    </ng-template>
+  </sky-grid-column>
+  <sky-grid-column
+    id="column3"
+    field="column3"
+    type="number"
+    heading="Column3"
+    [template]="template1">
+  </sky-grid-column>
+  <sky-grid-column
+    id="column4"
+    type="date"
+    heading="Column4"
+    [hidden]="true">
+  </sky-grid-column>
+  <sky-grid-column
+    field="column5"
+    heading="Column5"
+    [width]="50"
+   >
+  </sky-grid-column>
+  <sky-grid-column
+    id="hiddenCol1"
+    field="column1"
+    heading="Column6">
+  </sky-grid-column>
+  <sky-grid-column
+    id="hiddenCol2"
+    field="column1"
+    heading="Column7">
+  </sky-grid-column>
+</sky-grid>
+
+<ng-template let-value="value" #template1>
+  <div class="sky-test-custom-template">
+  {{value}}
+  </div>
+</ng-template>

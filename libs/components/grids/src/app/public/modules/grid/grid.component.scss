@@ -1,0 +1,187 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+$sky-grid-resize-handle-width: 5px;
+
+.sky-grid {
+  position: relative;
+  display: block;
+}
+
+.sky-grid-table-container {
+  overflow: auto;
+}
+
+.sky-grid-table {
+  position: relative;
+  table-layout: fixed;
+  border-collapse: collapse;
+  margin: 0;
+  font-size: $sky-font-size-base;
+  min-width: 100%;
+
+  &.sky-grid-fit {
+    width: 100%;
+  }
+}
+
+.sky-grid-tbody {
+  background-color: $sky-color-white;
+}
+
+.sky-grid-row {
+  @include sky-border(row, bottom);
+
+  &:nth-child(odd) {
+    background-color: $sky-color-gray-01;
+  }
+
+  .sky-grid-cell {
+    padding: 0;
+    min-width: 10px;
+  }
+}
+
+.sky-grid-heading {
+  position: relative;
+  @include sky-border(dark, top, bottom, left, right);
+  border-right-width: 0px;
+  padding: 0;
+
+  cursor: pointer;
+  background-color: $sky-color-white;
+
+  overflow: visible;
+  text-align: left;
+  background-clip: padding-box; // IE/Edge fix.
+
+  &:first-child {
+    border-left: 1px solid transparent;
+  }
+
+  &.sky-grid-header-dragging {
+    background-color: $sky-background-color-neutral-light;
+  }
+
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  div {
+    padding: 8px;
+  }
+
+  .overflow {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    min-width:100%;
+  }
+
+  .sky-grid-column-input-aria-only {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    height: 100%;
+    width: $sky-grid-resize-handle-width;
+    position: absolute;
+    display: block;
+    top: 0;
+    bottom: 0;
+    right: 0;
+
+    &::-moz-range-track {
+      background: transparent;
+    }
+
+    &::-moz-range-thumb {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      width: 0;
+      height: 0;
+      border-radius: 0px;
+      border: 0 none;
+      background: none;
+      display: none;
+    }
+
+     &::-ms-thumb {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      width: 0;
+      height: 0;
+      border-radius: 0px;
+      border: 0 none;
+      background: none;
+      display: none;
+    }
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      width: 0;
+      height: 0;
+      border-radius: 0px;
+      border: 0 none;
+      background: none;
+      display: none;
+     }
+
+     &:focus {
+      background-color: $sky-highlight-color-info;
+    }
+  }
+}
+
+.sky-grid-has-toolbar {
+  .sky-grid-heading {
+    border-top-width: 0px;
+  }
+}
+/*
+  This prevents grid header width from changing when sort indication changes
+*/
+.sky-grid-heading-sort {
+  min-width: 8px;
+}
+
+.sky-grid-resize-handle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 30px;
+  z-index: 2;
+  min-height: 20px;
+  height: 100% !important;
+  vertical-align: middle;
+  cursor: col-resize;
+
+  &:hover::after {
+    background-color: $sky-highlight-color-info;
+  }
+
+  &:after {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: $sky-grid-resize-handle-width;
+    height: 100%;
+    content: "";
+  }
+}
+
+#sky-grid-resize-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  height: 100%;
+  width: $sky-grid-resize-handle-width;
+  background: black;
+  opacity: 0.6;
+}

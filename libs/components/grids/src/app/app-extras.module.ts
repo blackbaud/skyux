@@ -3,15 +3,15 @@ import {
 } from '@angular/core';
 
 import {
-  SkySampleModule
+  SkyGridModule
 } from './public';
 
 @NgModule({
   imports: [
-    SkySampleModule
+    SkyGridModule
   ],
   exports: [
-    SkySampleModule
+    SkyGridModule
   ],
   providers: [],
   entryComponents: []
