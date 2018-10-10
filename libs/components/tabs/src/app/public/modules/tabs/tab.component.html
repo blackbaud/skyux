@@ -1,0 +1,8 @@
+<div
+  class="sky-tab"
+  role="tabpanel"
+  [attr.aria-labelledby]="tabId + '-nav-btn'"
+  [id]="tabId"
+  [hidden]="!active">
+  <ng-content></ng-content>
+</div>

@@ -1,0 +1,36 @@
+<a
+    class="sky-btn-tab"
+    role="tab"
+    [attr.aria-disabled]="disabled"
+    [attr.aria-selected]="active"
+    [ngClass]="{
+      'sky-btn-tab-wizard': tabStyle === 'wizard',
+      'sky-btn-tab-selected': active,
+      'sky-btn-tab-disabled': disabled,
+      'sky-tab-btn-closeable': allowClose
+    }"
+    [tabindex]="disabled ? '-1' : '0'"
+    (click)="doTabClick()"
+    (keydown)="keyDownFunction($event)"
+>
+  {{tabHeading}}
+  <span
+    class="sky-tab-header-count"
+    *ngIf="tabHeaderCount || tabHeaderCount === 0"
+  >
+    {{tabHeaderCount}}
+  </span>
+  <button
+      type="button"
+      class="sky-btn-tab-close"
+      [ngClass]="{
+        'sky-btn-tab-close-disabled': disabled
+      }"
+      [disabled]="disabled"
+      [attr.aria-label]="'skyux_tab_close' | skyAppResources"
+      *ngIf="allowClose"
+      (click)="doCloseClick();$event.stopPropagation()"
+  >
+    <sky-icon icon="remove"></sky-icon>
+  </button>
+</a>

@@ -1,0 +1,12 @@
+<div class="vertical-tabset-test-indexchange">current index = {{ currentIndex }}</div>
+<sky-vertical-tabset (activeChange)="indexChanged($event)">
+  <sky-vertical-tab tabHeading="tab 1">
+    Tab 1 content
+  </sky-vertical-tab>
+  <sky-vertical-tab tabHeading="tab 2" active="true">
+    Tab 2 content
+  </sky-vertical-tab>
+  <sky-vertical-tab tabHeading="tab 3">
+    Tab 3 content
+  </sky-vertical-tab>
+</sky-vertical-tabset>

@@ -1,6 +1,22 @@
 {
-  "skyux_some_key": {
-    "_description": "",
-    "message": ""
+  "skyux_tab_add": {
+    "_description": "Label for the tab add button",
+    "message": "Add tab"
+  },
+  "skyux_tab_close": {
+    "_description": "Label for the tab close button",
+    "message": "Close tab"
+  },
+  "skyux_tabs_navigator_next": {
+    "_description": "Text displayed on a tab's next button.",
+    "message": "Next"
+  },
+  "skyux_tabs_navigator_previous": {
+    "_description": "Text displayed on a tab's previous button.",
+    "message": "Previous"
+  },
+  "skyux_tab_open": {
+    "_description": "Label for the tab open button",
+    "message": "Open tab"
   }
 }

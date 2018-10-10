@@ -1,0 +1,63 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-vertical-tab {
+  cursor: pointer;
+  padding: $sky-padding-3_4 0 $sky-padding-3_4 $sky-padding;
+  margin: $sky-margin-half 0 $sky-margin-half $sky-margin;
+  color: $sky-text-color-default;
+  display: flex;
+  text-decoration: none;
+
+  &:hover {
+    background-color: $sky-background-color-neutral-light;
+  }
+
+  &:focus {
+    @include sky-focus-outline;
+  }
+
+  &:hover .sky-vertical-tab-right-arrow {
+    color: darken($sky-text-color-icon-borderless, 20%);
+  }
+}
+
+.sky-vertical-tab-active {
+  background-color: $sky-background-color-neutral-light;
+  color: $sky-text-color-default;
+  padding-left: 6px;
+  border-left: $sky-nav-selected-border-width solid $sky-highlight-color-info;
+}
+
+.sky-vertical-tab-hidden {
+  display: none;
+}
+
+.sky-vertical-tab-display {
+  display: flex;
+  flex-grow: 1;
+}
+
+.sky-vertical-tab-heading {
+  flex-grow: 1;
+}
+
+.sky-vertical-tab-count {
+  margin-left: $sky-margin-half;
+}
+
+.sky-vertical-tab-disabled {
+  cursor: not-allowed;
+  font-style: italic;
+  opacity: 0.8;
+  pointer-events: none;
+
+  &:hover {
+    color: $sky-text-color-deemphasized;
+  }
+}
+
+.sky-vertical-tab-right-arrow {
+  padding: 3px $sky-padding 0 0;
+  color: $sky-text-color-icon-borderless;
+}

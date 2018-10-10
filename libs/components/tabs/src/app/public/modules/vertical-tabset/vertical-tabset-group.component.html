@@ -1,0 +1,26 @@
+<div class="sky-vertical-tabset-group">
+  <div
+    class="sky-vertical-tabset-group-header sky-padding-even-default"
+    [ngClass]="{'sky-vertical-tabset-group-header-sub-open sky-emphasized': subMenuOpen()}"
+    (click)="toggleMenuOpen()"
+    (keyup.enter)="toggleMenuOpen()"
+    [tabIndex]="-1"
+  >
+    {{ groupHeading }}
+    <sky-chevron
+      class="sky-vertical-tabset-group-header-chevron"
+      [direction]="open ? 'up' : 'down'"
+      [disabled]="disabled"
+      (directionChange)="toggleMenuOpen()"
+      (keyup.enter)="$event.stopPropagation()"
+    >
+    </sky-chevron>
+  </div>
+  <div
+    class="sky-vertical-tabset-group-content"
+    *ngIf="open"
+    [@tabSlide]
+  >
+    <ng-content></ng-content>
+  </div>
+</div>

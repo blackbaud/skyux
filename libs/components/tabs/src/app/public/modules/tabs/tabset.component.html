@@ -1,0 +1,59 @@
+<div
+    class="sky-tabset"
+    role="tablist"
+    [ngClass]="'sky-tabset-mode-' + tabDisplayMode + ' sky-tabset-style-' + tabStyle"
+    (window:resize)="windowResize()"
+>
+  <span class="sky-tabset-dropdown">
+    <sky-tab-dropdown *ngIf="tabDisplayMode === 'dropdown'"
+        [tabs]="tabs"
+        (tabClick)="selectTab($event)"
+        (closeClick)="tabCloseClick($event)"
+    >
+    </sky-tab-dropdown>
+  </span>
+  <span
+    class="sky-tabset-tabs"
+  >
+    <sky-tab-button *ngFor="let tab of tabs; let i = index"
+        [active]="tab.active"
+        [allowClose]="tab.allowClose"
+        [attr.aria-controls]="tab.tabId"
+        [disabled]="tab.disabled"
+        [id]="getTabButtonId(tab)"
+        [tabHeading]="tab.tabHeading"
+        [tabHeaderCount]="tab.tabHeaderCount"
+        [tabStyle]="tabStyle"
+        (closeClick)="tabCloseClick(tab)"
+        (tabClick)="selectTab(tab)"
+    >
+    </sky-tab-button>
+  </span>
+  <span class="sky-tabset-btns">
+    <button *ngIf="newTab.observers.length > 0"
+        class="sky-btn sky-btn-default sky-tabset-btn-new"
+        type="button"
+        [attr.aria-label]="'skyux_tab_add' | skyAppResources"
+        (click)="newTabClick()"
+    >
+      <sky-icon
+        icon="plus-circle"
+        size="lg"
+      >
+      </sky-icon>
+    </button>
+    <button *ngIf="openTab.observers.length > 0"
+        class="sky-btn sky-btn-default sky-tabset-btn-open"
+        type="button"
+        [attr.aria-label]="'skyux_tab_open' | skyAppResources"
+        (click)="openTabClick()"
+    >
+      <sky-icon
+        icon="folder-open-o"
+        size="lg"
+      >
+      </sky-icon>
+    </button>
+  </span>
+</div>
+<ng-content></ng-content>

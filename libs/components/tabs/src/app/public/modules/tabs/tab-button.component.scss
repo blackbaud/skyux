@@ -1,0 +1,23 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-tab-button-close {
+  color: $sky-text-color-deemphasized;
+  line-height: 1.4;
+  margin-left: $sky-margin-half;
+
+  &:hover {
+    color: $sky-text-color-default;
+    transition: color $sky-transition-time-short;
+  }
+}
+
+.sky-btn-tab-selected:not(.sky-btn-tab-disabled) {
+  .sky-tab-button-close {
+    color: #fff;
+  }
+}
+
+.sky-btn-tab.sky-tab-btn-closeable {
+  padding-right: $sky-padding;
+}

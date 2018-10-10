@@ -1,0 +1,20 @@
+<div
+  aria-orientation="vertical"
+  class="sky-sectioned-form"
+  [attr.role]="ariaRole"
+  (window:resize)="tabService.updateContent()"
+>
+  <div *ngIf="tabsVisible()"
+    class="sky-sectioned-form-tabs"
+    [@tabEnter]="tabService.animationVisibleState"
+  >
+    <ng-content></ng-content>
+  </div>
+  <div *ngIf="tabService.contentVisible()"
+    class="sky-sectioned-form-content sky-padding-even-large"
+    [@contentEnter]="tabService.animationVisibleState"
+    #skySectionSideContent
+  >
+  </div>
+</div>
+

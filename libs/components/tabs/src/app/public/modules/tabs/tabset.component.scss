@@ -1,0 +1,49 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-tabset {
+  align-items: center;
+  border-bottom: 2px solid $sky-background-color-primary-dark;
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  overflow: hidden;
+  padding: 0 0 0 $sky-padding-plus-half;
+  white-space: nowrap;
+
+  &.sky-tabset-style-wizard {
+    border-bottom: none;
+    padding-bottom: $sky-padding;
+    padding-left: 0;
+  }
+}
+
+.sky-tabset-btns {
+  order: 1;
+  padding-left: $sky-padding;
+}
+
+.sky-tabset-dropdown {
+  order: 0;
+  max-width: 100%;
+}
+
+.sky-tabset-mode-dropdown {
+  /* This line fixes an issue with extra whitespace under collapsed (dropdown) tabs in IE 11. */
+  line-height: 0;
+
+  .sky-tabset-tabs {
+    visibility: hidden;
+    order: 2;
+  }
+}
+
+.sky-tabset-tabs {
+  order: 0;
+  white-space: nowrap;
+}
+
+.sky-tabset-btn-new,
+.sky-tabset-btn-open {
+  color: $sky-text-color-action-primary;
+}

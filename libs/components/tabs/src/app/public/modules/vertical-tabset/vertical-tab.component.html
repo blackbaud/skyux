@@ -1,0 +1,46 @@
+<a
+  class="sky-vertical-tab"
+  [attr.aria-controls]="ariaControls"
+  [attr.aria-invalid]="ariaInvalid"
+  [attr.aria-required]="ariaRequired"
+  [attr.aria-selected]="active"
+  [attr.id]="tabId"
+  [attr.role]="ariaRole"
+  [ngClass]="{
+    'sky-vertical-tab-active': active,
+    'sky-vertical-tab-disabled': disabled
+  }"
+  [tabIndex]="tabIndex()"
+  (click)="activateTab()"
+  (keyup.enter)="activateTab()">
+  <div class="sky-vertical-tab-display">
+    <div class="sky-vertical-tab-heading">
+      <span class="sky-vertical-tab-heading-value">{{ tabHeading }}</span>
+      <span
+        class="sky-vertical-tab-count"
+        *ngIf="tabHeaderCount || tabHeaderCount === 0">
+        ({{ tabHeaderCount }})
+      </span>
+    </div>
+
+    <sky-icon
+      *ngIf="showTabRightArrow"
+      class="sky-vertical-tab-right-arrow"
+      icon="chevron-right"
+    >
+    </sky-icon>
+  </div>
+</a>
+
+<div #tabContentWrapper>
+  <div
+    class="sky-vertical-tab-content-pane"
+    [ngClass]="{'sky-vertical-tab-hidden': !active}"
+  >
+
+    <ng-content></ng-content>
+
+  <div>
+
+</div>
+

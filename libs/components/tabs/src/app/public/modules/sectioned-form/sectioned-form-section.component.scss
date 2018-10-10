@@ -1,0 +1,10 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+:host .sky-tab-field-required ::ng-deep .sky-vertical-tab-heading:after {
+  @include sky-required-field();
+}
+
+:host .sky-tab-field-invalid ::ng-deep .sky-vertical-tab-heading:after {
+  @include sky-danger();
+}

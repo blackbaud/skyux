@@ -1,0 +1,17 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+@media (min-width: $sky-screen-sm-min) {
+  .sky-sectioned-form {
+    display: flex;
+  }
+
+  .sky-sectioned-form-tabs {
+    flex-basis: 30%;
+    @include sky-border(light, right);
+  }
+
+  .sky-sectioned-form-content {
+    flex-basis: 70%;
+  }
+}

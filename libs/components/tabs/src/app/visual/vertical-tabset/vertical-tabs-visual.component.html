@@ -1,0 +1,64 @@
+<div id="screenshot-vertical-tabset" [@.disabled]="true">
+  <sky-vertical-tabset showTabsText='Tab list'>
+    <sky-vertical-tabset-group
+      groupHeading="Group 1"
+      [open]="group1Open"
+      [disabled]="group1Disabled"
+    >
+      <sky-vertical-tab tabHeading="Group 1 Tab 1" tabHeaderCount="5" [active]="active">
+        Group 1 Tab 1 content
+      </sky-vertical-tab>
+      <sky-vertical-tab tabHeading="Group 1 Tab 2">
+        Group 1 Tab 2 content
+      </sky-vertical-tab>
+    </sky-vertical-tabset-group>
+
+    <sky-vertical-tabset-group
+      class="group2"
+      groupHeading="Group 2"
+      [open]="group2Open"
+      [disabled]="group2Disabled"
+    >
+      <sky-vertical-tab tabHeading="Group 2 Tab 1" tabHeaderCount="6">
+        Group 2 Tab 1 content
+      </sky-vertical-tab>
+      <sky-vertical-tab id="group2Tab2" tabHeading="Group 2 Tab 2" tabHeaderCount="0">
+        Group 2 Tab 2 content
+      </sky-vertical-tab>
+      <sky-vertical-tab
+        tabHeading="Group 2 Tab 2 - disabled"
+        tabHeaderCount="0"
+        [disabled]="tabDisabled"
+      >
+        Group 2 Tab 3 content
+      </sky-vertical-tab>
+    </sky-vertical-tabset-group>
+
+    <sky-vertical-tabset-group
+      groupHeading="Group 3"
+      [open]="group3Open"
+      [disabled]="group3Disabled"
+    >
+      <sky-vertical-tab tabHeading="Group 3 Tab 1">
+        Group 3 Tab 1 content
+      </sky-vertical-tab>
+      <sky-vertical-tab tabHeading="Group 3 Tab 2">
+        Group 3 Tab 2 content
+      </sky-vertical-tab>
+    </sky-vertical-tabset-group>
+  </sky-vertical-tabset>
+</div>
+
+<div id="screenshot-vertical-tabs-no-groups" [@.disabled]="true">
+  <sky-vertical-tabset>
+    <sky-vertical-tab tabHeading="tab 1">
+      Tab 1 content
+    </sky-vertical-tab>
+    <sky-vertical-tab tabHeading="tab 2" active="true">
+      Tab 2 content
+    </sky-vertical-tab>
+    <sky-vertical-tab tabHeading="tab 3">
+      Tab 3 content
+    </sky-vertical-tab>
+  </sky-vertical-tabset>
+</div>

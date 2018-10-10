@@ -3,15 +3,27 @@ import {
 } from '@angular/core';
 
 import {
-  SkySampleModule
+  SkyCheckboxModule
+} from '@skyux/forms/modules/checkbox';
+
+import {
+  SkyTabsModule,
+  SkySectionedFormModule,
+  SkyVerticalTabsetModule
 } from './public';
 
 @NgModule({
   imports: [
-    SkySampleModule
+    SkyCheckboxModule,
+    SkySectionedFormModule,
+    SkyTabsModule,
+    SkyVerticalTabsetModule
   ],
   exports: [
-    SkySampleModule
+    SkyCheckboxModule,
+    SkySectionedFormModule,
+    SkyTabsModule,
+    SkyVerticalTabsetModule
   ],
   providers: [],
   entryComponents: []

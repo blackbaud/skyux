@@ -1,0 +1,49 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-vertical-tabset-group {
+  @include sky-border(light, bottom);
+  margin: $sky-margin-half 0 $sky-margin-half $sky-margin-half;
+}
+
+.sky-vertical-tabset-group-header {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+
+  &:not(.sky-emphasized) {
+    font-weight: 400;
+    color: $sky-text-color-deemphasized;
+  }
+
+  &:hover {
+    color: $sky-text-color-default;
+  }
+
+  &:focus {
+    @include sky-focus-outline;
+  }
+}
+
+:host[ng-reflect-disabled="true"] .sky-vertical-tabset-group-header {
+  cursor: not-allowed;
+  font-style: italic;
+
+  &:hover {
+    color: $sky-text-color-deemphasized;
+  }
+
+  ::ng-deep button {
+    cursor: not-allowed;
+  }
+}
+
+.sky-vertical-tabset-group-content {
+  overflow: hidden;
+  @include sky-border(light, top);
+}
+
+:host ::ng-deep .sky-vertical-tabset-group-header-chevron > button {
+  font-size: 14px !important;
+}
+
