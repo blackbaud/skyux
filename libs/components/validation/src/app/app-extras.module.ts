@@ -3,15 +3,18 @@ import {
 } from '@angular/core';
 
 import {
-  SkySampleModule
+  SkyEmailValidationModule,
+  SkyUrlValidationModule
 } from './public';
 
 @NgModule({
   imports: [
-    SkySampleModule
+    SkyEmailValidationModule,
+    SkyUrlValidationModule
   ],
   exports: [
-    SkySampleModule
+    SkyEmailValidationModule,
+    SkyUrlValidationModule
   ],
   providers: [],
   entryComponents: []

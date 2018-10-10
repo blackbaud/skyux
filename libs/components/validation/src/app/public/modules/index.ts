@@ -1,1 +1,2 @@
-export * from './sample';
+export * from './email-validation';
+export * from './url-validation';

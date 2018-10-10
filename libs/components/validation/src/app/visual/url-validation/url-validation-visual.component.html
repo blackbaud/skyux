@@ -1,0 +1,21 @@
+<div
+  id="screenshot-url-validation"
+  style="max-width: 50%">
+  <label>
+    Url:
+    <input
+      class="sky-form-control"
+      id="url-validation-input"
+      skyUrlValidation
+      [(ngModel)]="url"
+      #input="ngModel">
+  </label>
+  <div
+    class="sky-error-label"
+    *ngIf="input.errors && input.errors.skyUrl && (input.dirty && input.touched)">
+    <span
+      [hidden]="!input.errors.skyUrl.invalid">
+      Please enter valid url with format http(s)://site.domain
+    </span>
+  </div>
+</div>
