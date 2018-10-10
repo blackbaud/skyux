@@ -1,0 +1,39 @@
+<sky-list-toolbar
+  [searchEnabled]="searchEnabled"
+  [sortSelectorEnabled]="sortEnabled"
+  [searchText]="searchText"
+  [toolbarType]="toolbarType"
+  #toolbar>
+  <sky-list-toolbar-item
+    id="custom-item"
+    location="right"
+    [index]="2">
+    <ng-template>Custom Item</ng-template>
+  </sky-list-toolbar-item>
+  <sky-list-toolbar-item
+    id="custom-item-test2"
+    location="right">
+    <ng-template>Custom Item 2</ng-template>
+  </sky-list-toolbar-item>
+  <sky-list-toolbar-item
+    id="custom-item-no-template"
+    location="left"
+    [index]="5000">
+  </sky-list-toolbar-item>
+  <sky-list-toolbar-sort
+    label="Custom"
+    field="custom"
+    type="string"
+    [descending]="true">
+  </sky-list-toolbar-sort>
+  <sky-list-toolbar-sort
+    label="Custom"
+    field="custom"
+    type="string"
+    [descending]="false">
+  </sky-list-toolbar-sort>
+</sky-list-toolbar>
+
+<ng-template #default>
+  <span class="sky-test-toolbar"></span>
+</ng-template>

@@ -1,0 +1,8 @@
+<sky-paging
+  [pageSize]="itemsPerPage | async"
+  [maxPages]="maxDisplayedPages | async"
+  [currentPage]="currentPageNumber | async"
+  [itemCount]="itemCount | async"
+  (currentPageChange)="pageChange($event)"
+  >
+</sky-paging>

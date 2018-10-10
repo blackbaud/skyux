@@ -1,0 +1,17 @@
+@import "~@skyux/theme/scss/mixins";
+
+.sky-list-toolbar-search {
+  ::ng-deep .sky-toolbar-container, ::ng-deep .sky-search-dismiss-absolute {
+    background-color: $sky-background-color-neutral-light;
+  }
+  ::ng-deep input[type="text"]:disabled, ::ng-deep .sky-search-btn:disabled  {
+    background-color:  $sky-background-color-disabled;
+    opacity: 1;
+  }
+}
+
+.sky-list-toolbar-container {
+  ::ng-deep sky-toolbar-item[sky-toolbar-id="sort-selector"] .sky-toolbar-item {
+    margin-right: 0;
+  }
+}

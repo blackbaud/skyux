@@ -1,0 +1,9 @@
+<sky-list
+  [data]="items"
+  [defaultView]="default"
+  (appliedFiltersChange)="filtersChangeFunction($event)"
+  [appliedFilters]="listFilters"
+>
+  <sky-list-view-test fit="scroll" #default>
+  </sky-list-view-test>
+</sky-list>

@@ -1,0 +1,11 @@
+@import "~@skyux/theme/scss/mixins";
+
+:host {
+  margin-left: auto;
+}
+
+.sky-list-toolbar-view-actions {
+  @media (max-width: $sky-screen-sm-max) {
+    margin-bottom: 5px;
+  }
+}
