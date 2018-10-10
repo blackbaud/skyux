@@ -1,0 +1,12 @@
+<sky-list
+  [data]="items"
+  (selectedIdsChange)="selectedItemsChange($event)">
+  <sky-list-toolbar>
+  </sky-list-toolbar>
+  <sky-list-view-checklist
+    [selectMode]="selectMode"
+    [showOnlySelected]="showOnlySelected"
+    label="column2"
+    description="column3">
+  </sky-list-view-checklist>
+</sky-list>

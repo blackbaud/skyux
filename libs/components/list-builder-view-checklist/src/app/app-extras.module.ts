@@ -3,15 +3,24 @@ import {
 } from '@angular/core';
 
 import {
-  SkySampleModule
+  SkyListModule,
+  SkyListToolbarModule
+} from '@skyux/list-builder';
+
+import {
+  SkyListViewChecklistModule
 } from './public';
 
 @NgModule({
   imports: [
-    SkySampleModule
+    SkyListModule,
+    SkyListToolbarModule,
+    SkyListViewChecklistModule
   ],
   exports: [
-    SkySampleModule
+    SkyListModule,
+    SkyListToolbarModule,
+    SkyListViewChecklistModule
   ],
   providers: [],
   entryComponents: []

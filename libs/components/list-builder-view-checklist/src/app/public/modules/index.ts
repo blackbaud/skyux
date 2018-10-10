@@ -1,1 +1,1 @@
-export * from './sample';
+export * from './list-view-checklist';

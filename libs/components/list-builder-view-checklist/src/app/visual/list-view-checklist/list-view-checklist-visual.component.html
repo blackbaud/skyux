@@ -1,0 +1,19 @@
+<button
+  type="button"
+  class="sky-btn sky-btn-primary"
+  style="margin-bottom: 10px;"
+  (click)="toggleSelectMode()">
+  Switch select mode
+</button>
+
+<div id="screenshot-list-view-checklist" style="background-color: white">
+  <sky-list [data]="data">
+    <sky-list-toolbar></sky-list-toolbar>
+    <sky-list-view-checklist
+      label="column1"
+      description="column2"
+      name="checklist"
+      [selectMode]="selectMode">
+    </sky-list-view-checklist>
+  </sky-list>
+</div>
