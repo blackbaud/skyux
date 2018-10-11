@@ -1,0 +1,30 @@
+@import "scss/variables";
+
+@mixin create_columns($screen-size: sm) {
+  @for $i from 1 through $sky-fluid-grid-columns {
+    :host.sky-column-#{$screen-size}-#{$i} {
+      width: ($i / $sky-fluid-grid-columns) * 100%;
+    }
+  }
+}
+
+:host.sky-column {
+  padding-right: $sky-fluid-grid-gutter;
+  padding-left: $sky-fluid-grid-gutter;
+  width: 100%;
+  min-height: 1px;
+}
+
+@include create_columns(xs);
+
+@media (min-width: $sky-screen-sm-min) {
+  @include create_columns(sm);
+}
+
+@media (min-width: $sky-screen-md-min) {
+  @include create_columns(md);
+}
+
+@media (min-width: $sky-screen-lg-min) {
+  @include create_columns(lg);
+}

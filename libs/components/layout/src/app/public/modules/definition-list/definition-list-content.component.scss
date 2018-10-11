@@ -1,0 +1,8 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-definition-list-content {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: $sky-margin-half;
+}

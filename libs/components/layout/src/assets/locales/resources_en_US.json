@@ -1,6 +1,26 @@
 {
-  "skyux_some_key": {
+  "skyux_card_checkbox_label": {
+    "_description": "Label for the multiselect checkbox for the card component",
+    "message": "Select card"
+  },
+  "skyux_definition_list_none_found": {
+    "_description": "The default text to show when a definition list item has no value",
+    "message": "None found"
+  },
+  "skyux_text_expand_close_text": {
+    "_description": "Text for the close button on the text expand modal",
+    "message": "Close"
+  },
+  "skyux_text_expand_modal_title": {
     "_description": "",
-    "message": ""
+    "message": "Expanded view"
+  },
+  "skyux_text_expand_see_less": {
+    "_description": "Display less text content",
+    "message": "See less"
+  },
+  "skyux_text_expand_see_more": {
+    "_description": "",
+    "message": "See more"
   }
 }

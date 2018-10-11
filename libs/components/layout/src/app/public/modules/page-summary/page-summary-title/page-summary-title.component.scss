@@ -1,0 +1,7 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-page-summary-title {
+  margin-top: 0;
+  margin-bottom: $sky-margin-half;
+}

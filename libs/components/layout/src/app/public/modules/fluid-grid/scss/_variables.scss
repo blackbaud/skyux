@@ -1,0 +1,5 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+$sky-fluid-grid-gutter: $sky-padding-plus-half !default;
+$sky-fluid-grid-columns: 12 !default;

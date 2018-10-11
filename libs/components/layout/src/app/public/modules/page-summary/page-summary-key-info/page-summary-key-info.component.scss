@@ -1,0 +1,12 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+@media (max-width: $sky-screen-xs-max) {
+    .sky-page-summary-key-info {
+        margin-top: $sky-margin-double;
+    }
+}
+
+.sky-page-summary-key-info ::ng-deep .sky-key-info {
+  display: block;
+}

@@ -1,0 +1,35 @@
+<div id="screenshot-fluid-grid">
+  <sky-row>
+    <sky-column screenSmall="4" screenMedium="3" screenLarge="2">
+      small 4 medium 3 large 2
+    </sky-column>
+    <sky-column screenSmall="4" screenMedium="9" screenLarge="8">
+      small 4 medium 9 large 8
+    </sky-column>
+    <sky-column screenSmall="4" screenMedium="12" screenLarge="2">
+      small 4 medium 12 large 2
+    </sky-column>
+  </sky-row>
+</div>
+
+<div id="screenshot-fluid-grid-xsmall">
+  <sky-row>
+    <sky-column screenXSmall="6">
+      xsmall 6
+    </sky-column>
+    <sky-column screenXSmall="6">
+      xsmall 6
+    </sky-column>
+  </sky-row>
+</div>
+
+<div id="screenshot-fluid-grid-reverse">
+  <sky-row [reverseColumnOrder]="true">
+    <sky-column screenSmall="6">
+      should be second/below
+    </sky-column>
+    <sky-column screenSmall="6">
+      should be first/on top
+    </sky-column>
+  </sky-row>
+</div>

@@ -1,0 +1,30 @@
+.sky-text-expand-ellipsis {
+    letter-spacing: 2px;
+    white-space: nowrap;
+    margin-right: 3px;
+}
+
+.sky-text-expand-space {
+    white-space: normal;
+}
+
+.sky-text-expand-see-more {
+    white-space: nowrap;
+}
+
+.sky-text-expand-text {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.sky-text-expand-container {
+  word-break: break-word;
+  word-wrap: break-word;
+  overflow: hidden;
+  height: auto;
+  transition: max-height 250ms;
+}
+
+.sky-text-expand-modal-content {
+  white-space: pre-line;
+}

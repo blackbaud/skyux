@@ -1,0 +1,10 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-page-summary-status {
+    margin-top: $sky-margin;
+
+    ::ng-deep .sky-label {
+        margin-right: $sky-margin-half;
+    }
+}

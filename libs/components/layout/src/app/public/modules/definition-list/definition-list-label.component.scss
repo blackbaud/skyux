@@ -1,0 +1,11 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+:host {
+  flex: 0 0 90px;
+}
+
+.sky-definition-list-label {
+  margin-right: $sky-margin;
+  word-wrap: break-word;
+}

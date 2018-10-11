@@ -1,0 +1,42 @@
+<div id="screenshots-page-summary">
+  <sky-page-summary>
+    <sky-page-summary-alert *ngIf="showAlert">
+      <sky-alert [alertType]="'info'">This is an alert.</sky-alert>
+    </sky-page-summary-alert>
+    <sky-page-summary-image *ngIf="showImage">
+      <sky-avatar [name]="name"></sky-avatar>
+    </sky-page-summary-image>
+    <sky-page-summary-title *ngIf="showTitle">
+      {{name}}
+    </sky-page-summary-title>
+    <sky-page-summary-subtitle *ngIf="showSubtitle">
+      Board member
+    </sky-page-summary-subtitle>
+    <sky-page-summary-status *ngIf="showStatus">
+      <sky-label labelType="success">Fundraiser</sky-label>
+      <sky-label>Inactive</sky-label>
+    </sky-page-summary-status>
+    <sky-page-summary-content *ngIf="showContent">
+      This is the arbitrary content section. You can display any kind of content to complement the content on a page. We recommend that you display content to support the key tasks of users of users who visit the page. We also recommend that you keep in mind the context of how users will use the content and limit the amount of content to avoid overloading the summary.
+    </sky-page-summary-content>
+    <sky-page-summary-key-info *ngIf="showKeyInfo">
+      <sky-key-info>
+        <sky-key-info-value>The key information</sky-key-info-value>
+      </sky-key-info>
+      <sky-key-info>
+        <sky-key-info-value>section highlights</sky-key-info-value>
+      </sky-key-info>
+      <sky-key-info>
+        <sky-key-info-value>important details</sky-key-info-value>
+      </sky-key-info>
+    </sky-page-summary-key-info>
+  </sky-page-summary>
+</div>
+<div style="margin-top: 20px">
+  <input
+    type="text"
+    id="screenshots-page-summary-items"
+    [(ngModel)]="itemsToShow"
+    aria-hidden="true"
+  />
+</div>

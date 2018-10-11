@@ -1,0 +1,45 @@
+<div id="screenshot-definition-list-1">
+  <sky-definition-list>
+    <sky-definition-list-heading>
+      Personal information
+    </sky-definition-list-heading>
+    <sky-definition-list-content *ngFor="let item of personalInfo">
+      <sky-definition-list-label>
+        {{item.label}}
+      </sky-definition-list-label>
+      <sky-definition-list-value>
+        {{item.value}}
+      </sky-definition-list-value>
+    </sky-definition-list-content>
+  </sky-definition-list>
+</div>
+<div id="screenshot-definition-list-2">
+  <sky-definition-list labelWidth="150px" defaultValue="No information found">
+    <sky-definition-list-heading>
+      System information
+    </sky-definition-list-heading>
+    <sky-definition-list-content *ngFor="let item of systemInfo">
+      <sky-definition-list-label>
+        {{item.label}}
+      </sky-definition-list-label>
+      <sky-definition-list-value>
+        {{item.value}}
+      </sky-definition-list-value>
+    </sky-definition-list-content>
+  </sky-definition-list>
+</div>
+<div id="screenshot-definition-list-3">
+  <sky-definition-list labelWidth="150px" defaultValue="No information found">
+    <sky-definition-list-heading>
+      A definition list with long text
+    </sky-definition-list-heading>
+    <sky-definition-list-content>
+      <sky-definition-list-label>
+        Label
+      </sky-definition-list-label>
+      <sky-definition-list-value>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam auctor leo at lectus fringilla lobortis. Donec ullamcorper sed dolor eget posuere. Phasellus aliquet, neque in cursus commodo, libero turpis rhoncus purus, vel gravida quam risus et arcu. Quisque auctor risus tristique ligula pretium commodo. Aenean viverra mi vel lectus rutrum pretium. Duis condimentum dolor justo, sit amet lobortis turpis pharetra et. Integer tempor faucibus risus quis semper. Praesent in lacinia justo. Sed posuere porta ex nec aliquet.
+      </sky-definition-list-value>
+    </sky-definition-list-content>
+  </sky-definition-list>
+</div>

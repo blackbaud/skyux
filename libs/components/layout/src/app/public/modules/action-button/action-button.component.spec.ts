@@ -7,7 +7,8 @@ import {
 } from '@angular/platform-browser';
 import {
   TestBed,
-  ComponentFixture
+  ComponentFixture,
+  async
 } from '@angular/core/testing';
 import {
   RouterTestingModule
@@ -20,6 +21,9 @@ import {
 import {
   MockSkyMediaQueryService
 } from '@skyux/core/testing';
+import {
+  expect
+} from '@skyux-sdk/testing';
 
 import {
   SkyActionButtonComponent,
@@ -141,5 +145,12 @@ describe('Action button component', () => {
     fixture.detectChanges();
     expect(debugElement.query(By.css(largeIconSelector))).not.toBeNull();
   });
+
+  it('should be accessible', async(() => {
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(fixture.nativeElement).toBeAccessible();
+    });
+  }));
 
 });

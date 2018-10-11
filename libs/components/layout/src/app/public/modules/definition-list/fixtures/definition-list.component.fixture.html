@@ -1,0 +1,30 @@
+<div class="sky-definition-list-test-1">
+  <sky-definition-list>
+    <sky-definition-list-heading>
+      Personal information
+    </sky-definition-list-heading>
+    <sky-definition-list-content *ngFor="let item of personalInfo">
+      <sky-definition-list-label>
+        {{item.label}}
+      </sky-definition-list-label>
+      <sky-definition-list-value>
+        {{item.value}}
+      </sky-definition-list-value>
+    </sky-definition-list-content>
+  </sky-definition-list>
+</div>
+<div class="sky-definition-list-test-2">
+  <sky-definition-list labelWidth="150px" defaultValue="No information found">
+    <sky-definition-list-heading>
+      System information
+    </sky-definition-list-heading>
+    <sky-definition-list-content *ngFor="let item of systemInfo">
+      <sky-definition-list-label>
+        {{item.label}}
+      </sky-definition-list-label>
+      <sky-definition-list-value>
+        {{item.value}}
+      </sky-definition-list-value>
+    </sky-definition-list-content>
+  </sky-definition-list>
+</div>

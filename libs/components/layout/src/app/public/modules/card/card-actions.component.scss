@@ -1,0 +1,8 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+:host {
+  display: block;
+  @include sky-border(light, top);
+  padding: $sky-padding-3_4 0;
+}

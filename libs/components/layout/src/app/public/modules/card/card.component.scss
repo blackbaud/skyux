@@ -1,0 +1,96 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-card {
+    background-color: #fff;
+    @include sky-border(dark, top, bottom, left, right);
+    display: inline-flex;
+    flex-direction: column;
+    height: 350px;
+    margin: 0 $sky-margin $sky-margin 0;
+    transition: background-color $sky-transition-time-short;
+    // This keeps cards with varying contents (such as one card with a header and another with no header)
+    // vertically aligned with one another.  Otherwise because of the inline nature of the card the browser
+    // will attempt to vertically align the cards based on the baselines of the text in each card.
+    vertical-align: top;
+    width: 350px;
+}
+
+.sky-card-small {
+    height: 250px;
+    width: 225px;
+}
+
+.sky-card-selectable {
+    .sky-card-header,
+    .sky-card-content {
+        cursor: pointer;
+    }
+}
+
+.sky-card-selected {
+    background-color: $sky-background-color-selected;
+    transition: background-color $sky-transition-time-short;
+}
+
+.sky-card-header {
+    align-items: center;
+    display: flex;
+    flex-shrink: 0;
+    margin: 0;
+    // Use padding so the area between the header and content is still clickable.
+    padding: $sky-padding 0 0 0;
+
+}
+
+.sky-card-heading-left,
+.sky-card-heading-right {
+    font-weight: normal;
+    max-width: 34px;
+}
+
+.sky-card-heading-left {
+    padding-left: $sky-padding;
+}
+
+.sky-card-heading-right {
+    padding-right: $sky-padding;
+}
+
+.sky-card-heading-middle {
+    flex-grow: 1;
+    padding: 0 $sky-padding;
+    overflow: hidden;
+}
+
+.sky-card-title {
+    margin: 0;
+    line-height: $sky-line-height-base;
+}
+
+.sky-card-check {
+    flex-shrink: 0;
+    padding-right: $sky-padding;
+
+    .sky-check-wrapper {
+        margin-bottom: 2px;
+    }
+}
+
+.sky-card-content {
+    flex-grow: 1;
+    font-weight: normal;
+    margin: 0;
+    overflow: hidden;
+}
+
+.sky-card-actions {
+    bottom: 0;
+    flex-shrink: 0;
+    text-align: center;
+
+    .sky-context-menu-btn {
+        height: 32px;
+        width: 32px;
+    }
+}

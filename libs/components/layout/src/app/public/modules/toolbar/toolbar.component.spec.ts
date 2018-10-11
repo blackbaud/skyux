@@ -1,5 +1,5 @@
 import {
-  TestBed
+  TestBed, async
 } from '@angular/core/testing';
 
 import { BrowserModule } from '@angular/platform-browser';
@@ -39,6 +39,14 @@ describe('toolbar component', () => {
       expect(buttonEls.item(1)).toHaveText('Button 2');
 
     });
+
+    it('should be accessible', async(() => {
+      let fixture = TestBed.createComponent(ToolbarTestComponent);
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expect(fixture.nativeElement).toBeAccessible();
+      });
+    }));
   });
 
   describe('sectioned', () => {
@@ -69,5 +77,13 @@ describe('toolbar component', () => {
       expect(el.querySelector('.sky-toolbar-container')).toHaveCssClass('sky-toolbar-sectioned');
 
     });
+
+    it('should be accessible', async(() => {
+      let fixture = TestBed.createComponent(ToolbarSectionedTestComponent);
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expect(fixture.nativeElement).toBeAccessible();
+      });
+    }));
   });
 });
