@@ -14,8 +14,6 @@ import {
   ListViewChecklistItemsLoadAction
 } from './actions';
 
-const moment = require('moment');
-
 export class ListViewChecklistItemsOrchestrator
   extends ChecklistStateOrchestrator<AsyncList<ListViewChecklistItemModel>> {
   /* istanbul ignore next */
@@ -33,7 +31,7 @@ export class ListViewChecklistItemsOrchestrator
     if (action.refresh) {
       return new AsyncList<ListViewChecklistItemModel>(
         [...newListItems],
-        action.dataChanged ? moment() : state.lastUpdate,
+        action.dataChanged ? Date.now() : state.lastUpdate,
         false,
         state.count
       );
@@ -41,7 +39,7 @@ export class ListViewChecklistItemsOrchestrator
 
     return new AsyncList<ListViewChecklistItemModel>(
       [...state.items, ...newListItems],
-      action.dataChanged ? moment() : state.lastUpdate,
+      action.dataChanged ? Date.now() : state.lastUpdate,
       false,
       action.itemCount
     );

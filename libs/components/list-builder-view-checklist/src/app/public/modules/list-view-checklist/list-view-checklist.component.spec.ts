@@ -17,7 +17,6 @@ import {
   ListViewModel
 } from '@skyux/list-builder/modules/list/state';
 
-const moment = require('moment');
 import {
   ListViewChecklistTestComponent
 } from './fixtures/list-view-checklist.component.fixture';
@@ -77,31 +76,31 @@ describe('List View Checklist Component', () => {
       items = [
         new ListItemModel('1', {
           column1: '1', column2: 'Apple',
-          column4: moment().add(1, 'minute')
+          column4: 1
         }),
         new ListItemModel('2', {
           column1: '01', column2: 'Banana',
-          column4: moment().add(6, 'minute'), column5: 'test'
+          column4: 6, column5: 'test'
         }),
         new ListItemModel('3', {
           column1: '11', column2: 'Banana',
-          column4: moment().add(4, 'minute')
+          column4: 4
         }),
         new ListItemModel('4', {
           column1: '12', column2: 'Daikon',
-          column4: moment().add(2, 'minute')
+          column4: 2
         }),
         new ListItemModel('5', {
           column1: '13', column2: 'Edamame',
-          column4: moment().add(5, 'minute')
+          column4: 5
         }),
         new ListItemModel('6', {
           column1: '20', column2: 'Fig',
-          column4: moment().add(3, 'minute')
+          column4: 3
         }),
         new ListItemModel('7', {
           column1: '21', column2: 'Grape',
-          column4: moment().add(7, 'minute')
+          column4: 7
         }),
         new ListItemModel('8', { column1: '22' })
       ];
@@ -182,7 +181,7 @@ describe('List View Checklist Component', () => {
       items = [
         new ListItemModel('1', {
           column1: '1', column2: 'Apple',
-          column3: 1, column4: moment().add(1, 'minute')
+          column3: 1, column4: 1
         })
       ];
 
@@ -235,31 +234,31 @@ describe('List View Checklist Component', () => {
       itemsArray = [
         new ListItemModel('1', {
           column1: '1', column2: 'Apple',
-          column4: moment().add(1, 'minute')
+          column4: 1
         }),
         new ListItemModel('2', {
           column1: '01', column2: 'Banana',
-          column4: moment().add(6, 'minute'), column5: 'test'
+          column4: 6, column5: 'test'
         }),
         new ListItemModel('3', {
           column1: '11', column2: 'Banana',
-          column4: moment().add(4, 'minute')
+          column4: 4
         }),
         new ListItemModel('4', {
           column1: '12', column2: 'Daikon',
-          column4: moment().add(2, 'minute')
+          column4: 2
         }),
         new ListItemModel('5', {
           column1: '13', column2: 'Edamame',
-          column4: moment().add(5, 'minute')
+          column4: 5
         }),
         new ListItemModel('6', {
           column1: '20', column2: 'Fig',
-          column4: moment().add(3, 'minute')
+          column4: 3
         }),
         new ListItemModel('7', {
           column1: '21', column2: 'Grape',
-          column4: moment().add(7, 'minute')
+          column4: 7
         })
       ];
 
@@ -556,31 +555,31 @@ describe('List View Checklist Component', () => {
       itemsArray = [
         new ListItemModel('1', {
           column1: '1', column2: 'Apple',
-          column4: moment().add(1, 'minute')
+          column4: 1
         }),
         new ListItemModel('2', {
           column1: '01', column2: 'Banana',
-          column4: moment().add(6, 'minute'), column5: 'test'
+          column4: 6, column5: 'test'
         }),
         new ListItemModel('3', {
           column1: '11', column2: 'Banana',
-          column4: moment().add(4, 'minute')
+          column4: 4
         }),
         new ListItemModel('4', {
           column1: '12', column2: 'Daikon',
-          column4: moment().add(2, 'minute')
+          column4: 2
         }),
         new ListItemModel('5', {
           column1: '13', column2: 'Edamame',
-          column4: moment().add(5, 'minute')
+          column4: 5
         }),
         new ListItemModel('6', {
           column1: '20', column2: 'Fig',
-          column4: moment().add(3, 'minute')
+          column4: 3
         }),
         new ListItemModel('7', {
           column1: '21', column2: 'Grape',
-          column4: moment().add(7, 'minute')
+          column4: 7
         })
       ];
 
