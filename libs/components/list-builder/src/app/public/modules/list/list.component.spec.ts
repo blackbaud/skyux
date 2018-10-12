@@ -12,7 +12,7 @@ import {
   ListState,
   ListStateDispatcher
 } from '../list/state';
-const moment = require('moment');
+
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
@@ -67,19 +67,19 @@ describe('List Component', () => {
         /* tslint:disable */
         let itemsArray = [
           { id: '1', column1: '30', column2: 'Apple',
-            column3: 1, column4: moment().add(1, 'minute') },
+            column3: 1, column4: 1 },
           { id: '2', column1: '01', column2: 'Banana',
-            column3: 3, column4: moment().add(6, 'minute') },
+            column3: 3, column4: 6 },
           { id: '3', column1: '11', column2: 'Banana',
-            column3: 11, column4: moment().add(4, 'minute') },
+            column3: 11, column4: 4 },
           { id: '4', column1: '12', column2: 'Carrot',
-            column3: 12, column4: moment().add(2, 'minute') },
+            column3: 12, column4: 2 },
           { id: '5', column1: '12', column2: 'Edamame',
-            column3: 12, column4: moment().add(5, 'minute') },
+            column3: 12, column4: 5 },
           { id: '6', column1: null, column2: null,
-            column3: 20, column4: moment().add(3, 'minute') },
+            column3: 20, column4: 3 },
           { id: '7', column1: '22', column2: 'Grape',
-            column3: 21, column4: moment().add(7, 'minute') }
+            column3: 21, column4: 7 }
         ];
 
         bs = new BehaviorSubject<Array<any>>(itemsArray);
@@ -150,11 +150,11 @@ describe('List Component', () => {
           fixture.detectChanges();
           bs.next([
             { id: '1', column1: '1', column2: 'Large',
-              column3: 2, column4: moment().add(15, 'minute') },
+              column3: 2, column4: 15 },
             { id: '2', column1: '22', column2: 'Small',
-              column3: 3, column4: moment().add(60, 'minute') },
+              column3: 3, column4: 60 },
             { id: '3', column1: '33', column2: 'Medium',
-              column3: 4, column4: moment().add(45, 'minute') }
+              column3: 4, column4: 45 }
           ]);
           fixture.detectChanges();
           validateRowCount(element, 3);
@@ -163,9 +163,9 @@ describe('List Component', () => {
         it('should update displayed items when data is updated', () => {
           let newItems = [
             { id: '11', column1: '11', column2: 'Coffee',
-              column3: 11, column4: moment().add(11, 'minute') },
+              column3: 11, column4: 11 },
             { id: '12', column1: '12', column2: 'Tea',
-              column3: 12, column4: moment().add(12, 'minute') }
+              column3: 12, column4: 12 }
           ];
 
           bs.next(newItems);
@@ -298,7 +298,7 @@ describe('List Component', () => {
           tick();
           component.list.lastUpdate.take(1).subscribe(u => {
             state.take(1).subscribe((s) => {
-              expect(moment(u).isSame(s.items.lastUpdate)).toBeTruthy();
+              expect(u.getTime()).toEqual(s.items.lastUpdate)
             });
           });
         }));
@@ -331,19 +331,19 @@ describe('List Component', () => {
         /* tslint:disable */
         let itemsArray = [
           { id: '1', column1: '30', column2: 'Apple',
-            column3: 1, column4: moment().add(1, 'minute') },
+            column3: 1, column4: 1 },
           { id: '2', column1: '01', column2: 'Banana',
-            column3: 3, column4: moment().add(6, 'minute') },
+            column3: 3, column4: 6 },
           { id: '3', column1: '11', column2: 'Banana',
-            column3: 11, column4: moment().add(4, 'minute') },
+            column3: 11, column4: 4 },
           { id: '4', column1: '12', column2: 'Carrot',
-            column3: 12, column4: moment().add(2, 'minute') },
+            column3: 12, column4: 2 },
           { id: '5', column1: '12', column2: 'Edamame',
-            column3: 12, column4: moment().add(5, 'minute') },
+            column3: 12, column4: 5 },
           { id: '6', column1: null, column2: null,
-            column3: 20, column4: moment().add(3, 'minute') },
+            column3: 20, column4: 3 },
           { id: '7', column1: '22', column2: 'Grape',
-            column3: 21, column4: moment().add(7, 'minute') }
+            column3: 21, column4: 7 }
         ];
 
         bs = new BehaviorSubject<Array<any>>(itemsArray);
@@ -514,19 +514,19 @@ describe('List Component', () => {
         /* tslint:disable */
         let itemsArray = [
           { id: '1', column1: '30', column2: 'Apple',
-            column3: 1, column4: moment().add(1, 'minute') },
+            column3: 1, column4: 1 },
           { id: '2', column1: '01', column2: 'Banana',
-            column3: 3, column4: moment().add(6, 'minute') },
+            column3: 3, column4: 6 },
           { id: '3', column1: '11', column2: 'Banana',
-            column3: 11, column4: moment().add(4, 'minute') },
+            column3: 11, column4: 4 },
           { id: '4', column1: '12', column2: 'Carrot',
-            column3: 12, column4: moment().add(2, 'minute') },
+            column3: 12, column4: 2 },
           { id: '5', column1: '12', column2: 'Edamame',
-            column3: 12, column4: moment().add(5, 'minute') },
+            column3: 12, column4: 5 },
           { id: '6', column1: null, column2: null,
-            column3: 20, column4: moment().add(3, 'minute') },
+            column3: 20, column4: 3 },
           { id: '7', column1: '22', column2: 'Grape',
-            column3: 21, column4: moment().add(7, 'minute') }
+            column3: 21, column4: 7 }
         ];
 
         bs = new BehaviorSubject<Array<any>>(itemsArray);
@@ -626,19 +626,19 @@ describe('List Component', () => {
 
         let items = [
           { id: '1', column1: '1', column2: 'Apple',
-            column3: 1, column4: moment().add(1, 'minute') },
+            column3: 1, column4: 1 },
           { id: '2', column1: '01', column2: 'Banana',
-            column3: 1, column4: moment().add(6, 'minute') },
+            column3: 1, column4: 6 },
           { id: '3', column1: '11', column2: 'Carrot',
-            column3: 11, column4: moment().add(4, 'minute') },
+            column3: 11, column4: 4 },
           { id: '4', column1: '12', column2: 'Daikon',
-            column3: 12, column4: moment().add(2, 'minute') },
+            column3: 12, column4: 2 },
           { id: '5', column1: '13', column2: 'Edamame',
-            column3: 13, column4: moment().add(5, 'minute') },
+            column3: 13, column4: 5 },
           { id: '6', column1: '20', column2: 'Fig',
-            column3: 20, column4: moment().add(3, 'minute') },
+            column3: 20, column4: 3 },
           { id: '7', column1: '21', column2: 'Grape',
-            column3: 21, column4: moment().add(7, 'minute') }
+            column3: 21, column4: 7 }
         ];
 
         TestBed.configureTestingModule({
@@ -697,9 +697,9 @@ describe('List Component', () => {
 
         let itemsArray = [
           { id: '1', column1: '1', column2: 'Apple',
-            column3: 1, column4: moment().add(1, 'minute') },
+            column3: 1, column4: 1 },
           { id: '2', column1: '01', column2: 'Banana',
-            column3: 1, column4: moment().add(6, 'minute') }
+            column3: 1, column4: 6 }
         ];
 
         bs = new BehaviorSubject<Array<any>>(itemsArray);
@@ -759,9 +759,9 @@ describe('List Component', () => {
 
         bs.next([
           { column1: '1', column2: 'Apple',
-            column3: 1, column4: moment().add(1, 'minute') },
+            column3: 1, column4: 1 },
           { column1: '01', column2: 'Banana',
-            column3: 1, column4: moment().add(6, 'minute') }
+            column3: 1, column4: 6 }
         ]);
         fixture.detectChanges();
 
@@ -941,19 +941,19 @@ describe('List Component', () => {
         /* tslint:disable */
         let itemsArray = [
           { id: '1', column1: '30', column2: 'Apple',
-            column3: 1, column4: moment().add(1, 'minute') },
+            column3: 1, column4: 1 },
           { id: '2', column1: '01', column2: 'Banana',
-            column3: 3, column4: moment().add(6, 'minute') },
+            column3: 3, column4: 6 },
           { id: '3', column1: '11', column2: 'Banana',
-            column3: 11, column4: moment().add(4, 'minute') },
+            column3: 11, column4: 4 },
           { id: '4', column1: '12', column2: 'Carrot',
-            column3: 12, column4: moment().add(2, 'minute') },
+            column3: 12, column4: 2 },
           { id: '5', column1: '12', column2: 'Edamame',
-            column3: 12, column4: moment().add(5, 'minute') },
+            column3: 12, column4: 5 },
           { id: '6', column1: null, column2: null,
-            column3: 20, column4: moment().add(3, 'minute') },
+            column3: 20, column4: 3 },
           { id: '7', column1: '22', column2: 'Grape',
-            column3: 21, column4: moment().add(7, 'minute') }
+            column3: 21, column4: 7 }
         ];
 
         bs = new BehaviorSubject<Array<any>>(itemsArray);

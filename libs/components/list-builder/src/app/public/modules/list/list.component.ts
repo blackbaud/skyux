@@ -79,7 +79,7 @@ import {
   isObservable
 } from './helpers';
 
-const moment = require('moment');
+let idIndex = 0;
 
 @Component({
   selector: 'sky-list',
@@ -88,7 +88,7 @@ const moment = require('moment');
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyListComponent implements AfterContentInit, OnChanges {
-  public id: string = moment().toDate().getTime().toString();
+  public id: string = `sky-list-cmp-${++idIndex}`;
   @Input()
   public data?: Array<any> | Observable<Array<any>> = [];
 
@@ -259,7 +259,7 @@ export class SkyListComponent implements AfterContentInit, OnChanges {
         if (this.dataFirstLoad) {
           this.dataFirstLoad = false;
           let initialItems = itemsData.map(d =>
-            new ListItemModel(d.id || moment().toDate().getTime().toString(), d));
+            new ListItemModel(d.id || `sky-list-item-model-${++idIndex}`, d));
           response = Observable.of(new ListDataResponseModel({
             count: this.initialTotal,
             items: initialItems
@@ -293,7 +293,7 @@ export class SkyListComponent implements AfterContentInit, OnChanges {
 
   public get lastUpdate() {
     return this.state.map(s =>
-      s.items.lastUpdate ? moment(s.items.lastUpdate).toDate() : undefined
+      s.items.lastUpdate ? new Date(s.items.lastUpdate) : undefined
     );
   }
 

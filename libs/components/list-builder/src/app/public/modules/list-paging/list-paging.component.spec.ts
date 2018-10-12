@@ -24,8 +24,6 @@ import { ListItemModel } from '../list/state/items/item.model';
 
 import { AsyncList } from 'microedge-rxstate/dist';
 
-const moment = require('moment');
-
 describe('List Paging Component', () => {
   let state: ListState,
       dispatcher: ListStateDispatcher,
@@ -129,7 +127,7 @@ describe('List Paging Component', () => {
             new ListItemModel('1', {}),
             new ListItemModel('2', {})
           ],
-          moment(new Date('3/25/2016')),
+          new Date('3/25/2016'),
           false,
           2
         );

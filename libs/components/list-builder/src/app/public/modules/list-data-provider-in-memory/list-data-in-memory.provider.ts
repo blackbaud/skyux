@@ -13,7 +13,7 @@ import {
   getData
 } from '../list/helpers';
 
-const moment = require('moment');
+let idIndex = 0;
 
 export class SkyListInMemoryDataProvider extends ListDataProvider {
   public items: BehaviorSubject<Array<ListItemModel>> =
@@ -38,7 +38,7 @@ export class SkyListInMemoryDataProvider extends ListDataProvider {
     if (data) {
       data.subscribe(items => {
         this.items.next(items.map(d =>
-          new ListItemModel(d.id || moment().toDate().getTime().toString(), d)
+          new ListItemModel(d.id || `sky-list-data-in-memory-provider-item-${++idIndex}`, d)
         ));
       });
     }

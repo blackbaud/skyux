@@ -1,8 +1,6 @@
 import { ListStateOrchestrator } from '../list-state.rxstate';
 import { AsyncList } from 'microedge-rxstate/dist';
 
-const moment = require('moment');
-
 import { ListItemModel } from './item.model';
 import {
   ListItemsSetLoadingAction, ListItemsLoadAction
@@ -33,7 +31,7 @@ export class ListItemsOrchestrator extends ListStateOrchestrator<AsyncList<ListI
     let count = action.count === undefined ? resultItems.length : action.count;
     return new AsyncList<ListItemModel>(
       resultItems,
-      action.dataChanged ? moment() : state.lastUpdate,
+      action.dataChanged ? Date.now() : state.lastUpdate,
       false,
       count
     );

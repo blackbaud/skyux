@@ -9,8 +9,6 @@ import {
   ListSelectedSetItemsSelectedAction
 } from './actions';
 
-const moment = require('moment');
-
 export class ListSelectedOrchestrator extends ListStateOrchestrator<AsyncItem<ListSelectedModel>> {
   /* istanbul ignore next */
   constructor() {
@@ -37,7 +35,7 @@ export class ListSelectedOrchestrator extends ListStateOrchestrator<AsyncItem<Li
 
     return new AsyncItem<ListSelectedModel>(
       Object.assign({}, state.item, newSelected),
-      moment(),
+      Date.now(),
       false
     );
   }

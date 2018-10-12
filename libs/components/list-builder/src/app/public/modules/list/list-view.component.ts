@@ -4,7 +4,7 @@ import { SkyListComponent } from '../list/list.component';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinctUntilChanged';
 
-const moment = require('moment');
+let idIndex = 0;
 
 export abstract class ListViewComponent {
   public active: Observable<boolean>;
@@ -14,7 +14,7 @@ export abstract class ListViewComponent {
   protected list: SkyListComponent;
   protected hasToolbar: Observable<boolean>;
 
-  private viewId: string = moment().toDate().getTime().toString();
+  private viewId: string = `sky-list-view-cmp-${++idIndex}`;
 
   constructor(state: ListState, defaultName: string) {
     this.state = state;
