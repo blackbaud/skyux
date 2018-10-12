@@ -1,0 +1,24 @@
+<aside
+  [@skyAnimationEmerge]="animationState"
+  (@skyAnimationEmerge.done)="onAnimationDone($event)"
+>
+  <div
+    class="sky-toast sky-shadow sky-rounded-corners"
+    [ngClass]="classNames"
+    [attr.aria-live]="ariaLive"
+    [attr.role]="ariaRole"
+  >
+    <div class="sky-toast-content">
+      <ng-template #bodyContentTarget></ng-template>
+      <ng-content></ng-content>
+    </div>
+    <button
+      class="sky-toast-btn-close"
+      type="button"
+      [attr.title]="'skyux_toast_close_button' | skyAppResources"
+      (click)="close()"
+    >
+      <sky-icon icon="close"></sky-icon>
+    </button>
+  </div>
+</aside>

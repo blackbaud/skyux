@@ -1,0 +1,101 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-toast {
+  padding: 0 $sky-padding;
+  margin-bottom: $sky-margin-double;
+  border-left: solid 30px;
+  color: $sky-text-color-default;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  button {
+    margin-left: auto;
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.sky-toast-content {
+  padding-top: $sky-padding;
+  padding-bottom: $sky-padding;
+  width: 100%;
+  word-wrap: break-word;
+  overflow: hidden;
+
+  ::ng-deep a {
+    color: change-color($sky-text-color-default, $alpha: 0.8);
+    text-decoration: underline;
+
+    &:hover {
+      color: $sky-text-color-default;
+    }
+  }
+}
+
+@mixin sky-toast-variant(
+  $background-color,
+  $border-color,
+  $icon
+) {
+  background-color: $background-color;
+  border-color: $border-color;
+
+  &:before {
+    content: $icon;
+    font-family: FontAwesome;
+    margin-left: -31px;
+    margin-right: 20px;
+    color: $sky-color-white;
+  }
+}
+
+.sky-toast-info {
+  @include sky-toast-variant(
+    $sky-background-color-info,
+    $sky-highlight-color-info,
+    "\f06a"
+  );
+}
+
+.sky-toast-success {
+  @include sky-toast-variant(
+    $sky-background-color-success,
+    $sky-highlight-color-success,
+    "\f00c"
+  );
+}
+
+.sky-toast-warning {
+  @include sky-toast-variant(
+    $sky-background-color-warning,
+    $sky-highlight-color-warning,
+    "\f071"
+  );
+}
+
+.sky-toast-danger {
+  @include sky-toast-variant(
+    $sky-background-color-danger,
+    $sky-highlight-color-danger,
+    "\f071"
+  );
+}
+
+.sky-toast-btn-close {
+  cursor: pointer;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0;
+  padding: 0;
+  color: $sky-text-color-default;
+  opacity: 0.8;
+  border: none;
+  background-color: transparent;
+  display: block;
+
+  &:hover {
+    opacity: 1;
+  }
+}

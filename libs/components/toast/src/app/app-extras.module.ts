@@ -3,17 +3,25 @@ import {
 } from '@angular/core';
 
 import {
-  SkySampleModule
+  SkyToastModule,
+  SkyToastService
 } from './public';
+import {
+  ToastDemoComponent
+} from './visual/toast/toast-demo.component';
 
 @NgModule({
   imports: [
-    SkySampleModule
+    SkyToastModule
   ],
   exports: [
-    SkySampleModule
+    SkyToastModule
   ],
-  providers: [],
-  entryComponents: []
+  providers: [
+    SkyToastService
+  ],
+  entryComponents: [
+    ToastDemoComponent
+  ]
 })
 export class AppExtrasModule { }

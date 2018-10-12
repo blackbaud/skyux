@@ -1,0 +1,16 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-toaster {
+  bottom: 0;
+  right: 0;
+  display: block;
+  max-width: 300px;
+  max-height: 100%;
+  overflow-y: auto;
+  position: fixed;
+  padding-bottom: $sky-margin-double;
+  padding-right: $sky-margin-double;
+  padding-top: 50px;
+  z-index: $sky-toaster-z-index;
+}
