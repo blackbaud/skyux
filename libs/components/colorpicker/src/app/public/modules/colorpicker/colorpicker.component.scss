@@ -15,6 +15,11 @@
     position: absolute;
     left: 0;
   }
+
+  ::ng-deep .sky-dropdown-menu {
+    display: inherit;
+    flex-direction: initial;
+  }
 }
 
 :host-context(sky-colorpicker) ::ng-deep .sky-colorpicker-input {
