@@ -21,6 +21,10 @@ import {
 import 'rxjs/add/observable/throw';
 
 import {
+  SkyAppHostLocaleProvider
+} from '@blackbaud/skyux-builder/runtime/i18n';
+
+import {
   SkyAppAssetsService
 } from '@skyux/assets';
 
@@ -33,7 +37,6 @@ import {
 } from '@skyux/core/modules/window/window-ref';
 
 import {
-  SkyAppHostLocaleProvider,
   SkyAppLocaleProvider,
   SkyAppResourcesService
 } from './index';
@@ -59,7 +62,10 @@ describe('Resources service', () => {
       SkyAppAssetsService,
       SkyAppResourcesService,
       SkyAppFormat,
-      SkyAppHostLocaleProvider,
+      {
+        provide: SkyAppLocaleProvider,
+        useClass: SkyAppHostLocaleProvider
+      },
       {
         provide: XHRBackend,
         useClass: MockBackend
@@ -200,7 +206,7 @@ describe('Resources service', () => {
   });
 
   describe('with a locale provider', () => {
-    let mockLocaleProvider: any;
+    let mockLocaleProvider: SkyAppLocaleProvider;
     let currentLocale: any;
     let getLocaleInfo: any;
 
@@ -212,6 +218,7 @@ describe('Resources service', () => {
       });
 
       mockLocaleProvider = {
+        defaultLocale: 'en_US',
         getLocaleInfo: () => {
           return getLocaleInfo();
         }

@@ -3,18 +3,14 @@ import {
 } from '@angular/core';
 
 import {
-  SKY_LIB_RESOURCES_PROVIDERS,
-  SkyI18nModule
-} from '../public';
+  SKY_LIB_RESOURCES_PROVIDERS
+} from '@skyux/i18n';
 
 import {
   SkySampleResourcesProvider
 } from '../public/plugin-resources/sample-resources-provider';
 
 @NgModule({
-  exports: [
-    SkyI18nModule
-  ],
   providers: [{
     provide: SKY_LIB_RESOURCES_PROVIDERS,
     useClass: SkySampleResourcesProvider,

@@ -32,10 +32,6 @@ import {
   SkyAppLocaleProvider
 } from './locale-provider';
 
-import {
-  SkyAppHostLocaleProvider
-} from './host-locale-provider';
-
 const defaultResources: {[key: string]: {message: string}} = {};
 
 function getDefaultObs(): Observable<{ json: () => any }> {
@@ -59,7 +55,7 @@ export class SkyAppResourcesService {
     private http: Http,
     /* tslint:disable-next-line no-forward-ref */
     @Inject(forwardRef(() => SkyAppAssetsService)) private assets: SkyAppAssetsService,
-    @Optional() @Inject(SkyAppHostLocaleProvider) private localeProvider: SkyAppLocaleProvider
+    @Optional() private localeProvider: SkyAppLocaleProvider
   ) {
     this.skyAppFormat = new SkyAppFormat();
   }
@@ -88,7 +84,7 @@ export class SkyAppResourcesService {
 
           // Finally fall back to the default locale.
           resourcesUrl = resourcesUrl || this.getUrlForLocale(
-            SkyAppHostLocaleProvider.defaultLocale
+            this.localeProvider.defaultLocale
           );
 
           if (resourcesUrl) {
@@ -106,7 +102,7 @@ export class SkyAppResourcesService {
                 // fall back to the default locale if it differs from the specified
                 // locale.
                 const defaultResourcesUrl = this.getUrlForLocale(
-                  SkyAppHostLocaleProvider.defaultLocale
+                  this.localeProvider.defaultLocale
                 );
 
                 if (defaultResourcesUrl && defaultResourcesUrl !== resourcesUrl) {

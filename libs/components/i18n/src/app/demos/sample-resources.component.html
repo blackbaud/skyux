@@ -1,14 +1,22 @@
 <table>
   <tr>
-    <td>Pipe result:</td>
+    <td>Library pipe result:</td>
     <td>{{ 'greeting' | skyLibResources }}</td>
   </tr>
   <tr>
     <td>Default greeting (service):</td>
-    <td>{{ defaultGreeting }}</td>
+    <td>{{ libDefaultGreeting }}</td>
   </tr>
   <tr>
     <td>Localized greeting (service):</td>
-    <td>{{ localizedGreeting }}</td>
+    <td>{{ libLocalizedGreeting }}</td>
+  </tr>
+  <tr>
+    <td>App pipe result:</td>
+    <td>{{ 'greeting' | skyAppResources }}</td>
+  </tr>
+  <tr>
+    <td>App greeting (service):</td>
+    <td>{{ appGreeting | async }}</td>
   </tr>
 </table>

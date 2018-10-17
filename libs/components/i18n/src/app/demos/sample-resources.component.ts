@@ -5,8 +5,13 @@ import {
 } from '@angular/core';
 
 import {
+  SkyAppResourcesService,
   SkyLibResourcesService
-} from '../public';
+} from '@skyux/i18n';
+
+import {
+  Observable
+} from 'rxjs/Observable';
 
 @Component({
   selector: 'sky-sample-resources',
@@ -14,23 +19,26 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkySampleResourcesComponent implements OnInit {
-  public defaultGreeting: string;
-  public localizedGreeting: string;
+  public appGreeting: Observable<string>;
+  public libDefaultGreeting: string;
+  public libLocalizedGreeting: string;
 
   constructor(
-    private resourcesService: SkyLibResourcesService
+    private appResources: SkyAppResourcesService,
+    private libResources: SkyLibResourcesService
   ) { }
 
   public ngOnInit(): void {
-    this.defaultGreeting = this.resourcesService.getStringForLocale(
+    this.libDefaultGreeting = this.libResources.getStringForLocale(
       { locale: 'en_US' },
       'greeting'
     );
 
-    this.resourcesService
-      .getString('greeting')
-      .subscribe((localizedValue: string) => {
-        this.localizedGreeting = localizedValue;
+    this.libResources.getString('greeting')
+      .subscribe((value: string) => {
+        this.libLocalizedGreeting = value;
       });
+
+    this.appGreeting = this.appResources.getString('greeting');
   }
 }

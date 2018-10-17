@@ -58,6 +58,7 @@ describe('Library resources service', () => {
     });
 
     mockLocaleProvider = {
+      defaultLocale: 'en_US',
       getLocaleInfo: () => {
         return Observable.of({
           locale: 'en_US'

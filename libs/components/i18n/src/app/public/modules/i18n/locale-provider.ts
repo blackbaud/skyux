@@ -12,9 +12,15 @@ import {
 
 @Injectable()
 export class SkyAppLocaleProvider {
+  public get defaultLocale(): string {
+    return SkyAppLocaleProvider._defaultLocale;
+  }
+
+  private static _defaultLocale = 'en-US';
+
   public getLocaleInfo(): Observable<SkyAppLocaleInfo> {
     return Observable.of({
-      locale: 'en_US'
+      locale: this.defaultLocale
     });
   }
 }

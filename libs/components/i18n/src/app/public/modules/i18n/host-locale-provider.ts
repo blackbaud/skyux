@@ -1,6 +1,5 @@
 import {
-  Injectable,
-  Optional
+  Injectable
 } from '@angular/core';
 
 import {
@@ -21,12 +20,8 @@ import {
 
 @Injectable()
 export class SkyAppHostLocaleProvider extends SkyAppLocaleProvider {
-
-  public static readonly defaultLocale = 'en-US';
-
   constructor(
-    private windowRef: SkyAppWindowRef,
-    @Optional() private localeProvider?: SkyAppLocaleProvider
+    private windowRef: SkyAppWindowRef
   ) {
     super();
   }
@@ -37,10 +32,6 @@ export class SkyAppHostLocaleProvider extends SkyAppLocaleProvider {
       'is deprecated. Please import from `@blackbaud/skyux-builder/runtime/i18n`.'
     ].join(' '));
 
-    if (this.localeProvider) {
-      return this.localeProvider.getLocaleInfo();
-    }
-
     let locale: string;
 
     const skyuxHost = (this.windowRef.nativeWindow as any).SKYUX_HOST;
@@ -50,7 +41,7 @@ export class SkyAppHostLocaleProvider extends SkyAppLocaleProvider {
       locale = acceptLanguage.split(',')[0];
     }
 
-    locale = locale || SkyAppHostLocaleProvider.defaultLocale;
+    locale = locale || this.defaultLocale;
 
     return Observable.of({
       locale: locale
