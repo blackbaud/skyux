@@ -1,3 +1,7 @@
+# 3.1.0 (2018-10-17)
+
+- Added new `styles` property to schema. [#8](https://github.com/blackbaud/skyux-config/pull/8)
+
 # 3.0.0 (2018-09-20)
 
 - Initial major release.
