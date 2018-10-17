@@ -1,11 +1,29 @@
-import { Component } from '@angular/core';
-import { SkyModalService } from '../../public';
+import {
+  Component
+} from '@angular/core';
 
-import { ModalDemoComponent } from './modal-demo.component';
-import { ModalLargeDemoComponent } from './modal-large-demo.component';
-import { ModalFullPageDemoComponent } from './modal-fullpage-demo.component';
-import { ModalContentDemoComponent } from './modal-content-demo.component';
-import { ModalTiledDemoComponent } from './modal-tiled-demo.component';
+import {
+  SkyModalService
+} from '../../public';
+
+import {
+  ModalDemoComponent
+} from './modal-demo.component';
+import {
+  ModalLargeDemoComponent
+} from './modal-large-demo.component';
+import {
+  ModalFullPageDemoComponent
+} from './modal-fullpage-demo.component';
+import {
+  ModalContentDemoComponent
+} from './modal-content-demo.component';
+import {
+  ModalTiledDemoComponent
+} from './modal-tiled-demo.component';
+import {
+  ModalContentAutofocusComponent
+} from './modal-content-autofocus.component';
 
 @Component({
   selector: 'modal-visual',
@@ -51,5 +69,10 @@ export class ModalVisualComponent {
 
   public openTiledModal() {
     this.modal.open(ModalTiledDemoComponent, { 'providers': [] });
+  }
+
+  public openAutofocusModal() {
+    this.modal.open(
+      ModalContentAutofocusComponent, { 'providers': [], 'fullPage': false , 'size': 'large'});
   }
 }

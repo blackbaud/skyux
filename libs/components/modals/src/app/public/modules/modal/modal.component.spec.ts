@@ -1,11 +1,12 @@
-import { ApplicationRef } from '@angular/core';
+import {
+  ApplicationRef
+} from '@angular/core';
 import {
   fakeAsync,
   inject,
   tick,
   TestBed
 } from '@angular/core/testing';
-
 import {
   Router
 } from '@angular/router';
@@ -15,18 +16,37 @@ import {
   SkyAppTestUtility
 } from '@skyux-sdk/testing';
 
-import { SkyModalInstance } from './modal-instance';
-import { SkyModalService } from './modal.service';
+import {
+  SkyModalInstance
+} from './modal-instance';
+import {
+  SkyModalService
+} from './modal.service';
+import {
+  SkyModalComponentAdapterService
+} from './modal-component-adapter.service';
 
-import { SkyModalFixturesModule } from './fixtures/modal-fixtures.module';
-import { ModalTestComponent } from './fixtures/modal.component.fixture';
-import { ModalAutofocusTestComponent } from './fixtures/modal-autofocus.component.fixture';
-import { ModalFooterTestComponent } from './fixtures/modal-footer.component.fixture';
-
-import { ModalNoHeaderTestComponent } from './fixtures/modal-no-header.component.fixture';
-import { ModalTiledBodyTestComponent  } from './fixtures/modal-tiled-body.component.fixture';
-
-import { SkyModalComponentAdapterService } from './modal-component-adapter.service';
+import {
+  SkyModalFixturesModule
+} from './fixtures/modal-fixtures.module';
+import {
+  ModalTestComponent
+} from './fixtures/modal.component.fixture';
+import {
+  ModalAutofocusTestComponent
+} from './fixtures/modal-autofocus.component.fixture';
+import {
+  ModalFooterTestComponent
+} from './fixtures/modal-footer.component.fixture';
+import {
+  ModalNoHeaderTestComponent
+} from './fixtures/modal-no-header.component.fixture';
+import {
+  ModalTiledBodyTestComponent
+} from './fixtures/modal-tiled-body.component.fixture';
+import {
+  ModalWithFocusContentTestComponent
+} from './fixtures/modal-with-focus-content.fixture';
 
 describe('Modal component', () => {
   let applicationRef: ApplicationRef;
@@ -91,7 +111,13 @@ describe('Modal component', () => {
     closeModal(modalInstance1);
   }));
 
-  it('should focus the dialog when no autofocus is inside of content', fakeAsync(() => {
+  it('should focus the first focusable element when no autofocus is inside of content', fakeAsync(() => {
+    let modalInstance1 = openModal(ModalWithFocusContentTestComponent);
+    expect(document.activeElement).toEqual(document.querySelector('.sky-modal-content button'));
+    closeModal(modalInstance1);
+  }));
+
+  it('should focus the dialog when no autofocus or focus element is inside of content', fakeAsync(() => {
     let modalInstance1 = openModal(ModalTestComponent);
     expect(document.activeElement).toEqual(document.querySelector('.sky-modal-content'));
     closeModal(modalInstance1);
