@@ -1,3 +1,7 @@
+# 3.1.1 (2018-10-17)
+
+- Fixed imports to ignore local version of `SkyAppHostLocaleProvider`. [#13](https://github.com/blackbaud/skyux-i18n/pull/13)
+
 # 3.1.0 (2018-10-17)
 
 - Added resources pipe and service to be used by libraries. [#12](https://github.com/blackbaud/skyux-i18n/pull/12)
