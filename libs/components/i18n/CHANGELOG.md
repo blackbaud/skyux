@@ -1,3 +1,7 @@
+# 3.1.0 (2018-10-17)
+
+- Added resources pipe and service to be used by libraries. [#12](https://github.com/blackbaud/skyux-i18n/pull/12)
+
 # 3.0.1 (2018-09-24)
 
 - Fixed `SkyI18nModule` to properly import `HttpModule`. [#11](https://github.com/blackbaud/skyux-i18n/pull/11)
