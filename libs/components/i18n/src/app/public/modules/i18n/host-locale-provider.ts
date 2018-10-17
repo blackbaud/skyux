@@ -32,6 +32,11 @@ export class SkyAppHostLocaleProvider extends SkyAppLocaleProvider {
   }
 
   public getLocaleInfo(): Observable<SkyAppLocaleInfo> {
+    console.warn([
+      'The class `SkyAppHostLocaleProvider`, imported from `@skyux/i18n`',
+      'is deprecated. Please import from `@blackbaud/skyux-builder/runtime/i18n`.'
+    ].join(' '));
+
     if (this.localeProvider) {
       return this.localeProvider.getLocaleInfo();
     }

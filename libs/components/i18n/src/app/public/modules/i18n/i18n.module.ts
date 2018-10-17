@@ -15,10 +15,6 @@ import {
 } from '@skyux/core';
 
 import {
-  SkyAppHostLocaleProvider
-} from './host-locale-provider';
-
-import {
   SkyAppResourcesPipe
 } from './resources.pipe';
 
@@ -26,12 +22,26 @@ import {
   SkyAppResourcesService
 } from './resources.service';
 
+import {
+  SkyLibResourcesPipe
+} from './lib-resources.pipe';
+
+import {
+  SkyLibResourcesService
+} from './lib-resources.service';
+
+import {
+  SkyAppLocaleProvider
+} from './locale-provider';
+
 @NgModule({
   declarations: [
-    SkyAppResourcesPipe
+    SkyAppResourcesPipe,
+    SkyLibResourcesPipe
   ],
   exports: [
-    SkyAppResourcesPipe
+    SkyAppResourcesPipe,
+    SkyLibResourcesPipe
   ],
   imports: [
     HttpModule
@@ -43,9 +53,10 @@ import {
       provide: SkyAppAssetsService,
       useValue: SkyAppAssetsService
     },
-    SkyAppHostLocaleProvider,
+    SkyAppLocaleProvider,
     SkyAppResourcesService,
-    SkyAppWindowRef
+    SkyAppWindowRef,
+    SkyLibResourcesService
   ]
 })
 export class SkyI18nModule { }

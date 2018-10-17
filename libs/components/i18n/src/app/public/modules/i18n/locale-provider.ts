@@ -10,8 +10,11 @@ import {
   SkyAppLocaleInfo
 } from './locale-info';
 
-/* istanbul ignore next */
 @Injectable()
-export abstract class SkyAppLocaleProvider {
-  public abstract getLocaleInfo(): Observable<SkyAppLocaleInfo>;
+export class SkyAppLocaleProvider {
+  public getLocaleInfo(): Observable<SkyAppLocaleInfo> {
+    return Observable.of({
+      locale: 'en_US'
+    });
+  }
 }

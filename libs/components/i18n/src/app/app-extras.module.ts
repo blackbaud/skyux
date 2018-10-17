@@ -2,10 +2,13 @@ import {
   NgModule
 } from '@angular/core';
 
+import {
+  SkySampleResourcesModule
+} from './demos';
+
 @NgModule({
-  imports: [],
-  exports: [],
-  providers: [],
-  entryComponents: []
+  exports: [
+    SkySampleResourcesModule
+  ]
 })
 export class AppExtrasModule { }
