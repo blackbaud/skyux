@@ -16,7 +16,7 @@
     step="10"
     type="range"
     [attr.aria-controls]="flyoutId"
-    [attr.aria-label]="'skyux_flyout_resize_handle' | skyAppResources"
+    [attr.aria-label]="'skyux_flyout_resize_handle' | skyLibResources"
     [attr.aria-valuemax]="config.maxWidth"
     [attr.aria-valuemin]="config.minWidth"
     [attr.aria-valuenow]="flyoutWidth"
@@ -35,7 +35,7 @@
       <button
         class="sky-btn sky-btn-default sky-flyout-btn-close"
         type="button"
-        [attr.aria-label]="'skyux_flyout_close' | skyAppResources"
+        [attr.aria-label]="'skyux_flyout_close' | skyLibResources"
         (click)="close()"
       >
         <sky-icon icon="close"></sky-icon>

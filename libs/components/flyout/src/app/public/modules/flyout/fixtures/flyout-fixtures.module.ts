@@ -14,6 +14,14 @@ import {
   RouterTestingModule
 } from '@angular/router/testing';
 
+import {
+  SkyLibResourcesService
+} from '@skyux/i18n';
+
+import {
+  SkyLibResourcesTestService
+} from '@skyux/i18n/testing';
+
 import { SkyFlyoutModule } from '../flyout.module';
 import { SkyFlyoutTestComponent } from './flyout.component.fixture';
 import { SkyFlyoutTestSampleComponent } from './flyout-sample.component.fixture';
@@ -34,6 +42,12 @@ import { SkyFlyoutTestSampleComponent } from './flyout-sample.component.fixture'
   ],
   entryComponents: [
     SkyFlyoutTestSampleComponent
+  ],
+  providers: [
+    {
+      provide: SkyLibResourcesService,
+      useClass: SkyLibResourcesTestService
+    }
   ]
 })
 export class SkyFlyoutFixturesModule { }

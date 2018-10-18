@@ -25,20 +25,6 @@ import {
   SkyFlyoutConfig
 } from './types';
 
-// TODO: The following require statement is not recommended, but was done
-// to avoid a breaking change (SkyResources is synchronous, but SkyAppResources is asynchronous).
-// We should switch to using SkyAppResources in the next major release.
-let resources: any = require('!json-loader!.skypageslocales/resources_en_US.json');
-
-/**
- * This method is a stand-in for the old SkyResources service from skyux2.
- * TODO: We should consider using Builder's resources service instead.
- * @param key
- */
-function getString(key: string): string {
-  return resources[key].message;
-}
-
 describe('Flyout component', () => {
   let applicationRef: ApplicationRef;
   let fixture: ComponentFixture<SkyFlyoutTestComponent>;
@@ -386,7 +372,7 @@ describe('Flyout component', () => {
     it('should use the default permalink label if none is defined',
       fakeAsync(() => {
         const expectedPermalink = 'http://bb.com';
-        const expectedLabel = getString('skyux_flyout_permalink_button');
+        const expectedLabel = 'View record';
 
         openFlyout({
           permalink: {
@@ -475,7 +461,7 @@ describe('Flyout component', () => {
 
     it('should use the default primary action label if none is defined',
       fakeAsync(() => {
-        const expectedLabel = getString('skyux_flyout_primary_action_button');
+        const expectedLabel = 'Create list';
 
         openFlyout({
           primaryAction: {
@@ -491,7 +477,7 @@ describe('Flyout component', () => {
 
     it('should use the custom defined label for primary action',
       fakeAsync(() => {
-        const expectedLabel = getString('skyux_flyout_primary_action_button');
+        const expectedLabel = 'Create list';
 
         openFlyout({
           primaryAction: {

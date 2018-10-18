@@ -22,6 +22,10 @@ import {
 } from '@skyux/i18n';
 
 import {
+  SkyFlyoutResourcesModule
+} from '../shared';
+
+import {
   SkyFlyoutAdapterService
 } from './flyout-adapter.service';
 import {
@@ -45,7 +49,8 @@ import {
     FormsModule,
     RouterModule,
     SkyI18nModule,
-    SkyIconModule
+    SkyIconModule,
+    SkyFlyoutResourcesModule
   ],
   exports: [
     SkyFlyoutComponent
