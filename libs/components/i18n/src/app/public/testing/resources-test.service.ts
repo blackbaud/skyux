@@ -8,8 +8,8 @@ import 'rxjs/add/observable/of';
 
 import { SkyAppResources } from '../';
 
-export declare const ROOT_DIR: string;
-export declare const require: { context: any };
+declare const ROOT_DIR: string;
+declare const require: { context: any };
 
 /**
  * Provides a replacement for the SkyAppResourcesService to use in unit tests.
