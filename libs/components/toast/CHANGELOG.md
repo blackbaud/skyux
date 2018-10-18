@@ -1,3 +1,7 @@
+# 3.0.0-rc.2 (2018-10-18)
+
+- Removed `NoopAnimationsModule` from toast module imports (oops!). [#4](https://github.com/blackbaud/skyux-toast/pull/4)
+
 # 3.0.0-rc.1 (2018-10-18)
 
 - Added support for `@skyux/i18n@3.2.0`. [#2](https://github.com/blackbaud/skyux-toast/pull/2)
