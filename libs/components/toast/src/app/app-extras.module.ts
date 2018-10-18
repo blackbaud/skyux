@@ -1,6 +1,9 @@
 import {
   NgModule
 } from '@angular/core';
+import {
+  NoopAnimationsModule
+} from '@angular/platform-browser/animations';
 
 import {
   SkyToastModule,
@@ -12,7 +15,8 @@ import {
 
 @NgModule({
   imports: [
-    SkyToastModule
+    SkyToastModule,
+    NoopAnimationsModule
   ],
   exports: [
     SkyToastModule
