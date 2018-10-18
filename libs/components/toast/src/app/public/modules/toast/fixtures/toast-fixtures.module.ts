@@ -12,6 +12,14 @@ import {
 } from '@angular/platform-browser/animations';
 
 import {
+  SkyLibResourcesService
+} from '@skyux/i18n';
+
+import {
+  SkyLibResourcesTestService
+} from '@skyux/i18n/testing';
+
+import {
   SkyToastModule
 } from '../toast.module';
 
@@ -45,6 +53,12 @@ import {
   ],
   entryComponents: [
     SkyToastBodyTestComponent
+  ],
+  providers: [
+    {
+      provide: SkyLibResourcesService,
+      useClass: SkyLibResourcesTestService
+    }
   ]
 })
 export class SkyToastFixturesModule { }

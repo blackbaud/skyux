@@ -20,6 +20,10 @@ import {
 } from '@skyux/indicators';
 
 import {
+  SkyToastResourcesModule
+} from '../shared';
+
+import {
   SkyToastAdapterService
 } from './toast-adapter.service';
 import {
@@ -46,7 +50,8 @@ import {
     CommonModule,
     NoopAnimationsModule,
     SkyI18nModule,
-    SkyIconModule
+    SkyIconModule,
+    SkyToastResourcesModule
   ],
   exports: [
     SkyToastComponent
