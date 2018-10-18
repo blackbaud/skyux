@@ -20,7 +20,7 @@ import {
 } from '@angular/forms';
 
 import {
-  SkyAppResourcesService
+  SkyLibResourcesService
 } from '@skyux/i18n';
 
 import {
@@ -97,7 +97,7 @@ export class SkyTimepickerInputDirective implements
   constructor(
     private renderer: Renderer,
     private elRef: ElementRef,
-    private resourcesService: SkyAppResourcesService
+    private resourcesService: SkyLibResourcesService
   ) { }
 
   public ngOnInit() {

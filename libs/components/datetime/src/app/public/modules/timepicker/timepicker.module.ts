@@ -1,6 +1,7 @@
 import {
   NgModule
 } from '@angular/core';
+
 import {
   CommonModule
 } from '@angular/common';
@@ -14,8 +15,13 @@ import {
 } from '@skyux/popovers';
 
 import {
+  SkyDateTimeResourcesModule
+} from '../shared';
+
+import {
   SkyTimepickerInputDirective
 } from './timepicker.directive';
+
 import {
   SkyTimepickerComponent
 } from './timepicker.component';
@@ -28,6 +34,7 @@ import {
   imports: [
     CommonModule,
     SkyI18nModule,
+    SkyDateTimeResourcesModule,
     SkyDropdownModule
   ],
   exports: [

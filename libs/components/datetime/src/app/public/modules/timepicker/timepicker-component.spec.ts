@@ -19,11 +19,11 @@ import {
 } from '@angular/platform-browser/animations';
 
 import {
-  SkyAppResourcesService
+  SkyLibResourcesService
 } from '@skyux/i18n';
 
 import {
-  SkyAppResourcesTestService
+  SkyLibResourcesTestService
 } from '@skyux/i18n/testing';
 
 import {
@@ -89,8 +89,8 @@ describe('Timepicker', () => {
       ],
       providers: [
         {
-          provide: SkyAppResourcesService,
-          useClass: SkyAppResourcesTestService
+          provide: SkyLibResourcesService,
+          useClass: SkyLibResourcesTestService
         }
       ]
     });

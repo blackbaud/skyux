@@ -24,7 +24,7 @@ import {
 } from '@angular/forms';
 
 import {
-  SkyAppResourcesService
+  SkyLibResourcesService
 } from '@skyux/i18n';
 
 import {
@@ -102,7 +102,7 @@ export class SkyDatepickerInputDirective implements
     private renderer: Renderer,
     private elRef: ElementRef,
     private config: SkyDatepickerConfigService,
-    private resourcesService: SkyAppResourcesService
+    private resourcesService: SkyLibResourcesService
   ) {
     this.configureOptions();
   }

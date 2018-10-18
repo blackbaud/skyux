@@ -24,11 +24,11 @@ import {
 } from '@skyux/core';
 
 import {
-  SkyAppResourcesService
+  SkyLibResourcesService
 } from '@skyux/i18n';
 
 import {
-  SkyAppResourcesTestService
+  SkyLibResourcesTestService
 } from '@skyux/i18n/testing';
 
 import {
@@ -124,8 +124,8 @@ describe('datepicker', () => {
         ],
         providers: [
           {
-            provide: SkyAppResourcesService,
-            useClass: SkyAppResourcesTestService
+            provide: SkyLibResourcesService,
+            useClass: SkyLibResourcesTestService
           }
         ]
       });
@@ -175,8 +175,8 @@ describe('datepicker', () => {
         ],
         providers: [
           {
-            provide: SkyAppResourcesService,
-            useClass: SkyAppResourcesTestService
+            provide: SkyLibResourcesService,
+            useClass: SkyLibResourcesTestService
           }
         ]
       });
@@ -749,7 +749,11 @@ describe('datepicker', () => {
           FormsModule
         ],
         providers: [
-          { provide: SkyWindowRefService, useValue: mockWindowService }
+          { provide: SkyWindowRefService, useValue: mockWindowService },
+          {
+            provide: SkyLibResourcesService,
+            useClass: SkyLibResourcesTestService
+          }
         ]
       });
 
