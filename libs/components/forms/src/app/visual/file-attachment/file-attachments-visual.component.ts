@@ -4,7 +4,7 @@ import {
   SkyFileItem,
   SkyFileLink,
   SkyFileDropChange
-} from '@blackbaud/skyux/dist/core';
+} from '../../public';
 
 @Component({
   selector: 'file-attachments-visual',
