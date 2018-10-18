@@ -18,5 +18,9 @@
   "skyux_tab_open": {
     "_description": "Label for the tab open button",
     "message": "Open tab"
+  },
+  "skyux_vertical_tabs_show_tabs_text": {
+    "_description": "The default text for the show tabs button in mobile",
+    "message": "Tab list"
   }
 }

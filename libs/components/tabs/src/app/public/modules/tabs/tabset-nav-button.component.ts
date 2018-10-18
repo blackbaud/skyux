@@ -5,7 +5,7 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 
-import { SkyAppResourcesService } from '@skyux/i18n/modules/i18n';
+import { SkyLibResourcesService } from '@skyux/i18n/modules/i18n';
 
 import { SkyTabsetComponent } from './tabset.component';
 import { SkyTabComponent } from './tab.component';
@@ -102,7 +102,7 @@ export class SkyTabsetNavButtonComponent implements AfterViewInit {
   private previousButtonText: string;
   private nextButtonText: string;
 
-  constructor(private resourceService: SkyAppResourcesService, private changeDetector: ChangeDetectorRef) { }
+  constructor(private resourceService: SkyLibResourcesService, private changeDetector: ChangeDetectorRef) { }
 
   public ngAfterViewInit() {
     Observable.forkJoin(this.resourceService.getString('skyux_tabs_navigator_previous'),

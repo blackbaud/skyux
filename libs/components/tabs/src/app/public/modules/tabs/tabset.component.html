@@ -33,7 +33,7 @@
     <button *ngIf="newTab.observers.length > 0"
         class="sky-btn sky-btn-default sky-tabset-btn-new"
         type="button"
-        [attr.aria-label]="'skyux_tab_add' | skyAppResources"
+        [attr.aria-label]="'skyux_tab_add' | skyLibResources"
         (click)="newTabClick()"
     >
       <sky-icon
@@ -45,7 +45,7 @@
     <button *ngIf="openTab.observers.length > 0"
         class="sky-btn sky-btn-default sky-tabset-btn-open"
         type="button"
-        [attr.aria-label]="'skyux_tab_open' | skyAppResources"
+        [attr.aria-label]="'skyux_tab_open' | skyLibResources"
         (click)="openTabClick()"
     >
       <sky-icon

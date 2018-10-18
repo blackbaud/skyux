@@ -6,30 +6,40 @@ import {
 } from '@angular/common';
 
 import {
-  SkyTabButtonComponent
-} from './tab-button.component';
+  SkyI18nModule
+} from '@skyux/i18n';
+
 import {
-  SkyTabDropdownComponent
-} from './tab-dropdown.component';
-import {
-  SkyTabComponent
-} from './tab.component';
-import {
-  SkyTabsetComponent
-} from './tabset.component';
-import {
-  SkyTabsetNavButtonComponent
-} from './tabset-nav-button.component';
+  SkyIconModule
+} from '@skyux/indicators';
 
 import {
  SkyDropdownModule
-} from '@skyux/popovers/modules/dropdown';
+} from '@skyux/popovers';
+
 import {
-  SkyI18nModule
-} from '@skyux/i18n/modules/i18n';
+  SkyTabsResourcesModule
+} from '../shared';
+
 import {
-  SkyIconModule
-} from '@skyux/indicators/modules/icon';
+  SkyTabButtonComponent
+} from './tab-button.component';
+
+import {
+  SkyTabDropdownComponent
+} from './tab-dropdown.component';
+
+import {
+  SkyTabComponent
+} from './tab.component';
+
+import {
+  SkyTabsetComponent
+} from './tabset.component';
+
+import {
+  SkyTabsetNavButtonComponent
+} from './tabset-nav-button.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +53,8 @@ import {
     CommonModule,
     SkyDropdownModule,
     SkyI18nModule,
-    SkyIconModule
+    SkyIconModule,
+    SkyTabsResourcesModule
   ],
   exports: [
     SkyTabComponent,

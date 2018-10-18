@@ -41,13 +41,13 @@ describe('Tabset navigation button', () => {
 
     fixture.detectChanges();
 
-    expect(fixture.nativeElement).toHaveText('skyux_tabs_navigator_next');
+    expect(fixture.nativeElement).toHaveText('Next');
 
     fixture.componentInstance.buttonType = 'previous';
 
     fixture.detectChanges();
 
-    expect(fixture.nativeElement).toHaveText('skyux_tabs_navigator_previous');
+    expect(fixture.nativeElement).toHaveText('Previous');
   });
 
   it('should allow the button text to be overridden', () => {

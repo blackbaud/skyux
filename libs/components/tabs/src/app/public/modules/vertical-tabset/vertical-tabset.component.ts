@@ -22,7 +22,7 @@ import {
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
 
-import { SkyAppResourcesService } from '@skyux/i18n/modules/i18n';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
 import {
   SkyVerticalTabsetService,
@@ -87,7 +87,7 @@ export class SkyVerticalTabsetComponent implements OnInit, AfterViewChecked, OnD
 
   constructor(
     public tabService: SkyVerticalTabsetService,
-    private resources: SkyAppResourcesService,
+    private resources: SkyLibResourcesService,
     private changeRef: ChangeDetectorRef) {}
 
   public ngOnInit() {
@@ -111,7 +111,7 @@ export class SkyVerticalTabsetComponent implements OnInit, AfterViewChecked, OnD
       this.changeRef.detectChanges();
     }
     if (!this.showTabsText) {
-      this.resources.getString('vertical_tabs_show_tabs_text').take(1).subscribe(resource => {
+      this.resources.getString('skyux_vertical_tabs_show_tabs_text').take(1).subscribe(resource => {
         /* sanity check */
         if (!this.showTabsText) {
           this.showTabsText = resource;

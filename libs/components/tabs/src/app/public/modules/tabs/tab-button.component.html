@@ -27,7 +27,7 @@
         'sky-btn-tab-close-disabled': disabled
       }"
       [disabled]="disabled"
-      [attr.aria-label]="'skyux_tab_close' | skyAppResources"
+      [attr.aria-label]="'skyux_tab_close' | skyLibResources"
       *ngIf="allowClose"
       (click)="doCloseClick();$event.stopPropagation()"
   >
