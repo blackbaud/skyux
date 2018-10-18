@@ -37,11 +37,11 @@
         <ng-content select="sky-modal-header"></ng-content>
       </div>
       <div class="sky-modal-header-buttons">
-        <button *ngIf="helpKey" type="button" class="sky-btn" name="help-button" [attr.aria-label]="'skyux_modal_open_help' | skyAppResources" (click)="helpButtonClick()">
+        <button *ngIf="helpKey" type="button" class="sky-btn" name="help-button" [attr.aria-label]="'skyux_modal_open_help' | skyLibResources" (click)="helpButtonClick()">
           <sky-icon icon="question-circle"></sky-icon>
         </button>
 
-        <button type="button" class="sky-btn sky-modal-btn-close" [attr.aria-label]="'skyux_modal_close' | skyAppResources" (click)="closeButtonClick()">
+        <button type="button" class="sky-btn sky-modal-btn-close" [attr.aria-label]="'skyux_modal_close' | skyLibResources" (click)="closeButtonClick()">
           <sky-icon icon="close"></sky-icon>
         </button>
       </div>

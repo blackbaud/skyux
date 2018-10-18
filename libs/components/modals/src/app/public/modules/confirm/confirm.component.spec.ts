@@ -5,11 +5,11 @@ import {
 } from '@angular/core/testing';
 
 import {
-  SkyAppResourcesService
+  SkyLibResourcesService
 } from '@skyux/i18n';
 
 import {
-  SkyAppResourcesTestService
+  SkyLibResourcesTestService
 } from '@skyux/i18n/testing';
 
 import {
@@ -54,7 +54,7 @@ describe('Confirm component', () => {
       providers: [
         { provide: SkyConfirmModalContext, useValue: config },
         { provide: SkyModalInstance, useValue: modalInstance },
-        { provide: SkyAppResourcesService, useClass: SkyAppResourcesTestService }
+        { provide: SkyLibResourcesService, useClass: SkyLibResourcesTestService }
       ]
     }});
 

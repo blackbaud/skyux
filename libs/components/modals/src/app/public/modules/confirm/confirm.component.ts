@@ -5,6 +5,10 @@ import {
 } from '@angular/core';
 
 import {
+  SkyLibResourcesService
+} from '@skyux/i18n';
+
+import {
   Observable
 } from 'rxjs/Observable';
 
@@ -26,7 +30,6 @@ import {
 import {
   SkyConfirmModalContext
 } from './confirm-modal-context';
-import { SkyAppResourcesService } from '@skyux/i18n';
 
 @Component({
   selector: 'sky-confirm',
@@ -41,7 +44,7 @@ export class SkyConfirmComponent implements OnInit {
   constructor(
     private config: SkyConfirmModalContext,
     private modal: SkyModalInstance,
-    @Optional() private resourcesService: SkyAppResourcesService
+    @Optional() private resourcesService: SkyLibResourcesService
   ) { }
 
   public ngOnInit() {
