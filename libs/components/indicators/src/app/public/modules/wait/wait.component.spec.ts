@@ -4,11 +4,11 @@ import {
 } from '@angular/core/testing';
 
 import {
-  SkyAppResourcesService
+  SkyLibResourcesService
 } from '@skyux/i18n';
 
 import {
-  SkyAppResourcesTestService
+  SkyLibResourcesTestService
 } from '@skyux/i18n/testing';
 
 import {
@@ -35,8 +35,8 @@ describe('Wait component', () => {
       ],
       providers: [
         {
-          provide: SkyAppResourcesService,
-          useClass: SkyAppResourcesTestService
+          provide: SkyLibResourcesService,
+          useClass: SkyLibResourcesTestService
         }
       ]
     });

@@ -5,13 +5,18 @@ import {
   SkyI18nModule
 } from '@skyux/i18n';
 
+import {
+  SkyIndicatorsResourcesModule
+} from '../shared';
+
 import { SkyChevronComponent } from './chevron.component';
 
 @NgModule({
   declarations: [SkyChevronComponent],
   imports: [
     CommonModule,
-    SkyI18nModule
+    SkyI18nModule,
+    SkyIndicatorsResourcesModule
   ],
   exports: [SkyChevronComponent]
 })

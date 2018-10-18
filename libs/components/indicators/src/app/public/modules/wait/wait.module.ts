@@ -15,6 +15,10 @@ import {
 } from '@skyux/core';
 
 import {
+  SkyIndicatorsResourcesModule
+} from '../shared';
+
+import {
   SkyWaitComponent
 } from './wait.component';
 
@@ -37,7 +41,8 @@ import {
   ],
   imports: [
     CommonModule,
-    SkyI18nModule
+    SkyI18nModule,
+    SkyIndicatorsResourcesModule
   ],
   exports: [
     SkyWaitComponent,

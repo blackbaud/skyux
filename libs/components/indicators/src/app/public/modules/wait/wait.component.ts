@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 import {
-  SkyAppResourcesService
+  SkyLibResourcesService
 } from '@skyux/i18n';
 
 import {
@@ -76,7 +76,7 @@ export class SkyWaitComponent implements OnInit {
   constructor(
     private elRef: ElementRef,
     private adapterService: SkyWaitAdapterService,
-    @Optional() private resourceService: SkyAppResourcesService
+    @Optional() private resourceService: SkyLibResourcesService
   ) { }
 
   public ngOnInit(): void {

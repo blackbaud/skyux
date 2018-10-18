@@ -15,6 +15,10 @@ import {
 } from '../icon';
 
 import {
+  SkyIndicatorsResourcesModule
+} from '../shared';
+
+import {
   SkyHelpInlineComponent
 } from './help-inline.component';
 
@@ -25,7 +29,8 @@ import {
   imports: [
     CommonModule,
     SkyI18nModule,
-    SkyIconModule
+    SkyIconModule,
+    SkyIndicatorsResourcesModule
   ],
   exports: [
     SkyHelpInlineComponent

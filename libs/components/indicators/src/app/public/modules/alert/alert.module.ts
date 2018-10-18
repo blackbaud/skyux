@@ -14,6 +14,10 @@ import {
 } from '../icon';
 
 import {
+  SkyIndicatorsResourcesModule
+} from '../shared';
+
+import {
   SkyAlertComponent
 } from './alert.component';
 
@@ -22,7 +26,8 @@ import {
   imports: [
     CommonModule,
     SkyI18nModule,
-    SkyIconModule
+    SkyIconModule,
+    SkyIndicatorsResourcesModule
   ],
   exports: [SkyAlertComponent]
 })

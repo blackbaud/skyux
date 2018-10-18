@@ -10,11 +10,11 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  SkyAppResourcesService
+  SkyLibResourcesService
 } from '@skyux/i18n';
 
 import {
-  SkyAppResourcesTestService
+  SkyLibResourcesTestService
 } from '@skyux/i18n/testing';
 
 import { AlertTestComponent } from './fixtures/alert.component.fixture';
@@ -32,8 +32,8 @@ describe('Alert component', () => {
       ],
       providers: [
         {
-          provide: SkyAppResourcesService,
-          useClass: SkyAppResourcesTestService
+          provide: SkyLibResourcesService,
+          useClass: SkyLibResourcesTestService
         }
       ]
     });
