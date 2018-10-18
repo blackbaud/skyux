@@ -16,6 +16,10 @@ import {
 } from '@skyux/errors';
 
 import {
+  SkyLibResourcesService
+} from '@skyux/i18n';
+
+import {
   SkyAvatarSrc
 } from './avatar-src';
 
@@ -63,12 +67,10 @@ export class SkyAvatarComponent {
 
   private _name: string;
 
-  // TODO: The following require statement is not recommended, but was done
-  // to avoid a breaking change (SkyResources is synchronous, but SkyAppResources is asynchronous).
-  // We should switch to using SkyAppResources in the next major release.
-  private resources: any = require('!json-loader!.skypageslocales/resources_en_US.json');
-
-  constructor(private errorService: SkyErrorModalService) {}
+  constructor(
+    private errorService: SkyErrorModalService,
+    private resourcesService: SkyLibResourcesService
+  ) { }
 
   public photoDrop(result: SkyFileDropChange) {
     /* sanity check */
@@ -84,15 +86,17 @@ export class SkyAvatarComponent {
     const rejectedFile = rejectedFiles[0];
 
     if (rejectedFile.errorType === 'maxFileSize') {
-      const title = this.getString('sky_avatar_error_too_large_title');
-      const descriptionResource = this.getString('sky_avatar_error_too_large_description');
-      const description = descriptionResource.replace('{0}', this.maxFileSizeText());
+      const title = this.getString('skyux_avatar_error_too_large_title');
+      const description = this.getString(
+        'skyux_avatar_error_too_large_description',
+        this.maxFileSizeText()
+      );
 
       this.openErrorModal(title, description);
 
     } else if (rejectedFile.errorType === 'fileType') {
-      const title = this.getString('sky_avatar_error_not_image_title');
-      const description = this.getString('sky_avatar_error_not_image_description');
+      const title = this.getString('skyux_avatar_error_not_image_title');
+      const description = this.getString('skyux_avatar_error_not_image_description');
 
       this.openErrorModal(title, description);
     }
@@ -106,18 +110,18 @@ export class SkyAvatarComponent {
     const config: ErrorModalConfig = {
       errorTitle: title,
       errorDescription: description,
-      errorCloseText: this.getString('sky_avatar_errormodal_ok')
+      errorCloseText: this.getString('skyux_avatar_errormodal_ok')
     };
 
     this.errorService.open(config);
   }
 
-  /**
-   * This method is a stand-in for the old SkyResources service from skyux2.
-   * TODO: We should consider using Builder's resources service instead.
-   * @param key
-   */
-  private getString(key: string): string {
-    return this.resources[key].message;
+  private getString(key: string, ...args: any[]): string {
+    // TODO: Need to implement the async `getString` method in a breaking change.
+    return this.resourcesService.getStringForLocale(
+      { locale: 'en-US' },
+      key,
+      ...args
+    );
   }
 }

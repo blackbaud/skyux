@@ -16,6 +16,10 @@ import {
 } from '@skyux/errors';
 
 import {
+  SkyAvatarResourcesModule
+} from '../shared';
+
+import {
   SkyAvatarComponent
 } from './avatar.component';
 import {
@@ -29,6 +33,7 @@ import {
   ],
   imports: [
     CommonModule,
+    SkyAvatarResourcesModule,
     SkyFileAttachmentsModule,
     SkyModalModule
   ],

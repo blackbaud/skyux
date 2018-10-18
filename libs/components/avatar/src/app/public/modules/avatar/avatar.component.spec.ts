@@ -7,9 +7,18 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
+  SkyLibResourcesService
+} from '@skyux/i18n';
+
+import {
+  SkyLibResourcesTestService
+} from '@skyux/i18n/testing';
+
+import {
   SkyErrorModalService,
   ErrorModalConfig
 } from '@skyux/errors';
+
 import {
   SkyFileItem,
   SkyFileDropChange
@@ -91,7 +100,16 @@ describe('Avatar component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyAvatarFixturesModule],
-      providers: [{provide: SkyErrorModalService, useValue: mockErrorModalService}]
+      providers: [
+        {
+          provide: SkyErrorModalService,
+          useValue: mockErrorModalService
+        },
+        {
+          provide: SkyLibResourcesService,
+          useClass: SkyLibResourcesTestService
+        }
+      ]
     });
   });
 

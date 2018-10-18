@@ -1,21 +1,21 @@
 {
-  "sky_avatar_error_not_image_description": {
+  "skyux_avatar_error_not_image_description": {
     "_description": "Message description displayed when the user attempts to upload an avatar file that is not a valid image",
     "message": "Please choose a file that is a valid image."
   },
-  "sky_avatar_error_not_image_title": {
+  "skyux_avatar_error_not_image_title": {
     "_description": "Message title displayed when the user attempts to upload an avatar file that is not a valid image",
     "message": "File is not an image."
   },
-  "sky_avatar_error_too_large_description": {
+  "skyux_avatar_error_too_large_description": {
     "_description": "Message description displayed when the user attempts to upload an avatar image with a file size that is too large",
     "message": "Please choose an image that is less than {0}."
   },
-  "sky_avatar_error_too_large_title": {
+  "skyux_avatar_error_too_large_title": {
     "_description": "Message title displayed when the user attempts to upload an avatar image with a file size that is too large",
     "message": "File is too large."
   },
-  "sky_avatar_errormodal_ok": {
+  "skyux_avatar_errormodal_ok": {
     "_description": "Text used on the primary button to dismiss the error modal.",
     "message": "OK"
   }
