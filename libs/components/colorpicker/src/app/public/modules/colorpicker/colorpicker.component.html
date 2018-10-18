@@ -4,7 +4,7 @@
   <ng-content>
   </ng-content>
   <sky-dropdown
-    [label]="'skyux_colorpicker_dropdown_button' | skyAppResources"
+    [label]="'skyux_colorpicker_dropdown_button' | skyLibResources"
     [messageStream]="dropdownController"
     [dismissOnBlur]="false">
     <sky-dropdown-menu>
@@ -65,28 +65,28 @@
             <div class="box">
               <label
                 [for]="skyColorpickerHexId"
-                [attr.aria-label]="'skyux_colorpicker_aria_hex' | skyAppResources">
-                {{ 'skyux_colorpicker_hex' | skyAppResources }}
+                [attr.aria-label]="'skyux_colorpicker_aria_hex' | skyLibResources">
+                {{ 'skyux_colorpicker_hex' | skyLibResources }}
               </label>
               <label
                 [for]="skyColorpickerRedId"
-                [attr.aria-label]="'skyux_colorpicker_aria_red' | skyAppResources">
-                {{ 'skyux_colorpicker_red' | skyAppResources }}
+                [attr.aria-label]="'skyux_colorpicker_aria_red' | skyLibResources">
+                {{ 'skyux_colorpicker_red' | skyLibResources }}
               </label>
               <label
                 [for]="skyColorpickerGreenId"
-                [attr.aria-label]="'skyux_colorpicker_aria_green' | skyAppResources">
-                {{ 'skyux_colorpicker_green' | skyAppResources }}
+                [attr.aria-label]="'skyux_colorpicker_aria_green' | skyLibResources">
+                {{ 'skyux_colorpicker_green' | skyLibResources }}
               </label>
               <label
                 [for]="skyColorpickerBlueId"
-                [attr.aria-label]="'skyux_colorpicker_aria_blue' | skyAppResources">
-                {{ 'skyux_colorpicker_blue' | skyAppResources }}
+                [attr.aria-label]="'skyux_colorpicker_aria_blue' | skyLibResources">
+                {{ 'skyux_colorpicker_blue' | skyLibResources }}
               </label>
               <label
                 [for]="skyColorpickerAlphaId"
-                [attr.aria-label]="'skyux_colorpicker_aria_alpha' | skyAppResources">
-                {{ 'skyux_colorpicker_alpha' | skyAppResources }}
+                [attr.aria-label]="'skyux_colorpicker_aria_alpha' | skyLibResources">
+                {{ 'skyux_colorpicker_alpha' | skyLibResources }}
               </label>
             </div>
             <div class="box">
@@ -147,7 +147,7 @@
               *ngFor="let color of presetColors | slice:0:12; let i = index;"
               class="sky-preset-color"
               type="button"
-              [attr.aria-label]="('skyux_colorpicker_preset_color' | skyAppResources) + ' ' + color"[style.backgroundColor]="color"
+              [attr.aria-label]="('skyux_colorpicker_preset_color' | skyLibResources) + ' ' + color"[style.backgroundColor]="color"
               (click)="setColorFromString(color)">
             </button>
           </div>
@@ -158,17 +158,17 @@
             <button
               class="sky-btn sky-btn-primary sky-btn-colorpicker-apply"
               type="button"
-              [attr.aria-label]="'skyux_colorpicker_apply' | skyAppResources"
+              [attr.aria-label]="'skyux_colorpicker_apply' | skyLibResources"
               (click)="applyColor()">
-              {{ 'skyux_colorpicker_apply' | skyAppResources }}
+              {{ 'skyux_colorpicker_apply' | skyLibResources }}
             </button>
             <button
               class="sky-btn sky-btn-link sky-btn-colorpicker-close"
               type="button"
-              [attr.aria-label]="'skyux_colorpicker_close' | skyAppResources"
+              [attr.aria-label]="'skyux_colorpicker_close' | skyLibResources"
               (click)="closePicker()"
               #closeColorPicker>
-              {{ 'skyux_colorpicker_close' | skyAppResources }}
+              {{ 'skyux_colorpicker_close' | skyLibResources }}
             </button>
           </section>
         </div>
@@ -179,7 +179,7 @@
   <button
     class="sky-colorpicker-reset-button"
     type="button"
-    [attr.aria-label]="'skyux_colorpicker_reset' | skyAppResources"
+    [attr.aria-label]="'skyux_colorpicker_reset' | skyLibResources"
     (click)="resetPickerColor()">
   </button>
 </div>

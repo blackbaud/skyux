@@ -19,6 +19,10 @@ import {
 } from '@angular/forms';
 
 import {
+  SkyLibResourcesService
+} from '@skyux/i18n';
+
+import {
   Subscription
 } from 'rxjs';
 
@@ -87,15 +91,11 @@ export class SkyColorpickerInputDirective
   private _initialColor: string;
   private modelValue: SkyColorpickerOutput;
 
-  // TODO: The following require statement is not recommended, but was done
-  // to avoid a breaking change (SkyResources is synchronous, but SkyAppResources is asynchronous).
-  // We should switch to using SkyAppResources in the next major release.
-  private resources: any = require('!json-loader!.skypageslocales/resources_en_US.json');
-
   constructor(
     private elementRef: ElementRef,
     private renderer: Renderer,
-    private service: SkyColorpickerService
+    private service: SkyColorpickerService,
+    private resourcesService: SkyLibResourcesService
   ) { }
 
   @HostListener('input', ['$event'])
@@ -248,13 +248,12 @@ export class SkyColorpickerInputDirective
     return formatColor;
   }
 
-  /**
-   * This method is a stand-in for the old SkyResources service from skyux2.
-   * TODO: We should consider using Builder's resources service instead.
-   * @param key
-   */
   private getString(key: string): string {
-    return this.resources[key].message;
+    // TODO: Need to implement the async `getString` method in a breaking change.
+    return this.resourcesService.getStringForLocale(
+      { locale: 'en-US' },
+      key
+    );
   }
 
   /*istanbul ignore next */

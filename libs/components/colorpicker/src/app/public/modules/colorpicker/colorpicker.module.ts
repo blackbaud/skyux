@@ -14,6 +14,10 @@ import {
 } from '@skyux/i18n';
 
 import {
+  SkyColorpickerResourcesModule
+} from '../shared';
+
+import {
   SkyColorpickerComponent
 } from './colorpicker.component';
 import {
@@ -38,6 +42,7 @@ import {
   ],
   imports: [
     CommonModule,
+    SkyColorpickerResourcesModule,
     SkyI18nModule,
     SkyDropdownModule
   ],
