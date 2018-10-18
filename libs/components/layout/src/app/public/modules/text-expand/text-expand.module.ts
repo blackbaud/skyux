@@ -1,8 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SkyI18nModule } from '@skyux/i18n/modules/i18n';
+
+import {
+  SkyI18nModule
+} from '@skyux/i18n';
+
+import {
+  SkyModalModule
+} from '@skyux/modals';
+
+import {
+  SkyLayoutResourcesModule
+} from '../shared';
+
 import { SkyTextExpandComponent } from './text-expand.component';
-import { SkyModalModule } from '@skyux/modals/modules/modal';
 import { SkyTextExpandModalComponent } from './text-expand-modal.component';
 
 @NgModule({
@@ -12,6 +23,7 @@ import { SkyTextExpandModalComponent } from './text-expand-modal.component';
   ],
   imports: [
     SkyI18nModule,
+    SkyLayoutResourcesModule,
     SkyModalModule,
     CommonModule
   ],

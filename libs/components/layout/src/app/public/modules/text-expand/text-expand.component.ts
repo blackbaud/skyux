@@ -9,7 +9,7 @@ import 'rxjs/add/operator/take';
 import 'rxjs/add/observable/forkJoin';
 
 import {
-  SkyAppResourcesService
+  SkyLibResourcesService
 } from '@skyux/i18n/modules/i18n';
 import {
   SkyModalService
@@ -79,7 +79,7 @@ export class SkyTextExpandComponent implements AfterContentInit {
   private newlineCount: number;
 
   constructor(
-    private resources: SkyAppResourcesService,
+    private resources: SkyLibResourcesService,
     private modalService: SkyModalService,
     private textExpandAdapter: SkyTextExpandAdapterService) { }
 

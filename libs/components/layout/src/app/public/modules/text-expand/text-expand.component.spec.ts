@@ -157,7 +157,7 @@ describe('Text expand component', () => {
       let seeMoreButton: any = el.querySelector('.sky-text-expand-see-more');
       expect(ellipsis).not.toBeNull();
       expect(seeMoreButton).not.toBeNull();
-      expect(seeMoreButton.innerText.trim()).toBe('skyux_text_expand_see_more');
+      expect(seeMoreButton.innerText.trim()).toBe('See more');
     });
 
     it('should not have a see more button if changed from long text to undefined', () => {
@@ -169,7 +169,7 @@ describe('Text expand component', () => {
       let seeMoreButton: any = el.querySelector('.sky-text-expand-see-more');
       expect(ellipsis).not.toBeNull();
       expect(seeMoreButton).not.toBeNull();
-      expect(seeMoreButton.innerText.trim()).toBe('skyux_text_expand_see_more');
+      expect(seeMoreButton.innerText.trim()).toBe('See more');
 
       cmp.text = undefined;
 
@@ -189,7 +189,7 @@ describe('Text expand component', () => {
       let seeMoreButton: any = el.querySelector('.sky-text-expand-see-more');
       expect(ellipsis).not.toBeNull();
       expect(seeMoreButton).not.toBeNull();
-      expect(seeMoreButton.innerText.trim()).toBe('skyux_text_expand_see_more');
+      expect(seeMoreButton.innerText.trim()).toBe('See more');
 
       cmp.text = undefined;
 
@@ -207,7 +207,7 @@ describe('Text expand component', () => {
       seeMoreButton = el.querySelector('.sky-text-expand-see-more');
       expect(ellipsis).not.toBeNull();
       expect(seeMoreButton).not.toBeNull();
-      expect(seeMoreButton.innerText.trim()).toBe('skyux_text_expand_see_more');
+      expect(seeMoreButton.innerText.trim()).toBe('See more');
     });
 
     it('should not have a see more button if changed from long text to short text', () => {
@@ -219,7 +219,7 @@ describe('Text expand component', () => {
       let seeMoreButton: any = el.querySelector('.sky-text-expand-see-more');
       expect(ellipsis).not.toBeNull();
       expect(seeMoreButton).not.toBeNull();
-      expect(seeMoreButton.innerText.trim()).toBe('skyux_text_expand_see_more');
+      expect(seeMoreButton.innerText.trim()).toBe('See more');
 
       // tslint:disable-next-line
       cmp.text = SHORT_TEXT;
@@ -255,7 +255,7 @@ describe('Text expand component', () => {
       let seeMoreButton: any = el.querySelector('.sky-text-expand-see-more');
       expect(ellipsis).not.toBeNull();
       expect(seeMoreButton).not.toBeNull();
-      expect(seeMoreButton.innerText.trim()).toBe('skyux_text_expand_see_more');
+      expect(seeMoreButton.innerText.trim()).toBe('See more');
     });
 
     it('should expand on click of the see more button', fakeAsync(() => {
@@ -272,7 +272,7 @@ describe('Text expand component', () => {
       let textArea: HTMLElement = <HTMLElement>el.querySelector('.sky-text-expand-text');
       let container: HTMLElement = <HTMLElement>el.querySelector('.sky-text-expand-container');
       expect(ellipsis).not.toBeNull();
-      expect(seeMoreButton.innerText.trim()).toBe('skyux_text_expand_see_more');
+      expect(seeMoreButton.innerText.trim()).toBe('See more');
       expect(textArea.innerText.trim()).toBe(collapsedText);
 
       clickTextExpandButton(seeMoreButton, fixture);
@@ -282,7 +282,7 @@ describe('Text expand component', () => {
 
       expect(container.style.maxHeight).toBe('');
       expect(seeMoreButton.innerText.trim())
-        .toBe('skyux_text_expand_see_less');
+        .toBe('See less');
       expect(ellipsis).toBeNull();
       expect(textArea.innerText.trim()).toBe(expandedText);
 
@@ -293,7 +293,7 @@ describe('Text expand component', () => {
 
       expect(container.style.maxHeight).toBe('');
       expect(seeMoreButton.innerText.trim())
-        .toBe('skyux_text_expand_see_more');
+        .toBe('See more');
       expect(ellipsis).not.toBeNull();
       expect(textArea.innerText.trim()).toBe(collapsedText);
 
@@ -319,7 +319,7 @@ describe('Text expand component', () => {
 
       fixture.detectChanges();
 
-      expect(el.textContent.trim()).toContain('skyux_text_expand_see_more');
+      expect(el.textContent.trim()).toContain('See more');
       expect(el.textContent.trim()).not.toContain(cmp.text.trim());
 
       cmp.maxLength = cmp.text.length + 100;
@@ -354,7 +354,7 @@ describe('Text expand component', () => {
 
       expect(ellipsis).not.toBeNull();
       expect(modal).toBeNull();
-      expect(seeMoreButton.innerText.trim()).toBe('skyux_text_expand_see_more');
+      expect(seeMoreButton.innerText.trim()).toBe('See more');
       expect(textArea.innerText.trim()).toBe(collapsedText);
 
       seeMoreButton.click();
@@ -368,10 +368,10 @@ describe('Text expand component', () => {
 
       expect(modal).not.toBeNull();
       expect(modalHeader.innerText.trim())
-        .toBe('skyux_text_expand_modal_title');
+        .toBe('Expanded view');
       expect(modalContent.innerText.trim())
         .toBe(expandedText);
-      expect(closeButton.innerText.trim()).toBe('skyux_text_expand_close_text');
+      expect(closeButton.innerText.trim()).toBe('Close');
 
       closeButton.click();
       fixture.detectChanges();

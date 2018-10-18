@@ -10,7 +10,7 @@ import {
   SkyTextExpandRepeaterAdapterService
 } from './text-expand-repeater-adapter.service';
 import {
-  SkyAppResourcesService
+  SkyLibResourcesService
 } from '@skyux/i18n/modules/i18n';
 import { Observable } from 'rxjs/Observable';
 
@@ -47,7 +47,7 @@ export class SkyTextExpandRepeaterComponent implements AfterViewInit {
   private items: Array<HTMLElement>;
 
   constructor(
-    private resources: SkyAppResourcesService,
+    private resources: SkyLibResourcesService,
     private elRef: ElementRef,
     private textExpandRepeaterAdapter: SkyTextExpandRepeaterAdapterService,
     private changeDetector: ChangeDetectorRef

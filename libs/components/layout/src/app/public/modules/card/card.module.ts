@@ -3,12 +3,22 @@ import { CommonModule } from '@angular/common';
 
 import { FormsModule } from '@angular/forms';
 
+import {
+  SkyCheckboxModule
+} from '@skyux/forms';
+
+import {
+  SkyI18nModule
+} from '@skyux/i18n';
+
+import {
+  SkyLayoutResourcesModule
+} from '../shared';
+
 import { SkyCardActionsComponent } from './card-actions.component';
 import { SkyCardContentComponent } from './card-content.component';
 import { SkyCardTitleComponent } from './card-title.component';
 import { SkyCardComponent } from './card.component';
-import { SkyCheckboxModule } from '@skyux/forms/modules/checkbox';
-import { SkyI18nModule } from '@skyux/i18n/modules/i18n';
 
 @NgModule({
   declarations: [
@@ -21,7 +31,8 @@ import { SkyI18nModule } from '@skyux/i18n/modules/i18n';
     CommonModule,
     FormsModule,
     SkyCheckboxModule,
-    SkyI18nModule
+    SkyI18nModule,
+    SkyLayoutResourcesModule
   ],
   exports: [
     SkyCardActionsComponent,

@@ -3,6 +3,6 @@
     <ng-content></ng-content>
   </span>
   <span class="sky-deemphasized" *ngIf="!valueEl.textContent.trim()">
-    {{ (service.defaultValue | async) || ('skyux_definition_list_none_found' | skyAppResources) }}
+    {{ (service.defaultValue | async) || ('skyux_definition_list_none_found' | skyLibResources) }}
   </span>
 </div>

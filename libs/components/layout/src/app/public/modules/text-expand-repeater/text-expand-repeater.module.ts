@@ -1,6 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SkyI18nModule } from '@skyux/i18n/modules/i18n';
+import { SkyI18nModule } from '@skyux/i18n';
+
+import {
+  SkyLayoutResourcesModule
+} from '../shared';
+
 import { SkyTextExpandRepeaterComponent } from './text-expand-repeater.component';
 
 @NgModule({
@@ -9,6 +14,7 @@ import { SkyTextExpandRepeaterComponent } from './text-expand-repeater.component
   ],
   imports: [
     SkyI18nModule,
+    SkyLayoutResourcesModule,
     CommonModule
   ],
   exports: [

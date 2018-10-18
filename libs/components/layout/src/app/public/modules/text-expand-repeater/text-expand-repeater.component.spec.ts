@@ -80,7 +80,7 @@ describe('Text expand repeater component', () => {
       fixture.detectChanges();
       let seeMoreButton: any = el.querySelector('.sky-text-expand-repeater-see-more');
       expect(seeMoreButton).not.toBeNull();
-      expect(seeMoreButton.innerText.trim()).toBe('skyux_text_expand_see_more');
+      expect(seeMoreButton.innerText.trim()).toBe('See more');
     });
 
     it('should not have see more button or data if long data is changed to undefined', () => {
@@ -93,7 +93,7 @@ describe('Text expand repeater component', () => {
         = el.querySelectorAll('.sky-text-expand-repeater-item');
       expect(displayedItems.length).toBe(3);
       expect(seeMoreButton).not.toBeNull();
-      expect(seeMoreButton.innerText.trim()).toBe('skyux_text_expand_see_more');
+      expect(seeMoreButton.innerText.trim()).toBe('See more');
 
       cmp.data = undefined;
 
@@ -114,7 +114,7 @@ describe('Text expand repeater component', () => {
         = el.querySelectorAll('.sky-text-expand-repeater-item');
       expect(displayedItems.length).toBe(3);
       expect(seeMoreButton).not.toBeNull();
-      expect(seeMoreButton.innerText.trim()).toBe('skyux_text_expand_see_more');
+      expect(seeMoreButton.innerText.trim()).toBe('See more');
 
       cmp.data = undefined;
 
@@ -131,7 +131,7 @@ describe('Text expand repeater component', () => {
       displayedItems = el.querySelectorAll('.sky-text-expand-repeater-item');
       expect(displayedItems.length).toBe(3);
       expect(seeMoreButton).not.toBeNull();
-      expect(seeMoreButton.innerText.trim()).toBe('skyux_text_expand_see_more');
+      expect(seeMoreButton.innerText.trim()).toBe('See more');
     });
 
     it('should not have see more button or data if long data is changed to shorter data', () => {
@@ -144,7 +144,7 @@ describe('Text expand repeater component', () => {
         = el.querySelectorAll('.sky-text-expand-repeater-item');
       expect(displayedItems.length).toBe(3);
       expect(seeMoreButton).not.toBeNull();
-      expect(seeMoreButton.innerText.trim()).toBe('skyux_text_expand_see_more');
+      expect(seeMoreButton.innerText.trim()).toBe('See more');
 
       cmp.data = ['john', 'bob'];
 
@@ -172,7 +172,7 @@ describe('Text expand repeater component', () => {
       let hiddenItems: any =
         el.querySelectorAll(hiddenItemsSelector);
       expect(seeMoreButton).not.toBeNull();
-      expect(seeMoreButton.innerText.trim()).toBe('skyux_text_expand_see_more');
+      expect(seeMoreButton.innerText.trim()).toBe('See more');
       expect(shownItems.length).toBe(2);
       expect(hiddenItems.length).toBe(1);
 
@@ -185,7 +185,7 @@ describe('Text expand repeater component', () => {
       seeMoreButton = el.querySelector('.sky-text-expand-repeater-see-more');
       expect(container.style.maxHeight).toBe('');
       expect(seeMoreButton.innerText.trim())
-        .toBe('skyux_text_expand_see_less');
+        .toBe('See less');
       expect(shownItems.length).toBe(3);
       expect(hiddenItems.length).toBe(0);
 
@@ -197,7 +197,7 @@ describe('Text expand repeater component', () => {
       seeMoreButton = el.querySelector('.sky-text-expand-repeater-see-more');
       expect(container.style.minHeight).toBe('');
       expect(seeMoreButton.innerText.trim())
-        .toBe('skyux_text_expand_see_more');
+        .toBe('See more');
       expect(shownItems.length).toBe(2);
       expect(hiddenItems.length).toBe(1);
     }));
