@@ -10,22 +10,28 @@ import {
 } from '@angular/forms';
 
 import {
+  SkyI18nModule
+} from '@skyux/i18n';
+
+import {
   SkyIconModule
 } from '@skyux/indicators';
 
 import {
+  SkyFormsResourcesModule
+} from '../shared';
+
+import {
   SkyFileDropComponent
 } from './file-drop.component';
+
 import {
   SkyFileItemComponent
 } from './file-item.component';
+
 import {
   SkyFileSizePipe
 } from './file-size.pipe';
-
-import {
-  SkyI18nModule
-} from '@skyux/i18n/modules/i18n/i18n.module';
 
 @NgModule({
   declarations: [
@@ -36,6 +42,7 @@ import {
   imports: [
     CommonModule,
     FormsModule,
+    SkyFormsResourcesModule,
     SkyIconModule,
     SkyI18nModule
   ],

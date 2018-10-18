@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="sky-pull-right">
-          <button type="button" class="sky-btn sky-btn-default sky-file-item-btn-delete" [attr.aria-label]="'skyux_file_attachment_file_item_delete' | skyAppResources" (click)="itemDelete()">
+          <button type="button" class="sky-btn sky-btn-default sky-file-item-btn-delete" [attr.aria-label]="'skyux_file_attachment_file_item_delete' | skyLibResources" (click)="itemDelete()">
             <sky-icon icon="trash-o" size="lg"></sky-icon>
           </button>
         </div>
@@ -21,7 +21,7 @@
               <img
                 class="sky-file-item-preview-img"
                 [src]="fileItem.url"
-                [alt]="'skyux_file_attachment_file_upload_image_preview_alt_text' | skyAppResources" />
+                [alt]="'skyux_file_attachment_file_upload_image_preview_alt_text' | skyLibResources" />
             </div>
             <div *ngIf="!isImg()" class="sky-file-item-preview-other">
               <sky-icon [icon]="icon"></sky-icon>

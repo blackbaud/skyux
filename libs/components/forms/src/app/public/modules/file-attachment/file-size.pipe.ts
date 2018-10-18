@@ -8,20 +8,18 @@ import {
 } from '@angular/common';
 
 import {
-  SkyFormat
-} from '@skyux/core/modules/format/format';
+  SkyLibResourcesService
+} from '@skyux/i18n';
 
 @Pipe({
   name: 'skyFileSize'
 })
 export class SkyFileSizePipe implements PipeTransform {
 
-  // TODO: The following require statement is not recommended, but was done
-  // to avoid a breaking change (SkyResources is synchronous, but SkyAppResources is asynchronous).
-  // We should switch to using SkyAppResources in the next major release.
-  private resources: any = require('!json-loader!.skypageslocales/resources_en_US.json');
-
-  public constructor(private decimalPipe: DecimalPipe) {}
+  constructor(
+    private decimalPipe: DecimalPipe,
+    private resourcesService: SkyLibResourcesService
+  ) { }
 
   public transform(input: number): string {
 
@@ -38,18 +36,18 @@ export class SkyFileSizePipe implements PipeTransform {
     /* tslint:enable */
 
     if (Math.abs(input) === 1) {
-      template = this.getString('skyux_file_attachment_file_size_b_singular');
+      template = 'skyux_file_attachment_file_size_b_singular';
     } else if (input < 1000) {
-      template = this.getString('skyux_file_attachment_file_size_b_plural');
+      template = 'skyux_file_attachment_file_size_b_plural';
     } else if (input < 1e6) {
-      template = this.getString('skyux_file_attachment_file_size_kb');
+      template = 'skyux_file_attachment_file_size_kb';
       dividend = 1000;
     } else if (input < 1e9) {
-      template = this.getString('skyux_file_attachment_file_size_mb');
+      template = 'skyux_file_attachment_file_size_mb';
       dividend = 1e6;
       decimalPlaces = 1;
     } else {
-      template = this.getString('skyux_file_attachment_file_size_gb');
+      template = 'skyux_file_attachment_file_size_gb';
       dividend = 1e9;
       decimalPlaces = 1;
     }
@@ -59,15 +57,15 @@ export class SkyFileSizePipe implements PipeTransform {
 
     formattedSize = this.decimalPipe.transform(roundedSize, '.0-3');
 
-    return SkyFormat.formatText(template, formattedSize);
+    return this.getString(template, formattedSize);
   }
 
-  /**
-   * This method is a stand-in for the old SkyResources service from skyux2.
-   * TODO: We should consider using Builder's resources service instead.
-   * @param key
-   */
-  private getString(key: string): string {
-    return this.resources[key].message;
+  private getString(key: string, ...args: any[]): string {
+    // TODO: Need to implement the async `getString` method in a breaking change.
+    return this.resourcesService.getStringForLocale(
+      { locale: 'en-US' },
+      key,
+      ...args
+    );
   }
 }

@@ -9,6 +9,14 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
+  SkyLibResourcesService
+} from '@skyux/i18n';
+
+import {
+  SkyLibResourcesTestService
+} from '@skyux/i18n/testing';
+
+import {
   SkyFileAttachmentsModule
 } from './file-attachments.module';
 
@@ -36,6 +44,12 @@ describe('File item component', () => {
     TestBed.configureTestingModule({
       imports: [
         SkyFileAttachmentsModule
+      ],
+      providers: [
+        {
+          provide: SkyLibResourcesService,
+          useClass: SkyLibResourcesTestService
+        }
       ]
     });
   });
