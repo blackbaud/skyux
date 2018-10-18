@@ -27,6 +27,7 @@ import {
   SkyDropdownMessageType,
   SkyDropdownTriggerType
 } from './types';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
 @Component({
   selector: 'sky-dropdown',
@@ -61,7 +62,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     if (this.buttonType === 'select' || this.buttonType === 'tab') {
       return this._label;
     }
-    return this._label || this.getResource('skyux_dropdown_context_menu_default_label');
+    return this._label || this.getString('skyux_dropdown_context_menu_default_label');
   }
 
   public set label(value: string) {
@@ -104,11 +105,6 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject();
   private isKeyboardActive = false;
 
-  // TODO: The following require statement is not recommended, but was done
-  // to avoid a breaking change (SkyResources is synchronous, but SkyAppResources is asynchronous).
-  // We should switch to using SkyAppResources in the next major release.
-  private resources: any = require('!json-loader!.skypageslocales/resources_en_US.json');
-
   private _isOpen = false;
   private _buttonType: string;
   private _buttonStyle: string;
@@ -116,7 +112,8 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   private _trigger: SkyDropdownTriggerType;
 
   constructor(
-    private windowRef: SkyWindowRefService
+    private windowRef: SkyWindowRefService,
+    private resourcesService: SkyLibResourcesService
   ) { }
 
   public ngOnInit() {
@@ -235,14 +232,11 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     );
   }
 
-  /**
-   * This method is a stand-in for the old SkyResources service from skyux2.
-   * TODO: We should consider using Builder's resources service instead, but it will
-   * require a breaking change since the `label` getter is currently synchronous,
-   * and Builder's service is asynchronous.
-   * @param key
-   */
-  private getResource(key: string): string {
-    return this.resources[key].message;
+  private getString(key: string): string {
+    // TODO: Need to implement the async `getString` method in a breaking change.
+    return this.resourcesService.getStringForLocale(
+      { locale: 'en-US' },
+      key
+    );
   }
 }

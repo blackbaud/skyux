@@ -11,20 +11,27 @@ import {
 
 import {
   SkyWindowRefService
-} from '@skyux/core/modules/window';
+} from '@skyux/core';
+
+import {
+  SkyI18nModule
+} from '@skyux/i18n';
+
+import {
+  SkyIconModule
+} from '@skyux/indicators';
+
+import {
+  SkyPopoversResourcesModule
+} from '../shared';
 
 import {
   SkyPopoverComponent
 } from './popover.component';
+
 import {
   SkyPopoverDirective
 } from './popover.directive';
-import {
-  SkyI18nModule
-} from '@skyux/i18n';
-import {
-  SkyIconModule
-} from '@skyux/indicators/modules/icon';
 
 @NgModule({
   declarations: [
@@ -35,7 +42,8 @@ import {
     BrowserAnimationsModule,
     CommonModule,
     SkyI18nModule,
-    SkyIconModule
+    SkyIconModule,
+    SkyPopoversResourcesModule
   ],
   exports: [
     SkyPopoverComponent,

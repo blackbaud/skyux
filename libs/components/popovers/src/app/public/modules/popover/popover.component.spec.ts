@@ -20,6 +20,14 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
+  SkyLibResourcesService
+} from '@skyux/i18n';
+
+import {
+  SkyLibResourcesTestService
+} from '@skyux/i18n/testing';
+
+import {
   SkyPopoverModule,
   SkyPopoverComponent,
   SkyPopoverAdapterService
@@ -56,6 +64,12 @@ describe('SkyPopoverComponent', () => {
       imports: [
         NoopAnimationsModule,
         SkyPopoverModule
+      ],
+      providers: [
+        {
+          provide: SkyLibResourcesService,
+          useClass: SkyLibResourcesTestService
+        }
       ]
     });
 

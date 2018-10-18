@@ -2,6 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
+import {
+  SkyLibResourcesService
+} from '@skyux/i18n';
+
+import {
+  SkyLibResourcesTestService
+} from '@skyux/i18n/testing';
+
 import { SkyDropdownModule } from '../index';
 import { DropdownTestComponent } from './dropdown.component.fixture';
 
@@ -16,6 +24,12 @@ import { DropdownTestComponent } from './dropdown.component.fixture';
   ],
   exports: [
     DropdownTestComponent
+  ],
+  providers: [
+    {
+      provide: SkyLibResourcesService,
+      useClass: SkyLibResourcesTestService
+    }
   ]
 })
 export class SkyDropdownFixturesModule { }
