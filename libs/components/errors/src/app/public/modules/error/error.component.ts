@@ -4,18 +4,16 @@ import {
   OnInit
 } from '@angular/core';
 
+import {
+  SkyLibResourcesService
+} from '@skyux/i18n';
+
 @Component({
   selector: 'sky-error',
   styleUrls: ['./error.component.scss'],
   templateUrl: './error.component.html'
 })
 export class SkyErrorComponent implements OnInit {
-
-  // TODO: The following require statement is not recommended, but was done
-  // to avoid a breaking change (SkyResources is synchronous, but SkyAppResources is asynchronous).
-  // We should switch to using SkyAppResources in the next major release.
-  private resources: any = require('!json-loader!.skypageslocales/resources_en_US.json');
-
   @Input()
   public set errorType(value: string) {
     this._errorType = value;
@@ -31,7 +29,9 @@ export class SkyErrorComponent implements OnInit {
 
   private _errorType: string;
 
-  constructor() { }
+  constructor(
+    private resourcesService: SkyLibResourcesService
+  ) { }
 
   public ngOnInit() {
     if (this.errorType && this.errorType !== '') {
@@ -74,13 +74,11 @@ export class SkyErrorComponent implements OnInit {
     return this.errorType && this.errorType.toLowerCase() === 'security';
   }
 
-  /**
-   * This method is a stand-in for the old SkyResources service from skyux2.
-   * TODO: We should consider using Builder's resources service instead.
-   * @param key
-   */
   private getString(key: string): string {
-    return this.resources[key].message;
+    // TODO: Need to implement the async `getString` method in a breaking change.
+    return this.resourcesService.getStringForLocale(
+      { locale: 'en-US' },
+      key
+    );
   }
-
 }

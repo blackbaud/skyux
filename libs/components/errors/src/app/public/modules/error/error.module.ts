@@ -10,6 +10,10 @@ import {
 } from '@skyux/modals';
 
 import {
+  SkyErrorsResourcesModule
+} from '../shared';
+
+import {
   SkyErrorComponent
 } from './error.component';
 import {
@@ -43,6 +47,7 @@ import {
   ],
   imports: [
     CommonModule,
+    SkyErrorsResourcesModule,
     SkyModalModule
   ],
   exports: [
