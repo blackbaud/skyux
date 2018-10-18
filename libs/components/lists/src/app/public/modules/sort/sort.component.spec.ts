@@ -50,11 +50,11 @@ describe('Sort component', () => {
   }
 
   function verifyTextPresent() {
-    expect(getDropdownButtonEl().innerText.trim()).toBe('skyux_sort_button_label');
+    expect(getDropdownButtonEl().innerText.trim()).toBe('Sort');
   }
 
   function verifyTextNotPresent() {
-    expect(getDropdownButtonEl().innerText.trim()).not.toBe('skyux_sort_button_label');
+    expect(getDropdownButtonEl().innerText.trim()).not.toBe('Sort');
   }
 
   it('creates a sort dropdown that respects active input', fakeAsync(() => {
@@ -69,7 +69,7 @@ describe('Sort component', () => {
     tick();
 
     let menuHeaderQuery = '.sky-sort-menu-heading';
-    expect(nativeElement.querySelector(menuHeaderQuery)).toHaveText('skyux_sort_menu_heading');
+    expect(nativeElement.querySelector(menuHeaderQuery)).toHaveText('Sort by');
 
     let itemsEl = getSortItems();
     expect(itemsEl.length).toBe(6);
@@ -81,8 +81,8 @@ describe('Sort component', () => {
     fixture.detectChanges();
     tick();
     let dropdownButtonEl = getDropdownButtonEl();
-    expect(dropdownButtonEl.getAttribute('aria-label')).toBe('skyux_sort_button_label');
-    expect(dropdownButtonEl.getAttribute('title')).toBe('skyux_sort_button_label');
+    expect(dropdownButtonEl.getAttribute('aria-label')).toBe('Sort');
+    expect(dropdownButtonEl.getAttribute('title')).toBe('Sort');
 
     dropdownButtonEl.click();
     tick();

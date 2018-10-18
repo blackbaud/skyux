@@ -1,15 +1,15 @@
 <div class="sky-sort">
   <sky-dropdown
     buttonType="select"
-    [label]="'skyux_sort_button_label' | skyAppResources"
+    [label]="'skyux_sort_button_label' | skyLibResources"
     [messageStream]="dropdownController"
-    [title]="'skyux_sort_button_label' | skyAppResources">
+    [title]="'skyux_sort_button_label' | skyLibResources">
     <sky-dropdown-button>
       <sky-icon icon="sort"></sky-icon>
       <span
         *ngIf="showButtonText"
         class="sky-sort-btn-text">
-        {{ 'skyux_sort_button_label' | skyAppResources }}
+        {{ 'skyux_sort_button_label' | skyLibResources }}
       </span>
     </sky-dropdown-button>
     <sky-dropdown-menu
@@ -19,7 +19,7 @@
       <div
         class="sky-sort-menu-heading sky-subsection-heading"
         [id]="sortByHeadingId">
-        {{ 'skyux_sort_menu_heading' | skyAppResources }}
+        {{ 'skyux_sort_menu_heading' | skyLibResources }}
       </div>
       <div class="sky-sort-heading-divider">
       </div>

@@ -11,6 +11,14 @@ import {
 } from '@angular/platform-browser';
 
 import {
+  SkyLibResourcesService
+} from '@skyux/i18n';
+
+import {
+  SkyLibResourcesTestService
+} from '@skyux/i18n/testing';
+
+import {
   PagingTestComponent
 } from './fixtures/paging.component.fixture';
 
@@ -34,6 +42,12 @@ describe('Paging component', () => {
       ],
       imports: [
         SkyPagingModule
+      ],
+      providers: [
+        {
+          provide: SkyLibResourcesService,
+          useClass: SkyLibResourcesTestService
+        }
       ]
     });
 
@@ -257,7 +271,7 @@ describe('Paging component', () => {
           By.css('ul')
         ).nativeElement;
 
-        expect(navElement.getAttribute('aria-label')).toBe('skyux_paging_label');
+        expect(navElement.getAttribute('aria-label')).toBe('Pagination');
       });
 
       it('should have aria-label on each of the next and previous buttons',
@@ -266,13 +280,13 @@ describe('Paging component', () => {
           By.css(getPagingSelector('previous'))
         ).nativeElement;
 
-        expect(prevElement.getAttribute('aria-label')).toBe('skyux_paging_previous');
+        expect(prevElement.getAttribute('aria-label')).toBe('Previous');
 
         let nextElement = element.query(
           By.css(getPagingSelector('next'))
         ).nativeElement;
 
-        expect(nextElement.getAttribute('aria-label')).toBe('skyux_paging_next');
+        expect(nextElement.getAttribute('aria-label')).toBe('Next');
       });
 
       it('should show the correct pages for an even number of maximum pages', () => {

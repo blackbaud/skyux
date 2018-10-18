@@ -19,6 +19,10 @@ import {
 } from '@skyux/indicators/modules/icon';
 
 import {
+  SkyListsResourcesModule
+} from '../shared';
+
+import {
   SkySortComponent
 } from './sort.component';
 import {
@@ -35,7 +39,8 @@ import {
     SkyDropdownModule,
     SkyMediaQueryModule,
     SkyI18nModule,
-    SkyIconModule
+    SkyIconModule,
+    SkyListsResourcesModule
   ],
   exports: [
     SkySortComponent,

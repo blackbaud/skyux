@@ -42,11 +42,11 @@ describe('Filter button', () => {
   }
 
   function verifyTextPresent() {
-    expect(getButtonEl().innerText.trim()).toBe('skyux_filter_button_title');
+    expect(getButtonEl().innerText.trim()).toBe('Filter');
   }
 
   function verifyTextNotPresent() {
-    expect(getButtonEl().innerText.trim()).not.toBe('skyux_filter_button_title');
+    expect(getButtonEl().innerText.trim()).not.toBe('Filter');
   }
 
   it('should allow setting active state', () => {

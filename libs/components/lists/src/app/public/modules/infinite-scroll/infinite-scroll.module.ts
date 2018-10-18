@@ -16,6 +16,10 @@ import {
 } from '@skyux/indicators/modules/wait';
 
 import {
+  SkyListsResourcesModule
+} from '../shared';
+
+import {
   SkyInfiniteScrollComponent
 } from './infinite-scroll.component';
 // #endregion
@@ -27,6 +31,7 @@ import {
   imports: [
     CommonModule,
     SkyI18nModule,
+    SkyListsResourcesModule,
     SkyWaitModule
   ],
   exports: [

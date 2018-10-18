@@ -10,6 +10,10 @@ import {
 } from '@skyux/i18n';
 
 import {
+  SkyListsResourcesModule
+} from '../shared';
+
+import {
   SkyFilterButtonComponent
 } from './filter-button.component';
 import {
@@ -43,6 +47,7 @@ import {
   imports: [
     CommonModule,
     SkyI18nModule,
+    SkyListsResourcesModule,
     SkyTokensModule,
     SkyIconModule
   ],

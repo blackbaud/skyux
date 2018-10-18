@@ -15,6 +15,10 @@ import { SkyRepeaterService } from './repeater.service';
 import { SkyCheckboxModule } from '@skyux/forms/modules/checkbox';
 import { SkyI18nModule } from '@skyux/i18n/modules/i18n';
 
+import {
+  SkyListsResourcesModule
+} from '../shared';
+
 @NgModule({
   declarations: [
     SkyRepeaterComponent,
@@ -32,7 +36,8 @@ import { SkyI18nModule } from '@skyux/i18n/modules/i18n';
     SkyChevronModule,
     SkyLogModule,
     SkyCheckboxModule,
-    SkyI18nModule
+    SkyI18nModule,
+    SkyListsResourcesModule
   ],
   exports: [
     SkyRepeaterComponent,

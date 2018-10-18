@@ -15,6 +15,10 @@ import {
   SkyIconModule
 } from '@skyux/indicators/modules/icon';
 
+import {
+  SkyListsResourcesModule
+} from '../shared';
+
 @NgModule({
   declarations: [
     SkyPagingComponent
@@ -22,7 +26,8 @@ import {
   imports: [
     CommonModule,
     SkyI18nModule,
-    SkyIconModule
+    SkyIconModule,
+    SkyListsResourcesModule
   ],
   exports: [
     SkyPagingComponent

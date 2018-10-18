@@ -3,7 +3,7 @@
   type="button"
   [attr.aria-controls]="ariaControls"
   [attr.aria-expanded]="ariaExpanded"
-  [attr.title]="'skyux_filter_button_title' | skyAppResources"
+  [attr.title]="'skyux_filter_button_title' | skyLibResources"
   [disabled]="disabled"
   [id]="filterButtonId"
   [ngClass]="{'sky-filter-btn-active sky-rounded-corners': active}"
@@ -18,6 +18,6 @@
     *ngIf="showButtonText"
     class="sky-filter-btn-text"
   >
-    {{ 'skyux_filter_button_title' | skyAppResources }}
+    {{ 'skyux_filter_button_title' | skyLibResources }}
   </span>
 </button>

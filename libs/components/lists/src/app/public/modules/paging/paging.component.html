@@ -1,13 +1,13 @@
 <ul *ngIf="pageCount > 1"
   role="navigation"
-  [attr.aria-label]="pagingLabel || 'skyux_paging_label' | skyAppResources"
+  [attr.aria-label]="pagingLabel || ('skyux_paging_label' | skyLibResources)"
 >
   <li>
     <button
       class="sky-btn sky-btn-default sky-paging-btn sky-paging-btn-previous"
       sky-cmp-id="previous"
       type="button"
-      [attr.aria-label]="'skyux_paging_previous' | skyAppResources"
+      [attr.aria-label]="'skyux_paging_previous' | skyLibResources"
       [disabled]="isPreviousButtonDisabled"
       (click)="previousPage()"
     >
@@ -34,7 +34,7 @@
       class="sky-btn sky-btn-default sky-paging-btn sky-paging-btn-next"
       sky-cmp-id="next"
       type="button"
-      [attr.aria-label]="'skyux_paging_next' | skyAppResources"
+      [attr.aria-label]="'skyux_paging_next' | skyLibResources"
       [disabled]="isNextButtonDisabled"
       (click)="nextPage()"
     >

@@ -41,7 +41,7 @@ describe('Filter summary', () => {
 
   it('should create a filter summary with label and child items', () => {
     expect(nativeElement.querySelector('.sky-filter-summary-header'))
-      .toHaveText('skyux_filter_summary_header:');
+      .toHaveText('Filter:');
     expect(nativeElement
       .querySelectorAll('.sky-filter-summary-items .sky-filter-summary-item').length).toBe(2);
   });
@@ -56,8 +56,8 @@ describe('Filter summary', () => {
 
   it('should set aria-label and title on close filter button', () => {
     let el = nativeElement.querySelector('.sky-token-btn-close');
-    expect(el.getAttribute('aria-label')).toBe('skyux_filter_summary_close');
-    expect(el.getAttribute('title')).toBe('skyux_filter_summary_close');
+    expect(el.getAttribute('aria-label')).toBe('Remove filter');
+    expect(el.getAttribute('title')).toBe('Remove filter');
   });
 
   it('should emit an event on item click', () => {
