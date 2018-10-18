@@ -11,6 +11,11 @@ import {
   SkyChevronModule,
   SkyIconModule
 } from '@skyux/indicators';
+
+import {
+  SkyTilesResourcesModule
+} from '../../shared';
+
 import {
   SkyTileComponent
 } from './tile.component';
@@ -31,7 +36,8 @@ import {
     CommonModule,
     SkyChevronModule,
     SkyI18nModule,
-    SkyIconModule
+    SkyIconModule,
+    SkyTilesResourcesModule
   ],
   exports: [
     SkyTileComponent,

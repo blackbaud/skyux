@@ -21,7 +21,7 @@ import {
 } from '@skyux/core';
 
 import {
-  SkyAppResourcesService
+  SkyLibResourcesService
 } from '@skyux/i18n';
 
 import {
@@ -76,7 +76,7 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
     // in RC5. https://github.com/angular/angular/issues/10854
     public dashboardService: SkyTileDashboardService,
     private mediaQuery: SkyMediaQueryService,
-    @Optional() private resourcesService?: SkyAppResourcesService
+    @Optional() private resourcesService?: SkyLibResourcesService
   ) {
     dashboardService.configChange.subscribe((config: SkyTileDashboardConfig) => {
       this.configChange.emit(config);

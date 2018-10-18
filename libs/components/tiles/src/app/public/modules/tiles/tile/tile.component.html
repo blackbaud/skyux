@@ -24,7 +24,7 @@
             type="button"
             *ngIf="hasSettings"
             class="sky-tile-settings"
-            [attr.aria-label]="'skyux_tile_settings' | skyAppResources"
+            [attr.aria-label]="'skyux_tile_settings' | skyLibResources"
             (click)="settingsButtonClicked();"
         >
           <sky-icon icon="cog"></sky-icon>
@@ -34,7 +34,7 @@
           class="sky-tile-grab-handle"
           icon="th"
           tabindex="0"
-          [attr.aria-label]="'skyux_tile_grab_handle' | skyAppResources"
+          [attr.aria-label]="'skyux_tile_grab_handle' | skyLibResources"
           (keydown)="moveTile($event)"
           #grabHandle
         >
