@@ -3,7 +3,7 @@
     <button
       class="sky-btn sky-btn-default sky-search-btn-open"
       type="button"
-      [attr.title]="'skyux_search_open' | skyAppResources"
+      [attr.title]="'skyux_search_open' | skyLibResources"
       [hidden]="!searchButtonShown"
       [ngClass]="{'sky-search-btn-open-applied': clearButtonShown}"
       (click)="toggleSearchInput(true)"
@@ -33,8 +33,8 @@
         <input
           class="sky-form-control sky-search-input sky-rounded-corners"
           type="text"
-          [attr.aria-label]="'skyux_search_label' | skyAppResources"
-          [attr.placeholder]="placeholderText || ('skyux_search_placeholder' | skyAppResources)"
+          [attr.aria-label]="'skyux_search_label' | skyLibResources"
+          [attr.placeholder]="placeholderText || ('skyux_search_placeholder' | skyLibResources)"
           [disabled]="disabled"
           [ngModel]="searchText"
           (blur)="inputFocused(false)"
@@ -65,7 +65,7 @@
           <button
             class="sky-btn sky-btn-default sky-search-btn sky-search-btn-apply"
             type="button"
-            [attr.aria-label]="'skyux_search_label' | skyAppResources"
+            [attr.aria-label]="'skyux_search_label' | skyLibResources"
             [disabled]="disabled"
             (click)="applySearchText(searchText)"
           >
@@ -85,7 +85,7 @@
         *ngIf="mobileSearchShown"
         class="sky-btn sky-btn-secondary sky-search-btn-dismiss"
         type="button"
-        [attr.title]="'skyux_search_dismiss' | skyAppResources"
+        [attr.title]="'skyux_search_dismiss' | skyLibResources"
         (click)="toggleSearchInput(false)"
       >
         <sky-icon

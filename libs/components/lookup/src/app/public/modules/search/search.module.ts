@@ -16,12 +16,12 @@ import {
 } from '@skyux/core';
 
 import {
-  SkyI18nModule
-} from '@skyux/i18n';
-
-import {
   SkyIconModule
 } from '@skyux/indicators';
+
+import {
+  SkyLookupResourcesModule
+} from '../shared';
 
 import {
   SkySearchComponent
@@ -34,7 +34,7 @@ import {
   imports: [
     BrowserAnimationsModule,
     CommonModule,
-    SkyI18nModule,
+    SkyLookupResourcesModule,
     SkyMediaQueryModule,
     FormsModule,
     SkyIconModule
