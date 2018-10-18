@@ -1,3 +1,7 @@
+# 3.2.0 (2018-10-17)
+
+- Added `SkyLibResourcesTestService` to be used in unit tests. [#14](https://github.com/blackbaud/skyux-i18n/pull/14)
+
 # 3.1.1 (2018-10-17)
 
 - Fixed imports to ignore local version of `SkyAppHostLocaleProvider`. [#13](https://github.com/blackbaud/skyux-i18n/pull/13)
