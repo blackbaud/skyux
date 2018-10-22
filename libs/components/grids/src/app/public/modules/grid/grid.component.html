@@ -35,7 +35,7 @@
               {{column.heading}}
               <sky-icon
                 class="sky-grid-heading-sort"
-                *ngIf="(getSortDirection(column.field) | async)"
+                [style.visibility]="getCaretVisibility(column.field) | async"
                 [icon]="getCaretIconNames(column)"
               >
               </sky-icon>

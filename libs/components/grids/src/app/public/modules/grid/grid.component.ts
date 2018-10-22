@@ -290,6 +290,14 @@ export class SkyGridComponent implements AfterContentInit, OnChanges, OnDestroy 
     });
   }
 
+  public getCaretVisibility(columnField: string): Observable<string> {
+   return this.currentSortField
+     .distinctUntilChanged()
+     .map(field => {
+       return field.fieldSelector === columnField ? 'visible' : 'hidden';
+     });
+ }
+
   public updateColumnHeading(change: SkyGridColumnHeadingModelChange) {
     const foundColumnModel = this.columns.find((column: SkyGridColumnModel) => {
       return (

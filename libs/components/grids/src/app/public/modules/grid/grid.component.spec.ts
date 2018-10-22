@@ -409,8 +409,10 @@ describe('Grid Component', () => {
       }));
 
       describe('sorting', () => {
-        it('adds appropriate icons and emits event on click to headers', () => {
+        it('adds appropriate icons and styles, and emits event on click to headers', () => {
           let headerEl = nativeElement.querySelectorAll('th').item(0) as HTMLElement;
+          let skyIcon = headerEl.querySelector('sky-icon') as HTMLElement;
+          expect(skyIcon.style.visibility).toBe('hidden');
           headerEl.click();
           fixture.detectChanges();
 
@@ -418,6 +420,7 @@ describe('Grid Component', () => {
           expect(component.activeSortSelector)
             .toEqual({ fieldSelector: 'column1', descending: true});
           expect(headerEl.querySelector('i')).toHaveCssClass('fa-caret-down');
+          expect(skyIcon.style.visibility).toBe('visible');
 
           headerEl.click();
           fixture.detectChanges();
@@ -426,6 +429,7 @@ describe('Grid Component', () => {
           expect(component.activeSortSelector)
             .toEqual({ fieldSelector: 'column1', descending: false});
           expect(headerEl.querySelector('i')).toHaveCssClass('fa-caret-up');
+          expect(skyIcon.style.visibility).toBe('visible');
         });
 
         it('should not respond to click when the appropriate column option is set', () => {
