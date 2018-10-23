@@ -1,3 +1,11 @@
+# 2.13.0 (2018-10-23)
+- Updated [skyux-builder-plugin-stache](https://github.com/blackbaud/skyux-builder-plugin-stache/blob/master/CHANGELOG.md#151-2018-08-02) dependency to `~1.7.0`.
+  - Added the `skyux stache-update` command to update your projects SKY UX, SKY UX Builder, and Stache dependencies. The command also deletes the `node_modules` folder and runs `npm install`.
+- Style changes to the `stache-table-of-contents` component. [#512](https://github.com/blackbaud/stache2/pull/512)
+  - Updated TOC to place it to the right of the content on full-size views, and above the content on mobile views.
+  - Updated TOC to affix to the top screen and follow users down the page as they scroll on full-size views.
+  - Updated TOC to provide a visual indication of the current location on the page on full-size views.
+
 # 2.12.0 (2018-09-20)
 - Updated prismjs to version `1.15.0` to support all of the latest languages. [#532](https://github.com/blackbaud/stache2/pull/532) [#537](https://github.com/blackbaud/stache2/pull/537)
 - Updated `code-block` component to allow for users to hide the `copy-to-clipboard` button. [#536](https://github.com/blackbaud/stache2/pull/536)
