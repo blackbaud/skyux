@@ -42,7 +42,6 @@ import { StacheLayoutSidebarComponent } from './layout-sidebar.component';
     StacheLayoutContainerComponent,
     StacheLayoutSidebarComponent,
     StacheContainerComponent
-
   ],
   exports: [
     StacheLayoutComponent,

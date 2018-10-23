@@ -1,4 +1,4 @@
-import { StacheConfigService } from './index';
+import { StacheConfigService } from '.';
 
 describe('StacheConfigService', () => {
   it('should return configuration', () => {

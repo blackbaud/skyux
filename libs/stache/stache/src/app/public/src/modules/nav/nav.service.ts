@@ -57,7 +57,7 @@ export class StacheNavService {
   }
 
   private navigateInPage(fragment: string): void {
-    const element = this.windowRef.nativeWindow.document.querySelector(`#${fragment}`);
+    const element = this.windowRef.nativeWindow.document.getElementById(fragment);
 
     if (element) {
       element.scrollIntoView();

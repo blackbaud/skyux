@@ -1,5 +1,5 @@
 import { RendererFactory2 } from '@angular/core';
-import { StacheOmnibarAdapterService, StacheWindowRef } from './index';
+import { StacheOmnibarAdapterService, StacheWindowRef } from '.';
 
 let mockEnabled: boolean = false;
 

@@ -10,8 +10,8 @@ let elementScrollCalled: boolean = false;
 class MockWindowService {
   public nativeWindow = {
     document: {
-      querySelector: jasmine.createSpy('querySelector').and.callFake((id: any) => {
-          if (id === '#element-id') {
+      getElementById: jasmine.createSpy('getElementById').and.callFake((id: any) => {
+          if (id === 'element-id') {
             return this.testElement;
           }
           return false;

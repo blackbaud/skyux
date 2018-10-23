@@ -5,7 +5,7 @@ import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 import {
   StacheJsonDataService,
   STACHE_JSON_DATA_SERVICE_CONFIG
-} from './index';
+} from '.';
 
 describe('StacheJsonDataService', () => {
   let dataService: StacheJsonDataService;

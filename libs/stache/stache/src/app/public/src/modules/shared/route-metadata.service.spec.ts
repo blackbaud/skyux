@@ -5,7 +5,7 @@ import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 import {
   StacheRouteMetadataService,
   STACHE_ROUTE_METADATA_SERVICE_CONFIG
-} from './index';
+} from '.';
 
 describe('StacheRouteMetadataService', () => {
   let routeMetadataService: StacheRouteMetadataService;

@@ -1,19 +1,30 @@
 @import '../../styles/_variables';
 
-/deep/
+::ng-deep
 .stache-table-of-contents {
-  margin: 1.2em 0;
+  padding-right: $stache-padding;
+
+  @media (max-width: $stache-screen-lg-min) {
+    padding-left: $stache-padding;
+  }
 
   .stache-nav-list {
-    list-style-type: decimal !important;
-    margin-left: 15px !important;
     color: $stache-text-color-default;
   }
 
   .stache-nav-list-item {
-    margin: 0 0 .25em;
+    font-size: 15px;
+    margin: 3px 0;
     padding-left: .5em;
     line-height: $stache-line-height-base;
+    border-left: 4px solid transparent;
+    hyphens: auto;
+
+    &.current {
+      @media (min-width: $stache-screen-lg-min) {
+        border-left-color: $stache-background-color-primary-dark;
+      }
+    }
 
     &:last-child {
       margin-bottom: 0;
@@ -28,11 +39,15 @@
 }
 
 .stache-table-of-contents-wrapper {
-  border-left: 4px solid $stache-background-color-primary-dark;
-  padding: 6px 0 12px 19px;
+  padding: 6px 0;
 }
 
 .stache-table-of-contents-heading {
-  margin: 0 0 .7em;
-  font-size: 1.1em;
+  font-size: 1.5em;
+  font-weight: 300;
+  padding-left: 8px;
+
+  @media (max-width: $stache-screen-lg-min) {
+    margin-top: 0px;
+  }
 }
