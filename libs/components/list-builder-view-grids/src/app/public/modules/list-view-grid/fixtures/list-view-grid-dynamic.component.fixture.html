@@ -1,0 +1,9 @@
+<sky-list [data]="data">
+  <sky-list-view-grid fit="scroll" [name]="gridview">
+    <sky-grid-column *ngFor="let gridColumn of gridColumns"
+      [field]="gridColumn.field"
+      [heading]="gridColumn.heading"
+      >
+    </sky-grid-column>
+  </sky-list-view-grid>
+</sky-list>

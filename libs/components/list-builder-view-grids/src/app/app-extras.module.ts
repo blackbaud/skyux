@@ -1,19 +1,36 @@
 import {
   NgModule
 } from '@angular/core';
+import {
+  SkyListViewGridModule
+} from './public/modules/list-view-grid/list-view-grid.module';
 
 import {
-  SkySampleModule
-} from './public';
+  SkyGridModule
+} from '@skyux/grids';
+import {
+  SkyListModule
+} from '@skyux/list-builder';
+
+import {
+  ListStateDispatcher,
+  ListState
+} from '@skyux/list-builder/modules/list/state';
 
 @NgModule({
   imports: [
-    SkySampleModule
+    SkyGridModule,
+    SkyListModule,
+    SkyListViewGridModule
   ],
   exports: [
-    SkySampleModule
+    SkyGridModule,
+    SkyListModule,
+    SkyListViewGridModule
   ],
-  providers: [],
-  entryComponents: []
+  providers: [
+    ListState,
+    ListStateDispatcher
+  ]
 })
 export class AppExtrasModule { }
