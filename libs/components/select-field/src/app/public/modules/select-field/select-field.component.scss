@@ -1,0 +1,32 @@
+.sky-select-field-multiple-select-mode {
+  > .sky-btn {
+    margin-bottom: 10px;
+  }
+}
+
+.sky-select-field-single-select-mode {
+  .sky-input-group {
+    padding: 0;
+
+    .sky-form-control,
+    .sky-btn {
+      border: 0;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    .sky-form-control + .sky-input-group-btn {
+      .sky-btn {
+        padding-right: 5px;
+      }
+    }
+
+    .sky-input-group-btn + .sky-input-group-btn {
+      .sky-btn {
+        padding-left: 5px;
+      }
+    }
+  }
+}

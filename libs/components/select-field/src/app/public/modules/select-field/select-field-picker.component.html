@@ -1,0 +1,65 @@
+<div class="sky-select-field-picker">
+  <sky-modal>
+    <sky-modal-header>
+      {{ headingText }}
+    </sky-modal-header>
+    <sky-modal-content>
+      <div class="sky-select-field-picker-content">
+        <sky-list
+          [data]="data"
+          [selectedIds]="selectedIds"
+          (selectedIdsChange)="onSelectedIdsChange($event)">
+          <sky-list-toolbar>
+            <sky-list-filter-inline
+              *ngIf="categories && categories.length">
+              <sky-list-filter-inline-item
+                name="category"
+                [defaultValue]="defaultCategory"
+                [filter]="filterByCategory"
+                [value]="defaultCategory">
+                <ng-template
+                  let-filter="filter">
+                  <select
+                    [ngModel]="filter.value"
+                    (ngModelChange)="onCategoryChange($event, filter)">
+                    <option
+                      [value]="defaultCategory">
+                      {{ 'skyux_select_field_picker_show_all_category' | skyLibResources }}
+                    </option>
+                    <option
+                      *ngFor="let category of categories"
+                      [value]="category">
+                      {{ category }}
+                    </option>
+                  </select>
+                </ng-template>
+              </sky-list-filter-inline-item>
+            </sky-list-filter-inline>
+          </sky-list-toolbar>
+          <sky-list-view-checklist
+            label="label"
+            description="description"
+            [selectMode]="selectMode">
+          </sky-list-view-checklist>
+          <sky-list-paging
+            pageSize="6">
+          </sky-list-paging>
+        </sky-list>
+      </div>
+    </sky-modal-content>
+    <sky-modal-footer>
+      <button
+        type="button"
+        class="sky-btn sky-btn-primary sky-select-field-picker-btn-save"
+        (click)="save()">
+        {{ 'skyux_select_field_picker_save_button' | skyLibResources }}
+      </button>
+      <button
+        type="button"
+        class="sky-btn sky-btn-link sky-select-field-picker-btn-close"
+        (click)="close()">
+        {{ 'skyux_select_field_picker_close_button' | skyLibResources }}
+      </button>
+    </sky-modal-footer>
+  </sky-modal>
+</div>

@@ -1,0 +1,24 @@
+
+<div id="screenshot-select-field-single-mode">
+  <sky-select-field
+    selectMode="single"
+    name="single"
+    [ngModel]="model.single"
+    [data]="data">
+  </sky-select-field>
+</div>
+<div id="screenshot-select-field-multiple-mode">
+  <sky-select-field
+    selectMode="multiple"
+    name="multiple"
+    [ngModel]="model.multiple"
+    [data]="data">
+  </sky-select-field>
+</div>
+
+<button
+  type="button"
+  id="select-field-populate-selected-btn"
+  (click)="populateSelected()">
+  Populate selected
+</button>

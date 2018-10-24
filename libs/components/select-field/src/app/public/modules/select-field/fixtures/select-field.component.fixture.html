@@ -1,0 +1,16 @@
+  <sky-select-field
+    name="modelValue"
+    [ariaLabel]="ariaLabel"
+    [ariaLabelledBy]="ariaLabelledBy"
+    [data]="data"
+    [descriptorKey]="descriptorKey"
+    [disabled]="disabled"
+    [selectMode]="selectMode"
+    [multipleSelectOpenButtonText]="multipleSelectOpenButtonText"
+    [singleSelectClearButtonTitle]="singleSelectClearButtonTitle"
+    [singleSelectOpenButtonTitle]="singleSelectOpenButtonTitle"
+    [singleSelectPlaceholderText]="singleSelectPlaceholderText"
+    [pickerHeading]="pickerHeading"
+    [ngModel]="formData.modelValue"
+    (ngModelChange)="onModelChange($event)">
+  </sky-select-field>

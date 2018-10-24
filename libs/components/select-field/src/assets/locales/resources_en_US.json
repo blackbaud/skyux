@@ -1,6 +1,42 @@
 {
-  "skyux_some_key": {
-    "_description": "",
-    "message": ""
+  "skyux_select_field_multiple_select_open_button": {
+    "_description": "The default button text for the select field when the user is allowed to select multiple values (plural)",
+    "message": "Select values"
+  },
+  "skyux_select_field_multiple_select_picker_heading": {
+    "_description": "The default heading text for the select field picker when the user is allowed to select multiple values (plural)",
+    "message": "Select values"
+  },
+  "skyux_select_field_multiple_select_summary": {
+    "_description": "Text displayed when the user has more than the maximum items selected",
+    "message": "{0} items selected"
+  },
+  "skyux_select_field_single_select_placeholder": {
+    "_description": "The default placeholder text for the select field when the user is allowed to select one value (singular)",
+    "message": "Select a value"
+  },
+  "skyux_select_field_single_select_picker_heading": {
+    "_description": "The default heading text for the select field picker when the user is allowed to select one value (singular)",
+    "message": "Select a value"
+  },
+  "skyux_select_field_single_select_open_button_title": {
+    "_description": "The default title text for the select field picker when the user is allowed to select one value (singular)",
+    "message": "Click to select a value"
+  },
+  "skyux_select_field_single_select_clear_button_title": {
+    "_description": "The default button text for the single-select clear button",
+    "message": "Clear selection"
+  },
+  "skyux_select_field_picker_close_button": {
+    "_description": "Text displayed on the button in multi select mode to close form",
+    "message": "Close"
+  },
+  "skyux_select_field_picker_save_button": {
+    "_description": "Text displayed on the primary dialog button to confirm selection of multiple items",
+    "message": "Select"
+  },
+  "skyux_select_field_picker_show_all_category": {
+    "_description": "The default category name for the select field picker that will display all possible results.",
+    "message": "Show all"
   }
 }
