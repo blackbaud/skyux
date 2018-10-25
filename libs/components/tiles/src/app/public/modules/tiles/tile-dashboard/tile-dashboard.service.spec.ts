@@ -256,17 +256,19 @@ describe('Tile dashboard service', () => {
       })
   );
 
-  it('should set the tile\'s grab handle as the drag handle', () => {
+  it('should set the tile\'s grab handle as the drag handle', fakeAsync(() => {
+    let fixture = createDashboardTestComponent();
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+    let tile: Element = fixture.nativeElement.querySelector('div.sky-test-tile-1');
+    let handle: Element = tile.querySelector('.sky-tile-grab-handle i');
     let setOptionsSpy = spyOn(mockDragulaService, 'setOptions').and.callFake(
       (bagId: any, options: any) => {
         let result = options.moves(
+          tile,
           undefined,
-          undefined,
-          {
-            matches: (cls: string) => {
-              return cls === '.sky-tile-grab-handle';
-            }
-          }
+          handle
         );
 
         expect(result).toBe(true);
@@ -281,7 +283,7 @@ describe('Tile dashboard service', () => {
     }());
 
     expect(setOptionsSpy).toHaveBeenCalled();
-  });
+  }));
 
   function testIntercolumnNavigation(fixture: ComponentFixture<TileDashboardTestComponent>, keyName: string) {
     let handle: HTMLElement = fixture.nativeElement.querySelector('div.sky-test-tile-1 .sky-tile-grab-handle');

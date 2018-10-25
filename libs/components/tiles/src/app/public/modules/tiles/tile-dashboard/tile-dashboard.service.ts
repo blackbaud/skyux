@@ -416,7 +416,8 @@ export class SkyTileDashboardService {
   private initDragula() {
     this.dragulaService.setOptions(this.bagId, {
       moves: (el: HTMLElement, container: HTMLElement, handle: HTMLElement) => {
-        return handle.matches('.sky-tile-grab-handle');
+        const target = el.querySelector('.sky-tile-grab-handle');
+        return target.contains(handle);
       }
     });
 
