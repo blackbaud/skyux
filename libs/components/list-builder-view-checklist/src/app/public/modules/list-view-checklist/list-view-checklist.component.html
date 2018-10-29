@@ -57,7 +57,7 @@
     class="sky-btn sky-btn-link sky-list-view-checklist-select-all"
     (click)="selectAll(); false"
   >
-    {{'skyux_checklist_select_all' | skyAppResources}}
+    {{ 'skyux_checklist_select_all' | skyLibResources }}
   </button>
 </ng-template>
 
@@ -66,7 +66,7 @@
     class="sky-btn sky-btn-link sky-list-view-checklist-clear-all"
     (click)="clearSelections(); false"
   >
-    {{'skyux_checklist_clear_all' | skyAppResources}}
+    {{ 'skyux_checklist_clear_all' | skyLibResources }}
   </button>
 </ng-template>
 
@@ -78,7 +78,7 @@
   >
     <sky-checkbox-label>
       <div>
-        {{'skyux_checklist_show_selected' | skyAppResources}}
+        {{ 'skyux_checklist_show_selected' | skyLibResources }}
       </div>
     </sky-checkbox-label>
   </sky-checkbox>
