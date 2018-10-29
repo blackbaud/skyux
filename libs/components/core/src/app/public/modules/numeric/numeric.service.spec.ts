@@ -147,6 +147,16 @@ describe('Numeric service', () => {
     expect(skyNumeric.formatNumber(value, options)).toBe('$1.5K');
   });
 
+  it('formats 1450 as US dollar with 2 minDigits as $1.5K', () => {
+    const value = 1450;
+    const options = new NumericOptions();
+    options.digits = 2;
+    options.minDigits = 2;
+    options.iso = 'USD';
+    options.format = 'currency';
+    expect(skyNumeric.formatNumber(value, options)).toBe('$1.45K');
+  });
+
   it('formats 1500 as Euro with 1 digits as €1.5K', () => {
     const value = 1500;
     const options = new NumericOptions();
@@ -231,5 +241,21 @@ describe('Numeric service', () => {
     };
 
     expect(skyNumeric.formatNumber(value, options)).toBe('$1,450');
+  });
+
+  it('formats 1.00010 with 3 minDigits as 1.000', () => {
+    const value = 1.00010;
+    const options = new NumericOptions();
+    options.minDigits = 3;
+    options.digits = 3;
+    expect(skyNumeric.formatNumber(value, options)).toBe('1.000');
+  });
+
+  it('formats 1.00010 with 3 minDigits but 4 digits as 1.0001', () => {
+    const value = 1.00010;
+    const options = new NumericOptions();
+    options.minDigits = 3;
+    options.digits = 4;
+    expect(skyNumeric.formatNumber(value, options)).toBe('1.0001');
   });
 });

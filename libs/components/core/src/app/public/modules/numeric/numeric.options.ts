@@ -4,4 +4,5 @@ export class NumericOptions {
   public iso = 'USD';
   public truncate? = true;
   public truncateAfter? = 0;
+  public minDigits?: number;
 }

@@ -91,7 +91,9 @@ export class SkyNumericService {
       const isShortened = (value > this.symbolIndex[this.symbolIndex.length - 1].value);
       const isDecimal = (value % 1 !== 0);
 
-      if (!isShortened && isDecimal && options.digits >= 2) {
+      if (options.minDigits) {
+        digits = `1.${options.minDigits}-${options.digits}`;
+      } else if (!isShortened && isDecimal && options.digits >= 2) {
         digits = `1.2-${options.digits}`;
       } else {
         digits = `1.0-${options.digits}`;
@@ -111,7 +113,9 @@ export class SkyNumericService {
       default:
       // Ensures localization of the number to ensure comma and
       // decimal separator
-      if (options.truncate) {
+      if (options.minDigits) {
+        digits = `1.${options.minDigits}-${options.digits}`;
+      } else if (options.truncate) {
         digits = `1.0-${options.digits}`;
       } else {
         digits = `1.${options.digits}-${options.digits}`;

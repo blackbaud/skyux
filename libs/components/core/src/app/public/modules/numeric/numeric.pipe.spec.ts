@@ -80,4 +80,19 @@ describe('Numeric pipe', () => {
     };
     expect(pipe.transform(42.87, options)).toBe('43');
   });
+
+  it('should default digits to minDigits if minDigits is given but digits is not', () => {
+    const options: any = {
+      minDigits: 3
+    };
+    expect(pipe.transform(42.87549, options)).toBe('42.875');
+  });
+
+  it('should throw an error is minDigits is greater than the given digits', () => {
+    const options: any = {
+      minDigits: 3,
+      digits: 2
+    };
+    expect(() => { pipe.transform(42.87549, options); }).toThrowError();
+  });
 });
