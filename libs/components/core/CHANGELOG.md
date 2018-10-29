@@ -1,3 +1,7 @@
+# 3.2.1 (2018-10-29)
+
+- Fixed numeric module to use correct locale resources provider. [#35](https://github.com/blackbaud/skyux-core/pull/35)
+
 # 3.2.0 (2018-10-29)
 
 - Added `SkyUIConfigService`. [#37](https://github.com/blackbaud/skyux-core/pull/37)
