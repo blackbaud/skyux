@@ -4,6 +4,10 @@ import {
 } from '@angular/common';
 
 import {
+  SkyLibResourcesTestService
+} from '@skyux/i18n/testing';
+
+import {
   NumericOptions
 } from './numeric.options';
 
@@ -13,7 +17,8 @@ import {
 
 const skyNumeric = new SkyNumericService(
   new CurrencyPipe('en-US'),
-  new DecimalPipe('en-US')
+  new DecimalPipe('en-US'),
+  new SkyLibResourcesTestService() as any
 );
 
 describe('Numeric service', () => {

@@ -4,10 +4,16 @@ import {
 } from '@angular/common';
 
 import {
-  // ComponentFixture,
-  // inject,
   TestBed
 } from '@angular/core/testing';
+
+import {
+  SkyLibResourcesService
+} from '@skyux/i18n';
+
+import {
+  SkyLibResourcesTestService
+} from '@skyux/i18n/testing';
 
 import {
   SkyNumericPipe
@@ -21,20 +27,10 @@ import {
   NumericOptions
 } from './numeric.options';
 
-// import {
-//   TestBed
-// } from '@angular/core/testing';
-
-// import {
-//   SkyNumericModule
-// } from './numeric.module';
-
 describe('Numeric pipe', () => {
   let pipe: any;
   let numericService: any;
   let expectedConfig: NumericOptions;
-  // let pipe: SkyNumericPipe;
-  // let fixture: ComponentFixture<SkyNumericPipe>;
 
   beforeEach(() => {
     expectedConfig = new NumericOptions();
@@ -50,7 +46,11 @@ describe('Numeric pipe', () => {
         CurrencyPipe,
         DecimalPipe,
         SkyNumericPipe,
-        SkyNumericService
+        SkyNumericService,
+        {
+          provide: SkyLibResourcesService,
+          useClass: SkyLibResourcesTestService
+        }
       ]
     });
 

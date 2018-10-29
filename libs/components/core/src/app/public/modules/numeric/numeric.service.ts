@@ -9,6 +9,10 @@ import {
 } from '@angular/common';
 
 import {
+  SkyLibResourcesService
+} from '@skyux/i18n';
+
+import {
   NumericOptions
 } from './numeric.options';
 
@@ -21,11 +25,6 @@ import {
 export class SkyNumericService {
   public shortSymbol: string;
 
-  // TODO: The following require statement is not recommended, but was done
-  // to avoid a breaking change (SkyResources is synchronous, but SkyAppResources is asynchronous).
-  // We should switch to using SkyAppResources in the next major release.
-  private symbols: any = require('!json-loader!.skypageslocales/resources_en_US.json');
-
   private symbolIndex: SkyNumericSymbol[] = [
     { value: 1E12, label: this.getSymbol('skyux_numeric_trillions_symbol') },
     { value: 1E9, label: this.getSymbol('skyux_numeric_billions_symbol') },
@@ -35,7 +34,8 @@ export class SkyNumericService {
 
   constructor(
     private currencyPipe: CurrencyPipe,
-    private decimalPipe: DecimalPipe
+    private decimalPipe: DecimalPipe,
+    private resourcesService: SkyLibResourcesService
   ) { }
 
   /**
@@ -160,14 +160,11 @@ export class SkyNumericService {
     return output;
   }
 
-  /**
-   * This method is a stand-in for the old SkyResources service from skyux2.
-   * TODO: We should consider using Builder's resources service instead, but it will
-   * require a breaking change since the `formatNumber` method is currently synchronous,
-   * and Builder's service is asynchronous.
-   * @param key
-   */
   private getSymbol(key: string): string {
-    return this.symbols[key].message;
+    // TODO: Need to implement the async `getString` method in a breaking change.
+    return this.resourcesService.getStringForLocale(
+      { locale: 'en_US' },
+      key
+    );
   }
 }

@@ -8,6 +8,10 @@ import {
 } from '@angular/common';
 
 import {
+  SkyCoreResourcesModule
+} from '../shared';
+
+import {
   SkyNumericPipe
 } from './numeric.pipe';
 
@@ -23,6 +27,9 @@ import {
     SkyNumericService,
     CurrencyPipe,
     DecimalPipe
+  ],
+  imports: [
+    SkyCoreResourcesModule
   ],
   exports: [
     SkyNumericPipe
