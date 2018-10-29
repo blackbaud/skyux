@@ -1,3 +1,3 @@
-export { SkyNumericPipe } from './numeric.pipe';
-export { SkyNumericService } from './numeric.service';
-export { SkyNumericModule } from './numeric.module';
+export * from './numeric.pipe';
+export * from './numeric.service';
+export * from './numeric.module';
