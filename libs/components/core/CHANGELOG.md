@@ -1,3 +1,8 @@
+# 3.2.0 (2018-10-29)
+
+- Added `SkyUIConfigService`. [#37](https://github.com/blackbaud/skyux-core/pull/37)
+- Added option for minimum fraction digits to numeric service and pipe. [#34](https://github.com/blackbaud/skyux-core/pull/34)
+
 # 3.1.0 (2018-09-19)
 
 - Added `MockSkyMediaQueryService` for unit tests. [#33](https://github.com/blackbaud/skyux-core/pull/33)
