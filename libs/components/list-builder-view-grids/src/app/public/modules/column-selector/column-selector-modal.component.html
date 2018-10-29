@@ -1,0 +1,32 @@
+<sky-modal>
+  <sky-modal-header>
+    {{'skyux_grid_column_picker_header' | skyLibResources}}
+  </sky-modal-header>
+  <sky-modal-content>
+    <sky-list #list
+      [data]="context.columns"
+      [selectedIds]="context.selectedColumnIds"
+      (selectedIdsChange)="selectedColumnsChange($event)">
+      <sky-list-toolbar
+        [placeholder]="'skyux_grid_column_picker_search_placeholder' | skyLibResources">
+      </sky-list-toolbar>
+
+      <sky-list-view-checklist label="heading" description="description">
+      </sky-list-view-checklist>
+    </sky-list>
+  </sky-modal-content>
+  <sky-modal-footer>
+    <button
+      sky-cmp-id="apply-changes"
+      class="sky-btn sky-btn-primary"
+      (click)="applyChanges()">
+      {{'skyux_grid_column_picker_submit' | skyLibResources}}
+    </button>
+    <button
+      sky-cmp-id="cancel"
+      class="sky-btn sky-btn-link"
+      (click)="cancelChanges()">
+      {{'skyux_grid_column_picker_cancel' | skyLibResources}}
+    </button>
+  </sky-modal-footer>
+</sky-modal>

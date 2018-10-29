@@ -1,0 +1,13 @@
+@import "~@skyux/theme/scss/mixins";
+
+@media (max-width: $sky-screen-xs-max) {
+  .sky-column-selector-action-btn-text {
+    display: none;
+  }
+
+  ::ng-deep {
+    .sky-dropdown-caret {
+      display: none;
+    }
+  }
+}
