@@ -1,3 +1,7 @@
+# 3.2.2 (2018-10-30)
+
+- Fixed circular dependency structure when importing from `@skyux/i18n`. [#38](https://github.com/blackbaud/skyux-core/pull/38)
+
 # 3.2.1 (2018-10-29)
 
 - Fixed numeric module to use correct locale resources provider. [#35](https://github.com/blackbaud/skyux-core/pull/35)
