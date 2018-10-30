@@ -1,3 +1,7 @@
+# 3.2.1 (2018-10-30)
+
+- Fixed long checkbox labels to not display a horizontal scrollbar. [#32](https://github.com/blackbaud/skyux-theme/pull/32)
+
 # 3.2.0 (2018-09-25)
 
 - Added support for `@skyux/theme@0.0.10`.
