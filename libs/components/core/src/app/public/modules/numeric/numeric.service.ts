@@ -10,7 +10,7 @@ import {
 
 import {
   SkyLibResourcesService
-} from '@skyux/i18n';
+} from '@skyux/i18n/modules/i18n/lib-resources.service';
 
 import {
   NumericOptions

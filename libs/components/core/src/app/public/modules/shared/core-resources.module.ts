@@ -4,7 +4,7 @@ import {
 
 import {
   SKY_LIB_RESOURCES_PROVIDERS
-} from '@skyux/i18n';
+} from '@skyux/i18n/modules/i18n/lib-resources-providers-token';
 
 import {
   SkyCoreResourcesProvider

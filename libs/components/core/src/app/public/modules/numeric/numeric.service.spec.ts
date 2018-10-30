@@ -5,7 +5,7 @@ import {
 
 import {
   SkyLibResourcesTestService
-} from '@skyux/i18n/testing';
+} from '@skyux/i18n/testing/lib-resources-test.service';
 
 import {
   NumericOptions

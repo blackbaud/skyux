@@ -9,11 +9,11 @@ import {
 
 import {
   SkyLibResourcesService
-} from '@skyux/i18n';
+} from '@skyux/i18n/modules/i18n/lib-resources.service';
 
 import {
   SkyLibResourcesTestService
-} from '@skyux/i18n/testing';
+} from '@skyux/i18n/testing/lib-resources-test.service';
 
 import {
   SkyNumericPipe
