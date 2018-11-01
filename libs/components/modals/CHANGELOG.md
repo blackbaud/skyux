@@ -1,3 +1,7 @@
+# 3.0.0-rc.3 (2018-11-01)
+
+- Update animations import for forwards compatibility. [#9](https://github.com/blackbaud/skyux-modals/pull/9)
+
 # 3.0.0-rc.2 (2018-10-30)
 
 - Fixed modal backdrop opacity to match SKY UX v.1. [#4](https://github.com/blackbaud/skyux-modals/pull/4)
