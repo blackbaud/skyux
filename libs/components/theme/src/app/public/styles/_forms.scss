@@ -8,12 +8,14 @@
   font-size: $sky-font-size-base;
   color: $sky-text-color-default;
 
-  /* Remove device-specific styles */
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  border-radius: 0;
-  -webkit-border-radius: 0;
+  &:not([type="range"]):not([type="radio"]):not([type="checkbox"]){
+    /* Remove device-specific styles */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+  }
 
   &:focus {
     @include sky-field-status(active);
