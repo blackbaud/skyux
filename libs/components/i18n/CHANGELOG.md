@@ -1,3 +1,7 @@
+# 3.2.1 (2018-11-01)
+
+- Fixed classes to properly import `Observable.of` operator. [#16](https://github.com/blackbaud/skyux-i18n/pull/16)
+
 # 3.2.0 (2018-10-17)
 
 - Added `SkyLibResourcesTestService` to be used in unit tests. [#14](https://github.com/blackbaud/skyux-i18n/pull/14)
