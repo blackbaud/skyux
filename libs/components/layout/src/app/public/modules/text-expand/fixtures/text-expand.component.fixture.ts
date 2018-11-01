@@ -7,7 +7,7 @@ import { SkyTextExpandComponent } from '../text-expand.component';
 })
 export class TextExpandTestComponent {
 
-  @ViewChild(SkyTextExpandComponent)
+  @ViewChild(SkyTextExpandComponent, { read: SkyTextExpandComponent })
   public textExpand: SkyTextExpandComponent;
   public text: string;
   public maxLength: number;

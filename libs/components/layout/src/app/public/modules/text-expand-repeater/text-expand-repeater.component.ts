@@ -42,7 +42,7 @@ export class SkyTextExpandRepeaterComponent implements AfterViewInit {
   private seeMoreText: string;
   private seeLessText: string;
   private isExpanded: boolean = false;
-  @ViewChild('container')
+  @ViewChild('container', { read: ElementRef })
   private containerEl: ElementRef;
   private items: Array<HTMLElement>;
 

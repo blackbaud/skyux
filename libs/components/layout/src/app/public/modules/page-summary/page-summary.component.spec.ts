@@ -1,4 +1,9 @@
-import { TestBed, async } from '@angular/core/testing';
+import {
+  TestBed,
+  async,
+  fakeAsync,
+  tick
+} from '@angular/core/testing';
 
 import {
   expect
@@ -59,6 +64,41 @@ describe('Page summary component', () => {
     expect(el.querySelector(xsSelector)).toExist();
     expect(el.querySelector(smSelector)).not.toExist();
   });
+
+  it('should have appropriate class when key info is present', fakeAsync(() => {
+    let mockQueryService = new MockSkyMediaQueryService();
+
+    let fixture = TestBed
+      .overrideComponent(
+        SkyPageSummaryComponent,
+        {
+          add: {
+            providers: [
+              {
+                provide: SkyMediaQueryService,
+                useValue: mockQueryService
+              }
+            ]
+          }
+        }
+      )
+      .createComponent(SkyPageSummaryTestComponent);
+
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+
+    let el = fixture.nativeElement;
+    expect(el.querySelector('.sky-page-summary-with-key-info')).toExist();
+
+    let cmp = fixture.componentInstance as SkyPageSummaryTestComponent;
+    cmp.showKeyInfo = false;
+
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+    expect(el.querySelector('.sky-page-summary-with-key-info')).not.toExist();
+  }));
 
   it('should be accessible', async(() => {
     let mockQueryService = new MockSkyMediaQueryService();

@@ -6,7 +6,7 @@ import { SkyTextExpandRepeaterComponent } from '../text-expand-repeater.componen
   templateUrl: './text-expand-repeater.component.fixture.html'
 })
 export class TextExpandRepeaterTestComponent {
-  @ViewChild(SkyTextExpandRepeaterComponent)
+  @ViewChild(SkyTextExpandRepeaterComponent, { read: SkyTextExpandRepeaterComponent })
   public textExpand: SkyTextExpandRepeaterComponent;
   public data: string[];
   public numItems: number;

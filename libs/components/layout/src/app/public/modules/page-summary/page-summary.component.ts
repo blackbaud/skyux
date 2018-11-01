@@ -1,8 +1,28 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ContentChildren,
+  ElementRef,
+  OnDestroy,
+  QueryList
+} from '@angular/core';
 
-import { SkyPageSummaryAdapterService } from './page-summary-adapter.service';
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core/modules/media-query';
-import { Subscription } from 'rxjs/Subscription';
+import {
+  SkyMediaBreakpoints,
+  SkyMediaQueryService
+} from '@skyux/core';
+
+import {
+  Subscription
+} from 'rxjs/Subscription';
+
+import {
+  SkyPageSummaryAdapterService
+} from './page-summary-adapter.service';
+
+import {
+  SkyPageSummaryKeyInfoComponent
+} from './page-summary-key-info';
 
 @Component({
   selector: 'sky-page-summary',
@@ -11,6 +31,13 @@ import { Subscription } from 'rxjs/Subscription';
   providers: [SkyPageSummaryAdapterService]
 })
 export class SkyPageSummaryComponent implements OnDestroy, AfterViewInit {
+  public get hasKeyInfo(): boolean {
+    return (this.keyInfoComponents.length > 0);
+  }
+
+  @ContentChildren(SkyPageSummaryKeyInfoComponent, { read: SkyPageSummaryKeyInfoComponent })
+  private keyInfoComponents: QueryList<SkyPageSummaryKeyInfoComponent>;
+
   private breakpointSubscription: Subscription;
 
   constructor(

@@ -60,9 +60,9 @@ export class SkyTextExpandComponent implements AfterContentInit {
   public maxExpandedNewlines: number = 2;
   @Input()
   public expandModalTitle: string;
-  @ViewChild('container')
+  @ViewChild('container', { read: ElementRef })
   public containerEl: ElementRef;
-  @ViewChild('text')
+  @ViewChild('text', { read: ElementRef })
   public textEl: ElementRef;
 
   public isExpanded: boolean = false;
