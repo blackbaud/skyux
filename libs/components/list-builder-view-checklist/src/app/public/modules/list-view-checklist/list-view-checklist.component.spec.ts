@@ -14,7 +14,8 @@ import {
   ListState,
   ListStateDispatcher,
   ListViewsLoadAction,
-  ListViewModel
+  ListViewModel,
+  ListPagingSetPageNumberAction
 } from '@skyux/list-builder/modules/list/state';
 
 import {
@@ -346,6 +347,23 @@ describe('List View Checklist Component', () => {
 
       let visibleCheckboxesLength = document.querySelectorAll('.sky-list-view-checklist sky-checkbox input').length;
       expect(visibleCheckboxesLength).toEqual(fixture.componentInstance.selectedItems.size);
+    }));
+
+    it('should go to the first page when \'showOnlySelected\' is selected', fakeAsync(() => {
+      const dispatcherSpy = spyOn(dispatcher, 'next').and.callThrough();
+
+      tick();
+      fixture.detectChanges();
+      let checkboxes = document.querySelectorAll('.sky-list-view-checklist sky-checkbox input');
+      (checkboxes.item(0) as HTMLElement).click();
+      tick();
+      fixture.detectChanges();
+
+      component.showOnlySelected = true;
+      tick();
+      fixture.detectChanges();
+
+      expect(dispatcherSpy).toHaveBeenCalledWith(new ListPagingSetPageNumberAction(Number(1)));
     }));
 
     it('should hide the item if \'showOnlySelected\' property is set & user uncheck the checkbox', fakeAsync(() => {

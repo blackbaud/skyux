@@ -32,6 +32,7 @@ import {
   ListSelectedModel,
   ListFilterModel,
   ListItemModel,
+  ListPagingSetPageNumberAction,
   ListSelectedSetItemSelectedAction,
   ListSelectedSetItemsSelectedAction,
   ListToolbarItemModel,
@@ -352,6 +353,9 @@ export class SkyListViewChecklistComponent extends ListViewComponent implements 
         this.dispatcher.filtersUpdate(filters);
       });
 
+    this.dispatcher.next(
+      new ListPagingSetPageNumberAction(Number(1))
+    );
     this.disableToolbar(isSelected);
   }
 }
