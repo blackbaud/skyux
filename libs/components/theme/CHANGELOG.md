@@ -1,3 +1,7 @@
+# 3.2.2 (2018-11-01)
+
+- Fixed `.sky-form-control` CSS class name to not hide range input selector. [#35](https://github.com/blackbaud/skyux-theme/pull/35)
+
 # 3.2.1 (2018-10-30)
 
 - Fixed long checkbox labels to not display a horizontal scrollbar. [#32](https://github.com/blackbaud/skyux-theme/pull/32)
