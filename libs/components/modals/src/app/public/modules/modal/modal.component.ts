@@ -1,11 +1,14 @@
- import {
+import {
   animate,
-  Component,
-  Input,
   state,
   style,
   transition,
-  trigger,
+  trigger
+} from '@angular/animations';
+
+import {
+  Component,
+  Input,
   ElementRef,
   AfterViewInit,
   HostListener
