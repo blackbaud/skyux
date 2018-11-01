@@ -15,6 +15,8 @@ import {
   Observable
 } from 'rxjs/Observable';
 
+import 'rxjs/add/observable/of';
+
 declare const ROOT_DIR: string;
 declare const require: { context: any };
 

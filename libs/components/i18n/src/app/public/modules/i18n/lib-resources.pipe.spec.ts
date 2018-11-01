@@ -3,6 +3,8 @@ import {
   Observable
 } from 'rxjs/Observable';
 
+import 'rxjs/add/observable/of';
+
 import {
   SkyLibResourcesPipe
 } from './lib-resources.pipe';
