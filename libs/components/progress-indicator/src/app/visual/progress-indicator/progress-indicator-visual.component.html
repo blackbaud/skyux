@@ -1,0 +1,76 @@
+<sky-progress-indicator
+  [messageStream]="messageStream"
+  #progressIndicator
+>
+
+  <sky-progress-indicator-item
+    title="Do the first thing"
+  >
+  </sky-progress-indicator-item>
+
+  <sky-progress-indicator-item
+    title="Do the second thing"
+  >
+  </sky-progress-indicator-item>
+
+  <sky-progress-indicator-item
+    title="Do the third thing"
+  >
+  </sky-progress-indicator-item>
+
+</sky-progress-indicator>
+
+<button
+  id="btn-passive"
+  class="sky-btn sky-btn-link"
+  skyPopoverPlacement="right"
+  type="button"
+  [skyPopover]="myPopover1"
+>
+  In progress
+</button>
+
+<sky-popover #myPopover1>
+  <sky-progress-indicator
+    [isPassive]="true"
+    [startingIndex]="1"
+  >
+    <sky-progress-indicator-item
+      title="Received (02-19-2003)"
+    >
+    </sky-progress-indicator-item>
+    <sky-progress-indicator-item
+      title="Awaiting approval"
+    >
+    </sky-progress-indicator-item>
+    <sky-progress-indicator-item
+      title=""
+    >
+    </sky-progress-indicator-item>
+  </sky-progress-indicator>
+</sky-popover>
+
+<button
+  class="sky-btn sky-btn-secondary"
+  id="btn-regress"
+  type="button"
+  (click)="regress()"
+>
+  Undo
+</button>
+<button
+  id="btn-progress"
+  class="sky-btn sky-btn-primary"
+  type="button"
+  (click)="progress()"
+>
+  Do
+</button>
+<button
+  id="btn-wizard"
+  class="sky-btn sky-btn-default"
+  type="button"
+  (click)="openWizard()"
+>
+  Open wizard
+</button>

@@ -3,19 +3,49 @@ import {
 } from '@angular/core';
 
 import {
-  SkySampleModule
-} from './public';
+  CommonModule
+} from '@angular/common';
 
-const temp = require('raw-loader!../assets/locales/resources_en_US.json');
+import {
+  SkyCheckboxModule
+} from '@skyux/forms';
+
+import {
+  SkyModalModule,
+  SkyModalService
+} from '@skyux/modals';
+
+import {
+  SkyPopoverModule
+} from '@skyux/popovers';
+
+import {
+  SkyProgressIndicatorModule
+} from './public/modules/progress-indicator';
+
+import {
+  ProgressIndicatorWizardDemoComponent
+} from './visual/progress-indicator/progress-indicator-horizontal-visual.component';
 
 @NgModule({
   imports: [
-    SkySampleModule
+    CommonModule,
+    SkyProgressIndicatorModule,
+    SkyCheckboxModule,
+    SkyModalModule,
+    SkyPopoverModule
   ],
   exports: [
-    SkySampleModule
+    SkyProgressIndicatorModule,
+    SkyCheckboxModule,
+    SkyModalModule,
+    SkyPopoverModule
   ],
-  providers: [],
-  entryComponents: []
+  providers: [
+    SkyModalService
+  ],
+  entryComponents: [
+    ProgressIndicatorWizardDemoComponent
+  ]
 })
 export class AppExtrasModule { }

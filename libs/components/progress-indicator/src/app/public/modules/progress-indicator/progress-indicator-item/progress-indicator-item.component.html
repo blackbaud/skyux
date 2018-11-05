@@ -1,0 +1,24 @@
+<div *ngIf="!isHorizontal || isActive"
+  class="sky-progress-indicator-item-heading"
+  [ngClass]="headingClassList"
+>
+  <div
+    class="sky-progress-indicator-item-title"
+    [ngClass]="{
+      'sky-emphasized': isHorizontal,
+      'sky-deemphasized': isPassive && isActive
+    }"
+  >
+    {{ displayTitle }}
+  </div>
+</div>
+<div *ngIf="isLineDisplayed"
+  class="sky-progress-indicator-item-line"
+  [ngClass]="lineClassList"
+>
+  <div *ngIf="isActive || isComplete"
+    class="sky-progress-indicator-item-content"
+  >
+    <ng-content></ng-content>
+  </div>
+</div>

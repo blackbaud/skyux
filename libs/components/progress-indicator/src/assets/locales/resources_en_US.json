@@ -1,6 +1,10 @@
 {
-  "foo_bar": {
-    "_description": "",
-    "message": "FOO BAR!"
+  "skyux_progress_indicator_navigator_next": {
+    "_description": "Text displayed on a wizard's next button.",
+    "message": "Next"
+  },
+  "skyux_progress_indicator_navigator_previous": {
+    "_description": "Text displayed on a wizard's previous button.",
+    "message": "Previous"
   }
 }
