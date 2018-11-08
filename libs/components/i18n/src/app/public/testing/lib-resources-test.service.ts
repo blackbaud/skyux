@@ -55,7 +55,10 @@ export class SkyLibResourcesTestService {
     const resources: SkyAppResources = resourcesContext.keys().map(resourcesContext)[0];
 
     if (!resources) {
-      throwMissingResourceError('No resource file exists for the default locale en-US.');
+      throwMissingResourceError(
+        'No resource file exists for the default locale en-US. ' +
+        'Did you append `--coverage library` to your test command?'
+      );
     }
 
     const resource = resources[name];
