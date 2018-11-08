@@ -1,3 +1,8 @@
+# 3.3.0 (2018-11-08)
+
+- Added internal utility to derive resource strings for a given locale. [#17](https://github.com/blackbaud/skyux-i18n/pull/17)
+- Added more descriptive message to library resources test service. [#15](https://github.com/blackbaud/skyux-i18n/pull/15)
+
 # 3.2.1 (2018-11-01)
 
 - Fixed classes to properly import `Observable.of` operator. [#16](https://github.com/blackbaud/skyux-i18n/pull/16)
