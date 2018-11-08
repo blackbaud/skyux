@@ -1,3 +1,7 @@
+# 3.0.0-rc.3 (2018-11-08)
+
+- Added support for `@skyux/i18n@3.3.0`, which addresses some internationalization issues. [#42](https://github.com/blackbaud/skyux-core/pull/42)
+
 # 3.0.0-rc.2 (2018-10-17)
 
 - Added support for `@skyux/i18n@3.2.0`. [#11](https://github.com/blackbaud/skyux-indicators/pull/11)
