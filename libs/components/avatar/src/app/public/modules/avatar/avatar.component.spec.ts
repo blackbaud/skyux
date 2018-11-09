@@ -7,14 +7,6 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
-
-import {
-  SkyLibResourcesTestService
-} from '@skyux/i18n/testing';
-
-import {
   SkyErrorModalService,
   ErrorModalConfig
 } from '@skyux/errors';
@@ -104,10 +96,6 @@ describe('Avatar component', () => {
         {
           provide: SkyErrorModalService,
           useValue: mockErrorModalService
-        },
-        {
-          provide: SkyLibResourcesService,
-          useClass: SkyLibResourcesTestService
         }
       ]
     });
