@@ -24,6 +24,13 @@ declare const require: { context: any };
 export class SkyLibResourcesTestService {
   private format = new SkyAppFormat();
 
+  constructor() {
+    console.warn(
+      'SkyLibResourcesTestService is no longer needed and' +
+      'should be removed from any TestBed modules that provide it.'
+    );
+  }
+
   public getString(name: string, ...args: any[]): Observable<string> {
     const value = this.getStringForLocale(
       { locale: 'en_US' },
