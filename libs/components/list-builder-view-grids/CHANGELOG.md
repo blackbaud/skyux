@@ -1,3 +1,7 @@
+# 3.0.0-rc.2 (2018-11-08)
+
+- Added support for `@skyux/i18n@3.3.0`, which addresses some internationalization issues. [#8](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/8)
+
 # 3.0.0-rc.1 (2018-10-30)
 
 - Added missing exports. [#5](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/5)
