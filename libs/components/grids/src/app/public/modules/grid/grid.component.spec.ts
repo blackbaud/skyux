@@ -1211,7 +1211,7 @@ describe('Grid Component', () => {
     });
   });
 
-  describe('async headings', () => {
+  describe('async headings and descriptions', () => {
     let fixture: ComponentFixture<GridAsyncTestComponent>;
     let element: DebugElement;
 
@@ -1239,6 +1239,19 @@ describe('Grid Component', () => {
       tick();
 
       expect(getColumnHeader('column1', element).nativeElement.textContent.trim()).toBe('Column1');
+    }));
+
+    it('should handle async column headings', fakeAsync(() => {
+      fixture.detectChanges();
+
+      let col1 = fixture.componentInstance.grid.columns.find(col => col.id === 'column1');
+      expect(col1.description).toBe('');
+
+      tick(110); // wait for setTimeout
+      fixture.detectChanges();
+      tick();
+
+      expect(col1.description).toBe('Column1 Description');
     }));
   });
 });

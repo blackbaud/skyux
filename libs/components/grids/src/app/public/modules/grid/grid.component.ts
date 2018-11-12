@@ -45,7 +45,8 @@ import {
 
 import {
   SkyGridColumnHeadingModelChange,
-  SkyGridColumnWidthModelChange
+  SkyGridColumnWidthModelChange,
+  SkyGridColumnDescriptionModelChange
 } from './types';
 import { SkyWindowRefService } from '@skyux/core';
 
@@ -167,6 +168,12 @@ export class SkyGridComponent implements AfterContentInit, OnChanges, OnDestroy 
         comp.headingModelChanges
           .subscribe((change: SkyGridColumnHeadingModelChange) => {
             this.updateColumnHeading(change);
+          })
+      );
+      this.subscriptions.push(
+        comp.descriptionModelChanges
+          .subscribe((change: SkyGridColumnDescriptionModelChange) => {
+            this.updateColumnDescription(change);
           })
       );
     });
@@ -312,6 +319,21 @@ export class SkyGridComponent implements AfterContentInit, OnChanges, OnDestroy 
     /* istanbul ignore else */
     if (foundColumnModel) {
       foundColumnModel.heading = change.value;
+      this.ref.markForCheck();
+    }
+  }
+
+  public updateColumnDescription(change: SkyGridColumnDescriptionModelChange) {
+    const foundColumnModel = this.columns.find((column: SkyGridColumnModel) => {
+      return (
+        change.id !== undefined && change.id === column.id ||
+        change.field !== undefined && change.field === column.field
+      );
+    });
+
+    /* istanbul ignore else */
+    if (foundColumnModel) {
+      foundColumnModel.description = change.value;
       this.ref.markForCheck();
     }
   }
