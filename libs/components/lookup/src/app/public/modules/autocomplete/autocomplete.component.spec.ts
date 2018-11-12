@@ -356,6 +356,27 @@ describe('Autocomplete component', () => {
       }
     }));
 
+    it('should set the width of the dropdown when a search is performed', fakeAsync(() => {
+      const adapterSpy = spyOn(autocomplete['adapter'], 'setDropdownWidth').and.callThrough();
+      const rendererSpy = spyOn(autocomplete['adapter']['renderer'], 'setStyle').and.callThrough();
+
+      fixture.detectChanges();
+
+      const inputElement = getInputElement();
+
+      inputElement.value = 'r';
+      SkyAppTestUtility.fireDomEvent(inputElement, 'keyup');
+      tick();
+
+      expect(adapterSpy).toHaveBeenCalledWith(autocomplete['elementRef']);
+
+      const dropdownElement = document.querySelector('.sky-popover-container');
+      const autocompleteElement = getAutocompleteElement();
+      const formattedWidth = `${autocompleteElement.getBoundingClientRect().width}px`;
+
+      expect(rendererSpy).toHaveBeenCalledWith(dropdownElement, 'width', formattedWidth);
+    }));
+
     it('should set the width of the dropdown on window resize', fakeAsync(() => {
       const adapterSpy = spyOn(autocomplete['adapter'], 'watchDropdownWidth').and.callThrough();
       const rendererSpy = spyOn(autocomplete['adapter']['renderer'], 'setStyle').and.callThrough();

@@ -35,7 +35,7 @@ export class SkyAutocompleteAdapterService {
     });
   }
 
-  private setDropdownWidth(elementRef: ElementRef): void {
+  public setDropdownWidth(elementRef: ElementRef): void {
     const dropdownContainer = elementRef.nativeElement.querySelector('.sky-popover-container');
     const width = elementRef.nativeElement.getBoundingClientRect().width;
     this.renderer.setStyle(dropdownContainer, 'width', `${width}px`);

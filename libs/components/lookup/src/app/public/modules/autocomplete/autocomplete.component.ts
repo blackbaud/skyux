@@ -291,6 +291,7 @@ export class SkyAutocompleteComponent
 
         this._searchResults = results;
         this._highlightText = this.searchText;
+        this.adapter.setDropdownWidth(this.elementRef);
         this.changeDetector.markForCheck();
       });
     }
