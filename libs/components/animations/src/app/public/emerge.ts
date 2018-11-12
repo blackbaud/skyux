@@ -1,9 +1,5 @@
 // #region imports
 import {
-  AnimationEntryMetadata
-} from '@angular/core';
-
-import {
   animate,
   state,
   style,
@@ -29,4 +25,4 @@ export const skyAnimationEmerge = trigger('skyAnimationEmerge', [
     animate('300ms ease-in-out')
   ]),
   transition(`* <=> *`, animate('300ms ease-in-out'))
-]) as AnimationEntryMetadata;
+]) as any;

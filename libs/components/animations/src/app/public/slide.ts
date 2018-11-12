@@ -1,9 +1,5 @@
 // #region imports
 import {
-  AnimationEntryMetadata
-} from '@angular/core';
-
-import {
   animate,
   state,
   style,
@@ -25,4 +21,4 @@ export const skyAnimationSlide = trigger('skyAnimationSlide', [
     'up <=> down',
     animate('150ms ease-in')
   )
-]) as AnimationEntryMetadata;
+]) as any;
