@@ -1,3 +1,8 @@
+# 3.4.0 (2018-11-12)
+
+- Added support for webpack 4. [#18](https://github.com/blackbaud/skyux-i18n/pull/18)
+- Added deprecation warning to `SkyLibResourcesTestService`. [#19](https://github.com/blackbaud/skyux-i18n/pull/19)
+
 # 3.3.0 (2018-11-08)
 
 - Added internal utility to derive resource strings for a given locale. [#17](https://github.com/blackbaud/skyux-i18n/pull/17)
