@@ -54,7 +54,7 @@ export class SkyLibResourcesTestService {
     }
 
     const resourcesContext = require.context(
-      `json-loader!${ROOT_DIR}/../..`,
+      `${ROOT_DIR}/../..`,
       true,
       /\.\/assets\/locales\/resources_en_US\.json$/
     );

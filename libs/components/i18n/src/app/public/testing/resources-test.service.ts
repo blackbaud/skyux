@@ -39,7 +39,7 @@ export class SkyAppResourcesTestService {
     let resourcesContext;
     if (ROOT_DIR.indexOf('public') === -1) {
       resourcesContext = require.context(
-        `json-loader!${ROOT_DIR}/..`,
+        `${ROOT_DIR}/..`,
         true,
         /\.\/assets\/locales\/resources_en_US\.json$/
       );
@@ -47,7 +47,7 @@ export class SkyAppResourcesTestService {
       // Source code for libraries is located in a different directory.
       // NOTE: We must duplicate the require statement to allow webpack to build it properly.
       resourcesContext = require.context(
-        `json-loader!${ROOT_DIR}/../..`,
+        `${ROOT_DIR}/../..`,
         true,
         /\.\/assets\/locales\/resources_en_US\.json$/
       );
