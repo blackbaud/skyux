@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { SkyWindowRefService } from '@skyux/core';
+
 import { SkyGridModule } from '../';
 
 import { GridTestComponent } from './grid.component.fixture';
@@ -18,6 +20,9 @@ import { GridAsyncTestComponent } from './grid-async.component.fixture';
   imports: [
     CommonModule,
     SkyGridModule
+  ],
+  providers: [
+    SkyWindowRefService
   ],
   exports: [
     GridTestComponent,

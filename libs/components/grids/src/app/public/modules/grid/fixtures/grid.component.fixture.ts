@@ -108,4 +108,12 @@ export class GridTestComponent {
   public onResize(columnWidths: Array<SkyGridColumnWidthModelChange>) {
     this.columnWidthsChange = columnWidths;
   }
+
+  public hideColumn() {
+    this.selectedColumnIds = ['column1', 'column3', 'column4', 'column5'];
+  }
+
+  public showColumn() {
+    this.selectedColumnIds = ['column1', 'column2', 'column3', 'column4', 'column5'];
+  }
 }
