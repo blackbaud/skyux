@@ -138,6 +138,21 @@ describe('Text Highlight', () => {
     });
   }));
 
+  it('highlight should NOT be called when DOM attributes are changed', ((done) => {
+    const spy = spyOn<any>(component.textHighlightDirective, 'highlight').and.callThrough();
+
+    updateInputText(fixture, 'text');
+
+    const div = nativeElement.querySelector('.sky-test-div-container');
+    div.setAttribute('foo', 'bar');
+    fixture.detectChanges();
+
+    window.setTimeout(() => {
+      expect(spy).toHaveBeenCalledTimes(1);
+      done();
+    });
+  }));
+
   it('should highlight case insensitive search term', () => {
     updateInputText(fixture, 'here');
 

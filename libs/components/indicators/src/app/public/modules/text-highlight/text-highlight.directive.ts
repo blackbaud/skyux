@@ -142,7 +142,7 @@ export class SkyTextHighlightDirective
 
   private observeDom() {
     if (this.observer) {
-      const config = { attributes: true, childList: true, characterData: true };
+      const config = { attributes: false, childList: true, characterData: true };
       this.observer.observe(this.el.nativeElement, config);
     }
   }
