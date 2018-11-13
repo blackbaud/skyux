@@ -353,9 +353,16 @@ export class SkyListViewChecklistComponent extends ListViewComponent implements 
         this.dispatcher.filtersUpdate(filters);
       });
 
-    this.dispatcher.next(
-      new ListPagingSetPageNumberAction(Number(1))
-    );
+      // If "show selected" is checked and paging is enabled, go to page one.
+      if (isSelected) {
+        this.state.take(1).subscribe((currentState) => {
+          if (currentState.paging.pageNumber && currentState.paging.pageNumber !== 1) {
+            this.dispatcher.next(
+              new ListPagingSetPageNumberAction(Number(1))
+            );
+          }
+        });
+      }
     this.disableToolbar(isSelected);
   }
 }
