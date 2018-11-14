@@ -1,3 +1,7 @@
+# 3.0.0-rc.4 (2018-11-14)
+
+- Added `debounceTime` input to autocomplete component. [#8](https://github.com/blackbaud/skyux-lookup/pull/8)
+
 # 3.0.0-rc.3 (2018-11-12)
 
 - Fixed autocomplete to properly position dropdown when inside a vertical tab form. [#2](https://github.com/blackbaud/skyux-lookup/pull/2)
