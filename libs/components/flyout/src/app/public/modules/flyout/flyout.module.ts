@@ -1,12 +1,15 @@
 import {
   NgModule
 } from '@angular/core';
+
 import {
   CommonModule
 } from '@angular/common';
+
 import {
   FormsModule
 } from '@angular/forms';
+
 import {
   RouterModule
 } from '@angular/router';
@@ -14,9 +17,11 @@ import {
 import {
   SkyWindowRefService
 } from '@skyux/core';
+
 import {
   SkyIconModule
 } from '@skyux/indicators';
+
 import {
   SkyI18nModule
 } from '@skyux/i18n';
@@ -28,9 +33,11 @@ import {
 import {
   SkyFlyoutAdapterService
 } from './flyout-adapter.service';
+
 import {
   SkyFlyoutComponent
 } from './flyout.component';
+
 import {
   SkyFlyoutService
 } from './flyout.service';

@@ -2,7 +2,9 @@ import {
   Component
 } from '@angular/core';
 
-import { SkyFlyoutTestSampleContext } from './flyout-sample-context.fixture';
+import {
+  SkyFlyoutTestSampleContext
+} from './flyout-sample-context.fixture';
 
 @Component({
   selector: 'sky-test-flyout-sample',

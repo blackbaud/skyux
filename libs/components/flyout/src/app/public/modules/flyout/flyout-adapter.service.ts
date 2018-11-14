@@ -2,14 +2,22 @@ import {
   ElementRef,
   Injectable,
   Renderer2,
-  RendererFactory2
+  RendererFactory2,
+  ComponentRef
 } from '@angular/core';
 
-import { SkyWindowRefService } from '@skyux/core';
+import {
+  SkyWindowRefService
+} from '@skyux/core';
+
+import {
+  SkyFlyoutComponent
+} from './flyout.component';
 
 @Injectable()
 export class SkyFlyoutAdapterService {
   private renderer: Renderer2;
+  private otherHostElementTags = ['sky-modal-host', 'sky-toast', 'sky-modal'];
 
   constructor(
     private rendererFactory: RendererFactory2,
@@ -46,6 +54,33 @@ export class SkyFlyoutAdapterService {
     const iframes = document.querySelectorAll('iframe');
     for (let i = 0; i < iframes.length; i++) {
       iframes[i].style.pointerEvents = enable ? '' : 'none';
+    }
+  }
+
+  public hostContainsEventTarget(host: ComponentRef<SkyFlyoutComponent>, event: Event): boolean {
+    // If there is not a flyout host and if the event is not on the flyout host then check for other
+    // hosts that might contain the event target
+    if (!host || !host.location || !host.location.nativeElement.contains(event.target)) {
+
+      // Iterate over all of the possible host tags that we want to inspect
+      for (let otherHostTag of this.otherHostElementTags) {
+        // Convert event target to an element (by default this is typed as a generic type)
+        let el = (<Element>event.target);
+        // Iterate over the parents of the target element until we hit the top of the document or
+        // a non-html nodeType
+        do {
+          // Check if the element is one of the host elements that we want to flag
+          if (el.tagName.toLowerCase() === otherHostTag) {
+            return true;
+          }
+          el = el.parentElement;
+        // tslint:disable-next-line:no-null-keyword
+        } while (el !== null && el.nodeType === 1);
+      }
+      return false;
+    // Else case is triggered when there is a flyout host and it contains the event target
+    } else {
+      return true;
     }
   }
 }

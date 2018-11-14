@@ -24,23 +24,30 @@ import {
 } from '@angular/animations';
 
 import {
+  Subject
+} from 'rxjs/Subject';
+
+import 'rxjs/add/operator/takeUntil';
+
+import {
   SkyLibResourcesService
 } from '@skyux/i18n';
 
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/takeUntil';
-
-import { SkyFlyoutAdapterService } from './flyout-adapter.service';
-import { SkyFlyoutInstance } from './flyout-instance';
-import { SkyFlyoutPermalink } from './types/flyout-permalink';
+import {
+  SkyFlyoutAdapterService
+} from './flyout-adapter.service';
 
 import {
+  SkyFlyoutInstance
+} from './flyout-instance';
+
+import {
+  SkyFlyoutAction,
   SkyFlyoutConfig,
   SkyFlyoutMessage,
-  SkyFlyoutMessageType
+  SkyFlyoutMessageType,
+  SkyFlyoutPermalink
 } from './types';
-
-import { SkyFlyoutAction } from './types/flyout-action';
 
 const FLYOUT_OPEN_STATE = 'flyoutOpen';
 const FLYOUT_CLOSED_STATE = 'flyoutClosed';

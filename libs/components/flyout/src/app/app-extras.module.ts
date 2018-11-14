@@ -7,33 +7,42 @@ import {
 } from '@angular/platform-browser/animations';
 
 import {
+  SkyModalModule
+} from '@skyux/modals';
+
+import {
   SkyDropdownModule
 } from '@skyux/popovers';
 
 import {
-  SkyFlyoutModule,
-  SkyFlyoutService
+  SkyToastModule
+} from '@skyux/toast';
+
+import {
+  SkyFlyoutModule
 } from './public';
 
 import {
   FlyoutDemoComponent
 } from './visual/flyout/flyout-demo.component';
 
+import {
+  SkyFlyoutModalDemoComponent
+} from './visual/flyout/flyout-modal.component';
+
 @NgModule({
   imports: [
-    NoopAnimationsModule,
-    SkyFlyoutModule,
-    SkyDropdownModule
+    NoopAnimationsModule
   ],
   exports: [
     SkyFlyoutModule,
-    SkyDropdownModule
-  ],
-  providers: [
-    SkyFlyoutService
+    SkyDropdownModule,
+    SkyModalModule,
+    SkyToastModule
   ],
   entryComponents: [
-    FlyoutDemoComponent
+    FlyoutDemoComponent,
+    SkyFlyoutModalDemoComponent
   ]
 })
 export class AppExtrasModule { }

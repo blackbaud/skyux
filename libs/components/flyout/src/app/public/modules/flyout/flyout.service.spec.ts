@@ -23,8 +23,13 @@ import {
   SkyWindowRefService
 } from '@skyux/core';
 
-import { SkyFlyoutAdapterService } from './flyout-adapter.service';
-import { SkyFlyoutService } from './flyout.service';
+import {
+  SkyFlyoutAdapterService
+} from './flyout-adapter.service';
+
+import {
+  SkyFlyoutService
+} from './flyout.service';
 
 import {
   SkyFlyoutMessageType
