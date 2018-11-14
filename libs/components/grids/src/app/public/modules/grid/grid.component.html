@@ -83,7 +83,9 @@
               [fieldSelector]="column.field"
               [item]="item"
               [columnId]="column.id"
-              [attr.sky-cmp-id]="column.id || column.field">
+              [attr.sky-cmp-id]="column.id || column.field"
+              [style.max-width.px]="column.width"
+              [style.width.px]="column.width">
             </sky-grid-cell>
           </td>
         </tr>

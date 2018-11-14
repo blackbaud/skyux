@@ -248,6 +248,16 @@ describe('Grid Component', () => {
         }
       }
     }
+
+    function verifyConsumerColumnWidthsAreMaintained() {
+      for (let i = 0; i < component.grid.displayedColumns.length; i ++) {
+        let col = component.grid.displayedColumns[i];
+        if (col.width) {
+          let colEl = element.queryAll(By.css('thead th'))[i];
+          verifyWidthsMatch(colEl.nativeElement.offsetWidth, col.width);
+        }
+      }
+    }
     //#endregion
 
     describe('standard setup', () => {
@@ -409,6 +419,10 @@ describe('Grid Component', () => {
           component.searchText = '';
           component.searchedData = '';
         }
+      });
+
+      it('should maintain column width when provided by consumer', () => {
+        verifyConsumerColumnWidthsAreMaintained();
       });
 
       it('should pass accessibility', async(() => {
