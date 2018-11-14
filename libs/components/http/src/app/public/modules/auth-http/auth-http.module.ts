@@ -1,3 +1,5 @@
+//#region imports
+
 import {
   NgModule
 } from '@angular/core';
@@ -9,6 +11,8 @@ import {
 import {
   SkyAuthTokenProvider
 } from './auth-token-provider';
+
+//#endregion
 
 @NgModule({
   providers: [
