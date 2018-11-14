@@ -88,7 +88,6 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   @ViewChild('closeColorPicker')
   private closeColorPicker: ElementRef;
 
-  private outputColor: string;
   private hsva: SkyColorpickerHsva;
   private sliderDimMax: SliderDimension;
   private ngUnsubscribe = new Subject();
@@ -127,7 +126,6 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     alphaChannel: string
   ) {
     this.initialColor = color;
-    this.lastAppliedColor = color;
     this.outputFormat = outputFormat;
     this.presetColors = presetColors;
     this.alphaChannel = alphaChannel;
@@ -265,8 +263,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
       this.format++;
     }
 
-    let lastOutput = this.outputColor;
-    this.outputColor = this.service.outputFormat(
+    this.service.outputFormat(
       this.hsva,
       this.outputFormat,
       this.alphaChannel === 'hex8');
@@ -277,10 +274,6 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
       this.hsva.saturation * this.sliderDimMax.saturation - 8,
       (1 - this.hsva.value) * this.sliderDimMax.value - 8,
       this.hsva.alpha * this.sliderDimMax.alpha - 8);
-
-    if (lastOutput !== this.outputColor) {
-      this.selectedColorChanged.emit(this.selectedColor);
-    }
   }
 
   private sendMessage(type: SkyColorpickerMessageType) {

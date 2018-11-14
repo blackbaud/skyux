@@ -2,10 +2,11 @@
   <sky-colorpicker #colorPickerExample1>
     <input
       [skyColorpickerInput]="colorPickerExample1"
-      [(ngModel)]="color1"
       [presetColors]="presetColors1"
       [initialColor]="selectedColor1"
-      [outputFormat]="selectedOutputFormat1">
+      [outputFormat]="selectedOutputFormat1"
+      [(ngModel)]="color1"
+    >
   </sky-colorpicker>
 </div>
 
@@ -13,9 +14,10 @@
   <sky-colorpicker #colorPickerExample2>
     <input
       [skyColorpickerInput]="colorPickerExample2"
-      [(ngModel)]="color2"
       [presetColors]="presetColors2"
       [initialColor]="selectedColor2"
-      [outputFormat]="selectedOutputFormat2">
+      [outputFormat]="selectedOutputFormat2"
+      [(ngModel)]="color2"
+    >
   </sky-colorpicker>
 </div>
