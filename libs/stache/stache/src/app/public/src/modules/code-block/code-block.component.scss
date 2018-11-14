@@ -1,4 +1,5 @@
 @import '../../styles/_variables';
+@import './prism-a11y.scss';
 
 .stache-code-input {
   display: none;
@@ -8,8 +9,8 @@
   border: 1px solid $stache-border-color-neutral-medium;
   border-top: none;
   margin-top: 0;
-  background-color: $stache-background-color-selected;
   padding: $stache-padding-double;
+  background-color: #fff;
   overflow-x: auto;
   margin-bottom: $stache-margin * 2;
 }
@@ -17,6 +18,7 @@
 .code-block-header {
   height: 45px;
   border: 1px solid $stache-border-color-neutral-medium;
+  background-color: #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
