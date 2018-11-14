@@ -13,6 +13,9 @@ export class SkyLookupAutocompleteAdapter {
   public data: any[];
 
   @Input()
+  public debounceTime: number;
+
+  @Input()
   public descriptorProperty: string;
 
   @Input()

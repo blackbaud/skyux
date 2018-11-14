@@ -38,6 +38,7 @@ export class SkyAutocompleteTestComponent {
   public model: any = {
     favoriteColor: undefined
   };
+  public debounceTime: number;
   public descriptorProperty: string;
   public propertiesToSearch: string[];
   public search: SkyAutocompleteSearchFunction;

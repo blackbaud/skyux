@@ -119,6 +119,7 @@ describe('Lookup component', function () {
     it('should share the same inputs as autocomplete', function () {
       fixture.detectChanges();
       expect(typeof lookupComponent.data).not.toBeUndefined();
+      expect(typeof lookupComponent.debounceTime).not.toBeUndefined();
       expect(typeof lookupComponent.descriptorProperty).not.toBeUndefined();
       expect(typeof lookupComponent.propertiesToSearch).not.toBeUndefined();
       expect(typeof lookupComponent.search).not.toBeUndefined();

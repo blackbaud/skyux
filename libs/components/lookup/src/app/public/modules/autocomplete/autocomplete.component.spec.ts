@@ -59,6 +59,7 @@ describe('Autocomplete component', () => {
     it('should set defaults', () => {
       expect(autocomplete.data).toEqual([]);
       fixture.detectChanges();
+      expect(autocomplete.debounceTime).toEqual(0);
       expect(autocomplete.descriptorProperty).toEqual('name');
       expect(autocomplete.propertiesToSearch).toEqual(['name']);
       expect(autocomplete.search).toBeDefined();
@@ -401,6 +402,40 @@ describe('Autocomplete component', () => {
       const formattedWidth = `${autocompleteElement.getBoundingClientRect().width}px`;
 
       expect(rendererSpy).toHaveBeenCalledWith(dropdownElement, 'width', formattedWidth);
+    }));
+
+    it('should search after debounce time', fakeAsync(() => {
+      component.debounceTime = 400;
+      fixture.detectChanges();
+
+      const inputElement = getInputElement();
+      const spy = spyOn(autocomplete, 'search').and.callThrough();
+
+      inputElement.value = 'r';
+      SkyAppTestUtility.fireDomEvent(inputElement, 'keyup');
+
+      // The search method should not execute at this time.
+      tick(10);
+      fixture.detectChanges();
+
+      inputElement.value = 're';
+      SkyAppTestUtility.fireDomEvent(inputElement, 'keyup');
+      tick(10);
+      fixture.detectChanges();
+
+      inputElement.value = 'red';
+      SkyAppTestUtility.fireDomEvent(inputElement, 'keyup');
+      tick(10);
+      fixture.detectChanges();
+
+      expect(spy).not.toHaveBeenCalled();
+
+      // Wait for the remaining debounce time.
+      tick(400);
+      fixture.detectChanges();
+
+      expect(spy).toHaveBeenCalled();
+      expect(spy.calls.count()).toEqual(1);
     }));
   });
 

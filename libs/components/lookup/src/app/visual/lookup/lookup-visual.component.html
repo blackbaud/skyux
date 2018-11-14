@@ -11,7 +11,9 @@
         ariaLabelledBy="my-friends-label"
         formControlName="friends"
         placeholderText="Type a person's name..."
-        [data]="people">
+        [data]="people"
+        [debounceTime]="1000"
+      >
       </sky-lookup>
     </div>
 

@@ -17,6 +17,7 @@ import {
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
 import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/takeUntil';
 
 import {
@@ -53,6 +54,15 @@ export class SkyAutocompleteComponent
 
   public get data(): any[] {
     return this._data || [];
+  }
+
+  @Input()
+  public set debounceTime(value: number) {
+    this._debounceTime = value;
+  }
+
+  public get debounceTime(): number {
+    return this._debounceTime || 0;
   }
 
   @Input()
@@ -140,6 +150,7 @@ export class SkyAutocompleteComponent
   private searchText: string;
 
   private _data: any[];
+  private _debounceTime: number;
   private _descriptorProperty: string;
   private _dropdownController = new Subject<SkyDropdownMessage>();
   private _highlightText: string;
@@ -194,6 +205,7 @@ export class SkyAutocompleteComponent
 
     this.inputDirective.textChanges
       .takeUntil(this.ngUnsubscribe)
+      .debounceTime(this.debounceTime)
       .subscribe((change: SkyAutocompleteInputTextChange) => {
         this.searchTextChanged(change.value);
       });
