@@ -30,6 +30,7 @@ import {
   SkyGridComponent,
   SkyGridColumnComponent,
   SkyGridColumnHeadingModelChange,
+  SkyGridColumnDescriptionModelChange,
   SkyGridColumnModel
 } from '@skyux/grids';
 
@@ -280,6 +281,11 @@ export class SkyListViewGridComponent
         .takeUntil(this.ngUnsubscribe)
         .subscribe((change: SkyGridColumnHeadingModelChange) => {
           this.gridComponent.updateColumnHeading(change);
+        });
+      comp.descriptionModelChanges
+        .takeUntil(this.ngUnsubscribe)
+        .subscribe((change: SkyGridColumnDescriptionModelChange) => {
+          this.gridComponent.updateColumnDescription(change);
         });
     });
   }

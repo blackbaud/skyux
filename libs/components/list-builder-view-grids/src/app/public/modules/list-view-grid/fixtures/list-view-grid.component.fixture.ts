@@ -19,6 +19,7 @@ import { SkyListViewGridComponent } from '../list-view-grid.component';
 export class ListViewGridTestComponent implements OnInit {
   public hiddenColumns: string[] = ['hiddenCol1', 'hiddenCol2'];
   public asyncHeading = new BehaviorSubject<string>('');
+  public asyncDescription = new BehaviorSubject<string>('');
 
   @ViewChild(SkyListViewGridComponent)
   public grid: SkyListViewGridComponent;
@@ -34,6 +35,7 @@ export class ListViewGridTestComponent implements OnInit {
   public ngOnInit() {
     setTimeout(() => {
       this.asyncHeading.next('Column1');
+      this.asyncDescription.next('Column1 Description');
     }, 100);
   }
 }

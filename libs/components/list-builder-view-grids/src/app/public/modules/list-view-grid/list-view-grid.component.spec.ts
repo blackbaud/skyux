@@ -3,7 +3,8 @@ import {
   async,
   fakeAsync,
   flush,
-  tick
+  tick,
+  ComponentFixture
 } from '@angular/core/testing';
 import {
   DebugElement
@@ -67,7 +68,7 @@ describe('List View Grid Component', () => {
     let state: ListState,
         dispatcher: ListStateDispatcher,
         component: ListViewGridTestComponent,
-        fixture: any,
+        fixture: ComponentFixture<ListViewGridTestComponent>,
         nativeElement: HTMLElement,
         element: DebugElement;
 
@@ -209,6 +210,15 @@ describe('List View Grid Component', () => {
         tick(110); // Wait for setTimeout
         fixture.detectChanges();
         expect(firstHeading.textContent.trim()).toEqual('Column1');
+      }));
+
+      it('should handle async column descriptions', fakeAsync(() => {
+        setupTest();
+        const col1 = fixture.componentInstance.grid.gridComponent.columns.find(col => col.id === 'column1');
+        expect(col1.description).toEqual('');
+        tick(110); // Wait for setTimeout
+        fixture.detectChanges();
+        expect(col1.description).toEqual('Column1 Description');
       }));
 
       it('should handle a search being applied', fakeAsync(() => {
