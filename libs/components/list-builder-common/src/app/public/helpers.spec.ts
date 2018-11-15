@@ -60,12 +60,21 @@ describe('list helpers', () => {
     expect(result).toBeNull();
   });
 
-  it('returns null when empty string selector defined', () => {
+  it('returns undefined when empty string selector defined', () => {
     let data = {
       myResult: 'something',
       otherResult: 'nothing'
     };
     let result = getData(data, '');
     expect(result).toBe(undefined);
+  });
+
+  it('returns undefined when no selector is supplied', () => {
+    let data: any = {
+      myResult: 'something',
+      otherResult: 'somethingtoo'
+    };
+     let result = getData(data, undefined);
+    expect(result).toBeUndefined();
   });
 });
