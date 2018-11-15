@@ -1,3 +1,7 @@
+# 3.2.0 (2018-11-15)
+
+- Updated peer dependencies to support Angular versions greater than `4.3.6`. [#11](https://github.com/blackbaud/skyux-config/pull/11)
+
 # 3.1.0 (2018-10-17)
 
 - Added new `styles` property to schema. [#8](https://github.com/blackbaud/skyux-config/pull/8)
