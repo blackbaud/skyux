@@ -13,7 +13,10 @@ import {
 } from '@angular/platform-browser';
 import {
   FormsModule,
-  NgModel
+  NgModel,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule
 } from '@angular/forms';
 
 import {
@@ -70,6 +73,26 @@ class SingleCheckboxComponent {
 })
 class CheckboxWithFormDirectivesComponent {
   public isGood: boolean = false;
+}
+
+/** Simple component for testing an MdCheckbox with ngModel. */
+@Component({
+  template: `
+  <div>
+    <form [formGroup]="checkboxForm">
+      <sky-checkbox name="cb" formControlName="checkbox1" #wut>
+        <sky-checkbox-label>
+          Be good
+        </sky-checkbox-label>
+      </sky-checkbox>
+    </form>
+  </div>
+  `
+})
+class CheckboxWithReactiveFormComponent {
+  public checkbox1: FormControl = new FormControl(false);
+
+  public checkboxForm = new FormGroup({'checkbox1': this.checkbox1});
 }
 
 /** Simple test component with multiple checkboxes. */
@@ -140,12 +163,14 @@ describe('Checkbox component', () => {
         CheckboxWithFormDirectivesComponent,
         CheckboxWithNameAttributeComponent,
         CheckboxWithTabIndexComponent,
+        CheckboxWithReactiveFormComponent,
         MultipleCheckboxesComponent,
         SingleCheckboxComponent
       ],
       imports: [
         BrowserModule,
         FormsModule,
+        ReactiveFormsModule,
         SkyCheckboxModule
       ]
     });
@@ -494,6 +519,96 @@ describe('Checkbox component', () => {
         fixture.whenStable().then(() => {
           fixture.detectChanges();
           expect(inputElement.checked).toBe(true);
+        });
+      });
+    }));
+  });
+
+  describe('with reactive form', () => {
+    let checkboxElement: DebugElement;
+    let testComponent: CheckboxWithReactiveFormComponent;
+    let inputElement: HTMLInputElement;
+    let checkboxNativeElement: HTMLElement;
+    let formControl: FormControl;
+    let labelElement: HTMLLabelElement;
+
+    beforeEach(async(() => {
+      fixture = TestBed.createComponent(CheckboxWithReactiveFormComponent);
+      fixture.detectChanges();
+
+      fixture.whenStable().then(() => {
+        checkboxElement = fixture.debugElement.query(By.directive(SkyCheckboxComponent));
+        checkboxNativeElement = checkboxElement.nativeElement;
+
+        testComponent = fixture.debugElement.componentInstance;
+        inputElement = <HTMLInputElement>checkboxNativeElement.querySelector('input');
+        formControl = testComponent.checkbox1;
+        labelElement =
+          <HTMLLabelElement>checkboxElement
+            .nativeElement.querySelector('label.sky-checkbox-wrapper');
+      });
+    }));
+
+    it('should be in pristine, untouched, and valid states initially', async(() => {
+      fixture.detectChanges();
+      expect(formControl.valid).toBe(true);
+      expect(formControl.pristine).toBe(true);
+      expect(formControl.touched).toBe(false);
+
+      labelElement.click();
+
+      fixture.detectChanges();
+
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+
+        expect(formControl.valid).toBe(true);
+        expect(formControl.pristine).toBe(false);
+        expect(formControl.touched).toBe(false);
+        expect(formControl.value).toBe(true);
+
+        inputElement.dispatchEvent(createEvent('blur'));
+        expect(formControl.touched).toBe(true);
+      });
+    }));
+
+    it('should change check state through form control programmatically', async(() => {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expect(inputElement.checked).toBe(false);
+        expect(formControl.value).toBe(false);
+        fixture.detectChanges();
+        formControl.setValue(true);
+
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          fixture.detectChanges();
+          expect(inputElement.checked).toBe(true);
+        });
+      });
+    }));
+
+    it('should change disable state through form control programmatically', async(() => {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expect(inputElement.disabled).toBe(false);
+        expect(formControl.value).toBe(false);
+        fixture.detectChanges();
+        formControl.disable();
+
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          fixture.detectChanges();
+          expect(inputElement.disabled).toBe(true);
+          expect(inputElement.checked).toBe(false);
+
+          formControl.enable();
+          fixture.detectChanges();
+          fixture.whenStable().then(() => {
+            fixture.detectChanges();
+            expect(inputElement.disabled).toBe(false);
+            expect(inputElement.checked).toBe(false);
+          });
         });
       });
     }));

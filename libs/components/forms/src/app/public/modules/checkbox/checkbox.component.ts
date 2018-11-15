@@ -125,6 +125,13 @@ export class SkyCheckboxComponent implements ControlValueAccessor {
   }
 
   /**
+   * Implemented as part of ControlValueAccessor.
+   */
+  public setDisabledState(isDisabled: boolean) {
+    this.disabled = isDisabled;
+  }
+
+  /**
    * Event handler for checkbox input element.
    * Toggles checked state if element is not disabled.
    */
