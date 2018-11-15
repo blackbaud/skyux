@@ -1,3 +1,7 @@
+# 3.3.0 (2018-11-15)
+
+- Updated peer dependencies to support Angular versions greater than `4.3.6`. [#43](https://github.com/blackbaud/skyux-core/pull/43)
+
 # 3.2.3 (2018-11-08)
 
 - Added support for `@skyux/i18n@3.3.0`, which addresses some internationalization issues. [#42](https://github.com/blackbaud/skyux-core/pull/42)
