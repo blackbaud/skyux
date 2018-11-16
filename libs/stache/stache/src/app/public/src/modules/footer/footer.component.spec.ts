@@ -3,7 +3,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {Pipe, PipeTransform} from '@angular/core';
 
 import { expect } from '@blackbaud/skyux-lib-testing';
-
 import { StacheFooterComponent } from './footer.component';
 import { StacheNavModule } from '../nav';
 import { StacheConfigService, StacheWindowRef, StacheRouteService } from '../shared';
@@ -40,7 +39,12 @@ class MockSkyAppResourcesService {
   }
 }
 
+class MockNavService {
+  public isExternal = jasmine.createSpy('isExternal').and.callFake(() => false);
+}
+
 describe('StacheFooterComponent', () => {
+  let mockNavService: MockNavService;
   let component: StacheFooterComponent;
   let fixture: ComponentFixture<StacheFooterComponent>;
   let mockConfigService: any;
@@ -80,14 +84,15 @@ describe('StacheFooterComponent', () => {
   }
 
   beforeEach(() => {
+    mockNavService = new MockNavService();
     mockConfigService = new MockConfigService();
     mockRouterService = new MockRouterService();
     mockSkyAppResourcesService = new MockSkyAppResourcesService();
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        StacheNavModule,
-        SkyMediaQueryModule
+        SkyMediaQueryModule,
+        StacheNavModule
       ],
       declarations: [
         StacheFooterComponent,

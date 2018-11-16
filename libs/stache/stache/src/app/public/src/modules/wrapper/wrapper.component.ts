@@ -11,7 +11,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { StacheTitleService } from './title.service';
 import { StacheConfigService, StacheJsonDataService, StacheOmnibarAdapterService, StacheWindowRef } from '../shared';
-import { StacheNavLink, StacheNavService } from '../nav';
+import { StacheNavLink } from '../nav';
+import { StacheNavService } from '../nav/nav.service';
 import { StachePageAnchorService } from '../page-anchor/page-anchor.service';
 import { InputConverter } from '../shared';
 

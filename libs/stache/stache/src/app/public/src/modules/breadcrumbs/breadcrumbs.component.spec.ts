@@ -6,7 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 
 import { StacheBreadcrumbsComponent } from './breadcrumbs.component';
-import { StacheNavComponent, StacheNavService } from '../nav';
+import { StacheNavComponent } from '../nav';
 import {
   StacheConfigService,
   StacheWindowRef,
@@ -67,7 +67,6 @@ describe('StacheBreadcrumbsComponent', () => {
         StacheLinkModule
       ],
       providers: [
-        StacheNavService,
         StacheWindowRef,
         { provide: StacheRouteService, useClass: MockRouteService },
         { provide: StacheConfigService, useClass: MockStacheConfigService },

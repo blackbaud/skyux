@@ -5,8 +5,15 @@
 }
 
 .stache-action-button-override {
-  flex: 100%;
-  display: inline-flex;
+  padding: 30px 20px;
+  text-align: center;
+  border: 1px solid $stache-border-color-neutral-medium;
+  margin: 15px 0px;
+  width: 100%;
+}
+
+.stache-action-button-override:hover {
+  text-decoration: none;
 }
 
 .stache-action-buttons-search-container {
@@ -16,6 +23,11 @@
   margin-bottom: $stache-margin;
 }
 
+.stache-action-buttons-nav-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 /deep/
 .stache-action-buttons {
   .stache-column {
@@ -23,16 +35,5 @@
   }
   .sky-search-dismiss-absolute {
     padding: 5px 0 !important;
-  }
-}
-
-/deep/
-.stache-action-button-override {
-  .sky-action-button {
-    width: 100% !important;
-    max-width: none !important;
-    margin-top: $stache-grid-gutter !important;
-    margin-bottom: $stache-grid-gutter;
-    margin-right: 0 !important;
   }
 }

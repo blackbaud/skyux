@@ -6,7 +6,7 @@ import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 
 import { StacheRouterLinkDirective } from './link.directive';
 import { StacheRouterLinkTestComponent } from './fixtures/link.component.fixture';
-import { StacheNavService } from '../nav';
+import { StacheNavService } from '../nav/nav.service';
 import { StacheRouteService, StacheWindowRef } from '../../..';
 import { LocationStrategy } from '@angular/common';
 import { StacheRouterLinkTestLocalRouteComponent } from './fixtures/link.component_localroute.fixture';

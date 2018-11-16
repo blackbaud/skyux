@@ -6,7 +6,8 @@ import { expect } from '@blackbaud/skyux-lib-testing';
 
 import { StacheSidebarWrapperComponent } from './sidebar-wrapper.component';
 import { StacheSidebarComponent } from './sidebar.component';
-import { StacheNavComponent, StacheNavService } from '../nav';
+import { StacheNavComponent } from '../nav';
+import { StacheNavService } from '../nav/nav.service';
 
 import { Subject } from 'rxjs';
 

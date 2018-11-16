@@ -11,7 +11,7 @@ import {
 
 import { LocationStrategy } from '@angular/common';
 
-import { StacheNavService } from '../nav';
+import { StacheNavService } from '../nav/nav.service';
 
 import { StacheRouteService } from '../shared';
 

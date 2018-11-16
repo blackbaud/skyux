@@ -5,7 +5,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
 
 import { StacheSidebarComponent } from './sidebar.component';
-import { StacheNavComponent, StacheNavService } from '../nav';
+import { StacheNavService } from '../nav/nav.service';
+import { StacheNavComponent } from '../nav';
 
 import {
   StacheWindowRef,

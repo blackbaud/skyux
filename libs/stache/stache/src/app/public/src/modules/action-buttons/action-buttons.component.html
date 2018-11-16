@@ -7,17 +7,19 @@
     </sky-search>
   </div>
   <stache-row>
-    <stache-column screenSmall="6" screenMedium="4" screenLarge="3" *ngFor="let route of filteredRoutes">
-      <sky-action-button class="stache-action-button-override" (actionClick)="navigate(route)">
-        <sky-action-button-icon iconType="{{route.icon}}">
-        </sky-action-button-icon>
-        <sky-action-button-header>
-          {{route.name}}
-        </sky-action-button-header>
-        <sky-action-button-details>
-          {{route.summary}}
-        </sky-action-button-details>
-      </sky-action-button>
-    </stache-column>
+    <nav class="stache-action-buttons-nav-container">
+      <stache-column screenSmall="6" screenMedium="4" screenLarge="3" *ngFor="let route of filteredRoutes">
+        <a stacheRouterLink="{{route.path}}" fragment="{{route.fragment}}" class="stache-action-button-override sky-action-button sky-btn-default sky-rounded-corners">
+          <sky-action-button-icon *ngIf="route.icon" iconType="{{route.icon}}">
+          </sky-action-button-icon>
+          <sky-action-button-header>
+            {{route.name}}
+          </sky-action-button-header>
+          <sky-action-button-details>
+            {{route.summary}}
+          </sky-action-button-details>
+        </a>
+      </stache-column>
+    </nav>
   </stache-row>
 </div>

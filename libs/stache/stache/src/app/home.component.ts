@@ -20,7 +20,7 @@ export class HomeComponent {
     },
     {
       name: 'Action Button 3',
-      path: 'http://facebook.com',
+      path: 'http://google.com',
       icon: 'certificate',
       summary: 'Short summary here.'
     },

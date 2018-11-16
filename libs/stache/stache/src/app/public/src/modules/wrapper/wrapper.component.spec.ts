@@ -9,7 +9,8 @@ import { StacheWrapperTestComponent } from './fixtures/wrapper.component.fixture
 import { StacheWrapperComponent } from './wrapper.component';
 import { StacheFooterModule } from '../footer';
 import { StacheTitleService } from './title.service';
-import { StacheNavService, StacheNavLink } from '../nav';
+import { StacheNavLink } from '../nav';
+import { StacheNavService } from '../nav/nav.service';
 
 import {
   StacheWindowRef,
