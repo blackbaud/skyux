@@ -1,3 +1,7 @@
+# 3.0.0-rc.5 (2018-11-19)
+
+- Updated peer dependencies to support Angular versions greater than `4.3.6`. [#9](https://github.com/blackbaud/skyux-lookup/pull/9)
+
 # 3.0.0-rc.4 (2018-11-14)
 
 - Added `debounceTime` input to autocomplete component. [#8](https://github.com/blackbaud/skyux-lookup/pull/8)
