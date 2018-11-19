@@ -1,3 +1,7 @@
+# 3.0.0-rc.5 (2018-11-19)
+
+- Updated peer dependencies to support Angular versions greater than `4.3.6`. [#12](https://github.com/blackbaud/skyux-list-builder-view-checklist/pull/12)
+
 # 3.0.0-rc.4 (2018-11-13)
 
 - Fixed checklist component to list all items when pagination is not enabled. [#9](https://github.com/blackbaud/skyux-list-builder-view-checklist/pull/9)
