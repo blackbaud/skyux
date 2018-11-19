@@ -1,3 +1,7 @@
+# 3.2.0 (2018-11-19)
+
+- Updated peer dependencies to support Angular versions greater than `4.3.6`. [#13](https://github.com/blackbaud/skyux-http/pull/13)
+
 # 3.1.0 (2018-11-14)
 
 - Added `SkyAuthHttpClientModule` that can be used in conjunction with Angular's `HttpClient` to make authenticated calls to services backed by Blackbaud ID. [#11](https://github.com/blackbaud/skyux-http/pull/11)
