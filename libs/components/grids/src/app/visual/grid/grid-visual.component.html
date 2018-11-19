@@ -1,5 +1,10 @@
 <div id="screenshot-grid">
-  <sky-grid fit="scroll" [data]="items" [highlightText]="highlightText">
+  <sky-grid
+    fit="scroll"
+    [data]="items"
+    [highlightText]="highlightText"
+    (sortFieldChange)="sortChanged($event)"
+  >
     <sky-grid-column field="column1" heading="Column1"></sky-grid-column>
     <sky-grid-column field="column2" heading="Column2"></sky-grid-column>
     <sky-grid-column field="column3" heading="Column3" [excludeFromHighlighting]="true"></sky-grid-column>
