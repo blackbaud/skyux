@@ -1,3 +1,7 @@
+# 3.5.0 (2018-11-19)
+
+- Updated peer dependencies to support Angular versions greater than `4.3.6`. [#20](https://github.com/blackbaud/skyux-i18n/pull/20)
+
 # 3.4.0 (2018-11-12)
 
 - Added support for webpack 4. [#18](https://github.com/blackbaud/skyux-i18n/pull/18)
