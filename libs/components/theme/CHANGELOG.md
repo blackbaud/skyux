@@ -1,3 +1,7 @@
+# 3.3.0 (2018-11-19)
+
+- Updated peer dependencies to support Angular versions greater than `4.3.6`. [#39](https://github.com/blackbaud/skyux-theme/pull/39)
+
 # 3.2.2 (2018-11-01)
 
 - Fixed `.sky-form-control` CSS class name to not hide range input selector. [#35](https://github.com/blackbaud/skyux-theme/pull/35)
