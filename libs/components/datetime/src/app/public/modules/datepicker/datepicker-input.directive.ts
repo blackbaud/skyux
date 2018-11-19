@@ -180,6 +180,10 @@ export class SkyDatepickerInputDirective implements
 
   public registerOnValidatorChange(fn: () => void): void { this._validatorChange = fn; }
 
+  public setDisabledState(isDisabled: boolean) {
+    this.disabled = isDisabled;
+  }
+
   public writeValue(value: any) {
     if (this.dateFormatter.dateIsValid(value)) {
       this.modelValue = value;

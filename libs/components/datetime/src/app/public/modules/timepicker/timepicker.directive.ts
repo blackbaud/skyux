@@ -148,6 +148,10 @@ export class SkyTimepickerInputDirective implements
   public registerOnTouched(fn: () => any): void { this._onTouched = fn; }
   public registerOnValidatorChange(fn: () => void): void { this._validatorChange = fn; }
 
+  public setDisabledState(isDisabled: boolean) {
+    this.disabled = isDisabled;
+  }
+
   public writeValue(value: any) {
     this.modelValue = this.formatter(value);
     this.writeModelValue(this.modelValue);

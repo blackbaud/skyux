@@ -1,0 +1,11 @@
+<form [formGroup]="timepickerForm">
+  <sky-timepicker #timePicker>
+       <input
+        id="timeInput"
+        placeholder="Time"
+        [skyTimepickerInput]="timePicker"
+        [timeFormat]="timeFormat"
+        [returnFormat]="returnFormat"
+        formControlName="time"/>
+  </sky-timepicker>
+  </form>
