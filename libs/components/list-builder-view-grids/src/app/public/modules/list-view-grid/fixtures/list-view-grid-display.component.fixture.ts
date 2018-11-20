@@ -1,6 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { SkyListViewGridComponent } from '../list-view-grid.component';
-import { ListItemModel } from '@skyux/list-builder/modules/list/state/items/item.model';
+
+import {
+  ListItemModel
+} from '@skyux/list-builder-common';
 
 @Component({
   selector: 'sky-test-cmp',

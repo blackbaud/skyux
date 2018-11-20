@@ -35,8 +35,6 @@ import {
 } from '@skyux/grids';
 
 import {
-  ListItemModel,
-  ListSortFieldSelectorModel,
   ListSearchModel,
   ListStateDispatcher,
   ListState
@@ -44,8 +42,10 @@ import {
 
 import {
   getData,
-  isObservable
-} from '@skyux/list-builder/modules/list/helpers';
+  isObservable,
+  ListItemModel,
+  ListSortFieldSelectorModel
+} from '@skyux/list-builder-common';
 
 import {
   ListViewComponent
