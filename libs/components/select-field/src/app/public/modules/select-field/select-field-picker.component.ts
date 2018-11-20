@@ -12,7 +12,7 @@ import 'rxjs/add/operator/take';
 
 import {
   ListItemModel
-} from '@skyux/list-builder/modules/list/state';
+} from '@skyux/list-builder-common';
 
 import {
   SkyListFilterInlineModel
