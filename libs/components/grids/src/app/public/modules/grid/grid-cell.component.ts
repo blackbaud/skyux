@@ -9,11 +9,9 @@ import {
 } from '@angular/core';
 
 import {
-  getData
-} from '@skyux/list-builder/modules/list/helpers';
-import {
+  getData,
   ListItemModel
-} from '@skyux/list-builder/modules/list/state';
+} from '@skyux/list-builder-common';
 
 @Component({
   selector: 'sky-grid-cell',

@@ -7,12 +7,12 @@ import {
   ViewChildren
 } from '@angular/core';
 
-import { SkyGridComponent } from '../grid.component';
-
 import {
   ListItemModel,
   ListSortFieldSelectorModel
-} from '@skyux/list-builder/modules/list/state';
+} from '@skyux/list-builder-common';
+
+import { SkyGridComponent } from '../grid.component';
 
 import { SkyGridColumnWidthModelChange } from '../types';
 
