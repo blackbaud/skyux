@@ -23,6 +23,10 @@ import {
 } from 'rxjs/BehaviorSubject';
 
 import {
+  ListItemModel
+} from '@skyux/list-builder-common';
+
+import {
   SkyListModule,
   SkyListComponent,
   SkyListToolbarModule,
@@ -30,7 +34,6 @@ import {
 } from '@skyux/list-builder';
 
 import {
-  ListItemModel,
   ListItemsLoadAction,
   ListState,
   ListStateDispatcher,

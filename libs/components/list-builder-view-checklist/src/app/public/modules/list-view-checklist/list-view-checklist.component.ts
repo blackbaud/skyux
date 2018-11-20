@@ -27,11 +27,14 @@ import {
 } from 'microedge-rxstate/dist';
 
 import {
+  ListItemModel
+} from '@skyux/list-builder-common';
+
+import {
   ListState,
   ListStateDispatcher,
   ListSelectedModel,
   ListFilterModel,
-  ListItemModel,
   ListPagingSetPageNumberAction,
   ListSelectedSetItemSelectedAction,
   ListSelectedSetItemsSelectedAction,
@@ -55,7 +58,7 @@ import {
 
 import {
   getData
-} from '@skyux/list-builder/modules/list/helpers';
+} from '@skyux/list-builder-common';
 
 import { SkyCheckboxChange } from '@skyux/forms';
 
