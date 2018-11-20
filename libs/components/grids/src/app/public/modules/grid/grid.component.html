@@ -21,7 +21,7 @@
             [id]="'sky-grid-' + gridId + '-column-' + i"
             [style.max-width.px]="column.width"
             [style.width.px]="column.width"
-            (click)="sortByColumn(column)"
+            (mouseup)="sortByColumn(column)"
             (keydown)="onKeydown($event, column)"
             #gridCol
           >

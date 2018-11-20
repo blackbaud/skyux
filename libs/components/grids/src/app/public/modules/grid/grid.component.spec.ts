@@ -49,13 +49,6 @@ function getCell(rowId: string, columnId: string, element: DebugElement) {
   );
 }
 
-function makeEvent(eventType: string, evtObj: any) {
-  let evt = document.createEvent('MouseEvents');
-    evt.initMouseEvent(eventType, false, false, window, 0, 0, 0, evtObj.clientX,
-      0, false, false, false, false, 0, undefined);
-  document.dispatchEvent(evt);
-}
-
 function getElementCords(elementRef: any) {
   const rect = (elementRef.nativeElement as HTMLElement).getBoundingClientRect();
   const coords = {
@@ -100,16 +93,22 @@ function resizeColumn(fixture: ComponentFixture<any>, deltaX: number, columnInde
   let event = {
     target: resizeHandles[columnIndex].nativeElement,
     'pageX': axis.x,
-    'preventDefault': function() {},
-    'stopPropagation': function() {}
+    'preventDefault': function () { },
+    'stopPropagation': function () { }
   };
 
   resizeHandles[columnIndex].triggerEventHandler('mousedown', event);
   fixture.detectChanges();
 
-  makeEvent('mousemove', { clientX: axis.x + deltaX });
+  let evt = document.createEvent('MouseEvents');
+  evt.initMouseEvent('mousemove', false, false, window, 0, 0, 0, axis.x + deltaX,
+    0, false, false, false, false, 0, undefined);
+  document.dispatchEvent(evt);
   fixture.detectChanges();
-  makeEvent('mouseup', { clientX: axis.x + deltaX });
+  evt = document.createEvent('MouseEvents');
+  evt.initMouseEvent('mouseup', false, false, window, 0, 0, 0, axis.x + deltaX,
+    0, false, false, false, false, 0, undefined);
+  document.dispatchEvent(evt);
   fixture.detectChanges();
 }
 
@@ -120,7 +119,7 @@ function resizeColumnByRangeInput(fixture: ComponentFixture<any>, columnIndex: n
   });
   let newValue = Number(resizeInputs[columnIndex].nativeElement.value) + deltaX;
   resizeInputs[columnIndex].nativeElement.value = newValue;
-  SkyAppTestUtility.fireDomEvent(resizeInputs[columnIndex].nativeElement, 'change', { });
+  SkyAppTestUtility.fireDomEvent(resizeInputs[columnIndex].nativeElement, 'change', {});
 }
 
 function getTable(fixture: ComponentFixture<any>) {
@@ -137,7 +136,7 @@ function cloneItems(items: any[]): any[] {
 }
 
 function isWithin(actual: number, base: number, distance: number) {
-    return Math.abs(actual - base) <= distance;
+  return Math.abs(actual - base) <= distance;
 }
 
 function verifyWidthsMatch(actual: number, expected: number) {
@@ -165,9 +164,9 @@ function hideColumn2(fixture: ComponentFixture<any>) {
 describe('Grid Component', () => {
   describe('Basic Fixture with fit=scroll', () => {
     let component: GridTestComponent,
-        fixture: ComponentFixture<GridTestComponent>,
-        nativeElement: HTMLElement,
-        element: DebugElement;
+      fixture: ComponentFixture<GridTestComponent>,
+      nativeElement: HTMLElement,
+      element: DebugElement;
 
     beforeEach(async(() => {
       TestBed.configureTestingModule({
@@ -213,7 +212,7 @@ describe('Grid Component', () => {
     }
 
     function verifyData(flatData = false, useAllHeaders = false, hiddenCol = false) {
-      for (let i = 0; i < component.data.length; i ++) {
+      for (let i = 0; i < component.data.length; i++) {
         let row = component.data[i];
         let rowData: any;
 
@@ -234,7 +233,7 @@ describe('Grid Component', () => {
 
         if (!hiddenCol) {
           expect(getCell(row.id, 'column4', element).nativeElement.textContent.trim())
-          .toBe(rowData.column4.toString());
+            .toBe(rowData.column4.toString());
         }
 
         expect(getCell(row.id, 'column5', element).nativeElement.textContent.trim())
@@ -250,7 +249,7 @@ describe('Grid Component', () => {
     }
 
     function verifyConsumerColumnWidthsAreMaintained() {
-      for (let i = 0; i < component.grid.displayedColumns.length; i ++) {
+      for (let i = 0; i < component.grid.displayedColumns.length; i++) {
         let col = component.grid.displayedColumns[i];
         if (col.width) {
           let colEl = element.queryAll(By.css('thead th'))[i];
@@ -409,7 +408,7 @@ describe('Grid Component', () => {
 
         }
 
-         for (let i = 0; i < searchFunctions.length; i++) {
+        for (let i = 0; i < searchFunctions.length; i++) {
           let result = searchFunctions[i](undefined, 'something');
           if (component.searchText !== '') {
             expect(result).toBe(true);
@@ -437,28 +436,31 @@ describe('Grid Component', () => {
           let headerEl = nativeElement.querySelectorAll('th').item(0) as HTMLElement;
           let skyIcon = headerEl.querySelector('sky-icon') as HTMLElement;
           expect(skyIcon.style.visibility).toBe('hidden');
-          headerEl.click();
+          SkyAppTestUtility.fireDomEvent(headerEl, 'mouseup',
+            { bubbles: false, cancelable: false });
           fixture.detectChanges();
 
           headerEl = nativeElement.querySelectorAll('th').item(0) as HTMLElement;
           expect(component.activeSortSelector)
-            .toEqual({ fieldSelector: 'column1', descending: true});
+            .toEqual({ fieldSelector: 'column1', descending: true });
           expect(headerEl.querySelector('i')).toHaveCssClass('fa-caret-down');
           expect(skyIcon.style.visibility).toBe('visible');
 
-          headerEl.click();
+          SkyAppTestUtility.fireDomEvent(headerEl, 'mouseup',
+            { bubbles: false, cancelable: false });
           fixture.detectChanges();
 
           headerEl = nativeElement.querySelectorAll('th').item(0) as HTMLElement;
           expect(component.activeSortSelector)
-            .toEqual({ fieldSelector: 'column1', descending: false});
+            .toEqual({ fieldSelector: 'column1', descending: false });
           expect(headerEl.querySelector('i')).toHaveCssClass('fa-caret-up');
           expect(skyIcon.style.visibility).toBe('visible');
         });
 
         it('should not respond to click when the appropriate column option is set', () => {
           let headerEl = nativeElement.querySelectorAll('th').item(1) as HTMLElement;
-          headerEl.click();
+          SkyAppTestUtility.fireDomEvent(headerEl, 'mouseup',
+            { bubbles: false, cancelable: false });
           fixture.detectChanges();
 
           headerEl = nativeElement.querySelectorAll('th').item(1) as HTMLElement;
@@ -481,13 +483,15 @@ describe('Grid Component', () => {
 
         it('should have proper aria-sort labels', async(() => {
           let headerEl = nativeElement.querySelectorAll('th').item(0) as HTMLElement;
-          headerEl.click();
+          SkyAppTestUtility.fireDomEvent(headerEl, 'mouseup',
+            { bubbles: false, cancelable: false });
           fixture.detectChanges();
 
           headerEl = nativeElement.querySelectorAll('th').item(0) as HTMLElement;
           expect(headerEl.getAttribute('aria-sort')).toBe('descending');
 
-          headerEl.click();
+          SkyAppTestUtility.fireDomEvent(headerEl, 'mouseup',
+            { bubbles: false, cancelable: false });
           fixture.detectChanges();
 
           headerEl = nativeElement.querySelectorAll('th').item(0) as HTMLElement;
@@ -507,18 +511,18 @@ describe('Grid Component', () => {
 
         it('should sort on enter or space press', () => {
           let headerEl = element.query(By.css('th[sky-cmp-id="column1"]'));
-          headerEl.triggerEventHandler('keydown', { key: 'Enter'});
+          headerEl.triggerEventHandler('keydown', { key: 'Enter' });
           fixture.detectChanges();
 
           expect(component.activeSortSelector)
-            .toEqual({ fieldSelector: 'column1', descending: true});
+            .toEqual({ fieldSelector: 'column1', descending: true });
           expect(headerEl.nativeElement.querySelector('i')).toHaveCssClass('fa-caret-down');
 
-          headerEl.triggerEventHandler('keydown', { key: ' '});
+          headerEl.triggerEventHandler('keydown', { key: ' ' });
           fixture.detectChanges();
 
           expect(component.activeSortSelector)
-            .toEqual({ fieldSelector: 'column1', descending: false});
+            .toEqual({ fieldSelector: 'column1', descending: false });
           expect(headerEl.nativeElement.querySelector('i')).toHaveCssClass('fa-caret-up');
         });
       });
@@ -742,11 +746,11 @@ describe('Grid Component', () => {
       });
 
       it(
-      'should hide columns based on the hidden property on initialization',
-      () => {
-        verifyHeaders(true, true);
-        verifyData(false, true, true);
-      });
+        'should hide columns based on the hidden property on initialization',
+        () => {
+          verifyHeaders(true, true);
+          verifyData(false, true, true);
+        });
     });
 
     describe('strange data', () => {
@@ -771,7 +775,7 @@ describe('Grid Component', () => {
 
   describe('Basic Fixture with fit=width', () => {
     let fixture: ComponentFixture<GridTestComponent>,
-        component: GridTestComponent;
+      component: GridTestComponent;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -1104,8 +1108,8 @@ describe('Grid Component', () => {
 
   describe('Empty Fixture', () => {
     let fixture: ComponentFixture<GridEmptyTestComponent>,
-        element: DebugElement,
-        component: GridEmptyTestComponent;
+      element: DebugElement,
+      component: GridEmptyTestComponent;
 
     beforeEach(async(() => {
       TestBed.configureTestingModule({
@@ -1135,7 +1139,7 @@ describe('Grid Component', () => {
     }
 
     function verifyData(hideColumn = false) {
-      for (let i = 0; i < component.data.length; i ++) {
+      for (let i = 0; i < component.data.length; i++) {
         const row = component.data[i];
 
         expect(getCell(row.id, 'column1', element).nativeElement.textContent.trim())
