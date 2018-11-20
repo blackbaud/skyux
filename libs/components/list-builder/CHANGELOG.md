@@ -1,3 +1,8 @@
+# 3.0.0-rc.4 (2018-11-20)
+
+ - Added support for `@skyux/list-builder-common@3.0.0-rc.1`. [#9](https://github.com/blackbaud/skyux-list-builder/pull/9)
+ - Updated peer dependencies to support Angular versions greater than `4.3.6`. [#10](https://github.com/blackbaud/skyux-list-builder/pull/10)
+
 # 3.0.0-rc.3 (2018-11-12)
 
 - Fixed `isObservable` utility function to work with RxJS 6. [#8](https://github.com/blackbaud/skyux-list-builder/pull/8)
