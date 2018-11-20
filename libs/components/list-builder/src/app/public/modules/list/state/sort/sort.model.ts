@@ -1,5 +1,8 @@
+import {
+  ListSortFieldSelectorModel
+} from '@skyux/list-builder-common';
+
 import { ListSortLabelModel } from './label.model';
-import { ListSortFieldSelectorModel } from './field-selector.model';
 
 export class ListSortModel {
   public available: Array<ListSortLabelModel> = [];

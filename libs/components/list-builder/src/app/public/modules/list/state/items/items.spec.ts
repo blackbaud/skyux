@@ -1,4 +1,11 @@
-import { ListItemModel } from './item.model';
+import {
+  fakeAsync,
+  tick
+} from '@angular/core/testing';
+
+import {
+  ListItemModel
+} from '@skyux/list-builder-common';
 
 import {
   ListItemsLoadAction,
@@ -10,25 +17,7 @@ import {
   ListStateDispatcher
 } from '../';
 
-import {
-  fakeAsync,
-  tick
-} from '@angular/core/testing';
-
 describe('list items', () => {
-  describe('list item model', () => {
-    it('should throw an error when initializing without an id', () => {
-      expect(function () {
-        return new ListItemModel(undefined, 'something');
-      }).toThrow(new Error('All list item models require an ID'));
-    });
-
-    it('should not set data when data is undefined', () => {
-      let item = new ListItemModel('id');
-      expect(item.data).toBeUndefined();
-    });
-  });
-
   describe('loading and set loading action', () => {
     let state: ListState,
         dispatcher: ListStateDispatcher;

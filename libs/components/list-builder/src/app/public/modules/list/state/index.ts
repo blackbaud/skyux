@@ -4,7 +4,6 @@ export { ListStateModel } from './list-state.model';
 export { ListFiltersUpdateAction } from './filters/actions';
 export { ListFilterModel } from './filters/filter.model';
 export { ListItemsLoadAction } from './items/actions';
-export { ListItemModel } from './items/item.model';
 export {
   ListPagingSetItemsPerPageAction,
   ListPagingSetMaxPagesAction,
@@ -41,9 +40,6 @@ export {
 export {
   ListSortModel
 } from './sort/sort.model';
-export {
-  ListSortFieldSelectorModel
-} from './sort/field-selector.model';
 export {
   ListToolbarItemsLoadAction,
   ListToolbarSetExistsAction,

@@ -34,10 +34,6 @@ import {
 } from './state/sort/actions';
 
 import {
-  ListSortFieldSelectorModel
-} from './state/sort/field-selector.model';
-
-import {
   ListFilterModel
 } from './state/filters/filter.model';
 
@@ -63,6 +59,12 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/skip';
 
+import {
+  isObservable,
+  ListItemModel,
+  ListSortFieldSelectorModel
+} from '@skyux/list-builder-common';
+
 import { ListViewComponent } from './list-view.component';
 
 import { ListSearchModel } from './state/search/search.model';
@@ -73,11 +75,6 @@ import {
 } from './state/views/actions';
 
 import { ListViewModel } from './state/views/view.model';
-import { ListItemModel } from './state/items/item.model';
-
-import {
-  isObservable
-} from './helpers';
 
 let idIndex = 0;
 

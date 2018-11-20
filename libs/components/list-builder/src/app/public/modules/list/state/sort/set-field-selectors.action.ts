@@ -1,6 +1,6 @@
 import {
   ListSortFieldSelectorModel
-} from './field-selector.model';
+} from '@skyux/list-builder-common';
 
 export class ListSortSetFieldSelectorsAction {
   constructor(public fieldSelectors: ListSortFieldSelectorModel[]) {}

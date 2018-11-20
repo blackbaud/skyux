@@ -1,7 +1,10 @@
+import {
+  ListItemModel
+} from '@skyux/list-builder-common';
+
 import { AsyncList, AsyncItem } from 'microedge-rxstate/dist';
 
 import { ListFilterModel } from './filters/filter.model';
-import { ListItemModel } from './items/item.model';
 import { ListPagingModel } from './paging/paging.model';
 import { ListSearchModel } from './search/search.model';
 import { ListSelectedModel } from './selected/selected.model';

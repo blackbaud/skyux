@@ -11,7 +11,10 @@ import {
 } from 'rxjs/Observable';
 
 import {
-  ListItemModel,
+  ListItemModel
+} from '@skyux/list-builder-common';
+
+import {
   ListState,
   ListStateDispatcher
 } from '../state';

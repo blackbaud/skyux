@@ -27,6 +27,10 @@ import {
 } from 'microedge-rxstate/dist/helpers';
 
 import {
+  ListSortFieldSelectorModel
+} from '@skyux/list-builder-common';
+
+import {
   SkyListFilterSummaryComponent,
   SkyListFilterInlineComponent
 } from '../list-filters';
@@ -37,7 +41,6 @@ import {
   ListState,
   ListStateDispatcher,
   ListSortLabelModel,
-  ListSortFieldSelectorModel,
   ListFilterModel,
   ListPagingSetPageNumberAction
 } from '../list/state';

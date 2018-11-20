@@ -1,7 +1,10 @@
+import {
+  ListItemModel
+} from '@skyux/list-builder-common';
+
 import { ListStateOrchestrator } from '../list-state.rxstate';
 import { AsyncList } from 'microedge-rxstate/dist';
 
-import { ListItemModel } from './item.model';
 import {
   ListItemsSetLoadingAction, ListItemsLoadAction
 } from './actions';

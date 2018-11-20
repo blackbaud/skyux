@@ -3,6 +3,11 @@ import {
   StateDispatcher,
   StateOrchestrator
 } from 'microedge-rxstate/dist';
+
+import {
+  ListSortFieldSelectorModel
+} from '@skyux/list-builder-common';
+
 import { ListStateAction } from './list-state-action.type';
 
 import { ListViewsSetActiveAction } from './views/actions';
@@ -29,7 +34,6 @@ import {
   ListSortSetGlobalAction
 } from './sort/actions';
 import { ListSortLabelModel } from './sort/label.model';
-import { ListSortFieldSelectorModel } from './sort/field-selector.model';
 import { ListFilterModel } from './filters/filter.model';
 import { ListSearchModel } from './search/search.model';
 import {

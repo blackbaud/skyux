@@ -1,4 +1,6 @@
-import { ListItemModel } from './state/items/item.model';
+import {
+  ListItemModel
+} from '@skyux/list-builder-common';
 
  export class ListDataResponseModel {
    public count: number;

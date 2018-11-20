@@ -1,4 +1,6 @@
-import { ListItemModel } from '../../../list/state/items/item.model';
+import {
+  ListItemModel
+} from '@skyux/list-builder-common';
 
 export class ListFilterModel {
   public name: string;

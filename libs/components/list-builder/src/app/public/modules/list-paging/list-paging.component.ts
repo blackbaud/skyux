@@ -9,9 +9,13 @@ import {
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinctUntilChanged';
 
+import {
+  ListItemModel
+} from '@skyux/list-builder-common';
+
 import { getValue } from 'microedge-rxstate/dist/helpers';
 import { ListPagingComponent } from '../list/list-paging.component';
-import { ListState, ListStateDispatcher, ListItemModel } from '../list/state';
+import { ListState, ListStateDispatcher } from '../list/state';
 import {
   ListPagingSetMaxPagesAction,
   ListPagingSetItemsPerPageAction,

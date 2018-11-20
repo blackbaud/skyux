@@ -5,6 +5,11 @@ import {
 } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
+
+import {
+  ListItemModel
+} from '@skyux/list-builder-common';
+
 import {
   ListState,
   ListStateDispatcher,
@@ -20,7 +25,6 @@ import {
   ListPagingSetMaxPagesAction,
   ListPagingSetPageNumberAction
 } from '../list/state/paging/actions';
-import { ListItemModel } from '../list/state/items/item.model';
 
 import { AsyncList } from 'microedge-rxstate/dist';
 
