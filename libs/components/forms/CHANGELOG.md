@@ -1,5 +1,6 @@
 # 3.0.0-rc.3 (2018-11-15)
 
+- Fixed checkbox component to respect disabled state within reactive forms. [#7](https://github.com/blackbaud/skyux-forms/pull/7)
 - Updated peer dependencies to support Angular versions greater than `4.3.6`. [#9](https://github.com/blackbaud/skyux-forms/pull/9)
 
 # 3.0.0-rc.2 (2018-11-08)
