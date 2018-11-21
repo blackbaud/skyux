@@ -2,6 +2,7 @@
 
  - Added support for `@skyux/list-builder-common@3.0.0-rc.1`. [#14](https://github.com/blackbaud/skyux-grids/pull/14)
  - Added column sort function to grid demo. [#18](https://github.com/blackbaud/skyux-grids/pull/18)
+ - Fixed grid component's column resize drag handle to not inadvertently trigger column sort. [#17](https://github.com/blackbaud/skyux-grids/pull/17)
  - Fixed grid cells to properly handle text overflow when column widths are fixed. [#13](https://github.com/blackbaud/skyux-grids/pull/13)
 
 # 3.0.0-rc.1 (2018-11-12)
