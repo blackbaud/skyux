@@ -1,6 +1,6 @@
 # 3.0.0-rc.3 (2018-11-20)
 
-- Fixed colorpicker component to stop firing the `valueChanges` event multiple times when a form group is updated. [blackbaud/skyux-colorpicker#5](https://github.com/blackbaud/skyux-colorpicker/pull/5)
+- Fixed colorpicker component to emit value changes properly. [blackbaud/skyux-colorpicker#5](https://github.com/blackbaud/skyux-colorpicker/pull/5)
 
 # 3.0.0-rc.2 (2018-11-08)
 
