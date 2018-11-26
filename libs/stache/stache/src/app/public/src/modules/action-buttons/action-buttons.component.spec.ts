@@ -94,9 +94,10 @@ describe('StacheActionButtonsComponent', () => {
       path: []
     }];
 
-    const e = Object.assign({ target: { value: 'Test' } }, new KeyboardEvent('keyup'));
     spyOn(component, 'searchApplied');
-    component.onKeyUp(e);
+    component.onKeyUp({
+      target: { value: 'Test' }
+    } as any);
     fixture.detectChanges();
 
     expect(component.searchApplied).toHaveBeenCalledWith('Test');

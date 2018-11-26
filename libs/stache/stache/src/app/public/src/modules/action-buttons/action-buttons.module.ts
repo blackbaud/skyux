@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SkyModule } from '@blackbaud/skyux/dist/core';
+
+import { SkyActionButtonModule } from '@blackbaud/skyux/dist/modules/action-button';
+import { SkySearchModule } from '@blackbaud/skyux/dist/modules/search';
+
 import { StacheGridModule } from '../grid';
 import { StacheActionButtonsComponent } from './action-buttons.component';
 import { StacheLinkModule } from '../link';
@@ -11,9 +14,10 @@ import { StacheLinkModule } from '../link';
   ],
   imports: [
     CommonModule,
-    SkyModule,
-    StacheGridModule,
-    StacheLinkModule
+    SkyActionButtonModule,
+    SkySearchModule,
+    StacheLinkModule,
+    StacheGridModule
   ],
   exports: [
     StacheActionButtonsComponent

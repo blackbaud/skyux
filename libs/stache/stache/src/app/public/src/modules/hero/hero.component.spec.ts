@@ -76,6 +76,6 @@ describe('StacheHeroComponent', () => {
 
     component.backgroundImageUrl = '~/foo-image.jpg';
     fixture.detectChanges();
-    expect(hero.style.backgroundImage).toBe('url("~/foo-image.jpg")');
+    expect(hero.style.backgroundImage).toContain('~/foo-image.jpg');
   });
 });

@@ -154,8 +154,8 @@ describe('AffixTopTestDirective', () => {
         }
       } as HTMLElement;
 
-      windowRef.innerHeight = 800;
-      windowRef.pageYOffset = 350;
+      windowRef.resizeTo(1200, 800);
+      windowRef.scrollBy(0, 350);
       testOmnibarHeight = 50;
 
       TestUtility.triggerDomEvent(windowRef, 'scroll');

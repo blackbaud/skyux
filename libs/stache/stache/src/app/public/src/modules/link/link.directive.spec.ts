@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
-import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
+import { expect, SkyAppTestUtility } from '@blackbaud/skyux-builder/runtime/testing/browser';
 
 import { StacheRouterLinkDirective } from './link.directive';
 import { StacheRouterLinkTestComponent } from './fixtures/link.component.fixture';
@@ -155,24 +155,34 @@ describe('StacheLinkDirective', () => {
   }));
 
   it('should open in new window when shift clicked', async(() => {
-    const event = new KeyboardEvent('click', {shiftKey : true});
     const link = debugElement.nativeElement.querySelector('a');
-    link.dispatchEvent(event);
+    SkyAppTestUtility.fireDomEvent(link, 'click', {
+      keyboardEventInit: {
+        shiftKey : true
+      }
+    });
+
     expect(mockNavService.navigate).not.toHaveBeenCalled();
   }));
 
   it('should open in new window when meta (command) clicked', async(() => {
-    const event = new KeyboardEvent('click', {metaKey : true});
     const link = debugElement.nativeElement.querySelector('a');
-    link.dispatchEvent(event);
+    SkyAppTestUtility.fireDomEvent(link, 'click', {
+      keyboardEventInit: {
+        metaKey : true
+      }
+    });
+
     expect(mockNavService.navigate).not.toHaveBeenCalled();
   }));
 
   it('should pass the fragment to the navigate method if it exists', () => {
-    const event = new Event('click');
     const directiveInstance = directiveElement.injector.get(StacheRouterLinkDirective);
+    directiveInstance.stacheRouterLink = 'test-route';
+    directiveInstance.fragment = 'test';
+    SkyAppTestUtility.fireDomEvent(directiveInstance['el'].nativeElement, 'click');
     fixture.detectChanges();
-    directiveInstance.navigate(event);
+
     expect(mockNavService.navigate).toHaveBeenCalledWith({
       path: 'test-route',
       fragment: 'test'
@@ -180,11 +190,13 @@ describe('StacheLinkDirective', () => {
   });
 
   it('should not pass a fragment if it does not exist', () => {
-    const event = new Event('click');
     const directiveInstance = directiveElement.injector.get(StacheRouterLinkDirective);
-    fixture.detectChanges();
+    directiveInstance.stacheRouterLink = 'test-route';
     directiveInstance.fragment = undefined;
-    directiveInstance.navigate(event);
+
+    SkyAppTestUtility.fireDomEvent(directiveInstance['el'].nativeElement, 'click');
+    fixture.detectChanges();
+
     expect(mockNavService.navigate).toHaveBeenCalledWith({
       path: 'test-route',
       fragment: undefined
