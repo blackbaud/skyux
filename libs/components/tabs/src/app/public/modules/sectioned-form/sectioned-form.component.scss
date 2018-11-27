@@ -4,14 +4,17 @@
 @media (min-width: $sky-screen-sm-min) {
   .sky-sectioned-form {
     display: flex;
+    max-height: 100%;
   }
 
   .sky-sectioned-form-tabs {
     flex-basis: 30%;
+    overflow-y: auto;
     @include sky-border(light, right);
   }
 
   .sky-sectioned-form-content {
     flex-basis: 70%;
+    overflow-y: auto;
   }
 }
