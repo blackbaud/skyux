@@ -37,6 +37,12 @@ button {
   }
 }
 
+a.sky-btn {
+  &:hover {
+    text-decoration: none;
+  }
+}
+
 .sky-btn-default {
   @include sky-button-variant($sky-text-color-default, $sky-color-white, $sky-border-color-neutral-medium, $sky-background-color-neutral-light);
 }
