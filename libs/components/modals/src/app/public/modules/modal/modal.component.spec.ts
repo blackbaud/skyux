@@ -113,7 +113,7 @@ describe('Modal component', () => {
 
   it('should focus the first focusable element when no autofocus is inside of content', fakeAsync(() => {
     let modalInstance1 = openModal(ModalWithFocusContentTestComponent);
-    expect(document.activeElement).toEqual(document.querySelector('.sky-modal-content button'));
+    expect(document.activeElement).toEqual(document.querySelector('#visible-btn'));
     closeModal(modalInstance1);
   }));
 

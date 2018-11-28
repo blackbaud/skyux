@@ -113,8 +113,17 @@ export class SkyModalComponentAdapterService {
   }
 
   private isVisible(element: HTMLElement) {
-    return !!(element.offsetWidth ||
+    const style = window.getComputedStyle(element);
+    const isHidden = style.display === 'none' || style.visibility === 'hidden';
+    if (isHidden) {
+      return false;
+    }
+
+    const hasBounds = !!(
+      element.offsetWidth ||
       element.offsetHeight ||
-      element.getClientRects().length);
+      element.getClientRects().length
+    );
+    return hasBounds;
   }
 }
