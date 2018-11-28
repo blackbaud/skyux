@@ -21,6 +21,9 @@ import {
   SkyDynamicComponentLocation
 } from './dynamic-component-location';
 
+/**
+ * Angular service for creating and rendering a dynamic component.
+ */
 @Injectable()
 export class SkyDynamicComponentService {
 
@@ -40,6 +43,11 @@ export class SkyDynamicComponentService {
     this.renderer = rendererFactory.createRenderer(undefined, undefined);
   }
 
+  /**
+   * Creates an instance of the specified component and adds it to the specified location
+   * on the page.
+   * @param args Options for creating the dynamic component.
+   */
   public createComponent<T>(args: SkyDynamicComponentArgs): ComponentRef<T> {
     const cmpRef = this.componentFactoryResolver
       .resolveComponentFactory<T>(args.componentType)
