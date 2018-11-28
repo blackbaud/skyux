@@ -179,6 +179,7 @@ export class SkySelectFieldComponent implements ControlValueAccessor {
               this.writeValue(result.data);
             }
           }
+          this.onTouched();
         });
       });
   }
@@ -197,9 +198,9 @@ export class SkySelectFieldComponent implements ControlValueAccessor {
 
   // Angular automatically constructs these methods.
   /* istanbul ignore next */
-  public onChange = (value: any) => {};
+  public onChange = (value: any) => { };
   /* istanbul ignore next */
-  public onTouched = () => {};
+  public onTouched = () => { };
 
   public registerOnChange(fn: (value: any) => void) {
     this.onChange = fn;

@@ -2,7 +2,9 @@ import {
   Component
 } from '@angular/core';
 
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import {
+  BehaviorSubject
+} from 'rxjs/BehaviorSubject';
 
 @Component({
   selector: 'select-field-visual',

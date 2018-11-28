@@ -1,3 +1,6 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
 .sky-select-field-multiple-select-mode {
   > .sky-btn {
     margin-bottom: 10px;
@@ -29,4 +32,8 @@
       }
     }
   }
+}
+
+:host(.ng-invalid.ng-touched) .sky-input-group {
+  @include sky-field-status(invalid);
 }

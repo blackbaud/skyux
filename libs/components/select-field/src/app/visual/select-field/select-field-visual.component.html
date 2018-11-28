@@ -1,12 +1,16 @@
-
-<div id="screenshot-select-field-single-mode">
-  <sky-select-field
-    selectMode="single"
-    name="single"
-    [ngModel]="model.single"
-    [data]="data">
-  </sky-select-field>
+<br/>
+<div id="screenshot-select-field-single-mode-wrapper" style="padding: 5px 0;">
+  <div id="screenshot-select-field-single-mode">
+    <sky-select-field
+      selectMode="single"
+      name="single"
+      [ngModel]="model.single"
+      [data]="data"
+      required>
+    </sky-select-field>
+  </div>
 </div>
+<br/>
 <div id="screenshot-select-field-multiple-mode">
   <sky-select-field
     selectMode="multiple"
