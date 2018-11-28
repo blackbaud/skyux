@@ -1,3 +1,5 @@
+//#region imports
+
 import {
   ApplicationRef,
   ComponentFactoryResolver,
@@ -20,6 +22,8 @@ import {
 import {
   SkyDynamicComponentLocation
 } from './dynamic-component-location';
+
+//#endregion
 
 /**
  * Angular service for creating and rendering a dynamic component.

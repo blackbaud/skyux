@@ -1,3 +1,5 @@
+//#region imports
+
 import {
   ApplicationRef,
   ComponentRef,
@@ -31,6 +33,8 @@ import {
 import {
   SkyDynamicComponentLocation
 } from './dynamic-component-location';
+
+//#endregion
 
 describe('Dynamic component service', () => {
 
