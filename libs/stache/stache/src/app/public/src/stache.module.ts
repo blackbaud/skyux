@@ -32,6 +32,7 @@ import { StacheTutorialStepModule } from './modules/tutorial-step';
 import { StacheVideoModule } from './modules/video';
 import { StacheFooterModule } from './modules/footer';
 import { StacheWrapperModule } from './modules/wrapper';
+import { StacheHideFromSearchModule } from './modules/hide-from-search/hide-from-search.module';
 
 export * from './modules/shared';
 
@@ -50,6 +51,7 @@ export * from './modules/shared';
     StacheFooterModule,
     StacheGridModule,
     StacheHeroModule,
+    StacheHideFromSearchModule,
     StacheImageModule,
     StacheIncludeModule,
     StacheLayoutModule,
