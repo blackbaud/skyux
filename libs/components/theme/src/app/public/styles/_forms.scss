@@ -27,7 +27,7 @@
 }
 
 input.ng-invalid.ng-touched,
-select.ng-invalid.submitted {
+select.ng-invalid.ng-touched {
   @include sky-field-status(invalid);
 }
 
