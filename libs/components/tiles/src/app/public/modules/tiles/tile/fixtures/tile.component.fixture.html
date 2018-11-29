@@ -1,6 +1,8 @@
 <sky-tile
   [isCollapsed]="tileIsCollapsed"
+  [showHelp]="true"
   (settingsClick)="tileSettingsClick()"
+  (helpClick)="tileHelpClick()"
   (isCollapsedChange)="collapsedStateCallback($event)">
   <sky-tile-title>Title</sky-tile-title>
   <sky-tile-content>Content</sky-tile-content>

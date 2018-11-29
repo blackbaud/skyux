@@ -1,4 +1,8 @@
 {
+  "skyux_tile_help": {
+    "_description": "Label for help button in the tile",
+    "message": "Help"
+  },
   "skyux_tile_settings": {
     "_description": "Label for settings button in the tile",
     "message": "Settings"

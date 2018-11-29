@@ -25,13 +25,19 @@ export class SkyTileComponent {
   public isInDashboardColumn = false;
 
   @Input()
-  public showSettings: boolean = true;
+  public showSettings = true;
+
+  @Input()
+  public showHelp = false;
 
   @Output()
   public settingsClick = new EventEmitter();
 
   @Output()
   public isCollapsedChange = new EventEmitter<boolean>();
+
+  @Output()
+  public helpClick = new EventEmitter();
 
   public get isCollapsed(): boolean {
     if (this.dashboardService) {
@@ -71,8 +77,16 @@ export class SkyTileComponent {
     this.settingsClick.emit(undefined);
   }
 
+  public helpButtonClicked() {
+    this.helpClick.emit(undefined);
+  }
+
   public get hasSettings(): boolean {
     return this.settingsClick.observers.length > 0 && this.showSettings;
+  }
+
+  public get hasHelp(): boolean {
+    return this.helpClick.observers.length > 0 && this.showHelp;
   }
 
   public titleClick() {

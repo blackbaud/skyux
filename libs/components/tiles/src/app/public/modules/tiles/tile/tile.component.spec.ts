@@ -277,6 +277,103 @@ describe('Tile component', () => {
     });
   });
 
+  describe('help button', () => {
+    it('should be absent if a callback is not provided', () => {
+      let html = `
+        <sky-tile [isCollapsed]="tileIsCollapsed">
+          <sky-tile-title>Title</sky-tile-title>
+          <sky-tile-content>Content</sky-tile-content>
+        </sky-tile>
+      `;
+
+      let fixture = TestBed
+        .overrideComponent(
+          TileTestComponent,
+          {
+            set: {
+              template: html
+            }
+          }
+        )
+        .createComponent(TileTestComponent);
+
+      let el = fixture.nativeElement;
+
+      fixture.detectChanges();
+
+      expect(el.querySelector('.sky-tile-help')).toBeNull();
+    });
+
+    it('should be present if a callback is provided', () => {
+      let fixture = TestBed.createComponent(TileTestComponent);
+      let el = fixture.nativeElement;
+
+      fixture.detectChanges();
+
+      const helpEl = el.querySelector('.sky-tile-help');
+
+      expect(helpEl).not.toBeNull();
+      expect(helpEl.getAttribute('aria-label')).toBe('Help');
+    });
+
+    it('should not be present if a callback is provided, but the showHelp flag is false', () => {
+      let html = `
+        <sky-tile
+          [isCollapsed]="tileIsCollapsed"
+          (helpClick)="alert('help clicked.')"
+          [showHelp]="false"
+        >
+          <sky-tile-title>Title</sky-tile-title>
+          <sky-tile-content>Content</sky-tile-content>
+        </sky-tile>
+      `;
+
+      let fixture = TestBed
+        .overrideComponent(
+          TileTestComponent,
+          {
+            set: {
+              template: html
+            }
+          }
+        )
+        .createComponent(TileTestComponent);
+
+      let el = fixture.nativeElement;
+
+      fixture.detectChanges();
+
+      expect(el.querySelector('.sky-tile-help')).toBeNull();
+    });
+
+    it('should call the specified callback when clicked', () => {
+      let fixture = TestBed.createComponent(TileTestComponent);
+      let el = fixture.nativeElement;
+      let cmp = fixture.componentInstance as TileTestComponent;
+      let tileHelpClickSpy = spyOn(cmp, 'tileHelpClick');
+
+      fixture.detectChanges();
+
+      el.querySelector('.sky-tile-help').click();
+
+      expect(tileHelpClickSpy).toHaveBeenCalled();
+    });
+
+    it('should not collapse the tile when clicked', () => {
+      let fixture = TestBed.createComponent(TileTestComponent);
+      let el = fixture.nativeElement;
+
+      fixture.detectChanges();
+
+      el.querySelector('.sky-tile-help').click();
+      fixture.detectChanges();
+
+      let contentAttrs = el.querySelector('.sky-tile-content').attributes;
+
+      expect(contentAttrs['hidden']).toBe(undefined);
+    });
+  });
+
   it('should pass accessibility', async(() => {
     let fixture = TestBed.createComponent(TileTestComponent);
     fixture.detectChanges();

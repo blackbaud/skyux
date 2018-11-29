@@ -50,6 +50,7 @@
     margin: 12px ($sky-tile-header-tool-padding - 6) 12px 0;
 }
 
+.sky-tile-help,
 .sky-tile-settings {
     @include sky-icon-button-borderless;
     height: $sky-context-menu-size;
