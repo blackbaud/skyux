@@ -8,7 +8,8 @@ import {
   Injectable,
   Injector,
   RendererFactory2,
-  Renderer2
+  Renderer2,
+  Type
 } from '@angular/core';
 
 import {
@@ -16,8 +17,8 @@ import {
 } from '../window';
 
 import {
-  SkyDynamicComponentArgs
-} from './dynamic-component-args';
+  SkyDynamicComponentOptions
+} from './dynamic-component-options';
 
 import {
   SkyDynamicComponentLocation
@@ -50,11 +51,18 @@ export class SkyDynamicComponentService {
   /**
    * Creates an instance of the specified component and adds it to the specified location
    * on the page.
-   * @param args Options for creating the dynamic component.
+   * @param options Options for creating the dynamic component.
    */
-  public createComponent<T>(args: SkyDynamicComponentArgs): ComponentRef<T> {
+  public createComponent<T>(
+    componentType: Type<T>,
+    options?: SkyDynamicComponentOptions
+  ): ComponentRef<T> {
+    options = options || {
+      location: SkyDynamicComponentLocation.BodyBottom
+    };
+
     const cmpRef = this.componentFactoryResolver
-      .resolveComponentFactory<T>(args.componentType)
+      .resolveComponentFactory<T>(componentType)
       .create(this.injector);
 
     this.appRef.attachView(cmpRef.hostView);
@@ -65,7 +73,7 @@ export class SkyDynamicComponentService {
 
     const bodyEl = this.windowRef.getWindow().document.body;
 
-    switch (args.location) {
+    switch (options.location) {
       case SkyDynamicComponentLocation.BodyTop:
         this.renderer.insertBefore(bodyEl, el, bodyEl.firstChild);
         break;

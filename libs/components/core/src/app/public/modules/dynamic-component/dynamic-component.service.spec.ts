@@ -43,10 +43,12 @@ describe('Dynamic component service', () => {
   function createTestComponent(location?: SkyDynamicComponentLocation) {
     const svc: SkyDynamicComponentService = TestBed.get(SkyDynamicComponentService);
 
-    cmpRef = svc.createComponent<DynamicComponentTestComponent>({
-      componentType: DynamicComponentTestComponent,
-      location: location || SkyDynamicComponentLocation.BodyBottom
-    });
+    cmpRef = svc.createComponent(
+      DynamicComponentTestComponent,
+      location && {
+        location
+      }
+    );
 
     cmpRef.changeDetectorRef.detectChanges();
 
