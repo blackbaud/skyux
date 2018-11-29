@@ -1,3 +1,4 @@
+export * from './dynamic-component';
 export * from './format';
 export * from './log';
 export * from './media-query';
