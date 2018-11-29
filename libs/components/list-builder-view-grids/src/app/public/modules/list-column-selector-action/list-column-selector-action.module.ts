@@ -19,12 +19,16 @@ import {
 } from '@skyux/list-builder';
 
 import {
-  SkyListColumnSelectorActionComponent
-} from './list-column-selector-action.component';
-
-import {
   SkyModalModule
 } from '@skyux/modals';
+
+import {
+  SkyColumnSelectorModule
+} from '../column-selector/column-selector-modal.module';
+
+import {
+  SkyListColumnSelectorActionComponent
+} from './list-column-selector-action.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +43,8 @@ import {
     SkyIconModule
   ],
   exports: [
-    SkyListColumnSelectorActionComponent
+    SkyListColumnSelectorActionComponent,
+    SkyColumnSelectorModule
   ]
 })
 export class SkyListColumnSelectorActionModule {

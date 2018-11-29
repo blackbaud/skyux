@@ -8,7 +8,7 @@ import {
   SkyListModule
 } from '@skyux/list-builder/modules/list/list.module';
 
-import { SkyListViewGridModule } from '../';
+import { SkyListViewGridModule } from '../list-view-grid.module';
 import { ListViewGridTestComponent } from './list-view-grid.component.fixture';
 import { ListViewGridDisplayTestComponent } from './list-view-grid-display.component.fixture';
 import { ListViewGridEmptyTestComponent } from './list-view-grid-empty.component.fixture';

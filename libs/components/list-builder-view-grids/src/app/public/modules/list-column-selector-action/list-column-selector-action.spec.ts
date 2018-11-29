@@ -49,16 +49,10 @@ import {
 
 import {
   SkyListViewGridModule
-} from '../list-view-grid';
+} from '../list-view-grid/list-view-grid.module';
 import {
   ListColumnSelectorActionTestComponent
 } from './fixtures/list-column-selector-action.component.fixture';
-import {
-  SkyListColumnSelectorActionModule
-} from '.';
-import {
-  SkyColumnSelectorModule
-} from '../column-selector';
 
 import {
   ListColumnSelectorActionDeprecatedTestComponent
@@ -126,13 +120,11 @@ describe('List column selector action', () => {
         ],
         imports: [
           RouterTestingModule,
-          SkyListColumnSelectorActionModule,
           SkyListModule,
           SkyListToolbarModule,
           SkyListSecondaryActionsModule,
           SkyGridModule,
           SkyListViewGridModule,
-          SkyColumnSelectorModule,
           NoopAnimationsModule
         ],
         providers: [
@@ -278,13 +270,11 @@ describe('List column selector action', () => {
         ],
         imports: [
           RouterTestingModule,
-          SkyListColumnSelectorActionModule,
           SkyListModule,
           SkyListToolbarModule,
           SkyListSecondaryActionsModule,
           SkyGridModule,
           SkyListViewGridModule,
-          SkyColumnSelectorModule,
           NoopAnimationsModule
         ]
       })
