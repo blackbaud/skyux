@@ -1,6 +1,6 @@
 # 3.4.0 (2018-11-29)
 
-- Added `SkyDynamicComponentService` which provides the ability to inject entry components onto the page dynamically. [#44](https://github.com/blackbaud/skyux-core/pull/43)
+- Added `SkyDynamicComponentService` which provides the ability to inject entry components onto the page dynamically. [#44](https://github.com/blackbaud/skyux-core/pull/44)
 
 # 3.3.0 (2018-11-15)
 
