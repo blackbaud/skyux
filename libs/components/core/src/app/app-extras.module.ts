@@ -3,20 +3,23 @@ import {
 } from '@angular/core';
 
 import {
+  DynamicComponentDemoExampleComponent
+} from './demos/dynamic-component/dynamic-component-example.component';
+
+import {
+  SkyDynamicComponentModule,
   SkyMediaQueryModule,
   SkyNumericModule
 } from './public';
 
 @NgModule({
-  imports: [
-    SkyMediaQueryModule,
-    SkyNumericModule
-  ],
   exports: [
+    SkyDynamicComponentModule,
     SkyMediaQueryModule,
     SkyNumericModule
   ],
-  providers: [],
-  entryComponents: []
+  entryComponents: [
+    DynamicComponentDemoExampleComponent
+  ]
 })
 export class AppExtrasModule { }
