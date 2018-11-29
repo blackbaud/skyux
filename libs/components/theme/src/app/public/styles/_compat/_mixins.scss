@@ -35,7 +35,7 @@
   background-color: $sky-background-color-primary-dark;
   color: #fff;
 
-  &:hover {
+  &:hover:not(.sky-btn-tab-disabled) {
     background-color: $sky-background-color-primary-dark;
     color: #fff;
   }
