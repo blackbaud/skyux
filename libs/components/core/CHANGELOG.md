@@ -1,3 +1,7 @@
+# 3.4.0 (2018-11-29)
+
+- Added `SkyDynamicComponentService` which provides the ability to inject entry components onto the page dynamically. [#44](https://github.com/blackbaud/skyux-core/pull/43)
+
 # 3.3.0 (2018-11-15)
 
 - Updated peer dependencies to support Angular versions greater than `4.3.6`. [#43](https://github.com/blackbaud/skyux-core/pull/43)
