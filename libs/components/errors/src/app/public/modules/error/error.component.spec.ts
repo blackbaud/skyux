@@ -250,6 +250,53 @@ describe('Error component', () => {
     });
   });
 
+  it('error type custom can replace title and description', () => {
+    let html = `
+    <sky-error
+      errorType="broken"
+    >
+      <sky-error-title
+        [replaceDefaultTitle]="true"
+      >
+        test title
+      </sky-error-title>
+      <sky-error-description
+        [replaceDefaultDescription]="true"
+      >
+        test description
+      </sky-error-description>
+    </sky-error>`;
+
+    let fixture = TestBed
+      .overrideComponent(
+        ErrorTestComponent,
+        {
+          set: {
+            template: html
+          }
+        }
+      )
+      .createComponent(ErrorTestComponent);
+
+    let el = fixture.nativeElement;
+
+    fixture.detectChanges();
+
+    // check image
+    expect(el.querySelector('.sky-error-broken-image')).toExist();
+    expect(el.querySelector('.sky-error-notfound-image')).not.toExist();
+    expect(el.querySelector('.sky-error-construction-image')).not.toExist();
+    expect(el.querySelector('.sky-error-security-image')).not.toExist();
+
+    expect(el.querySelector('.sky-error-title')).toHaveText('test title');
+    expect(el.querySelector('.sky-error-description')).toHaveText('test description');
+
+    // Accessibility check
+    fixture.whenStable().then(() => {
+      expect(fixture.nativeElement).toBeAccessible();
+    });
+  });
+
   it('custom action method is called with action button is clicked', () => {
     let html = `
     <sky-error errorType="broken">

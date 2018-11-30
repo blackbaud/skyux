@@ -50,8 +50,36 @@
       custom description
     </sky-error-description>
     <sky-error-action>
-      <button type="submit" class="sky-btn sky-btn-primary" >
+      <button
+        class="sky-btn sky-btn-primary"
+        type="submit"
+      >
         custom action
+      </button>
+    </sky-error-action>
+  </sky-error>
+</div>
+
+<div class="error-screenshot" id="screenshot-error-custom-broken">
+  <sky-error
+    errorType="broken"
+  >
+    <sky-error-title
+      [replaceDefaultTitle]="true"
+    >
+      this is a custom title using a default image
+    </sky-error-title>
+    <sky-error-description
+      [replaceDefaultDescription]="true"
+    >
+      this is a custom description using a default image
+    </sky-error-description>
+    <sky-error-action>
+      <button
+        class="sky-btn sky-btn-primary"
+        type="submit"
+      >
+        this is a custom action using a default image
       </button>
     </sky-error-action>
   </sky-error>

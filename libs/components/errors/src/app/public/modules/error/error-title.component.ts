@@ -1,5 +1,6 @@
 import {
-  Component
+  Component,
+  Input
 } from '@angular/core';
 
 @Component({
@@ -7,4 +8,6 @@ import {
   template: '<ng-content></ng-content>'
 })
 export class SkyErrorTitleComponent {
+  @Input()
+  public replaceDefaultTitle: boolean = false;
 }

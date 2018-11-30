@@ -1,12 +1,21 @@
 import {
   Component,
   Input,
-  OnInit
+  OnInit,
+  ContentChild
 } from '@angular/core';
 
 import {
   SkyLibResourcesService
 } from '@skyux/i18n';
+
+import {
+  SkyErrorTitleComponent
+} from './error-title.component';
+
+import {
+  SkyErrorDescriptionComponent
+} from './error-description.component';
 
 @Component({
   selector: 'sky-error',
@@ -26,6 +35,20 @@ export class SkyErrorComponent implements OnInit {
 
   public title: string = undefined;
   public description: string = undefined;
+
+  public get showTitle(): boolean {
+    return this.title && !(this.titleCmp && this.titleCmp.replaceDefaultTitle);
+  }
+
+  public get showDescription(): boolean {
+    return this.description && !(this.descriptionCmp && this.descriptionCmp.replaceDefaultDescription);
+  }
+
+  @ContentChild(SkyErrorTitleComponent)
+  private titleCmp: SkyErrorTitleComponent;
+
+  @ContentChild(SkyErrorDescriptionComponent)
+  private descriptionCmp: SkyErrorDescriptionComponent;
 
   private _errorType: string;
 

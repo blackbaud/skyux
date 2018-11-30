@@ -13,12 +13,12 @@
       <ng-content select="sky-error-image"></ng-content>
     </div>
     <div class="sky-error-content sky-error-title sky-emphasized">
-      <span *ngIf="title">{{ title }}</span>
+      <span *ngIf="showTitle">{{ title }}</span>
 
       <ng-content select="sky-error-title"></ng-content>
     </div>
     <div class="sky-error-content sky-error-description">
-      <span *ngIf="description">{{ description }}</span>
+      <span *ngIf="showDescription">{{ description }}</span>
 
       <ng-content select="sky-error-description"></ng-content>
     </div>
