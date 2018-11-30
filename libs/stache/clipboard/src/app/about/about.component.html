@@ -1,0 +1,32 @@
+<app-nav role="navigation">
+</app-nav>
+
+<main>
+  <sky-fluid-grid>
+    <sky-row>
+      <sky-column>
+        <h1>About our Team</h1>
+
+        <sky-alert alertType="warning">
+          <strong>Warning!</strong> We never check our email.
+        </sky-alert>
+
+        <div class="template-about-teams">
+          <div *ngFor="let member of team" class="template-about-team">
+            <sky-avatar [name]="member.name"></sky-avatar>
+            <sky-key-info [layout]="'horizontal'">
+              <sky-key-info-value>
+                {{ member.name }}
+              </sky-key-info-value>
+              <sky-key-info-label>
+                <a href="mailto:{{ member.email }}">
+                  {{ member.email }}
+                </a>
+              </sky-key-info-label>
+            </sky-key-info>
+          </div>
+        </div>
+      </sky-column>
+    </sky-row>
+  </sky-fluid-grid>
+</main>
