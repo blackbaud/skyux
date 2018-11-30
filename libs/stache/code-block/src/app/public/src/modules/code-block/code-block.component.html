@@ -1,0 +1,16 @@
+<div class="stache-code-block">
+  <div class="code-block-header">
+    <div class="sky-deemphasized">
+      {{displayName}}
+    </div>
+    <button>Copy to clipboard</button>
+  </div>
+  <div #codeFromContent class="stache-code-input">
+    <ng-content></ng-content>
+  </div>
+  <div>
+    <pre #stacheCodeOutput class="stache-code-output"><code
+        [ngClass]="getClassName()"
+        [innerHTML]="output"></code></pre>
+  </div>
+</div>
