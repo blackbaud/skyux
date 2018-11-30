@@ -1,3 +1,12 @@
+# 2.14.0 (2018-11-29)
+- Added `stache-hide-from-search` component to allow users to exclude content from Stache search results. [#557](https://github.com/blackbaud/stache2/pull/557)
+- Fixed alignment issue with sidebar and table of contents. [#556](https://github.com/blackbaud/stache2/pull/556)
+- Updated dependencies to use SKY UX components directly. [#553](https://github.com/blackbaud/stache2/pull/553)
+  - Updated version of SKY UX Builder.
+  - Updated Travis build options to enhance test utility.
+- Updated the `stache-action-buttons` component to improve accessibility and allow action buttons without icons. [#548](https://github.com/blackbaud/stache2/pull/548)
+- Updated `stache-code-block` component to improve accessibility by increasing the color contrast. [#551](https://github.com/blackbaud/stache2/pull/551)
+
 # 2.13.0 (2018-10-23)
 - Updated [skyux-builder-plugin-stache](https://github.com/blackbaud/skyux-builder-plugin-stache/blob/master/CHANGELOG.md#151-2018-08-02) dependency to `~1.7.0`.
   - Added the `skyux stache-update` command to update your projects SKY UX, SKY UX Builder, and Stache dependencies. The command also deletes the `node_modules` folder and runs `npm install`.
