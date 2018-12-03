@@ -1,4 +1,8 @@
-#  3.0.0-rc.5 (2018-11-19)
+# 3.0.0-rc.6 (2018-11-30)
+
+- Fixed modal focus to ignore hidden elements. [#12](https://github.com/blackbaud/skyux-modals/pull/12)
+
+# 3.0.0-rc.5 (2018-11-19)
 
 - Updated peer dependencies to support Angular versions greater than `4.3.6`. [#14](https://github.com/blackbaud/skyux-modals/pull/14)
 
