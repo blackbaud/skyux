@@ -1,3 +1,7 @@
+# 3.0.0-rc.4 (2018-12-03)
+
+- Updated dependency to properly style the hover state for a selected tab that is not disabled. [blackbaud/skyux-theme#41](https://github.com/blackbaud/skyux-theme/pull/41)
+
 # 3.0.0-rc.3 (2018-11-19)
 
 - Updated peer dependencies to support Angular versions greater than `4.3.6`. [#6](https://github.com/blackbaud/skyux-popovers/pull/6)
