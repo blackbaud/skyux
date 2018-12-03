@@ -1,3 +1,7 @@
+# 3.0.0-rc.4 (2018-11-30)
+
+- Fixed `SkyListViewGridModule` exports to include required submodules and `SkyGridModule`. [#9](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/9)
+
 # 3.0.0-rc.3 (2018-11-20)
 
 - Added support for `@skyux/list-builder-common@3.0.0-rc.1`. [#10](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/10)
