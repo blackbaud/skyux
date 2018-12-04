@@ -17,7 +17,8 @@ export class MockTileDashboardService {
   public init(
     config: SkyTileDashboardConfig,
     columns?: QueryList<SkyTileDashboardColumnComponent>,
-    singleColumn?: SkyTileDashboardColumnComponent
+    singleColumn?: SkyTileDashboardColumnComponent,
+    settingsKey?: string
   ) {
     this.config = config;
   }

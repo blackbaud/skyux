@@ -189,7 +189,8 @@ describe('Tile dashboard component', () => {
     expect(initSpy).toHaveBeenCalledWith(
       initialConfig,
       jasmine.any(QueryList),
-      jasmine.any(SkyTileDashboardColumnComponent)
+      jasmine.any(SkyTileDashboardColumnComponent),
+      undefined
     );
 
     initSpy.calls.reset();

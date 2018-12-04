@@ -54,6 +54,9 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
     return this._config;
   }
 
+  @Input()
+  public settingsKey: string;
+
   @Output()
   public configChange = new EventEmitter<SkyTileDashboardConfig>();
 
@@ -123,7 +126,7 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
   private checkReady() {
     if (this.viewReady && this.config) {
       setTimeout(() => {
-        this.dashboardService.init(this.config, this.columns, this.singleColumn);
+        this.dashboardService.init(this.config, this.columns, this.singleColumn, this.settingsKey);
       }, 0);
     }
   }
