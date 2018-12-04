@@ -1,3 +1,7 @@
+# 3.0.0-rc.4 (2018-12-04)
+
+- Added `isSelected` input to repeater item component. [#8](https://github.com/blackbaud/skyux-lists/pull/8)
+
 # 3.0.0-rc.3 (2018-11-19)
 
 - Updated peer dependencies to support Angular versions greater than `4.3.6`. [#4](https://github.com/blackbaud/skyux-lists/pull/4)
