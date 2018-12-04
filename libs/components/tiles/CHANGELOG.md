@@ -1,3 +1,7 @@
+# 3.0.0-rc.5 (2018-12-04)
+
+- Added UI config service hooks to tile dashboard service. [#11](https://github.com/blackbaud/skyux-tiles/pull/11)
+
 # 3.0.0-rc.4 (2018-12-03)
 
 - Added an optional help button to the tile component's header. [#14](https://github.com/blackbaud/skyux-tiles/pull/14)
