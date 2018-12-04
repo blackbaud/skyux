@@ -172,6 +172,22 @@ describe('Repeater item component', () => {
       expect(repeaterItems[0].isExpanded).toBe(false);
     }));
 
+    it('should select items based on input', fakeAsync(() => {
+      let fixture = TestBed.createComponent(RepeaterTestComponent);
+      let cmp: RepeaterTestComponent = fixture.componentInstance;
+      cmp.expandMode = 'single';
+      cmp.lastItemSelected = true;
+
+      fixture.detectChanges();
+      tick();
+
+      let repeaterItems = cmp.repeater.items.toArray();
+
+      expect(repeaterItems[0].isSelected).toBe(false);
+      expect(repeaterItems[1].isSelected).toBe(false);
+      expect(repeaterItems[2].isSelected).toBe(true);
+    }));
+
     it('should be accessible', async(() => {
       let fixture = TestBed.createComponent(RepeaterTestComponent);
       fixture.detectChanges();
@@ -262,6 +278,22 @@ describe('Repeater item component', () => {
       repeaterItems = cmp.repeater.items.toArray();
 
       expect(repeaterItems[0].isExpanded).toBe(false);
+    }));
+
+    it('should select items based on input', fakeAsync(() => {
+      let fixture = TestBed.createComponent(RepeaterTestComponent);
+      let cmp: RepeaterTestComponent = fixture.componentInstance;
+      cmp.expandMode = 'multiple';
+      cmp.lastItemSelected = true;
+
+      fixture.detectChanges();
+      tick();
+
+      let repeaterItems = cmp.repeater.items.toArray();
+
+      expect(repeaterItems[0].isSelected).toBe(false);
+      expect(repeaterItems[1].isSelected).toBe(false);
+      expect(repeaterItems[2].isSelected).toBe(true);
     }));
 
     it('should be accessible', async(() => {
@@ -386,6 +418,22 @@ describe('Repeater item component', () => {
       repeaterItems = cmp.repeater.items.toArray();
 
       expect(repeaterItems[0].isExpanded).toBe(true);
+    }));
+
+    it('should select items based on input', fakeAsync(() => {
+      let fixture = TestBed.createComponent(RepeaterTestComponent);
+      let cmp: RepeaterTestComponent = fixture.componentInstance;
+      cmp.expandMode = 'none';
+      cmp.lastItemSelected = true;
+
+      fixture.detectChanges();
+      tick();
+
+      let repeaterItems = cmp.repeater.items.toArray();
+
+      expect(repeaterItems[0].isSelected).toBe(false);
+      expect(repeaterItems[1].isSelected).toBe(false);
+      expect(repeaterItems[2].isSelected).toBe(true);
     }));
 
     it('should be accessible', async(() => {

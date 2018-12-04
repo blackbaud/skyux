@@ -17,4 +17,6 @@ export class RepeaterTestComponent {
   public expandMode = 'single';
 
   public lastItemExpanded: boolean;
+
+  public lastItemSelected = false;
 }

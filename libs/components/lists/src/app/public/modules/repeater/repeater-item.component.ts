@@ -45,6 +45,11 @@ export class SkyRepeaterItemComponent {
   }
 
   @Input()
+  public set isSelected(value: boolean) {
+    this._isSelected = value;
+  }
+
+  @Input()
   public selectable: boolean = false;
 
   public slideDirection: string;
