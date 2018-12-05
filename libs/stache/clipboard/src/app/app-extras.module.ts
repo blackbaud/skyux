@@ -3,16 +3,16 @@ import {
 } from '@angular/core';
 
 import {
-  MyLibraryModule
+  SkyClipboardModule
 } from './public';
 
 // Specify entry components, module-level providers, etc. here.
 @NgModule({
   imports: [
-    MyLibraryModule
+    SkyClipboardModule
   ],
   exports: [
-    MyLibraryModule
+    SkyClipboardModule
   ],
   providers: [],
   entryComponents: []

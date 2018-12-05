@@ -1,12 +1,28 @@
-<div class="sky-container">
-  <h1>
-    Component Library
-  </h1>
+<div style="padding: 30px">
+  <form style="border: 1px solid black; padding: 10px; margin-bottom: 10px;">
+    <label for="input-demo">
+      Copy from an Input
+    </label>
+    <input name="input-demo" #inputReference type="text" placeHolder="test demo stuff"/>
+    <sky-copy-to-clipboard [copyTarget]="inputReference">
+    </sky-copy-to-clipboard>
+  </form>
 
-  <h3>
-    Demo:
-  </h3>
+  <div style="border: 1px solid black; padding: 10px; margin-bottom: 10px;">
+    <div #divReference>
+      Copy text within a div
+      <p>
+        Nested Content within the div
+      </p>
+    </div>
+    <sky-copy-to-clipboard buttonText="Copy From Div" buttonClickedText="Copied!" [copyTarget]="divReference"></sky-copy-to-clipboard>
+  </div>
 
-  <lib-sample>
-  </lib-sample>
+  <div style="padding-top: 30px">
+    <p>
+      <strong>Paste Here:</strong>
+    </p>
+    <br>
+    <textarea rows="5" style="width: 100%"></textarea>
+  </div>
 </div>

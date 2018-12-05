@@ -1,0 +1,16 @@
+<button
+  type="button"
+  class="sky-btn sky-btn-default sky-clipboard-btn"
+  *ngIf="enabled"
+  (click)="copyToClipboard()"
+  [attr.title]="'sky_copy_to_clipboard_button_title' | skyAppResources"
+  >
+  <i *ngIf="!buttonActive" aria-hidden="true" class="fa fa-clipboard"></i>
+  <i *ngIf="buttonActive" aria-hidden="true" class="fa fa-check"></i>
+  <span *ngIf="!buttonActive || (buttonActive && !buttonClickedText)">
+    {{ buttonText }}
+  </span>
+  <span *ngIf="buttonActive && buttonClickedText">
+    {{ buttonClickedText }}
+  </span>
+</button>
