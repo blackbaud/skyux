@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SkyCopyToClipboardService } from './clipboard.service';
-import { SkyAppRuntimeModule } from '@blackbaud/skyux-builder/runtime';
+import { SkyI18nModule } from '@skyux/i18n';
 import { SkyCopyToClipboardComponent } from './clipboard.component';
 import { SkyClipboardWindowRef } from '../shared';
 
@@ -11,7 +11,7 @@ import { SkyClipboardWindowRef } from '../shared';
   ],
   imports: [
     CommonModule,
-    SkyAppRuntimeModule
+    SkyI18nModule
   ],
   exports: [
     SkyCopyToClipboardComponent
