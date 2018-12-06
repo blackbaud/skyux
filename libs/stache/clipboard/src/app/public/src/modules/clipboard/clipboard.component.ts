@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { SkyCopyToClipboardService } from './clipboard.service';
 import { SkyClipboardWindowRef } from '../shared';
 
@@ -6,7 +6,7 @@ import { SkyClipboardWindowRef } from '../shared';
   selector: 'sky-copy-to-clipboard',
   templateUrl: './clipboard.component.html'
 })
-export class SkyCopyToClipboardComponent implements OnInit {
+export class SkyCopyToClipboardComponent {
   @Input()
   public copyTarget: HTMLElement;
 
@@ -17,7 +17,6 @@ export class SkyCopyToClipboardComponent implements OnInit {
   public buttonClickedText: string;
 
   public buttonActive: boolean = false;
-  public enabled: boolean = false;
   private timeout: any;
   private window: Window;
 
@@ -26,10 +25,6 @@ export class SkyCopyToClipboardComponent implements OnInit {
     private windowRef: SkyClipboardWindowRef
   ) {
     this.window = this.windowRef.nativeWindow;
-  }
-
-  public ngOnInit() {
-    this.enabled = this.clipboardService.verifyCopyCommandBrowserSupport();
   }
 
   public copyToClipboard() {

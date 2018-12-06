@@ -111,12 +111,6 @@ describe('SkyCopyToClipboardComponent', () => {
     expect(component.buttonActive).toBe(false);
   }));
 
-  // it('hides copy button if copy command is not enabled/available', () => {
-  //   spyOn(component['clipboardService'], 'verifyCopyCommandBrowserSupport').and.returnValue(false);
-  //   fixture.detectChanges();
-  //   expect(component.enabled).toEqual(false);
-  // });
-
   it('should pass accessibility', async(() => {
     fixture.detectChanges();
     expect(element).toBeAccessible();
