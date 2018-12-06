@@ -1,14 +1,16 @@
-<div style="padding: 30px">
-  <form style="border: 1px solid black; padding: 10px; margin-bottom: 10px;">
-    <label for="input-demo">
-      Copy from an Input
-    </label>
-    <input name="input-demo" #inputReference type="text" placeHolder="test demo stuff"/>
-    <sky-copy-to-clipboard [copyTarget]="inputReference">
-    </sky-copy-to-clipboard>
-  </form>
+<div class="sky-padding-demo-box">
+  <div class="sky-clipboard-demo-box">
+    <form class="sky-padding-demo-box" >
+      <label for="input-demo">
+        Copy from an Input
+      </label>
+      <input name="input-demo" #inputReference type="text" placeHolder="test demo stuff"/>
+      <sky-copy-to-clipboard [copyTarget]="inputReference">
+      </sky-copy-to-clipboard>
+    </form>
+  </div>
 
-  <div style="border: 1px solid black; padding: 10px; margin-bottom: 10px;">
+  <div class="sky-clipboard-demo-box">
     <div #divReference>
       Copy text within a div
       <p>
@@ -18,39 +20,40 @@
     <sky-copy-to-clipboard buttonText="Copy From Div" buttonClickedText="Copied!" [copyTarget]="divReference"></sky-copy-to-clipboard>
   </div>
 
-  <div style="border: 1px solid black; padding: 10px; margin-bottom: 10px;">
-      <pre>
-        <code #codeRef>
-          function (foo) &#123;
-            return bar;
-          &#125;
+  <div class="sky-clipboard-demo-box">
+    <pre>
+      <code #codeRef>
+        function (foo) &#123;
+          return bar;
+        &#125;
 
-          &lt;div>
-            &lt;p>
-              paragraph
-            &lt;/p>
-          &lt;/div>
-        </code>
-      </pre>
-      <sky-copy-to-clipboard buttonText="Copy From Div" buttonClickedText="Copied!" [copyTarget]="codeRef"></sky-copy-to-clipboard>
-    </div>
+        &lt;div>
+          &lt;p>
+            paragraph
+          &lt;/p>
+        &lt;/div>
+      </code>
+    </pre>
+    <sky-copy-to-clipboard buttonText="Copy From Div" buttonClickedText="Copied!" [copyTarget]="codeRef"></sky-copy-to-clipboard>
+  </div>
 
-  <div style="padding: 30px">
-    <form style="border: 1px solid black; padding: 10px; margin-bottom: 10px;">
+  <div class="sky-clipboard-demo-box">
+    <form class="sky-padding-demo-box">
       <label for="input-demo">
         Copy from an Input
       </label>
-      <textarea name="input-demo" #textAreaRef type="text" placeHolder="test demo stuff"></textarea>
+      <br>
+      <textarea rows="10" class="sky-clipboard-textarea" name="input-demo" #textAreaRef type="text" placeHolder="test demo stuff"></textarea>
       <sky-copy-to-clipboard [copyTarget]="textAreaRef">
       </sky-copy-to-clipboard>
     </form>
   </div>
 
-  <div style="padding-top: 30px">
+  <div class="sky-padding-demo-box">
     <p>
       <strong>Paste Here:</strong>
     </p>
     <br>
-    <textarea rows="5" style="width: 100%"></textarea>
+    <textarea rows="5" class="sky-clipboard-textarea"></textarea>
   </div>
 </div>

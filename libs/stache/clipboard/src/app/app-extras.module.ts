@@ -1,3 +1,5 @@
+require('style-loader!./styles.scss');
+
 import {
   NgModule
 } from '@angular/core';
