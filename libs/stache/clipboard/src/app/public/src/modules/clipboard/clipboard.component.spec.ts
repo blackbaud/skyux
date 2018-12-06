@@ -5,7 +5,7 @@ import {
 import { SkyAppRuntimeModule } from '@blackbaud/skyux-builder/runtime';
 import { HttpModule } from '@angular/http';
 import { PipeTransform, Pipe } from '@angular/core';
-import { SkyAppResourcesService } from '@blackbaud/skyux-builder/runtime/i18n';
+import { SkyAppResourcesService } from '@skyux/i18n';
 import { SkyCopyToClipboardComponent, SkyCopyToClipboardService } from '../clipboard';
 import { SkyClipboardWindowRef } from '../shared';
 
