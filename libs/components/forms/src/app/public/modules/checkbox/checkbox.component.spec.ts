@@ -1,4 +1,6 @@
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   DebugElement
 } from '@angular/core';
@@ -145,6 +147,22 @@ class CheckboxWithChangeEventComponent {
   public lastEvent: SkyCheckboxChange;
 }
 
+/** Simple test component with OnPush change detection */
+@Component({
+  template: `
+  <div>
+    <sky-checkbox
+      id="simple-check"
+      [(ngModel)]="isChecked">
+    </sky-checkbox>
+  </div>`,
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+class CheckboxWithOnPushChangeDetectionComponent {
+  public isChecked: boolean = false;
+  constructor(public ref: ChangeDetectorRef) {}
+}
+
 describe('Checkbox component', () => {
   let fixture: ComponentFixture<any>;
 
@@ -162,6 +180,7 @@ describe('Checkbox component', () => {
         CheckboxWithChangeEventComponent,
         CheckboxWithFormDirectivesComponent,
         CheckboxWithNameAttributeComponent,
+        CheckboxWithOnPushChangeDetectionComponent,
         CheckboxWithTabIndexComponent,
         CheckboxWithReactiveFormComponent,
         MultipleCheckboxesComponent,
@@ -685,6 +704,43 @@ describe('Checkbox component', () => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         expect(fixture.nativeElement).toBeAccessible();
+      });
+    }));
+  });
+
+  describe('with a consumer using OnPush change detection', () => {
+    let checkboxElement: DebugElement;
+    let testComponent: CheckboxWithOnPushChangeDetectionComponent;
+    let inputElement: HTMLInputElement;
+    let checkboxNativeElement: HTMLElement;
+
+    beforeEach(async(() => {
+      fixture = TestBed.createComponent(CheckboxWithOnPushChangeDetectionComponent);
+      fixture.detectChanges();
+
+      fixture.whenStable().then(() => {
+        checkboxElement = fixture.debugElement.query(By.directive(SkyCheckboxComponent));
+        checkboxNativeElement = checkboxElement.nativeElement;
+
+        testComponent = fixture.debugElement.componentInstance;
+        inputElement = <HTMLInputElement>checkboxNativeElement.querySelector('input');
+      });
+    }));
+
+    it('should change check state through ngModel programmatically', async(() => {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expect(inputElement.checked).toBe(false);
+        expect(testComponent.isChecked).toBe(false);
+        fixture.detectChanges();
+        testComponent.isChecked = true;
+        testComponent.ref.markForCheck();
+
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          fixture.detectChanges();
+          expect(inputElement.checked).toBe(true);
+        });
       });
     }));
   });

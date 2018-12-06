@@ -32,6 +32,10 @@ import {
 import {
   SkyRadioLabelComponent
 } from './radio-label.component';
+
+import {
+  SkyRadioOnPushTestComponent
+} from './fixtures/radio-on-push.component.fixture';
 // #endregion
 
 describe('Radio component', function () {
@@ -300,6 +304,41 @@ describe('Radio component', function () {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         expect(fixture.nativeElement).toBeAccessible();
+      });
+    }));
+  });
+
+  describe('Radio component with a consumer using OnPush change detection', () => {
+    beforeEach(function () {
+      fixture = TestBed.createComponent(SkyRadioOnPushTestComponent);
+
+      fixture.detectChanges();
+      componentInstance = fixture.componentInstance;
+    });
+
+    it('should update the ngModel properly when radio button is changed', async(function () {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        const radios = fixture.nativeElement.querySelectorAll('input');
+
+        expect(radios.item(0).checked).toBeTruthy();
+        expect(radios.item(1).checked).toBeFalsy();
+        expect(radios.item(2).checked).toBeFalsy();
+
+        fixture.detectChanges();
+        componentInstance.selectedValue = '2';
+        componentInstance.ref.markForCheck();
+        fixture.detectChanges();
+
+        fixture.whenStable().then(() => {
+          fixture.detectChanges();
+
+          expect(radios.item(0).checked).toBeFalsy();
+          expect(radios.item(1).checked).toBeTruthy();
+          expect(radios.item(2).checked).toBeFalsy();
+          expect(componentInstance.selectedValue).toBe('2');
+        });
+
       });
     }));
   });

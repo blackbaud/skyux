@@ -100,6 +100,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor {
   public set checked(checked: boolean) {
     if (checked !== this.checked) {
       this._checked = checked;
+      this._controlValueAccessorChangeFn(checked);
     }
   }
 

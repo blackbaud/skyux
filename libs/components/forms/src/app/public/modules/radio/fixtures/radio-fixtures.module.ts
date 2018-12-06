@@ -23,12 +23,17 @@ import {
 import {
   SkySingleRadioComponent
 } from './radio-single.component.fixture';
+
+import {
+  SkyRadioOnPushTestComponent
+} from './radio-on-push.component.fixture';
 // #endregion
 
 @NgModule({
   declarations: [
     SkyRadioTestComponent,
     SkyRadioGroupTestComponent,
+    SkyRadioOnPushTestComponent,
     SkySingleRadioComponent
   ],
   imports: [

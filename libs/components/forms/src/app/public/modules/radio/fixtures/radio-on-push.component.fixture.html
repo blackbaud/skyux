@@ -1,0 +1,47 @@
+<form>
+
+    <sky-radio
+      id="hey-2"
+      name="testName"
+      [label]="label1"
+      [value]="value1"
+      [(ngModel)]="selectedValue"
+    >
+      <sky-radio-label>
+        My label
+      </sky-radio-label>
+    </sky-radio>
+
+    <sky-radio
+      id="hey"
+      name="testName"
+      [disabled]="disabled2"
+      [tabindex]="tabindex2"
+      [value]="value2"
+      [(ngModel)]="selectedValue"
+    >
+      <sky-radio-label>
+        My label
+      </sky-radio-label>
+    </sky-radio>
+    <sky-radio
+      id="hey-3"
+      name="testName"
+      [labelledBy]="labelledBy3"
+      [value]="value3"
+      [(ngModel)]="selectedValue"
+    >
+      <sky-radio-label>
+        My label
+      </sky-radio-label>
+    </sky-radio>
+  </div>
+
+  <sky-radio
+    id="radio-clickable"
+  >
+    <sky-radio-label>
+      Label
+    </sky-radio-label>
+  </sky-radio>
+</form>
