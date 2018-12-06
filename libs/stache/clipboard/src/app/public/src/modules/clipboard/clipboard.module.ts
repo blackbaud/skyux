@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { SkyAppRuntimeModule } from '@blackbaud/skyux-builder/runtime';
 import { SkyCopyToClipboardComponent } from './clipboard.component';
 import { SkyClipboardWindowRef } from '../shared';
+import * as Clipboard from 'clipboard-polyfill/build/clipboard-polyfill.promise';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { SkyClipboardWindowRef } from '../shared';
   ],
   providers: [
     SkyCopyToClipboardService,
-    SkyClipboardWindowRef
+    SkyClipboardWindowRef,
+    Clipboard.DT
   ]
 })
 export class SkyClipboardModule { }

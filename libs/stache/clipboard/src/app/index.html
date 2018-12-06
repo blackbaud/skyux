@@ -18,6 +18,34 @@
     <sky-copy-to-clipboard buttonText="Copy From Div" buttonClickedText="Copied!" [copyTarget]="divReference"></sky-copy-to-clipboard>
   </div>
 
+  <div style="border: 1px solid black; padding: 10px; margin-bottom: 10px;">
+      <pre>
+        <code #codeRef>
+          function (foo) &#123;
+            return bar;
+          &#125;
+
+          &lt;div>
+            &lt;p>
+              paragraph
+            &lt;/p>
+          &lt;/div>
+        </code>
+      </pre>
+      <sky-copy-to-clipboard buttonText="Copy From Div" buttonClickedText="Copied!" [copyTarget]="codeRef"></sky-copy-to-clipboard>
+    </div>
+
+  <div style="padding: 30px">
+    <form style="border: 1px solid black; padding: 10px; margin-bottom: 10px;">
+      <label for="input-demo">
+        Copy from an Input
+      </label>
+      <textarea name="input-demo" #textAreaRef type="text" placeHolder="test demo stuff"></textarea>
+      <sky-copy-to-clipboard [copyTarget]="textAreaRef">
+      </sky-copy-to-clipboard>
+    </form>
+  </div>
+
   <div style="padding-top: 30px">
     <p>
       <strong>Paste Here:</strong>

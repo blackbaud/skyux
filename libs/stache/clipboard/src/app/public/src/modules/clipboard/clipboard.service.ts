@@ -1,74 +1,40 @@
 // adapted from ngx-clipboard
 
-import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { SkyClipboardWindowRef } from '../shared';
+
+const clipboard = require("clipboard-polyfill/build/clipboard-polyfill.promise");
 
 @Injectable()
 export class SkyCopyToClipboardService {
-  private copyTextArea: HTMLTextAreaElement;
   private document: any;
-  private renderer: Renderer2;
 
   constructor(
-    private windowRef: SkyClipboardWindowRef,
-    private rendererFactory: RendererFactory2
+    private windowRef: SkyClipboardWindowRef
   ) {
-    this.renderer = this.rendererFactory.createRenderer(undefined, undefined);
     this.document = this.windowRef.nativeWindow.document;
   }
 
   public copyContent(element: HTMLElement) {
-    let copyTarget = this.getValidInputElement(element);
-    this.copyFromInputElement(copyTarget);
+    let copyText = this.getTextFromElement(element);
+    clipboard.writeText(copyText);
   }
 
   public verifyCopyCommandBrowserSupport() {
     return this.document.queryCommandSupported('copy');
   }
 
-  private copyFromInputElement(copyTarget: HTMLInputElement | HTMLTextAreaElement) {
-    copyTarget.select();
-    this.document.execCommand('copy');
-    this.clearSelection(copyTarget);
-  }
-
-  private getValidInputElement(element: HTMLElement): HTMLInputElement | HTMLTextAreaElement {
+  private getTextFromElement(element: HTMLElement): string {
 
     if (this.isValidInputElement(element)) {
-      return element as HTMLInputElement | HTMLTextAreaElement;
+      const targetEl = element as HTMLInputElement | HTMLTextAreaElement;
+      return targetEl.value;
     }
 
-    return this.createTextAreaFromElement(element);
+    return element.innerText;
   }
 
   private isValidInputElement(element: HTMLElement): boolean {
     return (element instanceof HTMLTextAreaElement || element instanceof HTMLInputElement);
-  }
-
-  private clearSelection(inputElement: HTMLInputElement | HTMLTextAreaElement) {
-    inputElement.blur();
-    this.windowRef.nativeWindow.getSelection().removeAllRanges();
-  }
-
-  private createTextAreaFromElement(element: HTMLElement): HTMLTextAreaElement {
-    if (!this.copyTextArea) {
-        const copyTextAreaStyles = `
-          font-size: 12px;
-          border: 0;
-          padding: 0;
-          margin: 0;
-          position: absolute;
-          left: -9999px;
-          top: -9999px`;
-
-      this.copyTextArea = this.document.createElement('textarea');
-      this.copyTextArea.setAttribute('style', copyTextAreaStyles);
-      this.copyTextArea.setAttribute('readonly', '');
-      this.renderer.appendChild(this.document.body, this.copyTextArea);
-    }
-
-    this.copyTextArea.value = element.innerText.trim();
-
-    return this.copyTextArea;
   }
 }
