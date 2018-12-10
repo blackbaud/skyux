@@ -19,7 +19,8 @@ export class SkyAppTestUtility {
     // Apply keyboard event options.
     const event = Object.assign(
       document.createEvent('CustomEvent'),
-      settings.keyboardEventInit
+      settings.keyboardEventInit,
+      settings.customEventInit
     );
 
     event.initEvent(eventName, settings.bubbles, settings.cancelable);
