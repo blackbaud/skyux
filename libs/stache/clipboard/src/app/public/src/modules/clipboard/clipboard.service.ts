@@ -18,7 +18,7 @@ export class SkyCopyToClipboardService {
       return targetEl.value;
     }
 
-    return element.innerText;
+    return element.textContent.trim();
   }
 
   private isValidInputElement(element: HTMLElement): boolean {
