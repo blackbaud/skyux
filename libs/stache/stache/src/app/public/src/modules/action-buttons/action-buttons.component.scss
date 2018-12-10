@@ -5,11 +5,19 @@
 }
 
 .stache-action-button-override {
+  display: flex;
+  flex-direction: column;
   padding: 30px 20px;
   text-align: center;
   border: 1px solid $stache-border-color-neutral-medium;
   margin: 15px 0px;
   width: 100%;
+
+  ::ng-deep
+  .sky-action-button-header {
+    display: block;
+    margin-bottom: 20px;
+  }
 }
 
 .stache-action-button-override:hover {
@@ -24,6 +32,7 @@
 }
 
 .stache-action-buttons-nav-container {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
 }
