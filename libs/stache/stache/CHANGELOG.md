@@ -1,3 +1,6 @@
+# 2.14.1 (2018-12-10)
+- Updated `stache-action-buttons` component to fix style bug where an action button appeared squished when displayed without other action buttons. [#561](https://github.com/blackbaud/stache2/pull/561)
+
 # 2.14.0 (2018-11-29)
 - Added `stache-hide-from-search` component to allow users to exclude content from Stache search results. [#557](https://github.com/blackbaud/stache2/pull/557)
 - Fixed alignment issue with sidebar and table of contents. [#556](https://github.com/blackbaud/stache2/pull/556)
