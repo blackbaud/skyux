@@ -49,8 +49,19 @@ describe('SkyCopyToClipboardService', () => {
 
   it('should copy text from nested html elements in multiple teirs', () => {
     let htmlElement = document.createElement('div');
-    htmlElement.innerHTML = `<div>upper test string <p>lower test string</p></div>`;
+    htmlElement.innerHTML = `
+    <div>
+      upper test string
+      <p>
+        lower test string
+      </p>
+    </div>`;
     clipboardService.copyContent(htmlElement);
-    expect(mockText).toEqual(`upper test string lower test string`);
+    expect(mockText).toContain('upper test string');
+    expect(mockText).toContain('lower test string');
+    expect(mockText).not.toContain('<p>');
+    expect(mockText).not.toContain('</p>');
+    expect(mockText).not.toContain('<div>');
+    expect(mockText).not.toContain('</div>');
   });
 });
