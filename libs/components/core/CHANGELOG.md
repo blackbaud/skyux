@@ -1,3 +1,7 @@
+# 3.5.0 (2018-12-11)
+
+- Updated `SkyDynamicComponentService` to remove components from the page dynamically. [#45](https://github.com/blackbaud/skyux-core/pull/45)
+
 # 3.4.0 (2018-11-29)
 
 - Added `SkyDynamicComponentService` which provides the ability to inject entry components onto the page dynamically. [#44](https://github.com/blackbaud/skyux-core/pull/44)
