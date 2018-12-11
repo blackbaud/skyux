@@ -67,9 +67,7 @@ export class SkyDynamicComponentService {
 
     this.appRef.attachView(cmpRef.hostView);
 
-    // Technique for retrieving the component's root node taken from here:
-    // https://malcoded.com/posts/angular-dynamic-components
-    const el = (cmpRef.hostView as EmbeddedViewRef<any>).rootNodes[0];
+    const el = this.getRootNode(cmpRef);
 
     const bodyEl = this.windowRef.getWindow().document.body;
 
@@ -83,6 +81,26 @@ export class SkyDynamicComponentService {
     }
 
     return cmpRef;
+  }
+
+  /**
+   * Removes a component ref from the page
+   * @param cmpRef Component ref for the component being removed
+   */
+  public removeComponent<T>(
+    cmpRef: ComponentRef<T>
+  ): void {
+    const bodyEl = this.windowRef.getWindow().document.body;
+
+    const el = this.getRootNode(cmpRef);
+
+    this.renderer.removeChild(bodyEl, el);
+  }
+
+  private getRootNode<T>(componentRef: ComponentRef<T>): any {
+    // Technique for retrieving the component's root node taken from here:
+    // https://malcoded.com/posts/angular-dynamic-components
+    return (componentRef.hostView as EmbeddedViewRef<T>).rootNodes[0];
   }
 
 }

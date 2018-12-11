@@ -55,6 +55,16 @@ describe('Dynamic component service', () => {
     return cmpRef;
   }
 
+  function removeTestComponent(refToRemove: ComponentRef<any>) {
+    const svc: SkyDynamicComponentService = TestBed.get(SkyDynamicComponentService);
+
+    svc.removeComponent(refToRemove);
+
+    cmpRef.changeDetectorRef.detectChanges();
+
+    return cmpRef;
+  }
+
   function getComponentEl() {
     return (cmpRef.hostView as EmbeddedViewRef<any>).rootNodes[0];
   }
@@ -101,5 +111,18 @@ describe('Dynamic component service', () => {
     createTestComponent(SkyDynamicComponentLocation.BodyTop);
 
     expect(document.body.firstChild).toBe(getComponentEl());
+  });
+
+  it('should remove a component from the page', () => {
+    createTestComponent();
+
+    const el = getComponentEl();
+
+    expect(document.body.lastChild).toBe(el);
+    expect(el.querySelector('.component-test')).toHaveText('Hello world');
+
+    removeTestComponent(cmpRef);
+
+    expect(document.body.lastChild).not.toBe(el);
   });
 });
