@@ -1,0 +1,21 @@
+<div class="sky-code-block">
+  <div class="sky-code-block-header">
+    <div class="sky-deemphasized">
+      {{displayName}}
+    </div>
+    <sky-copy-to-clipboard
+      *ngIf="!hideCopyToClipboard"
+      [copyTarget]="skyCodeOutput"
+      buttonText="{{ 'sky_copy_to_clipboard_button' | skyAppResources }}"
+      buttonClickedText="{{ 'sky_copy_to_clipboard_button_success' | skyAppResources }}">
+    </sky-copy-to-clipboard>
+  </div>
+  <div #codeFromContent class="sky-code-input">
+    <ng-content></ng-content>
+  </div>
+  <div>
+    <pre #skyCodeOutput class="sky-code-output"><code
+        [ngClass]="getClassName()"
+        [innerHTML]="output"></code></pre>
+  </div>
+</div>

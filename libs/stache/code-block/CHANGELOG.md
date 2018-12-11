@@ -1,3 +1,3 @@
-# x.x.x (yyyy-mm-dd)
+# 1.0.0-rc.1 (2018-12-11)
 
-- (Insert changes here.)
+- Initial Release Candidate.

@@ -3,16 +3,16 @@ import {
 } from '@angular/core';
 
 import {
-  StacheCodeBlockModule
+  SkyCodeBlockModule
 } from './public';
 
 // Specify entry components, module-level providers, etc. here.
 @NgModule({
   imports: [
-    StacheCodeBlockModule
+    SkyCodeBlockModule
   ],
   exports: [
-    StacheCodeBlockModule
+    SkyCodeBlockModule
   ],
   providers: [],
   entryComponents: []

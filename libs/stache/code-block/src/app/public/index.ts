@@ -1,1 +1,1 @@
-export * from './src/code-block.module';
+export * from './modules';

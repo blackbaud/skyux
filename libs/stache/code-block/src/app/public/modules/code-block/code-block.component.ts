@@ -7,11 +7,11 @@ import 'prismjs/plugins/normalize-whitespace/prism-normalize-whitespace';
 import * as PrismLanguages from './prism-languages';
 
 @Component({
-  selector: 'stache-code-block',
+  selector: 'sky-code-block',
   templateUrl: './code-block.component.html',
   styleUrls: ['./code-block.component.scss']
 })
-export class StacheCodeBlockComponent implements AfterViewInit {
+export class SkyCodeBlockComponent implements AfterViewInit {
   @Input()
   public code: string;
 

@@ -1,0 +1,26 @@
+@import './node_modules/@skyux/theme/scss/mixins.scss';
+@import './prism-a11y.scss';
+
+.sky-code-input {
+  display: none;
+}
+
+.sky-code-output {
+  @include sky-border("dark", "right", "bottom", "left");
+  margin-top: 0;
+  padding: $sky-space-xl;
+  background-color: #fff;
+  overflow-x: auto;
+  margin-bottom: $sky-space-md * 2;
+}
+
+.sky-code-block-header {
+  height: 45px;
+  @include sky-border("dark", "top", "right", "bottom", "left");
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $sky-space-xs;
+  padding-left: $sky-space-xl;
+}
