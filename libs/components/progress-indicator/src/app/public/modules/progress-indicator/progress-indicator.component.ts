@@ -5,6 +5,7 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
+  Optional,
   Output,
   QueryList
 } from '@angular/core';
@@ -14,12 +15,18 @@ import {
 } from 'rxjs/Subject';
 
 import {
+  SkyWindowRefService
+} from '@skyux/core';
+
+import {
   SkyProgressIndicatorChange,
   SkyProgressIndicatorMessageType
 } from './types';
+
 import {
   SkyProgressIndicatorItemComponent
 } from './progress-indicator-item';
+
 import {
   SkyProgressIndicatorDisplayMode
 } from './types/progress-indicator-mode';
@@ -69,6 +76,10 @@ export class SkyProgressIndicatorComponent implements AfterContentInit, OnDestro
   private _isPassive: boolean;
   private ngUnsubscribe = new Subject();
 
+  constructor(
+    @Optional() private windowService: SkyWindowRefService
+  ) {}
+
   public ngAfterContentInit(): void {
     // Set up observation of progress command messages
     this.messageStream
@@ -114,8 +125,13 @@ export class SkyProgressIndicatorComponent implements AfterContentInit, OnDestro
         firstItem.isActive = true;
       }
     }
-    this.progressChanges.emit({
-      activeIndex: this.activeIndex
+
+    // A timeout is needed to ensure that subscriptions are executed after all Angular lifecycle hooks have completed.
+    // For example, if a subscriber executed `detectChanges`, it would short-circuit any remaining lifecycle hooks.
+    this.windowService.getWindow().setTimeout(() => {
+      this.progressChanges.emit({
+        activeIndex: this.activeIndex
+      });
     });
 
     // Set the last item

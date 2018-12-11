@@ -44,6 +44,7 @@ export class ProgressIndicatorTestComponent {
 
   public activeIndex = 0;
   public resetWasClicked = false;
+  public progressChangesEmitted = false;
 
   @ViewChild(SkyProgressIndicatorComponent)
   public progressIndicator: SkyProgressIndicatorComponent;
@@ -73,6 +74,7 @@ export class ProgressIndicatorTestComponent {
   }
 
   public updateIndex(changes: SkyProgressIndicatorChange): void {
+    this.progressChangesEmitted = true;
     this.activeIndex = changes.activeIndex;
     this.changeDetector.detectChanges();
   }

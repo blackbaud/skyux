@@ -19,6 +19,10 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
+  SkyWindowRefService
+} from '@skyux/core';
+
+import {
   SkyProgressIndicatorModule,
   SkyProgressIndicatorMessageType
 } from '.';
@@ -45,6 +49,7 @@ describe('Progress indicator component', function () {
         ProgressIndicatorTestComponent
       ],
       providers: [
+        SkyWindowRefService,
         {
           provide: SkyLibResourcesService,
           useClass: SkyLibResourcesTestService
@@ -54,6 +59,13 @@ describe('Progress indicator component', function () {
 
     fixture = TestBed.createComponent(ProgressIndicatorTestComponent);
   });
+
+  it('should not run the progressChanges emitter until a tick has occurred.', fakeAsync(() => {
+    fixture.detectChanges();
+    expect(fixture.componentInstance.progressChangesEmitted).toBeFalsy();
+    tick();
+    expect(fixture.componentInstance.progressChangesEmitted).toBeTruthy();
+  }));
 
   it('should use horizontal display if set', fakeAsync(() => {
     fixture.componentInstance.displayMode = SkyProgressIndicatorDisplayMode.Horizontal;
