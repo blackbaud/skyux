@@ -127,6 +127,6 @@
 }
 
 :host ::ng-deep .sky-sectioned-form {
-  height: 460px;
+  min-height: 460px;
   margin: -$sky-margin-plus-half;
 }
