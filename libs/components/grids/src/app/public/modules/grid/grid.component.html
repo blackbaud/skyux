@@ -11,10 +11,19 @@
       #gridTable>
       <thead>
         <tr dragula="sky-grid-heading">
-          <th
+          <th *ngIf="enableMultiselect"
+            class="sky-grid-heading sky-grid-multiselect-cell sky-grid-header-locked"
             scope="col"
+            [style.max-width.px]="minColWidth"
+            [style.width.px]="minColWidth"
+          >
+            <span class="screen-reader-only">
+              {{ 'skyux_grid_multiselect_select_row' | skyLibResources }}
+            </span>
+          </th>
+          <th *ngFor="let column of displayedColumns; let last = last, let i = index"
             class="sky-grid-heading sky-field-label"
-            *ngFor="let column of displayedColumns; let last = last, let i = index"
+            scope="col"
             [attr.sky-cmp-index]="i"
             [attr.sky-cmp-id]="column.id || column.field"
             [attr.aria-sort]="getAriaSortDirection(column) | async"
@@ -73,7 +82,29 @@
         <tr
           class="sky-grid-row"
           *ngFor="let item of items"
-          [attr.sky-cmp-id]="item.id">
+          [attr.aria-selected]="item.isSelected"
+          [attr.sky-cmp-id]="item.id"
+          [ngClass]="{
+            'sky-grid-multiselect-selected-row' : item.isSelected,
+            'sky-grid-multiselect-row' : enableMultiselect
+          }"
+          (click)="onRowClick($event, item)"
+        >
+          <td *ngIf="enableMultiselect"
+            class="sky-grid-multiselect-cell sky-grid-header-locked"
+          >
+            <div
+              [style.max-width.px]="minColWidth"
+              [style.width.px]="minColWidth"
+            >
+              <sky-checkbox
+                [label]="'skyux_grid_multiselect_select_row' | skyLibResources"
+                (change)="onMultiselectChange()"
+                [(ngModel)]="item.isSelected"
+              >
+              </sky-checkbox>
+            </div>
+          </td>
           <td
             class="sky-grid-cell"
             *ngFor="let column of displayedColumns; let last = last; let i = index">

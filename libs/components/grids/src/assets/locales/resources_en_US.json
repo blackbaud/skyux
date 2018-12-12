@@ -1,1 +1,6 @@
-{}
+{
+  "skyux_grid_multiselect_select_row": {
+    "_description": "Label for the checkbox in a grid to select a row.",
+    "message": "Select row"
+  }
+}

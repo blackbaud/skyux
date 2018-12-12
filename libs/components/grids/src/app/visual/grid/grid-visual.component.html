@@ -1,19 +1,88 @@
-<div id="screenshot-grid">
+<h1>Simple grid</h1>
+
+<div
+  id="screenshot-grid"
+>
   <sky-grid
     fit="scroll"
-    [data]="items"
+    [data]="dataForSimpleGrid"
     [highlightText]="highlightText"
-    (sortFieldChange)="sortChanged($event)"
+    (sortFieldChange)="sortChangedSimpleGrid($event)"
   >
-    <sky-grid-column field="column1" heading="Column1"></sky-grid-column>
-    <sky-grid-column field="column2" heading="Column2"></sky-grid-column>
-    <sky-grid-column field="column3" heading="Column3" [excludeFromHighlighting]="true"></sky-grid-column>
+    <sky-grid-column
+      field="column1"
+      heading="Column1"
+    ></sky-grid-column>
+    <sky-grid-column
+      field="column2"
+      heading="Column2"
+    ></sky-grid-column>
+    <sky-grid-column
+      field="column3"
+      heading="Column3"
+      [excludeFromHighlighting]="true"
+    ></sky-grid-column>
   </sky-grid>
 </div>
+
+<p>
+  <button
+    id="highlight-button"
+    class="sky-btn sky-btn-primary"
+    (click)="triggerHighlight()"
+  >
+    Trigger Highlight
+  </button>
+</p>
+
+<h1>Simple grid with multiselect enabled</h1>
+
 <button
-  id="highlight-button"
+  type="button"
   class="sky-btn sky-btn-primary"
-  (click)="triggerHighlight()"
+  (click)="selectAll()"
 >
-  Trigger Highlight
+  Select all
 </button>
+
+<button
+  type="button"
+  class="sky-btn sky-btn-primary"
+  (click)="clearAll()"
+>
+  Clear all
+</button>
+
+<div
+  id="screenshot-grid-multiselect"
+>
+  <sky-grid
+    fit="scroll"
+    [data]="dataForSimpleGridWithMultiselect"
+    [enableMultiselect]="true"
+    [messageStream]="gridController"
+    [multiselectRowId]="'myId'"
+    (sortFieldChange)="sortChangedMultiselectGrid($event)"
+    (multiselectSelectionChange)="onMultiselectSelectionChange($event)"
+  >
+    <sky-grid-column
+      field="myId"
+      heading="Custom Id"
+    ></sky-grid-column>
+    <sky-grid-column
+      field="column1"
+      heading="Column1"
+    ></sky-grid-column>
+    <sky-grid-column
+      field="column2"
+      heading="Column2"
+    ></sky-grid-column>
+    <sky-grid-column
+      field="column3"
+      heading="Column3"
+    ></sky-grid-column>
+  </sky-grid>
+
+  <p>Selected rows:</p>
+  <p>{{ selectedRows }}</p>
+</div>

@@ -136,6 +136,52 @@ $sky-grid-resize-handle-width: 5px;
   }
 }
 
+.sky-grid-multiselect-cell {
+  padding: 0;
+  text-align: center;
+   ::ng-deep.sky-switch-control {
+    margin: 0 auto;
+  }
+}
+
+th.sky-grid-multiselect-cell {
+  cursor: default;
+
+  .screen-reader-only {
+    @include sky-screen-reader-only();
+  }
+}
+
+// Prevents a FF bug where borders would randomly appear.
+@-moz-document url-prefix() {
+  .sky-grid-multiselect-row {
+    td {
+      border-left:0px solid transparent;
+      border-right:0px solid transparent;
+    }
+  }
+}
+
+.sky-grid-multiselect-row:hover {
+  background-color:darken($sky-background-color-selected, 3%);
+
+  // Override zebra stribing.
+  &:nth-child(odd) {
+    background:darken($sky-background-color-selected, 3%);
+  }
+}
+
+.sky-grid-multiselect-selected-row {
+  background:$sky-background-color-selected;
+  border-top:1px solid #dadbf6;
+  border-bottom:1px solid #dadbf6;
+
+  // Override zebra stribing.
+  &:nth-child(odd) {
+    background:$sky-background-color-selected;
+  }
+}
+
 .sky-grid-has-toolbar {
   .sky-grid-heading {
     border-top-width: 0px;

@@ -1,9 +1,11 @@
 import {
   NgModule
 } from '@angular/core';
+
 import {
   CommonModule
 } from '@angular/common';
+
 import {
   FormsModule
 } from '@angular/forms';
@@ -13,6 +15,10 @@ import {
 } from 'ng2-dragula/ng2-dragula';
 
 import {
+  SkyCheckboxModule
+} from '@skyux/forms';
+
+import {
   SkyIconModule,
   SkyTextHighlightModule
 } from '@skyux/indicators';
@@ -20,12 +26,18 @@ import {
 import {
   SkyGridComponent
 } from './grid.component';
+
 import {
   SkyGridColumnComponent
 } from './grid-column.component';
+
 import {
   SkyGridCellComponent
 } from './grid-cell.component';
+
+import {
+  SkyGridsResourcesModule
+} from '../shared/grids-resources.module';
 
 @NgModule({
   declarations: [
@@ -38,7 +50,9 @@ import {
     SkyTextHighlightModule,
     SkyIconModule,
     DragulaModule,
-    FormsModule
+    FormsModule,
+    SkyCheckboxModule,
+    SkyGridsResourcesModule
   ],
   exports: [
     SkyGridComponent,

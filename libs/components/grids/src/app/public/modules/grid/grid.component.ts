@@ -14,14 +14,30 @@ import {
   HostListener,
   ElementRef,
   ViewChildren,
-  ViewChild
+  ViewChild,
+  OnInit
 } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Subscription } from 'rxjs/Subscription';
+import {
+  Observable
+} from 'rxjs/Observable';
+
+import {
+  BehaviorSubject
+} from 'rxjs/BehaviorSubject';
+
+import {
+  Subject
+} from 'rxjs/Subject';
+
+import {
+  Subscription
+} from 'rxjs/Subscription';
+
 import 'rxjs/add/operator/distinctUntilChanged';
+
 import 'rxjs/add/operator/map';
+
 import 'rxjs/add/operator/take';
 
 import {
@@ -29,26 +45,39 @@ import {
 } from 'ng2-dragula/ng2-dragula';
 
 import {
-  ListItemModel,
+  SkyWindowRefService
+} from '@skyux/core';
+
+import {
+  ListItemModel
+} from '@skyux/list-builder-common/state/items/item.model';
+
+import {
   ListSortFieldSelectorModel
 } from '@skyux/list-builder-common';
 
 import {
   SkyGridColumnComponent
 } from './grid-column.component';
+
 import {
   SkyGridColumnModel
 } from './grid-column.model';
+
 import {
   SkyGridAdapterService
 } from './grid-adapter.service';
 
 import {
+  SkyGridColumnDescriptionModelChange,
   SkyGridColumnHeadingModelChange,
   SkyGridColumnWidthModelChange,
-  SkyGridColumnDescriptionModelChange
+  SkyGridMessage,
+  SkyGridSelectedRowsModelChange,
+  SkyGridMessageType
 } from './types';
-import { SkyWindowRefService } from '@skyux/core';
+
+require('../../polyfills');
 
 let nextId = 0;
 
@@ -62,7 +91,7 @@ let nextId = 0;
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyGridComponent implements AfterContentInit, OnChanges, OnDestroy {
+export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, OnDestroy {
   @Input()
   public selectedColumnIds: Array<string>;
 
@@ -90,11 +119,23 @@ export class SkyGridComponent implements AfterContentInit, OnChanges, OnDestroy 
   @Input()
   public highlightText: string;
 
+  @Input()
+  public enableMultiselect: boolean;
+
+  @Input()
+  public multiselectRowId: string;
+
+  @Input()
+  public messageStream = new Subject<SkyGridMessage>();
+
   @Output()
   public selectedColumnIdsChange = new EventEmitter<Array<string>>();
 
   @Output()
   public sortFieldChange = new EventEmitter<ListSortFieldSelectorModel>();
+
+  @Output()
+  public multiselectSelectionChange = new EventEmitter<SkyGridSelectedRowsModelChange>();
 
   @Output()
   public columnWidthChange = new EventEmitter<Array<SkyGridColumnWidthModelChange>>();
@@ -131,6 +172,8 @@ export class SkyGridComponent implements AfterContentInit, OnChanges, OnDestroy 
   private xPosStart: number;
   private isResized: boolean;
 
+  private ngUnsubscribe = new Subject();
+
   constructor(
     private dragulaService: DragulaService,
     private ref: ChangeDetectorRef,
@@ -143,6 +186,14 @@ export class SkyGridComponent implements AfterContentInit, OnChanges, OnDestroy 
       fieldSelector: '',
       descending: false
     });
+  }
+
+  public ngOnInit() {
+    this.messageStream
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe((message: SkyGridMessage) => {
+        this.handleIncomingMessages(message);
+      });
   }
 
   public ngAfterContentInit() {
@@ -211,6 +262,10 @@ export class SkyGridComponent implements AfterContentInit, OnChanges, OnDestroy 
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
     });
+    this.multiselectSelectionChange.complete();
+
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   public getTableClassNames() {
@@ -307,6 +362,10 @@ export class SkyGridComponent implements AfterContentInit, OnChanges, OnDestroy 
        return field.fieldSelector === columnField ? 'visible' : 'hidden';
      });
  }
+
+  public onMultiselectChange() {
+    this.emitSelectedRows();
+  }
 
   public updateColumnHeading(change: SkyGridColumnHeadingModelChange) {
     const foundColumnModel = this.columns.find((column: SkyGridColumnModel) => {
@@ -417,6 +476,45 @@ export class SkyGridComponent implements AfterContentInit, OnChanges, OnDestroy 
     }
   }
 
+  public onRowClick(event: any, selectedItem: ListItemModel) {
+    if (this.enableMultiselect) {
+      if (event.target === event.currentTarget || !this.isInteractiveElement(event)) {
+        selectedItem.isSelected = !selectedItem.isSelected;
+        this.ref.markForCheck();
+        this.emitSelectedRows();
+      }
+    }
+  }
+
+  private multiselectSelectAll() {
+    for (let i = 0; i < this.items.length; i++) {
+      this.items[i].isSelected = true;
+    }
+    this.ref.markForCheck();
+    this.emitSelectedRows();
+  }
+
+  private multiselectClearAll() {
+    for (let i = 0; i < this.items.length; i++) {
+      this.items[i].isSelected = false;
+    }
+    this.ref.markForCheck();
+    this.emitSelectedRows();
+  }
+
+  private handleIncomingMessages(message: SkyGridMessage) {
+    /* tslint:disable-next-line:switch-default */
+    switch (message.type) {
+      case SkyGridMessageType.SelectAll:
+        this.multiselectSelectAll();
+        break;
+
+        case SkyGridMessageType.ClearAll:
+        this.multiselectClearAll();
+        break;
+    }
+  }
+
   private onHeaderDrop(newColumnIds: Array<string>) {
     // update selected columnIds
     this.selectedColumnIds = newColumnIds;
@@ -449,10 +547,27 @@ export class SkyGridComponent implements AfterContentInit, OnChanges, OnDestroy 
   private transformData() {
     // Transform data into object with id and data properties
     if (this.data.length > 0 && this.data[0].id && !this.data[0].data) {
-      this.items = this.data.map(item => new ListItemModel(item.id, item));
+      if (this.multiselectRowId) {
+        this.items = this.getGridDataWithSelectedRows();
+      } else {
+        this.items = this.data.map(item => new ListItemModel(item.id, item));
+      }
     } else {
       this.items = this.data;
     }
+  }
+
+  private getGridDataWithSelectedRows() {
+    let selectedRows = this.getSelectedRows();
+    return this.data.map(item => {
+      let checked;
+      if (item.hasOwnProperty(this.multiselectRowId)) {
+        checked = selectedRows.indexOf(item[this.multiselectRowId]) > -1;
+      } else {
+        checked = selectedRows.indexOf(item.id) > -1;
+      }
+      return new ListItemModel(item.id, item, checked);
+    });
   }
 
   private setSortHeaders() {
@@ -598,5 +713,40 @@ export class SkyGridComponent implements AfterContentInit, OnChanges, OnDestroy 
 
   private addDelimeter(text: string[], delimiter: string) {
     return text.filter(val => val).join(delimiter);
+  }
+
+  private emitSelectedRows() {
+    let selectedRows: SkyGridSelectedRowsModelChange = {
+      selectedRowIds: this.getSelectedRows()
+    };
+    this.multiselectSelectionChange.emit(selectedRows);
+  }
+
+  private getSelectedRows() {
+    return this.items.filter(item => {
+      return item.isSelected;
+    }).map(item => {
+      if (item.data.hasOwnProperty(this.multiselectRowId)) {
+        return item.data[this.multiselectRowId];
+      }
+      return item.id;
+    });
+  }
+
+  private isInteractiveElement(event: any): any {
+    let interactiveElSelectors = `
+      a,
+      button,
+      input,
+      label,
+      option,
+      select,
+      textarea,
+      details,
+      dialog,
+      menu,
+      menuitem,
+      summary`;
+    return event.target.closest(interactiveElSelectors);
   }
 }
