@@ -1,3 +1,7 @@
+# 3.0.0-rc.3 (2018-12-12)
+
+- Added multiselect feature to display column of checkboxes on grid component. [#6](https://github.com/blackbaud/skyux-grids/pull/6)
+
 # 3.0.0-rc.2 (2018-11-20)
 
  - Added support for `@skyux/list-builder-common@3.0.0-rc.1`. [#14](https://github.com/blackbaud/skyux-grids/pull/14)
