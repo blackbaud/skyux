@@ -1,23 +1,32 @@
 import {
-  ApplicationRef,
-  ComponentFactoryResolver,
   ComponentRef,
   Injectable
 } from '@angular/core';
 
-import { SkyModalInstance } from './modal-instance';
-import { SkyModalHostComponent } from './modal-host.component';
-import { SkyModalAdapterService } from './modal-adapter.service';
-import { SkyModalConfigurationInterface as IConfig } from './modal.interface';
+import {
+  SkyDynamicComponentService
+} from '@skyux/core';
+
+import {
+  SkyModalInstance
+} from './modal-instance';
+
+import {
+  SkyModalHostComponent
+} from './modal-host.component';
+
+import {
+  SkyModalConfigurationInterface as IConfig
+} from './modal.interface';
 
 @Injectable()
 export class SkyModalService {
   private static host: ComponentRef<SkyModalHostComponent>;
 
+  // TODO: In future breaking change - remove extra parameters as they are no longer used.
+  /* tslint:disable:no-unused-variable */
   constructor(
-    private resolver: ComponentFactoryResolver,
-    private appRef: ApplicationRef,
-    private adapter: SkyModalAdapterService
+    private dynamicComponentService?: SkyDynamicComponentService
   ) { }
 
   // Open Overloads
@@ -44,13 +53,10 @@ export class SkyModalService {
 
   public dispose() {
     if (SkyModalService.host) {
-      // Trigger the host component's OnDestroy method:
-      this.appRef.detachView(SkyModalService.host.hostView);
-      SkyModalService.host.destroy();
+      this.dynamicComponentService.removeComponent(SkyModalService.host);
       SkyModalService.host = undefined;
     }
 
-    this.adapter.removeHostEl();
   }
 
   private getConfigFromParameter(providersOrConfig: any) {
@@ -80,13 +86,7 @@ export class SkyModalService {
 
   private createHostComponent() {
     if (!SkyModalService.host) {
-      let factory = this.resolver.resolveComponentFactory(SkyModalHostComponent);
-
-      this.adapter.addHostEl();
-
-      let cmpRef = this.appRef.bootstrap(factory);
-
-      SkyModalService.host = cmpRef;
+      SkyModalService.host = this.dynamicComponentService.createComponent(SkyModalHostComponent);
     }
   }
 }

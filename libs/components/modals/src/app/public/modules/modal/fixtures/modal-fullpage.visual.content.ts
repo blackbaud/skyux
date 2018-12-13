@@ -1,6 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
 
-import { SkyModalService } from '../modal.service';
+import {
+  SkyModalService
+} from '../modal.service';
 
 @Component({
   selector: 'sky-test-cmp-modal-fullpage',

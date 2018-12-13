@@ -19,10 +19,21 @@ import { SkyModalInstance } from './modal-instance';
 import { SkyModalService } from './modal.service';
 import { SkyModalModule } from './modal.module';
 
-import { SkyModalFixturesModule } from './fixtures/modal-fixtures.module';
-import { ModalTestValues } from './fixtures/modal-values.fixture';
-import { ModalTestComponent } from './fixtures/modal.component.fixture';
-import { ModalWithValuesTestComponent } from './fixtures/modal-with-values.component.fixture';
+import {
+  SkyModalFixturesModule
+} from './fixtures/modal-fixtures.module';
+
+import {
+  ModalTestValues
+} from './fixtures/modal-values.fixture';
+
+import {
+  ModalTestComponent
+} from './fixtures/modal.component.fixture';
+
+import {
+  ModalWithValuesTestComponent
+} from './fixtures/modal-with-values.component.fixture';
 
 describe('Modal service', () => {
   let modalService: SkyModalService;

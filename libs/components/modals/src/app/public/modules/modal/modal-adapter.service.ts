@@ -2,7 +2,9 @@ import {
   Injectable
 } from '@angular/core';
 
-import { SkyWindowRefService } from '@skyux/core';
+import {
+  SkyWindowRefService
+} from '@skyux/core';
 
 @Injectable()
 export class SkyModalAdapterService {
@@ -13,20 +15,10 @@ export class SkyModalAdapterService {
   private bodyEl: HTMLElement;
 
   constructor(
-    private windowRef: SkyWindowRefService) {
-      this.docRef = this.windowRef.getWindow().document;
-      this.bodyEl = this.windowRef.getWindow().document.body;
-  }
-
-  public addHostEl(): void {
-    this.bodyEl.appendChild(this.docRef.createElement('sky-modal-host'));
-  }
-
-  public removeHostEl(): void {
-    const element = this.docRef.querySelector('sky-modal-host');
-    if (element) {
-      this.bodyEl.removeChild(element);
-    }
+    private windowRef: SkyWindowRefService
+  ) {
+    this.docRef = this.windowRef.getWindow().document;
+    this.bodyEl = this.windowRef.getWindow().document.body;
   }
 
   public toggleFullPageModalClass(isAddFull: boolean): void {

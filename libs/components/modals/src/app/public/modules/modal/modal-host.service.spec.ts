@@ -2,7 +2,9 @@ import {
   expect
 } from '@skyux-sdk/testing';
 
-import { SkyModalHostService } from './modal-host.service';
+import {
+  SkyModalHostService
+} from './modal-host.service';
 
 describe('Modal host service', () => {
   it('should return a modal z-index that is 1 greater than the backdrop z-index', () => {
