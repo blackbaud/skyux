@@ -7,5 +7,4 @@ import {
   templateUrl: './modal-tiled-body.component.fixture.html'
 })
 export class ModalTiledBodyTestComponent {
-
 }

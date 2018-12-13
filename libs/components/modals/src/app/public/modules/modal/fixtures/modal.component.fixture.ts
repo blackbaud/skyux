@@ -6,6 +6,4 @@ import {
   selector: 'sky-test-cmp',
   templateUrl: './modal.component.fixture.html'
 })
-export class ModalTestComponent {
-
-}
+export class ModalTestComponent { }

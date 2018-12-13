@@ -1,6 +1,5 @@
 import {
-  Component,
-  OnInit
+  Component
 } from '@angular/core';
 
 import {
@@ -12,10 +11,6 @@ import {
   templateUrl: './modal-large.visual.content.html',
   providers: [SkyModalService]
 })
-export class ModalLargeDemoComponent implements OnInit {
+export class ModalLargeDemoComponent {
   public title = 'Hello world';
-
-  public ngOnInit() {
-    console.log('init happened');
-  }
 }

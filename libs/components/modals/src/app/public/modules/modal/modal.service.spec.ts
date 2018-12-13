@@ -13,11 +13,21 @@ import {
   ApplicationRef
 } from '@angular/core';
 
-import { BrowserModule } from '@angular/platform-browser';
+import {
+  BrowserModule
+} from '@angular/platform-browser';
 
-import { SkyModalInstance } from './modal-instance';
-import { SkyModalService } from './modal.service';
-import { SkyModalModule } from './modal.module';
+import {
+  SkyModalInstance
+} from './modal-instance';
+
+import {
+  SkyModalService
+} from './modal.service';
+
+import {
+  SkyModalModule
+} from './modal.module';
 
 import {
   SkyModalFixturesModule

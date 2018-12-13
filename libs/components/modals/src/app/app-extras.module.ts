@@ -36,6 +36,10 @@ import {
   ModalContentAutofocusComponent
 } from './visual/modal/modal-content-autofocus.component';
 
+import {
+  ModalCloseConfirmComponent
+} from './visual/modal/modal-close-confirm.component';
+
 require('style-loader!./visual.scss');
 
 @NgModule({
@@ -58,7 +62,8 @@ require('style-loader!./visual.scss');
     ModalFullPageDemoComponent,
     ModalLargeDemoComponent,
     ModalTiledDemoComponent,
-    ModalContentAutofocusComponent
+    ModalContentAutofocusComponent,
+    ModalCloseConfirmComponent
   ]
 })
 export class AppExtrasModule { }

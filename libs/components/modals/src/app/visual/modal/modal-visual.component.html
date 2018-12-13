@@ -1,16 +1,19 @@
-<div style="height:100vh">
-  <button
-    type="button"
-    class="sky-btn sky-btn-primary"
-    (click)="openModal()"
+<div
+  style="height:100vh"
 >
-  Open modal
+  <button
+    class="sky-btn sky-btn-primary"
+    type="button"
+    (click)="openModal()"
+  >
+    Open modal
   </button>
 
   <button
     type="button"
     class="sky-btn sky-btn-primary sky-modal-with-help"
-    (click)="openModalWithHelp()">
+    (click)="openModalWithHelp()"
+  >
     Open modal with Help
   </button>
 
@@ -64,5 +67,12 @@
     (click)="openAutofocusModal()"
   >
   Open autofocus modal
+  </button>
+  <button
+    type="button"
+    class="sky-btn sky-btn-primary sky-test-large-modal-close-confirmation"
+    (click)="openCloseConfirmationModal()"
+  >
+  Open modal with close confirmation
   </button>
 </div>

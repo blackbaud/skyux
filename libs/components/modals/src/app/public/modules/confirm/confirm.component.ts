@@ -18,7 +18,9 @@ import {
 
 import 'rxjs/add/observable/zip';
 
-import { SkyModalInstance } from '../modal';
+import {
+  SkyModalInstance
+} from '../modal';
 
 import {
   SkyConfirmCloseEventArgs,

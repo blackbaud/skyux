@@ -39,6 +39,10 @@ import {
 } from './fixtures/modal.component.fixture';
 
 import {
+  ModalWithCloseConfirmTestComponent
+} from './fixtures/modal-with-close-confirm.component.fixture';
+
+import {
   ModalAutofocusTestComponent
 } from './fixtures/modal-autofocus.component.fixture';
 
@@ -305,10 +309,60 @@ describe('Modal component', () => {
 
     expect(document.querySelector('.sky-modal')).toExist();
 
-    (<any>document.querySelector('.sky-modal-btn-close')).click();
+    (<HTMLElement>document.querySelector('.sky-modal-btn-close')).click();
 
     expect(document.querySelector('.sky-modal')).not.toExist();
 
+    applicationRef.tick();
+  }));
+
+  it('should stop close event when beforeClose is subscribed to', fakeAsync(() => {
+    let instance = openModal(ModalWithCloseConfirmTestComponent);
+    expect(document.querySelector('.sky-modal')).toExist();
+
+    (<HTMLElement>document.querySelector('.sky-modal-btn-close')).click();
+    tick();
+    applicationRef.tick();
+    expect(document.querySelector('.sky-modal')).toExist();
+
+    instance.close();
+    tick();
+    applicationRef.tick();
+    expect(document.querySelector('.sky-modal')).toExist();
+
+    // Escape key
+    let escapeEvent: any = document.createEvent('CustomEvent');
+    escapeEvent.which = 27;
+    escapeEvent.keyCode = 27;
+    escapeEvent.initEvent('keydown', true, true);
+
+    document.dispatchEvent(escapeEvent);
+
+    tick();
+    applicationRef.tick();
+    expect(document.querySelector('.sky-modal')).toExist();
+
+    // Confirm the close
+    (<HTMLElement>document.querySelector('#toggle-btn')).click();
+    tick();
+    applicationRef.tick();
+    (<HTMLElement>document.querySelector('.sky-modal-btn-close')).click();
+    tick();
+    applicationRef.tick();
+
+    expect(document.querySelector('.sky-modal')).not.toExist();
+    applicationRef.tick();
+  }));
+
+  it('should close the modal anyway if ignoreBeforeClose is passed in', fakeAsync(() => {
+    let instance = openModal(ModalWithCloseConfirmTestComponent);
+    expect(document.querySelector('.sky-modal')).toExist();
+
+    instance.close('', '', true);
+    tick();
+    applicationRef.tick();
+
+    expect(document.querySelector('.sky-modal')).not.toExist();
     applicationRef.tick();
   }));
 
@@ -349,7 +403,7 @@ describe('Modal component', () => {
 
     expect(document.querySelector('.sky-modal')).toExist();
 
-    (<any>document.querySelector('button[name="help-button"]')).click();
+    (<HTMLElement>document.querySelector('button[name="help-button"]')).click();
 
     expect(modalInstance.openHelp).toHaveBeenCalledWith('default.html');
 

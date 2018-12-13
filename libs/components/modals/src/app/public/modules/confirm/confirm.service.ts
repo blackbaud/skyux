@@ -1,4 +1,6 @@
-import { Injectable } from '@angular/core';
+import {
+  Injectable
+} from '@angular/core';
 
 import {
   SkyModalService,
@@ -11,9 +13,17 @@ import {
   SkyConfirmConfig
 } from './types';
 
-import { SkyConfirmModalContext } from './confirm-modal-context';
-import { SkyConfirmComponent } from './confirm.component';
-import { SkyConfirmInstance } from './confirm-instance';
+import {
+  SkyConfirmModalContext
+} from './confirm-modal-context';
+
+import {
+  SkyConfirmComponent
+} from './confirm.component';
+
+import {
+  SkyConfirmInstance
+} from './confirm-instance';
 
 @Injectable()
 export class SkyConfirmService {

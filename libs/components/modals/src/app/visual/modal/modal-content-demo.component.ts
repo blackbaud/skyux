@@ -1,6 +1,10 @@
-import { Component } from '@angular/core';
+import {
+  Component
+} from '@angular/core';
 
-import { SkyModalInstance } from '../../public';
+import {
+  SkyModalInstance
+} from '../../public';
 
 @Component({
   selector: 'sky-test-cmp-modal-content',

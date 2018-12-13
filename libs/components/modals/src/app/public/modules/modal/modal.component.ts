@@ -125,7 +125,7 @@ export class SkyModalComponent implements AfterViewInit {
         switch (event.which) {
           case 27: { // Esc key pressed
             event.preventDefault();
-            this.hostService.onClose();
+            this.closeButtonClick();
             break;
           }
 
