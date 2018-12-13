@@ -1,3 +1,7 @@
+# 3.0.0-rc.4 (2018-12-13)
+
+- Fixed grid component to properly import polyfills. [#23](https://github.com/blackbaud/skyux-grids/pull/23)
+
 # 3.0.0-rc.3 (2018-12-12)
 
 - Added multiselect feature to display column of checkboxes on grid component. [#6](https://github.com/blackbaud/skyux-grids/pull/6)
