@@ -5,9 +5,12 @@
   cursor: pointer;
   padding: $sky-padding-3_4 0 $sky-padding-3_4 $sky-padding;
   margin: $sky-margin-half 0 $sky-margin-half $sky-margin;
-  color: $sky-text-color-default;
   display: flex;
   text-decoration: none;
+
+  &:not(.sky-deemphasized) {
+    color: $sky-text-color-default;
+  }
 
   &:hover {
     background-color: $sky-background-color-neutral-light;
@@ -48,13 +51,8 @@
 
 .sky-vertical-tab-disabled {
   cursor: not-allowed;
-  font-style: italic;
-  opacity: 0.8;
   pointer-events: none;
-
-  &:hover {
-    color: $sky-text-color-deemphasized;
-  }
+  font-style: normal;
 }
 
 .sky-vertical-tab-right-arrow {

@@ -8,7 +8,8 @@
   [attr.role]="ariaRole"
   [ngClass]="{
     'sky-vertical-tab-active': active,
-    'sky-vertical-tab-disabled': disabled
+    'sky-vertical-tab-disabled': disabled,
+    'sky-deemphasized': disabled
   }"
   [tabIndex]="tabIndex()"
   (click)="activateTab()"
