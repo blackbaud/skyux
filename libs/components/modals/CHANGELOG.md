@@ -1,3 +1,9 @@
+# 3.0.0-rc.7 (2018-12-13)
+
+- Added ability to prevent modals from closing. [#7](https://github.com/blackbaud/skyux-modals/pull/7)
+- Fixed section forms in modals to set minimum height of 460px. [#18](https://github.com/blackbaud/skyux-modals/pull/18)
+- Fixed modal service to prevent errors during initialization. [#13](https://github.com/blackbaud/skyux-modals/pull/13)
+
 # 3.0.0-rc.6 (2018-11-30)
 
 - Fixed modal focus to ignore hidden elements. [#12](https://github.com/blackbaud/skyux-modals/pull/12)
