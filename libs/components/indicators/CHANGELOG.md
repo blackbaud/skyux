@@ -1,3 +1,7 @@
+# 3.0.0-rc.6 (2018-12-13)
+
+- Fixed blocking wait components not blocking focus on tab navigation. [#4](https://github.com/blackbaud/skyux-indicators/pull/4)
+
 # 3.0.0-rc.5 (2018-11-19)
 
 - Updated peer dependencies to support Angular versions greater than `4.3.6`. [#13](https://github.com/blackbaud/skyux-indicators/pull/19)
