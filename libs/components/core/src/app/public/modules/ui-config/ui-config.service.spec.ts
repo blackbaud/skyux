@@ -11,10 +11,10 @@ describe('UI config service', () => {
       foo: 'bar'
     };
 
-    uiConfigSvc.getConfig('test-key', defaultConfig).subscribe((config) => {
-      expect(config).toBe(defaultConfig);
-      done();
-    });
+    uiConfigSvc.getConfig('test-key', defaultConfig)
+      .subscribe((config) => {
+        expect(config).toBe(defaultConfig);
+        done();
+      });
   });
-
 });

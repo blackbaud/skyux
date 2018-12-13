@@ -1,38 +1,29 @@
-import {
-  Injectable
-} from '@angular/core';
+// Need to keep this export here for backwards compatibility.
+export {
+  SkyAppFormat
+} from './app-format';
 
-@Injectable()
-export class SkyAppFormat {
-  public formatText(
+export class SkyFormat {
+  public static formatText(
     format: string,
     ...args: any[]
   ): string {
-    return String(format).replace(/\{(\d+)\}/g, (match, capture) => {
-      return args[parseInt(capture, 10)];
-    });
-  }
-}
-
-// TODO: Combine these two classes in a breaking change.
-export class SkyFormat {
-  public static formatText(format: string, ...args: any[]): string {
 
     if (this.isEmpty(format)) {
-        return '';
+      return '';
     }
 
-    return String(format).replace(/\{(\d+)\}/g, function (match, capture) {
-        return args[parseInt(capture, 10)];
-    });
+    return String(format)
+      .replace(
+        /\{(\d+)\}/g,
+        function (match, capture): string {
+          return args[parseInt(capture, 10)];
+        }
+      );
   }
 
-  /*istanbul ignore next */
-  constructor() {}
-
-  private static isEmpty(str: string) {
-    /* tslint:disable */
+  private static isEmpty(str: string): boolean {
+    /* tslint:disable-next-line:no-null-keyword */
     return str === null || str === undefined;
-    /* tslint:enable */
   }
 }

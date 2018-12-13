@@ -44,23 +44,23 @@ describe('Media query service', () => {
 
   function callBreakpoint(breakpoints: SkyMediaBreakpoints): void {
     xsListener({
-      matches: breakpoints === SkyMediaBreakpoints.xs
+      matches: (breakpoints === SkyMediaBreakpoints.xs)
     });
 
     smListener({
-      matches: breakpoints === SkyMediaBreakpoints.sm
+      matches: (breakpoints === SkyMediaBreakpoints.sm)
     });
 
     mdListener({
-      matches: breakpoints === SkyMediaBreakpoints.md
+      matches: (breakpoints === SkyMediaBreakpoints.md)
     });
 
     lgListener({
-      matches: breakpoints === SkyMediaBreakpoints.lg
+      matches: (breakpoints === SkyMediaBreakpoints.lg)
     });
   }
 
-   describe('initialization test', () => {
+  describe('initialization test', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         providers: [
@@ -86,36 +86,36 @@ describe('Media query service', () => {
         } else {
           return {
             matches: false,
-            addListener: () => {
-
-            },
+            addListener: () => { },
             removeListener: () => {
               return;
             }
           };
         }
-
       });
+
       setUpListeners();
     });
 
-    it('should handle initialization properly',
-      inject([SkyMediaQueryService], (mediaQueryService: SkyMediaQueryService) => {
-      let result: SkyMediaBreakpoints;
-      let subscription: Subscription;
+    it('should handle initialization properly', inject(
+      [SkyMediaQueryService],
+      (mediaQueryService: SkyMediaQueryService) => {
+        let result: SkyMediaBreakpoints;
+        let subscription: Subscription;
 
-      subscription = mediaQueryService.subscribe(
-        (args: SkyMediaBreakpoints) => {
-          result = args;
-        }
-      );
+        subscription = mediaQueryService.subscribe(
+          (args: SkyMediaBreakpoints) => {
+            result = args;
+          }
+        );
 
-      expect(result).toEqual(SkyMediaBreakpoints.xs);
+        expect(result).toEqual(SkyMediaBreakpoints.xs);
 
-      subscription.unsubscribe();
-      mediaQueryService.destroy();
-    }));
-   });
+        subscription.unsubscribe();
+        mediaQueryService.destroy();
+      }
+    ));
+  });
 
   describe('query tests', () => {
     beforeEach(() => {
@@ -134,91 +134,89 @@ describe('Media query service', () => {
       setUpListeners();
     });
 
-    it(
-    'should listen for media query breakpoints on init',
-    inject([SkyMediaQueryService], (mediaQueryService: SkyMediaQueryService) => {
+    it('should listen for media query breakpoints on init', inject(
+      [SkyMediaQueryService],
+      (mediaQueryService: SkyMediaQueryService) => {
+        let result: SkyMediaBreakpoints;
+        let subscription: Subscription;
 
-      let result: SkyMediaBreakpoints;
-      let subscription: Subscription;
+        callBreakpoint(SkyMediaBreakpoints.sm);
 
-      callBreakpoint(SkyMediaBreakpoints.sm);
+        subscription = mediaQueryService.subscribe(
+          (args: SkyMediaBreakpoints) => {
+            result = args;
+          }
+        );
 
-      subscription = mediaQueryService.subscribe(
-        (args: SkyMediaBreakpoints) => {
-          result = args;
-        }
-      );
+        expect(matchMediaSpy).toHaveBeenCalledWith(SkyMediaQueryService.xs);
+        expect(matchMediaSpy).toHaveBeenCalledWith(SkyMediaQueryService.sm);
+        expect(matchMediaSpy).toHaveBeenCalledWith(SkyMediaQueryService.md);
+        expect(matchMediaSpy).toHaveBeenCalledWith(SkyMediaQueryService.lg);
+        expect(result).toEqual(SkyMediaBreakpoints.sm);
 
-      expect(matchMediaSpy).toHaveBeenCalledWith(SkyMediaQueryService.xs);
-      expect(matchMediaSpy).toHaveBeenCalledWith(SkyMediaQueryService.sm);
-      expect(matchMediaSpy).toHaveBeenCalledWith(SkyMediaQueryService.md);
-      expect(matchMediaSpy).toHaveBeenCalledWith(SkyMediaQueryService.lg);
-      expect(result).toEqual(SkyMediaBreakpoints.sm);
+        subscription.unsubscribe();
+        mediaQueryService.destroy();
+      }
+    ));
 
-      subscription.unsubscribe();
-      mediaQueryService.destroy();
-    })
-  );
+    it('should stop listening for media query breakpoints on destroy', inject(
+      [SkyMediaQueryService],
+      (mediaQueryService: SkyMediaQueryService) => {
+        const removeListenerSpy = spyOn(mediaQueryListPrototype, 'removeListener');
+        let subscription: Subscription;
 
-  it(
-    'should stop listening for media query breakpoints on destroy',
-    inject([SkyMediaQueryService], (mediaQueryService: SkyMediaQueryService) => {
-      const removeListenerSpy = spyOn(mediaQueryListPrototype, 'removeListener');
-      let subscription: Subscription;
+        subscription = mediaQueryService.subscribe(
+          (args: SkyMediaBreakpoints) => {
 
-      subscription = mediaQueryService.subscribe(
-        (args: SkyMediaBreakpoints) => {
+          }
+        );
 
-        }
-      );
+        mediaQueryService.destroy();
 
-      mediaQueryService.destroy();
+        expect(removeListenerSpy.calls.count()).toBe(4);
+        expect(subscription.closed).toBe(true);
+      }
+    ));
 
-      expect(removeListenerSpy.calls.count()).toBe(4);
-      expect(subscription.closed).toBe(true);
-    })
-  );
+    it('should fire the listener when the specified breakpoint is hit', inject(
+      [SkyMediaQueryService],
+      (mediaQueryService: SkyMediaQueryService) => {
+        let subscription: Subscription;
+        let result: SkyMediaBreakpoints;
 
-  it(
-    'should fire the listener when the specified breakpoint is hit',
-    inject([SkyMediaQueryService], (mediaQueryService: SkyMediaQueryService) => {
-      let subscription: Subscription;
-      let result: SkyMediaBreakpoints;
+        callBreakpoint(SkyMediaBreakpoints.sm);
 
-      callBreakpoint(SkyMediaBreakpoints.sm);
+        subscription = mediaQueryService.subscribe(
+          (args: SkyMediaBreakpoints) => {
+            result = args;
+          }
+        );
 
-      subscription = mediaQueryService.subscribe(
-        (args: SkyMediaBreakpoints) => {
-          result = args;
-        }
-      );
+        callBreakpoint(SkyMediaBreakpoints.xs);
 
-      callBreakpoint(SkyMediaBreakpoints.xs);
+        expect(result).toEqual(SkyMediaBreakpoints.xs);
 
-      expect(result).toEqual(SkyMediaBreakpoints.xs);
+        callBreakpoint(SkyMediaBreakpoints.md);
 
-      callBreakpoint(SkyMediaBreakpoints.md);
+        expect(result).toEqual(SkyMediaBreakpoints.md);
 
-      expect(result).toEqual(SkyMediaBreakpoints.md);
+        callBreakpoint(SkyMediaBreakpoints.lg);
 
-      callBreakpoint(SkyMediaBreakpoints.lg);
+        expect(result).toEqual(SkyMediaBreakpoints.lg);
 
-      expect(result).toEqual(SkyMediaBreakpoints.lg);
+        subscription.unsubscribe();
+        mediaQueryService.destroy();
+      }
+    ));
 
-      subscription.unsubscribe();
-      mediaQueryService.destroy();
-    })
-  );
+    it('should provide the ability to check the current breakpoints', inject(
+      [SkyMediaQueryService],
+      (mediaQueryService: SkyMediaQueryService) => {
+        callBreakpoint(SkyMediaBreakpoints.sm);
 
-  it(
-    'should provide the ability to check the current breakpoints',
-    inject([SkyMediaQueryService], (mediaQueryService: SkyMediaQueryService) => {
-
-      callBreakpoint(SkyMediaBreakpoints.sm);
-
-      expect(mediaQueryService.current).toEqual(SkyMediaBreakpoints.sm);
-      mediaQueryService.destroy();
-    })
-  );
-});
+        expect(mediaQueryService.current).toEqual(SkyMediaBreakpoints.sm);
+        mediaQueryService.destroy();
+      }
+    ));
+  });
 });

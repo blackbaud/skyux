@@ -1,5 +1,3 @@
-//#region imports
-
 import {
   ApplicationRef,
   ComponentRef,
@@ -34,13 +32,13 @@ import {
   SkyDynamicComponentLocation
 } from './dynamic-component-location';
 
-//#endregion
-
 describe('Dynamic component service', () => {
 
   let cmpRef: ComponentRef<DynamicComponentTestComponent>;
 
-  function createTestComponent(location?: SkyDynamicComponentLocation) {
+  function createTestComponent(
+    location?: SkyDynamicComponentLocation
+  ): ComponentRef<DynamicComponentTestComponent> {
     const svc: SkyDynamicComponentService = TestBed.get(SkyDynamicComponentService);
 
     cmpRef = svc.createComponent(
@@ -55,7 +53,9 @@ describe('Dynamic component service', () => {
     return cmpRef;
   }
 
-  function removeTestComponent(refToRemove: ComponentRef<any>) {
+  function removeTestComponent(
+    refToRemove: ComponentRef<any>
+  ): ComponentRef<DynamicComponentTestComponent> {
     const svc: SkyDynamicComponentService = TestBed.get(SkyDynamicComponentService);
 
     svc.removeComponent(refToRemove);
@@ -65,7 +65,7 @@ describe('Dynamic component service', () => {
     return cmpRef;
   }
 
-  function getComponentEl() {
+  function getComponentEl(): any {
     return (cmpRef.hostView as EmbeddedViewRef<any>).rootNodes[0];
   }
 

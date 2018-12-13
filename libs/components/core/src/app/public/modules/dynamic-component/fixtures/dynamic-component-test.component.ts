@@ -13,7 +13,7 @@ export class DynamicComponentTestComponent implements OnInit {
   @Input()
   public message: string;
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.message = 'Hello world';
   }
 

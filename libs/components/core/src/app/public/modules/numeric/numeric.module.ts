@@ -24,9 +24,9 @@ import {
     SkyNumericPipe
   ],
   providers: [
-    SkyNumericService,
     CurrencyPipe,
-    DecimalPipe
+    DecimalPipe,
+    SkyNumericService
   ],
   imports: [
     SkyCoreResourcesModule

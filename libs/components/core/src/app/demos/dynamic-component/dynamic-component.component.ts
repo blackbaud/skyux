@@ -1,11 +1,16 @@
 import {
-  Component, OnInit
+  Component,
+  OnInit
 } from '@angular/core';
 
 import {
-  SkyDynamicComponentService, SkyDynamicComponentLocation
+  SkyDynamicComponentLocation,
+  SkyDynamicComponentService
 } from '../../public';
-import { DynamicComponentDemoExampleComponent } from './dynamic-component-example.component';
+
+import {
+  DynamicComponentDemoExampleComponent
+} from './dynamic-component-example.component';
 
 @Component({
   selector: 'sky-dynamic-component-demo',

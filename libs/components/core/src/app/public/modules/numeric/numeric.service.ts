@@ -1,4 +1,3 @@
-// #region imports
 import {
   Injectable
 } from '@angular/core';
@@ -19,7 +18,6 @@ import {
 import {
   SkyNumericSymbol
 } from './numeric-symbol';
-// #endregion
 
 @Injectable()
 export class SkyNumericService {
@@ -67,13 +65,16 @@ export class SkyNumericService {
     if (symbol) {
       output = Number(
         // Using Math.round to ensure accurate rounding compared to toFixed.
-        Math.round(parseFloat((value / symbol.value) + `e${options.digits}`))
-        + `e-${options.digits}`
+        Math.round(
+          parseFloat((value / symbol.value) + `e${options.digits}`)
+        ) + `e-${options.digits}`
       ).toString().replace(decimalPlaceRegExp, '$1') + symbol.label;
+
     } else {
       output = Number(
-        Math.round(parseFloat(`${value}e${options.digits}`))
-        + `e-${options.digits}`
+        Math.round(
+          parseFloat(`${value}e${options.digits}`)
+        ) + `e-${options.digits}`
       ).toString().replace(decimalPlaceRegExp, '$1');
     }
 
@@ -83,48 +84,50 @@ export class SkyNumericService {
     // Checks the string entered for format. Using toLowerCase to ignore case.
     switch (options.format.toLowerCase()) {
 
-      // In a case where a decimal value was not shortened and the digit input is 2 or higher,
-      // it forces 2 digits.
+      // In a case where a decimal value was not shortened and
+      // the digit input is 2 or higher, it forces 2 digits.
       // For example, this prevents a value like $15.50 from displaying as $15.5.
-      // Note: This will need to be reviewed if we support currencies with three decimal digits.
+      // Note: This will need to be reviewed if we support currencies with
+      // three decimal digits.
       case 'currency':
-      const isShortened = (value > this.symbolIndex[this.symbolIndex.length - 1].value);
-      const isDecimal = (value % 1 !== 0);
+        const isShortened = (value > this.symbolIndex[this.symbolIndex.length - 1].value);
+        const isDecimal = (value % 1 !== 0);
 
-      if (options.minDigits) {
-        digits = `1.${options.minDigits}-${options.digits}`;
-      } else if (!isShortened && isDecimal && options.digits >= 2) {
-        digits = `1.2-${options.digits}`;
-      } else {
-        digits = `1.0-${options.digits}`;
-      }
+        if (options.minDigits) {
+          digits = `1.${options.minDigits}-${options.digits}`;
+        } else if (!isShortened && isDecimal && options.digits >= 2) {
+          digits = `1.2-${options.digits}`;
+        } else {
+          digits = `1.0-${options.digits}`;
+        }
 
-      output = this.currencyPipe.transform(
-        parseFloat(output),
-        options.iso,
-        true,
-        digits
-      );
-      break;
+        output = this.currencyPipe.transform(
+          parseFloat(output),
+          options.iso,
+          true,
+          digits
+        );
+        break;
 
       // The following is a catch-all to ensure that if
       // anything but currency (or a future option) are entered,
       // it will be treated like a number.
       default:
-      // Ensures localization of the number to ensure comma and
-      // decimal separator
-      if (options.minDigits) {
-        digits = `1.${options.minDigits}-${options.digits}`;
-      } else if (options.truncate) {
-        digits = `1.0-${options.digits}`;
-      } else {
-        digits = `1.${options.digits}-${options.digits}`;
-      }
-      output = this.decimalPipe.transform(
-        parseFloat(output),
-        digits
-      );
-      break;
+        // Ensures localization of the number to ensure comma and
+        // decimal separator
+        if (options.minDigits) {
+          digits = `1.${options.minDigits}-${options.digits}`;
+        } else if (options.truncate) {
+          digits = `1.0-${options.digits}`;
+        } else {
+          digits = `1.${options.digits}-${options.digits}`;
+        }
+
+        output = this.decimalPipe.transform(
+          parseFloat(output),
+          digits
+        );
+        break;
     }
 
     if (options.truncate) {

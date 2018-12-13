@@ -2,7 +2,7 @@ import {
   Injectable
 } from '@angular/core';
 
-function getWindow() {
+function getWindow(): any {
   return window;
 }
 
@@ -10,7 +10,7 @@ function getWindow() {
 // in a breaking change.
 @Injectable()
 export class SkyAppWindowRef {
-  public get nativeWindow() {
+  public get nativeWindow(): any {
     return getWindow();
   }
 }

@@ -1,5 +1,3 @@
-//#region imports
-
 import {
   ApplicationRef,
   ComponentFactoryResolver,
@@ -7,8 +5,8 @@ import {
   EmbeddedViewRef,
   Injectable,
   Injector,
-  RendererFactory2,
   Renderer2,
+  RendererFactory2,
   Type
 } from '@angular/core';
 
@@ -23,8 +21,6 @@ import {
 import {
   SkyDynamicComponentLocation
 } from './dynamic-component-location';
-
-//#endregion
 
 /**
  * Angular service for creating and rendering a dynamic component.

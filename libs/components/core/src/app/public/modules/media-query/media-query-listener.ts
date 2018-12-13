@@ -2,6 +2,4 @@ import {
   SkyMediaBreakpoints
 } from './media-breakpoints';
 
-export interface SkyMediaQueryListener {
-  (args: SkyMediaBreakpoints): void;
-}
+export type SkyMediaQueryListener = (args: SkyMediaBreakpoints) => void;
