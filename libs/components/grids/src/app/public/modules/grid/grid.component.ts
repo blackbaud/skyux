@@ -77,7 +77,7 @@ import {
   SkyGridMessageType
 } from './types';
 
-require('../../polyfills');
+import '../../polyfills';
 
 let nextId = 0;
 
