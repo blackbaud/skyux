@@ -1,9 +1,52 @@
-<div class="sky-wait-test-component">
+<button *ngIf="showAnchor0"
+  class="sky-btn sky-btn-secondary"
+  id="anchor-0"
+  href="/"
+  [ngStyle]="{
+    'display': anchor0Display,
+    'visibility': anchor0Visibility
+  }"
+>
+  Anchor tag 0
+</button>
+<button
+  class="sky-btn sky-btn-secondary"
+  id="anchor-1"
+  href="/"
+>
+  Anchor tag 1
+</button>
+  <div class="sky-wait-test-component">
+    <button
+      class='sky-btn sky-btn-primary'
+      id="inside-button"
+    >
+      I am button
+    </button>
+    <sky-wait
+      [ariaLabel]="ariaLabel"
+      [isFullPage]="isFullPage"
+      [isNonBlocking]="isNonBlocking"
+      [isWaiting]="isWaiting"
+    >
+    </sky-wait>
+</div>
+<div>
+  <button *ngIf="showAnchor2"
+    class="sky-btn sky-btn-secondary"
+    id="anchor-2"
+    href="/"
+    [ngStyle]="{
+      'display': anchor2Display,
+      'visibility': anchor2Visibility
+    }"
+  >
+    Anchor tag 2
+  </button>
   <sky-wait
-    [ariaLabel]="ariaLabel"
-    [isFullPage]="isFullPage"
-    [isNonBlocking]="isNonBlocking"
-    [isWaiting]="isWaiting"
+    [isFullPage]="false"
+    [isNonBlocking]="false"
+    [isWaiting]="secondWaitIsWaiting"
   >
   </sky-wait>
 </div>

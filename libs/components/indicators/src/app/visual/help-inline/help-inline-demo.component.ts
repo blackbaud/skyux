@@ -9,6 +9,5 @@ export class SkyHelpInlineDemoComponent {
 
   public onActionClick(): void {
     this.buttonIsClicked = true;
-    console.log('Help inline clicked!');
   }
 }

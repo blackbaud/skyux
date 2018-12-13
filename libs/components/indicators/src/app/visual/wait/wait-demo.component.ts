@@ -9,6 +9,6 @@ import {
 })
 export class SkyWaitDemoComponent {
   public isWaiting: boolean;
-  public isFullPage: boolean;
+  public isFullPageWaiting: boolean;
   public isNonBlocking: boolean;
 }
