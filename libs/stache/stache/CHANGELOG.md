@@ -1,3 +1,10 @@
+# 2.15.0 (2018-12-17)
+- Separated out the Code Block and Clipboard modules [#563](https://github.com/blackbaud/stache2/pull/563)
+  - Updated the `stache-copy-to-clipboard` component to use the new `sky-copy-to-clipboard` component.
+  - Added the `skyux-lib-code-block` to the Stache module exports.
+  - Added the `@deprecated` flag to the `stache-code-block` and `stache-clipboard` modules.
+  - Updated the versions of SKY UX and the skyux-builder-plugin-stache.
+
 # 2.14.1 (2018-12-10)
 - Updated `stache-action-buttons` component to fix style bug where an action button appeared squished when displayed without other action buttons. [#561](https://github.com/blackbaud/stache2/pull/561)
 
