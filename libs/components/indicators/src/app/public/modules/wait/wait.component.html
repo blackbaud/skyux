@@ -1,4 +1,6 @@
-<div class="sky-wait-container">
+<div
+  class="sky-wait-container"
+>
   <div *ngIf="isWaiting"
     class="sky-wait-mask"
     [attr.aria-label]="ariaLabelStream | async"
@@ -8,9 +10,17 @@
       'sky-wait-mask-loading-blocking': !isNonBlocking
       }"
     >
-    <div class="sky-wait">
-      <div class="sky-wait-double-bounce1"></div>
-      <div class="sky-wait-double-bounce2"></div>
+    <div
+      class="sky-wait"
+    >
+      <div
+        class="sky-wait-double-bounce1"
+      >
+      </div>
+      <div
+        class="sky-wait-double-bounce2"
+      >
+      </div>
     </div>
   </div>
 </div>

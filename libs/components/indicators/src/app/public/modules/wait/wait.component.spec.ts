@@ -1,8 +1,8 @@
 import {
   async,
+  fakeAsync,
   TestBed,
-  tick,
-  fakeAsync
+  tick
 } from '@angular/core/testing';
 
 import {
@@ -53,12 +53,11 @@ describe('Wait component', () => {
     const fixture = TestBed.createComponent(SkyWaitComponent);
     fixture.detectChanges();
 
-    let el = fixture.nativeElement;
+    const el = fixture.nativeElement;
     expect(el.querySelector('.sky-wait')).toBeNull();
 
     fixture.componentInstance.isWaiting = true;
     fixture.detectChanges();
-
     expect(el.querySelector('.sky-wait')).not.toBeNull();
     fixture.whenStable().then(() => {
       expect(fixture.nativeElement).toBeAccessible();
@@ -67,11 +66,9 @@ describe('Wait component', () => {
 
   it('should set relative position on the wait component parent element', () => {
      const fixture = TestBed.createComponent(SkyWaitTestComponent);
-
     fixture.detectChanges();
 
-    let el = fixture.nativeElement;
-
+    const el = fixture.nativeElement;
     fixture.componentInstance.isWaiting = true;
     fixture.detectChanges();
     expect(el.querySelector('.sky-wait-test-component').style.position).toBe('relative');
@@ -84,11 +81,9 @@ describe('Wait component', () => {
 
   it('should set the appropriate class when wait component fullPage is set to true', () => {
     const fixture = TestBed.createComponent(SkyWaitTestComponent);
-
     fixture.detectChanges();
 
-    let el = fixture.nativeElement;
-
+    const el = fixture.nativeElement;
     fixture.componentInstance.isFullPage = true;
     fixture.componentInstance.isWaiting = true;
     fixture.detectChanges();
@@ -109,11 +104,9 @@ describe('Wait component', () => {
 
   it('should set the appropriate class when nonBlocking is set to true', () => {
     const fixture = TestBed.createComponent(SkyWaitTestComponent);
-
     fixture.detectChanges();
 
-    let el = fixture.nativeElement;
-
+    const el = fixture.nativeElement;
     fixture.componentInstance.isNonBlocking = true;
     fixture.componentInstance.isWaiting = true;
     fixture.detectChanges();
@@ -125,7 +118,7 @@ describe('Wait component', () => {
   });
 
   it('should prevent tab navigation and focus when fullPage is true', fakeAsync(() => {
-    let fixture = TestBed.createComponent(SkyWaitTestComponent);
+    const fixture = TestBed.createComponent(SkyWaitTestComponent);
     fixture.detectChanges();
 
     fixture.componentInstance.isNonBlocking = false;
@@ -150,7 +143,7 @@ describe('Wait component', () => {
     fixture.detectChanges();
     expect(document.activeElement).toBe(document.body);
 
-    let anchor2: any = document.body.querySelector('#anchor-2');
+    const anchor2: any = document.body.querySelector('#anchor-2');
     fixture.componentInstance.secondWaitIsWaiting = true;
     fixture.detectChanges();
     tick();
@@ -169,7 +162,7 @@ describe('Wait component', () => {
   }));
 
   it('should propagate tab navigation forward and backward avoiding waited element', fakeAsync(() => {
-    let fixture = TestBed.createComponent(SkyWaitTestComponent);
+    const fixture = TestBed.createComponent(SkyWaitTestComponent);
     fixture.detectChanges();
 
     fixture.componentInstance.isNonBlocking = false;
@@ -183,10 +176,10 @@ describe('Wait component', () => {
     tick();
     fixture.detectChanges();
 
-    let waitButton = document.body.querySelector('#inside-button');
-    let anchor0: any = document.body.querySelector('#anchor-0');
-    let anchor1: any = document.body.querySelector('#anchor-1');
-    let anchor2: any = document.body.querySelector('#anchor-2');
+    const waitButton = document.body.querySelector('#inside-button');
+    const anchor0: any = document.body.querySelector('#anchor-0');
+    const anchor1: any = document.body.querySelector('#anchor-1');
+    const anchor2: any = document.body.querySelector('#anchor-2');
 
     anchor1.focus();
     fixture.detectChanges();
@@ -332,7 +325,7 @@ describe('Wait component', () => {
   }));
 
   it('should ignore other blocking wait when propagating tab navigation', fakeAsync(() => {
-    let fixture = TestBed.createComponent(SkyWaitTestComponent);
+    const fixture = TestBed.createComponent(SkyWaitTestComponent);
     fixture.detectChanges();
 
     fixture.componentInstance.isNonBlocking = false;
@@ -347,9 +340,9 @@ describe('Wait component', () => {
     tick();
     fixture.detectChanges();
 
-    let waitButton = document.body.querySelector('#inside-button');
-    let anchor0: any = document.body.querySelector('#anchor-0');
-    let anchor1: any = document.body.querySelector('#anchor-1');
+    const waitButton = document.body.querySelector('#inside-button');
+    const anchor0: any = document.body.querySelector('#anchor-0');
+    const anchor1: any = document.body.querySelector('#anchor-1');
     anchor1.focus();
     fixture.detectChanges();
     tick();
@@ -368,7 +361,6 @@ describe('Wait component', () => {
 
   it('should set aria-busy on document body when fullPage is true', async(() => {
     const fixture = TestBed.createComponent(SkyWaitTestComponent);
-
     fixture.detectChanges();
 
     fixture.componentInstance.isFullPage = true;
@@ -389,7 +381,7 @@ describe('Wait component', () => {
     const fixture = TestBed.createComponent(SkyWaitTestComponent);
     fixture.detectChanges();
 
-    let el = fixture.nativeElement;
+    const el = fixture.nativeElement;
     fixture.componentInstance.isWaiting = true;
     fixture.detectChanges();
     expect(el.querySelector('.sky-wait-test-component').getAttribute('aria-busy')).toBe('true');
@@ -400,7 +392,7 @@ describe('Wait component', () => {
   });
 
   it('should set isPageWaitActive when fullPage is true', fakeAsync(() => {
-    let fixture = TestBed.createComponent(SkyWaitTestComponent);
+    const fixture = TestBed.createComponent(SkyWaitTestComponent);
 
     fixture.componentInstance.isNonBlocking = false;
     fixture.componentInstance.isFullPage = true;
@@ -442,7 +434,6 @@ describe('Wait component', () => {
   it('should set aria-label on document body when fullPage is true and is blocking',
     async(() => {
       const fixture = TestBed.createComponent(SkyWaitTestComponent);
-
       fixture.componentInstance.isFullPage = true;
       fixture.componentInstance.isWaiting = true;
       fixture.componentInstance.isNonBlocking = false;
@@ -455,7 +446,6 @@ describe('Wait component', () => {
   it('should set aria-label on document body when fullPage is true and is not blocking',
     async(() => {
       const fixture = TestBed.createComponent(SkyWaitTestComponent);
-
       fixture.componentInstance.isFullPage = true;
       fixture.componentInstance.isWaiting = true;
       fixture.componentInstance.isNonBlocking = true;
@@ -468,7 +458,6 @@ describe('Wait component', () => {
   it('should set aria-label on containing div when fullPage is set to false and is blocking',
     async(() => {
       const fixture = TestBed.createComponent(SkyWaitTestComponent);
-
       fixture.componentInstance.isFullPage = false;
       fixture.componentInstance.isWaiting = true;
       fixture.componentInstance.isNonBlocking = false;
@@ -481,7 +470,6 @@ describe('Wait component', () => {
   it('should set aria-label on containing div when fullPage is set to false and is not blocking',
     async(() => {
       const fixture = TestBed.createComponent(SkyWaitTestComponent);
-
       fixture.componentInstance.isFullPage = false;
       fixture.componentInstance.isWaiting = true;
       fixture.componentInstance.isNonBlocking = true;
@@ -493,7 +481,6 @@ describe('Wait component', () => {
 
   it('should not use default aria-label when one is provided', async(() => {
     const fixture = TestBed.createComponent(SkyWaitTestComponent);
-
     fixture.componentInstance.isFullPage = false;
     fixture.componentInstance.isWaiting = true;
     fixture.componentInstance.isNonBlocking = false;

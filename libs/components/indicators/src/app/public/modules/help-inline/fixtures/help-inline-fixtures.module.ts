@@ -6,8 +6,13 @@ import {
   CommonModule
 } from '@angular/common';
 
-import { SkyHelpInlineModule } from '../help-inline.module';
-import { HelpInlineTestComponent } from './help-inline.component.fixture';
+import {
+  SkyHelpInlineModule
+} from '../help-inline.module';
+
+import {
+  HelpInlineTestComponent
+} from './help-inline.component.fixture';
 
 @NgModule({
   declarations: [

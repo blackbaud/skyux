@@ -1,3 +1,6 @@
-<span class="sky-label" [ngClass]="labelType ? 'sky-label-' + labelType : 'sky-label-info'">
+<span
+  class="sky-label"
+  [ngClass]="'sky-label-' + labelType"
+>
   <ng-content></ng-content>
 </span>

@@ -5,11 +5,11 @@ import {
 @Injectable()
 export class SkyWaitPageAdapterService {
 
-  public addPageWaitEl() {
+  public addPageWaitEl(): void {
     document.body.appendChild(document.createElement('sky-wait-page'));
   }
 
-  public removePageWaitEl() {
+  public removePageWaitEl(): void {
     document.body.removeChild(document.querySelector('sky-wait-page'));
   }
 }

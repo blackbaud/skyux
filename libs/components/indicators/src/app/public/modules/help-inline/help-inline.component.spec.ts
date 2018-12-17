@@ -21,8 +21,13 @@ import {
   expect
 } from '@skyux-sdk/testing';
 
-import { SkyHelpInlineModule } from '../help-inline/help-inline.module';
-import { HelpInlineTestComponent } from './fixtures/help-inline.component.fixture';
+import {
+  SkyHelpInlineModule
+} from '../help-inline/help-inline.module';
+
+import {
+  HelpInlineTestComponent
+} from './fixtures/help-inline.component.fixture';
 
 describe('Help inline component', () => {
   let fixture: ComponentFixture<HelpInlineTestComponent>;

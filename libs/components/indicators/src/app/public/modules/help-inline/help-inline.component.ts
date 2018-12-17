@@ -13,7 +13,7 @@ export class SkyHelpInlineComponent {
   @Output()
   public actionClick = new EventEmitter<any>();
 
-  public onClick() {
+  public onClick(): void {
     this.actionClick.emit();
   }
 }

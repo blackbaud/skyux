@@ -16,7 +16,7 @@ import {
 
 import {
   SkyIndicatorsResourcesModule
-} from '../shared';
+} from '../shared/indicators-resources.module';
 
 import {
   SkyWaitComponent

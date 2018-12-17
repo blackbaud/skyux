@@ -1,5 +1,4 @@
-<div
-  *ngIf="tokens"
+<div *ngIf="tokens"
   class="sky-tokens"
   [attr.role]="(tokens && tokens.length) ? 'list' : null"
 >
@@ -13,10 +12,13 @@
     (click)="onTokenClick(token)"
     (keydown)="onTokenKeyDown($event)"
     (keyup.enter)="selectToken(token);$event.preventDefault();"
-    (tokenFocus)="activeIndex = i">
+    (tokenFocus)="activeIndex = i"
+  >
     {{ token.value[displayWith] }}
   </sky-token>
-  <div class="sky-tokens-content">
+  <div
+    class="sky-tokens-content"
+  >
     <ng-content>
     </ng-content>
   </div>

@@ -1,8 +1,12 @@
 import {
-  ComponentFactoryResolver,
   ApplicationRef,
+  ComponentFactoryResolver,
   Injectable
 } from '@angular/core';
+
+import {
+  SkyWindowRefService
+} from '@skyux/core';
 
 import {
   SkyWaitPageComponent
@@ -11,46 +15,42 @@ import {
 import {
   SkyWaitPageAdapterService
 } from './wait-page-adapter.service';
-import {
-  SkyWindowRefService
-} from '@skyux/core';
 
 @Injectable()
 export class SkyWaitService {
-
   private static waitComponent: SkyWaitPageComponent;
-  private static pageWaitBlockingCount: number = 0;
-  private static pageWaitNonBlockingCount: number = 0;
+  private static pageWaitBlockingCount = 0;
+  private static pageWaitNonBlockingCount = 0;
 
   constructor(
     private resolver: ComponentFactoryResolver,
     private appRef: ApplicationRef,
     private waitAdapter: SkyWaitPageAdapterService,
     private windowSvc: SkyWindowRefService
-    ) {}
+  ) {}
 
-  public beginBlockingPageWait() {
+  public beginBlockingPageWait(): void {
     this.beginPageWait(true);
   }
 
-  public beginNonBlockingPageWait() {
+  public beginNonBlockingPageWait(): void {
     this.beginPageWait(false);
   }
 
-  public endBlockingPageWait() {
+  public endBlockingPageWait(): void {
     this.endPageWait(true);
   }
 
-  public endNonBlockingPageWait() {
+  public endNonBlockingPageWait(): void {
     this.endPageWait(false);
   }
 
-  public clearAllPageWaits() {
+  public clearAllPageWaits(): void {
     this.clearPageWait(true);
     this.clearPageWait(false);
   }
 
-  public dispose() {
+  public dispose(): void {
     if (SkyWaitService.waitComponent) {
       SkyWaitService.waitComponent = undefined;
       SkyWaitService.pageWaitBlockingCount = 0;
@@ -59,7 +59,7 @@ export class SkyWaitService {
     }
   }
 
-  private setWaitComponentProperties(isBlocking: boolean) {
+  private setWaitComponentProperties(isBlocking: boolean): void {
     if (isBlocking) {
       SkyWaitService.waitComponent.hasBlockingWait = true;
       SkyWaitService.pageWaitBlockingCount++;
@@ -69,19 +69,17 @@ export class SkyWaitService {
     }
   }
 
-  private beginPageWait(isBlocking: boolean) {
+  private beginPageWait(isBlocking: boolean): void {
     if (!SkyWaitService.waitComponent) {
       /*
           Dynamic component creation needs to be done in a timeout to prevent ApplicationRef from
           crashing when wait service is called in Angular lifecycle functions.
       */
       this.windowSvc.getWindow().setTimeout(() => {
-        let factory = this.resolver.resolveComponentFactory(SkyWaitPageComponent);
-
+        const factory = this.resolver.resolveComponentFactory(SkyWaitPageComponent);
         this.waitAdapter.addPageWaitEl();
 
-        let cmpRef = this.appRef.bootstrap(factory);
-
+        const cmpRef = this.appRef.bootstrap(factory);
         SkyWaitService.waitComponent = cmpRef.instance;
 
         this.setWaitComponentProperties(isBlocking);
@@ -93,7 +91,7 @@ export class SkyWaitService {
 
   }
 
-  private endPageWait(isBlocking: boolean) {
+  private endPageWait(isBlocking: boolean): void {
     /*
         Needs to yield so that wait creation can finish
         before it is dismissed in the event of a race.
@@ -121,7 +119,7 @@ export class SkyWaitService {
     });
   }
 
-  private clearPageWait(isBlocking: boolean) {
+  private clearPageWait(isBlocking: boolean): void {
     if (SkyWaitService.waitComponent) {
       if (isBlocking) {
         SkyWaitService.pageWaitBlockingCount = 0;

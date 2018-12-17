@@ -12,11 +12,11 @@ import {
 
 import {
   SkyIconModule
-} from '../icon';
+} from '../icon/icon.module';
 
 import {
   SkyIndicatorsResourcesModule
-} from '../shared';
+} from '../shared/indicators-resources.module';
 
 import {
   SkyHelpInlineComponent

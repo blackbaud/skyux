@@ -1,9 +1,22 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  NgModule
+} from '@angular/core';
 
-import { SkyKeyInfoLabelComponent } from './key-info-label.component';
-import { SkyKeyInfoValueComponent } from './key-info-value.component';
-import { SkyKeyInfoComponent } from './key-info.component';
+import {
+  CommonModule
+} from '@angular/common';
+
+import {
+  SkyKeyInfoLabelComponent
+} from './key-info-label.component';
+
+import {
+  SkyKeyInfoValueComponent
+} from './key-info-value.component';
+
+import {
+  SkyKeyInfoComponent
+} from './key-info.component';
 
 @NgModule({
   declarations: [
@@ -11,7 +24,9 @@ import { SkyKeyInfoComponent } from './key-info.component';
     SkyKeyInfoLabelComponent,
     SkyKeyInfoValueComponent
   ],
-  imports: [CommonModule],
+  imports: [
+    CommonModule
+  ],
   exports: [
     SkyKeyInfoComponent,
     SkyKeyInfoLabelComponent,

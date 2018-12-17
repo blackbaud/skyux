@@ -1,5 +1,7 @@
 <div
     class="sky-alert sky-rounded-corners"
+    role="alert"
+    [hidden]="closed"
     [ngClass]="{
       'sky-alert-info': alertType === 'info',
       'sky-alert-success': alertType === 'success',
@@ -7,17 +9,26 @@
       'sky-alert-danger': alertType === 'danger',
       'sky-alert-closeable': closeable
     }"
-    [hidden]="closed"
-    role="alert"
 >
-  <div class="sky-alert-content"><ng-content></ng-content></div>
+  <div
+    class="sky-alert-content"
+  >
+    <ng-content></ng-content>
+  </div>
   <button
-      type="button"
       class="sky-alert-close"
-      (click)="close()"
+      type="button"
       [attr.aria-label]="'skyux_alert_close' | skyLibResources"
       [hidden]="!closeable"
+      (click)="close()"
   >
-    <span aria-hidden="true"><sky-icon icon="close"></sky-icon></span>
+    <span
+      aria-hidden="true"
+    >
+      <sky-icon
+        icon="close"
+      >
+      </sky-icon>
+    </span>
   </button>
 </div>

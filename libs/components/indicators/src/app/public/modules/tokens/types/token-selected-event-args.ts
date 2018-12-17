@@ -1,4 +1,6 @@
-import { SkyToken } from './token';
+import {
+  SkyToken
+} from './token';
 
 export interface SkyTokenSelectedEventArgs {
   token?: SkyToken;

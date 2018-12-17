@@ -1,4 +1,7 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  Input
+} from '@angular/core';
 
 @Component({
   selector: 'sky-label',
@@ -7,5 +10,13 @@ import { Component, Input } from '@angular/core';
 })
 export class SkyLabelComponent {
   @Input()
-  public labelType: string;
+  public set labelType(value: string) {
+    this._labelType = value;
+  }
+
+  public get labelType(): string {
+    return this._labelType || 'info';
+  }
+
+  private _labelType: string;
 }

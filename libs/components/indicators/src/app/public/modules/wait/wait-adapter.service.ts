@@ -1,13 +1,13 @@
 import {
   ElementRef,
   Injectable,
-  Renderer,
-  OnDestroy
+  OnDestroy,
+  Renderer
 } from '@angular/core';
 
 @Injectable()
 export class SkyWaitAdapterService implements OnDestroy {
-  private static isPageWaitActive: boolean = false;
+  private static isPageWaitActive = false;
   private static busyElements: {[key: string]: {busyEl: HTMLElement, listener: any}} = {};
 
   private focussableElements: HTMLElement[];
@@ -35,8 +35,8 @@ export class SkyWaitAdapterService implements OnDestroy {
     isNonBlocking = false,
     waitComponentId?: string
   ): void {
-    let busyEl = isFullPage ? document.body : waitEl.nativeElement.parentElement;
-    let state = isWaiting ? 'true' : undefined;
+    const busyEl = isFullPage ? document.body : waitEl.nativeElement.parentElement;
+    const state = isWaiting ? 'true' : undefined;
 
     if (!isNonBlocking) {
       this.renderer.setElementAttribute(busyEl, 'aria-busy', state);
@@ -49,7 +49,7 @@ export class SkyWaitAdapterService implements OnDestroy {
 
         if (isFullPage) {
           SkyWaitAdapterService.isPageWaitActive = true;
-          let endListenerFunc = this.renderer.listen(
+          const endListenerFunc = this.renderer.listen(
             document.body,
             'keydown',
             (event: KeyboardEvent) => {
@@ -66,7 +66,7 @@ export class SkyWaitAdapterService implements OnDestroy {
             busyEl: undefined
           };
         } else {
-          let endListenerFunc = this.renderer.listen(
+          const endListenerFunc = this.renderer.listen(
             busyEl,
             'focusin',
             (event: KeyboardEvent) => {
@@ -79,7 +79,7 @@ export class SkyWaitAdapterService implements OnDestroy {
                   this.clearDocumentFocus();
                 } else {
                   // Propagate tab navigation if attempted into waited element
-                  let target: any = event.target;
+                  const target: any = event.target;
                   target.blur();
                   this.focusNextElement(target, this.isShift(event), busyEl);
                 }
@@ -103,13 +103,13 @@ export class SkyWaitAdapterService implements OnDestroy {
   }
 
   private focusNextElement(targetElement: HTMLElement, shiftKey: boolean, busyEl: Element): void {
-    let focussable = this.getFocussableElements();
+    const focussable = this.getFocussableElements();
 
     // If shift tab, go in the other direction
-    let modifier = shiftKey ? -1 : 1;
+    const modifier = shiftKey ? -1 : 1;
 
     // Find the next navigable element that isn't waiting
-    let startingIndex = focussable.indexOf(targetElement);
+    const startingIndex = focussable.indexOf(targetElement);
     let curIndex = startingIndex + modifier;
     while (focussable[curIndex] && this.isElementBusyOrHidden(focussable[curIndex])) {
       curIndex += modifier;
@@ -146,10 +146,10 @@ export class SkyWaitAdapterService implements OnDestroy {
 
   private isShift(event: Event): boolean {
     // Determine if shift+tab was used based on element order
-    let elements = this.getFocussableElements().filter(elem => !this.isElementHidden(elem));
+    const elements = this.getFocussableElements().filter(elem => !this.isElementHidden(elem));
 
-    let previousInd = elements.indexOf((event as any).relatedTarget);
-    let currentInd = elements.indexOf(event.target as HTMLElement);
+    const previousInd = elements.indexOf((event as any).relatedTarget);
+    const currentInd = elements.indexOf(event.target as HTMLElement);
 
     return previousInd === currentInd + 1
       || (previousInd === 0 && currentInd === elements.length - 1)
@@ -167,7 +167,7 @@ export class SkyWaitAdapterService implements OnDestroy {
       return true;
     }
 
-    for (let key of Object.keys(SkyWaitAdapterService.busyElements)) {
+    for (const key of Object.keys(SkyWaitAdapterService.busyElements)) {
       const parentElement = SkyWaitAdapterService.busyElements[key].busyEl;
       if (parentElement && parentElement.contains(element)) {
         return true;
@@ -190,7 +190,7 @@ export class SkyWaitAdapterService implements OnDestroy {
     }
 
     // Select all possible focussable elements
-    let focussableElements =
+    const focussableElements =
       'a[href], ' +
       'area[href], ' +
       'input:not([disabled]):not([tabindex=\'-1\']), ' +
@@ -211,7 +211,7 @@ export class SkyWaitAdapterService implements OnDestroy {
 
   private clearListeners(): void {
     SkyWaitAdapterService.isPageWaitActive = false;
-    for (let key of Object.keys(SkyWaitAdapterService.busyElements)) {
+    for (const key of Object.keys(SkyWaitAdapterService.busyElements)) {
       SkyWaitAdapterService.busyElements[key].listener();
       delete SkyWaitAdapterService.busyElements[key];
     }

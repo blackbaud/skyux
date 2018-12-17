@@ -21,14 +21,15 @@ export class SkyIconComponent {
   public fixedWidth: boolean;
 
   public classList(): string[] {
-    let list: string[] = [];
-    list.push('fa-' + this.icon);
+    const list: string[] = ['fa-' + this.icon];
+
     if (this.size) {
       list.push('fa-' + this.size);
     }
     if (this.fixedWidth) {
       list.push('fa-fw');
     }
+
     return list;
   }
 }

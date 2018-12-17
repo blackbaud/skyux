@@ -14,20 +14,20 @@ import {
 export class SkyWaitTestComponent {
   public ariaLabel: string;
 
-  public isWaiting: boolean = false;
-  public isFullPage: boolean = false;
-  public isNonBlocking: boolean = false;
+  public isWaiting = false;
+  public isFullPage = false;
+  public isNonBlocking = false;
 
   public showAnchor0 = true;
   public showAnchor2 = true;
 
-  public anchor0Visibility: string = '';
-  public anchor0Display: string = '';
+  public anchor0Visibility = '';
+  public anchor0Display = '';
 
-  public anchor2Visibility: string = '';
-  public anchor2Display: string = '';
+  public anchor2Visibility = '';
+  public anchor2Display = '';
 
-  public secondWaitIsWaiting: boolean = false;
+  public secondWaitIsWaiting = false;
 
   @ViewChild(SkyWaitComponent)
   public waitComponent: SkyWaitComponent;

@@ -4,7 +4,7 @@ import {
 
 import {
   SkyToken
-} from '../../public';
+} from '../../public/modules/tokens/types/token';
 
 @Component({
   selector: 'sky-tokens-demo',

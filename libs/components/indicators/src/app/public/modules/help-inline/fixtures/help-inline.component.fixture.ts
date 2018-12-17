@@ -9,7 +9,7 @@ import {
 export class HelpInlineTestComponent {
   public buttonIsClicked = false;
 
-  public buttonClicked() {
+  public buttonClicked(): void {
     this.buttonIsClicked = true;
   }
 }

@@ -1,7 +1,11 @@
 <button
   class="sky-help-inline"
   type="button"
+  [attr.title]="'skyux_help_inline_button_title' | skyLibResources"
   (click)="onClick()"
-  [attr.title]="'skyux_help_inline_button_title' | skyLibResources">
-  <sky-icon icon="info-circle"></sky-icon>
+>
+  <sky-icon
+    icon="info-circle"
+  >
+  </sky-icon>
 </button>

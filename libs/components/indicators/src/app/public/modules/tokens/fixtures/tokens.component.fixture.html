@@ -7,10 +7,12 @@
   [(tokens)]="tokens"
   (focusIndexOverRange)="onFocusIndexOverRange()"
   (focusIndexUnderRange)="onFocusIndexUnderRange()"
-  (tokenSelected)="onTokenSelected($event)">
+  (tokenSelected)="onTokenSelected($event)"
+>
   INNER CONTENT
 </sky-tokens>
 
-<sky-token
-  *ngIf="includeSingleToken"
-  [ariaLabel]="ariaLabel"></sky-token>
+<sky-token *ngIf="includeSingleToken"
+  [ariaLabel]="ariaLabel"
+>
+</sky-token>

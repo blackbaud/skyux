@@ -4,9 +4,6 @@ import {
   TestBed
 } from '@angular/core/testing';
 
-import { SkyChevronComponent } from './chevron.component';
-import { SkyChevronModule } from './chevron.module';
-
 import {
   SkyAppTestModule
 } from '@blackbaud/skyux-builder/runtime/testing/browser';
@@ -14,6 +11,14 @@ import {
 import {
   expect
 } from '@skyux-sdk/testing';
+
+import {
+  SkyChevronComponent
+} from './chevron.component';
+
+import {
+  SkyChevronModule
+} from './chevron.module';
 
 describe('Chevron component', () => {
   let fixture: ComponentFixture<SkyChevronComponent>;
@@ -29,9 +34,9 @@ describe('Chevron component', () => {
     fixture = TestBed.createComponent(SkyChevronComponent);
   });
 
-  function validateDirection(expectedDirection: string) {
-    let el = fixture.nativeElement;
-    let chevronEl = el.querySelector('.sky-chevron');
+  function validateDirection(expectedDirection: string): void {
+    const el = fixture.nativeElement;
+    const chevronEl = el.querySelector('.sky-chevron');
 
     fixture.detectChanges();
 
@@ -39,38 +44,32 @@ describe('Chevron component', () => {
     expect(chevronEl.classList.contains('sky-chevron-' + expectedDirection)).toBe(true);
   }
 
-  function clickChevron(el: any) {
+  function clickChevron(el: any): void {
     el.querySelector('.sky-chevron').click();
   }
 
   it('should change direction when the user clicks the chevron', () => {
-    let cmp = fixture.componentInstance as SkyChevronComponent;
-    let el = fixture.nativeElement;
+    const cmp = fixture.componentInstance as SkyChevronComponent;
+    const el = fixture.nativeElement;
 
     fixture.detectChanges();
-
     validateDirection('up');
 
-    cmp.directionChange.subscribe((direction: string) => {
+    cmp.directionChange.subscribe(() => {
       validateDirection('down');
     });
-
     clickChevron(el);
   });
 
   it('should not be able to click disabled chevron', () => {
-    let el = fixture.nativeElement;
-
-    // make disabled
+    const el = fixture.nativeElement;
     fixture.componentInstance.disabled = true;
     fixture.detectChanges();
 
     validateDirection('up');
-
     clickChevron(el);
 
     fixture.detectChanges();
-
     validateDirection('up');
   });
 

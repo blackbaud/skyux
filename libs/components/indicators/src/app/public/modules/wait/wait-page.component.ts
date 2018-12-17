@@ -9,7 +9,6 @@ import {
   styleUrls: ['./wait-page.component.scss']
 })
 export class SkyWaitPageComponent {
-
   @Input()
   public hasBlockingWait: boolean;
 

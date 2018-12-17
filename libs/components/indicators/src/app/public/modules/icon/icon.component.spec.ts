@@ -5,16 +5,16 @@ import {
 } from '@angular/core/testing';
 
 import {
+  expect
+} from '@skyux-sdk/testing';
+
+import {
   SkyIconModule
 } from './icon.module';
 
 import {
   IconTestComponent
 } from './fixtures/icon.component.fixture';
-
-import {
-  expect
-} from '@skyux-sdk/testing';
 
 describe('Icon component', () => {
   let fixture: ComponentFixture<IconTestComponent>;
@@ -55,6 +55,7 @@ describe('Icon component', () => {
     cmp.size = '5x';
     cmp.fixedWidth = true;
     fixture.detectChanges();
+
     expect(cmp.icon).toBe('broom');
     expect(element.querySelector('.sky-icon')).toHaveCssClass('fa-broom');
     expect(element.querySelector('.sky-icon')).toHaveCssClass('fa-5x');
@@ -68,6 +69,7 @@ describe('Icon component', () => {
     cmp.size = undefined;
     cmp.fixedWidth = undefined;
     fixture.detectChanges();
+
     expect(element.querySelector('.sky-icon')).toHaveCssClass('fa-spinner');
     expect(element.querySelector('.sky-icon').classList.length).toBe(3);
   });

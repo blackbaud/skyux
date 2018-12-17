@@ -1,5 +1,10 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  NgModule
+} from '@angular/core';
+
+import {
+  CommonModule
+} from '@angular/common';
 
 import {
   SkyLibResourcesService
@@ -9,8 +14,13 @@ import {
   SkyLibResourcesTestService
 } from '@skyux/i18n/testing';
 
-import { SkyTokensModule } from '../tokens.module';
-import { SkyTokensTestComponent } from './tokens.component.fixture';
+import {
+  SkyTokensModule
+} from '../tokens.module';
+
+import {
+  SkyTokensTestComponent
+} from './tokens.component.fixture';
 
 @NgModule({
   declarations: [

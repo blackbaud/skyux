@@ -1,4 +1,9 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 
 @Component({
   selector: 'sky-chevron',
@@ -13,9 +18,13 @@ export class SkyChevronComponent {
   public direction = 'up';
 
   @Input()
-  public disabled: boolean = false;
+  public disabled = false;
 
-  public chevronClick() {
+  public chevronClick(event?: Event): void {
+    if (event) {
+      event.stopPropagation();
+    }
+
     this.direction = this.direction === 'up' ? 'down' : 'up';
     this.directionChange.emit(this.direction);
   }

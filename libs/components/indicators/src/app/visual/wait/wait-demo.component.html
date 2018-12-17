@@ -27,8 +27,8 @@
 
   <button
     class="sky-btn sky-btn-secondary sky-test-non-blocking"
-    type="button"
     style="margin-bottom: 10px;"
+    type="button"
     [ngClass]="{
       'sky-btn-secondary': isNonBlocking,
       'sky-btn-primary': !isNonBlocking
@@ -45,8 +45,8 @@
     <div style="height: 200px; width: 200px">
       Wait <a href="http://example.com">link</a> inside this element with text
       <sky-wait
-        [isWaiting]="isWaiting"
         [isNonBlocking]="isNonBlocking"
+        [isWaiting]="isWaiting"
       >
       </sky-wait>
     </div>
@@ -61,7 +61,9 @@
     >
     </sky-wait>
     <div>
-      <p style="position:absolute; background-color: red">
+      <p
+        style="position:absolute; background-color: red"
+      >
         A large area that can be waited with the <code>sky-wait</code> directive and a <a href="http://example.com">link</a>.
       </p>
     </div>

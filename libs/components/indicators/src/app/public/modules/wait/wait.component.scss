@@ -27,6 +27,7 @@
 
 .sky-wait-mask-loading-non-blocking {
   bottom: 0;
+
   .sky-wait {
     top: auto;
     right: auto;
@@ -46,7 +47,6 @@
   position: absolute;
   top: 0;
   left: 0;
-
   -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
   animation: sk-bounce 2.0s infinite ease-in-out;
 }
@@ -57,19 +57,23 @@
 }
 
 @-webkit-keyframes sk-bounce {
-  0%, 100% {
+  0%,
+  100% {
     -webkit-transform: scale(0.0);
   }
+
   50% {
     -webkit-transform: scale(1.0);
   }
 }
 
 @keyframes sk-bounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(0.0);
     -webkit-transform: scale(0.0);
   }
+
   50% {
     transform: scale(1.0);
     -webkit-transform: scale(1.0);
