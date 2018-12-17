@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StacheCopyToClipboardService } from './clipboard.service';
-import { FormsModule } from '@angular/forms';
-import { SkyAppRuntimeModule } from '@blackbaud/skyux-builder/runtime';
 import { StacheCopyToClipboardComponent } from './clipboard.component';
+import { SkyClipboardModule } from '@blackbaud/skyux-lib-clipboard';
 
 @NgModule({
   declarations: [
@@ -11,8 +10,7 @@ import { StacheCopyToClipboardComponent } from './clipboard.component';
   ],
   imports: [
     CommonModule,
-    FormsModule,
-    SkyAppRuntimeModule
+    SkyClipboardModule
   ],
   exports: [
     StacheCopyToClipboardComponent

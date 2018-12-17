@@ -1,16 +1,6 @@
-<button
-  type="button"
-  class="sky-btn sky-btn-default stache-clipboard-btn"
-  *ngIf="enabled"
-  (click)="copyToClipboard()"
-  [attr.title]="'stache_copy_to_clipboard_button_title' | skyAppResources"
-  >
-  <i *ngIf="!buttonActive" aria-hidden="true" class="fa fa-clipboard"></i>
-  <i *ngIf="buttonActive" aria-hidden="true" class="fa fa-check"></i>
-  <span *ngIf="!buttonActive || (buttonActive && !buttonClickedText)">
-    {{ buttonText }}
-  </span>
-  <span *ngIf="buttonActive && buttonClickedText">
-    {{ buttonClickedText }}
-  </span>
-</button>
+<sky-copy-to-clipboard
+[copyTarget]="copyTarget"
+[buttonText]="buttonText"
+[buttonClickedText]="buttonClickedText"
+>
+</sky-copy-to-clipboard>

@@ -34,6 +34,9 @@ import { StacheFooterModule } from './modules/footer';
 import { StacheWrapperModule } from './modules/wrapper';
 import { StacheHideFromSearchModule } from './modules/hide-from-search/hide-from-search.module';
 
+import { SkyCodeBlockModule } from '@blackbaud/skyux-lib-code-block';
+import { SkyClipboardModule } from '@blackbaud/skyux-lib-clipboard';
+
 export * from './modules/shared';
 
 @NgModule({
@@ -67,7 +70,9 @@ export * from './modules/shared';
     StacheTutorialModule,
     StacheTutorialStepModule,
     StacheVideoModule,
-    StacheWrapperModule
+    StacheWrapperModule,
+    SkyCodeBlockModule,
+    SkyClipboardModule
   ]
 })
 export class StacheModule { }

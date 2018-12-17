@@ -1,12 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { StacheCopyToClipboardService } from './clipboard.service';
-import { StacheWindowRef } from '../shared';
+/**
+ * @deprecated since version 2.15.0. update and use the skyux-lib-clipboard unless major bugs are discovered before full deprecation in v3.
+ */
+
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'stache-copy-to-clipboard',
   templateUrl: './clipboard.component.html'
 })
-export class StacheCopyToClipboardComponent implements OnInit {
+export class StacheCopyToClipboardComponent {
   @Input()
   public copyTarget: HTMLElement;
 
@@ -15,33 +17,4 @@ export class StacheCopyToClipboardComponent implements OnInit {
 
   @Input()
   public buttonClickedText: string;
-
-  public buttonActive: boolean = false;
-  public enabled: boolean = false;
-  private timeout: any;
-  private window: Window;
-
-  constructor(
-    private clipboardService: StacheCopyToClipboardService,
-    private windowRef: StacheWindowRef
-  ) {
-    this.window = this.windowRef.nativeWindow;
-  }
-
-  public ngOnInit() {
-    this.enabled = this.clipboardService.verifyCopyCommandBrowserSupport();
-  }
-
-  public copyToClipboard() {
-    this.buttonActive = true;
-    this.clipboardService.copyContent(this.copyTarget);
-
-    if (this.timeout) {
-      this.window.clearTimeout(this.timeout);
-    }
-
-    this.timeout = this.window.setTimeout(() => {
-      this.buttonActive = false;
-    }, 1000);
-  }
 }

@@ -8,7 +8,7 @@ import { SkyAppRuntimeModule } from '@blackbaud/skyux-builder/runtime';
 import { HttpModule } from '@angular/http';
 import { PipeTransform, Pipe } from '@angular/core';
 import { SkyAppResourcesService } from '@blackbaud/skyux-builder/runtime/i18n';
-import { StacheClipboardModule, StacheCopyToClipboardService } from '../clipboard';
+import { SkyClipboardModule, SkyCopyToClipboardService } from '@blackbaud/skyux-lib-clipboard';
 import { StacheWindowRef } from '../shared';
 
 class MockClipboardService {
@@ -64,11 +64,11 @@ describe('StacheCodeBlockComponent', () => {
       providers: [
         StacheWindowRef,
         { provide: SkyAppResourcesService, useValue: mockSkyAppResourcesService },
-        { provide: StacheCopyToClipboardService, useValue: mockClipboardService }
+        { provide: SkyCopyToClipboardService, useValue: mockClipboardService }
       ],
       imports: [
         SkyAppRuntimeModule,
-        StacheClipboardModule,
+        SkyClipboardModule,
         HttpModule
       ]
     })
@@ -132,7 +132,7 @@ describe('StacheCodeBlockComponent', () => {
     const code = '<p></p>';
     component.code = code;
     fixture.detectChanges();
-    expect(element.querySelector('.stache-clipboard-btn')).toExist();
+    expect(element.querySelector('sky-copy-to-clipboard')).toExist();
   });
 
   it('should hide copy to clipboard button', () => {
@@ -140,7 +140,7 @@ describe('StacheCodeBlockComponent', () => {
     component.code = code;
     component.hideCopyToClipboard = true;
     fixture.detectChanges();
-    expect(element.querySelector('.stache-clipboard-btn')).not.toExist();
+    expect(element.querySelector('sky-copy-to-clipboard')).not.toExist();
   });
 
   it('should pass accessibility', async(() => {
