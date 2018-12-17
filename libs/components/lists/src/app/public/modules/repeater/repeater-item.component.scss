@@ -11,6 +11,7 @@
 }
 
 .sky-repeater-item-right {
+  max-width: 100%;
   flex-grow: 1;
 }
 
@@ -42,6 +43,7 @@
 ::ng-deep sky-repeater-item-content {
   display: block;
   margin: $sky-margin 0 0;
+  overflow-x: auto;
 }
 
 .sky-repeater-item-collapsible {

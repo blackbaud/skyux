@@ -59,6 +59,53 @@
   </sky-repeater>
 </div>
 
+<div id="screenshot-repeater-max-width">
+  <div class="sky-repeater-max-width">
+    <sky-repeater [expandMode]="'multiple'">
+      <sky-repeater-item [isExpanded]="true">
+        <sky-repeater-item-title>Title 1</sky-repeater-item-title>
+        <sky-repeater-item-content>
+          <p>
+            LoremipsumdolorsitametconsecteturadipisicingelitEtconsecteturquibusdamexcepturiharumquaeexomniscumquesaepeundedoloresimiliquenostrumcupditatevoluptaterepellatillumtemporaearumrerumab?
+          </p>
+      </sky-repeater-item-content>
+      </sky-repeater-item>
+      <sky-repeater-item [isExpanded]="true">
+        <sky-repeater-item-title>
+          Title 2
+        </sky-repeater-item-title>
+        <sky-repeater-item-content>
+          <div class="sky-repeater-max-width-div-test">
+
+          </div>
+        </sky-repeater-item-content>
+      </sky-repeater-item>
+      <sky-repeater-item [isExpanded]="true">
+        <sky-repeater-item-title>Title 3</sky-repeater-item-title>
+          <sky-repeater-item-content>
+            <p>To run services locally, there are several settings to configure.</p>
+            <pre>
+              <code>
+                &lt;appSettings&gt;
+                    &lt;add key="AuthorizationUrl" value="https://service-authorization.sky.blackbaud.com/" /&gt;
+                    &lt;add key="EntitlementServiceAudienceName" value="s21aetm00paas\Blackbaud.Entitlement.DataService" /&gt;
+                    &lt;add key="PermissionServiceAudienceName" value="local\Blackbaud.Entitlement.PermissionService" /&gt;
+                    &lt;add key="UserManagementServiceAudienceName" value="local\Blackbaud.Entitlement.UserManagementService" /&gt;
+                    &lt;add key="EntitlementsClientName" value="" /&gt; // get this from a nautilus team member
+                    &lt;add key="EntitlementsAccessToken" value="" /&gt; // get this from a nautilus team member
+                    &lt;add key="STSUrl" value="https://signin.blackbaud.com/" /&gt;
+                    &lt;add key="ConfirmInviteUrl" value="https://host.nxt.blackbaud.com/permissions/confirm-invite?envid=0&amp;legalEntityId=1&amp;invitationToken=2&amp;svcid=3" /&gt;
+                    &lt;add key="ConfirmInviteOrgUrl" value="https://host.nxt.blackbaud.com/admin-console/confirm-invite?legalEntityId=0&amp;invitationToken=1&amp;svcid=2" /&gt;
+                    &lt;add key="AIInstrumentationKey" value="" /&gt; // get this from a nautilus team member
+                &lt;/appSettings&gt;
+              </code>
+            </pre>
+        </sky-repeater-item-content>
+      </sky-repeater-item>
+    </sky-repeater>
+  </div>
+</div>
+
 <div id="screenshot-repeater-context-menu">
     <sky-repeater [expandMode]="'single'">
       <sky-repeater-item>
@@ -92,3 +139,4 @@
       </sky-repeater-item>
     </sky-repeater>
   </div>
+
