@@ -2,6 +2,7 @@
 import {
   ApplicationRef
 } from '@angular/core';
+
 import {
   ComponentFixture,
   fakeAsync,
@@ -9,6 +10,7 @@ import {
   TestBed,
   tick
 } from '@angular/core/testing';
+
 import {
   NoopAnimationsModule
 } from '@angular/platform-browser/animations';
@@ -23,9 +25,11 @@ import {
   SkyToastBodyTestComponent,
   SkyToastBodyTestContext
 } from './fixtures';
+
 import {
   SkyToastInstance
 } from './toast-instance';
+
 import {
   SkyToastService
 } from './toast.service';
@@ -59,7 +63,7 @@ describe('Toast component', () => {
   ));
 
   afterEach(fakeAsync(() => {
-    toastService.closeAll();
+    toastService.ngOnDestroy();
     applicationRef.tick();
     tick();
     fixture.detectChanges();

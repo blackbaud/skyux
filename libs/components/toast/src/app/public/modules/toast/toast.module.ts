@@ -2,16 +2,20 @@
 import {
   NgModule
 } from '@angular/core';
+
 import {
   CommonModule
 } from '@angular/common';
 
 import {
+  SkyWindowRefService,
+  SkyDynamicComponentModule
+} from '@skyux/core';
+
+import {
   SkyI18nModule
 } from '@skyux/i18n';
-import {
-  SkyWindowRefService
-} from '@skyux/core';
+
 import {
   SkyIconModule
 } from '@skyux/indicators';
@@ -23,15 +27,19 @@ import {
 import {
   SkyToastAdapterService
 } from './toast-adapter.service';
+
 import {
   SkyToastBodyComponent
 } from './toast-body.component';
+
 import {
   SkyToastComponent
 } from './toast.component';
+
 import {
   SkyToasterComponent
 } from './toaster.component';
+
 import {
   SkyToastService
 } from './toast.service';
@@ -45,6 +53,7 @@ import {
   ],
   imports: [
     CommonModule,
+    SkyDynamicComponentModule,
     SkyI18nModule,
     SkyIconModule,
     SkyToastResourcesModule

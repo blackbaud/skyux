@@ -1,10 +1,12 @@
 // #region imports
 import {
-  RendererFactory2
+  RendererFactory2,
+  ApplicationRef
 } from '@angular/core';
 
 import {
-  TestBed
+  TestBed,
+  inject
 } from '@angular/core/testing';
 
 import {
@@ -23,6 +25,7 @@ describe('Toast adapter service', () => {
     appendCalledCount: 0,
     removeCalledCount: 0
   };
+  let applicationRef: ApplicationRef;
 
   beforeEach(() => {
     let rendererMock = {
@@ -44,13 +47,31 @@ describe('Toast adapter service', () => {
     adapter = TestBed.get(SkyToastAdapterService);
   });
 
-  it('should append element to body', () => {
-    adapter.appendToBody(undefined);
-    expect(rendererCallCounts.appendCalledCount).toBe(1);
-  });
+  beforeEach(
+    inject(
+      [
+        ApplicationRef
+      ],
+      (
+        _applicationRef: ApplicationRef
+      ) => {
+        applicationRef = _applicationRef;
+      }
+    )
+  );
 
-  it('should remove element from body', () => {
-    adapter.removeHostElement();
-    expect(rendererCallCounts.removeCalledCount).toBe(1);
+  it('should scroll to the bottom of an element correctly', () => {
+    spyOn(window, 'setTimeout').and.callFake((fun: Function) => {
+      fun();
+    });
+    let elementRefMock: any = {
+      nativeElement: {
+        scrollTop: undefined,
+        scrollHeight: 40
+      }
+    };
+    adapter.scrollBottom(elementRefMock);
+    applicationRef.tick();
+    expect(elementRefMock.nativeElement.scrollTop).toBe(40);
   });
 });

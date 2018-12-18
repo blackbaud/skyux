@@ -16,10 +16,6 @@ import {
 } from '@skyux/i18n';
 
 import {
-  SkyLibResourcesTestService
-} from '@skyux/i18n/testing';
-
-import {
   SkyToastModule
 } from '../toast.module';
 
@@ -55,10 +51,7 @@ import {
     SkyToastBodyTestComponent
   ],
   providers: [
-    {
-      provide: SkyLibResourcesService,
-      useClass: SkyLibResourcesTestService
-    }
+    SkyLibResourcesService
   ]
 })
 export class SkyToastFixturesModule { }

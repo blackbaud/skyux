@@ -1,11 +1,7 @@
 // #region imports
 import {
-  ApplicationRef,
   ComponentRef,
-  ComponentFactoryResolver,
-  EmbeddedViewRef,
   Injectable,
-  Injector,
   OnDestroy,
   Provider
 } from '@angular/core';
@@ -19,16 +15,16 @@ import {
 } from 'rxjs/Observable';
 
 import {
+  SkyDynamicComponentService
+} from '@skyux/core';
+
+import {
   SkyToastConfig
 } from './types';
 
 import {
   SkyToast
 } from './toast';
-
-import {
-  SkyToastAdapterService
-} from './toast-adapter.service';
 
 import {
   SkyToastBodyComponent
@@ -59,15 +55,14 @@ export class SkyToastService implements OnDestroy {
   private _toastStream = new BehaviorSubject<SkyToast[]>([]);
 
   constructor(
-    private appRef: ApplicationRef,
-    private resolver: ComponentFactoryResolver,
-    private injector: Injector,
-    private adapter: SkyToastAdapterService
+    private dynamicComponentService: SkyDynamicComponentService
   ) { }
 
   public ngOnDestroy() {
-    this.closeAll();
-    this.removeHostComponent();
+    if (this.host) {
+      this.closeAll();
+      this.removeHostComponent();
+    }
     this._toastStream.complete();
   }
 
@@ -125,7 +120,7 @@ export class SkyToastService implements OnDestroy {
 
   private addToast(toast: SkyToast): void {
     if (!this.host) {
-      this.host = this.createHostComponent();
+      this.createHostComponent();
     }
 
     this.toasts.push(toast);
@@ -141,25 +136,15 @@ export class SkyToastService implements OnDestroy {
   }
 
   private createHostComponent(): ComponentRef<SkyToasterComponent> {
-    const componentRef = this.resolver
-      .resolveComponentFactory(SkyToasterComponent)
-      .create(this.injector);
-
-    const domElem = (componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0];
-
-    this.appRef.attachView(componentRef.hostView);
-    this.adapter.appendToBody(domElem);
-
-    return componentRef;
+    this.host = this.dynamicComponentService.createComponent(SkyToasterComponent);
+    return this.host;
   }
 
   private removeHostComponent() {
     if (this.host) {
-      this.appRef.detachView(this.host.hostView);
-      this.host.destroy();
+      this.dynamicComponentService.removeComponent(this.host);
       this.host = undefined;
     }
 
-    this.adapter.removeHostElement();
   }
 }

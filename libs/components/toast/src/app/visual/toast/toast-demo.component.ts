@@ -5,7 +5,7 @@ import {
 
 import {
   SkyToastInstance
-} from '@blackbaud/skyux/dist/core';
+} from '../../public/modules/toast/toast-instance';
 
 @Component({
   selector: 'sky-test-cmp-toast',

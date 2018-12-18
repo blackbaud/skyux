@@ -80,9 +80,11 @@ export class SkyToasterComponent implements AfterViewInit {
   }
 
   public closeAll(): void {
-    this.toastComponents.forEach((toastComponent) => {
-      toastComponent.close();
-    });
+    if (this.toastComponents) {
+      this.toastComponents.forEach((toastComponent) => {
+        toastComponent.close();
+      });
+    }
   }
 
   private injectToastContent(): void {
