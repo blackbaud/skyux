@@ -1,4 +1,7 @@
-<div id="screenshot-filter-button">
+<div
+  class="app-screenshot"
+  id="screenshot-filter-button"
+>
   <sky-filter-button
     [active]="filtersActive"
     (filterButtonClick)="filtersActive = !filtersActive"
@@ -8,7 +11,10 @@
 
 <br/>
 
-<div id="screenshot-filter-button-text">
+<div
+  class="app-screenshot"
+  id="screenshot-filter-button-text"
+>
   <sky-filter-button
     [active]="filtersActive"
     (filterButtonClick)="filtersActive = !filtersActive"
@@ -16,9 +22,10 @@
   </sky-filter-button>
 </div>
 
-<br/>
-
-<div id="screenshot-filter-summary">
+<div
+  class="app-screenshot"
+  id="screenshot-filter-summary"
+>
   <sky-filter-summary>
     <sky-filter-summary-item
       *ngFor="let item of appliedFilters; let i = index"
@@ -28,9 +35,10 @@
   </sky-filter-summary>
 </div>
 
-<br/>
-
-<div id="screenshot-filter-inline">
+<div
+  class="app-screenshot"
+  id="screenshot-filter-inline"
+>
   <sky-filter-inline>
     <sky-filter-inline-item>
       <label for="sky-demo-select-type">Fruit type</label>
