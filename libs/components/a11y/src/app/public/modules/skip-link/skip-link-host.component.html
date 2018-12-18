@@ -1,0 +1,7 @@
+<button *ngFor="let link of links"
+  class="sky-btn sky-btn-primary sky-skip-link"
+  type="button"
+  (click)="skipTo(link)"
+>
+  {{ 'skyux_list_skip_to_link' | skyLibResources:link.title }}
+</button>

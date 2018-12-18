@@ -1,0 +1,19 @@
+.sky-skip-link {
+  position: absolute;
+  left: -999px;
+  width: 1px;
+  height: 1px;
+  top: auto;
+
+  &:focus,
+  &:active {
+    display: inline-block;
+    height: auto;
+    width: auto;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    margin: auto;
+    z-index: 10000;
+  }
+}

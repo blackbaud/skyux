@@ -1,6 +1,6 @@
 {
-  "foo_bar": {
-    "_description": "",
-    "message": "FOO BAR!"
+  "skyux_list_skip_to_link": {
+    "_description": "Label for 'skip to' links rendered at the top of the page",
+    "message": "Skip to {0}"
   }
 }
