@@ -86,11 +86,12 @@ export class SkyDynamicComponentService {
   public removeComponent<T>(
     cmpRef: ComponentRef<T>
   ): void {
-    const bodyEl = this.windowRef.getWindow().document.body;
+    if (!cmpRef) {
+      return;
+    }
 
-    const el = this.getRootNode(cmpRef);
-
-    this.renderer.removeChild(bodyEl, el);
+    this.appRef.detachView(cmpRef.hostView);
+    cmpRef.destroy();
   }
 
   private getRootNode<T>(componentRef: ComponentRef<T>): any {

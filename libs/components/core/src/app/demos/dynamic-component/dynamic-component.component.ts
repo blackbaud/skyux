@@ -1,6 +1,6 @@
 import {
   Component,
-  OnInit
+  ComponentRef
 } from '@angular/core';
 
 import {
@@ -14,21 +14,32 @@ import {
 
 @Component({
   selector: 'sky-dynamic-component-demo',
-  template: ''
+  templateUrl: './dynamic-component.component.html'
 })
-export class DynamicComponentDemoComponent implements OnInit {
+export class DynamicComponentDemoComponent {
+  private componentRef: ComponentRef<DynamicComponentDemoExampleComponent>;
+
   constructor(
     private dynamicComponentService: SkyDynamicComponentService
   ) { }
 
-  public ngOnInit(): void {
-    const componentRef = this.dynamicComponentService.createComponent(
+  public createComponent(): void {
+    if (this.componentRef) {
+      return;
+    }
+
+    this.componentRef = this.dynamicComponentService.createComponent(
       DynamicComponentDemoExampleComponent,
       {
         location: SkyDynamicComponentLocation.BodyBottom
       }
     );
 
-    componentRef.instance.sayHello();
+    this.componentRef.instance.sayHello();
+  }
+
+  public removeComponent(): void {
+    this.dynamicComponentService.removeComponent(this.componentRef);
+    this.componentRef = undefined;
   }
 }
