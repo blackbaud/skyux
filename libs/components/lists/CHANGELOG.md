@@ -1,3 +1,8 @@
+# 3.0.0-rc.5 (2018-12-19)
+
+- Fixed repeater component to properly handle overflow content. [#9](https://github.com/blackbaud/skyux-lists/pull/9)
+- Fixed repeater item component to vertically align context menus and checkboxes correctly. [#10](https://github.com/blackbaud/skyux-lists/pull/10)
+
 # 3.0.0-rc.4 (2018-12-04)
 
 - Added `isSelected` input to repeater item component. [#8](https://github.com/blackbaud/skyux-lists/pull/8)
