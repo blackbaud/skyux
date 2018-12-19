@@ -15,24 +15,23 @@ import {
 } from '../window';
 
 import {
-  SkyDynamicComponentOptions
-} from './dynamic-component-options';
-
-import {
   SkyDynamicComponentLocation
 } from './dynamic-component-location';
+
+import {
+  SkyDynamicComponentOptions
+} from './dynamic-component-options';
 
 /**
  * Angular service for creating and rendering a dynamic component.
  */
 @Injectable()
 export class SkyDynamicComponentService {
-
   private renderer: Renderer2;
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
-    private appRef: ApplicationRef,
+    private applicationRef: ApplicationRef,
     private injector: Injector,
     private windowRef: SkyWindowRefService,
     rendererFactory: RendererFactory2
@@ -57,13 +56,13 @@ export class SkyDynamicComponentService {
       location: SkyDynamicComponentLocation.BodyBottom
     };
 
-    const cmpRef = this.componentFactoryResolver
+    const componentRef = this.componentFactoryResolver
       .resolveComponentFactory<T>(componentType)
       .create(this.injector);
 
-    this.appRef.attachView(cmpRef.hostView);
+    this.applicationRef.attachView(componentRef.hostView);
 
-    const el = this.getRootNode(cmpRef);
+    const el = this.getRootNode(componentRef);
 
     const bodyEl = this.windowRef.getWindow().document.body;
 
@@ -76,22 +75,20 @@ export class SkyDynamicComponentService {
         break;
     }
 
-    return cmpRef;
+    return componentRef;
   }
 
   /**
    * Removes a component ref from the page
-   * @param cmpRef Component ref for the component being removed
+   * @param componentRef Component ref for the component being removed
    */
-  public removeComponent<T>(
-    cmpRef: ComponentRef<T>
-  ): void {
-    if (!cmpRef) {
+  public removeComponent<T>(componentRef: ComponentRef<T>): void {
+    if (!componentRef) {
       return;
     }
 
-    this.appRef.detachView(cmpRef.hostView);
-    cmpRef.destroy();
+    this.applicationRef.detachView(componentRef.hostView);
+    componentRef.destroy();
   }
 
   private getRootNode<T>(componentRef: ComponentRef<T>): any {

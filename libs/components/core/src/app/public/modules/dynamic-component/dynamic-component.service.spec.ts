@@ -5,8 +5,8 @@ import {
 } from '@angular/core';
 
 import {
-  TestBed,
-  inject
+  inject,
+  TestBed
 } from '@angular/core/testing';
 
 import {
@@ -34,7 +34,6 @@ import {
 } from './dynamic-component-location';
 
 describe('Dynamic component service', () => {
-
   let cmpRef: ComponentRef<DynamicComponentTestComponent>;
   let applicationRef: ApplicationRef;
 
@@ -136,5 +135,13 @@ describe('Dynamic component service', () => {
     removeTestComponent(cmpRef);
 
     expect(document.body.lastChild).not.toBe(el);
+  });
+
+  it('should ignore removing a component if reference not provided', () => {
+    const spy = spyOn(applicationRef, 'detachView').and.callThrough();
+
+    removeTestComponent(undefined);
+
+    expect(spy).not.toHaveBeenCalled();
   });
 });
