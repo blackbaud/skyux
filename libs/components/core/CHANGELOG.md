@@ -1,3 +1,7 @@
+# 3.5.1 (2018-12-19)
+
+- Fixed `SkyDynamicComponentService` to fully destroy components which are dynamically removed. [#55](https://github.com/blackbaud/skyux-core/pull/55)
+
 # 3.5.0 (2018-12-11)
 
 - Updated `SkyDynamicComponentService` to remove components from the page dynamically. [#45](https://github.com/blackbaud/skyux-core/pull/45)
