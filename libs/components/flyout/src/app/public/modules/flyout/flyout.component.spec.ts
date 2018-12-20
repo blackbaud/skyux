@@ -157,6 +157,8 @@ describe('Flyout component', () => {
     applicationRef.tick();
     tick();
     fixture.detectChanges();
+    flyoutService.ngOnDestroy();
+    applicationRef.tick();
     fixture.destroy();
   }));
 

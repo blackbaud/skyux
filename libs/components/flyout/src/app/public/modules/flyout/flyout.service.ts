@@ -1,10 +1,6 @@
 import {
-  ApplicationRef,
-  ComponentFactoryResolver,
   ComponentRef,
-  EmbeddedViewRef,
   Injectable,
-  Injector,
   Type,
   OnDestroy
 } from '@angular/core';
@@ -17,7 +13,8 @@ import {
 import 'rxjs/add/operator/take';
 
 import {
-  SkyWindowRefService
+  SkyWindowRefService,
+  SkyDynamicComponentService
 } from '@skyux/core';
 
 import {
@@ -47,14 +44,15 @@ export class SkyFlyoutService implements OnDestroy {
 
   constructor(
     private adapter: SkyFlyoutAdapterService,
-    private appRef: ApplicationRef,
-    private injector: Injector,
-    private resolver: ComponentFactoryResolver,
-    private windowRef: SkyWindowRefService
+    private windowRef: SkyWindowRefService,
+    private dynamicComponentService: SkyDynamicComponentService
   ) { }
 
   public ngOnDestroy(): void {
     this.removeListners();
+    if (this.host) {
+      this.removeHostComponent();
+    }
   }
 
   public open<T>(component: Type<T>, config?: SkyFlyoutConfig): SkyFlyoutInstance<T> {
@@ -85,26 +83,15 @@ export class SkyFlyoutService implements OnDestroy {
   }
 
   private createHostComponent(): ComponentRef<SkyFlyoutComponent> {
-    const componentRef = this.resolver
-      .resolveComponentFactory(SkyFlyoutComponent)
-      .create(this.injector);
-
-    const domElem = (componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0];
-
-    this.appRef.attachView(componentRef.hostView);
-    this.adapter.appendToBody(domElem);
-
-    return componentRef;
+    this.host = this.dynamicComponentService.createComponent(SkyFlyoutComponent);
+    return this.host;
   }
 
   private removeHostComponent() {
     if (this.host) {
-      this.appRef.detachView(this.host.hostView);
-      this.host.destroy();
+      this.dynamicComponentService.removeComponent(this.host);
       this.host = undefined;
     }
-
-    this.adapter.removeHostElement();
   }
 
   private addListeners<T>(flyout: SkyFlyoutInstance<T>): void {

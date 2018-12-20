@@ -51,11 +51,11 @@ import {
   ],
   imports: [
     CommonModule,
-    NoopAnimationsModule,
     RouterTestingModule,
     SkyFlyoutModule,
     SkyModalModule,
-    SkyToastModule
+    SkyToastModule,
+    NoopAnimationsModule
   ],
   exports: [
     SkyFlyoutTestSampleComponent,
