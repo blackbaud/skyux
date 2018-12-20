@@ -1,14 +1,7 @@
 // #region imports
 import {
-  ApplicationRef
-} from '@angular/core';
-
-import {
-  TestBed,
-  inject
+  TestBed
 } from '@angular/core/testing';
-
-import 'rxjs/add/operator/take';
 
 import {
   expect
@@ -18,9 +11,7 @@ import {
   SkyDynamicComponentService
 } from '@skyux/core';
 
-import {
-  SkyToastFixturesModule
-} from './fixtures';
+import 'rxjs/add/operator/take';
 
 import {
   SkyToastType
@@ -31,53 +22,34 @@ import {
 } from './toast';
 
 import {
-  SkyToastAdapterService
-} from './toast-adapter.service';
-
-import {
   SkyToastService
 } from './toast.service';
 // #endregion
 
 describe('Toast service', () => {
   let toastService: SkyToastService;
-  let applicationRef: ApplicationRef;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyToastFixturesModule
-      ],
       providers: [
+        SkyToastService,
         {
-          provide: SkyToastAdapterService,
+          provide: SkyDynamicComponentService,
           useValue: {
-            appendToBody() { },
-            removeHostElement() { }
+            createComponent() {
+              return {
+                instance: {
+                  closeAll() {}
+                }
+              };
+            },
+            removeComponent() {}
           }
         }
       ]
     });
 
     toastService = TestBed.get(SkyToastService);
-  });
-
-  beforeEach(
-    inject(
-      [
-        ApplicationRef
-      ],
-      (
-        _applicationRef: ApplicationRef
-      ) => {
-        applicationRef = _applicationRef;
-      }
-    )
-  );
-
-  afterEach(() => {
-    toastService.ngOnDestroy();
-    applicationRef.tick();
   });
 
   it('should only create a single host component', () => {
