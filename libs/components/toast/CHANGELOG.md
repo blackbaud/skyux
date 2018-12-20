@@ -1,3 +1,8 @@
+# 3.0.0-rc.4 (2018-12-20)
+
+- Fixed toast service to remove the toaster component if all toast component instances have been closed. [#9](https://github.com/blackbaud/skyux-toast/pull/9)
+- Updated toast service to utilize `SkyDynamicComponentService` [#6](https://github.com/blackbaud/skyux-toast/pull/6)
+
 # 3.0.0-rc.3 (2018-11-08)
 
 - Added support for `@skyux/i18n@3.3.0`, which addresses some internationalization issues. [#5](https://github.com/blackbaud/skyux-toast/pull/5)
