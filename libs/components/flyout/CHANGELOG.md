@@ -1,3 +1,8 @@
+# 3.0.0-rc.4 (2018-12-20)
+
+- Added iterator buttons to the flyout component. [#10](https://github.com/blackbaud/skyux-flyout/pull/10) (Thanks @Theaggarwal)
+- Updated flyout service to utilize `SkyDynamicComponentService`. [#9](https://github.com/blackbaud/skyux-flyout/pull/9)
+
 # 3.0.0-rc.3 (2018-11-20)
 
 - Fixed flyout component to not close when an overlay above it is clicked. [#3](https://github.com/blackbaud/skyux-flyout/pull/3)
