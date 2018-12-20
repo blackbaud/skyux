@@ -1,11 +1,15 @@
 {
-  "skyux_flyout_resize_handle": {
-    "_description": "Label for the flyout resizing handle",
-    "message": "Resize the flyout window. Use left arrow key to expand the flyout window and right arrow key to shrink the flyout window."
-  },
   "skyux_flyout_close": {
     "_description": "Text for flyout close button",
     "message": "Close flyout"
+  },
+  "skyux_flyout_iterator_previous_button": {
+    "_description": "Label for the previous iterator button",
+    "message": "Previous"
+  },
+  "skyux_flyout_iterator_next_button": {
+    "_description": "Label for the next iterator button",
+    "message": "Next"
   },
   "skyux_flyout_permalink_button": {
     "_description": "Default text for the flyout permalink button",
@@ -14,5 +18,9 @@
   "skyux_flyout_primary_action_button": {
     "_description": "Default text for the flyout primary action button",
     "message": "Create list"
+  },
+  "skyux_flyout_resize_handle": {
+    "_description": "Label for the flyout resizing handle",
+    "message": "Resize the flyout window. Use left arrow key to expand the flyout window and right arrow key to shrink the flyout window."
   }
 }

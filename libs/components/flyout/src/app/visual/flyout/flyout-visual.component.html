@@ -3,11 +3,32 @@
     class="sky-flyout-demo-item"
   >
     <button
-      type="button"
       class="sky-btn sky-btn-primary"
+      type="button"
       (click)="openFlyout(user)"
     >
       {{ user.name }}
+    </button>
+  </div>
+
+  <div
+    class="sky-flyout-demo-item"
+  >
+    <button
+      class="sky-btn sky-btn-primary"
+      id="open-flyout-with-iterators"
+      type="button"
+      (click)="openFlyoutWithIterators(users[0], false, false)"
+    >
+      Open flyout with row iterators enabled
+    </button>
+    <button
+      class="sky-btn sky-btn-primary"
+      id="open-flyout-with-iterators-disabled"
+      type="button"
+      (click)="openFlyoutWithIterators(users[0], true, true)"
+    >
+      Open flyout with row iterators disabled
     </button>
   </div>
 </div>

@@ -26,8 +26,16 @@
     (mousedown)="onMouseDown($event)" />
 
   <div class="sky-flyout-header sky-padding-squish-large" #flyoutHeader>
-    <div class="sky-flyout-header-content"></div>
-    <div class="sky-flyout-header-buttons">
+    <div class="sky-flyout-header-content">
+      <sky-flyout-iterator *ngIf="config.showIterator"
+        [nextButtonDisabled]="config.iteratorNextButtonDisabled"
+        [previousButtonDisabled]="config.iteratorPreviousButtonDisabled"
+        (nextButtonClick)="onIteratorNextButtonClick()"
+        (previousButtonClick)="onIteratorPreviousButtonClick()"
+      >
+      </sky-flyout-iterator>
+    </div>
+      <div class="sky-flyout-header-buttons">
       <ng-container *ngTemplateOutlet="permalinkTemplate">
       </ng-container>
       <ng-container *ngTemplateOutlet="primaryActionTemplate">

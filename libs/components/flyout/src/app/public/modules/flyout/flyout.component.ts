@@ -167,6 +167,10 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     this.config.minWidth = this.config.minWidth || 320;
     this.config.maxWidth = this.config.maxWidth || this.config.defaultWidth;
 
+    this.config.showIterator = this.config.showIterator || false;
+    this.config.iteratorNextButtonDisabled = this.config.iteratorNextButtonDisabled || false;
+    this.config.iteratorPreviousButtonDisabled = this.config.iteratorPreviousButtonDisabled || false;
+
     const factory = this.resolver.resolveComponentFactory(component);
     const providers = ReflectiveInjector.resolve(this.config.providers);
     const injector = ReflectiveInjector.fromResolvedProviders(providers, this.injector);
@@ -251,6 +255,14 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     this.adapter.toggleIframePointerEvents(true);
   }
 
+  public onIteratorPreviousButtonClick() {
+    this.flyoutInstance.iteratorPreviousButtonClick.emit();
+  }
+
+  public onIteratorNextButtonClick() {
+    this.flyoutInstance.iteratorNextButtonClick.emit();
+  }
+
   private createFlyoutInstance<T>(component: T): SkyFlyoutInstance<T> {
     const instance = new SkyFlyoutInstance<T>();
 
@@ -277,6 +289,22 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       case SkyFlyoutMessageType.Close:
       this.isOpen = true;
       this.isOpening = false;
+      break;
+
+      case SkyFlyoutMessageType.EnableIteratorNextButton:
+      this.config.iteratorNextButtonDisabled = false;
+      break;
+
+      case SkyFlyoutMessageType.EnableIteratorPreviousButton:
+      this.config.iteratorPreviousButtonDisabled = false;
+      break;
+
+      case SkyFlyoutMessageType.DisableIteratorNextButton:
+      this.config.iteratorNextButtonDisabled = true;
+      break;
+
+      case SkyFlyoutMessageType.DisableIteratorPreviousButton:
+      this.config.iteratorPreviousButtonDisabled = true;
       break;
     }
 

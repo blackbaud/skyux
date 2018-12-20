@@ -1,4 +1,8 @@
 export enum SkyFlyoutMessageType {
   Open = 0,
-  Close = 1
+  Close,
+  EnableIteratorNextButton,
+  EnableIteratorPreviousButton,
+  DisableIteratorNextButton,
+  DisableIteratorPreviousButton
 }

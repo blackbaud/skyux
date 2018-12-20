@@ -16,4 +16,7 @@ export interface SkyFlyoutConfig {
   permalink?: SkyFlyoutPermalink;
   primaryAction?: SkyFlyoutAction;
   providers?: any[];
+  showIterator?: boolean;
+  iteratorPreviousButtonDisabled?: boolean;
+  iteratorNextButtonDisabled?: boolean;
 }
