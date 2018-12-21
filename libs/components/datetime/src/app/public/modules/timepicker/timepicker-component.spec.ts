@@ -139,6 +139,15 @@ describe('Timepicker', () => {
       verifyTimepicker(nativeElement);
     }));
 
+    it('should handle empty time values', fakeAsync(() => {
+      (component as any).selectedTime = '';
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      openTimepicker(nativeElement, fixture);
+      verifyTimepicker(nativeElement);
+    }));
+
     it('should have the twenty four hour timepicker', fakeAsync(() => {
       fixture.detectChanges();
       component.timeFormat = 'HH';
@@ -446,12 +455,12 @@ describe('Timepicker', () => {
     });
 
     describe('initial value', () => {
-      it('should set the intiial value correctly', fakeAsync(() => {
+      it('should set the initial value correctly', fakeAsync(() => {
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
         expect(nativeElement.querySelector('input').value).toBe('2:55 AM');
-        expect((<TimepickerReactiveTestComponent>component).timeControl.value).toEqual('2:55 AM');
+        expect((<TimepickerReactiveTestComponent>component).timeControl.value.local).toEqual('2:55 AM');
       }));
     });
 

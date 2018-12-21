@@ -32,7 +32,15 @@ export class SkyDatepickerCalendarInnerComponent implements OnInit, OnChanges {
   public maxDate: Date;
 
   @Input()
-  public selectedDate: Date;
+  public set selectedDate(value: Date) {
+    if (this.dateFormatter.dateIsValid(value)) {
+      this._selectedDate = value;
+    }
+  }
+
+  public get selectedDate(): Date {
+    return this._selectedDate;
+  }
 
   @Output()
   public selectedDateChange: EventEmitter<Date> = new EventEmitter<Date>(undefined);
@@ -89,6 +97,8 @@ export class SkyDatepickerCalendarInnerComponent implements OnInit, OnChanges {
     39: 'right',
     40: 'down'
   };
+
+  private _selectedDate: Date;
 
   public ngOnInit(): void {
 

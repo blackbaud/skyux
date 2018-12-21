@@ -474,7 +474,7 @@ describe('datepicker', () => {
         ngModel = <NgModel>inputElement.injector.get(NgModel);
       });
 
-      it('should validate properly when invalid date is passed through input change',
+     it('should validate properly when invalid date is passed through input change',
         fakeAsync(() => {
           fixture.detectChanges();
           tick();
@@ -729,6 +729,17 @@ describe('datepicker', () => {
 
     afterEach(() => {
       fixture.destroy();
+    });
+
+    describe('initial value', () => {
+      it('should set the intial value correctly', fakeAsync(() => {
+        component.initialValue = '5/12/2017';
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        expect(nativeElement.querySelector('input').value).toBe('05/12/2017');
+        expect(component.dateControl.value).toEqual(new Date('5/12/2017'));
+      }));
     });
 
     describe('input change', () => {

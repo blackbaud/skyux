@@ -1,14 +1,17 @@
 import {
+  AfterViewInit,
+  ChangeDetectorRef,
   Directive,
   ElementRef,
   forwardRef,
   HostListener,
+  Injector,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
-  Renderer,
-  SimpleChanges
+  Optional,
+  Renderer
 } from '@angular/core';
 
 import {
@@ -16,7 +19,9 @@ import {
   ControlValueAccessor,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
-  Validator
+  Validator,
+  FormControl,
+  NgControl
 } from '@angular/forms';
 
 import {
@@ -59,7 +64,7 @@ const SKY_TIMEPICKER_VALIDATOR = {
   ]
 })
 export class SkyTimepickerInputDirective implements
-  OnInit, OnDestroy, ControlValueAccessor, Validator, OnChanges {
+  OnInit, OnDestroy, ControlValueAccessor, Validator, OnChanges, AfterViewInit {
 
   public pickerChangedSubscription: Subscription;
   private _timeFormat: string = 'hh';
@@ -91,21 +96,37 @@ export class SkyTimepickerInputDirective implements
     this._disabled = value;
   }
 
-  private modelValue: SkyTimepickerTimeOutput;
+  private get modelValue(): SkyTimepickerTimeOutput {
+    return this._modelValue;
+  }
+
+  private set modelValue(value: SkyTimepickerTimeOutput) {
+    if (value !== this._modelValue) {
+      this._modelValue = value;
+      this.skyTimepickerInput.selectedTime = value;
+      this.setInputValue(value);
+      this._validatorChange();
+      this._onChange(value);
+    }
+  }
+
   private _disabled: boolean;
+  private _modelValue: SkyTimepickerTimeOutput;
 
   constructor(
     private renderer: Renderer,
     private elRef: ElementRef,
-    private resourcesService: SkyLibResourcesService
+    private resourcesService: SkyLibResourcesService,
+    @Optional() private changeDetector: ChangeDetectorRef,
+    @Optional() private injector: Injector
   ) { }
 
   public ngOnInit() {
     this.renderer.setElementClass(this.elRef.nativeElement, 'sky-form-control', true);
     this.pickerChangedSubscription = this.skyTimepickerInput.selectedTimeChanged
       .subscribe((newTime: String) => {
-        this.writeValue(this.formatter(newTime));
-        this._onChange(newTime);
+        this.writeValue(newTime);
+        this._onTouched();
       });
 
     if (!this.elRef.nativeElement.getAttribute('aria-label')) {
@@ -120,23 +141,32 @@ export class SkyTimepickerInputDirective implements
     }
   }
 
+  public ngAfterViewInit(): void {
+    // This is needed to address a bug in Angular 4, where the value is not changed on the view.
+    // See: https://github.com/angular/angular/issues/13792
+    const control = (<NgControl>this.injector.get(NgControl)).control as FormControl;
+    /* istanbul ignore else */
+    if (control && this.modelValue) {
+      control.setValue(this.modelValue, { emitEvent: false });
+      /* istanbul ignore else */
+      if (this.changeDetector) {
+        this.changeDetector.detectChanges();
+      }
+    }
+  }
+
   public ngOnDestroy() {
     this.pickerChangedSubscription.unsubscribe();
   }
 
-  public ngOnChanges(changes: SimpleChanges) {
-    this._validatorChange();
+  public ngOnChanges() {
     this.skyTimepickerInput.setFormat(this.timeFormat);
     this.skyTimepickerInput.returnFormat = this.returnFormat;
   }
 
   @HostListener('change', ['$event'])
   public onChange(event: any) {
-    let newValue = event.target.value;
-    this.modelValue = this.formatter(newValue);
-    this._validatorChange();
-    this._onChange(this.modelValue);
-    this.writeModelValue(this.modelValue);
+    this.writeValue(event.target.value);
   }
 
   @HostListener('blur')
@@ -154,7 +184,6 @@ export class SkyTimepickerInputDirective implements
 
   public writeValue(value: any) {
     this.modelValue = this.formatter(value);
-    this.writeModelValue(this.modelValue);
   }
   public validate(control: AbstractControl): { [key: string]: any } {
     let value = control.value;
@@ -174,18 +203,21 @@ export class SkyTimepickerInputDirective implements
     return undefined;
   }
 
-  private writeModelValue(model: SkyTimepickerTimeOutput) {
-    let setElementValue: string;
-    /* istanbul ignore next */
-    if (model && moment(model).format(model.customFormat) === 'Invalid date') {
-      setElementValue = '';
-    } else if (model) {
-      setElementValue = moment(model).format(model.customFormat);
-    } else {
-      setElementValue = '';
+  private setInputValue(value: SkyTimepickerTimeOutput): void {
+    let formattedValue = '';
+    if (value) {
+      const output = moment(value).format(value.customFormat);
+      /* istanbul ignore else */
+      if (output !== 'Invalid date') {
+        formattedValue = output;
+      }
     }
-    this.renderer.setElementProperty(this.elRef.nativeElement, 'value', setElementValue);
-    this.skyTimepickerInput.selectedTime = model;
+
+    this.renderer.setElementProperty(
+      this.elRef.nativeElement,
+      'value',
+      formattedValue
+    );
   }
 
   private formatter(time: any) {

@@ -1,15 +1,67 @@
-<div style="display: inline-block" id="screenshot-datepicker-calendar">
+<div
+  class="app-screenshot"
+  id="screenshot-datepicker-calendar"
+  style="display: inline-block;"
+>
   <sky-datepicker-calendar
     #datepicker
     [selectedDate]="selectedDate"
-    (selectedDateChange)="selectedDate = $event">
+    (selectedDateChange)="selectedDate = $event"
+  >
   </sky-datepicker-calendar>
 </div>
 
-<div style="max-width: 50%; height: 500px;" id="screenshot-datepicker">
+<div
+  class="app-screenshot"
+  id="screenshot-datepicker"
+  style="max-width: 50%; height: 500px;"
+>
   <sky-datepicker #picker>
     <input
       [(ngModel)]="selectedDate"
-      [skyDatepickerInput]="picker" />
+      [skyDatepickerInput]="picker"
+    />
   </sky-datepicker>
+  <p>
+    Selected date is {{ selectedDate }}
+  </p>
+</div>
+
+
+<div
+  class="app-screenshot"
+>
+  <h2
+    class="sky-section-heading"
+  >
+    Reactive form datepicker
+  </h2>
+
+  <form
+    novalidate
+    style="max-width: 50%; height: 500px;"
+    [formGroup]="reactiveForm"
+  >
+    <sky-datepicker #reactivePicker>
+      <input
+        formControlName="selectedDate"
+        [skyDatepickerInput]="reactivePicker"
+      />
+    </sky-datepicker>
+
+    <p *ngIf="reactiveDate.errors && (reactiveDate.dirty || reactiveDate.touched)"
+      class="sky-error-label"
+    >
+      <span *ngIf="reactiveDate.errors.required">
+        This date is required. Please supply a value.
+      </span>
+      <span *ngIf="reactiveDate.errors.skyDate">
+        The date you have entered is invalid. Please enter a valid date or use the picker.
+      </span>
+    </p>
+
+    <p>
+      Reactive form selected date is {{ reactiveDate.value }}
+    </p>
+  </form>
 </div>

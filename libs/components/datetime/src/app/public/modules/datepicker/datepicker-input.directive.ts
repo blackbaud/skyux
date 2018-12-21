@@ -1,14 +1,18 @@
 import {
+  AfterViewInit,
+  ChangeDetectorRef,
   Directive,
-  Input,
-  OnInit,
-  OnDestroy,
+  ElementRef,
   forwardRef,
   HostListener,
+  Injector,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Optional,
   Renderer,
-  ElementRef,
-  SimpleChanges,
-  OnChanges
+  SimpleChanges
 } from '@angular/core';
 
 import {
@@ -16,11 +20,13 @@ import {
 } from 'rxjs';
 
 import {
+  AbstractControl,
   ControlValueAccessor,
-  NG_VALUE_ACCESSOR,
-  Validator,
+  FormControl,
   NG_VALIDATORS,
-  AbstractControl
+  NG_VALUE_ACCESSOR,
+  NgControl,
+  Validator
 } from '@angular/forms';
 
 import {
@@ -59,7 +65,7 @@ const SKY_DATEPICKER_VALIDATOR = {
   ]
 })
 export class SkyDatepickerInputDirective implements
-  OnInit, OnDestroy, ControlValueAccessor, Validator, OnChanges {
+  OnInit, OnDestroy, ControlValueAccessor, Validator, OnChanges, AfterViewInit {
 
   public pickerChangedSubscription: Subscription;
 
@@ -94,15 +100,49 @@ export class SkyDatepickerInputDirective implements
     this._disabled = value;
   }
 
+  private get modelValue(): Date {
+    return this._modelValue;
+  }
+
+  private set modelValue(value: Date) {
+    let dateValue = value;
+    let formattedValue = '';
+
+    if (dateValue !== this.modelValue) {
+      if (typeof value === 'string') {
+        dateValue = this.dateFormatter.getDateFromString(value as any, this.dateFormat);
+      }
+
+      const isValid = this.dateFormatter.dateIsValid(dateValue);
+      if (isValid) {
+        formattedValue = this.dateFormatter.format(dateValue, this.dateFormat);
+      } else {
+        dateValue = value;
+        if (typeof value === 'string') {
+          formattedValue = value;
+        }
+      }
+
+      this._modelValue = dateValue;
+      this.setInputValue(formattedValue);
+      this.skyDatepickerInput.setSelectedDate(dateValue);
+      this._onChange(dateValue);
+      this._validatorChange();
+    }
+  }
+
   private dateFormatter = new SkyDateFormatter();
-  private modelValue: Date;
+
   private _disabled: boolean;
+  private _modelValue: Date;
 
   public constructor(
     private renderer: Renderer,
     private elRef: ElementRef,
     private config: SkyDatepickerConfigService,
-    private resourcesService: SkyLibResourcesService
+    private resourcesService: SkyLibResourcesService,
+    @Optional() private changeDetector: ChangeDetectorRef,
+    @Optional() private injector: Injector
   ) {
     this.configureOptions();
   }
@@ -116,7 +156,7 @@ export class SkyDatepickerInputDirective implements
     this.pickerChangedSubscription = this.skyDatepickerInput.dateChanged
       .subscribe((newDate: Date) => {
         this.writeValue(newDate);
-        this._onChange(newDate);
+        this._onTouched();
       });
 
     if (!this.elRef.nativeElement.getAttribute('aria-label')) {
@@ -128,6 +168,20 @@ export class SkyDatepickerInputDirective implements
             value
           );
         });
+    }
+  }
+
+  public ngAfterViewInit(): void {
+    // This is needed to address a bug in Angular 4, where the value is not changed on the view.
+    // See: https://github.com/angular/angular/issues/13792
+    const control = (<NgControl>this.injector.get(NgControl)).control as FormControl;
+    /* istanbul ignore else */
+    if (control && this.modelValue) {
+      control.setValue(this.modelValue, { emitEvent: false });
+      /* istanbul ignore else */
+      if (this.changeDetector) {
+        this.changeDetector.detectChanges();
+      }
     }
   }
 
@@ -158,15 +212,7 @@ export class SkyDatepickerInputDirective implements
 
   @HostListener('change', ['$event'])
   public onChange(event: any) {
-    let newValue = event.target.value;
-    // need to parse date here:
-    this.modelValue = this.dateFormatter.getDateFromString(newValue, this.dateFormat);
-    if (this.dateFormatter.dateIsValid(this.modelValue)) {
-      this._onChange(this.modelValue);
-      this.writeModelValue(this.modelValue);
-    } else {
-      this._onChange(newValue);
-    }
+    this.writeValue(event.target.value);
   }
 
   @HostListener('blur')
@@ -185,26 +231,7 @@ export class SkyDatepickerInputDirective implements
   }
 
   public writeValue(value: any) {
-    if (this.dateFormatter.dateIsValid(value)) {
-      this.modelValue = value;
-    } else if (value) {
-      this.modelValue = this.dateFormatter.getDateFromString(value, this.dateFormat);
-      if (value !== this.modelValue && this.dateFormatter.dateIsValid(this.modelValue)) {
-        this._onChange(this.modelValue);
-      }
-    } else {
-      this.modelValue = value;
-      this._onChange(this.modelValue);
-    }
-
-    if (this.dateFormatter.dateIsValid(this.modelValue) || !this.modelValue) {
-      this.writeModelValue(this.modelValue);
-    } else if (value) {
-      this.renderer.setElementProperty(
-        this.elRef.nativeElement,
-        'value',
-        value);
-    }
+    this.modelValue = value;
   }
 
   public validate(control: AbstractControl): {[key: string]: any} {
@@ -250,14 +277,12 @@ export class SkyDatepickerInputDirective implements
     return undefined;
   }
 
-  private writeModelValue(model: Date) {
-
+  private setInputValue(value: string): void {
     this.renderer.setElementProperty(
       this.elRef.nativeElement,
       'value',
-      model ? this.dateFormatter.format(model, this.dateFormat) : '');
-
-    this.skyDatepickerInput.setSelectedDate(model);
+      value
+    );
   }
 
   /*istanbul ignore next */
