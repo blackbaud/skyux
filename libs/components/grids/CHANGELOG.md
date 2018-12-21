@@ -1,3 +1,7 @@
+# 3.0.0-rc.5 (2018-12-21)
+
+- Fixed grid component to only listen to `mousemove` and `mouseup` events while resizing columns. [#25](https://github.com/blackbaud/skyux-grids/pull/25)
+
 # 3.0.0-rc.4 (2018-12-13)
 
 - Fixed grid component to properly import polyfills. [#23](https://github.com/blackbaud/skyux-grids/pull/23)
