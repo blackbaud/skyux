@@ -11,7 +11,6 @@ import {
   SimpleChanges,
   EventEmitter,
   OnChanges,
-  HostListener,
   ElementRef,
   ViewChildren,
   ViewChild,
@@ -39,6 +38,10 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/map';
 
 import 'rxjs/add/operator/take';
+
+import 'rxjs/add/operator/takeWhile';
+
+import 'rxjs/add/observable/fromEvent';
 
 import {
   DragulaService
@@ -85,7 +88,7 @@ let nextId = 0;
   selector: 'sky-grid',
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.scss'],
-  viewProviders: [ DragulaService ],
+  viewProviders: [DragulaService],
   providers: [
     SkyGridAdapterService
   ],
@@ -317,23 +320,23 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
   public sortByColumn(column: SkyGridColumnModel) {
     if (!this.isDraggingResizeHandle && column.isSortable) {
       this.currentSortField
-      .take(1)
-      .map(field => {
-        let selector = {
-          fieldSelector: column.field,
-          descending: true
-        };
-
-        if (field && field.fieldSelector === column.field && field.descending) {
-          selector = {
+        .take(1)
+        .map(field => {
+          let selector = {
             fieldSelector: column.field,
-            descending: false
+            descending: true
           };
-        }
-        this.sortFieldChange.emit(selector);
-        this.currentSortField.next(selector);
-      })
-      .subscribe();
+
+          if (field && field.fieldSelector === column.field && field.descending) {
+            selector = {
+              fieldSelector: column.field,
+              descending: false
+            };
+          }
+          this.sortFieldChange.emit(selector);
+          this.currentSortField.next(selector);
+        })
+        .subscribe();
     }
   }
 
@@ -350,18 +353,18 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
     return this.currentSortField
       .distinctUntilChanged()
       .map(field => {
-      return field.fieldSelector === column.field ?
-        (field.descending ? 'descending' : 'ascending') : (column.isSortable ? 'none' : undefined);
-    });
+        return field.fieldSelector === column.field ?
+          (field.descending ? 'descending' : 'ascending') : (column.isSortable ? 'none' : undefined);
+      });
   }
 
   public getCaretVisibility(columnField: string): Observable<string> {
-   return this.currentSortField
-     .distinctUntilChanged()
-     .map(field => {
-       return field.fieldSelector === columnField ? 'visible' : 'hidden';
-     });
- }
+    return this.currentSortField
+      .distinctUntilChanged()
+      .map(field => {
+        return field.fieldSelector === columnField ? 'visible' : 'hidden';
+      });
+  }
 
   public onMultiselectChange() {
     this.emitSelectedRows();
@@ -418,6 +421,24 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
 
     event.preventDefault();
     event.stopPropagation();
+
+    Observable
+      .fromEvent(document, 'mousemove')
+      .takeWhile(() => {
+        return this.isDraggingResizeHandle;
+      })
+      .subscribe((moveEvent: any) => {
+        this.onMouseMove(moveEvent);
+      });
+
+    Observable
+      .fromEvent(document, 'mouseup')
+      .takeWhile(() => {
+        return this.isDraggingResizeHandle;
+      })
+      .subscribe((mouseUpEvent: any) => {
+        this.onResizeHandleRelease(mouseUpEvent);
+      });
   }
 
   public onKeydownResizeCol(event: KeyboardEvent) {
@@ -437,12 +458,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
     this.resizeColumnByIndex(this.activeResizeColumnIndex, newValue, deltaX);
   }
 
-  @HostListener('document:mousemove', ['$event'])
   public onMouseMove(event: MouseEvent) {
-    if (!this.isDraggingResizeHandle) {
-      return;
-    }
-
     let deltaX = event.pageX - this.xPosStart;
     let newColWidth = this.startColumnWidth + deltaX;
 
@@ -462,18 +478,15 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
     this.gridAdapter.setStyle(this.resizeBar, 'left', resizeBarX + 'px');
   }
 
-  @HostListener('document:mouseup', ['$event'])
   public onResizeHandleRelease(event: MouseEvent) {
-    if (this.isDraggingResizeHandle) {
-      this.showResizeBar = false;
-      let deltaX = event.pageX - this.xPosStart;
-      let newColWidth = this.startColumnWidth + deltaX;
-      this.resizeColumnByIndex(this.activeResizeColumnIndex, newColWidth, deltaX);
-      this.isDraggingResizeHandle = false;
-      this.activeResizeColumnIndex = undefined;
+    this.showResizeBar = false;
+    let deltaX = event.pageX - this.xPosStart;
+    let newColWidth = this.startColumnWidth + deltaX;
+    this.resizeColumnByIndex(this.activeResizeColumnIndex, newColWidth, deltaX);
+    this.isDraggingResizeHandle = false;
+    this.activeResizeColumnIndex = undefined;
 
-      event.stopPropagation();
-    }
+    event.stopPropagation();
   }
 
   public onRowClick(event: any, selectedItem: ListItemModel) {
@@ -509,7 +522,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
         this.multiselectSelectAll();
         break;
 
-        case SkyGridMessageType.ClearAll:
+      case SkyGridMessageType.ClearAll:
         this.multiselectClearAll();
         break;
     }

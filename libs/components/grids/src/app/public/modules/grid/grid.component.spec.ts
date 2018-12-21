@@ -262,7 +262,7 @@ describe('Grid Component', () => {
 
         if (!hiddenCol) {
           expect(getCell(row.id, 'column4', element).nativeElement.textContent.trim())
-          .toBe(row.column4.toString());
+            .toBe(row.column4.toString());
         }
 
         expect(getCell(row.id, 'column5', element).nativeElement.textContent.trim())
@@ -858,6 +858,7 @@ describe('Grid Component', () => {
       }));
 
       it('should resize columns on mousemove', fakeAsync(() => {
+        const spy = spyOn(fixture.componentInstance.grid, 'onMouseMove').and.callThrough();
         // Get initial baseline for comparison.
         let initialTableWidth = getTableWidth(fixture);
         let initialColumnWidths = getColumnWidths(fixture);
@@ -879,6 +880,25 @@ describe('Grid Component', () => {
         expectedColumnWidths[4] = 50;
         verifyWidthsMatch(newTableWidth, initialTableWidth);
         verifyAllWidthsMatch(newColumnWidths, expectedColumnWidths);
+        expect(spy).toHaveBeenCalled();
+      }));
+
+      it('should not resize on mousemove unless the resize handle was clicked', fakeAsync(() => {
+        const spy = spyOn(fixture.componentInstance.grid, 'onMouseMove').and.callThrough();
+        // Get initial baseline for comparison.
+        let initialTableWidth = getTableWidth(fixture);
+        let initialColumnWidths = getColumnWidths(fixture);
+
+        let evt = document.createEvent('MouseEvents');
+        evt.initMouseEvent('mousemove', false, false, window, 0, 0, 0, 70,
+          0, false, false, false, false, 0, undefined);
+
+        // Assert table width did not change, and only first and last column were resized.
+        let newTableWidth = getTableWidth(fixture);
+        let newColumnWidths = getColumnWidths(fixture);
+        verifyWidthsMatch(newTableWidth, initialTableWidth);
+        verifyAllWidthsMatch(newColumnWidths, initialColumnWidths);
+        expect(spy).not.toHaveBeenCalled();
       }));
 
       it('should change max value when column width is changed', fakeAsync(() => {
@@ -902,8 +922,8 @@ describe('Grid Component', () => {
 
   describe('multiselect', () => {
     let fixture: ComponentFixture<GridTestComponent>,
-        component: GridTestComponent,
-        element: DebugElement;
+      component: GridTestComponent,
+      element: DebugElement;
     beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [
@@ -1043,7 +1063,7 @@ describe('Grid Component', () => {
         // Values should match the row value of the consumer-provided key in 'multiselectRowId'.
         // In this example, 'id'.
         let expectedRows: SkyGridSelectedRowsModelChange = {
-          selectedRowIds: [ '1', '2', '5' ]
+          selectedRowIds: ['1', '2', '5']
         };
         expect(component.selectedRowsChange).toEqual(expectedRows);
       }));
@@ -1068,7 +1088,7 @@ describe('Grid Component', () => {
           // Values should match the row value of the consumer-provided key in 'multiselectRowId'.
           // In this example, 'id'.
           let expectedRows: SkyGridSelectedRowsModelChange = {
-            selectedRowIds: [ '1', '2', '5' ]
+            selectedRowIds: ['1', '2', '5']
           };
           expect(component.selectedRowsChange).toEqual(expectedRows);
         });
@@ -1098,7 +1118,7 @@ describe('Grid Component', () => {
         // Values should match the row value of the consumer-provided key in 'multiselectRowId'.
         // In this example, 'customId'.
         let expectedRows: SkyGridSelectedRowsModelChange = {
-          selectedRowIds: [ '101', '102', '105' ]
+          selectedRowIds: ['101', '102', '105']
         };
         expect(component.selectedRowsChange).toEqual(expectedRows);
       }));
@@ -1127,7 +1147,7 @@ describe('Grid Component', () => {
         // Values should match the row value of the consumer-provided key in 'multiselectRowId'.
         // In this example, there is no match so it should fall back to the 'id' property.
         let expectedRows: SkyGridSelectedRowsModelChange = {
-          selectedRowIds: [ '1', '2', '5' ]
+          selectedRowIds: ['1', '2', '5']
         };
         expect(component.selectedRowsChange).toEqual(expectedRows);
       }));
@@ -1222,8 +1242,8 @@ describe('Grid Component', () => {
 
   describe('multiselect with interactive elements', () => {
     let fixture: ComponentFixture<GridInteractiveTestComponent>,
-        component: GridInteractiveTestComponent,
-        element: DebugElement;
+      component: GridInteractiveTestComponent,
+      element: DebugElement;
     beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [
