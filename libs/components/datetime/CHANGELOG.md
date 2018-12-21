@@ -1,6 +1,10 @@
+# 3.0.0-rc.4 (2018-12-21)
+
+- Fixed datepicker and timepicker components to properly transform provided values on initial load in reactive forms [#7](https://github.com/blackbaud/skyux-datetime/issues/7).
+
 # 3.0.0-rc.3 (2018-11-20)
 
-- Fixed datepicker and timepicker components to allow a disabled state when appearing in reactive forms. [blackbaud/skyux-datetime#4](https://github.com/blackbaud/skyux-datetime/pull/4)
+- Fixed datepicker and timepicker components to allow a disabled state when appearing in reactive forms. [#4](https://github.com/blackbaud/skyux-datetime/pull/4)
 
 # 3.0.0-rc.2 (2018-11-09)
 
