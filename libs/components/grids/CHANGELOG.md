@@ -1,3 +1,7 @@
+# 3.0.0-rc.6 (2019-01-04)
+
+- Added `rowHighlightedId` input to grid component. [#28](https://github.com/blackbaud/skyux-grids/pull/28)
+
 # 3.0.0-rc.5 (2018-12-21)
 
 - Fixed grid component to only listen to `mousemove` and `mouseup` events while resizing columns. [#25](https://github.com/blackbaud/skyux-grids/pull/25)
