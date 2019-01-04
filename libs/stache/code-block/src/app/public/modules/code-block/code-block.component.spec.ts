@@ -133,6 +133,39 @@ describe('SkyCodeBlockComponent', () => {
     expect(element.querySelector('sky-copy-to-clipboard')).not.toExist();
   });
 
+  it('should show the header if languageType is defined', () => {
+    const code = '<p></p>';
+    component.code = code;
+    component.languageType = 'csharp';
+    fixture.detectChanges();
+    expect(element.querySelector('.sky-code-block-header')).toExist();
+  });
+
+  it('should show the header if copyToClipboard is shown', () => {
+    const code = '<p></p>';
+    component.code = code;
+    component.hideCopyToClipboard = false;
+    fixture.detectChanges();
+    expect(element.querySelector('.sky-code-block-header')).toExist();
+  });
+
+  it('should hide the header if hideHeader is true', () => {
+    const code = '<p></p>';
+    component.code = code;
+    component.hideHeader = true;
+    fixture.detectChanges();
+    expect(element.querySelector('.sky-code-block-header')).not.toExist();
+  });
+
+  it('should hide the header if copyToClipboard is false, and languageType is undefiend', () => {
+    const code = '<p></p>';
+    component.code = code;
+    component.hideCopyToClipboard = true;
+    component.languageType = undefined;
+    fixture.detectChanges();
+    expect(element.querySelector('.sky-code-block-header')).not.toExist();
+  });
+
   it('should pass accessibility', async(() => {
     fixture.detectChanges();
     expect(element).toBeAccessible();

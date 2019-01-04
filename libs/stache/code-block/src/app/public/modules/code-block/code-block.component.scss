@@ -6,7 +6,7 @@
 }
 
 .sky-code-output {
-  @include sky-border("dark", "right", "bottom", "left");
+  @include sky-border("dark", "top", "right", "bottom", "left");
   margin-top: 0;
   padding: $sky-space-xl;
   background-color: #fff;
@@ -16,7 +16,7 @@
 
 .sky-code-block-header {
   height: 45px;
-  @include sky-border("dark", "top", "right", "bottom", "left");
+  @include sky-border("dark", "top", "right", "left");
   background-color: #fff;
   display: flex;
   justify-content: space-between;

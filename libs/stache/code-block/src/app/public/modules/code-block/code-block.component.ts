@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ViewChild, AfterViewInit, ChangeDetectorRef, OnInit } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 declare let Prism: any;
@@ -11,7 +11,7 @@ import * as PrismLanguages from './prism-languages';
   templateUrl: './code-block.component.html',
   styleUrls: ['./code-block.component.scss']
 })
-export class SkyCodeBlockComponent implements AfterViewInit {
+export class SkyCodeBlockComponent implements AfterViewInit, OnInit {
   @Input()
   public code: string;
 
@@ -27,6 +27,9 @@ export class SkyCodeBlockComponent implements AfterViewInit {
 
   @Input()
   public hideCopyToClipboard: boolean = false;
+
+  @Input()
+  public hideHeader: boolean;
 
   public get languageType(): string {
     return this._languageType;
@@ -48,6 +51,9 @@ export class SkyCodeBlockComponent implements AfterViewInit {
       this.validLanguages = Object.keys(Prism.languages);
       this.prismLanguages = PrismLanguages.languages;
     }
+  public ngOnInit(): void {
+    this.hideHeader = this.hideHeader || (!this.displayName && this.hideCopyToClipboard);
+  }
 
   public ngAfterViewInit(): void {
     let code = '';
