@@ -453,6 +453,25 @@ describe('Grid Component', () => {
         verifyConsumerColumnWidthsAreMaintained();
       });
 
+      it('should highlight rows when rowHighlightedId is defined', () => {
+        const tableRows = getTableRows(fixture);
+
+        // Start with no class.
+        expect(tableRows[0].nativeElement).not.toHaveCssClass('sky-grid-row-highlight');
+
+        component.rowHighlightedId = '1';
+        fixture.detectChanges();
+
+        // Row should now have the highlight class.
+        expect(tableRows[0].nativeElement).toHaveCssClass('sky-grid-row-highlight');
+
+        component.rowHighlightedId = undefined;
+        fixture.detectChanges();
+
+        // Row should NOT have the highlight class.
+        expect(tableRows[0].nativeElement).not.toHaveCssClass('sky-grid-row-highlight');
+      });
+
       it('should pass accessibility', async(() => {
         fixture.detectChanges();
         fixture.whenStable().then(() => {

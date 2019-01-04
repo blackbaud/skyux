@@ -46,6 +46,8 @@ export class GridVisualComponent {
     { id: '7', column1: '21', column2: 'Grape', column3: 'gg', myId: '107' }
   ];
 
+  public rowHighlightedId: string;
+
   public sortChangedSimpleGrid(activeSort: ListSortFieldSelectorModel) {
     this.dataForSimpleGrid = this.performSort(activeSort, this.dataForSimpleGrid);
   }
@@ -54,8 +56,16 @@ export class GridVisualComponent {
     this.dataForSimpleGridWithMultiselect = this.performSort(activeSort, this.dataForSimpleGridWithMultiselect);
   }
 
-  public triggerHighlight() {
+  public triggerTextHighlight() {
     this.highlightText = 'e';
+  }
+
+  public triggerRowHighlight() {
+    if (!this.rowHighlightedId) {
+      this.rowHighlightedId = '2';
+    } else {
+      this.rowHighlightedId = undefined;
+    }
   }
 
   public onMultiselectSelectionChange(value: SkyGridSelectedRowsModelChange) {

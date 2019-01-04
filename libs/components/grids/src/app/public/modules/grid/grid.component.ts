@@ -131,6 +131,9 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
   @Input()
   public messageStream = new Subject<SkyGridMessage>();
 
+  @Input()
+  public rowHighlightedId: string;
+
   @Output()
   public selectedColumnIdsChange = new EventEmitter<Array<string>>();
 
@@ -497,6 +500,13 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
         this.emitSelectedRows();
       }
     }
+  }
+
+  public isRowHighlighted(id: string): boolean {
+    if (this.rowHighlightedId) {
+      return id === this.rowHighlightedId;
+    }
+    return false;
   }
 
   private multiselectSelectAll() {

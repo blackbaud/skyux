@@ -36,6 +36,11 @@ $sky-grid-resize-handle-width: 5px;
     background-color: $sky-color-gray-01;
   }
 
+  &.sky-grid-row-highlight {
+    border-top: 1px solid $sky-text-color-action-primary; // overrides normal row border
+    box-shadow: 0px 0px 0px 3px inset $sky-text-color-action-primary;
+  }
+
   .sky-grid-cell {
     padding: 0;
     min-width: 10px;
