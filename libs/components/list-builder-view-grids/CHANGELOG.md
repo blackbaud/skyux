@@ -1,3 +1,7 @@
+# 3.0.0-rc.5 (2018-01-08)
+
+- Added `rowHighlightedId` input to list view grids component. [#14](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/14)
+
 # 3.0.0-rc.4 (2018-11-30)
 
 - Fixed `SkyListViewGridModule` exports to include required submodules and `SkyGridModule`. [#9](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/9)
