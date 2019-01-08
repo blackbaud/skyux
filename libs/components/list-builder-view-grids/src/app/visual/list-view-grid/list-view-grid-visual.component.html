@@ -7,7 +7,11 @@
       </sky-list-column-selector-action>
     </sky-list-toolbar>
 
-    <sky-list-view-grid fit="scroll" #grid>
+    <sky-list-view-grid
+      fit="scroll"
+      [rowHighlightedId]="rowHighlightedId"
+      #grid
+    >
       <sky-grid-column
         field="column1"
         [locked]="true"
@@ -26,4 +30,12 @@
       </sky-grid-column>
     </sky-list-view-grid>
   </sky-list>
+
+  <p>
+    <button
+      id="highlight-row-button"
+      (click)="onToggleRowHighlightClick()">
+      Toggle row highlight
+    </button>
+  </p>
 </div>

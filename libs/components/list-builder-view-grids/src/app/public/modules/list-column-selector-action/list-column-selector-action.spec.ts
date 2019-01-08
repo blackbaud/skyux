@@ -141,10 +141,6 @@ describe('List column selector action', () => {
         });
     });
 
-    beforeEach(inject([SkyModalService], (_modalService: SkyModalService) => {
-      _modalService.dispose();
-    }));
-
     beforeEach(() => {
       fixture = TestBed.createComponent(ListColumnSelectorActionTestComponent);
       component = fixture.componentInstance;
@@ -161,9 +157,10 @@ describe('List column selector action', () => {
       fixture.detectChanges();
     });
 
-    afterEach(() => {
-      fixture.destroy();
-    });
+    afterEach(inject([SkyModalService], (_modalService: SkyModalService) => {
+      _modalService.dispose();
+      fixture.detectChanges();
+    }));
 
     it('should not appear if not in grid view', async(() => {
       dispatcher.viewsSetActive('other');
@@ -298,13 +295,10 @@ describe('List column selector action', () => {
       dispatcher = skyListDebugEl.injector.get(ListStateDispatcher);
     });
 
-    beforeEach(inject([SkyModalService], (_modalService: SkyModalService) => {
+    afterEach(inject([SkyModalService], (_modalService: SkyModalService) => {
       _modalService.dispose();
+      fixture.detectChanges();
     }));
-
-    afterEach(() => {
-      fixture.destroy();
-    });
 
     it('should show an action in the secondary actions dropdown', fakeAsync(() => {
       toggleSecondaryActionsDropdown();

@@ -1,11 +1,13 @@
 <sky-list-view-grid
   fit="scroll"
-  [name]="gridview"
-  [hiddenColumns]="hiddenColumns"
-  [width]="600"
-  [height]="400"
   selectionEnabled="true"
-  [search]="searchFn">
+  [height]="400"
+  [hiddenColumns]="hiddenColumns"
+  [name]="gridview"
+  [rowHighlightedId]="rowHighlightedId"
+  [search]="searchFn"
+  [width]="600"
+>
 
   <sky-grid-column
     field="column1"

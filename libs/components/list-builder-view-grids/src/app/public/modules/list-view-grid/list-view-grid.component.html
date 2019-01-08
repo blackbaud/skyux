@@ -9,6 +9,7 @@
     [columns]="columns | async"
     [hasToolbar]="hasToolbar | async"
     [highlightText]="highlightSearchText ? (currentSearchText | async) : undefined"
+    [rowHighlightedId]="rowHighlightedId"
     (selectedColumnIdsChange)="columnIdsChanged($event)"
     [sortField]="sortField | async"
     (sortFieldChange)="sortFieldChanged($event)"

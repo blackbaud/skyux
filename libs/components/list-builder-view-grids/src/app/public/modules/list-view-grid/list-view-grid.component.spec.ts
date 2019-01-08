@@ -6,16 +6,20 @@ import {
   tick,
   ComponentFixture
 } from '@angular/core/testing';
+
 import {
   DebugElement
 } from '@angular/core';
+
 import {
   By
 } from '@angular/platform-browser';
 
 import {
-  expect
+  expect,
+  SkyAppTestUtility
 } from '@skyux-sdk/testing';
+
 import {
   ListState,
   ListStateDispatcher,
@@ -23,9 +27,11 @@ import {
   ListViewModel,
   ListItemsLoadAction
 } from '@skyux/list-builder/modules/list/state';
+
 import {
   SkyGridColumnModel
 } from '@skyux/grids/modules/grid/grid-column.model';
+
 import {
   SkyListComponent
 } from '@skyux/list-builder/modules/list/list.component';
@@ -39,24 +45,31 @@ const moment = require('moment');
 import {
   ListViewGridFixturesModule
 } from './fixtures/list-view-grid-fixtures.module';
+
 import {
   ListViewGridTestComponent
 } from './fixtures/list-view-grid.component.fixture';
+
 import {
   ListViewGridDynamicTestComponent
 } from './fixtures/list-view-grid-dynamic.component.fixture';
+
 import {
   ListViewGridDisplayTestComponent
 } from './fixtures/list-view-grid-display.component.fixture';
+
 import {
   ListViewGridEmptyTestComponent
 } from './fixtures/list-view-grid-empty.component.fixture';
+
 import {
   ListViewGridColumnsLoadAction
 } from './state/columns/actions';
+
 import {
   ListViewDisplayedGridColumnsLoadAction
 } from './state/displayed-columns/actions';
+
 import {
   GridState,
   GridStateDispatcher,
@@ -179,7 +192,7 @@ describe('List View Grid Component', () => {
         setupTest();
         tick(110); // wait for async heading
         let headerEl = nativeElement.querySelectorAll('th').item(0) as HTMLElement;
-        headerEl.click();
+        SkyAppTestUtility.fireDomEvent(headerEl, 'mouseup');
         fixture.detectChanges();
 
         tick();
@@ -235,6 +248,20 @@ describe('List View Grid Component', () => {
           });
         });
 
+        tick();
+      }));
+
+      it('should pass rowHighlightedId through to grid component', fakeAsync(() => {
+        setupTest();
+        flush();
+        tick();
+
+        expect(component.grid.gridComponent.rowHighlightedId).toBe(undefined);
+
+        component.rowHighlightedId = '1';
+        fixture.detectChanges();
+
+        expect(component.grid.gridComponent.rowHighlightedId).toBe('1');
         tick();
       }));
 

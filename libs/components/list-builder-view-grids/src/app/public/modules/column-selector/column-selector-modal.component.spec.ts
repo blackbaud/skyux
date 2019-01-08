@@ -48,7 +48,7 @@ describe('Column selector component', () => {
     component = fixture.componentInstance;
   });
 
-  beforeEach(
+  afterEach(
     inject(
       [
         SkyModalService
@@ -57,6 +57,7 @@ describe('Column selector component', () => {
         _modalService: SkyModalService
       ) => {
         _modalService.dispose();
+        fixture.detectChanges();
       }
     )
   );

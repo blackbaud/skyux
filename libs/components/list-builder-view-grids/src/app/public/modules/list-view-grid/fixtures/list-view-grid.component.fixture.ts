@@ -30,6 +30,8 @@ export class ListViewGridTestComponent implements OnInit {
   @ViewChildren(TemplateRef)
   public viewtemplates: QueryList<TemplateRef<any>>;
 
+  public rowHighlightedId: string;
+
   public searchFn: (data: any, searchText: string) => boolean;
 
   public ngOnInit() {

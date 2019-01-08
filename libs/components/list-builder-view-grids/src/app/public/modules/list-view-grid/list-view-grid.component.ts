@@ -99,6 +99,9 @@ export class SkyListViewGridComponent
   @Input()
   public highlightSearchText: boolean = true;
 
+  @Input()
+  public rowHighlightedId: string;
+
   @Output()
   public selectedColumnIdsChange = new EventEmitter<Array<string>>();
 
