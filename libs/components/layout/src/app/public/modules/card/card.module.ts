@@ -1,7 +1,14 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  NgModule
+} from '@angular/core';
 
-import { FormsModule } from '@angular/forms';
+import {
+  CommonModule
+} from '@angular/common';
+
+import {
+  FormsModule
+} from '@angular/forms';
 
 import {
   SkyCheckboxModule
@@ -15,10 +22,21 @@ import {
   SkyLayoutResourcesModule
 } from '../shared';
 
-import { SkyCardActionsComponent } from './card-actions.component';
-import { SkyCardContentComponent } from './card-content.component';
-import { SkyCardTitleComponent } from './card-title.component';
-import { SkyCardComponent } from './card.component';
+import {
+  SkyCardActionsComponent
+} from './card-actions.component';
+
+import {
+  SkyCardContentComponent
+} from './card-content.component';
+
+import {
+  SkyCardTitleComponent
+} from './card-title.component';
+
+import {
+  SkyCardComponent
+} from './card.component';
 
 @NgModule({
   declarations: [

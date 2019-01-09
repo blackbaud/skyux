@@ -1,33 +1,55 @@
-<section class="sky-card sky-shadow"
-    [ngClass]="
-      {
-        'sky-card-small': size === 'small',
-        'sky-card-selectable': selectable,
-        'sky-card-selected': selectable &amp;&amp; selected
-      }
-">
+<section
+  class="sky-card sky-shadow"
+  [ngClass]="
+  {
+    'sky-card-small': size === 'small',
+    'sky-card-selectable': selectable,
+    'sky-card-selected': selectable &amp;&amp; selected
+  }"
+>
   <header>
-
-    <div (click)="contentClick()" class="sky-card-header" *ngIf="selectable || showTitle">
-      <div class="sky-card-heading-middle">
-        <h1 class="sky-card-title sky-section-heading" *ngIf="showTitle">
-          <ng-content select="sky-card-title"></ng-content>
+    <div *ngIf="selectable || showTitle"
+      class="sky-card-header"
+      (click)="contentClick()"
+    >
+      <div
+        class="sky-card-heading-middle"
+      >
+        <h1 *ngIf="showTitle"
+          class="sky-card-title sky-section-heading"
+        >
+          <ng-content
+            select="sky-card-title"
+          ></ng-content>
         </h1>
       </div>
-      <div class="sky-card-check" *ngIf="selectable">
+      <div *ngIf="selectable"
+        class="sky-card-check"
+      >
         <sky-checkbox
-          (click)="$event.stopPropagation()"
-          [ngModel]="selected"
-          (ngModelChange)="contentClick()"
           [label]="'skyux_card_checkbox_label' | skyLibResources"
-          ></sky-checkbox>
+          [ngModel]="selected"
+          (click)="$event.stopPropagation()"
+          (ngModelChange)="onCheckboxChange($event)"
+        ></sky-checkbox>
       </div>
     </div>
   </header>
-  <div class="sky-card-content sky-padding-even-default" (click)="contentClick()">
-    <ng-content select="sky-card-content"></ng-content>
+  <div
+    class="sky-card-content sky-padding-even-default"
+    (click)="contentClick()"
+  >
+    <ng-content
+      select="sky-card-content"
+    ></ng-content>
   </div>
-  <div class="sky-card-actions" [hidden]="actionsEl.children.length === 0" #actionsEl>
-    <ng-content select="sky-card-actions"></ng-content>
+  <div
+    class="sky-card-actions"
+    [hidden]="actionsEl.children.length === 0"
+    #actionsEl
+  >
+    <ng-content
+      select="sky-card-actions"
+    ></ng-content>
   </div>
 </section>

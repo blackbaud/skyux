@@ -1,17 +1,21 @@
 import {
+  AfterContentInit,
   Component,
+  ContentChildren,
   EventEmitter,
   Input,
+  OnDestroy,
   Output,
-  AfterContentInit,
-  ContentChildren,
-  QueryList,
-  OnDestroy
+  QueryList
 } from '@angular/core';
 
-import { SkyCardTitleComponent} from './card-title.component';
+import {
+  Subscription
+} from 'rxjs/Subscription';
 
-import { Subscription } from 'rxjs/Subscription';
+import {
+  SkyCardTitleComponent
+} from './card-title.component';
 
 @Component({
   selector: 'sky-card',
@@ -49,6 +53,13 @@ export class SkyCardComponent implements AfterContentInit, OnDestroy {
   public contentClick() {
     if (this.selectable) {
       this.selected = !this.selected;
+      this.selectedChange.emit(this.selected);
+    }
+  }
+
+  public onCheckboxChange(newValue: boolean) {
+    if (this.selectable && this.selected !== newValue) {
+      this.selected = newValue;
       this.selectedChange.emit(this.selected);
     }
   }
