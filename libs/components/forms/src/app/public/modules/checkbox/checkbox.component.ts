@@ -45,7 +45,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor {
    * Hidden label for screen readers.
    */
   @Input()
-  public label: string = '';
+  public label: string;
 
   /**
    * Id of label for the checkbox.
