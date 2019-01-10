@@ -1,0 +1,20 @@
+<ng-container *ngIf="!isDropdown">
+  <ng-container *ngTemplateOutlet="summaryActionBarSecondaryAction"></ng-container>
+</ng-container>
+<sky-dropdown-item *ngIf="isDropdown" >
+  <ng-container *ngTemplateOutlet="summaryActionBarSecondaryAction"></ng-container>
+</sky-dropdown-item>
+
+<ng-template
+  #summaryActionBarSecondaryAction
+>
+  <button
+    type="button"
+    class="sky-btn sky-btn-secondary"
+    [attr.role]="isDropdown ? undefined : 'menuitem'"
+    [disabled]="disabled"
+    (click)="onButtonClicked()"
+  >
+    <ng-content></ng-content>
+  </button>
+</ng-template>

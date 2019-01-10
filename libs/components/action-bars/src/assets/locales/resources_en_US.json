@@ -1,6 +1,14 @@
 {
-  "foo_bar": {
-    "_description": "",
-    "message": "FOO BAR!"
+  "skyux_summary_action_bar_open_secondary": {
+    "_description": "Label for the button that shows a secondary menu in the summary action bar",
+    "message": "Show secondary actions"
+  },
+  "skyux_summary_action_bar_show_summary": {
+    "_description": "Label for the button that shows the action bar summary",
+    "message": "Show summary"
+  },
+  "skyux_summary_action_bar_hide_summary": {
+    "_description": "Label for the button that hides the action bar summary",
+    "message": "Hide summary"
   }
 }

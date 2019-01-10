@@ -1,0 +1,27 @@
+<div
+  class="sky-summary-action-bar-secondary-actions"
+>
+  <div *ngIf="!isMobile && secondaryActionComponents.length < 5"
+    class="sky-summary-action-bar-secondary-buttons"
+    role="menubar"
+  >
+    <ng-container *ngTemplateOutlet="summaryActionBarSecondaryActions"></ng-container>
+  </div>
+  <div *ngIf="isMobile || secondaryActionComponents.length > 4">
+    <sky-dropdown
+      buttonType="ellipsis-h"
+      [attr.title]="'skyux_summary_action_bar_open_secondary' | skyLibResources"
+    >
+      <sky-dropdown-menu>
+        <ng-container *ngTemplateOutlet="summaryActionBarSecondaryActions"></ng-container>
+      </sky-dropdown-menu>
+    </sky-dropdown>
+  </div>
+</div>
+<ng-template
+  #summaryActionBarSecondaryActions
+>
+  <ng-content
+    select="sky-summary-action-bar-secondary-action"
+  ></ng-content>
+</ng-template>
