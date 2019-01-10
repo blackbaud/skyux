@@ -1,6 +1,6 @@
 # 3.4.0 (2019-01-08)
 
-- Added style for invalid `textarea` elements. [#46](https://github.com/blackbaud/skyux-theme/pull/46)
+- Added style for invalid `textarea` elements. [#46](https://github.com/blackbaud/skyux-theme/pull/46) (Thanks @Blackbaud-JeffDye)
 - Added support for `@blackbaud/skyux-design-tokens@0.0.11`. [#45](https://github.com/blackbaud/skyux-theme/pull/45)
 
 # 3.3.1 (2018-11-29)
