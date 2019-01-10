@@ -4,7 +4,6 @@ import {
   ChangeDetectorRef,
   ComponentFactoryResolver,
   ElementRef,
-  HostListener,
   Injector,
   OnDestroy,
   OnInit,
@@ -22,6 +21,10 @@ import {
   transition,
   trigger
 } from '@angular/animations';
+
+import {
+  Observable
+} from 'rxjs/Observable';
 
 import {
   Subject
@@ -228,9 +231,26 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
     event.preventDefault();
     event.stopPropagation();
+
+    Observable
+      .fromEvent(document, 'mousemove')
+      .takeWhile(() => {
+        return this.isDragging;
+      })
+      .subscribe((moveEvent: any) => {
+        this.onMouseMove(moveEvent);
+      });
+
+    Observable
+      .fromEvent(document, 'mouseup')
+      .takeWhile(() => {
+        return this.isDragging;
+      })
+      .subscribe((mouseUpEvent: any) => {
+        this.onHandleRelease(mouseUpEvent);
+      });
   }
 
-  @HostListener('document:mousemove', ['$event'])
   public onMouseMove(event: MouseEvent) {
     if (!this.isDragging) {
       return;
@@ -247,12 +267,13 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
     this.flyoutWidth = width;
     this.xCoord = event.clientX;
+    this.changeDetector.detectChanges();
   }
 
-  @HostListener('document:mouseup', ['$event'])
   public onHandleRelease(event: MouseEvent) {
     this.isDragging = false;
     this.adapter.toggleIframePointerEvents(true);
+    this.changeDetector.detectChanges();
   }
 
   public onIteratorPreviousButtonClick() {

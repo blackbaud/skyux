@@ -20,6 +20,7 @@ import {
   template: 'noop'
 })
 export class SkyFlyoutTestComponent {
+
   constructor(
     private flyoutService: SkyFlyoutService
   ) { }
