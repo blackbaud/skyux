@@ -54,7 +54,7 @@
   bottom: 0;
   direction: rtl;
 
-  &::-moz-range-thumb {
+  &::-moz-range-thumb, &::-moz-range-track{
     -webkit-appearance: none;
     -moz-appearance: none;
     width: 0;
