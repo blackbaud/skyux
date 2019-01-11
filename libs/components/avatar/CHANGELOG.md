@@ -1,3 +1,7 @@
+# 3.0.0 (2019-01-11)
+
+- Major version release.
+
 # 3.0.0-rc.3 (2018-11-15)
 
 - Updated peer dependencies to support Angular versions greater than `4.3.6`. [#5](https://github.com/blackbaud/skyux-avatar/pull/5)
