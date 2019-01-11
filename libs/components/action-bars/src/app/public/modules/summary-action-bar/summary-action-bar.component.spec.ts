@@ -99,7 +99,6 @@ describe('Summary Action Bar action components', () => {
         _applicationRef: ApplicationRef
       ) => {
         modalService = _modalService;
-        modalService.dispose();
       }
     )
   );
@@ -111,26 +110,10 @@ describe('Summary Action Bar action components', () => {
     debugElement = fixture.debugElement;
   });
 
-  // it('should not set the inModalFooter flag if it is not in a modal footer', () => {
-  //   fixture.detectChanges();
-  //   expect(cmp.summaryActionBar.inModalFooter).toBeFalsy();
-  // });
-
-  // it('should set the inModalFooter flag if it is in a modal footer', () => {
-  //   cmp.hideMainActionBar = true;
-  //   fixture.detectChanges();
-  //   debugElement.query(By.css('#modal-trigger')).nativeElement.click();
-  //   fixture.detectChanges();
-  //   expect(cmp.openedModal.summaryActionBar.inModalFooter).toBeTruthy();
-  // });
-
-  // it('should set the inModalFooter flag if it is in a full screen modal footer', () => {
-  //   cmp.hideMainActionBar = true;
-  //   fixture.detectChanges();
-  //   debugElement.query(By.css('#full-modal-trigger')).nativeElement.click();
-  //   fixture.detectChanges();
-  //   expect(cmp.openedModal.summaryActionBar.inModalFooter).toBeTruthy();
-  // });
+  afterEach(() => {
+    modalService.dispose();
+    fixture.detectChanges();
+  });
 
   it('should set a margin on the body if the action bar is not in a modal footer', () => {
     fixture.detectChanges();
@@ -151,7 +134,8 @@ describe('Summary Action Bar action components', () => {
 
   it('should remove the margin on the body if the action bar is destroyed', () => {
     fixture.detectChanges();
-    fixture.destroy();
+    cmp.hideMainActionBar = true;
+    fixture.detectChanges();
     expect(document.body.style.marginBottom).toBe('');
   });
 

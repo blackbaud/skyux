@@ -1,3 +1,3 @@
-# 3.0.0-alpha.x (yyyy-mm-dd)
+# 3.0.0-rc.0 (2019-01-10)
 
-- Initial release.
+- Initial release candidate.
