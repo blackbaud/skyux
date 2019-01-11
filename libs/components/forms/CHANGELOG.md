@@ -1,3 +1,7 @@
+# 3.0.0 (2019-01-11)
+
+- Major version release.
+
 # 3.0.0-rc.5 (2019-01-10)
 
 - Fixed checkbox component to only add `aria-label` to HTML tags when the `label` property is supplied. [#14](https://github.com/blackbaud/skyux-forms/pull/14)
