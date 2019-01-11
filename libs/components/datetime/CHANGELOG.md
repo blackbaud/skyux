@@ -1,3 +1,7 @@
+# 3.0.0 (2019-01-11)
+
+- Major version release.
+
 # 3.0.0-rc.4 (2018-12-21)
 
 - Fixed datepicker and timepicker components to properly transform provided values on initial load in reactive forms [#7](https://github.com/blackbaud/skyux-datetime/issues/7).
