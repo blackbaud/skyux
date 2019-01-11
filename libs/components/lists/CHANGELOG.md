@@ -1,3 +1,7 @@
+# 3.0.0 (2019-01-11)
+
+- Major version release.
+
 # 3.0.0-rc.5 (2018-12-19)
 
 - Fixed repeater component to properly handle overflow content. [#9](https://github.com/blackbaud/skyux-lists/pull/9)
