@@ -1,3 +1,8 @@
+# 3.0.0-rc.5 (2019-01-10)
+
+- Updated flyout component to improve performance. [#16](https://github.com/blackbaud/skyux-flyout/pull/16)
+- Fixed styles on flyout component's resize handle in Firefox. [#15](https://github.com/blackbaud/skyux-flyout/pull/15)
+
 # 3.0.0-rc.4 (2018-12-20)
 
 - Added iterator buttons to the flyout component. [#10](https://github.com/blackbaud/skyux-flyout/pull/10) (Thanks @Theaggarwal)
