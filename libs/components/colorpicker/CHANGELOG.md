@@ -1,3 +1,7 @@
+# 3.0.0 (2019-01-11)
+
+- Major version release.
+
 # 3.0.0-rc.3 (2018-11-20)
 
 - Fixed colorpicker component to emit value changes properly. [blackbaud/skyux-colorpicker#5](https://github.com/blackbaud/skyux-colorpicker/pull/5)
@@ -17,3 +21,4 @@
 # 3.0.0-alpha.0 (2018-10-08)
 
 - Initial alpha release.
+
