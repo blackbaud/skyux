@@ -1,3 +1,7 @@
+# 3.0.0 (2019-01-11)
+
+- Major version release.
+
 # 3.0.0-rc.6 (2018-12-06)
 
 - Fixed tile component's help button to display by default when consumer provides `helpClick` listener. [#18](https://github.com/blackbaud/skyux-tiles/pull/18)
