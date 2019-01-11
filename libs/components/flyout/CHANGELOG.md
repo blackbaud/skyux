@@ -1,3 +1,7 @@
+# 3.0.0 (2019-01-11)
+
+- Major version release.
+
 # 3.0.0-rc.5 (2019-01-10)
 
 - Updated flyout component to improve performance. [#16](https://github.com/blackbaud/skyux-flyout/pull/16)
