@@ -1,3 +1,7 @@
+# 3.0.0 (2019-01-11)
+
+- Major version release.
+
 # 3.0.0-rc.4 (2018-12-20)
 
 - Fixed toast service to remove the toaster component if all toast component instances have been closed. [#9](https://github.com/blackbaud/skyux-toast/pull/9)
