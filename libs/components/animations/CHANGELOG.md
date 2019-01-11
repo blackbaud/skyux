@@ -1,3 +1,7 @@
+# 3.0.0 (2019-01-11)
+
+- Major version release.
+
 # 3.0.0-rc.1 (2018-11-15)
 
 - Updated peer dependencies to support Angular versions greater than `4.3.6`. [#7](https://github.com/blackbaud/skyux-animations/pull/7)
