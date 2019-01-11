@@ -1,3 +1,7 @@
+# 3.0.0 (2019-01-11)
+
+- Major version release.
+
 # 3.0.0-rc.6 (2019-01-04)
 
 - Added `rowHighlightedId` input to grid component. [#28](https://github.com/blackbaud/skyux-grids/pull/28)
