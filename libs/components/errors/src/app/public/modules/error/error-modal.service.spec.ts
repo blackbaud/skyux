@@ -20,13 +20,8 @@ describe('Error modal service', () => {
   it('Test open is called with correct parameters', () => {
     let modalService = new MockModalService(
       {
-        resolveComponentFactory() {}
-      } as any,
-      {
-        bootstrap() {}
-      } as any,
-      {
-        addHostEl: function (): any {}
+        removeComponent: function (): any {},
+        addComponent: function (ref: any): any {}
       } as any
     );
 
