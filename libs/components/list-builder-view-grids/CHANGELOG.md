@@ -1,3 +1,7 @@
+# 3.0.0 (2019-01-14)
+
+- Major version release.
+
 # 3.0.0-rc.5 (2018-01-08)
 
 - Added `rowHighlightedId` input to list view grid component. [#14](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/14)
