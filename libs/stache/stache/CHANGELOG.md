@@ -1,3 +1,7 @@
+# 2.15.2 (2019-01-14)
+- Updated version of SKY UX to 2.39.0.
+- Updated the `stache-page-anchor` icon color to match the new SKY UX color scheme. [#566](https://github.com/blackbaud/stache2/pull/566)
+
 # 2.15.1 (2019-01-07)
 - Updated Sky code block to version `1.0.0-rc.2` to support the new `hideHeader` feature.
 
