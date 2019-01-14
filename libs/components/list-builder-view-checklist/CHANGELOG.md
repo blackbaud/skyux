@@ -1,6 +1,10 @@
+# 3.0.0 (2019-01-14)
+
+- Major version release.
+
 # 3.0.0-rc.6 (2018-11-20)
 
- - Added support for `@skyux/list-builder-common@3.0.0-rc.1`. [#14](https://github.com/blackbaud/skyux-list-builder-view-checklist/pull/14)
+- Added support for `@skyux/list-builder-common@3.0.0-rc.1`. [#14](https://github.com/blackbaud/skyux-list-builder-view-checklist/pull/14)
 
 # 3.0.0-rc.5 (2018-11-19)
 
