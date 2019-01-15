@@ -1,3 +1,7 @@
+# 3.0.1 (2019-01-15)
+
+- Fixed chevron component to properly position its elements when container is resized. [#26](https://github.com/blackbaud/skyux-indicators/pull/26)
+
 # 3.0.0 (2019-01-11)
 
 - Major version release.
