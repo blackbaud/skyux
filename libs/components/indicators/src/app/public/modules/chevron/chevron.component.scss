@@ -11,6 +11,7 @@
   padding: 0;
   width: $sky-context-menu-size;
   cursor: pointer;
+  position: relative;
 
   &:hover .sky-chevron-part {
     border-color: darken($sky-text-color-icon-borderless, 20%);
@@ -23,8 +24,8 @@
   border-width: 3px 0 0 0;
   display: inline-block;
   height: 10px;
-  position: relative;
-  top: 6px;
+  position: absolute;
+  top: 8px;
   transition: transform $sky-transition-time-medium, left $sky-transition-time-medium;
   vertical-align: top;
   width: 10px;
@@ -32,24 +33,24 @@
 
 .sky-chevron-up {
   .sky-chevron-left {
-    left: 7px;
+    left: 6px;
     transform: rotate(-45deg);
   }
 
   .sky-chevron-right {
-    left: -6px;
+    left: 6px;
     transform: rotate(45deg);
   }
 }
 
 .sky-chevron-down {
   .sky-chevron-left {
-    left: 2px;
+    left: 1px;
     transform: rotate(45deg);
   }
 
   .sky-chevron-right {
-    left: -1px;
+    left: 11px;
     transform: rotate(-45deg);
   }
 }
