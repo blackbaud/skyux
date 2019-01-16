@@ -20,8 +20,16 @@ import {
 } from '@angular/core/testing';
 
 import {
+  SkyUIConfigService
+} from '@skyux/core';
+
+import {
   DragulaService
 } from 'ng2-dragula/ng2-dragula';
+
+import {
+  Observable
+} from 'rxjs/Observable';
 
 const moment = require('moment');
 
@@ -54,7 +62,6 @@ import {
 } from './fixtures/mock-dragula.service';
 
 import {
-  SkyGridModule,
   SkyGridComponent,
   SkyGridColumnModel
 } from './';
@@ -207,8 +214,7 @@ describe('Grid Component', () => {
     beforeEach(async(() => {
       TestBed.configureTestingModule({
         imports: [
-          GridFixturesModule,
-          SkyGridModule
+          GridFixturesModule
         ]
       });
     }));
@@ -590,7 +596,7 @@ describe('Grid Component', () => {
         });
       });
 
-      describe('Resiazable columns', () => {
+      describe('Resizeable columns', () => {
 
         it('should not resize if user does not use resize handle', fakeAsync(() => {
           // Get initial baseline for comparison.
@@ -825,8 +831,7 @@ describe('Grid Component', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [
-          GridFixturesModule,
-          SkyGridModule
+          GridFixturesModule
         ]
       });
     });
@@ -946,8 +951,7 @@ describe('Grid Component', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [
-          GridFixturesModule,
-          SkyGridModule
+          GridFixturesModule
         ]
       });
     });
@@ -1266,8 +1270,7 @@ describe('Grid Component', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [
-          GridFixturesModule,
-          SkyGridModule
+          GridFixturesModule
         ]
       });
     });
@@ -1323,8 +1326,7 @@ describe('Grid Component', () => {
 
       TestBed.configureTestingModule({
         imports: [
-          GridFixturesModule,
-          SkyGridModule
+          GridFixturesModule
         ]
       });
 
@@ -1552,8 +1554,7 @@ describe('Grid Component', () => {
     beforeEach(async(() => {
       TestBed.configureTestingModule({
         imports: [
-          GridFixturesModule,
-          SkyGridModule
+          GridFixturesModule
         ]
       });
     }));
@@ -1639,8 +1640,7 @@ describe('Grid Component', () => {
 
       TestBed.configureTestingModule({
         imports: [
-          GridFixturesModule,
-          SkyGridModule
+          GridFixturesModule
         ]
       });
 
@@ -1674,8 +1674,7 @@ describe('Grid Component', () => {
     beforeEach(async(() => {
       TestBed.configureTestingModule({
         imports: [
-          GridFixturesModule,
-          SkyGridModule
+          GridFixturesModule
         ]
       }).compileComponents();
     }));
@@ -1685,19 +1684,22 @@ describe('Grid Component', () => {
       element = fixture.debugElement as DebugElement;
     });
 
-    it('should handle async column headings', fakeAsync(() => {
-      fixture.detectChanges();
-
-      expect(getColumnHeader('column1', element).nativeElement.textContent.trim()).toBe('');
+    function verifyColumnHeaders(id: string) {
+      expect(getColumnHeader(id, element).nativeElement.textContent.trim()).toBe('');
 
       tick(110); // wait for setTimeout
       fixture.detectChanges();
       tick();
 
-      expect(getColumnHeader('column1', element).nativeElement.textContent.trim()).toBe('Column1');
-    }));
+      expect(getColumnHeader(id, element).nativeElement.textContent.trim()).toBe('Column1');
+    }
 
     it('should handle async column headings', fakeAsync(() => {
+      fixture.detectChanges();
+      verifyColumnHeaders('column1');
+    }));
+
+    it('should handle async column descriptions', fakeAsync(() => {
       fixture.detectChanges();
 
       let col1 = fixture.componentInstance.grid.columns.find(col => col.id === 'column1');
@@ -1709,5 +1711,117 @@ describe('Grid Component', () => {
 
       expect(col1.description).toBe('Column1 Description');
     }));
+
+    it('should support the item `field` property if `id` not provided', fakeAsync(() => {
+      fixture.detectChanges();
+
+      verifyColumnHeaders('column2');
+    }));
+  });
+
+  describe('UI config', () => {
+    let fixture: ComponentFixture<GridEmptyTestComponent>;
+    let component: GridEmptyTestComponent;
+    let uiConfigService: SkyUIConfigService;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          GridFixturesModule
+        ]
+      });
+
+      fixture = TestBed.createComponent(GridEmptyTestComponent);
+      component = fixture.componentInstance;
+      uiConfigService = TestBed.get(SkyUIConfigService);
+    });
+
+    it('should call the UI config service when selected columns change', () => {
+      component.columns = [
+        new SkyGridColumnModel(component.template, {
+          id: 'column1',
+          heading: 'Column 1'
+        }),
+        new SkyGridColumnModel(component.template, {
+          id: 'column2',
+          heading: 'Column 2'
+        })
+      ];
+
+      fixture.detectChanges();
+
+      const spy = spyOn(uiConfigService, 'setConfig').and.callThrough();
+
+      component.settingsKey = 'foobar';
+      component.selectedColumnIds = ['column1', 'column2'];
+      fixture.detectChanges();
+
+      expect(spy.calls.count()).toEqual(1);
+
+      spy.calls.reset();
+      component.selectedColumnIds = ['column2', 'column1'];
+      fixture.detectChanges();
+
+      expect(spy.calls.count()).toEqual(1);
+    });
+
+    it('should fetch UI config on init', () => {
+      const spy = spyOn(uiConfigService, 'getConfig').and.callThrough();
+
+      component.settingsKey = 'foobar';
+      fixture.detectChanges();
+
+      expect(spy).toHaveBeenCalledWith('foobar');
+    });
+
+    it('should handle errors when setting config', () => {
+      const spy = spyOn(console, 'warn');
+
+      spyOn(uiConfigService, 'setConfig').and.callFake(() => {
+        return Observable.throw(new Error());
+      });
+
+      component.columns = [
+        new SkyGridColumnModel(component.template, {
+          id: 'column1',
+          heading: 'Column 1'
+        }),
+        new SkyGridColumnModel(component.template, {
+          id: 'column2',
+          heading: 'Column 2'
+        })
+      ];
+
+      fixture.detectChanges();
+
+      component.settingsKey = 'foobar';
+      component.selectedColumnIds = ['column1', 'column2'];
+      fixture.detectChanges();
+
+      expect(spy).toHaveBeenCalledWith('Could not save grid settings.');
+    });
+
+    it('should suppress errors when getting config', () => {
+      spyOn(uiConfigService, 'getConfig').and.callFake(() => {
+        return Observable.throw(new Error());
+      });
+
+      const spy = spyOn(fixture.componentInstance.grid as any, 'initColumns').and.callThrough();
+
+      component.columns = [
+        new SkyGridColumnModel(component.template, {
+          id: 'column1',
+          heading: 'Column 1'
+        })
+      ];
+
+      component.settingsKey = 'foobar';
+      fixture.detectChanges();
+
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expect(spy).toHaveBeenCalled();
+      });
+    });
   });
 });

@@ -15,6 +15,10 @@ import {
 } from 'ng2-dragula/ng2-dragula';
 
 import {
+  SkyUIConfigService
+} from '@skyux/core';
+
+import {
   SkyCheckboxModule
 } from '@skyux/forms';
 
@@ -58,6 +62,9 @@ import {
     SkyGridComponent,
     SkyGridColumnComponent,
     SkyGridCellComponent
+  ],
+  providers: [
+    SkyUIConfigService
   ]
 })
 export class SkyGridModule {

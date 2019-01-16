@@ -7,12 +7,17 @@ import {
 } from '@angular/common';
 
 import {
+  SkyUIConfigService,
   SkyWindowRefService
 } from '@skyux/core';
 
 import {
+  Observable
+} from 'rxjs/Observable';
+
+import {
   SkyGridModule
-} from '../';
+} from '../grid.module';
 
 import {
   GridTestComponent
@@ -47,7 +52,16 @@ import {
     SkyGridModule
   ],
   providers: [
-    SkyWindowRefService
+    SkyWindowRefService,
+    {
+      provide: SkyUIConfigService,
+      useValue: {
+        getConfig: () => Observable.of({
+          selectedColumnIds: []
+        }),
+        setConfig: () => Observable.of({})
+      }
+    }
   ],
   exports: [
     GridTestComponent,
