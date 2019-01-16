@@ -12,6 +12,7 @@
   width: $sky-context-menu-size;
   cursor: pointer;
   position: relative;
+  vertical-align: top;
 
   &:hover .sky-chevron-part {
     border-color: darken($sky-text-color-icon-borderless, 20%);
