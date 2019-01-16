@@ -1,3 +1,7 @@
+# 3.0.3 (2019-01-16)
+
+- Fixed chevron component to properly align its icon in Firefox. [#31](https://github.com/blackbaud/skyux-indicators/pull/31)
+
 # 3.0.2 (2019-01-15)
 
 - Fixed chevron component to properly center its icon within the button element. [#30](https://github.com/blackbaud/skyux-indicators/pull/30)
