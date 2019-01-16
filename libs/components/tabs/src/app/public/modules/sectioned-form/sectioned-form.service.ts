@@ -1,5 +1,10 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import {
+  Injectable
+} from '@angular/core';
+
+import {
+  BehaviorSubject
+} from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class SkySectionedFormService {
@@ -7,11 +12,11 @@ export class SkySectionedFormService {
   public requiredChange: BehaviorSubject<boolean> = new BehaviorSubject(undefined);
   public invalidChange: BehaviorSubject<boolean> = new BehaviorSubject(undefined);
 
-  public requiredFieldChanged(required: boolean) {
-    this.requiredChange.next(required);
+  public requiredFieldChanged(isRequired: boolean): void {
+    this.requiredChange.next(isRequired);
   }
 
-  public invalidFieldChanged(invalid: boolean) {
-    this.invalidChange.next(invalid);
+  public invalidFieldChanged(isInvalid: boolean): void {
+    this.invalidChange.next(isInvalid);
   }
 }
