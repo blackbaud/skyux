@@ -7,9 +7,12 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
-  OnInit,
   Output
 } from '@angular/core';
+
+import {
+  Subject
+} from 'rxjs/Subject';
 
 import 'rxjs/add/operator/takeWhile';
 
@@ -27,14 +30,25 @@ import {
     SkyInfiniteScrollDomAdapterService
   ]
 })
-export class SkyInfiniteScrollComponent implements OnInit, OnDestroy {
+export class SkyInfiniteScrollComponent implements OnDestroy {
   @Input()
-  public enabled = false;
+  public get enabled(): boolean {
+    return this._enabled;
+  }
+  public set enabled(value: boolean) {
+    if (this._enabled !== value) {
+      this._enabled = value;
+      this.setListeners();
+    }
+  }
 
   @Output()
   public scrollEnd = new EventEmitter<void>();
 
   public isWaiting = false;
+
+  private ngUnsubscribe = new Subject<void>();
+  private _enabled = false;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -42,27 +56,10 @@ export class SkyInfiniteScrollComponent implements OnInit, OnDestroy {
     private domAdapter: SkyInfiniteScrollDomAdapterService
   ) { }
 
-  public ngOnInit(): void {
-    // The user has scrolled to the infinite scroll element.
-    this.domAdapter.scrollTo(this.elementRef)
-      .takeWhile(() => this.enabled)
-      .subscribe(() => {
-        if (!this.isWaiting) {
-          this.notifyScrollEnd();
-        }
-      });
-
-    // New items have been loaded into the parent element.
-    this.domAdapter.parentChanges(this.elementRef)
-      .takeWhile(() => this.enabled)
-      .subscribe(() => {
-        this.isWaiting = false;
-        this.changeDetector.markForCheck();
-      });
-  }
-
   public ngOnDestroy(): void {
     this.enabled = false;
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   public startInfiniteScrollLoad(): void {
@@ -73,5 +70,30 @@ export class SkyInfiniteScrollComponent implements OnInit, OnDestroy {
     this.isWaiting = true;
     this.scrollEnd.emit();
     this.changeDetector.markForCheck();
+  }
+
+  private setListeners(): void {
+    if (this.enabled) {
+      // The user has scrolled to the infinite scroll element.
+      this.domAdapter.scrollTo(this.elementRef)
+        .takeUntil(this.ngUnsubscribe)
+        .subscribe(() => {
+          if (!this.isWaiting && this.enabled) {
+            this.notifyScrollEnd();
+          }
+      });
+
+      // New items have been loaded into the parent element.
+      this.domAdapter.parentChanges(this.elementRef)
+        .takeUntil(this.ngUnsubscribe)
+        .subscribe(() => {
+          if (this.isWaiting) {
+            this.isWaiting = false;
+            this.changeDetector.markForCheck();
+          }
+      });
+    } else {
+      this.ngUnsubscribe.next();
+    }
   }
 }

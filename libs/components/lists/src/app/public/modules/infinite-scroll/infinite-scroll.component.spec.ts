@@ -121,6 +121,17 @@ describe('Infinite scroll', () => {
     expect(spy).not.toHaveBeenCalled();
   }));
 
+  it('should emit a scrollEnd event on scroll when disabled and then re-enabled', async(() => {
+    const spy = spyOn(fixture.componentInstance, 'onScrollEnd').and.callThrough();
+    fixture.componentInstance.enabled = false;
+    fixture.componentInstance.loadItems(1000);
+    fixture.detectChanges();
+    fixture.componentInstance.enabled = true;
+    fixture.detectChanges();
+    scrollWindowBottom();
+    expect(spy).toHaveBeenCalled();
+  }));
+
   it('should emit a scrollEnd event on scroll when an element is the scrollable parent', async(() => {
     const wrapper = fixture.componentInstance.wrapper.nativeElement;
     wrapper.setAttribute('style', 'height:200px;overflow:auto;');

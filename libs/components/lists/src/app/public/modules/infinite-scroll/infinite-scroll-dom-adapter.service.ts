@@ -9,7 +9,10 @@ import {
 import {
   Observable
 } from 'rxjs/Observable';
+
 import 'rxjs/add/observable/fromEvent';
+
+import 'rxjs/add/operator/filter';
 
 import {
   Subject
@@ -26,7 +29,6 @@ export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
   private observer: MutationObserver;
 
   private _parentChanges = new EventEmitter<void>();
-  private _scrollTo = new EventEmitter<void>();
 
   constructor(
     private windowRef: SkyWindowRefService
@@ -34,7 +36,6 @@ export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
 
   public ngOnDestroy(): void {
     this._parentChanges.complete();
-    this._scrollTo.complete();
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
@@ -57,21 +58,15 @@ export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
   public scrollTo(elementRef: ElementRef): Observable<void> {
     const parent = this.findScrollableParent(elementRef.nativeElement);
 
-    Observable
+    return Observable
       .fromEvent(parent, 'scroll')
       .takeUntil(this.ngUnsubscribe)
-      .subscribe(() => {
-        const isInView = this.isElementScrolledInView(
+      .filter(() => {
+        return this.isElementScrolledInView(
           elementRef.nativeElement,
           parent
         );
-
-        if (isInView) {
-          this._scrollTo.emit();
-        }
-      });
-
-    return this._scrollTo;
+    }).map(() => undefined); // Change to void return type
   }
 
   private createObserver(element: any): void {

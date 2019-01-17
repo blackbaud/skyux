@@ -1,22 +1,18 @@
+<h2>
+  Contained scroll:
+</h2>
 <div
   class="app-screenshot"
   id="screenshot-infinite-scroll"
+  style="position: relative; overflow-y: auto; height: 220px;"
 >
   <sky-repeater>
-    <sky-repeater-item>
+    <sky-repeater-item *ngFor="let item of firstList">
       <sky-repeater-item-title>
-        Title 1
+        Title {{ item }}
       </sky-repeater-item-title>
       <sky-repeater-item-content>
-        Content 1
-      </sky-repeater-item-content>
-    </sky-repeater-item>
-    <sky-repeater-item>
-      <sky-repeater-item-title>
-        Title 2
-      </sky-repeater-item-title>
-      <sky-repeater-item-content>
-        Content 2
+        Content {{ item }}
       </sky-repeater-item-content>
     </sky-repeater-item>
   </sky-repeater>
@@ -26,6 +22,11 @@
   </sky-infinite-scroll>
 </div>
 
+<br>
+<hr>
+<h2>
+  Disabled:
+</h2>
 <div
   class="app-screenshot"
   id="screenshot-infinite-scroll-nobutton"
@@ -54,30 +55,39 @@
   </sky-infinite-scroll>
 </div>
 
+<br>
+<hr>
+<h2>
+  Window scroll:
+</h2>
 <div
   class="app-screenshot"
   id="screenshot-infinite-scroll-wait"
 >
   <sky-repeater>
-    <sky-repeater-item>
+    <sky-repeater-item *ngFor="let item of secondList">
       <sky-repeater-item-title>
-        Title 1
+        Title {{ item }}
       </sky-repeater-item-title>
       <sky-repeater-item-content>
-        Content 1
-      </sky-repeater-item-content>
-    </sky-repeater-item>
-    <sky-repeater-item>
-      <sky-repeater-item-title>
-        Title 2
-      </sky-repeater-item-title>
-      <sky-repeater-item-content>
-        Content 2
+        Content {{ item }}
       </sky-repeater-item-content>
     </sky-repeater-item>
   </sky-repeater>
   <sky-infinite-scroll
-    [enabled]="true"
+    [enabled]="secondEnabled"
+    (scrollEnd)="addToSecond()"
   >
   </sky-infinite-scroll>
 </div>
+<button
+  class="sky-btn"
+  style="position: fixed; bottom: 5px; right: 5px; z-index: 1000;"
+  [ngClass]="{
+    'sky-btn-primary': secondEnabled,
+    'sky-btn-default': !secondEnabled
+  }"
+  (click)="secondEnabled = !secondEnabled"
+>
+  Toggle second enabled
+</button>
