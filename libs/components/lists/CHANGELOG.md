@@ -1,3 +1,7 @@
+# 3.0.1 (2019-01-17)
+
+- Fixed infinite scroll component to function properly after being re-enabled. [#15](https://github.com/blackbaud/skyux-lists/pull/15)
+
 # 3.0.0 (2019-01-11)
 
 - Major version release.
