@@ -1,12 +1,4 @@
 import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger
-} from '@angular/animations';
-
-import {
   Component,
   Input,
   ElementRef,
@@ -30,6 +22,10 @@ import {
   SkyModalComponentAdapterService
 } from './modal-component-adapter.service';
 
+import {
+  skyAnimationModalState
+} from './modal-state-animation';
+
 let skyModalUniqueIdentifier: number = 0;
 
 @Component({
@@ -37,17 +33,7 @@ let skyModalUniqueIdentifier: number = 0;
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
   animations: [
-    trigger('modalState', [
-      state('in', style({ opacity: '1.0' })),
-      state('out', style({ opacity: '0.0' })),
-      transition('void => *', [
-        style({ opacity: '0.0' }),
-        animate(150)
-      ]),
-      transition('* => void', [
-        animate(150, style({ opacity: '0.0' }))
-      ])
-    ])
+    skyAnimationModalState
   ],
   providers: [
     SkyModalComponentAdapterService
