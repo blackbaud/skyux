@@ -6,7 +6,10 @@
 >
   <header class="sky-tile-header">
     <div class="sky-tile-header-content" (click)="titleClick()">
-      <div #titleContainer>
+      <div
+        class="sky-tile-header-title"
+        #titleContainer
+      >
         <ng-content select="sky-tile-title"></ng-content>
       </div>
       <div class="sky-tile-summary sky-headline">

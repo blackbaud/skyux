@@ -20,6 +20,10 @@
   cursor: pointer;
 }
 
+.sky-tile-header-title {
+  display: inline-flex;
+}
+
 .sky-tile-summary {
   color: $sky-text-color-action-primary;
   opacity: 0;
