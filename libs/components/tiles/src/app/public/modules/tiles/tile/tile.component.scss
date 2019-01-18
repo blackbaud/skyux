@@ -2,31 +2,31 @@
 @import "~@skyux/theme/scss/_compat/mixins";
 
 .sky-tile {
-    background-color: #fff;
-    margin-bottom: $sky-margin-double;
+  background-color: #fff;
+  margin-bottom: $sky-margin-double;
 }
 
 .sky-tile-header {
-    border-color: $sky-border-color-neutral-medium;
-    border-style: solid solid none;
-    border-width: 4px 0 0;
-    display: flex;
+  border-color: $sky-border-color-neutral-medium;
+  border-style: solid solid none;
+  border-width: 4px 0 0;
+  display: flex;
 }
 
 .sky-tile-header-content {
-    display: flex;
-    flex: 1;
-    align-items: baseline;
-    cursor: pointer;
+  display: flex;
+  flex: 1;
+  align-items: baseline;
+  cursor: pointer;
 }
 
 .sky-tile-summary {
-    color: $sky-text-color-action-primary;
-    opacity: 0;
-    padding-right: $sky-tile-header-tool-padding;
-    transition: opacity $sky-transition-time-medium;
-    max-height: 30px;
-    overflow: hidden;
+  color: $sky-text-color-action-primary;
+  opacity: 0;
+  padding-right: $sky-tile-header-tool-padding;
+  transition: opacity $sky-transition-time-medium;
+  max-height: 30px;
+  overflow: hidden;
 }
 
 .sky-tile-collapsed {
@@ -36,37 +36,37 @@
 }
 
 .sky-tile-header-column-tools {
-  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
 }
 
-.sky-tile-content {
-    border-color: $sky-border-color-neutral-light;
-    border-image: none;
-    border-style: solid solid none;
-    border-width: 1px 0;
+.sky-tile-tools {
+  display: flex;
+  padding-right: $sky-space-lg;
 }
 
-:host ::ng-deep .sky-tile-tools .sky-chevron {
-    margin: 12px ($sky-tile-header-tool-padding - 6) 12px 0;
-}
-
-.sky-tile-help,
-.sky-tile-settings {
-    @include sky-icon-button-borderless;
-    height: $sky-context-menu-size;
-    margin: 12px ($sky-tile-header-tool-padding - 6) 12px 0;
-    padding: 0;
-    background-color: transparent;
-    border: none;
-    width: $sky-context-menu-size;
+.sky-tile-tools-control {
+  @include sky-icon-button-borderless();
+  border: 0;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  display: block;
+  margin: 0;
+  margin-left: 9px;
 }
 
 .sky-tile-grab-handle {
-    @include sky-icon-button-borderless;
-    cursor: move;
-    cursor: -webkit-grab;
-    cursor: -moz-grab;
-    font-size: 15px;
-    padding: 4px;
-    margin: 0 11px 0 -4px;
+  cursor: move;
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+  font-size: 15px;
+}
+
+.sky-tile-content {
+  border-color: $sky-border-color-neutral-light;
+  border-image: none;
+  border-style: solid solid none;
+  border-width: 1px 0;
 }

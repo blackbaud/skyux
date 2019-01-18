@@ -15,39 +15,37 @@
     </div>
     <div class="sky-tile-header-column-tools">
       <div class="sky-tile-tools">
-        <button
+        <button *ngIf="hasHelp"
+          class="sky-btn sky-tile-tools-control sky-tile-help"
           type="button"
-          *ngIf="hasHelp"
-          class="sky-tile-help"
           [attr.aria-label]="'skyux_tile_help' | skyLibResources"
           (click)="helpButtonClicked();"
         >
           <sky-icon icon="question-circle"></sky-icon>
         </button>
         <sky-chevron
+          class="sky-tile-tools-control"
           [direction]="isCollapsed ? 'down' : 'up'"
           (directionChange)="chevronDirectionChange($event)"
         >
         </sky-chevron>
-        <button
+        <button *ngIf="hasSettings"
+          class="sky-btn sky-tile-tools-control sky-tile-settings"
           type="button"
-          *ngIf="hasSettings"
-          class="sky-tile-settings"
           [attr.aria-label]="'skyux_tile_settings' | skyLibResources"
           (click)="settingsButtonClicked();"
         >
           <sky-icon icon="cog"></sky-icon>
         </button>
-        <sky-icon
-          *ngIf="isInDashboardColumn"
-          class="sky-tile-grab-handle"
-          icon="th"
-          tabindex="0"
+        <button *ngIf="isInDashboardColumn"
+          class="sky-btn sky-tile-tools-control sky-tile-grab-handle"
           [attr.aria-label]="'skyux_tile_grab_handle' | skyLibResources"
+          (click)="$event.stopPropagation()"
           (keydown)="moveTile($event)"
           #grabHandle
         >
-        </sky-icon>
+          <sky-icon icon="th"></sky-icon>
+        </button>
       </div>
     </div>
   </header>
