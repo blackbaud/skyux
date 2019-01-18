@@ -1,3 +1,7 @@
+# 3.0.1 (2019-01-18)
+
+- Fixed modal component animation to support required changes in Angular 7. [#23](https://github.com/blackbaud/skyux-modals/pull/23)
+
 # 3.0.0 (2019-01-11)
 
 - Major version release.
