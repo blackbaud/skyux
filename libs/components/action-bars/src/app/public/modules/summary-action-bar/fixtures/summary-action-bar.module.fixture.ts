@@ -23,6 +23,10 @@ import {
 } from '@skyux/modals';
 
 import {
+  SkyTabsModule
+} from '@skyux/tabs';
+
+import {
   SkySummaryActionBarModalTestComponent
 } from './summary-action-bar-modal.component.fixture';
 
@@ -34,10 +38,15 @@ import {
   SkySummaryActionBarTestComponent
 } from './summary-action-bar.component.fixture';
 
+import {
+  SkySummaryActionBarTabsTestComponent
+} from './summary-action-bar-tabs.component.fixture';
+
 @NgModule({
   declarations: [
     SkySummaryActionBarTestComponent,
-    SkySummaryActionBarModalTestComponent
+    SkySummaryActionBarModalTestComponent,
+    SkySummaryActionBarTabsTestComponent
   ],
   imports: [
     BrowserModule,
@@ -45,6 +54,7 @@ import {
     RouterTestingModule,
     SkyKeyInfoModule,
     SkyModalModule,
+    SkyTabsModule,
     SkySummaryActionBarModule
   ],
   exports: [

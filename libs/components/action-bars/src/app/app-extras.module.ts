@@ -15,6 +15,10 @@ import {
 } from '@skyux/modals';
 
 import {
+  SkyTabsModule
+} from '@skyux/tabs';
+
+import {
   SkySummaryActionBarModule
 } from './public';
 
@@ -27,12 +31,14 @@ import {
     SkyKeyInfoModule,
     SkyModalModule,
     SkySummaryActionBarModule,
+    SkyTabsModule,
     NoopAnimationsModule
   ],
   exports: [
     SkyKeyInfoModule,
     SkyModalModule,
     SkySummaryActionBarModule,
+    SkyTabsModule,
     NoopAnimationsModule
   ],
   providers: [],

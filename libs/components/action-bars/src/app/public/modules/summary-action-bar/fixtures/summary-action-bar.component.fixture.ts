@@ -25,15 +25,17 @@ import {
 })
 export class SkySummaryActionBarTestComponent {
 
-  public disableButtons: boolean;
+  public disableButtons = false;
 
-  public extraActions: boolean;
+  public extraActions = false;
 
-  public hideMainActionBar: boolean;
+  public hideMainActionBar = false;
 
-  public noSummary: boolean;
+  public showSecondaryActionBar = false;
 
-  public noSummaryContent: boolean;
+  public noSummary = false;
+
+  public noSummaryContent = false;
 
   public openedModal: SkySummaryActionBarModalTestComponent;
 

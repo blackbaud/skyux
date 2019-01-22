@@ -11,6 +11,7 @@ import {
 } from '@angular/platform-browser/animations';
 
 import {
+  MutationObserverService,
   SkyMediaQueryModule
 } from '@skyux/core';
 
@@ -19,8 +20,8 @@ import {
 } from '@skyux/i18n';
 
 import {
-  SkyIconModule,
-  SkyChevronModule
+  SkyChevronModule,
+  SkyIconModule
 } from '@skyux/indicators';
 
 import {
@@ -72,6 +73,7 @@ import {
     SkyMediaQueryModule
   ],
   providers: [
+    MutationObserverService,
     SkySummaryActionBarAdapterService
   ],
   exports: [

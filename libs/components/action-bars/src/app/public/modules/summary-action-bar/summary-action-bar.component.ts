@@ -1,12 +1,20 @@
 import {
   AfterViewInit,
   ChangeDetectorRef,
+  ChangeDetectionStrategy,
   Component,
   ContentChild,
   ElementRef,
-  OnDestroy,
-  ChangeDetectionStrategy
+  OnDestroy
 } from '@angular/core';
+
+import {
+  Observable
+} from 'rxjs/Observable';
+
+import {
+  Subject
+} from 'rxjs/Subject';
 
 import {
   Subscription
@@ -17,8 +25,10 @@ import {
 } from '@skyux/animations';
 
 import {
+  MutationObserverService,
   SkyMediaBreakpoints,
-  SkyMediaQueryService
+  SkyMediaQueryService,
+  SkyWindowRefService
 } from '@skyux/core';
 
 import {
@@ -62,6 +72,10 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
 
   private mediaQuerySubscription: Subscription;
 
+  private observer: MutationObserver;
+
+  private idled = new Subject<boolean>();
+
   @ContentChild(SkySummaryActionBarSummaryComponent, { read: ElementRef })
   private summaryElement: ElementRef;
 
@@ -69,15 +83,22 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
     private adapterService: SkySummaryActionBarAdapterService,
     private changeDetector: ChangeDetectorRef,
     private elementRef: ElementRef,
-    private mediaQueryService: SkyMediaQueryService
-    ) { }
+    private mediaQueryService: SkyMediaQueryService,
+    private observerService: MutationObserverService,
+    private windowRef: SkyWindowRefService
+  ) { }
 
   public ngAfterViewInit(): void {
     this.type = this.adapterService.getSummaryActionBarType(this.elementRef.nativeElement);
-    if (this.type === SkySummaryActionBarType.Page) {
+    if (this.type === SkySummaryActionBarType.Page || this.type === SkySummaryActionBarType.Tab) {
       this.setupReactiveState();
 
-      this.adapterService.styleBodyElementForActionBar();
+      this.adapterService.styleBodyElementForActionBar(this.elementRef);
+      this.setupResizeListener();
+
+      if (this.type === SkySummaryActionBarType.Tab) {
+        this.setupTabListener();
+      }
     } else {
       this.adapterService.styleModalFooter();
 
@@ -91,13 +112,15 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   public ngOnDestroy(): void {
     if (!(this.type === SkySummaryActionBarType.StandardModal ||
       this.type === SkySummaryActionBarType.FullPageModal)) {
-        this.adapterService.revertBodyElementStyles();
-        this.adapterService.removeResizeListener();
+      this.adapterService.revertBodyElementStyles();
+      this.removeResizeListener();
+      this.removeTabListener();
     }
 
     if (this.mediaQuerySubscription) {
       this.mediaQuerySubscription.unsubscribe();
     }
+    this.idled.complete();
   }
 
   public summaryContentExists(): boolean {
@@ -137,7 +160,52 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
       }
       this.changeDetector.detectChanges();
     });
-
-    this.adapterService.setupResizeListener();
   }
+
+  private setupTabListener(): void {
+    if (!this.observer) {
+      this.observer = this.observerService.create((mutations: MutationRecord[]) => {
+        if ((<HTMLElement>mutations[0].target).attributes.getNamedItem('hidden')) {
+          this.adapterService.revertBodyElementStyles();
+          this.removeResizeListener();
+        } else {
+          setTimeout(() => {
+            this.adapterService.styleBodyElementForActionBar(this.elementRef);
+            this.setupResizeListener();
+          });
+        }
+      });
+    }
+
+    const config = { attributes: true, attributeFilter: ['hidden'], childList: false, characterDate: false };
+    let el = this.elementRef.nativeElement;
+    do {
+      if (el.classList.contains('sky-tab')) {
+        this.observer.observe(el, config);
+      }
+      el = el.parentElement;
+      // tslint:disable-next-line:no-null-keyword
+    } while (el !== null && el.nodeType === 1);
+  }
+
+  private removeTabListener(): void {
+    if (this.observer) {
+      this.observer.disconnect();
+    }
+  }
+
+  private setupResizeListener(): void {
+    const windowObj = this.windowRef.getWindow();
+    Observable
+      .fromEvent(windowObj, 'resize')
+      .takeUntil(this.idled)
+      .subscribe(() => {
+        this.adapterService.styleBodyElementForActionBar(this.elementRef);
+      });
+  }
+
+  private removeResizeListener(): void {
+    this.idled.next(true);
+  }
+
 }

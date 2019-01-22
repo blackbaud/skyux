@@ -81,77 +81,89 @@ describe('Summary Action Bar action components', () => {
     debugElement = fixture.debugElement;
   });
 
-  it('should emit the actionClick event when the primary action button is clicked', () => {
-    spyOn(cmp, 'clickHandler').and.stub();
-    fixture.detectChanges();
-    debugElement.query(By.css('sky-summary-action-bar-primary-action button')).nativeElement.click();
-    fixture.detectChanges();
-    expect(cmp.clickHandler).toHaveBeenCalled();
-  });
+  describe('click event', () => {
 
-  it('should emit the actionClick event when the secondary action button is clicked', () => {
-    spyOn(cmp, 'clickHandler').and.stub();
-    fixture.detectChanges();
-    debugElement.query(By.css('sky-summary-action-bar-secondary-action button')).nativeElement.click();
-    fixture.detectChanges();
-    expect(cmp.clickHandler).toHaveBeenCalled();
-  });
-
-  it('should emit the actionClick event when the cancel button is clicked', () => {
-    spyOn(cmp, 'clickHandler').and.stub();
-    fixture.detectChanges();
-    debugElement.query(By.css('sky-summary-action-bar-cancel button')).nativeElement.click();
-    fixture.detectChanges();
-    expect(cmp.clickHandler).toHaveBeenCalled();
-  });
-
-  it('should disable the element when the primary action button has disabled set to true', () => {
-    cmp.disableButtons = true;
-    fixture.detectChanges();
-    expect(debugElement.query(By.css('sky-summary-action-bar-primary-action button'))
-      .nativeElement.disabled).toBeTruthy();
-  });
-
-  it('should disable the element when the secondary action button has disabled set to true', () => {
-    cmp.disableButtons = true;
-    fixture.detectChanges();
-    expect(debugElement.query(By.css('sky-summary-action-bar-secondary-action button'))
-      .nativeElement.disabled).toBeTruthy();
-  });
-
-  it('should disable the element when the cancel button has disabled set to true', () => {
-    cmp.disableButtons = true;
-    fixture.detectChanges();
-    expect(debugElement.query(By.css('sky-summary-action-bar-cancel button'))
-      .nativeElement.disabled).toBeTruthy();
-  });
-
-  it('should have secondary actions with isDropdown as false on large screens', () => {
-    fixture.detectChanges();
-    cmp.secondaryActions.secondaryActionComponents.forEach(action => {
-      expect(action.isDropdown).toBeFalsy();
+    it('should emit the actionClick event when the primary action button is clicked', () => {
+      spyOn(cmp, 'clickHandler').and.stub();
+      fixture.detectChanges();
+      debugElement.query(By.css('sky-summary-action-bar-primary-action button')).nativeElement.click();
+      fixture.detectChanges();
+      expect(cmp.clickHandler).toHaveBeenCalled();
     });
+
+    it('should emit the actionClick event when the secondary action button is clicked', () => {
+      spyOn(cmp, 'clickHandler').and.stub();
+      fixture.detectChanges();
+      debugElement.query(By.css('sky-summary-action-bar-secondary-action button')).nativeElement.click();
+      fixture.detectChanges();
+      expect(cmp.clickHandler).toHaveBeenCalled();
+    });
+
+    it('should emit the actionClick event when the cancel button is clicked', () => {
+      spyOn(cmp, 'clickHandler').and.stub();
+      fixture.detectChanges();
+      debugElement.query(By.css('sky-summary-action-bar-cancel button')).nativeElement.click();
+      fixture.detectChanges();
+      expect(cmp.clickHandler).toHaveBeenCalled();
+    });
+
   });
 
-  it('should have secondary actions with isDropdown as false on large screens when there are five actions', () => {
-    fixture.detectChanges();
-    cmp.secondaryActions.secondaryActionComponents.forEach(action => {
-      expect(action.isDropdown).toBeFalsy();
+  describe('disabled states', () => {
+
+    it('should disable the element when the primary action button has disabled set to true', () => {
+      cmp.disableButtons = true;
+      fixture.detectChanges();
+      expect(debugElement.query(By.css('sky-summary-action-bar-primary-action button'))
+        .nativeElement.disabled).toBeTruthy();
     });
-    fixture.detectChanges();
-    cmp.extraActions = true;
-    fixture.detectChanges();
-    cmp.secondaryActions.secondaryActionComponents.forEach(action => {
-      expect(action.isDropdown).toBeTruthy();
+
+    it('should disable the element when the secondary action button has disabled set to true', () => {
+      cmp.disableButtons = true;
+      fixture.detectChanges();
+      expect(debugElement.query(By.css('sky-summary-action-bar-secondary-action button'))
+        .nativeElement.disabled).toBeTruthy();
     });
+
+    it('should disable the element when the cancel button has disabled set to true', () => {
+      cmp.disableButtons = true;
+      fixture.detectChanges();
+      expect(debugElement.query(By.css('sky-summary-action-bar-cancel button'))
+        .nativeElement.disabled).toBeTruthy();
+    });
+
   });
 
-  it('should have secondary actions with isDropdown as true on xs screens', () => {
-    mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
-    fixture.detectChanges();
-    cmp.secondaryActions.secondaryActionComponents.forEach(action => {
-      expect(action.isDropdown).toBeTruthy();
+  describe('secondary actions', () => {
+
+    it('should have secondary actions with isDropdown as false on large screens', () => {
+      fixture.detectChanges();
+      cmp.secondaryActions.secondaryActionComponents.forEach(action => {
+        expect(action.isDropdown).toBeFalsy();
+      });
     });
+
+    it('should have secondary actions with isDropdown as false on large screens when there are five actions', () => {
+      fixture.detectChanges();
+      cmp.secondaryActions.secondaryActionComponents.forEach(action => {
+        expect(action.isDropdown).toBeFalsy();
+      });
+      fixture.detectChanges();
+      cmp.extraActions = true;
+      fixture.detectChanges();
+      cmp.secondaryActions.secondaryActionComponents.forEach(action => {
+        expect(action.isDropdown).toBeTruthy();
+      });
+    });
+
+    it('should have secondary actions with isDropdown as true on xs screens', () => {
+      mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+      fixture.detectChanges();
+      cmp.secondaryActions.secondaryActionComponents.forEach(action => {
+        expect(action.isDropdown).toBeTruthy();
+      });
+    });
+
   });
 
   describe('a11y', () => {
