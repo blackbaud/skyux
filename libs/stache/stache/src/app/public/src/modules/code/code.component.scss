@@ -1,6 +1,7 @@
 @import '../../styles/_variables';
 
 .stache-code {
+  overflow-wrap: break-word;
   font-family: 'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace;
   font-size: 90%;
   color: $stache-background-color-danger-dark;
