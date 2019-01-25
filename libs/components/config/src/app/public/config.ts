@@ -83,6 +83,7 @@ export interface SkyuxConfig {
   name?: string;
   pacts?: any[];
   params?: SkyuxConfigParams; // List of allowed params
+  pipelineSettings?: any;
   plugins?: string[];
   redirects?: any;
   routes?: {
