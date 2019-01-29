@@ -1,26 +1,15 @@
 import { ComponentFixture, TestBed, async, tick, fakeAsync } from '@angular/core/testing';
 import {
   expect
-} from '@blackbaud/skyux-lib-testing';
-import { SkyAppRuntimeModule } from '@blackbaud/skyux-builder/runtime';
-import { HttpModule } from '@angular/http';
-import { PipeTransform, Pipe } from '@angular/core';
-import { SkyAppResourcesService } from '@skyux/i18n';
+} from '@skyux-sdk/testing';
 import { SkyCopyToClipboardComponent, SkyCopyToClipboardService } from '../clipboard';
-import { SkyClipboardWindowRef } from '../shared';
+import { SkyAppWindowRef } from '@skyux/core';
+import { SkyI18nModule } from '@skyux/i18n';
+import { SkyClipboardResourcesModule } from '../shared';
 
 class MockClipboardService {
   public copyContent(element: HTMLElement) { }
   public verifyCopyCommandBrowserSupport() {}
-}
-
-@Pipe({
-  name: 'skyAppResources'
-})
-export class MockSkyAppResourcesPipe implements PipeTransform {
-  public transform(value: number): number {
-    return value;
-  }
 }
 
 class MockSkyAppResourcesService {
@@ -54,20 +43,17 @@ describe('SkyCopyToClipboardComponent', () => {
 
     TestBed.configureTestingModule({
       declarations: [
-        SkyCopyToClipboardComponent,
-        MockSkyAppResourcesPipe
-      ],
-      providers: [
-        SkyClipboardWindowRef,
-        { provide: SkyAppResourcesService, useValue: mockSkyAppResourcesService },
-        { provide: SkyCopyToClipboardService, useValue: mockClipboardService }
+        SkyCopyToClipboardComponent
       ],
       imports: [
-        SkyAppRuntimeModule,
-        HttpModule
+        SkyI18nModule,
+        SkyClipboardResourcesModule
+      ],
+      providers: [
+        SkyAppWindowRef,
+        { provide: SkyCopyToClipboardService, useValue: mockClipboardService }
       ]
-    })
-    .compileComponents();
+    });
 
     fixture = TestBed.createComponent(SkyCopyToClipboardComponent);
     component = fixture.componentInstance;

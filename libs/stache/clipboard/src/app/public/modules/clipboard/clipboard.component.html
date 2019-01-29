@@ -2,7 +2,7 @@
   type="button"
   class="sky-btn sky-btn-default"
   (click)="copyToClipboard()"
-  [attr.title]="'sky_copy_to_clipboard_button_title' | skyAppResources"
+  [attr.title]="'sky_copy_to_clipboard_button_title' | skyLibResources"
   >
   <i *ngIf="!buttonActive" aria-hidden="true" class="fa fa-clipboard"></i>
   <i *ngIf="buttonActive" aria-hidden="true" class="fa fa-check"></i>

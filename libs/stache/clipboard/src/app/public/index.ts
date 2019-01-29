@@ -1,1 +1,1 @@
-export * from './src/modules';
+export * from './modules';

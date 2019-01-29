@@ -1,6 +1,15 @@
-import { Component, Input } from '@angular/core';
-import { SkyCopyToClipboardService } from './clipboard.service';
-import { SkyClipboardWindowRef } from '../shared';
+import {
+  Component,
+  Input
+} from '@angular/core';
+
+import {
+  SkyAppWindowRef
+} from '@skyux/core';
+
+import {
+  SkyCopyToClipboardService
+} from './clipboard.service';
 
 @Component({
   selector: 'sky-copy-to-clipboard',
@@ -22,7 +31,7 @@ export class SkyCopyToClipboardComponent {
 
   constructor(
     private clipboardService: SkyCopyToClipboardService,
-    private windowRef: SkyClipboardWindowRef
+    private windowRef: SkyAppWindowRef
   ) {
     this.window = this.windowRef.nativeWindow;
   }
