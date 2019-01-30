@@ -1,13 +1,13 @@
 # 1.0.0-rc.2 (2019-01-30)
 
-- Adopt SkyLibResources [#6](https://github.com/blackbaud/skyux-lib-clipboard/pull/6)
-  - Updated Versions of SKY UX and SKY UX Builder.
-  - Adopted the SkyLibResouces pipe for localized text.
-  - Adopted the SKY UX SDK plugin.
-  - Added a fixture for testing the component.
-  - Added the SkyClipboardResources module.
-  - Removed the local WindowRef module in favor of the one provided from SKY UX.
+- Adopted `SkyLibResources`. [#6](https://github.com/blackbaud/skyux-lib-clipboard/pull/6)
+  - Updated versions of SKY UX and SKY UX Builder.
+  - Adopted `SkyLibResouces` pipe for localized text.
+  - Adopted SKY UX SDK plugin.
+  - Added fixture for testing copy to clipboard component.
+  - Added `SkyClipboardResources` module.
+  - Removed local `WindowRef` module in favor of one provided by SKY UX.
 
 # 1.0.0-rc.1 (2018-12-10)
 
-- Initial release for the copy to clipboard component. [#4](https://github.com/blackbaud/skyux-lib-clipboard/pull/4)
+- Initial release for copy to clipboard component. [#4](https://github.com/blackbaud/skyux-lib-clipboard/pull/4)
