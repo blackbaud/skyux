@@ -1,14 +1,6 @@
 {
   "sky_copy_to_clipboard_button_title": {
     "message": "Copy to clipboard",
-    "_description": "Button title to for the copy to clipboard button"
-  },
-  "sky_copy_to_clipboard_button": {
-    "message": "Copy",
-    "_description": "Copy to clipboard button text"
-  },
-  "sky_copy_to_clipboard_button_success": {
-    "message": "Copied!",
-    "_description": "Copy to clipboard button success text"
+    "_description": "Button title for the copy to clipboard button"
   }
 }
