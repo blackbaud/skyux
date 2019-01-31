@@ -5,6 +5,7 @@ import { SkyuxConfigParams } from './config-params';
 export interface RuntimeConfigApp {
   base: string;
   inject: boolean;
+  name?: string;
   template: string;
 }
 
