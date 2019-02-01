@@ -107,18 +107,18 @@
               </sky-checkbox>
             </div>
           </td>
-          <td
+          <td *ngFor="let column of displayedColumns; let last = last; let i = index"
             class="sky-grid-cell"
-            *ngFor="let column of displayedColumns; let last = last; let i = index">
+            [style.max-width.px]="column.width"
+            [style.width.px]="column.width"
+          >
             <sky-grid-cell
               [skyHighlight]="!column.excludeFromHighlighting ? highlightText : undefined"
               [template]="column.template || defaultCellTemplate"
               [fieldSelector]="column.field"
               [item]="item"
               [columnId]="column.id"
-              [attr.sky-cmp-id]="column.id || column.field"
-              [style.max-width.px]="column.width"
-              [style.width.px]="column.width">
+              [attr.sky-cmp-id]="column.id || column.field">
             </sky-grid-cell>
           </td>
         </tr>
