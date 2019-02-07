@@ -12,6 +12,21 @@ describe('StacheJsonDataService', () => {
   let config: any = {
     global: {
       productNameLong: 'Stache 2'
+    },
+    parent: {
+      child: {
+        grandChild: {
+          name: 'grand child'
+        },
+        childList: [
+          {
+            name: 'list child 1'
+          },
+          {
+            name: 'list child 2'
+          }
+        ]
+      }
     }
   };
 
@@ -36,6 +51,26 @@ describe('StacheJsonDataService', () => {
   it('should return data from a specific name', () => {
     let data = dataService.getByName('global');
     expect(data.productNameLong).toBe('Stache 2');
+  });
+
+  it('should return nested data from a string', () => {
+    let data = dataService.getByName('parent.child.grandChild.name');
+    expect(data).toBe('grand child');
+  });
+
+  it('should return nested data from an array', () => {
+    let data = dataService.getNestedData(['parent', 'child', 'grandChild', 'name']);
+    expect(data).toBe('grand child');
+  });
+
+  it('should return nested data in an array from a string', () => {
+    let data = dataService.getByName('parent.child.childList.1.name');
+    expect(data).toBe('list child 2');
+  });
+
+  it('should return undefined if nested data does not exist', () => {
+    let data = dataService.getByName('parent.child.foo.1.name');
+    expect(data).not.toBeDefined();
   });
 
   it('should return undefined if the name does not exist', () => {

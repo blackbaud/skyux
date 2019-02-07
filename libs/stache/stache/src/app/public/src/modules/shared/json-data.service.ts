@@ -14,11 +14,33 @@ export class StacheJsonDataService {
   }
 
   public getByName(name: string): any {
+
+    if (name.includes('.')) {
+      const keys = name.split('.');
+      return this.getNestedData(keys);
+    }
+
     if (!this.jsonData[name]) {
       return;
     }
 
     return this.jsonData[name];
+  }
+
+  public getNestedData(keys: string[]) {
+
+    let baseData = this.jsonData;
+
+    for (let i = 0; i < keys.length; i++) {
+      if (baseData[keys[i]] === undefined) {
+        baseData = undefined;
+        return;
+      }
+
+      baseData = baseData[keys[i]];
+    }
+
+    return baseData;
   }
 }
 
