@@ -1,3 +1,11 @@
+# 2.15.3 (2019-02-07)
+- Fixed bug in `stache-code` component to correctly wrap long strings. [#569](https://github.com/blackbaud/stache2/pull/569)
+- Updated `StacheJsonDataService` to allow for nested object access. [#570](https://github.com/blackbaud/stache2/pull/570)
+  - Created `StacheJsonDataService` method `getNestedData` to fetch nested data by array.
+  - Updated `StacheJsonDataService` method `getByName` to search nested data by string.
+- Fixed bug in `stache-page-anchor` component to correctly position anchor icon when HTML is formatted on single line. [#573](https://github.com/blackbaud/stache2/pull/573)
+- Updated dependencies for `skyux-lib-code-block` and `skyux-lib-clipboard` libraries. [#576](https://github.com/blackbaud/stache2/pull/576)
+
 # 2.15.2 (2019-01-14)
 - Updated version of SKY UX to 2.39.0.
 - Updated the `stache-page-anchor` icon color to match the new SKY UX color scheme. [#566](https://github.com/blackbaud/stache2/pull/566)
