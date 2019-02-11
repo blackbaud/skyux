@@ -1,3 +1,7 @@
+# 3.0.1 (2019-02-11)
+
+- Removed reference to deprecated `AnimationTransitionEvent` in favor of `AnimationEvent`.  This allows the library to compile against later versions of Angular that have removed the deprecated type. [#13](https://github.com/blackbaud/skyux-lookup/pull/13)
+
 # 3.0.0 (2019-01-11)
 
 - Major version release.

@@ -2,7 +2,6 @@ import {
   Component,
   OnInit,
   OnDestroy,
-  AnimationTransitionEvent,
   ElementRef,
   Output,
   Input,
@@ -32,7 +31,8 @@ import {
   state,
   trigger,
   transition,
-  animate
+  animate,
+  AnimationEvent
 } from '@angular/animations';
 
 const INPUT_SHOWN_STATE: string = 'inputShown';
@@ -205,7 +205,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     }
   }
 
-  public inputAnimationStart(event: AnimationTransitionEvent) {
+  public inputAnimationStart(event: AnimationEvent) {
     if (this.searchShouldCollapse()) {
       this.searchAdapter.startInputAnimation(this.elRef);
 
@@ -219,7 +219,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     }
   }
 
-  public inputAnimationEnd(event: AnimationTransitionEvent) {
+  public inputAnimationEnd(event: AnimationEvent) {
     if (this.searchShouldCollapse()) {
       this.searchAdapter.endInputAnimation(this.elRef);
 
