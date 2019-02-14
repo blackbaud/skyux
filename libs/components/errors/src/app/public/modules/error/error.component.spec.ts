@@ -188,7 +188,7 @@ describe('Error component', () => {
 
     fixture.detectChanges();
 
-    let title = 'You don\'t have permission to access that page.';
+    let title = 'This page requires additional permissions.';
 
     // check image
     expect(el.querySelector('.sky-error-broken-image')).not.toExist();

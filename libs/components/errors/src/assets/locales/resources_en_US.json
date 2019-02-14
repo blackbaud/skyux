@@ -21,6 +21,6 @@
   },
   "skyux_errors_security_title": {
     "_description": "The error component title message for the security error type",
-    "message": "You don't have permission to access that page."
+    "message": "This page requires additional permissions."
   }
 }
