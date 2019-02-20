@@ -40,8 +40,8 @@ import {
   ],
   imports: [
     CommonModule,
-    NoopAnimationsModule,
-    SkyToastModule
+    SkyToastModule,
+    NoopAnimationsModule
   ],
   exports: [
     SkyToastTestComponent,
