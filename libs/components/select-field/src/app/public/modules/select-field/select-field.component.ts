@@ -3,7 +3,10 @@ import {
   ChangeDetectorRef,
   Component,
   forwardRef,
-  Input
+  Input,
+  EventEmitter,
+  Output,
+  OnDestroy
 } from '@angular/core';
 
 import {
@@ -11,7 +14,9 @@ import {
   NG_VALUE_ACCESSOR
 } from '@angular/forms';
 
-import { Observable } from 'rxjs/Observable';
+import {
+  Observable
+} from 'rxjs/Observable';
 
 import {
   SkyModalService,
@@ -31,8 +36,13 @@ import {
   SkySelectFieldSelectMode
 } from './types';
 
-import { SkySelectFieldPickerContext } from './select-field-picker-context';
-import { SkySelectFieldPickerComponent } from './select-field-picker.component';
+import {
+  SkySelectFieldPickerContext
+} from './select-field-picker-context';
+
+import {
+  SkySelectFieldPickerComponent
+} from './select-field-picker.component';
 
 @Component({
   selector: 'sky-select-field',
@@ -48,7 +58,7 @@ import { SkySelectFieldPickerComponent } from './select-field-picker.component';
     }
   ]
 })
-export class SkySelectFieldComponent implements ControlValueAccessor {
+export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy {
   @Input()
   public ariaLabel: string;
 
@@ -100,14 +110,19 @@ export class SkySelectFieldComponent implements ControlValueAccessor {
   @Input()
   public pickerHeading: string;
 
+  @Output()
+  public blur = new EventEmitter();
+
   public get value(): any {
     return this._value;
   }
 
   public set value(value: any) {
-    this._value = value;
-    this.onChange(this.value);
-    this.onTouched();
+    if (JSON.stringify(this._value) !== JSON.stringify(value)) {
+      this._value = value;
+      this.onChange(this.value);
+      this.onTouched();
+    }
   }
 
   public get singleSelectModeValue(): string {
@@ -126,12 +141,17 @@ export class SkySelectFieldComponent implements ControlValueAccessor {
   private _disabled: boolean;
   private _selectMode: SkySelectFieldSelectMode;
   private _value: any;
+  private isModalOpen = false;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
     private modalService: SkyModalService,
     private resourcesService: SkyLibResourcesService
   ) { }
+
+  public ngOnDestroy() {
+    this.blur.complete();
+  }
 
   public onTokensChange(change: SkyToken[]) {
     if (!change || change === this.tokens) {
@@ -170,6 +190,7 @@ export class SkySelectFieldComponent implements ControlValueAccessor {
             useValue: pickerContext
           }]
         });
+        this.isModalOpen = true;
 
         modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
           if (result.reason === 'save') {
@@ -179,7 +200,7 @@ export class SkySelectFieldComponent implements ControlValueAccessor {
               this.writeValue(result.data);
             }
           }
-          this.onTouched();
+          this.isModalOpen = false;
         });
       });
   }
@@ -196,18 +217,27 @@ export class SkySelectFieldComponent implements ControlValueAccessor {
     }
   }
 
+  public onHostFocusOut(): void {
+    if (!this.isModalOpen) {
+      this.onTouched();
+    }
+  }
+
+  public onTouched(): void {
+    this._registeredTouchCallback();
+    this.blur.emit();
+  }
+
   // Angular automatically constructs these methods.
   /* istanbul ignore next */
   public onChange = (value: any) => { };
-  /* istanbul ignore next */
-  public onTouched = () => { };
 
   public registerOnChange(fn: (value: any) => void) {
     this.onChange = fn;
   }
 
   public registerOnTouched(fn: () => void) {
-    this.onTouched = fn;
+    this._registeredTouchCallback = fn;
   }
 
   public setDisabledState(disabled: boolean) {
@@ -218,6 +248,9 @@ export class SkySelectFieldComponent implements ControlValueAccessor {
   public clearSelection() {
     this.value = undefined;
   }
+
+  /* istanbul ignore next */
+  private _registeredTouchCallback = () => { };
 
   private setTokensFromValue() {
     // Tokens only appear for multiple select mode.

@@ -1,4 +1,7 @@
-<div class="sky-select-field">
+<div
+  class="sky-select-field"
+  (focusout)="onHostFocusOut()"
+>
   <ng-container
     *ngTemplateOutlet="(selectMode === 'multiple') ? multipleSelectMode : singleSelectMode ">
   </ng-container>

@@ -11,11 +11,21 @@ import {
   SkyAppTestUtility
 } from '@blackbaud/skyux-builder/runtime/testing/browser';
 
-import { SkyModalService } from '@skyux/modals';
+import {
+  SkyModalService
+} from '@skyux/modals';
 
-import { SkySelectFieldComponent } from './select-field.component';
-import { SkySelectFieldFixturesModule } from './fixtures/select-field-fixtures.module';
-import { SkySelectFieldTestComponent } from './fixtures/select-field.component.fixture';
+import {
+  SkySelectFieldComponent
+} from './select-field.component';
+
+import {
+  SkySelectFieldFixturesModule
+} from './fixtures/select-field-fixtures.module';
+
+import {
+  SkySelectFieldTestComponent
+} from './fixtures/select-field.component.fixture';
 
 describe('Select field component', () => {
   let fixture: ComponentFixture<SkySelectFieldTestComponent>;
@@ -136,6 +146,29 @@ describe('Select field component', () => {
       expect(selectField.singleSelectPlaceholderText).toEqual('placeholder');
       expect(selectField.pickerHeading).toEqual('heading');
     });
+
+    it('should trigger blur event when focus is lost', fakeAsync(() => {
+      fixture.detectChanges();
+
+      setValue(undefined);
+      openPicker();
+      fixture.detectChanges();
+
+      const selectFieldContainer: HTMLElement = fixture.nativeElement.querySelector('.sky-select-field');
+      SkyAppTestUtility.fireDomEvent(selectFieldContainer, 'focusout');
+      fixture.detectChanges();
+
+      closePicker();
+      fixture.detectChanges();
+
+      SkyAppTestUtility.fireDomEvent(selectFieldContainer, 'focusout');
+      fixture.detectChanges();
+
+      expect(component.touched).toBe(1);
+
+      SkyAppTestUtility.fireDomEvent(selectFieldContainer, 'focusout');
+      expect(component.touched).toBe(2);
+    }));
   });
 
   describe('multiple select', () => {
@@ -143,6 +176,18 @@ describe('Select field component', () => {
       fixture.detectChanges();
       setValue([component.staticData[0]]);
       expect(selectField.value[0].id).toEqual(component.staticData[0].id);
+    }));
+
+    it('should ignore redundant value updates from ngModel', fakeAsync(() => {
+      fixture.detectChanges();
+
+      setValue([component.staticData[0]]);
+      fixture.detectChanges();
+      expect(component.touched).toBe(1);
+
+      setValue([component.staticData[0]]);
+      fixture.detectChanges();
+      expect(component.touched).toBe(1);
     }));
 
     it('should collapse all tokens into one if many options are chosen', fakeAsync(() => {
@@ -179,6 +224,19 @@ describe('Select field component', () => {
       fixture.detectChanges();
       setValue(component.staticData[0]);
       expect(selectField.value.id).toEqual(component.staticData[0].id);
+    }));
+
+    it('should ignore redundant value updates from ngModel', fakeAsync(() => {
+      component.selectMode = 'single';
+      fixture.detectChanges();
+
+      setValue(component.staticData[0]);
+      fixture.detectChanges();
+      expect(component.touched).toBe(1);
+
+      setValue(component.staticData[0]);
+      fixture.detectChanges();
+      expect(component.touched).toBe(1);
     }));
 
     it('should select a value from the picker', fakeAsync(() => {

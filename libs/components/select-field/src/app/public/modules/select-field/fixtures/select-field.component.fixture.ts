@@ -25,6 +25,7 @@ export class SkySelectFieldTestComponent implements OnInit, OnDestroy {
   public singleSelectOpenButtonTitle: string;
   public singleSelectPlaceholderText: string;
   public pickerHeading: string;
+  public touched = 0;
 
   public data = new BehaviorSubject<any[]>([]);
 
@@ -57,5 +58,9 @@ export class SkySelectFieldTestComponent implements OnInit, OnDestroy {
 
   public setValue(value: any) {
     this.formData.modelValue = value;
+  }
+
+  public onBlur() {
+    this.touched += 1;
   }
 }
