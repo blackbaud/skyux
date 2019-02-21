@@ -18,7 +18,11 @@ export class SelectFieldVisualComponent {
     { id: '4', category: 'Berry', label: 'Grape', description: 'George eats grapes' },
     { id: '5', category: 'Berry', label: 'Banana', description: 'Becky eats bananas' },
     { id: '6', category: 'Citrus', label: 'Lemon', description: 'Larry eats lemons' },
-    { id: '7', category: 'Aggregate fruit', label: 'Strawberry', description: 'Sally eats strawberries' }
+    { id: '7', category: 'Aggregate fruit', label: 'Strawberry', description: 'Sally eats strawberries' },
+    { id: '8', category: 'Aggregate fruit',
+      // tslint:disable-next-line:max-line-length
+      label: 'Strawberries that were picked in the dead of winter when the ground was covered with five inches of snow from a giant blizzard that blew through the area late at night.',
+      description: 'Sally eats strawberries in the cold' }
   ];
 
   public data = new BehaviorSubject<any[]>(this.staticData);
@@ -31,5 +35,13 @@ export class SelectFieldVisualComponent {
       this.staticData[3]
     ];
     this.model.single = this.staticData[3];
+  }
+  public populateSelectedLong() {
+    this.model.multiple = [
+      this.staticData[1],
+      this.staticData[2],
+      this.staticData[7]
+    ];
+    this.model.single = this.staticData[7];
   }
 }

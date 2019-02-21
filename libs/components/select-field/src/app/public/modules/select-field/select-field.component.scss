@@ -11,6 +11,13 @@
   .sky-input-group {
     padding: 0;
 
+    .sky-form-control {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      display: inline-block;
+    }
+
     .sky-form-control,
     .sky-btn {
       border: 0;
