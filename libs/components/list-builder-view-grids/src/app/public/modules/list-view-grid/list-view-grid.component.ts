@@ -9,7 +9,8 @@ import {
   QueryList,
   ViewChild,
   EventEmitter,
-  Output
+  Output,
+  ChangeDetectorRef
 } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
@@ -134,7 +135,8 @@ export class SkyListViewGridComponent
     state: ListState,
     private dispatcher: ListStateDispatcher,
     public gridState: GridState,
-    public gridDispatcher: GridStateDispatcher
+    public gridDispatcher: GridStateDispatcher,
+    private changeDetector: ChangeDetectorRef
   ) {
     super(state, 'Grid View');
   }
@@ -310,6 +312,7 @@ export class SkyListViewGridComponent
         }
       })
       .map((result: AsyncList<ListItemModel>) => {
+        this.changeDetector.detectChanges();
         return result.items;
       })
       .distinctUntilChanged();
