@@ -1,3 +1,7 @@
+# 3.0.1 (2019-02-22)
+
+- Fixed list view grid component to not throw `ExpressionChangedAfterItHasBeenCheckedError`s when removing the last item from a page. [#22](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/22)
+
 # 3.0.0 (2019-01-14)
 
 - Major version release.
