@@ -1,3 +1,7 @@
+# 3.0.1 (2019-02-22)
+
+- Fixed `SkyToastModule` to properly include `BrowserAnimationsModule`. [#12](https://github.com/blackbaud/skyux-toast/pull/12)
+
 # 3.0.0 (2019-01-11)
 
 - Major version release.
