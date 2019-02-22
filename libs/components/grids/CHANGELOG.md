@@ -1,3 +1,7 @@
+# 3.1.1 (2019-02-22)
+
+- Fixed grid component to no longer truncate text when table cell is stretched wider than its original width. [#27](https://github.com/blackbaud/skyux-grids/pull/27)
+
 # 3.1.0 (2019-01-16)
 
 - Added UI Config Service hooks to grid component. [#31](https://github.com/blackbaud/skyux-grids/pull/31)
