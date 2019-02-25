@@ -1,3 +1,6 @@
+# 2.0.0 (2019-02-25)
+- Updated the library for SKY UX 3 compatibility. [#44](https://github.com/blackbaud/skyux-lib-help/pull/44) - Thanks [Scott Freeman](https://github.com/Blackbaud-ScottFreeman)!
+
 # 1.3.1 (2018-09-19)
 
 - Fixed a bug with the Help Config interface to represent the current Help Widget config options. [#40](https://github.com/blackbaud/skyux-lib-help/pull/40)
