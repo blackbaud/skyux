@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 
-import { SkyModalService, SkyModalCloseArgs } from '@blackbaud/skyux/dist/core';
+import {
+  SkyModalCloseArgs,
+  SkyModalService
+} from '@skyux/modals';
 
 import { SkyModalDemoContext } from './modal-demo-context';
 

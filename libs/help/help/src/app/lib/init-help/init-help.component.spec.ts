@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { HelpInitComponent } from './init-help.component';
 import { HelpInitializationService } from '../../public';
@@ -14,8 +14,6 @@ class MockWindowRef {
 describe('HelpInitComponent', () => {
   const helpInitService = new HelpInitializationService();
   let mockWindowRef: MockWindowRef;
-  let component: HelpInitComponent;
-  let fixture: ComponentFixture<HelpInitComponent>;
 
   beforeEach(() => {
     mockWindowRef = new MockWindowRef();
@@ -40,15 +38,13 @@ describe('HelpInitComponent', () => {
   });
 
   it('should initialize the help widget on creation if it doesn\'t exist', () => {
-    fixture = TestBed.createComponent(HelpInitComponent);
-    component = fixture.componentInstance;
+    TestBed.createComponent(HelpInitComponent);
     expect(helpInitService.load).toHaveBeenCalled();
   });
 
   it('should not try to call load if the widget already exists', () => {
     mockWindowRef.nativeWindow.BBHELP = true;
-    fixture = TestBed.createComponent(HelpInitComponent);
-    component = fixture.componentInstance;
+    TestBed.createComponent(HelpInitComponent);
     expect(helpInitService.load).not.toHaveBeenCalled();
   });
 });

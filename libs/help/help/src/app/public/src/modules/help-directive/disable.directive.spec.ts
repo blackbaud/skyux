@@ -2,13 +2,12 @@ import { By } from '@angular/platform-browser';
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HelpComponent } from '../help';
-
 import { BBHelpDisableWidgetDirective } from './disable.directive';
 
 import { HelpWidgetService } from '../shared';
 
 import { HelpBBHelpTestComponent } from './fixtures/help.component.fixture';
+import { DisableDirectiveFixturesModule } from './fixtures/disable-directive-fixtures.module';
 
 class MockWidgetService {
   public disabledCount: number = 0;
@@ -33,13 +32,11 @@ describe('bbHelpDisableWidget Directive', () => {
     mockWidgetService = new MockWidgetService();
 
     TestBed.configureTestingModule({
-      declarations: [
-        BBHelpDisableWidgetDirective,
-        HelpBBHelpTestComponent,
-        HelpComponent
-      ],
       providers: [
         { provide: HelpWidgetService, useValue: mockWidgetService }
+      ],
+      imports: [
+        DisableDirectiveFixturesModule
       ]
     }).compileComponents();
 
