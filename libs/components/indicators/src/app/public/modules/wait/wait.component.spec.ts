@@ -6,14 +6,6 @@ import {
 } from '@angular/core/testing';
 
 import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
-
-import {
-  SkyLibResourcesTestService
-} from '@skyux/i18n/testing';
-
-import {
   expect,
   SkyAppTestUtility
 } from '@skyux-sdk/testing';
@@ -39,12 +31,6 @@ describe('Wait component', () => {
     TestBed.configureTestingModule({
       imports: [
         SkyWaitFixturesModule
-      ],
-      providers: [
-        {
-          provide: SkyLibResourcesService,
-          useClass: SkyLibResourcesTestService
-        }
       ]
     });
   });

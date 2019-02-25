@@ -7,14 +7,6 @@ import {
 } from '@angular/common';
 
 import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
-
-import {
-  SkyLibResourcesTestService
-} from '@skyux/i18n/testing';
-
-import {
   SkyTokensModule
 } from '../tokens.module';
 
@@ -32,12 +24,6 @@ import {
   ],
   exports: [
     SkyTokensTestComponent
-  ],
-  providers: [
-    {
-      provide: SkyLibResourcesService,
-      useClass: SkyLibResourcesTestService
-    }
   ]
 })
 export class SkyTokensFixturesModule { }

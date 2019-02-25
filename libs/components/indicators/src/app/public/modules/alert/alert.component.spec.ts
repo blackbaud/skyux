@@ -4,20 +4,8 @@ import {
 } from '@angular/core/testing';
 
 import {
-  BrowserModule
-} from '@angular/platform-browser';
-
-import {
   expect
 } from '@skyux-sdk/testing';
-
-import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
-
-import {
-  SkyLibResourcesTestService
-} from '@skyux/i18n/testing';
 
 import {
   AlertTestComponent
@@ -34,14 +22,7 @@ describe('Alert component', () => {
         AlertTestComponent
       ],
       imports: [
-        BrowserModule,
         SkyAlertModule
-      ],
-      providers: [
-        {
-          provide: SkyLibResourcesService,
-          useClass: SkyLibResourcesTestService
-        }
       ]
     });
   });
