@@ -1,6 +1,6 @@
 # 3.1.1 (2019-02-22)
 
-- Fixed grid component to no longer truncate text when table cell is stretched wider than its original width. [#27](https://github.com/blackbaud/skyux-grids/pull/27)
+- Fixed grid component to no longer truncate text when table cell is stretched wider than its original width. [#38](https://github.com/blackbaud/skyux-grids/pull/38)
 
 # 3.1.0 (2019-01-16)
 
