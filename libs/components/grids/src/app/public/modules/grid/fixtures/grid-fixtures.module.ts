@@ -39,13 +39,18 @@ import {
   GridInteractiveTestComponent
 } from './grid-interactive.component.fixture';
 
+import {
+  GridUndefinedTestComponent
+} from './grid-undefined.component.fixture';
+
 @NgModule({
   declarations: [
     GridTestComponent,
     GridEmptyTestComponent,
     GridDynamicTestComponent,
     GridAsyncTestComponent,
-    GridInteractiveTestComponent
+    GridInteractiveTestComponent,
+    GridUndefinedTestComponent
   ],
   imports: [
     CommonModule,
@@ -68,7 +73,8 @@ import {
     GridEmptyTestComponent,
     GridDynamicTestComponent,
     GridAsyncTestComponent,
-    GridInteractiveTestComponent
+    GridInteractiveTestComponent,
+    GridUndefinedTestComponent
   ]
 })
 export class GridFixturesModule { }

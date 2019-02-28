@@ -576,7 +576,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
 
   private transformData() {
     // Transform data into object with id and data properties
-    if (this.data.length > 0 && this.data[0].id && !this.data[0].data) {
+    if (this.data && this.data.length > 0 && this.data[0].id && !this.data[0].data) {
       if (this.multiselectRowId) {
         this.items = this.getGridDataWithSelectedRows();
       } else {

@@ -58,6 +58,10 @@ import {
 } from './fixtures/grid-interactive.component.fixture';
 
 import {
+  GridUndefinedTestComponent
+} from './fixtures/grid-undefined.component.fixture';
+
+import {
   MockDragulaService
 } from './fixtures/mock-dragula.service';
 
@@ -205,6 +209,36 @@ const maxColWidth = '9999';
 //#endregion
 
 describe('Grid Component', () => {
+  describe('Basic fixture with undefined data', () => {
+    let component: GridUndefinedTestComponent,
+      fixture: ComponentFixture<GridUndefinedTestComponent>;
+
+    beforeEach(async(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          GridFixturesModule
+        ]
+      });
+
+      fixture = TestBed.createComponent(GridUndefinedTestComponent);
+      component = fixture.componentInstance;
+    }));
+
+    it(`should be able to load with no exceptions`, () => {
+      fixture.detectChanges();
+      fixture.detectChanges();
+      expect(component.grid.items).toBeUndefined();
+
+      component.data = [
+        { id: '1', column1: 'foo' }
+      ];
+
+      fixture.detectChanges();
+      fixture.detectChanges();
+      expect(component.grid.items).not.toBeUndefined();
+    });
+  });
+
   describe('Basic Fixture with fit=scroll', () => {
     let component: GridTestComponent,
       fixture: ComponentFixture<GridTestComponent>,
