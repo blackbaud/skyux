@@ -3,12 +3,14 @@
 ::ng-deep
 .stache-wrapper {
   background-color: #fff;
-  p,
-  ul,
-  ol,
-  li,
-  td,
-  th {
+  line-height: $stache-line-height-base;
+
+  p:not([class]),
+  ul:not([class]),
+  ol:not([class]),
+  li:not([class]),
+  td:not([class]),
+  th:not([class]) {
     line-height: $stache-line-height-base;
     color: $stache-text-color-default;
     font-size: inherit;
