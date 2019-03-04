@@ -1,6 +1,10 @@
+# 1.0.0 (2019-03-04)
+
+- Initial major release.
+
 # 1.0.0-rc.3 (2019-01-31)
 
-- Added the `aria-label` attribute to the `copy-to-clipboard-button`. [#9](https://github.com/blackbaud/skyux-lib-clipboard/pull/9)
+- Added `aria-label` attribute to copy to clipboard component's button element. [#9](https://github.com/blackbaud/skyux-lib-clipboard/pull/9)
 
 # 1.0.0-rc.2 (2019-01-30)
 
