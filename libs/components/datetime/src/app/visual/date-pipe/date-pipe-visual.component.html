@@ -1,0 +1,52 @@
+<div
+  class="app-screenshot"
+>
+  <h3>
+    Standard implementation
+  </h3>
+
+  <table
+    class="sky-table"
+  >
+    <tr>
+      <th>Result</th>
+      <th>Format</th>
+      <th>Locale</th>
+      <th></th>
+    </tr>
+    <tr>
+      <td>{{ dateValue1 | skyDate }}</td>
+      <td>short (default)</td>
+      <td>en-US (default)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>{{ dateValue2 | skyDate:'medium':'en-GA' }}</td>
+      <td>medium</td>
+      <td>en-GA</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>{{ dateValue3 | skyDate:format:locale }}</td>
+      <td>{{ format }}</td>
+      <td>{{ locale }}</td>
+      <td>
+        <button
+          class="sky-btn"
+          type="button"
+          (click)="toggleLocale()"
+        >
+          Toggle locale
+        </button>
+
+        <button
+          class="sky-btn"
+          type="button"
+          (click)="toggleFormat()"
+        >
+          Toggle format
+        </button>
+      </td>
+    </tr>
+  </table>
+</div>
