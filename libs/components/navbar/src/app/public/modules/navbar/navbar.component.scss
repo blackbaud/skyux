@@ -1,0 +1,8 @@
+@import "scss/variables";
+
+.sky-navbar {
+  background-color: $sky-nav-background-color;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+}
