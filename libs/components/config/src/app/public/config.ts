@@ -81,6 +81,7 @@ export interface SkyuxConfig {
   host?: SkyuxConfigHost;
   importPath?: string;
   mode?: string;
+  moduleAliases: {[key: string]: string};
   name?: string;
   pacts?: any[];
   params?: SkyuxConfigParams; // List of allowed params
