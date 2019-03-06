@@ -1,3 +1,7 @@
+# 1.0.0 (2019-03-05)
+
+- Initial major release.
+
 # 1.0.0-rc.3 (2019-01-30)
 
 - Fixed typo in button description. Thanks [Di Huynh](https://github.com/Blackbaud-DiHuynh)! [#4](https://github.com/blackbaud/skyux-lib-code-block/pull/4)
