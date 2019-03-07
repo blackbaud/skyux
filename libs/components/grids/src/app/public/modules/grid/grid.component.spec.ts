@@ -719,6 +719,7 @@ describe('Grid Component', () => {
           let inputRange = getColumnRangeInputs(fixture)[1];
           let deltaX = 10;
 
+          fixture.detectChanges();
           fixture.whenStable().then(() => {
             fixture.detectChanges();
 
@@ -1787,6 +1788,7 @@ describe('Grid Component', () => {
       const spy = spyOn(uiConfigService, 'setConfig').and.callThrough();
 
       component.settingsKey = 'foobar';
+      fixture.detectChanges();
       component.selectedColumnIds = ['column1', 'column2'];
       fixture.detectChanges();
 
@@ -1829,6 +1831,7 @@ describe('Grid Component', () => {
       fixture.detectChanges();
 
       component.settingsKey = 'foobar';
+      fixture.detectChanges();
       component.selectedColumnIds = ['column1', 'column2'];
       fixture.detectChanges();
 
