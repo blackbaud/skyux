@@ -1,3 +1,7 @@
+# 3.1.0 (2019-03-07)
+
+- Added `collapse` and `expand` events to repeater item component. [#25](https://github.com/blackbaud/skyux-lists/pull/25)
+
 # 3.0.1 (2019-01-17)
 
 - Fixed infinite scroll component to function properly after being re-enabled. [#13](https://github.com/blackbaud/skyux-lists/pull/13)
