@@ -1,3 +1,7 @@
+# 3.0.1 (2019-03-07)
+
+- Fixed list paging component to update after list items change. [#25](https://github.com/blackbaud/skyux-list-builder/pull/25)
+
 # 3.0.0 (2019-01-14)
 
 - Major version release.
