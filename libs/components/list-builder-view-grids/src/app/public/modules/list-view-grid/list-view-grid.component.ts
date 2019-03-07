@@ -159,30 +159,39 @@ export class SkyListViewGridComponent
     }
 
     // Setup Observables for template
-    this.columns = this.gridState.map(s => s.columns.items).distinctUntilChanged();
+    this.columns = this.gridState
+      .map(s => s.columns.items)
+      .distinctUntilChanged(this.arraysEqual)
+      .takeUntil(this.ngUnsubscribe);
 
     this.selectedColumnIds = this.getSelectedIds();
 
     this.items = this.getGridItems();
 
-    this.loading = this.state.map((s) => {
-      return s.items.loading;
-    }).distinctUntilChanged();
+    this.loading = this.state
+      .map((s) => {
+        return s.items.loading;
+      })
+      .distinctUntilChanged()
+      .takeUntil(this.ngUnsubscribe);
 
-    this.sortField = this.state.map((s) => {
-      /* istanbul ignore else */
-      /* sanity check */
-      if (s.sort && s.sort.fieldSelectors) {
-        return s.sort.fieldSelectors[0];
-      }
-      /* istanbul ignore next */
-      /* sanity check */
-      return undefined;
-    }).distinctUntilChanged();
+    this.sortField = this.state
+      .map((s) => {
+        /* istanbul ignore else */
+        /* sanity check */
+        if (s.sort && s.sort.fieldSelectors) {
+          return s.sort.fieldSelectors[0];
+        }
+        /* istanbul ignore next */
+        /* sanity check */
+        return undefined;
+      })
+      .distinctUntilChanged()
+      .takeUntil(this.ngUnsubscribe);
 
     this.gridState.map(s => s.columns.items)
       .takeUntil(this.ngUnsubscribe)
-      .distinctUntilChanged()
+      .distinctUntilChanged(this.arraysEqual)
       .subscribe(columns => {
         if (this.hiddenColumns) {
           getValue(this.hiddenColumns, (hiddenColumns: string[]) => {
@@ -216,8 +225,10 @@ export class SkyListViewGridComponent
         }
       });
 
-      this.currentSearchText = this.state.map(s => s.search.searchText)
-        .distinctUntilChanged();
+    this.currentSearchText = this.state
+      .map(s => s.search.searchText)
+      .distinctUntilChanged()
+      .takeUntil(this.ngUnsubscribe);
 
     this.gridDispatcher.next(new ListViewGridColumnsLoadAction(columnModels, true));
 
@@ -230,15 +241,21 @@ export class SkyListViewGridComponent
   }
 
   public columnIdsChanged(selectedColumnIds: Array<string>) {
-    this.gridState.map(s => s.columns.items)
+    this.selectedColumnIds
       .take(1)
-      .subscribe(columns => {
-        let displayedColumns = selectedColumnIds.map(
-          columnId => columns.filter(c => c.id === columnId)[0]
-        );
-        this.gridDispatcher.next(
-          new ListViewDisplayedGridColumnsLoadAction(displayedColumns, true)
-        );
+      .subscribe(currentIds => {
+        if (!(this.arraysEqual(selectedColumnIds, currentIds))) {
+          this.gridState.map(s => s.columns.items)
+            .take(1)
+            .subscribe(columns => {
+              let displayedColumns = selectedColumnIds.map(
+                columnId => columns.filter(c => c.id === columnId)[0]
+              );
+              this.gridDispatcher.next(
+                new ListViewDisplayedGridColumnsLoadAction(displayedColumns, true)
+              );
+            });
+        }
       });
   }
 
@@ -247,9 +264,22 @@ export class SkyListViewGridComponent
   }
 
   public onViewActive() {
-    this.gridState.map(s => s.displayedColumns.items)
+    /*
+      Ran into problem where state updates were consumed out of order. For example, on search text
+      update, the searchText update was consumed after the resulting list item update. Scanning the
+      previous value of items lastUpdate ensures that we only receive the latest items.
+    */
+    this.gridState
       .takeUntil(this.ngUnsubscribe)
-      .distinctUntilChanged()
+      .scan((previousValue: GridStateModel, newValue: GridStateModel) => {
+        if (previousValue.displayedColumns.lastUpdate > newValue.displayedColumns.lastUpdate) {
+          return previousValue;
+        } else {
+          return newValue;
+        }
+      })
+      .map(s => s.displayedColumns.items)
+      .distinctUntilChanged(this.arraysEqual)
       .subscribe(displayedColumns => {
         let setFunctions =
           this.searchFunction !== undefined ? [this.searchFunction] :
@@ -297,9 +327,9 @@ export class SkyListViewGridComponent
 
   private getGridItems(): Observable<Array<ListItemModel>> {
     /*
-      Ran into problem where state updates were consumed out of order. For example, on search text
-      update, the searchText update was consumed after the resulting list item update. Scanning the
-      previous value of items lastUpdate ensures that we only receive the latest items.
+      Same problem as above. We should move from having a state object observable with a bunch of
+      static properties to a static state object with observable properties that you can subscribe
+      to.
     */
     return this.state.map((s) => {
       return s.items;
@@ -358,5 +388,11 @@ export class SkyListViewGridComponent
       }
     }
     return true;
+  }
+
+  private arraysEqual(arrayA: any[], arrayB: any[]) {
+    return arrayA.length === arrayB.length &&
+      arrayA.every((value, index) =>
+        value === arrayB[index]);
   }
 }

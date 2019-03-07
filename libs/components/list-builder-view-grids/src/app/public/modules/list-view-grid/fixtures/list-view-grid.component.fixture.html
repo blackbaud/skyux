@@ -57,6 +57,12 @@
     field="column1"
     heading="Column7">
   </sky-grid-column>
+
+  <sky-grid-column *ngIf="showNgIfCol"
+    id="ngIfCol"
+    field="column1"
+    heading="Column8">
+  </sky-grid-column>
 </sky-list-view-grid>
 
 <ng-template let-value="value" #template1>

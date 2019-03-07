@@ -163,12 +163,15 @@ describe('List column selector action', () => {
     }));
 
     it('should not appear if not in grid view', async(() => {
-      dispatcher.viewsSetActive('other');
       fixture.detectChanges();
       fixture.whenStable().then(() => {
+        dispatcher.viewsSetActive('other');
         fixture.detectChanges();
         fixture.whenStable().then(() => {
-          expect(getButtonEl()).toBeNull();
+          fixture.detectChanges();
+          fixture.whenStable().then(() => {
+            expect(getButtonEl()).toBeNull();
+          });
         });
       });
     }));
@@ -207,20 +210,22 @@ describe('List column selector action', () => {
     it('should show help button in modal header', async(() => {
       fixture.componentInstance.helpKey = 'foo.html';
       fixture.detectChanges();
-
-      const chooseColumnsButton = getChooseColumnsButton();
-      chooseColumnsButton.click();
-      fixture.detectChanges();
-
       fixture.whenStable().then(() => {
+
+        const chooseColumnsButton = getChooseColumnsButton();
+        chooseColumnsButton.click();
         fixture.detectChanges();
 
-        const helpButton = document.querySelector('button[name="help-button"]');
-        expect(helpButton).toExist();
+        fixture.whenStable().then(() => {
+          fixture.detectChanges();
 
-        const cancelButtonEl = document.querySelector('.sky-modal [sky-cmp-id="cancel"]') as HTMLButtonElement;
-        cancelButtonEl.click();
-        fixture.detectChanges();
+          const helpButton = document.querySelector('button[name="help-button"]');
+          expect(helpButton).toExist();
+
+          const cancelButtonEl = document.querySelector('.sky-modal [sky-cmp-id="cancel"]') as HTMLButtonElement;
+          cancelButtonEl.click();
+          fixture.detectChanges();
+        });
       });
     }));
 
@@ -228,22 +233,24 @@ describe('List column selector action', () => {
       const spy = spyOn(fixture.componentInstance, 'onHelpOpened').and.callThrough();
       fixture.componentInstance.helpKey = 'foo.html';
       fixture.detectChanges();
-
-      const chooseColumnsButton = getChooseColumnsButton();
-      chooseColumnsButton.click();
-      fixture.detectChanges();
-
       fixture.whenStable().then(() => {
+
+        const chooseColumnsButton = getChooseColumnsButton();
+        chooseColumnsButton.click();
         fixture.detectChanges();
 
-        const helpButton = document.querySelector('button[name="help-button"]');
-        (helpButton as any).click();
-        fixture.detectChanges();
-        expect(spy).toHaveBeenCalledWith('foo.html');
+        fixture.whenStable().then(() => {
+          fixture.detectChanges();
 
-        const cancelButtonEl = document.querySelector('.sky-modal [sky-cmp-id="cancel"]') as HTMLButtonElement;
-        cancelButtonEl.click();
-        fixture.detectChanges();
+          const helpButton = document.querySelector('button[name="help-button"]');
+          (helpButton as any).click();
+          fixture.detectChanges();
+          expect(spy).toHaveBeenCalledWith('foo.html');
+
+          const cancelButtonEl = document.querySelector('.sky-modal [sky-cmp-id="cancel"]') as HTMLButtonElement;
+          cancelButtonEl.click();
+          fixture.detectChanges();
+        });
       });
     }));
 
