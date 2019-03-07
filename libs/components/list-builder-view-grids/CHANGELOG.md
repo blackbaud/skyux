@@ -1,6 +1,12 @@
+# 3.0.2 (2019-03-07)
+
+- Fixed list view grid component to not trigger excessive data fetches. [#20](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/20)
+- Updated `list-builder` peer dependency to prevent list view grid component from throwing `ExpressionChangedAfterItHasBeenCheckedError` when removing last item from page. [#31](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/31)
+- Reverted change to list view grid component from `3.0.1`. [#30](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/30)
+
 # 3.0.1 (2019-02-22)
 
-- Fixed list view grid component to not throw `ExpressionChangedAfterItHasBeenCheckedError`s when removing the last item from a page. [#22](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/22)
+- Fixed list view grid component to not throw `ExpressionChangedAfterItHasBeenCheckedError` when removing last item from page. [#22](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/22)
 
 # 3.0.0 (2019-01-14)
 
