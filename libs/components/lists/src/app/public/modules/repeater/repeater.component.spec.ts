@@ -197,6 +197,39 @@ describe('Repeater item component', () => {
         expect(fixture.nativeElement).toBeAccessible();
       });
     }));
+
+    it('should emit events when item is expanded/collapsed', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      const cmp = fixture.componentInstance;
+      cmp.expandMode = 'single';
+
+      const collapseSpy = spyOn(cmp, 'onCollapse').and.callThrough();
+      const expandSpy = spyOn(cmp, 'onExpand').and.callThrough();
+
+      fixture.detectChanges();
+      tick();
+
+      collapseSpy.calls.reset();
+      expandSpy.calls.reset();
+
+      let repeaterItems = cmp.repeater.items.toArray();
+      expect(repeaterItems[0].isExpanded).toBe(true);
+
+      fixture.nativeElement.querySelectorAll('.sky-chevron').item(0).click();
+      fixture.detectChanges();
+      tick();
+
+      expect(collapseSpy).toHaveBeenCalled();
+
+      collapseSpy.calls.reset();
+      expandSpy.calls.reset();
+
+      fixture.nativeElement.querySelectorAll('.sky-chevron').item(0).click();
+      fixture.detectChanges();
+      tick();
+
+      expect(expandSpy).toHaveBeenCalled();
+    }));
   });
 
   describe('with expand mode of "multiple"', () => {

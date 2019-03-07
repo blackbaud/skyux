@@ -132,7 +132,12 @@
   id="screenshot-repeater-selectable"
 >
   <sky-repeater [expandMode]="'single'">
-    <sky-repeater-item [isExpanded]="false" [selectable]="true">
+    <sky-repeater-item
+      [isExpanded]="false"
+      [selectable]="true"
+      (collapse)="onCollapse()"
+      (expand)="onExpand()"
+    >
       <sky-repeater-item-title>Title 1</sky-repeater-item-title>
       <sky-repeater-item-content>Content 1</sky-repeater-item-content>
     </sky-repeater-item>

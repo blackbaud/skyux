@@ -19,4 +19,8 @@ export class RepeaterTestComponent {
   public lastItemExpanded: boolean;
 
   public lastItemSelected = false;
+
+  public onCollapse(): void {}
+
+  public onExpand(): void {}
 }

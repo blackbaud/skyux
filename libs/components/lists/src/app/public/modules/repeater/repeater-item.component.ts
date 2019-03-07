@@ -1,7 +1,10 @@
 import {
   ChangeDetectorRef,
   Component,
-  Input
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output
 } from '@angular/core';
 
 import {
@@ -28,7 +31,7 @@ let nextId: number = 0;
   templateUrl: './repeater-item.component.html',
   animations: [skyAnimationSlide]
 })
-export class SkyRepeaterItemComponent {
+export class SkyRepeaterItemComponent implements OnDestroy {
   public contentId: string = `sky-radio-content-${++nextId}`;
 
   public get isExpanded(): boolean {
@@ -51,6 +54,12 @@ export class SkyRepeaterItemComponent {
 
   @Input()
   public selectable: boolean = false;
+
+  @Output()
+  public collapse = new EventEmitter<void>();
+
+  @Output()
+  public expand = new EventEmitter<void>();
 
   public slideDirection: string;
 
@@ -82,6 +91,11 @@ export class SkyRepeaterItemComponent {
     this.slideForExpanded(false);
   }
 
+  public ngOnDestroy(): void {
+    this.collapse.complete();
+    this.expand.complete();
+  }
+
   public headerClick() {
     if (this.isCollapsible) {
       this.updateForExpanded(!this.isExpanded, true);
@@ -100,6 +114,12 @@ export class SkyRepeaterItemComponent {
       );
     } else if (this._isExpanded !== value) {
       this._isExpanded = value;
+
+      if (this._isExpanded) {
+        this.expand.emit();
+      } else {
+        this.collapse.emit();
+      }
 
       this.repeaterService.onItemCollapseStateChange(this);
       this.slideForExpanded(animate);

@@ -1,5 +1,8 @@
 <sky-repeater [expandMode]="expandMode">
-  <sky-repeater-item>
+  <sky-repeater-item
+    (collapse)="onCollapse()"
+    (expand)="onExpand()"
+  >
     <sky-repeater-item-context-menu *ngIf="showContextMenu">
       a
     </sky-repeater-item-context-menu>
