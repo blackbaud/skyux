@@ -102,9 +102,13 @@ export class SkyListPagingComponent extends ListPagingComponent implements OnIni
   }
 
   public pageChange(currentPage: number) {
-    this.dispatcher.next(
-      new ListPagingSetPageNumberAction(Number(currentPage))
-    );
+    // Paging must be updated after list data has been updated.
+    // Adding a setTimeout will pull it out of the stream.
+    setTimeout(() => {
+      this.dispatcher.next(
+        new ListPagingSetPageNumberAction(Number(currentPage))
+      );
+    });
   }
 
 }

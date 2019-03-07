@@ -1,7 +1,8 @@
 import {
   TestBed,
   async,
-  fakeAsync
+  fakeAsync,
+  tick
 } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -145,10 +146,13 @@ describe('List Paging Component', () => {
     });
 
     describe('component changes', () => {
-      it('dispatches set page number action when page changes from component', () => {
+      it('dispatches set page number action when page changes from component', fakeAsync(() => {
+        fixture.detectChanges();
         element.query(
           By.css(getPagingSelector('3'))
         ).triggerEventHandler('click', undefined);
+        fixture.detectChanges();
+        tick();
         fixture.detectChanges();
 
         state.take(1).subscribe(stateModel => {
@@ -156,7 +160,7 @@ describe('List Paging Component', () => {
         });
 
         fixture.detectChanges();
-      });
+      }));
     });
   });
 
