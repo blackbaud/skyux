@@ -21,7 +21,6 @@
 
 .sky-summary-action-bar-actions {
   padding: $sky-padding $sky-padding-double $sky-padding $sky-padding;
-  flex-grow: 1;
   flex-shrink: 0;
   background-color: $sky-color-white;
   z-index: 999;
@@ -41,6 +40,7 @@
   display: flex;
   flex-wrap: wrap;
   flex-grow: 1;
+	margin-right: $sky-margin;
 }
 
 .sky-summary-action-bar-details-expand {
