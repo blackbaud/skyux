@@ -101,10 +101,16 @@ export class SkyNumericService {
           digits = `1.0-${options.digits}`;
         }
 
+        // Angular 5+ needs a string for this parameter, but Angular 4 needs a boolean.
+        // To support both versions we can supply 'symbol' which will evaluate truthy for Angular 4
+        // and the appropriate string value for Angular 5+.
+        // See: https://angular.io/api/common/CurrencyPipe#parameters
+        const symbolDisplay: any = 'symbol';
+
         output = this.currencyPipe.transform(
           parseFloat(output),
           options.iso,
-          true,
+          symbolDisplay,
           digits
         );
         break;
