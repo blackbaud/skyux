@@ -9,7 +9,8 @@ import {
 
 import {
   ListItemsLoadAction,
-  ListItemsSetLoadingAction
+  ListItemsSetLoadingAction,
+  ListItemsSetSelectedAction
 } from './actions';
 
 import {
@@ -220,6 +221,75 @@ describe('list items', () => {
 
       tick();
 
+    }));
+  });
+
+  describe('set items selected action', () => {
+    let state: ListState,
+        dispatcher: ListStateDispatcher;
+
+    beforeEach(fakeAsync(() => {
+      dispatcher = new ListStateDispatcher();
+      state = new ListState(dispatcher);
+
+      tick();
+
+      // always skip the first update to ListState, when state is ready
+      // run detectChanges once more then begin tests
+      state.skip(1).take(1).subscribe(() => tick());
+
+      // add some base items to be selected
+      dispatcher.next(new ListItemsLoadAction([
+        new ListItemModel('1', {}),
+        new ListItemModel('2', {}),
+        new ListItemModel('3', {})
+      ], true));
+
+      tick();
+    }));
+
+    it('should select items when action is dispatched', fakeAsync (() => {
+      state.take(1).subscribe(stateModel => {
+        expect(stateModel.items.items[0].isSelected).toBeUndefined();
+        expect(stateModel.items.items[1].isSelected).toBeUndefined();
+        expect(stateModel.items.items[2].isSelected).toBeUndefined();
+      });
+
+      tick();
+
+      dispatcher.next(new ListItemsSetSelectedAction(['1', '3'], true));
+
+      tick();
+
+      state.take(1).subscribe(stateModel => {
+        expect(stateModel.items.items[0].isSelected).toBe(true);
+        expect(stateModel.items.items[1].isSelected).toBeUndefined();
+        expect(stateModel.items.items[2].isSelected).toBe(true);
+      });
+
+      tick();
+
+      dispatcher.next(new ListItemsSetSelectedAction(['2', '3'], true));
+
+      tick();
+
+      state.take(1).subscribe(stateModel => {
+        expect(stateModel.items.items[0].isSelected).toBe(true);
+        expect(stateModel.items.items[1].isSelected).toBe(true);
+        expect(stateModel.items.items[2].isSelected).toBe(true);
+      });
+
+      tick();
+
+      dispatcher.next(new ListItemsSetSelectedAction(['1', '2', '3'], false));
+
+      tick();
+
+      state.take(1).subscribe(stateModel => {
+        expect(stateModel.items.items[0].isSelected).toBe(false);
+        expect(stateModel.items.items[1].isSelected).toBe(false);
+        expect(stateModel.items.items[2].isSelected).toBe(false);
+      });
     }));
   });
 

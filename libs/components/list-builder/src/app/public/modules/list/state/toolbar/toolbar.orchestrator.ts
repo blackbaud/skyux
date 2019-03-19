@@ -1,12 +1,22 @@
-import { ListStateOrchestrator } from '../list-state.rxstate';
-import { ListToolbarModel } from './toolbar.model';
-import { ListToolbarItemModel } from './toolbar-item.model';
+import {
+  ListStateOrchestrator
+} from '../list-state.rxstate';
+
+import {
+  ListToolbarModel
+} from './toolbar.model';
+
+import {
+  ListToolbarItemModel
+} from './toolbar-item.model';
+
 import {
   ListToolbarItemsLoadAction,
   ListToolbarItemsRemoveAction,
   ListToolbarSetExistsAction,
   ListToolbarSetTypeAction,
-  ListToolbarItemsDisableAction
+  ListToolbarItemsDisableAction,
+  ListToolbarShowMultiselectToolbarAction
 } from './actions';
 
 export class ListToolbarOrchestrator
@@ -20,7 +30,8 @@ export class ListToolbarOrchestrator
       .register(ListToolbarItemsDisableAction, this.setDisabled)
       .register(ListToolbarItemsLoadAction, this.load)
       .register(ListToolbarSetTypeAction, this.setType)
-      .register(ListToolbarItemsRemoveAction, this.remove);
+      .register(ListToolbarItemsRemoveAction, this.remove)
+      .register(ListToolbarShowMultiselectToolbarAction, this.showMultiselectToolbar);
   }
 
   private setExists(
@@ -81,6 +92,15 @@ export class ListToolbarOrchestrator
       return action.ids.indexOf(item.id) === -1;
     });
 
+    return newModel;
+  }
+
+  private showMultiselectToolbar(
+    state: ListToolbarModel,
+    action: ListToolbarShowMultiselectToolbarAction
+  ): ListToolbarModel {
+    const newModel = new ListToolbarModel(state);
+    newModel.showMultiselectToolbar = action.exists;
     return newModel;
   }
 }

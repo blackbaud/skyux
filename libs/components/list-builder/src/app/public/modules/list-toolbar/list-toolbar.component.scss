@@ -14,4 +14,9 @@
   ::ng-deep sky-toolbar-item[sky-toolbar-id="sort-selector"] .sky-toolbar-item {
     margin-right: 0;
   }
+
+  ::ng-deep sky-checkbox {
+    position: relative;
+    top:-2px;
+  }
 }

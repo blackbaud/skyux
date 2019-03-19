@@ -1,0 +1,24 @@
+<ul>
+  <li *ngFor="let item of localItems">
+    <span>
+      <input
+        type="checkbox"
+        [(ngModel)]="item.isSelected"
+        (change)="setItemSelection()"
+      />
+      {{ item.id }}
+    </span>
+    <span>
+      {{ item.data.column1 }}
+    </span>
+    <span>
+      {{ item.data.column2 }}
+    </span>
+    <span>
+      {{ item.data.column3 }}
+    </span>
+    <span>
+      {{ item.data.column4 }}
+    </span>
+  </li>
+</ul>

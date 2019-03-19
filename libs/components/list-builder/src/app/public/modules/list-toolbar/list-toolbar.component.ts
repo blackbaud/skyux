@@ -114,6 +114,7 @@ export class SkyListToolbarComponent implements OnInit, AfterContentInit, OnDest
   public type: Observable<string>;
   public isSearchEnabled: Observable<boolean>;
   public isToolbarDisabled: boolean = false;
+  public isMultiselectEnabled: Observable<boolean>;
   public isSortSelectorEnabled: Observable<boolean>;
   public appliedFilters: Observable<Array<ListFilterModel>>;
   public hasAppliedFilters: Observable<boolean>;
@@ -211,13 +212,22 @@ export class SkyListToolbarComponent implements OnInit, AfterContentInit, OnDest
         }
       });
 
-    this.searchTextInput = this.state.map(s => s.search.searchText).distinctUntilChanged();
+    this.searchTextInput = this.state
+      .takeUntil(this.ngUnsubscribe)
+      .map(s => s.search.searchText)
+      .distinctUntilChanged();
 
-    this.view = this.state.map(s => s.views.active).distinctUntilChanged();
+    this.view = this.state
+      .takeUntil(this.ngUnsubscribe)
+      .map(s => s.views.active)
+      .distinctUntilChanged();
 
     this.watchTemplates();
 
-    this.type = this.state.map((state) => state.toolbar.type).distinctUntilChanged();
+    this.type = this.state
+      .takeUntil(this.ngUnsubscribe)
+      .map((state) => state.toolbar.type)
+      .distinctUntilChanged();
 
     this.type
       .takeUntil(this.ngUnsubscribe)
@@ -237,17 +247,32 @@ export class SkyListToolbarComponent implements OnInit, AfterContentInit, OnDest
         }
       });
 
-    this.isSearchEnabled = this.toolbarState.map(s => s.config)
-      .distinctUntilChanged().map(c => c.searchEnabled);
+    this.isSearchEnabled = this.toolbarState
+      .takeUntil(this.ngUnsubscribe)
+      .map(s => s.config)
+      .distinctUntilChanged()
+      .map(c => c.searchEnabled);
 
     this.state.map(s => s.toolbar)
-      .distinctUntilChanged().map(c => c.disabled)
+      .takeUntil(this.ngUnsubscribe)
+      .distinctUntilChanged()
+      .map(c => c.disabled)
       .subscribe(isDisabled => this.isToolbarDisabled = isDisabled);
 
-    this.isSortSelectorEnabled = this.toolbarState.map(s => s.config)
-      .distinctUntilChanged().map(c => c.sortSelectorEnabled);
+    this.isSortSelectorEnabled = this.toolbarState
+      .takeUntil(this.ngUnsubscribe)
+      .map(s => s.config)
+      .distinctUntilChanged()
+      .map(c => c.sortSelectorEnabled);
+
+    this.isMultiselectEnabled = this.state
+      .takeUntil(this.ngUnsubscribe)
+      .map(s => s.toolbar)
+      .distinctUntilChanged()
+      .map(t => t.showMultiselectToolbar);
 
     this.hasAppliedFilters = this.state
+      .takeUntil(this.ngUnsubscribe)
       .map(s => s.filters)
       .distinctUntilChanged()
       .map((filters) => {
@@ -372,7 +397,8 @@ export class SkyListToolbarComponent implements OnInit, AfterContentInit, OnDest
         });
 
         return resultSortSelectors;
-      });
+      })
+      .takeUntil(this.ngUnsubscribe);
   }
 
   private watchTemplates() {
@@ -393,7 +419,8 @@ export class SkyListToolbarComponent implements OnInit, AfterContentInit, OnDest
 
         return templates;
       }
-    );
+    )
+    .takeUntil(this.ngUnsubscribe);
 
     templateStream
       .takeUntil(this.ngUnsubscribe)

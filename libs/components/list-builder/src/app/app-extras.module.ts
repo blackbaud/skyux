@@ -7,8 +7,12 @@ import {
 } from '@skyux/indicators';
 
 import {
-  SkyListModule,
+  SkyRadioModule
+} from '@skyux/forms';
+
+import {
   SkyListFiltersModule,
+  SkyListModule,
   SkyListPagingModule,
   SkyListSecondaryActionsModule,
   SkyListToolbarModule
@@ -21,7 +25,8 @@ import {
     SkyListFiltersModule,
     SkyListPagingModule,
     SkyListSecondaryActionsModule,
-    SkyListToolbarModule
+    SkyListToolbarModule,
+    SkyRadioModule
   ],
   exports: [
     SkyIconModule,
@@ -29,7 +34,8 @@ import {
     SkyListFiltersModule,
     SkyListPagingModule,
     SkyListSecondaryActionsModule,
-    SkyListToolbarModule
+    SkyListToolbarModule,
+    SkyRadioModule
   ],
   providers: [],
   entryComponents: []

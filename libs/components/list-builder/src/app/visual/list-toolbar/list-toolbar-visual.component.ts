@@ -1,10 +1,15 @@
-import { Component } from '@angular/core';
+import {
+  Component
+} from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
+import {
+  Observable
+} from 'rxjs/Observable';
+
 import 'rxjs/add/observable/of';
 
 @Component({
-  selector: 'list-toolbar-visual',
+  selector: 'sky-list-toolbar-visual',
   templateUrl: './list-toolbar-visual.component.html'
 })
 export class ListToolbarVisualComponent {
@@ -19,7 +24,15 @@ export class ListToolbarVisualComponent {
     { id: '7', column1: 707, column2: 'Strawberry', column3: 'Sally eats strawberries' }
   ]);
 
+  public iconGroupSelectedValue = 'table';
+
+  public selectedIds: string[] = ['1'];
+
   public fruitTypeFilterFunction(): boolean {
     return true;
+  }
+
+  public selectedIdsChange(data: any): void {
+    console.log('selectedIdsChange:', data);
   }
 }

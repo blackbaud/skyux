@@ -1,54 +1,312 @@
-<div id="screenshot-list-toolbar">
-  <sky-list [data]="data">
+<div
+  class="sky-padding-even-default"
+  id="screenshot-list-toolbar"
+>
+  <h2>Basic toolbar</h2>
+  <sky-list
+    [data]="data"
+  >
     <sky-list-toolbar>
       <sky-list-secondary-actions>
         <sky-list-secondary-action>
-          <button type="button">
+          <button
+            type="button"
+          >
             Option
           </button>
         </sky-list-secondary-action>
       </sky-list-secondary-actions>
       <sky-list-toolbar-sort
-        label="Custom"
         field="column1"
+        label="Custom"
         type="string"
         [descending]="false">
       </sky-list-toolbar-sort>
       <sky-list-toolbar-view-actions>
-        <button
-          class="sky-btn sky-btn-default"
-          title="Sort descending"
-          type="button"
+        <div
+          class="sky-switch-icon-group"
         >
-          <sky-icon icon="angle-double-down"></sky-icon>
-        </button>
-        <button
-          class="sky-btn sky-btn-default"
-          title="Sort ascending"
-          type="button"
-        >
-          <sky-icon icon="angle-double-up"></sky-icon>
-        </button>
+          <sky-radio
+            icon="table"
+            name="iconradiogrouptest"
+            value="table"
+            [(ngModel)]="iconGroupSelectedValue"
+          >
+          </sky-radio>
+          <sky-radio
+            icon="list"
+            name="iconradiogrouptest"
+            value="list"
+            [(ngModel)]="iconGroupSelectedValue"
+          >
+          </sky-radio>
+          <sky-radio
+            icon="th-large"
+            name="iconradiogrouptest"
+            value="cards"
+            [(ngModel)]="iconGroupSelectedValue"
+          >
+          </sky-radio>
+          <sky-radio
+            icon="map-marker"
+            name="iconradiogrouptest"
+            value="map"
+            [(ngModel)]="iconGroupSelectedValue"
+          >
+          </sky-radio>
+        </div>
       </sky-list-toolbar-view-actions>
       <sky-list-filter-inline>
         <sky-list-filter-inline-item
+          defaultValue="any"
           name="fruitType"
-          [filter]="fruitTypeFilterFunction"
           value="any"
-          defaultValue="any">
-          <ng-template let-filter="filter">
-            <label for="sky-demo-select-type">Fruit type</label>
+          [filter]="fruitTypeFilterFunction"
+        >
+          <ng-template
+            let-filter="filter"
+          >
+            <label
+              for="sky-demo-select-type"
+            >
+              Fruit type
+            </label>
             <select
               id="sky-demo-select-type"
               [ngModel]="filter.value"
-              (ngModelChange)="filter.changed($event)">
-              <option value="any">Any fruit</option>
-              <option value="citrus">Citrus</option>
-              <option value="berry">Berry</option>
+              (ngModelChange)="filter.changed($event)"
+            >
+              <option
+                value="any"
+              >
+                Any fruit
+              </option>
+              <option
+                value="citrus"
+              >
+                Citrus
+              </option>
+              <option
+                value="berry"
+              >
+                Berry
+              </option>
             </select>
           </ng-template>
         </sky-list-filter-inline-item>
       </sky-list-filter-inline>
     </sky-list-toolbar>
+  </sky-list>
+</div>
+
+<div
+  class="sky-padding-even-default"
+  id="screenshot-list-toolbar-with-multiselect"
+>
+  <h2>Toolbar with multiselect</h2>
+  <sky-list
+    [data]="data"
+    (selectedIdsChange)="selectedIdsChange($event)"
+  >
+    <sky-list-toolbar>
+      <sky-list-secondary-actions>
+        <sky-list-secondary-action>
+          <button
+            type="button"
+          >
+            Option
+          </button>
+        </sky-list-secondary-action>
+      </sky-list-secondary-actions>
+      <sky-list-toolbar-sort
+        field="column1"
+        label="Custom"
+        type="string"
+        [descending]="false"
+      >
+      </sky-list-toolbar-sort>
+      <sky-list-toolbar-view-actions>
+        <div
+          class="sky-switch-icon-group"
+        >
+          <sky-radio
+            icon="table"
+            name="iconradiogrouptest"
+            value="table"
+            [(ngModel)]="iconGroupSelectedValue"
+          >
+          </sky-radio>
+          <sky-radio
+            icon="list"
+            name="iconradiogrouptest"
+            value="list"
+            [(ngModel)]="iconGroupSelectedValue"
+          >
+          </sky-radio>
+          <sky-radio
+            icon="th-large"
+            name="iconradiogrouptest"
+            value="cards"
+            [(ngModel)]="iconGroupSelectedValue"
+          >
+          </sky-radio>
+          <sky-radio
+            icon="map-marker"
+            name="iconradiogrouptest"
+            value="map"
+            [(ngModel)]="iconGroupSelectedValue"
+          >
+          </sky-radio>
+        </div>
+      </sky-list-toolbar-view-actions>
+      <sky-list-filter-inline>
+        <sky-list-filter-inline-item
+          defaultValue="any"
+          name="fruitType"
+          value="any"
+          [filter]="fruitTypeFilterFunction"
+        >
+          <ng-template
+            let-filter="filter"
+          >
+            <label
+              for="sky-demo-select-type"
+            >
+              Fruit type
+            </label>
+            <select
+              id="sky-demo-select-type"
+              [ngModel]="filter.value"
+              (ngModelChange)="filter.changed($event)"
+            >
+              <option
+                value="any"
+              >
+                Any fruit
+              </option>
+              <option
+                value="citrus"
+              >
+                Citrus
+              </option>
+              <option
+                value="berry"
+              >
+                Berry
+              </option>
+            </select>
+          </ng-template>
+        </sky-list-filter-inline-item>
+      </sky-list-filter-inline>
+    </sky-list-toolbar>
+
+    <sky-list-view-visual></sky-list-view-visual>
+
+  </sky-list>
+</div>
+
+<div
+  class="sky-padding-even-default"
+>
+  <h2>Toolbar with multiselect (based on item.isSelected property)</h2>
+  <p>This is to simulate how list-view-grids would work, as its the only component that should go off of item.</p>
+  <sky-list
+    [data]="data"
+    (selectedIdsChange)="selectedIdsChange($event)"
+  >
+    <sky-list-toolbar>
+      <sky-list-secondary-actions>
+        <sky-list-secondary-action>
+          <button
+            type="button"
+          >
+            Option
+          </button>
+        </sky-list-secondary-action>
+      </sky-list-secondary-actions>
+      <sky-list-toolbar-sort
+        field="column1"
+        label="Custom"
+        type="string"
+        [descending]="false"
+      >
+      </sky-list-toolbar-sort>
+      <sky-list-toolbar-view-actions>
+        <div
+          class="sky-switch-icon-group"
+        >
+          <sky-radio
+            icon="table"
+            name="iconradiogrouptest"
+            value="table"
+            [(ngModel)]="iconGroupSelectedValue"
+          >
+          </sky-radio>
+          <sky-radio
+            icon="list"
+            name="iconradiogrouptest"
+            value="list"
+            [(ngModel)]="iconGroupSelectedValue"
+          >
+          </sky-radio>
+          <sky-radio
+            icon="th-large"
+            name="iconradiogrouptest"
+            value="cards"
+            [(ngModel)]="iconGroupSelectedValue"
+          >
+          </sky-radio>
+          <sky-radio
+            icon="map-marker"
+            name="iconradiogrouptest"
+            value="map"
+            [(ngModel)]="iconGroupSelectedValue"
+          >
+          </sky-radio>
+        </div>
+      </sky-list-toolbar-view-actions>
+      <sky-list-filter-inline>
+        <sky-list-filter-inline-item
+          defaultValue="any"
+          name="fruitType"
+          value="any"
+          [filter]="fruitTypeFilterFunction"
+        >
+          <ng-template
+            let-filter="filter"
+          >
+            <label
+              for="sky-demo-select-type"
+            >
+              Fruit type
+            </label>
+            <select
+              id="sky-demo-select-type"
+              [ngModel]="filter.value"
+              (ngModelChange)="filter.changed($event)"
+            >
+              <option
+                value="any"
+              >
+                Any fruit
+              </option>
+              <option
+                value="citrus"
+              >
+                Citrus
+              </option>
+              <option
+                value="berry"
+              >
+                Berry
+              </option>
+            </select>
+          </ng-template>
+        </sky-list-filter-inline-item>
+      </sky-list-filter-inline>
+    </sky-list-toolbar>
+
+    <sky-list-view-isselected-visual></sky-list-view-isselected-visual>
+
   </sky-list>
 </div>

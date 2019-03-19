@@ -1,4 +1,7 @@
-import { Injectable } from '@angular/core';
+import {
+  Injectable
+} from '@angular/core';
+
 import {
   StateDispatcher,
   StateOrchestrator
@@ -8,18 +11,25 @@ import {
   ListSortFieldSelectorModel
 } from '@skyux/list-builder-common';
 
-import { ListStateAction } from './list-state-action.type';
-
-import { ListViewsSetActiveAction } from './views/actions';
+import {
+  ListStateAction
+} from './list-state-action.type';
 
 import {
+  ListViewsSetActiveAction
+} from './views/actions';
+
+import {
+  ListToolbarItemsDisableAction,
   ListToolbarItemsLoadAction,
   ListToolbarItemsRemoveAction,
   ListToolbarSetExistsAction,
-  ListToolbarItemsDisableAction
+  ListToolbarShowMultiselectToolbarAction
 } from './toolbar/actions';
 
-import { ListToolbarItemModel } from './toolbar/toolbar-item.model';
+import {
+  ListToolbarItemModel
+} from './toolbar/toolbar-item.model';
 
 import {
   ListSearchSetFunctionsAction,
@@ -33,12 +43,30 @@ import {
   ListSortSetFieldSelectorsAction,
   ListSortSetGlobalAction
 } from './sort/actions';
-import { ListSortLabelModel } from './sort/label.model';
-import { ListFilterModel } from './filters/filter.model';
-import { ListSearchModel } from './search/search.model';
+
+import {
+  ListSortLabelModel
+} from './sort/label.model';
+
+import {
+  ListFilterModel
+} from './filters/filter.model';
+
+import {
+  ListSearchModel
+} from './search/search.model';
+
 import {
   ListFiltersUpdateAction
 } from './filters/actions';
+
+import {
+  ListItemsSetSelectedAction
+} from './items/actions';
+
+import {
+  ListSelectedSetItemsSelectedAction
+} from './selected/actions';
 
 export class ListStateOrchestrator<T> extends StateOrchestrator<T, ListStateAction> {
 }
@@ -64,6 +92,10 @@ export class ListStateDispatcher extends StateDispatcher<ListStateAction> {
 
   public toolbarRemoveItems(ids: string[]): void {
     this.next(new ListToolbarItemsRemoveAction(ids));
+  }
+
+  public toolbarShowMultiselectToolbar(show: boolean): void {
+    this.next(new ListToolbarShowMultiselectToolbarAction(show));
   }
 
   public searchSetFunctions(sortFunctions: ((data: any, searchText: string) => boolean)[]): void {
@@ -100,5 +132,12 @@ export class ListStateDispatcher extends StateDispatcher<ListStateAction> {
 
   public filtersUpdate(filters: ListFilterModel[]): void {
     this.next(new ListFiltersUpdateAction(filters));
+  }
+
+  public setSelected(selectedIds: string[], selected: boolean): void {
+    // Update ListSelectedModel (checklist / select field).
+    this.next(new ListSelectedSetItemsSelectedAction(selectedIds, selected, false));
+    // Update ListItemModel (grid).
+    this.next(new ListItemsSetSelectedAction(selectedIds, selected, false));
   }
 }
