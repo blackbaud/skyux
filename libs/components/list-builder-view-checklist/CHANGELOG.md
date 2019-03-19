@@ -1,3 +1,7 @@
+# 3.1.0 (2019-03-19)
+
+- Added support for `microedge-rxstate@>=2.0.2`. [#26](https://github.com/blackbaud/skyux-list-builder-view-checklist/pull/26)
+
 # 3.0.0 (2019-01-14)
 
 - Major version release.
