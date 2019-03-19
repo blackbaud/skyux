@@ -24,7 +24,6 @@ import {
 @Component({
   selector: 'sky-summary-action-bar-secondary-actions',
   templateUrl: './summary-action-bar-secondary-actions.component.html',
-  styleUrls: ['./summary-action-bar-secondary-actions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkySummaryActionBarSecondaryActionsComponent implements AfterContentInit, OnDestroy {
