@@ -1,3 +1,8 @@
+# 3.1.0 (2019-03-19)
+
+- Added support for `microedge-rxstate@>=2.0.2`. [#32](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/32)
+- Fixed `SkyListViewGridComponent` to properly import `scan` RxJS operator. [#32](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/32)
+
 # 3.0.2 (2019-03-07)
 
 - Fixed list view grid component to not trigger excessive data fetches. [#20](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/20)
