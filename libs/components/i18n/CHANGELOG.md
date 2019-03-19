@@ -1,3 +1,7 @@
+# 3.5.1 (2019-03-19)
+
+- Fixed `SkyI18nModule` to remove a circular reference to `@skyux/core`. [#23](https://github.com/blackbaud/skyux-i18n/pull/23)
+
 # 3.5.0 (2018-11-19)
 
 - Updated peer dependencies to support Angular versions greater than `4.3.6`. [#20](https://github.com/blackbaud/skyux-i18n/pull/20)
