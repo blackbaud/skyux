@@ -11,7 +11,12 @@
   display: flex;
 }
 
+.sky-page-summary-left {
+  flex-basis: 100%;
+}
+
 @media (min-width: $sky-screen-sm-min) {
+
   .sky-page-summary-with-key-info {
     .sky-page-summary-left {
       flex-basis: 75%;
@@ -26,5 +31,9 @@
   .sky-page-summary-left {
     align-items: stretch;
     display: flex;
+  }
+
+  .sky-page-summary-data {
+    flex-grow: 1;
   }
 }
