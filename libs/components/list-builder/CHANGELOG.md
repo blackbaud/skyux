@@ -1,3 +1,7 @@
+# 3.2.0 (2019-03-19)
+
+- Added support for multiselect toolbar. [#18](https://github.com/blackbaud/skyux-list-builder/pull/18/)
+
 # 3.1.0 (2019-03-19)
 
 - Added support for `microedge-rxstate@>=2.0.2`. [#33](https://github.com/blackbaud/skyux-list-builder/pull/33)
