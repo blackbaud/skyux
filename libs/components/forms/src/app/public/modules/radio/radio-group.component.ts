@@ -5,6 +5,7 @@ import {
   ContentChildren,
   forwardRef,
   Input,
+  OnDestroy,
   QueryList
 } from '@angular/core';
 
@@ -12,6 +13,10 @@ import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR
 } from '@angular/forms';
+
+import {
+  Subject
+} from 'rxjs/Subject';
 
 import {
   SkyRadioChange
@@ -38,9 +43,12 @@ const SKY_RADIO_GROUP_CONTROL_VALUE_ACCESSOR: any = {
     SKY_RADIO_GROUP_CONTROL_VALUE_ACCESSOR
   ]
 })
-export class SkyRadioGroupComponent implements AfterContentInit, ControlValueAccessor {
+export class SkyRadioGroupComponent implements AfterContentInit, ControlValueAccessor, OnDestroy {
   @Input()
   public ariaLabelledBy: string;
+
+  @Input()
+  public ariaLabel: string;
 
   @Input()
   public set name(value: string) {
@@ -82,21 +90,34 @@ export class SkyRadioGroupComponent implements AfterContentInit, ControlValueAcc
   @ContentChildren(SkyRadioComponent, { descendants: true })
   private radios: QueryList<SkyRadioComponent>;
 
+  private ngUnsubscribe = new Subject();
+
   private _name = `sky-radio-group-${nextUniqueId++}`;
   private _value: any;
   private _tabIndex: number;
 
   public ngAfterContentInit(): void {
-    this.updateCheckedRadioFromValue();
-    this.updateRadioButtonNames();
-    this.updateRadioButtonTabIndexes();
+    this.resetRadioButtons();
 
     // Watch for radio selections.
     this.radios.forEach((radio) => {
-      radio.change.subscribe((change: SkyRadioChange) => {
-        this.writeValue(change.value);
-      });
+      radio.change
+        .takeUntil(this.ngUnsubscribe)
+        .subscribe((change: SkyRadioChange) => {
+          this.writeValue(change.value);
+        });
     });
+
+    this.radios.changes
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(() => {
+        this.resetRadioButtons();
+      });
+  }
+
+  public ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   public writeValue(value: any): void {
@@ -144,5 +165,11 @@ export class SkyRadioGroupComponent implements AfterContentInit, ControlValueAcc
         this.value = radio.value;
       }
     });
+  }
+
+  private resetRadioButtons(): void {
+    this.updateCheckedRadioFromValue();
+    this.updateRadioButtonNames();
+    this.updateRadioButtonTabIndexes();
   }
 }

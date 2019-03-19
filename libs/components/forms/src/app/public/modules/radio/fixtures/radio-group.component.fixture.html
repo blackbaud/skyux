@@ -1,9 +1,10 @@
 <form [formGroup]="radioForm">
   <sky-radio-group
-    ariaLabelledBy="radio-group-label"
     class="form-group radio"
     formControlName="option"
     name="option"
+    [ariaLabel]="ariaLabel"
+    [ariaLabelledBy]="ariaLabelledBy"
     [tabIndex]="tabIndex"
   >
     <legend

@@ -105,6 +105,46 @@ describe('Radio group component', function () {
     }
   }));
 
+  it('should maintain tabIndex when options change', fakeAsync(function () {
+    componentInstance.tabIndex = 2;
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+
+    componentInstance.changeOptions();
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+
+    const radios = fixture.nativeElement.querySelectorAll('input');
+    for (let element of radios) {
+      expect(element.getAttribute('tabindex')).toBe('2');
+    }
+  }));
+
+  it('should set the radio name properties correctly', fakeAsync(() => {
+    fixture.detectChanges();
+    tick();
+    const radios = fixture.nativeElement.querySelectorAll('input');
+    for (let element of radios) {
+      expect(element.getAttribute('name')).toBe('option');
+    }
+  }));
+
+  it('should set the radio name properties correctly when options change', fakeAsync(() => {
+    fixture.detectChanges();
+    tick();
+
+    componentInstance.changeOptions();
+    fixture.detectChanges();
+    tick();
+
+    const radios = fixture.nativeElement.querySelectorAll('input');
+    for (let element of radios) {
+      expect(element.getAttribute('name')).toBe('option');
+    }
+  }));
+
   it('should maintain checked state when value is changed', fakeAsync(function () {
     fixture.detectChanges();
 
@@ -131,6 +171,48 @@ describe('Radio group component', function () {
     tick();
 
     expect(radioDebugElement.componentInstance.checked).toBeTruthy();
+  }));
+
+  it('should maintain checked state when options are changed', fakeAsync(function () {
+    fixture.detectChanges();
+
+    let newValue = {
+      name: 'Jerry Salmonella',
+      disabled: false
+    };
+
+    let radioDebugElement = fixture.debugElement.query(By.css('sky-radio'));
+    radioDebugElement.componentInstance.value = newValue;
+    fixture.detectChanges();
+    tick();
+
+    expect(radioDebugElement.componentInstance.checked).toBeTruthy();
+
+    componentInstance.changeOptions();
+
+    fixture.detectChanges();
+    tick();
+
+    expect(radioDebugElement.componentInstance.checked).toBeTruthy();
+  }));
+
+  it('should set the aria-labeledby property correctly', fakeAsync(() => {
+    fixture.detectChanges();
+    tick();
+
+    const radioGroupDiv = fixture.nativeElement.querySelector('.sky-radio-group');
+    expect(radioGroupDiv.getAttribute('aria-labelledby')).toBe('radio-group-label');
+  }));
+
+  it('should set the aria-label property correctly', fakeAsync(() => {
+    componentInstance.ariaLabel = 'radio-group-label-manual';
+    componentInstance.ariaLabelledBy = undefined;
+
+    fixture.detectChanges();
+    tick();
+
+    const radioGroupDiv = fixture.nativeElement.querySelector('.sky-radio-group');
+    expect(radioGroupDiv.getAttribute('aria-label')).toBe('radio-group-label-manual');
   }));
 
   it('should pass accessibility', async(() => {

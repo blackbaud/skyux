@@ -25,6 +25,11 @@ export class SkyRadioGroupTestComponent {
   public radioForm: FormGroup;
 
   public tabIndex: number;
+
+  public ariaLabelledBy: string = 'radio-group-label';
+
+  public ariaLabel: string;
+
   public options = [
     { name: 'Lillith Corharvest', disabled: false },
     { name: 'Harima Kenji', disabled: false },
@@ -37,5 +42,14 @@ export class SkyRadioGroupTestComponent {
     this.radioForm = this.fb.group({
       option: new FormControl(this.options[0])
     });
+  }
+
+  public changeOptions(): void {
+    this.options = [
+      { name: 'Lillith Corharvest', disabled: false },
+      { name: 'Hank Salizar', disabled: false },
+      { name: 'Harima Kenji', disabled: false },
+      { name: 'Harry Mckenzie', disabled: false }
+    ];
   }
 }
