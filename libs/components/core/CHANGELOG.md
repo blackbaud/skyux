@@ -1,3 +1,8 @@
+# 3.5.2 (2019-03-20)
+
+- Fixed `SkyNumericModule` to properly import `SkyI18nModule` and to provide `SkyNumericPipe`. [#72](https://github.com/blackbaud/skyux-core/pull/72)
+- Fixed `SkyNumericService` to support `@angular/core@^5.0.0`. [#71](https://github.com/blackbaud/skyux-core/pull/71)
+
 # 3.5.1 (2018-12-19)
 
 - Fixed `SkyDynamicComponentService` to fully destroy components which are dynamically removed. [#55](https://github.com/blackbaud/skyux-core/pull/55)
