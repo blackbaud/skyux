@@ -4,8 +4,14 @@ import {
 
 import {
   inject,
-  TestBed
+  TestBed,
+  fakeAsync,
+  tick
 } from '@angular/core/testing';
+
+import {
+  Router
+} from '@angular/router';
 
 import {
   expect
@@ -39,6 +45,7 @@ import {
 describe('Flyout service', () => {
   let service: SkyFlyoutService;
   let applicationRef: ApplicationRef;
+  let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -57,43 +64,46 @@ describe('Flyout service', () => {
   beforeEach(
     inject(
       [
-        ApplicationRef
+        ApplicationRef,
+        Router
       ],
       (
-        _applicationRef: ApplicationRef
+        _applicationRef: ApplicationRef,
+        _router: Router
       ) => {
         applicationRef = _applicationRef;
+        router = _router;
       }
     )
   );
 
   it('should only create a single host component', () => {
-      const spy = spyOn(service as any, 'createHostComponent').and.callThrough();
-      service.open(SkyFlyoutHostsTestComponent);
-      service.open(SkyFlyoutHostsTestComponent);
-      expect(spy.calls.count()).toEqual(1);
-    }
+    const spy = spyOn(service as any, 'createHostComponent').and.callThrough();
+    service.open(SkyFlyoutHostsTestComponent);
+    service.open(SkyFlyoutHostsTestComponent);
+    expect(spy.calls.count()).toEqual(1);
+  }
   );
 
   it('should return an instance with a close method', () => {
-      const flyout = service.open(SkyFlyoutHostsTestComponent);
-      expect(typeof flyout.close).toEqual('function');
-    }
+    const flyout = service.open(SkyFlyoutHostsTestComponent);
+    expect(typeof flyout.close).toEqual('function');
+  }
   );
 
   it('should expose a method to remove the flyout from the DOM', () => {
-      spyOn(window, 'setTimeout').and.callFake((fun: Function) => {
-        fun();
-      });
-      service.open(SkyFlyoutHostsTestComponent);
-      applicationRef.tick();
-      const spy = spyOn(service['host'].instance.messageStream, 'next').and.callThrough();
-      service.close();
-      applicationRef.tick();
-      expect(spy).toHaveBeenCalledWith({
-        type: SkyFlyoutMessageType.Close
-      });
-    }
+    spyOn(window, 'setTimeout').and.callFake((fun: Function) => {
+      fun();
+    });
+    service.open(SkyFlyoutHostsTestComponent);
+    applicationRef.tick();
+    const spy = spyOn(service['host'].instance.messageStream, 'next').and.callThrough();
+    service.close();
+    applicationRef.tick();
+    expect(spy).toHaveBeenCalledWith({
+      type: SkyFlyoutMessageType.Close
+    });
+  }
   );
 
   it('should dispose of any open host if the service is destroyed', () => {
@@ -109,6 +119,43 @@ describe('Flyout service', () => {
     service.ngOnDestroy();
     applicationRef.tick();
     expect(spy).toHaveBeenCalled();
-  }
-);
+  });
+
+  it('should close when the user navigates through history', fakeAsync(() => {
+    service.open(SkyFlyoutHostsTestComponent);
+    const closeSpy = spyOn(service, 'close').and.callThrough();
+
+    tick();
+    applicationRef.tick();
+
+    router.navigate(['/']);
+
+    tick();
+    applicationRef.tick();
+
+    expect(closeSpy).toHaveBeenCalled();
+  }));
+
+  it('should not close on route change if it is already closed', fakeAsync(() => {
+    service.open(SkyFlyoutHostsTestComponent);
+    const closeSpy = spyOn(service, 'close').and.callThrough();
+
+    tick();
+    applicationRef.tick();
+
+    service.close();
+
+    tick();
+    applicationRef.tick();
+
+    expect(closeSpy).toHaveBeenCalled();
+    closeSpy.calls.reset();
+
+    router.navigate(['/']);
+    tick();
+
+    expect(closeSpy).not.toHaveBeenCalled();
+
+    applicationRef.tick();
+  }));
 });

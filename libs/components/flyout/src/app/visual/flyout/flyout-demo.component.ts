@@ -3,6 +3,10 @@ import {
 } from '@angular/core';
 
 import {
+  Router
+} from '@angular/router';
+
+import {
   SkyModalService
 } from '@skyux/modals';
 
@@ -33,7 +37,8 @@ export class FlyoutDemoComponent {
   constructor(
     public context: FlyoutDemoContext,
     private modalService: SkyModalService,
-    private toastService: SkyToastService
+    private toastService: SkyToastService,
+    private router: Router
   ) { }
 
   public openModal(): void {
@@ -47,6 +52,10 @@ export class FlyoutDemoComponent {
         type: SkyToastType.Info
       }
     );
+  }
+
+  public goToPage(): void {
+    this.router.navigate(['/']);
   }
 
 }
