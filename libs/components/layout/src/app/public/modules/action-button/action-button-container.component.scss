@@ -4,6 +4,7 @@
 @media (min-width: $sky-screen-sm-min) {
   .sky-action-button-container {
     display: flex;
+    flex-wrap: wrap;
     align-items: stretch;
   }
 }
@@ -14,12 +15,21 @@
     ::ng-deep.sky-action-button {
       margin-top: $sky-margin-double;
     }
+
+    ::ng-deep.sky-action-button:last-of-type {
+      margin-bottom: $sky-margin-double;
+    }
   }
 }
 
 .sky-action-button-container {
 
-  padding-top: $sky-padding-double;
+  padding: $sky-padding 0;
+
+  // Note: this has to go on the element as the flex stretch will consume the margin if not.
+  ::ng-deep sky-action-button {
+    margin: $sky-margin 0;
+  }
 
   ::ng-deep.sky-action-button  {
     height: 100%;
