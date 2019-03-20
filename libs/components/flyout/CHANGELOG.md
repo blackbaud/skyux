@@ -1,3 +1,7 @@
+# 3.0.1 (2019-03-20)
+
+- Fixed flyout component to close when navigation occurs. [#22](https://github.com/blackbaud/skyux-flyout/pull/22)
+
 # 3.0.0 (2019-01-11)
 
 - Major version release.
