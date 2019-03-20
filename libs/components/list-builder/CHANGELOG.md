@@ -1,3 +1,7 @@
+# 3.2.1 (2019-03-20)
+
+- Fixed `SkyListToolbarModule` to properly import `SkyListBuilderResourcesModule`. [#37](https://github.com/blackbaud/skyux-list-builder/pull/37/)
+
 # 3.2.0 (2019-03-19)
 
 - Added support for multiselect toolbar. [#18](https://github.com/blackbaud/skyux-list-builder/pull/18/)
