@@ -1,3 +1,8 @@
+# 3.0.1 (2019-03-19)
+
+- Fixed spacing between actions and summary info in summary action bar component. [#9](https://github.com/blackbaud/skyux-action-bars/pull/9)
+- Fixed spacing between action buttons in summary action bar component. [#10](https://github.com/blackbaud/skyux-action-bars/pull/10)
+
 # 3.0.0 (2019-02-05)
 
 - Major version release.
