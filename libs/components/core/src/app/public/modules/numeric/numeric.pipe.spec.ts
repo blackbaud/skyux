@@ -1,19 +1,14 @@
 import {
-  CurrencyPipe,
-  DecimalPipe
-} from '@angular/common';
-
-import {
   TestBed
 } from '@angular/core/testing';
 
 import {
-  SkyLibResourcesService
-} from '@skyux/i18n/modules/i18n/lib-resources.service';
+  SkyNumericModule
+} from './numeric.module';
 
 import {
-  SkyLibResourcesTestService
-} from '@skyux/i18n/testing/lib-resources-test.service';
+  NumericOptions
+} from './numeric.options';
 
 import {
   SkyNumericPipe
@@ -22,10 +17,6 @@ import {
 import {
   SkyNumericService
 } from './numeric.service';
-
-import {
-  NumericOptions
-} from './numeric.options';
 
 describe('Numeric pipe', () => {
   let pipe: any;
@@ -39,18 +30,8 @@ describe('Numeric pipe', () => {
     expectedConfig.iso = 'USD';
 
     TestBed.configureTestingModule({
-      declarations: [
-        SkyNumericPipe
-      ],
-      providers: [
-        CurrencyPipe,
-        DecimalPipe,
-        SkyNumericPipe,
-        SkyNumericService,
-        {
-          provide: SkyLibResourcesService,
-          useClass: SkyLibResourcesTestService
-        }
+      imports: [
+        SkyNumericModule
       ]
     });
 

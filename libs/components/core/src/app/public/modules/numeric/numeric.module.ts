@@ -8,6 +8,10 @@ import {
 } from '@angular/common';
 
 import {
+  SkyI18nModule
+} from '@skyux/i18n';
+
+import {
   SkyCoreResourcesModule
 } from '../shared';
 
@@ -26,9 +30,11 @@ import {
   providers: [
     CurrencyPipe,
     DecimalPipe,
+    SkyNumericPipe,
     SkyNumericService
   ],
   imports: [
+    SkyI18nModule,
     SkyCoreResourcesModule
   ],
   exports: [
