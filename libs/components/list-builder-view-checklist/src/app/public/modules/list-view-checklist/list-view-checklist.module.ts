@@ -15,25 +15,19 @@ import {
 } from '@skyux/forms';
 
 import {
-  SkyI18nModule
-} from '@skyux/i18n';
-
-import {
   SkyListViewChecklistComponent
 } from './list-view-checklist.component';
+
 import {
   SkyListViewChecklistItemComponent
 } from './list-view-checklist-item.component';
+
 import {
   SkyListViewChecklistResourcesModule
-} from '../shared';
+} from '../shared/list-view-checklist-resources.module';
 
 @NgModule({
   declarations: [
-    SkyListViewChecklistComponent,
-    SkyListViewChecklistItemComponent
-  ],
-  exports: [
     SkyListViewChecklistComponent,
     SkyListViewChecklistItemComponent
   ],
@@ -41,8 +35,11 @@ import {
     CommonModule,
     FormsModule,
     SkyCheckboxModule,
-    SkyI18nModule,
     SkyListViewChecklistResourcesModule
+  ],
+  exports: [
+    SkyListViewChecklistComponent,
+    SkyListViewChecklistItemComponent
   ]
 })
 export class SkyListViewChecklistModule {

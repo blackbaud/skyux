@@ -1,14 +1,1 @@
-{
-  "skyux_checklist_clear_all": {
-    "_description": "Text for the link in a checklist to clear selections.",
-    "message": "Clear all"
-  },
-  "skyux_checklist_select_all": {
-    "_description": "Text for the link in a checklist to select all items.",
-    "message": "Select all"
-  },
-  "skyux_checklist_show_selected": {
-    "_description": "Text for the checkbox in a checklist to show only selected items.",
-    "message": "Only show selected items"
-  }
-}
+{}

@@ -12,17 +12,10 @@ import {
 } from './public';
 
 @NgModule({
-  imports: [
-    SkyListModule,
-    SkyListToolbarModule,
-    SkyListViewChecklistModule
-  ],
   exports: [
     SkyListModule,
-    SkyListToolbarModule,
-    SkyListViewChecklistModule
-  ],
-  providers: [],
-  entryComponents: []
+    SkyListViewChecklistModule,
+    SkyListToolbarModule
+  ]
 })
 export class AppExtrasModule { }
