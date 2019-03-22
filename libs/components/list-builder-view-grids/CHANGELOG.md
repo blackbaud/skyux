@@ -1,7 +1,11 @@
+# 3.2.0 (2019-03-22)
+
+- Added support for `@skyux/list-builder@^3.2.1` to add multiselect toolbar to list view grid component. [#21](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/21)
+
 # 3.1.0 (2019-03-19)
 
 - Added support for `microedge-rxstate@>=2.0.2`. [#32](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/32)
-- Fixed `SkyListViewGridComponent` to properly import `scan` RxJS operator. [#32](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/32)
+- Fixed list view grid component to properly import `scan` RxJS operator. [#32](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/32)
 
 # 3.0.2 (2019-03-07)
 
