@@ -1,19 +1,25 @@
 <div *ngIf="active | async">
   <sky-grid
-    #skyGrid
-    [height]="height | async"
-    [width]="width | async"
-    [fit]="fit"
-    [data]="items | async"
-    [selectedColumnIds]="selectedColumnIds | async"
     [columns]="columns | async"
+    [data]="items | async"
+    [enableMultiselect]="enableMultiselect"
+    [fit]="fit"
     [hasToolbar]="hasToolbar | async"
+    [height]="height | async"
     [highlightText]="highlightSearchText ? (currentSearchText | async) : undefined"
+    [multiselectRowId]="multiselectRowId"
     [rowHighlightedId]="rowHighlightedId"
-    (selectedColumnIdsChange)="columnIdsChanged($event)"
+    [selectedColumnIds]="selectedColumnIds | async"
     [sortField]="sortField | async"
+    [width]="width | async"
+    (multiselectSelectionChange)="onMultiselectSelectionChange($event)"
+    (selectedColumnIdsChange)="columnIdsChanged($event)"
     (sortFieldChange)="sortFieldChanged($event)"
-    >
+    #skyGrid
+  >
   </sky-grid>
-  <sky-wait [isWaiting]="loading | async"></sky-wait>
+  <sky-wait
+    [isWaiting]="loading | async"
+  >
+  </sky-wait>
 </div>

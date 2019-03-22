@@ -8,9 +8,17 @@ import {
   ViewChildren
 } from '@angular/core';
 
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import {
+  BehaviorSubject
+} from 'rxjs/BehaviorSubject';
 
-import { SkyListViewGridComponent } from '../list-view-grid.component';
+import {
+  SkyGridSelectedRowsModelChange
+} from '@skyux/grids';
+
+import {
+  SkyListViewGridComponent
+} from '../list-view-grid.component';
 
 @Component({
   selector: 'sky-test-cmp',
@@ -32,6 +40,8 @@ export class ListViewGridTestComponent implements OnInit {
 
   public rowHighlightedId: string;
 
+  public enableMultiselect = false;
+
   public searchFn: (data: any, searchText: string) => boolean;
 
   public showNgIfCol: boolean = false;
@@ -41,5 +51,9 @@ export class ListViewGridTestComponent implements OnInit {
       this.asyncHeading.next('Column1');
       this.asyncDescription.next('Column1 Description');
     }, 100);
+  }
+
+  public multiselectSelectionChange(multiselectSelectionChange: SkyGridSelectedRowsModelChange) {
+    console.log(multiselectSelectionChange);
   }
 }

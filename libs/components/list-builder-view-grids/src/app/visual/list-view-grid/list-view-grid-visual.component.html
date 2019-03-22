@@ -1,5 +1,11 @@
-<div id="screenshot-list-view-grid">
-  <sky-list [data]="items" [defaultView]="grid">
+<div
+  class="sky-padding-even-default"
+  id="screenshot-list-view-grid"
+>
+  <sky-list
+    [data]="items"
+    [defaultView]="grid"
+  >
     <sky-list-toolbar>
       <sky-list-column-selector-action
         [gridView]="grid"
@@ -13,20 +19,23 @@
       #grid
     >
       <sky-grid-column
+        description="A numbered column"
         field="column1"
-        [locked]="true"
         heading="Column1"
-        description="A numbered column">
+        [locked]="true"
+      >
       </sky-grid-column>
       <sky-grid-column
+        description="A fruit column"
         field="column2"
         heading="Column2"
-        description="A fruit column">
+      >
       </sky-grid-column>
       <sky-grid-column
+        description="A sentence column"
         field="column3"
         heading="Column3"
-        description="A sentence column">
+      >
       </sky-grid-column>
     </sky-list-view-grid>
   </sky-list>
@@ -38,4 +47,48 @@
       Toggle row highlight
     </button>
   </p>
+</div>
+
+<div
+  class="sky-padding-even-default"
+  id="screenshot-list-view-grid-with-multiselect"
+>
+  <sky-list
+    [data]="items"
+    [defaultView]="gridWithMultiselect"
+  >
+    <sky-list-toolbar>
+      <sky-list-column-selector-action
+        [gridView]="gridWithMultiselect"
+      >
+      </sky-list-column-selector-action>
+    </sky-list-toolbar>
+
+    <sky-list-view-grid
+      fit="scroll"
+      [enableMultiselect]="true"
+      [rowHighlightedId]="rowHighlightedId"
+      #gridWithMultiselect
+    >
+      <sky-grid-column
+        description="A numbered column"
+        field="column1"
+        heading="Column1"
+        [locked]="true"
+      >
+      </sky-grid-column>
+      <sky-grid-column
+        description="A fruit column"
+        field="column2"
+        heading="Column2"
+      >
+      </sky-grid-column>
+      <sky-grid-column
+        description="A sentence column"
+        field="column3"
+        heading="Column3"
+      >
+      </sky-grid-column>
+    </sky-list-view-grid>
+  </sky-list>
 </div>

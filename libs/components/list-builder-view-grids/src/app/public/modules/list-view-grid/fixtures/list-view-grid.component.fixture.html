@@ -1,12 +1,14 @@
 <sky-list-view-grid
   fit="scroll"
   selectionEnabled="true"
+  [enableMultiselect]="enableMultiselect"
   [height]="400"
   [hiddenColumns]="hiddenColumns"
   [name]="gridview"
   [rowHighlightedId]="rowHighlightedId"
   [search]="searchFn"
   [width]="600"
+  (multiselectSelectionChange)="multiselectSelectionChange($event)"
 >
 
   <sky-grid-column

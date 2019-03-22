@@ -105,7 +105,19 @@ describe('List View Grid Component', () => {
       component = fixture.componentInstance;
     }));
 
-    function setupTest() {
+    function getSelectInputs() {
+      return element.queryAll(By.css('.sky-grid-multiselect-cell input'));
+    }
+
+    function clickSelectInputByIndex(id: number) {
+      const selectInputs = getSelectInputs();
+      selectInputs[id].nativeElement.click();
+      fixture.detectChanges();
+    }
+
+    function setupTest(enableMultiselect: boolean = false) {
+      component.enableMultiselect = enableMultiselect;
+
       fixture.detectChanges();
 
       let items = [
@@ -405,6 +417,44 @@ describe('List View Grid Component', () => {
           })
         );
       });
+    });
+
+    describe('multiselect', () => {
+      it('should send action to the dispatcher when multiselect is enabled', fakeAsync(() => {
+        const spy = spyOn(dispatcher, 'toolbarShowMultiselectToolbar');
+
+        setupTest(true); // enable multiselect
+        flush();
+        tick(110); // wait for async heading
+        fixture.detectChanges();
+
+        expect(spy).toHaveBeenCalledWith(true);
+      }));
+
+      it('should send actions to the dispatcher on multiselectSelectionChange', fakeAsync(() => {
+        const spy = spyOn(dispatcher, 'setSelected').and.callThrough();
+
+        setupTest(true); // enable multiselect
+        flush();
+        tick(110); // wait for async heading
+        fixture.detectChanges();
+
+        // Select first row.
+        clickSelectInputByIndex(0);
+        fixture.detectChanges();
+
+        // Expect dispatcher to send action.
+        expect(spy).toHaveBeenCalledWith(['1'], true);
+
+        // Deselect first row.
+        spy.calls.reset();
+        flush();
+        clickSelectInputByIndex(0);
+        fixture.detectChanges();
+
+        // Expect dispatcher to send action.
+        expect(spy).toHaveBeenCalledWith(['1'], false);
+      }));
     });
 
     describe('nonstandard setup', () => {
