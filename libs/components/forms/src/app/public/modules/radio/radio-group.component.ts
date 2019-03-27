@@ -66,10 +66,17 @@ export class SkyRadioGroupComponent implements AfterContentInit, ControlValueAcc
       this._value = value;
       this.updateCheckedRadioFromValue();
 
-      if (currentValue) {
+      // Explicitly check both `undefined` and `null` (Angular's empty value) so that
+      // we can support boolean values for the form control.
+      /* tslint:disable:no-null-keyword */
+      if (
+        currentValue !== undefined &&
+        currentValue !== null
+      ) {
         this.onChange(this.value);
         this.onTouched();
       }
+      /* tslint:enable */
     }
   }
   public get value(): any {

@@ -1,3 +1,7 @@
+# 3.1.1 (2019-03-27)
+
+- Fixed radio group component to support boolean values. [#31](https://github.com/blackbaud/skyux-forms/pull/31)
+
 # 3.1.0 (2019-03-19)
 
 - Added `ariaLabel` property to radio group component. [#26](https://github.com/blackbaud/skyux-forms/pull/26)

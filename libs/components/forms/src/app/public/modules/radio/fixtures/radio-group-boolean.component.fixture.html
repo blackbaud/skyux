@@ -1,0 +1,23 @@
+<form
+  novalidate
+  [formGroup]="radioForm"
+>
+  <sky-radio-group
+    formControlName="booleanValue"
+  >
+    <sky-radio
+      [value]="false"
+    >
+      <sky-radio-label>
+        false
+      </sky-radio-label>
+    </sky-radio>
+    <sky-radio
+      [value]="true"
+    >
+      <sky-radio-label>
+        true
+      </sky-radio-label>
+    </sky-radio>
+  </sky-radio-group>
+</form>

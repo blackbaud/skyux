@@ -17,6 +17,7 @@ import {
 
 import {
   SkyRadioFixturesModule,
+  SkyRadioGroupBooleanTestComponent,
   SkyRadioGroupTestComponent
 } from './fixtures';
 // #endregion
@@ -213,6 +214,38 @@ describe('Radio group component', function () {
 
     const radioGroupDiv = fixture.nativeElement.querySelector('.sky-radio-group');
     expect(radioGroupDiv.getAttribute('aria-label')).toBe('radio-group-label-manual');
+  }));
+
+  it('should support boolean values', fakeAsync(function () {
+    const booleanFixture = TestBed.createComponent(SkyRadioGroupBooleanTestComponent);
+    const booleanComponent = booleanFixture.componentInstance;
+
+    booleanFixture.detectChanges();
+    tick();
+
+    const radios = booleanFixture.nativeElement.querySelectorAll('.sky-radio-input');
+
+    expect(booleanComponent.radioGroupComponent.value).toEqual(false);
+    expect(radios.item(0).checked).toEqual(true);
+    expect(radios.item(1).checked).toEqual(false);
+
+    radios.item(1).click();
+    booleanFixture.detectChanges();
+    tick();
+
+    expect(booleanComponent.radioGroupComponent.value).toEqual(true);
+    expect(booleanComponent.radioForm.get('booleanValue').value).toEqual(true);
+    expect(radios.item(0).checked).toEqual(false);
+    expect(radios.item(1).checked).toEqual(true);
+
+    radios.item(0).click();
+    booleanFixture.detectChanges();
+    tick();
+
+    expect(booleanComponent.radioGroupComponent.value).toEqual(false);
+    expect(booleanComponent.radioForm.get('booleanValue').value).toEqual(false);
+    expect(radios.item(0).checked).toEqual(true);
+    expect(radios.item(1).checked).toEqual(false);
   }));
 
   it('should pass accessibility', async(() => {

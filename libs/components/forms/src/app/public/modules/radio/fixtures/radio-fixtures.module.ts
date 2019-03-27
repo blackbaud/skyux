@@ -17,6 +17,11 @@ import {
 import {
   SkyRadioTestComponent
 } from './radio.component.fixture';
+
+import {
+  SkyRadioGroupBooleanTestComponent
+} from './radio-group-boolean.component.fixture';
+
 import {
   SkyRadioGroupTestComponent
 } from './radio-group.component.fixture';
@@ -32,6 +37,7 @@ import {
 @NgModule({
   declarations: [
     SkyRadioTestComponent,
+    SkyRadioGroupBooleanTestComponent,
     SkyRadioGroupTestComponent,
     SkyRadioOnPushTestComponent,
     SkySingleRadioComponent
@@ -44,6 +50,7 @@ import {
   ],
   exports: [
     SkyRadioTestComponent,
+    SkyRadioGroupBooleanTestComponent,
     SkyRadioGroupTestComponent,
     SkySingleRadioComponent
   ]
