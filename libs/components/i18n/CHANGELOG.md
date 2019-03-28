@@ -1,3 +1,7 @@
+# 3.5.2 (2019-03-28)
+
+- Fixed `SkyAppResourcesService` and `SkyLibResourcesService` to remove a circular reference to `@skyux/core`. [#25](https://github.com/blackbaud/skyux-i18n/pull/25)
+
 # 3.5.1 (2019-03-19)
 
 - Fixed `SkyI18nModule` to remove a circular reference to `@skyux/core`. [#23](https://github.com/blackbaud/skyux-i18n/pull/23)
