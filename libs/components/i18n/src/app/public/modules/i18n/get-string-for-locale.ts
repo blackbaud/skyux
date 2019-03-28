@@ -1,6 +1,6 @@
 import {
   SkyAppResources
-} from '@skyux/i18n';
+} from './resources';
 
 export function getStringForLocale(
   resources: {

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 
-import { SkyAppFormat } from '@skyux/core/modules/format';
+import { Format } from '../utils/format';
 
 import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/observable/of';
 
-import { SkyAppResources } from '../';
+import { SkyAppResources } from '../modules/i18n/resources';
 
 declare const ROOT_DIR: string;
 declare const require: { context: any };
@@ -16,13 +16,6 @@ declare const require: { context: any };
  */
 @Injectable()
 export class SkyAppResourcesTestService {
-
-  private skyAppFormat: SkyAppFormat;
-
-  constructor() {
-    this.skyAppFormat = new SkyAppFormat();
-  }
-
   public getString(name: string, ...args: any[]): Observable<string> {
     function throwMissingResourceError(message: string): void {
       throw new Error(
@@ -70,6 +63,8 @@ export class SkyAppResourcesTestService {
       );
     }
 
-    return Observable.of(this.skyAppFormat.formatText(resources[name].message, ...args));
+    return Observable.of(
+      Format.formatText(resources[name].message, ...args)
+    );
   }
 }

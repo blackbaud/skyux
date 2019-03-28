@@ -11,10 +11,6 @@ import {
 } from '@skyux/assets';
 
 import {
-  SkyAppWindowRef
-} from '@skyux/core/modules/window';
-
-import {
   SkyAppResourcesPipe
 } from './resources.pipe';
 
@@ -55,7 +51,6 @@ import {
     },
     SkyAppLocaleProvider,
     SkyAppResourcesService,
-    SkyAppWindowRef,
     SkyLibResourcesService
   ]
 })

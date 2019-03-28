@@ -3,13 +3,13 @@ import {
 } from '@angular/core';
 
 import {
-  SkyAppFormat
-} from '@skyux/core';
-
-import {
   SkyAppLocaleInfo,
   SkyAppResources
-} from '@skyux/i18n';
+} from '../modules';
+
+import {
+  Format
+} from '../utils/format';
 
 import {
   Observable
@@ -22,8 +22,6 @@ declare const require: { context: any };
 
 @Injectable()
 export class SkyLibResourcesTestService {
-  private format = new SkyAppFormat();
-
   constructor() {
     console.warn(
       'SkyLibResourcesTestService is no longer needed and' +
@@ -76,6 +74,6 @@ export class SkyLibResourcesTestService {
       );
     }
 
-    return this.format.formatText(resources[name].message, ...args);
+    return Format.formatText(resources[name].message, ...args);
   }
 }

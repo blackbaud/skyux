@@ -9,8 +9,8 @@ import {
 } from 'rxjs/Observable';
 
 import {
-  SkyAppFormat
-} from '@skyux/core';
+  Format
+} from '../../utils/format';
 
 import {
   SkyAppLocaleInfo
@@ -31,8 +31,6 @@ import {
 
 @Injectable()
 export class SkyLibResourcesService {
-  private format = new SkyAppFormat();
-
   constructor(
     private localeProvider: SkyAppLocaleProvider,
     @Inject(SKY_LIB_RESOURCES_PROVIDERS) private providers: SkyLibResourcesProvider[]
@@ -51,7 +49,7 @@ export class SkyLibResourcesService {
     for (const provider of this.providers) {
       const s = provider.getString(info, name);
        if (s) {
-        return this.format.formatText(s, ...args);
+        return Format.formatText(s, ...args);
       }
     }
 

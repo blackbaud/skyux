@@ -30,10 +30,6 @@ import {
 } from '@skyux/assets';
 
 import {
-  SkyAppFormat
-} from '@skyux/core/modules/format';
-
-import {
   SkyAppWindowRef
 } from '@skyux/core/modules/window/window-ref';
 
@@ -62,7 +58,6 @@ describe('Resources service', () => {
       SkyAppWindowRef,
       SkyAppAssetsService,
       SkyAppResourcesService,
-      SkyAppFormat,
       {
         provide: SkyAppLocaleProvider,
         useClass: SkyAppHostLocaleProvider

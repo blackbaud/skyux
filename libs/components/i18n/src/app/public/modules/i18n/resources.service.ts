@@ -25,8 +25,8 @@ import {
 } from '@skyux/assets';
 
 import {
-  SkyAppFormat
-} from '@skyux/core/modules/format';
+  Format
+} from '../../utils/format';
 
 import {
   SkyAppLocaleProvider
@@ -48,7 +48,6 @@ function getDefaultObs(): Observable<{ json: () => any }> {
 @Injectable()
 export class SkyAppResourcesService {
   private resourcesObs: Observable<any>;
-  private skyAppFormat: SkyAppFormat;
   private httpObs: {[key: string]: Observable<any>} = {};
 
   constructor(
@@ -56,9 +55,7 @@ export class SkyAppResourcesService {
     /* tslint:disable-next-line no-forward-ref */
     @Inject(forwardRef(() => SkyAppAssetsService)) private assets: SkyAppAssetsService,
     @Optional() private localeProvider: SkyAppLocaleProvider
-  ) {
-    this.skyAppFormat = new SkyAppFormat();
-  }
+  ) { }
 
   /**
    * Gets a resource string based on its name.
@@ -136,7 +133,7 @@ export class SkyAppResourcesService {
       }
 
       if (name in resources) {
-        return this.skyAppFormat.formatText(resources[name].message, ...args);
+        return Format.formatText(resources[name].message, ...args);
       }
 
       return name;
