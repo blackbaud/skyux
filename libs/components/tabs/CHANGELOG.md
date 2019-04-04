@@ -1,10 +1,14 @@
+# 3.0.1 (2019-04-04)
+
+- Fixed efficiency issues in tabset component. [#16](https://github.com/blackbaud/skyux-tabs/pull/16)
+
 # 3.0.0 (2019-01-14)
 
 - Major version release.
 
 # 3.0.0-rc.4 (2018-12-19)
 
-- Fixed vertical tabset group component to not accept clicks and have proper visual styles when disabled [#7](https://github.com/blackbaud/skyux-tabs/pull/7)
+- Fixed vertical tabset group component to not accept clicks and have proper visual styles when disabled. [#7](https://github.com/blackbaud/skyux-tabs/pull/7)
 
 # 3.0.0-rc.3 (2018-11-28)
 
