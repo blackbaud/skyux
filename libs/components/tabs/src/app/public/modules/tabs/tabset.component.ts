@@ -3,7 +3,6 @@ import {
   AfterViewInit,
   Component,
   ContentChildren,
-  DoCheck,
   ElementRef,
   EventEmitter,
   Input,
@@ -17,9 +16,17 @@ import {
 
 import 'rxjs/add/operator/distinctUntilChanged';
 
-import { SkyTabComponent } from './tab.component';
-import { SkyTabsetAdapterService } from './tabset-adapter.service';
-import { SkyTabsetService } from './tabset.service';
+import {
+  SkyTabComponent
+} from './tab.component';
+
+import {
+  SkyTabsetAdapterService
+} from './tabset-adapter.service';
+
+import {
+  SkyTabsetService
+} from './tabset.service';
 
 @Component({
   selector: 'sky-tabset',
@@ -28,7 +35,7 @@ import { SkyTabsetService } from './tabset.service';
   providers: [SkyTabsetAdapterService, SkyTabsetService]
 })
 export class SkyTabsetComponent
-  implements AfterContentInit, AfterViewInit, DoCheck, OnDestroy, OnChanges {
+  implements AfterContentInit, AfterViewInit, OnDestroy, OnChanges {
 
   @Input()
   public get tabStyle(): string {
@@ -113,6 +120,11 @@ export class SkyTabsetComponent
         change.filter(tab => currentTabs.indexOf(tab) < 0)
               .forEach(item => item.initializeTabIndex());
       });
+
+      // We need the setTimeout here to ensure that the DOM actually has updated for the tab changes
+      setTimeout(() => {
+        this.adapterService.detectOverflow();
+      }, 0);
     });
 
     if (this.active || this.active === 0) {
@@ -145,15 +157,12 @@ export class SkyTabsetComponent
     }, 0);
   }
 
-  public ngDoCheck() {
-    this.adapterService.detectOverflow();
-  }
-
   public ngOnDestroy() {
     this.tabsetService.destroy();
   }
 
   private updateDisplayMode(currentOverflow: boolean) {
     this.tabDisplayMode = currentOverflow ? 'dropdown' : 'tabs';
+    this.changeRef.detectChanges();
   }
 }

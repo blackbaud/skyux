@@ -1,8 +1,15 @@
-import { Injectable } from '@angular/core';
+import {
+  Injectable
+} from '@angular/core';
 
-import { SkyTabComponent } from './tab.component';
+import {
+  SkyTabComponent
+} from './tab.component';
 
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import {
+  BehaviorSubject
+ } from 'rxjs/BehaviorSubject';
+
 import 'rxjs/add/operator/take';
 
 @Injectable()
@@ -33,7 +40,6 @@ export class SkyTabsetService {
   }
 
   public addTab(tab: SkyTabComponent) {
-
     this.tabs.take(1).subscribe((currentTabs) => {
       if (tab.tabIndex === undefined) {
         tab.tabIndex = 0;
@@ -48,7 +54,6 @@ export class SkyTabsetService {
   }
 
   public destroyTab(tab: SkyTabComponent) {
-
     this.tabs.take(1).subscribe((currentTabs) => {
 
       let tabIndex = currentTabs.indexOf(tab);
