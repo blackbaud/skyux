@@ -30,7 +30,6 @@ export abstract class SkyA11yAnalyzer {
       'frame-title': { enabled: true },
       'frame-title-unique': { enabled: true },
       'heading-order': { enabled: true },
-      'href-no-hash': { enabled: true },
       'html-has-lang': { enabled: true },
       'html-lang-valid': { enabled: true },
       'image-alt': { enabled: true },
