@@ -32,6 +32,7 @@ export abstract class SkyA11yAnalyzer {
       'heading-order': { enabled: true },
       'html-has-lang': { enabled: true },
       'html-lang-valid': { enabled: true },
+      'href-no-hash': { enabled: true },
       'image-alt': { enabled: true },
       'image-redundant-alt': { enabled: true },
       'input-image-alt': { enabled: true },
