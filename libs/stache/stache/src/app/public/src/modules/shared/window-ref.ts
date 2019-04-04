@@ -3,6 +3,7 @@ import { EventManager } from '@angular/platform-browser';
 
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { fromEvent } from 'rxjs/observable/fromEvent';
 
 function getWindow(): any {
   return window;
@@ -18,6 +19,8 @@ export class StacheWindowRef {
   get onResize$(): Observable<Window> {
     return this.resizeSubject.asObservable();
   }
+
+  public scrollEventStream = fromEvent(this.nativeWindow, 'scroll');
 
   private resizeSubject: ReplaySubject<Window>;
 

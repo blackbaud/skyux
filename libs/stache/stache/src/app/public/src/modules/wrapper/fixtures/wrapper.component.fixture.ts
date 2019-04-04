@@ -9,4 +9,6 @@ export class StacheWrapperTestComponent {
 
   @ViewChild('testWrapper')
   public testWrapper: any;
+
+  public inPageRoutes: any[];
 }

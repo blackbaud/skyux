@@ -2,13 +2,13 @@
 import {
   Component,
   OnInit,
-  OnDestroy,
   Input,
   AfterViewInit,
+  OnDestroy,
   ChangeDetectorRef
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { StacheTitleService } from './title.service';
 import { StacheConfigService, StacheJsonDataService, StacheOmnibarAdapterService, StacheWindowRef } from '../shared';
 import { StacheNavLink } from '../nav';
@@ -23,7 +23,7 @@ const _get = require('lodash.get');
   templateUrl: './wrapper.component.html',
   styleUrls: ['./wrapper.component.scss']
 })
-export class StacheWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
+export class StacheWrapperComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input()
   public pageTitle: string;
 
@@ -61,36 +61,46 @@ export class StacheWrapperComponent implements OnInit, OnDestroy, AfterViewInit 
   @Input()
   public showInNav: boolean = true;
 
+  @Input()
+  public inPageRoutes: StacheNavLink[];
+
   public jsonData: any;
-  public inPageRoutes: StacheNavLink[] = [];
-  private pageAnchorSubscription: Subscription;
+  private ngUnsubscribe = new Subject();
 
   public constructor(
     private config: StacheConfigService,
     private dataService: StacheJsonDataService,
+    private pageAnchorService: StachePageAnchorService,
     private titleService: StacheTitleService,
     private route: ActivatedRoute,
     private navService: StacheNavService,
-    private anchorService: StachePageAnchorService,
-    private cdr: ChangeDetectorRef,
     private windowRef: StacheWindowRef,
+    private changeDetectorRef: ChangeDetectorRef,
     private omnibarService: StacheOmnibarAdapterService) { }
 
   public ngOnInit(): void {
     this.omnibarService.checkForOmnibar();
     this.jsonData = this.dataService.getAll();
-    this.registerPageAnchors();
+    if (!this.inPageRoutes) {
+      this.pageAnchorService
+        .pageAnchorsStream
+        .takeUntil(this.ngUnsubscribe)
+        .subscribe((anchors: StacheNavLink[]) => {
+          this.inPageRoutes = anchors;
+          this.changeDetectorRef.detectChanges();
+        });
+    }
   }
 
   public ngAfterViewInit() {
     const preferredDocumentTitle = this.getPreferredDocumentTitle();
     this.titleService.setTitle(preferredDocumentTitle);
     this.checkRouteHash();
-    this.cdr.detectChanges();
   }
 
-  public ngOnDestroy(): void {
-    this.destroyPageAnchorSubscription();
+  public ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   private getPreferredDocumentTitle(): string {
@@ -102,20 +112,6 @@ export class StacheWrapperComponent implements OnInit, OnDestroy, AfterViewInit 
     if (currentTutorialHeader && currentTutorialHeader.textContent) {
       return currentTutorialHeader.textContent.trim();
     }
-  }
-
-  private registerPageAnchors(): void {
-    this.inPageRoutes = [];
-    this.destroyPageAnchorSubscription();
-    this.pageAnchorSubscription = this.anchorService.anchorStream.subscribe(
-      link => {
-        if (link.order !== undefined) {
-          this.inPageRoutes.splice(link.order, 0, link);
-        } else {
-          this.inPageRoutes.push(link);
-        }
-      }
-    );
   }
 
   private checkEditButtonUrl(): boolean {
@@ -134,16 +130,9 @@ export class StacheWrapperComponent implements OnInit, OnDestroy, AfterViewInit 
         let url = '';
         this.route.url.subscribe(segments => url = segments.join('/')).unsubscribe();
         if (fragment) {
-          this.navService.navigate({path: url, fragment});
+          this.navService.navigate({ path: url, fragment });
         }
       })
       .unsubscribe();
-  }
-
-  private destroyPageAnchorSubscription(): void {
-    if (this.pageAnchorSubscription) {
-      this.pageAnchorSubscription.unsubscribe();
-      this.pageAnchorSubscription = undefined;
-    }
   }
 }

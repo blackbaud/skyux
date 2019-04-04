@@ -1,37 +1,27 @@
 import { ChangeDetectorRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
-
+import { StachePageAnchorTestComponent } from './fixtures/page-anchor.component.fixture';
 import { StachePageAnchorComponent } from './page-anchor.component';
+import { StachePageAnchorModule } from './page-anchor.module';
 import { StachePageAnchorService } from './page-anchor.service';
-
 import { StacheWindowRef, StacheRouteService } from '../shared';
+import { Subject } from 'rxjs';
+import { By } from '@angular/platform-browser';
 
 describe('StachePageAnchorComponent', () => {
-  let component: StachePageAnchorComponent;
-  let fixture: ComponentFixture<StachePageAnchorComponent>;
-  let mockRouteService: any;
+  let fixtureComponent: StachePageAnchorTestComponent;
+  let fixture: ComponentFixture<StachePageAnchorTestComponent>;
+  let anchorComponent: StachePageAnchorComponent;
   let mockWindowService: any;
   let mockAnchorService: any;
-
-  let activeUrl: string = '/';
-
-  let mockPageAnchors = [
-    {
-      id: 'test-content'
-    }
-  ];
-
-  class MockRouteService {
-    public getActiveUrl() {
-      return activeUrl;
-    }
-  }
+  let mockRouteService: any;
 
   class MockAnchorService {
-    public addPageAnchor = jasmine.createSpy('addPageAnchor').and.callFake((anchor: any) => {});
+    public refreshRequestedStream = new Subject();
+
+    public addAnchor = (anchor: any) => true;
   }
 
   class MockWindowService {
@@ -39,9 +29,6 @@ describe('StachePageAnchorComponent', () => {
       document: {
         querySelector: jasmine.createSpy('querySelector').and.callFake((fragment: any) => {
             return this.testElement;
-          }),
-          querySelectorAll: jasmine.createSpy('querySelectorAll').and.callFake(() => {
-            return mockPageAnchors;
           })
       },
       location: {
@@ -54,102 +41,99 @@ describe('StachePageAnchorComponent', () => {
     };
   }
 
+  class MockRouteService {
+    public getActiveUrl = (): any => '/';
+  }
+
   beforeEach(() => {
     mockWindowService = new MockWindowService();
-    mockRouteService = new MockRouteService();
     mockAnchorService = new MockAnchorService();
+    mockRouteService = new MockRouteService();
 
     TestBed.configureTestingModule({
       declarations: [
-        StachePageAnchorComponent
+        StachePageAnchorTestComponent
       ],
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        StachePageAnchorModule
       ],
       providers: [
         { provide: StacheWindowRef, useValue: mockWindowService },
-        { provide: StacheRouteService, useValue: mockRouteService },
         { provide: StachePageAnchorService, useValue: mockAnchorService },
+        { provide: StacheRouteService, useValue: mockRouteService },
         ChangeDetectorRef
       ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(StachePageAnchorComponent);
-    component = fixture.componentInstance;
-    spyOn((component as any).cdRef, 'detectChanges').and.callFake(() => {});
-    fixture.debugElement.nativeElement.textContent = 'Test Content';
+    fixture = TestBed.createComponent(StachePageAnchorTestComponent);
+    fixtureComponent = fixture.componentInstance;
+    anchorComponent = fixture.debugElement.query(By.directive(StachePageAnchorComponent)).componentInstance;
   });
 
-  it('should add the name from the element text content', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-    expect(component.name).toBe('Test Content');
-  });
-
-  it('should add the fragment from the component name', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-    expect(component.fragment).toBe('test-content');
-  });
-
-  it('should add the fragment from the anchorId input', () => {
-    component.anchorId = 'input-anchor-id';
-    component.ngOnInit();
-    fixture.detectChanges();
-    expect(component.fragment).toBe('input-anchor-id');
-  });
-
-  it('should add the path from the route service', () => {
-    const routeSpy = spyOn(mockRouteService, 'getActiveUrl').and.callThrough();
-    component.ngOnInit();
-    fixture.detectChanges();
-    expect(routeSpy).toHaveBeenCalled();
-    expect(component.path).toEqual(['/']);
-  });
-
-  it('should add an order to the anchor based on it\'s order with other anchors', () => {
-    component.ngAfterViewInit();
-    fixture.detectChanges();
-    expect(component.order).toBe(0);
-
-    mockPageAnchors = [
-      {
-        id: 'one'
-      },
-      {
-        id: 'test-content'
-      }
-    ];
-
-    component.ngAfterViewInit();
-    fixture.detectChanges();
-    expect(component.order).toBe(1);
-  });
-
-  it('should register the page anchor with the page anchor service', () => {
-    let expectedAnchor = {
-      path: ['/'],
-      name: 'Test Content',
-      fragment: 'test-content',
-      order: 1,
-      offsetTop: 0
-    };
-
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    expect(mockAnchorService.addPageAnchor).toHaveBeenCalledWith(expectedAnchor);
-  });
-
-  it('scroll to anchor should call the elements scroll to anchor method', () => {
-    component.scrollToAnchor();
-    fixture.detectChanges();
+  it('should scroll to anchor', () => {
+    anchorComponent.scrollToAnchor();
     expect(mockWindowService.testElement.scrollIntoView).toHaveBeenCalled();
   });
 
-  it('finds a tutorial anchor', () => {
-    fixture.debugElement.nativeElement.classList = ['stache-tutorial-step'];
-    component.ngAfterViewInit();
-    expect(component.offsetTop).not.toBe(undefined);
+  it('should populate data after view init', () => {
+    fixtureComponent.anchorContent = 'foo';
+    fixture.detectChanges();
+    expect(anchorComponent.name).toEqual('foo');
+  });
+
+  it('should populate data after view init', () => {
+    fixtureComponent.anchorContent = 'foo';
+    fixture.detectChanges();
+    expect(anchorComponent.name).toEqual('foo');
+  });
+
+  it('should set the anchors id/fragment from the anchor content', () => {
+    fixtureComponent.anchorContent = 'foo';
+    fixture.detectChanges();
+    const el = fixture.debugElement.nativeElement.querySelector('.stache-page-anchor');
+    expect(anchorComponent.fragment).toEqual('foo');
+    expect(el.id).toBe('foo');
+  });
+
+  it('should set the anchors id/fragment to anchorId over anchor content', () => {
+    fixtureComponent.anchorId = 'bar';
+    fixtureComponent.anchorContent = 'foo';
+    fixture.detectChanges();
+    const el = fixture.debugElement.nativeElement.querySelector('.stache-page-anchor');
+    expect(anchorComponent.fragment).toEqual('bar');
+    expect(el.id).toBe('bar');
+  });
+
+  it('should update the anchor on refreshRequested', () => {
+    fixture.detectChanges();
+    spyOn(anchorComponent.anchorStream, 'next').and.callThrough();
+    mockAnchorService.refreshRequestedStream.next();
+
+    expect(anchorComponent.anchorStream.next).toHaveBeenCalled();
+  });
+
+  it('should update the name value if the textContent changes ', () => {
+    fixtureComponent.anchorContent = 'foo';
+    fixture.detectChanges();
+    expect(anchorComponent.name).toEqual('foo');
+    fixtureComponent.anchorContent = 'bar';
+    expect(anchorComponent.name).toEqual = 'bar';
+  });
+
+  it('should update the offsetTop value if the offsetTop changes ', () => {
+    let offsetValue = 100;
+
+    spyOn<any>(anchorComponent, 'getOffset').and.callFake(() => {
+        return offsetValue;
+    });
+
+    fixture.detectChanges();
+    expect(anchorComponent.offsetTop).toEqual(100);
+    offsetValue = 300;
+    fixture.detectChanges();
+    anchorComponent.ngAfterViewChecked();
+    expect(anchorComponent.offsetTop).toEqual(300);
   });
 });

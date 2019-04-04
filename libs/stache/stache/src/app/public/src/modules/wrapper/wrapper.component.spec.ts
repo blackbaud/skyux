@@ -4,14 +4,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Observable } from 'rxjs/Observable';
 import { SkyAppResourcesService } from '@blackbaud/skyux-builder/runtime/i18n';
 import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
-
 import { StacheWrapperTestComponent } from './fixtures/wrapper.component.fixture';
 import { StacheWrapperComponent } from './wrapper.component';
 import { StacheFooterModule } from '../footer';
 import { StacheTitleService } from './title.service';
 import { StacheNavLink } from '../nav';
 import { StacheNavService } from '../nav/nav.service';
-
 import {
   StacheWindowRef,
   StacheRouteService,
@@ -20,11 +18,11 @@ import {
   StacheJsonDataService,
   STACHE_ROUTE_METADATA_PROVIDERS
 } from '../shared';
-
 import { StacheLayoutModule } from '../layout';
-import { StachePageAnchorModule, StachePageAnchorService } from '../page-anchor';
+import { StachePageAnchorModule } from '../page-anchor';
 import { SkyMediaQueryModule } from '@blackbaud/skyux/dist/core';
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Pipe({
   name: 'skyAppResources'
@@ -44,7 +42,6 @@ describe('StacheWrapperComponent', () => {
   let mockJsonDataService: any;
   let mockTitleService: any;
   let mockWindowService: any;
-  let mockAnchorService: any;
   let mockOmnibarService: any;
   let mockTextContent: string = '';
   let mockSkyAppResourcesService: any;
@@ -68,7 +65,7 @@ describe('StacheWrapperComponent', () => {
 
   class MockActivatedRoute {
     public fragment: Observable<string> = Observable.of('test-route');
-    public url: Observable<string[]> = Observable.of(['test', 'routes']);
+    public url: BehaviorSubject<string[]> = new BehaviorSubject(['test', 'route']);
     // snapshot is a required prop on activatedRoute to avoid an error with `'_lastPathIndex' of undefined`
     // https://stackoverflow.com/questions/41245783/angular-testing-router-params-breaks-test-bed
     public snapshot = {};
@@ -123,23 +120,6 @@ describe('StacheWrapperComponent', () => {
 
   class MockTitleService {
     public setTitle = jasmine.createSpy('setTitle');
-  }
-
-  class MockAnchorService {
-    public anchorStream = Observable.of(
-      {
-        path: 'Second Path',
-        name: 'Second Heading',
-        fragment: 'Second Fragment'
-      } as StacheNavLink,
-      {
-        path: 'First Path',
-        name: 'First Heading',
-        fragment: 'First Fragment',
-        order: 0
-      } as StacheNavLink
-    );
-    public addPageAnchor = function() {};
   }
 
   class MockWindowService {
@@ -205,6 +185,8 @@ describe('StacheWrapperComponent', () => {
       }
     };
 
+    public scrollEventStream = Observable.of(true);
+
     get onResize$() {
       return Observable.of({});
     }
@@ -223,7 +205,6 @@ describe('StacheWrapperComponent', () => {
     mockJsonDataService = new MockJsonDataService();
     mockTitleService = new MockTitleService();
     mockWindowService = new MockWindowService({});
-    mockAnchorService = new MockAnchorService();
     mockOmnibarService = new MockOmbibarService();
     mockSkyAppResourcesService = new MockSkyAppResourcesService();
 
@@ -249,7 +230,6 @@ describe('StacheWrapperComponent', () => {
         { provide: StacheTitleService, useValue: mockTitleService },
         { provide: StacheWindowRef, useValue: mockWindowService },
         { provide: StacheConfigService, useValue: mockConfigService },
-        { provide: StachePageAnchorService, useValue: mockAnchorService },
         { provide: SkyAppResourcesService, useValue: mockSkyAppResourcesService },
         STACHE_ROUTE_METADATA_PROVIDERS
       ]
@@ -425,7 +405,7 @@ describe('StacheWrapperComponent', () => {
     expect(mockOmnibarService.checkForOmnibar).toHaveBeenCalled();
   });
 
-  it('should update inPageRoutes after content is rendered', () => {
+  it('should update inPageRoutes from stachePageAnchors after content is rendered', () => {
     const testFixture = TestBed.createComponent(StacheWrapperTestComponent);
     const testComponent = testFixture.componentInstance;
 
@@ -436,18 +416,19 @@ describe('StacheWrapperComponent', () => {
     expect(inPageRoutes[1].name).toEqual('Second Heading');
   });
 
-  it('should unsubscribe page anchor subscriptions after component is destroyed', () => {
+  it('should use inPageRoutes over stachePageAnchors', () => {
     const testFixture = TestBed.createComponent(StacheWrapperTestComponent);
+    const testNavLink = {
+      name: 'test-anchor',
+      path: './',
+      fragment: '#test-anchor'
+    };
     const testComponent = testFixture.componentInstance;
-
+    testComponent.inPageRoutes = [testNavLink];
     testFixture.detectChanges();
-    expect(testComponent.testWrapper.pageAnchorSubscription).not.toBe(undefined);
 
-    testComponent.testWrapper.ngOnInit();
-    expect(testComponent.testWrapper.pageAnchorSubscription).not.toBe(undefined);
-
-    testComponent.testWrapper.ngOnDestroy();
-    expect(testComponent.testWrapper.pageAnchorSubscription).toBe(undefined);
+    const inPageRoutes = testComponent.testWrapper.inPageRoutes;
+    expect(inPageRoutes[0].name).toEqual(testNavLink.name);
   });
 
   it('should not navigate to a fragment if none exist', () => {
@@ -459,5 +440,12 @@ describe('StacheWrapperComponent', () => {
     testFixture.detectChanges();
     expect(subscribeSpy).toHaveBeenCalled();
     expect(navSpy).not.toHaveBeenCalled();
+  });
+
+  it('should not use in page routes from anchor service if custom routes are passed in', () => {
+    const routes = [{name: 'testRoute'} as StacheNavLink];
+    component.inPageRoutes = routes;
+    component.ngAfterViewInit();
+    expect(component.inPageRoutes).toEqual(routes);
   });
 });

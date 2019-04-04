@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { StacheNavLink } from './public/src/modules/nav';
 
 @Component({
   selector: 'app-home',
@@ -193,6 +194,19 @@ export class HomeComponent {
           path: '/9'
         }
       ]
+    }
+  ];
+
+  public inPageRoutes: StacheNavLink[] = [
+    {
+      name: 'test',
+      path: '/',
+      offsetTop: 200
+    },
+    {
+      name: 'test2',
+      path: '/',
+      offsetTop: 500
     }
   ];
 }

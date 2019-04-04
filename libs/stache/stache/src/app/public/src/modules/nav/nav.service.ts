@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { StacheWindowRef } from '../shared';
 
 @Injectable()
 export class StacheNavService {
   public constructor(
     private router: Router,
-    private windowRef: StacheWindowRef) { }
+    private windowRef: StacheWindowRef) {}
 
   public navigate(route: any): void {
-    let extras: any = { queryParamsHandling: 'merge'};
+    let extras: any = { queryParamsHandling: 'merge' };
     const currentPath = this.router.url.split('?')[0].split('#')[0];
 
     if (this.isExternal(route)) {
@@ -47,13 +46,13 @@ export class StacheNavService {
   }
 
   private isCurrentRoute(routePath: string | string[], currentPath: string): boolean {
-   let path = routePath;
+    let path = routePath;
 
-   if (Array.isArray(path)) {
-    path = path.join('/');
-   }
+    if (Array.isArray(path)) {
+      path = path.join('/');
+    }
 
-   return (path === '.' || currentPath.replace(/^\//, '') === path.replace(/^\//, ''));
+    return (path === '.' || currentPath.replace(/^\//, '') === path.replace(/^\//, ''));
   }
 
   private navigateInPage(fragment: string): void {

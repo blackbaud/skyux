@@ -8,29 +8,39 @@ class MockRouter {
 let elementScrollCalled: boolean = false;
 
 class MockWindowService {
+  public testElement = {
+    offsetTop: 20,
+    getBoundingClientRect() {
+      return {
+        y: 0,
+        bottom: 0
+      };
+    },
+    scrollIntoView() {
+      elementScrollCalled = true;
+      return;
+    }
+  };
+
   public nativeWindow = {
+    pageYOffset: 0,
+    innerHeight: 0,
     document: {
       getElementById: jasmine.createSpy('getElementById').and.callFake((id: any) => {
-          if (id === 'element-id') {
-            return this.testElement;
-          }
-          return false;
-        })
+        if (id === 'element-id') {
+          return this.testElement;
+        }
+        return false;
+      }),
+      querySelector: jasmine.createSpy('querySelector').and.callFake((selector: any) => {
+        return this.testElement;
+      }),
+      documentElement: this.testElement
     },
     location: {
       href: ''
     },
     scroll: jasmine.createSpy('scroll')
-  };
-
-  public testElement = {
-    getBoundingClientRect() {
-      return { y: 0 };
-    },
-    scrollIntoView() {
-      elementScrollCalled = true;
-      return;
-     }
   };
 }
 

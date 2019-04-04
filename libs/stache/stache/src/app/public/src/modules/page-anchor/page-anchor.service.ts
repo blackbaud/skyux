@@ -1,14 +1,67 @@
-import { Injectable} from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
 import { StacheNavLink } from '../nav';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { StacheWindowRef } from '../shared';
 
 @Injectable()
-export class StachePageAnchorService {
+export class StachePageAnchorService implements OnDestroy {
+  public pageAnchorsStream = new Subject <StacheNavLink[]>();
+  public pageAnchors: BehaviorSubject<StacheNavLink>[] = [];
+  public refreshRequestedStream = new Subject();
+  private ngUnsubscribe: Subject<any> = new Subject();
 
-  private anchor = new Subject<StacheNavLink>();
-  public anchorStream: Observable<StacheNavLink> = this.anchor.asObservable();
+  constructor(private windowRef: StacheWindowRef) {
+    this.windowRef.scrollEventStream
+      .takeUntil(this.ngUnsubscribe)
+      .map(e => this.windowRef.nativeWindow.document.body.scrollHeight)
+      .pairwise()
+      .subscribe(height => {
+        if (height[0] !== height[1]) {
+          this.refreshAnchors();
+        }
+      });
+  }
 
-  public addPageAnchor(anchor: StacheNavLink) {
-    this.anchor.next(anchor);
+  public addAnchor(anchorStream: BehaviorSubject<StacheNavLink>) {
+    anchorStream
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe({
+        next: () => {
+          this.updateAnchorStream();
+        },
+        complete: () => {
+          this.removeAnchor(anchorStream.getValue());
+        }
+      });
+
+    this.pageAnchors.push(anchorStream);
+    this.updateAnchorStream();
+  }
+
+  public ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
+  public refreshAnchors() {
+    this.refreshRequestedStream.next();
+  }
+
+  private removeAnchor(removedAnchor: StacheNavLink) {
+    this.pageAnchors = this.pageAnchors.filter((anchor: BehaviorSubject<StacheNavLink>) => {
+      return anchor.getValue().name !== removedAnchor.name;
+    });
+  }
+
+  private updateAnchorStream() {
+    this.pageAnchors.sort(this.sortPageAnchors);
+    this.pageAnchorsStream
+      .next(this.pageAnchors.map(anchor => anchor.getValue()));
+  }
+
+  private sortPageAnchors(
+    anchorA: BehaviorSubject<StacheNavLink>,
+    anchorB: BehaviorSubject<StacheNavLink>) {
+      return anchorA.getValue().offsetTop - anchorB.getValue().offsetTop;
   }
 }

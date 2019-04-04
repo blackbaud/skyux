@@ -1,8 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-
 import { StacheNavLink } from './nav-link';
 import { StacheNav } from './nav';
-
 import { StacheRouteService } from '../shared';
 
 @Component({
@@ -13,14 +11,11 @@ import { StacheRouteService } from '../shared';
 export class StacheNavComponent implements OnInit, StacheNav {
   @Input()
   public routes: StacheNavLink[];
-
   @Input()
   public navType: string;
-
   public classname: string = '';
 
-  public constructor(
-    private routerService: StacheRouteService) { }
+  public constructor(private routeService: StacheRouteService) {}
 
   public hasRoutes(): boolean {
     return (Array.isArray(this.routes) && this.routes.length > 0);
@@ -39,7 +34,7 @@ export class StacheNavComponent implements OnInit, StacheNav {
   }
 
   private assignActiveStates() {
-    const activeUrl = this.routerService.getActiveUrl();
+    const activeUrl = this.routeService.getActiveUrl();
     if (this.hasRoutes()) {
       this.routes.forEach((route: any) => {
         if (this.isActive(activeUrl, route)) {

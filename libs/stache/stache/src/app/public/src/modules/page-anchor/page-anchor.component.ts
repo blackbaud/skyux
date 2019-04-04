@@ -1,109 +1,137 @@
 import {
-  ChangeDetectorRef,
   Component,
   ElementRef,
-  OnInit,
+  Input,
+  OnDestroy,
   AfterViewInit,
-  Input
+  ChangeDetectorRef,
+  OnInit,
+  AfterViewChecked,
+  AfterContentInit
 } from '@angular/core';
 import {
-  StacheWindowRef,
-  StacheRouteService
+  StacheWindowRef, StacheRouteService
 } from '../shared';
 import { StacheNavLink } from '../nav';
 import { StachePageAnchorService } from './page-anchor.service';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Component({
   selector: 'stache-page-anchor',
   templateUrl: './page-anchor.component.html',
   styleUrls: ['./page-anchor.component.scss']
 })
-export class StachePageAnchorComponent implements OnInit, StacheNavLink, AfterViewInit {
-
-  public name: string;
+export class StachePageAnchorComponent implements
+  StacheNavLink,
+  OnDestroy,
+  AfterViewInit,
+  OnInit,
+  AfterViewChecked,
+  AfterContentInit {
+  public name: string = '';
   public fragment: string;
   public path: string[];
-  public order: number;
   public offsetTop: number;
+  public anchorStream = new BehaviorSubject<StacheNavLink>({
+    name: this.name,
+    fragment: this.fragment,
+    path: this.path,
+    offsetTop: this.offsetTop
+  });
 
   @Input()
   public anchorId?: string;
 
+  private textContent = '';
+  private ngUnsubscribe: Subject<any> = new Subject();
+
   public constructor(
-    private routerService: StacheRouteService,
     private elementRef: ElementRef,
     private windowRef: StacheWindowRef,
-    private cdRef: ChangeDetectorRef,
-    private anchorService: StachePageAnchorService) {
-    this.name = '';
-  }
-
-  public ngOnInit(): void {
-    this.name = this.getName();
-    this.fragment = this.getFragment();
-    this.path = [this.routerService.getActiveUrl()];
-  }
+    private anchorService: StachePageAnchorService,
+    private changeDetectorRef: ChangeDetectorRef,
+    private routeService: StacheRouteService) { }
 
   public scrollToAnchor(): void {
     this.windowRef.nativeWindow.document.querySelector(`#${this.fragment}`).scrollIntoView();
   }
 
+  public ngOnInit() {
+    this.anchorService.refreshRequestedStream
+    .takeUntil(this.ngUnsubscribe)
+    .subscribe(() => {
+      this.updatePageAnchor();
+    });
+  }
+
   public ngAfterViewInit(): void {
-    this.name = this.getName();
-    this.fragment = this.getFragment();
-    this.offsetTop = this.getOffsetTop();
-    this.getOrder();
-    this.registerAnchor();
-    this.cdRef.detectChanges();
+    this.path = [this.routeService.getActiveUrl()];
+    this.updatePageAnchor();
+    this.anchorService.addAnchor(this.anchorStream);
+    this.changeDetectorRef.detectChanges();
   }
 
-  private getName(): string {
-    return this.elementRef.nativeElement.textContent.trim();
+  public ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+    this.anchorStream.complete();
   }
 
-  private getFragment(): string {
-    return this.anchorId || this.name
-      .toLowerCase()
-      .replace(/ /g, '-')
-      .replace(/[^\w-]+/g, '');
+  public ngAfterContentInit(): void {
+    this.textContent = this.elementRef.nativeElement.textContent;
+    this.offsetTop = this.getOffset(this.elementRef.nativeElement);
   }
 
-  private getOffsetTop(): number {
-    // Tutorial Anchors have extra wrappers that change element location of applicable offsetTop
-    const tutorialAnchorOffsetElement =
-      this.findAncestor(this.elementRef.nativeElement, 'stache-tutorial-step');
+  public ngAfterViewChecked(): void {
+    const currentContent = this.elementRef.nativeElement.textContent;
+    const currentOffset = this.getOffset(this.elementRef.nativeElement);
 
-    return tutorialAnchorOffsetElement ?
-      tutorialAnchorOffsetElement.offsetTop :
-      this.elementRef.nativeElement.offsetTop;
-  }
-
-  private getOrder(): void {
-    let anchors = this.windowRef.nativeWindow.document.querySelectorAll('stache-page-anchor div');
-    for (let i = 0; i < anchors.length; i++) {
-      if (this.fragment === anchors[i].id) {
-        this.order = i;
-      }
+    if (currentContent !== this.textContent
+      || currentOffset !== this.offsetTop) {
+        this.textContent = currentContent;
+        this.updatePageAnchor();
     }
+}
+
+  private setValues() {
+    const element = this.elementRef.nativeElement;
+    this.name = this.getName(element);
+    this.fragment = this.anchorId || this.getFragment(this.name);
+    this.offsetTop = this.getOffset(element);
   }
 
-  private registerAnchor(): void {
-    this.anchorService.addPageAnchor({
+  private updatePageAnchor() {
+    this.setValues();
+
+    this.anchorStream.next({
       path: this.path,
       name: this.name,
       fragment: this.fragment,
-      order: this.order,
       offsetTop: this.offsetTop
     } as StacheNavLink);
+    this.changeDetectorRef.detectChanges();
   }
 
-  private findAncestor(element: HTMLElement, elClass: string): HTMLElement {
-    while (element) {
-      if (element.classList.contains(elClass)) {
-        return element;
-      }
-      element = element.parentElement;
+  private getOffset(element: any) {
+    let offset = element.offsetTop;
+    let el = element;
+
+    while (el.offsetParent) {
+      offset += el.offsetParent.offsetTop;
+      el = el.offsetParent;
     }
-    return undefined;
+
+    return offset;
+  }
+
+  private getName(element: any): string {
+    return element.textContent.trim();
+  }
+
+  private getFragment(name: string): string {
+    return name
+      .toLowerCase()
+      .replace(/ /g, '-')
+      .replace(/[^\w-]+/g, '');
   }
 }
