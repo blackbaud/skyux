@@ -1,0 +1,10 @@
+{
+  "skyux_image_do_text": {
+    "message": "Do",
+    "_description": "Prefix text for success content"
+  },
+  "skyux_image_dont_text": {
+    "message": "Don't",
+    "_description": "Prefix text for danger content"
+  }
+}

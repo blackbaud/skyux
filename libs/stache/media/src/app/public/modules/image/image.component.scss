@@ -1,0 +1,86 @@
+@import '~@skyux/theme/scss/mixins.scss';
+
+.sky-image-wrapper {
+  display: inline-block;
+}
+
+.sky-image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.sky-image-border {
+  border: 1px solid $sky-border-color-neutral-medium;
+}
+
+.sky-image-caption-container {
+  margin: $sky-margin-stacked-default 0;
+}
+
+.sky-image-caption p {
+  margin: 0;
+  span {
+    font-weight: 600;
+  }
+}
+
+.sky-image-divider {
+  height: 5px;
+  width: 100%;
+  background-color: $sky-border-color-neutral-medium;
+  margin-bottom: $sky-margin-stacked-compact;
+}
+
+.sky-caption-success {
+  .sky-image-divider {
+    background-color: $sky-highlight-color-success;
+  }
+
+  .sky-image-caption p {
+    &:before {
+      content: "\f00c";
+      font-family: FontAwesome;
+      color: $sky-highlight-color-success;
+    }
+  }
+}
+
+.sky-caption-danger {
+  .sky-image-divider {
+    background-color: $sky-highlight-color-danger;
+  }
+  .sky-image-caption p {
+    &:before {
+      content: "\f071";
+      font-family: FontAwesome;
+      color: $sky-highlight-color-danger;
+    }
+  }
+}
+
+.sky-caption-warning {
+  .sky-image-divider {
+    background-color: $sky-highlight-color-warning;
+  }
+  .sky-image-caption p {
+    &:before {
+      content: "\f071";
+      font-family: FontAwesome;
+      color: $sky-highlight-color-warning;
+    }
+  }
+}
+
+.sky-caption-info {
+  .sky-image-divider {
+    background-color: $sky-highlight-color-info;
+  }
+    .sky-image-caption p {
+    &:before {
+      content: "\f06a";
+      font-family: FontAwesome;
+      color: $sky-highlight-color-info;
+    }
+  }
+}
