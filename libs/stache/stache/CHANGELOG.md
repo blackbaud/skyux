@@ -1,3 +1,10 @@
+# 2.16.0 (2019-04-05)
+- Added CSS selector to prevent Stache from overwriting SKY UX styles. [#579](https://github.com/blackbaud/stache2/pull/579)
+- Fixed issue where sidebar header didn't align properly when text wrapped. [#580](https://github.com/blackbaud/stache2/pull/580)
+- Fixed issues with table of contents component. [#568](https://github.com/blackbaud/stache2/pull/568)
+  - Fixed issue where sidebar didn't track user progress down the page when page height was updated dynamically. (e.g. `sky-repeater` component)
+  - Fixed use cases around page anchor generation and tracking. 
+
 # 2.15.3 (2019-02-07)
 - Fixed bug in `stache-code` component to correctly wrap long strings. [#569](https://github.com/blackbaud/stache2/pull/569)
 - Updated `StacheJsonDataService` to allow for nested object access. [#570](https://github.com/blackbaud/stache2/pull/570)
