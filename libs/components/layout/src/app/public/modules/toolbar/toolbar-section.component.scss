@@ -1,14 +1,16 @@
 @import "scss/variables";
 
 .sky-toolbar-section {
-  padding: $sky-padding-half $sky-padding;
+  display: flex;
+  flex-wrap: nowrap;
+  padding: $sky-padding-half $sky-padding 0;
+  min-height: $sky-toolbar-min-height;
+  align-items: center;
+}
+
+.sky-toolbar-section-items {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   position: relative;
-  min-height: $sky-toolbar-min-height;
-
-  @media (max-width: $sky-screen-sm-max) {
-    padding-bottom: 0;
-  }
+  align-items: center;
 }

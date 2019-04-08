@@ -1,0 +1,15 @@
+@import "~@skyux/theme/scss/mixins";
+
+:host {
+  margin-left: auto;
+}
+
+.sky-toolbar-view-actions {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.sky-toolbar-view-actions ::ng-deep > :not(:last-child) {
+  margin-right: 5px;
+}

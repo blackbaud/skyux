@@ -3,7 +3,7 @@
 .sky-toolbar-container {
     min-height: $sky-toolbar-min-height;
     background-color: $sky-toolbar-background-color;
-    padding: $sky-padding-half $sky-padding;
+    padding: $sky-padding-half $sky-padding 0;
     @include sky-border(dark, top, bottom);
     display: flex;
     flex-wrap: wrap;
@@ -13,12 +13,19 @@
       @include sky-border(dark, top);
     }
 
-    @media (max-width: $sky-screen-sm-max) {
-      padding-bottom: 0;
+    &:not(.sky-toolbar-sectioned) {
+      flex-wrap: nowrap;
     }
 }
 
 .sky-toolbar-sectioned {
   display: block;
   padding: 0;
+}
+
+.sky-toolbar-items {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  align-items: center;
 }

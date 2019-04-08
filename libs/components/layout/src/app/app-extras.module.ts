@@ -20,7 +20,8 @@ import {
  import {
    SkyAlertModule,
    SkyKeyInfoModule,
-   SkyLabelModule
+   SkyLabelModule,
+   SkyIconModule
  } from '@skyux/indicators';
 
 @NgModule({
@@ -31,6 +32,7 @@ import {
     SkyCardModule,
     SkyDefinitionListModule,
     SkyFluidGridModule,
+    SkyIconModule,
     SkyKeyInfoModule,
     SkyPageSummaryModule,
     SkyTextExpandModule,
@@ -44,6 +46,7 @@ import {
     SkyCardModule,
     SkyDefinitionListModule,
     SkyFluidGridModule,
+    SkyIconModule,
     SkyKeyInfoModule,
     SkyLabelModule,
     SkyPageSummaryModule,

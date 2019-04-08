@@ -3,8 +3,5 @@
 
 .sky-toolbar-item {
   margin-right: $sky-margin-half;
-
-  @media (max-width: $sky-screen-sm-max) {
-    margin-bottom: $sky-padding-half;
-  }
+  margin-bottom: $sky-padding-half;
 }

@@ -1,5 +1,10 @@
 <div
   class="sky-toolbar-container"
-  [ngClass]="{ 'sky-toolbar-sectioned': hasSections }">
-  <ng-content></ng-content>
+  [ngClass]="{ 'sky-toolbar-sectioned': hasSections }"
+>
+  <ng-content select="sky-toolbar-section"></ng-content>
+  <div class="sky-toolbar-items">
+    <ng-content></ng-content>
+  </div>
+  <ng-content select="sky-toolbar-view-actions"></ng-content>
 </div>
