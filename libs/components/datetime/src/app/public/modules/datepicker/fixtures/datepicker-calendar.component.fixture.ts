@@ -8,7 +8,7 @@ import {
 } from '../datepicker-calendar.component';
 
 @Component({
-  selector: 'sky-test-cmp',
+  selector: 'datepicker-calendar-test',
   template: require('./datepicker-calendar.component.fixture.html')
 })
 export class DatepickerCalendarTestComponent {

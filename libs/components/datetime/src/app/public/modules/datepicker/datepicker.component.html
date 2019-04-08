@@ -11,7 +11,7 @@
         [messageStream]="dropdownController">
         <sky-dropdown-menu ariaRole="none">
           <sky-datepicker-calendar
-            (selectedDateChange)="dateSelected($event)"
+            (selectedDateChange)="onSelectedDateChange($event)"
             (calendarModeChange)="onCalendarModeChange()"
             [maxDate]="maxDate"
             [minDate]="minDate"

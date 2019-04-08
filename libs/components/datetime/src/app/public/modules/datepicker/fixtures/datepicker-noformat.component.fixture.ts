@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'sky-test-cmp',
+  selector: 'datepicker-no-format-test',
   templateUrl: './datepicker-noformat.component.fixture.html'
 })
 export class DatepickerNoFormatTestComponent {

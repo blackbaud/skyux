@@ -35,6 +35,7 @@ export class SkyDatepickerCalendarInnerComponent implements OnInit, OnChanges {
   public set selectedDate(value: Date) {
     if (this.dateFormatter.dateIsValid(value)) {
       this._selectedDate = value;
+      this.activeDate = value;
     }
   }
 

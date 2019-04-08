@@ -1,32 +1,25 @@
 import {
+  AfterContentInit,
   AfterViewInit,
   ChangeDetectorRef,
   Directive,
   ElementRef,
   forwardRef,
   HostListener,
-  Injector,
   Input,
-  OnChanges,
   OnDestroy,
   OnInit,
   Optional,
-  Renderer,
-  SimpleChanges
+  Renderer2
 } from '@angular/core';
-
-import {
-  Subscription
-} from 'rxjs';
 
 import {
   AbstractControl,
   ControlValueAccessor,
-  FormControl,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
-  NgControl,
-  Validator
+  Validator,
+  ValidationErrors
 } from '@angular/forms';
 
 import {
@@ -34,14 +27,24 @@ import {
 } from '@skyux/i18n';
 
 import {
-  SkyDatepickerComponent
-} from './datepicker.component';
+  Subject
+} from 'rxjs/Subject';
+
+import 'rxjs/add/operator/distinctUntilChanged';
+
+import 'rxjs/add/operator/takeUntil';
+
 import {
   SkyDateFormatter
 } from './date-formatter';
+
 import {
   SkyDatepickerConfigService
 } from './datepicker-config.service';
+
+import {
+  SkyDatepickerComponent
+} from './datepicker.component';
 
 // tslint:disable:no-forward-ref no-use-before-declare
 const SKY_DATEPICKER_VALUE_ACCESSOR = {
@@ -64,106 +67,171 @@ const SKY_DATEPICKER_VALIDATOR = {
     SKY_DATEPICKER_VALIDATOR
   ]
 })
-export class SkyDatepickerInputDirective implements
-  OnInit, OnDestroy, ControlValueAccessor, Validator, OnChanges, AfterViewInit {
-
-  public pickerChangedSubscription: Subscription;
+export class SkyDatepickerInputDirective
+  implements OnInit, OnDestroy, AfterViewInit, AfterContentInit, ControlValueAccessor, Validator {
 
   @Input()
-  public skyDatepickerInput: SkyDatepickerComponent;
-
-  @Input()
-  public dateFormat: string;
-
-  @Input()
-  public skyDatepickerNoValidate: boolean = false;
-
-  @Input()
-  public minDate: Date;
-
-  @Input()
-  public maxDate: Date;
-
-  @Input()
-  public startingDay: number = 0;
-
-  @Input()
-  public get disabled(): boolean {
-    return this._disabled || false;
+  public set dateFormat(value: string) {
+    this._dateFormat = value;
   }
+
+  public get dateFormat(): string {
+    return this._dateFormat || this.configService.dateFormat;
+  }
+
+  @Input()
   public set disabled(value: boolean) {
-    this.skyDatepickerInput.disabled = value;
-    this.renderer.setElementProperty(
-      this.elRef.nativeElement,
-      'disabled',
-      value);
     this._disabled = value;
+    this.renderer.setProperty(
+      this.elementRef.nativeElement,
+      'disabled',
+      value
+    );
   }
 
-  private get modelValue(): Date {
-    return this._modelValue;
+  public get disabled(): boolean {
+    return this._disabled;
   }
 
-  private set modelValue(value: Date) {
-    let dateValue = value;
-    let formattedValue = '';
+  @Input()
+  public set maxDate(value: Date) {
+    this._maxDate = value;
+    this.datepickerComponent.maxDate = this.maxDate;
 
-    if (dateValue !== this.modelValue) {
-      if (typeof value === 'string') {
-        dateValue = this.dateFormatter.getDateFromString(value as any, this.dateFormat);
-      }
+    this.onValidatorChange();
+  }
 
-      const isValid = this.dateFormatter.dateIsValid(dateValue);
-      if (isValid) {
-        formattedValue = this.dateFormatter.format(dateValue, this.dateFormat);
-      } else {
-        dateValue = value;
-        if (typeof value === 'string') {
-          formattedValue = value;
-        }
-      }
+  public get maxDate(): Date {
+    return this._maxDate || this.configService.maxDate;
+  }
 
-      this._modelValue = dateValue;
-      this.setInputValue(formattedValue);
-      this.skyDatepickerInput.setSelectedDate(dateValue);
-      this._onChange(dateValue);
-      this._validatorChange();
+  @Input()
+  public set minDate(value: Date) {
+    this._minDate = value;
+    this.datepickerComponent.minDate = this.minDate;
+
+    this.onValidatorChange();
+  }
+
+  public get minDate(): Date {
+    return this._minDate || this.configService.minDate;
+  }
+
+  @Input()
+  public set skyDatepickerInput(value: SkyDatepickerComponent) {
+    if (value) {
+      console.warn(
+        '[Deprecation warning] You no longer need to provide a template reference variable ' +
+        'to the `skyDatepickerInput` attribute (this will be a breaking change in the next ' +
+        'major version release).\n' +
+        'Do this instead:\n' +
+        '<sky-datepicker>\n  <input skyDatepickerInput />\n</sky-datepicker>'
+      );
     }
   }
 
+  @Input()
+  public skyDatepickerNoValidate = false;
+
+  @Input()
+  public set startingDay(value: number) {
+    this._startingDay = value;
+    this.datepickerComponent.startingDay = this.startingDay;
+
+    this.onValidatorChange();
+  }
+
+  public get startingDay(): number {
+    return this._startingDay || this.configService.startingDay;
+  }
+
+  private get value(): any {
+    return this._value;
+  }
+
+  private set value(value: any) {
+    const dateValue = this.getDateValue(value);
+
+    const areDatesEqual = (
+      this._value instanceof Date &&
+      dateValue && dateValue.getTime() === this._value.getTime()
+    );
+
+    const isNewValue = (
+      dateValue !== this._value ||
+      !areDatesEqual
+    );
+
+    this._value = (dateValue || value);
+
+    if (isNewValue) {
+      this.onChange(this._value);
+
+      // Do not mark the field as "dirty"
+      // if the field has been initialized with a value.
+      if (this.isFirstChange && this.control) {
+        this.control.markAsPristine();
+      }
+
+      if (this.isFirstChange && this._value) {
+        this.isFirstChange = false;
+      }
+
+      this.datepickerComponent.selectedDate = this._value;
+    }
+
+    if (dateValue) {
+      const formattedDate = this.dateFormatter.format(dateValue, this.dateFormat);
+      this.setInputElementValue(formattedDate);
+    } else {
+      this.setInputElementValue(value || '');
+    }
+  }
+
+  private control: AbstractControl;
   private dateFormatter = new SkyDateFormatter();
+  private isFirstChange = true;
+  private ngUnsubscribe = new Subject<void>();
 
-  private _disabled: boolean;
-  private _modelValue: Date;
+  private _dateFormat: string;
+  private _disabled = false;
+  private _maxDate: Date;
+  private _minDate: Date;
+  private _startingDay: number;
+  private _value: any;
 
-  public constructor(
-    private renderer: Renderer,
-    private elRef: ElementRef,
-    private config: SkyDatepickerConfigService,
+  constructor(
+    private changeDetector: ChangeDetectorRef,
+    private configService: SkyDatepickerConfigService,
+    private elementRef: ElementRef,
+    private renderer: Renderer2,
     private resourcesService: SkyLibResourcesService,
-    @Optional() private changeDetector: ChangeDetectorRef,
-    @Optional() private injector: Injector
-  ) {
-    this.configureOptions();
-  }
+    @Optional() private datepickerComponent: SkyDatepickerComponent
+  ) { }
 
-  public configureOptions(): void {
-    Object.assign(this, this.config);
-  }
+  public ngOnInit(): void {
+    if (!this.datepickerComponent) {
+      throw new Error(
+        'You must wrap the `skyDatepickerInput` directive within a ' +
+        '`<sky-datepicker>` component!'
+      );
+    }
 
-  public ngOnInit() {
-    this.renderer.setElementClass(this.elRef.nativeElement, 'sky-form-control', true);
-    this.pickerChangedSubscription = this.skyDatepickerInput.dateChanged
-      .subscribe((newDate: Date) => {
-        this.writeValue(newDate);
-        this._onTouched();
-      });
+    const element = this.elementRef.nativeElement;
 
-    if (!this.elRef.nativeElement.getAttribute('aria-label')) {
+    this.renderer.addClass(
+      element,
+      'sky-form-control'
+    );
+
+    const hasAriaLabel = element.getAttribute('aria-label');
+
+    if (!hasAriaLabel) {
       this.resourcesService.getString('skyux_date_field_default_label')
+        .takeUntil(this.ngUnsubscribe)
         .subscribe((value: string) => {
-          this.renderer.setElementAttribute(
-            this.elRef.nativeElement,
+          this.renderer.setAttribute(
+            element,
             'aria-label',
             value
           );
@@ -171,123 +239,152 @@ export class SkyDatepickerInputDirective implements
     }
   }
 
+  public ngAfterContentInit(): void {
+    this.datepickerComponent.dateChange
+      .distinctUntilChanged()
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe((value: Date) => {
+        this.value = value;
+        this.onTouched();
+      });
+  }
+
   public ngAfterViewInit(): void {
-    // This is needed to address a bug in Angular 4, where the value is not changed on the view.
+    // This is needed to address a bug in Angular 4.
+    // When a control value is set intially, its value is not represented on the view.
     // See: https://github.com/angular/angular/issues/13792
-    const control = (<NgControl>this.injector.get(NgControl)).control as FormControl;
-    /* istanbul ignore else */
-    if (control && this.modelValue) {
-      control.setValue(this.modelValue, { emitEvent: false });
-      /* istanbul ignore else */
-      if (this.changeDetector) {
-        this.changeDetector.detectChanges();
-      }
-    }
+    this.control.setValue(this.value, {
+      emitEvent: false
+    });
+
+    this.changeDetector.detectChanges();
   }
 
-  public ngOnDestroy() {
-    /* istanbul ignore else */
-    /* sanity check */
-    if (this.pickerChangedSubscription) {
-      this.pickerChangedSubscription.unsubscribe();
-    }
-  }
-
-  public ngOnChanges(changes: SimpleChanges) {
-    if (changes['minDate']) {
-      this._validatorChange();
-      this.skyDatepickerInput.setMinDate(this.minDate);
-    }
-
-    if (changes['maxDate']) {
-      this._validatorChange();
-      this.skyDatepickerInput.setMaxDate(this.maxDate);
-    }
-
-    if (changes['startingDay']) {
-      this._validatorChange();
-      this.skyDatepickerInput.startingDay = this.startingDay;
-    }
+  public ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   @HostListener('change', ['$event'])
-  public onChange(event: any) {
-    this.writeValue(event.target.value);
+  public onInputChange(event: any) {
+    this.isFirstChange = false;
+    this.value = event.target.value;
   }
 
   @HostListener('blur')
-  public onBlur() {
-    this._onTouched();
+  public onInputBlur(): void {
+    this.onTouched();
   }
 
-  public registerOnChange(fn: (value: any) => any): void { this._onChange = fn; }
-
-  public registerOnTouched(fn: () => any): void { this._onTouched = fn; }
-
-  public registerOnValidatorChange(fn: () => void): void { this._validatorChange = fn; }
-
-  public setDisabledState(isDisabled: boolean) {
-    this.disabled = isDisabled;
+  @HostListener('keyup')
+  public onInputKeyup(): void {
+    this.control.markAsDirty();
   }
 
-  public writeValue(value: any) {
-    this.modelValue = value;
+  public writeValue(value: any): void {
+    this.value = value;
   }
 
-  public validate(control: AbstractControl): {[key: string]: any} {
-    let value = control.value;
+  public validate(control: AbstractControl): ValidationErrors {
+    if (!this.control) {
+      this.control = control;
+    }
+
+    if (this.skyDatepickerNoValidate) {
+      return;
+    }
+
+    const value: any = control.value;
 
     if (!value) {
-      return undefined;
+      return;
     }
 
-    let dateValue = this.dateFormatter.getDateFromString(value, this.dateFormat);
+    const dateValue = this.getDateValue(value);
+    const isDateValid = (dateValue && this.dateFormatter.dateIsValid(dateValue));
 
-    if (!this.dateFormatter.dateIsValid(dateValue) && !this.skyDatepickerNoValidate) {
+    if (!isDateValid) {
+      // Mark the invalid control as touched so that the input's invalid CSS styles appear.
+      // (This is only required when the invalid value is set by the FormControl constructor.)
+      this.control.markAsTouched();
+
       return {
         'skyDate': {
-          invalid: control.value
+          invalid: value
         }
       };
     }
 
-    if (this.minDate &&
-      this.dateFormatter.dateIsValid(this.minDate) &&
-      this.dateFormatter.dateIsValid(value) &&
-      value < this.minDate) {
+    const minDate = this.minDate;
 
+    if (
+      minDate &&
+      this.dateFormatter.dateIsValid(minDate) &&
+      value < minDate
+    ) {
       return {
         'skyDate': {
-          minDate: this.minDate
+          minDate
         }
       };
     }
 
-    if (this.maxDate &&
-      this.dateFormatter.dateIsValid(this.maxDate) &&
-      this.dateFormatter.dateIsValid(value) &&
-      value > this.maxDate) {
-        return {
-          'skyDate': {
-            maxDate: this.maxDate
-          }
-        };
-      }
+    const maxDate = this.maxDate;
 
-    return undefined;
+    if (
+      maxDate &&
+      this.dateFormatter.dateIsValid(maxDate) &&
+      value > maxDate
+    ) {
+      return {
+        'skyDate': {
+          maxDate
+        }
+      };
+    }
   }
 
-  private setInputValue(value: string): void {
-    this.renderer.setElementProperty(
-      this.elRef.nativeElement,
+  public registerOnChange(fn: (value: any) => void): void {
+    this.onChange = fn;
+  }
+
+  public registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  public registerOnValidatorChange(fn: () => void): void {
+    this.onValidatorChange = fn;
+  }
+
+  public setDisabledState(disabled: boolean): void {
+    this.disabled = disabled;
+    this.datepickerComponent.disabled = disabled;
+  }
+
+  private setInputElementValue(value: string): void {
+    this.renderer.setProperty(
+      this.elementRef.nativeElement,
       'value',
       value
     );
   }
 
+  private getDateValue(value: any): Date {
+    let dateValue: Date;
+    if (value instanceof Date) {
+      dateValue = value;
+    } else if (typeof value === 'string') {
+      const date = this.dateFormatter.getDateFromString(value, this.dateFormat);
+      if (this.dateFormatter.dateIsValid(date)) {
+        dateValue = date;
+      }
+    }
+
+    return dateValue;
+  }
+
+  private onChange = (_: any) => {};
   /*istanbul ignore next */
-  private _onChange = (_: any) => {};
-  /*istanbul ignore next */
-  private _onTouched = () => {};
-  private _validatorChange = () => {};
+  private onTouched = () => {};
+  private onValidatorChange = () => {};
 }

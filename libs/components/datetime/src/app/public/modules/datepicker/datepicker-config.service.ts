@@ -11,18 +11,27 @@ import 'moment/min/locales.min';
 
 @Injectable()
 export class SkyDatepickerConfigService {
-  public startingDay: number = 0;
+  public dateFormat: string;
   public minDate: Date;
   public maxDate: Date;
-  public dateFormat: string;
+  public startingDay = 0;
 
-  constructor(private windowRefService: SkyWindowRefService) {
-    let safeNavigator: any = this.windowRefService.getWindow().navigator;
+  constructor(
+    private windowRefService: SkyWindowRefService
+  ) {
+    const safeNavigator: any = this.windowRefService.getWindow().navigator;
+
     /*istanbul ignore next */
-    let userLang: string = safeNavigator.languages && safeNavigator.languages[0] ||
-      safeNavigator.language || safeNavigator.userLanguage || 'en';
+    const userLanguage: string = (
+      safeNavigator.languages &&
+      safeNavigator.languages[0] ||
+      safeNavigator.language ||
+      safeNavigator.userLanguage ||
+      'en'
+    );
 
-    moment.locale(userLang);
+    moment.locale(userLanguage);
+
     this.dateFormat = moment.localeData().longDateFormat('L');
   }
 }

@@ -4,11 +4,11 @@ import {
 } from '@angular/core';
 
 import {
+  AbstractControl,
   FormBuilder,
-  FormGroup,
   FormControl,
-  Validators,
-  AbstractControl
+  FormGroup,
+  Validators
 } from '@angular/forms';
 
 @Component({
@@ -16,8 +16,13 @@ import {
   templateUrl: './datepicker-visual.component.html'
 })
 export class DatepickerVisualComponent implements OnInit {
-  public selectedDate: Date = new Date('4/4/2017');
+  public disabled = false;
+  public minDate: Date;
+  public maxDate: Date;
+  public noValidate = false;
   public reactiveForm: FormGroup;
+  public selectedDate: any = '4/4/2017';
+  public startingDay: number;
 
   constructor(
     private formBuilder: FormBuilder
@@ -32,12 +37,45 @@ export class DatepickerVisualComponent implements OnInit {
       selectedDate: new FormControl('4/4/2017', Validators.required)
     });
 
-    this.reactiveDate.statusChanges.subscribe((status: any) => {
-      console.log('Reactive date status:', status);
-    });
+    this.reactiveDate.statusChanges
+      .distinctUntilChanged()
+      .subscribe((status: any) => {
+        console.log('Status changed:', status);
+      });
 
-    this.reactiveDate.valueChanges.subscribe((value: any) => {
-      console.log('Reactive date value:', value);
-    });
+    this.reactiveDate.valueChanges
+      .distinctUntilChanged()
+      .subscribe((value: any) => {
+        console.log('Value changed:', value);
+      });
+  }
+
+  public setMinMaxDates(): void {
+    this.minDate = new Date('01/01/2018');
+    this.maxDate = new Date('01/01/2020');
+  }
+
+  public setStartingDay(): void {
+    this.startingDay = 1;
+  }
+
+  public toggleDisabled(): void {
+    if (this.reactiveDate.disabled) {
+      this.reactiveDate.enable();
+    } else {
+      this.reactiveDate.disable();
+    }
+
+    this.disabled = !this.disabled;
+  }
+
+  public setValue(): void {
+    this.reactiveDate.setValue(new Date('2/2/2001'));
+    this.selectedDate = new Date('2/2/2001');
+  }
+
+  public setInvalidValue(): void {
+    this.reactiveDate.setValue('invalid');
+    this.selectedDate = 'invalid';
   }
 }

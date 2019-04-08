@@ -8,11 +8,10 @@ import {
 } from '../datepicker-input.directive';
 
 @Component({
-  selector: 'sky-test-cmp',
+  selector: 'datepicker-test',
   templateUrl: './datepicker.component.fixture.html'
 })
 export class DatepickerTestComponent {
-
   @ViewChild(SkyDatepickerInputDirective)
   public inputDirective: SkyDatepickerInputDirective;
 
@@ -26,4 +25,5 @@ export class DatepickerTestComponent {
   public noValidate: boolean = false;
   public startingDay = 0;
   public isDisabled: boolean;
+  public showInvalidDirective = false;
 }

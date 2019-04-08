@@ -1,19 +1,28 @@
 import {
   Component,
-  ViewChild,
-  OnInit
+  OnInit,
+  ViewChild
 } from '@angular/core';
 
-import { FormGroup, FormControl } from '@angular/forms';
-import { SkyDatepickerInputDirective } from '../datepicker-input.directive';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup
+} from '@angular/forms';
+
+import {
+  SkyDatepickerInputDirective
+} from '../datepicker-input.directive';
+
 @Component({
-  selector: 'sky-test-cmp',
+  selector: 'datepicker-reactive-test',
   templateUrl: './datepicker-reactive.component.fixture.html'
 })
 export class DatepickerReactiveTestComponent implements OnInit {
 
   @ViewChild(SkyDatepickerInputDirective)
   public inputDirective: SkyDatepickerInputDirective;
+
   public minDate: Date;
   public maxDate: Date;
   public datepickerForm: FormGroup;
@@ -23,10 +32,15 @@ export class DatepickerReactiveTestComponent implements OnInit {
   public noValidate: boolean = false;
   public startingDay = 0;
 
+  constructor(
+    private formBuilder: FormBuilder
+  ) { }
+
   public ngOnInit() {
     this.dateControl = new FormControl(this.initialValue);
-    this.datepickerForm = new FormGroup({
-      'date': this.dateControl
+
+    this.datepickerForm = this.formBuilder.group({
+      date: this.dateControl
     });
   }
 }
