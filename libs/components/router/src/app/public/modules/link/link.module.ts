@@ -3,6 +3,10 @@ import {
 } from '@angular/core';
 
 import {
+  SkyAppWindowRef
+} from '@skyux/core';
+
+import {
   SkyAppLinkDirective
 } from './link.directive';
 
@@ -18,6 +22,9 @@ import {
   exports: [
     SkyAppLinkDirective,
     SkyAppLinkExternalDirective
+  ],
+  providers: [
+    SkyAppWindowRef
   ]
 })
 /* istanbul ignore next */
