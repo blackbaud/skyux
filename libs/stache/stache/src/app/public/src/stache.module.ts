@@ -36,6 +36,7 @@ import { StacheHideFromSearchModule } from './modules/hide-from-search/hide-from
 
 import { SkyCodeBlockModule } from '@blackbaud/skyux-lib-code-block';
 import { SkyClipboardModule } from '@blackbaud/skyux-lib-clipboard';
+import { StacheInternalModule } from './modules/internal';
 
 export * from './modules/shared';
 
@@ -57,6 +58,7 @@ export * from './modules/shared';
     StacheHideFromSearchModule,
     StacheImageModule,
     StacheIncludeModule,
+    StacheInternalModule,
     StacheLayoutModule,
     StacheLinkModule,
     StacheMarkdownModule,

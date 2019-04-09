@@ -16,11 +16,13 @@
   showTableOfContents="true"
   [sidebarRoutes]="sidebarRoutes">
 
-  <p>
-    Tutorial One: <a [routerLink]="['/demos', 'tutorial', 'tutorial-one']" [fragment]="'clone-the-repository'">Clone the repository</a>.
-  </p>
+  <stache-internal>
+    <p>
+      Tutorial One: <a [routerLink]="['/demos', 'tutorial', 'tutorial-one']" [fragment]="'clone-the-repository'">Clone the repository</a>.
+    </p>
+  </stache-internal>
 
-  <stache-page-anchor>
+  <stache-page-anchor *stacheInternal>
     Markdown
   </stache-page-anchor>
 
