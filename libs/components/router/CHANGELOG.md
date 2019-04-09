@@ -1,3 +1,7 @@
+# 3.1.1 (2019-04-09)
+
+- Fixed `SkyAppLinkModule` to provide `SkyAppWindowRef`. [#74](https://github.com/blackbaud/skyux-router/pull/8)
+
 # 3.1.0 (2018-11-19)
 
 - Updated peer dependencies to support Angular versions greater than `4.3.6`. [#6](https://github.com/blackbaud/skyux-router/pull/6)
