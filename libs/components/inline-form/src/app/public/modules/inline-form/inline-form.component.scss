@@ -1,0 +1,16 @@
+@import "../../styles/mixins";
+
+.sky-inline-form {
+  background: $sky-background-color-neutral-light;
+  border: 1px solid $sky-border-color-neutral-medium;
+  padding: $sky-padding-even-default;
+  width: 100%;
+
+  .sky-inline-form-footer {
+    margin-top: $sky-margin-stacked-separate;
+
+    button {
+      margin: 0 $sky-margin-stacked-compact 0 0;
+    }
+  }
+}

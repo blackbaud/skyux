@@ -3,17 +3,29 @@ import {
 } from '@angular/core';
 
 import {
-  SkySampleModule
-} from './public';
+  SkyIconModule
+} from '@skyux/indicators';
+
+import {
+  SkyTilesModule
+} from '@skyux/tiles';
+
+import {
+  SkyInlineFormModule
+} from './public/modules/inline-form/inline-form.module';
+
+import {
+  SkyTileDemoTileComponent
+} from './visual/inline-form/inline-form-demo-tile.component';
 
 @NgModule({
-  imports: [
-    SkySampleModule
-  ],
   exports: [
-    SkySampleModule
+    SkyIconModule,
+    SkyInlineFormModule,
+    SkyTilesModule
   ],
-  providers: [],
-  entryComponents: []
+  entryComponents: [
+    SkyTileDemoTileComponent
+  ]
 })
 export class AppExtrasModule { }

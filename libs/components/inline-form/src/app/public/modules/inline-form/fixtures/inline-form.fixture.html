@@ -1,0 +1,167 @@
+<sky-inline-form
+  [config]="config"
+  [template]="myForm"
+  [showForm]="showForm"
+  (close)="onClose($event)"
+>
+  <p>Something</p>
+  <p>Something else</p>
+</sky-inline-form>
+
+<ng-template #myForm>
+  <div class="sky-form-group">
+    <label
+      class="sky-control-label"
+      for="demo-input-1"
+    >
+      Something
+    </label>
+    <input
+      id="demo-input-1"
+      class="sky-form-control"
+      type="text"
+    />
+  </div>
+  <div class="sky-form-group">
+    <label
+      class="sky-control-label"
+      for="demo-input-2"
+    >
+      Something else
+    </label>
+    <input
+      id="demo-input-2"
+      class="sky-form-control"
+      type="text"
+    />
+  </div>
+</ng-template>
+
+<!-- The following forms are for testing autocomplete behavior on init. -->
+<sky-inline-form *ngIf="showFormWithOutAutocomplete"
+  [config]="config"
+  [showForm]="showForm"
+  [template]="formWithOutAutocomplete"
+  (close)="onClose($event)"
+>
+  <p>Something</p>
+  <p>Something else</p>
+</sky-inline-form>
+
+<ng-template #formWithOutAutocomplete>
+  <div class="sky-form-group">
+    <label
+      class="sky-control-label"
+      for="demo-input-3"
+    >
+      Something
+    </label>
+    <input
+      id="demo-input-3"
+      class="sky-form-control"
+      type="text"
+    />
+  </div>
+  <div class="sky-form-group">
+    <label
+      class="sky-control-label"
+      for="demo-input-4"
+    >
+      Something else
+    </label>
+    <input
+      id="demo-input-4"
+      class="sky-form-control"
+      type="text"
+    />
+  </div>
+</ng-template>
+
+<sky-inline-form *ngIf="showFormWithAutocomplete"
+  [config]="config"
+  [showForm]="showForm"
+  [template]="formWithAutocomplete"
+  (close)="onClose($event)"
+>
+  <p>Something</p>
+  <p>Something else</p>
+</sky-inline-form>
+<ng-template #formWithAutocomplete>
+  <div class="sky-form-group">
+    <label
+      class="sky-control-label"
+      for="demo-input-5"
+    >
+      Something
+    </label>
+    <input
+      id="demo-input-5"
+      class="sky-form-control"
+      type="text"
+    />
+  </div>
+  <div class="sky-form-group">
+    <label
+      class="sky-control-label"
+      for="demo-input-6"
+    >
+      Something else
+    </label>
+    <input
+      autofocus
+      id="demo-input-6"
+      class="sky-form-control"
+      type="text"
+    />
+  </div>
+</ng-template>
+
+<sky-inline-form *ngIf="showFormWithHiddenElements"
+  [config]="config"
+  [showForm]="showForm"
+  [template]="formWithHiddenElements"
+  (close)="onClose($event)"
+>
+</sky-inline-form>
+<ng-template #formWithHiddenElements>
+  <div class="sky-form-group">
+    <label
+      class="sky-control-label"
+      for="demo-input-5"
+    >
+      Something
+    </label>
+    <input
+      id="demo-input-7"
+      class="sky-form-control"
+      type="text"
+      style="display:none;"
+    />
+  </div>
+  <div class="sky-form-group">
+    <label
+      class="sky-control-label"
+      for="demo-input-6"
+    >
+      Something else
+    </label>
+    <input
+      id="demo-input-8"
+      class="sky-form-control"
+      type="text"
+    />
+  </div>
+</ng-template>
+
+<sky-inline-form *ngIf="showFormWithNoElements"
+  [config]="config"
+  [showForm]="showForm"
+  [template]="formWithNoElements"
+>
+  <p>Something</p>
+  <p>Something else</p>
+</sky-inline-form>
+<ng-template #formWithNoElements>
+  <p>This form is empty!</p>
+</ng-template>
+

@@ -1,0 +1,156 @@
+<div
+  class="sky-inline-form-demo"
+>
+
+  <h2>"Add" mode (default)</h2>
+
+  <sky-inline-form
+    id="inline-form-add"
+    [showForm]="true"
+    [template]="addForm"
+    (close)="onClose($event)"
+  >
+    <p>My title</p>
+    <p>My note</p>
+  </sky-inline-form>
+
+  <ng-template
+    #addForm
+  >
+    <div
+      class="sky-form-group"
+    >
+      <label
+        class="sky-control-label"
+        for="demo-input-1"
+      >
+        Title
+      </label>
+      <input
+        id="demo-input-1"
+        class="sky-form-control"
+        type="text"
+      />
+    </div>
+    <div
+      class="sky-form-group"
+    >
+      <label
+        class="sky-control-label"
+        for="demo-input-2"
+      >
+        Note
+      </label>
+      <input
+        id="demo-input-2"
+        class="sky-form-control"
+        type="text"
+      />
+    </div>
+  </ng-template>
+
+  <h2>"Edit" mode</h2>
+
+  <sky-inline-form
+    id="inline-form-edit"
+    [config]="editConfig"
+    [showForm]="true"
+    [template]="editForm"
+    (close)="onClose($event)"
+  >
+    <p>My title</p>
+    <p>My note</p>
+  </sky-inline-form>
+
+  <ng-template
+    #editForm
+  >
+    <div
+      class="sky-form-group"
+    >
+      <label
+        class="sky-control-label"
+        for="demo-input-3"
+      >
+        Title
+      </label>
+      <input
+        id="demo-input-3"
+        class="sky-form-control"
+        type="text"
+      />
+    </div>
+    <div
+      class="sky-form-group"
+    >
+      <label
+        class="sky-control-label"
+        for="demo-input-4"
+      >
+        Note
+      </label>
+      <input
+        id="demo-input-4"
+        class="sky-form-control"
+        type="text"
+      />
+    </div>
+  </ng-template>
+
+  <h2>Custom config</h2>
+
+  <sky-inline-form
+    id="inline-form-edit"
+    [config]="customConfig"
+    [showForm]="true"
+    [template]="customForm"
+    (close)="onClose($event)"
+  >
+    <p>My title</p>
+    <p>My note</p>
+  </sky-inline-form>
+
+  <ng-template
+    #customForm
+  >
+    <div
+      class="sky-form-group"
+    >
+      <label
+        class="sky-control-label"
+        for="demo-input-3"
+      >
+        Title
+      </label>
+      <input
+        id="demo-input-3"
+        class="sky-form-control"
+        type="text"
+      />
+    </div>
+    <div
+      class="sky-form-group"
+    >
+      <label
+        class="sky-control-label"
+        for="demo-input-4"
+      >
+        Note
+      </label>
+      <input
+        id="demo-input-4"
+        class="sky-form-control"
+        type="text"
+      />
+    </div>
+  </ng-template>
+
+  <h2>Tile section example</h2>
+
+  <sky-tile-dashboard
+    id="inline-form-tiles"
+    [(config)]="dashboardConfig"
+  >
+  </sky-tile-dashboard>
+
+</div>
