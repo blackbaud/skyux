@@ -1,0 +1,13 @@
+<form
+  [formGroup]="reactiveForm"
+  novalidate
+>
+  <sky-date-range-picker
+    formControlName="dateRange"
+    [calculatorIds]="calculatorIds"
+    [dateFormat]="dateFormat"
+    [label]="label"
+    #dateRangePicker
+  >
+  </sky-date-range-picker>
+</form>

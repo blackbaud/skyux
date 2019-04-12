@@ -1,0 +1,76 @@
+<div *ngIf="isReady"
+  class="sky-date-range-picker"
+  [formGroup]="formGroup"
+>
+  <div
+    class="sky-date-range-picker-form-group"
+  >
+    <label
+      class="sky-control-label"
+      [attr.for]="dateRangePickerId + '-select-calculator'"
+    >
+      {{ label || 'skyux_date_range_picker_default_label' | skyLibResources }}
+    </label>
+
+    <select
+      class="sky-form-control"
+      formControlName="calculatorId"
+      [attr.id]="dateRangePickerId + '-select-calculator'"
+      (blur)="onFieldBlur()"
+    >
+      <option *ngFor="let calculator of calculators"
+        [value]="calculator.calculatorId"
+      >
+        {{ calculator.shortDescription }}
+      </option>
+    </select>
+  </div>
+
+  <div
+    class="sky-date-range-picker-form-group"
+    [hidden]="!showStartDatePicker"
+  >
+    <label
+      class="sky-control-label"
+      [attr.for]="dateRangePickerId + '-start-date'"
+    >
+      {{ startDateLabelResourceKey | skyLibResources }}
+    </label>
+
+    <sky-datepicker>
+      <input
+        formControlName="startDate"
+        [attr.aria-label]="startDateLabelResourceKey | skyLibResources"
+        [attr.id]="dateRangePickerId + '-start-date'"
+        [attr.placeholder]="dateFormat"
+        [dateFormat]="dateFormat"
+        (blur)="onFieldBlur()"
+        skyDatepickerInput
+      />
+    </sky-datepicker>
+  </div>
+
+  <div
+    class="sky-date-range-picker-form-group"
+    [hidden]="!showEndDatePicker"
+  >
+    <label
+      class="sky-control-label"
+      [attr.for]="dateRangePickerId + '-end-date'"
+    >
+      {{ endDateLabelResourceKey | skyLibResources }}
+    </label>
+
+    <sky-datepicker>
+      <input
+        formControlName="endDate"
+        skyDatepickerInput
+        [attr.aria-label]="endDateLabelResourceKey | skyLibResources"
+        [attr.id]="dateRangePickerId + '-end-date'"
+        [attr.placeholder]="dateFormat"
+        [dateFormat]="dateFormat"
+        (blur)="onFieldBlur()"
+      />
+    </sky-datepicker>
+  </div>
+</div>

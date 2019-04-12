@@ -154,7 +154,8 @@ export class SkyDatepickerInputDirective
 
     const areDatesEqual = (
       this._value instanceof Date &&
-      dateValue && dateValue.getTime() === this._value.getTime()
+      dateValue &&
+      dateValue.getTime() === this._value.getTime()
     );
 
     const isNewValue = (
@@ -253,11 +254,14 @@ export class SkyDatepickerInputDirective
     // This is needed to address a bug in Angular 4.
     // When a control value is set intially, its value is not represented on the view.
     // See: https://github.com/angular/angular/issues/13792
-    this.control.setValue(this.value, {
-      emitEvent: false
-    });
+    /* istanbul ignore else */
+    if (this.control) {
+      this.control.setValue(this.value, {
+        emitEvent: false
+      });
 
-    this.changeDetector.detectChanges();
+      this.changeDetector.detectChanges();
+    }
   }
 
   public ngOnDestroy(): void {

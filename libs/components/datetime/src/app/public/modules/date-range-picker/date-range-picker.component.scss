@@ -1,0 +1,28 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-date-range-picker {
+  display: flex;
+  margin-left: -$sky-margin-half;
+  margin-right: -$sky-margin-half;
+}
+
+.sky-date-range-picker-form-group {
+  flex: 1 1 auto;
+  padding-left: $sky-padding-half;
+  padding-right: $sky-padding-half;
+}
+
+@media (max-width: $sky-screen-xs-max) {
+  .sky-date-range-picker {
+    flex-direction: column;
+  }
+
+  .sky-date-range-picker-form-group {
+    margin-bottom: $sky-margin;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

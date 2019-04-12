@@ -194,7 +194,7 @@ describe('Timepicker', () => {
 
     it('should apply aria-label to the timepicker input when none is provided', () => {
       fixture.detectChanges();
-      expect(nativeElement.querySelector('input').getAttribute('aria-label')).toBe('Time input field.');
+      expect(nativeElement.querySelector('input').getAttribute('aria-label')).toBe('Time input field');
     });
 
     it('should not overwrite aria-label on the timepicker input when one is provided', () => {

@@ -1,0 +1,114 @@
+<div
+  class="date-range-demo"
+>
+  <form
+    id="screenshot-date-range-picker"
+    novalidate
+    [formGroup]="reactiveForm"
+  >
+    <div class="sky-form-group">
+      <sky-date-range-picker
+        formControlName="lastDonation"
+        label="Last donation"
+        [calculatorIds]="calculatorIds"
+        [dateFormat]="dateFormat"
+      >
+      </sky-date-range-picker>
+
+      <div *ngIf="reactiveRange.errors && reactiveRange.touched"
+        class="sky-error-label"
+      >
+        {{ reactiveRange.errors | json }}
+      </div>
+    </div>
+
+    <div class="sky-form-group">
+      <button
+        class="sky-btn"
+        type="button"
+        (click)="submit()"
+      >
+        Submit
+      </button>
+    </div>
+  </form>
+
+  <h3>
+    Form control statuses
+  </h3>
+
+  <table>
+    <tr>
+      <th>Touched</th>
+      <td>{{ reactiveRange.touched }}</td>
+    </tr>
+    <tr>
+      <th>Pristine</th>
+      <td>{{ reactiveRange.pristine }}</td>
+    </tr>
+    <tr>
+      <th>Valid</th>
+      <td>{{ reactiveRange.valid }}</td>
+    </tr>
+  </table>
+
+  <h3>
+    Form control value
+  </h3>
+
+  <pre><code>{{ reactiveForm.value.lastDonation | json }}</code></pre>
+
+  <h3>
+    Manipulate value and state
+  </h3>
+
+  <button
+    class="sky-btn sky-btn-default"
+    type="button"
+    (click)="toggleDisabled()"
+  >
+    Toggle disabled
+  </button>
+  <button
+    class="sky-btn sky-btn-default"
+    type="button"
+    (click)="resetForm()"
+  >
+    Reset form
+  </button>
+  <button
+    class="sky-btn sky-btn-default"
+    type="button"
+    (click)="setRange()"
+  >
+    Set specific range
+  </button>
+  <button
+    class="sky-btn sky-btn-default"
+    type="button"
+    (click)="setInvalidRange()"
+  >
+    Set invalid range
+  </button>
+  <button
+    class="sky-btn sky-btn-default"
+    type="button"
+    (click)="setInvalidDates()"
+  >
+    Set invalid dates
+  </button>
+  <button
+    class="sky-btn sky-btn-default"
+    type="button"
+    (click)="setCalculatorIds()"
+  >
+    Set custom calculators
+  </button>
+  <button
+    class="sky-btn sky-btn-default"
+    type="button"
+    (click)="setDateFormat()"
+  >
+    Set date format
+  </button>
+</div>

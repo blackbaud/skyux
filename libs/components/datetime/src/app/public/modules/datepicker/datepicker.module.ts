@@ -24,7 +24,7 @@ import {
 
 import {
   SkyDateTimeResourcesModule
-} from '../shared';
+} from '../shared/datetime-resources.module';
 
 import {
   SkyDatepickerCalendarComponent
