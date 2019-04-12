@@ -76,37 +76,45 @@ import {
 } from './fixtures/list-view-checklist-pagination.component.fixture';
 
 //#region helpers
-function getSelectAllButton() {
+function getSingleSelectButtons(): NodeListOf<Element> {
+  return document.querySelectorAll('.sky-list-view-checklist-item .sky-list-view-checklist-single-button');
+}
+
+function getSelectAllButton(): HTMLElement {
   return document.querySelectorAll('.sky-list-multiselect-toolbar button')[0] as HTMLElement;
 }
 
-function getClearAllButton() {
+function getClearAllButton(): HTMLElement {
   return document.querySelectorAll('.sky-list-multiselect-toolbar button')[1] as HTMLElement;
 }
 
-function getOnlyShowSelectedCheckbox() {
+function getOnlyShowSelectedCheckbox(): HTMLElement {
   return document.querySelector('.sky-list-multiselect-toolbar input') as HTMLElement;
 }
 
-function clickSelectAllButton(fixture: ComponentFixture<any>) {
+function multiselectToolbarDefined(): boolean {
+  return !!(getSelectAllButton() && getClearAllButton() && getOnlyShowSelectedCheckbox());
+}
+
+function clickSelectAllButton(fixture: ComponentFixture<any>): void {
   getSelectAllButton().click();
   tick();
   fixture.detectChanges();
 }
 
-function clickClearAllButton(fixture: ComponentFixture<any>) {
+function clickClearAllButton(fixture: ComponentFixture<any>): void {
   getClearAllButton().click();
   tick();
   fixture.detectChanges();
 }
 
-function toggleOnlyShowSelected(fixture: ComponentFixture<any>) {
+function toggleOnlyShowSelected(fixture: ComponentFixture<any>): void {
   getOnlyShowSelectedCheckbox().click();
   tick();
   fixture.detectChanges();
 }
 
-function goToNextPage(fixture: ComponentFixture<any>) {
+function goToNextPage(fixture: ComponentFixture<any>): void {
   let nextButton = document.querySelector('.sky-paging-btn-next');
   (nextButton as HTMLElement).click();
   tick();
@@ -115,16 +123,63 @@ function goToNextPage(fixture: ComponentFixture<any>) {
   fixture.detectChanges();
 }
 
-function getChecklistItems() {
+function getChecklistItems(): NodeListOf<Element> {
   return document.querySelectorAll('.sky-list-view-checklist-item sky-checkbox input');
 }
 
-function checkItem(fixture: ComponentFixture<any>, index: number) {
+function checkItem(fixture: ComponentFixture<any>, index: number): void {
   let checkboxes = getChecklistItems();
   (checkboxes.item(index) as HTMLElement).click();
   tick();
   fixture.detectChanges();
 }
+
+const itemsArray = [
+  new ListItemModel('1', {
+    column1: '1', column2: 'Apple',
+    column4: 1
+  }),
+  new ListItemModel('2', {
+    column1: '01', column2: 'Banana',
+    column4: 6, column5: 'test'
+  }),
+  new ListItemModel('3', {
+    column1: '11', column2: 'Banana',
+    column4: 4
+  }),
+  new ListItemModel('4', {
+    column1: '12', column2: 'Daikon',
+    column4: 2
+  }),
+  new ListItemModel('5', {
+    column1: '13', column2: 'Edamame',
+    column4: 5
+  }),
+  new ListItemModel('6', {
+    column1: '20', column2: 'Fig',
+    column4: 3
+  }),
+  new ListItemModel('7', {
+    column1: '21', column2: 'Grape',
+    column4: 7
+  }),
+  new ListItemModel('8', {
+    column1: '31', column2: 'Foo',
+    column4: 8
+  }),
+  new ListItemModel('9', {
+    column1: '19', column2: 'Bar',
+    column4: 9
+  }),
+  new ListItemModel('10', {
+    column1: '29', column2: 'Baz',
+    column4: 10
+  }),
+  new ListItemModel('11', {
+    column1: '0', column2: 'Fuzz',
+    column4: 11
+  })
+];
 //#endregion
 
 describe('List View Checklist Component', () => {
@@ -134,7 +189,6 @@ describe('List View Checklist Component', () => {
       dispatcher: ListStateDispatcher,
       component: ListViewChecklistTestComponent,
       fixture: any,
-      nativeElement: HTMLElement,
       element: DebugElement,
       items: Array<any>;
 
@@ -156,7 +210,6 @@ describe('List View Checklist Component', () => {
       });
 
       fixture = TestBed.createComponent(ListViewChecklistTestComponent);
-      nativeElement = fixture.nativeElement as HTMLElement;
       element = fixture.debugElement as DebugElement;
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -239,7 +292,6 @@ describe('List View Checklist Component', () => {
       dispatcher: ListStateDispatcher,
       component: ListViewChecklistEmptyTestComponent,
       fixture: any,
-      nativeElement: HTMLElement,
       items: Array<any>,
       element: DebugElement;
 
@@ -261,7 +313,6 @@ describe('List View Checklist Component', () => {
       });
 
       fixture = TestBed.createComponent(ListViewChecklistEmptyTestComponent);
-      nativeElement = fixture.nativeElement as HTMLElement;
       element = fixture.debugElement as DebugElement;
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -371,61 +422,11 @@ describe('List View Checklist Component', () => {
       items: Observable<Array<any>>,
       fixture: ComponentFixture<ListViewChecklistToolbarTestComponent>,
       nativeElement: HTMLElement,
-      element: DebugElement,
-      component: ListViewChecklistToolbarTestComponent,
-      itemsArray: Array<ListItemModel>;
+      component: ListViewChecklistToolbarTestComponent;
 
     beforeEach(async(() => {
       dispatcher = new ListStateDispatcher();
       state = new ListState(dispatcher);
-
-      /* tslint:disable */
-      itemsArray = [
-        new ListItemModel('1', {
-          column1: '1', column2: 'Apple',
-          column4: 1
-        }),
-        new ListItemModel('2', {
-          column1: '01', column2: 'Banana',
-          column4: 6, column5: 'test'
-        }),
-        new ListItemModel('3', {
-          column1: '11', column2: 'Banana',
-          column4: 4
-        }),
-        new ListItemModel('4', {
-          column1: '12', column2: 'Daikon',
-          column4: 2
-        }),
-        new ListItemModel('5', {
-          column1: '13', column2: 'Edamame',
-          column4: 5
-        }),
-        new ListItemModel('6', {
-          column1: '20', column2: 'Fig',
-          column4: 3
-        }),
-        new ListItemModel('7', {
-          column1: '21', column2: 'Grape',
-          column4: 7
-        }),
-        new ListItemModel('8', {
-          column1: '31', column2: 'Foo',
-          column4: 8
-        }),
-        new ListItemModel('9', {
-          column1: '19', column2: 'Bar',
-          column4: 9
-        }),
-        new ListItemModel('10', {
-          column1: '29', column2: 'Baz',
-          column4: 10
-        }),
-        new ListItemModel('11', {
-          column1: '0', column2: 'Fuzz',
-          column4: 11
-        })
-      ];
 
       bs = new BehaviorSubject<Array<any>>(itemsArray);
       items = bs.asObservable();
@@ -450,11 +451,10 @@ describe('List View Checklist Component', () => {
               { provide: ListStateDispatcher, useValue: dispatcher }
             ]
           }
-        });;
+        });
 
       fixture = TestBed.createComponent(ListViewChecklistToolbarTestComponent);
       nativeElement = fixture.nativeElement as HTMLElement;
-      element = fixture.debugElement as DebugElement;
       component = fixture.componentInstance;
       fixture.detectChanges();
 
@@ -482,11 +482,11 @@ describe('List View Checklist Component', () => {
       }));
 
       it('should show all items if pagination is not defined and items are larger than the pagination default', fakeAsync(() => {
-        let items = getChecklistItems();
+        let checklistItems = getChecklistItems();
         expect(itemsArray.length).toBeGreaterThan(10); // 10 is the pagination default.
-        expect(items.length).toEqual(itemsArray.length);
+        expect(checklistItems.length).toEqual(itemsArray.length);
       }));
-    })
+    });
 
     it('should set selections on click properly', fakeAsync(() => {
       let labelEl = <HTMLLabelElement>nativeElement
@@ -670,7 +670,8 @@ describe('List View Checklist Component', () => {
       fixture.detectChanges();
     }));
 
-    it('should handle items properly if changeVisibleItems() is set to true & selectAll() / clearAll() methods are hit (DEPRECATED)', fakeAsync(() => {
+    it(`should handle items properly if changeVisibleItems() is set to true,
+        and selectAll() / clearAll() methods are hit (DEPRECATED)`, fakeAsync(() => {
       tick();
       fixture.detectChanges();
 
@@ -729,46 +730,11 @@ describe('List View Checklist Component', () => {
       bs: BehaviorSubject<Array<any>>,
       items: Observable<Array<any>>,
       fixture: ComponentFixture<ListViewChecklistToolbarTestComponent>,
-      nativeElement: HTMLElement,
-      element: DebugElement,
-      component: ListViewChecklistToolbarTestComponent,
-      itemsArray: Array<ListItemModel>;
+      component: ListViewChecklistToolbarTestComponent;
 
-    beforeEach(async(() => {
+    beforeEach(fakeAsync(() => {
       dispatcher = new ListStateDispatcher();
       state = new ListState(dispatcher);
-
-      /* tslint:disable */
-      itemsArray = [
-        new ListItemModel('1', {
-          column1: '1', column2: 'Apple',
-          column4: 1
-        }),
-        new ListItemModel('2', {
-          column1: '01', column2: 'Banana',
-          column4: 6, column5: 'test'
-        }),
-        new ListItemModel('3', {
-          column1: '11', column2: 'Banana',
-          column4: 4
-        }),
-        new ListItemModel('4', {
-          column1: '12', column2: 'Daikon',
-          column4: 2
-        }),
-        new ListItemModel('5', {
-          column1: '13', column2: 'Edamame',
-          column4: 5
-        }),
-        new ListItemModel('6', {
-          column1: '20', column2: 'Fig',
-          column4: 3
-        }),
-        new ListItemModel('7', {
-          column1: '21', column2: 'Grape',
-          column4: 7
-        })
-      ];
 
       bs = new BehaviorSubject<Array<any>>(itemsArray);
       items = bs.asObservable();
@@ -793,12 +759,11 @@ describe('List View Checklist Component', () => {
               { provide: ListStateDispatcher, useValue: dispatcher }
             ]
           }
-        });;
+        });
 
       fixture = TestBed.createComponent(ListViewChecklistToolbarTestComponent);
-      nativeElement = fixture.nativeElement as HTMLElement;
-      element = fixture.debugElement as DebugElement;
       component = fixture.componentInstance;
+      component.selectMode = 'single';
       fixture.detectChanges();
 
       // always skip the first update to ListState, when state is ready
@@ -807,69 +772,18 @@ describe('List View Checklist Component', () => {
       fixture.detectChanges();
     }));
 
-    it('should hide the select all, clear all and show only selected buttons when switched to single select mode',
-      fakeAsync(() => {
+    it('should hide the multiselect toolbar', fakeAsync(() => {
+      expect(multiselectToolbarDefined()).toBe(false);
+    }));
 
-        tick();
-        fixture.detectChanges();
+    it('should show single select buttons for each item', fakeAsync(() => {
+      let singleSelectButtonsEl = getSingleSelectButtons();
 
-        expect(getSelectAllButton()).not.toBeUndefined();
-        expect(getClearAllButton()).not.toBeUndefined();
-        expect(getOnlyShowSelectedCheckbox()).not.toBeUndefined();
-
-        component.selectMode = 'single';
-        tick();
-        fixture.detectChanges();
-        tick();
-        fixture.detectChanges();
-
-        expect(getSelectAllButton()).toBeUndefined();
-        expect(getClearAllButton()).toBeUndefined();
-        expect(getOnlyShowSelectedCheckbox()).toBeNull();
-
-        let toolbarSectionsEl = nativeElement.querySelectorAll('sky-toolbar-section');
-        expect((toolbarSectionsEl.item(1) as any).attributes['hidden']).not.toBeUndefined();
-
-      }));
-
-    it('should show the correct styles for single select mode selection', fakeAsync(() => {
-      tick();
-      fixture.detectChanges();
-      let singleSelectButtonsEl
-        = nativeElement
-          .querySelectorAll('.sky-list-view-checklist-item .sky-list-view-checklist-single-button');
-
-      expect(singleSelectButtonsEl.length).toBe(0);
-
-      component.selectMode = 'single';
-      tick();
-      fixture.detectChanges();
-      tick();
-      fixture.detectChanges();
-      singleSelectButtonsEl
-        = nativeElement
-          .querySelectorAll('.sky-list-view-checklist-item .sky-list-view-checklist-single-button');
-
-      expect(singleSelectButtonsEl.length).toBe(7);
+      expect(singleSelectButtonsEl.length).toBe(11);
     }));
 
     it('should clear all but the current selection on single select button click', fakeAsync(() => {
-      tick();
-      fixture.detectChanges();
-      let singleSelectButtonsEl
-        = nativeElement
-          .querySelectorAll('.sky-list-view-checklist-item .sky-list-view-checklist-single-button');
-
-      expect(singleSelectButtonsEl.length).toBe(0);
-
-      component.selectMode = 'single';
-      tick();
-      fixture.detectChanges();
-      tick();
-      fixture.detectChanges();
-      singleSelectButtonsEl
-        = nativeElement
-          .querySelectorAll('.sky-list-view-checklist-item .sky-list-view-checklist-single-button');
+      let singleSelectButtonsEl = getSingleSelectButtons();
 
       (singleSelectButtonsEl.item(1) as HTMLElement).click();
       tick();
@@ -885,9 +799,7 @@ describe('List View Checklist Component', () => {
       expect(component.selectedItems.get('6')).toBe(undefined);
       expect(component.selectedItems.get('7')).toBe(undefined);
 
-      singleSelectButtonsEl
-        = nativeElement
-          .querySelectorAll('.sky-list-view-checklist-item .sky-list-view-checklist-single-button');
+      singleSelectButtonsEl = getSingleSelectButtons();
 
       (singleSelectButtonsEl.item(0) as HTMLElement).click();
       tick();
@@ -902,7 +814,81 @@ describe('List View Checklist Component', () => {
       expect(component.selectedItems.get('5')).toBe(undefined);
       expect(component.selectedItems.get('6')).toBe(undefined);
       expect(component.selectedItems.get('7')).toBe(undefined);
+    }));
+  });
 
+  describe('Multiple select mode', () => {
+    let dispatcher: ListStateDispatcher,
+      state: ListState,
+      bs: BehaviorSubject<Array<any>>,
+      items: Observable<Array<any>>,
+      fixture: ComponentFixture<ListViewChecklistToolbarTestComponent>,
+      component: ListViewChecklistToolbarTestComponent;
+
+    beforeEach(async(() => {
+      dispatcher = new ListStateDispatcher();
+      state = new ListState(dispatcher);
+
+      bs = new BehaviorSubject<Array<any>>(itemsArray);
+      items = bs.asObservable();
+
+      TestBed.configureTestingModule({
+        declarations: [
+          ListViewChecklistToolbarTestComponent
+        ],
+        imports: [
+          SkyListModule,
+          SkyListToolbarModule,
+          SkyListViewChecklistModule
+        ],
+        providers: [
+          { provide: 'items', useValue: items }
+        ]
+      })
+        .overrideComponent(SkyListComponent, {
+          set: {
+            providers: [
+              { provide: ListState, useValue: state },
+              { provide: ListStateDispatcher, useValue: dispatcher }
+            ]
+          }
+        });
+
+      fixture = TestBed.createComponent(ListViewChecklistToolbarTestComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+
+      // always skip the first update to ListState, when state is ready
+      // run detectChanges once more then begin tests
+      state.skip(1).take(1).subscribe(() => fixture.detectChanges());
+      fixture.detectChanges();
+    }));
+
+    it('should default to multiple select mode, if none has been defined', fakeAsync(() => {
+      expect(component.checklist.selectMode).toBe('multiple');
+    }));
+
+    it('should show the multiselect toolbar on load, if select mode has NOT been defined', fakeAsync(() => {
+      expect(multiselectToolbarDefined()).toBe(true);
+    }));
+
+    it('should show the multiselect toolbar on load, if select mode HAS been defined', fakeAsync(() => {
+      component.selectMode = 'multiple';
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      expect(multiselectToolbarDefined()).toBe(true);
+    }));
+
+    it('should hide the multiselect toolbar when switched to single select mode', fakeAsync(() => {
+        component.selectMode = 'single';
+        tick();
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(multiselectToolbarDefined()).toBe(false);
     }));
   });
 });

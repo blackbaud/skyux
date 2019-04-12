@@ -95,18 +95,18 @@ export class SkyListViewChecklistComponent extends ListViewComponent implements 
   public set selectMode(value: string) {
     this._selectMode = value;
 
-    if (this._selectMode === 'single') {
+    if (this.selectMode === 'multiple') {
+      this.dispatcher.toolbarShowMultiselectToolbar(true);
+    } else {
       this.showOnlySelected = false;
       this.dispatcher.toolbarShowMultiselectToolbar(false);
-    } else {
-      this.dispatcher.toolbarShowMultiselectToolbar(true);
     }
 
     this.reapplyFilter(this.showOnlySelected);
   }
 
   public get selectMode(): string {
-    return this._selectMode;
+    return this._selectMode || 'multiple';
   }
 
   @Input()
@@ -165,7 +165,9 @@ export class SkyListViewChecklistComponent extends ListViewComponent implements 
   }
 
   public ngOnInit() {
-    this.dispatcher.toolbarShowMultiselectToolbar(true);
+    if (this.selectMode === 'multiple') {
+      this.dispatcher.toolbarShowMultiselectToolbar(true);
+    }
 
     // If 'show-selected' filter is changed from multiselect toolbar (list-builder)
     // make sure the private variable _showOnlySelected stays in sync.
