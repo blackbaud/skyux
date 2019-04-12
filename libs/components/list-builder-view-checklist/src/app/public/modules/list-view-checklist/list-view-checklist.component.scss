@@ -11,4 +11,8 @@
       max-width: 22px;
     }
   }
+
+  ::ng-deep .sky-switch {
+    white-space: nowrap;
+  }
 }
