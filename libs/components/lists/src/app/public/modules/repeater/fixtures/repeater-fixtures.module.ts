@@ -1,11 +1,26 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  CommonModule
+} from '@angular/common';
 
-import { SkyRepeaterModule } from '../';
-import { RepeaterTestComponent } from './repeater.component.fixture';
+import {
+  NgModule
+} from '@angular/core';
+
+import {
+  SkyRepeaterModule
+} from '../';
+
+import {
+  RepeaterTestComponent
+} from './repeater.component.fixture';
+
+import {
+  RepeaterInlineFormFixtureComponent
+} from './repeater-inline-form.component.fixture';
 
 @NgModule({
   declarations: [
+    RepeaterInlineFormFixtureComponent,
     RepeaterTestComponent
   ],
   imports: [
@@ -13,6 +28,7 @@ import { RepeaterTestComponent } from './repeater.component.fixture';
     SkyRepeaterModule
   ],
   exports: [
+    RepeaterInlineFormFixtureComponent,
     RepeaterTestComponent
   ]
 })

@@ -3,6 +3,18 @@ import {
 } from '@angular/core';
 
 import {
+  SkyIconModule
+} from '@skyux/indicators/modules/icon';
+
+import {
+  SkyFluidGridModule
+} from '@skyux/layout';
+
+import {
+  SkyDropdownModule
+} from '@skyux/popovers/modules/dropdown';
+
+import {
   SkyFilterModule
 } from './public/modules/filter';
 
@@ -15,16 +27,12 @@ import {
 } from './public/modules/paging';
 
 import {
-  SkySortModule
-} from './public/modules/sort';
-
-import {
   SkyRepeaterModule
 } from './public/modules/repeater';
 
 import {
-  SkyDropdownModule
-} from '@skyux/popovers/modules/dropdown';
+  SkySortModule
+} from './public/modules/sort';
 
 @NgModule({
   imports: [
@@ -33,7 +41,9 @@ import {
     SkyInfiniteScrollModule,
     SkyPagingModule,
     SkyRepeaterModule,
-    SkySortModule
+    SkySortModule,
+    SkyIconModule,
+    SkyFluidGridModule
   ],
   exports: [
     SkyDropdownModule,
@@ -41,7 +51,9 @@ import {
     SkyInfiniteScrollModule,
     SkyPagingModule,
     SkyRepeaterModule,
-    SkySortModule
+    SkySortModule,
+    SkyIconModule,
+    SkyFluidGridModule
   ],
   providers: [],
   entryComponents: []

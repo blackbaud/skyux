@@ -1,7 +1,8 @@
 <div
-  class="app-screenshot"
+  class="app-screenshot sky-margin-stacked-default"
   id="screenshot-repeater"
 >
+  <h3>Basic repeater</h3>
   <sky-repeater>
     <sky-repeater-item>
       <sky-repeater-item-title>Title 1</sky-repeater-item-title>
@@ -20,9 +21,10 @@
 </div>
 
 <div
-  class="app-screenshot"
+  class="app-screenshot sky-margin-stacked-default"
   id="screenshot-repeater-collapsed"
 >
+  <h3>Collapsed repeater</h3>
   <sky-repeater [expandMode]="'single'">
     <sky-repeater-item [isExpanded]="false">
       <sky-repeater-item-title>Title 1</sky-repeater-item-title>
@@ -36,9 +38,10 @@
 </div>
 
 <div
-  class="app-screenshot"
+  class="app-screenshot sky-margin-stacked-default"
   id="screenshot-repeater-single"
 >
+  <h3>Single expand mode repeater</h3>
   <sky-repeater [expandMode]="'single'">
     <sky-repeater-item [isExpanded]="false">
       <sky-repeater-item-title>Title 1</sky-repeater-item-title>
@@ -52,9 +55,10 @@
 </div>
 
 <div
-  class="app-screenshot"
+  class="app-screenshot sky-margin-stacked-default"
   id="screenshot-repeater-multiple"
 >
+  <h3>Multiple expand mode repeater</h3>
   <sky-repeater [expandMode]="'multiple'">
     <sky-repeater-item [isExpanded]="true">
       <sky-repeater-item-title>Title 1</sky-repeater-item-title>
@@ -72,9 +76,10 @@
 </div>
 
 <div
-  class="app-screenshot"
+  class="app-screenshot sky-margin-stacked-default"
   id="screenshot-repeater-max-width"
 >
+  <h3>Repeater with max-width</h3>
   <div class="sky-repeater-max-width">
     <sky-repeater [expandMode]="'multiple'">
       <sky-repeater-item [isExpanded]="true">
@@ -104,9 +109,10 @@
 </div>
 
 <div
-  class="app-screenshot"
+  class="app-screenshot sky-margin-stacked-default"
   id="screenshot-repeater-context-menu"
 >
+  <h3>Repeater with context menu</h3>
   <sky-repeater [expandMode]="'single'">
     <sky-repeater-item>
       <sky-repeater-item-context-menu>
@@ -128,9 +134,10 @@
 </div>
 
 <div
-  class="app-screenshot"
+  class="app-screenshot sky-margin-stacked-default"
   id="screenshot-repeater-selectable"
 >
+  <h3>Repeater with "selectable" enabled</h3>
   <sky-repeater [expandMode]="'single'">
     <sky-repeater-item
       [isExpanded]="false"
@@ -148,3 +155,88 @@
   </sky-repeater>
 </div>
 
+<div
+  class="app-screenshot sky-margin-stacked-default"
+  id="screenshot-repeater-with-inline-form"
+>
+
+  <h3>Repeater with inline-form</h3>
+  <sky-repeater>
+    <sky-repeater-item *ngFor="let item of items"
+      [inlineFormTemplate]="myInlineForm"
+      [showInlineForm]="activeInlineFormId === item.id"
+      (inlineFormClose)="onInlineFormClose($event)"
+    >
+      <sky-repeater-item-title>
+          <sky-fluid-grid>
+            <sky-row>
+              <sky-column
+                screenXSmall="11"
+              >
+                  {{ item.title }}
+              </sky-column>
+              <sky-column
+                screenXSmall="1"
+              >
+                <button
+                  class="sky-btn sky-btn-link sky-no-focus sky-demo-btn-edit"
+                  type="button"
+                  (click)="activeInlineFormId = item.id"
+                >
+                  <sky-icon
+                    icon="pencil"
+                    size="sm"
+                  >
+                  </sky-icon>
+                </button>
+              </sky-column>
+            </sky-row>
+          </sky-fluid-grid>
+      </sky-repeater-item-title>
+
+      <sky-repeater-item-content>
+        {{ item.note }}
+      </sky-repeater-item-content>
+
+
+      <ng-template
+        #myInlineForm
+      >
+        <div
+          class="sky-form-group"
+        >
+          <label
+            class="sky-control-label"
+            for="inline-form-title"
+          >
+            Title
+          </label>
+          <input
+            id="inline-form-title"
+            class="sky-form-control"
+            type="text"
+            [(ngModel)]="item.title"
+          />
+        </div>
+        <div
+          class="sky-form-group"
+        >
+          <label
+            class="sky-control-label"
+            for="inline-form-note"
+          >
+            Note
+          </label>
+          <input
+            id="inline-form-note"
+            class="sky-form-control"
+            type="text"
+            [(ngModel)]="item.note"
+          />
+        </div>
+      </ng-template>
+
+    </sky-repeater-item>
+  </sky-repeater>
+
+</div>

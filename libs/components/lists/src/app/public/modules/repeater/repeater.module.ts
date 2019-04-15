@@ -1,19 +1,58 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  CommonModule
+} from '@angular/common';
 
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  NgModule
+} from '@angular/core';
 
-import { SkyChevronModule } from '@skyux/indicators/modules/chevron';
-import { SkyLogModule } from '@skyux/core/modules/log';
+import {
+  BrowserAnimationsModule
+} from '@angular/platform-browser/animations';
 
-import { SkyRepeaterItemContentComponent } from './repeater-item-content.component';
-import { SkyRepeaterItemContextMenuComponent } from './repeater-item-context-menu.component';
-import { SkyRepeaterItemTitleComponent } from './repeater-item-title.component';
-import { SkyRepeaterItemComponent } from './repeater-item.component';
-import { SkyRepeaterComponent } from './repeater.component';
-import { SkyRepeaterService } from './repeater.service';
-import { SkyCheckboxModule } from '@skyux/forms/modules/checkbox';
-import { SkyI18nModule } from '@skyux/i18n/modules/i18n';
+import {
+  SkyLogModule
+} from '@skyux/core/modules/log';
+
+import {
+  SkyCheckboxModule
+} from '@skyux/forms/modules/checkbox';
+
+import {
+  SkyI18nModule
+} from '@skyux/i18n/modules/i18n';
+
+import {
+  SkyChevronModule
+} from '@skyux/indicators/modules/chevron';
+
+import {
+  SkyInlineFormModule
+} from '@skyux/inline-form';
+
+import {
+  SkyRepeaterComponent
+} from './repeater.component';
+
+import {
+  SkyRepeaterItemContentComponent
+} from './repeater-item-content.component';
+
+import {
+  SkyRepeaterItemContextMenuComponent
+} from './repeater-item-context-menu.component';
+
+import {
+  SkyRepeaterItemComponent
+} from './repeater-item.component';
+
+import {
+  SkyRepeaterItemTitleComponent
+} from './repeater-item-title.component';
+
+import {
+  SkyRepeaterService
+} from './repeater.service';
 
 import {
   SkyListsResourcesModule
@@ -37,7 +76,8 @@ import {
     SkyLogModule,
     SkyCheckboxModule,
     SkyI18nModule,
-    SkyListsResourcesModule
+    SkyListsResourcesModule,
+    SkyInlineFormModule
   ],
   exports: [
     SkyRepeaterComponent,

@@ -4,7 +4,8 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
-  Output
+  Output,
+  TemplateRef
 } from '@angular/core';
 
 import {
@@ -22,6 +23,14 @@ import {
 import {
   SkyRepeaterService
 } from './repeater.service';
+
+import {
+  SkyInlineFormCloseArgs
+} from '@skyux/inline-form';
+
+import {
+  SkyInlineFormConfig
+} from '@skyux/inline-form';
 
 let nextId: number = 0;
 
@@ -51,6 +60,18 @@ export class SkyRepeaterItemComponent implements OnDestroy {
   public set isSelected(value: boolean) {
     this._isSelected = value;
   }
+
+  @Input()
+  public showInlineForm: boolean = false;
+
+  @Input()
+  public inlineFormConfig: SkyInlineFormConfig;
+
+  @Input()
+  public inlineFormTemplate: TemplateRef<any>;
+
+  @Output()
+  public inlineFormClose = new EventEmitter<SkyInlineFormCloseArgs>();
 
   @Input()
   public selectable: boolean = false;
@@ -94,6 +115,7 @@ export class SkyRepeaterItemComponent implements OnDestroy {
   public ngOnDestroy(): void {
     this.collapse.complete();
     this.expand.complete();
+    this.inlineFormClose.complete();
   }
 
   public headerClick() {
@@ -129,6 +151,10 @@ export class SkyRepeaterItemComponent implements OnDestroy {
 
   public updateIsSelected(value: SkyCheckboxChange) {
     this._isSelected = value.checked;
+  }
+
+  public onInlineFormClose(inlineFormCloseArgs: SkyInlineFormCloseArgs): void {
+    this.inlineFormClose.emit(inlineFormCloseArgs);
   }
 
   private slideForExpanded(animate: boolean) {

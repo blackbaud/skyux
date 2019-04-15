@@ -4,6 +4,11 @@
 .sky-repeater-item {
   display: flex;
   @include sky-border(row);
+
+  sky-inline-form {
+    display: block;
+    width: 100%;
+  }
 }
 
 .sky-repeater-item-left {

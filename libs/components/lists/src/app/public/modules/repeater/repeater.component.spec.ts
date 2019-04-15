@@ -3,16 +3,29 @@ import {
   inject,
   TestBed,
   tick,
-  async
+  async,
+  ComponentFixture
 } from '@angular/core/testing';
 
-import { SkyLogService } from '@skyux/core/modules/log/log.service';
-import { SkyRepeaterFixturesModule } from './fixtures/repeater-fixtures.module';
-import { RepeaterTestComponent } from './fixtures/repeater.component.fixture';
+import {
+  SkyLogService
+} from '@skyux/core/modules/log/log.service';
 
 import {
   expect
 } from '@skyux-sdk/testing';
+
+import {
+  RepeaterTestComponent
+} from './fixtures/repeater.component.fixture';
+
+import {
+  SkyRepeaterFixturesModule
+} from './fixtures/repeater-fixtures.module';
+
+import {
+  RepeaterInlineFormFixtureComponent
+} from './fixtures/repeater-inline-form.component.fixture';
 
 describe('Repeater item component', () => {
   class MockLogService {
@@ -519,6 +532,59 @@ describe('Repeater item component', () => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         expect(fixture.nativeElement).toBeAccessible();
+      });
+    }));
+  });
+
+  describe('with inline-form', () => {
+    let fixture: ComponentFixture<RepeaterInlineFormFixtureComponent>;
+    let el: HTMLElement;
+    let component: RepeaterInlineFormFixtureComponent;
+
+    beforeEach(() => {
+      fixture = TestBed.createComponent(RepeaterInlineFormFixtureComponent);
+      el = fixture.nativeElement;
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    function showInlineForm() {
+      component.showInlineForm = true;
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+    }
+
+    it('should not add inline-form to the DOM by default', () => {
+      const inlineForm = el.querySelector('#repeater-item-without-inline-form sky-inline-form');
+
+      expect(inlineForm).toBeNull();
+    });
+
+    it('should not show inline-form template if showInlineForm is false', () => {
+      const inlineForm = el.querySelector('#inline-form-template');
+
+      expect(inlineForm).toBeNull();
+    });
+
+    it('should show inline-form template if showInlineForm is true', fakeAsync(() => {
+      showInlineForm();
+      const inlineForm = el.querySelector('#inline-form-template');
+
+      expect(inlineForm).not.toBeNull();
+    }));
+
+    it('should emit SkyInlineFormCloseArgs when inline form template is closed', async(() => {
+      component.showInlineForm = true;
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+
+        expect(component.inlineFormCloseArgs).toBeUndefined();
+        const button = el.querySelector('.sky-inline-form-footer .sky-btn-primary') as HTMLElement;
+        button.click();
+
+        expect(component.inlineFormCloseArgs).not.toBeUndefined();
+        expect(component.inlineFormCloseArgs.reason).toBe('done');
       });
     }));
   });
