@@ -1,3 +1,7 @@
+# 3.0.2 (2019-04-15)
+
+- Added missing RxJS imports that caused compilation errors in some consuming applications. [#27](https://github.com/blackbaud/skyux-flyout/pull/27)  (Thanks @Blackbaud-KevinHutson)
+
 # 3.0.1 (2019-03-20)
 
 - Fixed flyout component to close when navigation occurs. [#22](https://github.com/blackbaud/skyux-flyout/pull/22)
