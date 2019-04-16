@@ -1,3 +1,7 @@
+# 3.2.0 (2019-04-15)
+
+- Added inline form to repeater component. [#27](https://github.com/blackbaud/skyux-lists/pull/27)
+
 # 3.1.0 (2019-03-07)
 
 - Added `collapse` and `expand` events to repeater item component. [#25](https://github.com/blackbaud/skyux-lists/pull/25)
