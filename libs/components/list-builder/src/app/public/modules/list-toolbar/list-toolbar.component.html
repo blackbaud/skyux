@@ -28,8 +28,12 @@
 
       <ng-content></ng-content>
 
-      <ng-content select="sky-list-toolbar-view-actions">
-      </ng-content>
+      <sky-toolbar-view-actions *ngIf="hasViewActions">
+        <ng-content
+          select="sky-list-toolbar-view-actions"
+        >
+        </ng-content>
+      </sky-toolbar-view-actions>
     </sky-toolbar-section>
 
     <sky-toolbar-section *ngIf="showFilterSummary && (hasAppliedFilters | async)">
@@ -76,6 +80,13 @@
           </sky-list-toolbar-item-renderer>
         </sky-toolbar-item>
         <ng-content></ng-content>
+
+        <sky-toolbar-view-actions *ngIf="hasViewActions">
+          <ng-content
+            select="sky-list-toolbar-view-actions"
+          >
+          </ng-content>
+        </sky-toolbar-view-actions>
       </sky-toolbar-section>
     </sky-toolbar>
   </div>

@@ -15,11 +15,15 @@ import {
 import {
   Observable
 } from 'rxjs/Observable';
+
 import {
   Subject
 } from 'rxjs/Subject';
+
 import 'rxjs/add/operator/distinctUntilChanged';
+
 import 'rxjs/add/operator/take';
+
 import 'rxjs/add/operator/takeUntil';
 
 import {
@@ -31,9 +35,9 @@ import {
 } from '@skyux/list-builder-common';
 
 import {
-  SkyListFilterSummaryComponent,
-  SkyListFilterInlineComponent
-} from '../list-filters';
+  SkySearchComponent
+} from '@skyux/lookup';
+
 import {
   ListToolbarModel,
   ListToolbarItemModel,
@@ -44,16 +48,23 @@ import {
   ListFilterModel,
   ListPagingSetPageNumberAction
 } from '../list/state';
+
+import {
+  SkyListFilterSummaryComponent,
+  SkyListFilterInlineComponent
+} from '../list-filters';
+
 import {
   SkyListToolbarItemComponent
 } from './list-toolbar-item.component';
+
 import {
   SkyListToolbarSortComponent
 } from './list-toolbar-sort.component';
 
 import {
-  SkySearchComponent
-} from '@skyux/lookup';
+  SkyListToolbarViewActionsComponent
+} from './list-toolbar-view-actions.component';
 
 import {
   ListToolbarConfigSetSearchEnabledAction,
@@ -122,6 +133,7 @@ export class SkyListToolbarComponent implements OnInit, AfterContentInit, OnDest
   public hasInlineFilters: boolean;
   public inlineFilterBarExpanded: boolean = false;
   public hasAdditionalToolbarSection = false;
+  public hasViewActions = false;
 
   public filterButtonId: string = `sky-list-toolbar-filter-button-${++nextId}`;
   public listFilterInlineId: string = `sky-list-toolbar-filter-inline-${++nextId}`;
@@ -137,6 +149,9 @@ export class SkyListToolbarComponent implements OnInit, AfterContentInit, OnDest
 
   @ContentChildren(SkyListFilterInlineComponent)
   private inlineFilter: QueryList<SkyListFilterInlineComponent>;
+
+  @ContentChildren(SkyListToolbarViewActionsComponent)
+  private viewActions: QueryList<SkyListToolbarViewActionsComponent>;
 
   @ViewChild('search')
   private searchTemplate: TemplateRef<any>;
@@ -332,6 +347,9 @@ export class SkyListToolbarComponent implements OnInit, AfterContentInit, OnDest
         ]
       );
     }
+
+    // Check for view actions
+    this.hasViewActions = (this.viewActions.length > 0);
   }
 
   public ngOnDestroy() {

@@ -1,11 +1,8 @@
-@import "~@skyux/theme/scss/mixins";
-
 :host {
-  margin-left: auto;
-}
+  display: flex;
+  align-items: center;
 
-.sky-list-toolbar-view-actions {
-  @media (max-width: $sky-screen-sm-max) {
-    margin-bottom: 5px;
+  &::ng-deep > :not(:last-child) {
+    margin-right: 5px;
   }
 }
