@@ -1,3 +1,7 @@
+# 3.2.1 (2019-04-18)
+
+- Fixed repeater item component to have correct padding when no repeater item header is present. [#32](https://github.com/blackbaud/skyux-lists/pull/32)
+
 # 3.2.0 (2019-04-15)
 
 - Added inline form to repeater component. [#27](https://github.com/blackbaud/skyux-lists/pull/27)
