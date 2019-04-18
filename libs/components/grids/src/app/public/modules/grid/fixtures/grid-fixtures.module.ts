@@ -7,8 +7,7 @@ import {
 } from '@angular/common';
 
 import {
-  SkyUIConfigService,
-  SkyWindowRefService
+  SkyUIConfigService
 } from '@skyux/core';
 
 import {
@@ -57,7 +56,6 @@ import {
     SkyGridModule
   ],
   providers: [
-    SkyWindowRefService,
     {
       provide: SkyUIConfigService,
       useValue: {

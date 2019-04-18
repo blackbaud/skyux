@@ -52,7 +52,7 @@ import {
 } from 'ng2-dragula/ng2-dragula';
 
 import {
-  SkyWindowRefService
+  SkyAppWindowRef
 } from '@skyux/core';
 
 import {
@@ -228,7 +228,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
     private dragulaService: DragulaService,
     private ref: ChangeDetectorRef,
     private gridAdapter: SkyGridAdapterService,
-    private skyWindow: SkyWindowRefService,
+    private skyWindow: SkyAppWindowRef,
     private uiConfigService: SkyUIConfigService
   ) {
     this.displayedColumns = new Array<SkyGridColumnModel>();
@@ -713,7 +713,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
   }
 
   private resetTableWidth() {
-    this.skyWindow.getWindow().setTimeout(() => {
+    this.skyWindow.nativeWindow.setTimeout(() => {
       this.gridAdapter.setStyle(this.tableElementRef, 'width', `auto`);
       this.ref.detectChanges();
       this.tableWidth = this.tableElementRef.nativeElement.offsetWidth;

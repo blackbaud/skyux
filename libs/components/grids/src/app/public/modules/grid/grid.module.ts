@@ -15,6 +15,7 @@ import {
 } from 'ng2-dragula/ng2-dragula';
 
 import {
+  SkyAppWindowRef,
   SkyUIConfigService
 } from '@skyux/core';
 
@@ -64,6 +65,7 @@ import {
     SkyGridCellComponent
   ],
   providers: [
+    SkyAppWindowRef,
     SkyUIConfigService
   ]
 })
