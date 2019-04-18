@@ -4,15 +4,28 @@
 .sky-repeater-item {
   display: flex;
   @include sky-border(row);
+  padding-top: 0;
 
   sky-inline-form {
     display: block;
     width: 100%;
+
+    // Force inline-forms to play nicely with repeater's flex-enabled structure.
+    ::ng-deep > :first-child, ::ng-deep .sky-slide-dissolve-first, ::ng-deep .sky-slide-dissolve-last {
+      display: flex;
+      flex: 1 0 auto;
+      width: 100%;
+    }
+
+    ::ng-deep .sky-slide-dissolve-last {
+      padding-top:10px;
+    }
   }
 }
 
 .sky-repeater-item-left {
   margin-top: -2px;
+  padding-top: $sky-padding;
 }
 
 .sky-repeater-item-right {
@@ -23,6 +36,7 @@
 .sky-repeater-item-header {
   align-items: center;
   display: flex;
+  padding-top: $sky-padding;
 }
 
 .sky-repeater-item-chevron {
