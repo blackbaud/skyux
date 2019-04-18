@@ -1,3 +1,7 @@
+# 3.1.4 (2019-04-18)
+
+- Fixed grid module to properly provide `SkyAppWindowRef`. [#52](https://github.com/blackbaud/skyux-grids/pull/52)
+
 # 3.1.3 (2019-03-07)
 
 - Fixed grid component to no longer emit extra `selectedColumnIdsChange` events. [#36](https://github.com/blackbaud/skyux-grids/pull/36)
