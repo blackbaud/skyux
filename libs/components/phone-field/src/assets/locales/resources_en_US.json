@@ -1,6 +1,10 @@
 {
-  "skyux_some_key": {
-    "_description": "",
-    "message": ""
+  "skyux_phone_field_default_label": {
+    "_description": "The label for the phone field component's input field for screen readers when the consumer has not specified a label.",
+    "message": "Phone input field"
+  },
+  "skyux_phone_field_dropdown_label": {
+    "_description": "Screen reader text for the phone field component dropdown button.",
+    "message": "Choose country"
   }
 }

@@ -1,0 +1,19 @@
+<div>
+  <sky-phone-field
+    [defaultCountry]="defaultCountry"
+  >
+    <input
+      [disabled]="isDisabled"
+      skyPhoneFieldInput
+      [skyPhoneFieldNoValidate]="noValidate"
+      [(ngModel)]="modelValue"
+    />
+  </sky-phone-field>
+
+  <div *ngIf="showInvalidDirective">
+    <input
+      type="text"
+      skyPhoneFieldInput
+    />
+  </div>
+</div>

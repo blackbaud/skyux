@@ -1,0 +1,45 @@
+<div
+  class="sky-form-group sky-input-group sky-phone-field"
+>
+  <div
+    class="sky-input-group-btn sky-phone-field-country-btn"
+  >
+    <sky-dropdown
+      [disabled]="countrySelectDisabled"
+      [label]="'skyux_phone_field_dropdown_label' | skyLibResources"
+      [title]="selectedCountry.name + ' +' + selectedCountry.dialCode"
+    >
+      <sky-dropdown-button>
+        <div
+          [className]="'iti-flag ' + selectedCountry.iso2"
+        >
+        </div>
+      </sky-dropdown-button>
+      <sky-dropdown-menu>
+        <sky-dropdown-item *ngFor="let country of countries; let i = index"
+          [ngClass]="{
+            'sky-phone-field-country-selected': i === 0,
+            'sky-phone-field-country-default': country.iso2 === defaultCountry
+          }"
+        >
+          <button
+            type="button"
+            (click)="onCountrySelected(country.iso2)"
+          >
+            <div
+              [className]="'iti-flag ' + country.iso2"
+            >
+            </div>
+            {{ country.name }}
+            <span
+              class="sky-deemphasized"
+            >
+              +{{ country.dialCode }}
+            </span>
+          </button>
+        </sky-dropdown-item>
+      </sky-dropdown-menu>
+    </sky-dropdown>
+  </div>
+  <ng-content></ng-content>
+</div>
