@@ -1,3 +1,6 @@
+# 2.18.0 (2019-04-22)
+- Updated `stache-sidebar` to listen for updates to custom routes, which allows users to generate sidebar routes with dynamic data.
+
 # 2.17.0 (2019-04-09)
 - Added `stache-internal` component and directive, which allows content to be hidden from view if a user is not logged in with a BBID.
   - Lindsey Rix will be writing up documentation for this after she is able to test use cases for this feature.
