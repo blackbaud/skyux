@@ -1,11 +1,12 @@
 import {
+  ChangeDetectorRef,
   Component,
   ComponentFactoryResolver,
+  HostListener,
   Injector,
   ReflectiveInjector,
   ViewChild,
-  ViewContainerRef,
-  ChangeDetectorRef
+  ViewContainerRef
 } from '@angular/core';
 
 import {
@@ -61,6 +62,12 @@ export class SkyModalHostComponent {
     private router: Router,
     private changeDetector: ChangeDetectorRef
   ) { }
+
+  @HostListener('click', ['$event'])
+  public onHostClick(event: any): void {
+    event.preventDefault();
+    event.stopPropagation();
+  }
 
   public open(modalInstance: SkyModalInstance, component: any, config?: IConfig) {
     let params: IConfig = Object.assign({}, config);
