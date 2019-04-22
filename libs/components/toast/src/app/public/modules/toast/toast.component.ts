@@ -1,5 +1,9 @@
 // #region imports
 import {
+  AnimationEvent
+} from '@angular/animations';
+
+import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -8,10 +12,6 @@ import {
   OnInit,
   Output
 } from '@angular/core';
-
-import {
-  AnimationEvent
-} from '@angular/animations';
 
 import {
   skyAnimationEmerge
@@ -98,14 +98,14 @@ export class SkyToastComponent implements OnInit {
     this.isOpen = true;
   }
 
-  public onAnimationDone(event: AnimationEvent) {
+  public onAnimationDone(event: AnimationEvent): void {
     if (event.toState === 'closed') {
       this.closed.emit();
       this.closed.complete();
     }
   }
 
-  public close() {
+  public close(): void {
     this.isOpen = false;
     this.changeDetector.markForCheck();
   }

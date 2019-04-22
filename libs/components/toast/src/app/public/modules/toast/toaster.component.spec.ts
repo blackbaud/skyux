@@ -1,4 +1,3 @@
-// #region imports
 import {
   ApplicationRef
 } from '@angular/core';
@@ -16,8 +15,9 @@ import {
 } from '@angular/platform-browser/animations';
 
 import {
-  expect
-} from '@blackbaud/skyux-builder/runtime/testing/browser';
+  expect,
+  SkyAppTestUtility
+} from '@skyux-sdk/testing';
 
 import {
   SkyToastFixturesModule,
@@ -33,7 +33,6 @@ import {
 import {
   SkyToastService
 } from './toast.service';
-// #endregion
 
 describe('Toast component', () => {
   let fixture: ComponentFixture<SkyToasterTestComponent>;
@@ -168,5 +167,25 @@ describe('Toast component', () => {
 
     toasts = getToastElements();
     expect(toasts.length).toEqual(0);
+  }));
+
+  it('should prevent click events from bubbling beyond toast components', fakeAsync(() => {
+    openMessage();
+    const toaster = document.querySelector('.sky-toaster');
+    const toast = document.querySelector('.sky-toast');
+    let numDocumentClicks = 0;
+    document.addEventListener('click', function () {
+      numDocumentClicks++;
+    });
+    let numToasterClicks = 0;
+    toaster.addEventListener('click', function () {
+      numToasterClicks++;
+    });
+
+    SkyAppTestUtility.fireDomEvent(toaster, 'click');
+    SkyAppTestUtility.fireDomEvent(toast, 'click');
+
+    expect(numDocumentClicks).toEqual(0);
+    expect(numToasterClicks).toEqual(2);
   }));
 });

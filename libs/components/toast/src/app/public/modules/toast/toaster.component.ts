@@ -5,6 +5,7 @@ import {
   Component,
   ComponentFactoryResolver,
   ElementRef,
+  HostListener,
   Injector,
   ReflectiveInjector,
   QueryList,
@@ -24,12 +25,12 @@ import {
 } from './toast';
 
 import {
-  SkyToastComponent
-} from './toast.component';
-
-import {
   SkyToastAdapterService
 } from './toast-adapter.service';
+
+import {
+  SkyToastComponent
+} from './toast.component';
 
 import {
   SkyToastService
@@ -73,6 +74,12 @@ export class SkyToasterComponent implements AfterViewInit {
     this.toastStream.subscribe((toasts: SkyToast[]) => {
       this.domAdapter.scrollBottom(this.toaster);
     });
+  }
+
+  @HostListener('click', ['$event'])
+  public onHostClick(event: any): void {
+    event.preventDefault();
+    event.stopPropagation();
   }
 
   public onToastClosed(toast: SkyToast): void {
