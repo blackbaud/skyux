@@ -153,7 +153,7 @@ export class SkyTabsetComponent
     setTimeout(() => {
       this.adapterService.detectOverflow();
       this.updateDisplayMode(this.adapterService.currentOverflow);
-      this.changeRef.detectChanges();
+      this.changeRef.markForCheck();
     }, 0);
   }
 
@@ -163,6 +163,6 @@ export class SkyTabsetComponent
 
   private updateDisplayMode(currentOverflow: boolean) {
     this.tabDisplayMode = currentOverflow ? 'dropdown' : 'tabs';
-    this.changeRef.detectChanges();
+    this.changeRef.markForCheck();
   }
 }
