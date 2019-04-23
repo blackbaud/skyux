@@ -1,3 +1,7 @@
+# 3.0.2 (2019-04-23)
+
+- Fixed modal component to prevent clicks from propagating. [#35](https://github.com/blackbaud/skyux-modals/pull/35)
+
 # 3.0.1 (2019-01-18)
 
 - Fixed modal component animation to support required changes in Angular 7. [#23](https://github.com/blackbaud/skyux-modals/pull/23)
