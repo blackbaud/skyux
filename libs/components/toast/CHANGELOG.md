@@ -1,3 +1,7 @@
+# 3.0.2 (2019-04-23)
+
+- Fixed toast component to prevent clicks from propagating. [#16](https://github.com/blackbaud/skyux-toast/pull/16)
+
 # 3.0.1 (2019-02-22)
 
 - Fixed `SkyToastModule` to properly include `BrowserAnimationsModule`. [#12](https://github.com/blackbaud/skyux-toast/pull/12)
