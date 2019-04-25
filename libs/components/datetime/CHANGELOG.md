@@ -1,3 +1,7 @@
+# 3.2.1 (2019-04-25)
+
+- Fixed date range picker component to run validation after users select dates with date picker. [#34](https://github.com/blackbaud/skyux-datetime/pull/34)
+
 # 3.2.0 (2019-04-12)
 
 - Added date-range picker component. [#30](https://github.com/blackbaud/skyux-datetime/pull/30)
