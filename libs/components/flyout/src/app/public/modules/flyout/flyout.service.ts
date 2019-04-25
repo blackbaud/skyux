@@ -26,10 +26,6 @@ import {
 } from '@skyux/core';
 
 import {
-  SkyFlyoutAdapterService
-} from './flyout-adapter.service';
-
-import {
   SkyFlyoutComponent
 } from './flyout.component';
 
@@ -51,7 +47,6 @@ export class SkyFlyoutService implements OnDestroy {
   private idled = new Subject<boolean>();
 
   constructor(
-    private adapter: SkyFlyoutAdapterService,
     private windowRef: SkyWindowRefService,
     private dynamicComponentService: SkyDynamicComponentService,
     private router: Router
@@ -113,16 +108,14 @@ export class SkyFlyoutService implements OnDestroy {
 
   private addListeners<T>(flyout: SkyFlyoutInstance<T>): void {
     if (this.host) {
-      const windowObj = this.windowRef.getWindow();
 
       // Flyout should close when user clicks outside of flyout.
+      // Since the flyout component stops click propigation, we can watch the document for clicks.
       Observable
-      .fromEvent(windowObj, 'click')
+      .fromEvent(document, 'click')
       .takeUntil(this.idled)
-      .subscribe((event: any) => {
-        if (!this.adapter.hostContainsEventTarget(this.host, event)) {
-          this.close();
-        }
+      .subscribe(() => {
+        this.close();
       });
 
       this.removeAfterClosed = false;

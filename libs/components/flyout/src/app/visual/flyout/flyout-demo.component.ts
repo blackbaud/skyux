@@ -1,5 +1,5 @@
 import {
-  Component
+  Component, OnInit
 } from '@angular/core';
 
 import {
@@ -27,12 +27,18 @@ import {
   FlyoutDemoContext
 } from './flyout-demo-context';
 
+let nextId = 0;
+
 @Component({
   selector: 'sky-test-cmp-flyout',
   templateUrl: './flyout-demo.component.html',
   providers: [SkyFlyoutService]
 })
-export class FlyoutDemoComponent {
+export class FlyoutDemoComponent implements OnInit {
+
+  public infiniteScrollData: any[] = [];
+
+  public enableInfiniteScroll = true;
 
   constructor(
     public context: FlyoutDemoContext,
@@ -40,6 +46,10 @@ export class FlyoutDemoComponent {
     private toastService: SkyToastService,
     private router: Router
   ) { }
+
+  public ngOnInit(): void {
+    this.addData();
+  }
 
   public openModal(): void {
     this.modalService.open(SkyFlyoutModalDemoComponent);
@@ -56,6 +66,33 @@ export class FlyoutDemoComponent {
 
   public goToPage(): void {
     this.router.navigate(['/']);
+  }
+
+  private addData(): void {
+    this.mockRemote().then((result: any) => {
+      this.infiniteScrollData = this.infiniteScrollData.concat(result.data);
+      this.enableInfiniteScroll = result.enableInfiniteScroll;
+    });
+  }
+
+  private mockRemote(): Promise<any> {
+    const data: any[] = [];
+
+    for (let i = 0; i < 8; i++) {
+      data.push({
+        name: `Item #${++nextId}`
+      });
+    }
+
+    // Simulate async request.
+    return new Promise((resolve: any) => {
+      setTimeout(() => {
+        resolve({
+          data,
+          hasMore: (nextId < 50)
+        });
+      }, 1000);
+    });
   }
 
 }

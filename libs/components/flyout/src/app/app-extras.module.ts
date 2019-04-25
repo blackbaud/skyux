@@ -7,6 +7,10 @@ import {
 } from '@angular/platform-browser/animations';
 
 import {
+  SkyInfiniteScrollModule
+} from '@skyux/lists';
+
+import {
   SkyModalModule
 } from '@skyux/modals';
 
@@ -32,13 +36,15 @@ import {
 
 @NgModule({
   imports: [
-    NoopAnimationsModule
+    NoopAnimationsModule,
+    SkyInfiniteScrollModule
   ],
   exports: [
     SkyFlyoutModule,
     SkyDropdownModule,
     SkyModalModule,
-    SkyToastModule
+    SkyToastModule,
+    SkyInfiniteScrollModule
   ],
   entryComponents: [
     FlyoutDemoComponent,

@@ -42,3 +42,15 @@
     Navigate to new page
   </button>
 </p>
+
+<h3>Infinite scroll</h3>
+
+<ul>
+  <li *ngFor="let item of infiniteScrollData">
+    {{ item.name }}
+  </li>
+</ul>
+<sky-infinite-scroll
+  [enabled]="enableInfiniteScroll"
+>
+</sky-infinite-scroll>

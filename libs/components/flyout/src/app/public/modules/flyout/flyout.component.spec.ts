@@ -466,6 +466,26 @@ describe('Flyout component', () => {
     })
   );
 
+  it('should prevent click events from bubbling beyond the flyout component', fakeAsync(() => {
+    openFlyout({ maxWidth: 1000, minWidth: 200 });
+    const flyout = document.querySelector('.sky-flyout');
+
+    let numDocumentClicks = 0;
+    document.addEventListener('click', function () {
+      numDocumentClicks++;
+    });
+
+    let numFlyoutClicks = 0;
+    flyout.addEventListener('click', function () {
+      numFlyoutClicks++;
+    });
+
+    SkyAppTestUtility.fireDomEvent(flyout, 'click');
+
+    expect(numFlyoutClicks).toEqual(1);
+    expect(numDocumentClicks).toEqual(0);
+  }));
+
   describe('permalink', () => {
     it('should not show the permalink button if no permalink config peroperties are defined',
       fakeAsync(() => {

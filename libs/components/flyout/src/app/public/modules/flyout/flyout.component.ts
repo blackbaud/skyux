@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   ComponentFactoryResolver,
   ElementRef,
+  HostListener,
   Injector,
   OnDestroy,
   OnInit,
@@ -155,6 +156,12 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   public ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+
+  @HostListener('click', ['$event'])
+  public onHostClick(event: any): void {
+    event.preventDefault();
+    event.stopPropagation();
   }
 
   public attach<T>(component: Type<T>, config: SkyFlyoutConfig): SkyFlyoutInstance<T> {
