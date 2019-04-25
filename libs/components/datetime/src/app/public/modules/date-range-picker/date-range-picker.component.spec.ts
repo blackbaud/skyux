@@ -425,6 +425,52 @@ describe('Date range picker', function () {
     });
   }));
 
+  it('should error when end date comes before start date', fakeAsync(function () {
+    detectChanges();
+
+    const control = component.dateRange;
+    const calculatorIdControl = component.dateRangePicker.formGroup.get('calculatorId');
+
+    control.setValue({
+      calculatorId: SkyDateRangeCalculatorId.SpecificRange
+    });
+
+    detectChanges();
+
+    expect(control.errors).toBeFalsy();
+    expect(calculatorIdControl.errors).toBeFalsy();
+
+    const datepickerInputs = fixture.nativeElement.querySelectorAll('.sky-datepicker input');
+
+    datepickerInputs.item(0).value = '1/2/2000';
+    datepickerInputs.item(1).value = '1/1/2000';
+
+    SkyAppTestUtility.fireDomEvent(datepickerInputs.item(0), 'change');
+    SkyAppTestUtility.fireDomEvent(datepickerInputs.item(1), 'change');
+
+    detectChanges();
+
+    const expectedError = {
+      skyDateRange: {
+        calculatorId: SkyDateRangeCalculatorId.SpecificRange,
+        errors: {
+          endDateBeforeStartDate: true
+        }
+      }
+    };
+
+    expect(control.errors).toEqual(expectedError);
+    expect(calculatorIdControl.errors).toEqual(expectedError);
+
+    datepickerInputs.item(1).value = '1/3/2000';
+    SkyAppTestUtility.fireDomEvent(datepickerInputs.item(1), 'change');
+
+    detectChanges();
+
+    expect(control.errors).toBeFalsy();
+    expect(calculatorIdControl.errors).toBeFalsy();
+  }));
+
   it('should be accessible', async(function () {
     fixture.detectChanges();
 

@@ -1,4 +1,4 @@
-export const enum SkyDateRangeCalculatorId {
+export enum SkyDateRangeCalculatorId {
   AnyTime,
   Before,
   After,
