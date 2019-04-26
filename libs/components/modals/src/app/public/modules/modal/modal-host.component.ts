@@ -65,7 +65,6 @@ export class SkyModalHostComponent {
 
   @HostListener('click', ['$event'])
   public onHostClick(event: any): void {
-    event.preventDefault();
     event.stopPropagation();
   }
 
