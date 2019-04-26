@@ -1,3 +1,7 @@
+# 3.6.0 (2019-04-26)
+
+- Added utility classes to format dates and numbers by locale. [#31](https://github.com/blackbaud/skyux-i18n/pull/31)
+
 # 3.5.2 (2019-03-28)
 
 - Fixed `SkyAppResourcesService` and `SkyLibResourcesService` to remove a circular reference to `@skyux/core`. [#25](https://github.com/blackbaud/skyux-i18n/pull/25)
