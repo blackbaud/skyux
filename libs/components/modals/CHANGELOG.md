@@ -1,3 +1,7 @@
+# 3.0.3 (2019-04-26)
+
+- Fixed toast component to handle click events that originate within its contents. [#40](https://github.com/blackbaud/skyux-modals/pull/40)
+
 # 3.0.2 (2019-04-23)
 
 - Fixed modal component to prevent clicks from propagating. [#35](https://github.com/blackbaud/skyux-modals/pull/35)
