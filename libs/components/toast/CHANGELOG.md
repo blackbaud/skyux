@@ -1,3 +1,7 @@
+# 3.0.3 (2019-04-26)
+
+- Fixed toast component to handle click events that originate within its contents. [#18](https://github.com/blackbaud/skyux-toast/pull/18)
+
 # 3.0.2 (2019-04-23)
 
 - Fixed toast component to prevent clicks from propagating. [#16](https://github.com/blackbaud/skyux-toast/pull/16)
