@@ -11,14 +11,6 @@ import {
 } from '@skyux/assets';
 
 import {
-  SkyAppResourcesPipe
-} from './resources.pipe';
-
-import {
-  SkyAppResourcesService
-} from './resources.service';
-
-import {
   SkyLibResourcesPipe
 } from './lib-resources.pipe';
 
@@ -29,6 +21,14 @@ import {
 import {
   SkyAppLocaleProvider
 } from './locale-provider';
+
+import {
+  SkyAppResourcesPipe
+} from './resources.pipe';
+
+import {
+  SkyAppResourcesService
+} from './resources.service';
 
 @NgModule({
   declarations: [

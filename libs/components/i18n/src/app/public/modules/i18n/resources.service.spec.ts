@@ -22,16 +22,16 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';
 
 import {
-  SkyAppHostLocaleProvider
-} from '@blackbaud/skyux-builder/runtime/i18n';
-
-import {
   SkyAppAssetsService
 } from '@skyux/assets';
 
 import {
   SkyAppWindowRef
-} from '@skyux/core/modules/window/window-ref';
+} from '@skyux/core';
+
+import {
+  SkyAppHostLocaleProvider
+} from './host-locale-provider';
 
 import {
   SkyAppLocaleProvider,

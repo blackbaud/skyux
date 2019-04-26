@@ -4,7 +4,7 @@ import {
 
 import {
   SKY_LIB_RESOURCES_PROVIDERS
-} from '@skyux/i18n';
+} from '../public';
 
 import {
   SkySampleResourcesProvider

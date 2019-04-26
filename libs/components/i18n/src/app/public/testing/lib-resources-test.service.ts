@@ -3,6 +3,12 @@ import {
 } from '@angular/core';
 
 import {
+  Observable
+} from 'rxjs/Observable';
+
+import 'rxjs/add/observable/of';
+
+import {
   SkyAppLocaleInfo,
   SkyAppResources
 } from '../modules';
@@ -10,12 +16,6 @@ import {
 import {
   Format
 } from '../utils/format';
-
-import {
-  Observable
-} from 'rxjs/Observable';
-
-import 'rxjs/add/observable/of';
 
 declare const ROOT_DIR: string;
 declare const require: { context: any };
