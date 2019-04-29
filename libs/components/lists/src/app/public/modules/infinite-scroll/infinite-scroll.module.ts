@@ -8,12 +8,12 @@ import {
 } from '@angular/common';
 
 import {
-  SkyI18nModule
-} from '@skyux/i18n/modules/i18n';
+  SkyAppWindowRef
+} from '@skyux/core';
 
 import {
   SkyWaitModule
-} from '@skyux/indicators/modules/wait';
+} from '@skyux/indicators';
 
 import {
   SkyListsResourcesModule
@@ -30,12 +30,14 @@ import {
   ],
   imports: [
     CommonModule,
-    SkyI18nModule,
     SkyListsResourcesModule,
     SkyWaitModule
   ],
   exports: [
     SkyInfiniteScrollComponent
+  ],
+  providers: [
+    SkyAppWindowRef
   ]
 })
 export class SkyInfiniteScrollModule { }

@@ -1,13 +1,15 @@
 import {
-  NgModule
-} from '@angular/core';
-import {
   CommonModule
 } from '@angular/common';
 
 import {
-  SkyI18nModule
-} from '@skyux/i18n';
+  NgModule
+} from '@angular/core';
+
+import {
+  SkyIconModule,
+  SkyTokensModule
+} from '@skyux/indicators';
 
 import {
   SkyListsResourcesModule
@@ -16,25 +18,22 @@ import {
 import {
   SkyFilterButtonComponent
 } from './filter-button.component';
-import {
-  SkyFilterSummaryComponent
-} from './filter-summary.component';
-import {
-  SkyFilterSummaryItemComponent
-} from './filter-summary-item.component';
+
 import {
   SkyFilterInlineComponent
 } from './filter-inline.component';
+
 import {
   SkyFilterInlineItemComponent
 } from './filter-inline-item.component';
 
 import {
-  SkyTokensModule
-} from '@skyux/indicators/modules/tokens';
+  SkyFilterSummaryComponent
+} from './filter-summary.component';
+
 import {
-  SkyIconModule
-} from '@skyux/indicators/modules/icon';
+  SkyFilterSummaryItemComponent
+} from './filter-summary-item.component';
 
 @NgModule({
   declarations: [
@@ -46,17 +45,16 @@ import {
   ],
   imports: [
     CommonModule,
-    SkyI18nModule,
+    SkyIconModule,
     SkyListsResourcesModule,
-    SkyTokensModule,
-    SkyIconModule
+    SkyTokensModule
   ],
   exports: [
     SkyFilterButtonComponent,
-    SkyFilterSummaryComponent,
-    SkyFilterSummaryItemComponent,
     SkyFilterInlineComponent,
-    SkyFilterInlineItemComponent
+    SkyFilterInlineItemComponent,
+    SkyFilterSummaryComponent,
+    SkyFilterSummaryItemComponent
   ]
 })
 export class SkyFilterModule { }

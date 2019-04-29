@@ -12,19 +12,15 @@ import {
 
 import {
   SkyLogModule
-} from '@skyux/core/modules/log';
+} from '@skyux/core';
 
 import {
   SkyCheckboxModule
-} from '@skyux/forms/modules/checkbox';
-
-import {
-  SkyI18nModule
-} from '@skyux/i18n/modules/i18n';
+} from '@skyux/forms';
 
 import {
   SkyChevronModule
-} from '@skyux/indicators/modules/chevron';
+} from '@skyux/indicators';
 
 import {
   SkyInlineFormModule
@@ -75,7 +71,6 @@ import {
     SkyChevronModule,
     SkyLogModule,
     SkyCheckboxModule,
-    SkyI18nModule,
     SkyListsResourcesModule,
     SkyInlineFormModule
   ],

@@ -19,8 +19,8 @@ import {
 } from 'rxjs/Subject';
 
 import {
-  SkyWindowRefService
-} from '@skyux/core/modules/window';
+  SkyAppWindowRef
+} from '@skyux/core';
 // #endregion
 
 @Injectable()
@@ -31,7 +31,7 @@ export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
   private _parentChanges = new EventEmitter<void>();
 
   constructor(
-    private windowRef: SkyWindowRefService
+    private windowRef: SkyAppWindowRef
   ) { }
 
   public ngOnDestroy(): void {
@@ -83,7 +83,7 @@ export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
       }
     });
 
-    const windowObj = this.windowRef.getWindow();
+    const windowObj = this.windowRef.nativeWindow;
     const parent = this.findScrollableParent(element);
     const observedParent = (parent === windowObj) ? windowObj.document.body : parent;
 
@@ -98,7 +98,7 @@ export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
 
   private findScrollableParent(element: any): any {
     const regex = /(auto|scroll)/;
-    const windowObj = this.windowRef.getWindow();
+    const windowObj = this.windowRef.nativeWindow;
     const bodyObj = windowObj.document.body;
 
     let style = windowObj.getComputedStyle(element);
@@ -124,7 +124,7 @@ export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
     element: any,
     parentElement: any
   ): boolean {
-    const windowObj = this.windowRef.getWindow();
+    const windowObj = this.windowRef.nativeWindow;
 
     if (parentElement === windowObj) {
       return (parentElement.pageYOffset + parentElement.innerHeight > element.offsetTop);
