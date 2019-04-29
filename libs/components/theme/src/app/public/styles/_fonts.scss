@@ -8,6 +8,13 @@
 @font-face {
   font-family: 'Blackbaud Sans';
   font-style: normal;
+  font-weight: 500;
+  src: url(https://sky.blackbaudcdn.net/skyux-fonts/1.0.1/blackbaud-sans-semi-bold.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Blackbaud Sans';
+  font-style: normal;
   font-weight: 600;
   src: url(https://sky.blackbaudcdn.net/skyux-fonts/1.0.1/blackbaud-sans-bold.woff) format('woff');
 }
@@ -24,6 +31,13 @@
   font-style: normal;
   font-weight: 300;
   src: url(https://sky.blackbaudcdn.net/skyux-fonts/1.0.1/blackbaud-sans-light.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Blackbaud Sans';
+  font-style: normal;
+  font-weight: 200;
+  src: url(https://sky.blackbaudcdn.net/skyux-fonts/1.0.1/blackbaud-sans-thin.woff) format('woff');
 }
 
 @font-face {
