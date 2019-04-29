@@ -1,3 +1,7 @@
+# 3.0.3 (2019-04-29)
+
+- Fixed vertical tabset component to correctly translate resource strings. [#24](https://github.com/blackbaud/skyux-tabs/pull/24)
+
 # 3.0.2 (2019-04-24)
 
 - Fixed tabset component to prevent throwing `ViewDestroyedError`s in modals. [#21](https://github.com/blackbaud/skyux-tabs/pull/21)
