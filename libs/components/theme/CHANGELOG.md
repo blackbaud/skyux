@@ -1,3 +1,7 @@
+# 3.5.0 (2019-04-29)
+
+- Added thin and semi-bold font faces. [#56](https://github.com/blackbaud/skyux-theme/pull/56)
+
 # 3.4.1 (2019-02-21)
 
 - Fixed radio and checkbox labels to align with checkboxes and radio buttons using a top baseline. [#50](https://github.com/blackbaud/skyux-theme/pull/50)
