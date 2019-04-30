@@ -47,8 +47,6 @@ export class SkyDateFormatUtility {
       value = value.trim();
     }
 
-    console.log('EH?', value, isDate(value));
-
     if (isDate(value)) {
       date = value;
     } else if (isNumeric(value)) {

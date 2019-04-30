@@ -1,3 +1,7 @@
+# 3.2.2 (2019-04-30)
+
+- Fixed `SkyDatePipe` to include proper locale data when used with Angular version 5 and higher. [#36](https://github.com/blackbaud/skyux-datetime/pull/36)
+
 # 3.2.1 (2019-04-25)
 
 - Fixed date range picker component to run validation after users select dates with date picker. [#34](https://github.com/blackbaud/skyux-datetime/pull/34)
