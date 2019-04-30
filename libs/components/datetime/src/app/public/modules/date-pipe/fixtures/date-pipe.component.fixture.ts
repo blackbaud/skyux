@@ -7,7 +7,7 @@ import {
   templateUrl: './date-pipe.component.fixture.html'
 })
 export class DatePipeTestComponent {
-  public dateValue = new Date('01/01/2000');
+  public dateValue: any = new Date('01/01/2000');
   public format: string;
   public locale: string;
 }

@@ -1,6 +1,6 @@
 import {
-  TestBed,
-  ComponentFixture
+  ComponentFixture,
+  TestBed
 } from '@angular/core/testing';
 
 import {
@@ -73,6 +73,70 @@ describe('Date pipe', () => {
     expect(expectedValues).toContain(value);
   });
 
+  it('should format a timestamp', () => {
+    fixture.componentInstance.dateValue = new Date(2000, 0, 1, 0).getTime();
+    fixture.detectChanges();
+    const value = fixture.nativeElement.textContent.trim();
+    const expectedValues = [
+      '1/1/2000, 12:00 AM',
+      '1/1/2000 12:00 AM' // IE 11
+    ];
+    expect(expectedValues).toContain(value);
+  });
+
+  it('should format an ISO date string', () => {
+    const isoString = new Date(2000, 0, 1, 0).toISOString();
+    fixture.componentInstance.dateValue = isoString;
+    fixture.detectChanges();
+    const value = fixture.nativeElement.textContent.trim();
+    const expectedValues = [
+      '1/1/2000, 12:00 AM',
+      '1/1/2000 12:00 AM' // IE 11
+    ];
+    expect(expectedValues).toContain(value);
+  });
+
+  it('should format an ISO date string without time', () => {
+    fixture.componentInstance.dateValue = '2000-01-01';
+    fixture.detectChanges();
+    const value = fixture.nativeElement.textContent.trim();
+    const expectedValues = [
+      '1/1/2000, 12:00 AM',
+      '1/1/2000 12:00 AM' // IE 11
+    ];
+    expect(expectedValues).toContain(value);
+  });
+
+  it('should format a date string', () => {
+    fixture.componentInstance.dateValue = '2000/1/1';
+    fixture.detectChanges();
+    const value = fixture.nativeElement.textContent.trim();
+    const expectedValues = [
+      '1/1/2000, 12:00 AM',
+      '1/1/2000 12:00 AM' // IE 11
+    ];
+    expect(expectedValues).toContain(value);
+  });
+
+  it('should ignore empty values', () => {
+    fixture.componentInstance.dateValue = undefined;
+    fixture.detectChanges();
+    const value = fixture.nativeElement.textContent.trim();
+    expect(value).toEqual('');
+  });
+
+  it('should not support other objects', () => {
+    try {
+      fixture.componentInstance.dateValue = { foo: 'bar' };
+      fixture.detectChanges();
+      fixture.nativeElement.textContent.trim();
+
+      fail('It should fail!');
+    } catch (err) {
+      expect(err).toExist();
+    }
+  });
+
   it('should support Angular DatePipe formats', () => {
     fixture.componentInstance.format = 'fullDate';
     fixture.detectChanges();
@@ -80,6 +144,17 @@ describe('Date pipe', () => {
     const expectedValues = [
       'Saturday, January 1, 2000',
       'Saturday, January 01, 2000' // IE 11
+    ];
+    expect(expectedValues).toContain(value);
+  });
+
+  it('should default to mediumDate format', () => {
+    fixture.componentInstance.format = undefined;
+    fixture.detectChanges();
+    const value = fixture.nativeElement.textContent.trim();
+    const expectedValues = [
+      '1/1/2000, 12:00 AM',
+      '1/1/2000 12:00 AM' // IE 11
     ];
     expect(expectedValues).toContain(value);
   });
@@ -119,20 +194,6 @@ describe('Date pipe', () => {
     expect(expectedValues).toContain(value);
   });
 
-  it('should only transform if the value is set', () => {
-    const date = new Date('01/01/2001');
-    const pipe = new SkyDatePipe(mockChangeDetector, mockLocaleProvider);
-
-    const spy = spyOn(pipe['ngDatePipe'], 'transform').and.callThrough();
-
-    pipe.transform(date);
-    expect(spy.calls.count()).toEqual(1);
-    spy.calls.reset();
-
-    pipe.transform(undefined);
-    expect(spy.calls.count()).toEqual(0);
-  });
-
   it('should default to en-US locale', () => {
     const date = new Date('01/01/2000');
     const pipe = new SkyDatePipe(mockChangeDetector, mockLocaleProvider);
@@ -143,6 +204,30 @@ describe('Date pipe', () => {
 
     const value = pipe.transform(date, 'short');
     expect(expectedValues).toContain(value);
-    expect(pipe['_locale']).toEqual('en-US');
+    expect(pipe['defaultLocale']).toEqual('en-US');
+  });
+
+  it('should format invalid in IE ISO date', () => {
+    fixture.componentInstance.dateValue = '2017-01-11T09:25:14.014-0500';
+    fixture.detectChanges();
+    const value = fixture.nativeElement.textContent.trim();
+    const expectedValues = [
+      '1/11/2017, 9:25 AM',
+      '1/11/2017 9:25 AM', // IE 11
+      '1/11/2017, 6:25 AM' // Safari 11
+    ];
+    expect(expectedValues).toContain(value);
+  });
+
+  it('should format invalid in Safari ISO date', () => {
+    fixture.componentInstance.dateValue = '2017-01-20T19:00:00+0000';
+    fixture.detectChanges();
+    const value = fixture.nativeElement.textContent.trim();
+    const expectedValues = [
+      '1/20/2017, 2:00 PM',
+      '1/20/2017 2:00 PM', // IE 11
+      '1/20/2017, 11:00 AM' // Safari 11
+    ];
+    expect(expectedValues).toContain(value);
   });
 });
