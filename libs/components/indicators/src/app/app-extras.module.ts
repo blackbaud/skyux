@@ -14,20 +14,17 @@ import {
   SkyWaitModule
 } from './public';
 
-const modules = [
-  SkyAlertModule,
-  SkyChevronModule,
-  SkyHelpInlineModule,
-  SkyIconModule,
-  SkyKeyInfoModule,
-  SkyLabelModule,
-  SkyTextHighlightModule,
-  SkyTokensModule,
-  SkyWaitModule
-];
-
 @NgModule({
-  imports: modules,
-  exports: modules
+  exports: [
+    SkyAlertModule,
+    SkyChevronModule,
+    SkyHelpInlineModule,
+    SkyIconModule,
+    SkyKeyInfoModule,
+    SkyLabelModule,
+    SkyTextHighlightModule,
+    SkyTokensModule,
+    SkyWaitModule
+  ]
 })
 export class AppExtrasModule { }
