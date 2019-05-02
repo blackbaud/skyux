@@ -3,11 +3,6 @@ import {
 } from '@angular/core';
 
 import {
-  CurrencyPipe,
-  DecimalPipe
-} from '@angular/common';
-
-import {
   SkyI18nModule
 } from '@skyux/i18n';
 
@@ -28,8 +23,6 @@ import {
     SkyNumericPipe
   ],
   providers: [
-    CurrencyPipe,
-    DecimalPipe,
     SkyNumericPipe,
     SkyNumericService
   ],

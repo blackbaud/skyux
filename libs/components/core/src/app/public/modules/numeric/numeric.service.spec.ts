@@ -1,9 +1,4 @@
 import {
-  CurrencyPipe,
-  DecimalPipe
-} from '@angular/common';
-
-import {
   SkyLibResourcesTestService
 } from '@skyux/i18n/testing/lib-resources-test.service';
 
@@ -16,8 +11,6 @@ import {
 } from './numeric.service';
 
 const skyNumeric = new SkyNumericService(
-  new CurrencyPipe('en-US'),
-  new DecimalPipe('en-US'),
   new SkyLibResourcesTestService() as any
 );
 

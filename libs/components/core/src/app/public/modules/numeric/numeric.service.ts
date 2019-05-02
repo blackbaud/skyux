@@ -3,13 +3,12 @@ import {
 } from '@angular/core';
 
 import {
-  CurrencyPipe,
-  DecimalPipe
-} from '@angular/common';
+  SkyIntlNumberFormatStyle
+} from '@skyux/i18n/modules/i18n/intl-number-format-style';
 
 import {
   SkyLibResourcesService
-} from '@skyux/i18n/modules/i18n/lib-resources.service';
+} from '@skyux/i18n';
 
 import {
   NumericOptions
@@ -18,6 +17,10 @@ import {
 import {
   SkyNumericSymbol
 } from './numeric-symbol';
+
+import {
+  SkyNumberFormatUtility
+} from './number-format-utility';
 
 @Injectable()
 export class SkyNumericService {
@@ -30,9 +33,9 @@ export class SkyNumericService {
     { value: 1E3, label: this.getSymbol('skyux_numeric_thousands_symbol') }
   ];
 
+  private defaultLocale = 'en-US';
+
   constructor(
-    private currencyPipe: CurrencyPipe,
-    private decimalPipe: DecimalPipe,
     private resourcesService: SkyLibResourcesService
   ) { }
 
@@ -45,7 +48,9 @@ export class SkyNumericService {
     value: number,
     options: NumericOptions
   ): string {
-    if (isNaN(value)) {
+
+    /* tslint:disable-next-line:no-null-keyword */
+    if (isNaN(value) || value === null) {
       return '';
     }
 
@@ -107,11 +112,13 @@ export class SkyNumericService {
         // See: https://angular.io/api/common/CurrencyPipe#parameters
         const symbolDisplay: any = 'symbol';
 
-        output = this.currencyPipe.transform(
+        output = SkyNumberFormatUtility.formatNumber(
+          this.defaultLocale,
           parseFloat(output),
+          SkyIntlNumberFormatStyle.Currency,
+          digits,
           options.iso,
-          symbolDisplay,
-          digits
+          symbolDisplay
         );
         break;
 
@@ -129,8 +136,10 @@ export class SkyNumericService {
           digits = `1.${options.digits}-${options.digits}`;
         }
 
-        output = this.decimalPipe.transform(
+        output = SkyNumberFormatUtility.formatNumber(
+          this.defaultLocale,
           parseFloat(output),
+          SkyIntlNumberFormatStyle.Decimal,
           digits
         );
         break;

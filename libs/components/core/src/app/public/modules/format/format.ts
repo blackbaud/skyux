@@ -4,6 +4,10 @@ export {
 } from './app-format';
 
 export class SkyFormat {
+
+  /* istanbul ignore next */
+  constructor() { }
+
   public static formatText(
     format: string,
     ...args: any[]
