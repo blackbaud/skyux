@@ -245,6 +245,7 @@ export class SkyDatepickerInputDirective
       .distinctUntilChanged()
       .takeUntil(this.ngUnsubscribe)
       .subscribe((value: Date) => {
+        this.isFirstChange = false;
         this.value = value;
         this.onTouched();
       });

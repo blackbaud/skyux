@@ -863,6 +863,68 @@ describe('datepicker', () => {
       }));
     });
 
+    describe('Angular form control statuses', function () {
+      it('should set correct statuses when initialized without value', fakeAsync(function () {
+        fixture.componentInstance.initialValue = undefined;
+        fixture.detectChanges();
+        tick();
+
+        expect(component.dateControl.valid).toBe(true);
+        expect(component.dateControl.pristine).toBe(true);
+        expect(component.dateControl.touched).toBe(false);
+      }));
+
+      it('should set correct statuses when initialized with value', fakeAsync(function () {
+        fixture.componentInstance.initialValue = '1/1/2000';
+        fixture.detectChanges();
+        tick();
+
+        expect(component.dateControl.valid).toBe(true);
+        expect(component.dateControl.pristine).toBe(true);
+        expect(component.dateControl.touched).toBe(false);
+      }));
+
+      it('should set correct statuses after user types within input', fakeAsync(function () {
+        fixture.detectChanges();
+        tick();
+
+        expect(component.dateControl.valid).toBe(true);
+        expect(component.dateControl.pristine).toBe(true);
+        expect(component.dateControl.touched).toBe(false);
+
+        setInput(nativeElement, '1/1/2000', fixture);
+        blurInput(nativeElement, fixture);
+        fixture.detectChanges();
+        tick();
+
+        expect(component.dateControl.valid).toBe(true);
+        expect(component.dateControl.pristine).toBe(false);
+        expect(component.dateControl.touched).toBe(true);
+      }));
+
+      it('should set correct statuses after user selects from calendar', fakeAsync(function () {
+        fixture.detectChanges();
+        tick();
+
+        expect(component.dateControl.valid).toBe(true);
+        expect(component.dateControl.pristine).toBe(true);
+        expect(component.dateControl.touched).toBe(false);
+
+        openDatepicker(fixture.nativeElement, fixture);
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        fixture.nativeElement.querySelector('.sky-datepicker-btn-selected').click();
+        fixture.detectChanges();
+        tick();
+
+        expect(component.dateControl.valid).toBe(true);
+        expect(component.dateControl.pristine).toBe(false);
+        expect(component.dateControl.touched).toBe(true);
+      }));
+    });
+
     describe('validation', () => {
 
       it('should validate properly when invalid date is passed through input change',
