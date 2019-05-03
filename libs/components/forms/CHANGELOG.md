@@ -1,3 +1,7 @@
+# 3.1.2 (2019-05-03)
+
+- Fixed radio group component to properly update ngModel when initial value is undefined. [#37](https://github.com/blackbaud/skyux-forms/pull/37)
+
 # 3.1.1 (2019-03-27)
 
 - Fixed radio group component to support boolean values. [#31](https://github.com/blackbaud/skyux-forms/pull/31)
