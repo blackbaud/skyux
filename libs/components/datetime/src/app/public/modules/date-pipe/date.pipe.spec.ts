@@ -208,26 +208,18 @@ describe('Date pipe', () => {
   });
 
   it('should format invalid in IE ISO date', () => {
+    fixture.componentInstance.format = 'shortDate';
     fixture.componentInstance.dateValue = '2017-01-11T09:25:14.014-0500';
     fixture.detectChanges();
     const value = fixture.nativeElement.textContent.trim();
-    const expectedValues = [
-      '1/11/2017, 9:25 AM',
-      '1/11/2017 6:25 AM', // IE 11
-      '1/11/2017, 6:25 AM' // Safari 11
-    ];
-    expect(expectedValues).toContain(value);
+    expect(value).toEqual('1/11/2017');
   });
 
   it('should format invalid in Safari ISO date', () => {
+    fixture.componentInstance.format = 'shortDate';
     fixture.componentInstance.dateValue = '2017-01-20T19:00:00+0000';
     fixture.detectChanges();
     const value = fixture.nativeElement.textContent.trim();
-    const expectedValues = [
-      '1/20/2017, 2:00 PM',
-      '1/20/2017 11:00 AM', // IE 11
-      '1/20/2017, 11:00 AM' // Safari 11
-    ];
-    expect(expectedValues).toContain(value);
+    expect(value).toEqual('1/20/2017');
   });
 });
