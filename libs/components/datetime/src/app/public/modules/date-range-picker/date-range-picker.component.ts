@@ -116,9 +116,7 @@ export class SkyDateRangePickerComponent
 
   @Input()
   public set calculatorIds(value: SkyDateRangeCalculatorId[]) {
-    if (value) {
-      this._calculatorIds = value;
-    }
+    this._calculatorIds = value;
   }
 
   public get calculatorIds(): SkyDateRangeCalculatorId[] {

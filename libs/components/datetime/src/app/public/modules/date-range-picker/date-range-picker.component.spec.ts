@@ -31,6 +31,31 @@ import {
   SkyDateRangeCalculatorType
 } from './types/date-range-calculator-type';
 
+const defaultCalculatorIds = [
+  SkyDateRangeCalculatorId.AnyTime,
+  SkyDateRangeCalculatorId.Before,
+  SkyDateRangeCalculatorId.After,
+  SkyDateRangeCalculatorId.SpecificRange,
+  SkyDateRangeCalculatorId.Yesterday,
+  SkyDateRangeCalculatorId.Today,
+  SkyDateRangeCalculatorId.Tomorrow,
+  SkyDateRangeCalculatorId.LastWeek,
+  SkyDateRangeCalculatorId.ThisWeek,
+  SkyDateRangeCalculatorId.NextWeek,
+  SkyDateRangeCalculatorId.LastMonth,
+  SkyDateRangeCalculatorId.ThisMonth,
+  SkyDateRangeCalculatorId.NextMonth,
+  SkyDateRangeCalculatorId.LastQuarter,
+  SkyDateRangeCalculatorId.ThisQuarter,
+  SkyDateRangeCalculatorId.NextQuarter,
+  SkyDateRangeCalculatorId.LastCalendarYear,
+  SkyDateRangeCalculatorId.ThisCalendarYear,
+  SkyDateRangeCalculatorId.NextCalendarYear,
+  SkyDateRangeCalculatorId.LastFiscalYear,
+  SkyDateRangeCalculatorId.ThisFiscalYear,
+  SkyDateRangeCalculatorId.NextFiscalYear
+];
+
 describe('Date range picker', function () {
   let fixture: ComponentFixture<DateRangePickerTestComponent>;
   let component: DateRangePickerTestComponent;
@@ -134,30 +159,7 @@ describe('Date range picker', function () {
     const picker = component.dateRangePicker;
     expect(picker.dateFormat).toEqual('MM/DD/YYYY');
     expect(picker.label).toEqual(undefined);
-    expect(picker.calculatorIds).toEqual([
-      SkyDateRangeCalculatorId.AnyTime,
-      SkyDateRangeCalculatorId.Before,
-      SkyDateRangeCalculatorId.After,
-      SkyDateRangeCalculatorId.SpecificRange,
-      SkyDateRangeCalculatorId.Yesterday,
-      SkyDateRangeCalculatorId.Today,
-      SkyDateRangeCalculatorId.Tomorrow,
-      SkyDateRangeCalculatorId.LastWeek,
-      SkyDateRangeCalculatorId.ThisWeek,
-      SkyDateRangeCalculatorId.NextWeek,
-      SkyDateRangeCalculatorId.LastMonth,
-      SkyDateRangeCalculatorId.ThisMonth,
-      SkyDateRangeCalculatorId.NextMonth,
-      SkyDateRangeCalculatorId.LastQuarter,
-      SkyDateRangeCalculatorId.ThisQuarter,
-      SkyDateRangeCalculatorId.NextQuarter,
-      SkyDateRangeCalculatorId.LastCalendarYear,
-      SkyDateRangeCalculatorId.ThisCalendarYear,
-      SkyDateRangeCalculatorId.NextCalendarYear,
-      SkyDateRangeCalculatorId.LastFiscalYear,
-      SkyDateRangeCalculatorId.ThisFiscalYear,
-      SkyDateRangeCalculatorId.NextFiscalYear
-    ]);
+    expect(picker.calculatorIds).toEqual(defaultCalculatorIds);
   }));
 
   it('should allow setting specific calculators', fakeAsync(function () {
@@ -174,6 +176,13 @@ describe('Date range picker', function () {
       SkyDateRangeCalculatorId.After,
       SkyDateRangeCalculatorId.SpecificRange
     ]);
+
+    // Reset the calculators to verify defaults are set.
+    component.calculatorIds = undefined;
+
+    detectChanges();
+
+    expect(component.dateRangePicker.calculatorIds).toEqual(defaultCalculatorIds);
   }));
 
   it('should allow setting calculators asynchronously', fakeAsync(function () {
