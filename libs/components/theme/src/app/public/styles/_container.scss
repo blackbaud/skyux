@@ -20,3 +20,19 @@
     width: $sky-screen-lg-min - 10;
   }
 }
+
+.sky-responsive-container-xs .sky-container {
+  width: auto;
+}
+
+.sky-responsive-container-sm .sky-container {
+  width: $sky-screen-sm-min - 10;
+}
+
+.sky-responsive-container-md .sky-container {
+  width: $sky-screen-md-min - 20;
+}
+
+.sky-responsive-container-lg .sky-container {
+  width: $sky-screen-lg-min - 10;
+}

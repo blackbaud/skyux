@@ -3,12 +3,17 @@ import {
 } from '@angular/core';
 
 import {
+  SkyMediaQueryModule
+} from '@skyux/core';
+
+import {
   SkyThemeModule
 } from './public';
 
 @NgModule({
   exports: [
-    SkyThemeModule
+    SkyThemeModule,
+    SkyMediaQueryModule
   ]
 })
 export class AppExtrasModule { }

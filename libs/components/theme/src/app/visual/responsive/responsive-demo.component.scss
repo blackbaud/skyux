@@ -1,0 +1,27 @@
+#screen-queries {
+  ::ng-deep .box-1 {
+    background-color: aqua;
+  }
+
+  ::ng-deep .box-2 {
+    background-color: plum;
+  }
+}
+
+#container-queries {
+  ::ng-deep .box-1 {
+    background-color: rgb(255, 102, 0);
+  }
+
+  ::ng-deep .box-2 {
+    background-color: rgb(65, 141, 2);
+  }
+}
+
+#screen-queries, #container-queries {
+  margin: 10px;
+}
+
+#button-container {
+  padding: 10px;
+}
