@@ -29,13 +29,19 @@ export class SkyDatepickerCalendarComponent {
   @Input()
   public maxDate: Date;
 
-  /** starting day of the week from 0-6 (0=Sunday, ..., 6=Saturday) */
-  @Input()
-  public startingDay: number;
-
   /** currently selected date */
   @Input()
   public selectedDate: Date;
+
+  /** starting day of the week from 0-6 (0=Sunday, ..., 6=Saturday) */
+  @Input()
+  public set startingDay(start: number) {
+    this._startingDay = start;
+  }
+
+  public get startingDay() {
+    return this._startingDay || 0;
+  }
 
   @Output()
   public selectedDateChange: EventEmitter<Date> = new EventEmitter<Date>(undefined);
@@ -50,6 +56,8 @@ export class SkyDatepickerCalendarComponent {
   protected config: SkyDatepickerConfigService;
 
   private formatter = new SkyDateFormatter();
+
+  private _startingDay: number;
 
   public constructor(config: SkyDatepickerConfigService) {
     this.config = config;
