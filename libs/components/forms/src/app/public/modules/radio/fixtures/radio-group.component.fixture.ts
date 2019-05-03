@@ -40,7 +40,7 @@ export class SkyRadioGroupTestComponent {
     private fb: FormBuilder
   ) {
     this.radioForm = this.fb.group({
-      option: new FormControl(this.options[0])
+      option: new FormControl()
     });
   }
 

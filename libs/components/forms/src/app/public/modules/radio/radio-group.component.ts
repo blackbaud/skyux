@@ -61,22 +61,16 @@ export class SkyRadioGroupComponent implements AfterContentInit, ControlValueAcc
 
   @Input()
   public set value(value: any) {
-    const currentValue = this._value;
-    if (currentValue !== value) {
-      this._value = value;
-      this.updateCheckedRadioFromValue();
+    // The null check is needed to address a bug in Angular 4.
+    // writeValue is being called twice, first time with a phantom null value
+    // See: https://github.com/angular/angular/issues/14988
+    // tslint:disable-next-line:no-null-keyword
+    const isNewValue = value !== this._value && value !== null;
 
-      // Explicitly check both `undefined` and `null` (Angular's empty value) so that
-      // we can support boolean values for the form control.
-      /* tslint:disable:no-null-keyword */
-      if (
-        currentValue !== undefined &&
-        currentValue !== null
-      ) {
-        this.onChange(this.value);
-        this.onTouched();
-      }
-      /* tslint:enable */
+    if (isNewValue) {
+      this._value = value;
+      this.onChange(this._value);
+      this.updateCheckedRadioFromValue();
     }
   }
   public get value(): any {
@@ -111,6 +105,7 @@ export class SkyRadioGroupComponent implements AfterContentInit, ControlValueAcc
       radio.change
         .takeUntil(this.ngUnsubscribe)
         .subscribe((change: SkyRadioChange) => {
+          this.onTouched();
           this.writeValue(change.value);
         });
     });
@@ -141,9 +136,9 @@ export class SkyRadioGroupComponent implements AfterContentInit, ControlValueAcc
   }
 
   /* istanbul ignore next */
-  public onChange: (value: any) => void = () => {};
+  private onChange: (value: any) => void = () => {};
   /* istanbul ignore next */
-  public onTouched: () => any = () => {};
+  private onTouched: () => any = () => {};
 
   private updateRadioButtonNames(): void {
     if (this.radios) {
@@ -168,9 +163,6 @@ export class SkyRadioGroupComponent implements AfterContentInit, ControlValueAcc
 
     this.radios.forEach((radio) => {
       radio.checked = (this._value === radio.value);
-      if (radio.checked) {
-        this.value = radio.value;
-      }
     });
   }
 

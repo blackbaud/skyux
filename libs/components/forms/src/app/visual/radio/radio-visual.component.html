@@ -1,3 +1,7 @@
+<h1>
+  Radio buttons (reactive)
+</h1>
+
 <form
   novalidate
   [formGroup]="radioForm"
@@ -29,7 +33,79 @@
       </ul>
     </sky-radio-group>
   </div>
+
+  <table>
+    <tr>
+      <th>Touched</th>
+      <td>{{ radioForm.touched }}</td>
+    </tr>
+    <tr>
+      <th>Pristine</th>
+      <td>{{ radioForm.pristine }}</td>
+    </tr>
+    <tr>
+      <th>Valid</th>
+      <td>{{ radioForm.valid }}</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+      <td>{{ radioForm.value.favoriteSeason?.name || 'Nothing selected...' }}</td>
+    </tr>
+  </table>
+
 </form>
+
+<h1>
+  Radio buttons (template-driven)
+</h1>
+
+<h3>
+  What is your favorite season?
+</h3>
+<div>
+  <sky-radio-group
+    [(ngModel)]="radioValue"
+    #foo="ngModel"
+  >
+    <ul
+      class="sky-list-unstyled"
+    >
+      <li *ngFor="let item of seasons">
+        <sky-radio
+          [value]="item.name"
+        >
+          <sky-radio-label>
+            {{ item.name }}
+          </sky-radio-label>
+        </sky-radio>
+      </li>
+    </ul>
+  </sky-radio-group>
+</div>
+
+<table>
+  <tr>
+    <th>Touched</th>
+    <td>{{ foo.touched }}</td>
+  </tr>
+  <tr>
+    <th>Pristine</th>
+    <td>{{ foo.pristine }}</td>
+  </tr>
+  <tr>
+    <th>Valid</th>
+    <td>{{ foo.valid }}</td>
+  </tr>
+  <tr>
+    <th>Value</th>
+    <td>{{ radioValue || 'Nothing selected...' }}</td>
+  </tr>
+</table>
+
+<h1>
+  Icon radio buttons
+</h1>
+
 <form
   novalidate
 >

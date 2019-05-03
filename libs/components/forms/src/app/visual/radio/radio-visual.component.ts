@@ -17,6 +17,7 @@ export class RadioVisualComponent implements OnInit {
   public iconSelectedValue = '1';
   public valueGuy = '2';
   public radioForm: FormGroup;
+  public radioValue: any;
 
   public seasons = [
     { name: 'Spring', disabled: false },
