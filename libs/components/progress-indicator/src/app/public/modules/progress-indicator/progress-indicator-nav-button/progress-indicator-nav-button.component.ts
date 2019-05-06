@@ -90,9 +90,13 @@ export class SkyProgressIndicatorNavButtonComponent implements OnInit, OnDestroy
 
   public buttonClick(): void {
     if (this.buttonType === 'previous') {
-      this.progressIndicator.messageStream.next(SkyProgressIndicatorMessageType.Regress);
+      this.progressIndicator.sendMessage({
+        type: SkyProgressIndicatorMessageType.Regress
+      });
     } else {
-      this.progressIndicator.messageStream.next(SkyProgressIndicatorMessageType.Progress);
+      this.progressIndicator.sendMessage({
+        type: SkyProgressIndicatorMessageType.Progress
+      });
     }
   }
 

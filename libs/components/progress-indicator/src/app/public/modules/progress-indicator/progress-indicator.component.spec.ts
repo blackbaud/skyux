@@ -7,57 +7,35 @@ import {
 } from '@angular/core/testing';
 
 import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
-
-import {
-  SkyLibResourcesTestService
-} from '@skyux/i18n/testing';
-
-import {
   expect
 } from '@skyux-sdk/testing';
 
 import {
-  SkyWindowRefService
-} from '@skyux/core';
-
-import {
-  SkyProgressIndicatorModule,
-  SkyProgressIndicatorMessageType
-} from '.';
-
-import {
-  ProgressIndicatorTestComponent
+  SkyProgressIndicatorFixtureComponent
 } from './fixtures/progress-indicator.component.fixture';
 
 import {
-  SkyProgressIndicatorDisplayMode
-} from './types/progress-indicator-mode';
+  SkyProgressIndicatorFixtureModule
+} from './fixtures/progress-indicator.module.fixture';
+
+import {
+  SkyProgressIndicatorDisplayMode,
+  SkyProgressIndicatorMessageType
+} from './types';
 
 describe('Progress indicator component', function () {
 
-  let fixture: ComponentFixture<ProgressIndicatorTestComponent>;
+  let fixture: ComponentFixture<SkyProgressIndicatorFixtureComponent>;
   let componentInstance: any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        SkyProgressIndicatorModule
-      ],
-      declarations: [
-        ProgressIndicatorTestComponent
-      ],
-      providers: [
-        SkyWindowRefService,
-        {
-          provide: SkyLibResourcesService,
-          useClass: SkyLibResourcesTestService
-        }
+        SkyProgressIndicatorFixtureModule
       ]
     });
 
-    fixture = TestBed.createComponent(ProgressIndicatorTestComponent);
+    fixture = TestBed.createComponent(SkyProgressIndicatorFixtureComponent);
   });
 
   it('should not run the progressChanges emitter until a tick has occurred.', fakeAsync(() => {
@@ -168,7 +146,7 @@ describe('Progress indicator component', function () {
       expect(componentInstance.progressItems.first.isActive).toBeTruthy();
       expect(componentInstance.progressItems.first.isComplete).toBeFalsy();
 
-      componentInstance.messageStream.next(SkyProgressIndicatorMessageType.Progress);
+      componentInstance.sendMessage(SkyProgressIndicatorMessageType.Progress);
       fixture.detectChanges();
 
       expect(componentInstance.activeIndex).toBe(1);
@@ -181,21 +159,21 @@ describe('Progress indicator component', function () {
     });
 
     it('should not advance once past the final step', () => {
-      componentInstance.messageStream.next(SkyProgressIndicatorMessageType.Progress);
+      componentInstance.sendMessage(SkyProgressIndicatorMessageType.Progress);
       fixture.detectChanges();
-      componentInstance.messageStream.next(SkyProgressIndicatorMessageType.Progress);
+      componentInstance.sendMessage(SkyProgressIndicatorMessageType.Progress);
       fixture.detectChanges();
-      componentInstance.messageStream.next(SkyProgressIndicatorMessageType.Progress);
+      componentInstance.sendMessage(SkyProgressIndicatorMessageType.Progress);
       fixture.detectChanges();
 
-      expect(componentInstance.activeIndex).toBe(3);
-      expect(componentInstance.progressItems.last.isActive).toBeFalsy();
+      expect(componentInstance.activeIndex).toBe(2);
+      expect(componentInstance.progressItems.last.isActive).toBeTruthy();
       expect(componentInstance.progressItems.last.isComplete).toBeTruthy();
 
-      componentInstance.messageStream.next(SkyProgressIndicatorMessageType.Progress);
+      componentInstance.sendMessage(SkyProgressIndicatorMessageType.Progress);
       fixture.detectChanges();
 
-      expect(componentInstance.activeIndex).toBe(3);
+      expect(componentInstance.activeIndex).toBe(2);
     });
 
     it('should not regress when on the first step', () => {
@@ -203,7 +181,7 @@ describe('Progress indicator component', function () {
       expect(componentInstance.progressItems.first.isActive).toBeTruthy();
       expect(componentInstance.progressItems.first.isComplete).toBeFalsy();
 
-      componentInstance.messageStream.next(SkyProgressIndicatorMessageType.Regress);
+      componentInstance.sendMessage(SkyProgressIndicatorMessageType.Regress);
       fixture.detectChanges();
 
       expect(componentInstance.activeIndex).toBe(0);
@@ -212,9 +190,9 @@ describe('Progress indicator component', function () {
     });
 
     it('should leave completed tasks marked as such when regressing progress', () => {
-      componentInstance.messageStream.next(SkyProgressIndicatorMessageType.Progress);
+      componentInstance.sendMessage(SkyProgressIndicatorMessageType.Progress);
       fixture.detectChanges();
-      componentInstance.messageStream.next(SkyProgressIndicatorMessageType.Progress);
+      componentInstance.sendMessage(SkyProgressIndicatorMessageType.Progress);
       fixture.detectChanges();
 
       expect(componentInstance.progressItems.first.isComplete).toBeTruthy();
@@ -228,9 +206,9 @@ describe('Progress indicator component', function () {
       expect(componentInstance.progressItems.last.isComplete).toBeFalsy();
       expect(componentInstance.progressItems.last.isActive).toBeTruthy();
 
-      componentInstance.messageStream.next(SkyProgressIndicatorMessageType.Regress);
+      componentInstance.sendMessage(SkyProgressIndicatorMessageType.Regress);
       fixture.detectChanges();
-      componentInstance.messageStream.next(SkyProgressIndicatorMessageType.Regress);
+      componentInstance.sendMessage(SkyProgressIndicatorMessageType.Regress);
       fixture.detectChanges();
 
       expect(componentInstance.progressItems.first.isComplete).toBeTruthy();
@@ -246,9 +224,9 @@ describe('Progress indicator component', function () {
     });
 
     it('should reset progress when a reset progress message is passed', () => {
-      componentInstance.messageStream.next(SkyProgressIndicatorMessageType.Progress);
+      componentInstance.sendMessage(SkyProgressIndicatorMessageType.Progress);
       fixture.detectChanges();
-      componentInstance.messageStream.next(SkyProgressIndicatorMessageType.Progress);
+      componentInstance.sendMessage(SkyProgressIndicatorMessageType.Progress);
       fixture.detectChanges();
 
       expect(componentInstance.progressItems.first.isComplete).toBeTruthy();
@@ -262,7 +240,7 @@ describe('Progress indicator component', function () {
       expect(componentInstance.progressItems.last.isComplete).toBeFalsy();
       expect(componentInstance.progressItems.last.isActive).toBeTruthy();
 
-      componentInstance.messageStream.next(SkyProgressIndicatorMessageType.Reset);
+      componentInstance.sendMessage(SkyProgressIndicatorMessageType.Reset);
       fixture.detectChanges();
 
       expect(componentInstance.progressItems.first.isComplete).toBeFalsy();
@@ -279,7 +257,7 @@ describe('Progress indicator component', function () {
 
     it('should throw an error when an unknown message is passed', () => {
       try {
-        componentInstance.messageStream.next(4);
+        componentInstance.sendMessage(4);
         fail('Should have thrown an exception.');
       } catch (e) {
         expect(e).toBe('SkyProgressIndicatorMessageType unrecognized.');

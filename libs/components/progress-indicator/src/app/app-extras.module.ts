@@ -3,16 +3,11 @@ import {
 } from '@angular/core';
 
 import {
-  CommonModule
-} from '@angular/common';
-
-import {
   SkyCheckboxModule
 } from '@skyux/forms';
 
 import {
-  SkyModalModule,
-  SkyModalService
+  SkyModalModule
 } from '@skyux/modals';
 
 import {
@@ -20,29 +15,24 @@ import {
 } from '@skyux/popovers';
 
 import {
+  SkyAppLinkModule
+} from '@skyux/router';
+
+import {
   SkyProgressIndicatorModule
-} from './public/modules/progress-indicator';
+} from './public';
 
 import {
   ProgressIndicatorWizardDemoComponent
 } from './visual/progress-indicator/progress-indicator-horizontal-visual.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SkyProgressIndicatorModule,
-    SkyCheckboxModule,
-    SkyModalModule,
-    SkyPopoverModule
-  ],
   exports: [
-    SkyProgressIndicatorModule,
+    SkyAppLinkModule,
     SkyCheckboxModule,
     SkyModalModule,
-    SkyPopoverModule
-  ],
-  providers: [
-    SkyModalService
+    SkyPopoverModule,
+    SkyProgressIndicatorModule
   ],
   entryComponents: [
     ProgressIndicatorWizardDemoComponent

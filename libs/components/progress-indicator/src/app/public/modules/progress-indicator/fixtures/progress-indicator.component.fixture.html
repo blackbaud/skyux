@@ -1,7 +1,7 @@
 <sky-progress-indicator
-  style="display: block; background-color: white;"
   [displayMode]="displayMode"
   [isPassive]="isPassive"
+  [messageStream]="messageStream"
   [startingIndex]="startingIndex"
   (progressChanges)="updateIndex($event)"
   #progressIndicator

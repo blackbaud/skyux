@@ -1,35 +1,44 @@
 import {
   Component,
-  ViewChild,
-  QueryList,
-  ViewChildren,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
-  ChangeDetectionStrategy
+  ViewChild,
+  ViewChildren,
+  QueryList
 } from '@angular/core';
 
 import {
-  SkyProgressIndicatorComponent,
-  SkyProgressIndicatorMessageType,
-  SkyProgressIndicatorChange
-} from '..';
+  Subject
+} from 'rxjs/Subject';
+
 import {
   SkyProgressIndicatorNavButtonComponent
-} from '../progress-indicator-nav-button';
+} from '../progress-indicator-nav-button/progress-indicator-nav-button.component';
+
 import {
   SkyProgressIndicatorResetButtonComponent
-} from '../progress-indicator-reset-button';
+} from '../progress-indicator-reset-button/progress-indicator-reset-button.component';
+
 import {
-  SkyProgressIndicatorDisplayMode
-} from '../types/progress-indicator-mode';
+  SkyProgressIndicatorDisplayMode,
+  SkyProgressIndicatorMessage,
+  SkyProgressIndicatorMessageType,
+  SkyProgressIndicatorChange
+} from '../types';
+
+import {
+  SkyProgressIndicatorComponent
+} from '../progress-indicator.component';
 
 @Component({
   selector: 'test-progress-indicator',
   templateUrl: './progress-indicator.component.fixture.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProgressIndicatorTestComponent {
+export class SkyProgressIndicatorFixtureComponent {
   public displayMode: SkyProgressIndicatorDisplayMode;
   public isPassive: boolean;
+  public messageStream = new Subject<SkyProgressIndicatorMessage | SkyProgressIndicatorMessageType>();
   public startingIndex: number;
 
   public previousButtonText: string;
@@ -71,6 +80,10 @@ export class ProgressIndicatorTestComponent {
 
   public resetClicked(): void {
     this.resetWasClicked = true;
+  }
+
+  public sendMessage(message: SkyProgressIndicatorMessage): void {
+    this.messageStream.next(message);
   }
 
   public updateIndex(changes: SkyProgressIndicatorChange): void {

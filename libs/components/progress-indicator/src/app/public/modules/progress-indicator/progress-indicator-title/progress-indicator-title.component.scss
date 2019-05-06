@@ -1,4 +1,8 @@
-:host() {
-  display: flex;
-  justify-content: center;
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-progress-indicator-title {
+  line-height: 1.1;
+  margin: 0 0 $sky-margin-triple;
+  text-align: center;
 }
