@@ -4,7 +4,8 @@ import {
 } from '@angular/core';
 
 import {
-  SkyInlineFormCloseArgs
+  SkyInlineFormCloseArgs,
+  SkyInlineFormConfig
 } from '@skyux/inline-form';
 
 import {
@@ -20,6 +21,8 @@ export class RepeaterInlineFormFixtureComponent {
   public repeater: SkyRepeaterComponent;
 
   public showInlineForm = false;
+
+  public inlineFormConfig: SkyInlineFormConfig;
 
   public inlineFormCloseArgs: SkyInlineFormCloseArgs;
 

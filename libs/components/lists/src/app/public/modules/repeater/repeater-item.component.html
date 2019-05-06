@@ -8,6 +8,7 @@
 
   <ng-container *ngIf="inlineFormTemplate">
     <sky-inline-form
+      [config]="inlineFormConfig"
       [showForm]="showInlineForm"
       [template]="inlineFormTemplate"
       (close)="onInlineFormClose($event)"

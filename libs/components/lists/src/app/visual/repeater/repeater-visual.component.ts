@@ -3,7 +3,9 @@ import {
 } from '@angular/core';
 
 import {
-  SkyInlineFormCloseArgs
+  SkyInlineFormButtonLayout,
+  SkyInlineFormCloseArgs,
+  SkyInlineFormConfig
 } from '@skyux/inline-form';
 
 @Component({
@@ -12,6 +14,16 @@ import {
   styleUrls: ['./repeater-visual.component.scss']
 })
 export class RepeaterVisualComponent {
+
+  public customConfig: SkyInlineFormConfig = {
+    buttonLayout: SkyInlineFormButtonLayout.Custom,
+    buttons: [
+      { action: 'save', text: 'Save', styleType: 'primary' },
+      { action: 'delete', text: 'Delete', styleType: 'default' },
+      { action: 'reset', text: 'Reset', styleType: 'default' },
+      { action: 'cancel', text: 'Cancel', styleType: 'link' }
+    ]
+  };
 
   public items = [
     {

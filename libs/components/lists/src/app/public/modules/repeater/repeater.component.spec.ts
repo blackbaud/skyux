@@ -12,6 +12,10 @@ import {
 } from '@skyux/core/modules/log/log.service';
 
 import {
+  SkyInlineFormButtonLayout
+} from '@skyux/inline-form';
+
+import {
   expect
 } from '@skyux-sdk/testing';
 
@@ -545,14 +549,17 @@ describe('Repeater item component', () => {
       fixture = TestBed.createComponent(RepeaterInlineFormFixtureComponent);
       el = fixture.nativeElement;
       component = fixture.componentInstance;
-      fixture.detectChanges();
     });
 
-    function showInlineForm() {
+    function showInlineForm(): void {
       component.showInlineForm = true;
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
+    }
+
+    function getInlineForm(): HTMLElement {
+      return el.querySelector('#inline-form-template') as HTMLElement;
     }
 
     it('should not add inline-form to the DOM by default', () => {
@@ -562,19 +569,41 @@ describe('Repeater item component', () => {
     });
 
     it('should not show inline-form template if showInlineForm is false', () => {
-      const inlineForm = el.querySelector('#inline-form-template');
+      const inlineForm = getInlineForm();
 
       expect(inlineForm).toBeNull();
     });
 
     it('should show inline-form template if showInlineForm is true', fakeAsync(() => {
       showInlineForm();
-      const inlineForm = el.querySelector('#inline-form-template');
+      const inlineForm = getInlineForm();
 
       expect(inlineForm).not.toBeNull();
     }));
 
+    it('should show inline-form with custom buttons', async(() => {
+      component.inlineFormConfig = {
+        buttonLayout: SkyInlineFormButtonLayout.Custom,
+        buttons: [
+          { action: 'save', text: 'Foo', styleType: 'primary' },
+          { action: 'delete', text: 'Bar', styleType: 'default' }
+        ]
+      };
+
+      component.showInlineForm = true;
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+
+        const buttons = el.querySelectorAll('.sky-inline-form-footer button') as NodeListOf<HTMLElement>;
+
+        expect(buttons[0].innerText.trim()).toEqual('Foo');
+        expect(buttons[1].innerText.trim()).toEqual('Bar');
+      });
+    }));
+
     it('should emit SkyInlineFormCloseArgs when inline form template is closed', async(() => {
+      fixture.detectChanges();
       component.showInlineForm = true;
       fixture.whenStable().then(() => {
         fixture.detectChanges();

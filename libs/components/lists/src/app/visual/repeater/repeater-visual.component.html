@@ -165,6 +165,7 @@
     <sky-repeater-item *ngFor="let item of items"
       [inlineFormTemplate]="myInlineForm"
       [showInlineForm]="activeInlineFormId === item.id"
+      [inlineFormConfig]="customConfig"
       (inlineFormClose)="onInlineFormClose($event)"
     >
       <sky-repeater-item-title>
