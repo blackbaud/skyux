@@ -23,8 +23,9 @@ import {
 } from '@skyux/config';
 
 import {
+  SkyAuthTokenContextArgs,
   SkyAuthTokenProvider
-} from '../auth-http/auth-token-provider';
+} from '../auth-http';
 
 import {
   SKY_AUTH_PARAM_AUTH,
@@ -78,24 +79,14 @@ export class SkyAuthInterceptor implements HttpInterceptor {
     }
 
     if (auth) {
-      const leId = this.getLeId();
-      const envId = this.getEnvId();
-      const tokenArgs: any = {};
+      const tokenContextArgs: SkyAuthTokenContextArgs = {};
 
       if (permissionScope) {
-        tokenArgs.permissionScope = permissionScope;
-      }
-
-      if (envId) {
-        tokenArgs.envId = envId;
-      }
-
-      if (leId) {
-        tokenArgs.leId = leId;
+        tokenContextArgs.permissionScope = permissionScope;
       }
 
       return Observable
-        .fromPromise(this.tokenProvider.getToken(tokenArgs))
+        .fromPromise(this.tokenProvider.getContextToken(tokenContextArgs))
         .switchMap((token) => {
           let authRequest = request.clone({
             setHeaders: {
@@ -109,14 +100,6 @@ export class SkyAuthInterceptor implements HttpInterceptor {
     }
 
     return next.handle(request);
-  }
-
-  private getEnvId(): string {
-    return this.config.runtime.params.get('envid');
-  }
-
-  private getLeId(): string {
-    return this.config.runtime.params.get('leid');
   }
 
 }

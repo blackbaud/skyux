@@ -15,6 +15,10 @@ import {
 import 'rxjs/add/observable/of';
 
 import {
+  SkyAuthTokenContextArgs
+} from '../auth-http/auth-token-context-args';
+
+import {
   SkyAuthInterceptor
 } from './auth-interceptor';
 
@@ -34,9 +38,7 @@ class MockHttpHandler extends HttpHandler {
 }
 
 describe('Auth interceptor', () => {
-  let mockTokenProvider = {
-    getToken: () => Promise.resolve('abc')
-  };
+  let mockTokenProvider: any;
 
   function createInteceptor(envId?: string, leId?: string, url?: string) {
     return new SkyAuthInterceptor(
@@ -106,8 +108,6 @@ describe('Auth interceptor', () => {
 
     const next = new MockHttpHandler();
 
-    const getTokenSpy = spyOn(mockTokenProvider, 'getToken').and.callThrough();
-
     interceptor.intercept(request, next);
 
     validateAuthRequest(next, done, (authRequest) => {
@@ -116,20 +116,24 @@ describe('Auth interceptor', () => {
 
     interceptor.intercept(request, next).subscribe(() => {});
 
-    const expectedTokenArgs: any = {};
+    const expectedTokenArgs: SkyAuthTokenContextArgs = {};
 
-    if (envId) {
-      expectedTokenArgs.envId = envId;
+    if (permissionScope) {
+      expectedTokenArgs.permissionScope = permissionScope;
     }
 
-    if (leId) {
-      expectedTokenArgs.leId = leId;
-    }
-
-    expect(getTokenSpy).toHaveBeenCalledWith(
+    expect(mockTokenProvider.getContextToken).toHaveBeenCalledWith(
       jasmine.objectContaining(expectedTokenArgs)
     );
   }
+
+  beforeEach(() => {
+    mockTokenProvider = {
+      getContextToken: jasmine.createSpy('getContextToken')
+        .and
+        .returnValue(Promise.resolve('abc'))
+    };
+  });
 
   it('should pass through the existing request when not an auth request', () => {
     const interceptor = createInteceptor();
