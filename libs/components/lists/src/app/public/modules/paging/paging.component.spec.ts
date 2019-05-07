@@ -1,5 +1,6 @@
 import {
-  TestBed, async
+  async,
+  TestBed
 } from '@angular/core/testing';
 
 import {
@@ -11,12 +12,16 @@ import {
 } from '@angular/platform-browser';
 
 import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
+  expect
+} from '@skyux-sdk/testing';
 
 import {
   SkyLibResourcesTestService
 } from '@skyux/i18n/testing';
+
+import {
+  SkyLibResourcesService
+} from '@skyux/i18n';
 
 import {
   PagingTestComponent
@@ -25,10 +30,6 @@ import {
 import {
   SkyPagingModule
 } from './paging.module';
-
-import {
-  expect
-} from '@skyux-sdk/testing';
 
 describe('Paging component', () => {
   let component: PagingTestComponent,

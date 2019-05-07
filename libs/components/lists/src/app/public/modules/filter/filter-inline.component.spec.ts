@@ -1,7 +1,7 @@
 import {
-  TestBed,
+  async,
   ComponentFixture,
-  async
+  TestBed
 } from '@angular/core/testing';
 
 import {
@@ -14,7 +14,7 @@ import {
 
 import {
   SkyFilterModule
-} from '.';
+} from './filter.module';
 
 describe('Filter inline', () => {
 

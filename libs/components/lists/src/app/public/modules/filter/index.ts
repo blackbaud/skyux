@@ -1,6 +1,6 @@
-export { SkyFilterButtonComponent } from './filter-button.component';
-export { SkyFilterSummaryComponent } from './filter-summary.component';
-export { SkyFilterSummaryItemComponent } from './filter-summary-item.component';
-export { SkyFilterInlineComponent } from './filter-inline.component';
-export { SkyFilterInlineItemComponent } from './filter-inline-item.component';
-export { SkyFilterModule } from './filter.module';
+export * from './filter-button.component';
+export * from './filter-inline.component';
+export * from './filter-inline-item.component';
+export * from './filter-summary-item.component';
+export * from './filter-summary.component';
+export * from './filter.module';

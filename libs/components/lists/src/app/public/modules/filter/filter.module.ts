@@ -28,12 +28,12 @@ import {
 } from './filter-inline-item.component';
 
 import {
-  SkyFilterSummaryComponent
-} from './filter-summary.component';
-
-import {
   SkyFilterSummaryItemComponent
 } from './filter-summary-item.component';
+
+import {
+  SkyFilterSummaryComponent
+} from './filter-summary.component';
 
 @NgModule({
   declarations: [

@@ -1,6 +1,11 @@
-import { Component, ViewChild } from '@angular/core';
+import {
+  Component,
+  ViewChild
+} from '@angular/core';
 
-import { SkyRepeaterComponent } from '../repeater.component';
+import {
+  SkyRepeaterComponent
+} from '../repeater.component';
 
 @Component({
   selector: 'sky-test-cmp',

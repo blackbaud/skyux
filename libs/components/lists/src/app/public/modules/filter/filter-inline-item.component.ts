@@ -7,5 +7,4 @@ import {
   styleUrls: ['./filter-inline-item.component.scss'],
   templateUrl: './filter-inline-item.component.html'
 })
-export class SkyFilterInlineItemComponent {
-}
+export class SkyFilterInlineItemComponent { }

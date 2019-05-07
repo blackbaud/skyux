@@ -4,7 +4,7 @@ import {
 
 import {
   SkyIconModule
-} from '@skyux/indicators/modules/icon';
+} from '@skyux/indicators';
 
 import {
   SkyFluidGridModule
@@ -12,50 +12,26 @@ import {
 
 import {
   SkyDropdownModule
-} from '@skyux/popovers/modules/dropdown';
+} from '@skyux/popovers';
 
 import {
-  SkyFilterModule
-} from './public/modules/filter';
-
-import {
-  SkyInfiniteScrollModule
-} from './public/modules/infinite-scroll';
-
-import {
-  SkyPagingModule
-} from './public/modules/paging';
-
-import {
-  SkyRepeaterModule
-} from './public/modules/repeater';
-
-import {
+  SkyFilterModule,
+  SkyInfiniteScrollModule,
+  SkyPagingModule,
+  SkyRepeaterModule,
   SkySortModule
-} from './public/modules/sort';
+} from './public';
 
 @NgModule({
-  imports: [
-    SkyDropdownModule,
-    SkyFilterModule,
-    SkyInfiniteScrollModule,
-    SkyPagingModule,
-    SkyRepeaterModule,
-    SkySortModule,
-    SkyIconModule,
-    SkyFluidGridModule
-  ],
   exports: [
     SkyDropdownModule,
     SkyFilterModule,
+    SkyFluidGridModule,
+    SkyIconModule,
     SkyInfiniteScrollModule,
     SkyPagingModule,
     SkyRepeaterModule,
-    SkySortModule,
-    SkyIconModule,
-    SkyFluidGridModule
-  ],
-  providers: [],
-  entryComponents: []
+    SkySortModule
+  ]
 })
 export class AppExtrasModule { }

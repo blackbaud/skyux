@@ -1,6 +1,11 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import {
+  EventEmitter,
+  Injectable
+} from '@angular/core';
 
-import { SkyRepeaterItemComponent } from './repeater-item.component';
+import {
+  SkyRepeaterItemComponent
+} from './repeater-item.component';
 
 @Injectable()
 export class SkyRepeaterService {

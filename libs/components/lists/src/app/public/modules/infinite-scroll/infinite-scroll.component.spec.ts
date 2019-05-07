@@ -1,4 +1,3 @@
-// #region imports
 import {
   async,
   ComponentFixture,
@@ -14,7 +13,6 @@ import {
   SkyInfiniteScrollFixturesModule,
   SkyInfiniteScrollTestComponent
 } from './fixtures';
-// #endregion
 
 describe('Infinite scroll', () => {
   let fixture: ComponentFixture<SkyInfiniteScrollTestComponent>;

@@ -1,4 +1,3 @@
-// #region imports
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -19,7 +18,6 @@ import 'rxjs/add/operator/takeWhile';
 import {
   SkyInfiniteScrollDomAdapterService
 } from './infinite-scroll-dom-adapter.service';
-// #endregion
 
 @Component({
   selector: 'sky-infinite-scroll',

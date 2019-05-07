@@ -69,10 +69,10 @@ import {
     BrowserAnimationsModule,
     CommonModule,
     SkyChevronModule,
-    SkyLogModule,
     SkyCheckboxModule,
+    SkyInlineFormModule,
     SkyListsResourcesModule,
-    SkyInlineFormModule
+    SkyLogModule
   ],
   exports: [
     SkyRepeaterComponent,

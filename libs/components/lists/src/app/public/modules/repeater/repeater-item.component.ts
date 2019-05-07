@@ -10,27 +10,24 @@ import {
 
 import {
   skyAnimationSlide
-} from '@skyux/animations/slide';
-
-import {
-  SkyCheckboxChange
-} from '@skyux/forms/modules/checkbox/checkbox.component';
+} from '@skyux/animations';
 
 import {
   SkyLogService
-} from '@skyux/core/modules/log/log.service';
+} from '@skyux/core';
+
+import {
+  SkyCheckboxChange
+} from '@skyux/forms';
+
+import {
+  SkyInlineFormCloseArgs,
+  SkyInlineFormConfig
+} from '@skyux/inline-form';
 
 import {
   SkyRepeaterService
 } from './repeater.service';
-
-import {
-  SkyInlineFormCloseArgs
-} from '@skyux/inline-form';
-
-import {
-  SkyInlineFormConfig
-} from '@skyux/inline-form';
 
 let nextId: number = 0;
 

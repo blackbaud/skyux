@@ -1,15 +1,17 @@
 import {
-  Component,
   ChangeDetectionStrategy,
+  Component,
   Input
 } from '@angular/core';
 
-import { Subject } from 'rxjs/Subject';
+import {
+  Subject
+} from 'rxjs/Subject';
 
 import {
   SkyDropdownMessage,
   SkyDropdownMessageType
-} from '@skyux/popovers/modules/dropdown';
+} from '@skyux/popovers';
 
 import {
   SkySortService

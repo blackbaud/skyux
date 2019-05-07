@@ -1,27 +1,25 @@
-// #region imports
 import {
-  Injectable,
   ElementRef,
   EventEmitter,
+  Injectable,
   OnDestroy
 } from '@angular/core';
+
+import {
+  SkyAppWindowRef
+} from '@skyux/core';
 
 import {
   Observable
 } from 'rxjs/Observable';
 
-import 'rxjs/add/observable/fromEvent';
-
-import 'rxjs/add/operator/filter';
-
 import {
   Subject
 } from 'rxjs/Subject';
 
-import {
-  SkyAppWindowRef
-} from '@skyux/core';
-// #endregion
+import 'rxjs/add/observable/fromEvent';
+
+import 'rxjs/add/operator/filter';
 
 @Injectable()
 export class SkyInfiniteScrollDomAdapterService implements OnDestroy {

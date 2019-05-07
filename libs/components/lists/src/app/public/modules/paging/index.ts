@@ -1,2 +1,2 @@
-export { SkyPagingComponent } from './paging.component';
-export { SkyPagingModule } from './paging.module';
+export * from './paging.component';
+export * from './paging.module';

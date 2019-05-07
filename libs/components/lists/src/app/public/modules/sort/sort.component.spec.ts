@@ -1,18 +1,22 @@
 import {
+  async,
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick,
-  async
+  tick
 } from '@angular/core/testing';
 
 import {
   expect
 } from '@skyux-sdk/testing';
 
-import { SkySortModule } from './sort.module';
+import {
+  SortTestComponent
+} from './fixtures/sort.component.fixture';
 
-import { SortTestComponent } from './fixtures/sort.component.fixture';
+import {
+  SkySortModule
+} from './sort.module';
 
 describe('Sort component', () => {
   let fixture: ComponentFixture<SortTestComponent>;

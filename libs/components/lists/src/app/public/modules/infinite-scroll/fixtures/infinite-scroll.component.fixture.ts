@@ -1,4 +1,3 @@
-// #region imports
 import {
   Component,
   ElementRef,
@@ -8,7 +7,6 @@ import {
 import {
   SkyInfiniteScrollComponent
 } from '../infinite-scroll.component';
-// #endregion
 
 @Component({
   selector: 'sky-test-cmp',

@@ -1,9 +1,9 @@
 import {
+  ChangeDetectionStrategy,
   Component,
-  Input,
-  Output,
   EventEmitter,
-  ChangeDetectionStrategy
+  Input,
+  Output
 } from '@angular/core';
 
 let nextId = 0;

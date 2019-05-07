@@ -8,7 +8,7 @@ import {
 
 import {
   SkyRepeaterModule
-} from '../';
+} from '../repeater.module';
 
 import {
   RepeaterTestComponent

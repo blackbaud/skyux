@@ -1,23 +1,30 @@
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  EventEmitter,
   Input,
   Output,
-  EventEmitter,
-  OnInit,
-  SimpleChanges,
   OnChanges,
-  ChangeDetectionStrategy,
   OnDestroy,
-  ChangeDetectorRef
+  OnInit,
+  SimpleChanges
 } from '@angular/core';
 
-import { SkySortService } from './sort.service';
+import {
+  BehaviorSubject
+} from 'rxjs/BehaviorSubject';
 
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import {
+  Subscription
+} from 'rxjs/Subscription';
 
-import { Subscription } from 'rxjs/Subscription';
+import {
+  SkySortService
+} from './sort.service';
 
 const SORT_ITEM_ID_PREFIX = 'sky-sort-item-';
+
 let sortItemIdNumber: number = 0;
 
 @Component({

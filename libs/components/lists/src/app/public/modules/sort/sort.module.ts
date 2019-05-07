@@ -1,10 +1,10 @@
 import {
-  NgModule
-} from '@angular/core';
-
-import {
   CommonModule
 } from '@angular/common';
+
+import {
+  NgModule
+} from '@angular/core';
 
 import {
   SkyMediaQueryModule
@@ -38,9 +38,9 @@ import {
   imports: [
     CommonModule,
     SkyDropdownModule,
-    SkyMediaQueryModule,
     SkyIconModule,
-    SkyListsResourcesModule
+    SkyListsResourcesModule,
+    SkyMediaQueryModule
   ],
   exports: [
     SkySortComponent,

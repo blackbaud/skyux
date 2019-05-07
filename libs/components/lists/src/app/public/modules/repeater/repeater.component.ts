@@ -6,8 +6,13 @@ import {
   QueryList
 } from '@angular/core';
 
-import { SkyRepeaterItemComponent } from './repeater-item.component';
-import { SkyRepeaterService } from './repeater.service';
+import {
+  SkyRepeaterItemComponent
+} from './repeater-item.component';
+
+import {
+  SkyRepeaterService
+} from './repeater.service';
 
 @Component({
   selector: 'sky-repeater',

@@ -1,6 +1,6 @@
 import {
-  Component,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  Component
 } from '@angular/core';
 
 @Component({
@@ -9,5 +9,4 @@ import {
   templateUrl: './filter-summary.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyFilterSummaryComponent {
-}
+export class SkyFilterSummaryComponent { }

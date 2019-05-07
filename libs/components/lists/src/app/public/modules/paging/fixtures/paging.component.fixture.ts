@@ -1,9 +1,15 @@
-import { Component, ViewChild } from '@angular/core';
-import { SkyPagingComponent } from '../paging.component';
+import {
+  Component,
+  ViewChild
+} from '@angular/core';
+
+import {
+  SkyPagingComponent
+} from '../paging.component';
 
 @Component({
   selector: 'sky-test-cmp',
-  template: require('./paging.component.fixture.html')
+  templateUrl: './paging.component.fixture.html'
 })
 export class PagingTestComponent {
   @ViewChild(SkyPagingComponent) public pagingComponent: SkyPagingComponent;

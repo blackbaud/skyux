@@ -1,23 +1,23 @@
 import {
+  async,
+  ComponentFixture,
   fakeAsync,
   inject,
   TestBed,
-  tick,
-  async,
-  ComponentFixture
+  tick
 } from '@angular/core/testing';
 
 import {
-  SkyLogService
-} from '@skyux/core/modules/log/log.service';
+  expect
+} from '@skyux-sdk/testing';
 
 import {
   SkyInlineFormButtonLayout
 } from '@skyux/inline-form';
 
 import {
-  expect
-} from '@skyux-sdk/testing';
+  SkyLogService
+} from '@skyux/core';
 
 import {
   RepeaterTestComponent
@@ -38,12 +38,8 @@ describe('Repeater item component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyRepeaterFixturesModule],
-      providers: [
-        {
-          provide: SkyLogService,
-          useClass: MockLogService
-        }
+      imports: [
+        SkyRepeaterFixturesModule
       ]
     });
   });
