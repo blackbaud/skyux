@@ -7,13 +7,14 @@ import {
   templateUrl: './image.component.fixture.html'
 })
 export class SkyImageTestComponent {
-  public captionType: string = 'default';
-
-  public imageSource: string;
-
-  public imageAlt: string = '';
 
   public caption: string;
+
+  public captionType = 'default';
+
+  public imageAlt = '';
+
+  public imageSource: string;
 
   public showBorder: boolean;
 }

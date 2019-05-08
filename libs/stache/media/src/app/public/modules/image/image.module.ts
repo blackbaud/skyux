@@ -7,10 +7,6 @@ import {
 } from '@angular/common';
 
 import {
-  SkyI18nModule
-} from '@skyux/i18n';
-
-import {
   SkyImageComponent
 } from './image.component';
 
@@ -24,7 +20,6 @@ import {
   ],
   imports: [
     CommonModule,
-    SkyI18nModule,
     SkyMediaResourcesModule
   ],
   exports: [

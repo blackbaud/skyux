@@ -30,7 +30,7 @@ describe('Image component', () => {
   it('should not display a caption or divider bar if no caption is present', async(() => {
     const fixture = TestBed.createComponent(SkyImageTestComponent);
     const cmp = fixture.componentInstance as SkyImageTestComponent;
-    cmp.imageSource = '~/assets/demo-img.png';
+    cmp.imageSource = '~/assets/demo-image.jpg';
     const el = fixture.nativeElement as HTMLElement;
 
     fixture.detectChanges();
@@ -43,7 +43,7 @@ describe('Image component', () => {
   it('should display a caption and default divider bar when a caption is present', async(() => {
     const fixture = TestBed.createComponent(SkyImageTestComponent);
     const cmp = fixture.componentInstance as SkyImageTestComponent;
-    cmp.imageSource = '~/assets/demo-img.png';
+    cmp.imageSource = '~/assets/demo-image.jpg';
     const el = fixture.nativeElement as HTMLElement;
     cmp.caption = 'test caption';
 
@@ -59,7 +59,7 @@ describe('Image component', () => {
   it('should display \'Do\' before the caption for success captionTypes', async(() => {
     const fixture = TestBed.createComponent(SkyImageTestComponent);
     const cmp = fixture.componentInstance as SkyImageTestComponent;
-    cmp.imageSource = '~/assets/demo-img.png';
+    cmp.imageSource = '~/assets/demo-image.jpg';
     const el = fixture.nativeElement as HTMLElement;
     cmp.caption = 'test caption';
     cmp.captionType = 'success';
@@ -75,7 +75,7 @@ describe('Image component', () => {
   it('should display \'Dont\' before the caption for danger captionTypes', async(() => {
     const fixture = TestBed.createComponent(SkyImageTestComponent);
     const cmp = fixture.componentInstance as SkyImageTestComponent;
-    cmp.imageSource = '~/assets/demo-img.png';
+    cmp.imageSource = '~/assets/demo-image.jpg';
     const el = fixture.nativeElement as HTMLElement;
     cmp.caption = 'test caption';
     cmp.captionType = 'danger';
@@ -91,7 +91,7 @@ describe('Image component', () => {
   it('should add a border with showBorder option set to true', async(() => {
     const fixture = TestBed.createComponent(SkyImageTestComponent);
     const cmp = fixture.componentInstance as SkyImageTestComponent;
-    cmp.imageSource = '~/assets/demo-img.png';
+    cmp.imageSource = '~/assets/demo-image.jpg';
     const el = fixture.nativeElement as HTMLElement;
 
     fixture.detectChanges();
@@ -106,7 +106,7 @@ describe('Image component', () => {
   it('should set the alt text of an image', async(() => {
     const fixture = TestBed.createComponent(SkyImageTestComponent);
     const cmp = fixture.componentInstance as SkyImageTestComponent;
-    cmp.imageSource = '~/assets/demo-img.png';
+    cmp.imageSource = '~/assets/demo-image.jpg';
     const el = fixture.nativeElement as HTMLElement;
     cmp.imageAlt = 'test alt text';
     fixture.detectChanges();
@@ -119,17 +119,17 @@ describe('Image component', () => {
     const fixture = TestBed.createComponent(SkyImageTestComponent);
     const cmp = fixture.componentInstance as SkyImageTestComponent;
     const el = fixture.nativeElement as HTMLElement;
-    cmp.imageSource = '~/assets/demo-img.png';
+    cmp.imageSource = '~/assets/demo-image.jpg';
     fixture.detectChanges();
     const imageRef: any = el.querySelector('.sky-image');
 
-    expect(imageRef.src.indexOf('demo-img.png') !== -1).toBe(true);
+    expect(imageRef.src.indexOf('demo-image.jpg') !== -1).toBe(true);
   }));
 
   it('should be accessible', async(() => {
     const fixture = TestBed.createComponent(SkyImageTestComponent);
     const cmp = fixture.componentInstance as SkyImageTestComponent;
-    cmp.imageSource = '~/assets/demo-img.png';
+    cmp.imageSource = '~/assets/demo-image.jpg';
     cmp.imageAlt = 'demo image';
     fixture.detectChanges();
     expect(fixture.nativeElement).toBeAccessible();

@@ -1,6 +1,6 @@
 import {
-  Component,
   ChangeDetectionStrategy,
+  Component,
   Input
 } from '@angular/core';
 
@@ -11,18 +11,20 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyImageComponent {
-  @Input()
-  public captionType: string = 'default';
-
-  @Input()
-  public imageSource: string;
-
-  @Input()
-  public imageAlt: string = 'image';
 
   @Input()
   public caption: string;
 
   @Input()
-  public showBorder: boolean;
+  public captionType = 'default';
+
+  @Input()
+  public imageAlt = 'image';
+
+  @Input()
+  public imageSource: string;
+
+  @Input()
+  public showBorder = false;
+
 }
