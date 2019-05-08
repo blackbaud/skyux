@@ -4,14 +4,15 @@ import {
 
 import {
   SkyHeroModule,
-  SkyImageModule
+  SkyImageModule,
+  SkyVideoModule
 } from './public';
 
 @NgModule({
-  imports: [],
   exports: [
     SkyHeroModule,
-    SkyImageModule
+    SkyImageModule,
+    SkyVideoModule
   ]
 })
 export class AppExtrasModule { }
