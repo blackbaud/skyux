@@ -1,0 +1,13 @@
+<div
+  class="sky-hero"
+  [ngStyle]="{ 'background-image': 'url(' + backgroundImageUrl + ')' }"
+>
+  <div class="sky-hero-body sky-max-width-container">
+    <ng-content></ng-content>
+  </div>
+  <div
+    class="sky-hero-overlay"
+    [ngStyle]="{ 'opacity': overlayOpacity }"
+  >
+  </div>
+</div>
