@@ -125,7 +125,10 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
             selectedColumnIds: newIds
           });
           this.selectedColumnIdsChange.emit(this._selectedColumnIds);
-          this.resetTableWidth();
+
+          if (this.isResized) {
+            this.resetTableWidth();
+          }
         }
 
     }

@@ -821,6 +821,18 @@ describe('Grid Component', () => {
           let column2 = component.columnWidthsChange.find(cwc => cwc.id === 'column2');
           expect(column2).not.toBeNull();
         }));
+
+        it('should NOT set table width if selectedColumnIds property changes and user has NOT resized columns', fakeAsync(() => {
+          // Update selected columns.
+          component.selectedColumnIds = ['column1'];
+          fixture.detectChanges();
+          tick();
+
+          const table = getTable(fixture);
+          const tableStyle = table.nativeElement.getAttribute('style');
+
+          expect(tableStyle).toBeNull();
+        }));
       });
     });
 
