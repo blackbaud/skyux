@@ -7,6 +7,10 @@ import {
 } from '@blackbaud/skyux-lib-code-block';
 
 import {
+  SkyRestrictedViewModule
+} from '@blackbaud/skyux-lib-restricted-view';
+
+import {
   SkyAlertModule
 } from '@skyux/indicators';
 
@@ -37,6 +41,7 @@ import {
     SkyAlertModule,
     SkyCodeBlockModule,
     SkyFluidGridModule,
+    SkyRestrictedViewModule,
     SkyNavbarModule,
     StacheActionButtonsModule,
     StacheAffixModule,
