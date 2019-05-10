@@ -1,3 +1,7 @@
+# 3.0.0-beta.0 (2019-05-09)
+
+- Initial migration to SKY UX 3 and Builder 3. [#1](https://github.com/blackbaud/skyux-lib-stache/pull/1)
+
 # 2.18.0 (2019-04-22)
 - Updated `stache-sidebar` to listen for updates to custom routes, which allows users to generate sidebar routes with dynamic data.
 
