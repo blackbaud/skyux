@@ -1,3 +1,7 @@
+# 1.0.0 (2019-05-10)
+
+- Initial major release.
+
 # 1.0.0-beta.1 (2019-05-08)
 
 - Added hero image component. [#3](https://github.com/blackbaud/skyux-lib-media/pull/3)
