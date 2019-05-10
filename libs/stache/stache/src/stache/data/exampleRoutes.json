@@ -24,12 +24,6 @@
     "summary":"Provides a clean, visual navigation pattern for linking       to multiple documents using the SKY UX Action Button."
   },
   {
-    "name":"Grid",
-    "path":"/demos",
-    "icon":"table",
-    "summary":"Provides a layout grid for creating responsive content."
-  },
-  {
     "name":"Code block",
     "path":"/demos",
     "icon":"code",

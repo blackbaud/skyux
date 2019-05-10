@@ -1,13 +1,3 @@
-<stache-hero
-  backgroundImageUrl="~/assets/hero-sample-1.jpg">
-  <stache-hero-heading>
-    Stache Component Library
-  </stache-hero-heading>
-  <stache-hero-subheading>
-    v2.0.0-*
-  </stache-hero-subheading>
-</stache-hero>
-
 <stache
   pageTitle="Welcome"
   layout="sidebar"
@@ -15,12 +5,6 @@
   showEditButton="false"
   showTableOfContents="true"
   [sidebarRoutes]="sidebarRoutes">
-
-  <stache-internal>
-    <p>
-      Tutorial One: <a [routerLink]="['/demos', 'tutorial', 'tutorial-one']" [fragment]="'clone-the-repository'">Clone the repository</a>.
-    </p>
-  </stache-internal>
 
   <stache-page-anchor *stacheInternal>
     Markdown
@@ -126,23 +110,6 @@
   <p>
     To build this library, type <stache-code>npm run build</stache-code>.
   </p>
-
-  <stache-page-anchor>
-    Images
-  </stache-page-anchor>
-
-  <stache-image
-    imageAlt="This is an image"
-    imageSource="https://unsplash.it/200/300">
-  </stache-image>
-
-  <stache-page-anchor>
-    Videos
-  </stache-page-anchor>
-
-  <stache-video
-    videoSource="https://player.vimeo.com/video/121445495?title=0&portrait=0&byline=0">
-  </stache-video>
 
   <stache-page-anchor>
     Include

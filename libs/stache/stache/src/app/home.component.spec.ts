@@ -2,12 +2,13 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { expect } from '@blackbaud/skyux-builder/runtime/testing/browser';
+import {
+  expect
+} from '@skyux-sdk/testing';
 
 import { HomeComponent } from './home.component';
 
 describe('HomeComponent', () => {
-  let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
 
   beforeEach(() => {
@@ -25,7 +26,6 @@ describe('HomeComponent', () => {
     .compileComponents();
 
     fixture = TestBed.createComponent(HomeComponent);
-    component = fixture.componentInstance;
   });
 
   it('should render the component', () => {

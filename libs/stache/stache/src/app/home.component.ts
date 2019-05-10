@@ -1,5 +1,10 @@
-import { Component } from '@angular/core';
-import { StacheNavLink } from './public/src/modules/nav';
+import {
+  Component
+} from '@angular/core';
+
+import {
+  StacheNavLink
+} from './public';
 
 @Component({
   selector: 'app-home',
@@ -40,6 +45,7 @@ export class HomeComponent {
       summary: 'Short summary here.'
     }
   ];
+
   public sidebarRoutes = [
     {
       name: 'Welcome Sidebar',
