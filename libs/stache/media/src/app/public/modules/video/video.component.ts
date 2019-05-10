@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit
+  ChangeDetectorRef
 } from '@angular/core';
 
 import {
@@ -16,18 +16,18 @@ import {
   styleUrls: ['./video.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyVideoComponent implements OnInit {
+export class SkyVideoComponent {
 
   @Input()
-  public videoSource: string;
+  public set videoSource(value: string) {
+    this.src = this.sanitizer.bypassSecurityTrustResourceUrl(value);
+    this.changeDetector.markForCheck();
+  }
 
   public src: SafeResourceUrl;
 
   constructor(
+    private changeDetector: ChangeDetectorRef,
     private sanitizer: DomSanitizer
   ) { }
-
-  public ngOnInit(): void {
-    this.src = this.sanitizer.bypassSecurityTrustResourceUrl(this.videoSource);
-  }
 }

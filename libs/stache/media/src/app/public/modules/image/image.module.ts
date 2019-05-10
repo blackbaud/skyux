@@ -1,18 +1,18 @@
 import {
-  NgModule
-} from '@angular/core';
-
-import {
   CommonModule
 } from '@angular/common';
 
 import {
-  SkyImageComponent
-} from './image.component';
+  NgModule
+} from '@angular/core';
 
 import {
   SkyMediaResourcesModule
 } from '../shared/media-resources.module';
+
+import {
+  SkyImageComponent
+} from './image.component';
 
 @NgModule({
   declarations: [

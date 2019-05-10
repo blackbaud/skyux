@@ -19,7 +19,10 @@ describe('SkyVideoComponent', () => {
   let component: SkyVideoComponent;
   let fixture: ComponentFixture<SkyVideoComponent>;
   let debugElement: DebugElement;
-  let videoSource = 'https://google.com';
+
+  function getIframeSourceUrl(): string {
+    return debugElement.nativeElement.querySelector('iframe').getAttribute('src');
+  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -33,24 +36,36 @@ describe('SkyVideoComponent', () => {
     debugElement = fixture.debugElement;
   });
 
-  it('should render the component', () => {
-    expect(fixture).toExist();
-  });
+  it('should bypass security and assign the URL to iframe `src` attribute', () => {
+    component.videoSource = 'https://google.com';
 
-  it('should have a videoSource input', () => {
-    component.videoSource = videoSource;
-    fixture.detectChanges();
-    expect(component.videoSource).toBe(videoSource);
-  });
-
-  it('should sanitize the source URL on init', () => {
-    component.videoSource = videoSource;
-    component.ngOnInit();
     fixture.detectChanges();
 
-    const src = debugElement.nativeElement.querySelector('iframe').getAttribute('src');
+    const src = getIframeSourceUrl();
 
-    expect(src).toBe(videoSource);
+    expect(src).toEqual('https://google.com');
+  });
+
+  it('should support changing the source URL', () => {
+    let src: string;
+    let expectedSource = 'https://foo';
+
+    component.videoSource = expectedSource;
+
+    fixture.detectChanges();
+
+    src = getIframeSourceUrl();
+
+    expect(src).toEqual(expectedSource);
+
+    expectedSource = 'https://bar';
+    component.videoSource = expectedSource;
+
+    fixture.detectChanges();
+
+    src = getIframeSourceUrl();
+
+    expect(src).toEqual(expectedSource);
   });
 
 });

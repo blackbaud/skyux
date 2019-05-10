@@ -1,30 +1,40 @@
 import {
+  ChangeDetectionStrategy,
   Component,
-  Input
+  Input,
+  ChangeDetectorRef
 } from '@angular/core';
 
 @Component({
   selector: 'sky-hero',
   templateUrl: './hero.component.html',
-  styleUrls: ['./hero.component.scss']
+  styleUrls: ['./hero.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyHeroComponent {
+
   @Input()
   public backgroundImageUrl: string;
 
   @Input()
-  set overlayOpacity(opacityCandidate: string) {
-    let sanitizedCandidate = opacityCandidate.replace(/[^\d.-]/g, '');
-    let parsedInterval = this.parseInterval(sanitizedCandidate);
-    this._overlayOpacity = parsedInterval.toString();
+  public set overlayOpacity(value: string) {
+    const sanitized = value.replace(/[^\d.-]/g, '');
+    const newValue = this.parseInterval(sanitized).toString();
+    this._overlayOpacity = newValue;
+    this.changeDetector.markForCheck();
   }
 
-  get overlayOpacity(): string {
+  public get overlayOpacity(): string {
     return this._overlayOpacity || this.defaultOpacity;
   }
 
-  private readonly defaultOpacity: string = '0.4';
+  private readonly defaultOpacity = '0.4';
+
   private _overlayOpacity: string;
+
+  constructor(
+    private changeDetector: ChangeDetectorRef
+  ) { }
 
   private parseInterval(value: string): number {
     let interval = parseFloat(value);
