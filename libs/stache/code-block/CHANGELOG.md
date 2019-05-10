@@ -1,3 +1,8 @@
+# 1.1.0 (2019-05-10)
+
+- Added support for `prismjs@1.16.0`. [#13](https://github.com/blackbaud/skyux-lib-code-block/pull/13)
+- Updated peer dependencies to support Angular versions greater than `4.3.6`. [#13](https://github.com/blackbaud/skyux-lib-code-block/pull/13)
+
 # 1.0.0 (2019-03-05)
 
 - Initial major release.
