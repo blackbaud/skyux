@@ -1,3 +1,7 @@
+# 1.1.0 (2019-05-10)
+
+- Updated peer dependencies to support Angular versions greater than `4.3.6`. [#13](https://github.com/blackbaud/skyux-lib-clipboard/pull/13)
+
 # 1.0.0 (2019-03-04)
 
 - Initial major release.
