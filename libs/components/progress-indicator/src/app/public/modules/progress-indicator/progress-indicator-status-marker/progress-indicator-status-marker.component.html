@@ -1,0 +1,18 @@
+<div
+  class="sky-progress-indicator-status-marker"
+  role="presentation"
+  [ngClass]="cssClassNames"
+>
+  <div
+    class="sky-progress-indicator-status-marker-icon"
+  >
+    <sky-icon *ngIf="statusName === 'complete'"
+      icon="check"
+    >
+    </sky-icon>
+  </div>
+  <div
+    class="sky-progress-indicator-status-marker-line"
+  >
+  </div>
+</div>

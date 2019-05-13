@@ -1,51 +1,65 @@
 import {
-  Component,
-  Input,
   ChangeDetectionStrategy,
-  Output,
+  ChangeDetectorRef,
+  Component,
   EventEmitter,
-  OnDestroy
+  Input,
+  OnDestroy,
+  Output
 } from '@angular/core';
 
-import {
-  SkyProgressIndicatorComponent
-} from '../progress-indicator.component';
 import {
   SkyProgressIndicatorMessageType
 } from '../types';
 
+import {
+  SkyProgressIndicatorComponent
+} from '../progress-indicator.component';
+
 @Component({
   selector: 'sky-progress-indicator-reset-button',
   templateUrl: './progress-indicator-reset-button.component.html',
-  styleUrls: ['./progress-indicator-reset-button.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyProgressIndicatorResetButtonComponent implements OnDestroy {
 
   @Input()
-  public progressIndicator: SkyProgressIndicatorComponent;
+  public set disabled(value: boolean) {
+    this._disabled = value;
+    this.changeDetector.markForCheck();
+  }
 
-  @Input()
   public get disabled(): boolean {
     return this._disabled || false;
   }
-  public set disabled(value: boolean) {
-    this._disabled = value;
-  }
+
+  @Input()
+  public progressIndicator: SkyProgressIndicatorComponent;
 
   @Output()
   public resetClick = new EventEmitter<any>();
 
   private _disabled: boolean;
 
-  public resetProgress(): void {
-    this.resetClick.emit();
-    this.progressIndicator.sendMessage({
-      type: SkyProgressIndicatorMessageType.Reset
-    });
+  constructor(
+    private changeDetector: ChangeDetectorRef
+  ) {
+    console.warn(
+      '[Deprecation warning] The `<sky-progress-indicator-reset-button>` component is ' +
+      'deprecated. Please use the `<sky-progress-indicator-nav-button>` component instead, with ' +
+      '`buttonType` set to "reset".'
+    );
   }
 
   public ngOnDestroy(): void {
     this.resetClick.complete();
+  }
+
+  public onClick(): void {
+    this.resetClick.emit();
+
+    this.progressIndicator.sendMessage({
+      type: SkyProgressIndicatorMessageType.Reset
+    });
   }
 }

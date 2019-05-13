@@ -1,0 +1,126 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+@import "../scss/progress-indicator-variables";
+
+.sky-progress-indicator-status-marker {
+  display: flex;
+  height: 100%;
+
+  &.sky-progress-indicator-status-marker-mode-vertical {
+    flex-basis: $status-marker-width;
+    flex-grow: 0;
+    flex-direction: column;
+    margin-right: $status-marker-width;
+
+    .sky-progress-indicator-status-marker-icon {
+      margin-top: $icon-offset;
+      width: $status-marker-width;
+
+      > ::ng-deep sky-icon {
+        margin-left: -1px;
+      }
+    }
+
+    .sky-progress-indicator-status-marker-line {
+      margin: 0 auto;
+      width: 1px;
+    }
+  }
+
+  &.sky-progress-indicator-status-marker-mode-horizontal {
+    flex-direction: row;
+    width: 100%;
+    padding-left: 5px;
+
+    .sky-progress-indicator-status-marker-icon {
+      height: $status-marker-width;
+    }
+
+    .sky-progress-indicator-status-marker-line {
+      margin: auto 0;
+      height: 1px;
+    }
+
+    &.sky-progress-indicator-status-marker-status-complete {
+      .sky-progress-indicator-status-marker-icon {
+        border: 0;
+        margin-right: 5px;
+      }
+    }
+
+    &.sky-progress-indicator-status-marker-status-active {
+      .sky-progress-indicator-status-marker-icon {
+        position: relative;
+
+        &:before {
+          content: '';
+          display: block;
+          width: 5px;
+          height: 1px;
+          background-color: $sky-highlight-color-success;
+          position: absolute;
+          left: -7px;
+          top: 5px;
+        }
+      }
+    }
+
+    &.sky-progress-indicator-status-marker-status-incomplete {
+      .sky-progress-indicator-status-marker-icon {
+        position: relative;
+
+        &:before {
+          content: '';
+          display: block;
+          width: 5px;
+          height: 1px;
+          background-color: $sky-border-color-neutral-medium;
+          position: absolute;
+          left: -7px;
+          top: 5px;
+        }
+      }
+    }
+  }
+}
+
+.sky-progress-indicator-status-marker-icon {
+  border-radius: $status-marker-width;
+  border: 2px solid $sky-border-color-neutral-medium;
+  flex: 0 0 $status-marker-width;
+}
+
+.sky-progress-indicator-status-marker-line {
+  background-color: $sky-border-color-neutral-medium;
+  flex: 1 0 auto;
+}
+
+.sky-progress-indicator-status-marker-status-active {
+  .sky-progress-indicator-status-marker-icon {
+    background-color: $sky-highlight-color-success;
+    border-color: transparent;
+  }
+}
+
+.sky-progress-indicator-status-marker-status-pending {
+  .sky-progress-indicator-status-marker-icon {
+    border-color: $sky-highlight-color-success;
+  }
+}
+
+.sky-progress-indicator-status-marker-status-complete {
+  .sky-progress-indicator-status-marker-icon {
+    border-color: transparent;
+    color: $sky-highlight-color-success;
+    margin-top: 0;
+
+    > ::ng-deep sky-icon {
+      display: inline-flex;
+      vertical-align: top;
+    }
+  }
+
+  .sky-progress-indicator-status-marker-line {
+    background-color: $sky-highlight-color-success;
+  }
+}

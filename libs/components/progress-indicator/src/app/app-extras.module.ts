@@ -3,20 +3,12 @@ import {
 } from '@angular/core';
 
 import {
-  SkyCheckboxModule
-} from '@skyux/forms';
-
-import {
   SkyModalModule
 } from '@skyux/modals';
 
 import {
   SkyPopoverModule
 } from '@skyux/popovers';
-
-import {
-  SkyAppLinkModule
-} from '@skyux/router';
 
 import {
   SkyProgressIndicatorModule
@@ -28,8 +20,6 @@ import {
 
 @NgModule({
   exports: [
-    SkyAppLinkModule,
-    SkyCheckboxModule,
     SkyModalModule,
     SkyPopoverModule,
     SkyProgressIndicatorModule

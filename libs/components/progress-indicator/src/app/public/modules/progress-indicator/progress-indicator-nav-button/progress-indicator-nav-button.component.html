@@ -1,11 +1,9 @@
-<button
+<button *ngIf="isVisible"
   class="sky-btn"
   type="button"
   [disabled]="disabled"
-  [ngClass]="{
-    'sky-btn-default': buttonType !== 'next',
-    'sky-btn-primary': buttonType === 'next'
-  }"
-  (click)="buttonClick()">
-  {{ buttonTextStream | async }}
+  [ngClass]="cssClassNames"
+  (click)="onClick()"
+>
+  {{ buttonText || (buttonLabelResourceString | skyLibResources) }}
 </button>

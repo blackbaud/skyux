@@ -2,19 +2,19 @@ import {
   CommonModule
 } from '@angular/common';
 
- import {
+import {
   NgModule
 } from '@angular/core';
 
- import {
+import {
   SkyProgressIndicatorModule
 } from '../progress-indicator.module';
 
- import {
+import {
   SkyProgressIndicatorFixtureComponent
 } from './progress-indicator.component.fixture';
 
- @NgModule({
+@NgModule({
   declarations: [
     SkyProgressIndicatorFixtureComponent
   ],

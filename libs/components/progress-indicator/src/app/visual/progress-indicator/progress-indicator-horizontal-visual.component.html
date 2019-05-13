@@ -3,64 +3,55 @@
     {{ title }}
   </sky-modal-header>
   <sky-modal-content>
+
     <sky-progress-indicator
       [displayMode]="displayMode"
-      (progressChanges)="updateIndex($event)"
+      (progressChanges)="onProgressChanges($event)"
       #wizardDemo
     >
 
       <sky-progress-indicator-item
         title="Do the first thing"
       >
-        <div>
-          <label>
-            Enter text to continue:
-            <input
-              class="sky-form-control"
-              type="text"
-              [(ngModel)]="requiredValue1"
-            />
-          </label>
-        </div>
+        Content 1
       </sky-progress-indicator-item>
 
       <sky-progress-indicator-item
         title="Do the second thing"
       >
-        <div>
-          <sky-checkbox
-            [(ngModel)]="requiredValue2"
-          >
-            <sky-checkbox-label>
-              Select this checkbox to enable step 3.
-            </sky-checkbox-label>
-          </sky-checkbox>
-        </div>
+        Content 2
       </sky-progress-indicator-item>
 
       <sky-progress-indicator-item
         title="Do the third thing"
       >
-        <div>
-          Some other content.
-        </div>
+        Content 3
       </sky-progress-indicator-item>
 
     </sky-progress-indicator>
+
   </sky-modal-content>
   <sky-modal-footer>
+
     <sky-progress-indicator-nav-button
-      id="btn-wizard-previous"
       buttonType="previous"
       [progressIndicator]="wizardDemo"
     >
     </sky-progress-indicator-nav-button>
+
     <sky-progress-indicator-nav-button
-      id="btn-wizard-next"
       buttonType="next"
+      id="app-screenshot-modal-next-button"
       [progressIndicator]="wizardDemo"
     >
     </sky-progress-indicator-nav-button>
+
+    <sky-progress-indicator-nav-button
+      buttonType="finish"
+      [progressIndicator]="wizardDemo"
+    >
+    </sky-progress-indicator-nav-button>
+
     <button
       class="sky-btn sky-btn-link"
       type="button"

@@ -1,39 +1,15 @@
-<div *ngIf="isHorizontal"
-  class="sky-progress-indicator-display"
->
-  <div *ngFor="let item of progressItems; let i = index"
-    class="sky-progress-indicator-display-item"
-    [ngClass]="{
-      'sky-progress-indicator-display-item-complete': !item.isActive && item.isComplete
-    }"
-  >
-    <div *ngIf="!item.isComplete || item.isActive"
-      class="sky-progress-indicator-display-item-step"
-      [ngClass]="{
-        'sky-progress-indicator-display-item-step-active': item.isActive
-      }"
-    >
-    </div>
-    <div *ngIf="item.isComplete && !item.isActive"
-      class="sky-progress-indicator-display-item-step-complete sky-text-success"
-    >
-    </div>
-    <div *ngIf="!item.isLastItem"
-      class="sky-progress-indicator-display-item-line"
-      [ngClass]="{
-        'sky-progress-indicator-display-item-line-check': !item.isActive && item.isComplete,
-        'sky-progress-indicator-display-item-line-next-check': isNextToCheck(i),
-        'sky-progress-indicator-display-item-line-next-inactive': item.isNextToInactive
-      }"
-    >
-    </div>
-  </div>
-</div>
 <div
-  class="sky-progress-indicator-items"
-  [ngClass]="{
-    'sky-progress-indicator-items-horizontal': isHorizontal
-  }"
+  class="sky-progress-indicator"
+  [ngClass]="cssClassNames"
 >
+  <div *ngIf="displayModeName === 'horizontal'"
+    class="sky-progress-indicator-horizontal-status-markers"
+  >
+    <sky-progress-indicator-status-marker *ngFor="let status of itemStatuses"
+      [displayMode]="displayMode"
+      [status]="status"
+    >
+    </sky-progress-indicator-status-marker>
+  </div>
   <ng-content></ng-content>
 </div>

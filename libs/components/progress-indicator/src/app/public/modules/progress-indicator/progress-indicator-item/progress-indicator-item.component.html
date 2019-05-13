@@ -1,24 +1,28 @@
-<div *ngIf="!isHorizontal || isActive"
-  class="sky-progress-indicator-item-heading"
-  [ngClass]="headingClassList"
+<div *ngIf="isVisible"
+  class="sky-progress-indicator-item"
+  [ngClass]="'sky-progress-indicator-item-status-' + statusName"
 >
-  <div
-    class="sky-progress-indicator-item-title"
-    [ngClass]="{
-      'sky-emphasized': isHorizontal,
-      'sky-deemphasized': isPassive && isActive
-    }"
+  <sky-progress-indicator-status-marker *ngIf="showStatusMarker"
+    [status]="status"
   >
-    {{ displayTitle }}
-  </div>
-</div>
-<div *ngIf="isLineDisplayed"
-  class="sky-progress-indicator-item-line"
-  [ngClass]="lineClassList"
->
-  <div *ngIf="isActive || isComplete"
+  </sky-progress-indicator-status-marker>
+
+  <div
     class="sky-progress-indicator-item-content"
   >
-    <ng-content></ng-content>
+    <div *ngIf="showTitle"
+      class="sky-progress-indicator-item-heading"
+      role="heading"
+      [ngClass]="{ 'sky-deemphasized': statusName === 'pending' }"
+    >
+      {{ formattedTitle }}
+    </div>
+    <div
+      class="sky-progress-indicator-item-body"
+    >
+      <ng-template [ngIf]="statusName !== 'incomplete'">
+        <ng-content></ng-content>
+      </ng-template>
+    </div>
   </div>
 </div>

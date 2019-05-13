@@ -1,15 +1,21 @@
 import {
-  Component
+  Component,
+  OnDestroy
 } from '@angular/core';
 
 import {
-  Subject
-} from 'rxjs';
+  SkyModalService
+} from '@skyux/modals';
 
 import {
-  SkyProgressIndicatorMessageType,
-  SkyModalService
-} from '@blackbaud/skyux/dist/core';
+  Subject
+} from 'rxjs/Subject';
+
+import {
+  SkyProgressIndicatorChange,
+  SkyProgressIndicatorMessage,
+  SkyProgressIndicatorMessageType
+} from '../../public';
 
 import {
   ProgressIndicatorWizardDemoComponent
@@ -19,24 +25,56 @@ import {
   selector: 'progress-indicator-visual',
   templateUrl: './progress-indicator-visual.component.html'
 })
-export class ProgressIndicatorVisualComponent {
-  public step1 = false;
-  public step2 = false;
-  public step3 = false;
+export class ProgressIndicatorVisualComponent implements OnDestroy {
 
-  public messageStream = new Subject<SkyProgressIndicatorMessageType>();
+  public disabled: boolean;
+  public messageStream = new Subject<SkyProgressIndicatorMessage>();
+  public messageStreamHorizontal = new Subject<any>();
+  public startingIndex: number;
 
-  constructor(private modal: SkyModalService) { }
+  constructor(
+    private modalService: SkyModalService
+  ) { }
 
-  public progress(): void {
-    this.messageStream.next(SkyProgressIndicatorMessageType.Progress);
+  public ngOnDestroy(): void {
+    this.messageStream.complete();
+    this.messageStreamHorizontal.complete();
   }
 
-  public regress(): void {
-    this.messageStream.next(SkyProgressIndicatorMessageType.Regress);
+  public onPreviousClick(): void {
+    this.sendMessage({
+      type: SkyProgressIndicatorMessageType.Regress
+    });
   }
 
-  public openWizard(): void {
-    this.modal.open(ProgressIndicatorWizardDemoComponent);
+  public onNextClick(): void {
+    this.sendMessage({
+      type: SkyProgressIndicatorMessageType.Progress
+    });
+  }
+
+  public onGoToClick(): void {
+    this.sendMessage({
+      type: SkyProgressIndicatorMessageType.GoTo,
+      data: {
+        activeIndex: 0
+      }
+    });
+  }
+
+  public onProgressChanges(change: SkyProgressIndicatorChange): void {
+    console.log('Progress change:', change);
+  }
+
+  public disableNavButtons(): void {
+    this.disabled = !this.disabled;
+  }
+
+  public sendMessage(message: any): void {
+    this.messageStream.next(message);
+  }
+
+  public openModal(): void {
+    this.modalService.open(ProgressIndicatorWizardDemoComponent);
   }
 }

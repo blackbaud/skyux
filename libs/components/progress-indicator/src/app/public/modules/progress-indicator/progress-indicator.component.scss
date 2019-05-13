@@ -1,70 +1,87 @@
 @import "~@skyux/theme/scss/mixins";
 @import "~@skyux/theme/scss/_compat/mixins";
+@import "./scss/progress-indicator-variables";
 
-.sky-progress-indicator-items {
-  &:not(.sky-progress-indicator-items-horizontal) {
-    max-width: 400px;
-    min-width: 250px;
-    margin: 0 auto;
-    vertical-align: middle;
-  }
-}
-
-.sky-progress-indicator-display {
-  display: flex;
-  margin-bottom: $sky-margin;
-}
-
-.sky-progress-indicator-display-item {
-  display: flex;
-}
-
-.sky-progress-indicator-display-item-step {
-  width: 15px;
-  height: 15px;
-  -moz-border-radius: 15px;
-  -webkit-border-radius: 15px;
-  border-radius: 15px;
-  border: 2px solid $sky-border-color-neutral-medium;
-  background-color: white;
-}
-
-.sky-progress-indicator-display-item-step-active {
-  background: $sky-highlight-color-success;
-  border-color: $sky-highlight-color-success !important;
-}
-
-.sky-progress-indicator-display-item-step-complete {
-  width: 15px;
-  height: 15px;
-  font-size: 15px;
-  margin-top: -2px;
-}
-
-.sky-progress-indicator-display-item-line {
-  height: 1px;
-  width: 30px;
-  background-color: $sky-highlight-color-success;
-  margin-top: 7px;
-
-  &.sky-progress-indicator-display-item-line-next-check {
-    width: 25px;
-    margin-right: $sky-margin-half;
-    margin-left: 0px;
-  }
-
-  &.sky-progress-indicator-display-item-line-check {
-    width: 20px;
-    margin-right: $sky-margin-half;
-    margin-left: $sky-margin-half;
-
-    &:not(.sky-progress-indicator-display-item-line-next-check) {
-      width: 25px;
-      margin-right: 0px;
+.sky-progress-indicator {
+  ::ng-deep {
+    sky-progress-indicator-item:last-of-type {
+      // Hide the last item's line.
+      .sky-progress-indicator-status-marker-line {
+        display: none;
+      }
     }
   }
+}
 
-  &.sky-progress-indicator-display-item-line-next-inactive {
-    background-color: $sky-border-color-neutral-medium;
+.sky-progress-indicator-mode-vertical {
+  max-width: 400px;
+  min-width: 250px;
+  margin: 0 auto;
+
+  /**
+   * Overwrite item styles for vertical display mode.
+   */
+  ::ng-deep {
+    .sky-progress-indicator-item-body {
+      text-align: center;
+
+      // Accommodate the width of the status marker to make the content centered.
+      margin-left: -$status-marker-width * 2;
+    }
+
+    sky-progress-indicator-nav-button,
+    sky-progress-indicator-reset-button {
+      display: block;
+      padding-top: $sky-padding-triple;
+      padding-left: $sky-margin-plus-half;
+    }
+  }
+}
+
+.sky-progress-indicator-mode-horizontal {
+  /**
+   * Overwrite item styles for vertical display mode.
+   */
+  ::ng-deep {
+    .sky-progress-indicator-item-heading {
+      font-weight: 600;
+      font-size: 16px;
+    }
+  }
+}
+
+.sky-progress-indicator-horizontal-status-markers {
+  display: flex;
+  margin-bottom: $sky-margin;
+
+  /**
+   * Overwrite status marker styles based on their position in the series.
+   */
+  ::ng-deep {
+    sky-progress-indicator-status-marker {
+      // Restrict the marker's width in horizontal mode.
+      flex-basis: 45px;
+      flex-grow: 0;
+
+      &:first-of-type {
+        margin-left: -5px;
+
+        // Remove the line segment for the first marker in the series.
+        .sky-progress-indicator-status-marker {
+          .sky-progress-indicator-status-marker-icon {
+            &:before {
+              display: none !important;
+            }
+          }
+        }
+      }
+
+      // Remove the line from the last marker in the series.
+      &:last-of-type {
+        .sky-progress-indicator-status-marker-line {
+          display: none;
+        }
+      }
+    }
   }
 }

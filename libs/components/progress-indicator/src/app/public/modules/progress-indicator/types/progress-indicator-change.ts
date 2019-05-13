@@ -1,9 +1,12 @@
 import {
-  SkyProgressIndicatorItemComponent
-} from '../progress-indicator-item';
+  SkyProgressIndicatorItemStatus
+} from './progress-indicator-item-status';
 
 export interface SkyProgressIndicatorChange {
+
   activeIndex?: number;
-  items?: SkyProgressIndicatorItemComponent[];
-  activeItem?: SkyProgressIndicatorItemComponent;
+
+  isComplete?: boolean;
+
+  itemStatuses?: SkyProgressIndicatorItemStatus[];
 }

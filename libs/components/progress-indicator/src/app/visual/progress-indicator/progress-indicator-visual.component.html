@@ -1,37 +1,253 @@
-<sky-progress-indicator
-  [messageStream]="messageStream"
-  #progressIndicator
+<h2>
+  Vertical mode (default)
+</h2>
+
+<div
+  class="app-screenshot"
 >
-
-  <sky-progress-indicator-item
-    title="Do the first thing"
-  >
-  </sky-progress-indicator-item>
-
-  <sky-progress-indicator-item
-    title="Do the second thing"
-  >
-  </sky-progress-indicator-item>
-
-  <sky-progress-indicator-item
-    title="Do the third thing"
-  >
-  </sky-progress-indicator-item>
-
-</sky-progress-indicator>
-
-<button
-  id="btn-passive"
-  class="sky-btn sky-btn-link"
-  skyPopoverPlacement="right"
-  type="button"
-  [skyPopover]="myPopover1"
->
-  In progress
-</button>
-
-<sky-popover #myPopover1>
   <sky-progress-indicator
+    id="app-screenshot-display-mode-vertical"
+    [messageStream]="messageStream"
+    [startingIndex]="startingIndex"
+    (progressChanges)="onProgressChanges($event)"
+    #verticalIndicator
+  >
+    <sky-progress-indicator-title>
+      Setup my connection
+    </sky-progress-indicator-title>
+
+    <sky-progress-indicator-item
+      title="Configure connection"
+    >
+      <button
+        class="sky-btn sky-btn-link"
+        type="button"
+      >
+        Edit connection
+      </button>
+    </sky-progress-indicator-item>
+
+    <sky-progress-indicator-item
+      title="Select remote server"
+    >
+      <button
+        class="sky-btn sky-btn-link"
+        type="button"
+      >
+        Change server
+      </button>
+    </sky-progress-indicator-item>
+
+    <sky-progress-indicator-item
+      title="Test connection"
+    >
+      <button
+        class="sky-btn sky-btn-primary"
+        type="button"
+      >
+        Test connection
+      </button>
+    </sky-progress-indicator-item>
+
+    <sky-progress-indicator-item
+      title="Turn on connection"
+    >
+      Content 4
+    </sky-progress-indicator-item>
+
+    <sky-progress-indicator-nav-button
+      buttonType="reset"
+      buttonText="Erase all settings"
+    >
+    </sky-progress-indicator-nav-button>
+  </sky-progress-indicator>
+
+  <h3>
+    Interact with the progress indicator programmatically
+  </h3>
+
+  <p>
+    <button
+      class="sky-btn"
+      type="button"
+      (click)="onPreviousClick()"
+    >
+      Previous
+    </button>
+
+    <button
+      class="sky-btn sky-btn-primary"
+      id="app-screenshot-display-mode-vertical-next-button"
+      type="button"
+      (click)="onNextClick()"
+    >
+      Next
+    </button>
+
+    <button
+      class="sky-btn"
+      type="button"
+      (click)="onGoToClick()"
+    >
+      Goto first
+    </button>
+  </p>
+</div>
+
+<h2>
+  Horizontal mode
+</h2>
+
+<div
+  class="app-screenshot"
+  id="app-screenshot-display-mode-horizontal"
+>
+  <sky-progress-indicator
+    displayMode="horizontal"
+    [messageStream]="messageStreamHorizontal"
+    (progressChanges)="onProgressChanges($event)"
+    #horizontalIndicator
+  >
+    <sky-progress-indicator-item
+      title="Configure connection"
+    >
+      Content 1
+    </sky-progress-indicator-item>
+
+    <sky-progress-indicator-item
+      title="Select remote server"
+    >
+      Content 2
+    </sky-progress-indicator-item>
+
+    <sky-progress-indicator-item
+      title="Test connection"
+    >
+      Content 3
+    </sky-progress-indicator-item>
+
+    <sky-progress-indicator-item
+      title="Turn on connection"
+    >
+      Content 4
+    </sky-progress-indicator-item>
+  </sky-progress-indicator>
+
+  <sky-progress-indicator-nav-button
+    buttonType="previous"
+    [disabled]="disabled"
+    [progressIndicator]="horizontalIndicator"
+  >
+  </sky-progress-indicator-nav-button>
+
+  <sky-progress-indicator-nav-button
+    buttonType="next"
+    id="app-screenshot-display-mode-horizontal-next-button"
+    [disabled]="disabled"
+    [progressIndicator]="horizontalIndicator"
+  >
+  </sky-progress-indicator-nav-button>
+
+  <sky-progress-indicator-nav-button
+    buttonType="finish"
+    [disabled]="disabled"
+    [progressIndicator]="horizontalIndicator"
+  >
+  </sky-progress-indicator-nav-button>
+
+  <sky-progress-indicator-nav-button
+    buttonText="Start over"
+    buttonType="reset"
+    [disabled]="disabled"
+    [progressIndicator]="horizontalIndicator"
+  >
+  </sky-progress-indicator-nav-button>
+</div>
+
+<p>
+  <button
+    class="sky-btn sky-btn-default"
+    id="app-screenshot-display-mode-horizontal-disable-buttons-button"
+    type="button"
+    (click)="disableNavButtons()"
+  >
+    Disable nav buttons
+  </button>
+</p>
+
+<h2>
+  Horizontal mode (no finish button)
+</h2>
+
+<div
+  class="app-screenshot"
+>
+  <sky-progress-indicator
+    displayMode="horizontal"
+    #horizontalIndicatorNoFinish
+  >
+    <sky-progress-indicator-item
+      title="Configure connection"
+    >
+      Content 1
+    </sky-progress-indicator-item>
+
+    <sky-progress-indicator-item
+      title="Select remote server"
+    >
+      Content 2
+    </sky-progress-indicator-item>
+
+    <sky-progress-indicator-item
+      title="Test connection"
+    >
+      Content 3
+    </sky-progress-indicator-item>
+
+    <sky-progress-indicator-item
+      title="Turn on connection"
+    >
+      Content 4
+    </sky-progress-indicator-item>
+  </sky-progress-indicator>
+
+  <sky-progress-indicator-nav-button
+    buttonType="previous"
+    [progressIndicator]="horizontalIndicatorNoFinish"
+  >
+  </sky-progress-indicator-nav-button>
+
+  <sky-progress-indicator-nav-button
+    buttonType="next"
+    [progressIndicator]="horizontalIndicatorNoFinish"
+  >
+  </sky-progress-indicator-nav-button>
+</div>
+
+<h2>
+  Horizontal mode (modal)
+</h2>
+
+<p>
+  <button
+    class="sky-btn sky-btn-primary"
+    id="app-screenshot-open-modal-button"
+    type="button"
+    (click)="openModal()"
+  >
+    Open modal
+  </button>
+</p>
+
+<h2>
+  Passive mode
+</h2>
+
+<div
+  class="app-screenshot"
+>
+  <sky-progress-indicator
+    id="app-screenshot-passive-mode"
     [isPassive]="true"
     [startingIndex]="1"
   >
@@ -44,33 +260,60 @@
     >
     </sky-progress-indicator-item>
     <sky-progress-indicator-item
-      title=""
+      title="Finish"
     >
     </sky-progress-indicator-item>
   </sky-progress-indicator>
-</sky-popover>
+</div>
 
-<button
-  class="sky-btn sky-btn-secondary"
-  id="btn-regress"
-  type="button"
-  (click)="regress()"
+<h2>
+  Passive mode (in popover)
+</h2>
+
+<div
+  class="app-screenshot"
+  id="app-screenshot-passive-mode-popover"
 >
-  Undo
-</button>
-<button
-  id="btn-progress"
-  class="sky-btn sky-btn-primary"
-  type="button"
-  (click)="progress()"
+  <button
+    class="sky-btn sky-btn-link"
+    id="app-screenshot-passive-mode-popover-button"
+    type="button"
+    [skyPopover]="myPopover"
+    skyPopoverPlacement="right"
+  >
+    In progress
+  </button>
+
+  <sky-popover
+    id="app-screenshot-passive-mode-popover-target"
+    #myPopover
+  >
+    <sky-progress-indicator
+      [isPassive]="true"
+      [startingIndex]="1"
+    >
+      <sky-progress-indicator-item
+        title="Received (02-19-2003)"
+      >
+      </sky-progress-indicator-item>
+      <sky-progress-indicator-item
+        title="Awaiting approval"
+      >
+      </sky-progress-indicator-item>
+      <sky-progress-indicator-item
+        title=""
+      >
+      </sky-progress-indicator-item>
+    </sky-progress-indicator>
+  </sky-popover>
+</div>
+
+<h2>
+  Legacy components
+</h2>
+
+<sky-progress-indicator-reset-button
+  [progressIndicator]="verticalIndicator"
 >
-  Do
-</button>
-<button
-  id="btn-wizard"
-  class="sky-btn sky-btn-default"
-  type="button"
-  (click)="openWizard()"
->
-  Open wizard
-</button>
+  Old reset button
+</sky-progress-indicator-reset-button>

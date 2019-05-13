@@ -1,15 +1,20 @@
 import {
   Component,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
+  ElementRef,
   ViewChild,
   ViewChildren,
-  QueryList
+  QueryList,
+  TemplateRef
 } from '@angular/core';
 
 import {
   Subject
 } from 'rxjs/Subject';
+
+import {
+  SkyProgressIndicatorItemComponent
+} from '../progress-indicator-item/progress-indicator-item.component';
 
 import {
   SkyProgressIndicatorNavButtonComponent
@@ -23,6 +28,7 @@ import {
   SkyProgressIndicatorDisplayMode,
   SkyProgressIndicatorMessage,
   SkyProgressIndicatorMessageType,
+  SkyProgressIndicatorNavButtonType,
   SkyProgressIndicatorChange
 } from '../types';
 
@@ -31,64 +37,114 @@ import {
 } from '../progress-indicator.component';
 
 @Component({
-  selector: 'test-progress-indicator',
+  selector: 'sky-progress-indicator-fixture',
   templateUrl: './progress-indicator.component.fixture.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyProgressIndicatorFixtureComponent {
+
+  @ViewChild(SkyProgressIndicatorComponent)
+  public emptyProgressIndicator: SkyProgressIndicatorComponent;
+
+  @ViewChild(SkyProgressIndicatorComponent)
+  public progressIndicator: SkyProgressIndicatorComponent;
+
+  @ViewChild('progressIndicator', { read: TemplateRef })
+  public progressIndicatorTemplateRef: TemplateRef<any>;
+
+  @ViewChild(SkyProgressIndicatorResetButtonComponent)
+  public resetButtonComponentLegacy: SkyProgressIndicatorResetButtonComponent;
+
+  @ViewChild('legacyResetButton', { read: ElementRef })
+  public legacyResetButton: ElementRef;
+
+  @ViewChild('legacyIsolatedResetButton', { read: ElementRef })
+  public legacyIsolatedResetButton: ElementRef;
+
+  @ViewChild('defaultNavButton', { read: SkyProgressIndicatorNavButtonComponent })
+  public defaultNavButtonComponent: SkyProgressIndicatorNavButtonComponent;
+
+  @ViewChild('defaultNavButton', { read: ElementRef })
+  public defaultNavButtonElement: ElementRef;
+
+  @ViewChildren(SkyProgressIndicatorItemComponent)
+  public progressItems: QueryList<SkyProgressIndicatorItemComponent>;
+
+  @ViewChildren(SkyProgressIndicatorNavButtonComponent)
+  public navButtonComponents: QueryList<SkyProgressIndicatorNavButtonComponent>;
+
+  @ViewChildren(SkyProgressIndicatorNavButtonComponent, { read: ElementRef })
+  public navButtonElements: QueryList<ElementRef>;
+
+  // Progress indicator component inputs.
   public displayMode: SkyProgressIndicatorDisplayMode;
   public isPassive: boolean;
   public messageStream = new Subject<SkyProgressIndicatorMessage | SkyProgressIndicatorMessageType>();
   public startingIndex: number;
 
-  public previousButtonText: string;
-  public previousButtonType = 'previous';
-  public previousButtonDisabled: boolean;
+  // Nav button inputs.
+  public disabled: boolean;
 
-  public nextButtonText: string;
-  public nextButtonType = 'next';
-  public nextButtonDisabled: boolean;
+  // Template values.
+  public buttonConfigs: {
+    text?: string;
+    type: SkyProgressIndicatorNavButtonType;
+  }[];
+  public defaultNavButtonProgressIndicatorRef: SkyProgressIndicatorComponent;
+  public lastChange: SkyProgressIndicatorChange;
+  public showNavButtons = false;
+  public showIsolatedLegacyResetButton = false;
+  public progressIndicatorTemplateRefLegacy: SkyProgressIndicatorComponent;
 
-  public resetButtonDisabled: boolean;
-
-  public activeIndex = 0;
-  public resetWasClicked = false;
-  public progressChangesEmitted = false;
-
-  @ViewChild(SkyProgressIndicatorComponent)
-  public progressIndicator: SkyProgressIndicatorComponent;
-
-  @ViewChildren(SkyProgressIndicatorNavButtonComponent)
-  public navButtons: QueryList<SkyProgressIndicatorNavButtonComponent>;
-
-  @ViewChild(SkyProgressIndicatorResetButtonComponent)
-  public resetButton: SkyProgressIndicatorResetButtonComponent;
-
-  public get isHorizontal() {
-    return this.displayMode === SkyProgressIndicatorDisplayMode.Horizontal;
+  constructor() {
+    this.buttonConfigs = [
+      {
+        type: 'finish'
+      },
+      {
+        type: 'next'
+      },
+      {
+        type: 'previous'
+      },
+      {
+        type: 'reset'
+      }
+    ];
   }
 
-  constructor(private changeDetector: ChangeDetectorRef) { }
-
-  public progress(): void {
-    this.progressIndicator.messageStream.next(SkyProgressIndicatorMessageType.Progress);
+  public onProgressChanges(change: SkyProgressIndicatorChange): void {
+    this.lastChange = change;
   }
 
-  public regress(): void {
-    this.progressIndicator.messageStream.next(SkyProgressIndicatorMessageType.Regress);
-  }
-
-  public resetClicked(): void {
-    this.resetWasClicked = true;
-  }
+  public onResetClick(): void { }
 
   public sendMessage(message: SkyProgressIndicatorMessage): void {
     this.messageStream.next(message);
   }
 
-  public updateIndex(changes: SkyProgressIndicatorChange): void {
-    this.progressChangesEmitted = true;
-    this.activeIndex = changes.activeIndex;
-    this.changeDetector.detectChanges();
+  public sendMessageLegacy(type: SkyProgressIndicatorMessageType): void {
+    this.messageStream.next(type);
+  }
+
+  public setNavButtonText(): void {
+    this.buttonConfigs = [
+      {
+        text: 'My Finish',
+        type: 'finish'
+      },
+      {
+        text: 'My Next',
+        type: 'next'
+      },
+      {
+        text: 'My Previous',
+        type: 'previous'
+      },
+      {
+        text: 'My Reset',
+        type: 'reset'
+      }
+    ];
   }
 }
