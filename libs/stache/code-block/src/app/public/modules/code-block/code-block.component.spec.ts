@@ -1,38 +1,33 @@
-import { ComponentFixture, TestBed, async} from '@angular/core/testing';
-import { expect } from '@skyux-sdk/testing';
-import { SkyCodeBlockTestComponent } from './fixtures/code-block.component.fixture';
-import { SkyCodeBlockComponent } from './code-block.component';
-import { HttpModule } from '@angular/http';
-import { PipeTransform, Pipe } from '@angular/core';
-import { SkyI18nModule } from '@skyux/i18n';
-import { SkyClipboardModule, SkyCopyToClipboardService } from '@blackbaud/skyux-lib-clipboard';
-import { SkyCodeBlockResourcesModule } from '../shared';
+import {
+  ComponentFixture,
+  TestBed,
+  async
+} from '@angular/core/testing';
 
-@Pipe({
-  name: 'skyAppResources'
-})
-export class MockSkyAppResourcesPipe implements PipeTransform {
-  public transform(value: number): number {
-    return value;
-  }
-}
+import {
+  expect
+} from '@skyux-sdk/testing';
 
-class MockSkyAppResourcesService {
-  public getString(): any {
-    return {
-      subscribe: (cb: any) => {
-        cb();
-      },
-      take: () => {
-        return {
-          subscribe: (cb: any) => {
-            cb();
-          }
-        };
-      }
-    };
-  }
-}
+import {
+  HttpModule
+} from '@angular/http';
+
+import {
+  SkyClipboardModule,
+  SkyCopyToClipboardService
+} from '@blackbaud/skyux-lib-clipboard';
+
+import {
+  SkyCodeBlockTestComponent
+} from './fixtures/code-block.component.fixture';
+
+import {
+  SkyCodeBlockComponent
+} from './code-block.component';
+
+import {
+  SkyCodeBlockResourcesModule
+} from '../shared';
 
 class MockClipboardService {
   public copyContent() { }
@@ -42,11 +37,9 @@ describe('SkyCodeBlockComponent', () => {
   let component: SkyCodeBlockComponent;
   let fixture: ComponentFixture<SkyCodeBlockComponent>;
   let element: HTMLElement;
-  let mockSkyAppResourcesService: any;
   let mockClipboardService: any;
 
   beforeEach(() => {
-    mockSkyAppResourcesService = new MockSkyAppResourcesService();
     mockClipboardService = new MockClipboardService();
     TestBed.configureTestingModule({
       declarations: [
@@ -59,7 +52,6 @@ describe('SkyCodeBlockComponent', () => {
       imports: [
         SkyClipboardModule,
         SkyCodeBlockResourcesModule,
-        SkyI18nModule,
         HttpModule
       ]
     })
@@ -158,7 +150,7 @@ describe('SkyCodeBlockComponent', () => {
     expect(element.querySelector('.sky-code-block-header')).not.toExist();
   });
 
-  it('should hide the header if copyToClipboard is false, and languageType is undefiend', () => {
+  it('should hide the header if copyToClipboard is false, and languageType is undefined', () => {
     const code = '<p></p>';
     component.code = code;
     component.hideCopyToClipboard = true;

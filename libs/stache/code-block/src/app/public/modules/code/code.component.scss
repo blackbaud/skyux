@@ -1,0 +1,11 @@
+@import './node_modules/@skyux/theme/scss/mixins.scss';
+
+.sky-code {
+  @include sky-border("dark", "top", "right", "bottom", "left");
+  overflow-wrap: break-word;
+  font-family: 'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace;
+  font-size: 90%;
+  color: $sky-background-color-danger-dark;
+  padding: 0 4px;
+  background-color: $sky-background-color-selected;
+}

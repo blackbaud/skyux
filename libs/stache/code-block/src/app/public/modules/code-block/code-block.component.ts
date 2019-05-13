@@ -1,7 +1,19 @@
-import { Component, Input, ViewChild, AfterViewInit, ChangeDetectorRef, OnInit } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-
 declare let Prism: any;
+
+import {
+  Component,
+  Input,
+  ViewChild,
+  AfterViewInit,
+  ChangeDetectorRef,
+  OnInit
+} from '@angular/core';
+
+import {
+  DomSanitizer,
+  SafeHtml
+} from '@angular/platform-browser';
+
 import 'prismjs/prism';
 import 'prismjs/plugins/normalize-whitespace/prism-normalize-whitespace';
 import * as PrismLanguages from './prism-languages';
@@ -26,7 +38,7 @@ export class SkyCodeBlockComponent implements AfterViewInit, OnInit {
   }
 
   @Input()
-  public hideCopyToClipboard: boolean = false;
+  public hideCopyToClipboard = false;
 
   @Input()
   public hideHeader: boolean;
@@ -40,17 +52,19 @@ export class SkyCodeBlockComponent implements AfterViewInit, OnInit {
 
   public output: SafeHtml;
   public displayName: string;
-  private readonly defaultLanguage: string = 'markup';
+  private readonly defaultLanguage = 'markup';
   private validLanguages: string[];
   private prismLanguages: any;
   private _languageType: string = this.defaultLanguage;
 
   public constructor(
     private cdRef: ChangeDetectorRef,
-    private sanitizer: DomSanitizer) {
-      this.validLanguages = Object.keys(Prism.languages);
-      this.prismLanguages = PrismLanguages.languages;
-    }
+    private sanitizer: DomSanitizer
+  ) {
+    this.validLanguages = Object.keys(Prism.languages);
+    this.prismLanguages = PrismLanguages.languages;
+  }
+
   public ngOnInit(): void {
     this.hideHeader = this.hideHeader || (!this.displayName && this.hideCopyToClipboard);
   }

@@ -1,10 +1,22 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { SkyCodeBlockComponent } from './code-block.component';
+import {
+  NgModule
+} from '@angular/core';
 
-import { SkyClipboardModule } from '@blackbaud/skyux-lib-clipboard';
-import { SkyI18nModule } from '@skyux/i18n';
-import { SkyCodeBlockResourcesModule } from '../shared';
+import {
+  CommonModule
+} from '@angular/common';
+
+import {
+  SkyClipboardModule
+} from '@blackbaud/skyux-lib-clipboard';
+
+import {
+  SkyCodeBlockComponent
+} from './code-block.component';
+
+import {
+  SkyCodeBlockResourcesModule
+} from '../shared';
 
 @NgModule({
   declarations: [
@@ -13,7 +25,6 @@ import { SkyCodeBlockResourcesModule } from '../shared';
   imports: [
     CommonModule,
     SkyClipboardModule,
-    SkyI18nModule,
     SkyCodeBlockResourcesModule
   ],
   exports: [
