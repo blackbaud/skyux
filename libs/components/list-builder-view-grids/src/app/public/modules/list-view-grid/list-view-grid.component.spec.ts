@@ -342,6 +342,18 @@ describe('List View Grid Component', () => {
         tick();
       }));
 
+      it('should pass settingsKey through to grid component', fakeAsync(() => {
+        setupTest();
+        flush();
+        tick();
+
+        component.settingsKey = 'foobar';
+        fixture.detectChanges();
+
+        expect(component.grid.settingsKey).toBe('foobar');
+        tick();
+      }));
+
       it('should be accessible', async(() => {
         setupTest();
 

@@ -28,6 +28,7 @@ export class ListViewGridTestComponent implements OnInit {
   public hiddenColumns: string[] = ['hiddenCol1', 'hiddenCol2'];
   public asyncHeading = new BehaviorSubject<string>('');
   public asyncDescription = new BehaviorSubject<string>('');
+  public settingsKey: string;
 
   @ViewChild(SkyListViewGridComponent)
   public grid: SkyListViewGridComponent;
