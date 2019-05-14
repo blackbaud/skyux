@@ -1,3 +1,7 @@
+# 3.0.0-beta.2 (2019-05-14)
+
+- Removed `stache-code` component in favor of `sky-code`, found in `@blackbaud/skyux-lib-code-block`. [#6](https://github.com/blackbaud/skyux-lib-stache/pull/6)
+
 # 3.0.0-beta.1 (2019-05-14)
 
 - Fixed wrapper module to add missing provider `STACHE_JSON_DATA_PROVIDERS`.
