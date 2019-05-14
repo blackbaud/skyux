@@ -1,3 +1,8 @@
+# 3.0.0-beta.1 (2019-05-14)
+
+- Fixed wrapper module to add missing provider `STACHE_JSON_DATA_PROVIDERS`.
+- Upgraded package dependencies.
+
 # 3.0.0-beta.0 (2019-05-09)
 
 - Initial migration to SKY UX 3 and Builder 3. [#1](https://github.com/blackbaud/skyux-lib-stache/pull/1)

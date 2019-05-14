@@ -3,12 +3,12 @@ import {
 } from '@angular/core';
 
 import {
-  StacheJsonDataService
-} from './json-data.service';
+  STACHE_JSON_DATA_PROVIDERS
+} from './json-data-providers';
 
 @NgModule({
   providers: [
-    StacheJsonDataService
+    STACHE_JSON_DATA_PROVIDERS
   ]
 })
 export class StacheJsonDataModule { }
