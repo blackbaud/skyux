@@ -22,7 +22,7 @@
   - Fixed use cases around page anchor generation and tracking.
 
 # 2.15.3 (2019-02-07)
-- Fixed bug in `stache-code` component to correctly wrap long strings. [#569](https://github.com/blackbaud/stache2/pull/569)
+- Fixed bug in `sky-code` component to correctly wrap long strings. [#569](https://github.com/blackbaud/stache2/pull/569)
 - Updated `StacheJsonDataService` to allow for nested object access. [#570](https://github.com/blackbaud/stache2/pull/570)
   - Created `StacheJsonDataService` method `getNestedData` to fetch nested data by array.
   - Updated `StacheJsonDataService` method `getByName` to search nested data by string.
@@ -40,7 +40,7 @@
 - Separated out the Code Block and Clipboard modules [#563](https://github.com/blackbaud/stache2/pull/563)
   - Updated the `stache-copy-to-clipboard` component to use the new `sky-copy-to-clipboard` component.
   - Added the `skyux-lib-code-block` to the Stache module exports.
-  - Added the `@deprecated` flag to the `stache-code-block` and `stache-clipboard` modules.
+  - Added the `@deprecated` flag to the `sky-code-block` and `stache-clipboard` modules.
   - Updated the versions of SKY UX and the skyux-builder-plugin-stache.
 
 # 2.14.1 (2018-12-10)
@@ -53,7 +53,7 @@
   - Updated version of SKY UX Builder.
   - Updated Travis build options to enhance test utility.
 - Updated the `stache-action-buttons` component to improve accessibility and allow action buttons without icons. [#548](https://github.com/blackbaud/stache2/pull/548)
-- Updated `stache-code-block` component to improve accessibility by increasing the color contrast. [#551](https://github.com/blackbaud/stache2/pull/551)
+- Updated `sky-code-block` component to improve accessibility by increasing the color contrast. [#551](https://github.com/blackbaud/stache2/pull/551)
 
 # 2.13.0 (2018-10-23)
 - Updated [skyux-builder-plugin-stache](https://github.com/blackbaud/skyux-builder-plugin-stache/blob/master/CHANGELOG.md#151-2018-08-02) dependency to `~1.7.0`.
@@ -86,11 +86,11 @@
 - Updated version number for `skyux-builder-plugin-stache` to `1.5.0`, allowing users to have nested directories in the global Stache application data.
 
 # 2.11.0 (2018-08-02)
-- Added a header to the `stache-code-block` component that holds the copy-to-clipboard button and shows which language is being displayed. [#515](https://github.com/blackbaud/stache2/pull/515)
+- Added a header to the `sky-code-block` component that holds the copy-to-clipboard button and shows which language is being displayed. [#515](https://github.com/blackbaud/stache2/pull/515)
 
 # 2.10.0 (2018-07-20)
 - Created a `stache-copy-to-clipboard` component. [#506](https://github.com/blackbaud/stache2/pull/506)
-- Added the `stache-copy-to-clipboard` to the `stache-code-block`.
+- Added the `stache-copy-to-clipboard` to the `sky-code-block`.
 - Added accessibility changes to the back to top button. [#505](https://github.com/blackbaud/stache2/pull/505)
 - Fixed a bug causing the back to top button to move under the footer. [#504](https://github.com/blackbaud/stache2/pull/504)
 
@@ -171,7 +171,7 @@
 
 # 2.5.1 (2018-4-2)
 
-- Fixed a bug that caused `stache-code-block` to render without new lines in IE11. [#433](https://github.com/blackbaud/stache2/pull/433)
+- Fixed a bug that caused `sky-code-block` to render without new lines in IE11. [#433](https://github.com/blackbaud/stache2/pull/433)
 - Fixed a bug that caused the window to scroll too far down on `stache-page-anchors` when omnibar was present without `affix-top` being called first. [#431](https://github.com/blackbaud/stache2/pull/431)
 
 # 2.5.0 (2018-3-28)
@@ -226,7 +226,7 @@
 
 # 2.0.0-rc.2 (2017-08-11)
 
-- Added support for `<stache-code-block>`'s in `<stache-include>` blocks to contain `{` and `}`. [#13](https://github.com/blackbaud/skyux-builder-plugin-stache/pull/13)
+- Added support for `<sky-code-block>`'s in `<stache-include>` blocks to contain `{` and `}`. [#13](https://github.com/blackbaud/skyux-builder-plugin-stache/pull/13)
 - Updated `navOrder` to allow nav order to be set on only one item. [#288](https://github.com/blackbaud/stache2/pull/288)
 - Limited support for `navOrder` values to [Counting Numbers](https://www.mathsisfun.com/definitions/counting-number.html). [#288](https://github.com/blackbaud/stache2/pull/288)
 - Added support for SKY UX Builder `1.0.0-rc.15`. [#289](https://github.com/blackbaud/stache2/pull/288)

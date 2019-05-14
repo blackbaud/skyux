@@ -3,8 +3,8 @@ import {
 } from '@angular/core';
 
 import {
-  StacheCodeModule
-} from '../../code/code.module';
+  SkyCodeModule
+} from '@blackbaud/skyux-lib-code-block';
 
 import {
   StacheAffixModule
@@ -24,7 +24,7 @@ import {
     AffixTopFixtureComponent
   ],
   imports: [
-    StacheCodeModule,
+    SkyCodeModule,
     StacheAffixModule
   ],
   exports: [

@@ -3,7 +3,8 @@ import {
 } from '@angular/core';
 
 import {
-  SkyCodeBlockModule
+  SkyCodeBlockModule,
+  SkyCodeModule
 } from '@blackbaud/skyux-lib-code-block';
 
 import {
@@ -26,7 +27,6 @@ import {
   StacheActionButtonsModule,
   StacheAffixModule,
   StacheBlockquoteModule,
-  StacheCodeModule,
   StacheIncludeModule,
   StacheMarkdownModule,
   StachePageAnchorModule,
@@ -40,13 +40,13 @@ import {
   exports: [
     SkyAlertModule,
     SkyCodeBlockModule,
+    SkyCodeModule,
     SkyFluidGridModule,
     SkyRestrictedViewModule,
     SkyNavbarModule,
     StacheActionButtonsModule,
     StacheAffixModule,
     StacheBlockquoteModule,
-    StacheCodeModule,
     StacheIncludeModule,
     StacheMarkdownModule,
     StachePageAnchorModule,

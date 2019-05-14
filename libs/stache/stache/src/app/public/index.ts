@@ -10,8 +10,6 @@ export * from './modules/blockquote/blockquote.module';
 
 export * from './modules/breadcrumbs/breadcrumbs.module';
 
-export * from './modules/code/code.module';
-
 export * from './modules/edit-button/edit-button.module';
 
 export * from './modules/hide-from-search/hide-from-search.module';
