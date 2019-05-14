@@ -1,3 +1,7 @@
+# 1.2.0 (2019-05-14)
+
+- Added `sky-code` component. [#15](https://github.com/blackbaud/skyux-lib-code-block/pull/15)
+
 # 1.1.0 (2019-05-10)
 
 - Added support for `prismjs@1.16.0`. [#13](https://github.com/blackbaud/skyux-lib-code-block/pull/13)
