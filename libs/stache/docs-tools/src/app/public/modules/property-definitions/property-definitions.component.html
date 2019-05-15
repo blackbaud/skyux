@@ -1,0 +1,115 @@
+<!-- <div
+  class="sky-property-definitions sky-responsive-table"
+  role="table"
+>
+  <div
+    class="sky-responsive-table-row"
+    role="row"
+  >
+    <div
+      class="sky-responsive-table-cell sky-responsive-table-column-header"
+      role="columnheader"
+    >
+      Name
+    </div>
+    <div
+      class="sky-responsive-table-cell sky-responsive-table-column-header"
+      role="columnheader"
+    >
+      Description
+    </div>
+    <div
+      class="sky-responsive-table-cell sky-responsive-table-column-header"
+      role="columnheader"
+    >
+      Default value
+    </div>
+  </div>
+
+  <div *ngFor="let item of data"
+    class="sky-responsive-table-row"
+    role="row"
+  >
+    <div
+      class="sky-responsive-table-cell"
+      role="cell"
+    >
+      {{ item.propertyName }}
+      <div *ngIf="item.isRequired"
+        class="sky-text-danger"
+      >
+        Required
+      </div>
+    </div>
+
+    <div
+      class="sky-responsive-table-cell"
+      role="cell"
+    >
+      <ng-container [ngTemplateOutlet]="item.templateRef"></ng-container>
+    </div>
+
+    <div
+      class="sky-responsive-table-cell"
+      role="cell"
+    >
+      {{ item.defaultValue }}
+    </div>
+
+  </div>
+</div> -->
+
+<div
+  class="sky-property-definitions"
+>
+  <table
+    class="sky-responsive-table"
+  >
+    <tr
+      class="sky-responsive-table-row"
+    >
+      <th
+        class="sky-responsive-table-cell sky-responsive-table-column-header"
+      >
+        Name
+      </th>
+      <th
+        class="sky-responsive-table-cell sky-responsive-table-column-header"
+      >
+        Description
+      </th>
+      <th
+        class="sky-responsive-table-cell sky-responsive-table-column-header"
+      >
+        Default value
+      </th>
+    </tr>
+    <tr *ngFor="let item of data"
+      class="sky-responsive-table-row"
+    >
+      <td
+        class="sky-responsive-table-cell"
+      >
+        <sky-code>{{ item.propertyName }}</sky-code>
+        <div *ngIf="item.isRequired"
+          class="sky-text-danger"
+        >
+          Required
+        </div>
+      </td>
+      <td
+        class="sky-responsive-table-cell"
+      >
+        <ng-container
+          [ngTemplateOutlet]="item.templateRef"
+        >
+        </ng-container>
+      </td>
+      <td
+        class="sky-responsive-table-cell"
+      >
+        {{ item.defaultValue }}
+      </td>
+    </tr>
+  </table>
+</div>

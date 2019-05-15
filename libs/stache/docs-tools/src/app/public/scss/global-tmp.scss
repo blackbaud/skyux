@@ -1,0 +1,30 @@
+@import '~@skyux/theme/scss/mixins';
+
+.sky-responsive-table {
+  overflow: auto;
+}
+
+.sky-responsive-table-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.sky-responsive-table-cell {
+  flex: 1 0 200px;
+  padding: $sky-padding-even-default;
+  border-bottom: 1px dotted $sky-border-color-neutral-medium;
+
+  @media (min-width: $sky-screen-sm-min) { }
+}
+
+.sky-responsive-table-column-header {
+  background-color: $sky-background-color-info-light;
+  border-bottom-color: transparent;
+  margin-right: 2px;
+  text-align: left;
+  font-weight: normal;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}

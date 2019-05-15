@@ -1,0 +1,28 @@
+<div
+  class="sky-demo-page"
+>
+  <stache
+    [pageTitle]="pageTitle"
+    [showBreadcrumbs]="false"
+  >
+
+    <stache-page-summary>
+      <ng-content select="sky-demo-page-summary"></ng-content>
+    </stache-page-summary>
+
+    <ng-container *ngIf="packageName">
+      <stache-page-anchor>
+        Installation
+      </stache-page-anchor>
+
+      <sky-demo-page-module-info
+        [gitRepoUrl]="gitRepoUrl"
+        [moduleName]="moduleName"
+        [packageName]="packageName"
+      >
+      </sky-demo-page-module-info>
+    </ng-container>
+
+    <ng-content></ng-content>
+  </stache>
+</div>

@@ -1,0 +1,51 @@
+<div
+  class="sky-demo-page-module-info"
+>
+  <sky-definition-list>
+
+    <sky-definition-list-content *ngIf="moduleName">
+      <sky-definition-list-label>
+        Defined in module
+      </sky-definition-list-label>
+      <sky-definition-list-value>
+        {{ moduleName }}
+      </sky-definition-list-value>
+    </sky-definition-list-content>
+
+    <sky-definition-list-content *ngIf="packageName">
+      <sky-definition-list-label>
+        In NPM package
+      </sky-definition-list-label>
+      <sky-definition-list-value>
+        {{ packageName }}
+
+        <ng-container *ngFor="let externalLink of externalLinks; let i = index;">
+          <a [attr.href]="externalLink.url">{{ externalLink.label }}</a>
+          <ng-container *ngIf="i < externalLinks.length - 1">&nbsp;| </ng-container>
+        </ng-container>
+
+      </sky-definition-list-value>
+    </sky-definition-list-content>
+
+    <sky-definition-list-content *ngIf="installationCommand">
+      <sky-definition-list-label>
+        Installation command&nbsp;<sky-help-inline
+          skyPopoverPlacement="right"
+          [skyPopover]="installationCommandPopover"
+        ></sky-help-inline>
+      </sky-definition-list-label>
+      <sky-definition-list-value>
+        <sky-popover #installationCommandPopover>
+          After installation, you need to make any exports from {{ moduleName }} available to your SPA by adding the module to the exports section of your SPA's main module. If you are using the SKY UX SDK, add {{ moduleName }} as an export in your app-sky.module.ts file.
+        </sky-popover>
+        <span #copyTarget><sky-code>{{ installationCommand }}</sky-code></span>
+        <sky-copy-to-clipboard
+          buttonText="Copy"
+          [copyTarget]="copyTarget"
+        >
+        </sky-copy-to-clipboard>
+      </sky-definition-list-value>
+    </sky-definition-list-content>
+
+  </sky-definition-list>
+</div>
