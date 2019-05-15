@@ -8,16 +8,13 @@ import {
   Input
 } from '@angular/core';
 
-require('intl-tel-input/build/js/utils');
+import {
+  PhoneNumberFormat,
+  PhoneNumberType,
+  PhoneNumberUtil
+} from 'google-libphonenumber';
 
-require('intl-tel-input/build/js/intlTelInput');
-
-/**
- * NOTE: We can not type these due the the current @types/intl-tel-input version having an
- * undeclared type which causes linting errors.
- */
-declare var intlTelInputUtils: any;
-declare var intlTelInputGlobals: any;
+import 'intl-tel-input';
 
 import {
   SkyPhoneFieldCountry
@@ -57,11 +54,10 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
       this._selectedCountry = newCountry;
 
       if (!this._selectedCountry.exampleNumber) {
-        this._selectedCountry.exampleNumber = intlTelInputUtils.getExampleNumber(
-          newCountry.iso2,
-          true,
-          intlTelInputUtils.numberType.FIXED_LINE
-        );
+        const numberObj = this.phoneUtils.getExampleNumberForType(newCountry.iso2,
+          PhoneNumberType.FIXED_LINE);
+        this._selectedCountry.exampleNumber = this.phoneUtils.format(numberObj,
+          PhoneNumberFormat.NATIONAL);
       }
 
       this.sortCountriesWithSelectedAndDefault(newCountry);
@@ -76,6 +72,8 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
 
   private defaultCountryData: SkyPhoneFieldCountry;
 
+  private phoneUtils = PhoneNumberUtil.getInstance();
+
   private _defaultCountry: string;
 
   private _selectedCountry: SkyPhoneFieldCountry;
@@ -84,8 +82,11 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     /**
      * The "slice" here ensures that we get a copy of the array and not the global original. This
      * ensures that multiple instances of the component don't overwrite the original data.
+     *
+     * We must type the window object as any here as the intl-tel-input library adds its object
+     * to the main window object.
      */
-    this.countries = intlTelInputGlobals.getCountryData().slice(0);
+    this.countries = (window as any).intlTelInputGlobals.getCountryData().slice(0);
     this.defaultCountryData = this.countries.find(country => country.iso2 === 'us');
     this.selectedCountry = this.defaultCountryData;
   }

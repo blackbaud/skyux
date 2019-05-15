@@ -25,6 +25,11 @@ import {
 } from 'rxjs/Subject';
 
 import {
+  PhoneNumberFormat,
+  PhoneNumberUtil
+} from 'google-libphonenumber';
+
+import {
   SkyPhoneFieldComponent
 } from './phone-field.component';
 
@@ -35,16 +40,6 @@ import {
 import {
   SkyPhoneFieldCountry
 } from './types';
-
-require('intl-tel-input/build/js/utils');
-
-require('intl-tel-input/build/js/intlTelInput');
-
-/**
- * NOTE: We can not type these due the the current @types/intl-tel-input version having an
- * undeclared type which causes linting errors.
- */
-declare var intlTelInputUtils: any;
 
 // tslint:disable:no-forward-ref no-use-before-declare
 const SKY_PHONE_FIELD_VALUE_ACCESSOR = {
@@ -112,6 +107,8 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
   private control: AbstractControl;
 
   private ngUnsubscribe = new Subject();
+
+  private phoneUtils = PhoneNumberUtil.getInstance();
 
   private _disabled: boolean;
 
@@ -238,9 +235,10 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
   }
 
   private validateNumber(phoneNumber: string): boolean {
-    const iso = this.phoneFieldComponent.selectedCountry.iso2;
+    const numberObj = this.phoneUtils.parseAndKeepRawInput(phoneNumber,
+      this.phoneFieldComponent.selectedCountry.iso2);
 
-    return intlTelInputUtils.isValidNumber(phoneNumber, iso);
+    return this.phoneUtils.isValidNumber(numberObj);
  }
 
   /**
@@ -248,11 +246,19 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
    * @param phoneNumber The number to format
    */
   private formatNumber(phoneNumber: string): string {
-    return intlTelInputUtils.formatNumber(
-      phoneNumber,
-      this.phoneFieldComponent.selectedCountry.iso2,
-      intlTelInputUtils.numberFormat.NATIONAL
-    );
+    try {
+      const numberObj = this.phoneUtils.parseAndKeepRawInput(phoneNumber,
+        this.phoneFieldComponent.selectedCountry.iso2);
+      if (this.phoneUtils.isPossibleNumber(numberObj)) {
+          return this.phoneUtils.format(numberObj, PhoneNumberFormat.NATIONAL);
+      } else {
+          return phoneNumber;
+      }
+    } catch (e) {
+      /* sanity check */
+      /* istanbul ignore next */
+      return phoneNumber;
+    }
   }
 
   private onChange = (_: any) => { };
