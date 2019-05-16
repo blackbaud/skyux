@@ -1,24 +1,9 @@
 @import "~@skyux/theme/scss/mixins";
 @import "~@skyux/theme/scss/_compat/mixins";
 
-:host {
-  display: flex;
-  padding: 0 $sky-padding;
-}
-
-.sky-tile-dashboard-layout-multi {
+@include sky-host-responsive-container-xs-min() {
   display: block;
-}
-
-.sky-tile-dashboard-layout-single {
-  display: none;
-}
-
-@media (max-width: $sky-screen-sm-max) {
-  :host {
-    display: block;
-    padding: 0;
-  }
+  padding: 0;
 
   .sky-tile-dashboard-layout-multi {
     display: none;
@@ -28,14 +13,30 @@
     display: block;
   }
 
-  :host ::ng-deep .sky-tile-dashboard-column {
-    padding: 0;
+  /* NOTE: This style is here as we only want it when inside a tile dashboard */
+  .sky-tile-dashboard-layout-single ::ng-deep .sky-tile,
+  .sky-tile-dashboard-layout-multi ::ng-deep .sky-tile {
+    margin-bottom: 0;
   }
 }
 
-@media (max-width: $sky-screen-xs-max) {
-  :host ::ng-deep .sky-tile {
-    margin-bottom: 0 !important;
+@include sky-host-responsive-container-sm-min() {
+  .sky-tile-dashboard-layout-single ::ng-deep .sky-tile,
+  .sky-tile-dashboard-layout-multi ::ng-deep .sky-tile {
+    margin-bottom: $sky-margin-double;
+  }
+}
+
+@include sky-host-responsive-container-md-min() {
+  display: flex;
+  padding: 0 $sky-padding;
+
+  .sky-tile-dashboard-layout-multi {
+    display: block;
+  }
+
+  .sky-tile-dashboard-layout-single {
+    display: none;
   }
 }
 
