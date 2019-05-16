@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 
 import {
-  SkyDemoPageTitleService
+  SkyDocsDemoPageTitleService
 } from './demo-page-title.service';
 
 @Component({
@@ -14,7 +14,7 @@ import {
   templateUrl: './demo-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyDemoPageComponent implements OnInit {
+export class SkyDocsDemoPageComponent implements OnInit {
 
   @Input()
   public gitRepoUrl: string;
@@ -29,7 +29,7 @@ export class SkyDemoPageComponent implements OnInit {
   public pageTitle: string;
 
   constructor(
-    private titleService: SkyDemoPageTitleService
+    private titleService: SkyDocsDemoPageTitleService
   ) { }
 
   public ngOnInit(): void {

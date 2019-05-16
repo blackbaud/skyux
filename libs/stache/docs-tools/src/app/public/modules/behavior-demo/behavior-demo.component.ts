@@ -4,8 +4,9 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'sky-demo-page-summary',
-  templateUrl: './demo-page-summary.component.html',
+  selector: 'sky-behavior-demo',
+  templateUrl: './behavior-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyDocsDemoPageSummaryComponent { }
+export class SkyDocsBehaviorDemoComponent {
+}

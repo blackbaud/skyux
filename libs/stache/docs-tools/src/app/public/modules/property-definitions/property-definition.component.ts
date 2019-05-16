@@ -14,6 +14,9 @@ import {
 export class SkyPropertyDefinitionComponent {
 
   @Input()
+  public dataType = 'any';
+
+  @Input()
   public defaultValue: string;
 
   @Input()

@@ -9,7 +9,7 @@ import {
   templateUrl: './demo-page-section.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyDemoPageSectionComponent {
+export class SkyDocsDemoPageSectionComponent {
 
   @Input()
   public heading: string;

@@ -13,45 +13,55 @@ import {
 } from '@blackbaud/skyux-lib-stache';
 
 import {
-  SkyDemoPageModuleInfoModule
-} from './module-info/module-info.module';
+  SkyDocsBehaviorDemoModule
+} from '../behavior-demo';
 
 import {
-  SkyDemoPageSectionComponent
+  SkyDocsCodeExampleModule
+} from '../code-example';
+
+import {
+  SkyDocsModuleInfoModule
+} from '../module-info';
+
+import {
+  SkyDocsDemoPageSectionComponent
 } from './demo-page-section.component';
 
 import {
-  SkyDemoPageSummaryComponent
+  SkyDocsDemoPageSummaryComponent
 } from './demo-page-summary.component';
 
 import {
-  SkyDemoPageTitleService
+  SkyDocsDemoPageTitleService
 } from './demo-page-title.service';
 
 import {
-  SkyDemoPageComponent
+  SkyDocsDemoPageComponent
 } from './demo-page.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    SkyDemoPageModuleInfoModule,
+    SkyDocsBehaviorDemoModule,
+    SkyDocsCodeExampleModule,
+    SkyDocsModuleInfoModule,
     StachePageAnchorModule,
     StachePageSummaryModule,
     StacheWrapperModule
   ],
   declarations: [
-    SkyDemoPageComponent,
-    SkyDemoPageSectionComponent,
-    SkyDemoPageSummaryComponent
+    SkyDocsDemoPageComponent,
+    SkyDocsDemoPageSectionComponent,
+    SkyDocsDemoPageSummaryComponent
   ],
   exports: [
-    SkyDemoPageComponent,
-    SkyDemoPageSectionComponent,
-    SkyDemoPageSummaryComponent
+    SkyDocsDemoPageComponent,
+    SkyDocsDemoPageSectionComponent,
+    SkyDocsDemoPageSummaryComponent
   ],
   providers: [
-    SkyDemoPageTitleService
+    SkyDocsDemoPageTitleService
   ]
 })
-export class SkyDemoPageModule { }
+export class SkyDocsDemoPageModule { }

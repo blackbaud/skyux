@@ -1,25 +1,25 @@
 <!-- <div
-  class="sky-property-definitions sky-responsive-table"
+  class="sky-property-definitions sky-table"
   role="table"
 >
   <div
-    class="sky-responsive-table-row"
+    class="sky-table-row"
     role="row"
   >
     <div
-      class="sky-responsive-table-cell sky-responsive-table-column-header"
+      class="sky-table-cell sky-table-column-header"
       role="columnheader"
     >
       Name
     </div>
     <div
-      class="sky-responsive-table-cell sky-responsive-table-column-header"
+      class="sky-table-cell sky-table-column-header"
       role="columnheader"
     >
       Description
     </div>
     <div
-      class="sky-responsive-table-cell sky-responsive-table-column-header"
+      class="sky-table-cell sky-table-column-header"
       role="columnheader"
     >
       Default value
@@ -27,11 +27,11 @@
   </div>
 
   <div *ngFor="let item of data"
-    class="sky-responsive-table-row"
+    class="sky-table-row"
     role="row"
   >
     <div
-      class="sky-responsive-table-cell"
+      class="sky-table-cell"
       role="cell"
     >
       {{ item.propertyName }}
@@ -43,14 +43,14 @@
     </div>
 
     <div
-      class="sky-responsive-table-cell"
+      class="sky-table-cell"
       role="cell"
     >
       <ng-container [ngTemplateOutlet]="item.templateRef"></ng-container>
     </div>
 
     <div
-      class="sky-responsive-table-cell"
+      class="sky-table-cell"
       role="cell"
     >
       {{ item.defaultValue }}
@@ -63,32 +63,32 @@
   class="sky-property-definitions"
 >
   <table
-    class="sky-responsive-table"
+    class="sky-table"
   >
     <tr
-      class="sky-responsive-table-row"
+      class="sky-table-row"
     >
       <th
-        class="sky-responsive-table-cell sky-responsive-table-column-header"
+        class="sky-table-cell sky-table-column-header"
       >
-        Name
+        Property name
       </th>
       <th
-        class="sky-responsive-table-cell sky-responsive-table-column-header"
+        class="sky-table-cell sky-table-column-header"
       >
         Description
       </th>
       <th
-        class="sky-responsive-table-cell sky-responsive-table-column-header"
+        class="sky-table-cell sky-table-column-header"
       >
-        Default value
+        Data
       </th>
     </tr>
     <tr *ngFor="let item of data"
-      class="sky-responsive-table-row"
+      class="sky-table-row"
     >
       <td
-        class="sky-responsive-table-cell"
+        class="sky-table-cell"
       >
         <sky-code>{{ item.propertyName }}</sky-code>
         <div *ngIf="item.isRequired"
@@ -98,7 +98,7 @@
         </div>
       </td>
       <td
-        class="sky-responsive-table-cell"
+        class="sky-table-cell"
       >
         <ng-container
           [ngTemplateOutlet]="item.templateRef"
@@ -106,9 +106,26 @@
         </ng-container>
       </td>
       <td
-        class="sky-responsive-table-cell"
+        class="sky-table-cell"
       >
-        {{ item.defaultValue }}
+        <sky-definition-list>
+          <sky-definition-list-content>
+            <sky-definition-list-label>
+              Data type
+            </sky-definition-list-label>
+            <sky-definition-list-value>
+              {{ item.dataType }}
+            </sky-definition-list-value>
+          </sky-definition-list-content>
+          <sky-definition-list-content>
+            <sky-definition-list-label>
+              Default
+            </sky-definition-list-label>
+            <sky-definition-list-value>
+              {{ item.defaultValue }}
+            </sky-definition-list-value>
+          </sky-definition-list-content>
+        </sky-definition-list>
       </td>
     </tr>
   </table>

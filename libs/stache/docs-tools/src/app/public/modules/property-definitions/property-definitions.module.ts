@@ -11,25 +11,30 @@ import {
 } from '@blackbaud/skyux-lib-code-block';
 
 import {
+  SkyDefinitionListModule
+} from '@skyux/layout';
+
+import {
   SkyPropertyDefinitionComponent
 } from './property-definition.component';
 
 import {
-  SkyPropertyDefinitionsComponent
+  SkyDocsPropertyDefinitionsComponent
 } from './property-definitions.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    SkyCodeModule
+    SkyCodeModule,
+    SkyDefinitionListModule
   ],
   declarations: [
     SkyPropertyDefinitionComponent,
-    SkyPropertyDefinitionsComponent
+    SkyDocsPropertyDefinitionsComponent
   ],
   exports: [
     SkyPropertyDefinitionComponent,
-    SkyPropertyDefinitionsComponent
+    SkyDocsPropertyDefinitionsComponent
   ]
 })
-export class SkyPropertyDefinitionsModule { }
+export class SkyDocsPropertyDefinitionsModule { }

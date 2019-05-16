@@ -27,7 +27,7 @@ import {
 } from '@skyux/popovers';
 
 import {
-  SkyDemoPageModuleInfoComponent
+  SkyDocsModuleInfoComponent
 } from './module-info.component';
 
 @NgModule({
@@ -40,10 +40,10 @@ import {
     SkyPopoverModule
   ],
   declarations: [
-    SkyDemoPageModuleInfoComponent
+    SkyDocsModuleInfoComponent
   ],
   exports: [
-    SkyDemoPageModuleInfoComponent
+    SkyDocsModuleInfoComponent
   ]
 })
-export class SkyDemoPageModuleInfoModule { }
+export class SkyDocsModuleInfoModule { }

@@ -3,14 +3,14 @@ import {
 } from '@angular/core';
 
 import {
-  SkyDemoPageModule,
-  SkyPropertyDefinitionsModule
+  SkyDocsDemoPageModule,
+  SkyDocsPropertyDefinitionsModule
 } from './public';
 
 @NgModule({
   exports: [
-    SkyDemoPageModule,
-    SkyPropertyDefinitionsModule
+    SkyDocsDemoPageModule,
+    SkyDocsPropertyDefinitionsModule
   ]
 })
 export class AppExtrasModule { }

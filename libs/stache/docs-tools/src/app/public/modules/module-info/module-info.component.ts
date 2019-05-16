@@ -9,7 +9,7 @@ import {
   templateUrl: './module-info.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyDemoPageModuleInfoComponent {
+export class SkyDocsModuleInfoComponent {
 
   @Input()
   public gitRepoUrl: string;

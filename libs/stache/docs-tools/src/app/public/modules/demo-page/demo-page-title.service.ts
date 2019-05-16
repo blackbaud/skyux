@@ -7,7 +7,7 @@ import {
 } from '@angular/platform-browser';
 
 @Injectable()
-export class SkyDemoPageTitleService {
+export class SkyDocsDemoPageTitleService {
 
   constructor(
     private title: Title

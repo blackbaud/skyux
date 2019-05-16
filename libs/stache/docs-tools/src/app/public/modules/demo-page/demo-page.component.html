@@ -10,18 +10,30 @@
       <ng-content select="sky-demo-page-summary"></ng-content>
     </stache-page-summary>
 
-    <ng-container *ngIf="packageName">
-      <stache-page-anchor>
-        Installation
-      </stache-page-anchor>
+    <sky-demo-page-section
+      heading="Behavior demo"
+    >
+      <sky-docs-behavior-demo>
+      </sky-docs-behavior-demo>
+    </sky-demo-page-section>
 
+    <sky-demo-page-section *ngIf="packageName"
+      heading="Modules and installation"
+    >
       <sky-demo-page-module-info
         [gitRepoUrl]="gitRepoUrl"
         [moduleName]="moduleName"
         [packageName]="packageName"
       >
       </sky-demo-page-module-info>
-    </ng-container>
+    </sky-demo-page-section>
+
+    <sky-demo-page-section
+      heading="Code"
+    >
+      <sky-demo-page-code-example>
+      </sky-demo-page-code-example>
+    </sky-demo-page-section>
 
     <ng-content></ng-content>
   </stache>

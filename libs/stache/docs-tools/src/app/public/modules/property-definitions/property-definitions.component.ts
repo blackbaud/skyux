@@ -18,9 +18,10 @@ import {
   styleUrls: ['./property-definitions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyPropertyDefinitionsComponent implements AfterContentInit {
+export class SkyDocsPropertyDefinitionsComponent implements AfterContentInit {
 
   public data: {
+    dataType: string;
     defaultValue: string;
     isRequired: boolean;
     propertyName: string;
@@ -37,6 +38,7 @@ export class SkyPropertyDefinitionsComponent implements AfterContentInit {
   public ngAfterContentInit(): void {
     this.definitionRefs.forEach((definitionRef) => {
       this.data.push({
+        dataType: definitionRef.dataType,
         defaultValue: definitionRef.defaultValue,
         isRequired: definitionRef.isRequired,
         propertyName: definitionRef.propertyName,
