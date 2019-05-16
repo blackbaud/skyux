@@ -10,15 +10,21 @@ import {
   SkyDocsBehaviorDemoComponent
 } from './behavior-demo.component';
 
+import {
+  SkyDocsBehaviorDemoControlsComponent
+} from './behavior-demo-controls.component';
+
 @NgModule({
   imports: [
     CommonModule
   ],
   declarations: [
-    SkyDocsBehaviorDemoComponent
+    SkyDocsBehaviorDemoComponent,
+    SkyDocsBehaviorDemoControlsComponent
   ],
   exports: [
-    SkyDocsBehaviorDemoComponent
+    SkyDocsBehaviorDemoComponent,
+    SkyDocsBehaviorDemoControlsComponent
   ]
 })
 export class SkyDocsBehaviorDemoModule { }

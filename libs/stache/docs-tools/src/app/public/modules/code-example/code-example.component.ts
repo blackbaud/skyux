@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'sky-demo-page-code-example',
+  selector: 'sky-docs-code-example',
   templateUrl: './code-example.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
