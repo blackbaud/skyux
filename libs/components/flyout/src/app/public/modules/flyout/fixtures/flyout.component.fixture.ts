@@ -12,6 +12,10 @@ import {
 } from './flyout-hosts.component.fixture';
 
 import {
+  SkyFlyoutInstance
+} from '../flyout-instance';
+
+import {
   SkyFlyoutTestSampleComponent
 } from './flyout-sample.component.fixture';
 
@@ -25,11 +29,11 @@ export class SkyFlyoutTestComponent {
     private flyoutService: SkyFlyoutService
   ) { }
 
-  public openFlyout(options?: SkyFlyoutConfig) {
+  public openFlyout(options?: SkyFlyoutConfig): SkyFlyoutInstance<any> {
     return this.flyoutService.open(SkyFlyoutTestSampleComponent, options);
   }
 
-  public openHostsFlyout() {
+  public openHostsFlyout(): SkyFlyoutInstance<any> {
     return this.flyoutService.open(SkyFlyoutHostsTestComponent);
   }
 }

@@ -80,12 +80,12 @@ export class SkyFlyoutInstance<T> implements OnDestroy {
     });
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this._iteratorPreviousButtonClick.complete();
     this._iteratorNextButtonClick.complete();
   }
 
-  public close() {
+  public close(): void {
     this.hostController.next({
       type: SkyFlyoutMessageType.Close
     });

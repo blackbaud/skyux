@@ -31,6 +31,10 @@ import {
 } from './visual/flyout/flyout-demo.component';
 
 import {
+  FlyoutResponsiveDemoComponent
+} from './visual/flyout/flyout-responsive-demo.component';
+
+import {
   SkyFlyoutModalDemoComponent
 } from './visual/flyout/flyout-modal.component';
 
@@ -48,6 +52,7 @@ import {
   ],
   entryComponents: [
     FlyoutDemoComponent,
+    FlyoutResponsiveDemoComponent,
     SkyFlyoutModalDemoComponent
   ]
 })

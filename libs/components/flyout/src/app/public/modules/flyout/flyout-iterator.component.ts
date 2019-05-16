@@ -34,18 +34,18 @@ export class SkyFlyoutIteratorComponent implements OnDestroy {
 
   constructor() {}
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this._previousButtonClick.complete();
     this._nextButtonClick.complete();
   }
 
-  public onIteratorPreviousClick() {
+  public onIteratorPreviousClick(): void {
     if (!this.previousButtonDisabled) {
       this._previousButtonClick.emit();
     }
   }
 
-  public onIteratorNextClick() {
+  public onIteratorNextClick(): void {
     if (!this.nextButtonDisabled) {
       this._nextButtonClick.emit();
     }

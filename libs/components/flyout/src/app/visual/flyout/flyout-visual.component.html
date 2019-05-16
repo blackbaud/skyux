@@ -1,34 +1,100 @@
-<div id="screenshot-flyout" style="height: 500px;">
-  <div *ngFor="let user of users"
-    class="sky-flyout-demo-item"
-  >
-    <button
-      class="sky-btn sky-btn-primary"
-      type="button"
-      (click)="openFlyout(user)"
+<div
+  id="screenshot-flyout"
+  style="height: 500px;"
+>
+  <ng-container *ngIf="showButtons">
+    <div *ngFor="let user of users"
+      class="sky-flyout-demo-item"
     >
-      {{ user.name }}
-    </button>
-  </div>
+      <button
+        class="sky-btn sky-btn-primary"
+        type="button"
+        (click)="openFlyout(user)"
+      >
+        {{ user.name }}
+      </button>
+    </div>
 
-  <div
-    class="sky-flyout-demo-item"
-  >
-    <button
-      class="sky-btn sky-btn-primary"
-      id="open-flyout-with-iterators"
-      type="button"
-      (click)="openFlyoutWithIterators(users[0], false, false)"
+    <div
+      class="sky-flyout-demo-item"
     >
-      Open flyout with row iterators enabled
-    </button>
-    <button
-      class="sky-btn sky-btn-primary"
-      id="open-flyout-with-iterators-disabled"
-      type="button"
-      (click)="openFlyoutWithIterators(users[0], true, true)"
+      <button
+        class="sky-btn sky-btn-primary"
+        id="open-flyout-with-iterators"
+        type="button"
+        (click)="openFlyoutWithIterators(users[0], false, false)"
+      >
+        Open flyout with row iterators enabled
+      </button>
+      <button
+        class="sky-btn sky-btn-primary"
+        id="open-flyout-with-iterators-disabled"
+        type="button"
+        (click)="openFlyoutWithIterators(users[0], true, true)"
+      >
+        Open flyout with row iterators disabled
+      </button>
+    </div>
+
+    <div
+      class="sky-flyout-demo-item"
     >
-      Open flyout with row iterators disabled
-    </button>
-  </div>
+      <button
+        class="sky-btn sky-btn-primary"
+        id="open-responsive-flyout-xs"
+        type="button"
+        (click)="openResponsiveFlyout(700)"
+      >
+        Open flyout with xs responsive content
+      </button>
+      <button
+        class="sky-btn sky-btn-primary"
+        id="open-responsive-flyout-sm"
+        type="button"
+        (click)="openResponsiveFlyout(768)"
+      >
+        Open flyout with sm responsive content
+      </button>
+      <button
+        class="sky-btn sky-btn-primary"
+        id="open-responsive-flyout-md"
+        type="button"
+        (click)="openResponsiveFlyout(992)"
+      >
+        Open flyout with md responsive content
+      </button>
+      <button
+        class="sky-btn sky-btn-primary"
+        id="open-responsive-flyout-lg"
+        type="button"
+        (click)="openResponsiveFlyout(1200)"
+      >
+        Open flyout with lg responsive content
+      </button>
+    </div>
+    <div
+      class="sky-flyout-demo-item"
+    >
+      <button
+        class="sky-btn sky-btn-primary"
+        type="button"
+        (click)="toggleButtons()"
+      >
+        Hide Buttons
+      </button>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="!showButtons">
+    <div
+      class="sky-flyout-demo-item"
+    >
+      <button
+        class="sky-btn sky-btn-primary"
+        type="button"
+        (click)="toggleButtons()"
+      >
+        Show Buttons
+      </button>
+    </div>
+  </ng-container>
 </div>

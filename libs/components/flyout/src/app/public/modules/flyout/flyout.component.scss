@@ -15,7 +15,7 @@
     outline: none;
   }
 
-  @media (max-width: $sky-screen-sm-min) {
+  @media (max-width: $sky-screen-xs-max) {
     min-width: 100%;
     max-width: 100%;
   }
@@ -87,7 +87,7 @@
     display: none;
   }
 
-  @media (max-width: $sky-screen-sm-min) {
+  @media (max-width: $sky-screen-xs-max) {
     cursor: initial;
   }
 }

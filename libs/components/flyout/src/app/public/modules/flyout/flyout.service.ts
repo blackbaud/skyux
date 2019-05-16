@@ -99,7 +99,7 @@ export class SkyFlyoutService implements OnDestroy {
     return this.host;
   }
 
-  private removeHostComponent() {
+  private removeHostComponent(): void {
     if (this.host) {
       this.dynamicComponentService.removeComponent(this.host);
       this.host = undefined;
@@ -137,7 +137,7 @@ export class SkyFlyoutService implements OnDestroy {
     }
   }
 
-  private removeListners() {
+  private removeListners(): void {
     this.idled.next(true);
     this.idled.unsubscribe();
     this.idled = new Subject<boolean>();

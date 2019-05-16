@@ -35,7 +35,7 @@ export class SkyFlyoutHostsTestComponent {
     private toastService: SkyToastService
   ) { }
 
-  public openModal() {
+  public openModal(): void {
     const context = new SkyFlyoutModalFixtureContext();
     context.valueA = 'Hello';
 
