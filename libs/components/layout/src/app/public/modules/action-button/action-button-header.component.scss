@@ -1,20 +1,20 @@
 @import "~@skyux/theme/scss/mixins";
 @import "~@skyux/theme/scss/_compat/mixins";
 
-.sky-action-button-header {
-  display: inline-block;
-}
-
-@media (max-width: $sky-screen-xs-max) {
+@include sky-host-responsive-container-xs-min() {
   .sky-action-button-header {
+    display: inline-block;
     margin-left: $sky-margin-half;
     margin-right: $sky-margin-half;
+    margin-bottom: initial;
   }
 }
 
-@media (min-width: $sky-screen-sm-min) {
+@include sky-host-responsive-container-sm-min() {
   .sky-action-button-header {
     display: block;
+    margin-left: initial;
+    margin-right: initial;
     margin-bottom: $sky-margin-double;
   }
 }

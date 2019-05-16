@@ -2,7 +2,7 @@
 
 @mixin create_columns($screen-size: sm) {
   @for $i from 1 through $sky-fluid-grid-columns {
-    :host.sky-column-#{$screen-size}-#{$i} {
+    &.sky-column-#{$screen-size}-#{$i} {
       width: ($i / $sky-fluid-grid-columns) * 100%;
     }
   }
@@ -15,16 +15,26 @@
   min-height: 1px;
 }
 
-@include create_columns(xs);
+@include sky-host-responsive-container-xs-min() {
+  @include create_columns(xs);
 
-@media (min-width: $sky-screen-sm-min) {
+  // This is needed for operation inside a reactive container. Without it the media breakpoint
+  // will be used and the screen size version takes over.
+  @for $i from 1 through $sky-fluid-grid-columns {
+    &:not([class*="sky-column-xs-"]) {
+      width: 100%;
+    }
+  }
+}
+
+@include sky-host-responsive-container-sm-min() {
   @include create_columns(sm);
 }
 
-@media (min-width: $sky-screen-md-min) {
+@include sky-host-responsive-container-md-min() {
   @include create_columns(md);
 }
 
-@media (min-width: $sky-screen-lg-min) {
+@include sky-host-responsive-container-lg-min() {
   @include create_columns(lg);
 }

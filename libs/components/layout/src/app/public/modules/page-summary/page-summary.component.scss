@@ -11,11 +11,22 @@
   display: flex;
 }
 
-.sky-page-summary-left {
-  flex-basis: 100%;
+@include sky-host-responsive-container-xs-min() {
+  .sky-page-summary-left {
+    flex-basis: 100%;
+    display: initial;
+    align-items: initial;
+  }
+
+  .sky-page-summary-with-key-info {
+    .sky-page-summary-left {
+      flex-basis: 100%;
+      padding-right: initial;
+    }
+  }
 }
 
-@media (min-width: $sky-screen-sm-min) {
+@include sky-host-responsive-container-sm-min() {
 
   .sky-page-summary-with-key-info {
     .sky-page-summary-left {
