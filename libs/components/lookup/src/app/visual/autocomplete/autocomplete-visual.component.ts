@@ -2,6 +2,10 @@ import {
   Component
 } from '@angular/core';
 
+import {
+  SkyAutocompleteSelectionChange
+} from '../../public';
+
 @Component({
   selector: 'autocomplete-visual',
   templateUrl: './autocomplete-visual.component.html'
@@ -20,4 +24,8 @@ export class AutocompleteVisualComponent {
     { name: 'White' },
     { name: 'Black' }
   ];
+
+  public onSelectionChange(change: SkyAutocompleteSelectionChange): void {
+    console.log(change);
+  }
 }

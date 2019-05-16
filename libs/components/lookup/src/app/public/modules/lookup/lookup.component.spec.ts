@@ -149,6 +149,21 @@ describe('Lookup component', function () {
       expect(selectedItems[0].name).toEqual('Isaac');
     }));
 
+    it('should NOT add new tokens if value is empty', fakeAsync(function () {
+      fixture.detectChanges();
+      expect(lookupComponent.value).toEqual([]);
+
+      performSearch('s');
+      selectSearchResult(0);
+
+      performSearch('');
+      getInputElement().blur();
+
+      const selectedItems = lookupComponent.value;
+      expect(selectedItems.length).toEqual(1);
+      expect(selectedItems[0].name).toEqual('Isaac');
+    }));
+
     it('should change the value of the lookup if tokens change', fakeAsync(function () {
       fixture.detectChanges();
       expect(lookupComponent.value).toEqual([]);

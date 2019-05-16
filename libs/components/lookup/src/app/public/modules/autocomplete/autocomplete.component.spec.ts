@@ -437,6 +437,37 @@ describe('Autocomplete component', () => {
       expect(spy).toHaveBeenCalled();
       expect(spy.calls.count()).toEqual(1);
     }));
+
+    it('should emit an undefined value when text input is cleared',
+      fakeAsync(() => {
+        fixture.detectChanges();
+        const inputElement = getInputElement();
+
+        // No changes should have been emitted yet.
+        expect(component.selectionFromChangeEvent).toBeUndefined();
+
+        // Type 'r' to activate the autocomplete dropdown, then click the first result.
+        inputElement.value = 'r';
+        SkyAppTestUtility.fireDomEvent(inputElement, 'keyup');
+        tick();
+        fixture.detectChanges();
+        const firstItem = getAutocompleteElement()
+          .querySelector('.sky-dropdown-item') as HTMLElement;
+        firstItem.querySelector('button').click();
+        tick();
+
+        // Expect new changes to have been emitted.
+        expect(component.selectionFromChangeEvent).toEqual({ selectedItem: { name: 'Red', objectid: 'abc' } });
+
+        // Clear out the input.
+        input.textValue = '';
+        SkyAppTestUtility.fireDomEvent(inputElement, 'keyup');
+        tick();
+
+        // An undefined selectedItem should have been emitted.
+        expect(component.selectionFromChangeEvent).toEqual({ selectedItem: undefined });
+      })
+    );
   });
 
   describe('keyboard interactions', () => {

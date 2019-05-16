@@ -46,6 +46,7 @@ export class SkyAutocompleteTestComponent {
   public searchResultsLimit: number;
   public searchResultTemplate: TemplateRef<any>;
   public searchTextMinimumCharacters: number;
+  public selectionFromChangeEvent: SkyAutocompleteSelectionChange;
 
   @ViewChild(SkyAutocompleteComponent)
   public autocomplete: SkyAutocompleteComponent;
@@ -59,5 +60,7 @@ export class SkyAutocompleteTestComponent {
   @ViewChild('customSearchResultTemplate')
   public customSearchResultTemplate: TemplateRef<any>;
 
-  public onSelectionChange(event: SkyAutocompleteSelectionChange): void { }
+  public onSelectionChange(event: SkyAutocompleteSelectionChange): void {
+    this.selectionFromChangeEvent = event;
+  }
 }
