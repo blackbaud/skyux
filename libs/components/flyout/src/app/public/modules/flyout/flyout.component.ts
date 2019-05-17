@@ -64,6 +64,7 @@ import {
 
 const FLYOUT_OPEN_STATE = 'flyoutOpen';
 const FLYOUT_CLOSED_STATE = 'flyoutClosed';
+
 let nextId = 0;
 
 @Component({
