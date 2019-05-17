@@ -1,6 +1,10 @@
+# 3.1.0 (2019-05-17)
+
+- Added the ability to trigger responsive styles based on a parent component. [#29](https://github.com/blackbaud/skyux-tiles/pull/29)
+
 # 3.0.1 (2019-01-18)
 
-- Fixed tile header component to align title on baseline in Microsoft Edge and IE 11. [#25](https://github.com/blackbaud/skyux-tiles/pull/25)
+- Fixed the tile header component to align the title on the baseline in Microsoft Edge and IE 11. [#25](https://github.com/blackbaud/skyux-tiles/pull/25)
 
 # 3.0.0 (2019-01-14)
 
@@ -8,11 +12,11 @@
 
 # 3.0.0-rc.6 (2018-12-06)
 
-- Fixed tile component's help button to display by default when consumer provides `helpClick` listener. [#18](https://github.com/blackbaud/skyux-tiles/pull/18)
+- Fixed the tile component's help button to display by default when the consumer provides `helpClick` listener. [#18](https://github.com/blackbaud/skyux-tiles/pull/18)
 
 # 3.0.0-rc.5 (2018-12-04)
 
-- Added UI config service hooks to tile dashboard service. [#11](https://github.com/blackbaud/skyux-tiles/pull/11)
+- Added UI config service hooks to the tile dashboard service. [#11](https://github.com/blackbaud/skyux-tiles/pull/11)
 
 # 3.0.0-rc.4 (2018-12-03)
 
@@ -24,7 +28,7 @@
 
 # 3.0.0-rc.2 (2018-10-25)
 
-- Updated drag handle to have a more reliable click target. [#9](https://github.com/blackbaud/skyux-tiles/pull/9)
+- Updated the drag handle to have a more reliable click target. [#9](https://github.com/blackbaud/skyux-tiles/pull/9)
 
 # 3.0.0-rc.1 (2018-10-18)
 
