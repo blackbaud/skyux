@@ -59,6 +59,9 @@ describe('Flyout service', () => {
     });
 
     service = TestBed.get(SkyFlyoutService);
+
+    // Needed in order to fix an odd timing issue in IE
+    spyOnProperty(window, 'innerWidth', 'get').and.returnValue(1100);
   });
 
   beforeEach(

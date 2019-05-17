@@ -1,6 +1,10 @@
+# 3.1.0 (2019-05-17)
+
+- Added the ability for the flyout component to trigger its child components' responsive styles. [#31](https://github.com/blackbaud/skyux-flyout/pull/31)
+
 # 3.0.3 (2019-04-25)
 
-- Fixed flyout component to remain open when users click internal components. [#30](https://github.com/blackbaud/skyux-flyout/pull/30)
+- Fixed the flyout component to remain open when users click internal components. [#30](https://github.com/blackbaud/skyux-flyout/pull/30)
 
 # 3.0.2 (2019-04-15)
 
@@ -8,7 +12,7 @@
 
 # 3.0.1 (2019-03-20)
 
-- Fixed flyout component to close when navigation occurs. [#22](https://github.com/blackbaud/skyux-flyout/pull/22)
+- Fixed the flyout component to close when navigation occurs. [#22](https://github.com/blackbaud/skyux-flyout/pull/22)
 
 # 3.0.0 (2019-01-11)
 
@@ -16,17 +20,17 @@
 
 # 3.0.0-rc.5 (2019-01-10)
 
-- Updated flyout component to improve performance. [#16](https://github.com/blackbaud/skyux-flyout/pull/16)
-- Fixed styles on flyout component's resize handle in Firefox. [#15](https://github.com/blackbaud/skyux-flyout/pull/15)
+- Updated the flyout component to improve performance. [#16](https://github.com/blackbaud/skyux-flyout/pull/16)
+- Fixed styles on the flyout component's resize handle in Firefox. [#15](https://github.com/blackbaud/skyux-flyout/pull/15)
 
 # 3.0.0-rc.4 (2018-12-20)
 
 - Added iterator buttons to the flyout component. [#10](https://github.com/blackbaud/skyux-flyout/pull/10) (Thanks @Theaggarwal)
-- Updated flyout service to utilize `SkyDynamicComponentService`. [#9](https://github.com/blackbaud/skyux-flyout/pull/9)
+- Updated the flyout service to utilize `SkyDynamicComponentService`. [#9](https://github.com/blackbaud/skyux-flyout/pull/9)
 
 # 3.0.0-rc.3 (2018-11-20)
 
-- Fixed flyout component to not close when an overlay above it is clicked. [#3](https://github.com/blackbaud/skyux-flyout/pull/3)
+- Fixed the flyout component to not close when an overlay above it is clicked. [#3](https://github.com/blackbaud/skyux-flyout/pull/3)
 
 # 3.0.0-rc.2 (2018-11-08)
 
