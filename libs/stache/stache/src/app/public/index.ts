@@ -45,3 +45,5 @@ export * from './modules/tutorial/tutorial.module';
 export * from './modules/tutorial-step/tutorial-step.module';
 
 export * from './modules/wrapper/wrapper.module';
+
+export * from './stache.module';
