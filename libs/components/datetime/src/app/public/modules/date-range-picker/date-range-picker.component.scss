@@ -8,9 +8,9 @@
 }
 
 .sky-date-range-picker-form-group {
-  flex: 1 1 auto;
   padding-left: $sky-padding-half;
   padding-right: $sky-padding-half;
+  flex-basis: calc(100% / 3);
 }
 
 @media (max-width: $sky-screen-xs-max) {
@@ -20,6 +20,7 @@
 
   .sky-date-range-picker-form-group {
     margin-bottom: $sky-margin;
+    flex-basis: 100%;
 
     &:last-child {
       margin-bottom: 0;
