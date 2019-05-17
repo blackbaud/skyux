@@ -120,11 +120,11 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
     // this fixes an animation bug with ngIf when the parent component goes from visible to hidden
     this._openBeforeTabsHidden = this.open;
     this.open = false;
-    this.changeRef.detectChanges();
+    this.changeRef.markForCheck();
   }
 
   public tabsShown = () => {
     this.open = this._openBeforeTabsHidden;
-    this.changeRef.detectChanges();
+    this.changeRef.markForCheck();
   }
 }

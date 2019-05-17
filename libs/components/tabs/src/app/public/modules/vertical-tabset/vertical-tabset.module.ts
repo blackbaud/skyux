@@ -11,12 +11,13 @@ import {
 } from '@angular/platform-browser/animations';
 
 import {
-  SkyChevronModule
-} from '@skyux/indicators/modules/chevron';
+  SkyMediaQueryModule
+} from '@skyux/core';
 
 import {
+  SkyChevronModule,
   SkyIconModule
-} from '@skyux/indicators/modules/icon';
+} from '@skyux/indicators';
 
 import {
   SkyTabsResourcesModule
@@ -45,6 +46,7 @@ import {
     BrowserAnimationsModule,
     SkyChevronModule,
     SkyIconModule,
+    SkyMediaQueryModule,
     SkyTabsResourcesModule
   ],
   exports: [

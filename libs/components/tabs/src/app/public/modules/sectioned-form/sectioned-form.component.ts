@@ -21,8 +21,6 @@ import {
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
 
-import { SkyMediaQueryService } from '@skyux/core/modules/media-query/media-query.service';
-
 import {
   SkyVerticalTabsetService,
   VISIBLE_STATE
@@ -32,7 +30,7 @@ import {
   selector: 'sky-sectioned-form',
   templateUrl: './sectioned-form.component.html',
   styleUrls: ['./sectioned-form.component.scss'],
-  providers: [SkyVerticalTabsetService, SkyMediaQueryService],
+  providers: [SkyVerticalTabsetService],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger(
@@ -84,13 +82,13 @@ export class SkySectionedFormComponent implements OnInit, OnDestroy, AfterViewCh
       .takeUntil(this._ngUnsubscribe)
       .subscribe((mobile: boolean) => {
         this.isMobile = mobile;
-        this.changeRef.detectChanges();
+        this.changeRef.markForCheck();
       });
 
     if (this.tabService.isMobile()) {
       this.isMobile = true;
       this.tabService.animationVisibleState = VISIBLE_STATE;
-      this.changeRef.detectChanges();
+      this.changeRef.markForCheck();
     }
   }
 
@@ -105,6 +103,7 @@ export class SkySectionedFormComponent implements OnInit, OnDestroy, AfterViewCh
   }
 
   public tabsVisible() {
+    this.changeRef.markForCheck();
     return this.tabService.tabsVisible();
   }
 

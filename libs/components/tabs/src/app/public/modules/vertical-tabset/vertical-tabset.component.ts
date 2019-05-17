@@ -29,13 +29,11 @@ import {
   VISIBLE_STATE
 } from './vertical-tabset.service';
 
-import { SkyMediaQueryService } from '@skyux/core/modules/media-query/media-query.service';
-
 @Component({
   selector: 'sky-vertical-tabset',
   templateUrl: './vertical-tabset.component.html',
   styleUrls: ['./vertical-tabset.component.scss'],
-  providers: [SkyVerticalTabsetService, SkyMediaQueryService],
+  providers: [SkyVerticalTabsetService],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger(
@@ -102,13 +100,13 @@ export class SkyVerticalTabsetComponent implements OnInit, AfterViewChecked, OnD
       .takeUntil(this._ngUnsubscribe)
       .subscribe((mobile: boolean) => {
         this.isMobile = mobile;
-        this.changeRef.detectChanges();
+        this.changeRef.markForCheck();
       });
 
     if (this.tabService.isMobile()) {
       this.isMobile = true;
       this.tabService.animationVisibleState = VISIBLE_STATE;
-      this.changeRef.detectChanges();
+      this.changeRef.markForCheck();
     }
     if (!this.showTabsText) {
       this.resources.getString('skyux_vertical_tabs_show_tabs_text').take(1).subscribe(resource => {

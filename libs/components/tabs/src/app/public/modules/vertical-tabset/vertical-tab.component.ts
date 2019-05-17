@@ -87,12 +87,12 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.isMobile = this.tabsetService.isMobile();
-    this.changeRef.detectChanges();
+    this.changeRef.markForCheck();
 
     this.tabsetService.switchingMobile
       .subscribe((mobile: boolean) => {
         this.isMobile = mobile;
-        this.changeRef.detectChanges();
+        this.changeRef.markForCheck();
       });
 
     this.tabsetService.addTab(this);
@@ -120,6 +120,6 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   }
 
   public tabDeactivated() {
-    this.changeRef.detectChanges();
+    this.changeRef.markForCheck();
   }
 }

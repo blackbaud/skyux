@@ -4,6 +4,7 @@ import { MockSkyMediaQueryService } from '@skyux/core/testing/mock-media-query.s
 
 class MockChangeDetector {
   public detectChanges() {}
+  public markForCheck() {}
 }
 
 describe('Vertical tabset service', () => {

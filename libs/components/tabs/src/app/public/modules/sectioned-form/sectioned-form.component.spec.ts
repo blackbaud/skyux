@@ -192,7 +192,7 @@ describe('Sectioned form component', () => {
   });
 
   it('should have a visible animation state on load in mobile', () => {
-    mockQueryService.current = SkyMediaBreakpoints.xs;
+    mockQueryService.fire(SkyMediaBreakpoints.xs);
     let fixture = createTestComponent();
 
     fixture.detectChanges();
@@ -201,7 +201,7 @@ describe('Sectioned form component', () => {
   });
 
   it('should hide content and show tabs on mobile after calling showtabs function', () => {
-    mockQueryService.current = SkyMediaBreakpoints.xs;
+    mockQueryService.fire(SkyMediaBreakpoints.xs);
     let fixture = createTestComponent();
     let el = fixture.nativeElement;
 
@@ -228,7 +228,7 @@ describe('Sectioned form component', () => {
   });
 
   it('should not use tab aria-associations and roles in mobile view', () => {
-    mockQueryService.current = SkyMediaBreakpoints.xs;
+    mockQueryService.fire(SkyMediaBreakpoints.xs);
     let fixture = createTestComponent();
     let el = fixture.nativeElement;
     fixture.detectChanges();
@@ -299,7 +299,7 @@ describe('Sectioned form component', () => {
   });
 
   it('should show content after resizing screen', () => {
-    mockQueryService.current = SkyMediaBreakpoints.xs;
+    mockQueryService.fire(SkyMediaBreakpoints.xs);
     let fixture = createTestComponent();
     let el = fixture.nativeElement;
 
@@ -310,7 +310,7 @@ describe('Sectioned form component', () => {
     fixture.detectChanges();
 
     // resize screen out of mobile
-    mockQueryService.current = SkyMediaBreakpoints.lg;
+    mockQueryService.fire(SkyMediaBreakpoints.lg);
     fixture.detectChanges();
     fixture.componentInstance.sectionedForm.tabService.updateContent();
     fixture.detectChanges();
@@ -321,7 +321,7 @@ describe('Sectioned form component', () => {
     expect(content[0].textContent.trim()).toBe('information 2');
 
     // resize back to mobile
-    mockQueryService.current = SkyMediaBreakpoints.xs;
+    mockQueryService.fire(SkyMediaBreakpoints.xs);
     fixture.detectChanges();
     fixture.componentInstance.sectionedForm.tabService.updateContent();
     fixture.detectChanges();
@@ -331,7 +331,7 @@ describe('Sectioned form component', () => {
     expect(content.length).toBe(0);
 
     // resize to widescreen
-    mockQueryService.current = SkyMediaBreakpoints.lg;
+    mockQueryService.fire(SkyMediaBreakpoints.lg);
     fixture.detectChanges();
     fixture.componentInstance.sectionedForm.tabService.updateContent();
     fixture.detectChanges();

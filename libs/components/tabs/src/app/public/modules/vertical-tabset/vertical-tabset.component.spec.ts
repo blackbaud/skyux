@@ -34,7 +34,7 @@ import {
   expect
 } from '@skyux-sdk/testing';
 
-let mockQueryService = new MockSkyMediaQueryService();
+let mockQueryService: MockSkyMediaQueryService;
 
 function getVisibleVerticalTabs(el: any) {
   return el.querySelectorAll('.sky-vertical-tab-content-pane:not(.sky-vertical-tab-hidden)');
@@ -42,6 +42,7 @@ function getVisibleVerticalTabs(el: any) {
 
 describe('Vertical tabset component', () => {
   beforeEach(() => {
+    mockQueryService  = new MockSkyMediaQueryService();
     TestBed.configureTestingModule({
       imports: [
         SkyVerticalTabsFixturesModule
@@ -64,7 +65,7 @@ describe('Vertical tabset component', () => {
   }
 
   it('first tab in open group should be selected', () => {
-    mockQueryService.current = SkyMediaBreakpoints.lg;
+    mockQueryService.fire(SkyMediaBreakpoints.lg);
     let fixture = createTestComponent();
     let el = fixture.nativeElement as HTMLElement;
 
@@ -81,7 +82,7 @@ describe('Vertical tabset component', () => {
   });
 
   it('open second tab in second group', () => {
-    mockQueryService.current = SkyMediaBreakpoints.lg;
+    mockQueryService.fire(SkyMediaBreakpoints.lg);
     let fixture = createTestComponent();
     fixture.detectChanges();
     let el = fixture.nativeElement;
@@ -114,7 +115,7 @@ describe('Vertical tabset component', () => {
   });
 
   it('should pass through aria inputs, id, and set role', () => {
-    mockQueryService.current = SkyMediaBreakpoints.lg;
+    mockQueryService.fire(SkyMediaBreakpoints.lg);
     let fixture = createTestComponent();
     let el = fixture.nativeElement as HTMLElement;
 
@@ -130,7 +131,7 @@ describe('Vertical tabset component', () => {
   });
 
   it('check closing of group', () => {
-    mockQueryService.current = SkyMediaBreakpoints.lg;
+    mockQueryService.fire(SkyMediaBreakpoints.lg);
     let fixture = createTestComponent();
     let el = fixture.nativeElement;
 
@@ -148,7 +149,7 @@ describe('Vertical tabset component', () => {
   });
 
   it('disabled group should not open when clicked', () => {
-    mockQueryService.current = SkyMediaBreakpoints.lg;
+    mockQueryService.fire(SkyMediaBreakpoints.lg);
     let fixture = createTestComponent();
     let el = fixture.nativeElement;
 
@@ -166,7 +167,7 @@ describe('Vertical tabset component', () => {
   });
 
   it('mobile button should not be visible on wide screen', () => {
-    mockQueryService.current = SkyMediaBreakpoints.lg;
+    mockQueryService.fire(SkyMediaBreakpoints.lg);
     let fixture = createTestComponent();
     let el = fixture.nativeElement;
 
@@ -178,7 +179,7 @@ describe('Vertical tabset component', () => {
   });
 
   it('mobile button should be visible on small screen', () => {
-    mockQueryService.current = SkyMediaBreakpoints.xs;
+    mockQueryService.fire(SkyMediaBreakpoints.xs);
     let fixture = createTestComponent();
     let el = fixture.nativeElement;
 
@@ -200,7 +201,7 @@ describe('Vertical tabset component', () => {
   });
 
   it('show tabs button should show tabs on mobile', () => {
-    mockQueryService.current = SkyMediaBreakpoints.xs;
+    mockQueryService.fire(SkyMediaBreakpoints.xs);
     let fixture = createTestComponent();
     let el = fixture.nativeElement;
 
@@ -231,7 +232,7 @@ describe('Vertical tabset component', () => {
   });
 
   it('clicking a tab in mobile should show content and hides tabs', () => {
-    mockQueryService.current = SkyMediaBreakpoints.xs;
+    mockQueryService.fire(SkyMediaBreakpoints.xs);
     let fixture = createTestComponent();
     let el = fixture.nativeElement;
 
@@ -260,7 +261,7 @@ describe('Vertical tabset component', () => {
   });
 
   it('tabs should not have tab aria associations and roles in mobile view', () => {
-    mockQueryService.current = SkyMediaBreakpoints.xs;
+    mockQueryService.fire(SkyMediaBreakpoints.xs);
     let fixture = createTestComponent();
     let el = fixture.nativeElement;
 
@@ -278,14 +279,14 @@ describe('Vertical tabset component', () => {
   });
 
   it('should hide tabs when switching from widescreen to mobile', () => {
-    mockQueryService.current = SkyMediaBreakpoints.lg;
+    mockQueryService.fire(SkyMediaBreakpoints.lg);
     let fixture = createTestComponent();
     let el = fixture.nativeElement;
 
     fixture.detectChanges();
 
     // simulate screensize change switching to mobile
-    mockQueryService.current = SkyMediaBreakpoints.xs;
+    mockQueryService.fire(SkyMediaBreakpoints.xs);
     fixture.componentInstance.tabset.tabService.updateContent();
     fixture.detectChanges();
 
@@ -304,14 +305,14 @@ describe('Vertical tabset component', () => {
   });
 
   it('should show tabs and hide tab list button when switching from mobile to widescreen', () => {
-    mockQueryService.current = SkyMediaBreakpoints.xs;
+    mockQueryService.fire(SkyMediaBreakpoints.xs);
     let fixture = createTestComponent();
     let el = fixture.nativeElement;
 
     fixture.detectChanges();
 
     // simulate screensize change switching to widescreen
-    mockQueryService.current = SkyMediaBreakpoints.lg;
+    mockQueryService.fire(SkyMediaBreakpoints.lg);
     fixture.componentInstance.tabset.tabService.updateContent();
     fixture.detectChanges();
 
@@ -330,7 +331,7 @@ describe('Vertical tabset component', () => {
   });
 
   it('should deactivate active tab when another tab is clicked', () => {
-    mockQueryService.current = SkyMediaBreakpoints.lg;
+    mockQueryService.fire(SkyMediaBreakpoints.lg);
     let fixture = createTestComponent();
     fixture.detectChanges();
     let el = fixture.nativeElement;
@@ -369,7 +370,7 @@ describe('Vertical tabset component', () => {
   });
 
   it('should display tab header count when defined', () => {
-    mockQueryService.current = SkyMediaBreakpoints.lg;
+    mockQueryService.fire(SkyMediaBreakpoints.lg);
     let fixture = createTestComponent();
     let el = fixture.nativeElement as HTMLElement;
 
@@ -383,7 +384,7 @@ describe('Vertical tabset component', () => {
   });
 
   it('should not display tab header count when not defined', () => {
-    mockQueryService.current = SkyMediaBreakpoints.lg;
+    mockQueryService.fire(SkyMediaBreakpoints.lg);
     let fixture = createTestComponent();
     let el = fixture.nativeElement;
 
@@ -410,7 +411,7 @@ describe('Vertical tabset component', () => {
   });
 
   it('should not activate tab when disabled', () => {
-    mockQueryService.current = SkyMediaBreakpoints.lg;
+    mockQueryService.fire(SkyMediaBreakpoints.lg);
     let fixture = createTestComponent();
     let el = fixture.nativeElement;
 

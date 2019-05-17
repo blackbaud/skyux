@@ -31,9 +31,32 @@ export class SkyVerticalTabsetService {
 
   private _tabsVisible: boolean = false;
   private _contentAdded: boolean = false;
-  private _isWidescreen: boolean = false;
+  private _isMobile: boolean = false;
 
-  public constructor(private mediaQueryService: SkyMediaQueryService) {}
+  public constructor(private mediaQueryService: SkyMediaQueryService) {
+    this.mediaQueryService.subscribe(breakpoint => {
+      const nowMobile = breakpoint === SkyMediaBreakpoints.xs;
+
+      if (nowMobile && !this._isMobile) {
+        // switching to mobile
+        this.switchingMobile.next(true);
+
+        if (!this._tabsVisible) {
+          this.hidingTabs.next(true);
+        }
+
+      } else if (!nowMobile && this._isMobile) {
+        // switching to widescreen
+        this.switchingMobile.next(false);
+
+        if (!this._tabsVisible) {
+          this.showingTabs.next(true);
+        }
+      }
+
+      this._isMobile = nowMobile;
+    });
+  }
 
   public addTab(tab: SkyVerticalTabComponent) {
     const index = this.tabs.length;
@@ -73,7 +96,7 @@ export class SkyVerticalTabsetService {
   }
 
   public isMobile() {
-    return this.mediaQueryService.current === SkyMediaBreakpoints.xs;
+    return this._isMobile;
   }
 
   public updateContent() {
@@ -85,27 +108,6 @@ export class SkyVerticalTabsetService {
       // content hidden
       this._contentAdded = false;
     }
-
-    const mobile = this.isMobile();
-
-    if (mobile && this._isWidescreen) {
-      // switching to mobile
-      this.switchingMobile.next(true);
-
-      if (!this.tabsVisible()) {
-        this.hidingTabs.next(true);
-      }
-
-    } else if (!mobile && !this._isWidescreen) {
-      // switching to widescreen
-      this.switchingMobile.next(false);
-
-      if (!this._tabsVisible) {
-        this.showingTabs.next(true);
-      }
-    }
-
-    this._isWidescreen = !mobile;
   }
 
   public tabsVisible() {
