@@ -1,0 +1,21 @@
+
+<form
+  novalidate
+  [formGroup]="reactiveForm"
+>
+  <label
+    for="favorite-color"
+  >
+    Favorite color
+  </label>
+  <sky-autocomplete
+    [data]="data"
+  >
+    <input
+      id="my-autocomplete-input"
+      formControlName="favoriteColor"
+      type="text"
+      skyAutocomplete
+    />
+  </sky-autocomplete>
+</form>

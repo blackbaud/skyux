@@ -17,10 +17,10 @@ import {
 } from '../index';
 
 @Component({
-  selector: 'sky-autocomplete-test',
+  selector: 'sky-autocomplete-fixture',
   templateUrl: './autocomplete.component.fixture.html'
 })
-export class SkyAutocompleteTestComponent {
+export class SkyAutocompleteFixtureComponent {
   public data: any[] = [
     { name: 'Red', objectid: 'abc' },
     { name: 'Blue', objectid: 'def' },

@@ -9,32 +9,52 @@ import {
 } from '@angular/core';
 
 import {
+  AbstractControl,
   ControlValueAccessor,
-  NG_VALUE_ACCESSOR
+  NG_VALIDATORS,
+  NG_VALUE_ACCESSOR,
+  ValidationErrors,
+  Validator
 } from '@angular/forms';
 
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
-import { Subject } from 'rxjs/Subject';
+
 import 'rxjs/add/operator/takeUntil';
+
+import {
+  Observable
+} from 'rxjs/Observable';
+
+import {
+  Subject
+} from 'rxjs/Subject';
 
 import {
   SkyAutocompleteInputTextChange
 } from './types';
 
+// tslint:disable:no-forward-ref no-use-before-declare
+const SKY_AUTOCOMPLETE_VALUE_ACCESSOR = {
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => SkyAutocompleteInputDirective),
+  multi: true
+};
+
+const SKY_AUTOCOMPLETE_VALIDATOR = {
+  provide: NG_VALIDATORS,
+  useExisting: forwardRef(() => SkyAutocompleteInputDirective),
+  multi: true
+};
+// tslint:enable
+
 @Directive({
   selector: 'input[skyAutocomplete], textarea[skyAutocomplete]',
   providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      /* tslint:disable-next-line:no-forward-ref */
-      useExisting: forwardRef(() => SkyAutocompleteInputDirective),
-      multi: true
-    }
+    SKY_AUTOCOMPLETE_VALUE_ACCESSOR,
+    SKY_AUTOCOMPLETE_VALIDATOR
   ]
 })
-export class SkyAutocompleteInputDirective
-  implements OnInit, OnDestroy, ControlValueAccessor {
+export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, ControlValueAccessor, Validator {
 
   public get displayWith(): string {
     return this._displayWith;
@@ -42,30 +62,49 @@ export class SkyAutocompleteInputDirective
 
   public set displayWith(value: string) {
     this._displayWith = value;
-    this.updateTextValue();
-  }
-
-  public get value() {
-    return this._value;
+    this.inputTextValue = this.getValueByKey();
   }
 
   public set value(value: any) {
-    this._value = value;
-    this.updateTextValue();
-    this.onChange(this.value);
-    this.onTouched();
+    const isNewValue = value !== this._value;
+
+    if (isNewValue) {
+      this._value = value;
+      this.inputTextValue = this.getValueByKey();
+      this.onChange(this._value);
+
+      // Do not mark the field as "dirty"
+      // if the field has been initialized with a value.
+      if (this.isFirstChange && this.control) {
+        this.control.markAsPristine();
+      }
+
+      if (this.isFirstChange && this._value) {
+        this.isFirstChange = false;
+      }
+    }
   }
 
-  public set textValue(value: string) {
+  public get value(): any {
+    return this._value;
+  }
+
+  public set inputTextValue(value: string) {
     this.elementRef.nativeElement.value = value || '';
+  }
+
+  public get inputTextValue(): string {
+    return this.elementRef.nativeElement.value;
   }
 
   public textChanges = new EventEmitter<SkyAutocompleteInputTextChange>();
   public blur = new EventEmitter<void>();
 
+  private isFirstChange = true;
   private ngUnsubscribe = new Subject();
   private _displayWith: string;
   private _value: any;
+  private control: AbstractControl;
 
   constructor(
     private elementRef: ElementRef,
@@ -90,8 +129,16 @@ export class SkyAutocompleteInputDirective
       .fromEvent(element, 'blur')
       .takeUntil(this.ngUnsubscribe)
       .subscribe(() => {
-        this.checkValues();
+        this.restoreInputTextValueToPreviousState();
+        this.onTouched();
       });
+
+      Observable
+        .fromEvent(element, 'change')
+        .takeUntil(this.ngUnsubscribe)
+        .subscribe(() => {
+          this.isFirstChange = false;
+        });
   }
 
   public ngOnDestroy(): void {
@@ -111,11 +158,24 @@ export class SkyAutocompleteInputDirective
     this.onTouched = fn;
   }
 
+  public registerOnValidatorChange(fn: () => void): void {
+    this.onValidatorChange = fn;
+  }
+
+  public validate(control: AbstractControl): ValidationErrors {
+    if (!this.control) {
+      this.control = control;
+    }
+    return;
+  }
+
   // Angular automatically constructs these methods.
   /* istanbul ignore next */
   public onChange(value: any): void { }
   /* istanbul ignore next */
   public onTouched(): void { }
+  /* istanbul ignore next */
+  public onValidatorChange = () => {};
 
   private setAttributes(element: any): void {
     this.renderer.setAttribute(element, 'autocomplete', 'off');
@@ -125,26 +185,19 @@ export class SkyAutocompleteInputDirective
     this.renderer.addClass(element, 'sky-form-control');
   }
 
-  private checkValues(): void {
-    const text = this.elementRef.nativeElement.value;
-    const displayValue = this.value ? this.value[this.displayWith] : undefined;
+  private restoreInputTextValueToPreviousState(): void {
+    const modelValue = this.getValueByKey();
 
     // If the search field contains text, make sure that the value
     // matches the selected descriptor key.
-    if (text && displayValue) {
-      if (text !== displayValue) {
-        this.textValue = displayValue;
-      }
-    } else {
-      // The search field is empty (or doesn't have a selected item),
-      // so clear out the selected value.
-      this.value = undefined;
+    if (this.inputTextValue !== modelValue) {
+      this.inputTextValue = modelValue;
     }
 
     this.blur.emit();
   }
 
-  private updateTextValue() {
-    this.textValue = this.value ? this.value[this.displayWith] : undefined;
+  private getValueByKey(): string {
+    return this.value ? this.value[this.displayWith] : undefined;
   }
 }
