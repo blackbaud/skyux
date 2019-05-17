@@ -1,3 +1,7 @@
+# 3.1.0 (2019-05-17)
+
+- Added the ability to trigger responsive styles based on a parent component. [#25](https://github.com/blackbaud/skyux-tabs/pull/25)
+
 # 3.0.3 (2019-04-29)
 
 - Fixed vertical tabset component to correctly translate resource strings. [#24](https://github.com/blackbaud/skyux-tabs/pull/24)
