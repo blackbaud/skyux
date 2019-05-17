@@ -150,7 +150,7 @@ export class SkyTimepickerInputDirective implements
       control.setValue(this.modelValue, { emitEvent: false });
       /* istanbul ignore else */
       if (this.changeDetector) {
-        this.changeDetector.detectChanges();
+        this.changeDetector.markForCheck();
       }
     }
   }
