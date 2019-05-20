@@ -373,6 +373,35 @@ describe('List Toolbar Component', () => {
       });
     }));
 
+    it('should load custom items when toggled via an ngIf', async(() => {
+      initializeToolbar();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        let items: NodeList = fixture.nativeElement.querySelectorAll('.sky-toolbar-item');
+        expect((items.item(0) as HTMLElement).querySelector('.sky-sort')).not.toBeNull();
+        expect(items.item(3)).toHaveText('Custom Item');
+        expect(items.item(4)).toHaveText('Custom Item 2');
+        expect(items.length).toBe(5);
+
+        component.showCutomItem1 = false;
+
+        fixture.detectChanges();
+        items = fixture.nativeElement.querySelectorAll('.sky-toolbar-item');
+        expect((items.item(0) as HTMLElement).querySelector('.sky-sort')).not.toBeNull();
+        expect(items.item(3)).toHaveText('Custom Item 2');
+        expect(items.length).toBe(4);
+
+        component.showCutomItem1 = true;
+
+        fixture.detectChanges();
+        items = fixture.nativeElement.querySelectorAll('.sky-toolbar-item');
+        expect((items.item(0) as HTMLElement).querySelector('.sky-sort')).not.toBeNull();
+        expect(items.item(3)).toHaveText('Custom Item');
+        expect(items.item(4)).toHaveText('Custom Item 2');
+        expect(items.length).toBe(5);
+      });
+    }));
+
     it('should load custom items with toolbarType = search initialized', async(() => {
       component.toolbarType = 'search';
       fixture.detectChanges();

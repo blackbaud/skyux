@@ -17,6 +17,7 @@ import {
   public searchEnabled: boolean;
   public sortEnabled: boolean;
   public searchText: string;
+  public showCutomItem1 = true;
 
   @ViewChild(SkyListToolbarComponent)
   public toolbar: SkyListToolbarComponent;

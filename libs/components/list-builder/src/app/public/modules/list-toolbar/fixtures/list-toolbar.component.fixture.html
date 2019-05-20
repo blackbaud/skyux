@@ -4,7 +4,7 @@
   [searchText]="searchText"
   [toolbarType]="toolbarType"
   #toolbar>
-  <sky-list-toolbar-item
+  <sky-list-toolbar-item *ngIf="showCutomItem1"
     id="custom-item"
     location="right"
     [index]="2">
