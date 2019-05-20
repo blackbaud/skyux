@@ -52,6 +52,14 @@
   }
 }
 
+// Search input (.sky-form-control) has z-index 2.
+// This ensures the button's focus border won't get clipped by input.
+.sky-search-input-container {
+  .sky-input-group-btn > button:focus {
+    z-index: 3;
+  }
+}
+
 /**
  * Mobile styles
  */
