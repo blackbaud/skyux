@@ -1,3 +1,7 @@
+# 3.0.0 (2019-05-20)
+
+- Initial major release.
+
 # 3.0.0-beta.3 (2019-05-16)
 
 - Added `StacheModule`. [#7](https://github.com/blackbaud/skyux-lib-stache/pull/7)
