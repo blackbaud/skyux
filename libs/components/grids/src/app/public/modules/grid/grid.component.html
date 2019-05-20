@@ -56,7 +56,9 @@
               role="separator"
               tabindex="-1"
               [attr.sky-cmp-index]="i"
-              (mousedown)="onMouseDownResizeCol($event)">
+              (mousedown)="onResizeColumnStart($event)"
+              (touchstart)="onResizeColumnStart($event)"
+            >
             </span>
             <input
               aria-label="Width of column"
