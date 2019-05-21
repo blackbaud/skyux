@@ -478,6 +478,59 @@ describe('Checkbox component', () => {
     });
   });
 
+  describe('with ngModel and an initial value', () => {
+    let checkboxElement: DebugElement;
+    let testComponent: CheckboxWithFormDirectivesComponent;
+    let inputElement: HTMLInputElement;
+    let checkboxNativeElement: HTMLElement;
+    let ngModel: NgModel;
+    let labelElement: HTMLLabelElement;
+
+    beforeEach(async(() => {
+      fixture = TestBed.createComponent(CheckboxWithFormDirectivesComponent);
+      testComponent = fixture.debugElement.componentInstance;
+      testComponent.isGood = true;
+      fixture.detectChanges();
+
+      fixture.whenStable().then(() => {
+        checkboxElement = fixture.debugElement.query(By.directive(SkyCheckboxComponent));
+        checkboxNativeElement = checkboxElement.nativeElement;
+
+        inputElement = <HTMLInputElement>checkboxNativeElement.querySelector('input');
+        ngModel = <NgModel> checkboxElement.injector.get(NgModel);
+        labelElement =
+          <HTMLLabelElement>checkboxElement
+            .nativeElement.querySelector('label.sky-checkbox-wrapper');
+      });
+    }));
+
+    it('should be in pristine, untouched, and valid states', async(() => {
+      fixture.detectChanges();
+      expect(ngModel.valid).toBe(true);
+      expect(ngModel.pristine).toBe(true);
+      expect(ngModel.dirty).toBe(false);
+      expect(ngModel.touched).toBe(false);
+      expect(testComponent.isGood).toBe(true);
+
+      labelElement.click();
+
+      fixture.detectChanges();
+
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+
+        expect(ngModel.valid).toBe(true);
+        expect(ngModel.pristine).toBe(false);
+        expect(ngModel.dirty).toBe(true);
+        expect(ngModel.touched).toBe(false);
+        expect(testComponent.isGood).toBe(false);
+
+        inputElement.dispatchEvent(createEvent('blur'));
+        expect(ngModel.touched).toBe(true);
+      });
+    }));
+  });
+
   describe('with ngModel', () => {
     let checkboxElement: DebugElement;
     let testComponent: CheckboxWithFormDirectivesComponent;
@@ -507,6 +560,7 @@ describe('Checkbox component', () => {
       fixture.detectChanges();
       expect(ngModel.valid).toBe(true);
       expect(ngModel.pristine).toBe(true);
+      expect(ngModel.dirty).toBe(false);
       expect(ngModel.touched).toBe(false);
 
       labelElement.click();
@@ -518,6 +572,7 @@ describe('Checkbox component', () => {
 
         expect(ngModel.valid).toBe(true);
         expect(ngModel.pristine).toBe(false);
+        expect(ngModel.dirty).toBe(true);
         expect(ngModel.touched).toBe(false);
         expect(testComponent.isGood).toBe(true);
 
@@ -572,6 +627,7 @@ describe('Checkbox component', () => {
       fixture.detectChanges();
       expect(formControl.valid).toBe(true);
       expect(formControl.pristine).toBe(true);
+      expect(formControl.dirty).toBe(false);
       expect(formControl.touched).toBe(false);
 
       labelElement.click();
@@ -584,6 +640,7 @@ describe('Checkbox component', () => {
         expect(formControl.valid).toBe(true);
         expect(formControl.pristine).toBe(false);
         expect(formControl.touched).toBe(false);
+        expect(formControl.dirty).toBe(true);
         expect(formControl.value).toBe(true);
 
         inputElement.dispatchEvent(createEvent('blur'));

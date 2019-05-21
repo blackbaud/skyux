@@ -4,4 +4,8 @@ import { Component } from '@angular/core';
   selector: 'checkbox-visual',
   templateUrl: './checkbox-visual.component.html'
 })
-export class CheckboxVisualComponent { }
+export class CheckboxVisualComponent {
+
+  public checkValue: boolean = true;
+
+}

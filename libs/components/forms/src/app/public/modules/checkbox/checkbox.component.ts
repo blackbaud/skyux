@@ -1,15 +1,19 @@
 
 import {
-    Component,
-    EventEmitter,
-    Input,
-    Output,
-    forwardRef
+  Component,
+  EventEmitter,
+  forwardRef,
+  Input,
+  Output
 } from '@angular/core';
 
 import {
+  AbstractControl,
+  ControlValueAccessor,
   NG_VALUE_ACCESSOR,
-  ControlValueAccessor
+  ValidationErrors,
+  Validator,
+  NG_VALIDATORS
 } from '@angular/forms';
 
 /**
@@ -27,6 +31,13 @@ export const SKY_CHECKBOX_CONTROL_VALUE_ACCESSOR: any = {
   useExisting: forwardRef(() => SkyCheckboxComponent),
   multi: true
 };
+
+const SKY_CHECKBOX_VALIDATOR = {
+  provide: NG_VALIDATORS,
+  useExisting: forwardRef(() => SkyCheckboxComponent),
+  multi: true
+};
+
 // A simple change event emitted by the SkyCheckbox component.
 export class SkyCheckboxChange {
   public source: SkyCheckboxComponent;
@@ -37,9 +48,12 @@ export class SkyCheckboxChange {
 @Component({
   selector: 'sky-checkbox',
   templateUrl: './checkbox.component.html',
-  providers: [SKY_CHECKBOX_CONTROL_VALUE_ACCESSOR]
+  providers: [
+    SKY_CHECKBOX_CONTROL_VALUE_ACCESSOR,
+    SKY_CHECKBOX_VALIDATOR
+  ]
 })
-export class SkyCheckboxComponent implements ControlValueAccessor {
+export class SkyCheckboxComponent implements ControlValueAccessor, Validator {
 
   /**
    * Hidden label for screen readers.
@@ -72,37 +86,43 @@ export class SkyCheckboxComponent implements ControlValueAccessor {
   public icon: String;
 
   @Input()
-  public get checkboxType(): string {
-    return this._checkboxType || 'info';
-  }
   public set checkboxType(value: string) {
     if (value) {
       this._checkboxType = value.toLowerCase();
     }
   }
 
-  private _checkboxType: string;
-  private _checked: boolean = false;
+  public get checkboxType(): string {
+    return this._checkboxType || 'info';
+  }
 
   public get inputId(): string {
     return `input-${this.id}`;
   }
 
-  /** Called when the checkbox is blurred. Needed to properly implement ControlValueAccessor. */
-  /*istanbul ignore next */
-  public onTouched: () => any = () => {};
-
   @Input()
-  public get checked() {
-    return this._checked;
-  }
-
   public set checked(checked: boolean) {
     if (checked !== this.checked) {
       this._checked = checked;
       this._controlValueAccessorChangeFn(checked);
+
+      // Do not mark the field as "dirty"
+      // if the field has been initialized with a value.
+      if (this.isFirstChange && this.control) {
+        this.control.markAsPristine();
+        this.isFirstChange = false;
+      }
     }
   }
+
+  public get checked() {
+    return this._checked;
+  }
+
+  private control: AbstractControl;
+  private isFirstChange = true;
+  private _checkboxType: string;
+  private _checked: boolean = false;
 
   /**
    * Implemented as part of ControlValueAccessor.
@@ -151,6 +171,24 @@ export class SkyCheckboxComponent implements ControlValueAccessor {
   public onInputBlur() {
     this.onTouched();
   }
+
+  public validate(control: AbstractControl): ValidationErrors {
+    if (!this.control) {
+      this.control = control;
+    }
+
+    return;
+  }
+
+  public registerOnValidatorChange?(fn: () => void): void {
+    this.onValidatorChange = fn;
+  }
+
+  /** Called when the checkbox is blurred. Needed to properly implement ControlValueAccessor. */
+  /*istanbul ignore next */
+  public onTouched: () => any = () => {};
+  /*istanbul ignore next */
+  private onValidatorChange = () => {};
 
   private _controlValueAccessorChangeFn: (value: any) => void = (value) => {};
 
