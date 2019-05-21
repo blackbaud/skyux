@@ -1,3 +1,3 @@
-# x.x.x (yyyy/mm/dd)
+# 3.0.0-beta.0 (2019-05-21)
 
-- Initial release.
+- Initial beta release.

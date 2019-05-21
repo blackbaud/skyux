@@ -2,13 +2,12 @@ import {
   NgModule
 } from '@angular/core';
 
-import { SkyAutonumericModule } from './public/library.module';
-import { SkyAutonumericConfig } from './public/modules/autonumeric/autonumeric-config';
+import {
+  SkyAutonumericConfig,
+  SkyAutonumericModule
+} from './public';
 
 @NgModule({
-  imports: [
-    SkyAutonumericModule
-  ],
   exports: [
     SkyAutonumericModule
   ],
