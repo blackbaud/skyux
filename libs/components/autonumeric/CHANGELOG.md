@@ -1,3 +1,7 @@
+# 3.0.0 (2019-05-22)
+
+- Initial major release.
+
 # 3.0.0-beta.2 (2019-05-22)
 
 - Added support for template-driven forms. [#4](https://github.com/blackbaud/skyux-autonumeric/pull/4)
