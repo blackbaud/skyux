@@ -1,0 +1,13 @@
+<form
+  [formGroup]="formGroup"
+  novalidate
+>
+  <input
+    aria-label="Donation amount"
+    class="sky-form-control"
+    formControlName="donationAmount"
+    name="donationAmount"
+    type="text"
+    [skyAutonumeric]="autonumericOptions"
+  />
+</form>

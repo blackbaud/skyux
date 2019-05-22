@@ -1,4 +1,3 @@
-// Export any types that should be included in the root.
-
-export * from './modules/autonumeric/autonumeric-config';
+export * from './modules/autonumeric/autonumeric-options-provider';
+export * from './modules/autonumeric/autonumeric-options';
 export * from './modules/autonumeric/autonumeric.module';

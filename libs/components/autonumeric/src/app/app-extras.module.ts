@@ -3,21 +3,17 @@ import {
 } from '@angular/core';
 
 import {
-  SkyAutonumericConfig,
+  SkyAppLinkModule
+} from '@skyux/router';
+
+import {
   SkyAutonumericModule
 } from './public';
 
 @NgModule({
   exports: [
+    SkyAppLinkModule,
     SkyAutonumericModule
-  ],
-  providers: [
-    {
-      provide: SkyAutonumericConfig,
-      useValue: new SkyAutonumericConfig('dollar', {
-        decimalPlaces: 5
-      })
-    }
   ]
 })
 export class AppExtrasModule { }

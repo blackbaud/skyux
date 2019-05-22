@@ -1,82 +1,148 @@
-import { Directive, ElementRef, Input, OnInit, Optional, HostListener } from '@angular/core';
-import { NgModel } from '@angular/forms';
+import {
+  Directive,
+  ElementRef,
+  forwardRef,
+  HostListener,
+  Input,
+  OnInit
+} from '@angular/core';
 
-import { SkyAutonumericConfig } from './autonumeric-config';
+import {
+  AbstractControl,
+  ControlValueAccessor,
+  NG_VALIDATORS,
+  NG_VALUE_ACCESSOR,
+  ValidationErrors,
+  Validator
+} from '@angular/forms';
+
+import {
+  SkyAutonumericOptions
+} from './autonumeric-options';
+
+import {
+  SkyAutonumericOptionsProvider
+} from './autonumeric-options-provider';
 
 const autoNumeric: any = require('autonumeric');
 
+// tslint:disable:no-forward-ref no-use-before-declare
+const SKY_AUTONUMERIC_VALUE_ACCESSOR = {
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => SkyAutonumericDirective),
+  multi: true
+};
+
+const SKY_AUTONUMERIC_VALIDATOR = {
+  provide: NG_VALIDATORS,
+  useExisting: forwardRef(() => SkyAutonumericDirective),
+  multi: true
+};
+// tslint:enable
+
 @Directive({
-  selector: '[ngModel][skyAutonumeric],[skyAutonumeric]'
+  selector: 'input[skyAutonumeric]',
+  providers: [
+    SKY_AUTONUMERIC_VALUE_ACCESSOR,
+    SKY_AUTONUMERIC_VALIDATOR
+  ]
 })
-export class SkyAutonumericDirective implements OnInit {
-  private _autonumericInstance: any;
+export class SkyAutonumericDirective implements OnInit, ControlValueAccessor, Validator {
 
-  @Input() public skyAutonumericLanguagePreset: any;
-  @Input() public skyAutonumericOptions: any;
+  @Input()
+  public set skyAutonumeric(value: SkyAutonumericOptions) {
+    this.autonumericOptions = this.mergeOptions(value);
+    this.updateAutonumericInstance();
+  }
 
-  public oldValue: any;
+  private autonumericInstance: any;
+  private autonumericOptions: SkyAutonumericOptions;
+  private control: AbstractControl;
+  private value: number;
 
   constructor (
-    private _el: ElementRef,
-    @Optional() private ngModel: NgModel,
-    @Optional() private _globalConfig: SkyAutonumericConfig
+    private elementRef: ElementRef,
+    private globalConfig: SkyAutonumericOptionsProvider
   ) {
-    this._globalConfig = this._globalConfig || new SkyAutonumericConfig();
+    this.createAutonumericInstance();
   }
 
-  public ngOnInit() {
-    this._autonumericInstance = new autoNumeric(this._el.nativeElement);
-
-    let preset = this.skyAutonumericLanguagePreset || this._globalConfig.languagePreset;
-    if (preset) {
-      this.updateAutonumericPreset(preset);
-    }
-
-    let options = {};
-    if (this._globalConfig.options) {
-      options = {...this._globalConfig.options};
-    }
-    if (this.skyAutonumericOptions) {
-      options = {...options, ...this.skyAutonumericOptions};
-    }
-    this.updateAutonumericOptions(options);
-
-    this._el.nativeElement.addEventListener('change paste onpaste', () => {
-      this.autonumericChange();
-    });
-
-    this._el.nativeElement.addEventListener('keydown', (event: any) => {
-      if (event.which === 13) {
-        this.autonumericChange();
-      }
-    });
+  public ngOnInit(): void {
+    this.updateAutonumericInstance();
   }
 
-  @HostListener('ngModelChange') public onNgModelChange() {
-    let value = this._autonumericInstance.getNumber();
+  public writeValue(value: number): void {
+    this.value = value;
 
-    if (this.oldValue !== value) {
-      this.oldValue = value;
-
-      setTimeout(() => {
-        this.autonumericChange();
-      });
+    if (value) {
+      this.autonumericInstance.set(value);
+    } else {
+      this.autonumericInstance.clear();
     }
   }
 
-  public updateAutonumericPreset(preset: string): void {
-    this._autonumericInstance.update(autoNumeric.getPredefinedOptions()[preset]);
-  }
-
-  public updateAutonumericOptions(options: any): void {
-    this._autonumericInstance.update(options);
-  }
-
-  private autonumericChange(): void {
-    let value = this._autonumericInstance.getNumber();
-
-    if (this.ngModel) {
-      this.ngModel.viewToModelUpdate(value);
+  public validate(control: AbstractControl): ValidationErrors {
+    if (!this.control) {
+      this.control = control;
     }
+
+    return;
   }
+
+  public registerOnChange(fn: (value: number) => void): void {
+    this.onChange = fn;
+  }
+
+  public registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  @HostListener('blur')
+  public onBlur(): void {
+    const numericValue = this.autonumericInstance.getNumber();
+
+    /* istanbul ignore else */
+    if (this.value !== numericValue) {
+      this.value = numericValue;
+      this.onChange(numericValue);
+    }
+
+    this.onTouched();
+  }
+
+  @HostListener('keyup')
+  public onKeyUp(): void {
+    this.control.markAsDirty();
+  }
+
+  private createAutonumericInstance(): void {
+    this.autonumericInstance = new autoNumeric(this.elementRef.nativeElement);
+  }
+
+  private updateAutonumericInstance(): void {
+    this.autonumericInstance.update(this.autonumericOptions);
+  }
+
+  private mergeOptions(value: SkyAutonumericOptions): SkyAutonumericOptions {
+    const globalOptions = this.globalConfig.getConfig();
+
+    let newOptions: SkyAutonumericOptions = {};
+    if (typeof value === 'string') {
+      const predefinedOptions = autoNumeric.getPredefinedOptions();
+      newOptions = predefinedOptions[value];
+    } else {
+      newOptions = value;
+    }
+
+    return Object.assign(
+      {},
+      globalOptions,
+      newOptions
+    );
+  }
+
+  /* istanbul ignore next */
+  private onChange = (_: number) => {};
+  /* istanbul ignore next */
+  private onTouched = () => {};
 }

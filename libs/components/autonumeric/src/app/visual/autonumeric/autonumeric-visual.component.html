@@ -1,0 +1,50 @@
+<div style="padding:30px;">
+  <form
+    [formGroup]="formGroup"
+    novalidate
+  >
+    <input
+      class="sky-form-control"
+      formControlName="donationAmount"
+      type="text"
+      [skyAutonumeric]="autonumericOptions"
+    />
+  </form>
+
+  <div>Pristine: {{formGroup.controls.donationAmount.pristine}}</div>
+  <div>Touched: {{formGroup.controls.donationAmount.touched}}</div>
+  <div>Valid: {{formGroup.controls.donationAmount.valid}}</div>
+
+  <button
+    class="sky-btn"
+    type="button"
+    (click)="setValue()"
+  >
+    Set value
+  </button>
+
+  <button
+    class="sky-btn"
+    type="button"
+    (click)="clearValue()"
+  >
+    Clear value
+  </button>
+
+  <button
+    class="sky-btn"
+    type="button"
+    (click)="setOptions()"
+  >
+    Set options
+  </button>
+
+  <button
+    class="sky-btn"
+    type="button"
+    (click)="setOptionsByPreset()"
+  >
+    Set options by preset
+  </button>
+
+</div>

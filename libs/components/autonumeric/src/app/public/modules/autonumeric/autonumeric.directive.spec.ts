@@ -1,208 +1,267 @@
-import { Component } from '@angular/core';
-import { TestBed, ComponentFixture, async } from '@angular/core/testing';
-
-import { By } from '@angular/platform-browser';
+import {
+  async,
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick
+} from '@angular/core/testing';
 
 import {
-  expect
+  AbstractControl
+} from '@angular/forms';
+
+import {
+  expect,
+  SkyAppTestUtility
 } from '@skyux-sdk/testing';
 
-import { SkyAutonumericDirective } from './autonumeric.directive';
-import { SkyAutonumericConfig } from './autonumeric-config';
+import {
+  AutonumericFixtureComponent,
+  AutonumericFixtureModule,
+  AutonumericFixtureOptionsProvider
+} from './fixtures';
 
-@Component({
-  selector: 'autonumeric-directive-test',
-  template: '<input type="text" skyAutonumeric [skyAutonumericLanguagePreset]="preset" [skyAutonumericOptions]="options">'
-})
-export class AutonumericDirectiveTestComponent {
-  public preset: string;
-  public options: any;
-}
+import {
+  SkyAutonumericOptions
+} from './autonumeric-options';
+
+import {
+  SkyAutonumericOptionsProvider
+} from './autonumeric-options-provider';
 
 describe('Autonumeric directive', () => {
-  let fixture: ComponentFixture<AutonumericDirectiveTestComponent>;
-  let config: SkyAutonumericConfig;
+
+  let fixture: ComponentFixture<AutonumericFixtureComponent>;
+
+  function detectChanges(): void {
+    fixture.detectChanges();
+    tick();
+  }
+
+  function setValue(value: number): void {
+    fixture.componentInstance.formGroup.get('donationAmount').setValue(value);
+  }
+
+  function setOptions(options: SkyAutonumericOptions): void {
+    fixture.componentInstance.autonumericOptions = options;
+  }
+
+  function getFormattedValue(): string {
+    return fixture.nativeElement.querySelector('input').value;
+  }
+
+  function getModelValue(): number {
+    return fixture.componentInstance.formControl.value;
+  }
+
+  function verifyFormControlStatuses(
+    control: AbstractControl,
+    statuses: {
+      pristine: boolean;
+      touched: boolean;
+      valid: boolean;
+    }
+  ): void {
+    expect(control.pristine).toEqual(statuses.pristine);
+    expect(control.touched).toEqual(statuses.touched);
+    expect(control.valid).toEqual(statuses.valid);
+  }
 
   beforeEach(() => {
-    config = new SkyAutonumericConfig();
-
     TestBed.configureTestingModule({
-      declarations: [
-        AutonumericDirectiveTestComponent,
-        SkyAutonumericDirective
-      ],
-      providers: [
-        {
-          provide: SkyAutonumericConfig,
-          useValue: config
-        }
+      imports: [
+        AutonumericFixtureModule
       ]
     });
+
+    fixture = TestBed.createComponent(AutonumericFixtureComponent);
   });
 
-  it('successfully instantiates autonumeric without a global configuration', () => {
-    // tslint:disable-next-line
-    let autonumericDirectiveInstance = new SkyAutonumericDirective(undefined, undefined, null);
-    expect((<any> autonumericDirectiveInstance)._globalConfig).toBeDefined();
+  afterEach(() => {
+    fixture.destroy();
   });
 
-  it('successfully configures the autonumeric instance', () => {
-    fixture = TestBed.createComponent(AutonumericDirectiveTestComponent);
+  it('should use default configuration', fakeAsync(() => {
+    detectChanges();
 
-    let testComponentElement = fixture.debugElement.query(By.directive(SkyAutonumericDirective));
-    let directiveInstance = testComponentElement.injector.get(SkyAutonumericDirective);
-    spyOn(directiveInstance, 'updateAutonumericPreset').and.callThrough();
-    spyOn(directiveInstance, 'updateAutonumericOptions').and.callThrough();
+    setValue(1000);
+
+    detectChanges();
+
+    const modelValue = getModelValue();
+    const formattedValue = getFormattedValue();
+
+    expect(modelValue).toEqual(1000);
+    expect(formattedValue).toEqual('1,000.00');
+  }));
+
+  it('should support preset configuration', fakeAsync(() => {
+    setOptions('dollar');
+
+    detectChanges();
+
+    setValue(1000);
+
+    detectChanges();
+
+    const modelValue = getModelValue();
+    const formattedValue = getFormattedValue();
+
+    expect(modelValue).toEqual(1000);
+    expect(formattedValue).toEqual('$1,000.00');
+  }));
+
+  it('should support custom configuration', fakeAsync(() => {
+    setOptions({
+      decimalPlaces: 5
+    });
+
+    detectChanges();
+
+    setValue(1000);
+
+    detectChanges();
+
+    const modelValue = getModelValue();
+    const formattedValue = getFormattedValue();
+
+    expect(modelValue).toEqual(1000);
+    expect(formattedValue).toEqual('1,000.00000');
+  }));
+
+  it('should update numeric value on blur', fakeAsync(() => {
+    detectChanges();
+
+    const autonumericInstance = fixture.componentInstance.autonumericDirective['autonumericInstance'];
+    const spy = spyOn(autonumericInstance, 'getNumber').and.callThrough();
+
+    const input = fixture.nativeElement.querySelector('input');
+
+    SkyAppTestUtility.fireDomEvent(input, 'blur');
+    detectChanges();
+
+    expect(spy).toHaveBeenCalled();
+  }));
+
+  it('should be accessible', async(() => {
+    fixture.detectChanges();
+
+    setValue(1000);
 
     fixture.detectChanges();
 
-    expect((<any> directiveInstance.updateAutonumericPreset).calls.any()).toBe(false);
-
-    let optionsCall = (<any> directiveInstance.updateAutonumericOptions).calls.mostRecent();
-    expect((<any> directiveInstance.updateAutonumericOptions).calls.count()).toBe(1);
-    expect(Object.keys(optionsCall.args[0]).length).toBe(0);
-
-    expect(directiveInstance.skyAutonumericLanguagePreset).toBe(undefined);
-    expect(directiveInstance.skyAutonumericOptions).toBe(undefined);
-  });
-
-  it('successfully configures the autonumeric instance when preset and options attributes are ommitted', async(() => {
-    TestBed.overrideComponent(AutonumericDirectiveTestComponent, {
-      set: {
-        template: '<input type="text" skyAutonumeric>'
-      }
-    });
-
-    TestBed.compileComponents().then(() => {
-      fixture = TestBed.createComponent(AutonumericDirectiveTestComponent);
-
-      let testComponentElement = fixture.debugElement.query(By.directive(SkyAutonumericDirective));
-      let directiveInstance = testComponentElement.injector.get(SkyAutonumericDirective);
-      spyOn(directiveInstance, 'updateAutonumericPreset').and.callThrough();
-      spyOn(directiveInstance, 'updateAutonumericOptions').and.callThrough();
-
-      fixture.detectChanges();
-
-      expect((<any> directiveInstance.updateAutonumericPreset).calls.any()).toBe(false);
-
-      let optionsCall = (<any> directiveInstance.updateAutonumericOptions).calls.mostRecent();
-      expect((<any> directiveInstance.updateAutonumericOptions).calls.count()).toBe(1);
-      expect(Object.keys(optionsCall.args[0]).length).toBe(0);
-
-      expect(directiveInstance.skyAutonumericLanguagePreset).toBe(undefined);
-      expect(directiveInstance.skyAutonumericOptions).toBe(undefined);
+    fixture.whenStable().then(() => {
+      expect(fixture.nativeElement).toBeAccessible();
     });
   }));
 
-  it('successfully configures the autonumeric instance with a global preset and option', () => {
-    config.languagePreset = 'dollar';
-    config.options = {
-      decimalPlaces: 5
-    };
+  describe('global configuration', () => {
 
-    fixture = TestBed.createComponent(AutonumericDirectiveTestComponent);
+    beforeEach(() => {
+      TestBed.resetTestingModule();
 
-    let testComponentElement = fixture.debugElement.query(By.directive(SkyAutonumericDirective));
-    let directiveInstance = testComponentElement.injector.get(SkyAutonumericDirective);
-    spyOn(directiveInstance, 'updateAutonumericPreset').and.callThrough();
-    spyOn(directiveInstance, 'updateAutonumericOptions').and.callThrough();
+      TestBed.configureTestingModule({
+        imports: [
+          AutonumericFixtureModule
+        ],
+        providers: [
+          {
+            provide: SkyAutonumericOptionsProvider,
+            useClass: AutonumericFixtureOptionsProvider
+          }
+        ]
+      });
 
-    fixture.detectChanges();
+      fixture = TestBed.createComponent(AutonumericFixtureComponent);
+    });
 
-    let presetCall = (<any> directiveInstance.updateAutonumericPreset).calls.mostRecent();
-    expect((<any> directiveInstance.updateAutonumericPreset).calls.count()).toBe(1);
-    expect(presetCall.args[0]).toBe(config.languagePreset);
+    it('should support global configuration', fakeAsync(() => {
+      detectChanges();
 
-    let optionsCall = (<any> directiveInstance.updateAutonumericOptions).calls.mostRecent();
-    expect((<any> directiveInstance.updateAutonumericOptions).calls.count()).toBe(1);
-    expect(Object.keys(optionsCall.args[0]).length).toBe(1);
-    expect(optionsCall.args[0].decimalPlaces).toBe(config.options.decimalPlaces);
+      setValue(1000);
 
-    expect(directiveInstance.skyAutonumericLanguagePreset).toBe(undefined);
-    expect(directiveInstance.skyAutonumericOptions).toBe(undefined);
+      detectChanges();
+
+      const modelValue = getModelValue();
+      const formattedValue = getFormattedValue();
+
+      expect(modelValue).toEqual(1000);
+      expect(formattedValue).toEqual('%1,000.00000');
+    }));
+
+    it('should overwrite global configuration with configuration from the input', fakeAsync(() => {
+      setOptions('dollar');
+
+      detectChanges();
+
+      setValue(1000);
+
+      detectChanges();
+
+      const modelValue = getModelValue();
+      const formattedValue = getFormattedValue();
+
+      expect(modelValue).toEqual(1000);
+      expect(formattedValue).toEqual('$1,000.00000');
+    }));
   });
 
-  it('successfully configures the autonumeric instance with a preset and options from the attribute', () => {
-    fixture = TestBed.createComponent(AutonumericDirectiveTestComponent);
+  describe('Angular form control statuses', () => {
 
-    fixture.componentInstance.preset = 'dollar';
-    fixture.componentInstance.options = {
-      decimalPlaces: 5
-    };
+    it('should set correct statuses when initialized without value', fakeAsync(() => {
+      detectChanges();
 
-    let testComponentElement = fixture.debugElement.query(By.directive(SkyAutonumericDirective));
-    let directiveInstance = testComponentElement.injector.get(SkyAutonumericDirective);
-    spyOn(directiveInstance, 'updateAutonumericPreset').and.callThrough();
-    spyOn(directiveInstance, 'updateAutonumericOptions').and.callThrough();
+      verifyFormControlStatuses(
+        fixture.componentInstance.formControl,
+        {
+          pristine: true,
+          touched: false,
+          valid: true
+        }
+      );
+    }));
 
-    fixture.detectChanges();
+    it('should set correct statuses when initialized with a value', fakeAsync(() => {
+      detectChanges();
 
-    let presetCall = (<any> directiveInstance.updateAutonumericPreset).calls.mostRecent();
-    expect((<any> directiveInstance.updateAutonumericPreset).calls.count()).toBe(1);
-    expect(presetCall.args[0]).toBe(fixture.componentInstance.preset);
+      setValue(1000);
 
-    let optionsCall = (<any> directiveInstance.updateAutonumericOptions).calls.mostRecent();
-    expect((<any> directiveInstance.updateAutonumericOptions).calls.count()).toBe(1);
-    expect(Object.keys(optionsCall.args[0]).length).toBe(1);
-    expect(optionsCall.args[0].decimalPlaces).toBe(fixture.componentInstance.options.decimalPlaces);
+      detectChanges();
 
-    expect(directiveInstance.skyAutonumericLanguagePreset).toBe(fixture.componentInstance.preset);
-    expect(directiveInstance.skyAutonumericOptions).toBe(fixture.componentInstance.options);
+      verifyFormControlStatuses(
+        fixture.componentInstance.formControl,
+        {
+          pristine: true,
+          touched: false,
+          valid: true
+        }
+      );
+    }));
+
+    it('should mark the control as touched on blur', fakeAsync(() => {
+      detectChanges();
+
+      expect(fixture.componentInstance.formControl.touched).toEqual(false);
+
+      SkyAppTestUtility.fireDomEvent(fixture.nativeElement.querySelector('input'), 'blur');
+
+      detectChanges();
+
+      expect(fixture.componentInstance.formControl.touched).toEqual(true);
+    }));
+
+    it('should mark the control as dirty on keyup', fakeAsync(() => {
+      detectChanges();
+
+      expect(fixture.componentInstance.formControl.dirty).toEqual(false);
+
+      SkyAppTestUtility.fireDomEvent(fixture.nativeElement.querySelector('input'), 'keyup');
+
+      detectChanges();
+
+      expect(fixture.componentInstance.formControl.dirty).toEqual(true);
+    }));
+
   });
 
-  it('successfully configures the autonumeric instance with a global preset, global option and adds options from the attribute', () => {
-    config.options = {
-      decimalPlaces: 5
-    };
-
-    fixture = TestBed.createComponent(AutonumericDirectiveTestComponent);
-    fixture.componentInstance.options = {
-      digitGroupSeparator: ','
-    };
-
-    let testComponentElement = fixture.debugElement.query(By.directive(SkyAutonumericDirective));
-    let directiveInstance = testComponentElement.injector.get(SkyAutonumericDirective);
-    spyOn(directiveInstance, 'updateAutonumericPreset').and.callThrough();
-    spyOn(directiveInstance, 'updateAutonumericOptions').and.callThrough();
-
-    fixture.detectChanges();
-
-    expect((<any> directiveInstance.updateAutonumericPreset).calls.any()).toBe(false);
-
-    let optionsCall = (<any> directiveInstance.updateAutonumericOptions).calls.mostRecent();
-    expect((<any> directiveInstance.updateAutonumericOptions).calls.count()).toBe(1);
-    expect(Object.keys(optionsCall.args[0]).length).toBe(2);
-    expect(optionsCall.args[0].decimalPlaces).toBe(config.options.decimalPlaces);
-    expect(optionsCall.args[0].digitGroupSeparator).toBe(fixture.componentInstance.options.digitGroupSeparator);
-
-    expect(directiveInstance.skyAutonumericLanguagePreset).toBe(undefined);
-    expect(directiveInstance.skyAutonumericOptions).toBe(fixture.componentInstance.options);
-  });
-
-  it('successfully configures the autonumeric instance and overrides the global preset with the preset attribute', () => {
-    config.languagePreset = 'dollar';
-
-    fixture = TestBed.createComponent(AutonumericDirectiveTestComponent);
-    fixture.componentInstance.preset = 'euro';
-
-    let testComponentElement = fixture.debugElement.query(By.directive(SkyAutonumericDirective));
-    let directiveInstance = testComponentElement.injector.get(SkyAutonumericDirective);
-    spyOn(directiveInstance, 'updateAutonumericPreset').and.callThrough();
-    spyOn(directiveInstance, 'updateAutonumericOptions').and.callThrough();
-
-    fixture.detectChanges();
-
-    expect((<any> directiveInstance)._globalConfig.languagePreset).toBe(config.languagePreset);
-
-    let presetCall = (<any> directiveInstance.updateAutonumericPreset).calls.mostRecent();
-    expect((<any> directiveInstance.updateAutonumericPreset).calls.count()).toBe(1);
-    expect(presetCall.args[0]).toBe(fixture.componentInstance.preset);
-
-    let optionsCall = (<any> directiveInstance.updateAutonumericOptions).calls.mostRecent();
-    expect((<any> directiveInstance.updateAutonumericOptions).calls.count()).toBe(1);
-    expect(Object.keys(optionsCall.args[0]).length).toBe(0);
-
-    expect(directiveInstance.skyAutonumericLanguagePreset).toBe(fixture.componentInstance.preset);
-    expect(directiveInstance.skyAutonumericOptions).toBe(undefined);
-  });
 });
