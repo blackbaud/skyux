@@ -117,7 +117,7 @@
               {{ item.dataType }}
             </sky-definition-list-value>
           </sky-definition-list-content>
-          <sky-definition-list-content>
+          <sky-definition-list-content *ngIf="item.defaultValue">
             <sky-definition-list-label>
               Default
             </sky-definition-list-label>
