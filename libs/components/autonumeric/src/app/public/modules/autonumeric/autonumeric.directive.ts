@@ -58,6 +58,7 @@ export class SkyAutonumericDirective implements OnInit, ControlValueAccessor, Va
   private autonumericInstance: any;
   private autonumericOptions: SkyAutonumericOptions;
   private control: AbstractControl;
+  private isFirstChange = true;
   private value: number;
 
   constructor (
@@ -72,7 +73,20 @@ export class SkyAutonumericDirective implements OnInit, ControlValueAccessor, Va
   }
 
   public writeValue(value: number): void {
-    this.value = value;
+    if (this.value !== value) {
+      this.value = value;
+      this.onChange(value);
+
+      // Mark the control as "pristine" if it is initialized with a value.
+      if (
+        this.isFirstChange &&
+        this.control &&
+        this.value
+      ) {
+        this.isFirstChange = false;
+        this.control.markAsPristine();
+      }
+    }
 
     if (value) {
       this.autonumericInstance.set(value);
@@ -112,7 +126,10 @@ export class SkyAutonumericDirective implements OnInit, ControlValueAccessor, Va
 
   @HostListener('keyup')
   public onKeyUp(): void {
-    this.control.markAsDirty();
+    /* istanbul ignore else */
+    if (this.control) {
+      this.control.markAsDirty();
+    }
   }
 
   private createAutonumericInstance(): void {

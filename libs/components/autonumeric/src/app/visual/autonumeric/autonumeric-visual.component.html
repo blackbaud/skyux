@@ -1,4 +1,8 @@
 <div style="padding:30px;">
+  <h2>
+    Reactive form
+  </h2>
+
   <form
     [formGroup]="formGroup"
     novalidate
@@ -11,9 +15,52 @@
     />
   </form>
 
-  <div>Pristine: {{formGroup.controls.donationAmount.pristine}}</div>
-  <div>Touched: {{formGroup.controls.donationAmount.touched}}</div>
-  <div>Valid: {{formGroup.controls.donationAmount.valid}}</div>
+  <div>
+    Value: {{formGroup.controls.donationAmount.value}}
+  </div>
+  <div>
+    Pristine: {{formGroup.controls.donationAmount.pristine}}
+  </div>
+  <div>
+    Touched: {{formGroup.controls.donationAmount.touched}}
+  </div>
+  <div>
+    Valid: {{formGroup.controls.donationAmount.valid}}
+  </div>
+
+  <h2>
+    Template-driven form
+  </h2>
+
+  <form
+    #templateDrivenForm="ngForm"
+  >
+    <input
+      class="sky-form-control"
+      name="donationAmount"
+      type="text"
+      [skyAutonumeric]="autonumericOptions"
+      [(ngModel)]="templateDrivenModel.donationAmount"
+      #donationAmount="ngModel"
+    />
+  </form>
+
+  <div>
+    Value: {{ donationAmount.value }}
+  </div>
+  <div>
+    Pristine: {{ donationAmount.pristine }}
+  </div>
+  <div>
+    Touched: {{ donationAmount.touched }}
+  </div>
+  <div>
+    Valid: {{ donationAmount.valid }}
+  </div>
+
+  <h2>
+    Modify value and state
+  </h2>
 
   <button
     class="sky-btn"
@@ -46,5 +93,4 @@
   >
     Set options by preset
   </button>
-
 </div>

@@ -4,10 +4,24 @@
 >
   <input
     aria-label="Donation amount"
-    class="sky-form-control"
+    class="sky-form-control app-reactive-form-input"
     formControlName="donationAmount"
     name="donationAmount"
     type="text"
     [skyAutonumeric]="autonumericOptions"
+  />
+</form>
+
+<form
+  #templateDrivenForm="ngForm"
+>
+  <input
+    aria-label="Donation amount"
+    class="sky-form-control app-template-driven-input"
+    name="donationAmountTemplateDriven"
+    type="text"
+    [skyAutonumeric]="autonumericOptions"
+    [(ngModel)]="templateDrivenModel.donationAmount"
+    #donationAmountTemplateDriven="ngModel"
   />
 </form>

@@ -45,6 +45,10 @@ export class AutonumericVisualComponent implements OnInit, OnDestroy {
 
   public formGroup: FormGroup;
 
+  public templateDrivenModel: any = {
+    donationAmount: 1000
+  };
+
   private ngUnsubscribe = new Subject<void>();
 
   constructor(
@@ -74,10 +78,12 @@ export class AutonumericVisualComponent implements OnInit, OnDestroy {
     this.formGroup.setValue({
       donationAmount: 3756.8
     });
+    this.templateDrivenModel.donationAmount = 3756.8;
   }
 
   public clearValue(): void {
     this.formGroup.reset();
+    this.templateDrivenModel.donationAmount = undefined;
   }
 
   public setOptions(): void {

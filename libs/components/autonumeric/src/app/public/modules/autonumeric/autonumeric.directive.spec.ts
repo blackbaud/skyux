@@ -7,10 +7,6 @@ import {
 } from '@angular/core/testing';
 
 import {
-  AbstractControl
-} from '@angular/forms';
-
-import {
   expect,
   SkyAppTestUtility
 } from '@skyux-sdk/testing';
@@ -40,6 +36,7 @@ describe('Autonumeric directive', () => {
 
   function setValue(value: number): void {
     fixture.componentInstance.formGroup.get('donationAmount').setValue(value);
+    fixture.componentInstance.templateDrivenModel.donationAmount = value;
   }
 
   function setOptions(options: SkyAutonumericOptions): void {
@@ -47,24 +44,53 @@ describe('Autonumeric directive', () => {
   }
 
   function getFormattedValue(): string {
-    return fixture.nativeElement.querySelector('input').value;
+    const reactiveValue = fixture.nativeElement.querySelector('.app-reactive-form-input').value;
+    const templateDrivenValue = fixture.nativeElement.querySelector('.app-template-driven-input').value;
+
+    if (reactiveValue !== templateDrivenValue) {
+      fail(`The reactive and template-driven forms's formatted values do not match! ('${reactiveValue}' versus '${templateDrivenValue}')`);
+    }
+
+    return reactiveValue;
   }
 
   function getModelValue(): number {
-    return fixture.componentInstance.formControl.value;
+    const reactiveValue = fixture.componentInstance.formControl.value;
+    const templateDrivenValue = fixture.componentInstance.donationAmountTemplateDriven.value;
+
+    if (reactiveValue !== templateDrivenValue) {
+      fail(`The reactive and template-driven forms's model values do not match! ('${reactiveValue}' versus '${templateDrivenValue}')`);
+    }
+
+    return reactiveValue;
   }
 
+  function triggerBlur(): void {
+    SkyAppTestUtility.fireDomEvent(fixture.nativeElement.querySelector('.app-reactive-form-input'), 'blur');
+    SkyAppTestUtility.fireDomEvent(fixture.nativeElement.querySelector('.app-template-driven-input'), 'blur');
+  }
+
+  function triggerKeyUp(): void {
+    SkyAppTestUtility.fireDomEvent(fixture.nativeElement.querySelector('.app-reactive-form-input'), 'keyup');
+    SkyAppTestUtility.fireDomEvent(fixture.nativeElement.querySelector('.app-template-driven-input'), 'keyup');
+  }
+
+  /**
+   * Checks both the reactive and template-driven controls against various statuses.
+   * @param statuses A set of Angular NgModel statuses to check against (e.g., pristine, touched, valid).
+   */
   function verifyFormControlStatuses(
-    control: AbstractControl,
     statuses: {
-      pristine: boolean;
-      touched: boolean;
-      valid: boolean;
+      [_: string]: boolean;
     }
   ): void {
-    expect(control.pristine).toEqual(statuses.pristine);
-    expect(control.touched).toEqual(statuses.touched);
-    expect(control.valid).toEqual(statuses.valid);
+    const control: any = fixture.componentInstance.formControl;
+    const model: any = fixture.componentInstance.donationAmountTemplateDriven;
+
+    Object.keys(statuses).forEach((status) => {
+      expect(control[status]).toEqual(statuses[status]);
+      expect(model[status]).toEqual(statuses[status]);
+    });
   }
 
   beforeEach(() => {
@@ -143,6 +169,23 @@ describe('Autonumeric directive', () => {
     expect(spy).toHaveBeenCalled();
   }));
 
+  it('should not notify identical value changes', fakeAsync(() => {
+    detectChanges();
+
+    const spy = spyOn(fixture.componentInstance.autonumericDirective as any, 'onChange').and.callThrough();
+
+    setValue(1000);
+    detectChanges();
+
+    expect(spy).toHaveBeenCalled();
+
+    spy.calls.reset();
+    setValue(1000);
+    detectChanges();
+
+    expect(spy).not.toHaveBeenCalled();
+  }));
+
   it('should be accessible', async(() => {
     fixture.detectChanges();
 
@@ -211,14 +254,11 @@ describe('Autonumeric directive', () => {
     it('should set correct statuses when initialized without value', fakeAsync(() => {
       detectChanges();
 
-      verifyFormControlStatuses(
-        fixture.componentInstance.formControl,
-        {
-          pristine: true,
-          touched: false,
-          valid: true
-        }
-      );
+      verifyFormControlStatuses({
+        pristine: true,
+        touched: false,
+        valid: true
+      });
     }));
 
     it('should set correct statuses when initialized with a value', fakeAsync(() => {
@@ -228,38 +268,43 @@ describe('Autonumeric directive', () => {
 
       detectChanges();
 
-      verifyFormControlStatuses(
-        fixture.componentInstance.formControl,
-        {
-          pristine: true,
-          touched: false,
-          valid: true
-        }
-      );
+      verifyFormControlStatuses({
+        pristine: true,
+        touched: false,
+        valid: true
+      });
     }));
 
     it('should mark the control as touched on blur', fakeAsync(() => {
       detectChanges();
 
-      expect(fixture.componentInstance.formControl.touched).toEqual(false);
+      verifyFormControlStatuses({
+        touched: false
+      });
 
-      SkyAppTestUtility.fireDomEvent(fixture.nativeElement.querySelector('input'), 'blur');
+      triggerBlur();
 
       detectChanges();
 
-      expect(fixture.componentInstance.formControl.touched).toEqual(true);
+      verifyFormControlStatuses({
+        touched: true
+      });
     }));
 
     it('should mark the control as dirty on keyup', fakeAsync(() => {
       detectChanges();
 
-      expect(fixture.componentInstance.formControl.dirty).toEqual(false);
+      verifyFormControlStatuses({
+        dirty: false
+      });
 
-      SkyAppTestUtility.fireDomEvent(fixture.nativeElement.querySelector('input'), 'keyup');
+      triggerKeyUp();
 
       detectChanges();
 
-      expect(fixture.componentInstance.formControl.dirty).toEqual(true);
+      verifyFormControlStatuses({
+        dirty: true
+      });
     }));
 
   });

@@ -9,7 +9,8 @@ import {
   AbstractControl,
   FormBuilder,
   FormControl,
-  FormGroup
+  FormGroup,
+  NgModel
 } from '@angular/forms';
 
 import {
@@ -30,9 +31,16 @@ export class AutonumericFixtureComponent implements OnInit {
   @ViewChild(SkyAutonumericDirective)
   public autonumericDirective: SkyAutonumericDirective;
 
-  public formGroup: FormGroup;
+  @ViewChild('donationAmountTemplateDriven', { read: NgModel })
+  public donationAmountTemplateDriven: NgModel;
 
   public autonumericOptions: SkyAutonumericOptions;
+
+  public formGroup: FormGroup;
+
+  public templateDrivenModel: any = {
+    donationAmount: 1000
+  };
 
   public get formControl(): AbstractControl {
     return this.formGroup.get('donationAmount');
