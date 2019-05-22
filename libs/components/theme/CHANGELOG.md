@@ -1,3 +1,7 @@
+# 3.7.0 (2019-05-22)
+
+- Added support for `@blackbaud/skyux-design-tokens@0.0.12`, which includes a new SCSS variable for page background color. [#69](https://github.com/blackbaud/skyux-theme/pull/69)
+
 # 3.6.0 (2019-05-03)
 
 - Added mixins for responsive designs. [#58](https://github.com/blackbaud/skyux-theme/pull/58)
