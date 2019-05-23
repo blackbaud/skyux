@@ -12,6 +12,8 @@ export * from './modules/breadcrumbs/breadcrumbs.module';
 
 export * from './modules/edit-button/edit-button.module';
 
+export * from './modules/footer/footer.module';
+
 export * from './modules/hide-from-search/hide-from-search.module';
 
 export * from './modules/include/include.module';
