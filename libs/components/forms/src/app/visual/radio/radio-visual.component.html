@@ -114,13 +114,10 @@
   >
     Do you like it?
   </h3>
-  <div id="screenshot-icon-radio">
-    <ul
-      class="sky-list-unstyled"
-      aria-labelledby="icon-radio-group-label"
-      role="radiogroup"
-    >
-      <li>
+  <div
+    id="screenshot-icon-radio"
+    class="sky-switch-icon-group"
+  >
         <sky-radio
           icon="thumbs-o-up"
           label="I like it"
@@ -130,8 +127,6 @@
           #cb="ngModel"
         >
         </sky-radio>
-      </li>
-      <li>
         <sky-radio
           disabled="true"
           icon="balance-scale"
@@ -142,8 +137,6 @@
           (ngModelChange)="iconSelectedValue = $event"
         >
         </sky-radio>
-      </li>
-      <li>
         <sky-radio
           icon="thumbs-o-down"
           label="I hate it"
@@ -153,7 +146,5 @@
           (ngModelChange)="iconSelectedValue = $event"
         >
         </sky-radio>
-      </li>
-    </ul>
   </div>
 </form>
