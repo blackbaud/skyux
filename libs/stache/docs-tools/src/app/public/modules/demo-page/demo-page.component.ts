@@ -10,7 +10,7 @@ import {
 } from './demo-page-title.service';
 
 @Component({
-  selector: 'sky-demo-page',
+  selector: 'sky-docs-demo-page',
   templateUrl: './demo-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })

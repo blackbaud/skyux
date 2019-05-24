@@ -6,21 +6,8 @@
   >
     <sky-repeater-item *ngFor="let codeExample of codeExamples">
       <sky-repeater-item-title>
-        <div
-          class="sky-docs-code-example-header"
-        >
-          <div
-            class="sky-docs-code-example-header-title"
-          >
-            {{ codeExample.title }}
-          </div>
-          <div
-            class="sky-docs-code-example-header-controls"
-          >
-            <ng-container *ngTemplateOutlet="launchEditorButton; context: {$implicit: codeExample}">
-            </ng-container>
-          </div>
-        </div>
+        <ng-container *ngTemplateOutlet="codeExampleHeaderTemplate; context: {$implicit: codeExample}">
+        </ng-container>
       </sky-repeater-item-title>
       <sky-repeater-item-content>
         <ng-container *ngTemplateOutlet="codeExampleTemplate; context: {$implicit: codeExample}">
@@ -58,24 +45,37 @@
 <ng-template
   #singleCodeExample
 >
-  <ng-container *ngTemplateOutlet="launchEditorButton; context: {$implicit: codeExamples[0]}">
+  <ng-container *ngTemplateOutlet="codeExampleHeaderTemplate; context: {$implicit: codeExamples[0]}">
   </ng-container>
   <ng-container *ngTemplateOutlet="codeExampleTemplate; context: {$implicit: codeExamples[0]}">
   </ng-container>
 </ng-template>
 
 <ng-template
-  let-item
-  #launchEditorButton
+  let-codeExample
+  #codeExampleHeaderTemplate
 >
-  <button
-    class="sky-btn sky-btn-default"
-    type="button"
-    (click)="launchEditor(item);$event.stopPropagation();"
+  <div
+    class="sky-docs-code-example-header"
   >
-    <sky-icon
-      icon="pencil"
-    ></sky-icon>
-    {{ 'sky-docs-code-example-launch-button-label' | skyLibResources }}
-  </button>
+    <div
+      class="sky-docs-code-example-header-title sky-emphasized"
+    >
+      {{ codeExample.title }}
+    </div>
+    <div
+      class="sky-docs-code-example-header-controls"
+    >
+      <button
+        class="sky-btn sky-btn-default"
+        type="button"
+        (click)="launchEditor(codeExample);$event.stopPropagation();"
+      >
+        <sky-icon
+          icon="pencil"
+        ></sky-icon>
+        {{ 'sky-docs-code-example-launch-button-label' | skyLibResources }}
+      </button>
+    </div>
+  </div>
 </ng-template>

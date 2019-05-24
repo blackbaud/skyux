@@ -27,13 +27,16 @@ import {
 } from '../shared/docs-tools-resources.module';
 
 import {
+  SkyDocsCodeExampleComponent
+} from './code-example.component';
+
+import {
   SkyDocsCodeExamplesComponent
 } from './code-examples.component';
 
 import {
   SkyDocsCodeExamplesEditorService
 } from './code-examples-editor.service';
-import { SkyDocsCodeExampleComponent } from './code-example.component';
 
 @NgModule({
   imports: [

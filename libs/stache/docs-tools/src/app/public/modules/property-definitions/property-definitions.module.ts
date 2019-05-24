@@ -15,7 +15,7 @@ import {
 } from '@skyux/layout';
 
 import {
-  SkyPropertyDefinitionComponent
+  SkyDocsPropertyDefinitionComponent
 } from './property-definition.component';
 
 import {
@@ -29,11 +29,11 @@ import {
     SkyDefinitionListModule
   ],
   declarations: [
-    SkyPropertyDefinitionComponent,
+    SkyDocsPropertyDefinitionComponent,
     SkyDocsPropertyDefinitionsComponent
   ],
   exports: [
-    SkyPropertyDefinitionComponent,
+    SkyDocsPropertyDefinitionComponent,
     SkyDocsPropertyDefinitionsComponent
   ]
 })

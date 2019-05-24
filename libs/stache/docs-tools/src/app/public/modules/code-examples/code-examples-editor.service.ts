@@ -10,10 +10,16 @@ import {
 } from '@stackblitz/sdk/typings/interfaces';
 
 import {
+  SkyDocsSourceCodeFile
+} from '../source-code/source-code-file';
+
+import {
   SkyDocsCodeExampleModuleDependencies
 } from './code-example-module-dependencies';
-import { SkyDocsCodeExample } from './code-example';
-import { SkyDocsSourceCodeFile } from '../source-code/source-code-file';
+
+import {
+  SkyDocsCodeExample
+} from './code-example';
 
 @Injectable()
 export class SkyDocsCodeExamplesEditorService {
@@ -63,7 +69,7 @@ export class SkyDocsCodeExamplesEditorService {
     const mergedDependencies = Object.assign(
       {},
       defaultDependencies,
-      codeExample.moduleDependencies
+      codeExample.packageDependencies
     );
 
     const files = this.parseStackBlitzFiles(
@@ -225,13 +231,9 @@ body {
   }
 }`;
 
-    files['package.json'] = JSON.stringify(
-      {
-        dependencies
-      },
-      undefined,
-      2
-    );
+    files['package.json'] = JSON.stringify({
+      dependencies
+    }, undefined, 2);
 
     files['tsconfig.json'] = `{
   "compilerOptions": {

@@ -1,5 +1,5 @@
 <div
-  class="sky-demo-page-module-info"
+  class="sky-docs-demo-page-module-info"
 >
   <sky-definition-list
     defaultValue=""
@@ -32,15 +32,8 @@
     <sky-definition-list-content *ngIf="installationCommand">
       <sky-definition-list-label>
         Installation command
-        <sky-help-inline
-          skyPopoverPlacement="right"
-          [skyPopover]="installationCommandPopover"
-        ></sky-help-inline>
       </sky-definition-list-label>
       <sky-definition-list-value>
-        <sky-popover #installationCommandPopover>
-          After installation, you need to make any exports from {{ moduleName }} available to your SPA by adding the module to the exports section of your SPA's main module. If you are using the SKY UX SDK, add {{ moduleName }} as an export in your app-sky.module.ts file.
-        </sky-popover>
         <span #copyTarget><sky-code>{{ installationCommand }}</sky-code></span>
         <sky-copy-to-clipboard
           buttonText="Copy"

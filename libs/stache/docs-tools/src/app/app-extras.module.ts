@@ -4,7 +4,6 @@ import {
 
 import {
   SkyDocsDemoPageModule,
-  SkyDocsPropertyDefinitionsModule,
   SkyDocsSourceCodeProvider
 } from './public';
 
@@ -14,8 +13,7 @@ import {
 
 @NgModule({
   exports: [
-    SkyDocsDemoPageModule,
-    SkyDocsPropertyDefinitionsModule
+    SkyDocsDemoPageModule
   ],
   providers: [
     {

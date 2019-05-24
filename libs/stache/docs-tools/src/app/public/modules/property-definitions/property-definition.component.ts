@@ -7,11 +7,11 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'sky-property-definition',
+  selector: 'sky-docs-property-definition',
   templateUrl: './property-definition.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyPropertyDefinitionComponent {
+export class SkyDocsPropertyDefinitionComponent {
 
   @Input()
   public dataType = 'any';

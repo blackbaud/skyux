@@ -3,7 +3,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   ContentChildren,
-  QueryList
+  QueryList,
+  Input
 } from '@angular/core';
 
 import {
@@ -19,6 +20,10 @@ import {
 } from './code-example.component';
 
 import {
+  SkyDocsCodeExampleModuleDependencies
+} from './code-example-module-dependencies';
+
+import {
   SkyDocsCodeExample
 } from './code-example';
 
@@ -30,10 +35,21 @@ import {
 })
 export class SkyDocsCodeExamplesComponent implements AfterContentInit {
 
+  @Input()
+  public set packageDependencies(value: SkyDocsCodeExampleModuleDependencies) {
+    this._packageDependencies = value;
+  }
+
+  public get packageDependencies(): SkyDocsCodeExampleModuleDependencies {
+    return this._packageDependencies || {};
+  }
+
   public codeExamples: SkyDocsCodeExample[] = [];
 
   @ContentChildren(SkyDocsCodeExampleComponent)
   private codeExampleComponents: QueryList<SkyDocsCodeExampleComponent>;
+
+  private _packageDependencies: SkyDocsCodeExampleModuleDependencies;
 
   constructor(
     private editorService: SkyDocsCodeExamplesEditorService,
@@ -51,7 +67,7 @@ export class SkyDocsCodeExamplesComponent implements AfterContentInit {
       this.codeExamples.push({
         title: component.title,
         sourceCode,
-        moduleDependencies: component.moduleDependencies
+        packageDependencies: this.packageDependencies
       });
     });
   }

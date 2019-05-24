@@ -12,6 +12,6 @@ export interface SkyDocsCodeExample {
 
   sourceCode: SkyDocsSourceCodeFile[];
 
-  moduleDependencies: SkyDocsCodeExampleModuleDependencies;
+  packageDependencies: SkyDocsCodeExampleModuleDependencies;
 
 }

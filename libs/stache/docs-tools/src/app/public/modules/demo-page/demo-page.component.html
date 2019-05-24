@@ -1,40 +1,41 @@
 <div
-  class="sky-demo-page"
+  class="sky-docs-demo-page"
 >
   <stache
+    layout="container"
     [pageTitle]="pageTitle"
     [showBreadcrumbs]="false"
   >
 
     <stache-page-summary>
-      <ng-content select="sky-demo-page-summary"></ng-content>
+      <ng-content select="sky-docs-demo-page-summary"></ng-content>
     </stache-page-summary>
 
-    <sky-demo-page-section
+    <sky-docs-demo-page-section
       heading="Behavior demo"
     >
       <sky-docs-behavior-demo>
       </sky-docs-behavior-demo>
-    </sky-demo-page-section>
+    </sky-docs-demo-page-section>
 
-    <sky-demo-page-section *ngIf="packageName"
+    <sky-docs-demo-page-section *ngIf="packageName"
       heading="Modules and installation"
     >
-      <sky-demo-page-module-info
+      <sky-docs-demo-page-module-info
         [gitRepoUrl]="gitRepoUrl"
         [moduleName]="moduleName"
         [packageName]="packageName"
       >
-      </sky-demo-page-module-info>
-    </sky-demo-page-section>
+      </sky-docs-demo-page-module-info>
+    </sky-docs-demo-page-section>
 
     <ng-content></ng-content>
 
-    <sky-demo-page-section
+    <sky-docs-demo-page-section
       heading="Code examples"
     >
       <ng-content select="sky-docs-code-examples">
       </ng-content>
-    </sky-demo-page-section>
+    </sky-docs-demo-page-section>
   </stache>
 </div>

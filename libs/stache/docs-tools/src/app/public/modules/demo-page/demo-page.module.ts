@@ -25,6 +25,10 @@ import {
 } from '../module-info';
 
 import {
+  SkyDocsPropertyDefinitionsModule
+} from '../property-definitions';
+
+import {
   SkyDocsDemoPageSectionComponent
 } from './demo-page-section.component';
 
@@ -58,7 +62,8 @@ import {
     SkyDocsCodeExamplesModule,
     SkyDocsDemoPageComponent,
     SkyDocsDemoPageSectionComponent,
-    SkyDocsDemoPageSummaryComponent
+    SkyDocsDemoPageSummaryComponent,
+    SkyDocsPropertyDefinitionsModule
   ],
   providers: [
     SkyDocsDemoPageTitleService

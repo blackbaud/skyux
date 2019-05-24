@@ -9,11 +9,11 @@ import {
 } from '@angular/core';
 
 import {
-  SkyPropertyDefinitionComponent
+  SkyDocsPropertyDefinitionComponent
 } from './property-definition.component';
 
 @Component({
-  selector: 'sky-property-definitions',
+  selector: 'sky-docs-property-definitions',
   templateUrl: './property-definitions.component.html',
   styleUrls: ['./property-definitions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -28,8 +28,8 @@ export class SkyDocsPropertyDefinitionsComponent implements AfterContentInit {
     templateRef: TemplateRef<any>;
   }[] = [];
 
-  @ContentChildren(SkyPropertyDefinitionComponent)
-  private definitionRefs: QueryList<SkyPropertyDefinitionComponent>;
+  @ContentChildren(SkyDocsPropertyDefinitionComponent)
+  private definitionRefs: QueryList<SkyDocsPropertyDefinitionComponent>;
 
   constructor(
     private changeDetector: ChangeDetectorRef
