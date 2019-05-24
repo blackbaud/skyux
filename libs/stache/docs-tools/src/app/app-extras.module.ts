@@ -3,14 +3,14 @@ import {
 } from '@angular/core';
 
 import {
-  SkyDocsCodeExamplesProvider,
   SkyDocsDemoPageModule,
-  SkyDocsPropertyDefinitionsModule
+  SkyDocsPropertyDefinitionsModule,
+  SkyDocsSourceCodeProvider
 } from './public';
 
 import {
-  SkyPopoversCodeExamplesProvider
-} from './code-examples-provider';
+  SampleSourceCodeProvider
+} from './public/plugin-resources/sample-source-code-provider';
 
 @NgModule({
   exports: [
@@ -19,8 +19,8 @@ import {
   ],
   providers: [
     {
-      provide: SkyDocsCodeExamplesProvider,
-      useClass: SkyPopoversCodeExamplesProvider
+      provide: SkyDocsSourceCodeProvider,
+      useClass: SampleSourceCodeProvider
     }
   ]
 })

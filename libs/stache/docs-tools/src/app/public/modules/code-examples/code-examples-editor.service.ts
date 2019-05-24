@@ -5,36 +5,31 @@ import {
 import StackBlitzSDK from '@stackblitz/sdk';
 
 import {
-  Project as StackBlitzProject,
-  OpenOptions as StackBlitzOpenOptions
+  OpenOptions as StackBlitzOpenOptions,
+  Project as StackBlitzProject
 } from '@stackblitz/sdk/typings/interfaces';
 
 import {
   SkyDocsCodeExampleModuleDependencies
 } from './code-example-module-dependencies';
+import { SkyDocsCodeExample } from './code-example';
+import { SkyDocsSourceCodeFile } from '../source-code/source-code-file';
 
 @Injectable()
-export class SkyDocsCodeExampleEditorService {
+export class SkyDocsCodeExamplesEditorService {
 
-  public launchEditor(
-    dependencies: SkyDocsCodeExampleModuleDependencies
-  ): void {
-
-    const project = this.getPayload(
-      dependencies
-    );
-
+  public launchEditor(codeExample: SkyDocsCodeExample): void {
+    const project = this.getPayload(codeExample);
     const options: StackBlitzOpenOptions = {};
 
     StackBlitzSDK.openProject(project, options);
   }
 
-  private getPayload(
-    dependencies: SkyDocsCodeExampleModuleDependencies
-  ): StackBlitzProject {
-
+  private getPayload(codeExample: SkyDocsCodeExample): StackBlitzProject {
     const angularVersion = '^7.0.0';
     const skyuxVersion = '^3.0.0';
+
+    console.log('codeExample:', codeExample);
 
     const defaultDependencies: SkyDocsCodeExampleModuleDependencies = {
       '@angular/animations': angularVersion,
@@ -67,9 +62,16 @@ export class SkyDocsCodeExampleEditorService {
       'zone.js': '~0.8.28'
     };
 
-    const mergedDependencies = Object.assign({}, defaultDependencies, dependencies);
+    const mergedDependencies = Object.assign(
+      {},
+      defaultDependencies,
+      codeExample.moduleDependencies
+    );
 
-    const files = this.parseStackBlitzFiles(mergedDependencies);
+    const files = this.parseStackBlitzFiles(
+      codeExample.sourceCode,
+      mergedDependencies
+    );
 
     return {
       files,
@@ -86,6 +88,7 @@ export class SkyDocsCodeExampleEditorService {
   }
 
   private parseStackBlitzFiles(
+    sourceCode: SkyDocsSourceCodeFile[],
     dependencies: SkyDocsCodeExampleModuleDependencies
   ): {
     [path: string]: string;
@@ -104,14 +107,22 @@ export class SkyDocsCodeExampleEditorService {
     const declarations: string[] = [
       'AppComponent'
     ];
+
     const entryComponents: string[] = [];
+
     const moduleImports: string[] = [];
+
     const providers: string[] = [];
+
     const skyModules: string[] = [];
 
     const appComponentTemplate = '';
 
     const files: {[_: string]: string} = {};
+
+    sourceCode.forEach((file) => {
+      files[`${appPath}${file.fileName}`] = file.rawContents;
+    });
 
     files[`${appPath}app.component.ts`] = `${banner}
 import {
@@ -250,7 +261,13 @@ body {
   }
 }`;
 
-    files['package.json'] = JSON.stringify({ dependencies }, undefined, 2);
+    files['package.json'] = JSON.stringify(
+      {
+        dependencies
+      },
+      undefined,
+      2
+    );
 
     files['tsconfig.json'] = `{
   "compilerOptions": {

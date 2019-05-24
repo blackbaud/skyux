@@ -1,0 +1,81 @@
+<div *ngIf="codeExamples && codeExamples.length"
+  class="sky-docs-code-examples"
+>
+  <sky-repeater *ngIf="codeExamples.length > 1 else singleCodeExample"
+    expandMode="single"
+  >
+    <sky-repeater-item *ngFor="let codeExample of codeExamples">
+      <sky-repeater-item-title>
+        <div
+          class="sky-docs-code-example-header"
+        >
+          <div
+            class="sky-docs-code-example-header-title"
+          >
+            {{ codeExample.title }}
+          </div>
+          <div
+            class="sky-docs-code-example-header-controls"
+          >
+            <ng-container *ngTemplateOutlet="launchEditorButton; context: {$implicit: codeExample}">
+            </ng-container>
+          </div>
+        </div>
+      </sky-repeater-item-title>
+      <sky-repeater-item-content>
+        <ng-container *ngTemplateOutlet="codeExampleTemplate; context: {$implicit: codeExample}">
+        </ng-container>
+      </sky-repeater-item-content>
+    </sky-repeater-item>
+  </sky-repeater>
+</div>
+
+<ng-template>
+  <ng-content
+    select="sky-docs-code-example"
+  >
+  </ng-content>
+</ng-template>
+
+<ng-template
+  let-item
+  #codeExampleTemplate
+>
+  <sky-vertical-tabset *ngIf="item.sourceCode && item.sourceCode.length">
+    <sky-vertical-tab *ngFor="let file of item.sourceCode; let i = index;"
+      [active]="i === 0"
+      [tabHeading]="file.fileName"
+    >
+      <sky-code-block
+        [code]="file.rawContents"
+        [languageType]="parseCodeLanguageType(file.fileName)"
+      >
+      </sky-code-block>
+    </sky-vertical-tab>
+  </sky-vertical-tabset>
+</ng-template>
+
+<ng-template
+  #singleCodeExample
+>
+  <ng-container *ngTemplateOutlet="launchEditorButton; context: {$implicit: codeExamples[0]}">
+  </ng-container>
+  <ng-container *ngTemplateOutlet="codeExampleTemplate; context: {$implicit: codeExamples[0]}">
+  </ng-container>
+</ng-template>
+
+<ng-template
+  let-item
+  #launchEditorButton
+>
+  <button
+    class="sky-btn sky-btn-default"
+    type="button"
+    (click)="launchEditor(item);$event.stopPropagation();"
+  >
+    <sky-icon
+      icon="pencil"
+    ></sky-icon>
+    {{ 'sky-docs-code-example-launch-button-label' | skyLibResources }}
+  </button>
+</ng-template>

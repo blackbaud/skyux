@@ -17,8 +17,8 @@ import {
 } from '../behavior-demo';
 
 import {
-  SkyDocsCodeExampleModule
-} from '../code-example';
+  SkyDocsCodeExamplesModule
+} from '../code-examples';
 
 import {
   SkyDocsModuleInfoModule
@@ -44,7 +44,6 @@ import {
   imports: [
     CommonModule,
     SkyDocsBehaviorDemoModule,
-    SkyDocsCodeExampleModule,
     SkyDocsModuleInfoModule,
     StachePageAnchorModule,
     StachePageSummaryModule,
@@ -56,6 +55,7 @@ import {
     SkyDocsDemoPageSummaryComponent
   ],
   exports: [
+    SkyDocsCodeExamplesModule,
     SkyDocsDemoPageComponent,
     SkyDocsDemoPageSectionComponent,
     SkyDocsDemoPageSummaryComponent

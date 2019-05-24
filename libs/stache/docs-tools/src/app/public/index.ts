@@ -2,7 +2,7 @@
 
 export * from './modules/demo-page/demo-page.module';
 
-export * from './modules/code-example/code-example';
-export * from './modules/code-example/code-examples-provider';
-
 export * from './modules/property-definitions/property-definitions.module';
+
+export * from './modules/source-code/source-code-file';
+export * from './modules/source-code/source-code-provider';

@@ -1,0 +1,16 @@
+.sky-docs-code-example-header {
+  display: flex;
+  align-items: baseline;
+}
+
+.sky-docs-code-example-header-title {
+  flex-grow: 1;
+}
+
+.sky-docs-code-example-header-controls {
+  flex-grow: 0;
+
+  .sky-btn {
+    font-weight: normal;
+  }
+}

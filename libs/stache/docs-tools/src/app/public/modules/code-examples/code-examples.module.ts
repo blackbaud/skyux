@@ -27,13 +27,13 @@ import {
 } from '../shared/docs-tools-resources.module';
 
 import {
-  SkyDocsCodeExampleComponent
-} from './code-example.component';
+  SkyDocsCodeExamplesComponent
+} from './code-examples.component';
 
 import {
-  SkyDocsCodeExamplesProvider
-} from './code-examples-provider';
-import { SkyDocsCodeExampleEditorService } from './code-example-editor.service';
+  SkyDocsCodeExamplesEditorService
+} from './code-examples-editor.service';
+import { SkyDocsCodeExampleComponent } from './code-example.component';
 
 @NgModule({
   imports: [
@@ -45,14 +45,15 @@ import { SkyDocsCodeExampleEditorService } from './code-example-editor.service';
     SkyVerticalTabsetModule
   ],
   declarations: [
-    SkyDocsCodeExampleComponent
+    SkyDocsCodeExampleComponent,
+    SkyDocsCodeExamplesComponent
   ],
   exports: [
-    SkyDocsCodeExampleComponent
+    SkyDocsCodeExampleComponent,
+    SkyDocsCodeExamplesComponent
   ],
   providers: [
-    SkyDocsCodeExampleEditorService,
-    SkyDocsCodeExamplesProvider
+    SkyDocsCodeExamplesEditorService
   ]
 })
-export class SkyDocsCodeExampleModule { }
+export class SkyDocsCodeExamplesModule { }
