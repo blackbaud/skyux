@@ -44,6 +44,10 @@ export class SkyDocsCodeExamplesComponent implements AfterContentInit {
     this.codeExampleComponents.forEach((component) => {
       const sourceCode = this.sourceCodeProvider.getSourceCode(component.sourceCodeLocation);
 
+      if (!sourceCode.length) {
+        throw `No source code found at location "${component.sourceCodeLocation}" for "${component.title}"!`;
+      }
+
       this.codeExamples.push({
         title: component.title,
         sourceCode,
@@ -53,7 +57,6 @@ export class SkyDocsCodeExamplesComponent implements AfterContentInit {
   }
 
   public launchEditor(codeExample: SkyDocsCodeExample): void {
-    console.log('EH?', codeExample);
     this.editorService.launchEditor(codeExample);
   }
 

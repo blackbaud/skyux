@@ -29,8 +29,6 @@ export class SkyDocsCodeExamplesEditorService {
     const angularVersion = '^7.0.0';
     const skyuxVersion = '^3.0.0';
 
-    console.log('codeExample:', codeExample);
-
     const defaultDependencies: SkyDocsCodeExampleModuleDependencies = {
       '@angular/animations': angularVersion,
       '@angular/common': angularVersion,
@@ -104,24 +102,42 @@ export class SkyDocsCodeExamplesEditorService {
  **/
  `;
 
-    const declarations: string[] = [
-      'AppComponent'
+    const moduleImportStatements: string[] = [
+      `import {\n  Component,\n  NgModule\n} from '@angular/core';`,
+      `import {\n  FormsModule,\n  ReactiveFormsModule\n} from '@angular/forms';`,
+      `import {\n  platformBrowserDynamic\n} from '@angular/platform-browser-dynamic';`,
+      `import {\n  BrowserModule\n} from '@angular/platform-browser';`,
+      `import {\n  RouterModule\n} from '@angular/router';`,
+      `import {\n  AppComponent\n} from './app.component';`
     ];
 
-    const entryComponents: string[] = [];
-
-    const moduleImports: string[] = [];
-
-    const providers: string[] = [];
-
-    const skyModules: string[] = [];
-
-    const appComponentTemplate = '';
+    const moduleImports: string[] = [
+      'BrowserModule',
+      'FormsModule',
+      'ReactiveFormsModule',
+      'RouterModule.forRoot([])'
+    ];
 
     const files: {[_: string]: string} = {};
 
+    let appComponentTemplate = '';
+
     sourceCode.forEach((file) => {
       files[`${appPath}${file.fileName}`] = file.rawContents;
+
+      // Setup module imports and component selectors.
+      if (file.fileName.indexOf('.module.ts') > -1) {
+        const moduleName = this.getModuleName(file.rawContents);
+        const importPath = `./${this.getFilenameNoExtension(file.fileName)}`;
+
+        const exportedComponent = this.getExportedComponent(file.rawContents);
+        const componentSelector = this.getComponentSelector(exportedComponent, sourceCode);
+
+        appComponentTemplate += `<${componentSelector}></${componentSelector}>`;
+
+        moduleImports.push(moduleName);
+        moduleImportStatements.push(`import {\n  ${moduleName}\n} from '${importPath}';`);
+      }
     });
 
     files[`${appPath}app.component.ts`] = `${banner}
@@ -135,72 +151,20 @@ import {
 })
 export class AppComponent { }`;
 
-    files[`${appPath}app.module.ts`] = `import {
-  Component,
-  NgModule
-} from '@angular/core';
-
-import {
-  FormsModule,
-  ReactiveFormsModule
-} from '@angular/forms';
-
-import {
-  platformBrowserDynamic
-} from '@angular/platform-browser-dynamic';
-
-import {
-  BrowserModule
-} from '@angular/platform-browser';
-
-import {
-  RouterModule
-} from '@angular/router';
-
-import {
-  AppSkyModule
-} from './app-sky.module';
-
-${moduleImports.join('\n')}
-
-import {
-  AppComponent
-} from './app.component';
+    files[`${appPath}app.module.ts`] = `${moduleImportStatements.join('\n\n')}
 
 @NgModule({
   imports: [
-    AppSkyModule,
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule.forRoot([])
+    ${moduleImports.join(',\n    ')}
   ],
   declarations: [
-    ${declarations.join(',\n')}
-  ],
-  entryComponents: [
-    ${entryComponents.join(',\n')}
-  ],
-  providers: [
-    ${providers.join(',\n')}
+    AppComponent
   ],
   bootstrap: [
     AppComponent
   ]
 })
 export class AppModule { }
-`;
-
-    files[`${appPath}app-sky.module.ts`] = `import {
-  NgModule
-} from '@angular/core';
-
-@NgModule({
-  exports: [
-    ${skyModules.join(',\n    ')}
-  ]
-})
-export class AppSkyModule { }
 `;
 
     files[`${srcPath}index.html`] = `<sky-demo-app>
@@ -284,6 +248,51 @@ body {
 }`;
 
     return files;
+  }
+
+  private getModuleName(contents: string): string {
+    return contents.split('export class ')[1].split(' {')[0];
+  }
+
+  private getFilenameNoExtension(fileName: string): string {
+    const extension = fileName.split('.').pop();
+    return fileName.replace(`.${extension}`, '');
+  }
+
+  private getExportedComponent(contents: string): string {
+    const trimmed = contents.replace(/\s/g, '');
+
+    let fragment = trimmed.split('exports:[')[1];
+
+    if (!fragment) {
+      throw 'You must export a component from the code example module!';
+    }
+
+    fragment = fragment.split(']')[0];
+
+    const components = fragment.split(',');
+
+    if (components.length > 1) {
+      throw 'You may only export a single component from the code example module' +
+        `(we found ${components.length}: ${components.join(', ')}).` +
+        'Is it possible to create a new code example with the extra components?';
+    }
+
+    return components[0];
+  }
+
+  private getComponentSelector(
+    componentClassName: string,
+    sourceCode: SkyDocsSourceCodeFile[]
+  ): string {
+
+    const found = sourceCode.find((file) => {
+      return (file.rawContents.indexOf(componentClassName) > -1);
+    });
+
+    const trimmed = found.rawContents.replace(/\s/g, '');
+
+    return trimmed.split(`selector:'`)[1].split(`'`)[0];
   }
 
 }
