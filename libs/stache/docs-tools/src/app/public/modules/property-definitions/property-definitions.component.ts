@@ -4,13 +4,16 @@ import {
   ContentChildren,
   QueryList,
   AfterContentInit,
-  TemplateRef,
   ChangeDetectorRef
 } from '@angular/core';
 
 import {
   SkyDocsPropertyDefinitionComponent
 } from './property-definition.component';
+
+import {
+  SkyPropertyDefinition
+} from './property-definition';
 
 @Component({
   selector: 'sky-docs-property-definitions',
@@ -20,13 +23,7 @@ import {
 })
 export class SkyDocsPropertyDefinitionsComponent implements AfterContentInit {
 
-  public data: {
-    dataType: string;
-    defaultValue: string;
-    isRequired: boolean;
-    propertyName: string;
-    templateRef: TemplateRef<any>;
-  }[] = [];
+  public data: SkyPropertyDefinition[] = [];
 
   @ContentChildren(SkyDocsPropertyDefinitionComponent)
   private definitionRefs: QueryList<SkyDocsPropertyDefinitionComponent>;

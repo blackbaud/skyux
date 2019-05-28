@@ -6,6 +6,9 @@ import {
   Title
 } from '@angular/platform-browser';
 
+/**
+ * @internal
+ */
 @Injectable()
 export class SkyDocsDemoPageTitleService {
 
