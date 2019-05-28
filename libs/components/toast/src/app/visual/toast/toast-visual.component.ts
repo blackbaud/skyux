@@ -40,4 +40,8 @@ export class ToastVisualComponent implements OnDestroy {
     this.toastService.openComponent(ToastDemoComponent, { type: SkyToastType.Warning });
     this.toastService.openComponent(ToastDemoComponent, { type: SkyToastType.Danger });
   }
+
+  public closeAll(): void {
+    this.toastService.closeAll();
+  }
 }
