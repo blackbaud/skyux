@@ -37,6 +37,7 @@ export class SkyDocsPropertyDefinitionsComponent implements AfterContentInit {
       this.data.push({
         dataType: definitionRef.dataType,
         defaultValue: definitionRef.defaultValue,
+        isDeprecated: definitionRef.isDeprecated,
         isRequired: definitionRef.isRequired,
         propertyName: definitionRef.propertyName,
         templateRef: definitionRef.templateRef

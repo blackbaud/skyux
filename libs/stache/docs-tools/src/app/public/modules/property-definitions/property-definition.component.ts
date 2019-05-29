@@ -20,6 +20,9 @@ export class SkyDocsPropertyDefinitionComponent {
   public defaultValue: string;
 
   @Input()
+  public isDeprecated = false;
+
+  @Input()
   public isRequired = false;
 
   @Input()
