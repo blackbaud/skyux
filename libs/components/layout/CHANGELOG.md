@@ -1,10 +1,15 @@
+# 3.2.1 (2019-05-29)
+
+- Fixed the text expand component to correct the spacing before the "See more" and "See less" buttons. [#38](https://github.com/blackbaud/skyux-layout/pull/38)
+- Fixed the text expand repeater component to not place focus on the whitespace around the "See more" and "See less" buttons. [#38](https://github.com/blackbaud/skyux-layout/pull/38)
+
 # 3.2.0 (2019-05-17)
 
 - Added the ability to trigger responsive styles based on a parent component. [#32](https://github.com/blackbaud/skyux-layout/pull/32)
 
 # 3.1.1 (2019-04-18)
 
-- Fixed toolbar component styles to prevent collapsed search bar. [#30](https://github.com/blackbaud/skyux-layout/pull/30)
+- Fixed toolbar component styles to prevent a collapsed search bar. [#30](https://github.com/blackbaud/skyux-layout/pull/30)
 
 # 3.1.0 (2019-04-09)
 
