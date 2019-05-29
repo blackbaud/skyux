@@ -1,3 +1,8 @@
+# 3.1.3 (2019-05-28)
+
+- Fixed the checkbox component to have proper Angular form control states when it is initialized. [#41](https://github.com/blackbaud/skyux-forms/pull/41)
+- Fixed the checkbox and radio button components to not have extra spacing when a label is not specified. [#42](https://github.com/blackbaud/skyux-forms/pull/42)
+
 # 3.1.2 (2019-05-03)
 
 - Fixed radio group component to properly update ngModel when initial value is undefined. [#37](https://github.com/blackbaud/skyux-forms/pull/37)
