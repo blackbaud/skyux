@@ -1,5 +1,5 @@
 <div
-  class="sky-docs-demo-page-module-info"
+  class="sky-docs-module-info"
 >
   <sky-definition-list
     defaultValue=""
@@ -34,7 +34,7 @@
         Installation command
       </sky-definition-list-label>
       <sky-definition-list-value>
-        <span #copyTarget><sky-code>{{ installationCommand }}</sky-code></span>
+        <span class="sky-docs-module-info-installation-command" #copyTarget><sky-code>{{ installationCommand }}</sky-code></span>
         <sky-copy-to-clipboard
           buttonText="Copy"
           [copyTarget]="copyTarget"

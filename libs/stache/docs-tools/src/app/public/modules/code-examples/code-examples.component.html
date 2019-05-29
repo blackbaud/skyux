@@ -28,18 +28,20 @@
   let-item
   #codeExampleTemplate
 >
-  <sky-vertical-tabset *ngIf="item.sourceCode && item.sourceCode.length">
-    <sky-vertical-tab *ngFor="let file of item.sourceCode; let i = index;"
-      [active]="i === 0"
-      [tabHeading]="file.fileName"
-    >
-      <sky-code-block
-        [code]="file.rawContents"
-        [languageType]="parseCodeLanguageType(file.fileName)"
+  <div class="sky-docs-code-example-wrapper">
+    <sky-vertical-tabset *ngIf="item.sourceCode && item.sourceCode.length">
+      <sky-vertical-tab *ngFor="let file of item.sourceCode; let i = index;"
+        [active]="i === 0"
+        [tabHeading]="file.fileName"
       >
-      </sky-code-block>
-    </sky-vertical-tab>
-  </sky-vertical-tabset>
+        <sky-code-block
+          [code]="file.rawContents"
+          [languageType]="parseCodeLanguageType(file.fileName)"
+        >
+        </sky-code-block>
+      </sky-vertical-tab>
+    </sky-vertical-tabset>
+  </div>
 </ng-template>
 
 <ng-template

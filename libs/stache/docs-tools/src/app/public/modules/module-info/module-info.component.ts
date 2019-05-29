@@ -5,8 +5,9 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'sky-docs-demo-page-module-info',
+  selector: 'sky-docs-module-info',
   templateUrl: './module-info.component.html',
+  styleUrls: ['./module-info.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyDocsModuleInfoComponent {
