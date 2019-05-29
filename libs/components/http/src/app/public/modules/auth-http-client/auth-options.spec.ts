@@ -5,6 +5,7 @@ import {
 } from '@angular/common/http';
 
 import {
+  skyAuthHttpJsonOptions,
   skyAuthHttpOptions
 } from './auth-options';
 
@@ -35,6 +36,12 @@ describe('Auth options', () => {
     });
 
     expect(options.params.get('abc')).toBe('123');
+  });
+
+  it('should provide a method that enforces a responseType of json', () => {
+    const options = skyAuthHttpJsonOptions();
+
+    expect(options.responseType).toBe('json');
   });
 
 });

@@ -40,3 +40,36 @@ export function skyAuthHttpOptions(options?: {
 
   return options;
 }
+
+/**
+ * Provides the standard options expected by Angular's HttpClient methods along with
+ * additional options for making requests to services protected by Blackbaud ID and
+ * ensures that the subsequent call to `HttpClient` returns the generic type passed
+ * to it by enforcing a `responseType` of `'json'`.
+ * @param options
+ */
+export function skyAuthHttpJsonOptions(options?: {
+  body?: any,
+  headers?: HttpHeaders,
+  observe?: HttpObserve,
+  params?: HttpParams,
+  reportProgress?: boolean,
+  permissionScope?: string,
+  responseType?: 'json',
+  withCredentials?: boolean
+}): {
+  body?: any,
+  headers?: HttpHeaders,
+  observe?: HttpObserve,
+  params?: HttpParams,
+  reportProgress?: boolean,
+  permissionScope?: string,
+  responseType?: 'json',
+  withCredentials?: boolean
+} {
+  options = options || {};
+
+  options.responseType = 'json';
+
+  return skyAuthHttpOptions(options);
+}
