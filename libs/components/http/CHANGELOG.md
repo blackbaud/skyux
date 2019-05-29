@@ -1,6 +1,11 @@
+# 3.4.0 (2019-05-29)
+
+- Added a module for unit testing services that use the auth interceptor. [#19](https://github.com/blackbaud/skyux-http/pull/19)
+- Added a `skyAuthHttpJsonOptions()` function to enforce a `responseType` of `json`. This ensures that the correct type is inferred when used in conjection with the generic methods on Angular's `HttpClient`. [#20](https://github.com/blackbaud/skyux-http/pull/20)
+
 # 3.3.0 (2019-05-07)
 
-- Added methods to `SkyAuthTokenProvider` to get a decoded token.  This enables consumers to access properties such as the user's current zone to make requests to the appropriate zone endpoint. [#17](https://github.com/blackbaud/skyux-http/pull/17)
+- Added methods to `SkyAuthTokenProvider` to get a decoded token. This enables consumers to access properties such as the user's current zone to make requests to the appropriate zone endpoint. [#17](https://github.com/blackbaud/skyux-http/pull/17)
 
 # 3.2.0 (2018-11-19)
 
@@ -8,7 +13,7 @@
 
 # 3.1.0 (2018-11-14)
 
-- Added `SkyAuthHttpClientModule` that can be used in conjunction with Angular's `HttpClient` to make authenticated calls to services backed by Blackbaud ID. [#11](https://github.com/blackbaud/skyux-http/pull/11)
+- Added `SkyAuthHttpClientModule` for use in conjunction with Angular's `HttpClient` to make authenticated calls to services backed by a Blackbaud ID. [#11](https://github.com/blackbaud/skyux-http/pull/11)
 
 # 3.0.0 (2018-09-20)
 
@@ -24,7 +29,7 @@
 
 # 3.0.0-alpha.2 (2018-08-18)
 
-- Bugfix to remove Builder config from dependency.
+- Bugfix to remove the Builder config from a dependency.
 
 # 3.0.0-alpha.1 (2018-08-16)
 
