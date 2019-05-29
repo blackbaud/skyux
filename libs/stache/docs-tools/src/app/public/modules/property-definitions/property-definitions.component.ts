@@ -34,11 +34,15 @@ export class SkyDocsPropertyDefinitionsComponent implements AfterContentInit {
 
   public ngAfterContentInit(): void {
     this.definitionRefs.forEach((definitionRef) => {
+      const isRequired = (
+        definitionRef.defaultValue === undefined
+      );
+
       this.data.push({
         dataType: definitionRef.dataType,
         defaultValue: definitionRef.defaultValue,
         isDeprecated: definitionRef.isDeprecated,
-        isRequired: definitionRef.isRequired,
+        isRequired,
         propertyName: definitionRef.propertyName,
         templateRef: definitionRef.templateRef
       });

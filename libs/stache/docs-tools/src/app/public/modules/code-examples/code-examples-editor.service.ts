@@ -265,7 +265,6 @@ body {
     const trimmed = contents.replace(/\s/g, '');
 
     let fragment = trimmed.split('exports:[')[1];
-
     if (!fragment) {
       throw 'You must export a component from the code example module!';
     }

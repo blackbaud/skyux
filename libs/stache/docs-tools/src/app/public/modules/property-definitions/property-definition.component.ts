@@ -23,9 +23,6 @@ export class SkyDocsPropertyDefinitionComponent {
   public isDeprecated = false;
 
   @Input()
-  public isRequired = false;
-
-  @Input()
   public propertyName: string;
 
   @ViewChild('templateRef', { read: TemplateRef })

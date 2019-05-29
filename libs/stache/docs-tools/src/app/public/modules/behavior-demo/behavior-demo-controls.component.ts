@@ -8,5 +8,4 @@ import {
   templateUrl: './behavior-demo-controls.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyDocsBehaviorDemoControlsComponent {
-}
+export class SkyDocsBehaviorDemoControlsComponent { }

@@ -6,9 +6,10 @@
     [pageTitle]="pageTitle"
     [showBreadcrumbs]="false"
   >
-
     <stache-page-summary>
-      <ng-content select="sky-docs-demo-page-summary"></ng-content>
+      <ng-content
+        select="sky-docs-demo-page-summary"
+      ></ng-content>
     </stache-page-summary>
 
     <sky-docs-demo-page-section
@@ -29,13 +30,15 @@
       </sky-docs-demo-page-module-info>
     </sky-docs-demo-page-section>
 
-    <ng-content></ng-content>
+    <ng-content>
+    </ng-content>
 
     <sky-docs-demo-page-section
       heading="Code examples"
     >
-      <ng-content select="sky-docs-code-examples">
-      </ng-content>
+      <ng-content
+        select="sky-docs-code-examples"
+      ></ng-content>
     </sky-docs-demo-page-section>
   </stache>
 </div>

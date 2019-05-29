@@ -4,7 +4,6 @@
   packageName="@skyux/docs-tools"
   pageTitle="Demo page"
 >
-
   <sky-docs-demo-page-summary>
     The popover module displays small chunks of contextual content on pages or modals. It highlights content in an HTML-formatted popover that is similar to a tooltip but provides more room for plain text, HTML content, or Angular components. The popover trigger directive ties the popover to an element that users can interact with to display the popover.
   </sky-docs-demo-page-summary>
@@ -15,7 +14,16 @@
     <sky-docs-property-definitions>
       <sky-docs-property-definition
         propertyName="skyPopover"
-        [isRequired]="true"
+      >
+        References the popover component to display. Add this directive to the trigger element that opens the popover.
+      </sky-docs-property-definition>
+    </sky-docs-property-definitions>
+
+    <sky-docs-property-definitions>
+      <sky-docs-property-definition
+        propertyName="foobar"
+        defaultValue="baz"
+        [isDeprecated]="true"
       >
         References the popover component to display. Add this directive to the trigger element that opens the popover.
       </sky-docs-property-definition>
@@ -23,7 +31,9 @@
   </sky-docs-demo-page-section>
 
   <sky-docs-code-examples
-    [packageDependencies]="{}"
+    [packageDependencies]="{
+      '@skyux/action-bars': '*'
+    }"
   >
     <sky-docs-code-example
       title="Default setup"

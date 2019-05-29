@@ -14,6 +14,6 @@ export interface SkyPropertyDefinition {
 
   propertyName: string;
 
-  templateRef?: TemplateRef<any>;
+  templateRef: TemplateRef<any>;
 
 }
