@@ -1,6 +1,10 @@
+# 3.2.4 (2019-05-28)
+
+- Fixed the list toolbar component to properly display items when they are dynamically shown or hidden. [#45](https://github.com/blackbaud/skyux-list-builder/pull/45)
+
 # 3.2.3 (2019-04-16)
 
-- Fixed visual styles for list toolbar view actions component. [#41](https://github.com/blackbaud/skyux-list-builder/pull/41)
+- Fixed visual styles for the list toolbar view actions component. [#41](https://github.com/blackbaud/skyux-list-builder/pull/41)
 
 # 3.2.2 (2019-04-12)
 
@@ -12,16 +16,16 @@
 
 # 3.2.0 (2019-03-19)
 
-- Added support for multiselect toolbar. [#18](https://github.com/blackbaud/skyux-list-builder/pull/18/)
+- Added support for the multiselect toolbar. [#18](https://github.com/blackbaud/skyux-list-builder/pull/18/)
 
 # 3.1.0 (2019-03-19)
 
 - Added support for `microedge-rxstate@>=2.0.2`. [#33](https://github.com/blackbaud/skyux-list-builder/pull/33)
-- Fixed `ListPagingComponent` to properly import `scan` RxJS operator. [#33](https://github.com/blackbaud/skyux-list-builder/pull/33)
+- Fixed `ListPagingComponent` to properly import the `scan` RxJS operator. [#33](https://github.com/blackbaud/skyux-list-builder/pull/33)
 
 # 3.0.1 (2019-03-07)
 
-- Fixed list paging component to update after list items change. [#25](https://github.com/blackbaud/skyux-list-builder/pull/25)
+- Fixed the list paging component to update after the list items change. [#25](https://github.com/blackbaud/skyux-list-builder/pull/25)
 
 # 3.0.0 (2019-01-14)
 
@@ -34,7 +38,7 @@
 
 # 3.0.0-rc.3 (2018-11-12)
 
-- Fixed `isObservable` utility function to work with RxJS 6. [#8](https://github.com/blackbaud/skyux-list-builder/pull/8)
+- Fixed the `isObservable` utility function to work with RxJS 6. [#8](https://github.com/blackbaud/skyux-list-builder/pull/8)
 
 # 3.0.0-rc.2 (2018-11-08)
 
