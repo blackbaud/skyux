@@ -1,10 +1,14 @@
+# 3.0.4 (2019-05-28)
+
+- Fixed the toast service to not error when attempting to close all toasts while no toasts are open. [#21](https://github.com/blackbaud/skyux-toast/pull/21) (Thanks @Blackbaud-ChristiSchneider)
+
 # 3.0.3 (2019-04-26)
 
-- Fixed toast component to handle click events that originate within its contents. [#18](https://github.com/blackbaud/skyux-toast/pull/18)
+- Fixed the toast component to handle click events that originate within its contents. [#18](https://github.com/blackbaud/skyux-toast/pull/18)
 
 # 3.0.2 (2019-04-23)
 
-- Fixed toast component to prevent clicks from propagating. [#16](https://github.com/blackbaud/skyux-toast/pull/16)
+- Fixed the toast component to prevent clicks from propagating. [#16](https://github.com/blackbaud/skyux-toast/pull/16)
 
 # 3.0.1 (2019-02-22)
 
@@ -16,8 +20,8 @@
 
 # 3.0.0-rc.4 (2018-12-20)
 
-- Fixed toast service to remove the toaster component if all toast component instances have been closed. [#9](https://github.com/blackbaud/skyux-toast/pull/9)
-- Updated toast service to utilize `SkyDynamicComponentService` [#6](https://github.com/blackbaud/skyux-toast/pull/6)
+- Fixed the toast service to remove the toaster component if all toast component instances have been closed. [#9](https://github.com/blackbaud/skyux-toast/pull/9)
+- Updated the toast service to utilize `SkyDynamicComponentService`. [#6](https://github.com/blackbaud/skyux-toast/pull/6)
 
 # 3.0.0-rc.3 (2018-11-08)
 
