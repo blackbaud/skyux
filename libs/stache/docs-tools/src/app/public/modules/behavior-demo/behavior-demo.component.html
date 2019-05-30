@@ -1,3 +1,59 @@
 <div class="sky-docs-behavior-demo">
-  <ng-content></ng-content>
+
+  <div class="sky-docs-behavior-demo-control-panel">
+    <div class="sky-docs-behavior-demo-control-panel-row">
+      <div *ngFor="let column of controlPanelConfig.columns"
+        class="sky-docs-behavior-demo-control-panel-column"
+      >
+        <div *ngIf="column.radioGroup"
+          class="sky-docs-behavior-demo-control-panel-radio-group"
+        >
+          <sky-radio-group
+            [name]="column.radioGroup.name"
+            [ngModel]="column.radioGroup.value"
+            (ngModelChange)="onModelChange()"
+          >
+            <ul class="sky-list-unstyled">
+              <li *ngFor="let radio of column.radioGroup.radios">
+                <sky-radio
+                  [value]="radio.value"
+                >
+                  <sky-radio-label>{{ radio.label }}</sky-radio-label>
+                </sky-radio>
+              </li>
+            </ul>
+          </sky-radio-group>
+        </div>
+
+        <div *ngIf="column.checkboxes"
+          class="sky-docs-behavior-demo-control-panel-checkboxes"
+        >
+          <ul class="sky-list-unstyled">
+            <li *ngFor="let checkbox of column.checkboxes">
+              <sky-checkbox
+                [(ngModel)]="checkbox.checked"
+                (change)="onModelChange()"
+              >
+                <sky-checkbox-label>{{ checkbox.label }}</sky-checkbox-label>
+              </sky-checkbox>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sky-docs-behavior-demo-control-panel-column sky-docs-behavior-demo-control-panel-button-column">
+        <button
+          class="sky-btn sky-btn-link"
+          type="button"
+          (click)="onResetButtonClick()"
+        >
+          {{ 'sky-docs-behavior-demo-control-panel-reset-button-label' | skyLibResources }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="sky-docs-behavior-demo-viewport">
+    <ng-content></ng-content>
+  </div>
 </div>

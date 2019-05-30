@@ -7,24 +7,34 @@ import {
 } from '@angular/core';
 
 import {
+  FormsModule
+} from '@angular/forms';
+
+import {
+  SkyRadioModule, SkyCheckboxModule
+} from '@skyux/forms';
+
+import {
+  SkyDocsToolsResourcesModule
+} from '../shared/docs-tools-resources.module';
+
+import {
   SkyDocsBehaviorDemoComponent
 } from './behavior-demo.component';
 
-import {
-  SkyDocsBehaviorDemoControlsComponent
-} from './behavior-demo-controls.component';
-
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule,
+    SkyCheckboxModule,
+    SkyDocsToolsResourcesModule,
+    SkyRadioModule
   ],
   declarations: [
-    SkyDocsBehaviorDemoComponent,
-    SkyDocsBehaviorDemoControlsComponent
+    SkyDocsBehaviorDemoComponent
   ],
   exports: [
-    SkyDocsBehaviorDemoComponent,
-    SkyDocsBehaviorDemoControlsComponent
+    SkyDocsBehaviorDemoComponent
   ]
 })
 export class SkyDocsBehaviorDemoModule { }

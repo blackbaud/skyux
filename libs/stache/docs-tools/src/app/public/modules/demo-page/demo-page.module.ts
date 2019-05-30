@@ -69,6 +69,7 @@ import {
     SkyDocsDemoPageSummaryComponent
   ],
   exports: [
+    SkyDocsBehaviorDemoModule,
     SkyDocsCodeExamplesModule,
     SkyDocsDemoPageComponent,
     SkyDocsDemoPageDesignGuidelinesComponent,

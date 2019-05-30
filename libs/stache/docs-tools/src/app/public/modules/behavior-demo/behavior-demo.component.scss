@@ -1,0 +1,48 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+.sky-docs-behavior-demo {
+  margin-bottom: $sky-margin * 4;
+}
+
+.sky-docs-behavior-demo-viewport {
+  @include sky-border(dark, top, bottom, left, right);
+  margin-bottom: $sky-margin;
+}
+
+.sky-docs-behavior-demo-control-panel {
+  .sky-btn {
+    float: right;
+  }
+
+  ul {
+    margin: 0;
+
+    li {
+      padding: 0;
+    }
+  }
+}
+
+.sky-docs-behavior-demo-control-panel-row {
+  @include sky-border(dark, top, bottom, left, right);
+  margin-bottom: $sky-margin-double;
+  padding: $sky-padding-even-default;
+  display: inline-flex;
+}
+
+.sky-docs-behavior-demo-control-panel-column {
+  min-width: 120px;
+  padding-right: $sky-padding-double;
+}
+
+.sky-docs-behavior-demo-control-panel-button-column {
+  min-width: 0;
+  align-self: flex-end;
+  padding-right: 0;
+}
+
+.sky-docs-behavior-demo-control-panel-radio-group,
+.sky-docs-behavior-demo-control-panel-checkboxes {
+  margin-bottom: $sky-margin-double;
+}

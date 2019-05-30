@@ -12,12 +12,15 @@
       ></ng-content>
     </stache-page-summary>
 
-    <sky-docs-demo-page-section
-      heading="Behavior demo"
+    <div
+      class="sky-section-heading"
+      role="heading"
     >
-      <sky-docs-behavior-demo>
-      </sky-docs-behavior-demo>
-    </sky-docs-demo-page-section>
+      {{ pageTitle }} demo
+    </div>
+    <ng-content
+      select="sky-docs-behavior-demo"
+    ></ng-content>
 
     <sky-tabset>
       <sky-tab tabHeading="Design">

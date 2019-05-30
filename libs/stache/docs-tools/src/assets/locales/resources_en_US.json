@@ -2,5 +2,9 @@
   "sky-docs-code-example-launch-button-label": {
     "_description": "Button text for code example button used to launch editor.",
     "message": "Run in StackBlitz"
+  },
+  "sky-docs-behavior-demo-control-panel-reset-button-label": {
+    "_description": "Button text for behavior demo reset button.",
+    "message": "Reset"
   }
 }

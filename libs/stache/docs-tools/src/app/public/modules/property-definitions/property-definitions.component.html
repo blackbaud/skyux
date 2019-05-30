@@ -18,7 +18,7 @@
       >
         Description
       </th>
-      <th
+      <th *ngIf="showDataColumn"
         class="sky-table-cell sky-table-column-header"
       >
         Data
@@ -50,7 +50,7 @@
         </ng-container>
       </td>
 
-      <td
+      <td *ngIf="showDataColumn"
         class="sky-table-cell"
       >
         <sky-definition-list>

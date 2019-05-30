@@ -12,6 +12,7 @@ import {
 @Component({
   selector: 'sky-docs-demo-page',
   templateUrl: './demo-page.component.html',
+  styleUrls: ['./demo-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyDocsDemoPageComponent implements OnInit {

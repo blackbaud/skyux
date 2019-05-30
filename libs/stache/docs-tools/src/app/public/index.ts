@@ -1,5 +1,7 @@
 // Export any types that should be included in the root.
 
+export * from './modules/behavior-demo/behavior-demo-control-panel-config';
+
 export * from './modules/demo-page/demo-page.module';
 
 export * from './modules/property-definitions/property-definitions.module';
