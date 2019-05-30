@@ -1,3 +1,7 @@
+# 3.4.1 (2019-05-30)
+
+- Fixed the return type for `skyAuthHttpJsonOptions()`. [#22](https://github.com/blackbaud/skyux-http/pull/22)
+
 # 3.4.0 (2019-05-29)
 
 - Added a module for unit testing services that use the auth interceptor. [#19](https://github.com/blackbaud/skyux-http/pull/19)
