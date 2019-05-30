@@ -2,6 +2,7 @@ export interface SkyDocsBehaviorDemoControlPanelConfig {
   columns: {
     radioGroup?: {
       name: string;
+      heading: string;
       value: any;
       radios: {
         label: string;

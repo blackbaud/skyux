@@ -1,5 +1,5 @@
 import {
-  Component
+  Component, ChangeDetectorRef
 } from '@angular/core';
 
 import { SkyDocsBehaviorDemoControlPanelConfig } from '../../public';
@@ -13,38 +13,49 @@ export class AppSampleDocsComponent {
     columns: [
       {
         radioGroup: {
-          name: 'test-value',
-          value: 'bar',
+          name: 'placement',
+          heading: 'Placement',
+          value: 'above',
           radios: [
-            { value: 'foo', label: 'Foo' },
-            { value: 'bar', label: 'Bar' },
-            { value: 'baz', label: 'Baz' }
+            { value: 'above', label: 'Above' },
+            { value: 'below', label: 'Below' },
+            { value: 'left', label: 'Left' },
+            { value: 'right', label: 'Right' }
           ]
-        },
-        checkboxes: [
-          { label: 'Check this please', checked: true, value: 'showThing' }
-        ]
+        }
       },
       {
         radioGroup: {
-          name: 'another-value',
-          value: 'bar',
+          name: 'alignment',
+          heading: 'Alignment',
+          value: 'center',
           radios: [
-            { value: 'foo', label: 'Foo' },
-            { value: 'bar', label: 'Bar' },
-            { value: 'baz', label: 'Baz' }
+            { value: 'left', label: 'Left' },
+            { value: 'right', label: 'Right' },
+            { value: 'center', label: 'Center' }
           ]
-        },
+        }
+      },
+      {
         checkboxes: [
-          { label: 'Foo', checked: true, value: 'foo' },
-          { label: 'Bar', checked: false, value: 'bar' },
-          { label: 'Baz', checked: true, value: 'baz' }
+          { label: 'Include title', checked: false, value: 'includeTitle' }
         ]
       }
     ]
   };
 
+  public behaviorDemoProperties: any = {};
+
+  constructor(
+    private changeDetector: ChangeDetectorRef
+  ) { }
+
   public onBehaviorDemoSelection(change: any): void {
-    console.log('change:', change);
+    this.behaviorDemoProperties = {
+      skyPopoverAlignment: change.columns[1].radioGroup.value,
+      skyPopoverPlacement: change.columns[0].radioGroup.value,
+      popoverTitle: (change.columns[2].checkboxes[0].checked === true) ? 'Popover title' : ''
+    };
+    this.changeDetector.markForCheck();
   }
 }

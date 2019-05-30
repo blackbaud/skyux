@@ -8,6 +8,14 @@
 .sky-docs-behavior-demo-viewport {
   @include sky-border(dark, top, bottom, left, right);
   margin-bottom: $sky-margin;
+  padding: $sky-padding-even-default;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sky-docs-behavior-demo-viewport-gutter {
+  display: flex;
 }
 
 .sky-docs-behavior-demo-control-panel {
@@ -17,10 +25,6 @@
 
   ul {
     margin: 0;
-
-    li {
-      padding: 0;
-    }
   }
 }
 

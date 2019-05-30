@@ -8,10 +8,11 @@
         <div *ngIf="column.radioGroup"
           class="sky-docs-behavior-demo-control-panel-radio-group"
         >
+          <strong>{{ column.radioGroup.heading }}</strong>
           <sky-radio-group
             [name]="column.radioGroup.name"
             [ngModel]="column.radioGroup.value"
-            (ngModelChange)="onModelChange()"
+            (ngModelChange)="column.radioGroup.value = $event;onModelChange();"
           >
             <ul class="sky-list-unstyled">
               <li *ngFor="let radio of column.radioGroup.radios">
@@ -54,6 +55,8 @@
   </div>
 
   <div class="sky-docs-behavior-demo-viewport">
-    <ng-content></ng-content>
+    <div class="sky-docs-behavior-demo-viewport-gutter">
+      <ng-content></ng-content>
+    </div>
   </div>
 </div>

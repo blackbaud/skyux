@@ -12,7 +12,33 @@
     [controlPanelConfig]="behaviorDemoConfig"
     (selectionChange)="onBehaviorDemoSelection($event)"
   >
-    Demo component here.
+    <button
+      class="sky-btn sky-margin-inline-default"
+      type="button"
+      [skyPopover]="myPopover0"
+      [skyPopoverAlignment]="behaviorDemoProperties.skyPopoverAlignment"
+      [skyPopoverPlacement]="behaviorDemoProperties.skyPopoverPlacement"
+    >
+      Popover demo on click
+    </button>
+
+    <button
+      class="sky-btn"
+      type="button"
+      [skyPopover]="myPopover0"
+      skyPopoverTrigger="mouseenter"
+      [skyPopoverAlignment]="behaviorDemoProperties.skyPopoverAlignment"
+      [skyPopoverPlacement]="behaviorDemoProperties.skyPopoverPlacement"
+    >
+      Popover demo on hover
+    </button>
+
+    <sky-popover
+      [popoverTitle]="behaviorDemoProperties.popoverTitle"
+      #myPopover0
+    >
+      The content of a popover can be text, HTML, or Angular components.
+    </sky-popover>
   </sky-docs-behavior-demo>
 
   <sky-docs-demo-page-design-guidelines>
