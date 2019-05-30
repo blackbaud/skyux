@@ -51,7 +51,7 @@ export function skyAuthHttpOptions(options?: {
 export function skyAuthHttpJsonOptions(options?: {
   body?: any,
   headers?: HttpHeaders,
-  observe?: HttpObserve,
+  observe?: 'body',
   params?: HttpParams,
   reportProgress?: boolean,
   permissionScope?: string,
@@ -60,7 +60,7 @@ export function skyAuthHttpJsonOptions(options?: {
 }): {
   body?: any,
   headers?: HttpHeaders,
-  observe?: HttpObserve,
+  observe?: 'body',
   params?: HttpParams,
   reportProgress?: boolean,
   permissionScope?: string,
@@ -69,6 +69,7 @@ export function skyAuthHttpJsonOptions(options?: {
 } {
   options = options || {};
 
+  options.observe = 'body';
   options.responseType = 'json';
 
   return skyAuthHttpOptions(options);

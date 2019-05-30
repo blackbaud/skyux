@@ -1,8 +1,21 @@
 //#region imports
 
 import {
+  getTestBed,
+  TestBed
+} from '@angular/core/testing';
+
+import {
   HttpParams
 } from '@angular/common/http';
+
+import {
+  HttpClient
+} from '@angular/common/http';
+
+import {
+  HttpClientTestingModule
+} from '@angular/common/http/testing';
 
 import {
   skyAuthHttpJsonOptions,
@@ -12,6 +25,21 @@ import {
 //#endregion
 
 describe('Auth options', () => {
+
+  let http: HttpClient;
+
+  beforeEach(() => {
+
+    TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule
+      ]
+    });
+
+    const injector = getTestBed();
+
+    http = injector.get(HttpClient);
+  });
 
   it('should add an auth parameter to the resulting options object', () => {
     const options = skyAuthHttpOptions();
@@ -41,7 +69,15 @@ describe('Auth options', () => {
   it('should provide a method that enforces a responseType of json', () => {
     const options = skyAuthHttpJsonOptions();
 
+    expect(options.observe).toBe('body');
     expect(options.responseType).toBe('json');
+
+    http.get<{bar: string}>('https://www.example.com', options)
+      .subscribe((_foo: {bar: string}) => {
+        // The only thing being verified here is that the call to `http.get<T>()` compiles,
+        // since it's possible changing the return type of `skyAuthHttpJsonOptions()` to
+        // not match an overload of the `HttpClient` methods could result in a compiler error.
+      });
   });
 
 });
