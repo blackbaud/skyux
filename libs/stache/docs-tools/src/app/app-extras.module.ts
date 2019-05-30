@@ -3,6 +3,10 @@ import {
 } from '@angular/core';
 
 import {
+  SkyAppLinkModule
+} from '@skyux/router';
+
+import {
   SkyDocsDemoPageModule,
   SkyDocsSourceCodeProvider
 } from './public';
@@ -13,6 +17,7 @@ import {
 
 @NgModule({
   exports: [
+    SkyAppLinkModule,
     SkyDocsDemoPageModule
   ],
   providers: [

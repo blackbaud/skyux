@@ -13,6 +13,10 @@ import {
 } from '@blackbaud/skyux-lib-stache';
 
 import {
+  SkyTabsModule
+} from '@skyux/tabs';
+
+import {
   SkyDocsBehaviorDemoModule
 } from '../behavior-demo';
 
@@ -27,6 +31,10 @@ import {
 import {
   SkyDocsPropertyDefinitionsModule
 } from '../property-definitions';
+
+import {
+  SkyDocsDemoPageDesignGuidelinesComponent
+} from './demo-page-design-guidelines.component';
 
 import {
   SkyDocsDemoPageSectionComponent
@@ -49,18 +57,21 @@ import {
     CommonModule,
     SkyDocsBehaviorDemoModule,
     SkyDocsModuleInfoModule,
+    SkyTabsModule,
     StachePageAnchorModule,
     StachePageSummaryModule,
     StacheWrapperModule
   ],
   declarations: [
     SkyDocsDemoPageComponent,
+    SkyDocsDemoPageDesignGuidelinesComponent,
     SkyDocsDemoPageSectionComponent,
     SkyDocsDemoPageSummaryComponent
   ],
   exports: [
     SkyDocsCodeExamplesModule,
     SkyDocsDemoPageComponent,
+    SkyDocsDemoPageDesignGuidelinesComponent,
     SkyDocsDemoPageSectionComponent,
     SkyDocsDemoPageSummaryComponent,
     SkyDocsPropertyDefinitionsModule

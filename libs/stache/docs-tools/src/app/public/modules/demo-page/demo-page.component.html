@@ -19,26 +19,38 @@
       </sky-docs-behavior-demo>
     </sky-docs-demo-page-section>
 
-    <sky-docs-demo-page-section *ngIf="packageName"
-      heading="Modules and installation"
-    >
-      <sky-docs-module-info
-        [gitRepoUrl]="gitRepoUrl"
-        [moduleName]="moduleName"
-        [packageName]="packageName"
-      >
-      </sky-docs-module-info>
-    </sky-docs-demo-page-section>
+    <sky-tabset>
+      <sky-tab tabHeading="Design">
 
-    <ng-content>
-    </ng-content>
+        <ng-content select="sky-docs-demo-page-design-guidelines">
+        </ng-content>
 
-    <sky-docs-demo-page-section
-      heading="Code examples"
-    >
-      <ng-content
-        select="sky-docs-code-examples"
-      ></ng-content>
-    </sky-docs-demo-page-section>
+      </sky-tab>
+      <sky-tab tabHeading="Development">
+
+        <sky-docs-demo-page-section *ngIf="packageName"
+          heading="Modules and installation"
+        >
+          <sky-docs-module-info
+            [gitRepoUrl]="gitRepoUrl"
+            [moduleName]="moduleName"
+            [packageName]="packageName"
+          >
+          </sky-docs-module-info>
+        </sky-docs-demo-page-section>
+
+        <ng-content>
+        </ng-content>
+
+        <sky-docs-demo-page-section
+          heading="Code examples"
+        >
+          <ng-content
+            select="sky-docs-code-examples"
+          ></ng-content>
+        </sky-docs-demo-page-section>
+
+      </sky-tab>
+    </sky-tabset>
   </stache>
 </div>
