@@ -4,6 +4,7 @@ import {
 
 @Component({
   selector: 'stache-page-summary',
-  templateUrl: './page-summary.component.html'
+  templateUrl: './page-summary.component.html',
+  styleUrls: ['./page-summary.component.scss']
 })
 export class StachePageSummaryComponent { }
