@@ -17,8 +17,8 @@ import {
 } from '@skyux/tabs';
 
 import {
-  SkyDocsBehaviorDemoModule
-} from '../behavior-demo';
+  SkyDocsDemoModule
+} from '../demo';
 
 import {
   SkyDocsCodeExamplesModule
@@ -55,7 +55,7 @@ import {
 @NgModule({
   imports: [
     CommonModule,
-    SkyDocsBehaviorDemoModule,
+    SkyDocsDemoModule,
     SkyDocsModuleInfoModule,
     SkyTabsModule,
     StachePageAnchorModule,
@@ -69,7 +69,7 @@ import {
     SkyDocsDemoPageSummaryComponent
   ],
   exports: [
-    SkyDocsBehaviorDemoModule,
+    SkyDocsDemoModule,
     SkyDocsCodeExamplesModule,
     SkyDocsDemoPageComponent,
     SkyDocsDemoPageDesignGuidelinesComponent,

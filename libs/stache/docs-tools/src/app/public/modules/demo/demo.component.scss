@@ -1,0 +1,19 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+.sky-docs-demo {
+  margin-bottom: $sky-margin * 4;
+}
+
+.sky-docs-demo-viewport {
+  @include sky-border(dark, top, bottom, left, right);
+  margin-bottom: $sky-margin;
+  padding: $sky-padding-even-default;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sky-docs-demo-viewport-gutter {
+  display: flex;
+}

@@ -18,17 +18,20 @@
     >
       {{ pageTitle }} demo
     </div>
+
     <ng-content
-      select="sky-docs-behavior-demo"
+      select="sky-docs-demo"
     ></ng-content>
 
     <sky-tabset>
+
       <sky-tab tabHeading="Design">
 
         <ng-content select="sky-docs-demo-page-design-guidelines">
         </ng-content>
 
       </sky-tab>
+
       <sky-tab tabHeading="Development">
 
         <sky-docs-demo-page-section *ngIf="packageName"

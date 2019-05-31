@@ -1,0 +1,26 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+.sky-docs-demo-control-panel {
+  margin-bottom: $sky-margin-double;
+}
+
+.sky-docs-demo-control-panel-row {
+  @include sky-border(dark, top, bottom, left, right);
+  padding: $sky-padding-even-default;
+  display: inline-flex;
+}
+
+.sky-docs-demo-control-panel-sections-column {
+  display: flex;
+
+  ::ng-deep {
+    sky-docs-demo-control-panel-section {
+      min-width: 120px;
+    }
+  }
+}
+
+.sky-docs-demo-control-panel-button-column {
+  align-self: flex-end;
+}

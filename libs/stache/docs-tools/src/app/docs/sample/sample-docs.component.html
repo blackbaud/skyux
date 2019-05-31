@@ -8,16 +8,55 @@
     The popover module displays small chunks of contextual content on pages or modals. It highlights content in an HTML-formatted popover that is similar to a tooltip but provides more room for plain text, HTML content, or Angular components. The popover trigger directive ties the popover to an element that users can interact with to display the popover.
   </sky-docs-demo-page-summary>
 
-  <sky-docs-behavior-demo
-    [controlPanelConfig]="behaviorDemoConfig"
-    (selectionChange)="onBehaviorDemoSelection($event)"
+  <sky-docs-demo
+    heading="Demo page demo"
   >
+    <sky-docs-demo-control-panel
+      (selectionChange)="onDemoSelectionChange($event)"
+    >
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-radio-group
+          heading="Placement"
+          name="placement"
+          [initialValue]="'above'"
+          [choices]="[
+            { value: 'above', label: 'Above' },
+            { value: 'below', label: 'Below' },
+            { value: 'left', label: 'Left' },
+            { value: 'right', label: 'Right' }
+          ]"
+        >
+        </sky-docs-demo-control-panel-radio-group>
+      </sky-docs-demo-control-panel-section>
+
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-radio-group
+          heading="Alignment"
+          name="alignment"
+          [initialValue]="'center'"
+          [choices]="[
+            { value: 'left', label: 'Left' },
+            { value: 'right', label: 'Right' },
+            { value: 'center', label: 'Center' }
+          ]"
+        >
+        </sky-docs-demo-control-panel-radio-group>
+
+        <sky-docs-demo-control-panel-checkbox
+          label="Show title"
+          name="showTitle"
+          [checked]="true"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
+
     <button
       class="sky-btn sky-margin-inline-default"
       type="button"
       [skyPopover]="myPopover0"
-      [skyPopoverAlignment]="behaviorDemoProperties.skyPopoverAlignment"
-      [skyPopoverPlacement]="behaviorDemoProperties.skyPopoverPlacement"
+      [skyPopoverAlignment]="demoSettings.skyPopoverAlignment"
+      [skyPopoverPlacement]="demoSettings.skyPopoverPlacement"
     >
       Popover demo on click
     </button>
@@ -27,19 +66,19 @@
       type="button"
       [skyPopover]="myPopover0"
       skyPopoverTrigger="mouseenter"
-      [skyPopoverAlignment]="behaviorDemoProperties.skyPopoverAlignment"
-      [skyPopoverPlacement]="behaviorDemoProperties.skyPopoverPlacement"
+      [skyPopoverAlignment]="demoSettings.skyPopoverAlignment"
+      [skyPopoverPlacement]="demoSettings.skyPopoverPlacement"
     >
       Popover demo on hover
     </button>
 
     <sky-popover
-      [popoverTitle]="behaviorDemoProperties.popoverTitle"
+      [popoverTitle]="demoSettings.popoverTitle"
       #myPopover0
     >
       The content of a popover can be text, HTML, or Angular components.
     </sky-popover>
-  </sky-docs-behavior-demo>
+  </sky-docs-demo>
 
   <sky-docs-demo-page-design-guidelines>
     Design content here!
@@ -59,6 +98,15 @@
         propertyName="foobar"
         defaultValue="baz"
         [isDeprecated]="true"
+      >
+        References the popover component to display. Add this directive to the trigger element that opens the popover.
+      </sky-docs-property-definition>
+    </sky-docs-property-definitions>
+
+    <sky-docs-property-definitions [showDataColumn]="false">
+      <sky-docs-property-definition
+        propertyName="foobar"
+        defaultValue="baz"
       >
         References the popover component to display. Add this directive to the trigger element that opens the popover.
       </sky-docs-property-definition>

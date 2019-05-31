@@ -17,27 +17,15 @@ import {
 })
 export class SkyDocsDemoPageComponent implements OnInit {
 
-  /**
-   * The URL to this module's source code repository.
-   */
   @Input()
   public gitRepoUrl: string;
 
-  /**
-   * The name of the Angular module the consumer will import into their project.
-   */
   @Input()
   public moduleName: string;
 
-  /**
-   * The name of the NPM package.
-   */
   @Input()
   public packageName: string;
 
-  /**
-   * The page title.
-   */
   @Input()
   public pageTitle: string;
 

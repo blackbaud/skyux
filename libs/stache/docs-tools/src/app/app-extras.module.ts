@@ -17,7 +17,7 @@ import {
 
 import {
   SampleSourceCodeProvider
-} from './public/plugin-resources/source-code-provider';
+} from './public/plugin-resources/sample-source-code-provider';
 
 @NgModule({
   exports: [
