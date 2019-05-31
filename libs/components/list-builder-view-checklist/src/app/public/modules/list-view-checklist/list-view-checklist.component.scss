@@ -4,7 +4,7 @@
 .sky-list-view-checklist {
   ::ng-deep .sky-checkbox-wrapper {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
 
     > .sky-checkbox, > input {
       flex: 1;
@@ -14,5 +14,17 @@
 
   ::ng-deep .sky-switch {
     white-space: nowrap;
+  }
+
+  ::ng-deep .sky-switch-label {
+    margin:0;
+  }
+
+  ::ng-deep sky-checkbox-label {
+    min-width: 0;
+  }
+
+  ::ng-deep .sky-switch-control {
+    margin: 0 5px 0 0;
   }
 }
