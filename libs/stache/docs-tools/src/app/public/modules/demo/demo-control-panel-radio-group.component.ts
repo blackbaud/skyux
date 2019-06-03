@@ -10,7 +10,10 @@ import {
 import {
   Subject
 } from 'rxjs';
-import { SkyDocsDemoControlPanelChange } from './demo-control-panel-change';
+
+import {
+  SkyDocsDemoControlPanelChange
+} from './demo-control-panel-change';
 
 @Component({
   selector: 'sky-docs-demo-control-panel-radio-group',
