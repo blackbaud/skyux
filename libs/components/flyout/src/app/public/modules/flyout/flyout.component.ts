@@ -176,7 +176,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
   @HostListener('click', ['$event'])
   public onHostClick(event: any): void {
-    event.preventDefault();
     event.stopPropagation();
   }
 
@@ -298,6 +297,8 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   }
 
   public onMouseMove(event: MouseEvent): void {
+    /* Sanity check */
+    /* istanbul ignore if */
     if (!this.isDragging) {
       return;
     }

@@ -1,5 +1,5 @@
 import {
-  Component, OnInit
+  Component, OnInit, ChangeDetectorRef
 } from '@angular/core';
 
 import {
@@ -27,8 +27,6 @@ import {
   FlyoutDemoContext
 } from './flyout-demo-context';
 
-let nextId = 0;
-
 @Component({
   selector: 'sky-test-cmp-flyout',
   templateUrl: './flyout-demo.component.html',
@@ -40,15 +38,18 @@ export class FlyoutDemoComponent implements OnInit {
 
   public enableInfiniteScroll = true;
 
+  private nextId = 0;
+
   constructor(
     public context: FlyoutDemoContext,
     private modalService: SkyModalService,
     private toastService: SkyToastService,
-    private router: Router
+    private router: Router,
+    private changeDetector: ChangeDetectorRef
   ) { }
 
   public ngOnInit(): void {
-    this.addData();
+    this.addData(false);
   }
 
   public openModal(): void {
@@ -68,19 +69,20 @@ export class FlyoutDemoComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
-  private addData(): void {
-    this.mockRemote().then((result: any) => {
+  public addData(delay = true): void {
+    this.mockRemote(delay).then((result: any) => {
       this.infiniteScrollData = this.infiniteScrollData.concat(result.data);
-      this.enableInfiniteScroll = result.enableInfiniteScroll;
+      this.enableInfiniteScroll = result.hasMore;
+      this.changeDetector.markForCheck();
     });
   }
 
-  private mockRemote(): Promise<any> {
+  private mockRemote(delay: boolean): Promise<any> {
     const data: any[] = [];
 
     for (let i = 0; i < 8; i++) {
       data.push({
-        name: `Item #${++nextId}`
+        name: `Item #${++this.nextId}`
       });
     }
 
@@ -89,9 +91,9 @@ export class FlyoutDemoComponent implements OnInit {
       setTimeout(() => {
         resolve({
           data,
-          hasMore: (nextId < 50)
+          hasMore: (this.nextId < 24)
         });
-      }, 1000);
+      }, delay ? 1000 : 0);
     });
   }
 
