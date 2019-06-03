@@ -23,4 +23,12 @@
   &:last-child {
     margin-right: 0;
   }
+
+  &:nth-child(1) {
+    width: 180px;
+  }
+
+  &:nth-child(3) {
+    width: 200px;
+  }
 }

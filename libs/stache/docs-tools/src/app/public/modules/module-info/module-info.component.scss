@@ -2,5 +2,9 @@
 @import '~@skyux/theme/scss/_compat/mixins';
 
 .sky-docs-module-info-installation-command {
+  display: flex;
+}
+
+.sky-docs-module-info-installation-command-code {
   margin-right: $sky-margin;
 }

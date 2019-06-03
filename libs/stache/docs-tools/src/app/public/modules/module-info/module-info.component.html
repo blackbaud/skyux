@@ -34,12 +34,15 @@
         Installation command
       </sky-definition-list-label>
       <sky-definition-list-value>
-        <span class="sky-docs-module-info-installation-command" #copyTarget><sky-code>{{ installationCommand }}</sky-code></span>
-        <sky-copy-to-clipboard
-          buttonText="Copy"
-          [copyTarget]="copyTarget"
-        >
-        </sky-copy-to-clipboard>
+        <div class="sky-docs-module-info-installation-command">
+          <span class="sky-docs-module-info-installation-command-code">
+            <sky-code #copyTarget>{{ installationCommand }}</sky-code>
+          </span>
+          <sky-copy-to-clipboard
+            buttonText="Copy"
+            [copyTarget]="copyTarget"
+          ></sky-copy-to-clipboard>
+        </div>
       </sky-definition-list-value>
     </sky-definition-list-content>
 
