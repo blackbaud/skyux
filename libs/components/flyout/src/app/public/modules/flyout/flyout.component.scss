@@ -65,7 +65,7 @@
     display: none;
   }
 
-  &::-ms-thumb {
+  &::-ms-thumb, &::-ms-track {
     -webkit-appearance: none;
     -moz-appearance: none;
     width: 0;
@@ -98,7 +98,7 @@
   background: $sky-background-color-neutral-light;
   height: 50px;
   display: flex;
-  align-items: baseline;
+  align-items: flex-start;
 }
 
 .sky-flyout-header-content {
