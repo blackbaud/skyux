@@ -23,7 +23,7 @@
       select="sky-docs-demo"
     ></ng-content>
 
-    <sky-tabset>
+    <sky-tabset *ngIf="useTabLayout else content">
 
       <sky-tab tabHeading="Design">
 
@@ -33,30 +33,34 @@
       </sky-tab>
 
       <sky-tab tabHeading="Development">
-
-        <sky-docs-demo-page-section *ngIf="packageName"
-          heading="Modules and installation"
-        >
-          <sky-docs-module-info
-            [gitRepoUrl]="gitRepoUrl"
-            [moduleName]="moduleName"
-            [packageName]="packageName"
-          >
-          </sky-docs-module-info>
-        </sky-docs-demo-page-section>
-
-        <ng-content>
-        </ng-content>
-
-        <sky-docs-demo-page-section
-          heading="Code examples"
-        >
-          <ng-content
-            select="sky-docs-code-examples"
-          ></ng-content>
-        </sky-docs-demo-page-section>
-
+        <ng-container
+          [ngTemplateOutlet]="content"
+        ></ng-container>
       </sky-tab>
     </sky-tabset>
   </stache>
 </div>
+
+<ng-template #content>
+  <sky-docs-demo-page-section *ngIf="packageName"
+    heading="Modules and installation"
+  >
+    <sky-docs-module-info
+      [gitRepoUrl]="gitRepoUrl"
+      [moduleName]="moduleName"
+      [packageName]="packageName"
+    >
+    </sky-docs-module-info>
+  </sky-docs-demo-page-section>
+
+  <ng-content>
+  </ng-content>
+
+  <sky-docs-demo-page-section
+    heading="Code examples"
+  >
+    <ng-content
+      select="sky-docs-code-examples"
+    ></ng-content>
+  </sky-docs-demo-page-section>
+</ng-template>
