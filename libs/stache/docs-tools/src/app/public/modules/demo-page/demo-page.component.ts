@@ -1,4 +1,5 @@
 import {
+  AfterContentInit,
   ChangeDetectionStrategy,
   Component,
   ContentChild,
@@ -20,7 +21,7 @@ import {
   styleUrls: ['./demo-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyDocsDemoPageComponent implements OnInit {
+export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit {
 
   @Input()
   public gitRepoUrl: string;
