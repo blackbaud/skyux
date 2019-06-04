@@ -1,8 +1,4 @@
 {
-  "skyux_list_show_secondary_actions": {
-    "_description": "Title for the button that opens the secondary actions menu in the list toolbar",
-    "message": "Show secondary actions"
-  },
   "skyux_list_show_secondary_actions_button": {
     "_description": "Button text for the button that opens the secondary actions menu in the list toolbar",
     "message": "More"

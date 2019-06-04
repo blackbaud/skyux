@@ -74,12 +74,12 @@ describe('List Secondary Actions Component', () => {
     tick();
     fixture.detectChanges();
 
-    expect(component.secondaryActions.dropdownHidden.valueOf()).toBe(true);
+    expect(nativeElement.querySelector('.sky-list-secondary-actions-hidden')).not.toBeNull();
 
     component.showOption = true;
     fixture.detectChanges();
     tick();
 
-    expect(component.secondaryActions.dropdownHidden.valueOf()).toBe(false);
+    expect(nativeElement.querySelector('.sky-list-secondary-actions-hidden')).toBeNull();
   }));
 });

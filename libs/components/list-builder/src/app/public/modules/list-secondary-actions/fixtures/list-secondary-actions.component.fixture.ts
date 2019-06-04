@@ -1,9 +1,6 @@
 import {
-  Component,
-  ViewChild
+  Component
 } from '@angular/core';
-
-import { SkyListSecondaryActionsComponent } from '../list-secondary-actions.component';
 
 @Component({
   selector: 'sky-test-cmp',
@@ -12,6 +9,4 @@ import { SkyListSecondaryActionsComponent } from '../list-secondary-actions.comp
 export class ListSecondaryActionsTestComponent {
   public showOption = true;
 
-  @ViewChild(SkyListSecondaryActionsComponent)
-  public secondaryActions: SkyListSecondaryActionsComponent;
 }

@@ -34,9 +34,14 @@ import {
   SkyListSecondaryActionComponent
 } from './list-secondary-action.component';
 
+import {
+  SkyListSecondaryActionsHostComponent
+} from './list-secondary-actions-host.component';
+
 @NgModule({
   declarations: [
     SkyListSecondaryActionsComponent,
+    SkyListSecondaryActionsHostComponent,
     SkyListSecondaryActionComponent
   ],
   imports: [
@@ -49,6 +54,7 @@ import {
   ],
   exports: [
     SkyListSecondaryActionsComponent,
+    SkyListSecondaryActionsHostComponent,
     SkyListSecondaryActionComponent
   ]
 })

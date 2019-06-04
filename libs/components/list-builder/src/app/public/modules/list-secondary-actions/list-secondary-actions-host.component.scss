@@ -17,8 +17,22 @@
   display: none;
 }
 
-@media (max-width: $sky-screen-xs-max) {
+@include sky-host-responsive-container-xs-min() {
   .sky-list-secondary-actions-btn-text {
-    @include sky-screen-reader-only();
+    display: none;
+  }
+
+  .sky-list-secondary-actions ::ng-deep .sky-dropdown-caret {
+    display: none;
+  }
+}
+
+@include sky-host-responsive-container-sm-min() {
+  .sky-list-secondary-actions-btn-text {
+    display: inline;
+  }
+
+  .sky-list-secondary-actions ::ng-deep .sky-dropdown-caret {
+    display: inline-block;
   }
 }
