@@ -21,8 +21,22 @@
   background-color: $sky-background-color-neutral-light;
 }
 
-@media (max-width: $sky-screen-xs-max) {
+@include sky-host-responsive-container-xs-min() {
   .sky-sort-btn-text {
-    @include sky-screen-reader-only();
+    display: none;
+  }
+
+  .sky-sort ::ng-deep .sky-dropdown-caret {
+    display: none;
+  }
+}
+
+@include sky-host-responsive-container-sm-min() {
+  .sky-sort-btn-text {
+    display: inline;
+  }
+
+  .sky-sort ::ng-deep .sky-dropdown-caret {
+    display: inline-block;
   }
 }

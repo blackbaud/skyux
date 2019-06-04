@@ -10,14 +10,22 @@
    color: $sky-text-color-default;
 }
 
-@media (max-width: $sky-screen-xs-max) {
+@include sky-host-responsive-container-xs-min() {
   .sky-filter-btn-text {
     display: none;
   }
 
-  ::ng-deep {
-    .sky-dropdown-caret {
-      display: none;
-    }
+  .sky-filter-btn ::ng-deep .sky-dropdown-caret {
+    display: none;
+  }
+}
+
+@include sky-host-responsive-container-sm-min() {
+  .sky-filter-btn-text {
+    display: inline;
+  }
+
+  .sky-filter-btn ::ng-deep .sky-dropdown-caret {
+    display: inline-block;
   }
 }
