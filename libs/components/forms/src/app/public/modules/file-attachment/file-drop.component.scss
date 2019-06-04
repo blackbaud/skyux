@@ -8,7 +8,21 @@
   position: relative;
 }
 
-@media (min-width: $sky-screen-sm-min) {
+@include sky-host-responsive-container-xs-min() {
+  .sky-file-drop-row {
+    display: block;
+  }
+
+  .sky-file-drop-col {
+    flex-basis: auto;
+  }
+
+  .sky-file-drop-allow-links .sky-file-drop-col {
+    flex-basis: auto;
+  }
+}
+
+@include sky-host-responsive-container-sm-min() {
   .sky-file-drop-row {
     display: flex;
   }
@@ -17,7 +31,7 @@
     flex-basis: 100%;
   }
 
-  .sky-file-drop-allow-links.sky-file-drop-col {
+  .sky-file-drop-allow-links .sky-file-drop-col {
     flex-basis: 50%;
   }
 }
