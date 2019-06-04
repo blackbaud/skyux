@@ -21,13 +21,17 @@ import {
 import {
   SkyDocsModuleInfoComponent
 } from './module-info.component';
+import { SkyHelpInlineModule } from '@skyux/indicators';
+import { SkyPopoverModule } from '@skyux/popovers';
 
 @NgModule({
   imports: [
     CommonModule,
     SkyCodeModule,
     SkyClipboardModule,
-    SkyDefinitionListModule
+    SkyDefinitionListModule,
+    SkyHelpInlineModule,
+    SkyPopoverModule
   ],
   declarations: [
     SkyDocsModuleInfoComponent

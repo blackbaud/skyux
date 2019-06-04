@@ -7,19 +7,19 @@
   >
     <sky-definition-list-content *ngIf="moduleName">
       <sky-definition-list-label>
-        Defined in module
+        Defined in
       </sky-definition-list-label>
       <sky-definition-list-value>
-        <sky-code>{{ moduleName }}</sky-code>
+        {{ moduleName }}
       </sky-definition-list-value>
     </sky-definition-list-content>
 
     <sky-definition-list-content *ngIf="packageName">
       <sky-definition-list-label>
-        In NPM package
+        NPM package
       </sky-definition-list-label>
       <sky-definition-list-value>
-        {{ packageName }}
+        <span class="sky-docs-module-info-package-name">{{ packageName }}</span>
 
         <ng-container *ngFor="let externalLink of externalLinks; let i = index;">
           <a [attr.href]="externalLink.url">{{ externalLink.label }}</a>
@@ -31,9 +31,16 @@
 
     <sky-definition-list-content *ngIf="installationCommand">
       <sky-definition-list-label>
-        Installation command
+        Installation
+        <sky-help-inline
+          [skyPopover]="installationCommandPopover"
+        >
+        </sky-help-inline>
       </sky-definition-list-label>
       <sky-definition-list-value>
+        <sky-popover #installationCommandPopover>
+          To use exports from the module, you must install its package as a dependency to your project. To learn more, see <a href="https://developer.blackbaud.com/skyux/contribute/packages">SKY UX modules</a>.
+        </sky-popover>
         <div class="sky-docs-module-info-installation-command">
           <span class="sky-docs-module-info-installation-command-code">
             <sky-code #copyTarget>{{ installationCommand }}</sky-code>
