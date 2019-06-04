@@ -59,8 +59,7 @@ import {
 
 @Component({
   selector: 'sky-list-column-selector-action',
-  templateUrl: './list-column-selector-action.component.html',
-  styleUrls: ['./list-column-selector-action.component.scss']
+  templateUrl: './list-column-selector-action.component.html'
 })
 export class SkyListColumnSelectorActionComponent implements AfterContentInit {
   @Input()

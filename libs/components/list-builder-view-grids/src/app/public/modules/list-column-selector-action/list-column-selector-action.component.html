@@ -7,15 +7,8 @@
 </ng-container>
 
 <ng-template #columnChooser>
-  <button *ngIf="isInGridView | async"
-    class="sky-btn sky-btn-default"
-    type="button"
-    [title]="'skyux_grid_columns_button' | skyLibResources"
+  <sky-list-column-selector-button *ngIf="isInGridView | async"
     (click)="openColumnSelector()"
   >
-    <sky-icon icon="columns"></sky-icon>
-    <span class="sky-column-selector-action-btn-text">
-      {{ 'skyux_grid_columns_toolbar_button' | skyLibResources }}
-    </span>
-  </button>
+  </sky-list-column-selector-button>
 </ng-template>

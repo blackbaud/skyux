@@ -30,9 +30,14 @@ import {
   SkyListColumnSelectorActionComponent
 } from './list-column-selector-action.component';
 
+import {
+  SkyListColumnSelectorButtonComponent
+} from './list-column-selector-button.component';
+
 @NgModule({
   declarations: [
-    SkyListColumnSelectorActionComponent
+    SkyListColumnSelectorActionComponent,
+    SkyListColumnSelectorButtonComponent
   ],
   imports: [
     CommonModule,
