@@ -63,16 +63,23 @@
 /**
  * Mobile styles
  */
-
-@media (min-width: $sky-screen-sm-min) {
+@include sky-host-responsive-container-xs-min() {
   .sky-search-input-container {
-    min-width: $sky-search-width !important;
+    min-width: auto;
+  }
+}
+
+@include sky-host-responsive-container-sm-min() {
+  .sky-search-input-container {
+    min-width: $sky-search-width;
   }
 }
 
 /**
  * On iOS, the input will zoom when focused,
  * setting the font-size prevents this.
+ *
+ * Not using the reactive mixins due to this being a bug based on actual screen size
  */
 @media (max-width: $sky-screen-xs-max) {
   .sky-search-input,
