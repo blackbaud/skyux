@@ -43,8 +43,8 @@
           To use exports from the module, you must install its package as a dependency to your project. To learn more, see <a href="https://developer.blackbaud.com/skyux/contribute/packages">SKY UX modules</a>.
         </sky-popover>
         <div class="sky-docs-module-info-installation-command">
-          <span class="sky-docs-module-info-installation-command-code">
-            <sky-code #copyTarget>{{ installationCommand }}</sky-code>
+          <span class="sky-docs-module-info-installation-command-code" #copyTarget>
+            <sky-code>{{ installationCommand }}</sky-code>
           </span>
           <sky-copy-to-clipboard
             buttonText="Copy"
