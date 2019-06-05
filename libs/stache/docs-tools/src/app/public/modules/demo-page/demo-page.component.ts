@@ -3,9 +3,19 @@ import {
   ChangeDetectionStrategy,
   Component,
   ContentChild,
+  ContentChildren,
   Input,
-  OnInit
+  OnInit,
+  QueryList
 } from '@angular/core';
+
+import {
+  SkyDocsCodeExamplesComponent
+} from '../code-examples/code-examples.component';
+
+import {
+  SkyDocsDemoComponent
+} from '../demo/demo.component';
 
 import {
   SkyDocsDemoPageDesignGuidelinesComponent
@@ -35,10 +45,18 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit {
   @Input()
   public pageTitle: string;
 
-  public useTabLayout = false;
+  public enableCodeExamples = false;
+  public enableDemo = false;
+  public enableTabLayout = false;
 
   @ContentChild(SkyDocsDemoPageDesignGuidelinesComponent)
-  private designGuidelines: SkyDocsDemoPageDesignGuidelinesComponent;
+  private designGuidelinesComponent: SkyDocsDemoPageDesignGuidelinesComponent;
+
+  @ContentChildren(SkyDocsDemoComponent)
+  private demoComponents: QueryList<SkyDocsDemoComponent>;
+
+  @ContentChildren(SkyDocsCodeExamplesComponent)
+  private codeExampleComponents: QueryList<SkyDocsCodeExamplesComponent>;
 
   constructor(
     private titleService: SkyDocsDemoPageTitleService
@@ -49,7 +67,9 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit {
   }
 
   public ngAfterContentInit(): void {
-    this.useTabLayout = !!(this.designGuidelines);
+    this.enableCodeExamples = (this.codeExampleComponents.length > 0);
+    this.enableDemo = (this.demoComponents.length > 0);
+    this.enableTabLayout = !!(this.designGuidelinesComponent);
   }
 
   private updateTitle(): void {
