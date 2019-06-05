@@ -126,7 +126,8 @@ export class SkyModalComponent implements AfterViewInit {
               this.componentAdapter.isModalFocused(event, this.elRef))) {
 
               focusChanged = this.componentAdapter.focusLastElement(focusElementList);
-            } else if (this.componentAdapter.isFocusInLastItem(event, focusElementList)) {
+            } else if (
+              !event.shiftKey && this.componentAdapter.isFocusInLastItem(event, focusElementList)) {
               focusChanged = this.componentAdapter.focusFirstElement(focusElementList);
             }
 

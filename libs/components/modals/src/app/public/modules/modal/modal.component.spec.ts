@@ -202,6 +202,27 @@ describe('Modal component', () => {
 
   }));
 
+  it('should handle tab with shift when focus is in last item and in top modal', fakeAsync(() => {
+
+    let modalInstance1 = openModal(ModalFooterTestComponent);
+
+    let tabEvent: any = document.createEvent('CustomEvent');
+    tabEvent.which = 9;
+    tabEvent.keyCode = 9;
+    tabEvent.shiftKey = true;
+    tabEvent.initEvent('keydown', true, true);
+
+    document.querySelector('.sky-btn-primary').dispatchEvent(tabEvent);
+
+    tick();
+    applicationRef.tick();
+
+    expect(document.activeElement).toEqual(document.querySelector('input'));
+
+    closeModal(modalInstance1);
+
+  }));
+
   it('should handle tab when focus is in last item and in top modal', fakeAsync(() => {
     let modalInstance1 = openModal(ModalFooterTestComponent);
 
