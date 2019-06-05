@@ -249,6 +249,12 @@ describe('Search component', () => {
     expect(component.lastSearchTextApplied).toBe('applied text');
   });
 
+  it('should trim search text on apply button press', () => {
+    setInput('  applied text   ');
+    triggerApplyButton();
+    expect(component.lastSearchTextApplied).toBe('applied text');
+  });
+
   it('should emit search change event on ngModel change', () => {
     setNgModel('change text');
     fixture.detectChanges();
