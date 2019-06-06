@@ -4,7 +4,6 @@
   <table
     class="sky-table"
   >
-
     <tr
       class="sky-table-row"
     >
@@ -59,7 +58,7 @@
               Data type
             </sky-definition-list-label>
             <sky-definition-list-value>
-              {{ item.dataType }}
+              <sky-code>{{ item.dataType }}</sky-code>
             </sky-definition-list-value>
           </sky-definition-list-content>
           <sky-definition-list-content *ngIf="item.defaultValue">
@@ -67,7 +66,7 @@
               Default
             </sky-definition-list-label>
             <sky-definition-list-value>
-              {{ item.defaultValue }}
+              <sky-code>{{ item.defaultValue }}</sky-code>
             </sky-definition-list-value>
           </sky-definition-list-content>
         </sky-definition-list>
