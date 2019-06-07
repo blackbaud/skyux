@@ -1,3 +1,7 @@
+# 3.0.4 (2019-06-07)
+
+- Fixed the modal component to correct accessibility tab controls. [#46](https://github.com/blackbaud/skyux-modals/pull/46) (Thanks @Blackbaud-JackMcElhinney)
+
 # 3.0.3 (2019-04-26)
 
 - Fixed modal component to handle click events that originate within its contents. [#40](https://github.com/blackbaud/skyux-modals/pull/40)
