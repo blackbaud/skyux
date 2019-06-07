@@ -1,3 +1,7 @@
+# 3.2.6 (2019-06-07)
+
+- Fixed `SkyDatePipeModule` to properly provide `SkyDatePipe` and to import the `SkyDateTimeResourcesModule`. [#58](https://github.com/blackbaud/skyux-datetime/pull/58)
+
 # 3.2.5 (2019-05-28)
 
 - Fixed the datepicker and timepicker components to use the correct active button visual styles. [#52](https://github.com/blackbaud/skyux-datetime/pull/52)
