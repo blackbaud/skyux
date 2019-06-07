@@ -52,6 +52,10 @@ import {
   SkyDocsDemoPageComponent
 } from './demo-page.component';
 
+import { SkyDocsDirectiveDefinitionModule } from '../directive-definition/directive-definition.module';
+import { SkyDocsInterfaceDefinitionModule } from '../interface-definition/interface-definition.module';
+import { SkyDocsMethodDefinitionModule } from '../method-definition/method-definition.module';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -71,10 +75,13 @@ import {
   exports: [
     SkyDocsDemoModule,
     SkyDocsCodeExamplesModule,
+    SkyDocsDirectiveDefinitionModule,
     SkyDocsDemoPageComponent,
     SkyDocsDemoPageDesignGuidelinesComponent,
     SkyDocsDemoPageSectionComponent,
     SkyDocsDemoPageSummaryComponent,
+    SkyDocsInterfaceDefinitionModule,
+    SkyDocsMethodDefinitionModule,
     SkyDocsPropertyDefinitionsModule
   ],
   providers: [

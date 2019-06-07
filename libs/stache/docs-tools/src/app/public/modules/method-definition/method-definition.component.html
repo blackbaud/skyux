@@ -1,0 +1,54 @@
+<div class="sky-docs-method-definition">
+  <h3 class="sky-docs-method-definition-heading sky-docs-h3">
+    <sky-code>{{ methodName }}()</sky-code>
+  </h3>
+
+  <div class="sky-docs-method-definition-description">
+    <ng-content></ng-content>
+  </div>
+
+  <div class="sky-docs-method-definition-signature">
+    <sky-code-block
+      languageType="typescript"
+      hideHeader="true"
+      [code]="methodSignature"
+    >
+    </sky-code-block>
+  </div>
+
+  <div class="sky-docs-method-definition-body">
+    <h4 class="sky-docs-method-definition-parameters-heading sky-docs-h4">
+      Parameters
+    </h4>
+
+    <table class="sky-docs-method-definition-parameters">
+      <tbody>
+        <tr *ngFor="let parameter of parameters">
+          <td>
+            <strong><sky-code>{{ parameter.name }}</sky-code></strong>
+          </td>
+          <td>
+            <sky-code>{{ parameter.type }}</sky-code>
+          </td>
+          <td>
+            <ng-container [ngTemplateOutlet]="parameter.templateRef">
+            </ng-container>
+            <div *ngIf="parameter.defaultValue">
+              Optional. Default is <sky-code>{{ parameter.defaultValue }}</sky-code>.
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4 class="sky-docs-h4">
+      Returns
+    </h4>
+
+    <sky-code>{{ returnType }}</sky-code>
+  </div>
+</div>
+
+<ng-template>
+  <ng-content select="sky-docs-method-definition-parameter"></ng-content>
+</ng-template>

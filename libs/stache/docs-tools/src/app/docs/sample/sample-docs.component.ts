@@ -6,6 +6,7 @@ import {
 @Component({
   selector: 'app-sample-docs',
   templateUrl: './sample-docs.component.html',
+  styleUrls: ['./sample-docs.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppSampleDocsComponent {

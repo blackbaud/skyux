@@ -38,21 +38,41 @@ export class SkyDocsPropertyDefinitionsComponent implements AfterContentInit {
 
   public ngAfterContentInit(): void {
     this.definitionRefs.forEach((definitionRef) => {
-      const isRequired = (
-        definitionRef.defaultValue === undefined
-      );
+      // const isRequired = (
+      //   definitionRef.defaultValue === undefined
+      // );
 
       this.data.push({
-        dataType: definitionRef.dataType,
+        propertyType: definitionRef.propertyType,
         defaultValue: definitionRef.defaultValue,
-        isDeprecated: definitionRef.isDeprecated,
-        isRequired,
+        deprecationWarning: definitionRef.deprecationWarning,
+        // isRequired,
+        propertyDecorator: definitionRef.propertyDecorator,
         propertyName: definitionRef.propertyName,
         templateRef: definitionRef.templateRef
       });
     });
 
     this.changeDetector.markForCheck();
+  }
+
+  /**
+   * @internal
+   */
+  public getPropertySignature(item: SkyPropertyDefinition): string {
+    let signature = '';
+
+    if (item.propertyDecorator) {
+      signature += `@${item.propertyDecorator}()<br>`;
+    }
+
+    signature += `${item.propertyName}`;
+
+    if (item.propertyType) {
+      signature += `: ${item.propertyType}`;
+    }
+
+    return signature;
   }
 
 }

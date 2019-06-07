@@ -14,13 +14,16 @@ import {
 export class SkyDocsPropertyDefinitionComponent {
 
   @Input()
-  public dataType = 'any';
+  public propertyType: string;
 
   @Input()
   public defaultValue: string;
 
   @Input()
-  public isDeprecated = false;
+  public deprecationWarning = false;
+
+  @Input()
+  public propertyDecorator: 'Input' | 'Output';
 
   @Input()
   public propertyName: string;

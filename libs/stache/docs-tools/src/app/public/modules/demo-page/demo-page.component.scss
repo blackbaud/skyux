@@ -4,3 +4,32 @@
 .sky-section-heading {
   margin-bottom: $sky-margin;
 }
+
+.sky-docs-demo-page {
+  ::ng-deep {
+    .sky-code {
+      border: 0;
+      background: transparent;
+      color: $sky-text-color-default;
+      padding: 0;
+    }
+
+    a .sky-code,
+    .sky-code a {
+      color: $sky-text-color-action-primary;
+    }
+
+    .sky-docs-h3 {
+      color: $sky-text-color-default;
+      font-size: 1.4em;
+      margin: $sky-margin-double 0;
+    }
+
+    .sky-docs-h4 {
+      @include sky-subsection-heading();
+      margin: $sky-margin-plus-half 0;
+      font-size: 1.2em;
+    }
+
+  }
+}

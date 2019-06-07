@@ -1,43 +1,29 @@
-<div
-  class="sky-docs-property-definitions"
->
-  <table
-    class="sky-table"
-  >
-    <tr
-      class="sky-table-row"
-    >
-      <th
-        class="sky-table-cell sky-table-column-header"
-      >
-        Property name
+<div class="sky-docs-property-definitions">
+  <table class="sky-table">
+    <tr class="sky-table-row">
+      <th class="sky-table-cell sky-table-column-header">
+        Name
       </th>
-      <th
-        class="sky-table-cell sky-table-column-header"
-      >
+      <th class="sky-table-cell sky-table-column-header">
         Description
-      </th>
-      <th *ngIf="showDataColumn"
-        class="sky-table-cell sky-table-column-header"
-      >
-        Data
       </th>
     </tr>
 
     <tr *ngFor="let item of data"
       class="sky-table-row"
     >
-      <td
-        class="sky-table-cell"
-      >
-        <sky-code>{{ item.propertyName }}</sky-code>
-        <div *ngIf="item.isRequired"
+      <td class="sky-table-cell">
+        <sky-code>
+          <span [innerHtml]="getPropertySignature(item)"></span>
+        </sky-code>
+
+        <!-- <div *ngIf="item.isRequired"
           class="sky-text-danger"
         >Required</div>
 
-        <div *ngIf="item.isDeprecated"
+        <div *ngIf="item.deprecationWarning"
           class="sky-text-warning"
-        >Deprecated</div>
+        >Deprecated</div> -->
       </td>
 
       <td
@@ -47,9 +33,17 @@
           [ngTemplateOutlet]="item.templateRef"
         >
         </ng-container>
+        <p *ngIf="item.defaultValue">
+          Optional. Default is <sky-code>{{ item.defaultValue }}</sky-code>.
+        </p>
+        <p *ngIf="item.deprecationWarning"
+          class="sky-text-warning sky-docs-property-definitions-deprecation-warning"
+        >
+          Deprecated. {{ item.deprecationWarning }}
+        </p>
       </td>
 
-      <td *ngIf="showDataColumn"
+      <!-- <td *ngIf="showDataColumn"
         class="sky-table-cell"
       >
         <sky-definition-list>
@@ -58,7 +52,7 @@
               Data type
             </sky-definition-list-label>
             <sky-definition-list-value>
-              <sky-code>{{ item.dataType }}</sky-code>
+              <sky-code>{{ item.propertyType }}</sky-code>
             </sky-definition-list-value>
           </sky-definition-list-content>
           <sky-definition-list-content *ngIf="item.defaultValue">
@@ -70,7 +64,7 @@
             </sky-definition-list-value>
           </sky-definition-list-content>
         </sky-definition-list>
-      </td>
+      </td> -->
     </tr>
 
   </table>

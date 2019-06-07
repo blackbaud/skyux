@@ -1,0 +1,33 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+.sky-docs-data-table-wrapper {
+  overflow: auto;
+}
+
+.sky-docs-data-table {
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+  margin: $sky-margin 0 $sky-margin-triple;
+}
+
+.sky-docs-data-table-cell {
+  padding: $sky-padding-even-default;
+  border-bottom: 1px solid $sky-border-color-neutral-light;
+  vertical-align: top;
+}
+
+.sky-docs-data-table-column-header {
+  background-color: $sky-background-color-info-light;
+  border-bottom-color: transparent;
+  border-right: 2px solid $sky-background-color-page-default;
+  text-align: left;
+  font-weight: normal;
+  white-space: nowrap;
+  font-weight: bold;
+
+  &:last-child {
+    border-right: 0;
+  }
+}

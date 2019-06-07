@@ -4,13 +4,13 @@ import {
 
 export interface SkyPropertyDefinition {
 
-  dataType: string;
+  propertyType: string;
 
   defaultValue: string;
 
-  isDeprecated: boolean;
+  deprecationWarning: boolean;
 
-  isRequired: boolean;
+  propertyDecorator: 'Input' | 'Output';
 
   propertyName: string;
 
