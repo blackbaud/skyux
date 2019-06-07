@@ -1,11 +1,14 @@
 import {
-  CommonModule,
-  DatePipe
+  CommonModule
 } from '@angular/common';
 
 import {
   NgModule
 } from '@angular/core';
+
+import {
+  SkyDateTimeResourcesModule
+} from '../shared/datetime-resources.module';
 
 import {
   SkyDatePipe
@@ -16,10 +19,11 @@ import {
     SkyDatePipe
   ],
   providers: [
-    DatePipe
+    SkyDatePipe
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    SkyDateTimeResourcesModule
   ],
   exports: [
     SkyDatePipe
