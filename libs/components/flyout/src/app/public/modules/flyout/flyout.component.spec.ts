@@ -361,6 +361,20 @@ describe('Flyout component', () => {
     })
   );
 
+  it('should set the flyout size to the min width if the default width is less than the min', fakeAsync(() => {
+    openFlyout({ minWidth: 400, defaultWidth: 200});
+
+    const flyoutElement = getFlyoutElement();
+    expect(flyoutElement.style.width).toBe('400px');
+  }));
+
+  it('should set the flyout size to the max width if the default width is more than the max', fakeAsync(() => {
+    openFlyout({ maxWidth: 400, defaultWidth: 800});
+
+    const flyoutElement = getFlyoutElement();
+    expect(flyoutElement.style.width).toBe('400px');
+  }));
+
   it('should not have the sky-flyout-help-shim class if the help widget is not present',
     fakeAsync(() => {
       openFlyout({});
