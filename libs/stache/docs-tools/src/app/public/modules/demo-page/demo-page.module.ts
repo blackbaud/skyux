@@ -29,8 +29,8 @@ import {
 } from '../module-info';
 
 import {
-  SkyDocsPropertyDefinitionsModule
-} from '../property-definitions';
+  SkyDocsTypeDefinitionsModule
+} from '../type-definitions/type-definitions.module';
 
 import {
   SkyDocsDemoPageDesignGuidelinesComponent
@@ -52,10 +52,6 @@ import {
   SkyDocsDemoPageComponent
 } from './demo-page.component';
 
-import { SkyDocsDirectiveDefinitionModule } from '../directive-definition/directive-definition.module';
-import { SkyDocsInterfaceDefinitionModule } from '../interface-definition/interface-definition.module';
-import { SkyDocsMethodDefinitionModule } from '../method-definition/method-definition.module';
-
 @NgModule({
   imports: [
     CommonModule,
@@ -75,14 +71,11 @@ import { SkyDocsMethodDefinitionModule } from '../method-definition/method-defin
   exports: [
     SkyDocsDemoModule,
     SkyDocsCodeExamplesModule,
-    SkyDocsDirectiveDefinitionModule,
     SkyDocsDemoPageComponent,
     SkyDocsDemoPageDesignGuidelinesComponent,
     SkyDocsDemoPageSectionComponent,
     SkyDocsDemoPageSummaryComponent,
-    SkyDocsInterfaceDefinitionModule,
-    SkyDocsMethodDefinitionModule,
-    SkyDocsPropertyDefinitionsModule
+    SkyDocsTypeDefinitionsModule
   ],
   providers: [
     SkyDocsDemoPageTitleService

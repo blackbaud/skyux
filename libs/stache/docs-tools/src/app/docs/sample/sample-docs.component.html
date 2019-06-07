@@ -255,24 +255,6 @@
         </sky-docs-property-definition>
       </sky-docs-property-definitions>
     </sky-docs-interface-definition>
-
-    <sky-docs-interface-definition
-      interfaceName="SkyPopoverMessageType"
-    >
-      The type of message to send to the popover.
-      <sky-docs-property-definitions>
-        <sky-docs-property-definition
-          propertyName="SkyPopoverMessageType.Open"
-        >
-          Opens the popover.
-        </sky-docs-property-definition>
-        <sky-docs-property-definition
-          propertyName="SkyPopoverMessageType.Close"
-        >
-          Closes the popover.
-        </sky-docs-property-definition>
-      </sky-docs-property-definitions>
-    </sky-docs-interface-definition>
   </sky-docs-demo-page-section>
 
   <sky-docs-demo-page-section heading="Type aliases">
@@ -288,7 +270,7 @@
       languageType="typescript"
       hideHeader="true"
     >
-      type SkyPopoverPlacement = 'left' | 'right' | 'top' | 'bottom'
+      type SkyPopoverPlacement = 'left' | 'right' | 'above' | 'below'
     </sky-code-block>
 
     <h4 class="sky-docs-h4">
@@ -305,6 +287,51 @@
         propertyName="'right'"
       >
         Displays the popover to the right of the trigger element.
+      </sky-docs-property-definition>
+      <sky-docs-property-definition
+        propertyName="'above'"
+      >
+        Displays the popover above the trigger element.
+      </sky-docs-property-definition>
+      <sky-docs-property-definition
+        propertyName="'below'"
+      >
+        Displays the popover below the trigger element.
+      </sky-docs-property-definition>
+    </sky-docs-property-definitions>
+
+    <h3 class="sky-docs-h3">
+      <sky-code>SkyPopoverMessageType</sky-code>
+    </h3>
+
+    <p>
+      The type of message to send to the popover.
+    </p>
+
+    <sky-code-block
+      languageType="typescript"
+      hideHeader="true"
+    >
+      enum SkyPopoverMessageType {
+        Open,
+        Close
+      }
+    </sky-code-block>
+
+    <h4 class="sky-docs-h4">
+      Values
+    </h4>
+
+    <sky-docs-property-definitions>
+      <sky-docs-property-definition
+        propertyName="Open"
+      >
+        Opens the popover.
+      </sky-docs-property-definition>
+      <sky-docs-property-definition
+        propertyName="SkyPopoverMessageType.Close"
+      >
+        Closes the popover.
       </sky-docs-property-definition>
     </sky-docs-property-definitions>
   </sky-docs-demo-page-section>
