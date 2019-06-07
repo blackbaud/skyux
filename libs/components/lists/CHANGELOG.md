@@ -1,3 +1,7 @@
+# 3.3.0 (2019-06-07)
+
+- Added the ability to trigger responsive styles based on a parent component. [#35](https://github.com/blackbaud/skyux-lists/pull/35)
+
 # 3.2.2 (2019-05-06)
 
 - Fixed repeater item component to allow custom inline form buttons. [#37](https://github.com/blackbaud/skyux-lists/pull/37)
