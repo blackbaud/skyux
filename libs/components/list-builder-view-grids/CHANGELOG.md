@@ -1,3 +1,7 @@
+# 3.4.0 (2019-06-07)
+
+- Added the ability to trigger responsive styles based on a parent component. [#37](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/37)
+
 # 3.3.0 (2019-05-17)
 
 - Added UI Config Service hooks to the list view grid component. [#38](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/38)
