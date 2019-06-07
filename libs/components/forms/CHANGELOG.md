@@ -1,3 +1,7 @@
+# 3.2.0 (2019-06-07)
+
+- Added the ability to trigger responsive styles based on a parent component. [#35](https://github.com/blackbaud/skyux-forms/pull/35)
+
 # 3.1.3 (2019-05-28)
 
 - Fixed the checkbox component to have proper Angular form control states when it is initialized. [#41](https://github.com/blackbaud/skyux-forms/pull/41)
