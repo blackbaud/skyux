@@ -204,7 +204,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     }
 
     this.config = Object.assign({ providers: [] }, config);
-    this.config.defaultWidth = this.config.defaultWidth || 500;
+    this.config.defaultWidth = this.config.defaultWidth || (window.innerWidth / 2);
     this.config.minWidth = this.config.minWidth || 320;
     this.config.maxWidth = this.config.maxWidth || this.config.defaultWidth;
 
