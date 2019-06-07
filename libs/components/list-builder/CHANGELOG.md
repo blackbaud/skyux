@@ -1,3 +1,7 @@
+# 3.3.0 (2019-06-07)
+
+- Added the ability to trigger responsive styles based on a parent component. [#43](https://github.com/blackbaud/skyux-list-builder/pull/43)
+
 # 3.2.4 (2019-05-28)
 
 - Fixed the list toolbar component to properly display items when they are dynamically shown or hidden. [#45](https://github.com/blackbaud/skyux-list-builder/pull/45)
