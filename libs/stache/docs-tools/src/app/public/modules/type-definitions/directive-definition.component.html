@@ -1,6 +1,6 @@
 <div class="sky-docs-directive-definition">
   <h3 class="sky-docs-h3">
-    <sky-code>{{ directiveName }}</sky-code>
+    {{ directiveName }}
   </h3>
 
   <ng-content></ng-content>
@@ -11,7 +11,7 @@
 
   <sky-code>{{ directiveSelector }}</sky-code>
 
-  <h4 class="sky-docs-h4">
+  <h4 *ngIf="hasPropertyDefinitions" class="sky-docs-h4">
     Properties
   </h4>
 

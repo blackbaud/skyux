@@ -4,8 +4,7 @@ import {
   ContentChildren,
   QueryList,
   AfterContentInit,
-  ChangeDetectorRef,
-  Input
+  ChangeDetectorRef
 } from '@angular/core';
 
 import {
@@ -23,9 +22,6 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyDocsPropertyDefinitionsComponent implements AfterContentInit {
-
-  @Input()
-  public showDataColumn = true;
 
   public data: SkyPropertyDefinition[] = [];
 

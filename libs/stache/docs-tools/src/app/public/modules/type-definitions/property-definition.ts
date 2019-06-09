@@ -4,11 +4,19 @@ import {
 
 export interface SkyPropertyDefinition {
 
+  /**
+   * The value type of the property.
+   */
   propertyType: string;
 
+  /**
+   * The default value of the property.
+   */
   defaultValue: string;
 
-  deprecationWarning: boolean;
+  description?: string;
+
+  deprecationWarning: string;
 
   propertyDecorator: 'Input' | 'Output';
 

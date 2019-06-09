@@ -1,9 +1,15 @@
 <div class="sky-docs-interface-definition">
   <h3 class="sky-docs-h3">
-    <sky-code>{{ interfaceName }}</sky-code>
+    {{ interfaceName }}
   </h3>
 
   <ng-content></ng-content>
+
+  <sky-code-block
+    languageType="typescript"
+    [code]="sourceCode"
+    [hideHeader]="true"
+  ></sky-code-block>
 
   <h4 class="sky-docs-h4">
     Properties

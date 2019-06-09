@@ -33,9 +33,6 @@ export class SkyDocsDataTableComponent implements AfterContentInit {
   @ContentChildren(SkyDocsDataTableColumnComponent)
   private columnComponents: QueryList<SkyDocsDataTableColumnComponent>;
 
-  /**
-   * @internal
-   */
   public ngAfterContentInit(): void {
     this.columnComponents.forEach((columnComponent) => {
       this.columns.push({

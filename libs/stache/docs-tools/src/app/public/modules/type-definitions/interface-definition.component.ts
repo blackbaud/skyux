@@ -15,4 +15,7 @@ export class SkyDocsInterfaceDefinitionComponent {
   @Input()
   public interfaceName: string;
 
+  @Input()
+  public sourceCode: string;
+
 }

@@ -6,3 +6,6 @@ export * from './modules/source-code/source-code-file';
 export * from './modules/source-code/source-code-provider';
 
 export * from './modules/type-definitions/type-definitions.module';
+
+// TODO: Remove this before release!
+export * from './modules/documentation-test';

@@ -20,7 +20,7 @@ export class SkyDocsPropertyDefinitionComponent {
   public defaultValue: string;
 
   @Input()
-  public deprecationWarning = false;
+  public deprecationWarning: string;
 
   @Input()
   public propertyDecorator: 'Input' | 'Output';
