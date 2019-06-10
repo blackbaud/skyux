@@ -5,7 +5,10 @@
   [attr.aria-describedby]="config?.ariaDescribedBy"
   [attr.aria-labelledby]="config?.ariaLabelledBy"
   [id]="flyoutId"
-  [ngClass]="{ 'sky-flyout-hidden': !isOpen && !isOpening }"
+  [ngClass]="{
+    'sky-flyout-hidden': !isOpen && !isOpening,
+    'sky-flyout-fullscreen': isFullscreen
+  }"
   (@flyoutState.done)="animationDone($event)"
   [@flyoutState]="getAnimationState()"
   [style.width.px]="flyoutWidth">

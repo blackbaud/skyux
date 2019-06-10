@@ -20,6 +20,19 @@
     >
       <button
         class="sky-btn sky-btn-primary"
+        id="open-flyout-fullscreen"
+        type="button"
+        (click)="openFlyoutWithFullscreenAvailable(users[0], false, false)"
+      >
+        Open flyout which can go full screen
+      </button>
+    </div>
+
+    <div
+      class="sky-flyout-demo-item"
+    >
+      <button
+        class="sky-btn sky-btn-primary"
         id="open-flyout-with-iterators"
         type="button"
         (click)="openFlyoutWithIterators(users[0], false, false)"

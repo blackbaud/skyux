@@ -99,6 +99,23 @@ export class FlyoutVisualComponent implements OnDestroy {
     this.showButtons = false;
   }
 
+  public openFlyoutWithFullscreenAvailable(record: any): void {
+    this.flyout = this.flyoutService.open(FlyoutDemoComponent, {
+      providers: [{
+        provide: FlyoutDemoContext,
+        useValue: record
+      }],
+      minWidth: 600,
+      defaultWidth: 800
+    });
+
+    this.flyout.closed.subscribe(() => {
+      this.showButtons = true;
+    });
+
+    this.showButtons = false;
+  }
+
   public openResponsiveFlyout(width: number): void {
     this.flyout = this.flyoutService.open(FlyoutResponsiveDemoComponent, {
       defaultWidth: width,

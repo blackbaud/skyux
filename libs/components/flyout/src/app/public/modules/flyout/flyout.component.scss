@@ -15,9 +15,13 @@
     outline: none;
   }
 
-  @media (max-width: $sky-screen-xs-max) {
+  &.sky-flyout-fullscreen {
     min-width: 100%;
     max-width: 100%;
+
+    .sky-flyout-resize-handle {
+      cursor: initial;
+    }
   }
 
   &.sky-flyout-hidden {
@@ -85,10 +89,6 @@
     border: 0 none;
     background: none;
     display: none;
-  }
-
-  @media (max-width: $sky-screen-xs-max) {
-    cursor: initial;
   }
 }
 
