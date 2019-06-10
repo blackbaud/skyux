@@ -1,3 +1,12 @@
+# 3.1.1 (2019-06-10)
+
+- Fixed the flyout component to handle click events that originate within its contents. [#44](https://github.com/blackbaud/skyux-flyout/pull/44)
+- Fixed the flyout component to style the resize handle and iterator buttons correctly in Internet Explorer. [#45](https://github.com/blackbaud/skyux-flyout/pull/45)
+- Fixed the flyout component to limit its maximum width to 20 pixels less than the window's width. [#46](https://github.com/blackbaud/skyux-flyout/pull/46)
+- Fixed the flyout component to set the default width to half of the window's width unless consumers specify a different default. [#47](https://github.com/blackbaud/skyux-flyout/pull/47)
+- Fixed the flyout component to handle a default width that is less than the minimum width. [#49](https://github.com/blackbaud/skyux-flyout/pull/49)
+- Fixed the flyout component to only use fullscreen visual styles when the minimum width can't fit inside the window. [#50](https://github.com/blackbaud/skyux-flyout/pull/50)
+
 # 3.1.0 (2019-05-17)
 
 - Added the ability for the flyout component to trigger its child components' responsive styles. [#31](https://github.com/blackbaud/skyux-flyout/pull/31)
