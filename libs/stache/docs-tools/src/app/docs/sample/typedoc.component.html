@@ -5,8 +5,8 @@
       [directiveSelector]="component.selector"
     >
       <span [innerHtml]="component.description"></span>
-      <sky-docs-property-definitions *ngIf="component.propertyDefinitions.length">
-        <sky-docs-property-definition *ngFor="let property of component.propertyDefinitions"
+      <sky-docs-property-definitions *ngIf="component.properties.length">
+        <sky-docs-property-definition *ngFor="let property of component.properties"
           [propertyDecorator]="property.decorator"
           [propertyName]="property.name"
           [propertyType]="property.type"
@@ -23,8 +23,8 @@
       [directiveSelector]="directive.selector"
     >
       <span [innerHtml]="directive.description"></span>
-      <sky-docs-property-definitions *ngIf="directive.propertyDefinitions.length">
-        <sky-docs-property-definition *ngFor="let property of directive.propertyDefinitions"
+      <sky-docs-property-definitions *ngIf="directive.properties.length">
+        <sky-docs-property-definition *ngFor="let property of directive.properties"
           [propertyDecorator]="property.decorator"
           [propertyName]="property.name"
           [propertyType]="property.type"
@@ -43,13 +43,13 @@
 
       <span [innerHtml]="config.description"></span>
 
-      <ng-container *ngIf="config.propertyDefinitions && config.propertyDefinitions.length">
+      <ng-container *ngIf="config.properties && config.properties.length">
         <h4 class="sky-docs-h4">
           Properties
         </h4>
 
         <sky-docs-property-definitions>
-          <sky-docs-property-definition *ngFor="let property of config.propertyDefinitions"
+          <sky-docs-property-definition *ngFor="let property of config.properties"
             [propertyName]="property.name"
             [propertyType]="property.type"
           >
@@ -81,7 +81,7 @@
     >
       <span [innerHtml]="interface.description"></span>
       <sky-docs-property-definitions>
-        <sky-docs-property-definition *ngFor="let property of interface.propertyDefinitions"
+        <sky-docs-property-definition *ngFor="let property of interface.properties"
           [propertyName]="property.name"
           [propertyType]="property.type"
           [isOptional]="property.isOptional"
@@ -100,10 +100,10 @@
       </h3>
       <span [innerHtml]="item.description"></span>
       <sky-docs-property-definitions>
-        <sky-docs-property-definition *ngFor="let property of item.propertyDefinitions"
-          [propertyName]="property.name"
+        <sky-docs-property-definition *ngFor="let value of item.values"
+          [propertyName]="value.name"
         >
-          <span [innerHtml]="property.description"></span>
+          <span [innerHtml]="value.description"></span>
         </sky-docs-property-definition>
       </sky-docs-property-definitions>
     </ng-container>

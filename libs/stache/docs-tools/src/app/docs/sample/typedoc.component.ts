@@ -6,23 +6,92 @@ import {
 // Run `npm run typedoc`.
 const documentation: any = require('../../../../docs/documentation.json');
 
+export interface DirectiveProperty {
+  name: string;
+  type: string;
+  decorator?: 'Input' | 'Output';
+  defaultValue?: string;
+  description?: string;
+  isOptional?: boolean;
+}
+
+export interface DirectiveConfig {
+  name: string;
+  selector: string;
+  description?: string;
+  properties?: DirectiveProperty[];
+}
+
+export interface InterfaceProperty {
+  name: string;
+  type: string;
+  description?: string;
+  isOptional?: boolean;
+}
+
+export interface InterfaceConfig {
+  name: string;
+  properties: InterfaceProperty[];
+  sourceCode: string;
+  description?: string;
+}
+
+export interface EnumerationValue {
+  name: string;
+  description?: string;
+}
+
+export interface EnumerationConfig {
+  name: string;
+  description?: string;
+  values: EnumerationValue[];
+}
+
+export interface ServiceProperty {
+  name: string;
+  type: string;
+  description?: string;
+}
+
+export interface ParameterConfig {
+  name: string;
+  type: string;
+  defaultValue?: string;
+  description?: string;
+  isOptional?: boolean;
+}
+
+export interface MethodConfig {
+  name: string;
+  returnType: string;
+  description?: string;
+  parameters?: ParameterConfig[];
+}
+
+export interface ServiceConfig {
+  name: string;
+  description?: string;
+  methods?: MethodConfig[];
+  properties?: ServiceProperty[];
+}
+
 @Component({
   selector: 'app-typedoc',
   templateUrl: './typedoc.component.html'
 })
 export class AppTypeDocComponent implements OnInit {
 
-  public componentConfigs: {}[] = [];
+  public componentConfigs: DirectiveConfig[] = [];
 
-  public directiveConfigs: {}[] = [];
+  public directiveConfigs: DirectiveConfig[] = [];
 
-  public interfaceConfigs: {}[] = [];
+  public interfaceConfigs: InterfaceConfig[] = [];
 
   public typeAliasConfigs: {}[] = [];
 
-  public enumerationConfigs: {}[] = [];
+  public enumerationConfigs: EnumerationConfig[] = [];
 
-  public serviceConfigs: {}[] = [];
+  public serviceConfigs: ServiceConfig[] = [];
 
   public ngOnInit(): void {
     documentation.children.forEach((item: any) => {
@@ -43,12 +112,12 @@ export class AppTypeDocComponent implements OnInit {
       if (this.endsWith(item.name, 'Service')) {
         const description = (item.comment) ? item.comment.shortText : '';
 
-        const propertyDefinitions: {}[] = [];
-        const methods: {}[] = [];
+        const properties: ServiceProperty[] = [];
+        const methods: MethodConfig[] = [];
 
         item.children.forEach((child: any) => {
           if (child.kindString === 'Property') {
-            propertyDefinitions.push({
+            properties.push({
               name: child.name,
               type: this.getFormattedType(child.type),
               description: (child.comment) ? child.comment.shortText : ''
@@ -58,13 +127,14 @@ export class AppTypeDocComponent implements OnInit {
           if (child.kindString === 'Method' && child.name.indexOf('ng') !== 0) {
             const signature: any = child.signatures[0];
 
-            const parameters: {}[] = (signature.parameters) ? signature.parameters.map((parameter: any) => {
-              return {
-                name: parameter.name,
-                type: parameter.type.name,
-                defaultValue: parameter.defaultValue && parameter.defaultValue.replace(/\"/g, '\''),
-                isOptional: (parameter.flags.isOptional === true || parameter.defaultValue)
+            const parameters: ParameterConfig[] = (signature.parameters) ? signature.parameters.map((p: any) => {
+              const parameter: ParameterConfig = {
+                name: p.name,
+                type: p.type.name,
+                defaultValue: p.defaultValue && p.defaultValue.replace(/\"/g, '\''),
+                isOptional: (p.flags.isOptional === true || p.defaultValue)
               };
+              return parameter;
             }) : [];
 
             methods.push({
@@ -79,7 +149,7 @@ export class AppTypeDocComponent implements OnInit {
         this.serviceConfigs.push({
           name: item.name,
           description,
-          propertyDefinitions,
+          properties,
           methods
         });
       }
@@ -88,19 +158,21 @@ export class AppTypeDocComponent implements OnInit {
       if (item.kindString === 'Interface') {
         let sourceCode: string = `interface ${item.name} {`;
 
-        const propertyDefinitions: {}[] = item.children.map((p: any) => {
+        const properties: InterfaceProperty[] = item.children.map((p: any) => {
           const isOptional = (p.flags.isOptional === true);
           const optionalIndicator = (isOptional) ? '?' : '';
           const type = p.type.name;
 
           sourceCode += `\n  ${p.name}${optionalIndicator}: ${type.replace(/\"/g, '\'')};`;
 
-          return {
+          const prop: InterfaceProperty = {
             type,
             name: p.name,
             description: (p.comment) ? p.comment.shortText : '',
             isOptional
           };
+
+          return prop;
         });
 
         sourceCode += '\n}';
@@ -108,24 +180,26 @@ export class AppTypeDocComponent implements OnInit {
         this.interfaceConfigs.push({
           name: item.name,
           description: (item.comment) ? item.comment.shortText : '',
-          propertyDefinitions,
+          properties,
           sourceCode
         });
       }
 
       // Enumerations.
       if (item.kindString === 'Enumeration') {
-        const propertyDefinitions: {}[] = item.children.map((p: any) => {
-          return {
+        const values: EnumerationValue[] = item.children.map((p: any) => {
+          const value: EnumerationValue = {
             name: `${item.name}.${p.name}`,
-            description: p.comment.shortText
+            description: (p.comment) ? p.comment.shortText : ''
           };
+
+          return value;
         });
 
         this.enumerationConfigs.push({
           name: item.name,
-          description: item.comment.shortText,
-          propertyDefinitions
+          description: (item.comment) ? item.comment.shortText : '',
+          values
         });
       }
 
@@ -201,10 +275,10 @@ export class AppTypeDocComponent implements OnInit {
     return (haystack.substr(needle.length * -1) === needle);
   }
 
-  private parseDirectiveConfig(item: any): any {
+  private parseDirectiveConfig(item: any): DirectiveConfig {
     const selector = item.decorators[0].arguments.obj.split('selector: \'')[1].split('\'')[0];
 
-    const propertyDefinitions: {}[] = [];
+    const properties: DirectiveProperty[] = [];
 
     if (item.children) {
       item.children.forEach((c: any) => {
@@ -227,7 +301,7 @@ export class AppTypeDocComponent implements OnInit {
               type += `<${typeArguments.join(', ')}>`;
             }
 
-            propertyDefinitions.push({
+            properties.push({
               type,
               name: c.name,
               decorator,
@@ -238,12 +312,14 @@ export class AppTypeDocComponent implements OnInit {
       });
     }
 
-    return {
+    const config: DirectiveConfig = {
       name: item.name,
       description: item.comment.shortText,
       selector,
-      propertyDefinitions
+      properties
     };
+
+    return config;
   }
 
   private getFormattedType(type: {
