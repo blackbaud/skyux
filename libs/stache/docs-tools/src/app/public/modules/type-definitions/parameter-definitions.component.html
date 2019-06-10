@@ -1,0 +1,19 @@
+<table class="sky-docs-parameter-definitions">
+  <tbody>
+    <tr *ngFor="let parameter of parameters">
+      <th class="sky-docs-parameter-definition-name">
+        <strong><sky-code>{{ parameter.name }}</sky-code></strong>
+      </th>
+      <td class="sky-docs-parameter-definition-type">
+        <sky-code>{{ parameter.type }}</sky-code>
+      </td>
+      <td>
+        <ng-container [ngTemplateOutlet]="parameter.templateRef">
+        </ng-container>
+        <div *ngIf="parameter.isOptional">
+          Optional. <ng-container *ngIf="parameter.defaultValue">Default is <sky-code>{{ parameter.defaultValue }}</sky-code>.</ng-container>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

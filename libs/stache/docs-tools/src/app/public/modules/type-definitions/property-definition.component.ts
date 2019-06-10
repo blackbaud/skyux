@@ -8,7 +8,10 @@ import {
 
 @Component({
   selector: 'sky-docs-property-definition',
-  templateUrl: './property-definition.component.html',
+  template: `
+  <ng-template #templateRef>
+    <ng-content></ng-content>
+  </ng-template>`,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyDocsPropertyDefinitionComponent {
@@ -18,6 +21,9 @@ export class SkyDocsPropertyDefinitionComponent {
 
   @Input()
   public defaultValue: string;
+
+  @Input()
+  public isOptional: boolean = false;
 
   @Input()
   public deprecationWarning: string;

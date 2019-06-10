@@ -16,6 +16,8 @@ export interface SkyPropertyDefinition {
 
   description?: string;
 
+  isOptional: boolean;
+
   deprecationWarning: string;
 
   propertyDecorator: 'Input' | 'Output';

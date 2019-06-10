@@ -33,8 +33,8 @@
           [ngTemplateOutlet]="item.templateRef"
         >
         </ng-container>
-        <p *ngIf="item.defaultValue">
-          Optional. Default is <sky-code>{{ item.defaultValue }}</sky-code>.
+        <p *ngIf="item.isOptional">
+          Optional. <ng-container *ngIf="item.defaultValue">Default is <sky-code>{{ item.defaultValue }}</sky-code>.</ng-container>
         </p>
         <p *ngIf="item.deprecationWarning"
           class="sky-text-warning sky-docs-property-definitions-deprecation-warning"

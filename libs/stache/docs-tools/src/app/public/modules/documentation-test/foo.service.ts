@@ -1,12 +1,13 @@
 import {
-  Injectable
+  Injectable,
+  OnDestroy
 } from '@angular/core';
 
 /**
  * This is the description for FooService.
  */
 @Injectable()
-export class FooService {
+export class FooService implements OnDestroy {
 
   /**
    * This is the description for FOOS.
@@ -16,8 +17,15 @@ export class FooService {
   /**
    * This is the description for createFoo().
    */
-  public createFoo(bar: string, baz?: string): string[] {
-    this.FOOS.push(`${bar}${baz}`);
+  public createFoo(bar: string, baz?: string, lorem: string = 'ipsum'): string[] {
+    this.FOOS.push(`${bar}${baz}${lorem}`);
     return this.FOOS;
   }
+
+  /**
+   * This is the description for anotherFoo().
+   */
+  public anotherFoo(): void {}
+
+  public ngOnDestroy(): void {}
 }

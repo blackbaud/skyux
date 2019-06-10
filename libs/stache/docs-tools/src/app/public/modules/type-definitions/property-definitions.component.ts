@@ -45,7 +45,8 @@ export class SkyDocsPropertyDefinitionsComponent implements AfterContentInit {
         // isRequired,
         propertyDecorator: definitionRef.propertyDecorator,
         propertyName: definitionRef.propertyName,
-        templateRef: definitionRef.templateRef
+        templateRef: definitionRef.templateRef,
+        isOptional: definitionRef.isOptional
       });
     });
 
@@ -63,6 +64,10 @@ export class SkyDocsPropertyDefinitionsComponent implements AfterContentInit {
     }
 
     signature += `${item.propertyName}`;
+
+    if (item.isOptional) {
+      signature += '?';
+    }
 
     if (item.propertyType) {
       signature += `: ${item.propertyType}`;

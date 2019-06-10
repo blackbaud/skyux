@@ -5,10 +5,11 @@ import { CommonModule } from '@angular/common';
 import { SkyDocsDirectiveDefinitionComponent } from './directive-definition.component';
 import { SkyDocsInterfaceDefinitionComponent } from './interface-definition.component';
 import { SkyDocsMethodDefinitionComponent } from './method-definition.component';
-import { SkyDocsMethodDefinitionParameterComponent } from './method-definition-parameter.component';
 import { SkyDocsPropertyDefinitionComponent } from './property-definition.component';
 import { SkyDocsPropertyDefinitionsComponent } from './property-definitions.component';
 import { SkyCodeModule, SkyCodeBlockModule } from '@blackbaud/skyux-lib-code-block';
+import { SkyDocsParameterDefinitionComponent } from './parameter-definition.component';
+import { SkyDocsParameterDefinitionsComponent } from './parameter-definitions.component';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { SkyCodeModule, SkyCodeBlockModule } from '@blackbaud/skyux-lib-code-blo
     SkyDocsDirectiveDefinitionComponent,
     SkyDocsInterfaceDefinitionComponent,
     SkyDocsMethodDefinitionComponent,
-    SkyDocsMethodDefinitionParameterComponent,
+    SkyDocsParameterDefinitionComponent,
+    SkyDocsParameterDefinitionsComponent,
     SkyDocsPropertyDefinitionComponent,
     SkyDocsPropertyDefinitionsComponent
   ],
@@ -28,7 +30,8 @@ import { SkyCodeModule, SkyCodeBlockModule } from '@blackbaud/skyux-lib-code-blo
     SkyDocsDirectiveDefinitionComponent,
     SkyDocsInterfaceDefinitionComponent,
     SkyDocsMethodDefinitionComponent,
-    SkyDocsMethodDefinitionParameterComponent,
+    SkyDocsParameterDefinitionComponent,
+    SkyDocsParameterDefinitionsComponent,
     SkyDocsPropertyDefinitionComponent,
     SkyDocsPropertyDefinitionsComponent
   ]

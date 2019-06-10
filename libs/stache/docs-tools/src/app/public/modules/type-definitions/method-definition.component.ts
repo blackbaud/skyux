@@ -1,16 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ContentChildren,
-  QueryList,
-  AfterContentInit,
   Input,
   TemplateRef
 } from '@angular/core';
-
-import {
-  SkyDocsMethodDefinitionParameterComponent
-} from './method-definition-parameter.component';
 
 @Component({
   selector: 'sky-docs-method-definition',
@@ -18,7 +11,7 @@ import {
   styleUrls: ['./method-definition.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyDocsMethodDefinitionComponent implements AfterContentInit {
+export class SkyDocsMethodDefinitionComponent {
 
   @Input()
   public methodName: string;
@@ -26,9 +19,11 @@ export class SkyDocsMethodDefinitionComponent implements AfterContentInit {
   @Input()
   public returnType = 'void';
 
+  @Input()
   public parameters: {
     name: string;
     type: string;
+    isOptional: boolean;
     defaultValue: string;
     templateRef: TemplateRef<any>
   }[];
@@ -43,7 +38,7 @@ export class SkyDocsMethodDefinitionComponent implements AfterContentInit {
       const parameters: string[] = [];
 
       this.parameters.forEach((parameter) => {
-        const optionalMarker = (parameter.defaultValue) ? '?' : '';
+        const optionalMarker = (parameter.defaultValue || parameter.isOptional) ? '?' : '';
 
         parameters.push(
           `${parameter.name}${optionalMarker}: ${parameter.type}`
@@ -56,23 +51,6 @@ export class SkyDocsMethodDefinitionComponent implements AfterContentInit {
     signature += `): ${this.returnType}`;
 
     return signature;
-  }
-
-  @ContentChildren(SkyDocsMethodDefinitionParameterComponent)
-  private parameterComponents: QueryList<SkyDocsMethodDefinitionParameterComponent>;
-
-  /**
-   * @internal
-   */
-  public ngAfterContentInit(): void {
-    this.parameters = this.parameterComponents.map((parameterComponent) => {
-      return {
-        name: parameterComponent.parameterName,
-        type: parameterComponent.parameterType,
-        defaultValue: parameterComponent.defaultValue,
-        templateRef: parameterComponent.templateRef
-      };
-    });
   }
 
 }

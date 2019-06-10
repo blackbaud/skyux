@@ -22,6 +22,8 @@ export class AppTypeDocComponent implements OnInit {
 
   public enumerationConfigs: {}[] = [];
 
+  public serviceConfigs: {}[] = [];
+
   public ngOnInit(): void {
     documentation.children.forEach((item: any) => {
 
@@ -37,13 +39,58 @@ export class AppTypeDocComponent implements OnInit {
         this.directiveConfigs.push(config);
       }
 
+      // Services.
+      if (this.endsWith(item.name, 'Service')) {
+        const description = (item.comment) ? item.comment.shortText : '';
+
+        const propertyDefinitions: {}[] = [];
+        const methods: {}[] = [];
+
+        item.children.forEach((child: any) => {
+          if (child.kindString === 'Property') {
+            propertyDefinitions.push({
+              name: child.name,
+              type: this.getFormattedType(child.type),
+              description: (child.comment) ? child.comment.shortText : ''
+            });
+          }
+
+          if (child.kindString === 'Method' && child.name.indexOf('ng') !== 0) {
+            const signature: any = child.signatures[0];
+
+            const parameters: {}[] = (signature.parameters) ? signature.parameters.map((parameter: any) => {
+              return {
+                name: parameter.name,
+                type: parameter.type.name,
+                defaultValue: parameter.defaultValue && parameter.defaultValue.replace(/\"/g, '\''),
+                isOptional: (parameter.flags.isOptional === true || parameter.defaultValue)
+              };
+            }) : [];
+
+            methods.push({
+              name: child.name,
+              description: (child.comment) ? child.comment.shortText : '',
+              returnType: this.getFormattedType(signature.type),
+              parameters
+            });
+          }
+        });
+
+        this.serviceConfigs.push({
+          name: item.name,
+          description,
+          propertyDefinitions,
+          methods
+        });
+      }
+
       // Interfaces.
       if (item.kindString === 'Interface') {
         let sourceCode: string = `interface ${item.name} {`;
 
         const propertyDefinitions: {}[] = item.children.map((p: any) => {
-          const optional = (p.flags.isOptional === true);
-          const optionalIndicator = (optional) ? '?' : '';
+          const isOptional = (p.flags.isOptional === true);
+          const optionalIndicator = (isOptional) ? '?' : '';
           const type = p.type.name;
 
           sourceCode += `\n  ${p.name}${optionalIndicator}: ${type.replace(/\"/g, '\'')};`;
@@ -52,7 +99,7 @@ export class AppTypeDocComponent implements OnInit {
             type,
             name: p.name,
             description: (p.comment) ? p.comment.shortText : '',
-            optional
+            isOptional
           };
         });
 
@@ -86,6 +133,8 @@ export class AppTypeDocComponent implements OnInit {
       if (item.kindString === 'Type alias') {
         let sourceCode = `type ${item.name} = `;
 
+        const parameters: any[] = [];
+
         if (item.type.type === 'union') {
           sourceCode += item.type.types.map((t: any) => {
             if (t.type === 'intrinsic' || t.type === 'reference') {
@@ -104,10 +153,31 @@ export class AppTypeDocComponent implements OnInit {
 
         if (item.type.type === 'reflection') {
           sourceCode += '(';
+
           const callSignature = item.type.declaration.signatures[0];
+
           sourceCode += callSignature.parameters.map((p: any) => {
-            return `${p.name}: ${p.type.name}`;
+
+            const foundTag = item.comment.tags.find((tag: any) => {
+              return (tag.tag === 'param' && tag.param === p.name);
+            });
+
+            if (foundTag) {
+              parameters.push({
+                name: p.name,
+                type: p.type.name,
+                description: foundTag.text,
+                defaultValue: p.defaultValue,
+                isOptional: (p.flags.isOptional === true)
+              });
+            }
+
+            const optionalIndicator = (p.flags.isOptional === true) ? '?' : '';
+
+            return `${p.name}${optionalIndicator}: ${p.type.name}`;
+
           }).join(', ');
+
           sourceCode += `) => ${callSignature.type.name}`;
         }
 
@@ -116,20 +186,11 @@ export class AppTypeDocComponent implements OnInit {
         this.typeAliasConfigs.push({
           name: item.name,
           description: item.comment.shortText,
-          sourceCode
+          sourceCode,
+          parameters
         });
       }
     });
-
-    // if (documentation.miscellaneous && documentation.miscellaneous.typealiases) {
-    //   this.typeAliasConfigs = documentation.miscellaneous.typealiases.map((alias: any) => {
-    //     return {
-    //       name: alias.name,
-    //       description: alias.description,
-    //       sourceCode: `type ${alias.name} = ${alias.rawtype.replace(/\"/g, '\'')};`
-    //     };
-    //   });
-    // }
   }
 
   /**
@@ -183,5 +244,20 @@ export class AppTypeDocComponent implements OnInit {
       selector,
       propertyDefinitions
     };
+  }
+
+  private getFormattedType(type: {
+    type: string;
+    elementType?: {
+      type: string;
+      name: string;
+    };
+    name?: string;
+  }): string {
+    if (type.type === 'array') {
+      return `${type.elementType.name}[]`;
+    }
+
+    return type.name;
   }
 }

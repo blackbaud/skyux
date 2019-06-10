@@ -24,6 +24,12 @@ export class FooComponent implements OnInit {
   public foo: FooEnum;
 
   /**
+   * This is the description for baz input.
+   */
+  @Input()
+  public baz: boolean = false;
+
+  /**
    * This is the description for bar input.
    */
   @Input()
