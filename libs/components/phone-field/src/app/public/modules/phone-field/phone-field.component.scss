@@ -2,15 +2,25 @@
 @import "~@skyux/theme/scss/_compat/mixins";
 @import "~intl-tel-input/build/css/intlTelInput";
 
-::ng-deep .sky-form-control {
+.sky-phone-field-country-btn + ::ng-deep .sky-form-control {
   border-left: none;
 }
 
 .sky-phone-field-country-btn {
 
-  ::ng-deep .sky-dropdown-button {
+  ::ng-deep .sky-btn {
     border-radius: 0;
   }
+
+}
+
+.sky-phone-field-container {
+  width: 100%;
+  display: flex;
+}
+
+.sky-phone-field-country-search {
+  flex-grow: 1;
 
   ::ng-deep .sky-dropdown-item .iti-flag {
     display: inline-block;
@@ -22,11 +32,10 @@
     margin: auto 0;
     overflow: visible;
   }
+}
 
-  ::ng-deep .sky-dropdown {
-    display: flex;
-  }
-
+.sky-phone-field-search-btn-dismiss {
+  border-color: transparent;
 }
 
 .sky-phone-field-country-selected, .sky-phone-field-country-default {

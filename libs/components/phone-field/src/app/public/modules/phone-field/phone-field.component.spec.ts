@@ -16,6 +16,10 @@ import {
 } from '@angular/platform-browser';
 
 import {
+  NoopAnimationsModule
+} from '@angular/platform-browser/animations';
+
+import {
   expect,
   SkyAppTestUtility
 } from '@skyux-sdk/testing';
@@ -49,6 +53,34 @@ describe('Phone Field Component', () => {
     tick();
   }
 
+  function setCountry(countryName: string, compFixture: ComponentFixture<any>) {
+    compFixture.debugElement.query(By.css('.sky-phone-field-country-btn .sky-btn-default'))
+      .nativeElement.click();
+
+    compFixture.detectChanges();
+    tick();
+    compFixture.detectChanges();
+    tick();
+
+    let countrySearchInput: HTMLInputElement = compFixture.debugElement.query(By.css('input'))
+      .nativeElement;
+    countrySearchInput.value = countryName;
+
+    SkyAppTestUtility.fireDomEvent(countrySearchInput, 'keyup');
+
+    compFixture.detectChanges();
+    tick();
+    compFixture.detectChanges();
+    tick();
+
+    compFixture.debugElement.queryAll(By.css('.sky-dropdown-item button'))[0].nativeElement.click();
+
+    compFixture.detectChanges();
+    tick();
+    compFixture.detectChanges();
+    tick();
+  }
+
   function blurInput(
     element: HTMLElement,
     compFixture: ComponentFixture<any>): void {
@@ -72,6 +104,7 @@ describe('Phone Field Component', () => {
         ],
         imports: [
           SkyPhoneFieldModule,
+          NoopAnimationsModule,
           FormsModule
         ]
       });
@@ -85,7 +118,7 @@ describe('Phone Field Component', () => {
       fixture.detectChanges();
       expect(nativeElement.querySelector('input')).toHaveCssClass('sky-form-control');
       expect(nativeElement
-        .querySelector('.sky-input-group .sky-input-group-btn .sky-dropdown-button'))
+        .querySelector('.sky-input-group .sky-input-group-btn .sky-btn-default'))
         .not.toBeNull();
     });
 
@@ -192,6 +225,7 @@ describe('Phone Field Component', () => {
       let ngModel: NgModel;
 
       beforeEach(() => {
+        fixture.detectChanges();
         let inputElement = fixture.debugElement.query(By.css('input'));
         ngModel = <NgModel>inputElement.injector.get(NgModel);
       });
@@ -398,7 +432,8 @@ describe('Phone Field Component', () => {
 
         expect(fixture.componentInstance.inputDirective.disabled).toBeTruthy();
         expect(fixture.debugElement.query(By.css('input')).nativeElement.disabled).toBeTruthy();
-        expect(fixture.debugElement.query(By.css('sky-dropdown button')).nativeElement.disabled).toBeTruthy();
+        expect(fixture.debugElement
+          .query(By.css('.sky-phone-field-country-btn .sky-btn-default')).nativeElement.disabled).toBeTruthy();
       });
 
       it('should not disable the input and dropdown when disable is set to false', () => {
@@ -407,28 +442,56 @@ describe('Phone Field Component', () => {
 
         expect(fixture.componentInstance.inputDirective.disabled).toBeFalsy();
         expect(fixture.debugElement.query(By.css('input')).nativeElement.disabled).toBeFalsy();
-        expect(fixture.debugElement.query(By.css('sky-dropdown button')).nativeElement.disabled).toBeFalsy();
+        expect(fixture.debugElement
+          .query(By.css('.sky-phone-field-country-btn .sky-btn-default')).nativeElement.disabled).toBeFalsy();
       });
 
     });
 
     describe('country selector', () => {
 
-      it('should update the placeholder to the new country', () => {
+      it('should focus the autocomplete when it is shown', fakeAsync(() => {
+        fixture.detectChanges();
+        fixture.debugElement.query(By.css('.sky-phone-field-country-btn .sky-btn-default'))
+          .nativeElement.click();
+
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        expect(document.activeElement === nativeElement.querySelector('input'))
+          .toBeTruthy();
+      }));
+
+      it('should be accessible when country search is shown', (done) => {
+        fixture.detectChanges();
+        fixture.debugElement.query(By.css('.sky-phone-field-country-btn .sky-btn-default'))
+          .nativeElement.click();
+
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+
+          fixture.detectChanges();
+          fixture.whenStable().then(() => {
+            expect(fixture.nativeElement).toBeAccessible();
+            done();
+          });
+        });
+      });
+
+      it('should update the placeholder to the new country', fakeAsync(() => {
         fixture.detectChanges();
         let originalCountryData = component.phoneFieldComponent.countries.slice(0);
 
-        fixture.debugElement.query(By.css('button.sky-dropdown-button')).nativeElement.click();
-        fixture.detectChanges();
-
-        fixture.debugElement.queryAll(By.css('.sky-dropdown-item button'))[2].nativeElement.click();
-        fixture.detectChanges();
+        setCountry('Canada', fixture);
 
         expect(nativeElement.querySelector('input').placeholder)
-          .toBe(originalCountryData[2].exampleNumber);
-      });
+          .toBe(originalCountryData.find(country => country.name === 'Canada').exampleNumber);
+      }));
 
       it('should revalidate after the country is changed', fakeAsync(() => {
+        fixture.detectChanges();
         let inputElement = fixture.debugElement.query(By.css('input'));
         let ngModel = <NgModel>inputElement.injector.get(NgModel);
 
@@ -443,13 +506,7 @@ describe('Phone Field Component', () => {
         expect(ngModel.valid).toBe(true);
         expect(ngModel.errors).toBeNull();
 
-        fixture.debugElement.query(By.css('button.sky-dropdown-button')).nativeElement.click();
-        fixture.detectChanges();
-        tick();
-
-        fixture.debugElement.queryAll(By.css('.sky-dropdown-item button'))[2].nativeElement.click();
-        fixture.detectChanges();
-        tick();
+        setCountry('Albania', fixture);
 
         expect(ngModel.valid).toBe(false);
         expect(ngModel.errors).toEqual({
@@ -460,6 +517,7 @@ describe('Phone Field Component', () => {
       }));
 
       it('should validate correctly after country is changed', fakeAsync(() => {
+        fixture.detectChanges();
         let inputElement = fixture.debugElement.query(By.css('input'));
         let ngModel = <NgModel>inputElement.injector.get(NgModel);
 
@@ -474,13 +532,7 @@ describe('Phone Field Component', () => {
         expect(ngModel.valid).toBe(true);
         expect(ngModel.errors).toBeNull();
 
-        fixture.debugElement.query(By.css('button.sky-dropdown-button')).nativeElement.click();
-        fixture.detectChanges();
-        tick();
-
-        fixture.debugElement.queryAll(By.css('.sky-dropdown-item button'))[2].nativeElement.click();
-        fixture.detectChanges();
-        tick();
+        setCountry('Albania', fixture);
 
         expect(ngModel.valid).toBe(false);
         expect(ngModel.errors).toEqual({
@@ -500,6 +552,7 @@ describe('Phone Field Component', () => {
       }));
 
       it('should add the country code to non-default country data', fakeAsync(() => {
+        fixture.detectChanges();
         let inputElement = fixture.debugElement.query(By.css('input'));
         let ngModel = <NgModel>inputElement.injector.get(NgModel);
 
@@ -511,13 +564,7 @@ describe('Phone Field Component', () => {
         expect(ngModel.valid).toBe(true);
         expect(ngModel.errors).toBeNull();
 
-        fixture.debugElement.query(By.css('button.sky-dropdown-button')).nativeElement.click();
-        fixture.detectChanges();
-        tick();
-
-        fixture.debugElement.queryAll(By.css('.sky-dropdown-item button'))[2].nativeElement.click();
-        fixture.detectChanges();
-        tick();
+        setCountry('Albania', fixture);
 
         component.modelValue = '024569874';
         fixture.detectChanges();
@@ -546,6 +593,7 @@ describe('Phone Field Component', () => {
         ],
         imports: [
           SkyPhoneFieldModule,
+          NoopAnimationsModule,
           FormsModule,
           ReactiveFormsModule
         ]
@@ -571,6 +619,17 @@ describe('Phone Field Component', () => {
         expect(nativeElement.querySelector('input').placeholder)
           .toBe(component.phoneFieldComponent.countries
             .find(country => country.iso2 === 'us').exampleNumber);
+      }));
+
+      it('should initialize the default country correctly with capitalized code', fakeAsync(() => {
+        component.defaultCountry = 'AU';
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(nativeElement.querySelector('input').placeholder)
+          .toBe(component.phoneFieldComponent.countries
+            .find(country => country.iso2 === 'au').exampleNumber);
       }));
 
       it('should initialize without a default country', fakeAsync(() => {
@@ -877,7 +936,8 @@ describe('Phone Field Component', () => {
 
         expect(fixture.componentInstance.inputDirective.disabled).toBeTruthy();
         expect(fixture.debugElement.query(By.css('input')).nativeElement.disabled).toBeTruthy();
-        expect(fixture.debugElement.query(By.css('sky-dropdown button')).nativeElement.disabled).toBeTruthy();
+        expect(fixture.debugElement
+          .query(By.css('.sky-phone-field-country-btn .sky-btn-default')).nativeElement.disabled).toBeTruthy();
       }));
 
       it('should not disable the input and dropdown when disable is set to false', fakeAsync(() => {
@@ -890,28 +950,56 @@ describe('Phone Field Component', () => {
 
         expect(fixture.componentInstance.inputDirective.disabled).toBeFalsy();
         expect(fixture.debugElement.query(By.css('input')).nativeElement.disabled).toBeFalsy();
-        expect(fixture.debugElement.query(By.css('sky-dropdown button')).nativeElement.disabled).toBeFalsy();
+        expect(fixture.debugElement
+          .query(By.css('.sky-phone-field-country-btn .sky-btn-default')).nativeElement.disabled).toBeFalsy();
       }));
 
     });
 
     describe('country selector', () => {
 
-      it('should update the placeholder to the new country', () => {
+      it('should focus the autocomplete when it is shown', fakeAsync(() => {
+        fixture.detectChanges();
+        fixture.debugElement.query(By.css('.sky-phone-field-country-btn .sky-btn-default'))
+          .nativeElement.click();
+
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        expect(document.activeElement === nativeElement.querySelector('input'))
+          .toBeTruthy();
+      }));
+
+      it('should be accessible when country search is shown', (done) => {
+        fixture.detectChanges();
+        fixture.debugElement.query(By.css('.sky-phone-field-country-btn .sky-btn-default'))
+          .nativeElement.click();
+
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+
+          fixture.detectChanges();
+          fixture.whenStable().then(() => {
+            expect(fixture.nativeElement).toBeAccessible();
+            done();
+          });
+        });
+      });
+
+      it('should update the placeholder to the new country', fakeAsync(() => {
         fixture.detectChanges();
         let originalCountryData = component.phoneFieldComponent.countries.slice(0);
 
-        fixture.debugElement.query(By.css('button.sky-dropdown-button')).nativeElement.click();
-        fixture.detectChanges();
-
-        fixture.debugElement.queryAll(By.css('.sky-dropdown-item button'))[2].nativeElement.click();
-        fixture.detectChanges();
+        setCountry('Canada', fixture);
 
         expect(nativeElement.querySelector('input').placeholder)
-          .toBe(originalCountryData[2].exampleNumber);
-      });
+          .toBe(originalCountryData.find(country => country.name === 'Canada').exampleNumber);
+      }));
 
       it('should revalidate after the country is changed', fakeAsync(() => {
+        fixture.detectChanges();
         component.defaultCountry = 'us';
         fixture.detectChanges();
         component.phoneControl.setValue('8675555309');
@@ -923,13 +1011,7 @@ describe('Phone Field Component', () => {
         expect(component.phoneControl.valid).toBe(true);
         expect(component.phoneControl.errors).toBeNull();
 
-        fixture.debugElement.query(By.css('button.sky-dropdown-button')).nativeElement.click();
-        fixture.detectChanges();
-        tick();
-
-        fixture.debugElement.queryAll(By.css('.sky-dropdown-item button'))[2].nativeElement.click();
-        fixture.detectChanges();
-        tick();
+        setCountry('Albania', fixture);
 
         expect(component.phoneControl.valid).toBe(false);
         expect(component.phoneControl.errors).toEqual({
@@ -940,6 +1022,7 @@ describe('Phone Field Component', () => {
       }));
 
       it('should validate correctly after country is changed', fakeAsync(() => {
+        fixture.detectChanges();
         component.defaultCountry = 'us';
         fixture.detectChanges();
         component.phoneControl.setValue('8675555309');
@@ -951,13 +1034,7 @@ describe('Phone Field Component', () => {
         expect(component.phoneControl.valid).toBe(true);
         expect(component.phoneControl.errors).toBeNull();
 
-        fixture.debugElement.query(By.css('button.sky-dropdown-button')).nativeElement.click();
-        fixture.detectChanges();
-        tick();
-
-        fixture.debugElement.queryAll(By.css('.sky-dropdown-item button'))[2].nativeElement.click();
-        fixture.detectChanges();
-        tick();
+        setCountry('Albania', fixture);
 
         expect(component.phoneControl.valid).toBe(false);
         expect(component.phoneControl.errors).toEqual({
@@ -977,18 +1054,13 @@ describe('Phone Field Component', () => {
       }));
 
       it('should add the country code to non-default country data', fakeAsync(() => {
+        fixture.detectChanges();
         component.defaultCountry = 'us';
         fixture.detectChanges();
         fixture.detectChanges();
         tick();
 
-        fixture.debugElement.query(By.css('button.sky-dropdown-button')).nativeElement.click();
-        fixture.detectChanges();
-        tick();
-
-        fixture.debugElement.queryAll(By.css('.sky-dropdown-item button'))[2].nativeElement.click();
-        fixture.detectChanges();
-        tick();
+        setCountry('Albania', fixture);
 
         component.phoneControl.setValue('024569874');
         fixture.detectChanges();

@@ -1,45 +1,96 @@
 <div
   class="sky-form-group sky-input-group sky-phone-field"
+  [@blockAnimationOnLoad]
 >
   <div
     class="sky-input-group-btn sky-phone-field-country-btn"
   >
-    <sky-dropdown
+    <button
+      aria-live="polite"
+      class="sky-btn sky-btn-default"
+      [attr.title]="('skyux_phone_field_country_select_label' | skyAppResources) + ' ' + ('skyux_phone_field_country_selected_label' | skyAppResources:selectedCountry.name)"
+      [attr.aria-label]="('skyux_phone_field_country_select_label' | skyAppResources) + ' ' + ('skyux_phone_field_country_selected_label' | skyAppResources:selectedCountry.name)"
       [disabled]="countrySelectDisabled"
-      [label]="'skyux_phone_field_dropdown_label' | skyLibResources"
-      [title]="selectedCountry.name + ' +' + selectedCountry.dialCode"
+      (click)="toggleCountrySearch(true)"
     >
-      <sky-dropdown-button>
-        <div
-          [className]="'iti-flag ' + selectedCountry.iso2"
-        >
-        </div>
-      </sky-dropdown-button>
-      <sky-dropdown-menu>
-        <sky-dropdown-item *ngFor="let country of countries; let i = index"
-          [ngClass]="{
-            'sky-phone-field-country-selected': i === 0,
-            'sky-phone-field-country-default': country.iso2 === defaultCountry
-          }"
-        >
-          <button
-            type="button"
-            (click)="onCountrySelected(country.iso2)"
-          >
-            <div
-              [className]="'iti-flag ' + country.iso2"
-            >
-            </div>
-            {{ country.name }}
-            <span
-              class="sky-deemphasized"
-            >
-              +{{ country.dialCode }}
-            </span>
-          </button>
-        </sky-dropdown-item>
-      </sky-dropdown-menu>
-    </sky-dropdown>
+      <div
+        [className]="'iti-flag ' + selectedCountry.iso2"
+      >
+      </div>
+    </button>
   </div>
-  <ng-content></ng-content>
+  <ng-container *ngIf="phoneInputShown">
+    <span
+      class="sky-phone-field-container"
+      [@phoneInputAnimation]
+      (@phoneInputAnimation.done)="phoneInputAnimationEnd($event)"
+    >
+      <ng-content></ng-content>
+    </span>
+  </ng-container>
+  <ng-container *ngIf="countrySearchShown">
+    <span
+      class="sky-phone-field-container"
+      [@countrySearchAnimation]
+      (@countrySearchAnimation.done)="countrySearchAnimationEnd($event)"
+
+    >
+      <form
+        novalidate
+        class="sky-phone-field-country-search"
+        [formGroup]="countrySearchForm"
+      >
+        <sky-autocomplete
+          [data]="countries"
+          [propertiesToSearch]="['name', 'iso2']"
+          [searchResultTemplate]="countrySearchResultTemplate"
+          [searchTextMinimumCharacters]="2"
+          (selectionChange)="onCountrySelected($event)"
+        >
+          <input
+            skyAutocomplete
+            formControlName="countrySearch"
+            id="my-autocomplete-template-driven"
+            name="selectedCountry"
+            type="text"
+            [attr.aria-label]="'skyux_phone_field_country_search_label' | skyAppResources"
+            [placeholder]="'skyux_phone_field_country_search_placeholder' | skyAppResources"
+            #countrySearchInput
+          >
+        </sky-autocomplete>
+      </form>
+      <div
+        class="sky-search-item-dismiss"
+      >
+        <button
+          class="sky-btn sky-phone-field-search-btn-dismiss"
+          type="button"
+          [attr.title]="'skyux_phone_field_country_search_dismiss' | skyLibResources"
+          (click)="toggleCountrySearch(false)"
+        >
+          <sky-icon
+            icon="chevron-circle-left"
+            size="lg"
+          >
+          </sky-icon>
+        </button>
+      </div>
+    </span>
+  </ng-container>
 </div>
+
+<ng-template
+  let-item="item"
+  #countrySearchResultTemplate
+>
+  <div
+    [className]="'iti-flag ' + item.iso2"
+  >
+  </div>
+  {{ item.name }}
+  <span
+    class="sky-deemphasized"
+  >
+    +{{ item.dialCode }}
+  </span>
+</ng-template>

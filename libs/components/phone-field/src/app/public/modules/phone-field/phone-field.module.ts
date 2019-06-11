@@ -7,12 +7,25 @@ import {
 } from '@angular/common';
 
 import {
-  FormsModule
+  FormsModule,
+  ReactiveFormsModule
 } from '@angular/forms';
+
+import {
+  BrowserAnimationsModule
+} from '@angular/platform-browser/animations';
+
+import {
+  SkyIconModule
+} from '@skyux/indicators';
 
 import {
   SkyI18nModule
 } from '@skyux/i18n';
+
+import {
+  SkyAutocompleteModule
+} from '@skyux/lookup';
 
 import {
   SkyDropdownModule
@@ -36,11 +49,15 @@ import {
     SkyPhoneFieldInputDirective
   ],
   imports: [
+    BrowserAnimationsModule,
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     SkyDropdownModule,
     SkyI18nModule,
-    SkyPhoneFieldResourcesModule
+    SkyPhoneFieldResourcesModule,
+    SkyIconModule,
+    SkyAutocompleteModule
   ],
   exports: [
     SkyPhoneFieldComponent,

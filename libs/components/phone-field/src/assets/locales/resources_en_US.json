@@ -3,8 +3,24 @@
     "_description": "The label for the phone field component's input field for screen readers when the consumer has not specified a label.",
     "message": "Phone input field"
   },
-  "skyux_phone_field_dropdown_label": {
-    "_description": "Screen reader text for the phone field component dropdown button.",
-    "message": "Choose country"
+  "skyux_phone_field_country_search_dismiss": {
+    "_description": "Label for dismissing country search input",
+    "message": "Dismiss country search"
+  },
+  "skyux_phone_field_country_search_label": {
+    "_description": "Accessibility label for the  country search input",
+    "message": "Dismiss country search"
+  },
+  "skyux_phone_field_country_search_placeholder": {
+    "_description": "Placeholder for country search autocomplete",
+    "message": "Search for a country"
+  },
+  "skyux_phone_field_country_select_label": {
+    "_description": "Screen reader text for the phone field component button to select a new country.",
+    "message": "Choose country."
+  },
+  "skyux_phone_field_country_selected_label": {
+    "_description": "Screen reader text for the phone field component to denote the selected country.",
+    "message": "{0} is currently selected."
   }
 }
