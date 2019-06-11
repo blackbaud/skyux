@@ -7,6 +7,7 @@ import {
 } from './demos/dynamic-component/dynamic-component-example.component';
 
 import {
+  SkyCoreAdapterModule,
   SkyDynamicComponentModule,
   SkyMediaQueryModule,
   SkyNumericModule
@@ -14,6 +15,7 @@ import {
 
 @NgModule({
   exports: [
+    SkyCoreAdapterModule,
     SkyDynamicComponentModule,
     SkyMediaQueryModule,
     SkyNumericModule

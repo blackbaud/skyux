@@ -1,3 +1,4 @@
+export * from './adapter-service';
 export * from './dynamic-component';
 export * from './format';
 export * from './log';
