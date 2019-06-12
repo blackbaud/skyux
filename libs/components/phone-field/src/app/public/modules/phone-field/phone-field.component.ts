@@ -1,5 +1,11 @@
 import {
   animate,
+  style,
+  transition,
+  trigger
+} from '@angular/animations';
+
+import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
@@ -8,9 +14,6 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  style,
-  transition,
-  trigger,
   ViewChild
 } from '@angular/core';
 
