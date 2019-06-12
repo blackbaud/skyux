@@ -1,3 +1,7 @@
+# 3.6.0 (2019-06-12)
+
+- Added `SkyCoreAdapterService` to provide helper functions for applying focus and setting CSS classes for responsive containers. [#81](https://github.com/blackbaud/skyux-core/pull/81)
+
 # 3.5.3 (2019-05-06)
 
 - Fixed `SkyNumericPipe` to include proper locale data when used with Angular version 5 and higher. [#74](https://github.com/blackbaud/skyux-core/pull/74)
