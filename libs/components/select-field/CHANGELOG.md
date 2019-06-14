@@ -1,7 +1,11 @@
+# 3.1.1 (2019-06-14)
+
+- Fixed the select field component to not lose focus after clearing a selection. [#26](https://github.com/blackbaud/skyux-select-field/pull/26) (Thanks @blackbaud-conorwright)
+
 # 3.1.0 (2019-02-19)
 
-- Added `blur` event to select field component. [#11](https://github.com/blackbaud/skyux-select-field/pull/11)
-- Fixed select field component to prevent text overflow when label is longer than textbox. [#12](https://github.com/blackbaud/skyux-select-field/pull/12)
+- Added a `blur` event to the select field component. [#11](https://github.com/blackbaud/skyux-select-field/pull/11)
+- Fixed the select field component to prevent text overflow when a label is longer than its textbox. [#12](https://github.com/blackbaud/skyux-select-field/pull/12)
 
 # 3.0.0 (2019-01-14)
 
@@ -9,7 +13,7 @@
 
 # 3.0.0-rc.3 (2018-12-03)
 
-- Fixed select field component to use appropriate CSS styles when control value is invalid. [#3](https://github.com/blackbaud/skyux-select-field/pull/3)
+- Fixed the select field component to use appropriate CSS styles when a control value is invalid. [#3](https://github.com/blackbaud/skyux-select-field/pull/3)
 
 # 3.0.0-rc.2 (2018-11-20)
 
