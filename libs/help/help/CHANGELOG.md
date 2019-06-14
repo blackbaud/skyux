@@ -1,3 +1,6 @@
+# 3.0.0-beta.0 (2019-06-14)
+- Updated the library to support BB Help Widget V2. [#46](https://github.com/blackbaud/skyux-lib-help/pull/46)
+
 # 2.0.0 (2019-02-25)
 - Updated the library for SKY UX 3 compatibility. [#44](https://github.com/blackbaud/skyux-lib-help/pull/44) - Thanks [Scott Freeman](https://github.com/Blackbaud-ScottFreeman)!
 
