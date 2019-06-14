@@ -1,7 +1,15 @@
-import { BBHelpClient } from '@blackbaud/help-client';
+import {
+  BBHelpClient
+} from '@blackbaud/help-client';
 
-import { HelpWidgetService } from './widget.service';
-import { fakeAsync, tick } from '@angular/core/testing';
+import {
+  HelpWidgetService
+} from './widget.service';
+
+import {
+  fakeAsync,
+  tick
+} from '@angular/core/testing';
 
 describe('BBHelpClientService', () => {
   let dataService = new HelpWidgetService();
@@ -86,7 +94,7 @@ describe('BBHelpClientService', () => {
     resolvePromise = false;
 
     dataService.openWidget()
-      .then(() => {})
+      .then(() => { })
       .catch((error: string) => {
         expect(spyHelp).not.toHaveBeenCalled();
         expect(error).toEqual('reason');

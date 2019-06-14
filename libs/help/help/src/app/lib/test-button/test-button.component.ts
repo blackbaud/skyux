@@ -1,6 +1,11 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  Input
+} from '@angular/core';
 
-import { HelpWidgetService } from '../../public/src/modules/shared';
+import {
+  HelpWidgetService
+} from '../../public/';
 
 @Component({
   selector: 'bb-help-button',

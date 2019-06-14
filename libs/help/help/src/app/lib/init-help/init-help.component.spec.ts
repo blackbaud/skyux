@@ -1,9 +1,18 @@
-import { TestBed } from '@angular/core/testing';
+import {
+  TestBed
+} from '@angular/core/testing';
 
-import { HelpInitComponent } from './init-help.component';
-import { HelpInitializationService } from '../../public';
+import {
+  HelpInitComponent
+} from './init-help.component';
 
-import { HelpWindowRef } from '../window-ref';
+import {
+  HelpInitializationService
+} from '../../public';
+
+import {
+  HelpWindowRef
+} from '../window-ref';
 
 class MockWindowRef {
   public nativeWindow = {
@@ -40,11 +49,5 @@ describe('HelpInitComponent', () => {
   it('should initialize the help widget on creation if it doesn\'t exist', () => {
     TestBed.createComponent(HelpInitComponent);
     expect(helpInitService.load).toHaveBeenCalled();
-  });
-
-  it('should not try to call load if the widget already exists', () => {
-    mockWindowRef.nativeWindow.BBHELP = true;
-    TestBed.createComponent(HelpInitComponent);
-    expect(helpInitService.load).not.toHaveBeenCalled();
   });
 });

@@ -1,6 +1,10 @@
-import { BBHelpClient } from '@blackbaud/help-client';
+import {
+  BBHelpClient
+} from '@blackbaud/help-client';
 
-import { HelpInitializationService } from './initialization.service';
+import {
+  HelpInitializationService
+} from './initialization.service';
 
 describe('Initialization Service', () => {
   const initializationService = new HelpInitializationService();

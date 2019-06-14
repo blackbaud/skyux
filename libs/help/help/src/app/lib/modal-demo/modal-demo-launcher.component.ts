@@ -1,13 +1,19 @@
-import { Component } from '@angular/core';
+import {
+  Component
+} from '@angular/core';
 
 import {
   SkyModalCloseArgs,
   SkyModalService
 } from '@skyux/modals';
 
-import { SkyModalDemoContext } from './modal-demo-context';
+import {
+  SkyModalDemoContext
+} from './modal-demo-context';
 
-import { SkyModalDemoFormComponent } from './modal-demo-form.component';
+import {
+  SkyModalDemoFormComponent
+} from './modal-demo-form.component';
 
 @Component({
   selector: 'sky-modal-demo-launcher',

@@ -1,7 +1,14 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  NgModule
+} from '@angular/core';
 
-import { HelpComponent } from './help.component';
+import {
+  CommonModule
+} from '@angular/common';
+
+import {
+  HelpComponent
+} from './help.component';
 
 @NgModule({
   declarations: [

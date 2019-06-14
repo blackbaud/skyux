@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
-import { HelpInitializationService } from '../../public';
+import {
+  Component
+} from '@angular/core';
 
-import { HelpWindowRef } from '../window-ref';
+import {
+  HelpInitializationService
+} from '../../public';
 
 @Component({
   selector: 'init-help',
@@ -9,12 +12,7 @@ import { HelpWindowRef } from '../window-ref';
 })
 export class HelpInitComponent {
   constructor(
-    private windowRef: HelpWindowRef,
     private initService: HelpInitializationService) {
-    if (!this.windowRef.nativeWindow.BBHELP) {
-      this.initService.load({
-        extends: 'bb-help'
-      });
-    }
+    this.initService.load({ extends: 'bbhelp' });
   }
 }

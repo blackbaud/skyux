@@ -1,10 +1,23 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed
+} from '@angular/core/testing';
 
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import {
+  By
+} from '@angular/platform-browser';
 
-import { TestButtonComponent } from './test-button.component';
-import { HelpWidgetService } from '../../public/src/modules/shared';
+import {
+  DebugElement
+} from '@angular/core';
+
+import {
+  TestButtonComponent
+} from './test-button.component';
+
+import {
+  HelpWidgetService
+} from '../../public/';
 
 describe('TestButtonComponent', () => {
   let component: TestButtonComponent;

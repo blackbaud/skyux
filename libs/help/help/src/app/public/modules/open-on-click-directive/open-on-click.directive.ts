@@ -1,6 +1,14 @@
-import { Directive, HostListener, Input, Renderer2, ElementRef } from '@angular/core';
+import {
+  Directive,
+  HostListener,
+  Input,
+  Renderer2,
+  ElementRef
+} from '@angular/core';
 
-import { HelpWidgetService } from '../shared';
+import {
+  HelpWidgetService
+} from '../shared/widget.service';
 
 @Directive({
   selector: '[bbHelpOpenOnClick]'
@@ -18,20 +26,20 @@ export class BBHelpOpenOnClickDirective {
   }
 
   @HostListener('click', ['$event'])
-  public onClick(event: MouseEvent): void {
+  public onClick(event: MouseEvent) {
     this.openWidget();
     event.preventDefault();
   }
 
   @HostListener('keydown', ['$event'])
-  public onKeydown(event: KeyboardEvent): void {
+  public onKeydown(event: KeyboardEvent) {
     if (event.key.toLocaleLowerCase() === 'enter') {
       this.openWidget();
       event.preventDefault();
     }
   }
 
-  private openWidget(): void {
+  private openWidget() {
     this.widgetService.openWidget(this.bbHelpOpenOnClick);
   }
 }
