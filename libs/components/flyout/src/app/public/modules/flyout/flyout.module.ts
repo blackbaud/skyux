@@ -16,6 +16,7 @@ import {
 
 import {
   SkyDynamicComponentModule,
+  SkyUIConfigService,
   SkyWindowRefService
 } from '@skyux/core';
 
@@ -55,6 +56,7 @@ import {
   providers: [
     SkyFlyoutAdapterService,
     SkyFlyoutService,
+    SkyUIConfigService,
     SkyWindowRefService
   ],
   imports: [

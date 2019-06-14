@@ -35,7 +35,8 @@ import 'rxjs/add/operator/takeUntil';
 
 import {
   SkyMediaBreakpoints,
-  SkyMediaQueryService
+  SkyMediaQueryService,
+  SkyUIConfigService
 } from '@skyux/core';
 
 import {
@@ -158,7 +159,8 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     private resolver: ComponentFactoryResolver,
     private resourcesService: SkyLibResourcesService,
     private flyoutMediaQueryService: SkyFlyoutMediaQueryService,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private uiConfigService: SkyUIConfigService
   ) {
     // All commands flow through the message stream.
     this.messageStream
@@ -196,6 +198,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     if (event.target.innerWidth - this.flyoutWidth < this.windowBufferSize) {
       this.flyoutWidth = event.target.innerWidth - this.windowBufferSize;
       this.xCoord = this.windowBufferSize;
+      this.setUserData();
     }
   }
 
@@ -210,16 +213,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     this.config = Object.assign({ providers: [] }, config);
     this.config.defaultWidth = this.config.defaultWidth || (window.innerWidth / 2);
     this.config.minWidth = this.config.minWidth || 320;
-
-    if (this.config.defaultWidth < this.config.minWidth) {
-      this.config.defaultWidth = this.config.minWidth;
-    }
-
     this.config.maxWidth = this.config.maxWidth || this.config.defaultWidth;
-
-    if (this.config.defaultWidth > this.config.maxWidth) {
-      this.config.defaultWidth = this.config.maxWidth;
-    }
 
     this.config.showIterator = this.config.showIterator || false;
     this.config.iteratorNextButtonDisabled = this.config.iteratorNextButtonDisabled || false;
@@ -237,22 +231,22 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       type: SkyFlyoutMessageType.Open
     });
 
-    this.flyoutWidth = this.config.defaultWidth;
-
-    // Ensure flyout does not load larger than the window and its buffer
-    if (window.innerWidth - this.flyoutWidth < this.windowBufferSize) {
-      this.flyoutWidth = window.innerWidth - this.windowBufferSize;
-      this.xCoord = this.windowBufferSize;
-    }
-
-    if (this.flyoutMediaQueryService.isWidthWithinBreakpiont(window.innerWidth,
-      SkyMediaBreakpoints.xs)) {
-      this.updateBreakpointAndResponsiveClass(window.innerWidth);
+    if (this.config.settingsKey) {
+      this.uiConfigService.getConfig(this.config.settingsKey)
+        .take(1)
+        .subscribe((value: any) => {
+          if (value && value.flyoutWidth) {
+            this.flyoutWidth = value.flyoutWidth;
+          } else {
+            // Bad data, or config is the default config.
+            this.flyoutWidth = this.config.defaultWidth;
+          }
+          this.checkInitialSize();
+        });
     } else {
-      this.updateBreakpointAndResponsiveClass(this.flyoutWidth);
+      this.flyoutWidth = this.config.defaultWidth;
+      this.checkInitialSize();
     }
-
-    this.setFullscreen();
 
     return this.flyoutInstance;
   }
@@ -353,7 +347,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   }
 
   public onHandleRelease(event: MouseEvent): void {
-
     const windowClickEvent = Observable.fromEvent(document, 'click');
     const flyoutClickEvent = Observable.fromEvent(this.elementRef.nativeElement, 'click');
 
@@ -363,6 +356,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       .subscribe(() => {
         this.isDragging = false;
         this.adapter.toggleIframePointerEvents(true);
+        this.setUserData();
       });
   }
 
@@ -439,12 +433,57 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     this.adapter.setResponsiveClass(this.elementRef, newBreakpiont);
   }
 
-  private setFullscreen() {
+  private setFullscreen(): void {
     if ((window.innerWidth - this.windowBufferSize) < this.config.minWidth) {
       this.isFullscreen = true;
     } else {
       this.isFullscreen = false;
     }
+  }
+
+  private setUserData(): void {
+    if (this.config.settingsKey) {
+      this.uiConfigService.setConfig(
+        this.config.settingsKey,
+        {
+          flyoutWidth: this.flyoutWidth
+        }
+      )
+        .take(1)
+        .subscribe(
+          () => { },
+          (err) => {
+            console.warn('Could not save flyout data.');
+            console.warn(err);
+          }
+        );
+    }
+  }
+
+  private checkInitialSize(): void {
+    if (this.flyoutWidth < this.config.minWidth) {
+      this.flyoutWidth = this.config.minWidth;
+      this.setUserData();
+    } else if (this.flyoutWidth > this.config.maxWidth) {
+      this.flyoutWidth = this.config.maxWidth;
+      this.setUserData();
+    }
+
+    // Ensure flyout does not load larger than the window and its buffer
+    if (window.innerWidth - this.flyoutWidth < this.windowBufferSize) {
+      this.flyoutWidth = window.innerWidth - this.windowBufferSize;
+      this.xCoord = this.windowBufferSize;
+      this.setUserData();
+    }
+
+    if (this.flyoutMediaQueryService.isWidthWithinBreakpiont(window.innerWidth,
+      SkyMediaBreakpoints.xs)) {
+      this.updateBreakpointAndResponsiveClass(window.innerWidth);
+    } else {
+      this.updateBreakpointAndResponsiveClass(this.flyoutWidth);
+    }
+
+    this.setFullscreen();
   }
 
   private getString(key: string): string {

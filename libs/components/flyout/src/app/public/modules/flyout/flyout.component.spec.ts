@@ -11,9 +11,17 @@ import {
 } from '@angular/core/testing';
 
 import {
+  SkyUIConfigService
+} from '@skyux/core';
+
+import {
   expect,
   SkyAppTestUtility
 } from '@skyux-sdk/testing';
+
+import {
+  Observable
+} from 'rxjs';
 
 import {
   SkyFlyoutConfig
@@ -385,18 +393,93 @@ describe('Flyout component', () => {
   );
 
   it('should set the flyout size to the min width if the default width is less than the min', fakeAsync(() => {
-    openFlyout({ minWidth: 400, defaultWidth: 200});
+    openFlyout({ minWidth: 400, defaultWidth: 200 });
 
     const flyoutElement = getFlyoutElement();
     expect(flyoutElement.style.width).toBe('400px');
   }));
 
   it('should set the flyout size to the max width if the default width is more than the max', fakeAsync(() => {
-    openFlyout({ maxWidth: 400, defaultWidth: 800});
+    openFlyout({ maxWidth: 400, defaultWidth: 800 });
 
     const flyoutElement = getFlyoutElement();
     expect(flyoutElement.style.width).toBe('400px');
   }));
+
+  it('should set the flyout size to the value returned from the UI config service',
+    fakeAsync(() => {
+      spyOn(SkyUIConfigService.prototype, 'getConfig')
+        .and.returnValue(Observable.of({ flyoutWidth: 557 }));
+
+      openFlyout({ settingsKey: 'testKey', minWidth: 320, maxWidth: 1000 });
+
+      fixture.detectChanges();
+      tick();
+
+      const flyoutElement = getFlyoutElement();
+      expect(flyoutElement.style.width).toBe('557px');
+    })
+  );
+
+  it('should set the flyout size to the min width if value returned from the UI config service is too small',
+    fakeAsync(() => {
+      spyOn(SkyUIConfigService.prototype, 'getConfig')
+        .and.returnValue(Observable.of({ flyoutWidth: 200 }));
+
+      openFlyout({ settingsKey: 'testKey', minWidth: 320, maxWidth: 1000 });
+
+      fixture.detectChanges();
+      tick();
+
+      const flyoutElement = getFlyoutElement();
+      expect(flyoutElement.style.width).toBe('320px');
+    })
+  );
+
+  it('should set the flyout size to the max width if value returned from the UI config service is too big',
+    fakeAsync(() => {
+      spyOn(SkyUIConfigService.prototype, 'getConfig')
+        .and.returnValue(Observable.of({ flyoutWidth: 1200 }));
+
+      openFlyout({ settingsKey: 'testKey', minWidth: 320, maxWidth: 800 });
+
+      fixture.detectChanges();
+      tick();
+
+      const flyoutElement = getFlyoutElement();
+      expect(flyoutElement.style.width).toBe('800px');
+    })
+  );
+
+  it('should set the flyout size to the default value when nothing is returned from the UI config service',
+    fakeAsync(() => {
+      spyOn(SkyUIConfigService.prototype, 'getConfig')
+        .and.returnValue(Observable.of(undefined));
+
+      openFlyout({ defaultWidth: 590, settingsKey: 'testKey' });
+
+      fixture.detectChanges();
+      tick();
+
+      const flyoutElement = getFlyoutElement();
+      expect(flyoutElement.style.width).toBe('590px');
+    })
+  );
+
+  it('should set the flyout size to the default value when a value without a flyout width is returned from the UI config service',
+    fakeAsync(() => {
+      spyOn(SkyUIConfigService.prototype, 'getConfig')
+        .and.returnValue(Observable.of({ otherValue: 557 }));
+
+      openFlyout({ defaultWidth: 590, settingsKey: 'testKey' });
+
+      fixture.detectChanges();
+      tick();
+
+      const flyoutElement = getFlyoutElement();
+      expect(flyoutElement.style.width).toBe('590px');
+    })
+  );
 
   it('should only load to 20px less than the window size', fakeAsync(() => {
     const windowSize = window.innerWidth;
@@ -404,6 +487,18 @@ describe('Flyout component', () => {
     const flyoutElement = getFlyoutElement();
 
     expect(flyoutElement.style.width).toBe(window.innerWidth - 20 + 'px');
+  }));
+
+  it('should send the new sticky settings when load goes to 20px less than the window size', fakeAsync(() => {
+    const windowSize = window.innerWidth;
+    const uiSettingsSaveSpy = spyOn(SkyUIConfigService.prototype, 'setConfig').and.callThrough();
+
+    openFlyout({ maxWidth: 5000, minWidth: 0, defaultWidth: (windowSize + 100), settingsKey: 'testKey' });
+    const flyoutElement = getFlyoutElement();
+
+    expect(flyoutElement.style.width).toBe(window.innerWidth - 20 + 'px');
+    expect(uiSettingsSaveSpy).toHaveBeenCalledWith('testKey',
+      { flyoutWidth: window.innerWidth - 20 });
   }));
 
   it('should not have the sky-flyout-help-shim class if the help widget is not present',
@@ -442,6 +537,43 @@ describe('Flyout component', () => {
     expect(moveSpy).toHaveBeenCalled();
     expect(mouseUpSpy).toHaveBeenCalled();
   }));
+
+  it('should send the resized width to the UI config service when a settings key is given', fakeAsync(() => {
+    openFlyout({ defaultWidth: 500, settingsKey: 'testKey' });
+    fixture.detectChanges();
+    tick();
+    const uiSettingsSaveSpy = spyOn(SkyUIConfigService.prototype, 'setConfig').and.callThrough();
+
+    expect(uiSettingsSaveSpy).not.toHaveBeenCalled();
+
+    resizeFlyout(1000, 1100);
+
+    expect(uiSettingsSaveSpy).toHaveBeenCalledWith('testKey', { flyoutWidth: 400 });
+
+    uiSettingsSaveSpy.calls.reset();
+
+    resizeFlyout(1100, 1000);
+
+    expect(uiSettingsSaveSpy).toHaveBeenCalledWith('testKey', { flyoutWidth: 500 });
+  }));
+
+  it('should handle errors when setting config', fakeAsync(() => {
+    const warnSpy = spyOn(console, 'warn');
+
+    openFlyout({ defaultWidth: 500, settingsKey: 'testKey' });
+    fixture.detectChanges();
+    tick();
+    spyOn(SkyUIConfigService.prototype, 'setConfig')
+      .and.returnValue(Observable.throw({ message: 'Test error' }));
+
+    resizeFlyout(1000, 1100);
+
+    expect(warnSpy).toHaveBeenCalledWith('Could not save flyout data.');
+    expect(warnSpy).toHaveBeenCalledWith({
+      message: 'Test error'
+    });
+  })
+  );
 
   it('should not resize on mousemove unless the resize handle was clicked', fakeAsync(() => {
     openFlyout({ defaultWidth: 500 });
@@ -1042,6 +1174,43 @@ describe('Flyout component', () => {
       SkyAppTestUtility.fireDomEvent(window, 'resize');
 
       expect(resizeSpy).toHaveBeenCalled();
+    }));
+
+    it('should resize 20px less than the window size when needed', fakeAsync(() => {
+      let windowSizeSpy = spyOnProperty(window, 'innerWidth', 'get').and.returnValue(1500);
+      openFlyout({ maxWidth: 5000, minWidth: 0, defaultWidth: 1600 });
+      const flyoutElement = getFlyoutElement();
+
+      expect(flyoutElement.style.width).toBe('1480px');
+
+      windowSizeSpy.and.returnValue(1400);
+
+      SkyAppTestUtility.fireDomEvent(window, 'resize');
+
+      fixture.detectChanges();
+
+      expect(flyoutElement.style.width).toBe('1380px');
+    }));
+
+    it('should send the new sticky settings when resize caused flyout to resize to 20px less than the window size', fakeAsync(() => {
+      let windowSizeSpy = spyOnProperty(window, 'innerWidth', 'get').and.returnValue(1500);
+      const uiSettingsSaveSpy = spyOn(SkyUIConfigService.prototype, 'setConfig').and.callThrough();
+
+      openFlyout({ maxWidth: 5000, minWidth: 0, defaultWidth: 800, settingsKey: 'testKey' });
+      const flyoutElement = getFlyoutElement();
+
+      expect(flyoutElement.style.width).toBe('800px');
+      expect(uiSettingsSaveSpy).not.toHaveBeenCalled();
+
+      windowSizeSpy.and.returnValue(600);
+
+      SkyAppTestUtility.fireDomEvent(window, 'resize');
+
+      fixture.detectChanges();
+
+      expect(flyoutElement.style.width).toBe('580px');
+      expect(uiSettingsSaveSpy).toHaveBeenCalledWith('testKey',
+        { flyoutWidth: 580 });
     }));
   });
 

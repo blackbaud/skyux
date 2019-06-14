@@ -19,4 +19,5 @@ export interface SkyFlyoutConfig {
   showIterator?: boolean;
   iteratorPreviousButtonDisabled?: boolean;
   iteratorNextButtonDisabled?: boolean;
+  settingsKey?: string;
 }
