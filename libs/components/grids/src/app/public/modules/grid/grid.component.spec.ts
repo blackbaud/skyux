@@ -31,8 +31,6 @@ import {
   Observable
 } from 'rxjs/Observable';
 
-const moment = require('moment');
-
 import {
   GridEmptyTestComponent
 } from './fixtures/grid-empty.component.fixture';
@@ -75,6 +73,8 @@ import {
   SkyGridMessageType,
   SkyGridMessage
 } from './types';
+
+const moment = require('moment');
 
 //#region helpers
 function getColumnHeader(id: string, element: DebugElement) {
@@ -1807,6 +1807,7 @@ describe('Grid Component', () => {
     let fixture: ComponentFixture<GridEmptyTestComponent>;
     let component: GridEmptyTestComponent;
     let uiConfigService: SkyUIConfigService;
+    let element: DebugElement;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -1818,6 +1819,7 @@ describe('Grid Component', () => {
       fixture = TestBed.createComponent(GridEmptyTestComponent);
       component = fixture.componentInstance;
       uiConfigService = TestBed.get(SkyUIConfigService);
+      element = fixture.debugElement as DebugElement;
     });
 
     it('should call the UI config service when selected columns change', () => {
@@ -1857,6 +1859,31 @@ describe('Grid Component', () => {
       fixture.detectChanges();
 
       expect(spy).toHaveBeenCalledWith('foobar');
+    });
+
+    it(`should not error when columns are returned from UI config service that don't exist`, () => {
+      // Start with two columns.
+      component.columns = [
+        new SkyGridColumnModel(component.template, {
+          id: 'column1',
+          heading: 'Column 1'
+        }),
+        new SkyGridColumnModel(component.template, {
+          id: 'column2',
+          heading: 'Column 2'
+        })
+      ];
+
+      // Return a fake from the uiConfigService of the two columns above, plus one bad column.
+      const columns = { selectedColumnIds: ['column1', 'column2', 'columnBAD'] };
+      spyOn(uiConfigService, 'getConfig').and.returnValue(Observable.of(columns));
+      component.settingsKey = 'foobar';
+      fixture.detectChanges();
+
+      // Expect only the two good columns to show on the grid.
+      expect(element.queryAll(By.css('th.sky-grid-heading')).length).toBe(2);
+      expect(getColumnHeader('column1', element).nativeElement.textContent.trim()).toBe('Column 1');
+      expect(getColumnHeader('column2', element).nativeElement.textContent.trim()).toBe('Column 2');
     });
 
     it('should handle errors when setting config', () => {

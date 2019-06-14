@@ -796,10 +796,16 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
     return new Promise<void>((resolve) => {
       this.uiConfigService.getConfig(this.settingsKey)
         .take(1)
-        .subscribe((config) => {
+        .subscribe((config: SkyGridUIConfig) => {
           /* istanbul ignore else */
           if (config && config.selectedColumnIds) {
-            this.selectedColumnIds = config.selectedColumnIds;
+
+            // Remove any columnIds that don't exist in the current data set.
+            const filteredColumnIds = config.selectedColumnIds.filter(
+              id => this.columns.find(column => column.id === id)
+            );
+
+            this.selectedColumnIds = filteredColumnIds;
             this.ref.markForCheck();
           }
 
