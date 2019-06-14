@@ -111,6 +111,12 @@ describe('Flyout component', () => {
 
   function releaseDragHandle(): void {
     makeEvent('mouseup', {});
+    fixture.detectChanges();
+    tick();
+
+    SkyAppTestUtility.fireDomEvent(document, 'click');
+    fixture.detectChanges();
+    tick();
   }
 
   function resizeFlyout(startingXCord: number, endingXCord: number): void {
@@ -278,6 +284,22 @@ describe('Flyout component', () => {
     closeToast();
     fixture.detectChanges();
     tick();
+  }));
+
+  it('should NOT close when the click event fires while resizing', fakeAsync(() => {
+    const flyout = openFlyout({});
+    expect(flyout.isOpen).toBe(true);
+
+    grabDragHandle(1000);
+    dragHandle(1100);
+
+    fixture.nativeElement.click();
+    fixture.detectChanges();
+    tick();
+
+    expect(flyout.isOpen).toBe(true);
+
+    releaseDragHandle();
   }));
 
   it('should close when the Close message type is received', fakeAsync(() => {

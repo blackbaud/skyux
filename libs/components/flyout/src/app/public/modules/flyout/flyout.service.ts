@@ -115,7 +115,9 @@ export class SkyFlyoutService implements OnDestroy {
       .fromEvent(document, 'click')
       .takeUntil(this.idled)
       .subscribe(() => {
-        this.close();
+        if (!this.host.instance.isDragging) {
+          this.close();
+        }
       });
 
       this.removeAfterClosed = false;

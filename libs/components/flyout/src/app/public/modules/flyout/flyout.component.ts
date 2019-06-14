@@ -349,13 +349,21 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
     this.updateBreakpointAndResponsiveClass(this.flyoutWidth);
 
-    this.changeDetector.detectChanges();
+    this.changeDetector.markForCheck();
   }
 
   public onHandleRelease(event: MouseEvent): void {
-    this.isDragging = false;
-    this.adapter.toggleIframePointerEvents(true);
-    this.changeDetector.detectChanges();
+
+    const windowClickEvent = Observable.fromEvent(document, 'click');
+    const flyoutClickEvent = Observable.fromEvent(this.elementRef.nativeElement, 'click');
+
+    Observable
+      .merge(windowClickEvent, flyoutClickEvent)
+      .take(1)
+      .subscribe(() => {
+        this.isDragging = false;
+        this.adapter.toggleIframePointerEvents(true);
+      });
   }
 
   public onIteratorPreviousButtonClick(): void {
