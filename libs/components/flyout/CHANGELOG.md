@@ -1,3 +1,8 @@
+# 3.2.0 (2019-06-14)
+
+- Added the ability to use the UI Config Service to save flyout component widths. [#53](https://github.com/blackbaud/skyux-flyout/pull/53)
+- Fixed the flyout component to remain open while resizing when the mouse is outside of the flyout. [#52](https://github.com/blackbaud/skyux-flyout/pull/52)
+
 # 3.1.1 (2019-06-10)
 
 - Fixed the flyout component to handle click events that originate within its contents. [#44](https://github.com/blackbaud/skyux-flyout/pull/44)
