@@ -249,7 +249,7 @@ describe('Select field component', () => {
       expect(selectField.value.id).toEqual('1');
     }));
 
-    it('should allow clearing the value', fakeAsync(() => {
+    it('should allow clearing the value and keep focus afterwards', fakeAsync(() => {
       component.selectMode = 'single';
       fixture.detectChanges();
       setValue(component.staticData[0]);
@@ -260,6 +260,7 @@ describe('Select field component', () => {
       tick();
       fixture.detectChanges();
       expect(selectField.value).toEqual(undefined);
+      expect(document.activeElement.classList).toContain('sky-select-field-btn');
     }));
   });
 

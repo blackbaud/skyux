@@ -2,9 +2,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
+  EventEmitter,
   forwardRef,
   Input,
-  EventEmitter,
   Output,
   OnDestroy
 } from '@angular/core';
@@ -146,7 +147,8 @@ export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy 
   constructor(
     private changeDetector: ChangeDetectorRef,
     private modalService: SkyModalService,
-    private resourcesService: SkyLibResourcesService
+    private resourcesService: SkyLibResourcesService,
+    private elementRef: ElementRef
   ) { }
 
   public ngOnDestroy() {
@@ -246,6 +248,7 @@ export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy 
   }
 
   public clearSelection() {
+    this.elementRef.nativeElement.querySelector('.sky-select-field-btn').focus();
     this.value = undefined;
   }
 
