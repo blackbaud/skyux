@@ -1,3 +1,7 @@
+# 3.1.7 (2019-06-14)
+
+- Fixed the grid component to gracefully ignore columns that no longer exist when the UI Config Service returns them. [#61](https://github.com/blackbaud/skyux-grids/pull/61)
+
 # 3.1.6 (2019-05-28)
 
 - Fixed the grid column component to properly support resizing on touch devices. [#57](https://github.com/blackbaud/skyux-grids/pull/57)
