@@ -54,10 +54,6 @@
   ::ng-deep .sky-tile-title {
     @include sky-subsection-heading();
   }
-
-  ::ng-deep .sky-tile-tools .sky-chevron {
-    margin: 9px ($sky-tile-header-tool-padding - 6) 8px 0;
-  }
 }
 
 .sky-modal-header {
