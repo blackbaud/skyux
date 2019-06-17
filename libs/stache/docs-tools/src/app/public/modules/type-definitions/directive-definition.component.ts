@@ -1,9 +1,9 @@
 import {
+  AfterContentInit,
   ChangeDetectionStrategy,
   Component,
-  Input,
-  ViewChild,
-  AfterViewInit
+  ContentChild,
+  Input
 } from '@angular/core';
 
 import {
@@ -16,7 +16,7 @@ import {
   styleUrls: ['./directive-definition.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyDocsDirectiveDefinitionComponent implements AfterViewInit {
+export class SkyDocsDirectiveDefinitionComponent implements AfterContentInit {
 
   @Input()
   public directiveName: string;
@@ -26,10 +26,10 @@ export class SkyDocsDirectiveDefinitionComponent implements AfterViewInit {
 
   public hasPropertyDefinitions = false;
 
-  @ViewChild(SkyDocsPropertyDefinitionsComponent)
+  @ContentChild(SkyDocsPropertyDefinitionsComponent)
   private propertyDefinitionsComponent: SkyDocsPropertyDefinitionsComponent;
 
-  public ngAfterViewInit(): void {
+  public ngAfterContentInit(): void {
     this.hasPropertyDefinitions = !!(this.propertyDefinitionsComponent);
   }
 

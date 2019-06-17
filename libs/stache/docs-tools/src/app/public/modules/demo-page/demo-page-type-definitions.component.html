@@ -1,56 +1,73 @@
-<sky-docs-demo-page-section heading="Components">
+<sky-docs-demo-page-section *ngIf="componentConfigs && componentConfigs.length"
+  heading="Components"
+>
   <sky-docs-directive-definition *ngFor="let component of componentConfigs"
     [directiveName]="component.name"
     [directiveSelector]="component.selector"
   >
-    <div [innerHtml]="component.description | skyDocsMarkdown"></div>
+    <div
+      [innerHtml]="component.description | skyDocsMarkdown"
+    ></div>
     <sky-docs-property-definitions *ngIf="component.properties.length">
       <sky-docs-property-definition *ngFor="let property of component.properties"
         [propertyDecorator]="property.decorator"
         [propertyName]="property.name"
         [propertyType]="property.type"
       >
-        <div [innerHtml]="property.description | skyDocsMarkdown"></div>
+        <div
+          [innerHtml]="property.description | skyDocsMarkdown"
+        ></div>
       </sky-docs-property-definition>
     </sky-docs-property-definitions>
   </sky-docs-directive-definition>
 </sky-docs-demo-page-section>
 
-<sky-docs-demo-page-section heading="Directives">
+<sky-docs-demo-page-section *ngIf="directiveConfigs && directiveConfigs.length"
+  heading="Directives"
+>
   <sky-docs-directive-definition *ngFor="let directive of directiveConfigs"
     [directiveName]="directive.name"
     [directiveSelector]="directive.selector"
   >
-    <div [innerHtml]="directive.description | skyDocsMarkdown"></div>
+    <div
+      [innerHtml]="directive.description | skyDocsMarkdown"
+    ></div>
     <sky-docs-property-definitions *ngIf="directive.properties.length">
       <sky-docs-property-definition *ngFor="let property of directive.properties"
         [propertyDecorator]="property.decorator"
         [propertyName]="property.name"
         [propertyType]="property.type"
       >
-        <div [innerHtml]="property.description | skyDocsMarkdown"></div>
+        <div
+          [innerHtml]="property.description | skyDocsMarkdown"
+        ></div>
       </sky-docs-property-definition>
     </sky-docs-property-definitions>
   </sky-docs-directive-definition>
 </sky-docs-demo-page-section>
 
-<sky-docs-demo-page-section heading="Services">
-  <ng-container *ngFor="let config of serviceConfigs">
+<sky-docs-demo-page-section *ngIf="serviceConfigs && serviceConfigs.length"
+  heading="Services"
+>
+  <div *ngFor="let config of serviceConfigs" class="sky-demo-page-type-definitions-container">
     <h3 class="sky-docs-h3">
       {{ config.name }}
     </h3>
-    <div [innerHtml]="config.description | skyDocsMarkdown"></div>
+    <div
+      [innerHtml]="config.description | skyDocsMarkdown"
+    ></div>
     <ng-container *ngIf="config.properties && config.properties.length">
       <h4 class="sky-docs-h4">
         Properties
       </h4>
-
       <sky-docs-property-definitions>
         <sky-docs-property-definition *ngFor="let property of config.properties"
           [propertyName]="property.name"
           [propertyType]="property.type"
         >
-          <div [innerHtml]="property.description | skyDocsMarkdown"></div>
+          <div
+            [innerHtml]="property.description | skyDocsMarkdown"
+          ></div>
         </sky-docs-property-definition>
       </sky-docs-property-definitions>
     </ng-container>
@@ -64,19 +81,25 @@
         [returnType]="method.returnType"
         [parameters]="method.parameters"
       >
-        <div [innerHtml]="method.description | skyDocsMarkdown"></div>
+        <div
+          [innerHtml]="method.description | skyDocsMarkdown"
+        ></div>
       </sky-docs-method-definition>
     </ng-container>
-  </ng-container>
+  </div>
 </sky-docs-demo-page-section>
 
-<sky-docs-demo-page-section heading="Interfaces">
+<sky-docs-demo-page-section *ngIf="interfaceConfigs && interfaceConfigs.length"
+  heading="Interfaces"
+>
   <sky-docs-interface-definition *ngFor="let interface of interfaceConfigs"
     [interfaceName]="interface.name"
     [sourceCode]="interface.sourceCode"
   >
-    <div [innerHtml]="interface.description | skyDocsMarkdown"></div>
-    <sky-docs-property-definitions>
+    <div
+      [innerHtml]="interface.description | skyDocsMarkdown"
+    ></div>
+    <sky-docs-property-definitions *ngIf="interface.properties && interface.properties.length">
       <sky-docs-property-definition *ngFor="let property of interface.properties"
         [propertyName]="property.name"
         [propertyType]="property.type"
@@ -89,28 +112,38 @@
   </sky-docs-interface-definition>
 </sky-docs-demo-page-section>
 
-<sky-docs-demo-page-section heading="Enumerations">
-  <ng-container *ngFor="let item of enumerationConfigs">
+<sky-docs-demo-page-section *ngIf="enumerationConfigs && enumerationConfigs.length"
+  heading="Enumerations"
+>
+  <div *ngFor="let item of enumerationConfigs" class="sky-demo-page-type-definitions-container">
     <h3 class="sky-docs-h3">
       {{ item.name }}
     </h3>
-    <div [innerHtml]="item.description | skyDocsMarkdown"></div>
+    <div
+      [innerHtml]="item.description | skyDocsMarkdown"
+    ></div>
     <sky-docs-property-definitions>
       <sky-docs-property-definition *ngFor="let value of item.values"
         [propertyName]="value.name"
       >
-        <div [innerHtml]="value.description | skyDocsMarkdown"></div>
+        <div
+          [innerHtml]="value.description | skyDocsMarkdown"
+        ></div>
       </sky-docs-property-definition>
     </sky-docs-property-definitions>
-  </ng-container>
+  </div>
 </sky-docs-demo-page-section>
 
-<sky-docs-demo-page-section heading="Type aliases">
-  <ng-container *ngFor="let alias of typeAliasConfigs">
+<sky-docs-demo-page-section *ngIf="typeAliasConfigs && typeAliasConfigs.length"
+  heading="Type aliases"
+>
+  <div *ngFor="let alias of typeAliasConfigs" class="sky-demo-page-type-definitions-container">
     <h3 class="sky-docs-h3">
       {{ alias.name }}
     </h3>
-    <div [innerHtml]="alias.description | skyDocsMarkdown"></div>
+    <div
+      [innerHtml]="alias.description | skyDocsMarkdown"
+    ></div>
     <sky-code-block
       languageType="typescript"
       [code]="alias.sourceCode"
@@ -126,9 +159,11 @@
           [parameterType]="parameter.type"
           [defaultValue]="parameter.defaultValue"
         >
-          <div [innerHtml]="parameter.description | skyDocsMarkdown"></div>
+          <div
+            [innerHtml]="parameter.description | skyDocsMarkdown"
+          ></div>
         </sky-docs-parameter-definition>
       </sky-docs-parameter-definitions>
     </ng-container>
-  </ng-container>
+  </div>
 </sky-docs-demo-page-section>

@@ -2,7 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  TemplateRef
+  TemplateRef,
+  OnInit
 } from '@angular/core';
 
 @Component({
@@ -11,7 +12,7 @@ import {
   styleUrls: ['./method-definition.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyDocsMethodDefinitionComponent {
+export class SkyDocsMethodDefinitionComponent implements OnInit {
 
   @Input()
   public methodName: string;
@@ -21,12 +22,21 @@ export class SkyDocsMethodDefinitionComponent {
 
   @Input()
   public parameters: {
+    description: string;
     name: string;
     type: string;
     isOptional: boolean;
     defaultValue: string;
     templateRef: TemplateRef<any>
   }[];
+
+  public parametersConfig: any[] = [];
+
+  public ngOnInit(): void {
+    this.parametersConfig = this.parameters.filter((parameter) => {
+      return (!parameter.description);
+    });
+  }
 
   /**
    * @internal

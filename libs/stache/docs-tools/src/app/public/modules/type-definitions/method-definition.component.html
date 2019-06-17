@@ -17,13 +17,13 @@
   </div>
 
   <div class="sky-docs-method-definition-body">
-    <ng-container *ngIf="parameters && parameters.length">
+    <ng-container *ngIf="parameters && parametersConfig.length">
       <h4 class="sky-docs-h4">
         Parameters
       </h4>
 
       <sky-docs-parameter-definitions>
-        <sky-docs-parameter-definition *ngFor="let parameter of parameters"
+        <sky-docs-parameter-definition *ngFor="let parameter of parametersConfig"
           [parameterName]="parameter.name"
           [parameterType]="parameter.type"
           [isOptional]="parameter.isOptional"

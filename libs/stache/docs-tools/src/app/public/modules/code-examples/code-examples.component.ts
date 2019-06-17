@@ -3,8 +3,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   ContentChildren,
-  QueryList,
-  Input
+  Input,
+  QueryList
 } from '@angular/core';
 
 import {

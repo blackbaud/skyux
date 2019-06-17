@@ -16,21 +16,28 @@ import {
 } from '@skyux/router';
 
 import {
+  SkyDocsCodeExamplesModule,
+  SkyDocsDemoModule,
   SkyDocsDemoPageModule,
+  SkyDocsDemoPageTypeDefinitionsProvider,
   SkyDocsSourceCodeProvider
 } from './public';
 
 import {
   SampleSourceCodeProvider
 } from './public/plugin-resources/sample-source-code-provider';
-import { SampleTypeDefinitionsProvider } from './public/plugin-resources/sample-type-definitions-provider';
-import { SkyDocsDemoPageTypeDefinitionsProvider } from './public/modules/demo-page/demo-page-type-definitions-provider';
+
+import {
+  SampleTypeDefinitionsProvider
+} from './public/plugin-resources/sample-type-definitions-provider';
 
 @NgModule({
   exports: [
     SkyAppLinkModule,
     SkyCodeBlockModule,
     SkyCodeModule,
+    SkyDocsCodeExamplesModule,
+    SkyDocsDemoModule,
     SkyDocsDemoPageModule,
     SkyPopoverModule
   ],

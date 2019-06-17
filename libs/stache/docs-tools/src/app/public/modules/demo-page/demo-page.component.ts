@@ -45,6 +45,9 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit {
   @Input()
   public pageTitle: string;
 
+  @Input()
+  public sourceCodeLocation: string;
+
   public enableCodeExamples = false;
   public enableDemo = false;
   public enableTabLayout = false;

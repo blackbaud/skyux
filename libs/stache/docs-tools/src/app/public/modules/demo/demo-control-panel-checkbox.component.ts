@@ -15,6 +15,10 @@ import {
   SkyDocsDemoControlPanelChange
 } from './demo-control-panel-change';
 
+export interface FooThing<T> {
+  value: T;
+}
+
 @Component({
   selector: 'sky-docs-demo-control-panel-checkbox',
   templateUrl: './demo-control-panel-checkbox.component.html',
@@ -42,14 +46,22 @@ export class SkyDocsDemoControlPanelCheckboxComponent implements OnInit, OnDestr
   @Input()
   public name: string;
 
+  @Input()
+  public set foo(value: FooThing<string>[]) {
+    this._foo = value;
+  }
+  public get foo(): FooThing<string>[] {
+    return this._foo || [{
+      value: 'foo'
+    }];
+  }
+  private _foo: FooThing<string>[];
+
   /**
    * @internal
    */
   public selectionChange = new Subject<SkyDocsDemoControlPanelChange>();
 
-  /**
-   * @internal
-   */
   private initialState: {
     checked?: boolean;
   } = {};

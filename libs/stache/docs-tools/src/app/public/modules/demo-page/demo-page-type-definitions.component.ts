@@ -1,14 +1,15 @@
 import {
   Component,
   OnInit,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  Input
 } from '@angular/core';
 
 import {
   SkyDocsDemoPageTypeDefinitionsProvider
 } from './demo-page-type-definitions-provider';
 
-export interface DirectiveProperty {
+interface DirectiveProperty {
   name: string;
   type: string;
   decorator?: 'Input' | 'Output';
@@ -17,84 +18,95 @@ export interface DirectiveProperty {
   isOptional?: boolean;
 }
 
-export interface DirectiveConfig {
+interface DirectiveConfig {
   name: string;
   selector: string;
   description?: string;
   properties?: DirectiveProperty[];
 }
 
-export interface InterfaceProperty {
+interface InterfaceProperty {
   name: string;
   type: string;
   description?: string;
   isOptional?: boolean;
 }
 
-export interface InterfaceConfig {
+interface InterfaceConfig {
   name: string;
   properties: InterfaceProperty[];
   sourceCode: string;
   description?: string;
 }
 
-export interface EnumerationValue {
+interface EnumerationValue {
   name: string;
   description?: string;
 }
 
-export interface EnumerationConfig {
+interface EnumerationConfig {
   name: string;
   description?: string;
   values: EnumerationValue[];
 }
 
-export interface ServiceProperty {
+interface ServiceProperty {
   name: string;
   type: string;
   description?: string;
 }
 
-export interface ParameterConfig {
+interface ParameterConfig {
+  description: string;
   name: string;
   type: string;
   defaultValue?: string;
-  description?: string;
   isOptional?: boolean;
 }
 
-export interface MethodConfig {
+interface MethodConfig {
   name: string;
   returnType: string;
   description?: string;
   parameters?: ParameterConfig[];
 }
 
-export interface ServiceConfig {
+interface ServiceConfig {
   name: string;
   description?: string;
   methods?: MethodConfig[];
   properties?: ServiceProperty[];
 }
 
+interface TypeAliasConfig {
+  name: string;
+  sourceCode: string;
+  description?: string;
+  parameters?: ParameterConfig[];
+}
+
 @Component({
   selector: 'sky-docs-demo-page-type-definitions',
   templateUrl: './demo-page-type-definitions.component.html',
+  styleUrls: ['./demo-page-type-definitions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyDocsDemoPageTypeDefinitionsComponent implements OnInit {
+
+  @Input()
+  public sourceCodeLocation: string;
 
   public componentConfigs: DirectiveConfig[] = [];
 
   public directiveConfigs: DirectiveConfig[] = [];
 
-  public interfaceConfigs: InterfaceConfig[] = [];
-
-  public typeAliasConfigs: {}[] = [];
-
   public enumerationConfigs: EnumerationConfig[] = [];
 
+  public interfaceConfigs: InterfaceConfig[] = [];
+
   public serviceConfigs: ServiceConfig[] = [];
+
+  public typeAliasConfigs: TypeAliasConfig[] = [];
 
   constructor(
     private typeDefinitions: SkyDocsDemoPageTypeDefinitionsProvider
@@ -104,6 +116,11 @@ export class SkyDocsDemoPageTypeDefinitionsComponent implements OnInit {
     const documentation: any = this.typeDefinitions.getTypeDefinitions();
 
     documentation.children.forEach((item: any) => {
+
+      const directory = item.sources[0].fileName.split('/')[0];
+      if (!this.endsWith(this.sourceCodeLocation, directory)) {
+        return;
+      }
 
       // Components.
       if (this.endsWith(item.name, 'Component')) {
@@ -126,30 +143,44 @@ export class SkyDocsDemoPageTypeDefinitionsComponent implements OnInit {
 
         item.children.forEach((child: any) => {
           if (child.kindString === 'Property') {
+            const propertyDescription = (child.comment) ? child.comment.shortText : '';
+
+            if (!propertyDescription) {
+              return;
+            }
+
             properties.push({
               name: child.name,
-              type: this.getFormattedType(child.type),
-              description: (child.comment) ? child.comment.shortText : ''
+              type: this.parseFormattedType(child.type),
+              description: propertyDescription
             });
           }
 
-          if (child.kindString === 'Method' && child.name.indexOf('ng') !== 0) {
+          if (
+            child.kindString === 'Method' &&
+            child.name.indexOf('ng') !== 0
+          ) {
             const signature: any = child.signatures[0];
 
-            const parameters: ParameterConfig[] = (signature.parameters) ? signature.parameters.map((p: any) => {
-              const parameter: ParameterConfig = {
-                name: p.name,
-                type: p.type.name,
-                defaultValue: p.defaultValue && p.defaultValue.replace(/\"/g, '\''),
-                isOptional: (p.flags.isOptional === true || p.defaultValue)
-              };
-              return parameter;
-            }) : [];
+            const parameters: ParameterConfig[] = [];
+            if (signature.parameters) {
+              signature.parameters.forEach((p: any) => {
+                const parameter: ParameterConfig = {
+                  description: (p.comment) ? p.comment.shortText : '',
+                  name: p.name,
+                  type: this.parseFormattedType(p.type),
+                  defaultValue: p.defaultValue && p.defaultValue.replace(/\"/g, '\''),
+                  isOptional: (p.flags.isOptional === true || p.defaultValue)
+                };
+
+                parameters.push(parameter);
+              });
+            }
 
             methods.push({
               name: child.name,
-              description: (child.comment) ? child.comment.shortText : '',
-              returnType: this.getFormattedType(signature.type),
+              description: (signature.comment) ? signature.comment.shortText : '',
+              returnType: this.parseFormattedType(signature.type),
               parameters
             });
           }
@@ -165,32 +196,44 @@ export class SkyDocsDemoPageTypeDefinitionsComponent implements OnInit {
 
       // Interfaces.
       if (item.kindString === 'Interface') {
-        let sourceCode: string = `interface ${item.name} {`;
-        let properties: InterfaceProperty[];
+        let properties: InterfaceProperty[] = [];
+        let interfaceName = item.name;
+        let typeParams = '';
+
+        if (item.typeParameter) {
+          const typeParameterNames = item.typeParameter.map((t: any) => t.name);
+          typeParams = `<${typeParameterNames.join(', ')}>`;
+        }
+
+        let sourceCode: string = `interface ${interfaceName}${typeParams} {`;
 
         if (item.children) {
-          properties = item.children.map((p: any) => {
+          item.children.forEach((p: any) => {
+            const propertyDescription = (p.comment) ? p.comment.shortText : '';
             const isOptional = (p.flags.isOptional === true);
             const optionalIndicator = (isOptional) ? '?' : '';
-            const type = p.type.name || 'any';
+            const typeName = this.parseFormattedType(p.type, false);
 
-            sourceCode += `\n  ${p.name}${optionalIndicator}: ${type.replace(/\"/g, '\'')};`;
+            sourceCode += `\n  ${p.name}${optionalIndicator}: ${typeName.replace(/\"/g, '\'')};`;
 
-            const prop: InterfaceProperty = {
-              type,
+            const property: InterfaceProperty = {
+              type: typeName,
               name: p.name,
-              description: (p.comment) ? p.comment.shortText : '',
+              description: propertyDescription,
               isOptional
             };
 
-            return prop;
+            properties.push(property);
           });
         }
 
         sourceCode += '\n}';
 
+        // Remove properties that do not have descriptions.
+        properties = properties.filter((prop) => prop.description);
+
         this.interfaceConfigs.push({
-          name: item.name,
+          name: interfaceName,
           description: (item.comment) ? item.comment.shortText : '',
           properties,
           sourceCode
@@ -233,7 +276,6 @@ export class SkyDocsDemoPageTypeDefinitionsComponent implements OnInit {
             } else {
               return value;
             }
-
           }).join(' | ');
         }
 
@@ -289,12 +331,16 @@ export class SkyDocsDemoPageTypeDefinitionsComponent implements OnInit {
 
   private parseDirectiveConfig(item: any): DirectiveConfig {
     const selector = item.decorators[0].arguments.obj.split('selector: \'')[1].split('\'')[0];
-
     const properties: DirectiveProperty[] = [];
 
     if (item.children) {
       item.children.forEach((c: any) => {
-        if (c.kindString === 'Property') {
+        const kindString = c.kindString;
+
+        if (
+          kindString === 'Property' ||
+          kindString === 'Accessor'
+        ) {
           if (!c.decorators) {
             return;
           }
@@ -305,19 +351,29 @@ export class SkyDocsDemoPageTypeDefinitionsComponent implements OnInit {
             decorator === 'Input' ||
             decorator === 'Output'
           ) {
-            const description = c.comment && c.comment.shortText || '';
-            let type = c.type.name;
+            let description: string;
+            let typeName: string;
 
-            if (c.type.typeArguments) {
-              const typeArguments = c.type.typeArguments.map((typeArgument: any) => {
-                return typeArgument.name;
-              });
+            switch (kindString) {
+              case 'Property':
+                description = c.comment && c.comment.shortText || '';
+                typeName = this.parseFormattedType(c.type);
+                break;
 
-              type += `<${typeArguments.join(', ')}>`;
+              case 'Accessor':
+                if (c.setSignature) {
+                  const setSignature: any = c.setSignature[0];
+                  description = setSignature.comment && setSignature.comment.shortText || '';
+                  typeName = this.parseFormattedType(setSignature.parameters[0].type);
+                }
+                break;
+
+              default:
+                return;
             }
 
             properties.push({
-              type,
+              type: typeName,
               name: c.name,
               decorator,
               description
@@ -337,18 +393,45 @@ export class SkyDocsDemoPageTypeDefinitionsComponent implements OnInit {
     return config;
   }
 
-  private getFormattedType(type: {
-    type: string;
-    elementType?: {
-      type: string;
+  private parseFormattedType(
+    typeConfig: {
       name: string;
-    };
-    name?: string;
-  }): string {
-    if (type.type === 'array') {
-      return `${type.elementType.name}[]`;
+      type: string;
+      elementType?: any;
+      typeArguments?: any[];
+    },
+    escapeCharacters: boolean = true
+  ): string {
+    let formatted: string;
+
+    if (typeConfig.name) {
+      formatted = typeConfig.name;
+    } else {
+      formatted = 'any';
     }
 
-    return type.name;
+    if (
+      typeConfig.elementType &&
+      typeConfig.elementType.type === 'reference'
+    ) {
+      formatted = this.parseFormattedType(typeConfig.elementType);
+    }
+
+    if (typeConfig.typeArguments) {
+      const typeArguments = typeConfig.typeArguments.map((typeArgument: any) => {
+        return typeArgument.name;
+      });
+
+      const lessThan = (escapeCharacters) ? '&lt;' : '<';
+      const greaterThan = (escapeCharacters) ? '&gt;' : '>';
+
+      formatted += `${lessThan}${typeArguments.join(', ')}${greaterThan}`;
+    }
+
+    if (typeConfig.type === 'array') {
+      formatted += '[]';
+    }
+
+    return formatted;
   }
 }

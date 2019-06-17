@@ -11,9 +11,12 @@
     [hideHeader]="true"
   ></sky-code-block>
 
-  <h4 class="sky-docs-h4">
-    Properties
-  </h4>
-
-  <ng-content select="sky-docs-property-definitions"></ng-content>
+  <ng-container *ngIf="hasProperties">
+    <h4 class="sky-docs-h4">
+      Properties
+    </h4>
+    <ng-content
+      select="sky-docs-property-definitions"
+    ></ng-content>
+  </ng-container>
 </div>
