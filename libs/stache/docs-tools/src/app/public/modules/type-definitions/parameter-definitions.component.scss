@@ -13,6 +13,12 @@
     border-bottom: 1px solid $sky-border-color-neutral-light;
     vertical-align: top;
     text-align: left;
+
+    ::ng-deep {
+      p {
+        margin: 0;
+      }
+    }
   }
 
   tr:last-child {

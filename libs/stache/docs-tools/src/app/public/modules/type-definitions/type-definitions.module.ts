@@ -10,12 +10,14 @@ import { SkyDocsPropertyDefinitionsComponent } from './property-definitions.comp
 import { SkyCodeModule, SkyCodeBlockModule } from '@blackbaud/skyux-lib-code-block';
 import { SkyDocsParameterDefinitionComponent } from './parameter-definition.component';
 import { SkyDocsParameterDefinitionsComponent } from './parameter-definitions.component';
+import { SkyDocsMarkdownModule } from '../markdown/markdown.module';
 
 @NgModule({
   imports: [
     CommonModule,
     SkyCodeBlockModule,
-    SkyCodeModule
+    SkyCodeModule,
+    SkyDocsMarkdownModule
   ],
   declarations: [
     SkyDocsDirectiveDefinitionComponent,

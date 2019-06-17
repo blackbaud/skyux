@@ -5,11 +5,13 @@
     [showBreadcrumbs]="false"
     [showTableOfContents]="true"
   >
-    <stache-page-summary>
-      <ng-content
-        select="sky-docs-demo-page-summary"
-      ></ng-content>
-    </stache-page-summary>
+    <stache-page-anchor>
+      Overview
+    </stache-page-anchor>
+
+    <ng-content
+      select="sky-docs-demo-page-summary"
+    ></ng-content>
 
     <div *ngIf="enableDemo"
       class="sky-section-heading"
@@ -54,6 +56,9 @@
 
   <ng-content>
   </ng-content>
+
+  <sky-docs-demo-page-type-definitions>
+  </sky-docs-demo-page-type-definitions>
 
   <sky-docs-demo-page-section *ngIf="enableCodeExamples"
     heading="Code examples"

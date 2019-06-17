@@ -1,5 +1,6 @@
 import {
-  Directive
+  Directive,
+  Input
 } from '@angular/core';
 
 /**
@@ -8,4 +9,9 @@ import {
 @Directive({
   selector: '[foo]'
 })
-export class FooDirective { }
+export class FooDirective {
+
+  @Input()
+  public fooOptions: any;
+
+}

@@ -23,6 +23,8 @@ import {
 import {
   SampleSourceCodeProvider
 } from './public/plugin-resources/sample-source-code-provider';
+import { SampleTypeDefinitionsProvider } from './public/plugin-resources/sample-type-definitions-provider';
+import { SkyDocsDemoPageTypeDefinitionsProvider } from './public/modules/demo-page/demo-page-type-definitions-provider';
 
 @NgModule({
   exports: [
@@ -36,6 +38,10 @@ import {
     {
       provide: SkyDocsSourceCodeProvider,
       useClass: SampleSourceCodeProvider
+    },
+    {
+      provide: SkyDocsDemoPageTypeDefinitionsProvider,
+      useClass: SampleTypeDefinitionsProvider
     }
   ]
 })

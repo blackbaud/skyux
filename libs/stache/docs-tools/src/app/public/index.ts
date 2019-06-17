@@ -2,6 +2,8 @@
 
 export * from './modules/demo-page/demo-page.module';
 
+export * from './modules/markdown/markdown.module';
+
 export * from './modules/source-code/source-code-file';
 export * from './modules/source-code/source-code-provider';
 

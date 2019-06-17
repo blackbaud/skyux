@@ -1,5 +1,5 @@
 /**
- * This is te description for FooDate.
+ * This is the description for FooDate.
  */
 export interface FooDate {
   month: number;

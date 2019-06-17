@@ -51,12 +51,20 @@ import {
 import {
   SkyDocsDemoPageComponent
 } from './demo-page.component';
+import { SkyDocsDemoPageTypeDefinitionsProvider } from './demo-page-type-definitions-provider';
+import { SkyDocsDemoPageTypeDefinitionsComponent } from './demo-page-type-definitions.component';
+import { SkyDocsMarkdownModule } from '../markdown/markdown.module';
+import { SkyCodeBlockModule, SkyCodeModule } from '@blackbaud/skyux-lib-code-block';
 
 @NgModule({
   imports: [
     CommonModule,
+    SkyCodeBlockModule,
+    SkyCodeModule,
     SkyDocsDemoModule,
+    SkyDocsMarkdownModule,
     SkyDocsModuleInfoModule,
+    SkyDocsTypeDefinitionsModule,
     SkyTabsModule,
     StachePageAnchorModule,
     StachePageSummaryModule,
@@ -66,7 +74,8 @@ import {
     SkyDocsDemoPageComponent,
     SkyDocsDemoPageDesignGuidelinesComponent,
     SkyDocsDemoPageSectionComponent,
-    SkyDocsDemoPageSummaryComponent
+    SkyDocsDemoPageSummaryComponent,
+    SkyDocsDemoPageTypeDefinitionsComponent
   ],
   exports: [
     SkyDocsDemoModule,
@@ -75,10 +84,12 @@ import {
     SkyDocsDemoPageDesignGuidelinesComponent,
     SkyDocsDemoPageSectionComponent,
     SkyDocsDemoPageSummaryComponent,
-    SkyDocsTypeDefinitionsModule
+    SkyDocsTypeDefinitionsModule,
+    SkyDocsDemoPageTypeDefinitionsComponent
   ],
   providers: [
-    SkyDocsDemoPageTitleService
+    SkyDocsDemoPageTitleService,
+    SkyDocsDemoPageTypeDefinitionsProvider
   ]
 })
 export class SkyDocsDemoPageModule { }

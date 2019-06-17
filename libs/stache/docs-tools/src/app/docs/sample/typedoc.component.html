@@ -1,144 +1,93 @@
-<sky-docs-demo-page>
-  <sky-docs-demo-page-section heading="Components">
-    <sky-docs-directive-definition *ngFor="let component of componentConfigs"
-      [directiveName]="component.name"
-      [directiveSelector]="component.selector"
+<sky-docs-demo-page
+  gitRepoUrl="https://github.com/blackbaud/skyux-core"
+  moduleName="SkyDocsDemoPageModule"
+  packageName="@skyux/docs-tools"
+  pageTitle="Demo page"
+>
+  <sky-docs-demo-page-summary>
+    The popover module displays small chunks of contextual content on pages or modals. It highlights content in an HTML-formatted popover that is similar to a tooltip but provides more room for plain text, HTML content, or Angular components. The popover trigger directive ties the popover to an element that users can interact with to display the popover.
+  </sky-docs-demo-page-summary>
+
+  <sky-docs-demo heading="Demo page demo">
+    <sky-docs-demo-control-panel
+      (selectionChange)="onDemoSelectionChange($event)"
     >
-      <span [innerHtml]="component.description"></span>
-      <sky-docs-property-definitions *ngIf="component.properties.length">
-        <sky-docs-property-definition *ngFor="let property of component.properties"
-          [propertyDecorator]="property.decorator"
-          [propertyName]="property.name"
-          [propertyType]="property.type"
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-radio-group
+          heading="Placement"
+          name="placement"
+          [initialValue]="'above'"
+          [choices]="[
+            { value: 'above', label: 'Above' },
+            { value: 'below', label: 'Below' },
+            { value: 'left', label: 'Left' },
+            { value: 'right', label: 'Right' }
+          ]"
         >
-          <span [innerHtml]="property.description"></span>
-        </sky-docs-property-definition>
-      </sky-docs-property-definitions>
-    </sky-docs-directive-definition>
-  </sky-docs-demo-page-section>
+        </sky-docs-demo-control-panel-radio-group>
+      </sky-docs-demo-control-panel-section>
 
-  <sky-docs-demo-page-section heading="Directives">
-    <sky-docs-directive-definition *ngFor="let directive of directiveConfigs"
-      [directiveName]="directive.name"
-      [directiveSelector]="directive.selector"
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-radio-group
+          heading="Alignment"
+          name="alignment"
+          [initialValue]="'center'"
+          [choices]="[
+            { value: 'left', label: 'Left' },
+            { value: 'right', label: 'Right' },
+            { value: 'center', label: 'Center' }
+          ]"
+        >
+        </sky-docs-demo-control-panel-radio-group>
+
+        <sky-docs-demo-control-panel-checkbox
+          label="Show title"
+          name="showTitle"
+          [checked]="true"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
+
+    <button
+      class="sky-btn sky-margin-inline-default"
+      type="button"
+      [skyPopover]="myPopover0"
+      [skyPopoverAlignment]="demoSettings.skyPopoverAlignment"
+      [skyPopoverPlacement]="demoSettings.skyPopoverPlacement"
     >
-      <span [innerHtml]="directive.description"></span>
-      <sky-docs-property-definitions *ngIf="directive.properties.length">
-        <sky-docs-property-definition *ngFor="let property of directive.properties"
-          [propertyDecorator]="property.decorator"
-          [propertyName]="property.name"
-          [propertyType]="property.type"
-        >
-          <span [innerHtml]="property.description"></span>
-        </sky-docs-property-definition>
-      </sky-docs-property-definitions>
-    </sky-docs-directive-definition>
-  </sky-docs-demo-page-section>
+      Popover demo on click
+    </button>
 
-  <sky-docs-demo-page-section heading="Services">
-    <ng-container *ngFor="let config of serviceConfigs">
-      <h3 class="sky-docs-h3">
-        {{ config.name }}
-      </h3>
-
-      <span [innerHtml]="config.description"></span>
-
-      <ng-container *ngIf="config.properties && config.properties.length">
-        <h4 class="sky-docs-h4">
-          Properties
-        </h4>
-
-        <sky-docs-property-definitions>
-          <sky-docs-property-definition *ngFor="let property of config.properties"
-            [propertyName]="property.name"
-            [propertyType]="property.type"
-          >
-            <span [innerHtml]="property.description"></span>
-          </sky-docs-property-definition>
-        </sky-docs-property-definitions>
-      </ng-container>
-
-      <ng-container *ngIf="config.methods && config.methods.length">
-        <h4 class="sky-docs-h4">
-          Methods
-        </h4>
-
-        <sky-docs-method-definition *ngFor="let method of config.methods"
-          [methodName]="method.name"
-          [returnType]="method.returnType"
-          [parameters]="method.parameters"
-        >
-          <span [innerHtml]="method.description"></span>
-        </sky-docs-method-definition>
-      </ng-container>
-    </ng-container>
-  </sky-docs-demo-page-section>
-
-  <sky-docs-demo-page-section heading="Interfaces">
-    <sky-docs-interface-definition *ngFor="let interface of interfaceConfigs"
-      [interfaceName]="interface.name"
-      [sourceCode]="interface.sourceCode"
+    <button
+      class="sky-btn"
+      type="button"
+      [skyPopover]="myPopover0"
+      skyPopoverTrigger="mouseenter"
+      [skyPopoverAlignment]="demoSettings.skyPopoverAlignment"
+      [skyPopoverPlacement]="demoSettings.skyPopoverPlacement"
     >
-      <span [innerHtml]="interface.description"></span>
-      <sky-docs-property-definitions>
-        <sky-docs-property-definition *ngFor="let property of interface.properties"
-          [propertyName]="property.name"
-          [propertyType]="property.type"
-          [isOptional]="property.isOptional"
-          [defaultValue]="property.defaultValue"
-        >
-          <span [innerHtml]="property.description"></span>
-        </sky-docs-property-definition>
-      </sky-docs-property-definitions>
-    </sky-docs-interface-definition>
-  </sky-docs-demo-page-section>
+      Popover demo on hover
+    </button>
 
-  <sky-docs-demo-page-section heading="Enumerations">
-    <ng-container *ngFor="let item of enumerationConfigs">
-      <h3 class="sky-docs-h3">
-        {{ item.name }}
-      </h3>
-      <span [innerHtml]="item.description"></span>
-      <sky-docs-property-definitions>
-        <sky-docs-property-definition *ngFor="let value of item.values"
-          [propertyName]="value.name"
-        >
-          <span [innerHtml]="value.description"></span>
-        </sky-docs-property-definition>
-      </sky-docs-property-definitions>
-    </ng-container>
-  </sky-docs-demo-page-section>
+    <sky-popover
+      [popoverTitle]="demoSettings.popoverTitle"
+      #myPopover0
+    >
+      The content of a popover can be text, HTML, or Angular components.
+    </sky-popover>
+  </sky-docs-demo>
 
-  <sky-docs-demo-page-section heading="Type aliases">
-    <ng-container *ngFor="let alias of typeAliasConfigs">
-      <h3 class="sky-docs-h3">
-        {{ alias.name }}
-      </h3>
-
-      <span [innerHtml]="alias.description"></span>
-
-      <sky-code-block
-        languageType="typescript"
-        [code]="alias.sourceCode"
-        [hideHeader]="true"
-      ></sky-code-block>
-
-      <ng-container *ngIf="alias.parameters && alias.parameters.length">
-        <h4 class="sky-docs-h4">
-          Parameters
-        </h4>
-
-        <sky-docs-parameter-definitions>
-          <sky-docs-parameter-definition *ngFor="let parameter of alias.parameters"
-            [parameterName]="parameter.name"
-            [parameterType]="parameter.type"
-            [defaultValue]="parameter.defaultValue"
-          >
-            <span [innerHtml]="parameter.description"></span>
-          </sky-docs-parameter-definition>
-        </sky-docs-parameter-definitions>
-      </ng-container>
-    </ng-container>
-  </sky-docs-demo-page-section>
+  <sky-docs-code-examples
+    [packageDependencies]="{
+      '@skyux/action-bars': '*'
+    }"
+  >
+    <sky-docs-code-example
+      title="Default setup"
+      sourceCodeLocation="src/app/public/code-examples/sample"
+    >
+    </sky-docs-code-example>
+  </sky-docs-code-examples>
 
 </sky-docs-demo-page>

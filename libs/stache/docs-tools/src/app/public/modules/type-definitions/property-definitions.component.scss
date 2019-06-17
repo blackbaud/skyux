@@ -25,14 +25,10 @@
     }
   }
 
-  // ::ng-deep {
-  //   .sky-definition-list-content {
-  //     flex-wrap: nowrap;
-  //   }
-  // }
-
-  p {
-    margin: 0;
+  ::ng-deep {
+    p {
+      margin: 0;
+    }
   }
 }
 
