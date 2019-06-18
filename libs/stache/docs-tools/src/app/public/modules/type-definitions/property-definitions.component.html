@@ -37,9 +37,9 @@
           Optional. <ng-container *ngIf="item.defaultValue">Default is <sky-code>{{ item.defaultValue }}</sky-code>.</ng-container>
         </p>
         <p *ngIf="item.deprecationWarning"
-          class="sky-text-warning sky-docs-property-definitions-deprecation-warning"
+          class="sky-docs-property-definitions-deprecation-warning"
         >
-          Deprecated. {{ item.deprecationWarning }}
+          <span class="sky-text-warning"><strong>Deprecated.</strong> {{ item.deprecationWarning }}</span>
         </p>
       </td>
     </tr>

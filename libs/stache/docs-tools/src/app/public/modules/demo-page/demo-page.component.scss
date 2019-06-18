@@ -7,6 +7,14 @@
 
 .sky-docs-demo-page {
   ::ng-deep {
+    p {
+      margin: $sky-margin-plus-half 0;
+    }
+
+    .sky-code-block {
+      font-size: 90%;
+    }
+
     .sky-code {
       border: 0;
       background: transparent;
@@ -26,7 +34,7 @@
 
     .sky-docs-h4 {
       @include sky-subsection-heading();
-      margin: $sky-margin-plus-half 0;
+      margin: 0 0 $sky-margin-plus-half;
       font-size: 1.2em;
     }
 

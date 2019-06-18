@@ -2,6 +2,8 @@
   heading="Components"
 >
   <sky-docs-directive-definition *ngFor="let component of componentConfigs"
+    [codeExample]="component.codeExample"
+    [codeExampleLanguage]="component.codeExampleLanguage"
     [directiveName]="component.name"
     [directiveSelector]="component.selector"
   >
@@ -10,6 +12,9 @@
     ></div>
     <sky-docs-property-definitions *ngIf="component.properties.length">
       <sky-docs-property-definition *ngFor="let property of component.properties"
+        [defaultValue]="property.defaultValue"
+        [deprecationWarning]="property.deprecationWarning"
+        [isOptional]="property.isOptional"
         [propertyDecorator]="property.decorator"
         [propertyName]="property.name"
         [propertyType]="property.type"
@@ -26,6 +31,8 @@
   heading="Directives"
 >
   <sky-docs-directive-definition *ngFor="let directive of directiveConfigs"
+    [codeExample]="directive.codeExample"
+    [codeExampleLanguage]="directive.codeExampleLanguage"
     [directiveName]="directive.name"
     [directiveSelector]="directive.selector"
   >
@@ -34,6 +41,9 @@
     ></div>
     <sky-docs-property-definitions *ngIf="directive.properties.length">
       <sky-docs-property-definition *ngFor="let property of directive.properties"
+        [defaultValue]="property.defaultValue"
+        [deprecationWarning]="property.deprecationWarning"
+        [isOptional]="property.isOptional"
         [propertyDecorator]="property.decorator"
         [propertyName]="property.name"
         [propertyType]="property.type"
@@ -46,6 +56,19 @@
   </sky-docs-directive-definition>
 </sky-docs-demo-page-section>
 
+<sky-docs-demo-page-section *ngIf="pipeConfigs && pipeConfigs.length"
+  heading="Pipes"
+>
+  <sky-docs-directive-definition *ngFor="let pipe of pipeConfigs"
+    [codeExample]="pipe.codeExample"
+    [codeExampleLanguage]="pipe.codeExampleLanguage"
+    [directiveName]="pipe.name"
+    [directiveSelector]="pipe.selector"
+  >
+    <div [innerHtml]="pipe.description | skyDocsMarkdown"></div>
+  </sky-docs-directive-definition>
+</sky-docs-demo-page-section>
+
 <sky-docs-demo-page-section *ngIf="serviceConfigs && serviceConfigs.length"
   heading="Services"
 >
@@ -53,9 +76,11 @@
     <h3 class="sky-docs-h3">
       {{ config.name }}
     </h3>
+
     <div
       [innerHtml]="config.description | skyDocsMarkdown"
     ></div>
+
     <ng-container *ngIf="config.properties && config.properties.length">
       <h4 class="sky-docs-h4">
         Properties
@@ -77,9 +102,12 @@
         Methods
       </h4>
       <sky-docs-method-definition *ngFor="let method of config.methods"
+        [codeExample]="method.codeExample"
+        [codeExampleLanguage]="method.codeExampleLanguage"
         [methodName]="method.name"
         [returnType]="method.returnType"
         [parameters]="method.parameters"
+        [deprecationWarning]="method.deprecationWarning"
       >
         <div
           [innerHtml]="method.description | skyDocsMarkdown"

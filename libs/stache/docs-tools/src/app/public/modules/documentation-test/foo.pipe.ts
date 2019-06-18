@@ -5,6 +5,10 @@ import {
 
 /**
  * This is the description for the FooPipe.
+ * @example
+ * ```markup
+ * {{ 'foo' | foo }}
+ * ```
  */
 @Pipe({
   name: 'foo'

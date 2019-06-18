@@ -3,7 +3,7 @@
     layout="sidebar"
     [pageTitle]="pageTitle"
     [showBreadcrumbs]="false"
-    [showTableOfContents]="true"
+    [showTableOfContents]="false"
   >
     <stache-page-anchor>
       Overview
@@ -52,9 +52,6 @@
     >
     </sky-docs-module-info>
   </sky-docs-demo-page-section>
-
-  <ng-content>
-  </ng-content>
 
   <sky-docs-demo-page-type-definitions
     [sourceCodeLocation]="sourceCodeLocation"

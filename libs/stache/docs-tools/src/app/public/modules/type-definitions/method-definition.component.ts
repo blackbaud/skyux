@@ -30,6 +30,15 @@ export class SkyDocsMethodDefinitionComponent implements OnInit {
     templateRef: TemplateRef<any>
   }[];
 
+  @Input()
+  public deprecationWarning: string;
+
+  @Input()
+  public codeExample: string;
+
+  @Input()
+  public codeExampleLanguage: string;
+
   public parametersConfig: any[] = [];
 
   public ngOnInit(): void {

@@ -9,7 +9,9 @@
     Selector
   </h4>
 
-  <sky-code>{{ directiveSelector }}</sky-code>
+  <p>
+    <sky-code>{{ directiveSelector }}</sky-code>
+  </p>
 
   <ng-container *ngIf="hasPropertyDefinitions">
     <h4 class="sky-docs-h4">
@@ -17,5 +19,17 @@
     </h4>
 
     <ng-content select="sky-docs-property-definitions"></ng-content>
+  </ng-container>
+
+  <ng-container *ngIf="codeExample">
+    <h4 class="sky-docs-h4">
+      Example
+    </h4>
+    <sky-code-block
+      [code]="codeExample"
+      [hideHeader]="true"
+      [languageType]="codeExampleLanguage"
+    >
+    </sky-code-block>
   </ng-container>
 </div>

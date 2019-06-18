@@ -24,6 +24,12 @@ export class SkyDocsDirectiveDefinitionComponent implements AfterContentInit {
   @Input()
   public directiveSelector: string;
 
+  @Input()
+  public codeExample: string;
+
+  @Input()
+  public codeExampleLanguage: string;
+
   public hasPropertyDefinitions = false;
 
   @ContentChild(SkyDocsPropertyDefinitionsComponent)

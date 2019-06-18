@@ -5,7 +5,7 @@
   width: 100%;
   border-spacing: 0;
   border-collapse: collapse;
-  margin: $sky-margin 0;
+  margin: $sky-margin-plus-half 0 $sky-margin-triple;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 2px rgba(0, 0, 0, 0.09);
   background-color: #fff;
 }
@@ -45,14 +45,6 @@
   text-align: left;
   white-space: nowrap;
   font-weight: bold;
-
-  // &:first-child {
-  //   border-radius: 3px 0 0 0;
-  // }
-
-  // &:last-child {
-  //   border-radius: 0 3px 0 0;
-  // }
 }
 
 .sky-docs-property-definitions-deprecation-warning {

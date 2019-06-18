@@ -16,6 +16,10 @@ export class FooService implements OnDestroy {
 
   /**
    * This is the description for createFoo().
+   * @example
+   * ```typescript
+   * const instance = this.fooService.createFoo('baz');
+   * ```
    */
   public createFoo(bar: string, baz?: string, lorem: string = 'ipsum'): string[] {
     this.FOOS.push(`${bar}${baz}${lorem}`);
@@ -24,6 +28,7 @@ export class FooService implements OnDestroy {
 
   /**
    * This is the description for anotherFoo().
+   * @deprecated Please use `createFoo` instead.
    */
   public anotherFoo(): void {}
 

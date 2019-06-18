@@ -15,12 +15,15 @@ interface DirectiveProperty {
   decorator?: 'Input' | 'Output';
   defaultValue?: string;
   description?: string;
+  deprecationWarning?: string;
   isOptional?: boolean;
 }
 
 interface DirectiveConfig {
   name: string;
   selector: string;
+  codeExample?: string;
+  codeExampleLanguage?: string;
   description?: string;
   properties?: DirectiveProperty[];
 }
@@ -65,10 +68,13 @@ interface ParameterConfig {
 }
 
 interface MethodConfig {
+  deprecationWarning: string;
   name: string;
   returnType: string;
-  description?: string;
-  parameters?: ParameterConfig[];
+  codeExample: string;
+  codeExampleLanguage: string;
+  description: string;
+  parameters: ParameterConfig[];
 }
 
 interface ServiceConfig {
@@ -83,6 +89,14 @@ interface TypeAliasConfig {
   sourceCode: string;
   description?: string;
   parameters?: ParameterConfig[];
+}
+
+interface PipeConfig {
+  description: string;
+  name: string;
+  selector: string;
+  codeExample?: string;
+  codeExampleLanguage?: string;
 }
 
 @Component({
@@ -108,17 +122,28 @@ export class SkyDocsDemoPageTypeDefinitionsComponent implements OnInit {
 
   public typeAliasConfigs: TypeAliasConfig[] = [];
 
+  public pipeConfigs: PipeConfig[] = [];
+
   constructor(
     private typeDefinitions: SkyDocsDemoPageTypeDefinitionsProvider
   ) { }
 
   public ngOnInit(): void {
+    if (!this.sourceCodeLocation) {
+      throw 'Please provide a source code location! `<sky-docs-demo-page sourceCodeLocation="path/to/source">`';
+    }
+
     const documentation: any = this.typeDefinitions.getTypeDefinitions();
+    const requestedDir = this.sourceCodeLocation.replace(
+      /src(\/|\\)app(\/|\\)public(\/|\\)/,
+      ''
+    );
 
     documentation.children.forEach((item: any) => {
 
-      const directory = item.sources[0].fileName.split('/')[0];
-      if (!this.endsWith(this.sourceCodeLocation, directory)) {
+      // Only process types that match the requested source code location.
+      const fileName = item.sources[0].fileName;
+      if (!fileName.match(requestedDir)) {
         return;
       }
 
@@ -126,12 +151,28 @@ export class SkyDocsDemoPageTypeDefinitionsComponent implements OnInit {
       if (this.endsWith(item.name, 'Component')) {
         const config = this.parseDirectiveConfig(item);
         this.componentConfigs.push(config);
+        return;
       }
 
       // Directives.
       if (this.endsWith(item.name, 'Directive')) {
         const config = this.parseDirectiveConfig(item);
         this.directiveConfigs.push(config);
+        return;
+      }
+
+      // Pipes.
+      if (this.endsWith(item.name, 'Pipe')) {
+        const selector = item.decorators[0].arguments.obj.split('name: \'')[1].split('\'')[0];
+        const { codeExample, codeExampleLanguage } = this.parseCommentTags(item.comment);
+        this.pipeConfigs.push({
+          description: (item.comment) ? item.comment.shortText : '',
+          name: item.name,
+          selector,
+          codeExample,
+          codeExampleLanguage
+        });
+        return;
       }
 
       // Services.
@@ -177,11 +218,26 @@ export class SkyDocsDemoPageTypeDefinitionsComponent implements OnInit {
               });
             }
 
+            // const {
+            //   codeExample,
+            //   codeExampleLanguage,
+            //   deprecationWarning
+            // } = this.parseCommentCodeExample(signature.comment);
+
+            const {
+              codeExample,
+              codeExampleLanguage,
+              deprecationWarning
+            } = this.parseCommentTags(signature.comment);
+
             methods.push({
+              deprecationWarning,
               name: child.name,
               description: (signature.comment) ? signature.comment.shortText : '',
               returnType: this.parseFormattedType(signature.type),
-              parameters
+              parameters,
+              codeExample,
+              codeExampleLanguage
             });
           }
         });
@@ -192,6 +248,8 @@ export class SkyDocsDemoPageTypeDefinitionsComponent implements OnInit {
           properties,
           methods
         });
+
+        return;
       }
 
       // Interfaces.
@@ -238,6 +296,8 @@ export class SkyDocsDemoPageTypeDefinitionsComponent implements OnInit {
           properties,
           sourceCode
         });
+
+        return;
       }
 
       // Enumerations.
@@ -256,6 +316,8 @@ export class SkyDocsDemoPageTypeDefinitionsComponent implements OnInit {
           description: (item.comment) ? item.comment.shortText : '',
           values
         });
+
+        return;
       }
 
       // Type aliases.
@@ -282,31 +344,32 @@ export class SkyDocsDemoPageTypeDefinitionsComponent implements OnInit {
         if (item.type.type === 'reflection') {
           sourceCode += '(';
 
-          const callSignature = item.type.declaration.signatures[0];
+          if (item.type.declaration.signatures) {
+            const callSignature = item.type.declaration.signatures[0];
 
-          sourceCode += callSignature.parameters.map((p: any) => {
-
-            const foundTag = item.comment.tags.find((tag: any) => {
-              return (tag.tag === 'param' && tag.param === p.name);
-            });
-
-            if (foundTag) {
-              parameters.push({
-                name: p.name,
-                type: p.type.name,
-                description: foundTag.text,
-                defaultValue: p.defaultValue,
-                isOptional: (p.flags.isOptional === true)
+            sourceCode += callSignature.parameters.map((p: any) => {
+              const foundTag = item.comment.tags.find((tag: any) => {
+                return (tag.tag === 'param' && tag.param === p.name);
               });
-            }
 
-            const optionalIndicator = (p.flags.isOptional === true) ? '?' : '';
+              if (foundTag) {
+                parameters.push({
+                  name: p.name,
+                  type: p.type.name,
+                  description: foundTag.text,
+                  defaultValue: p.defaultValue,
+                  isOptional: (p.flags.isOptional === true)
+                });
+              }
 
-            return `${p.name}${optionalIndicator}: ${p.type.name}`;
+              const optionalIndicator = (p.flags.isOptional === true) ? '?' : '';
 
-          }).join(', ');
+              return `${p.name}${optionalIndicator}: ${p.type.name}`;
 
-          sourceCode += `) => ${callSignature.type.name}`;
+            }).join(', ');
+
+            sourceCode += `) => ${callSignature.type.name}`;
+          }
         }
 
         sourceCode += ';';
@@ -332,6 +395,7 @@ export class SkyDocsDemoPageTypeDefinitionsComponent implements OnInit {
   private parseDirectiveConfig(item: any): DirectiveConfig {
     const selector = item.decorators[0].arguments.obj.split('selector: \'')[1].split('\'')[0];
     const properties: DirectiveProperty[] = [];
+    const { codeExample, codeExampleLanguage } = this.parseCommentTags(item.comment);
 
     if (item.children) {
       item.children.forEach((c: any) => {
@@ -353,6 +417,10 @@ export class SkyDocsDemoPageTypeDefinitionsComponent implements OnInit {
           ) {
             let description: string;
             let typeName: string;
+
+            const tags = this.parseCommentTags(c.comment);
+            const deprecationWarning = tags.deprecationWarning;
+            const defaultValue: string = tags.defaultValue || c.defaultValue;
 
             switch (kindString) {
               case 'Property':
@@ -376,18 +444,27 @@ export class SkyDocsDemoPageTypeDefinitionsComponent implements OnInit {
               type: typeName,
               name: c.name,
               decorator,
-              description
+              description,
+              defaultValue,
+              isOptional: (!!defaultValue),
+              deprecationWarning
             });
           }
         }
       });
     }
 
+    this.sortProperties(properties, 'name');
+    this.sortProperties(properties, 'isOptional');
+    this.sortProperties(properties, 'decorator');
+
     const config: DirectiveConfig = {
       name: item.name,
       description: (item.comment) ? item.comment.shortText : '',
       selector,
-      properties
+      properties,
+      codeExample,
+      codeExampleLanguage
     };
 
     return config;
@@ -433,5 +510,61 @@ export class SkyDocsDemoPageTypeDefinitionsComponent implements OnInit {
     }
 
     return formatted;
+  }
+
+  private parseCommentTags(comment: any): any {
+    let codeExample: string;
+    let codeExampleLanguage: string = 'markup';
+    let deprecationWarning: string;
+    let defaultValue: string;
+
+    if (comment && comment.tags) {
+      comment.tags.forEach((tag: any) => {
+        if (
+          tag.tag === 'deprecated' &&
+          tag.text
+        ) {
+          deprecationWarning = tag.text.trim();
+        }
+
+        if (
+          tag.tag === 'default' ||
+          tag.tag === 'defaultvalue'
+        ) {
+          defaultValue = tag.text.trim();
+        }
+
+        if (
+          tag.tag === 'example' &&
+          tag.text
+        ) {
+          codeExample = tag.text.trim().split('```')[1].trim();
+          const language = codeExample.split('\n')[0];
+          if (language === 'markup' || language === 'typescript') {
+            codeExample = codeExample.slice(language.length).trim();
+            codeExampleLanguage = language;
+          }
+        }
+      });
+    }
+
+    return {
+      codeExample,
+      codeExampleLanguage,
+      defaultValue,
+      deprecationWarning
+    };
+  }
+
+  private sortProperties(properties: DirectiveProperty[], key: keyof DirectiveProperty): void {
+    properties.sort((a: DirectiveProperty, b: DirectiveProperty) => {
+      if (a[key] > b[key]) {
+        return 1;
+      }
+      if (a[key] < b[key]) {
+        return -1;
+      }
+      return 0;
+    });
   }
 }

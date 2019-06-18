@@ -3,7 +3,31 @@
 
 .sky-demo-page-type-definitions-container {
   margin-bottom: $sky-margin-triple;
-  padding: $sky-padding-double;
+  padding: $sky-padding-plus-half;
   background-color: $sky-background-color-neutral-light;
   border: 1px solid $sky-border-color-neutral-light;
+
+  ::ng-deep {
+    sky-docs-method-definition:last-child .sky-docs-method-definition {
+      margin-bottom: 0;
+    }
+
+    sky-code-block:last-child {
+      .sky-code-output {
+        margin-bottom: 0;
+      }
+    }
+
+    sky-docs-parameter-definitions:last-child table {
+      margin-bottom: 0;
+    }
+  }
+}
+
+:host {
+  ::ng-deep {
+    sky-docs-property-definitions:last-child table {
+      margin-bottom: 0;
+    }
+  }
 }

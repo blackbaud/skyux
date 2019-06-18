@@ -5,11 +5,14 @@
   width: 100%;
   border-spacing: 0;
   border-collapse: collapse;
-  margin: 0;
+  margin: 0 0 $sky-margin-plus-half;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 2px rgba(0, 0, 0, 0.09);
+  background-color: #fff;
+  border-top: 1px solid $sky-border-color-neutral-light;
 
   th,
   td {
-    padding: $sky-padding-even-default;
+    padding: $sky-padding-even-small;
     border-bottom: 1px solid $sky-border-color-neutral-light;
     vertical-align: top;
     text-align: left;
