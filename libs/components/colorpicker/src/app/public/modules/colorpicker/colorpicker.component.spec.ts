@@ -20,14 +20,6 @@ import {
 } from '@angular/forms';
 
 import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
-
-import {
-  SkyLibResourcesTestService
-} from '@skyux/i18n/testing';
-
-import {
   SkyColorpickerModule
 } from './colorpicker.module';
 
@@ -201,12 +193,6 @@ describe('Colorpicker Component', () => {
         SkyColorpickerModule,
         FormsModule,
         ReactiveFormsModule
-      ],
-      providers: [
-        {
-          provide: SkyLibResourcesService,
-          useClass: SkyLibResourcesTestService
-        }
       ]
     }).compileComponents();
   }));
