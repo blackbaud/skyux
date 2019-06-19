@@ -1,3 +1,7 @@
+# 3.0.0-alpha.3 (2019-06-19)
+
+- Added components to support TypeDoc JSON output.
+
 # 3.0.0-alpha.2 (2019-06-05)
 
 - Added checks to hide headings for demos and code examples if they do not exist.
