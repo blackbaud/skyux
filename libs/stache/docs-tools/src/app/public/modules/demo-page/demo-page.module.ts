@@ -61,10 +61,6 @@ import {
   SkyDocsDemoPageTypeDefinitionsComponent
 } from './demo-page-type-definitions.component';
 
-import {
-  SkyDocsDemoPageTypeDefinitionsProvider
-} from './demo-page-type-definitions-provider';
-
 @NgModule({
   imports: [
     CommonModule,
@@ -94,8 +90,7 @@ import {
     SkyDocsDemoPageTypeDefinitionsComponent
   ],
   providers: [
-    SkyDocsDemoPageTitleService,
-    SkyDocsDemoPageTypeDefinitionsProvider
+    SkyDocsDemoPageTitleService
   ]
 })
 export class SkyDocsDemoPageModule { }

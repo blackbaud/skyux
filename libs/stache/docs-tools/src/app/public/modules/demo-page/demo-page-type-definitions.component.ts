@@ -6,8 +6,8 @@ import {
 } from '@angular/core';
 
 import {
-  SkyDocsDemoPageTypeDefinitionsProvider
-} from './demo-page-type-definitions-provider';
+  SkyDocsTypeDefinitionsService
+} from '../type-definitions/type-definitions.service';
 
 interface DirectiveProperty {
   name: string;
@@ -125,7 +125,7 @@ export class SkyDocsDemoPageTypeDefinitionsComponent implements OnInit {
   public pipeConfigs: PipeConfig[] = [];
 
   constructor(
-    private typeDefinitions: SkyDocsDemoPageTypeDefinitionsProvider
+    private typeDefinitionService: SkyDocsTypeDefinitionsService
   ) { }
 
   public ngOnInit(): void {
@@ -133,19 +133,9 @@ export class SkyDocsDemoPageTypeDefinitionsComponent implements OnInit {
       throw 'Please provide a source code location! `<sky-docs-demo-page sourceCodeLocation="path/to/source">`';
     }
 
-    const documentation: any = this.typeDefinitions.getTypeDefinitions();
-    const requestedDir = this.sourceCodeLocation.replace(
-      /src(\/|\\)app(\/|\\)public(\/|\\)/,
-      ''
-    );
+    const types: any = this.typeDefinitionService.getTypeDefinitions(this.sourceCodeLocation);
 
-    documentation.children.forEach((item: any) => {
-
-      // Only process types that match the requested source code location.
-      const fileName = item.sources[0].fileName;
-      if (!fileName.match(requestedDir)) {
-        return;
-      }
+    types.forEach((item: any) => {
 
       // Components.
       if (this.endsWith(item.name, 'Component')) {

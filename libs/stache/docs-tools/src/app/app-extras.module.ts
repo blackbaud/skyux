@@ -19,7 +19,7 @@ import {
   SkyDocsCodeExamplesModule,
   SkyDocsDemoModule,
   SkyDocsDemoPageModule,
-  SkyDocsDemoPageTypeDefinitionsProvider,
+  SkyDocsTypeDefinitionsProvider,
   SkyDocsSourceCodeProvider
 } from './public';
 
@@ -47,7 +47,7 @@ import {
       useClass: SampleSourceCodeProvider
     },
     {
-      provide: SkyDocsDemoPageTypeDefinitionsProvider,
+      provide: SkyDocsTypeDefinitionsProvider,
       useClass: SampleTypeDefinitionsProvider
     }
   ]

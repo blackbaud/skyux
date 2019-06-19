@@ -11,6 +11,8 @@ import { SkyCodeModule, SkyCodeBlockModule } from '@blackbaud/skyux-lib-code-blo
 import { SkyDocsParameterDefinitionComponent } from './parameter-definition.component';
 import { SkyDocsParameterDefinitionsComponent } from './parameter-definitions.component';
 import { SkyDocsMarkdownModule } from '../markdown/markdown.module';
+import { SkyDocsTypeDefinitionsService } from './type-definitions.service';
+import { SkyDocsTypeDefinitionsProvider } from './type-definitions-provider';
 
 @NgModule({
   imports: [
@@ -36,6 +38,10 @@ import { SkyDocsMarkdownModule } from '../markdown/markdown.module';
     SkyDocsParameterDefinitionsComponent,
     SkyDocsPropertyDefinitionComponent,
     SkyDocsPropertyDefinitionsComponent
+  ],
+  providers: [
+    SkyDocsTypeDefinitionsProvider,
+    SkyDocsTypeDefinitionsService
   ]
 })
 export class SkyDocsTypeDefinitionsModule { }
