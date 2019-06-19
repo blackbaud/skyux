@@ -8,8 +8,8 @@ import {
 } from '@angular/core';
 
 import {
-  SkyDocsSourceCodeProvider
-} from '../source-code/source-code-provider';
+  SkyDocsSourceCodeService
+} from '../source-code/source-code.service';
 
 import {
   SkyDocsCodeExamplesEditorService
@@ -53,12 +53,12 @@ export class SkyDocsCodeExamplesComponent implements AfterContentInit {
 
   constructor(
     private editorService: SkyDocsCodeExamplesEditorService,
-    private sourceCodeProvider: SkyDocsSourceCodeProvider
+    private sourceCodeService: SkyDocsSourceCodeService
   ) { }
 
   public ngAfterContentInit(): void {
     this.codeExampleComponents.forEach((component) => {
-      const sourceCode = this.sourceCodeProvider.getSourceCode(component.sourceCodeLocation);
+      const sourceCode = this.sourceCodeService.getSourceCode(component.sourceCodeLocation);
 
       if (!sourceCode.length) {
         throw `No source code found at location "${component.sourceCodeLocation}" for "${component.title}"!`;

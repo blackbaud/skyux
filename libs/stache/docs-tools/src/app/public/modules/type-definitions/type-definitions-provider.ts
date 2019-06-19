@@ -4,5 +4,5 @@ import {
 
 @Injectable()
 export class SkyDocsTypeDefinitionsProvider {
-  public readonly typeDefinitions: any;
+  public readonly typeDefinitions: any[];
 }

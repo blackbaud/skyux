@@ -1,19 +1,16 @@
 import {
+  AfterContentInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ContentChildren,
-  QueryList,
-  AfterContentInit,
-  ChangeDetectorRef
+  TemplateRef,
+  QueryList
 } from '@angular/core';
 
 import {
   SkyDocsPropertyDefinitionComponent
 } from './property-definition.component';
-
-import {
-  SkyPropertyDefinition
-} from './property-definition';
 
 @Component({
   selector: 'sky-docs-property-definitions',
@@ -23,7 +20,16 @@ import {
 })
 export class SkyDocsPropertyDefinitionsComponent implements AfterContentInit {
 
-  public data: SkyPropertyDefinition[] = [];
+  public data: {
+    defaultValue: string;
+    deprecationWarning: string;
+    description?: string;
+    isOptional: boolean;
+    propertyDecorator: 'Input' | 'Output';
+    propertyName: string;
+    propertyType: string;
+    templateRef: TemplateRef<any>;
+  }[] = [];
 
   @ContentChildren(SkyDocsPropertyDefinitionComponent)
   private definitionRefs: QueryList<SkyDocsPropertyDefinitionComponent>;
@@ -48,7 +54,7 @@ export class SkyDocsPropertyDefinitionsComponent implements AfterContentInit {
     this.changeDetector.markForCheck();
   }
 
-  public getPropertySignature(item: SkyPropertyDefinition): string {
+  public getPropertySignature(item: any): string {
     let signature = '';
 
     if (item.propertyDecorator) {

@@ -27,6 +27,10 @@ import {
 } from '../shared/docs-tools-resources.module';
 
 import {
+  SkyDocsSourceCodeModule
+} from '../source-code/source-code.module';
+
+import {
   SkyDocsCodeExampleComponent
 } from './code-example.component';
 
@@ -42,6 +46,7 @@ import {
   imports: [
     CommonModule,
     SkyCodeBlockModule,
+    SkyDocsSourceCodeModule,
     SkyDocsToolsResourcesModule,
     SkyIconModule,
     SkyRepeaterModule,

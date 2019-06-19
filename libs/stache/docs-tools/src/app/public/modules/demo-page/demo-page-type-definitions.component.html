@@ -1,7 +1,7 @@
-<sky-docs-demo-page-section *ngIf="componentConfigs && componentConfigs.length"
+<sky-docs-demo-page-section *ngIf="types.components.length"
   heading="Components"
 >
-  <sky-docs-directive-definition *ngFor="let component of componentConfigs"
+  <sky-docs-directive-definition *ngFor="let component of types.components"
     [codeExample]="component.codeExample"
     [codeExampleLanguage]="component.codeExampleLanguage"
     [directiveName]="component.name"
@@ -27,10 +27,10 @@
   </sky-docs-directive-definition>
 </sky-docs-demo-page-section>
 
-<sky-docs-demo-page-section *ngIf="directiveConfigs && directiveConfigs.length"
+<sky-docs-demo-page-section *ngIf="types.directives.length"
   heading="Directives"
 >
-  <sky-docs-directive-definition *ngFor="let directive of directiveConfigs"
+  <sky-docs-directive-definition *ngFor="let directive of types.directives"
     [codeExample]="directive.codeExample"
     [codeExampleLanguage]="directive.codeExampleLanguage"
     [directiveName]="directive.name"
@@ -56,10 +56,10 @@
   </sky-docs-directive-definition>
 </sky-docs-demo-page-section>
 
-<sky-docs-demo-page-section *ngIf="pipeConfigs && pipeConfigs.length"
+<sky-docs-demo-page-section *ngIf="types.pipes.length"
   heading="Pipes"
 >
-  <sky-docs-directive-definition *ngFor="let pipe of pipeConfigs"
+  <sky-docs-directive-definition *ngFor="let pipe of types.pipes"
     [codeExample]="pipe.codeExample"
     [codeExampleLanguage]="pipe.codeExampleLanguage"
     [directiveName]="pipe.name"
@@ -69,10 +69,10 @@
   </sky-docs-directive-definition>
 </sky-docs-demo-page-section>
 
-<sky-docs-demo-page-section *ngIf="serviceConfigs && serviceConfigs.length"
+<sky-docs-demo-page-section *ngIf="types.services.length"
   heading="Services"
 >
-  <div *ngFor="let config of serviceConfigs" class="sky-demo-page-type-definitions-container">
+  <div *ngFor="let config of types.services" class="sky-demo-page-type-definitions-container">
     <h3 class="sky-docs-h3">
       {{ config.name }}
     </h3>
@@ -117,10 +117,10 @@
   </div>
 </sky-docs-demo-page-section>
 
-<sky-docs-demo-page-section *ngIf="interfaceConfigs && interfaceConfigs.length"
+<sky-docs-demo-page-section *ngIf="types.interfaces.length"
   heading="Interfaces"
 >
-  <sky-docs-interface-definition *ngFor="let interface of interfaceConfigs"
+  <sky-docs-interface-definition *ngFor="let interface of types.interfaces"
     [interfaceName]="interface.name"
     [sourceCode]="interface.sourceCode"
   >
@@ -140,10 +140,12 @@
   </sky-docs-interface-definition>
 </sky-docs-demo-page-section>
 
-<sky-docs-demo-page-section *ngIf="enumerationConfigs && enumerationConfigs.length"
+<sky-docs-demo-page-section *ngIf="types.enumerations.length"
   heading="Enumerations"
 >
-  <div *ngFor="let item of enumerationConfigs" class="sky-demo-page-type-definitions-container">
+  <div *ngFor="let item of types.enumerations"
+    class="sky-demo-page-type-definitions-container"
+  >
     <h3 class="sky-docs-h3">
       {{ item.name }}
     </h3>
@@ -162,10 +164,12 @@
   </div>
 </sky-docs-demo-page-section>
 
-<sky-docs-demo-page-section *ngIf="typeAliasConfigs && typeAliasConfigs.length"
+<sky-docs-demo-page-section *ngIf="types.typeAliases.length"
   heading="Type aliases"
 >
-  <div *ngFor="let alias of typeAliasConfigs" class="sky-demo-page-type-definitions-container">
+  <div *ngFor="let alias of types.typeAliases"
+    class="sky-demo-page-type-definitions-container"
+  >
     <h3 class="sky-docs-h3">
       {{ alias.name }}
     </h3>
