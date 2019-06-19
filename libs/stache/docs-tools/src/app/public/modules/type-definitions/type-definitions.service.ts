@@ -195,7 +195,7 @@ export class SkyDocsTypeDefinitionsService {
       decorator,
       description,
       defaultValue,
-      isOptional: (!!defaultValue),
+      isOptional: (!!defaultValue && decorator === 'Input'),
       deprecationWarning
     };
   }

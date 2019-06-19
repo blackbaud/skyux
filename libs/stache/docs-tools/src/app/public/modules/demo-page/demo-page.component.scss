@@ -11,6 +11,11 @@
       margin: $sky-margin-plus-half 0;
     }
 
+    code {
+      font-family: 'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace;
+      font-size: 90%;
+    }
+
     .sky-code-block {
       font-size: 90%;
     }
