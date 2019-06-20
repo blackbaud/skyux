@@ -243,7 +243,7 @@ export class SkyDocsTypeDefinitionsService {
     if (signature.parameters) {
       signature.parameters.forEach((p: any) => {
         const parameter: SkyDocsParameterDefinition = {
-          description: (p.comment) ? p.comment.shortText : '',
+          description: (p.comment) ? p.comment.text : '',
           name: p.name,
           type: this.parseFormattedType(p.type),
           defaultValue: p.defaultValue && p.defaultValue.replace(/\"/g, '\''),
@@ -273,20 +273,32 @@ export class SkyDocsTypeDefinitionsService {
   }
 
   private parsePipeDefinition(item: any): SkyDocsPipeDefinition {
-    const selector = item.decorators[0].arguments.obj.split('name: \'')[1].split('\'')[0];
-
     const {
       codeExample,
       codeExampleLanguage,
       description
     } = this.parseCommentTags(item.comment);
 
+    const transformMethod = item.children.find((child: any) => {
+      return (child.kindString === 'Method' && child.name === 'transform');
+    });
+
+    const {
+      parameters
+    } = this.parseMethodDefinition(transformMethod);
+
+    const firstParameter = parameters.shift();
+
     return {
-      description,
-      name: item.name,
-      selector,
       codeExample,
-      codeExampleLanguage
+      codeExampleLanguage,
+      description,
+      inputValue: {
+        description: firstParameter.description,
+        type: firstParameter.type
+      },
+      name: item.name,
+      parameters
     };
   }
 

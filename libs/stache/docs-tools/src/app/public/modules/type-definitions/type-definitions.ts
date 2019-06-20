@@ -70,11 +70,15 @@ export interface SkyDocsTypeAliasDefinition {
 }
 
 export interface SkyDocsPipeDefinition {
-  description: string;
-  name: string;
-  selector: string;
   codeExample: string;
   codeExampleLanguage: string;
+  description: string;
+  inputValue: {
+    description: string;
+    type: string;
+  };
+  name: string;
+  parameters: SkyDocsParameterDefinition[];
 }
 
 export interface SkyDocsTypeDefinitions {

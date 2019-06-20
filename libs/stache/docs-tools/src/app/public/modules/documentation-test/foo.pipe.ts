@@ -7,7 +7,9 @@ import {
  * This is the description for the FooPipe.
  * @example
  * ```markup
- * {{ 'foo' | foo }}
+ * {{ myDate | foo }}
+ * {{ myDate | foo:'medium' }}
+ * {{ myDate | foo:'medium':'en-GA' }}
  * ```
  */
 @Pipe({
@@ -17,9 +19,16 @@ export class FooPipe implements PipeTransform {
 
   /**
    * Transforms the content.
+   * @param value The date to transform.
+   * @param format The date format to use.
+   * @param locale The desired locale.
    */
-  public transform(content: string): string {
-    return content;
+  public transform(
+    value: Date,
+    format?: string,
+    locale?: string
+  ): string {
+    return value.toDateString();
   }
 
 }
