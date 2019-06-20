@@ -1,3 +1,7 @@
+# 3.1.0 (2019-06-20)
+
+- Updated development dependencies to support `@skyux-sdk/builder@3.6.7`. [#17](https://github.com/blackbaud/skyux-popovers/pull/17)
+
 # 3.0.0 (2019-01-14)
 
 - Major version release.
@@ -24,4 +28,4 @@
 
 # 3.0.0-alpha.0 (2018-10-04)
 
-- Initial release.
+- Initial alpha release.
