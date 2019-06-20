@@ -104,7 +104,7 @@ describe('SkyPopoverAdapterService', () => {
       });
       const popover = new ElementRef(createElementRefDefinition(0, 0, 100, 100));
       const parentElement = createElementRefDefinition(0, 0, 1200, 800);
-      popover.nativeElement.parentNode = parentElement;
+      (popover.nativeElement as any).parentNode = parentElement;
 
       listeners.push(adapterService.getParentScrollListeners(popover, () => {}));
     })();
@@ -258,7 +258,7 @@ describe('SkyPopoverAdapterService', () => {
         },
         innerWidth: 300,
         innerHeight: 300
-      });
+      } as any);
 
       const position = adapterService.getPopoverPosition({
         popover: new ElementRef(createElementRefDefinition(0, 0, 1500, 1500)),
@@ -283,7 +283,7 @@ describe('SkyPopoverAdapterService', () => {
         },
         innerWidth: 300,
         innerHeight: 300
-      });
+      } as any);
 
       const elements = {
         popover: new ElementRef(createElementRefDefinition(0, 0, 276, 276)),
@@ -374,11 +374,13 @@ describe('SkyPopoverAdapterService', () => {
       ) => {
         let scrollableParent: any;
         let eventName: string;
-        spyOn(adapterService['renderer'], 'listen').and.callFake((target: any, event: string, callback: any) => {
-          scrollableParent = target;
-          eventName = event;
-          callback();
-        });
+        spyOn(adapterService['renderer'] as any, 'listen').and.callFake(
+          (target: any, event: string, cb: any) => {
+            scrollableParent = target;
+            eventName = event;
+            cb();
+          }
+        );
 
         let isVisible = false;
         const callback = (isVisibleWithinScrollable: boolean) => {
@@ -403,11 +405,13 @@ describe('SkyPopoverAdapterService', () => {
 
         let scrollableParents: any[] = [];
         let eventName: string;
-        spyOn(adapterService['renderer'], 'listen').and.callFake((target: any, event: string, callback: any) => {
-          scrollableParents.push(target);
-          eventName = event;
-          callback();
-        });
+        spyOn(adapterService['renderer'] as any, 'listen').and.callFake(
+          (target: any, event: string, cb: any) => {
+            scrollableParents.push(target);
+            eventName = event;
+            cb();
+          }
+        );
 
         let isVisible = false;
         const callback = (isVisibleWithinScrollable: boolean) => {
@@ -417,7 +421,7 @@ describe('SkyPopoverAdapterService', () => {
         const popover = new ElementRef(createElementRefDefinition(0, 0, 100, 100));
         const parentElement = createElementRefDefinition(0, 0, 1200, 0);
 
-        popover.nativeElement.parentNode = parentElement;
+        (popover.nativeElement as any).parentNode = parentElement;
 
         const listeners = adapterService.getParentScrollListeners(popover, callback);
         expect(listeners.length).toEqual(2);
@@ -435,9 +439,11 @@ describe('SkyPopoverAdapterService', () => {
       ) => {
         spyOnWindowGetComputedStyle(windowService, 'auto');
 
-        spyOn(adapterService['renderer'], 'listen').and.callFake((target: any, event: string, callback: any) => {
-          callback();
-        });
+        spyOn(adapterService['renderer'] as any, 'listen').and.callFake(
+          (target: any, event: string, cb: any) => {
+            cb();
+          }
+        );
 
         let isVisible = true;
         const callback = (isVisibleWithinScrollable: boolean) => {
@@ -447,7 +453,7 @@ describe('SkyPopoverAdapterService', () => {
         const popover = new ElementRef(createElementRefDefinition(-20, 0, 100, 100));
         const parentElement = createElementRefDefinition(0, 0, 1200, 800);
 
-        popover.nativeElement.parentNode = parentElement;
+        (popover.nativeElement as any).parentNode = parentElement;
 
         adapterService.getParentScrollListeners(popover, callback);
         expect(isVisible).toEqual(false);
@@ -461,9 +467,11 @@ describe('SkyPopoverAdapterService', () => {
       ) => {
         spyOnWindowGetComputedStyle(windowService, 'auto');
 
-        spyOn(adapterService['renderer'], 'listen').and.callFake((target: any, event: string, callback: any) => {
-          callback();
-        });
+        spyOn(adapterService['renderer'] as any, 'listen').and.callFake(
+          (target: any, event: string, cb: any) => {
+            cb();
+          }
+        );
 
         let isVisible = true;
         const callback = (isVisibleWithinScrollable: boolean) => {
@@ -473,7 +481,7 @@ describe('SkyPopoverAdapterService', () => {
         const popover = new ElementRef(createElementRefDefinition(0, 0, 100, 1000));
         const parentElement = createElementRefDefinition(0, 0, 1200, 800);
 
-        popover.nativeElement.parentNode = parentElement;
+        (popover.nativeElement as any).parentNode = parentElement;
 
         adapterService.getParentScrollListeners(popover, callback);
         expect(isVisible).toEqual(false);

@@ -3,20 +3,19 @@ import {
 } from '@angular/core';
 
 import {
+  SkyAppLinkModule
+} from '@skyux/router';
+
+import {
   SkyDropdownModule,
   SkyPopoverModule
 } from './public';
 
 @NgModule({
-  imports: [
-    SkyDropdownModule,
-    SkyPopoverModule
-  ],
   exports: [
+    SkyAppLinkModule,
     SkyDropdownModule,
     SkyPopoverModule
-  ],
-  providers: [],
-  entryComponents: []
+  ]
 })
 export class AppExtrasModule { }

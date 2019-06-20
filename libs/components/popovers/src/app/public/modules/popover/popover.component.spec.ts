@@ -41,7 +41,10 @@ class MockPopoverAdapterService {
   }
   public hidePopover() {}
   public showPopover() {}
-  public getParentScrollListeners() {}
+  public getParentScrollListeners(elem: any, callback: any): (() => void)[] {
+    const cb = function () {};
+    return [cb];
+  }
 }
 
 describe('SkyPopoverComponent', () => {
@@ -105,8 +108,9 @@ describe('SkyPopoverComponent', () => {
     component.placement = undefined;
     component.positionNextTo(caller, undefined, undefined);
     tick();
-    expect(spy.calls.argsFor(0)[1]).toEqual('above');
-    expect(spy.calls.argsFor(0)[2]).toEqual('center');
+    const args: any[] = spy.calls.argsFor(0);
+    expect(args[1]).toEqual('above');
+    expect(args[2]).toEqual('center');
   }));
 
   it('should not call the adapter service if a caller is not defined', () => {
@@ -131,7 +135,8 @@ describe('SkyPopoverComponent', () => {
       totalTime: 0,
       phaseName: '',
       element: {},
-      triggerName: ''
+      triggerName: '',
+      disabled: false
     });
 
     expect(spy).toHaveBeenCalledWith(component.popoverContainer);
@@ -144,7 +149,8 @@ describe('SkyPopoverComponent', () => {
       totalTime: 0,
       phaseName: '',
       element: {},
-      triggerName: ''
+      triggerName: '',
+      disabled: false
     });
 
     expect(spy).not.toHaveBeenCalled();
@@ -159,14 +165,15 @@ describe('SkyPopoverComponent', () => {
       totalTime: 0,
       phaseName: '',
       element: {},
-      triggerName: ''
+      triggerName: '',
+      disabled: false
     });
 
     expect(spy).toHaveBeenCalledWith(component.popoverContainer);
   });
 
   it('should emit an event when the popover is opened', () => {
-    const spy = spyOn(component.popoverOpened, 'emit').and.returnValue(0);
+    const spy = spyOn(component.popoverOpened, 'emit').and.callThrough();
 
     component.onAnimationDone({
       fromState: 'hidden',
@@ -174,14 +181,15 @@ describe('SkyPopoverComponent', () => {
       totalTime: 0,
       phaseName: '',
       element: {},
-      triggerName: ''
+      triggerName: '',
+      disabled: false
     });
 
     expect(spy).toHaveBeenCalledWith(component);
   });
 
   it('should emit an event when the popover is closed', () => {
-    const spy = spyOn(component.popoverClosed, 'emit').and.returnValue(0);
+    const spy = spyOn(component.popoverClosed, 'emit').and.callThrough();
 
     component.onAnimationDone({
       fromState: 'visible',
@@ -189,7 +197,8 @@ describe('SkyPopoverComponent', () => {
       totalTime: 0,
       phaseName: '',
       element: {},
-      triggerName: ''
+      triggerName: '',
+      disabled: false
     });
 
     expect(spy).toHaveBeenCalledWith(component);
@@ -343,7 +352,8 @@ describe('SkyPopoverComponent', () => {
     expect(component.placement).toEqual('right');
 
     component.reposition();
-    expect(spy.calls.argsFor(1)[1]).toEqual('above');
+    const args: any[] = spy.calls.argsFor(1);
+    expect(args[1]).toEqual('above');
   }));
 
   it('should hide the popover if its top or bottom boundaries leave its scrollable parent', fakeAsync(() => {
@@ -351,9 +361,11 @@ describe('SkyPopoverComponent', () => {
     const repositionSpy = spyOn(component as any, 'reposition').and.callThrough();
 
     let result = false;
-    spyOn(mockAdapterService, 'getParentScrollListeners').and.callFake((elem: any, callback: any) => {
-      callback(result);
-    });
+    spyOn(mockAdapterService, 'getParentScrollListeners').and.callFake(
+      (elem: any, callback: any) => {
+        return callback(result);
+      }
+    );
 
     component.positionNextTo(caller, 'above');
     tick();
