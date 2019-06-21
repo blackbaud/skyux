@@ -197,12 +197,15 @@
     <div
       [innerHtml]="item.description | skyDocsMarkdown"
     ></div>
+    <h4 class="sky-docs-h4">
+      Members
+    </h4>
     <sky-docs-property-definitions>
-      <sky-docs-property-definition *ngFor="let value of item.values"
-        [propertyName]="value.name"
+      <sky-docs-property-definition *ngFor="let member of item.members"
+        [propertyName]="member.name"
       >
         <div
-          [innerHtml]="value.description | skyDocsMarkdown"
+          [innerHtml]="member.description | skyDocsMarkdown"
         ></div>
       </sky-docs-property-definition>
     </sky-docs-property-definitions>

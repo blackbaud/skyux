@@ -79,6 +79,96 @@
     </sky-popover>
   </sky-docs-demo>
 
+  <sky-docs-design-guidelines>
+
+    <sky-docs-demo-page-section heading="Usage">
+      <sky-docs-design-guideline heading="Use when">
+        <p>
+          Users require access to small chunks of contextual content that are only valuable some of the time.
+        </p>
+        <p>
+          Tasks include complex or unfamiliar capabilities, and users require guidance on subtle-but-important elements.
+        </p>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline heading="Don't use when">
+        <p>
+          The content is valuable most of the time. Use <a routerLink="/design/guidelines/user-assistance" fragment="persistent-inline-help">persistent inline help</a> instead.
+        </p>
+        <p>
+          A large amount of content is necessary. Use a <a routerLink="/components/flyout">flyout</a> instead.
+        </p>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section heading="Anatomy">
+      <sky-docs-anatomy thumbnailPath="~/assets/img/guidelines/popover/anatomy.png">
+        <sky-docs-anatomy-item>Content area</sky-docs-anatomy-item>
+        <sky-docs-anatomy-item>Highlight border</sky-docs-anatomy-item>
+        <sky-docs-anatomy-item [isOptional]="true">Element pointer</sky-docs-anatomy-item>
+      </sky-docs-anatomy>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section heading="Options">
+      <sky-docs-design-guideline heading="Positioning">
+        <p>
+          You can specify the position of the popover in relation to the element it references. The default position is centered above that element.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          imageSource="~/assets/img/guidelines/popover/option-position.png"
+          imageAlt="image for visual test"
+          caption="default caption"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline
+        heading="Trigger"
+      >
+        <p>
+          To ensure usability on touch devices, trigger user-invoked popovers on <sky-code>click</sky-code> actions rather than <sky-code>mouseenter</sky-code> actions.
+        </p>
+        <p>
+          You can also invoke popovers programmatically. For example, you can programmatically invoke a popover when users visit a page for the first time to highlight an important interface element that they might overlook. However, don't invoke multiple popovers on a page because this reduces their effectiveness.
+        </p>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section heading="Content">
+      <sky-docs-design-guideline>
+        <p>
+          Limit popovers to small chunks of contextual content. The content can include plain text, formatted HTML, or Angular components.
+        </p>
+
+        <p>
+          Don't include a large amount of content, form inputs, or complex interactions.
+        </p>
+
+        <sky-docs-design-guideline-thumbnail
+          imageSource="~/assets/img/guidelines/popover/content-simple.png"
+          caption="use small chunks of plain text."
+          captionType="success"
+        >
+        </sky-docs-design-guideline-thumbnail>
+
+        <sky-docs-design-guideline-thumbnail
+          imageSource="~/assets/img/guidelines/popover/content-html.png"
+          caption="use small chunks of formatted HTML."
+          captionType="success"
+        >
+        </sky-docs-design-guideline-thumbnail>
+
+        <sky-docs-design-guideline-thumbnail
+          imageSource="~/assets/img/guidelines/popover/content-dont-overload.png"
+          caption="display large amounts of content in popovers."
+          captionType="danger"
+          [showBorder]="true"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+  </sky-docs-design-guidelines>
+
   <sky-docs-code-examples
     [packageDependencies]="{
       '@skyux/action-bars': '*'

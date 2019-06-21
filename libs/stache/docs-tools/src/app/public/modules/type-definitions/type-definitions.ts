@@ -49,7 +49,7 @@ export interface SkyDocsInterfaceDefinition {
 export interface SkyDocsEnumerationDefinition {
   name: string;
   description?: string;
-  values: {
+  members: {
     name: string;
     description?: string;
   }[];

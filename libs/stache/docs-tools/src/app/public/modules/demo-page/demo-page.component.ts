@@ -18,8 +18,8 @@ import {
 } from '../demo/demo.component';
 
 import {
-  SkyDocsDemoPageDesignGuidelinesComponent
-} from './demo-page-design-guidelines.component';
+  SkyDocsDesignGuidelinesComponent
+} from '../design-guidelines/design-guidelines.component';
 
 import {
   SkyDocsDemoPageTitleService
@@ -52,8 +52,8 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit {
   public enableDemo = false;
   public enableTabLayout = false;
 
-  @ContentChild(SkyDocsDemoPageDesignGuidelinesComponent)
-  private designGuidelinesComponent: SkyDocsDemoPageDesignGuidelinesComponent;
+  @ContentChild(SkyDocsDesignGuidelinesComponent)
+  private designGuidelinesComponent: SkyDocsDesignGuidelinesComponent;
 
   @ContentChildren(SkyDocsDemoComponent)
   private demoComponents: QueryList<SkyDocsDemoComponent>;

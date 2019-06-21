@@ -350,7 +350,7 @@ export class SkyDocsTypeDefinitionsService {
   }
 
   private parseEnumerationDefinition(item: any): SkyDocsEnumerationDefinition {
-    const values = item.children.map((p: any) => {
+    const members = item.children.map((p: any) => {
       return {
         name: `${item.name}.${p.name}`,
         description: (p.comment) ? p.comment.shortText : ''
@@ -360,7 +360,7 @@ export class SkyDocsTypeDefinitionsService {
     return {
       name: item.name,
       description: (item.comment) ? item.comment.shortText : '',
-      values
+      members
     };
   }
 

@@ -19,6 +19,7 @@ import {
   SkyDocsCodeExamplesModule,
   SkyDocsDemoModule,
   SkyDocsDemoPageModule,
+  SkyDocsDesignGuidelinesModule,
   SkyDocsTypeDefinitionsProvider,
   SkyDocsSourceCodeProvider
 } from './public';
@@ -39,6 +40,7 @@ import {
     SkyDocsCodeExamplesModule,
     SkyDocsDemoModule,
     SkyDocsDemoPageModule,
+    SkyDocsDesignGuidelinesModule,
     SkyPopoverModule
   ],
   providers: [

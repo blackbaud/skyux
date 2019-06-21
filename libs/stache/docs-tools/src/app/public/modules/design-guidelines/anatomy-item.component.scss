@@ -1,0 +1,26 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+.sky-docs-anatomy-item-marker {
+  display: flex;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  margin-right: $sky-margin-inline-compact;
+  color: $sky-text-color-on-dark;
+  background-color: #4d842d;
+}
+
+.sky-docs-anatomy-item {
+  margin-bottom: $sky-margin-stacked-default;
+  display: flex;
+  align-items: center;
+
+  &.sky-docs-anatomy-item-optional {
+    .sky-docs-anatomy-item-marker {
+      background-color: $sky-background-color-success;
+    }
+  }
+}

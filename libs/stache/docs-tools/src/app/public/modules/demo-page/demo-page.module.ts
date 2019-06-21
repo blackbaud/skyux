@@ -38,10 +38,6 @@ import {
 } from '../type-definitions/type-definitions.module';
 
 import {
-  SkyDocsDemoPageDesignGuidelinesComponent
-} from './demo-page-design-guidelines.component';
-
-import {
   SkyDocsDemoPageSectionComponent
 } from './demo-page-section.component';
 
@@ -77,14 +73,12 @@ import {
   ],
   declarations: [
     SkyDocsDemoPageComponent,
-    SkyDocsDemoPageDesignGuidelinesComponent,
     SkyDocsDemoPageSectionComponent,
     SkyDocsDemoPageSummaryComponent,
     SkyDocsDemoPageTypeDefinitionsComponent
   ],
   exports: [
     SkyDocsDemoPageComponent,
-    SkyDocsDemoPageDesignGuidelinesComponent,
     SkyDocsDemoPageSectionComponent,
     SkyDocsDemoPageSummaryComponent,
     SkyDocsDemoPageTypeDefinitionsComponent
