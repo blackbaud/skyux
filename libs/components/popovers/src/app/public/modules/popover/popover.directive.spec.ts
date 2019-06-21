@@ -25,22 +25,27 @@ import {
 
 import {
   SkyWindowRefService
-} from '@skyux/core/modules/window';
-
-import {
-  SkyPopoverDirective,
-  SkyPopoverAdapterService
-} from './index';
+} from '@skyux/core';
 
 import {
   SkyPopoverTestComponent
 } from './fixtures/popover.component.fixture';
+
 import {
   SkyPopoverModule
 } from './popover.module';
+
 import {
   SkyPopoverMessageType
 } from './types/popover-message-type';
+
+import {
+  SkyPopoverDirective
+} from './popover.directive';
+
+import {
+  SkyPopoverAdapterService
+} from './popover-adapter.service';
 
 class MockWindowService {
   public getWindow(): any {

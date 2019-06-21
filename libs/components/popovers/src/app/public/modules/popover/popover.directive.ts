@@ -15,7 +15,7 @@ import 'rxjs/add/operator/take';
 
 import {
   SkyWindowRefService
-} from '@skyux/core/modules/window';
+} from '@skyux/core';
 
 import {
   SkyPopoverAlignment,
@@ -23,9 +23,17 @@ import {
   SkyPopoverTrigger
 } from './types';
 
-import { SkyPopoverComponent } from './popover.component';
-import { SkyPopoverMessage } from './types/popover-message';
-import { SkyPopoverMessageType } from './types/popover-message-type';
+import {
+  SkyPopoverComponent
+} from './popover.component';
+
+import {
+  SkyPopoverMessage
+} from './types/popover-message';
+
+import {
+  SkyPopoverMessageType
+} from './types/popover-message-type';
 
 @Directive({
   selector: '[skyPopover]'

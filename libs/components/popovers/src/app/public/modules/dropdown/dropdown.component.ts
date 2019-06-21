@@ -9,7 +9,18 @@ import {
   ViewChild
 } from '@angular/core';
 
-import { Subject } from 'rxjs/Subject';
+import {
+  SkyWindowRefService
+} from '@skyux/core';
+
+import {
+  SkyLibResourcesService
+} from '@skyux/i18n';
+
+import {
+  Subject
+} from 'rxjs/Subject';
+
 import 'rxjs/add/operator/takeUntil';
 
 import {
@@ -19,15 +30,10 @@ import {
 } from '../popover';
 
 import {
-  SkyWindowRefService
-} from '@skyux/core/modules/window';
-
-import {
   SkyDropdownMessage,
   SkyDropdownMessageType,
   SkyDropdownTriggerType
 } from './types';
-import { SkyLibResourcesService } from '@skyux/i18n';
 
 @Component({
   selector: 'sky-dropdown',

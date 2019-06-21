@@ -5,15 +5,22 @@ import {
   ViewChild
 } from '@angular/core';
 
-import { Subject } from 'rxjs/Subject';
+import {
+  Subject
+} from 'rxjs/Subject';
 
 import {
   SkyDropdownMessageType,
   SkyDropdownMessage
 } from '../types';
 
-import { SkyDropdownComponent } from '../dropdown.component';
-import { SkyDropdownMenuComponent } from '../dropdown-menu.component';
+import {
+  SkyDropdownComponent
+} from '../dropdown.component';
+
+import {
+  SkyDropdownMenuComponent
+} from '../dropdown-menu.component';
 
 @Component({
   selector: 'sky-test-cmp',

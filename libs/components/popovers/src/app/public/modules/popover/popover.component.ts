@@ -1,4 +1,13 @@
 import {
+  AnimationEvent,
+  trigger,
+  state,
+  style,
+  animate,
+  transition
+} from '@angular/animations';
+
+import {
   ChangeDetectorRef,
   ChangeDetectionStrategy,
   Component,
@@ -12,29 +21,29 @@ import {
 } from '@angular/core';
 
 import {
-  AnimationEvent,
-  trigger,
-  state,
-  style,
-  animate,
-  transition
-} from '@angular/animations';
-
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/fromEvent';
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/takeUntil';
+  SkyWindowRefService
+} from '@skyux/core';
 
 import {
-  SkyWindowRefService
-} from '@skyux/core/modules/window';
+  Observable
+} from 'rxjs/Observable';
+
+import 'rxjs/add/observable/fromEvent';
+
+import {
+  Subject
+} from 'rxjs/Subject';
+
+import 'rxjs/add/operator/takeUntil';
 
 import {
   SkyPopoverAlignment,
   SkyPopoverPlacement
 } from './types';
 
-import { SkyPopoverAdapterService } from './popover-adapter.service';
+import {
+  SkyPopoverAdapterService
+} from './popover-adapter.service';
 
 @Component({
   selector: 'sky-popover',

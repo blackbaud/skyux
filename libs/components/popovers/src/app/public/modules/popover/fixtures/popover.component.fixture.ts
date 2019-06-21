@@ -2,6 +2,7 @@ import {
   Component,
   ViewChild
 } from '@angular/core';
+
 import {
   Subject
 } from 'rxjs/Subject';
@@ -9,6 +10,7 @@ import {
 import {
   SkyPopoverComponent
 } from '../popover.component';
+
 import {
   SkyPopoverMessage,
   SkyPopoverMessageType

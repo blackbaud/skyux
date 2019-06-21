@@ -1,4 +1,6 @@
-import { SkyDropdownItemComponent } from '../dropdown-item.component';
+import {
+  SkyDropdownItemComponent
+} from '../dropdown-item.component';
 
 export interface SkyDropdownMenuChange {
   activeIndex?: number;

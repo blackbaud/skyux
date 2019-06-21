@@ -1,9 +1,19 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  CommonModule
+} from '@angular/common';
 
-import { SkyDropdownModule } from '../index';
-import { DropdownTestComponent } from './dropdown.component.fixture';
+import {
+  NoopAnimationsModule
+} from '@angular/platform-browser/animations';
+
+import {
+  SkyDropdownModule
+} from '../dropdown.module';
+
+import {
+  DropdownTestComponent
+} from './dropdown.component.fixture';
 
 @NgModule({
   declarations: [

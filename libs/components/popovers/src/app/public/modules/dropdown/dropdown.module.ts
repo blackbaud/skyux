@@ -1,29 +1,39 @@
 import {
-  NgModule
-} from '@angular/core';
-import {
   CommonModule
 } from '@angular/common';
 
 import {
-  SkyWindowRefService
-} from '@skyux/core/modules/window';
+  NgModule
+} from '@angular/core';
+
 import {
-  SkyPopoverModule
-} from '../popover';
+  SkyWindowRefService
+} from '@skyux/core';
+
 import {
   SkyIconModule
-} from '@skyux/indicators/modules/icon';
+} from '@skyux/indicators';
+
+import {
+  SkyPopoverModule
+} from '../popover/popover.module';
+
+import {
+  SkyPopoversResourcesModule
+} from '../shared/popovers-resources.module';
 
 import {
   SkyDropdownButtonComponent
 } from './dropdown-button.component';
+
 import {
   SkyDropdownItemComponent
 } from './dropdown-item.component';
+
 import {
   SkyDropdownMenuComponent
 } from './dropdown-menu.component';
+
 import {
   SkyDropdownComponent
 } from './dropdown.component';
@@ -37,8 +47,9 @@ import {
   ],
   imports: [
     CommonModule,
+    SkyIconModule,
     SkyPopoverModule,
-    SkyIconModule
+    SkyPopoversResourcesModule
   ],
   exports: [
     SkyDropdownButtonComponent,

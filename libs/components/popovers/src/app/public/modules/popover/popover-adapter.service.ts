@@ -6,7 +6,7 @@ import {
 
 import {
   SkyWindowRefService
-} from '@skyux/core/modules/window';
+} from '@skyux/core';
 
 import {
   SkyPopoverAdapterArrowCoordinates,

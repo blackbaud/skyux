@@ -7,17 +7,25 @@ import {
 } from '@angular/core/testing';
 
 import {
+  By
+} from '@angular/platform-browser';
+
+import {
   expect,
   SkyAppTestUtility
 } from '@skyux-sdk/testing';
 
 import {
+  SkyDropdownFixturesModule
+} from './fixtures/dropdown-fixtures.module';
+
+import {
+  DropdownTestComponent
+} from './fixtures/dropdown.component.fixture';
+
+import {
   SkyDropdownMessageType
 } from './types';
-
-import { SkyDropdownFixturesModule } from './fixtures/dropdown-fixtures.module';
-import { DropdownTestComponent } from './fixtures/dropdown.component.fixture';
-import { By } from '@angular/platform-browser';
 
 describe('Dropdown component', () => {
   const activeItemClass = 'sky-dropdown-item-active';

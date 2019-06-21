@@ -1,9 +1,10 @@
 import {
-  NgModule
-} from '@angular/core';
-import {
   CommonModule
 } from '@angular/common';
+
+import {
+  NgModule
+} from '@angular/core';
 
 import {
   BrowserAnimationsModule
@@ -12,10 +13,6 @@ import {
 import {
   SkyWindowRefService
 } from '@skyux/core';
-
-import {
-  SkyI18nModule
-} from '@skyux/i18n';
 
 import {
   SkyIconModule
@@ -41,7 +38,6 @@ import {
   imports: [
     BrowserAnimationsModule,
     CommonModule,
-    SkyI18nModule,
     SkyIconModule,
     SkyPopoversResourcesModule
   ],
