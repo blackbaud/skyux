@@ -62,54 +62,54 @@
   <div *ngFor="let config of types.pipes"
     class="sky-demo-page-type-definitions-container"
   >
+    <h3 class="sky-docs-h3">
+      {{ config.name }}
+    </h3>
 
-  <h3 class="sky-docs-h3">
-    {{ config.name }}
-  </h3>
+    <div
+      [innerHtml]="config.description | skyDocsMarkdown"
+    ></div>
 
-  <div
-    [innerHtml]="config.description | skyDocsMarkdown"
-  ></div>
-
-  <h4 class="sky-docs-h4">
-    Input value
-  </h4>
-
-  <p>
-    <sky-code>{{ config.inputValue.type }}</sky-code>
-  </p>
-
-  <div
-    [innerHtml]="config.inputValue.description | skyDocsMarkdown"
-  ></div>
-
-  <ng-container *ngIf="config.parameters.length">
     <h4 class="sky-docs-h4">
-      Parameters
+      Input value
     </h4>
-    <sky-docs-parameter-definitions>
-      <sky-docs-parameter-definition *ngFor="let parameter of config.parameters"
-        [parameterName]="parameter.name"
-        [parameterType]="parameter.type"
-        [defaultValue]="parameter.defaultValue"
-        [isOptional]="parameter.isOptional"
-      >
-        <div
-          [innerHtml]="parameter.description | skyDocsMarkdown"
-        ></div>
-      </sky-docs-parameter-definition>
-    </sky-docs-parameter-definitions>
-  </ng-container>
 
-  <h4 class="sky-docs-h4">
-    Example
-  </h4>
+    <p>
+      <sky-code>{{ config.inputValue.type }}</sky-code>
+    </p>
 
-  <sky-code-block
-    [code]="config.codeExample"
-    [hideHeader]="true"
-    [languageType]="config.codeExampleLanguage"
-  ></sky-code-block>
+    <div
+      [innerHtml]="config.inputValue.description | skyDocsMarkdown"
+    ></div>
+
+    <ng-container *ngIf="config.parameters.length">
+      <h4 class="sky-docs-h4">
+        Parameters
+      </h4>
+      <sky-docs-parameter-definitions>
+        <sky-docs-parameter-definition *ngFor="let parameter of config.parameters"
+          [parameterName]="parameter.name"
+          [parameterType]="parameter.type"
+          [defaultValue]="parameter.defaultValue"
+          [isOptional]="parameter.isOptional"
+        >
+          <div
+            [innerHtml]="parameter.description | skyDocsMarkdown"
+          ></div>
+        </sky-docs-parameter-definition>
+      </sky-docs-parameter-definitions>
+    </ng-container>
+
+    <h4 class="sky-docs-h4">
+      Example
+    </h4>
+
+    <sky-code-block
+      [code]="config.codeExample"
+      [hideHeader]="true"
+      [languageType]="config.codeExampleLanguage"
+    ></sky-code-block>
+  </div>
 </sky-docs-demo-page-section>
 
 <sky-docs-demo-page-section *ngIf="types.services.length"
