@@ -22,4 +22,5 @@ export interface HelpWidgetConfig {
   trainingCentralUrl?: string;
   useFlareSearch?: boolean;
   whatsNewRevisions?: any;
+  environmentId?: string;
 }

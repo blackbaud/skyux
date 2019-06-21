@@ -1,5 +1,10 @@
+# 3.0.0 (2019-06-21)
+- Official 3.0.0 release.
+- Added environmentId property to the HelpWidgetConfig model.
+
 # 3.0.0-beta.0 (2019-06-14)
 - Updated the library to support BB Help Widget V2. [#46](https://github.com/blackbaud/skyux-lib-help/pull/46)
+  - Removed the Help Client as a direct dependency, now listed as a Peer Dependency to support custom versioning.
 
 # 2.0.0 (2019-02-25)
 - Updated the library for SKY UX 3 compatibility. [#44](https://github.com/blackbaud/skyux-lib-help/pull/44) - Thanks [Scott Freeman](https://github.com/Blackbaud-ScottFreeman)!
