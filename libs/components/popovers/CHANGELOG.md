@@ -1,3 +1,7 @@
+# 3.1.1 (2019-06-21)
+
+- Updated development dependencies to support `@skyux-sdk/builder@3.7.0`, which addresses problems with the UMD library bundle. [#17](https://github.com/blackbaud/skyux-popovers/pull/17)
+
 # 3.1.0 (2019-06-20)
 
 - Updated development dependencies to support `@skyux-sdk/builder@3.6.7`. [#17](https://github.com/blackbaud/skyux-popovers/pull/17)
