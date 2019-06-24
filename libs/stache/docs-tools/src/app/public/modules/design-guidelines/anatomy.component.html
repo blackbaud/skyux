@@ -1,10 +1,20 @@
 <div class="sky-docs-anatomy">
   <sky-row>
-    <sky-column screenSmall="3">
+    <sky-column
+      screenSmall="3"
+      screenMedium="4"
+      screenLarge="5"
+    >
       <ng-content select="sky-docs-anatomy-item"></ng-content>
     </sky-column>
-    <sky-column screenSmall="9">
-      <img [attr.src]="thumbnailPath" alt="">
+    <sky-column
+      screenSmall="9"
+      screenMedium="8"
+      screenLarge="7"
+    >
+      <sky-image
+        [imageSource]="thumbnailPath"
+      ></sky-image>
     </sky-column>
   </sky-row>
 </div>
