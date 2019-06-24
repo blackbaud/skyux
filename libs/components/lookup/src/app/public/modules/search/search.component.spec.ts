@@ -255,6 +255,11 @@ describe('Search component', () => {
     expect(component.lastSearchTextApplied).toBe('applied text');
   });
 
+  it('should search correctly with empty search text is applied', () => {
+    component.searchComponent.applySearchText(undefined);
+    expect(component.lastSearchTextApplied).toBeUndefined();
+  });
+
   it('should emit search change event on ngModel change', () => {
     setNgModel('change text');
     fixture.detectChanges();

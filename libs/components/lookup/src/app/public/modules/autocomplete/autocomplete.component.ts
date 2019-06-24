@@ -282,17 +282,17 @@ export class SkyAutocompleteComponent
   }
 
   private searchTextChanged(searchText: string): void {
-    const isEmpty = (!searchText || searchText.match(/^\s+$/));
-
-    // Emit selectionChange if value has been cleared.
-    if (!searchText && this.inputDirective.value) {
-      this.inputDirective.value = undefined;
-      this.selectionChange.emit({
-        selectedItem: undefined
-      });
-    }
+    const isEmpty = (!searchText || !searchText.trim() || searchText.match(/^\s+$/));
 
     if (isEmpty) {
+      // Emit selectionChange if value has been cleared.
+      if (this.inputDirective.value) {
+        this.inputDirective.value = undefined;
+        this.selectionChange.emit({
+          selectedItem: undefined
+        });
+      }
+
       this.searchText = '';
       this.closeDropdown();
       return;

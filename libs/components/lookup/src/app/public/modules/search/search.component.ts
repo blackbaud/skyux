@@ -179,7 +179,11 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   }
 
   public applySearchText(searchText: string) {
-    searchText = searchText.trim();
+    // Double check that search text is defined before attempting to trim off whitespace
+    if (searchText) {
+      searchText = searchText.trim();
+    }
+
     if (searchText !== this.searchText) {
       this.searchText = searchText;
     }
