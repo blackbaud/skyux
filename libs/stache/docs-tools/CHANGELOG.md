@@ -1,3 +1,8 @@
+# 3.0.0-alpha.4 (2019-06-24)
+
+- Added support for Angular pipe definitions.
+- Added components to display design guidelines.
+
 # 3.0.0-alpha.3 (2019-06-19)
 
 - Added components to support TypeDoc JSON output.
