@@ -1,3 +1,7 @@
+# 3.0.0-alpha.5 (2019-06-24)
+
+- Added sidebar navigation.
+
 # 3.0.0-alpha.4 (2019-06-24)
 
 - Added support for Angular pipe definitions.
