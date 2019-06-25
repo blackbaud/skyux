@@ -95,8 +95,9 @@ describe('Flyout service', () => {
   );
 
   it('should expose a method to remove the flyout from the DOM', () => {
-    spyOn(window, 'setTimeout').and.callFake((fun: Function) => {
+    spyOn(window, 'setTimeout').and.callFake((fun: any) => {
       fun();
+      return 0;
     });
     service.open(SkyFlyoutHostsTestComponent);
     applicationRef.tick();
@@ -110,8 +111,9 @@ describe('Flyout service', () => {
   );
 
   it('should dispose of any open host if the service is destroyed', () => {
-    spyOn(window, 'setTimeout').and.callFake((fun: Function) => {
+    spyOn(window, 'setTimeout').and.callFake((fun: any) => {
       fun();
+      return 0;
     });
     service.open(SkyFlyoutHostsTestComponent);
     applicationRef.tick();

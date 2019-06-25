@@ -11,6 +11,10 @@ import {
 } from '@angular/forms';
 
 import {
+  BrowserAnimationsModule
+} from '@angular/platform-browser/animations';
+
+import {
   RouterModule
 } from '@angular/router';
 
@@ -60,6 +64,7 @@ import {
     SkyWindowRefService
   ],
   imports: [
+    BrowserAnimationsModule,
     CommonModule,
     FormsModule,
     RouterModule,

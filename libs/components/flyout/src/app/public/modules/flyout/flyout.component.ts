@@ -31,6 +31,7 @@ import {
   Subject
 } from 'rxjs/Subject';
 
+import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/takeUntil';
 
 import {
@@ -220,8 +221,16 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     this.config.iteratorPreviousButtonDisabled = this.config.iteratorPreviousButtonDisabled || false;
 
     const factory = this.resolver.resolveComponentFactory(component);
+
+    /* tslint:disable:deprecation */
+    /**
+     * NOTE: We need to update this to use the new Injector.create(options) method
+     * after Angular 4 support is dropped.
+     */
     const providers = ReflectiveInjector.resolve(this.config.providers);
     const injector = ReflectiveInjector.fromResolvedProviders(providers, this.injector);
+    /* tslint:enable:deprecation */
+
     const componentRef = this.target.createComponent(factory, undefined, injector);
 
     this.flyoutInstance = this.createFlyoutInstance<T>(componentRef.instance);

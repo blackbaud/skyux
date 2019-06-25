@@ -23,6 +23,8 @@ import {
   Observable
 } from 'rxjs';
 
+import 'rxjs/add/observable/throw';
+
 import {
   SkyFlyoutConfig
 } from './types';
@@ -511,7 +513,7 @@ describe('Flyout component', () => {
 
   it('should have the sky-flyout-help-shim class if the help widget is present',
     fakeAsync(() => {
-      spyOn(window.document, 'getElementById').and.returnValue({});
+      spyOn(window.document, 'getElementById').and.returnValue({} as HTMLElement);
       openFlyout({});
       const headerElement = getFlyoutHeaderElement();
       expect(headerElement.classList.contains('sky-flyout-help-shim')).toBeTruthy();
@@ -563,8 +565,14 @@ describe('Flyout component', () => {
     openFlyout({ defaultWidth: 500, settingsKey: 'testKey' });
     fixture.detectChanges();
     tick();
+
+    /* tslint:disable:deprecation */
+    /**
+     * NOTE: We need to update this to use the new throwError Observable creation function
+     */
     spyOn(SkyUIConfigService.prototype, 'setConfig')
       .and.returnValue(Observable.throw({ message: 'Test error' }));
+    /* tslint:enable:deprecation */
 
     resizeFlyout(1000, 1100);
 
