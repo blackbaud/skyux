@@ -1,3 +1,7 @@
+# 1.0.1 (2019-06-25)
+
+- Updated development dependencies to support `@skyux-sdk/builder@3.7.0`, which addresses problems with the UMD library bundle. [#7](https://github.com/blackbaud/skyux-lib-media/pull/7)
+
 # 1.0.0 (2019-05-10)
 
 - Initial major release.
