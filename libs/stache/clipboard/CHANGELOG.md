@@ -1,3 +1,8 @@
+# 1.1.1 (2019-06-25)
+
+- Fixed an issue where the copy button text did not return to the original state after users selected it. [#15](https://github.com/blackbaud/skyux-lib-clipboard/pull/15)
+- Updated development dependencies to support `@skyux-sdk/builder@3.7.0`, which addresses problems with the UMD library bundle. [#17](https://github.com/blackbaud/skyux-lib-clipboard/pull/17)
+
 # 1.1.0 (2019-05-10)
 
 - Updated peer dependencies to support Angular versions greater than `4.3.6`. [#13](https://github.com/blackbaud/skyux-lib-clipboard/pull/13)
