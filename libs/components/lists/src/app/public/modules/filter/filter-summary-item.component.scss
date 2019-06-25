@@ -3,3 +3,7 @@
 .sky-filter-summary-item {
   display: inline-block;
 }
+
+:host:not(:last-child) {
+  margin-right: $sky-margin-inline-compact;
+}
