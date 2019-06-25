@@ -1,6 +1,10 @@
+# 3.7.0 (2019-06-24)
+
+- Removed a peer dependency on the deprecated `@angular/http` library. [#35](https://github.com/blackbaud/skyux-i18n/pull/35)
+
 # 3.6.1 (2019-04-29)
 
-- Fixed `SkyAppHostLocaleProvider` to remove circular reference to `@skyux/core`. [#33](https://github.com/blackbaud/skyux-i18n/pull/33)
+- Fixed `SkyAppHostLocaleProvider` to remove circular a reference to `@skyux/core`. [#33](https://github.com/blackbaud/skyux-i18n/pull/33)
 
 # 3.6.0 (2019-04-26)
 
@@ -8,11 +12,11 @@
 
 # 3.5.2 (2019-03-28)
 
-- Fixed `SkyAppResourcesService` and `SkyLibResourcesService` to remove circular reference to `@skyux/core`. [#25](https://github.com/blackbaud/skyux-i18n/pull/25)
+- Fixed `SkyAppResourcesService` and `SkyLibResourcesService` to remove a circular reference to `@skyux/core`. [#25](https://github.com/blackbaud/skyux-i18n/pull/25)
 
 # 3.5.1 (2019-03-19)
 
-- Fixed `SkyI18nModule` to remove circular reference to `@skyux/core`. [#23](https://github.com/blackbaud/skyux-i18n/pull/23)
+- Fixed `SkyI18nModule` to remove a circular reference to `@skyux/core`. [#23](https://github.com/blackbaud/skyux-i18n/pull/23)
 
 # 3.5.0 (2018-11-19)
 
@@ -21,16 +25,16 @@
 # 3.4.0 (2018-11-12)
 
 - Added support for webpack 4. [#18](https://github.com/blackbaud/skyux-i18n/pull/18)
-- Added deprecation warning to `SkyLibResourcesTestService`. [#19](https://github.com/blackbaud/skyux-i18n/pull/19)
+- Added a deprecation warning to `SkyLibResourcesTestService`. [#19](https://github.com/blackbaud/skyux-i18n/pull/19)
 
 # 3.3.0 (2018-11-08)
 
-- Added internal utility to derive resource strings for a given locale. [#17](https://github.com/blackbaud/skyux-i18n/pull/17)
-- Added more descriptive message to library resources test service. [#15](https://github.com/blackbaud/skyux-i18n/pull/15)
+- Added an internal utility to derive resource strings for a given locale. [#17](https://github.com/blackbaud/skyux-i18n/pull/17)
+- Added a more descriptive message to the library resources test service. [#15](https://github.com/blackbaud/skyux-i18n/pull/15)
 
 # 3.2.1 (2018-11-01)
 
-- Fixed classes to properly import `Observable.of` operator. [#16](https://github.com/blackbaud/skyux-i18n/pull/16)
+- Fixed classes to properly import the `Observable.of` operator. [#16](https://github.com/blackbaud/skyux-i18n/pull/16)
 
 # 3.2.0 (2018-10-17)
 
@@ -38,11 +42,11 @@
 
 # 3.1.1 (2018-10-17)
 
-- Fixed imports to ignore local version of `SkyAppHostLocaleProvider`. [#13](https://github.com/blackbaud/skyux-i18n/pull/13)
+- Fixed imports to ignore the local version of `SkyAppHostLocaleProvider`. [#13](https://github.com/blackbaud/skyux-i18n/pull/13)
 
 # 3.1.0 (2018-10-17)
 
-- Added resources pipe and service to be used by libraries. [#12](https://github.com/blackbaud/skyux-i18n/pull/12)
+- Added a resources pipe and service to be used by libraries. [#12](https://github.com/blackbaud/skyux-i18n/pull/12)
 
 # 3.0.1 (2018-09-24)
 
@@ -54,7 +58,7 @@
 
 # 3.0.0-alpha.9 (2018-09-18)
 
-- Updated directory structure.
+- Updated the directory structure.
 
 # 3.0.0-alpha.8 (2018-09-18)
 
@@ -63,12 +67,12 @@
 # 3.0.0-alpha.7 (2018-09-17)
 
 - Reverted directory structure changes.
-- Isolated "testing" module from production module.
+- Isolated the "testing" module from the production module.
 
 # 3.0.0-alpha.6 (2018-09-17)
 
-- Added `HttpModule` to list of providers.
-- Updated directory structure.
+- Added `HttpModule` to the list of providers.
+- Updated the directory structure.
 
 # 3.0.0-alpha.5 (2018-09-11)
 
