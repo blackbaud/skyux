@@ -1,6 +1,7 @@
 import {
   Component,
-  Input
+  Input,
+  ChangeDetectorRef
 } from '@angular/core';
 
 import {
@@ -31,7 +32,8 @@ export class SkyCopyToClipboardComponent {
 
   constructor(
     private clipboardService: SkyCopyToClipboardService,
-    private windowRef: SkyAppWindowRef
+    private windowRef: SkyAppWindowRef,
+    private cdr: ChangeDetectorRef
   ) {
     this.window = this.windowRef.nativeWindow;
   }
@@ -46,6 +48,7 @@ export class SkyCopyToClipboardComponent {
 
     this.timeout = this.window.setTimeout(() => {
       this.buttonActive = false;
+      this.cdr.markForCheck();
     }, 1000);
   }
 }
