@@ -3,18 +3,19 @@ import {
 } from '@angular/core';
 
 import {
+  SkyAppLinkModule
+} from '@skyux/router';
+
+import {
   SkyCodeBlockModule,
   SkyCodeModule
 } from './public';
 
-// Specify entry components, module-level providers, etc. here.
 @NgModule({
-  imports: [],
   exports: [
+    SkyAppLinkModule,
     SkyCodeBlockModule,
     SkyCodeModule
-  ],
-  providers: [],
-  entryComponents: []
+  ]
 })
 export class AppExtrasModule { }

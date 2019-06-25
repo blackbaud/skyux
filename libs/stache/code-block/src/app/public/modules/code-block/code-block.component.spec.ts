@@ -9,10 +9,6 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  HttpModule
-} from '@angular/http';
-
-import {
   SkyClipboardModule,
   SkyCopyToClipboardService
 } from '@blackbaud/skyux-lib-clipboard';
@@ -41,6 +37,7 @@ describe('SkyCodeBlockComponent', () => {
 
   beforeEach(() => {
     mockClipboardService = new MockClipboardService();
+
     TestBed.configureTestingModule({
       declarations: [
         SkyCodeBlockTestComponent,
@@ -51,11 +48,9 @@ describe('SkyCodeBlockComponent', () => {
       ],
       imports: [
         SkyClipboardModule,
-        SkyCodeBlockResourcesModule,
-        HttpModule
+        SkyCodeBlockResourcesModule
       ]
-    })
-    .compileComponents();
+    });
 
     fixture = TestBed.createComponent(SkyCodeBlockComponent);
     component = fixture.componentInstance;
