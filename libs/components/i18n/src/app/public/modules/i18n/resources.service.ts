@@ -6,8 +6,8 @@ import {
 } from '@angular/core';
 
 import {
-  Http
-} from '@angular/http';
+  HttpClient
+} from '@angular/common/http';
 
 import {
   Observable
@@ -32,14 +32,12 @@ import {
   SkyAppLocaleProvider
 } from './locale-provider';
 
-const defaultResources: {[key: string]: {message: string}} = {};
+declare type SkyResourceType = {[key: string]: {message: string}};
 
-function getDefaultObs(): Observable<{ json: () => any }> {
-  return Observable.of({
-    json: (): any => {
-      return defaultResources;
-    }
-  });
+const defaultResources: SkyResourceType = {};
+
+function getDefaultObs(): Observable<SkyResourceType> {
+  return Observable.of(defaultResources);
 }
 
 /**
@@ -47,11 +45,11 @@ function getDefaultObs(): Observable<{ json: () => any }> {
  */
 @Injectable()
 export class SkyAppResourcesService {
-  private resourcesObs: Observable<any>;
-  private httpObs: {[key: string]: Observable<any>} = {};
+  private resourcesObs: Observable<SkyResourceType>;
+  private httpObs: {[key: string]: Observable<SkyResourceType>} = {};
 
   constructor(
-    private http: Http,
+    private http: HttpClient,
     /* tslint:disable-next-line no-forward-ref */
     @Inject(forwardRef(() => SkyAppAssetsService)) private assets: SkyAppAssetsService,
     @Optional() private localeProvider: SkyAppLocaleProvider
@@ -86,7 +84,7 @@ export class SkyAppResourcesService {
 
           if (resourcesUrl) {
             obs = this.httpObs[resourcesUrl] || this.http
-              .get(resourcesUrl)
+              .get<SkyResourceType>(resourcesUrl)
               /* tslint:disable max-line-length */
               // publishReplay(1).refCount() will ensure future subscribers to
               // this observable will use a cached result.
@@ -103,7 +101,7 @@ export class SkyAppResourcesService {
                 );
 
                 if (defaultResourcesUrl && defaultResourcesUrl !== resourcesUrl) {
-                  return this.http.get(defaultResourcesUrl);
+                  return this.http.get<SkyResourceType>(defaultResourcesUrl);
                 }
 
                 return getDefaultObs();
@@ -122,16 +120,7 @@ export class SkyAppResourcesService {
         .catch(() => getDefaultObs());
     }
 
-    return this.resourcesObs.map((result): string => {
-      let resources: {[key: string]: {message: string}};
-
-      try {
-        // This can fail if the server returns a 200 but the file is invalid.
-        resources = result.json();
-      } catch (err) {
-        resources = defaultResources;
-      }
-
+    return this.resourcesObs.map((resources): string => {
       if (name in resources) {
         return Format.formatText(resources[name].message, ...args);
       }

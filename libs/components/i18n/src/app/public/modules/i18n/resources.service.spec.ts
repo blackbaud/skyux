@@ -1,18 +1,12 @@
 import {
-  inject,
+  getTestBed,
   TestBed
 } from '@angular/core/testing';
 
 import {
-  HttpModule,
-  Response,
-  ResponseOptions,
-  XHRBackend
-} from '@angular/http';
-
-import {
-  MockBackend
-} from '@angular/http/testing';
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
 
 import {
   Observable
@@ -40,11 +34,18 @@ import {
 
 describe('Resources service', () => {
   let resources: SkyAppResourcesService;
-  let backend: MockBackend;
   let mockAssetsService: any;
   let testResources: any;
+  let httpMock: HttpTestingController;
+  let enUsUrl: string;
+  let esUrl: string;
+  let enGbUrl: string;
 
   function configureTestingModule(mockLocaleProvider?: any): void {
+    enUsUrl = 'https://example.com/locales/resources_en_US.json';
+    enGbUrl = 'https://example.com/locales/resources_en_GB.json';
+    esUrl = 'https://example.com/locales/resources_es.json';
+
     testResources = {
       'hi': {
         'message': 'hello'
@@ -63,14 +64,15 @@ describe('Resources service', () => {
         useClass: SkyAppHostLocaleProvider
       },
       {
-        provide: XHRBackend,
-        useClass: MockBackend
-      },
-      {
         provide: SkyAppAssetsService,
         useValue: {
           getUrl: (path: string) => {
-            if (path.indexOf('en_AU') >= 0 || path.indexOf('es_MX') >= 0) {
+            if (
+              // These represent unavailable locales.
+              path.indexOf('fr.json') >= 0 ||
+              path.indexOf('fr_FR.json') >= 0 ||
+              path.indexOf('es_MX.json') >= 0
+            ) {
               return undefined;
             }
 
@@ -88,66 +90,50 @@ describe('Resources service', () => {
     }
 
     TestBed.configureTestingModule({
-      imports: [HttpModule],
+      imports: [HttpClientTestingModule],
       providers: providers
     });
   }
 
   function injectServices(): any {
-    return inject(
-      [
-        SkyAppAssetsService,
-        SkyAppResourcesService,
-        XHRBackend
-      ],
-      (
-        _assets: SkyAppAssetsService,
-        _resources: SkyAppResourcesService,
-        _backend: MockBackend
-      ) => {
-        mockAssetsService = _assets;
-        resources = _resources;
-        backend = _backend;
-      }
-    );
+    const injector = getTestBed();
+
+    mockAssetsService = injector.get(SkyAppAssetsService);
+    resources = injector.get(SkyAppResourcesService);
+    httpMock = injector.get(HttpTestingController);
   }
 
-  function addTestResourceResponse(): void {
-    backend.connections.subscribe((connection: any) => {
-      connection.mockRespond(new Response(
-        new ResponseOptions({
-          body: testResources
-        })
-      ));
-    });
+  function addTestResourceResponse(url?: string): void {
+    const request = httpMock.expectOne(url || enUsUrl);
+
+    request.flush(testResources);
   }
 
   describe('without a locale provider', () => {
-    beforeEach(() => configureTestingModule());
-
-    beforeEach(injectServices());
+    beforeEach(() => {
+      configureTestingModule();
+      injectServices();
+    });
 
     it('should return the specified string', (done) => {
-      addTestResourceResponse();
-
       resources.getString('hi').subscribe((value) => {
         expect(value).toBe('hello');
         done();
       });
+
+      addTestResourceResponse();
     });
 
     it('should return the specified string formatted with the specified parameters', (done) => {
-      addTestResourceResponse();
-
       resources.getString('template', 'a', 'b').subscribe((value) => {
         expect(value).toBe('format a me b a');
         done();
       });
+
+      addTestResourceResponse();
     });
 
     it('should fall back to the resource name if no resource file exists', (done) => {
-      addTestResourceResponse();
-
       mockAssetsService.getUrl = (): any => {
         return undefined;
       };
@@ -158,45 +144,15 @@ describe('Resources service', () => {
       });
     });
 
-    it('should fall back to the resource name if parsing the resource file fails', (done) => {
-      backend.connections.subscribe((connection: any) => {
-        const response = new Response(
-          new ResponseOptions({
-            body: testResources
-          })
-        );
-
-        spyOn(response, 'json').and.throwError('Error parsing document');
-
-        connection.mockRespond(response);
-      });
-
-      resources.getString('hi').subscribe((value) => {
-        expect(value).toBe('hi');
-        done();
-      });
-    });
-
-    it('only request the resource file once per instance', (done) => {
-      let requestCount = 0;
-
-      backend.connections.subscribe((connection: any) => {
-        requestCount++;
-        connection.mockRespond(new Response(
-          new ResponseOptions({
-            body: testResources
-          })
-        ));
-      });
+    it('only request the resource file once per instance', () => {
+      resources.getString('hi').subscribe(() => {});
+      httpMock.expectOne(enUsUrl);
 
       resources.getString('hi').subscribe(() => {});
+      httpMock.expectNone(enUsUrl);
 
       resources.getString('hi').subscribe(() => {});
-
-      resources.getString('hi').subscribe(() => {
-        expect(requestCount).toBe(1);
-        done();
-      });
+      httpMock.expectNone(enUsUrl);
     });
 
   });
@@ -214,41 +170,37 @@ describe('Resources service', () => {
       });
 
       mockLocaleProvider = {
-        defaultLocale: 'en_US',
+        defaultLocale: 'en-US',
         getLocaleInfo: () => {
           return getLocaleInfo();
         }
       };
 
       configureTestingModule(mockLocaleProvider);
+
+      injectServices();
     });
 
-    beforeEach(injectServices());
-
     it('should fall back to the default locale if a blank locale is specified', (done) => {
-      addTestResourceResponse();
-
       currentLocale = '';
 
       resources.getString('hi').subscribe((value) => {
         expect(value).toBe('hello');
         done();
       });
+
+      addTestResourceResponse();
     });
 
     it(
       'should fall back to the non-region-specific locale if the specified locale does not have ' +
       'corresponding resource file',
-      (done) => {
-
-        backend.connections.subscribe((connection: any) => {
-          expect(connection.request.url).toBe('https://example.com/locales/resources_es.json');
-          done();
-        });
-
+      () => {
         currentLocale = 'es-MX';
 
-        resources.getString('hi').subscribe((value) => { });
+        resources.getString('hi').subscribe(() => { });
+
+        addTestResourceResponse(esUrl);
       }
     );
 
@@ -256,38 +208,35 @@ describe('Resources service', () => {
       'should fall back to the default locale if the specified locale does not have a ' +
       'corresponding resource file',
       (done) => {
-        addTestResourceResponse();
-
-        currentLocale = 'en-AU';
+        currentLocale = 'fr-FR';
 
         resources.getString('hi').subscribe((value) => {
           expect(value).toBe('hello');
           done();
         });
+
+        addTestResourceResponse();
       }
     );
 
     it(
       'should fall back to the default locale if the specified locale file cannot be loaded',
       (done) => {
-        backend.connections.subscribe((connection: any) => {
-          if (connection.request.url.indexOf('en_GB') >= 0) {
-            connection.mockError(new Error());
-          } else {
-            connection.mockRespond(new Response(
-              new ResponseOptions({
-                body: testResources
-              })
-            ));
-          }
-        });
-
         currentLocale = 'en-GB';
 
         resources.getString('hi').subscribe((value) => {
           expect(value).toBe('hello');
           done();
         });
+
+        const request = httpMock.expectOne(enGbUrl);
+
+        request.flush('', {
+          status: 404,
+          statusText: 'Not Found'
+        });
+
+        addTestResourceResponse();
       }
     );
 
@@ -295,15 +244,18 @@ describe('Resources service', () => {
       'should fall back to the resource name if the specified locale is the default locale and ' +
       'the locale resource file fails to load',
       (done) => {
-        backend.connections.subscribe((connection: any) => {
-          connection.mockError(new Error());
-        });
-
         currentLocale = 'en-US';
 
         resources.getString('hi').subscribe((value) => {
           expect(value).toBe('hi');
           done();
+        });
+
+        const request = httpMock.expectOne(enUsUrl);
+
+        request.flush('', {
+          status: 404,
+          statusText: 'Not Found'
         });
       }
     );
@@ -311,8 +263,6 @@ describe('Resources service', () => {
     it(
       'should fall back to the resource name if the locale provider throws an error',
       (done) => {
-        addTestResourceResponse();
-
         getLocaleInfo = () => Observable.throw(new Error());
 
         resources.getString('hi').subscribe((value) => {
