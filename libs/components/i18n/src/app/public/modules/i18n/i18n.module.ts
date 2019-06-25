@@ -3,8 +3,8 @@ import {
 } from '@angular/core';
 
 import {
-  HttpModule
-} from '@angular/http';
+  HttpClientModule
+} from '@angular/common/http';
 
 import {
   SkyAppAssetsService
@@ -40,7 +40,7 @@ import {
     SkyLibResourcesPipe
   ],
   imports: [
-    HttpModule
+    HttpClientModule
   ],
   providers: [
     // This service is ultimately provided by Builder,

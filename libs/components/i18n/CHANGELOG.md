@@ -1,3 +1,7 @@
+# 3.7.1 (2019-06-24)
+
+- Fixed bug where `HttpModule` was still being imported into `SkyI18nModule`. [#37](https://github.com/blackbaud/skyux-i18n/pull/37)
+
 # 3.7.0 (2019-06-24)
 
 - Removed a peer dependency on the deprecated `@angular/http` library. [#35](https://github.com/blackbaud/skyux-i18n/pull/35)
