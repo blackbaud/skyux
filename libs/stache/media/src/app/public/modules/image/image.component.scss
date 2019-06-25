@@ -18,13 +18,6 @@
   margin: $sky-margin-stacked-default 0;
 }
 
-.sky-image-caption p {
-  margin: 0;
-  span {
-    font-weight: 600;
-  }
-}
-
 .sky-image-divider {
   height: 5px;
   width: 100%;
@@ -36,26 +29,11 @@
   .sky-image-divider {
     background-color: $sky-highlight-color-success;
   }
-
-  .sky-image-caption p {
-    &:before {
-      content: "\f00c";
-      font-family: FontAwesome;
-      color: $sky-highlight-color-success;
-    }
-  }
 }
 
 .sky-caption-danger {
   .sky-image-divider {
     background-color: $sky-highlight-color-danger;
-  }
-  .sky-image-caption p {
-    &:before {
-      content: "\f071";
-      font-family: FontAwesome;
-      color: $sky-highlight-color-danger;
-    }
   }
 }
 
@@ -63,24 +41,10 @@
   .sky-image-divider {
     background-color: $sky-highlight-color-warning;
   }
-  .sky-image-caption p {
-    &:before {
-      content: "\f071";
-      font-family: FontAwesome;
-      color: $sky-highlight-color-warning;
-    }
-  }
 }
 
 .sky-caption-info {
   .sky-image-divider {
     background-color: $sky-highlight-color-info;
-  }
-    .sky-image-caption p {
-    &:before {
-      content: "\f06a";
-      font-family: FontAwesome;
-      color: $sky-highlight-color-info;
-    }
   }
 }

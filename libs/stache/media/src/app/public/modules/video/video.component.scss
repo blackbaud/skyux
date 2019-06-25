@@ -1,10 +1,11 @@
+@import '~@skyux/theme/scss/mixins.scss';
+
 .sky-video {
   position: relative;
   display: block;
   width: 100%;
   overflow: hidden;
-  margin-top: 1em;
-  margin-bottom: 1em;
+  margin: $sky-margin-stacked-default 0;
 
   &:before {
     content: "";

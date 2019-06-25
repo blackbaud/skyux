@@ -18,16 +18,22 @@
     </div>
     <div [ngSwitch]="captionType"
       class="sky-image-caption"
+      [ngClass]="{
+        'sky-text-success': captionType === 'success',
+        'sky-text-info': captionType === 'info',
+        'sky-text-warning': captionType === 'warning',
+        'sky-text-danger': captionType === 'danger'
+      }"
     >
-      <p *ngSwitchCase="'success'">
-        <span>{{ 'skyux_image_do_text' | skyLibResources }}</span> {{caption}}
-      </p>
-      <p *ngSwitchCase="'danger'">
-        <span>{{ 'skyux_image_dont_text' | skyLibResources }}</span> {{caption}}
-      </p>
-      <p *ngSwitchDefault>
+      <ng-container *ngSwitchCase="'success'">
+        <strong>{{ 'skyux_image_do_text' | skyLibResources }}</strong> {{caption}}
+      </ng-container>
+      <ng-container *ngSwitchCase="'danger'">
+        <strong>{{ 'skyux_image_dont_text' | skyLibResources }}</strong> {{caption}}
+      </ng-container>
+      <ng-container *ngSwitchDefault>
         {{caption}}
-      </p>
+      </ng-container>
     </div>
   </div>
 </div>
