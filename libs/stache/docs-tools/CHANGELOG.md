@@ -1,3 +1,7 @@
+# 3.0.0-alpha.6 (2019-06-25)
+
+- Removed "Overview" heading from demo page summary.
+
 # 3.0.0-alpha.5 (2019-06-24)
 
 - Added sidebar navigation.
