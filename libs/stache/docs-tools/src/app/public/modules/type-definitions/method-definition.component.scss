@@ -16,6 +16,12 @@
   padding: $sky-padding-squish-large;
   background-color: $sky-background-color-info-light;
   border-bottom: 1px solid desaturate(darken($sky-background-color-info-light, 10%), 10%);
+
+  ::ng-deep {
+    .sky-code {
+      background-color: transparent;
+    }
+  }
 }
 
 .sky-docs-method-definition-description {

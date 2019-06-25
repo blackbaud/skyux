@@ -11,9 +11,15 @@
       margin: $sky-margin-plus-half 0;
     }
 
-    code {
+    // Auto-generated code elements need to be styled like sky-code component.
+    // TODO: Need to address this so that there isn't duplicate code.
+    code:not([class]) {
+      overflow-wrap: break-word;
       font-family: 'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace;
       font-size: 90%;
+      color: $sky-text-color-default;
+      padding: 0 2px;
+      background-color: $sky-border-color-neutral-light;
     }
 
     .stache-max-width-container {
@@ -23,18 +29,6 @@
 
     .sky-code-block {
       font-size: 90%;
-    }
-
-    .sky-code {
-      border: 0;
-      background: transparent;
-      color: $sky-text-color-default;
-      padding: 0;
-    }
-
-    a .sky-code,
-    .sky-code a {
-      color: $sky-text-color-action-primary;
     }
 
     .sky-docs-h3 {
