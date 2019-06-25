@@ -1,3 +1,8 @@
+# 1.3.0 (2019-06-25)
+
+- Adjusted CSS styles for `sky-code` component. [#17](https://github.com/blackbaud/skyux-lib-code-block/pull/17)
+- Updated development dependencies to support `@skyux-sdk/builder@3.7.0`, which addresses problems with the UMD library bundle. [#18](https://github.com/blackbaud/skyux-lib-code-block/pull/18)
+
 # 1.2.0 (2019-05-14)
 
 - Added `sky-code` component. [#15](https://github.com/blackbaud/skyux-lib-code-block/pull/15)
