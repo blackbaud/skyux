@@ -1,6 +1,8 @@
 // adapted from ngx-clipboard
 
-import { Injectable } from '@angular/core';
+import {
+  Injectable
+} from '@angular/core';
 
 const clipboard = require('clipboard-polyfill/build/clipboard-polyfill.promise');
 

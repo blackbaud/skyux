@@ -1,4 +1,7 @@
-import { SkyCopyToClipboardService } from './clipboard.service';
+import {
+  SkyCopyToClipboardService
+} from './clipboard.service';
+
 const clipboard = require('clipboard-polyfill/build/clipboard-polyfill.promise');
 
 describe('SkyCopyToClipboardService', () => {

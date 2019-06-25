@@ -3,7 +3,8 @@ import {
 } from '@angular/core';
 
 import {
-  SKY_LIB_RESOURCES_PROVIDERS
+  SKY_LIB_RESOURCES_PROVIDERS,
+  SkyI18nModule
 } from '@skyux/i18n';
 
 import {
@@ -15,6 +16,9 @@ import {
     provide: SKY_LIB_RESOURCES_PROVIDERS,
     useClass: SkyClipboardResourcesProvider,
     multi: true
-  }]
+  }],
+  exports: [
+    SkyI18nModule
+  ]
 })
 export class SkyClipboardResourcesModule { }

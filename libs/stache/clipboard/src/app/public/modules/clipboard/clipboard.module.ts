@@ -11,10 +11,6 @@ import {
 } from '@skyux/core';
 
 import {
-  SkyI18nModule
-} from '@skyux/i18n';
-
-import {
   SkyClipboardResourcesModule
 } from '../shared';
 
@@ -32,8 +28,7 @@ import {
   ],
   imports: [
     CommonModule,
-    SkyClipboardResourcesModule,
-    SkyI18nModule
+    SkyClipboardResourcesModule
   ],
   exports: [
     SkyCopyToClipboardComponent
