@@ -3,20 +3,19 @@ import {
 } from '@angular/core';
 
 import {
+  SkyAppLinkModule
+} from '@skyux/router';
+
+import {
   SkyEmailValidationModule,
   SkyUrlValidationModule
 } from './public';
 
 @NgModule({
-  imports: [
-    SkyEmailValidationModule,
-    SkyUrlValidationModule
-  ],
   exports: [
+    SkyAppLinkModule,
     SkyEmailValidationModule,
     SkyUrlValidationModule
-  ],
-  providers: [],
-  entryComponents: []
+  ]
 })
 export class AppExtrasModule { }
