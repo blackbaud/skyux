@@ -1,3 +1,7 @@
+# 3.3.1 (2019-06-26)
+
+- Fixed the filter summary component to have correct spacing between filter summary items. [#42](https://github.com/blackbaud/skyux-lists/pull/42)
+
 # 3.3.0 (2019-06-07)
 
 - Added the ability to trigger responsive styles based on a parent component. [#35](https://github.com/blackbaud/skyux-lists/pull/35)
