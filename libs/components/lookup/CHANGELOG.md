@@ -1,3 +1,7 @@
+# 3.1.1 (2019-06-26)
+
+- Fixed the search component to handle searches with no applied value. [#34](https://github.com/blackbaud/skyux-lookup/pull/34)
+
 # 3.1.0 (2019-06-07)
 
 - Added the ability to trigger responsive styles based on a parent component. [#21](https://github.com/blackbaud/skyux-lookup/pull/21)
