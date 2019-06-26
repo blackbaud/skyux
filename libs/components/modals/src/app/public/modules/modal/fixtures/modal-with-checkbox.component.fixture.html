@@ -8,8 +8,8 @@
       id="sky-test-checkbox"
       name="checkbox"
       type="checkbox"
-      [attr.checked]="isChecked"
-      (click)="isChecked = true"
+      [attr.checked]="(isChecked) ? 'checked' : null"
+      (click)="isChecked = !isChecked"
     />
   </sky-modal-content>
 </sky-modal>

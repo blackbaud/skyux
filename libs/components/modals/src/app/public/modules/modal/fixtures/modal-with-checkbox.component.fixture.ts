@@ -8,4 +8,6 @@ import {
 })
 export class ModalWithCheckboxTestComponent {
 
+  public isChecked = false;
+
 }

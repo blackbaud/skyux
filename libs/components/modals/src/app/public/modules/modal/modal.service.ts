@@ -19,6 +19,9 @@ import {
   SkyModalConfigurationInterface as IConfig
 } from './modal.interface';
 
+// Need to add the following to classes which contain static methods.
+// See: https://github.com/ng-packagr/ng-packagr/issues/641
+// @dynamic
 @Injectable()
 export class SkyModalService {
   private static host: ComponentRef<SkyModalHostComponent>;

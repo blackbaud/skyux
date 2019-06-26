@@ -5,14 +5,6 @@ import {
 } from '@angular/core/testing';
 
 import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
-
-import {
-  SkyLibResourcesTestService
-} from '@skyux/i18n/testing';
-
-import {
   expect
 } from '@skyux-sdk/testing';
 
@@ -53,8 +45,7 @@ describe('Confirm component', () => {
     TestBed.overrideComponent(SkyConfirmComponent, { set: {
       providers: [
         { provide: SkyConfirmModalContext, useValue: config },
-        { provide: SkyModalInstance, useValue: modalInstance },
-        { provide: SkyLibResourcesService, useClass: SkyLibResourcesTestService }
+        { provide: SkyModalInstance, useValue: modalInstance }
       ]
     }});
 
