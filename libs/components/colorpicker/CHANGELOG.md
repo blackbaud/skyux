@@ -1,10 +1,14 @@
+# 3.0.1 (2019-06-26)
+
+- Fixed the colorpicker component button to properly display transparent colors. [#15](https://github.com/blackbaud/skyux-colorpicker/pull/15)
+
 # 3.0.0 (2019-01-14)
 
 - Major version release.
 
 # 3.0.0-rc.3 (2018-11-20)
 
-- Fixed colorpicker component to emit value changes properly. [blackbaud/skyux-colorpicker#5](https://github.com/blackbaud/skyux-colorpicker/pull/5)
+- Fixed colorpicker component to emit value changes properly. [#5](https://github.com/blackbaud/skyux-colorpicker/pull/5)
 
 # 3.0.0-rc.2 (2018-11-08)
 
