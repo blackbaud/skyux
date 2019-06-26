@@ -1,3 +1,7 @@
+# 3.0.5 (2019-06-26)
+
+- Fixed the modal component to properly align the expand and collapse chevron in tile headers. [#49](https://github.com/blackbaud/skyux-modals/pull/49)
+
 # 3.0.4 (2019-06-07)
 
 - Fixed the modal component to correct accessibility tab controls. [#46](https://github.com/blackbaud/skyux-modals/pull/46) (Thanks @Blackbaud-JackMcElhinney)
