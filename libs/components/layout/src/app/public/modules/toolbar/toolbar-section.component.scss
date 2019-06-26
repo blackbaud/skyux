@@ -7,6 +7,7 @@
   min-height: $sky-toolbar-min-height;
   align-items: center;
   position: relative;
+  overflow-x: auto;
 }
 
 .sky-toolbar-section-items {
