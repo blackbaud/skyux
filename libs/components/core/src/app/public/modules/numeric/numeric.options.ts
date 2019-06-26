@@ -3,6 +3,6 @@ export class NumericOptions {
   public format = 'number';
   public iso = 'USD';
   public minDigits?: number;
-  public truncate? = true;
-  public truncateAfter? = 0;
+  public truncate?: boolean = true;
+  public truncateAfter?: number = 0;
 }

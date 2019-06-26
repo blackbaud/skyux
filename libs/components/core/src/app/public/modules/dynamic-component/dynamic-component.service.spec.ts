@@ -19,7 +19,7 @@ import {
 
 import {
   DynamicComponentTestComponent
-} from './fixtures/dynamic-component-test.component';
+} from './fixtures/dynamic-component-test.component.fixture';
 
 import {
   SkyDynamicComponentModule

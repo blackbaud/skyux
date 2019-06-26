@@ -37,8 +37,8 @@ export class SkyCoreAdapterService {
   /**
    * Set the responsive container CSS class for a given element.
    *
-   * @param {ElementRef} elementRef - The element that will recieve the new CSS class.
-   * @param {SkyMediaBreakpoints} breakpoint - The SkyMediaBreakpoint will determine which class
+   * @param elementRef - The element that will recieve the new CSS class.
+   * @param breakpoint - The SkyMediaBreakpoint will determine which class
    * gets set. For example a SkyMediaBreakpoint of `xs` will set a CSS class of `sky-responsive-container-xs`.
    */
   public setResponsiveContainerClass(elementRef: ElementRef, breakpoint: SkyMediaBreakpoints): void {
@@ -77,7 +77,7 @@ export class SkyCoreAdapterService {
    * This method temporarily enables/disables pointer events.
    * This is helpful to prevent iFrames from interfering with drag events.
    *
-   * @param {boolean} enable - Set to `true` to enable pointer events. Set to `false` to disable.
+   * @param enable - Set to `true` to enable pointer events. Set to `false` to disable.
    */
   public toggleIframePointerEvents(enable: boolean): void {
     const iframes = document.querySelectorAll('iframe');
@@ -90,8 +90,8 @@ export class SkyCoreAdapterService {
   /**
    * Focuses on the first element found with an `autofocus` attribute inside the supplied `elementRef`.
    *
-   * @param {ElementRef} elementRef - The element to search within.
-   * @return {boolean} Returns `true` if a child element with autofocus is found.
+   * @param elementRef - The element to search within.
+   * @return Returns `true` if a child element with autofocus is found.
    */
   public applyAutoFocus(elementRef: ElementRef): boolean {
     const elementWithAutoFocus = elementRef.nativeElement.querySelector('[autofocus]');
@@ -111,10 +111,10 @@ export class SkyCoreAdapterService {
    * If no focusable children are found, and `focusOnContainerIfNoChildrenFound` is `true`,
    * focus will be set on the container element.
    *
-   * @param {ElementRef} elementRef - The element to search within.
-   * @param {string} containerSelector - A CSS selector indicating the container that should
+   * @param elementRef - The element to search within.
+   * @param containerSelector - A CSS selector indicating the container that should
    * recieve focus if no focusable children are found.
-   * @param {boolean} focusOnContainerIfNoChildrenFound - It set to `true`, the container will
+   * @param focusOnContainerIfNoChildrenFound - It set to `true`, the container will
    * recieve focus if no focusable children are found.
    */
   public getFocusableChildrenAndApplyFocus(

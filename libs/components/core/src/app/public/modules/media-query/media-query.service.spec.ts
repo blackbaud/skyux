@@ -72,7 +72,7 @@ describe('Media query service', () => {
       // have to pick it off here.
       mediaQueryListPrototype = Object.getPrototypeOf(matchMedia(SkyMediaQueryService.sm));
 
-      matchMediaSpy = spyOn(window, 'matchMedia').and.callFake((args: string) => {
+      matchMediaSpy = spyOn(window as any, 'matchMedia').and.callFake((args: string) => {
         if (args === '(max-width: 767px)') {
           return {
             matches: true,

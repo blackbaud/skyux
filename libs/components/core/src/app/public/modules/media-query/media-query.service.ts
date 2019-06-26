@@ -37,10 +37,10 @@ export class SkyMediaQueryService {
   private mdMql: MediaQueryList;
   private lgMql: MediaQueryList;
 
-  private xsListener: MediaQueryListListener;
-  private smListener: MediaQueryListListener;
-  private mdListener: MediaQueryListListener;
-  private lgListener: MediaQueryListListener;
+  private xsListener: any;
+  private smListener: any;
+  private mdListener: any;
+  private lgListener: any;
 
   private _current = SkyMediaBreakpoints.md;
 
