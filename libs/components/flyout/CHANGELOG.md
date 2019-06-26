@@ -1,3 +1,7 @@
+# 3.2.1 (2019-06-26)
+
+- Fixed the flyout component to not error when used with Angular 7. [#56](https://github.com/blackbaud/skyux-flyout/pull/56)
+
 # 3.2.0 (2019-06-14)
 
 - Added the ability to use the UI Config Service to save flyout component widths. [#53](https://github.com/blackbaud/skyux-flyout/pull/53)
