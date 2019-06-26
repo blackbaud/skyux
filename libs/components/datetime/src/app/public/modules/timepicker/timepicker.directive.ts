@@ -5,12 +5,10 @@ import {
   ElementRef,
   forwardRef,
   HostListener,
-  Injector,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
-  Optional,
   Renderer
 } from '@angular/core';
 
@@ -19,9 +17,7 @@ import {
   ControlValueAccessor,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
-  Validator,
-  FormControl,
-  NgControl
+  Validator
 } from '@angular/forms';
 
 import {
@@ -110,6 +106,8 @@ export class SkyTimepickerInputDirective implements
     }
   }
 
+  private control: AbstractControl;
+
   private _disabled: boolean;
   private _modelValue: SkyTimepickerTimeOutput;
 
@@ -117,8 +115,7 @@ export class SkyTimepickerInputDirective implements
     private renderer: Renderer,
     private elRef: ElementRef,
     private resourcesService: SkyLibResourcesService,
-    @Optional() private changeDetector: ChangeDetectorRef,
-    @Optional() private injector: Injector
+    private changeDetector: ChangeDetectorRef
   ) { }
 
   public ngOnInit() {
@@ -142,16 +139,20 @@ export class SkyTimepickerInputDirective implements
   }
 
   public ngAfterViewInit(): void {
-    // This is needed to address a bug in Angular 4, where the value is not changed on the view.
+    // This is needed to address a bug in Angular 4.
+    // When a control value is set intially, its value is not represented on the view.
     // See: https://github.com/angular/angular/issues/13792
-    const control = (<NgControl>this.injector.get(NgControl)).control as FormControl;
+    // Of note is the parent check which allows us to determine if the form is reactive.
+    // Without this check there is a changed before checked error
     /* istanbul ignore else */
-    if (control && this.modelValue) {
-      control.setValue(this.modelValue, { emitEvent: false });
-      /* istanbul ignore else */
-      if (this.changeDetector) {
+    if (this.control && this.control.parent) {
+      setTimeout(() => {
+        this.control.setValue(this.modelValue, {
+          emitEvent: false
+        });
+
         this.changeDetector.markForCheck();
-      }
+      });
     }
   }
 
@@ -185,7 +186,12 @@ export class SkyTimepickerInputDirective implements
   public writeValue(value: any) {
     this.modelValue = this.formatter(value);
   }
+
   public validate(control: AbstractControl): { [key: string]: any } {
+    if (!this.control) {
+      this.control = control;
+    }
+
     let value = control.value;
     if (!value) {
       return undefined;
