@@ -63,12 +63,17 @@ import {
   SkyListBuilderResourcesModule
 } from '../shared/list-builder-resources.module';
 
+import {
+  SkyListToolbarSearchActionsComponent
+} from './list-toolbar-search-actions.component';
+
 @NgModule({
   declarations: [
     SkyListToolbarComponent,
     SkyListToolbarItemComponent,
     SkyListToolbarItemRendererComponent,
     SkyListMultiselectToolbarComponent,
+    SkyListToolbarSearchActionsComponent,
     SkyListToolbarSortComponent,
     SkyListToolbarViewActionsComponent
   ],
@@ -89,9 +94,9 @@ import {
     SkyListToolbarItemComponent,
     SkyListToolbarItemRendererComponent,
     SkyListMultiselectToolbarComponent,
+    SkyListToolbarSearchActionsComponent,
     SkyListToolbarSortComponent,
     SkyListToolbarViewActionsComponent
   ]
 })
-export class SkyListToolbarModule {
-}
+export class SkyListToolbarModule { }

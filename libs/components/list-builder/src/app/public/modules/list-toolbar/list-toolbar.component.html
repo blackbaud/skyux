@@ -103,7 +103,9 @@
 </div>
 
 <ng-template #search>
-  <div *ngIf="isSearchEnabled | async">
+  <div *ngIf="isSearchEnabled | async"
+    class="sky-list-toolbar-search-wrapper"
+  >
     <sky-search
       [disabled]="isToolbarDisabled"
       [expandMode]="(type | async) === 'search' ? 'fit' : 'responsive'"
@@ -113,6 +115,9 @@
       #searchComponent
     >
     </sky-search>
+    <ng-content
+      select="sky-list-toolbar-search-actions"
+    ></ng-content>
   </div>
 </ng-template>
 
