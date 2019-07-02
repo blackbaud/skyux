@@ -1,3 +1,7 @@
+# 3.4.0 (2019-07-01)
+
+- Added `sky-list-toolbar-search-actions` to the list toolbar's child components. [#52](https://github.com/blackbaud/skyux-list-builder/pull/52) (Thanks [@blackbaud-vimal-kumar](https://github.com/blackbaud-vimal-kumar)!)
+
 # 3.3.0 (2019-06-07)
 
 - Added the ability to trigger responsive styles based on a parent component. [#43](https://github.com/blackbaud/skyux-list-builder/pull/43)
