@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   OnDestroy,
   Pipe,
   PipeTransform
@@ -40,7 +39,6 @@ export class SkyDatePipe implements OnDestroy, PipeTransform {
   private ngUnsubscribe = new Subject<void>();
 
   constructor(
-    private changeDetector: ChangeDetectorRef,
     private localeProvider: SkyAppLocaleProvider
   ) {
     this.localeProvider.getLocaleInfo()
@@ -75,7 +73,5 @@ export class SkyDatePipe implements OnDestroy, PipeTransform {
     const format = this.format || this.defaultFormat;
 
     this.formattedValue = SkyDateFormatUtility.format(locale, this.value, format);
-
-    this.changeDetector.markForCheck();
   }
 }

@@ -30,15 +30,10 @@ import {
 
 describe('Date pipe', () => {
   let fixture: ComponentFixture<DatePipeTestComponent>;
-  let mockChangeDetector: any;
   let mockLocaleProvider: SkyAppLocaleProvider;
   let mockLocaleStream: BehaviorSubject<SkyAppLocaleInfo>;
 
   beforeEach(() => {
-    mockChangeDetector = {
-      markForCheck() {}
-    };
-
     mockLocaleStream = new BehaviorSubject({
       locale: 'en-US'
     });
@@ -196,7 +191,7 @@ describe('Date pipe', () => {
 
   it('should default to en-US locale', () => {
     const date = new Date('01/01/2000');
-    const pipe = new SkyDatePipe(mockChangeDetector, mockLocaleProvider);
+    const pipe = new SkyDatePipe(mockLocaleProvider);
     const expectedValues = [
       '1/1/2000, 12:00 AM',
       '1/1/2000 12:00 AM' // IE 11
@@ -221,5 +216,23 @@ describe('Date pipe', () => {
     fixture.detectChanges();
     const value = fixture.nativeElement.textContent.trim();
     expect(value).toEqual('1/20/2017');
+  });
+
+  it('should work as an injectable', () => {
+    fixture.detectChanges();
+
+    const date = new Date('01/01/2000');
+    const expectedValues = [
+      '2000-01-01 00 h 00',
+      '2000-01-01 00:00' // IE 11
+    ];
+
+    const result = fixture.componentInstance.getDatePipeResult(
+      date,
+      'short',
+      'fr-CA'
+    );
+
+    expect(expectedValues).toContain(result);
   });
 });
