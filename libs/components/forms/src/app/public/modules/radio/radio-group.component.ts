@@ -101,6 +101,19 @@ export class SkyRadioGroupComponent implements AfterContentInit, ControlValueAcc
     this.resetRadioButtons();
 
     // Watch for radio selections.
+    this.watchForSelections();
+
+    this.radios.changes
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(() => {
+        this.resetRadioButtons();
+
+        // Subscribe to the new radio buttons
+        this.watchForSelections();
+      });
+  }
+
+  public watchForSelections() {
     this.radios.forEach((radio) => {
       radio.change
         .takeUntil(this.ngUnsubscribe)
@@ -109,12 +122,6 @@ export class SkyRadioGroupComponent implements AfterContentInit, ControlValueAcc
           this.writeValue(change.value);
         });
     });
-
-    this.radios.changes
-      .takeUntil(this.ngUnsubscribe)
-      .subscribe(() => {
-        this.resetRadioButtons();
-      });
   }
 
   public ngOnDestroy() {

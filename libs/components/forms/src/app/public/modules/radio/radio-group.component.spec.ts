@@ -167,6 +167,18 @@ describe('Radio group component', function () {
     }
   }));
 
+  it('should update selected value when options change', fakeAsync(function () {
+    fixture.detectChanges();
+    clickCheckbox(fixture, 0);
+    expect(componentInstance.radioGroupComponent.value.name).toEqual('Lillith Corharvest');
+
+    componentInstance.changeOptions();
+
+    fixture.detectChanges();
+    clickCheckbox(fixture, 1);
+    expect(componentInstance.radioGroupComponent.value.name).toEqual('Hank Salizar');
+  }));
+
   it('should set the radio name properties correctly', fakeAsync(() => {
     fixture.detectChanges();
     tick();
