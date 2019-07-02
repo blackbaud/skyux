@@ -3,7 +3,7 @@ import { SkyListComponent } from '../list.component';
 
 @Component({
   selector: 'sky-test-cmp',
-  template: require('./list-selected.component.fixture.html')
+  templateUrl: './list-selected.component.fixture.html'
 })
 export class ListSelectedTestComponent {
   @ViewChild(SkyListComponent)

@@ -24,8 +24,7 @@ describe('List filter button', () => {
   let state: ListState,
     dispatcher: ListStateDispatcher,
     fixture: ComponentFixture<ListFilterButtonTestComponent>,
-    nativeElement: HTMLElement,
-    component: ListFilterButtonTestComponent;
+    nativeElement: HTMLElement;
 
   beforeEach(async(() => {
     dispatcher = new ListStateDispatcher();
@@ -47,7 +46,6 @@ describe('List filter button', () => {
 
     fixture = TestBed.createComponent(ListFilterButtonTestComponent);
     nativeElement = fixture.nativeElement as HTMLElement;
-    component = fixture.componentInstance;
     fixture.detectChanges();
     state.skip(1).take(1).subscribe(() => fixture.detectChanges());
   }));

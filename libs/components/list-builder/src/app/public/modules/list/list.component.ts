@@ -343,10 +343,7 @@ export class SkyListComponent implements AfterContentInit, OnChanges, OnDestroy 
           });
         });
       })
-
-      .flatMap((value: Observable<ListDataResponseModel>, index: number) => {
-        return value;
-      });
+      .flatMap((value) => value);
   }
 
   public get selectedItems(): Observable<Array<ListItemModel>> {

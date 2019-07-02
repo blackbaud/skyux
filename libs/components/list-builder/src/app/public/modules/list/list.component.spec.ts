@@ -89,7 +89,6 @@ describe('List Component', () => {
           dispatcher: ListStateDispatcher,
           component: ListTestComponent,
           fixture: any,
-          nativeElement: HTMLElement,
           element: DebugElement,
           items: Observable<any>,
           bs: BehaviorSubject<any>;
@@ -140,7 +139,6 @@ describe('List Component', () => {
         });
 
         fixture = TestBed.createComponent(ListTestComponent);
-        nativeElement = fixture.nativeElement as HTMLElement;
         element = fixture.debugElement as DebugElement;
         component = fixture.componentInstance;
 
@@ -353,8 +351,6 @@ describe('List Component', () => {
           dispatcher: ListStateDispatcher,
           component: ListSelectedTestComponent,
           fixture: ComponentFixture<ListSelectedTestComponent>,
-          nativeElement: HTMLElement,
-          element: DebugElement,
           items: Observable<any>,
           bs: BehaviorSubject<any>;
 
@@ -404,8 +400,6 @@ describe('List Component', () => {
         });
 
         fixture = TestBed.createComponent(ListSelectedTestComponent);
-        nativeElement = fixture.nativeElement as HTMLElement;
-        element = fixture.debugElement as DebugElement;
         component = fixture.componentInstance;
 
         fixture.detectChanges();
@@ -571,7 +565,6 @@ describe('List Component', () => {
           dispatcher: ListStateDispatcher,
           component: ListFilteredTestComponent,
           fixture: ComponentFixture<ListFilteredTestComponent>,
-          nativeElement: HTMLElement,
           items: Observable<any>,
           bs: BehaviorSubject<any>;
 
@@ -621,7 +614,6 @@ describe('List Component', () => {
         });
 
         fixture = TestBed.createComponent(ListFilteredTestComponent);
-        nativeElement = fixture.nativeElement as HTMLElement;
         component = fixture.componentInstance;
 
         fixture.detectChanges();
@@ -683,9 +675,7 @@ describe('List Component', () => {
     describe('List Component with Array', () => {
       let state: ListState,
           dispatcher: ListStateDispatcher,
-          component: ListTestComponent,
           fixture: any,
-          nativeElement: HTMLElement,
           element: DebugElement;
 
       beforeEach(async(() => {
@@ -730,9 +720,7 @@ describe('List Component', () => {
         });
 
         fixture = TestBed.createComponent(ListTestComponent);
-        nativeElement = fixture.nativeElement as HTMLElement;
         element = fixture.debugElement as DebugElement;
-        component = fixture.componentInstance;
         fixture.detectChanges();
 
         // always skip the first update to ListState, when state is ready
@@ -751,10 +739,8 @@ describe('List Component', () => {
     describe('List Component with Observable', () => {
       let state: ListState,
           dispatcher: ListStateDispatcher,
-          component: ListTestComponent,
           fixture: any,
           dataProvider: SkyListInMemoryDataProvider,
-          nativeElement: HTMLElement,
           element: DebugElement,
           items: Observable<any>,
           bs: BehaviorSubject<any>;
@@ -796,9 +782,7 @@ describe('List Component', () => {
         });
 
         fixture = TestBed.createComponent(ListEmptyTestComponent);
-        nativeElement = fixture.nativeElement as HTMLElement;
         element = fixture.debugElement as DebugElement;
-        component = fixture.componentInstance;
         fixture.detectChanges();
 
         // always skip the first update to ListState, when state is ready
@@ -877,11 +861,8 @@ describe('List Component', () => {
     describe('List Component with no data', () => {
       let state: ListState,
           dispatcher: ListStateDispatcher,
-          component: ListTestComponent,
           fixture: any,
-          dataProvider: SkyListInMemoryDataProvider,
-          nativeElement: HTMLElement,
-          element: DebugElement;
+          dataProvider: SkyListInMemoryDataProvider;
 
       beforeEach(async(() => {
         dispatcher = new ListStateDispatcher();
@@ -910,9 +891,6 @@ describe('List Component', () => {
         });
 
         fixture = TestBed.createComponent(ListEmptyTestComponent);
-        nativeElement = fixture.nativeElement as HTMLElement;
-        element = fixture.debugElement as DebugElement;
-        component = fixture.componentInstance;
         fixture.detectChanges();
 
         // always skip the first update to ListState, when state is ready
@@ -938,10 +916,7 @@ describe('List Component', () => {
     describe('List Component with no data and no data provider', () => {
       let state: ListState,
           dispatcher: ListStateDispatcher,
-          component: ListTestComponent,
-          fixture: any,
-          nativeElement: HTMLElement,
-          element: DebugElement;
+          fixture: any;
 
       beforeEach(async(() => {
         dispatcher = new ListStateDispatcher();
@@ -969,9 +944,6 @@ describe('List Component', () => {
         });
 
         fixture = TestBed.createComponent(ListEmptyTestComponent);
-        nativeElement = fixture.nativeElement as HTMLElement;
-        element = fixture.debugElement as DebugElement;
-        component = fixture.componentInstance;
         fixture.detectChanges();
 
         // always skip the first update to ListState, when state is ready
@@ -997,7 +969,6 @@ describe('List Component', () => {
           dispatcher: ListStateDispatcher,
           component: ListTestComponent,
           fixture: any,
-          nativeElement: HTMLElement,
           element: DebugElement,
           items: Observable<any>,
           bs: BehaviorSubject<any>;
@@ -1048,7 +1019,6 @@ describe('List Component', () => {
         });
 
         fixture = TestBed.createComponent(ListDualTestComponent);
-        nativeElement = fixture.nativeElement as HTMLElement;
         element = fixture.debugElement as DebugElement;
         component = fixture.componentInstance;
         fixture.detectChanges();

@@ -11,6 +11,10 @@ import {
 } from '@skyux/forms';
 
 import {
+  SkyAppLinkModule
+} from '@skyux/router';
+
+import {
   SkyListFiltersModule,
   SkyListModule,
   SkyListPagingModule,
@@ -19,16 +23,8 @@ import {
 } from './public';
 
 @NgModule({
-  imports: [
-    SkyIconModule,
-    SkyListModule,
-    SkyListFiltersModule,
-    SkyListPagingModule,
-    SkyListSecondaryActionsModule,
-    SkyListToolbarModule,
-    SkyRadioModule
-  ],
   exports: [
+    SkyAppLinkModule,
     SkyIconModule,
     SkyListModule,
     SkyListFiltersModule,

@@ -5,7 +5,7 @@ import { SkyListInMemoryDataProvider } from '../../list-data-provider-in-memory'
 
 @Component({
   selector: 'sky-test-cmp',
-  template: require('./list-empty.component.fixture.html')
+  templateUrl: './list-empty.component.fixture.html'
 })
 export class ListEmptyTestComponent {
   @ViewChild(SkyListComponent) public list: SkyListComponent;
