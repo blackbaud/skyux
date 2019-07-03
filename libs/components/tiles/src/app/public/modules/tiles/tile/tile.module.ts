@@ -1,12 +1,19 @@
 import {
   NgModule
 } from '@angular/core';
+
 import {
   CommonModule
 } from '@angular/common';
+
+import {
+  BrowserAnimationsModule
+} from '@angular/platform-browser/animations';
+
 import {
   SkyI18nModule
 } from '@skyux/i18n';
+
 import {
   SkyChevronModule,
   SkyIconModule
@@ -19,9 +26,11 @@ import {
 import {
   SkyTileComponent
 } from './tile.component';
+
 import {
   SkyTileSummaryComponent
 } from './tile-summary.component';
+
 import {
   SkyTileTitleComponent
 } from './tile-title.component';
@@ -33,6 +42,7 @@ import {
     SkyTileTitleComponent
   ],
   imports: [
+    BrowserAnimationsModule,
     CommonModule,
     SkyChevronModule,
     SkyI18nModule,
