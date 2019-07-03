@@ -1,3 +1,8 @@
+# 3.3.0 (2019-07-03)
+
+- Added support for `@skyux-sdk/builder@3.7.1`. [#63](https://github.com/blackbaud/skyux-datetime/pull/63)
+- Fixed `SkyDatePipe` to work as an `Injectable`. [#66](https://github.com/blackbaud/skyux-datetime/pull/66)
+
 # 3.2.6 (2019-06-07)
 
 - Fixed `SkyDatePipeModule` to properly provide `SkyDatePipe` and to import the `SkyDateTimeResourcesModule`. [#58](https://github.com/blackbaud/skyux-datetime/pull/58)
