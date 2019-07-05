@@ -651,10 +651,6 @@ describe('File drop component', () => {
     'should accept a file of rejected type on drag (but not on drop)',
     'if the browser does not support dataTransfer.items'
   ].join(' '), () => {
-    let filesChangedActual: SkyFileDropChange;
-
-    componentInstance.filesChanged.subscribe(
-      (filesChanged: SkyFileDropChange) => filesChangedActual = filesChanged );
 
     componentInstance.acceptedTypes = 'image/png, image/tiff';
 
@@ -694,11 +690,6 @@ describe('File drop component', () => {
       }
     ];
 
-    let filesChangedActual: SkyFileDropChange;
-
-    componentInstance.filesChanged.subscribe(
-      (filesChanged: SkyFileDropChange) => filesChangedActual = filesChanged );
-
     let fileReaderSpy = setupFileReaderSpy();
 
     componentInstance.multiple = false;
@@ -725,11 +716,6 @@ describe('File drop component', () => {
         }
       }
     ];
-
-    let filesChangedActual: SkyFileDropChange;
-
-    componentInstance.filesChanged.subscribe(
-      (filesChanged: SkyFileDropChange) => filesChangedActual = filesChanged );
 
     let fileReaderSpy = setupFileReaderSpy();
     fixture.detectChanges();

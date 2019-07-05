@@ -180,15 +180,9 @@ export class SkyCheckboxComponent implements ControlValueAccessor, Validator {
     return;
   }
 
-  public registerOnValidatorChange?(fn: () => void): void {
-    this.onValidatorChange = fn;
-  }
-
   /** Called when the checkbox is blurred. Needed to properly implement ControlValueAccessor. */
   /*istanbul ignore next */
   public onTouched: () => any = () => {};
-  /*istanbul ignore next */
-  private onValidatorChange = () => {};
 
   private _controlValueAccessorChangeFn: (value: any) => void = (value) => {};
 
