@@ -16,8 +16,12 @@ import {
   SkyWaitPageAdapterService
 } from './wait-page-adapter.service';
 
+// Need to add the following to classes which contain static methods.
+// See: https://github.com/ng-packagr/ng-packagr/issues/641
+// @dynamic
 @Injectable()
 export class SkyWaitService {
+
   private static waitComponent: SkyWaitPageComponent;
   private static pageWaitBlockingCount = 0;
   private static pageWaitNonBlockingCount = 0;

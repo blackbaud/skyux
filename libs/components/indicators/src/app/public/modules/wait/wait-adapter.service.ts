@@ -5,6 +5,9 @@ import {
   Renderer
 } from '@angular/core';
 
+// Need to add the following to classes which contain static methods.
+// See: https://github.com/ng-packagr/ng-packagr/issues/641
+// @dynamic
 @Injectable()
 export class SkyWaitAdapterService implements OnDestroy {
   private static isPageWaitActive = false;

@@ -15,7 +15,7 @@ import {
 
 import {
   SkyAppTestModule
-} from '@blackbaud/skyux-builder/runtime/testing/browser';
+} from '@skyux-sdk/builder/runtime/testing/browser';
 
 import {
   expect
