@@ -7,15 +7,18 @@ import {
 } from '@angular/platform-browser/animations';
 
 import {
+  SkyAppLinkModule
+} from '@skyux/router';
+
+import {
   SkyPhoneFieldModule
 } from './public';
 
 @NgModule({
   exports: [
+    SkyAppLinkModule,
     SkyPhoneFieldModule,
     NoopAnimationsModule
-  ],
-  providers: [],
-  entryComponents: []
+  ]
 })
 export class AppExtrasModule { }
