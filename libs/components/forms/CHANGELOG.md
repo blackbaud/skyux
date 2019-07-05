@@ -1,3 +1,7 @@
+# 3.2.1 (2019-07-05)
+
+- Fixed the radio group component to update the state when the model value changes. [#52](https://github.com/blackbaud/skyux-forms/pull/52)
+
 # 3.2.0 (2019-06-07)
 
 - Added the ability to trigger responsive styles based on a parent component. [#35](https://github.com/blackbaud/skyux-forms/pull/35)
@@ -9,16 +13,16 @@
 
 # 3.1.2 (2019-05-03)
 
-- Fixed radio group component to properly update ngModel when initial value is undefined. [#37](https://github.com/blackbaud/skyux-forms/pull/37)
+- Fixed the radio group component to properly update ngModel when the initial value is undefined. [#37](https://github.com/blackbaud/skyux-forms/pull/37)
 
 # 3.1.1 (2019-03-27)
 
-- Fixed radio group component to support boolean values. [#31](https://github.com/blackbaud/skyux-forms/pull/31)
+- Fixed the radio group component to support boolean values. [#31](https://github.com/blackbaud/skyux-forms/pull/31)
 
 # 3.1.0 (2019-03-19)
 
-- Added `ariaLabel` property to radio group component. [#26](https://github.com/blackbaud/skyux-forms/pull/26)
-- Fixed radio group component to properly watch for changes to its radio components. [#26](https://github.com/blackbaud/skyux-forms/pull/26)
+- Added the `ariaLabel` property to the radio group component. [#26](https://github.com/blackbaud/skyux-forms/pull/26)
+- Fixed the radio group component to properly watch for changes to its radio components. [#26](https://github.com/blackbaud/skyux-forms/pull/26)
 
 # 3.0.0 (2019-01-11)
 
@@ -26,15 +30,15 @@
 
 # 3.0.0-rc.5 (2019-01-10)
 
-- Fixed checkbox component to only add `aria-label` to HTML tags when the `label` property is supplied. [#14](https://github.com/blackbaud/skyux-forms/pull/14)
+- Fixed the checkbox component to only add `aria-label` to HTML tags when the `label` property is supplied. [#14](https://github.com/blackbaud/skyux-forms/pull/14)
 
 # 3.0.0-rc.4 (2018-12-06)
 
-- Fixed checkbox component to emit its change event properly for all change detection strategies. [#11](https://github.com/blackbaud/skyux-forms/pull/11)
+- Fixed the checkbox component to emit its change event properly for all change detection strategies. [#11](https://github.com/blackbaud/skyux-forms/pull/11)
 
 # 3.0.0-rc.3 (2018-11-15)
 
-- Fixed checkbox component to respect disabled state within reactive forms. [#7](https://github.com/blackbaud/skyux-forms/pull/7)
+- Fixed the checkbox component to respect the disabled state within reactive forms. [#7](https://github.com/blackbaud/skyux-forms/pull/7)
 - Updated peer dependencies to support Angular versions greater than `4.3.6`. [#9](https://github.com/blackbaud/skyux-forms/pull/9)
 
 # 3.0.0-rc.2 (2018-11-08)
