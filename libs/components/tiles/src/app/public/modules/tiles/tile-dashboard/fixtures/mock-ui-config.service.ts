@@ -6,6 +6,8 @@ import {
   Observable
 } from 'rxjs/Observable';
 
+import 'rxjs/add/observable/throw';
+
 import {
   SkyUIConfigService
 } from '@skyux/core';
