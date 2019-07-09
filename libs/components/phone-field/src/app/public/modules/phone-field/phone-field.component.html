@@ -8,8 +8,8 @@
     <button
       aria-live="polite"
       class="sky-btn sky-btn-default"
-      [attr.title]="('skyux_phone_field_country_select_label' | skyAppResources) + ' ' + ('skyux_phone_field_country_selected_label' | skyAppResources:selectedCountry.name)"
-      [attr.aria-label]="('skyux_phone_field_country_select_label' | skyAppResources) + ' ' + ('skyux_phone_field_country_selected_label' | skyAppResources:selectedCountry.name)"
+      [attr.title]="('skyux_phone_field_country_select_label' | skyLibResources) + ' ' + ('skyux_phone_field_country_selected_label' | skyLibResources:selectedCountry.name)"
+      [attr.aria-label]="('skyux_phone_field_country_select_label' | skyLibResources) + ' ' + ('skyux_phone_field_country_selected_label' | skyLibResources:selectedCountry.name)"
       [disabled]="countrySelectDisabled"
       (click)="toggleCountrySearch(true)"
     >
@@ -53,8 +53,8 @@
             id="my-autocomplete-template-driven"
             name="selectedCountry"
             type="text"
-            [attr.aria-label]="'skyux_phone_field_country_search_label' | skyAppResources"
-            [placeholder]="'skyux_phone_field_country_search_placeholder' | skyAppResources"
+            [attr.aria-label]="'skyux_phone_field_country_search_label' | skyLibResources"
+            [placeholder]="'skyux_phone_field_country_search_placeholder' | skyLibResources"
             #countrySearchInput
           >
         </sky-autocomplete>
