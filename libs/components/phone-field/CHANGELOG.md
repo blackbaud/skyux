@@ -1,3 +1,7 @@
+# 3.0.2 (2019-07-09)
+
+- Fixed the phone field component to properly localize text. [#19](https://github.com/blackbaud/skyux-phone-field/pull/19)
+
 # 3.0.1 (2019-06-12)
 
 - Fixed the phone field component to import animations from the correct location. [#14](https://github.com/blackbaud/skyux-phone-field/pull/14)
