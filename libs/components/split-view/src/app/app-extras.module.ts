@@ -3,18 +3,27 @@ import {
 } from '@angular/core';
 
 import {
-  MyLibraryModule
+  SkyRepeaterModule
+} from '@skyux/lists';
+
+import {
+  SkyConfirmModule
+} from '@skyux/modals';
+
+import {
+  SkyAppLinkModule
+} from '@skyux/router';
+
+import {
+  SkySplitViewModule
 } from './public';
 
-// Specify entry components, module-level providers, etc. here.
 @NgModule({
-  imports: [
-    MyLibraryModule
-  ],
   exports: [
-    MyLibraryModule
-  ],
-  providers: [],
-  entryComponents: []
+    SkyAppLinkModule,
+    SkyConfirmModule,
+    SkySplitViewModule,
+    SkyRepeaterModule
+  ]
 })
 export class AppExtrasModule { }

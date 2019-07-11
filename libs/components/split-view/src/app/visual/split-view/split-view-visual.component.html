@@ -1,0 +1,72 @@
+<h3>Split view for visual tests</h3>
+
+<div
+  class="app-screenshot"
+  id="screenshot-split-view"
+>
+  <sky-split-view
+    [messageStream]="splitViewStream"
+  >
+    <sky-split-view-drawer
+      [width]="width"
+    >
+      <h3>
+        <strong>{{ items.length }}</strong> transactions
+      </h3>
+      <ul
+        class="sky-visual-list"
+      >
+        <li *ngFor="let item of items; let i = index"
+          (click)="onItemClick(i)"
+        >
+          {{ item.name }} <br />
+          {{ item.date }} <br />
+          {{ item.amount }}
+        </li>
+      </ul>
+    </sky-split-view-drawer>
+
+    <sky-split-view-workspace>
+      <h3>
+        Transaction for {{ activeRecord.name }}
+      </h3>
+      <form>
+        <p>
+          <label>
+            Post date
+            <input
+              name="date"
+              type="text"
+              [(ngModel)]="activeRecord.date"
+            />
+          </label>
+        </p>
+        <p>
+          <label>
+            Amount
+            <input
+              name="amount"
+              type="text"
+              [(ngModel)]="activeRecord.amount"
+            />
+          </label>
+        </p>
+
+        <input
+          name="submit"
+          type="submit"
+          value="Save transaction"
+        />
+
+        <label>
+          <input
+            name="unsavedWork"
+            type="checkbox"
+            [(ngModel)]="hasUnsavedWork"
+          />
+          Has unsaved work
+        </label>
+      </form>
+    </sky-split-view-workspace>
+  </sky-split-view>
+</div>

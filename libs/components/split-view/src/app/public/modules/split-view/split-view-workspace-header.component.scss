@@ -1,0 +1,14 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-split-view-workspace-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  border-bottom: 1px solid $sky-border-color-neutral-medium;
+  padding: $sky-padding-half 0;
+
+  .sky-split-view-workspace-header-content {
+    flex-grow: 1;
+  }
+}

@@ -1,0 +1,108 @@
+<h3>Split view demo with repeater</h3>
+
+<div
+  class="app-screenshot"
+  id="screenshot-split-view-with-repeater"
+>
+  <sky-split-view
+    [messageStream]="splitViewStream"
+  >
+    <sky-split-view-drawer
+      [ariaLabel]="'Transaction list'"
+      [width]="width"
+    >
+      <p>
+        <span
+          class="sky-headline"
+        >
+          {{ items.length }}
+        </span>
+         transactions
+      </p>
+      <sky-repeater>
+        <sky-repeater-item *ngFor="let item of items; let i = index"
+          [ngClass]="{ 'sky-repeater-active' : activeIndex === i }"
+          (click)="onItemClick(i)"
+        >
+          <sky-repeater-item-title>
+              {{ item.name }}
+          </sky-repeater-item-title>
+          <sky-repeater-item-content>
+              {{ item.date }} <br />
+              {{ item.amount }}
+          </sky-repeater-item-content>
+        </sky-repeater-item>
+      </sky-repeater>
+    </sky-split-view-drawer>
+
+    <sky-split-view-workspace
+      [ariaLabel]="'Transaction form'"
+    >
+      <h3>
+        Transaction for {{ activeRecord.name }}
+      </h3>
+      <form>
+
+        <div
+          class="sky-form-group"
+        >
+          <label
+            class="sky-control-label"
+            for="date"
+          >
+            Post date
+          </label>
+          <input
+            name="date"
+            class="sky-form-control"
+            type="text"
+            [(ngModel)]="activeRecord.date"
+          />
+        </div>
+
+        <div
+          class="sky-form-group"
+        >
+          <label
+            class="sky-control-label"
+            for="amount"
+          >
+            Amount
+          </label>
+          <input
+            name="amount"
+            class="sky-form-control"
+            type="text"
+            [(ngModel)]="activeRecord.amount"
+          />
+        </div>
+
+        <div
+          class="sky-form-group"
+        >
+          <label>
+            <input
+              name="unsavedWork"
+              type="checkbox"
+              [(ngModel)]="hasUnsavedWork"
+            />
+            Has unsaved work (demonstration only)
+          </label>
+        </div>
+
+        <div
+          class="sky-form-group"
+        >
+          <button
+            class="sky-btn sky-btn-primary"
+            name="submit"
+            type="submit"
+          >
+            Save transaction
+          </button>
+        </div>
+
+      </form>
+    </sky-split-view-workspace>
+  </sky-split-view>
+</div>

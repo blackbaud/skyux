@@ -1,0 +1,10 @@
+{
+  "skyux_split_view_resize_handle": {
+    "_description": "Label for the drawer panel resizing handle",
+    "message": "Resize the drawer panel. Use right arrow key to expand and left arrow key to shrink."
+  },
+  "skyux_split_view_back_to_list": {
+    "_description": "Default label for workspace header button to show drawer when in mobile mode.",
+    "message": "Back to list"
+  }
+}

@@ -1,0 +1,26 @@
+<div
+  class="sky-split-view-drawer"
+  role="region"
+  [attr.aria-label]="ariaLabel"
+  [id]="splitViewDrawerId"
+  [style.width.px]="width"
+>
+  <ng-content></ng-content>
+  <input *ngIf="!isMobile"
+    class="sky-split-view-resize-handle"
+    role="separator"
+    step="10"
+    type="range"
+    [attr.aria-controls]="splitViewDrawerId"
+    [attr.aria-label]="'skyux_split_view_resize_handle' | skyLibResources"
+    [attr.aria-valuemax]="widthMax"
+    [attr.aria-valuemin]="widthMin"
+    [attr.aria-valuenow]="width"
+    [max]="widthMax"
+    [min]="widthMin"
+    [style.left.px]="width - 7"
+    [value]="width"
+    (change)="onResizeHandleChange($event)"
+    (mousedown)="onResizeHandleMouseDown($event)"
+  />
+</div>

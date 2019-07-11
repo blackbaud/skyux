@@ -1,0 +1,29 @@
+/*
+  The consumer has full control over what can be placed in the drawer.
+  These classes are simply for visual tests and not inteded to be used as a demo.
+*/
+.sky-visual-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    padding: 10px 5px;
+    border-top: 1px solid #ccc;
+  }
+}
+
+::ng-deep .sky-split-view-drawer  p {
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+/*
+  This is a temporary style until repeaters support an "active" class.
+*/
+::ng-deep .sky-repeater-active .sky-repeater-item {
+  background-color: #eeeeef;
+  color: #212327;
+  padding-left: 6px;
+  border-left: 4px solid #00b4f1;
+}
