@@ -16,7 +16,7 @@
     class="sky-split-view-workspace-flex-container"
     [hidden]="!workspaceVisible"
     [@workspaceEnter]="workspaceVisible"
-    (@workspaceEnter.done)="onWorkspaceEnterComplete($event)"
+    (@workspaceEnter.done)="onWorkspaceEnterComplete()"
   >
     <ng-content
       select="sky-split-view-workspace"

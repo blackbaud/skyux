@@ -304,7 +304,10 @@ describe('Split view component', () => {
       spyOnProperty(window, 'innerWidth', 'get').and.returnValue(400);
 
       // Get split view component and fire a mouse down event.
-      drawerComponent.onResizeHandleMouseDown(new MouseEvent('mousedown'));
+      const mouseEvent = document.createEvent('MouseEvents');
+      mouseEvent.initMouseEvent('mousedown', false, false, window, 0, 0, 0, 12,
+        0, false, false, false, false, 0, undefined);
+      drawerComponent.onResizeHandleMouseDown(mouseEvent);
       fixture.detectChanges();
       tick();
 
