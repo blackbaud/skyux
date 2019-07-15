@@ -1,3 +1,7 @@
+# 3.1.1 (2019-07-15)
+
+- Fixed `SkyTileModule` to import the missing `BrowserAnimationsModule`. [#32](https://github.com/blackbaud/skyux-tiles/pull/32)
+
 # 3.1.0 (2019-05-17)
 
 - Added the ability to trigger responsive styles based on a parent component. [#29](https://github.com/blackbaud/skyux-tiles/pull/29)
