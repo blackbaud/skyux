@@ -5,4 +5,5 @@
  */
 export abstract class SkyAppAssetsService {
   public abstract getUrl(path: string): string;
+  public abstract getAllUrls(): {[key: string]: any};
 }
