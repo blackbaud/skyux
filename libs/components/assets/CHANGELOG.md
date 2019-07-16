@@ -1,3 +1,7 @@
+# 3.1.0 (2019-07-16)
+
+- Added method `getAllUrls` to `SkyAppAssetsService`. [#5](https://github.com/blackbaud/skyux-assets/pull/5)
+
 # 3.0.0 (2018-09-20)
 
 - Initial major release.
