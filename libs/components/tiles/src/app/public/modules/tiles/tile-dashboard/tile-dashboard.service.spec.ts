@@ -447,7 +447,7 @@ describe('Tile dashboard service', () => {
 
   it('should allow tiles to be moved within a column in single column mode', fakeAsync(() => {
     let fixture = createDashboardTestComponent();
-    mockMediaQueryService.current = SkyMediaBreakpoints.sm;
+    mockMediaQueryService.fire(SkyMediaBreakpoints.sm);
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
@@ -557,13 +557,12 @@ describe('Tile dashboard service', () => {
       }
 
       let fixture = createDashboardTestComponent();
-
-      mockMediaQueryService.current = SkyMediaBreakpoints.sm;
-
       let el = fixture.nativeElement;
 
+      mockMediaQueryService.fire(SkyMediaBreakpoints.sm);
       fixture.detectChanges();
       tick();
+      fixture.detectChanges();
 
       let multiColumnEls = el.querySelectorAll('.sky-tile-dashboard-layout-multi');
       let singleColumnEl = el.querySelector('.sky-tile-dashboard-layout-single');
@@ -669,7 +668,6 @@ describe('Tile dashboard service', () => {
       dashboardService.init(dashboardConfig, undefined, undefined, 'defaultSettings');
 
       dashboardService.configChange.subscribe((config: SkyTileDashboardConfig) => {
-
         expect(config.layout).toEqual(dashboardConfig.layout);
       });
     })
@@ -681,7 +679,17 @@ describe('Tile dashboard service', () => {
       dashboardService.init(dashboardConfig, undefined, undefined, 'badData');
 
       dashboardService.configChange.subscribe((config: SkyTileDashboardConfig) => {
+        expect(config.layout).toEqual(dashboardConfig.layout);
+      });
+    })
+  );
 
+  it(
+    'should return default config when an error occurs from the config service',
+    inject([SkyTileDashboardService], (dashboardService: SkyTileDashboardService) => {
+      dashboardService.init(dashboardConfig, undefined, undefined, 'error');
+
+      dashboardService.configChange.subscribe((config: SkyTileDashboardConfig) => {
         expect(config.layout).toEqual(dashboardConfig.layout);
       });
     })

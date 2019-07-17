@@ -66,7 +66,6 @@ export class SkyTileDashboardService {
   ) {
     this.bagId = 'sky-tile-dashboard-bag-' + (++bagIdIndex);
 
-    this.initMediaQueries();
     this.initDragula();
   }
 
@@ -98,6 +97,9 @@ export class SkyTileDashboardService {
             // Bad data, or config is the default config.
             this.initToDefaults(config, columns, singleColumn);
           }
+        }, (error: any) => {
+          // Config setting key doesn't exist or other config service error
+          this.initToDefaults(config, columns, singleColumn);
         });
     } else {
       this.initToDefaults(config, columns, singleColumn);
@@ -308,6 +310,7 @@ export class SkyTileDashboardService {
   private checkReadyAndLoadTiles() {
     if (this.config && this.columns) {
       this.loadTiles();
+      this.initMediaQueries();
       this.dashboardInitialized.emit();
     }
   }
@@ -461,11 +464,14 @@ export class SkyTileDashboardService {
   }
 
   private initMediaQueries() {
-    this.mediaSubscription = this.mediaQuery.subscribe(
-      (args: SkyMediaBreakpoints) => {
-        this.changeColumnMode(args === SkyMediaBreakpoints.xs || args === SkyMediaBreakpoints.sm);
-      }
-    );
+    /*istanbul ignore else */
+    if (!this.mediaSubscription) {
+      this.mediaSubscription = this.mediaQuery.subscribe(
+        (args: SkyMediaBreakpoints) => {
+          this.changeColumnMode(args === SkyMediaBreakpoints.xs || args === SkyMediaBreakpoints.sm);
+        }
+      );
+    }
   }
 
   private initDragula() {

@@ -20,6 +20,8 @@ export class MockSkyUIConfigService extends SkyUIConfigService {
         return Observable.of(defaultConfig);
       case 'badData':
         return Observable.of({invalidProperty: 'invalidData'});
+      case 'error':
+        return Observable.throw({message: 'Test error'});
       default: {
         return Observable.of({
           layout: {
