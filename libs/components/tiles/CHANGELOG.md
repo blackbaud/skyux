@@ -1,3 +1,8 @@
+# 3.1.2 (2019-07-17)
+
+- Fixed the tile dashboard service to no longer cause undefined errors in a flyout component. [#38](https://github.com/blackbaud/skyux-tiles/pull/38) (Thanks @Blackbaud-KrisMahon)
+- Fixed the tile dashboard service to better handle errors when loading user configuration settings. [#38](https://github.com/blackbaud/skyux-tiles/pull/38) (Thanks @Blackbaud-KrisMahon)
+
 # 3.1.1 (2019-07-15)
 
 - Fixed `SkyTileModule` to import the missing `BrowserAnimationsModule`. [#32](https://github.com/blackbaud/skyux-tiles/pull/32)
