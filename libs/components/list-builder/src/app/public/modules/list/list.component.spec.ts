@@ -418,8 +418,9 @@ describe('List Component', () => {
           tick();
 
           state.take(1).subscribe((current) => {
-            expect(current.selected.item.selectedIdMap.get('2')).toBe(true);
-            expect(current.selected.item.selectedIdMap.get('1')).toBe(true);
+            const selectedIdMap = current.selected.item.selectedIdMap;
+            expect(selectedIdMap.get('2')).toBe(true);
+            expect(selectedIdMap.get('1')).toBe(true);
           });
 
           tick();
@@ -429,8 +430,9 @@ describe('List Component', () => {
           tick();
 
           state.take(1).subscribe((current) => {
-            expect(current.selected.item.selectedIdMap.get('2')).toBe(true);
-            expect(current.selected.item.selectedIdMap.get('1')).toBe(false);
+            const selectedIdMap = current.selected.item.selectedIdMap;
+            expect(selectedIdMap.get('2')).toBe(true);
+            expect(selectedIdMap.get('1')).toBe(false);
           });
 
           tick();
@@ -440,8 +442,9 @@ describe('List Component', () => {
           tick();
 
           state.take(1).subscribe((current) => {
-            expect(current.selected.item.selectedIdMap.get('2')).toBe(undefined);
-            expect(current.selected.item.selectedIdMap.get('3')).toBe(true);
+            const selectedIdMap = current.selected.item.selectedIdMap;
+            expect(selectedIdMap.get('2')).toBe(undefined);
+            expect(selectedIdMap.get('3')).toBe(true);
           });
 
           tick();
@@ -454,7 +457,8 @@ describe('List Component', () => {
           tick();
 
           state.take(1).subscribe((current) => {
-            expect(current.selected.item.selectedIdMap.get('1')).toBe(true);
+            const selectedIdMap = current.selected.item.selectedIdMap;
+            expect(selectedIdMap.get('1')).toBe(true);
           });
 
           tick();
@@ -464,8 +468,9 @@ describe('List Component', () => {
           tick();
 
           state.take(1).subscribe((current) => {
-            expect(current.selected.item.selectedIdMap.get('2')).toBe(true);
-            expect(current.selected.item.selectedIdMap.get('1')).toBe(true);
+            const selectedIdMap = current.selected.item.selectedIdMap;
+            expect(selectedIdMap.get('2')).toBe(true);
+            expect(selectedIdMap.get('1')).toBe(true);
           });
 
           tick();
@@ -475,8 +480,9 @@ describe('List Component', () => {
           tick();
 
           state.take(1).subscribe((current) => {
-            expect(current.selected.item.selectedIdMap.get('2')).toBe(true);
-            expect(current.selected.item.selectedIdMap.get('1')).toBe(false);
+            const selectedIdMap = current.selected.item.selectedIdMap;
+            expect(selectedIdMap.get('2')).toBe(true);
+            expect(selectedIdMap.get('1')).toBe(false);
           });
 
           tick();
@@ -488,9 +494,66 @@ describe('List Component', () => {
         tick();
         fixture.detectChanges();
         state.take(1).subscribe((current) => {
-          expect(current.selected.item.selectedIdMap.get('2')).toBe(true);
-          expect(current.selected.item.selectedIdMap.get('1')).toBe(true);
+          const selectedIdMap = current.selected.item.selectedIdMap;
+          expect(selectedIdMap.get('2')).toBe(true);
+          expect(selectedIdMap.get('1')).toBe(true);
         });
+
+        fixture.detectChanges();
+        tick();
+      }));
+
+      it('should allow users to change selectedIds', fakeAsync(() => {
+        tick();
+        fixture.detectChanges();
+
+        component.selectedIds = ['3', '4']
+        tick();
+        fixture.detectChanges();
+        state.take(1).subscribe((current) => {
+          const selectedIdMap = current.selected.item.selectedIdMap;
+          expect(selectedIdMap.get('1')).toBeUndefined();
+          expect(selectedIdMap.get('2')).toBeUndefined();
+          expect(selectedIdMap.get('3')).toBe(true);
+          expect(selectedIdMap.get('4')).toBe(true);
+          expect(selectedIdMap.get('5')).toBeUndefined();
+          expect(selectedIdMap.get('6')).toBeUndefined();
+          expect(selectedIdMap.get('7')).toBeUndefined();
+        });
+
+        component.selectedIds = []
+        tick();
+        fixture.detectChanges();
+        state.take(1).subscribe((current) => {
+          const selectedIdMap = current.selected.item.selectedIdMap;
+          expect(selectedIdMap.get('1')).toBeUndefined();
+          expect(selectedIdMap.get('2')).toBeUndefined();
+          expect(selectedIdMap.get('3')).toBeUndefined();
+          expect(selectedIdMap.get('4')).toBeUndefined();
+          expect(selectedIdMap.get('5')).toBeUndefined();
+          expect(selectedIdMap.get('6')).toBeUndefined();
+          expect(selectedIdMap.get('7')).toBeUndefined();
+        });
+
+        fixture.detectChanges();
+        tick();
+      }));
+
+      it('should not change selectedIds if the values are not distinct', fakeAsync(() => {
+        tick();
+        fixture.detectChanges();
+        const dispatcherSpy = spyOn(dispatcher, 'setSelected').and.callThrough();
+
+        component.selectedIds = ['3', '4']
+        tick();
+        fixture.detectChanges();
+        expect(dispatcherSpy).toHaveBeenCalledTimes(1);
+        dispatcherSpy.calls.reset();
+
+        component.selectedIds = ['3', '4']
+        tick();
+        fixture.detectChanges();
+        expect(dispatcherSpy).not.toHaveBeenCalled();
 
         fixture.detectChanges();
         tick();

@@ -26,7 +26,7 @@ export class ListToolbarVisualComponent {
 
   public iconGroupSelectedValue = 'table';
 
-  public selectedIds: string[] = ['1'];
+  public selectedIds: string[] = [];
 
   public fruitTypeFilterFunction(): boolean {
     return true;
@@ -34,5 +34,9 @@ export class ListToolbarVisualComponent {
 
   public selectedIdsChange(data: any): void {
     console.log('selectedIdsChange:', data);
+  }
+
+  public onSelectRowsClick(): void {
+    this.selectedIds = ['2', '3', '5'];
   }
 }

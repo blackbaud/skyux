@@ -122,6 +122,7 @@
   <h2>Toolbar with multiselect</h2>
   <sky-list
     [data]="data"
+    [selectedIds]="selectedIds"
     (selectedIdsChange)="selectedIdsChange($event)"
   >
     <sky-list-toolbar>
@@ -219,15 +220,23 @@
     <sky-list-view-visual></sky-list-view-visual>
 
   </sky-list>
+
+  <button
+    type="button"
+    (click)="onSelectRowsClick()"
+  >
+    Programmatically select rows 2, 3, and 5
+  </button>
 </div>
 
 <div
   class="sky-padding-even-default"
 >
   <h2>Toolbar with multiselect (based on item.isSelected property)</h2>
-  <p>This is to simulate how list-view-grids would work, as its the only component that should go off of item.</p>
+  <p>This is to simulate how the vanilla grids component would work, as its the only component that should go off of item.</p>
   <sky-list
     [data]="data"
+    [selectedIds]="selectedIds"
     (selectedIdsChange)="selectedIdsChange($event)"
   >
     <sky-list-toolbar>

@@ -56,6 +56,10 @@ export class ListItemsOrchestrator extends ListStateOrchestrator<AsyncList<ListI
   ): AsyncList<ListItemModel> {
     let newListItems = this.cloneListItemModelArray(state.items);
 
+    if (action.refresh) {
+      newListItems.forEach(item => item.isSelected = undefined);
+    }
+
     action.items.map(s => {
       let newItem = newListItems.find(i => i.id === s);
       if (newItem) {
@@ -71,7 +75,7 @@ export class ListItemsOrchestrator extends ListStateOrchestrator<AsyncList<ListI
     );
   }
 
-  private cloneListItemModelArray(source: Array<ListItemModel>) {
+  private cloneListItemModelArray(source: Array<ListItemModel>): ListItemModel[] {
     let newListItems: Array<ListItemModel> = [];
     source.forEach(item => {
       newListItems.push(

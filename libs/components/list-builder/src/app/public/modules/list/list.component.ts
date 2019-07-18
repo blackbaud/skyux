@@ -244,6 +244,15 @@ export class SkyListComponent implements AfterContentInit, OnChanges, OnDestroy 
       changes['appliedFilters'].currentValue !== changes['appliedFilters'].previousValue) {
       this.dispatcher.filtersUpdate(this.appliedFilters);
     }
+    if (changes['selectedIds']) {
+      const newSelectedIds = changes['selectedIds'].currentValue;
+      const newSelectedIdsDistinct = this.lastSelectedIds && !this.arraysEqual(newSelectedIds, this.lastSelectedIds);
+
+      // Only send selection changes to the dispatcher if this is the first change or the changes are distinct.
+      if (!this.lastSelectedIds || newSelectedIdsDistinct) {
+        this.dispatcher.setSelected(newSelectedIds, true, true);
+      }
+    }
   }
 
   public ngOnDestroy(): void {

@@ -273,8 +273,10 @@ describe('list items', () => {
 
       tick();
 
+      // Because we are setting the refresh property to true (default),
+      // we expect item[0] to be reset to an undefined state.
       state.take(1).subscribe(stateModel => {
-        expect(stateModel.items.items[0].isSelected).toBe(true);
+        expect(stateModel.items.items[0].isSelected).toBeUndefined();
         expect(stateModel.items.items[1].isSelected).toBe(true);
         expect(stateModel.items.items[2].isSelected).toBe(true);
       });
@@ -289,6 +291,32 @@ describe('list items', () => {
         expect(stateModel.items.items[0].isSelected).toBe(false);
         expect(stateModel.items.items[1].isSelected).toBe(false);
         expect(stateModel.items.items[2].isSelected).toBe(false);
+      });
+    }));
+
+    it('should select items when action is dispatched with refresh set to false', fakeAsync (() => {
+      dispatcher.next(new ListItemsSetSelectedAction(['1', '2', '3'], true, false));
+
+      tick();
+
+      state.take(1).subscribe(stateModel => {
+        expect(stateModel.items.items[0].isSelected).toBe(true);
+        expect(stateModel.items.items[1].isSelected).toBe(true);
+        expect(stateModel.items.items[2].isSelected).toBe(true);
+      });
+
+      tick();
+
+      dispatcher.next(new ListItemsSetSelectedAction(['2'], false, false));
+
+      tick();
+
+      // Because we are setting the refresh property to false,
+      // we expect item[0] amd item[2] to retain their old values.
+      state.take(1).subscribe(stateModel => {
+        expect(stateModel.items.items[0].isSelected).toBe(true);
+        expect(stateModel.items.items[1].isSelected).toBe(false);
+        expect(stateModel.items.items[2].isSelected).toBe(true);
       });
     }));
   });
