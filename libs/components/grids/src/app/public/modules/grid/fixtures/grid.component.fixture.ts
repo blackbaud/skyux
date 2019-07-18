@@ -54,6 +54,7 @@ export class GridTestComponent {
   public gridController = new Subject<SkyGridMessage>();
   public rowHighlightedId: string;
   public settingsKey: string;
+  public selectedRowIds: Array<string>;
 
   public selectedColumnIds: string[] = [
     'column1',

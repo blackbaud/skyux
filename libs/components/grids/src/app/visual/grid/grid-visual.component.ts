@@ -22,10 +22,6 @@ import {
 })
 export class GridVisualComponent {
 
-  public highlightText: string;
-  public selectedRows: string;
-  public gridController = new Subject<SkyGridMessage>();
-
   public dataForSimpleGrid = [
     { id: '1', column1: '1', column2: 'Apple', column3: 'aa' },
     { id: '2', column1: '01', column2: 'Banana', column3: 'bb' },
@@ -46,21 +42,31 @@ export class GridVisualComponent {
     { id: '7', column1: '21', column2: 'Grape', column3: 'gg', myId: '107' }
   ];
 
+  public gridController = new Subject<SkyGridMessage>();
+
+  public highlightText: string;
+
   public rowHighlightedId: string;
 
-  public sortChangedSimpleGrid(activeSort: ListSortFieldSelectorModel) {
+  public selectedRowIds: string[];
+
+  public selectedRowIdsDisplay: string[];
+
+  public selectedRows: string;
+
+  public sortChangedSimpleGrid(activeSort: ListSortFieldSelectorModel): void {
     this.dataForSimpleGrid = this.performSort(activeSort, this.dataForSimpleGrid);
   }
 
-  public sortChangedMultiselectGrid(activeSort: ListSortFieldSelectorModel) {
+  public sortChangedMultiselectGrid(activeSort: ListSortFieldSelectorModel): void {
     this.dataForSimpleGridWithMultiselect = this.performSort(activeSort, this.dataForSimpleGridWithMultiselect);
   }
 
-  public triggerTextHighlight() {
+  public triggerTextHighlight(): void {
     this.highlightText = 'e';
   }
 
-  public triggerRowHighlight() {
+  public triggerRowHighlight(): void {
     if (!this.rowHighlightedId) {
       this.rowHighlightedId = '2';
     } else {
@@ -68,19 +74,23 @@ export class GridVisualComponent {
     }
   }
 
-  public onMultiselectSelectionChange(value: SkyGridSelectedRowsModelChange) {
-    this.selectedRows = value.selectedRowIds.toString();
+  public onMultiselectSelectionChange(value: SkyGridSelectedRowsModelChange): void {
+    this.selectedRowIdsDisplay = value.selectedRowIds;
   }
 
-  public selectAll() {
+  public selectAll(): void {
     this.sendMessage(SkyGridMessageType.SelectAll);
   }
 
-  public clearAll() {
+  public clearAll(): void {
     this.sendMessage(SkyGridMessageType.ClearAll);
   }
 
-  private performSort(activeSort: ListSortFieldSelectorModel, data: any[]) {
+  public selectRow(): void {
+    this.selectedRowIds = ['2', '5', '7'];
+  }
+
+  private performSort(activeSort: ListSortFieldSelectorModel, data: any[]): Array<any> {
     const sortField = activeSort.fieldSelector;
     const descending = activeSort.descending;
 
@@ -110,7 +120,7 @@ export class GridVisualComponent {
     }).slice();
   }
 
-  private sendMessage(type: SkyGridMessageType) {
+  private sendMessage(type: SkyGridMessageType): void {
     const message: SkyGridMessage = { type };
     this.gridController.next(message);
   }

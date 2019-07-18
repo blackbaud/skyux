@@ -1048,9 +1048,26 @@ describe('Grid Component', () => {
       fixture.detectChanges();
       fixture.detectChanges();
     });
+
+    //#region multiselect helpers
     function getMultiselectInputs() {
       return fixture.debugElement.queryAll(By.css('tbody .sky-grid-multiselect-cell input'));
     }
+
+    function verifyCheckbox(index: number, checked: boolean) {
+      const checkboxes = getMultiselectInputs();
+      const tableRows = getTableRows(fixture);
+
+      expect(component.data[index].isSelected = checked);
+      expect(checkboxes[index].nativeElement.checked = checked);
+      if (checked) {
+        expect(tableRows[index].nativeElement).toHaveCssClass('sky-grid-multiselect-selected-row');
+      } else {
+        expect(tableRows[index].nativeElement).not.toHaveCssClass('sky-grid-multiselect-selected-row');
+      }
+    }
+    //#endregion
+
     describe('Standard setup', () => {
       it('should add checkboxes properly to grid, with proper accessibility attributes', () => {
         const checkboxes = getMultiselectInputs();
@@ -1311,9 +1328,7 @@ describe('Grid Component', () => {
         fixture.detectChanges();
 
         for (let i = 0; i < checkboxes.length; i++) {
-          expect(component.data[i].isSelected = true);
-          expect(checkboxes[i].nativeElement.checked = true);
-          expect(tableRows[i].nativeElement).toHaveCssClass('sky-grid-multiselect-selected-row');
+          verifyCheckbox(i, true);
         }
 
         const clearAllMessage: SkyGridMessage = { type: SkyGridMessageType.ClearAll };
@@ -1321,10 +1336,52 @@ describe('Grid Component', () => {
         fixture.detectChanges();
 
         for (let i = 0; i < checkboxes.length; i++) {
-          expect(component.data[i].isSelected = false);
-          expect(checkboxes[i].nativeElement.checked = false);
-          expect(tableRows[i].nativeElement).not.toHaveCssClass('sky-grid-multiselect-selected-row');
+          verifyCheckbox(i, false);
         }
+      });
+
+      it('should properly update the checkboxes when selectedRowIds is changed', () => {
+        // Select group of rows.
+        let selectedIds = ['1', '3'];
+        component.selectedRowIds = selectedIds;
+        fixture.detectChanges();
+
+        // Verify those rows are selected and displayed properly.
+        verifyCheckbox(0, true);
+        verifyCheckbox(1, false);
+        verifyCheckbox(2, true);
+        verifyCheckbox(3, false);
+        verifyCheckbox(4, false);
+        verifyCheckbox(5, false);
+        verifyCheckbox(6, false);
+
+        // Send another selection.
+        selectedIds = ['5'];
+        component.selectedRowIds = selectedIds;
+        fixture.detectChanges();
+
+        // Verify new rows are selected and displayed properly.
+        verifyCheckbox(0, false);
+        verifyCheckbox(1, false);
+        verifyCheckbox(2, false);
+        verifyCheckbox(3, false);
+        verifyCheckbox(4, true);
+        verifyCheckbox(5, false);
+        verifyCheckbox(6, false);
+
+        // Send empty array.
+        selectedIds = [];
+        component.selectedRowIds = selectedIds;
+        fixture.detectChanges();
+
+        // Verify no rows are selected.
+        verifyCheckbox(0, false);
+        verifyCheckbox(1, false);
+        verifyCheckbox(2, false);
+        verifyCheckbox(3, false);
+        verifyCheckbox(4, false);
+        verifyCheckbox(5, false);
+        verifyCheckbox(6, false);
       });
 
       it('should be accessible', async(() => {

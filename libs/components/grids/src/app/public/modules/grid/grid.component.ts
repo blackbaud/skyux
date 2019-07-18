@@ -173,6 +173,17 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
   public multiselectRowId: string;
 
   @Input()
+  public set selectedRowIds(value: Array<string>) {
+    if (value) {
+      for (let i = 0; i < this.items.length; i++) {
+        this.items[i].isSelected = (value.indexOf(this.items[i].id) > -1);
+      }
+      this.emitSelectedRows();
+      this.ref.markForCheck();
+    }
+  }
+
+  @Input()
   public messageStream = new Subject<SkyGridMessage>();
 
   @Input()

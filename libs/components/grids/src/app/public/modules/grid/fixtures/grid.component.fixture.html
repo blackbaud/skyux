@@ -1,17 +1,18 @@
 
 <sky-grid
-  [fit]="fitType"
-  [selectedColumnIds]="selectedColumnIds"
-  [hasToolbar]="hasToolbar"
   [data]="data"
-  [width]="600"
+  [fit]="fitType"
+  [hasToolbar]="hasToolbar"
   [height]="400"
   [enableMultiselect]="enableMultiselect"
   [messageStream]="gridController"
   [multiselectRowId]="multiselectRowId"
+  [selectedRowIds]="selectedRowIds"
   [rowHighlightedId]="rowHighlightedId"
+  [selectedColumnIds]="selectedColumnIds"
   [settingsKey]="settingsKey"
   [sortField]="sortField"
+  [width]="600"
   (sortFieldChange)="onSort($event)"
   (columnWidthChange)="onResize($event)"
   (multiselectSelectionChange)="onMultiselectChange($event)">
