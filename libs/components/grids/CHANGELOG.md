@@ -1,3 +1,7 @@
+# 3.2.0 (2019-07-19)
+
+- Added `selectedRowIds` input property to programmatically select rows on the grid component. [#39](https://github.com/blackbaud/skyux-grids/pull/39)
+
 # 3.1.7 (2019-06-14)
 
 - Fixed the grid component to gracefully ignore columns that no longer exist when the UI Config Service returns them. [#61](https://github.com/blackbaud/skyux-grids/pull/61)
