@@ -68,6 +68,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   public skyColorpickerBlueId: string;
   public skyColorpickerAlphaId: string;
   public alphaChannel: string;
+  public allowTransparency: boolean;
   public alphaSliderColor: string;
   public arrowTop: number;
   public format: number;
@@ -123,12 +124,14 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     color: any,
     outputFormat: string,
     presetColors: Array<string>,
-    alphaChannel: string
+    alphaChannel: string,
+    allowTransparency: boolean
   ) {
     this.initialColor = color;
     this.outputFormat = outputFormat;
     this.presetColors = presetColors;
     this.alphaChannel = alphaChannel;
+    this.allowTransparency = allowTransparency;
 
     if (this.outputFormat === 'rgba') {
       this.format = 1;

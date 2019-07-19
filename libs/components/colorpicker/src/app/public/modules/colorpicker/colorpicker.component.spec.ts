@@ -696,6 +696,38 @@ describe('Colorpicker Component', () => {
       expect(nativeElement.querySelectorAll('.sky-colorpicker-reset-button').length).toEqual(1);
     }));
 
+    it('should display alpha related elements by default', fakeAsync(() => {
+      fixture.detectChanges();
+      tick();
+
+      openColorpicker(nativeElement, fixture);
+
+      const alphaBar = fixture.debugElement.query(By.css('.alpha'));
+
+      expect(alphaBar).toBeTruthy();
+
+      const selector = `#${component.colorpickerComponent.skyColorpickerAlphaId}`;
+      const alphaInput = fixture.debugElement.query(By.css(selector));
+
+      expect(alphaInput).toBeTruthy();
+    }));
+
+    it('should not display alpha related elements when allowTransparency is specified', fakeAsync(() => {
+      component.selectedTransparency = false;
+      fixture.detectChanges();
+
+      openColorpicker(nativeElement, fixture);
+
+      const alphaBar = fixture.debugElement.query(By.css('.alpha'));
+
+      expect(alphaBar).toBeFalsy();
+
+      const selector = `#${component.colorpickerComponent.skyColorpickerAlphaId}`;
+      const alphaInput = fixture.debugElement.query(By.css(selector));
+
+      expect(alphaInput).toBeFalsy();
+    }));
+
   });
 
   describe('reactive configuration', () => {

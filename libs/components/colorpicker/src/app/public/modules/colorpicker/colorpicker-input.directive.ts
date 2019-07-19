@@ -100,6 +100,9 @@ export class SkyColorpickerInputDirective
   @Input()
   public alphaChannel = 'hex6';
 
+  @Input()
+  public allowTransparency = true;
+
   private _initialColor: string;
   private modelValue: SkyColorpickerOutput;
 
@@ -181,7 +184,8 @@ export class SkyColorpickerInputDirective
       this.initialColor,
       this.outputFormat,
       this.presetColors,
-      this.alphaChannel
+      this.alphaChannel,
+      this.allowTransparency
     );
   }
 

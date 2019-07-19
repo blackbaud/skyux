@@ -47,7 +47,7 @@
                   class="cursor sky-rounded-circle">
                 </div>
               </div>
-              <div
+              <div *ngIf="this.allowTransparency"
                 [skyColorpickerSlider]
                 [style.background-color]="alphaSliderColor"
                 [xAxis]="1"
@@ -83,7 +83,7 @@
                 [attr.aria-label]="'skyux_colorpicker_aria_blue' | skyLibResources">
                 {{ 'skyux_colorpicker_blue' | skyLibResources }}
               </label>
-              <label
+              <label *ngIf="this.allowTransparency"
                 [for]="skyColorpickerAlphaId"
                 [attr.aria-label]="'skyux_colorpicker_aria_alpha' | skyLibResources">
                 {{ 'skyux_colorpicker_alpha' | skyLibResources }}
@@ -126,7 +126,7 @@
                 [maxRange]="255"
                 (newColorContrast)="blue=$event"
                 [value]="rgbaText?.blue">
-              <input
+              <input *ngIf="this.allowTransparency"
                 [id]="skyColorpickerAlphaId"
                 [skyColorpickerText]
                 type="number"
