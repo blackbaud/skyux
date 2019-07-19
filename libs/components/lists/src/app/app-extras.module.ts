@@ -15,6 +15,10 @@ import {
 } from '@skyux/popovers';
 
 import {
+  SkyAppLinkModule
+} from '@skyux/router';
+
+import {
   SkyFilterModule,
   SkyInfiniteScrollModule,
   SkyPagingModule,
@@ -24,6 +28,7 @@ import {
 
 @NgModule({
   exports: [
+    SkyAppLinkModule,
     SkyDropdownModule,
     SkyFilterModule,
     SkyFluidGridModule,
