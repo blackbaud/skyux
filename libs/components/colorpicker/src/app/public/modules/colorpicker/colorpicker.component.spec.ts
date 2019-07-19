@@ -8,7 +8,7 @@ import {
 
 import {
   expect
-} from '@blackbaud/skyux-builder/runtime/testing/browser';
+} from '@skyux-sdk/testing';
 
 import {
   By
@@ -18,6 +18,8 @@ import {
   FormsModule,
   ReactiveFormsModule
 } from '@angular/forms';
+
+import 'rxjs/add/operator/sampleTime';
 
 import {
   SkyColorpickerModule
