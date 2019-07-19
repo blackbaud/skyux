@@ -1,3 +1,7 @@
+# 3.2.2 (2019-07-19)
+
+- Fixed the toolbar section component to properly display items which do not overflow onto the next line. [#42](https://github.com/blackbaud/skyux-layout/pull/42)
+
 # 3.2.1 (2019-05-29)
 
 - Fixed the text expand component to correct the spacing before the "See more" and "See less" buttons. [#38](https://github.com/blackbaud/skyux-layout/pull/38)
