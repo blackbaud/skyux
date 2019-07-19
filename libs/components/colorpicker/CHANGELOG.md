@@ -1,3 +1,7 @@
+# 3.1.0 (2019-07-19)
+
+- Added option to disable transparency slider on the colorpicker component. [#20](https://github.com/blackbaud/skyux-colorpicker/pull/20)
+
 # 3.0.1 (2019-06-26)
 
 - Fixed the colorpicker component button to properly display transparent colors. [#15](https://github.com/blackbaud/skyux-colorpicker/pull/15)
