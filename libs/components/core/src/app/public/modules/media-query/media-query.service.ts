@@ -1,6 +1,7 @@
 import {
   Injectable,
-  NgZone
+  NgZone,
+  OnDestroy
 } from '@angular/core';
 
 import {
@@ -20,7 +21,7 @@ import {
 } from './media-query-listener';
 
 @Injectable()
-export class SkyMediaQueryService {
+export class SkyMediaQueryService implements OnDestroy {
   public static xs = '(max-width: 767px)';
   public static sm = '(min-width: 768px) and (max-width: 991px)';
   public static md = '(min-width: 992px) and (max-width: 1199px)';
@@ -32,53 +33,44 @@ export class SkyMediaQueryService {
 
   private currentSubject = new BehaviorSubject<SkyMediaBreakpoints>(this.current);
 
-  private xsMql: MediaQueryList;
-  private smMql: MediaQueryList;
-  private mdMql: MediaQueryList;
-  private lgMql: MediaQueryList;
-
-  private xsListener: any;
-  private smListener: any;
-  private mdListener: any;
-  private lgListener: any;
-
   private _current = SkyMediaBreakpoints.md;
+
+  private breakpoints: {
+    mediaQueryString: string,
+    name: SkyMediaBreakpoints
+  }[] = [
+    {
+      mediaQueryString: SkyMediaQueryService.xs,
+      name: SkyMediaBreakpoints.xs
+    },
+    {
+      mediaQueryString: SkyMediaQueryService.sm,
+      name: SkyMediaBreakpoints.sm
+    },
+    {
+      mediaQueryString: SkyMediaQueryService.md,
+      name: SkyMediaBreakpoints.md
+    },
+    {
+      mediaQueryString: SkyMediaQueryService.lg,
+      name: SkyMediaBreakpoints.lg
+    }
+  ];
+
+  private mediaQueries: {
+    mediaQueryList: MediaQueryList,
+    listener: ((event: any) => void)
+  }[] = [];
 
   constructor(
     private zone: NgZone
   ) {
-    this.xsListener = (mql: MediaQueryList) => {
-      this.setupListener(mql, SkyMediaBreakpoints.xs);
-    };
+    this.addListeners();
+  }
 
-    this.smListener = (mql: MediaQueryList) => {
-      this.setupListener(mql, SkyMediaBreakpoints.sm);
-    };
-
-    this.mdListener = (mql: MediaQueryList) => {
-      this.setupListener(mql, SkyMediaBreakpoints.md);
-    };
-
-    this.lgListener = (mql: MediaQueryList) => {
-      this.setupListener(mql, SkyMediaBreakpoints.lg);
-    };
-
-    this.xsMql = matchMedia(SkyMediaQueryService.xs);
-    this.xsMql.addListener(this.xsListener);
-
-    this.smMql = matchMedia(SkyMediaQueryService.sm);
-    this.smMql.addListener(this.smListener);
-
-    this.mdMql = matchMedia(SkyMediaQueryService.md);
-    this.mdMql.addListener(this.mdListener);
-
-    this.lgMql = matchMedia(SkyMediaQueryService.lg);
-    this.lgMql.addListener(this.lgListener);
-
-    this.setupListener(this.xsMql, SkyMediaBreakpoints.xs);
-    this.setupListener(this.smMql, SkyMediaBreakpoints.sm);
-    this.setupListener(this.mdMql, SkyMediaBreakpoints.md);
-    this.setupListener(this.lgMql, SkyMediaBreakpoints.lg);
+  public ngOnDestroy(): void {
+    this.removeListeners();
+    this.currentSubject.complete();
   }
 
   public subscribe(listener: SkyMediaQueryListener): Subscription {
@@ -90,34 +82,47 @@ export class SkyMediaQueryService {
   }
 
   public destroy(): void {
-    this.xsMql.removeListener(this.xsListener);
-    this.xsMql = undefined;
-    this.xsListener = undefined;
-
-    this.smMql.removeListener(this.smListener);
-    this.smMql = undefined;
-    this.smListener = undefined;
-
-    this.mdMql.removeListener(this.mdListener);
-    this.mdMql = undefined;
-    this.mdListener = undefined;
-
-    this.lgMql.removeListener(this.lgListener);
-    this.lgMql = undefined;
-    this.lgListener = undefined;
-
+    this.removeListeners();
     this.currentSubject.complete();
   }
 
-  private setupListener(
-    mql: MediaQueryList,
-    breakpoints: SkyMediaBreakpoints
-  ): void {
-    this.zone.run(() => {
-      if (mql.matches) {
-        this._current = breakpoints;
-        this.currentSubject.next(breakpoints);
+  private addListeners(): void {
+    this.mediaQueries = this.breakpoints.map((breakpoint: any) => {
+      const mq = matchMedia(breakpoint.mediaQueryString);
+
+      const listener = (event: any) => {
+        // Run the check outside of Angular's change detection since Angular
+        // does not wrap matchMedia listeners in NgZone.
+        // See: https://blog.assaf.co/angular-2-change-detection-zones-and-an-example/
+        this.zone.run(() => {
+          if (event.matches) {
+            this.notifyBreakpointChange(breakpoint.name);
+          }
+        });
+      };
+
+      mq.addListener(listener);
+
+      if (mq.matches) {
+        this.notifyBreakpointChange(breakpoint.name);
       }
+
+      return {
+        mediaQueryList: mq,
+        listener
+      };
     });
+  }
+
+  private removeListeners(): void {
+    this.mediaQueries.forEach((mediaQuery) => {
+      mediaQuery.mediaQueryList.removeListener(mediaQuery.listener);
+    });
+    this.mediaQueries = [];
+  }
+
+  private notifyBreakpointChange(breakpoint: SkyMediaBreakpoints): void {
+    this._current = breakpoint;
+    this.currentSubject.next(breakpoint);
   }
 }

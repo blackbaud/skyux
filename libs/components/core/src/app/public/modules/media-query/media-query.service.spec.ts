@@ -97,13 +97,20 @@ describe('Media query service', () => {
       setUpListeners();
     });
 
+    afterEach(inject(
+      [SkyMediaQueryService],
+      (mediaQueryService: SkyMediaQueryService) => {
+        // Simulate component destruction.
+        mediaQueryService.ngOnDestroy();
+      }
+    ));
+
     it('should handle initialization properly', inject(
       [SkyMediaQueryService],
       (mediaQueryService: SkyMediaQueryService) => {
         let result: SkyMediaBreakpoints;
-        let subscription: Subscription;
 
-        subscription = mediaQueryService.subscribe(
+        const subscription = mediaQueryService.subscribe(
           (args: SkyMediaBreakpoints) => {
             result = args;
           }
@@ -112,7 +119,6 @@ describe('Media query service', () => {
         expect(result).toEqual(SkyMediaBreakpoints.xs);
 
         subscription.unsubscribe();
-        mediaQueryService.destroy();
       }
     ));
   });
@@ -138,11 +144,10 @@ describe('Media query service', () => {
       [SkyMediaQueryService],
       (mediaQueryService: SkyMediaQueryService) => {
         let result: SkyMediaBreakpoints;
-        let subscription: Subscription;
 
         callBreakpoint(SkyMediaBreakpoints.sm);
 
-        subscription = mediaQueryService.subscribe(
+        const subscription = mediaQueryService.subscribe(
           (args: SkyMediaBreakpoints) => {
             result = args;
           }
@@ -155,7 +160,6 @@ describe('Media query service', () => {
         expect(result).toEqual(SkyMediaBreakpoints.sm);
 
         subscription.unsubscribe();
-        mediaQueryService.destroy();
       }
     ));
 
@@ -181,12 +185,11 @@ describe('Media query service', () => {
     it('should fire the listener when the specified breakpoint is hit', inject(
       [SkyMediaQueryService],
       (mediaQueryService: SkyMediaQueryService) => {
-        let subscription: Subscription;
         let result: SkyMediaBreakpoints;
 
         callBreakpoint(SkyMediaBreakpoints.sm);
 
-        subscription = mediaQueryService.subscribe(
+        const subscription = mediaQueryService.subscribe(
           (args: SkyMediaBreakpoints) => {
             result = args;
           }
@@ -205,7 +208,6 @@ describe('Media query service', () => {
         expect(result).toEqual(SkyMediaBreakpoints.lg);
 
         subscription.unsubscribe();
-        mediaQueryService.destroy();
       }
     ));
 
@@ -215,7 +217,6 @@ describe('Media query service', () => {
         callBreakpoint(SkyMediaBreakpoints.sm);
 
         expect(mediaQueryService.current).toEqual(SkyMediaBreakpoints.sm);
-        mediaQueryService.destroy();
       }
     ));
   });
