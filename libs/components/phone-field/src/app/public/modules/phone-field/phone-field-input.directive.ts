@@ -21,8 +21,9 @@ import {
 } from '@angular/forms';
 
 import {
+  BehaviorSubject,
   Subject
-} from 'rxjs/Subject';
+} from 'rxjs';
 
 import {
   PhoneNumberFormat,
@@ -40,7 +41,6 @@ import {
 import {
   SkyPhoneFieldCountry
 } from './types';
-
 // tslint:disable:no-forward-ref no-use-before-declare
 const SKY_PHONE_FIELD_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
@@ -87,11 +87,6 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
     if (value) {
       let formattedValue = this.formatNumber(value.toString());
 
-      if (this.phoneFieldComponent.selectedCountry.iso2 !== this.phoneFieldComponent.defaultCountry) {
-        formattedValue = '+' + this.phoneFieldComponent.selectedCountry.dialCode +
-          ' ' + formattedValue;
-      }
-
       this.onChange(formattedValue);
     } else {
       this.onChange(value);
@@ -104,6 +99,8 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
   }
 
   private control: AbstractControl;
+
+  private textChanges: BehaviorSubject<string>;
 
   private ngUnsubscribe = new Subject();
 
@@ -141,8 +138,7 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
     this.phoneFieldComponent.selectedCountryChange
       .takeUntil(this.ngUnsubscribe)
       .subscribe((country: SkyPhoneFieldCountry) => {
-        // Write the value again to cause validation to refire
-        this.writeValue(this.modelValue);
+        this.modelValue = this.elRef.nativeElement.value;
         this.adapterService.setElementPlaceholder(this.elRef.nativeElement, country.exampleNumber);
       });
 
@@ -166,7 +162,11 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
    */
   @HostListener('change', ['$event'])
   public onInputChange(event: any): void {
-    this.writeValue(event.target.value);
+    if (!this.textChanges) {
+      this.setupTextChangeSubscription(event.target.value);
+    } else {
+      this.textChanges.next(event.target.value);
+    }
   }
 
   /**
@@ -177,11 +177,22 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
     this.onTouched();
   }
 
+  @HostListener('input', ['$event'])
+  public onInputTyping(event: any): void {
+    if (!this.textChanges) {
+      this.setupTextChangeSubscription(event.target.value);
+    } else {
+      this.textChanges.next(event.target.value);
+    }
+  }
+
   /**
    * Writes the new value for reactive forms
    * @param value The new value for the input
    */
-  public writeValue(value: any): void {
+  public writeValue(value: string): void {
+    this.phoneFieldComponent.setCountryByDialCode(value);
+
     this.modelValue = value;
   }
 
@@ -233,12 +244,27 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
     }
   }
 
-  private validateNumber(phoneNumber: string): boolean {
-    const numberObj = this.phoneUtils.parseAndKeepRawInput(phoneNumber,
-      this.phoneFieldComponent.selectedCountry.iso2);
+  private setupTextChangeSubscription(text: string) {
+    this.textChanges = new BehaviorSubject(text);
 
-    return this.phoneUtils.isValidNumber(numberObj);
- }
+    this.textChanges
+      .debounceTime(500)
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe((newValue) => {
+        this.writeValue(newValue);
+      });
+  }
+
+  private validateNumber(phoneNumber: string): boolean {
+    try {
+      const numberObj = this.phoneUtils.parseAndKeepRawInput(phoneNumber,
+        this.phoneFieldComponent.selectedCountry.iso2);
+
+      return this.phoneUtils.isValidNumber(numberObj);
+    } catch (e) {
+      return false;
+    }
+  }
 
   /**
    * Format's the given phone number based on the currently selected country.
@@ -249,9 +275,13 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
       const numberObj = this.phoneUtils.parseAndKeepRawInput(phoneNumber,
         this.phoneFieldComponent.selectedCountry.iso2);
       if (this.phoneUtils.isPossibleNumber(numberObj)) {
+        if (this.phoneFieldComponent.selectedCountry.iso2 !== this.phoneFieldComponent.defaultCountry) {
+          return this.phoneUtils.format(numberObj, PhoneNumberFormat.INTERNATIONAL);
+        } else {
           return this.phoneUtils.format(numberObj, PhoneNumberFormat.NATIONAL);
+        }
       } else {
-          return phoneNumber;
+        return phoneNumber;
       }
     } catch (e) {
       /* sanity check */

@@ -42,7 +42,7 @@
       >
         <sky-autocomplete
           [data]="countries"
-          [propertiesToSearch]="['name', 'iso2']"
+          [propertiesToSearch]="['name', 'iso2', 'dialCode']"
           [searchResultTemplate]="countrySearchResultTemplate"
           [searchTextMinimumCharacters]="2"
           (selectionChange)="onCountrySelected($event)"
@@ -91,6 +91,6 @@
   <span
     class="sky-deemphasized"
   >
-    +{{ item.dialCode }}
+    {{ item.dialCode }}
   </span>
 </ng-template>
