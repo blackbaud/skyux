@@ -9,7 +9,8 @@ import {
 import {
   SkyCheckboxModule,
   SkyFileAttachmentsModule,
-  SkyRadioModule
+  SkyRadioModule,
+  SkyToggleSwitchModule
 } from './public';
 
 @NgModule({
@@ -17,7 +18,8 @@ import {
     SkyAppLinkModule,
     SkyCheckboxModule,
     SkyFileAttachmentsModule,
-    SkyRadioModule
+    SkyRadioModule,
+    SkyToggleSwitchModule
   ]
 })
 export class AppExtrasModule { }
