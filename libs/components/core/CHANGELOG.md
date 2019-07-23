@@ -1,3 +1,7 @@
+# 3.6.1 (2019-07-23)
+
+- Fixed `SkyMediaQueryService` to complete its observables when the consuming component is destroyed. [#86](https://github.com/blackbaud/skyux-core/pull/86)
+
 # 3.6.0 (2019-06-12)
 
 - Added `SkyCoreAdapterService` to provide helper functions for applying focus and setting CSS classes for responsive containers. [#81](https://github.com/blackbaud/skyux-core/pull/81)
