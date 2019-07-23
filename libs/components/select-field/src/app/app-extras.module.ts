@@ -3,17 +3,17 @@ import {
 } from '@angular/core';
 
 import {
+  SkyAppLinkModule
+} from '@skyux/router';
+
+import {
   SkySelectFieldModule
 } from './public';
 
 @NgModule({
-  imports: [
-    SkySelectFieldModule
-  ],
   exports: [
+    SkyAppLinkModule,
     SkySelectFieldModule
-  ],
-  providers: [],
-  entryComponents: []
+  ]
 })
 export class AppExtrasModule { }

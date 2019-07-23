@@ -9,7 +9,7 @@ import {
 import {
   expect,
   SkyAppTestUtility
-} from '@blackbaud/skyux-builder/runtime/testing/browser';
+} from '@skyux-sdk/testing';
 
 import {
   SkyModalService
@@ -103,13 +103,10 @@ describe('Select field component', () => {
     selectField = component.selectField;
   });
 
-  beforeEach(inject([SkyModalService], (_modalService: SkyModalService) => {
+  afterEach(inject([SkyModalService], (_modalService: SkyModalService) => {
     _modalService.dispose();
-  }));
-
-  afterEach(() => {
     fixture.destroy();
-  });
+  }));
 
   describe('basic setup', () => {
     it('should set defaults', () => {
