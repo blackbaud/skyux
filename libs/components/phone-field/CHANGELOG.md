@@ -1,3 +1,7 @@
+# 3.1.0 (2019-07-24)
+
+- Added the ability for the phone field component to automatically switch countries based on a given dial code. [#16](https://github.com/blackbaud/skyux-phone-field/pull/16)
+
 # 3.0.2 (2019-07-09)
 
 - Fixed the phone field component to properly localize text. [#19](https://github.com/blackbaud/skyux-phone-field/pull/19)
