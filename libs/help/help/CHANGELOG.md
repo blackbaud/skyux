@@ -1,3 +1,7 @@
+# 3.1.1 (2019-07-25)
+
+- Fixed a bug where `HelpInitializationService` was not being provided by `BBHelpModule`. [#52](https://github.com/blackbaud/skyux-lib-help/pull/52)
+
 # 3.1.0 (2019-06-21)
 - Updated peer dependency to point to the official `2.0.0` release of `@blackbaud/help-client`. [#50](https://github.com/blackbaud/skyux-lib-help/pull/50)
 
