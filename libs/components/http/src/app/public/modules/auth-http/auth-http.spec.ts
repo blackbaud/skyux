@@ -187,7 +187,7 @@ describe('SkyAuthHttp', () => {
 
   it('should request a token with the specified permission scope', () => {
     const search = '?envid=1234';
-    const getTokenSpy = spyOn(BBAuth, 'getToken');
+    const getTokenSpy = spyOn(BBAuth, 'getToken').and.callThrough();
 
     setupInjector(search);
     skyAuthHttp
