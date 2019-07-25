@@ -1,3 +1,7 @@
+# 3.3.0 (2019-07-25)
+
+- Added the toggle switch component. [#54](https://github.com/blackbaud/skyux-forms/pull/54) (Thanks @[Blackbaud-JackMcElhinney](https://github.com/Blackbaud-JackMcElhinney)!)
+
 # 3.2.1 (2019-07-05)
 
 - Fixed the radio group component to update the state when the model value changes. [#52](https://github.com/blackbaud/skyux-forms/pull/52)
