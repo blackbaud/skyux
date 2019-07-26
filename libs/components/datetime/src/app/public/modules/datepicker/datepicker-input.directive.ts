@@ -276,8 +276,7 @@ export class SkyDatepickerInputDirective
 
   @HostListener('change', ['$event'])
   public onInputChange(event: any) {
-    this.isFirstChange = false;
-    this.value = event.target.value;
+    this.onValueChange(event.target.value);
   }
 
   @HostListener('blur')
@@ -368,6 +367,19 @@ export class SkyDatepickerInputDirective
   public setDisabledState(disabled: boolean): void {
     this.disabled = disabled;
     this.datepickerComponent.disabled = disabled;
+  }
+
+  /**
+   * Detects changes to the underlying input element's value and updates the ngModel accordingly.
+   * This is useful if you need to update the ngModel value before the input element loses focus.
+   */
+  public detectInputValueChange(): void {
+    this.onValueChange(this.elementRef.nativeElement.value);
+  }
+
+  private onValueChange(newValue: string): void {
+    this.isFirstChange = false;
+    this.value = newValue;
   }
 
   private setInputElementValue(value: string): void {
