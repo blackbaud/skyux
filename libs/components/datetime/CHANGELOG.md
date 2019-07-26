@@ -1,3 +1,7 @@
+# 3.4.0 (2019-07-26)
+
+- Added the public method `detectInputValueChange()` to `SkyDatepickerInputDirective`, which manually updates the model value based on the text value of the input field. [#72](https://github.com/blackbaud/skyux-datetime/pull/72)
+
 # 3.3.0 (2019-07-03)
 
 - Added support for `@skyux-sdk/builder@3.7.1`. [#63](https://github.com/blackbaud/skyux-datetime/pull/63)
