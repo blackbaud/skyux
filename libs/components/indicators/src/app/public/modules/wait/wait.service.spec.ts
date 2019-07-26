@@ -14,12 +14,19 @@ import {
 } from '@skyux/core';
 
 import {
+  ReplaySubject
+} from 'rxjs';
+
+import {
   SkyWaitFixturesModule
 } from './fixtures/wait-fixtures.module';
 
 import {
   SkyWaitService
 } from './wait.service';
+
+const NO_OP_FUNC: () => void = () => {
+};
 
 describe('Wait service', () => {
   let waitService: SkyWaitService;
@@ -211,5 +218,83 @@ describe('Wait service', () => {
 
     verifyNonBlockingPageWaitExists(false);
     verifyBlockingPageWaitExists(false);
+  }));
+
+  it('should wrap with blocking wait when the given observable is hot', fakeAsync(() => {
+    const subject = new ReplaySubject();
+    waitService.blockingWrap(subject.asObservable()).subscribe(NO_OP_FUNC);
+    subject.next('A');
+    tick();
+    applicationRef.tick();
+    verifyBlockingPageWaitExists(true);
+    subject.complete();
+    tick();
+    applicationRef.tick();
+    verifyBlockingPageWaitExists(false);
+  }));
+
+  it('should not wrap with blocking wait when the given observable is cold', fakeAsync(() => {
+    const subject = new ReplaySubject();
+    waitService.blockingWrap(subject.asObservable());
+    subject.next('A');
+    tick();
+    applicationRef.tick();
+    verifyBlockingPageWaitExists(false);
+    subject.complete();
+    tick();
+    applicationRef.tick();
+    verifyBlockingPageWaitExists(false);
+  }));
+
+  it('should wrap with blocking wait when the given observable throws error', fakeAsync(() => {
+    const subject = new ReplaySubject();
+    waitService.blockingWrap(subject.asObservable()).subscribe(NO_OP_FUNC, NO_OP_FUNC);
+    subject.next('A');
+    tick();
+    applicationRef.tick();
+    verifyBlockingPageWaitExists(true);
+    subject.error('error');
+    tick();
+    applicationRef.tick();
+    verifyBlockingPageWaitExists(false);
+  }));
+
+  it('should wrap with nonblocking wait when the given observable is hot', fakeAsync(() => {
+    const subject = new ReplaySubject();
+    waitService.nonBlockingWrap(subject.asObservable()).subscribe(NO_OP_FUNC);
+    subject.next('A');
+    tick();
+    applicationRef.tick();
+    verifyNonBlockingPageWaitExists(true);
+    subject.complete();
+    tick();
+    applicationRef.tick();
+    verifyNonBlockingPageWaitExists(false);
+  }));
+
+  it('should not wrap with nonblocking wait when the given observable is cold', fakeAsync(() => {
+    const subject = new ReplaySubject();
+    waitService.nonBlockingWrap(subject.asObservable());
+    subject.next('A');
+    tick();
+    applicationRef.tick();
+    verifyNonBlockingPageWaitExists(false);
+    subject.complete();
+    tick();
+    applicationRef.tick();
+    verifyNonBlockingPageWaitExists(false);
+  }));
+
+  it('should wrap with nonblocking wait when the given observable throws error', fakeAsync(() => {
+    const subject = new ReplaySubject();
+    waitService.nonBlockingWrap(subject.asObservable()).subscribe(NO_OP_FUNC, NO_OP_FUNC);
+    subject.next('A');
+    tick();
+    applicationRef.tick();
+    verifyNonBlockingPageWaitExists(true);
+    subject.error('error');
+    tick();
+    applicationRef.tick();
+    verifyNonBlockingPageWaitExists(false);
   }));
 });
