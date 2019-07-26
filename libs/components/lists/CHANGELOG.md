@@ -1,3 +1,7 @@
+# 3.4.0 (2019-07-26)
+
+- Added `activeIndex` to the repeater component properties to indicate which repeater item shows an active state. [#51](https://github.com/blackbaud/skyux-lists/pull/51)
+
 # 3.3.1 (2019-06-26)
 
 - Fixed the filter summary component to have correct spacing between filter summary items. [#42](https://github.com/blackbaud/skyux-lists/pull/42)
