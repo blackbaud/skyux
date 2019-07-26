@@ -1,4 +1,7 @@
-<sky-repeater [expandMode]="expandMode">
+<sky-repeater
+  [activeIndex]="activeIndex"
+  [expandMode]="expandMode"
+>
   <sky-repeater-item
     (collapse)="onCollapse()"
     (expand)="onExpand()"
@@ -16,7 +19,10 @@
     <sky-repeater-item-title>Title 2</sky-repeater-item-title>
     <sky-repeater-item-content>Content 2</sky-repeater-item-content>
   </sky-repeater-item>
-  <sky-repeater-item *ngIf="!removeLastItem" [isExpanded]="lastItemExpanded" [isSelected]="lastItemSelected">
+  <sky-repeater-item *ngIf="!removeLastItem"
+    [isExpanded]="lastItemExpanded"
+    [isSelected]="lastItemSelected"
+  >
     <sky-repeater-item-context-menu *ngIf="showContextMenu">
       a
     </sky-repeater-item-context-menu>

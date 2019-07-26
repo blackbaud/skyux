@@ -21,6 +21,13 @@
       padding-top:10px;
     }
   }
+
+  &.sky-repeater-item-active {
+    background-color: $sky-background-color-neutral-light;
+    color: $sky-text-color-default;
+    padding-left: 6px;
+    border-left: $sky-nav-selected-border-width solid $sky-highlight-color-info;
+  }
 }
 
 .sky-repeater-item-left {

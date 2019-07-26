@@ -22,6 +22,45 @@
 
 <div
   class="app-screenshot sky-margin-stacked-default"
+  id="screenshot-repeater-with-active-item"
+>
+  <h3>Repeater with activeIndex set on click</h3>
+  <sky-repeater
+    [activeIndex]="activeIndex"
+  >
+    <sky-repeater-item *ngFor="let item of items; let i = index"
+      (click)="onItemClick(i)"
+    >
+      <sky-repeater-item-title>
+        {{ item.title }}
+      </sky-repeater-item-title>
+      <sky-repeater-item-content>
+        {{ item.note }}
+        <button
+          type="button"
+          (click)="deleteItem(i)"
+        >
+          Delete me
+        </button>
+      </sky-repeater-item-content>
+    </sky-repeater-item>
+  </sky-repeater>
+  <button
+    type="button"
+    (click)="addItem()"
+  >
+    Add new item
+  </button>
+  <button
+    type="button"
+    (click)="activeIndex = undefined"
+  >
+    Set activeIndex to undefined
+  </button>
+</div>
+
+<div
+  class="app-screenshot sky-margin-stacked-default"
   id="screenshot-repeater-collapsed"
 >
   <h3>Collapsed repeater</h3>

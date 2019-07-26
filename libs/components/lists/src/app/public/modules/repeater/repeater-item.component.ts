@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
+  OnInit,
   Output,
   TemplateRef
 } from '@angular/core';
@@ -26,10 +27,14 @@ import {
 } from '@skyux/inline-form';
 
 import {
+  Subject
+} from 'rxjs/Subject';
+
+import {
   SkyRepeaterService
 } from './repeater.service';
 
-let nextId: number = 0;
+let nextContentId: number = 0;
 
 @Component({
   selector: 'sky-repeater-item',
@@ -37,29 +42,7 @@ let nextId: number = 0;
   templateUrl: './repeater-item.component.html',
   animations: [skyAnimationSlide]
 })
-export class SkyRepeaterItemComponent implements OnDestroy {
-  public contentId: string = `sky-radio-content-${++nextId}`;
-
-  public get isExpanded(): boolean {
-    return this._isExpanded;
-  }
-
-  @Input()
-  public set isExpanded(value: boolean) {
-    this.updateForExpanded(value, true);
-  }
-
-  public get isSelected(): boolean {
-    return this._isSelected;
-  }
-
-  @Input()
-  public set isSelected(value: boolean) {
-    this._isSelected = value;
-  }
-
-  @Input()
-  public showInlineForm: boolean = false;
+export class SkyRepeaterItemComponent implements OnDestroy, OnInit {
 
   @Input()
   public inlineFormConfig: SkyInlineFormConfig;
@@ -67,11 +50,29 @@ export class SkyRepeaterItemComponent implements OnDestroy {
   @Input()
   public inlineFormTemplate: TemplateRef<any>;
 
-  @Output()
-  public inlineFormClose = new EventEmitter<SkyInlineFormCloseArgs>();
+  @Input()
+  public set isExpanded(value: boolean) {
+    this.updateForExpanded(value, true);
+  }
+
+  public get isExpanded(): boolean {
+    return this._isExpanded;
+  }
+
+  @Input()
+  public set isSelected(value: boolean) {
+    this._isSelected = value;
+  }
+
+  public get isSelected(): boolean {
+    return this._isSelected;
+  }
 
   @Input()
   public selectable: boolean = false;
+
+  @Input()
+  public showInlineForm: boolean = false;
 
   @Output()
   public collapse = new EventEmitter<void>();
@@ -79,11 +80,13 @@ export class SkyRepeaterItemComponent implements OnDestroy {
   @Output()
   public expand = new EventEmitter<void>();
 
-  public slideDirection: string;
+  @Output()
+  public inlineFormClose = new EventEmitter<SkyInlineFormCloseArgs>();
 
-  public get isCollapsible(): boolean {
-    return this._isCollapsible;
-  }
+  public contentId: string = `sky-radio-content-${++nextContentId}`;
+
+  public isActive: boolean = false;
+
   public set isCollapsible(value: boolean) {
     if (this.isCollapsible !== value) {
       this._isCollapsible = value;
@@ -94,6 +97,14 @@ export class SkyRepeaterItemComponent implements OnDestroy {
       }
     }
   }
+
+  public get isCollapsible(): boolean {
+    return this._isCollapsible;
+  }
+
+  public slideDirection: string;
+
+  private ngUnsubscribe = new Subject<void>();
 
   private _isCollapsible = true;
 
@@ -109,23 +120,40 @@ export class SkyRepeaterItemComponent implements OnDestroy {
     this.slideForExpanded(false);
   }
 
+  public ngOnInit(): void {
+    setTimeout(() => {
+      this.repeaterService.registerItem(this);
+      this.repeaterService.activeItemChange
+        .takeUntil(this.ngUnsubscribe)
+        .subscribe((item: SkyRepeaterItemComponent) => {
+          this.isActive = this === item;
+          this.changeDetector.markForCheck();
+      });
+    });
+  }
+
   public ngOnDestroy(): void {
     this.collapse.complete();
     this.expand.complete();
     this.inlineFormClose.complete();
+
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+
+    this.repeaterService.unregisterItem(this);
   }
 
-  public headerClick() {
+  public headerClick(): void {
     if (this.isCollapsible) {
       this.updateForExpanded(!this.isExpanded, true);
     }
   }
 
-  public chevronDirectionChange(direction: string) {
+  public chevronDirectionChange(direction: string): void {
     this.updateForExpanded(direction === 'up', true);
   }
 
-  public updateForExpanded(value: boolean, animate: boolean) {
+  public updateForExpanded(value: boolean, animate: boolean): void {
     if (this.isCollapsible === false && value === false) {
       this.logService.warn(
         `Setting isExpanded to false when the repeater item is not collapsible
@@ -146,7 +174,7 @@ export class SkyRepeaterItemComponent implements OnDestroy {
     }
   }
 
-  public updateIsSelected(value: SkyCheckboxChange) {
+  public updateIsSelected(value: SkyCheckboxChange): void {
     this._isSelected = value.checked;
   }
 
@@ -154,7 +182,7 @@ export class SkyRepeaterItemComponent implements OnDestroy {
     this.inlineFormClose.emit(inlineFormCloseArgs);
   }
 
-  private slideForExpanded(animate: boolean) {
+  private slideForExpanded(animate: boolean): void {
     this.slideDirection = this.isExpanded ? 'down' : 'up';
   }
 }

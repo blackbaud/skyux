@@ -536,6 +536,57 @@ describe('Repeater item component', () => {
     }));
   });
 
+  describe('with activeIndex', () => {
+    let fixture: ComponentFixture<RepeaterTestComponent>;
+    let cmp: RepeaterTestComponent;
+    let el: any;
+
+    beforeEach(() => {
+      fixture = TestBed.createComponent(RepeaterTestComponent);
+      cmp = fixture.componentInstance;
+      el = fixture.nativeElement;
+    });
+
+    function getItems(): HTMLElement[] {
+      return el.querySelectorAll('.sky-repeater-item');
+    }
+
+    it('should show active item if activeIndex is set on init', fakeAsync(() => {
+      cmp.activeIndex = 0;
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      let activeRepeaterItem = el.querySelectorAll('.sky-repeater-item-active');
+      expect(activeRepeaterItem.length).toBe(1);
+    }));
+
+    it('should add and remove active css class when activeIndex value changes', fakeAsync(() => {
+      fixture.detectChanges();
+      tick();
+
+      let activeRepeaterItem = el.querySelectorAll('.sky-repeater-item-active');
+      expect(activeRepeaterItem.length).toBe(0);
+
+      cmp.activeIndex = 0;
+      fixture.detectChanges();
+      tick();
+
+      activeRepeaterItem = el.querySelectorAll('.sky-repeater-item-active');
+      expect(activeRepeaterItem.length).toBe(1);
+      const items = getItems();
+      expect(items[0]).toHaveCssClass('sky-repeater-item-active');
+
+      cmp.activeIndex = undefined;
+      fixture.detectChanges();
+      tick();
+
+      activeRepeaterItem = el.querySelectorAll('.sky-repeater-item-active');
+      expect(activeRepeaterItem.length).toBe(0);
+    }));
+  });
+
   describe('with inline-form', () => {
     let fixture: ComponentFixture<RepeaterInlineFormFixtureComponent>;
     let el: HTMLElement;

@@ -12,18 +12,21 @@ import {
   templateUrl: './repeater.component.fixture.html'
 })
 export class RepeaterTestComponent {
-  @ViewChild(SkyRepeaterComponent)
-  public repeater: SkyRepeaterComponent;
 
-  public showContextMenu: boolean;
-
-  public removeLastItem: boolean;
+  public activeIndex: number = undefined;
 
   public expandMode = 'single';
 
   public lastItemExpanded: boolean;
 
   public lastItemSelected = false;
+
+  public removeLastItem: boolean;
+
+  public showContextMenu: boolean;
+
+  @ViewChild(SkyRepeaterComponent)
+  public repeater: SkyRepeaterComponent;
 
   public onCollapse(): void {}
 
