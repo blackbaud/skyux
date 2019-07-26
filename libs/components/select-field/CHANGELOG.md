@@ -1,3 +1,7 @@
+# 3.2.0 (2019-07-26)
+
+- Added an optional "New" button next to the select field picker's search bar. [#30](https://github.com/blackbaud/skyux-select-field/pull/30) (Thanks [@blackbaud-vimal-kumar](https://github.com/blackbaud-vimal-kumar)!)
+
 # 3.1.1 (2019-06-14)
 
 - Fixed the select field component to not lose focus after clearing a selection. [#26](https://github.com/blackbaud/skyux-select-field/pull/26) (Thanks @blackbaud-conorwright)
