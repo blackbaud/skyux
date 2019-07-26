@@ -21,6 +21,18 @@
   >
   </sky-select-field>
 </div>
+<div id="screenshot-select-field-add-new-record-button">
+  <sky-select-field
+    selectMode="single"
+    name="single"
+    [ngModel]="model.single"
+    [data]="data"
+    [showAddNewRecordButton]="true"
+    (addNewRecordButtonClick)="onAddNewRecordButtonClick()"
+    required
+  >
+  </sky-select-field>
+</div>
 
 <button
   type="button"

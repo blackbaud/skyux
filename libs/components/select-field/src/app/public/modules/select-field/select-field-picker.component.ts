@@ -3,11 +3,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   ViewChild
 } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/take';
 
 import {
@@ -42,7 +44,7 @@ import { SkySelectFieldPickerContext } from './select-field-picker-context';
   templateUrl: './select-field-picker.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkySelectFieldPickerComponent implements OnInit, AfterContentInit {
+export class SkySelectFieldPickerComponent implements OnInit, AfterContentInit, OnDestroy {
   public categories: string[];
   public data: Observable<any>;
   public selectMode: SkySelectFieldSelectMode;
@@ -51,6 +53,9 @@ export class SkySelectFieldPickerComponent implements OnInit, AfterContentInit {
   public readonly defaultCategory = 'any';
   public selectedCategory = this.defaultCategory;
   public selectedIds: any[] = [];
+
+  public addNewRecordButtonClick = new Subject<void>();
+  public showAddNewRecordButton: boolean = false;
 
   @ViewChild(SkyListViewChecklistComponent)
   private listViewChecklist: SkyListViewChecklistComponent;
@@ -66,6 +71,8 @@ export class SkySelectFieldPickerComponent implements OnInit, AfterContentInit {
     this.data = this.context.data;
     this.headingText = this.context.headingText;
     this.selectMode = this.context.selectMode;
+    this.showAddNewRecordButton = this.context.showAddNewRecordButton;
+
     this.selectedIds = this.getSelectedIds();
     this.assignCategories();
   }
@@ -74,6 +81,14 @@ export class SkySelectFieldPickerComponent implements OnInit, AfterContentInit {
     this.windowRef.getWindow().setTimeout(() => {
       this.elementRef.nativeElement.querySelector('.sky-search-input').focus();
     });
+  }
+
+  public ngOnDestroy(): void {
+    this.addNewRecordButtonClick.complete();
+  }
+
+  public onAddNewRecordButtonClick(): void {
+    this.addNewRecordButtonClick.next();
   }
 
   public save() {

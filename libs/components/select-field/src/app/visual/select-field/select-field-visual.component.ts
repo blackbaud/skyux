@@ -36,6 +36,7 @@ export class SelectFieldVisualComponent {
     ];
     this.model.single = this.staticData[3];
   }
+
   public populateSelectedLong() {
     this.model.multiple = [
       this.staticData[1],
@@ -43,5 +44,9 @@ export class SelectFieldVisualComponent {
       this.staticData[7]
     ];
     this.model.single = this.staticData[7];
+  }
+
+  public onAddNewRecordButtonClick(): void {
+    console.log('Add new record button clicked!');
   }
 }

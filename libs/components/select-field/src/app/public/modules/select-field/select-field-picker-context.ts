@@ -10,4 +10,5 @@ export class SkySelectFieldPickerContext {
   public headingText?: string;
   public selectedValue?: any;
   public selectMode?: SkySelectFieldSelectMode;
+  public showAddNewRecordButton: boolean = false;
 }

@@ -1,4 +1,8 @@
 {
+  "skyux_select_field_add_new_record_button": {
+    "_description": "Text for button to emit event for creating new record for the list",
+    "message": "New"
+  },
   "skyux_select_field_multiple_select_open_button": {
     "_description": "The default button text for the select field when the user is allowed to select multiple values (plural)",
     "message": "Select values"
