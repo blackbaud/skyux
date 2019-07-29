@@ -7,11 +7,16 @@ import {
 } from '@skyux/core';
 
 import {
+  SkyAppLinkModule
+} from '@skyux/router';
+
+import {
   SkyThemeModule
 } from './public';
 
 @NgModule({
   exports: [
+    SkyAppLinkModule,
     SkyThemeModule,
     SkyMediaQueryModule
   ]
