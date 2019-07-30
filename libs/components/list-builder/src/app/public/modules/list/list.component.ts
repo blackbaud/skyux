@@ -162,6 +162,8 @@ export class SkyListComponent implements AfterContentInit, OnChanges, OnDestroy 
 
   private lastSelectedIds: string[];
 
+  private lastFilters: ListFilterModel[] = [];
+
   private ngUnsubscribe = new Subject();
 
   constructor(
@@ -230,10 +232,17 @@ export class SkyListComponent implements AfterContentInit, OnChanges, OnDestroy 
     if (this.appliedFiltersChange.observers.length > 0) {
       this.state.map(current => current.filters)
         .takeUntil(this.ngUnsubscribe)
-        .distinctUntilChanged(this.arraysEqual)
         .skip(1)
         .subscribe((filters: any) => {
-          this.appliedFiltersChange.emit(filters);
+          /**
+           * We are doing this instead of a distinctUntilChange due to memory allocation issues
+           * with the javascript array. To fix fully the array should be changed to an object in
+           * a breaking change.
+           */
+          if (!this.arraysEqual(filters, this.lastFilters)) {
+            this.lastFilters = filters.slice(0);
+            this.appliedFiltersChange.emit(filters);
+          }
         });
     }
 

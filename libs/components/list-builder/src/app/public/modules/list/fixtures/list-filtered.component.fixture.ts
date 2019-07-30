@@ -1,14 +1,16 @@
 import {
   Component,
-  ViewChild,
-  Inject
+  Inject,
+  ViewChild
 } from '@angular/core';
+
+import {
+  SkyListComponent
+} from '../list.component';
 
 import {
   ListFilterModel
 } from '../state';
-
-import { SkyListComponent } from '../list.component';
 
 @Component({
   selector: 'sky-test-cmp',

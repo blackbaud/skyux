@@ -719,13 +719,22 @@ describe('List Component', () => {
             filterFunction: appleFilterFunction
           })
         ];
-
+        spyOn(component.list.appliedFiltersChange, 'emit').and.callThrough();
         dispatcher.filtersUpdate(appliedFilters);
         fixture.detectChanges()
         tick();
         fixture.detectChanges();
 
         expect(component.appliedFilters).toEqual(appliedFilters);
+        expect(component.list.appliedFiltersChange.emit).toHaveBeenCalledTimes(1);
+
+        fixture.nativeElement.querySelector('sky-filter-summary-item .sky-token-btn-close').click();
+        fixture.detectChanges()
+        tick();
+        fixture.detectChanges();
+
+        expect(component.appliedFilters).toEqual([]);
+        expect(component.list.appliedFiltersChange.emit).toHaveBeenCalledTimes(2);
       }));
 
       describe('models and state', () => {
