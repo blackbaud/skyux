@@ -40,7 +40,7 @@ export class SkyAuthTokenMockProvider {
       });
   }
 
-  public getContextToken(args?: SkyAuthTokenContextArgs): Promise<String> {
+  public getContextToken(args?: SkyAuthTokenContextArgs): Promise<string> {
     return this.getToken();
   }
 

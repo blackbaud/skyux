@@ -65,7 +65,7 @@ export class SkyAuthTokenProvider {
    * legal entity context.
    * @param args Provides additional context for retrieving the token.
    */
-  public getContextToken(args?: SkyAuthTokenContextArgs): Promise<String> {
+  public getContextToken(args?: SkyAuthTokenContextArgs): Promise<string> {
     const tokenArgs = this.getContextArgs(args);
 
     return this.getToken(tokenArgs);
