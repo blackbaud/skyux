@@ -12,10 +12,11 @@
         <button
           *ngFor="let button of buttons"
           type="button"
-          class="sky-btn"
+          class="sky-btn sky-margin-inline-compact"
           ngClass="sky-btn-{{ button.styleType }}"
           (click)="close(button)"
-          [attr.autofocus]="button.autofocus ? 'autofocus': null">
+          [attr.autofocus]="button.autofocus ? 'autofocus': null"
+        >
           {{ button.text }}
         </button>
       </div>

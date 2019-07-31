@@ -70,8 +70,9 @@
   @include sky-border(light, bottom);
 }
 
-
 .sky-modal-header-buttons {
+  flex-shrink: 0;
+
   .sky-btn {
     border: none;
     @include sky-icon-button-borderless;
@@ -116,10 +117,10 @@
   .sky-modal-header-buttons sky-icon[icon="close"] {
     font-size: 20px;
   }
-
 }
+
 .sky-modal-full-page .sky-modal-content {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 :host ::ng-deep .sky-sectioned-form {

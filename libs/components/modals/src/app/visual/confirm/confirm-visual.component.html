@@ -1,36 +1,46 @@
-<div style="height:100vh">
+<div
+  id="confirm-screenshot"
+  style="height: 500px;"
+></div>
+
+<div>
   <button
     type="button"
     class="sky-btn sky-btn-primary sky-confirm-btn-ok"
-    (click)="openOKConfirm()">
+    (click)="openOKConfirm()"
+  >
     OK confirm
   </button>
 
   <button
     type="button"
     class="sky-btn sky-btn-primary sky-confirm-btn-yescancel"
-    (click)="openYesCancelConfirm()">
+    (click)="openYesCancelConfirm()"
+  >
     Yes/cancel confirm
   </button>
 
   <button
     type="button"
     class="sky-btn sky-btn-primary sky-confirm-btn-body"
-    (click)="openConfirmWithBody()">
+    (click)="openConfirmWithBody()"
+  >
     Confirm with body
   </button>
 
   <button
     type="button"
     class="sky-btn sky-btn-primary sky-confirm-btn-yesnocancel"
-    (click)="openYesNoCancelConfirm()">
+    (click)="openYesNoCancelConfirm()"
+  >
     Yes/no/cancel confirm
   </button>
 
   <button
     type="button"
     class="sky-btn sky-btn-primary sky-confirm-btn-custom"
-    (click)="openCustomConfirm()">
+    (click)="openCustomConfirm()"
+  >
     Custom confirm
   </button>
 </div>
