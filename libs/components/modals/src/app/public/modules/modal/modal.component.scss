@@ -71,7 +71,10 @@
 }
 
 .sky-modal-header-buttons {
-  flex-shrink: 0;
+
+  // An extremely small value is needed to allow the
+  // buttons to wrap on extra-small breakpoints (<200px).
+  flex-shrink: 0.0001;
 
   .sky-btn {
     border: none;
