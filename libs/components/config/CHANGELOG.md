@@ -1,3 +1,7 @@
+# 3.5.1 (2019-07-01)
+
+- Added support for `@skyux-sdk/builder@3.7.0` which addressed some security vulnerabilities. [#20](https://github.com/blackbaud/skyux-config/pull/20)
+
 # 3.5.0 (2019-03-05)
 
 - Added `moduleAliases` property to schema. [#16](https://github.com/blackbaud/skyux-config/pull/16)
