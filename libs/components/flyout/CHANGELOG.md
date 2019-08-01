@@ -1,3 +1,7 @@
+# 3.2.2 (2019-07-01)
+
+- Fixed the flyout component to support child components that use `ChangeDetectionStrategy.Default`. [#60](https://github.com/blackbaud/skyux-flyout/pull/60)
+
 # 3.2.1 (2019-06-26)
 
 - Fixed the flyout component to not error when used with Angular 7. [#56](https://github.com/blackbaud/skyux-flyout/pull/56)
