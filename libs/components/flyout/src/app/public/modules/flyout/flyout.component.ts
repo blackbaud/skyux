@@ -88,7 +88,8 @@ let nextId = 0;
       transition(`* <=> *`, animate('250ms ease-in'))
     ])
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  // Allow automatic change detection for child components.
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class SkyFlyoutComponent implements OnDestroy, OnInit {
   public config: SkyFlyoutConfig;

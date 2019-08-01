@@ -19,6 +19,10 @@ import {
 } from '@skyux/popovers';
 
 import {
+  SkyAppLinkModule
+} from '@skyux/router';
+
+import {
   SkyToastModule
 } from '@skyux/toast';
 
@@ -39,11 +43,9 @@ import {
 } from './visual/flyout/flyout-modal.component';
 
 @NgModule({
-  imports: [
-    NoopAnimationsModule,
-    SkyInfiniteScrollModule
-  ],
   exports: [
+    NoopAnimationsModule,
+    SkyAppLinkModule,
     SkyFlyoutModule,
     SkyDropdownModule,
     SkyModalModule,
