@@ -101,6 +101,21 @@ export class SkyModalComponent implements AfterViewInit {
     private componentAdapter: SkyModalComponentAdapterService
   ) { }
 
+  @HostListener('document:keyup', ['$event'])
+  public onDocumentKeyUp(event: KeyboardEvent) {
+    /* istanbul ignore else */
+    /* sanity check */
+    if (SkyModalHostService.openModalCount > 0) {
+      let topModal = SkyModalHostService.topModal;
+      if (topModal && topModal === this.hostService) {
+        if (event.which === 27) { // Escape key up
+          event.preventDefault();
+          this.closeButtonClick();
+        }
+      }
+    }
+  }
+
   @HostListener('document:keydown', ['$event'])
   public onDocumentKeyDown(event: KeyboardEvent) {
     /* istanbul ignore else */
@@ -108,41 +123,28 @@ export class SkyModalComponent implements AfterViewInit {
     if (SkyModalHostService.openModalCount > 0) {
       let topModal = SkyModalHostService.topModal;
       if (topModal && topModal === this.hostService) {
-        switch (event.which) {
-          case 27: { // Esc key pressed
+        if (event.which === 9) { // Tab pressed
+          let focusChanged = false;
+
+          let focusElementList = this.componentAdapter.loadFocusElementList(this.elRef);
+
+          if (
+            event.shiftKey &&
+            (this.componentAdapter.isFocusInFirstItem(event, focusElementList) ||
+            this.componentAdapter.isModalFocused(event, this.elRef))) {
+
+            focusChanged = this.componentAdapter.focusLastElement(focusElementList);
+          } else if (
+            !event.shiftKey && this.componentAdapter.isFocusInLastItem(event, focusElementList)) {
+            focusChanged = this.componentAdapter.focusFirstElement(focusElementList);
+          }
+
+          if (focusChanged) {
             event.preventDefault();
-            this.closeButtonClick();
-            break;
+            event.stopPropagation();
           }
-
-          case 9: {  // Tab pressed
-            let focusChanged = false;
-
-            let focusElementList = this.componentAdapter.loadFocusElementList(this.elRef);
-
-            if (
-              event.shiftKey &&
-              (this.componentAdapter.isFocusInFirstItem(event, focusElementList) ||
-              this.componentAdapter.isModalFocused(event, this.elRef))) {
-
-              focusChanged = this.componentAdapter.focusLastElement(focusElementList);
-            } else if (
-              !event.shiftKey && this.componentAdapter.isFocusInLastItem(event, focusElementList)) {
-              focusChanged = this.componentAdapter.focusFirstElement(focusElementList);
-            }
-
-            if (focusChanged) {
-              event.preventDefault();
-              event.stopPropagation();
-            }
-            break;
-          }
-
-          default:
-            break;
         }
       }
-
     }
   }
 

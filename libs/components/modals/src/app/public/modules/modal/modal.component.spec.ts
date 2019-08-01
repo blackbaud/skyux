@@ -152,7 +152,7 @@ describe('Modal component', () => {
     let escapeEvent: any = document.createEvent('CustomEvent');
     escapeEvent.which = 27;
     escapeEvent.keyCode = 27;
-    escapeEvent.initEvent('keydown', true, true);
+    escapeEvent.initEvent('keyup', true, true);
 
     document.dispatchEvent(escapeEvent);
 
@@ -161,6 +161,48 @@ describe('Modal component', () => {
 
     expect(document.querySelector('.sky-modal')).not.toExist();
 
+  }));
+
+  it('should handle escape when modals are stacked', fakeAsync(() => {
+    let modalInstance2 = openModal(ModalAutofocusTestComponent);
+    let modalInstance1 = openModal(ModalFooterTestComponent);
+
+    let escapeEvent: any = document.createEvent('CustomEvent');
+    escapeEvent.which = 27;
+    escapeEvent.keyCode = 27;
+    escapeEvent.shiftKey = false;
+    escapeEvent.initEvent('keyup', true, true);
+
+    document.querySelector('.sky-modal').dispatchEvent(escapeEvent);
+    document.querySelector('.sky-modal').dispatchEvent(escapeEvent);
+
+    tick();
+    applicationRef.tick();
+
+    expect(document.querySelector('.sky-modal')).not.toExist();
+
+    closeModal(modalInstance1);
+    closeModal(modalInstance2);
+  }));
+
+  it('should handle a different key code with keyup event', fakeAsync(() => {
+    let modalInstance1 = openModal(ModalFooterTestComponent);
+
+    let unknownEvent: any = document.createEvent('CustomEvent');
+    unknownEvent.which = 3;
+    unknownEvent.keyCode = 3;
+    unknownEvent.shiftKey = false;
+    unknownEvent.initEvent('keyup', true, true);
+
+    document.querySelector('.sky-btn-primary').dispatchEvent(unknownEvent);
+
+    tick();
+    applicationRef.tick();
+
+    expect(document.activeElement).not.toEqual(document.querySelector('.sky-modal-btn-close'));
+    expect(document.querySelector('.sky-modal')).toExist();
+
+    closeModal(modalInstance1);
   }));
 
   it('should handle tab with shift when focus is on modal and in top modal', fakeAsync(() => {
@@ -359,7 +401,7 @@ describe('Modal component', () => {
     let escapeEvent: any = document.createEvent('CustomEvent');
     escapeEvent.which = 27;
     escapeEvent.keyCode = 27;
-    escapeEvent.initEvent('keydown', true, true);
+    escapeEvent.initEvent('keyup', true, true);
 
     document.dispatchEvent(escapeEvent);
 
