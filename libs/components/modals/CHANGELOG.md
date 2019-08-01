@@ -1,3 +1,8 @@
+# 3.0.7 (2019-08-01)
+
+- Fixed the modal component to only close when the escape key is released. [#62](https://github.com/blackbaud/skyux-modals/pull/62)
+- Fixed the modal header buttons to wrap properly when the heading wraps to a new line. [#61](https://github.com/blackbaud/skyux-modals/pull/61)
+
 # 3.0.6 (2019-07-05)
 
 - Updated development dependencies to support `@skyux-sdk/builder@3.7.1`. [#51](https://github.com/blackbaud/skyux-modals/pull/51)
