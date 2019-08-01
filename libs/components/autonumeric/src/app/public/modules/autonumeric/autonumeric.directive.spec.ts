@@ -121,6 +121,20 @@ describe('Autonumeric directive', () => {
     expect(formattedValue).toEqual('1,000.00');
   }));
 
+  it('should properly format 0 values', fakeAsync(() => {
+    detectChanges();
+
+    setValue(0);
+
+    detectChanges();
+
+    const modelValue = getModelValue();
+    const formattedValue = getFormattedValue();
+
+    expect(modelValue).toEqual(0);
+    expect(formattedValue).toEqual('0.00');
+  }));
+
   it('should support preset configuration', fakeAsync(() => {
     setOptions('dollar');
 

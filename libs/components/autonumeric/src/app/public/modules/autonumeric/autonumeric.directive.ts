@@ -88,7 +88,7 @@ export class SkyAutonumericDirective implements OnInit, ControlValueAccessor, Va
       }
     }
 
-    if (value) {
+    if (!Number.isNaN(value) && value !== undefined && value !== null) {
       this.autonumericInstance.set(value);
     } else {
       this.autonumericInstance.clear();
