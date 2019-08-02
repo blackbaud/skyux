@@ -4,7 +4,11 @@ import {
 
 import {
   SkyCheckboxModule
-} from '@skyux/forms/modules/checkbox';
+} from '@skyux/forms';
+
+import {
+  SkyAppLinkModule
+} from '@skyux/router';
 
 import {
   SkyTabsModule,
@@ -13,19 +17,12 @@ import {
 } from './public';
 
 @NgModule({
-  imports: [
-    SkyCheckboxModule,
-    SkySectionedFormModule,
-    SkyTabsModule,
-    SkyVerticalTabsetModule
-  ],
   exports: [
+    SkyAppLinkModule,
     SkyCheckboxModule,
     SkySectionedFormModule,
     SkyTabsModule,
     SkyVerticalTabsetModule
-  ],
-  providers: [],
-  entryComponents: []
+  ]
 })
 export class AppExtrasModule { }
