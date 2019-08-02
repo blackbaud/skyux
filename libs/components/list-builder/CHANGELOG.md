@@ -1,3 +1,7 @@
+# 3.5.1 (2019-08-02)
+
+- Fixed the list component to properly notify consumers when filters are removed. [#60](https://github.com/blackbaud/skyux-list-builder/pull/60)
+
 # 3.5.0 (2019-07-19)
 
 - Updated the list component to programmatically select rows when the `selectedIds` input property is used in conjunction with the list view grids component. [#57](https://github.com/blackbaud/skyux-list-builder/pull/57)
