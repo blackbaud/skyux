@@ -1,3 +1,7 @@
+# 3.3.0 (2019-08-02)
+
+- Added media queries to hide the "New" button text on small screens. [#32](https://github.com/blackbaud/skyux-select-field/pull/32)
+
 # 3.2.0 (2019-07-26)
 
 - Added an optional "New" button next to the select field picker's search bar. [#30](https://github.com/blackbaud/skyux-select-field/pull/30) (Thanks [@blackbaud-vimal-kumar](https://github.com/blackbaud-vimal-kumar)!)
