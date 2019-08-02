@@ -14,13 +14,14 @@
               <button
                 class="sky-btn sky-btn-default sky-select-field-picker-btn-new"
                 type="button"
+                [attr.title]="'skyux_select_field_add_new_record_button' | skyLibResources"
                 (click)="onAddNewRecordButtonClick()"
               >
                 <sky-icon
                   class="fa-fw"
                   icon="plus-circle"
                 ></sky-icon>
-                {{ 'skyux_select_field_add_new_record_button' | skyLibResources }}
+                <span class="sky-select-field-picker-btn-new-text">{{ 'skyux_select_field_add_new_record_button' | skyLibResources }}</span>
               </button>
             </sky-list-toolbar-search-actions>
             <sky-list-filter-inline

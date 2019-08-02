@@ -42,6 +42,7 @@ import { SkySelectFieldPickerContext } from './select-field-picker-context';
 @Component({
   selector: 'sky-select-field-picker',
   templateUrl: './select-field-picker.component.html',
+  styleUrls: ['./select-field-picker.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkySelectFieldPickerComponent implements OnInit, AfterContentInit, OnDestroy {

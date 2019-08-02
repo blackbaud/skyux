@@ -1,0 +1,9 @@
+@import "~@skyux/theme/scss/mixins";
+
+.sky-select-field-picker-btn-new-text {
+  display: none;
+
+  @media (min-width: $sky-screen-sm-min) {
+    display: inline;
+  }
+}
