@@ -51,12 +51,15 @@ export class SkySelectFieldPickerComponent implements OnInit, AfterContentInit, 
   public selectMode: SkySelectFieldSelectMode;
   public headingText: string;
 
-  public readonly defaultCategory = 'any';
   public selectedCategory = this.defaultCategory;
   public selectedIds: any[] = [];
 
   public addNewRecordButtonClick = new Subject<void>();
   public showAddNewRecordButton: boolean = false;
+
+  public get defaultCategory(): string {
+    return 'any';
+  }
 
   @ViewChild(SkyListViewChecklistComponent)
   private listViewChecklist: SkyListViewChecklistComponent;
