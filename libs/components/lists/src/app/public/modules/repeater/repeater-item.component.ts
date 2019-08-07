@@ -96,6 +96,8 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit {
         this.updateForExpanded(true, false);
       }
     }
+
+    this.changeDetector.markForCheck();
   }
 
   public get isCollapsible(): boolean {

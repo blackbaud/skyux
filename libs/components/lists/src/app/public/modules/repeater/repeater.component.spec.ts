@@ -392,19 +392,17 @@ describe('Repeater item component', () => {
 
       fixture.detectChanges();
 
+      let chevronEls = el.querySelectorAll('.sky-repeater-item-chevron');
+      expect(chevronEls.length).toBe(3);
+
       cmp.expandMode = 'none';
       fixture.detectChanges();
 
       tick();
 
-      let chevronEls = el.querySelectorAll('.sky-repeater-item-chevron');
+      chevronEls = el.querySelectorAll('.sky-repeater-item-chevron');
 
-      expect(chevronEls.length).toBe(3);
-
-      for (let i = 0, n = chevronEls.length; i < n; i++) {
-        let chevronEl = chevronEls.item(i);
-        expect(getComputedStyle(chevronEl).getPropertyValue('display')).toBe('none');
-      }
+      expect(chevronEls.length).toBe(0);
     }));
 
     it(

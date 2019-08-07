@@ -60,7 +60,7 @@
       <div class="sky-repeater-item-title sky-emphasized" #titleEl>
         <ng-content select="sky-repeater-item-title"></ng-content>
       </div>
-      <div class="sky-repeater-item-chevron" [hidden]="!isCollapsible">
+      <div class="sky-repeater-item-chevron" *ngIf="isCollapsible">
         <sky-chevron
             [attr.aria-controls]="contentId"
             [attr.aria-expanded]="isExpanded"
