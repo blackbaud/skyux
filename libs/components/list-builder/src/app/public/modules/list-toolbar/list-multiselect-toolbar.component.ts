@@ -140,6 +140,7 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
       name: 'show-selected',
       value: isSelected.toString(),
       filterFunction: (model: ListItemModel, showOnlySelected: boolean) => {
+        /* istanbul ignore else */
         if (showOnlySelected.toString() !== false.toString()) {
           return this.selectedIdMap.get(model.id);
         }

@@ -160,7 +160,7 @@ export class SkyListComponent implements AfterContentInit, OnChanges, OnDestroy 
   @ContentChildren(ListViewComponent)
   private listViews: QueryList<ListViewComponent>;
 
-  private lastSelectedIds: string[];
+  private lastSelectedIds: string[] = [];
 
   private lastFilters: ListFilterModel[] = [];
 
@@ -211,7 +211,6 @@ export class SkyListComponent implements AfterContentInit, OnChanges, OnDestroy 
     this.state.map(current => current.selected)
       .takeUntil(this.ngUnsubscribe)
       .distinctUntilChanged()
-      .skip(1)
       .subscribe(selected => {
 
         // Update lastSelectedIds to help us retain user selections.
@@ -221,12 +220,14 @@ export class SkyListComponent implements AfterContentInit, OnChanges, OnDestroy 
             selectedIdsList.push(key);
           }
         });
-        this.lastSelectedIds = selectedIdsList;
 
-        // Emit new selected items if there is an observer.
-        if (this.selectedIdsChange.observers.length > 0) {
+        // If changes are distinct, emit selectedIdsChange.
+        const distinctChanges = !this.arraysEqual(this.lastSelectedIds, selectedIdsList);
+        if (this.selectedIdsChange.observers.length > 0 && distinctChanges) {
           this.selectedIdsChange.emit(selected.item.selectedIdMap);
         }
+
+        this.lastSelectedIds = selectedIdsList;
       });
 
     if (this.appliedFiltersChange.observers.length > 0) {
@@ -254,11 +255,9 @@ export class SkyListComponent implements AfterContentInit, OnChanges, OnDestroy 
       this.dispatcher.filtersUpdate(this.appliedFilters);
     }
     if (changes['selectedIds']) {
+      // Only send selection changes to dispatcher if changes are distinct.
       const newSelectedIds = changes['selectedIds'].currentValue;
-      const newSelectedIdsDistinct = this.lastSelectedIds && !this.arraysEqual(newSelectedIds, this.lastSelectedIds);
-
-      // Only send selection changes to the dispatcher if this is the first change or the changes are distinct.
-      if (!this.lastSelectedIds || newSelectedIdsDistinct) {
+      if (!this.arraysEqual(newSelectedIds, this.lastSelectedIds)) {
         this.dispatcher.setSelected(newSelectedIds, true, true);
       }
     }
@@ -391,7 +390,7 @@ export class SkyListComponent implements AfterContentInit, OnChanges, OnDestroy 
   }
 
   private getItemsAndRetainSelections(newList: ListItemModel[], selectedIds: string[]): ListItemModel[] {
-    if (!selectedIds) {
+    if (selectedIds.length === 0) {
       return newList;
     }
     let updatedListModel = newList.slice();
@@ -402,8 +401,21 @@ export class SkyListComponent implements AfterContentInit, OnChanges, OnDestroy 
   }
 
   private arraysEqual(arrayA: any[], arrayB: any[]): boolean {
-    return arrayA.length === arrayB.length &&
-      arrayA.every((value, index) =>
-        value === arrayB[index]);
+    /* istanbul ignore next */
+    if (arrayA === arrayB) {
+      return true;
+    }
+    if (arrayA === undefined || arrayB === undefined) {
+      return false;
+    }
+    if (arrayA.length !== arrayB.length) {
+      return false;
+    }
+    for (let i = 0; i < arrayA.length; ++i) {
+      if (arrayA[i] !== arrayB[i]) {
+        return false;
+      }
+    }
+    return true;
   }
 }

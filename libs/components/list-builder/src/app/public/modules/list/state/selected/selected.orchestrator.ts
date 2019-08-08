@@ -57,11 +57,12 @@ export class ListSelectedOrchestrator extends ListStateOrchestrator<AsyncItem<Li
     state: AsyncItem<ListSelectedModel>,
     action: ListSelectedSetItemsSelectedAction
   ): AsyncItem<ListSelectedModel> {
-    const newSelected = action.refresh ? new ListSelectedModel() : this.cloneListSelectedModel(state.item);
+    const newSelectedIds = action.items || [];
+    const newListSelectedModel = action.refresh ? new ListSelectedModel() : this.cloneListSelectedModel(state.item);
 
-    action.items.map(s => newSelected.selectedIdMap.set(s, action.selected));
+    newSelectedIds.map(s => newListSelectedModel.selectedIdMap.set(s, action.selected));
 
-    return new AsyncItem<ListSelectedModel>(newSelected, state.lastUpdate, state.loading);
+    return new AsyncItem<ListSelectedModel>(newListSelectedModel, state.lastUpdate, state.loading);
   }
 
   private cloneListSelectedModel(source: ListSelectedModel) {

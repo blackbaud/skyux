@@ -559,6 +559,36 @@ describe('List Component', () => {
         tick();
       }));
 
+      it('should handle an undefined value for selectedIds', fakeAsync(() => {
+        tick();
+        fixture.detectChanges();
+        const dispatcherSpy = spyOn(dispatcher, 'setSelected').and.callThrough();
+
+        component.selectedIds = ['3', '4']
+        tick();
+        fixture.detectChanges();
+        expect(dispatcherSpy).toHaveBeenCalledTimes(1);
+        dispatcherSpy.calls.reset();
+
+        component.selectedIds = undefined
+        tick();
+        fixture.detectChanges();
+        expect(dispatcherSpy).toHaveBeenCalledTimes(1);
+        state.take(1).subscribe((current) => {
+          const selectedIdMap = current.selected.item.selectedIdMap;
+          expect(selectedIdMap.get('1')).toBeUndefined();
+          expect(selectedIdMap.get('2')).toBeUndefined();
+          expect(selectedIdMap.get('3')).toBeUndefined();
+          expect(selectedIdMap.get('4')).toBeUndefined();
+          expect(selectedIdMap.get('5')).toBeUndefined();
+          expect(selectedIdMap.get('6')).toBeUndefined();
+          expect(selectedIdMap.get('7')).toBeUndefined();
+        });
+
+        fixture.detectChanges();
+        tick();
+      }));
+
       it('should allow users to access displayed selectedItems', fakeAsync(() => {
         tick();
         fixture.detectChanges();
