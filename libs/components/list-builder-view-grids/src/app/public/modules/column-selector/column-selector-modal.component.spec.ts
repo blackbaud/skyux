@@ -1,30 +1,32 @@
 import {
+  async,
+  ComponentFixture,
   fakeAsync,
   inject,
   tick,
-  TestBed,
-  ComponentFixture,
-  async
+  TestBed
 } from '@angular/core/testing';
+
 import {
   RouterTestingModule
 } from '@angular/router/testing';
 
 import {
   expect
-} from '@blackbaud/skyux-builder/runtime/testing/browser';
+} from '@skyux-sdk/testing';
 
 import {
-  SkyModalService,
-  SkyModalModule
+  SkyModalModule,
+  SkyModalService
 } from '@skyux/modals';
+
+import {
+  SkyColumnSelectorModule
+} from './column-selector-modal.module';
 
 import {
   ColumnSelectorTestComponent
 } from './fixtures/column-selector-modal.component.fixture';
-import {
-  SkyColumnSelectorModule
-} from './column-selector-modal.module';
 
 describe('Column selector component', () => {
   let fixture: ComponentFixture<ColumnSelectorTestComponent>;
