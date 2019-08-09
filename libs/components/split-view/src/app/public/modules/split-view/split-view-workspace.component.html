@@ -4,9 +4,6 @@
   [attr.aria-label]="ariaLabel"
 >
   <sky-split-view-workspace-header *ngIf="isMobile"></sky-split-view-workspace-header>
-  <div
-    class="sky-split-view-workspace-content sky-padding-even-large"
-  >
-    <ng-content></ng-content>
-  </div>
+  <ng-content select="sky-split-view-workspace-content"></ng-content>
+  <ng-content select="sky-split-view-workspace-footer"></ng-content>
 </div>

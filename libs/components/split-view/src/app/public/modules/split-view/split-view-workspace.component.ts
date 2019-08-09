@@ -30,6 +30,7 @@ import {
 @Component({
   selector: 'sky-split-view-workspace',
   templateUrl: 'split-view-workspace.component.html',
+  styleUrls: ['./split-view-workspace.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     SkySplitViewMediaQueryService,

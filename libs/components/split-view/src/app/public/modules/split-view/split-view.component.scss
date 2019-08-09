@@ -7,12 +7,14 @@
   display: flex;
   border: 1px solid $sky-border-color-neutral-medium;
   background: #fff;
+  max-height: 100%;
 
   .sky-split-view-workspace-flex-container {
     flex-grow: 1;
     flex-shrink: 99;
     overflow: auto;
   }
+
 }
 
 // Drawer should be full-width when in mobile view.

@@ -81,6 +81,23 @@ export class SplitViewVisualComponent {
     }
   }
 
+  public submitForm() {
+    if (this.hasUnsavedWork) {
+      this.confirmService.open({
+        message: 'You have unsaved work. Would you like to save it before you change records?',
+        type: SkyConfirmType.YesCancel
+      }).closed.subscribe((closeArgs: SkyConfirmCloseEventArgs) => {
+        if (closeArgs.action.toLowerCase() === 'yes') {
+          alert('Form submitted!');
+          this.setFocusInWorkspace();
+        }
+      });
+    } else {
+      alert('Form submitted!');
+      this.setFocusInWorkspace();
+    }
+  }
+
   private setFocusInWorkspace(): void {
     const message: SkySplitViewMessage = {
       type: SkySplitViewMessageType.FocusWorkspace

@@ -43,11 +43,21 @@ import {
   SkySplitViewWorkspaceComponent
 } from './split-view-workspace.component';
 
+import {
+  SkySplitViewWorkspaceContentComponent
+} from './split-view-workspace-content.component';
+
+import {
+  SkySplitViewWorkspaceFooterComponent
+} from './split-view-workspace-footer.component';
+
 @NgModule({
   declarations: [
     SkySplitViewComponent,
     SkySplitViewDrawerComponent,
     SkySplitViewWorkspaceComponent,
+    SkySplitViewWorkspaceContentComponent,
+    SkySplitViewWorkspaceFooterComponent,
     SkySplitViewWorkspaceHeaderComponent
   ],
   providers: [
@@ -65,6 +75,8 @@ import {
     SkySplitViewComponent,
     SkySplitViewDrawerComponent,
     SkySplitViewWorkspaceComponent,
+    SkySplitViewWorkspaceContentComponent,
+    SkySplitViewWorkspaceFooterComponent,
     SkySplitViewWorkspaceHeaderComponent
   ]
 })
