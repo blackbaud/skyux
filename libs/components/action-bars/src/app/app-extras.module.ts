@@ -19,6 +19,10 @@ import {
 } from '@skyux/tabs';
 
 import {
+  SkyAppLinkModule
+} from '@skyux/router';
+
+import {
   SkySummaryActionBarModule
 } from './public';
 
@@ -27,14 +31,8 @@ import {
 } from './visual/summary-action-bar/summary-action-bar-modal-demo.component';
 
 @NgModule({
-  imports: [
-    SkyKeyInfoModule,
-    SkyModalModule,
-    SkySummaryActionBarModule,
-    SkyTabsModule,
-    NoopAnimationsModule
-  ],
   exports: [
+    SkyAppLinkModule,
     SkyKeyInfoModule,
     SkyModalModule,
     SkySummaryActionBarModule,
