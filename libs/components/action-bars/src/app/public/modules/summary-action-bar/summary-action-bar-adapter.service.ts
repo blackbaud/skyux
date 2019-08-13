@@ -34,10 +34,27 @@ export class SkySummaryActionBarAdapterService {
     }
   }
 
+  public styleSplitViewElementForActionBar(summaryActionBarRef: ElementRef): void {
+    const splitViewWorkspaceContent = document.querySelector('.sky-split-view-workspace-content');
+    const splitViewWorkspaceFooter = document.querySelector('.sky-split-view-workspace-footer');
+    const actionBarEl = summaryActionBarRef.nativeElement.querySelector('.sky-summary-action-bar');
+    if (actionBarEl.style.visibility !== 'hidden') {
+      this.renderer.setStyle(splitViewWorkspaceContent, 'padding-bottom', '20px');
+      this.renderer.setStyle(splitViewWorkspaceFooter, 'padding', 0);
+    }
+  }
+
   public revertBodyElementStyles(): void {
     const window = this.windowRef.getWindow();
     const body = window.document.body;
     this.renderer.removeStyle(body, 'margin-bottom');
+  }
+
+  public revertSplitViewElementStyles(): void {
+    const splitViewWorkspaceContent = document.querySelector('.sky-split-view-workspace-content');
+    const splitViewWorkspaceFooter = document.querySelector('.sky-split-view-workspace-footer');
+    this.renderer.setStyle(splitViewWorkspaceContent, 'padding-bottom', 'none');
+    this.renderer.setStyle(splitViewWorkspaceFooter, 'padding', '10px');
   }
 
   public styleModalFooter(): void {
@@ -58,6 +75,8 @@ export class SkySummaryActionBarAdapterService {
         return SkySummaryActionBarType.StandardModal;
       } else if (el.classList.contains('sky-tab')) {
         return SkySummaryActionBarType.Tab;
+      } else if (el.tagName.toLowerCase() === 'sky-split-view-workspace') {
+        return SkySummaryActionBarType.SplitView;
       }
       el = el.parentElement;
       // tslint:disable-next-line:no-null-keyword

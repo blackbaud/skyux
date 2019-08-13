@@ -5,7 +5,8 @@ import {
   Component,
   ContentChild,
   ElementRef,
-  OnDestroy
+  OnDestroy,
+  Optional
 } from '@angular/core';
 
 import {
@@ -30,6 +31,10 @@ import {
   SkyMediaQueryService,
   SkyWindowRefService
 } from '@skyux/core';
+
+import {
+  SkySplitViewService
+} from '@skyux/split-view/modules/split-view/split-view.service';
 
 import {
   SkySummaryActionBarSummaryComponent
@@ -85,15 +90,21 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
     private elementRef: ElementRef,
     private mediaQueryService: SkyMediaQueryService,
     private observerService: MutationObserverService,
-    private windowRef: SkyWindowRefService
+    private windowRef: SkyWindowRefService,
+    @Optional() private splitViewService: SkySplitViewService
   ) { }
 
   public ngAfterViewInit(): void {
     this.type = this.adapterService.getSummaryActionBarType(this.elementRef.nativeElement);
-    if (this.type === SkySummaryActionBarType.Page || this.type === SkySummaryActionBarType.Tab) {
+    if (!(this.type === SkySummaryActionBarType.FullPageModal || this.type === SkySummaryActionBarType.StandardModal)) {
       this.setupReactiveState();
 
-      this.adapterService.styleBodyElementForActionBar(this.elementRef);
+      if (this.type === SkySummaryActionBarType.SplitView) {
+        this.adapterService.styleSplitViewElementForActionBar(this.elementRef);
+      } else {
+        this.adapterService.styleBodyElementForActionBar(this.elementRef);
+      }
+
       this.setupResizeListener();
 
       if (this.type === SkySummaryActionBarType.Tab) {
@@ -110,12 +121,16 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    if (!(this.type === SkySummaryActionBarType.StandardModal ||
-      this.type === SkySummaryActionBarType.FullPageModal)) {
+
+    if (this.type === SkySummaryActionBarType.SplitView) {
+      this.adapterService.revertSplitViewElementStyles();
+    } else if ((this.type === SkySummaryActionBarType.Page) ||
+      (this.type === SkySummaryActionBarType.Tab)) {
       this.adapterService.revertBodyElementStyles();
-      this.removeResizeListener();
-      this.removeTabListener();
     }
+
+    this.removeResizeListener();
+    this.removeTabListener();
 
     if (this.mediaQuerySubscription) {
       this.mediaQuerySubscription.unsubscribe();
@@ -195,13 +210,19 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   }
 
   private setupResizeListener(): void {
-    const windowObj = this.windowRef.getWindow();
-    Observable
-      .fromEvent(windowObj, 'resize')
-      .takeUntil(this.idled)
-      .subscribe(() => {
-        this.adapterService.styleBodyElementForActionBar(this.elementRef);
+    if (this.type === SkySummaryActionBarType.SplitView) {
+      this.splitViewService.drawerWidthStream.subscribe(() => {
+        this.adapterService.styleSplitViewElementForActionBar(this.elementRef);
       });
+    } else {
+      const windowObj = this.windowRef.getWindow();
+      Observable
+        .fromEvent(windowObj, 'resize')
+        .takeUntil(this.idled)
+        .subscribe(() => {
+          this.adapterService.styleBodyElementForActionBar(this.elementRef);
+        });
+    }
   }
 
   private removeResizeListener(): void {

@@ -11,16 +11,21 @@ import {
 } from '@skyux/indicators';
 
 import {
-  SkyModalModule
+  SkyModalModule,
+  SkyConfirmModule
 } from '@skyux/modals';
-
-import {
-  SkyTabsModule
-} from '@skyux/tabs';
 
 import {
   SkyAppLinkModule
 } from '@skyux/router';
+
+import {
+  SkySplitViewModule
+} from '@skyux/split-view';
+
+import {
+  SkyTabsModule
+} from '@skyux/tabs';
 
 import {
   SkySummaryActionBarModule
@@ -33,10 +38,12 @@ import {
 @NgModule({
   exports: [
     SkyAppLinkModule,
+    SkyConfirmModule,
     SkyKeyInfoModule,
     SkyModalModule,
     SkySummaryActionBarModule,
     SkyTabsModule,
+    SkySplitViewModule,
     NoopAnimationsModule
   ],
   providers: [],

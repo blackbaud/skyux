@@ -14,9 +14,13 @@
   box-shadow: 0 -3px 3px 0 $sky-color-gray-20;
 }
 
-.sky-summary-action-bar-modal {
+.sky-summary-action-bar-modal, .sky-summary-action-bar-split-view {
     position: relative;
     margin-top: 0;
+}
+
+.sky-summary-action-bar-split-view {
+  box-shadow: none;
 }
 
 .sky-summary-action-bar-actions {

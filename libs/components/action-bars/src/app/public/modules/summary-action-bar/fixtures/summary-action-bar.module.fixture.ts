@@ -23,6 +23,10 @@ import {
 } from '@skyux/modals';
 
 import {
+  SkySplitViewModule
+} from '@skyux/split-view';
+
+import {
   SkyTabsModule
 } from '@skyux/tabs';
 
@@ -42,11 +46,16 @@ import {
   SkySummaryActionBarTabsTestComponent
 } from './summary-action-bar-tabs.component.fixture';
 
+import {
+  SkySummaryActionBarSplitViewTestComponent
+} from './summary-action-bar-split-view.component.fixture';
+
 @NgModule({
   declarations: [
     SkySummaryActionBarTestComponent,
     SkySummaryActionBarModalTestComponent,
-    SkySummaryActionBarTabsTestComponent
+    SkySummaryActionBarTabsTestComponent,
+    SkySummaryActionBarSplitViewTestComponent
   ],
   imports: [
     BrowserModule,
@@ -55,6 +64,7 @@ import {
     SkyKeyInfoModule,
     SkyModalModule,
     SkyTabsModule,
+    SkySplitViewModule,
     SkySummaryActionBarModule
   ],
   exports: [

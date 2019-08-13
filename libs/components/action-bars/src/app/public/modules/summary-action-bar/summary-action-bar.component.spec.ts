@@ -42,6 +42,10 @@ import {
 } from './fixtures/summary-action-bar.module.fixture';
 
 import {
+  SkySummaryActionBarSplitViewTestComponent
+} from './fixtures/summary-action-bar-split-view.component.fixture';
+
+import {
   SkySummaryActionBarTabsTestComponent
 } from './fixtures/summary-action-bar-tabs.component.fixture';
 
@@ -540,6 +544,78 @@ describe('Summary Action Bar component', () => {
               done();
             });
           });
+        });
+      });
+
+    });
+
+    describe('a11y', () => {
+      it('should be accessible (standard lg setup)', async(() => {
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          expect(fixture.nativeElement).toBeAccessible();
+        });
+      }));
+
+      it('should be accessible (standard xs setup)', async(() => {
+        fixture.detectChanges();
+        mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          expect(fixture.nativeElement).toBeAccessible();
+        });
+      }));
+
+      it('should be accessible (standard xs setup collapsed summary)', async(() => {
+        fixture.detectChanges();
+        mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          debugElement.query(By.css('.sky-summary-action-bar-details-collapse button'))
+            .nativeElement.click();
+          fixture.detectChanges();
+          fixture.whenStable().then(() => {
+            expect(fixture.nativeElement).toBeAccessible();
+          });
+        });
+      }));
+    });
+
+  });
+
+  describe('split view usage', () => {
+
+    let fixture: ComponentFixture<SkySummaryActionBarSplitViewTestComponent>;
+    let cmp: SkySummaryActionBarSplitViewTestComponent;
+    let debugElement: DebugElement;
+
+    beforeEach(() => {
+      fixture = TestBed.createComponent(SkySummaryActionBarSplitViewTestComponent);
+
+      cmp = fixture.componentInstance as SkySummaryActionBarSplitViewTestComponent;
+      debugElement = fixture.debugElement;
+    });
+
+    describe('body stylings', () => {
+
+      it('should set a margin on the split view workspace content if the action bar is displayed on intial load', (done) => {
+        spyOn(window, 'setTimeout').and.callFake((fun: Function) => { fun(); });
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          fixture.detectChanges();
+          let workspacePaddingBottom = debugElement.query(By.css('.sky-split-view-workspace-content')).nativeElement.style.paddingBottom;
+          expect(workspacePaddingBottom).toBe('20px');
+          done();
+        });
+      });
+
+      it('should not set a margin on the body if the action bar is not displayed on intial load', () => {
+        cmp.showBar = false;
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          fixture.detectChanges();
+          let workspacePaddingBottom = debugElement.query(By.css('.sky-split-view-workspace-content')).nativeElement.style.paddingBottom;
+          expect(workspacePaddingBottom).toBe('');
         });
       });
 
