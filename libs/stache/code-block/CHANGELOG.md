@@ -1,3 +1,7 @@
+# 1.3.1 (2019-08-13)
+
+- Adjusted CSS styles for `sky-code` component, reverted to previous color scheme. [#22](https://github.com/blackbaud/skyux-lib-code-block/pull/22)
+
 # 1.3.0 (2019-06-25)
 
 - Adjusted CSS styles for `sky-code` component. [#17](https://github.com/blackbaud/skyux-lib-code-block/pull/17)
