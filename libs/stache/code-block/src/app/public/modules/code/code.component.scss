@@ -1,16 +1,17 @@
 @import '~@skyux/theme/scss/mixins';
 
 .sky-code {
+  @include sky-border("dark", "top", "right", "bottom", "left");
   overflow-wrap: break-word;
   font-family: 'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace;
   font-size: 90%;
-  color: $sky-text-color-default;
-  padding: 0 2px;
-  background-color: $sky-border-color-neutral-light;
+  color: darken($sky-background-color-danger-dark, 5%);
+  padding: 0 4px;
+  background-color: $sky-background-color-selected;
 
   ::ng-deep {
     a {
-      color: $sky-text-color-default;
+      color: $sky-background-color-danger-dark;
       text-decoration: underline;
     }
   }
@@ -18,7 +19,6 @@
 
 ::ng-deep {
   a .sky-code {
-    color: $sky-text-color-default;
     text-decoration: underline;
   }
 }
