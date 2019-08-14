@@ -400,12 +400,13 @@ export class SkyListToolbarComponent implements OnInit, AfterContentInit, OnDest
 
   public updateSearchText(searchText: string) {
     this.state.take(1).subscribe((currentState) => {
-      this.dispatcher.searchSetText(searchText);
       if (currentState.paging.pageNumber && currentState.paging.pageNumber !== 1) {
         this.dispatcher.next(
           new ListPagingSetPageNumberAction(Number(1))
         );
       }
+
+      this.dispatcher.searchSetText(searchText);
     });
   }
 

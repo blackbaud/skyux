@@ -12,12 +12,45 @@ import {
 } from '@skyux/list-builder-common';
 
 import {
+  ListFilterModel
+} from './filters/filter.model';
+
+import {
+  ListFiltersUpdateAction
+} from './filters/actions';
+
+import {
+  ListItemsSetSelectedAction
+} from './items/actions';
+
+import {
   ListStateAction
 } from './list-state-action.type';
 
 import {
-  ListViewsSetActiveAction
-} from './views/actions';
+  ListSearchSetFunctionsAction,
+  ListSearchSetSearchTextAction,
+  ListSearchSetFieldSelectorsAction,
+  ListSearchSetOptionsAction
+} from './search/actions';
+
+import {
+  ListSearchModel
+} from './search/search.model';
+
+import {
+  ListSelectedSetItemsSelectedAction
+} from './selected/actions';
+
+import {
+  ListSortSetAvailableAction,
+  ListSortSetFieldSelectorsAction,
+  ListSortSetGlobalAction
+} from './sort/actions';
+
+import {
+  ListSortLabelModel
+} from './sort/label.model';
 
 import {
   ListToolbarItemsDisableAction,
@@ -32,41 +65,8 @@ import {
 } from './toolbar/toolbar-item.model';
 
 import {
-  ListSearchSetFunctionsAction,
-  ListSearchSetSearchTextAction,
-  ListSearchSetFieldSelectorsAction,
-  ListSearchSetOptionsAction
-} from './search/actions';
-
-import {
-  ListSortSetAvailableAction,
-  ListSortSetFieldSelectorsAction,
-  ListSortSetGlobalAction
-} from './sort/actions';
-
-import {
-  ListSortLabelModel
-} from './sort/label.model';
-
-import {
-  ListFilterModel
-} from './filters/filter.model';
-
-import {
-  ListSearchModel
-} from './search/search.model';
-
-import {
-  ListFiltersUpdateAction
-} from './filters/actions';
-
-import {
-  ListItemsSetSelectedAction
-} from './items/actions';
-
-import {
-  ListSelectedSetItemsSelectedAction
-} from './selected/actions';
+  ListViewsSetActiveAction
+} from './views/actions';
 
 export class ListStateOrchestrator<T> extends StateOrchestrator<T, ListStateAction> {
 }
