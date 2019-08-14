@@ -1,3 +1,7 @@
+# 3.2.0 (2019-08-14)
+
+- Added support for anchor elements in the dropdown menu component. [#28](https://github.com/blackbaud/skyux-popovers/pull/28)
+
 # 3.1.1 (2019-06-21)
 
 - Updated development dependencies to support `@skyux-sdk/builder@3.7.0`, which addresses problems with the UMD library bundle. [#17](https://github.com/blackbaud/skyux-popovers/pull/17)
