@@ -2,5 +2,49 @@
 @import "~@skyux/theme/scss/_compat/mixins";
 
 .sky-dropdown-item {
-  @include sky-dropdown-item();
+  background-color: transparent;
+  border: none;
+  display: block;
+  margin: 4px;
+  min-width: 160px;
+  text-align: left;
+  transition: background-color $sky-transition-time-short;
+
+  &.sky-dropdown-item-active,
+  &:hover {
+    background-color: $sky-background-color-neutral-light;
+  }
+
+  &.sky-dropdown-item-disabled {
+    cursor: default;
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  ::ng-deep {
+    & > a,
+    & > button {
+      background-color: transparent;
+      border: none;
+      color: $sky-text-color-default;
+      cursor: pointer;
+      display: block;
+      padding: 3px $sky-padding-double;
+      text-align: left;
+      width: 100%;
+
+      &:hover {
+        text-decoration: none;
+      }
+
+      &[disabled] {
+        color: $sky-text-color-deemphasized;
+
+        &:hover {
+          cursor: default;
+        }
+      }
+    }
+  }
 }

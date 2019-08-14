@@ -4,7 +4,8 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  Input
+  Input,
+  Renderer2
 } from '@angular/core';
 
 @Component({
@@ -17,18 +18,29 @@ export class SkyDropdownItemComponent implements AfterViewInit {
   @Input()
   public ariaRole = 'menuitem';
 
+  public get buttonElement(): HTMLButtonElement {
+    return this.elementRef.nativeElement.querySelector('button,a');
+  }
+
   public isActive = false;
   public isDisabled = false;
-  public buttonElement: HTMLButtonElement;
 
   public constructor(
     public elementRef: ElementRef,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private renderer: Renderer2
   ) { }
 
   public ngAfterViewInit() {
-    this.buttonElement = this.elementRef.nativeElement.querySelector('button');
     this.isDisabled = !this.isFocusable();
+
+    // Make sure anchor elements are tab-able.
+    const buttonElement = this.buttonElement;
+    /* istanbul ignore else */
+    if (buttonElement) {
+      this.renderer.setAttribute(buttonElement, 'tabIndex', '0');
+    }
+
     this.changeDetector.detectChanges();
   }
 
