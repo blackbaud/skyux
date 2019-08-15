@@ -22,8 +22,8 @@ import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/operator/switchMap';
 
 import {
-  BBAuth
-} from '@blackbaud/auth-client';
+  BBAuthClientFactory
+} from '@skyux/auth-client-factory';
 
 import {
   SkyAppConfig
@@ -105,7 +105,7 @@ export class SkyAuthInterceptor implements HttpInterceptor {
           const decodedToken = this.tokenProvider.decodeToken(token);
           return Observable
             .fromPromise(
-              BBAuth.getUrl(request.url,
+              BBAuthClientFactory.BBAuth.getUrl(request.url,
               {
                 zone: decodedToken['1bb.zone']
               })

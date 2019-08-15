@@ -1,8 +1,8 @@
 //#region imports
 
 import {
-  BBAuth
-} from '@blackbaud/auth-client';
+  BBAuthClientFactory
+} from '@skyux/auth-client-factory';
 
 import {
   SkyAuthToken
@@ -36,7 +36,7 @@ describe('Auth token provider', () => {
   describe('getToken() method', () => {
 
     it('should call BBAuth.getToken and add return its promise', (done) => {
-      spyOn(BBAuth, 'getToken')
+      spyOn(BBAuthClientFactory.BBAuth, 'getToken')
         .and
         .returnValue(Promise.resolve(testToken));
 
@@ -53,7 +53,7 @@ describe('Auth token provider', () => {
   describe('getDecodedToken() method', () => {
 
     it('should return a decoded token', (done) => {
-      spyOn(BBAuth, 'getToken')
+      spyOn(BBAuthClientFactory.BBAuth, 'getToken')
         .and
         .returnValue(Promise.resolve(testToken));
 
@@ -71,7 +71,7 @@ describe('Auth token provider', () => {
   describe('getContextToken() method', () => {
 
     it('should call BBAuth.getToken() with the SPA\'s context parameters', () => {
-      const getTokenSpy = spyOn(BBAuth, 'getToken');
+      const getTokenSpy = spyOn(BBAuthClientFactory.BBAuth, 'getToken');
 
       let provider = new SkyAuthTokenProvider({
         runtime: {
@@ -117,7 +117,7 @@ describe('Auth token provider', () => {
     });
 
     it('should handle missing config', () => {
-      const getTokenSpy = spyOn(BBAuth, 'getToken');
+      const getTokenSpy = spyOn(BBAuthClientFactory.BBAuth, 'getToken');
 
       const provider = new SkyAuthTokenProvider();
 
@@ -127,7 +127,7 @@ describe('Auth token provider', () => {
     });
 
     it('should add permission scope to the request if specified', () => {
-      const getTokenSpy = spyOn(BBAuth, 'getToken');
+      const getTokenSpy = spyOn(BBAuthClientFactory.BBAuth, 'getToken');
 
       const provider = new SkyAuthTokenProvider();
 
@@ -147,7 +147,7 @@ describe('Auth token provider', () => {
     it(
       'should call BBAuth.getToken() with the SPA\'s context parameters and decode the token',
       (done) => {
-        const getTokenSpy = spyOn(BBAuth, 'getToken')
+        const getTokenSpy = spyOn(BBAuthClientFactory.BBAuth, 'getToken')
           .and
           .returnValue(Promise.resolve(testToken));
 

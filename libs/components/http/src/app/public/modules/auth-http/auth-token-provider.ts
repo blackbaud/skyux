@@ -12,7 +12,10 @@ import {
 } from '@skyux/config';
 
 import {
-  BBAuth,
+  BBAuthClientFactory
+} from '@skyux/auth-client-factory';
+
+import {
   BBAuthGetTokenArgs
 } from '@blackbaud/auth-client';
 
@@ -41,7 +44,7 @@ export class SkyAuthTokenProvider {
    * @param args Options for retrieving a token.
    */
   public getToken(args?: BBAuthGetTokenArgs): Promise<string> {
-    return BBAuth.getToken(args);
+    return BBAuthClientFactory.BBAuth.getToken(args);
   }
 
   /**
