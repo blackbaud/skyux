@@ -8,8 +8,11 @@
 }
 
 .sky-file-item-name-container {
-  display: inline-block;
-  width: 85%;
+  flex: 1 0 auto;
+}
+
+.sky-file-item-controls {
+  flex: 0 1 auto;
 }
 
 .sky-file-item-name {
@@ -22,6 +25,7 @@
 
 .sky-file-item-title {
   margin-bottom: $sky-margin;
+  display: flex;
 }
 
 .sky-file-item-content {
