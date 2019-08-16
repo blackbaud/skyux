@@ -1,3 +1,7 @@
+# 3.7.0 (2019-08-15)
+
+- Added support for using the global auth-client instance when it is available. [#39](https://github.com/blackbaud/skyux-http/pull/39)
+
 # 3.6.0 (2019-07-31)
 
 - Added support for translating a 1BB tokenized URL to a zoned URL using the zone from the user's token. [#26](https://github.com/blackbaud/skyux-http/pull/26) (Thanks [@Blackbaud-JonathanBell](https://github.com/Blackbaud-JonathanBell)!)
