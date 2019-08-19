@@ -1,48 +1,138 @@
-<br/>
-<div id="screenshot-select-field-single-mode-wrapper" style="padding: 5px 0;">
-  <div id="screenshot-select-field-single-mode">
+<div
+  class="app-screenshot"
+>
+  <h1>Select Field</h1>
+
+  <h2>Single select mode</h2>
+  <div
+    class="sky-padding-even-default"
+    id="screenshot-select-field-single-mode-wrapper"
+  >
+    <div
+      id="screenshot-select-field-single-mode"
+    >
+      <sky-select-field
+        name="single"
+        selectMode="single"
+        [data]="data"
+        [ngModel]="model.single"
+        required
+        #fruit="ngModel"
+      >
+      </sky-select-field>
+    </div>
+
+    <h3>
+      Form control statuses
+    </h3>
+
+    <table>
+      <tr>
+        <th>Touched</th>
+        <td>{{ fruit.touched }}</td>
+      </tr>
+      <tr>
+        <th>Pristine</th>
+        <td>{{ fruit.pristine }}</td>
+      </tr>
+      <tr>
+        <th>Valid</th>
+        <td>{{ fruit.valid }}</td>
+      </tr>
+    </table>
+  </div>
+
+  <h2>Multiple select mode</h2>
+  <div
+    class="sky-padding-even-default"
+    id="screenshot-select-field-multiple-mode"
+  >
     <sky-select-field
-      selectMode="single"
-      name="single"
-      [ngModel]="model.single"
+      name="multiple"
+      selectMode="multiple"
       [data]="data"
+      [ngModel]="model.multiple"
+    >
+    </sky-select-field>
+  </div>
+
+  <h2>Add new record</h2>
+  <div
+    class="sky-padding-even-default"
+    id="screenshot-select-field-add-new-record-button"
+  >
+    <sky-select-field
+      name="single"
+      selectMode="single"
+      [data]="data"
+      [ngModel]="model.single"
+      [showAddNewRecordButton]="true"
+      (addNewRecordButtonClick)="onAddNewRecordButtonClick()"
       required
     >
     </sky-select-field>
   </div>
-</div>
-<br/>
-<div id="screenshot-select-field-multiple-mode">
-  <sky-select-field
-    selectMode="multiple"
-    name="multiple"
-    [ngModel]="model.multiple"
-    [data]="data"
-  >
-  </sky-select-field>
-</div>
-<div id="screenshot-select-field-add-new-record-button">
-  <sky-select-field
-    selectMode="single"
-    name="single"
-    [ngModel]="model.single"
-    [data]="data"
-    [showAddNewRecordButton]="true"
-    (addNewRecordButtonClick)="onAddNewRecordButtonClick()"
-    required
-  >
-  </sky-select-field>
-</div>
 
-<button
-  type="button"
-  id="select-field-populate-selected-btn"
-  (click)="populateSelected()">
-  Populate selected
-</button>
-<button
-  type="button"
-  id="select-field-populate-selected-long-btn"
-  (click)="populateSelectedLong()">
-  Populate selected with a long lable
-</button>
+  <h2>Helpers</h2>
+  <div
+    class="sky-padding-even-default"
+  >
+    <button
+      id="select-field-populate-selected-btn"
+      type="button"
+      (click)="populateSelected()"
+    >
+      Populate selected
+    </button>
+    <button
+      id="select-field-populate-selected-long-btn"
+      type="button"
+      (click)="populateSelectedLong()"
+    >
+      Populate selected with a long lable
+    </button>
+  </div>
+
+  <h3>Select field (reactive)</h3>
+  <form
+    novalidate
+    [formGroup]="reactiveForm"
+  >
+    <sky-select-field
+      formControlName="fruits"
+      name="fruits"
+      selectMode="single"
+      [data]="data"
+      required
+    >
+    </sky-select-field>
+  </form>
+
+  <h3>
+    Form control statuses
+  </h3>
+
+  <table>
+    <tr>
+      <th>Touched</th>
+      <td>{{ reactiveFruit.touched }}</td>
+    </tr>
+    <tr>
+      <th>Pristine</th>
+      <td>{{ reactiveFruit.pristine }}</td>
+    </tr>
+    <tr>
+      <th>Valid</th>
+      <td>{{ reactiveFruit.valid }}</td>
+    </tr>
+  </table>
+
+  <p>
+    <button
+      (click)="populateFormControl()"
+    >
+      Populate form control
+    </button>
+  </p>
+
+</div>

@@ -1,6 +1,15 @@
 import {
-  Component
+  Component,
+  OnInit
 } from '@angular/core';
+
+import {
+
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup
+} from '@angular/forms';
 
 import {
   BehaviorSubject
@@ -10,7 +19,12 @@ import {
   selector: 'select-field-visual',
   templateUrl: './select-field-visual.component.html'
 })
-export class SelectFieldVisualComponent {
+export class SelectFieldVisualComponent implements OnInit {
+
+  public get reactiveFruit(): AbstractControl {
+    return this.reactiveForm.get('fruits');
+  }
+
   public staticData = [
     { id: '1', category: 'Pome', label: 'Apple', description: 'Anne eats apples' },
     { id: '2', category: 'Berry', label: 'Banana', description: 'Ben eats bananas' },
@@ -26,7 +40,20 @@ export class SelectFieldVisualComponent {
   ];
 
   public data = new BehaviorSubject<any[]>(this.staticData);
+
   public model: any = {};
+
+  public reactiveForm: FormGroup;
+
+  constructor(
+    private formBuilder: FormBuilder
+  ) { }
+
+  public ngOnInit(): void {
+    this.reactiveForm = this.formBuilder.group({
+      fruits: new FormControl()
+    });
+  }
 
   public populateSelected() {
     this.model.multiple = [
@@ -48,5 +75,9 @@ export class SelectFieldVisualComponent {
 
   public onAddNewRecordButtonClick(): void {
     console.log('Add new record button clicked!');
+  }
+
+  public populateFormControl() {
+    this.reactiveForm.controls['fruits'].setValue(this.staticData[0]);
   }
 }

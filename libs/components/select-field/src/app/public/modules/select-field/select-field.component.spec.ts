@@ -152,6 +152,20 @@ describe('Select field component', () => {
       expect(selectField.pickerHeading).toEqual('heading');
     });
 
+    it('should set custom picker heading', fakeAsync(() => {
+      component.pickerHeading = 'FOOBAR';
+      fixture.detectChanges();
+      openPicker();
+      fixture.detectChanges();
+
+      const selectFieldHeading: HTMLElement = document.querySelector('.sky-modal-header-content');
+
+      expect(selectFieldHeading.innerText.trim()).toEqual('FOOBAR');
+
+      closePicker();
+      fixture.detectChanges();
+    }));
+
     it('should trigger blur event when focus is lost', fakeAsync(() => {
       fixture.detectChanges();
 
@@ -174,6 +188,20 @@ describe('Select field component', () => {
       SkyAppTestUtility.fireDomEvent(selectFieldContainer, 'focusout');
       expect(component.touched).toBe(2);
     }));
+
+    it('should not be touched when value is set programmatically', fakeAsync(() => {
+      fixture.detectChanges();
+
+      setValue([component.staticData[0]]);
+      fixture.detectChanges();
+
+      expect(component.touched).toBe(0);
+
+      setValue([component.staticData[1]]);
+      fixture.detectChanges();
+
+      expect(component.touched).toBe(0);
+    }));
   });
 
   describe('multiple select', () => {
@@ -188,11 +216,11 @@ describe('Select field component', () => {
 
       setValue([component.staticData[0]]);
       fixture.detectChanges();
-      expect(component.touched).toBe(1);
+      expect(component.touched).toBe(0);
 
       setValue([component.staticData[0]]);
       fixture.detectChanges();
-      expect(component.touched).toBe(1);
+      expect(component.touched).toBe(0);
     }));
 
     it('should collapse all tokens into one if many options are chosen', fakeAsync(() => {
@@ -221,6 +249,23 @@ describe('Select field component', () => {
       expect(selectField.value.length).toEqual(0);
       expect(tokens.length).toEqual(0);
     }));
+
+    it('should handle closing a subsection of all the tokens', fakeAsync(() => {
+      fixture.detectChanges();
+      setValue([component.staticData[0], component.staticData[3], component.staticData[5]]);
+      openPicker();
+      selectOptions(2); // Click the selected option to unselect it!
+      savePicker();
+      expect(selectField.value.length).toEqual(3);
+
+      let tokens = getTokens();
+      expect(tokens.length).toEqual(3);
+
+      closeToken(0);
+      tokens = getTokens();
+      expect(selectField.value.length).toEqual(2);
+      expect(tokens.length).toEqual(2);
+    }));
   });
 
   describe('single select', () => {
@@ -237,11 +282,11 @@ describe('Select field component', () => {
 
       setValue(component.staticData[0]);
       fixture.detectChanges();
-      expect(component.touched).toBe(1);
+      expect(component.touched).toBe(0);
 
       setValue(component.staticData[0]);
       fixture.detectChanges();
-      expect(component.touched).toBe(1);
+      expect(component.touched).toBe(0);
     }));
 
     it('should select a value from the picker', fakeAsync(() => {

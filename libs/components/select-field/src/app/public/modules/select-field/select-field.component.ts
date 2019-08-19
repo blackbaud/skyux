@@ -128,7 +128,6 @@ export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy 
     if (JSON.stringify(this._value) !== JSON.stringify(value)) {
       this._value = value;
       this.onChange(this.value);
-      this.onTouched();
     }
   }
 
