@@ -1,3 +1,7 @@
+# 3.3.2 (2019-08-19)
+
+- Fixed the select field picker component to no longer mark the form control as `touched` when the value is updated programmatically. [#39](https://github.com/blackbaud/skyux-select-field/pull/39)
+
 # 3.3.1 (2019-08-05)
 
 - Fixed the select field picker component to compile with older typescript versions. [#34](https://github.com/blackbaud/skyux-select-field/pull/34)
