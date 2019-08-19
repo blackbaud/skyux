@@ -46,20 +46,20 @@ describe('Dropdown component', () => {
     fixture.destroy();
   });
 
-  function openPopoverWithButtonClick() {
+  function openOrClosePopoverWithButtonClick(isClose: boolean = false) {
     tick();
     fixture.detectChanges();
 
     const buttonElem = getDropdownButtonElement();
 
-    verifyMenuVisibility(false);
+    verifyMenuVisibility(isClose);
 
     buttonElem.click();
     tick();
     fixture.detectChanges();
     tick();
 
-    verifyMenuVisibility();
+    verifyMenuVisibility(!isClose);
   }
 
   // Simulates a click event on a button (which also registers the Enter key).
@@ -134,7 +134,7 @@ describe('Dropdown component', () => {
   }
 
   function verifyArrowKeyNavigation(downKey: string, upKey: string) {
-    openPopoverWithButtonClick();
+    openOrClosePopoverWithButtonClick();
 
     const hostElem = getDropdownMenuHostElement();
 
@@ -315,7 +315,7 @@ describe('Dropdown component', () => {
 
   describe('click interactions', () => {
     it('should open the menu when clicking the trigger button', fakeAsync(() => {
-      openPopoverWithButtonClick();
+      openOrClosePopoverWithButtonClick();
     }));
 
     it('should allow clicking of the dropdown tag', fakeAsync(() => {
@@ -332,7 +332,7 @@ describe('Dropdown component', () => {
 
   describe('keyboard interactions', () => {
     it('should close the dropdown and focus the trigger button after user presses the esc key', fakeAsync(() => {
-      openPopoverWithButtonClick();
+      openOrClosePopoverWithButtonClick();
 
       const popoverElem = getPopoverContainerElement();
 
@@ -351,7 +351,7 @@ describe('Dropdown component', () => {
     }));
 
     it('should close the dropdown after menu loses focus', fakeAsync(() => {
-      openPopoverWithButtonClick();
+      openOrClosePopoverWithButtonClick();
 
       const dropdownHost = getDropdownHostElement();
       const dropdownItems = dropdownHost.querySelectorAll('.sky-dropdown-item');
@@ -743,6 +743,47 @@ describe('Dropdown component', () => {
         verifyTriggerButtonHasFocus(false);
       }));
     });
+  });
 
+  describe('focus properties', () => {
+    type focusProperty = 'buttonIsFocused' | 'menuIsFocused';
+
+    function validateFocus(hasFocus: boolean, focusedEl?: HTMLElement, focusPropertyName: focusProperty = 'buttonIsFocused'): void {
+      if (hasFocus && focusedEl) {
+        focusedEl.focus();
+      }
+
+      expect(component.dropdown[focusPropertyName]).toBe(hasFocus);
+    }
+
+    function validateMenuFocus(hasFocus: boolean, focusedEl?: HTMLElement): void {
+      openOrClosePopoverWithButtonClick();
+
+      validateFocus(hasFocus, focusedEl, 'menuIsFocused');
+
+      openOrClosePopoverWithButtonClick(true);
+    }
+
+    it('should reflect the state of focus', fakeAsync(() => {
+      fixture.detectChanges();
+
+      const buttonEl = getDropdownButtonElement();
+      const menuPopoverEl = getPopoverContainerElement();
+      const dropdownMenuEl = getDropdownMenuHostElement();
+      const menuItemEl = getDropdownItemElements()[0] as HTMLElement;
+
+      expect(buttonEl).toBeDefined();
+      expect(menuPopoverEl).toBeDefined();
+      expect(dropdownMenuEl).toBeDefined();
+      expect(menuItemEl).toBeDefined();
+
+      validateFocus(false);
+      validateFocus(true, buttonEl);
+
+      validateMenuFocus(false);
+      validateMenuFocus(true, menuPopoverEl);
+      validateMenuFocus(true, dropdownMenuEl);
+      validateMenuFocus(true, menuItemEl);
+    }));
   });
 });

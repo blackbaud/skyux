@@ -30,6 +30,10 @@ import {
 } from '../popover';
 
 import {
+  SkyDropdownAdapterService
+} from './dropdown-adapter.service';
+
+import {
   SkyDropdownMessage,
   SkyDropdownMessageType,
   SkyDropdownTriggerType
@@ -39,7 +43,8 @@ import {
   selector: 'sky-dropdown',
   templateUrl: './dropdown.component.html',
   styleUrls: ['./dropdown.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [SkyDropdownAdapterService]
 })
 export class SkyDropdownComponent implements OnInit, OnDestroy {
   @Input()
@@ -100,6 +105,14 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     return this._isOpen;
   }
 
+  public get buttonIsFocused(): boolean {
+    return this.adapter.elementHasFocus(this.triggerButton);
+  }
+
+  public get menuIsFocused(): boolean {
+    return this.adapter.elementHasFocus(this.popover.popoverContainer);
+  }
+
   public menuId: string;
 
   @ViewChild('triggerButton')
@@ -119,7 +132,8 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
 
   constructor(
     private windowRef: SkyWindowRefService,
-    private resourcesService: SkyLibResourcesService
+    private resourcesService: SkyLibResourcesService,
+    private adapter: SkyDropdownAdapterService
   ) { }
 
   public ngOnInit() {
