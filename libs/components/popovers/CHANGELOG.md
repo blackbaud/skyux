@@ -1,3 +1,7 @@
+# 3.3.0 (2019-08-19)
+
+- Added the `buttonIsFocused` and `menuIsFocused` properties to the dropdown component. [#30](https://github.com/blackbaud/skyux-popovers/pull/30)
+
 # 3.2.0 (2019-08-14)
 
 - Added support for anchor elements in the dropdown menu component. [#28](https://github.com/blackbaud/skyux-popovers/pull/28)
@@ -16,7 +20,7 @@
 
 # 3.0.0-rc.4 (2018-12-03)
 
-- Updated dependency to properly style the hover state for a selected tab that is not disabled. [blackbaud/skyux-theme#41](https://github.com/blackbaud/skyux-theme/pull/41)
+- Updated a dependency to properly style the hover state for a selected tab that is not disabled. [blackbaud/skyux-theme#41](https://github.com/blackbaud/skyux-theme/pull/41)
 
 # 3.0.0-rc.3 (2018-11-19)
 
