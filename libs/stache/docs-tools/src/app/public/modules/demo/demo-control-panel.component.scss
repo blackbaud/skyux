@@ -3,6 +3,7 @@
 
 .sky-docs-demo-control-panel {
   margin-bottom: $sky-margin-double;
+  margin-top: -$sky-margin - 1;
 }
 
 .sky-docs-demo-control-panel-row {
@@ -23,4 +24,8 @@
 
 .sky-docs-demo-control-panel-button-column {
   align-self: flex-end;
+
+  .sky-btn {
+    border: 0;
+  }
 }

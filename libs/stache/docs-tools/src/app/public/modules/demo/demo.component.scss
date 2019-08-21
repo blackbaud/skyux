@@ -5,6 +5,21 @@
   margin-bottom: $sky-margin * 4;
 }
 
+.sky-docs-demo-heading {
+  margin-bottom: $sky-margin;
+
+  .sky-docs-demo-heading-btn-open {
+    border-bottom-color: #fff;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    position: relative;
+  }
+}
+
+.sky-section-heading {
+  margin-right: $sky-margin;
+}
+
 .sky-docs-demo-viewport {
   @include sky-border(dark, top, bottom, left, right);
   margin-bottom: $sky-margin;

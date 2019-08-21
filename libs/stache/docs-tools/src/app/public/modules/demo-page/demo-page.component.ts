@@ -18,10 +18,6 @@ import {
 } from '../code-examples/code-examples.component';
 
 import {
-  SkyDocsDemoComponent
-} from '../demo/demo.component';
-
-import {
   SkyDocsDesignGuidelinesComponent
 } from '../design-guidelines/design-guidelines.component';
 
@@ -53,15 +49,11 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit {
   public sourceCodeLocation: string;
 
   public enableCodeExamples = false;
-  public enableDemo = false;
   public enableTabLayout = false;
   public sidebarRoutes: StacheNavLink[];
 
   @ContentChild(SkyDocsDesignGuidelinesComponent)
   private designGuidelinesComponent: SkyDocsDesignGuidelinesComponent;
-
-  @ContentChildren(SkyDocsDemoComponent)
-  private demoComponents: QueryList<SkyDocsDemoComponent>;
 
   @ContentChildren(SkyDocsCodeExamplesComponent)
   private codeExampleComponents: QueryList<SkyDocsCodeExamplesComponent>;
@@ -329,7 +321,6 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit {
 
   public ngAfterContentInit(): void {
     this.enableCodeExamples = (this.codeExampleComponents.length > 0);
-    this.enableDemo = (this.demoComponents.length > 0);
     this.enableTabLayout = !!(this.designGuidelinesComponent);
   }
 

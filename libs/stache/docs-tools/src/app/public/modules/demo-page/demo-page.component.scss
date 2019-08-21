@@ -1,10 +1,6 @@
 @import '~@skyux/theme/scss/mixins';
 @import '~@skyux/theme/scss/_compat/mixins';
 
-.sky-section-heading {
-  margin-bottom: $sky-margin;
-}
-
 .sky-docs-demo-page {
   ::ng-deep {
     p {

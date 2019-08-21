@@ -16,6 +16,10 @@ import {
 } from '@skyux/forms';
 
 import {
+  SkyIconModule
+} from '@skyux/indicators';
+
+import {
   SkyDocsToolsResourcesModule
 } from '../shared/docs-tools-resources.module';
 
@@ -45,6 +49,7 @@ import {
     FormsModule,
     SkyCheckboxModule,
     SkyDocsToolsResourcesModule,
+    SkyIconModule,
     SkyRadioModule
   ],
   declarations: [
