@@ -6,10 +6,8 @@
   <div class="sky-docs-method-definition-description">
     <ng-content></ng-content>
     <p *ngIf="deprecationWarning"
-      class="sky-docs-method-definition-deprecation-warning"
-    >
-      <span class="sky-text-warning"><strong>Deprecated.</strong> {{ deprecationWarning }}</span>
-    </p>
+      class="sky-docs-method-definition-deprecation-warning sky-text-warning"
+    >Deprecated. {{ deprecationWarning }}</p>
   </div>
 
   <div class="sky-docs-method-definition-signature">

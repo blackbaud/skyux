@@ -57,10 +57,6 @@ export class SkyDocsPropertyDefinitionsComponent implements AfterContentInit {
   public getPropertySignature(item: any): string {
     let signature = '';
 
-    if (item.propertyDecorator) {
-      signature += `@${item.propertyDecorator}()<br>`;
-    }
-
     signature += `${item.propertyName}`;
 
     if (item.isOptional) {

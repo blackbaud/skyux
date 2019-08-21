@@ -47,6 +47,11 @@
   font-weight: bold;
 }
 
-.sky-docs-property-definitions-deprecation-warning {
-  margin: $sky-margin-double 0 0 !important;
+.sky-docs-property-definition-label {
+  margin-bottom: $sky-margin-half !important;
+}
+
+.sky-docs-property-definition-label-optional {
+  color: $sky-text-color-deemphasized;
+  margin-top: $sky-margin !important;
 }

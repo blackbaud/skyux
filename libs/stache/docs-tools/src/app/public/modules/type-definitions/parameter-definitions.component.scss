@@ -37,3 +37,15 @@
   width: 1%;
   white-space: nowrap;
 }
+
+.sky-docs-parameter-definition-name,
+.sky-docs-parameter-definition-type {
+  ::ng-deep {
+    .sky-code {
+      color: $sky-text-color-default;
+      padding: 0;
+      border: 0;
+      background-color: transparent;
+    }
+  }
+}
