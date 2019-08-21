@@ -105,10 +105,18 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     return this._isOpen;
   }
 
+  /**
+   * @internal
+   * Indicates if the dropdown button element or any of its children have focus.
+   */
   public get buttonIsFocused(): boolean {
     return this.adapter.elementHasFocus(this.triggerButton);
   }
 
+  /**
+   * @internal
+   * Indicates if the dropdown button menu or any of its children have focus.
+   */
   public get menuIsFocused(): boolean {
     return this.adapter.elementHasFocus(this.popover.popoverContainer);
   }
