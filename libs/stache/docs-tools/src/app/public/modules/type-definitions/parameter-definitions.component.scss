@@ -38,8 +38,7 @@
   white-space: nowrap;
 }
 
-.sky-docs-parameter-definition-name,
-.sky-docs-parameter-definition-type {
+.sky-docs-parameter-definition-name {
   ::ng-deep {
     .sky-code {
       color: $sky-text-color-default;
@@ -48,4 +47,8 @@
       background-color: transparent;
     }
   }
+}
+
+.sky-docs-parameter-definition-label-optional {
+  color: $sky-text-color-deemphasized;
 }

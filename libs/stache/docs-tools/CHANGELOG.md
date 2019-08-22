@@ -1,3 +1,8 @@
+# 3.0.0-alpha.7 (2019-08-22)
+
+- Adjusted styles and placement for property definition "required" and "deprecated" labels.
+- Added toggle button to show and hide the behavior demo.
+
 # 3.0.0-alpha.6 (2019-06-25)
 
 - Removed "Overview" heading from demo page summary.

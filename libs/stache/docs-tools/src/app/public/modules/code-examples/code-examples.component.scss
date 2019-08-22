@@ -20,6 +20,7 @@
 
 .sky-docs-code-example-wrapper {
   @include sky-border(dark, top, bottom, left, right);
+  margin-top: $sky-margin;
 
   ::ng-deep {
     .sky-vertical-tabset-content {
