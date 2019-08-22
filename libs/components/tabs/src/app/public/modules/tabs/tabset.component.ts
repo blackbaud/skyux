@@ -14,7 +14,17 @@ import {
   OnChanges
 } from '@angular/core';
 
+import {
+  ActivatedRoute
+} from '@angular/router';
+
+import {
+  Subject
+} from 'rxjs/Subject';
+
 import 'rxjs/add/operator/distinctUntilChanged';
+
+import 'rxjs/add/operator/takeUntil';
 
 import {
   SkyTabComponent
@@ -54,6 +64,21 @@ export class SkyTabsetComponent
   @Input()
   public active: number | string;
 
+  @Input()
+  public set permalinkId(value: string) {
+    if (!value) {
+      return;
+    }
+
+    // Remove all non-alphanumeric characters.
+    const sanitized = value.toLowerCase().replace(/[\W]/g, '');
+    this._permalinkId = `${sanitized}-active-tab`;
+  }
+
+  public get permalinkId(): string {
+    return this._permalinkId || '';
+  }
+
   @Output()
   public newTab = new EventEmitter<any>();
 
@@ -68,15 +93,19 @@ export class SkyTabsetComponent
   @ContentChildren(SkyTabComponent)
   public tabs: QueryList<SkyTabComponent>;
 
+  private ngUnsubscribe = new Subject<void>();
+
+  private _permalinkId: string;
+
   private _tabStyle: string;
 
   constructor(
     private tabsetService: SkyTabsetService,
     private adapterService: SkyTabsetAdapterService,
     private elRef: ElementRef,
-    private changeRef: ChangeDetectorRef
-  ) {
-  }
+    private changeRef: ChangeDetectorRef,
+    private activatedRoute: ActivatedRoute
+  ) { }
 
   public getTabButtonId(tab: SkyTabComponent): string {
     if (this.tabDisplayMode === 'tabs') {
@@ -101,8 +130,12 @@ export class SkyTabsetComponent
     this.adapterService.detectOverflow();
   }
 
-  public selectTab(newTab: SkyTabComponent) {
-    this.tabsetService.activateTab(newTab);
+  public selectTab(tab: SkyTabComponent): void {
+    if (this.permalinkId && tab.permalinkValue) {
+      return;
+    }
+
+    this.tabsetService.activateTab(tab);
   }
 
   public ngOnChanges(changes: SimpleChanges) {
@@ -141,6 +174,12 @@ export class SkyTabsetComponent
           }
         });
     });
+
+    // Wait for the tab components' `active` state to be resolved before
+    // listening to changes to the URL params.
+    setTimeout(() => {
+      this.watchQueryParamChanges();
+    });
   }
 
   public ngAfterViewInit() {
@@ -158,11 +197,37 @@ export class SkyTabsetComponent
   }
 
   public ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
     this.tabsetService.destroy();
   }
 
   private updateDisplayMode(currentOverflow: boolean) {
     this.tabDisplayMode = currentOverflow ? 'dropdown' : 'tabs';
     this.changeRef.markForCheck();
+  }
+
+  private watchQueryParamChanges(): void {
+    this.activatedRoute.queryParams
+      .distinctUntilChanged()
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe((params) => {
+        const permalinkValue = params[this.permalinkId];
+        if (permalinkValue) {
+          this.activateTabByPermalinkValue(permalinkValue);
+        }
+      });
+  }
+
+  private activateTabByPermalinkValue(value: string): void {
+    let index: number;
+
+    this.tabs.forEach((tabComponent, i) => {
+      if (tabComponent.permalinkValue === value) {
+        index = i;
+      }
+    });
+
+    this.tabsetService.activateTabIndex(index);
   }
 }

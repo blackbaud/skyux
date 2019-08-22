@@ -2,48 +2,33 @@
 @import "~@skyux/theme/scss/_compat/mixins";
 
 .sky-tab-dropdown {
-  ::ng-deep .sky-dropdown-item {
-    margin: 0;
+  ::ng-deep {
+    .sky-dropdown-item {
+      margin: 0;
+    }
   }
-}
-
-.sky-tab-dropdown-button {
-  max-width: 300px;
 }
 
 .sky-tab-dropdown-item {
-  display: flex;
-  padding: 0;
-  transition: background-color $sky-transition-time-short;
-  min-width: 300px;
-
-  &:hover:not(.sky-tab-dropdown-item-selected) {
-    background-color: $sky-background-color-neutral-light;
-  }
-}
-
-.sky-tab-dropdown-item-btn {
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  flex-grow: 1;
-  text-align: left;
-}
-
-.sky-tab-dropdown-item-close {
-  background-color: transparent;
-  border: none;
-}
-
-.sky-tab-dropdown-item-selected {
-  background-color: $sky-background-color-primary-dark;
-
-  &:hover {
-    background-color: $sky-background-color-primary-dark;
+  sky-tab-button {
+    display: flex;
+    min-width: 300px;
   }
 
-  .sky-tab-dropdown-item-btn,
-  .sky-tab-dropdown-item-close {
-    color: #fff;
+  ::ng-deep {
+    .sky-btn-tab {
+      margin: 0;
+      border-radius: 0;
+      width: 100%;
+      display: flex;
+
+      > .sky-tab-heading {
+        flex: 1 1 auto;
+      }
+
+      > .sky-btn-tab-close {
+        flex: 0 1 auto;
+      }
+    }
   }
 }

@@ -9,22 +9,18 @@
         <div
           class="sky-tab-dropdown-item"
           [ngClass]="{ 'sky-tab-dropdown-item-selected': tab.active }">
-          <button
-            class="sky-btn sky-tab-dropdown-item-btn sky-padding-even-default"
-            type="button"
+          <sky-tab-button
+            [active]="tab.active"
+            [allowClose]="tab.allowClose"
             [attr.aria-controls]="tab.tabId"
-            [id]="tab.tabId + '-nav-btn'"
-            [ngClass]="{ 'sky-btn-disabled': tab.disabled }"
-            (click)="selectTab(tab)">
-            {{ tab.tabHeading }}
-          </button>
-          <button
-            type="button"
-            class="sky-btn sky-tab-dropdown-item-close sky-padding-even-default"
-            *ngIf="tab.allowClose"
-            (click)="closeTab(tab)">
-            <sky-icon icon="remove"></sky-icon>
-          </button>
+            [disabled]="tab.disabled"
+            [id]="getTabButtonId(tab)"
+            [permalinkValue]="tab.permalinkValue"
+            [tabHeading]="tab.tabHeading"
+            [tabHeaderCount]="tab.tabHeaderCount"
+            (closeClick)="closeTab(tab)"
+            (tabClick)="selectTab(tab)"
+          ></sky-tab-button>
         </div>
       </sky-dropdown-item>
     </sky-dropdown-menu>

@@ -1,18 +1,47 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  CommonModule
+} from '@angular/common';
 
-import { SkyModalModule } from '@skyux/modals/modules/modal';
+import {
+  NgModule
+} from '@angular/core';
 
-import { SkyTabsModule } from '../';
-import { TabsetTestComponent } from './tabset.component.fixture';
-import { SkyWizardTestFormComponent } from './tabset-wizard.component.fixture';
-import { TabsetActiveTestComponent } from './tabset-active.component.fixture';
+import {
+  FormsModule
+} from '@angular/forms';
+
+import {
+  RouterTestingModule
+} from '@angular/router/testing';
+
+import {
+  SkyModalModule
+} from '@skyux/modals';
+
+import {
+  SkyTabsModule
+} from '../tabs.module';
+
+import {
+  TabsetActiveTestComponent
+} from './tabset-active.component.fixture';
+
+import {
+  SkyTabsetPermalinksFixtureComponent
+} from './tabset-permalinks.component.fixture';
+
+import {
+  SkyWizardTestFormComponent
+} from './tabset-wizard.component.fixture';
+
+import {
+  TabsetTestComponent
+} from './tabset.component.fixture';
 
 @NgModule({
   declarations: [
     TabsetTestComponent,
+    SkyTabsetPermalinksFixtureComponent,
     SkyWizardTestFormComponent,
     TabsetActiveTestComponent
   ],
@@ -21,10 +50,11 @@ import { TabsetActiveTestComponent } from './tabset-active.component.fixture';
     FormsModule,
     SkyModalModule,
     SkyTabsModule,
-    NoopAnimationsModule
+    RouterTestingModule
   ],
   exports: [
     TabsetTestComponent,
+    SkyTabsetPermalinksFixtureComponent,
     SkyWizardTestFormComponent,
     TabsetActiveTestComponent
   ],

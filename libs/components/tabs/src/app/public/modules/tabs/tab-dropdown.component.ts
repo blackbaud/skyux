@@ -23,6 +23,10 @@ export class SkyTabDropdownComponent {
   @Output()
   public closeClick = new EventEmitter<SkyTabComponent>();
 
+  public getTabButtonId(tab: SkyTabComponent): string {
+    return `${tab.tabId}-nav-btn`;
+  }
+
   public get activeTabHeading(): string {
     let activeTab = this.tabs.filter((item) => {
       return item.active;

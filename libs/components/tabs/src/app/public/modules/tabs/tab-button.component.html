@@ -1,5 +1,7 @@
 <a
     class="sky-btn-tab sky-margin-inline-compact"
+    preserveFragment
+    queryParamsHandling="merge"
     role="tab"
     [attr.aria-disabled]="disabled"
     [attr.aria-selected]="active"
@@ -9,16 +11,21 @@
       'sky-btn-tab-disabled': disabled,
       'sky-tab-btn-closeable': allowClose
     }"
+    [queryParams]="queryParams"
+    [routerLink]="routerLink"
     [tabindex]="disabled ? '-1' : '0'"
     (click)="doTabClick()"
     (keydown)="keyDownFunction($event)"
 >
-  {{tabHeading}}
   <span
-    class="sky-tab-header-count"
-    *ngIf="tabHeaderCount || tabHeaderCount === 0"
+    class="sky-tab-heading"
   >
-    {{tabHeaderCount}}
+    {{tabHeading}}
+    <span *ngIf="tabHeaderCount || tabHeaderCount === 0"
+      class="sky-tab-header-count"
+    >
+      {{tabHeaderCount}}
+    </span>
   </span>
   <button
       type="button"
@@ -29,7 +36,7 @@
       [disabled]="disabled"
       [attr.aria-label]="'skyux_tab_close' | skyLibResources"
       *ngIf="allowClose"
-      (click)="doCloseClick();$event.stopPropagation()"
+      (click)="doCloseClick($event)"
   >
     <sky-icon icon="remove"></sky-icon>
   </button>

@@ -6,6 +6,10 @@ import {
 } from '@angular/common';
 
 import {
+  RouterModule
+} from '@angular/router';
+
+import {
   SkyI18nModule
 } from '@skyux/i18n';
 
@@ -51,6 +55,7 @@ import {
   ],
   imports: [
     CommonModule,
+    RouterModule,
     SkyDropdownModule,
     SkyI18nModule,
     SkyIconModule,

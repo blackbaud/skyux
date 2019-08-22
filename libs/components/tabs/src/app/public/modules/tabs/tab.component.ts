@@ -35,12 +35,27 @@ export class SkyTabComponent implements OnDestroy, OnChanges {
   @Input()
   public active: boolean;
 
+  /**
+   * A lower-case string to represent this tab in the URL permalink.
+   * Set to `undefined` to automatically generate a name from the `tabHeading` property.
+   */
+  @Input()
+  public set permalinkValue(value: string) {
+    this._permalinkValue = this.sanitizeName(value);
+  }
+
+  public get permalinkValue(): string {
+    return this._permalinkValue || this.sanitizeName(this.tabHeading);
+  }
+
   public get allowClose(): boolean {
     return this.close.observers.length > 0;
   }
 
   @Output()
   public close = new EventEmitter<any>();
+
+  private _permalinkValue: string;
 
   constructor(private tabsetService: SkyTabsetService, private ref: ChangeDetectorRef) {}
 
@@ -82,6 +97,25 @@ export class SkyTabComponent implements OnDestroy, OnChanges {
         && activeChange.previousValue !== activeChange.currentValue
         && this.active;
     }
+  }
+
+  private sanitizeName(value: string): string {
+    if (!value) {
+      return;
+    }
+
+    const sanitized = value.toLowerCase()
+
+      // Remove special characters.
+      .replace(/[\_\~\`\@\!\#\$\%\^\&\*\(\)\[\]\{\}\;\:\'\/\\\<\>\,\.\?\=\+\|"]/g, '')
+
+      // Replace space characters with a dash.
+      .replace(/\s/g, '-')
+
+      // Remove any double-dashes.
+      .replace(/--/g, '-');
+
+    return sanitized;
   }
 
 }

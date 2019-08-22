@@ -9,6 +9,7 @@
 <div id="screenshot-tabset" style="height: 200px;">
   <sky-tabset
     *ngIf="!showWizard"
+    permalinkId="sample"
     (newTab)="newTabClick()"
     (openTab)="openTabClick()"
     [active]="1"
@@ -28,7 +29,12 @@
     <sky-tab tabHeading="Permanent tab" [tabHeaderCount]="9">
       This tab cannot be closed
     </sky-tab>
-    <sky-tab [tabHeading]="'Tab 3'" (close)="closeTab()" [tabHeaderCount]="144">
+    <sky-tab
+      permalinkValue="foobar"
+      tabHeading="Tab 3"
+      [tabHeaderCount]="144"
+      (close)="closeTab()"
+    >
       Tab 3 Content
     </sky-tab>
   </sky-tabset>

@@ -1,4 +1,8 @@
 import {
+  Location
+} from '@angular/common';
+
+import {
   ComponentFixture,
   TestBed,
   fakeAsync,
@@ -7,23 +11,53 @@ import {
 } from '@angular/core/testing';
 
 import {
+  DebugElement
+} from '@angular/core';
+
+import {
+  By
+} from '@angular/platform-browser';
+
+import {
+  Router
+} from '@angular/router';
+
+import {
   expect,
   SkyAppTestUtility
 } from '@skyux-sdk/testing';
 
-import { SkyTabsetComponent } from './tabset.component';
-import { SkyTabsetAdapterService } from './tabset-adapter.service';
-import { SkyTabsetService } from './tabset.service';
-import { SkyTabsFixturesModule } from './fixtures/tabs-fixtures.module';
-import { TabsetTestComponent } from './fixtures/tabset.component.fixture';
-import { TabsetActiveTestComponent } from './fixtures/tabset-active.component.fixture';
-import { MockTabsetAdapterService } from './fixtures/tabset-adapter.service.mock';
+import {
+  SkyTabsetAdapterService
+} from './tabset-adapter.service';
 
 import {
-  DebugElement
-} from '@angular/core';
+  SkyTabsetComponent
+} from './tabset.component';
 
-import { By } from '@angular/platform-browser';
+import {
+  SkyTabsetService
+} from './tabset.service';
+
+import {
+  SkyTabsFixturesModule
+} from './fixtures/tabs-fixtures.module';
+
+import {
+  TabsetTestComponent
+} from './fixtures/tabset.component.fixture';
+
+import {
+  TabsetActiveTestComponent
+} from './fixtures/tabset-active.component.fixture';
+
+import {
+  MockTabsetAdapterService
+} from './fixtures/tabset-adapter.service.mock';
+
+import {
+  SkyTabsetPermalinksFixtureComponent
+} from './fixtures/tabset-permalinks.component.fixture';
 
 describe('Tabset component', () => {
   beforeEach(() => {
@@ -508,7 +542,7 @@ describe('Tabset component', () => {
       fixture.detectChanges();
       tick();
 
-      let dropdownTabButtons = el.querySelectorAll('.sky-tab-dropdown-item-btn');
+      let dropdownTabButtons = el.querySelectorAll('.sky-tab-dropdown-item .sky-btn-tab');
       expect(dropdownTabButtons[1]).toHaveText('Tab 2');
 
       dropdownTabButtons[1].click();
@@ -542,7 +576,7 @@ describe('Tabset component', () => {
         fixture.detectChanges();
         tick();
 
-        let dropdownTabButtons = el.querySelectorAll('.sky-tab-dropdown-item-btn');
+        let dropdownTabButtons = el.querySelectorAll('.sky-tab-dropdown-item .sky-btn-tab');
 
         dropdownTabButtons[0].click();
         tick();
@@ -555,7 +589,7 @@ describe('Tabset component', () => {
         tick();
 
         expect(dropdownTabButtons[1]).toHaveText('Tab 2');
-        expect(dropdownTabButtons[1]).toHaveCssClass('sky-btn-disabled');
+        expect(dropdownTabButtons[1]).toHaveCssClass('sky-btn-tab-disabled');
 
         dropdownTabButtons[1].click();
         tick();
@@ -580,7 +614,7 @@ describe('Tabset component', () => {
         let tabEl = el.querySelector('.sky-dropdown-button-type-tab');
 
         tabEl.click();
-        el.querySelectorAll('.sky-tab-dropdown-item-close')[0].click();
+        el.querySelectorAll('.sky-btn-tab-close')[0].click();
 
         fixture.detectChanges();
 
@@ -827,7 +861,6 @@ describe('Tabset component', () => {
 
         expect(tab.getAttribute('aria-labelledby')).toBe(dropBtn.getAttribute('id'));
         expect(dropBtn.getAttribute('aria-controls')).toBe(tab.getAttribute('id'));
-        expect(dropBtn).toHaveCssClass('sky-tab-dropdown-item-btn');
         expect(tabBtn.tagName.toLowerCase()).toBe('sky-tab-button');
       });
     }));
@@ -850,5 +883,110 @@ describe('Tabset component', () => {
       validateTabSelected(fixture.nativeElement, 1);
     }
     ));
+  });
+
+  describe('Permalinks', () => {
+    let fixture: ComponentFixture<SkyTabsetPermalinksFixtureComponent>;
+    let router: Router;
+    let location: Location;
+
+    beforeEach(() => {
+      fixture = TestBed.createComponent(SkyTabsetPermalinksFixtureComponent);
+      router = TestBed.get(Router);
+      location = TestBed.get(Location);
+    });
+
+    it('should activate a tab based on a query param', fakeAsync(() => {
+      fixture.detectChanges();
+      tick();
+
+      expect(fixture.componentInstance.activeIndex).toEqual(0);
+
+      fixture.componentInstance.permalinkId = 'foobar';
+
+      router.navigate([], {
+        queryParams: {
+          'foobar-active-tab': 'design-guidelines'
+        }
+      });
+
+      fixture.detectChanges();
+      tick();
+
+      expect(location.path()).toEqual('/?foobar-active-tab=design-guidelines');
+      expect(fixture.componentInstance.activeIndex).toEqual(1);
+    }));
+
+    it('should set a query param when a tab is selected', fakeAsync(() => {
+      fixture.componentInstance.permalinkId = 'foobar';
+
+      fixture.detectChanges();
+      tick();
+
+      expect(fixture.componentInstance.activeIndex).toEqual(0);
+
+      const buttonElement = fixture.nativeElement.querySelectorAll('.sky-btn-tab')[1];
+      buttonElement.click();
+
+      fixture.detectChanges();
+      tick();
+
+      expect(location.path()).toEqual('/?foobar-active-tab=design-guidelines');
+      expect(fixture.componentInstance.activeIndex).toEqual(1);
+    }));
+
+    it('should allow custom query param value for each tab', fakeAsync(() => {
+      fixture.componentInstance.permalinkId = 'foobar';
+      fixture.componentInstance.permalinkValue = 'baz';
+
+      fixture.detectChanges();
+      tick();
+
+      expect(fixture.componentInstance.activeIndex).toEqual(0);
+
+      const buttonElement = fixture.nativeElement.querySelectorAll('.sky-btn-tab')[1];
+      buttonElement.click();
+
+      fixture.detectChanges();
+      tick();
+
+      expect(location.path()).toEqual('/?foobar-active-tab=baz');
+      expect(fixture.componentInstance.activeIndex).toEqual(1);
+    }));
+
+    it('should handle special characters in query param value', fakeAsync(() => {
+      fixture.componentInstance.permalinkId = 'foobar';
+      fixture.componentInstance.permalinkValue = '!@#$%a ^&*()_-+b ={}[]\\|/:-c;"\'<>,.?~ d`';
+
+      fixture.detectChanges();
+      tick();
+
+      expect(fixture.componentInstance.activeIndex).toEqual(0);
+
+      const buttonElement = fixture.nativeElement.querySelectorAll('.sky-btn-tab')[1];
+      buttonElement.click();
+
+      fixture.detectChanges();
+      tick();
+
+      expect(location.path()).toEqual('/?foobar-active-tab=a-b-c-d');
+      expect(fixture.componentInstance.activeIndex).toEqual(1);
+
+      // Make sure non-English special characters still work!
+      fixture.componentInstance.permalinkValue = '片仮名';
+
+      fixture.detectChanges();
+      tick();
+
+      buttonElement.click();
+
+      fixture.detectChanges();
+      tick();
+
+      // Angular's Location returns a URI encoded result.
+      expect(location.path()).toEqual(
+        `/?foobar-active-tab=${encodeURIComponent('片仮名')}`
+      );
+    }));
   });
 });
