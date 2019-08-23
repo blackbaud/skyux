@@ -1,3 +1,7 @@
+# 3.5.0 (2019-08-23)
+
+- Added the public internal properties `buttonIsFocused`, `calendarIsFocused`, and `calendarIsVisible` to `SkyDatepickerComponent` to indicate the focus and visibility states of datepicker elements. Added the public internal property `inputIsFocused` to `SkyDatepickerInputDirective` to indicate the focus state of the datepicker input. [#77](https://github.com/blackbaud/skyux-datetime/pull/77)
+
 # 3.4.0 (2019-07-26)
 
 - Added the public method `detectInputValueChange()` to `SkyDatepickerInputDirective`, which manually updates the model value based on the text value of the input field. [#72](https://github.com/blackbaud/skyux-datetime/pull/72)
