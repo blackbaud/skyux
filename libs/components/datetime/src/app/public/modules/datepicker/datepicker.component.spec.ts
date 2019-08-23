@@ -51,7 +51,7 @@ const moment = require('moment');
 
 describe('datepicker', () => {
 
-  function openDatepicker(element: HTMLElement, compFixture: ComponentFixture<any>) {
+  function clickDatepickerButton(element: HTMLElement, compFixture: ComponentFixture<any>) {
     let dropdownButtonEl = element.querySelector('.sky-dropdown-button') as HTMLElement;
     dropdownButtonEl.click();
     compFixture.detectChanges();
@@ -179,7 +179,7 @@ describe('datepicker', () => {
 
     it('should keep the calendar open on mode change', fakeAsync(() => {
       fixture.detectChanges();
-      openDatepicker(nativeElement, fixture);
+      clickDatepickerButton(nativeElement, fixture);
       tick();
       fixture.detectChanges();
       tick();
@@ -201,7 +201,7 @@ describe('datepicker', () => {
     it('should pass date back when date is selected in calendar', fakeAsync(() => {
       component.selectedDate = new Date('5/12/2017');
       fixture.detectChanges();
-      openDatepicker(nativeElement, fixture);
+      clickDatepickerButton(nativeElement, fixture);
       tick();
       fixture.detectChanges();
       tick();
@@ -228,7 +228,7 @@ describe('datepicker', () => {
 
     it('should be accessible', async(() => {
       fixture.detectChanges();
-      openDatepicker(nativeElement, fixture);
+      clickDatepickerButton(nativeElement, fixture);
       fixture.detectChanges();
 
       fixture.whenStable().then(() => {
@@ -370,7 +370,7 @@ describe('datepicker', () => {
         fixture.detectChanges();
         setInput(nativeElement, '5/12/2017', fixture);
 
-        openDatepicker(nativeElement, fixture);
+        clickDatepickerButton(nativeElement, fixture);
         tick();
         fixture.detectChanges();
         tick();
@@ -565,7 +565,7 @@ describe('datepicker', () => {
         setInput(fixture.nativeElement, 'abcdebf', fixture);
         tick();
 
-        openDatepicker(fixture.nativeElement, fixture);
+        clickDatepickerButton(fixture.nativeElement, fixture);
         tick();
       }));
 
@@ -627,7 +627,7 @@ describe('datepicker', () => {
         tick();
         fixture.detectChanges();
 
-        openDatepicker(fixture.nativeElement, fixture);
+        clickDatepickerButton(fixture.nativeElement, fixture);
         tick();
 
         let dateButtonEl
@@ -644,7 +644,7 @@ describe('datepicker', () => {
         tick();
         fixture.detectChanges();
 
-        openDatepicker(fixture.nativeElement, fixture);
+        clickDatepickerButton(fixture.nativeElement, fixture);
         tick();
 
         let dateButtonEl
@@ -661,7 +661,7 @@ describe('datepicker', () => {
         tick();
         fixture.detectChanges();
 
-        openDatepicker(fixture.nativeElement, fixture);
+        clickDatepickerButton(fixture.nativeElement, fixture);
         tick();
 
         let firstDayCol = fixture.nativeElement
@@ -721,6 +721,73 @@ describe('datepicker', () => {
 
     });
 
+    describe('focus properties', () => {
+      type focusProperty = 'buttonIsFocused' | 'calendarIsFocused';
+
+      function validateFocus(hasFocus: boolean, focusedEl?: HTMLElement, focusPropertyName: focusProperty = 'buttonIsFocused'): void {
+        if (hasFocus && focusedEl) {
+          focusedEl.focus();
+        }
+
+        expect(component.datepicker[focusPropertyName]).toBe(hasFocus);
+      }
+
+      function validateCalendarFocus(hasFocus: boolean, focusedEl?: HTMLElement): void {
+        clickDatepickerButton(nativeElement, fixture);
+        tick();
+
+        validateFocus(hasFocus, focusedEl, 'calendarIsFocused');
+
+        clickDatepickerButton(nativeElement, fixture);
+        tick();
+      }
+
+      it('should reflect the state of focus for the datepicker component', fakeAsync(() => {
+        const buttonEl = nativeElement.querySelector('.sky-dropdown-button') as HTMLElement;
+        const dropdownContainerEl =
+          nativeElement.querySelector('.sky-popover-container') as HTMLElement;
+        const selectedDayEl =
+          nativeElement.querySelector('td .sky-datepicker-btn-selected') as HTMLElement;
+
+        expect(buttonEl).toBeDefined();
+        expect(dropdownContainerEl).toBeDefined();
+        expect(selectedDayEl).toBeDefined();
+
+        validateFocus(false);
+        validateFocus(true, buttonEl);
+
+        validateCalendarFocus(false);
+        validateCalendarFocus(true, dropdownContainerEl);
+        validateCalendarFocus(true, selectedDayEl);
+      }));
+
+      it('should reflect the state of focus for the input', () => {
+        fixture.detectChanges();
+        const inputEl = nativeElement.querySelector('input') as HTMLElement;
+
+        expect(inputEl).toBeDefined();
+        expect(component.inputDirective.inputIsFocused).toBe(false);
+
+        inputEl.focus();
+        fixture.detectChanges();
+
+        expect(component.inputDirective.inputIsFocused).toBe(true);
+      });
+    });
+
+    describe('calendarIsVisible property', () => {
+      it('should reflect the visibility of the calendar element', fakeAsync(() => {
+        fixture.detectChanges();
+
+        expect(component.datepicker.calendarIsVisible).toBe(false);
+
+        clickDatepickerButton(nativeElement, fixture);
+        tick();
+        fixture.detectChanges();
+
+        expect(component.datepicker.calendarIsVisible).toBe(true);
+      }));
+    });
   });
 
   describe('reactive form', () => {
@@ -816,7 +883,7 @@ describe('datepicker', () => {
         fixture.detectChanges();
         setInput(nativeElement, '5/12/2017', fixture);
 
-        openDatepicker(nativeElement, fixture);
+        clickDatepickerButton(nativeElement, fixture);
         tick();
         fixture.detectChanges();
         tick();
@@ -936,7 +1003,7 @@ describe('datepicker', () => {
         expect(component.dateControl.pristine).toBe(true);
         expect(component.dateControl.touched).toBe(false);
 
-        openDatepicker(fixture.nativeElement, fixture);
+        clickDatepickerButton(fixture.nativeElement, fixture);
         tick();
         fixture.detectChanges();
         tick();
@@ -1054,7 +1121,7 @@ describe('datepicker', () => {
         setInput(fixture.nativeElement, 'abcdebf', fixture);
         tick();
 
-        openDatepicker(fixture.nativeElement, fixture);
+        clickDatepickerButton(fixture.nativeElement, fixture);
         tick();
       }));
 
@@ -1113,7 +1180,7 @@ describe('datepicker', () => {
         tick();
         fixture.detectChanges();
 
-        openDatepicker(fixture.nativeElement, fixture);
+        clickDatepickerButton(fixture.nativeElement, fixture);
         tick();
 
         let dateButtonEl
@@ -1131,7 +1198,7 @@ describe('datepicker', () => {
         tick();
         fixture.detectChanges();
 
-        openDatepicker(fixture.nativeElement, fixture);
+        clickDatepickerButton(fixture.nativeElement, fixture);
         tick();
 
         let dateButtonEl
@@ -1149,7 +1216,7 @@ describe('datepicker', () => {
         tick();
         fixture.detectChanges();
 
-        openDatepicker(fixture.nativeElement, fixture);
+        clickDatepickerButton(fixture.nativeElement, fixture);
         tick();
 
         let firstDayCol = fixture.nativeElement

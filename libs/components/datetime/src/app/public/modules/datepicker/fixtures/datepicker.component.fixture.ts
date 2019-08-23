@@ -7,6 +7,10 @@ import {
   SkyDatepickerInputDirective
 } from '../datepicker-input.directive';
 
+import {
+  SkyDatepickerComponent
+} from '../datepicker.component';
+
 @Component({
   selector: 'datepicker-test',
   templateUrl: './datepicker.component.fixture.html'
@@ -14,6 +18,9 @@ import {
 export class DatepickerTestComponent {
   @ViewChild(SkyDatepickerInputDirective)
   public inputDirective: SkyDatepickerInputDirective;
+
+  @ViewChild(SkyDatepickerComponent)
+  public datepicker: SkyDatepickerComponent;
 
   public minDate: Date;
 

@@ -1,13 +1,21 @@
 import {
+  AfterViewInit,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   Output,
   ViewChild
 } from '@angular/core';
+
+import {
+  SkyDatepickerAdapterService
+} from './datepicker-adapter.service';
+
 import {
   SkyDatepickerCalendarInnerComponent
 } from './datepicker-calendar-inner.component';
+
 import {
   SkyDatepickerConfigService
 } from './datepicker-config.service';
@@ -19,9 +27,10 @@ import {
 @Component({
   selector: 'sky-datepicker-calendar',
   templateUrl: './datepicker-calendar.component.html',
-  styleUrls: ['./datepicker-calendar.component.scss']
+  styleUrls: ['./datepicker-calendar.component.scss'],
+  providers: [SkyDatepickerAdapterService]
 })
-export class SkyDatepickerCalendarComponent {
+export class SkyDatepickerCalendarComponent implements AfterViewInit {
 
   @Input()
   public minDate: Date;
@@ -49,6 +58,14 @@ export class SkyDatepickerCalendarComponent {
   @Output()
   public calendarModeChange: EventEmitter<string> = new EventEmitter<string>();
 
+  /**
+   * @internal
+   * Indicates if the calendar element's visiblity property is 'visible'.
+   */
+  public get isVisible(): boolean {
+    return this.adapter.elementIsVisible();
+  }
+
   @ViewChild(SkyDatepickerCalendarInnerComponent)
   public _datepicker: SkyDatepickerCalendarInnerComponent;
 
@@ -59,9 +76,16 @@ export class SkyDatepickerCalendarComponent {
 
   private _startingDay: number;
 
-  public constructor(config: SkyDatepickerConfigService) {
+  public constructor(
+    private adapter: SkyDatepickerAdapterService,
+    config: SkyDatepickerConfigService,
+    private elementRef: ElementRef) {
     this.config = config;
     this.configureOptions();
+  }
+
+  public ngAfterViewInit(): void {
+    this.adapter.init(this.elementRef);
   }
 
   public configureOptions(): void {

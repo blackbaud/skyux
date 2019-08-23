@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 
 import {
+  SkyDropdownComponent,
   SkyDropdownMessage,
   SkyDropdownMessageType
 } from '@skyux/popovers';
@@ -31,6 +32,30 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyDatepickerComponent implements OnDestroy {
+  /**
+   * @internal
+   * Indicates if the calendar button element or any of its children have focus.
+   */
+  public get buttonIsFocused(): boolean {
+    return this.dropdown.buttonIsFocused;
+  }
+
+  /**
+   * @internal
+   * Indicates if the calendar element or any of its children have focus.
+   */
+  public get calendarIsFocused(): boolean {
+    return this.dropdown.menuIsFocused;
+  }
+
+  /**
+   * @internal
+   * Indicates if the calendar element's visiblity property is 'visible'.
+   */
+  public get calendarIsVisible(): boolean {
+    return this.calendar.isVisible;
+  }
+
   public get disabled(): boolean {
     return this._disabled;
   }
@@ -55,6 +80,9 @@ export class SkyDatepickerComponent implements OnDestroy {
 
   @ViewChild(SkyDatepickerCalendarComponent)
   private calendar: SkyDatepickerCalendarComponent;
+
+  @ViewChild(SkyDropdownComponent)
+  private dropdown: SkyDropdownComponent;
 
   private _disabled = false;
   private _dropdownController = new Subject<SkyDropdownMessage>();
