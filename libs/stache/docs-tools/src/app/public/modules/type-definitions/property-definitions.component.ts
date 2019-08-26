@@ -5,12 +5,24 @@ import {
   Component,
   ContentChildren,
   TemplateRef,
-  QueryList
+  QueryList,
+  Input
 } from '@angular/core';
 
 import {
   SkyDocsPropertyDefinitionComponent
 } from './property-definition.component';
+
+export interface SkyDocsPropertyModel {
+  defaultValue: string;
+  deprecationWarning: string;
+  description?: string;
+  isOptional: boolean;
+  propertyDecorator: 'Input' | 'Output';
+  propertyName: string;
+  propertyType: string;
+  templateRef: TemplateRef<any>;
+}
 
 @Component({
   selector: 'sky-docs-property-definitions',
@@ -20,16 +32,10 @@ import {
 })
 export class SkyDocsPropertyDefinitionsComponent implements AfterContentInit {
 
-  public data: {
-    defaultValue: string;
-    deprecationWarning: string;
-    description?: string;
-    isOptional: boolean;
-    propertyDecorator: 'Input' | 'Output';
-    propertyName: string;
-    propertyType: string;
-    templateRef: TemplateRef<any>;
-  }[] = [];
+  @Input()
+  public nameHeadingText = 'Name';
+
+  public data: SkyDocsPropertyModel[] = [];
 
   @ContentChildren(SkyDocsPropertyDefinitionComponent)
   private definitionRefs: QueryList<SkyDocsPropertyDefinitionComponent>;

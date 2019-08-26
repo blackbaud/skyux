@@ -3,6 +3,7 @@
 
 .sky-docs-demo-page {
   ::ng-deep {
+
     p {
       margin: $sky-margin-plus-half 0;
     }
@@ -24,19 +25,33 @@
       margin: 0;
     }
 
-    .sky-code-block {
-      font-size: 90%;
+    sky-code-block {
+      margin: $sky-margin-plus-half 0;
+      display: block;
+
+      .sky-code-block {
+        font-size: 13.5px;
+      }
+
+      .sky-code-output {
+        margin: 0;
+        padding: $sky-padding-squish-large;
+        background-color: lighten($sky-background-color-neutral-light, 5%);
+      }
     }
 
     .sky-docs-h3 {
       color: $sky-text-color-default;
-      margin: 0 0 $sky-margin-double;
+      margin: $sky-margin-triple 0 $sky-margin-plus-half;
+      font-size: 21px;
+      line-height: 1;
     }
 
     .sky-docs-h4 {
       @include sky-subsection-heading();
-      margin: 0 0 $sky-margin-plus-half;
-      font-size: 1.2em;
+      margin: $sky-margin-plus-half 0;
+      font-size: 18px;
+      line-height: 1;
     }
 
   }

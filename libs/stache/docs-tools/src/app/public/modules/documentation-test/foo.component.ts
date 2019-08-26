@@ -24,7 +24,7 @@ import {
 export class FooComponent implements OnInit {
 
   /**
-   * This is the description for foo input.
+   * This is the description for foo input. You must provide [[FooEnum]] values.
    */
   @Input()
   public foo: FooEnum;
@@ -43,7 +43,7 @@ export class FooComponent implements OnInit {
   public baz: boolean = false;
 
   /**
-   * This is the description for bar input.
+   * This is the description for bar input. You must provide [[FooEnum]] values.
    * @defaultvalue FooEnum.Foo
    */
   @Input()
@@ -63,6 +63,7 @@ export class FooComponent implements OnInit {
   public experimental: boolean = false;
 
   /**
+   * This is the description for the click event.
    * @example
    * ```
    * <app-foo (click)="onClick($event)"></app-foo>

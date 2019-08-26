@@ -1,14 +1,10 @@
 import {
-  AfterContentInit,
   ChangeDetectionStrategy,
   Component,
-  ContentChild,
   Input
 } from '@angular/core';
 
-import {
-  SkyDocsPropertyDefinitionsComponent
-} from './property-definitions.component';
+import { SkyDocsDirectiveDefinition, SkyDocsPropertyDefinition } from './type-definitions';
 
 @Component({
   selector: 'sky-docs-directive-definition',
@@ -16,27 +12,23 @@ import {
   styleUrls: ['./directive-definition.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyDocsDirectiveDefinitionComponent implements AfterContentInit {
+export class SkyDocsDirectiveDefinitionComponent {
 
   @Input()
-  public directiveName: string;
+  public config: SkyDocsDirectiveDefinition;
 
-  @Input()
-  public directiveSelector: string;
+  public get inputProperties(): SkyDocsPropertyDefinition[] {
+    const properties = this.config.properties || [];
+    return properties.filter((property) => {
+      return property.decorator === 'Input';
+    });
+  }
 
-  @Input()
-  public codeExample: string;
-
-  @Input()
-  public codeExampleLanguage: string;
-
-  public hasPropertyDefinitions = false;
-
-  @ContentChild(SkyDocsPropertyDefinitionsComponent)
-  private propertyDefinitionsComponent: SkyDocsPropertyDefinitionsComponent;
-
-  public ngAfterContentInit(): void {
-    this.hasPropertyDefinitions = !!(this.propertyDefinitionsComponent);
+  public get eventProperties(): SkyDocsPropertyDefinition[] {
+    const properties = this.config.properties || [];
+    return properties.filter((property) => {
+      return property.decorator === 'Output';
+    });
   }
 
 }

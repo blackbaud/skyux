@@ -6,7 +6,8 @@ import {
   ContentChildren,
   Input,
   OnInit,
-  QueryList
+  QueryList,
+  AfterViewInit
 } from '@angular/core';
 
 import {
@@ -24,6 +25,7 @@ import {
 import {
   SkyDocsDemoPageTitleService
 } from './demo-page-title.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'sky-docs-demo-page',
@@ -31,7 +33,7 @@ import {
   styleUrls: ['./demo-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit {
+export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit, AfterViewInit {
 
   @Input()
   public gitRepoUrl: string;
@@ -59,6 +61,7 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit {
   private codeExampleComponents: QueryList<SkyDocsCodeExamplesComponent>;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private titleService: SkyDocsDemoPageTitleService
   ) { }
 
@@ -322,6 +325,17 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit {
   public ngAfterContentInit(): void {
     this.enableCodeExamples = (this.codeExampleComponents.length > 0);
     this.enableTabLayout = !!(this.designGuidelinesComponent);
+  }
+
+  public ngAfterViewInit(): void {
+    this.activatedRoute.fragment.subscribe((fragment) => {
+        const element = document.getElementById(fragment);
+        if (element) {
+          setTimeout(() => {
+            element.scrollIntoView();
+          }, 250);
+        }
+    });
   }
 
   private updateTitle(): void {

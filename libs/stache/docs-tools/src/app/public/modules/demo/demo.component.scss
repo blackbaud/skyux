@@ -2,7 +2,7 @@
 @import '~@skyux/theme/scss/_compat/mixins';
 
 .sky-docs-demo {
-  margin-bottom: $sky-margin * 4;
+  margin-bottom: $sky-margin-triple;
 }
 
 .sky-docs-demo-heading {
@@ -23,10 +23,11 @@
 .sky-docs-demo-viewport {
   @include sky-border(dark, top, bottom, left, right);
   margin-bottom: $sky-margin;
-  padding: $sky-padding-even-default;
+  padding: $sky-padding-even-large;
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 100px;
 }
 
 .sky-docs-demo-viewport-gutter {

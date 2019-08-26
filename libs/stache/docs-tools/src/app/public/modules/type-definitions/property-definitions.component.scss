@@ -5,19 +5,29 @@
   width: 100%;
   border-spacing: 0;
   border-collapse: collapse;
-  margin: $sky-margin-plus-half 0 $sky-margin-triple;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 2px rgba(0, 0, 0, 0.09);
+  margin: $sky-margin-plus-half 0;
   background-color: #fff;
 }
 
+.sky-table-column-header {
+  padding: $sky-padding-squish-large;
+  background-color: $sky-background-color-info-light;
+  border-bottom-color: transparent;
+  text-align: left;
+  white-space: nowrap;
+  font-weight: bold;
+}
+
+.sky-table-column-header-name {
+  width: 25%;
+}
+
 .sky-table-cell {
-  padding: $sky-padding-even-large;
+  padding: $sky-padding-squish-large;
   border-bottom: 1px solid $sky-border-color-neutral-light;
   vertical-align: top;
 
   &:first-child {
-    width: 150px;
-
     ::ng-deep {
       .sky-code {
         white-space: nowrap;
@@ -27,31 +37,21 @@
 
   ::ng-deep {
     p {
-      margin: 0;
+      margin: $sky-margin 0;
+
+      &:first-child {
+        margin-top: 0 !important;
+      }
     }
   }
 }
 
 .sky-table-row:last-child {
-  td {
+  .sky-table-cell {
     border-bottom: 0;
   }
 }
 
-.sky-table-column-header {
-  padding: $sky-padding-squish-large;
-  background-color: $sky-background-color-info-light;
-  border-bottom-color: desaturate(darken($sky-background-color-info-light, 10%), 10%);
-  text-align: left;
-  white-space: nowrap;
-  font-weight: bold;
-}
-
-.sky-docs-property-definition-label {
-  margin-bottom: $sky-margin-half !important;
-}
-
 .sky-docs-property-definition-label-optional {
   color: $sky-text-color-deemphasized;
-  margin-top: $sky-margin !important;
 }

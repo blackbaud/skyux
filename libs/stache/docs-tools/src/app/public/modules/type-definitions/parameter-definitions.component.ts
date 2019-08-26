@@ -9,6 +9,14 @@ import {
 
 import { SkyDocsParameterDefinitionComponent } from './parameter-definition.component';
 
+export interface SkyDocsParameterModel {
+  isOptional: boolean;
+  name: string;
+  type: string;
+  defaultValue: string;
+  templateRef: TemplateRef<any>;
+}
+
 @Component({
   selector: 'sky-docs-parameter-definitions',
   templateUrl: './parameter-definitions.component.html',
@@ -17,13 +25,7 @@ import { SkyDocsParameterDefinitionComponent } from './parameter-definition.comp
 })
 export class SkyDocsParameterDefinitionsComponent implements AfterContentInit {
 
-  public parameters: {
-    isOptional: boolean;
-    name: string;
-    type: string;
-    defaultValue: string;
-    templateRef: TemplateRef<any>
-  }[];
+  public parameters: SkyDocsParameterModel[];
 
   @ContentChildren(SkyDocsParameterDefinitionComponent)
   private parameterComponents: QueryList<SkyDocsParameterDefinitionComponent>;
@@ -41,5 +43,19 @@ export class SkyDocsParameterDefinitionsComponent implements AfterContentInit {
         templateRef: parameterComponent.templateRef
       };
     });
+  }
+
+  public getParameterSignature(item: SkyDocsParameterModel): string {
+    let signature = `${item.name}`;
+
+    if (item.isOptional) {
+      signature += '?';
+    }
+
+    if (item.type) {
+      signature += `: ${item.type}`;
+    }
+
+    return signature;
   }
 }

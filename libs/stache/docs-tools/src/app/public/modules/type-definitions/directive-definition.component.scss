@@ -3,15 +3,18 @@
 
 .sky-docs-directive-definition {
   margin-bottom: $sky-margin-triple;
-  padding: $sky-padding-plus-half;
-  background-color: $sky-background-color-neutral-light;
-  border: 1px solid $sky-border-color-neutral-light;
+}
 
+.sky-docs-directive-definition-code-example {
   ::ng-deep {
-    sky-code-block:last-child {
-      .sky-code-output {
-        margin-bottom: 0;
-      }
+    .sky-code-block {
+      margin-bottom: $sky-margin-plus-half;
     }
+
+    // .sky-code-output {
+    //   border: 0;
+    //   padding: 0;
+    //   margin-left: $sky-margin;
+    // }
   }
 }

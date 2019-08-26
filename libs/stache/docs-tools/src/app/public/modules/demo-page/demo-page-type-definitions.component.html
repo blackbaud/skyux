@@ -1,187 +1,45 @@
 <sky-docs-demo-page-section *ngIf="types.components.length"
   heading="Components"
 >
-  <sky-docs-directive-definition *ngFor="let component of types.components"
-    [codeExample]="component.codeExample"
-    [codeExampleLanguage]="component.codeExampleLanguage"
-    [directiveName]="component.name"
-    [directiveSelector]="component.selector"
+  <sky-docs-directive-definition *ngFor="let config of types.components"
+    [config]="config"
   >
-    <div
-      [innerHtml]="component.description | skyDocsMarkdown"
-    ></div>
-    <sky-docs-property-definitions *ngIf="component.properties.length">
-      <sky-docs-property-definition *ngFor="let property of component.properties"
-        [defaultValue]="property.defaultValue"
-        [deprecationWarning]="property.deprecationWarning"
-        [isOptional]="property.isOptional"
-        [propertyDecorator]="property.decorator"
-        [propertyName]="property.name"
-        [propertyType]="property.type"
-      >
-        <div
-          [innerHtml]="property.description | skyDocsMarkdown"
-        ></div>
-      </sky-docs-property-definition>
-    </sky-docs-property-definitions>
   </sky-docs-directive-definition>
 </sky-docs-demo-page-section>
 
 <sky-docs-demo-page-section *ngIf="types.directives.length"
   heading="Directives"
 >
-  <sky-docs-directive-definition *ngFor="let directive of types.directives"
-    [codeExample]="directive.codeExample"
-    [codeExampleLanguage]="directive.codeExampleLanguage"
-    [directiveName]="directive.name"
-    [directiveSelector]="directive.selector"
+  <sky-docs-directive-definition *ngFor="let config of types.directives"
+    [config]="config"
   >
-    <div
-      [innerHtml]="directive.description | skyDocsMarkdown"
-    ></div>
-    <sky-docs-property-definitions *ngIf="directive.properties.length">
-      <sky-docs-property-definition *ngFor="let property of directive.properties"
-        [defaultValue]="property.defaultValue"
-        [deprecationWarning]="property.deprecationWarning"
-        [isOptional]="property.isOptional"
-        [propertyDecorator]="property.decorator"
-        [propertyName]="property.name"
-        [propertyType]="property.type"
-      >
-        <div
-          [innerHtml]="property.description | skyDocsMarkdown"
-        ></div>
-      </sky-docs-property-definition>
-    </sky-docs-property-definitions>
   </sky-docs-directive-definition>
 </sky-docs-demo-page-section>
 
 <sky-docs-demo-page-section *ngIf="types.pipes.length"
   heading="Pipes"
 >
-  <div *ngFor="let config of types.pipes"
-    class="sky-demo-page-type-definitions-container"
+  <sky-docs-pipe-definition *ngFor="let config of types.pipes"
+    [config]="config"
   >
-    <h3 class="sky-docs-h3">
-      {{ config.name }}
-    </h3>
-
-    <div
-      [innerHtml]="config.description | skyDocsMarkdown"
-    ></div>
-
-    <h4 class="sky-docs-h4">
-      Input value
-    </h4>
-
-    <p>
-      <sky-code>{{ config.inputValue.type }}</sky-code>
-    </p>
-
-    <div
-      [innerHtml]="config.inputValue.description | skyDocsMarkdown"
-    ></div>
-
-    <ng-container *ngIf="config.parameters.length">
-      <h4 class="sky-docs-h4">
-        Parameters
-      </h4>
-      <sky-docs-parameter-definitions>
-        <sky-docs-parameter-definition *ngFor="let parameter of config.parameters"
-          [parameterName]="parameter.name"
-          [parameterType]="parameter.type"
-          [defaultValue]="parameter.defaultValue"
-          [isOptional]="parameter.isOptional"
-        >
-          <div
-            [innerHtml]="parameter.description | skyDocsMarkdown"
-          ></div>
-        </sky-docs-parameter-definition>
-      </sky-docs-parameter-definitions>
-    </ng-container>
-
-    <h4 class="sky-docs-h4">
-      Example
-    </h4>
-
-    <sky-code-block
-      [code]="config.codeExample"
-      [hideHeader]="true"
-      [languageType]="config.codeExampleLanguage"
-    ></sky-code-block>
-  </div>
+  </sky-docs-pipe-definition>
 </sky-docs-demo-page-section>
 
 <sky-docs-demo-page-section *ngIf="types.services.length"
   heading="Services"
 >
-  <div *ngFor="let config of types.services"
-    class="sky-demo-page-type-definitions-container"
+  <sky-docs-service-definition *ngFor="let config of types.services"
+    [config]="config"
   >
-    <h3 class="sky-docs-h3">
-      {{ config.name }}
-    </h3>
-
-    <div
-      [innerHtml]="config.description | skyDocsMarkdown"
-    ></div>
-
-    <ng-container *ngIf="config.properties && config.properties.length">
-      <h4 class="sky-docs-h4">
-        Properties
-      </h4>
-      <sky-docs-property-definitions>
-        <sky-docs-property-definition *ngFor="let property of config.properties"
-          [propertyName]="property.name"
-          [propertyType]="property.type"
-        >
-          <div
-            [innerHtml]="property.description | skyDocsMarkdown"
-          ></div>
-        </sky-docs-property-definition>
-      </sky-docs-property-definitions>
-    </ng-container>
-
-    <ng-container *ngIf="config.methods && config.methods.length">
-      <h4 class="sky-docs-h4">
-        Methods
-      </h4>
-      <sky-docs-method-definition *ngFor="let method of config.methods"
-        [codeExample]="method.codeExample"
-        [codeExampleLanguage]="method.codeExampleLanguage"
-        [methodName]="method.name"
-        [returnType]="method.returnType"
-        [parameters]="method.parameters"
-        [deprecationWarning]="method.deprecationWarning"
-      >
-        <div
-          [innerHtml]="method.description | skyDocsMarkdown"
-        ></div>
-      </sky-docs-method-definition>
-    </ng-container>
-  </div>
+  </sky-docs-service-definition>
 </sky-docs-demo-page-section>
 
 <sky-docs-demo-page-section *ngIf="types.interfaces.length"
   heading="Interfaces"
 >
-  <sky-docs-interface-definition *ngFor="let interface of types.interfaces"
-    [interfaceName]="interface.name"
-    [sourceCode]="interface.sourceCode"
+  <sky-docs-interface-definition *ngFor="let config of types.interfaces"
+    [config]="config"
   >
-    <div
-      [innerHtml]="interface.description | skyDocsMarkdown"
-    ></div>
-    <sky-docs-property-definitions *ngIf="interface.properties && interface.properties.length">
-      <sky-docs-property-definition *ngFor="let property of interface.properties"
-        [propertyName]="property.name"
-        [propertyType]="property.type"
-        [isOptional]="property.isOptional"
-        [defaultValue]="property.defaultValue"
-      >
-        <div [innerHtml]="property.description | skyDocsMarkdown"></div>
-      </sky-docs-property-definition>
-    </sky-docs-property-definitions>
   </sky-docs-interface-definition>
 </sky-docs-demo-page-section>
 
@@ -246,5 +104,16 @@
         </sky-docs-parameter-definition>
       </sky-docs-parameter-definitions>
     </ng-container>
+
+    <ng-container *ngIf="alias.returnType">
+      <h4 class="sky-docs-h4">
+        Returns
+      </h4>
+
+      <p style="margin-left: 15px;">
+        <sky-code>{{ alias.returnType }}</sky-code>
+      </p>
+    </ng-container>
+
   </div>
 </sky-docs-demo-page-section>

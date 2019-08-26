@@ -1,22 +1,31 @@
 <div class="sky-docs-interface-definition">
   <h3 class="sky-docs-h3">
-    {{ interfaceName }}
+    {{ config.name }}
   </h3>
 
-  <ng-content></ng-content>
+  <div
+    [innerHtml]="config.description | skyDocsMarkdown"
+  ></div>
 
   <sky-code-block
     languageType="typescript"
-    [code]="sourceCode"
+    [code]="config.sourceCode"
     [hideHeader]="true"
   ></sky-code-block>
 
-  <ng-container *ngIf="hasProperties">
+  <ng-container *ngIf="config.properties && config.properties.length">
     <h4 class="sky-docs-h4">
       Properties
     </h4>
-    <ng-content
-      select="sky-docs-property-definitions"
-    ></ng-content>
+    <sky-docs-property-definitions>
+      <sky-docs-property-definition *ngFor="let property of config.properties"
+        [propertyName]="property.name"
+        [propertyType]="property.type"
+        [isOptional]="property.isOptional"
+        [defaultValue]="property.defaultValue"
+      >
+        <div [innerHtml]="property.description | skyDocsMarkdown"></div>
+      </sky-docs-property-definition>
+    </sky-docs-property-definitions>
   </ng-container>
 </div>

@@ -8,7 +8,7 @@
 
 .sky-docs-demo-control-panel-row {
   @include sky-border(dark, top, bottom, left, right);
-  padding: $sky-padding-even-default;
+  padding: $sky-padding-even-large;
   display: inline-flex;
 }
 

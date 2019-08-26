@@ -1,12 +1,11 @@
 <table class="sky-docs-parameter-definitions">
   <tbody>
     <tr *ngFor="let parameter of parameters">
-      <th class="sky-docs-parameter-definition-name">
-        <strong><sky-code>{{ parameter.name }}</sky-code></strong>
+      <th class="sky-docs-parameter-definition-header">
+        <sky-code>
+          <span [innerHtml]="getParameterSignature(parameter)"></span>
+        </sky-code>
       </th>
-      <td class="sky-docs-parameter-definition-type">
-        <sky-code>{{ parameter.type }}</sky-code>
-      </td>
       <td>
         <ng-container [ngTemplateOutlet]="parameter.templateRef">
         </ng-container>

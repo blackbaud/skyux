@@ -56,10 +56,12 @@ import {
 import {
   SkyDocsDemoPageTypeDefinitionsComponent
 } from './demo-page-type-definitions.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
     CommonModule,
+    RouterModule,
     SkyCodeBlockModule,
     SkyCodeModule,
     SkyDocsDemoModule,

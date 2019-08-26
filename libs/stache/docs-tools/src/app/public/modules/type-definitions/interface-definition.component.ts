@@ -1,14 +1,12 @@
 import {
-  AfterContentInit,
   ChangeDetectionStrategy,
   Component,
-  ContentChild,
   Input
 } from '@angular/core';
 
 import {
-  SkyDocsPropertyDefinitionsComponent
-} from './property-definitions.component';
+  SkyDocsInterfaceDefinition
+} from './type-definitions';
 
 @Component({
   selector: 'sky-docs-interface-definition',
@@ -16,21 +14,9 @@ import {
   styleUrls: ['./interface-definition.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyDocsInterfaceDefinitionComponent implements AfterContentInit {
+export class SkyDocsInterfaceDefinitionComponent {
 
   @Input()
-  public interfaceName: string;
-
-  @Input()
-  public sourceCode: string;
-
-  public hasProperties: boolean = false;
-
-  @ContentChild(SkyDocsPropertyDefinitionsComponent)
-  private propertyDefinitions: SkyDocsPropertyDefinitionsComponent;
-
-  public ngAfterContentInit(): void {
-    this.hasProperties = !!(this.propertyDefinitions);
-  }
+  public config: SkyDocsInterfaceDefinition[];
 
 }

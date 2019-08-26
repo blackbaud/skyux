@@ -151,6 +151,7 @@ export class SkyDocsTypeDefinitionsService {
     this.sortDirectiveProperties(properties, 'decorator');
 
     const config: SkyDocsDirectiveDefinition = {
+      anchorId: item.anchorId,
       name: item.name,
       description,
       selector,
@@ -295,6 +296,7 @@ export class SkyDocsTypeDefinitionsService {
       description,
       inputValue: {
         description: firstParameter.description,
+        name: firstParameter.name,
         type: firstParameter.type
       },
       name: item.name,
@@ -384,6 +386,8 @@ export class SkyDocsTypeDefinitionsService {
       }).join(' | ');
     }
 
+    let returnType: string;
+
     if (item.type.type === 'reflection') {
       sourceCode += '(';
 
@@ -412,6 +416,7 @@ export class SkyDocsTypeDefinitionsService {
         }).join(', ');
 
         sourceCode += `) => ${callSignature.type.name}`;
+        returnType = callSignature.type.name;
       }
     }
 
@@ -421,7 +426,8 @@ export class SkyDocsTypeDefinitionsService {
       name: item.name,
       description: (item.comment) ? item.comment.shortText : '',
       sourceCode,
-      parameters
+      parameters,
+      returnType
     };
   }
 

@@ -1,0 +1,111 @@
+<div class="sky-docs-pipe-definition">
+  <h3 class="sky-docs-h3">
+    {{ config.name }}
+  </h3>
+
+  <div
+    [innerHtml]="config.description | skyDocsMarkdown"
+  ></div>
+
+  <ng-container *ngIf="config.codeExample">
+    <h4 class="sky-docs-h4">
+      Example
+    </h4>
+
+    <sky-code-block
+      [code]="config.codeExample"
+      [hideHeader]="true"
+      [languageType]="config.codeExampleLanguage"
+    ></sky-code-block>
+  </ng-container>
+
+  <!-- <sky-definition-list>
+    <sky-definition-list-content>
+      <sky-definition-list-label>
+        Input value
+      </sky-definition-list-label>
+      <sky-definition-list-value>
+        <sky-code>{{ config.inputValue.type }}</sky-code>
+        <div
+          [innerHtml]="config.inputValue.description | skyDocsMarkdown"
+        ></div>
+      </sky-definition-list-value>
+    </sky-definition-list-content>
+  </sky-definition-list> -->
+
+  <!-- <h4 class="sky-docs-h4">
+    Input value
+  </h4>
+
+  <p
+    style="margin-left: 10px; margin-bottom: 10px;"
+  >
+    <sky-code>{{ config.inputValue.type }}</sky-code>
+  </p>
+
+  <div
+    style="margin-left: 10px; margin-top: -10px;"
+    [innerHtml]="config.inputValue.description | skyDocsMarkdown"
+  ></div> -->
+
+  <!-- <sky-docs-property-definitions
+    nameHeadingText="Input value"
+  >
+    <sky-docs-property-definition
+      [propertyName]="config.inputValue.type"
+      [isOptional]="false"
+    >
+      <div
+        [innerHtml]="config.inputValue.description | skyDocsMarkdown"
+      ></div>
+    </sky-docs-property-definition>
+  </sky-docs-property-definitions> -->
+
+  <!-- <h4 class="sky-docs-h4">
+    Input value
+  </h4>
+
+  <sky-docs-property-definitions>
+    <sky-docs-property-definition
+      [propertyName]="config.inputValue.name"
+      [propertyType]="config.inputValue.type"
+    >
+      <div
+        [innerHtml]="config.inputValue.description | skyDocsMarkdown"
+      ></div>
+    </sky-docs-property-definition>
+  </sky-docs-property-definitions> -->
+
+  <h4 class="sky-docs-h4">
+    Input value
+  </h4>
+
+  <p
+    style="margin-left: 15px;"
+  >
+    <sky-code>{{ config.inputValue.type }}</sky-code>
+  </p>
+
+  <div
+    style="margin-left: 15px;"
+    [innerHtml]="config.inputValue.description | skyDocsMarkdown"
+  ></div>
+
+  <ng-container *ngIf="config.parameters.length">
+    <h4 class="sky-docs-h4">
+      Parameters
+    </h4>
+    <sky-docs-parameter-definitions>
+      <sky-docs-parameter-definition *ngFor="let parameter of config.parameters"
+        [parameterName]="parameter.name"
+        [parameterType]="parameter.type"
+        [defaultValue]="parameter.defaultValue"
+        [isOptional]="parameter.isOptional"
+      >
+        <div
+          [innerHtml]="parameter.description | skyDocsMarkdown"
+        ></div>
+      </sky-docs-parameter-definition>
+    </sky-docs-parameter-definitions>
+  </ng-container>
+</div>

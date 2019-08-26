@@ -21,13 +21,19 @@ import { SkyDocsParameterDefinitionsComponent } from './parameter-definitions.co
 import { SkyDocsMarkdownModule } from '../markdown/markdown.module';
 import { SkyDocsTypeDefinitionsService } from './type-definitions.service';
 import { SkyDocsTypeDefinitionsProvider } from './type-definitions-provider';
+import { SkyDocsPipeDefinitionComponent } from './pipe-definition.component';
+import { SkyDocsServiceDefinitionComponent } from './service-definition.component';
+import { SkyIconModule } from '@skyux/indicators';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
     CommonModule,
+    RouterModule,
     SkyCodeBlockModule,
     SkyCodeModule,
-    SkyDocsMarkdownModule
+    SkyDocsMarkdownModule,
+    SkyIconModule
   ],
   declarations: [
     SkyDocsDirectiveDefinitionComponent,
@@ -35,8 +41,10 @@ import { SkyDocsTypeDefinitionsProvider } from './type-definitions-provider';
     SkyDocsMethodDefinitionComponent,
     SkyDocsParameterDefinitionComponent,
     SkyDocsParameterDefinitionsComponent,
+    SkyDocsPipeDefinitionComponent,
     SkyDocsPropertyDefinitionComponent,
-    SkyDocsPropertyDefinitionsComponent
+    SkyDocsPropertyDefinitionsComponent,
+    SkyDocsServiceDefinitionComponent
   ],
   exports: [
     SkyDocsDirectiveDefinitionComponent,
@@ -44,8 +52,10 @@ import { SkyDocsTypeDefinitionsProvider } from './type-definitions-provider';
     SkyDocsMethodDefinitionComponent,
     SkyDocsParameterDefinitionComponent,
     SkyDocsParameterDefinitionsComponent,
+    SkyDocsPipeDefinitionComponent,
     SkyDocsPropertyDefinitionComponent,
-    SkyDocsPropertyDefinitionsComponent
+    SkyDocsPropertyDefinitionsComponent,
+    SkyDocsServiceDefinitionComponent
   ],
   providers: [
     SkyDocsTypeDefinitionsProvider,

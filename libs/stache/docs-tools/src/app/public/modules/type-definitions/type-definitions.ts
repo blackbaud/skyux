@@ -31,6 +31,7 @@ export interface SkyDocsMethodDefinition {
 }
 
 export interface SkyDocsDirectiveDefinition {
+  anchorId: string;
   name: string;
   selector: string;
   description: string;
@@ -66,7 +67,8 @@ export interface SkyDocsTypeAliasDefinition {
   name: string;
   sourceCode: string;
   description: string;
-  parameters: SkyDocsParameterDefinition[];
+  parameters?: SkyDocsParameterDefinition[];
+  returnType?: string;
 }
 
 export interface SkyDocsPipeDefinition {
@@ -75,6 +77,7 @@ export interface SkyDocsPipeDefinition {
   description: string;
   inputValue: {
     description: string;
+    name: string;
     type: string;
   };
   name: string;
