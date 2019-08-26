@@ -32,6 +32,8 @@ import {
   SkyAppResourcesService
 } from './index';
 
+import { SkyAppResourceNameProvider } from './resource-name-provider';
+
 describe('Resources service', () => {
   let resources: SkyAppResourcesService;
   let mockAssetsService: any;
@@ -41,7 +43,8 @@ describe('Resources service', () => {
   let esUrl: string;
   let enGbUrl: string;
 
-  function configureTestingModule(mockLocaleProvider?: any): void {
+  function configureTestingModule(mockLocaleProvider?: any,
+    mockResourceNameProvider?: any): void {
     enUsUrl = 'https://example.com/locales/resources_en_US.json';
     enGbUrl = 'https://example.com/locales/resources_en_GB.json';
     esUrl = 'https://example.com/locales/resources_es.json';
@@ -49,6 +52,9 @@ describe('Resources service', () => {
     testResources = {
       'hi': {
         'message': 'hello'
+      },
+      'hi_alternate': {
+        'message': 'howdy'
       },
       'template': {
         'message': 'format {0} me {1} {0}'
@@ -86,6 +92,13 @@ describe('Resources service', () => {
       providers.push({
         provide: SkyAppLocaleProvider,
         useValue: mockLocaleProvider
+      });
+    }
+
+    if (mockResourceNameProvider) {
+      providers.push({
+        provide: SkyAppResourceNameProvider,
+        useValue: mockResourceNameProvider
       });
     }
 
@@ -272,6 +285,46 @@ describe('Resources service', () => {
       }
     );
 
+  });
+
+  describe('with a resource name provider', () => {
+    let mockResourceNameProvider: SkyAppResourceNameProvider;
+    let getResourceName: any;
+
+    beforeEach(() => {
+      mockResourceNameProvider = {
+        getResourceName: (name) => {
+          return getResourceName(name);
+        }
+      };
+
+      configureTestingModule(undefined, mockResourceNameProvider);
+
+      injectServices();
+    });
+
+    it('should use the name from the provider if a recognized name is returned', (done) => {
+      getResourceName = (name: string) => Observable.of(name + '_alternate');
+
+      resources.getString('hi').subscribe((value) => {
+        expect(value).toBe('howdy');
+        done();
+      });
+
+      addTestResourceResponse();
+    });
+
+    it(
+      'should fall back to the original name if the name from the provider is unrecognized', (done) => {
+      getResourceName = (name: string) => Observable.of(name + '_unrecognized');
+
+      resources.getString('hi').subscribe((value) => {
+        expect(value).toBe('hello');
+        done();
+      });
+
+      addTestResourceResponse();
+    });
   });
 
 });

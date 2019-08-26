@@ -13,6 +13,10 @@ import {
   Observable
 } from 'rxjs/Observable';
 
+import {
+  forkJoin
+} from 'rxjs';
+
 import 'rxjs/add/observable/of';
 
 import 'rxjs/add/operator/catch';
@@ -31,6 +35,10 @@ import {
 import {
   SkyAppLocaleProvider
 } from './locale-provider';
+
+import {
+  SkyAppResourceNameProvider
+} from './resource-name-provider';
 
 declare type SkyResourceType = {[key: string]: {message: string}};
 
@@ -52,7 +60,8 @@ export class SkyAppResourcesService {
     private http: HttpClient,
     /* tslint:disable-next-line no-forward-ref */
     @Inject(forwardRef(() => SkyAppAssetsService)) private assets: SkyAppAssetsService,
-    @Optional() private localeProvider: SkyAppLocaleProvider
+    @Optional() private localeProvider: SkyAppLocaleProvider,
+    @Optional() private resourceNameProvider: SkyAppResourceNameProvider
   ) { }
 
   /**
@@ -120,9 +129,20 @@ export class SkyAppResourcesService {
         .catch(() => getDefaultObs());
     }
 
-    return this.resourcesObs.map((resources): string => {
-      if (name in resources) {
-        return Format.formatText(resources[name].message, ...args);
+    let mappedNameObs = this.resourceNameProvider ?
+    this.resourceNameProvider.getResourceName(name) : Observable.of(name);
+
+    return forkJoin([mappedNameObs, this.resourcesObs]).map(([mappedName, resources]): string => {
+      let resource:  {message: string };
+
+      if (mappedName in resources) {
+        resource = resources[mappedName];
+      } else if (name in resources) {
+        resource = resources[name];
+      }
+
+      if (resource) {
+        return Format.formatText(resource.message, ...args);
       }
 
       return name;

@@ -11,6 +11,7 @@ export * from './lib-resources.pipe';
 export * from './lib-resources.service';
 export * from './locale-info';
 export * from './locale-provider';
+export * from './resource-name-provider';
 export * from './resources.pipe';
 export * from './resources.service';
 export * from './resources';
