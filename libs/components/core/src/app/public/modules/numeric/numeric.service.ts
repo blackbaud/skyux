@@ -20,7 +20,7 @@ import {
 
 import {
   SkyNumberFormatUtility
-} from './number-format-utility';
+} from '../shared/number-format/number-format-utility';
 
 @Injectable()
 export class SkyNumericService {
