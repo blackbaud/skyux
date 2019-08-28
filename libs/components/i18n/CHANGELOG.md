@@ -1,3 +1,8 @@
+# 3.8.0 (2019-08-28)
+
+- Updated dependencies. [#43](https://github.com/blackbaud/skyux-i18n/pull/43)
+- Created `SkyAppResourceNameProvider` to provide the ability to alter the resource key before passing it to `SkyAppLocaleProvider`. [#41](https://github.com/blackbaud/skyux-i18n/pull/41) Thanks [@Blackbaud-MatthewBell](https://github.com/Blackbaud-MatthewBell)!
+
 # 3.7.1 (2019-06-24)
 
 - Fixed bug where `HttpModule` was still being imported into `SkyI18nModule`. [#37](https://github.com/blackbaud/skyux-i18n/pull/37)
