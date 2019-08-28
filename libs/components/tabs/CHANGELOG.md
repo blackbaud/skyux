@@ -1,3 +1,7 @@
+# 3.2.0 (2019-08-28)
+
+- Added query parameters to the URL to reflect active tab states in the tabset component. [#31](https://github.com/blackbaud/skyux-tabs/pull/31)
+
 # 3.1.0 (2019-05-17)
 
 - Added the ability to trigger responsive styles based on a parent component. [#25](https://github.com/blackbaud/skyux-tabs/pull/25)
