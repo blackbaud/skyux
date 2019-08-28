@@ -1,6 +1,10 @@
 <div class="sky-docs-interface-definition">
   <h3 class="sky-docs-h3">
-    {{ config.name }}
+    <sky-docs-section-anchor
+      [anchorId]="config.anchorId"
+    >
+      {{ config.name }}
+    </sky-docs-section-anchor>
   </h3>
 
   <div

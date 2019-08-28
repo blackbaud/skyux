@@ -2,12 +2,12 @@
 
   <h3
     class="sky-docs-h3"
-    [attr.id]="config.anchorId"
   >
-    <a [routerLink]="[]" [fragment]="config.anchorId" [skipLocationChange]="true">
+    <sky-docs-section-anchor
+      [anchorId]="config.anchorId"
+    >
       {{ config.name }}
-      <sky-icon icon="link"></sky-icon>
-    </a>
+    </sky-docs-section-anchor>
   </h3>
 
   <div

@@ -1,13 +1,15 @@
 import {
   AfterContentInit,
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ContentChild,
   ContentChildren,
+  ElementRef,
   Input,
   OnInit,
   QueryList,
-  AfterViewInit
+  Renderer2
 } from '@angular/core';
 
 import {
@@ -62,6 +64,8 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit, After
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private elementRef: ElementRef,
+    private renderer: Renderer2,
     private titleService: SkyDocsDemoPageTitleService
   ) { }
 
@@ -329,12 +333,19 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit, After
 
   public ngAfterViewInit(): void {
     this.activatedRoute.fragment.subscribe((fragment) => {
-        const element = document.getElementById(fragment);
-        if (element) {
-          setTimeout(() => {
-            element.scrollIntoView();
-          }, 250);
-        }
+      const element = document.getElementById(fragment);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView();
+        }, 250);
+      }
+    });
+
+    const links = this.elementRef.nativeElement.querySelectorAll('.sky-docs-page-anchor');
+    links.forEach((link: any) => {
+      const fragment = link.getAttribute('href');
+      const newHref = `${window.location.href.split('#')[0]}${fragment}`;
+      this.renderer.setAttribute(link, 'href', newHref);
     });
   }
 

@@ -41,6 +41,7 @@ export interface SkyDocsDirectiveDefinition {
 }
 
 export interface SkyDocsInterfaceDefinition {
+  anchorId: string;
   name: string;
   properties: SkyDocsInterfacePropertyDefinition[];
   sourceCode: string;

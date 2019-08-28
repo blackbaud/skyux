@@ -344,6 +344,7 @@ export class SkyDocsTypeDefinitionsService {
     } = this.parseCommentTags(item.comment);
 
     return {
+      anchorId: item.anchorId,
       name: interfaceName,
       description,
       properties,

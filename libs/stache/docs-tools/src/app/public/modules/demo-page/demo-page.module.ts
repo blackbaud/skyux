@@ -57,6 +57,7 @@ import {
   SkyDocsDemoPageTypeDefinitionsComponent
 } from './demo-page-type-definitions.component';
 import { RouterModule } from '@angular/router';
+import { SkyDocsSafeHtmlModule } from '../safe-html/safe-html.module';
 
 @NgModule({
   imports: [
@@ -71,7 +72,8 @@ import { RouterModule } from '@angular/router';
     SkyTabsModule,
     StachePageAnchorModule,
     StachePageSummaryModule,
-    StacheWrapperModule
+    StacheWrapperModule,
+    SkyDocsSafeHtmlModule
   ],
   declarations: [
     SkyDocsDemoPageComponent,

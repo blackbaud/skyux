@@ -79,14 +79,17 @@
     <h3 class="sky-docs-h3">
       {{ alias.name }}
     </h3>
-    <div
-      [innerHtml]="alias.description | skyDocsMarkdown"
-    ></div>
+
+    <sky-docs-safe-html
+      [innerHtml]="alias.description"
+    ></sky-docs-safe-html>
+
     <sky-code-block
       languageType="typescript"
       [code]="alias.sourceCode"
       [hideHeader]="true"
     ></sky-code-block>
+
     <ng-container *ngIf="alias.parameters && alias.parameters.length">
       <h4 class="sky-docs-h4">
         Parameters

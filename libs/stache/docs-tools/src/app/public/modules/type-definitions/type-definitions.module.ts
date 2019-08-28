@@ -25,6 +25,7 @@ import { SkyDocsPipeDefinitionComponent } from './pipe-definition.component';
 import { SkyDocsServiceDefinitionComponent } from './service-definition.component';
 import { SkyIconModule } from '@skyux/indicators';
 import { RouterModule } from '@angular/router';
+import { SkyDocsSectionAnchorModule } from '../section-anchor/section-anchor.module';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { RouterModule } from '@angular/router';
     SkyCodeBlockModule,
     SkyCodeModule,
     SkyDocsMarkdownModule,
-    SkyIconModule
+    SkyIconModule,
+    SkyDocsSectionAnchorModule
   ],
   declarations: [
     SkyDocsDirectiveDefinitionComponent,

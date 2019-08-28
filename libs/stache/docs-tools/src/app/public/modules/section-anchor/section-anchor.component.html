@@ -1,0 +1,13 @@
+<div
+  class="sky-docs-section-anchor"
+  [attr.id]="anchorId"
+>
+  <a
+    queryParamsHandling="merge"
+    [fragment]="anchorId"
+    [routerLink]="[]"
+  >
+    <ng-content></ng-content>
+    <sky-icon icon="link"></sky-icon>
+  </a>
+</div>
