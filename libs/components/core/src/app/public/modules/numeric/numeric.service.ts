@@ -11,16 +11,16 @@ import {
 } from '@skyux/i18n';
 
 import {
+  SkyNumberFormatUtility
+} from '../shared/number-format/number-format-utility';
+
+import {
   NumericOptions
 } from './numeric.options';
 
 import {
   SkyNumericSymbol
 } from './numeric-symbol';
-
-import {
-  SkyNumberFormatUtility
-} from '../shared/number-format/number-format-utility';
 
 @Injectable()
 export class SkyNumericService {
@@ -34,11 +34,11 @@ export class SkyNumericService {
   ];
 
   private defaultLocale = 'en-US';
-
+​
   constructor(
     private resourcesService: SkyLibResourcesService
   ) { }
-
+​
   /**
    * Shortens with or without symbol (K/M/B/T) depending on value of number.
    * @param value The number to format.
@@ -48,7 +48,6 @@ export class SkyNumericService {
     value: number,
     options: NumericOptions
   ): string {
-
     /* tslint:disable-next-line:no-null-keyword */
     if (isNaN(value) || value === null) {
       return '';
@@ -66,21 +65,12 @@ export class SkyNumericService {
     });
 
     let output: string;
-
     if (symbol) {
-      output = Number(
-        // Using Math.round to ensure accurate rounding compared to toFixed.
-        Math.round(
-          parseFloat((value / symbol.value) + `e${options.digits}`)
-        ) + `e-${options.digits}`
-      ).toString().replace(decimalPlaceRegExp, '$1') + symbol.label;
-
+      const roundedNumber: number = this.roundNumber((value / symbol.value), options.digits);
+      output = roundedNumber.toString().replace(decimalPlaceRegExp, '$1') + symbol.label;
     } else {
-      output = Number(
-        Math.round(
-          parseFloat(`${value}e${options.digits}`)
-        ) + `e-${options.digits}`
-      ).toString().replace(decimalPlaceRegExp, '$1');
+      const roundedNumber: number = this.roundNumber(value, options.digits);
+      output = roundedNumber.toString().replace(decimalPlaceRegExp, '$1');
     }
 
     this.storeShortenSymbol(output);
@@ -152,6 +142,64 @@ export class SkyNumericService {
     return output;
   }
 
+  /**
+   * Rounds a given number
+   *
+   * JS's limitation - numbers bigger than Number.MIN_SAFE_INTEGER or Number.MAX_SAFE_INTEGER
+   * are not guaranteed to be represented or rounded correctly
+   * @param value - value to round
+   * @param precision - what precision to round with, defaults to 0 decimal places
+   */
+  private roundNumber(
+    value: number,
+    precision: number = 0
+  ): number {
+    if (precision < 0) {
+      throw new Error('SkyInvalidArgument: precision must be >= 0');
+    }
+​
+    /* tslint:disable-next-line:no-null-keyword */
+    /* Sanity check - ignoring coverage but should not ignore if we make this method public */
+    /* istanbul ignore next */
+    if (isNaN(value) || value === null) {
+      return 0;
+    }
+​
+    const scaledValue: number = this.scaleNumberByPowerOfTen(value, precision, true);
+    const scaledRoundedValue: number = Math.round(scaledValue);
+    const unscaledRoundedValue: number = this.scaleNumberByPowerOfTen(
+      scaledRoundedValue,
+      precision,
+      false
+    );
+​
+    return unscaledRoundedValue;
+  }
+​
+  /**
+   * Scales a given number by a power of 10
+   * @param value - value to scale
+   * @param scalar - 10^scalar
+   * @param scaleUp - whether to increase or decrease the value
+   */
+  private scaleNumberByPowerOfTen(
+    value: number,
+    scalar: number,
+    scaleUp: boolean
+  ): number {
+    const valueStr: string = value.toString().toLowerCase();
+    const isExponentFormat: boolean = valueStr.includes('e');
+​
+    if (isExponentFormat) {
+      const [base, exp] = valueStr.split('e');
+      const newExp = scaleUp ? (Number(exp) + scalar) : (Number(exp) - scalar);
+      return Number(`${base}e${newExp}`);
+    } else {
+      const e = scaleUp ? 'e' : 'e-';
+      return Number(`${value}${e}${scalar}`);
+    }
+  }
+​
   /**
    * Stores the symbol added from shortening to reapply later.
    * @param value The string to derive the shorten symbol from.
