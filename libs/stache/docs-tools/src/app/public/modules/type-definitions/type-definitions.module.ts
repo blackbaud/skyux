@@ -26,6 +26,9 @@ import { SkyDocsServiceDefinitionComponent } from './service-definition.componen
 import { SkyIconModule } from '@skyux/indicators';
 import { RouterModule } from '@angular/router';
 import { SkyDocsSectionAnchorModule } from '../section-anchor/section-anchor.module';
+import { SkyDocsTypeAliasDefinitionComponent } from './type-alias-definition.component';
+import { SkyDocsSafeHtmlModule } from '../safe-html/safe-html.module';
+import { SkyDocsEnumerationDefinitionComponent } from './enumeration-definition.component';
 
 @NgModule({
   imports: [
@@ -34,11 +37,13 @@ import { SkyDocsSectionAnchorModule } from '../section-anchor/section-anchor.mod
     SkyCodeBlockModule,
     SkyCodeModule,
     SkyDocsMarkdownModule,
-    SkyIconModule,
-    SkyDocsSectionAnchorModule
+    SkyDocsSafeHtmlModule,
+    SkyDocsSectionAnchorModule,
+    SkyIconModule
   ],
   declarations: [
     SkyDocsDirectiveDefinitionComponent,
+    SkyDocsEnumerationDefinitionComponent,
     SkyDocsInterfaceDefinitionComponent,
     SkyDocsMethodDefinitionComponent,
     SkyDocsParameterDefinitionComponent,
@@ -46,10 +51,12 @@ import { SkyDocsSectionAnchorModule } from '../section-anchor/section-anchor.mod
     SkyDocsPipeDefinitionComponent,
     SkyDocsPropertyDefinitionComponent,
     SkyDocsPropertyDefinitionsComponent,
-    SkyDocsServiceDefinitionComponent
+    SkyDocsServiceDefinitionComponent,
+    SkyDocsTypeAliasDefinitionComponent
   ],
   exports: [
     SkyDocsDirectiveDefinitionComponent,
+    SkyDocsEnumerationDefinitionComponent,
     SkyDocsInterfaceDefinitionComponent,
     SkyDocsMethodDefinitionComponent,
     SkyDocsParameterDefinitionComponent,
@@ -57,7 +64,8 @@ import { SkyDocsSectionAnchorModule } from '../section-anchor/section-anchor.mod
     SkyDocsPipeDefinitionComponent,
     SkyDocsPropertyDefinitionComponent,
     SkyDocsPropertyDefinitionsComponent,
-    SkyDocsServiceDefinitionComponent
+    SkyDocsServiceDefinitionComponent,
+    SkyDocsTypeAliasDefinitionComponent
   ],
   providers: [
     SkyDocsTypeDefinitionsProvider,

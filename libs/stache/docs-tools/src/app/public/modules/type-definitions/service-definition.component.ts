@@ -18,7 +18,7 @@ import { SkyDocsTypeDefinitionsFormatService } from './type-definitions-format.s
 export class SkyDocsServiceDefinitionComponent {
 
   @Input()
-  public config: SkyDocsServiceDefinition[];
+  public config: SkyDocsServiceDefinition;
 
   constructor(
     private formatService: SkyDocsTypeDefinitionsFormatService

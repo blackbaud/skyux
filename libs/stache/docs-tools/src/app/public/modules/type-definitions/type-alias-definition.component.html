@@ -1,4 +1,4 @@
-<div class="sky-docs-pipe-definition">
+<div class="sky-docs-type-alias-definition">
   <h3 class="sky-docs-h3">
     <sky-docs-section-anchor
       [anchorId]="config.anchorId"
@@ -11,33 +11,13 @@
     [innerHtml]="config.description"
   ></sky-docs-safe-html>
 
-  <ng-container *ngIf="config.codeExample">
-    <h4 class="sky-docs-h4">
-      Example
-    </h4>
+  <sky-code-block
+    languageType="typescript"
+    [code]="config.sourceCode"
+    [hideHeader]="true"
+  ></sky-code-block>
 
-    <sky-code-block
-      [code]="config.codeExample"
-      [hideHeader]="true"
-      [languageType]="config.codeExampleLanguage"
-    ></sky-code-block>
-  </ng-container>
-
-  <h4 class="sky-docs-h4">
-    Input value
-  </h4>
-
-  <sky-docs-parameter-definitions>
-    <sky-docs-parameter-definition
-      [parameterName]="config.inputValue.type"
-    >
-      <sky-docs-safe-html
-        [innerHtml]="config.inputValue.description"
-      ></sky-docs-safe-html>
-    </sky-docs-parameter-definition>
-  </sky-docs-parameter-definitions>
-
-  <ng-container *ngIf="config.parameters.length">
+  <ng-container *ngIf="config.parameters && config.parameters.length">
     <h4 class="sky-docs-h4">
       Parameters
     </h4>
@@ -53,5 +33,15 @@
         ></sky-docs-safe-html>
       </sky-docs-parameter-definition>
     </sky-docs-parameter-definitions>
+  </ng-container>
+
+  <ng-container *ngIf="config.returnType">
+    <h4 class="sky-docs-h4">
+      Returns
+    </h4>
+
+    <p style="margin-left: 15px;">
+      <sky-code>{{ config.returnType }}</sky-code>
+    </p>
   </ng-container>
 </div>

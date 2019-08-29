@@ -10,20 +10,9 @@
     </sky-docs-section-anchor>
   </h3>
 
-  <div
-    [innerHtml]="config.description | skyDocsMarkdown"
-  ></div>
-
-  <!-- <sky-definition-list>
-    <sky-definition-list-content>
-      <sky-definition-list-label>
-        Selector
-      </sky-definition-list-label>
-      <sky-definition-list-value>
-        <sky-code>{{ config.selector }}</sky-code>
-      </sky-definition-list-value>
-    </sky-definition-list-content>
-  </sky-definition-list> -->
+  <sky-docs-safe-html
+    [innerHtml]="config.description"
+  ></sky-docs-safe-html>
 
   <h4 class="sky-docs-h4">
     Selector
@@ -47,14 +36,6 @@
     </sky-code-block>
   </div>
 
-  <!-- <h4 class="sky-docs-h4">
-    Selector
-  </h4>
-
-  <p style="padding-left: 10px;">
-    <sky-code>{{ config.selector }}</sky-code>
-  </p> -->
-
   <h4 class="sky-docs-h4">
     Inputs
   </h4>
@@ -68,9 +49,9 @@
       [propertyName]="property.name"
       [propertyType]="property.type"
     >
-      <div
-        [innerHtml]="property.description | skyDocsMarkdown"
-      ></div>
+      <sky-docs-safe-html
+        [innerHtml]="property.description"
+      ></sky-docs-safe-html>
     </sky-docs-property-definition>
   </sky-docs-property-definitions>
 
@@ -87,9 +68,9 @@
         [propertyName]="property.name"
         [propertyType]="property.type"
       >
-        <div
-          [innerHtml]="property.description | skyDocsMarkdown"
-        ></div>
+        <sky-docs-safe-html
+          [innerHtml]="property.description"
+        ></sky-docs-safe-html>
       </sky-docs-property-definition>
     </sky-docs-property-definitions>
   </ng-container>

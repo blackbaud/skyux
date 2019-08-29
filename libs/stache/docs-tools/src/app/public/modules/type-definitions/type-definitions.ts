@@ -58,6 +58,7 @@ export interface SkyDocsEnumerationDefinition {
 }
 
 export interface SkyDocsServiceDefinition {
+  anchorId: string;
   name: string;
   description: string;
   methods: SkyDocsMethodDefinition[];
@@ -65,6 +66,7 @@ export interface SkyDocsServiceDefinition {
 }
 
 export interface SkyDocsTypeAliasDefinition {
+  anchorId: string;
   name: string;
   sourceCode: string;
   description: string;
@@ -73,6 +75,7 @@ export interface SkyDocsTypeAliasDefinition {
 }
 
 export interface SkyDocsPipeDefinition {
+  anchorId: string;
   codeExample: string;
   codeExampleLanguage: string;
   description: string;

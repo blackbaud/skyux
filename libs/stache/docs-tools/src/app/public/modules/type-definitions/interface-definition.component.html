@@ -7,9 +7,9 @@
     </sky-docs-section-anchor>
   </h3>
 
-  <div
-    [innerHtml]="config.description | skyDocsMarkdown"
-  ></div>
+  <sky-docs-safe-html
+    [innerHtml]="config.description"
+  ></sky-docs-safe-html>
 
   <sky-code-block
     languageType="typescript"
@@ -28,7 +28,9 @@
         [isOptional]="property.isOptional"
         [defaultValue]="property.defaultValue"
       >
-        <div [innerHtml]="property.description | skyDocsMarkdown"></div>
+        <sky-docs-safe-html
+          [innerHtml]="property.description"
+        ></sky-docs-safe-html>
       </sky-docs-property-definition>
     </sky-docs-property-definitions>
   </ng-container>

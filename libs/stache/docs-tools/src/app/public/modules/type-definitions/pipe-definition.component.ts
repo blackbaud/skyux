@@ -17,6 +17,6 @@ import {
 export class SkyDocsPipeDefinitionComponent {
 
   @Input()
-  public config: SkyDocsPipeDefinition[];
+  public config: SkyDocsPipeDefinition;
 
 }

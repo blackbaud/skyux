@@ -3,8 +3,7 @@
 >
   <sky-docs-directive-definition *ngFor="let config of types.components"
     [config]="config"
-  >
-  </sky-docs-directive-definition>
+  ></sky-docs-directive-definition>
 </sky-docs-demo-page-section>
 
 <sky-docs-demo-page-section *ngIf="types.directives.length"
@@ -12,8 +11,7 @@
 >
   <sky-docs-directive-definition *ngFor="let config of types.directives"
     [config]="config"
-  >
-  </sky-docs-directive-definition>
+  ></sky-docs-directive-definition>
 </sky-docs-demo-page-section>
 
 <sky-docs-demo-page-section *ngIf="types.pipes.length"
@@ -21,8 +19,7 @@
 >
   <sky-docs-pipe-definition *ngFor="let config of types.pipes"
     [config]="config"
-  >
-  </sky-docs-pipe-definition>
+  ></sky-docs-pipe-definition>
 </sky-docs-demo-page-section>
 
 <sky-docs-demo-page-section *ngIf="types.services.length"
@@ -30,8 +27,7 @@
 >
   <sky-docs-service-definition *ngFor="let config of types.services"
     [config]="config"
-  >
-  </sky-docs-service-definition>
+  ></sky-docs-service-definition>
 </sky-docs-demo-page-section>
 
 <sky-docs-demo-page-section *ngIf="types.interfaces.length"
@@ -39,84 +35,21 @@
 >
   <sky-docs-interface-definition *ngFor="let config of types.interfaces"
     [config]="config"
-  >
-  </sky-docs-interface-definition>
+  ></sky-docs-interface-definition>
 </sky-docs-demo-page-section>
 
 <sky-docs-demo-page-section *ngIf="types.enumerations.length"
   heading="Enumerations"
 >
-  <div *ngFor="let item of types.enumerations"
-    class="sky-demo-page-type-definitions-container"
-  >
-    <h3 class="sky-docs-h3">
-      {{ item.name }}
-    </h3>
-    <div
-      [innerHtml]="item.description | skyDocsMarkdown"
-    ></div>
-    <h4 class="sky-docs-h4">
-      Members
-    </h4>
-    <sky-docs-property-definitions>
-      <sky-docs-property-definition *ngFor="let member of item.members"
-        [propertyName]="member.name"
-      >
-        <div
-          [innerHtml]="member.description | skyDocsMarkdown"
-        ></div>
-      </sky-docs-property-definition>
-    </sky-docs-property-definitions>
-  </div>
+  <sky-docs-enumeration-definition *ngFor="let config of types.enumerations"
+    [config]="config"
+  ></sky-docs-enumeration-definition>
 </sky-docs-demo-page-section>
 
 <sky-docs-demo-page-section *ngIf="types.typeAliases.length"
   heading="Type aliases"
 >
-  <div *ngFor="let alias of types.typeAliases"
-    class="sky-demo-page-type-definitions-container"
-  >
-    <h3 class="sky-docs-h3">
-      {{ alias.name }}
-    </h3>
-
-    <sky-docs-safe-html
-      [innerHtml]="alias.description"
-    ></sky-docs-safe-html>
-
-    <sky-code-block
-      languageType="typescript"
-      [code]="alias.sourceCode"
-      [hideHeader]="true"
-    ></sky-code-block>
-
-    <ng-container *ngIf="alias.parameters && alias.parameters.length">
-      <h4 class="sky-docs-h4">
-        Parameters
-      </h4>
-      <sky-docs-parameter-definitions>
-        <sky-docs-parameter-definition *ngFor="let parameter of alias.parameters"
-          [parameterName]="parameter.name"
-          [parameterType]="parameter.type"
-          [defaultValue]="parameter.defaultValue"
-          [isOptional]="parameter.isOptional"
-        >
-          <div
-            [innerHtml]="parameter.description | skyDocsMarkdown"
-          ></div>
-        </sky-docs-parameter-definition>
-      </sky-docs-parameter-definitions>
-    </ng-container>
-
-    <ng-container *ngIf="alias.returnType">
-      <h4 class="sky-docs-h4">
-        Returns
-      </h4>
-
-      <p style="margin-left: 15px;">
-        <sky-code>{{ alias.returnType }}</sky-code>
-      </p>
-    </ng-container>
-
-  </div>
+  <sky-docs-type-alias-definition *ngFor="let config of types.typeAliases"
+    [config]="config"
+  ></sky-docs-type-alias-definition>
 </sky-docs-demo-page-section>

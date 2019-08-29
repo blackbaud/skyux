@@ -230,6 +230,7 @@ export class SkyDocsTypeDefinitionsService {
     } = this.parseCommentTags(item.comment);
 
     return {
+      anchorId: item.anchorId,
       name: item.name,
       description,
       properties,
@@ -291,6 +292,7 @@ export class SkyDocsTypeDefinitionsService {
     const firstParameter = parameters.shift();
 
     return {
+      anchorId: item.anchorId,
       codeExample,
       codeExampleLanguage,
       description,
@@ -424,6 +426,7 @@ export class SkyDocsTypeDefinitionsService {
     sourceCode += ';';
 
     return {
+      anchorId: item.anchorId,
       name: item.name,
       description: (item.comment) ? item.comment.shortText : '',
       sourceCode,

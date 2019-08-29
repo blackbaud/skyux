@@ -17,6 +17,6 @@ import {
 export class SkyDocsInterfaceDefinitionComponent {
 
   @Input()
-  public config: SkyDocsInterfaceDefinition[];
+  public config: SkyDocsInterfaceDefinition;
 
 }

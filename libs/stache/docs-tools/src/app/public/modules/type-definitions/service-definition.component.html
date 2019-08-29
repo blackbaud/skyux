@@ -1,11 +1,15 @@
 <div class="sky-docs-service-definition">
   <h3 class="sky-docs-h3">
-    {{ config.name }}
+    <sky-docs-section-anchor
+      [anchorId]="config.anchorId"
+    >
+      {{ config.name }}
+    </sky-docs-section-anchor>
   </h3>
 
-  <div
-    [innerHtml]="config.description | skyDocsMarkdown"
-  ></div>
+  <sky-docs-safe-html
+    [innerHtml]="config.description"
+  ></sky-docs-safe-html>
 
   <h4 class="sky-docs-h4">
     Properties
@@ -16,9 +20,9 @@
         [propertyName]="property.name"
         [propertyType]="property.type"
       >
-        <div
-          [innerHtml]="property.description | skyDocsMarkdown"
-        ></div>
+        <sky-docs-safe-html
+          [innerHtml]="property.description"
+        ></sky-docs-safe-html>
       </sky-docs-property-definition>
     </sky-docs-property-definitions>
   </ng-container>
@@ -79,22 +83,4 @@
       </sky-docs-property-definition>
     </sky-docs-property-definitions>
   </ng-container>
-
-  <!-- <ng-container *ngIf="config.methods && config.methods.length">
-    <h4 class="sky-docs-h4">
-      Methods
-    </h4>
-    <sky-docs-method-definition *ngFor="let method of config.methods"
-      [codeExample]="method.codeExample"
-      [codeExampleLanguage]="method.codeExampleLanguage"
-      [methodName]="method.name"
-      [returnType]="method.returnType"
-      [parameters]="method.parameters"
-      [deprecationWarning]="method.deprecationWarning"
-    >
-      <div
-        [innerHtml]="method.description | skyDocsMarkdown"
-      ></div>
-    </sky-docs-method-definition>
-  </ng-container> -->
 </div>
