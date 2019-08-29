@@ -10,5 +10,6 @@ export interface SkyConfirmConfig {
   message: string;
   body?: string;
   buttons?: SkyConfirmButtonConfig[];
+  preserveWhiteSpace?: boolean;
   type?: SkyConfirmType;
 }

@@ -42,6 +42,7 @@ export class SkyConfirmComponent implements OnInit {
   public buttons: SkyConfirmButton[];
   public message: string;
   public body: string;
+  public preserveWhiteSpace = false;
 
   constructor(
     private config: SkyConfirmModalContext,
@@ -60,6 +61,7 @@ export class SkyConfirmComponent implements OnInit {
 
     this.message = this.config.message;
     this.body = this.config.body;
+    this.preserveWhiteSpace = this.config.preserveWhiteSpace || false;
   }
 
   public close(button: SkyConfirmButton) {

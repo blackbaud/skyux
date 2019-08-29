@@ -2,12 +2,21 @@
   <sky-modal
     ariaRole="alertdialog">
     <sky-modal-content>
-      <div class="sky-confirm-message sky-emphasized">
-        {{ message }}
-      </div>
-      <div class="sky-confirm-body" *ngIf="body">
-        {{ body }}
-      </div>
+
+      <div
+        class="sky-confirm-message sky-emphasized"
+        [ngClass]="{
+          'sky-confirm-preserve-white-space': preserveWhiteSpace
+        }"
+      >{{ message }}</div>
+
+      <div *ngIf="body"
+        class="sky-confirm-body"
+        [ngClass]="{
+          'sky-confirm-preserve-white-space': preserveWhiteSpace
+        }"
+      >{{ body }}</div>
+
       <div class="sky-confirm-buttons">
         <button
           *ngFor="let button of buttons"

@@ -274,4 +274,45 @@ describe('Confirm component', () => {
     expect(buttons[2].hasAttribute('autofocus')).toEqual(true);
     buttons[0].click();
   }));
+
+  it('should default to not preserving white space', async(() => {
+    const fixture = createConfirm({
+      message: 'confirm message',
+      body: 'additional text',
+      type: SkyConfirmType.OK
+    });
+
+    fixture.detectChanges();
+
+    const messageElem = fixture.nativeElement.querySelector('.sky-confirm-message');
+    const bodyElem = fixture.nativeElement.querySelector('.sky-confirm-body');
+    const buttons = fixture.nativeElement.querySelectorAll('.sky-confirm-buttons .sky-btn');
+
+    expect(fixture.componentInstance.preserveWhiteSpace).toEqual(false);
+    expect(messageElem.classList).not.toContain('sky-confirm-preserve-white-space');
+    expect(bodyElem.classList).not.toContain('sky-confirm-preserve-white-space');
+
+    buttons[0].click();
+  }));
+
+  it('should allow preserving white space', async(() => {
+    const fixture = createConfirm({
+      message: 'confirm message',
+      body: 'additional text',
+      preserveWhiteSpace: true,
+      type: SkyConfirmType.OK
+    });
+
+    fixture.detectChanges();
+
+    const messageElem = fixture.nativeElement.querySelector('.sky-confirm-message');
+    const bodyElem = fixture.nativeElement.querySelector('.sky-confirm-body');
+    const buttons = fixture.nativeElement.querySelectorAll('.sky-confirm-buttons .sky-btn');
+
+    expect(fixture.componentInstance.preserveWhiteSpace).toEqual(true);
+    expect(messageElem.classList).toContain('sky-confirm-preserve-white-space');
+    expect(bodyElem.classList).toContain('sky-confirm-preserve-white-space');
+
+    buttons[0].click();
+  }));
 });

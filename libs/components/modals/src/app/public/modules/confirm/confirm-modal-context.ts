@@ -9,5 +9,6 @@ export class SkyConfirmModalContext implements SkyConfirmConfig {
   public message: string;
   public body: string;
   public buttons: SkyConfirmButtonConfig[];
+  public preserveWhiteSpace: boolean;
   public type: SkyConfirmType;
 }
