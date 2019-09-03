@@ -28,6 +28,12 @@
     Waterfall content 3
   </sky-progress-indicator-item>
 
+  <sky-progress-indicator-item *ngIf="showFourthItem"
+    title="Do the fourth thing"
+  >
+    Waterfall content 4
+  </sky-progress-indicator-item>
+
   <!-- Legacy reset button within a progress indicator -->
   <sky-progress-indicator-reset-button *ngIf="!showIsolatedLegacyResetButton"
     [disabled]="disabled"

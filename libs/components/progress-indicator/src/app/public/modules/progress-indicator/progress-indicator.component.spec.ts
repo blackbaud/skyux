@@ -67,6 +67,7 @@ describe('Progress indicator component', function () {
   }
 
   function verifyItemStatuses(statuses: SkyProgressIndicatorItemStatus[]): void {
+    expect(statuses.length).toBe(componentInstance.progressItems.length);
     componentInstance.progressItems.forEach((item, i) => {
       expect(item.status).toEqual(statuses[i]);
     });
@@ -155,6 +156,91 @@ describe('Progress indicator component', function () {
 
   it('should handle empty progress indicator', fakeAsync(function () {
     expect(componentInstance.emptyProgressIndicator.itemStatuses).toEqual([]);
+  }));
+
+  it('should handle dynamic steps being added and removed', async(function () {
+    componentInstance.startingIndex = 2;
+
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+
+      // Verify that the desired index is set to Active,
+      // and all previous steps are set to Complete.
+      verifyActiveIndex(2);
+      verifyItemStatuses([
+        SkyProgressIndicatorItemStatus.Complete,
+        SkyProgressIndicatorItemStatus.Complete,
+        SkyProgressIndicatorItemStatus.Active
+      ]);
+
+      componentInstance.displayFourthItem();
+
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+
+        // Verify that the desired index is set to Active,
+        // and all previous steps are set to Complete.
+        verifyActiveIndex(2);
+        verifyItemStatuses([
+          SkyProgressIndicatorItemStatus.Complete,
+          SkyProgressIndicatorItemStatus.Complete,
+          SkyProgressIndicatorItemStatus.Active,
+          SkyProgressIndicatorItemStatus.Incomplete
+        ]);
+
+        componentInstance.sendMessage({
+          type: SkyProgressIndicatorMessageType.Progress
+        });
+
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          // Verify that the desired index is set to Active,
+          // and all previous steps are set to Complete.
+          verifyActiveIndex(3);
+          verifyItemStatuses([
+            SkyProgressIndicatorItemStatus.Complete,
+            SkyProgressIndicatorItemStatus.Complete,
+            SkyProgressIndicatorItemStatus.Complete,
+            SkyProgressIndicatorItemStatus.Active
+          ]);
+        });
+      });
+    });
+  }));
+
+  it('should handle an index which is past the number of items', async(function () {
+    componentInstance.startingIndex = 3;
+    componentInstance.displayFourthItem();
+
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+
+      // Verify that the desired index is set to Active,
+      // and all previous steps are set to Complete.
+      verifyActiveIndex(3);
+      verifyItemStatuses([
+        SkyProgressIndicatorItemStatus.Complete,
+        SkyProgressIndicatorItemStatus.Complete,
+        SkyProgressIndicatorItemStatus.Complete,
+        SkyProgressIndicatorItemStatus.Active
+      ]);
+
+      componentInstance.hideFourthItem();
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+
+        // Verify that the desired index is set to Active,
+        // and all previous steps are set to Complete.
+        verifyActiveIndex(2);
+        verifyItemStatuses([
+          SkyProgressIndicatorItemStatus.Complete,
+          SkyProgressIndicatorItemStatus.Complete,
+          SkyProgressIndicatorItemStatus.Active
+        ]);
+      });
+    });
   }));
 
   describe('Passive mode', function () {

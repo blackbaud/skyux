@@ -1,5 +1,6 @@
 import {
   Component,
+  ChangeDetectorRef,
   ChangeDetectionStrategy,
   ElementRef,
   ViewChild,
@@ -95,8 +96,11 @@ export class SkyProgressIndicatorFixtureComponent {
   public showNavButtons = false;
   public showIsolatedLegacyResetButton = false;
   public progressIndicatorTemplateRefLegacy: SkyProgressIndicatorComponent;
+  public showFourthItem = false;
 
-  constructor() {
+  constructor(
+    private changeDetector: ChangeDetectorRef
+  ) {
     this.buttonConfigs = [
       {
         type: 'finish'
@@ -146,5 +150,15 @@ export class SkyProgressIndicatorFixtureComponent {
         type: 'reset'
       }
     ];
+  }
+
+  public displayFourthItem(): void {
+    this.showFourthItem = true;
+    this.changeDetector.markForCheck();
+  }
+
+  public hideFourthItem(): void {
+    this.showFourthItem = false;
+    this.changeDetector.markForCheck();
   }
 }
