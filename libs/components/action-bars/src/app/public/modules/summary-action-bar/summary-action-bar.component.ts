@@ -158,6 +158,11 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
     if (this.slideDirection === 'up') {
       this.isSummaryCollapsed = true;
     }
+
+    if ((this.type === SkySummaryActionBarType.Page) ||
+      (this.type === SkySummaryActionBarType.Tab)) {
+      this.adapterService.styleBodyElementForActionBar(this.elementRef);
+    }
   }
 
   // NOTE: This function is needed so that the button is added before animation

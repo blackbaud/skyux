@@ -134,6 +134,20 @@ describe('Summary Action Bar component', () => {
         expect(document.body.style.marginBottom).toBe(actionBarHeight + 'px');
       });
 
+      it('should set a new margin when the summary area changes collapsed state', fakeAsync(() => {
+        mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+        fixture.detectChanges();
+        let actionBarHeight = debugElement.query(By.css('.sky-summary-action-bar')).nativeElement.offsetHeight;
+        expect(document.body.style.marginBottom).toBe(actionBarHeight + 'px');
+        debugElement.query(By.css('.sky-summary-action-bar-details-collapse button'))
+          .nativeElement.click();
+        fixture.detectChanges();
+        tick();
+        actionBarHeight = debugElement.query(By.css('.sky-summary-action-bar'))
+          .nativeElement.offsetHeight;
+        expect(document.body.style.marginBottom).toBe(actionBarHeight + 'px');
+      }));
+
       it('should set a new margin on the body if the window is resized', () => {
         let adapter: SkySummaryActionBarAdapterService = TestBed.get(SkySummaryActionBarAdapterService);
         spyOn(adapter, 'styleBodyElementForActionBar').and.stub();
@@ -153,6 +167,7 @@ describe('Summary Action Bar component', () => {
       });
 
       it('should set a margin on the body if the action bar is not in a modal footer', () => {
+        fixture.detectChanges();
         cmp.hideMainActionBar = true;
         fixture.detectChanges();
         debugElement.query(By.css('#modal-trigger')).nativeElement.click();
@@ -488,13 +503,17 @@ describe('Summary Action Bar component', () => {
     describe('body stylings', () => {
 
       it('should set a margin on the body if the action bar is displayed on intial load', (done) => {
-        spyOn(window, 'setTimeout').and.callFake((fun: Function) => { fun(); });
         fixture.detectChanges();
         fixture.whenStable().then(() => {
           fixture.detectChanges();
-          let actionBarHeight = debugElement.query(By.css('.sky-summary-action-bar')).nativeElement.offsetHeight;
-          expect(document.body.style.marginBottom).toBe(actionBarHeight + 'px');
-          done();
+          setTimeout(() => {
+            fixture.detectChanges();
+            fixture.whenStable().then(() => {
+              let actionBarHeight = debugElement.query(By.css('.sky-summary-action-bar')).nativeElement.offsetHeight;
+              expect(document.body.style.marginBottom).toBe(actionBarHeight + 'px');
+              done();
+            });
+          });
         });
       });
 
@@ -509,7 +528,6 @@ describe('Summary Action Bar component', () => {
       });
 
       it('should set a margin on the body if the action bar is displayed via a selected tab', (done) => {
-        spyOn(window, 'setTimeout').and.callFake((fun: Function) => { fun(); });
         cmp.showBar1 = false;
         cmp.showBar2 = true;
         fixture.detectChanges();
@@ -519,15 +537,19 @@ describe('Summary Action Bar component', () => {
           fixture.detectChanges();
           fixture.whenStable().then(() => {
             fixture.detectChanges();
-            let actionBarHeight = debugElement.query(By.css('.sky-summary-action-bar')).nativeElement.offsetHeight;
-            expect(document.body.style.marginBottom).toBe(actionBarHeight + 'px');
-            done();
+            setTimeout(() => {
+              fixture.detectChanges();
+              fixture.whenStable().then(() => {
+                let actionBarHeight = debugElement.query(By.css('.sky-summary-action-bar')).nativeElement.offsetHeight;
+                expect(document.body.style.marginBottom).toBe(actionBarHeight + 'px');
+                done();
+              });
+            });
           });
         });
       });
 
       it('should set a margin on the body if the action bar is displayed via multiple tab changes', (done) => {
-        spyOn(window, 'setTimeout').and.callFake((fun: Function) => { fun(); });
         fixture.detectChanges();
         fixture.whenStable().then(() => {
           fixture.detectChanges();
@@ -539,9 +561,14 @@ describe('Summary Action Bar component', () => {
             fixture.detectChanges();
             fixture.whenStable().then(() => {
               fixture.detectChanges();
-              let actionBarHeight = debugElement.query(By.css('.sky-summary-action-bar')).nativeElement.offsetHeight;
-              expect(document.body.style.marginBottom).toBe(actionBarHeight + 'px');
-              done();
+              setTimeout(() => {
+                fixture.detectChanges();
+                fixture.whenStable().then(() => {
+                  let actionBarHeight = debugElement.query(By.css('.sky-summary-action-bar')).nativeElement.offsetHeight;
+                  expect(document.body.style.marginBottom).toBe(actionBarHeight + 'px');
+                  done();
+                });
+              });
             });
           });
         });
