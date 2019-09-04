@@ -1,6 +1,10 @@
 {
-  "my_lib_sample_greeting": {
-    "_description": "A simple greeting.",
-    "message": "Hello"
+  "skyux_ag_grid_row_selector_aria_label": {
+    "_description": "aria label for the checkbox to select a row",
+    "message": "Row selector for row {0}"
+  },
+  "skyux_ag_grid_cell_editor_number_aria_label": {
+    "_description": "aria label",
+    "message": "Editable {0} for row {1}"
   }
 }

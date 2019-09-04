@@ -1,0 +1,15 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+sky-datepicker {
+  input {
+    border: none;
+    box-shadow: none;
+    border-right: 1px solid $sky-border-color-neutral-medium;
+  }
+}
+
+.sky-ag-grid-cell-editor-datepicker {
+  margin-top: -1px;
+  @include sky-field-status(active)
+}

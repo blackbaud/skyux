@@ -1,0 +1,127 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+/* base grid theme property variables */
+$odd-row-background-color: $sky-background-color-page-default !default;
+$background-color: $sky-color-gray-01 !default;
+$border-color: $sky-border-color-neutral-medium !default;
+$row-height: 38px !default;
+$header-height: 37px !default;
+$font-family: $sky-font-family !default;
+$header-background-color: $sky-background-color-page-default !default;
+$font-size: 15px !default;
+$row-border-width: 1px !default;
+$secondary-font-size: $sky-font-size-base !default;
+$secondary-font-weight: 400 !default;
+$secondary-foreground-color: $sky-text-color-deemphasized !default;
+$primary-color: $sky-highlight-color-info !default;
+$selected-color: $sky-background-color-selected !default;
+$hover-color: darken($sky-background-color-selected, 10%) !default;
+
+/* other variables */
+$sky-standard-border: 1px solid $border-color !default;
+
+@import "~ag-grid-community/src/styles/ag-grid.scss";
+@import "~ag-grid-community/src/styles/ag-theme-balham/sass/ag-theme-balham.scss";
+
+ag-grid-angular {
+  width: 100%;
+  height: 100%;
+}
+.sky-ag-grid {
+  @extend .ag-theme-balham;
+
+  .ag-root {
+    border: none;
+    border-left: $sky-standard-border;
+    border-right: $sky-standard-border;
+  }
+
+  // ag grid renders a small column header divider that we don't want shown
+  .ag-header-cell::after {
+    display: none;
+  }
+
+  .ag-header-cell {
+    border-right: $sky-standard-border;
+  }
+
+
+  .ag-row {
+    // don't shorthand these because it will overwrite the other grid border settings
+    border-color: $border-color;
+    border-style: dotted;
+  }
+
+  .sky-ag-grid-cell-number {
+    text-align: right;
+  }
+}
+
+.sky-ag-grid.sky-grid-edit-mode {
+  .ag-row {
+    border-style: solid;
+  }
+
+  .ag-cell {
+    border-right: $sky-standard-border;
+    border-block-end: none;
+    border-block-start: none;
+  }
+
+  .sky-ag-grid-cell-editable {
+    background-color: $sky-background-color-page-default;
+  }
+
+  .sky-ag-grid-cell-uneditable {
+    background-color: $sky-background-color-neutral-light;
+  }
+
+  .ag-popup > div {
+    box-shadow: none;
+  }
+
+  /* fine tune focus cell borders */
+  .ag-row {
+    .ag-cell-focus.ag-cell-inline-editing {
+      margin-top: $row-border-width * -1;
+      @include sky-field-status(active)
+    }
+
+    .ag-cell-focus.ag-cell-not-inline-editing {
+      border: none;
+      border-right: $sky-standard-border;
+      box-shadow: none;
+    }
+  }
+
+  .ag-row.ag-row-first {
+    .ag-cell-focus.ag-cell-inline-editing {
+      margin-top: 0;
+    }
+  }
+
+  .ag-row.ag-row-last {
+    .ag-cell-focus.ag-cell-inline-editing {
+      height: $row-height - 1;
+    }
+  }
+
+  .ag-cell-inline-editing {
+    border-radius: 0;
+  }
+
+  .ag-popup-editor {
+    border: none;
+  }
+
+  sky-ag-grid-cell-editor-datepicker {
+    button:focus {
+      outline: -webkit-focus-ring-color auto 5px;
+    }
+
+    sky-daypicker:focus {
+      outline: -webkit-focus-ring-color auto 5px;
+    }
+  }
+}

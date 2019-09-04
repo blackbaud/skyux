@@ -1,0 +1,19 @@
+@import '~@skyux/theme/scss/mixins';
+
+::ng-deep {
+  .complete i {
+    color: $sky-highlight-color-success;
+  }
+
+  .current i {
+    color: $sky-highlight-color-warning;
+  }
+
+  .behind i {
+    color: $sky-highlight-color-danger;
+  }
+
+  .status {
+    padding: 0 2px;
+  }
+}
