@@ -1,3 +1,7 @@
+# 3.9.0 (2019-09-09)
+
+- Added `SkyAppResourceNameProvider` to provide the ability to alter the resource key before passing it to `SkyLibResourcesService`. [#46](https://github.com/blackbaud/skyux-i18n/pull/46) Thanks [@Blackbaud-MatthewBell](https://github.com/Blackbaud-MatthewBell)!
+
 # 3.8.0 (2019-08-28)
 
 - Updated dependencies. [#43](https://github.com/blackbaud/skyux-i18n/pull/43)
