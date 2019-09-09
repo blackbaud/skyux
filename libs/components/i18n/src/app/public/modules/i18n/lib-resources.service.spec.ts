@@ -33,7 +33,7 @@ class MockSkyLibResourcesProvider implements SkyLibResourcesProvider {
 
   public getString(localeInfo: SkyAppLocaleInfo, name: string): string {
     const resources: any = {
-      'en_US': { [this.key]: 'hello' },
+      'en_US': { [this.key]: 'hello', [this.key + '_alternate']: 'hi' },
       'fr_CA': { [this.key]: 'bonjour' },
       'fr_FR': { [this.key]: 'hello {0} {1}' }
     };
@@ -75,7 +75,7 @@ describe('Library resources service', () => {
   });
 
   it('should get a string for a locale', () => {
-    service = new SkyLibResourcesService(mockLocaleProvider, mockProviders);
+    service = new SkyLibResourcesService(mockLocaleProvider, mockProviders, undefined);
     const value = service.getStringForLocale({
       locale: 'en_US'
     }, 'greeting');
@@ -83,7 +83,7 @@ describe('Library resources service', () => {
   });
 
   it('should get a string for the default locale using locale provider', () => {
-    service = new SkyLibResourcesService(mockLocaleProvider, mockProviders);
+    service = new SkyLibResourcesService(mockLocaleProvider, mockProviders, undefined);
     service.getString('greeting').subscribe((value: string) => {
       expect(value).toEqual('hello');
     });
@@ -93,7 +93,7 @@ describe('Library resources service', () => {
     spyOn(mockLocaleProvider, 'getLocaleInfo').and.returnValue(Observable.of({
       locale: 'fr_CA'
     }));
-    service = new SkyLibResourcesService(mockLocaleProvider, mockProviders);
+    service = new SkyLibResourcesService(mockLocaleProvider, mockProviders, undefined);
     service.getString('greeting').subscribe((value: string) => {
       expect(value).toEqual('bonjour');
     });
@@ -103,7 +103,7 @@ describe('Library resources service', () => {
     spyOn(mockLocaleProvider, 'getLocaleInfo').and.returnValue(Observable.of({
       locale: 'foo_BAR'
     }));
-    service = new SkyLibResourcesService(mockLocaleProvider, mockProviders);
+    service = new SkyLibResourcesService(mockLocaleProvider, mockProviders, undefined);
     service.getString('greeting').subscribe((value: string) => {
       expect(value).toEqual('greeting');
     });
@@ -113,9 +113,24 @@ describe('Library resources service', () => {
     spyOn(mockLocaleProvider, 'getLocaleInfo').and.returnValue(Observable.of({
       locale: 'fr_FR'
     }));
-    service = new SkyLibResourcesService(mockLocaleProvider, mockProviders);
+    service = new SkyLibResourcesService(mockLocaleProvider, mockProviders, undefined);
     service.getString('greeting', 'foo', 'bar').subscribe((value: string) => {
       expect(value).toEqual('hello foo bar');
+    });
+  });
+
+  it('should use the name from the name provider', () => {
+    let mockResourceNameProvider: any = {
+      getResourceName: (name: string) => {
+        return Observable.of(name + '_alternate');
+      }
+    };
+
+    service = new SkyLibResourcesService(mockLocaleProvider, mockProviders,
+      mockResourceNameProvider);
+
+    service.getString('greeting').subscribe((value: string) => {
+      expect(value).toEqual('hi');
     });
   });
 });

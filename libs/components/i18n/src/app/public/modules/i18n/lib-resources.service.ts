@@ -1,7 +1,8 @@
 // #region imports
 import {
   Inject,
-  Injectable
+  Injectable,
+  Optional
 } from '@angular/core';
 
 import {
@@ -11,6 +12,10 @@ import {
 import {
   Format
 } from '../../utils/format';
+
+import {
+  forkJoin
+} from 'rxjs';
 
 import {
   SkyAppLocaleInfo
@@ -27,18 +32,28 @@ import {
 import {
   SkyLibResourcesProvider
 } from './lib-resources-provider';
+
+import {
+  SkyAppResourceNameProvider
+} from './resource-name-provider';
 // #endregion
 
 @Injectable()
 export class SkyLibResourcesService {
   constructor(
     private localeProvider: SkyAppLocaleProvider,
-    @Inject(SKY_LIB_RESOURCES_PROVIDERS) private providers: SkyLibResourcesProvider[]
+    @Inject(SKY_LIB_RESOURCES_PROVIDERS) private providers: SkyLibResourcesProvider[],
+    @Optional() private resourceNameProvider: SkyAppResourceNameProvider
   ) { }
 
   public getString(name: string, ...args: any[]): Observable<string> {
-    return this.localeProvider.getLocaleInfo()
-      .map((info) => this.getStringForLocale(info, name, ...args));
+    let mappedNameObs = this.resourceNameProvider ?
+    this.resourceNameProvider.getResourceName(name) : Observable.of(name);
+
+    let localeInfoObs = this.localeProvider.getLocaleInfo();
+
+    return forkJoin([mappedNameObs, localeInfoObs])
+      .map(([mappedName, localeInfo]) => this.getStringForLocale(localeInfo, mappedName, ...args));
   }
 
   public getStringForLocale(
