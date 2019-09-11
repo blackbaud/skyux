@@ -123,12 +123,26 @@ export class SkyCoreAdapterService {
     focusOnContainerIfNoChildrenFound: boolean = false
   ): void {
     const containerElement = elementRef.nativeElement.querySelector(containerSelector);
-    const focusableChildren = this.loadFocusableChildren(containerElement);
+    const focusableChildren = this.getFocusableChildren(containerElement);
 
     // Focus first focusable child if available. Otherwise, set focus on container.
     if (!this.focusFirstElement(focusableChildren) && focusOnContainerIfNoChildrenFound) {
       containerElement.focus();
     }
+  }
+
+  /**
+   * Returns an array of all focusable children of provided `element`.
+   *
+   * @param element - The HTMLElement to search within.
+   */
+  public getFocusableChildren(element: HTMLElement): HTMLElement[] {
+    const elements: Array<HTMLElement>
+      = Array.prototype.slice.call(element.querySelectorAll(SKY_TABBABLE_SELECTOR));
+
+    return elements.filter((el) => {
+      return this.isVisible(el);
+    });
   }
 
   private focusFirstElement(list: Array<HTMLElement>): boolean {
@@ -137,15 +151,6 @@ export class SkyCoreAdapterService {
       return true;
     }
     return false;
-  }
-
-  private loadFocusableChildren(element: HTMLElement): HTMLElement[] {
-    const elements: Array<HTMLElement>
-      = Array.prototype.slice.call(element.querySelectorAll(SKY_TABBABLE_SELECTOR));
-
-    return elements.filter((el) => {
-      return this.isVisible(el);
-    });
   }
 
   private isVisible(element: HTMLElement): boolean {
