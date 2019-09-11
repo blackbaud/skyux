@@ -1,3 +1,8 @@
+# 3.5.2 (2019-09-11)
+
+- Fixed the list component to properly display results when searching pages other than the first page. [#61](https://github.com/blackbaud/skyux-list-builder/pull/61)
+- Fixed the list builder component to load properly when `selectedIds` are undefined. [#63](https://github.com/blackbaud/skyux-list-builder/pull/63)
+
 # 3.5.1 (2019-08-02)
 
 - Fixed the list component to properly notify consumers when filters are removed. [#60](https://github.com/blackbaud/skyux-list-builder/pull/60)
