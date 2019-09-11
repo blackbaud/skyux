@@ -1,3 +1,7 @@
+# 3.7.0 (2019-09-11)
+
+- Added the `getFocusableChildren()` method to return an array of all focusable children for a provided `element`. [#99](https://github.com/blackbaud/skyux-core/pull/99)
+
 # 3.6.1 (2019-07-23)
 
 - Fixed `SkyMediaQueryService` to complete its observables when the consuming component is destroyed. [#86](https://github.com/blackbaud/skyux-core/pull/86)
@@ -25,7 +29,7 @@
 
 # 3.4.0 (2018-11-29)
 
-- Added `SkyDynamicComponentService` which provides the ability to inject entry components onto the page dynamically. [#44](https://github.com/blackbaud/skyux-core/pull/44)
+- Added `SkyDynamicComponentService` to provide the ability to inject entry components onto the page dynamically. [#44](https://github.com/blackbaud/skyux-core/pull/44)
 
 # 3.3.0 (2018-11-15)
 
