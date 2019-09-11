@@ -1,3 +1,7 @@
+# 3.1.1 (2019-09-11)
+
+- Fixed the progress indicator component to properly handle dynamically created steps. [#26](https://github.com/blackbaud/skyux-progress-indicator/pull/26)
+
 # 3.1.0 (2019-05-17)
 
 - Updated the progress indicator message stream to accept `SkyProgressIndicatorMessage` types. [#19](https://github.com/blackbaud/skyux-progress-indicator/pull/19)
