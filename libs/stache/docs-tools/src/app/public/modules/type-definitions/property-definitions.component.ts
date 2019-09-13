@@ -13,6 +13,10 @@ import {
   SkyDocsPropertyDefinitionComponent
 } from './property-definition.component';
 
+import {
+  SkyDocsAnchorLinkService
+} from './anchor-link.service';
+
 export interface SkyDocsPropertyModel {
   defaultValue: string;
   deprecationWarning: string;
@@ -33,20 +37,21 @@ export interface SkyDocsPropertyModel {
 export class SkyDocsPropertyDefinitionsComponent implements AfterContentInit {
 
   @Input()
-  public nameHeadingText = 'Name';
+  public propertyType = 'Property';
 
-  public data: SkyDocsPropertyModel[] = [];
+  public properties: SkyDocsPropertyModel[] = [];
 
   @ContentChildren(SkyDocsPropertyDefinitionComponent)
   private definitionRefs: QueryList<SkyDocsPropertyDefinitionComponent>;
 
   constructor(
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private anchorLinkService: SkyDocsAnchorLinkService
   ) { }
 
   public ngAfterContentInit(): void {
     this.definitionRefs.forEach((definitionRef) => {
-      this.data.push({
+      this.properties.push({
         propertyType: definitionRef.propertyType,
         defaultValue: definitionRef.defaultValue,
         deprecationWarning: definitionRef.deprecationWarning,
@@ -60,7 +65,7 @@ export class SkyDocsPropertyDefinitionsComponent implements AfterContentInit {
     this.changeDetector.markForCheck();
   }
 
-  public getPropertySignature(item: any): string {
+  public getPropertySignature(item: SkyDocsPropertyModel): string {
     let signature = '';
 
     signature += `${item.propertyName}`;
@@ -70,10 +75,16 @@ export class SkyDocsPropertyDefinitionsComponent implements AfterContentInit {
     }
 
     if (item.propertyType) {
-      signature += `: ${item.propertyType}`;
+      const propertyType = this.anchorLinkService.wrapWithAnchorLink(item.propertyType);
+
+      signature += `: ${propertyType}`;
     }
 
     return signature;
+  }
+
+  public getDefaultValue(value: string): string {
+    return this.anchorLinkService.wrapWithAnchorLink(value);
   }
 
 }

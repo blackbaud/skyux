@@ -1,39 +1,30 @@
-<div class="sky-docs-type-alias-definition">
-  <h3 class="sky-docs-h3">
-    <sky-docs-section-anchor
-      [anchorId]="config.anchorId"
-    >
-      {{ config.name }}
-    </sky-docs-section-anchor>
-  </h3>
+<div class="sky-docs-type-alias-definition sky-docs-type-definition-wrapper">
+  <sky-docs-heading-anchor
+    headingLevel="3"
+    [anchorId]="config.anchorId"
+  >
+    {{ config.name }}
+  </sky-docs-heading-anchor>
 
   <sky-docs-safe-html
     [innerHtml]="config.description"
   ></sky-docs-safe-html>
 
   <sky-code-block
+    class="sky-docs-code-block"
     languageType="typescript"
     [code]="config.sourceCode"
     [hideHeader]="true"
   ></sky-code-block>
 
-  <ng-container *ngIf="config.parameters && config.parameters.length">
-    <h4 class="sky-docs-h4">
-      Parameters
-    </h4>
-    <sky-docs-parameter-definitions>
-      <sky-docs-parameter-definition *ngFor="let parameter of config.parameters"
-        [parameterName]="parameter.name"
-        [parameterType]="parameter.type"
-        [defaultValue]="parameter.defaultValue"
-        [isOptional]="parameter.isOptional"
-      >
-        <sky-docs-safe-html
-          [innerHtml]="parameter.description"
-        ></sky-docs-safe-html>
-      </sky-docs-parameter-definition>
-    </sky-docs-parameter-definitions>
-  </ng-container>
+  <!-- <sky-definition-list *ngIf="config.returnType">
+    <sky-definition-list-content>
+      <sky-definition-list-label>Returns</sky-definition-list-label>
+      <sky-definition-list-value>
+        <sky-code>{{ config.returnType }}</sky-code>
+      </sky-definition-list-value>
+    </sky-definition-list-content>
+  </sky-definition-list> -->
 
   <ng-container *ngIf="config.returnType">
     <h4 class="sky-docs-h4">
@@ -43,5 +34,23 @@
     <p style="margin-left: 15px;">
       <sky-code>{{ config.returnType }}</sky-code>
     </p>
+  </ng-container>
+
+  <ng-container *ngIf="config.parameters && config.parameters.length">
+    <h4 class="sky-docs-h4">
+      Parameters
+    </h4>
+    <sky-docs-parameter-definitions>
+      <sky-docs-parameter-definition *ngFor="let parameter of config.parameters"
+        [defaultValue]="parameter.defaultValue"
+        [isOptional]="parameter.isOptional"
+        [parameterName]="parameter.name"
+        [parameterType]="parameter.type"
+      >
+        <sky-docs-safe-html
+          [innerHtml]="parameter.description"
+        ></sky-docs-safe-html>
+      </sky-docs-parameter-definition>
+    </sky-docs-parameter-definitions>
   </ng-container>
 </div>

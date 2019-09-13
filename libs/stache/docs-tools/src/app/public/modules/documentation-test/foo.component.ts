@@ -10,6 +10,10 @@ import {
   FooEnum
 } from './foo-enum';
 
+import {
+  FooUser
+} from './foo-user';
+
 /**
  * This is the description for FooComponent.
  * @example
@@ -43,7 +47,7 @@ export class FooComponent implements OnInit {
   public baz: boolean = false;
 
   /**
-   * This is the description for bar input. You must provide [[FooEnum]] values.
+   * This is the description for bar input. You must provide FooEnum values.
    * @defaultvalue FooEnum.Foo
    */
   @Input()
@@ -70,7 +74,7 @@ export class FooComponent implements OnInit {
    * ```
    */
   @Output()
-  public click = new EventEmitter<boolean>();
+  public click = new EventEmitter<FooUser>();
 
   /**
    * @hidden

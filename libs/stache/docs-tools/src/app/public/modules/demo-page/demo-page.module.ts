@@ -12,10 +12,13 @@ import {
 } from '@blackbaud/skyux-lib-code-block';
 
 import {
-  StachePageAnchorModule,
   StachePageSummaryModule,
   StacheWrapperModule
 } from '@blackbaud/skyux-lib-stache';
+
+import {
+  RouterModule
+} from '@angular/router';
 
 import {
   SkyTabsModule
@@ -24,6 +27,10 @@ import {
 import {
   SkyDocsDemoModule
 } from '../demo/demo.module';
+
+import {
+  SkyDocsHeadingAnchorModule
+} from '../heading-anchor/heading-anchor.module';
 
 import {
   SkyDocsMarkdownModule
@@ -56,7 +63,6 @@ import {
 import {
   SkyDocsDemoPageTypeDefinitionsComponent
 } from './demo-page-type-definitions.component';
-import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
@@ -65,11 +71,11 @@ import { RouterModule } from '@angular/router';
     SkyCodeBlockModule,
     SkyCodeModule,
     SkyDocsDemoModule,
+    SkyDocsHeadingAnchorModule,
     SkyDocsMarkdownModule,
     SkyDocsModuleInfoModule,
     SkyDocsTypeDefinitionsModule,
     SkyTabsModule,
-    StachePageAnchorModule,
     StachePageSummaryModule,
     StacheWrapperModule
   ],

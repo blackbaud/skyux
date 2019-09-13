@@ -49,6 +49,7 @@ export interface SkyDocsInterfaceDefinition {
 }
 
 export interface SkyDocsEnumerationDefinition {
+  anchorId: string;
   name: string;
   description?: string;
   members: {

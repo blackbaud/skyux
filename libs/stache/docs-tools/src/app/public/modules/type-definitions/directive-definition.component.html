@@ -1,14 +1,11 @@
-<div class="sky-docs-directive-definition">
+<div class="sky-docs-directive-definition sky-docs-type-definition-wrapper">
 
-  <h3
-    class="sky-docs-h3"
+  <sky-docs-heading-anchor
+    headingLevel="3"
+    [anchorId]="config.anchorId"
   >
-    <sky-docs-section-anchor
-      [anchorId]="config.anchorId"
-    >
-      {{ config.name }}
-    </sky-docs-section-anchor>
-  </h3>
+    {{ config.name }}
+  </sky-docs-heading-anchor>
 
   <sky-docs-safe-html
     [innerHtml]="config.description"
@@ -18,27 +15,22 @@
     Selector
   </h4>
 
-  <p style="margin-left: 15px;">
+  <p style="margin-left: 15px; margin-top: 10px;">
     <sky-code>{{ config.selector }}</sky-code>
   </p>
 
-  <div *ngIf="config.codeExample"
-    class="sky-docs-directive-definition-code-example"
-  >
+  <ng-container *ngIf="config.codeExample">
     <h4 class="sky-docs-h4">
       Example
     </h4>
     <sky-code-block
+      class="sky-docs-code-block"
       [code]="config.codeExample"
       [hideHeader]="true"
       [languageType]="config.codeExampleLanguage"
     >
     </sky-code-block>
-  </div>
-
-  <h4 class="sky-docs-h4">
-    Inputs
-  </h4>
+  </ng-container>
 
   <sky-docs-property-definitions *ngIf="inputProperties.length">
     <sky-docs-property-definition *ngFor="let property of inputProperties"
@@ -53,25 +45,17 @@
         [innerHtml]="property.description"
       ></sky-docs-safe-html>
     </sky-docs-property-definition>
+    <sky-docs-property-definition *ngFor="let property of eventProperties"
+      [defaultValue]="property.defaultValue"
+      [deprecationWarning]="property.deprecationWarning"
+      [isOptional]="property.isOptional"
+      [propertyDecorator]="property.decorator"
+      [propertyName]="property.name"
+      [propertyType]="property.type"
+    >
+      <sky-docs-safe-html
+        [innerHtml]="property.description"
+      ></sky-docs-safe-html>
+    </sky-docs-property-definition>
   </sky-docs-property-definitions>
-
-  <ng-container *ngIf="eventProperties.length">
-    <h4 class="sky-docs-h4">
-      Events
-    </h4>
-    <sky-docs-property-definitions>
-      <sky-docs-property-definition *ngFor="let property of eventProperties"
-        [defaultValue]="property.defaultValue"
-        [deprecationWarning]="property.deprecationWarning"
-        [isOptional]="property.isOptional"
-        [propertyDecorator]="property.decorator"
-        [propertyName]="property.name"
-        [propertyType]="property.type"
-      >
-        <sky-docs-safe-html
-          [innerHtml]="property.description"
-        ></sky-docs-safe-html>
-      </sky-docs-property-definition>
-    </sky-docs-property-definitions>
-  </ng-container>
 </div>

@@ -2,9 +2,7 @@
   <tbody>
     <tr *ngFor="let parameter of parameters">
       <th class="sky-docs-parameter-definition-header">
-        <sky-code>
-          <span [innerHtml]="getParameterSignature(parameter)"></span>
-        </sky-code>
+        <sky-code><span [innerHtml]="getParameterSignature(parameter)"></span></sky-code>
       </th>
       <td>
         <ng-container [ngTemplateOutlet]="parameter.templateRef">

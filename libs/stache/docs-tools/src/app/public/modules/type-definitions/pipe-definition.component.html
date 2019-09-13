@@ -1,11 +1,10 @@
-<div class="sky-docs-pipe-definition">
-  <h3 class="sky-docs-h3">
-    <sky-docs-section-anchor
-      [anchorId]="config.anchorId"
-    >
-      {{ config.name }}
-    </sky-docs-section-anchor>
-  </h3>
+<div class="sky-docs-pipe-definition sky-docs-type-definition-wrapper">
+  <sky-docs-heading-anchor
+    headingLevel="3"
+    [anchorId]="config.anchorId"
+  >
+    {{ config.name }}
+  </sky-docs-heading-anchor>
 
   <sky-docs-safe-html
     [innerHtml]="config.description"
@@ -15,8 +14,8 @@
     <h4 class="sky-docs-h4">
       Example
     </h4>
-
     <sky-code-block
+      class="sky-docs-code-block"
       [code]="config.codeExample"
       [hideHeader]="true"
       [languageType]="config.codeExampleLanguage"

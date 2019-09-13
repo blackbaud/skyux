@@ -4,5 +4,9 @@ import {
 
 @Injectable()
 export class SkyDocsTypeDefinitionsProvider {
+
+  public readonly anchorIds: {[_: string]: string};
+
   public readonly typeDefinitions: any[];
+
 }

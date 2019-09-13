@@ -1,12 +1,23 @@
 @import '~@skyux/theme/scss/mixins';
 @import '~@skyux/theme/scss/_compat/mixins';
 
+:host {
+  margin: $sky-margin-plus-half 0;
+}
+
+.sky-docs-property-definitions {
+  width: 100%;
+  max-width: 100%;
+  overflow: auto;
+}
+
 .sky-table {
   width: 100%;
   border-spacing: 0;
   border-collapse: collapse;
-  margin: $sky-margin-plus-half 0;
   background-color: #fff;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 .sky-table-column-header {
@@ -24,7 +35,7 @@
 
 .sky-table-cell {
   padding: $sky-padding-squish-large;
-  border-bottom: 1px solid $sky-border-color-neutral-light;
+  @include sky-border("row");
   vertical-align: top;
 
   &:first-child {
@@ -43,12 +54,6 @@
         margin-top: 0 !important;
       }
     }
-  }
-}
-
-.sky-table-row:last-child {
-  .sky-table-cell {
-    border-bottom: 0;
   }
 }
 

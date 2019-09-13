@@ -1,26 +1,23 @@
-<div class="sky-docs-interface-definition">
-  <h3 class="sky-docs-h3">
-    <sky-docs-section-anchor
-      [anchorId]="config.anchorId"
-    >
-      {{ config.name }}
-    </sky-docs-section-anchor>
-  </h3>
+<div class="sky-docs-interface-definition sky-docs-type-definition-wrapper">
+  <sky-docs-heading-anchor
+    headingLevel="3"
+    [anchorId]="config.anchorId"
+  >
+    {{ config.name }}
+  </sky-docs-heading-anchor>
 
   <sky-docs-safe-html
     [innerHtml]="config.description"
   ></sky-docs-safe-html>
 
   <sky-code-block
+    class="sky-docs-code-block"
     languageType="typescript"
     [code]="config.sourceCode"
     [hideHeader]="true"
   ></sky-code-block>
 
   <ng-container *ngIf="config.properties && config.properties.length">
-    <h4 class="sky-docs-h4">
-      Properties
-    </h4>
     <sky-docs-property-definitions>
       <sky-docs-property-definition *ngFor="let property of config.properties"
         [propertyName]="property.name"

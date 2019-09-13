@@ -1,8 +1,13 @@
 <div class="sky-docs-demo-page-section sky-rounded-corners">
-  <div *ngIf="heading" class="sky-docs-demo-page-section-header">
-    <stache-page-anchor>
+  <div *ngIf="heading"
+    class="sky-docs-demo-page-section-header"
+  >
+    <sky-docs-heading-anchor
+      headingLevel="2"
+      [anchorId]="anchorId"
+    >
       {{ heading }}
-    </stache-page-anchor>
+    </sky-docs-heading-anchor>
   </div>
   <div class="sky-docs-demo-page-section-body">
     <ng-content></ng-content>

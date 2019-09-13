@@ -1,0 +1,21 @@
+<div
+  class="sky-docs-heading-anchor"
+  role="heading"
+  [ngClass]="classList"
+  [attr.aria-level]="headingLevel"
+  [attr.id]="anchorId"
+>
+  <ng-content></ng-content>
+  <a *ngIf="anchorId"
+    aria-hidden="true"
+    class="sky-docs-heading-anchor"
+    queryParamsHandling="merge"
+    [fragment]="anchorId"
+    [routerLink]="[]"
+  >
+    <sky-icon
+      class="sky-docs-heading-anchor-icon"
+      icon="link"
+    ></sky-icon>
+  </a>
+</div>

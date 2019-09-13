@@ -1,45 +1,43 @@
 <div class="sky-docs-property-definitions">
   <table class="sky-table">
     <tr class="sky-table-row">
-      <th class="sky-table-cell sky-table-column-header sky-table-column-header-name">
-        {{ nameHeadingText }}
+      <th class="sky-table-column-header sky-table-column-header-name">
+        {{ propertyType }}
       </th>
-      <th class="sky-table-cell sky-table-column-header sky-table-column-header-description">
+      <th class="sky-table-column-header sky-table-column-header-description">
         Description
       </th>
     </tr>
 
-    <tr *ngFor="let item of data"
+    <tr *ngFor="let property of properties"
       class="sky-table-row"
     >
       <td class="sky-table-cell">
-        <ng-container *ngIf="item.propertyDecorator">
-          <sky-code>@{{item.propertyDecorator}}()</sky-code><br>
+        <ng-container *ngIf="property.propertyDecorator">
+          <sky-code>@{{property.propertyDecorator}}()</sky-code><br>
         </ng-container>
-        <sky-code>
-          <span [innerHtml]="getPropertySignature(item)"></span>
-        </sky-code>
+        <sky-code><span [innerHtml]="getPropertySignature(property)"></span></sky-code>
       </td>
 
       <td
         class="sky-table-cell"
       >
-        <p *ngIf="!item.isOptional && item.propertyDecorator === 'Input'"
+        <p *ngIf="!property.isOptional && property.propertyDecorator === 'Input'"
           class="sky-docs-property-definition-label sky-text-danger"
         >Required.</p>
 
-        <p *ngIf="item.deprecationWarning"
+        <p *ngIf="property.deprecationWarning"
           class="sky-docs-property-definition-label sky-text-warning"
-        >Deprecated. {{ item.deprecationWarning }}</p>
+        ><strong>Deprecated.</strong>&nbsp;<span [innerHTML]="property.deprecationWarning"></span></p>
 
         <ng-container
-          [ngTemplateOutlet]="item.templateRef"
+          [ngTemplateOutlet]="property.templateRef"
         >
         </ng-container>
 
-        <p *ngIf="item.isOptional"
+        <p *ngIf="property.isOptional"
           class="sky-docs-property-definition-label sky-docs-property-definition-label-optional"
-        >Optional. <ng-container *ngIf="item.defaultValue">Default is <sky-code>{{ item.defaultValue }}</sky-code>.</ng-container></p>
+        >Optional. <ng-container *ngIf="property.defaultValue">Default is <sky-code><span [innerHTML]="getDefaultValue(property.defaultValue)"></span></sky-code>.</ng-container></p>
       </td>
     </tr>
 

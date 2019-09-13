@@ -20,12 +20,17 @@
       background-color: $sky-background-color-selected;
     }
 
+    table {
+      margin-top: $sky-margin-plus-half;
+      margin-bottom: $sky-margin-plus-half;
+    }
+
     .stache-max-width-container {
       max-width: none;
       margin: 0;
     }
 
-    sky-code-block {
+    .sky-docs-code-block {
       margin: $sky-margin-plus-half 0;
       display: block;
 
@@ -34,25 +39,57 @@
       }
 
       .sky-code-output {
-        margin: 0;
-        padding: $sky-padding-squish-large;
-        background-color: lighten($sky-background-color-neutral-light, 5%);
+        margin: -2px 0 0 0;
+        padding: 0 0 0 $sky-padding-plus-half;
+        background: transparent;
+        border: 0;
       }
     }
 
-    .sky-docs-h3 {
+    .sky-definition-list {
+      margin: 0;
+
+      .sky-docs-code-block {
+        margin: 0;
+      }
+    }
+
+    .sky-docs-type-definition-wrapper {
+      margin-bottom: $sky-margin * 4;
+    }
+
+    .sky-docs-h1,
+    .sky-docs-h2,
+    .sky-docs-h3,
+    .sky-docs-h4,
+    .sky-docs-h5,
+    .sky-docs-h6 {
+      line-height: 1.1;
+      font-family: $sky-font-family;
       color: $sky-text-color-default;
+      font-weight: 400;
       margin: $sky-margin-triple 0 $sky-margin-plus-half;
-      font-size: 21px;
-      line-height: 1;
+    }
+
+    .sky-docs-h1 {
+      font-weight: 200;
+      font-size: 34px;
+    }
+
+    .sky-docs-h2 {
+      font-weight: 200;
+      font-size: 30px;
+      margin-bottom: $sky-margin-triple;
+    }
+
+    .sky-docs-h3 {
+      font-size: 20px;
     }
 
     .sky-docs-h4 {
-      @include sky-subsection-heading();
-      margin: $sky-margin-plus-half 0;
-      font-size: 18px;
-      line-height: 1;
+      font-weight: 500;
+      font-size: 15px;
+      margin: $sky-margin-plus-half 0 $sky-margin;
     }
-
   }
 }

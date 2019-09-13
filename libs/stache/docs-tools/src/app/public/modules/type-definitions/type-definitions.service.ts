@@ -21,11 +21,16 @@ import {
   SkyDocsTypeDefinitionsProvider
 } from './type-definitions-provider';
 
+import {
+  SkyDocsAnchorLinkService
+} from './anchor-link.service';
+
 @Injectable()
 export class SkyDocsTypeDefinitionsService {
 
   constructor(
-    private typeDefinitionsProvider: SkyDocsTypeDefinitionsProvider
+    private typeDefinitionsProvider: SkyDocsTypeDefinitionsProvider,
+    private anchorLinkService: SkyDocsAnchorLinkService
   ) { }
 
   /**
@@ -34,7 +39,8 @@ export class SkyDocsTypeDefinitionsService {
    * relative to the application's root directory.
    */
   public getTypeDefinitions(sourceCodeLocation: string): SkyDocsTypeDefinitions {
-    const typeDefinitions: any = this.typeDefinitionsProvider.typeDefinitions;
+
+    const typeDefinitions = this.typeDefinitionsProvider.typeDefinitions;
 
     const requestedDir = sourceCodeLocation.replace(
       /src(\/|\\)app(\/|\\)public(\/|\\)/,
@@ -52,7 +58,7 @@ export class SkyDocsTypeDefinitionsService {
     };
 
     // Only process types that match the requested source code location.
-    typeDefinitions.children.filter((item: any) => {
+    typeDefinitions.filter((item: any) => {
 
       const fileName = item.sources[0].fileName;
       return (fileName.match(requestedDir));
@@ -363,6 +369,7 @@ export class SkyDocsTypeDefinitionsService {
     });
 
     return {
+      anchorId: item.anchorId,
       name: item.name,
       description: (item.comment) ? item.comment.shortText : '',
       members
@@ -425,10 +432,14 @@ export class SkyDocsTypeDefinitionsService {
 
     sourceCode += ';';
 
+    const {
+      description
+    } = this.parseCommentTags(item.comment);
+
     return {
       anchorId: item.anchorId,
       name: item.name,
-      description: (item.comment) ? item.comment.shortText : '',
+      description,
       sourceCode,
       parameters,
       returnType
@@ -516,7 +527,7 @@ export class SkyDocsTypeDefinitionsService {
       }
 
       if (comment.shortText) {
-        description = comment.shortText;
+        description = this.anchorLinkService.buildAnchorLinks(comment.shortText);
       }
     }
 

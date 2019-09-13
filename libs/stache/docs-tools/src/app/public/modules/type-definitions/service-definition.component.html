@@ -1,19 +1,15 @@
-<div class="sky-docs-service-definition">
-  <h3 class="sky-docs-h3">
-    <sky-docs-section-anchor
-      [anchorId]="config.anchorId"
-    >
-      {{ config.name }}
-    </sky-docs-section-anchor>
-  </h3>
+<div class="sky-docs-service-definition sky-docs-type-definition-wrapper">
+  <sky-docs-heading-anchor
+    headingLevel="3"
+    [anchorId]="config.anchorId"
+  >
+    {{ config.name }}
+  </sky-docs-heading-anchor>
 
   <sky-docs-safe-html
     [innerHtml]="config.description"
   ></sky-docs-safe-html>
 
-  <h4 class="sky-docs-h4">
-    Properties
-  </h4>
   <ng-container *ngIf="config.properties && config.properties.length">
     <sky-docs-property-definitions>
       <sky-docs-property-definition *ngFor="let property of config.properties"
@@ -28,10 +24,9 @@
   </ng-container>
 
   <ng-container *ngIf="config.methods && config.methods.length">
-    <h4 class="sky-docs-h4">
-      Methods
-    </h4>
-    <sky-docs-property-definitions>
+    <sky-docs-property-definitions
+      propertyType="Method"
+    >
       <sky-docs-property-definition *ngFor="let method of config.methods"
         [propertyName]="method.name + '()'"
         [deprecationWarning]="method.deprecationWarning"
@@ -39,6 +34,7 @@
         <p [innerHtml]="method.description"></p>
 
         <sky-code-block
+          class="sky-docs-code-block"
           languageType="typescript"
           [code]="getMethodSignature(method)"
           [hideHeader]="true"
@@ -74,6 +70,7 @@
             Example
           </h4>
           <sky-code-block
+            class="sky-docs-code-block"
             [code]="method.codeExample"
             [hideHeader]="true"
             [languageType]="method.codeExampleLanguage"

@@ -1,21 +1,18 @@
-<div class="sky-docs-enumeration-definition">
-  <h3 class="sky-docs-h3">
-    <sky-docs-section-anchor
-      [anchorId]="config.anchorId"
-    >
-      {{ config.name }}
-    </sky-docs-section-anchor>
-  </h3>
+<div class="sky-docs-enumeration-definition sky-docs-type-definition-wrapper">
+  <sky-docs-heading-anchor
+    headingLevel="3"
+    [anchorId]="config.anchorId"
+  >
+    {{ config.name }}
+  </sky-docs-heading-anchor>
 
   <sky-docs-safe-html
     [innerHtml]="config.description"
   ></sky-docs-safe-html>
 
-  <h4 class="sky-docs-h4">
-    Members
-  </h4>
-
-  <sky-docs-property-definitions>
+  <sky-docs-property-definitions
+    propertyType="Member"
+  >
     <sky-docs-property-definition *ngFor="let member of config.members"
       [propertyName]="member.name"
     >

@@ -13,7 +13,6 @@ import {
 
 import { SkyDocsDirectiveDefinitionComponent } from './directive-definition.component';
 import { SkyDocsInterfaceDefinitionComponent } from './interface-definition.component';
-import { SkyDocsMethodDefinitionComponent } from './method-definition.component';
 import { SkyDocsPropertyDefinitionComponent } from './property-definition.component';
 import { SkyDocsPropertyDefinitionsComponent } from './property-definitions.component';
 import { SkyDocsParameterDefinitionComponent } from './parameter-definition.component';
@@ -25,10 +24,12 @@ import { SkyDocsPipeDefinitionComponent } from './pipe-definition.component';
 import { SkyDocsServiceDefinitionComponent } from './service-definition.component';
 import { SkyIconModule } from '@skyux/indicators';
 import { RouterModule } from '@angular/router';
-import { SkyDocsSectionAnchorModule } from '../section-anchor/section-anchor.module';
+import { SkyDocsHeadingAnchorModule } from '../heading-anchor/heading-anchor.module';
 import { SkyDocsTypeAliasDefinitionComponent } from './type-alias-definition.component';
 import { SkyDocsSafeHtmlModule } from '../safe-html/safe-html.module';
 import { SkyDocsEnumerationDefinitionComponent } from './enumeration-definition.component';
+import { SkyDefinitionListModule } from '@skyux/layout';
+import { SkyDocsAnchorLinkService } from './anchor-link.service';
 
 @NgModule({
   imports: [
@@ -36,16 +37,16 @@ import { SkyDocsEnumerationDefinitionComponent } from './enumeration-definition.
     RouterModule,
     SkyCodeBlockModule,
     SkyCodeModule,
+    SkyDefinitionListModule,
+    SkyDocsHeadingAnchorModule,
+    SkyIconModule,
     SkyDocsMarkdownModule,
-    SkyDocsSafeHtmlModule,
-    SkyDocsSectionAnchorModule,
-    SkyIconModule
+    SkyDocsSafeHtmlModule
   ],
   declarations: [
     SkyDocsDirectiveDefinitionComponent,
     SkyDocsEnumerationDefinitionComponent,
     SkyDocsInterfaceDefinitionComponent,
-    SkyDocsMethodDefinitionComponent,
     SkyDocsParameterDefinitionComponent,
     SkyDocsParameterDefinitionsComponent,
     SkyDocsPipeDefinitionComponent,
@@ -58,7 +59,6 @@ import { SkyDocsEnumerationDefinitionComponent } from './enumeration-definition.
     SkyDocsDirectiveDefinitionComponent,
     SkyDocsEnumerationDefinitionComponent,
     SkyDocsInterfaceDefinitionComponent,
-    SkyDocsMethodDefinitionComponent,
     SkyDocsParameterDefinitionComponent,
     SkyDocsParameterDefinitionsComponent,
     SkyDocsPipeDefinitionComponent,
@@ -68,6 +68,7 @@ import { SkyDocsEnumerationDefinitionComponent } from './enumeration-definition.
     SkyDocsTypeAliasDefinitionComponent
   ],
   providers: [
+    SkyDocsAnchorLinkService,
     SkyDocsTypeDefinitionsProvider,
     SkyDocsTypeDefinitionsService
   ]

@@ -5,11 +5,9 @@ import {
   Component,
   ContentChild,
   ContentChildren,
-  ElementRef,
   Input,
   OnInit,
-  QueryList,
-  Renderer2
+  QueryList
 } from '@angular/core';
 
 import {
@@ -64,15 +62,13 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit, After
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private elementRef: ElementRef,
-    private renderer: Renderer2,
     private titleService: SkyDocsDemoPageTitleService
   ) { }
 
   public ngOnInit(): void {
     this.updateTitle();
 
-    const urlRoot = 'https://developer.blackbaud.com/skyux/components';
+    const baseUrl = 'https://developer.blackbaud.com/skyux/components';
 
     this.sidebarRoutes = [{
       name: 'Components',
@@ -80,247 +76,247 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit, After
       children: [
         {
           name: 'Action button',
-          path: `${urlRoot}/action-button`
+          path: `${baseUrl}/action-button`
         },
         {
           name: 'Alert',
-          path: `${urlRoot}/alert`
+          path: `${baseUrl}/alert`
         },
         {
           name: 'Autocomplete',
-          path: `${urlRoot}/autocomplete`
+          path: `${baseUrl}/autocomplete`
         },
         {
           name: 'Avatar',
-          path: `${urlRoot}/avatar`
+          path: `${baseUrl}/avatar`
         },
         {
           name: 'Button',
-          path: `${urlRoot}/button`
+          path: `${baseUrl}/button`
         },
         {
           name: 'Card',
-          path: `${urlRoot}/card`
+          path: `${baseUrl}/card`
         },
         {
           name: 'Checkbox',
-          path: `${urlRoot}/checkbox`
+          path: `${baseUrl}/checkbox`
         },
         {
           name: 'Code block',
-          path: `${urlRoot}/code-block`
+          path: `${baseUrl}/code-block`
         },
         {
           name: 'Colorpicker',
-          path: `${urlRoot}/colorpicker`
+          path: `${baseUrl}/colorpicker`
         },
         {
           name: 'Confirm',
-          path: `${urlRoot}/confirm`
+          path: `${baseUrl}/confirm`
         },
         {
           name: 'Copy to clipboard',
-          path: `${urlRoot}/copy-to-clipboard`
+          path: `${baseUrl}/copy-to-clipboard`
         },
         {
           name: 'Datepicker',
-          path: `${urlRoot}/datepicker`
+          path: `${baseUrl}/datepicker`
         },
         {
           name: 'Date range picker',
-          path: `${urlRoot}/date-range-picker`
+          path: `${baseUrl}/date-range-picker`
         },
         {
           name: 'Definition list',
-          path: `${urlRoot}/definition-list`
+          path: `${baseUrl}/definition-list`
         },
         {
           name: 'Dropdown',
-          path: `${urlRoot}/dropdown`
+          path: `${baseUrl}/dropdown`
         },
         {
           name: 'Email validation',
-          path: `${urlRoot}/email-validation`
+          path: `${baseUrl}/email-validation`
         },
         {
           name: 'Error',
-          path: `${urlRoot}/error`
+          path: `${baseUrl}/error`
         },
         {
           name: 'File attachment',
-          path: `${urlRoot}/fileattachments`
+          path: `${baseUrl}/fileattachments`
         },
         {
           name: 'Filter',
-          path: `${urlRoot}/filter`
+          path: `${baseUrl}/filter`
         },
         {
           name: 'Fluid grid',
-          path: `${urlRoot}/fluid-grid`
+          path: `${baseUrl}/fluid-grid`
         },
         {
           name: 'Flyout',
-          path: `${urlRoot}/flyout`
+          path: `${baseUrl}/flyout`
         },
         {
           name: 'Form',
-          path: `${urlRoot}/form`
+          path: `${baseUrl}/form`
         },
         {
           name: 'Grid',
-          path: `${urlRoot}/grid`
+          path: `${baseUrl}/grid`
         },
         {
           name: 'Help inline',
-          path: `${urlRoot}/help-inline`
+          path: `${baseUrl}/help-inline`
         },
         {
           name: 'Highlight',
-          path: `${urlRoot}/text-highlight`
+          path: `${baseUrl}/text-highlight`
         },
         {
           name: 'Icon',
-          path: `${urlRoot}/icon`
+          path: `${baseUrl}/icon`
         },
         {
           name: 'Infinite scroll',
-          path: `${urlRoot}/infinite-scroll`
+          path: `${baseUrl}/infinite-scroll`
         },
         {
           name: 'Inline form',
-          path: `${urlRoot}/inline-form`
+          path: `${baseUrl}/inline-form`
         },
         {
           name: 'Key info',
-          path: `${urlRoot}/key-info`
+          path: `${baseUrl}/key-info`
         },
         {
           name: 'Label',
-          path: `${urlRoot}/label`
+          path: `${baseUrl}/label`
         },
         {
           name: 'Link records',
-          path: `${urlRoot}/link-records`
+          path: `${baseUrl}/link-records`
         },
         {
           name: 'List',
-          path: `${urlRoot}/list`
+          path: `${baseUrl}/list`
         },
         {
           name: 'Lookup',
-          path: `${urlRoot}/lookup`
+          path: `${baseUrl}/lookup`
         },
         {
           name: 'Media queries',
-          path: `${urlRoot}/media-queries`
+          path: `${baseUrl}/media-queries`
         },
         {
           name: 'Modal',
-          path: `${urlRoot}/modal`
+          path: `${baseUrl}/modal`
         },
         {
           name: 'Navbar',
-          path: `${urlRoot}/navbar`
+          path: `${baseUrl}/navbar`
         },
         {
           name: 'Numeric',
-          path: `${urlRoot}/numeric`
+          path: `${baseUrl}/numeric`
         },
         {
           name: 'Page summary',
-          path: `${urlRoot}/page-summary`
+          path: `${baseUrl}/page-summary`
         },
         {
           name: 'Paging',
-          path: `${urlRoot}/paging`
+          path: `${baseUrl}/paging`
         },
         {
           name: 'Popover',
-          path: `${urlRoot}/popover`
+          path: `${baseUrl}/popover`
         },
         {
           name: 'Progress indicator',
-          path: `${urlRoot}/progress-indicator`
+          path: `${baseUrl}/progress-indicator`
         },
         {
           name: 'Radio button',
-          path: `${urlRoot}/radio`
+          path: `${baseUrl}/radio`
         },
         {
           name: 'Repeater',
-          path: `${urlRoot}/repeater`
+          path: `${baseUrl}/repeater`
         },
         {
           name: 'Search',
-          path: `${urlRoot}/search`
+          path: `${baseUrl}/search`
         },
         {
           name: 'Sectioned form',
-          path: `${urlRoot}/sectioned-form`
+          path: `${baseUrl}/sectioned-form`
         },
         {
           name: 'Select field',
-          path: `${urlRoot}/select-field`
+          path: `${baseUrl}/select-field`
         },
         {
           name: 'Sort',
-          path: `${urlRoot}/sort`
+          path: `${baseUrl}/sort`
         },
         {
           name: 'Status indicator',
-          path: `${urlRoot}/status-indicator`
+          path: `${baseUrl}/status-indicator`
         },
         {
           name: 'Summary action bar',
-          path: `${urlRoot}/summary-actionbar`
+          path: `${baseUrl}/summary-actionbar`
         },
         {
           name: 'Tabs',
-          path: `${urlRoot}/tabs`
+          path: `${baseUrl}/tabs`
         },
         {
           name: 'Text expand',
-          path: `${urlRoot}/text-expand`
+          path: `${baseUrl}/text-expand`
         },
         {
           name: 'Text expand repeater',
-          path: `${urlRoot}/text-expand-repeater`
+          path: `${baseUrl}/text-expand-repeater`
         },
         {
           name: 'Tile',
-          path: `${urlRoot}/tile`
+          path: `${baseUrl}/tile`
         },
         {
           name: 'Timepicker',
-          path: `${urlRoot}/timepicker`
+          path: `${baseUrl}/timepicker`
         },
         {
           name: 'Toast',
-          path: `${urlRoot}/toast`
+          path: `${baseUrl}/toast`
         },
         {
           name: 'Tokens',
-          path: `${urlRoot}/tokens`
+          path: `${baseUrl}/tokens`
         },
         {
           name: 'Toolbar',
-          path: `${urlRoot}/toolbar`
+          path: `${baseUrl}/toolbar`
         },
         {
           name: 'URL validation',
-          path: `${urlRoot}/url-validation`
+          path: `${baseUrl}/url-validation`
         },
         {
           name: 'Vertical tabs',
-          path: `${urlRoot}/vertical-tabs`
+          path: `${baseUrl}/vertical-tabs`
         },
         {
           name: 'Wait',
-          path: `${urlRoot}/wait`
+          path: `${baseUrl}/wait`
         },
         {
           name: 'Wizard',
-          path: `${urlRoot}/wizard`
+          path: `${baseUrl}/wizard`
         }
       ]
     }];
@@ -332,6 +328,7 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit, After
   }
 
   public ngAfterViewInit(): void {
+    // Watch for route fragment to change and scroll to heading.
     this.activatedRoute.fragment.subscribe((fragment) => {
       const element = document.getElementById(fragment);
       if (element) {
@@ -339,13 +336,6 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit, After
           element.scrollIntoView();
         }, 250);
       }
-    });
-
-    const links = this.elementRef.nativeElement.querySelectorAll('.sky-docs-page-anchor');
-    links.forEach((link: any) => {
-      const fragment = link.getAttribute('href');
-      const newHref = `${window.location.href.split('#')[0]}${fragment}`;
-      this.renderer.setAttribute(link, 'href', newHref);
     });
   }
 

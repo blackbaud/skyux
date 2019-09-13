@@ -1,31 +1,28 @@
 @import '~@skyux/theme/scss/mixins';
 @import '~@skyux/theme/scss/_compat/mixins';
 
-.sky-docs-section-anchor-wrapper {
-  &:hover {
-    .sky-docs-section-anchor-icon {
-      opacity: 1;
-    }
-  }
-}
-
-.sky-docs-section-anchor {
+.sky-docs-heading-anchor {
   color: $sky-text-color-default;
 
   &:hover {
     text-decoration: none;
+
+    .sky-docs-heading-anchor-icon {
+      opacity: 1;
+    }
   }
 
   &:focus {
-    .sky-docs-section-anchor-icon {
+    .sky-docs-heading-anchor-icon {
       opacity: 1;
     }
   }
 }
 
-.sky-docs-section-anchor-icon {
+.sky-docs-heading-anchor-icon {
   opacity: 0;
   transition: opacity .15s ease-in-out;
   color: $sky-text-color-action-primary;
   font-weight: normal;
+  font-size: 18px;
 }
