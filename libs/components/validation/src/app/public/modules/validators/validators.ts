@@ -15,7 +15,7 @@ export class SkyValidators {
   public static email(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
 
-    if (value === undefined || value.length === 0) {
+    if (!value) {
       return undefined;
     }
 
@@ -25,7 +25,7 @@ export class SkyValidators {
   public static url(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
 
-    if (value === undefined || value.length === 0) {
+    if (!value) {
       return undefined;
     }
 
