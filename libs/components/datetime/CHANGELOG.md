@@ -1,3 +1,7 @@
+# 3.6.0 (2019-09-18)
+
+- Added the fuzzy datepicker directive. [#79](https://github.com/blackbaud/skyux-datetime/pull/79)
+
 # 3.5.0 (2019-08-23)
 
 - Added the public internal properties `buttonIsFocused`, `calendarIsFocused`, and `calendarIsVisible` to `SkyDatepickerComponent` to indicate the focus and visibility states of datepicker elements. Added the public internal property `inputIsFocused` to `SkyDatepickerInputDirective` to indicate the focus state of the datepicker input. [#77](https://github.com/blackbaud/skyux-datetime/pull/77)
