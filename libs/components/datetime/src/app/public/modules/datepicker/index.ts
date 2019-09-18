@@ -8,3 +8,4 @@ export { SkyMonthPickerComponent } from './monthpicker.component';
 export { SkyYearPickerComponent } from './yearpicker.component';
 export { SkyDatepickerComponent } from './datepicker.component';
 export { SkyDatepickerInputDirective } from './datepicker-input.directive';
+export { SkyFuzzyDatepickerInputDirective } from './datepicker-input-fuzzy.directive';

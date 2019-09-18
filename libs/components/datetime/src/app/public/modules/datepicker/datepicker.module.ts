@@ -58,6 +58,14 @@ import {
   SkyDatepickerInputDirective
 } from './datepicker-input.directive';
 
+import {
+  SkyFuzzyDatepickerInputDirective
+} from './datepicker-input-fuzzy.directive';
+
+import {
+  SkyFuzzyDateService
+} from './fuzzy-date.service';
+
 @NgModule({
   declarations: [
     SkyDatepickerCalendarComponent,
@@ -66,7 +74,8 @@ import {
     SkyMonthPickerComponent,
     SkyYearPickerComponent,
     SkyDatepickerComponent,
-    SkyDatepickerInputDirective
+    SkyDatepickerInputDirective,
+    SkyFuzzyDatepickerInputDirective
   ],
   imports: [
     CommonModule,
@@ -83,10 +92,12 @@ import {
     SkyMonthPickerComponent,
     SkyYearPickerComponent,
     SkyDatepickerComponent,
-    SkyDatepickerInputDirective
+    SkyDatepickerInputDirective,
+    SkyFuzzyDatepickerInputDirective
   ],
   providers: [
-    SkyDatepickerConfigService
+    SkyDatepickerConfigService,
+    SkyFuzzyDateService
   ]
 })
 export class SkyDatepickerModule { }

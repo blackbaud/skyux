@@ -36,12 +36,12 @@ import {
 } from './fixtures/datepicker.component.fixture';
 
 import {
-  DatepickerNoFormatTestComponent
-} from './fixtures/datepicker-noformat.component.fixture';
-
-import {
   DatepickerTestModule
 } from './fixtures/datepicker.module.fixture';
+
+import {
+  DatepickerNoFormatTestComponent
+} from './fixtures/datepicker-noformat.component.fixture';
 
 import {
   DatepickerReactiveTestComponent
@@ -496,8 +496,9 @@ describe('datepicker', () => {
         setInputElementValue(fixture.nativeElement, 'abcdebf', fixture);
         clickDatepickerButton(fixture);
 
-        // Default should be selected.
-        expect(getSelectedCalendarItem(fixture)).toHaveText('27');
+        // Current day should be selected.
+        const dayOfMonth = ('0' + new Date().getDate()).slice(-2);
+        expect(getSelectedCalendarItem(fixture)).toHaveText(dayOfMonth);
       }));
 
       it('should handle noValidate property', fakeAsync(() => {
@@ -930,8 +931,9 @@ describe('datepicker', () => {
         setInputElementValue(fixture.nativeElement, 'abcdebf', fixture);
         clickDatepickerButton(fixture);
 
-        // Default should be selected.
-        expect(getSelectedCalendarItem(fixture)).toHaveText('27');
+        // Current day should be selected.
+        const dayOfMonth = ('0' + new Date().getDate()).slice(-2);
+        expect(getSelectedCalendarItem(fixture)).toHaveText(dayOfMonth);
       }));
 
       it('should handle noValidate property', fakeAsync(() => {

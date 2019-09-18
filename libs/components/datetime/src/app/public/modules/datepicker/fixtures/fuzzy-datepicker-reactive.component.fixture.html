@@ -1,0 +1,22 @@
+<form
+  [formGroup]="datepickerForm"
+  novalidate
+>
+  <sky-datepicker
+    class="form-input"
+  >
+    <input
+      id="dateInput"
+      formControlName="date"
+      placeholder="Date"
+      [futureDisabled]="futureDisabled"
+      [dateFormat]="dateFormat"
+      [maxDate]="maxDate"
+      [minDate]="minDate"
+      [skyDatepickerNoValidate]="noValidate"
+      [startingDay]="startingDay"
+      [yearRequired]="yearRequired"
+      skyFuzzyDatepickerInput
+    />
+  </sky-datepicker>
+</form>
