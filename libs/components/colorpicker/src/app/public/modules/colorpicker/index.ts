@@ -1,17 +1,24 @@
 // spell-checker:ignore Colorpicker
-export { SkyColorpickerComponent } from './colorpicker.component';
-export { SkyColorpickerModule } from './colorpicker.module';
 export {
-  SkyColorpickerOutput,
-  SkyColorpickerResult,
-  SkyColorpickerMessage,
-  SkyColorpickerMessageType
-} from './types';
-export { SkyColorpickerInputDirective } from './colorpicker-input.directive';
+  SkyColorpickerComponent
+} from './colorpicker.component';
+
 export {
-  SliderPosition,
-  SliderDimension
+  SkyColorpickerModule
+} from './colorpicker.module';
+
+export {
+  SkyColorpickerService
+} from './colorpicker.service';
+
+export {
+  SliderDimension,
+  SliderPosition
 } from './colorpicker-classes';
+
+export {
+  SkyColorpickerInputDirective
+} from './colorpicker-input.directive';
 
 export {
   SkyColorpickerSliderDirective
@@ -22,5 +29,12 @@ export {
 } from './colorpicker-text.directive';
 
 export {
-  SkyColorpickerService
-} from './colorpicker.service';
+  SkyColorpickerCmyk,
+  SkyColorpickerMessage,
+  SkyColorpickerMessageType,
+  SkyColorpickerHsla,
+  SkyColorpickerHsva,
+  SkyColorpickerOutput,
+  SkyColorpickerResult,
+  SkyColorpickerRgba
+} from './types';
