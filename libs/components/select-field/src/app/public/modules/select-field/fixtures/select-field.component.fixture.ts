@@ -6,9 +6,17 @@ import {
   ViewChild
 } from '@angular/core';
 
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import {
+  BehaviorSubject
+} from 'rxjs/BehaviorSubject';
 
-import { SkySelectFieldComponent } from '../select-field.component';
+import {
+  SkySelectFieldComponent
+} from '../select-field.component';
+
+import {
+  SkySelectFieldCustomPicker
+} from '../types';
 
 @Component({
   selector: 'sky-select-field-test',
@@ -45,6 +53,8 @@ export class SkySelectFieldTestComponent implements OnInit, OnDestroy {
 
   @ViewChild(SkySelectFieldComponent)
   public selectField: SkySelectFieldComponent;
+
+  public customPicker: SkySelectFieldCustomPicker;
 
   public ngOnInit() {
     this.data.next(this.staticData);

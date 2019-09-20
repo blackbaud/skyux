@@ -27,16 +27,31 @@ import {
   SkySelectFieldTestComponent
 } from './fixtures/select-field.component.fixture';
 
+import {
+  SkySelectField,
+  SkySelectFieldCustomPicker
+} from './types';
+
+import {
+  SkySelectFieldPickerContext
+} from './select-field-picker-context';
+
 describe('Select field component', () => {
   let fixture: ComponentFixture<SkySelectFieldTestComponent>;
   let component: SkySelectFieldTestComponent;
   let selectField: SkySelectFieldComponent;
 
-  function setValue(value: any) {
-    component.setValue(value);
+  function detectNewValue() {
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
+  }
+
+  function setValue(value: any) {
+    component.setValue(value);
+
+    detectNewValue();
+
     expect(selectField.value).toEqual(value);
   }
 
@@ -363,6 +378,65 @@ describe('Select field component', () => {
       values = document.querySelectorAll('.sky-list-view-checklist sky-checkbox input');
       expect(select.options.length).toEqual(5);
       expect(values.length).toEqual(2);
+    }));
+
+    it('should support a custom picker', fakeAsync(() => {
+      let updateValueFn: (value: SkySelectField[]) => void;
+
+      const customPicker: SkySelectFieldCustomPicker = {
+        open: jasmine.createSpy('open').and.callFake(
+          (
+            _pickerContext: SkySelectFieldPickerContext,
+            updateValue: (value: SkySelectField[]) => void
+          ) => {
+            updateValueFn = updateValue;
+          }
+        )
+      };
+
+      fixture.componentInstance.customPicker = customPicker;
+
+      fixture.detectChanges();
+
+      setValue([component.staticData[1]]);
+
+      openPicker();
+
+      expect(customPicker.open).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          data: fixture.componentInstance.data,
+          selectedValue: [component.staticData[1]]
+        }),
+        updateValueFn
+      );
+
+      // Test multi-select mode.
+      updateValueFn(
+        [
+          component.staticData[4],
+          component.staticData[6]
+        ]
+      );
+
+      detectNewValue();
+
+      expect(selectField.value).toEqual(
+        [
+          component.staticData[4],
+          component.staticData[6]
+        ]
+      );
+
+      // Test single-select mode.
+      fixture.componentInstance.selectMode = 'single';
+
+      fixture.detectChanges();
+
+      updateValueFn([component.staticData[3]]);
+
+      detectNewValue();
+
+      expect(selectField.value).toEqual(component.staticData[3]);
     }));
   });
 

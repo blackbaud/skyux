@@ -34,6 +34,7 @@ import {
 
 import {
   SkySelectField,
+  SkySelectFieldCustomPicker,
   SkySelectFieldSelectMode
 } from './types';
 
@@ -68,6 +69,9 @@ export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy 
 
   @Input()
   public data: Observable<SkySelectField[]>;
+
+  @Input()
+  public customPicker: SkySelectFieldCustomPicker;
 
   @Input()
   public set descriptorKey(value: string) {
@@ -193,29 +197,11 @@ export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy 
         pickerContext.selectMode = this.selectMode;
         pickerContext.showAddNewRecordButton = this.showAddNewRecordButton;
 
-        const modalInstance = this.modalService.open(SkySelectFieldPickerComponent, {
-          providers: [{
-            provide: SkySelectFieldPickerContext,
-            useValue: pickerContext
-          }]
-        });
-
-        modalInstance.componentInstance.addNewRecordButtonClick.subscribe(() => {
-          this.addNewRecordButtonClick.emit();
-        });
-
-        this.isModalOpen = true;
-
-        modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
-          if (result.reason === 'save') {
-            if (this.selectMode === 'single') {
-              this.writeValue(result.data[0]);
-            } else {
-              this.writeValue(result.data);
-            }
-          }
-          this.isModalOpen = false;
-        });
+        if (this.customPicker) {
+          this.openCustomPicker(pickerContext);
+        } else {
+          this.openStandardPicker(pickerContext);
+        }
       });
   }
 
@@ -290,5 +276,44 @@ export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy 
     } else {
       this.tokens = this.value.map((value: any) => ({ value }));
     }
+  }
+
+  private openStandardPicker(pickerContext: SkySelectFieldPickerContext) {
+    const modalInstance = this.modalService.open(SkySelectFieldPickerComponent, {
+      providers: [{
+        provide: SkySelectFieldPickerContext,
+        useValue: pickerContext
+      }]
+    });
+
+    modalInstance.componentInstance.addNewRecordButtonClick.subscribe(() => {
+      this.addNewRecordButtonClick.emit();
+    });
+
+    this.isModalOpen = true;
+
+    modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
+      if (result.reason === 'save') {
+        if (this.selectMode === 'single') {
+          this.writeValue(result.data[0]);
+        } else {
+          this.writeValue(result.data);
+        }
+      }
+      this.isModalOpen = false;
+    });
+  }
+
+  private openCustomPicker(pickerContext: SkySelectFieldPickerContext) {
+    this.customPicker.open(
+      pickerContext,
+      (value) => {
+        if (this.selectMode === 'single') {
+          this.writeValue(value[0]);
+        } else {
+          this.writeValue(value);
+        }
+      }
+    );
   }
 }
