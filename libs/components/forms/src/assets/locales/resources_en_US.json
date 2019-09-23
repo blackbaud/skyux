@@ -1,4 +1,12 @@
 {
+  "skyux_character_count_message": {
+    "_description": "Screen reader only label for character count",
+    "message": "characters out of"
+  },
+  "skyux_character_count_over_limit": {
+    "_description": "Screen reader only label for character count over limit symbol",
+    "message": "You are over the character limit."
+  },
   "skyux_file_attachment_file_item_delete": {
     "_description": "Label for the button that deletes a file",
     "message": "Delete file"

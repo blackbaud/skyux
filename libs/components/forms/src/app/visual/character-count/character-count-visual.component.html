@@ -1,0 +1,111 @@
+<div
+  style="width: 60%;"
+>
+  <h1>
+      Character Count (reactive)
+  </h1>
+
+  <form
+    novalidate
+    [formGroup]="characterCountForm"
+  >
+    <div
+      id="screenshot-character-count"
+    >
+      <div
+        style="display: flex;"
+      >
+        <label
+          class="sky-control-label"
+          for="input-count-example"
+          style="flex-grow: 1;"
+        >
+          First name
+        </label>
+
+        <sky-character-counter-indicator
+          #indicator
+        >
+        </sky-character-counter-indicator>
+      </div>
+
+      <input
+        class="sky-form-control"
+        formControlName="firstName"
+        type="text"
+        skyCharacterCounter
+        [skyCharacterCounterIndicator]="indicator"
+        [skyCharacterCounterLimit]="maxCharacterCount"
+      />
+
+      <div *ngIf="firstName.errors?.skyCharacterCounter"
+        class="sky-error-label"
+      >
+        Limit First name to {{maxCharacterCount}} characters.
+      </div>
+    </div>
+
+    <table>
+      <tr>
+        <th>Valid</th>
+        <td>{{ characterCountForm.valid }}</td>
+      </tr>
+      <tr>
+        <th>Value</th>
+        <td>{{ firstName.value || 'Nothing entered...' }}</td>
+      </tr>
+    </table>
+
+  </form>
+
+  <h1>
+    Character Count (template-driven)
+  </h1>
+
+  <div>
+    <div
+      style="display: flex;"
+    >
+        <label
+          class="sky-control-label"
+          for="input-count-example"
+          style="flex-grow: 1;"
+        >
+          First name
+        </label>
+
+        <sky-character-counter-indicator
+          #templateIndicator
+        >
+        </sky-character-counter-indicator>
+      </div>
+
+      <input
+        class="sky-form-control"
+        type="text"
+        skyCharacterCounter
+        [skyCharacterCounterIndicator]="templateIndicator"
+        [skyCharacterCounterLimit]="maxCharacterCount"
+        [(ngModel)]="nameValue"
+        #foo="ngModel"
+      />
+
+      <div *ngIf="foo.errors?.skyCharacterCounter"
+        class="sky-error-label"
+      >
+        Limit First name to {{maxCharacterCount}} characters.
+      </div>
+  </div>
+
+  <table>
+    <tr>
+      <th>Valid</th>
+      <td>{{ foo.valid }}</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+      <td>{{ nameValue || 'Nothing entered...' }}</td>
+    </tr>
+  </table>
+
+</div>

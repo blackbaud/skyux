@@ -10,6 +10,7 @@ import {
   SkyCheckboxModule,
   SkyFileAttachmentsModule,
   SkyRadioModule,
+  SkyCharacterCounterModule,
   SkyToggleSwitchModule
 } from './public';
 
@@ -19,6 +20,7 @@ import {
     SkyCheckboxModule,
     SkyFileAttachmentsModule,
     SkyRadioModule,
+    SkyCharacterCounterModule,
     SkyToggleSwitchModule
   ]
 })

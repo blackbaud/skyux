@@ -1,0 +1,33 @@
+<div>
+  <form
+    [formGroup]="testForm"
+  >
+    <div
+      style="display: flex;"
+    >
+      <label
+        for="input-count-example"
+        class="sky-control-label"
+        style="flex-grow: 1;"
+      >
+        First name
+      </label>
+    </div>
+
+    <input
+      aria-label="Input"
+      class="sky-form-control"
+      formControlName="firstName"
+      type="text"
+      skyCharacterCounter
+      [skyCharacterCounterLimit]="maxCharacterCount"
+    />
+
+    <div *ngIf="firstName.errors?.skyCharacterCounter"
+      class="sky-error-label"
+    >
+      Limit First name to {{maxCharacterCount}} characters.
+    </div>
+  </form>
+</div>
+

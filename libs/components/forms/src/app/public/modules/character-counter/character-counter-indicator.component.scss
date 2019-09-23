@@ -1,0 +1,17 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+:host {
+  // Force the icon and counter text to not wrap with a long form label
+  flex-shrink: 0.0001;
+}
+
+.sky-character-count-label {
+  .sky-error-label {
+    margin: 0;
+  }
+}
+
+.sky-screen-reader-only {
+  @include sky-screen-reader-only();
+}
