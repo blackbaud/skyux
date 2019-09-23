@@ -1,3 +1,7 @@
+# 3.0.0-alpha.10 (2019-09-23)
+
+- Fixed scroll-to behavior for dynamic links.
+
 # 3.0.0-alpha.9 (2019-09-23)
 
 - Implemented permalinks for tabs.

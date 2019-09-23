@@ -28,9 +28,7 @@ export class SkyDocsAnchorLinkService {
       const anchorId = this.anchorIds[typeName];
 
       if (anchorId) {
-        const href = this.getHref(anchorId);
-        const replacement = match[0].replace('[[', `<a href="${href}">`).replace(']]', '</a>');
-
+        const replacement = match[0].replace('[[', `<a href="#${anchorId}" class="sky-docs-anchor-link">`).replace(']]', '</a>');
         return content.replace(match[0], replacement);
       }
     }
@@ -52,8 +50,7 @@ export class SkyDocsAnchorLinkService {
 
       const typeName = matchingTypes[0];
       const anchorId = this.anchorIds[typeName];
-      const href = this.getHref(anchorId);
-      const anchorHtml = `<a href="${href}">${typeName}</a>`;
+      const anchorHtml = `<a href="#${anchorId}" class="sky-docs-anchor-link">${typeName}</a>`;
 
       html = content.replace(typeName, anchorHtml);
     } else {
@@ -61,12 +58,6 @@ export class SkyDocsAnchorLinkService {
     }
 
     return html;
-  }
-
-  private getHref(anchorId: string): string {
-    const url = window.location.href.split('#')[0];
-    const href = `${url}#${anchorId}`;
-    return href;
   }
 
 }
