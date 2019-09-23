@@ -9,6 +9,7 @@ import {
 } from 'ag-grid-community';
 
 import {
+  SkyAgGridCellEditorAutocompleteComponent,
   SkyAgGridCellEditorDatepickerComponent,
   SkyAgGridCellEditorNumberComponent
 } from './cell-editors';
@@ -83,6 +84,14 @@ export class SkyAgGridService {
 
     const defaultSkyGridOptions = {
       columnTypes: {
+        [SkyCellType.Autocomplete]: {
+          cellClassRules: {
+            [SkyCellClass.Autocomplete]: cellClassRuleTrueExpression,
+            ...editableCellClassRules
+          },
+          cellEditorFramework: SkyAgGridCellEditorAutocompleteComponent,
+          minWidth: 185
+        },
         [SkyCellType.Number]: {
           cellClassRules: {
             [SkyCellClass.Number]: cellClassRuleTrueExpression,
@@ -97,6 +106,13 @@ export class SkyAgGridService {
           },
           cellEditorFramework: SkyAgGridCellEditorDatepickerComponent,
           valueFormatter: (params: ValueFormatterParams) => this.dateFormatter(params, args.locale)
+        },
+        [SkyCellType.Number]: {
+          cellClassRules: {
+            [SkyCellClass.Number]: cellClassRuleTrueExpression,
+            ...editableCellClassRules
+          },
+          cellEditorFramework: SkyAgGridCellEditorNumberComponent
         },
         [SkyCellType.RowSelector]: {
           cellClassRules: {
@@ -144,6 +160,6 @@ export class SkyAgGridService {
   }
 
   private getIconTemplate(iconName: string): string {
-    return `<sky-icon icon="${iconName}" size="lg"></sky-icon>`;
+    return `<i class="fa fa-${iconName}"></i>`;
   }
 }

@@ -1,0 +1,17 @@
+<div
+  [style.width.px]="columnWidth"
+  [style.height.px]="rowHeight"
+  class="sky-ag-grid-cell-editor-autocomplete"
+>
+  <sky-autocomplete
+    [data]="data"
+  >
+    <input
+      skyAutocomplete
+      #skyCellEditorAutocomplete
+      type="text"
+      [(ngModel)]="currentSelection"
+      [attr.aria-label]="autocompleteInputLabel"
+    />
+  </sky-autocomplete>
+</div>

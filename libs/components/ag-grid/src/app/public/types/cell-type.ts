@@ -1,4 +1,4 @@
-export enum SkyCellType {
+export const enum SkyCellType {
   Autocomplete = 'skyCellAutocomplete',
   Date = 'skyCellDate',
   Number = 'skyCellNumber',

@@ -1,3 +1,8 @@
+export class EditableGridPerson {
+  public id: string;
+  public name: string;
+}
+
 export class EditableGridRow {
   public name: string;
   public value1?: number;
@@ -7,6 +12,7 @@ export class EditableGridRow {
   public total?: number;
   public dueDate: Date;
   public completedDate?: Date;
+  public primaryContact?: EditableGridPerson;
 }
 
 export const EDITABLE_GRID_DATA: EditableGridRow[] = [
@@ -16,7 +22,8 @@ export const EDITABLE_GRID_DATA: EditableGridRow[] = [
     value2: 77,
     target: 150,
     dueDate: new Date('12/31/2019'),
-    completedDate: new Date('4/15/2019')
+    completedDate: new Date('4/15/2019'),
+    primaryContact: { id: '1', name: 'John Doe' }
   },
   {
     name: 'First quarter team goal 1',
@@ -82,5 +89,24 @@ export const EDITABLE_GRID_DATA: EditableGridRow[] = [
     name: 'Fourth quarter team goal 2',
     target: 75,
     dueDate: new Date('12/31/2019')
+  }
+];
+
+export const EDITABLE_GRID_AUTOCOMPLETE_OPTIONS: EditableGridPerson[] = [
+  {
+    id: '1',
+    name: 'John Doe'
+  },
+  {
+    id: '2',
+    name: 'Jane Smith'
+  },
+  {
+    id: '3',
+    name: 'David Johnson'
+  },
+  {
+    id: '4',
+    name: 'Cathy Thomas'
   }
 ];

@@ -14,6 +14,7 @@ import {
 } from 'ag-grid-community';
 
 import {
+  EDITABLE_GRID_AUTOCOMPLETE_OPTIONS,
   EDITABLE_GRID_DATA,
   EditableGridRow
 } from './editable-grid-data';
@@ -113,6 +114,17 @@ export class EditableGridComponent implements OnInit {
         field: 'target',
         headerName: 'Target Value',
         type: SkyCellType.Number
+      },
+      {
+        colId: 'primaryContact',
+        field: 'primaryContact',
+        headerName: 'Primary Contact',
+        editable: this.editMode,
+        type: SkyCellType.Autocomplete,
+        cellEditorParams: {
+          data: EDITABLE_GRID_AUTOCOMPLETE_OPTIONS
+        },
+        valueFormatter: (params) => params.value && params.value.name
       },
       {
         colId: 'dueDate',

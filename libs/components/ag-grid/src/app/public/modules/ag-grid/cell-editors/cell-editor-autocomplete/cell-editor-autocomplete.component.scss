@@ -1,0 +1,14 @@
+@import '~@skyux/theme/scss/mixins';
+@import "~@skyux/theme/scss/_compat/mixins";
+
+sky-autocomplete {
+  input {
+    border: none;
+    box-shadow: none;
+  }
+}
+
+.sky-ag-grid-cell-editor-autocomplete {
+  margin-top: -1px;
+  @include sky-field-status(active);
+}
