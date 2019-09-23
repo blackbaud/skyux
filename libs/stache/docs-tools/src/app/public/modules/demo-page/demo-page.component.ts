@@ -330,12 +330,12 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit, After
   public ngAfterViewInit(): void {
     // Watch for route fragment to change and scroll to heading.
     this.activatedRoute.fragment.subscribe((fragment) => {
-      const element = document.getElementById(fragment);
-      if (element) {
-        setTimeout(() => {
-          element.scrollIntoView();
-        }, 250);
-      }
+      window.setTimeout(() => {
+        const element = document.getElementById(fragment);
+        if (element) {
+          window.scrollTo(0, element.offsetTop);
+        }
+      }, 250);
     });
   }
 

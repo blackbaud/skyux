@@ -14,7 +14,9 @@
       select="sky-docs-demo"
     ></ng-content>
 
-    <sky-tabset *ngIf="enableTabLayout else content">
+    <sky-tabset *ngIf="enableTabLayout else content"
+      permalinkId="docs"
+    >
       <sky-tab tabHeading="Design">
         <ng-content
           select="sky-docs-design-guidelines"

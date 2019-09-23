@@ -1,3 +1,8 @@
+# 3.0.0-alpha.9 (2019-09-23)
+
+- Implemented permalinks for tabs.
+- Fixed positioning of scrolling behavior for heading anchor component.
+
 # 3.0.0-alpha.8 (2019-09-23)
 
 - Added safe HTML component.
