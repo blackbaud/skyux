@@ -1,3 +1,10 @@
+# 3.0.0-alpha.8 (2019-09-23)
+
+- Added safe HTML component.
+- Added heading anchor component.
+- Added automatic link generator for TypeScript types.
+- Style adjustements.
+
 # 3.0.0-alpha.7 (2019-08-22)
 
 - Adjusted styles and placement for property definition "required" and "deprecated" labels.
