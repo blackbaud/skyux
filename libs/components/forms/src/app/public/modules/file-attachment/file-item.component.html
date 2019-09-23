@@ -17,13 +17,13 @@
     </div>
     <div class="sky-file-item-content">
         <div class="sky-file-item-preview">
-            <div *ngIf="isImg()" class="sky-file-item-preview-img-container">
+            <div *ngIf="isImage()" class="sky-file-item-preview-img-container">
               <img
                 class="sky-file-item-preview-img"
                 [src]="fileItem.url"
                 [alt]="'skyux_file_attachment_file_upload_image_preview_alt_text' | skyLibResources" />
             </div>
-            <div *ngIf="!isImg()" class="sky-file-item-preview-other">
+            <div *ngIf="!isImage()" class="sky-file-item-preview-other">
               <sky-icon [icon]="icon"></sky-icon>
             </div>
         </div>

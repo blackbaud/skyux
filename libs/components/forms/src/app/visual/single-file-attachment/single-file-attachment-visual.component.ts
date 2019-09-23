@@ -11,21 +11,16 @@ import {
 } from '@angular/core';
 
 import {
-  SkyFileDropChange,
   SkyFileItem,
   SkyFileLink
 } from '../../public';
 
 @Component({
-  selector: 'file-attachments-visual',
-  templateUrl: './file-attachments-visual.component.html'
+  selector: 'single-file-attachment-visual',
+  templateUrl: './single-file-attachment-visual.component.html'
 })
-export class FileAttachmentsVisualComponent implements OnInit {
+export class SingleFileAttachmentVisualComponent implements OnInit {
   public acceptedTypes: Array<String>;
-
-  public allItems: Array<SkyFileItem | SkyFileLink>;
-
-  public allowLinks: boolean = true;
 
   public attachment: FormControl;
 
@@ -34,8 +29,6 @@ export class FileAttachmentsVisualComponent implements OnInit {
   public filesToUpload: Array<SkyFileItem>;
 
   public fileValue: SkyFileItem;
-
-  public linksToUpload: Array<SkyFileLink>;
 
   public maxFileSize: number = 4000000;
 
@@ -48,14 +41,6 @@ export class FileAttachmentsVisualComponent implements OnInit {
   ) {
     this.filesToUpload = [];
     this.rejectedFiles = [];
-    this.allItems = [<SkyFileItem>{
-      file: {
-        name: 'myfile.pdf',
-        size: 50,
-        type: 'pdf'
-      }
-    }];
-    this.linksToUpload = [];
   }
 
   public ngOnInit(): void {
@@ -63,17 +48,6 @@ export class FileAttachmentsVisualComponent implements OnInit {
     this.fileForm = this.formBuilder.group({
       attachment: this.attachment
     });
-  }
-
-  public filesUpdated(result: SkyFileDropChange): void {
-    this.filesToUpload = this.filesToUpload.concat(result.files);
-    this.rejectedFiles = this.rejectedFiles.concat(result.rejectedFiles);
-    this.allItems = this.allItems.concat(result.files);
-  }
-
-  public linkAdded(result: SkyFileLink): void {
-    this.linksToUpload = this.linksToUpload.concat(result);
-    this.allItems = this.allItems.concat(result);
   }
 
   public validateFile(file: SkyFileItem): string {
@@ -85,9 +59,7 @@ export class FileAttachmentsVisualComponent implements OnInit {
   }
 
   public deleteFile(file: SkyFileItem | SkyFileLink): void {
-    this.removeFromArray(this.allItems, file);
     this.removeFromArray(this.filesToUpload, file);
-    this.removeFromArray(this.linksToUpload, file);
   }
 
   private removeFromArray(items: Array<any>, obj: SkyFileItem | SkyFileLink): void {

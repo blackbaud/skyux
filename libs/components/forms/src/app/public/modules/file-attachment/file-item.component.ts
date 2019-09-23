@@ -16,11 +16,14 @@ import {
   SkyFileLink
 } from './file-link';
 
+import {
+  SkyFileItemService
+} from './file-item.service';
+
 @Component({
   selector: 'sky-file-item',
   templateUrl: './file-item.component.html',
   styleUrls: ['./file-item.component.scss']
-
 })
 export class SkyFileItemComponent implements DoCheck {
   @Input()
@@ -32,7 +35,10 @@ export class SkyFileItemComponent implements DoCheck {
 
   private differ: KeyValueDiffer<any, any>;
 
-  public constructor(private differs: KeyValueDiffers) {
+  public constructor(
+    private differs: KeyValueDiffers,
+    private fileItemService: SkyFileItemService
+    ) {
     this.differ = this.differs.find({}).create();
   }
 
@@ -41,7 +47,7 @@ export class SkyFileItemComponent implements DoCheck {
 
     if (changes) {
       let cls: string,
-          extensionUpper = this.getFileExtensionUpper(),
+          extensionUpper = this.fileItemService.getFileExtensionUpper(<SkyFileItem>this.fileItem),
           fileTypeUpper: string;
 
       switch (extensionUpper) {
@@ -78,7 +84,7 @@ export class SkyFileItemComponent implements DoCheck {
       }
 
       if (!cls) {
-        fileTypeUpper = this.getFileTypeUpper();
+        fileTypeUpper = this.fileItemService.getFileTypeUpper(<SkyFileItem>this.fileItem);
 
         switch (fileTypeUpper.substr(0, fileTypeUpper.indexOf('/'))) {
           case 'AUDIO':
@@ -109,71 +115,11 @@ export class SkyFileItemComponent implements DoCheck {
   }
 
   public isFile() {
-    let file = (<SkyFileItem>this.fileItem).file;
-
-    /* tslint:disable */
-    return file && file !== undefined && file !== null && file.size !== undefined
-      && file.size !== null;
-    /* tslint:enable */
+    return this.fileItemService.isFile(<SkyFileItem>this.fileItem);
   }
 
-  public isImg() {
-    let fileTypeUpper = this.getFileTypeUpper(),
-                        slashIndex: number;
-
-    slashIndex = fileTypeUpper.indexOf('/');
-
-    if (slashIndex >= 0) {
-      switch (fileTypeUpper.substr(fileTypeUpper.indexOf('/') + 1)) {
-        case 'BMP':
-        case 'GIF':
-        case 'JPEG':
-        case 'PNG':
-          return true;
-        default:
-          break;
-      }
-    }
-
-    return false;
-  }
-
-  private getFileExtensionUpper() {
-    let extension = '',
-        name: string;
-
-    /* istanbul ignore else */
-    /* sanity check */
-    if (this.fileItem) {
-      let file = (<SkyFileItem>this.fileItem).file;
-      if (file) {
-        /* istanbul ignore next */
-        name = file.name || '';
-        /* istanbul ignore next */
-        extension = name.substr(name.lastIndexOf('.')) || '';
-      } else {
-        extension = '';
-      }
-
-    }
-
-    return extension.toUpperCase();
-  }
-
-  private getFileTypeUpper() {
-    let fileType = '';
-    /* istanbul ignore else */
-    /* sanity check */
-    if (this.fileItem) {
-      let file = (<SkyFileItem>this.fileItem).file;
-      if (file) {
-        fileType = file.type || '';
-      } else {
-        fileType = '';
-      }
-    }
-
-    return fileType.toUpperCase();
+  public isImage() {
+    return this.fileItemService.isImage(<SkyFileItem>this.fileItem);
   }
 
 }

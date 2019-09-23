@@ -1,0 +1,82 @@
+<div
+  class="sky-file-attachment-wrapper"
+>
+  <div
+    class="sky-file-attachment-label-wrapper"
+    [ngClass]="{ 'sky-control-label-required': required && hasLabelComponent }"
+    [attr.id]="labelElementId"
+  >
+    <ng-container *ngTemplateOutlet="labelContent"
+    ></ng-container>
+  </div>
+  <div
+    class="sky-file-attachment-upload sky-file-attachment sky-file-attachment-target"
+    [ngClass]="{ 'sky-file-attachment-accept': acceptedOver, 'sky-file-attachment-reject': rejectedOver }"
+    (dragenter)="fileDragEnter($event)"
+    (dragover)="fileDragOver($event)"
+    (dragleave)="fileDragLeave($event)"
+    (drop)="fileDrop($event)"
+  >
+    <input
+      hidden
+      tabindex="-1"
+      type="file"
+      [attr.accept]="acceptedTypes || null"
+      (change)="fileChangeEvent($event)"
+      #fileInput
+    >
+    <button
+      class="sky-file-attachment-btn sky-btn sky-btn-default"
+      type="button"
+      [attr.aria-label]="'skyux_file_attachment_file_upload_drag_or_click' | skyLibResources"
+      [attr.aria-labelledby]="(hasLabelComponent) ? labelElementId : null"
+      (click)="onDropClicked()"
+    >
+      <sky-icon
+        icon="folder-open-o"
+      ></sky-icon>
+      {{ value ? 'Replace File' : 'Choose File' }}
+    </button>
+    <span class="sky-file-attachment-name">
+    <a *ngIf="value; else noFile" (click)="emitClick()">
+        {{ getFileName() }}
+    </a>
+    </span>
+    <ng-template #noFile>
+      <span
+        class="sky-file-attachment-none sky-deemphasized"
+      >
+        No file chosen
+      </span>
+  </ng-template>
+  <button *ngIf="value"
+    type="button"
+    class="sky-btn sky-file-attachment-delete"
+    [attr.aria-label]="'skyux_file_attachment_file_item_delete' | skyLibResources"
+    (click)="deleteFileAttachment()"
+  >
+    <sky-icon
+      icon="trash-o"
+      size="md"
+    >
+    </sky-icon>
+  </button>
+</div>
+
+  <div *ngIf="value && isImage()"
+  >
+    <img
+      [alt]="'skyux_file_attachment_file_upload_image_preview_alt_text' | skyLibResources"
+      class="sky-file-attachment-preview-img"
+      [src]="value.url"
+    />
+  </div>
+</div>
+
+<ng-template
+  #labelContent
+>
+    <ng-content
+      select="sky-file-attachment-label"
+    ></ng-content>
+</ng-template>

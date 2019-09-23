@@ -1,0 +1,108 @@
+<div
+  style="margin-top: 10px"
+>
+  <button
+    type="button"
+    class="sky-btn sky-btn-primary sky-test-label"
+    (click)="showLabel = !showLabel"
+  >
+    Toggle showLabel
+  </button>
+</div>
+
+<h1>
+  File attachment (reactive)
+</h1>
+
+<form
+  novalidate
+  [formGroup]="fileForm"
+>
+  <div
+    id="screenshot-file-attachment"
+  >
+    <sky-file-attachment
+      formControlName="attachment"
+      [validateFn]="validateFile"
+    >
+      <sky-file-attachment-label
+        *ngIf="showLabel"
+      >
+        Field Label
+      </sky-file-attachment-label>
+    </sky-file-attachment>
+
+    <div *ngIf="attachment?.invalid && attachment?.dirty"
+      class="sky-error-label"
+    >
+      Attach a file.
+    </div>
+  </div>
+
+  <table>
+    <tr>
+      <th>Touched</th>
+      <td>{{ fileForm.touched }}</td>
+    </tr>
+    <tr>
+      <th>Pristine</th>
+      <td>{{ fileForm.pristine }}</td>
+    </tr>
+    <tr>
+      <th>Valid</th>
+      <td>{{ fileForm.valid }}</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+      <td>{{ fileForm.value.attachment?.file.name || 'Nothing selected...' }}</td>
+    </tr>
+  </table>
+
+</form>
+
+<h1>
+  File attachment (template-driven)
+</h1>
+
+<div>
+  <sky-file-attachment
+    required
+    [validateFn]="validateFile"
+    [(ngModel)]="fileValue"
+    #file="ngModel"
+  >
+    <sky-file-attachment-label
+      *ngIf="showLabel"
+    >
+      Field Label
+    </sky-file-attachment-label>
+  </sky-file-attachment>
+  <div *ngIf="file?.invalid && file?.dirty"
+    class="sky-error-label"
+  >
+    Attach a file.
+  </div>
+</div>
+
+<table>
+  <tr>
+    <th>Touched</th>
+    <td>{{ file.touched }}</td>
+  </tr>
+  <tr>
+    <th>Pristine</th>
+    <td>{{ file.pristine }}</td>
+  </tr>
+  <tr>
+    <th>Valid</th>
+    <td>{{ file.valid }}</td>
+  </tr>
+  <tr>
+    <th>Value</th>
+    <td>{{ fileValue?.file.name || 'Nothing selected...' }}</td>
+  </tr>
+  <tr>
+    <th>Errors</th>
+    <td>{{ fileValue?.errorType }}</td>
+  </tr>
+</table>

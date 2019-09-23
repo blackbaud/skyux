@@ -1,0 +1,1024 @@
+import {
+  async,
+  ComponentFixture,
+  TestBed,
+  tick,
+  fakeAsync
+} from '@angular/core/testing';
+
+import {
+  By
+} from '@angular/platform-browser';
+
+import {
+  DebugElement
+} from '@angular/core';
+
+import {
+  expect
+} from '@skyux-sdk/testing';
+
+import {
+  SkyFileAttachmentComponent
+} from './file-attachment.component';
+
+import {
+  SkyFileAttachmentChange
+} from './types/file-attachment-change';
+
+import {
+  SkyFileItem
+} from './file-item';
+
+import {
+  FileAttachmentTestComponent
+} from './fixtures/file-attachment.component.fixture';
+
+import {
+  FileAttachmentTestModule
+} from './fixtures/file-attachment.module.fixture';
+
+describe('File attachment', () => {
+
+  let fixture: ComponentFixture<FileAttachmentTestComponent>;
+  let el: HTMLElement;
+  let fileAttachmentInstance: SkyFileAttachmentComponent;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        FileAttachmentTestModule
+      ]
+    });
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(FileAttachmentTestComponent);
+    fixture.detectChanges();
+    el = fixture.nativeElement;
+    fileAttachmentInstance = fixture.componentInstance.fileAttachmentComponent;
+  });
+
+  function getInputDebugEl(): DebugElement {
+    return fixture.debugElement.query(By.css('input'));
+  }
+
+  function getButtonEl(): HTMLElement {
+    return el.querySelector('.sky-file-attachment-btn');
+  }
+
+  function getDropEl(): HTMLElement {
+    return el.querySelector('.sky-file-attachment');
+  }
+
+  function getDropDebugEl(): DebugElement {
+    return fixture.debugElement.query(By.css('.sky-file-attachment'));
+  }
+
+  function getFileNameLinkEl(): HTMLElement {
+    return el.querySelector('.sky-file-attachment-name a');
+  }
+
+  function getFileNameText(): string {
+    return el.querySelector('.sky-file-attachment-name').textContent.trim();
+  }
+
+  function getDeleteEl(): HTMLElement {
+    return el.querySelector('.sky-file-attachment-delete');
+  }
+
+  function validateDropClasses(hasAccept: boolean, hasReject: boolean, dropEl: any): void {
+    expect(dropEl.classList.contains('sky-file-attachment-accept')).toBe(hasAccept);
+    expect(dropEl.classList.contains('sky-file-attachment-reject')).toBe(hasReject);
+  }
+
+  function getImage(): DebugElement {
+    return fixture.debugElement.query(By.css('.sky-file-attachment-preview-img'));
+  }
+
+  function testImage(extension: string): void {
+    const testFile = <SkyFileItem> {
+      file: {
+        name: 'myFile.' + extension,
+        type: 'image/' + extension,
+        size: 1000
+      },
+      url: 'myFile.' + extension
+    };
+    fileAttachmentInstance.writeValue(testFile);
+
+    fixture.detectChanges();
+
+    const imageEl = getImage();
+    expect(imageEl.nativeElement.getAttribute('src')).toBe('myFile.' + extension);
+
+    // Test Accessibility
+    fixture.whenStable().then(() => {
+      expect(fixture.nativeElement).toBeAccessible();
+    });
+  }
+
+  function testNonImageType(extension: string, type: string): void {
+    const testFile = <SkyFileItem> {
+      file: {
+        name: 'myFile.' + extension,
+        type:  type + '/' + extension,
+        size: 1000
+      },
+      url: 'myFile.' + extension
+    };
+    fileAttachmentInstance.writeValue(testFile);
+    fixture.detectChanges();
+
+    const imageEl = getImage();
+    expect(imageEl).toBeFalsy();
+
+    // Test Accessibility
+    fixture.whenStable().then(() => {
+      expect(fixture.nativeElement).toBeAccessible();
+    });
+  }
+
+  function getLabelWrapper(): HTMLElement {
+    return el.querySelector('.sky-file-attachment-label-wrapper');
+  }
+
+  function triggerChangeEvent(expectedChangeFiles: any[]): void {
+    const inputEl = getInputDebugEl();
+
+    const fileChangeEvent = {
+      target: {
+        files: {
+          length: expectedChangeFiles.length,
+          item: function (index: number): any {
+            return expectedChangeFiles[index];
+          }
+        }
+      }
+    };
+
+    inputEl.triggerEventHandler('change', fileChangeEvent);
+  }
+
+  function getFileReaderSpy(): { loadCallbacks: Function[], errorCallbacks: Function[], abortCallbacks: Function[] } {
+    const loadCallbacks: Function[] = [];
+    const errorCallbacks: Function[] = [];
+    const abortCallbacks: Function[] = [];
+
+    spyOn((window as any), 'FileReader').and.returnValue({
+      readAsDataURL: function(file: any): void {
+
+      },
+      addEventListener: function(type: string, callback: Function): void {
+        if (type === 'load') {
+          loadCallbacks.push(callback);
+        } else if (type === 'error') {
+          errorCallbacks.push(callback);
+        } else if (type === 'abort') {
+          abortCallbacks.push(callback);
+        }
+      }
+    });
+
+    return {
+      loadCallbacks,
+      errorCallbacks,
+      abortCallbacks
+    };
+  }
+
+  function setupStandardFileChangeEvent(files?: Array<any>): void {
+    const fileReaderSpy = getFileReaderSpy();
+
+    if (!files) {
+      files = [
+        {
+          name: 'foo.txt',
+          size: 1000,
+          type: 'image/png'
+        }
+      ];
+    }
+    triggerChangeEvent(files);
+
+    fixture.detectChanges();
+
+    if (fileReaderSpy.loadCallbacks[0]) {
+       fileReaderSpy.loadCallbacks[0]({
+        target: {
+          result: 'url'
+        }
+      });
+    }
+
+    if (fileReaderSpy.loadCallbacks[1]) {
+      fileReaderSpy.loadCallbacks[1]({
+        target: {
+          result: 'newurl'
+        }
+      });
+    }
+
+    fixture.detectChanges();
+  }
+
+  function triggerDragEnter(enterTarget: any, dropDebugEl: DebugElement): void {
+    const dragEnterPropStoppedSpy = jasmine.createSpy();
+    const dragEnterPreventDefaultSpy = jasmine.createSpy();
+
+    const dragEnterEvent = {
+      target: enterTarget,
+      stopPropagation: dragEnterPropStoppedSpy,
+      preventDefault: dragEnterPreventDefaultSpy
+    };
+
+    expect(dragEnterPropStoppedSpy).not.toHaveBeenCalled();
+    expect(dragEnterPreventDefaultSpy).not.toHaveBeenCalled();
+
+    dropDebugEl.triggerEventHandler('dragenter', dragEnterEvent);
+    fixture.detectChanges();
+
+    expect(dragEnterPropStoppedSpy).toHaveBeenCalled();
+    expect(dragEnterPreventDefaultSpy).toHaveBeenCalled();
+  }
+
+  function triggerDragOver(files: any[], items: any[], dropDebugEl: DebugElement): void {
+    const dragOverPropStoppedSpy = jasmine.createSpy();
+    const dragOverPreventDefaultSpy = jasmine.createSpy();
+
+    const dragOverEvent = {
+      dataTransfer: {
+        files: files,
+        items: items
+      },
+      stopPropagation: dragOverPropStoppedSpy,
+      preventDefault: dragOverPreventDefaultSpy
+    };
+
+    expect(dragOverPropStoppedSpy).not.toHaveBeenCalled();
+    expect(dragOverPreventDefaultSpy).not.toHaveBeenCalled();
+
+    dropDebugEl.triggerEventHandler('dragover', dragOverEvent);
+    fixture.detectChanges();
+
+    expect(dragOverPropStoppedSpy).toHaveBeenCalled();
+    expect(dragOverPreventDefaultSpy).toHaveBeenCalled();
+  }
+
+  function triggerDrop(files: any[], dropDebugEl: DebugElement): void {
+    const dropPropStoppedSpy = jasmine.createSpy();
+    const dropPreventDefaultSpy = jasmine.createSpy();
+    const fileLength = files ? files.length : 0;
+
+    let dropEvent = {
+      dataTransfer: {
+        files: {
+          length: fileLength,
+          item: function (index: number): any {
+            return files[index];
+          }
+        },
+        items: files
+      },
+      stopPropagation: dropPropStoppedSpy,
+      preventDefault: dropPreventDefaultSpy
+    };
+
+    expect(dropPropStoppedSpy).not.toHaveBeenCalled();
+    expect(dropPreventDefaultSpy).not.toHaveBeenCalled();
+
+    dropDebugEl.triggerEventHandler('drop', dropEvent);
+    fixture.detectChanges();
+
+    expect(dropPropStoppedSpy).toHaveBeenCalled();
+    expect(dropPreventDefaultSpy).toHaveBeenCalled();
+  }
+
+  function triggerDragLeave(leaveTarget: any, dropDebugEl: DebugElement): void {
+    const dragLeaveEvent = {
+      target: leaveTarget
+    };
+
+    dropDebugEl.triggerEventHandler('dragleave', dragLeaveEvent);
+    fixture.detectChanges();
+  }
+  //#endregion
+
+  it('should allow the user to specify if the file is required', fakeAsync(() => {
+    fileAttachmentInstance.ngAfterViewInit();
+    tick();
+    fixture.detectChanges();
+
+    let labelWrapper = getLabelWrapper();
+
+    expect(fileAttachmentInstance.required).toBe(true);
+    expect(labelWrapper.classList.contains('sky-control-label-required')).toBe(true);
+  }));
+
+  it('should handle removing the label', fakeAsync(() => {
+    fileAttachmentInstance.ngAfterViewInit();
+    fileAttachmentInstance.ngAfterContentInit();
+    tick();
+    fixture.detectChanges();
+
+    const labelWrapper = getLabelWrapper();
+
+    expect(labelWrapper.classList.contains('sky-control-label-required')).toBe(true);
+
+    fixture.componentInstance.showLabel = false;
+    fixture.detectChanges();
+
+    expect(labelWrapper.classList.contains('sky-control-label-required')).toBe(false);
+  }));
+
+  it('should click the file input on choose file button click', () => {
+    fixture.detectChanges();
+
+    const inputEl = getInputDebugEl();
+
+    spyOn(inputEl.references.fileInput, 'click');
+
+    const dropEl = getButtonEl();
+
+    expect(inputEl.references.fileInput.click).not.toHaveBeenCalled();
+
+    dropEl.click();
+
+    fixture.detectChanges();
+
+    expect(inputEl.references.fileInput.click).toHaveBeenCalled();
+  });
+
+  it('should not click the file input on remove button click', () => {
+    fixture.detectChanges();
+
+    const inputEl = getInputDebugEl();
+
+    spyOn(inputEl.references.fileInput, 'click');
+
+    const file = [
+      {
+        name: 'foo.txt',
+        size: 1000,
+        type: 'image/png'
+      }
+    ];
+
+    setupStandardFileChangeEvent(file);
+
+    const deleteEl = getDeleteEl();
+
+    expect(inputEl.references.fileInput.click).not.toHaveBeenCalled();
+
+    deleteEl.click();
+
+    fixture.detectChanges();
+
+    expect(inputEl.references.fileInput.click).not.toHaveBeenCalled();
+  });
+
+  // Maybe some other tests here about dragging
+  it('should load and emit file on file change event', () => {
+    let fileChangeActual: SkyFileAttachmentChange;
+
+    fileAttachmentInstance.fileChange.subscribe(
+      (fileChange: SkyFileAttachmentChange) => fileChangeActual = fileChange );
+
+    fixture.detectChanges();
+
+    let file = [
+      {
+        name: 'foo.txt',
+        size: 1000,
+        type: 'image/png'
+      }
+    ];
+
+    setupStandardFileChangeEvent(file);
+
+    expect(fileChangeActual.file).toBeTruthy();
+    expect(fileChangeActual.file.url).toBe('url');
+    expect(fileChangeActual.file.file.name).toBe('foo.txt');
+    expect(fileChangeActual.file.file.size).toBe(1000);
+  });
+
+  it('should load and emit files on file change event when file reader has an error and aborts',
+  () => {
+    let filesChangedActual: SkyFileAttachmentChange;
+
+    fileAttachmentInstance.fileChange.subscribe(
+      (filesChanged: SkyFileAttachmentChange) => {
+        filesChangedActual = filesChanged;
+      });
+
+    const fileReaderSpy = getFileReaderSpy();
+
+    triggerChangeEvent([
+      {
+        name: 'woo.txt',
+        size: 3000
+      }
+    ]);
+    fixture.detectChanges();
+
+    fileReaderSpy.abortCallbacks[0]();
+    fixture.detectChanges();
+
+    expect(filesChangedActual.file.url).toBeFalsy();
+    expect(filesChangedActual.file.file.name).toBe('woo.txt');
+    expect(filesChangedActual.file.file.size).toBe(3000);
+
+    triggerChangeEvent([
+      {
+        name: 'foo.txt',
+        size: 2000
+      }
+    ]);
+    fixture.detectChanges();
+
+    fileReaderSpy.errorCallbacks[1]();
+    fixture.detectChanges();
+
+    expect(filesChangedActual.file.url).toBeFalsy();
+    expect(filesChangedActual.file.file.name).toBe('foo.txt');
+    expect(filesChangedActual.file.file.size).toBe(2000);
+  });
+
+  it('should clear file on remove press', () => {
+    let fileChangeActual: SkyFileAttachmentChange;
+
+    fileAttachmentInstance.fileChange.subscribe(
+      (fileChange: SkyFileAttachmentChange) => fileChangeActual = fileChange );
+
+    fixture.detectChanges();
+
+    const file = [
+      {
+        name: 'foo.txt',
+        size: 1000,
+        type: 'image/png'
+      }
+    ];
+
+    setupStandardFileChangeEvent(file);
+
+    const deleteEl = getDeleteEl();
+
+    deleteEl.click();
+
+    fixture.detectChanges();
+
+    expect(fileChangeActual.file).toBeFalsy();
+  });
+
+  it('should show the appropriate file name', () => {
+
+    // Regular file
+    let testFile = <SkyFileItem> {
+      file: {
+        name: 'test.png',
+        size: 1000,
+        type: 'image/png'
+      },
+      url: 'myFile'
+    };
+    fileAttachmentInstance.writeValue(testFile);
+    fixture.detectChanges();
+
+    expect(getFileNameText()).toBe('test.png');
+
+    // File with truncated name
+    testFile = <SkyFileItem> {
+      file: {
+        name: 'abcdefghijklmnopqrstuvwxyz12345.png',
+        size: 1000,
+        type: 'image/png'
+      },
+      url: 'myFile'
+    };
+    fileAttachmentInstance.writeValue(testFile);
+    fixture.detectChanges();
+
+    expect(getFileNameText()).toBe('abcdefghijklmnopqrstuvwxyz...');
+
+    // File with no name
+    testFile = <SkyFileItem> {
+      file: {
+        name: undefined,
+        size: 1000,
+        type: 'image/png'
+      },
+      url: 'myFile'
+    };
+    fileAttachmentInstance.writeValue(testFile);
+    fixture.detectChanges();
+
+    expect(getFileNameText()).toBe('myFile');
+
+    // no file
+    fileAttachmentInstance.writeValue(undefined);
+    fixture.detectChanges();
+
+    expect(getFileNameText()).toBe('No file chosen');
+    expect(fileAttachmentInstance.getFileName()).toBeUndefined();
+
+    // File with no name and truncated url
+    testFile = <SkyFileItem> {
+      file: {
+        name: undefined,
+        size: 1000,
+        type: 'image/txt'
+      },
+      url: 'abcdefghijklmnopqrstuvwxyz12345'
+    };
+    fileAttachmentInstance.writeValue(testFile);
+    fixture.detectChanges();
+
+    expect(getFileNameText()).toBe('abcdefghijklmnopqrstuvwxyz...');
+  });
+
+  it('should emit fileClick even when the uploaded file link is clicked', () => {
+    const testFile: SkyFileItem = <SkyFileItem> {
+      file: {
+        name: 'test.png',
+        size: 1000,
+        type: 'image/png'
+      },
+      url: 'myFile'
+    };
+
+    spyOn(fileAttachmentInstance.fileClick, 'emit');
+
+    fileAttachmentInstance.writeValue(testFile);
+    fixture.detectChanges();
+
+    const fileNameEl = getFileNameLinkEl();
+
+    fileNameEl.click();
+
+    expect(fileAttachmentInstance.fileClick.emit).toHaveBeenCalledWith({ file: testFile });
+  });
+
+  it('should load files and set classes on drag and drop', () => {
+    let fileChangeActual: SkyFileAttachmentChange;
+
+    fileAttachmentInstance.fileChange.subscribe(
+      (fileChange: SkyFileAttachmentChange) => fileChangeActual = fileChange );
+
+    const fileReaderSpy = getFileReaderSpy();
+
+    fileAttachmentInstance.acceptedTypes = 'image/png, image/tiff';
+
+    fixture.detectChanges();
+
+    const dropDebugEl = getDropDebugEl();
+    const dropEl = getDropEl();
+
+    const files = [
+      {
+        name: 'foo.txt',
+        size: 1000,
+        type: 'image/png'
+      }
+    ];
+
+    const invalidFiles = [
+      {
+        name: 'foo.txt',
+        size: 1000,
+        type: 'image/jpeg'
+      }
+    ];
+
+    triggerDragEnter('sky-file-attachment', dropDebugEl);
+    triggerDragOver(undefined, files, dropDebugEl);
+    validateDropClasses(true, false, dropEl);
+
+    triggerDrop(files, dropDebugEl);
+    validateDropClasses(false, false, dropEl);
+
+    fileReaderSpy.loadCallbacks[0]({
+      target: {
+        result: 'url'
+      }
+    });
+
+    fixture.detectChanges();
+
+    expect(fileChangeActual.file).toBeTruthy();
+    expect(fileChangeActual.file.errorType).toBeFalsy();
+    expect(fileChangeActual.file.url).toBe('url');
+    expect(fileChangeActual.file.file.name).toBe('foo.txt');
+    expect(fileChangeActual.file.file.size).toBe(1000);
+
+    // Verify reject classes when appropriate
+    triggerDragEnter('sky-file-attachment', dropDebugEl);
+    triggerDragOver(undefined, invalidFiles, dropDebugEl);
+    validateDropClasses(false, true, dropEl);
+    triggerDragLeave('something', dropDebugEl);
+    validateDropClasses(false, true, dropEl);
+    triggerDragLeave('sky-file-attachment', dropDebugEl);
+    validateDropClasses(false, false, dropEl);
+
+    // Verify empty file array
+    triggerDragEnter('sky-file-attachment', dropDebugEl);
+    triggerDragOver(undefined, [], dropDebugEl);
+    validateDropClasses(false, false, dropEl);
+
+    // Verify undefined files
+    triggerDragEnter('sky-file-attachment', dropDebugEl);
+    triggerDragOver(undefined, undefined, dropDebugEl);
+    validateDropClasses(false, false, dropEl);
+
+    const emptyEvent = {
+      stopPropagation: () => {},
+      preventDefault: () => {}
+    };
+
+    // Verify no dataTransfer drag
+    dropDebugEl.triggerEventHandler('dragover', emptyEvent);
+    fixture.detectChanges();
+    validateDropClasses(false, false, dropEl);
+
+    // Verify no dataTransfer drop
+    fileReaderSpy.loadCallbacks = [];
+    dropDebugEl.triggerEventHandler('drop', emptyEvent);
+    fixture.detectChanges();
+    expect(fileReaderSpy.loadCallbacks.length).toBe(0);
+
+  });
+
+  it('should accept a file of rejected type on drag (but not on drop) ' +
+    'if the browser does not support dataTransfer.items', () => {
+    fileAttachmentInstance.acceptedTypes = 'image/png, image/tiff';
+
+    fixture.detectChanges();
+
+    const dropDebugEl = getDropDebugEl();
+
+    const invalidFiles = [
+      {
+        name: 'foo.txt',
+        size: 1000,
+        type: 'image/jpeg'
+      }
+    ];
+
+    const dropEl = getDropEl();
+
+    triggerDragEnter('sky-file-attachment', dropDebugEl);
+    triggerDragOver(invalidFiles, undefined, dropDebugEl);
+    validateDropClasses(true, false, dropEl);
+
+    triggerDrop(invalidFiles, dropDebugEl);
+    validateDropClasses(false, false, dropEl);
+  });
+
+  it('should prevent loading multiple files on drag and drop', () => {
+    const files = [
+      {
+        name: 'foo.txt',
+        size: 1000,
+        type: 'image/png'
+      },
+      {
+        name: 'goo.txt',
+        size: 1000,
+        type: 'image/png'
+      }
+    ];
+
+    const fileReaderSpy = getFileReaderSpy();
+
+    const dropDebugEl = getDropDebugEl();
+
+    triggerDragEnter('sky-file-attachment', dropDebugEl);
+    triggerDragOver(undefined, files, dropDebugEl);
+    triggerDrop(files, dropDebugEl);
+    expect(fileReaderSpy.loadCallbacks.length).toBe(0);
+  });
+
+  it('should prevent loading directories on drag and drop', () => {
+    const files = [
+      {
+        name: 'foo.txt',
+        size: 1000,
+        type: 'image/png',
+        webkitGetAsEntry: function (): { isDirectory: boolean } {
+          return {
+            isDirectory: true
+          };
+        }
+      }
+    ];
+
+    const fileReaderSpy = getFileReaderSpy();
+    fixture.detectChanges();
+
+    const dropDebugEl = getDropDebugEl();
+
+    triggerDragEnter('sky-file-attachment', dropDebugEl);
+    triggerDragOver(undefined, files, dropDebugEl);
+    triggerDrop(files, dropDebugEl);
+    expect(fileReaderSpy.loadCallbacks.length).toBe(0);
+  });
+
+  it('should allow the user to specify a min file size', () => {
+    let fileChangeActual: SkyFileAttachmentChange;
+
+    fileAttachmentInstance.fileChange.subscribe(
+      (fileChange: SkyFileAttachmentChange) => fileChangeActual = fileChange );
+
+    fileAttachmentInstance.minFileSize = 1500;
+    fixture.detectChanges();
+
+    setupStandardFileChangeEvent();
+
+    expect(fileChangeActual.file.file.name).toBe('foo.txt');
+    expect(fileChangeActual.file.file.size).toBe(1000);
+    expect(fileChangeActual.file.errorType).toBe('minFileSize');
+    expect(fileChangeActual.file.errorParam).toBe('1500');
+
+    expect(fileAttachmentInstance.value).toBeFalsy();
+  });
+
+  it('should allow the user to specify a max file size', () => {
+    let fileChangeActual: SkyFileAttachmentChange;
+
+    fileAttachmentInstance.fileChange.subscribe(
+      (fileChange: SkyFileAttachmentChange) => fileChangeActual = fileChange );
+
+    fileAttachmentInstance.maxFileSize = 1500;
+    fixture.detectChanges();
+
+    const file = [
+      {
+        name: 'woo.txt',
+        size: 2000,
+        type: 'image/png'
+      }
+    ];
+
+    setupStandardFileChangeEvent(file);
+
+    expect(fileChangeActual.file.file.name).toBe('woo.txt');
+    expect(fileChangeActual.file.file.size).toBe(2000);
+    expect(fileChangeActual.file.errorType).toBe('maxFileSize');
+    expect(fileChangeActual.file.errorParam).toBe('1500');
+
+    expect(fileAttachmentInstance.value).toBeFalsy();
+  });
+
+  it('should set errors if file fails user provided validation function', () => {
+    let fileChangeActual: SkyFileAttachmentChange;
+
+    fileAttachmentInstance.fileChange.subscribe(
+      (fileChange: SkyFileAttachmentChange) => fileChangeActual = fileChange );
+
+    const errorMessage = 'You may not upload a file that begins with the letter "w."';
+
+    fileAttachmentInstance.validateFn = function(inputFile: any): string {
+      if (inputFile.file.name.indexOf('w') === 0) {
+        return errorMessage;
+      }
+    };
+
+    fixture.detectChanges();
+
+    const file = [
+      {
+        name: 'woo.txt',
+        size: 2000,
+        type: 'image/png'
+      }
+    ];
+
+    setupStandardFileChangeEvent(file);
+
+    expect(fileChangeActual.file.file.name).toBe('woo.txt');
+    expect(fileChangeActual.file.file.size).toBe(2000);
+    expect(fileChangeActual.file.errorType).toBe('validate');
+    expect(fileChangeActual.file.errorParam).toBe(errorMessage);
+
+    expect(fileAttachmentInstance.value).toBeFalsy();
+  });
+
+  it('should accept if file passes user provided validation function', () => {
+    let fileChangeActual: SkyFileAttachmentChange;
+
+    fileAttachmentInstance.fileChange.subscribe(
+      (fileChange: SkyFileAttachmentChange) => fileChangeActual = fileChange );
+
+    const errorMessage = 'You may not upload a file that begins with the letter "w."';
+
+    fileAttachmentInstance.validateFn = function(inputFile: any): string {
+      if (inputFile.file.name.indexOf('w') === 0) {
+        return errorMessage;
+      }
+    };
+
+    fixture.detectChanges();
+
+    const file = [
+      {
+        name: 'foo.txt',
+        size: 1000,
+        type: 'image/png'
+      }
+    ];
+
+    setupStandardFileChangeEvent(file);
+
+    expect(fileChangeActual.file.file.name).toBe('foo.txt');
+    expect(fileChangeActual.file.file.size).toBe(1000);
+    expect(fileChangeActual.file.url).toBe('url');
+
+    expect(fileAttachmentInstance.value).toBeTruthy();
+  });
+
+  it('should accept a file when type is accepted', () => {
+    let fileChangeActual: SkyFileAttachmentChange;
+
+    fileAttachmentInstance.fileChange.subscribe(
+      (fileChange: SkyFileAttachmentChange) => fileChangeActual = fileChange );
+
+    fileAttachmentInstance.acceptedTypes = 'image/png,image/tiff';
+
+    fixture.detectChanges();
+
+    const file = [
+      {
+        name: 'foo.txt',
+        size: 1000,
+        type: 'image/png'
+      }
+    ];
+
+    setupStandardFileChangeEvent(file);
+
+    expect(fileChangeActual.file.file.name).toBe('foo.txt');
+    expect(fileChangeActual.file.file.size).toBe(1000);
+    expect(fileChangeActual.file.url).toBe('url');
+  });
+
+  it('should reject a file with a type that is not accepted', () => {
+    let fileChangeActual: SkyFileAttachmentChange;
+
+    fileAttachmentInstance.fileChange.subscribe(
+      (fileChange: SkyFileAttachmentChange) => fileChangeActual = fileChange );
+
+    fileAttachmentInstance.acceptedTypes = 'image/png,image/tiff';
+
+    fixture.detectChanges();
+
+    const file = [
+      {
+        name: 'woo.txt',
+        size: 2000,
+        type: 'image/jpeg'
+      }
+    ];
+
+    setupStandardFileChangeEvent(file);
+
+    expect(fileChangeActual.file.file.name).toBe('woo.txt');
+    expect(fileChangeActual.file.file.size).toBe(2000);
+    expect(fileChangeActual.file.errorType).toBe('fileType');
+    expect(fileChangeActual.file.errorParam).toBe(fileAttachmentInstance.acceptedTypes);
+  });
+
+  it('should reject a file with no type when accepted types are defined', () => {
+    let fileChangeActual: SkyFileAttachmentChange;
+
+    fileAttachmentInstance.fileChange.subscribe(
+      (fileChange: SkyFileAttachmentChange) => fileChangeActual = fileChange );
+
+    fileAttachmentInstance.acceptedTypes = 'image/png,image/tiff';
+
+    fixture.detectChanges();
+
+    const file = [
+      {
+        name: 'foo.txt',
+        size: 1000
+      }
+    ];
+
+    setupStandardFileChangeEvent(file);
+
+    expect(fileChangeActual.file.file.name).toBe('foo.txt');
+    expect(fileChangeActual.file.file.size).toBe(1000);
+    expect(fileChangeActual.file.errorType).toBe('fileType');
+    expect(fileChangeActual.file.errorParam).toBe(fileAttachmentInstance.acceptedTypes);
+  });
+
+  it('should allow the user to specify accepted type with wildcards', () => {
+    let fileChangeActual: SkyFileAttachmentChange;
+
+    fileAttachmentInstance.fileChange.subscribe(
+      (fileChange: SkyFileAttachmentChange) => fileChangeActual = fileChange );
+
+    fileAttachmentInstance.acceptedTypes = 'application/*,image/*';
+
+    fixture.detectChanges();
+
+    const file = [
+      {
+        name: 'woo.txt',
+        size: 2000,
+        type: 'image/jpeg'
+      }
+    ];
+
+    setupStandardFileChangeEvent(file);
+
+    expect(fileChangeActual.file.file.name).toBe('woo.txt');
+    expect(fileChangeActual.file.file.size).toBe(2000);
+    expect(fileChangeActual.file.url).toBe('url');
+  });
+
+  it('should accept multiple types using a wildcard', () => {
+    let fileChangeActual: SkyFileAttachmentChange;
+
+    fileAttachmentInstance.fileChange.subscribe(
+      (fileChange: SkyFileAttachmentChange) => fileChangeActual = fileChange );
+
+    fileAttachmentInstance.acceptedTypes = 'application/*,image/*';
+
+    fixture.detectChanges();
+
+    const file = [
+      {
+        name: 'foo.txt',
+        size: 1000,
+        type: 'image/png'
+      }
+    ];
+
+    setupStandardFileChangeEvent(file);
+
+    expect(fileChangeActual.file.file.name).toBe('foo.txt');
+    expect(fileChangeActual.file.file.size).toBe(1000);
+    expect(fileChangeActual.file.url).toBe('url');
+  });
+
+  it('shows the thumbnail if the item is an image', () => {
+    testImage('png');
+    testImage('bmp');
+    testImage('jpeg');
+    testImage('gif');
+  });
+
+  it('does not show an icon if it is not an image', () => {
+    testNonImageType('pdf', 'pdf');
+    testNonImageType('gz', 'gz');
+    testNonImageType('rar', 'rar');
+    testNonImageType('tgz', 'tgz');
+    testNonImageType('zip', 'zip');
+    testNonImageType('ppt', 'ppt');
+    testNonImageType('pptx', 'pptx');
+    testNonImageType('doc', 'doc');
+    testNonImageType('docx', 'docx');
+    testNonImageType('xls', 'xls');
+    testNonImageType('xlsx', 'xlsx');
+    testNonImageType('txt', 'txt');
+    testNonImageType('htm', 'htm');
+    testNonImageType('html', 'html');
+    testNonImageType('mp3', 'audio');
+    testNonImageType('tiff', 'image');
+    testNonImageType('other', 'text');
+    testNonImageType('mp4', 'video');
+  });
+
+  it('should not show an icon if file or type does not exist', () => {
+    const imageEl = getImage();
+    expect(imageEl).toBeFalsy();
+
+    fileAttachmentInstance.value = <SkyFileItem> {
+      file: undefined,
+      url: 'myFile'
+    };
+    fixture.detectChanges();
+
+    expect(imageEl).toBeFalsy();
+
+    fileAttachmentInstance.value = <SkyFileItem> {
+      file: {
+        name: 'myFile.png',
+        type: undefined,
+        size: 1000
+      },
+      url: 'myFile'
+    };
+    fixture.detectChanges();
+
+    expect(imageEl).toBeFalsy();
+  });
+
+  it('should pass accessibility', async(() => {
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(fixture.nativeElement).toBeAccessible();
+    });
+  }));
+});

@@ -1,0 +1,56 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-file-attachment-wrapper {
+  display: inline-block;
+}
+
+.sky-file-attachment-upload {
+  padding-right: 8px;
+  display: block;
+  border: 1px solid transparent;
+}
+
+.sky-file-attachment-accept {
+  border-color: $sky-highlight-color-success;
+  border-style: dashed;
+  border-width: 1px;
+  border-radius: 5px;
+  color: $sky-text-color-default;
+}
+
+.sky-file-attachment-reject {
+  border-color: $sky-highlight-color-danger;
+  border-style: dashed;
+  border-width: 1px;
+  border-radius: 5px;
+  color: $sky-text-color-default;
+}
+
+:host(.ng-invalid.ng-dirty) {
+  .sky-file-attachment-btn {
+    box-shadow: 0 0 8px rgba(239, 64, 68, 0.6);
+    border: 1px solid $sky-highlight-color-danger;
+  }
+}
+
+.sky-file-attachment-name {
+  padding: 0 5px;
+
+  a {
+    cursor: pointer;
+  }
+}
+
+.sky-file-attachment-delete {
+  border: none;
+  @include sky-icon-button-borderless();
+  padding: 0;
+}
+
+.sky-file-attachment-preview-img {
+  max-width: 25%;
+  height: auto;
+  box-shadow: 0 0 5px #666;
+  margin: 10px;
+}
