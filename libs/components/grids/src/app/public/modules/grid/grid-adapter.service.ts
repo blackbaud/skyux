@@ -49,7 +49,9 @@ export class SkyGridAdapterService {
 
     dragulaService.setOptions('sky-grid-heading', {
       moves: (el: HTMLElement, container: HTMLElement, handle: HTMLElement) => {
-        return handle !== undefined && !handle.matches(GRID_HEADER_LOCKED_SELECTOR) && !handle.matches(GRID_HEADER_RESIZE_HANDLE);
+        return !el.querySelector(GRID_HEADER_LOCKED_SELECTOR) &&
+        handle !== undefined &&
+        !handle.matches(GRID_HEADER_RESIZE_HANDLE);
       },
       accepts: (
         el: HTMLElement,
