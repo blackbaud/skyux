@@ -545,6 +545,11 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
     return false;
   }
 
+  // Prevent touch devices from inadvertently scrolling grid while dragging columns.
+  public onTouchMove(event: any): void {
+    event.preventDefault();
+  }
+
   private multiselectSelectAll() {
     for (let i = 0; i < this.items.length; i++) {
       this.items[i].isSelected = true;

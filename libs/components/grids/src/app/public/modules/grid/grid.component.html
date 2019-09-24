@@ -32,6 +32,7 @@
             [style.width.px]="column.width"
             (mouseup)="sortByColumn(column)"
             (keydown)="onKeydown($event, column)"
+            (touchmove)="onTouchMove($event)"
             #gridCol
           >
             <div

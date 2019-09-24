@@ -1663,6 +1663,16 @@ describe('Grid Component', () => {
       expect(setOptionsSpy).toHaveBeenCalled();
     });
 
+    it('should prevent default behavior when dragging columns on mobile devices', () => {
+      fixture.detectChanges();
+      fixture.detectChanges();
+      const eventSpy = jasmine.createSpyObj('event', ['preventDefault']);
+
+      SkyGridComponent.prototype.onTouchMove(eventSpy);
+
+      expect(eventSpy.preventDefault).toHaveBeenCalled();
+    });
+
     it('should pass accessibility', async(() => {
       fixture.detectChanges();
       fixture.detectChanges();
