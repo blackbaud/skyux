@@ -49,23 +49,50 @@ export class SkyGridAdapterService {
 
     dragulaService.setOptions('sky-grid-heading', {
       moves: (el: HTMLElement, container: HTMLElement, handle: HTMLElement) => {
-        return !el.querySelector(GRID_HEADER_LOCKED_SELECTOR) &&
-        handle !== undefined &&
-        !handle.matches(GRID_HEADER_RESIZE_HANDLE);
+        const columns = container.querySelectorAll('th div');
+        const isLeftOfLocked = this.isLeftOfLocked(handle, columns);
+
+        return !el.querySelector(GRID_HEADER_LOCKED_SELECTOR)
+          && handle !== undefined
+          && !handle.matches(GRID_HEADER_RESIZE_HANDLE)
+          && !isLeftOfLocked;
       },
       accepts: (
         el: HTMLElement,
         target: HTMLElement,
         source: HTMLElement,
         sibling: HTMLElement) => {
-          return sibling === undefined
-            || !sibling
-            || (!sibling.matches(GRID_HEADER_LOCKED_SELECTOR) && !sibling.matches(GRID_HEADER_RESIZE_HANDLE));
+
+        if (sibling === undefined || !sibling) {
+          return true;
         }
+
+        const columns = source.querySelectorAll('th div');
+        const siblingDiv = sibling.querySelector('div');
+        const isLeftOfLocked = this.isLeftOfLocked(siblingDiv, columns);
+
+        return ((!sibling.matches(GRID_HEADER_LOCKED_SELECTOR)
+          && !sibling.matches(GRID_HEADER_RESIZE_HANDLE)))
+          && !isLeftOfLocked;
+      }
     });
   }
 
   public setStyle(el: ElementRef, style: string, value: string): void {
     this.renderer.setStyle(el.nativeElement, style, value);
+  }
+
+  private isLeftOfLocked(sourceColumn: HTMLElement, columns: NodeListOf<Element>): boolean {
+    for (let i = (columns.length - 1); i >= 0; i--) {
+      if (columns[i].classList.contains('sky-grid-header-locked')) {
+        return true;
+      }
+
+      if (columns[i] === sourceColumn) {
+        break;
+      }
+    }
+
+    return false;
   }
 }

@@ -1613,79 +1613,182 @@ describe('Grid Component', () => {
     );
 
     it('should set dragula options for locked and resizable columns', () => {
+      const standardHandleElement: any = {
+        classList: {
+          contains(classSelector: string) {
+            return false;
+          }
+        },
+        matches(selector: string) {
+          return (selector === '.sky-grid-header');
+        },
+        querySelector(selector: string): any {
+          return undefined;
+        }
+      };
+
+      const lockedHandleElement: any = {
+        classList: {
+          contains(classSelector: string) {
+            return false;
+          }
+        },
+        matches(selector: string) {
+          return (selector === '.sky-grid-header-locked');
+        },
+        querySelector(selector: string): any {
+          return undefined;
+        }
+      };
+
+      const resizeHandleElement: any = {
+        classList: {
+          contains(classSelector: string) {
+            return false;
+          }
+        },
+        matches(selector: string) {
+          return (selector === '.sky-grid-resize-handle');
+        },
+        querySelector(selector: string): any {
+          return undefined;
+        }
+      };
+
+      const standardMockElement: any = {
+        querySelector(selector: string): any {
+          return undefined;
+        },
+        querySelectorAll(selector: string) {
+          return [
+            standardHandleElement
+          ];
+        }
+      };
+
+      const lockedColumnMockElement: any = {
+        querySelector(selector: string): any {
+          // NOTE: We need an element to return here but the fixture isn't yet rendered due
+          // to the timing we need so the doucment element is enough to suffice what we are
+          // testing here.
+          return document;
+        },
+        querySelectorAll(selector: string) {
+          return [
+            standardHandleElement
+          ];
+        }
+      };
+
+      const lockedSiblingMockElement: any = {
+        querySelector(selector: string): any {
+          return undefined;
+        },
+        querySelectorAll(selector: string) {
+          return [
+            {
+              classList: {
+                contains(classSelector: string) {
+                  return true;
+                }
+              }
+            }
+          ];
+        }
+      };
+
       const setOptionsSpy = spyOn(mockDragulaService, 'setOptions').and
         .callFake((bagId: any, options: any) => {
           const moveOptionValid = options.moves(
-            {
-              querySelector(selector: string): Node {
-                return undefined;
-              }
-            },
-            undefined,
-            {
-              matches(selector: string) {
-                return (selector === '.sky-grid-header');
-              }
-            }
+            standardMockElement,
+            standardMockElement,
+            standardHandleElement
+          );
+
+          const moveOptionLeftOfLocked = options.moves(
+            standardMockElement,
+            lockedSiblingMockElement,
+            standardHandleElement
           );
 
           const moveOptionLockedHeader = options.moves(
-            {
-              querySelector(selector: string): Node {
-                // NOTE: We need an element to return here but the fixture isn't yet rendered due
-                // to the timing we need so the doucment element is enough to suffice what we are
-                // testing here.
-                return document;
-              }
-            },
-            undefined,
-            {
-              matches(selector: string) {
-                return (selector === '.sky-grid-header');
-              }
-            }
+            lockedColumnMockElement,
+            standardMockElement,
+            standardHandleElement
           );
 
           const moveOptionFromResize = options.moves(
-            {
-              querySelector(selector: string): Node {
-                return undefined;
-              }
-            },
-            undefined,
-            {
-              matches(selector: string) {
-                return (selector === '.sky-grid-resize-handle');
-              }
-            }
+            standardMockElement,
+            standardMockElement,
+            resizeHandleElement
           );
 
           const moveOptionUndefinedHandle = options.moves(
-            {
-              querySelector(selector: string): Node {
-                return undefined;
-              }
-            },
-            undefined,
+            standardMockElement,
+            standardMockElement,
             undefined
           );
 
           const acceptsOption = options.accepts(
             undefined,
             undefined,
+            standardMockElement,
+            standardHandleElement
+          );
+
+          const acceptsOptionLoopBreak = options.accepts(
             undefined,
+            undefined,
+            standardMockElement,
             {
+              querySelector(selector: string) {
+                return standardHandleElement;
+              },
               matches(selector: string) {
-                return (selector === '.sky-grid-header-locked');
+                return false;
               }
             }
           );
 
+          const acceptsOptionUndefinedSibiling = options.accepts(
+            undefined,
+            undefined,
+            standardMockElement,
+            undefined
+          );
+
+          const acceptsOptionLockedHandle = options.accepts(
+            undefined,
+            undefined,
+            standardMockElement,
+            lockedHandleElement
+          );
+
+          const acceptsOptionResizeHandle = options.accepts(
+            undefined,
+            undefined,
+            standardMockElement,
+            resizeHandleElement
+          );
+
+          const acceptsOptionLeftOfLocked = options.accepts(
+            undefined,
+            undefined,
+            lockedSiblingMockElement,
+            standardHandleElement
+          );
+
           expect(moveOptionValid).toBeTruthy();
           expect(moveOptionLockedHeader).toBeFalsy();
+          expect(moveOptionLeftOfLocked).toBeFalsy();
           expect(moveOptionFromResize).toBeFalsy();
           expect(moveOptionUndefinedHandle).toBeFalsy();
-          expect(acceptsOption).toBeFalsy();
+          expect(acceptsOption).toBeTruthy();
+          expect(acceptsOptionLoopBreak).toBeTruthy();
+          expect(acceptsOptionUndefinedSibiling).toBeTruthy();
+          expect(acceptsOptionLockedHandle).toBeFalsy();
+          expect(acceptsOptionResizeHandle).toBeFalsy();
+          expect(acceptsOptionLeftOfLocked).toBeFalsy();
         });
 
       fixture.detectChanges();
