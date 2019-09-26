@@ -8,7 +8,7 @@
   font-size: $sky-font-size-base;
   color: $sky-text-color-default;
 
-  &:not([type="range"]):not([type="radio"]):not([type="checkbox"]){
+  &:not([type="range"]):not([type="radio"]):not([type="checkbox"]):not(select){
     /* Remove device-specific styles */
     -webkit-appearance: none;
     -moz-appearance: none;
