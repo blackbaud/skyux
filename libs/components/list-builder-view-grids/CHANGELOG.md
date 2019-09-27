@@ -1,3 +1,7 @@
+# 3.5.0 (2019-09-27)
+
+- Added support for `@skyux-sdk/builder@3.8.0`. [#49](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/49)
+
 # 3.4.0 (2019-06-07)
 
 - Added the ability to trigger responsive styles based on a parent component. [#37](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/37)
