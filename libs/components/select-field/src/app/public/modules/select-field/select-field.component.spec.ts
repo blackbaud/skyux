@@ -314,6 +314,18 @@ describe('Select field component', () => {
       expect(selectField.value.id).toEqual('1');
     }));
 
+    it('should update the touched value when you select a value from the picker', fakeAsync(() => {
+      component.selectMode = 'single';
+      fixture.detectChanges();
+      setValue({});
+      openPicker();
+      const selectHTML = fixture.nativeElement.querySelector('sky-select-field');
+      expect(selectHTML.classList.contains('ng-touched')).toBeFalsy();
+      selectOption(0);
+      savePicker();
+      expect(selectHTML.classList.contains('ng-touched')).toBeTruthy();
+    }));
+
     it('should allow clearing the value and keep focus afterwards', fakeAsync(() => {
       component.selectMode = 'single';
       fixture.detectChanges();
@@ -437,6 +449,37 @@ describe('Select field component', () => {
       detectNewValue();
 
       expect(selectField.value).toEqual(component.staticData[3]);
+    }));
+
+    it('should update the touched value when you select a value from the picker', fakeAsync(() => {
+      fixture.componentInstance.selectMode = 'single';
+      let updateValueFn: (value: SkySelectField[]) => void;
+
+      const customPicker: SkySelectFieldCustomPicker = {
+        open: jasmine.createSpy('open').and.callFake(
+          (
+            _pickerContext: SkySelectFieldPickerContext,
+            updateValue: (value: SkySelectField[]) => void
+          ) => {
+            updateValueFn = updateValue;
+          }
+        )
+      };
+
+      fixture.componentInstance.customPicker = customPicker;
+
+      fixture.detectChanges();
+      const selectHTML = fixture.nativeElement.querySelector('sky-select-field');
+      expect(selectHTML.classList.contains('ng-touched')).toBeFalsy();
+
+      setValue([component.staticData[1]]);
+
+      openPicker();
+
+      updateValueFn([component.staticData[3]]);
+
+      detectNewValue();
+      expect(selectHTML.classList.contains('ng-touched')).toBeTruthy();
     }));
   });
 

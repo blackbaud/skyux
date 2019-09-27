@@ -151,7 +151,7 @@ export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy 
   private _disabled: boolean;
   private _selectMode: SkySelectFieldSelectMode;
   private _value: any;
-  private isModalOpen = false;
+  private isPickerOpen = false;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -218,14 +218,17 @@ export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy 
   }
 
   public onHostFocusOut(): void {
-    if (!this.isModalOpen) {
+    if (!this.isPickerOpen) {
       this.onTouched();
     }
   }
 
-  public onTouched(): void {
+  public onTouched(blur = true): void {
     this._registeredTouchCallback();
-    this.blur.emit();
+
+    if (blur) {
+      this.blur.emit();
+    }
   }
 
   // Angular automatically constructs these methods.
@@ -290,7 +293,7 @@ export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy 
       this.addNewRecordButtonClick.emit();
     });
 
-    this.isModalOpen = true;
+    this.isPickerOpen = true;
 
     modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
       if (result.reason === 'save') {
@@ -300,11 +303,13 @@ export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy 
           this.writeValue(result.data);
         }
       }
-      this.isModalOpen = false;
+      this.isPickerOpen = false;
+      this.onTouched(false);
     });
   }
 
   private openCustomPicker(pickerContext: SkySelectFieldPickerContext) {
+    this.isPickerOpen = true;
     this.customPicker.open(
       pickerContext,
       (value) => {
@@ -313,6 +318,8 @@ export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy 
         } else {
           this.writeValue(value);
         }
+        this.onTouched(false);
+        this.isPickerOpen = false;
       }
     );
   }
