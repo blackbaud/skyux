@@ -1,3 +1,7 @@
+# 3.1.1 (2019-09-27)
+
+- Fixed the colorpicker component to properly export all output types. [#24](https://github.com/blackbaud/skyux-colorpicker/pull/24)
+
 # 3.1.0 (2019-07-19)
 
 - Added option to disable transparency slider on the colorpicker component. [#20](https://github.com/blackbaud/skyux-colorpicker/pull/20) (Thanks [@jeffbdye](https://github.com/jeffbdye)!)
