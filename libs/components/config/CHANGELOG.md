@@ -1,3 +1,7 @@
+# 3.6.0 (2019-09-27)
+
+- Added optional `base` property to `SkyuxConfigApp`. [#26](https://github.com/blackbaud/skyux-config/pull/26)
+
 # 3.5.1 (2019-07-01)
 
 - Added support for `@skyux-sdk/builder@3.7.0` which addressed some security vulnerabilities. [#20](https://github.com/blackbaud/skyux-config/pull/20)
