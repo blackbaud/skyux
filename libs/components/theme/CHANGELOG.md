@@ -1,3 +1,7 @@
+# 3.7.1 (2019-09-27)
+
+- Fixed `select` inputs to have round corners. [#80](https://github.com/blackbaud/skyux-theme/pull/80)
+
 # 3.7.0 (2019-05-22)
 
 - Added support for `@blackbaud/skyux-design-tokens@0.0.12`, which includes a new SCSS variable for page background color. [#69](https://github.com/blackbaud/skyux-theme/pull/69)
