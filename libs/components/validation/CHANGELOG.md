@@ -1,3 +1,7 @@
+# 3.2.1 (2019-09-27)
+
+- Fixed the `SkyValidators.email` and `SkyValidators.url` validators to allow null string values. [#17](https://github.com/blackbaud/skyux-validation/pull/17) Thanks [@Blackbaud-MatthewMiles](https://github.com/Blackbaud-MatthewMiles)!
+
 # 3.2.0 (2019-06-28)
 
 - Added support for `@skyux-sdk/builder@3.7.0`. [#13](https://github.com/blackbaud/skyux-validation/pull/13)
