@@ -57,6 +57,7 @@ export interface SkyuxConfigA11y {
 }
 
 export interface SkyuxConfigApp {
+  base?: string;
   externals?: Object;
   port?: string;
   styles?: string[];
