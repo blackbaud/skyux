@@ -1,3 +1,7 @@
+# 3.4.1 (2019-09-27)
+
+- Fixed the select field component to mark the control as touched when the picker is saved. [#49](https://github.com/blackbaud/skyux-select-field/pull/49)
+
 # 3.4.0 (2019-09-20)
 
 - Added the `customPicker` option to the select field component. [#47](https://github.com/blackbaud/skyux-select-field/pull/47)
