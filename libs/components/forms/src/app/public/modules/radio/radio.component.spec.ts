@@ -111,6 +111,8 @@ describe('Radio component', function () {
       componentInstance.selectedValue = '2';
       fixture.detectChanges();
       tick();
+      fixture.detectChanges();
+      tick();
 
       const radios = fixture.nativeElement.querySelectorAll('input');
       expect(radios.item(0).checked).toBeFalsy();

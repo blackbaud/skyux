@@ -1,5 +1,5 @@
 <form [formGroup]="radioForm">
-  <sky-radio-group
+  <sky-radio-group *ngIf="radioGroupEnabled"
     class="form-group radio"
     formControlName="option"
     name="option"

@@ -22,6 +22,8 @@ export class SkyRadioGroupTestComponent {
   @ViewChild(SkyRadioGroupComponent)
   public radioGroupComponent: SkyRadioGroupComponent;
 
+  public radioGroupEnabled = true;
+
   public radioForm: FormGroup;
 
   public tabIndex: number;
@@ -36,11 +38,13 @@ export class SkyRadioGroupTestComponent {
     { name: 'Harry Mckenzie', disabled: false }
   ];
 
+  public radioControl = new FormControl();
+
   constructor(
     private fb: FormBuilder
   ) {
     this.radioForm = this.fb.group({
-      option: new FormControl()
+      option: this.radioControl
     });
   }
 

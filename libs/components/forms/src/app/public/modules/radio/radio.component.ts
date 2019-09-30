@@ -64,7 +64,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
       }
     }
 
-    this.changeDetector.detectChanges();
+    this.changeDetector.markForCheck();
   }
 
   public get checked(): boolean {
