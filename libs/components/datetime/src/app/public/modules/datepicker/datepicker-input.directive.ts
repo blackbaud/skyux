@@ -50,6 +50,8 @@ import {
   SkyDatepickerComponent
 } from './datepicker.component';
 
+const moment = require('moment');
+
 // tslint:disable:no-forward-ref no-use-before-declare
 const SKY_DATEPICKER_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
@@ -292,7 +294,27 @@ export class SkyDatepickerInputDirective
 
   @HostListener('change', ['$event'])
   public onInputChange(event: any) {
-    this.onValueChange(event.target.value);
+    const value = event.target.value;
+
+    if (this.skyDatepickerNoValidate) {
+      this.onValueChange(value);
+      return;
+    }
+
+    // Don't try to parse the string value into a Date value if it is malformed.
+    if (this.isDateStringValid(value)) {
+      this.onValueChange(value);
+      return;
+    }
+
+    this._value = value;
+    this.onChange(value);
+
+    this.control.setErrors({
+      skyDate: {
+        invalid: true
+      }
+    });
   }
 
   @HostListener('blur')
@@ -300,9 +322,32 @@ export class SkyDatepickerInputDirective
     this.onTouched();
   }
 
-  @HostListener('keyup')
-  public onInputKeyup(): void {
+  @HostListener('keyup', ['$event'])
+  public onInputKeyup(event: any): void {
     this.control.markAsDirty();
+
+    if (this.skyDatepickerNoValidate) {
+      return;
+    }
+
+    const value = event.target.value;
+
+    let errors: ValidationErrors;
+
+    if (this.isDateStringValid(value)) {
+      /* tslint:disable:no-null-keyword */
+      errors = null;
+      /* tslint:enable */
+    } else {
+      errors = {
+        skyDate: {
+          invalid: true
+        }
+      };
+    }
+
+    this.control.setErrors(errors);
+    this.control.markAsTouched();
   }
 
   public writeValue(value: any): void {
@@ -418,6 +463,28 @@ export class SkyDatepickerInputDirective
     }
 
     return dateValue;
+  }
+
+  /**
+   * Validates the input value to ensure it is formatted correctly.
+   */
+  private isDateStringValid(value: string): boolean {
+    if (!value) {
+      return true;
+    }
+
+    // Does the value only include digits, dashes, or slashes?
+    const regexp = /^[\d\/\-]+$/;
+    const isValid = regexp.test(value);
+
+    if (isValid) {
+      return true;
+    }
+
+    // If not, does it conform to the standard ISO format?
+    const isValidIso = moment(value, moment.ISO_8601).isValid();
+
+    return isValidIso;
   }
 
   private onChange = (_: any) => {};

@@ -16,6 +16,10 @@ export class SkyDateFormatter {
   }
 
   public dateIsValid(date: Date): boolean {
-    return date && !isNaN(date.valueOf());
+    return (
+      date &&
+      !isNaN(date.valueOf()) &&
+      !isNaN(new Date(date).getDate())
+    );
   }
 }

@@ -946,6 +946,39 @@ describe('datepicker', () => {
         expect(component.dateControl.value).toBe('abcdebf');
         expect(component.dateControl.valid).toBe(true);
       }));
+
+      it('should invalidate field on keyup', fakeAsync(() => {
+        detectChanges(fixture);
+
+        const inputElement = fixture.nativeElement.querySelector('input');
+
+        setInputElementValue(fixture.nativeElement, 'abc 123', fixture);
+        SkyAppTestUtility.fireDomEvent(inputElement, 'keyup');
+
+        fixture.detectChanges();
+        tick();
+
+        expect(inputElement.value).toBe('abc 123');
+        expect(component.dateControl.value).toEqual('abc 123');
+        expect(component.dateControl.valid).toBe(false);
+      }));
+
+      it('should respect noValidate on keyup', fakeAsync(() => {
+        fixture.componentInstance.noValidate = true;
+        detectChanges(fixture);
+
+        const inputElement = fixture.nativeElement.querySelector('input');
+
+        setInputElementValue(fixture.nativeElement, 'abc 123', fixture);
+        SkyAppTestUtility.fireDomEvent(inputElement, 'keyup');
+
+        fixture.detectChanges();
+        tick();
+
+        expect(inputElement.value).toBe('12/03/2019');
+        expect(component.dateControl.value).toEqual(new Date('12/03/2019'));
+        expect(component.dateControl.valid).toBe(true);
+      }));
     });
 
     describe('min max date', () => {
