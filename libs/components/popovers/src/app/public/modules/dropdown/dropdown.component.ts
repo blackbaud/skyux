@@ -17,11 +17,11 @@ import {
   SkyLibResourcesService
 } from '@skyux/i18n';
 
+import 'rxjs/add/operator/takeUntil';
+
 import {
   Subject
 } from 'rxjs/Subject';
-
-import 'rxjs/add/operator/takeUntil';
 
 import {
   SkyPopoverAlignment,
@@ -47,16 +47,17 @@ import {
   providers: [SkyDropdownAdapterService]
 })
 export class SkyDropdownComponent implements OnInit, OnDestroy {
+
   @Input()
   public alignment: SkyPopoverAlignment = 'left';
 
   @Input()
-  public get buttonStyle(): string {
-    return this._buttonStyle || 'default';
-  }
-
   public set buttonStyle(value: string) {
     this._buttonStyle = value;
+  }
+
+  public get buttonStyle(): string {
+    return this._buttonStyle || 'default';
   }
 
   @Input()
@@ -69,6 +70,16 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   }
 
   @Input()
+  public disabled = false;
+
+  @Input()
+  public dismissOnBlur = true;
+
+  @Input()
+  public set label(value: string) {
+    this._label = value;
+  }
+
   public get label(): string {
     if (this.buttonType === 'select' || this.buttonType === 'tab') {
       return this._label;
@@ -76,21 +87,11 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     return this._label || this.getString('skyux_dropdown_context_menu_default_label');
   }
 
-  public set label(value: string) {
-    this._label = value;
-  }
-
-  @Input()
-  public dismissOnBlur = true;
-
   @Input()
   public messageStream = new Subject<SkyDropdownMessage>();
 
   @Input()
   public title: string;
-
-  @Input()
-  public disabled = false;
 
   @Input()
   public set trigger(value: SkyDropdownTriggerType) {
@@ -101,10 +102,6 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     return this._trigger || 'click';
   }
 
-  public get isOpen(): boolean {
-    return this._isOpen;
-  }
-
   /**
    * @internal
    * Indicates if the dropdown button element or any of its children have focus.
@@ -112,6 +109,12 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   public get buttonIsFocused(): boolean {
     return this.adapter.elementHasFocus(this.triggerButton);
   }
+
+  public get isOpen(): boolean {
+    return this._isOpen;
+  }
+
+  public menuId: string;
 
   /**
    * @internal
@@ -121,21 +124,24 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     return this.adapter.elementHasFocus(this.popover.popoverContainer);
   }
 
-  public menuId: string;
-
   @ViewChild('triggerButton')
   private triggerButton: ElementRef;
 
   @ViewChild(SkyPopoverComponent)
   private popover: SkyPopoverComponent;
 
-  private ngUnsubscribe = new Subject();
   private isKeyboardActive = false;
 
-  private _isOpen = false;
-  private _buttonType: string;
+  private ngUnsubscribe = new Subject();
+
   private _buttonStyle: string;
+
+  private _buttonType: string;
+
+  private _isOpen = false;
+
   private _label: string;
+
   private _trigger: SkyDropdownTriggerType;
 
   constructor(
@@ -144,7 +150,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     private adapter: SkyDropdownAdapterService
   ) { }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.messageStream
       .takeUntil(this.ngUnsubscribe)
       .subscribe((message: SkyDropdownMessage) => {
@@ -152,13 +158,13 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
       });
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
 
   @HostListener('keydown', ['$event'])
-  public onKeyDown(event: KeyboardEvent) {
+  public onKeyDown(event: KeyboardEvent): void {
     const key = event.key.toLowerCase();
 
     if (this._isOpen) {
@@ -202,7 +208,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onPopoverOpened() {
+  public onPopoverOpened(): void {
     this._isOpen = true;
     // Focus the first item if the menu was opened with the keyboard.
     if (this.isKeyboardActive) {
@@ -210,7 +216,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onPopoverClosed() {
+  public onPopoverClosed(): void {
     this._isOpen = false;
     this.isKeyboardActive = false;
   }
@@ -220,7 +226,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     return (this.trigger === 'click') ? 'click' : 'mouseenter';
   }
 
-  private handleIncomingMessages(message: SkyDropdownMessage) {
+  private handleIncomingMessages(message: SkyDropdownMessage): void {
     if (!this.disabled) {
       /* tslint:disable-next-line:switch-default */
       switch (message.type) {
@@ -248,11 +254,11 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     }
   }
 
-  private sendMessage(type: SkyDropdownMessageType) {
+  private sendMessage(type: SkyDropdownMessageType): void {
     this.messageStream.next({ type });
   }
 
-  private positionPopover() {
+  private positionPopover(): void {
     this.popover.positionNextTo(
       this.triggerButton,
       'below',

@@ -15,6 +15,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyDropdownItemComponent implements AfterViewInit {
+
   @Input()
   public ariaRole = 'menuitem';
 
@@ -23,6 +24,7 @@ export class SkyDropdownItemComponent implements AfterViewInit {
   }
 
   public isActive = false;
+
   public isDisabled = false;
 
   public constructor(
@@ -31,7 +33,7 @@ export class SkyDropdownItemComponent implements AfterViewInit {
     private renderer: Renderer2
   ) { }
 
-  public ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     this.isDisabled = !this.isFocusable();
 
     // Make sure anchor elements are tab-able.
@@ -44,7 +46,7 @@ export class SkyDropdownItemComponent implements AfterViewInit {
     this.changeDetector.detectChanges();
   }
 
-  public focusElement(enableNativeFocus: boolean) {
+  public focusElement(enableNativeFocus: boolean): void {
     this.isActive = true;
 
     if (enableNativeFocus) {
@@ -64,7 +66,7 @@ export class SkyDropdownItemComponent implements AfterViewInit {
     return isFocusable;
   }
 
-  public resetState() {
+  public resetState(): void {
     this.isActive = false;
     this.changeDetector.markForCheck();
   }

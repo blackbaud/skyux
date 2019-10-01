@@ -1,4 +1,6 @@
-<div class="sky-dropdown">
+<div
+  class="sky-dropdown"
+>
   <button
     aria-haspopup="true"
     class="sky-btn sky-dropdown-button"
@@ -13,50 +15,62 @@
       'sky-btn-' + buttonStyle
     ]"
     [skyPopover]="popover"
-    [skyPopoverTrigger]="getPopoverTriggerType()"
     [skyPopoverAlignment]="alignment"
-    skyPopoverPlacement="below"
-    #triggerButton>
+    [skyPopoverTrigger]="getPopoverTriggerType()"
+    [skyPopoverPlacement]="'below'"
+    #triggerButton
+  >
 
     <div [ngSwitch]="buttonType">
       <ng-template ngSwitchCase="context-menu">
-        <sky-icon icon="ellipsis-h"></sky-icon>
+        <sky-icon
+          icon="ellipsis-h"
+        ></sky-icon>
       </ng-template>
 
       <ng-template ngSwitchDefault>
-        <div
+        <div *ngIf="buttonType === 'select' || buttonType === 'tab' || !buttonType"
           class="sky-dropdown-button-container"
-          *ngIf="buttonType === 'select' || buttonType === 'tab' || !buttonType">
-          <div class="sky-dropdown-button-content-container">
+        >
+          <div
+            class="sky-dropdown-button-content-container"
+          >
             <ng-content
-              select="sky-dropdown-button">
+              select="sky-dropdown-button"
+            >
             </ng-content>
           </div>
-          <div class="sky-dropdown-button-icon-container">
+          <div
+            class="sky-dropdown-button-icon-container"
+          >
             <sky-icon
-              icon="caret-down"
               class="sky-dropdown-caret"
+              icon="caret-down"
             >
-          </sky-icon>
+            </sky-icon>
           </div>
         </div>
-        <div
-          *ngIf="buttonType !== 'select' && buttonType !== 'tab' && buttonType">
-          <sky-icon [icon]="buttonType" size="lg"></sky-icon>
+        <div *ngIf="buttonType !== 'select' && buttonType !== 'tab' && buttonType">
+          <sky-icon
+            [icon]="buttonType"
+            size="lg"
+          ></sky-icon>
         </div>
       </ng-template>
     </div>
   </button>
   <sky-popover
-    placement="below"
+    [@.disabled]="true"
     [alignment]="alignment"
     [dismissOnBlur]="dismissOnBlur"
-    (popoverOpened)="onPopoverOpened()"
+    [placement]="'below'"
     (popoverClosed)="onPopoverClosed()"
-    [@.disabled]="true"
-    #popover>
+    (popoverOpened)="onPopoverOpened()"
+    #popover
+  >
     <ng-content
-      select="sky-dropdown-menu">
+      select="sky-dropdown-menu"
+    >
     </ng-content>
   </sky-popover>
 </div>

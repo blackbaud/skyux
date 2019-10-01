@@ -19,6 +19,7 @@ import {
 
 @Injectable()
 export class SkyPopoverAdapterService {
+
   constructor(
     private renderer: Renderer2,
     private windowRef: SkyWindowRefService
