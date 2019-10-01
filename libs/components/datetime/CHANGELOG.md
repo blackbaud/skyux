@@ -1,3 +1,7 @@
+# 3.6.2 (2019-10-01)
+
+- Fixed the datepicker input directive to no longer convert invalid input values into Date objects. [#76](https://github.com/blackbaud/skyux-datetime/pull/76)
+
 # 3.6.1 (2019-09-24)
 
 - Fixed `moment` imports to support backwards compatibility with SKY UX 2 single-page applications. [#85](https://github.com/blackbaud/skyux-datetime/pull/85)
