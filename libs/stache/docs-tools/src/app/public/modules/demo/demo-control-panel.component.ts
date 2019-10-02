@@ -11,7 +11,8 @@ import {
 
 import {
   merge,
-  Subject
+  Subject,
+  Subscription
 } from 'rxjs';
 
 import {
@@ -47,18 +48,21 @@ export class SkyDocsDemoControlPanelComponent implements OnDestroy, AfterContent
   @ContentChildren(SkyDocsDemoControlPanelCheckboxComponent, { descendants: true })
   private checkboxes: QueryList<SkyDocsDemoControlPanelCheckboxComponent>;
 
+  private eventListeners: Subscription;
   private ngUnsubscribe = new Subject<boolean>();
 
   public ngAfterContentInit(): void {
+    this.addEventListeners();
+
     merge(
-      ...this.checkboxes.map(c => c.selectionChange),
-      ...this.radioGroups.map(c => c.selectionChange)
+      this.checkboxes.changes,
+      this.radioGroups.changes
     )
       .pipe(
         takeUntil(this.ngUnsubscribe)
       )
-      .subscribe((change: SkyDocsDemoControlPanelChange) => {
-        this.selectionChange.next(change);
+      .subscribe(() => {
+        this.addEventListeners();
       });
   }
 
@@ -76,6 +80,23 @@ export class SkyDocsDemoControlPanelComponent implements OnDestroy, AfterContent
     this.checkboxes.forEach((checkbox) => {
       checkbox.resetState();
     });
+  }
+
+  private addEventListeners(): void {
+    if (this.eventListeners) {
+      this.eventListeners.unsubscribe();
+    }
+
+    this.eventListeners = merge(
+      ...this.checkboxes.map(c => c.selectionChange),
+      ...this.radioGroups.map(c => c.selectionChange)
+    )
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe((change) => {
+        this.selectionChange.next(change);
+      });
   }
 
 }

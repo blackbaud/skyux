@@ -30,7 +30,7 @@ export class SkyDocsDemoControlPanelRadioGroupComponent implements OnInit, OnDes
   public heading: string;
 
   @Input()
-  public name: string;
+  public propertyName: string;
 
   @Input()
   public initialValue: any;
@@ -57,9 +57,10 @@ export class SkyDocsDemoControlPanelRadioGroupComponent implements OnInit, OnDes
     this.selectionChange.complete();
   }
 
-  public onModelChange(): void {
+  public onModelChange(value: any): void {
+    this.value = value;
     this.selectionChange.next({
-      [this.name]: this.value
+      [this.propertyName]: this.value
     });
   }
 

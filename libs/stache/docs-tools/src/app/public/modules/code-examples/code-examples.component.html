@@ -2,9 +2,11 @@
   class="sky-docs-code-examples"
 >
   <sky-repeater *ngIf="codeExamples.length > 1 else singleCodeExample"
-    expandMode="single"
+    expandMode="multiple"
   >
-    <sky-repeater-item *ngFor="let codeExample of codeExamples">
+    <sky-repeater-item *ngFor="let codeExample of codeExamples"
+      [isExpanded]="false"
+    >
       <sky-repeater-item-title>
         <ng-container *ngTemplateOutlet="codeExampleHeaderTemplate; context: {$implicit: codeExample}">
         </ng-container>

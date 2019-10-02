@@ -9,14 +9,14 @@
     The popover module displays small chunks of contextual content on pages or modals. It highlights content in an HTML-formatted popover that is similar to a tooltip but provides more room for plain text, HTML content, or Angular components. The popover trigger directive ties the popover to an element that users can interact with to display the popover.
   </sky-docs-demo-page-summary>
 
-  <sky-docs-demo heading="Demo page demo">
+  <sky-docs-demo>
     <sky-docs-demo-control-panel
       (selectionChange)="onDemoSelectionChange($event)"
     >
       <sky-docs-demo-control-panel-section>
         <sky-docs-demo-control-panel-radio-group
           heading="Placement"
-          name="placement"
+          propertyName="placement"
           [initialValue]="'above'"
           [choices]="[
             { value: 'above', label: 'Above' },
@@ -29,9 +29,9 @@
       </sky-docs-demo-control-panel-section>
 
       <sky-docs-demo-control-panel-section>
-        <sky-docs-demo-control-panel-radio-group
+        <sky-docs-demo-control-panel-radio-group *ngIf="showAlignmentOptions"
           heading="Alignment"
-          name="alignment"
+          propertyName="alignment"
           [initialValue]="'center'"
           [choices]="[
             { value: 'left', label: 'Left' },
@@ -43,7 +43,7 @@
 
         <sky-docs-demo-control-panel-checkbox
           label="Show title"
-          name="showTitle"
+          propertyName="showTitle"
           [checked]="true"
         >
         </sky-docs-demo-control-panel-checkbox>

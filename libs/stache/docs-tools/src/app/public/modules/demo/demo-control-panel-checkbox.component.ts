@@ -44,7 +44,7 @@ export class SkyDocsDemoControlPanelCheckboxComponent implements OnInit, OnDestr
   public label: string;
 
   @Input()
-  public name: string;
+  public propertyName: string;
 
   @Input()
   public set foo(value: FooThing<string>[]) {
@@ -93,7 +93,7 @@ export class SkyDocsDemoControlPanelCheckboxComponent implements OnInit, OnDestr
 
   private notifyChange(): void {
     this.selectionChange.next({
-      [this.name]: this.checked
+      [this.propertyName]: this.checked
     });
   }
 

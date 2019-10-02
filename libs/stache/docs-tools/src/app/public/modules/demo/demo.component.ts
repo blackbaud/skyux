@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
-  Component,
-  Input
+  Component
 } from '@angular/core';
 
 @Component({
@@ -11,9 +10,6 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyDocsDemoComponent {
-
-  @Input()
-  public heading = 'Demo';
 
   public get toggleOptionsButtonIcon(): string {
     return (this.areOptionsVisible) ? 'chevron-up' : 'chevron-down';

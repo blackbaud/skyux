@@ -1,19 +1,30 @@
 import {
+  ChangeDetectionStrategy,
   Component
 } from '@angular/core';
 
+import {
+  SkyDocsDemoControlPanelChange
+} from '../../public';
+
 @Component({
   selector: 'app-typedoc',
-  templateUrl: './typedoc.component.html'
+  templateUrl: './typedoc.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppTypeDocComponent {
 
+  public get showAlignmentOptions(): boolean {
+    const placement = this.demoSettings.skyPopoverPlacement;
+    return (placement === 'above' || placement === 'below');
+  }
+
   public demoSettings: any = {};
 
-  public onDemoSelectionChange(change: any): void {
+  public onDemoSelectionChange(change: SkyDocsDemoControlPanelChange): void {
     if (change.showTitle === true) {
       this.demoSettings.popoverTitle = 'Popover title';
-    } else {
+    } else if (change.showTitle === false) {
       this.demoSettings.popoverTitle = undefined;
     }
 

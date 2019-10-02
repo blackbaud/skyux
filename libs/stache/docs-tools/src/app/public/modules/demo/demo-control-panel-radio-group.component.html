@@ -1,9 +1,9 @@
 <div class="sky-demo-control-panel-radio-group">
   <strong *ngIf="heading">{{ heading }}</strong>
   <sky-radio-group
-    [name]="name"
+    [name]="propertyName"
     [ngModel]="value"
-    (ngModelChange)="value = $event;onModelChange();"
+    (ngModelChange)="onModelChange($event);"
   >
     <ul class="sky-list-unstyled">
       <li *ngFor="let choice of choices">
