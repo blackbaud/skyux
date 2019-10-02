@@ -1,3 +1,7 @@
+# 3.0.0-alpha.15 (2019-10-02)
+
+- Fixed the code example component to display code example headings.
+
 # 3.0.0-alpha.14 (2019-10-02)
 
 - Added `headingStyle` to the design guidelines section component.
