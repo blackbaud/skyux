@@ -5,6 +5,14 @@
   margin-bottom: $sky-margin * 5;
 }
 
+.sky-docs-design-guideline-video {
+  video {
+    max-width: 100%;
+  }
+}
+
 .sky-docs-design-guideline-video-border {
-  @include sky-border(light, top, right, bottom, left);
+  video {
+    @include sky-border(light, top, right, bottom, left);
+  }
 }

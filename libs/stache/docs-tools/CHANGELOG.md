@@ -1,3 +1,7 @@
+# 3.0.0-alpha.16 (2019-10-02)
+
+- Fixed the design guidelines thumbnail component to contrain video width to column width.
+
 # 3.0.0-alpha.15 (2019-10-02)
 
 - Fixed the code example component to display code example headings.

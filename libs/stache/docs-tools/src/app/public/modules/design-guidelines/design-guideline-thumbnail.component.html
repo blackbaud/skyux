@@ -6,16 +6,17 @@
     [captionType]="captionType"
     [showBorder]="showBorder"
   ></sky-image>
-  <video *ngIf="videoSource"
+  <div *ngIf="videoSource"
     class="sky-docs-design-guideline-video"
     [ngClass]="{
       'sky-docs-design-guideline-video-border': showBorder
     }"
-    controls
   >
-    <source
-      [attr.src]="videoSource"
-      type="video/mp4"
-    />
-  </video>
+    <video controls>
+      <source
+        [attr.src]="videoSource"
+        type="video/mp4"
+      />
+    </video>
+  </div>
 </div>
