@@ -25,6 +25,9 @@ export class SkyDocsDesignGuidelineThumbnailComponent {
   public imageSource: string;
 
   @Input()
+  public videoSource: string;
+
+  @Input()
   public showBorder: boolean = false;
 
 }

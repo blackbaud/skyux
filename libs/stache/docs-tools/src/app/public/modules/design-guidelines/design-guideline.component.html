@@ -1,6 +1,6 @@
 <div class="sky-docs-design-guideline">
   <h3 *ngIf="heading"
-    class="sky-docs-h3"
+    [ngClass]="classNames"
   >
     {{ heading }}
   </h3>

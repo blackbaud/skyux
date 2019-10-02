@@ -82,7 +82,7 @@
   <sky-docs-design-guidelines>
 
     <sky-docs-demo-page-section heading="Usage">
-      <sky-docs-design-guideline heading="Use when">
+      <sky-docs-design-guideline heading="Use when" headingStyle="success">
         <p>
           Users require access to small chunks of contextual content that are only valuable some of the time.
         </p>
@@ -90,7 +90,7 @@
           Tasks include complex or unfamiliar capabilities, and users require guidance on subtle-but-important elements.
         </p>
       </sky-docs-design-guideline>
-      <sky-docs-design-guideline heading="Don't use when">
+      <sky-docs-design-guideline heading="Don't use when" headingStyle="danger">
         <p>
           The content is valuable most of the time. Use <a href="https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#persistent-inline-help">persistent inline help</a> instead.
         </p>
@@ -127,6 +127,11 @@
         <p>
           To ensure usability on touch devices, trigger user-invoked popovers on <sky-code>click</sky-code> actions rather than <sky-code>mouseenter</sky-code> actions.
         </p>
+        <sky-docs-design-guideline-thumbnail
+          videoSource="~/assets/img/guidelines/popover/popover-click.mp4"
+          [showBorder]="true"
+        >
+        </sky-docs-design-guideline-thumbnail>
         <p>
           You can also invoke popovers programmatically. For example, you can programmatically invoke a popover when users visit a page for the first time to highlight an important interface element that they might overlook. However, don't invoke multiple popovers on a page because this reduces their effectiveness.
         </p>

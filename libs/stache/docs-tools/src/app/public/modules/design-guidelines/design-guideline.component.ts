@@ -21,6 +21,19 @@ export class SkyDocsDesignGuidelineComponent implements AfterContentInit {
   @Input()
   public heading: string;
 
+  @Input()
+  public headingStyle: 'default' | 'success' | 'danger' = 'default';
+
+  public get classNames(): string {
+    const classNames: string[] = [
+      'sky-docs-h3'
+    ];
+
+    classNames.push(`sky-text-${this.headingStyle}`);
+
+    return classNames.join(' ');
+  }
+
   public hasThumbnails = false;
 
   @ContentChildren(SkyDocsDesignGuidelineThumbnailComponent)

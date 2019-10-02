@@ -4,3 +4,7 @@
 .sky-docs-design-guideline-thumbnail {
   margin-bottom: $sky-margin * 5;
 }
+
+.sky-docs-design-guideline-video-border {
+  @include sky-border(light, top, right, bottom, left);
+}
