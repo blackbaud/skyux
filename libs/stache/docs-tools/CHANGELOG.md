@@ -1,3 +1,7 @@
+# 3.0.0-alpha.13 (2019-10-02)
+
+- Fixed the `SkyDocsTypeDefinitionsModule` to provide the `SkyDocsTypeDefinitionsFormatService`.
+
 # 3.0.0-alpha.12 (2019-10-02)
 
 - Added inline mode for markdown pipe.

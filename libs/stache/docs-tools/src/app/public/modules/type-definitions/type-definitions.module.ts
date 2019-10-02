@@ -80,6 +80,10 @@ import {
 } from './type-alias-definition.component';
 
 import {
+  SkyDocsTypeDefinitionsFormatService
+} from './type-definitions-format.service';
+
+import {
   SkyDocsTypeDefinitionsService
 } from './type-definitions.service';
 
@@ -125,6 +129,7 @@ import {
   ],
   providers: [
     SkyDocsAnchorLinkService,
+    SkyDocsTypeDefinitionsFormatService,
     SkyDocsTypeDefinitionsProvider,
     SkyDocsTypeDefinitionsService
   ]
