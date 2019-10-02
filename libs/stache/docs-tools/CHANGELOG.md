@@ -1,3 +1,8 @@
+# 3.0.0-alpha.12 (2019-10-02)
+
+- Added inline mode for markdown pipe.
+- Code cleanup.
+
 # 3.0.0-alpha.11 (2019-10-02)
 
 - Fixed the demo control panel component to watch for changes to dynamically added controls.
