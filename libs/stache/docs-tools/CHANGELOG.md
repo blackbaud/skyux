@@ -1,3 +1,7 @@
+# 3.0.0-alpha.11 (2019-10-02)
+
+- Fixed the demo control panel component to watch for changes to dynamically added controls.
+
 # 3.0.0-alpha.10 (2019-09-23)
 
 - Fixed scroll-to behavior for dynamic links.
