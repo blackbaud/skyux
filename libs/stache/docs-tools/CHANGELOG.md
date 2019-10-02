@@ -1,3 +1,8 @@
+# 3.0.0-alpha.14 (2019-10-02)
+
+- Added `headingStyle` to the design guidelines section component.
+- Added `videoSource` to the design guidelines thumbnail component.
+
 # 3.0.0-alpha.13 (2019-10-02)
 
 - Fixed the `SkyDocsTypeDefinitionsModule` to provide the `SkyDocsTypeDefinitionsFormatService`.
