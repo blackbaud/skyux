@@ -1,12 +1,15 @@
 import {
+  AfterContentInit,
   ChangeDetectionStrategy,
   Component,
-  Input,
   ContentChildren,
-  QueryList,
-  AfterContentInit
+  Input,
+  QueryList
 } from '@angular/core';
-import { SkyDocsAnatomyItemComponent } from './anatomy-item.component';
+
+import {
+  SkyDocsAnatomyItemComponent
+} from './anatomy-item.component';
 
 @Component({
   selector: 'sky-docs-anatomy',

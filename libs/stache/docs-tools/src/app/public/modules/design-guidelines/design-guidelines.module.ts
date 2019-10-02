@@ -7,12 +7,13 @@ import {
 } from '@angular/core';
 
 import {
+  SkyImageModule
+} from '@blackbaud/skyux-lib-media';
+
+import {
   SkyFluidGridModule
 } from '@skyux/layout';
-import { SkyDocsDesignGuidelineComponent } from './design-guideline.component';
-import { SkyDocsDesignGuidelinesComponent } from './design-guidelines.component';
-import { SkyImageModule } from '@blackbaud/skyux-lib-media';
-import { SkyDocsDesignGuidelineThumbnailComponent } from './design-guideline-thumbnail.component';
+
 import {
   SkyDocsAnatomyComponent
 } from './anatomy.component';
@@ -20,6 +21,18 @@ import {
 import {
   SkyDocsAnatomyItemComponent
 } from './anatomy-item.component';
+
+import {
+  SkyDocsDesignGuidelineComponent
+} from './design-guideline.component';
+
+import {
+  SkyDocsDesignGuidelinesComponent
+} from './design-guidelines.component';
+
+import {
+  SkyDocsDesignGuidelineThumbnailComponent
+} from './design-guideline-thumbnail.component';
 
 @NgModule({
   imports: [

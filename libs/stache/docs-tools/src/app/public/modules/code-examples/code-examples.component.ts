@@ -61,11 +61,11 @@ export class SkyDocsCodeExamplesComponent implements AfterContentInit {
       const sourceCode = this.sourceCodeService.getSourceCode(component.sourceCodeLocation);
 
       if (!sourceCode.length) {
-        throw `No source code found at location "${component.sourceCodeLocation}" for "${component.title}"!`;
+        throw `No source code found at location "${component.sourceCodeLocation}" for "${component.heading}"!`;
       }
 
       this.codeExamples.push({
-        title: component.title,
+        heading: component.heading,
         sourceCode,
         packageDependencies: this.packageDependencies
       });
@@ -79,7 +79,6 @@ export class SkyDocsCodeExamplesComponent implements AfterContentInit {
   /**
    * Returns a string representing one of PrismJS's supported language types.
    * See: https://prismjs.com/#supported-languages
-   * @param fileName
    */
   public parseCodeLanguageType(fileName: string): string {
     const extension = fileName.split('.').pop().toLowerCase();

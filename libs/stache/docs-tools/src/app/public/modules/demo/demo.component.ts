@@ -15,10 +15,6 @@ export class SkyDocsDemoComponent {
     return (this.areOptionsVisible) ? 'chevron-up' : 'chevron-down';
   }
 
-  public get toggleOptionsButtonText(): string {
-    return (this.areOptionsVisible) ? 'Hide options' : 'Show options';
-  }
-
   public areOptionsVisible = false;
 
   public onToggleOptionsButtonClick(): void {

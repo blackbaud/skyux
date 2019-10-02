@@ -1,13 +1,20 @@
 import {
+  AfterContentInit,
   ChangeDetectionStrategy,
   Component,
-  TemplateRef,
   ContentChildren,
   QueryList,
-  AfterContentInit
+  TemplateRef
 } from '@angular/core';
 
-import { SkyDocsParameterDefinitionComponent } from './parameter-definition.component';
+import {
+  SkyDocsAnchorLinkService
+} from './anchor-link.service';
+
+import {
+  SkyDocsParameterDefinitionComponent
+} from './parameter-definition.component';
+import { SkyDocsTypeDefinitionsFormatService } from './type-definitions-format.service';
 
 export interface SkyDocsParameterModel {
   isOptional: boolean;
@@ -30,9 +37,11 @@ export class SkyDocsParameterDefinitionsComponent implements AfterContentInit {
   @ContentChildren(SkyDocsParameterDefinitionComponent)
   private parameterComponents: QueryList<SkyDocsParameterDefinitionComponent>;
 
-  /**
-   * @internal
-   */
+  constructor(
+    private anchorLinkService: SkyDocsAnchorLinkService,
+    private formatService: SkyDocsTypeDefinitionsFormatService
+  ) { }
+
   public ngAfterContentInit(): void {
     this.parameters = this.parameterComponents.map((parameterComponent) => {
       return {
@@ -46,16 +55,10 @@ export class SkyDocsParameterDefinitionsComponent implements AfterContentInit {
   }
 
   public getParameterSignature(item: SkyDocsParameterModel): string {
-    let signature = `${item.name}`;
+    return this.formatService.getParameterSignature(item);
+  }
 
-    if (item.isOptional) {
-      signature += '?';
-    }
-
-    if (item.type) {
-      signature += `: ${item.type}`;
-    }
-
-    return signature;
+  public formatDefaultValue(value: string): string {
+    return this.anchorLinkService.wrapWithAnchorLink(value);
   }
 }

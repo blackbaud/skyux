@@ -4,12 +4,14 @@ import {
   Input
 } from '@angular/core';
 
-import { SkyDocsDirectiveDefinition, SkyDocsPropertyDefinition } from './type-definitions';
+import {
+  SkyDocsDirectiveDefinition,
+  SkyDocsPropertyDefinition
+} from './type-definitions';
 
 @Component({
   selector: 'sky-docs-directive-definition',
   templateUrl: './directive-definition.component.html',
-  styleUrls: ['./directive-definition.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyDocsDirectiveDefinitionComponent {
@@ -20,14 +22,14 @@ export class SkyDocsDirectiveDefinitionComponent {
   public get inputProperties(): SkyDocsPropertyDefinition[] {
     const properties = this.config.properties || [];
     return properties.filter((property) => {
-      return property.decorator === 'Input';
+      return (property.decorator === 'Input');
     });
   }
 
   public get eventProperties(): SkyDocsPropertyDefinition[] {
     const properties = this.config.properties || [];
     return properties.filter((property) => {
-      return property.decorator === 'Output';
+      return (property.decorator === 'Output');
     });
   }
 

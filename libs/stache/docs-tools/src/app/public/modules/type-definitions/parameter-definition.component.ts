@@ -8,10 +8,7 @@ import {
 
 @Component({
   selector: 'sky-docs-parameter-definition',
-  template: `
-  <ng-template #templateRef>
-    <ng-content></ng-content>
-  </ng-template>`,
+  templateUrl: './parameter-definition.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyDocsParameterDefinitionComponent {

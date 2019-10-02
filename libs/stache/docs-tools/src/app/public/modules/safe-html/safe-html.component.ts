@@ -3,12 +3,15 @@ import {
   Component,
   Input
 } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+
+import {
+  DomSanitizer,
+  SafeHtml
+} from '@angular/platform-browser';
 
 @Component({
   selector: 'sky-docs-safe-html',
   templateUrl: './safe-html.component.html',
-  styleUrls: ['./safe-html.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyDocsSafeHtmlComponent {

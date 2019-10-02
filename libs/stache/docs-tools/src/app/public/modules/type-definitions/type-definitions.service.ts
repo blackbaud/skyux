@@ -3,6 +3,10 @@ import {
 } from '@angular/core';
 
 import {
+  SkyDocsAnchorLinkService
+} from './anchor-link.service';
+
+import {
   SkyDocsTypeDefinitions,
   SkyDocsPropertyDefinition,
   SkyDocsMethodDefinition,
@@ -20,10 +24,6 @@ import {
 import {
   SkyDocsTypeDefinitionsProvider
 } from './type-definitions-provider';
-
-import {
-  SkyDocsAnchorLinkService
-} from './anchor-link.service';
 
 @Injectable()
 export class SkyDocsTypeDefinitionsService {

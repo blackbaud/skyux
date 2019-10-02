@@ -15,9 +15,6 @@ export class SkyDocsAnatomyItemComponent {
   @Input()
   public isOptional: boolean = false;
 
-  /**
-   * @internal
-   */
   public marker: string;
 
 }

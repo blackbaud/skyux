@@ -1,4 +1,16 @@
 {
+  "sky-docs-demo-heading": {
+    "_description": "The heading for the demo section.",
+    "message": "Demo"
+  },
+  "sky-docs-demo-toggle-button-on": {
+    "_description": "The button text to show the options control panel.",
+    "message": "Show options"
+  },
+  "sky-docs-demo-toggle-button-off": {
+    "_description": "The button text to hide the options control panel.",
+    "message": "Hide options"
+  },
   "sky-docs-code-example-launch-button-label": {
     "_description": "Button text for code example button used to launch editor.",
     "message": "Run in StackBlitz"

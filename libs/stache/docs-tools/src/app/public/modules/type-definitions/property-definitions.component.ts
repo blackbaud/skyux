@@ -4,29 +4,22 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChildren,
-  TemplateRef,
-  QueryList,
-  Input
+  Input,
+  QueryList
 } from '@angular/core';
+
+import {
+  SkyDocsAnchorLinkService
+} from './anchor-link.service';
 
 import {
   SkyDocsPropertyDefinitionComponent
 } from './property-definition.component';
 
 import {
-  SkyDocsAnchorLinkService
-} from './anchor-link.service';
-
-export interface SkyDocsPropertyModel {
-  defaultValue: string;
-  deprecationWarning: string;
-  description?: string;
-  isOptional: boolean;
-  propertyDecorator: 'Input' | 'Output';
-  propertyName: string;
-  propertyType: string;
-  templateRef: TemplateRef<any>;
-}
+  SkyDocsPropertyDefinition
+} from './type-definitions';
+import { SkyDocsTypeDefinitionsFormatService } from './type-definitions-format.service';
 
 @Component({
   selector: 'sky-docs-property-definitions',
@@ -39,24 +32,25 @@ export class SkyDocsPropertyDefinitionsComponent implements AfterContentInit {
   @Input()
   public propertyType = 'Property';
 
-  public properties: SkyDocsPropertyModel[] = [];
+  public properties: SkyDocsPropertyDefinition[] = [];
 
   @ContentChildren(SkyDocsPropertyDefinitionComponent)
   private definitionRefs: QueryList<SkyDocsPropertyDefinitionComponent>;
 
   constructor(
+    private anchorLinkService: SkyDocsAnchorLinkService,
     private changeDetector: ChangeDetectorRef,
-    private anchorLinkService: SkyDocsAnchorLinkService
+    private formatService: SkyDocsTypeDefinitionsFormatService
   ) { }
 
   public ngAfterContentInit(): void {
     this.definitionRefs.forEach((definitionRef) => {
       this.properties.push({
-        propertyType: definitionRef.propertyType,
+        type: definitionRef.propertyType,
         defaultValue: definitionRef.defaultValue,
         deprecationWarning: definitionRef.deprecationWarning,
-        propertyDecorator: definitionRef.propertyDecorator,
-        propertyName: definitionRef.propertyName,
+        decorator: definitionRef.propertyDecorator,
+        name: definitionRef.propertyName,
         templateRef: definitionRef.templateRef,
         isOptional: definitionRef.isOptional
       });
@@ -65,25 +59,11 @@ export class SkyDocsPropertyDefinitionsComponent implements AfterContentInit {
     this.changeDetector.markForCheck();
   }
 
-  public getPropertySignature(item: SkyDocsPropertyModel): string {
-    let signature = '';
-
-    signature += `${item.propertyName}`;
-
-    if (item.isOptional) {
-      signature += '?';
-    }
-
-    if (item.propertyType) {
-      const propertyType = this.anchorLinkService.wrapWithAnchorLink(item.propertyType);
-
-      signature += `: ${propertyType}`;
-    }
-
-    return signature;
+  public getPropertySignature(item: SkyDocsPropertyDefinition): string {
+    return this.formatService.getPropertySignature(item);
   }
 
-  public getDefaultValue(value: string): string {
+  public formatDefaultValue(value: string): string {
     return this.anchorLinkService.wrapWithAnchorLink(value);
   }
 

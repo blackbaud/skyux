@@ -8,7 +8,7 @@ import {
 
 export interface SkyDocsCodeExample {
 
-  title: string;
+  heading: string;
 
   sourceCode: SkyDocsSourceCodeFile[];
 

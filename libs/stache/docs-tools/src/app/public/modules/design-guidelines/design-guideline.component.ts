@@ -1,17 +1,19 @@
 import {
+  AfterContentInit,
   ChangeDetectionStrategy,
   Component,
-  Input,
-  AfterContentInit,
   ContentChildren,
+  Input,
   QueryList
 } from '@angular/core';
-import { SkyDocsDesignGuidelineThumbnailComponent } from './design-guideline-thumbnail.component';
+
+import {
+  SkyDocsDesignGuidelineThumbnailComponent
+} from './design-guideline-thumbnail.component';
 
 @Component({
   selector: 'sky-docs-design-guideline',
   templateUrl: './design-guideline.component.html',
-  styleUrls: ['./design-guideline.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyDocsDesignGuidelineComponent implements AfterContentInit {

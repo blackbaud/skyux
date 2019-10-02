@@ -10,6 +10,9 @@ import {
   declarations: [
     SkyDocsMarkdownPipe
   ],
+  providers: [
+    SkyDocsMarkdownPipe
+  ],
   exports: [
     SkyDocsMarkdownPipe
   ]

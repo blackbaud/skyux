@@ -1,11 +1,13 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Input
 } from '@angular/core';
 
 @Component({
   selector: 'sky-docs-code-example',
-  template: ''
+  template: '',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyDocsCodeExampleComponent {
 
@@ -13,6 +15,6 @@ export class SkyDocsCodeExampleComponent {
   public sourceCodeLocation: string;
 
   @Input()
-  public title: string;
+  public heading: string;
 
 }

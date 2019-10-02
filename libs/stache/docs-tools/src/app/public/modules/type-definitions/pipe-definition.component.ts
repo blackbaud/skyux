@@ -11,7 +11,6 @@ import {
 @Component({
   selector: 'sky-docs-pipe-definition',
   templateUrl: './pipe-definition.component.html',
-  styleUrls: ['./pipe-definition.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyDocsPipeDefinitionComponent {

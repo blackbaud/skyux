@@ -1,12 +1,23 @@
 import {
   Injectable
 } from '@angular/core';
-import { SkyDocsMethodDefinition } from './type-definitions';
 
-@Injectable({
-  providedIn: 'root'
-})
+import {
+  SkyDocsAnchorLinkService
+} from './anchor-link.service';
+
+import {
+  SkyDocsMethodDefinition,
+  SkyDocsParameterDefinition,
+  SkyDocsPropertyDefinition
+} from './type-definitions';
+
+@Injectable()
 export class SkyDocsTypeDefinitionsFormatService {
+
+  constructor(
+    private anchorLinkService: SkyDocsAnchorLinkService
+  ) { }
 
   public getMethodSignature(method: SkyDocsMethodDefinition): string {
     let signature = `public ${method.name}(`;
@@ -26,6 +37,40 @@ export class SkyDocsTypeDefinitionsFormatService {
     }
 
     signature += `): ${method.returnType}`;
+
+    return signature;
+  }
+
+  public getParameterSignature(item: SkyDocsParameterDefinition): string {
+    let signature = `${item.name}`;
+
+    if (item.isOptional) {
+      signature += '?';
+    }
+
+    if (item.type) {
+      const parameterType = this.anchorLinkService.wrapWithAnchorLink(item.type);
+
+      signature += `: ${parameterType}`;
+    }
+
+    return signature;
+  }
+
+  public getPropertySignature(item: SkyDocsPropertyDefinition): string {
+    let signature = '';
+
+    signature += `${item.name}`;
+
+    if (item.isOptional) {
+      signature += '?';
+    }
+
+    if (item.type) {
+      const propertyType = this.anchorLinkService.wrapWithAnchorLink(item.type);
+
+      signature += `: ${propertyType}`;
+    }
 
     return signature;
   }

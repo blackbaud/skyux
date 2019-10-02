@@ -10,7 +10,7 @@
         <div *ngIf="parameter.isOptional"
           class="sky-docs-parameter-definition-label-optional"
         >
-          Optional. <ng-container *ngIf="parameter.defaultValue">Default is <sky-code>{{ parameter.defaultValue }}</sky-code>.</ng-container>
+          Optional. <ng-container *ngIf="parameter.defaultValue">Default is <sky-code><span [innerHtml]="formatDefaultValue(parameter.defaultValue)"></span></sky-code>.</ng-container>
         </div>
       </td>
     </tr>

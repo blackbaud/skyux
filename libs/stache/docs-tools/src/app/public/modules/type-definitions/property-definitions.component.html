@@ -13,8 +13,8 @@
       class="sky-table-row"
     >
       <td class="sky-table-cell">
-        <ng-container *ngIf="property.propertyDecorator">
-          <sky-code>@{{property.propertyDecorator}}()</sky-code><br>
+        <ng-container *ngIf="property.decorator">
+          <sky-code>@{{property.decorator}}()</sky-code><br>
         </ng-container>
         <sky-code><span [innerHtml]="getPropertySignature(property)"></span></sky-code>
       </td>
@@ -22,13 +22,13 @@
       <td
         class="sky-table-cell"
       >
-        <p *ngIf="!property.isOptional && property.propertyDecorator === 'Input'"
+        <p *ngIf="!property.isOptional && property.decorator === 'Input'"
           class="sky-docs-property-definition-label sky-text-danger"
         >Required.</p>
 
         <p *ngIf="property.deprecationWarning"
           class="sky-docs-property-definition-label sky-text-warning"
-        ><strong>Deprecated.</strong>&nbsp;<span [innerHTML]="property.deprecationWarning"></span></p>
+        ><strong>Deprecated.</strong>&nbsp;<span [innerHtml]="property.deprecationWarning | skyDocsMarkdown:'inline'"></span></p>
 
         <ng-container
           [ngTemplateOutlet]="property.templateRef"
@@ -37,7 +37,7 @@
 
         <p *ngIf="property.isOptional"
           class="sky-docs-property-definition-label sky-docs-property-definition-label-optional"
-        >Optional. <ng-container *ngIf="property.defaultValue">Default is <sky-code><span [innerHTML]="getDefaultValue(property.defaultValue)"></span></sky-code>.</ng-container></p>
+        >Optional. <ng-container *ngIf="property.defaultValue">Default is <sky-code><span [innerHtml]="formatDefaultValue(property.defaultValue)"></span></sky-code>.</ng-container></p>
       </td>
     </tr>
 

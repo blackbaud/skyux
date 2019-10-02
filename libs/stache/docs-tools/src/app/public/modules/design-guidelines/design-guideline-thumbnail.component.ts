@@ -13,16 +13,16 @@ import {
 export class SkyDocsDesignGuidelineThumbnailComponent {
 
   @Input()
-  public imageSource: string;
+  public caption: string;
+
+  @Input()
+  public captionType: string;
 
   @Input()
   public imageAlt: string;
 
   @Input()
-  public caption: string;
-
-  @Input()
-  public captionType: string;
+  public imageSource: string;
 
   @Input()
   public showBorder: boolean = false;

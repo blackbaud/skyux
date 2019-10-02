@@ -30,19 +30,13 @@ export class SkyDocsDemoControlPanelRadioGroupComponent implements OnInit, OnDes
   public heading: string;
 
   @Input()
-  public propertyName: string;
-
-  @Input()
   public initialValue: any;
 
-  /**
-   * @internal
-   */
+  @Input()
+  public propertyName: string;
+
   public selectionChange = new Subject<SkyDocsDemoControlPanelChange>();
 
-  /**
-   * @internal
-   */
   public value: any;
 
   constructor(

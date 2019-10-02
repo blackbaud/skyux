@@ -5,7 +5,7 @@
     role="heading"
   >
     <span class="sky-section-heading">
-      Demo
+      {{ 'sky-docs-demo-heading' | skyLibResources }}
     </span>
     <button
       class="sky-btn"
@@ -18,7 +18,12 @@
       <sky-icon
         [icon]="toggleOptionsButtonIcon"
       ></sky-icon>
-      {{ toggleOptionsButtonText }}
+      <ng-container *ngIf="areOptionsVisible">
+        {{ 'sky-docs-demo-toggle-button-off' | skyLibResources }}
+      </ng-container>
+      <ng-container *ngIf="!areOptionsVisible">
+        {{ 'sky-docs-demo-toggle-button-on' | skyLibResources }}
+      </ng-container>
     </button>
   </div>
 

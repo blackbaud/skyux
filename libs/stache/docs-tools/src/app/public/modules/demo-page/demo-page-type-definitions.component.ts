@@ -1,8 +1,8 @@
 import {
-  Component,
-  OnInit,
   ChangeDetectionStrategy,
-  Input
+  Component,
+  Input,
+  OnInit
 } from '@angular/core';
 
 import {
@@ -16,7 +16,6 @@ import {
 @Component({
   selector: 'sky-docs-demo-page-type-definitions',
   templateUrl: './demo-page-type-definitions.component.html',
-  styleUrls: ['./demo-page-type-definitions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyDocsDemoPageTypeDefinitionsComponent implements OnInit {

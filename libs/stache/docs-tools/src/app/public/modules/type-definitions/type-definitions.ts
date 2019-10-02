@@ -1,7 +1,16 @@
+import {
+  TemplateRef
+} from '@angular/core';
+
 export interface SkyDocsPropertyDefinition {
   name: string;
   type: string;
-  description: string;
+  decorator?: 'Input' | 'Output';
+  defaultValue?: string;
+  deprecationWarning?: string;
+  description?: string;
+  isOptional?: boolean;
+  templateRef?: TemplateRef<any>;
 }
 
 export interface SkyDocsDirectivePropertyDefinition extends SkyDocsPropertyDefinition {

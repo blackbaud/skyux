@@ -15,14 +15,20 @@ import {
 } from '@blackbaud/skyux-lib-code-block';
 
 import {
+  SkyHelpInlineModule
+} from '@skyux/indicators';
+
+import {
   SkyDefinitionListModule
 } from '@skyux/layout';
 
 import {
+  SkyPopoverModule
+} from '@skyux/popovers';
+
+import {
   SkyDocsModuleInfoComponent
 } from './module-info.component';
-import { SkyHelpInlineModule } from '@skyux/indicators';
-import { SkyPopoverModule } from '@skyux/popovers';
 
 @NgModule({
   imports: [
