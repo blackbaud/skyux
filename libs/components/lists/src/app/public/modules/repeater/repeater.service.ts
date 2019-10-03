@@ -51,4 +51,12 @@ export class SkyRepeaterService implements OnDestroy {
   public onItemCollapseStateChange(item: SkyRepeaterItemComponent): void {
     this.itemCollapseStateChange.emit(item);
   }
+
+  public getItemIndex(item: SkyRepeaterItemComponent): number {
+    return this.items.indexOf(item);
+  }
+
+  public reorderItem(oldIndex: number, newIndex: number): void {
+    this.items.splice(newIndex, 0, this.items.splice(oldIndex, 1)[0]);
+  }
 }

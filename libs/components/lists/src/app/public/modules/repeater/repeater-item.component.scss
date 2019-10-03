@@ -32,8 +32,12 @@
 
 .sky-repeater-item-left {
   display: flex;
-  margin-top: -2px;
   padding-top: $sky-padding;
+  align-items: center;
+
+  ::ng-deep sky-checkbox {
+    display: flex;
+  }
 }
 
 .sky-repeater-item-right {
@@ -51,8 +55,12 @@
   margin-left: $sky-margin;
 }
 
-.sky-repeater-item-checkbox, .sky-repeater-item-context-menu {
+.sky-repeater-item-context-menu {
   padding: 0 $sky-padding 0 0;
+}
+
+.sky-repeater-item-checkbox {
+  padding: 0 $sky-padding-half 0 0;
 }
 
 .sky-repeater-item-selected {
@@ -85,5 +93,46 @@
 .sky-repeater-item-collapsed {
   .sky-repeater-item-content {
     display: none;
+  }
+}
+
+.sky-repeater-item-reorder-assistive-text {
+  @include sky-screen-reader-only();
+}
+
+.sky-repeater-item-grab-handle {
+  @include sky-icon-button-borderless();
+  border: 0;
+  width: 24px;
+  height: 24px;
+  cursor: grab;
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+  padding: 0;
+  margin-right: $sky-margin;
+}
+
+:host(.sky-repeater-item-dragging) {
+
+  &.gu-mirror {
+    opacity: initial;
+    -ms-filter: initial;
+    filter: initial;
+    background-color: #fff;
+    box-shadow: 0px 0px 5px 0 rgba(0, 0, 0, 0.3)
+  }
+
+  &.gu-transit .sky-repeater-item {
+    background-color: #d8d8d8;
+
+    .sky-repeater-item-left, .sky-repeater-item-right {
+      visibility: hidden;
+    }
+  }
+
+  .sky-repeater-item-grab-handle {
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
   }
 }

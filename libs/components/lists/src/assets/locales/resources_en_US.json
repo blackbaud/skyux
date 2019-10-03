@@ -31,6 +31,30 @@
     "_description": "Label for the repeater item checkbox for the repeater component",
     "message": "Select row"
   },
+  "skyux_repeater_item_reorder_cancel": {
+    "_description": "Accessible screen reader text for when a reorder is finished",
+    "message": "Item reordering was canceled. The item was returned to its original position."
+  },
+  "skyux_repeater_item_reorder_finish": {
+    "_description": "Accessible screen reader text for when a reorder is finished",
+    "message": "Dropped the item in position"
+  },
+  "skyux_repeater_item_reorder_instructions": {
+    "_description": "Accessible operation instructions for reordering a repeater item",
+    "message": "Item grabbed. Press the up and down arrow keys to change position. Press the spacebar or enter key to drop. And press the escape key to cancel."
+  },
+  "skyux_repeater_item_reorder_moved": {
+    "_description": "Alerts the user to the new position an items moved to. Does not include variable due to usage case",
+    "message": "Moved the item to position"
+  },
+  "skyux_repeater_item_reorder_operation": {
+    "_description": "Accessible operation instructions for triggering reordering a repeater item",
+    "message": "Press the spacebar or enter key to reorder."
+  },
+  "skyux_repeater_item_reorder_top": {
+    "_description": "Accessible label for button to reorder a repeater item to the top of the list",
+    "message": "Move to top"
+  },
   "skyux_sort_button_label": {
     "_description": "Text for the sort button",
     "message": "Sort"

@@ -29,7 +29,30 @@
 <ng-template
   #skyRepeaterItemLeft
 >
-  <div class="sky-repeater-item-left">
+  <div
+    class="sky-repeater-item-left"
+  >
+    <ng-container *ngIf="reorderable">
+      <span
+        aria-live="assertive"
+        class="sky-repeater-item-reorder-assistive-text"
+        [id]="contentId + '-reorder-state'"
+      >
+        {{reorderState}}
+      </span>
+      <button
+        class="sky-btn sky-tile-tools-control sky-repeater-item-grab-handle"
+        [attr.aria-label]="reorderButtonLabel"
+        (blur)="onReorderHandleBlur($event)"
+        (click)="$event.stopPropagation()"
+        (keydown)="onReorderHandleKeyDown($event)"
+        #grabHandle
+      >
+        <sky-icon
+          icon="arrows-v"
+        ></sky-icon>
+      </button>
+    </ng-container>
     <sky-checkbox
       *ngIf="selectable"
       class="sky-repeater-item-checkbox"
@@ -43,7 +66,9 @@
         [hidden]="contextMenuEl.children.length === 0"
         #contextMenuEl
     >
-      <ng-content select="sky-repeater-item-context-menu"></ng-content>
+      <ng-content
+        select="sky-repeater-item-context-menu"
+      ></ng-content>
     </div>
   </div>
 </ng-template>
@@ -51,16 +76,35 @@
 <ng-template
   #skyRepeaterItemRight
 >
-  <div class="sky-repeater-item-right">
+  <div
+    class="sky-repeater-item-right"
+  >
     <header
         class="sky-repeater-item-header"
         [hidden]="titleEl.children.length === 0"
         (click)="headerClick()"
     >
-      <div class="sky-repeater-item-title sky-emphasized" #titleEl>
-        <ng-content select="sky-repeater-item-title"></ng-content>
+      <div
+        class="sky-repeater-item-title sky-emphasized"
+        #titleEl
+      >
+        <ng-content
+          select="sky-repeater-item-title"
+        ></ng-content>
       </div>
-      <div class="sky-repeater-item-chevron" *ngIf="isCollapsible">
+      <button *ngIf="reorderable"
+        class="sky-btn sky-btn-link sky-repeater-item-reorder-top"
+        [attr.aria-label]="'skyux_repeater_item_reorder_top' | skyLibResources"
+        (click)="moveToTop($event)"
+      >
+      <sky-icon
+        icon="arrow-circle-up"
+      ></sky-icon>
+      Top
+    </button>
+      <div *ngIf="isCollapsible"
+        class="sky-repeater-item-chevron"
+      >
         <sky-chevron
             [attr.aria-controls]="contentId"
             [attr.aria-expanded]="isExpanded"
@@ -74,7 +118,9 @@
       class="sky-repeater-item-content"
       [id]="contentId"
       [@skyAnimationSlide]="slideDirection">
-      <ng-content select="sky-repeater-item-content"></ng-content>
+      <ng-content
+        select="sky-repeater-item-content"
+      ></ng-content>
     </div>
   </div>
 </ng-template>
