@@ -177,22 +177,26 @@
   id="screenshot-repeater-selectable"
 >
   <h3>Repeater with "selectable" enabled</h3>
-  <sky-repeater [expandMode]="'single'">
-    <sky-repeater-item
+  <sky-repeater
+    [expandMode]="'single'"
+  >
+    <sky-repeater-item *ngFor="let item of itemsForSelectableRepeater"
       [isExpanded]="false"
       [selectable]="true"
       (collapse)="onCollapse()"
       (expand)="onExpand()"
+      [(isSelected)]="item.isSelected"
     >
-      <sky-repeater-item-title>Title 1</sky-repeater-item-title>
-      <sky-repeater-item-content>Content 1</sky-repeater-item-content>
-    </sky-repeater-item>
-    <sky-repeater-item [isExpanded]="false" [selectable]="true">
-      <sky-repeater-item-title>Title 2</sky-repeater-item-title>
-      <sky-repeater-item-content>Content 2</sky-repeater-item-content>
+      <sky-repeater-item-title>
+        {{ item.title }}
+      </sky-repeater-item-title>
+      <sky-repeater-item-content>
+        {{ item.content }}
+      </sky-repeater-item-content>
     </sky-repeater-item>
   </sky-repeater>
 </div>
+<p>Selected items: {{ getSelectedItems() }}</p>
 
 
 <div

@@ -63,6 +63,21 @@ export class RepeaterVisualComponent {
     }
   ];
 
+  public itemsForSelectableRepeater = [
+    {
+      id: '1',
+      title: 'Title 1',
+      content: 'Content 1',
+      isSelected: false
+    },
+    {
+      id: '2',
+      title: 'Title 2',
+      content: 'Content 2',
+      isSelected: false
+    }
+  ];
+
   public deleteItem(index: any): void {
     this.items.splice(index, 1);
 
@@ -89,6 +104,14 @@ export class RepeaterVisualComponent {
       fund: 'New fund'
     };
     this.items.push(newItem);
+  }
+
+  public getSelectedItems(): string[] {
+    const ids: string[] = this.itemsForSelectableRepeater
+      .filter(item => item.isSelected)
+      .map(item => item.id.toString());
+
+    return ids;
   }
 
   public onCollapse(): void {

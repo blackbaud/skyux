@@ -21,7 +21,7 @@
   </sky-repeater-item>
   <sky-repeater-item *ngIf="!removeLastItem"
     [isExpanded]="lastItemExpanded"
-    [isSelected]="lastItemSelected"
+    [(isSelected)]="lastItemSelected"
   >
     <sky-repeater-item-context-menu *ngIf="showContextMenu">
       a
