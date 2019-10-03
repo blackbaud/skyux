@@ -1,3 +1,8 @@
+# 3.4.1 (2019-10-03)
+
+- Fixed the radio group component to reset the model value when radio components are added dynamically. [#67](https://github.com/blackbaud/skyux-forms/pull/67)
+- Fixed the styling for the character count indicator component. [#69](https://github.com/blackbaud/skyux-forms/pull/69)
+
 # 3.4.0 (2019-09-24)
 
 - Added the single file attachment component. [#60](https://github.com/blackbaud/skyux-forms/pull/60)
