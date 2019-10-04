@@ -183,7 +183,7 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
     this.dragulaService.setOptions('sky-repeater', {
       moves: (el: HTMLElement, container: HTMLElement, handle: HTMLElement) => {
         const target = el.querySelector('.sky-repeater-item-grab-handle');
-        return target.contains(handle);
+        return target && target.contains(handle);
       }
     });
   }

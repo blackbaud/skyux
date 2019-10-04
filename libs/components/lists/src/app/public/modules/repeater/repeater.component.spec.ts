@@ -115,6 +115,24 @@ describe('Repeater item component', () => {
       .toBe(2);
   }));
 
+  it('should not error when a non-reorderable repeater is interacted with', fakeAsync(() => {
+    let fixture = TestBed.createComponent(RepeaterTestComponent);
+
+    fixture.detectChanges();
+    tick();
+
+    // NOTE: This complicated setup is to ensure that we get to the portion of dragula's grab
+    // function which can throw the error
+    expect(() => {
+      SkyAppTestUtility.fireDomEvent(document.querySelector('.sky-repeater-item-title'), 'mousedown', {
+        customEventInit: {
+        touches: ['foo']
+      }});
+      fixture.detectChanges();
+      tick();
+    }).not.toThrow();
+  }));
+
   describe('with expand mode of "single"', () => {
     it('should collapse other items when an item is expanded', fakeAsync(() => {
       let fixture = TestBed.createComponent(RepeaterTestComponent);
