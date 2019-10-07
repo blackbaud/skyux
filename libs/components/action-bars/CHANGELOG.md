@@ -1,3 +1,7 @@
+# 3.1.2 (2019-10-07)
+
+- Fixed the summary action bar component to remove an accidental peer dependency on `@skyux/split-view`. [#22](https://github.com/blackbaud/skyux-action-bars/pull/22)
+
 # 3.1.1 (2019-09-11)
 
 - Fixed the summary action bar component to properly update the page's bottom padding when the action bar expands and collapses. [#18](https://github.com/blackbaud/skyux-action-bars/pull/18)
