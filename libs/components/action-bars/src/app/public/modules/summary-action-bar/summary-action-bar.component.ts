@@ -5,8 +5,7 @@ import {
   Component,
   ContentChild,
   ElementRef,
-  OnDestroy,
-  Optional
+  OnDestroy
 } from '@angular/core';
 
 import {
@@ -31,10 +30,6 @@ import {
   SkyMediaQueryService,
   SkyWindowRefService
 } from '@skyux/core';
-
-import {
-  SkySplitViewService
-} from '@skyux/split-view/modules/split-view/split-view.service';
 
 import {
   SkySummaryActionBarSummaryComponent
@@ -90,8 +85,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
     private elementRef: ElementRef,
     private mediaQueryService: SkyMediaQueryService,
     private observerService: MutationObserverService,
-    private windowRef: SkyWindowRefService,
-    @Optional() private splitViewService: SkySplitViewService
+    private windowRef: SkyWindowRefService
   ) { }
 
   public ngAfterViewInit(): void {
@@ -215,11 +209,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   }
 
   private setupResizeListener(): void {
-    if (this.type === SkySummaryActionBarType.SplitView) {
-      this.splitViewService.drawerWidthStream.subscribe(() => {
-        this.adapterService.styleSplitViewElementForActionBar(this.elementRef);
-      });
-    } else {
+    if (this.type !== SkySummaryActionBarType.SplitView) {
       const windowObj = this.windowRef.getWindow();
       Observable
         .fromEvent(windowObj, 'resize')
