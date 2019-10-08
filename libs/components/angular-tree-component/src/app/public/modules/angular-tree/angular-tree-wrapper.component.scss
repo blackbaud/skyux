@@ -1,0 +1,99 @@
+@import '~@skyux/theme/scss/mixins';
+
+@import "~@skyux/theme/scss/_compat/mixins";
+
+@import "~angular-tree-component/dist/angular-tree-component";
+
+.sky-angular-tree-wrapper ::ng-deep {
+
+  .angular-tree-component {
+    cursor: initial;
+  }
+
+  // Tree & Nodes
+  .node-wrapper {
+    display: flex;
+    align-items: center;
+    padding: 4px $sky-margin-half; // Allows 2px of space for drop-slot, but total 10px between each node.
+    border-left: $sky-nav-selected-border-width solid transparent; // Whitespace for active style.
+  }
+
+  .node-content-wrapper {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .tree-children, .tree-node-level-1.tree-node-leaf {
+    padding-left: 30px;
+  }
+
+  // Toggle indicator
+  .sky-toggle-children {
+    min-height: 19px;
+    min-width: 20px;
+    margin: 0 $sky-margin 0 0;
+    padding: 0;
+    line-height: 1;
+  }
+
+  .toggle-children-placeholder {
+    display: inline-block;
+    height: 19px;
+    width: 20px;
+    margin: 0 $sky-margin 0 0;
+  }
+
+  // Selected states
+  .sky-angular-tree-node-selected {
+    background: $sky-background-color-selected;
+  }
+
+  // Active states
+  .sky-angular-tree-node-active {
+    background-color: $sky-background-color-neutral-light;
+    color: $sky-text-color-default;
+    border-left: $sky-nav-selected-border-width solid $sky-highlight-color-info;
+  }
+
+  // Checkboxes
+  sky-checkbox {
+    display: inline-flex;
+  }
+
+  .sky-switch-control {
+    margin: 0 $sky-margin 0 0;
+  }
+
+  // TODO: Remove me when checkboxes support indeterminate!
+  .sky-checkbox-indeterminate .fa-check:before {
+    content: "\f0c8";
+    position: relative;
+    top: -.25px;
+    font-size: 14px;
+  }
+
+  // Context Menus
+  .sky-angular-tree-context-menu {
+    margin: 0 $sky-margin 0 0;
+  }
+
+  // Drag & Drop
+  .node-drop-slot {
+    display: block;
+    height: 2px
+  }
+  .node-drop-slot.is-dragging-over {
+    height: 20px;
+    background: $sky-background-color-neutral-light;
+    border: 1px solid $sky-border-color-neutral-light;
+  }
+}
+
+// Read-only mode
+.sky-angular-tree-wrapper.sky-angular-tree-read-only ::ng-deep {
+  .node-content-wrapper {
+    cursor: initial;
+  }
+}

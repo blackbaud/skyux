@@ -1,0 +1,67 @@
+<sky-angular-tree-wrapper
+  [readOnly]="readOnly"
+  [selectLeafNodesOnly]="selectLeafNodesOnly"
+  [selectSingle]="selectSingle"
+  [showToolbar]="showToolbar"
+>
+  <tree-root
+    [nodes]="nodes"
+    [options]="options"
+    [state]="state"
+    (stateChange)="onStateChange($event)"
+    #tree
+  >
+    <ng-template
+      let-index="index"
+      let-node
+      let-templates="templates"
+      #treeNodeFullTemplate
+    >
+      <sky-angular-tree-node
+        [index]="index"
+        [node]="node"
+        [templates]="templates"
+      >
+        <sky-dropdown *ngIf="showContextMenus"
+          buttonType="context-menu"
+        >
+          <sky-dropdown-menu>
+            <sky-dropdown-item>
+              <button
+                type="button"
+              >
+                FOO BAR
+              </button>
+            </sky-dropdown-item>
+          </sky-dropdown-menu>
+        </sky-dropdown>
+      </sky-angular-tree-node>
+    </ng-template>
+  </tree-root>
+</sky-angular-tree-wrapper>
+
+<button
+  id="updateStateButton"
+  (click)="updateState()"
+>
+  Update state
+</button>
+
+<tree-root *ngIf="showInvalidTree"
+  [nodes]="nodes"
+  #tree
+>
+  <ng-template
+    let-index="index"
+    let-node
+    let-templates="templates"
+    #treeNodeFullTemplate
+  >
+    <sky-angular-tree-node
+      [index]="index"
+      [node]="node"
+      [templates]="templates"
+    >
+    </sky-angular-tree-node>
+  </ng-template>
+</tree-root>
