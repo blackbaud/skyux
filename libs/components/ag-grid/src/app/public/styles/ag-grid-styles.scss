@@ -8,7 +8,9 @@ $border-color: $sky-border-color-neutral-medium !default;
 $row-height: 38px !default;
 $header-height: 37px !default;
 $font-family: $sky-font-family !default;
+$foreground-color: $sky-text-color-default !default;
 $header-background-color: $sky-background-color-page-default !default;
+$header-foreground-color: $sky-text-color-default !default;
 $font-size: 15px !default;
 $row-border-width: 1px !default;
 $secondary-font-size: $sky-font-size-base !default;
@@ -25,11 +27,10 @@ $sky-standard-border: 1px solid $border-color !default;
 @import "~ag-grid-community/src/styles/ag-theme-balham/sass/ag-theme-balham.scss";
 
 ag-grid-angular {
+  @extend .ag-theme-balham;
+
   width: 100%;
   height: 100%;
-}
-.sky-ag-grid {
-  @extend .ag-theme-balham;
 
   .ag-root {
     border: none;
@@ -58,7 +59,7 @@ ag-grid-angular {
   }
 }
 
-.sky-ag-grid.sky-grid-edit-mode {
+ag-grid-angular.sky-ag-grid-editable {
   .ag-row {
     border-style: solid;
   }

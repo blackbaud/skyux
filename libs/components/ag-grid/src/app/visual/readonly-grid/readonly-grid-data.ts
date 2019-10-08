@@ -14,10 +14,6 @@ export class RowStatusNames {
   public static readonly BEHIND: string = 'Behind';
 }
 
-export class GridSizingMode {
-  public static readonly FIT: string = 'fit';
-  public static readonly AUTO: string = 'auto';
-}
 export const READONLY_GRID_DATA: ReadonlyGridRow[] = [
   {
     name: 'Yearly team goal 1',

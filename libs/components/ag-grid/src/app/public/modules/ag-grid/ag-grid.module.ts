@@ -3,10 +3,6 @@ import {
 } from '@angular/core';
 
 import {
-  SkyIconModule
-} from '@skyux/indicators';
-
-import {
   AgGridModule
 } from 'ag-grid-angular';
 
@@ -30,16 +26,12 @@ import {
 
 @NgModule({
   declarations: [],
-  exports: [
-    SkyIconModule
-  ],
   imports: [
     AgGridModule,
     SkyAgGridCellEditorAutocompleteModule,
     SkyAgGridCellEditorDatepickerModule,
     SkyAgGridCellEditorNumberModule,
-    SkyAgGridCellRendererRowSelectorModule,
-    SkyIconModule
+    SkyAgGridCellRendererRowSelectorModule
   ],
   providers: [
     SkyAgGridService

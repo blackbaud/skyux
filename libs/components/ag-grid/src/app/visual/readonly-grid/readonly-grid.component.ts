@@ -12,7 +12,6 @@ import {
 } from 'ag-grid-community';
 
 import {
-  GridSizingMode,
   READONLY_GRID_DATA,
   RowStatusNames
 } from './readonly-grid-data';
@@ -31,9 +30,6 @@ export class ReadonlyGridComponent implements OnInit {
   public gridData = READONLY_GRID_DATA;
   public gridOptions: GridOptions;
   public columnApi: ColumnApi;
-  public readonly fitGridSizing = GridSizingMode.FIT;
-  public readonly autoGridSizing = GridSizingMode.AUTO;
-  public sizingMode = this.fitGridSizing;
   public columnDefs = [
     {
       field: 'selected',

@@ -29,8 +29,7 @@
     </sky-toolbar-item>
   </sky-toolbar>
   <ag-grid-angular
-    class="sky-ag-grid"
-    [ngClass]="{'sky-grid-edit-mode': editMode}"
+    [ngClass]="{'sky-ag-grid-editable': editMode}"
     [gridOptions]="gridOptions"
     [rowData]="gridData"
   >
