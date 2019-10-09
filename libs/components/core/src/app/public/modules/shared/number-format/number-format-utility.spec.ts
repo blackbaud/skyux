@@ -52,14 +52,14 @@ describe('Number format utility', function () {
     }
   });
 
-  it('should throw error if digits out of range', function () {
+  it('should throw error if digits out of range', function (done) {
     const digits = '0.9-0';
 
     try {
       formatCurrency(50, digits);
       fail('It should fail!');
     } catch (err) {
-      expect(err.message).toEqual('minimumIntegerDigits value is out of range.');
+      done();
     }
   });
 });
