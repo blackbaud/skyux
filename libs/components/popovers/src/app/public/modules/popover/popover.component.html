@@ -1,6 +1,7 @@
 <div
   class="sky-popover-container"
   tabindex="-1"
+  [class.sky-popover-max-height]="!allowFullscreen"
   [ngClass]="[
     'sky-popover-alignment-' + alignment,
     'sky-popover-placement-' + placement

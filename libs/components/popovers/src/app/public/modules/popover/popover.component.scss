@@ -181,3 +181,14 @@ $popover-max-width: 276px;
     }
   }
 }
+
+.sky-popover-max-height {
+  .sky-popover {
+    overflow-y: auto;
+    overflow-x: hidden;
+    min-height: 35px;
+    max-height: -webkit-calc(50vh - 50px);
+    max-height:    -moz-calc(50vh - 50px);
+    max-height:         calc(50vh - 50px);
+  }
+}

@@ -402,6 +402,14 @@ describe('SkyPopoverComponent', () => {
     expect(called).toEqual(true);
   }));
 
+  it('should always default allowFullscreen to true', fakeAsync(() => {
+    expect(component.allowFullscreen).toEqual(true);
+
+    component.allowFullscreen = undefined;
+
+    expect(component.allowFullscreen).toEqual(true);
+  }));
+
   it('should pass accessibility', async(() => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {

@@ -46,6 +46,7 @@ describe('Dropdown component', () => {
     fixture.destroy();
   });
 
+  // #region helpers
   function openOrClosePopoverWithButtonClick(isClose: boolean = false) {
     tick();
     fixture.detectChanges();
@@ -119,6 +120,10 @@ describe('Dropdown component', () => {
 
   function getPopoverContainerElement(): HTMLElement {
     return fixture.nativeElement.querySelector('.sky-popover-container') as HTMLElement;
+  }
+
+  function getPopoverElement(): HTMLElement {
+    return fixture.nativeElement.querySelector('.sky-popover-container .sky-popover') as HTMLElement;
   }
 
   function getDropdownItemElements(): NodeListOf<Element> {
@@ -197,6 +202,11 @@ describe('Dropdown component', () => {
     verifyActiveMenuItemByIndex(3);
     verifyFocusedMenuItemByIndex(3);
   }
+
+  function isScrollable(elem: HTMLElement): boolean {
+    return elem.scrollWidth > elem.clientWidth || elem.scrollHeight > elem.clientHeight;
+  }
+  // #endregion
 
   describe('basic setup', () => {
     it('should have a default button type of "select"', () => {
@@ -304,6 +314,23 @@ describe('Dropdown component', () => {
       const popoverTriggerType = component.dropdown.getPopoverTriggerType();
       expect(popoverTriggerType).toEqual('mouseenter');
     });
+
+    it('should constrain overflow and not be full screen when there are a long list of dropdown items', fakeAsync(() => {
+      let items = [];
+      for (let index = 0; index < 50; index++) {
+        items.push({ name: 'Foo', disabled: false });
+      }
+      component.setItems(items);
+      openOrClosePopoverWithButtonClick();
+
+      const popoverContainer = getPopoverContainerElement();
+      const popover = getPopoverElement();
+      fixture.detectChanges();
+      expect(popoverContainer).not.toHaveCssClass('sky-popover-placement-fullscreen');
+      expect(popoverContainer).toHaveCssClass('sky-popover-placement-below');
+      expect(popoverContainer).toHaveCssClass('sky-popover-max-height');
+      expect(isScrollable(popover)).toBe(true);
+    }));
 
     it('should pass accessibility', async(() => {
       fixture.detectChanges();

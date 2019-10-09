@@ -72,6 +72,15 @@ export class SkyPopoverComponent implements OnInit, OnDestroy {
   }
 
   @Input()
+  public set allowFullscreen(value: boolean) {
+    this._allowFullscreen = value;
+  }
+
+  public get allowFullscreen(): boolean {
+    return this._allowFullscreen === undefined ? true : this._allowFullscreen;
+  }
+
+  @Input()
   public dismissOnBlur = true;
 
   @Input()
@@ -128,6 +137,8 @@ export class SkyPopoverComponent implements OnInit, OnDestroy {
 
   private _alignment: SkyPopoverAlignment;
 
+  private _allowFullscreen: boolean;
+
   private _placement: SkyPopoverPlacement;
 
   constructor(
@@ -166,7 +177,10 @@ export class SkyPopoverComponent implements OnInit, OnDestroy {
 
     // Let the styles render before gauging the dimensions.
     this.windowRef.getWindow().setTimeout(() => {
-      if (this.adapterService.isPopoverLargerThanParent(this.popoverContainer)) {
+      if (
+        this.allowFullscreen &&
+        this.adapterService.isPopoverLargerThanParent(this.popoverContainer)
+      ) {
         this.placement = 'fullscreen';
       }
 
@@ -182,7 +196,10 @@ export class SkyPopoverComponent implements OnInit, OnDestroy {
     this.placement = this.preferredPlacement;
     this.changeDetector.markForCheck();
 
-    if (this.adapterService.isPopoverLargerThanParent(this.popoverContainer)) {
+    if (
+      this.allowFullscreen &&
+      this.adapterService.isPopoverLargerThanParent(this.popoverContainer)
+    ) {
       this.placement = 'fullscreen';
     }
 
