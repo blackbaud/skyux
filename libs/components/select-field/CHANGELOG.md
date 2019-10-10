@@ -1,3 +1,7 @@
+# 3.4.2 (2019-10-10)
+
+- Fixed the select field component to mark the control as invalid when using multiselect mode. [#51](https://github.com/blackbaud/skyux-select-field/pull/51) (Thanks [@Blackbaud-MatthewMiles](https://github.com/Blackbaud-MatthewMiles)!)
+
 # 3.4.1 (2019-09-27)
 
 - Fixed the select field component to mark the control as touched when the picker is saved. [#49](https://github.com/blackbaud/skyux-select-field/pull/49)
