@@ -41,6 +41,6 @@
   }
 }
 
-:host(.ng-invalid.ng-touched) .sky-input-group {
+:host(.ng-invalid.ng-touched) .sky-select-field-btn {
   @include sky-field-status(invalid);
 }
