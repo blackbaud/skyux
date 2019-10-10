@@ -1,3 +1,7 @@
+# 3.8.0 (2019-10-10)
+
+- Updated the `getFocusableChildren()` method on `SkyCoreAdapterService` to make filtering optional for tab index and visibility. [#104](https://github.com/blackbaud/skyux-core/pull/104)
+
 # 3.7.0 (2019-09-11)
 
 - Added the `getFocusableChildren()` method to return an array of all focusable children for a provided `element`. [#99](https://github.com/blackbaud/skyux-core/pull/99)
