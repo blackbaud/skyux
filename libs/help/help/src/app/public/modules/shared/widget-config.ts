@@ -12,6 +12,9 @@ export interface HelpWidgetConfig {
   helpBaseUrl?: string;
   helpCenterUrl?: string;
   hideHelpChat?: boolean | string;
+  /**
+   * @deprecated The undock component no longer exists, thus this configuration will have no effect.
+   */
   hideUndock?: boolean | string;
   hideWidgetOnMobile?: boolean;
   hostQueryParams?: string;

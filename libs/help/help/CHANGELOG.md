@@ -1,3 +1,7 @@
+# 3.1.2 (2019-10-08)
+
+- Deprecate `hideUndock` configuration. [#54](https://github.com/blackbaud/skyux-lib-help/pull/54)
+
 # 3.1.1 (2019-07-25)
 
 - Fixed a bug where `HelpInitializationService` was not being provided by `BBHelpModule`. [#52](https://github.com/blackbaud/skyux-lib-help/pull/52)
