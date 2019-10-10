@@ -9,17 +9,20 @@ import {
   SkyMediaBreakpoints
 } from '../media-query';
 
+import {
+  SkyFocusableChildrenOptions
+} from './focusable-children-options';
+
 const SKY_TABBABLE_SELECTOR = [
   'a[href]',
   'area[href]',
-  'input:not([disabled]):not([tabindex=\'-1\'])',
-  'button:not([disabled]):not([tabindex=\'-1\'])',
-  'select:not([disabled]):not([tabindex=\'-1\'])',
-  'textarea:not([disabled]):not([tabindex=\'-1\'])',
+  'input:not([disabled])',
+  'button:not([disabled])',
+  'select:not([disabled])',
+  'textarea:not([disabled])',
   'iframe',
   'object',
   'embed',
-  '*[tabindex]:not([tabindex=\'-1\'])',
   '*[contenteditable=true]'
 ].join(', ');
 
@@ -135,14 +138,26 @@ export class SkyCoreAdapterService {
    * Returns an array of all focusable children of provided `element`.
    *
    * @param element - The HTMLElement to search within.
+   * @param options - Options for getting focusable children.
    */
-  public getFocusableChildren(element: HTMLElement): HTMLElement[] {
-    const elements: Array<HTMLElement>
-      = Array.prototype.slice.call(element.querySelectorAll(SKY_TABBABLE_SELECTOR));
+  public getFocusableChildren(element: HTMLElement, options?: SkyFocusableChildrenOptions): HTMLElement[] {
+    let elements = Array.prototype.slice.call(element.querySelectorAll(SKY_TABBABLE_SELECTOR));
 
-    return elements.filter((el) => {
-      return this.isVisible(el);
-    });
+    // Unless ignoreTabIndex = true, filter out elements with tabindex = -1.
+    if (!options || !options.ignoreTabIndex) {
+      elements = elements.filter((el: HTMLElement) => {
+        return el.tabIndex !== -1;
+      });
+    }
+
+    // Unless ignoreVisibility = true, filter out elements that are not visible.
+    if (!options || !options.ignoreVisibility) {
+      elements = elements.filter((el: HTMLElement) => {
+        return this.isVisible(el);
+      });
+    }
+
+    return elements;
   }
 
   private focusFirstElement(list: Array<HTMLElement>): boolean {
