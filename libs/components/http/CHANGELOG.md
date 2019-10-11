@@ -1,3 +1,7 @@
+# 3.8.0 (2019-10-11)
+
+- Added `SkyAuthGetTokenArgs` to the package exports. [#42](https://github.com/blackbaud/skyux-http/pull/42)
+
 # 3.7.0 (2019-08-15)
 
 - Added support for using the global auth-client instance when it is available. [#39](https://github.com/blackbaud/skyux-http/pull/39)
