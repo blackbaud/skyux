@@ -17,7 +17,6 @@ import {
 
 import {
   Column,
-  ICellEditorParams,
   RowNode
 } from 'ag-grid-community';
 
@@ -33,6 +32,10 @@ import {
 import {
   SkyAgGridCellEditorDatepickerComponent
 } from '../cell-editor-datepicker';
+
+import {
+  SkyCellEditorDatepickerParams
+} from './cell-editor-datepicker-params';
 
 describe('SkyCellEditorDatepickerComponent', () => {
   let datepickerEditorFixture: ComponentFixture<SkyAgGridCellEditorDatepickerComponent>;
@@ -160,7 +163,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
   });
 
   describe('agInit', () => {
-    let cellEditorParams: ICellEditorParams;
+    let cellEditorParams: SkyCellEditorDatepickerParams;
     let column: Column;
     const columnWidth = 200;
     const rowNode = new RowNode();
@@ -199,7 +202,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
       };
     });
 
-    it('initializes the SkyuxDatepickerCellEditorComponent properties', fakeAsync(() => {
+    it('initializes the SkyAgGridCellEditorDatepickerComponent properties', fakeAsync(() => {
       const dateString = '01/01/2019';
       const date = new Date(dateString);
       const datepicker = SkyTestComponentSelector.selectDatepicker(
@@ -223,36 +226,6 @@ describe('SkyCellEditorDatepickerComponent', () => {
       expect(datepickerEditorComponent.columnWidth).toEqual(columnWidth);
       expect(datepickerEditorComponent.rowHeight).toEqual(38);
     }));
-
-    it('sets the cellEditorParams', () => {
-      const startingDay = 1;
-      const minDate = new Date('1/1/2019');
-      const maxDate = new Date('12/31/2019');
-      const disabled = false;
-      const dateFormat = 'DD/MM/YYYY';
-
-      cellEditorParams.colDef.cellEditorParams = {
-        startingDay,
-        minDate,
-        maxDate,
-        disabled,
-        dateFormat
-      };
-
-      expect(datepickerEditorComponent.startingDay).toBeUndefined();
-      expect(datepickerEditorComponent.minDate).toBeUndefined();
-      expect(datepickerEditorComponent.maxDate).toBeUndefined();
-      expect(datepickerEditorComponent.disabled).toBeUndefined();
-      expect(datepickerEditorComponent.dateFormat).toBeUndefined();
-
-      datepickerEditorComponent.agInit(cellEditorParams);
-
-      expect(datepickerEditorComponent.startingDay).toEqual(startingDay);
-      expect(datepickerEditorComponent.minDate).toEqual(minDate);
-      expect(datepickerEditorComponent.maxDate).toEqual(maxDate);
-      expect(datepickerEditorComponent.disabled).toEqual(disabled);
-      expect(datepickerEditorComponent.dateFormat).toEqual(dateFormat);
-    });
   });
 
   describe('getValue', () => {

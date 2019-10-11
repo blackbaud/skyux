@@ -192,6 +192,41 @@ describe('SkyAgGridService', () => {
     });
   });
 
+  describe('autocompleteFormatter', () => {
+    let autocompleteValueFormatter: Function;
+    let autocompleteValueFormatterParams: ValueFormatterParams;
+
+    beforeEach(() => {
+      autocompleteValueFormatter = defaultGridOptions.columnTypes[SkyCellType.Autocomplete].valueFormatter;
+      autocompleteValueFormatterParams = {
+        value: undefined,
+        node: undefined,
+        data: undefined,
+        colDef: {
+          cellEditorParams: {}
+        },
+        column: undefined,
+        columnApi: new ColumnApi(),
+        api: undefined,
+        context: undefined
+      };
+    });
+
+    it('should return the name property of the value', () => {
+      autocompleteValueFormatterParams.value = { id: '1', name: 'Bob' };
+
+      const formattedAutocomplete = autocompleteValueFormatter(autocompleteValueFormatterParams);
+
+      expect(formattedAutocomplete).toEqual('Bob');
+    });
+
+    it('returns undefined when the cell does not have a value', () => {
+      const formattedAutocomplete = autocompleteValueFormatter(autocompleteValueFormatterParams);
+
+      expect(formattedAutocomplete).toBeUndefined();
+    });
+  });
+
   describe('getDefaultGridOptions getEditableFn', () => {
     let cellClassRuleEditableFunction: Function;
     let cellClassParams: CellClassParams;

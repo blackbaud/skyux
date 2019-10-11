@@ -15,8 +15,12 @@ import {
 } from 'ag-grid-angular';
 
 import {
-  ICellEditorParams
-} from 'ag-grid-community';
+  SkyCellEditorDatepickerParams
+} from './cell-editor-datepicker-params';
+
+import {
+  SkyDatepickerProperties
+} from './datepicker-properties';
 
 @Component({
   selector: 'sky-ag-grid-cell-editor-datepicker',
@@ -26,14 +30,10 @@ import {
 })
 export class SkyAgGridCellEditorDatepickerComponent implements ICellEditorAngularComp {
   public currentDate: Date;
-  public minDate: Date;
-  public maxDate: Date;
-  public disabled: boolean;
-  public dateFormat: string;
-  public startingDay: number;
   public columnWidth: number;
   public rowHeight: number;
-  private params: ICellEditorParams;
+  public skyComponentProperties: SkyDatepickerProperties = {};
+  private params: SkyCellEditorDatepickerParams;
 
   @ViewChild('skyCellEditorDatepickerInput', { read: ElementRef })
   private datepickerInput: ElementRef;
@@ -66,20 +66,12 @@ export class SkyAgGridCellEditorDatepickerComponent implements ICellEditorAngula
    * agInit is called by agGrid once after the editor is created and provides the editor with the information it needs.
    * @param params The cell editor params that include data about the cell, column, row, and grid.
    */
-  public agInit(params: ICellEditorParams): void {
+  public agInit(params: SkyCellEditorDatepickerParams): void {
     this.params = params;
     this.currentDate = this.params.value;
     this.columnWidth = this.params.column.getActualWidth();
     this.rowHeight = this.params.node.rowHeight + 1;
-
-    const cellEditorParams = this.params.colDef.cellEditorParams;
-    if (cellEditorParams) {
-      this.minDate = cellEditorParams.minDate;
-      this.maxDate = cellEditorParams.maxDate;
-      this.disabled = cellEditorParams.disabled;
-      this.dateFormat = cellEditorParams.dateFormat;
-      this.startingDay = cellEditorParams.startingDay;
-    }
+    this.skyComponentProperties = this.params.skyComponentProperties || {};
   }
 
   /**

@@ -9,11 +9,12 @@
   >
     <input
       skyDatepickerInput
-      [disabled]="disabled"
-      [minDate]="minDate"
-      [maxDate]="maxDate"
-      [dateFormat]="dateFormat"
-      [startingDay]="startingDay"
+      [disabled]="skyComponentProperties.disabled"
+      [minDate]="skyComponentProperties.minDate"
+      [maxDate]="skyComponentProperties.maxDate"
+      [dateFormat]="skyComponentProperties.dateFormat"
+      [startingDay]="skyComponentProperties.startingDay"
+      [skyDatepickerNoValidate]="skyComponentProperties.skyDatepickerNoValidate"
       [(ngModel)]="currentDate"
       (ngModelChange)="focusOnDatepickerInput()"
       #skyCellEditorDatepickerInput

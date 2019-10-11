@@ -14,13 +14,16 @@ import {
 
 import {
   Column,
-  ICellEditorParams,
   RowNode
 } from 'ag-grid-community';
 
 import {
   SkyAgGridCellEditorAutocompleteComponent
 } from '../cell-editor-autocomplete';
+
+import {
+  SkyCellEditorAutocompleteParams
+} from './cell-editor-autocomplete-params';
 
 describe('SkyCellEditorAutocompleteComponent', () => {
   let fixture: ComponentFixture<SkyAgGridCellEditorAutocompleteComponent>;
@@ -54,7 +57,7 @@ describe('SkyCellEditorAutocompleteComponent', () => {
   });
 
   describe('agInit', () => {
-    let cellEditorParams: ICellEditorParams;
+    let cellEditorParams: SkyCellEditorAutocompleteParams;
     let column: Column;
     const columnWidth = 200;
     const selection = data[0];
@@ -94,7 +97,7 @@ describe('SkyCellEditorAutocompleteComponent', () => {
       };
     });
 
-    it('should initialize the SkyuxNumericCellEditorComponent properties', () => {
+    it('should initialize the SkyAgGridCellEditorAutocompleteComponent properties', () => {
       expect(component.currentSelection).toBeUndefined();
       expect(component.columnWidth).toBeUndefined();
       expect(component.rowHeight).toBeUndefined();
@@ -104,52 +107,6 @@ describe('SkyCellEditorAutocompleteComponent', () => {
       expect(component.currentSelection).toEqual(selection);
       expect(component.columnWidth).toBe(columnWidth);
       expect(component.rowHeight).toBe(38);
-    });
-
-    it('should set the cellEditorParams', () => {
-      const debounceTime = 2;
-      const descriptorProperty = 'name';
-      const propertiesToSearch = ['name', 'town'];
-      const search = () => {};
-      const searchFilters: any[] = [];
-      const searchResultsLimit = 10;
-      const searchResultTemplate = 'template';
-      const searchTextMinimumCharacters = 2;
-      const selectionChange = () => {};
-
-      cellEditorParams.colDef.cellEditorParams = {
-        debounceTime,
-        descriptorProperty,
-        propertiesToSearch,
-        search,
-        searchFilters,
-        searchResultsLimit,
-        searchResultTemplate,
-        searchTextMinimumCharacters,
-        selectionChange
-      };
-
-      expect(component.debounceTime).toBeUndefined();
-      expect(component.descriptorProperty).toBeUndefined();
-      expect(component.propertiesToSearch).toBeUndefined();
-      expect(component.search).toBeUndefined();
-      expect(component.searchFilters).toBeUndefined();
-      expect(component.searchResultsLimit).toBeUndefined();
-      expect(component.searchResultTemplate).toBeUndefined();
-      expect(component.searchTextMinimumCharacters).toBeUndefined();
-      expect(component.selectionChange).toBeUndefined();
-
-      component.agInit(cellEditorParams);
-
-      expect(component.debounceTime).toBe(debounceTime);
-      expect(component.descriptorProperty).toBe(descriptorProperty);
-      expect(component.propertiesToSearch).toBe(propertiesToSearch);
-      expect(component.search).toBe(search);
-      expect(component.searchFilters).toBe(searchFilters);
-      expect(component.searchResultsLimit).toBe(searchResultsLimit);
-      expect(component.searchResultTemplate).toBe(searchResultTemplate);
-      expect(component.searchTextMinimumCharacters).toBe(searchTextMinimumCharacters);
-      expect(component.selectionChange).toBe(selectionChange);
     });
   });
 

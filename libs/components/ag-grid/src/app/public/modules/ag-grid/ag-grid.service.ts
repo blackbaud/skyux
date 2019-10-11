@@ -90,6 +90,7 @@ export class SkyAgGridService {
             ...editableCellClassRules
           },
           cellEditorFramework: SkyAgGridCellEditorAutocompleteComponent,
+          valueFormatter: (params: ValueFormatterParams) => this.autocompleteFormatter(params),
           minWidth: 185
         },
         [SkyCellType.Number]: {
@@ -157,6 +158,10 @@ export class SkyAgGridService {
   private dateFormatter(params: ValueFormatterParams, locale: string = 'en-us'): string | undefined {
     const dateConfig = { year: 'numeric', month: '2-digit', day: '2-digit' };
     return params.value && params.value.toLocaleDateString(locale, dateConfig);
+  }
+
+  private autocompleteFormatter(params: ValueFormatterParams): string | undefined {
+    return params.value && params.value.name;
   }
 
   private getIconTemplate(iconName: string): string {

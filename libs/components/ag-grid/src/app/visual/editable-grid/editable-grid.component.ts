@@ -76,7 +76,11 @@ export class EditableGridComponent implements OnInit {
         editable: this.editMode,
         type: SkyCellType.Date,
         minWidth: 160,
-        cellEditorParams: { startingDay: 1 }
+        cellEditorParams: {
+          skyComponentProperties: {
+           startingDay: 1
+          }
+        }
       },
       {
         colId: 'value1',
@@ -122,9 +126,10 @@ export class EditableGridComponent implements OnInit {
         editable: this.editMode,
         type: SkyCellType.Autocomplete,
         cellEditorParams: {
-          data: EDITABLE_GRID_AUTOCOMPLETE_OPTIONS
-        },
-        valueFormatter: (params) => params.value && params.value.name
+          skyComponentProperties: {
+            data: EDITABLE_GRID_AUTOCOMPLETE_OPTIONS
+          }
+        }
       },
       {
         colId: 'dueDate',

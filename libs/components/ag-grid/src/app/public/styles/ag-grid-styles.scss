@@ -29,13 +29,10 @@ $sky-standard-border: 1px solid $border-color !default;
 ag-grid-angular {
   @extend .ag-theme-balham;
 
-  width: 100%;
-  height: 100%;
+  border-top: $sky-standard-border;
 
   .ag-root {
     border: none;
-    border-left: $sky-standard-border;
-    border-right: $sky-standard-border;
   }
 
   // ag grid renders a small column header divider that we don't want shown
@@ -54,12 +51,19 @@ ag-grid-angular {
     border-style: dotted;
   }
 
+  .ag-row-selected:hover {
+    background-color: $hover-color;
+  }
+
   .sky-ag-grid-cell-number {
     text-align: right;
   }
 }
 
 ag-grid-angular.sky-ag-grid-editable {
+
+  border: $sky-standard-border;
+
   .ag-row {
     border-style: solid;
   }
@@ -125,4 +129,8 @@ ag-grid-angular.sky-ag-grid-editable {
       outline: -webkit-focus-ring-color auto 5px;
     }
   }
+}
+
+sky-toolbar + ag-grid-angular {
+  border-top: none;
 }

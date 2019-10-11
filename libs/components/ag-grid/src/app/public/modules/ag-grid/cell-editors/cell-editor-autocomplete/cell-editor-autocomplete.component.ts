@@ -15,8 +15,12 @@ import {
 } from 'ag-grid-angular';
 
 import {
-  ICellEditorParams
-} from 'ag-grid-community';
+  SkyCellEditorAutocompleteParams
+} from './cell-editor-autocomplete-params';
+
+import {
+  SkyAutocompleteProperties
+} from './autocomplete-properties';
 
 @Component({
   selector: 'sky-ag-grid-cell-editor-autocomplete',
@@ -28,49 +32,26 @@ export class SkyAgGridCellEditorAutocompleteComponent implements ICellEditorAngu
   public currentSelection: any;
   public autocompleteInputLabel: string;
 
-  public data: any[] = [];
-  public debounceTime: number;
-  public descriptorProperty: string;
-  public propertiesToSearch: string[];
-  public search: (searchText: string, data?: any[]) => any[] | Promise<any[]>;
-  public searchFilters: (searchText: string, item: any) => boolean;
-  public searchResultsLimit: number;
-  public searchResultTemplate: string;
-  public searchTextMinimumCharacters: number;
-  public selectionChange: Function;
-
   public columnWidth: number;
   public rowHeight: number;
   public columnHeader: string;
   public rowNumber: number;
-  private params: ICellEditorParams;
+  public skyComponentProperties: SkyAutocompleteProperties = {};
+  private params: SkyCellEditorAutocompleteParams;
 
   @ViewChild('skyCellEditorAutocomplete', {read: ElementRef})
   public input: ElementRef;
 
   constructor(private libResources: SkyLibResourcesService) { }
 
-  public agInit(params: ICellEditorParams) {
+  public agInit(params: SkyCellEditorAutocompleteParams) {
     this.params = params;
     this.currentSelection = this.params.value;
     this.columnWidth = this.params.column && this.params.column.getActualWidth();
     this.rowHeight = this.params.node && this.params.node.rowHeight + 1;
     this.columnHeader = this.params.colDef && this.params.colDef.headerName;
     this.rowNumber = this.params.rowIndex + 1;
-
-    const cellEditorParams = this.params.colDef.cellEditorParams;
-    if (cellEditorParams) {
-      this.data = cellEditorParams.data;
-      this.debounceTime = cellEditorParams.debounceTime;
-      this.descriptorProperty = cellEditorParams.descriptorProperty;
-      this.propertiesToSearch = cellEditorParams.propertiesToSearch;
-      this.search = cellEditorParams.search;
-      this.searchFilters = cellEditorParams.searchFilters;
-      this.searchResultsLimit = cellEditorParams.searchResultsLimit;
-      this.searchResultTemplate = cellEditorParams.searchResultTemplate;
-      this.searchTextMinimumCharacters = cellEditorParams.searchTextMinimumCharacters;
-      this.selectionChange = cellEditorParams.selectionChange;
-    }
+    this.skyComponentProperties = this.params.skyComponentProperties || {};
   }
 
   public ngOnInit(): void {

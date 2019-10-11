@@ -4,7 +4,16 @@
   class="sky-ag-grid-cell-editor-autocomplete"
 >
   <sky-autocomplete
-    [data]="data"
+    [data]="skyComponentProperties.data"
+    [debounceTime]="skyComponentProperties.debounceTime"
+    [descriptorProperty]="skyComponentProperties.descriptorProperty"
+    [propertiesToSearch]="skyComponentProperties.propertiesToSearch"
+    [search]="skyComponentProperties.search"
+    [searchFilters]="skyComponentProperties.searchFilters"
+    [searchResultsLimit]="skyComponentProperties.searchResultsLimit"
+    [searchResultTemplate]="skyComponentProperties.searchResultTemplate"
+    [searchTextMinimumCharacters]="skyComponentProperties.searchTextMinimumCharacters"
+    (selectionChange)="skyComponentProperties.selectionChange && skyComponentProperties.selectionChange($event)"
   >
     <input
       skyAutocomplete
