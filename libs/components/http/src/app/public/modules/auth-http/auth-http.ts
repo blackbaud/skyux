@@ -13,10 +13,6 @@ import {
 } from '@angular/http';
 
 import {
-  BBAuthGetTokenArgs
-} from '@blackbaud/auth-client';
-
-import {
   SkyAppConfig
 } from '@skyux/config';
 
@@ -26,6 +22,10 @@ import {
 
 import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/operator/mergeMap';
+
+import {
+  SkyAuthGetTokenArgs
+} from './auth-get-token-args';
 
 import {
   SkyAuthTokenProvider
@@ -80,7 +80,7 @@ export class SkyAuthHttp extends Http {
     url: string | Request,
     options?: RequestOptionsArgs
   ): Observable<Response> {
-    const tokenArgs: BBAuthGetTokenArgs = {};
+    const tokenArgs: SkyAuthGetTokenArgs = {};
     const leId: string = this.getLeId();
 
     // See if this call was chained to withScope(), and if so, provide it when

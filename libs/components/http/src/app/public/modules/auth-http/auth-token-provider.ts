@@ -16,8 +16,8 @@ import {
 } from '@skyux/auth-client-factory';
 
 import {
-  BBAuthGetTokenArgs
-} from '@blackbaud/auth-client';
+  SkyAuthGetTokenArgs
+} from './auth-get-token-args';
 
 import {
   SkyAuthToken
@@ -43,7 +43,7 @@ export class SkyAuthTokenProvider {
    * Gets a token string from the Blackbaud authentication service.
    * @param args Options for retrieving a token.
    */
-  public getToken(args?: BBAuthGetTokenArgs): Promise<string> {
+  public getToken(args?: SkyAuthGetTokenArgs): Promise<string> {
     return BBAuthClientFactory.BBAuth.getToken(args);
   }
 
@@ -51,7 +51,7 @@ export class SkyAuthTokenProvider {
    * Gets a token object from the Blackbaud authentication service.
    * @param args Options for retrieving a token.
    */
-  public getDecodedToken(args?: BBAuthGetTokenArgs): Promise<SkyAuthToken> {
+  public getDecodedToken(args?: SkyAuthGetTokenArgs): Promise<SkyAuthToken> {
     return new Promise<SkyAuthToken>((resolve, reject) => {
       this.getToken(args)
         .then(
@@ -93,8 +93,8 @@ export class SkyAuthTokenProvider {
     return jwtDecode<SkyAuthToken>(token);
   }
 
-  private getContextArgs(args: SkyAuthTokenContextArgs): BBAuthGetTokenArgs {
-    const tokenArgs: BBAuthGetTokenArgs = {};
+  private getContextArgs(args: SkyAuthTokenContextArgs): SkyAuthGetTokenArgs {
+    const tokenArgs: SkyAuthGetTokenArgs = {};
 
     if (this.config) {
       const runtimeParams = this.config.runtime.params;
