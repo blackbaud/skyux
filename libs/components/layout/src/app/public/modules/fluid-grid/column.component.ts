@@ -27,7 +27,7 @@ export class SkyColumnComponent implements OnInit, OnChanges {
   public screenLarge: number;
 
   @HostBinding('class')
-  private classnames: string;
+  public classnames: string;
 
   public ngOnChanges(changes: SimpleChanges) {
     if (changes.screenXSmall || changes.screenSmall || changes.screenMedium || changes.screenLarge) {

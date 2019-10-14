@@ -47,7 +47,11 @@ describe('Text expand component', () => {
   const COLLAPSED_TEXT = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec';
   // tslint:enable
 
-  function clickTextExpandButton(buttonElem: HTMLElement, fixture: ComponentFixture<TextExpandTestComponent>) {
+  let fixture: ComponentFixture<TextExpandTestComponent>;
+  let cmp: TextExpandTestComponent;
+  let el: HTMLElement;
+
+  function clickTextExpandButton(buttonElem: HTMLElement) {
     buttonElem.click();
     fixture.detectChanges();
     tick(20);
@@ -55,10 +59,6 @@ describe('Text expand component', () => {
     tick(500);
     fixture.detectChanges();
   }
-
-  let fixture: ComponentFixture<TextExpandTestComponent>;
-  let cmp: TextExpandTestComponent;
-  let el: HTMLElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -107,7 +107,7 @@ describe('Text expand component', () => {
       expect(buttonElem.getAttribute('aria-controls')).toBe(cmp.textExpand.contentSectionId);
       expect(buttonElem.getAttribute('aria-haspopup')).toBeNull();
 
-      clickTextExpandButton(buttonElem, fixture);
+      clickTextExpandButton(buttonElem);
 
       expect(buttonElem.getAttribute('aria-expanded')).toBe('true');
       expect(buttonElem.getAttribute('aria-controls')).toBe(cmp.textExpand.contentSectionId);
@@ -275,7 +275,7 @@ describe('Text expand component', () => {
       expect(seeMoreButton.innerText.trim()).toBe('See more');
       expect(textArea.innerText.trim()).toBe(collapsedText);
 
-      clickTextExpandButton(seeMoreButton, fixture);
+      clickTextExpandButton(seeMoreButton);
 
       ellipsis = el.querySelector('.sky-text-expand-ellipsis');
       textArea = <HTMLElement>el.querySelector('.sky-text-expand-text');
@@ -286,7 +286,7 @@ describe('Text expand component', () => {
       expect(ellipsis).toBeNull();
       expect(textArea.innerText.trim()).toBe(expandedText);
 
-      clickTextExpandButton(seeMoreButton, fixture);
+      clickTextExpandButton(seeMoreButton);
 
       ellipsis = el.querySelector('.sky-text-expand-ellipsis');
       textArea = <HTMLElement>el.querySelector('.sky-text-expand-text');

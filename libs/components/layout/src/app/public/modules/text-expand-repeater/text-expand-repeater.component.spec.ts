@@ -16,8 +16,11 @@ import {
 } from '@skyux-sdk/testing';
 
 describe('Text expand repeater component', () => {
+  let fixture: ComponentFixture<TextExpandRepeaterTestComponent>;
+  let cmp: TextExpandRepeaterTestComponent;
+  let el: HTMLElement;
 
-  function clickTextExpandButton(buttonElem: HTMLElement, fixture: ComponentFixture<TextExpandRepeaterTestComponent>) {
+  function clickTextExpandButton(buttonElem: HTMLElement) {
     buttonElem.click();
     fixture.detectChanges();
     tick(20);
@@ -25,10 +28,6 @@ describe('Text expand repeater component', () => {
     tick(500);
     fixture.detectChanges();
   }
-
-  let fixture: ComponentFixture<TextExpandRepeaterTestComponent>;
-  let cmp: TextExpandRepeaterTestComponent;
-  let el: HTMLElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -57,7 +56,7 @@ describe('Text expand repeater component', () => {
       expect(buttonElem.getAttribute('aria-expanded')).toBe('false');
       expect(buttonElem.getAttribute('aria-controls')).toBe(cmp.textExpand.contentSectionId);
 
-      clickTextExpandButton(buttonElem, fixture);
+      clickTextExpandButton(buttonElem);
 
       expect(buttonElem.getAttribute('aria-expanded')).toBe('true');
       expect(buttonElem.getAttribute('aria-controls')).toBe(cmp.textExpand.contentSectionId);
@@ -176,7 +175,7 @@ describe('Text expand repeater component', () => {
       expect(shownItems.length).toBe(2);
       expect(hiddenItems.length).toBe(1);
 
-      clickTextExpandButton(seeMoreButton, fixture);
+      clickTextExpandButton(seeMoreButton);
 
       shownItems =
         el.querySelectorAll(shownItemsSelector);
@@ -189,7 +188,7 @@ describe('Text expand repeater component', () => {
       expect(shownItems.length).toBe(3);
       expect(hiddenItems.length).toBe(0);
 
-      clickTextExpandButton(seeMoreButton, fixture);
+      clickTextExpandButton(seeMoreButton);
 
       shownItems =
         el.querySelectorAll(shownItemsSelector);

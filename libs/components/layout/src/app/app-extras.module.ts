@@ -3,6 +3,21 @@ import {
 } from '@angular/core';
 
 import {
+  SkyAvatarModule
+} from '@skyux/avatar';
+
+import {
+  SkyAlertModule,
+  SkyKeyInfoModule,
+  SkyLabelModule,
+  SkyIconModule
+} from '@skyux/indicators';
+
+import {
+  SkyAppLinkModule
+} from '@skyux/router';
+
+import {
   SkyActionButtonModule,
   SkyCardModule,
   SkyDefinitionListModule,
@@ -13,35 +28,11 @@ import {
   SkyToolbarModule
  } from './public';
 
- import {
-   SkyAvatarModule
- } from '@skyux/avatar';
-
- import {
-   SkyAlertModule,
-   SkyKeyInfoModule,
-   SkyLabelModule,
-   SkyIconModule
- } from '@skyux/indicators';
-
 @NgModule({
-  imports: [
-    SkyActionButtonModule,
-    SkyAlertModule,
-    SkyAvatarModule,
-    SkyCardModule,
-    SkyDefinitionListModule,
-    SkyFluidGridModule,
-    SkyIconModule,
-    SkyKeyInfoModule,
-    SkyPageSummaryModule,
-    SkyTextExpandModule,
-    SkyTextExpandRepeaterModule,
-    SkyToolbarModule
-  ],
   exports: [
     SkyActionButtonModule,
     SkyAlertModule,
+    SkyAppLinkModule,
     SkyAvatarModule,
     SkyCardModule,
     SkyDefinitionListModule,
@@ -53,8 +44,6 @@ import {
     SkyTextExpandModule,
     SkyTextExpandRepeaterModule,
     SkyToolbarModule
-  ],
-  providers: [],
-  entryComponents: []
+  ]
 })
 export class AppExtrasModule { }
