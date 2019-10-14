@@ -988,5 +988,40 @@ describe('Tabset component', () => {
         `/?foobar-active-tab=${encodeURIComponent('片仮名')}`
       );
     }));
+
+    it('should fall back to `active` if query param value does not match a tab', fakeAsync(() => {
+      fixture.componentInstance.activeIndex = 0;
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      validateTabSelected(fixture.nativeElement, 0);
+
+      fixture.componentInstance.activeIndex = 2;
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      validateTabSelected(fixture.nativeElement, 2);
+
+      fixture.componentInstance.permalinkId = 'foobar';
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      router.navigate([], {
+        queryParams: {
+          'foobar-active-tab': 'invalid-value'
+        }
+      });
+
+      fixture.detectChanges();
+      tick();
+
+      validateTabSelected(fixture.nativeElement, 2);
+    }));
   });
 });

@@ -228,6 +228,9 @@ export class SkyTabsetComponent
       }
     });
 
-    this.tabsetService.activateTabIndex(index);
+    // Only set the active tab if an index was found.
+    if (index !== undefined) {
+      this.tabsetService.activateTabIndex(index);
+    }
   }
 }
