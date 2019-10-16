@@ -1,3 +1,7 @@
+# 3.3.0 (2019-10-16)
+
+- Added the ability to provide custom item templates for the text expand repeater component. [#48](https://github.com/blackbaud/skyux-layout/pull/48) (Thanks [@Blackbaud-CoreyArcher](https://github.com/Blackbaud-CoreyArcher)!)
+
 # 3.2.2 (2019-07-19)
 
 - Fixed the toolbar section component to properly display items which do not overflow onto the next line. [#42](https://github.com/blackbaud/skyux-layout/pull/42)
