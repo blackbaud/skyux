@@ -1,3 +1,7 @@
+# 3.0.0-rc.3 (2019/10/16)
+
+- Removed duplicate type declarations, exported types, and added a default SKY UX autocomplete sort comparator. [#13](https://github.com/blackbaud/skyux-ag-grid/pull/13)
+
 # 3.0.0-rc.2 (2019/10/11)
 
 - Fixed border, font, and hover styling issues. [#11](https://github.com/blackbaud/skyux-ag-grid/pull/11)
