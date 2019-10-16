@@ -24,6 +24,24 @@ import {
   SkyGetGridOptionsArgs
 } from './types';
 
+function autocompleteComparator(value1: {name: string}, value2: {name: string}): number {
+  if (value1 && value2 && value1.name > value2.name) {
+    return 1;
+  } else if (value1 && value2 && value1.name < value2.name) {
+    return -1;
+  } else if (value1 && value2 && value1 === value2) {
+    return 0;
+  } else if (value1) {
+    return 1;
+  } else {
+    return -1;
+  }
+}
+
+function autocompleteFormatter(params: ValueFormatterParams): string | undefined {
+  return params.value && params.value.name;
+}
+
 /**
  * A service that provides default styling and behavior for agGrids in SKY UX SPAs.
  */
@@ -90,7 +108,8 @@ export class SkyAgGridService {
             ...editableCellClassRules
           },
           cellEditorFramework: SkyAgGridCellEditorAutocompleteComponent,
-          valueFormatter: (params: ValueFormatterParams) => this.autocompleteFormatter(params),
+          valueFormatter: autocompleteFormatter,
+          comparator: autocompleteComparator,
           minWidth: 185
         },
         [SkyCellType.Number]: {
@@ -158,10 +177,6 @@ export class SkyAgGridService {
   private dateFormatter(params: ValueFormatterParams, locale: string = 'en-us'): string | undefined {
     const dateConfig = { year: 'numeric', month: '2-digit', day: '2-digit' };
     return params.value && params.value.toLocaleDateString(locale, dateConfig);
-  }
-
-  private autocompleteFormatter(params: ValueFormatterParams): string | undefined {
-    return params.value && params.value.name;
   }
 
   private getIconTemplate(iconName: string): string {

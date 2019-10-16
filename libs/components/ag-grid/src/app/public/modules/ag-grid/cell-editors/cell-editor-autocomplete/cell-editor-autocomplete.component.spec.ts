@@ -23,7 +23,7 @@ import {
 
 import {
   SkyCellEditorAutocompleteParams
-} from './cell-editor-autocomplete-params';
+} from '../../types/cell-editor-autocomplete-params';
 
 describe('SkyCellEditorAutocompleteComponent', () => {
   let fixture: ComponentFixture<SkyAgGridCellEditorAutocompleteComponent>;

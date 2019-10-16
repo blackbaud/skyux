@@ -227,6 +227,36 @@ describe('SkyAgGridService', () => {
     });
   });
 
+  describe('autocompleteComparator', () => {
+    let autocompleteComparator: Function;
+    const cat = { id: '1', name: 'cat' };
+    const dog = { id: '2', name: 'dog' };
+
+    beforeEach(() => {
+      autocompleteComparator = defaultGridOptions.columnTypes[SkyCellType.Autocomplete].comparator;
+    });
+
+    it('should return 1 when value1.name comes after value2.name', () => {
+      expect(autocompleteComparator(dog, cat)).toEqual(1);
+    });
+
+    it('should return -1 when value1.name comes before value2.name', () => {
+      expect(autocompleteComparator(cat, dog)).toEqual(-1);
+    });
+
+    it('should return 0 when value1.name is equal to value2.name', () => {
+      expect(autocompleteComparator(cat, cat)).toEqual(0);
+    });
+
+    it('should return 1 when value1 is defined and value2 is undefined', () => {
+      expect(autocompleteComparator(cat, undefined)).toEqual(1);
+    });
+
+    it('should return -1 when value2 is defined and value1 is undefined', () => {
+      expect(autocompleteComparator(undefined, dog)).toEqual(-1);
+    });
+  });
+
   describe('getDefaultGridOptions getEditableFn', () => {
     let cellClassRuleEditableFunction: Function;
     let cellClassParams: CellClassParams;

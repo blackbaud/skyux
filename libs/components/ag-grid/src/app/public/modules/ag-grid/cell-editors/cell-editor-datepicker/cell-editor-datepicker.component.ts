@@ -16,11 +16,11 @@ import {
 
 import {
   SkyCellEditorDatepickerParams
-} from './cell-editor-datepicker-params';
+} from '../../types/cell-editor-datepicker-params';
 
 import {
   SkyDatepickerProperties
-} from './datepicker-properties';
+} from '../../types/datepicker-properties';
 
 @Component({
   selector: 'sky-ag-grid-cell-editor-datepicker',

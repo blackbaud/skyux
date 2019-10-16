@@ -35,7 +35,7 @@ import {
 
 import {
   SkyCellEditorDatepickerParams
-} from './cell-editor-datepicker-params';
+} from '../../types/cell-editor-datepicker-params';
 
 describe('SkyCellEditorDatepickerComponent', () => {
   let datepickerEditorFixture: ComponentFixture<SkyAgGridCellEditorDatepickerComponent>;

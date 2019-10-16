@@ -16,11 +16,11 @@ import {
 
 import {
   SkyCellEditorAutocompleteParams
-} from './cell-editor-autocomplete-params';
+} from '../../types/cell-editor-autocomplete-params';
 
 import {
   SkyAutocompleteProperties
-} from './autocomplete-properties';
+} from '../../types/autocomplete-properties';
 
 @Component({
   selector: 'sky-ag-grid-cell-editor-autocomplete',
