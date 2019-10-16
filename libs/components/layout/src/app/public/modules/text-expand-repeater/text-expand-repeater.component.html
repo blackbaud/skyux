@@ -1,7 +1,10 @@
 <div class="sky-text-expand-repeater">
   <ul class="sky-text-expand-repeater-container" [id]="contentSectionId" (transitionend)="animationEnd()" #container>
     <li *ngFor="let item of contentItems" class="sky-text-expand-repeater-item">
-      {{item}}
+      <ng-template
+        [ngTemplateOutlet]="itemTemplate || defaultItemTemplate"
+        [ngTemplateOutletContext]="{ $implicit: item }"
+      ></ng-template>
     </li>
   </ul>
   <button *ngIf="expandable"
@@ -14,3 +17,10 @@
     {{buttonText}}
   </button>
 </div>
+
+<ng-template
+  let-item
+  #defaultItemTemplate
+>
+  {{ item }}
+</ng-template>

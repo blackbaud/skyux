@@ -1,18 +1,24 @@
 import {
-  Component,
-  Input,
-  ElementRef,
-  ViewChild,
   AfterViewInit,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  TemplateRef,
+  ViewChild
 } from '@angular/core';
+
+import {
+  SkyLibResourcesService
+} from '@skyux/i18n';
+
+import {
+  Observable
+} from 'rxjs/Observable';
+
 import {
   SkyTextExpandRepeaterAdapterService
 } from './text-expand-repeater-adapter.service';
-import {
-  SkyLibResourcesService
-} from '@skyux/i18n/modules/i18n';
-import { Observable } from 'rxjs/Observable';
 
 /**
  * Auto-incrementing integer used to generate unique ids for text expand repeater components.
@@ -34,6 +40,10 @@ export class SkyTextExpandRepeaterComponent implements AfterViewInit {
   public set data(value: Array<any>) {
     this.setup(value);
   }
+
+  @Input()
+  public itemTemplate: TemplateRef<any>;
+
   public buttonText: string;
   public contentItems: Array<any>;
   public expandable: boolean;
