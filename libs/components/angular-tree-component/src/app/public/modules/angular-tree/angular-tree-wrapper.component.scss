@@ -31,6 +31,7 @@
 
   // Toggle indicator
   .sky-toggle-children {
+    @include sky-icon-button-borderless();
     min-height: 19px;
     min-width: 20px;
     margin: 0 $sky-margin 0 0;
