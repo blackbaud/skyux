@@ -54,24 +54,36 @@ export class SkyAgGridService {
    */
   public getGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
     const defaultGridOptions = this.getDefaultGridOptions(args);
+    const mergedGridOptions = this.mergeGridOptions(defaultGridOptions, args.gridOptions);
 
+    return mergedGridOptions;
+  }
+
+  public getEditableGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
+    const defaultGridOptions = this.getDefaultEditableGridOptions(args);
+    const mergedGridOptions = this.mergeGridOptions(defaultGridOptions, args.gridOptions);
+
+    return mergedGridOptions;
+  }
+
+  private mergeGridOptions(defaultGridOptions: GridOptions, providedGridOptions: GridOptions): GridOptions {
     let mergedGridOptions = {
       ...defaultGridOptions,
-      ...args.gridOptions,
+      ...providedGridOptions,
       columnTypes: {
-        ...args.gridOptions.columnTypes,
+        ...providedGridOptions.columnTypes,
         // apply default second to prevent consumers from overwriting our default column types
         ...defaultGridOptions.columnTypes
       },
       defaultColDef: {
         ...defaultGridOptions.defaultColDef,
-        ...args.gridOptions.defaultColDef,
+        ...providedGridOptions.defaultColDef,
         // allow consumers to override all defaultColDef properties except cellClassRules, which we reserve for styling
         cellClassRules: defaultGridOptions.defaultColDef.cellClassRules
       },
       icons: {
         ...defaultGridOptions.icons,
-        ...args.gridOptions.icons
+        ...providedGridOptions.icons
       }
     };
 
@@ -167,11 +179,21 @@ export class SkyAgGridService {
       rowSelection: 'multiple',
       singleClickEdit: true,
       sortingOrder: ['desc', 'asc', 'null'],
+      stopEditingWhenGridLosesFocus: true,
       suppressCellSelection: true,
       suppressDragLeaveHidesColumns: true
     };
 
     return defaultSkyGridOptions;
+  }
+
+  private getDefaultEditableGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
+    let defaultGridOptions = this.getDefaultGridOptions(args);
+
+    defaultGridOptions.rowSelection = 'none';
+    defaultGridOptions.suppressCellSelection = false;
+
+    return defaultGridOptions;
   }
 
   private dateFormatter(params: ValueFormatterParams, locale: string = 'en-us'): string | undefined {

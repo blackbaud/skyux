@@ -134,6 +134,15 @@ describe('SkyAgGridService', () => {
     });
   });
 
+  describe('getEditableGridOptions', () => {
+    it('should return the default gridOptions with the edit-specific property settings', () => {
+      const editableGridOptions = agGridService.getEditableGridOptions({gridOptions: {}});
+
+      expect(editableGridOptions.rowSelection).toEqual('none');
+      expect(editableGridOptions.suppressCellSelection).toBe(false);
+    });
+  });
+
   describe('dateFormatter', () => {
     let dateValueFormatter: Function;
     let dateValueFormatterParams: ValueFormatterParams;

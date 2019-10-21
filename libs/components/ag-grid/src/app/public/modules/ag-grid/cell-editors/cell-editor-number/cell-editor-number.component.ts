@@ -33,6 +33,7 @@ import {
 export class SkyAgGridCellEditorNumberComponent implements ICellEditorAngularComp, OnInit, OnDestroy {
   public value: number;
   public numberInputLabel: string;
+  public columnWidth: number;
   private params: ICellEditorParams;
   private columnHeader: string;
   private rowNumber: number;
@@ -54,6 +55,7 @@ export class SkyAgGridCellEditorNumberComponent implements ICellEditorAngularCom
     this.value = this.params.value;
     this.columnHeader = this.params.colDef.headerName;
     this.rowNumber = this.params.rowIndex + 1;
+    this.columnWidth = this.params.column.getActualWidth();
   }
 
   /**

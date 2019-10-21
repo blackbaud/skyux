@@ -7,6 +7,14 @@ import {
 } from '@skyux/layout';
 
 import {
+  SkySearchModule
+} from '@skyux/lookup';
+
+import {
+  SkyModalModule
+} from '@skyux/modals';
+
+import {
   SkyAppLinkModule
 } from '@skyux/router';
 
@@ -18,15 +26,23 @@ import {
   SkyAgGridModule
 } from './public';
 
+import {
+  SkyAgGridEditModalComponent
+} from './visual/edit-in-modal-grid/ag-grid-edit-modal.component';
+
 @NgModule({
   declarations: [],
   exports: [
     AgGridModule,
     SkyAgGridModule,
     SkyAppLinkModule,
+    SkyModalModule,
+    SkySearchModule,
     SkyToolbarModule
   ],
   providers: [],
-  entryComponents: []
+  entryComponents: [
+    SkyAgGridEditModalComponent
+  ]
 })
 export class AppExtrasModule { }

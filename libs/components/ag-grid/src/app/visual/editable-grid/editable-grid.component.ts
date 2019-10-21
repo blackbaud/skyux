@@ -47,12 +47,10 @@ export class EditableGridComponent implements OnInit {
 
     this.gridOptions = {
       columnDefs: this.columnDefs,
-      rowSelection: 'none',
-      suppressCellSelection: false,
       onGridReady: gridReadyEvent => this.onGridReady(gridReadyEvent),
       onGridSizeChanged: () => { this.sizeGrid(); }
     };
-    this.gridOptions = this.agGridService.getGridOptions({ gridOptions: this.gridOptions });
+    this.gridOptions = this.agGridService.getEditableGridOptions({ gridOptions: this.gridOptions });
 
     this.gridData.forEach(row => {
       row.total = this.calculateRowTotal(row);
@@ -163,7 +161,6 @@ export class EditableGridComponent implements OnInit {
   }
 
   public saveData(): void {
-    this.gridApi.stopEditing();
     this.uneditedGridData = this.cloneGridData(this.gridData);
     this.setEditMode(false);
     alert('save your data here!');

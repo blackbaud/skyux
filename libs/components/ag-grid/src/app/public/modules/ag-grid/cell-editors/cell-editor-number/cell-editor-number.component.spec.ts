@@ -9,6 +9,7 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
+  Column,
   ICellEditorParams
 } from 'ag-grid-community';
 
@@ -65,13 +66,23 @@ describe('SkyCellEditorNumberComponent', () => {
 
   describe('agInit', () => {
     it('initializes the SkyuxNumericCellEditorComponent properties', () => {
-      let value = 15;
+      const value = 15;
+      const columnWidth = 100;
+      const column = new Column(
+        {
+          colId: 'col'
+        },
+        undefined,
+        'col',
+        true);
+
+      column.setActualWidth(columnWidth);
 
       let cellEditorParams: ICellEditorParams = {
         value,
         colDef: { headerName: 'Test number cell'},
         rowIndex: 1,
-        column: undefined,
+        column,
         node: undefined,
         keyPress: undefined,
         charPress: undefined,
@@ -89,10 +100,12 @@ describe('SkyCellEditorNumberComponent', () => {
       };
 
       expect(numberEditorComponent.value).toBeUndefined();
+      expect(numberEditorComponent.columnWidth).toBeUndefined();
 
       numberEditorComponent.agInit(cellEditorParams);
 
       expect(numberEditorComponent.value).toEqual(value);
+      expect(numberEditorComponent.columnWidth).toEqual(columnWidth);
     });
   });
 
