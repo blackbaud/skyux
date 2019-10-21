@@ -575,23 +575,24 @@ describe('datepicker', () => {
     });
 
     describe('disabled state', () => {
-      it('should disable the input and dropdown when disable is set to true', fakeAsync(() => {
+      it('should disable the input and dropdown when disabled is set to true ' +
+      'and enable them when disabled is changed to false', fakeAsync(() => {
         component.isDisabled = true;
         detectChanges(fixture);
 
         expect(fixture.componentInstance.inputDirective.disabled).toBeTruthy();
+        expect(fixture.componentInstance.datepicker.disabled).toBeTruthy();
         expect(fixture.debugElement.query(By.css('input')).nativeElement.disabled).toBeTruthy();
         expect(fixture.debugElement.query(By.css('sky-dropdown button')).nativeElement.disabled).toBeTruthy();
-      }));
 
-      it('should not disable the input and dropdown when disable is set to false', () => {
         component.isDisabled = false;
         fixture.detectChanges();
 
         expect(fixture.componentInstance.inputDirective.disabled).toBeFalsy();
+        expect(fixture.componentInstance.datepicker.disabled).toBeFalsy();
         expect(fixture.debugElement.query(By.css('input')).nativeElement.disabled).toBeFalsy();
         expect(fixture.debugElement.query(By.css('sky-dropdown button')).nativeElement.disabled).toBeFalsy();
-      });
+      }));
     });
 
     describe('detectInputValueChange', () => {
@@ -1042,22 +1043,23 @@ describe('datepicker', () => {
     });
 
     describe('disabled state', () => {
-      it('should disable the input and dropdown when disable is set to true', () => {
+      it('should disable the input and dropdown when disabled is set to true ' +
+      'and enable them when disabled is changed to false', () => {
         fixture.detectChanges();
-        component.dateControl.disable();
+        component.isDisabled = true;
         fixture.detectChanges();
 
         expect(fixture.componentInstance.inputDirective.disabled).toBeTruthy();
+        expect(fixture.componentInstance.datepicker.disabled).toBeTruthy();
         expect(fixture.debugElement.query(By.css('input')).nativeElement.disabled).toBeTruthy();
         expect(fixture.debugElement.query(By.css('sky-dropdown button')).nativeElement.disabled).toBeTruthy();
-      });
 
-      it('should not disable the input and dropdown when disable is set to false', () => {
         fixture.detectChanges();
-        component.dateControl.enable();
+        component.isDisabled = false;
         fixture.detectChanges();
 
         expect(fixture.componentInstance.inputDirective.disabled).toBeFalsy();
+        expect(fixture.componentInstance.datepicker.disabled).toBeFalsy();
         expect(fixture.debugElement.query(By.css('input')).nativeElement.disabled).toBeFalsy();
         expect(fixture.debugElement.query(By.css('sky-dropdown button')).nativeElement.disabled).toBeFalsy();
       });

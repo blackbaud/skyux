@@ -11,6 +11,10 @@ import {
 } from '@angular/forms';
 
 import {
+  SkyDatepickerComponent
+} from '../datepicker.component';
+
+import {
   SkyDatepickerInputDirective
 } from '../datepicker-input.directive';
 
@@ -22,6 +26,9 @@ export class DatepickerReactiveTestComponent implements OnInit {
 
   @ViewChild(SkyDatepickerInputDirective)
   public inputDirective: SkyDatepickerInputDirective;
+
+  @ViewChild(SkyDatepickerComponent)
+  public datepicker: SkyDatepickerComponent;
 
   public minDate: Date;
   public maxDate: Date;

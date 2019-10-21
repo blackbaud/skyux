@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   Output,
   EventEmitter,
@@ -37,10 +38,24 @@ export class SkyTimepickerComponent implements OnInit {
   public localeFormat: string;
   public minuteMultiplier: number;
   public is8601: boolean = false;
-  public disabled: boolean;
+  private _disabled: boolean;
+
+  constructor(
+    private changeDetector: ChangeDetectorRef
+  ) { }
 
   public ngOnInit() {
     this.setFormat(this.timeFormat);
+  }
+
+  public get disabled(): boolean {
+    return this._disabled;
+  }
+
+  public set disabled(value: boolean) {
+    this._disabled = value;
+
+    this.changeDetector.markForCheck();
   }
 
   public setFormat(format: string) {
@@ -112,31 +127,6 @@ export class SkyTimepickerComponent implements OnInit {
     return time;
   }
 
-  public setTime(event: any) {
-    /* istanbul ignore else */
-    if (typeof event !== 'undefined') {
-      /* istanbul ignore else */
-      if (event.type === 'click') {
-        event.stopPropagation();
-        if (event.target.name === 'hour') {
-          this.selectedHour = parseInt(event.target.innerHTML, 0);
-        }
-        if (event.target.name === 'minute') {
-          this.selectedMinute = parseInt(event.target.innerHTML, 0);
-        }
-        if (event.target.name === 'meridie') {
-          this.selectedMeridies = event.target.innerHTML;
-        }
-      }
-    }
-  }
-
-  public onButtonClick() {
-    this.dropdownController.next({
-      type: SkyDropdownMessageType.Close
-    });
-  }
-
   public set selectedHour(setHour: number) {
     let hour: number;
     let hourOffset: number = 0;
@@ -190,5 +180,30 @@ export class SkyTimepickerComponent implements OnInit {
       return moment(this.activeTime).format('A');
     }
     return '';
+  }
+
+  public onButtonClick() {
+    this.dropdownController.next({
+      type: SkyDropdownMessageType.Close
+    });
+  }
+
+  public setTime(event: any) {
+    /* istanbul ignore else */
+    if (typeof event !== 'undefined') {
+      /* istanbul ignore else */
+      if (event.type === 'click') {
+        event.stopPropagation();
+        if (event.target.name === 'hour') {
+          this.selectedHour = parseInt(event.target.innerHTML, 0);
+        }
+        if (event.target.name === 'minute') {
+          this.selectedMinute = parseInt(event.target.innerHTML, 0);
+        }
+        if (event.target.name === 'meridie') {
+          this.selectedMeridies = event.target.innerHTML;
+        }
+      }
+    }
   }
 }

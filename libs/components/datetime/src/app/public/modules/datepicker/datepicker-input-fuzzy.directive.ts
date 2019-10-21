@@ -90,6 +90,8 @@ export class SkyFuzzyDatepickerInputDirective
   @Input()
   public set disabled(value: boolean) {
     this._disabled = value;
+    this.datepickerComponent.disabled = value;
+
     this.renderer.setProperty(
       this.elementRef.nativeElement,
       'disabled',

@@ -9,7 +9,7 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
-  Renderer
+  Renderer2
 } from '@angular/core';
 
 import {
@@ -84,12 +84,13 @@ export class SkyTimepickerInputDirective implements
     return this._disabled || false;
   }
   public set disabled(value: boolean) {
+    this._disabled = value;
     this.skyTimepickerInput.disabled = value;
-    this.renderer.setElementProperty(
+
+    this.renderer.setProperty(
       this.elRef.nativeElement,
       'disabled',
       value);
-    this._disabled = value;
   }
 
   private get modelValue(): SkyTimepickerTimeOutput {
@@ -112,14 +113,14 @@ export class SkyTimepickerInputDirective implements
   private _modelValue: SkyTimepickerTimeOutput;
 
   constructor(
-    private renderer: Renderer,
+    private renderer: Renderer2,
     private elRef: ElementRef,
     private resourcesService: SkyLibResourcesService,
     private changeDetector: ChangeDetectorRef
   ) { }
 
   public ngOnInit() {
-    this.renderer.setElementClass(this.elRef.nativeElement, 'sky-form-control', true);
+    this.renderer.addClass(this.elRef.nativeElement, 'sky-form-control');
     this.pickerChangedSubscription = this.skyTimepickerInput.selectedTimeChanged
       .subscribe((newTime: String) => {
         this.writeValue(newTime);
@@ -129,7 +130,7 @@ export class SkyTimepickerInputDirective implements
     if (!this.elRef.nativeElement.getAttribute('aria-label')) {
       this.resourcesService.getString('skyux_timepicker_input_default_label')
         .subscribe((value: string) => {
-          this.renderer.setElementAttribute(
+          this.renderer.setAttribute(
             this.elRef.nativeElement,
             'aria-label',
             value
@@ -219,7 +220,7 @@ export class SkyTimepickerInputDirective implements
       }
     }
 
-    this.renderer.setElementProperty(
+    this.renderer.setProperty(
       this.elRef.nativeElement,
       'value',
       formattedValue
