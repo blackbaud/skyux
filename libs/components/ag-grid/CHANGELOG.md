@@ -1,3 +1,7 @@
+# 3.0.0-rc.4 (2019/10/21)
+
+- Added `getEditableGridOptions()` to the ag-Grid service, added a demo using a modal, and fixed the number editor width. [#15](https://github.com/blackbaud/skyux-ag-grid/pull/15)
+
 # 3.0.0-rc.3 (2019/10/16)
 
 - Removed duplicate type declarations, exported types, and added a default SKY UX autocomplete sort comparator. [#13](https://github.com/blackbaud/skyux-ag-grid/pull/13)
