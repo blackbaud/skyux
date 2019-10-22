@@ -1,3 +1,7 @@
+# 3.4.2 (2019-10-22)
+
+- Fixed the "Choose file" and "Replace file" labels for the single file attachment component. [#72](https://github.com/blackbaud/skyux-forms/pull/72)
+
 # 3.4.1 (2019-10-03)
 
 - Fixed the radio group component to reset the model value when radio components are added dynamically. [#67](https://github.com/blackbaud/skyux-forms/pull/67)
