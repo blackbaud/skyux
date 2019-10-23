@@ -1,0 +1,43 @@
+<ng-container *ngIf="showSwitcher">
+  <sky-radio-group *ngIf="!isMobile"
+    class="sky-switch-icon-group"
+    name="viewSwitcher"
+    [ariaLabel]="'skyux_list_view_switcher_dropdown_title' | skyLibResources"
+    [(ngModel)]="activeView"
+  >
+    <span
+      class="sky-switch-icon-group"
+    >
+      <sky-radio *ngFor="let view of availableViewButtons; let i = index"
+        [attr.title]="view.label"
+        [icon]="view.icon"
+        [label]="view.label"
+        [value]="i"
+        (click)="activateView(view.viewModel, i)"
+      >
+      </sky-radio>
+    </span>
+  </sky-radio-group>
+  <sky-dropdown *ngIf="isMobile"
+    class="sky-view-switcher-dropdown"
+    [attr.title]="'skyux_list_view_switcher_dropdown_title' | skyLibResources"
+    [buttonType]="currentIcon"
+    [label]="'skyux_list_view_switcher_dropdown_title' | skyLibResources"
+  >
+    <sky-dropdown-menu>
+      <sky-dropdown-item *ngFor="let view of availableViewButtons; let i = index">
+        <button
+          type="button"
+          [attr.aria-label]="view.label"
+          [attr.title]="view.label"
+          (click)="activateView(view.viewModel, i)"
+        >
+          <sky-icon
+            [icon]="view.icon"
+          >
+          </sky-icon>
+        </button>
+      </sky-dropdown-item>
+    </sky-dropdown-menu>
+  </sky-dropdown>
+</ng-container>

@@ -13,7 +13,6 @@ export abstract class ListViewComponent {
   protected state: ListState;
   protected list: SkyListComponent;
   protected hasToolbar: Observable<boolean>;
-
   private viewId: string = `sky-list-view-cmp-${++idIndex}`;
 
   constructor(state: ListState, defaultName: string) {

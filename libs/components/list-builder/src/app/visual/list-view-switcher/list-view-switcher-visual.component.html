@@ -1,0 +1,27 @@
+<div
+  id="screenshot-list-view-switcher"
+>
+  <sky-list
+    [data]="items"
+    [defaultView]="temp"
+  >
+    <sky-list-toolbar>
+      <sky-list-toolbar-view-actions>
+        <sky-list-view-switcher>
+          <sky-list-view-switcher-custom-button
+            icon="gavel"
+            label="Custom view"
+            [view]="temp"
+          >
+          </sky-list-view-switcher-custom-button>
+        </sky-list-view-switcher>
+      </sky-list-toolbar-view-actions>
+    </sky-list-toolbar>
+
+    <sky-list-view-switcher-mock-grid></sky-list-view-switcher-mock-grid>
+    <sky-list-view-switcher-secondary-view
+      #temp
+    >
+    </sky-list-view-switcher-secondary-view>
+  </sky-list>
+</div>

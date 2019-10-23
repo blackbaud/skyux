@@ -14,5 +14,9 @@
   "skyux_list_mutliselect_show_selected": {
     "_description": "Text for the checkbox in a grid to show only selected multiselect items.",
     "message": "Only show selected items"
+  },
+  "skyux_list_view_switcher_dropdown_title": {
+    "_description": "Title for list view switcher dropdown button",
+    "message": "Select view"
   }
 }

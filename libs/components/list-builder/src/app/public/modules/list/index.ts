@@ -19,5 +19,6 @@ export {
 export {
   ListFilterModel,
   ListSearchModel,
+  ListState,
   ListSortModel
 } from './state';

@@ -7,10 +7,6 @@ import {
 } from '@skyux/indicators';
 
 import {
-  SkyRadioModule
-} from '@skyux/forms';
-
-import {
   SkyAppLinkModule
 } from '@skyux/router';
 
@@ -19,7 +15,8 @@ import {
   SkyListModule,
   SkyListPagingModule,
   SkyListSecondaryActionsModule,
-  SkyListToolbarModule
+  SkyListToolbarModule,
+  SkyListViewSwitcherModule
 } from './public';
 
 @NgModule({
@@ -31,7 +28,7 @@ import {
     SkyListPagingModule,
     SkyListSecondaryActionsModule,
     SkyListToolbarModule,
-    SkyRadioModule
+    SkyListViewSwitcherModule
   ],
   providers: [],
   entryComponents: []

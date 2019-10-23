@@ -1,0 +1,48 @@
+<sky-list
+  [data]="items"
+  [defaultView]="secondary"
+>
+  <sky-list-toolbar>
+    <sky-list-column-selector-action
+      [gridView]="grid"
+    >
+    </sky-list-column-selector-action>
+    <sky-list-toolbar-view-actions>
+      <sky-list-view-switcher>
+        <sky-list-view-switcher-custom-button *ngIf="showCustomSwitcherButton"
+          icon="gavel"
+          label="Secondary view"
+          [view]="secondary"
+        >
+        </sky-list-view-switcher-custom-button>
+      </sky-list-view-switcher>
+    </sky-list-toolbar-view-actions>
+  </sky-list-toolbar>
+
+  <sky-list-view-grid
+    fit="scroll"
+    #grid
+  >
+    <sky-grid-column
+      description="A numbered column"
+      field="column1"
+      heading="Column1"
+      [locked]="true"
+    >
+    </sky-grid-column>
+    <sky-grid-column
+      description="A fruit column"
+      field="column2"
+      heading="Column2"
+    >
+    </sky-grid-column>
+    <sky-grid-column
+      description="A sentence column"
+      field="column3"
+      heading="Column3"
+    >
+    </sky-grid-column>
+  </sky-list-view-grid>
+  <sky-list-view-switcher-secondary-view #secondary>
+  </sky-list-view-switcher-secondary-view>
+</sky-list>
