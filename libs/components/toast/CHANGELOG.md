@@ -1,3 +1,9 @@
+# 3.1.0 (2019-10-23)
+
+- Updated the visual style of elements with the `sky-btn-link` or `sky-btn-link-inline` CSS class inside toasts to match anchor elements. [#26](https://github.com/blackbaud/skyux-toast/pull/26)
+
+- Added an auto-close option to toasts. [#27](https://github.com/blackbaud/skyux-toast/pull/27)
+
 # 3.0.4 (2019-05-28)
 
 - Fixed the toast service to not error when attempting to close all toasts while no toasts are open. [#21](https://github.com/blackbaud/skyux-toast/pull/21) (Thanks @Blackbaud-ChristiSchneider)
