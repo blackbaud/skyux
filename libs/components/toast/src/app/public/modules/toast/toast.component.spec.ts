@@ -1,7 +1,9 @@
 import {
   async,
   ComponentFixture,
-  TestBed
+  fakeAsync,
+  TestBed,
+  tick
 } from '@angular/core/testing';
 
 import {
@@ -10,7 +12,8 @@ import {
 
 import {
   SkyToastFixturesModule,
-  SkyToastTestComponent
+  SkyToastTestComponent,
+  SkyToastWithToasterServiceTestComponent
 } from './fixtures';
 
 import {
@@ -20,6 +23,10 @@ import {
 import {
   SkyToastService
 } from './toast.service';
+
+import {
+  SkyToasterService
+} from './toaster.service';
 
 import {
   SkyToastType
@@ -36,6 +43,17 @@ describe('Toast component', () => {
         SkyToastFixturesModule
       ]
     });
+
+    TestBed.overrideComponent(
+      SkyToastWithToasterServiceTestComponent,
+      {
+        add: {
+          providers: [
+            SkyToasterService
+          ]
+        }
+      }
+    );
 
     fixture = TestBed.createComponent(SkyToastTestComponent);
     component = fixture.componentInstance;
@@ -99,4 +117,78 @@ describe('Toast component', () => {
       expect(fixture.nativeElement).toBeAccessible();
     });
   }));
+
+  describe('auto-close option', () => {
+    function waitForAutoClose() {
+      tick(7000);
+    }
+
+    it('should auto-close the toast if set to true', fakeAsync(() => {
+      fixture.componentInstance.autoClose = true;
+
+      fixture.detectChanges();
+
+      expect(toastComponent['isOpen']).toBe(true);
+
+      waitForAutoClose();
+
+      expect(toastComponent['isOpen']).toBe(false);
+    }));
+
+    describe('with toaster service', () => {
+      let withServiceFixture: ComponentFixture<SkyToastWithToasterServiceTestComponent>;
+      let withServiceComponent: SkyToastWithToasterServiceTestComponent;
+      let withServiceToastComponent: SkyToastComponent;
+
+      function validateToastOpen(open: boolean) {
+        expect(withServiceToastComponent['isOpen']).toBe(open);
+      }
+
+      beforeEach(() => {
+        withServiceFixture = TestBed.createComponent(SkyToastWithToasterServiceTestComponent);
+        withServiceComponent = withServiceFixture.componentInstance;
+        withServiceToastComponent = withServiceComponent.toastComponent;
+      });
+
+      it(
+        'should not auto-close when the toaster service reports the cursor is over the toast area', fakeAsync(() => {
+          withServiceComponent.autoClose = true;
+
+          withServiceFixture.detectChanges();
+
+          withServiceComponent.toasterService.mouseOver.next(true);
+
+          waitForAutoClose();
+
+          validateToastOpen(true);
+
+          withServiceComponent.toasterService.mouseOver.next(false);
+
+          waitForAutoClose();
+
+          validateToastOpen(false);
+        })
+      );
+
+      it('should not auto-close when the toaster service reports focus is in the toast area',
+        fakeAsync(() => {
+          withServiceComponent.autoClose = true;
+
+          withServiceFixture.detectChanges();
+
+          withServiceComponent.toasterService.focusIn.next(true);
+
+          waitForAutoClose();
+
+          validateToastOpen(true);
+
+          withServiceComponent.toasterService.focusIn.next(false);
+
+          waitForAutoClose();
+
+          validateToastOpen(false);
+        })
+      );
+    });
+  });
 });

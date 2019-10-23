@@ -38,9 +38,14 @@ import {
   SkyToasterComponent
 } from './toaster.component';
 
+import {
+  SkyToasterService
+} from './toaster.service';
+
 describe('Toast component', () => {
   let fixture: ComponentFixture<SkyToasterTestComponent>;
   let toastService: SkyToastService;
+  let toasterService: SkyToasterService;
   let applicationRef: ApplicationRef;
 
   beforeEach(() => {
@@ -51,7 +56,23 @@ describe('Toast component', () => {
       ]
     });
 
-    fixture = TestBed.createComponent(SkyToasterTestComponent);
+    toasterService = new SkyToasterService();
+
+    fixture = TestBed
+      .overrideComponent(
+        SkyToasterComponent,
+        {
+          add: {
+            providers: [
+              {
+                provide: SkyToasterService,
+                useValue: toasterService
+              }
+            ]
+          }
+        }
+      )
+      .createComponent(SkyToasterTestComponent);
   });
 
   beforeEach(inject(
@@ -223,5 +244,28 @@ describe('Toast component', () => {
     // Make sure that standard click events are still getting
     // handled within the toast component.
     expect(checkbox.checked).toEqual(true);
+  }));
+
+  it('should pass mouse and focus events to toaster service', fakeAsync(() => {
+    openMessage();
+
+    const focusInNextSpy = spyOn(toasterService.focusIn, 'next');
+    const mouseOverNextSpy = spyOn(toasterService.mouseOver, 'next');
+
+    const toaster = document.querySelector('.sky-toaster');
+
+    function validateEvent(
+      eventName: string,
+      spy: jasmine.Spy,
+      expectedValue: boolean
+    ) {
+      SkyAppTestUtility.fireDomEvent(toaster, eventName);
+      expect(spy).toHaveBeenCalledWith(expectedValue);
+    }
+
+    validateEvent('focusin', focusInNextSpy, true);
+    validateEvent('focusout', focusInNextSpy, false);
+    validateEvent('mouseenter', mouseOverNextSpy, true);
+    validateEvent('mouseleave', mouseOverNextSpy, false);
   }));
 });

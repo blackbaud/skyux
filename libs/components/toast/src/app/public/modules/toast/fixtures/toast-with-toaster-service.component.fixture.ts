@@ -5,25 +5,24 @@ import {
 } from '@angular/core';
 
 import {
-  SkyToastType
-} from '../types/toast-type';
-
-import {
   SkyToastComponent
 } from '../toast.component';
+
+import {
+  SkyToasterService
+} from '../toaster.service';
 // #endregion
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './toast.component.fixture.html'
+  templateUrl: './toast.component.fixture.html',
+  providers: [SkyToasterService]
 })
-export class SkyToastTestComponent {
+export class SkyToastWithToasterServiceTestComponent {
   public autoClose: boolean;
 
   @ViewChild(SkyToastComponent)
   public toastComponent: SkyToastComponent;
 
-  public toastType: SkyToastType;
-
-  public onClosed(): void { }
+  constructor(public toasterService: SkyToasterService) { }
 }

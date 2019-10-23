@@ -35,12 +35,18 @@ import {
 import {
   SkyToastService
 } from './toast.service';
+
+import {
+  SkyToasterService
+} from './toaster.service';
+
 // #endregion
 
 @Component({
   selector: 'sky-toaster',
   templateUrl: './toaster.component.html',
   styleUrls: ['./toaster.component.scss'],
+  providers: [SkyToasterService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyToasterComponent implements AfterViewInit {
@@ -61,7 +67,8 @@ export class SkyToasterComponent implements AfterViewInit {
     private domAdapter: SkyToastAdapterService,
     private toastService: SkyToastService,
     private resolver: ComponentFactoryResolver,
-    private injector: Injector
+    private injector: Injector,
+    private toasterService: SkyToasterService
   ) { }
 
   public ngAfterViewInit(): void {
@@ -86,11 +93,29 @@ export class SkyToasterComponent implements AfterViewInit {
   }
 
   public closeAll(): void {
+    /* istanbul ignore else */
+    // Sanity check
     if (this.toastComponents) {
       this.toastComponents.forEach((toastComponent) => {
         toastComponent.close();
       });
     }
+  }
+
+  public onMouseEnter(): void {
+    this.toasterService.mouseOver.next(true);
+  }
+
+  public onMouseLeave(): void {
+    this.toasterService.mouseOver.next(false);
+  }
+
+  public onFocusIn(): void {
+    this.toasterService.focusIn.next(true);
+  }
+
+  public onFocusOut(): void {
+    this.toasterService.focusIn.next(false);
   }
 
   private injectToastContent(): void {

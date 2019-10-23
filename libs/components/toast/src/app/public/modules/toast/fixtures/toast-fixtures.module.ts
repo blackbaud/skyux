@@ -30,13 +30,18 @@ import {
 import {
   SkyToasterTestComponent
 } from './toaster.component.fixture';
+
+import {
+  SkyToastWithToasterServiceTestComponent
+} from './toast-with-toaster-service.component.fixture';
 // #endregion
 
 @NgModule({
   declarations: [
     SkyToastTestComponent,
     SkyToastBodyTestComponent,
-    SkyToasterTestComponent
+    SkyToasterTestComponent,
+    SkyToastWithToasterServiceTestComponent
   ],
   imports: [
     CommonModule,

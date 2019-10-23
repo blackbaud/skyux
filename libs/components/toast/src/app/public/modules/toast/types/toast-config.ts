@@ -6,4 +6,6 @@ import {
 
 export interface SkyToastConfig {
   type?: SkyToastType;
+
+  autoClose?: boolean;
 }

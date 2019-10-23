@@ -3,3 +3,4 @@ export * from './toast-body.component.fixture';
 export * from './toast-fixtures.module';
 export * from './toast.component.fixture';
 export * from './toaster.component.fixture';
+export * from './toast-with-toaster-service.component.fixture';
