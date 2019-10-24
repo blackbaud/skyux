@@ -1,3 +1,8 @@
+# 3.0.0-alpha.17 (2019-10-24)
+
+- Implemented call to supportal service to derive component sidebar navigation.
+- Fixed the code example editor service to support pre-release versions of NPM packages.
+
 # 3.0.0-alpha.16 (2019-10-02)
 
 - Fixed the design guidelines thumbnail component to contrain video width to column width.
