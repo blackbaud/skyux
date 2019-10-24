@@ -71,6 +71,11 @@ export class SkyPopoverComponent implements OnInit, OnDestroy {
     return this._alignment || 'center';
   }
 
+  /**
+   * @internal
+   * Indicates if the popover element should render as a full screen modal
+   * when the content is too large to fit inside its parent.
+   */
   @Input()
   public set allowFullscreen(value: boolean) {
     this._allowFullscreen = value;
