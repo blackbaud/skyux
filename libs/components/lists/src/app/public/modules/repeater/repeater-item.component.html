@@ -1,10 +1,15 @@
 <div
   class="sky-repeater-item sky-padding-even-default"
+  [attr.tabindex]="tabIndex"
   [ngClass]="{
     'sky-repeater-item-active': isActive,
     'sky-repeater-item-collapsible': isCollapsible,
     'sky-repeater-item-selected': isSelected
   }"
+  (click)="onRepeaterItemClick($event)"
+  (focus)="onFocus()"
+  (keydown)="onItemKeyDown($event)"
+  #skyRepeaterItem
 >
 
   <ng-container *ngIf="inlineFormTemplate">
@@ -62,9 +67,10 @@
     >
     </sky-checkbox>
     <div
-        class="sky-repeater-item-context-menu"
-        [hidden]="contextMenuEl.children.length === 0"
-        #contextMenuEl
+      class="sky-repeater-item-context-menu"
+      [hidden]="contextMenuEl.children.length === 0"
+      (keydown)="onContextMenuKeydown($event)"
+      #contextMenuEl
     >
       <ng-content
         select="sky-repeater-item-context-menu"
@@ -106,10 +112,10 @@
         class="sky-repeater-item-chevron"
       >
         <sky-chevron
-            [attr.aria-controls]="contentId"
-            [attr.aria-expanded]="isExpanded"
-            [direction]="isExpanded ? 'up' : 'down'"
-            (directionChange)="chevronDirectionChange($event)"
+          [attr.aria-controls]="contentId"
+          [attr.aria-expanded]="isExpanded"
+          [direction]="isExpanded ? 'up' : 'down'"
+          (directionChange)="chevronDirectionChange($event)"
         >
         </sky-chevron>
       </div>

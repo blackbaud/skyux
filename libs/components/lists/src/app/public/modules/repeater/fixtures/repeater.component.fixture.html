@@ -1,17 +1,33 @@
-<sky-repeater
-  [activeIndex]="activeIndex"
+<sky-repeater *ngIf="!showRepeaterWithActiveIndex"
   [expandMode]="expandMode"
   [reorderable]="reorderable"
 >
   <sky-repeater-item
+    [selectable]="selectable"
     (collapse)="onCollapse()"
     (expand)="onExpand()"
   >
     <sky-repeater-item-context-menu *ngIf="showContextMenu">
-      a
+      <sky-dropdown
+        buttonType="context-menu"
+      >
+        <sky-dropdown-menu>
+          <sky-dropdown-item>
+            <button
+              type="button"
+            >
+              Option 1
+            </button>
+          </sky-dropdown-item>
+        </sky-dropdown-menu>
+      </sky-dropdown>
     </sky-repeater-item-context-menu>
     <sky-repeater-item-title>Title 1</sky-repeater-item-title>
-    <sky-repeater-item-content>Content 1</sky-repeater-item-content>
+    <sky-repeater-item-content>
+      <a href="/">link 1</a>
+      Content 1
+      <a href="/">link 2</a>
+    </sky-repeater-item-content>
   </sky-repeater-item>
   <sky-repeater-item>
     <sky-repeater-item-context-menu *ngIf="showContextMenu">
@@ -29,5 +45,19 @@
     </sky-repeater-item-context-menu>
     <sky-repeater-item-title>Title 3</sky-repeater-item-title>
     <sky-repeater-item-content>Content 3</sky-repeater-item-content>
+  </sky-repeater-item>
+</sky-repeater>
+
+<sky-repeater *ngIf="showRepeaterWithActiveIndex"
+  [(activeIndex)]="activeIndex"
+>
+  <sky-repeater-item>
+    <sky-repeater-item-title>Title 1</sky-repeater-item-title>
+  </sky-repeater-item>
+  <sky-repeater-item>
+    <sky-repeater-item-title>Title 2</sky-repeater-item-title>
+  </sky-repeater-item>
+  <sky-repeater-item>
+    <sky-repeater-item-title>Title 3</sky-repeater-item-title>
   </sky-repeater-item>
 </sky-repeater>

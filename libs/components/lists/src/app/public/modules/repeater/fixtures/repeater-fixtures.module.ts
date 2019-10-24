@@ -7,6 +7,10 @@ import {
 } from '@angular/core';
 
 import {
+  SkyDropdownModule
+} from '@skyux/popovers';
+
+import {
   SkyRepeaterModule
 } from '../repeater.module';
 
@@ -25,6 +29,7 @@ import {
   ],
   imports: [
     CommonModule,
+    SkyDropdownModule,
     SkyRepeaterModule
   ],
   exports: [

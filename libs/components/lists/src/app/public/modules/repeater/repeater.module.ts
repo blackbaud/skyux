@@ -11,6 +11,7 @@ import {
 } from '@angular/platform-browser/animations';
 
 import {
+  SkyCoreAdapterService,
   SkyLogModule
 } from '@skyux/core';
 
@@ -52,10 +53,6 @@ import {
 } from './repeater-item-title.component';
 
 import {
-  SkyRepeaterService
-} from './repeater.service';
-
-import {
   SkyListsResourcesModule
 } from '../shared';
 
@@ -68,7 +65,7 @@ import {
     SkyRepeaterItemTitleComponent
   ],
   providers: [
-    SkyRepeaterService
+    SkyCoreAdapterService
   ],
   imports: [
     BrowserAnimationsModule,

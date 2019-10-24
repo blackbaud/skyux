@@ -3,10 +3,12 @@ import {
   Component,
   ContentChildren,
   ElementRef,
+  EventEmitter,
   Input,
   QueryList,
   OnChanges,
   OnDestroy,
+  Output,
   SimpleChanges
 } from '@angular/core';
 
@@ -67,6 +69,9 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
     return this._expandMode || 'none';
   }
 
+  @Output()
+  public activeIndexChange = new EventEmitter<number>();
+
   @ContentChildren(SkyRepeaterItemComponent)
   public items: QueryList<SkyRepeaterItemComponent>;
 
@@ -91,6 +96,15 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
               otherItem.isExpanded = false;
             }
           });
+        }
+      });
+
+    this.repeaterService.activeItemIndexChange
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe((index: number) => {
+        if (index !== this.activeIndex) {
+          this.activeIndex = index;
+          this.activeIndexChange.emit(index);
         }
       });
 
@@ -125,19 +139,33 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
       });
     }, 0);
 
+    // Make the first item tabbable.
+    if (this.items.length > 0) {
+      setTimeout(() => {
+        this.items.first.tabIndex = 0;
+      });
+    }
+
     // Setup item reorder drag-and-drop.
     this.initializeDragAndDrop();
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes['activeIndex'] && changes['activeIndex'].currentValue !== changes['activeIndex'].previousValue) {
-      this.repeaterService.activateItemByIndex(this.activeIndex);
+    if (changes['activeIndex']) {
+      this.repeaterService.enableActiveState = true;
+      if (changes['activeIndex'].currentValue !== changes['activeIndex'].previousValue) {
+        this.repeaterService.activateItemByIndex(this.activeIndex);
+      }
     }
   }
 
   public ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+
+  public getItemsFromService(): SkyRepeaterItemComponent[] {
+    return this.repeaterService.items;
   }
 
   private updateForExpandMode(itemAdded?: SkyRepeaterItemComponent): void {

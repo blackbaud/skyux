@@ -13,9 +13,13 @@ import {
 })
 export class RepeaterTestComponent {
 
-  public activeIndex: number = undefined;
+  public set activeIndex(value: number) {
+    this._activeIndex = value;
+  }
 
-  public reorderable = false;
+  public get activeIndex(): number {
+    return this._activeIndex;
+  }
 
   public expandMode = 'single';
 
@@ -25,10 +29,18 @@ export class RepeaterTestComponent {
 
   public removeLastItem: boolean;
 
+  public reorderable = false;
+
+  public selectable = false;
+
   public showContextMenu: boolean;
+
+  public showRepeaterWithActiveIndex = false;
 
   @ViewChild(SkyRepeaterComponent)
   public repeater: SkyRepeaterComponent;
+
+  private _activeIndex: number;
 
   public onCollapse(): void {}
 
