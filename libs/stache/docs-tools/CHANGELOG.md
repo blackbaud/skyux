@@ -1,3 +1,11 @@
+# 3.0.0-alpha.18 (2019-10-30)
+
+- Added the `SkyDocsDemoControlPanelRadioChoice` interface.
+- Changed the name of the `sourceCodeLocation` input on the code example component to `sourceCodePath`.
+- Changed the name of the `sourceCodeLocation` input on the type definitions component to `moduleSourceCodePath`.
+- Changed the name of the `sourceCodeLocation` input on the demo page component to `moduleSourceCodePath`.
+- Fixed type definitions component to properly recognize required state on properties.
+
 # 3.0.0-alpha.17 (2019-10-24)
 
 - Implemented call to supportal service to derive component sidebar navigation.
