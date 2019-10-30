@@ -15,6 +15,10 @@ import {
   SkyDocsDemoControlPanelChange
 } from './demo-control-panel-change';
 
+import {
+  SkyControlPanelRadioChoice
+} from './demo-control-panel-radio-choice';
+
 @Component({
   selector: 'sky-docs-demo-control-panel-radio-group',
   templateUrl: './demo-control-panel-radio-group.component.html',
@@ -24,7 +28,7 @@ import {
 export class SkyDocsDemoControlPanelRadioGroupComponent implements OnInit, OnDestroy {
 
   @Input()
-  public choices: { label: string; value: any; }[];
+  public choices: SkyControlPanelRadioChoice[];
 
   @Input()
   public heading: string;
