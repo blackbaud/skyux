@@ -82,6 +82,12 @@ export class FooComponent implements OnInit {
   @Input()
   public internalConfig: any;
 
+  /**
+   * @required
+   */
+  @Input()
+  public requiredProperty: boolean = false;
+
   private _bar: string;
 
   public ngOnInit(): void { }

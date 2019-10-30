@@ -25,6 +25,15 @@ import {
   SkyDocsTypeDefinitionsProvider
 } from './type-definitions-provider';
 
+interface SkyDocsTypeDefinitionCommentTags {
+  codeExample: string;
+  codeExampleLanguage: string;
+  defaultValue: string;
+  deprecationWarning: string;
+  description: string;
+  extras?: { [key: string]: string };
+}
+
 @Injectable()
 export class SkyDocsTypeDefinitionsService {
 
@@ -35,14 +44,14 @@ export class SkyDocsTypeDefinitionsService {
 
   /**
    * Returns type definitions from a specific source code location.
-   * @param sourceCodeLocation The directory of the source code you wish to pull type definitions from,
+   * @param sourceCodePath The directory of the source code you wish to pull type definitions from,
    * relative to the application's root directory.
    */
-  public getTypeDefinitions(sourceCodeLocation: string): SkyDocsTypeDefinitions {
+  public getTypeDefinitions(sourceCodePath: string): SkyDocsTypeDefinitions {
 
     const typeDefinitions = this.typeDefinitionsProvider.typeDefinitions;
 
-    const requestedDir = sourceCodeLocation.replace(
+    const requestedDir = sourceCodePath.replace(
       /src(\/|\\)app(\/|\\)public(\/|\\)/,
       ''
     );
@@ -176,7 +185,7 @@ export class SkyDocsTypeDefinitionsService {
     const tags = this.parseCommentTags(item.comment);
     const decorator = item.decorators[0].name;
     const deprecationWarning = tags.deprecationWarning;
-    const defaultValue: string = tags.defaultValue || item.defaultValue;
+    const defaultValue = this.getDefaultValue(item);
 
     switch (kindString) {
       case 'Property':
@@ -202,7 +211,7 @@ export class SkyDocsTypeDefinitionsService {
       decorator,
       description,
       defaultValue,
-      isOptional: (defaultValue !== undefined && decorator === 'Input'),
+      isOptional: (this.isOptional(item) && decorator === 'Input'),
       deprecationWarning
     };
   }
@@ -250,12 +259,13 @@ export class SkyDocsTypeDefinitionsService {
 
     if (signature.parameters) {
       signature.parameters.forEach((p: any) => {
+        const defaultValue = this.getDefaultValue(p);
         const parameter: SkyDocsParameterDefinition = {
           description: (p.comment) ? p.comment.text : '',
           name: p.name,
           type: this.parseFormattedType(p.type),
-          defaultValue: p.defaultValue && p.defaultValue.replace(/\"/g, '\''),
-          isOptional: (p.flags.isOptional === true || p.defaultValue)
+          defaultValue,
+          isOptional: this.isOptional(p)
         };
 
         parameters.push(parameter);
@@ -328,7 +338,7 @@ export class SkyDocsTypeDefinitionsService {
     if (item.children) {
       item.children.forEach((p: any) => {
         const propertyDescription = (p.comment) ? p.comment.shortText : '';
-        const isOptional = (p.flags.isOptional === true);
+        const isOptional = this.isOptional(p);
         const optionalIndicator = (isOptional) ? '?' : '';
         const typeName = this.parseFormattedType(p.type, false);
 
@@ -409,17 +419,20 @@ export class SkyDocsTypeDefinitionsService {
             return (tag.tag === 'param' && tag.param === p.name);
           });
 
+          const isOptional = this.isOptional(p);
+          const defaultValue = this.getDefaultValue(p);
+
           if (foundTag) {
             parameters.push({
               name: p.name,
               type: p.type.name,
               description: foundTag.text,
-              defaultValue: p.defaultValue,
-              isOptional: (p.flags.isOptional === true)
+              defaultValue,
+              isOptional
             });
           }
 
-          const optionalIndicator = (p.flags.isOptional === true) ? '?' : '';
+          const optionalIndicator = (isOptional) ? '?' : '';
 
           return `${p.name}${optionalIndicator}: ${p.type.name}`;
 
@@ -488,40 +501,47 @@ export class SkyDocsTypeDefinitionsService {
     return formatted;
   }
 
-  private parseCommentTags(comment: any): any {
+  private parseCommentTags(comment: any): SkyDocsTypeDefinitionCommentTags {
     let codeExample: string;
     let codeExampleLanguage: string = 'markup';
     let deprecationWarning: string;
     let defaultValue: string;
     let description: string = '';
+    const extras: {[key: string]: string} = {};
 
     if (comment) {
       if (comment.tags) {
         comment.tags.forEach((tag: any) => {
-          if (
-            tag.tag === 'deprecated' &&
-            tag.text
-          ) {
-            deprecationWarning = tag.text.trim();
-          }
+          switch (tag.tag.toLowerCase()) {
+            case 'deprecated':
+              if (
+                tag.text
+              ) {
+                deprecationWarning = tag.text.trim();
+              }
+              break;
 
-          if (
-            tag.tag === 'default' ||
-            tag.tag === 'defaultvalue'
-          ) {
-            defaultValue = tag.text.trim();
-          }
+            case 'default':
+            case 'defaultvalue':
+              defaultValue = tag.text.trim();
+              break;
 
-          if (
-            tag.tag === 'example' &&
-            tag.text
-          ) {
-            codeExample = tag.text.trim().split('```')[1].trim();
-            const language = codeExample.split('\n')[0];
-            if (language === 'markup' || language === 'typescript') {
-              codeExample = codeExample.slice(language.length).trim();
-              codeExampleLanguage = language;
-            }
+            case 'example':
+              if (
+                tag.text
+              ) {
+                codeExample = tag.text.trim().split('```')[1].trim();
+                const language = codeExample.split('\n')[0];
+                if (language === 'markup' || language === 'typescript') {
+                  codeExample = codeExample.slice(language.length).trim();
+                  codeExampleLanguage = language;
+                }
+              }
+              break;
+
+            default:
+              extras[tag.tag] = tag.text;
+              break;
           }
         });
       }
@@ -536,7 +556,8 @@ export class SkyDocsTypeDefinitionsService {
       codeExampleLanguage,
       defaultValue,
       deprecationWarning,
-      description
+      description,
+      extras
     };
   }
 
@@ -561,4 +582,25 @@ export class SkyDocsTypeDefinitionsService {
   private endsWith(haystack: string, needle: string): boolean {
     return (haystack.substr(needle.length * -1) === needle);
   }
+
+  private isOptional(item: any): boolean {
+    const tags = this.parseCommentTags(item.comment);
+    if (tags.extras.required) {
+      return false;
+    }
+
+    return true;
+  }
+
+  private getDefaultValue(item: any): string {
+    const tags = this.parseCommentTags(item.comment);
+
+    let defaultValue: string = tags.defaultValue || item.defaultValue;
+    if (defaultValue) {
+      defaultValue = defaultValue.replace(/\"/g, '\'');
+    }
+
+    return defaultValue;
+  }
+
 }

@@ -4,22 +4,36 @@ import {
 } from '@angular/core';
 
 import {
-  SkyDocsDemoControlPanelChange
+  SkyDocsDemoControlPanelChange,
+  SkyDocsDemoControlPanelRadioChoice
 } from '../../public';
 
 @Component({
-  selector: 'app-typedoc',
-  templateUrl: './typedoc.component.html',
+  selector: 'app-sample-docs',
+  templateUrl: './sample.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppTypeDocComponent {
+
+  public alignmentChoices: SkyDocsDemoControlPanelRadioChoice[] = [
+    { value: 'left', label: 'Left' },
+    { value: 'right', label: 'Right' },
+    { value: 'center', label: 'Center' }
+  ];
+
+  public demoSettings: any = {};
+
+  public placementChoices: SkyDocsDemoControlPanelRadioChoice[] = [
+    { value: 'above', label: 'Above' },
+    { value: 'below', label: 'Below' },
+    { value: 'left', label: 'Left' },
+    { value: 'right', label: 'Right' }
+  ];
 
   public get showAlignmentOptions(): boolean {
     const placement = this.demoSettings.skyPopoverPlacement;
     return (placement === 'above' || placement === 'below');
   }
-
-  public demoSettings: any = {};
 
   public onDemoSelectionChange(change: SkyDocsDemoControlPanelChange): void {
     if (change.showTitle === true) {

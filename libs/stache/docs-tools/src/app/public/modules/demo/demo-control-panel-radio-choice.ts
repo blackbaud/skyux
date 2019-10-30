@@ -1,4 +1,4 @@
-export interface SkyControlPanelRadioChoice {
+export interface SkyDocsDemoControlPanelRadioChoice {
   label: string;
   value: any;
 }

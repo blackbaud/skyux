@@ -21,7 +21,7 @@ import {
 export class SkyDocsDemoPageTypeDefinitionsComponent implements OnInit {
 
   @Input()
-  public sourceCodeLocation: string;
+  public moduleSourceCodePath: string;
 
   public types: SkyDocsTypeDefinitions;
 
@@ -30,12 +30,12 @@ export class SkyDocsDemoPageTypeDefinitionsComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    if (!this.sourceCodeLocation) {
-      throw 'Please provide a source code location! `<sky-docs-demo-page sourceCodeLocation="path/to/source">`';
+    if (!this.moduleSourceCodePath) {
+      throw 'Please provide a source code location! `<sky-docs-demo-page moduleSourceCodePath="path/to/source">`';
     }
 
     this.types = this.typeDefinitionService.getTypeDefinitions(
-      this.sourceCodeLocation
+      this.moduleSourceCodePath
     );
   }
 }

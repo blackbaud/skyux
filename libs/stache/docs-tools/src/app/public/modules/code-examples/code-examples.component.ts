@@ -58,10 +58,10 @@ export class SkyDocsCodeExamplesComponent implements AfterContentInit {
 
   public ngAfterContentInit(): void {
     this.codeExampleComponents.forEach((component) => {
-      const sourceCode = this.sourceCodeService.getSourceCode(component.sourceCodeLocation);
+      const sourceCode = this.sourceCodeService.getSourceCode(component.sourceCodePath);
 
       if (!sourceCode.length) {
-        throw `No source code found at location "${component.sourceCodeLocation}" for "${component.heading}"!`;
+        throw `No source code found at location "${component.sourceCodePath}" for "${component.heading}"!`;
       }
 
       this.codeExamples.push({

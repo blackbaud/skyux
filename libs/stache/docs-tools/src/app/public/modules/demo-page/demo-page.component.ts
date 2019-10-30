@@ -51,13 +51,13 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit, After
   public moduleName: string;
 
   @Input()
+  public moduleSourceCodePath: string;
+
+  @Input()
   public packageName: string;
 
   @Input()
   public pageTitle: string;
-
-  @Input()
-  public sourceCodeLocation: string;
 
   public enableCodeExamples = false;
   public enableTabLayout = false;

@@ -12,7 +12,7 @@ import {
 export class SkyDocsCodeExampleComponent {
 
   @Input()
-  public sourceCodeLocation: string;
+  public sourceCodePath: string;
 
   @Input()
   public heading: string;
