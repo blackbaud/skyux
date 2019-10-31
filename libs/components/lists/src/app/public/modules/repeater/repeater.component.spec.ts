@@ -1167,6 +1167,34 @@ describe('Repeater item component', () => {
       fixture.detectChanges();
     }));
 
+    it('should set newly added items to reorderable if repeater is reorderable', fakeAsync(() => {
+      cmp.removeLastItem = true;
+
+      fixture.detectChanges();
+
+      tick();
+
+      let repeaterItems = cmp.repeater.items.toArray();
+
+      expect(repeaterItems.length).toBe(2);
+      repeaterItems.forEach(item => {
+        expect(item.reorderable).toBe(true);
+      });
+
+      cmp.removeLastItem = false;
+
+      fixture.detectChanges();
+
+      tick();
+
+      repeaterItems = cmp.repeater.items.toArray();
+
+      expect(repeaterItems.length).toBe(3);
+      repeaterItems.forEach(item => {
+        expect(item.reorderable).toBe(true);
+      });
+    }));
+
     it('should move an item to the top via the "Top" button', fakeAsync(() => {
       let items = el.querySelectorAll('sky-repeater-item');
       const itemToTest = items[1];
