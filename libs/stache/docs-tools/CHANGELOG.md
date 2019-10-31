@@ -1,3 +1,7 @@
+# 3.0.0-alpha.19 (2019-10-31)
+
+- Added mobile responsive view for the property definitions component.
+
 # 3.0.0-alpha.18 (2019-10-30)
 
 - Added the `SkyDocsDemoControlPanelRadioChoice` interface.
