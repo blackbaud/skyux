@@ -16,6 +16,10 @@ import {
 } from '@blackbaud/skyux-lib-code-block';
 
 import {
+  SkyMediaQueryModule
+} from '@skyux/core';
+
+import {
   SkyIconModule
 } from '@skyux/indicators';
 
@@ -101,7 +105,8 @@ import {
     SkyDocsHeadingAnchorModule,
     SkyIconModule,
     SkyDocsMarkdownModule,
-    SkyDocsSafeHtmlModule
+    SkyDocsSafeHtmlModule,
+    SkyMediaQueryModule
   ],
   declarations: [
     SkyDocsDirectiveDefinitionComponent,
