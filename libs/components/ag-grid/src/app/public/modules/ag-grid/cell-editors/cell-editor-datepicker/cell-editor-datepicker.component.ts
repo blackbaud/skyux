@@ -70,7 +70,7 @@ export class SkyAgGridCellEditorDatepickerComponent implements ICellEditorAngula
     this.params = params;
     this.currentDate = this.params.value;
     this.columnWidth = this.params.column.getActualWidth();
-    this.rowHeight = this.params.node.rowHeight + 1;
+    this.rowHeight = this.params.node.rowHeight - 1;
     this.skyComponentProperties = this.params.skyComponentProperties || {};
   }
 

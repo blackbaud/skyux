@@ -6,11 +6,11 @@ $odd-row-background-color: $sky-background-color-page-default !default;
 $background-color: $sky-color-gray-01 !default;
 $border-color: $sky-border-color-neutral-medium !default;
 $row-height: 38px !default;
-$header-height: 37px !default;
+$header-height: 38px !default;
 $font-family: $sky-font-family !default;
 $foreground-color: $sky-text-color-default !default;
 $header-background-color: $sky-background-color-page-default !default;
-$header-foreground-color: $sky-text-color-default !default;
+$header-foreground-color: $sky-text-color-deemphasized !default;
 $font-size: 15px !default;
 $row-border-width: 1px !default;
 $secondary-font-size: $sky-font-size-base !default;
@@ -56,6 +56,11 @@ ag-grid-angular {
 
   .sky-ag-grid-cell-number {
     text-align: right;
+    padding-right: 12px;
+  }
+
+  .sky-ag-grid-cell-autocomplete {
+    padding-left: 12px;
   }
 }
 
@@ -87,32 +92,24 @@ ag-grid-angular.sky-ag-grid-editable {
 
   /* fine tune focus cell borders */
   .ag-row {
-    .ag-cell-focus.ag-cell-inline-editing {
-      margin-top: $row-border-width * -1;
-      @include sky-field-status(active)
+    .ag-cell-focus {
+      line-height: $row-height - ($row-border-width * 4);
     }
 
-    .ag-cell-focus.ag-cell-not-inline-editing {
-      border: none;
-      border-right: $sky-standard-border;
-      box-shadow: none;
+    .ag-cell-focus.ag-cell-inline-editing {
+      height: $row-height - 1;
+      border-radius: 0;
+      @include sky-field-status(active)
     }
   }
 
   .ag-row.ag-row-first {
-    .ag-cell-focus.ag-cell-inline-editing {
-      margin-top: 0;
-    }
+    // ag-grid sets the height on the element and the first row does not have a border, we must adjust the row height to account for that.
+    height: $row-height - 1 !important;
   }
 
-  .ag-row.ag-row-last {
-    .ag-cell-focus.ag-cell-inline-editing {
-      height: $row-height - 1;
-    }
-  }
-
-  .ag-cell-inline-editing {
-    border-radius: 0;
+  .ag-row:not(.ag-row-first) {
+    margin-top: -1px;
   }
 
   .ag-popup-editor {

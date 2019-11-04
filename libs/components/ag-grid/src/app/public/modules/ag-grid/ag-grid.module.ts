@@ -16,7 +16,9 @@ import {
   SkyAgGridCellEditorDatepickerComponent,
   SkyAgGridCellEditorDatepickerModule,
   SkyAgGridCellEditorNumberComponent,
-  SkyAgGridCellEditorNumberModule
+  SkyAgGridCellEditorNumberModule,
+  SkyAgGridCellEditorTextComponent,
+  SkyAgGridCellEditorTextModule
 } from './cell-editors';
 
 import {
@@ -31,7 +33,8 @@ import {
     SkyAgGridCellEditorAutocompleteModule,
     SkyAgGridCellEditorDatepickerModule,
     SkyAgGridCellEditorNumberModule,
-    SkyAgGridCellRendererRowSelectorModule
+    SkyAgGridCellRendererRowSelectorModule,
+    SkyAgGridCellEditorTextModule
   ],
   providers: [
     SkyAgGridService
@@ -40,7 +43,8 @@ import {
     SkyAgGridCellEditorAutocompleteComponent,
     SkyAgGridCellEditorDatepickerComponent,
     SkyAgGridCellEditorNumberComponent,
-    SkyAgGridCellRendererRowSelectorComponent
+    SkyAgGridCellRendererRowSelectorComponent,
+    SkyAgGridCellEditorTextComponent
   ]
 })
 export class SkyAgGridModule { }

@@ -131,8 +131,6 @@ export class SkyAgGridEditModalComponent implements OnInit {
   }
 
   private departmentSelectionChange(change: SkyAutocompleteSelectionChange, node: RowNode) {
-    console.log(change.selectedItem);
-    console.log(node.data.department);
     if (change.selectedItem && change.selectedItem !== node.data.department) {
       this.clearJobTitle(node);
     }

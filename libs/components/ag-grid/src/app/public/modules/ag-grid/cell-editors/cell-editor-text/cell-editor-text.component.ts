@@ -24,15 +24,15 @@ import {
 } from 'rxjs/Subject';
 
 @Component({
-  selector: 'sky-ag-grid-cell-editor-number',
-  templateUrl: './cell-editor-number.component.html',
-  styleUrls: ['./cell-editor-number.component.scss'],
+  selector: 'sky-ag-grid-cell-editor-text',
+  templateUrl: './cell-editor-text.component.html',
+  styleUrls: ['./cell-editor-text.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class SkyAgGridCellEditorNumberComponent implements ICellEditorAngularComp, OnInit, OnDestroy {
-  public value: number;
-  public numberInputLabel: string;
+export class SkyAgGridCellEditorTextComponent implements ICellEditorAngularComp, OnInit, OnDestroy {
+  public value: string;
+  public textInputLabel: string;
   public columnWidth: number;
   public rowHeightWithoutBorders: number;
   private params: ICellEditorParams;
@@ -40,7 +40,7 @@ export class SkyAgGridCellEditorNumberComponent implements ICellEditorAngularCom
   private rowNumber: number;
   private ngUnsubscribe = new Subject<void>();
 
-  @ViewChild('skyCellEditorNumber', {read: ElementRef})
+  @ViewChild('skyCellEditorText', {read: ElementRef})
   private input: ElementRef;
 
   constructor(
@@ -53,7 +53,7 @@ export class SkyAgGridCellEditorNumberComponent implements ICellEditorAngularCom
    */
   public agInit(params: ICellEditorParams): void {
     this.params = params;
-    this.value = this.params.value;
+    this.value = this.params.charPress || this.params.value;
     this.columnHeader = this.params.colDef.headerName;
     this.rowNumber = this.params.rowIndex + 1;
     this.columnWidth = this.params.column.getActualWidth();
@@ -68,10 +68,10 @@ export class SkyAgGridCellEditorNumberComponent implements ICellEditorAngularCom
   }
 
   public ngOnInit(): void {
-    this.libResources.getString('skyux_ag_grid_cell_editor_number_aria_label', this.columnHeader, this.rowNumber)
+    this.libResources.getString('skyux_ag_grid_cell_editor_text_aria_label', this.columnHeader, this.rowNumber)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(label => {
-        this.numberInputLabel = label;
+        this.textInputLabel = label;
       });
   }
 
@@ -83,7 +83,7 @@ export class SkyAgGridCellEditorNumberComponent implements ICellEditorAngularCom
   /**
    * getValue is called by agGrid when editing is stopped to get the new value of the cell.
    */
-  public getValue(): number {
+  public getValue(): string {
     return this.value;
   }
 }

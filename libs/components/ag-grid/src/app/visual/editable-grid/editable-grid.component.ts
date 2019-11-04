@@ -65,7 +65,9 @@ export class EditableGridComponent implements OnInit {
         colId: 'name',
         field: 'name',
         headerName: 'Goal Name',
-        minWidth: 220
+        minWidth: 220,
+        editable: this.editMode,
+        type: SkyCellType.Text
       },
       {
         colId: 'completedDate',

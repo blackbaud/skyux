@@ -106,7 +106,7 @@ describe('SkyCellEditorAutocompleteComponent', () => {
 
       expect(component.currentSelection).toEqual(selection);
       expect(component.columnWidth).toBe(columnWidth);
-      expect(component.rowHeight).toBe(38);
+      expect(component.rowHeight).toBe(36);
     });
   });
 

@@ -1,0 +1,148 @@
+import {
+  async,
+  ComponentFixture,
+  TestBed
+} from '@angular/core/testing';
+
+import {
+  expect
+} from '@skyux-sdk/testing';
+
+import {
+  Column,
+  ICellEditorParams
+} from 'ag-grid-community';
+
+import {
+  SkyCellClass
+} from '../../types';
+
+import {
+  SkyAgGridFixtureComponent,
+  SkyAgGridFixtureModule
+} from '../../fixtures';
+
+import {
+  SkyAgGridCellEditorTextComponent
+} from './cell-editor-text.component';
+
+describe('SkyCellEditorTextComponent', () => {
+  let textEditorFixture: ComponentFixture<SkyAgGridCellEditorTextComponent>;
+  let textEditorComponent: SkyAgGridCellEditorTextComponent;
+  let textEditorNativeElement: HTMLElement;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        SkyAgGridFixtureModule
+      ]
+    });
+
+    textEditorFixture = TestBed.createComponent(SkyAgGridCellEditorTextComponent);
+    textEditorNativeElement = textEditorFixture.nativeElement;
+    textEditorComponent = textEditorFixture.componentInstance;
+
+    textEditorFixture.detectChanges();
+  });
+
+  it('renders a text input when editing a text cell in an ag grid', () => {
+    const gridFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+    const gridNativeElement = gridFixture.nativeElement;
+
+    gridFixture.detectChanges();
+
+    const textCellElement = gridNativeElement.querySelector(`.${SkyCellClass.Text}`);
+    const textCellEditorSelector = `.ag-cell-inline-editing.${SkyCellClass.Text}`;
+    let inputElement = gridNativeElement.querySelector(textCellEditorSelector);
+
+    expect(inputElement).toBeNull();
+
+    textCellElement.click();
+
+    inputElement = gridNativeElement.querySelector(textCellEditorSelector);
+
+    expect(inputElement).toBeVisible();
+  });
+
+  describe('agInit', () => {
+    it('initializes the SkyCellEditorTextComponent properties', () => {
+      const value = 15;
+      const columnWidth = 100;
+      const column = new Column(
+        {
+          colId: 'col'
+        },
+        undefined,
+        'col',
+        true);
+
+      column.setActualWidth(columnWidth);
+
+      let cellEditorParams: ICellEditorParams = {
+        value,
+        colDef: { headerName: 'Test text cell'},
+        rowIndex: 1,
+        column,
+        node: undefined,
+        keyPress: undefined,
+        charPress: undefined,
+        columnApi: undefined,
+        data: undefined,
+        api: undefined,
+        cellStartedEdit: undefined,
+        onKeyDown: undefined,
+        context: undefined,
+        $scope: undefined,
+        stopEditing: undefined,
+        eGridCell: undefined,
+        parseValue: undefined,
+        formatValue: undefined
+      };
+
+      expect(textEditorComponent.value).toBeUndefined();
+      expect(textEditorComponent.columnWidth).toBeUndefined();
+
+      textEditorComponent.agInit(cellEditorParams);
+
+      expect(textEditorComponent.value).toEqual(value);
+      expect(textEditorComponent.columnWidth).toEqual(columnWidth);
+    });
+  });
+
+  describe('getValue', () => {
+    it('returns the value if it is set', () => {
+      let value = 'cat';
+      textEditorComponent.value = value;
+
+      textEditorFixture.detectChanges();
+
+      expect(textEditorComponent.getValue()).toBe(value);
+    });
+
+    describe('afterGuiAttached', () => {
+      it('focuses on the input after it attaches to the DOM', () => {
+        textEditorFixture.detectChanges();
+
+        const input = textEditorNativeElement.querySelector('input');
+        spyOn(input, 'focus');
+
+        textEditorComponent.afterGuiAttached();
+
+        expect(input).toBeVisible();
+        expect(input.focus).toHaveBeenCalled();
+      });
+    });
+
+    it('returns undefined if the value is not set', () => {
+      expect(textEditorComponent.getValue()).toBeUndefined();
+    });
+  });
+
+  it('should pass accessibility', async(() => {
+    textEditorFixture.detectChanges();
+
+    textEditorFixture.whenStable().then(() => {
+      expect(textEditorFixture.nativeElement).toBeAccessible();
+    });
+  }));
+});

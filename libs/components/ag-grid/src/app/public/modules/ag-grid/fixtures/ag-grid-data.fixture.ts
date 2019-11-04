@@ -1,5 +1,6 @@
 export class SkyAgGridRow {
   public name: string;
+  public nickname?: string;
   public value?: number;
   public target: number;
   public date?: Date;
@@ -20,7 +21,8 @@ export const SKY_AG_GRID_DATA: SkyAgGridRow[] = [
     selected: false
   },
   {
-    name: 'John',
+    name: 'Jonathan',
+    nickname: 'John',
     value: 13,
     target: 9,
     date: new Date('3/1/19'),

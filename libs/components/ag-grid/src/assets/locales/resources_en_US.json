@@ -5,7 +5,11 @@
   },
   "sky_ag_grid_cell_editor_number_aria_label": {
     "_description": "aria label for the number cell editor ",
-    "message": "Editable {0} for row {1}"
+    "message": "Editable number {0} for row {1}"
+  },
+  "sky_ag_grid_cell_editor_text_aria_label": {
+    "_description": "aria label for the text cell editor ",
+    "message": "Editable text {0} for row {1}"
   },
   "sky_ag_grid_cell_editor_autocomplete_aria_label": {
     "_description": "aria label for the autocomplete cell editor",

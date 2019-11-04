@@ -48,7 +48,7 @@ export class SkyAgGridCellEditorAutocompleteComponent implements ICellEditorAngu
     this.params = params;
     this.currentSelection = this.params.value;
     this.columnWidth = this.params.column && this.params.column.getActualWidth();
-    this.rowHeight = this.params.node && this.params.node.rowHeight + 1;
+    this.rowHeight = this.params.node && this.params.node.rowHeight - 1;
     this.columnHeader = this.params.colDef && this.params.colDef.headerName;
     this.rowNumber = this.params.rowIndex + 1;
     this.skyComponentProperties = this.params.skyComponentProperties || {};

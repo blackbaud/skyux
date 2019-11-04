@@ -224,7 +224,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
       expect(datepickerEditorComponent.currentDate).toEqual(date);
       expect(datepicker.date).toEqual(dateString);
       expect(datepickerEditorComponent.columnWidth).toEqual(columnWidth);
-      expect(datepickerEditorComponent.rowHeight).toEqual(38);
+      expect(datepickerEditorComponent.rowHeight).toEqual(36);
     }));
   });
 

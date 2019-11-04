@@ -42,6 +42,12 @@ export class SkyAgGridFixtureComponent implements OnInit {
       headerName: 'First Name'
     },
     {
+      field: 'nickname',
+      headerName: 'Nickname',
+      editable: true,
+      type: SkyCellType.Text
+    },
+    {
       field: 'value',
       headerName: 'Current Value',
       editable: true,
@@ -67,6 +73,6 @@ export class SkyAgGridFixtureComponent implements OnInit {
   constructor(private gridService: SkyAgGridService) { }
 
   public ngOnInit(): void {
-    this.gridOptions = this.gridService.getGridOptions({ gridOptions: this.gridOptions });
+    this.gridOptions = this.gridService.getEditableGridOptions({ gridOptions: this.gridOptions });
   }
 }

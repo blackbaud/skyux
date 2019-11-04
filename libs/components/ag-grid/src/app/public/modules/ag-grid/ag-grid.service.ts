@@ -11,7 +11,8 @@ import {
 import {
   SkyAgGridCellEditorAutocompleteComponent,
   SkyAgGridCellEditorDatepickerComponent,
-  SkyAgGridCellEditorNumberComponent
+  SkyAgGridCellEditorNumberComponent,
+  SkyAgGridCellEditorTextComponent
 } from './cell-editors';
 
 import {
@@ -124,13 +125,6 @@ export class SkyAgGridService {
           comparator: autocompleteComparator,
           minWidth: 185
         },
-        [SkyCellType.Number]: {
-          cellClassRules: {
-            [SkyCellClass.Number]: cellClassRuleTrueExpression,
-            ...editableCellClassRules
-          },
-          cellEditorFramework: SkyAgGridCellEditorNumberComponent
-        },
         [SkyCellType.Date]: {
           cellClassRules: {
             [SkyCellClass.Date]: cellClassRuleTrueExpression,
@@ -154,6 +148,13 @@ export class SkyAgGridService {
           cellRendererFramework: SkyAgGridCellRendererRowSelectorComponent,
           minWidth: 50,
           width: 50
+        },
+        [SkyCellType.Text]: {
+          cellClassRules: {
+            [SkyCellClass.Text]: cellClassRuleTrueExpression,
+            ...editableCellClassRules
+          },
+          cellEditorFramework: SkyAgGridCellEditorTextComponent
         }
       },
       defaultColDef: {
@@ -174,7 +175,7 @@ export class SkyAgGridService {
         columnMoveRight: this.getIconTemplate('arrows'),
         columnMovePin: this.getIconTemplate('arrows')
       },
-      rowHeight: 37,
+      rowHeight: 38,
       rowMultiSelectWithClick: true,
       rowSelection: 'multiple',
       singleClickEdit: true,
