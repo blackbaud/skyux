@@ -33,16 +33,18 @@
         (focusIndexOverRange)="onTokensFocusIndexOverRange()">
 
         <textarea
-          skyAutocomplete
           class="sky-form-control"
-          [disabled]="disabled"
           [attr.aria-label]="ariaLabel"
           [attr.aria-labelledby]="ariaLabelledBy"
           [attr.placeholder]="placeholderText"
+          [disabled]="disabled"
+          skyAutocomplete
+          (blur)="onAutocompleteBlur()"
           (keydown.enter)="$event.preventDefault();"
-          (keyup.escape)="clearSearchText();$event.preventDefault();"
           (keyup.delete)="$event.stopPropagation();"
-          #lookupInput>
+          (keyup.escape)="clearSearchText();$event.preventDefault();"
+          #lookupInput
+        >
         </textarea>
       </sky-tokens>
     </div>

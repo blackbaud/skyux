@@ -125,6 +125,10 @@ export class SkyLookupComponent
     }
   }
 
+  public onAutocompleteBlur(): void {
+    this.onTouched();
+  }
+
   public onTokensChange(change: SkyToken[]) {
     if (!change) {
       return;

@@ -31,3 +31,22 @@
     </p>
   </form>
 </div>
+
+<table>
+  <tr>
+    <th>Touched</th>
+    <td>{{ form.touched }}</td>
+  </tr>
+  <tr>
+    <th>Pristine</th>
+    <td>{{ form.pristine }}</td>
+  </tr>
+  <tr>
+    <th>Valid</th>
+    <td>{{ form.valid }}</td>
+  </tr>
+  <tr>
+    <th>Value</th>
+    <td>{{ form.value.friends?.name }}</td>
+  </tr>
+</table>

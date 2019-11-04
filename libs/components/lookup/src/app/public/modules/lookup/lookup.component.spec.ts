@@ -191,6 +191,28 @@ describe('Lookup component', function () {
       expect(lookupComponent.value.length).toEqual(0);
       expect(document.activeElement).toEqual(inputElement);
     }));
+
+    it('should mark the form as dirty when the form value changes', fakeAsync(() => {
+      component.friends = [{ name: 'Rachel' }];
+      fixture.detectChanges();
+      expect(component.form.dirty).toEqual(false);
+
+      dismissSelectedItem(0);
+
+      expect(component.form.dirty).toEqual(true);
+    }));
+
+    it('should mark the form as touched when the form loses focus', fakeAsync(() => {
+      fixture.detectChanges();
+      const inputElement = getInputElement();
+      expect(component.form.touched).toEqual(false);
+
+      SkyAppTestUtility.fireDomEvent(inputElement, 'blur');
+      tick();
+      fixture.detectChanges();
+
+      expect(component.form.touched).toEqual(true);
+    }));
   });
 
   describe('events', function () {
