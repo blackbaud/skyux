@@ -1,3 +1,10 @@
+# 3.0.0-rc.5 (2019/11/04)
+
+- Added the cell editor text component to support editing text cells. [#17](https://github.com/blackbaud/skyux-ag-grid/pull/17)
+- Fixed the cell border highlighting so it appears when cells are focused but not being edited. [#17](https://github.com/blackbaud/skyux-ag-grid/pull/17)
+- Fixed the row height to account for the row border. [#17](https://github.com/blackbaud/skyux-ag-grid/pull/17)
+
+
 # 3.0.0-rc.4 (2019/10/21)
 
 - Added `getEditableGridOptions()` to the ag-Grid service, added a demo using a modal, and fixed the number editor width. [#15](https://github.com/blackbaud/skyux-ag-grid/pull/15)
