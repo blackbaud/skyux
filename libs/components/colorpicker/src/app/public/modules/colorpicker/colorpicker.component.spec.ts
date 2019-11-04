@@ -662,6 +662,21 @@ describe('Colorpicker Component', () => {
       verifyMenuVisibility();
     }));
 
+    it('should accept close colorpicker via messageStream.', fakeAsync(() => {
+      fixture.detectChanges();
+      tick();
+      component.sendMessage(SkyColorpickerMessageType.Open);
+      tick();
+      fixture.detectChanges();
+      tick();
+      verifyMenuVisibility(true);
+      component.sendMessage(SkyColorpickerMessageType.Close);
+      tick();
+      fixture.detectChanges();
+      tick();
+      verifyMenuVisibility(false);
+    }));
+
     it('should accept reset colorpicker via messageStream.', fakeAsync(() => {
       component.colorModel = 'rgba(40,137,229,1)';
       fixture.detectChanges();

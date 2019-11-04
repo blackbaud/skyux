@@ -292,6 +292,12 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
         });
         break;
 
+      case SkyColorpickerMessageType.Close:
+        this.dropdownController.next({
+          type: SkyDropdownMessageType.Close
+        });
+        break;
+
       case SkyColorpickerMessageType.Reset:
         this.setColorFromString(this.initialColor);
         this.selectedColorChanged.emit(this.selectedColor);
