@@ -202,6 +202,7 @@ describe('SkyAppRuntimeConfigParams', () => {
       }
     );
 
+    expect(params.isRequired('a1')).toEqual(true);
     expect(params.hasAllRequiredParams()).toBe(true);
   });
 

@@ -1,6 +1,6 @@
 import {
-  URLSearchParams
-} from '@angular/http';
+  HttpParams
+} from '@angular/common/http';
 
 import {
   SkyuxConfigParams
@@ -8,9 +8,9 @@ import {
 
 /**
  * Given a "url" (could be just querystring, or fully qualified),
- * Returns the extracted URLSearchParams.
+ * Returns the extracted HttpParams.
  */
-function getUrlSearchParams(url: string): URLSearchParams {
+function getUrlSearchParams(url: string): HttpParams {
 
   let qs = '';
 
@@ -19,7 +19,9 @@ function getUrlSearchParams(url: string): URLSearchParams {
     qs = qs.split('#')[0];
   }
 
-  return new URLSearchParams(qs);
+  return new HttpParams({
+    fromString: qs
+  });
 }
 
 export class SkyAppRuntimeConfigParams {
@@ -81,18 +83,23 @@ export class SkyAppRuntimeConfigParams {
       }
     }
 
-    const urlSearchParams = getUrlSearchParams(url);
+    const httpParams = getUrlSearchParams(url);
 
     // Get uppercase keys.
     const allowedKeysUC = allowed.map(key => key.toUpperCase());
-    const urlSearchParamKeys = Array.from(urlSearchParams.paramsMap.keys());
+    const urlSearchParamKeys = Array.from(httpParams.keys());
 
     // Filter to allowed params and override default values.
     urlSearchParamKeys.forEach(givenKey => {
       const givenKeyUC = givenKey.toUpperCase();
       allowedKeysUC.forEach((allowedKeyUC, index) => {
         if (givenKeyUC === allowedKeyUC) {
-          this.params[allowed[index]] = urlSearchParams.get(givenKey);
+          // To avoid breaking changes, we must encode the parameter value since
+          // this was the default behavior of the previously used UrlSearchParams utility.
+          // TODO: Remove encoding in favor of HttpParams' default behavior.
+          const value = encodeURIComponent(httpParams.get(givenKey));
+
+          this.params[allowed[index]] = value;
           this.encodedParams.push(givenKey);
         }
       });
@@ -172,14 +179,14 @@ export class SkyAppRuntimeConfigParams {
    * Adds the current params to the supplied url.
    */
   public getUrl(url: string): string {
-    const urlSearchParams = getUrlSearchParams(url);
+    const httpParams = getUrlSearchParams(url);
     const delimiter = url.indexOf('?') === -1 ? '?' : '&';
     const joined: string[] = [];
 
     this.getAllKeys().forEach(key => {
       if (
         this.excludeFromRequestsParams.indexOf(key) === -1 &&
-        !urlSearchParams.has(key)
+        !httpParams.has(key)
       ) {
         joined.push(`${key}=${encodeURIComponent(this.get(key, true))}`);
       }
