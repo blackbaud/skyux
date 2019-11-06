@@ -121,6 +121,39 @@ describe('Repeater item component', () => {
     flushDropdownTimer();
   }));
 
+  it('should hide the chevron and disable expand/collapse for items with no content', fakeAsync(() => {
+    let fixture = TestBed.createComponent(RepeaterTestComponent);
+    fixture.componentInstance.showItemWithNoContent = true;
+
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+
+    const itemWithNoContent = fixture.nativeElement.querySelectorAll('sky-repeater-item')[3];
+    expect(itemWithNoContent.querySelector('sky-chevron')).not.toExist();
+  }));
+
+  it('should show/hide the chevron for dynamically added and removed content', fakeAsync(() => {
+    let fixture = TestBed.createComponent(RepeaterTestComponent);
+    fixture.componentInstance.showItemWithNoContent = true;
+    fixture.componentInstance.showDynamicContent = true;
+
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+
+    const itemWithNoContent = fixture.nativeElement.querySelectorAll('sky-repeater-item')[3];
+    expect(itemWithNoContent.querySelector('sky-chevron')).toExist();
+
+    fixture.componentInstance.showDynamicContent = false;
+
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+
+    expect(itemWithNoContent.querySelector('sky-chevron')).not.toExist();
+  }));
+
   it('should be accessible', async(() => {
     let fixture = TestBed.createComponent(RepeaterTestComponent);
     fixture.detectChanges();

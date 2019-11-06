@@ -2,12 +2,14 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  ContentChildren,
   ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
   OnInit,
   Output,
+  QueryList,
   TemplateRef,
   ViewChild
 } from '@angular/core';
@@ -45,6 +47,10 @@ import {
 } from './repeater-adapter.service';
 
 import {
+  SkyRepeaterItemContentComponent
+} from './repeater-item-content.component';
+
+import {
   SkyRepeaterService
 } from './repeater.service';
 
@@ -56,7 +62,7 @@ let nextContentId: number = 0;
   templateUrl: './repeater-item.component.html',
   animations: [skyAnimationSlide]
 })
-export class SkyRepeaterItemComponent implements AfterViewInit, OnDestroy, OnInit {
+export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewInit {
 
   @Input()
   public inlineFormConfig: SkyInlineFormConfig;
@@ -122,10 +128,9 @@ export class SkyRepeaterItemComponent implements AfterViewInit, OnDestroy, OnIni
 
   public contentId: string = `sky-repeater-item-content-${++nextContentId}`;
 
-  public isActive: boolean = false;
+  public hasItemContent: boolean = false;
 
-  @ViewChild('grabHandle', { read: ElementRef })
-  private grabHandle: ElementRef;
+  public isActive: boolean = false;
 
   public set isCollapsible(value: boolean) {
     if (this.isCollapsible !== value) {
@@ -153,6 +158,12 @@ export class SkyRepeaterItemComponent implements AfterViewInit, OnDestroy, OnIni
 
   @ViewChild('skyRepeaterItem', { read: ElementRef })
   private itemRef: ElementRef;
+
+  @ViewChild('grabHandle', { read: ElementRef })
+  private grabHandle: ElementRef;
+
+  @ContentChildren(SkyRepeaterItemContentComponent)
+  private repeaterItemContentComponents: QueryList<SkyRepeaterItemContentComponent>;
 
   private ngUnsubscribe = new Subject<void>();
   private reorderCancelText: string;
@@ -226,6 +237,8 @@ export class SkyRepeaterItemComponent implements AfterViewInit, OnDestroy, OnIni
 
   public ngAfterViewInit(): void {
     this.adapterService.setTabIndexOfFocusableElements(this.itemRef, -1, true);
+    this.hasItemContent = this.repeaterItemContentComponents.length > 0;
+    this.updateExpandOnContentChange();
   }
 
   public ngOnDestroy(): void {
@@ -469,5 +482,17 @@ export class SkyRepeaterItemComponent implements AfterViewInit, OnDestroy, OnIni
     if (this.selectable) {
       this.isSelected = !this.isSelected;
     }
+  }
+
+  private updateExpandOnContentChange(): void {
+    this.repeaterItemContentComponents.changes
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(() => {
+        this.hasItemContent = this.repeaterItemContentComponents.length > 0;
+        this.isCollapsible = this.hasItemContent && this.repeaterService.expandMode !== 'none';
+        if (this.repeaterService.expandMode === 'single') {
+          this.repeaterService.onItemCollapseStateChange(this);
+        }
+      });
   }
 }

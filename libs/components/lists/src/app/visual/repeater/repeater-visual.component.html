@@ -2,20 +2,30 @@
   class="app-screenshot sky-margin-stacked-default"
   id="screenshot-repeater"
 >
-  <h3>Basic repeater</h3>
+  <h3>
+    Basic repeater
+  </h3>
   <sky-repeater>
     <sky-repeater-item>
-      <sky-repeater-item-title>Title 1</sky-repeater-item-title>
+      <sky-repeater-item-title>
+        Title 1
+      </sky-repeater-item-title>
       <sky-repeater-item-content>
         <p>
           Content 1
         </p>
-        <div id="drop-shadow-box"></div>
+        <div
+          id="drop-shadow-box"
+        ></div>
       </sky-repeater-item-content>
     </sky-repeater-item>
     <sky-repeater-item>
-      <sky-repeater-item-title>Title 2</sky-repeater-item-title>
-      <sky-repeater-item-content>Content 2</sky-repeater-item-content>
+      <sky-repeater-item-title>
+        Title 2
+      </sky-repeater-item-title>
+      <sky-repeater-item-content>
+        Content 2
+      </sky-repeater-item-content>
     </sky-repeater-item>
   </sky-repeater>
 </div>
@@ -24,7 +34,9 @@
   class="app-screenshot sky-margin-stacked-default"
   id="screenshot-repeater-with-active-item"
 >
-  <h3>Repeater with activeIndex enabled</h3>
+  <h3>
+    Repeater with activeIndex enabled
+  </h3>
   <sky-repeater
     [(activeIndex)]="activeIndex"
   >
@@ -63,32 +75,86 @@
   class="app-screenshot sky-margin-stacked-default"
   id="screenshot-repeater-collapsed"
 >
-  <h3>Collapsed repeater</h3>
-  <sky-repeater [expandMode]="'single'">
-    <sky-repeater-item [isExpanded]="false">
-      <sky-repeater-item-title>Title 1</sky-repeater-item-title>
-      <sky-repeater-item-content>Content 1</sky-repeater-item-content>
+  <h3>
+    Collapsed repeater
+  </h3>
+  <sky-repeater
+    [expandMode]="'single'"
+  >
+    <sky-repeater-item
+      [isExpanded]="false"
+    >
+      <sky-repeater-item-title>
+        Title 1
+      </sky-repeater-item-title>
+      <sky-repeater-item-content>
+        Content 1
+      </sky-repeater-item-content>
     </sky-repeater-item>
-    <sky-repeater-item [isExpanded]="false">
-      <sky-repeater-item-title>Title 2</sky-repeater-item-title>
-      <sky-repeater-item-content>Content 2</sky-repeater-item-content>
+    <sky-repeater-item
+      [isExpanded]="false"
+    >
+      <sky-repeater-item-title>
+        Title 2
+      </sky-repeater-item-title>
+      <sky-repeater-item-content>
+        Content 2
+      </sky-repeater-item-content>
+      <sky-repeater-item-content>
+        Content 2a
+      </sky-repeater-item-content>
+      <sky-repeater-item-content>
+        Content 2b
+      </sky-repeater-item-content>
+    </sky-repeater-item>
+    <sky-repeater-item
+      [isExpanded]="false"
+    >
+      <sky-repeater-item-title>
+        Title 3
+      </sky-repeater-item-title>
+      <sky-repeater-item-content *ngIf="showContent">
+        Content
+      </sky-repeater-item-content>
     </sky-repeater-item>
   </sky-repeater>
+  <button
+    type="button"
+    (click)="showContent = !showContent"
+  >
+    Toggle item content
+  </button>
 </div>
 
 <div
   class="app-screenshot sky-margin-stacked-default"
   id="screenshot-repeater-single"
 >
-  <h3>Single expand mode repeater</h3>
-  <sky-repeater [expandMode]="'single'">
-    <sky-repeater-item [isExpanded]="false">
-      <sky-repeater-item-title>Title 1</sky-repeater-item-title>
-      <sky-repeater-item-content>Content 1</sky-repeater-item-content>
+  <h3>
+    Single expand mode repeater
+  </h3>
+  <sky-repeater
+    [expandMode]="'single'"
+  >
+    <sky-repeater-item
+      [isExpanded]="false"
+    >
+      <sky-repeater-item-title>
+        Title 1
+      </sky-repeater-item-title>
+      <sky-repeater-item-content>
+        Content 1
+      </sky-repeater-item-content>
     </sky-repeater-item>
-    <sky-repeater-item [isExpanded]="true">
-      <sky-repeater-item-title>Title 2</sky-repeater-item-title>
-      <sky-repeater-item-content>Content 2</sky-repeater-item-content>
+    <sky-repeater-item
+      [isExpanded]="true"
+    >
+      <sky-repeater-item-title>
+        Title 2
+      </sky-repeater-item-title>
+      <sky-repeater-item-content>
+        Content 2
+      </sky-repeater-item-content>
     </sky-repeater-item>
   </sky-repeater>
 </div>
@@ -97,19 +163,41 @@
   class="app-screenshot sky-margin-stacked-default"
   id="screenshot-repeater-multiple"
 >
-  <h3>Multiple expand mode repeater</h3>
-  <sky-repeater [expandMode]="'multiple'">
-    <sky-repeater-item [isExpanded]="true">
-      <sky-repeater-item-title>Title 1</sky-repeater-item-title>
-      <sky-repeater-item-content>Content 1</sky-repeater-item-content>
+  <h3>
+    Multiple expand mode repeater
+  </h3>
+  <sky-repeater
+    [expandMode]="'multiple'"
+  >
+    <sky-repeater-item
+      [isExpanded]="true"
+    >
+      <sky-repeater-item-title>
+        Title 1
+      </sky-repeater-item-title>
+      <sky-repeater-item-content>
+        Content 1
+      </sky-repeater-item-content>
     </sky-repeater-item>
-    <sky-repeater-item [isExpanded]="false">
-      <sky-repeater-item-title>Title 2</sky-repeater-item-title>
-      <sky-repeater-item-content>Content 2</sky-repeater-item-content>
+    <sky-repeater-item
+      [isExpanded]="false"
+    >
+      <sky-repeater-item-title>
+        Title 2
+      </sky-repeater-item-title>
+      <sky-repeater-item-content>
+        Content 2
+      </sky-repeater-item-content>
     </sky-repeater-item>
-    <sky-repeater-item [isExpanded]="true">
-      <sky-repeater-item-title>Title 3</sky-repeater-item-title>
-      <sky-repeater-item-content>Content 3</sky-repeater-item-content>
+    <sky-repeater-item
+      [isExpanded]="true"
+    >
+      <sky-repeater-item-title>
+        Title 3
+      </sky-repeater-item-title>
+      <sky-repeater-item-content>
+        Content 3
+      </sky-repeater-item-content>
     </sky-repeater-item>
   </sky-repeater>
 </div>
@@ -118,14 +206,28 @@
   class="app-screenshot sky-margin-stacked-default"
   id="screenshot-repeater-max-width"
 >
-  <h3>Repeater with max-width</h3>
-  <div class="sky-repeater-max-width">
-    <sky-repeater [expandMode]="'multiple'">
-      <sky-repeater-item [isExpanded]="true">
-        <sky-repeater-item-title>Title 3</sky-repeater-item-title>
+  <h3>
+    Repeater with max-width
+  </h3>
+  <div
+    class="sky-repeater-max-width"
+  >
+    <sky-repeater
+      [expandMode]="'multiple'"
+    >
+      <sky-repeater-item
+        [isExpanded]="true"
+      >
+        <sky-repeater-item-title>
+          Title 3
+        </sky-repeater-item-title>
           <sky-repeater-item-content>
-            <p>To run services locally, there are several settings to configure.</p>
-            <pre class="app-repeater-visual-code-block">
+            <p>
+              To run services locally, there are several settings to configure.
+            </p>
+            <pre
+              class="app-repeater-visual-code-block"
+            >
               <code>
                 &lt;appSettings&gt;
                     &lt;add key="AuthorizationUrl" value="https://service-authorization.sky.blackbaud.com/" /&gt;
@@ -151,23 +253,34 @@
   class="app-screenshot sky-margin-stacked-default"
   id="screenshot-repeater-context-menu"
 >
-  <h3>Repeater with context menu</h3>
-  <sky-repeater [expandMode]="'single'">
+  <h3>
+    Repeater with context menu
+  </h3>
+  <sky-repeater
+    [expandMode]="'single'"
+  >
     <sky-repeater-item>
       <sky-repeater-item-context-menu>
           <sky-dropdown
-          buttonType="context-menu">
+            buttonType="context-menu"
+          >
           <sky-dropdown-menu>
             <sky-dropdown-item>
-              <button type="button">
+              <button
+                type="button"
+              >
                 Option 1
               </button>
             </sky-dropdown-item>
           </sky-dropdown-menu>
         </sky-dropdown>
       </sky-repeater-item-context-menu>
-      <sky-repeater-item-title>Title 1</sky-repeater-item-title>
-      <sky-repeater-item-content>Content 1</sky-repeater-item-content>
+      <sky-repeater-item-title>
+        Title 1
+      </sky-repeater-item-title>
+      <sky-repeater-item-content>
+        Content 1
+      </sky-repeater-item-content>
     </sky-repeater-item>
   </sky-repeater>
 </div>
@@ -176,7 +289,9 @@
   class="app-screenshot sky-margin-stacked-default"
   id="screenshot-repeater-selectable"
 >
-  <h3>Repeater with "selectable" enabled</h3>
+  <h3>
+    Repeater with "selectable" enabled
+  </h3>
   <sky-repeater
     [expandMode]="'single'"
   >
@@ -196,15 +311,20 @@
     </sky-repeater-item>
   </sky-repeater>
 </div>
-<p>Selected items: {{ getSelectedItems() }}</p>
-
+<p>
+  Selected items: {{ getSelectedItems() }}
+</p>
 
 <div
   class="app-screenshot sky-margin-stacked-default"
   id="screenshot-repeater-selectable-context"
 >
-  <h3>Repeater with "selectable" enabled and context menu</h3>
-  <sky-repeater [expandMode]="'single'">
+  <h3>
+    Repeater with "selectable" enabled and context menu
+  </h3>
+  <sky-repeater
+    [expandMode]="'single'"
+  >
     <sky-repeater-item
       [isExpanded]="false"
       [selectable]="true"
@@ -213,34 +333,51 @@
     >
       <sky-repeater-item-context-menu>
         <sky-dropdown
-          buttonType="context-menu">
+          buttonType="context-menu"
+        >
           <sky-dropdown-menu>
             <sky-dropdown-item>
-              <button type="button">
+              <button
+                type="button"
+              >
                 Option 1
               </button>
             </sky-dropdown-item>
           </sky-dropdown-menu>
         </sky-dropdown>
       </sky-repeater-item-context-menu>
-      <sky-repeater-item-title>Title 1</sky-repeater-item-title>
-      <sky-repeater-item-content>Content 1</sky-repeater-item-content>
+      <sky-repeater-item-title>
+        Title 1
+      </sky-repeater-item-title>
+      <sky-repeater-item-content>
+        Content 1
+      </sky-repeater-item-content>
     </sky-repeater-item>
-    <sky-repeater-item [isExpanded]="false" [selectable]="true">
+    <sky-repeater-item
+      [isExpanded]="false"
+      [selectable]="true"
+    >
       <sky-repeater-item-context-menu>
         <sky-dropdown
-          buttonType="context-menu">
+          buttonType="context-menu"
+        >
           <sky-dropdown-menu>
             <sky-dropdown-item>
-              <button type="button">
+              <button
+                type="button"
+              >
                 Option 1
               </button>
             </sky-dropdown-item>
           </sky-dropdown-menu>
         </sky-dropdown>
       </sky-repeater-item-context-menu>
-      <sky-repeater-item-title>Title 2</sky-repeater-item-title>
-      <sky-repeater-item-content>Content 2</sky-repeater-item-content>
+      <sky-repeater-item-title>
+        Title 2
+      </sky-repeater-item-title>
+      <sky-repeater-item-content>
+        Content 2
+      </sky-repeater-item-content>
     </sky-repeater-item>
   </sky-repeater>
 </div>
@@ -249,8 +386,9 @@
   class="app-screenshot sky-margin-stacked-default"
   id="screenshot-repeater-with-inline-form"
 >
-
-  <h3>Repeater with inline-form</h3>
+  <h3>
+    Repeater with inline-form
+  </h3>
   <sky-repeater>
     <sky-repeater-item *ngFor="let item of items"
       [inlineFormTemplate]="myInlineForm"
@@ -289,7 +427,6 @@
         {{ item.note }}
       </sky-repeater-item-content>
 
-
       <ng-template
         #myInlineForm
       >
@@ -303,8 +440,8 @@
             Title
           </label>
           <input
-            id="inline-form-title"
             class="sky-form-control"
+            id="inline-form-title"
             type="text"
             [(ngModel)]="item.title"
           />
@@ -319,8 +456,8 @@
             Note
           </label>
           <input
-            id="inline-form-note"
             class="sky-form-control"
+            id="inline-form-note"
             type="text"
             [(ngModel)]="item.note"
           />
@@ -336,10 +473,12 @@
   class="app-screenshot sky-margin-stacked-default"
   id="screenshot-repeater-reorderable"
 >
-  <h3>Repeater with "reordering" enabled</h3>
+  <h3>
+    Repeater with "reordering" enabled
+  </h3>
   <sky-repeater
-    [reorderable]="true"
     [expandMode]="'single'"
+    [reorderable]="true"
   >
     <sky-repeater-item
       [isExpanded]="false"
@@ -362,8 +501,12 @@
           </sky-dropdown-menu>
         </sky-dropdown>
       </sky-repeater-item-context-menu>
-      <sky-repeater-item-title>Title 1</sky-repeater-item-title>
-      <sky-repeater-item-content>Content 1</sky-repeater-item-content>
+      <sky-repeater-item-title>
+        Title 1
+      </sky-repeater-item-title>
+      <sky-repeater-item-content>
+        Content 1
+      </sky-repeater-item-content>
     </sky-repeater-item>
     <sky-repeater-item
       [isExpanded]="false"
@@ -384,8 +527,12 @@
           </sky-dropdown-menu>
         </sky-dropdown>
       </sky-repeater-item-context-menu>
-      <sky-repeater-item-title>Title 2</sky-repeater-item-title>
-      <sky-repeater-item-content>Content 2</sky-repeater-item-content>
+      <sky-repeater-item-title>
+        Title 2
+      </sky-repeater-item-title>
+      <sky-repeater-item-content>
+        Content 2
+      </sky-repeater-item-content>
     </sky-repeater-item>
   </sky-repeater>
 </div>

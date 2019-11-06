@@ -21,6 +21,8 @@ export class SkyRepeaterService implements OnDestroy {
 
   public enableActiveState = false;
 
+  public expandMode: string;
+
   public focusedItemChange = new BehaviorSubject<SkyRepeaterItemComponent>(undefined);
 
   public itemCollapseStateChange = new EventEmitter<SkyRepeaterItemComponent>();

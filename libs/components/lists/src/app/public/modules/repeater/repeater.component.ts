@@ -61,6 +61,7 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
 
   @Input()
   public set expandMode(value: string) {
+    this.repeaterService.expandMode = value;
     this._expandMode = value;
     this.updateForExpandMode();
   }
@@ -92,7 +93,7 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
       .subscribe((item: SkyRepeaterItemComponent) => {
         if (this.expandMode === 'single' && item.isExpanded) {
           this.items.forEach((otherItem) => {
-            if (otherItem !== item && otherItem.isExpanded) {
+            if (otherItem !== item && otherItem.isExpanded && otherItem.isCollapsible) {
               otherItem.isExpanded = false;
             }
           });
@@ -181,7 +182,7 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
       }
 
       this.items.forEach((item) => {
-        item.isCollapsible = isCollapsible;
+        item.isCollapsible = isCollapsible && !!item.hasItemContent;
 
         if (item !== itemAdded && isSingle && item.isExpanded) {
           if (foundExpanded) {

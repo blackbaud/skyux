@@ -24,17 +24,25 @@
     </sky-repeater-item-context-menu>
     <sky-repeater-item-title>Title 1</sky-repeater-item-title>
     <sky-repeater-item-content>
-      <a href="/">link 1</a>
+      <a href="/">
+        link 1
+      </a>
       Content 1
-      <a href="/">link 2</a>
+      <a href="/">
+        link 2
+      </a>
     </sky-repeater-item-content>
   </sky-repeater-item>
   <sky-repeater-item>
     <sky-repeater-item-context-menu *ngIf="showContextMenu">
       a
     </sky-repeater-item-context-menu>
-    <sky-repeater-item-title>Title 2</sky-repeater-item-title>
-    <sky-repeater-item-content>Content 2</sky-repeater-item-content>
+    <sky-repeater-item-title>
+      Title 2
+    </sky-repeater-item-title>
+    <sky-repeater-item-content>
+      Content 2
+    </sky-repeater-item-content>
   </sky-repeater-item>
   <sky-repeater-item *ngIf="!removeLastItem"
     [isExpanded]="lastItemExpanded"
@@ -43,8 +51,20 @@
     <sky-repeater-item-context-menu *ngIf="showContextMenu">
       a
     </sky-repeater-item-context-menu>
-    <sky-repeater-item-title>Title 3</sky-repeater-item-title>
-    <sky-repeater-item-content>Content 3</sky-repeater-item-content>
+    <sky-repeater-item-title>
+      Title 3
+    </sky-repeater-item-title>
+    <sky-repeater-item-content>
+      Content 3
+    </sky-repeater-item-content>
+  </sky-repeater-item>
+  <sky-repeater-item *ngIf="showItemWithNoContent">
+    <sky-repeater-item-title>
+      No Content
+    </sky-repeater-item-title>
+    <sky-repeater-item-content *ngIf="showDynamicContent">
+      Content 3
+    </sky-repeater-item-content>
   </sky-repeater-item>
 </sky-repeater>
 
@@ -52,12 +72,18 @@
   [(activeIndex)]="activeIndex"
 >
   <sky-repeater-item>
-    <sky-repeater-item-title>Title 1</sky-repeater-item-title>
+    <sky-repeater-item-title>
+      Title 1
+    </sky-repeater-item-title>
   </sky-repeater-item>
   <sky-repeater-item>
-    <sky-repeater-item-title>Title 2</sky-repeater-item-title>
+    <sky-repeater-item-title>
+      Title 2
+    </sky-repeater-item-title>
   </sky-repeater-item>
   <sky-repeater-item>
-    <sky-repeater-item-title>Title 3</sky-repeater-item-title>
+    <sky-repeater-item-title>
+      Title 3
+    </sky-repeater-item-title>
   </sky-repeater-item>
 </sky-repeater>

@@ -35,6 +35,10 @@ export class RepeaterTestComponent {
 
   public showContextMenu: boolean;
 
+  public showDynamicContent: boolean;
+
+  public showItemWithNoContent: boolean;
+
   public showRepeaterWithActiveIndex = false;
 
   @ViewChild(SkyRepeaterComponent)

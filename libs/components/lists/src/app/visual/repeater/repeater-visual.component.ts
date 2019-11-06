@@ -78,6 +78,8 @@ export class RepeaterVisualComponent {
     }
   ];
 
+  public showContent: boolean = false;
+
   public deleteItem(index: any): void {
     this.items.splice(index, 1);
 
