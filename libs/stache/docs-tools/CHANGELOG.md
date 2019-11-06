@@ -1,3 +1,7 @@
+# 3.0.0-alpha.20 (2019-11-06)
+
+- Added the `SkyDocsToolsModule` which exports the most commonly used modules.
+
 # 3.0.0-alpha.19 (2019-10-31)
 
 - Added mobile responsive view for the property definitions component.
