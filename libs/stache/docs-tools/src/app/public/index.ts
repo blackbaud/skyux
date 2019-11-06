@@ -7,3 +7,5 @@ export * from './modules/source-code/source-code-provider';
 export * from './modules/type-definitions/type-definitions-provider';
 export * from './modules/type-definitions/type-definitions.service';
 export * from './modules/design-guidelines/design-guidelines.module';
+
+export * from './docs-tools.module';
