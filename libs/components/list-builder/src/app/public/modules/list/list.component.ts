@@ -164,10 +164,6 @@ export class SkyListComponent implements AfterContentInit, OnChanges, OnDestroy 
 
   private lastFilters: ListFilterModel[] = [];
 
-  // This subject is used to cancel previous request to the list's data provider when a new change
-  // to the list's state occurs. In a future breaking change this should be replaced or coupled
-  // with adding a debounce time to the Observable which watches for state changes.
-  private cancelLastRequest = new Subject();
   private ngUnsubscribe = new Subject();
 
   constructor(
@@ -300,6 +296,11 @@ export class SkyListComponent implements AfterContentInit, OnChanges, OnDestroy 
 
     let selectedChanged: boolean = false;
 
+    // This subject is used to cancel previous request to the list's data provider when a new change
+    // to the list's state occurs. In a future breaking change this should be replaced or coupled
+    // with adding a debounce time to the Observable which watches for state changes.
+    let cancelLastRequest = new Subject();
+
     return Observable.combineLatest(
       this.state.map(s => s.filters).distinctUntilChanged(),
       this.state.map(s => s.search).distinctUntilChanged(),
@@ -322,7 +323,8 @@ export class SkyListComponent implements AfterContentInit, OnChanges, OnDestroy 
         selected: Array<string>,
         itemsData: Array<any>
       ) => {
-        this.cancelLastRequest.next();
+        cancelLastRequest.next();
+        cancelLastRequest.complete();
         if (selectedChanged) {
           this.dispatcher.next(new ListSelectedSetLoadingAction());
           this.dispatcher.next(new ListSelectedLoadAction(selected));
@@ -339,7 +341,7 @@ export class SkyListComponent implements AfterContentInit, OnChanges, OnDestroy 
             count: this.initialTotal,
             items: initialItems
           }))
-            .takeUntil(this.cancelLastRequest);
+            .takeUntil(cancelLastRequest);
         } else {
           response = this.dataProvider.get(new ListDataRequestModel({
             filters: filters,
@@ -349,7 +351,7 @@ export class SkyListComponent implements AfterContentInit, OnChanges, OnDestroy 
             sort: new ListSortModel({ fieldSelectors: sortFieldSelectors }),
             isToolbarDisabled: isToolbarDisabled
           }))
-            .takeUntil(this.cancelLastRequest);
+            .takeUntil(cancelLastRequest);
         }
 
         return response;
