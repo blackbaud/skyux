@@ -1,3 +1,7 @@
+# 3.6.1 (2019-11-07)
+
+- Fixed the list component to properly return data when calling `refreshDisplayedItems()`. [#69](https://github.com/blackbaud/skyux-list-builder/pull/69)
+
 # 3.6.0 (2019-10-30)
 
 - Added the list view switcher component to provide toolbar buttons to switch between list views. [#32](https://github.com/blackbaud/skyux-list-builder/pull/32)
