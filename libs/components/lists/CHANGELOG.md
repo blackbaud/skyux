@@ -1,3 +1,7 @@
+# 3.6.1 (2019-11-06)
+
+- Fixed the repeater item component to hide the expand/collapse chevron when items do not include content. [#84](https://github.com/blackbaud/skyux-lists/pull/84) (Thanks [@blackbaud-GavinNicol](https://github.com/blackbaud-GavinNicol)!)
+
 # 3.6.0 (2019-10-30)
 
 - Added keyboard navigation controls to the repeater component. [#67](https://github.com/blackbaud/skyux-lists/pull/67)
