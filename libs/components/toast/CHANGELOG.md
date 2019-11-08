@@ -1,7 +1,12 @@
+# 3.2.0 (2019-11-08)
+
+- Added a display direction configuration option to the toast container. [#31](https://github.com/blackbaud/skyux-toast/pull/31)
+- Fixed a bug where too many custom components were created when new toasts were displayed and content was injected into the wrong toasts. [#31](https://github.com/blackbaud/skyux-toast/pull/31)
+- Added support for `@skyux-sdk/builder` for development. [#32](https://github.com/blackbaud/skyux-toast/pull/32)
+
 # 3.1.0 (2019-10-23)
 
 - Updated the visual style of elements with the `sky-btn-link` or `sky-btn-link-inline` CSS class inside toasts to match anchor elements. [#26](https://github.com/blackbaud/skyux-toast/pull/26)
-
 - Added an auto-close option to toasts. [#27](https://github.com/blackbaud/skyux-toast/pull/27)
 
 # 3.0.4 (2019-05-28)
