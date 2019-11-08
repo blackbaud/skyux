@@ -42,17 +42,34 @@ import {
   SkyToasterService
 } from './toaster.service';
 
+import {
+  SkyToastContainerOptions
+} from './types/toast-container-options';
+
+import {
+  SkyToastDisplayDirection
+} from './types/toast-display-direction';
+
 describe('Toast component', () => {
   let fixture: ComponentFixture<SkyToasterTestComponent>;
   let toastService: SkyToastService;
   let toasterService: SkyToasterService;
   let applicationRef: ApplicationRef;
+  let options: SkyToastContainerOptions;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         SkyToastFixturesModule,
         NoopAnimationsModule
+      ],
+      providers: [
+        {
+          provide: SkyToastContainerOptions,
+          useValue: {
+            displayDirection: SkyToastDisplayDirection.OldestOnTop
+          } as SkyToastContainerOptions
+        }
       ]
     });
 
@@ -76,13 +93,15 @@ describe('Toast component', () => {
   });
 
   beforeEach(inject(
-    [ApplicationRef, SkyToastService],
+    [ApplicationRef, SkyToastService, SkyToastContainerOptions],
     (
       _applicationRef: ApplicationRef,
-      _toastService: SkyToastService
+      _toastService: SkyToastService,
+      _options: SkyToastContainerOptions
     ) => {
       applicationRef = _applicationRef;
       toastService = _toastService;
+      options = _options;
     }
   ));
 
@@ -120,6 +139,10 @@ describe('Toast component', () => {
     return instance;
   }
 
+  function validateToastMessage(toastEl: any, message: string): void {
+    expect(toastEl.querySelector('.sky-toast-content')).toHaveText(message, true);
+  }
+
   it('should not create a toaster element if one exists', fakeAsync(() => {
     openMessage();
 
@@ -140,7 +163,7 @@ describe('Toast component', () => {
 
     const toasts = getToastElements();
     expect(toasts.length).toEqual(1);
-    expect(toasts.item(0).querySelector('.sky-toast-content')).toHaveText(message, true);
+    validateToastMessage(toasts[0], message);
     expect(toasts.item(0).querySelector('.sky-toast-info')).toExist();
   }));
 
@@ -267,5 +290,29 @@ describe('Toast component', () => {
     validateEvent('focusout', focusInNextSpy, false);
     validateEvent('mouseenter', mouseOverNextSpy, true);
     validateEvent('mouseleave', mouseOverNextSpy, false);
+  }));
+
+  it('should respect toast container display direction NewestOnTop', fakeAsync(() => {
+    options.displayDirection = SkyToastDisplayDirection.NewestOnTop;
+
+    openMessage('Message 1');
+    openMessage('Message 2');
+
+    let toasts = getToastElements();
+
+    validateToastMessage(toasts[0], 'Message 2');
+    validateToastMessage(toasts[1], 'Message 1');
+  }));
+
+  it('should respect toast container display direction OldestOnTop', fakeAsync(() => {
+    options.displayDirection = SkyToastDisplayDirection.OldestOnTop;
+
+    openMessage('Message 1');
+    openMessage('Message 2');
+
+    let toasts = getToastElements();
+
+    validateToastMessage(toasts[0], 'Message 1');
+    validateToastMessage(toasts[1], 'Message 2');
   }));
 });

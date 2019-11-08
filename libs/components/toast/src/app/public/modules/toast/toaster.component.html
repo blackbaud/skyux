@@ -6,14 +6,15 @@
   (mouseleave)="onMouseLeave()"
   #toaster
 >
-  <sky-toast *ngFor="let toast of toastStream | async"
+  <sky-toast *ngFor="let toast of toastsForDisplay"
     [autoClose]="toast.config?.autoClose"
     [toastType]="toast.config?.type"
     (closed)="onToastClosed(toast)"
   >
-    <ng-template
+    <div
+      [attr.data-toast-id]="toast.toastId"
       #toastContent
     >
-    </ng-template>
+    </div>
   </sky-toast>
 </div>

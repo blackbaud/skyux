@@ -12,6 +12,8 @@ import {
 } from './toast-instance';
 // #endregion
 
+let toastCount = 0;
+
 export class SkyToast {
   public get bodyComponent(): any {
     return this._bodyComponent;
@@ -35,11 +37,17 @@ export class SkyToast {
     }
   }
 
+  public isRendered: boolean;
+
+  public toastId: number;
+
   private _instance: SkyToastInstance;
 
   constructor(
     private _bodyComponent: any,
     private _bodyComponentProviders: Provider[],
     private _config: SkyToastConfig
-  ) { }
+  ) {
+    this.toastId = ++toastCount;
+  }
 }

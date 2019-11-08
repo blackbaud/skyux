@@ -1,7 +1,8 @@
 // #region imports
 import {
   ElementRef,
-  Injectable
+  Injectable,
+  ViewContainerRef
 } from '@angular/core';
 
 import {
@@ -21,5 +22,9 @@ export class SkyToastAdapterService {
     this.windowRef.getWindow().setTimeout(() => {
       element.scrollTop = element.scrollHeight;
     });
+  }
+
+  public getToastId(containerRef: ViewContainerRef): number {
+    return +containerRef.element.nativeElement.dataset.toastId;
   }
 }
