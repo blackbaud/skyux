@@ -1,14 +1,19 @@
 import {
   NgModule
 } from '@angular/core';
+
 import {
   NoopAnimationsModule
 } from '@angular/platform-browser/animations';
 
 import {
-  SkyToastModule,
-  SkyToastService
+  SkyAppLinkModule
+} from '@skyux/router';
+
+import {
+  SkyToastModule
 } from './public';
+
 import {
   ToastDemoComponent
 } from './visual/toast/toast-demo.component';
@@ -19,10 +24,8 @@ import {
     NoopAnimationsModule
   ],
   exports: [
+    SkyAppLinkModule,
     SkyToastModule
-  ],
-  providers: [
-    SkyToastService
   ],
   entryComponents: [
     ToastDemoComponent

@@ -1,11 +1,11 @@
 // #region imports
 import {
-  expect
-} from '@blackbaud/skyux-builder/runtime/testing/browser';
-
-import {
   Provider
 } from '@angular/core';
+
+import {
+  expect
+} from '@skyux-sdk/testing';
 
 import {
   SkyToastConfig
