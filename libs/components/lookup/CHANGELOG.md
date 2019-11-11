@@ -1,3 +1,7 @@
+# 3.1.2 (2019-11-11)
+
+- Fixed the lookup component to properly represent the Angular form status `touched`. [#44](https://github.com/blackbaud/skyux-lookup/pull/44)
+
 # 3.1.1 (2019-06-26)
 
 - Fixed the search component to handle searches with no applied value. [#34](https://github.com/blackbaud/skyux-lookup/pull/34)
