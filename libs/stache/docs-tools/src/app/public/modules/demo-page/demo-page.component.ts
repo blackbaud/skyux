@@ -53,8 +53,15 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit, After
   @Input()
   public moduleSourceCodePath: string;
 
+  /**
+   * The qualified name of the NPM package.
+   * @required
+   */
   @Input()
   public packageName: string;
+
+  @Input()
+  public packageUrl: string;
 
   @Input()
   public pageTitle: string;

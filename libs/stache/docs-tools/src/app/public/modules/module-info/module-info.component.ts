@@ -21,6 +21,23 @@ export class SkyDocsModuleInfoComponent {
   @Input()
   public packageName: string;
 
+  @Input()
+  public set packageUrl(value: string) {
+    this._packageUrl = value;
+  }
+
+  public get packageUrl() {
+    if (this._packageUrl) {
+      return this._packageUrl;
+    }
+
+    if (this.packageName) {
+      return `https://npmjs.org/package/${this.packageName}`;
+    }
+
+    return '';
+  }
+
   public get externalLinks(): { label: string; url: string; }[] {
     const externalLinks: { label: string; url: string; }[] = [];
 
@@ -49,11 +66,5 @@ export class SkyDocsModuleInfoComponent {
     return `npm install --save-exact ${this.packageName}`;
   }
 
-  public get packageUrl(): string {
-    if (!this.packageName) {
-      return '';
-    }
-
-    return `https://npmjs.org/packages/${this.packageName}`;
-  }
+  private _packageUrl: string;
 }
