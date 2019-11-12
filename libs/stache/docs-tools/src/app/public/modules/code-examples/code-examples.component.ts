@@ -27,6 +27,21 @@ import {
   SkyDocsCodeExample
 } from './code-example';
 
+/**
+ * Wraps all code examples and handles their configuration and styles.
+ * @example
+ * ```
+ * <sky-docs-code-examples
+ *   [packageDependencies]="{
+ *     "foobar": "*",
+ *     "baz": "1.2.3"
+ *   }"
+ * >
+ *   <sky-docs-code-example>
+ *   </sky-docs-code-example>
+ * </sky-docs-code-examples>
+ * ```
+ */
 @Component({
   selector: 'sky-docs-code-examples',
   templateUrl: './code-examples.component.html',
@@ -35,6 +50,10 @@ import {
 })
 export class SkyDocsCodeExamplesComponent implements AfterContentInit {
 
+  /**
+   * Any extra NPM package dependencies that are needed for the editor to run the code example.
+   * @default {}
+   */
   @Input()
   public set packageDependencies(value: SkyDocsCodeExampleModuleDependencies) {
     this._packageDependencies = value;

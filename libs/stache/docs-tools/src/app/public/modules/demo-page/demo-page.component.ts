@@ -36,6 +36,17 @@ import {
   SkyDocsDemoPageTitleService
 } from './demo-page-title.service';
 
+/**
+ * The demo page component wraps all documentation components and handles the configuration and layout of the page.
+ * @example
+ * ```
+ * <sky-docs-demo-page
+ *   pageTitle="My demo page"
+ * >
+ *   Content here.
+ * </sky-docs-demo-page>
+ * ```
+ */
 @Component({
   selector: 'sky-docs-demo-page',
   templateUrl: './demo-page.component.html',
@@ -44,30 +55,60 @@ import {
 })
 export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit, AfterViewInit {
 
+  /**
+   * Specifies the URL to the repo that stores the module's source code.
+   * @required
+   */
   @Input()
   public gitRepoUrl: string;
 
+  /**
+   * Specifies the TypeScript class name of the module. For example, `SkySampleModule`.
+   * @required
+   */
   @Input()
   public moduleName: string;
 
+  /**
+   * Specifies the local path to the module's source code. The value is relative to the root directory.
+   * @required
+   */
   @Input()
   public moduleSourceCodePath: string;
 
   /**
-   * The qualified name of the NPM package.
+   * Specifies the qualified name of the NPM package. For example, `@blackbaud/sample`.
    * @required
    */
   @Input()
   public packageName: string;
 
+  /**
+   * Specifies the URL to the NPM package.
+   */
   @Input()
   public packageUrl: string;
 
+  /**
+   * Specifies the primary page heading.
+   * @required
+   */
   @Input()
   public pageTitle: string;
 
+  /**
+   * @internal
+   */
   public enableCodeExamples = false;
+
+  /**
+   * @internal
+   */
   public enableTabLayout = false;
+
+  /**
+   * @internal
+   */
   public sidebarRoutes: StacheNavLink[];
 
   @ContentChild(SkyDocsDesignGuidelinesComponent)

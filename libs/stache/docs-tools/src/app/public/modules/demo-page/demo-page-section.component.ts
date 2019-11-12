@@ -4,6 +4,17 @@ import {
   Input
 } from '@angular/core';
 
+/**
+ * Specifies a section of page content.
+ * @example
+ * ```
+ * <sky-docs-demo-page-section
+ *   heading="Section heading"
+ * >
+ *   Section content here.
+ * </sky-docs-demo-page-section>
+ * ```
+ */
 @Component({
   selector: 'sky-docs-demo-page-section',
   templateUrl: './demo-page-section.component.html',
@@ -12,6 +23,9 @@ import {
 })
 export class SkyDocsDemoPageSectionComponent {
 
+  /**
+   * The heading text to print above the section.
+   */
   @Input()
   public heading: string;
 

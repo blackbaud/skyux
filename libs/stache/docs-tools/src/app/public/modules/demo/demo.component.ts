@@ -3,6 +3,15 @@ import {
   Component
 } from '@angular/core';
 
+/**
+ * Wraps all behavior demo components and handles the configuration and appearance of the behavior demo.
+ * @example
+ * ```markup
+ * <sky-docs-demo>
+ *   Demo content here.
+ * </sky-docs-demo>
+ * ```
+ */
 @Component({
   selector: 'sky-docs-demo',
   templateUrl: './demo.component.html',

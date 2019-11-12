@@ -49,6 +49,14 @@ export class SkyDocsTypeDefinitionsService {
    */
   public getTypeDefinitions(sourceCodePath: string): SkyDocsTypeDefinitions {
 
+    if (sourceCodePath.charAt(sourceCodePath.length - 1) !== '/') {
+      throw 'The source code path must end with a forward slash (`/`).';
+    }
+
+    if (sourceCodePath.indexOf('\\') > -1) {
+      throw 'The source code path may only be constructed with forward slashes (`/`).';
+    }
+
     const typeDefinitions = this.typeDefinitionsProvider.typeDefinitions;
 
     const requestedDir = sourceCodePath.replace(
@@ -337,13 +345,9 @@ export class SkyDocsTypeDefinitionsService {
 
     if (item.children) {
       item.children.forEach((p: any) => {
-        const propertyDescription = (p.comment) ? p.comment.shortText : '';
+        const { description: propertyDescription } = this.parseCommentTags(p.comment);
         const isOptional = this.isOptional(p);
-        const optionalIndicator = (isOptional) ? '?' : '';
         const typeName = this.parseFormattedType(p.type, false);
-
-        sourceCode += `\n  ${p.name}${optionalIndicator}: ${typeName.replace(/\"/g, '\'')};`;
-
         const property: SkyDocsInterfacePropertyDefinition = {
           type: typeName,
           name: p.name,
@@ -354,6 +358,23 @@ export class SkyDocsTypeDefinitionsService {
         properties.push(property);
       });
     }
+
+    if (item.indexSignature) {
+      const indexSignature = item.indexSignature[0];
+      const param = indexSignature.parameters[0];
+      const { description: propertyDescription } = this.parseCommentTags(indexSignature.comment);
+      properties.push({
+        name: `[${param.name}: ${param.type.name}]`,
+        type: indexSignature.type.name,
+        description: propertyDescription,
+        isOptional: false
+      });
+    }
+
+    properties.forEach((property) => {
+      const optionalIndicator = (property.isOptional) ? '?' : '';
+      sourceCode += `\n  ${property.name}${optionalIndicator}: ${property.type.replace(/\"/g, '\'')};`;
+    });
 
     sourceCode += '\n}';
 
@@ -409,11 +430,10 @@ export class SkyDocsTypeDefinitionsService {
     let returnType: string;
 
     if (item.type.type === 'reflection') {
-      sourceCode += '(';
-
       if (item.type.declaration.signatures) {
         const callSignature = item.type.declaration.signatures[0];
 
+        sourceCode += '(';
         sourceCode += callSignature.parameters.map((p: any) => {
           const foundTag = item.comment.tags.find((tag: any) => {
             return (tag.tag === 'param' && tag.param === p.name);
@@ -440,6 +460,12 @@ export class SkyDocsTypeDefinitionsService {
 
         sourceCode += `) => ${callSignature.type.name}`;
         returnType = callSignature.type.name;
+      }
+
+      if (item.type.declaration.indexSignature) {
+        const indexSignature = item.type.declaration.indexSignature[0];
+        const param = indexSignature.parameters[0];
+        sourceCode += `{\n  [${param.name}: ${param.type.name}]: ${indexSignature.type.name}\n}`;
       }
     }
 

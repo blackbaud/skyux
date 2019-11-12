@@ -37,15 +37,14 @@ export class SkyDocsAnchorLinkService {
   }
 
   public wrapWithAnchorLink(content: string): string {
-    const matchingTypes = Object.keys(this.anchorIds).filter((anchorId) => {
-      return new RegExp(anchorId).test(content);
-    });
+    const matchingTypes = Object.keys(this.anchorIds)
+      .filter(typeName => new RegExp(typeName).test(content));
 
     let html: string;
 
     if (matchingTypes.length) {
 
-      // Sort by longest name.
+      // Sort by longest name to prevent replacement of name fragments that are shared with other shorter type names.
       matchingTypes.sort((a, b) => b.length - a.length);
 
       const typeName = matchingTypes[0];

@@ -31,6 +31,17 @@ import {
   SkyDocsDemoControlPanelChange
 } from './demo-control-panel-change';
 
+/**
+ * Handles the appearance and configuration of the behavior demo control panel.
+ * @example
+ * ```markup
+ * <sky-docs-demo-control-panel
+ *   (selectionChange)="onSelectionChange($event)"
+ * >
+ *   Control panel content here.
+ * </sky-docs-demo-control-panel>
+ * ```
+ */
 @Component({
   selector: 'sky-docs-demo-control-panel',
   templateUrl: './demo-control-panel.component.html',
@@ -39,6 +50,9 @@ import {
 })
 export class SkyDocsDemoControlPanelComponent implements OnDestroy, AfterContentInit {
 
+  /**
+   * Fires when a user makes a selection from one of the controls in the panel.
+   */
   @Output()
   public selectionChange = new EventEmitter<SkyDocsDemoControlPanelChange>();
 

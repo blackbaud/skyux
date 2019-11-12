@@ -62,7 +62,8 @@ export class SkyDocsTypeDefinitionsFormatService {
 
     signature += `${item.name}`;
 
-    if (item.isOptional) {
+    // Don't use the '?' indicator if the property has a decorator.
+    if (item.isOptional && !item.decorator) {
       signature += '?';
     }
 

@@ -15,6 +15,18 @@ import {
   SkyDocsDemoControlPanelChange
 } from './demo-control-panel-change';
 
+/**
+ * Renders a checkbox control within the control panel.
+ * @example
+ * ```markup
+ * <sky-docs-demo-control-panel-checkbox
+ *   label="Show title"
+ *   [checked]="true"
+ *   [propertyName]="showTitle"
+ * >
+ * </sky-docs-demo-control-panel-checkbox>
+ * ```
+ */
 @Component({
   selector: 'sky-docs-demo-control-panel-checkbox',
   templateUrl: './demo-control-panel-checkbox.component.html',
@@ -22,6 +34,10 @@ import {
 })
 export class SkyDocsDemoControlPanelCheckboxComponent implements OnInit, OnDestroy {
 
+  /**
+   * The checked status of the checkbox.
+   * @default false
+   */
   @Input()
   public set checked(value: boolean) {
     if (value !== undefined && this._checked === undefined) {
@@ -35,9 +51,17 @@ export class SkyDocsDemoControlPanelCheckboxComponent implements OnInit, OnDestr
     return this._checked || false;
   }
 
+  /**
+   * The text label of the checkbox.
+   * @required
+   */
   @Input()
   public label: string;
 
+  /**
+   * The name of the property (or setting) that is affected by this control.
+   * @required
+   */
   @Input()
   public propertyName: string;
 

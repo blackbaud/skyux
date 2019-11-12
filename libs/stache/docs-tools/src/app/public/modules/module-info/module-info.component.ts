@@ -1,8 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input
+  Input,
+  Optional
 } from '@angular/core';
+
+import {
+  SkyDocsToolsOptions
+} from '../shared/docs-tools-options';
 
 @Component({
   selector: 'sky-docs-module-info',
@@ -13,13 +18,25 @@ import {
 export class SkyDocsModuleInfoComponent {
 
   @Input()
-  public gitRepoUrl: string;
+  public set gitRepoUrl(value: string) {
+    this._gitRepoUrl = value;
+  }
+
+  public get gitRepoUrl() {
+    return this._gitRepoUrl || this.options && this.options.gitRepoUrl;
+  }
 
   @Input()
   public moduleName: string;
 
   @Input()
-  public packageName: string;
+  public set packageName(value: string) {
+    this._packageName = value;
+  }
+
+  public get packageName() {
+    return this._packageName || this.options && this.options.packageName;
+  }
 
   @Input()
   public set packageUrl(value: string) {
@@ -66,5 +83,13 @@ export class SkyDocsModuleInfoComponent {
     return `npm install --save-exact ${this.packageName}`;
   }
 
+  private _gitRepoUrl: string;
+
+  private _packageName: string;
+
   private _packageUrl: string;
+
+  constructor(
+    @Optional() private options?: SkyDocsToolsOptions
+  ) { }
 }

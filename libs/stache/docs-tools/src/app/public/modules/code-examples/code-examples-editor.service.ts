@@ -21,6 +21,9 @@ import {
   SkyDocsCodeExample
 } from './code-example';
 
+/**
+ * @internal
+ */
 @Injectable()
 export class SkyDocsCodeExamplesEditorService {
 

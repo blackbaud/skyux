@@ -16,7 +16,8 @@ import {
 } from '@skyux/router';
 
 import {
-  SkyDocsToolsModule
+  SkyDocsToolsModule,
+  SkyDocsToolsOptions
 } from './public';
 
 @NgModule({
@@ -26,6 +27,15 @@ import {
     SkyCodeModule,
     SkyDocsToolsModule,
     SkyPopoverModule
+  ],
+  providers: [
+    {
+      provide: SkyDocsToolsOptions,
+      useValue: {
+        gitRepoUrl: 'https://github.com/blackbaud/skyux-docs-tools',
+        packageName: '@skyux/docs-tools'
+      }
+    }
   ]
 })
 export class AppExtrasModule { }

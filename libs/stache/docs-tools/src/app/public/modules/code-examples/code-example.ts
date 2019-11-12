@@ -6,6 +6,9 @@ import {
   SkyDocsCodeExampleModuleDependencies
 } from './code-example-module-dependencies';
 
+/**
+ * @internal
+ */
 export interface SkyDocsCodeExample {
 
   heading: string;
