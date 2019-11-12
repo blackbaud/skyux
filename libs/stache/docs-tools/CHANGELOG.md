@@ -1,3 +1,7 @@
+# 3.0.0-alpha.21 (2019-11-12)
+
+- Fixed the module info component to generate the correct URL for NPM packages.
+
 # 3.0.0-alpha.20 (2019-11-06)
 
 - Added the `SkyDocsToolsModule` which exports the most commonly used modules.
