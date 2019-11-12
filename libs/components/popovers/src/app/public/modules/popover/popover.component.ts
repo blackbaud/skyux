@@ -62,6 +62,11 @@ import {
 })
 export class SkyPopoverComponent implements OnInit, OnDestroy {
 
+  /**
+   * Specifies the horizontal alignment of the popover in relation to the trigger element.
+   * The `skyPopoverAlignment` property on the popover directive overwrites this property.
+   * @default "center"
+   */
   @Input()
   public set alignment(value: SkyPopoverAlignment) {
     this._alignment = value;
@@ -72,9 +77,9 @@ export class SkyPopoverComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * @internal
    * Indicates if the popover element should render as a full screen modal
    * when the content is too large to fit inside its parent.
+   * @internal
    */
   @Input()
   public set allowFullscreen(value: boolean) {
@@ -85,9 +90,18 @@ export class SkyPopoverComponent implements OnInit, OnDestroy {
     return this._allowFullscreen === undefined ? true : this._allowFullscreen;
   }
 
+  /**
+   * Indicates whether to close the popover when it loses focus.
+   * To require users to click a trigger button to close the popover, set this input to false.
+   */
   @Input()
   public dismissOnBlur = true;
 
+  /**
+   * Specifies the placement of the popover in relation to the trigger element.
+   * The `skyPopoverPlacement` property on the popover directive overwrites this property.
+   * @default "above"
+   */
   @Input()
   public set placement(value: SkyPopoverPlacement) {
     this._placement = value;
@@ -97,12 +111,21 @@ export class SkyPopoverComponent implements OnInit, OnDestroy {
     return this._placement || 'above';
   }
 
+  /**
+   * Specifies a title for the popover.
+   */
   @Input()
   public popoverTitle: string;
 
+  /**
+   * Fires when users close the popover.
+   */
   @Output()
   public popoverClosed = new EventEmitter<SkyPopoverComponent>();
 
+  /**
+   * Fires when users open the popover.
+   */
   @Output()
   public popoverOpened = new EventEmitter<SkyPopoverComponent>();
 

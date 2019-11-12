@@ -1,0 +1,23 @@
+<button
+  class="sky-btn sky-margin-inline-compact"
+  type="button"
+  [skyPopover]="myPopover"
+>
+  Open popover on click
+</button>
+
+<button
+  class="sky-btn"
+  type="button"
+  [skyPopover]="myPopover"
+  skyPopoverTrigger="mouseenter"
+>
+  Open popover on hover
+</button>
+
+<sky-popover
+  popoverTitle="Did you know?"
+  #myPopover
+>
+  This is a popover.
+</sky-popover>

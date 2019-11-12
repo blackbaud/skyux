@@ -1,6 +1,7 @@
-::ng-deep
-.sky-popover-container:not(.hidden) {
-  animation-play-state: visible !important;
+::ng-deep {
+  .sky-popover-container:not(.hidden) {
+    animation-play-state: visible !important;
+  }
 }
 
 #screenshot-all-popovers {
