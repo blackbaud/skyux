@@ -1,3 +1,8 @@
+# 3.0.0-alpha.22 (2019-11-12)
+
+- Added `SkyDocsToolsOptions` provider.
+- Added documentation for the demo, demo page, and code examples components.
+
 # 3.0.0-alpha.21 (2019-11-12)
 
 - Fixed the module info component to generate the correct URL for NPM packages.
