@@ -1,6 +1,10 @@
 <label
   class="sky-checkbox-wrapper sky-switch"
-  [ngClass]="{ 'sky-switch-disabled': disabled }">
+  [ngClass]="{
+    'sky-control-label-required': required,
+    'sky-switch-disabled': disabled
+  }"
+>
   <input
     class="sky-switch-input"
     type="checkbox"
@@ -8,9 +12,11 @@
     [checked]="checked"
     [disabled]="disabled"
     [name]="name"
+    [required]="required"
     [tabIndex]="tabindex"
     [attr.aria-label]="label"
     [attr.aria-labelledby]="labelledBy"
+    [attr.aria-required]="(required) ? true : null"
     (blur)="onInputBlur()"
     (change)="onInteractionEvent($event)"/>
   <span

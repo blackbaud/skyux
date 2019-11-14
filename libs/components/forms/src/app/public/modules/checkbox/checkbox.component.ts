@@ -2,18 +2,17 @@
 import {
   Component,
   EventEmitter,
-  forwardRef,
   Input,
-  Output
+  OnInit,
+  Optional,
+  Output,
+  Self
 } from '@angular/core';
 
 import {
   AbstractControl,
   ControlValueAccessor,
-  NG_VALUE_ACCESSOR,
-  ValidationErrors,
-  Validator,
-  NG_VALIDATORS
+  NgControl
 } from '@angular/forms';
 
 /**
@@ -21,39 +20,17 @@ import {
  */
 let nextId = 0;
 
-/**
- * Provider Expression that allows sky-checkbox to register as a ControlValueAccessor.
- * This allows it to support [(ngModel)].
- */
-// tslint:disable:no-forward-ref no-use-before-declare
-export const SKY_CHECKBOX_CONTROL_VALUE_ACCESSOR: any = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => SkyCheckboxComponent),
-  multi: true
-};
-
-const SKY_CHECKBOX_VALIDATOR = {
-  provide: NG_VALIDATORS,
-  useExisting: forwardRef(() => SkyCheckboxComponent),
-  multi: true
-};
-
 // A simple change event emitted by the SkyCheckbox component.
 export class SkyCheckboxChange {
   public source: SkyCheckboxComponent;
   public checked: boolean;
 }
-// tslint:enable
 
 @Component({
   selector: 'sky-checkbox',
-  templateUrl: './checkbox.component.html',
-  providers: [
-    SKY_CHECKBOX_CONTROL_VALUE_ACCESSOR,
-    SKY_CHECKBOX_VALIDATOR
-  ]
+  templateUrl: './checkbox.component.html'
 })
-export class SkyCheckboxComponent implements ControlValueAccessor, Validator {
+export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
 
   /**
    * Hidden label for screen readers.
@@ -108,8 +85,8 @@ export class SkyCheckboxComponent implements ControlValueAccessor, Validator {
 
       // Do not mark the field as "dirty"
       // if the field has been initialized with a value.
-      if (this.isFirstChange && this.control) {
-        this.control.markAsPristine();
+      if (this.isFirstChange && this.ngControl) {
+        this.ngControl.control.markAsPristine();
         this.isFirstChange = false;
       }
     }
@@ -119,10 +96,40 @@ export class SkyCheckboxComponent implements ControlValueAccessor, Validator {
     return this._checked;
   }
 
-  private control: AbstractControl;
+  /**
+   * Indicates if the checkbox must be checked to be valid. This property accepts boolean values.
+   */
+  @Input()
+  set required(value: boolean) {
+    this._required = this.coerceBooleanProperty(value);
+  }
+
+  get required(): boolean {
+    return this._required;
+  }
+
   private isFirstChange = true;
+
   private _checkboxType: string;
+
   private _checked: boolean = false;
+
+  private _required: boolean = false;
+
+  constructor(
+    @Self() @Optional() private ngControl: NgControl
+  ) {
+    if (this.ngControl) {
+      this.ngControl.valueAccessor = this;
+    }
+  }
+
+  public ngOnInit(): void {
+    if (this.ngControl) {
+      // Backwards compatibility support for anyone still using Validators.Required.
+      this.required = this.required || this.hasRequiredValidation(this.ngControl);
+    }
+  }
 
   /**
    * Implemented as part of ControlValueAccessor.
@@ -172,14 +179,6 @@ export class SkyCheckboxComponent implements ControlValueAccessor, Validator {
     this.onTouched();
   }
 
-  public validate(control: AbstractControl): ValidationErrors {
-    if (!this.control) {
-      this.control = control;
-    }
-
-    return;
-  }
-
   /** Called when the checkbox is blurred. Needed to properly implement ControlValueAccessor. */
   /*istanbul ignore next */
   public onTouched: () => any = () => {};
@@ -201,4 +200,27 @@ export class SkyCheckboxComponent implements ControlValueAccessor, Validator {
   private _toggle() {
     this.checked = !this.checked;
   }
+
+  /**
+   * Gets the required state of the checkbox.
+   * Currently, Angular doesn't offer a way to get this easily, so we have to create an empty
+   * control using the current validator to see if it throws a `required` validation error.
+   * https://github.com/angular/angular/issues/13461#issuecomment-340368046
+   */
+  private hasRequiredValidation(ngControl: NgControl): boolean {
+    const abstractControl = ngControl.control as AbstractControl;
+    if (abstractControl && abstractControl.validator) {
+      const validator = abstractControl.validator({} as AbstractControl);
+      if (validator && validator.required) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /** Coerces a data-bound value (typically a string) to a boolean. */
+  private coerceBooleanProperty(value: any): boolean {
+    return value !== undefined && `${value}` !== 'false';
+  }
+
 }

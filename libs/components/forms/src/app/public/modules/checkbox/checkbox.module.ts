@@ -1,10 +1,11 @@
-// #region imports
-import {
-  NgModule
-} from '@angular/core';
 import {
   CommonModule
 } from '@angular/common';
+
+import {
+  NgModule
+} from '@angular/core';
+
 import {
   FormsModule
 } from '@angular/forms';
@@ -14,17 +15,22 @@ import {
 } from '@skyux/indicators';
 
 import {
-  SkyCheckboxLabelComponent
-} from './checkbox-label.component';
-import {
   SkyCheckboxComponent
 } from './checkbox.component';
-// #endregion
+
+import {
+  SkyCheckboxLabelComponent
+} from './checkbox-label.component';
+
+import {
+  SkyCheckboxRequiredValidatorDirective
+} from './checkbox-required-validator.directive';
 
 @NgModule({
   declarations: [
     SkyCheckboxComponent,
-    SkyCheckboxLabelComponent
+    SkyCheckboxLabelComponent,
+    SkyCheckboxRequiredValidatorDirective
   ],
   imports: [
     CommonModule,
@@ -33,7 +39,8 @@ import {
   ],
   exports: [
     SkyCheckboxComponent,
-    SkyCheckboxLabelComponent
+    SkyCheckboxLabelComponent,
+    SkyCheckboxRequiredValidatorDirective
   ]
 })
 export class SkyCheckboxModule { }

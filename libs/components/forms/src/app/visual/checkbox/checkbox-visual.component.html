@@ -66,3 +66,72 @@
     [checked]="false">
   </sky-checkbox>
 </div>
+
+<div id="template-driven-checkbox">
+  <h3>
+    Template-driven checkbox
+  </h3>
+  <p>
+    <sky-checkbox
+      ngModel
+      [required]="required"
+      #templateDrivenCheckbox="ngModel"
+    >
+      <sky-checkbox-label>
+        Check me
+      </sky-checkbox-label>
+    </sky-checkbox>
+  </p>
+
+  <table>
+    <tr>
+      <th>Touched</th>
+      <td>{{ templateDrivenCheckbox.touched }}</td>
+    </tr>
+    <tr>
+      <th>Pristine</th>
+      <td>{{ templateDrivenCheckbox.pristine }}</td>
+    </tr>
+    <tr>
+      <th>Valid</th>
+      <td>{{ templateDrivenCheckbox.valid }}</td>
+    </tr>
+  </table>
+</div>
+
+<div id="reactive-checkbox">
+  <h3>
+    Reactive checkbox
+  </h3>
+
+  <form
+    [formGroup]="reactiveFormGroup"
+    novalidate
+  >
+      <sky-checkbox
+        [required]="required"
+        formControlName="reactiveCheckbox"
+      >
+        <sky-checkbox-label>
+          Check me
+        </sky-checkbox-label>
+      </sky-checkbox>
+  </form>
+
+  <table>
+    <tr>
+      <th>Touched</th>
+      <td>{{ reactiveFormGroup.touched }}</td>
+    </tr>
+    <tr>
+      <th>Pristine</th>
+      <td>{{ reactiveFormGroup.pristine }}</td>
+    </tr>
+    <tr>
+      <th>Valid</th>
+      <td>{{ reactiveFormGroup.valid }}</td>
+    </tr>
+  </table>
+</div>
+
+<button (click)="toggleRequired()">Toggle required</button>
