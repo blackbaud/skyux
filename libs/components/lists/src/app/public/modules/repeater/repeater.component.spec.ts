@@ -108,6 +108,24 @@ describe('Repeater item component', () => {
     })
   );
 
+  it('should allow removing all items dynamically', fakeAsync(() => {
+    let fixture = TestBed.createComponent(RepeaterTestComponent);
+    let el = fixture.nativeElement;
+    let cmp: RepeaterTestComponent = fixture.componentInstance;
+    cmp.showRepeaterWithNgFor = true;
+
+    fixture.detectChanges();
+
+    tick();
+
+    cmp.items = [];
+    fixture.detectChanges();
+    tick();
+
+    expect(el.querySelectorAll('sky-repeater-item').length).toBe(0);
+    flushDropdownTimer();
+  }));
+
   it('should have aria-control set pointed at content', fakeAsync(() => {
     let fixture = TestBed.createComponent(RepeaterTestComponent);
     let el = fixture.nativeElement;

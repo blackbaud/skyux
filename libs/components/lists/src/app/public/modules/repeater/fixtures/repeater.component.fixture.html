@@ -1,4 +1,4 @@
-<sky-repeater *ngIf="!showRepeaterWithActiveIndex"
+<sky-repeater *ngIf="!showRepeaterWithActiveIndex && !showRepeaterWithNgFor"
   [expandMode]="expandMode"
   [reorderable]="reorderable"
 >
@@ -84,6 +84,14 @@
   <sky-repeater-item>
     <sky-repeater-item-title>
       Title 3
+    </sky-repeater-item-title>
+  </sky-repeater-item>
+</sky-repeater>
+
+<sky-repeater *ngIf="showRepeaterWithNgFor">
+  <sky-repeater-item *ngFor="let item of items">
+    <sky-repeater-item-title>
+      {{ item }}
     </sky-repeater-item-title>
   </sky-repeater-item>
 </sky-repeater>
