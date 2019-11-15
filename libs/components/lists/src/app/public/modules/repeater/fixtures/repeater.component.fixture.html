@@ -1,9 +1,11 @@
 <sky-repeater *ngIf="!showRepeaterWithActiveIndex && !showRepeaterWithNgFor"
   [expandMode]="expandMode"
   [reorderable]="reorderable"
+  (orderChange)="onOrderChange($event)"
 >
   <sky-repeater-item
     [selectable]="selectable"
+    [tag]="'item1'"
     (collapse)="onCollapse()"
     (expand)="onExpand()"
   >
@@ -33,7 +35,9 @@
       </a>
     </sky-repeater-item-content>
   </sky-repeater-item>
-  <sky-repeater-item>
+  <sky-repeater-item
+    [tag]="'item2'"
+  >
     <sky-repeater-item-context-menu *ngIf="showContextMenu">
       a
     </sky-repeater-item-context-menu>
@@ -46,6 +50,7 @@
   </sky-repeater-item>
   <sky-repeater-item *ngIf="!removeLastItem"
     [isExpanded]="lastItemExpanded"
+    [tag]="'item3'"
     [(isSelected)]="lastItemSelected"
   >
     <sky-repeater-item-context-menu *ngIf="showContextMenu">
@@ -89,9 +94,11 @@
 </sky-repeater>
 
 <sky-repeater *ngIf="showRepeaterWithNgFor">
-  <sky-repeater-item *ngFor="let item of items">
+  <sky-repeater-item *ngFor="let item of items"
+    [tag]="item.id"
+  >
     <sky-repeater-item-title>
-      {{ item }}
+      {{ item.title }}
     </sky-repeater-item-title>
   </sky-repeater-item>
 </sky-repeater>

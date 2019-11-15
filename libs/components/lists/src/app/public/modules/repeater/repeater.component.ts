@@ -73,6 +73,13 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
   @Output()
   public activeIndexChange = new EventEmitter<number>();
 
+  /**
+   * Fires when users change the order of repeater items.
+   * This event emits an ordered array of the `tag` properties that the consumer provides for each repeater item.
+   */
+  @Output()
+  public orderChange = new EventEmitter<any[]>();
+
   @ContentChildren(SkyRepeaterItemComponent)
   public items: QueryList<SkyRepeaterItemComponent>;
 
@@ -109,6 +116,12 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
         }
       });
 
+    this.repeaterService.orderChange
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(() => {
+        this.emitTags();
+      });
+
     this.updateForExpandMode();
 
     this.adapterService.setRepeaterHost(this.elementRef);
@@ -119,6 +132,10 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
     setTimeout(() => {
       if (this.activeIndex || this.activeIndex === 0) {
         this.repeaterService.activateItemByIndex(this.activeIndex);
+      }
+
+      if (this.reorderable && !this.everyItemHasTag()) {
+        console.warn('Please supply tag properties for each repeater item when reordering functionality is enabled.');
       }
     });
 
@@ -208,15 +225,32 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
     this.dragulaService
       .dragend
       .takeUntil(this.ngUnsubscribe)
-      .subscribe(([, source]: Array<HTMLElement>) =>
-        source.classList.remove('sky-repeater-item-dragging')
-      );
+      .subscribe(([, source]: Array<HTMLElement>) => {
+        source.classList.remove('sky-repeater-item-dragging');
+        this.emitTags();
+      });
 
     this.dragulaService.setOptions('sky-repeater', {
       moves: (el: HTMLElement, container: HTMLElement, handle: HTMLElement) => {
         const target = el.querySelector('.sky-repeater-item-grab-handle');
         return target && target.contains(handle);
       }
+    });
+  }
+
+  private emitTags(): void {
+    const tags = this.repeaterService.items.map(item => item.tag);
+    this.orderChange.emit(tags);
+  }
+
+  private everyItemHasTag(): boolean {
+    /* sanity check */
+    /* istanbul ignore if */
+    if (!this.items || this.items.length === 0) {
+      return false;
+    }
+    return this.items.toArray().every(item => {
+      return item.tag !== undefined;
     });
   }
 }

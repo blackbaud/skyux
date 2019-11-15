@@ -7,6 +7,8 @@ import {
   SkyRepeaterComponent
 } from '../repeater.component';
 
+let nextItemId: number = 0;
+
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './repeater.component.fixture.html'
@@ -23,7 +25,20 @@ export class RepeaterTestComponent {
 
   public expandMode = 'single';
 
-  public items: string[] = [ 'Item 1', 'Item 2', 'Item 3' ];
+  public items = [
+    {
+      id: 'item1',
+      title: 'Item 1'
+    },
+    {
+      id: 'item2',
+      title: 'Item 2'
+    },
+    {
+      id: 'item3',
+      title: 'Item 3'
+    }
+  ];
 
   public lastItemExpanded: boolean;
 
@@ -45,6 +60,8 @@ export class RepeaterTestComponent {
 
   public showRepeaterWithNgFor = false;
 
+  public sortedItemTags: any[];
+
   @ViewChild(SkyRepeaterComponent)
   public repeater: SkyRepeaterComponent;
 
@@ -53,4 +70,16 @@ export class RepeaterTestComponent {
   public onCollapse(): void {}
 
   public onExpand(): void {}
+
+  public addItem(): void {
+    const newItem = {
+      id: `item${nextItemId++}`,
+      title: 'New record ' + nextItemId
+    };
+    this.items.push(newItem);
+  }
+
+  public onOrderChange(tags: any[]): void {
+    this.sortedItemTags = tags;
+  }
 }

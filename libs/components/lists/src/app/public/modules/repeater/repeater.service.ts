@@ -29,9 +29,12 @@ export class SkyRepeaterService implements OnDestroy {
 
   public items: SkyRepeaterItemComponent[] = [];
 
+  public orderChange = new BehaviorSubject<void>(undefined);
+
   public ngOnDestroy(): void {
     this.activeItemChange.complete();
     this.itemCollapseStateChange.complete();
+    this.orderChange.complete();
   }
 
   public activateItem(item: SkyRepeaterItemComponent): void {
@@ -101,6 +104,10 @@ export class SkyRepeaterService implements OnDestroy {
 
   public getItemIndex(item: SkyRepeaterItemComponent): number {
     return this.items.indexOf(item);
+  }
+
+  public registerOrderChange(): void {
+    this.orderChange.next();
   }
 
   public reorderItem(oldIndex: number, newIndex: number): void {

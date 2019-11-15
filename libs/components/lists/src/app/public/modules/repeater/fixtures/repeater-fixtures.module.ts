@@ -22,10 +22,15 @@ import {
   RepeaterInlineFormFixtureComponent
 } from './repeater-inline-form.component.fixture';
 
+import {
+  RepeaterWithMissingTagsFixtureComponent
+} from './repeater-missing-tag.fixture';
+
 @NgModule({
   declarations: [
     RepeaterInlineFormFixtureComponent,
-    RepeaterTestComponent
+    RepeaterTestComponent,
+    RepeaterWithMissingTagsFixtureComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +39,8 @@ import {
   ],
   exports: [
     RepeaterInlineFormFixtureComponent,
-    RepeaterTestComponent
+    RepeaterTestComponent,
+    RepeaterWithMissingTagsFixtureComponent
   ]
 })
 export class SkyRepeaterFixturesModule { }

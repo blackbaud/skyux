@@ -479,10 +479,12 @@
   <sky-repeater
     [expandMode]="'single'"
     [reorderable]="true"
+    (orderChange)="onOrderChange($event)"
   >
     <sky-repeater-item
       [isExpanded]="false"
       [selectable]="true"
+      [tag]="'item1'"
       (collapse)="onCollapse()"
       (expand)="onExpand()"
     >
@@ -511,6 +513,7 @@
     <sky-repeater-item
       [isExpanded]="false"
       [selectable]="true"
+      [tag]="'item2'"
     >
       <sky-repeater-item-context-menu>
         <sky-dropdown

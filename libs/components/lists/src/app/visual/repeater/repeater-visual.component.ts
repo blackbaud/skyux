@@ -108,6 +108,10 @@ export class RepeaterVisualComponent {
     this.items.push(newItem);
   }
 
+  public onOrderChange(tags: any): void {
+    console.log(tags);
+  }
+
   public getSelectedItems(): string[] {
     const ids: string[] = this.itemsForSelectableRepeater
       .filter(item => item.isSelected)
