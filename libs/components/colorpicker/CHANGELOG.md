@@ -1,3 +1,7 @@
+# 3.2.0 (2019-11-15)
+
+- Added a close message to the colorpicker component's message stream. [#29](https://github.com/blackbaud/skyux-colorpicker/pull/29) (Thanks, [@blackbaud-conorwright](https://github.com/blackbaud-conorwright)!)
+
 # 3.1.1 (2019-09-27)
 
 - Fixed the colorpicker component to properly export all output types. [#24](https://github.com/blackbaud/skyux-colorpicker/pull/24)
