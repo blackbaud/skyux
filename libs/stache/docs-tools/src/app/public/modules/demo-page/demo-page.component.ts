@@ -132,7 +132,7 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit, After
   public ngOnInit(): void {
     this.updateTitle();
 
-    this.http.get('https://sky-tusa01.app.blackbaud.net/skysp/v1/docs/components-info')
+    this.http.get('https://sky-pusa01.app.blackbaud.net/skysp/v1/docs/components-info')
       .subscribe((results: any) => {
         this.sidebarRoutes = [{
           name: 'Components',

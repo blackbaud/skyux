@@ -1,3 +1,7 @@
+# 3.0.0-alpha.23 (2019-11-15)
+
+- Fixed the demo page component's HTTP `GET` request to reference the correct supportal URL.
+
 # 3.0.0-alpha.22 (2019-11-12)
 
 - Added `SkyDocsToolsOptions` provider.
