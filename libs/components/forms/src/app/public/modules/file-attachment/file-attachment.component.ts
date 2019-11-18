@@ -7,24 +7,26 @@ import {
   ContentChildren,
   ElementRef,
   EventEmitter,
-  forwardRef,
   Input,
   OnDestroy,
+  Optional,
   Output,
-  ViewChild,
-  QueryList
+  QueryList,
+  Self,
+  ViewChild
 } from '@angular/core';
 
 import {
-  ControlValueAccessor,
-  AbstractControl,
-  NG_VALUE_ACCESSOR,
-  NG_VALIDATORS
+  NgControl
 } from '@angular/forms';
 
 import {
   Subject
 } from 'rxjs';
+
+import {
+  SkyFormsUtility
+} from '../shared/forms-utility';
 
 import {
   SkyFileAttachmentChange
@@ -50,31 +52,16 @@ import {
   SkyFileItemService
 } from './file-item.service';
 
-// tslint:disable:no-forward-ref no-use-before-declare
-const SKY_FILE_ATTACHMENT_VALUE_ACCESSOR = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => SkyFileAttachmentComponent),
-  multi: true
-};
-
-const SKY_FILE_ATTACHMENT_VALIDATOR = {
-  provide: NG_VALIDATORS,
-  useExisting: forwardRef(() => SkyFileAttachmentComponent),
-  multi: true
-};
-
 let uniqueId = 0;
+
 @Component({
   selector: 'sky-file-attachment',
   templateUrl: './file-attachment.component.html',
   styleUrls: ['./file-attachment.component.scss'],
-  providers: [
-    SKY_FILE_ATTACHMENT_VALUE_ACCESSOR,
-    SKY_FILE_ATTACHMENT_VALIDATOR
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyFileAttachmentComponent implements ControlValueAccessor, AfterViewInit, AfterContentInit, OnDestroy {
+export class SkyFileAttachmentComponent implements AfterViewInit, AfterContentInit, OnDestroy {
+
   @Input()
   public acceptedTypes: string;
 
@@ -105,6 +92,13 @@ export class SkyFileAttachmentComponent implements ControlValueAccessor, AfterVi
 
   public rejectedOver: boolean = false;
 
+  /**
+   * Indicates whether the input is required for form validation.
+   * When you set this property to `true`, the component adds `aria-required` and `required`
+   * attributes to the input element so that forms display an invalid state until the input element
+   * is complete. This property accepts a `boolean` value.
+   */
+  @Input()
   public required: boolean = false;
 
   public set value(value: SkyFileItem) {
@@ -130,17 +124,24 @@ export class SkyFileAttachmentComponent implements ControlValueAccessor, AfterVi
   @ContentChildren(SkyFileAttachmentLabelComponent)
   private labelComponents: QueryList<SkyFileAttachmentLabelComponent>;
 
-  private control: AbstractControl;
   private enterEventTarget: any;
+
   private fileAttachmentId = uniqueId++;
+
   private ngUnsubscribe = new Subject<void>();
+
   private _value: any;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
     private fileAttachmentService: SkyFileAttachmentService,
-    private fileItemService: SkyFileItemService
-  ) { }
+    private fileItemService: SkyFileItemService,
+    @Self() @Optional() private ngControl: NgControl
+  ) {
+    if (this.ngControl) {
+      this.ngControl.valueAccessor = this;
+    }
+  }
 
   public ngAfterViewInit(): void {
     // This is needed to address a bug in Angular 7.
@@ -149,19 +150,16 @@ export class SkyFileAttachmentComponent implements ControlValueAccessor, AfterVi
     // Of note is the parent check which allows us to determine if the form is reactive.
     // Without this check there is a changed before checked error
     /* istanbul ignore else */
-    if (this.control) {
+    if (this.ngControl) {
       setTimeout(() => {
-        this.control.setValue(this.value, {
+        this.ngControl.control.setValue(this.value, {
           emitEvent: false
         });
-
-        // Set required to apply required state to label
-        if (this.control.errors && this.control.errors.required) {
-          this.required = true;
-        }
-
         this.changeDetector.markForCheck();
       });
+
+      // Backwards compatibility support for anyone still using Validators.Required.
+      this.required = this.required || SkyFormsUtility.hasRequiredValidation(this.ngControl);
     }
   }
 
@@ -284,14 +282,6 @@ export class SkyFileAttachmentComponent implements ControlValueAccessor, AfterVi
   public writeValue(value: any): void {
     this.value = value;
     this.changeDetector.markForCheck();
-  }
-
-  public validate(control: AbstractControl): { [key: string]: any } {
-    if (!this.control) {
-      this.control = control;
-    }
-
-    return undefined;
   }
 
   public emitClick(): void {

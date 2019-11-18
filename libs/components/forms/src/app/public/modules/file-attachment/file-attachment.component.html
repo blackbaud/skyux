@@ -4,6 +4,7 @@
   <div
     class="sky-file-attachment-label-wrapper"
     [ngClass]="{ 'sky-control-label-required': required && hasLabelComponent }"
+    [attr.aria-required]="(required) ? true : null"
     [attr.id]="labelElementId"
   >
     <ng-container *ngTemplateOutlet="labelContent"
@@ -22,6 +23,7 @@
       tabindex="-1"
       type="file"
       [attr.accept]="acceptedTypes || null"
+      [required]="required"
       (change)="fileChangeEvent($event)"
       #fileInput
     >

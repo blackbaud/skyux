@@ -1,8 +1,7 @@
 import {
   FormBuilder,
-  FormGroup,
   FormControl,
-  Validators
+  FormGroup
 } from '@angular/forms';
 
 import {
@@ -34,6 +33,8 @@ export class SingleFileAttachmentVisualComponent implements OnInit {
 
   public rejectedFiles: Array<SkyFileItem>;
 
+  public required: boolean = true;
+
   public showLabel: boolean = true;
 
   constructor(
@@ -44,7 +45,7 @@ export class SingleFileAttachmentVisualComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.attachment = new FormControl(undefined, Validators.required);
+    this.attachment = new FormControl(undefined);
     this.fileForm = this.formBuilder.group({
       attachment: this.attachment
     });

@@ -10,10 +10,13 @@ import {
 } from '@angular/core';
 
 import {
-  AbstractControl,
   ControlValueAccessor,
   NgControl
 } from '@angular/forms';
+
+import {
+  SkyFormsUtility
+} from '../shared/forms-utility';
 
 /**
  * Monotonically increasing integer used to auto-generate unique ids for checkbox components.
@@ -101,7 +104,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    */
   @Input()
   set required(value: boolean) {
-    this._required = this.coerceBooleanProperty(value);
+    this._required = SkyFormsUtility.coerceBooleanProperty(value);
   }
 
   get required(): boolean {
@@ -127,7 +130,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   public ngOnInit(): void {
     if (this.ngControl) {
       // Backwards compatibility support for anyone still using Validators.Required.
-      this.required = this.required || this.hasRequiredValidation(this.ngControl);
+      this.required = this.required || SkyFormsUtility.hasRequiredValidation(this.ngControl);
     }
   }
 
@@ -199,28 +202,6 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    */
   private _toggle() {
     this.checked = !this.checked;
-  }
-
-  /**
-   * Gets the required state of the checkbox.
-   * Currently, Angular doesn't offer a way to get this easily, so we have to create an empty
-   * control using the current validator to see if it throws a `required` validation error.
-   * https://github.com/angular/angular/issues/13461#issuecomment-340368046
-   */
-  private hasRequiredValidation(ngControl: NgControl): boolean {
-    const abstractControl = ngControl.control as AbstractControl;
-    if (abstractControl && abstractControl.validator) {
-      const validator = abstractControl.validator({} as AbstractControl);
-      if (validator && validator.required) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  /** Coerces a data-bound value (typically a string) to a boolean. */
-  private coerceBooleanProperty(value: any): boolean {
-    return value !== undefined && `${value}` !== 'false';
   }
 
 }

@@ -8,6 +8,13 @@
   >
     Toggle showLabel
   </button>
+  <button
+    type="button"
+    class="sky-btn sky-btn-primary sky-test-label"
+    (click)="required = !required"
+  >
+    Toggle required
+  </button>
 </div>
 
 <h1>
@@ -23,6 +30,7 @@
   >
     <sky-file-attachment
       formControlName="attachment"
+      [required]="required"
       [validateFn]="validateFile"
     >
       <sky-file-attachment-label
@@ -66,7 +74,7 @@
 
 <div>
   <sky-file-attachment
-    required
+    [required]="required"
     [validateFn]="validateFile"
     [(ngModel)]="fileValue"
     #file="ngModel"
