@@ -1,6 +1,6 @@
 # 3.7.0 (2019-11-15)
 
-- Added `tag` input to the repeater item component and `orderChange` output to the repeater component to allow tracking user updates to the repeater item order. [#91](https://github.com/blackbaud/skyux-lists/pull/91)
+- Added the `tag` input to the repeater item component and the `orderChange` output to the repeater component to allow tracking of user updates to the repeater item order. [#91](https://github.com/blackbaud/skyux-lists/pull/91)
 - Fixed the repeater component to properly handle reorderable repeaters without items. [#90](https://github.com/blackbaud/skyux-lists/pull/90) (Thanks, [@blackbaud-GavinNicol](https://github.com/blackbaud-GavinNicol)!)
 
 # 3.6.1 (2019-11-06)
