@@ -1,3 +1,7 @@
+# 3.2.3 (2019-11-19)
+
+- Fixed the flyout component to have proper spacing between buttons within its header. [#64](https://github.com/blackbaud/skyux-flyout/pull/64)
+
 # 3.2.2 (2019-07-01)
 
 - Fixed the flyout component to support child components that use `ChangeDetectionStrategy.Default`. [#60](https://github.com/blackbaud/skyux-flyout/pull/60)
