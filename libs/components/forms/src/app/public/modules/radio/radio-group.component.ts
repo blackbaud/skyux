@@ -1,22 +1,27 @@
-// #region imports
 import {
   AfterContentInit,
+  AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ContentChildren,
-  forwardRef,
   Input,
   OnDestroy,
-  QueryList
+  Optional,
+  QueryList,
+  Self
 } from '@angular/core';
 
 import {
-  ControlValueAccessor,
-  NG_VALUE_ACCESSOR
+  NgControl
 } from '@angular/forms';
 
 import {
   Subject
 } from 'rxjs/Subject';
+
+import {
+  SkyFormsUtility
+} from '../shared/forms-utility';
 
 import {
   SkyRadioChange
@@ -25,25 +30,15 @@ import {
 import {
   SkyRadioComponent
 } from './radio.component';
-// #endregion
 
 let nextUniqueId = 0;
 
-const SKY_RADIO_GROUP_CONTROL_VALUE_ACCESSOR: any = {
-  provide: NG_VALUE_ACCESSOR,
-  // tslint:disable-next-line:no-forward-ref no-use-before-declare
-  useExisting: forwardRef(() => SkyRadioGroupComponent),
-  multi: true
-};
-
 @Component({
   selector: 'sky-radio-group',
-  templateUrl: './radio-group.component.html',
-  providers: [
-    SKY_RADIO_GROUP_CONTROL_VALUE_ACCESSOR
-  ]
+  templateUrl: './radio-group.component.html'
 })
-export class SkyRadioGroupComponent implements AfterContentInit, ControlValueAccessor, OnDestroy {
+export class SkyRadioGroupComponent implements AfterContentInit, AfterViewInit, OnDestroy {
+
   @Input()
   public ariaLabelledBy: string;
 
@@ -58,6 +53,15 @@ export class SkyRadioGroupComponent implements AfterContentInit, ControlValueAcc
   public get name(): string {
     return this._name;
   }
+
+  /**
+   * Indicates whether the input is required for form validation.
+   * When you set this property to `true`, the component adds `aria-required` and `required`
+   * attributes to the input element so that forms display an invalid state until the input element
+   * is complete. This property accepts a `boolean` value.
+   */
+  @Input()
+  public required: boolean = false;
 
   @Input()
   public set value(value: any) {
@@ -90,8 +94,19 @@ export class SkyRadioGroupComponent implements AfterContentInit, ControlValueAcc
   private ngUnsubscribe = new Subject();
 
   private _name = `sky-radio-group-${nextUniqueId++}`;
-  private _value: any;
+
   private _tabIndex: number;
+
+  private _value: any;
+
+  constructor(
+    private changeDetector: ChangeDetectorRef,
+    @Self() @Optional() private ngControl: NgControl
+  ) {
+    if (this.ngControl) {
+      this.ngControl.valueAccessor = this;
+    }
+  }
 
   public ngAfterContentInit(): void {
     this.resetRadioButtons();
@@ -107,6 +122,16 @@ export class SkyRadioGroupComponent implements AfterContentInit, ControlValueAcc
         // Subscribe to the new radio buttons
         this.watchForSelections();
       });
+  }
+
+  public ngAfterViewInit(): void {
+    if (this.ngControl) {
+      // Backwards compatibility support for anyone still using Validators.Required.
+      this.required = this.required || SkyFormsUtility.hasRequiredValidation(this.ngControl);
+
+      // Avoid an ExpressionChangedAfterItHasBeenCheckedError.
+      this.changeDetector.detectChanges();
+    }
   }
 
   public watchForSelections() {

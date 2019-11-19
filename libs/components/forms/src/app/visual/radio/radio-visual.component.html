@@ -1,3 +1,11 @@
+<button
+  type="button"
+  class="sky-btn sky-btn-primary sky-test-label"
+  (click)="required = !required"
+>
+  Toggle required
+</button>
+
 <h1>
   Radio buttons (reactive)
 </h1>
@@ -8,6 +16,7 @@
 >
   <h3
     id="favorite-id"
+    [ngClass]="{ 'sky-control-label-required': required }"
   >
     What is your favorite season?
   </h3>
@@ -15,6 +24,7 @@
     <sky-radio-group
       ariaLabelledBy="favorite-id"
       formControlName="favoriteSeason"
+      [required]="required"
     >
       <ul
         class="sky-list-unstyled"
@@ -59,11 +69,14 @@
   Radio buttons (template-driven)
 </h1>
 
-<h3>
+<h3
+  [ngClass]="{ 'sky-control-label-required': required }"
+>
   What is your favorite season?
 </h3>
 <div>
   <sky-radio-group
+    [required]="required"
     [(ngModel)]="radioValue"
     #foo="ngModel"
   >

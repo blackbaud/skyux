@@ -24,8 +24,13 @@ describe('Radio group component', function () {
   let fixture: ComponentFixture<SkyRadioGroupTestComponent>;
   let componentInstance: SkyRadioGroupTestComponent;
 
+  //#region helpers
   function getRadios(radioFixture: ComponentFixture<any>) {
     return radioFixture.nativeElement.querySelectorAll('.sky-radio-input');
+  }
+
+  function getRadioGroup(radioFixture: ComponentFixture<any>): HTMLElement {
+    return radioFixture.nativeElement.querySelector('.sky-radio-group');
   }
 
   function clickCheckbox(radioFixture: ComponentFixture<any>, index: number) {
@@ -34,6 +39,7 @@ describe('Radio group component', function () {
     fixture.detectChanges();
     tick();
   }
+  //#endregion
 
   beforeEach(function () {
     TestBed.configureTestingModule({
@@ -136,6 +142,37 @@ describe('Radio group component', function () {
 
     expect(radios.item(1).checked).toBe(true);
     expect(componentInstance.radioForm.value.option.name).toBe('Harima Kenji');
+  }));
+
+  it('should not show a required state when not required', fakeAsync(() => {
+    fixture.detectChanges();
+    tick();
+
+    const radioGroupDiv = getRadioGroup(fixture);
+    expect(radioGroupDiv.getAttribute('required')).toBeNull();
+    expect(radioGroupDiv.getAttribute('aria-required')).toBeNull();
+  }));
+
+  it('should show a required state when required input is set to true', fakeAsync(() => {
+    componentInstance.required = true;
+
+    fixture.detectChanges();
+    tick();
+
+    const radioGroupDiv = getRadioGroup(fixture);
+    expect(radioGroupDiv.getAttribute('required')).not.toBeNull();
+    expect(radioGroupDiv.getAttribute('aria-required')).toBe('true');
+  }));
+
+  it('should update the ngModel properly when radio button is required and changed', fakeAsync(() => {
+    componentInstance.required = true;
+    fixture.detectChanges();
+
+    expect(componentInstance.radioForm.valid).toBe(false);
+
+    clickCheckbox(fixture, 1);
+
+    expect(componentInstance.radioForm.valid).toBe(true);
   }));
 
   it('should use tabIndex when specified', fakeAsync(function () {
@@ -260,7 +297,7 @@ describe('Radio group component', function () {
     fixture.detectChanges();
     tick();
 
-    const radioGroupDiv = fixture.nativeElement.querySelector('.sky-radio-group');
+    const radioGroupDiv = getRadioGroup(fixture);
     expect(radioGroupDiv.getAttribute('aria-labelledby')).toBe('radio-group-label');
   }));
 
@@ -271,7 +308,7 @@ describe('Radio group component', function () {
     fixture.detectChanges();
     tick();
 
-    const radioGroupDiv = fixture.nativeElement.querySelector('.sky-radio-group');
+    const radioGroupDiv = getRadioGroup(fixture);
     expect(radioGroupDiv.getAttribute('aria-label')).toBe('radio-group-label-manual');
   }));
 

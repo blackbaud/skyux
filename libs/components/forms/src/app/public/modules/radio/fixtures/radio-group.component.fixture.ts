@@ -19,18 +19,10 @@ import {
   templateUrl: './radio-group.component.fixture.html'
 })
 export class SkyRadioGroupTestComponent {
-  @ViewChild(SkyRadioGroupComponent)
-  public radioGroupComponent: SkyRadioGroupComponent;
-
-  public radioGroupEnabled = true;
-
-  public radioForm: FormGroup;
-
-  public tabIndex: number;
-
-  public ariaLabelledBy: string = 'radio-group-label';
 
   public ariaLabel: string;
+
+  public ariaLabelledBy: string = 'radio-group-label';
 
   public options = [
     { name: 'Lillith Corharvest', disabled: false },
@@ -39,6 +31,17 @@ export class SkyRadioGroupTestComponent {
   ];
 
   public radioControl = new FormControl();
+
+  public radioForm: FormGroup;
+
+  public radioGroupEnabled = true;
+
+  public required: boolean = false;
+
+  public tabIndex: number;
+
+  @ViewChild(SkyRadioGroupComponent)
+  public radioGroupComponent: SkyRadioGroupComponent;
 
   constructor(
     private fb: FormBuilder

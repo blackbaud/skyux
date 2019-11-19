@@ -13,11 +13,14 @@ import {
   templateUrl: './radio-visual.component.html'
 })
 export class RadioVisualComponent implements OnInit {
-  public selectedValue = '3';
+
   public iconSelectedValue = '1';
-  public valueGuy = '2';
+
   public radioForm: FormGroup;
+
   public radioValue: any;
+
+  public required: boolean = false;
 
   public seasons = [
     { name: 'Spring', disabled: false },
@@ -25,6 +28,10 @@ export class RadioVisualComponent implements OnInit {
     { name: 'Fall', disabled: true },
     { name: 'Winter', disabled: false }
   ];
+
+  public selectedValue = '3';
+
+  public valueGuy = '2';
 
   constructor(
     private formBuilder: FormBuilder
