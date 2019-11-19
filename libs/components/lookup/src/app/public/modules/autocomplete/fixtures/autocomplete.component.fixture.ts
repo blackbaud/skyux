@@ -38,6 +38,7 @@ export class SkyAutocompleteFixtureComponent {
   public model: any = {
     favoriteColor: undefined
   };
+  public customNoResultsMessage: string;
   public debounceTime: number;
   public descriptorProperty: string;
   public propertiesToSearch: string[];

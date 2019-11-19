@@ -14,5 +14,9 @@
   "skyux_search_placeholder": {
     "_description": "Placeholder text for search input component",
     "message": "Find in this list"
+  },
+  "skyux_autocomplete_no_results": {
+    "_description": "Placeholder text for autocomplete input component when no results are found",
+    "message": "No matching items found"
   }
 }

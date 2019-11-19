@@ -121,6 +121,9 @@ export class SkyAutocompleteComponent
   @Input()
   public searchResultsLimit: number;
 
+  @Input()
+  public noResultsFoundText: string;
+
   @Output()
   public get selectionChange(): EventEmitter<SkyAutocompleteSelectionChange> {
     return this._selectionChange;
@@ -148,6 +151,7 @@ export class SkyAutocompleteComponent
   private isMouseEnter = false;
   private searchResultsIndex = 0;
   private searchText: string;
+  private isDropdownOpen: boolean  = false;
 
   private _data: any[];
   private _debounceTime: number;
@@ -272,6 +276,7 @@ export class SkyAutocompleteComponent
         event.preventDefault();
         event.stopPropagation();
       }
+      this.closeDropdown();
       break;
 
       case 'escape':
@@ -305,7 +310,8 @@ export class SkyAutocompleteComponent
 
     if (isLongEnough && isDifferent) {
       this.performSearch().then((results: any[]) => {
-        if (!this.hasSearchResults()) {
+        if (!this.isDropdownOpen) {
+          this.isDropdownOpen = true;
           this.sendDropdownMessage(SkyDropdownMessageType.Open);
         }
 
@@ -328,14 +334,15 @@ export class SkyAutocompleteComponent
   }
 
   private selectActiveSearchResult(): void {
-    const result = this.searchResults[this.searchResultsIndex];
+    if (this.hasSearchResults()) {
+      const result = this.searchResults[this.searchResultsIndex];
 
-    this.searchText = result[this.descriptorProperty];
-    this.inputDirective.value = result;
-    this.selectionChange.emit({
-      selectedItem: result
-    });
-
+      this.searchText = result[this.descriptorProperty];
+      this.inputDirective.value = result;
+      this.selectionChange.emit({
+        selectedItem: result
+      });
+    }
     this.closeDropdown();
   }
 
@@ -343,6 +350,7 @@ export class SkyAutocompleteComponent
     this._searchResults = [];
     this._highlightText = '';
     this.changeDetector.markForCheck();
+    this.isDropdownOpen = false;
     this.sendDropdownMessage(SkyDropdownMessageType.Close);
   }
 

@@ -206,6 +206,35 @@ describe('Autocomplete component', () => {
       expect(autocomplete.searchResults.length).toEqual(5);
     }));
 
+    it('should show a no results found message', fakeAsync(() => {
+      const expectedMessage = 'No matching items found';
+      fixture.detectChanges();
+
+      inputElement.value = 'rasdasdlhasdjklh';
+      SkyAppTestUtility.fireDomEvent(inputElement, 'keyup');
+      tick();
+      fixture.detectChanges();
+
+      const firstItem = getAutocompleteElement()
+        .querySelector('.sky-dropdown-item') as HTMLElement;
+      expect(firstItem.textContent.trim()).toBe(expectedMessage);
+    }));
+
+    it('should show a custom no results found message', fakeAsync(() => {
+      const expectedMessage = 'Custom message';
+      component.customNoResultsMessage = expectedMessage;
+      fixture.detectChanges();
+
+      inputElement.value = 'rasdasdlhasdjklh';
+      SkyAppTestUtility.fireDomEvent(inputElement, 'keyup');
+      tick();
+      fixture.detectChanges();
+
+      const firstItem = getAutocompleteElement()
+        .querySelector('.sky-dropdown-item') as HTMLElement;
+      expect(firstItem.textContent.trim()).toBe(expectedMessage);
+    }));
+
     it('should allow custom search result template', fakeAsync(() => {
       component.searchResultTemplate = component.customSearchResultTemplate;
       fixture.detectChanges();

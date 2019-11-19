@@ -26,6 +26,11 @@
           </button>
 
         </sky-dropdown-item>
+        <sky-dropdown-item *ngIf="searchResults.length === 0">
+          <div class="sky-deemphasized sky-padding-squish-default">
+            {{ noResultsFoundText || ('skyux_autocomplete_no_results' | skyLibResources) }}
+          </div>
+        </sky-dropdown-item>
       </sky-dropdown-menu>
     </sky-dropdown>
   </div>
