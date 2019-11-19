@@ -1,3 +1,7 @@
+# 3.7.0 (2019-11-19)
+
+- Replaced all imports from `@angular/http` with `@angular/common/http`. [#30](https://github.com/blackbaud/skyux-config/pull/30)
+
 # 3.6.0 (2019-09-27)
 
 - Added optional `base` property to `SkyuxConfigApp`. [#26](https://github.com/blackbaud/skyux-config/pull/26)
