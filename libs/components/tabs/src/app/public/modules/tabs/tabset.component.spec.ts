@@ -227,11 +227,6 @@ describe('Tabset component', () => {
     });
   });
 
-  describe('Xs tab heading', () => {
-    xit('should add a tab heading that is visible at xs breakpoints', () => {
-    });
-  });
-
   it('should notify the consumer when the add tab button is clicked', () => {
     let template = `<sky-tabset (newTab)="newTab()"></sky-tabset>`;
 
@@ -759,42 +754,6 @@ describe('Tabset component', () => {
 
   });
 
-  describe('collapsible tabs', () => {
-
-    xit('collapses in xs when there are no add or open buttons', () => {
-    });
-
-    xit('collapses in xs when tabs are specifically defined', () => {
-    });
-
-    xit('works correctly when starting in extra small mode', () => {
-    });
-
-    xit('works correctly when starting in extra small mode with 1 tab', () => {
-    });
-
-    xit(
-      'has the correct dropdown title in extra small mode when title changes using heading',
-      () => {
-      }
-    );
-
-    xit('can add and remove tabs', () => {
-
-    });
-
-    xit('can remove tabs while collapsed', () => {
-    });
-
-    describe('dropdown max width', () => {
-      xit('adds max width when changing to collapsed mode', () => {
-      });
-
-      xit('adds max width when window size changes', () => {
-      });
-    });
-  });
-
   describe('keyboard accessibility', () => {
     let debugElement: DebugElement;
     let fixture: ComponentFixture<TabsetTestComponent>;
@@ -915,6 +874,30 @@ describe('Tabset component', () => {
 
       expect(location.path()).toEqual('/?foobar-active-tab=design-guidelines');
       expect(fixture.componentInstance.activeIndex).toEqual(1);
+    }));
+
+    it('should set a query param on init', fakeAsync(() => {
+      fixture.componentInstance.permalinkId = 'foobar';
+      fixture.componentInstance.activeIndex = 0;
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      validateTabSelected(fixture.nativeElement, 0);
+      expect(location.path()).toEqual('/?foobar-active-tab=api');
+    }));
+
+    it('should NOT set a query param on init if permalinkId not set', fakeAsync(() => {
+      fixture.componentInstance.permalinkId = undefined;
+      fixture.componentInstance.activeIndex = 0;
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      validateTabSelected(fixture.nativeElement, 0);
+      expect(location.path()).toEqual('');
     }));
 
     it('should set a query param when a tab is selected', fakeAsync(() => {

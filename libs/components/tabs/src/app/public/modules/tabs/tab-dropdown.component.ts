@@ -42,9 +42,7 @@ export class SkyTabDropdownComponent {
   }
 
   public selectTab(tab: SkyTabComponent) {
-    if (!tab.disabled) {
-      this.tabClick.emit(tab);
-    }
+    this.tabClick.emit(tab);
   }
 
   public closeTab(tab: SkyTabComponent) {

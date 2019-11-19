@@ -1,5 +1,6 @@
 import {
-  Injectable
+  Injectable,
+  OnDestroy
 } from '@angular/core';
 
 import {
@@ -13,12 +14,16 @@ import {
 import 'rxjs/add/operator/take';
 
 @Injectable()
-export class SkyTabsetService {
+export class SkyTabsetService implements OnDestroy {
 
   public tabs: BehaviorSubject<Array<SkyTabComponent>>
     = new BehaviorSubject<Array<SkyTabComponent>>([]);
 
   public activeIndex: BehaviorSubject<any> = new BehaviorSubject(0);
+
+  public ngOnDestroy(): void {
+    this.destroy();
+  }
 
   public activateTab(tab: SkyTabComponent) {
     this.tabs.take(1).subscribe((currentTabs) => {
@@ -76,6 +81,9 @@ export class SkyTabsetService {
 
   }
 
+  /**
+   * @deprecated This method is called automatically during the OnDestroy lifecycle hook.
+   */
   public destroy() {
     this.tabs.complete();
     this.activeIndex.complete();

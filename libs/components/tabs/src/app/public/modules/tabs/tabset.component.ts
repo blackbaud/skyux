@@ -1,21 +1,23 @@
 import {
   AfterContentInit,
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ContentChildren,
   ElementRef,
   EventEmitter,
   Input,
+  OnChanges,
   OnDestroy,
   Output,
   QueryList,
-  ChangeDetectorRef,
-  SimpleChanges,
-  OnChanges
+  SimpleChanges
 } from '@angular/core';
 
 import {
-  ActivatedRoute
+  ActivatedRoute,
+  Params,
+  Router
 } from '@angular/router';
 
 import {
@@ -42,7 +44,10 @@ import {
   selector: 'sky-tabset',
   styleUrls: ['./tabset.component.scss'],
   templateUrl: './tabset.component.html',
-  providers: [SkyTabsetAdapterService, SkyTabsetService]
+  providers: [
+    SkyTabsetAdapterService,
+    SkyTabsetService
+  ]
 })
 export class SkyTabsetComponent
   implements AfterContentInit, AfterViewInit, OnDestroy, OnChanges {
@@ -51,13 +56,16 @@ export class SkyTabsetComponent
   public get tabStyle(): string {
     return this._tabStyle || 'tabs';
   }
+
   public set tabStyle(value: string) {
+    /*istanbul ignore else*/
     if (value && value.toLowerCase() === 'wizard') {
       console.warn(
         'The tabset wizard is deprecated. Please implement the new approach using ' +
         'progress indicator as documented here: https://developer.blackbaud.com/skyux/components/wizard.'
       );
     }
+
     this._tabStyle = value;
   }
 
@@ -104,29 +112,31 @@ export class SkyTabsetComponent
     private adapterService: SkyTabsetAdapterService,
     private elRef: ElementRef,
     private changeRef: ChangeDetectorRef,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) { }
 
   public getTabButtonId(tab: SkyTabComponent): string {
     if (this.tabDisplayMode === 'tabs') {
-      return tab.tabId + '-nav-btn';
+      return `${tab.tabId}-nav-btn`;
     }
-    return tab.tabId + '-hidden-nav-btn';
+
+    return `${tab.tabId}-hidden-nav-btn`;
   }
 
-  public tabCloseClick(tab: SkyTabComponent) {
+  public tabCloseClick(tab: SkyTabComponent): void {
     tab.close.emit(undefined);
   }
 
-  public newTabClick() {
+  public newTabClick(): void {
     this.newTab.emit(undefined);
   }
 
-  public openTabClick() {
+  public openTabClick(): void {
     this.openTab.emit(undefined);
   }
 
-  public windowResize() {
+  public windowResize(): void {
     this.adapterService.detectOverflow();
   }
 
@@ -138,33 +148,43 @@ export class SkyTabsetComponent
     this.tabsetService.activateTab(tab);
   }
 
-  public ngOnChanges(changes: SimpleChanges) {
-    if (changes['active'] && changes['active'].currentValue !== changes['active'].previousValue) {
+  public ngOnChanges(changes: SimpleChanges): void {
+    const activeChange = changes['active'];
+    if (
+      activeChange &&
+      activeChange.currentValue !== activeChange.previousValue
+    ) {
       this.tabsetService.activateTabIndex(this.active);
     }
-
   }
 
-  public ngAfterContentInit() {
-    // initialize each tab's index. (in case tabs are instantiated out of order)
-    this.tabs.forEach(item => item.initializeTabIndex());
-    this.tabs.changes.subscribe((change: QueryList<SkyTabComponent>) => {
-      this.tabsetService.tabs.take(1).subscribe(currentTabs => {
-        change.filter(tab => currentTabs.indexOf(tab) < 0)
-              .forEach(item => item.initializeTabIndex());
+  public ngAfterContentInit(): void {
+    // Initialize each tab's index (in case tabs are instantiated out of order).
+    this.tabs.forEach(tab => tab.initializeTabIndex());
+
+    this.tabs.changes
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe((change: QueryList<SkyTabComponent>) => {
+
+        this.tabsetService.tabs
+          .take(1)
+          .subscribe(tabs => {
+            change
+              .filter(tab => tabs.indexOf(tab) === -1)
+              .forEach(tab => tab.initializeTabIndex());
+
+            this.adapterService.detectOverflow();
+          });
       });
 
-      // We need the setTimeout here to ensure that the DOM actually has updated for the tab changes
-      setTimeout(() => {
-        this.adapterService.detectOverflow();
-      }, 0);
-    });
-
-    if (this.active || this.active === 0) {
+    if (this.active !== undefined) {
       this.tabsetService.activateTabIndex(this.active);
     }
-    this.tabsetService.activeIndex.distinctUntilChanged().subscribe((newActiveIndex) => {
 
+    this.tabsetService.activeIndex
+      .distinctUntilChanged()
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe((newActiveIndex) => {
         // HACK: Not selecting the active tab in a timeout causes an error.
         // https://github.com/angular/angular/issues/6005
         setTimeout(() => {
@@ -173,7 +193,7 @@ export class SkyTabsetComponent
             this.activeChange.emit(newActiveIndex);
           }
         });
-    });
+      });
 
     // Wait for the tab components' `active` state to be resolved before
     // listening to changes to the URL params.
@@ -182,28 +202,31 @@ export class SkyTabsetComponent
     });
   }
 
-  public ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     this.adapterService.init(this.elRef);
 
-    this.adapterService.overflowChange.subscribe((currentOverflow: boolean) => {
-      this.updateDisplayMode(currentOverflow);
-    });
+    this.adapterService.overflowChange
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe((currentOverflow: boolean) => {
+        this.updateDisplayMode(currentOverflow);
+      });
 
     setTimeout(() => {
       this.adapterService.detectOverflow();
       this.updateDisplayMode(this.adapterService.currentOverflow);
       this.changeRef.markForCheck();
-    }, 0);
+    });
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-    this.tabsetService.destroy();
+    /*tslint:disable-next-line:no-null-keyword*/
+    this.setQueryParamPermalinkValue(null);
   }
 
-  private updateDisplayMode(currentOverflow: boolean) {
-    this.tabDisplayMode = currentOverflow ? 'dropdown' : 'tabs';
+  private updateDisplayMode(currentOverflow: boolean): void {
+    this.tabDisplayMode = (currentOverflow) ? 'dropdown' : 'tabs';
     this.changeRef.markForCheck();
   }
 
@@ -212,11 +235,24 @@ export class SkyTabsetComponent
       .distinctUntilChanged()
       .takeUntil(this.ngUnsubscribe)
       .subscribe((params) => {
+        if (!this.permalinkId) {
+          return;
+        }
+
         const permalinkValue = params[this.permalinkId];
         if (permalinkValue) {
           this.activateTabByPermalinkValue(permalinkValue);
+        } else {
+          this.setQueryParamByActiveTab();
         }
       });
+  }
+
+  private setQueryParamByActiveTab(): void {
+    this.tabsetService.tabs.take(1).subscribe((tabs) => {
+      const activeTab = tabs.find(tab => tab.active);
+      this.setQueryParamPermalinkValue(activeTab.permalinkValue);
+    });
   }
 
   private activateTabByPermalinkValue(value: string): void {
@@ -231,6 +267,18 @@ export class SkyTabsetComponent
     // Only set the active tab if an index was found.
     if (index !== undefined) {
       this.tabsetService.activateTabIndex(index);
+    }
+  }
+
+  private setQueryParamPermalinkValue(value: string): void {
+    if (this.permalinkId) {
+      const queryParams: Params = {};
+      queryParams[this.permalinkId] = value;
+
+      this.router.navigate([], {
+        queryParams,
+        queryParamsHandling: 'merge'
+      });
     }
   }
 }
