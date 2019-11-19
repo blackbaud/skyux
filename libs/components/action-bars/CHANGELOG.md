@@ -1,3 +1,7 @@
+# 3.1.3 (2019-11-19)
+
+- Fixed the summary action bar component to properly style modal footers when multiple modals are open. [#25](https://github.com/blackbaud/skyux-action-bars/pull/25)
+
 # 3.1.2 (2019-10-07)
 
 - Fixed the summary action bar component to remove an accidental peer dependency on `@skyux/split-view`. [#22](https://github.com/blackbaud/skyux-action-bars/pull/22)
