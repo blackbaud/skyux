@@ -170,7 +170,7 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         cmp.hideMainActionBar = true;
         fixture.detectChanges();
-        debugElement.query(By.css('#modal-trigger')).nativeElement.click();
+        debugElement.query(By.css('#action-bar-modal-trigger')).nativeElement.click();
         fixture.detectChanges();
         expect(document.body.style.marginBottom).toBe('');
       });
@@ -208,7 +208,7 @@ describe('Summary Action Bar component', () => {
       it('should add the modal class if the action bar is in a modal footer', () => {
         cmp.hideMainActionBar = true;
         fixture.detectChanges();
-        debugElement.query(By.css('#modal-trigger')).nativeElement.click();
+        debugElement.query(By.css('#action-bar-modal-trigger')).nativeElement.click();
         fixture.detectChanges();
         expect(document.querySelector('.sky-summary-action-bar-modal')).not.toBeNull();
       });
@@ -216,10 +216,21 @@ describe('Summary Action Bar component', () => {
       it('should remove the modal footer padding if the action bar is in a modal footer', () => {
         cmp.hideMainActionBar = true;
         fixture.detectChanges();
-        debugElement.query(By.css('#modal-trigger')).nativeElement.click();
+        debugElement.query(By.css('#action-bar-modal-trigger')).nativeElement.click();
         fixture.detectChanges();
         expect((<HTMLElement>document.querySelector('.sky-modal-footer-container')).style.padding).toBe('0px');
       });
+
+      it('should remove the correct modal footer padding if the action bar is in a modal footer and there are two modals', async(() => {
+        cmp.hideMainActionBar = true;
+        fixture.detectChanges();
+        debugElement.query(By.css('#empty-modal-trigger')).nativeElement.click();
+        fixture.detectChanges();
+        (<HTMLElement> document.querySelector('#modal-trigger')).click();
+        fixture.detectChanges();
+        expect((<HTMLElement>document.querySelector('#action-bar-modal .sky-modal-footer-container')).style.padding).toBe('0px');
+        expect((<HTMLElement>document.querySelector('#empty-modal .sky-modal-footer-container')).style.padding).not.toBe('0px');
+      }));
 
     });
 
@@ -233,7 +244,7 @@ describe('Summary Action Bar component', () => {
       it('should set isSummaryCollapsible to true when on a large screen but normal modal', () => {
         cmp.hideMainActionBar = true;
         fixture.detectChanges();
-        debugElement.query(By.css('#modal-trigger')).nativeElement.click();
+        debugElement.query(By.css('#action-bar-modal-trigger')).nativeElement.click();
         fixture.detectChanges();
         expect(cmp.openedModal.summaryActionBar.isSummaryCollapsible).toBeTruthy();
       });
@@ -256,7 +267,7 @@ describe('Summary Action Bar component', () => {
       it('should set isSummaryCollapsible to true when on a xs screen and normal modal', () => {
         cmp.hideMainActionBar = true;
         fixture.detectChanges();
-        debugElement.query(By.css('#modal-trigger')).nativeElement.click();
+        debugElement.query(By.css('#action-bar-modal-trigger')).nativeElement.click();
         fixture.detectChanges();
         mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
@@ -393,7 +404,7 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         cmp.hideMainActionBar = true;
         fixture.detectChanges();
-        debugElement.query(By.css('#modal-trigger')).nativeElement.click();
+        debugElement.query(By.css('#action-bar-modal-trigger')).nativeElement.click();
         fixture.detectChanges();
         fixture.whenStable().then(() => {
           // Testing modal host here due to the modal not being contained in the fixture
@@ -409,7 +420,7 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         cmp.hideMainActionBar = true;
         fixture.detectChanges();
-        debugElement.query(By.css('#modal-trigger')).nativeElement.click();
+        debugElement.query(By.css('#action-bar-modal-trigger')).nativeElement.click();
         fixture.detectChanges();
         fixture.whenStable().then(() => {
           // Using query selector here due to the modal not being inside the debugElement

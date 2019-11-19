@@ -18,6 +18,9 @@ import {
 import {
   SkySummaryActionBarModalTestComponent
 } from './summary-action-bar-modal.component.fixture';
+import {
+  SkySummaryActionBarModalEmptyTestComponent
+} from './summary-action-bar-modal-empty.component.fixture';
 
 @Component({
   selector: 'sky-summary-action-bar-test',
@@ -53,8 +56,13 @@ export class SkySummaryActionBarTestComponent {
     return true;
   }
 
-  public openModal() {
+  public openActionBarModal() {
     let instance = this.modalService.open(SkySummaryActionBarModalTestComponent);
+    this.openedModal = instance.componentInstance;
+  }
+
+  public openEmptyModal() {
+    let instance = this.modalService.open(SkySummaryActionBarModalEmptyTestComponent);
     this.openedModal = instance.componentInstance;
   }
 

@@ -105,7 +105,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
         this.setupTabListener();
       }
     } else {
-      this.adapterService.styleModalFooter();
+      this.adapterService.styleModalFooter(this.elementRef);
 
       if (this.type === SkySummaryActionBarType.FullPageModal) {
         this.setupReactiveState();

@@ -49,11 +49,15 @@ import {
 import {
   SkySummaryActionBarSplitViewTestComponent
 } from './summary-action-bar-split-view.component.fixture';
+import {
+  SkySummaryActionBarModalEmptyTestComponent
+} from './summary-action-bar-modal-empty.component.fixture';
 
 @NgModule({
   declarations: [
     SkySummaryActionBarTestComponent,
     SkySummaryActionBarModalTestComponent,
+    SkySummaryActionBarModalEmptyTestComponent,
     SkySummaryActionBarTabsTestComponent,
     SkySummaryActionBarSplitViewTestComponent
   ],
@@ -75,7 +79,8 @@ import {
     SkySummaryActionBarModule
   ],
   entryComponents: [
-    SkySummaryActionBarModalTestComponent
+    SkySummaryActionBarModalTestComponent,
+    SkySummaryActionBarModalEmptyTestComponent
   ]
 })
 export class SkySummaryActionBarFixtureModule { }

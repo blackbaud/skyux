@@ -57,10 +57,13 @@ export class SkySummaryActionBarAdapterService {
     this.renderer.setStyle(splitViewWorkspaceFooter, 'padding', '10px');
   }
 
-  public styleModalFooter(): void {
-    const window = this.windowRef.getWindow();
-    const modalFooterEl = <HTMLElement>window.document.getElementsByClassName('sky-modal-footer-container')[0];
-    this.renderer.setStyle(modalFooterEl, 'padding', 0);
+  public styleModalFooter(summaryActionBarRef: ElementRef): void {
+    const modalFooterEls = document.getElementsByClassName('sky-modal-footer-container');
+    for (let i = 0; i < modalFooterEls.length; i++) {
+      if (modalFooterEls.item(i).contains(summaryActionBarRef.nativeElement)) {
+        this.renderer.setStyle(modalFooterEls.item(i), 'padding', 0);
+      }
+    }
   }
 
   public getSummaryActionBarType(el: Element): SkySummaryActionBarType {
