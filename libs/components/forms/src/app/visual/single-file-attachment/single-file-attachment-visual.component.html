@@ -15,6 +15,13 @@
   >
     Toggle required
   </button>
+  <button
+    type="button"
+    class="sky-btn sky-btn-primary sky-test-label"
+    (click)="onToggleDisabledClick()"
+  >
+    Toggle disabled
+  </button>
 </div>
 
 <h1>
@@ -74,6 +81,7 @@
 
 <div>
   <sky-file-attachment
+    [disabled]="disabled"
     [required]="required"
     [validateFn]="validateFile"
     [(ngModel)]="fileValue"

@@ -19,9 +19,12 @@ import {
   templateUrl: './single-file-attachment-visual.component.html'
 })
 export class SingleFileAttachmentVisualComponent implements OnInit {
+
   public acceptedTypes: Array<String>;
 
   public attachment: FormControl;
+
+  public disabled: boolean = false;
 
   public fileForm: FormGroup;
 
@@ -61,6 +64,18 @@ export class SingleFileAttachmentVisualComponent implements OnInit {
 
   public deleteFile(file: SkyFileItem | SkyFileLink): void {
     this.removeFromArray(this.filesToUpload, file);
+  }
+
+  /**
+   * Toggle both the template-driven and reactive form.
+   */
+  public onToggleDisabledClick(): void {
+    this.disabled = !this.disabled;
+    if (this.disabled) {
+      this.attachment.disable();
+    } else {
+      this.attachment.enable();
+    }
   }
 
   private removeFromArray(items: Array<any>, obj: SkyFileItem | SkyFileLink): void {

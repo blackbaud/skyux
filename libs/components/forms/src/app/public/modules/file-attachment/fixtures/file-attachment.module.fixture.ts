@@ -19,9 +19,14 @@ import {
   SkyFileAttachmentsModule
 } from '../file-attachments.module';
 
+import {
+  TemplateDrivenFileAttachmentTestComponent
+} from './template-driven-file-attachment.component.fixture';
+
 @NgModule({
   declarations: [
-    FileAttachmentTestComponent
+    FileAttachmentTestComponent,
+    TemplateDrivenFileAttachmentTestComponent
   ],
   imports: [
     SkyFileAttachmentsModule,
@@ -30,7 +35,8 @@ import {
     ReactiveFormsModule
   ],
   exports: [
-    FileAttachmentTestComponent
+    FileAttachmentTestComponent,
+    TemplateDrivenFileAttachmentTestComponent
   ]
 })
 export class FileAttachmentTestModule { }

@@ -65,6 +65,21 @@ export class SkyFileAttachmentComponent implements AfterViewInit, AfterContentIn
   @Input()
   public acceptedTypes: string;
 
+  /**
+   * Indicates whether to disable the input. This property accepts `boolean` values.
+   */
+  @Input()
+  public set disabled(value: boolean) {
+    const newDisabledState = SkyFormsUtility.coerceBooleanProperty(value);
+    if (this._disabled !== newDisabledState) {
+      this._disabled = newDisabledState;
+    }
+  }
+
+  public get disabled(): boolean {
+    return this._disabled;
+  }
+
   @Input()
   public maxFileSize: number = 500000;
 
@@ -129,6 +144,8 @@ export class SkyFileAttachmentComponent implements AfterViewInit, AfterContentIn
   private fileAttachmentId = uniqueId++;
 
   private ngUnsubscribe = new Subject<void>();
+
+  private _disabled: boolean = false;
 
   private _value: any;
 
@@ -281,6 +298,16 @@ export class SkyFileAttachmentComponent implements AfterViewInit, AfterContentIn
 
   public writeValue(value: any): void {
     this.value = value;
+    this.changeDetector.markForCheck();
+  }
+
+  /**
+   * @internal
+   * Sets the disabled state of the control. Implemented as a part of ControlValueAccessor.
+   * @param isDisabled Whether the control should be disabled.
+   */
+  public setDisabledState(isDisabled: boolean) {
+    this.disabled = isDisabled;
     this.changeDetector.markForCheck();
   }
 

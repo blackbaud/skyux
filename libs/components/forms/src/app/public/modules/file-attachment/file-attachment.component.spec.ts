@@ -38,6 +38,18 @@ import {
   FileAttachmentTestModule
 } from './fixtures/file-attachment.module.fixture';
 
+import {
+  TemplateDrivenFileAttachmentTestComponent
+} from './fixtures/template-driven-file-attachment.component.fixture';
+
+function getInputDebugEl(fixture: ComponentFixture<any>): DebugElement {
+  return fixture.debugElement.query(By.css('input'));
+}
+
+function getButtonEl(el: HTMLElement): HTMLElement {
+  return el.querySelector('.sky-file-attachment-btn');
+}
+
 describe('File attachment', () => {
 
   let fixture: ComponentFixture<FileAttachmentTestComponent>;
@@ -60,14 +72,6 @@ describe('File attachment', () => {
   });
 
   //#region helpers
-  function getInputDebugEl(): DebugElement {
-    return fixture.debugElement.query(By.css('input'));
-  }
-
-  function getButtonEl(): HTMLElement {
-    return el.querySelector('.sky-file-attachment-btn');
-  }
-
   function getDropEl(): HTMLElement {
     return el.querySelector('.sky-file-attachment');
   }
@@ -145,7 +149,7 @@ describe('File attachment', () => {
   }
 
   function triggerChangeEvent(expectedChangeFiles: any[]): void {
-    const inputEl = getInputDebugEl();
+    const inputEl = getInputDebugEl(fixture);
 
     const fileChangeEvent = {
       target: {
@@ -310,7 +314,7 @@ describe('File attachment', () => {
     tick();
     fixture.detectChanges();
     const labelWrapper = getLabelWrapper();
-    const input = getInputDebugEl();
+    const input = getInputDebugEl(fixture);
 
     expect(input.nativeElement.getAttribute('required')).toBeNull();
     expect(labelWrapper.classList.contains('sky-control-label-required')).toBe(false);
@@ -323,7 +327,7 @@ describe('File attachment', () => {
     tick();
     fixture.detectChanges();
     const labelWrapper = getLabelWrapper();
-    const input = getInputDebugEl();
+    const input = getInputDebugEl(fixture);
 
     expect(input.nativeElement.getAttribute('required')).not.toBeNull();
     expect(labelWrapper.classList.contains('sky-control-label-required')).toBe(true);
@@ -345,11 +349,41 @@ describe('File attachment', () => {
     tick();
     fixture.detectChanges();
     const labelWrapper = getLabelWrapper();
-    const input = getInputDebugEl();
+    const input = getInputDebugEl(fixture);
 
     expect(input.nativeElement.getAttribute('required')).not.toBeNull();
     expect(labelWrapper.classList.contains('sky-control-label-required')).toBe(true);
     expect(labelWrapper.getAttribute('aria-required')).toBe('true');
+  }));
+
+  it('should not have disabled attribute when not disabled', fakeAsync(() => {
+    fileAttachmentInstance.ngAfterViewInit();
+    tick();
+    fixture.detectChanges();
+    const input = getInputDebugEl(fixture);
+    const button = getButtonEl(el);
+
+    expect(input.nativeElement.getAttribute('disabled')).toBeNull();
+    expect(button.getAttribute('disabled')).toBeNull();
+  }));
+
+  it(`should have disabled attribute when form control's disabled method is called`, fakeAsync(() => {
+    fixture.componentInstance.attachment.disable();
+    fileAttachmentInstance.ngAfterViewInit();
+    tick();
+    fixture.detectChanges();
+    const input = getInputDebugEl(fixture);
+    const button = getButtonEl(el);
+
+    expect(input.nativeElement.getAttribute('disabled')).not.toBeNull();
+    expect(button.getAttribute('disabled')).not.toBeNull();
+
+    fixture.componentInstance.attachment.enable();
+    tick();
+    fixture.detectChanges();
+
+    expect(input.nativeElement.getAttribute('disabled')).toBeNull();
+    expect(button.getAttribute('disabled')).toBeNull();
   }));
 
   it('should handle removing the label', fakeAsync(() => {
@@ -372,11 +406,11 @@ describe('File attachment', () => {
   it('should click the file input on choose file button click', () => {
     fixture.detectChanges();
 
-    const inputEl = getInputDebugEl();
+    const inputEl = getInputDebugEl(fixture);
 
     spyOn(inputEl.references.fileInput, 'click');
 
-    const dropEl = getButtonEl();
+    const dropEl = getButtonEl(el);
 
     expect(inputEl.references.fileInput.click).not.toHaveBeenCalled();
 
@@ -390,7 +424,7 @@ describe('File attachment', () => {
   it('should not click the file input on remove button click', () => {
     fixture.detectChanges();
 
-    const inputEl = getInputDebugEl();
+    const inputEl = getInputDebugEl(fixture);
 
     spyOn(inputEl.references.fileInput, 'click');
 
@@ -1058,5 +1092,54 @@ describe('File attachment', () => {
     fixture.whenStable().then(() => {
       expect(fixture.nativeElement).toBeAccessible();
     });
+  }));
+});
+
+describe('File attachment (template-driven)', () => {
+
+  let fixture: ComponentFixture<TemplateDrivenFileAttachmentTestComponent>;
+  let fileAttachmentInstance: SkyFileAttachmentComponent;
+  let el: HTMLElement;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        FileAttachmentTestModule
+      ]
+    });
+    fixture = TestBed.createComponent(TemplateDrivenFileAttachmentTestComponent);
+    fixture.detectChanges();
+    el = fixture.nativeElement;
+    fileAttachmentInstance = fixture.componentInstance.fileAttachmentComponent;
+  });
+
+  it('should not have disabled attribute when not disabled', fakeAsync(() => {
+    fileAttachmentInstance.ngAfterViewInit();
+    tick();
+    fixture.detectChanges();
+    const input = getInputDebugEl(fixture);
+    const button = getButtonEl(el);
+
+    expect(input.nativeElement.getAttribute('disabled')).toBeNull();
+    expect(button.getAttribute('disabled')).toBeNull();
+  }));
+
+  it(`should have disabled attribute when disabled input is set to true`, fakeAsync(() => {
+    fixture.componentInstance.disabled = true;
+    fileAttachmentInstance.ngAfterViewInit();
+    tick();
+    fixture.detectChanges();
+    const input = getInputDebugEl(fixture);
+    const button = getButtonEl(el);
+
+    expect(input.nativeElement.getAttribute('disabled')).not.toBeNull();
+    expect(button.getAttribute('disabled')).not.toBeNull();
+
+    fixture.componentInstance.disabled = false;
+    tick();
+    fixture.detectChanges();
+
+    expect(input.nativeElement.getAttribute('disabled')).toBeNull();
+    expect(button.getAttribute('disabled')).toBeNull();
   }));
 });

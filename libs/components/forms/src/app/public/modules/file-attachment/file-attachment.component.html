@@ -23,6 +23,7 @@
       tabindex="-1"
       type="file"
       [attr.accept]="acceptedTypes || null"
+      [disabled]="disabled"
       [required]="required"
       (change)="fileChangeEvent($event)"
       #fileInput
@@ -32,6 +33,7 @@
       type="button"
       [attr.aria-label]="'skyux_file_attachment_file_upload_drag_or_click' | skyLibResources"
       [attr.aria-labelledby]="(hasLabelComponent) ? labelElementId : null"
+      [disabled]="disabled"
       (click)="onDropClicked()"
     >
       <sky-icon
@@ -55,6 +57,7 @@
     type="button"
     class="sky-btn sky-file-attachment-delete"
     [attr.aria-label]="'skyux_file_attachment_file_item_delete' | skyLibResources"
+    [disabled]="disabled"
     (click)="deleteFileAttachment()"
   >
     <sky-icon
