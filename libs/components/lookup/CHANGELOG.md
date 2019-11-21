@@ -1,3 +1,7 @@
+# 3.2.0 (2019-11-21)
+
+- Added a "No results found" message to the autocomplete component for empty search responses. [#47](https://github.com/blackbaud/skyux-lookup/pull/47)
+
 # 3.1.2 (2019-11-11)
 
 - Fixed the lookup component to properly represent the Angular form status `touched`. [#44](https://github.com/blackbaud/skyux-lookup/pull/44)
