@@ -1,3 +1,7 @@
+# 3.3.1 (2019-11-21)
+
+- Fixed the text expand and text expand repeater components' DOM adapter services to use the new `Renderer2` utility instead of the deprecated `Renderer` utility. [#53](https://github.com/blackbaud/skyux-layout/pull/53)
+
 # 3.3.0 (2019-10-16)
 
 - Added the ability to provide custom item templates for the text expand repeater component. [#48](https://github.com/blackbaud/skyux-layout/pull/48) (Thanks [@Blackbaud-CoreyArcher](https://github.com/Blackbaud-CoreyArcher)!)
