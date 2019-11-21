@@ -1,20 +1,31 @@
 import {
   ElementRef,
   Injectable,
-  Renderer
+  Renderer2,
+  RendererFactory2
 } from '@angular/core';
 
 @Injectable()
 export class SkyTextExpandAdapterService {
 
-  constructor(private renderer: Renderer) { }
+  private renderer: Renderer2;
+
+  constructor(
+    private rendererFactory: RendererFactory2
+  ) {
+    this.renderer = this.rendererFactory.createRenderer(undefined, undefined);
+  }
 
   public getContainerHeight(containerEl: ElementRef) {
     return containerEl.nativeElement.offsetHeight;
   }
 
   public setContainerHeight(containerEl: ElementRef, height: string) {
-    this.renderer.setElementStyle(containerEl.nativeElement, 'max-height', height);
+    if (height === undefined) {
+      this.renderer.removeStyle(containerEl.nativeElement, 'max-height');
+    } else {
+      this.renderer.setStyle(containerEl.nativeElement, 'max-height', height);
+    }
   }
 
   public setText(textEl: ElementRef, text: string) {
