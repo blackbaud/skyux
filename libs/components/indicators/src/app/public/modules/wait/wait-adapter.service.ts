@@ -2,7 +2,8 @@ import {
   ElementRef,
   Injectable,
   OnDestroy,
-  Renderer
+  Renderer2,
+  RendererFactory2
 } from '@angular/core';
 
 // Need to add the following to classes which contain static methods.
@@ -15,20 +16,24 @@ export class SkyWaitAdapterService implements OnDestroy {
 
   private focussableElements: HTMLElement[];
 
+  private renderer: Renderer2;
+
   constructor(
-    private renderer: Renderer
-  ) { }
+    private rendererFactory: RendererFactory2
+  ) {
+    this.renderer = this.rendererFactory.createRenderer(undefined, undefined);
+  }
 
   public ngOnDestroy(): void {
     this.clearListeners();
   }
 
   public setWaitBounds(waitEl: ElementRef): void {
-    this.renderer.setElementStyle(waitEl.nativeElement.parentElement, 'position', 'relative');
+    this.renderer.setStyle(waitEl.nativeElement.parentElement, 'position', 'relative');
   }
 
   public removeWaitBounds(waitEl: ElementRef): void {
-    this.renderer.setElementStyle(waitEl.nativeElement.parentElement, 'position', undefined);
+    this.renderer.removeStyle(waitEl.nativeElement.parentElement, 'position');
   }
 
   public setBusyState(
@@ -39,12 +44,11 @@ export class SkyWaitAdapterService implements OnDestroy {
     waitComponentId?: string
   ): void {
     const busyEl = isFullPage ? document.body : waitEl.nativeElement.parentElement;
-    const state = isWaiting ? 'true' : undefined;
 
     if (!isNonBlocking) {
-      this.renderer.setElementAttribute(busyEl, 'aria-busy', state);
-
       if (isWaiting) {
+        this.renderer.setAttribute(busyEl, 'aria-busy', 'true');
+
         // Remove focus from page when full page blocking wait
         if (isFullPage || busyEl.contains(document.activeElement)) {
           this.clearDocumentFocus();
@@ -94,6 +98,8 @@ export class SkyWaitAdapterService implements OnDestroy {
           };
         }
       } else {
+        this.renderer.removeAttribute(busyEl, 'aria-busy');
+
         if (isFullPage) {
           SkyWaitAdapterService.isPageWaitActive = false;
         }
