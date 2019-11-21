@@ -1,6 +1,6 @@
 # 3.2.0 (2019-11-21)
 
-- Added a "No results found" message to the autocomplete component for empty search responses. [#47](https://github.com/blackbaud/skyux-lookup/pull/47)
+- Added a "No results found" message to the autocomplete component for empty search responses. [#47](https://github.com/blackbaud/skyux-lookup/pull/47) (Thanks [@blackbaud-GavinNicol](https://github.com/blackbaud-GavinNicol)!)
 
 # 3.1.2 (2019-11-11)
 
