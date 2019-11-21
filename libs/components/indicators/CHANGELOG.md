@@ -1,3 +1,7 @@
+# 3.1.1 (2019-11-21)
+
+- Fixed the wait component's DOM adapter services to use the new `Renderer2` utility instead of the deprecated `Renderer` utility. [#46](https://github.com/blackbaud/skyux-indicators/pull/46)
+
 # 3.1.0 (2019-07-26)
 
 - Added methods to `SkyWaitService` to launch a wait component until an observable is completed. [#39](https://github.com/blackbaud/skyux-indicators/pull/39) (Thanks [@Blackbaud-ColbyWhite](https://github.com/Blackbaud-ColbyWhite)!)
@@ -6,15 +10,15 @@
 
 # 3.0.3 (2019-01-16)
 
-- Fixed chevron component to properly align its icon in Firefox. [#31](https://github.com/blackbaud/skyux-indicators/pull/31)
+- Fixed the chevron component to properly align its icon in Firefox. [#31](https://github.com/blackbaud/skyux-indicators/pull/31)
 
 # 3.0.2 (2019-01-15)
 
-- Fixed chevron component to properly center its icon within the button element. [#30](https://github.com/blackbaud/skyux-indicators/pull/30)
+- Fixed the chevron component to properly center its icon within the button element. [#30](https://github.com/blackbaud/skyux-indicators/pull/30)
 
 # 3.0.1 (2019-01-15)
 
-- Fixed chevron component to properly position its elements when container is resized. [#26](https://github.com/blackbaud/skyux-indicators/pull/26)
+- Fixed the chevron component to properly position its elements when a container is resized. [#26](https://github.com/blackbaud/skyux-indicators/pull/26)
 
 # 3.0.0 (2019-01-11)
 
@@ -22,7 +26,7 @@
 
 # 3.0.0-rc.6 (2018-12-13)
 
-- Fixed wait component to prevent tab navigation during blocking waits. [#4](https://github.com/blackbaud/skyux-indicators/pull/4)
+- Fixed the wait component to prevent tab navigation during blocking waits. [#4](https://github.com/blackbaud/skyux-indicators/pull/4)
 
 # 3.0.0-rc.5 (2018-11-19)
 
@@ -31,7 +35,7 @@
 
 # 3.0.0-rc.4 (2018-11-12)
 
-- Fixed text highlight from executing on attribute changes. [#15](https://github.com/blackbaud/skyux-indicators/pull/15)
+- Fixed the text highlight component to no longer execute on attribute changes. [#15](https://github.com/blackbaud/skyux-indicators/pull/15)
 
 # 3.0.0-rc.3 (2018-11-08)
 
@@ -43,9 +47,9 @@
 
 # 3.0.0-rc.1 (2018-10-05)
 
-- Added alert and key info components. [#10](https://github.com/blackbaud/skyux-indicators/pull/10)
-- Added ARIA labels to wait component. [#8](https://github.com/blackbaud/skyux-indicators/pull/8)
-- Bugfix to address unescaped characters in text highlight regular expression. [#6](https://github.com/blackbaud/skyux-indicators/pull/6)
+- Added the alert and key info components. [#10](https://github.com/blackbaud/skyux-indicators/pull/10)
+- Added ARIA labels to the wait component. [#8](https://github.com/blackbaud/skyux-indicators/pull/8)
+- Bugfix to address unescaped characters in the text highlight regular expression. [#6](https://github.com/blackbaud/skyux-indicators/pull/6)
 
 # 3.0.0-rc.0 (2018-09-25)
 
