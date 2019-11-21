@@ -1,3 +1,10 @@
+# 3.5.0 (2019-11-20)
+
+- Added the `disabled` property to the single file attachment component. [#81](https://github.com/blackbaud/skyux-forms/pull/81)
+- Added the `required` property to the single file attachment component. [#78](https://github.com/blackbaud/skyux-forms/pull/78)
+- Added the `required` property to the radio group component. [#79](https://github.com/blackbaud/skyux-forms/pull/79)
+- Added the `required` property to the checkbox component. [#77](https://github.com/blackbaud/skyux-forms/pull/77)
+
 # 3.4.2 (2019-10-22)
 
 - Fixed the "Choose file" and "Replace file" labels for the single file attachment component. [#72](https://github.com/blackbaud/skyux-forms/pull/72)

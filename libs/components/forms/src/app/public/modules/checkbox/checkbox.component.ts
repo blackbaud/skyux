@@ -100,7 +100,10 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   }
 
   /**
-   * Indicates if the checkbox must be checked to be valid. This property accepts boolean values.
+   * Indicates whether the input is required for form validation.
+   * When you set this property to `true`, the component adds `aria-required` and `required`
+   * attributes to the input element so that forms display an invalid state until the input element
+   * is complete. This property accepts a `boolean` value.
    */
   @Input()
   set required(value: boolean) {
