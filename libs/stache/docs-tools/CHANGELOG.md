@@ -1,3 +1,7 @@
+# 3.0.0-alpha.24 (2019-11-22)
+
+- Added the `SkyDocsSupportalService` to allow consumers to fetch a list of component information. [#4](https://github.com/blackbaud/skyux-docs-tools/pull/4)
+
 # 3.0.0-alpha.23 (2019-11-15)
 
 - Fixed the demo page component's HTTP `GET` request to reference the correct supportal URL.
