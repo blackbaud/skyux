@@ -4,7 +4,6 @@ import {
   ComponentFactoryResolver,
   HostListener,
   Injector,
-  ReflectiveInjector,
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
@@ -42,7 +41,6 @@ import {
   styleUrls: ['./modal-host.component.scss'],
   viewProviders: [SkyModalAdapterService]
 })
-
 export class SkyModalHostComponent {
   public get modalOpen() {
     return SkyModalHostService.openModalCount > 0;
@@ -52,7 +50,16 @@ export class SkyModalHostComponent {
     return SkyModalHostService.backdropZIndex;
   }
 
-  @ViewChild('target', { read: ViewContainerRef })
+  /**
+   * Use `any` for backwards-compatibility with Angular 4-7.
+   * See: https://github.com/angular/angular/issues/30654
+   * TODO: Remove the `any` in a breaking change.
+   * @internal
+   */
+  @ViewChild('target', {
+    read: ViewContainerRef,
+    static: true
+  } as any)
   public target: ViewContainerRef;
 
   constructor(
@@ -93,8 +100,11 @@ export class SkyModalHostComponent {
     adapter.toggleFullPageModalClass(SkyModalHostService.fullPageModalCount > 0);
 
     let providers = params.providers /* istanbul ignore next */ || [];
-    let resolvedProviders = ReflectiveInjector.resolve(providers);
-    let injector = ReflectiveInjector.fromResolvedProviders(resolvedProviders, this.injector);
+    const injector = Injector.create({
+      providers,
+      parent: this.injector
+    });
+
     let modalComponentRef = this.target.createComponent(factory, undefined, injector);
 
     modalInstance.componentInstance = modalComponentRef.instance;
