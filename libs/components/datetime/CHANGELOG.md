@@ -1,3 +1,7 @@
+# 3.6.4 (2019-11-22)
+
+- Fixed the datepicker input directive to validate on blur and to properly handle required validation. [#96](https://github.com/blackbaud/skyux-datetime/pull/96)
+
 # 3.6.3 (2019-10-21)
 
 - Fixed the `disabled` property on the datepicker and timepicker inputs for reactive forms.  [#91](https://github.com/blackbaud/skyux-datetime/pull/91)
