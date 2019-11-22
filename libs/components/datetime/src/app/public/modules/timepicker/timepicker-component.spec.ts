@@ -677,7 +677,7 @@ describe('Timepicker', () => {
       it('should disable the input and dropdown when disabled is set to true ' +
       'and enable them when the disabled is changed to false', fakeAsync(() => {
         fixture.detectChanges();
-        (<TimepickerReactiveTestComponent>component).isDisabled = true;
+        (<TimepickerReactiveTestComponent>component).timeControl.disable();
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -688,7 +688,7 @@ describe('Timepicker', () => {
         expect(fixture.debugElement.query(By.css('sky-dropdown button')).nativeElement.disabled).toBeTruthy();
 
         fixture.detectChanges();
-        (<TimepickerReactiveTestComponent>component).isDisabled = false;
+        (<TimepickerReactiveTestComponent>component).timeControl.enable();
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
