@@ -1,3 +1,8 @@
+# 3.6.0 (2019-11-22)
+
+- Added the `disabled` property to the radio group component. [#82](https://github.com/blackbaud/skyux-forms/pull/82)
+- Fixed the checkbox component so that it can be added dynamically with an `ngIf`. [#85](https://github.com/blackbaud/skyux-forms/pull/85)
+
 # 3.5.0 (2019-11-20)
 
 - Added the `disabled` property to the single file attachment component. [#81](https://github.com/blackbaud/skyux-forms/pull/81)
