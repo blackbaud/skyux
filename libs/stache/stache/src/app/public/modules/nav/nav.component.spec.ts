@@ -36,7 +36,7 @@ describe('StacheNavComponent', () => {
   let fixture: ComponentFixture<StacheNavComponent>;
   let mockWindowService: any;
   let mockRouteService: any;
-  let activeUrl: string = '/test';
+  let activeUrl: string;
 
   class MockWindowService {
     public nativeWindow = {
@@ -67,6 +67,7 @@ describe('StacheNavComponent', () => {
   }
 
   beforeEach(() => {
+    activeUrl = '/test';
     mockWindowService = new MockWindowService();
     mockRouteService = new MockRouteService();
 
@@ -143,6 +144,29 @@ describe('StacheNavComponent', () => {
     fixture.detectChanges();
 
     expect(route.isActive).toBe(true);
+  });
+
+  it('should support routes that change after init', () => {
+    component.routes = [
+      { name: 'Test', path: 'test' },
+      { name: 'Foo', path: 'foo' }
+    ];
+
+    fixture.detectChanges();
+
+    expect(component.routes[0].isActive).toBe(true);
+    expect(component.routes[1].isActive).toBe(false);
+
+    activeUrl = '/foo';
+    component.routes = [
+      { name: 'Test', path: 'test' },
+      { name: 'Foo', path: 'foo' }
+    ];
+
+    fixture.detectChanges();
+
+    expect(component.routes[0].isActive).toBe(false);
+    expect(component.routes[1].isActive).toBe(true);
   });
 
   it('should return true if a given route is current', () => {

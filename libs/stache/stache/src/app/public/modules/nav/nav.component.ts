@@ -23,10 +23,21 @@ import {
 })
 export class StacheNavComponent implements OnInit, StacheNav {
   @Input()
-  public routes: StacheNavLink[];
+  public set routes(value: StacheNavLink[]) {
+    this._routes = value;
+    this.assignActiveStates();
+  }
+
+  public get routes(): StacheNavLink[] {
+    return this._routes;
+  }
+
   @Input()
   public navType: string;
+
   public classname: string = '';
+
+  private _routes: StacheNavLink[];
 
   public constructor(
     private routeService: StacheRouteService
@@ -51,14 +62,9 @@ export class StacheNavComponent implements OnInit, StacheNav {
   private assignActiveStates() {
     const activeUrl = this.routeService.getActiveUrl();
     if (this.hasRoutes()) {
-      this.routes.forEach((route: any) => {
-        if (this.isActive(activeUrl, route)) {
-          route.isActive = true;
-        }
-
-        if (this.isCurrent(activeUrl, route)) {
-          route.isCurrent = true;
-        }
+      this.routes.forEach((route) => {
+        route.isActive = this.isActive(activeUrl, route);
+        route.isCurrent = this.isCurrent(activeUrl, route);
       });
     }
   }
