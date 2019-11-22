@@ -21,6 +21,10 @@ import {
 } from 'rxjs/Observable';
 
 import {
+  SkyFormsUtility
+} from '../shared/forms-utility';
+
+import {
   SkyRadioChange
 } from './types';
 // #endregion
@@ -71,8 +75,21 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
     return this._checked;
   }
 
+  /**
+   * Indicates whether to disable the input. This property accepts `boolean` values.
+   */
   @Input()
-  public disabled = false;
+  public set disabled(value: boolean) {
+    const newDisabledState = SkyFormsUtility.coerceBooleanProperty(value);
+    if (this._disabled !== newDisabledState) {
+      this._disabled = newDisabledState;
+      this.changeDetector.markForCheck();
+    }
+  }
+
+  public get disabled(): boolean {
+    return this._disabled;
+  }
 
   @Input()
   public id = `sky-radio-${++nextUniqueId}`;
@@ -160,6 +177,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
 
   private _change = new EventEmitter<SkyRadioChange>();
   private _checked = false;
+  private _disabled: boolean = false;
   private _name: string;
   private _radioType: string;
   private _selectedValue: any;
@@ -183,6 +201,14 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
     this.checked = this.value === this.selectedValue;
 
     this.changeDetector.markForCheck();
+  }
+
+  /**
+   * @internal
+   * Indicates whether to disable the control. Implemented as a part of ControlValueAccessor.
+   */
+  public setDisabledState(isDisabled: boolean) {
+    this.disabled = isDisabled;
   }
 
   public registerOnChange(fn: any): void {

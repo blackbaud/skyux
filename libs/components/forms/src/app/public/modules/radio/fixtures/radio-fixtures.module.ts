@@ -1,10 +1,11 @@
-// #region imports
-import {
-  NgModule
-} from '@angular/core';
 import {
   CommonModule
 } from '@angular/common';
+
+import {
+  NgModule
+} from '@angular/core';
+
 import {
   FormsModule,
   ReactiveFormsModule
@@ -23,23 +24,28 @@ import {
 } from './radio-group-boolean.component.fixture';
 
 import {
-  SkyRadioGroupTestComponent
-} from './radio-group.component.fixture';
-import {
-  SkySingleRadioComponent
-} from './radio-single.component.fixture';
+  SkyRadioGroupReactiveFixtureComponent
+} from './radio-group-reactive.component.fixture';
 
 import {
   SkyRadioOnPushTestComponent
 } from './radio-on-push.component.fixture';
-// #endregion
+
+import {
+  SkyRadioGroupFixtureComponent
+} from './radio-group.component.fixture';
+
+import {
+  SkySingleRadioComponent
+} from './radio-single.component.fixture';
 
 @NgModule({
   declarations: [
-    SkyRadioTestComponent,
     SkyRadioGroupBooleanTestComponent,
-    SkyRadioGroupTestComponent,
+    SkyRadioGroupFixtureComponent,
+    SkyRadioGroupReactiveFixtureComponent,
     SkyRadioOnPushTestComponent,
+    SkyRadioTestComponent,
     SkySingleRadioComponent
   ],
   imports: [
@@ -49,9 +55,10 @@ import {
     SkyRadioModule
   ],
   exports: [
-    SkyRadioTestComponent,
     SkyRadioGroupBooleanTestComponent,
-    SkyRadioGroupTestComponent,
+    SkyRadioGroupFixtureComponent,
+    SkyRadioGroupReactiveFixtureComponent,
+    SkyRadioTestComponent,
     SkySingleRadioComponent
   ]
 })

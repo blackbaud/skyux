@@ -14,6 +14,8 @@ import {
 })
 export class RadioVisualComponent implements OnInit {
 
+  public disabled: boolean;
+
   public iconSelectedValue = '1';
 
   public radioForm: FormGroup;
@@ -31,8 +33,6 @@ export class RadioVisualComponent implements OnInit {
 
   public selectedValue = '3';
 
-  public valueGuy = '2';
-
   constructor(
     private formBuilder: FormBuilder
   ) { }
@@ -41,5 +41,14 @@ export class RadioVisualComponent implements OnInit {
     this.radioForm = this.formBuilder.group({
       favoriteSeason: this.seasons[0]
     });
+  }
+
+  public onToggleDisabledClick(): void {
+    this.disabled = !this.disabled;
+    if (this.disabled) {
+      this.radioForm.disable();
+    } else {
+      this.radioForm.enable();
+    }
   }
 }

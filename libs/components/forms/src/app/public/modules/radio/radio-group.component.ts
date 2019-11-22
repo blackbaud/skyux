@@ -45,6 +45,22 @@ export class SkyRadioGroupComponent implements AfterContentInit, AfterViewInit, 
   @Input()
   public ariaLabel: string;
 
+  /**
+   * Indicates whether to disable the input. This property accepts `boolean` values.
+   */
+  @Input()
+  public set disabled(value: boolean) {
+    const newDisabledState = SkyFormsUtility.coerceBooleanProperty(value);
+    if (this._disabled !== newDisabledState) {
+      this._disabled = newDisabledState;
+      this.updateRadioButtonDisabled();
+    }
+  }
+
+  public get disabled(): boolean {
+    return this._disabled;
+  }
+
   @Input()
   public set name(value: string) {
     this._name = value;
@@ -92,6 +108,8 @@ export class SkyRadioGroupComponent implements AfterContentInit, AfterViewInit, 
   private radios: QueryList<SkyRadioComponent>;
 
   private ngUnsubscribe = new Subject();
+
+  private _disabled: boolean = false;
 
   private _name = `sky-radio-group-${nextUniqueId++}`;
 
@@ -154,6 +172,14 @@ export class SkyRadioGroupComponent implements AfterContentInit, AfterViewInit, 
     this.value = value;
   }
 
+  /**
+   * @internal
+   * Indicates whether to disable the control. Implemented as a part of ControlValueAccessor.
+   */
+  public setDisabledState(isDisabled: boolean) {
+    this.disabled = isDisabled;
+  }
+
   public registerOnChange(fn: (value: any) => void): void {
     this.onChange = fn;
   }
@@ -166,6 +192,14 @@ export class SkyRadioGroupComponent implements AfterContentInit, AfterViewInit, 
   private onChange: (value: any) => void = () => {};
   /* istanbul ignore next */
   private onTouched: () => any = () => {};
+
+  private updateRadioButtonDisabled(): void {
+    if (this.radios) {
+      this.radios.forEach(radio => {
+        radio.disabled = this.disabled;
+      });
+    }
+  }
 
   private updateRadioButtonNames(): void {
     if (this.radios) {

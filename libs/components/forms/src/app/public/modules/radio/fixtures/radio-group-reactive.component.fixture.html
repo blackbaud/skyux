@@ -1,10 +1,10 @@
 <form
   [formGroup]="radioForm"
 >
-  <sky-radio-group *ngIf="radioGroupEnabled"
+  <sky-radio-group *ngIf="showRadioGroup"
     class="form-group radio"
-    formControlName="option"
-    name="option"
+    formControlName="radioGroup"
+    name="radioGroup"
     [ariaLabel]="ariaLabel"
     [ariaLabelledBy]="ariaLabelledBy"
     [required]="required"
