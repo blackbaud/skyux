@@ -3,6 +3,9 @@ export {
   SkyAppFormat
 } from './app-format';
 
+/**
+ * @deprecated Use `SkyAppFormat` instead.
+ */
 export class SkyFormat {
 
   /* istanbul ignore next */
