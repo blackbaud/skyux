@@ -1,3 +1,8 @@
+# 3.2.0 (2019-11-22)
+
+- Updated the text font-family and color to match SKY UX style conventions. [#8](https://github.com/blackbaud/skyux-lib-stache/pull/8)
+- Fixed the sidebar component to reassign "active" and "current" states when the `routerLinks` input changes. [#58](https://github.com/blackbaud/skyux-lib-stache/pull/58)
+
 # 3.1.0 (2019-05-23)
 
 - Exported the `StacheFooterModule` from `@blackbaud/skyux-lib-stache`. [#10](https://github.com/blackbaud/skyux-lib-stache/pull/10)
