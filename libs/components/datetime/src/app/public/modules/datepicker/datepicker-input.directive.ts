@@ -174,30 +174,19 @@ export class SkyDatepickerInputDirective
       dateValue.getTime() === this._value.getTime()
     );
 
-    const isNewValue = (
-      dateValue !== this._value ||
-      !areDatesEqual
-    );
+    const isValidDateString = this.isDateStringValid(value);
 
-    this._value = (dateValue || value);
-
-    if (isNewValue) {
-      this.onChange(this._value);
-
-      // Do not mark the field as "dirty"
-      // if the field has been initialized with a value.
-      if (this.isFirstChange && this.control) {
-        this.control.markAsPristine();
-      }
-
-      if (this.isFirstChange && this._value) {
-        this.isFirstChange = false;
-      }
-
-      this.datepickerComponent.selectedDate = this._value;
+    // If the string value supplied is malformed, do not set the value to its Date equivalent.
+    // (JavaScript's Date parser will convert poorly formatted dates to Date objects, such as "abc 123", which isn't ideal.)
+    if (!isValidDateString) {
+      this._value = value;
+      this.notifyUpdatedValue();
+    } else if (dateValue !== this._value || !areDatesEqual) {
+      this._value = (dateValue || value);
+      this.notifyUpdatedValue();
     }
 
-    if (dateValue) {
+    if (dateValue && isValidDateString) {
       const formattedDate = this.dateFormatter.format(dateValue, this.dateFormat);
       this.setInputElementValue(formattedDate);
     } else {
@@ -323,32 +312,9 @@ export class SkyDatepickerInputDirective
     this.onTouched();
   }
 
-  @HostListener('keyup', ['$event'])
-  public onInputKeyup(event: any): void {
+  @HostListener('keyup')
+  public onInputKeyup(): void {
     this.control.markAsDirty();
-
-    if (this.skyDatepickerNoValidate) {
-      return;
-    }
-
-    const value = event.target.value;
-
-    let errors: ValidationErrors;
-
-    if (this.isDateStringValid(value)) {
-      /* tslint:disable:no-null-keyword */
-      errors = null;
-      /* tslint:enable */
-    } else {
-      errors = {
-        skyDate: {
-          invalid: true
-        }
-      };
-    }
-
-    this.control.setErrors(errors);
-    this.control.markAsTouched();
   }
 
   public writeValue(value: any): void {
@@ -373,7 +339,7 @@ export class SkyDatepickerInputDirective
     const dateValue = this.getDateValue(value);
     const isDateValid = (dateValue && this.dateFormatter.dateIsValid(dateValue));
 
-    if (!isDateValid) {
+    if (!isDateValid || !this.isDateStringValid(value)) {
       // Mark the invalid control as touched so that the input's invalid CSS styles appear.
       // (This is only required when the invalid value is set by the FormControl constructor.)
       this.control.markAsTouched();
@@ -470,7 +436,7 @@ export class SkyDatepickerInputDirective
    * Validates the input value to ensure it is formatted correctly.
    */
   private isDateStringValid(value: string): boolean {
-    if (!value) {
+    if (!value || typeof value !== 'string') {
       return true;
     }
 
@@ -492,4 +458,20 @@ export class SkyDatepickerInputDirective
   /*istanbul ignore next */
   private onTouched = () => {};
   private onValidatorChange = () => {};
+
+  private notifyUpdatedValue(): void {
+    this.onChange(this._value);
+
+    // Do not mark the field as "dirty"
+    // if the field has been initialized with a value.
+    if (this.isFirstChange && this.control) {
+      this.control.markAsPristine();
+    }
+
+    if (this.isFirstChange && this._value) {
+      this.isFirstChange = false;
+    }
+
+    this.datepickerComponent.selectedDate = this._value;
+  }
 }
