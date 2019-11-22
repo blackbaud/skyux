@@ -88,7 +88,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
 
       // Do not mark the field as "dirty"
       // if the field has been initialized with a value.
-      if (this.isFirstChange && this.ngControl) {
+      if (this.isFirstChange && this.ngControl && this.ngControl.control) {
         this.ngControl.control.markAsPristine();
         this.isFirstChange = false;
       }
