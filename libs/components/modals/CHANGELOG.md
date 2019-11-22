@@ -1,3 +1,7 @@
+# 3.1.1 (2019-11-22)
+
+- Fixed the modal component to support Angular versions greater than 8. [#71](https://github.com/blackbaud/skyux-modals/pull/71)
+
 # 3.1.0 (2019-08-30)
 
 - Added the `preserveWhiteSpace` property to `SkyConfirmConfig` to let consumers preserve whitespace and new lines inside the confirm component. [#65](https://github.com/blackbaud/skyux-modals/pull/65) (Thanks [@Blackbaud-ShaydeNofziger](https://github.com/Blackbaud-ShaydeNofziger)!)
