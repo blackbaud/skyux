@@ -16,51 +16,15 @@
     font-size: inherit;
   }
 
-  h1,
-  h2,
-  h3,
-  h4 {
-    font-family: $sky-font-family;
-    color: $sky-text-color-default;
-  }
-
-  h1 {
-    font-weight: 200;
-    font-size: 34px;
-  }
-
-  h2 {
-    font-weight: 200;
-    font-size: 26px;
-  }
-
-  h3 {
-    font-weight: 400;
-    font-size: 19px;
-  }
-
-  h4 {
-    font-weight: 600;
-    font-size: 16px;
-  }
-
   h1:not([class]),
   h2:not([class]),
   h3:not([class]),
   h4:not([class]),
   h5:not([class]),
   h6:not([class]) {
-    font-family: $sky-font-family;
-    color: $sky-text-color-default;
+    line-height: $stache-line-height-headings;
+    color: $stache-text-color-default;
     margin: ($stache-margin * 2) 0;
-  }
-
-  p {
-    font-family: $sky-font-family;
-    color: $sky-text-color-default;
-    font-weight: 400;
-    font-size: 15px;
-    line-height: 1.5;
   }
 
   p,
