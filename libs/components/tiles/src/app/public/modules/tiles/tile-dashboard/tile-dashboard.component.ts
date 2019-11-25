@@ -10,10 +10,13 @@ import {
   ViewChildren,
   Optional
 } from '@angular/core';
+
 import {
-  Observable
+  Observable,
+  Subject
 } from 'rxjs';
 import 'rxjs/operator/take';
+import 'rxjs/add/operator/takeUntil';
 
 import {
   SkyMediaQueryService,
@@ -33,6 +36,10 @@ import {
 import {
   SkyTileDashboardService
 } from './tile-dashboard.service';
+import {
+  SkyTileDashboardMessage,
+  SkyTileDashboardMessageType
+} from './types';
 
 @Component({
   selector: 'sky-tile-dashboard',
@@ -54,6 +61,13 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
     return this._config;
   }
 
+  /**
+   * Provides an observable to send commands to the tile dashboard. The commands should respect the
+   * `SkyTileDashboardMessage` type.
+   */
+  @Input()
+  public messageStream = new Subject<SkyTileDashboardMessage>();
+
   @Input()
   public settingsKey: string;
 
@@ -71,6 +85,8 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
   private _config: SkyTileDashboardConfig;
 
   private configSet = false;
+
+  private ngUnsubscribe = new Subject();
 
   private viewReady = false;
 
@@ -114,20 +130,41 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  public ngAfterViewInit() {
+  public ngAfterViewInit(): void {
+    this.messageStream
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe((message: SkyTileDashboardMessage) => {
+        this.handleIncomingMessages(message);
+      });
+
     this.viewReady = true;
     this.checkReady();
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
     this.dashboardService.destroy();
   }
 
-  private checkReady() {
+  private checkReady(): void {
     if (this.viewReady && this.config) {
       setTimeout(() => {
         this.dashboardService.init(this.config, this.columns, this.singleColumn, this.settingsKey);
       }, 0);
+    }
+  }
+
+  private handleIncomingMessages(message: SkyTileDashboardMessage): void {
+    /* tslint:disable-next-line:switch-default */
+    switch (message.type) {
+      case SkyTileDashboardMessageType.ExpandAll:
+        this.dashboardService.setAllTilesCollapsed(false);
+        break;
+
+      case SkyTileDashboardMessageType.CollapseAll:
+        this.dashboardService.setAllTilesCollapsed(true);
+        break;
     }
   }
 }

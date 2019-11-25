@@ -1,10 +1,27 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewChild
+} from '@angular/core';
 
-import { SkyTileDashboardComponent, SkyTileDashboardConfig } from '../../../tiles';
-import { Tile1TestComponent } from './tile1.component.fixture';
-import { Tile2TestComponent } from './tile2.component.fixture';
+import {
+  Subject
+} from 'rxjs';
 
-import { TileTestContext } from './tile-context.fixture';
+import {
+  SkyTileDashboardComponent,
+  SkyTileDashboardConfig
+} from '../../../tiles';
+import {
+  Tile1TestComponent
+} from './tile1.component.fixture';
+import {
+  Tile2TestComponent
+} from './tile2.component.fixture';
+
+import {
+  TileTestContext
+} from './tile-context.fixture';
 
 @Component({
   selector: 'sky-demo-app',
@@ -16,6 +33,8 @@ export class TileDashboardOnPushTestComponent {
   public dashboardComponent: SkyTileDashboardComponent;
 
   public dashboardConfig: SkyTileDashboardConfig;
+
+  public messageStream = new Subject();
 
   constructor() {
     this.dashboardConfig = {

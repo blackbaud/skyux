@@ -148,7 +148,7 @@ describe('Tile dashboard service', () => {
         let dashboardService = fixture.componentInstance.dashboardComponent.dashboardService;
         let configChanged = false;
 
-        fixture.componentInstance.dashboardComponent.settingsKey = 'defaultSettings';
+        fixture.componentInstance.settingsKey = 'defaultSettings';
 
         dashboardService.configChange.subscribe(
           (config: SkyTileDashboardConfig) => {

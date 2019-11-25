@@ -4,6 +4,10 @@ import {
 } from '@angular/core';
 
 import {
+  Subject
+} from 'rxjs';
+
+import {
   SkyTileDashboardConfig
 } from '../../tile-dashboard-config';
 import {
@@ -20,6 +24,10 @@ import {
   TileTestContext
 } from './tile-context.fixture';
 
+import {
+  SkyTileDashboardMessageType
+} from '../types';
+
 @Component({
   selector: 'sky-demo-app',
   templateUrl: './tile-dashboard.component.fixture.html'
@@ -29,6 +37,10 @@ export class TileDashboardTestComponent {
   public dashboardComponent: SkyTileDashboardComponent;
 
   public dashboardConfig: SkyTileDashboardConfig;
+
+  public messageStream = new Subject();
+
+  public settingsKey: string;
 
   constructor() {
     this.dashboardConfig = {
@@ -123,5 +135,23 @@ export class TileDashboardTestComponent {
         ]
       }
     };
+  }
+
+  public expandAll(): void {
+    this.messageStream.next({ type: SkyTileDashboardMessageType.ExpandAll });
+  }
+
+  public collapseAll(): void {
+    this.messageStream.next({ type: SkyTileDashboardMessageType.CollapseAll });
+  }
+
+  public enableStickySettings(): void {
+    this.settingsKey = 'test';
+    this.dashboardComponent.dashboardService.init(
+      this.dashboardConfig,
+      this.dashboardComponent.columns,
+      this.dashboardComponent.singleColumn,
+      this.settingsKey
+    );
   }
 }

@@ -1,4 +1,6 @@
-import { QueryList } from '@angular/core';
+import {
+  QueryList
+} from '@angular/core';
 import {
   fakeAsync,
   TestBed,
@@ -7,13 +9,16 @@ import {
 } from '@angular/core/testing';
 
 import {
+  of
+} from 'rxjs';
+
+import {
+  SkyUIConfigService
+} from '@skyux/core';
+
+import {
   expect
 } from '@skyux-sdk/testing';
-
-import { SkyTileDashboardColumnComponent } from '../tile-dashboard-column';
-import { SkyTileDashboardComponent } from './tile-dashboard.component';
-import { SkyTileDashboardConfig } from '../tile-dashboard-config';
-import { SkyTileDashboardService } from './tile-dashboard.service';
 
 import {
   MockTileDashboardService,
@@ -21,20 +26,44 @@ import {
   Tile1TestComponent,
   Tile2TestComponent,
   TileDashboardTestComponent,
-  TileDashboardOnPushTestComponent
+  TileDashboardOnPushTestComponent,
+  TileTestContext
 } from './fixtures';
+
+import {
+  MockSkyUIConfigService
+} from './fixtures/mock-ui-config.service';
+
+import {
+  SkyTileDashboardColumnComponent
+} from '../tile-dashboard-column';
+import {
+  SkyTileDashboardComponent
+} from './tile-dashboard.component';
+import {
+  SkyTileDashboardConfig
+} from '../tile-dashboard-config';
+import {
+  SkyTileDashboardService
+} from './tile-dashboard.service';
 
 describe('Tile dashboard component', () => {
   let mockTileDashboardService: MockTileDashboardService;
+  let mockUIConfigService: MockSkyUIConfigService;
 
   beforeEach(() => {
     mockTileDashboardService = new MockTileDashboardService();
+    mockUIConfigService = new MockSkyUIConfigService();
 
     TestBed.configureTestingModule({
       providers: [
         {
           provide: SkyTileDashboardService,
           useValue: mockTileDashboardService
+        },
+        {
+          provide: SkyUIConfigService,
+          useValue: mockUIConfigService
         }
       ],
       imports: [
@@ -339,6 +368,237 @@ describe('Tile dashboard component', () => {
       expect(tileEl.querySelector('.sky-tile-title')).toHaveText('Tile 1');
     })
   );
+
+  it('should expand all tiles when the message stream sends the expand all message type', fakeAsync(() => {
+    let fixture = TestBed.createComponent(TileDashboardTestComponent);
+
+      fixture.detectChanges();
+      tick();
+
+      let cmp = fixture.componentInstance;
+      spyOn(cmp.dashboardComponent.configChange, 'emit').and.callThrough();
+      spyOn(mockUIConfigService, 'getConfig').and.callFake(() => { return of(); });
+      spyOn(mockUIConfigService, 'setConfig').and.callThrough();
+      cmp.enableStickySettings();
+      fixture.detectChanges();
+      cmp.expandAll();
+      fixture.detectChanges();
+      tick();
+
+      fixture.detectChanges();
+      tick();
+
+      const expectedDashboardConfig = {
+        tiles: [
+          {
+            id: 'sky-test-tile-1',
+            componentType: Tile1TestComponent
+          },
+          {
+            id: 'sky-test-tile-2',
+            componentType: Tile2TestComponent,
+            providers: [
+              {
+                provide: TileTestContext,
+                useValue: {
+                  id: 3
+                }
+              }
+            ]
+          },
+          {
+            id: 'sky-test-tile-3',
+            componentType: Tile2TestComponent,
+            providers: [
+              {
+                provide: TileTestContext,
+                useValue: {
+                  id: 3
+                }
+              }
+            ]
+          },
+          {
+            id: 'sky-test-tile-4',
+            componentType: Tile2TestComponent,
+            providers: [
+              {
+                provide: TileTestContext,
+                useValue: {
+                  id: 3
+                }
+              }
+            ]
+          }
+        ],
+        layout: {
+          singleColumn: {
+            tiles: [
+              {
+                id: 'sky-test-tile-2',
+                isCollapsed: false
+              },
+              {
+                id: 'sky-test-tile-1',
+                isCollapsed: false
+              },
+              {
+                id: 'sky-test-tile-3',
+                isCollapsed: false
+              },
+              {
+                id: 'sky-test-tile-4',
+                isCollapsed: false
+              }
+            ]
+          },
+          multiColumn: [
+            {
+              tiles: [
+                {
+                  id: 'sky-test-tile-1',
+                  isCollapsed: false
+                },
+                {
+                  id: 'sky-test-tile-3',
+                  isCollapsed: false
+                },
+                {
+                  id: 'sky-test-tile-4',
+                  isCollapsed: false
+                }
+              ]
+            },
+            {
+              tiles: [
+                {
+                  id: 'sky-test-tile-2',
+                  isCollapsed: false
+                }
+              ]
+            }
+          ]
+        }
+      };
+
+      expect(cmp.dashboardConfig).toEqual(expectedDashboardConfig);
+      expect(cmp.dashboardComponent.configChange.emit).toHaveBeenCalled();
+      expect(mockUIConfigService.setConfig).toHaveBeenCalled();
+  }));
+
+  it('should collapse all tiles when the message stream sends the collapse all message type', fakeAsync(() => {
+    let fixture = TestBed.createComponent(TileDashboardTestComponent);
+
+      fixture.detectChanges();
+      tick();
+
+      let cmp = fixture.componentInstance;
+      spyOn(cmp.dashboardComponent.configChange, 'emit').and.callThrough();
+      spyOn(mockUIConfigService, 'setConfig').and.callThrough();
+      cmp.collapseAll();
+      fixture.detectChanges();
+      tick();
+
+      fixture.detectChanges();
+      tick();
+
+      const expectedDashboardConfig = {
+        tiles: [
+          {
+            id: 'sky-test-tile-1',
+            componentType: Tile1TestComponent
+          },
+          {
+            id: 'sky-test-tile-2',
+            componentType: Tile2TestComponent,
+            providers: [
+              {
+                provide: TileTestContext,
+                useValue: {
+                  id: 3
+                }
+              }
+            ]
+          },
+          {
+            id: 'sky-test-tile-3',
+            componentType: Tile2TestComponent,
+            providers: [
+              {
+                provide: TileTestContext,
+                useValue: {
+                  id: 3
+                }
+              }
+            ]
+          },
+          {
+            id: 'sky-test-tile-4',
+            componentType: Tile2TestComponent,
+            providers: [
+              {
+                provide: TileTestContext,
+                useValue: {
+                  id: 3
+                }
+              }
+            ]
+          }
+        ],
+        layout: {
+          singleColumn: {
+            tiles: [
+              {
+                id: 'sky-test-tile-2',
+                isCollapsed: true
+              },
+              {
+                id: 'sky-test-tile-1',
+                isCollapsed: true
+              },
+              {
+                id: 'sky-test-tile-3',
+                isCollapsed: true
+              },
+              {
+                id: 'sky-test-tile-4',
+                isCollapsed: true
+              }
+            ]
+          },
+          multiColumn: [
+            {
+              tiles: [
+                {
+                  id: 'sky-test-tile-1',
+                  isCollapsed: true
+                },
+                {
+                  id: 'sky-test-tile-3',
+                  isCollapsed: true
+                },
+                {
+                  id: 'sky-test-tile-4',
+                  isCollapsed: true
+                }
+              ]
+            },
+            {
+              tiles: [
+                {
+                  id: 'sky-test-tile-2',
+                  isCollapsed: true
+                }
+              ]
+            }
+          ]
+        }
+      };
+
+      expect(cmp.dashboardConfig).toEqual(expectedDashboardConfig);
+      expect(cmp.dashboardComponent.configChange.emit).toHaveBeenCalled();
+      expect(mockUIConfigService.setConfig).not.toHaveBeenCalled();
+  }));
 
   it('should pass accessibility', async(() => {
     let fixture = TestBed.createComponent(TileDashboardOnPushTestComponent);

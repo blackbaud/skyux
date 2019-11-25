@@ -127,6 +127,26 @@ export class SkyTileDashboardService {
     return undefined;
   }
 
+  public setAllTilesCollapsed(isCollapsed: boolean): void {
+    /*istanbul ignore else */
+    if (this.config && this.config.layout.multiColumn) {
+      for (let column of this.config.layout.multiColumn) {
+        for (let tile of column.tiles) {
+          tile.isCollapsed = isCollapsed;
+        }
+      }
+      for (let tile of this.config.layout.singleColumn.tiles) {
+        tile.isCollapsed = isCollapsed;
+      }
+    }
+
+    if (this.settingsKey) {
+      this.setUserConfig(this.config);
+    }
+
+    this.configChange.emit(this.config);
+  }
+
   public setTileCollapsed(tile: SkyTileComponent, isCollapsed: boolean) {
     let tileConfig = this.findTile(this.getTileId(tile));
 

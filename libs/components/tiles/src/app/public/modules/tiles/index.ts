@@ -1,7 +1,9 @@
 export {
   SkyTileDashboardComponent,
   SkyTileDashboardModule,
-  SkyTileDashboardService
+  SkyTileDashboardService,
+  SkyTileDashboardMessage,
+  SkyTileDashboardMessageType
 } from './tile-dashboard';
 export {
   SkyTileComponent,
@@ -26,4 +28,6 @@ export {
   SkyTileDashboardConfigTile,
   SkyTileDashboardConfigReorderData
 } from './tile-dashboard-config';
-export { SkyTilesModule } from './tiles.module';
+export {
+  SkyTilesModule
+} from './tiles.module';
