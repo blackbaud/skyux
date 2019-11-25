@@ -1,3 +1,7 @@
+# 3.2.1 (2019-11-25)
+
+- Reverted font changes. [#60](https://github.com/blackbaud/skyux-lib-stache/pull/60)
+
 # 3.2.0 (2019-11-22)
 
 - Updated the text font-family and color to match SKY UX style conventions. [#8](https://github.com/blackbaud/skyux-lib-stache/pull/8)
