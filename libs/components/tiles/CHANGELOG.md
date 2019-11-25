@@ -1,3 +1,7 @@
+# 3.2.0 (2019-11-25)
+
+- Added a tile dashboard message stream to allow other components to remotely control its functions. [#42](https://github.com/blackbaud/skyux-tiles/pull/42)
+
 # 3.1.2 (2019-07-17)
 
 - Fixed the tile dashboard service to no longer cause undefined errors in a flyout component. [#38](https://github.com/blackbaud/skyux-tiles/pull/38) (Thanks @Blackbaud-KrisMahon)
