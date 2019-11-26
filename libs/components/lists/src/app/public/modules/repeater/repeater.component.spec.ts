@@ -1556,6 +1556,41 @@ describe('Repeater item component', () => {
       expect(document.activeElement).toBe(items[0]);
     }));
 
+    it(`should retain focus on child item when a repeater item is clicked and
+    keyboard navigation should start from there`, fakeAsync(() => {
+      const topLinks = el.querySelectorAll('.sky-repeater-item-reorder-top');
+      const items = getRepeaterItems(el);
+      const dragHandles = getReorderHandles(el);
+
+      // Focus on first item, and press right key. Expect focus to be on the first drag handle.
+      dragHandles[0].click();
+      dragHandles[0].focus();
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      expect(document.activeElement).toBe(dragHandles[0]);
+      SkyAppTestUtility.fireDomEvent(items[0], 'keydown', {
+        keyboardEventInit: {
+          key: 'ArrowRight'
+        }
+      });
+      expect(document.activeElement).toBe(topLinks[0]);
+
+      // Press right key. Expect focus to be on next child item.
+      SkyAppTestUtility.fireDomEvent(items[0], 'keydown', {
+        keyboardEventInit: {
+          key: 'ArrowLeft'
+        }
+      });
+      SkyAppTestUtility.fireDomEvent(items[0], 'keydown', {
+        keyboardEventInit: {
+          key: 'ArrowLeft'
+        }
+      });
+
+      expect(document.activeElement).toBe(items[0]);
+    }));
+
     it('should emit tags when "move to top" is clicked', fakeAsync(() => {
       detectChangesAndTick(fixture);
 

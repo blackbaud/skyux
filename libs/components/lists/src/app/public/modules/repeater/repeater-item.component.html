@@ -47,9 +47,9 @@
       </span>
       <button
         class="sky-btn sky-tile-tools-control sky-repeater-item-grab-handle"
+        type="button"
         [attr.aria-label]="reorderButtonLabel"
         (blur)="onReorderHandleBlur($event)"
-        (click)="$event.stopPropagation()"
         (keydown)="onReorderHandleKeyDown($event)"
         #grabHandle
       >
