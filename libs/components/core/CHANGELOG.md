@@ -1,3 +1,7 @@
+# 3.10.0 (2019-11-26)
+
+- Added `SkyAppTitleService` to implement basic logic for setting the window's title. SKY UX Builder replaces this service with an alternate implementation when the omnibar is present so that additional information such as the name of the selected service and the number of unread notifications can be added to the title. [#113](https://github.com/blackbaud/skyux-core/pull/113)
+
 # 3.9.0 (2019-11-22)
 
 - Added deprecation messages to the `SkyFormat` and `SkyWindowRefService` utilities. We will remove `SkyFormat` and `SkyWindowRefService` in the next major version release. We recommend replacing them with `SkyAppFormat` and `SkyAppWindowRef`. [#110](https://github.com/blackbaud/skyux-core/pull/110)
