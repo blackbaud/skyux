@@ -17,6 +17,10 @@ import {
 } from '@angular/router';
 
 import {
+  SkyAppConfig
+} from '@skyux/config';
+
+import {
   StacheNavLink
 } from '@blackbaud/skyux-lib-stache';
 
@@ -129,11 +133,14 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit, After
     private activatedRoute: ActivatedRoute,
     private changeDetector: ChangeDetectorRef,
     private router: Router,
+    private skyAppConfig: SkyAppConfig,
     private supportalService: SkyDocsSupportalService,
     private titleService: SkyDocsDemoPageTitleService
   ) { }
 
   public ngOnInit(): void {
+    const currentHostUrl = this.skyAppConfig.skyux.host.url + '/' + this.skyAppConfig.skyux.name;
+
     this.updateTitle();
 
     this.supportalService
@@ -145,7 +152,8 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit, After
           children: results.map((component: SkyDocsComponentInfo) => {
             return {
               name: component.name,
-              path: component.url
+              // Replace host + SPA so Stache will mark active
+              path: component.url.replace(currentHostUrl, '')
             };
           })
         }];
