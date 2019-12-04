@@ -10,7 +10,14 @@ import { InputConverter } from '../shared/input-converter';
 })
 export class StacheActionButtonsComponent implements OnInit {
   @Input()
-  public routes: StacheNavLink[];
+  public set routes(value: StacheNavLink[]) {
+    this._routes = value;
+    this.filteredRoutes = this.routes;
+  }
+
+  public get routes(): StacheNavLink[] {
+    return this._routes || [];
+  }
 
   @Input()
   @InputConverter()
@@ -19,6 +26,8 @@ export class StacheActionButtonsComponent implements OnInit {
   public filteredRoutes: StacheNavLink[];
 
   public searchText: string;
+
+  private _routes: StacheNavLink[];
 
   private searchKeys: string[] = ['name', 'summary'];
 

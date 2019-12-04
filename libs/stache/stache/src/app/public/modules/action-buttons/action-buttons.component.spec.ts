@@ -181,4 +181,19 @@ describe('StacheActionButtonsComponent', () => {
     fixture.detectChanges();
     expect(fixture.debugElement.nativeElement).toBeAccessible();
   }));
+
+  it('should allow async routes', () => {
+    component.routes = undefined;
+    fixture.detectChanges();
+
+    expect(component.filteredRoutes.length).toBe(0);
+
+    component.routes = [{
+      name: 'Sample',
+      path: '/'
+    }];
+    fixture.detectChanges();
+
+    expect(component.filteredRoutes.length).toBe(1);
+  });
 });
