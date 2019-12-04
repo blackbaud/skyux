@@ -5,9 +5,14 @@ import {
 import {
   CellClassParams,
   ColumnApi,
+  GridApi,
   GridOptions,
   ValueFormatterParams
 } from 'ag-grid-community';
+
+import {
+  CellKeyPressEvent
+} from 'ag-grid-community/dist/lib/events';
 
 import {
   SkyAgGridService,
@@ -263,6 +268,57 @@ describe('SkyAgGridService', () => {
 
     it('should return -1 when value2 is defined and value1 is undefined', () => {
       expect(autocompleteComparator(undefined, dog)).toEqual(-1);
+    });
+  });
+
+  describe('onKeyPress', () => {
+    let onKeyPressFunction: Function;
+    let gridApi: GridApi;
+    let keypress: CellKeyPressEvent;
+
+    beforeEach(() => {
+      onKeyPressFunction = defaultGridOptions.onCellKeyPress;
+      gridApi = new GridApi();
+
+      keypress = {
+        api: gridApi,
+        colDef: {
+          colId: 'test'
+        },
+        column: undefined,
+        columnApi: undefined,
+        context: undefined,
+        data: undefined,
+        node: undefined,
+        rowIndex: 1,
+        rowPinned: undefined,
+        type: 'keypress',
+        value: undefined
+      };
+    });
+
+    it('should start editing when the enter key was pressed', () => {
+      spyOn(gridApi, 'startEditingCell');
+      const event = {
+        key: 'Enter'
+      } as KeyboardEvent;
+      keypress.event = event;
+
+      onKeyPressFunction(keypress);
+
+      expect(gridApi.startEditingCell).toHaveBeenCalledWith({rowIndex: 1, colKey: 'test'});
+    });
+
+    it('should not start editing when the space key is pressed', () => {
+      spyOn(gridApi, 'startEditingCell');
+      const event = {
+        key: 'Space'
+      } as KeyboardEvent;
+      keypress.event = event;
+
+      onKeyPressFunction(keypress);
+
+      expect(gridApi.startEditingCell).not.toHaveBeenCalled();
     });
   });
 

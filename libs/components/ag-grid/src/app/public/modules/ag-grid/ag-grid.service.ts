@@ -9,6 +9,10 @@ import {
 } from 'ag-grid-community';
 
 import {
+  CellKeyPressEvent
+} from 'ag-grid-community/dist/lib/events';
+
+import {
   SkyAgGridCellEditorAutocompleteComponent,
   SkyAgGridCellEditorDatepickerComponent,
   SkyAgGridCellEditorNumberComponent,
@@ -113,7 +117,7 @@ export class SkyAgGridService {
       [SkyCellClass.Uneditable]: getEditableFn(true)
     };
 
-    const defaultSkyGridOptions = {
+    const defaultSkyGridOptions: GridOptions = {
       columnTypes: {
         [SkyCellType.Autocomplete]: {
           cellClassRules: {
@@ -175,6 +179,7 @@ export class SkyAgGridService {
         columnMoveRight: this.getIconTemplate('arrows'),
         columnMovePin: this.getIconTemplate('arrows')
       },
+      onCellKeyPress: (keypress: CellKeyPressEvent) => this.onKeyPress(keypress),
       rowHeight: 38,
       rowMultiSelectWithClick: true,
       rowSelection: 'multiple',
@@ -204,5 +209,16 @@ export class SkyAgGridService {
 
   private getIconTemplate(iconName: string): string {
     return `<i class="fa fa-${iconName}"></i>`;
+  }
+
+  private onKeyPress(keypress: CellKeyPressEvent): void {
+    const event = keypress.event as KeyboardEvent;
+
+    if (event.key === 'Enter') {
+      keypress.api.startEditingCell({
+        rowIndex: keypress.rowIndex,
+        colKey: keypress.colDef.colId
+      });
+    }
   }
 }
