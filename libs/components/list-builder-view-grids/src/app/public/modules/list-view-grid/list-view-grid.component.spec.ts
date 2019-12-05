@@ -328,6 +328,25 @@ describe('List View Grid Component', () => {
         tick();
       }));
 
+      it('should default to vanilla grid search function when the search input is undefined', fakeAsync(() => {
+        setupTest();
+
+        flush();
+        tick();
+
+        state.take(1).subscribe((current) => {
+          let searchFound = current.search.functions[0]({column1: 'foobar'}, 'foobar');
+          expect(searchFound).toBe(true);
+        });
+
+        state.take(1).subscribe((current) => {
+          let searchFound = current.search.functions[0]({column1: 'foobar'}, 'baz');
+          expect(searchFound).toBe(false);
+        });
+
+        tick();
+      }));
+
       it('should pass rowHighlightedId through to grid component', fakeAsync(() => {
         setupTest();
         flush();

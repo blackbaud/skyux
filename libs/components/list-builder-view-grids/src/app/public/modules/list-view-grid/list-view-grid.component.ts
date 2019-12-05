@@ -109,9 +109,6 @@ export class SkyListViewGridComponent
   public enableMultiselect: boolean = false;
 
   @Input()
-  public multiselectRowId: string;
-
-  @Input()
   public settingsKey: string;
 
   @Output()
