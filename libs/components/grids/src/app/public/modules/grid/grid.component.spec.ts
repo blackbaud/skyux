@@ -1342,6 +1342,26 @@ describe('Grid Component', () => {
         }
       });
 
+      it('should check checkboxes when selectedRowIds is set on init', () => {
+        // Re-initialize component with 1 and 3 pre-selected.
+        fixture = TestBed.createComponent(GridTestComponent);
+        component = fixture.componentInstance;
+        element = fixture.debugElement as DebugElement;
+        component.enableMultiselect = true;
+        component.selectedRowIds = ['1', '3'];
+        fixture.detectChanges();
+        fixture.detectChanges();
+
+        // Verify those rows are selected and displayed properly.
+        verifyCheckbox(0, true);
+        verifyCheckbox(1, false);
+        verifyCheckbox(2, true);
+        verifyCheckbox(3, false);
+        verifyCheckbox(4, false);
+        verifyCheckbox(5, false);
+        verifyCheckbox(6, false);
+      });
+
       it('should properly update the checkboxes when selectedRowIds is changed', () => {
         // Select group of rows.
         let selectedIds = ['1', '3'];

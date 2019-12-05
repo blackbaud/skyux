@@ -175,12 +175,14 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
   @Input()
   public set selectedRowIds(value: Array<string>) {
     if (value) {
-      for (let i = 0; i < this.items.length; i++) {
-        this.items[i].isSelected = (value.indexOf(this.items[i].id) > -1);
-      }
+      this._selectedRowIds = value;
+      this.applySelectedRows();
       this.emitSelectedRows();
-      this.ref.markForCheck();
     }
+  }
+
+  public get selectedRowIds(): Array<string> {
+    return this._selectedRowIds;
   }
 
   @Input()
@@ -235,10 +237,13 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
   private startColumnWidth: number;
   private xPosStart: number;
   private isResized: boolean = false;
-  private _selectedColumnIds: Array<string>;
   private selectedColumnIdsSet: boolean = false;
 
   private ngUnsubscribe = new Subject();
+
+  private _selectedColumnIds: Array<string>;
+
+  private _selectedRowIds: Array<string>;
 
   constructor(
     private dragulaService: DragulaService,
@@ -279,6 +284,8 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
         this.onHeaderDrop(selectedColumnIds);
       }
     );
+
+    this.applySelectedRows();
   }
 
   public ngOnChanges(changes: SimpleChanges) {
@@ -626,6 +633,15 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
       }
       return new ListItemModel(item.id, item, checked);
     });
+  }
+
+  private applySelectedRows(): void {
+    if (this.items && this.items.length > 0 && this.selectedRowIds) {
+      for (let i = 0; i < this.items.length; i++) {
+        this.items[i].isSelected = (this.selectedRowIds.indexOf(this.items[i].id) > -1);
+      }
+      this.ref.markForCheck();
+    }
   }
 
   private setSortHeaders() {
