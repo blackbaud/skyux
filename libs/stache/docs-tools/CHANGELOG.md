@@ -1,3 +1,7 @@
+# 3.0.0-alpha.25 (2019-12-02)
+
+- Bugfix to allow popovers (and all future SPAs) to be marked as active. [#5](https://github.com/blackbaud/skyux-docs-tools/pull/5)
+
 # 3.0.0-alpha.24 (2019-11-22)
 
 - Added the `SkyDocsSupportalService` to allow consumers to fetch a list of component information. [#4](https://github.com/blackbaud/skyux-docs-tools/pull/4)
