@@ -300,6 +300,27 @@ describe('in memory data provider', () => {
       tick();
     }));
 
+    it('should not execute filters when the toolbar is disabled', fakeAsync(() => {
+      let provider = new SkyListInMemoryDataProvider(items);
+      let request = new ListDataRequestModel({
+        isToolbarDisabled: true,
+        filters: [
+          new ListFilterModel({
+            name: 'fruitColor',
+            value: 'yellow',
+            filterFunction: filterByColor
+          })
+        ],
+        pageSize: 5,
+        pageNumber: 1
+      });
+      tick();
+
+      provider.get(request).take(1).subscribe((result) => {
+        expect(result.count).toBe(7);
+      });
+    }));
+
     it('should handle both a filter and a search', fakeAsync(() => {
       let provider = new SkyListInMemoryDataProvider(items);
 

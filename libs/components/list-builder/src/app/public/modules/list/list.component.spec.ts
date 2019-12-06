@@ -651,6 +651,43 @@ describe('List Component', () => {
         });
 
       }));
+
+      it('should properly retain selections and update item.isSelected after selecting and clearing all, then updating the filters', fakeAsync(() => {
+        // Simulate 'select all' click.
+        dispatcher.setSelected(['1','2','3','4','5','6','7'], true);
+        fixture.detectChanges();
+
+        // Apply "Show only selected" filter.
+        const filters = [
+          new ListFilterModel({
+            name: 'show-selected'
+          })
+        ];
+        dispatcher.filtersUpdate(filters);
+        fixture.detectChanges();
+
+        // Expect all rows to be selected.
+        state.map(s => s.items.items).take(1).subscribe((items)=> {
+          items.forEach(i => {
+            expect(i.isSelected).toEqual(true);
+          });
+        });
+
+        // Simulate 'clear all' click.
+        dispatcher.setSelected(['1','2','3','4','5','6','7'], false);
+        fixture.detectChanges();
+
+        // Disable the "Show only selected" filter.
+        dispatcher.filtersUpdate([]);
+        fixture.detectChanges();
+
+        // Expect no rows to be selected.
+        state.map(s => s.items.items).take(1).subscribe((items)=> {
+          items.forEach(i => {
+            expect(i.isSelected).toEqual(false);
+          });
+        });
+      }));
     });
 
     describe('filtering', () => {
@@ -1175,7 +1212,7 @@ describe('List Component', () => {
       expect(model.items).toBe(undefined);
     });
 
-     it('should construct ListSearchSetFunctionsAction', () => {
+    it('should construct ListSearchSetFunctionsAction', () => {
       let action = new ListSearchSetFunctionsAction();
       expect(action).not.toBeUndefined();
     });
