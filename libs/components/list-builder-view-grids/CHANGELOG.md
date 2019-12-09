@@ -1,3 +1,7 @@
+# 3.6.0 (2019-12-06)
+
+- Removed the `multiselectRowId` input property from the list view grid component. [#55](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/55)
+
 # 3.5.0 (2019-09-27)
 
 - Added support for `@skyux-sdk/builder@3.8.0`. [#49](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/49)
