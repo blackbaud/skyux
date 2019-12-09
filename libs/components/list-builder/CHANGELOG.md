@@ -1,3 +1,7 @@
+# 3.6.2 (2019-12-06)
+
+- Fixed the list component to properly retain selections after removing filters. [#72](https://github.com/blackbaud/skyux-list-builder/pull/72)
+
 # 3.6.1 (2019-11-07)
 
 - Fixed the list component to properly return data when calling `refreshDisplayedItems()`. [#69](https://github.com/blackbaud/skyux-list-builder/pull/69)
