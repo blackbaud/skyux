@@ -51,6 +51,10 @@ a.sky-btn {
   @include sky-button-variant($sky-color-white, $sky-background-color-primary-dark, $sky-background-color-primary-dark);
 }
 
+.sky-btn-danger {
+  @include sky-button-variant($sky-color-white, $sky-background-color-danger-dark, $sky-background-color-danger-dark);
+}
+
 .sky-btn-link {
   color: $sky-text-color-action-primary;
   background-color: transparent;
