@@ -15,6 +15,10 @@ import {
   StacheRouteService
 } from '../router/route.service';
 
+import {
+  StacheNavService
+} from '../nav/nav.service';
+
 let uniqueId = 0;
 
 @Component({
@@ -47,7 +51,8 @@ export class StacheSidebarComponent implements StacheNav {
   private _routes: StacheNavLink[];
 
   public constructor(
-    private routeService: StacheRouteService
+    private routeService: StacheRouteService,
+    private navService: StacheNavService
   ) { }
 
   public isHeadingActive(): boolean {
@@ -62,7 +67,9 @@ export class StacheSidebarComponent implements StacheNav {
     headingPath = headingPath.replace(/^\//, '');
 
     this.heading = root.name;
-    this.headingRoute = `/${headingPath}`;
+
+    const prefix = this.navService.isExternal(headingPath) ? '' : '/';
+    this.headingRoute = `${prefix}${headingPath}`;
 
     return root.children;
   }

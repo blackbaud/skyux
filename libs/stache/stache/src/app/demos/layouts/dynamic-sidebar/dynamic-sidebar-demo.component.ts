@@ -16,8 +16,8 @@ export class DynamicSidebarDemoComponent {
   // you must provide an array with at least one item.
   public sidebarRoutes: StacheNavLink[] = [
     {
-      name: 'Parent link',
-      path: '/parent-1',
+      name: 'External Parent link',
+      path: 'https://example.org',
       children: []
     }
   ];
