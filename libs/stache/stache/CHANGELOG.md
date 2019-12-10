@@ -1,3 +1,11 @@
+# 3.2.3 (2019-12-10)
+
+- Fixed sidebar to allow external url for heading. [#64](https://github.com/blackbaud/skyux-lib-stache/pull/64)
+
+# 3.2.2 (2019-12-04)
+
+- Fixed the action buttons component to support asynchronous route assignments. [#62](https://github.com/blackbaud/skyux-lib-stache/pull/62)
+
 # 3.2.1 (2019-11-25)
 
 - Reverted font changes. [#60](https://github.com/blackbaud/skyux-lib-stache/pull/60)
