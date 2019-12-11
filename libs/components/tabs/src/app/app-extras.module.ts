@@ -3,6 +3,11 @@ import {
 } from '@angular/core';
 
 import {
+  SkyDocsToolsModule,
+  SkyDocsToolsOptions
+} from '@skyux/docs-tools';
+
+import {
   SkyCheckboxModule
 } from '@skyux/forms';
 
@@ -20,9 +25,19 @@ import {
   exports: [
     SkyAppLinkModule,
     SkyCheckboxModule,
+    SkyDocsToolsModule,
     SkySectionedFormModule,
     SkyTabsModule,
     SkyVerticalTabsetModule
+  ],
+  providers: [
+    {
+      provide: SkyDocsToolsOptions,
+      useValue: {
+        gitRepoUrl: 'https://github.com/blackbaud/skyux-tabs',
+        packageName: '@skyux/tabs'
+      }
+    }
   ]
 })
 export class AppExtrasModule { }
