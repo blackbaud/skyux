@@ -148,14 +148,12 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit, After
       .subscribe((results: SkyDocsComponentInfo[]) => {
         this.sidebarRoutes = [{
           name: 'Components',
-          path: '/',
-          children: results.map((component: SkyDocsComponentInfo) => {
-            return {
-              name: component.name,
-              // Replace host + SPA so Stache will mark active
-              path: component.url.replace(currentHostUrl, '')
-            };
-          })
+          path: 'https://developer.blackbaud.com/skyux/components',
+          children: results.map((component: SkyDocsComponentInfo) => ({
+            name: component.name,
+            // Replace host + SPA so Stache will mark active
+            path: component.url.replace(currentHostUrl, '')
+          }))
         }];
         this.changeDetector.markForCheck();
       });
