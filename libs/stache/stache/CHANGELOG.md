@@ -1,6 +1,6 @@
 # 3.2.3 (2019-12-10)
 
-- Fixed sidebar to allow external url for heading. [#64](https://github.com/blackbaud/skyux-lib-stache/pull/64)
+- Fixed the sidebar to allow headers to link to external URLs. [#64](https://github.com/blackbaud/skyux-lib-stache/pull/64)
 
 # 3.2.2 (2019-12-04)
 
