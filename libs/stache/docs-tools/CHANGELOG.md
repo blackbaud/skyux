@@ -1,3 +1,7 @@
+# 3.0.0-alpha.26 (2019-12-11)
+
+- Updated the sidebar header. [#7](https://github.com/blackbaud/skyux-docs-tools/pull/7)
+
 # 3.0.0-alpha.25 (2019-12-02)
 
 - Bugfix to allow popovers (and all future SPAs) to be marked as active. [#5](https://github.com/blackbaud/skyux-docs-tools/pull/5)
