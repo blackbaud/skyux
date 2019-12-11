@@ -76,6 +76,7 @@ export class GridVisualComponent {
 
   public onMultiselectSelectionChange(value: SkyGridSelectedRowsModelChange): void {
     this.selectedRowIdsDisplay = value.selectedRowIds;
+    console.log(value);
   }
 
   public selectAll(): void {
