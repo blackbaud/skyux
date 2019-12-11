@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  ContentChild,
   ContentChildren,
   ElementRef,
   EventEmitter,
@@ -49,6 +50,10 @@ import {
 import {
   SkyRepeaterItemContentComponent
 } from './repeater-item-content.component';
+
+import {
+  SkyRepeaterItemContextMenuComponent
+} from './repeater-item-context-menu.component';
 
 import {
   SkyRepeaterService
@@ -162,6 +167,9 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
    */
   @Input()
   public tag: any;
+
+  @ContentChild(SkyRepeaterItemContextMenuComponent, { read: ElementRef })
+  public contextMenu: ElementRef;
 
   @ViewChild('skyRepeaterItem', { read: ElementRef })
   private itemRef: ElementRef;

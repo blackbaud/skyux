@@ -119,6 +119,14 @@
         >
         </sky-chevron>
       </div>
+      <!-- Used for when the chevron is hidden to ensure that the right side is the same height as the left.-->
+      <div *ngIf="!isCollapsible && !contextMenu"
+        class="sky-repeater-item-chevron-placeholder"
+      ></div>
+      <!-- Used to ensure that the right side is the same height as the left.-->
+      <div *ngIf="contextMenu"
+        class="sky-repeater-item-chevron-placeholder-with-context"
+      ></div>
     </header>
     <div
       class="sky-repeater-item-content"

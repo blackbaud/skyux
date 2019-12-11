@@ -55,6 +55,18 @@
   margin-left: $sky-margin;
 }
 
+// Height here is the standard height for checkboxes and the reorder handle. Used for when the
+// chevron is hidden to ensure that the right side is the same height as the left.
+.sky-repeater-item-chevron-placeholder {
+  height: 24px;
+}
+
+// Height here is the standard height for context menus. Used to ensure that the right side is
+// the same height as the left.
+.sky-repeater-item-chevron-placeholder-with-context {
+  height: 29px;
+}
+
 .sky-repeater-item-context-menu {
   padding: 0 $sky-padding 0 0;
 }
