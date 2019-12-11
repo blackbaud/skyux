@@ -7,6 +7,11 @@ import {
 } from '@skyux/avatar';
 
 import {
+  SkyDocsToolsModule,
+  SkyDocsToolsOptions
+} from '@skyux/docs-tools';
+
+import {
   SkyAlertModule,
   SkyKeyInfoModule,
   SkyLabelModule,
@@ -36,6 +41,7 @@ import {
     SkyAvatarModule,
     SkyCardModule,
     SkyDefinitionListModule,
+    SkyDocsToolsModule,
     SkyFluidGridModule,
     SkyIconModule,
     SkyKeyInfoModule,
@@ -44,6 +50,15 @@ import {
     SkyTextExpandModule,
     SkyTextExpandRepeaterModule,
     SkyToolbarModule
+  ],
+  providers: [
+    {
+      provide: SkyDocsToolsOptions,
+      useValue: {
+        gitRepoUrl: 'https://github.com/blackbaud/skyux-layout',
+        packageName: '@skyux/layout'
+      }
+    }
   ]
 })
 export class AppExtrasModule { }
