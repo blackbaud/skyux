@@ -3,6 +3,11 @@ import {
 } from '@angular/core';
 
 import {
+  SkyDocsToolsModule,
+  SkyDocsToolsOptions
+} from '@skyux/docs-tools';
+
+import {
   SkyIconModule
 } from '@skyux/indicators';
 
@@ -22,6 +27,7 @@ import {
 @NgModule({
   exports: [
     SkyAppLinkModule,
+    SkyDocsToolsModule,
     SkyIconModule,
     SkyListModule,
     SkyListFiltersModule,
@@ -30,7 +36,15 @@ import {
     SkyListToolbarModule,
     SkyListViewSwitcherModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: SkyDocsToolsOptions,
+      useValue: {
+        gitRepoUrl: 'https://github.com/blackbaud/skyux-list-builder',
+        packageName: '@skyux/list-builder'
+      }
+    }
+  ],
   entryComponents: []
 })
 export class AppExtrasModule { }
