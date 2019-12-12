@@ -1,3 +1,7 @@
+# 3.1.2 (2019-12-12)
+
+- Fixed the modal component to correctly stack child elements inside the modal. [#73](https://github.com/blackbaud/skyux-modals/pull/73)
+
 # 3.1.1 (2019-11-22)
 
 - Fixed the modal component to support Angular versions greater than 8. [#71](https://github.com/blackbaud/skyux-modals/pull/71)
