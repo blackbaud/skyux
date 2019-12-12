@@ -1,20 +1,131 @@
 <div style="width: 400px">
   <div id="group1">
-    <input type="button" class="sky-form-control" value="Click me">
-    <input type="checkbox" name="vehicle1" value="Bike" class="sky-form-control"> I have a bike<br>
-    <input type="checkbox" name="vehicle2" value="Car" class="sky-form-control"> I have a car<br>
-    <input type="checkbox" name="vehicle3" value="Boat" checked class="sky-form-control"> I have a boat<br>
-    Select your favorite color: <input type="color" name="favcolor" class="sky-form-control"><br>
-    Birthday: <input type="date" name="bday" class="sky-form-control"><br>
-    Birthday (date and time): <input type="datetime-local" name="bdaytime" class="sky-form-control"><br>
-    E-mail: <input type="email" name="emailaddress" class="sky-form-control"><br>
-    Select a file: <input type="file" name="myFile" class="sky-form-control"><br>
-    <input type="hidden" id="custId" name="custId" value="3487" class="sky-form-control"><br>
-    <input type="image" style="width:100px; height:100px" [src]="imageData" alt="Submit" class="sky-form-control"><br>
-    Birthday (month and year): <input type="month" name="bdaymonth" class="sky-form-control"><br>
-    Quantity (between 1 and 5): <input type="number" name="quantity" min="1" max="5" class="sky-form-control"><br>
+    <button
+      (click)="onDisableToggleClick()"
+      type="button"
+    >
+      Toggle disabled state
+    </button>
+
+    <input
+      class="sky-form-control"
+      type="button"
+      value="Click me"
+      [disabled]="disabled"
+    >
+    <input
+      class="sky-form-control"
+      name="vehicle1"
+      type="checkbox"
+      value="Bike"
+      [disabled]="disabled"
+    > I have a bike
     <br>
+    <input
+      class="sky-form-control"
+      name="vehicle2"
+      type="checkbox"
+      value="Car"
+      [disabled]="disabled"
+    >
+    I have a car
+    <br>
+    <input
+      checked
+      class="sky-form-control"
+      name="vehicle3"
+      type="checkbox"
+      value="Boat"
+      [disabled]="disabled"
+    >
+    I have a boat
+    <br>
+    Select your favorite color:
+    <input
+      class="sky-form-control"
+      name="favcolor"
+      [disabled]="disabled"
+      type="color"
+    >
+    <br>
+    Birthday:
+    <input
+      class="sky-form-control"
+      name="bday"
+      type="date"
+      [disabled]="disabled"
+    >
+    <br>
+    Birthday (date and time):
+    <input
+      class="sky-form-control"
+      name="bdaytime"
+      type="datetime-local"
+      [disabled]="disabled"
+    >
+    <br>
+    E-mail:
+    <input
+      class="sky-form-control"
+      name="emailaddress"
+      type="email"
+      [disabled]="disabled"
+    >
+    <br>
+    Select a file:
+    <input
+      class="sky-form-control"
+      name="myFile"
+      type="file"
+      [disabled]="disabled"
+    >
+    <br>
+    <input
+      class="sky-form-control"
+      id="custId"
+      name="custId"
+      type="hidden"
+      value="3487"
+      [disabled]="disabled"
+    >
+    <br>
+    <input
+      alt="Submit"
+      class="sky-form-control"
+      style="width:100px; height:100px"
+      type="image"
+      [disabled]="disabled"
+      [src]="imageData"
+    >
+    <br>
+    Birthday (month and year):
+    <input
+      class="sky-form-control"
+      name="bdaymonth"
+      type="month"
+      [disabled]="disabled"
+    >
+    <br>
+    Quantity (between 1 and 5):
+    <input
+      class="sky-form-control"
+      max="5"
+      min="1"
+      name="quantity"
+      type="number"
+      [disabled]="disabled"
+    >
+    <br>
+    <select
+      class="sky-form-control"
+      [disabled]="disabled"
+    >
+      <option>One</option>
+      <option>Two</option>
+      <option>Three</option>
+    </select>
   </div>
+
   <div id="group2">
     <input type="password" name="pwd" value="intiial" class="sky-form-control"><br>
     <input type="radio" name="gender" value="male" class="sky-form-control"> Male<br>
