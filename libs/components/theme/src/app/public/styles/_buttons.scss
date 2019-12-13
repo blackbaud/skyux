@@ -166,3 +166,25 @@ a.sky-btn {
   }
 
 }
+
+.sky-btn-borderless {
+  @include sky-icon-button-borderless();
+  border: none;
+}
+
+.sky-btn-borderless:hover {
+  border: none;
+}
+
+.sky-btn-borderless-inline {
+  @extend .sky-btn-borderless;
+  font-size: inherit;
+  line-height: inherit;
+  display: inline;
+  padding: 0;
+  vertical-align: top;
+}
+
+.sky-btn-borderless-inline:hover {
+  border: none;
+}
