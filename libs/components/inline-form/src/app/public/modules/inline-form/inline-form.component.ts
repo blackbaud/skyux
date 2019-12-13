@@ -5,8 +5,8 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  OnInit,
   OnDestroy,
+  OnInit,
   Output,
   TemplateRef
 } from '@angular/core';
@@ -61,7 +61,16 @@ import {
 export class SkyInlineFormComponent implements OnInit, OnDestroy {
 
   @Input()
-  public config: SkyInlineFormConfig;
+  public set config(value: SkyInlineFormConfig) {
+    if (value !== this._config) {
+      this._config = value;
+      this.setupButtons();
+    }
+  }
+
+  public get config(): SkyInlineFormConfig {
+    return this._config;
+  }
 
   @Input()
   public template: TemplateRef<any>;
@@ -88,6 +97,8 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
 
   public buttons: SkyInlineFormButtonConfig[];
 
+  private _config: SkyInlineFormConfig;
+
   private _showForm: boolean = false;
 
   constructor(
@@ -99,14 +110,7 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    if (this.isValidCustomConfig(this.config)) {
-      this.buttons = this.getCustomButtons(this.config.buttons);
-    } else {
-      this.getPresetButtons().then((buttons: SkyInlineFormButtonConfig[]) => {
-        this.buttons = buttons;
-        this.changeDetectorRef.markForCheck();
-      });
-    }
+    this.setupButtons();
   }
 
   public ngOnDestroy(): void {
@@ -118,6 +122,19 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
       reason: event.action
     };
     this.close.emit(args);
+  }
+
+  private setupButtons(): void {
+    if (this.isValidCustomConfig(this.config)) {
+      this.buttons = this.getCustomButtons(this.config.buttons);
+      this.changeDetectorRef.markForCheck();
+      return;
+    }
+
+    this.getPresetButtons().then((buttons) => {
+      this.buttons = buttons;
+      this.changeDetectorRef.markForCheck();
+    });
   }
 
   private getPresetButtons(): Promise<SkyInlineFormButtonConfig[]> {

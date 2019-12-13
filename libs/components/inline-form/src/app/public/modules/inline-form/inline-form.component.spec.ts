@@ -283,6 +283,36 @@ describe('Inline form component', () => {
     });
   }));
 
+  it('should change the buttons when config input is changed', fakeAsync(() => {
+    component.config = {
+      buttonLayout: SkyInlineFormButtonLayout.Custom,
+      buttons: [
+        { action: 'CUSTOM_ACTION_1', text: 'CUSTOM_TEXT_1', styleType: 'primary' },
+        { action: 'CUSTOM_ACTION_2', text: 'CUSTOM_TEXT_2', styleType: 'default' },
+        { action: 'CUSTOM_ACTION_3', text: 'CUSTOM_TEXT_3', styleType: 'link' }
+      ]
+    };
+    showForm();
+
+    component.config = {
+      buttonLayout: SkyInlineFormButtonLayout.Custom,
+      buttons: [
+        { action: 'CUSTOM_ACTION_1', text: 'CUSTOM_TEXT_CHANGED_1', styleType: 'primary' },
+        { action: 'CUSTOM_ACTION_2', text: 'CUSTOM_TEXT_CHANGED_2', styleType: 'default' }
+      ]
+    };
+
+    fixture.detectChanges();
+
+    const button1 = getPrimaryButton(fixture);
+    const button2 = getDefaultButton(fixture);
+    const button3 = getLinkButton(fixture);
+
+    expect(button1.nativeElement.textContent).toContain('CUSTOM_TEXT_CHANGED_1');
+    expect(button2.nativeElement.textContent).toContain('CUSTOM_TEXT_CHANGED_2');
+    expect(button3).toBeNull();
+  }));
+
   it('should pass accessibility', async(() => {
     component.showForm = true;
     fixture.detectChanges();
