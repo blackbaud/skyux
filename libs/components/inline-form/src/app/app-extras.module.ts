@@ -7,12 +7,16 @@ import {
 } from '@skyux/indicators';
 
 import {
+  SkyAppLinkModule
+} from '@skyux/router';
+
+import {
   SkyTilesModule
 } from '@skyux/tiles';
 
 import {
   SkyInlineFormModule
-} from './public/modules/inline-form/inline-form.module';
+} from './public';
 
 import {
   SkyTileDemoTileComponent
@@ -20,6 +24,7 @@ import {
 
 @NgModule({
   exports: [
+    SkyAppLinkModule,
     SkyIconModule,
     SkyInlineFormModule,
     SkyTilesModule
