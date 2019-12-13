@@ -16,6 +16,7 @@ import {
 @Component({
   selector: 'sky-docs-service-definition',
   templateUrl: './service-definition.component.html',
+  styleUrls: ['./service-definition.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyDocsServiceDefinitionComponent {

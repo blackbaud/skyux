@@ -1,5 +1,4 @@
-@import '~@skyux/theme/scss/mixins';
-@import '~@skyux/theme/scss/_compat/mixins';
+@import '../../styles/mixins';
 
 .sky-docs-heading-anchor {
   color: $sky-text-color-default;
@@ -26,3 +25,5 @@
   font-weight: normal;
   font-size: 18px;
 }
+
+@include sky-docs-tools-headings(heading-anchor);

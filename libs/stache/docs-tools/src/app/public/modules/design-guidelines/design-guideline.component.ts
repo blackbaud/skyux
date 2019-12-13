@@ -14,6 +14,7 @@ import {
 @Component({
   selector: 'sky-docs-design-guideline',
   templateUrl: './design-guideline.component.html',
+  styleUrls: ['./design-guideline.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyDocsDesignGuidelineComponent implements AfterContentInit {
@@ -25,9 +26,7 @@ export class SkyDocsDesignGuidelineComponent implements AfterContentInit {
   public headingStyle: 'default' | 'success' | 'danger' = 'default';
 
   public get classNames(): string {
-    const classNames: string[] = [
-      'sky-docs-h3'
-    ];
+    const classNames: string[] = [];
 
     classNames.push(`sky-text-${this.headingStyle}`);
 

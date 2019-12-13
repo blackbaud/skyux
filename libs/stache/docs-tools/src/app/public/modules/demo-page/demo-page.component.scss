@@ -1,5 +1,4 @@
-@import '~@skyux/theme/scss/mixins';
-@import '~@skyux/theme/scss/_compat/mixins';
+@import '../../styles/mixins';
 
 .sky-docs-demo-page {
   ::ng-deep {
@@ -56,40 +55,6 @@
 
     .sky-docs-type-definition-wrapper {
       margin-bottom: $sky-margin * 4;
-    }
-
-    .sky-docs-h1,
-    .sky-docs-h2,
-    .sky-docs-h3,
-    .sky-docs-h4,
-    .sky-docs-h5,
-    .sky-docs-h6 {
-      line-height: 1.1;
-      font-family: $sky-font-family;
-      color: $sky-text-color-default;
-      font-weight: 400;
-      margin: $sky-margin-triple 0 $sky-margin-plus-half;
-    }
-
-    .sky-docs-h1 {
-      font-weight: 200;
-      font-size: 34px;
-    }
-
-    .sky-docs-h2 {
-      font-weight: 200;
-      font-size: 30px;
-      margin-bottom: $sky-margin-triple;
-    }
-
-    .sky-docs-h3 {
-      font-size: 20px;
-    }
-
-    .sky-docs-h4 {
-      font-weight: 500;
-      font-size: 15px;
-      margin: $sky-margin-plus-half 0 $sky-margin;
     }
   }
 }

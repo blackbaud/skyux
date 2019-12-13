@@ -1,0 +1,62 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+@mixin sky-docs-tools-heading($level:0) {
+  line-height: 1.1;
+  font-family: $sky-font-family;
+  color: $sky-text-color-default;
+  font-weight: 400;
+  margin: $sky-margin-triple 0 $sky-margin-plus-half;
+
+  @if $level == 1 {
+    font-weight: 200;
+    font-size: 34px;
+  }
+
+  @if $level == 2 {
+    font-weight: 200;
+    font-size: 30px;
+    margin-bottom: $sky-margin-triple;
+  }
+
+  @if $level == 3 {
+    font-size: 20px;
+  }
+
+  @if $level == 4 {
+    font-weight: 500;
+    font-size: 15px;
+    margin: $sky-margin-plus-half 0 $sky-margin;
+  }
+
+  @if $level == 5 {}
+
+  @if $level == 6 {}
+}
+
+@mixin sky-docs-tools-headings($suffix) {
+  .sky-docs-tools-#{$suffix}-h1,
+  .sky-docs-tools-#{$suffix}-h2,
+  .sky-docs-tools-#{$suffix}-h3,
+  .sky-docs-tools-#{$suffix}-h4,
+  .sky-docs-tools-#{$suffix}-h5,
+  .sky-docs-tools-#{$suffix}-h6 {
+    @include sky-docs-tools-heading();
+  }
+
+  .sky-docs-tools-#{$suffix}-h1 {
+    @include sky-docs-tools-heading(1);
+  }
+
+  .sky-docs-tools-#{$suffix}-h2 {
+    @include sky-docs-tools-heading(2);
+  }
+
+  .sky-docs-tools-#{$suffix}-h3 {
+    @include sky-docs-tools-heading(3);
+  }
+
+  .sky-docs-tools-#{$suffix}-h4 {
+    @include sky-docs-tools-heading(4);
+  }
+}

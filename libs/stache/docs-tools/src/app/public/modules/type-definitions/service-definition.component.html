@@ -42,7 +42,7 @@
         </sky-code-block>
 
         <ng-container *ngIf="method.parameters && method.parameters.length">
-          <h4 class="sky-docs-h4">
+          <h4 class="sky-docs-service-definition-heading">
             Parameters
           </h4>
           <sky-docs-parameter-definitions>
@@ -57,7 +57,7 @@
           </sky-docs-parameter-definitions>
         </ng-container>
 
-        <h4 class="sky-docs-h4">
+        <h4 class="sky-docs-service-definition-heading">
           Returns
         </h4>
 
@@ -66,7 +66,7 @@
         </p>
 
         <ng-container *ngIf="method.codeExample">
-          <h4 class="sky-docs-h4">
+          <h4 class="sky-docs-service-definition-heading">
             Example
           </h4>
           <sky-code-block

@@ -1,3 +1,8 @@
+# 3.0.0-alpha.27 (2019-12-13)
+
+- Changed the anatomy component's `thumbnailPath` input to `imagePath` to be consistent with the SKY UX documentation SPA's component.
+- Isolated heading styles for various components to make them work in isolation.
+
 # 3.0.0-alpha.26 (2019-12-11)
 
 - Updated the sidebar header. [#7](https://github.com/blackbaud/skyux-docs-tools/pull/7)

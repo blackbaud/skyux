@@ -20,7 +20,7 @@ import {
 export class SkyDocsAnatomyComponent implements AfterContentInit {
 
   @Input()
-  public thumbnailPath: string;
+  public imagePath: string;
 
   @ContentChildren(SkyDocsAnatomyItemComponent)
   private anatomyItems: QueryList<SkyDocsAnatomyItemComponent>;

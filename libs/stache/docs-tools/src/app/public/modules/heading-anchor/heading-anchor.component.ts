@@ -18,11 +18,4 @@ export class SkyDocsHeadingAnchorComponent {
   @Input()
   public headingLevel = '2';
 
-  public get classList(): string {
-    const classList: string[] = [
-      `sky-docs-h${this.headingLevel}`
-    ];
-    return classList.join(' ');
-  }
-
 }

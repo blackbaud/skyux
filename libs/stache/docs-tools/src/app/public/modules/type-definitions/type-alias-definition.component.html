@@ -17,17 +17,8 @@
     [hideHeader]="true"
   ></sky-code-block>
 
-  <!-- <sky-definition-list *ngIf="config.returnType">
-    <sky-definition-list-content>
-      <sky-definition-list-label>Returns</sky-definition-list-label>
-      <sky-definition-list-value>
-        <sky-code>{{ config.returnType }}</sky-code>
-      </sky-definition-list-value>
-    </sky-definition-list-content>
-  </sky-definition-list> -->
-
   <ng-container *ngIf="config.returnType">
-    <h4 class="sky-docs-h4">
+    <h4 class="sky-docs-type-alias-definition-heading">
       Returns
     </h4>
 
@@ -37,7 +28,7 @@
   </ng-container>
 
   <ng-container *ngIf="config.parameters && config.parameters.length">
-    <h4 class="sky-docs-h4">
+    <h4 class="sky-docs-type-alias-definition-heading">
       Parameters
     </h4>
     <sky-docs-parameter-definitions>
