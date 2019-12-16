@@ -1,3 +1,9 @@
+# 3.9.0 (2019-12-16)
+
+- Added a borderless variant for both normal and inline buttons. [#90](https://github.com/blackbaud/skyux-theme/pull/90)
+- Added a danger variant for buttons. [#89](https://github.com/blackbaud/skyux-theme/pull/89)
+- Added a disabled state for the `sky-form-control` class. [#87](https://github.com/blackbaud/skyux-theme/pull/87)
+
 # 3.8.0 (2019-10-08)
 
 - Added support for `@blackbaud/skyux-design-tokens@0.0.13`. [#83](https://github.com/blackbaud/skyux-theme/pull/83)
