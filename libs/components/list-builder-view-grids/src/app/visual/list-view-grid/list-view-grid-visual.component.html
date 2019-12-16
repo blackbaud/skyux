@@ -56,6 +56,8 @@
   <sky-list
     [data]="items"
     [defaultView]="gridWithMultiselect"
+    [selectedIds]="selectedIds"
+    (selectedIdsChange)="onSelectedIdsChange($event)"
   >
     <sky-list-toolbar>
       <sky-list-column-selector-action

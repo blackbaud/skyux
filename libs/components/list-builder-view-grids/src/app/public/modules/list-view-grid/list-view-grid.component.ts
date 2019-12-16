@@ -33,7 +33,8 @@ import {
   SkyGridColumnHeadingModelChange,
   SkyGridColumnDescriptionModelChange,
   SkyGridColumnModel,
-  SkyGridSelectedRowsModelChange
+  SkyGridSelectedRowsModelChange,
+  SkyGridSelectedRowsSource
 } from '@skyux/grids';
 
 import {
@@ -270,7 +271,15 @@ export class SkyListViewGridComponent
     this.ngUnsubscribe.complete();
   }
 
+  /**
+   * If user makes selection, tell list-builder to update the list state.
+   * This logic should only run on user interaction - NOT programmatic updates.
+   */
   public onMultiselectSelectionChange(event: SkyGridSelectedRowsModelChange): void {
+    if (
+      event.source === SkyGridSelectedRowsSource.CheckboxChange ||
+      event.source === SkyGridSelectedRowsSource.RowClick
+    ) {
     this.state.map(s => s.items.items)
       .take(1)
       .subscribe((items: ListItemModel[]) => {
@@ -289,6 +298,7 @@ export class SkyListViewGridComponent
           this.dispatcher.setSelected(selectedIds, true);
         }
       });
+    }
   }
 
   public columnIdsChanged(selectedColumnIds: Array<string>) {

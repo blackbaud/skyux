@@ -21,6 +21,14 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
+  SkyGridComponent
+} from '@skyux/grids';
+
+import {
+  SkyGridColumnModel
+} from '@skyux/grids/modules/grid/grid-column.model';
+
+import {
   ListState,
   ListStateDispatcher,
   ListViewsLoadAction,
@@ -29,18 +37,12 @@ import {
 } from '@skyux/list-builder/modules/list/state';
 
 import {
-  SkyGridColumnModel
-} from '@skyux/grids/modules/grid/grid-column.model';
-
-import {
   SkyListComponent
 } from '@skyux/list-builder/modules/list/list.component';
 
 import {
   ListItemModel
 } from '@skyux/list-builder-common';
-
-const moment = require('moment');
 
 import {
   ListViewGridFixturesModule
@@ -76,6 +78,8 @@ import {
   GridStateModel
 } from './state';
 
+const moment = require('moment');
+
 describe('List View Grid Component', () => {
   describe('Basic Fixture', () => {
     let state: ListState,
@@ -105,7 +109,7 @@ describe('List View Grid Component', () => {
       component = fixture.componentInstance;
     }));
 
-    function getSelectInputs() {
+    function getSelectInputs(): DebugElement[] {
       return element.queryAll(By.css('.sky-grid-multiselect-cell input'));
     }
 
@@ -485,6 +489,41 @@ describe('List View Grid Component', () => {
 
         // Expect dispatcher to send action.
         expect(spy).toHaveBeenCalledWith(['1'], false);
+      }));
+
+      it('should check checkboxes when selectedIds are set on init', fakeAsync(() => {
+        dispatcher.setSelected(['1', '3'], true, true);
+        setupTest(true); // enable multiselect
+        flush();
+        tick(110); // wait for async heading
+        fixture.detectChanges();
+
+        // Expect 1 and 3 to be selected.
+        const inputs = getSelectInputs();
+        expect(inputs[0].nativeElement.checked).toEqual(true);
+        expect(inputs[1].nativeElement.checked).toEqual(false);
+        expect(inputs[2].nativeElement.checked).toEqual(true);
+        expect(inputs[3].nativeElement.checked).toEqual(false);
+        expect(inputs[4].nativeElement.checked).toEqual(false);
+        expect(inputs[5].nativeElement.checked).toEqual(false);
+        expect(inputs[6].nativeElement.checked).toEqual(false);
+      }));
+
+      it('should not send messages to the dispatcher if the grid is emitting programmatic changes', fakeAsync(() => {
+        setupTest(true); // enable multiselect
+        flush();
+        tick(110); // wait for async heading
+        fixture.detectChanges();
+        const inputs = getSelectInputs();
+        const grid = fixture.debugElement.query(By.directive(SkyGridComponent)).context as SkyGridComponent;
+        const spy = spyOn(dispatcher, 'setSelected').and.callThrough();
+
+        grid.selectedRowIds = ['1'];
+        expect(spy).not.toHaveBeenCalled();
+
+        spy.calls.reset();
+        inputs[0].nativeElement.click();
+        expect(spy).toHaveBeenCalled();
       }));
     });
 
