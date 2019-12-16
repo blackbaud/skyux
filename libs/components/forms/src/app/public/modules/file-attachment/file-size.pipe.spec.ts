@@ -3,8 +3,16 @@ import {
 } from '@angular/common';
 
 import {
-  SkyLibResourcesTestService
-} from '@skyux/i18n/testing';
+  TestBed
+} from '@angular/core/testing';
+
+import {
+  SkyLibResourcesService
+} from '@skyux/i18n';
+
+import {
+  FileAttachmentTestModule
+} from './fixtures/file-attachment.module.fixture';
 
 import {
   SkyFileSizePipe
@@ -21,10 +29,16 @@ describe('File size pipe', () => {
   }
 
   beforeEach(function() {
+    TestBed.configureTestingModule({
+      imports: [
+        FileAttachmentTestModule
+      ]
+    });
+
     decimalPipe = new DecimalPipe('en');
     fileSizePipe = new SkyFileSizePipe(
       decimalPipe,
-      new SkyLibResourcesTestService() as any
+      TestBed.get(SkyLibResourcesService)
     );
   });
 
