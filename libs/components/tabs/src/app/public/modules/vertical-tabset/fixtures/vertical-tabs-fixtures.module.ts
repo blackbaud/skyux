@@ -1,19 +1,46 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {
+  CommonModule
+} from '@angular/common';
 
-import { SkyVerticalTabsetModule } from '../';
-import { VerticalTabsetTestComponent } from './vertical-tabset.component.fixture';
-import { VerticalTabsetEmptyGroupTestComponent } from './vertical-tabset-empty-group.component';
-import { VerticalTabsetNoGroupTestComponent } from './vertical-tabset-no-group.component.fixture';
-import { VerticalTabsetNoActiveTestComponent } from './vertical-tabset-no-active.component.fixture';
+import {
+  NgModule
+} from '@angular/core';
+
+import {
+  FormsModule
+} from '@angular/forms';
+
+import {
+  SkyVerticalTabsetModule
+} from '../';
+
+import {
+  VerticalTabsetTestComponent
+} from './vertical-tabset.component.fixture';
+
+import {
+  VerticalTabsetEmptyGroupTestComponent
+} from './vertical-tabset-empty-group.component';
+
+import {
+  VerticalTabsetWithNgForTestComponent
+} from './vertical-tabset-ngfor.component.fixture';
+
+import {
+  VerticalTabsetNoActiveTestComponent
+} from './vertical-tabset-no-active.component.fixture';
+
+import {
+  VerticalTabsetNoGroupTestComponent
+} from './vertical-tabset-no-group.component.fixture';
 
 @NgModule({
   declarations: [
     VerticalTabsetTestComponent,
     VerticalTabsetEmptyGroupTestComponent,
     VerticalTabsetNoGroupTestComponent,
-    VerticalTabsetNoActiveTestComponent
+    VerticalTabsetNoActiveTestComponent,
+    VerticalTabsetWithNgForTestComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +51,8 @@ import { VerticalTabsetNoActiveTestComponent } from './vertical-tabset-no-active
     VerticalTabsetTestComponent,
     VerticalTabsetEmptyGroupTestComponent,
     VerticalTabsetNoGroupTestComponent,
-    VerticalTabsetNoActiveTestComponent
+    VerticalTabsetNoActiveTestComponent,
+    VerticalTabsetWithNgForTestComponent
   ]
 })
 export class SkyVerticalTabsFixturesModule { }

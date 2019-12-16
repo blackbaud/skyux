@@ -1,26 +1,34 @@
 import {
-  Component,
-  Input,
-  QueryList,
-  ContentChildren,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  Component,
+  ContentChildren,
+  Input,
+  OnDestroy,
   OnInit,
-  OnDestroy
+  QueryList
 } from '@angular/core';
 
 import {
+  animate,
   style,
-  trigger,
   transition,
-  animate
+  trigger
 } from '@angular/animations';
 
-import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
 
-import { SkyVerticalTabComponent } from './vertical-tab.component';
-import { SkyVerticalTabsetService } from './vertical-tabset.service';
+import {
+  Subject
+} from 'rxjs/Subject';
+
+import {
+  SkyVerticalTabComponent
+} from './vertical-tab.component';
+
+import {
+  SkyVerticalTabsetService
+} from './vertical-tabset.service';
 
 @Component({
   selector: 'sky-vertical-tabset-group',
@@ -56,51 +64,54 @@ import { SkyVerticalTabsetService } from './vertical-tabset.service';
 export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
 
   @Input()
-  public groupHeading: string;
-
-  @Input()
   public disabled: boolean;
 
-  private _open: boolean = false;
-  private _openBeforeTabsHidden: boolean = false;
-  private _ngUnsubscribe = new Subject();
-
-  public get open(): boolean {
-    return !this.disabled && this._open;
-  }
+  @Input()
+  public groupHeading: string;
 
   @Input()
   public set open(value: boolean) {
     this._open = value;
   }
 
+  public get open(): boolean {
+    return !this.disabled && this._open;
+  }
+
   @ContentChildren(SkyVerticalTabComponent)
   private tabs: QueryList<SkyVerticalTabComponent>;
 
+  private ngUnsubscribe = new Subject();
+
+  private openBeforeTabsHidden: boolean = false;
+
+  private _open: boolean = false;
+
   constructor(
     private tabService: SkyVerticalTabsetService,
-    private changeRef: ChangeDetectorRef) {}
+    private changeRef: ChangeDetectorRef
+  ) {}
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.tabService.hidingTabs
-      .takeUntil(this._ngUnsubscribe)
+      .takeUntil(this.ngUnsubscribe)
       .subscribe(this.tabsHidden);
 
     this.tabService.showingTabs
-      .takeUntil(this._ngUnsubscribe)
+      .takeUntil(this.ngUnsubscribe)
       .subscribe(this.tabsShown);
 
     this.tabService.tabClicked
-      .takeUntil(this._ngUnsubscribe)
+      .takeUntil(this.ngUnsubscribe)
       .subscribe(this.tabClicked);
   }
 
-  public ngOnDestroy() {
-    this._ngUnsubscribe.next();
-    this._ngUnsubscribe.complete();
+  public ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
-  public toggleMenuOpen() {
+  public toggleMenuOpen(): void {
     if (!this.disabled) {
       this.open = !this.open;
     }
@@ -118,13 +129,13 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
 
   public tabsHidden = () => {
     // this fixes an animation bug with ngIf when the parent component goes from visible to hidden
-    this._openBeforeTabsHidden = this.open;
+    this.openBeforeTabsHidden = this.open;
     this.open = false;
     this.changeRef.markForCheck();
   }
 
   public tabsShown = () => {
-    this.open = this._openBeforeTabsHidden;
+    this.open = this.openBeforeTabsHidden;
     this.changeRef.markForCheck();
   }
 }

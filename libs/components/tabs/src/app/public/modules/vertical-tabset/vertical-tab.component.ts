@@ -1,17 +1,21 @@
 import {
-  Component,
-  Input,
-  OnInit,
-  ViewChild,
-  ElementRef,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  OnDestroy
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild
 } from '@angular/core';
 
-import { Subject } from 'rxjs/Subject';
+import {
+  Subject
+} from 'rxjs/Subject';
 
-import { SkyVerticalTabsetService } from './vertical-tabset.service';
+import {
+  SkyVerticalTabsetService
+} from './vertical-tabset.service';
 
 @Component({
   selector: 'sky-vertical-tab',
@@ -22,19 +26,7 @@ import { SkyVerticalTabsetService } from './vertical-tabset.service';
 export class SkyVerticalTabComponent implements OnInit, OnDestroy {
 
   @Input()
-  public tabId: string;
-
-  @Input()
   public active: boolean = false;
-
-  @Input()
-  public tabHeading: string;
-
-  @Input()
-  public tabHeaderCount: number;
-
-  @Input()
-  public disabled: boolean = false;
 
   @Input()
   public get ariaControls(): string {
@@ -43,6 +35,12 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   public set ariaControls(value: string) {
     this._ariaControls = value;
   }
+
+  @Input()
+  public ariaInvalid: boolean;
+
+  @Input()
+  public ariaRequired: boolean;
 
   @Input()
   public get ariaRole(): string {
@@ -56,10 +54,13 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   }
 
   @Input()
-  public ariaInvalid: boolean;
+  public disabled: boolean = false;
 
   @Input()
-  public ariaRequired: boolean;
+  public tabHeaderCount: number;
+
+  @Input()
+  public tabHeading: string;
 
   @Input()
   public get showTabRightArrow() {
@@ -70,22 +71,30 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
     this._showTabRightArrow = value;
   }
 
+  @Input()
+  public tabId: string;
+
   public index: number;
 
   @ViewChild('tabContentWrapper')
   public tabContent: ElementRef;
 
   private isMobile = false;
+
   private _ariaControls: string;
+
   private _ariaRole: string;
-  private _showTabRightArrow: boolean = false;
+
   private _mobileSubscription = new Subject();
+
+  private _showTabRightArrow: boolean = false;
 
   constructor(
     private tabsetService: SkyVerticalTabsetService,
-    private changeRef: ChangeDetectorRef) {}
+    private changeRef: ChangeDetectorRef
+  ) {}
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.isMobile = this.tabsetService.isMobile();
     this.changeRef.markForCheck();
 
@@ -98,11 +107,12 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
     this.tabsetService.addTab(this);
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this._mobileSubscription.unsubscribe();
+    this.tabsetService.destroyTab(this);
   }
 
-  public tabIndex() {
+  public tabIndex(): number {
     if (!this.disabled) {
       return 0;
     } else {
@@ -110,7 +120,7 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
     }
   }
 
-  public activateTab() {
+  public activateTab(): void {
     if (!this.disabled) {
       this.active = true;
       this.tabsetService.activateTab(this);
@@ -119,7 +129,7 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
     }
   }
 
-  public tabDeactivated() {
+  public tabDeactivated(): void {
     this.changeRef.markForCheck();
   }
 }

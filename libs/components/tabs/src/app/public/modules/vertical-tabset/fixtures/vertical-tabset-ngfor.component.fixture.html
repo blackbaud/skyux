@@ -1,0 +1,9 @@
+<sky-vertical-tabset
+  (activeChange)="onActiveChange($event)"
+>
+  <sky-vertical-tab *ngFor="let tab of tabs"
+    [tabHeading]="tab.heading"
+  >
+    {{ tab.content }}
+  </sky-vertical-tab>
+</sky-vertical-tabset>

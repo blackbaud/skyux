@@ -1,10 +1,27 @@
-import { Injectable, ElementRef } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Subject } from 'rxjs/Subject';
+import {
+  ElementRef,
+  Injectable
+} from '@angular/core';
 
-import { SkyVerticalTabComponent } from './vertical-tab.component';
-import { SkyMediaQueryService } from '@skyux/core/modules/media-query/media-query.service';
-import { SkyMediaBreakpoints } from '@skyux/core/modules/media-query/media-breakpoints';
+import {
+  SkyMediaBreakpoints
+} from '@skyux/core/modules/media-query/media-breakpoints';
+
+import {
+  SkyMediaQueryService
+} from '@skyux/core/modules/media-query/media-query.service';
+
+import {
+  BehaviorSubject
+} from 'rxjs/BehaviorSubject';
+
+import {
+  Subject
+} from 'rxjs/Subject';
+
+import {
+  SkyVerticalTabComponent
+} from './vertical-tab.component';
 
 export const VISIBLE_STATE = 'shown';
 
@@ -71,6 +88,25 @@ export class SkyVerticalTabsetService {
     this.tabAdded.next(tab);
   }
 
+  public destroyTab(tab: SkyVerticalTabComponent): void {
+    let tabIndex = this.tabs.indexOf(tab);
+    if (tab.active) {
+      this.destroyContent();
+
+      // Try selecting the next tab first, and if there's no next tab then
+      // try selecting the previous one.
+      let newActiveTab = this.tabs[tabIndex + 1] || this.tabs[tabIndex - 1];
+      /*istanbul ignore else */
+      if (newActiveTab) {
+        newActiveTab.activateTab();
+      }
+    }
+
+    if (tabIndex > -1) {
+      this.tabs.splice(tabIndex, 1);
+    }
+  }
+
   public activateTab(tab: SkyVerticalTabComponent) {
 
     // unactivate active tab
@@ -123,6 +159,13 @@ export class SkyVerticalTabsetService {
     this._contentAdded = false;
     this.animationVisibleState = VISIBLE_STATE;
     this.showingTabs.next(true);
+  }
+
+  private destroyContent(): void {
+    if (this._content) {
+      this._content.nativeElement.innerHTML = '';
+    }
+    this.content = undefined;
   }
 
   private moveContent() {
