@@ -1,3 +1,7 @@
+# 3.4.0 (2019-12-18)
+
+- Added the `inlineHelpPopover` property to the grid column component. [#83](https://github.com/blackbaud/skyux-grids/pull/83) (Thanks, [@Blackbaud-DustinLunsford](https://github.com/Blackbaud-DustinLunsford)!)
+
 # 3.3.0 (2019-12-11)
 
 - Added the `source` property to `SkyGridSelectedRowsModelChange`, which defines the source of the change. [#80](https://github.com/blackbaud/skyux-grids/pull/80)
