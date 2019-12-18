@@ -282,9 +282,12 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
   }
 
   public onContextMenuKeydown(event: KeyboardEvent): void {
-    const reservedKeys = ['enter', ' ', 'arrowdown', 'arrowup'];
-    if (reservedKeys.indexOf(event.key.toLowerCase()) > -1) {
-      event.stopPropagation();
+    /*istanbul ignore else */
+    if (event.key) {
+      const reservedKeys = ['enter', ' ', 'arrowdown', 'arrowup'];
+      if (reservedKeys.indexOf(event.key.toLowerCase()) > -1) {
+        event.stopPropagation();
+      }
     }
   }
 
@@ -293,67 +296,70 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
   }
 
   public onItemKeyDown(event: KeyboardEvent): void {
-    switch (event.key.toLowerCase()) {
-      case ' ':
-      case 'enter':
-        // Unlike the arrow keys, space/enter should never execute
-        // unless focused on the parent item element.
-        if (event.target === this.itemRef.nativeElement) {
-          this.toggleSelected();
-          this.repeaterService.activateItem(this);
+    /*istanbul ignore else */
+    if (event.key) {
+      switch (event.key.toLowerCase()) {
+        case ' ':
+        case 'enter':
+          // Unlike the arrow keys, space/enter should never execute
+          // unless focused on the parent item element.
+          if (event.target === this.itemRef.nativeElement) {
+            this.toggleSelected();
+            this.repeaterService.activateItem(this);
+            event.preventDefault();
+          }
+          break;
+
+        case 'arrowup':
+          this.childFocusIndex = undefined;
+          this.repeaterService.focusPreviousListItem(this);
           event.preventDefault();
-        }
-        break;
+          event.stopPropagation();
+          break;
 
-      case 'arrowup':
-        this.childFocusIndex = undefined;
-        this.repeaterService.focusPreviousListItem(this);
-        event.preventDefault();
-        event.stopPropagation();
-        break;
+        case 'arrowdown':
+          this.childFocusIndex = undefined;
+          this.repeaterService.focusNextListItem(this);
+          event.preventDefault();
+          event.stopPropagation();
+          break;
 
-      case 'arrowdown':
-        this.childFocusIndex = undefined;
-        this.repeaterService.focusNextListItem(this);
-        event.preventDefault();
-        event.stopPropagation();
-        break;
-
-      case 'arrowleft': {
-        // Cycle backwards through interactive child elements.
-        // If user reaches the beginning, focus on parent item.
-        const focusableChildren = this.adapterService.getFocusableChildren(this.itemRef);
-        if (focusableChildren.length > 0) {
-          if (this.childFocusIndex > 0) {
-            this.childFocusIndex--;
-          } else if (this.childFocusIndex === 0) {
-            this.childFocusIndex = undefined;
+        case 'arrowleft': {
+          // Cycle backwards through interactive child elements.
+          // If user reaches the beginning, focus on parent item.
+          const focusableChildren = this.adapterService.getFocusableChildren(this.itemRef);
+          if (focusableChildren.length > 0) {
+            if (this.childFocusIndex > 0) {
+              this.childFocusIndex--;
+            } else if (this.childFocusIndex === 0) {
+              this.childFocusIndex = undefined;
+            }
           }
+          event.stopPropagation();
+          event.preventDefault();
+          break;
         }
-        event.stopPropagation();
-        event.preventDefault();
-        break;
-      }
 
-      case 'arrowright': {
-        // Cyle forward through interactive child elements.
-        // If user reaches the end, do nothing.
-        const focusableChildren = this.adapterService.getFocusableChildren(this.itemRef);
-        if (focusableChildren.length > 0) {
-          if (this.childFocusIndex < focusableChildren.length - 1) {
-            this.childFocusIndex++;
-          } else if (this.childFocusIndex === undefined) {
-            this.childFocusIndex = 0;
+        case 'arrowright': {
+          // Cyle forward through interactive child elements.
+          // If user reaches the end, do nothing.
+          const focusableChildren = this.adapterService.getFocusableChildren(this.itemRef);
+          if (focusableChildren.length > 0) {
+            if (this.childFocusIndex < focusableChildren.length - 1) {
+              this.childFocusIndex++;
+            } else if (this.childFocusIndex === undefined) {
+              this.childFocusIndex = 0;
+            }
           }
+          event.stopPropagation();
+          event.preventDefault();
+          break;
         }
-        event.stopPropagation();
-        event.preventDefault();
-        break;
-      }
 
-      /* istanbul ignore next */
-      default:
-        break;
+        /* istanbul ignore next */
+        default:
+          break;
+      }
     }
   }
 
@@ -406,54 +412,57 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
   }
 
   public onReorderHandleKeyDown(event: KeyboardEvent): void {
-    switch (event.key.toLowerCase()) {
-      case ' ':
-      case 'enter':
-        this.keyboardToggleReorder();
-        event.preventDefault();
-        event.stopPropagation();
-        break;
-
-      case 'escape':
-        if (this.keyboardReorderingEnabled) {
-          this.keyboardReorderingEnabled = false;
-          this.revertReorderSteps();
-          this.reorderButtonLabel = this.reorderCancelText + ' ' + this.reorderInstructions;
-          this.adapterService.focusElement(<HTMLElement> event.target);
+    /*istanbul ignore else */
+    if (event.key) {
+      switch (event.key.toLowerCase()) {
+        case ' ':
+        case 'enter':
+          this.keyboardToggleReorder();
           event.preventDefault();
           event.stopPropagation();
-        }
-        break;
+          break;
 
-      case 'arrowup':
-        if (this.keyboardReorderingEnabled) {
-          this.keyboardReorderUp();
-          event.preventDefault();
-          event.stopPropagation();
-          this.repeaterService.registerOrderChange();
-        }
-        break;
+        case 'escape':
+          if (this.keyboardReorderingEnabled) {
+            this.keyboardReorderingEnabled = false;
+            this.revertReorderSteps();
+            this.reorderButtonLabel = this.reorderCancelText + ' ' + this.reorderInstructions;
+            this.adapterService.focusElement(<HTMLElement> event.target);
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          break;
 
-      case 'arrowdown':
-        if (this.keyboardReorderingEnabled) {
-          this.keyboardReorderDown();
-          event.preventDefault();
-          event.stopPropagation();
-          this.repeaterService.registerOrderChange();
-        }
-        break;
+        case 'arrowup':
+          if (this.keyboardReorderingEnabled) {
+            this.keyboardReorderUp();
+            event.preventDefault();
+            event.stopPropagation();
+            this.repeaterService.registerOrderChange();
+          }
+          break;
 
-      case 'arrowleft':
-      case 'arrowright':
-        if (this.keyboardReorderingEnabled) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        break;
+        case 'arrowdown':
+          if (this.keyboardReorderingEnabled) {
+            this.keyboardReorderDown();
+            event.preventDefault();
+            event.stopPropagation();
+            this.repeaterService.registerOrderChange();
+          }
+          break;
 
-      /* istanbul ignore next */
-      default:
-        break;
+        case 'arrowleft':
+        case 'arrowright':
+          if (this.keyboardReorderingEnabled) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          break;
+
+        /* istanbul ignore next */
+        default:
+          break;
+      }
     }
   }
 
