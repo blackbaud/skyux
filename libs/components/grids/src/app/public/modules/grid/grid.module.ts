@@ -25,8 +25,13 @@ import {
 
 import {
   SkyIconModule,
-  SkyTextHighlightModule
+  SkyTextHighlightModule,
+  SkyHelpInlineModule
 } from '@skyux/indicators';
+
+import {
+  SkyPopoverModule
+} from '@skyux/popovers';
 
 import {
   SkyGridComponent
@@ -57,7 +62,9 @@ import {
     DragulaModule,
     FormsModule,
     SkyCheckboxModule,
-    SkyGridsResourcesModule
+    SkyGridsResourcesModule,
+    SkyHelpInlineModule,
+    SkyPopoverModule
   ],
   exports: [
     SkyGridComponent,

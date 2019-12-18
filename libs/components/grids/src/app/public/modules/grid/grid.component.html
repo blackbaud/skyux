@@ -49,6 +49,17 @@
                 [icon]="getCaretIconNames(column)"
               >
               </sky-icon>
+              <sky-help-inline *ngIf="column.inlineHelpPopover"
+                [ngClass]="{
+                  'sky-grid-help-inline-sort-hidden' : getHelpInlineClass(column.field) | async
+                }"
+                [skyPopover]="column.inlineHelpPopover"
+                (keydown.enter)="$event.stopPropagation()"
+                (keydown.space)="$event.stopPropagation()"
+                (mousedown)="$event.stopPropagation()"
+                (mouseup)="$event.stopPropagation()"
+              >
+              </sky-help-inline>
             </div>
             <span
               *ngIf="(fit==='width' && !last) || (fit==='scroll')"

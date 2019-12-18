@@ -5,14 +5,19 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  QueryList,
   SimpleChanges,
-  TemplateRef,
-  QueryList
+  TemplateRef
 } from '@angular/core';
 
 import {
+  SkyPopoverComponent
+} from '@skyux/popovers';
+
+import {
+  SkyGridColumnDescriptionModelChange,
   SkyGridColumnHeadingModelChange,
-  SkyGridColumnDescriptionModelChange
+  SkyGridColumnInlineHelpPopoverModelChange
 } from './types';
 
 @Component({
@@ -26,6 +31,13 @@ export class SkyGridColumnComponent implements OnChanges {
 
   @Input()
   public heading: string;
+
+  /**
+   * Specifies a template to display inside an inline help popup for this column.
+   * This property accepts a SkyPopoverComponent.
+   */
+  @Input()
+  public inlineHelpPopover: SkyPopoverComponent;
 
   @Input()
   public width: number;
@@ -59,16 +71,20 @@ export class SkyGridColumnComponent implements OnChanges {
   public templateInput: TemplateRef<any>;
   /* tslint:enable:no-input-rename */
 
+  public descriptionChanges: EventEmitter<string> = new EventEmitter<string>();
+
+  public descriptionModelChanges = new EventEmitter<SkyGridColumnDescriptionModelChange>();
+
   public headingChanges: EventEmitter<string> = new EventEmitter<string>();
+
   public headingModelChanges = new EventEmitter<SkyGridColumnHeadingModelChange>();
 
-  public descriptionChanges: EventEmitter<string> = new EventEmitter<string>();
-  public descriptionModelChanges = new EventEmitter<SkyGridColumnDescriptionModelChange>();
+  public inlineHelpPopoverModelChanges = new EventEmitter<SkyGridColumnInlineHelpPopoverModelChange>();
 
   @ContentChildren(TemplateRef)
   private templates: QueryList<TemplateRef<any>>;
 
-  public ngOnChanges(changes: SimpleChanges) {
+  public ngOnChanges(changes: SimpleChanges): void {
     if (changes.heading && changes.heading.firstChange === false) {
       this.headingChanges.emit(this.heading);
       this.headingModelChanges.emit({
@@ -81,6 +97,13 @@ export class SkyGridColumnComponent implements OnChanges {
       this.descriptionChanges.emit(this.description);
       this.descriptionModelChanges.emit({
         value: this.description,
+        id: this.id,
+        field: this.field
+      });
+    }
+    if (changes.inlineHelpPopover && changes.inlineHelpPopover.firstChange === false) {
+      this.inlineHelpPopoverModelChanges.emit({
+        value: this.inlineHelpPopover,
         id: this.id,
         field: this.field
       });

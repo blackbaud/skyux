@@ -104,3 +104,39 @@
   <p>Selected rows:</p>
   <p>{{ selectedRowIdsDisplay }}</p>
 </div>
+
+<h1>Grid with inline help</h1>
+
+<div
+  id="screenshot-grid-inline-help"
+>
+  <sky-grid
+    [data]="dataForSimpleGrid"
+  >
+    <sky-grid-column
+      field="column1"
+      heading="Column1"
+      [inlineHelpPopover]="staticPopoverRef"
+    ></sky-grid-column>
+    <sky-grid-column
+      field="column2"
+      heading="Column2"
+    ></sky-grid-column>
+    <sky-grid-column
+      field="column3"
+      heading="Column3"
+      [inlineHelpPopover]="asyncPopover"
+    ></sky-grid-column>
+  </sky-grid>
+
+  <sky-popover #staticPopoverRef>
+    This is a numeric column. Click <a href="#">here</a> to learn more.
+  </sky-popover>
+
+  <sky-popover
+    [popoverTitle]="'This popover is asynchronous!'"
+    #asyncPopoverRef
+  >
+    This is a string column. Click <a href="#">here</a> to learn more.
+  </sky-popover>
+</div>

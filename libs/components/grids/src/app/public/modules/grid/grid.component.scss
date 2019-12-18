@@ -199,6 +199,11 @@ th.sky-grid-multiselect-cell {
   min-width: 8px;
 }
 
+// When the sort icon is hidden, this class ensures the help icon has proper 5px spacing.
+.sky-grid-help-inline-sort-hidden {
+  margin-left: -14px;
+}
+
 .sky-grid-resize-handle {
   position: absolute;
   right: 0;

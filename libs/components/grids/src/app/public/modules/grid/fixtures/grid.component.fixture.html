@@ -19,7 +19,9 @@
   <sky-grid-column
     field="column1"
     heading="Column1"
-    [locked]="true">
+    [inlineHelpPopover]="column1Help"
+    [locked]="true"
+  >
   </sky-grid-column>
   <sky-grid-column
     field="column2"
@@ -43,7 +45,9 @@
     id="column4"
     type="date"
     heading="Column4"
-    [hidden]="true">
+    [hidden]="true"
+    [inlineHelpPopover]="column4Help"
+  >
   </sky-grid-column>
   <sky-grid-column
     field="column5"
@@ -62,6 +66,14 @@
     heading="Column7">
   </sky-grid-column>
 </sky-grid>
+
+<sky-popover #column1Help>
+  Help content for column 1.
+</sky-popover>
+
+<sky-popover #column4Help>
+  Help content for column 4.
+</sky-popover>
 
 <ng-template let-value="value" #template1>
   <div class="sky-test-custom-template">

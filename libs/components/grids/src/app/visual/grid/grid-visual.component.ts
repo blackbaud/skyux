@@ -1,5 +1,6 @@
 import {
-  Component
+  Component,
+  ViewChild
 } from '@angular/core';
 
 import {
@@ -9,6 +10,10 @@ import {
 import {
   ListSortFieldSelectorModel
 } from '@skyux/list-builder-common';
+
+import {
+  SkyPopoverComponent
+} from '@skyux/popovers';
 
 import {
   SkyGridMessageType,
@@ -21,6 +26,8 @@ import {
   templateUrl: './grid-visual.component.html'
 })
 export class GridVisualComponent {
+
+  public asyncPopover: SkyPopoverComponent;
 
   public dataForSimpleGrid = [
     { id: '1', column1: '1', column2: 'Apple', column3: 'aa' },
@@ -53,6 +60,15 @@ export class GridVisualComponent {
   public selectedRowIdsDisplay: string[];
 
   public selectedRows: string;
+
+  @ViewChild('asyncPopoverRef')
+  private popoverTemplate: SkyPopoverComponent;
+
+  constructor() {
+    setTimeout(() => {
+      this.asyncPopover = this.popoverTemplate;
+    }, 1000);
+  }
 
   public sortChangedSimpleGrid(activeSort: ListSortFieldSelectorModel): void {
     this.dataForSimpleGrid = this.performSort(activeSort, this.dataForSimpleGrid);

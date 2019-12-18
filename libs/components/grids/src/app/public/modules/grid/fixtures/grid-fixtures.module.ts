@@ -11,6 +11,10 @@ import {
 } from '@skyux/core';
 
 import {
+  SkyPopoverModule
+} from '@skyux/popovers';
+
+import {
   Observable
 } from 'rxjs/Observable';
 
@@ -53,7 +57,8 @@ import {
   ],
   imports: [
     CommonModule,
-    SkyGridModule
+    SkyGridModule,
+    SkyPopoverModule
   ],
   providers: [
     {

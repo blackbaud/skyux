@@ -2,11 +2,16 @@ import {
   TemplateRef
 } from '@angular/core';
 
+import {
+  SkyPopoverComponent
+} from '@skyux/popovers';
+
 export class SkyGridColumnModel {
   public template: TemplateRef<any>;
   public id: string;
   public field: string;
   public heading: string;
+  public inlineHelpPopover: SkyPopoverComponent;
   public type: string;
   public width: number;
   public hidden: boolean;
@@ -24,6 +29,7 @@ export class SkyGridColumnModel {
       this.type = data.type;
       this.field = data.field;
       this.heading = data.heading;
+      this.inlineHelpPopover = data.inlineHelpPopover;
       this.width = data.width ? Number(data.width) : undefined;
       this.hidden = data.hidden;
       this.locked = data.locked;
