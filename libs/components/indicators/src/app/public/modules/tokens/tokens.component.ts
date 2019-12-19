@@ -174,24 +174,27 @@ export class SkyTokensComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public onTokenKeyDown(event: KeyboardEvent): void {
-    const key = event.key.toLowerCase();
-    if (this.disabled) {
-      return;
-    }
+    /*istanbul ignore else */
+    if (event.key) {
+      const key = event.key.toLowerCase();
+      if (this.disabled) {
+        return;
+      }
 
-    /* tslint:disable-next-line:switch-default */
-    switch (key) {
-      case 'left':
-      case 'arrowleft':
-      this.messageStream.next({ type: SkyTokensMessageType.FocusPreviousToken });
-      event.preventDefault();
-      break;
+      /* tslint:disable-next-line:switch-default */
+      switch (key) {
+        case 'left':
+        case 'arrowleft':
+        this.messageStream.next({ type: SkyTokensMessageType.FocusPreviousToken });
+        event.preventDefault();
+        break;
 
-      case 'right':
-      case 'arrowright':
-      this.messageStream.next({ type: SkyTokensMessageType.FocusNextToken });
-      event.preventDefault();
-      break;
+        case 'right':
+        case 'arrowright':
+        this.messageStream.next({ type: SkyTokensMessageType.FocusNextToken });
+        event.preventDefault();
+        break;
+      }
     }
   }
 

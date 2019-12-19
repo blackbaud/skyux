@@ -60,12 +60,15 @@ export class SkyWaitAdapterService implements OnDestroy {
             document.body,
             'keydown',
             (event: KeyboardEvent) => {
-              if (event.key.toLowerCase() === 'tab') {
-                (event.target as any).blur();
-                event.preventDefault();
-                event.stopPropagation();
-                event.stopImmediatePropagation();
-                this.clearDocumentFocus();
+              /*istanbul ignore else */
+              if (event.key) {
+                if (event.key.toLowerCase() === 'tab') {
+                  (event.target as any).blur();
+                  event.preventDefault();
+                  event.stopPropagation();
+                  event.stopImmediatePropagation();
+                  this.clearDocumentFocus();
+                }
               }
           });
           SkyWaitAdapterService.busyElements[waitComponentId] = {
