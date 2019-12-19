@@ -1,3 +1,8 @@
+# 3.7.2 (2019-12-18)
+
+- Fixed the repeater item component to prevent throwing errors when using the keyboard. [#104](https://github.com/blackbaud/skyux-lists/pull/104)
+- Fixed the repeater item component to properly align header items. [#101](https://github.com/blackbaud/skyux-lists/pull/101)
+
 # 3.7.1 (2019-11-27)
 
 - Fixed the repeater item component to not steal focus from focusable child elements when they are activated. [#96](https://github.com/blackbaud/skyux-lists/pull/96)
