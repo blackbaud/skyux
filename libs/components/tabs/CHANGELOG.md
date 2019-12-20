@@ -1,3 +1,7 @@
+# 3.2.3 (2019-12-20)
+
+- Fixed the vertical tab component to work with structural directives such as `ngFor` and `ngIf`. [#48](https://github.com/blackbaud/skyux-tabs/pull/48)
+
 # 3.2.2 (2019-11-21)
 
 - Fixed the tabset component to navigate to the previous active tab when users select the browser's "back" button. [#44](https://github.com/blackbaud/skyux-tabs/pull/44)
