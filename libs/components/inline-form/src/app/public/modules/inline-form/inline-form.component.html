@@ -26,9 +26,10 @@
         class="sky-inline-form-footer"
       >
         <button *ngFor="let button of buttons"
+          class="sky-btn {{ 'sky-btn-' + button.styleType }}"
           type="button"
-          class="sky-btn"
-          ngClass="sky-btn-{{ button.styleType }}"
+          [disabled]="(button.disabled) ? true : null"
+          [ngClass]="{ 'sky-btn-disabled' : button.disabled }"
           (click)="closeInlineForm(button)"
         >
           {{ button.text }}

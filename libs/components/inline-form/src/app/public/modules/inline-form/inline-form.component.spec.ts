@@ -313,6 +313,40 @@ describe('Inline form component', () => {
     expect(button3).toBeNull();
   }));
 
+  it('should disable button when config disable property is true', fakeAsync(() => {
+    component.config = {
+      buttonLayout: SkyInlineFormButtonLayout.Custom,
+      buttons: [
+        { action: 'CUSTOM_ACTION_1', text: 'CUSTOM_TEXT_1', styleType: 'primary' },
+        { action: 'CUSTOM_ACTION_2', text: 'CUSTOM_TEXT_2', styleType: 'default' }
+      ]
+    };
+    showForm();
+    let button1 = getPrimaryButton(fixture).nativeElement;
+    let button2 = getDefaultButton(fixture).nativeElement;
+
+    expect(button1.disabled).toEqual(false);
+    expect(button2.disabled).toEqual(false);
+    expect(button1).not.toHaveCssClass('sky-btn-disabled');
+    expect(button2).not.toHaveCssClass('sky-btn-disabled');
+
+    component.config = {
+      buttonLayout: SkyInlineFormButtonLayout.Custom,
+      buttons: [
+        { action: 'CUSTOM_ACTION_1', text: 'CUSTOM_TEXT_1', styleType: 'primary', disabled: true },
+        { action: 'CUSTOM_ACTION_2', text: 'CUSTOM_TEXT_2', styleType: 'default' }
+      ]
+    };
+    fixture.detectChanges();
+    button1 = getPrimaryButton(fixture).nativeElement;
+    button2 = getDefaultButton(fixture).nativeElement;
+
+    expect(button1.disabled).toEqual(true);
+    expect(button2.disabled).toEqual(false);
+    expect(button1).toHaveCssClass('sky-btn-disabled');
+    expect(button2).not.toHaveCssClass('sky-btn-disabled');
+  }));
+
   it('should pass accessibility', async(() => {
     component.showForm = true;
     fixture.detectChanges();

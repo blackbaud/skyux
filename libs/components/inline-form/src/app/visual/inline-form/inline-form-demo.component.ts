@@ -83,4 +83,14 @@ export class SkyInlineFormDemoComponent {
     };
   }
 
+  public onDisableButtonClick(): void {
+    this.customConfig = {
+      buttonLayout: SkyInlineFormButtonLayout.Custom,
+      buttons: [
+        { action: 'save', text: 'Save', styleType: 'primary', disabled: true },
+        { action: 'cancel', text: 'Cancel', styleType: 'link' }
+      ]
+    };
+  }
+
 }
