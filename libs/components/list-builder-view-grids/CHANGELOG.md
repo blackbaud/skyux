@@ -1,3 +1,7 @@
+# 3.6.1 (2019-12-30)
+
+- Fixed the list view grid component to allow selecting rows on init by using the list component's `selectedIds` property. [#57](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/57)
+
 # 3.6.0 (2019-12-06)
 
 - Removed the `multiselectRowId` input property from the list view grid component. [#55](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/55)
