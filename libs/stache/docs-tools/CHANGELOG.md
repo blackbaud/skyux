@@ -1,3 +1,7 @@
+# 3.0.0-alpha.29 (2020-01-03)
+
+- Fixed the demo control panel checkbox component to signal changes when the reset button is clicked.
+
 # 3.0.0-alpha.28 (2020-01-03)
 
 - Added global style sheet to be used for table styles.

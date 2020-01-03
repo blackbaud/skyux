@@ -79,6 +79,7 @@ export class SkyDocsDemoControlPanelCheckboxComponent implements OnInit, OnDestr
 
   public ngOnInit(): void {
     setTimeout(() => {
+      this.initialState.checked = this.checked || false;
       this.notifyChange();
     });
   }
@@ -92,8 +93,11 @@ export class SkyDocsDemoControlPanelCheckboxComponent implements OnInit, OnDestr
   }
 
   public resetState(): void {
-    this.checked = !!this.initialState.checked;
-    this.changeDetector.markForCheck();
+    if (this.initialState.checked !== this.checked) {
+      this.checked = !!this.initialState.checked;
+      this.notifyChange();
+      this.changeDetector.markForCheck();
+    }
   }
 
   private notifyChange(): void {
