@@ -18,7 +18,13 @@ export class SkyDocsSourceCodeService {
   ) { }
 
   public getSourceCode(path: string): SkyDocsSourceCodeFile[] {
-    return this.sourceCodeProvider.sourceCode
+    const sourceCode = this.sourceCodeProvider.sourceCode;
+
+    if (!sourceCode || !sourceCode.length) {
+      return [];
+    }
+
+    return sourceCode
       .filter((file) => {
         return (file.filePath.indexOf(path) === 0);
       })

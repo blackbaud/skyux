@@ -11,50 +11,8 @@
   overflow: auto;
 }
 
-.sky-table {
-  width: 100%;
-  border-spacing: 0;
-  border-collapse: collapse;
-  background-color: #fff;
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-}
-
-.sky-table-column-header {
-  padding: $sky-padding-squish-large;
-  background-color: $sky-background-color-info-light;
-  border-bottom-color: transparent;
-  text-align: left;
-  white-space: nowrap;
-  font-weight: bold;
-}
-
-.sky-table-column-header-name {
+.sky-docs-table-column-header-name {
   width: 25%;
-}
-
-.sky-table-cell {
-  padding: $sky-padding-squish-large;
-  @include sky-border("row");
-  vertical-align: top;
-
-  &:first-child {
-    ::ng-deep {
-      .sky-code {
-        white-space: nowrap;
-      }
-    }
-  }
-
-  ::ng-deep {
-    p {
-      margin: $sky-margin 0;
-
-      &:first-child {
-        margin-top: 0 !important;
-      }
-    }
-  }
 }
 
 .sky-docs-property-definition-label-optional {

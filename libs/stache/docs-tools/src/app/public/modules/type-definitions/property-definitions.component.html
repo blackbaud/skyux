@@ -2,26 +2,26 @@
   class="sky-docs-property-definitions"
 >
   <table *ngIf="!isMobile else mobileTemplate"
-    class="sky-table"
+    class="sky-docs-table"
   >
-    <tr class="sky-table-row">
-      <th class="sky-table-column-header sky-table-column-header-name">
+    <tr class="sky-docs-table-row">
+      <th class="sky-docs-table-column-header sky-docs-table-column-header-name">
         {{ propertyType }}
       </th>
-      <th class="sky-table-column-header sky-table-column-header-description">
+      <th class="sky-docs-table-column-header sky-docs-table-column-header-description">
         Description
       </th>
     </tr>
     <tr *ngFor="let property of properties"
-      class="sky-table-row"
+      class="sky-docs-table-row"
     >
-      <td class="sky-table-cell">
+      <td class="sky-docs-table-cell">
         <ng-template
           [ngTemplateOutlet]="nameTemplate"
           [ngTemplateOutletContext]="{$implicit: property}"
         ></ng-template>
       </td>
-      <td class="sky-table-cell">
+      <td class="sky-docs-table-cell">
         <ng-template
           [ngTemplateOutlet]="descriptionTemplate"
           [ngTemplateOutletContext]="{$implicit: property}"
