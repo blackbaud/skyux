@@ -1,3 +1,7 @@
+# 3.0.0-alpha.28 (2020-01-03)
+
+- Added global style sheet to be used for table styles.
+
 # 3.0.0-alpha.27 (2019-12-13)
 
 - Changed the anatomy component's `thumbnailPath` input to `imagePath` to be consistent with the SKY UX documentation SPA's component.
