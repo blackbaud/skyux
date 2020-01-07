@@ -1,9 +1,12 @@
+# 3.0.0-rc.6 (2020/01/07)
+
+- Fixed the keyboard navigation so that users can press Enter to save a cell and switch focus to the next cell in the column. [#20](https://github.com/blackbaud/skyux-ag-grid/pull/20)
+
 # 3.0.0-rc.5 (2019/11/04)
 
 - Added the cell editor text component to support editing text cells. [#17](https://github.com/blackbaud/skyux-ag-grid/pull/17)
 - Fixed the cell border highlighting so it appears when cells are focused but not being edited. [#17](https://github.com/blackbaud/skyux-ag-grid/pull/17)
 - Fixed the row height to account for the row border. [#17](https://github.com/blackbaud/skyux-ag-grid/pull/17)
-
 
 # 3.0.0-rc.4 (2019/10/21)
 
