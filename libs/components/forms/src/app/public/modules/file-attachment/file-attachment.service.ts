@@ -48,20 +48,18 @@ export class SkyFileAttachmentService {
     return fileResults;
   }
 
-  public verifyDropFiles(files: any): boolean {
-    if (files.length > 1) {
-      return false;
-    }
-
+  /**
+   * Returns `true` if a directory is found in the provided `files` parameter.
+   */
+  public hasDirectory(files: FileList): boolean {
     for (let index = 0; index < files.length; index++) {
-      const file = files.item(index);
-
+      const file: any = files.item(index);
       if (file.webkitGetAsEntry && file.webkitGetAsEntry() && file.webkitGetAsEntry().isDirectory) {
-        return false;
+        return true;
       }
     }
 
-    return true;
+    return false;
   }
 
   public fileTypeRejected(fileType: string, acceptedTypes: string): boolean {

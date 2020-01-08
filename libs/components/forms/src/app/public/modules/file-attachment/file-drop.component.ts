@@ -121,7 +121,7 @@ export class SkyFileDropComponent {
     }
   }
 
-  public fileDrop(dropEvent: any) {
+  public fileDrop(dropEvent: DragEvent): void {
     dropEvent.stopPropagation();
     dropEvent.preventDefault();
 
@@ -130,9 +130,14 @@ export class SkyFileDropComponent {
     this.acceptedOver = false;
 
     if (dropEvent.dataTransfer && dropEvent.dataTransfer.files) {
-      if (this.fileAttachmentService.verifyDropFiles(dropEvent.dataTransfer.files)) {
-        this.handleFiles(dropEvent.dataTransfer.files);
+      const hasDirectory = this.fileAttachmentService.hasDirectory(dropEvent.dataTransfer.files);
+      const invalidNumberOfFiles = !this.multiple && dropEvent.dataTransfer.files.length > 1;
+
+      if (hasDirectory || invalidNumberOfFiles) {
+        return;
       }
+
+      this.handleFiles(dropEvent.dataTransfer.files);
     }
   }
 

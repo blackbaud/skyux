@@ -244,7 +244,7 @@ export class SkyFileAttachmentComponent implements AfterViewInit, AfterContentIn
     }
   }
 
-  public fileDrop(dropEvent: any): void {
+  public fileDrop(dropEvent: DragEvent): void {
     dropEvent.stopPropagation();
     dropEvent.preventDefault();
 
@@ -253,9 +253,15 @@ export class SkyFileAttachmentComponent implements AfterViewInit, AfterContentIn
     this.acceptedOver = false;
 
     if (dropEvent.dataTransfer && dropEvent.dataTransfer.files) {
-      if (this.fileAttachmentService.verifyDropFiles(dropEvent.dataTransfer.files)) {
-        this.handleFiles(dropEvent.dataTransfer.files);
+      if (dropEvent.dataTransfer.files.length > 1) {
+        return;
       }
+
+      if (this.fileAttachmentService.hasDirectory(dropEvent.dataTransfer.files)) {
+        return;
+      }
+
+      this.handleFiles(dropEvent.dataTransfer.files);
     }
   }
 
