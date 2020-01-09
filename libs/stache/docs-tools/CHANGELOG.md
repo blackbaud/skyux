@@ -1,3 +1,7 @@
+# 3.0.0-alpha.30 (2020-01-09)
+
+- Created anatomy module, added columns for design guideline thumbnails. [#12](https://github.com/blackbaud/skyux-docs-tools/pull/12)
+
 # 3.0.0-alpha.29 (2020-01-03)
 
 - Fixed the demo control panel checkbox component to signal changes when the reset button is clicked.
