@@ -1,3 +1,7 @@
+# 3.0.0-alpha.31 (2020-01-09)
+
+- Fixed design guideline thumbnail component to properly wrap multiple images.
+
 # 3.0.0-alpha.30 (2020-01-09)
 
 - Created anatomy module, added columns for design guideline thumbnails. [#12](https://github.com/blackbaud/skyux-docs-tools/pull/12)
