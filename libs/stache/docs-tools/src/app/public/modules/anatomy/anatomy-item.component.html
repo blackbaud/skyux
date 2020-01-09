@@ -4,9 +4,13 @@
     'sky-docs-anatomy-item-optional': isOptional
   }"
 >
-  <div class="sky-docs-anatomy-item-marker">{{ marker }}</div>
+  <div class="sky-docs-anatomy-item-marker">
+    {{ marker }}
+  </div>
   <div class="sky-docs-anatomy-item-description">
     <ng-content></ng-content>
-    <span *ngIf="isOptional" class="sky-deemphasized">(optional)</span>
+    <span *ngIf="isOptional"
+      class="sky-deemphasized"
+    >(optional)</span>
   </div>
 </div>

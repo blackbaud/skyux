@@ -18,9 +18,21 @@
   font-weight: bold;
 }
 
+.sky-docs-table-cell-primary {
+  width: 50%;
+
+  @media (min-width: $sky-screen-md-min) {
+    width: 41.66667%;
+  }
+
+  @media (min-width: $sky-screen-lg-min) {
+    width: 33.33333%;
+  }
+}
+
 .sky-docs-table-cell {
-  padding: $sky-padding-squish-large;
   @include sky-border("row");
+  padding: $sky-padding-squish-large;
   vertical-align: top;
 
   &:first-child {

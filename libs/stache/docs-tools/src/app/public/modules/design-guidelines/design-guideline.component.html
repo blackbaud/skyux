@@ -5,21 +5,22 @@
   >
     {{ heading }}
   </h3>
-
   <sky-row *ngIf="hasThumbnails; else content">
     <sky-column
-      screenSmall="3"
-      screenMedium="4"
+      screenSmall="6"
+      screenMedium="5"
       screenLarge="4"
     >
       <ng-container *ngTemplateOutlet="content"></ng-container>
     </sky-column>
     <sky-column
-      screenSmall="9"
-      screenMedium="8"
+      screenSmall="6"
+      screenMedium="7"
       screenLarge="8"
     >
-      <ng-container *ngTemplateOutlet="thumbnails"></ng-container>
+      <div class="sky-docs-design-guideline-thumbnails">
+        <ng-container *ngTemplateOutlet="thumbnails"></ng-container>
+      </div>
     </sky-column>
   </sky-row>
 </div>

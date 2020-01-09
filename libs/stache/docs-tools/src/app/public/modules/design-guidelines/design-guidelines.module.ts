@@ -15,14 +15,6 @@ import {
 } from '@skyux/layout';
 
 import {
-  SkyDocsAnatomyComponent
-} from './anatomy.component';
-
-import {
-  SkyDocsAnatomyItemComponent
-} from './anatomy-item.component';
-
-import {
   SkyDocsDesignGuidelineComponent
 } from './design-guideline.component';
 
@@ -41,15 +33,11 @@ import {
     SkyImageModule
   ],
   declarations: [
-    SkyDocsAnatomyComponent,
-    SkyDocsAnatomyItemComponent,
     SkyDocsDesignGuidelineComponent,
     SkyDocsDesignGuidelineThumbnailComponent,
     SkyDocsDesignGuidelinesComponent
   ],
   exports: [
-    SkyDocsAnatomyComponent,
-    SkyDocsAnatomyItemComponent,
     SkyDocsDesignGuidelineComponent,
     SkyDocsDesignGuidelineThumbnailComponent,
     SkyDocsDesignGuidelinesComponent

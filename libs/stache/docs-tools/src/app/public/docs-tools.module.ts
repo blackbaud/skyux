@@ -3,6 +3,10 @@ import {
 } from '@angular/core';
 
 import {
+  SkyDocsAnatomyModule
+} from './modules/anatomy/anatomy.module';
+
+import {
   SkyDocsCodeExamplesModule
 } from './modules/code-examples/code-examples.module';
 
@@ -27,6 +31,7 @@ import {
  */
 @NgModule({
   exports: [
+    SkyDocsAnatomyModule,
     SkyDocsCodeExamplesModule,
     SkyDocsDemoModule,
     SkyDocsDemoPageModule,
