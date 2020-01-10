@@ -1,3 +1,8 @@
+# 3.0.0-alpha.32 (2020-01-10)
+
+- Altered spacing between design guidelines thumbnails.
+- Added space character between "optional" text on the anatomy item component marker.
+
 # 3.0.0-alpha.31 (2020-01-09)
 
 - Fixed design guideline thumbnail component to properly wrap multiple images.
