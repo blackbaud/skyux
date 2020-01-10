@@ -1,3 +1,7 @@
+# 3.0.0-alpha.34 (2020-01-10)
+
+- Removed the image component caption "Do" and "Don't" prefixes. [#14](https://github.com/blackbaud/skyux-docs-tools/pull/14)
+
 # 3.0.0-alpha.33 (2020-01-10)
 
 - Fixed an implementation problem of the package `marked` that affected Internet Explorer 11. [#13](https://github.com/blackbaud/skyux-docs-tools/pull/13)
