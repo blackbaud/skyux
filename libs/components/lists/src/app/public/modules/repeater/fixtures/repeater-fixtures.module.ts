@@ -19,6 +19,10 @@ import {
 } from './repeater.component.fixture';
 
 import {
+  RepeaterAsyncItemsTestComponent
+} from './repeater-async-items.component.fixture';
+
+import {
   RepeaterInlineFormFixtureComponent
 } from './repeater-inline-form.component.fixture';
 
@@ -28,6 +32,7 @@ import {
 
 @NgModule({
   declarations: [
+    RepeaterAsyncItemsTestComponent,
     RepeaterInlineFormFixtureComponent,
     RepeaterTestComponent,
     RepeaterWithMissingTagsFixtureComponent
@@ -38,6 +43,7 @@ import {
     SkyRepeaterModule
   ],
   exports: [
+    RepeaterAsyncItemsTestComponent,
     RepeaterInlineFormFixtureComponent,
     RepeaterTestComponent,
     RepeaterWithMissingTagsFixtureComponent

@@ -30,6 +30,10 @@ import {
 } from './fixtures/mock-dragula.service';
 
 import {
+  RepeaterAsyncItemsTestComponent
+} from './fixtures/repeater-async-items.component.fixture';
+
+import {
   RepeaterTestComponent
 } from './fixtures/repeater.component.fixture';
 
@@ -1674,6 +1678,35 @@ describe('Repeater item component', () => {
       fixture.whenStable().then(() => {
         expect(fixture.nativeElement).toBeAccessible();
       });
+    }));
+  });
+
+  describe('with async repeater items', () => {
+    let fixture: ComponentFixture<RepeaterAsyncItemsTestComponent>;
+    let cmp: RepeaterAsyncItemsTestComponent;
+    let el: any;
+
+    beforeEach(fakeAsync(() => {
+      fixture = TestBed.createComponent(RepeaterAsyncItemsTestComponent);
+      cmp = fixture.componentInstance;
+      el = fixture.nativeElement;
+    }));
+
+    it('should show active repeater item when activeIndex is set', fakeAsync(() => {
+      cmp.activeIndex = 1;
+      fixture.detectChanges();
+      tick(1000); // Wait for async items to load.
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      setTimeout(() => {
+        const activeRepeaterItem = el.querySelectorAll('.sky-repeater-item-active');
+        expect(activeRepeaterItem.length).toEqual(1);
+      });
+
+      fixture.destroy();
+      flush();
     }));
   });
 });

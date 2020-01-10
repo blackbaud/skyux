@@ -149,7 +149,11 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
             this.updateForExpandMode(this.items.last);
             this.items.last.reorderable = this.reorderable;
           }
-        }, 0);
+
+          if (this.activeIndex !== undefined) {
+            this.repeaterService.activateItemByIndex(this.activeIndex);
+          }
+        });
       });
 
     setTimeout(() => {
