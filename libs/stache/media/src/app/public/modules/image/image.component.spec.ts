@@ -88,6 +88,22 @@ describe('Image component', () => {
     expect(captionContainerRef.classList.contains('sky-caption-danger')).toBe(true);
   }));
 
+  it('should allow removing caption prefixes', async(() => {
+    const fixture = TestBed.createComponent(SkyImageTestComponent);
+    const cmp = fixture.componentInstance as SkyImageTestComponent;
+    const el = fixture.nativeElement as HTMLElement;
+
+    cmp.imageSource = '~/assets/demo-image.jpg';
+    cmp.caption = 'test caption';
+    cmp.captionType = 'success';
+    cmp.showCaptionPrefix = false;
+
+    fixture.detectChanges();
+
+    const caption = el.querySelector('.sky-image-caption') as HTMLElement;
+    expect(caption.innerText.trim()).toBe('test caption');
+  }));
+
   it('should add a border with showBorder option set to true', async(() => {
     const fixture = TestBed.createComponent(SkyImageTestComponent);
     const cmp = fixture.componentInstance as SkyImageTestComponent;

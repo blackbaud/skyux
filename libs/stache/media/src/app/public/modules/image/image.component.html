@@ -26,10 +26,16 @@
       }"
     >
       <ng-container *ngSwitchCase="'success'">
-        <strong>{{ 'skyux_image_do_text' | skyLibResources }}</strong> {{caption}}
+        <ng-container *ngIf="showCaptionPrefix">
+          <strong>{{ 'skyux_image_do_text' | skyLibResources }}</strong>
+        </ng-container>
+        {{caption}}
       </ng-container>
       <ng-container *ngSwitchCase="'danger'">
-        <strong>{{ 'skyux_image_dont_text' | skyLibResources }}</strong> {{caption}}
+        <ng-container *ngIf="showCaptionPrefix">
+          <strong>{{ 'skyux_image_dont_text' | skyLibResources }}</strong>
+        </ng-container>
+        {{caption}}
       </ng-container>
       <ng-container *ngSwitchDefault>
         {{caption}}

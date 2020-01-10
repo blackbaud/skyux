@@ -17,4 +17,6 @@ export class SkyImageTestComponent {
   public imageSource: string;
 
   public showBorder: boolean;
+
+  public showCaptionPrefix: boolean;
 }

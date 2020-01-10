@@ -27,4 +27,19 @@ export class SkyImageComponent {
   @Input()
   public showBorder = false;
 
+  @Input()
+  public set showCaptionPrefix(value: boolean) {
+    this._showCaptionPrefix = value;
+  }
+
+  public get showCaptionPrefix(): boolean {
+    if (this._showCaptionPrefix === undefined) {
+      return true;
+    }
+
+    return this._showCaptionPrefix;
+  }
+
+  private _showCaptionPrefix: boolean = true;
+
 }
