@@ -1,3 +1,7 @@
+# 3.0.0-alpha.33 (2020-01-10)
+
+- Fixed an implementation problem of the package `marked` that affected Internet Explorer 11. [#13](https://github.com/blackbaud/skyux-docs-tools/pull/13)
+
 # 3.0.0-alpha.32 (2020-01-10)
 
 - Altered spacing between design guidelines thumbnails.
