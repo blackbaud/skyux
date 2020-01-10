@@ -3,7 +3,7 @@ import {
   PipeTransform
 } from '@angular/core';
 
-import * as marked from 'marked';
+const marked = require('marked/lib/marked.js');
 
 @Pipe({
   name: 'skyDocsMarkdown'
