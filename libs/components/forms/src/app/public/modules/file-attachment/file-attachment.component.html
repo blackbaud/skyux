@@ -3,9 +3,9 @@
 >
   <div
     class="sky-file-attachment-label-wrapper"
-    [ngClass]="{ 'sky-control-label-required': required && hasLabelComponent }"
     [attr.aria-required]="(required) ? true : null"
     [attr.id]="labelElementId"
+    [ngClass]="{ 'sky-control-label-required': required && hasLabelComponent }"
   >
     <ng-container *ngTemplateOutlet="labelContent"
     ></ng-container>
@@ -39,40 +39,46 @@
       <sky-icon
         icon="folder-open-o"
       ></sky-icon>
-      {{ value ? 'Replace file' : 'Choose file' }}
+      {{ value ?
+        ('skyux_file_attachment_button_label_replace_file' | skyLibResources) :
+        ('skyux_file_attachment_button_label_choose_file' | skyLibResources)
+      }}
     </button>
-    <span class="sky-file-attachment-name">
-    <a *ngIf="value; else noFile" (click)="emitClick()">
+    <span
+      class="sky-file-attachment-name"
+    >
+      <a *ngIf="value; else noFile"
+        (click)="emitClick()"
+      >
         {{ getFileName() }}
-    </a>
+      </a>
     </span>
     <ng-template #noFile>
       <span
         class="sky-file-attachment-none sky-deemphasized"
       >
-        No file chosen
+        {{ 'skyux_file_attachment_label_no_file_chosen' | skyLibResources }}
       </span>
-  </ng-template>
-  <button *ngIf="value"
-    type="button"
-    class="sky-btn sky-file-attachment-delete"
-    [attr.aria-label]="'skyux_file_attachment_file_item_delete' | skyLibResources"
-    [disabled]="disabled"
-    (click)="deleteFileAttachment()"
-  >
-    <sky-icon
-      icon="trash-o"
-      size="md"
+    </ng-template>
+    <button *ngIf="value"
+      class="sky-btn sky-file-attachment-delete"
+      type="button"
+      [attr.aria-label]="'skyux_file_attachment_file_item_delete' | skyLibResources"
+      [disabled]="disabled"
+      (click)="deleteFileAttachment()"
     >
-    </sky-icon>
-  </button>
-</div>
+      <sky-icon
+        icon="trash-o"
+        size="md"
+      >
+      </sky-icon>
+    </button>
+  </div>
 
-  <div *ngIf="value && isImage()"
-  >
+  <div *ngIf="value && isImage()">
     <img
-      [alt]="'skyux_file_attachment_file_upload_image_preview_alt_text' | skyLibResources"
       class="sky-file-attachment-preview-img"
+      [alt]="'skyux_file_attachment_file_upload_image_preview_alt_text' | skyLibResources"
       [src]="value.url"
     />
   </div>

@@ -7,6 +7,14 @@
     "_description": "Screen reader only label for character count over limit symbol",
     "message": "You are over the character limit."
   },
+  "skyux_file_attachment_button_label_choose_file": {
+    "_description": "Button label for single file attachment when input has no value",
+    "message": "Choose file"
+  },
+  "skyux_file_attachment_button_label_replace_file": {
+    "_description": "Button label for single file attachment when file has been chosen",
+    "message": "Replace file"
+  },
   "skyux_file_attachment_file_item_delete": {
     "_description": "Label for the button that deletes a file",
     "message": "Delete file"
@@ -70,5 +78,9 @@
   "skyux_file_attachment_file_upload_paste_link_done": {
     "_description": "",
     "message": "Done"
+  },
+  "skyux_file_attachment_label_no_file_chosen": {
+    "_description": "Label for single file attachment when no file is chosen",
+    "message": "No file chosen"
   }
 }
