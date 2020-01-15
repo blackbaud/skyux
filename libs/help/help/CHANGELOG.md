@@ -1,3 +1,7 @@
+## 3.2.0 (2020-01-06)
+
+- Set key config values from `SkyAppConfig` and `SKYUX_HOST` (i.e. `extends`, `environmentId`, and `locale`). [#55](https://github.com/blackbaud/skyux-lib-help/pull/55)
+
 # 3.1.2 (2019-10-08)
 
 - Deprecate `hideUndock` configuration. [#54](https://github.com/blackbaud/skyux-lib-help/pull/54)

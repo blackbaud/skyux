@@ -1,4 +1,8 @@
 import {
+  Type
+} from '@angular/core';
+
+import {
   TestBed
 } from '@angular/core/testing';
 
@@ -10,43 +14,25 @@ import {
   HelpInitializationService
 } from '../../public';
 
-import {
-  HelpWindowRef
-} from '../window-ref';
-
-class MockWindowRef {
-  public nativeWindow = {
-    BBHELP: false
-  };
+function fullSpyOnClass<T>(type: Type<T>): jasmine.SpyObj<T> {
+  return jasmine.createSpyObj(type.name, Object.keys(type.prototype));
 }
 
 describe('HelpInitComponent', () => {
-  const helpInitService = new HelpInitializationService();
-  let mockWindowRef: MockWindowRef;
+  let helpInitService: jasmine.SpyObj<HelpInitializationService>;
 
   beforeEach(() => {
-    mockWindowRef = new MockWindowRef();
-    spyOn(helpInitService, 'load').and.callFake((config: any) => { });
+    helpInitService = fullSpyOnClass(HelpInitializationService);
 
     TestBed.configureTestingModule({
-      declarations: [
-        HelpInitComponent
-      ],
+      declarations: [HelpInitComponent],
       providers: [
-        {
-          provide: HelpInitializationService,
-          useValue: helpInitService
-        },
-        {
-          provide: HelpWindowRef,
-          useValue: mockWindowRef
-        }
+        {provide: HelpInitializationService, useValue: helpInitService}
       ]
-    })
-      .compileComponents();
+    });
   });
 
-  it('should initialize the help widget on creation if it doesn\'t exist', () => {
+  it('should initialize the help widget on creation if it does not exist', () => {
     TestBed.createComponent(HelpInitComponent);
     expect(helpInitService.load).toHaveBeenCalled();
   });

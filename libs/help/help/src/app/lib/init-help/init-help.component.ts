@@ -11,8 +11,7 @@ import {
   template: ''
 })
 export class HelpInitComponent {
-  constructor(
-    private initService: HelpInitializationService) {
-    this.initService.load({ extends: 'bbhelp' });
+  public constructor(private initService: HelpInitializationService) {
+    this.initService.load({extends: 'bbhelp'});
   }
 }
