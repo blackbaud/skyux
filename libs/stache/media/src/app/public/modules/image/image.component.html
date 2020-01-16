@@ -1,45 +1,36 @@
-<div class="sky-image-wrapper">
+<figure
+  class="sky-image-wrapper"
+>
   <img
     class="sky-image"
-    [ngClass]="{'sky-image-border': showBorder }"
-    [src]="imageSource"
     [alt]="imageAlt"
-  />
-  <div *ngIf="caption"
-    class="sky-image-caption-container"
     [ngClass]="{
-      'sky-caption-default': captionType === 'default',
-      'sky-caption-info': captionType === 'info',
-      'sky-caption-success': captionType === 'success',
-      'sky-caption-warning': captionType === 'warning',
-      'sky-caption-danger': captionType === 'danger'}"
-    >
-    <div class="sky-image-divider">
-    </div>
-    <div [ngSwitch]="captionType"
-      class="sky-image-caption"
-      [ngClass]="{
-        'sky-text-success': captionType === 'success',
-        'sky-text-info': captionType === 'info',
-        'sky-text-warning': captionType === 'warning',
-        'sky-text-danger': captionType === 'danger'
-      }"
-    >
+      'sky-image-border': showBorder
+    }"
+    [src]="imageSource"
+  />
+  <figcaption *ngIf="caption"
+    class="sky-image-caption"
+    [ngClass]="{
+      'sky-image-caption-default': captionType === 'default',
+      'sky-image-caption-info sky-text-info': captionType === 'info',
+      'sky-image-caption-success sky-text-success': captionType === 'success',
+      'sky-image-caption-warning sky-text-warning': captionType === 'warning',
+      'sky-image-caption-danger sky-text-danger': captionType === 'danger'
+    }"
+  >
+    <ng-container [ngSwitch]="captionType">
       <ng-container *ngSwitchCase="'success'">
         <ng-container *ngIf="showCaptionPrefix">
           <strong>{{ 'skyux_image_do_text' | skyLibResources }}</strong>
         </ng-container>
-        {{caption}}
       </ng-container>
       <ng-container *ngSwitchCase="'danger'">
         <ng-container *ngIf="showCaptionPrefix">
           <strong>{{ 'skyux_image_dont_text' | skyLibResources }}</strong>
         </ng-container>
-        {{caption}}
       </ng-container>
-      <ng-container *ngSwitchDefault>
-        {{caption}}
-      </ng-container>
-    </div>
-  </div>
-</div>
+    </ng-container>
+    {{ caption }}
+  </figcaption>
+</figure>

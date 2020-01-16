@@ -2,6 +2,20 @@
 
   <div
     class="app-screenshot"
+    id="sky-image-long-caption"
+  >
+    <sky-image
+      caption="This caption is very long and should wrap to the next line and never extend beyond the image's width."
+      captionType="success"
+      imageAlt="image for visual test"
+      imageSource="~/assets/demo-image.jpg"
+      [showCaptionPrefix]="false"
+    >
+    </sky-image>
+  </div>
+
+  <div
+    class="app-screenshot"
     id="sky-image-default-caption"
   >
     <sky-image
