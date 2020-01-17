@@ -33,12 +33,10 @@ export class SkyDocsDemoPageTypeDefinitionsComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    if (!this.moduleSourceCodePath) {
-      throw 'Please provide a source code location! `<sky-docs-demo-page moduleSourceCodePath="path/to/source">`';
+    if (this.moduleSourceCodePath) {
+      this.types = this.typeDefinitionService.getTypeDefinitions(
+        this.moduleSourceCodePath
+      );
     }
-
-    this.types = this.typeDefinitionService.getTypeDefinitions(
-      this.moduleSourceCodePath
-    );
   }
 }

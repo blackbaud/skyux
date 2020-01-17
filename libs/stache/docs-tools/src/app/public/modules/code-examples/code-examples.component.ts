@@ -77,10 +77,17 @@ export class SkyDocsCodeExamplesComponent implements AfterContentInit {
 
   public ngAfterContentInit(): void {
     this.codeExampleComponents.forEach((component) => {
-      const sourceCode = this.sourceCodeService.getSourceCode(component.sourceCodePath);
+
+      // Make sure the source code path ends in a slash, so that similarly named directories aren't included.
+      let sourceCodePath = component.sourceCodePath;
+      if (sourceCodePath.slice(-1) !== '/') {
+        sourceCodePath += '/';
+      }
+
+      const sourceCode = this.sourceCodeService.getSourceCode(sourceCodePath);
 
       if (!sourceCode.length) {
-        throw `No source code found at location "${component.sourceCodePath}" for "${component.heading}"!`;
+        throw `No source code found at location "${sourceCodePath}" for "${component.heading}"!`;
       }
 
       this.codeExamples.push({

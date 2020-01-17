@@ -24,10 +24,12 @@
   @include sky-border(dark, top, bottom, left, right);
   margin-bottom: $sky-margin;
   padding: $sky-padding-even-large;
+}
+
+.sky-docs-demo-viewport-align-center {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100px;
 }
 
 .sky-docs-demo-viewport-gutter {

@@ -31,7 +31,10 @@
     <ng-content select="sky-docs-demo-control-panel"></ng-content>
   </ng-container>
 
-  <div class="sky-docs-demo-viewport">
+  <div
+    class="sky-docs-demo-viewport"
+    [ngClass]="'sky-docs-demo-viewport-align-' + alignContents"
+  >
     <div class="sky-docs-demo-viewport-gutter">
       <ng-content></ng-content>
     </div>

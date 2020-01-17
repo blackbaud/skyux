@@ -3,18 +3,6 @@
 
 .sky-docs-design-guideline-thumbnail {
   margin-bottom: $sky-margin * 5;
-
-  ::ng-deep {
-    sky-image {
-      display: flex;
-      .sky-image-wrapper {
-        flex: 0;
-      }
-      .sky-image {
-        max-width: none;
-      }
-    }
-  }
 }
 
 .sky-docs-design-guideline-video {
