@@ -1,3 +1,9 @@
+# 3.0.0-alpha.35 (2020-01-17)
+
+- Fixed a bug where code example files were being shared between similarly named headings. [#15](https://github.com/blackbaud/skyux-docs-tools/pull/15)
+- Adopted latest version of `SkyImageModule` (from `@blackbaud/skyux-lib-media@1.2.0`) which addresses some accessibility and responsiveness issues. [#15](https://github.com/blackbaud/skyux-docs-tools/pull/15)
+- Added feature to allow custom content to be included under the "Development" tab. [#15](https://github.com/blackbaud/skyux-docs-tools/pull/15)
+
 # 3.0.0-alpha.34 (2020-01-10)
 
 - Removed the image component caption "Do" and "Don't" prefixes. [#14](https://github.com/blackbaud/skyux-docs-tools/pull/14)
