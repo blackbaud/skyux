@@ -1,3 +1,7 @@
+# 3.4.0 (2020-01-17)
+
+- Added `sky-page` component to transition pages to a white background. [#57](https://github.com/blackbaud/skyux-layout/pull/57)
+
 # 3.3.1 (2019-11-21)
 
 - Fixed the text expand and text expand repeater components' DOM adapter services to use the new `Renderer2` utility instead of the deprecated `Renderer` utility. [#53](https://github.com/blackbaud/skyux-layout/pull/53)
