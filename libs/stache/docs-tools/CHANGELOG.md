@@ -1,3 +1,7 @@
+# 3.0.0-alpha.36 (2020-01-21)
+
+- Fixed the demo component to hide the options dropdown if no control panels exist.
+
 # 3.0.0-alpha.35 (2020-01-17)
 
 - Fixed a bug where code example files were being shared between similarly named headings. [#15](https://github.com/blackbaud/skyux-docs-tools/pull/15)
