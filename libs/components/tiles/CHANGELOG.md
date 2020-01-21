@@ -1,3 +1,7 @@
+# 3.3.0 (2020-01-21)
+
+- Added support for the SKY UX default theme to the tile dashboard. This ensures the tile dashboard will display the correct background color and padding for the default theme's white page background. [#45](https://github.com/blackbaud/skyux-tiles/pull/45)
+
 # 3.2.0 (2019-11-25)
 
 - Added a tile dashboard message stream to allow other components to remotely control its functions. [#42](https://github.com/blackbaud/skyux-tiles/pull/42)
