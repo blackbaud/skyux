@@ -25,6 +25,10 @@
   .sky-tile-dashboard-layout-multi ::ng-deep .sky-tile {
     margin-bottom: $sky-margin-double;
   }
+
+  :host-context(.sky-theme-default) {
+    padding-top: $sky-padding-double;
+  }
 }
 
 @include sky-host-responsive-container-md-min() {
@@ -44,4 +48,8 @@
   @media screen {
     @include sky-screen-reader-only();
   }
+}
+
+:host-context(.sky-theme-default) {
+  background-color: $sky-background-color-neutral-light;
 }

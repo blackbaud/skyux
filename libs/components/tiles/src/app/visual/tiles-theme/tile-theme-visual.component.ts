@@ -8,17 +8,17 @@ import {
 
 import {
   SkyTileDemoTile1Component
-} from './tile-demo-tile1.component';
+} from '../tiles/tile-demo-tile1.component';
 
 import {
   SkyTileDemoTile2Component
-} from './tile-demo-tile2.component';
+} from '../tiles/tile-demo-tile2.component';
 
 @Component({
-  selector: 'sky-tile-demo',
-  templateUrl: 'tile-visual.component.html'
+  selector: 'sky-tile-theme-demo',
+  templateUrl: 'tile-theme-visual.component.html'
 })
-export class SkyTileDemoComponent {
+export class SkyTileThemeDemoComponent {
   public dashboardConfig: SkyTileDashboardConfig;
 
   constructor() {
