@@ -12,9 +12,9 @@ export class SkyDocsAnchorLinkService {
   private anchorIds: {[_: string]: string};
 
   constructor(
-    private typeDefinitionsProvider: SkyDocsTypeDefinitionsProvider
+    typeDefinitionsProvider: SkyDocsTypeDefinitionsProvider
   ) {
-    this.anchorIds = this.typeDefinitionsProvider.anchorIds;
+    this.anchorIds = typeDefinitionsProvider.anchorIds;
   }
 
   /**
@@ -41,7 +41,6 @@ export class SkyDocsAnchorLinkService {
       .filter(typeName => new RegExp(typeName).test(content));
 
     let html: string;
-
     if (matchingTypes.length) {
 
       // Sort by longest name to prevent replacement of name fragments that are shared with other shorter type names.

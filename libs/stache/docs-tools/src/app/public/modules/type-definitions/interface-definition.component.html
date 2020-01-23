@@ -20,10 +20,10 @@
   <ng-container *ngIf="config.properties && config.properties.length">
     <sky-docs-property-definitions>
       <sky-docs-property-definition *ngFor="let property of config.properties"
+        [defaultValue]="property.defaultValue"
+        [isOptional]="property.isOptional"
         [propertyName]="property.name"
         [propertyType]="property.type"
-        [isOptional]="property.isOptional"
-        [defaultValue]="property.defaultValue"
       >
         <sky-docs-safe-html
           [innerHtml]="property.description"

@@ -5,8 +5,9 @@
         <sky-code><span [innerHtml]="getParameterSignature(parameter)"></span></sky-code>
       </th>
       <td>
-        <ng-container [ngTemplateOutlet]="parameter.templateRef">
-        </ng-container>
+        <ng-container
+          [ngTemplateOutlet]="parameter.templateRef"
+        ></ng-container>
         <div *ngIf="parameter.isOptional"
           class="sky-docs-parameter-definition-label-optional"
         >

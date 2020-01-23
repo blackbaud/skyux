@@ -21,12 +21,12 @@ import {
 export class SkyDocsSupportalService {
   constructor(
     private http: HttpClient
-  ) {}
+  ) { }
 
   public getComponentsInfo(): Observable<SkyDocsComponentInfo[]> {
     return this.http
       .get('https://sky-pusa01.app.blackbaud.net/skysp/v1/docs/components-info')
-      .map((results: any) => results['components'])
+      .map((results: any) => results.components)
       .share();
   }
 }

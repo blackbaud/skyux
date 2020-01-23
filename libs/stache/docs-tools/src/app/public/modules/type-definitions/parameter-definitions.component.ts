@@ -14,14 +14,17 @@ import {
 import {
   SkyDocsParameterDefinitionComponent
 } from './parameter-definition.component';
-import { SkyDocsTypeDefinitionsFormatService } from './type-definitions-format.service';
 
-export interface SkyDocsParameterModel {
+import {
+  SkyDocsTypeDefinitionsFormatService
+} from './type-definitions-format.service';
+
+interface SkyDocsParameterModel {
+  defaultValue: string;
   isOptional: boolean;
   name: string;
-  type: string;
-  defaultValue: string;
   templateRef: TemplateRef<any>;
+  type: string;
 }
 
 @Component({

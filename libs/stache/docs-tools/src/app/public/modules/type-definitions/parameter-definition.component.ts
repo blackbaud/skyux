@@ -14,9 +14,6 @@ import {
 export class SkyDocsParameterDefinitionComponent {
 
   @Input()
-  public parameterType: string;
-
-  @Input()
   public defaultValue: string;
 
   @Input()
@@ -24,6 +21,9 @@ export class SkyDocsParameterDefinitionComponent {
 
   @Input()
   public parameterName: string;
+
+  @Input()
+  public parameterType: string;
 
   @ViewChild('templateRef', { read: TemplateRef })
   public templateRef: TemplateRef<any>;

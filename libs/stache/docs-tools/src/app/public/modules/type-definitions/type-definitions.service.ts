@@ -7,18 +7,18 @@ import {
 } from './anchor-link.service';
 
 import {
-  SkyDocsTypeDefinitions,
-  SkyDocsPropertyDefinition,
-  SkyDocsMethodDefinition,
-  SkyDocsParameterDefinition,
-  SkyDocsInterfacePropertyDefinition,
   SkyDocsDirectiveDefinition,
   SkyDocsDirectivePropertyDefinition,
-  SkyDocsServiceDefinition,
-  SkyDocsPipeDefinition,
-  SkyDocsInterfaceDefinition,
   SkyDocsEnumerationDefinition,
-  SkyDocsTypeAliasDefinition
+  SkyDocsInterfaceDefinition,
+  SkyDocsInterfacePropertyDefinition,
+  SkyDocsMethodDefinition,
+  SkyDocsParameterDefinition,
+  SkyDocsPipeDefinition,
+  SkyDocsPropertyDefinition,
+  SkyDocsServiceDefinition,
+  SkyDocsTypeAliasDefinition,
+  SkyDocsTypeDefinitions
 } from './type-definitions';
 
 import {
@@ -38,8 +38,8 @@ interface SkyDocsTypeDefinitionCommentTags {
 export class SkyDocsTypeDefinitionsService {
 
   constructor(
-    private typeDefinitionsProvider: SkyDocsTypeDefinitionsProvider,
-    private anchorLinkService: SkyDocsAnchorLinkService
+    private anchorLinkService: SkyDocsAnchorLinkService,
+    private typeDefinitionsProvider: SkyDocsTypeDefinitionsProvider
   ) { }
 
   /**
@@ -58,7 +58,6 @@ export class SkyDocsTypeDefinitionsService {
     }
 
     const typeDefinitions = this.typeDefinitionsProvider.typeDefinitions;
-
     const requestedDir = sourceCodePath.replace(
       /src(\/|\\)app(\/|\\)public(\/|\\)/,
       ''
@@ -75,12 +74,9 @@ export class SkyDocsTypeDefinitionsService {
     };
 
     // Only process types that match the requested source code location.
-    typeDefinitions.filter((item: any) => {
-
-      const fileName = item.sources[0].fileName;
-      return (fileName.match(requestedDir));
-
-    }).forEach((item: any) => {
+    typeDefinitions
+      .filter((item: any) => item.sources[0].fileName.match(requestedDir))
+      .forEach((item: any) => {
 
       // Components.
       if (this.endsWith(item.name, 'Component')) {
@@ -175,12 +171,12 @@ export class SkyDocsTypeDefinitionsService {
 
     const config: SkyDocsDirectiveDefinition = {
       anchorId: item.anchorId,
-      name: item.name,
-      description,
-      selector,
-      properties,
       codeExample,
-      codeExampleLanguage
+      codeExampleLanguage,
+      description,
+      name: item.name,
+      properties,
+      selector
     };
 
     return config;
@@ -214,13 +210,13 @@ export class SkyDocsTypeDefinitionsService {
     }
 
     return {
-      type: typeName,
-      name: item.name,
       decorator,
-      description,
       defaultValue,
+      deprecationWarning,
+      description,
       isOptional: (this.isOptional(item) && decorator === 'Input'),
-      deprecationWarning
+      name: item.name,
+      type: typeName
     };
   }
 
@@ -233,9 +229,9 @@ export class SkyDocsTypeDefinitionsService {
         const propertyDescription = (child.comment) ? child.comment.shortText : '';
 
         properties.push({
+          description: propertyDescription,
           name: child.name,
-          type: this.parseFormattedType(child.type),
-          description: propertyDescription
+          type: this.parseFormattedType(child.type)
         });
       }
 
@@ -254,10 +250,10 @@ export class SkyDocsTypeDefinitionsService {
 
     return {
       anchorId: item.anchorId,
-      name: item.name,
       description,
-      properties,
-      methods
+      methods,
+      name: item.name,
+      properties
     };
   }
 
@@ -269,11 +265,11 @@ export class SkyDocsTypeDefinitionsService {
       signature.parameters.forEach((p: any) => {
         const defaultValue = this.getDefaultValue(p);
         const parameter: SkyDocsParameterDefinition = {
-          description: (p.comment) ? p.comment.text : '',
-          name: p.name,
-          type: this.parseFormattedType(p.type),
           defaultValue,
-          isOptional: this.isOptional(p)
+          description: (p.comment) ? p.comment.text : '',
+          isOptional: this.isOptional(p),
+          name: p.name,
+          type: this.parseFormattedType(p.type)
         };
 
         parameters.push(parameter);
@@ -288,13 +284,13 @@ export class SkyDocsTypeDefinitionsService {
     } = this.parseCommentTags(signature.comment);
 
     return {
-      deprecationWarning,
-      name: item.name,
-      description,
-      returnType: this.parseFormattedType(signature.type),
-      parameters,
       codeExample,
-      codeExampleLanguage
+      codeExampleLanguage,
+      deprecationWarning,
+      description,
+      name: item.name,
+      parameters,
+      returnType: this.parseFormattedType(signature.type)
     };
   }
 
@@ -349,10 +345,10 @@ export class SkyDocsTypeDefinitionsService {
         const isOptional = this.isOptional(p);
         const typeName = this.parseFormattedType(p.type, false);
         const property: SkyDocsInterfacePropertyDefinition = {
-          type: typeName,
-          name: p.name,
           description: propertyDescription,
-          isOptional
+          isOptional,
+          name: p.name,
+          type: typeName
         };
 
         properties.push(property);
@@ -364,10 +360,10 @@ export class SkyDocsTypeDefinitionsService {
       const param = indexSignature.parameters[0];
       const { description: propertyDescription } = this.parseCommentTags(indexSignature.comment);
       properties.push({
-        name: `[${param.name}: ${param.type.name}]`,
-        type: indexSignature.type.name,
         description: propertyDescription,
-        isOptional: false
+        isOptional: false,
+        name: `[${param.name}: ${param.type.name}]`,
+        type: indexSignature.type.name
       });
     }
 
@@ -384,8 +380,8 @@ export class SkyDocsTypeDefinitionsService {
 
     return {
       anchorId: item.anchorId,
-      name: interfaceName,
       description,
+      name: interfaceName,
       properties,
       sourceCode
     };
@@ -394,16 +390,16 @@ export class SkyDocsTypeDefinitionsService {
   private parseEnumerationDefinition(item: any): SkyDocsEnumerationDefinition {
     const members = item.children.map((p: any) => {
       return {
-        name: `${item.name}.${p.name}`,
-        description: (p.comment) ? p.comment.shortText : ''
+        description: (p.comment) ? p.comment.shortText : '',
+        name: `${item.name}.${p.name}`
       };
     });
 
     return {
       anchorId: item.anchorId,
-      name: item.name,
       description: (item.comment) ? item.comment.shortText : '',
-      members
+      members,
+      name: item.name
     };
   }
 
@@ -444,16 +440,15 @@ export class SkyDocsTypeDefinitionsService {
 
           if (foundTag) {
             parameters.push({
-              name: p.name,
-              type: p.type.name,
-              description: foundTag.text,
               defaultValue,
-              isOptional
+              description: foundTag.text,
+              isOptional,
+              name: p.name,
+              type: p.type.name
             });
           }
 
           const optionalIndicator = (isOptional) ? '?' : '';
-
           return `${p.name}${optionalIndicator}: ${p.type.name}`;
 
         }).join(', ');
@@ -477,19 +472,19 @@ export class SkyDocsTypeDefinitionsService {
 
     return {
       anchorId: item.anchorId,
-      name: item.name,
       description,
-      sourceCode,
+      name: item.name,
       parameters,
-      returnType
+      returnType,
+      sourceCode
     };
   }
 
   private parseFormattedType(
     typeConfig: {
+      elementType?: any;
       name: string;
       type: string;
-      elementType?: any;
       typeArguments?: any[];
     },
     escapeCharacters: boolean = true

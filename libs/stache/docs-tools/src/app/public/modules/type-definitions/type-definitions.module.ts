@@ -103,9 +103,9 @@ import {
     SkyCodeModule,
     SkyDefinitionListModule,
     SkyDocsHeadingAnchorModule,
-    SkyIconModule,
     SkyDocsMarkdownModule,
     SkyDocsSafeHtmlModule,
+    SkyIconModule,
     SkyMediaQueryModule
   ],
   declarations: [

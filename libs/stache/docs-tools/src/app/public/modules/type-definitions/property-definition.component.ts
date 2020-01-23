@@ -17,22 +17,22 @@ import {
 export class SkyDocsPropertyDefinitionComponent {
 
   @Input()
-  public propertyType: string;
-
-  @Input()
   public defaultValue: string;
 
   @Input()
-  public isOptional: boolean = false;
+  public deprecationWarning: string;
 
   @Input()
-  public deprecationWarning: string;
+  public isOptional: boolean = false;
 
   @Input()
   public propertyDecorator: 'Input' | 'Output';
 
   @Input()
   public propertyName: string;
+
+  @Input()
+  public propertyType: string;
 
   @ViewChild('templateRef', { read: TemplateRef })
   public templateRef: TemplateRef<any>;

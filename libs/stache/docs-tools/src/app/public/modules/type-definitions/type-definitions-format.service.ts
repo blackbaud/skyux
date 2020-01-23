@@ -24,10 +24,8 @@ export class SkyDocsTypeDefinitionsFormatService {
 
     if (method.parameters.length) {
       const parameters: string[] = [];
-
       method.parameters.forEach((parameter) => {
         const optionalMarker = (parameter.defaultValue || parameter.isOptional) ? '?' : '';
-
         parameters.push(
           `${parameter.name}${optionalMarker}: ${parameter.type}`
         );
@@ -50,7 +48,6 @@ export class SkyDocsTypeDefinitionsFormatService {
 
     if (item.type) {
       const parameterType = this.anchorLinkService.wrapWithAnchorLink(item.type);
-
       signature += `: ${parameterType}`;
     }
 
@@ -58,9 +55,7 @@ export class SkyDocsTypeDefinitionsFormatService {
   }
 
   public getPropertySignature(item: SkyDocsPropertyDefinition): string {
-    let signature = '';
-
-    signature += `${item.name}`;
+    let signature = `${item.name}`;
 
     // Don't use the '?' indicator if the property has a decorator.
     if (item.isOptional && !item.decorator) {
@@ -69,7 +64,6 @@ export class SkyDocsTypeDefinitionsFormatService {
 
     if (item.type) {
       const propertyType = this.anchorLinkService.wrapWithAnchorLink(item.type);
-
       signature += `: ${propertyType}`;
     }
 
