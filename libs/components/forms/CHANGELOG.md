@@ -1,3 +1,7 @@
+# 3.6.2 (2020-01-23)
+
+- Fixed the character count directive to not affect the underlying control value. [#95](https://github.com/blackbaud/skyux-forms/pull/95)
+
 # 3.6.1 (2020-01-09)
 
 - Fixed the file drop component to enable users to drag and drop multiple files. [#92](https://github.com/blackbaud/skyux-forms/pull/92)
