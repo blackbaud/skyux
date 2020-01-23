@@ -87,7 +87,8 @@ export class SkyDocsCodeExamplesComponent implements AfterContentInit {
       const sourceCode = this.sourceCodeService.getSourceCode(sourceCodePath);
 
       if (!sourceCode.length) {
-        throw `No source code found at location "${sourceCodePath}" for "${component.heading}"!`;
+        console.warn(`Source code not found at location "${sourceCodePath}" for "${component.heading}"!`);
+        return;
       }
 
       this.codeExamples.push({

@@ -59,7 +59,7 @@ export class SkyDocsDemoControlPanelCheckboxComponent implements OnInit, OnDestr
   public label: string;
 
   /**
-   * The name of the property (or setting) that is affected by this control.
+   * The name of the component property that is affected by this control.
    * @required
    */
   @Input()

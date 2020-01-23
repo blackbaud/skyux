@@ -64,7 +64,7 @@ export class SkyDocsDemoControlPanelRadioGroupComponent implements OnInit, OnDes
   public initialValue: any;
 
   /**
-   * The name of the property that is affected by this radio group.
+   * The name of the component property that is affected by this radio group.
    * @required
    */
   @Input()
