@@ -7,8 +7,7 @@ import {
 } from '@angular/core/testing';
 
 import {
-  expect,
-  SkyAppTestUtility
+  expect
 } from '@skyux-sdk/testing';
 
 import {
@@ -29,30 +28,11 @@ import {
 
 describe('Character Counter component', () => {
 
-  function setInputWithKeyupEvent(
-    element: HTMLElement,
-    text: string,
-    fixture: ComponentFixture<any>
+  function setInputValue(
+    fixture: ComponentFixture<CharacterCountTestComponent | CharacterCountNoIndicatorTestComponent>,
+    value: string
   ): void {
-    const inputEl = element.querySelector('input');
-    inputEl.value = text;
-    fixture.detectChanges();
-
-    SkyAppTestUtility.fireDomEvent(inputEl, 'keyup');
-    fixture.detectChanges();
-    tick();
-  }
-
-  function setInputWithInputEvent(
-    element: HTMLElement,
-    text: string,
-    fixture: ComponentFixture<any>
-  ): void {
-    const inputEl = element.querySelector('input');
-    inputEl.value = text;
-    fixture.detectChanges();
-
-    SkyAppTestUtility.fireDomEvent(inputEl, 'input');
+    fixture.componentInstance.firstName.setValue(value);
     fixture.detectChanges();
     tick();
   }
@@ -89,27 +69,21 @@ describe('Character Counter component', () => {
     });
 
     it('should update the count on input', fakeAsync(() => {
-      setInputWithInputEvent(nativeElement, 'abc', fixture);
+      setInputValue(fixture, 'abc');
 
       expect(characterCountComponent.characterCount).toBe(3);
       expect(characterCountLabel.innerText.trim()).toBe('3/5');
 
-      setInputWithInputEvent(nativeElement, 'abcd', fixture);
+      setInputValue(fixture, 'abcd');
 
       expect(characterCountComponent.characterCount).toBe(4);
       expect(characterCountLabel.innerText.trim()).toBe('4/5');
     }));
 
     it('should handle undefined input', fakeAsync(() => {
-      const inputEl = nativeElement.querySelector('input');
       /* tslint:disable */
-      inputEl.value = null;
+      setInputValue(fixture, null);
       /* tslint:enable */
-      fixture.detectChanges();
-
-      SkyAppTestUtility.fireDomEvent(inputEl, 'keyup');
-      fixture.detectChanges();
-      tick();
 
       expect(characterCountComponent.characterCount).toBe(0);
       expect(characterCountLabel.innerText.trim()).toBe('0/5');
@@ -117,25 +91,23 @@ describe('Character Counter component', () => {
     }));
 
     it('should show the error icon on the character count when appropriate', fakeAsync(() => {
-      setInputWithInputEvent(nativeElement, 'abcde', fixture);
+      setInputValue(fixture, 'abcde');
       expect(characterCountLabel.classList.contains('sky-error-label')).toBeFalsy();
 
-      setInputWithInputEvent(nativeElement, 'abcdef', fixture);
+      setInputValue(fixture, 'abcdef');
       expect(characterCountLabel.classList.contains('sky-error-label')).toBeTruthy();
     }));
 
     it('should show the error detail message when appropriate', fakeAsync(() => {
-      setInputWithKeyupEvent(nativeElement, 'abcde', fixture);
+      setInputValue(fixture, 'abcde');
       expect(component.firstName.valid).toBeTruthy();
 
-      setInputWithInputEvent(nativeElement, 'abcdef', fixture);
-      expect(component.firstName.valid).toBeTruthy();
-
-      setInputWithKeyupEvent(nativeElement, 'abcdef', fixture);
+      setInputValue(fixture, 'abcdef');
       expect(component.firstName.valid).toBeFalsy();
     }));
 
     it('should handle changes to max character count', fakeAsync(() => {
+      setInputValue(fixture, '1234');
       component.setCharacterCountLimit(3);
       fixture.detectChanges();
       expect(component.firstName.valid).toBeFalsy();
@@ -145,6 +117,36 @@ describe('Character Counter component', () => {
       fixture.detectChanges();
       expect(component.firstName.valid).toBeTruthy();
       expect(characterCountLabel.classList.contains('sky-error-label')).toBeFalsy();
+    }));
+
+    it('should only update the limit if different', async(() => {
+      const spy = spyOnProperty(characterCountComponent, 'characterCountLimit', 'set').and.callThrough();
+
+      component.setCharacterCountLimit(15);
+      fixture.detectChanges();
+      expect(spy).toHaveBeenCalledWith(15);
+      spy.calls.reset();
+
+      component.setCharacterCountLimit(15);
+      fixture.detectChanges();
+      expect(spy).not.toHaveBeenCalled();
+      spy.calls.reset();
+
+      component.setCharacterCountLimit(10);
+      fixture.detectChanges();
+      expect(spy).toHaveBeenCalledWith(10);
+    }));
+
+    it('should default the limit to zero', fakeAsync(() => {
+      component.setCharacterCountLimit(5);
+      fixture.detectChanges();
+
+      expect(characterCountComponent.characterCountLimit).toEqual(5);
+
+      component.setCharacterCountLimit(undefined);
+      fixture.detectChanges();
+
+      expect(characterCountComponent.characterCountLimit).toEqual(0);
     }));
 
     it('should pass accessibility', async(() => {
@@ -158,38 +160,27 @@ describe('Character Counter component', () => {
   describe('without count indicator', () => {
     let fixture: ComponentFixture<CharacterCountNoIndicatorTestComponent>;
     let component: CharacterCountNoIndicatorTestComponent;
-    let nativeElement: HTMLElement;
 
     beforeEach(() => {
       fixture = TestBed.createComponent(CharacterCountNoIndicatorTestComponent);
-      nativeElement = fixture.nativeElement as HTMLElement;
       component = fixture.componentInstance;
 
       fixture.detectChanges();
     });
 
     it('should handle undefined input', fakeAsync(() => {
-      const inputEl = nativeElement.querySelector('input');
       /* tslint:disable */
-      inputEl.value = null;
+      setInputValue(fixture, null);
       /* tslint:enable */
-      fixture.detectChanges();
-
-      SkyAppTestUtility.fireDomEvent(inputEl, 'keyup');
-      fixture.detectChanges();
-      tick();
 
       expect(component.firstName.valid).toBeTruthy();
     }));
 
     it('should show the error detail message when appropriate', fakeAsync(() => {
-      setInputWithKeyupEvent(nativeElement, 'abcde', fixture);
+      setInputValue(fixture, 'abcde');
       expect(component.firstName.valid).toBeTruthy();
 
-      setInputWithInputEvent(nativeElement, 'abcdef', fixture);
-      expect(component.firstName.valid).toBeTruthy();
-
-      setInputWithKeyupEvent(nativeElement, 'abcdef', fixture);
+      setInputValue(fixture, 'abcdef');
       expect(component.firstName.valid).toBeFalsy();
     }));
 
