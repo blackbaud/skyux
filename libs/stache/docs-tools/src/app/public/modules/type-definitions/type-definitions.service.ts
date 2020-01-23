@@ -73,6 +73,10 @@ export class SkyDocsTypeDefinitionsService {
       typeAliases: []
     };
 
+    if (!typeDefinitions) {
+      return types;
+    }
+
     // Only process types that match the requested source code location.
     typeDefinitions
       .filter((item: any) => item.sources[0].fileName.match(requestedDir))
