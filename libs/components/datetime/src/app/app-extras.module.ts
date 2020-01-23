@@ -3,6 +3,11 @@ import {
 } from '@angular/core';
 
 import {
+  SkyDocsToolsModule,
+  SkyDocsToolsOptions
+} from '@skyux/docs-tools';
+
+import {
   SkyAppLinkModule
 } from '@skyux/router';
 
@@ -18,8 +23,18 @@ import {
     SkyAppLinkModule,
     SkyDatePipeModule,
     SkyDatepickerModule,
+    SkyDocsToolsModule,
     SkyTimepickerModule,
     SkyDateRangePickerModule
+  ],
+  providers: [
+    {
+      provide: SkyDocsToolsOptions,
+      useValue: {
+        gitRepoUrl: 'https://github.com/blackbaud/skyux-datetime',
+        packageName: '@skyux/datetime'
+      }
+    }
   ]
 })
 export class AppExtrasModule { }
