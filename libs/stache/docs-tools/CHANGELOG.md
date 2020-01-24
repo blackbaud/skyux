@@ -1,3 +1,7 @@
+# 3.0.0 (2020-01-24)
+
+- Initial major release.
+
 # 3.0.0-alpha.36 (2020-01-21)
 
 - Fixed the demo component to hide the options dropdown if no control panels exist.
