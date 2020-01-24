@@ -14,19 +14,26 @@ import {
   SkyDatePipe
 } from './date.pipe';
 
+import {
+  SkyFuzzyDatePipe
+} from './fuzzy-date.pipe';
+
 @NgModule({
   declarations: [
-    SkyDatePipe
+    SkyDatePipe,
+    SkyFuzzyDatePipe
   ],
   providers: [
-    SkyDatePipe
+    SkyDatePipe,
+    SkyFuzzyDatePipe
   ],
   imports: [
     CommonModule,
     SkyDateTimeResourcesModule
   ],
   exports: [
-    SkyDatePipe
+    SkyDatePipe,
+    SkyFuzzyDatePipe
   ]
 })
 export class SkyDatePipeModule { }

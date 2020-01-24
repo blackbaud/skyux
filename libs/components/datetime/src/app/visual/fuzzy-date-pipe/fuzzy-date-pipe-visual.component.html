@@ -3,25 +3,23 @@
   style="width:300px"
 >
 
-  <h2>
-    Date pipe
-  </h2>
+  <h2>Fuzzy date pipe</h2>
   <div
     class="sky-form-group"
   >
     <label
       class="sky-control-label"
-      for="datepicker"
+      for="fuzzy-datepicker"
     >
-      Choose or type in a date
+      Choose or type in a fuzzy date
     </label>
     <sky-datepicker>
       <input
         class="sky-form-control"
-        id="datepicker"
-        skyDatepickerInput
+        id="fuzzy-datepicker"
+        skyFuzzyDatepickerInput
         type="text"
-        [(ngModel)]="myDate"
+        [(ngModel)]="fuzzyDate"
       />
     </sky-datepicker>
   </div>
@@ -30,26 +28,18 @@
     class="sky-form-group"
   >
     <label
-      class="sky-control-label"
+      class="sky-control-label sky-control-label-required"
       for="format"
     >
       Format
     </label>
-    <select
+    <input
       class="sky-form-control"
       id="format"
       name="format"
+      type="text"
       [(ngModel)]="format"
-    >
-      <option *ngFor="let formatItem of formatList">
-        {{formatItem}}
-      </option>
-    </select>
-    <span
-      class="sky-deemphasized"
-    >
-      Angular's predefined 'short' format is default. Choose a format above to override.
-    </span>
+    />
   </div>
 
   <div
@@ -107,13 +97,13 @@
   <p
     class="sky-emphasized"
   >
-    {{ myDate | skyDate:format:locale }}
+    {{ fuzzyDate | skyFuzzyDate:format:locale }}
   </p>
 
   <p
     class="sky-field-label"
   >
-    Date model: <code>{{ dateForDisplay() }}</code>
+    SkyFuzzyDate model: <code>{{ dateForDisplay() }}</code>
   </p>
 
 </div>

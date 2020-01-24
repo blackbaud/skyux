@@ -20,15 +20,15 @@ describe('SkyFuzzyDateservice', () => {
   let service: SkyFuzzyDateService;
   const defaultDateFormat = 'mm/dd/yyyy';
 
-    beforeEach(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          SkyFuzzyDateService
-        ]
-      });
-
-      service = TestBed.get(SkyFuzzyDateService);
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        SkyFuzzyDateService
+      ]
     });
+
+    service = TestBed.get(SkyFuzzyDateService);
+  });
 
   describe('getFuzzyDateFromSelectedDate', () => {
 
@@ -399,6 +399,34 @@ describe('SkyFuzzyDateservice', () => {
       const fuzzyDate: SkyFuzzyDate = { month: 11, day: 5 };
       const currentYear = new Date().getFullYear();
       const expected = moment([currentYear, fuzzyDate.month - 1, fuzzyDate.day]);
+
+      // act
+      const actual = service.getMomentFromFuzzyDate(fuzzyDate);
+
+      // assert
+      expect(actual).toEqual(expected);
+    });
+
+    it('handles non-leap years when year is NOT provided', () => {
+      // arrange
+      const baseTime = new Date(2017, 1, 28); // Mock date to return a non-leap year.
+      jasmine.clock().mockDate(baseTime);
+      const fuzzyDate: SkyFuzzyDate = { month: 2, day: 29 };
+      const expected = moment([2016, fuzzyDate.month - 1, fuzzyDate.day]);
+
+      // act
+      const actual = service.getMomentFromFuzzyDate(fuzzyDate);
+
+      // assert
+      expect(actual).toEqual(expected);
+    });
+
+    it('handles leap years when year is provided', () => {
+      // arrange
+      const baseTime = new Date(2016, 1, 29); // Mock date to return a leap year.
+      jasmine.clock().mockDate(baseTime);
+      const fuzzyDate: SkyFuzzyDate = { month: 2, day: 29 };
+      const expected = moment([2016, fuzzyDate.month - 1, fuzzyDate.day]);
 
       // act
       const actual = service.getMomentFromFuzzyDate(fuzzyDate);
