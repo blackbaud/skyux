@@ -42,7 +42,6 @@ export class GridTestComponent {
   public viewtemplates: QueryList<TemplateRef<any>>;
 
   public hasToolbar = false;
-  public height: number = 400;
   public searchedData: any;
   public searchText: string;
   public activeSortSelector: ListSortFieldSelectorModel;

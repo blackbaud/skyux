@@ -8,10 +8,14 @@ $sky-grid-resize-handle-width: 5px;
   display: block;
 }
 
+.sky-grid-table-container {
+  overflow: auto;
+}
+
 .sky-grid-table {
   position: relative;
   table-layout: fixed;
-  border-spacing: 0;
+  border-collapse: collapse;
   margin: 0;
   font-size: $sky-font-size-base;
   min-width: 100%;
@@ -26,6 +30,7 @@ $sky-grid-resize-handle-width: 5px;
 }
 
 .sky-grid-row {
+  @include sky-border(row, bottom);
 
   &:nth-child(odd) {
     background-color: $sky-color-gray-01;
@@ -37,24 +42,16 @@ $sky-grid-resize-handle-width: 5px;
   }
 
   .sky-grid-cell {
-    // Border must be on the table cell to be visible when using `table-layout: separate`.
-    @include sky-border(row, bottom);
     padding: 0;
     min-width: 10px;
   }
 }
 
 .sky-grid-heading {
-  padding: 0;
-
-  @include sky-border(dark, top, bottom, left);
+  position: relative;
+  @include sky-border(dark, top, bottom, left, right);
   border-right-width: 0px;
-
-  position: sticky;
-  top: 0;
-
-  // Prevent relative-positioned objects from scrolling on top of headers (multiselect checkboxes.
-  z-index: 1;
+  padding: 0;
 
   cursor: pointer;
   background-color: $sky-color-white;
@@ -243,12 +240,4 @@ th.sky-grid-multiselect-cell {
   width: $sky-grid-resize-handle-width;
   background: black;
   opacity: 0.6;
-}
-
-// The borders of a sticky header will continue to scroll in Edge. We can use box-shadow instead.
-@supports (-ms-ime-align:auto) {
-  .sky-grid-heading {
-    border: none;
-    box-shadow: 0 0 0 1px $sky-text-color-icon-borderless;
-  }
 }

@@ -579,17 +579,6 @@ describe('Grid Component', () => {
         expect(popupContent.innerHTML.trim()).toEqual('Help content for column 4.');
       }));
 
-      it('should change container overflow styles if height is provided', () => {
-        const container = fixture.debugElement.query(By.css('.sky-grid-table-container')).nativeElement;
-
-        expect(container.style.overflow).toEqual('auto');
-
-        component.height = undefined;
-        fixture.detectChanges();
-
-        expect(container.style.overflow).toEqual('visible');
-      });
-
       it('should pass accessibility', async(() => {
         fixture.detectChanges();
         fixture.whenStable().then(() => {
