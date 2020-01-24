@@ -40,15 +40,18 @@ export class SkyDocsTypeDefinitionsFormatService {
   }
 
   public getParameterSignature(item: SkyDocsParameterDefinition): string {
-    let signature = `${item.name}`;
+    let signature: string = item.name || '';
 
     if (item.isOptional) {
       signature += '?';
     }
 
     if (item.type) {
+      if (item.name) {
+        signature += ': ';
+      }
       const parameterType = this.anchorLinkService.wrapWithAnchorLink(item.type);
-      signature += `: ${parameterType}`;
+      signature += parameterType;
     }
 
     return signature;

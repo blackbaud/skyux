@@ -41,6 +41,10 @@ import {
 } from '../shared/docs-tools-component-info';
 
 import {
+  SkyDocsDemoPageDomAdapterService
+} from './demo-page-dom-adapter.service';
+
+import {
   SkyDocsDemoPageTitleService
 } from './demo-page-title.service';
 
@@ -59,6 +63,9 @@ import {
   selector: 'sky-docs-demo-page',
   templateUrl: './demo-page.component.html',
   styleUrls: ['./demo-page.component.scss'],
+  providers: [
+    SkyDocsDemoPageDomAdapterService
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit, AfterViewInit {
@@ -79,7 +86,6 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit, After
 
   /**
    * Specifies the local path to the module's source code. The value is relative to the root directory.
-   * @required
    */
   @Input()
   public moduleSourceCodePath: string;
@@ -125,15 +131,12 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit, After
   @ContentChildren(SkyDocsCodeExamplesComponent)
   private codeExampleComponents: QueryList<SkyDocsCodeExamplesComponent>;
 
-  private get anchorLinks(): NodeListOf<HTMLAnchorElement> {
-    return document.querySelectorAll('a.sky-docs-anchor-link');
-  }
-
   constructor(
     private activatedRoute: ActivatedRoute,
     private changeDetector: ChangeDetectorRef,
     private router: Router,
     private skyAppConfig: SkyAppConfig,
+    private domAdapter: SkyDocsDemoPageDomAdapterService,
     private supportalService: SkyDocsSupportalService,
     private titleService: SkyDocsDemoPageTitleService
   ) { }
@@ -168,39 +171,27 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit, After
 
     // Watch for route fragment to change and scroll to heading.
     this.activatedRoute.fragment.subscribe((fragment) => {
-      this.scrollToFragment(fragment);
+      this.domAdapter.scrollToFragment(fragment);
     });
 
     // Change the HREF attribute for all dynamic links when the query params change.
     // This will also generate the appropriate HREF if the user wants to open the link in a new window.
     this.activatedRoute.queryParams.subscribe(() => {
-      this.anchorLinks.forEach((anchor: HTMLAnchorElement) => {
-        const fragment = anchor.href.split('#')[1];
-        const url = window.location.href.split('#')[0];
-        const href = `${url}#${fragment}`;
-        anchor.href = href;
-      });
+      this.domAdapter.setupAnchorLinks();
     });
 
     // When a dynamic link is clicked, use Angular's router so that everything works correctly.
-    // Wait for a tick to allow all anchors to be written.
-    window.setTimeout(() => {
-      this.anchorLinks.forEach((anchor: HTMLAnchorElement) => {
-        anchor.addEventListener('click', (e) => {
-          e.preventDefault();
+    this.domAdapter.anchorLinkClick.subscribe((anchorLink: any) => {
+      const fragment = anchorLink.href.split('#')[1];
 
-          const fragment = anchor.href.split('#')[1];
-
-          this.router.navigate([], {
-            fragment,
-            queryParamsHandling: 'merge'
-          });
-
-          if (this.activatedRoute.snapshot.fragment === fragment) {
-            this.scrollToFragment(fragment);
-          }
-        });
+      this.router.navigate([], {
+        fragment,
+        queryParamsHandling: 'merge'
       });
+
+      if (this.activatedRoute.snapshot.fragment === fragment) {
+        this.domAdapter.scrollToFragment(fragment);
+      }
     });
   }
 
@@ -208,15 +199,6 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit, After
     if (this.pageTitle) {
       this.titleService.setTitle(this.pageTitle, 'Components');
     }
-  }
-
-  private scrollToFragment(fragment: string): void {
-    window.setTimeout(() => {
-      const element = document.getElementById(fragment);
-      if (element) {
-        window.scrollTo(0, element.offsetTop);
-      }
-    }, 250);
   }
 
 }
