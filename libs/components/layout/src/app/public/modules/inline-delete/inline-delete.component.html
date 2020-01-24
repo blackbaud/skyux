@@ -1,0 +1,40 @@
+<div
+  class="sky-inline-delete sky-inline-delete-{{type}}"
+  role="alertdialog"
+  [@inlineDeleteAnimation]="animationState"
+  (@inlineDeleteAnimation.done)="onAnimationDone($event)"
+  [attr.aria-describedby]="assistiveTextId"
+  [attr.aria-label]="'skyux_inline_delete_confirm_deletion' | skyLibResources"
+>
+  <span
+   class="sky-inline-delete-assistive-text"
+   [id]="assistiveTextId"
+  >
+    {{ 'skyux_inline_delete_assistive_text' | skyLibResources }}
+  </span>
+    <sky-wait
+      class="sky-inline-delete-wait"
+      [isWaiting]="pending"
+    ></sky-wait>
+  <div class="sky-inline-delete-content">
+    <div
+      class="sky-inline-delete-content-animation-container"
+    >
+      <button
+        class="sky-btn sky-btn-danger sky-inline-delete-button"
+        type="button"
+        (click)="deleteTriggered.emit()"
+        #delete
+      >
+        {{ 'skyux_inline_delete_delete' | skyLibResources }}
+      </button>
+      <button
+        class="sky-btn sky-btn-default"
+        type="button"
+        (click)="animationState = 'hidden'"
+      >
+        {{ 'skyux_inline_delete_cancel' | skyLibResources }}
+      </button>
+    </div>
+  </div>
+</div>

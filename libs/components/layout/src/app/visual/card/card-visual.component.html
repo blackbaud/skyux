@@ -122,4 +122,33 @@
   </sky-card>
 </div>
 
+<div
+  id="screenshot-card-inline-delete"
+>
+  <sky-card
+    [selectable]="'false'"
+  >
+    <sky-card-title>
+      Card title
+    </sky-card-title>
+    <sky-card-content>
+      Card content
+    </sky-card-content>
+    <sky-card-actions>
+      <button
+        class="sky-btn sky-btn-danger"
+        id="inline-delete-trigger"
+        type="button"
+        (click)="triggerInlineDelete()"
+      >
+        Delete
+      </button>
+    </sky-card-actions>
+    <sky-inline-delete *ngIf="showInlineDelete"
+      [pending]="false"
+      (cancelTriggered)="showInlineDelete = false"
+      (deleteTriggered)="showInlineDelete = false"
+    ></sky-inline-delete>
+  </sky-card>
+</div>
 

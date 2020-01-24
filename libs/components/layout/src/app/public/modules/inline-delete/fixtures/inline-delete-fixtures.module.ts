@@ -7,28 +7,23 @@ import {
 } from '@angular/common';
 
 import {
-  SkyCardModule
-} from '../';
-
-import {
-  CardTestComponent
-} from './card.component.fixture';
+  InlineDeleteTestComponent
+} from './inline-delete.component.fixture';
 
 import {
   SkyInlineDeleteModule
-} from '../../inline-delete';
+} from '..';
 
 @NgModule({
   declarations: [
-    CardTestComponent
+    InlineDeleteTestComponent
   ],
   imports: [
     CommonModule,
-    SkyCardModule,
     SkyInlineDeleteModule
   ],
   exports: [
-    CardTestComponent
+    InlineDeleteTestComponent
   ]
 })
-export class SkyCardFixturesModule { }
+export class SkyInlineDeleteFixturesModule { }

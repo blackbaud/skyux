@@ -34,6 +34,10 @@ import {
   SkyToolbarModule
  } from './public';
 
+import {
+  SkyInlineDeleteModule
+} from './public/modules/inline-delete/inline-delete.module';
+
 @NgModule({
   exports: [
     SkyActionButtonModule,
@@ -51,7 +55,8 @@ import {
     SkyPageSummaryModule,
     SkyTextExpandModule,
     SkyTextExpandRepeaterModule,
-    SkyToolbarModule
+    SkyToolbarModule,
+    SkyInlineDeleteModule
   ],
   providers: [
     {

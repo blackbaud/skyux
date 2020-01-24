@@ -17,6 +17,14 @@ import {
   SkyCardTitleComponent
 } from './card-title.component';
 
+import {
+  SkyInlineDeleteComponent
+} from '../inline-delete/inline-delete.component';
+
+import {
+  SkyInlineDeleteType
+} from '../inline-delete/inline-delete-type';
+
 @Component({
   selector: 'sky-card',
   styleUrls: ['./card.component.scss'],
@@ -35,6 +43,9 @@ export class SkyCardComponent implements AfterContentInit, OnDestroy {
   @Output()
   public selectedChange = new EventEmitter<boolean>();
 
+  @ContentChildren(SkyInlineDeleteComponent)
+  public inlineDeleteComponent: QueryList<SkyInlineDeleteComponent>;
+
   @ContentChildren(SkyCardTitleComponent)
   public titleComponent: QueryList<SkyCardTitleComponent>;
 
@@ -47,6 +58,16 @@ export class SkyCardComponent implements AfterContentInit, OnDestroy {
 
     this.subscription = this.titleComponent.changes.subscribe(() => {
       this.showTitle = this.titleComponent.length > 0;
+    });
+
+    this.inlineDeleteComponent.forEach(item => {
+      item.setType(SkyInlineDeleteType.Card);
+    });
+
+    this.inlineDeleteComponent.changes.subscribe(() => {
+      this.inlineDeleteComponent.forEach(item => {
+        item.setType(SkyInlineDeleteType.Card);
+      });
     });
   }
 

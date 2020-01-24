@@ -16,6 +16,10 @@ import {
   SkyCardFixturesModule
 } from './fixtures/card-fixtures.module';
 
+import {
+  SkyInlineDeleteType
+} from '../inline-delete/inline-delete-type';
+
 function validateCardSelected(cmp: CardTestComponent, cardEl: any, selected: boolean) {
   let selectedEl = cardEl.querySelector('.sky-card.sky-card-selected');
 
@@ -187,4 +191,30 @@ describe('Card component', () => {
       expect(fixture.nativeElement).toBeAccessible();
     });
   }));
+
+  it('should set the inline delete to the card style when initially added', () => {
+    cmp.showDelete = true;
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(el.querySelector('sky-inline-delete')).not.toBeNull();
+      expect(cmp.card.inlineDeleteComponent.length).toBe(1);
+      expect(cmp.card.inlineDeleteComponent.first.type).toBe(SkyInlineDeleteType.Card);
+    });
+  });
+
+  it('should set the inline delete to the card style when dynamically added', () => {
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(el.querySelector('sky-inline-delete')).toBeNull();
+      expect(cmp.card.inlineDeleteComponent.length).toBe(0);
+
+      cmp.showDelete = true;
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expect(el.querySelector('sky-inline-delete')).not.toBeNull();
+        expect(cmp.card.inlineDeleteComponent.length).toBe(1);
+        expect(cmp.card.inlineDeleteComponent.first.type).toBe(SkyInlineDeleteType.Card);
+      });
+    });
+  });
 });

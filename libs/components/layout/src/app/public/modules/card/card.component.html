@@ -7,6 +7,9 @@
     'sky-card-selected': selectable &amp;&amp; selected
   }"
 >
+  <ng-content
+    select="sky-inline-delete"
+  ></ng-content>
   <header>
     <div *ngIf="selectable || showTitle"
       class="sky-card-header"

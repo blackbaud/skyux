@@ -17,4 +17,7 @@
       Button
     </button>
   </sky-card-actions>
+  <sky-inline-delete *ngIf="showDelete"
+    [pending]="deletePending"
+  ></sky-inline-delete>
 </sky-card>

@@ -19,6 +19,10 @@ import {
 } from '@skyux/i18n';
 
 import {
+  SkyInlineDeleteModule
+} from '../inline-delete/inline-delete.module';
+
+import {
   SkyLayoutResourcesModule
 } from '../shared';
 
@@ -50,7 +54,8 @@ import {
     FormsModule,
     SkyCheckboxModule,
     SkyI18nModule,
-    SkyLayoutResourcesModule
+    SkyLayoutResourcesModule,
+    SkyInlineDeleteModule
   ],
   exports: [
     SkyCardActionsComponent,

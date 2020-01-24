@@ -24,5 +24,7 @@ export class CardTestComponent {
 
   public showActions = false;
 
+  public showDelete = false;
+
   public cardSize = 'large';
 }

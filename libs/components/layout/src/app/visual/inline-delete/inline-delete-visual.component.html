@@ -1,0 +1,41 @@
+<button
+  id="pending-trigger"
+  class="sky-btn sky-btn-primary"
+  type="button"
+  (click)="pending = !pending"
+>
+Show as pending
+</button>
+
+<div
+  id="screenshot-inline-delete"
+  [@.disabled]="animationsDisabled"
+>
+  <div>
+    <button
+      class="sky-btn sky-btn-danger"
+      id="inline-delete-trigger"
+      style="position: absolute; bottom: 10px; left: 0; width: 100%;"
+      type="button"
+      (click)="deleting = !deleting"
+    >
+      <sky-icon
+        icon="trash"
+      ></sky-icon>
+    </button>
+  </div>
+  <sky-inline-delete *ngIf="deleting"
+    [pending]="pending"
+    (cancelTriggered)="deleting = false"
+    (deleteTriggered)="deleting = false"
+  ></sky-inline-delete>
+</div>
+
+<button
+  id="pending-trigger"
+  class="sky-btn sky-btn-primary"
+  type="button"
+  (click)="pending = !pending"
+>
+  Show as pending
+</button>

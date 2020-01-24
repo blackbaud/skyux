@@ -1,0 +1,37 @@
+<button *ngIf="showExtraButtons"
+  id="noop-button-1"
+  type="button"
+>
+  Noop Button 1
+</button>
+<div
+  id="inline-delete-fixture"
+>
+  <button
+    id="covered-button"
+    type="button"
+  >
+    Covered Button
+  </button>
+  <button
+    id="covered-button-2"
+    type="button"
+  >
+    Covered Button 2
+  </button>
+  <sky-inline-delete *ngIf="showDelete"
+    [pending]="pending"
+  >
+  </sky-inline-delete>
+</div>
+<button
+  id="hidden-button"
+>
+  Hidden Button
+</button>
+<button *ngIf="showExtraButtons"
+  id="noop-button-2"
+  type="button"
+>
+  Noop Button 2
+</button>
