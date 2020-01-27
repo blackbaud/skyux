@@ -1,3 +1,8 @@
+# 3.5.0 (2020-01-27)
+
+- Added the inline delete component. [#56](https://github.com/blackbaud/skyux-layout/pull/56)
+- Updated the card component so that it can display the inline delete component.[#56](https://github.com/blackbaud/skyux-layout/pull/56)
+
 # 3.4.0 (2020-01-17)
 
 - Added `sky-page` component to transition pages to a white background. [#57](https://github.com/blackbaud/skyux-layout/pull/57)
