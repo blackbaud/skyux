@@ -1,3 +1,7 @@
+# 3.7.3 (2020-01-27)
+
+- Fixed the repeater component to highlight the active item when when async lists load. [#107](https://github.com/blackbaud/skyux-lists/pull/107)
+
 # 3.7.2 (2019-12-18)
 
 - Fixed the repeater item component to prevent throwing errors when using the keyboard. [#104](https://github.com/blackbaud/skyux-lists/pull/104)
