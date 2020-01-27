@@ -12,6 +12,10 @@ import {
 } from '@skyux/forms';
 
 import {
+  SkyModalModule
+} from '@skyux/modals';
+
+import {
   SkyAppLinkModule
 } from '@skyux/router';
 
@@ -21,11 +25,16 @@ import {
   SkyVerticalTabsetModule
 } from './public';
 
+import {
+  VerticalTabsetModalVisualComponent
+} from './visual/vertical-tabset/vertical-tabs-modal-visual.component';
+
 @NgModule({
   exports: [
     SkyAppLinkModule,
     SkyCheckboxModule,
     SkyDocsToolsModule,
+    SkyModalModule,
     SkySectionedFormModule,
     SkyTabsModule,
     SkyVerticalTabsetModule
@@ -38,6 +47,9 @@ import {
         packageName: '@skyux/tabs'
       }
     }
+  ],
+  entryComponents: [
+    VerticalTabsetModalVisualComponent
   ]
 })
 export class AppExtrasModule { }

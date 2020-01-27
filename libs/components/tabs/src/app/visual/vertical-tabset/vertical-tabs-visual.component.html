@@ -1,3 +1,8 @@
+<div
+  id="screenshot-vertical-tabset-modal"
+  style="height: 500px;"
+></div>
+
 <h2>Vertical tabset</h2>
 <div id="screenshot-vertical-tabset" [@.disabled]="true">
   <sky-vertical-tabset showTabsText='Tab list'>
@@ -92,3 +97,16 @@
     Add tab
   </button>
 </div>
+
+<h2>
+  Vertical tabset inside of a modal
+</h2>
+
+<button
+  id="vertical-tabset-modal-launcher"
+  class="sky-btn sky-btn-primary"
+  type="button"
+  (click)="openVerticalTabsetModal()"
+>
+  Open modal
+</button>

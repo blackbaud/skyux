@@ -3,6 +3,14 @@ import {
   Component
 } from '@angular/core';
 
+import {
+  SkyModalService
+} from '@skyux/modals';
+
+import {
+  VerticalTabsetModalVisualComponent
+} from './vertical-tabs-modal-visual.component';
+
 let nextTabId = 4;
 
 @Component({
@@ -46,6 +54,8 @@ export class VerticalTabsVisualComponent {
     }
   ];
 
+  constructor(private modalService: SkyModalService) {}
+
   public onAddTabClick(): void {
     this.tabs.push({
       id: nextTabId.toString(),
@@ -58,4 +68,9 @@ export class VerticalTabsVisualComponent {
   public onDeleteTabClick(index: number): void {
     this.tabs.splice(index, 1);
   }
+
+  public openVerticalTabsetModal() {
+    this.modalService.open(VerticalTabsetModalVisualComponent);
+  }
+
 }

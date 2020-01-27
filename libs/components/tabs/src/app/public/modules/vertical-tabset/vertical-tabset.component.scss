@@ -37,3 +37,7 @@
   flex-basis: 25%;
   overflow-y: auto;
 }
+
+:host-context(sky-modal-content >)  .sky-vertical-tabset {
+  margin: -15px;
+}
