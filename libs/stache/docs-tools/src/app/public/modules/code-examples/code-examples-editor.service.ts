@@ -117,6 +117,8 @@ export class SkyDocsCodeExamplesEditorService {
       `import {\n  platformBrowserDynamic\n} from '@angular/platform-browser-dynamic';`,
       `import {\n  BrowserModule\n} from '@angular/platform-browser';`,
       `import {\n  RouterModule\n} from '@angular/router';`,
+      `import {\n  SkyAppLocaleProvider\n} from '@skyux/i18n';`,
+      `import {\n  of as observableOf\n} from 'rxjs';`,
       `import {\n  AppComponent\n} from './app.component';`
     ];
 
@@ -171,6 +173,16 @@ export class AppComponent { }`;
   ],
   bootstrap: [
     AppComponent
+  ],
+  providers: [
+    {
+      provide: SkyAppLocaleProvider,
+      useValue: {
+        getLocaleInfo: () => observableOf({
+          locale: 'en-US'
+        })
+      }
+    }
   ]
 })
 export class AppModule { }
