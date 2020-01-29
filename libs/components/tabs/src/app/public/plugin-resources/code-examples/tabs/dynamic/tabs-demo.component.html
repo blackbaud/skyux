@@ -1,0 +1,8 @@
+<sky-tabset>
+  <sky-tab *ngFor="let tab of tabArray"
+    [tabHeaderCount]="tab.tabHeaderCount"
+    [tabHeading]="tab.tabHeading"
+  >
+    {{ tab.tabContent }}
+  </sky-tab>
+</sky-tabset>

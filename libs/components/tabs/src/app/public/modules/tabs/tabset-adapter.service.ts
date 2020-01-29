@@ -1,7 +1,15 @@
-import { ElementRef, EventEmitter, Injectable } from '@angular/core';
+import {
+  ElementRef,
+  EventEmitter,
+  Injectable
+} from '@angular/core';
 
+/**
+ * @internal
+ */
 @Injectable()
 export class SkyTabsetAdapterService {
+
   public overflowChange = new EventEmitter<boolean>();
 
   public currentOverflow = false;

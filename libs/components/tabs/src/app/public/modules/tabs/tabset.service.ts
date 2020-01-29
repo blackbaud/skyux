@@ -4,15 +4,18 @@ import {
 } from '@angular/core';
 
 import {
-  SkyTabComponent
-} from './tab.component';
-
-import {
   BehaviorSubject
  } from 'rxjs/BehaviorSubject';
 
 import 'rxjs/add/operator/take';
 
+import {
+  SkyTabComponent
+} from './tab.component';
+
+/**
+ * @internal
+ */
 @Injectable()
 export class SkyTabsetService implements OnDestroy {
 

@@ -4,10 +4,391 @@
   pageTitle="Tabs"
 >
   <sky-docs-demo-page-summary>
-    Sample description.
+    Tabs are containers for dividing large amounts of content on a page.
   </sky-docs-demo-page-summary>
 
+  <sky-docs-demo>
+    <sky-docs-demo-control-panel
+      (reset)="onResetClick()"
+      (selectionChange)="onDemoSelectionChange($event)"
+    >
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-checkbox
+          label="Include counts"
+          propertyName="includeCounts"
+          [checked]="false"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+      </sky-docs-demo-control-panel-section>
+
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-checkbox
+          label="Include add and close"
+          propertyName="includeAddAndClose"
+          [checked]="false"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
+
+    <!-- Add/close disabled -->
+    <sky-tabset *ngIf="!demoSettings.includeAddAndClose"
+      style="width: 100%"
+    >
+      <ng-container *ngFor="let tab of tabArray; let i = index">
+        <sky-tab
+          [tabHeaderCount]="demoSettings.showCounts ? tab.tabHeaderCount : null"
+          [tabHeading]="tab.tabHeading"
+        >
+          <div
+            class="sky-padding-even-large"
+          >
+            {{ tab.tabContent }}
+          </div>
+        </sky-tab>
+      </ng-container>
+    </sky-tabset>
+
+    <!-- Add/close enabled -->
+    <sky-tabset *ngIf="demoSettings.includeAddAndClose"
+    style="width: 100%"
+      (newTab)="onNewTabClick()"
+    >
+      <ng-container *ngFor="let tab of tabArray; let i = index">
+        <!-- Closeable tabs -->
+        <sky-tab *ngIf="tab.tabClosable"
+          [tabHeaderCount]="demoSettings.showCounts ? tab.tabHeaderCount : null"
+          [tabHeading]="tab.tabHeading"
+          (close)="onCloseClick(i)"
+        >
+          <div
+            class="sky-padding-even-large"
+          >
+            {{ tab.tabContent }}
+          </div>
+        </sky-tab>
+        <!-- Non-closeable tabs -->
+        <sky-tab *ngIf="!tab.tabClosable"
+          [tabHeaderCount]="demoSettings.showCounts ? tab.tabHeaderCount : null"
+          [tabHeading]="tab.tabHeading"
+        >
+          <div
+            class="sky-padding-even-large"
+          >
+            {{ tab.tabContent }}
+          </div>
+        </sky-tab>
+      </ng-container>
+    </sky-tabset>
+  </sky-docs-demo>
+
+  <sky-docs-code-examples>
+    <sky-docs-code-example
+      heading="Static tabs"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/tabs/static"
+    >
+    </sky-docs-code-example>
+    <sky-docs-code-example
+      heading="Dynamic tabs bound to an array"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/tabs/dynamic"
+    >
+    </sky-docs-code-example>
+    <sky-docs-code-example
+      heading="Static tabs with counts"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/tabs/counts"
+    >
+    </sky-docs-code-example>
+    <sky-docs-code-example
+      heading="Static tabs with add and close options"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/tabs/static-add-close"
+    >
+    </sky-docs-code-example>
+    <sky-docs-code-example
+      heading="Dynamic tabs with add and close options"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/tabs/dynamic-add-close"
+    >
+    </sky-docs-code-example>
+  </sky-docs-code-examples>
+
   <sky-docs-design-guidelines>
-    See documentation for how to setup design guidelines.
+
+      <sky-docs-demo-page-section
+      heading="Usage"
+    >
+      <sky-docs-design-guideline
+        heading="Use when"
+        headingStyle="success"
+      >
+        <p>
+          Use tabs when users require quick access to different slices of the same data.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          caption="Do use tabs to show different slices of the same data."
+          captionType="success"
+          imageSource="~/assets/img/guidelines/tabs/tabs-usage-1.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline>
+        <p>
+          Use tabs when users need to complete different tasks on a page and each task includes a significant amount of data.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          caption="Do use tabs to group content for different tasks."
+          captionType="success"
+          imageSource="~/assets/img/guidelines/tabs/tabs-usage-2.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline
+        heading="Don't use when"
+        headingStyle="danger"
+      >
+        <p>
+          Don't use tabs within another tab. Change the workflow instead of nesting multiple sets of tabs.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          caption="Don't use multiple sets of tabs on a page."
+          captionType="danger"
+          imageSource="~/assets/img/guidelines/tabs/tabs-usage-3.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+        <sky-docs-design-guideline-thumbnail
+          caption="Don't combine vertical tabs and horizontal tabs."
+          captionType="danger"
+          imageSource="~/assets/img/guidelines/tabs/tabs-usage-4.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline>
+        <p>
+          Don't use tabs when they are likely to overflow the available horizontal space. The collapsed behavior of tabs will accommodate small screen resolutions or cases where users add many tabs themselves, but it is not intended as the default experience with a tabset. Use <a href="https://developer.blackbaud.com/skyux/components/vertical-tabs">vertical tabs</a> instead.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          caption="Don't use horizontal tabs when they are likely to overflow and collapse into a dropdown."
+          captionType="danger"
+          imageSource="~/assets/img/guidelines/tabs/tabs-usage-5.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Anatomy"
+    >
+      <sky-docs-anatomy
+        imagePath="~/assets/img/guidelines/tabs/tabs-anatomy.png"
+      >
+        <sky-docs-anatomy-item>Selected tab</sky-docs-anatomy-item>
+        <sky-docs-anatomy-item>Unselected tab</sky-docs-anatomy-item>
+        <sky-docs-anatomy-item>Tab border</sky-docs-anatomy-item>
+        <sky-docs-anatomy-item isOptional="true">Tab count</sky-docs-anatomy-item>
+        <sky-docs-anatomy-item isOptional="true">Close tab button</sky-docs-anatomy-item>
+        <sky-docs-anatomy-item isOptional="true">Add tab button</sky-docs-anatomy-item>
+      </sky-docs-anatomy>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Options"
+    >
+      <sky-docs-design-guideline
+        heading="Count"
+      >
+        <p>
+          When a tab displays a list, you can include the record count in the tab if that number will meaningfully impact user behavior.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          imageSource="~/assets/img/guidelines/tabs/tabs-options-1.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline
+        heading="Add and close"
+      >
+        <p>
+          If users need to work with a subset of tabs in a large tabset, let them add and close tabs to display only the relevant tabs.
+        </p>
+        <p>
+          If a new tab includes multiple options on what to display, use <a href="https://developer.blackbaud.com/skyux/components/action-button">action buttons</a> in the tab view to let users make selections.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          imageSource="~/assets/img/guidelines/tabs/tabs-options-2.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Behavior & states"
+    >
+      <sky-docs-design-guideline
+        heading="Overflowing tabs"
+      >
+        <p>
+          If the tabset includes too many tabs to fit in the tab bar's available horizontal space, the tabs collapse into a dropdown.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          imageSource="~/assets/img/guidelines/tabs/tabs-behavior-1.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline
+        heading="States"
+      >
+        <table class="sky-docs-table">
+          <tr>
+            <td class="sky-docs-table-cell sky-docs-table-cell-primary">
+              Selected
+            </td>
+            <td class="sky-docs-table-cell">
+              <sky-docs-design-guideline-thumbnail
+                imageSource="~/assets/img/guidelines/tabs/tabs-state-selected.png"
+              >
+              </sky-docs-design-guideline-thumbnail>
+            </td>
+          </tr>
+          <tr>
+            <td class="sky-docs-table-cell">
+              Unselected
+            </td>
+            <td class="sky-docs-table-cell">
+              <sky-docs-design-guideline-thumbnail
+                imageSource="~/assets/img/guidelines/tabs/tabs-state-unselected.png"
+              >
+              </sky-docs-design-guideline-thumbnail>
+            </td>
+          </tr>
+          <tr>
+            <td class="sky-docs-table-cell">
+              Hover
+            </td>
+            <td class="sky-docs-table-cell">
+              <sky-docs-design-guideline-thumbnail
+                imageSource="~/assets/img/guidelines/tabs/tabs-state-hover.png"
+              >
+              </sky-docs-design-guideline-thumbnail>
+            </td>
+          </tr>
+          <tr>
+            <td class="sky-docs-table-cell">
+              Collapsed, closed
+            </td>
+            <td class="sky-docs-table-cell">
+              <sky-docs-design-guideline-thumbnail
+                imageSource="~/assets/img/guidelines/tabs/tabs-state-collapsed-closed.png"
+              >
+              </sky-docs-design-guideline-thumbnail>
+            </td>
+          </tr>
+          <tr>
+            <td class="sky-docs-table-cell">
+              Collapsed, open
+            </td>
+            <td class="sky-docs-table-cell">
+              <sky-docs-design-guideline-thumbnail
+                imageSource="~/assets/img/guidelines/tabs/tabs-state-collapsed-open.png"
+              >
+              </sky-docs-design-guideline-thumbnail>
+            </td>
+          </tr>
+        </table>
+      </sky-docs-design-guideline>
+
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Content"
+    >
+
+      <div class="sky-text-block">
+        If tabs are the main navigation on a page, display the tab header in the page title. Use the following format for tab titles: <b>&lt;Tab title&gt; - &lt;Page title&gt; — &lt;Company, product, or site identifier&gt;</b>. For example: <b>Portfolio — Work center — Blackbaud</b>. In addition, follow guidance for page titles such as keeping titles short and making them unique. For information about how to specify titles, see the <a href="https://developer.blackbaud.com/skyux/design/guidelines/page-layouts">page title guidelines</a>.
+      </div>
+
+<!-- REMOVED FOR BREVITY, SINCE THIS IS AVAILABLE ON THE PAGE DESIGN GUIDELINES
+        <div class="sky-text-block">
+            For information about how to use <a href="https://angular.io/docs/ts/latest/cookbook/set-document-title.html">the Angular <sky-code>Title</sky-code> service</a> and the SKY UX <sky-code>title</sky-code> configuration property to specify the title, see <a href="https://developer.blackbaud.com/skyux/learn/reference/configuration#app">the configuration reference</a>.
+        </div>
+-->
+
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Layout"
+    >
+
+      <sky-docs-design-guideline>
+        <p>
+          Tabs are always the last (bottommost) content in their container. Don’t put additional content under tabs.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          caption="Don't put additional content under tabs."
+          captionType="danger"
+          imageSource="~/assets/img/guidelines/tabs/tabs-layout-1.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline>
+        <p>
+          The tab border extends the full width of the container. Don’t use left or right margins on the tab border, and ignore any padding that the container defines.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          caption="Do extend the tab border to the full width of the container."
+          captionType="success"
+          imageSource="~/assets/img/guidelines/tabs/tabs-layout-2.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+        <sky-docs-design-guideline-thumbnail
+          caption="Don't apply the container's padding to the tab border."
+          captionType="danger"
+          imageSource="~/assets/img/guidelines/tabs/tabs-layout-3.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline>
+        <p>
+          Tab content does not have additional left or right padding. The left and right gutters align with the gutters for content outside the tabs.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          caption="Don't apply additional left or right padding to tab content."
+          captionType="danger"
+          imageSource="~/assets/img/guidelines/tabs/tabs-layout-4.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Related information"
+    >
+      <sky-docs-design-guideline
+        heading="Components"
+      >
+        <ul>
+          <li><a href="https://developer.blackbaud.com/skyux/components/action-button">Action buttons</a></li>
+          <li><a href="https://developer.blackbaud.com/skyux/components/vertical-tabs">Vertical tabs</a></li>
+        </ul>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline
+        heading="Guidelines"
+      >
+        <ul>
+          <li><a href="https://developer.blackbaud.com/skyux/design/guidelines/content-containers">Content containers</a></li>
+          <li><a href="https://developer.blackbaud.com/skyux/design/guidelines/page-layouts">Page design</a></li>
+        </ul>
+      </sky-docs-design-guideline>
+
+    </sky-docs-demo-page-section>
+
   </sky-docs-design-guidelines>
 </sky-docs-demo-page>

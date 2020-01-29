@@ -15,6 +15,9 @@ import {
   SkyTabsetComponent
 } from './tabset.component';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-tab-button',
   templateUrl: './tab-button.component.html',

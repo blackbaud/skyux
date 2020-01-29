@@ -52,26 +52,19 @@ import {
 export class SkyTabsetComponent
   implements AfterContentInit, AfterViewInit, OnDestroy, OnChanges {
 
-  @Input()
-  public get tabStyle(): string {
-    return this._tabStyle || 'tabs';
-  }
-
-  public set tabStyle(value: string) {
-    /*istanbul ignore else*/
-    if (value && value.toLowerCase() === 'wizard') {
-      console.warn(
-        'The tabset wizard is deprecated. Please implement the new approach using ' +
-        'progress indicator as documented here: https://developer.blackbaud.com/skyux/components/wizard.'
-      );
-    }
-
-    this._tabStyle = value;
-  }
-
+  /**
+   * Specifies the index of the active tab.
+   * @required
+   */
   @Input()
   public active: number | string;
 
+  /**
+   * Distinguishes a tabset's unique state in the URL by generating a query parameter
+   * that is written as `?<queryParam>-active-tab=<sanitized-tab-heading`.
+   * The query parameter's value is parsed automatically from the selected tab's heading text,
+   * but you can supply a custom query parameter value for each tab with its `permalinkValue`.
+   */
   @Input()
   public set permalinkId(value: string) {
     if (!value) {
@@ -87,14 +80,50 @@ export class SkyTabsetComponent
     return this._permalinkId || '';
   }
 
+  /**
+   * @deprecated
+   * Specifies the behavior for a series of tabs.
+   * The property was designed to create wizards by setting tabStyle="wizard" on tabsets in modals,
+   * but this wizard implementation was replaced by the
+   * [progress indicator component](https://developer.blackbaud.com/skyux/components/progress-indicator).
+   * @default "tabs"
+   */
+  @Input()
+  public set tabStyle(value: string) {
+    /*istanbul ignore else*/
+    if (value && value.toLowerCase() === 'wizard') {
+      console.warn(
+        'The tabset wizard is deprecated. Please implement the new approach using ' +
+        'progress indicator as documented here: https://developer.blackbaud.com/skyux/components/wizard.'
+      );
+    }
+
+    this._tabStyle = value;
+  }
+
+  public get tabStyle(): string {
+    return this._tabStyle || 'tabs';
+  }
+
+  /**
+   * Fires when the active tab changes. This event emits the index of the active tab.
+   */
+  @Output()
+  public activeChange = new EventEmitter<any>();
+
+  /**
+   * Fires when users click the button to add a new tab.
+   * The new tab button is added to the tab area when you specify a listener for this event.
+   */
   @Output()
   public newTab = new EventEmitter<any>();
 
+  /**
+   * Fires when users click the button to open a tab.
+   * The open tab button is added to the tab area when you specify a listener for this event.
+   */
   @Output()
   public openTab = new EventEmitter<any>();
-
-  @Output()
-  public activeChange = new EventEmitter<any>();
 
   public tabDisplayMode = 'tabs';
 

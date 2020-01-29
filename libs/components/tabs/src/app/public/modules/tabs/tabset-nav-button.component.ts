@@ -1,26 +1,43 @@
 import {
-  Component,
-  Input,
   AfterViewInit,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  Component,
+  Input
 } from '@angular/core';
 
-import { SkyLibResourcesService } from '@skyux/i18n/modules/i18n';
+import {
+  SkyLibResourcesService
+} from '@skyux/i18n/modules/i18n';
 
-import { SkyTabsetComponent } from './tabset.component';
-import { SkyTabComponent } from './tab.component';
-import { Observable } from 'rxjs/Observable';
+import {
+  Observable
+} from 'rxjs/Observable';
+
 import 'rxjs/add/operator/take';
+
 import 'rxjs/add/observable/forkJoin';
 
+import {
+  SkyTabsetComponent
+} from './tabset.component';
+
+import {
+  SkyTabComponent
+} from './tab.component';
+
 const buttonTypeNext = 'next';
+
 const buttonTypePrevious = 'previous';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-tabset-nav-button',
   templateUrl: './tabset-nav-button.component.html'
 })
 export class SkyTabsetNavButtonComponent implements AfterViewInit {
+
   @Input()
   public tabset: SkyTabsetComponent;
 

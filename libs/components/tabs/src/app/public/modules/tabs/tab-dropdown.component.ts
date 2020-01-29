@@ -6,14 +6,20 @@ import {
   QueryList
 } from '@angular/core';
 
-import { SkyTabComponent } from './tab.component';
+import {
+  SkyTabComponent
+} from './tab.component';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-tab-dropdown',
   templateUrl: './tab-dropdown.component.html',
   styleUrls: ['./tab-dropdown.component.scss']
 })
 export class SkyTabDropdownComponent {
+
   @Input()
   public tabs: QueryList<SkyTabComponent>;
 
