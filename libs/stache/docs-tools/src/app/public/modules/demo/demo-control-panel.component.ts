@@ -51,6 +51,12 @@ import {
 export class SkyDocsDemoControlPanelComponent implements OnDestroy, AfterContentInit {
 
   /**
+   * Fires when the user clicks the reset button.
+   */
+  @Output()
+  public reset = new EventEmitter<void>();
+
+  /**
    * Fires when a user makes a selection from one of the controls in the panel.
    */
   @Output()
@@ -81,6 +87,7 @@ export class SkyDocsDemoControlPanelComponent implements OnDestroy, AfterContent
   }
 
   public ngOnDestroy(): void {
+    this.reset.complete();
     this.selectionChange.complete();
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
@@ -94,6 +101,8 @@ export class SkyDocsDemoControlPanelComponent implements OnDestroy, AfterContent
     this.checkboxes.forEach((checkbox) => {
       checkbox.resetState();
     });
+
+    this.reset.emit();
   }
 
   private addEventListeners(): void {

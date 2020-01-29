@@ -10,6 +10,7 @@
     <button *ngIf="hasOptions"
       class="sky-btn"
       type="button"
+      [attr.data-test-selector]="'sky-docs-demo-heading-button'"
       [ngClass]="{
         'sky-docs-demo-heading-btn-open': areOptionsVisible
       }"

@@ -35,6 +35,10 @@ export class AppTypeDocComponent {
     return (placement === 'above' || placement === 'below');
   }
 
+  public onDemoReset(): void {
+    console.log('Reset button clicked!');
+  }
+
   public onDemoSelectionChange(change: SkyDocsDemoControlPanelChange): void {
     if (change.showTitle === true) {
       this.demoSettings.popoverTitle = 'Popover title';
