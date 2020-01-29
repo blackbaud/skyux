@@ -16,6 +16,12 @@ import {
 })
 export class SkyDropdownItemComponent implements AfterViewInit {
 
+  /**
+   * Specifies an ARIA role for the dropdown menu item to support accessibility by indicating how
+   * the dropdown menu item functions and what it controls. The ARIA role indicates what the
+   * dropdown menu item represents on the web page. For information about ARIA roles, see the
+   * [WAI-ARIA roles model](https://www.w3.org/WAI/PF/aria/roles).
+   */
   @Input()
   public ariaRole = 'menuitem';
 

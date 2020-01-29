@@ -1,0 +1,310 @@
+<sky-docs-demo-page
+  moduleName="SkyDropdownModule"
+  moduleSourceCodePath="src/app/public/modules/dropdown/"
+  pageTitle="Dropdown"
+>
+  <sky-docs-demo-page-summary>
+    Dropdowns are buttons to display menus that group sets of actions or functions.
+  </sky-docs-demo-page-summary>
+
+  <sky-docs-demo>
+    <sky-docs-demo-control-panel
+      (selectionChange)="onDemoSelectionChange($event)"
+    >
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-radio-group
+          heading="Button type"
+          propertyName="button"
+          [choices]="buttonChoices"
+          [initialValue]="'select'"
+        >
+        </sky-docs-demo-control-panel-radio-group>
+      </sky-docs-demo-control-panel-section>
+
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-radio-group
+          heading="Style"
+          propertyName="style"
+          [choices]="styleChoices"
+          [initialValue]="'default'"
+        >
+        </sky-docs-demo-control-panel-radio-group>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
+
+    <sky-dropdown
+      [buttonStyle]="demoSettings.style"
+      [buttonType]="demoSettings.button"
+    >
+      <sky-dropdown-button>
+        Edit
+      </sky-dropdown-button>
+      <sky-dropdown-menu>
+        <sky-dropdown-item *ngFor="let item of items">
+          <button
+            type="button"
+            [attr.disabled]="item.disabled ? '' : null"
+            (click)="actionClicked(item.name)"
+          >
+            {{ item.name }}
+          </button>
+        </sky-dropdown-item>
+      </sky-dropdown-menu>
+    </sky-dropdown>
+  </sky-docs-demo>
+
+  <sky-docs-code-examples>
+    <sky-docs-code-example
+      heading="Basic setup"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/dropdown/basic"
+    ></sky-docs-code-example>
+    <sky-docs-code-example
+      heading="Remote interactions"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/dropdown/remote"
+    ></sky-docs-code-example>
+  </sky-docs-code-examples>
+
+  <sky-docs-design-guidelines>
+
+    <sky-docs-demo-page-section
+      heading="Usage"
+    >
+      <sky-docs-design-guideline
+        heading="Use when"
+        headingStyle="success"
+      >
+        <p>
+          Use dropdowns when users require access to multiple, related actions or when users require access to multiple, unrelated actions and you do not have room for multiple buttons.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          caption="Do use dropdowns to let users access multiple actions."
+          captionType="success"
+          imageSource="~/assets/img/guidelines/dropdown/usage-toolbar.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline>
+        <p>
+          Use context-menu dropdowns when actions affect individual items in a list.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          caption="Do use context-menu dropdowns with items in a list."
+          captionType="success"
+          imageSource="~/assets/img/guidelines/dropdown/usage-context-menu.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline>
+        <p>
+          Use icon-only dropdowns when you do not have room for text labels. For example, use icon-only dropdowns in list toolbars when screen widths are narrow.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          imageSource="~/assets/img/guidelines/dropdown/usage-icon.png"
+          caption="Do use icon-only dropdowns when you do not have space for labels."
+          captionType="success"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline
+        heading="Don't use when"
+        headingStyle="danger"
+      >
+        <p>
+          Don't use dropdowns as form inputs. Use HTML <sky-code>&lt;select&gt;</sky-code> fields instead.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          caption="Don't use dropdowns as form inputs."
+          captionType="danger"
+          imageSource="~/assets/img/guidelines/dropdown/usage-dont-input.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Anatomy"
+    >
+      <sky-docs-anatomy
+        imagePath="~/assets/img/guidelines/dropdown/anatomy.png"
+      >
+        <sky-docs-anatomy-item>Dropdown button</sky-docs-anatomy-item>
+        <sky-docs-anatomy-item>Dropdown menu</sky-docs-anatomy-item>
+        <sky-docs-anatomy-item>Action</sky-docs-anatomy-item>
+      </sky-docs-anatomy>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Options"
+    >
+      <sky-docs-design-guideline
+        heading="Button types"
+      >
+        <table class="sky-docs-table">
+          <tr>
+            <td class="sky-docs-table-cell sky-docs-table-cell-primary">
+              Default
+            </td>
+            <td class="sky-docs-table-cell">
+              <sky-docs-design-guideline-thumbnail
+                imageSource="~/assets/img/guidelines/dropdown/option-type-default.png"
+              >
+              </sky-docs-design-guideline-thumbnail>
+            </td>
+          </tr>
+          <tr>
+            <td class="sky-docs-table-cell">
+              Context menu
+            </td>
+            <td class="sky-docs-table-cell">
+              <sky-docs-design-guideline-thumbnail
+                imageSource="~/assets/img/guidelines/dropdown/option-type-context.png"
+              >
+              </sky-docs-design-guideline-thumbnail>
+            </td>
+          </tr>
+          <tr>
+            <td class="sky-docs-table-cell">
+              Icon only
+            </td>
+            <td class="sky-docs-table-cell">
+              <sky-docs-design-guideline-thumbnail
+                imageSource="~/assets/img/guidelines/dropdown/option-type-icon.png"
+              >
+              </sky-docs-design-guideline-thumbnail>
+            </td>
+          </tr>
+        </table>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline
+        heading="Button styles"
+      >
+        <p class="sky-docs-text-block">
+          Dropdown buttons can use the default or primary styles inherited from <a href="https://developer.blackbaud.com/skyux/components/button">SKY UX buttons</a>. For details about when to use the primary style, see the <a href="https://developer.blackbaud.com/skyux/design/guidelines/page-layouts#primary-action-guidelines">primary action guidelines</a>.
+        </p>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Behavior and states"
+    >
+      <sky-docs-design-guideline
+        heading="Behavior"
+      >
+        <p class="sky-docs-text-block">
+          The <a skyAppLink="/docs/popover">popover</a> component defines the behavior of dropdown menus.
+        </p>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline
+        heading="States"
+      >
+        <p class="sky-docs-text-block">
+          Dropdown buttons inherit the styling for states such as hover and disabled from <a href="https://developer.blackbaud.com/skyux/components/button">SKY UX buttons</a>.
+        </p>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Content"
+    >
+      <sky-docs-design-guideline
+        heading="Dropdown menu action text"
+      >
+        <p>
+          For actions that clearly apply to the object associated with the context menu, use the following format for the action wording:
+        </p>
+        <p>
+          <span class="sky-emphasized">&lt;Verb&gt;</span>
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          imageSource="~/assets/img/guidelines/dropdown/dropdown-content-1.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline>
+        <p>
+          For dropdown buttons with one type of action, use the following format:
+        </p>
+        <p>
+          Button text: <span class="sky-emphasized">&lt;Verb&gt;</span>
+        </p>
+        <p>
+          Menu item: <span class="sky-emphasized">&lt;Direct object&gt;</span>
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          imageSource="~/assets/img/guidelines/dropdown/dropdown-content-2.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline>
+        <p>For dropdown buttons with more than one type of action, use the following format:</p>
+        <p>Button icon: <span class="sky-emphasized">fa-ellipsis-h</span></p>
+        <p>Button text: <span class="sky-emphasized">More</span></p>
+        <p>Menu item: <span class="sky-emphasized">&lt;Verb&gt; &lt;direct object&gt;</span></p>
+        <sky-docs-design-guideline-thumbnail
+          imageSource="~/assets/img/guidelines/dropdown/dropdown-content-3.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline>
+        <div class="sky-docs-text-block">
+          <p>
+            In addition, follow these guidelines for button text:
+          </p>
+          <ul>
+            <li>Use sentence-style capitalization.</li>
+            <li>Use singular direct objects for actions that apply to one item and plural direct objects for actions that apply to multiple items.</li>
+            <li>Don’t append extra words such as “details.” For example, use “Edit constituent” rather than “Edit constituent details.”</li>
+          </ul>
+        </div>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Layout"
+    >
+      <sky-docs-design-guideline>
+        <p>
+          Place context-menu dropdowns to the left of all row-specific content but to the right of all list controls such as expand-collapse actions in <a href="https://developer.blackbaud.com/skyux/components/tree-view">tree views</a> and checkboxes in <a href="https://developer.blackbaud.com/skyux/components/grid">grids</a> or <a href="https://developer.blackbaud.com/skyux/components/repeater">repeaters</a>.
+        </p>
+        <p>
+          Default dropdowns are positioned with the same alignment and margins as <a href="https://developer.blackbaud.com/skyux/components/button">SKY UX buttons</a>.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          captionType="success"
+          caption="Do put context-menu dropdowns to the left of all row-specific content in lists."
+          imageSource="~/assets/img/guidelines/dropdown/layout.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Related information"
+    >
+      <sky-docs-design-guideline
+       heading="Components"
+      >
+        <ul>
+          <li>
+            <a href="https://developer.blackbaud.com/skyux/components/button">Buttons</a>
+          </li>
+          <li>
+            <a skyAppLink="/docs/popover">Popovers</a>
+          </li>
+        </ul>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline
+        heading="Guidelines"
+      >
+        <ul>
+          <li>
+            <a href="https://developer.blackbaud.com/skyux/design/guidelines/buttons-links">Buttons and links</a>
+          </li>
+        </ul>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+  </sky-docs-design-guidelines>
+</sky-docs-demo-page>
