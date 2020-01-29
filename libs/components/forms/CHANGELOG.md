@@ -1,6 +1,7 @@
 # 3.6.2 (2020-01-23)
 
 - Fixed the character count directive to not affect the underlying control value. [#95](https://github.com/blackbaud/skyux-forms/pull/95)
+- Updated the single file attachment component to use resource strings. [#93](https://github.com/blackbaud/skyux-forms/pull/93)
 
 # 3.6.1 (2020-01-09)
 
