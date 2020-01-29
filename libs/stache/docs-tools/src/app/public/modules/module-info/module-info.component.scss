@@ -1,17 +1,6 @@
 @import '~@skyux/theme/scss/mixins';
 @import '~@skyux/theme/scss/_compat/mixins';
 
-.sky-docs-module-info {
-  ::ng-deep {
-    .sky-code {
-      color: $sky-text-color-default;
-      padding: 0;
-      border: 0;
-      background-color: transparent;
-    }
-  }
-}
-
 .sky-docs-module-info-installation-command {
   display: flex;
 }
