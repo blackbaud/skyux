@@ -1,55 +1,11 @@
 @import "~@skyux/theme/scss/mixins";
 @import "~@skyux/theme/scss/_compat/mixins";
 
-.sky-action-button-container {
-  // Note: this has to go on the element as the flex stretch will consume the margin if not.
-  ::ng-deep sky-action-button {
-    margin: $sky-margin 0;
-  }
-}
-
-@include sky-host-responsive-container-xs-min() {
-  .sky-action-button-container {
-    display: block;
-    flex-wrap: initial;
-    align-items: initial;
-    padding-top: 0;
-  }
-
-  .sky-action-button-container {
-    ::ng-deep.sky-action-button {
-      margin-top: $sky-margin-double;
-      margin-left: $sky-margin;
-      margin-right: $sky-margin;
-    }
-
-    ::ng-deep.sky-action-button:last-of-type {
-      margin-bottom: $sky-margin-double;
-    }
-  }
-
-}
-
 @include sky-host-responsive-container-sm-min() {
   .sky-action-button-container {
     display: flex;
     flex-wrap: wrap;
     align-items: stretch;
     padding: $sky-padding 0;
-
-    ::ng-deep.sky-action-button {
-      margin-top: initial;
-    }
-
-    ::ng-deep.sky-action-button:last-of-type {
-      margin-bottom: initial;
-    }
-  }
-}
-
-.sky-action-button-container {
-  ::ng-deep.sky-action-button  {
-    height: 100%;
-    min-width: 236px;
   }
 }

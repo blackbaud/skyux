@@ -1,16 +1,33 @@
-<div id="screenshot-action-button">
-    <sky-action-button (actionClick)="buttonClicked()">
-      <sky-action-button-icon
-        iconType="filter"
-      ></sky-action-button-icon>
-      <sky-action-button-header>
-        Build a new list
-      </sky-action-button-header>
-      <sky-action-button-details>
-        Start from scratch and fine-tune with filters
-      </sky-action-button-details>
-    </sky-action-button>
+<div
+  id="screenshot-action-button"
+  style="display:inline-block;"
+  [ngStyle]="{
+    'padding.px': containerPadding
+  }"
+>
+  <sky-action-button
+    (actionClick)="buttonClicked()"
+  >
+    <sky-action-button-icon
+      iconType="filter"
+    ></sky-action-button-icon>
+    <sky-action-button-header>
+      Build a new list
+    </sky-action-button-header>
+    <sky-action-button-details>
+      Start from scratch and fine-tune with filters
+    </sky-action-button-details>
+  </sky-action-button>
 </div>
+
+<button
+  class="sky-btn screenshot-apply-focus-btn"
+  type="button"
+  (click)="applyFocus()"
+>
+  Apply padding and focus
+</button
+>
 
 <div id="screenshot-action-button-container">
   <sky-action-button-container>

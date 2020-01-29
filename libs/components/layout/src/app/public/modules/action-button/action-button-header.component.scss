@@ -3,18 +3,12 @@
 
 @include sky-host-responsive-container-xs-min() {
   .sky-action-button-header {
-    display: inline-block;
-    margin-left: $sky-margin-half;
-    margin-right: $sky-margin-half;
-    margin-bottom: initial;
+    margin: 0 $sky-margin-half;
   }
 }
 
 @include sky-host-responsive-container-sm-min() {
   .sky-action-button-header {
-    display: block;
-    margin-left: initial;
-    margin-right: initial;
-    margin-bottom: $sky-margin-double;
+    margin: 0 0 $sky-margin-double;
   }
 }

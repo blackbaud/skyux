@@ -1,29 +1,49 @@
 @import "~@skyux/theme/scss/mixins";
 @import "~@skyux/theme/scss/_compat/mixins";
 
+:host-context(.sky-action-button-container) {
+  & {
+    display: block;
+  }
+
+  .sky-action-button {
+    height: 100%;
+    min-width: 236px;
+    margin-left: $sky-margin;
+    margin-right: $sky-margin;
+  }
+}
+
 .sky-action-button {
   @include sky-border(dark, top, bottom, left, right);
   cursor: pointer;
   text-align: center;
   text-decoration: none;
-  &:hover{
-    border-color: darken($sky-border-color-neutral-light, 12%)
+  display: block;
+
+  &:hover {
+    border-color: darken($sky-border-color-neutral-light, 12%);
   }
 }
 
+.sky-action-button-icon-header-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 @include sky-host-responsive-container-xs-min() {
+
+  :host-context(.sky-action-button-container) {
+    & {
+      margin: $sky-margin-double 0;
+    }
+  }
+
   .sky-action-button {
-    padding-top: $sky-padding-double;
-    padding-right: $sky-padding-double;
-    padding-left: $sky-padding-double;
-    padding-bottom: 30px;
-    max-width: none;
-    display: block;
-    margin-left: $sky-margin-plus-half;
-    margin-right: $sky-margin-plus-half;
-    margin-bottom: initial;
-}
+    padding: $sky-padding-double $sky-padding-double $sky-padding-triple;
+    margin: 0 $sky-margin-plus-half;
+  }
 
   .sky-action-button-icon-header-container {
     margin-bottom: $sky-margin-double;
@@ -31,15 +51,20 @@
 }
 
 @include sky-host-responsive-container-sm-min() {
+  :host-context(.sky-action-button-container) {
+    & {
+      margin: $sky-margin 0;
+    }
+  }
+
   .sky-action-button {
-    padding: 30px $sky-padding-double;
+    padding: $sky-padding-triple $sky-padding-double;
+    margin: 0;
     max-width: 236px;
-    display: inline-block;
-    margin: initial;
   }
 
   .sky-action-button-icon-header-container {
-    margin-bottom: initial;
+    margin-bottom: 0;
+    flex-direction: column;
   }
 }
-
