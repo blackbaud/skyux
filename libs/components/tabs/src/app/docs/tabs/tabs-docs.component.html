@@ -82,7 +82,11 @@
     </sky-tabset>
   </sky-docs-demo>
 
-  <sky-docs-code-examples>
+  <sky-docs-code-examples
+    [packageDependencies]="{
+      '@skyux/tabs': '*'
+    }"
+  >
     <sky-docs-code-example
       heading="Static tabs"
       sourceCodePath="src/app/public/plugin-resources/code-examples/tabs/static"
