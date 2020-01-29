@@ -1,3 +1,9 @@
+# 3.1.0 (2020-01-29)
+
+- Added a `reset` emitter to the demo control panel component that fires when users click the reset button. [#21](https://github.com/blackbaud/skyux-docs-tools/pull/21)
+- Fixed the code examples editor service to provide `SkyAppLocaleProvider` when running code examples in StackBlitz. [#19](https://github.com/blackbaud/skyux-docs-tools/pull/19)
+- Fixed the module info component's `code` element styles to match Stache code snippet styles. [#23](https://github.com/blackbaud/skyux-docs-tools/pull/23)
+
 # 3.0.0 (2020-01-24)
 
 - Initial major release.
