@@ -39,6 +39,7 @@
       class="sky-form-control"
       name="donationAmount"
       type="text"
+      [disabled]="disabled"
       [skyAutonumeric]="autonumericOptions"
       [(ngModel)]="templateDrivenModel.donationAmount"
       #donationAmount="ngModel"
@@ -92,5 +93,13 @@
     (click)="setOptionsByPreset()"
   >
     Set options by preset
+  </button>
+
+  <button
+    class="sky-btn"
+    type="button"
+    (click)="onDisableClick()"
+  >
+    Toggle disabled
   </button>
 </div>

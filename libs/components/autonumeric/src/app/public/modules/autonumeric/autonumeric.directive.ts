@@ -4,7 +4,8 @@ import {
   forwardRef,
   HostListener,
   Input,
-  OnInit
+  OnInit,
+  Renderer2
 } from '@angular/core';
 
 import {
@@ -63,13 +64,21 @@ export class SkyAutonumericDirective implements OnInit, ControlValueAccessor, Va
 
   constructor (
     private elementRef: ElementRef,
-    private globalConfig: SkyAutonumericOptionsProvider
+    private globalConfig: SkyAutonumericOptionsProvider,
+    private renderer: Renderer2
   ) {
     this.createAutonumericInstance();
   }
 
   public ngOnInit(): void {
     this.updateAutonumericInstance();
+  }
+
+  /**
+   * Implemented as part of ControlValueAccessor.
+   */
+  public setDisabledState(value: boolean): void {
+    this.renderer.setProperty(this.elementRef.nativeElement, 'disabled', value);
   }
 
   public writeValue(value: number): void {

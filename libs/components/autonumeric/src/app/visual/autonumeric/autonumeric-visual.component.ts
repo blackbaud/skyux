@@ -43,6 +43,8 @@ export class AutonumericVisualComponent implements OnInit, OnDestroy {
 
   public autonumericOptions: SkyAutonumericOptions;
 
+  public disabled: boolean = false;
+
   public formGroup: FormGroup;
 
   public templateDrivenModel: any = {
@@ -94,5 +96,14 @@ export class AutonumericVisualComponent implements OnInit, OnDestroy {
 
   public setOptionsByPreset(): void {
     this.autonumericOptions = 'Chinese';
+  }
+
+  public onDisableClick(): void {
+    this.disabled = !this.disabled;
+    if (this.disabled) {
+      this.formGroup.get('donationAmount').disable();
+    } else {
+      this.formGroup.get('donationAmount').enable();
+    }
   }
 }

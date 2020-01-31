@@ -29,9 +29,14 @@ describe('Autonumeric directive', () => {
 
   let fixture: ComponentFixture<AutonumericFixtureComponent>;
 
+  // #region helpers
   function detectChanges(): void {
     fixture.detectChanges();
     tick();
+  }
+
+  function getReactiveInput(): HTMLInputElement {
+    return fixture.nativeElement.querySelector('#donationAmount') as HTMLInputElement;
   }
 
   function setValue(value: number): void {
@@ -92,6 +97,7 @@ describe('Autonumeric directive', () => {
       expect(model[status]).toEqual(statuses[status]);
     });
   }
+  // #endregion
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -319,6 +325,28 @@ describe('Autonumeric directive', () => {
       verifyFormControlStatuses({
         dirty: true
       });
+    }));
+
+    it('should disable the form when the form control disabled() method is called', fakeAsync(() => {
+      detectChanges();
+      const formControl = fixture.componentInstance.formGroup.get('donationAmount');
+      const input = getReactiveInput();
+
+      // Disable the form via form control.
+      formControl.disable();
+      detectChanges();
+
+      // Expect both the input element and form control to be disabled.
+      expect(input.disabled).toEqual(true);
+      expect(formControl.disabled).toEqual(true);
+
+      // Enable the form via form control.
+      formControl.enable();
+      detectChanges();
+
+      // Expect both the input element and form control to be enabled.
+      expect(input.disabled).toEqual(false);
+      expect(formControl.disabled).toEqual(false);
     }));
 
   });
