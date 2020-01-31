@@ -35,7 +35,7 @@ export class SkyFuzzyDateService {
     }
 
     const year = fuzzyDate.year || this.getDefaultYear(fuzzyDate);
-    const month = fuzzyDate.month - 1 || 0;
+    const month = fuzzyDate.month > 0 ? (fuzzyDate.month - 1) : 0;
     const day = fuzzyDate.day || 1;
 
     return moment([year, month, day]);

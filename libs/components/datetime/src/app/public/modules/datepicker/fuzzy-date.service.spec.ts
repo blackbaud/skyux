@@ -434,6 +434,32 @@ describe('SkyFuzzyDateservice', () => {
       // assert
       expect(actual).toEqual(expected);
     });
+
+    it('returns a valid moment object based on fuzzy date with 0 month and day', () => {
+      // arrange
+      const fuzzyDate: SkyFuzzyDate = { month: 0, day: 0, year: 2009 };
+      // January 1, 2009
+      const expected = moment([fuzzyDate.year, 0, 1 ]);
+
+      // act
+      const actual = service.getMomentFromFuzzyDate(fuzzyDate);
+
+      // assert
+      expect(actual).toEqual(expected);
+    });
+
+    it('returns a valid moment object based on fuzzy date with undefined month and day', () => {
+      // arrange
+      const fuzzyDate: SkyFuzzyDate = { month: undefined, day: undefined, year: 2009 };
+      // January 1, 2009
+      const expected = moment([fuzzyDate.year, 0, 1 ]);
+
+      // act
+      const actual = service.getMomentFromFuzzyDate(fuzzyDate);
+
+      // assert
+      expect(actual).toEqual(expected);
+    });
   });
 
   describe('getFuzzyDateRange', () => {
