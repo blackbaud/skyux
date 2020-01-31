@@ -1,20 +1,21 @@
 import {
-  Component,
-  Input,
-  OnDestroy,
-  Output,
-  ContentChildren,
-  QueryList,
-  ChangeDetectionStrategy,
   AfterContentInit,
   ChangeDetectorRef,
-  SimpleChanges,
-  EventEmitter,
-  OnChanges,
+  ChangeDetectionStrategy,
+  ContentChildren,
+  Component,
   ElementRef,
-  ViewChildren,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  QueryList,
+  SimpleChanges,
   ViewChild,
-  OnInit
+  ViewChildren
 } from '@angular/core';
 
 import {
@@ -109,6 +110,45 @@ let nextId = 0;
 export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, OnDestroy {
 
   @Input()
+  public columns: Array<SkyGridColumnModel>;
+
+  @Input()
+  public data: Array<any>;
+
+  @Input()
+  public enableMultiselect: boolean = false;
+
+  @Input()
+  public fit: string = 'width';
+
+  @Input()
+  public hasToolbar: boolean = false;
+
+  @Input()
+  public height: number;
+
+  @Input()
+  public highlightText: string;
+
+  @Input()
+  public messageStream = new Subject<SkyGridMessage>();
+
+  @Input()
+  public multiselectRowId: string;
+
+  @Input()
+  public rowHighlightedId: string;
+
+  @Input()
+  public settingsKey: string;
+
+  @Input()
+  public sortField: ListSortFieldSelectorModel;
+
+  @Input()
+  public width: number;
+
+  @Input()
   public set selectedColumnIds(newIds: Array<string>) {
     const oldIds = this._selectedColumnIds;
     this._selectedColumnIds = newIds;
@@ -122,18 +162,18 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
     if (!oldIds || !this._selectedColumnIds ||
       !(this.arraysEqual(this._selectedColumnIds, oldIds))) {
 
-        // This variable ensures that we do not set user config options or fire the change event
-        // on the first time that the columns are set up
-        if (this.selectedColumnIdsSet) {
-          this.setUserConfig({
-            selectedColumnIds: newIds
-          });
-          this.selectedColumnIdsChange.emit(this._selectedColumnIds);
+      // This variable ensures that we do not set user config options or fire the change event
+      // on the first time that the columns are set up
+      if (this.selectedColumnIdsSet) {
+        this.setUserConfig({
+          selectedColumnIds: newIds
+        });
+        this.selectedColumnIdsChange.emit(this._selectedColumnIds);
 
-          if (this.isResized) {
-            this.resetTableWidth();
-          }
+        if (this.isResized) {
+          this.resetTableWidth();
         }
+      }
 
     }
 
@@ -143,36 +183,6 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
   public get selectedColumnIds(): Array<string> {
     return this._selectedColumnIds;
   }
-
-  @Input()
-  public fit: string = 'width';
-
-  @Input()
-  public width: number;
-
-  @Input()
-  public height: number;
-
-  @Input()
-  public data: Array<any>;
-
-  @Input()
-  public columns: Array<SkyGridColumnModel>;
-
-  @Input()
-  public hasToolbar: boolean = false;
-
-  @Input()
-  public sortField: ListSortFieldSelectorModel;
-
-  @Input()
-  public highlightText: string;
-
-  @Input()
-  public enableMultiselect: boolean = false;
-
-  @Input()
-  public multiselectRowId: string;
 
   @Input()
   public set selectedRowIds(value: Array<string>) {
@@ -187,14 +197,11 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
     return this._selectedRowIds;
   }
 
-  @Input()
-  public messageStream = new Subject<SkyGridMessage>();
+  @Output()
+  public columnWidthChange = new EventEmitter<Array<SkyGridColumnWidthModelChange>>();
 
-  @Input()
-  public rowHighlightedId: string;
-
-  @Input()
-  public settingsKey: string;
+  @Output()
+  public multiselectSelectionChange = new EventEmitter<SkyGridSelectedRowsModelChange>();
 
   @Output()
   public selectedColumnIdsChange = new EventEmitter<Array<string>>();
@@ -202,27 +209,19 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
   @Output()
   public sortFieldChange = new EventEmitter<ListSortFieldSelectorModel>();
 
-  @Output()
-  public multiselectSelectionChange = new EventEmitter<SkyGridSelectedRowsModelChange>();
-
-  @Output()
-  public columnWidthChange = new EventEmitter<Array<SkyGridColumnWidthModelChange>>();
-
-  public items: Array<any>;
-  public displayedColumns: Array<SkyGridColumnModel>;
+  public columnResizeStep = 10;
   public currentSortField: BehaviorSubject<ListSortFieldSelectorModel>;
+  public displayedColumns: Array<SkyGridColumnModel>;
+  public gridId: number = ++nextId;
+  public items: Array<any>;
+  public maxColWidth = 9999; // This is an arbitrary number, as the input range picker won't work without a value.
+  public minColWidth = 50;
+  public showResizeBar: boolean = false;
+  public showTopScroll: boolean = false;
 
   @ContentChildren(SkyGridColumnComponent, { descendants: true })
   private columnComponents: QueryList<SkyGridColumnComponent>;
 
-  private subscriptions: Subscription[] = [];
-
-  // Column resizing.
-  public gridId: number = ++nextId;
-  public minColWidth = 50;
-  public maxColWidth = 9999; // This is an arbitrary number, as the input range picker won't work without a value.
-  public columnResizeStep = 10;
-  public showResizeBar: boolean = false;
   @ViewChildren('gridCol')
   private columnElementRefs: QueryList<ElementRef>;
   @ViewChildren('colSizeRange')
@@ -231,20 +230,23 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
   private tableContainerElementRef: ElementRef;
   @ViewChild('gridTable')
   private tableElementRef: ElementRef;
+  @ViewChild('topScrollContainer')
+  private topScrollContainerElementRef: ElementRef;
   @ViewChild('resizeBar')
   private resizeBar: ElementRef;
-  private tableWidth: number;
-  private isDraggingResizeHandle: boolean = false;
-  private activeResizeColumnIndex: string;
-  private startColumnWidth: number;
-  private xPosStart: number;
-  private isResized: boolean = false;
-  private selectedColumnIdsSet: boolean = false;
 
+  private activeResizeColumnIndex: string;
+  private isDraggingResizeHandle: boolean = false;
+  private isResized: boolean = false;
   private ngUnsubscribe = new Subject();
+  private startColumnWidth: number;
+  private subscriptions: Subscription[] = [];
+  private tableWidth: number;
+  private scrollTriggered: boolean = false;
+  private selectedColumnIdsSet: boolean = false;
+  private xPosStart: number;
 
   private _selectedColumnIds: Array<string>;
-
   private _selectedRowIds: Array<string>;
 
   constructor(
@@ -252,7 +254,8 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
     private ref: ChangeDetectorRef,
     private gridAdapter: SkyGridAdapterService,
     private skyWindow: SkyAppWindowRef,
-    private uiConfigService: SkyUIConfigService
+    private uiConfigService: SkyUIConfigService,
+    private changeDetector: ChangeDetectorRef
   ) {
     this.displayedColumns = new Array<SkyGridColumnModel>();
     this.items = new Array<any>();
@@ -288,6 +291,8 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
     );
 
     this.applySelectedRows();
+
+    this.checkUserColumnWidthsForScroll();
   }
 
   public ngOnChanges(changes: SimpleChanges) {
@@ -312,6 +317,17 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
 
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+
+  @HostListener('window:resize')
+  public onWindowResize(): void {
+    if (!this.showTopScroll) {
+      this.checkUserColumnWidthsForScroll();
+    }
+  }
+
+  public getTopScrollWidth(): string {
+    return this.tableElementRef.nativeElement.scrollWidth;
   }
 
   public getTableClassNames() {
@@ -555,6 +571,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
     this.activeResizeColumnIndex = undefined;
 
     event.stopPropagation();
+    this.changeDetector.markForCheck();
   }
 
   public onRowClick(event: any, selectedItem: ListItemModel) {
@@ -578,6 +595,42 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
   // Prevent touch devices from inadvertently scrolling grid while dragging columns.
   public onTouchMove(event: any): void {
     event.preventDefault();
+  }
+
+  public onTopScroll(event: any): void {
+    if (this.scrollTriggered) {
+      this.scrollTriggered = false;
+      this.tableContainerElementRef.nativeElement.scrollLeft =
+        this.topScrollContainerElementRef.nativeElement.scrollLeft;
+    } else {
+      this.scrollTriggered = true;
+    }
+  }
+
+  public onGridScroll(event: any): void {
+    if (this.scrollTriggered) {
+      this.scrollTriggered = false;
+      this.topScrollContainerElementRef.nativeElement.scrollLeft =
+        this.tableContainerElementRef.nativeElement.scrollLeft;
+    } else {
+      this.scrollTriggered = true;
+    }
+  }
+
+  private checkUserColumnWidthsForScroll(): void {
+    let columnsWidthTotal = 0;
+    const windowSize = this.skyWindow.nativeWindow.innerWidth;
+    this.columnComponents.forEach(item => {
+      if (!this.showTopScroll && item.width) {
+        columnsWidthTotal = columnsWidthTotal + item.width;
+        if (columnsWidthTotal > windowSize) {
+          this.showTopScroll = true;
+          setTimeout(() => {
+            this.changeDetector.markForCheck();
+          });
+        }
+      }
+    });
   }
 
   private multiselectSelectAll() {
@@ -724,6 +777,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
   private initColumnWidths() {
     // Establish table width.
     this.tableWidth = this.tableElementRef.nativeElement.offsetWidth;
+    this.showTopScroll = true;
 
     // Set column widths based on the width initially given by the browser.
     // computedWidth prevents accidental overflow for browsers with sub-pixel widths.
@@ -938,7 +992,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
 
   private arraysEqual(arrayA: any[], arrayB: any[]) {
     return arrayA.length === arrayB.length &&
-    arrayA.every((value, index) =>
-      value === arrayB[index]);
+      arrayA.every((value, index) =>
+        value === arrayB[index]);
   }
 }

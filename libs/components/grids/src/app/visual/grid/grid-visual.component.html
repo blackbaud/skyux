@@ -140,3 +140,35 @@
     This is a string column. Click <a href="#">here</a> to learn more.
   </sky-popover>
 </div>
+
+<h1>Grid with scroll bars</h1>
+
+<div
+  id="screenshot-grid-scrollbars"
+>
+  <sky-grid
+    fit="scroll"
+    [data]="dataForSimpleGrid"
+    [highlightText]="highlightText"
+    [rowHighlightedId]="rowHighlightedId"
+    (sortFieldChange)="sortChangedSimpleGrid($event)"
+    #grid
+  >
+    <sky-grid-column
+      field="column1"
+      heading="Column1"
+      width="800"
+    ></sky-grid-column>
+    <sky-grid-column
+      field="column2"
+      heading="Column2"
+      width="800"
+    ></sky-grid-column>
+    <sky-grid-column
+      field="column3"
+      heading="Column3"
+      width="800"
+      [excludeFromHighlighting]="true"
+    ></sky-grid-column>
+  </sky-grid>
+</div>

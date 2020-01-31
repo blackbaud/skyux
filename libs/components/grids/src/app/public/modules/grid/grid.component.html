@@ -1,8 +1,19 @@
 <div class="sky-grid">
+  <div *ngIf="showTopScroll"
+    class="sky-grid-top-scroll-container"
+    (scroll)="onTopScroll($event)"
+    #topScrollContainer
+  >
+    <div
+      class="sky-grid-top-scroll"
+      [style.width.px]="getTopScrollWidth()"
+    ></div>
+  </div>
   <div
     class="sky-grid-table-container"
     [style.height.px]="height"
     [style.width.px]="width"
+    (scroll)="onGridScroll($event)"
     #gridContainer
   >
     <table

@@ -241,3 +241,12 @@ th.sky-grid-multiselect-cell {
   background: black;
   opacity: 0.6;
 }
+
+.sky-grid-top-scroll-container {
+  overflow: auto;
+}
+
+.sky-grid-top-scroll {
+  // Scroll bar will not show up without a height.
+  height: 1px;
+}
