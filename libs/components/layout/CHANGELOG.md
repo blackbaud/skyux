@@ -1,3 +1,8 @@
+# 3.6.0 (2020-02-03)
+
+- Added the ability to disable margins and set the column gutter sizes for the fluid grid component. [#61](https://github.com/blackbaud/skyux-layout/pull/61)
+- Fixed the action button component's focus outline to no longer extend outside its container. [#64](https://github.com/blackbaud/skyux-layout/pull/64)
+
 # 3.5.0 (2020-01-27)
 
 - Added the inline delete component. [#56](https://github.com/blackbaud/skyux-layout/pull/56)
