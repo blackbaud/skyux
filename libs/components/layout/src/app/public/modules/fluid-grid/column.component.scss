@@ -8,12 +8,22 @@
   }
 }
 
+@mixin create_column_gutters($gutter-size) {
+  :host-context(.sky-fluid-grid-gutter-size-#{$gutter-size}) {
+    padding-right: map-get($gutter-sizes, $gutter-size);
+    padding-left: map-get($gutter-sizes, $gutter-size);
+  }
+}
+
 :host.sky-column {
-  padding-right: $sky-fluid-grid-gutter;
-  padding-left: $sky-fluid-grid-gutter;
+  padding-right: map-get($gutter-sizes, large);
+  padding-left: map-get($gutter-sizes, large);
   width: 100%;
   min-height: 1px;
 }
+
+@include create_column_gutters(small);
+@include create_column_gutters(medium);
 
 @include sky-host-responsive-container-xs-min() {
   @include create_columns(xs);

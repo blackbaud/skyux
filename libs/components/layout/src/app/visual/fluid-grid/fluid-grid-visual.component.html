@@ -1,3 +1,5 @@
+<h2>Fluid grid using row/column components only</h2>
+
 <div id="screenshot-fluid-grid">
   <sky-row>
     <sky-column screenSmall="4" screenMedium="3" screenLarge="2">
@@ -32,4 +34,112 @@
       should be first/on top
     </sky-column>
   </sky-row>
+</div>
+
+<h2>Fluid grid using wrapping fluid-grid component</h2>
+
+<div id="screenshot-fluid-grid-wrapper">
+  <sky-fluid-grid>
+    <sky-row>
+      <sky-column screenSmall="4" screenMedium="3" screenLarge="2">
+        small 4 medium 3 large 2
+      </sky-column>
+      <sky-column screenSmall="4" screenMedium="9" screenLarge="8">
+        small 4 medium 9 large 8
+      </sky-column>
+      <sky-column screenSmall="4" screenMedium="12" screenLarge="2">
+        small 4 medium 12 large 2
+      </sky-column>
+    </sky-row>
+  </sky-fluid-grid>
+</div>
+
+<div id="screenshot-fluid-grid-wrapper-xsmall">
+  <sky-fluid-grid>
+    <sky-row>
+      <sky-column screenXSmall="6">
+        xsmall 6
+      </sky-column>
+      <sky-column screenXSmall="6">
+        xsmall 6
+      </sky-column>
+    </sky-row>
+  </sky-fluid-grid>
+</div>
+
+<div id="screenshot-fluid-grid-wrapper-reverse">
+  <sky-fluid-grid>
+    <sky-row [reverseColumnOrder]="true">
+      <sky-column screenSmall="6">
+        should be second/below
+      </sky-column>
+      <sky-column screenSmall="6">
+        should be first/on top
+      </sky-column>
+    </sky-row>
+  </sky-fluid-grid>
+</div>
+
+<h2>Fluid grid with adjustable margins and gutters</h2>
+
+<div
+  id="screenshot-fluid-grid-gutters"
+  style="width:500px; background: lightgrey; margin:20px;"
+>
+  <sky-fluid-grid
+    [disableMargin]="disableMargin"
+    [gutterSize]="gutterSize"
+  >
+    <sky-row>
+      <sky-column screenSmall="4" screenMedium="4" screenLarge="4">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </sky-column>
+      <sky-column screenSmall="4" screenMedium="4" screenLarge="4">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </sky-column>
+      <sky-column screenSmall="4" screenMedium="4" screenLarge="4">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </sky-column>
+    </sky-row>
+  </sky-fluid-grid>
+
+  <div
+    class="sky-form-group"
+    style="width:125px"
+  >
+    <label
+      class="sky-control-label"
+      for="gutterSize"
+    >
+      Gutter size:
+    </label>
+    <select
+      class="sky-form-control"
+      id="gutterSize"
+      name="gutterSize"
+      [(ngModel)]="gutterSize"
+    >
+      <option *ngFor="let size of gutterSizes" [value]="size">
+        {{getEnumName(size)}}
+      </option>
+    </select>
+  </div>
+  <div
+    class="sky-form-group"
+    style="width:125px;"
+  >
+    <label
+      class="sky-control-label"
+      for="disableMargin"
+    >
+      <input
+        id="disableMargin"
+        name="disableMargin"
+        type="checkbox"
+        [(ngModel)]="disableMargin"
+      >
+      Disable margin
+    </label>
+  </div>
+
 </div>

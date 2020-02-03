@@ -1,5 +1,12 @@
 @import "scss/variables";
 
-.sky-fluid-grid {
-  padding: 0 $sky-fluid-grid-gutter;
+@mixin create_gutters($gutter-size) {
+  .sky-fluid-grid-gutter-size-#{$gutter-size} {
+    padding-left: map-get($gutter-sizes, $gutter-size);
+    padding-right: map-get($gutter-sizes, $gutter-size);
+  }
 }
+
+@include create_gutters(small);
+@include create_gutters(medium);
+@include create_gutters(large);

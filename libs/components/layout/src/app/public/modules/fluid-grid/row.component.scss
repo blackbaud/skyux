@@ -2,12 +2,32 @@
 
 .sky-row {
   display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  margin-left: -$sky-fluid-grid-gutter;
-  margin-right: -$sky-fluid-grid-gutter;
   flex-direction: row;
+  flex-wrap: wrap;
+  // Default to large gutters for backwards compatibility.
+  // (Prior versions of fluid-grid did not require the wrapping `sky-fluid-grid` component.)
+  margin-left: -(map-get($gutter-sizes, large));
+  margin-right: -(map-get($gutter-sizes, large));
 }
+
+@mixin create_row_gutters($gutter-size) {
+  :host-context(.sky-fluid-grid-gutter-size-#{$gutter-size}) {
+    .sky-row {
+      margin-left: -(map-get($gutter-sizes, $gutter-size));
+      margin-right: -(map-get($gutter-sizes, $gutter-size));
+    }
+  }
+  :host-context(.sky-fluid-grid-gutter-size-#{$gutter-size}.sky-fluid-grid-no-margin) {
+    .sky-row {
+      margin-left: -(map-get($gutter-sizes, $gutter-size)) * 2;
+      margin-right: -(map-get($gutter-sizes, $gutter-size)) * 2;
+    }
+  }
+}
+
+@include create_row_gutters(small);
+@include create_row_gutters(medium);
+@include create_row_gutters(large);
 
 @include sky-host-responsive-container-xs-min() {
   .sky-row.sky-row-reverse {
