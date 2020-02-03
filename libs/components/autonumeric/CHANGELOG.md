@@ -1,3 +1,7 @@
+# 3.0.2 (2020-01-31)
+
+- Fixed the `skyAutonumeric` directive to properly set the disabled state when using reactive forms. [#9](https://github.com/blackbaud/skyux-autonumeric/pull/9)
+
 # 3.0.1 (2019-08-01)
 
 - Fixed the `skyAutonumeric` directive to properly format a zero (0) value. [#5](https://github.com/blackbaud/skyux-autonumeric/pull/5) (Thanks [@Blackbaud-StewartStephens](https://github.com/Blackbaud-StewartStephens)!)
