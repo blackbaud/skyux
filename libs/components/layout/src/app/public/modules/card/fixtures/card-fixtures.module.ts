@@ -1,22 +1,26 @@
 import {
-  NgModule
-} from '@angular/core';
-
-import {
   CommonModule
 } from '@angular/common';
 
 import {
+  NgModule
+} from '@angular/core';
+
+import {
+  NoopAnimationsModule
+} from '@angular/platform-browser/animations';
+
+import {
+  SkyInlineDeleteModule
+} from '../../inline-delete/inline-delete.module';
+
+import {
   SkyCardModule
-} from '../';
+} from '../card.module';
 
 import {
   CardTestComponent
 } from './card.component.fixture';
-
-import {
-  SkyInlineDeleteModule
-} from '../../inline-delete';
 
 @NgModule({
   declarations: [
@@ -24,6 +28,7 @@ import {
   ],
   imports: [
     CommonModule,
+    NoopAnimationsModule,
     SkyCardModule,
     SkyInlineDeleteModule
   ],

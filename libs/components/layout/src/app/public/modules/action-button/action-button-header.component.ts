@@ -7,5 +7,4 @@ import {
   styleUrls: ['./action-button-header.component.scss'],
   templateUrl: './action-button-header.component.html'
 })
-export class SkyActionButtonHeaderComponent {
-}
+export class SkyActionButtonHeaderComponent { }

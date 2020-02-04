@@ -1,6 +1,14 @@
-import { Component } from '@angular/core';
-import { SkyModalInstance } from '@skyux/modals/modules/modal';
-import { SkyTextExpandModalContext } from './text-expand-modal-context';
+import {
+  Component
+} from '@angular/core';
+
+import {
+  SkyModalInstance
+} from '@skyux/modals';
+
+import {
+  SkyTextExpandModalContext
+} from './text-expand-modal-context';
 
 @Component({
   selector: 'sky-text-expand-modal',
@@ -8,12 +16,14 @@ import { SkyTextExpandModalContext } from './text-expand-modal-context';
   styleUrls: ['./text-expand.component.scss']
 })
 export class SkyTextExpandModalComponent {
+
   constructor(
     public context: SkyTextExpandModalContext,
     public instance: SkyModalInstance
-  ) {}
+  ) { }
 
-  public close() {
+  public close(): void {
     this.instance.close();
   }
+
 }

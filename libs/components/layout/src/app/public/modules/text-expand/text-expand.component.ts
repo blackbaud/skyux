@@ -1,29 +1,38 @@
 import {
+  AfterContentInit,
   Component,
-  Input,
   ElementRef,
-  ViewChild,
-  AfterContentInit
+  Input,
+  ViewChild
 } from '@angular/core';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/observable/forkJoin';
 
 import {
   SkyLibResourcesService
-} from '@skyux/i18n/modules/i18n';
+} from '@skyux/i18n';
+
 import {
   SkyModalService
-} from '@skyux/modals/modules/modal';
+} from '@skyux/modals';
+
 import {
-  SkyTextExpandModalComponent
-} from './text-expand-modal.component';
-import {
-  SkyTextExpandModalContext
-} from './text-expand-modal-context';
+  Observable
+} from 'rxjs';
+
+import 'rxjs/add/observable/forkJoin';
+
+import 'rxjs/add/operator/take';
+
 import {
   SkyTextExpandAdapterService
 } from './text-expand-adapter.service';
-import { Observable } from 'rxjs/Observable';
+
+import {
+  SkyTextExpandModalComponent
+} from './text-expand-modal.component';
+
+import {
+  SkyTextExpandModalContext
+} from './text-expand-modal-context';
 
 /**
  * Auto-incrementing integer used to generate unique ids for text expand components.
@@ -40,50 +49,70 @@ let nextId = 0;
 })
 export class SkyTextExpandComponent implements AfterContentInit {
 
-  private _maxLength: number = 200;
+  @Input()
+  public expandModalTitle: string;
 
   @Input()
-  public set text(value: string) {
-    this.setup(value);
-  }
+  public maxExpandedLength: number = 600;
+
   @Input()
-  public truncateNewlines = true;
+  public maxExpandedNewlines: number = 2;
+
   @Input()
   public set maxLength(value: number) {
     this._maxLength = value;
     this.setup(this.expandedText);
   }
-  public get maxLength(): number { return this._maxLength; }
+
+  public get maxLength(): number {
+    return this._maxLength;
+  }
+
   @Input()
-  public maxExpandedLength: number = 600;
+  public set text(value: string) {
+    this.setup(value);
+  }
+
   @Input()
-  public maxExpandedNewlines: number = 2;
-  @Input()
-  public expandModalTitle: string;
-  @ViewChild('container', { read: ElementRef })
-  public containerEl: ElementRef;
-  @ViewChild('text', { read: ElementRef })
-  public textEl: ElementRef;
+  public truncateNewlines: boolean = true;
+
+  public buttonText: string;
+
+  public contentSectionId: string = `sky-text-expand-content-${++nextId}`;
+
+  public expandable: boolean;
 
   public isExpanded: boolean = false;
-  public expandable: boolean;
-  public buttonText: string;
-  public contentSectionId: string = `sky-text-expand-content-${++nextId}`;
+
   public isModal: boolean;
 
-  private seeMoreText: string;
-  private seeLessText: string;
-  private textToShow: string;
+  @ViewChild('container', { read: ElementRef })
+  private containerEl: ElementRef;
+
+  @ViewChild('text', { read: ElementRef })
+  private textEl: ElementRef;
+
   private collapsedText: string;
+
   private expandedText: string;
+
   private newlineCount: number;
+
+  private seeMoreText: string;
+
+  private seeLessText: string;
+
+  private textToShow: string;
+
+  private _maxLength: number = 200;
 
   constructor(
     private resources: SkyLibResourcesService,
     private modalService: SkyModalService,
-    private textExpandAdapter: SkyTextExpandAdapterService) { }
+    private textExpandAdapter: SkyTextExpandAdapterService
+  ) { }
 
-  public textExpand() {
+  public textExpand(): void {
     if (this.isModal) {
       // Modal View
       /* istanbul ignore else */
@@ -123,14 +152,14 @@ export class SkyTextExpandComponent implements AfterContentInit {
     }
   }
 
-  public animationEnd() {
+  public animationEnd(): void {
     // Ensure the correct text is displayed
     this.textExpandAdapter.setText(this.textEl, this.textToShow);
     // Set height back to auto so the browser can change the height as needed with window changes
     this.textExpandAdapter.setContainerHeight(this.containerEl, undefined);
   }
 
-  public ngAfterContentInit() {
+  public ngAfterContentInit(): void {
     Observable.forkJoin(this.resources.getString('skyux_text_expand_see_more'),
       this.resources.getString('skyux_text_expand_see_less')).take(1).subscribe(resources => {
         this.seeMoreText = resources[0];
@@ -145,7 +174,7 @@ export class SkyTextExpandComponent implements AfterContentInit {
       });
   }
 
-  private setContainerMaxHeight() {
+  private setContainerMaxHeight(): void {
     // ensure everything is reset
     this.animationEnd();
     /* Before animation is kicked off, ensure that a maxHeight exists */
@@ -154,7 +183,7 @@ export class SkyTextExpandComponent implements AfterContentInit {
     this.textExpandAdapter.setContainerHeight(this.containerEl, `${currentHeight}px`);
   }
 
-  private setup(value: string) {
+  private setup(value: string): void {
     if (value) {
       this.newlineCount = this.getNewlineCount(value);
       this.collapsedText = this.getTruncatedText(value, this.maxLength);
@@ -176,7 +205,7 @@ export class SkyTextExpandComponent implements AfterContentInit {
     this.textExpandAdapter.setText(this.textEl, this.textToShow);
   }
 
-  private getNewlineCount(value: string) {
+  private getNewlineCount(value: string): number {
     let matches = value.match(/\n/gi);
 
     if (matches) {
@@ -185,7 +214,8 @@ export class SkyTextExpandComponent implements AfterContentInit {
 
     return 0;
   }
-  private getTruncatedText(value: string, length: number) {
+
+  private getTruncatedText(value: string, length: number): string {
     let i: number;
     if (this.truncateNewlines) {
       value = value.replace(/\n+/gi, ' ');
@@ -204,8 +234,7 @@ export class SkyTextExpandComponent implements AfterContentInit {
     return value.substr(0, length);
   }
 
-  private animateText(previousText: string, newText: string,
-    expanding: boolean) {
+  private animateText(previousText: string, newText: string, expanding: boolean): void {
 
     let adapter = this.textExpandAdapter;
     let container = this.containerEl;

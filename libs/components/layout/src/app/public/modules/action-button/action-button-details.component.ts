@@ -6,5 +6,4 @@ import {
   selector: 'sky-action-button-details',
   templateUrl: './action-button-details.component.html'
 })
-export class SkyActionButtonDetailsComponent {
-}
+export class SkyActionButtonDetailsComponent { }

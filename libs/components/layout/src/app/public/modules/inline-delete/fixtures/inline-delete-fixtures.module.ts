@@ -1,10 +1,14 @@
 import {
+  CommonModule
+} from '@angular/common';
+
+import {
   NgModule
 } from '@angular/core';
 
 import {
-  CommonModule
-} from '@angular/common';
+  NoopAnimationsModule
+} from '@angular/platform-browser/animations';
 
 import {
   InlineDeleteTestComponent
@@ -12,7 +16,7 @@ import {
 
 import {
   SkyInlineDeleteModule
-} from '..';
+} from '../inline-delete.module';
 
 @NgModule({
   declarations: [
@@ -20,6 +24,7 @@ import {
   ],
   imports: [
     CommonModule,
+    NoopAnimationsModule,
     SkyInlineDeleteModule
   ],
   exports: [

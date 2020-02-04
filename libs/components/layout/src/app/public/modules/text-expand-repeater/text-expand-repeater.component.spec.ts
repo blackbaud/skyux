@@ -1,19 +1,22 @@
 import {
-  TestBed,
-  fakeAsync,
-  tick,
+  async,
   ComponentFixture,
-  async
+  fakeAsync,
+  TestBed,
+  tick
 } from '@angular/core/testing';
-
-import { BrowserModule } from '@angular/platform-browser';
-
-import { TextExpandRepeaterTestComponent } from './fixtures/text-expand-repeater.component.fixture';
-import { SkyTextExpandRepeaterModule } from './text-expand-repeater.module';
 
 import {
   expect
 } from '@skyux-sdk/testing';
+
+import {
+  TextExpandRepeaterTestComponent
+} from './fixtures/text-expand-repeater.component.fixture';
+
+import {
+  TextExpandRepeaterFixturesModule
+} from './fixtures/text-expand-repeater.module.fixture';
 
 describe('Text expand repeater component', () => {
   let fixture: ComponentFixture<TextExpandRepeaterTestComponent>;
@@ -31,12 +34,8 @@ describe('Text expand repeater component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TextExpandRepeaterTestComponent
-      ],
       imports: [
-        BrowserModule,
-        SkyTextExpandRepeaterModule
+        TextExpandRepeaterFixturesModule
       ]
     });
 

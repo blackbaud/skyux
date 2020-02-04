@@ -1,7 +1,9 @@
 import {
   async,
   ComponentFixture,
-  TestBed
+  fakeAsync,
+  TestBed,
+  tick
 } from '@angular/core/testing';
 
 import {
@@ -22,10 +24,9 @@ import {
 } from './inline-delete-type';
 
 describe('Inline delete component', () => {
-  const ANIMATION_TIMEOUT: number = 401;
   let fixture: ComponentFixture<InlineDeleteTestComponent>;
   let cmp: InlineDeleteTestComponent;
-  let el: HTMLElement;
+  let el: any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -39,24 +40,30 @@ describe('Inline delete component', () => {
     el = fixture.nativeElement;
   });
 
-  it('should emit the deleteTriggered event when the delete button is clicked', () => {
+  afterEach(fakeAsync(() => {
+    cmp.showDelete = false;
     fixture.detectChanges();
-    const deleteTriggeredSpy = spyOn(cmp.inlineDelete.deleteTriggered, 'emit').and.callThrough();
-    (<HTMLElement>el.querySelector('.sky-btn-danger')).click();
-    fixture.detectChanges();
-    expect(deleteTriggeredSpy).toHaveBeenCalled();
-  });
+    tick();
+    fixture.destroy();
+  }));
 
-  it('should emit the cancelTriggered event when the cancel button is clicked', async(() => {
+  it('should emit the deleteTriggered event when the delete button is clicked', fakeAsync(() => {
     fixture.detectChanges();
-    const cancelTriggeredSpy = spyOn(cmp.inlineDelete.cancelTriggered, 'emit').and.callThrough();
-    (<HTMLElement>el.querySelector('.sky-btn-default')).click();
+    const deleteTriggeredSpy = spyOn(cmp, 'onDeleteTriggered');
+    fixture.nativeElement.querySelector('.sky-btn-danger').click();
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      setTimeout(() => {
-        expect(cancelTriggeredSpy).toHaveBeenCalled();
-      }, ANIMATION_TIMEOUT);
-    });
+    tick();
+    expect(deleteTriggeredSpy).toHaveBeenCalled();
+  }));
+
+  it('should emit the cancelTriggered event when the cancel button is clicked', fakeAsync(() => {
+    const cancelTriggeredSpy = spyOn(cmp, 'onCancelTriggered');
+    fixture.detectChanges();
+    tick();
+    fixture.nativeElement.querySelector('.sky-btn-default').click();
+    fixture.detectChanges();
+    tick();
+    expect(cancelTriggeredSpy).toHaveBeenCalled();
   }));
 
   it('should maintain css classes for card types correctly', () => {
@@ -84,31 +91,29 @@ describe('Inline delete component', () => {
   describe('focus handling', () => {
     it('should focus the delete button on load', async(() => {
       fixture.detectChanges();
-      setTimeout(() => {
+      fixture.whenStable().then(() => {
         expect(document.activeElement).toBe(el.querySelector('.sky-btn-danger'));
-      }, ANIMATION_TIMEOUT);
+      });
     }));
 
     it('should skip items that are under the overlay when tabbing forward', async(() => {
       fixture.componentInstance.showExtraButtons = true;
       fixture.detectChanges();
       (<HTMLElement>el.querySelector('#noop-button-1')).focus();
-      setTimeout(() => {
-        SkyAppTestUtility.fireDomEvent(el.querySelector('#covered-button'), 'focusin', {
-          customEventInit: {
-            relatedTarget: document.body
-          }
-        });
-        fixture.detectChanges();
-        expect(document.activeElement).toBe(el.querySelector('.sky-btn-danger'));
-      }, ANIMATION_TIMEOUT);
+      SkyAppTestUtility.fireDomEvent(el.querySelector('#covered-button'), 'focusin', {
+        customEventInit: {
+          relatedTarget: document.body
+        }
+      });
+      fixture.detectChanges();
+      expect(document.activeElement).toBe(el.querySelector('.sky-btn-danger'));
     }));
 
     it('should skip items that are under the overlay when tabbing backward', async(() => {
       fixture.componentInstance.showExtraButtons = true;
       fixture.detectChanges();
       (<HTMLElement>el.querySelector('.sky-btn-danger')).focus();
-      setTimeout(() => {
+      fixture.whenStable().then(() => {
         SkyAppTestUtility.fireDomEvent(el.querySelector('#covered-button'), 'focusin', {
           customEventInit: {
             relatedTarget: el.querySelector('.sky-btn-danger')
@@ -116,14 +121,14 @@ describe('Inline delete component', () => {
         });
         fixture.detectChanges();
         expect(document.activeElement).toBe(el.querySelector('#noop-button-1'));
-      }, ANIMATION_TIMEOUT);
+      });
     }));
 
     it('should wrap around to the next focusable item on the screen when no direct item is found and tabbing backwards',
       async(() => {
         fixture.detectChanges();
         (<HTMLElement>el.querySelector('.sky-btn-danger')).focus();
-        setTimeout(() => {
+        fixture.whenStable().then(() => {
           SkyAppTestUtility.fireDomEvent(el.querySelector('#covered-button'), 'focusin', {
             customEventInit: {
               relatedTarget: el.querySelector('.sky-btn-danger')
@@ -131,11 +136,15 @@ describe('Inline delete component', () => {
           });
           fixture.detectChanges();
           expect(document.activeElement).toBe(el.querySelector('.sky-inline-delete .sky-btn-default'));
-        }, ANIMATION_TIMEOUT);
+        });
       }));
   });
 
   describe('accessibility', () => {
+    beforeEach(() => {
+      cmp.showCoveredButtons = false;
+    });
+
     it('should be accessible in standard mode', async(() => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {

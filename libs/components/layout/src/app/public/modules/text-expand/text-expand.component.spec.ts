@@ -1,42 +1,29 @@
 import {
-  TestBed,
-  inject,
-  fakeAsync,
-  tick,
+  async,
   ComponentFixture,
-  async
+  fakeAsync,
+  inject,
+  TestBed,
+  tick
 } from '@angular/core/testing';
 
-import { BrowserModule } from '@angular/platform-browser';
-
 import {
-  RouterTestingModule
-} from '@angular/router/testing';
-
-import { SkyWindowRefService } from '@skyux/core/modules/window';
-import { TextExpandTestComponent } from './fixtures/text-expand.component.fixture';
-import { SkyTextExpandModule } from './text-expand.module';
-
-import {
-  SkyModalService,
-  SkyModalModule
-} from '@skyux/modals/modules/modal';
+  SkyModalService
+} from '@skyux/modals';
 
 import {
   expect
 } from '@skyux-sdk/testing';
 
-describe('Text expand component', () => {
-  const windowRef = new SkyWindowRefService();
+import {
+  TextExpandTestComponent
+} from './fixtures/text-expand.component.fixture';
 
-  const mockWindowService = {
-    getWindow(): any {
-      return {
-        document: windowRef.getWindow().document,
-        setTimeout: (cb: Function) => cb()
-      };
-    }
-  };
+import {
+  TextExpandFixturesModule
+} from './fixtures/text-expand.module.fixture';
+
+describe('Text expand component', () => {
 
   // tslint:disable
   const SHORT_TEXT = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu';
@@ -62,17 +49,8 @@ describe('Text expand component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TextExpandTestComponent
-      ],
       imports: [
-        BrowserModule,
-        RouterTestingModule,
-        SkyTextExpandModule,
-        SkyModalModule
-      ],
-      providers: [
-        { provide: SkyWindowRefService, useValue: mockWindowService }
+        TextExpandFixturesModule
       ]
     });
 

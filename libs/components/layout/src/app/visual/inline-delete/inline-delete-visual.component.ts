@@ -29,4 +29,12 @@ export class InlineDeleteVisualComponent {
     this.animationsDisabled = this.skyAppConfig.runtime.command === 'e2e';
   }
 
+  public onCancelTriggered(): void {
+    this.deleting = false;
+  }
+
+  public onDeleteTriggered(): void {
+    this.deleting = false;
+  }
+
 }

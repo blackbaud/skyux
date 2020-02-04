@@ -192,7 +192,7 @@ describe('Card component', () => {
     });
   }));
 
-  it('should set the inline delete to the card style when initially added', () => {
+  it('should set the inline delete to the card style when initially added', async(() => {
     cmp.showDelete = true;
     fixture.detectChanges();
     fixture.whenStable().then(() => {
@@ -200,9 +200,9 @@ describe('Card component', () => {
       expect(cmp.card.inlineDeleteComponent.length).toBe(1);
       expect(cmp.card.inlineDeleteComponent.first.type).toBe(SkyInlineDeleteType.Card);
     });
-  });
+  }));
 
-  it('should set the inline delete to the card style when dynamically added', () => {
+  it('should set the inline delete to the card style when dynamically added', async(() => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       expect(el.querySelector('sky-inline-delete')).toBeNull();
@@ -216,5 +216,5 @@ describe('Card component', () => {
         expect(cmp.card.inlineDeleteComponent.first.type).toBe(SkyInlineDeleteType.Card);
       });
     });
-  });
+  }));
 });

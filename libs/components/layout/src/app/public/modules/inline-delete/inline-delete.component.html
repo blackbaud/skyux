@@ -12,10 +12,10 @@
   >
     {{ 'skyux_inline_delete_assistive_text' | skyLibResources }}
   </span>
-    <sky-wait
-      class="sky-inline-delete-wait"
-      [isWaiting]="pending"
-    ></sky-wait>
+  <sky-wait
+    class="sky-inline-delete-wait"
+    [isWaiting]="pending"
+  ></sky-wait>
   <div class="sky-inline-delete-content">
     <div
       class="sky-inline-delete-content-animation-container"
@@ -23,7 +23,7 @@
       <button
         class="sky-btn sky-btn-danger sky-inline-delete-button"
         type="button"
-        (click)="deleteTriggered.emit()"
+        (click)="onDeleteClick()"
         #delete
       >
         {{ 'skyux_inline_delete_delete' | skyLibResources }}
@@ -31,7 +31,7 @@
       <button
         class="sky-btn sky-btn-default"
         type="button"
-        (click)="animationState = 'hidden'"
+        (click)="onCancelClick()"
       >
         {{ 'skyux_inline_delete_cancel' | skyLibResources }}
       </button>

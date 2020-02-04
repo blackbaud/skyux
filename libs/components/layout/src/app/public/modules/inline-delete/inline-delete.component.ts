@@ -28,6 +28,10 @@ import {
   SkyInlineDeleteType
 } from './inline-delete-type';
 
+import {
+  SkyCoreAdapterService
+} from '@skyux/core';
+
 /**
  * Auto-incrementing integer used to generate unique ids for inline delete components.
  */
@@ -66,7 +70,10 @@ let nextId = 0;
       ])
     ])
   ],
-  providers: [SkyInlineDeleteAdapterService]
+  providers: [
+    SkyCoreAdapterService,
+    SkyInlineDeleteAdapterService
+  ]
 })
 export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
 
@@ -89,14 +96,14 @@ export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
   @Output()
   public deleteTriggered = new EventEmitter<void>();
 
-  @ViewChild('delete')
-  public deleteButton: ElementRef;
-
   public animationState: string = 'shown';
 
   public assistiveTextId: string = `sky-inline-delete-assistive-text-${++nextId}`;
 
   public type: SkyInlineDeleteType = SkyInlineDeleteType.Standard;
+
+  @ViewChild('delete')
+  private deleteButton: ElementRef;
 
   constructor(
     private adapterService: SkyInlineDeleteAdapterService,
@@ -119,6 +126,22 @@ export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
    */
   public ngOnDestroy(): void {
     this.adapterService.clearListeners();
+    this.cancelTriggered.complete();
+    this.deleteTriggered.complete();
+  }
+
+  /**
+   * @internal
+   */
+  public onCancelClick(): void {
+    this.animationState = 'hidden';
+  }
+
+  /**
+   * @internal
+   */
+  public onDeleteClick(): void {
+    this.deleteTriggered.emit();
   }
 
   /**

@@ -1,9 +1,22 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  CommonModule
+} from '@angular/common';
 
-import { SkyPageSummaryModule } from '../';
+import {
+  NgModule
+} from '@angular/core';
 
-import { SkyPageSummaryTestComponent } from './page-summary.component.fixture';
+import {
+  NoopAnimationsModule
+} from '@angular/platform-browser/animations';
+
+import {
+  SkyPageSummaryModule
+} from '../page-summary.module';
+
+import {
+  SkyPageSummaryTestComponent
+} from './page-summary.component.fixture';
 
 @NgModule({
   declarations: [
@@ -11,6 +24,7 @@ import { SkyPageSummaryTestComponent } from './page-summary.component.fixture';
   ],
   imports: [
     CommonModule,
+    NoopAnimationsModule,
     SkyPageSummaryModule
   ],
   exports: [

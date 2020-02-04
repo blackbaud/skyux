@@ -5,13 +5,13 @@ import {
 } from '@angular/core';
 
 import {
-  SkyMediaQueryService,
-  SkyMediaBreakpoints
-} from '@skyux/core/modules/media-query';
+  SkyMediaBreakpoints,
+  SkyMediaQueryService
+} from '@skyux/core';
 
 import {
   Subscription
-} from 'rxjs/Subscription';
+} from 'rxjs';
 
 const FONTSIZECLASS_SMALL = '2x';
 const FONTSIZECLASS_LARGE = '3x';

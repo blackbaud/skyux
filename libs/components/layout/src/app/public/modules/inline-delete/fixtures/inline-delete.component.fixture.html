@@ -6,14 +6,15 @@
 </button>
 <div
   id="inline-delete-fixture"
+  [@.disabled]="true"
 >
-  <button
+  <button *ngIf="showCoveredButtons"
     id="covered-button"
     type="button"
   >
     Covered Button
   </button>
-  <button
+  <button *ngIf="showCoveredButtons"
     id="covered-button-2"
     type="button"
   >
@@ -21,6 +22,8 @@
   </button>
   <sky-inline-delete *ngIf="showDelete"
     [pending]="pending"
+    (cancelTriggered)="onCancelTriggered()"
+    (deleteTriggered)="onDeleteTriggered()"
   >
   </sky-inline-delete>
 </div>

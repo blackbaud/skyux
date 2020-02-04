@@ -26,8 +26,8 @@ Show as pending
   </div>
   <sky-inline-delete *ngIf="deleting"
     [pending]="pending"
-    (cancelTriggered)="deleting = false"
-    (deleteTriggered)="deleting = false"
+    (cancelTriggered)="onCancelTriggered()"
+    (deleteTriggered)="onDeleteTriggered()"
   ></sky-inline-delete>
 </div>
 
