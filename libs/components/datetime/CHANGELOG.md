@@ -1,3 +1,7 @@
+# 3.7.1 (2020-02-04)
+
+- Fixed the fuzzy date service's `getMomentFromFuzzyDate` function to properly support fuzzy dates when `month` is `0`. [#112](https://github.com/blackbaud/skyux-datetime/pull/112) (Thanks [@Blackbaud-JeffreyAaron](https://github.com/Blackbaud-JeffreyAaron)!)
+
 # 3.7.0 (2019-01-27)
 
 - Added the fuzzy date pipe. [#102](https://github.com/blackbaud/skyux-datetime/pull/102)
