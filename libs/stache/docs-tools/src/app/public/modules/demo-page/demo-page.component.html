@@ -14,21 +14,25 @@
       select="sky-docs-demo"
     ></ng-content>
 
-    <sky-tabset *ngIf="enableTabLayout else content"
-      permalinkId="docs"
+    <div
+      class="sky-docs-demo-page-main"
     >
-      <sky-tab tabHeading="Design">
-        <ng-content
-          select="sky-docs-design-guidelines"
-        ></ng-content>
-      </sky-tab>
+      <sky-tabset *ngIf="enableTabLayout else content"
+        permalinkId="docs"
+      >
+        <sky-tab tabHeading="Design">
+          <ng-content
+            select="sky-docs-design-guidelines"
+          ></ng-content>
+        </sky-tab>
 
-      <sky-tab tabHeading="Development">
-        <ng-container
-          [ngTemplateOutlet]="content"
-        ></ng-container>
-      </sky-tab>
-    </sky-tabset>
+        <sky-tab tabHeading="Development">
+          <ng-container
+            [ngTemplateOutlet]="content"
+          ></ng-container>
+        </sky-tab>
+      </sky-tabset>
+    </div>
   </stache>
 </div>
 

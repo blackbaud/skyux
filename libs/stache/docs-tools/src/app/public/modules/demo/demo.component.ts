@@ -32,6 +32,10 @@ import {
 })
 export class SkyDocsDemoComponent {
 
+  /**
+   * Specifies the horizontal alignment of the demo contents.
+   * @default 'left'
+   */
   @Input()
   public set alignContents(value: SkyDocsDemoContentAlignment) {
     this._alignContents = value;
@@ -40,6 +44,12 @@ export class SkyDocsDemoComponent {
   public get alignContents(): SkyDocsDemoContentAlignment {
     return this._alignContents || 'left';
   }
+
+  /**
+   * Custom heading text for the demo.
+   */
+  @Input()
+  public heading: string;
 
   public get hasOptions(): boolean {
     return this.controlPanels && this.controlPanels.length > 0;

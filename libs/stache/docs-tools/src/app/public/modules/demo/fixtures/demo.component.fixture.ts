@@ -23,6 +23,8 @@ export class DemoFixtureComponent {
     showIcon?: boolean;
   } = {};
 
+  public heading: string;
+
   public onDemoReset(): void { }
 
   public onDemoSelectionChange(): void { }

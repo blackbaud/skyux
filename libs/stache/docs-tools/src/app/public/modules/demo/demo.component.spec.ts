@@ -4,6 +4,10 @@ import {
 } from '@angular/core/testing';
 
 import {
+  expect
+} from '@skyux-sdk/testing';
+
+import {
   DemoFixturesModule
 } from './fixtures/demo-fixtures.module';
 
@@ -35,6 +39,22 @@ describe('Demo component', () => {
     });
 
     fixture = TestBed.createComponent(DemoFixtureComponent);
+  });
+
+  it('should allow for custom headings', () => {
+    fixture.detectChanges();
+
+    const headingElement = fixture.nativeElement.querySelector('[data-test-selector="sky-docs-demo-heading-text"]');
+
+    fixture.componentInstance.heading = undefined;
+    fixture.detectChanges();
+
+    expect(headingElement).toHaveText('Demo');
+
+    fixture.componentInstance.heading = 'Foobar';
+    fixture.detectChanges();
+
+    expect(headingElement).toHaveText('Foobar');
   });
 
   describe('control panel component', () => {

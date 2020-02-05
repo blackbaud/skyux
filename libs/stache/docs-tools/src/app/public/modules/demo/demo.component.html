@@ -4,8 +4,11 @@
     class="sky-docs-demo-heading"
     role="heading"
   >
-    <span class="sky-section-heading">
-      {{ 'sky-docs-demo-heading' | skyLibResources }}
+    <span
+      class="sky-section-heading"
+      [attr.data-test-selector]="'sky-docs-demo-heading-text'"
+    >
+      {{ heading || ('sky-docs-demo-heading' | skyLibResources) }}
     </span>
     <button *ngIf="hasOptions"
       class="sky-btn"
