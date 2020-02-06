@@ -1,3 +1,7 @@
+# 3.1.2 (2020-02-06)
+
+- Fixed the phone field component so that focus is not automatically applied to the phone field input when it is added back to a page after previously being hidden. [#32](https://github.com/blackbaud/skyux-phone-field/pull/32)
+
 # 3.1.1 (2019-10-07)
 
 - Fixed the phone field component to prevent `ngSubmit` events when users select the country selector button. [#26](https://github.com/blackbaud/skyux-phone-field/pull/26)
