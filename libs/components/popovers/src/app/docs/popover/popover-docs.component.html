@@ -93,14 +93,19 @@
       <sky-docs-design-guideline
         heading="Use when"
         headingStyle="success"
-      >
+        >
         <p>
-          Use popovers when users require access to small chunks of contextual content that are only valuable some of the time.
+          Use popovers to display additional contextual content that is valuable some of the time.
         </p>
-        <p>
-          Use popovers when tasks include complex or unfamiliar capabilities, and users require guidance on subtle-but-important elements.
-        </p>
-      </sky-docs-design-guideline>
+
+        <sky-docs-design-guideline-thumbnail
+          caption="Do use popovers to provide more context that might be helpful."
+          captionType="success"
+          imageSource="~/assets/img/guidelines/popover/popover-usage-1.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+          
+        </sky-docs-design-guideline>
       <sky-docs-design-guideline
         heading="Don't use when"
         headingStyle="danger"
@@ -108,10 +113,49 @@
         <p>
           Don't use popovers when the content is valuable most of the time. Use <a href="https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help">persistent inline help</a> instead.
         </p>
+          
+      <sky-docs-design-guideline-thumbnail
+          caption="Don't use popovers to display unfamiliar input requirements or important consequences."
+          captionType="danger"
+          imageSource="~/assets/img/guidelines/popover/popover-usage-2.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+        <sky-docs-design-guideline-thumbnail
+          caption="Do use persistent inline help to display requirements or call out consequences."
+          captionType="success"
+          imageSource="~/assets/img/guidelines/popover/popover-usage-3.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+        
+      <sky-docs-design-guideline>
+        <p>
+          Don't use popovers to display inputs or other interactions that are a necessary part of a workflow.
+        </p>
+        
+        <sky-docs-design-guideline-thumbnail
+          caption="Don't use popovers as part of completing a task."
+          captionType="danger"
+          imageSource="~/assets/img/guidelines/popover/popover-usage-4.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+        
+      </sky-docs-design-guideline>
+        
+      <sky-docs-design-guideline>
         <p>
           Don't use popovers when a large amount of content is necessary. Use a <a href="https://developer.blackbaud.com/skyux/components/flyout">flyout</a> instead.
         </p>
+        
+        <sky-docs-design-guideline-thumbnail
+          caption="Don't use popovers for detailed record previews."
+          captionType="danger"
+          imageSource="~/assets/img/guidelines/popover/popover-usage-5.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+        
       </sky-docs-design-guideline>
+        
     </sky-docs-demo-page-section>
 
     <sky-docs-demo-page-section
@@ -197,14 +241,14 @@
         </p>
 
         <sky-docs-design-guideline-thumbnail
-          caption="use small chunks of plain text."
+          caption="Do use small chunks of plain text."
           captionType="success"
           imageSource="~/assets/img/guidelines/popover/content-simple.png"
         >
         </sky-docs-design-guideline-thumbnail>
 
         <sky-docs-design-guideline-thumbnail
-          caption="use small chunks of formatted HTML."
+          caption="Do use small chunks of formatted HTML."
           captionType="success"
           imageSource="~/assets/img/guidelines/popover/content-html.png"
         >
@@ -217,10 +261,9 @@
         </p>
 
         <sky-docs-design-guideline-thumbnail
-          caption="display large amounts of content in popovers."
+          caption=" Don't display large amounts of content in popovers."
           captionType="danger"
-          imageSource="~/assets/img/guidelines/popover/content-dont-overload.png"
-          [showBorder]="true"
+          imageSource="~/assets/img/guidelines/popover/popover-usage-5.png"
         >
         </sky-docs-design-guideline-thumbnail>
       </sky-docs-design-guideline>
