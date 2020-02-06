@@ -23,25 +23,29 @@ import {
 })
 export class PhoneFieldReactiveTestComponent implements OnInit {
 
+  public defaultCountry: string;
+
+  public initialValue: Date | string;
+
+  public noValidate: boolean = false;
+
+  public phoneControl: FormControl;
+
+  public phoneForm: FormGroup;
+
+  public showInvalidDirective: boolean = false;
+
+  public showPhoneField: boolean = true;
+
+  public showSecondaryPhoneField: boolean = false;
+
   @ViewChild(SkyPhoneFieldInputDirective)
   public inputDirective: SkyPhoneFieldInputDirective;
 
   @ViewChild(SkyPhoneFieldComponent)
   public phoneFieldComponent: SkyPhoneFieldComponent;
 
-  public defaultCountry: string;
-
-  public showInvalidDirective: boolean = false;
-
-  public noValidate: boolean = false;
-
-  public phoneForm: FormGroup;
-
-  public phoneControl: FormControl;
-
-  public initialValue: Date | string;
-
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.phoneControl = new FormControl(this.initialValue);
     this.phoneForm = new FormGroup({
       'phone': this.phoneControl

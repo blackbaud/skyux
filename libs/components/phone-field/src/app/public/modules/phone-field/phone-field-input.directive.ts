@@ -68,7 +68,7 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
   @Input()
   public set disabled(value: boolean) {
     this.phoneFieldComponent.countrySelectDisabled = value;
-    this.adapterService.setElementDisabledState(this.elRef.nativeElement, value);
+    this.adapterService.setElementDisabledState(this.elRef, value);
     this._disabled = value;
   }
 
@@ -82,7 +82,7 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
   private set modelValue(value: string) {
     this._modelValue = value;
 
-    this.adapterService.setElementValue(this.elRef.nativeElement, value);
+    this.adapterService.setElementValue(this.elRef, value);
 
     if (value) {
       let formattedValue = this.formatNumber(value.toString());
@@ -125,13 +125,11 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
       );
     }
 
-    const element = this.elRef.nativeElement;
-
-    this.adapterService.addElementClass(element, 'sky-form-control');
-    this.adapterService.setElementPlaceholder(element,
+    this.adapterService.addElementClass(this.elRef, 'sky-form-control');
+    this.adapterService.setElementPlaceholder(this.elRef,
       this.phoneFieldComponent.selectedCountry.exampleNumber);
 
-    this.adapterService.setAriaLabel(element);
+    this.adapterService.setAriaLabel(this.elRef);
   }
 
   public ngAfterViewInit(): void {
@@ -139,7 +137,7 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
       .takeUntil(this.ngUnsubscribe)
       .subscribe((country: SkyPhoneFieldCountry) => {
         this.modelValue = this.elRef.nativeElement.value;
-        this.adapterService.setElementPlaceholder(this.elRef.nativeElement, country.exampleNumber);
+        this.adapterService.setElementPlaceholder(this.elRef, country.exampleNumber);
       });
 
     // This is needed to address a bug in Angular 4, where the value is not changed on the view.

@@ -1,7 +1,7 @@
 <form
   [formGroup]="phoneForm"
 >
-  <sky-phone-field
+  <sky-phone-field *ngIf="showPhoneField"
     [defaultCountry]="defaultCountry"
   >
     <input

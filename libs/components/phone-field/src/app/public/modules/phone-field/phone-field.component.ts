@@ -160,9 +160,9 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
 
   private defaultCountryData: SkyPhoneFieldCountry;
 
-  private phoneUtils = PhoneNumberUtil.getInstance();
+  private phoneInputAnimationTriggered = false;
 
-  private intialLoad = true;
+  private phoneUtils = PhoneNumberUtil.getInstance();
 
   private longestDialCodeLength = 0;
 
@@ -173,7 +173,8 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private adapterService: SkyPhoneFieldAdapterService,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private elementRef: ElementRef
   ) {
     /**
      * The json functions here ensures that we get a copy of the array and not the global original.
@@ -231,6 +232,8 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   }
 
   public toggleCountrySearch(showSearch: boolean): void {
+    this.phoneInputAnimationTriggered = true;
+
     if (showSearch) {
       this.phoneInputShown = false;
     } else {
@@ -244,7 +247,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     if (!this.countrySearchShown) {
       this.phoneInputShown = true;
     } else {
-      this.adapterService.focusElement(this.countrySearchInput.nativeElement);
+      this.adapterService.focusElement(this.countrySearchInput);
     }
   }
 
@@ -252,10 +255,9 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     if (!this.phoneInputShown) {
       this.countrySearchShown = true;
     } else {
-      if (this.intialLoad) {
-        this.intialLoad = false;
-      } else {
-        this.adapterService.focusPhoneInput();
+      if (this.phoneInputAnimationTriggered) {
+        this.adapterService.focusPhoneInput(this.elementRef);
+        this.phoneInputAnimationTriggered = false;
       }
     }
   }
