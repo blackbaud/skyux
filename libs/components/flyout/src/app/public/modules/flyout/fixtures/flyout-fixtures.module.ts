@@ -16,11 +16,11 @@ import {
 
 import {
   SkyModalModule
-} from '@skyux/modals/modules/modal';
+} from '@skyux/modals';
 
 import {
   SkyToastModule
-} from '@skyux/toast/modules/toast';
+} from '@skyux/toast';
 
 import {
   SkyFlyoutModule

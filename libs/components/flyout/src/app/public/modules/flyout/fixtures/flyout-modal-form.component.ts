@@ -4,7 +4,7 @@ import {
 
 import {
   SkyModalInstance
-} from '@skyux/modals/modules/modal';
+} from '@skyux/modals';
 
 import {
   SkyFlyoutModalFixtureContext

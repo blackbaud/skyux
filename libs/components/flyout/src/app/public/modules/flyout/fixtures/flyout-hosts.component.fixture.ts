@@ -4,12 +4,12 @@ import {
 
 import {
   SkyModalService
-} from '@skyux/modals/modules/modal';
+} from '@skyux/modals';
 
 import {
   SkyToastService,
   SkyToastType
-} from '@skyux/toast/modules/toast';
+} from '@skyux/toast';
 
 import {
   SkyFlyoutModalFixtureContext
