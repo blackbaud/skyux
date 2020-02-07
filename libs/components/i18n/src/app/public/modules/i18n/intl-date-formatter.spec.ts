@@ -44,7 +44,10 @@ describe('Intl date formatter', function () {
       'yyyy HH a Z'
     );
 
-    let hours = `0${testDate.getHours()}`;
+    let hours = testDate.getHours().toString();
+    if (hours.length === 1) {
+      hours = `0${hours}`;
+    }
 
     const meridiem = testDate.toLocaleString('en-US', {
       hour: 'numeric',

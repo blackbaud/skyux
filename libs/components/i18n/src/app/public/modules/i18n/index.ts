@@ -1,10 +1,8 @@
-// Include in the bundle, but not in the root API.
-import './get-string-for-locale';
-import './intl-date-formatter';
-import './intl-number-formatter';
-
+export * from './get-string-for-locale';
 export * from './host-locale-provider';
 export * from './i18n.module';
+export * from './intl-date-formatter';
+export * from './intl-number-formatter';
 export * from './lib-resources-provider';
 export * from './lib-resources-providers-token';
 export * from './lib-resources.pipe';

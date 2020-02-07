@@ -9,9 +9,12 @@ import {
 import 'rxjs/add/observable/of';
 
 import {
-  SkyAppLocaleInfo,
+  SkyAppLocaleInfo
+} from '../modules/i18n/locale-info';
+
+import {
   SkyAppResources
-} from '../modules';
+} from '../modules/i18n/resources';
 
 import {
   Format

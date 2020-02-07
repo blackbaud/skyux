@@ -7,7 +7,7 @@ import {
 // (This file will be removed entirely in the next major release.)
 import {
   SkyAppWindowRef
-} from '@skyux/core/modules/window/window-ref';
+} from '@skyux/core';
 
 import {
   Observable

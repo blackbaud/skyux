@@ -28,11 +28,16 @@ import {
 } from './host-locale-provider';
 
 import {
-  SkyAppLocaleProvider,
-  SkyAppResourcesService
-} from './index';
+  SkyAppLocaleProvider
+} from './locale-provider';
 
-import { SkyAppResourceNameProvider } from './resource-name-provider';
+import {
+  SkyAppResourcesService
+} from './resources.service';
+
+import {
+  SkyAppResourceNameProvider
+} from './resource-name-provider';
 
 describe('Resources service', () => {
   let resources: SkyAppResourcesService;
