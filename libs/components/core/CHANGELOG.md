@@ -1,3 +1,7 @@
+# 3.10.1 (2020-02-07)
+
+- Fixed the `getFocusableChildren()` method on `SkyCoreAdapterService` to include elements with the `tabIndex` attribute. [#118](https://github.com/blackbaud/skyux-core/pull/118)
+
 # 3.10.0 (2019-11-26)
 
 - Added `SkyAppTitleService` to implement basic logic for setting the window's title. SKY UX Builder replaces this service with an alternate implementation when the omnibar is present so that additional information such as the name of the selected service and the number of unread notifications can be added to the title. [#113](https://github.com/blackbaud/skyux-core/pull/113)
