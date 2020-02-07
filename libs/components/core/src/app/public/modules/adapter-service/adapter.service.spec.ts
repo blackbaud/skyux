@@ -38,7 +38,7 @@ describe('Core adapter service', () => {
   describe('getFocusableChildren', () => {
     it('should return an array of all focusable children', () => {
       const actual = component.getFocusableChildren(nativeElement);
-      expect(actual.length).toEqual(5);
+      expect(actual.length).toEqual(6);
     });
 
     it('should not return any tabIndex with -1', () => {
@@ -49,7 +49,7 @@ describe('Core adapter service', () => {
       links[0].tabIndex = '-1';
 
       const actual = component.getFocusableChildren(nativeElement);
-      expect(actual.length).toEqual(3);
+      expect(actual.length).toEqual(4);
     });
 
     it('should ignore tabIndexes when ignoreTabIndex = true', () => {
@@ -60,7 +60,7 @@ describe('Core adapter service', () => {
       links[0].tabIndex = '-1';
 
       const actual = component.getFocusableChildren(nativeElement, {ignoreTabIndex: true});
-      expect(actual.length).toEqual(5);
+      expect(actual.length).toEqual(6);
     });
 
     it('should not return hidden elements with default settings', () => {
@@ -71,7 +71,7 @@ describe('Core adapter service', () => {
 
     it('should return hidden elements when ignoreVisibility = true', () => {
       const actual = component.getFocusableChildren(nativeElement, {ignoreVisibility: true});
-      expect(actual.length).toEqual(6);
+      expect(actual.length).toEqual(7);
     });
   });
 

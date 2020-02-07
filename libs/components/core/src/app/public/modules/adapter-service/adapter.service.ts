@@ -23,7 +23,8 @@ const SKY_TABBABLE_SELECTOR = [
   'iframe',
   'object',
   'embed',
-  '*[contenteditable=true]'
+  '*[contenteditable=true]',
+  '*[tabindex]'
 ].join(', ');
 
 @Injectable()
