@@ -16,7 +16,9 @@ import {
 
 @Injectable()
 export class SkyErrorModalService {
-  constructor(private modal: SkyModalService) {}
+  constructor(
+    private modal: SkyModalService
+  ) { }
 
   public open(config: ErrorModalConfig) {
     const providers = [{ provide: ErrorModalConfig, useValue: config }];

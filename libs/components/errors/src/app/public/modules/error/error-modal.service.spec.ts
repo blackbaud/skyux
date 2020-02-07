@@ -6,19 +6,23 @@ import {
 import {
   MockModalService
 } from './fixtures/mocks';
+
 import {
   SkyErrorModalService
 } from './error-modal.service';
+
 import {
   ErrorModalConfig
 } from './error-modal-config';
+
 import {
   SkyErrorModalFormComponent
 } from './error-modal-form.component';
 
 describe('Error modal service', () => {
-  it('Test open is called with correct parameters', () => {
-    let modalService = new MockModalService(
+
+  it('should open with correct parameters', () => {
+    const modalService = new MockModalService(
       {
         removeComponent: function (): any {},
         addComponent: function (ref: any): any {}
@@ -41,7 +45,7 @@ describe('Error modal service', () => {
 
     // Uses the modalService Open overload that takes config
     // instead of providers (despite the property name)
-    let modalConfig = modalService.openCalls[0].providers as SkyModalConfigurationInterface;
+    const modalConfig = modalService.openCalls[0].providers as SkyModalConfigurationInterface;
     expect(modalConfig.ariaRole).toBe('alertdialog');
     expect(modalConfig.providers).toEqual(expectedProviders);
   });

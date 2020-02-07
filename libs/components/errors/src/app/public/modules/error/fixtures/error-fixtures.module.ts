@@ -1,22 +1,15 @@
 import {
-  NgModule
-} from '@angular/core';
-
-import {
   CommonModule
 } from '@angular/common';
 
 import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
-
-import {
-  SkyLibResourcesTestService
-} from '@skyux/i18n/testing';
+  NgModule
+} from '@angular/core';
 
 import {
   SkyErrorModule
-} from '../';
+} from '../error.module';
+
 import {
   ErrorTestComponent
 } from './error.component.fixture';
@@ -31,12 +24,6 @@ import {
   ],
   exports: [
     ErrorTestComponent
-  ],
-  providers: [
-    {
-      provide: SkyLibResourcesService,
-      useClass: SkyLibResourcesTestService
-    }
   ]
 })
 export class SkyErrorFixturesModule { }
