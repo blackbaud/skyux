@@ -9,3 +9,5 @@ export { SkyYearPickerComponent } from './yearpicker.component';
 export { SkyDatepickerComponent } from './datepicker.component';
 export { SkyDatepickerInputDirective } from './datepicker-input.directive';
 export { SkyFuzzyDatepickerInputDirective } from './datepicker-input-fuzzy.directive';
+export * from './fuzzy-date';
+export * from './fuzzy-date.service';

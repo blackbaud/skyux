@@ -23,24 +23,13 @@ import {
 } from '../datepicker/fuzzy-date.service';
 
 /**
- * Formats a fuzzy date value according to locale rules.
- * You can construct a format string using symbols to specify the components
- * of a date-time value, as described in the following table.
- * These fields are based on the [moment.js values](https://momentjs.com/docs/#/displaying/)
- *
- *  | Field type         | Token      | Output
- *  |--------------------|------------|
- *  | Month              | M          | 1 2 ... 11 12
- *  |                    | Mo         | 1st 2nd ... 11th 12th
- *  |                    | MM         | 01 02 ... 11 12
- *  |                    | MMM        | Jan Feb ... Nov Dec
- *  |                    | MMMM       | January February ... November December
- *  | Day                | D          | 1 2 ... 30 31
- *  |                    | Do         | 1st 2nd ... 30th 31st
- *  |                    | DD         | 01 02 ... 30 31
- *  | Year               | YY         | 70 71 ... 29 30
- *  |                    | YYYY       | 1970 1971 ... 2029 2030
- *  |                    | Y          | 1970 1971 ... 9999 +10000 +10001
+ * Formats date values using two or more date tokens that represent the day, month,
+ * and year. The tokens are described in the [moment.js values](https://momentjs.com/docs/#/displaying/).
+ * @example
+ * ```markup
+ * {{ myFuzzyDate | skyFuzzyDate:'MMM Y' }}
+ * {{ myFuzzyDate | skyFuzzyDate:'MMM Y':'en-CA' }}
+ * ```
  */
 @Pipe({
   name: 'skyFuzzyDate',
@@ -68,6 +57,15 @@ export class SkyFuzzyDatePipe implements OnDestroy, PipeTransform {
     this.ngUnsubscribe.complete();
   }
 
+  /**
+   * Transforms fuzzy date values using two or more date tokens that represent the day, month,
+   * and year.
+   * @param value Specifies the date value to transform.
+   * @param format Specifies the format to apply to the transform. You construct the format
+   * string with a two or more tokens that specify the components of date-time value. The
+   * tokens are described in the [moment.js values](https://momentjs.com/docs/#/displaying/).
+   * @param locale Specifies the locale code to use in the transform.
+   */
   public transform(
     value: SkyFuzzyDate,
     format: string,
