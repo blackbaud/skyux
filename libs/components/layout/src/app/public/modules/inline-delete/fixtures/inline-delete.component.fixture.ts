@@ -24,6 +24,8 @@ import {
 })
 export class InlineDeleteTestComponent {
 
+  public parentTabIndex: number;
+
   public pending = false;
 
   public showDelete = true;

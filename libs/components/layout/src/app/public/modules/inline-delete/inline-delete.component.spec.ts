@@ -96,7 +96,7 @@ describe('Inline delete component', () => {
       });
     }));
 
-    it('should skip items that are under the overlay when tabbing forward', async(() => {
+    it('should skip items that are under the overlay when tabbing forward', () => {
       fixture.componentInstance.showExtraButtons = true;
       fixture.detectChanges();
       (<HTMLElement>el.querySelector('#noop-button-1')).focus();
@@ -107,37 +107,46 @@ describe('Inline delete component', () => {
       });
       fixture.detectChanges();
       expect(document.activeElement).toBe(el.querySelector('.sky-btn-danger'));
-    }));
+    });
 
-    it('should skip items that are under the overlay when tabbing backward', async(() => {
+    it('should skip items that are under the overlay when tabbing backward', () => {
       fixture.componentInstance.showExtraButtons = true;
       fixture.detectChanges();
       (<HTMLElement>el.querySelector('.sky-btn-danger')).focus();
-      fixture.whenStable().then(() => {
+      SkyAppTestUtility.fireDomEvent(el.querySelector('#covered-button'), 'focusin', {
+        customEventInit: {
+          relatedTarget: el.querySelector('.sky-btn-danger')
+        }
+      });
+      fixture.detectChanges();
+      expect(document.activeElement).toBe(el.querySelector('#noop-button-1'));
+    });
+
+    it('should wrap around to the next focusable item on the screen when no direct item is found and tabbing backwards',
+      () => {
+        fixture.detectChanges();
+        (<HTMLElement>el.querySelector('.sky-btn-danger')).focus();
         SkyAppTestUtility.fireDomEvent(el.querySelector('#covered-button'), 'focusin', {
           customEventInit: {
             relatedTarget: el.querySelector('.sky-btn-danger')
           }
         });
         fixture.detectChanges();
-        expect(document.activeElement).toBe(el.querySelector('#noop-button-1'));
+        expect(document.activeElement).toBe(el.querySelector('.sky-inline-delete .sky-btn-default'));
       });
-    }));
 
-    it('should wrap around to the next focusable item on the screen when no direct item is found and tabbing backwards',
-      async(() => {
-        fixture.detectChanges();
-        (<HTMLElement>el.querySelector('.sky-btn-danger')).focus();
-        fixture.whenStable().then(() => {
-          SkyAppTestUtility.fireDomEvent(el.querySelector('#covered-button'), 'focusin', {
-            customEventInit: {
-              relatedTarget: el.querySelector('.sky-btn-danger')
-            }
-          });
-          fixture.detectChanges();
-          expect(document.activeElement).toBe(el.querySelector('.sky-inline-delete .sky-btn-default'));
-        });
-      }));
+    it('should leave focus on the parent if it is focused', () => {
+      fixture.componentInstance.parentTabIndex = 0;
+      fixture.detectChanges();
+      (<HTMLElement>el.querySelector('#inline-delete-fixture')).focus();
+      SkyAppTestUtility.fireDomEvent(el.querySelector('#inline-delete-fixture'), 'focusin', {
+        customEventInit: {
+          relatedTarget: el.querySelector('.sky-btn-danger')
+        }
+      });
+      fixture.detectChanges();
+      expect(document.activeElement).toBe(el.querySelector('#inline-delete-fixture'));
+    });
   });
 
   describe('accessibility', () => {

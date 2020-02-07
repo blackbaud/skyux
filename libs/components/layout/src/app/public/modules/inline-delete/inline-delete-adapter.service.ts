@@ -35,9 +35,9 @@ export class SkyInlineDeleteAdapterService {
     this.element = element;
     this.parentEl = element.parentElement;
     this.parentElUnlistenFn = this.renderer.listen(this.parentEl, 'focusin',
-      (event: KeyboardEvent) => {
+      (event: FocusEvent) => {
         const target: any = event.target;
-        if (!this.element.contains(target)) {
+        if (!this.element.contains(target) && this.parentEl !== target) {
           event.preventDefault();
           event.stopPropagation();
           event.stopImmediatePropagation();
