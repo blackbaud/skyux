@@ -1,3 +1,7 @@
+# 3.9.2 (2020-02-07)
+
+- Fixed the primary entry point to export `SkyIntlNumberFormatStyle`. [#54](https://github.com/blackbaud/skyux-i18n/pull/54)
+
 # 3.9.1 (2020-02-07)
 
 - Fixed several deep imports into other SKY UX packages to address build warnings when using Angular Ivy. [#52](https://github.com/blackbaud/skyux-i18n/pull/52)
