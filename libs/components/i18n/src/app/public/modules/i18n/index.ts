@@ -3,6 +3,7 @@ export * from './host-locale-provider';
 export * from './i18n.module';
 export * from './intl-date-formatter';
 export * from './intl-number-formatter';
+export * from './intl-number-format-style';
 export * from './lib-resources-provider';
 export * from './lib-resources-providers-token';
 export * from './lib-resources.pipe';
