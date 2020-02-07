@@ -1,3 +1,8 @@
+# 3.1.0 (2020-02-07)
+
+- Updated the error message text. [#12](https://github.com/blackbaud/skyux-errors/pull/12)
+- Added support for `@skyux-sdk/builder@3.13.0`. [#14](https://github.com/blackbaud/skyux-errors/pull/14)
+
 # 3.0.0 (2019-01-11)
 
 - Major version release.
