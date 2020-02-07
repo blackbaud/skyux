@@ -1,3 +1,7 @@
+# 3.6.2 (2020-02-07)
+
+- Added support for `@skyux/list-builder@3.6.3` to prevent redundant updates to `ListItemModel` and improve performance for the list view grid component. [#77](https://github.com/blackbaud/skyux-list-builder/pull/77)
+
 # 3.6.1 (2019-12-30)
 
 - Fixed the list view grid component to allow selecting rows on init by using the list component's `selectedIds` property. [#57](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/57)
