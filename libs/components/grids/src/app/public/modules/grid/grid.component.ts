@@ -347,7 +347,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, OnChanges, On
   public getTableHeaderClassNames(column: SkyGridColumnModel) {
     let classNames: string[] = [];
 
-    if (column.locked) {
+    if (column && column.locked) {
       classNames.push('sky-grid-header-locked');
     }
 
