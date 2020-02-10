@@ -28,9 +28,9 @@ import {
   ],
   imports: [
     CommonModule,
-    NoopAnimationsModule,
     SkyCardModule,
-    SkyInlineDeleteModule
+    SkyInlineDeleteModule,
+    NoopAnimationsModule
   ],
   exports: [
     CardTestComponent

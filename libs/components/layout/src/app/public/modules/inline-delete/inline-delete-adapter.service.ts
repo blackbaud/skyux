@@ -28,24 +28,28 @@ export class SkyInlineDeleteAdapterService {
   }
 
   public clearListeners(): void {
-    this.parentElUnlistenFn();
+    if (this.parentElUnlistenFn) {
+      this.parentElUnlistenFn();
+    }
   }
 
   public setEl(element: HTMLElement): void {
     this.element = element;
     this.parentEl = element.parentElement;
-    this.parentElUnlistenFn = this.renderer.listen(this.parentEl, 'focusin',
-      (event: FocusEvent) => {
-        const target: any = event.target;
-        if (!this.element.contains(target) && this.parentEl !== target) {
-          event.preventDefault();
-          event.stopPropagation();
-          event.stopImmediatePropagation();
+    if (this.parentEl) {
+      this.parentElUnlistenFn = this.renderer.listen(this.parentEl, 'focusin',
+        (event: FocusEvent) => {
+          const target: any = event.target;
+          if (!this.element.contains(target) && this.parentEl !== target) {
+            event.preventDefault();
+            event.stopPropagation();
+            event.stopImmediatePropagation();
 
-          target.blur();
-          this.focusNextElement(target, this.isShift(event), this.parentEl);
-        }
-      });
+            target.blur();
+            this.focusNextElement(target, this.isShift(event), this.parentEl);
+          }
+        });
+    }
   }
 
   private focusNextElement(targetElement: HTMLElement, shiftKey: boolean, busyEl: Element): void {
@@ -107,7 +111,7 @@ export class SkyInlineDeleteAdapterService {
     // Check if the element is hidden by css, not within the inline delete, or a wait is covering it
     return this.isElementHidden(element) ||
       (this.parentEl.contains(element) && (!this.element.contains(element) ||
-      this.parentEl.querySelector('.sky-wait-mask') !== null));
+        this.parentEl.querySelector('.sky-wait-mask') !== null));
   }
 
   private isElementHidden(element: any): boolean {

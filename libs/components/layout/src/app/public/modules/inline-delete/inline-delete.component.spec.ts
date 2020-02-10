@@ -66,7 +66,9 @@ describe('Inline delete component', () => {
     expect(cancelTriggeredSpy).toHaveBeenCalled();
   }));
 
-  it('should maintain css classes for card types correctly', () => {
+  it('should maintain css classes for card types correctly', fakeAsync(() => {
+    fixture.detectChanges();
+    tick();
     fixture.detectChanges();
     expect((<HTMLElement>el.querySelector('.sky-inline-delete'))
       .classList.contains('sky-inline-delete-standard')).toBeTruthy();
@@ -78,15 +80,16 @@ describe('Inline delete component', () => {
       .classList.contains('sky-inline-delete-standard')).toBeFalsy();
     expect((<HTMLElement>el.querySelector('.sky-inline-delete'))
       .classList.contains('sky-inline-delete-card')).toBeTruthy();
-  });
+  }));
 
-  it('should show the sky wait when pending mode is on', () => {
+  it('should show the sky wait when pending mode is on', fakeAsync(() => {
     fixture.detectChanges();
+    tick();
     expect((<HTMLElement>el.querySelector('.sky-wait-mask'))).toBeNull();
     cmp.pending = true;
     fixture.detectChanges();
     expect((<HTMLElement>el.querySelector('.sky-wait-mask'))).not.toBeNull();
-  });
+  }));
 
   describe('focus handling', () => {
     it('should focus the delete button on load', async(() => {
@@ -96,8 +99,10 @@ describe('Inline delete component', () => {
       });
     }));
 
-    it('should skip items that are under the overlay when tabbing forward', () => {
+    it('should skip items that are under the overlay when tabbing forward', fakeAsync(() => {
       fixture.componentInstance.showExtraButtons = true;
+      fixture.detectChanges();
+      tick();
       fixture.detectChanges();
       (<HTMLElement>el.querySelector('#noop-button-1')).focus();
       SkyAppTestUtility.fireDomEvent(el.querySelector('#covered-button'), 'focusin', {
@@ -107,11 +112,12 @@ describe('Inline delete component', () => {
       });
       fixture.detectChanges();
       expect(document.activeElement).toBe(el.querySelector('.sky-btn-danger'));
-    });
+    }));
 
-    it('should skip items that are under the overlay when tabbing backward', () => {
+    it('should skip items that are under the overlay when tabbing backward', fakeAsync(() => {
       fixture.componentInstance.showExtraButtons = true;
       fixture.detectChanges();
+      tick();
       (<HTMLElement>el.querySelector('.sky-btn-danger')).focus();
       SkyAppTestUtility.fireDomEvent(el.querySelector('#covered-button'), 'focusin', {
         customEventInit: {
@@ -120,10 +126,12 @@ describe('Inline delete component', () => {
       });
       fixture.detectChanges();
       expect(document.activeElement).toBe(el.querySelector('#noop-button-1'));
-    });
+    }));
 
     it('should wrap around to the next focusable item on the screen when no direct item is found and tabbing backwards',
-      () => {
+      fakeAsync(() => {
+        fixture.detectChanges();
+        tick();
         fixture.detectChanges();
         (<HTMLElement>el.querySelector('.sky-btn-danger')).focus();
         SkyAppTestUtility.fireDomEvent(el.querySelector('#covered-button'), 'focusin', {
@@ -133,10 +141,12 @@ describe('Inline delete component', () => {
         });
         fixture.detectChanges();
         expect(document.activeElement).toBe(el.querySelector('.sky-inline-delete .sky-btn-default'));
-      });
+      }));
 
-    it('should leave focus on the parent if it is focused', () => {
+    it('should leave focus on the parent if it is focused', fakeAsync(() => {
       fixture.componentInstance.parentTabIndex = 0;
+      fixture.detectChanges();
+      tick();
       fixture.detectChanges();
       (<HTMLElement>el.querySelector('#inline-delete-fixture')).focus();
       SkyAppTestUtility.fireDomEvent(el.querySelector('#inline-delete-fixture'), 'focusin', {
@@ -146,7 +156,7 @@ describe('Inline delete component', () => {
       });
       fixture.detectChanges();
       expect(document.activeElement).toBe(el.querySelector('#inline-delete-fixture'));
-    });
+    }));
   });
 
   describe('accessibility', () => {
