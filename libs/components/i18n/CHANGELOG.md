@@ -1,3 +1,7 @@
+# 3.9.3 (2020-02-10)
+
+- Fixed a circular reference to `@skyux/core`.
+
 # 3.9.2 (2020-02-07)
 
 - Fixed the primary entry point to export `SkyIntlNumberFormatStyle`. [#54](https://github.com/blackbaud/skyux-i18n/pull/54)
