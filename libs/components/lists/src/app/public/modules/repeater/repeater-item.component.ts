@@ -37,6 +37,10 @@ import {
 } from '@skyux/inline-form';
 
 import {
+  SkyInlineDeleteComponent
+} from '@skyux/layout/modules/inline-delete';
+
+import {
   Observable,
   Subject
 } from 'rxjs';
@@ -170,6 +174,9 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
 
   @ContentChild(SkyRepeaterItemContextMenuComponent, { read: ElementRef })
   public contextMenu: ElementRef;
+
+  @ContentChild(SkyInlineDeleteComponent)
+  public inlineDelete: SkyInlineDeleteComponent;
 
   @ViewChild('skyRepeaterItem', { read: ElementRef })
   private itemRef: ElementRef;
@@ -364,14 +371,16 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
   }
 
   public onRepeaterItemClick(event: MouseEvent): void {
-    const focusableChildren = this.adapterService.getFocusableChildren(this.itemRef);
-    if (focusableChildren.indexOf(<HTMLElement> event.target) < 0) {
-      this.childFocusIndex = undefined;
-    } else {
-      this.childFocusIndex = focusableChildren.indexOf(<HTMLElement> event.target);
+    if (!this.inlineDelete) {
+      const focusableChildren = this.adapterService.getFocusableChildren(this.itemRef);
+      if (focusableChildren.indexOf(<HTMLElement> event.target) < 0) {
+        this.childFocusIndex = undefined;
+      } else {
+        this.childFocusIndex = focusableChildren.indexOf(<HTMLElement> event.target);
+      }
+      this.repeaterService.focusListItem(this);
+      this.repeaterService.activateItem(this);
     }
-    this.repeaterService.focusListItem(this);
-    this.repeaterService.activateItem(this);
   }
 
   public updateForExpanded(value: boolean, animate: boolean): void {

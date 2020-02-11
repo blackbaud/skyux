@@ -3,6 +3,10 @@ import {
 } from '@angular/core';
 
 import {
+  SkyAppConfig
+} from '@skyux/config';
+
+import {
   SkyInlineFormButtonLayout,
   SkyInlineFormCloseArgs,
   SkyInlineFormConfig
@@ -20,6 +24,8 @@ export class RepeaterVisualComponent {
   public activeIndex = 0;
 
   public activeInlineFormId: number;
+
+  public animationsDisabled: boolean = false;
 
   public customConfig: SkyInlineFormConfig = {
     buttonLayout: SkyInlineFormButtonLayout.Custom,
@@ -78,7 +84,15 @@ export class RepeaterVisualComponent {
     }
   ];
 
+  public showActiveInlineDelete: boolean = false;
+
   public showContent: boolean = false;
+
+  public showStandardInlineDelete: boolean = false;
+
+  constructor(private skyAppConfig: SkyAppConfig) {
+    this.animationsDisabled = this.skyAppConfig.runtime.command === 'e2e';
+  }
 
   public deleteItem(index: any): void {
     this.items.splice(index, 1);
@@ -145,5 +159,21 @@ export class RepeaterVisualComponent {
 
   public onSpace(event: KeyboardEvent, index: number): void {
     this.onItemClick(index);
+  }
+
+  public hideActiveInlineDelete(): void {
+    this.showActiveInlineDelete = false;
+  }
+
+  public hideStandardInlineDelete(): void {
+    this.showStandardInlineDelete = false;
+  }
+
+  public triggerActiveInlineDelete(): void {
+    this.showActiveInlineDelete = true;
+  }
+
+  public triggerStandardInlineDelete(): void {
+    this.showStandardInlineDelete = true;
   }
 }

@@ -11,7 +11,9 @@
   (keydown)="onItemKeyDown($event)"
   #skyRepeaterItem
 >
-
+  <ng-content
+    select="sky-inline-delete"
+  ></ng-content>
   <ng-container *ngIf="inlineFormTemplate">
     <sky-inline-form
       [config]="inlineFormConfig"

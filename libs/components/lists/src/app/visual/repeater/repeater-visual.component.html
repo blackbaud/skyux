@@ -1,217 +1,174 @@
-<div
-  class="app-screenshot sky-margin-stacked-default"
-  id="screenshot-repeater"
+<ng-container
+  [@.disabled]="animationsDisabled"
 >
-  <h3>
-    Basic repeater
-  </h3>
-  <sky-repeater>
-    <sky-repeater-item>
-      <sky-repeater-item-title>
-        Title 1
-      </sky-repeater-item-title>
-      <sky-repeater-item-content>
-        <p>
-          Content 1
-        </p>
-        <div
-          id="drop-shadow-box"
-        ></div>
-      </sky-repeater-item-content>
-    </sky-repeater-item>
-    <sky-repeater-item>
-      <sky-repeater-item-title>
-        Title 2
-      </sky-repeater-item-title>
-      <sky-repeater-item-content>
-        Content 2
-      </sky-repeater-item-content>
-    </sky-repeater-item>
-  </sky-repeater>
-</div>
-
-<div
-  class="app-screenshot sky-margin-stacked-default"
-  id="screenshot-repeater-with-active-item"
->
-  <h3>
-    Repeater with activeIndex enabled
-  </h3>
-  <sky-repeater
-    [(activeIndex)]="activeIndex"
-  >
-    <sky-repeater-item *ngFor="let item of items; let i = index">
-      <sky-repeater-item-title>
-        {{ item.title }}
-      </sky-repeater-item-title>
-      <sky-repeater-item-content>
-        {{ item.note }}
-        <button
-          type="button"
-          (click)="deleteItem(i)"
-        >
-          Delete me
-        </button>
-      </sky-repeater-item-content>
-    </sky-repeater-item>
-  </sky-repeater>
-  <button
-    type="button"
-    (click)="addItem()"
-  >
-    Add new item
-  </button>
-  <button
-    type="button"
-    (click)="activeIndex = undefined"
-  >
-    Set activeIndex to undefined
-  </button>
-
-  <p>Active index: {{ activeIndex }}</p>
-</div>
-
-<div
-  class="app-screenshot sky-margin-stacked-default"
-  id="screenshot-repeater-collapsed"
->
-  <h3>
-    Collapsed repeater
-  </h3>
-  <sky-repeater
-    [expandMode]="'single'"
-  >
-    <sky-repeater-item
-      [isExpanded]="false"
-    >
-      <sky-repeater-item-title>
-        Title 1
-      </sky-repeater-item-title>
-      <sky-repeater-item-content>
-        Content 1
-      </sky-repeater-item-content>
-    </sky-repeater-item>
-    <sky-repeater-item
-      [isExpanded]="false"
-    >
-      <sky-repeater-item-title>
-        Title 2
-      </sky-repeater-item-title>
-      <sky-repeater-item-content>
-        Content 2
-      </sky-repeater-item-content>
-      <sky-repeater-item-content>
-        Content 2a
-      </sky-repeater-item-content>
-      <sky-repeater-item-content>
-        Content 2b
-      </sky-repeater-item-content>
-    </sky-repeater-item>
-    <sky-repeater-item
-      [isExpanded]="false"
-    >
-      <sky-repeater-item-title>
-        Title 3
-      </sky-repeater-item-title>
-      <sky-repeater-item-content *ngIf="showContent">
-        Content
-      </sky-repeater-item-content>
-    </sky-repeater-item>
-  </sky-repeater>
-  <button
-    type="button"
-    (click)="showContent = !showContent"
-  >
-    Toggle item content
-  </button>
-</div>
-
-<div
-  class="app-screenshot sky-margin-stacked-default"
-  id="screenshot-repeater-single"
->
-  <h3>
-    Single expand mode repeater
-  </h3>
-  <sky-repeater
-    [expandMode]="'single'"
-  >
-    <sky-repeater-item
-      [isExpanded]="false"
-    >
-      <sky-repeater-item-title>
-        Title 1
-      </sky-repeater-item-title>
-      <sky-repeater-item-content>
-        Content 1
-      </sky-repeater-item-content>
-    </sky-repeater-item>
-    <sky-repeater-item
-      [isExpanded]="true"
-    >
-      <sky-repeater-item-title>
-        Title 2
-      </sky-repeater-item-title>
-      <sky-repeater-item-content>
-        Content 2
-      </sky-repeater-item-content>
-    </sky-repeater-item>
-  </sky-repeater>
-</div>
-
-<div
-  class="app-screenshot sky-margin-stacked-default"
-  id="screenshot-repeater-multiple"
->
-  <h3>
-    Multiple expand mode repeater
-  </h3>
-  <sky-repeater
-    [expandMode]="'multiple'"
-  >
-    <sky-repeater-item
-      [isExpanded]="true"
-    >
-      <sky-repeater-item-title>
-        Title 1
-      </sky-repeater-item-title>
-      <sky-repeater-item-content>
-        Content 1
-      </sky-repeater-item-content>
-    </sky-repeater-item>
-    <sky-repeater-item
-      [isExpanded]="false"
-    >
-      <sky-repeater-item-title>
-        Title 2
-      </sky-repeater-item-title>
-      <sky-repeater-item-content>
-        Content 2
-      </sky-repeater-item-content>
-    </sky-repeater-item>
-    <sky-repeater-item
-      [isExpanded]="true"
-    >
-      <sky-repeater-item-title>
-        Title 3
-      </sky-repeater-item-title>
-      <sky-repeater-item-content>
-        Content 3
-      </sky-repeater-item-content>
-    </sky-repeater-item>
-  </sky-repeater>
-</div>
-
-<div
-  class="app-screenshot sky-margin-stacked-default"
-  id="screenshot-repeater-max-width"
->
-  <h3>
-    Repeater with max-width
-  </h3>
   <div
-    class="sky-repeater-max-width"
+    class="app-screenshot sky-margin-stacked-default"
+    id="screenshot-repeater"
   >
+    <h3>
+      Basic repeater
+    </h3>
+    <sky-repeater>
+      <sky-repeater-item>
+        <sky-repeater-item-title>
+          Title 1
+        </sky-repeater-item-title>
+        <sky-repeater-item-content>
+          <p>
+            Content 1
+          </p>
+          <div
+            id="drop-shadow-box"
+          ></div>
+        </sky-repeater-item-content>
+      </sky-repeater-item>
+      <sky-repeater-item>
+        <sky-repeater-item-title>
+          Title 2
+        </sky-repeater-item-title>
+        <sky-repeater-item-content>
+          Content 2
+        </sky-repeater-item-content>
+      </sky-repeater-item>
+    </sky-repeater>
+  </div>
+
+  <div
+    class="app-screenshot sky-margin-stacked-default"
+    id="screenshot-repeater-with-active-item"
+  >
+    <h3>
+      Repeater with activeIndex enabled
+    </h3>
+    <sky-repeater
+      [(activeIndex)]="activeIndex"
+    >
+      <sky-repeater-item *ngFor="let item of items; let i = index">
+        <sky-repeater-item-title>
+          {{ item.title }}
+        </sky-repeater-item-title>
+        <sky-repeater-item-content>
+          {{ item.note }}
+          <button
+            type="button"
+            (click)="deleteItem(i)"
+          >
+            Delete me
+          </button>
+        </sky-repeater-item-content>
+      </sky-repeater-item>
+    </sky-repeater>
+    <button
+      type="button"
+      (click)="addItem()"
+    >
+      Add new item
+    </button>
+    <button
+      type="button"
+      (click)="activeIndex = undefined"
+    >
+      Set activeIndex to undefined
+    </button>
+
+    <p>Active index: {{ activeIndex }}</p>
+  </div>
+
+  <div
+    class="app-screenshot sky-margin-stacked-default"
+    id="screenshot-repeater-collapsed"
+  >
+    <h3>
+      Collapsed repeater
+    </h3>
+    <sky-repeater
+      [expandMode]="'single'"
+    >
+      <sky-repeater-item
+        [isExpanded]="false"
+      >
+        <sky-repeater-item-title>
+          Title 1
+        </sky-repeater-item-title>
+        <sky-repeater-item-content>
+          Content 1
+        </sky-repeater-item-content>
+      </sky-repeater-item>
+      <sky-repeater-item
+        [isExpanded]="false"
+      >
+        <sky-repeater-item-title>
+          Title 2
+        </sky-repeater-item-title>
+        <sky-repeater-item-content>
+          Content 2
+        </sky-repeater-item-content>
+        <sky-repeater-item-content>
+          Content 2a
+        </sky-repeater-item-content>
+        <sky-repeater-item-content>
+          Content 2b
+        </sky-repeater-item-content>
+      </sky-repeater-item>
+      <sky-repeater-item
+        [isExpanded]="false"
+      >
+        <sky-repeater-item-title>
+          Title 3
+        </sky-repeater-item-title>
+        <sky-repeater-item-content *ngIf="showContent">
+          Content
+        </sky-repeater-item-content>
+      </sky-repeater-item>
+    </sky-repeater>
+    <button
+      type="button"
+      (click)="showContent = !showContent"
+    >
+      Toggle item content
+    </button>
+  </div>
+
+  <div
+    class="app-screenshot sky-margin-stacked-default"
+    id="screenshot-repeater-single"
+  >
+    <h3>
+      Single expand mode repeater
+    </h3>
+    <sky-repeater
+      [expandMode]="'single'"
+    >
+      <sky-repeater-item
+        [isExpanded]="false"
+      >
+        <sky-repeater-item-title>
+          Title 1
+        </sky-repeater-item-title>
+        <sky-repeater-item-content>
+          Content 1
+        </sky-repeater-item-content>
+      </sky-repeater-item>
+      <sky-repeater-item
+        [isExpanded]="true"
+      >
+        <sky-repeater-item-title>
+          Title 2
+        </sky-repeater-item-title>
+        <sky-repeater-item-content>
+          Content 2
+        </sky-repeater-item-content>
+      </sky-repeater-item>
+    </sky-repeater>
+  </div>
+
+  <div
+    class="app-screenshot sky-margin-stacked-default"
+    id="screenshot-repeater-multiple"
+  >
+    <h3>
+      Multiple expand mode repeater
+    </h3>
     <sky-repeater
       [expandMode]="'multiple'"
     >
@@ -219,323 +176,443 @@
         [isExpanded]="true"
       >
         <sky-repeater-item-title>
+          Title 1
+        </sky-repeater-item-title>
+        <sky-repeater-item-content>
+          Content 1
+        </sky-repeater-item-content>
+      </sky-repeater-item>
+      <sky-repeater-item
+        [isExpanded]="false"
+      >
+        <sky-repeater-item-title>
+          Title 2
+        </sky-repeater-item-title>
+        <sky-repeater-item-content>
+          Content 2
+        </sky-repeater-item-content>
+      </sky-repeater-item>
+      <sky-repeater-item
+        [isExpanded]="true"
+      >
+        <sky-repeater-item-title>
           Title 3
         </sky-repeater-item-title>
-          <sky-repeater-item-content>
-            <p>
-              To run services locally, there are several settings to configure.
-            </p>
-            <pre
-              class="app-repeater-visual-code-block"
-            >
-              <code>
-                &lt;appSettings&gt;
-                    &lt;add key="AuthorizationUrl" value="https://service-authorization.sky.blackbaud.com/" /&gt;
-                    &lt;add key="EntitlementServiceAudienceName" value="s21aetm00paas\Blackbaud.Entitlement.DataService" /&gt;
-                    &lt;add key="PermissionServiceAudienceName" value="local\Blackbaud.Entitlement.PermissionService" /&gt;
-                    &lt;add key="UserManagementServiceAudienceName" value="local\Blackbaud.Entitlement.UserManagementService" /&gt;
-                    &lt;add key="EntitlementsClientName" value="" /&gt; // get this from a nautilus team member
-                    &lt;add key="EntitlementsAccessToken" value="" /&gt; // get this from a nautilus team member
-                    &lt;add key="STSUrl" value="https://signin.blackbaud.com/" /&gt;
-                    &lt;add key="ConfirmInviteUrl" value="https://host.nxt.blackbaud.com/permissions/confirm-invite?envid=0&amp;legalEntityId=1&amp;invitationToken=2&amp;svcid=3" /&gt;
-                    &lt;add key="ConfirmInviteOrgUrl" value="https://host.nxt.blackbaud.com/admin-console/confirm-invite?legalEntityId=0&amp;invitationToken=1&amp;svcid=2" /&gt;
-                    &lt;add key="AIInstrumentationKey" value="" /&gt; // get this from a nautilus team member
-                &lt;/appSettings&gt;
-              </code>
-            </pre>
+        <sky-repeater-item-content>
+          Content 3
         </sky-repeater-item-content>
       </sky-repeater-item>
     </sky-repeater>
   </div>
-</div>
 
-<div
-  class="app-screenshot sky-margin-stacked-default"
-  id="screenshot-repeater-context-menu"
->
-  <h3>
-    Repeater with context menu
-  </h3>
-  <sky-repeater
-    [expandMode]="'single'"
+  <div
+    class="app-screenshot sky-margin-stacked-default"
+    id="screenshot-repeater-max-width"
   >
-    <sky-repeater-item>
-      <sky-repeater-item-context-menu>
+    <h3>
+      Repeater with max-width
+    </h3>
+    <div
+      class="sky-repeater-max-width"
+    >
+      <sky-repeater
+        [expandMode]="'multiple'"
+      >
+        <sky-repeater-item
+          [isExpanded]="true"
+        >
+          <sky-repeater-item-title>
+            Title 3
+          </sky-repeater-item-title>
+            <sky-repeater-item-content>
+              <p>
+                To run services locally, there are several settings to configure.
+              </p>
+              <pre
+                class="app-repeater-visual-code-block"
+              >
+                <code>
+                  &lt;appSettings&gt;
+                      &lt;add key="AuthorizationUrl" value="https://service-authorization.sky.blackbaud.com/" /&gt;
+                      &lt;add key="EntitlementServiceAudienceName" value="s21aetm00paas\Blackbaud.Entitlement.DataService" /&gt;
+                      &lt;add key="PermissionServiceAudienceName" value="local\Blackbaud.Entitlement.PermissionService" /&gt;
+                      &lt;add key="UserManagementServiceAudienceName" value="local\Blackbaud.Entitlement.UserManagementService" /&gt;
+                      &lt;add key="EntitlementsClientName" value="" /&gt; // get this from a nautilus team member
+                      &lt;add key="EntitlementsAccessToken" value="" /&gt; // get this from a nautilus team member
+                      &lt;add key="STSUrl" value="https://signin.blackbaud.com/" /&gt;
+                      &lt;add key="ConfirmInviteUrl" value="https://host.nxt.blackbaud.com/permissions/confirm-invite?envid=0&amp;legalEntityId=1&amp;invitationToken=2&amp;svcid=3" /&gt;
+                      &lt;add key="ConfirmInviteOrgUrl" value="https://host.nxt.blackbaud.com/admin-console/confirm-invite?legalEntityId=0&amp;invitationToken=1&amp;svcid=2" /&gt;
+                      &lt;add key="AIInstrumentationKey" value="" /&gt; // get this from a nautilus team member
+                  &lt;/appSettings&gt;
+                </code>
+              </pre>
+          </sky-repeater-item-content>
+        </sky-repeater-item>
+      </sky-repeater>
+    </div>
+  </div>
+
+  <div
+    class="app-screenshot sky-margin-stacked-default"
+    id="screenshot-repeater-context-menu"
+  >
+    <h3>
+      Repeater with context menu
+    </h3>
+    <sky-repeater
+      [expandMode]="'single'"
+    >
+      <sky-repeater-item>
+        <sky-repeater-item-context-menu>
+            <sky-dropdown
+              buttonType="context-menu"
+            >
+            <sky-dropdown-menu>
+              <sky-dropdown-item>
+                <button
+                  type="button"
+                >
+                  Option 1
+                </button>
+              </sky-dropdown-item>
+            </sky-dropdown-menu>
+          </sky-dropdown>
+        </sky-repeater-item-context-menu>
+        <sky-repeater-item-title>
+          Title 1
+        </sky-repeater-item-title>
+        <sky-repeater-item-content>
+          Content 1
+        </sky-repeater-item-content>
+      </sky-repeater-item>
+    </sky-repeater>
+  </div>
+
+  <div
+    class="app-screenshot sky-margin-stacked-default"
+    id="screenshot-repeater-selectable"
+  >
+    <h3>
+      Repeater with "selectable" enabled
+    </h3>
+    <sky-repeater
+      [expandMode]="'single'"
+    >
+      <sky-repeater-item *ngFor="let item of itemsForSelectableRepeater"
+        [isExpanded]="false"
+        [selectable]="true"
+        (collapse)="onCollapse()"
+        (expand)="onExpand()"
+        [(isSelected)]="item.isSelected"
+      >
+        <sky-repeater-item-title>
+          {{ item.title }}
+        </sky-repeater-item-title>
+        <sky-repeater-item-content>
+          {{ item.content }}
+        </sky-repeater-item-content>
+      </sky-repeater-item>
+    </sky-repeater>
+  </div>
+  <p>
+    Selected items: {{ getSelectedItems() }}
+  </p>
+
+  <div
+    class="app-screenshot sky-margin-stacked-default"
+    id="screenshot-repeater-selectable-context"
+  >
+    <h3>
+      Repeater with "selectable" enabled and context menu
+    </h3>
+    <sky-repeater
+      [expandMode]="'single'"
+    >
+      <sky-repeater-item
+        [isExpanded]="false"
+        [selectable]="true"
+        (collapse)="onCollapse()"
+        (expand)="onExpand()"
+      >
+        <sky-repeater-item-context-menu>
           <sky-dropdown
             buttonType="context-menu"
           >
-          <sky-dropdown-menu>
-            <sky-dropdown-item>
-              <button
-                type="button"
-              >
-                Option 1
-              </button>
-            </sky-dropdown-item>
-          </sky-dropdown-menu>
-        </sky-dropdown>
-      </sky-repeater-item-context-menu>
-      <sky-repeater-item-title>
-        Title 1
-      </sky-repeater-item-title>
-      <sky-repeater-item-content>
-        Content 1
-      </sky-repeater-item-content>
-    </sky-repeater-item>
-  </sky-repeater>
-</div>
-
-<div
-  class="app-screenshot sky-margin-stacked-default"
-  id="screenshot-repeater-selectable"
->
-  <h3>
-    Repeater with "selectable" enabled
-  </h3>
-  <sky-repeater
-    [expandMode]="'single'"
-  >
-    <sky-repeater-item *ngFor="let item of itemsForSelectableRepeater"
-      [isExpanded]="false"
-      [selectable]="true"
-      (collapse)="onCollapse()"
-      (expand)="onExpand()"
-      [(isSelected)]="item.isSelected"
-    >
-      <sky-repeater-item-title>
-        {{ item.title }}
-      </sky-repeater-item-title>
-      <sky-repeater-item-content>
-        {{ item.content }}
-      </sky-repeater-item-content>
-    </sky-repeater-item>
-  </sky-repeater>
-</div>
-<p>
-  Selected items: {{ getSelectedItems() }}
-</p>
-
-<div
-  class="app-screenshot sky-margin-stacked-default"
-  id="screenshot-repeater-selectable-context"
->
-  <h3>
-    Repeater with "selectable" enabled and context menu
-  </h3>
-  <sky-repeater
-    [expandMode]="'single'"
-  >
-    <sky-repeater-item
-      [isExpanded]="false"
-      [selectable]="true"
-      (collapse)="onCollapse()"
-      (expand)="onExpand()"
-    >
-      <sky-repeater-item-context-menu>
-        <sky-dropdown
-          buttonType="context-menu"
-        >
-          <sky-dropdown-menu>
-            <sky-dropdown-item>
-              <button
-                type="button"
-              >
-                Option 1
-              </button>
-            </sky-dropdown-item>
-          </sky-dropdown-menu>
-        </sky-dropdown>
-      </sky-repeater-item-context-menu>
-      <sky-repeater-item-title>
-        Title 1
-      </sky-repeater-item-title>
-      <sky-repeater-item-content>
-        Content 1
-      </sky-repeater-item-content>
-    </sky-repeater-item>
-    <sky-repeater-item
-      [isExpanded]="false"
-      [selectable]="true"
-    >
-      <sky-repeater-item-context-menu>
-        <sky-dropdown
-          buttonType="context-menu"
-        >
-          <sky-dropdown-menu>
-            <sky-dropdown-item>
-              <button
-                type="button"
-              >
-                Option 1
-              </button>
-            </sky-dropdown-item>
-          </sky-dropdown-menu>
-        </sky-dropdown>
-      </sky-repeater-item-context-menu>
-      <sky-repeater-item-title>
-        Title 2
-      </sky-repeater-item-title>
-      <sky-repeater-item-content>
-        Content 2
-      </sky-repeater-item-content>
-    </sky-repeater-item>
-  </sky-repeater>
-</div>
-
-<div
-  class="app-screenshot sky-margin-stacked-default"
-  id="screenshot-repeater-with-inline-form"
->
-  <h3>
-    Repeater with inline-form
-  </h3>
-  <sky-repeater>
-    <sky-repeater-item *ngFor="let item of items"
-      [inlineFormTemplate]="myInlineForm"
-      [showInlineForm]="activeInlineFormId === item.id"
-      [inlineFormConfig]="customConfig"
-      (inlineFormClose)="onInlineFormClose($event)"
-    >
-      <sky-repeater-item-title>
-          <sky-fluid-grid>
-            <sky-row>
-              <sky-column
-                screenXSmall="11"
-              >
-                  {{ item.title }}
-              </sky-column>
-              <sky-column
-                screenXSmall="1"
-              >
+            <sky-dropdown-menu>
+              <sky-dropdown-item>
                 <button
-                  class="sky-btn sky-btn-link sky-no-focus sky-demo-btn-edit"
                   type="button"
-                  (click)="activeInlineFormId = item.id"
                 >
-                  <sky-icon
-                    icon="pencil"
-                    size="sm"
-                  >
-                  </sky-icon>
+                  Option 1
                 </button>
-              </sky-column>
-            </sky-row>
-          </sky-fluid-grid>
-      </sky-repeater-item-title>
-
-      <sky-repeater-item-content>
-        {{ item.note }}
-      </sky-repeater-item-content>
-
-      <ng-template
-        #myInlineForm
+              </sky-dropdown-item>
+            </sky-dropdown-menu>
+          </sky-dropdown>
+        </sky-repeater-item-context-menu>
+        <sky-repeater-item-title>
+          Title 1
+        </sky-repeater-item-title>
+        <sky-repeater-item-content>
+          Content 1
+        </sky-repeater-item-content>
+      </sky-repeater-item>
+      <sky-repeater-item
+        [isExpanded]="false"
+        [selectable]="true"
       >
-        <div
-          class="sky-form-group"
-        >
-          <label
-            class="sky-control-label"
-            for="inline-form-title"
+        <sky-repeater-item-context-menu>
+          <sky-dropdown
+            buttonType="context-menu"
           >
-            Title
-          </label>
-          <input
-            class="sky-form-control"
-            id="inline-form-title"
-            type="text"
-            [(ngModel)]="item.title"
-          />
-        </div>
-        <div
-          class="sky-form-group"
-        >
-          <label
-            class="sky-control-label"
-            for="inline-form-note"
-          >
-            Note
-          </label>
-          <input
-            class="sky-form-control"
-            id="inline-form-note"
-            type="text"
-            [(ngModel)]="item.note"
-          />
-        </div>
-      </ng-template>
+            <sky-dropdown-menu>
+              <sky-dropdown-item>
+                <button
+                  type="button"
+                >
+                  Option 1
+                </button>
+              </sky-dropdown-item>
+            </sky-dropdown-menu>
+          </sky-dropdown>
+        </sky-repeater-item-context-menu>
+        <sky-repeater-item-title>
+          Title 2
+        </sky-repeater-item-title>
+        <sky-repeater-item-content>
+          Content 2
+        </sky-repeater-item-content>
+      </sky-repeater-item>
+    </sky-repeater>
+  </div>
 
-    </sky-repeater-item>
-  </sky-repeater>
-
-</div>
-
-<div
-  class="app-screenshot sky-margin-stacked-default"
-  id="screenshot-repeater-reorderable"
->
-  <h3>
-    Repeater with "reordering" enabled
-  </h3>
-  <sky-repeater
-    [expandMode]="'single'"
-    [reorderable]="true"
-    (orderChange)="onOrderChange($event)"
+  <div
+    class="app-screenshot sky-margin-stacked-default"
+    id="screenshot-repeater-with-inline-form"
   >
-    <sky-repeater-item
-      [isExpanded]="false"
-      [selectable]="true"
-      [tag]="'item1'"
-      (collapse)="onCollapse()"
-      (expand)="onExpand()"
-    >
-      <sky-repeater-item-context-menu>
-        <sky-dropdown
-          buttonType="context-menu"
+    <h3>
+      Repeater with inline-form
+    </h3>
+    <sky-repeater>
+      <sky-repeater-item *ngFor="let item of items"
+        [inlineFormTemplate]="myInlineForm"
+        [showInlineForm]="activeInlineFormId === item.id"
+        [inlineFormConfig]="customConfig"
+        (inlineFormClose)="onInlineFormClose($event)"
+      >
+        <sky-repeater-item-title>
+            <sky-fluid-grid>
+              <sky-row>
+                <sky-column
+                  screenXSmall="11"
+                >
+                    {{ item.title }}
+                </sky-column>
+                <sky-column
+                  screenXSmall="1"
+                >
+                  <button
+                    class="sky-btn sky-btn-link sky-no-focus sky-demo-btn-edit"
+                    type="button"
+                    (click)="activeInlineFormId = item.id"
+                  >
+                    <sky-icon
+                      icon="pencil"
+                      size="sm"
+                    >
+                    </sky-icon>
+                  </button>
+                </sky-column>
+              </sky-row>
+            </sky-fluid-grid>
+        </sky-repeater-item-title>
+
+        <sky-repeater-item-content>
+          {{ item.note }}
+        </sky-repeater-item-content>
+
+        <ng-template
+          #myInlineForm
         >
-          <sky-dropdown-menu>
-            <sky-dropdown-item>
-              <button
-                type="button"
-              >
-                Option 1
-              </button>
-            </sky-dropdown-item>
-          </sky-dropdown-menu>
-        </sky-dropdown>
-      </sky-repeater-item-context-menu>
-      <sky-repeater-item-title>
-        Title 1
-      </sky-repeater-item-title>
-      <sky-repeater-item-content>
-        Content 1
-      </sky-repeater-item-content>
-    </sky-repeater-item>
-    <sky-repeater-item
-      [isExpanded]="false"
-      [selectable]="true"
-      [tag]="'item2'"
+          <div
+            class="sky-form-group"
+          >
+            <label
+              class="sky-control-label"
+              for="inline-form-title"
+            >
+              Title
+            </label>
+            <input
+              class="sky-form-control"
+              id="inline-form-title"
+              type="text"
+              [(ngModel)]="item.title"
+            />
+          </div>
+          <div
+            class="sky-form-group"
+          >
+            <label
+              class="sky-control-label"
+              for="inline-form-note"
+            >
+              Note
+            </label>
+            <input
+              class="sky-form-control"
+              id="inline-form-note"
+              type="text"
+              [(ngModel)]="item.note"
+            />
+          </div>
+        </ng-template>
+
+      </sky-repeater-item>
+    </sky-repeater>
+
+  </div>
+
+  <div
+    class="app-screenshot sky-margin-stacked-default"
+    id="screenshot-repeater-reorderable"
+  >
+    <h3>
+      Repeater with "reordering" enabled
+    </h3>
+    <sky-repeater
+      [expandMode]="'single'"
+      [reorderable]="true"
+      (orderChange)="onOrderChange($event)"
     >
-      <sky-repeater-item-context-menu>
-        <sky-dropdown
-          buttonType="context-menu"
-        >
-          <sky-dropdown-menu>
-            <sky-dropdown-item>
-              <button
-                type="button"
-              >
-                Option 1
-              </button>
-            </sky-dropdown-item>
-          </sky-dropdown-menu>
-        </sky-dropdown>
-      </sky-repeater-item-context-menu>
-      <sky-repeater-item-title>
-        Title 2
-      </sky-repeater-item-title>
-      <sky-repeater-item-content>
-        Content 2
-      </sky-repeater-item-content>
-    </sky-repeater-item>
-  </sky-repeater>
-</div>
+      <sky-repeater-item
+        [isExpanded]="false"
+        [selectable]="true"
+        [tag]="'item1'"
+        (collapse)="onCollapse()"
+        (expand)="onExpand()"
+      >
+        <sky-repeater-item-context-menu>
+          <sky-dropdown
+            buttonType="context-menu"
+          >
+            <sky-dropdown-menu>
+              <sky-dropdown-item>
+                <button
+                  type="button"
+                >
+                  Option 1
+                </button>
+              </sky-dropdown-item>
+            </sky-dropdown-menu>
+          </sky-dropdown>
+        </sky-repeater-item-context-menu>
+        <sky-repeater-item-title>
+          Title 1
+        </sky-repeater-item-title>
+        <sky-repeater-item-content>
+          Content 1
+        </sky-repeater-item-content>
+      </sky-repeater-item>
+      <sky-repeater-item
+        [isExpanded]="false"
+        [selectable]="true"
+        [tag]="'item2'"
+      >
+        <sky-repeater-item-context-menu>
+          <sky-dropdown
+            buttonType="context-menu"
+          >
+            <sky-dropdown-menu>
+              <sky-dropdown-item>
+                <button
+                  type="button"
+                >
+                  Option 1
+                </button>
+              </sky-dropdown-item>
+            </sky-dropdown-menu>
+          </sky-dropdown>
+        </sky-repeater-item-context-menu>
+        <sky-repeater-item-title>
+          Title 2
+        </sky-repeater-item-title>
+        <sky-repeater-item-content>
+          Content 2
+        </sky-repeater-item-content>
+      </sky-repeater-item>
+    </sky-repeater>
+  </div>
+
+  <div
+    class="app-screenshot sky-margin-stacked-default"
+    id="screenshot-repeater-inline-delete"
+  >
+    <h3>
+      Repeater with inline deletes
+    </h3>
+    <sky-repeater
+      activeIndex="1"
+      [expandMode]="'single'"
+    >
+      <sky-repeater-item>
+        <sky-inline-delete *ngIf="showStandardInlineDelete"
+          (cancelTriggered)="hideStandardInlineDelete()"
+          (deleteTriggered)="hideStandardInlineDelete()"
+        ></sky-inline-delete>
+        <sky-repeater-item-context-menu>
+            <sky-dropdown
+              buttonType="context-menu"
+            >
+            <sky-dropdown-menu>
+              <sky-dropdown-item>
+                <button
+                  id="inline-delete-trigger-standard"
+                  type="button"
+                  (click)="triggerStandardInlineDelete()"
+                >
+                  Delete Item
+                </button>
+              </sky-dropdown-item>
+            </sky-dropdown-menu>
+          </sky-dropdown>
+        </sky-repeater-item-context-menu>
+        <sky-repeater-item-title>
+          Title 1
+        </sky-repeater-item-title>
+        <sky-repeater-item-content>
+          Content 1
+        </sky-repeater-item-content>
+      </sky-repeater-item
+      >
+      <sky-repeater-item>
+        <sky-inline-delete *ngIf="showActiveInlineDelete"
+          (cancelTriggered)="hideActiveInlineDelete()"
+          (deleteTriggered)="hideActiveInlineDelete()"
+        ></sky-inline-delete>
+        <sky-repeater-item-context-menu>
+            <sky-dropdown
+              buttonType="context-menu"
+            >
+            <sky-dropdown-menu>
+              <sky-dropdown-item>
+                <button
+                  id="inline-delete-trigger-active"
+                  type="button"
+                  (click)="triggerActiveInlineDelete()"
+                >
+                  Delete Item
+                </button>
+              </sky-dropdown-item>
+            </sky-dropdown-menu>
+          </sky-dropdown>
+        </sky-repeater-item-context-menu>
+        <sky-repeater-item-title>
+          Title 2
+        </sky-repeater-item-title>
+        <sky-repeater-item-content>
+          Content 2
+        </sky-repeater-item-content>
+      </sky-repeater-item>
+    </sky-repeater>
+  </div>
+</ng-container>
