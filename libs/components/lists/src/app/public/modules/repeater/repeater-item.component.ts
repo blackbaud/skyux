@@ -234,14 +234,15 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
   }
 
   public ngOnInit(): void {
-    setTimeout(() => {
-      this.repeaterService.registerItem(this);
-      this.repeaterService.activeItemChange
-        .takeUntil(this.ngUnsubscribe)
-        .subscribe((item: SkyRepeaterItemComponent) => {
-          this.isActive = this === item;
+    this.repeaterService.registerItem(this);
+    this.repeaterService.activeItemChange
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe((item: SkyRepeaterItemComponent) => {
+        const newIsActiveValue = this === item;
+        if (newIsActiveValue !== this.isActive) {
+          this.isActive = newIsActiveValue;
           this.changeDetector.markForCheck();
-        });
+        }
     });
 
     // When service emits a focus change, set the tabIndex and browser focus.
