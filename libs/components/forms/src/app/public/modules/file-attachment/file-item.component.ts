@@ -31,6 +31,19 @@ export class SkyFileItemComponent implements DoCheck {
 
   @Output()
   public deleteFile = new EventEmitter<SkyFileLink | SkyFileItem>();
+
+  public get fileName(): string {
+    return (<SkyFileItem>this.fileItem).file.name;
+  }
+
+  public get fileSize(): number {
+    return (<SkyFileItem>this.fileItem).file.size;
+  }
+
+  public get url(): string {
+    return (<SkyFileLink>this.fileItem).url;
+  }
+
   public icon: string;
 
   private differ: KeyValueDiffer<any, any>;
