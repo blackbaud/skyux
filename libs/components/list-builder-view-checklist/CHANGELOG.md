@@ -1,3 +1,8 @@
+# 3.2.0 (2020-02-12)
+
+- Added support for `@skyux-sdk/builder@3.14.0`. [#39](https://github.com/blackbaud/skyux-list-builder-view-checklist/pull/39)
+- Removed a few deep imports into other SKY UX packages. [#39](https://github.com/blackbaud/skyux-list-builder-view-checklist/pull/39)
+
 # 3.1.3 (2019-05-30)
 
 - Fixed the list view checklist component to add space between checkboxes and the right-hand side of the checklist. [#32](https://github.com/blackbaud/skyux-list-builder-view-checklist/pull/32)
