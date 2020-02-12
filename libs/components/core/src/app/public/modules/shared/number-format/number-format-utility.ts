@@ -6,12 +6,9 @@
 // https://github.com/angular/angular/blob/4.4.x/packages/common/src/pipes/number_pipe.ts
 
 import {
-  SkyIntlNumberFormatStyle
-} from '@skyux/i18n/modules/i18n/intl-number-format-style';
-
-import {
+  SkyIntlNumberFormatStyle,
   SkyIntlNumberFormatter
-} from '@skyux/i18n/modules/i18n/intl-number-formatter';
+} from '@skyux/i18n';
 
 function isNumeric(value: any): boolean {
   return !isNaN(value - parseFloat(value));
