@@ -26,17 +26,19 @@ import {
   SkyActionButtonModule,
   SkyCardModule,
   SkyDefinitionListModule,
+  SkyDockModule,
   SkyFluidGridModule,
+  SkyInlineDeleteModule,
   SkyPageModule,
   SkyPageSummaryModule,
   SkyTextExpandModule,
   SkyTextExpandRepeaterModule,
   SkyToolbarModule
- } from './public';
+} from './public';
 
 import {
-  SkyInlineDeleteModule
-} from './public/modules/inline-delete/inline-delete.module';
+  DockItemVisualComponent
+} from './visual/dock/dock-item-visual.component';
 
 @NgModule({
   exports: [
@@ -46,6 +48,7 @@ import {
     SkyAvatarModule,
     SkyCardModule,
     SkyDefinitionListModule,
+    SkyDockModule,
     SkyDocsToolsModule,
     SkyFluidGridModule,
     SkyIconModule,
@@ -57,6 +60,9 @@ import {
     SkyTextExpandRepeaterModule,
     SkyToolbarModule,
     SkyInlineDeleteModule
+  ],
+  entryComponents: [
+    DockItemVisualComponent
   ],
   providers: [
     {
