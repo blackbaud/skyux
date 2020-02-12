@@ -1,3 +1,8 @@
+# 3.7.0 (2020-02-12)
+
+- Added the dock service which appends components to the bottom of the page. [#67](https://github.com/blackbaud/skyux-layout/pull/67)
+- Fixed an Angular compiler template checking error on the text expand repeater component's HTML template. [#75](https://github.com/blackbaud/skyux-layout/pull/75)
+
 # 3.6.2 (2020-02-10)
 
 - Fixed the inline delete component to watch for focus events after they fully display. [#73](https://github.com/blackbaud/skyux-layout/pull/73)
