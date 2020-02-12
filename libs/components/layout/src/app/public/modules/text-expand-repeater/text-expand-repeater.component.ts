@@ -49,9 +49,10 @@ export class SkyTextExpandRepeaterComponent implements AfterViewInit {
   public expandable: boolean;
   public contentSectionId: string = `sky-text-expand-repeater-content-${++nextId}`;
 
+  public isExpanded: boolean = false;
+
   private seeMoreText: string;
   private seeLessText: string;
-  private isExpanded: boolean = false;
   @ViewChild('container', { read: ElementRef })
   private containerEl: ElementRef;
   private items: Array<HTMLElement>;
