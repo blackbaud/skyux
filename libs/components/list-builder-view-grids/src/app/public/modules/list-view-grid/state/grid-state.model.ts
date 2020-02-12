@@ -1,5 +1,5 @@
 import { AsyncList } from 'microedge-rxstate/dist';
-import { SkyGridColumnModel } from '@skyux/grids/modules/grid/grid-column.model';
+import { SkyGridColumnModel } from '@skyux/grids';
 
 export class GridStateModel {
   public columns: AsyncList<SkyGridColumnModel> = new AsyncList<SkyGridColumnModel>();

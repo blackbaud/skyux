@@ -1,4 +1,4 @@
-import { SkyGridColumnModel } from '@skyux/grids/modules/grid/grid-column.model';
+import { SkyGridColumnModel } from '@skyux/grids';
 
 export class ListViewDisplayedGridColumnsLoadAction {
   constructor(

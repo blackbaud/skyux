@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 
 import {
   SkyGridModule
-} from '@skyux/grids/modules/grid/grid.module';
+} from '@skyux/grids';
 import {
   SkyListModule
-} from '@skyux/list-builder/modules/list/list.module';
+} from '@skyux/list-builder';
 
 import { SkyListViewGridModule } from '../list-view-grid.module';
 import { ListViewGridTestComponent } from './list-view-grid.component.fixture';

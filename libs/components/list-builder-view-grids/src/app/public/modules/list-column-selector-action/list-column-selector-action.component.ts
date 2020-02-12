@@ -25,7 +25,7 @@ import {
   ListState,
   ListStateDispatcher,
   ListToolbarItemModel
-} from '@skyux/list-builder/modules/list/state';
+} from '@skyux/list-builder';
 
 import {
   SkyGridColumnModel

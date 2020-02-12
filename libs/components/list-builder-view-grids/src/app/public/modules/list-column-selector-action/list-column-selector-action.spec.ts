@@ -27,17 +27,12 @@ import {
 
 import {
   ListState,
-  ListStateDispatcher
-} from '@skyux/list-builder/modules/list/state';
-import {
+  ListStateDispatcher,
   SkyListComponent,
   SkyListModule,
   SkyListSecondaryActionsModule,
   SkyListToolbarModule
 } from '@skyux/list-builder';
-import {
-  SkyListSecondaryActionsService
-} from '@skyux/list-builder/modules/list-secondary-actions/list-secondary-actions.service';
 
 import {
   SkyGridModule
@@ -105,15 +100,9 @@ describe('List column selector action', () => {
   describe('toolbar button', () => {
     let state: ListState,
       dispatcher: ListStateDispatcher,
-      component: ListColumnSelectorActionTestComponent,
-      secondaryActionsService: SkyListSecondaryActionsService;
+      component: ListColumnSelectorActionTestComponent;
 
     beforeEach(() => {
-      secondaryActionsService = jasmine.createSpyObj(
-        'SkyListSecondaryActionsService',
-        ['addSecondaryAction', 'removeSecondaryAction']
-      );
-
       TestBed.configureTestingModule({
         declarations: [
           ListColumnSelectorActionTestComponent
@@ -126,9 +115,6 @@ describe('List column selector action', () => {
           SkyGridModule,
           SkyListViewGridModule,
           NoopAnimationsModule
-        ],
-        providers: [
-          { provide: SkyListSecondaryActionsService, useValue: secondaryActionsService }
         ]
       })
         .overrideComponent(SkyListComponent, {

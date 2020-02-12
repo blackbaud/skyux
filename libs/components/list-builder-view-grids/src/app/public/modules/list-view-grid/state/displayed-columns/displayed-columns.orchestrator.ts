@@ -1,7 +1,7 @@
 import { GridStateOrchestrator } from '../grid-state.rxstate';
 import { AsyncList } from 'microedge-rxstate/dist';
 
-import { SkyGridColumnModel } from '@skyux/grids/modules/grid/grid-column.model';
+import { SkyGridColumnModel } from '@skyux/grids';
 import { ListViewDisplayedGridColumnsLoadAction } from './actions';
 
 const moment = require('moment');

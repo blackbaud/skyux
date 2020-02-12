@@ -8,11 +8,11 @@ import {
 
 import {
   SkyWaitModule
-} from '@skyux/indicators/modules/wait/wait.module';
+} from '@skyux/indicators';
 
 import {
   SkyGridModule
-} from '@skyux/grids/modules/grid/grid.module';
+} from '@skyux/grids';
 
 import {
   SkyListViewGridResourcesModule

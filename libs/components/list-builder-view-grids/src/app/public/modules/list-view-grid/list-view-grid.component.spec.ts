@@ -21,24 +21,18 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
+  SkyGridColumnModel,
   SkyGridComponent
 } from '@skyux/grids';
-
-import {
-  SkyGridColumnModel
-} from '@skyux/grids/modules/grid/grid-column.model';
 
 import {
   ListState,
   ListStateDispatcher,
   ListViewsLoadAction,
   ListViewModel,
-  ListItemsLoadAction
-} from '@skyux/list-builder/modules/list/state';
-
-import {
+  ListItemsLoadAction,
   SkyListComponent
-} from '@skyux/list-builder/modules/list/list.component';
+} from '@skyux/list-builder';
 
 import {
   ListItemModel

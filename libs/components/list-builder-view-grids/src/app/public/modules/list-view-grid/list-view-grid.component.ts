@@ -42,7 +42,7 @@ import {
   ListStateDispatcher,
   ListState,
   ListSelectedModel
-} from '@skyux/list-builder/modules/list/state';
+} from '@skyux/list-builder';
 
 import {
   getData,
