@@ -1,3 +1,8 @@
+# 3.1.3 (2020-02-12)
+
+- Fixed an Angular compiler template checking error on the tokens component's HTML template. [#55](https://github.com/blackbaud/skyux-indicators/pull/55)
+- Fixed a SCSS syntax error on the icon component style sheet. [#56](https://github.com/blackbaud/skyux-indicators/pull/56)
+
 # 3.1.2 (2019-12-30)
 
 - Fixed the wait and token components to prevent errors when using the keyboard. [#50](https://github.com/blackbaud/skyux-indicators/pull/50)
