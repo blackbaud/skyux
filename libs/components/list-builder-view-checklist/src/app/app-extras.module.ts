@@ -3,6 +3,10 @@ import {
 } from '@angular/core';
 
 import {
+  SkyAppLinkModule
+} from '@skyux/router';
+
+import {
   SkyListModule,
   SkyListToolbarModule
 } from '@skyux/list-builder';
@@ -13,6 +17,7 @@ import {
 
 @NgModule({
   exports: [
+    SkyAppLinkModule,
     SkyListModule,
     SkyListViewChecklistModule,
     SkyListToolbarModule

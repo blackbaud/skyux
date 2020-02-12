@@ -27,19 +27,16 @@ import {
 } from '@skyux/list-builder-common';
 
 import {
+  ListItemsLoadAction,
+  ListState,
+  ListStateDispatcher,
+  ListViewsLoadAction,
+  ListViewModel,
   SkyListModule,
   SkyListComponent,
   SkyListToolbarModule,
   SkyListPagingModule
 } from '@skyux/list-builder';
-
-import {
-  ListItemsLoadAction,
-  ListState,
-  ListStateDispatcher,
-  ListViewsLoadAction,
-  ListViewModel
-} from '@skyux/list-builder/modules/list/state';
 
 import {
   ListViewChecklistTestComponent
@@ -55,7 +52,7 @@ import {
 
 import {
   SkyListViewChecklistModule
-} from './';
+} from './list-view-checklist.module';
 
 import {
   ListViewChecklistItemsLoadAction
