@@ -31,7 +31,7 @@ import {
 } from '@skyux/indicators';
 
 import {
-  SkyWindowRefService
+  SkyAppWindowRef
 } from '@skyux/core';
 
 import { SkyLookupAutocompleteAdapter } from './lookup-autocomplete-adapter';
@@ -100,7 +100,7 @@ export class SkyLookupComponent
   constructor(
     private changeDetector: ChangeDetectorRef,
     private elementRef: ElementRef,
-    private windowRef: SkyWindowRefService
+    private windowRef: SkyAppWindowRef
   ) {
     super();
   }
@@ -144,7 +144,7 @@ export class SkyLookupComponent
   }
 
   public onTokensFocusIndexOverRange() {
-    this.windowRef.getWindow().setTimeout(() => {
+    this.windowRef.nativeWindow.setTimeout(() => {
       this.focusInput();
     });
   }
@@ -159,7 +159,7 @@ export class SkyLookupComponent
 
     if (key === 'delete') {
       this.sendTokensMessage(SkyTokensMessageType.RemoveActiveToken);
-      this.windowRef.getWindow().setTimeout(() => {
+      this.windowRef.nativeWindow.setTimeout(() => {
         this.sendTokensMessage(SkyTokensMessageType.FocusActiveToken);
       });
       event.preventDefault();
@@ -279,7 +279,7 @@ export class SkyLookupComponent
 
   private focusInputOnHostClick() {
     const hostElement = this.elementRef.nativeElement;
-    const documentObj = this.windowRef.getWindow().document;
+    const documentObj = this.windowRef.nativeWindow.document;
 
     // Handles focusing the input when the host is clicked.
     // The input should NOT be focused if other elements (tokens, etc.)

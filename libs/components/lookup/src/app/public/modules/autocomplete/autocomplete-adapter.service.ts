@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
 
 import {
-  SkyWindowRefService
+  SkyAppWindowRef
 } from '@skyux/core';
 
 @Injectable()
@@ -18,19 +18,19 @@ export class SkyAutocompleteAdapterService {
 
   constructor(
     private rendererFactory: RendererFactory2,
-    private windowRef: SkyWindowRefService
+    private windowRef: SkyAppWindowRef
   ) {
     this.renderer = this.rendererFactory.createRenderer(undefined, undefined);
   }
 
   public watchDropdownWidth(elementRef: ElementRef): void {
     Observable
-      .fromEvent(this.windowRef.getWindow(), 'resize')
+      .fromEvent(this.windowRef.nativeWindow, 'resize')
       .subscribe(() => {
         this.setDropdownWidth(elementRef);
       });
 
-    this.windowRef.getWindow().setTimeout(() => {
+    this.windowRef.nativeWindow.setTimeout(() => {
       this.setDropdownWidth(elementRef);
     });
   }

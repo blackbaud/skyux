@@ -1,20 +1,20 @@
 import {
   ElementRef,
   Injectable,
-  Renderer
+  Renderer2
 } from '@angular/core';
 
 @Injectable()
 export class SkySearchAdapterService {
 
-  constructor(private renderer: Renderer) { }
+  constructor(private renderer: Renderer2) { }
 
   public selectInput(searchEl: ElementRef) {
-    this.renderer.invokeElementMethod(this.getInputEl(searchEl), 'select');
+    this.getInputEl(searchEl).select();
   }
 
   public focusInput(searchEl: ElementRef) {
-    this.renderer.invokeElementMethod(this.getInputEl(searchEl), 'focus');
+    this.getInputEl(searchEl).focus();
   }
 
   public startInputAnimation(searchEl: ElementRef) {
@@ -24,12 +24,12 @@ export class SkySearchAdapterService {
 
     this.getInputContainerEl(searchEl).style.minWidth = minWidth.toString() + 'px';
 
-    this.renderer.setElementStyle(this.getInputContainerEl(searchEl),
+    this.renderer.setStyle(this.getInputContainerEl(searchEl),
       'min-width', minWidth.toString() + 'px');
   }
 
   public endInputAnimation(searchEl: ElementRef) {
-    this.renderer.setElementStyle(this.getInputContainerEl(searchEl),
+    this.renderer.setStyle(this.getInputContainerEl(searchEl),
       'min-width', undefined);
   }
 

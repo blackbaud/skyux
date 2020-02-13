@@ -2,6 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
+import {
+  SkyAppWindowRef
+} from '@skyux/core';
+
 import { SkyAutocompleteModule } from '../autocomplete';
 import { SkyTokensModule } from '@skyux/indicators';
 
@@ -19,6 +23,9 @@ import { SkyLookupComponent } from './lookup.component';
   ],
   exports: [
     SkyLookupComponent
+  ],
+  providers: [
+    SkyAppWindowRef
   ]
 })
 export class SkyLookupModule { }

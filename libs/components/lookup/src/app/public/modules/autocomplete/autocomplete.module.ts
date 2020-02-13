@@ -9,6 +9,10 @@ import {
 } from '@angular/forms';
 
 import {
+  SkyAppWindowRef
+} from '@skyux/core';
+
+import {
   SkyDropdownModule
 } from '@skyux/popovers';
 import {
@@ -43,6 +47,9 @@ import {
   exports: [
     SkyAutocompleteComponent,
     SkyAutocompleteInputDirective
+  ],
+  providers: [
+    SkyAppWindowRef
   ]
 })
 export class SkyAutocompleteModule { }
