@@ -1,3 +1,8 @@
+# 3.5.2 (2020-02-13)
+
+- Fixed the grid component to handle scroll events when the top scroll bar fails to render. [#100](https://github.com/blackbaud/skyux-grids/pull/100)
+- Fixed the grid component to properly display the top scroll bar as needed when windows are resized. [#101](https://github.com/blackbaud/skyux-grids/pull/101)
+
 # 3.5.1 (2020-02-10)
 
 - Fixed the grid component to properly watch for undefined columns when getting a column's visual styles. [#96](https://github.com/blackbaud/skyux-grids/pull/96)
