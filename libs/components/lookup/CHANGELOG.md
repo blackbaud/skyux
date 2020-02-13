@@ -1,3 +1,7 @@
+# 3.2.1 (2020-02-13)
+
+- Fixed the autocomplete component to use the `Renderer2` service instead of the deprecated `Renderer` service. [#50](https://github.com/blackbaud/skyux-lookup/pull/50)
+
 # 3.2.0 (2019-11-21)
 
 - Added a "No results found" message to the autocomplete component for empty search responses. [#47](https://github.com/blackbaud/skyux-lookup/pull/47) (Thanks [@blackbaud-GavinNicol](https://github.com/blackbaud-GavinNicol)!)
