@@ -1,3 +1,7 @@
+# 3.2.1 (2020-02-13)
+
+- Fixed the colorpicker component to use the `Renderer2` service instead of the deprecated `Renderer` service. [#50](https://github.com/blackbaud/skyux-lookup/pull/50)
+
 # 3.2.0 (2019-11-15)
 
 - Added a close message to the colorpicker component's message stream. [#29](https://github.com/blackbaud/skyux-colorpicker/pull/29) (Thanks, [@blackbaud-conorwright](https://github.com/blackbaud-conorwright)!)
