@@ -3,13 +3,14 @@ import {
   ElementRef,
   forwardRef,
   HostListener,
+  Injector,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
-  Renderer,
+  Renderer2,
   SimpleChanges,
-  Injector
+  Type
 } from '@angular/core';
 
 import {
@@ -108,7 +109,7 @@ export class SkyColorpickerInputDirective
 
   constructor(
     private elementRef: ElementRef,
-    private renderer: Renderer,
+    private renderer: Renderer2,
     private service: SkyColorpickerService,
     private resourcesService: SkyLibResourcesService,
     private injector: Injector
@@ -139,7 +140,7 @@ export class SkyColorpickerInputDirective
   public ngOnInit() {
     const element = this.elementRef.nativeElement;
 
-    this.renderer.setElementClass(element, 'sky-form-control', true);
+    this.renderer.addClass(element, 'sky-form-control');
     this.skyColorpickerInput.initialColor = this.initialColor;
     this.skyColorpickerInput.returnFormat = this.returnFormat;
 
@@ -156,7 +157,7 @@ export class SkyColorpickerInputDirective
 
     /// Set aria-label as default, if not set
     if (!this.elementRef.nativeElement.getAttribute('aria-label')) {
-      this.renderer.setElementAttribute(
+      this.renderer.setAttribute(
         this.elementRef.nativeElement,
         'aria-label',
         this.getString('skyux_colorpicker_input_default_label'));
@@ -170,7 +171,7 @@ export class SkyColorpickerInputDirective
     }
 
     element.setAttribute('readonly', 'true');
-    this.renderer.setElementClass(element, 'sky-colorpicker-input', true);
+    this.renderer.addClass(element, 'sky-colorpicker-input');
   }
 
   public ngOnDestroy() {
@@ -209,7 +210,7 @@ export class SkyColorpickerInputDirective
         this.skyColorpickerInput.initialColor = value;
       }
       this.skyColorpickerInput.lastAppliedColor = value;
-      let control: FormControl = (<NgControl>this.injector.get(NgControl)).control as FormControl;
+      let control: FormControl = (this.injector.get<NgControl>(NgControl as Type<NgControl>)).control as FormControl;
       if (control) {
         control.setValue(this.modelValue, { emitEvent: false });
       }
@@ -250,8 +251,8 @@ export class SkyColorpickerInputDirective
 
     this.skyColorpickerInput.setColorFromString(output);
 
-    this.renderer.setElementStyle(element, 'background-color', setElementValue);
-    this.renderer.setElementProperty(element, 'value', output);
+    this.renderer.setStyle(element, 'background-color', setElementValue);
+    this.renderer.setProperty(element, 'value', output);
   }
 
   private formatter(color: any) {

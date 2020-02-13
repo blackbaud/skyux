@@ -20,6 +20,12 @@
     display: inherit;
     flex-direction: initial;
   }
+
+  // Overwrite popover's scrollbar and max-height behavior.
+  ::ng-deep .sky-popover {
+    overflow: visible !important;
+    max-height: 100% !important;
+  }
 }
 
 :host-context(sky-colorpicker) ::ng-deep .sky-colorpicker-input {
