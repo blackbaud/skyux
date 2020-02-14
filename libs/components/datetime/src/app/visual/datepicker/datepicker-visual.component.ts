@@ -23,6 +23,7 @@ export class DatepickerVisualComponent implements OnInit {
   public reactiveForm: FormGroup;
   public selectedDate: any = '4/4/2017';
   public startingDay: number;
+  public strict: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder

@@ -50,6 +50,9 @@ import {
 const moment = require('moment');
 
 // #region helpers
+
+const isoFormat = 'YYYY-MM-DDTHH:mm:ss';
+
 function detectChanges(fixture: ComponentFixture<any>): void {
   fixture.detectChanges();
   tick();
@@ -73,7 +76,7 @@ function setInputProperty(value: any, component: any, fixture: ComponentFixture<
 }
 
 function setInputElementValue(element: HTMLElement, text: string, fixture: ComponentFixture<any>): void {
-  const inputEl = element.querySelector('input');
+  const inputEl = getInputElement(fixture);
   inputEl.value = text;
   fixture.detectChanges();
   SkyAppTestUtility.fireDomEvent(inputEl, 'change');
@@ -286,7 +289,7 @@ describe('datepicker', () => {
 
         expect(getInputElementValue(fixture)).toBe('06/15/2009');
         expect(component.selectedDate)
-          .toEqual(moment('2009-06-15T00:00:01', 'YYYY-MM-DDTHH:mm:ss').toDate());
+          .toEqual(moment('2009-06-15T00:00:01', isoFormat).toDate());
       }));
 
       it('should handle initializing with an ISO string with offset', fakeAsync(() => {
@@ -329,7 +332,7 @@ describe('datepicker', () => {
 
         expect(getInputElementValue(fixture)).toBe('06/15/2009');
         expect(component.selectedDate)
-          .toEqual(moment('2009-06-15T00:00:01', 'YYYY-MM-DDTHH:mm:ss').toDate());
+          .toEqual(moment('2009-06-15T00:00:01', isoFormat).toDate());
       }));
 
       it('should handle input change with an ISO string with offset', fakeAsync(() => {
@@ -383,6 +386,12 @@ describe('datepicker', () => {
     });
 
     describe('model change', () => {
+      let ngModel: NgModel;
+      beforeEach(() => {
+        const inputElement = fixture.debugElement.query(By.css('input'));
+        ngModel = <NgModel>inputElement.injector.get(NgModel);
+      });
+
       it('should handle model change with a Date object', fakeAsync(() => {
         fixture.detectChanges();
         setInputProperty(new Date('5/12/2017'), component, fixture);
@@ -404,7 +413,7 @@ describe('datepicker', () => {
 
         expect(getInputElementValue(fixture)).toBe('06/15/2009');
         expect(component.selectedDate)
-          .toEqual(moment('2009-06-15T00:00:01', 'YYYY-MM-DDTHH:mm:ss').toDate());
+          .toEqual(moment('2009-06-15T00:00:01', isoFormat).toDate());
       }));
 
       it('should handle model change with an ISO string with offset', fakeAsync(() => {
@@ -414,6 +423,28 @@ describe('datepicker', () => {
         expect(getInputElementValue(fixture)).toBe('11/05/1994');
         expect(component.selectedDate)
           .toEqual(moment('1994-11-05T08:15:30-05:00', 'YYYY-MM-DDThh:mm:ss.sssZ').toDate());
+      }));
+
+      it('should attempt to convert poorly formatted date to ISO when strict is false', fakeAsync(() => {
+        fixture.detectChanges();
+        const expectedISODate = moment('13/11/2019', isoFormat).toDate();
+        setInputProperty('13/11/2019', component, fixture);
+
+        // '13/11/2019' should get converted to '11/20/2013'.
+        expect(getInputElementValue(fixture)).toBe('11/20/2013');
+        expect(component.selectedDate).toEqual(expectedISODate);
+        expect(ngModel.valid).toEqual(true);
+      }));
+
+      it('should NOT attempt to convert poorly formatted date to ISO and be invalid when strict is true', fakeAsync(() => {
+        component.strict = true;
+        fixture.detectChanges();
+        setInputProperty('13/11/2019', component, fixture);
+
+        // '13/11/2019' should be seen as an invalid date, based on the formatting.
+        expect(getInputElementValue(fixture)).toBe('13/11/2019');
+        expect(component.selectedDate).toEqual('13/11/2019');
+        expect(ngModel.valid).toEqual(false);
       }));
 
       it('should handle two digit years', fakeAsync(() => {
@@ -726,7 +757,7 @@ describe('datepicker', () => {
 
         expect(getInputElementValue(fixture)).toBe('06/15/2009');
         expect(component.dateControl.value)
-          .toEqual(moment('2009-06-15T00:00:01', 'YYYY-MM-DDTHH:mm:ss').toDate());
+          .toEqual(moment('2009-06-15T00:00:01', isoFormat).toDate());
       }));
 
       it('should handle input change with an ISO string with offset', fakeAsync(() => {
@@ -791,7 +822,7 @@ describe('datepicker', () => {
 
         expect(getInputElementValue(fixture)).toBe('06/15/2009');
         expect(component.dateControl.value)
-          .toEqual(moment('2009-06-15T00:00:01', 'YYYY-MM-DDTHH:mm:ss').toDate());
+          .toEqual(moment('2009-06-15T00:00:01', isoFormat).toDate());
       }));
 
       it('should handle model change with an ISO string with offset', fakeAsync(() => {
@@ -801,6 +832,28 @@ describe('datepicker', () => {
         expect(getInputElementValue(fixture)).toBe('11/05/1994');
         expect(component.dateControl.value)
           .toEqual(moment('1994-11-05T08:15:30-05:00', 'YYYY-MM-DDThh:mm:ss.sssZ').toDate());
+      }));
+
+      it('should attempt to convert poorly formatted date to ISO when strict is false', fakeAsync(() => {
+        fixture.detectChanges();
+        const expectedISODate = moment('13/11/2019', isoFormat).toDate();
+        setFormControlProperty('13/11/2019', component, fixture);
+
+        // '13/11/2019' should get converted to '11/20/2013'.
+        expect(getInputElementValue(fixture)).toBe('11/20/2013');
+        expect(component.dateControl.value).toEqual(expectedISODate);
+        expect(component.dateControl.valid).toEqual(true);
+      }));
+
+      it('should NOT attempt to convert poorly formatted date to ISO and be invalid when strict is true', fakeAsync(() => {
+        component.strict = true;
+        fixture.detectChanges();
+        setFormControlProperty('13/11/2019', component, fixture);
+
+        // '13/11/2019' should be seen as an invalid date, based on the formatting.
+        expect(getInputElementValue(fixture)).toBe('13/11/2019');
+        expect(component.dateControl.value).toEqual('13/11/2019');
+        expect(component.dateControl.valid).toEqual(false);
       }));
 
       it('should handle two digit years', fakeAsync(() => {

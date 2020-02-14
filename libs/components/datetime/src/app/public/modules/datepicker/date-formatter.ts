@@ -5,11 +5,11 @@ export class SkyDateFormatter {
     return moment(date.getTime()).format(format);
   }
 
-  public getDateFromString(dateString: string, format: string): Date {
-    let momentValue = moment(dateString, format);
+  public getDateFromString(dateString: string, format: string, strict: boolean = false): Date {
+    let momentValue = moment(dateString, format, strict);
 
     if (!momentValue.isValid()) {
-      momentValue = moment(dateString, 'YYYY-MM-DDThh:mm:ss.sssZ');
+      momentValue = moment(dateString, 'YYYY-MM-DDThh:mm:ss.sssZ', strict);
     }
 
     return momentValue.toDate();
