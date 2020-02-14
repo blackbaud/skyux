@@ -12,7 +12,7 @@
     [singleSelectOpenButtonTitle]="singleSelectOpenButtonTitle"
     [singleSelectPlaceholderText]="singleSelectPlaceholderText"
     [pickerHeading]="pickerHeading"
-    [ngModel]="formData.modelValue"
+    [(ngModel)]="formData.modelValue"
     (blur)="onBlur()"
     (ngModelChange)="onModelChange($event)"
   >

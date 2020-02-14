@@ -1,77 +1,8 @@
+
 <div
   class="app-screenshot"
 >
   <h1>Select Field</h1>
-
-  <h2>Single select mode</h2>
-  <div
-    class="sky-padding-even-default"
-    id="screenshot-select-field-single-mode-wrapper"
-  >
-    <div
-      id="screenshot-select-field-single-mode"
-    >
-      <sky-select-field
-        name="single"
-        selectMode="single"
-        [data]="data"
-        [ngModel]="model.single"
-        required
-        #fruit="ngModel"
-      >
-      </sky-select-field>
-    </div>
-
-    <h3>
-      Form control statuses
-    </h3>
-
-    <table>
-      <tr>
-        <th>Touched</th>
-        <td>{{ fruit.touched }}</td>
-      </tr>
-      <tr>
-        <th>Pristine</th>
-        <td>{{ fruit.pristine }}</td>
-      </tr>
-      <tr>
-        <th>Valid</th>
-        <td>{{ fruit.valid }}</td>
-      </tr>
-    </table>
-  </div>
-
-  <h2>Multiple select mode</h2>
-  <div
-    class="sky-padding-even-default"
-    id="screenshot-select-field-multiple-mode"
-  >
-    <sky-select-field
-      name="multiple"
-      selectMode="multiple"
-      [data]="data"
-      [ngModel]="model.multiple"
-    >
-    </sky-select-field>
-  </div>
-
-  <h2>Add new record</h2>
-  <div
-    class="sky-padding-even-default"
-    id="screenshot-select-field-add-new-record-button"
-  >
-    <sky-select-field
-      name="single"
-      selectMode="single"
-      [data]="data"
-      [ngModel]="model.single"
-      [showAddNewRecordButton]="true"
-      (addNewRecordButtonClick)="onAddNewRecordButtonClick()"
-      required
-    >
-    </sky-select-field>
-  </div>
 
   <h2>Helpers</h2>
   <div
@@ -91,6 +22,116 @@
     >
       Populate selected with a long lable
     </button>
+  </div>
+
+  <h2>Single select mode</h2>
+  <div
+    class="sky-padding-even-default"
+    id="screenshot-select-field-single-mode-wrapper"
+  >
+    <div
+      id="screenshot-select-field-single-mode"
+    >
+      <sky-select-field
+        name="single"
+        selectMode="single"
+        [data]="data"
+        [(ngModel)]="model.single"
+        required
+        #singleSelectModel="ngModel"
+      >
+      </sky-select-field>
+    </div>
+
+    <h3>
+      Form control statuses
+    </h3>
+  </div>
+
+  <table>
+    <tr>
+      <th>Touched</th>
+      <td>{{ singleSelectModel.touched }}</td>
+    </tr>
+    <tr>
+      <th>Pristine</th>
+      <td>{{ singleSelectModel.pristine }}</td>
+    </tr>
+    <tr>
+      <th>Valid</th>
+      <td>{{ singleSelectModel.valid }}</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+      <td>{{ getJsonValue(singleSelectModel.value) }}</td>
+    </tr>
+  </table>
+
+  <button
+    class="sky-btn sky-btn-default"
+    type="button"
+    (click)="model.single = undefined"
+  >
+    Set ngModel to undefined
+  </button>
+
+  <h2>Multiple select mode</h2>
+  <div
+    class="sky-padding-even-default"
+    id="screenshot-select-field-multiple-mode"
+  >
+    <sky-select-field
+      name="multiple"
+      selectMode="multiple"
+      [data]="data"
+      [(ngModel)]="model.multiple"
+      #multipleSelectModel="ngModel"
+    >
+    </sky-select-field>
+  </div>
+
+  <table>
+    <tr>
+      <th>Touched</th>
+      <td>{{ multipleSelectModel.touched }}</td>
+    </tr>
+    <tr>
+      <th>Pristine</th>
+      <td>{{ multipleSelectModel.pristine }}</td>
+    </tr>
+    <tr>
+      <th>Valid</th>
+      <td>{{ multipleSelectModel.valid }}</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+      <td>{{ getJsonValue(multipleSelectModel.value) }}</td>
+    </tr>
+  </table>
+
+  <button
+    class="sky-btn sky-btn-default"
+    type="button"
+    (click)="model.multiple = undefined"
+  >
+    Set ngModel to undefined
+  </button>
+
+  <h2>Add new record</h2>
+  <div
+    class="sky-padding-even-default"
+    id="screenshot-select-field-add-new-record-button"
+  >
+    <sky-select-field
+      name="single"
+      selectMode="single"
+      [data]="data"
+      [ngModel]="model.single"
+      [showAddNewRecordButton]="true"
+      (addNewRecordButtonClick)="onAddNewRecordButtonClick()"
+      required
+    >
+    </sky-select-field>
   </div>
 
   <h3>Select field (reactive)</h3>

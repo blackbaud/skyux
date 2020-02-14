@@ -80,4 +80,8 @@ export class SelectFieldVisualComponent implements OnInit {
   public populateFormControl() {
     this.reactiveForm.controls['fruits'].setValue(this.staticData[0]);
   }
+
+  public getJsonValue(value: any): string {
+    return JSON.stringify(value);
+  }
 }

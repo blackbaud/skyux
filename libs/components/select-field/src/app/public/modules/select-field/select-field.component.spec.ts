@@ -114,6 +114,10 @@ describe('Select field component', () => {
     fixture.detectChanges();
   }
 
+  function getSingleSelectInnerText(): string {
+    return (document.querySelector('.sky-form-control') as HTMLElement).innerText;
+  }
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -217,6 +221,22 @@ describe('Select field component', () => {
 
       expect(component.touched).toBe(0);
     }));
+
+    it('should allow programmatically setting value to undefined', fakeAsync(() => {
+      fixture.detectChanges();
+
+      // Programmatically set value.
+      setValue([component.staticData[0]]);
+      fixture.detectChanges();
+
+      // Programmatically set value to undefined.
+      setValue(undefined);
+      fixture.detectChanges();
+
+      // Expect value to be undefined and form control to remain untouched.
+      expect(selectField.value).toBeUndefined();
+      expect(component.touched).toBe(0);
+    }));
   });
 
   describe('multiple select', () => {
@@ -281,6 +301,25 @@ describe('Select field component', () => {
       expect(selectField.value.length).toEqual(2);
       expect(tokens.length).toEqual(2);
     }));
+
+    it('should reset tokens if value has been programmatically set to undefined', fakeAsync(() => {
+      // Programmatically set value.
+      fixture.detectChanges();
+      setValue([component.staticData[0]]);
+      fixture.detectChanges();
+
+      // Expect tokens to reflect value.
+      let tokens = getTokens();
+      expect(tokens.length).toEqual(1);
+
+      // Programmatically set value to undefined.
+      setValue(undefined);
+      fixture.detectChanges();
+
+      // Expect tokens to be removed.
+      tokens = getTokens();
+      expect(tokens.length).toEqual(0);
+    }));
   });
 
   describe('single select', () => {
@@ -338,6 +377,30 @@ describe('Select field component', () => {
       fixture.detectChanges();
       expect(selectField.value).toEqual(undefined);
       expect(document.activeElement.classList).toContain('sky-select-field-btn');
+    }));
+
+    it('should reset placeholder text when value is programmatically set to undefined', fakeAsync(() => {
+      component.selectMode = 'single';
+      fixture.detectChanges();
+      const initialInnerText = getSingleSelectInnerText();
+
+      // Open picker and choose the first item.
+      setValue({});
+      openPicker();
+      selectOption(0);
+      savePicker();
+
+      // Expect new value to be set and inner text to reflect new value.
+      expect(selectField.value.id).toEqual('1');
+      expect(initialInnerText).not.toEqual(getSingleSelectInnerText());
+
+      // Programmatically set value to undefined.
+      setValue(undefined);
+      fixture.detectChanges();
+
+      // Expect undefined value to be set and inner text reset back to initial placeholder.
+      expect(selectField.value).toBeUndefined();
+      expect(initialInnerText).toEqual(getSingleSelectInnerText());
     }));
   });
 

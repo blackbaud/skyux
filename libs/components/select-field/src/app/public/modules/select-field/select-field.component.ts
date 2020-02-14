@@ -210,11 +210,9 @@ export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy 
       return;
     }
 
-    if (value) {
-      this.value = value;
-      this.setTokensFromValue();
-      this.changeDetector.markForCheck();
-    }
+    this.value = value;
+    this.setTokensFromValue();
+    this.changeDetector.markForCheck();
   }
 
   public onHostFocusOut(): void {
@@ -259,6 +257,12 @@ export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy 
   private setTokensFromValue() {
     // Tokens only appear for multiple select mode.
     if (this.selectMode === 'single') {
+      return;
+    }
+
+    // Reset tokens if value has been changed to undefined.
+    if (!this.value) {
+      this.tokens = undefined;
       return;
     }
 
