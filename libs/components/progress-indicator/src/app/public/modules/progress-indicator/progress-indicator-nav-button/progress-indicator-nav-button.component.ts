@@ -2,10 +2,12 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  EventEmitter,
   Input,
   OnDestroy,
   OnInit,
-  Optional
+  Optional,
+  Output
 } from '@angular/core';
 
 import {
@@ -17,6 +19,8 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/takeUntil';
 
 import {
+  SkyProgressIndicatorActionClickArgs,
+  SkyProgressIndicatorActionClickProgressHandler,
   SkyProgressIndicatorChange,
   SkyProgressIndicatorMessageType,
   SkyProgressIndicatorNavButtonType
@@ -78,6 +82,9 @@ export class SkyProgressIndicatorNavButtonComponent implements OnInit, OnDestroy
 
   @Input()
   public progressIndicator: SkyProgressIndicatorComponent;
+
+  @Output()
+  public actionClick = new EventEmitter<SkyProgressIndicatorActionClickArgs>();
 
   public get cssClassNames(): string {
     const buttonType = this.buttonType;
@@ -168,9 +175,13 @@ export class SkyProgressIndicatorNavButtonComponent implements OnInit, OnDestroy
   public ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+    this.actionClick.complete();
   }
 
-  public onClick(): void {
+  public onClick(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+
     let type: SkyProgressIndicatorMessageType;
 
     switch (this.buttonType) {
@@ -194,9 +205,20 @@ export class SkyProgressIndicatorNavButtonComponent implements OnInit, OnDestroy
       break;
     }
 
-    this.progressIndicator.sendMessage({
-      type
-    });
+    // If the consumer has subscribed to the `actionClick` event,
+    // allow them to decide when to advance to the next step.
+    if (this.actionClick.observers.length > 0) {
+      this.actionClick.emit({
+        event,
+        progressHandler: new SkyProgressIndicatorActionClickProgressHandler(
+          () => {
+            this.progressIndicator.sendMessage({ type });
+          }
+        )
+      });
+    } else {
+      this.progressIndicator.sendMessage({ type });
+    }
   }
 
   private updateButtonVisibility(change: SkyProgressIndicatorChange): void {

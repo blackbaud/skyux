@@ -3,7 +3,7 @@
   type="button"
   [disabled]="disabled"
   [ngClass]="cssClassNames"
-  (click)="onClick()"
+  (click)="onClick($event)"
 >
   {{ buttonText || (buttonLabelResourceString | skyLibResources) }}
 </button>

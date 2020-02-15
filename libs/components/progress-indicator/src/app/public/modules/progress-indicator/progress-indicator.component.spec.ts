@@ -11,6 +11,10 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
+  SkyProgressIndicatorProgressHandlerFixtureComponent
+} from './fixtures/progress-indicator-progress-handler.component.fixture';
+
+import {
   SkyProgressIndicatorFixtureComponent
 } from './fixtures/progress-indicator.component.fixture';
 
@@ -669,6 +673,52 @@ describe('Progress indicator component', function () {
       } catch (error) {
         expect(error).toExist();
       }
+    }));
+  });
+
+  describe('Progress handler', function () {
+    const finishButtonSelector = '[data-test-selector="finish-button"] .sky-btn';
+
+    let handlerFixture: ComponentFixture<SkyProgressIndicatorProgressHandlerFixtureComponent>;
+
+    beforeEach(function () {
+      handlerFixture = TestBed.createComponent(SkyProgressIndicatorProgressHandlerFixtureComponent);
+    });
+
+    it('should allow consumers to manually advance each step', fakeAsync(function () {
+      const component = handlerFixture.componentInstance;
+
+      handlerFixture.detectChanges();
+      tick();
+      handlerFixture.detectChanges();
+      tick();
+
+      expect(component.isLoading).toEqual(false);
+
+      component.sendMessage({
+        type: SkyProgressIndicatorMessageType.GoTo,
+        data: {
+          activeIndex: 3
+        }
+      });
+
+      handlerFixture.detectChanges();
+      tick();
+
+      let button = handlerFixture.nativeElement.querySelector(finishButtonSelector);
+      button.click();
+
+      expect(component.isLoading).toEqual(true);
+
+      handlerFixture.detectChanges();
+      tick();
+      handlerFixture.detectChanges();
+      tick();
+
+      button = handlerFixture.nativeElement.querySelector(finishButtonSelector);
+
+      expect(button).toBeFalsy();
+      expect(component.isLoading).toEqual(false);
     }));
   });
 

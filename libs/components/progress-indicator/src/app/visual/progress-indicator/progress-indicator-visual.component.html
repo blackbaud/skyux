@@ -152,6 +152,7 @@
     buttonType="finish"
     [disabled]="disabled"
     [progressIndicator]="horizontalIndicator"
+    (actionClick)="onFinishClick($event)"
   >
   </sky-progress-indicator-nav-button>
 
