@@ -1,3 +1,7 @@
+# 3.8.0 (2020-02-18)
+
+- Added the `bbCheckout` and `frameOptions` properties. [#34](https://github.com/blackbaud/skyux-config/pull/34)
+
 # 3.7.0 (2019-11-19)
 
 - Replaced all imports from `@angular/http` with `@angular/common/http`. [#30](https://github.com/blackbaud/skyux-config/pull/30)
