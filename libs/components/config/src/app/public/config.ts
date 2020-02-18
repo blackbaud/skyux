@@ -64,7 +64,27 @@ export interface SkyuxConfigApp {
   title?: string;
 }
 
+export interface SkyuxConfigHostBBCheckout {
+  version: '2';
+}
+
+export interface SkyuxConfigHostFrameOptionsNone {
+  blackbaud?: false;
+  none: true;
+  self?: false;
+  urls?: [];
+}
+
+export interface SkyuxConfigHostFrameOptionsOthers {
+  blackbaud?: boolean;
+  none?: false;
+  self?: boolean;
+  urls?: string[];
+}
+
 export interface SkyuxConfigHost {
+  bbCheckout?: SkyuxConfigHostBBCheckout;
+  frameOptions?: SkyuxConfigHostFrameOptionsNone | SkyuxConfigHostFrameOptionsOthers;
   url?: string;
 }
 
