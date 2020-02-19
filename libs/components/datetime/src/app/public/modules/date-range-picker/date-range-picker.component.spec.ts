@@ -31,6 +31,8 @@ import {
   SkyDateRangeCalculatorType
 } from './types/date-range-calculator-type';
 
+const moment = require('moment');
+
 const defaultCalculatorIds = [
   SkyDateRangeCalculatorId.AnyTime,
   SkyDateRangeCalculatorId.Before,
@@ -65,6 +67,10 @@ describe('Date range picker', function () {
     tick();
     fixture.detectChanges();
     tick();
+  }
+
+  function getLocaleLongDateFormat(): string {
+    return moment.localeData().longDateFormat('L');
   }
 
   function selectCalculator(id: SkyDateRangeCalculatorId): void {
@@ -157,7 +163,8 @@ describe('Date range picker', function () {
     expect(labelElement.textContent).toContain('Select a date range');
 
     const picker = component.dateRangePicker;
-    expect(picker.dateFormat).toEqual('MM/DD/YYYY');
+    const defaultFormat = getLocaleLongDateFormat();
+    expect(picker.dateFormat).toEqual(defaultFormat);
     expect(picker.label).toEqual(undefined);
     expect(picker.calculatorIds).toEqual(defaultCalculatorIds);
   }));

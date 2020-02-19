@@ -193,6 +193,9 @@ describe('fuzzy datepicker input', () => {
 
       nativeElement = fixture.nativeElement as HTMLElement;
       component = fixture.componentInstance;
+
+      // Default to US long date format to avoid any test runners that are using a different locale.
+      component.dateFormat = 'MM/DD/YYYY';
     });
 
     it('should throw an error if directive is added in isolation', () => {
@@ -745,6 +748,7 @@ describe('fuzzy datepicker input', () => {
 
       it(`should validate properly when futureDisabled = true and a future date is passed through input change`, fakeAsync(() => {
         fixture.componentInstance.futureDisabled = true;
+        moment.locale('en');
         detectChanges(fixture);
 
         const futureDateString = moment().add(1, 'days').format('L');

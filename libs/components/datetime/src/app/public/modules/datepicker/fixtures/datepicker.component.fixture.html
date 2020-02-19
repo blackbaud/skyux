@@ -1,18 +1,20 @@
 <div>
   <sky-datepicker
-    #picker>
+    #picker
+  >
     <input
       name="myDate"
-      [(ngModel)]="selectedDate"
-      [skyDatepickerInput]="picker"
-      [minDate]="minDate"
-      [maxDate]="maxDate"
-      [startingDay]="startingDay"
-      [dateFormat]="format"
+      [dateFormat]="dateFormat"
       [disabled]="isDisabled"
+      [maxDate]="maxDate"
+      [minDate]="minDate"
+      [skyDatepickerInput]="picker"
       [skyDatepickerNoValidate]="noValidate"
+      [startingDay]="startingDay"
       [strict]="strict"
-      #date="ngModel" />
+      [(ngModel)]="selectedDate"
+      #date="ngModel"
+    />
   </sky-datepicker>
 </div>
 

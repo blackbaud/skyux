@@ -183,6 +183,9 @@ describe('datepicker', () => {
       fixture = TestBed.createComponent(DatepickerTestComponent);
       nativeElement = fixture.nativeElement as HTMLElement;
       component = fixture.componentInstance;
+
+      // Default to US long date format to avoid any test runners that are using a different locale.
+      component.dateFormat = 'MM/DD/YYYY';
     });
 
     it('should throw an error if directive is added in isolation', function () {
@@ -375,7 +378,7 @@ describe('datepicker', () => {
 
     describe('formats', () => {
       it('should handle a dateFormat on the input different than the default', fakeAsync(() => {
-        component.format = 'DD/MM/YYYY';
+        component.dateFormat = 'DD/MM/YYYY';
         detectChanges(fixture);
 
         setInputElementValue(nativeElement, '5/12/2017', fixture);
@@ -724,6 +727,9 @@ describe('datepicker', () => {
       fixture = TestBed.createComponent(DatepickerReactiveTestComponent);
       nativeElement = fixture.nativeElement as HTMLElement;
       component = fixture.componentInstance;
+
+      // Default to US long date format to avoid any test runners that are using a different locale.
+      component.dateFormat = 'MM/DD/YYYY';
     });
 
     afterEach(() => {

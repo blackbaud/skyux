@@ -24,21 +24,31 @@ import {
 })
 export class DatepickerReactiveTestComponent implements OnInit {
 
+  public datepickerForm: FormGroup;
+
+  public dateControl: FormControl;
+
+  public dateFormat: string;
+
+  public initialValue: Date | string;
+
+  public isDisabled: boolean;
+
+  public maxDate: Date;
+
+  public minDate: Date;
+
+  public noValidate: boolean = false;
+
+  public startingDay = 0;
+
+  public strict: boolean;
+
   @ViewChild(SkyDatepickerInputDirective)
   public inputDirective: SkyDatepickerInputDirective;
 
   @ViewChild(SkyDatepickerComponent)
   public datepicker: SkyDatepickerComponent;
-
-  public minDate: Date;
-  public maxDate: Date;
-  public datepickerForm: FormGroup;
-  public isDisabled: boolean;
-  public dateControl: FormControl;
-  public initialValue: Date | string;
-  public noValidate: boolean = false;
-  public startingDay = 0;
-  public strict: boolean;
 
   constructor(
     private formBuilder: FormBuilder

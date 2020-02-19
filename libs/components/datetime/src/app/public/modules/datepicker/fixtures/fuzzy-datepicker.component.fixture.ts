@@ -14,7 +14,7 @@ export class FuzzyDatepickerTestComponent {
 
   public futureDisabled: boolean;
 
-  public dateFormat: any = 'MM/DD/YYYY';
+  public dateFormat: string;
 
   public isDisabled: boolean;
 
