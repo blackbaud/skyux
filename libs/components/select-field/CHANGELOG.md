@@ -1,3 +1,7 @@
+# 3.4.3 (2020-02-18)
+
+- Fixed the select field component to allow it to programmatically deselect items. [#54](https://github.com/blackbaud/skyux-select-field/pull/54)
+
 # 3.4.2 (2019-10-10)
 
 - Fixed the select field component to mark the control as invalid when using multiselect mode. [#51](https://github.com/blackbaud/skyux-select-field/pull/51) (Thanks [@Blackbaud-MatthewMiles](https://github.com/Blackbaud-MatthewMiles)!)
