@@ -1,3 +1,8 @@
+# 3.8.1 (2020-02-20)
+
+- Fixed the `help` property in the schema to only accept values of type `object`. [#41](https://github.com/blackbaud/skyux-config/pull/41)
+- Fixed a typo in the schema for the `bbCheckout` property. [#40](https://github.com/blackbaud/skyux-config/pull/40)
+
 # 3.8.0 (2020-02-18)
 
 - Added the `bbCheckout` and `frameOptions` properties. [#34](https://github.com/blackbaud/skyux-config/pull/34)
