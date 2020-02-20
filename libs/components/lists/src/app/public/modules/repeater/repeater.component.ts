@@ -1,14 +1,17 @@
 import {
   AfterContentInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ContentChildren,
   ElementRef,
   EventEmitter,
   Input,
-  QueryList,
   OnChanges,
   OnDestroy,
   Output,
+  QueryList,
+  Renderer2,
   SimpleChanges
 } from '@angular/core';
 
@@ -32,12 +35,14 @@ import {
   SkyRepeaterAdapterService
 } from './repeater-adapter.service';
 
+let uniqueId = 0;
+
 @Component({
   selector: 'sky-repeater',
   styleUrls: ['./repeater.component.scss'],
   templateUrl: './repeater.component.html',
   providers: [SkyRepeaterService, SkyRepeaterAdapterService],
-  viewProviders: [DragulaService]
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDestroy {
 
@@ -45,19 +50,7 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
   public activeIndex: number;
 
   @Input()
-  public set reorderable(isReorderable: boolean) {
-    this._reorderable = isReorderable;
-
-    if (this.items) {
-      this.items.forEach(item => {
-        item.reorderable = isReorderable;
-      });
-    }
-  }
-
-  public get reorderable() {
-    return this._reorderable;
-  }
+  public reorderable: boolean = false;
 
   @Input()
   public set expandMode(value: string) {
@@ -83,18 +76,24 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
   @ContentChildren(SkyRepeaterItemComponent)
   public items: QueryList<SkyRepeaterItemComponent>;
 
-  private ngUnsubscribe = new Subject<void>();
+  public dragulaGroupName: string;
 
-  private _reorderable = false;
+  private dragulaUnsubscribe = new Subject<void>();
+
+  private ngUnsubscribe = new Subject<void>();
 
   private _expandMode = 'none';
 
   constructor(
+    private changeDetector: ChangeDetectorRef,
     private repeaterService: SkyRepeaterService,
     private adapterService: SkyRepeaterAdapterService,
     private dragulaService: DragulaService,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private renderer: Renderer2
   ) {
+    this.dragulaGroupName = `sky-repeater-dragula-${++uniqueId}`;
+
     this.repeaterService.itemCollapseStateChange
       .takeUntil(this.ngUnsubscribe)
       .subscribe((item: SkyRepeaterItemComponent) => {
@@ -170,9 +169,6 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
         this.items.first.tabIndex = 0;
       });
     }
-
-    // Setup item reorder drag-and-drop.
-    this.initializeDragAndDrop();
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -182,15 +178,24 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
         this.repeaterService.activateItemByIndex(this.activeIndex);
       }
     }
+
+    if (changes.reorderable) {
+      if (this.items) {
+        this.items.forEach(item => item.reorderable = this.reorderable);
+      }
+
+      if (this.reorderable) {
+        this.initializeDragAndDrop();
+      }
+
+      this.changeDetector.markForCheck();
+    }
   }
 
   public ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-  }
-
-  public getItemsFromService(): SkyRepeaterItemComponent[] {
-    return this.repeaterService.items;
+    this.destroyDragAndDrop();
   }
 
   private updateForExpandMode(itemAdded?: SkyRepeaterItemComponent): void {
@@ -219,27 +224,46 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
   }
 
   private initializeDragAndDrop(): void {
-    this.dragulaService
-      .drag
-      .takeUntil(this.ngUnsubscribe)
-      .subscribe(([, source]: Array<HTMLElement>) =>
-        source.classList.add('sky-repeater-item-dragging')
-      );
-
-    this.dragulaService
-      .dragend
-      .takeUntil(this.ngUnsubscribe)
-      .subscribe(([, source]: Array<HTMLElement>) => {
-        source.classList.remove('sky-repeater-item-dragging');
-        this.emitTags();
-      });
-
-    this.dragulaService.setOptions('sky-repeater', {
+    this.dragulaService.setOptions(this.dragulaGroupName, {
       moves: (el: HTMLElement, container: HTMLElement, handle: HTMLElement) => {
         const target = el.querySelector('.sky-repeater-item-grab-handle');
-        return target && target.contains(handle);
+        return (target && target.contains(handle));
       }
     });
+
+    // Reset the current dragula subscriptions.
+    this.dragulaUnsubscribe.next();
+    this.dragulaUnsubscribe.complete();
+    this.dragulaUnsubscribe = new Subject<void>();
+
+    this.dragulaService.drag
+      .takeUntil(this.dragulaUnsubscribe)
+      .subscribe(([groupName, subject]: any[]) => {
+        /* istanbul ignore else */
+        if (groupName === this.dragulaGroupName) {
+          this.renderer.addClass(subject, 'sky-repeater-item-dragging');
+        }
+      });
+
+    this.dragulaService.dragend
+      .takeUntil(this.dragulaUnsubscribe)
+      .subscribe(([groupName, subject]: any[]) => {
+        /* istanbul ignore else */
+        if (groupName === this.dragulaGroupName) {
+          this.renderer.removeClass(subject, 'sky-repeater-item-dragging');
+          this.emitTags();
+        }
+      });
+  }
+
+  private destroyDragAndDrop(): void {
+    this.dragulaUnsubscribe.next();
+    this.dragulaUnsubscribe.complete();
+    this.dragulaUnsubscribe = undefined;
+
+    if (this.dragulaService.find(this.dragulaGroupName)) {
+      this.dragulaService.destroy(this.dragulaGroupName);
+    }
   }
 
   private emitTags(): void {
