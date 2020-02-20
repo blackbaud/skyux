@@ -1,3 +1,7 @@
+# 3.8.0 (2020-02-20)
+
+- Added the `strict` property to the datepicker input directive to indicate whether the format of the date value must match the format from the `dateFormat` value.  [#114](https://github.com/blackbaud/skyux-datetime/pull/114)
+
 # 3.7.1 (2020-02-04)
 
 - Fixed the fuzzy date service's `getMomentFromFuzzyDate` function to properly support fuzzy dates when `month` is `0`. [#112](https://github.com/blackbaud/skyux-datetime/pull/112) (Thanks [@Blackbaud-JeffreyAaron](https://github.com/Blackbaud-JeffreyAaron)!)
