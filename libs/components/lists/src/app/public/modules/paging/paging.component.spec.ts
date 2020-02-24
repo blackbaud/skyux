@@ -101,6 +101,14 @@ describe('Paging component', () => {
       ).nativeElement.classList.contains('sky-paging-current')).toBe(true);
     });
 
+    it('should set page count to 0 when pageSize is set to 0', () => {
+      component.pageSize = 0;
+      component.pagingComponent.setPage(0);
+      fixture.detectChanges();
+
+      expect(component.pagingComponent.pageCount).toEqual(0);
+    });
+
     describe('after clicking page 3', () => {
       beforeEach(() => {
         element.query(

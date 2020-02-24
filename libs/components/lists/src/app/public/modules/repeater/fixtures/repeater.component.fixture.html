@@ -8,6 +8,7 @@
     [tag]="'item1'"
     (collapse)="onCollapse()"
     (expand)="onExpand()"
+    (isSelectedChange)="onIsSelectedChange($event)"
   >
     <sky-repeater-item-context-menu *ngIf="showContextMenu">
       <sky-dropdown

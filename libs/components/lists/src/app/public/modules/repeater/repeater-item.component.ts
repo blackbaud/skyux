@@ -90,7 +90,10 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
 
   @Input()
   public set isSelected(value: boolean) {
-    this._isSelected = value;
+    if (value !== this._isSelected) {
+      this._isSelected = value;
+      this.isSelectedChange.emit(this._isSelected);
+    }
   }
 
   public get isSelected(): boolean {
@@ -312,7 +315,9 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
           // Unlike the arrow keys, space/enter should never execute
           // unless focused on the parent item element.
           if (event.target === this.itemRef.nativeElement) {
-            this.toggleSelected();
+            if (this.selectable) {
+              this.isSelected = !this.isSelected;
+            }
             this.repeaterService.activateItem(this);
             event.preventDefault();
           }
@@ -405,9 +410,8 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
     }
   }
 
-  public updateIsSelected(value: SkyCheckboxChange): void {
-    this._isSelected = value.checked;
-    this.isSelectedChange.emit(this._isSelected);
+  public onCheckboxChange(value: SkyCheckboxChange): void {
+    this.isSelected = value.checked;
   }
 
   public onInlineFormClose(inlineFormCloseArgs: SkyInlineFormCloseArgs): void {
@@ -522,12 +526,6 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
       this.adapterService.moveItemUp(this.elementRef, false, this.reorderSteps);
     }
     this.repeaterService.registerOrderChange();
-  }
-
-  private toggleSelected(): void {
-    if (this.selectable) {
-      this.isSelected = !this.isSelected;
-    }
   }
 
   private updateExpandOnContentChange(): void {

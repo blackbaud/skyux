@@ -385,6 +385,8 @@ describe('Repeater item component', () => {
 
       const items = getRepeaterItems(el);
 
+      const isSelectedChangeSpy = spyOn(cmp, 'onIsSelectedChange').and.callThrough();
+
       // Expect first item NOT to be selected.
       expect(items[0]).not.toHaveCssClass('sky-repeater-item-selected');
 
@@ -399,7 +401,12 @@ describe('Repeater item component', () => {
 
       // Expect first item to be selected.
       expect(items[0]).toHaveCssClass('sky-repeater-item-selected');
+      // Expect the isSelectedChange event to have been called with 'true'.
+      expect(isSelectedChangeSpy).toHaveBeenCalledWith(true);
+      // Expect the isSelectedChange event to have occurred once.
+      expect(isSelectedChangeSpy).toHaveBeenCalledTimes(1);
 
+      isSelectedChangeSpy.calls.reset();
       // Press space key.
       SkyAppTestUtility.fireDomEvent(items[0], 'keydown', {
         keyboardEventInit: {
@@ -410,6 +417,10 @@ describe('Repeater item component', () => {
 
       // Expect first item NOT to be selected.
       expect(items[0]).not.toHaveCssClass('sky-repeater-item-selected');
+      // Expect the isSelectedChange event to have been called with 'false'.
+      expect(isSelectedChangeSpy).toHaveBeenCalledWith(false);
+      // Expect the event to have occurred twice.
+      expect(isSelectedChangeSpy).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -905,20 +916,23 @@ describe('Repeater item component', () => {
       let el = fixture.nativeElement;
 
       fixture.detectChanges();
-
       tick();
 
       cmp.repeater.items.forEach(item => item.selectable = true);
 
+      fixture.detectChanges();
+      tick();
+
       let selectedItemsEl = el.querySelectorAll('.sky-repeater-item-selected') as NodeList;
       expect(selectedItemsEl.length).toBe(0);
 
-      // select first item
       const repeaterItems = cmp.repeater.items.toArray();
-      repeaterItems[0].updateIsSelected({ source: undefined, checked: true });
+
+      // Click to select first item.
+      const items = getRepeaterItems(el);
+      items[0].querySelector('input').click();
 
       fixture.detectChanges();
-
       tick();
 
       expect(repeaterItems[0].isSelected).toBe(true);
@@ -942,7 +956,7 @@ describe('Repeater item component', () => {
       });
     }));
 
-    it('should update the isSelected property when the user selects an item', fakeAsync(() => {
+    it('should update the isSelected property when the user clicks the checkbox', fakeAsync(() => {
       let fixture = TestBed.createComponent(RepeaterTestComponent);
       let el = fixture.nativeElement;
       let cmp: RepeaterTestComponent = fixture.componentInstance;
@@ -956,6 +970,39 @@ describe('Repeater item component', () => {
 
       // Click on last repeater item.
       repeaterCheckboxes[2].querySelector('input').click();
+      fixture.detectChanges();
+      tick();
+
+      // Expect only last item to be selected, and input property (isSelected) to recieve new value.
+      expect(repeaterItems[0].isSelected).toBe(false);
+      expect(repeaterItems[1].isSelected).toBe(false);
+      expect(repeaterItems[2].isSelected).toBe(true);
+      expect(cmp.lastItemSelected).toBe(true);
+
+      flushDropdownTimer();
+    }));
+
+    it('should update the isSelected property when the user uses keyboard controls', fakeAsync(() => {
+      let fixture = TestBed.createComponent(RepeaterTestComponent);
+      let el = fixture.nativeElement;
+      let cmp: RepeaterTestComponent = fixture.componentInstance;
+      fixture.detectChanges();
+      tick();
+      // Make each repeater item selectable.
+      cmp.repeater.items.toArray().forEach(item => item.selectable = true);
+      fixture.detectChanges();
+      const repeaterItems = cmp.repeater.items.toArray();
+      const itemElements = getRepeaterItems(el);
+
+      // Click on last repeater item.
+      // Focus on first repeater item and press enter key.
+      SkyAppTestUtility.fireDomEvent(itemElements[2], 'focus');
+      SkyAppTestUtility.fireDomEvent(itemElements[2], 'keydown', {
+        keyboardEventInit: {
+          key: 'Enter'
+        }
+      });
+      fixture.detectChanges();
       fixture.detectChanges();
       tick();
 
