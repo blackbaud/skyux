@@ -292,7 +292,6 @@ describe('StacheWrapperComponent', () => {
 
     fixture = TestBed.createComponent(StacheWrapperComponent);
     component = fixture.componentInstance;
-    component.showFooter = false;
   });
 
   it('should render the component', () => {
@@ -502,5 +501,27 @@ describe('StacheWrapperComponent', () => {
     component.inPageRoutes = routes;
     component.ngAfterViewInit();
     expect(component.inPageRoutes).toEqual(routes);
+  });
+
+  describe('footer', () => {
+    it('should hide by default', () => {
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('stache-footer')).toBeNull();
+    });
+
+    it('should default to SkyAppConfig if it exists', () => {
+      mockConfigService.skyux.appSettings.stache.footer = true;
+      fixture = TestBed.createComponent(StacheWrapperComponent);
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('stache-footer')).toBeTruthy();
+    });
+
+    // This will allow documentation writers to not worry about proper attribute binding.
+    it('should allow setting `showFooter` to string "false"', () => {
+      (component as any).showFooter = 'true';
+      fixture.detectChanges();
+      expect(component.showFooter).toEqual(true);
+      expect(fixture.nativeElement.querySelector('stache-footer')).toBeTruthy();
+    });
   });
 });

@@ -17,7 +17,7 @@ import {
 
 import {
   SkyAppTestUtility
-} from '@skyux-sdk/testing/test-utility/test-utility';
+} from '@skyux-sdk/testing';
 
 import {
   StacheWindowRef
@@ -65,6 +65,13 @@ describe('StacheBackToTopComponent', () => {
     fixture.detectChanges();
     const expectedOffsetValue = component.offset;
     expect(expectedOffsetValue).toBe(400);
+  });
+
+  // This will allow documentation writers to not worry about proper attribute binding.
+  it('should parse string offsets to numbers', () => {
+    (component as any).offset = '500';
+    fixture.detectChanges();
+    expect(component.offset).toEqual(500);
   });
 
   it('should be hidden when the window y offset is less than the specified offset', () => {

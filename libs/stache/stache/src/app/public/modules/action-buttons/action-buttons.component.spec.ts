@@ -196,4 +196,18 @@ describe('StacheActionButtonsComponent', () => {
 
     expect(component.filteredRoutes.length).toBe(1);
   });
+
+  it('should allow hiding search', () => {
+    component.showSearch = false;
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('sky-search')).toBeNull();
+  });
+
+  // This will allow documentation writers to not worry about proper attribute binding.
+  it('should allow hiding search with string "false"', () => {
+    (component as any).showSearch = 'false';
+    fixture.detectChanges();
+    expect(component.showSearch).toEqual(false);
+    expect(fixture.nativeElement.querySelector('sky-search')).toBeNull();
+  });
 });

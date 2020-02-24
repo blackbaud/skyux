@@ -38,4 +38,11 @@ describe('StacheTutorialStepComponent', () => {
   it('should default to showing numbers', () => {
     expect(component.showNumber).toBe(true);
   });
+
+  // This will allow documentation writers to not worry about proper attribute binding.
+  it('should allow hiding numbers by setting `showNumber` to string "false"', () => {
+    (component as any).showNumber = 'false';
+    fixture.detectChanges();
+    expect(component.showNumber).toEqual(false);
+  });
 });

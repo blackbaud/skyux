@@ -125,10 +125,24 @@ describe('StacheLayoutContainerComponent', () => {
     expect(component.showBackToTop).toBe(true);
   });
 
+  // This will allow documentation writers to not worry about proper attribute binding.
+  it('should allow setting `showBackToTop` to string "true"', () => {
+    (component as any).showBackToTop = 'true';
+    fixture.detectChanges();
+    expect(component.showBackToTop).toEqual(true);
+  });
+
   it('should have a showBreadcrumbs input', () => {
     component.showBreadcrumbs = true;
     fixture.detectChanges();
     expect(component.showBreadcrumbs).toBe(true);
+  });
+
+  // This will allow documentation writers to not worry about proper attribute binding.
+  it('should allow setting `showBreadcrumbs` to string "true"', () => {
+    (component as any).showBreadcrumbs = 'true';
+    fixture.detectChanges();
+    expect(component.showBreadcrumbs).toEqual(true);
   });
 
   it('should have a showEditButton input', () => {
@@ -137,10 +151,24 @@ describe('StacheLayoutContainerComponent', () => {
     expect(component.showEditButton).toBe(true);
   });
 
+  // This will allow documentation writers to not worry about proper attribute binding.
+  it('should allow setting `showEditButton` to string "true"', () => {
+    (component as any).showEditButton = 'true';
+    fixture.detectChanges();
+    expect(component.showEditButton).toEqual(true);
+  });
+
   it('should have a showTableOfContents input', () => {
     component.showTableOfContents = true;
     fixture.detectChanges();
     expect(component.showTableOfContents).toBe(true);
+  });
+
+  // This will allow documentation writers to not worry about proper attribute binding.
+  it('should allow setting `showTableOfContents` to string "true"', () => {
+    (component as any).showTableOfContents = 'true';
+    fixture.detectChanges();
+    expect(component.showTableOfContents).toEqual(true);
   });
 
 });
