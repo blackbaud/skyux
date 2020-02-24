@@ -584,7 +584,9 @@
         </sky-repeater-item-content>
       </sky-repeater-item
       >
-      <sky-repeater-item>
+      <sky-repeater-item
+        id="screenshot-last-repeater-item"
+      >
         <sky-inline-delete *ngIf="showActiveInlineDelete"
           (cancelTriggered)="hideActiveInlineDelete()"
           (deleteTriggered)="hideActiveInlineDelete()"
