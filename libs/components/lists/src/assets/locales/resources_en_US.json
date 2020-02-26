@@ -52,6 +52,10 @@
     "message": "Press the spacebar or enter key to reorder."
   },
   "skyux_repeater_item_reorder_top": {
+    "_description": "Text for button to reorder a repeater item to the top of the list",
+    "message": "Top"
+  },
+  "skyux_repeater_item_reorder_top_label": {
     "_description": "Accessible label for button to reorder a repeater item to the top of the list",
     "message": "Move to top"
   },

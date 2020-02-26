@@ -102,13 +102,14 @@
       </div>
       <button *ngIf="reorderable"
         class="sky-btn sky-btn-link sky-repeater-item-reorder-top"
-        [attr.aria-label]="'skyux_repeater_item_reorder_top' | skyLibResources"
+        type="button"
+        [attr.aria-label]="'skyux_repeater_item_reorder_top_label' | skyLibResources"
         (click)="moveToTop($event)"
       >
       <sky-icon
         icon="arrow-circle-up"
       ></sky-icon>
-      Top
+      {{ 'skyux_repeater_item_reorder_top' | skyLibResources }}
     </button>
       <div *ngIf="isCollapsible"
         class="sky-repeater-item-chevron"
