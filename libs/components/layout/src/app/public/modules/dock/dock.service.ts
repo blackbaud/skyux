@@ -26,6 +26,7 @@ import {
 
 /**
  * This service docks components to specific areas on the page.
+ * @deprecated Use `SkyDockService` from `@skyux/core` instead.
  */
 @Injectable()
 export class SkyDockService {

@@ -19,6 +19,9 @@ import {
   SkyDockService
 } from './dock.service';
 
+/**
+ * @deprecated Use `SkyDockModule` from `@skyux/core` instead.
+ */
 @NgModule({
   imports: [
     CommonModule,

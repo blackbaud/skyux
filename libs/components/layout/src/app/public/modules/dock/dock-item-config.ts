@@ -4,6 +4,7 @@ import {
 
 /**
  * Configuration to be used by the docking action.
+ * @deprecated Use `SkyDockItemConfig` from `@skyux/core` instead.
  */
 export interface SkyDockItemConfig {
 

@@ -5,6 +5,7 @@ import {
 
 /**
  * Represents a single item added to the dock.
+ * @deprecated Use `SkyDockItem` from `@skyux/core` instead.
  */
 export class SkyDockItem<T> {
 
