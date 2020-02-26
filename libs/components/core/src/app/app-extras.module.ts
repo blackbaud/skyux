@@ -3,8 +3,21 @@ import {
 } from '@angular/core';
 
 import {
+  SkyDocsToolsModule,
+  SkyDocsToolsOptions
+} from '@skyux/docs-tools';
+
+import {
+  SkyPageModule
+} from '@skyux/layout';
+
+import {
   SkyAppLinkModule
 } from '@skyux/router';
+
+import {
+  DockItemVisualComponent
+} from './demos/dock/dock-item-visual.component';
 
 import {
   DynamicComponentDemoExampleComponent
@@ -12,6 +25,7 @@ import {
 
 import {
   SkyCoreAdapterModule,
+  SkyDockModule,
   SkyDynamicComponentModule,
   SkyMediaQueryModule,
   SkyNumericModule,
@@ -22,13 +36,26 @@ import {
   exports: [
     SkyAppLinkModule,
     SkyCoreAdapterModule,
+    SkyDockModule,
+    SkyDocsToolsModule,
     SkyDynamicComponentModule,
     SkyMediaQueryModule,
     SkyNumericModule,
+    SkyPageModule,
     SkyViewkeeperModule
   ],
   entryComponents: [
+    DockItemVisualComponent,
     DynamicComponentDemoExampleComponent
+  ],
+  providers: [
+    {
+      provide: SkyDocsToolsOptions,
+      useValue: {
+        gitRepoUrl: 'https://github.com/blackbaud/skyux-core',
+        packageName: '@skyux/core'
+      }
+    }
   ]
 })
 export class AppExtrasModule { }
