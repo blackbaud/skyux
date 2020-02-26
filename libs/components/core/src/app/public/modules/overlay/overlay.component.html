@@ -1,0 +1,19 @@
+<div
+  class="sky-overlay"
+  [ngClass]="{
+    'sky-overlay-ignore-pointer-events': allowClickThrough
+  }"
+>
+  <div
+    class="sky-overlay-content"
+    (click)="$event.stopPropagation();"
+  >
+    <ng-template
+      #target
+    >
+    </ng-template>
+  </div>
+  <div *ngIf="showBackdrop"
+    class="sky-overlay-backdrop"
+  ></div>
+</div>

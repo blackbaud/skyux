@@ -1,0 +1,48 @@
+<div style="text-align:right;">
+  <button
+    class="sky-btn"
+    type="button"
+    (click)="onTestClick()"
+  >
+    Can you click me?
+  </button>
+</div>
+
+<div style="height:1200px; padding-top:250px;">
+  <button
+    class="sky-btn sky-btn-primary sky-margin-inline-default"
+    type="button"
+    (click)="launchDefaultOverlay()"
+  >
+    Launch default overlay using component
+  </button>
+
+  <button
+    class="sky-btn sky-margin-inline-default"
+    type="button"
+    (click)="launchCustomOverlay()"
+  >
+    Launch custom overlay using component
+  </button>
+
+  <button
+    class="sky-btn sky-margin-inline-default"
+    type="button"
+    (click)="closeAllOverlays()"
+  >
+    Close all overlays
+  </button>
+
+  <app-overlay-demo-template-example>
+    <p>
+      This is content that should get added to an overlay on page load.
+    </p>
+    <p>
+      <a skyAppLink="/demos/numeric">Click to test route change behavior...</a>
+    </p>
+  </app-overlay-demo-template-example>
+
+  <p>
+    Number of component overlays currently open: {{ overlays.length }}
+  </p>
+</div>

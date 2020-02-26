@@ -24,11 +24,16 @@ import {
 } from './demos/dynamic-component/dynamic-component-example.component';
 
 import {
+  OverlayDemoExampleComponent
+} from './demos/overlay/overlay-demo-example.component';
+
+import {
   SkyCoreAdapterModule,
   SkyDockModule,
   SkyDynamicComponentModule,
   SkyMediaQueryModule,
   SkyNumericModule,
+  SkyOverlayModule,
   SkyViewkeeperModule
 } from './public';
 
@@ -41,12 +46,14 @@ import {
     SkyDynamicComponentModule,
     SkyMediaQueryModule,
     SkyNumericModule,
+    SkyOverlayModule,
     SkyPageModule,
     SkyViewkeeperModule
   ],
   entryComponents: [
     DockItemVisualComponent,
-    DynamicComponentDemoExampleComponent
+    DynamicComponentDemoExampleComponent,
+    OverlayDemoExampleComponent
   ],
   providers: [
     {
