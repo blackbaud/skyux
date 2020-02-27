@@ -8,7 +8,7 @@ import {
 
 import {
   MutationObserverService
-} from '@skyux/core';
+} from '../mutation/mutation-observer-service';
 
 import {
   Observable

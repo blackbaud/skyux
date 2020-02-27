@@ -6,7 +6,7 @@ import {
 
 import {
   SkyMediaBreakpoints
-} from '@skyux/core';
+} from '../../media-query/media-breakpoints';
 
 import {
   SkyCoreAdapterService

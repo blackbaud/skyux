@@ -6,7 +6,7 @@ import {
 
 import {
   SkyDynamicComponentService
-} from '@skyux/core';
+} from '../dynamic-component/dynamic-component.service';
 
 import {
   SkyDockItem
