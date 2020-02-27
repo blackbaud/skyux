@@ -1,3 +1,7 @@
+# 3.11.1 (2020-02-27)
+
+- Fixed internal circular references in the dock component. [#133](https://github.com/blackbaud/skyux-core/pull/133)
+
 # 3.11.0 (2020-02-26)
 
 - Added the viewkeeper directive that enables SKY UX components to keep elements in view while users scroll. [#128](https://github.com/blackbaud/skyux-core/pull/128)
