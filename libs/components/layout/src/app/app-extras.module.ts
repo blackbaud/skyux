@@ -24,6 +24,7 @@ import {
 
 import {
   SkyActionButtonModule,
+  SkyBackToTopModule,
   SkyCardModule,
   SkyDefinitionListModule,
   SkyDockModule,
@@ -46,6 +47,7 @@ import {
     SkyAlertModule,
     SkyAppLinkModule,
     SkyAvatarModule,
+    SkyBackToTopModule,
     SkyCardModule,
     SkyDefinitionListModule,
     SkyDockModule,

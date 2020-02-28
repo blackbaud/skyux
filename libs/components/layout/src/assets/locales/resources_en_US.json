@@ -1,4 +1,8 @@
 {
+  "skyux_back_to_top": {
+    "_description": "Text for the button in the back to top component",
+    "message": "Back to top"
+  },
   "skyux_card_checkbox_label": {
     "_description": "Label for the multiselect checkbox for the card component",
     "message": "Select card"

@@ -1,0 +1,10 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-back-to-top {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background-color: $sky-color-white;
+  box-shadow: 0 -3px 3px 0 $sky-color-gray-20;
+}
