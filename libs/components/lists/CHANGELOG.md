@@ -1,3 +1,7 @@
+# 3.8.5 (2020-02-28)
+
+- Fixed the repeater component to output the correct `orderChange` value when users drag the first reorderable repeater item. [#138](https://github.com/blackbaud/skyux-lists/pull/138)
+
 # 3.8.4 (2020-02-28)
 
 - Fixed the repeater component to output the correct `orderChange` value when users drag reorderable repeater items. [#134](https://github.com/blackbaud/skyux-lists/pull/134)
