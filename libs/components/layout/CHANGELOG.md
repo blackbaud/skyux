@@ -1,3 +1,7 @@
+# 3.8.0 (2020-02-28)
+
+- Added the back to top component. [#84](https://github.com/blackbaud/skyux-layout/pull/84)
+
 # 3.7.0 (2020-02-12)
 
 - Added the dock service which appends components to the bottom of the page. [#67](https://github.com/blackbaud/skyux-layout/pull/67)
