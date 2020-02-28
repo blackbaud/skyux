@@ -258,7 +258,7 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
 
           /* sanity check */
           /* istanbul ignore else */
-          if (draggedItemIndex) {
+          if (draggedItemIndex >= 0) {
             this.repeaterService.reorderItem(draggedItemIndex, newItemIndex);
             draggedItemIndex = undefined;
           }
