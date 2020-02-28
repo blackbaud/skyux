@@ -1,3 +1,7 @@
+# 3.8.4 (2020-02-28)
+
+- Fixed the repeater component to output the correct `orderChange` value when users drag reorderable repeater items. [#134](https://github.com/blackbaud/skyux-lists/pull/134)
+
 # 3.8.3 (2020-02-26)
 
 - Fixed the repeater component to prevent form submission when users click the “Top” button on reorderable repeaters. [#128](https://github.com/blackbaud/skyux-lists/pull/128)
