@@ -236,12 +236,15 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
     this.dragulaUnsubscribe.complete();
     this.dragulaUnsubscribe = new Subject<void>();
 
+    let draggedItemIndex: number;
+
     this.dragulaService.drag
       .takeUntil(this.dragulaUnsubscribe)
       .subscribe(([groupName, subject]: any[]) => {
         /* istanbul ignore else */
         if (groupName === this.dragulaGroupName) {
           this.renderer.addClass(subject, 'sky-repeater-item-dragging');
+          draggedItemIndex = this.adapterService.getRepeaterItemIndex(subject);
         }
       });
 
@@ -251,6 +254,15 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
         /* istanbul ignore else */
         if (groupName === this.dragulaGroupName) {
           this.renderer.removeClass(subject, 'sky-repeater-item-dragging');
+          let newItemIndex = this.adapterService.getRepeaterItemIndex(subject);
+
+          /* sanity check */
+          /* istanbul ignore else */
+          if (draggedItemIndex) {
+            this.repeaterService.reorderItem(draggedItemIndex, newItemIndex);
+            draggedItemIndex = undefined;
+          }
+
           this.emitTags();
         }
       });

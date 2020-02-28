@@ -53,9 +53,12 @@ export class SkyRepeaterAdapterService {
     this.host = hostRef;
   }
 
-  public moveItemUp(elementRef: ElementRef, top = false, steps = 1): number {
-    const itemArray = this.getRepeaterItemArray();
-    const index = itemArray.indexOf(elementRef.nativeElement);
+  public getRepeaterItemIndex(element: HTMLElement): number {
+    return this.getRepeaterItemArray().indexOf(element);
+  }
+
+  public moveItemUp(element: HTMLElement, top = false, steps = 1): number {
+    const index = this.getRepeaterItemIndex(element);
 
     if (index === 0) {
       return;
@@ -67,12 +70,12 @@ export class SkyRepeaterAdapterService {
       newIndex = 0;
     }
 
-    return this.moveItem(elementRef, index, newIndex);
+    return this.moveItem(element, index, newIndex);
   }
 
-  public moveItemDown(elementRef: ElementRef, steps = 1): number {
+  public moveItemDown(element: HTMLElement, steps = 1): number {
     const itemArray = this.getRepeaterItemArray();
-    const index = itemArray.indexOf(elementRef.nativeElement);
+    const index = this.getRepeaterItemIndex(element);
 
     if (index === itemArray.length - steps) {
       return;
@@ -80,16 +83,16 @@ export class SkyRepeaterAdapterService {
 
     let newIndex = index + steps;
 
-    return this.moveItem(elementRef, index, newIndex);
+    return this.moveItem(element, index, newIndex);
   }
 
-  private moveItem(itemRef: ElementRef, oldIndex: number, newIndex: number): number {
+  private moveItem(element: HTMLElement, oldIndex: number, newIndex: number): number {
     const repeaterDiv: HTMLElement = this.host.nativeElement.querySelector('.sky-repeater');
 
-    repeaterDiv.removeChild(itemRef.nativeElement);
+    repeaterDiv.removeChild(element);
     const nextSibling = repeaterDiv.querySelectorAll('sky-repeater-item')[newIndex];
 
-    repeaterDiv.insertBefore(itemRef.nativeElement, nextSibling);
+    repeaterDiv.insertBefore(element, nextSibling);
     this.repeaterService.reorderItem(oldIndex, newIndex);
 
     return newIndex;

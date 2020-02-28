@@ -1702,9 +1702,15 @@ describe('Repeater item component', () => {
       let repeaterItem: HTMLElement = el.querySelectorAll('sky-repeater-item')[1];
       mockDragulaService.drag.emit([groupName, repeaterItem]);
       detectChangesAndTick(fixture);
+      const repeaterDiv: HTMLElement = fixture.nativeElement.querySelector('.sky-repeater');
+
+      repeaterDiv.removeChild(repeaterItem);
+      const nextSibling = repeaterDiv.querySelectorAll('sky-repeater-item')[2];
+
+      repeaterDiv.insertBefore(repeaterItem, nextSibling);
       mockDragulaService.dragend.emit([groupName, repeaterItem]);
       detectChangesAndTick(fixture);
-      expect(cmp.sortedItemTags).toEqual([ 'item1', 'item2', 'item3' ]);
+      expect(cmp.sortedItemTags).toEqual(['item1', 'item3', 'item2']);
     }));
 
     xit('should add new items to the bottom of the repeater after reordering', fakeAsync(() => {

@@ -420,7 +420,7 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
 
   public moveToTop(event: Event): void {
     event.stopPropagation();
-    this.adapterService.moveItemUp(this.elementRef, true);
+    this.adapterService.moveItemUp(this.elementRef.nativeElement, true);
     this.adapterService.focusElement(<HTMLElement> event.target);
     this.repeaterService.registerOrderChange();
   }
@@ -492,7 +492,7 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
   }
 
   private keyboardReorderUp(): void {
-    this.reorderCurrentIndex = this.adapterService.moveItemUp(this.elementRef);
+    this.reorderCurrentIndex = this.adapterService.moveItemUp(this.elementRef.nativeElement);
     this.reorderSteps--;
     this.adapterService.focusElement(this.grabHandle);
     this.keyboardReorderingEnabled = true;
@@ -500,7 +500,7 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
   }
 
   private keyboardReorderDown(): void {
-    this.reorderCurrentIndex = this.adapterService.moveItemDown(this.elementRef);
+    this.reorderCurrentIndex = this.adapterService.moveItemDown(this.elementRef.nativeElement);
     this.reorderSteps++;
     this.adapterService.focusElement(this.grabHandle);
     this.keyboardReorderingEnabled = true;
@@ -521,9 +521,9 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
 
   private revertReorderSteps(): void {
     if (this.reorderSteps < 0) {
-      this.adapterService.moveItemDown(this.elementRef, Math.abs(this.reorderSteps));
+      this.adapterService.moveItemDown(this.elementRef.nativeElement, Math.abs(this.reorderSteps));
     } else if (this.reorderSteps > 0) {
-      this.adapterService.moveItemUp(this.elementRef, false, this.reorderSteps);
+      this.adapterService.moveItemUp(this.elementRef.nativeElement, false, this.reorderSteps);
     }
     this.repeaterService.registerOrderChange();
   }
