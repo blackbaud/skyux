@@ -1,6 +1,8 @@
 <div class="sky-error">
   <div>
-    <div class="sky-error-image-container">
+    <div *ngIf="showImage"
+      class="sky-error-image-container"
+    >
       <div *ngIf="showBrokenImage()" class="sky-error-broken-image">
       </div>
       <div *ngIf="showNotFoundImage()" class="sky-error-notfound-image">

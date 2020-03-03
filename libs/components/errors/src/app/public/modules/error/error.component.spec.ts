@@ -67,6 +67,58 @@ describe('Error component', () => {
     });
   });
 
+  it('error type broken does not display image when "showImage" is false', () => {
+    let html = `
+    <sky-error
+      errorType="broken"
+      [showImage]="false"
+    >
+      <sky-error-action>
+        <button
+          class="sky-btn sky-btn-primary"
+          type="submit"
+          (click)="customAction()"
+        >
+          Refresh
+        </button>
+      </sky-error-action>
+    </sky-error>`;
+
+    let fixture = TestBed
+      .overrideComponent(
+        ErrorTestComponent,
+        {
+          set: {
+            template: html
+          }
+        }
+      )
+      .createComponent(ErrorTestComponent);
+
+    let el = fixture.nativeElement;
+
+    fixture.detectChanges();
+
+    let title = 'Sorry, something went wrong.';
+    let description = 'Try to refresh this page or come back later.';
+
+    // check image
+    expect(el.querySelector('.sky-error-image-container')).not.toExist();
+    expect(el.querySelector('.sky-error-broken-image')).not.toExist();
+    expect(el.querySelector('.sky-error-notfound-image')).not.toExist();
+    expect(el.querySelector('.sky-error-construction-image')).not.toExist();
+    expect(el.querySelector('.sky-error-security-image')).not.toExist();
+
+    expect(el.querySelector('.sky-error-title')).toHaveText(title);
+    expect(el.querySelector('.sky-error-description')).toHaveText(description);
+    expect(el.querySelector('.sky-error-action button')).toHaveText('Refresh');
+
+    // Accessibility check
+    fixture.whenStable().then(() => {
+      expect(fixture.nativeElement).toBeAccessible();
+    });
+  });
+
   it('error type notfound displays correct image, title, and action text', () => {
     let html = `
     <sky-error errorType="notfound">
