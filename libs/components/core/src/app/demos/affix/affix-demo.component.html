@@ -1,0 +1,182 @@
+<sky-page>
+  <div
+    class="canvas"
+  >
+    <div
+      class="parent-scrollable"
+      id="screenshot-affix"
+      [ngClass]="{
+        'scroll': enableScrollableParent,
+        'smaller': enableSmallerParent
+      }"
+      #parentScrollableRef
+    >
+      <div
+        class="parent-scrollable-canvas"
+      >
+        <div
+          class="base"
+          style="width:50px;height:50px;"
+          #baseRef
+        ></div>
+      </div>
+    </div>
+
+    <div
+      class="affixed"
+      [affixEnableAutoFit]="enableAutoFit"
+      [affixHorizontalAlignment]="model.horizontalAlignment"
+      [affixIsSticky]="isSticky"
+      [affixPlacement]="model.placement"
+      [affixVerticalAlignment]="model.verticalAlignment"
+      [ngClass]="{ 'hidden': !isVisible }"
+      [skyAffixTo]="baseRef"
+      (affixPlacementChange)="onAffixPlacementChange($event)"
+    ></div>
+  </div>
+  <div *ngIf="showToolbar"
+    class="toolbar"
+    #toolbarRef
+  >
+    <table
+      style="text-align:left;margin-bottom:10px;"
+    >
+      <tr>
+        <td>
+          Placement:
+        </td>
+        <td>
+          <select
+            [(ngModel)]="model.placement"
+          >
+            <option *ngFor="let placement of placements"
+              [value]="placement"
+            >
+              {{ placement }}
+            </option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Horizontal alignment:
+        </td>
+        <td>
+          <select
+            [(ngModel)]="model.horizontalAlignment"
+          >
+            <option *ngFor="let alignment of horizontalAlignments"
+              [value]="alignment"
+            >
+              {{ alignment }}
+            </option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Vertical alignment:
+        </td>
+        <td>
+          <select
+            [(ngModel)]="model.verticalAlignment"
+          >
+            <option *ngFor="let alignment of verticalAlignments"
+              [value]="alignment"
+            >
+              {{ alignment }}
+            </option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Sticky:
+        </td>
+        <td>
+          {{ isSticky }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Auto-fit:
+        </td>
+        <td>
+          {{ enableAutoFit }}
+        </td>
+      </tr>
+    </table>
+    <button
+      class="sky-btn sky-btn-default sky-margin-inline-default"
+      id="screenshot-affix-button-scroll-to-base-element"
+      type="button"
+      [disabled]="disabled"
+      (click)="scrollToBaseElement()"
+    >
+      Scroll to base element
+    </button>
+    <button
+      class="sky-btn sky-btn-primary sky-margin-inline-default"
+      type="button"
+      [disabled]="disabled"
+      (click)="runAffixCycle()"
+    >
+      Run affix cycle
+    </button>
+    <button
+      class="sky-btn sky-btn-default sky-margin-inline-default"
+      id="screenshot-affix-button-step-cycle"
+      type="button"
+      [disabled]="disabled"
+      (click)="stepAffixCycle()"
+    >
+      Step affix cycle
+    </button>
+    <button
+      class="sky-btn sky-btn-default sky-margin-inline-default"
+      type="button"
+      [disabled]="disabled"
+      (click)="isSticky = !isSticky"
+    >
+      Toggle stickiness
+    </button>
+    <button
+      class="sky-btn sky-btn-default sky-margin-inline-default"
+      type="button"
+      [disabled]="disabled"
+      (click)="enableAutoFit = !enableAutoFit"
+    >
+      Toggle autofit
+    </button>
+    <button
+      class="sky-btn sky-btn-default sky-margin-inline-default"
+      id="screenshot-affix-button-scrollable-parent"
+      type="button"
+      [disabled]="disabled"
+      (click)="toggleScrollableParent()"
+    >
+      Toggle scrollable parent
+    </button>
+    <button *ngIf="enableScrollableParent"
+      class="sky-btn sky-btn-default"
+      type="button"
+      [disabled]="disabled"
+      (click)="toggleSmallerParent()"
+    >
+      Toggle smaller parent
+    </button>
+  </div>
+</sky-page>
+
+<div
+  style="position:fixed;top:10px;left:10px;"
+>
+  <button
+    class="sky-btn sky-btn-default"
+    type="button"
+    [disabled]="disabled"
+    (click)="showToolbar = !showToolbar"
+  >
+    Toggle toolbar
+  </button>
+</div>

@@ -1,0 +1,33 @@
+.canvas {
+  width: 500px;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.canvas-scrollable {
+  overflow: auto;
+  display: block;
+
+  .base-wrapper {
+    width: 1500px;
+    height: 1500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.base {
+  width: 10px;
+  height: 10px;
+  background-color: red;
+}
+
+.affixed {
+  width: 50px;
+  height: 50px;
+  background-color: blue;
+  position: fixed;
+}

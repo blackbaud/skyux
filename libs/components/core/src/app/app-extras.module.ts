@@ -28,6 +28,7 @@ import {
 } from './demos/overlay/overlay-demo-example.component';
 
 import {
+  SkyAffixModule,
   SkyCoreAdapterModule,
   SkyDockModule,
   SkyDynamicComponentModule,
@@ -39,6 +40,7 @@ import {
 
 @NgModule({
   exports: [
+    SkyAffixModule,
     SkyAppLinkModule,
     SkyCoreAdapterModule,
     SkyDockModule,
