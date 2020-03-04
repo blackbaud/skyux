@@ -1,3 +1,7 @@
+# 3.12.1 (2020-03-04)
+
+- Added the properties from the `SkyViewkeeperOptions` interface to `SkyViewkeeperHostOptions`. This fixes an issue where the Angular AoT compiler does not recognize interface properties that are not explicitly defined on the implementing class. [#139](https://github.com/blackbaud/skyux-core/pull/139)
+
 # 3.12.0 (2020-03-03)
 
 - Added the affix service and directive that enables SKY UX components to affix an element to another element. [#135](https://github.com/blackbaud/skyux-core/pull/135)
