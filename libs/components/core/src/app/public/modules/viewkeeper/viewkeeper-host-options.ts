@@ -7,4 +7,16 @@ import {
 } from './viewkeeper-options';
 
 @Injectable()
-export class SkyViewkeeperHostOptions implements SkyViewkeeperOptions { }
+export class SkyViewkeeperHostOptions implements SkyViewkeeperOptions {
+  public boundaryEl?: HTMLElement;
+
+  public el?: HTMLElement;
+
+  public setWidth?: boolean;
+
+  public verticalOffset?: number;
+
+  public verticalOffsetEl?: HTMLElement;
+
+  public viewportMarginTop?: number;
+}

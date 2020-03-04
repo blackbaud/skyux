@@ -3,12 +3,11 @@
  */
 export interface SkyViewkeeperOptions {
   /**
-   * Specifies whether to set the width of the viewkeeper element to the width of its
-   * host element. Otherwise, if the element does not have an explicit width specified,
-   * the element would collapse horizontally as a result of fixing the element to the top
-   * of the viewport.
+   * The element that defines the bounds in which to keep the element in view. When the
+   * boundary element is scrolled out of view, the viewkeeper element will be scrolled
+   * out of view.
    */
-  setWidth?: boolean;
+  boundaryEl?: HTMLElement;
 
   /**
    * The element to keep in view.
@@ -16,11 +15,12 @@ export interface SkyViewkeeperOptions {
   el?: HTMLElement;
 
   /**
-   * The element that defines the bounds in which to keep the element in view. When the
-   * boundary element is scrolled out of view, the viewkeeper element will be scrolled
-   * out of view.
+   * Specifies whether to set the width of the viewkeeper element to the width of its
+   * host element. Otherwise, if the element does not have an explicit width specified,
+   * the element would collapse horizontally as a result of fixing the element to the top
+   * of the viewport.
    */
-  boundaryEl?: HTMLElement;
+  setWidth?: boolean;
 
   /**
    * Reserved space in pixels above the viewkeeper element.
