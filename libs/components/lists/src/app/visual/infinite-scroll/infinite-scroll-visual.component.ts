@@ -7,22 +7,35 @@ import {
   templateUrl: './infinite-scroll-visual.component.html'
 })
 export class InfiniteScrollVisualComponent {
-  public firstList: any[] = [
-    0, 1
-  ];
-  public secondList: any[] = [
-    0, 1
+
+  public disableLoader: boolean = false;
+
+  public enabled: boolean = true;
+
+  public items: any[] = [
+    0, 1, 2, 3
   ];
 
-  public secondEnabled = true;
+  public showScrollableContainer: boolean = false;
 
-  public addToSecond() {
-    setTimeout(() => {
-      this.secondList.push(this.secondList.length);
-      this.secondList.push(this.secondList.length);
-      this.secondList.push(this.secondList.length);
-      this.secondList.push(this.secondList.length);
-      this.secondList.push(this.secondList.length);
-    }, 1000);
+  public loadMore(): void {
+    if (!this.disableLoader) {
+      setTimeout(() => {
+        this.items.push(this.items.length);
+        this.items.push(this.items.length);
+        this.items.push(this.items.length);
+        this.items.push(this.items.length);
+        this.items.push(this.items.length);
+        this.items.push(this.items.length);
+        this.items.push(this.items.length);
+        this.items.push(this.items.length);
+        this.items.push(this.items.length);
+        this.items.push(this.items.length);
+      }, 1000);
+    }
+  }
+
+  public toggleScrollableContainer(): void {
+    this.showScrollableContainer = !this.showScrollableContainer;
   }
 }

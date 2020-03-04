@@ -7,6 +7,7 @@ import {
 } from '@skyux/indicators';
 
 import {
+  SkyBackToTopModule,
   SkyFluidGridModule,
   SkyInlineDeleteModule
 } from '@skyux/layout';
@@ -30,6 +31,7 @@ import {
 @NgModule({
   exports: [
     SkyAppLinkModule,
+    SkyBackToTopModule,
     SkyDropdownModule,
     SkyFilterModule,
     SkyFluidGridModule,
