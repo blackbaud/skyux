@@ -13,6 +13,7 @@ import {
    templateUrl: './list-toolbar.component.fixture.html'
  })
  export class ListToolbarTestComponent {
+  public inMemorySearchEnabled: boolean;
   public toolbarType: string;
   public searchEnabled: boolean;
   public sortEnabled: boolean;

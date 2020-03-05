@@ -1,9 +1,11 @@
 <sky-list-toolbar
+  [inMemorySearchEnabled]="inMemorySearchEnabled"
   [searchEnabled]="searchEnabled"
-  [sortSelectorEnabled]="sortEnabled"
   [searchText]="searchText"
+  [sortSelectorEnabled]="sortEnabled"
   [toolbarType]="toolbarType"
-  #toolbar>
+  #toolbar
+>
   <sky-list-toolbar-item *ngIf="showCutomItem1"
     id="custom-item"
     location="right"

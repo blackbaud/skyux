@@ -78,6 +78,7 @@ describe('List Toolbar Component', () => {
     component = fixture.componentInstance;
   });
 
+  // #region helpers
   function initializeToolbar() {
     fixture.detectChanges();
     // always skip the first update to ListState, when state is ready
@@ -138,6 +139,7 @@ describe('List Toolbar Component', () => {
     expect(items.item(2)).toHaveText('Custom Item');
     expect(items.item(3)).toHaveText('Custom Item 2');
   }
+  // #endregion
 
   describe('search', () => {
     it('should be visible by default', async(() => {
@@ -219,6 +221,62 @@ describe('List Toolbar Component', () => {
           });
           fixture.detectChanges();
         });
+      });
+    }));
+
+    it('should emit a value on the searchApplied property when a search is applied', async(() => {
+      initializeToolbar();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        const spy = spyOn(component.toolbar.searchApplied, 'next').and.callThrough();
+
+        component.toolbar.searchComponent.applySearchText('something');
+        fixture.detectChanges();
+
+        expect(spy).toHaveBeenCalledTimes(1);
+        expect(spy).toHaveBeenCalledWith('something');
+      });
+    }));
+
+    it('should call list state dispatcher when inMemorySearchEnabled is undefined', async(() => {
+      component.inMemorySearchEnabled = undefined;
+      initializeToolbar();
+      const setTextSpy = spyOn(dispatcher, 'searchSetText').and.callThrough();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+
+        component.toolbar.searchComponent.applySearchText('something');
+        fixture.detectChanges();
+
+        expect(setTextSpy).toHaveBeenCalledTimes(1);
+      });
+    }));
+
+    it('should call list state dispatcher when inMemorySearchEnabled is true', async(() => {
+      component.inMemorySearchEnabled = true;
+      initializeToolbar();
+      const setTextSpy = spyOn(dispatcher, 'searchSetText').and.callThrough();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+
+        component.toolbar.searchComponent.applySearchText('something');
+        fixture.detectChanges();
+
+        expect(setTextSpy).toHaveBeenCalledTimes(1);
+      });
+    }));
+
+    it('should not call list state dispatcher when inMemorySearchEnabled is false', async(() => {
+      component.inMemorySearchEnabled = false;
+      initializeToolbar();
+      const setTextSpy = spyOn(dispatcher, 'searchSetText').and.callThrough();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+
+        component.toolbar.searchComponent.applySearchText('something');
+        fixture.detectChanges();
+
+        expect(setTextSpy).not.toHaveBeenCalledTimes(1);
       });
     }));
   });
