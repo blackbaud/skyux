@@ -1,0 +1,15 @@
+#inline-delete-container {
+  padding: 15px;
+  background-color: white;
+  border: black solid 1px;
+  height: 400px;
+  width: 400px;
+  position: relative;
+}
+
+#inline-delete-trigger {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  width: 100%;
+}

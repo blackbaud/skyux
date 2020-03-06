@@ -1,0 +1,170 @@
+<sky-docs-demo-page
+  moduleName="SkyInlineDeleteModule"
+  moduleSourceCodePath="src/app/public/modules/inline-delete/"
+  pageTitle="Inline delete confirmation"
+>
+  <sky-docs-demo-page-summary>
+    The inline delete confirmation appears when users delete an item in a list and requires them to confirm that they want to delete the item.
+  </sky-docs-demo-page-summary>
+
+  <sky-docs-demo>
+    <sky-docs-demo-control-panel
+      (reset)="onResetClick()"
+    >
+    </sky-docs-demo-control-panel>
+    <sky-repeater
+      style="width: 100%"
+    >
+      <sky-repeater-item *ngFor="let item of repeaterDemoItems">
+        <sky-repeater-item-context-menu>
+          <sky-dropdown
+            buttonType="context-menu"
+          >
+            <sky-dropdown-menu>
+              <sky-dropdown-item>
+                <button
+                  type="button"
+                  (click)="showInlineDelete(item.title)"
+                >
+                  Delete
+                </button>
+              </sky-dropdown-item>
+            </sky-dropdown-menu>
+          </sky-dropdown>
+        </sky-repeater-item-context-menu>
+        <sky-repeater-item-title
+          class="sky-demo-inline-delete-flex"
+        >
+          <div>
+            {{item.title}}
+          </div>
+          <div>
+            {{item.cost}}
+          </div>
+        </sky-repeater-item-title>
+        <sky-repeater-item-content>
+          {{item.description}}
+        </sky-repeater-item-content>
+        <sky-inline-delete *ngIf="repeaterDemoShownInlineDeletes.indexOf(item.title) >= 0"
+          (cancelTriggered)="cancelDeletion(item.title)"
+          (deleteTriggered)="deleteItem(item.title)"
+        ></sky-inline-delete>
+      </sky-repeater-item>
+    </sky-repeater>
+  </sky-docs-demo>
+
+  <sky-docs-code-examples
+    [packageDependencies]="{
+      '@skyux/inline-form': '*',
+      '@skyux/lists': '*'
+    }"
+  >
+    <sky-docs-code-example
+      heading="Custom elements"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/inline-delete/custom"
+    ></sky-docs-code-example>
+    <sky-docs-code-example
+      heading="Card"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/inline-delete/card"
+    ></sky-docs-code-example>
+    <sky-docs-code-example
+      heading="Repeater"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/inline-delete/repeater"
+    ></sky-docs-code-example>
+  </sky-docs-code-examples>
+
+  <sky-docs-design-guidelines>
+
+    <sky-docs-demo-page-section
+      heading="Usage"
+    >
+      <sky-docs-design-guideline
+        heading="Use when"
+        headingStyle="success"
+      >
+        <p>
+          Use the inline delete confirmation when users need to confirm that they want to delete an item from a list.
+        </p>
+        <p>
+          Keep in mind that you should not delete items from lists when they are complex enough to have their own record pages. For lists with such items, do not include delete actions in the <a href="https://developer.blackbaud.com/skyux/components/dropdown">context-menu dropdowns</a>.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          caption="Do use inline delete confirmation when deleting an item from a list."
+          captionType="success"
+          imageSource="~/assets/img/guidelines/inline-delete/use-list.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline
+        heading="Don't use when"
+        headingStyle="danger"
+      >
+        <p>
+          Don't use inline delete confirmation when users need to confirm that they want to delete an item outside of a list. Use a <a href="https://developer.blackbaud.com/skyux/components/confirm">confirm dialog</a> instead.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          caption="Don't use inline delete confirmation for an item outside of a list."
+          captionType="danger"
+          imageSource="~/assets/img/guidelines/inline-delete/dont-use-nolist.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+        <sky-docs-design-guideline-thumbnail
+          caption="Do use a confirm dialog when users need to confirm that they want to delete an item outside of a list."
+          captionType="success"
+          imageSource="~/assets/img/guidelines/inline-delete/dont-use-nolist-confirm.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Anatomy"
+    >
+      <sky-docs-anatomy
+        imagePath="~/assets/img/guidelines/inline-delete/anatomy.png"
+      >
+        <sky-docs-anatomy-item>Delete button</sky-docs-anatomy-item>
+        <sky-docs-anatomy-item>Cancel button</sky-docs-anatomy-item>
+        <sky-docs-anatomy-item>Overlay</sky-docs-anatomy-item>
+      </sky-docs-anatomy>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Behavior"
+    >
+      <sky-docs-design-guideline
+        heading="Animation"
+      >
+        <p>
+          When user select a delete action from a <a href="https://developer.blackbaud.com/skyux/components/dropdown">context-menu dropdown</a> in a list, the inline delete confirmation covers the list item. When users select <strong>Delete</strong> to confirm the action, it removes the item from the list and repositions the remaining list items.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          videoSource="~/assets/img/guidelines/inline-delete/delete.mp4"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Related information"
+    >
+      <sky-docs-design-guideline
+        heading="Components"
+      >
+        <ul>
+          <li><a href="https://developer.blackbaud.com/skyux/components/confirm">Confirm dialog</a></li>
+          <li><a href="https://developer.blackbaud.com/skyux/components/dropdown">Dropdown</a></li>
+        </ul>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline
+        heading="Guidelines"
+      >
+        <ul>
+          <li><a href="https://developer.blackbaud.com/skyux/design/guidelines/managing-records">Manage records</a></li>
+          <li><a href="https://developer.blackbaud.com/skyux/design/styles/motion">Motion</a></li>
+        </ul>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+  </sky-docs-design-guidelines>
+</sky-docs-demo-page>

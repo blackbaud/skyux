@@ -1,0 +1,8 @@
+.sky-demo-inline-delete-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.sky-demo-inline-delete-flex div:first-child {
+  flex-grow: 1;
+}
