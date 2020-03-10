@@ -1,0 +1,13 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+.sky-country-field-visual {
+  padding: $sky-padding;
+}
+
+#screenshot-country-field-empty, #screenshot-country-field-populated {
+  width: 50%;
+  height: 100px;
+  margin: $sky-margin;
+  padding: $sky-padding;
+}

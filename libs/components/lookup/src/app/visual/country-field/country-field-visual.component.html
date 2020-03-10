@@ -1,0 +1,61 @@
+<div
+  class="sky-country-field-visual"
+>
+  <h2
+    class="sky-section-heading"
+  >
+    Standard country field
+  </h2>
+
+
+  <div
+    id="screenshot-country-field-empty"
+  >
+    <form>
+      <sky-country-field
+        name="countryField"
+        required
+        [disabled]="disableFields"
+        [(ngModel)]="countryData"
+      >
+      </sky-country-field>
+    </form>
+  </div>
+
+  <p *ngIf="countryData">
+    Selected Country is {{ countryData.name }}
+  </p>
+</div>
+
+<div
+  class="sky-country-field-visual"
+>
+  <h2
+    class="sky-section-heading"
+  >
+    Reactive country field with default country
+  </h2>
+
+  <form
+    id="screenshot-country-field-populated"
+    [formGroup]="countryForm"
+  >
+    <sky-country-field
+      formControlName="countryControl"
+      [defaultCountry]="'AU'"
+    >
+    </sky-country-field>
+  </form>
+
+  <p *ngIf="countryControl.value">
+    Selected Country is {{ countryControl.value.name }}
+  </p>
+
+  <button
+    class="sky-btn sky-btn-primary"
+    id="disable-toggle"
+    (click)="toggleDisabledStates()"
+  >
+    Toggle Disabled States
+  </button>
+</div>

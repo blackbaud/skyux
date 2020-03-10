@@ -1,4 +1,8 @@
 {
+  "skyux_country_field_search_placeholder": {
+    "_description": "Placeholder for country search autocomplete",
+    "message": "Search for a country"
+  },
   "skyux_search_dismiss": {
     "_description": "Label for dismissing search input",
     "message": "Dismiss search"
