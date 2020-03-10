@@ -1,3 +1,7 @@
+# 3.3.0 (2020-03-10)
+
+- Added the country field component. [#55](https://github.com/blackbaud/skyux-lookup/pull/55)
+
 # 3.2.1 (2020-02-13)
 
 - Fixed the autocomplete component to use the `Renderer2` service instead of the deprecated `Renderer` service. [#50](https://github.com/blackbaud/skyux-lookup/pull/50)
