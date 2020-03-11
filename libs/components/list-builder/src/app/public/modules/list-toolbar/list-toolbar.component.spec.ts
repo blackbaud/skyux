@@ -126,15 +126,24 @@ describe('List Toolbar Component', () => {
     fixture.detectChanges();
   }
 
-  function verifySearchTypeToolbar() {
+  function verifySearchTypeToolbar(searchHidden = false) {
     fixture.detectChanges();
 
     const sections = fixture.nativeElement.querySelectorAll('.sky-list-toolbar-search .sky-toolbar-section');
-    expect(sections.length).toBe(2);
-    expect(sections.item(0).querySelector('input')).not.toBeNull();
-    expect(component.toolbar.searchComponent.expandMode).toBe('fit');
+    let items;
 
-    const items = sections.item(1).querySelectorAll('.sky-toolbar-item sky-list-toolbar-item-renderer');
+    if (searchHidden) {
+      expect(sections.length).toBe(1);
+
+      items = sections.item(0).querySelectorAll('.sky-toolbar-item sky-list-toolbar-item-renderer');
+    } else {
+      expect(sections.length).toBe(2);
+      expect(sections.item(0).querySelector('input')).not.toBeNull();
+      expect(component.toolbar.searchComponent.expandMode).toBe('fit');
+
+      items = sections.item(1).querySelectorAll('.sky-toolbar-item sky-list-toolbar-item-renderer');
+    }
+
     expect(items.item(0).querySelector('.sky-sort')).not.toBeNull();
     expect(items.item(2)).toHaveText('Custom Item');
     expect(items.item(3)).toHaveText('Custom Item 2');
@@ -474,6 +483,16 @@ describe('List Toolbar Component', () => {
       dispatcher.next(new ListToolbarSetTypeAction('search'));
       fixture.whenStable().then(() => {
         verifySearchTypeToolbar();
+      });
+    }));
+
+    it('should load custom items with toolbarType = search when search is not enabled', async(() => {
+      component.toolbarType = 'search';
+      component.searchEnabled = false;
+      fixture.detectChanges();
+      initializeToolbar();
+      fixture.whenStable().then(() => {
+        verifySearchTypeToolbar(true);
       });
     }));
   });

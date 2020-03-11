@@ -42,11 +42,12 @@
     </sky-toolbar-section>
   </sky-toolbar>
 
-  <div *ngIf="(type | async) === 'search'"
+  <div *ngIf="(type | async) === 'search' &&
+    ((isSearchEnabled | async) || hasAdditionalToolbarSection)"
     class="sky-list-toolbar-search"
   >
     <sky-toolbar>
-      <sky-toolbar-section>
+      <sky-toolbar-section *ngIf="(isSearchEnabled | async)">
         <sky-toolbar-item>
           <sky-list-toolbar-item-renderer
             sky-cmp-id="search"
