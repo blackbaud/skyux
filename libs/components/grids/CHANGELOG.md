@@ -1,3 +1,7 @@
+# 3.5.3 (2020-03-11)
+
+- Fixed the grid component to properly display the top scroll bar when the grid's columns or data changes. [#105](https://github.com/blackbaud/skyux-grids/pull/105)
+
 # 3.5.2 (2020-02-13)
 
 - Fixed the grid component to handle scroll events when the top scroll bar fails to render. [#100](https://github.com/blackbaud/skyux-grids/pull/100)
