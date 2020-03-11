@@ -169,10 +169,6 @@ export class SkyCountryFieldComponent implements ControlValueAccessor, OnDestroy
       .intlTelInputGlobals.getCountryData()));
 
     this.countrySearchFormControl = new FormControl();
-
-    this.isInPhoneField = (<HTMLElement>elRef.nativeElement.parentElement)
-      .classList
-      .contains('sky-phone-field-country-search');
   }
 
   /**
@@ -193,6 +189,10 @@ export class SkyCountryFieldComponent implements ControlValueAccessor, OnDestroy
       });
 
     this.addEventListeners();
+
+    this.isInPhoneField = (<HTMLElement>this.elRef.nativeElement.parentElement)
+      .classList
+      .contains('sky-phone-field-country-search');
   }
 
   /**
@@ -267,6 +267,7 @@ export class SkyCountryFieldComponent implements ControlValueAccessor, OnDestroy
     if (!this.disabled) {
       this.selectedCountry = value;
     }
+    this.changeDetector.markForCheck();
   }
 
   private addEventListeners(): void {
