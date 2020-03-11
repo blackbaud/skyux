@@ -1,3 +1,9 @@
+# 3.3.1 (2020-03-11)
+
+- Fixed the country field component to eliminate extra space below the component. [#59](https://github.com/blackbaud/skyux-lookup/pull/59)
+- Fixed the country field component to recognize when it is placed within the phone field component. [#59](https://github.com/blackbaud/skyux-lookup/pull/59)
+- Fixed the country field component to properly remove the flag from the input element when the form's value is cleared. [#59](https://github.com/blackbaud/skyux-lookup/pull/59)
+
 # 3.3.0 (2020-03-10)
 
 - Added the country field component. [#55](https://github.com/blackbaud/skyux-lookup/pull/55)
