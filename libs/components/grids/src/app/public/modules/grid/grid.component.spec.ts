@@ -991,6 +991,40 @@ describe('Grid Component', () => {
           done();
         });
       });
+
+      it('should set top scroll width to the tables width on column changes when needed', async(() => {
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          fixture.detectChanges();
+          expect(fixture.componentInstance.grid.showTopScroll).toBeFalsy();
+          fixture.componentInstance.showWideColumn = true;
+
+          fixture.detectChanges();
+          fixture.whenStable().then(() => {
+            fixture.detectChanges();
+
+            expect(fixture.componentInstance.grid.showTopScroll).toBeTruthy();
+            expect(getTableWidth(fixture)).toEqual(getTopScrollWidth(fixture));
+          });
+        });
+      }));
+
+      it('should set top scroll width to the tables width on data when needed', async(() => {
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          fixture.detectChanges();
+          expect(fixture.componentInstance.grid.showTopScroll).toBeFalsy();
+          fixture.componentInstance.addLongData();
+
+          fixture.detectChanges();
+          fixture.whenStable().then(() => {
+            fixture.detectChanges();
+
+            expect(fixture.componentInstance.grid.showTopScroll).toBeTruthy();
+            expect(getTableWidth(fixture)).toEqual(getTopScrollWidth(fixture));
+          });
+        });
+      }));
     });
 
     describe('selectedColumnIds undefined on load', () => {
@@ -1316,6 +1350,7 @@ describe('Grid Component', () => {
         inputs[1].nativeElement.click();
         inputs[4].nativeElement.click();
         fixture.detectChanges();
+        tick();
 
         // Expect the emitter to send us 1,2,5.
         // Values should match the row value of the consumer-provided key in 'multiselectRowId'.
@@ -1374,6 +1409,7 @@ describe('Grid Component', () => {
         inputs[1].nativeElement.click();
         inputs[4].nativeElement.click();
         fixture.detectChanges();
+        tick();
 
         // Expect the emitter to send us 1,2,5.
         // Values should match the row value of the consumer-provided key in 'multiselectRowId'.
@@ -1405,6 +1441,7 @@ describe('Grid Component', () => {
         inputs[1].nativeElement.click();
         inputs[4].nativeElement.click();
         fixture.detectChanges();
+        tick();
 
         // Expect the emitter to send us 1,2,5.
         // Values should match the row value of the consumer-provided key in 'multiselectRowId'.

@@ -67,6 +67,13 @@
     field="column1"
     heading="Column7">
   </sky-grid-column>
+  <sky-grid-column *ngIf="showWideColumn"
+    id="column6"
+    field="column1"
+    heading="Column8"
+    [width]="50000"
+  >
+  </sky-grid-column>
 </sky-grid>
 
 <sky-popover #column1Help>

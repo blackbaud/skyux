@@ -121,6 +121,20 @@ export class GridTestComponent {
 
   public settingsKey: string;
 
+  public set showWideColumn(showCol: boolean) {
+    if (showCol) {
+      this.selectedColumnIds.push('column6');
+    } else {
+      this.selectedColumnIds = this.selectedColumnIds.filter(id => id !== 'column6');
+    }
+
+    this._showWideColumn = showCol;
+  }
+
+  public get showWideColumn(): boolean {
+    return this._showWideColumn;
+  }
+
   public sortField: ListSortFieldSelectorModel;
 
   public selectedColumnIds: string[] = [
@@ -139,6 +153,8 @@ export class GridTestComponent {
 
   @ViewChildren(TemplateRef)
   public viewtemplates: QueryList<TemplateRef<any>>;
+
+  public _showWideColumn: boolean = false;
 
   public searchFunction: (data: any, searchText: string) => boolean =
     (data: any, searchText: string) => {
@@ -180,11 +196,30 @@ export class GridTestComponent {
     this.selectedRowsChange = selectedRows;
   }
 
+  public addLongData() {
+    this.data = [{
+      id: '8',
+      column1: 'Some long text that would provoke an overflow of monster proportions!',
+      column2: 'Some long text that would provoke an overflow of monster proportions!',
+      column3: 21,
+      column4: moment().add(7, 'minute'),
+      customId: '107'
+    }];
+  }
+
   public hideColumn(): void {
     this.selectedColumnIds = ['column1', 'column3', 'column4', 'column5'];
+
+    if (this.showWideColumn) {
+      this.selectedColumnIds.push('column6');
+    }
   }
 
   public showColumn(): void {
     this.selectedColumnIds = ['column1', 'column2', 'column3', 'column4', 'column5'];
+
+    if (this.showWideColumn) {
+      this.selectedColumnIds.push('column6');
+    }
   }
 }
