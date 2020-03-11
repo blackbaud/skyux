@@ -1,3 +1,7 @@
+# 3.7.1 (2020-03-11)
+
+- Fixed the list toolbar component to not display an empty toolbar when search is disabled. [#76](https://github.com/blackbaud/skyux-list-builder/pull/76)
+
 # 3.7.0 (2020-03-05)
 
 - Added the `inMemorySearchEnabled` and `searchApplied` properties to the list toolbar component to enable consuming SKY UX components to run searches remotely. [#82](https://github.com/blackbaud/skyux-list-builder/pull/82)
