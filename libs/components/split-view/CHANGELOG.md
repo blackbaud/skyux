@@ -1,3 +1,7 @@
+# 3.0.0 (2020-03-12)
+
+- Major version release.
+
 # 3.0.0-rc.0 (2019-08-13)
 
 - Initial release candidate.
