@@ -5,32 +5,25 @@ import {
 } from '@angular/core';
 
 import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators
-} from '@angular/forms';
-
-import { SkyLookupComponent } from '../lookup.component';
+  SkyLookupComponent
+} from '../lookup.component';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './lookup.component.fixture.html'
+  templateUrl: './lookup-template.component.fixture.html'
 })
-export class SkyLookupTestComponent implements OnInit {
+export class SkyLookupTemplateTestComponent implements OnInit {
+
   @ViewChild(SkyLookupComponent)
   public lookupComponent: SkyLookupComponent;
 
   public ariaLabel: string;
   public ariaLabelledBy: string;
   public data: any[];
+  public disabled: boolean = false;
   public friends: any[];
-  public form: FormGroup;
   public placeholderText: string;
-
-  constructor(
-    private formBuilder: FormBuilder
-  ) { }
+  public required: boolean = false;
 
   public ngOnInit(): void {
     this.data = [
@@ -52,29 +45,21 @@ export class SkyLookupTestComponent implements OnInit {
       { name: 'Yolanda' },
       { name: 'Zack' }
     ];
-
-    this.createForm();
   }
 
   public enableLookup() {
-    this.form.controls.friends.enable();
+    this.disabled = false;
   }
 
   public disableLookup() {
-    this.form.controls.friends.disable();
+    this.disabled = true;
   }
 
   public setRequired() {
-    this.form.controls.friends.setValidators([Validators.required]);
+    this.required = true;
   }
 
   public removeRequired() {
-    this.form.controls.friends.setValidators([]);
-  }
-
-  private createForm(): void {
-    this.form = this.formBuilder.group({
-      friends: new FormControl(this.friends)
-    });
+    this.required = false;
   }
 }

@@ -11,12 +11,22 @@ import {
   ReactiveFormsModule
 } from '@angular/forms';
 
-import { SkyLookupModule } from '../lookup.module';
-import { SkyLookupTestComponent } from './lookup.component.fixture';
+import {
+  SkyLookupModule
+} from '../lookup.module';
+
+import {
+  SkyLookupTestComponent
+} from './lookup.component.fixture';
+
+import {
+  SkyLookupTemplateTestComponent
+} from './lookup-template.component.fixture';
 
 @NgModule({
   declarations: [
-    SkyLookupTestComponent
+    SkyLookupTestComponent,
+    SkyLookupTemplateTestComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +35,8 @@ import { SkyLookupTestComponent } from './lookup.component.fixture';
     SkyLookupModule
   ],
   exports: [
-    SkyLookupTestComponent
+    SkyLookupTestComponent,
+    SkyLookupTemplateTestComponent
   ]
 })
 export class SkyLookupFixturesModule { }
