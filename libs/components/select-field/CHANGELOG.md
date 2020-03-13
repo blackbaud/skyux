@@ -1,3 +1,7 @@
+# 3.5.0 (2020-03-13)
+
+- Added the `inMemorySearchEnabled` and `searchApplied` properties to the select field component to facilitate running searches remotely. [#56](https://github.com/blackbaud/skyux-select-field/pull/56)
+
 # 3.4.3 (2020-02-18)
 
 - Fixed the select field component to allow it to programmatically deselect items. [#54](https://github.com/blackbaud/skyux-select-field/pull/54)
