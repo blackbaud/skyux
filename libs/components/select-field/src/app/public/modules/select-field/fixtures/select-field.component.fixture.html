@@ -6,14 +6,16 @@
     [data]="data"
     [descriptorKey]="descriptorKey"
     [disabled]="disabled"
-    [selectMode]="selectMode"
+    [inMemorySearchEnabled]="inMemorySearchEnabled"
     [multipleSelectOpenButtonText]="multipleSelectOpenButtonText"
+    [selectMode]="selectMode"
     [singleSelectClearButtonTitle]="singleSelectClearButtonTitle"
     [singleSelectOpenButtonTitle]="singleSelectOpenButtonTitle"
     [singleSelectPlaceholderText]="singleSelectPlaceholderText"
     [pickerHeading]="pickerHeading"
-    [(ngModel)]="formData.modelValue"
     (blur)="onBlur()"
     (ngModelChange)="onModelChange($event)"
+    (searchApplied)="onSearchApplied($event)"
+    [(ngModel)]="formData.modelValue"
   >
   </sky-select-field>

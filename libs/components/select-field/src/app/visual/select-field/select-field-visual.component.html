@@ -176,4 +176,19 @@
     </button>
   </p>
 
+  <h2>Searching from a remote source</h2>
+  <div
+    class="sky-padding-even-default"
+  >
+    <sky-select-field
+      name="single"
+      selectMode="single"
+      [data]="remoteData"
+      [inMemorySearchEnabled]="false"
+      [pickerHeading]="'Search for anything to simulate a 2s load from a remote source.'"
+      (searchApplied)="onSearchApplied($event)"
+    >
+    </sky-select-field>
+  </div>
+
 </div>

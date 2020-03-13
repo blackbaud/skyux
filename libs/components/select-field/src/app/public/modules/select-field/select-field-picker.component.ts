@@ -3,14 +3,30 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  EventEmitter,
   OnDestroy,
   OnInit,
+  Output,
   ViewChild
 } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import {
+  Observable
+} from 'rxjs/Observable';
+
+import {
+  Subject
+} from 'rxjs/Subject';
+
 import 'rxjs/add/operator/take';
+
+import {
+  SkyWindowRefService
+} from '@skyux/core';
+
+import {
+  SkyListToolbarComponent
+} from '@skyux/list-builder';
 
 import {
   ListItemModel
@@ -29,15 +45,13 @@ import {
 } from '@skyux/modals';
 
 import {
-  SkyWindowRefService
-} from '@skyux/core';
+  SkySelectFieldPickerContext
+} from './select-field-picker-context';
 
 import {
   SkySelectField,
   SkySelectFieldSelectMode
 } from './types';
-
-import { SkySelectFieldPickerContext } from './select-field-picker-context';
 
 @Component({
   selector: 'sky-select-field-picker',
@@ -46,10 +60,32 @@ import { SkySelectFieldPickerContext } from './select-field-picker-context';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkySelectFieldPickerComponent implements OnInit, AfterContentInit, OnDestroy {
+
+  /**
+   * Fires when a search is submitted from the picker's toolbar.
+   * @internal
+   */
+  @Output()
+  public searchApplied: EventEmitter<string> = new EventEmitter<string>();
+
   public categories: string[];
   public data: Observable<any>;
   public selectMode: SkySelectFieldSelectMode;
   public headingText: string;
+
+  public set inMemorySearchEnabled(value: boolean) {
+    if (value !== this._inMemorySearchEnabled) {
+      this._inMemorySearchEnabled = value;
+    }
+  }
+
+  public get inMemorySearchEnabled(): boolean {
+    if (this._inMemorySearchEnabled === undefined) {
+      return true;
+    }
+
+    return this._inMemorySearchEnabled;
+  }
 
   public selectedCategory = this.defaultCategory;
   public selectedIds: any[] = [];
@@ -64,6 +100,13 @@ export class SkySelectFieldPickerComponent implements OnInit, AfterContentInit, 
   @ViewChild(SkyListViewChecklistComponent)
   private listViewChecklist: SkyListViewChecklistComponent;
 
+  @ViewChild(SkyListToolbarComponent)
+  private listToolbar: SkyListToolbarComponent;
+
+  private ngUnsubscribe = new Subject();
+
+  private _inMemorySearchEnabled: boolean;
+
   constructor(
     private context: SkySelectFieldPickerContext,
     private instance: SkyModalInstance,
@@ -76,9 +119,16 @@ export class SkySelectFieldPickerComponent implements OnInit, AfterContentInit, 
     this.headingText = this.context.headingText;
     this.selectMode = this.context.selectMode;
     this.showAddNewRecordButton = this.context.showAddNewRecordButton;
+    this.inMemorySearchEnabled = this.context.inMemorySearchEnabled;
 
     this.selectedIds = this.getSelectedIds();
     this.assignCategories();
+
+    this.listToolbar.searchApplied
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe((searchText: string) => {
+        this.searchApplied.emit(searchText);
+      });
   }
 
   public ngAfterContentInit() {
@@ -89,6 +139,8 @@ export class SkySelectFieldPickerComponent implements OnInit, AfterContentInit, 
 
   public ngOnDestroy(): void {
     this.addNewRecordButtonClick.complete();
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   public onAddNewRecordButtonClick(): void {

@@ -9,7 +9,9 @@
           [data]="data"
           [selectedIds]="selectedIds"
           (selectedIdsChange)="onSelectedIdsChange($event)">
-          <sky-list-toolbar>
+          <sky-list-toolbar
+            [inMemorySearchEnabled]="inMemorySearchEnabled"
+          >
             <sky-list-toolbar-search-actions *ngIf="showAddNewRecordButton">
               <button
                 class="sky-btn sky-btn-default sky-select-field-picker-btn-new"

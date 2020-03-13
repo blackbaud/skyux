@@ -103,6 +103,14 @@ export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy 
   @Input()
   public multipleSelectOpenButtonText: string;
 
+  /**
+   * When `inMemorySearchEnabled` is `false`, it will circumvent the list-builder search function,
+   * allowing consumers to provide results from a remote source, by updating the `data` value.
+   * @default true
+   */
+  @Input()
+  public inMemorySearchEnabled: boolean;
+
   @Input()
   public singleSelectClearButtonTitle: string;
 
@@ -123,6 +131,12 @@ export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy 
 
   @Output()
   public addNewRecordButtonClick = new EventEmitter<void>();
+
+  /**
+   * Fires when a search is submitted from the picker's toolbar.
+   */
+  @Output()
+  public searchApplied: EventEmitter<string> = new EventEmitter<string>();
 
   public get value(): any {
     return this._value;
@@ -196,6 +210,7 @@ export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy 
         pickerContext.selectedValue = this.value;
         pickerContext.selectMode = this.selectMode;
         pickerContext.showAddNewRecordButton = this.showAddNewRecordButton;
+        pickerContext.inMemorySearchEnabled = this.inMemorySearchEnabled;
 
         if (this.customPicker) {
           this.openCustomPicker(pickerContext);
@@ -293,7 +308,13 @@ export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy 
       }]
     });
 
-    modalInstance.componentInstance.addNewRecordButtonClick.subscribe(() => {
+    const picker = modalInstance.componentInstance as SkySelectFieldPickerComponent;
+
+    picker.searchApplied.subscribe((searchText: string) => {
+      this.searchApplied.emit(searchText);
+    });
+
+    picker.addNewRecordButtonClick.subscribe(() => {
       this.addNewRecordButtonClick.emit();
     });
 
