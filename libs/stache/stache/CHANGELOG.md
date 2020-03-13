@@ -1,3 +1,7 @@
+# 3.3.0 (2019-12-10)
+
+- Decreased the margin used in the tutorial component. [#71](https://github.com/blackbaud/skyux-lib-stache/pull/71)
+
 # 3.2.3 (2019-12-10)
 
 - Fixed the sidebar to allow headers to link to external URLs. [#64](https://github.com/blackbaud/skyux-lib-stache/pull/64)
