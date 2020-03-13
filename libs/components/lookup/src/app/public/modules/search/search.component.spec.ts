@@ -422,6 +422,19 @@ describe('Search component', () => {
 
       }));
     });
+
+    it('should remove the min-width property after animating', async(() => {
+      triggerXsBreakpoint().then(() => {
+        fixture.detectChanges();
+        let containerEl: HTMLElement = element.query(By.css('.sky-search-input-container')).nativeElement;
+          expect(containerEl.style.minWidth).toBeFalsy();
+        triggerLgBreakpoint().then(() => {
+          verifySearchOpenFullScreen();
+          containerEl = element.query(By.css('.sky-search-input-container')).nativeElement;
+          expect(containerEl.style.minWidth).toBeFalsy();
+        });
+      });
+    }));
   });
 
   describe('expandMode none', () => {

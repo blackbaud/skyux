@@ -30,7 +30,7 @@ export class SkySearchAdapterService {
 
   public endInputAnimation(searchEl: ElementRef) {
     this.renderer.setStyle(this.getInputContainerEl(searchEl),
-      'min-width', undefined);
+      'min-width', '');
   }
 
   private getInputContainerEl(searchEl: ElementRef) {
