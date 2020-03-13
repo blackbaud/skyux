@@ -9,6 +9,7 @@ export * from './dock/dock.module';
 export * from './dock/dock.service';
 
 export * from './fluid-grid';
+export * from './format';
 export * from './page';
 export * from './page-summary';
 export * from './text-expand';
