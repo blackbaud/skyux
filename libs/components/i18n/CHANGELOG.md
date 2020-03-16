@@ -1,3 +1,7 @@
+# 3.10.0 (2020-03-16)
+
+- Updated `SkyAppResourcesService` and `skyAppResources` pipe to leave tokens intact when no corresponding parameter is specified. [#62](https://github.com/blackbaud/skyux-i18n/pull/62)
+
 # 3.9.3 (2020-02-10)
 
 - Fixed a circular reference to `@skyux/core`.
