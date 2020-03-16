@@ -525,6 +525,64 @@ describe('Autocomplete component', () => {
       })
     );
 
+    describe('highlighting', () => {
+      it('should highlight when one letter is pressesd',
+        fakeAsync(() => {
+          fixture.detectChanges();
+          tick();
+          fixture.detectChanges();
+
+          enterSearch('r', fixture);
+          tick();
+          fixture.detectChanges();
+
+          expect(fixture.nativeElement.querySelector('mark').innerHTML.trim().toLowerCase()).toBe('r');
+          expect(fixture.nativeElement.querySelectorAll('mark').length).toBe(6);
+        })
+      );
+
+      it('should highlight when returning from a no results search',
+        fakeAsync(() => {
+          fixture.detectChanges();
+          tick();
+          fixture.detectChanges();
+
+          enterSearch('red4', fixture);
+          tick();
+          fixture.detectChanges();
+
+          expect(fixture.nativeElement.querySelectorAll('mark').length).toBe(0);
+          enterSearch('red', fixture);
+          tick();
+          fixture.detectChanges();
+
+          expect(fixture.nativeElement.querySelector('mark').innerHTML.trim().toLowerCase()).toBe('red');
+          expect(fixture.nativeElement.querySelectorAll('mark').length).toBe(1);
+        })
+      );
+
+      it('should highlight when returning from a more specific search to a less specific one',
+        fakeAsync(() => {
+          fixture.detectChanges();
+          tick();
+          fixture.detectChanges();
+
+          enterSearch('bla', fixture);
+          tick();
+          fixture.detectChanges();
+
+          expect(fixture.nativeElement.querySelector('mark').innerHTML.trim().toLowerCase()).toBe('bla');
+          expect(fixture.nativeElement.querySelectorAll('mark').length).toBe(1);
+          enterSearch('bl', fixture);
+          tick();
+          fixture.detectChanges();
+
+          expect(fixture.nativeElement.querySelector('mark').innerHTML.trim().toLowerCase()).toBe('bl');
+          expect(fixture.nativeElement.querySelectorAll('mark').length).toBe(2);
+        })
+      );
+    });
+
     describe('keyboard interactions', () => {
       it('should notify selection when enter key pressed', fakeAsync(() => {
         fixture.detectChanges();

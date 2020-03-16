@@ -12,11 +12,13 @@
 
       <sky-dropdown-menu
         [useNativeFocus]="false"
-        [skyHighlight]="highlightText"
-        (menuChanges)="onMenuChanges($event)">
+        (menuChanges)="onMenuChanges($event)"
+      >
 
         <sky-dropdown-item
-          *ngFor="let result of searchResults; let i = index">
+          *ngFor="let result of searchResults; let i = index"
+          [skyHighlight]="highlightText"
+        >
 
           <button
             type="button">
