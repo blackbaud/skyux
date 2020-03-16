@@ -13,9 +13,9 @@ import {
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './country-field.component.fixture.html'
+  templateUrl: './country-field-no-form.component.fixture.html'
 })
-export class CountryFieldTestComponent {
+export class CountryFieldNoFormTestComponent {
 
   @ViewChild(SkyCountryFieldComponent)
   public countryFieldComponent: SkyCountryFieldComponent;
@@ -25,8 +25,6 @@ export class CountryFieldTestComponent {
   public isDisabled: boolean = false;
 
   public isRequired: boolean = false;
-
-  public modelValue: SkyCountryFieldCountry;
 
   public countryChanged(country: SkyCountryFieldCountry): void {
     return;

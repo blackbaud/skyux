@@ -4,21 +4,19 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  forwardRef,
   Input,
   OnDestroy,
   OnInit,
+  Optional,
   Output,
+  Self,
   ViewChild
 } from '@angular/core';
 
 import {
-  AbstractControl,
   ControlValueAccessor,
   FormControl,
-  NG_VALUE_ACCESSOR,
-  NG_VALIDATORS,
-  ValidationErrors
+  NgControl
 } from '@angular/forms';
 
 import {
@@ -45,18 +43,6 @@ import {
   selector: 'sky-country-field',
   templateUrl: './country-field.component.html',
   styleUrls: ['./country-field.component.scss'],
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    /* tslint:disable-next-line:no-forward-ref */
-    useExisting: forwardRef(() => SkyCountryFieldComponent),
-    multi: true
-  },
-  {
-    provide: NG_VALIDATORS,
-    /* tslint:disable-next-line:no-forward-ref */
-    useExisting: forwardRef(() => SkyCountryFieldComponent),
-    multi: true
-  }],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyCountryFieldComponent implements ControlValueAccessor, OnDestroy, OnInit {
@@ -87,7 +73,21 @@ export class SkyCountryFieldComponent implements ControlValueAccessor, OnDestroy
    * Indicates whether to disable the country field.
    */
   @Input()
-  public disabled: boolean = false;
+  public set disabled(isDisabled: boolean) {
+    this.removeEventListeners();
+
+    if (!isDisabled) {
+      this.addEventListeners();
+    }
+
+    this._disabled = isDisabled;
+
+    this.changeDetector.markForCheck();
+  }
+
+  public get disabled(): boolean {
+    return this._disabled;
+  }
 
   /**
    * Fires when the selected country changes.
@@ -116,7 +116,7 @@ export class SkyCountryFieldComponent implements ControlValueAccessor, OnDestroy
 
       this.countrySearchFormControl.setValue(this.selectedCountry);
 
-      if (!this.isFirstChange) {
+      if (!this.isInitialChange) {
         this.onChange(newCountry);
         this.onTouched();
 
@@ -125,12 +125,12 @@ export class SkyCountryFieldComponent implements ControlValueAccessor, OnDestroy
 
       // Do not mark the field as "dirty"
       // if the field has been initialized with a value.
-      if (this.isFirstChange && this.control) {
-        this.control.markAsPristine();
+      if (this.isInitialChange && this.ngControl && this.ngControl.control) {
+        this.ngControl.control.markAsPristine();
       }
 
-      if (this.isFirstChange && newCountry !== null) {
-        this.isFirstChange = false;
+      if (this.isInitialChange && newCountry !== null) {
+        this.isInitialChange = false;
       }
     }
   }
@@ -139,25 +139,36 @@ export class SkyCountryFieldComponent implements ControlValueAccessor, OnDestroy
     return this._selectedCountry;
   }
 
-  private control: AbstractControl;
-
   private defaultCountryData: SkyCountryFieldCountry;
 
   private idle: Subject<any> = new Subject();
 
-  private isFirstChange: boolean = true;
+  private isInitialChange: boolean = true;
 
   private ngUnsubscribe = new Subject();
 
   private _defaultCountry: string;
+
+  private _disabled: boolean = false;
 
   private _selectedCountry: SkyCountryFieldCountry;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
     private elRef: ElementRef,
-    private windowRef: SkyAppWindowRef
+    private windowRef: SkyAppWindowRef,
+    @Self() @Optional() private ngControl: NgControl
   ) {
+    if (this.ngControl) {
+      this.ngControl.valueAccessor = this;
+    } else {
+      /**
+       * The initial change boolean is to determine if the form is setting the value. When no form
+       * is present we don't want to ignore the first change.
+       */
+      this.isInitialChange = false;
+    }
+
     /**
      * The json functions here ensures that we get a copy of the array and not the global original.
      * This ensures that multiple instances of the component don't overwrite the original data.
@@ -188,11 +199,25 @@ export class SkyCountryFieldComponent implements ControlValueAccessor, OnDestroy
         }
       });
 
-    this.addEventListeners();
+    if (!this.disabled) {
+      this.addEventListeners();
+    }
 
     this.isInPhoneField = (<HTMLElement>this.elRef.nativeElement.parentElement)
       .classList
       .contains('sky-phone-field-country-search');
+
+    if (!this.isInPhoneField) {
+      /**
+       * The library we get the country data from includes extra phone properties.
+       * We want to remove these unless we are in a phone field
+       */
+      this.countries.forEach((country: any) => {
+        delete country.dialCode;
+        delete country.areaCodes;
+        delete country.priority;
+      });
+    }
   }
 
   /**
@@ -246,21 +271,7 @@ export class SkyCountryFieldComponent implements ControlValueAccessor, OnDestroy
 
   // Allows Angular to disable the input.
   public setDisabledState(disabled: boolean): void {
-    this.removeEventListeners();
-
-    if (!disabled) {
-      this.addEventListeners();
-    }
-
     this.disabled = disabled;
-    this.changeDetector.markForCheck();
-  }
-
-  public validate(control: AbstractControl): ValidationErrors {
-    if (!this.control) {
-      this.control = control;
-    }
-    return;
   }
 
   public writeValue(value: SkyCountryFieldCountry): void {
@@ -271,6 +282,8 @@ export class SkyCountryFieldComponent implements ControlValueAccessor, OnDestroy
   }
 
   private addEventListeners(): void {
+    this.removeEventListeners();
+
     this.idle = new Subject();
 
     const documentObj = this.windowRef.nativeWindow.document;

@@ -1,0 +1,9 @@
+<div>
+  <sky-country-field
+    [attr.required]="isRequired ? true : undefined"
+    [defaultCountry]="defaultCountry"
+    [disabled]="isDisabled ? true : undefined"
+    (selectedCountryChange)="countryChanged($event)"
+  >
+  </sky-country-field>
+</div>

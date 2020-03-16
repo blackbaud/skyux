@@ -3,8 +3,9 @@
     [formGroup]="countryForm"
   >
     <sky-country-field
-      [defaultCountry]="defaultCountry"
       formControlName="countryControl"
+      [defaultCountry]="defaultCountry"
+      (selectedCountryChange)="countryChanged($event)"
     >
     </sky-country-field>
   </form>
