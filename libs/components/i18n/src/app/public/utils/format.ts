@@ -9,7 +9,8 @@ export class Format {
     return String(format).replace(
       /\{(\d+)\}/g,
       function (match, capture): string {
-        return args[parseInt(capture, 10)];
+        const argsIndex = parseInt(capture, 10);
+        return args[argsIndex] === undefined ? match : args[argsIndex];
       }
     );
   }
