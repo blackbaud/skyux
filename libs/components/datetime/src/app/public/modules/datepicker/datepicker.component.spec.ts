@@ -502,6 +502,42 @@ describe('datepicker', () => {
         expect(ngModel.valid).toBe(false);
       }));
 
+      it('should validate properly when a non-convertable date is passed through input change',
+        fakeAsync(() => {
+          detectChanges(fixture);
+          setInputElementValue(nativeElement, '133320', fixture);
+
+          expect(getInputElementValue(fixture)).toBe('133320');
+          expect(component.selectedDate).toBe('133320');
+          expect(ngModel.valid).toBe(false);
+          expect(ngModel.pristine).toBe(false);
+          expect(ngModel.touched).toBe(true);
+        }));
+
+      it('should validate properly when a non-convertable date on initialization', fakeAsync(() => {
+        setInputProperty('133320', component, fixture);
+
+        expect(getInputElementValue(fixture)).toBe('133320');
+        expect(component.selectedDate).toBe('133320');
+        expect(ngModel.valid).toBe(false);
+        expect(ngModel.touched).toBe(true);
+
+        blurInput(fixture.nativeElement, fixture);
+
+        expect(ngModel.valid).toBe(false);
+        expect(ngModel.touched).toBe(true);
+      }));
+
+      it('should validate properly when a non-convertable date on model change', fakeAsync(() => {
+        detectChanges(fixture);
+
+        setInputProperty('133320', component, fixture);
+
+        expect(getInputElementValue(fixture)).toBe('133320');
+        expect(component.selectedDate).toBe('133320');
+        expect(ngModel.valid).toBe(false);
+      }));
+
       it('should validate properly when input changed to empty string', fakeAsync(() => {
         detectChanges(fixture);
 
