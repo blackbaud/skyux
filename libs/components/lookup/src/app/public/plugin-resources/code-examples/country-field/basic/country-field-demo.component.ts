@@ -1,25 +1,23 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   OnInit
 } from '@angular/core';
 
 import {
   FormControl,
-  FormGroup
+  FormGroup,
+  Validators
 } from '@angular/forms';
 
 import {
   SkyCountryFieldCountry
-} from '../../public/modules/country-field/types/country';
+} from '@skyux/lookup';
 
 @Component({
-  selector: 'app-country-field-docs',
-  templateUrl: './country-field-docs.component.html',
-  styleUrls: ['./country-field-docs.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-country-field-demo',
+  templateUrl: './country-field-demo.component.html'
 })
-export class CountryFieldDocsComponent implements OnInit {
+export class CountryFieldDemoComponent implements OnInit {
 
   public countryControl: FormControl;
 
@@ -31,9 +29,14 @@ export class CountryFieldDocsComponent implements OnInit {
 
   public ngOnInit(): void {
     this.countryControl = new FormControl();
+    this.countryControl.setValue({
+      name: 'Australia',
+      iso2: 'au'
+    });
     this.countryForm = new FormGroup({
       'countryControl': this.countryControl
     });
-  }
 
+    this.countryControl.setValidators([Validators.required]);
+  }
 }

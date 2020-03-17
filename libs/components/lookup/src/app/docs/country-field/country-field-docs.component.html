@@ -7,6 +7,29 @@
     The country field module creates a text input for users to enter search criteria and then select a country from search results.
   </sky-docs-demo-page-summary>
 
+  <sky-docs-demo>
+    <form
+      [formGroup]="countryForm"
+    >
+      <sky-country-field
+        formControlName="countryControl"
+      >
+      </sky-country-field>
+    </form>
+  </sky-docs-demo>
+
+  <sky-docs-code-examples
+    [packageDependencies]="{
+      '@skyux/lookup': '*',
+      'intl-tel-input': '*'
+    }"
+  >
+    <sky-docs-code-example
+      heading="Basic setup"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/country-field/basic"
+    ></sky-docs-code-example>
+  </sky-docs-code-examples>
+
   <sky-docs-design-guidelines>
 
     <sky-docs-demo-page-section
