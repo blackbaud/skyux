@@ -1,6 +1,7 @@
-# 3.0.0-rc.6 (2020/01/07)
+# 3.0.0-rc.6 (2020/03/18)
 
 - Fixed the keyboard navigation so that users can press Enter to save a cell and switch focus to the next cell in the column. [#20](https://github.com/blackbaud/skyux-ag-grid/pull/20)
+- Fixed the date cell type to support valid date strings, improved demos with dynamic row height, and infinite scroll. [#22](https://github.com/blackbaud/skyux-ag-grid/pull/22)
 
 # 3.0.0-rc.5 (2019/11/04)
 
