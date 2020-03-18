@@ -1,3 +1,7 @@
+# 3.3.3 (2020-03-18)
+
+- Fixed the `package.json` file to list `intl-tel-input` as a dependency and not a peer dependency.
+
 # 3.3.2 (2020-03-16)
 
 - Fixed the autocomplete component to highlight results after removing search text and after only one character is supplied. [#65](https://github.com/blackbaud/skyux-lookup/pull/65)
