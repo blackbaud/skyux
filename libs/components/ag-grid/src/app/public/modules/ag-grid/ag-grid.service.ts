@@ -30,21 +30,50 @@ import {
 } from './types';
 
 function autocompleteComparator(value1: {name: string}, value2: {name: string}): number {
-  if (value1 && value2 && value1.name > value2.name) {
-    return 1;
-  } else if (value1 && value2 && value1.name < value2.name) {
-    return -1;
-  } else if (value1 && value2 && value1 === value2) {
+  if (value1 && value2) {
+    if (value1.name > value2.name) {
+      return 1;
+    }
+
+    if (value1.name < value2.name) {
+      return -1;
+    }
+
     return 0;
-  } else if (value1) {
-    return 1;
-  } else {
-    return -1;
   }
+
+  return value1 ? 1 : -1;
 }
 
 function autocompleteFormatter(params: ValueFormatterParams): string | undefined {
   return params.value && params.value.name;
+}
+
+function dateComparator(date1: any, date2: any): number {
+  let date1value = date1;
+  let date2value = date2;
+
+  if (typeof date1value === 'string') {
+    date1value = new Date(date1);
+  }
+
+  if (typeof date2value === 'string') {
+    date2value = new Date(date2);
+  }
+
+  if (date1value && date2value) {
+    if (date1value > date2value) {
+      return 1;
+    }
+
+    if (date1value < date2value) {
+      return -1;
+    }
+
+    return 0;
+  }
+
+  return date1value ? 1 : -1;
 }
 
 /**
@@ -135,7 +164,8 @@ export class SkyAgGridService {
             ...editableCellClassRules
           },
           cellEditorFramework: SkyAgGridCellEditorDatepickerComponent,
-          valueFormatter: (params: ValueFormatterParams) => this.dateFormatter(params, args.locale)
+          valueFormatter: (params: ValueFormatterParams) => this.dateFormatter(params, args.locale),
+          comparator: dateComparator
         },
         [SkyCellType.Number]: {
           cellClassRules: {
@@ -204,7 +234,17 @@ export class SkyAgGridService {
 
   private dateFormatter(params: ValueFormatterParams, locale: string = 'en-us'): string | undefined {
     const dateConfig = { year: 'numeric', month: '2-digit', day: '2-digit' };
-    return params.value && params.value.toLocaleDateString(locale, dateConfig);
+    let date: Date = params.value;
+
+    if (date && typeof date === 'string') {
+      date = new Date(params.value);
+    }
+
+    let formattedDate = date && date.toLocaleDateString && date.toLocaleDateString(locale, dateConfig);
+
+    if (date && date.getTime && !isNaN(date.getTime())) {
+      return formattedDate;
+    }
   }
 
   private getIconTemplate(iconName: string): string {

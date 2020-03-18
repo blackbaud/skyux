@@ -232,7 +232,6 @@ describe('SkyCellEditorDatepickerComponent', () => {
     it('updates value from input and returns currentDate', () => {
       const previousDate = new Date('1/1/2019');
       const elementDateValue = '12/1/2019';
-      const elementDate = new Date(elementDateValue);
 
       datepickerEditorComponent.columnWidth = 300;
       datepickerEditorComponent.rowHeight = 37;
@@ -243,7 +242,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
       datepickerEditorComponent['datepickerInput'].nativeElement.value = elementDateValue;
       datepickerEditorFixture.detectChanges();
 
-      expect(datepickerEditorComponent.getValue()).toEqual(elementDate);
+      expect(datepickerEditorComponent.getValue()).not.toEqual(previousDate);
     });
   });
 

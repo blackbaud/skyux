@@ -3,6 +3,10 @@ import {
 } from '@angular/core';
 
 import {
+  SkyInfiniteScrollModule
+} from '@skyux/lists';
+
+import {
   SkyToolbarModule
 } from '@skyux/layout';
 
@@ -36,6 +40,7 @@ import {
     AgGridModule,
     SkyAgGridModule,
     SkyAppLinkModule,
+    SkyInfiniteScrollModule,
     SkyModalModule,
     SkySearchModule,
     SkyToolbarModule

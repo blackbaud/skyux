@@ -180,21 +180,27 @@ describe('SkyAgGridService', () => {
       };
     });
 
-    it('returns a date in the MM/DD/YYYY string format when no locale provided', () => {
-      dateValueFormatterParams.value = new Date('12/1/2019');
-      const formattedDate = dateValueFormatter(dateValueFormatterParams);
-      const fixedFormattedDate = fixLocaleDateString(formattedDate);
-
-      expect(fixedFormattedDate).toEqual('12/01/2019');
-    });
-
     it('returns undefined when no date value is provided', () => {
       const formattedDate = dateValueFormatter(dateValueFormatterParams);
 
       expect(formattedDate).toBeUndefined();
     });
 
-    it('returns a date in the DD/MM/YYYY string format when british english en-gb locale provided', () => {
+    it('returns undefined when a string that is not a valid date is provided', () => {
+      dateValueFormatterParams.value = 'cat';
+      const formattedDate = dateValueFormatter(dateValueFormatterParams);
+
+      expect(formattedDate).toBeUndefined();
+    });
+
+    it('returns undefined when a non-Date object is provided', () => {
+      dateValueFormatterParams.value = {};
+      const formattedDate = dateValueFormatter(dateValueFormatterParams);
+
+      expect(formattedDate).toBeUndefined();
+    });
+
+    it('returns a date string in the DD/MM/YYYY string format when a Date object and british english en-gb locale  are provided', () => {
       const britishGridOptions = agGridService.getGridOptions({ gridOptions: {}, locale: 'en-gb' });
       const britishDateValueFormatter = britishGridOptions.columnTypes[SkyCellType.Date].valueFormatter;
       dateValueFormatterParams.value = new Date('12/1/2019');
@@ -203,6 +209,65 @@ describe('SkyAgGridService', () => {
       const fixedFormattedDate = fixLocaleDateString(formattedDate);
 
       expect(fixedFormattedDate).toEqual('01/12/2019');
+    });
+
+    it('returns a date string in the DD/MM/YYYY string format when a date string and british english en-gb locale  are provided', () => {
+      const britishGridOptions = agGridService.getGridOptions({ gridOptions: {}, locale: 'en-gb' });
+      const britishDateValueFormatter = britishGridOptions.columnTypes[SkyCellType.Date].valueFormatter;
+      dateValueFormatterParams.value = '3/1/2019';
+
+      const formattedDate = britishDateValueFormatter(dateValueFormatterParams);
+      const fixedFormattedDate = fixLocaleDateString(formattedDate);
+
+      expect(fixedFormattedDate).toEqual('01/03/2019');
+    });
+
+    it('returns a date string in the MM/DD/YYYY format when only a Date object is provided', () => {
+      dateValueFormatterParams.value = new Date('12/1/2019');
+      const formattedDate = dateValueFormatter(dateValueFormatterParams);
+      const fixedFormattedDate = fixLocaleDateString(formattedDate);
+
+      expect(fixedFormattedDate).toEqual('12/01/2019');
+    });
+
+    it('returns a date string in the MM/DD/YYYY format when only a date string is provided', () => {
+      dateValueFormatterParams.value = '3/1/2019';
+      const formattedDate = dateValueFormatter(dateValueFormatterParams);
+      const fixedFormattedDate = fixLocaleDateString(formattedDate);
+
+      expect(fixedFormattedDate).toEqual('03/01/2019');
+    });
+  });
+
+  describe('dateComparator', () => {
+    let dateComparator: Function;
+    const earlyDateString = '1/1/19';
+    const lateDateString = '12/1/19';
+    const earlyDate = new Date(earlyDateString);
+    const lateDate = new Date(lateDateString);
+
+    beforeEach(() => {
+      dateComparator = defaultGridOptions.columnTypes[SkyCellType.Date].comparator;
+    });
+
+    it('should return 1 when date1 (object) comes after date2 (string)', () => {
+      expect(dateComparator(lateDate, earlyDateString)).toEqual(1);
+    });
+
+    it('should return -1 when date1 (string) comes before date1 (object)', () => {
+      expect(dateComparator(earlyDateString, lateDate)).toEqual(-1);
+    });
+
+    it('should return 0 when date1 is equal to date2', () => {
+      expect(dateComparator(earlyDate, earlyDate)).toEqual(0);
+    });
+
+    it('should return 1 when value1 is defined and value2 is undefined', () => {
+      expect(dateComparator(earlyDate, undefined)).toEqual(1);
+    });
+
+    it('should return -1 when value2 is defined and value1 is undefined', () => {
+      expect(dateComparator(undefined, lateDate)).toEqual(-1);
     });
   });
 

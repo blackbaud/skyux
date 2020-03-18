@@ -102,6 +102,83 @@ export const READONLY_GRID_DATA: ReadonlyGridRow[] = [
     selected: false
   },
   {
+    name: 'Yearly team goal 1',
+    value: 102,
+    startDate: new Date('1/1/2019'),
+    endDate: new Date('12/31/2019'),
+    status: RowStatusNames.CURRENT,
+    selected: false
+  },
+  {
+    name: 'First quarter team goal 1',
+    value: 50,
+    startDate: new Date('1/1/2019'),
+    endDate: new Date('3/31/2019'),
+    comment: `We completed this goal one month early. For the next quarter,
+    we are going to double our target to further challenge ourselves.`,
+    status: RowStatusNames.COMPLETE,
+    selected: false
+  },
+  {
+    name: 'First quarter team goal 2',
+    value: 25,
+    startDate: new Date('1/1/2019'),
+    endDate: new Date('3/31/2019'),
+    status: RowStatusNames.COMPLETE,
+    selected: false
+  },
+  {
+    name: 'Yearly department goal 1',
+    value: 15,
+    startDate: new Date('1/1/2019'),
+    endDate: new Date('12/31/2019'),
+    comment: `Priorities changed and we had to shift resources away from this goal.`,
+    status: RowStatusNames.BEHIND,
+    selected: true
+  },
+  {
+    name: 'Yearly department goal 2',
+    value: 1005,
+    startDate: new Date('1/1/2019'),
+    endDate: new Date('12/31/2019'),
+    status: RowStatusNames.CURRENT,
+    selected: false
+  },
+  {
+    name: 'Second quarter team goal 1',
+    value: 91,
+    startDate: new Date('4/1/2019'),
+    endDate: new Date('6/30/2019'),
+    status: RowStatusNames.CURRENT,
+    selected: false
+  },
+  {
+    name: 'Second quarter team goal 2',
+    value: 500,
+    startDate: new Date('4/1/2019'),
+    endDate: new Date('6/30/2019'),
+    status: RowStatusNames.CURRENT,
+    selected: true
+  },
+  {
+    name: 'Third quarter team goal 1',
+    value: 0,
+    startDate: new Date('7/1/2019'),
+    endDate: new Date('9/30/2019'),
+    comment: 'Not yet started',
+    status: RowStatusNames.CURRENT,
+    selected: false
+  },
+  {
+    name: 'Third quarter team goal 2',
+    value: 0,
+    startDate: new Date('4/1/2019'),
+    endDate: new Date('9/30/2019'),
+    comment: 'Not yet started',
+    status: RowStatusNames.CURRENT,
+    selected: false
+  },
+  {
     name: 'Fourth quarter team goal 2',
     value: 0,
     startDate: new Date('10/1/2019'),

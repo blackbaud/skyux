@@ -130,3 +130,9 @@ ag-grid-angular.sky-ag-grid-editable {
 sky-toolbar + ag-grid-angular {
   border-top: none;
 }
+
+ag-grid-angular + sky-infinite-scroll {
+  .sky-infinite-scroll {
+    margin-top: 0 !important;
+  }
+}
