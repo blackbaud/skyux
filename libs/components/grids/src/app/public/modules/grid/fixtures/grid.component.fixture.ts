@@ -21,8 +21,12 @@ import {
 
 import {
   SkyGridColumnWidthModelChange,
+  SkyGridRowDeleteCancelArgs,
+  SkyGridRowDeleteConfig,
+  SkyGridRowDeleteConfirmArgs,
   SkyGridMessage,
-  SkyGridSelectedRowsModelChange
+  SkyGridSelectedRowsModelChange,
+  SkyGridMessageType
 } from '../types';
 
 const moment = require('moment');
@@ -107,6 +111,8 @@ export class GridTestComponent {
 
   public hasToolbar = false;
 
+  public rowDeleteConfigs: SkyGridRowDeleteConfig[] = [];
+
   public multiselectRowId: string;
 
   public rowHighlightedId: string;
@@ -173,17 +179,17 @@ export class GridTestComponent {
       if (value1 && typeof value1 === 'string') {
         value1 = value1.toLowerCase();
       }
-        if (value2 && typeof value2 === 'string') {
+      if (value2 && typeof value2 === 'string') {
         value2 = value2.toLowerCase();
       }
-        if (value1 === value2) {
+      if (value1 === value2) {
         return 0;
       }
-        let result = value1 > value2 ? 1 : -1;
-        if (descending) {
+      let result = value1 > value2 ? 1 : -1;
+      if (descending) {
         result *= -1;
       }
-        return result;
+      return result;
     }).slice();
 
   }
@@ -221,5 +227,31 @@ export class GridTestComponent {
     if (this.showWideColumn) {
       this.selectedColumnIds.push('column6');
     }
+  }
+
+  public cancelRowDelete(cancelArgs: SkyGridRowDeleteCancelArgs): void {
+    this.gridController.next({
+      type: SkyGridMessageType.AbortDeleteRow,
+      data: {
+        abortDeleteRow: {
+          id: cancelArgs.id
+        }
+      }
+    });
+  }
+
+  public deleteItem(id: string): void {
+    this.gridController.next({
+      type: SkyGridMessageType.PromptDeleteRow,
+      data: {
+        promptDeleteRow: {
+          id: id
+        }
+      }
+    });
+  }
+
+  public finishRowDelete(confirmArgs: SkyGridRowDeleteConfirmArgs): void {
+    return;
   }
 }

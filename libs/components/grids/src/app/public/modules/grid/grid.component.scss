@@ -21,6 +21,7 @@ $sky-grid-resize-handle-width: 5px;
   min-width: 100%;
 
   &.sky-grid-fit {
+    max-width: 100%;
     width: 100%;
   }
 }
@@ -141,6 +142,11 @@ $sky-grid-resize-handle-width: 5px;
   }
 }
 
+.sky-grid-row-delete-heading {
+  padding: 0;
+  width: 0;
+}
+
 .sky-grid-multiselect-cell {
   padding: 0;
   text-align: center;
@@ -240,6 +246,17 @@ th.sky-grid-multiselect-cell {
   width: $sky-grid-resize-handle-width;
   background: black;
   opacity: 0.6;
+}
+
+tr {
+  position: relative;
+}
+
+.sky-grid-row-delete-cell {
+  padding: 0;
+  position: absolute;
+  display: block;
+  width: 100%;
 }
 
 .sky-grid-top-scroll-container {

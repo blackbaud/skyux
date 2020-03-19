@@ -172,3 +172,66 @@
     ></sky-grid-column>
   </sky-grid>
 </div>
+
+<h1>Grid with row delete</h1>
+
+<div
+  id="screenshot-grid-row-delete"
+>
+  <sky-grid
+    [data]="dataForRowDeleteGrid"
+    [messageStream]="gridRowDeleteController"
+    (rowDeleteCancel)="cancelRowDelete($event)"
+    (rowDeleteConfirm)="finishRowDelete($event)"
+  >
+    <sky-grid-column
+      id="contsm"
+      heading=""
+      width="40"
+      [locked]="true"
+      [isSortable]="false"
+    >
+      <ng-template let-row="row">
+        <sky-dropdown
+          buttonType="context-menu"
+        >
+          <sky-dropdown-menu>
+            <sky-dropdown-item>
+              <button
+                type="button"
+                (click)="deleteItem(row.id)"
+              >
+                Delete item
+              </button>
+            </sky-dropdown-item>
+          </sky-dropdown-menu>
+        </sky-dropdown>
+      </ng-template>
+    </sky-grid-column>
+    <sky-grid-column
+      field="column1"
+      heading="Column1"
+      [inlineHelpPopover]="staticPopoverRef"
+    ></sky-grid-column>
+    <sky-grid-column
+      field="column2"
+      heading="Column2"
+    ></sky-grid-column>
+    <sky-grid-column
+      field="column3"
+      heading="Column3"
+      [inlineHelpPopover]="asyncPopover"
+    ></sky-grid-column>
+  </sky-grid>
+
+  <sky-popover #staticPopoverRef>
+    This is a numeric column. Click <a href="#">here</a> to learn more.
+  </sky-popover>
+
+  <sky-popover
+    [popoverTitle]="'This popover is asynchronous!'"
+    #asyncPopoverRef
+  >
+    This is a string column. Click <a href="#">here</a> to learn more.
+  </sky-popover>
+</div>

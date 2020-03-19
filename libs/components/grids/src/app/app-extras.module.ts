@@ -3,6 +3,7 @@ import {
 } from '@angular/core';
 
 import {
+  SkyDropdownModule,
   SkyPopoverModule
 } from '@skyux/popovers';
 
@@ -17,6 +18,7 @@ import {
 @NgModule({
   exports: [
     SkyAppLinkModule,
+    SkyDropdownModule,
     SkyGridModule,
     SkyPopoverModule
   ]

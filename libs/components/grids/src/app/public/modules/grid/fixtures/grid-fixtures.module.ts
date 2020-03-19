@@ -7,6 +7,10 @@ import {
 } from '@angular/common';
 
 import {
+  NoopAnimationsModule
+} from '@angular/platform-browser/animations';
+
+import {
   SkyUIConfigService
 } from '@skyux/core';
 
@@ -58,7 +62,8 @@ import {
   imports: [
     CommonModule,
     SkyGridModule,
-    SkyPopoverModule
+    SkyPopoverModule,
+    NoopAnimationsModule
   ],
   providers: [
     {
