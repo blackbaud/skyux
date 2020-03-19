@@ -33,6 +33,8 @@ export class CountryFieldReactiveTestComponent implements OnInit {
 
   public initialValue: SkyCountryFieldCountry;
 
+  public initiallizeToUndefined: boolean = false;
+
   public set isDisabled(value: boolean) {
     this._isDisabled = value;
 
@@ -69,13 +71,23 @@ export class CountryFieldReactiveTestComponent implements OnInit {
 
   public ngOnInit(): void {
     this.countryControl = new FormControl();
-    this.countryControl.setValue(this.initialValue);
+
+    if (this.initialValue || this.initiallizeToUndefined) {
+      this.countryControl.setValue(this.initialValue);
+    }
+
     this.countryForm = new FormGroup({
       'countryControl': this.countryControl
     });
+
+    this.countryControl.valueChanges.subscribe(value => this.formValueChanged(value));
   }
 
   public countryChanged(country: SkyCountryFieldCountry): void {
+    return;
+  }
+
+  public formValueChanged(country: SkyCountryFieldCountry): void {
     return;
   }
 

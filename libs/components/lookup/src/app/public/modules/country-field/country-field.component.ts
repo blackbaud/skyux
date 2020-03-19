@@ -16,7 +16,8 @@ import {
 import {
   ControlValueAccessor,
   FormControl,
-  NgControl
+  NgControl,
+  NgModel
 } from '@angular/forms';
 
 import {
@@ -129,9 +130,18 @@ export class SkyCountryFieldComponent implements ControlValueAccessor, OnDestroy
         this.ngControl.control.markAsPristine();
       }
 
-      if (this.isInitialChange && newCountry !== null) {
+      /**
+       * The second portion of this if statement is complex. The control type check ensures that
+       * we only watch for the initial time through this function on reactive forms. However,
+       * template forms will send through `null` and then `undefined` on empty initialization
+       * so we have to check for when the non-null pass through happens.
+       */
+      if (this.isInitialChange && (!(this.ngControl instanceof NgModel) || newCountry !== null)) {
         this.isInitialChange = false;
       }
+    } else if (newCountry === undefined) {
+      /* Sanity check to ensure we properly handle if a consumer sets the control value to undefined on initialization */
+      this.isInitialChange = false;
     }
   }
 

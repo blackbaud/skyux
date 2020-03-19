@@ -518,6 +518,56 @@ describe('Country Field Component', () => {
         });
       }));
 
+      it('should emit the valueChange form control event correctly with an initial value', fakeAsync(() => {
+        let changeEventSpy = spyOn(component, 'formValueChanged').and.callThrough();
+        component.initialValue = {
+          name: 'United States',
+          iso2: 'us'
+        };
+        fixture.detectChanges();
+        tick();
+
+        expect(changeEventSpy).not.toHaveBeenCalled();
+        searchAndSelect('Austr', 0, fixture);
+        fixture.detectChanges();
+        tick();
+        expect(changeEventSpy).toHaveBeenCalledWith({
+          name: 'Australia',
+          iso2: 'au'
+        });
+      }));
+
+      it('should emit the valueChange form control event correctly when no initial value', fakeAsync(() => {
+        let changeEventSpy = spyOn(component, 'formValueChanged').and.callThrough();
+        fixture.detectChanges();
+        tick();
+
+        expect(changeEventSpy).not.toHaveBeenCalled();
+        searchAndSelect('Austr', 0, fixture);
+        fixture.detectChanges();
+        tick();
+        expect(changeEventSpy).toHaveBeenCalledWith({
+          name: 'Australia',
+          iso2: 'au'
+        });
+      }));
+
+      it('should emit the valueChange form control event correctly when initialized to undefined', fakeAsync(() => {
+        let changeEventSpy = spyOn(component, 'formValueChanged').and.callThrough();
+        component.initiallizeToUndefined = true;
+        fixture.detectChanges();
+        tick();
+
+        expect(changeEventSpy).not.toHaveBeenCalled();
+        searchAndSelect('Austr', 0, fixture);
+        fixture.detectChanges();
+        tick();
+        expect(changeEventSpy).toHaveBeenCalledWith({
+          name: 'Australia',
+          iso2: 'au'
+        });
+      }));
+
     });
 
     describe('a11y', () => {
@@ -558,7 +608,6 @@ describe('Country Field Component', () => {
           CountryFieldNoFormTestComponent
         ],
         imports: [
-          ReactiveFormsModule,
           SkyCountryFieldModule
         ]
       });
