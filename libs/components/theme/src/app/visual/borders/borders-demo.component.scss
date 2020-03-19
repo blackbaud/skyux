@@ -1,0 +1,13 @@
+#sky-borders-demo {
+  /*
+    Because the border colors being tested are so light, a black background is needed to
+    provide enough contrast to pick up visual differences.
+  */
+  background-color: #000;
+  color: #fff;
+}
+
+.sky-borders-demo-item {
+  padding: 10px;
+  margin: 10px;
+}
