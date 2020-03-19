@@ -56,10 +56,11 @@ export class SkyAvatarComponent {
     this._canChange = value;
   }
 
+  @Input()
+  public maxFileSize = 500000;
+
   @Output()
   public avatarChanged = new EventEmitter<SkyFileItem>();
-
-  public maxFileSize = 500000;
 
   private _canChange: boolean;
 
