@@ -1,4 +1,8 @@
 import {
+  Location
+} from '@angular/common';
+
+import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
@@ -76,23 +80,19 @@ export class SkyTabButtonComponent {
   @Output()
   public closeClick = new EventEmitter<any>();
 
-  public get queryParams(): {[_: string]: string} {
+  public get tabHref(): string {
     if (!this.hasPermalink) {
-      return;
+      /*tslint:disable-next-line:no-null-keyword*/
+      return null;
     }
 
-    const params: {[_: string]: string} = {};
+    const params = this.tabsetComponent.getPathParams();
     params[this.tabsetComponent.permalinkId] = this.permalinkValue;
 
-    return params;
-  }
+    const baseUrl = this.location.path().split(';')[0];
+    const paramString = Object.keys(params).map(k => `${k}=${params[k]}`).join(';');
 
-  public get routerLink(): string[] {
-    if (!this.hasPermalink) {
-      return;
-    }
-
-    return [];
+    return this.location.prepareExternalUrl(`${baseUrl};${paramString}`);
   }
 
   private get hasPermalink(): boolean {
@@ -111,12 +111,14 @@ export class SkyTabButtonComponent {
   constructor(
     private adapterService: SkyTabsetAdapterService,
     private ref: ChangeDetectorRef,
+    private location: Location,
     @Optional() private tabsetComponent: SkyTabsetComponent
   ) { }
 
-  public doTabClick() {
+  public doTabClick(event: MouseEvent) {
     if (!this.disabled) {
       this.tabClick.emit(undefined);
+      event.preventDefault();
     }
   }
 
@@ -131,7 +133,7 @@ export class SkyTabButtonComponent {
 
   public keyDownFunction(event: any) {
     if (event.keyCode === 13) {
-      this.doTabClick();
+      this.doTabClick(event);
     }
   }
 }

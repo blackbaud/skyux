@@ -1,19 +1,17 @@
 <a
     class="sky-btn-tab sky-margin-inline-compact"
-    queryParamsHandling="merge"
     role="tab"
     [attr.aria-disabled]="disabled"
     [attr.aria-selected]="active"
+    [attr.href]="tabHref"
     [ngClass]="{
       'sky-btn-tab-wizard': tabStyle === 'wizard',
       'sky-btn-tab-selected': active,
       'sky-btn-tab-disabled': disabled,
       'sky-tab-btn-closeable': allowClose
     }"
-    [queryParams]="queryParams"
-    [routerLink]="routerLink"
     [tabindex]="disabled ? '-1' : '0'"
-    (click)="doTabClick()"
+    (click)="doTabClick($event)"
     (keydown)="keyDownFunction($event)"
 >
   <span

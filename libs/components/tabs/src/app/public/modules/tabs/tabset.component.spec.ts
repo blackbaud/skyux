@@ -3,11 +3,12 @@ import {
 } from '@angular/common';
 
 import {
+  async,
   ComponentFixture,
-  TestBed,
   fakeAsync,
-  tick,
-  async
+  inject,
+  TestBed,
+  tick
 } from '@angular/core/testing';
 
 import {
@@ -19,6 +20,7 @@ import {
 } from '@angular/platform-browser';
 
 import {
+  ActivatedRoute,
   Router
 } from '@angular/router';
 
@@ -831,12 +833,18 @@ describe('Tabset component', () => {
       tick();
       let el = debugElement.queryAll(By.css('.sky-btn-tab'))[1];
 
-      el.triggerEventHandler('keydown', { keyCode: 15 });
+      el.triggerEventHandler('keydown', {
+        keyCode: 15,
+        preventDefault() {}
+      });
       fixture.detectChanges();
       tick();
       validateTabSelected(fixture.nativeElement, 0);
 
-      el.triggerEventHandler('keydown', { keyCode: 13 });
+      el.triggerEventHandler('keydown', {
+        keyCode: 13,
+        preventDefault() {}
+      });
       fixture.detectChanges();
       tick();
       validateTabSelected(fixture.nativeElement, 1);
@@ -846,63 +854,65 @@ describe('Tabset component', () => {
 
   describe('Permalinks', () => {
     let fixture: ComponentFixture<SkyTabsetPermalinksFixtureComponent>;
-    let router: Router;
     let location: Location;
+    let router: Router;
 
     beforeEach(() => {
       fixture = TestBed.createComponent(SkyTabsetPermalinksFixtureComponent);
-      router = TestBed.get(Router);
-      location = TestBed.get(Location);
     });
 
-    it('should activate a tab based on a query param', fakeAsync(() => {
-      fixture.detectChanges();
-      tick();
+    beforeEach(inject(
+      [Location, Router, ActivatedRoute],
+      (_location: Location, _router: Router) => {
+        location = _location;
+        router = _router;
 
-      expect(fixture.componentInstance.activeIndex).toEqual(0);
+        spyOn(router, 'createUrlTree').and.callFake((commands: any[]) => {
+          const params = Object.keys(commands[0])
+            .map(k => `${k}=${commands[0][k]}`)
+            .join(';');
+          return `;${params}`;
+        });
+      }
+    ));
 
+    afterEach(() => {
+      fixture.destroy();
+    });
+
+    it('should activate a tab based on a path param', fakeAsync(() => {
+      fixture.componentInstance.activeIndex = 0;
       fixture.componentInstance.permalinkId = 'foobar';
-
-      router.navigate([], {
-        queryParams: {
-          'foobar-active-tab': 'design-guidelines'
-        }
-      });
+      spyOn(location, 'path').and.returnValue(';foobar-active-tab=design-guidelines');
 
       fixture.detectChanges();
       tick();
+      fixture.detectChanges();
+      tick();
 
-      expect(location.path()).toEqual('/?foobar-active-tab=design-guidelines');
-      expect(fixture.componentInstance.activeIndex).toEqual(1);
+      validateTabSelected(fixture.nativeElement, 1);
     }));
 
-    it('should set a query param on init', fakeAsync(() => {
-      fixture.componentInstance.permalinkId = 'foobar';
+    it('should handle unrecognized path param', fakeAsync(() => {
       fixture.componentInstance.activeIndex = 0;
+      fixture.componentInstance.permalinkId = 'foobar';
+      spyOn(location, 'path').and.returnValue(';foobar-active-tab=invalid-tab');
+
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
       tick();
 
       validateTabSelected(fixture.nativeElement, 0);
-      expect(location.path()).toEqual('/?foobar-active-tab=api');
     }));
 
-    it('should NOT set a query param on init if permalinkId not set', fakeAsync(() => {
-      fixture.componentInstance.permalinkId = undefined;
-      fixture.componentInstance.activeIndex = 0;
-      fixture.detectChanges();
-      tick();
-      fixture.detectChanges();
-      tick();
-
-      validateTabSelected(fixture.nativeElement, 0);
-      expect(location.path()).toEqual('');
-    }));
-
-    it('should set a query param when a tab is selected', fakeAsync(() => {
+    it('should set a path param when a tab is selected', fakeAsync(() => {
       fixture.componentInstance.permalinkId = 'foobar';
 
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
       fixture.detectChanges();
       tick();
 
@@ -914,16 +924,20 @@ describe('Tabset component', () => {
       fixture.detectChanges();
       tick();
 
-      expect(location.path()).toEqual('/?foobar-active-tab=design-guidelines');
+      expect(location.path()).toEqual('/;foobar-active-tab=design-guidelines');
       expect(fixture.componentInstance.activeIndex).toEqual(1);
     }));
 
-    it('should allow custom query param value for each tab', fakeAsync(() => {
+    it('should allow custom path param value for each tab', fakeAsync(() => {
       fixture.componentInstance.permalinkId = 'foobar';
       fixture.componentInstance.permalinkValue = 'baz';
 
       fixture.detectChanges();
       tick();
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
 
       expect(fixture.componentInstance.activeIndex).toEqual(0);
 
@@ -933,7 +947,7 @@ describe('Tabset component', () => {
       fixture.detectChanges();
       tick();
 
-      expect(location.path()).toEqual('/?foobar-active-tab=baz');
+      expect(location.path()).toEqual('/;foobar-active-tab=baz');
       expect(fixture.componentInstance.activeIndex).toEqual(1);
     }));
 
@@ -943,6 +957,10 @@ describe('Tabset component', () => {
 
       fixture.detectChanges();
       tick();
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
 
       expect(fixture.componentInstance.activeIndex).toEqual(0);
 
@@ -952,7 +970,7 @@ describe('Tabset component', () => {
       fixture.detectChanges();
       tick();
 
-      expect(location.path()).toEqual('/?foobar-active-tab=a-b-c-d');
+      expect(location.path()).toEqual('/;foobar-active-tab=a-b-c-d');
       expect(fixture.componentInstance.activeIndex).toEqual(1);
 
       // Make sure non-English special characters still work!
@@ -966,13 +984,12 @@ describe('Tabset component', () => {
       fixture.detectChanges();
       tick();
 
-      // Angular's Location returns a URI encoded result.
       expect(location.path()).toEqual(
-        `/?foobar-active-tab=${encodeURIComponent('片仮名')}`
+        '/;foobar-active-tab=片仮名'
       );
     }));
 
-    it('should fall back to `active` if query param value does not match a tab', fakeAsync(() => {
+    it('should fall back to `active` if path param value does not match a tab', fakeAsync(() => {
       fixture.componentInstance.activeIndex = 0;
       fixture.detectChanges();
       tick();
@@ -990,21 +1007,17 @@ describe('Tabset component', () => {
       validateTabSelected(fixture.nativeElement, 2);
 
       fixture.componentInstance.permalinkId = 'foobar';
+      spyOn(location, 'path').and.returnValue(';foobar-active-tab=invalid-tab');
+      SkyAppTestUtility.fireDomEvent(window, 'popstate');
+
+      fixture.detectChanges();
+      tick();
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
       tick();
 
-      router.navigate([], {
-        queryParams: {
-          'foobar-active-tab': 'invalid-value'
-        }
-      });
-
-      fixture.detectChanges();
-      tick();
-
-      validateTabSelected(fixture.nativeElement, 2);
+      validateTabSelected(fixture.nativeElement, 0);
     }));
   });
 });
