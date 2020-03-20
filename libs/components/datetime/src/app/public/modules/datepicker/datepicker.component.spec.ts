@@ -20,6 +20,7 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
+  SkyAppWindowRef,
   SkyWindowRefService
 } from '@skyux/core';
 
@@ -50,6 +51,7 @@ import {
 const moment = require('moment');
 
 // #region helpers
+class MockWindowService extends SkyWindowRefService {}
 
 const isoFormat = 'YYYY-MM-DDTHH:mm:ss';
 
@@ -1133,36 +1135,44 @@ describe('datepicker', () => {
   describe('default locale configuration', () => {
     let fixture: ComponentFixture<DatepickerNoFormatTestComponent>;
     let component: DatepickerNoFormatTestComponent;
+    let mockWindowService: MockWindowService;
+    const baselineLocales = new SkyAppWindowRef().nativeWindow.navigator.languages;
 
-    class MockWindowService {
-      public getWindow() {
-        return {
-          navigator: {
-            languages: ['es']
-          }
-        };
-      }
-    }
-
-    let mockWindowService = new MockWindowService();
     beforeEach(() => {
-      TestBed.overrideProvider(
-        SkyWindowRefService,
-        {
-          useValue: mockWindowService
-        }
-      );
-
-      fixture = TestBed.createComponent(DatepickerNoFormatTestComponent);
-      component = fixture.componentInstance;
-
-      fixture.detectChanges();
+      mockWindowService = new MockWindowService();
+      TestBed.overrideProvider(SkyWindowRefService, {useValue: mockWindowService});
     });
 
     it('should display formatted date based on locale by default', fakeAsync(() => {
+      spyOn(mockWindowService, 'getWindow').and.returnValue(
+        {
+          navigator: {
+            languages: ['es'] // Spanish
+          }
+        }
+      );
+      fixture = TestBed.createComponent(DatepickerNoFormatTestComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+      const locales = mockWindowService.getWindow().navigator.languages;
+
       setInputProperty(new Date('10/24/2017'), component, fixture);
 
+      expect(locales).toEqual(['es']);
       expect(getInputElementValue(fixture)).toBe('24/10/2017');
+    }));
+
+    /**
+     * Sanity check: mocking the window will sometimes bleed over into other tests.
+     * This final test is to ensure the mocked window is reverted back to its baseline state.
+     */
+    it('should return baseline locale', fakeAsync(() => {
+      fixture = TestBed.createComponent(DatepickerNoFormatTestComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+      const locales = mockWindowService.getWindow().navigator.languages;
+
+      expect(locales).toEqual(baselineLocales);
     }));
   });
 });

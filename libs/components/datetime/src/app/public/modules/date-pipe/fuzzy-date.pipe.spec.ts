@@ -113,15 +113,17 @@ describe('Fuzzy date pipe', () => {
   });
 
   it('should default to en-US locale', () => {
+    const fuzzyDateService = new SkyFuzzyDateService(mockLocaleProvider);
+    const spy = spyOn(fuzzyDateService, 'format').and.callThrough();
     const date: SkyFuzzyDate = {
       year: 1955,
       month: 11
     };
-    const fuzzyDatePipe = new SkyFuzzyDatePipe(new SkyFuzzyDateService, mockLocaleProvider);
+    const fuzzyDatePipe = new SkyFuzzyDatePipe(fuzzyDateService);
     const value = fuzzyDatePipe.transform(date, 'MMM Y');
 
     expect(value).toEqual('Nov 1955');
-    expect(fuzzyDatePipe['defaultLocale']).toEqual('en-US');
+    expect(spy).toHaveBeenCalledWith(date, 'MMM Y', 'en-US');
   });
 
   it('should work as an injectable', () => {
@@ -137,13 +139,5 @@ describe('Fuzzy date pipe', () => {
     );
 
     expect(value).toEqual('nov. 1955');
-  });
-
-  it('should throw an error if format is not provided', () => {
-    const consoleSpy = spyOn(console, 'error').and.callThrough();
-    component.format = undefined;
-    fixture.detectChanges();
-
-    expect(consoleSpy).toHaveBeenCalledWith('You must provide a format when using the skyFuzzyDate pipe.');
   });
 });

@@ -1,10 +1,20 @@
 import {
-  TestBed
+  fakeAsync,
+  TestBed,
+  tick
 } from '@angular/core/testing';
+
+import {
+  SkyAppWindowRef
+} from '@skyux/core';
 
 import {
   expect
 } from '@skyux-sdk/testing';
+
+import {
+  SkyAppLocaleProvider
+} from '@skyux/i18n';
 
 import {
   SkyFuzzyDateService
@@ -18,16 +28,132 @@ const moment = require('moment');
 
 describe('SkyFuzzyDateservice', () => {
   let service: SkyFuzzyDateService;
+  let currentLocale: string;
   const defaultDateFormat = 'mm/dd/yyyy';
+  const appProvider = new SkyAppLocaleProvider();
 
-  beforeEach(() => {
+  beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
       providers: [
+        SkyAppLocaleProvider,
+        SkyAppWindowRef,
         SkyFuzzyDateService
       ]
     });
 
     service = TestBed.get(SkyFuzzyDateService);
+    tick();
+
+    appProvider.getLocaleInfo()
+    .take(1)
+    .subscribe((localeInfo) => {
+      currentLocale = localeInfo.locale;
+    });
+  }));
+
+  describe('getCurrentLocale', () => {
+    it(`should return the browser's default locale`, () => {
+      const actualLocale = service.getCurrentLocale();
+      expect(currentLocale).toEqual(actualLocale);
+    });
+  });
+
+  describe('getLocaleShortFormat', () => {
+    it(`should return the browser's default locale when no locale argument is provided`, () => {
+      const actualFormat = service.getLocaleShortFormat();
+      const expectedFormat = moment.localeData(currentLocale).longDateFormat('L');
+
+      expect(actualFormat).toEqual(expectedFormat);
+    });
+
+    it(`should return proper date formats when different locale arguments are provided`, () => {
+      const actualFrenchFormat = service.getLocaleShortFormat('fr');
+      const expectedFrenchFormat = moment.localeData('fr').longDateFormat('L');
+
+      expect(actualFrenchFormat).toEqual(expectedFrenchFormat);
+
+      const actualCanadianFormat = service.getLocaleShortFormat('ca');
+      const expectedCanadianFormat = moment.localeData('ca').longDateFormat('L');
+
+      expect(actualCanadianFormat).toEqual(expectedCanadianFormat);
+    });
+  });
+
+  describe('format', () => {
+    let currentShortFormat: string;
+
+    beforeEach(() => {
+      currentShortFormat = moment.localeData().longDateFormat('L');
+    });
+
+    it(`should return an empty string if the fuzzy date is invalid`, () => {
+      const fuzzyDateEmpty = {};
+      const fuzzyDateDayOnly = {day: 1};
+      const fuzzyDateMonthOnly = {month: 1};
+      const expected = '';
+
+      const actualWithInvalidDate1 = service.format(fuzzyDateEmpty, currentShortFormat, currentLocale);
+      expect(actualWithInvalidDate1).toEqual(expected);
+
+      const actualWithInvalidDate2 = service.format(fuzzyDateDayOnly, currentShortFormat, currentLocale);
+      expect(actualWithInvalidDate2).toEqual(expected);
+
+      const actualWithInvalidDate3 = service.format(fuzzyDateMonthOnly, currentShortFormat, currentLocale);
+      expect(actualWithInvalidDate3).toEqual(expected);
+    });
+
+    it(`should return an empty string if format is empty or undefined`, () => {
+      const fuzzyDate = {year: 1999};
+      const actual = service.format(fuzzyDate, '', currentLocale);
+      const expected = '';
+
+      expect(actual).toEqual(expected);
+
+      const actualWithUndefined = service.format(fuzzyDate, undefined, currentLocale);
+
+      expect(actualWithUndefined).toEqual(expected);
+    });
+
+    it(`should return formatted string, based on default browser locale`, () => {
+      const fuzzyDate = {month: 11, day: 5, year: 1955};
+      const actual = service.format(fuzzyDate, currentShortFormat, currentLocale);
+      const expected = moment('11/5/1955').format('L');
+
+      expect(actual).toEqual(expected);
+    });
+
+    it(`should return formatted string, when providing custom format and locale`, () => {
+      const frenchLongFormat = moment.localeData('fr').longDateFormat('LL');
+      const fuzzyDate = {month: 11, day: 5, year: 1955};
+      const actual = service.format(fuzzyDate, frenchLongFormat, 'fr');
+      const expected = moment('11/5/1955').locale('fr').format('LL');
+
+      expect(actual).toEqual(expected);
+    });
+
+    it(`should not return years when the fuzzy date does not include a year`, () => {
+      const fuzzyDate = {month: 11, day: 5};
+      const actual = service.format(fuzzyDate, 'MM/DD/YYYY', 'en-US');
+      const expected = '11/05';
+
+      expect(actual).toEqual(expected);
+    });
+
+    it(`should not return month or days when the fuzzy date does not include a month or day`, () => {
+      const fuzzyDate = {year: 1955};
+      const actual = service.format(fuzzyDate, 'MM/DD/YYYY', 'en-US');
+      const expected = '1955';
+
+      expect(actual).toEqual(expected);
+    });
+
+    it(`should not return days when the fuzzy date does not include a day`, () => {
+      const fuzzyDate = {month: 11, year: 1955};
+      const actual = service.format(fuzzyDate, 'MM/DD/YYYY', 'en-US');
+      const expected = '11/1955';
+
+      expect(actual).toEqual(expected);
+    });
   });
 
   describe('getFuzzyDateFromSelectedDate', () => {
@@ -331,7 +457,29 @@ describe('SkyFuzzyDateservice', () => {
     });
   });
 
-  describe('getDateStringFromFuzzyDate', () => {
+  describe('getStringFromFuzzyDate', () => {
+    it('returns undefined if fuzzy date is undefined', () => {
+      // arrange
+      let fuzzyDate: SkyFuzzyDate; // Invalid fuzzy date
+
+      // act
+      const actual = service.getStringFromFuzzyDate(fuzzyDate, 'MM/YYYY');
+
+      // assert
+      expect(actual).toEqual(undefined);
+    });
+
+    it('returns undefined if format is undefined', () => {
+      // arrange
+      const fuzzyDate: SkyFuzzyDate = { month: 11, day: 5, year: 1955 };
+
+      // act
+      const actual = service.getStringFromFuzzyDate(fuzzyDate, undefined);
+
+      // assert
+      expect(actual).toEqual(undefined);
+    });
+
     it('returns a valid date string based on the provided fuzzy date', () => {
       // arrange
       const fuzzyDate: SkyFuzzyDate = { month: 2, day: 14, year: 1960 };
@@ -382,6 +530,17 @@ describe('SkyFuzzyDateservice', () => {
   });
 
   describe('getMomentFromFuzzyDate', () => {
+    it('returns undefined if fuzzy date is undefined', () => {
+      // arrange
+      let fuzzyDate: SkyFuzzyDate; // Invalid fuzzy date
+
+      // act
+      const actual = service.getMomentFromFuzzyDate(fuzzyDate);
+
+      // assert
+      expect(actual).toEqual(undefined);
+    });
+
     it('returns a valid moment object based on the provided fuzzy date', () => {
       // arrange
       const fuzzyDate: SkyFuzzyDate = { month: 11, day: 5, year: 1850 };

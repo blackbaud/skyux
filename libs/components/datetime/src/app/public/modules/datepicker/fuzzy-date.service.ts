@@ -1,6 +1,15 @@
 import {
-  Injectable
+  Injectable,
+  OnDestroy
 } from '@angular/core';
+
+import {
+  SkyAppLocaleProvider
+} from '@skyux/i18n';
+
+import {
+  Subject
+} from 'rxjs';
 
 import {
   SkyFuzzyDate
@@ -22,7 +31,93 @@ interface SkyFuzzyDateRange {
 }
 
 @Injectable()
-export class SkyFuzzyDateService {
+export class SkyFuzzyDateService implements OnDestroy {
+
+  private currentLocale: string;
+
+  private ngUnsubscribe = new Subject<void>();
+
+  constructor(
+    private localeProvider: SkyAppLocaleProvider
+  ) {
+    this.localeProvider.getLocaleInfo()
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe((localeInfo) => {
+        this.currentLocale = localeInfo.locale;
+      });
+  }
+
+  /* istanbul ignore next */
+  public ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
+  /**
+   * Returns the browser's current locale string from SkyAppLocaleProvider.
+   */
+  public getCurrentLocale(): string {
+    return this.currentLocale;
+  }
+
+  /**
+   * Returns the short format of the provided locale.
+   * If not provided, the locale will be taken from the browser's default locale.
+   */
+  public getLocaleShortFormat(locale?: string): string {
+    return moment.localeData(locale || this.currentLocale).longDateFormat('L');
+  }
+
+  /**
+   * Formats a fuzzy date by using the provided format and locale strings.
+   * If not provided, the locale will be taken from the browser's default locale.
+   */
+  public format(fuzzyDate: SkyFuzzyDate, format: string, locale: string): string {
+    if (!this.isFuzzyDateValid(fuzzyDate)) {
+      return '';
+    }
+
+    if (!format) {
+      return '';
+    }
+
+    const separator = this.getDateSeparator(format);
+    let dateParts: string[] = [];
+    let formatTokens: string[] = format.split(separator);
+    locale = locale || this.currentLocale;
+
+    for (let index = 0; index < formatTokens.length; index++) {
+      const token = formatTokens[index];
+      if (token) {
+        // tslint:disable-next-line: switch-default
+        switch (token.substr(0, 1).toLowerCase()) {
+          case 'y':
+            if (fuzzyDate.year) {
+              dateParts.push(
+                moment().locale(locale).year(fuzzyDate.year).format(token)
+              );
+            }
+            break;
+          case 'm':
+            if (fuzzyDate.month) {
+              dateParts.push(
+                moment().locale(locale).month(fuzzyDate.month - 1).format(token)
+              );
+            }
+            break;
+          case 'd':
+            if (fuzzyDate.day) {
+              dateParts.push(
+                moment().locale(locale).date(fuzzyDate.day).format(token)
+              );
+            }
+            break;
+        }
+      }
+    }
+
+    return dateParts.join(separator);
+  }
 
   /**
    * If not provided, years will default to current year;
@@ -46,7 +141,7 @@ export class SkyFuzzyDateService {
       return;
     }
 
-    const separator = this.getSeparatorFromDateString(dateFormat);
+    const separator = this.getDateSeparator(dateFormat);
     const dateFormatIndexes = this.getDateFormatIndexes(dateFormat);
     let dateString: string = '';
 
@@ -218,22 +313,27 @@ export class SkyFuzzyDateService {
     return leapYear;
   }
 
-  private getSeparatorFromDateString(date: string): string {
-    let separator: string;
-    let allSeparators = ['/', '.', '-', ' '];
+  /**
+   * Returns the first separator found in the provided date format string.
+   * Accepted separators: ['/', '.', '-', ' '].
+   * @param dateFormat
+   */
+  private getDateSeparator(dateFormat: string): string {
+    let returnValue: string;
+    let separators = ['/', '.', '-', ' '];
 
-    allSeparators.forEach(currentSeparator => {
-      if (!separator && date.indexOf(currentSeparator) > 0) {
-        separator = currentSeparator;
+    separators.forEach(separator => {
+      if (!returnValue && dateFormat.indexOf(separator) > 0) {
+        returnValue = separator;
       }
     });
 
-    return separator;
+    return returnValue;
   }
 
   private get4DigitYearFromDateString(date: string): number {
     let year: string;
-    const separator = this.getSeparatorFromDateString(date);
+    const separator = this.getDateSeparator(date);
 
     // Find the number value in the string that is 4 digits long.
     date.split(separator).forEach(dateComponent => {
@@ -283,7 +383,7 @@ export class SkyFuzzyDateService {
   }
 
   private getDateComponents(date: string): string[] {
-    const separator = this.getSeparatorFromDateString(date);
+    const separator = this.getDateSeparator(date);
     return date.split(separator);
   }
 
@@ -320,5 +420,32 @@ export class SkyFuzzyDateService {
       monthIndex: dateComponentIndexes.indexOf(dateFormatIndexes.monthIndex),
       dayIndex: dateComponentIndexes.indexOf(dateFormatIndexes.dayIndex)
     };
+  }
+
+  /**
+   * Validates the provided SkyFuzzyDate object. Valid fuzzy dates are as follows:
+   * month, day, year
+   * month, year
+   * month, day
+   * year only
+   */
+  private isFuzzyDateValid(fuzzyDate: SkyFuzzyDate): boolean {
+
+    // If none of the dates part are specified, return false.
+    if (!fuzzyDate.day && !fuzzyDate.month && !fuzzyDate.year) {
+      return false;
+    }
+
+    // If only month is specified, return false.
+    if (!fuzzyDate.day && fuzzyDate.month && !fuzzyDate.year) {
+      return false;
+    }
+
+    // If only day is specified, return false.
+    if (fuzzyDate.day && !fuzzyDate.month && !fuzzyDate.year) {
+      return false;
+    }
+
+    return true;
   }
 }
