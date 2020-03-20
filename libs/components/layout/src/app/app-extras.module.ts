@@ -31,6 +31,10 @@ import {
 } from '@skyux/router';
 
 import {
+  SkyGridModule
+} from '@skyux/grids';
+
+import {
   SkyActionButtonModule,
   SkyBackToTopModule,
   SkyCardModule,
@@ -60,6 +64,7 @@ import {
     SkyCardModule,
     SkyDefinitionListModule,
     SkyDockModule,
+    SkyGridModule,
     SkyDocsToolsModule,
     SkyDropdownModule,
     SkyFluidGridModule,

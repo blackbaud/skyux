@@ -23,9 +23,8 @@ import {
 } from './back-to-top.component';
 
 /**
- * Adds a back to top button to the page when the element is scrolled out of view.
- * When users click on the back to top button, the browser will scroll back to
- * the element this directive was placed on.
+ * Associates a button with an element on the page and displays a button
+ * to return to that element after users scroll away from it.
  */
 @Directive({
   selector: '[skyBackToTop]',

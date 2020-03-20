@@ -1,0 +1,15 @@
+<sky-repeater skyBackToTop>
+  <sky-repeater-item *ngFor="let person of personList">
+    <sky-repeater-item-title>
+      {{ person.name }}
+    </sky-repeater-item-title>
+    <sky-repeater-item-content>
+      {{ person.address }}
+    </sky-repeater-item-content>
+  </sky-repeater-item>
+</sky-repeater>
+<sky-infinite-scroll
+  [enabled]="hasMore"
+  (scrollEnd)="onScrollEnd()"
+>
+</sky-infinite-scroll>
