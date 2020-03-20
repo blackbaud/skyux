@@ -340,7 +340,9 @@ export class SkyFuzzyDatepickerInputDirective
     this.onTouched();
 
     let formattedDate = this.fuzzyDateService.getStringFromFuzzyDate(this.value, this.dateFormat);
-    this.setInputElementValue(formattedDate || '');
+    if (this.control.valid) {
+      this.setInputElementValue(formattedDate || '');
+    }
   }
 
   @HostListener('keyup')

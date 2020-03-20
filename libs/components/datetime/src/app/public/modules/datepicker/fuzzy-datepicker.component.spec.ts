@@ -461,6 +461,20 @@ describe('fuzzy datepicker input', () => {
 
         flush();
       }));
+
+      it('should not clear invalid values on blur', fakeAsync(() => {
+        detectChanges(fixture);
+        const inputElement = fixture.debugElement.query(By.css('input'));
+
+        setInputElementValue(nativeElement, 'asdf', fixture);
+        SkyAppTestUtility.fireDomEvent(inputElement.nativeElement, 'blur');
+        fixture.detectChanges();
+
+        expect(getInputElementValue(fixture)).toBe('asdf');
+        expect(getInputElement(fixture)).toHaveCssClass('ng-invalid');
+
+        flush();
+      }));
     });
 
     describe('formats', () => {
