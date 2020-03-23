@@ -1,3 +1,7 @@
+# 3.0.0-rc.7 (2020/03/23)
+
+- Fixed rows to keep their selected state when scrolling out of view. [#29](https://github.com/blackbaud/skyux-ag-grid/pull/29)
+
 # 3.0.0-rc.6 (2020/03/18)
 
 - Fixed the keyboard navigation so that users can press Enter to save a cell and switch focus to the next cell in the column. [#20](https://github.com/blackbaud/skyux-ag-grid/pull/20)
