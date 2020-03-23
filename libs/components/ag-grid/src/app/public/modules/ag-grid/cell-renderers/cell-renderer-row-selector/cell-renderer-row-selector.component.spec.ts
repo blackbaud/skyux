@@ -38,6 +38,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
   let rowSelectorCellComponent: SkyAgGridCellRendererRowSelectorComponent;
   let rowSelectorCellNativeElement: HTMLElement;
   let cellRendererParams: ICellRendererParams;
+  let dataField = 'selected';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -57,7 +58,9 @@ describe('SkyCellRendererCheckboxComponent', () => {
       valueFormatted: undefined,
       formatValue: undefined,
       data: undefined,
-      colDef: undefined,
+      colDef: {
+        field: dataField
+      },
       column: undefined,
       $scope: undefined,
       api: undefined,
@@ -112,15 +115,21 @@ describe('SkyCellRendererCheckboxComponent', () => {
   });
 
   describe('updateRow', () => {
-    it ('sets the rowNode selected property to the component\'s checked property', () => {
+    it (`should set the rowNode selected property and the row data's selected property to the component's checked property value`, () => {
       let rowNode = new RowNode();
-      rowSelectorCellComponent.checked = true;
-      rowSelectorCellComponent.rowNode = rowNode;
-      spyOn(rowSelectorCellComponent.rowNode, 'setSelected');
+      rowNode.data = {};
+      cellRendererParams.value = true;
+      cellRendererParams.node = rowNode;
+
+      spyOn(rowNode, 'setSelected');
+
+      rowSelectorCellFixture.detectChanges();
+      rowSelectorCellComponent.agInit(cellRendererParams);
 
       rowSelectorCellComponent.updateRow();
 
       expect(rowSelectorCellComponent.rowNode.setSelected).toHaveBeenCalledWith(true);
+      expect(rowSelectorCellComponent.rowNode.data.selected).toBe(true);
     });
   });
 
@@ -130,9 +139,11 @@ describe('SkyCellRendererCheckboxComponent', () => {
     });
   });
 
-  it('updates the checkmark when the row is selected', fakeAsync(() => {
+  it(`should set the checkbox's selected value and the
+   row data's selected property to the component's checked property value`, fakeAsync(() => {
     let rowClickListener: Function;
     let rowNode = new RowNode();
+    rowNode.data = {};
     let rowClickedEvent: RowClickedEvent = {
       node: rowNode,
       data: undefined,
@@ -178,6 +189,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
     expect(rowNode.addEventListener).toHaveBeenCalledWith(RowNode.EVENT_ROW_SELECTED, jasmine.any(Function));
     expect(rowSelectorCellComponent.checked).toBe(true);
     expect(checkbox.selected).toBe(true);
+    expect(rowNode.data.selected).toBe(true);
   }));
 
   it('should pass accessibility', async(() => {

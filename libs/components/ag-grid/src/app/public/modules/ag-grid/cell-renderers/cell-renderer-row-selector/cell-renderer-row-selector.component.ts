@@ -32,6 +32,7 @@ import {
 })
 export class SkyAgGridCellRendererRowSelectorComponent implements ICellRendererAngularComp, OnInit, OnDestroy {
   public checked: boolean;
+  public dataField: string;
   public rowNode: RowNode;
   public checkboxLabel: string;
   private params: ICellRendererParams;
@@ -50,6 +51,7 @@ export class SkyAgGridCellRendererRowSelectorComponent implements ICellRendererA
   public agInit(params: ICellRendererParams): void {
     this.params = params;
     this.checked = this.params.value;
+    this.dataField = this.params.colDef && this.params.colDef.field;
     this.rowNode = this.params.node;
     this.rowNumber = this.params.rowIndex + 1;
 
@@ -81,10 +83,12 @@ export class SkyAgGridCellRendererRowSelectorComponent implements ICellRendererA
 
   public updateRow(): void {
     this.rowNode.setSelected(this.checked);
+    this.rowNode.data[this.dataField] = this.checked;
   }
 
   private rowSelectedListener(event: RowSelectedEvent) {
     this.checked = event.node.isSelected();
+    this.rowNode.data[this.dataField] = this.checked;
     this.changeDetection.markForCheck();
   }
 }

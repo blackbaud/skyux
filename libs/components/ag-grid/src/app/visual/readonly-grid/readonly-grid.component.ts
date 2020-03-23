@@ -38,6 +38,7 @@ export class ReadonlyGridComponent implements OnInit {
   public columnDefs = [
     {
       field: 'selected',
+      colId: 'selected',
       headerName: '',
       sortable: false,
       type: SkyCellType.RowSelector
