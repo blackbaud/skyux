@@ -1,3 +1,7 @@
+# 3.3.4 (2020-03-23)
+
+- Fixed the country field component to properly handle the first value change on a reactive form when the initial value is undefined. [#71](https://github.com/blackbaud/skyux-lookup/pull/71)
+
 # 3.3.3 (2020-03-18)
 
 - Fixed the `package.json` file to list `intl-tel-input` as a dependency and not a peer dependency.
