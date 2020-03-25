@@ -7,6 +7,10 @@ import {
 } from '@angular/core/testing';
 
 import {
+  Validators
+} from '@angular/forms';
+
+import {
   expect,
   SkyAppTestUtility
 } from '@skyux-sdk/testing';
@@ -183,6 +187,8 @@ describe('Autonumeric directive', () => {
 
     const input = fixture.nativeElement.querySelector('input');
 
+    input.value = '1000';
+    SkyAppTestUtility.fireDomEvent(input, 'input');
     SkyAppTestUtility.fireDomEvent(input, 'blur');
     detectChanges();
 
@@ -308,6 +314,45 @@ describe('Autonumeric directive', () => {
 
       verifyFormControlStatuses({
         touched: true
+      });
+    }));
+
+    it('should mark the control as invalid on blur if the field is required and the value is undefined', fakeAsync(() => {
+      detectChanges();
+      fixture.componentInstance.formControl.setValidators([Validators.required]);
+      fixture.componentInstance.required = true;
+      detectChanges();
+
+      verifyFormControlStatuses({
+        valid: true
+      });
+
+      const inputs = fixture.nativeElement.querySelectorAll('input');
+      for (let i = 0; i < inputs.length; i++) {
+        inputs[i].value = '';
+        SkyAppTestUtility.fireDomEvent(inputs[i], 'input');
+        SkyAppTestUtility.fireDomEvent(inputs[i], 'blur');
+      }
+      detectChanges();
+
+      verifyFormControlStatuses({
+        valid: false
+      });
+    }));
+
+    it('should mark the control as invalid if given a non-numerical value', fakeAsync(() => {
+      detectChanges();
+
+      verifyFormControlStatuses({
+        valid: true
+      });
+
+      fixture.componentInstance.formGroup.get('donationAmount').setValue('foo');
+      fixture.componentInstance.templateDrivenModel.donationAmount = 'foo';
+      detectChanges();
+
+      verifyFormControlStatuses({
+        valid: false
       });
     }));
 

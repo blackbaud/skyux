@@ -82,6 +82,7 @@ export class SkyAutonumericDirective implements OnInit, ControlValueAccessor, Va
   }
 
   public writeValue(value: number): void {
+
     if (this.value !== value) {
       this.value = value;
       this.onChange(value);
@@ -97,7 +98,7 @@ export class SkyAutonumericDirective implements OnInit, ControlValueAccessor, Va
       }
     }
 
-    if (!Number.isNaN(value) && value !== undefined && value !== null) {
+    if (typeof value === 'number' && value !== null && value !== undefined) {
       this.autonumericInstance.set(value);
     } else {
       this.autonumericInstance.clear();
@@ -107,6 +108,16 @@ export class SkyAutonumericDirective implements OnInit, ControlValueAccessor, Va
   public validate(control: AbstractControl): ValidationErrors {
     if (!this.control) {
       this.control = control;
+    }
+
+    if (control.value === null || control.value === undefined) {
+      return;
+    }
+
+    if (typeof control.value !== 'number') {
+      return {
+        'notTypeOfNumber': { value: control.value }
+      };
     }
 
     return;
@@ -122,7 +133,8 @@ export class SkyAutonumericDirective implements OnInit, ControlValueAccessor, Va
 
   @HostListener('blur')
   public onBlur(): void {
-    const numericValue = this.autonumericInstance.getNumber();
+    const inputValue = this.getInputValue();
+    const numericValue = inputValue ? this.autonumericInstance.getNumber() : undefined;
 
     /* istanbul ignore else */
     if (this.value !== numericValue) {
@@ -139,6 +151,10 @@ export class SkyAutonumericDirective implements OnInit, ControlValueAccessor, Va
     if (this.control) {
       this.control.markAsDirty();
     }
+  }
+
+  private getInputValue(): string {
+    return this.elementRef.nativeElement.value;
   }
 
   private createAutonumericInstance(): void {

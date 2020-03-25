@@ -8,7 +8,8 @@ import {
 import {
   FormBuilder,
   FormControl,
-  FormGroup
+  FormGroup,
+  Validators
 } from '@angular/forms';
 
 import {
@@ -59,7 +60,7 @@ export class AutonumericVisualComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
-      donationAmount: new FormControl(1000)
+      donationAmount: new FormControl(1000, [Validators.required])
     });
 
     this.formGroup.get('donationAmount').valueChanges

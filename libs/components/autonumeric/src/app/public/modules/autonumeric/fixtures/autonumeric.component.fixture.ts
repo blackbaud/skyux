@@ -46,6 +46,8 @@ export class AutonumericFixtureComponent implements OnInit {
     return this.formGroup.get('donationAmount');
   }
 
+  public required: boolean;
+
   constructor(
     private formBuilder: FormBuilder
   ) { }

@@ -22,6 +22,7 @@
     id="donationAmountTemplateDriven"
     name="donationAmountTemplateDriven"
     type="text"
+    [required]="required ? 'required' : null"
     [skyAutonumeric]="autonumericOptions"
     [(ngModel)]="templateDrivenModel.donationAmount"
     #donationAmountTemplateDriven="ngModel"
