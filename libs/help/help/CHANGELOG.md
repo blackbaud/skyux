@@ -1,6 +1,11 @@
-## 3.2.0 (2020-01-06)
+## 3.3.0 (2020-03-24)
 
-- Set key config values from `SkyAppConfig` and `SKYUX_HOST` (i.e. `extends`, `environmentId`, and `locale`). [#55](https://github.com/blackbaud/skyux-lib-help/pull/55)
+- Updated Acorn from `6.3.0` to `6.4.1` to address a security vulnerability. [#56](https://github.com/blackbaud/skyux-lib-help/pull/56)
+- Added a capability to extend the configuration at runtime. [#57](https://github.com/blackbaud/skyux-lib-help/pull/57)
+
+## 3.2.0 (2020-01-15)
+
+- Set key config values from `SkyAppConfig` and `SKYUX_HOST` such as `extends`, `environmentId`, and `locale`. [#55](https://github.com/blackbaud/skyux-lib-help/pull/55)
 
 # 3.1.2 (2019-10-08)
 
