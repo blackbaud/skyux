@@ -7,7 +7,9 @@ import {
 } from '@angular/core';
 
 import {
+  SkyAffixAutoFitContext,
   SkyAffixHorizontalAlignment,
+  SkyAffixOffset,
   SkyAffixPlacement,
   SkyAffixPlacementChange,
   SkyAffixVerticalAlignment
@@ -21,11 +23,54 @@ import {
 })
 export class AffixDemoComponent {
 
+  public get overflowParentWidth(): string {
+    if (this.enableOverflowParent) {
+      return `${this.parentOverflowRef.nativeElement.scrollWidth}px`;
+    }
+
+    return `${document.body.scrollWidth}px`;
+  }
+
+  public autoFitContexts: SkyAffixAutoFitContext[] = [
+    SkyAffixAutoFitContext.OverflowParent,
+    SkyAffixAutoFitContext.Viewport
+  ];
+
+  public autoFitOverflowOffset: SkyAffixOffset;
+
+  public disabled: boolean = false;
+
+  public enableAutoFit: boolean = true;
+
+  public enableFullWidthBaseElement: boolean = false;
+
+  public enableLargeBaseElement: boolean = false;
+
+  public enableOverflowParent: boolean = false;
+
+  public enableSmallerParent: boolean = false;
+
   public horizontalAlignments: SkyAffixHorizontalAlignment[] = [
     'right',
     'center',
     'left'
   ];
+
+  public isSticky: boolean = true;
+
+  public isVisible: boolean = false;
+
+  public model: {
+    autoFitContext: SkyAffixAutoFitContext;
+    placement: SkyAffixPlacement;
+    horizontalAlignment?: SkyAffixHorizontalAlignment;
+    verticalAlignment?: SkyAffixVerticalAlignment;
+  } = {
+    autoFitContext: SkyAffixAutoFitContext.OverflowParent,
+    placement: 'above',
+    horizontalAlignment: 'center',
+    verticalAlignment: 'middle'
+  };
 
   public placements: SkyAffixPlacement[] = [
     'above',
@@ -40,35 +85,11 @@ export class AffixDemoComponent {
     'top'
   ];
 
-  public model: {
-    placement: SkyAffixPlacement;
-    horizontalAlignment?: SkyAffixHorizontalAlignment;
-    verticalAlignment?: SkyAffixVerticalAlignment;
-  } = {
-    placement: 'above',
-    horizontalAlignment: 'center',
-    verticalAlignment: 'middle'
-  };
-
-  public disabled: boolean = false;
-
-  public enableAutoFit: boolean = true;
-
-  public enableScrollableParent: boolean = false;
-
-  public enableSmallerParent: boolean = false;
-
-  public isSticky: boolean = true;
-
-  public isVisible: boolean = false;
-
-  public showToolbar: boolean = true;
-
   @ViewChild('baseRef', { read: ElementRef })
   private baseRef: ElementRef;
 
-  @ViewChild('parentScrollableRef', { read: ElementRef })
-  private parentScrollableRef: ElementRef;
+  @ViewChild('parentOverflowRef', { read: ElementRef })
+  private parentOverflowRef: ElementRef;
 
   @ViewChild('toolbarRef', { read: ElementRef })
   private toolbarRef: ElementRef;
@@ -95,15 +116,15 @@ export class AffixDemoComponent {
     const top = baseElement.offsetTop;
     const left = baseElement.offsetLeft;
 
-    if (this.enableScrollableParent) {
-      const scrollable: HTMLDivElement = this.parentScrollableRef.nativeElement;
-      scrollable.scrollTop = top -
-        scrollable.offsetTop -
-        (scrollable.clientHeight / 2) +
+    if (this.enableOverflowParent) {
+      const overflowParent: HTMLDivElement = this.parentOverflowRef.nativeElement;
+      overflowParent.scrollTop = top -
+        overflowParent.offsetTop -
+        (overflowParent.clientHeight / 2) +
         (baseElement.clientHeight / 2);
-      scrollable.scrollLeft = left -
-        scrollable.offsetLeft -
-        (scrollable.clientWidth / 2) +
+      overflowParent.scrollLeft = left -
+        overflowParent.offsetLeft -
+        (overflowParent.clientWidth / 2) +
         (baseElement.clientWidth / 2);
     } else {
       window.scroll(
@@ -146,8 +167,8 @@ export class AffixDemoComponent {
     }, 250);
   }
 
-  public toggleScrollableParent(): void {
-    this.enableScrollableParent = !this.enableScrollableParent;
+  public toggleOverflowParent(): void {
+    this.enableOverflowParent = !this.enableOverflowParent;
     this.model.placement = 'below';
     this.changeDetector.markForCheck();
     setTimeout(() => this.scrollToBaseElement());
@@ -157,6 +178,24 @@ export class AffixDemoComponent {
     this.enableSmallerParent = !this.enableSmallerParent;
     this.changeDetector.markForCheck();
     setTimeout(() => this.scrollToBaseElement());
+  }
+
+  public toggleAutoFitOverflowOffset(): void {
+    if (this.autoFitOverflowOffset) {
+      this.autoFitOverflowOffset = undefined;
+    } else {
+      this.autoFitOverflowOffset = {
+        top: 50, // Omnibar
+        bottom: this.toolbarRef.nativeElement.getBoundingClientRect().height
+      };
+    }
+    this.changeDetector.markForCheck();
+  }
+
+  public getAutoFitContextForDisplay(context: SkyAffixAutoFitContext): string {
+    return (context === SkyAffixAutoFitContext.OverflowParent)
+      ? 'OverflowParent'
+      : 'Viewport';
   }
 
   private goToNext(): void {

@@ -2,7 +2,21 @@ import {
   SkyAffixOffset
 } from './affix-offset';
 
-export function getElementOffset(element: HTMLElement): SkyAffixOffset {
+/**
+ * Returns the offset values of a given element.
+ * @param element The HTML element.
+ * @param bufferOffset An optional offset to add/subtract to the element's actual offset.
+ */
+export function getElementOffset(
+  element: HTMLElement,
+  bufferOffset: SkyAffixOffset = {}
+): SkyAffixOffset {
+
+  const bufferOffsetBottom = bufferOffset.bottom || 0;
+  const bufferOffsetLeft = bufferOffset.left || 0;
+  const bufferOffsetRight = bufferOffset.right || 0;
+  const bufferOffsetTop = bufferOffset.top || 0;
+
   let top: number;
   let left: number;
   let right: number;
@@ -21,6 +35,11 @@ export function getElementOffset(element: HTMLElement): SkyAffixOffset {
     bottom = clientRect.bottom;
   }
 
+  bottom -= bufferOffsetBottom;
+  left += bufferOffsetLeft;
+  right -= bufferOffsetRight;
+  top += bufferOffsetTop;
+
   return {
     bottom,
     left,
@@ -29,11 +48,7 @@ export function getElementOffset(element: HTMLElement): SkyAffixOffset {
   };
 }
 
-export function getImmediateScrollableParent(scrollableParents: HTMLElement[]): HTMLElement {
-  return scrollableParents[scrollableParents.length - 1];
-}
-
-export function getScrollableParents(child: HTMLElement): HTMLElement[] {
+export function getOverflowParents(child: HTMLElement): HTMLElement[] {
   const bodyElement = window.document.body;
   const results = [bodyElement];
 
@@ -68,16 +83,32 @@ export function getScrollableParents(child: HTMLElement): HTMLElement[] {
  * @param parent
  * @param offset
  */
-export function isOffsetVisibleWithinParent(
+export function isOffsetFullyVisibleWithinParent(
   parent: HTMLElement,
-  offset: SkyAffixOffset
+  offset: SkyAffixOffset,
+  bufferOffset?: SkyAffixOffset
 ): boolean {
-  const parentOffset = getElementOffset(parent);
+  const parentOffset = getElementOffset(parent, bufferOffset);
 
   return !(
     parentOffset.top > offset.top ||
     parentOffset.right < offset.right ||
     parentOffset.bottom < offset.bottom ||
     parentOffset.left > offset.left
+  );
+}
+
+export function isOffsetPartiallyVisibleWithinParent(
+  parent: HTMLElement,
+  offset: SkyAffixOffset,
+  bufferOffset?: SkyAffixOffset
+): boolean {
+  const parentOffset = getElementOffset(parent, bufferOffset);
+
+  return !(
+    parentOffset.top >= offset.bottom ||
+    parentOffset.right <= offset.left ||
+    parentOffset.bottom <= offset.top ||
+    parentOffset.left >= offset.right
   );
 }

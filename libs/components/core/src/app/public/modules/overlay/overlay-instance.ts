@@ -38,7 +38,7 @@ export class SkyOverlayInstance {
      * The configuration for the overlay.
      */
     public readonly config: SkyOverlayConfig,
-    private componentRef: ComponentRef<SkyOverlayComponent>
+    public readonly componentRef: ComponentRef<SkyOverlayComponent>
   ) {
     this.componentRef.instance.closed.subscribe(() => {
       this.close();
@@ -72,6 +72,7 @@ export class SkyOverlayInstance {
 
   /**
    * Closes the overlay.
+   * @deprecated Use the public `close` method on the `SkyOverlayService` instead.
    */
   public close(): void {
     this._closed.next();

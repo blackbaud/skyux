@@ -9,9 +9,13 @@
 .base {
   background-color: #f00;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 50px;
+  height: 50px;
+
+  &.base-lg {
+    width: 250px;
+    height: 250px;
+  }
 }
 
 .affixed {
@@ -25,21 +29,21 @@
   visibility: hidden;
 }
 
-.parent-scrollable {
+.parent-overflow {
   width: 250px;
   height: 250px;
   display: flex;
   align-items: center;
   justify-content: center;
 
-  &.scroll {
+  &.overflow {
     width: 300px;
     height: 300px;
     overflow: scroll;
     display: block;
     border: 1px solid #f00;
 
-    .parent-scrollable-canvas {
+    .parent-overflow-canvas {
       width: 1200px;
       height: 1200px;
       background-color: #f2f2f2;
@@ -63,4 +67,16 @@
   background-color: #fff;
   box-shadow: 0px -3px 8px rgba(0, 0, 0, 0.25);
   padding: 10px;
+}
+
+.alert {
+  background-color: #f00;
+  color: #fff;
+  padding: 6px 10px;
+  line-height: 1;
+  border-radius: 4px;
+}
+
+.mock-omnibar {
+  position:fixed;top:0;left:0;right:0;padding:0 10px;height:50px;background-color:darkblue;align-items:center;display:flex;color:lightblue
 }

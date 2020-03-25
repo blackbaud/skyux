@@ -6,7 +6,7 @@
   justify-content: center;
 }
 
-.canvas-scrollable {
+.canvas-overflow {
   overflow: auto;
   display: block;
 
@@ -23,6 +23,11 @@
   width: 10px;
   height: 10px;
   background-color: red;
+
+  &.base-xl {
+    width: 100px;
+    height: 100px;
+  }
 }
 
 .affixed {

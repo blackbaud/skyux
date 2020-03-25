@@ -1,5 +1,5 @@
 :host {
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 :host,
@@ -19,14 +19,6 @@
   z-index: 1;
   display: inline-flex;
   align-self: start;
-}
-
-.sky-overlay-ignore-pointer-events {
-  pointer-events: none;
-
-  ::ng-deep * {
-    pointer-events: auto;
-  }
 }
 
 .sky-overlay-backdrop {

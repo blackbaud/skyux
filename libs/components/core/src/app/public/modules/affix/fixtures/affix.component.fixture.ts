@@ -5,8 +5,16 @@ import {
 } from '@angular/core';
 
 import {
+  SkyAffixAutoFitContext
+} from '../affix-auto-fit-context';
+
+import {
   SkyAffixHorizontalAlignment
 } from '../affix-horizontal-alignment';
+
+import {
+  SkyAffixOffset
+} from '../affix-offset';
 
 import {
   SkyAffixPlacement
@@ -28,6 +36,10 @@ import {
 export class AffixFixtureComponent {
 
   // #region directive properties
+
+  public autoFitContext: SkyAffixAutoFitContext;
+
+  public autoFitOverflowOffset: SkyAffixOffset;
 
   public enableAutoFit: boolean;
 
@@ -51,74 +63,83 @@ export class AffixFixtureComponent {
   })
   public affixedRef: ElementRef;
 
-  @ViewChild('scrollableParentRef', {
+  @ViewChild('overflowParentRef', {
     read: ElementRef
   })
-  public scrollableParentRef: ElementRef;
+  public overflowParentRef: ElementRef;
 
   @ViewChild('baseRef', {
     read: ElementRef
   })
   public baseRef: ElementRef;
 
-  public enableScrollableParent: boolean = false;
+  public enableLargerBaseElement: boolean = false;
+
+  public enableOverflowParent: boolean = false;
+
+  public onAffixOffsetChange(): void {}
+
+  public onAffixOverflowScroll(): void {}
 
   public onAffixPlacementChange(): void { }
 
   public scrollTargetToLeft(offset: number = 0): void {
     const baseElement: HTMLDivElement = this.baseRef.nativeElement;
-    const scrollable: HTMLDivElement = this.scrollableParentRef.nativeElement;
-    scrollable.scrollTop = this.getParentCenterY();
-    scrollable.scrollLeft = baseElement.offsetLeft - offset;
+    const overflowParent: HTMLDivElement = this.overflowParentRef.nativeElement;
+    overflowParent.scrollTop = this.getParentCenterY();
+    overflowParent.scrollLeft = baseElement.offsetLeft - offset;
   }
 
   public scrollTargetToRight(offset: number = 0): void {
     const baseElement: HTMLDivElement = this.baseRef.nativeElement;
-    const scrollable: HTMLDivElement = this.scrollableParentRef.nativeElement;
-    scrollable.scrollTop = this.getParentCenterY();
-    scrollable.scrollLeft = baseElement.offsetLeft - scrollable.clientWidth - offset;
+    const overflowParent: HTMLDivElement = this.overflowParentRef.nativeElement;
+    const baseRect = baseElement.getBoundingClientRect();
+    const overflowRect = overflowParent.getBoundingClientRect();
+
+    overflowParent.scrollTop = this.getParentCenterY();
+    overflowParent.scrollLeft = (baseElement.offsetLeft + baseRect.width) - overflowParent.offsetLeft - overflowRect.width + offset;
   }
 
   public scrollTargetToTop(offset: number = 0): void {
-    const baseRef: HTMLDivElement = this.baseRef.nativeElement;
+    const baseRef = this.baseRef.nativeElement;
     const top = baseRef.offsetTop;
-    const scrollable: HTMLDivElement = this.scrollableParentRef.nativeElement;
-    scrollable.scrollTop = top - offset;
-    scrollable.scrollLeft = this.getParentCenterX();
+    const overflowParent = this.overflowParentRef.nativeElement;
+    overflowParent.scrollTop = top - offset;
+    overflowParent.scrollLeft = this.getParentCenterX();
   }
 
   public scrollTargetToBottom(offset: number = 0): void {
     const baseElement: HTMLDivElement = this.baseRef.nativeElement;
     const top = baseElement.offsetTop;
-    const scrollable: HTMLDivElement = this.scrollableParentRef.nativeElement;
-    scrollable.scrollTop = top +
+    const overflowParent: HTMLDivElement = this.overflowParentRef.nativeElement;
+    overflowParent.scrollTop = top +
       baseElement.clientHeight -
-      scrollable.getBoundingClientRect().height -
+      overflowParent.getBoundingClientRect().height -
       offset;
-    scrollable.scrollLeft = this.getParentCenterX();
+    overflowParent.scrollLeft = this.getParentCenterX();
   }
 
   public scrollTargetOutOfView(): void {
-    const parent = this.scrollableParentRef.nativeElement;
+    const parent = this.overflowParentRef.nativeElement;
     parent.scrollTop = 0;
     parent.scrollLeft = 0;
   }
 
   private getParentCenterX(): number {
-    const scrollable: HTMLDivElement = this.scrollableParentRef.nativeElement;
+    const overflowParent: HTMLDivElement = this.overflowParentRef.nativeElement;
     const baseElement: HTMLDivElement = this.baseRef.nativeElement;
     return baseElement.offsetLeft -
-      scrollable.offsetLeft -
-      (scrollable.clientWidth / 2) +
-      (baseElement.clientWidth / 2);
+      overflowParent.offsetLeft -
+      (overflowParent.getBoundingClientRect().width / 2) +
+      (baseElement.getBoundingClientRect().width / 2);
   }
 
   private getParentCenterY(): number {
-    const scrollable: HTMLDivElement = this.scrollableParentRef.nativeElement;
+    const overflowParent: HTMLDivElement = this.overflowParentRef.nativeElement;
     const baseElement: HTMLDivElement = this.baseRef.nativeElement;
     return baseElement.offsetTop -
-      scrollable.offsetTop -
-      (scrollable.clientHeight / 2) +
+      overflowParent.offsetTop -
+      (overflowParent.clientHeight / 2) +
       (baseElement.clientHeight / 2);
   }
 

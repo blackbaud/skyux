@@ -1,5 +1,5 @@
 export class OverlayFixtureContext {
   constructor(
-    public id: number
+    public id: string
   ) { }
 }

@@ -68,7 +68,7 @@ export class OverlayDemoComponent {
 
     // Manually close the overlay instance when a button is clicked in the attached component.
     componentInstance.closeClicked.subscribe(() => {
-      overlayInstance.close();
+      this.overlayService.close(overlayInstance);
     });
 
     this.overlays.push(overlayInstance);

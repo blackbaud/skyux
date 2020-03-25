@@ -5,9 +5,11 @@ import {
   ComponentFactoryResolver,
   ComponentRef,
   ElementRef,
+  EmbeddedViewRef,
   Injector,
   OnDestroy,
   OnInit,
+  Optional,
   StaticProvider,
   TemplateRef,
   Type,
@@ -61,9 +63,10 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
     return this._closed.asObservable();
   }
 
-  public allowClickThrough = false;
-
   public showBackdrop = false;
+
+  @ViewChild('overlayContentRef', { read: ElementRef })
+  private overlayContentRef: ElementRef;
 
   @ViewChild('target', { read: ViewContainerRef })
   private targetRef: ViewContainerRef;
@@ -79,16 +82,16 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
     private resolver: ComponentFactoryResolver,
     private elementRef: ElementRef,
     private injector: Injector,
-    private router: Router,
-    private context: SkyOverlayContext
+    private context: SkyOverlayContext,
+    @Optional() private router?: Router
   ) { }
 
   public ngOnInit(): void {
     this.applyConfig(this.context.config);
 
-    if (this.context.config.enableClose) {
+    setTimeout(() => {
       this.addBackdropClickListener();
-    }
+    });
 
     if (this.context.config.closeOnNavigation) {
       this.addRouteListener();
@@ -103,6 +106,8 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
   }
 
   public attachComponent<C>(component: Type<C>, providers: StaticProvider[] = []): ComponentRef<C> {
+    this.targetRef.clear();
+
     const factory = this.resolver.resolveComponentFactory(component);
     const injector = Injector.create({
       providers,
@@ -112,33 +117,43 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
     return this.targetRef.createComponent(factory, undefined, injector);
   }
 
-  public attachTemplate<T>(templateRef: TemplateRef<T>, context: T): void {
-    this.targetRef.createEmbeddedView(templateRef, context);
+  public attachTemplate<T>(templateRef: TemplateRef<T>, context: T): EmbeddedViewRef<T> {
+    this.targetRef.clear();
+
+    return this.targetRef.createEmbeddedView(templateRef, context);
   }
 
   private applyConfig(config: SkyOverlayConfig): void {
     this.showBackdrop = config.showBackdrop;
-    this.allowClickThrough = (!this.showBackdrop && !config.enableClose);
     this.changeDetector.markForCheck();
   }
 
   private addBackdropClickListener(): void {
     Observable.fromEvent(this.elementRef.nativeElement, 'click')
       .takeUntil(this.ngUnsubscribe)
-      .subscribe(() => {
-        this._closed.next();
-        this._closed.complete();
+      .subscribe((event: MouseEvent) => {
+        if (this.context.config.enableClose) {
+          const isChild = this.overlayContentRef.nativeElement.contains(event.target);
+          /* istanbul ignore else */
+          if (!isChild) {
+            this._closed.next();
+            this._closed.complete();
+          }
+        }
       });
   }
 
   private addRouteListener(): void {
-    this.routerSubscription = this.router.events.subscribe(event => {
-      /* istanbul ignore else */
-      if (event instanceof NavigationStart) {
-        this._closed.next();
-        this._closed.complete();
-      }
-    });
+    /*istanbul ignore else*/
+    if (this.router) {
+      this.routerSubscription = this.router.events.subscribe(event => {
+        /* istanbul ignore else */
+        if (event instanceof NavigationStart) {
+          this._closed.next();
+          this._closed.complete();
+        }
+      });
+    }
   }
 
   private removeRouteListener(): void {
