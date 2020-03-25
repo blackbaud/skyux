@@ -44,7 +44,7 @@ export class DatePipeVisualComponent implements OnInit {
     'zh-CN'
   ];
 
-  public myDate = new Date('11/05/1955');
+  public myDate = new Date(1955, 10, 5);
 
   constructor(
     private datePipe: SkyDatePipe

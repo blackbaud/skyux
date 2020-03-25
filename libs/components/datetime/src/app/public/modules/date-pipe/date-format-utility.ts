@@ -7,13 +7,7 @@ import {
   SkyIntlDateFormatter
 } from '@skyux/i18n/modules/i18n/intl-date-formatter';
 
-const ISO8601_DATE_REGEX =
-    /^(\d{4})-?(\d\d)-?(\d\d)(?:T(\d\d)(?::?(\d\d)(?::?(\d\d)(?:\.(\d+))?)?)?(Z|([+-])(\d\d):?(\d\d))?)?$/;
-//    1        2       3         4          5          6          7          8  9     10      11
-
-function isNumeric(value: any): boolean {
-  return !isNaN(value - parseFloat(value));
-}
+const moment = require('moment');
 
 export class SkyDateFormatUtility {
 
@@ -43,39 +37,19 @@ export class SkyDateFormatUtility {
       return undefined;
     }
 
-    if (typeof value === 'string') {
-      value = value.trim();
+    // Moment will interpret any non-date object as today's date. That would
+    // introduce a breaking change, so we check for it here. This could probably be removed
+    // in a future major version.
+    if (value instanceof Object && !(value instanceof Date)) {
+      handleInvalidDate(value);
     }
 
-    if (isDate(value)) {
-      date = value;
-    } else if (isNumeric(value)) {
-      date = new Date(parseFloat(value));
-    } else if (typeof value === 'string' && /^(\d{4}-\d{1,2}-\d{1,2})$/.test(value)) {
-      /*
-      For ISO Strings without time the day, month and year must be extracted from the ISO String
-      before Date creation to avoid time offset and errors in the new Date.
-      If we only replace '-' with ',' in the ISO String ("2015,01,01"), and try to create a new
-      date, some browsers (e.g. IE 9) will throw an invalid Date error
-      If we leave the '-' ("2015-01-01") and try to create a new Date("2015-01-01") the timeoffset
-      is applied
-      Note: ISO months are 0 for January, 1 for February, ...
-      */
-      const [y, m, d] = value.split('-').map((val: string) => parseInt(val, 10));
-      date = new Date(y, m - 1, d);
+    // Use moment to avoid inconsistencies between browsers interpreting the value differently.
+    const momentDate = moment(value);
+    if (momentDate.isValid()) {
+      date = momentDate.toDate();
     } else {
-      date = new Date(value);
-    }
-
-    if (!isDate(date)) {
-      let match: RegExpMatchArray|null;
-      /* istanbul ignore next */
-      /* tslint:disable-next-line:no-conditional-assignment */
-      if ((typeof value === 'string') && (match = value.match(ISO8601_DATE_REGEX))) {
-        date = isoStringToDate(match);
-      } else {
-        throw new Error('Invalid value: ' + value);
-      }
+      handleInvalidDate(value);
     }
 
     return SkyIntlDateFormatter.format(
@@ -90,32 +64,6 @@ function isBlank(obj: any): boolean {
   return !obj;
 }
 
-function isDate(obj: any): obj is Date {
-  return obj instanceof Date && !isNaN(obj.valueOf());
-}
-
-/* istanbul ignore next */
-function isoStringToDate(match: RegExpMatchArray): Date {
-  const date = new Date(0);
-  let tzHour = 0;
-  let tzMin = 0;
-  const dateSetter = match[8] ? date.setUTCFullYear : date.setFullYear;
-  const timeSetter = match[8] ? date.setUTCHours : date.setHours;
-
-  if (match[9]) {
-    tzHour = toInt(match[9] + match[10]);
-    tzMin = toInt(match[9] + match[11]);
-  }
-  dateSetter.call(date, toInt(match[1]), toInt(match[2]) - 1, toInt(match[3]));
-  const h = toInt(match[4] || '0') - tzHour;
-  const m = toInt(match[5] || '0') - tzMin;
-  const s = toInt(match[6] || '0');
-  const ms = Math.round(parseFloat('0.' + (match[7] || 0)) * 1000);
-  timeSetter.call(date, h, m, s, ms);
-  return date;
-}
-
-/* istanbul ignore next */
-function toInt(str: string): number {
-  return parseInt(str, 10);
+function handleInvalidDate(value: any): void {
+  throw new Error('Invalid value: ' + value);
 }

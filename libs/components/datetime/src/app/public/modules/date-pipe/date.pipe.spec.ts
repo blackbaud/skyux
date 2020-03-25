@@ -68,6 +68,13 @@ describe('Date pipe', () => {
     expect(expectedValues).toContain(value);
   });
 
+  it('should throw an error when provided an invalid date', () => {
+    expect(() => {
+      fixture.componentInstance.dateValue = 'foobar';
+      fixture.detectChanges();
+    }).toThrow(new Error('Invalid value: foobar'));
+  });
+
   it('should format a timestamp', () => {
     fixture.componentInstance.dateValue = new Date(2000, 0, 1, 0).getTime();
     fixture.detectChanges();
@@ -91,13 +98,24 @@ describe('Date pipe', () => {
     expect(expectedValues).toContain(value);
   });
 
-  it('should format an ISO date string without time', () => {
+  it('should format an incomplete ISO date string without time', () => {
     fixture.componentInstance.dateValue = '2000-01-01';
     fixture.detectChanges();
     const value = fixture.nativeElement.textContent.trim();
     const expectedValues = [
       '1/1/2000, 12:00 AM',
       '1/1/2000 12:00 AM' // IE 11
+    ];
+    expect(expectedValues).toContain(value);
+  });
+
+  it('should format an incomplete ISO date string without time zone', () => {
+    fixture.componentInstance.dateValue = '2020-03-03T00:00:00';
+    fixture.detectChanges();
+    const value = fixture.nativeElement.textContent.trim();
+    const expectedValues = [
+      '3/3/2020, 12:00 AM',
+      '3/3/2020 12:00 AM' // IE 11
     ];
     expect(expectedValues).toContain(value);
   });
@@ -190,7 +208,7 @@ describe('Date pipe', () => {
   });
 
   it('should default to en-US locale', () => {
-    const date = new Date('01/01/2000');
+    const date = new Date(2000, 0, 1);
     const pipe = new SkyDatePipe(mockLocaleProvider);
     const expectedValues = [
       '1/1/2000, 12:00 AM',
@@ -229,7 +247,7 @@ describe('Date pipe', () => {
   it('should work as an injectable', () => {
     fixture.detectChanges();
 
-    const date = new Date('01/01/2000');
+    const date = new Date(2000, 0, 1);
     const expectedValues = [
       '2000-01-01 00 h 00',
       '2000-01-01 00:00' // IE 11
