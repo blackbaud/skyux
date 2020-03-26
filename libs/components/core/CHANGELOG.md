@@ -1,3 +1,14 @@
+# 3.13.0 (2020-03-26)
+
+- Added the `SkyAffixConfig.autoFitContext` configuration to allow the `Affixer`'s auto-fit functionality to respond to contexts such as the viewport and the base element's overflow parent. [#143](https://github.com/blackbaud/skyux-core/pull/143)
+- Added the `SkyAffixConfig.autoFitOverflowOffset` to allow the `Affixer`'s auto-fit functionality to detect dynamic boundaries. [#143](https://github.com/blackbaud/skyux-core/pull/143)
+- Added the `offsetChange` and `overflowScroll` events to the `Affixer`. [#143](https://github.com/blackbaud/skyux-core/pull/143)
+- Added a `close` method to the overlay service to replace the deprecated `close` method on the overlay instance. [#143](https://github.com/blackbaud/skyux-core/pull/143)
+- Fixed the overlay service to destroy the host component when all overlays are closed. [#143](https://github.com/blackbaud/skyux-core/pull/143)
+- Fixed the overlay service to prevent the creation of multiple overlay host components. [#143](https://github.com/blackbaud/skyux-core/pull/143)
+- Fixed the overlay service to prevent the overwriting of `body` styles when restricting body scrolling. [#143](https://github.com/blackbaud/skyux-core/pull/143)
+- Fixed the overlay component to make the `Router` service optional so that existing consumer unit tests don't require `RouterTestingModule` in their `TestBed`. [#143](https://github.com/blackbaud/skyux-core/pull/143)
+
 # 3.12.1 (2020-03-04)
 
 - Added the properties from the `SkyViewkeeperOptions` interface to `SkyViewkeeperHostOptions`. This fixes an issue where the Angular AoT compiler does not recognize interface properties that are not explicitly defined on the implementing class. [#139](https://github.com/blackbaud/skyux-core/pull/139)
