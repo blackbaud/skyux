@@ -1,3 +1,9 @@
+# 3.0.3 (2020-01-31)
+
+- Fixed the `skyAutonumeric` directive to properly set the invalid state when the input is required. [#15](https://github.com/blackbaud/skyux-autonumeric/pull/15)
+- Fixed the `skyAutonumeric` directive to no longer treat empty values as zero. [#15](https://github.com/blackbaud/skyux-autonumeric/pull/15)
+- Fixed the `skyAutonumeric` directive to show an invalid state when values are provided that are not of type `number`. [#15](https://github.com/blackbaud/skyux-autonumeric/pull/15)
+
 # 3.0.2 (2020-01-31)
 
 - Fixed the `skyAutonumeric` directive to properly set the disabled state when using reactive forms. [#9](https://github.com/blackbaud/skyux-autonumeric/pull/9)
