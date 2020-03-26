@@ -1,3 +1,7 @@
+# 3.5.1 (2020-03-26)
+
+- Fixed the `package.json` file to list the correct `@skyux/list-builder` version as a peer dependency. [#59](https://github.com/blackbaud/skyux-select-field/pull/59)
+
 # 3.5.0 (2020-03-13)
 
 - Added the `inMemorySearchEnabled` and `searchApplied` properties to the select field component to facilitate running searches remotely. [#56](https://github.com/blackbaud/skyux-select-field/pull/56)
