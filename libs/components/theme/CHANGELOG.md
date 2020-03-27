@@ -1,3 +1,7 @@
+# 3.11.0 (2020-03-27)
+
+- Added the beta version of the SKY UX icon font to the list of fonts loaded during bootstrap. [#102](https://github.com/blackbaud/skyux-theme/pull/102)
+
 # 3.10.0 (2020-03-19)
 
 - Added CSS classes for dark, light, and row borders. [#100](https://github.com/blackbaud/skyux-theme/pull/100)
