@@ -145,11 +145,12 @@ describe('SkyCodeBlockComponent', () => {
     expect(element.querySelector('.sky-code-block-header')).not.toExist();
   });
 
-  it('should hide the header if copyToClipboard is false, and languageType is undefined', () => {
+  it('should hide the header if copyToClipboard is false, and languageType and fileName are undefined', () => {
     const code = '<p></p>';
     component.code = code;
     component.hideCopyToClipboard = true;
     component.languageType = undefined;
+    component.fileName = undefined;
     fixture.detectChanges();
     expect(element.querySelector('.sky-code-block-header')).not.toExist();
   });

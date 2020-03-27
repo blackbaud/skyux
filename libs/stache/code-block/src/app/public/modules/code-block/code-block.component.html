@@ -1,7 +1,16 @@
 <div class="sky-code-block">
   <div *ngIf="!hideHeader" class="sky-code-block-header">
-    <div class="sky-deemphasized">
-      {{displayName}}
+    <div>
+      <span *ngIf="fileName"
+        class="sky-emphasized sky-margin-inline-default"
+      >
+        {{ fileName }}
+      </span>
+      <span *ngIf="displayName"
+        class="sky-deemphasized"
+      >
+        {{ displayName }}
+      </span>
     </div>
     <sky-copy-to-clipboard
       *ngIf="!hideCopyToClipboard"

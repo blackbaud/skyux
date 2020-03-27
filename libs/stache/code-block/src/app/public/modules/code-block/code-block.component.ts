@@ -28,6 +28,9 @@ export class SkyCodeBlockComponent implements AfterViewInit, OnInit {
   public code: string;
 
   @Input()
+  public fileName: string;
+
+  @Input()
   public set languageType(value: string) {
     this.setDisplayName(value);
     if (this.validLanguages.indexOf(value) > -1) {
@@ -66,7 +69,8 @@ export class SkyCodeBlockComponent implements AfterViewInit, OnInit {
   }
 
   public ngOnInit(): void {
-    this.hideHeader = this.hideHeader || (!this.displayName && this.hideCopyToClipboard);
+    this.hideHeader = this.hideHeader
+      || (!this.displayName && !this.fileName && this.hideCopyToClipboard);
   }
 
   public ngAfterViewInit(): void {
