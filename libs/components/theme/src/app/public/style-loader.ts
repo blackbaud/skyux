@@ -15,6 +15,7 @@ export class SkyAppStyleLoader {
     }
 
     const fontAwesome = new FontFaceObserver('FontAwesome');
+    const skyuxIcons = new FontFaceObserver('skyux-icons');
     const blackbaudSans = new FontFaceObserver('Blackbaud Sans');
 
     return Promise
@@ -23,6 +24,7 @@ export class SkyAppStyleLoader {
         // when the font is loaded unless a known character with a different width
         // than the default is not specified.
         fontAwesome.load('\uf0fc', SkyAppStyleLoader.LOAD_TIMEOUT),
+        skyuxIcons.load('\ue808', SkyAppStyleLoader.LOAD_TIMEOUT),
         blackbaudSans.load(undefined, SkyAppStyleLoader.LOAD_TIMEOUT)
       ])
       .then(() => {
