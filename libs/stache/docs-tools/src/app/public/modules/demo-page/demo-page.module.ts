@@ -61,6 +61,10 @@ import {
 } from './demo-page.component';
 
 import {
+  SkyDocsDemoPageModuleInfoComponent
+} from './demo-page-module-info.component';
+
+import {
   SkyDocsDemoPageTypeDefinitionsComponent
 } from './demo-page-type-definitions.component';
 
@@ -81,12 +85,14 @@ import {
   ],
   declarations: [
     SkyDocsDemoPageComponent,
+    SkyDocsDemoPageModuleInfoComponent,
     SkyDocsDemoPageSectionComponent,
     SkyDocsDemoPageSummaryComponent,
     SkyDocsDemoPageTypeDefinitionsComponent
   ],
   exports: [
     SkyDocsDemoPageComponent,
+    SkyDocsDemoPageModuleInfoComponent,
     SkyDocsDemoPageSectionComponent,
     SkyDocsDemoPageSummaryComponent,
     SkyDocsDemoPageTypeDefinitionsComponent

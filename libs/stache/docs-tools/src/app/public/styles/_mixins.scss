@@ -9,18 +9,19 @@
   margin: $sky-margin-triple 0 $sky-margin-plus-half;
 
   @if $level == 1 {
-    font-weight: 200;
+    font-weight: 300;
     font-size: 34px;
   }
 
   @if $level == 2 {
-    font-weight: 200;
-    font-size: 30px;
+    font-weight: 300;
+    font-size: 26px;
     margin-bottom: $sky-margin-triple;
   }
 
   @if $level == 3 {
-    font-size: 20px;
+    font-size: 19px;
+    font-weight: 400;
   }
 
   @if $level == 4 {

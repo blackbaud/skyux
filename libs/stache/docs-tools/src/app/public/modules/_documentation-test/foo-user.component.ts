@@ -1,10 +1,14 @@
 import {
   Component,
+  EventEmitter,
+  Input,
   OnInit,
-  Input
+  Output
 } from '@angular/core';
 
-import { FooUser } from './foo-user';
+import {
+  FooUser
+} from './foo-user';
 
 /**
  * This is the description for FooUserComponent.
@@ -20,6 +24,9 @@ export class FooUserComponent implements OnInit {
    */
   @Input()
   public user: FooUser;
+
+  @Output()
+  public save = new EventEmitter<FooUser>();
 
   public ngOnInit(): void { }
 }

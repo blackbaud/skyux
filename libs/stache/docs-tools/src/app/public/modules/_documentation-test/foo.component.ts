@@ -25,7 +25,7 @@ import {
   selector: 'app-foo',
   template: ''
 })
-export class FooComponent implements OnInit {
+export class FooComponent<U extends FooUser> implements OnInit {
 
   /**
    * This is the description for foo input. You must provide [[FooEnum]] values.
@@ -33,6 +33,12 @@ export class FooComponent implements OnInit {
   @Input()
   public foo: FooEnum;
 
+  @Input()
+  public user: U;
+
+  /**
+   * @default 'foobar'
+   */
   @Input()
   public sample: string;
 
@@ -60,8 +66,8 @@ export class FooComponent implements OnInit {
   }
 
   /**
-   * Use the latest and greatest features!
-   * @deprecated This is no longer needed; all new features are available now.
+   * Use the latest and greatest features for FooPipe!
+   * @deprecated This is no longer needed; all new features are available now. Set the `foobar` property on the [[FooPipe]] instead.
    */
   @Input()
   public experimental: boolean = false;
@@ -77,7 +83,14 @@ export class FooComponent implements OnInit {
   public click = new EventEmitter<FooUser>();
 
   /**
-   * @hidden
+   * This property doesn't include a deprecation message.
+   * @deprecated
+   */
+  @Output()
+  public newUser = new EventEmitter<U>();
+
+  /**
+   * @internal
    */
   @Input()
   public internalConfig: any;
@@ -87,6 +100,8 @@ export class FooComponent implements OnInit {
    */
   @Input()
   public requiredProperty: boolean = false;
+
+  public propertyShouldNotBeDocumented: string;
 
   private _bar: string;
 

@@ -5,9 +5,12 @@ import {
 } from '@angular/core';
 
 import {
-  SkyDocsDirectiveDefinition,
+  SkyDocsDirectiveDefinition
+} from './directive-definition';
+
+import {
   SkyDocsPropertyDefinition
-} from './type-definitions';
+} from './property-definition';
 
 @Component({
   selector: 'sky-docs-directive-definition',
@@ -28,7 +31,7 @@ export class SkyDocsDirectiveDefinitionComponent {
   }
 
   public get eventProperties(): SkyDocsPropertyDefinition[] {
-    const properties = this.config.properties || [];
+    const properties = this.config.properties;
     return properties.filter((property) => {
       return (property.decorator === 'Output');
     });

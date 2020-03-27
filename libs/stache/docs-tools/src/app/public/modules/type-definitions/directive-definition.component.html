@@ -1,4 +1,6 @@
-<div class="sky-docs-directive-definition sky-docs-type-definition-wrapper">
+<div *ngIf="config"
+  class="sky-docs-directive-definition sky-docs-type-definition-wrapper"
+>
   <sky-docs-heading-anchor
     headingLevel="3"
     [anchorId]="config.anchorId"
@@ -7,7 +9,8 @@
   </sky-docs-heading-anchor>
 
   <sky-docs-safe-html
-    [innerHtml]="config.description"
+    class="sky-docs-directive-definition-description"
+    [innerHtml]="config.description | skyDocsTypeAnchorLinks"
   ></sky-docs-safe-html>
 
   <h4 class="sky-docs-directive-definition-h4">
@@ -41,7 +44,7 @@
       [propertyType]="property.type"
     >
       <sky-docs-safe-html
-        [innerHtml]="property.description"
+        [innerHtml]="property.description | skyDocsTypeAnchorLinks"
       ></sky-docs-safe-html>
     </sky-docs-property-definition>
     <sky-docs-property-definition *ngFor="let property of eventProperties"
@@ -53,7 +56,7 @@
       [propertyType]="property.type"
     >
       <sky-docs-safe-html
-        [innerHtml]="property.description"
+        [innerHtml]="property.description | skyDocsTypeAnchorLinks"
       ></sky-docs-safe-html>
     </sky-docs-property-definition>
   </sky-docs-property-definitions>

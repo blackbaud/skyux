@@ -10,30 +10,42 @@
     >
       {{ heading || ('sky-docs-demo-heading' | skyLibResources) }}
     </span>
-    <button *ngIf="hasOptions"
-      class="sky-btn"
-      type="button"
-      [attr.data-test-selector]="'sky-docs-demo-heading-button'"
-      [ngClass]="{
-        'sky-docs-demo-heading-btn-open': areOptionsVisible
-      }"
-      (click)="onToggleOptionsButtonClick()"
-    >
-      <sky-icon
-        [icon]="toggleOptionsButtonIcon"
-      ></sky-icon>
-      <ng-container *ngIf="areOptionsVisible">
-        {{ 'sky-docs-demo-toggle-button-off' | skyLibResources }}
-      </ng-container>
-      <ng-container *ngIf="!areOptionsVisible">
-        {{ 'sky-docs-demo-toggle-button-on' | skyLibResources }}
-      </ng-container>
-    </button>
-  </div>
 
-  <ng-container *ngIf="areOptionsVisible">
-    <ng-container *ngTemplateOutlet="controlPanels"></ng-container>
-  </ng-container>
+    <div
+      class="sky-docs-demo-control-panel-wrapper"
+    >
+      <div
+        class="sky-docs-demo-control-panel-wrapper-header"
+      >
+        <button *ngIf="hasOptions"
+          class="sky-btn"
+          type="button"
+          [attr.data-test-selector]="'sky-docs-demo-heading-button'"
+          [ngClass]="{
+            'sky-docs-demo-heading-btn-open': areOptionsVisible
+          }"
+          (click)="onToggleOptionsButtonClick()"
+        >
+          <sky-icon
+            [icon]="toggleOptionsButtonIcon"
+          ></sky-icon>
+          <ng-container *ngIf="areOptionsVisible">
+            {{ 'sky-docs-demo-toggle-button-off' | skyLibResources }}
+          </ng-container>
+          <ng-container *ngIf="!areOptionsVisible">
+            {{ 'sky-docs-demo-toggle-button-on' | skyLibResources }}
+          </ng-container>
+        </button>
+      </div>
+      <div
+        class="sky-docs-demo-control-panel-wrapper-body"
+      >
+        <ng-container *ngIf="areOptionsVisible">
+          <ng-container *ngTemplateOutlet="controlPanels"></ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </div>
 
   <div
     class="sky-docs-demo-viewport"

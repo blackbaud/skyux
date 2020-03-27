@@ -8,6 +8,10 @@ import {
 } from '@blackbaud/skyux-lib-code-block';
 
 import {
+  SkyAlertModule
+} from '@skyux/indicators';
+
+import {
   SkyPopoverModule
 } from '@skyux/popovers';
 
@@ -22,6 +26,7 @@ import {
 
 @NgModule({
   exports: [
+    SkyAlertModule,
     SkyAppLinkModule,
     SkyCodeBlockModule,
     SkyCodeModule,

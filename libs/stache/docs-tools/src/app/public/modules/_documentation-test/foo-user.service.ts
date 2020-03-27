@@ -2,7 +2,9 @@ import {
   Injectable
 } from '@angular/core';
 
-import { FooUser } from './foo-user';
+import {
+  FooUser
+} from './foo-user';
 
 /**
  * This is the description for FooUserService.

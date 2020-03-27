@@ -1,4 +1,6 @@
-<div class="sky-docs-service-definition sky-docs-type-definition-wrapper">
+<div *ngIf="config"
+  class="sky-docs-class-definition sky-docs-type-definition-wrapper"
+>
   <sky-docs-heading-anchor
     headingLevel="3"
     [anchorId]="config.anchorId"
@@ -7,7 +9,8 @@
   </sky-docs-heading-anchor>
 
   <sky-docs-safe-html
-    [innerHtml]="config.description"
+    class="sky-docs-class-definition-description"
+    [innerHtml]="config.description | skyDocsTypeAnchorLinks"
   ></sky-docs-safe-html>
 
   <ng-container *ngIf="config.properties && config.properties.length">
@@ -17,7 +20,7 @@
         [propertyType]="property.type"
       >
         <sky-docs-safe-html
-          [innerHtml]="property.description"
+          [innerHtml]="property.description | skyDocsTypeAnchorLinks"
         ></sky-docs-safe-html>
       </sky-docs-property-definition>
     </sky-docs-property-definitions>
@@ -31,7 +34,10 @@
         [deprecationWarning]="method.deprecationWarning"
         [propertyName]="method.name + '()'"
       >
-        <p [innerHtml]="method.description"></p>
+        <sky-docs-safe-html
+          class="sky-docs-class-definition-method-description"
+          [innerHtml]="method.description | skyDocsTypeAnchorLinks"
+        ></sky-docs-safe-html>
 
         <sky-code-block
           class="sky-docs-code-block"
@@ -41,7 +47,7 @@
         ></sky-code-block>
 
         <ng-container *ngIf="method.parameters && method.parameters.length">
-          <h4 class="sky-docs-service-definition-heading">
+          <h4 class="sky-docs-class-definition-heading">
             Parameters
           </h4>
           <sky-docs-parameter-definitions>
@@ -51,21 +57,27 @@
               [parameterName]="parameter.name"
               [parameterType]="parameter.type"
             >
-              <span [innerHtml]="parameter.description"></span>
+              <sky-docs-safe-html
+                [innerHtml]="parameter.description | skyDocsTypeAnchorLinks"
+              ></sky-docs-safe-html>
             </sky-docs-parameter-definition>
           </sky-docs-parameter-definitions>
         </ng-container>
 
-        <h4 class="sky-docs-service-definition-heading">
+        <h4 class="sky-docs-class-definition-heading">
           Returns
         </h4>
 
-        <p class="sky-docs-service-definition-return-type">
-          <sky-code>{{ method.returnType }}</sky-code>
+        <p class="sky-docs-class-definition-return-type">
+          <sky-code>
+            <span
+              [innerHtml]="method.returnType | skyDocsTypeAnchorLinks"
+            ></span>
+          </sky-code>
         </p>
 
         <ng-container *ngIf="method.codeExample">
-          <h4 class="sky-docs-service-definition-heading">
+          <h4 class="sky-docs-class-definition-heading">
             Example
           </h4>
           <sky-code-block

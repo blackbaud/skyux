@@ -1,6 +1,8 @@
 import {
   ComponentFixture,
-  TestBed
+  fakeAsync,
+  TestBed,
+  tick
 } from '@angular/core/testing';
 
 import {
@@ -41,6 +43,24 @@ describe('Demo component', () => {
     fixture = TestBed.createComponent(DemoFixtureComponent);
   });
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
+  it('should set defaults', () => {
+    fixture.detectChanges();
+    const demoComponentRef = fixture.componentInstance.demoComponentRef;
+    expect(demoComponentRef.alignContents).toEqual('left');
+    expect(demoComponentRef.heading).toBeUndefined();
+  });
+
+  it('should align contents left or center', () => {
+    fixture.componentInstance.alignContents = 'center';
+    fixture.detectChanges();
+    const viewport = fixture.nativeElement.querySelector('.sky-docs-demo-viewport');
+    expect(viewport).toHaveCssClass('sky-docs-demo-viewport-align-center');
+  });
+
   it('should allow for custom headings', () => {
     fixture.detectChanges();
 
@@ -67,5 +87,72 @@ describe('Demo component', () => {
 
       expect(spy).toHaveBeenCalledTimes(1);
     });
+
+    it('should unsubscribe events when checkboxes/radios change', fakeAsync(() => {
+      fixture.detectChanges();
+      tick();
+
+      const demoControlPanelComponentRef = fixture.componentInstance.demoControlPanelComponentRef;
+      const unsubscribeSpy = spyOn(demoControlPanelComponentRef['eventListeners'], 'unsubscribe').and.callThrough();
+
+      fixture.componentInstance.changeFormControls();
+      fixture.detectChanges();
+      tick();
+
+      expect(unsubscribeSpy).toHaveBeenCalled();
+    }));
+
+    it('should emit value changes for controls', fakeAsync(() => {
+      const selectionSpy = spyOn(fixture.componentInstance, 'onDemoSelectionChange').and.callThrough();
+
+      fixture.detectChanges();
+      tick();
+
+      showControlPanel();
+
+      fixture.detectChanges();
+      tick();
+
+      // It should emit on load with the initial values.
+      expect(selectionSpy.calls.allArgs()).toEqual([
+        [{ backgroundColor: '#f00' }],
+        [{ user: { name: 'John' } }],
+        [{ showIcon: true }]
+      ]);
+
+      selectionSpy.calls.reset();
+
+      // Click the "Green" radio.
+      fixture.nativeElement.querySelector('input[value="#0f0"]').click();
+
+      // Click the "Jane" radio input.
+      fixture.nativeElement.querySelectorAll('input[name="user"]').item(1).click();
+
+      // Click the "Show icon" checkbox.
+      fixture.nativeElement.querySelector('input[type="checkbox"]').click();
+
+      fixture.detectChanges();
+      tick();
+
+      expect(selectionSpy.calls.allArgs()).toEqual([
+        [{ backgroundColor: '#0f0' }],
+        [{ user: { name: 'Jane' } }],
+        [{ showIcon: false }]
+      ]);
+
+      selectionSpy.calls.reset();
+
+      resetControlPanel();
+
+      fixture.detectChanges();
+      tick();
+
+      // Resetting the controls should emit their original values.
+      expect(selectionSpy.calls.allArgs()).toEqual([
+        [{ showIcon: true }],
+        [{ backgroundColor: '#f00' }],
+        [{ user: { name: 'John' } }]
+      ]);
+    }));
   });
 });

@@ -7,7 +7,7 @@
   </sky-docs-heading-anchor>
 
   <sky-docs-safe-html
-    [innerHtml]="config.description"
+    [innerHtml]="config.description | skyDocsTypeAnchorLinks"
   ></sky-docs-safe-html>
 
   <sky-docs-property-definitions
@@ -17,7 +17,7 @@
       [propertyName]="member.name"
     >
       <sky-docs-safe-html
-        [innerHtml]="member.description"
+        [innerHtml]="member.description | skyDocsTypeAnchorLinks"
       ></sky-docs-safe-html>
     </sky-docs-property-definition>
   </sky-docs-property-definitions>

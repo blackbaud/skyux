@@ -79,7 +79,7 @@ export class SkyDocsDemoControlPanelCheckboxComponent implements OnInit, OnDestr
 
   public ngOnInit(): void {
     setTimeout(() => {
-      this.initialState.checked = this.checked || false;
+      this.initialState.checked = this.checked;
       this.notifyChange();
     });
   }

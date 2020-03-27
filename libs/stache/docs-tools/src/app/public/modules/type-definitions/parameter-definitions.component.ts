@@ -8,10 +8,6 @@ import {
 } from '@angular/core';
 
 import {
-  SkyDocsAnchorLinkService
-} from './anchor-link.service';
-
-import {
   SkyDocsParameterDefinitionComponent
 } from './parameter-definition.component';
 
@@ -41,7 +37,6 @@ export class SkyDocsParameterDefinitionsComponent implements AfterContentInit {
   private parameterComponents: QueryList<SkyDocsParameterDefinitionComponent>;
 
   constructor(
-    private anchorLinkService: SkyDocsAnchorLinkService,
     private formatService: SkyDocsTypeDefinitionsFormatService
   ) { }
 
@@ -59,9 +54,5 @@ export class SkyDocsParameterDefinitionsComponent implements AfterContentInit {
 
   public getParameterSignature(item: SkyDocsParameterModel): string {
     return this.formatService.getParameterSignature(item);
-  }
-
-  public formatDefaultValue(value: string): string {
-    return this.anchorLinkService.wrapWithAnchorLink(value);
   }
 }

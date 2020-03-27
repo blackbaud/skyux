@@ -6,7 +6,7 @@ import {
 
 import {
   SkyDocsEnumerationDefinition
-} from './type-definitions';
+} from './enumeration-definition';
 
 @Component({
   selector: 'sky-docs-enumeration-definition',

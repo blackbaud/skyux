@@ -76,8 +76,8 @@ import {
 } from './property-definitions.component';
 
 import {
-  SkyDocsServiceDefinitionComponent
-} from './service-definition.component';
+  SkyDocsClassDefinitionComponent
+} from './class-definition.component';
 
 import {
   SkyDocsTypeAliasDefinitionComponent
@@ -95,6 +95,10 @@ import {
   SkyDocsTypeDefinitionsProvider
 } from './type-definitions-provider';
 
+import {
+  SkyDocsTypeAnchorLinksPipe
+} from './type-anchor-links.pipe';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -109,6 +113,7 @@ import {
     SkyMediaQueryModule
   ],
   declarations: [
+    SkyDocsClassDefinitionComponent,
     SkyDocsDirectiveDefinitionComponent,
     SkyDocsEnumerationDefinitionComponent,
     SkyDocsInterfaceDefinitionComponent,
@@ -117,10 +122,11 @@ import {
     SkyDocsPipeDefinitionComponent,
     SkyDocsPropertyDefinitionComponent,
     SkyDocsPropertyDefinitionsComponent,
-    SkyDocsServiceDefinitionComponent,
-    SkyDocsTypeAliasDefinitionComponent
+    SkyDocsTypeAliasDefinitionComponent,
+    SkyDocsTypeAnchorLinksPipe
   ],
   exports: [
+    SkyDocsClassDefinitionComponent,
     SkyDocsDirectiveDefinitionComponent,
     SkyDocsEnumerationDefinitionComponent,
     SkyDocsInterfaceDefinitionComponent,
@@ -129,11 +135,11 @@ import {
     SkyDocsPipeDefinitionComponent,
     SkyDocsPropertyDefinitionComponent,
     SkyDocsPropertyDefinitionsComponent,
-    SkyDocsServiceDefinitionComponent,
     SkyDocsTypeAliasDefinitionComponent
   ],
   providers: [
     SkyDocsAnchorLinkService,
+    SkyDocsTypeAnchorLinksPipe,
     SkyDocsTypeDefinitionsFormatService,
     SkyDocsTypeDefinitionsProvider,
     SkyDocsTypeDefinitionsService

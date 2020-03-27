@@ -6,6 +6,17 @@ import {
   SkyDocsTypeDefinitionsProvider
 } from './type-definitions-provider';
 
+/**
+ * Finds any type name that is NOT surrounded by alpha-numeric (and '>', '<', '.') characters.
+ * (This is to avoid matching types that share similar words, such as `Foo` and `FooUser`.)
+ * Notes:
+ *  - If the type name is surrounded by angle brackets, then it has already been processed as a link.
+ *  - If the type name starts with a period '.', then it is a sub property of an enumeration, etc. and should not be processed as a link.
+ */
+function createRegex(keyword: string): RegExp {
+  return new RegExp(`(^|[^a-zA-Z0-9>.]+)(${keyword})([^a-zA-Z0-9<]+|$)`, 'g');
+}
+
 @Injectable()
 export class SkyDocsAnchorLinkService {
 
@@ -17,45 +28,46 @@ export class SkyDocsAnchorLinkService {
     this.anchorIds = typeDefinitionsProvider.anchorIds;
   }
 
-  /**
-   * Replace all instances of '[[sometype]]' with the link to the element.
-   */
-  public buildAnchorLinks(content: string): string {
-    const match = content.match(/\[\[.*\]\]/);
-
-    if (match) {
-      const typeName = match[0].replace('[[', '').replace(']]', '');
-      const anchorId = this.anchorIds[typeName];
-
-      if (anchorId) {
-        const replacement = match[0].replace('[[', `<a href="#${anchorId}" class="sky-docs-anchor-link">`).replace(']]', '</a>');
-        return content.replace(match[0], replacement);
-      }
+  public applyTypeAnchorLinks(content: string): string {
+    if (!this.anchorIds || !content) {
+      return content;
     }
+
+    content = this.removeDoubleSquareBrackets(content);
+
+    Object.keys(this.anchorIds).forEach((typeName) => {
+      const anchorId = this.anchorIds[typeName];
+      const anchorHtml = `<a class="sky-docs-anchor-link" href="#${anchorId}">${typeName}</a>`;
+      const regex = createRegex(typeName);
+
+      let matches: RegExpExecArray;
+      do {
+        matches = regex.exec(content);
+        if (matches) {
+          const replacement = matches[0].replace(typeName, anchorHtml);
+          content = content.replace(
+            matches[0],
+            replacement
+          );
+          regex.lastIndex = 0;
+        }
+      } while (matches !== null);
+    });
 
     return content;
   }
 
-  public wrapWithAnchorLink(content: string): string {
-    const matchingTypes = Object.keys(this.anchorIds)
-      .filter(typeName => new RegExp(typeName).test(content));
-
-    let html: string;
-    if (matchingTypes.length) {
-
-      // Sort by longest name to prevent replacement of name fragments that are shared with other shorter type names.
-      matchingTypes.sort((a, b) => b.length - a.length);
-
-      const typeName = matchingTypes[0];
-      const anchorId = this.anchorIds[typeName];
-      const anchorHtml = `<a href="#${anchorId}" class="sky-docs-anchor-link">${typeName}</a>`;
-
-      html = content.replace(typeName, anchorHtml);
-    } else {
-      html = content;
+  /**
+   * For backwards compatibility, we need to remove any double brackets wrapped around types.
+   * e.g., `[[SampleType]]`
+   */
+  private removeDoubleSquareBrackets(content: string): string {
+    const match = content.match(/\[\[.*\]\]/);
+    if (match) {
+      const typeName = match[0].replace(/\[\[/g, '').replace(/\]\]/g, '');
+      content = content.replace(match[0], typeName);
     }
-
-    return html;
+    return content;
   }
 
 }

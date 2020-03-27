@@ -35,7 +35,7 @@
       </sky-definition-list-label>
       <sky-definition-list-value>
         <sky-popover #installationCommandPopover>
-          To use exports from the module, you must install its package as a dependency to your project. To learn more, see <a href="https://developer.blackbaud.com/skyux/contribute/packages">SKY UX modules</a>.
+          To use this module, you must install peer dependencies along with its package. Also, after you install the package, you must add the module as an export in your SPA's main module to make exports available to your SPA. If you use the SKY UX SDK, the main module is <sky-code>app-sky.module.ts</sky-code>.
         </sky-popover>
         <div class="sky-docs-module-info-installation-command">
           <span class="sky-docs-module-info-installation-command-code" #copyTarget>
@@ -49,4 +49,10 @@
       </sky-definition-list-value>
     </sky-definition-list-content>
   </sky-definition-list>
+
+  <div
+    class="sky-docs-module-info-additional-content"
+  >
+    <ng-content></ng-content>
+  </div>
 </div>

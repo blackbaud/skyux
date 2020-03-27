@@ -3,7 +3,9 @@ import {
   PipeTransform
 } from '@angular/core';
 
-import { FooUser } from './foo-user';
+import {
+  FooUser
+} from './foo-user';
 
 /**
  * This is the description for the FooUserPipe.
@@ -12,9 +14,9 @@ import { FooUser } from './foo-user';
   name: 'fooUser'
 })
 export class FooUserPipe implements PipeTransform {
-  public transform(
-    value: FooUser
-  ): string {
+
+  public transform(value: FooUser): string {
     return `${value.firstName} ${value.lastName}`;
   }
+
 }

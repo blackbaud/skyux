@@ -1,109 +1,44 @@
 import {
-  TemplateRef
-} from '@angular/core';
+  SkyDocsDirectiveDefinition
+} from './directive-definition';
 
-export interface SkyDocsPropertyDefinition {
-  name: string;
-  type: string;
-  decorator?: 'Input' | 'Output';
-  defaultValue?: string;
-  deprecationWarning?: string;
-  description?: string;
-  isOptional?: boolean;
-  templateRef?: TemplateRef<any>;
-}
+import {
+  SkyDocsEnumerationDefinition
+} from './enumeration-definition';
 
-export interface SkyDocsDirectivePropertyDefinition extends SkyDocsPropertyDefinition {
-  decorator: 'Input' | 'Output';
-  defaultValue: string;
-  deprecationWarning: string;
-  isOptional: boolean;
-}
+import {
+  SkyDocsInterfaceDefinition
+} from './interface-definition';
 
-export interface SkyDocsInterfacePropertyDefinition extends SkyDocsPropertyDefinition {
-  isOptional: boolean;
-}
+import {
+  SkyDocsPipeDefinition
+} from './pipe-definition';
 
-export interface SkyDocsParameterDefinition extends SkyDocsPropertyDefinition {
-  defaultValue: string;
-  isOptional: boolean;
-}
+import {
+  SkyDocsClassDefinition
+} from './class-definition';
 
-export interface SkyDocsMethodDefinition {
-  deprecationWarning: string;
-  name: string;
-  returnType: string;
-  codeExample: string;
-  codeExampleLanguage: string;
-  description: string;
-  parameters: SkyDocsParameterDefinition[];
-}
+import {
+  SkyDocsTypeAliasDefinition
+} from './type-alias-definition';
 
-export interface SkyDocsDirectiveDefinition {
-  anchorId: string;
-  name: string;
-  selector: string;
-  description: string;
-  properties: SkyDocsDirectivePropertyDefinition[];
-  codeExample?: string;
-  codeExampleLanguage?: string;
-}
-
-export interface SkyDocsInterfaceDefinition {
-  anchorId: string;
-  name: string;
-  properties: SkyDocsInterfacePropertyDefinition[];
-  sourceCode: string;
-  description?: string;
-}
-
-export interface SkyDocsEnumerationDefinition {
-  anchorId: string;
-  name: string;
-  description?: string;
-  members: {
-    name: string;
-    description?: string;
-  }[];
-}
-
-export interface SkyDocsServiceDefinition {
-  anchorId: string;
-  name: string;
-  description: string;
-  methods: SkyDocsMethodDefinition[];
-  properties: SkyDocsPropertyDefinition[];
-}
-
-export interface SkyDocsTypeAliasDefinition {
-  anchorId: string;
-  name: string;
-  sourceCode: string;
-  description: string;
-  parameters?: SkyDocsParameterDefinition[];
-  returnType?: string;
-}
-
-export interface SkyDocsPipeDefinition {
-  anchorId: string;
-  codeExample: string;
-  codeExampleLanguage: string;
-  description: string;
-  inputValue: {
-    description: string;
-    name: string;
-    type: string;
-  };
-  name: string;
-  parameters: SkyDocsParameterDefinition[];
-}
-
+/**
+ * @internal
+ */
 export interface SkyDocsTypeDefinitions {
+
   components: SkyDocsDirectiveDefinition[];
+
   directives: SkyDocsDirectiveDefinition[];
+
   enumerations: SkyDocsEnumerationDefinition[];
+
   interfaces: SkyDocsInterfaceDefinition[];
+
   pipes: SkyDocsPipeDefinition[];
-  services: SkyDocsServiceDefinition[];
+
+  services: SkyDocsClassDefinition[];
+
   typeAliases: SkyDocsTypeAliasDefinition[];
+
 }

@@ -1,7 +1,12 @@
 import {
   Injectable,
-  OnDestroy
+  OnDestroy,
+  Type
 } from '@angular/core';
+
+import {
+  FooUser
+} from './foo-user';
 
 /**
  * This is the description for FooService.
@@ -28,9 +33,11 @@ export class FooService implements OnDestroy {
 
   /**
    * This is the description for anotherFoo().
-   * @deprecated Please use `createFoo` instead.
+   * @param component The component to create.
+   * @param user The user to use.
+   * @deprecated Please use `createFoo` input on the [[FooComponent]] instead.
    */
-  public anotherFoo(): void {}
+  public anotherFoo<T, U extends FooUser>(component: Type<T>, user: U): void {}
 
   public ngOnDestroy(): void {}
 }

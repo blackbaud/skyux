@@ -6,7 +6,7 @@ import {
 
 import {
   SkyDocsPipeDefinition
-} from './type-definitions';
+} from './pipe-definition';
 
 @Component({
   selector: 'sky-docs-pipe-definition',

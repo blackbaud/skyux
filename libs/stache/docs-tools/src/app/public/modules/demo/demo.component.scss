@@ -7,6 +7,8 @@
 
 .sky-docs-demo-heading {
   margin-bottom: $sky-margin;
+  display: flex;
+  flex-direction: row;
 
   .sky-docs-demo-heading-btn-open {
     border-bottom-color: #fff;
@@ -14,6 +16,11 @@
     border-bottom-right-radius: 0;
     position: relative;
   }
+}
+
+.sky-docs-demo-control-panel-wrapper {
+  display: flex;
+  flex-direction: column;
 }
 
 .sky-section-heading {
@@ -30,8 +37,4 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.sky-docs-demo-viewport-gutter {
-  display: flex;
 }

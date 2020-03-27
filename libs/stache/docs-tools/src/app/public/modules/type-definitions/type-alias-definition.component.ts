@@ -5,8 +5,18 @@ import {
 } from '@angular/core';
 
 import {
-  SkyDocsTypeAliasDefinition
-} from './type-definitions';
+  SkyDocsParameterDefinition
+} from './parameter-definition';
+
+import {
+  SkyDocsTypeAliasFunctionDefinition,
+  SkyDocsTypeAliasIndexSignatureDefinition,
+  SkyDocsTypeAliasUnionDefinition
+} from './type-alias-definition';
+
+import {
+  SkyDocsTypeDefinitionsFormatService
+} from './type-definitions-format.service';
 
 @Component({
   selector: 'sky-docs-type-alias-definition',
@@ -17,6 +27,24 @@ import {
 export class SkyDocsTypeAliasDefinitionComponent {
 
   @Input()
-  public config: SkyDocsTypeAliasDefinition;
+  public config: SkyDocsTypeAliasIndexSignatureDefinition |
+    SkyDocsTypeAliasFunctionDefinition |
+    SkyDocsTypeAliasUnionDefinition;
+
+  public get parameters(): SkyDocsParameterDefinition[] {
+    return (this.config as SkyDocsTypeAliasFunctionDefinition).parameters;
+  }
+
+  public get returnType(): string {
+    return (this.config as SkyDocsTypeAliasFunctionDefinition).returnType;
+  }
+
+  public get sourceCode(): string {
+    return this.formatService.getTypeAliasSignature(this.config);
+  }
+
+  constructor(
+    private formatService: SkyDocsTypeDefinitionsFormatService
+  ) { }
 
 }

@@ -61,4 +61,14 @@
 
 .sky-docs-demo-page-main {
   padding: $sky-padding-triple 0;
+
+  // Make the tabset's bottom border stretch the full width of the page.
+  ::ng-deep {
+    .sky-tabset {
+      margin-left: -45px;
+      margin-right: -45px;
+      padding-left: 45px;
+      padding-right: 45px;
+    }
+  }
 }

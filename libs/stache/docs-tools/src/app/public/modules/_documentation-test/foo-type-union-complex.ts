@@ -5,4 +5,4 @@ import {
 /**
  * This is the description for FooTypeUnionComplex. It can be of type [[FooDate]].
  */
-export type FooTypeUnionComplex = string | FooDate | number;
+export type FooTypeUnionComplex = string | FooDate | number | false | 1;

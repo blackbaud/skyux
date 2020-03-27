@@ -6,7 +6,11 @@ import {
 
 import {
   SkyDocsInterfaceDefinition
-} from './type-definitions';
+} from './interface-definition';
+
+import {
+  SkyDocsTypeDefinitionsFormatService
+} from './type-definitions-format.service';
 
 @Component({
   selector: 'sky-docs-interface-definition',
@@ -17,5 +21,13 @@ export class SkyDocsInterfaceDefinitionComponent {
 
   @Input()
   public config: SkyDocsInterfaceDefinition;
+
+  public get sourceCode(): string {
+    return this.formatService.getInterfaceSignature(this.config);
+  }
+
+  constructor(
+    private formatService: SkyDocsTypeDefinitionsFormatService
+  ) { }
 
 }

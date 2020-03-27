@@ -3,7 +3,7 @@
   role="heading"
   [ngClass]="'sky-docs-tools-heading-anchor-h' + headingLevel"
   [attr.aria-level]="headingLevel"
-  [attr.id]="anchorId"
+  [attr.id]="anchorId || null"
 >
   <ng-content></ng-content>
   <a *ngIf="anchorId"

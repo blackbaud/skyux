@@ -1,17 +1,33 @@
 <table class="sky-docs-parameter-definitions">
   <tbody>
     <tr *ngFor="let parameter of parameters">
-      <th class="sky-docs-parameter-definition-header">
-        <sky-code><span [innerHtml]="getParameterSignature(parameter)"></span></sky-code>
+      <th
+        class="sky-docs-parameter-definition-header"
+      >
+        <sky-code><span
+          [innerHtml]="getParameterSignature(parameter)"
+        ></span></sky-code>
       </th>
-      <td>
-        <ng-container
-          [ngTemplateOutlet]="parameter.templateRef"
-        ></ng-container>
+      <td
+        class="sky-docs-parameter-definition-body"
+      >
+        <div
+          class="sky-docs-parameter-definition-description"
+        >
+          <ng-container
+            [ngTemplateOutlet]="parameter.templateRef"
+          ></ng-container>
+        </div>
         <div *ngIf="parameter.isOptional"
           class="sky-docs-parameter-definition-label-optional"
         >
-          Optional. <ng-container *ngIf="parameter.defaultValue">Default is <sky-code><span [innerHtml]="formatDefaultValue(parameter.defaultValue)"></span></sky-code>.</ng-container>
+          Optional.
+          <ng-container *ngIf="parameter.defaultValue">
+            Default is
+            <sky-code><span
+              [innerHtml]="parameter.defaultValue | skyDocsTypeAnchorLinks"
+            ></span></sky-code>.
+          </ng-container>
         </div>
       </td>
     </tr>

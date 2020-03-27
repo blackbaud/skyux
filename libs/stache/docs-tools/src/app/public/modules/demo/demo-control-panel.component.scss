@@ -3,13 +3,16 @@
 
 .sky-docs-demo-control-panel {
   margin-bottom: $sky-margin-double;
-  margin-top: -$sky-margin - 1;
+  margin-top: -1px;
+  margin-left: -$sky-margin-plus-half;
 }
 
 .sky-docs-demo-control-panel-row {
   @include sky-border(dark, top, bottom, left, right);
   padding: $sky-padding-even-large;
+  background-color: #fff;
   display: inline-flex;
+  min-width: 220px;
 }
 
 .sky-docs-demo-control-panel-sections-column {
