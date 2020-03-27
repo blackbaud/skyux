@@ -1,3 +1,7 @@
+# 1.4.0 (2019-08-13)
+
+- Added `fileName` input for `sky-code-block` component and upgraded `prismjs` to `1.19.0`. [#29](https://github.com/blackbaud/skyux-lib-code-block/pull/29)
+
 # 1.3.1 (2019-08-13)
 
 - Adjusted CSS styles for `sky-code` component, reverted to previous color scheme. [#22](https://github.com/blackbaud/skyux-lib-code-block/pull/22)
