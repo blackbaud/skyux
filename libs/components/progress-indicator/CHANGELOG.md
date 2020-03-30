@@ -1,3 +1,7 @@
+# 3.3.0 (2020-03-30)
+
+- Added support for asynchronous calls before step advancement occurs in the progress indicator component. [#36](https://github.com/blackbaud/skyux-progress-indicator/pull/36)
+
 # 3.2.0 (2019-11-04)
 
 - Added support for `@skyux-sdk/builder@3.11.0`. [#31](https://github.com/blackbaud/skyux-progress-indicator/pull/31)
