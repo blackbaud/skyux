@@ -1,3 +1,10 @@
+# 3.14.0 (2020-03-30)
+
+- Added the `enablePointerEvents` option to `SkyOverlayConfig` to enable click events to pass through the overlay's backdrop. [#148](https://github.com/blackbaud/skyux-core/pull/148)
+- Added the `backdropClick` event to `SkyOverlayInstance` to allow overlay instances to listen for backdrop click events. [#148](https://github.com/blackbaud/skyux-core/pull/148)
+- Added the `isTargetAboveElement()` method to `SkyCoreAdapterService` to allow SKY UX components to detect if an event target element is contained within another element. [#148](https://github.com/blackbaud/skyux-core/pull/148)
+- Fixed the `closed` event on `SkyOverlayInstance` to fire when the instance is closed by `SkyOverlayService` or the instance itself. [#148](https://github.com/blackbaud/skyux-core/pull/148)
+
 # 3.13.0 (2020-03-26)
 
 - Added the `SkyAffixConfig.autoFitContext` configuration to allow the `Affixer`'s auto-fit functionality to respond to contexts such as the viewport and the base element's overflow parent. [#143](https://github.com/blackbaud/skyux-core/pull/143)
