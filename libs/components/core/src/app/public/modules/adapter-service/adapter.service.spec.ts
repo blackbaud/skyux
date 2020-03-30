@@ -1,5 +1,6 @@
 import {
   ComponentFixture,
+  inject,
   TestBed
 } from '@angular/core/testing';
 
@@ -18,6 +19,10 @@ import {
 import {
   SkyAdapterServiceFixturesModule
 } from './fixtures/adapter-service.fixtures.module';
+
+import {
+  SkyCoreAdapterService
+} from './adapter.service';
 
 describe('Core adapter service', () => {
   let fixture: ComponentFixture<AdapterServiceFixtureComponent>;
@@ -184,6 +189,82 @@ describe('Core adapter service', () => {
       expect(container).not.toHaveCssClass('sky-responsive-container-sm');
       expect(container).not.toHaveCssClass('sky-responsive-container-md');
       expect(container).toHaveCssClass('sky-responsive-container-lg');
+    });
+  });
+
+  describe('isTargetAboveElement', () => {
+    let adapter: SkyCoreAdapterService;
+    let container: HTMLDivElement;
+
+    beforeEach(inject(
+      [SkyCoreAdapterService], (_adapter: SkyCoreAdapterService) => {
+        adapter = _adapter;
+        container = document.getElementById('z-index-container') as HTMLDivElement;
+      }
+    ));
+
+    it('should check if event target is above element', () => {
+        const div1 = document.createElement('div');
+        div1.style.position = 'fixed';
+        div1.style.zIndex = '1';
+
+        const div2 = document.createElement('div');
+        div2.style.position = 'fixed';
+        div2.style.zIndex = '2';
+
+        container.appendChild(div1);
+        container.appendChild(div2); // Higher z-index added last.
+
+        const result = adapter.isTargetAboveElement(div2, div1);
+        expect(result).toEqual(true);
+    });
+
+    it('should handle elements that do not exist in the DOM', () => {
+      const div1 = document.createElement('div');
+      div1.style.position = 'fixed';
+      div1.style.zIndex = '1';
+
+      const div2 = document.createElement('div');
+      div2.style.position = 'fixed';
+      div2.style.zIndex = '2';
+
+      // Only add the first element.
+      container.appendChild(div1);
+
+      const result = adapter.isTargetAboveElement(div2, div1);
+      expect(result).toEqual(true);
+    });
+
+    it('should search parents recursively until z-index is found', () => {
+      const div1 = document.createElement('div');
+      const div1Parent = document.createElement('div');
+      div1Parent.style.position = 'fixed';
+      div1Parent.style.zIndex = '2';
+      div1Parent.appendChild(div1);
+
+      const div2 = document.createElement('div');
+      div2.style.position = 'fixed';
+      div2.style.zIndex = '1';
+
+      container.appendChild(div1Parent);
+      container.appendChild(div2);
+
+      const result = adapter.isTargetAboveElement(div1, div2);
+      expect(result).toEqual(true);
+    });
+
+    it('should return false if the target does not have a z-index', () => {
+      const div1 = document.createElement('div');
+
+      const div2 = document.createElement('div');
+      div2.style.position = 'fixed';
+      div2.style.zIndex = '1';
+
+      container.appendChild(div1);
+      container.appendChild(div2);
+
+      const result = adapter.isTargetAboveElement(div1, div2);
+      expect(result).toEqual(false);
     });
   });
 });

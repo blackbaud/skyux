@@ -62,7 +62,11 @@ export class SkyOverlayService {
     );
 
     instance.closed.subscribe(() => {
-      this.close(instance);
+      // Only execute the service's close method if the instance still exists.
+      // This is needed to address a race condition if the deprecated instance.close method is used instead.
+      if (SkyOverlayService.overlays.indexOf(instance) > -1) {
+        this.close(instance);
+      }
     });
 
     SkyOverlayService.overlays.push(instance);
@@ -107,6 +111,7 @@ export class SkyOverlayService {
     const defaults: SkyOverlayConfig = {
       closeOnNavigation: true,
       enableClose: false,
+      enablePointerEvents: false,
       enableScroll: true,
       showBackdrop: false
     };

@@ -41,12 +41,18 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/takeUntil';
 
 import {
+  SkyCoreAdapterService
+} from '../adapter-service';
+
+import {
   SkyOverlayConfig
 } from './overlay-config';
 
 import {
   SkyOverlayContext
 } from './overlay-context';
+
+let uniqueZIndex = 1001; // Omnibar is 1000
 
 /**
  * @internal
@@ -59,14 +65,25 @@ import {
 })
 export class SkyOverlayComponent implements OnInit, OnDestroy {
 
+  public get backdropClick(): Observable<void> {
+    return this._backdropClick.asObservable();
+  }
+
   public get closed(): Observable<void> {
     return this._closed.asObservable();
   }
 
+  public enablePointerEvents = false;
+
   public showBackdrop = false;
+
+  public zIndex: string = `${++uniqueZIndex}`;
 
   @ViewChild('overlayContentRef', { read: ElementRef })
   private overlayContentRef: ElementRef;
+
+  @ViewChild('overlayRef', { read: ElementRef })
+  private overlayRef: ElementRef;
 
   @ViewChild('target', { read: ViewContainerRef })
   private targetRef: ViewContainerRef;
@@ -75,13 +92,15 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
   private routerSubscription: Subscription;
 
+  private _backdropClick = new Subject<void>();
+
   private _closed = new Subject<void>();
 
   constructor(
     private changeDetector: ChangeDetectorRef,
     private resolver: ComponentFactoryResolver,
-    private elementRef: ElementRef,
     private injector: Injector,
+    private coreAdapter: SkyCoreAdapterService,
     private context: SkyOverlayContext,
     @Optional() private router?: Router
   ) { }
@@ -102,7 +121,15 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
     this.removeRouteListener();
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+
+    this._backdropClick.complete();
+
+    this._closed.next();
     this._closed.complete();
+
+    this._backdropClick =
+      this._closed =
+      this.ngUnsubscribe = undefined;
   }
 
   public attachComponent<C>(component: Type<C>, providers: StaticProvider[] = []): ComponentRef<C> {
@@ -125,19 +152,25 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
   private applyConfig(config: SkyOverlayConfig): void {
     this.showBackdrop = config.showBackdrop;
+    this.enablePointerEvents = config.enablePointerEvents;
     this.changeDetector.markForCheck();
   }
 
   private addBackdropClickListener(): void {
-    Observable.fromEvent(this.elementRef.nativeElement, 'click')
+    Observable.fromEvent(window.document, 'click')
       .takeUntil(this.ngUnsubscribe)
       .subscribe((event: MouseEvent) => {
-        if (this.context.config.enableClose) {
-          const isChild = this.overlayContentRef.nativeElement.contains(event.target);
-          /* istanbul ignore else */
-          if (!isChild) {
+        const isChild = this.overlayContentRef.nativeElement.contains(event.target);
+        const isAbove = this.coreAdapter.isTargetAboveElement(
+          event.target,
+          this.overlayRef.nativeElement
+        );
+
+        /* istanbul ignore else */
+        if (!isChild && !isAbove) {
+          this._backdropClick.next();
+          if (this.context.config.enableClose) {
             this._closed.next();
-            this._closed.complete();
           }
         }
       });
@@ -150,7 +183,6 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
         /* istanbul ignore else */
         if (event instanceof NavigationStart) {
           this._closed.next();
-          this._closed.complete();
         }
       });
     }

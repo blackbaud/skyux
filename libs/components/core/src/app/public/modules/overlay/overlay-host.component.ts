@@ -27,7 +27,6 @@ import {
 @Component({
   selector: 'sky-overlay-host',
   templateUrl: './overlay-host.component.html',
-  styleUrls: ['./overlay-host.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyOverlayHostComponent {

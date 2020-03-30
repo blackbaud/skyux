@@ -25,11 +25,20 @@ import {
 export class SkyOverlayInstance {
 
   /**
+   * Emits when the overlay is clicked (but not its content).
+   */
+  public get backdropClick(): Observable<void> {
+    return this._backdropClick.asObservable();
+  }
+
+  /**
    * Emits after the overlay is closed.
    */
   public get closed(): Observable<void> {
-    return this._closed;
+    return this._closed.asObservable();
   }
+
+  private _backdropClick = new Subject<void>();
 
   private _closed = new Subject<void>();
 
@@ -42,6 +51,10 @@ export class SkyOverlayInstance {
   ) {
     this.componentRef.instance.closed.subscribe(() => {
       this.close();
+    });
+
+    this.componentRef.instance.backdropClick.subscribe(() => {
+      this._backdropClick.next();
     });
   }
 
@@ -77,6 +90,7 @@ export class SkyOverlayInstance {
   public close(): void {
     this._closed.next();
     this._closed.complete();
+    this._backdropClick.complete();
   }
 
 }

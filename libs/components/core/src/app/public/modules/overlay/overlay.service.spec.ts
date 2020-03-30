@@ -20,6 +20,8 @@ import {
   SkyAppTestUtility
 } from '@skyux-sdk/testing';
 
+import 'rxjs/add/operator/take';
+
 import {
   OverlayFixtureContext
 } from './fixtures/overlay-context.fixture';
@@ -281,6 +283,21 @@ describe('Overlay service', () => {
     }
   )));
 
+  it('should optionally allow pointer events to pass through the overlay', fakeAsync(() => {
+    let instance = createOverlay({
+      enablePointerEvents: false // default
+    });
+
+    expect(getAllOverlays().item(0)).not.toHaveCssClass('enable-pointer-events-pass-through');
+    destroyOverlay(instance);
+
+    instance = createOverlay({
+      enablePointerEvents: true
+    });
+
+    expect(getAllOverlays().item(0)).toHaveCssClass('enable-pointer-events-pass-through');
+  }));
+
   it('should attach a component', async(async () => {
     const overlay = service.create();
 
@@ -367,6 +384,57 @@ describe('Overlay service', () => {
 
     hostComponents = document.querySelectorAll('sky-overlay-host');
     expect(hostComponents.length).toEqual(0);
+  }));
+
+  it('should emit when overlay is closed by the instance (deprecated)', fakeAsync(() => {
+    const instance = createOverlay();
+    const closedSpy = spyOn(instance['_closed'], 'next').and.callThrough();
+    instance.close();
+    fixture.detectChanges();
+    expect(closedSpy).toHaveBeenCalled();
+  }));
+
+  it('should emit when overlay is closed by the service', fakeAsync(() => {
+    const instance = createOverlay();
+    const closedSpy = spyOn(instance['_closed'], 'next').and.callThrough();
+    service.close(instance);
+    expect(closedSpy).toHaveBeenCalled();
+  }));
+
+  it('should emit when a user clicks outside of the overlay content', fakeAsync(() => {
+    const instance = createOverlay();
+
+    let backdropClickCalled = false;
+    instance.backdropClick.take(1).subscribe(() => {
+      backdropClickCalled = true;
+    });
+
+    SkyAppTestUtility.fireDomEvent(document.body, 'click');
+    fixture.detectChanges();
+    tick();
+
+    expect(backdropClickCalled).toEqual(true);
+    backdropClickCalled = false;
+
+    // Clicking the overlay content should not trigger the event.
+    SkyAppTestUtility.fireDomEvent(
+      getAllOverlays().item(0).querySelector('.sky-overlay-content'),
+      'click'
+    );
+
+    fixture.detectChanges();
+    tick();
+
+    expect(backdropClickCalled).toEqual(false);
+  }));
+
+  it('should increment z-index for each overlay', fakeAsync(() => {
+    createOverlay();
+    createOverlay();
+    const overlays = getAllOverlays();
+    const zIndex1 = getComputedStyle(overlays.item(0)).zIndex;
+    const zIndex2 = getComputedStyle(overlays.item(1)).zIndex;
+    expect(zIndex2 > zIndex1).toEqual(true);
   }));
 
 });

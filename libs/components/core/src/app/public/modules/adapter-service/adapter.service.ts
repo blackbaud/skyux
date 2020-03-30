@@ -161,6 +161,36 @@ export class SkyCoreAdapterService {
     return elements;
   }
 
+  /**
+   * Checks if an event target has a higher z-index than a given element.
+   * @param target The event target element.
+   * @param element The element to test against. A z-index must be explicitly set for this element.
+   */
+  public isTargetAboveElement(target: EventTarget, element: HTMLElement): boolean {
+    const zIndex: string = getComputedStyle(element).zIndex;
+
+    let el: HTMLElement = target as HTMLElement;
+
+    while (el) {
+      // Getting the computed style only works for elements that exist in the DOM.
+      // In certain scenarios, an element is removed after a click event; by the time the event
+      // bubbles up to other elements, however, the element has been removed and the computed style returns empty.
+      // In this case, we'll need to check the z-index directly, via the style property.
+      let targetZIndex: string = getComputedStyle(el).zIndex || el.style.zIndex;
+      if (
+        targetZIndex !== '' &&
+        targetZIndex !== 'auto' &&
+        +targetZIndex > +zIndex
+      ) {
+        return true;
+      }
+
+      el = el.parentElement as HTMLElement;
+    }
+
+    return false;
+  }
+
   private focusFirstElement(list: Array<HTMLElement>): boolean {
     if (list.length > 0) {
       list[0].focus();

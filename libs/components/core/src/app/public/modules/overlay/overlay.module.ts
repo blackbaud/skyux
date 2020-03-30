@@ -11,6 +11,10 @@ import {
 } from '@angular/router';
 
 import {
+  SkyCoreAdapterModule
+} from '../adapter-service/adapter.module';
+
+import {
   SkyDynamicComponentModule
 } from '../dynamic-component/dynamic-component.module';
 
@@ -38,6 +42,7 @@ import {
   imports: [
     CommonModule,
     RouterModule,
+    SkyCoreAdapterModule,
     SkyDynamicComponentModule
   ],
   declarations: [

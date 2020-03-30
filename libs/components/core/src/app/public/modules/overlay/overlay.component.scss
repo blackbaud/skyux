@@ -1,8 +1,3 @@
-:host {
-  pointer-events: auto;
-}
-
-:host,
 .sky-overlay {
   position: fixed;
   top: 0;
@@ -12,6 +7,7 @@
   width: 100%;
   height: 100%;
   display: flex;
+  pointer-events: auto;
 }
 
 .sky-overlay-content {
@@ -19,6 +15,7 @@
   z-index: 1;
   display: inline-flex;
   align-self: start;
+  pointer-events: auto;
 }
 
 .sky-overlay-backdrop {
@@ -30,4 +27,16 @@
   width: 100%;
   height: 100%;
   position: absolute;
+}
+
+.enable-pointer-events-pass-through {
+  pointer-events: none;
+
+  .sky-overlay-backdrop {
+    pointer-events: none;
+  }
+
+  .sky-overlay-content {
+    pointer-events: auto;
+  }
 }

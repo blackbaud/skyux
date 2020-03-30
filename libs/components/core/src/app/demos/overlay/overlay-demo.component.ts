@@ -42,6 +42,7 @@ export class OverlayDemoComponent {
     this.createOverlay({
       closeOnNavigation: false,
       enableClose: true,
+      enablePointerEvents: true,
       enableScroll: false,
       showBackdrop: true
     });
@@ -61,6 +62,10 @@ export class OverlayDemoComponent {
         useValue: new OverlayDemoExampleContext(++uniqueId)
       }]
     );
+
+    overlayInstance.backdropClick.subscribe(() => {
+      console.log('Outside clicked.');
+    });
 
     overlayInstance.closed.subscribe(() => {
       this.removeLocalInstance(overlayInstance);
