@@ -1,3 +1,7 @@
+# 3.12.0 (2020-04-01)
+
+- Updated the SKY UX icon font version to 3.0.0-beta.1. [#105](https://github.com/blackbaud/skyux-theme/pull/105)
+
 # 3.11.0 (2020-03-27)
 
 - Added the beta version of the SKY UX icon font to the list of fonts loaded during bootstrap. [#102](https://github.com/blackbaud/skyux-theme/pull/102)
