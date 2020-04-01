@@ -11,7 +11,9 @@ import {
 } from '@angular/platform-browser/animations';
 
 import {
-  SkyWindowRefService
+  SkyAffixModule,
+  SkyCoreAdapterModule,
+  SkyOverlayModule
 } from '@skyux/core';
 
 import {
@@ -21,6 +23,14 @@ import {
 import {
   SkyPopoversResourcesModule
 } from '../shared';
+
+import {
+  SkyPopoverAdapterService
+} from './popover-adapter.service';
+
+import {
+  SkyPopoverContentComponent
+} from './popover-content.component';
 
 import {
   SkyPopoverComponent
@@ -33,20 +43,28 @@ import {
 @NgModule({
   declarations: [
     SkyPopoverComponent,
+    SkyPopoverContentComponent,
     SkyPopoverDirective
   ],
   imports: [
     BrowserAnimationsModule,
     CommonModule,
+    SkyAffixModule,
+    SkyCoreAdapterModule,
     SkyIconModule,
+    SkyOverlayModule,
     SkyPopoversResourcesModule
   ],
   exports: [
     SkyPopoverComponent,
+    SkyPopoverContentComponent,
     SkyPopoverDirective
   ],
+  entryComponents: [
+    SkyPopoverContentComponent
+  ],
   providers: [
-    SkyWindowRefService
+    SkyPopoverAdapterService
   ]
 })
 export class SkyPopoverModule { }

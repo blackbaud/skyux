@@ -33,5 +33,10 @@ export enum SkyDropdownMessageType {
   /**
    * Puts focus on the first item in the dropdown menu.
    */
-  FocusFirstItem = 6
+  FocusFirstItem = 6,
+
+  /**
+   * Puts focus on the last item in the dropdown menu.
+   */
+  FocusLastItem = 7
 }

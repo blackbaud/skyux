@@ -1,66 +1,48 @@
 import {
-  AnimationEvent,
-  animate,
-  trigger,
-  state,
-  style,
-  transition
-} from '@angular/animations';
-
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
-  OnInit,
   Output,
+  TemplateRef,
   ViewChild
 } from '@angular/core';
 
 import {
-  SkyWindowRefService
+  SkyOverlayInstance,
+  SkyOverlayService
 } from '@skyux/core';
+
+import {
+  Subject
+} from 'rxjs/Subject';
 
 import 'rxjs/add/observable/fromEvent';
 
 import 'rxjs/add/operator/takeUntil';
 
 import {
-  Observable
-} from 'rxjs/Observable';
+  SkyPopoverAlignment
+} from './types/popover-alignment';
 
 import {
-  Subject
-} from 'rxjs/Subject';
-
-import {
-  SkyPopoverAdapterService
-} from './popover-adapter.service';
-
-import {
-  SkyPopoverAlignment,
   SkyPopoverPlacement
-} from './types';
+} from './types/popover-placement';
+
+import {
+  SkyPopoverContentComponent
+} from './popover-content.component';
+
+import {
+  SkyPopoverContext
+} from './popover-context';
 
 @Component({
   selector: 'sky-popover',
-  templateUrl: './popover.component.html',
-  styleUrls: ['./popover.component.scss'],
-  providers: [SkyPopoverAdapterService],
-  animations: [
-    trigger('popoverState', [
-      state('visible', style({ opacity: 1, visibility: 'visible' })),
-      state('hidden', style({ opacity: 0 })),
-      transition('hidden => visible', animate('150ms')),
-      transition('visible => hidden', animate('150ms'))
-    ])
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: './popover.component.html'
 })
-export class SkyPopoverComponent implements OnInit, OnDestroy {
+export class SkyPopoverComponent implements OnDestroy {
 
   /**
    * Specifies the horizontal alignment of the popover in relation to the trigger element.
@@ -80,6 +62,8 @@ export class SkyPopoverComponent implements OnInit, OnDestroy {
    * Indicates if the popover element should render as a full screen modal
    * when the content is too large to fit inside its parent.
    * @internal
+   * @deprecated Fullscreen popovers are not an approved SKY UX design pattern. Use the SKY UX
+   * modal component instead.
    */
   @Input()
   public set allowFullscreen(value: boolean) {
@@ -93,9 +77,20 @@ export class SkyPopoverComponent implements OnInit, OnDestroy {
   /**
    * Indicates whether to close the popover when it loses focus.
    * To require users to click a trigger button to close the popover, set this input to false.
+   * @default true
    */
   @Input()
-  public dismissOnBlur = true;
+  public set dismissOnBlur(value: boolean) {
+    this._dismissOnBlur = value;
+  }
+
+  public get dismissOnBlur(): boolean {
+    if (this._dismissOnBlur === undefined) {
+      return true;
+    }
+
+    return this._dismissOnBlur;
+  }
 
   /**
    * Specifies the placement of the popover in relation to the trigger element.
@@ -129,262 +124,165 @@ export class SkyPopoverComponent implements OnInit, OnDestroy {
   @Output()
   public popoverOpened = new EventEmitter<SkyPopoverComponent>();
 
-  @ViewChild('popoverArrow')
-  public popoverArrow: ElementRef;
+  /**
+   * Indicates that the popover is in the process of being opened or closed.
+   * @internal
+   */
+  public isActive: boolean = false;
 
-  @ViewChild('popoverContainer')
-  public popoverContainer: ElementRef;
+  /**
+   * Used by unit tests to disable animations since the component is injected at the bottom of the
+   * document body.
+   * @internal
+   */
+  public enableAnimations: boolean = true;
 
-  public animationState: 'hidden' | 'visible' = 'hidden';
+  public isMouseEnter: boolean = false;
 
-  public arrowTop: number;
+  @ViewChild('templateRef', { read: TemplateRef })
+  private templateRef: TemplateRef<any>;
 
-  public arrowLeft: number;
+  private contentRef: SkyPopoverContentComponent;
 
-  public classNames: string[] = [];
+  /**
+   * @deprecated The trigger type `mouseenter` will be removed in the next major version.
+   */
+  private isMarkedForCloseOnMouseLeave: boolean = false;
 
-  public isMouseEnter = false;
+  private ngUnsubscribe = new Subject<void>();
 
-  public isOpen = false;
-
-  public isVisible = false;
-
-  public popoverLeft: number;
-
-  public popoverTop: number;
-
-  private caller: ElementRef;
-
-  private idled = new Subject<boolean>();
-
-  private isMarkedForCloseOnMouseLeave = false;
-
-  private preferredPlacement: SkyPopoverPlacement;
-
-  private scrollListeners: Function[] = [];
+  private overlay: SkyOverlayInstance;
 
   private _alignment: SkyPopoverAlignment;
 
   private _allowFullscreen: boolean;
 
+  private _dismissOnBlur: boolean;
+
   private _placement: SkyPopoverPlacement;
 
   constructor(
-    private adapterService: SkyPopoverAdapterService,
-    private changeDetector: ChangeDetectorRef,
-    private elementRef: ElementRef,
-    private windowRef: SkyWindowRefService
+    private overlayService: SkyOverlayService
   ) { }
 
-  public ngOnInit(): void {
-    this.preferredPlacement = this.placement;
-    this.adapterService.hidePopover(this.popoverContainer);
-  }
-
   public ngOnDestroy(): void {
-    this.removeListeners();
-    this.idled.complete();
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+    this.ngUnsubscribe = undefined;
+
+    if (this.overlay) {
+      this.overlayService.close(this.overlay);
+      this.overlay = undefined;
+    }
   }
 
+  /**
+   * Positions the popover next to a given caller element.
+   * @param caller The element that opened the popover.
+   * @param placement The placement of the popover.
+   * @param alignment The horizontal alignment of the popover.
+   * @internal
+   */
   public positionNextTo(
     caller: ElementRef,
     placement?: SkyPopoverPlacement,
     alignment?: SkyPopoverAlignment
   ): void {
-    if (!caller) {
-      return;
+    if (!this.overlay) {
+      this.setupOverlay();
     }
 
-    this.close();
-
-    this.caller = caller;
     this.placement = placement;
     this.alignment = alignment;
-    this.preferredPlacement = this.placement;
-    this.changeDetector.markForCheck();
+    this.isActive = true;
 
-    // Let the styles render before gauging the dimensions.
-    this.windowRef.getWindow().setTimeout(() => {
-      if (
-        this.allowFullscreen &&
-        this.adapterService.isPopoverLargerThanParent(this.popoverContainer)
-      ) {
-        this.placement = 'fullscreen';
+    this.contentRef.open(
+      caller,
+      {
+        allowFullscreen: this.allowFullscreen,
+        dismissOnBlur: this.dismissOnBlur,
+        enableAnimations: this.enableAnimations,
+        horizontalAlignment: this.alignment,
+        isStatic: false,
+        placement: this.placement,
+        popoverTitle: this.popoverTitle
       }
-
-      this.isVisible = true;
-      this.positionPopover();
-      this.addListeners();
-      this.animationState = 'visible';
-      this.changeDetector.markForCheck();
-    });
+    );
   }
 
-  public reposition(): void {
-    this.placement = this.preferredPlacement;
-    this.changeDetector.markForCheck();
-
-    if (
-      this.allowFullscreen &&
-      this.adapterService.isPopoverLargerThanParent(this.popoverContainer)
-    ) {
-      this.placement = 'fullscreen';
-    }
-
-    this.positionPopover();
-  }
-
+  /**
+   * Closes the popover.
+   * @internal
+   */
   public close(): void {
-    this.animationState = 'hidden';
-    this.removeListeners();
-    this.changeDetector.markForCheck();
+    this.contentRef.close();
   }
 
-  public onAnimationStart(event: AnimationEvent): void {
-    if (event.fromState === 'void') {
-      return;
-    }
-
-    if (event.toState === 'visible') {
-      this.adapterService.showPopover(this.popoverContainer);
-    }
+  /**
+   * Brings focus to the popover element if its open.
+   * @internal
+   */
+  public applyFocus(): void {
+    this.contentRef.applyFocus();
   }
 
-  public onAnimationDone(event: AnimationEvent): void {
-    if (event.fromState === 'void') {
-      return;
-    }
-
-    if (event.toState === 'hidden') {
-      this.isOpen = false;
-      this.adapterService.hidePopover(this.popoverContainer);
-      this.popoverClosed.emit(this);
-    } else {
-      this.isOpen = true;
-      this.popoverOpened.emit(this);
-    }
-  }
-
-  // TODO: This method is no longer used. Remove it when we decide to make breaking changes.
+  /**
+   * Adds a flag to the popover to close when the mouse leaves the popover's bounds.
+   * @internal
+   * @deprecated The trigger type `mouseenter` will be removed in the next major version.
+   */
   public markForCloseOnMouseLeave(): void {
     this.isMarkedForCloseOnMouseLeave = true;
   }
 
-  private positionPopover(): void {
-    if (this.placement !== 'fullscreen') {
-      const elements = {
-        popover: this.popoverContainer,
-        popoverArrow: this.popoverArrow,
-        caller: this.caller
-      };
+  private setupOverlay(): void {
+    const overlay = this.overlayService.create({
+      enableScroll: true,
+      enablePointerEvents: true
+    });
 
-      const position = this.adapterService.getPopoverPosition(
-        elements,
-        this.preferredPlacement,
-        this.alignment
-      );
-
-      this.placement = position.placement;
-      this.alignment = position.alignment;
-      this.popoverTop = position.top;
-      this.popoverLeft = position.left;
-      this.arrowTop = position.arrowTop;
-      this.arrowLeft = position.arrowLeft;
-    }
-
-    this.changeDetector.markForCheck();
-  }
-
-  private addListeners(): void {
-    const windowObj = this.windowRef.getWindow();
-    const hostElement = this.elementRef.nativeElement;
-
-    Observable
-      .fromEvent(windowObj, 'resize')
-      .takeUntil(this.idled)
+    overlay.backdropClick
+      .takeUntil(this.ngUnsubscribe)
       .subscribe(() => {
-        this.reposition();
-      });
-
-    Observable
-      .fromEvent(windowObj.document, 'focusin')
-      .takeUntil(this.idled)
-      .subscribe((event: KeyboardEvent) => {
-        const targetIsChild = (hostElement.contains(event.target));
-        const targetIsCaller = (this.caller && this.caller.nativeElement === event.target);
-
-        /* istanbul ignore else */
-        if (!targetIsChild && !targetIsCaller && this.dismissOnBlur) {
-          // The popover is currently being operated by the user, and
-          // has just lost keyboard focus. We should close it.
+        if (this.dismissOnBlur) {
           this.close();
         }
       });
 
-    Observable
-      .fromEvent(windowObj.document, 'click')
-      .takeUntil(this.idled)
-      .subscribe((event: MouseEvent) => {
-        if (!this.isMouseEnter && this.dismissOnBlur) {
-          this.close();
-        }
+    const contentRef = overlay.attachComponent(SkyPopoverContentComponent, [{
+      provide: SkyPopoverContext,
+      useValue: new SkyPopoverContext({
+        contentTemplateRef: this.templateRef
+      })
+    }]);
+
+    contentRef.opened
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(() => {
+        this.popoverOpened.emit(this);
       });
 
-    Observable
-      .fromEvent(hostElement, 'mouseenter')
-      .takeUntil(this.idled)
+    contentRef.closed
+      .takeUntil(this.ngUnsubscribe)
       .subscribe(() => {
-        this.isMouseEnter = true;
+        this.overlayService.close(this.overlay);
+        this.overlay = undefined;
+        this.isActive = false;
+        this.popoverClosed.emit(this);
       });
 
-    Observable
-      .fromEvent(hostElement, 'mouseleave')
-      .takeUntil(this.idled)
-      .subscribe(() => {
-        this.isMouseEnter = false;
+    contentRef.isMouseEnter
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe((isMouseEnter) => {
+        this.isMouseEnter = isMouseEnter;
         if (this.isMarkedForCloseOnMouseLeave) {
-          this.close();
           this.isMarkedForCloseOnMouseLeave = false;
-        }
-      });
-
-    Observable
-      .fromEvent(hostElement, 'keyup')
-      .takeUntil(this.idled)
-      .subscribe((event: KeyboardEvent) => {
-        const key = event.key.toLowerCase();
-
-        if (key === 'escape') {
-          event.stopPropagation();
-          event.preventDefault();
           this.close();
-
-          /* istanbul ignore else */
-          if (this.caller) {
-            this.caller.nativeElement.focus();
-          }
         }
       });
 
-    this.scrollListeners = this.adapterService
-      .getParentScrollListeners(this.popoverContainer, (isElementVisibleWithinScrollable: boolean) => {
-        this.reposition();
-        this.isVisible = isElementVisibleWithinScrollable;
-        this.changeDetector.markForCheck();
-      });
+    this.overlay = overlay;
+    this.contentRef = contentRef;
   }
 
-  private removeListeners(): void {
-    this.idled.next(true);
-
-    if (this.scrollListeners) {
-      this.scrollListeners.forEach((listener: any) => {
-        // Remove renderer-generated listeners by calling the listener itself.
-        // https://github.com/angular/angular/issues/9368#issuecomment-227199778
-        listener();
-      });
-
-      this.scrollListeners = [];
-    }
-  }
 }

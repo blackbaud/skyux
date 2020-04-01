@@ -1,27 +1,6 @@
 @import "~@skyux/theme/scss/mixins";
 @import "~@skyux/theme/scss/_compat/mixins";
 
-.sky-dropdown {
-  ::ng-deep .sky-popover-container {
-    padding: 0;
-    min-width: auto;
-    max-width: none;
-
-    .sky-popover {
-      border-radius: 0 !important;
-      border: 0 !important;
-    }
-
-    .sky-popover-body {
-      padding: 0;
-    }
-
-    .sky-popover-arrow {
-      display: none;
-    }
-  }
-}
-
 .sky-dropdown-button-type-tab {
   @include sky-btn-tab();
   @include sky-btn-tab-selected();
@@ -52,4 +31,8 @@
 
 .sky-dropdown-button-icon-container {
   flex-grow: 1;
+}
+
+.sky-dropdown-menu-container {
+  position: fixed;
 }

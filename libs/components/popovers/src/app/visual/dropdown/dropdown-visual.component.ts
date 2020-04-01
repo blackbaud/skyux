@@ -1,10 +1,17 @@
-import { Component } from '@angular/core';
+import {
+  Component
+} from '@angular/core';
+
+import {
+  SkyDropdownMenuChange
+} from '../../public';
 
 @Component({
   selector: 'dropdown-visual',
   templateUrl: './dropdown-visual.component.html'
 })
 export class DropdownVisualComponent {
+
   public dropdownOpen = false;
 
  public colors: any[] = [
@@ -32,6 +39,10 @@ export class DropdownVisualComponent {
     { name: 'Violet' },
     { name: 'Hunter green' }
   ];
+
+  public onMenuChanges(change: SkyDropdownMenuChange): void {
+    console.log('Menu change:', change);
+  }
 
   public click() {
     this.dropdownOpen = true;

@@ -1,52 +1,5 @@
-<div
-  class="sky-popover-container"
-  tabindex="-1"
-  [class.sky-popover-max-height]="!allowFullscreen"
-  [ngClass]="[
-    'sky-popover-alignment-' + alignment,
-    'sky-popover-placement-' + placement
-  ]"
-  [@popoverState]="animationState"
-  [style.left.px]="popoverLeft"
-  [style.top.px]="popoverTop"
-  [style.visibility]="(isVisible) ? 'visible': 'hidden'"
-  (@popoverState.done)="onAnimationDone($event)"
-  (@popoverState.start)="onAnimationStart($event)"
-  #popoverContainer
+<ng-template
+  #templateRef
 >
-  <div
-    class="sky-popover sky-shadow sky-rounded-corners"
-  >
-    <header *ngIf="popoverTitle || placement === 'fullscreen'"
-      class="sky-popover-header sky-padding-even-default"
-    >
-      <h1 *ngIf="popoverTitle"
-        class="sky-popover-title sky-emphasized"
-      >
-        {{ popoverTitle }}
-      </h1>
-      <button *ngIf="placement === 'fullscreen'"
-        class="sky-btn sky-popover-fullscreen-close"
-        type="button"
-        [attr.aria-label]="'skyux_popover_close' | skyLibResources"
-        (click)="close()"
-      >
-        <sky-icon
-          icon="close"
-        ></sky-icon>
-      </button>
-    </header>
-    <div
-      class="sky-popover-body sky-padding-even-default"
-    >
-      <ng-content></ng-content>
-    </div>
-    <div
-      aria-hidden="true"
-      class="sky-popover-arrow"
-      [style.left.px]="arrowLeft"
-      [style.top.px]="arrowTop"
-      #popoverArrow
-    ></div>
-  </div>
-</div>
+  <ng-content></ng-content>
+</ng-template>

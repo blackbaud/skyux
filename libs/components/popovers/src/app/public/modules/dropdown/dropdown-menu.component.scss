@@ -1,6 +1,11 @@
+@import "../../styles/mixins";
+
 .sky-dropdown-menu {
+  @include popoverMaxHeight();
+
   display: flex;
   flex-direction: column;
+  background-color: #fff;
 
   ::ng-deep button {
     overflow: hidden;

@@ -1,25 +1,39 @@
-<div style="padding: 50px;">
-  <sky-dropdown
-    [buttonType]="buttonType"
-    [label]="label"
-    [trigger]="trigger"
-    [title]="title"
-    [alignment]="alignment"
-    [buttonStyle]="buttonStyle"
-    [messageStream]="dropdownController"
-    [disabled]="isDisabled"
-    (click)="onDropdownClick()"
-    #dropdown>
-    <sky-dropdown-button>
-      Show dropdown
-    </sky-dropdown-button>
-    <sky-dropdown-menu #dropdownMenu>
-      <sky-dropdown-item *ngFor="let item of items">
-        <button type="button" [attr.disabled]="item.disabled ? '' : null">
-          {{ item.name }}
-        </button>
-      </sky-dropdown-item>
-    </sky-dropdown-menu>
-  </sky-dropdown>
-</div>
-<button type="button" #outsideButton>Outside button</button>
+<sky-dropdown
+  [alignment]="alignment"
+  [buttonStyle]="buttonStyle"
+  [buttonType]="buttonType"
+  [disabled]="disabled"
+  [dismissOnBlur]="dismissOnBlur"
+  [horizontalAlignment]="horizontalAlignment"
+  [label]="label"
+  [messageStream]="messageStream"
+  [title]="title"
+  [trigger]="trigger"
+  #dropdownRef
+>
+
+  <sky-dropdown-button>
+    Show dropdown
+  </sky-dropdown-button>
+
+  <sky-dropdown-menu
+    [ariaLabelledBy]="menuAriaLabelledBy"
+    [ariaRole]="menuAriaRole"
+    [useNativeFocus]="useNativeFocus"
+    (menuChanges)="onMenuChanges($event)"
+    #dropdownMenuRef
+  >
+
+    <sky-dropdown-item *ngFor="let item of items"
+      [ariaRole]="itemAriaRole"
+    >
+      <button
+        type="button"
+        [attr.disabled]="item.disabled ? '' : null"
+      >
+        {{ item.name }}
+      </button>
+    </sky-dropdown-item>
+
+  </sky-dropdown-menu>
+</sky-dropdown>

@@ -1,50 +1,66 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
-  HostListener,
   Input,
   OnDestroy,
   OnInit,
+  TemplateRef,
   ViewChild
 } from '@angular/core';
 
 import {
-  SkyWindowRefService
+  SkyAffixAutoFitContext,
+  SkyAffixer,
+  SkyAffixService,
+  SkyOverlayInstance,
+  SkyOverlayService
 } from '@skyux/core';
 
 import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
-
-import 'rxjs/add/operator/takeUntil';
+  Observable
+} from 'rxjs/Observable';
 
 import {
   Subject
 } from 'rxjs/Subject';
 
+import 'rxjs/add/operator/takeUntil';
+
 import {
-  SkyPopoverAlignment,
-  SkyPopoverComponent,
-  SkyPopoverTrigger
-} from '../popover';
+  SkyPopoverAlignment
+} from '../popover/types/popover-alignment';
+
+import {
+  SkyDropdownHorizontalAlignment
+} from './types/dropdown-horizontal-alignment';
+
+import {
+  SkyDropdownMessage
+} from './types/dropdown-message';
+
+import {
+  SkyDropdownMessageType
+} from './types/dropdown-message-type';
+
+import {
+  SkyDropdownTriggerType
+} from './types/dropdown-trigger-type';
 
 import {
   SkyDropdownAdapterService
 } from './dropdown-adapter.service';
 
 import {
-  SkyDropdownMessage,
-  SkyDropdownMessageType,
-  SkyDropdownTriggerType
-} from './types';
+  parseAffixHorizontalAlignment
+} from './dropdown-extensions';
 
 @Component({
   selector: 'sky-dropdown',
   templateUrl: './dropdown.component.html',
   styleUrls: ['./dropdown.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [SkyDropdownAdapterService]
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyDropdownComponent implements OnInit, OnDestroy {
 
@@ -52,9 +68,16 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
    * Specifies the horizontal alignment of the dropdown menu in relation to the dropdown button.
    * Available values are `left`, `right`, and `center`.
    * @default "left"
+   * @deprecated Use `horizontalAlignment` instead.
    */
   @Input()
-  public alignment: SkyPopoverAlignment = 'left';
+  public set alignment(value: SkyPopoverAlignment) {
+    this._alignment = value;
+  }
+
+  public get alignment(): SkyPopoverAlignment {
+    return this._alignment || 'left';
+  }
 
   /**
    * Specifies a background color for the dropdown button. Available values are `default` and
@@ -90,30 +113,52 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
 
   /**
    * Indicates whether to disable the dropdown button.
+   * @default false
    */
   @Input()
-  public disabled = false;
+  public set disabled(value: boolean) {
+    this._disabled = value;
+  }
+
+  public get disabled(): boolean {
+    return this._disabled || false;
+  }
 
   /**
    * Indicates whether to close the dropdown when users click away from the menu.
+   * @default true
    */
   @Input()
-  public dismissOnBlur = true;
+  public set dismissOnBlur(value: boolean) {
+    this._dismissOnBlur = value;
+  }
+
+  public get dismissOnBlur(): boolean {
+    if (this._dismissOnBlur === undefined) {
+      return true;
+    }
+
+    return this._dismissOnBlur;
+  }
 
   /**
    * Specifies an accessibility label to provide a text equivalent for screen readers when the
    * dropdown button has no text.
    */
   @Input()
-  public set label(value: string) {
-    this._label = value;
+  public label: string;
+
+  /**
+   * Specifies the horizontal alignment of the dropdown menu in relation to the dropdown button.
+   * @default "left"
+   */
+  @Input()
+  public set horizontalAlignment(value: SkyDropdownHorizontalAlignment) {
+    this._horizontalAlignment = value;
   }
 
-  public get label(): string {
-    if (this.buttonType === 'select' || this.buttonType === 'tab') {
-      return this._label;
-    }
-    return this._label || this.getString('skyux_dropdown_context_menu_default_label');
+  public get horizontalAlignment(): SkyDropdownHorizontalAlignment {
+    return this._horizontalAlignment || 'left';
   }
 
   /**
@@ -131,11 +176,12 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   public title: string;
 
   /**
-   * Specifies how users interact with the dropdown button to expose the dropdown menu. The
-   * available values are `click` and `hover`. We recommend the default `click` value because the
-   * `hover` value can pose accessibility issues for users on touch devices such as phones and tablets.
-   * @deprecated We recommend against using this property. If you choose to use the deprecated `hover` value
-   * anyway, we recommend that you not use it in combination with the `title` property.
+   * Specifies how users interact with the dropdown button to expose the dropdown menu. We
+   * recommend the default `click` value because the `hover` value can pose accessibility issues
+   * for users on touch devices such as phones and tablets.
+   * @deprecated We recommend against using this property. If you choose to use the deprecated
+   * `hover` value anyway, we recommend that you not use it in combination with the `title`
+   * property. (This property will be removed in the next major version release.)
    * @default "click"
    */
   @Input()
@@ -150,52 +196,91 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   /**
    * @internal
    * Indicates if the dropdown button element or any of its children have focus.
+   * @deprecated This property will be removed in the next major version release.
    */
   public get buttonIsFocused(): boolean {
     return this.adapter.elementHasFocus(this.triggerButton);
   }
 
-  public get isOpen(): boolean {
-    return this._isOpen;
+  public set isOpen(value: boolean) {
+    this._isOpen = value;
   }
 
-  public menuId: string;
+  public get isOpen(): boolean {
+    return this._isOpen || false;
+  }
 
   /**
    * @internal
    * Indicates if the dropdown button menu or any of its children have focus.
+   * @deprecated This property will be removed in the next major version release.
    */
   public get menuIsFocused(): boolean {
-    return this.adapter.elementHasFocus(this.popover.popoverContainer);
+    return this.adapter.elementHasFocus(this.menuContainerElementRef);
   }
+
+  @ViewChild('menuContainerElementRef', {
+    read: ElementRef
+  })
+  public set menuContainerElementRef(value: ElementRef) {
+    if (value) {
+      this._menuContainerElementRef = value;
+      this.destroyAffixer();
+      this.createAffixer();
+      this.changeDetector.markForCheck();
+    }
+  }
+
+  public get menuContainerElementRef(): ElementRef {
+    return this._menuContainerElementRef;
+  }
+
+  public isMouseEnter: boolean = false;
+
+  public isVisible: boolean = false;
+
+  public menuId: string;
+
+  @ViewChild('menuContainerTemplateRef')
+  private menuContainerTemplateRef: TemplateRef<any>;
 
   @ViewChild('triggerButton')
   private triggerButton: ElementRef;
 
-  @ViewChild(SkyPopoverComponent)
-  private popover: SkyPopoverComponent;
-
-  private isKeyboardActive = false;
+  private affixer: SkyAffixer;
 
   private ngUnsubscribe = new Subject();
+
+  private overlay: SkyOverlayInstance;
+
+  private _alignment: SkyPopoverAlignment;
 
   private _buttonStyle: string;
 
   private _buttonType: string;
 
+  private _disabled: boolean;
+
+  private _dismissOnBlur: boolean;
+
+  private _horizontalAlignment: SkyDropdownHorizontalAlignment;
+
   private _isOpen = false;
 
-  private _label: string;
+  private _menuContainerElementRef: ElementRef;
 
   private _trigger: SkyDropdownTriggerType;
 
   constructor(
-    private windowRef: SkyWindowRefService,
-    private resourcesService: SkyLibResourcesService,
-    private adapter: SkyDropdownAdapterService
+    private changeDetector: ChangeDetectorRef,
+    private affixService: SkyAffixService,
+    private adapter: SkyDropdownAdapterService,
+    private overlayService: SkyOverlayService
   ) { }
 
   public ngOnInit(): void {
+    this.addEventListeners();
+
     this.messageStream
       .takeUntil(this.ngUnsubscribe)
       .subscribe((message: SkyDropdownMessage) => {
@@ -204,71 +289,144 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    this.destroyAffixer();
+    this.destroyOverlay();
+
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+    this.ngUnsubscribe = undefined;
   }
 
-  @HostListener('keydown', ['$event'])
-  public onKeyDown(event: KeyboardEvent): void {
-    const key = event.key.toLowerCase();
+  private addEventListeners(): void {
+    const buttonElement = this.triggerButton.nativeElement;
 
-    if (this._isOpen) {
-      /* tslint:disable-next-line:switch-default */
-      switch (key) {
-        // After an item is selected with the enter key,
-        // wait a moment before returning focus to the dropdown trigger element.
-        case 'enter':
-          this.windowRef.getWindow().setTimeout(() => {
+    Observable
+      .fromEvent(buttonElement, 'click')
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(() => {
+        if (this.isOpen) {
+          this.sendMessage(SkyDropdownMessageType.Close);
+        } else {
+          this.sendMessage(SkyDropdownMessageType.Open);
+        }
+      });
+
+    Observable
+      .fromEvent(buttonElement, 'keydown')
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe((event: KeyboardEvent) => {
+        const key = event.key.toLowerCase();
+
+        /* tslint:disable-next-line:switch-default */
+        switch (key) {
+          case 'escape':
+            this.sendMessage(SkyDropdownMessageType.Close);
             this.sendMessage(SkyDropdownMessageType.FocusTriggerButton);
-          });
-          break;
+            break;
 
-        // Allow the menu to be opened with the arrowdown key
-        // if it is first opened with the mouse.
-        case 'down':
-        case 'arrowdown':
-          if (!this.isKeyboardActive) {
-            this.isKeyboardActive = true;
+          case 'tab':
+            if (this.dismissOnBlur) {
+              this.sendMessage(SkyDropdownMessageType.Close);
+            }
+            break;
+
+          case 'arrowup':
+          case 'up':
+            this.sendMessage(SkyDropdownMessageType.Open);
+            this.sendMessage(SkyDropdownMessageType.FocusLastItem);
+            event.preventDefault();
+            event.stopPropagation();
+            break;
+
+          case 'enter':
+          case 'arrowdown':
+          case 'down':
+          case ' ': // Spacebar.
+            this.sendMessage(SkyDropdownMessageType.Open);
             this.sendMessage(SkyDropdownMessageType.FocusFirstItem);
             event.preventDefault();
-          }
-          break;
-      }
+            event.stopPropagation();
+            break;
+        }
+      });
 
+    Observable
+      .fromEvent(buttonElement, 'mouseenter')
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(() => {
+        this.isMouseEnter = true;
+        if (this.trigger === 'hover') {
+          this.sendMessage(SkyDropdownMessageType.Open);
+        }
+      });
+
+    Observable
+      .fromEvent(buttonElement, 'mouseleave')
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(() => {
+        this.isMouseEnter = false;
+        if (this.trigger === 'hover') {
+          // Allow the dropdown menu to set isMouseEnter before checking if the close action
+          // should be taken.
+          setTimeout(() => {
+            if (!this.isMouseEnter) {
+              this.sendMessage(SkyDropdownMessageType.Close);
+            }
+          });
+        }
+      });
+  }
+
+  private createOverlay(): void {
+    if (this.overlay) {
       return;
     }
 
-    /* tslint:disable-next-line:switch-default */
-    switch (key) {
-      case 'enter':
-        this.isKeyboardActive = true;
-        break;
+    const overlay = this.overlayService.create({
+      enableScroll: true,
+      enablePointerEvents: true
+    });
 
-      case 'down':
-      case 'arrowdown':
-        this.isKeyboardActive = true;
-        this.sendMessage(SkyDropdownMessageType.Open);
-        event.preventDefault();
-        break;
+    overlay.attachTemplate(this.menuContainerTemplateRef);
+
+    overlay.backdropClick
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(() => {
+        if (this.dismissOnBlur) {
+          this.sendMessage(SkyDropdownMessageType.Close);
+        }
+      });
+
+    this.overlay = overlay;
+  }
+
+  private destroyAffixer(): void {
+    /*istanbul ignore else*/
+    if (this.affixer) {
+      this.affixer.destroy();
+      this.affixer = undefined;
     }
   }
 
-  public onPopoverOpened(): void {
-    this._isOpen = true;
-    // Focus the first item if the menu was opened with the keyboard.
-    if (this.isKeyboardActive) {
-      this.sendMessage(SkyDropdownMessageType.FocusFirstItem);
+  private destroyOverlay(): void {
+    /*istanbul ignore else*/
+    if (this.overlay) {
+      this.overlayService.close(this.overlay);
+      this.overlay = undefined;
     }
   }
 
-  public onPopoverClosed(): void {
-    this._isOpen = false;
-    this.isKeyboardActive = false;
-  }
+  private createAffixer(): void {
+    const affixer = this.affixService.createAffixer(this.menuContainerElementRef);
 
-  public getPopoverTriggerType(): SkyPopoverTrigger {
-    // Map the dropdown trigger type to the popover trigger type.
-    return (this.trigger === 'click') ? 'click' : 'mouseenter';
+    affixer.placementChange
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe((change) => {
+        this.isVisible = (change.placement !== null);
+        this.changeDetector.markForCheck();
+      });
+
+    this.affixer = affixer;
   }
 
   private handleIncomingMessages(message: SkyDropdownMessage): void {
@@ -276,19 +434,20 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
       /* tslint:disable-next-line:switch-default */
       switch (message.type) {
         case SkyDropdownMessageType.Open:
-          this.positionPopover();
+          this.isOpen = true;
+          this.positionDropdownMenu();
           break;
 
         case SkyDropdownMessageType.Close:
-          this.popover.close();
+          this.isOpen = false;
+          this.destroyOverlay();
           break;
 
         case SkyDropdownMessageType.Reposition:
           // Only reposition the dropdown if it is already open.
-          if (this._isOpen) {
-            this.windowRef.getWindow().setTimeout(() => {
-              this.popover.reposition();
-            });
+          /* istanbul ignore else */
+          if (this.isOpen) {
+            this.affixer.reaffix();
           }
           break;
 
@@ -303,19 +462,25 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     this.messageStream.next({ type });
   }
 
-  private positionPopover(): void {
-    this.popover.positionNextTo(
-      this.triggerButton,
-      'below',
-      this.alignment
-    );
+  private positionDropdownMenu(): void {
+    this.isVisible = false;
+    this.createOverlay();
+    this.changeDetector.markForCheck();
+
+    setTimeout(() => {
+      this.affixer.affixTo(this.triggerButton.nativeElement, {
+        autoFitContext: SkyAffixAutoFitContext.Viewport,
+        enableAutoFit: true,
+        horizontalAlignment: parseAffixHorizontalAlignment(
+          this._alignment || this.horizontalAlignment
+        ),
+        isSticky: true,
+        placement: 'below'
+      });
+
+      this.isVisible = true;
+      this.changeDetector.markForCheck();
+    });
   }
 
-  private getString(key: string): string {
-    // TODO: Need to implement the async `getString` method in a breaking change.
-    return this.resourcesService.getStringForLocale(
-      { locale: 'en-US' },
-      key
-    );
-  }
 }

@@ -4,25 +4,24 @@
   }
 }
 
-#screenshot-all-popovers {
+.static-popovers {
   display: flex;
   flex-wrap: wrap;
 
-  .popover-visual-container {
-    padding: 10px;
+  ::ng-deep {
+    sky-popover-content {
+      display: block;
+      padding: 10px;
+    }
 
-    ::ng-deep .sky-popover-container {
+    .sky-popover-container {
       position: relative !important;
-      width: 100% !important;
-      opacity: 1 !important;
-      visibility: visible !important;
-      z-index: 1;
       left: auto !important;
       top: auto !important;
+    }
 
-      .sky-popover {
-        margin: 0;
-      }
+    .sky-popover-arrow {
+      position: absolute !important;
     }
   }
 }

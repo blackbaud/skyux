@@ -21,9 +21,16 @@ export class SkyDropdownItemComponent implements AfterViewInit {
    * the dropdown menu item functions and what it controls. The ARIA role indicates what the
    * dropdown menu item represents on the web page. For information about ARIA roles, see the
    * [WAI-ARIA roles model](https://www.w3.org/WAI/PF/aria/roles).
+   * @default "menuitem"
    */
   @Input()
-  public ariaRole = 'menuitem';
+  public set ariaRole(value: string) {
+    this._ariaRole = value;
+  }
+
+  public get ariaRole(): string {
+    return this._ariaRole || 'menuitem';
+  }
 
   public get buttonElement(): HTMLButtonElement {
     return this.elementRef.nativeElement.querySelector('button,a');
@@ -32,6 +39,8 @@ export class SkyDropdownItemComponent implements AfterViewInit {
   public isActive = false;
 
   public isDisabled = false;
+
+  private _ariaRole: string;
 
   public constructor(
     public elementRef: ElementRef,

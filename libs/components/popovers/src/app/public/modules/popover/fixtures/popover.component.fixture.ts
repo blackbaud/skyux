@@ -1,5 +1,7 @@
 import {
   Component,
+  ElementRef,
+  OnInit,
   ViewChild
 } from '@angular/core';
 
@@ -8,39 +10,95 @@ import {
 } from 'rxjs/Subject';
 
 import {
+  SkyPopoverAlignment
+} from '../types/popover-alignment';
+
+import {
+  SkyPopoverMessage
+} from '../types/popover-message';
+
+import {
+  SkyPopoverMessageType
+} from '../types/popover-message-type';
+
+import {
+  SkyPopoverPlacement
+} from '../types/popover-placement';
+
+import {
+  SkyPopoverTrigger
+} from '../types/popover-trigger';
+
+import {
   SkyPopoverComponent
 } from '../popover.component';
 
 import {
-  SkyPopoverMessage,
-  SkyPopoverMessageType
-} from '../types';
+  SkyPopoverDirective
+} from '../popover.directive';
 
 @Component({
   selector: 'sky-test-component',
-  templateUrl: './popover.component.fixture.html'
+  templateUrl: './popover.component.fixture.html',
+  styleUrls: ['./popover.component.fixture.scss']
 })
-export class SkyPopoverTestComponent {
+export class PopoverFixtureComponent implements OnInit {
+
+  //#region directive properties
+
+  public alignment: SkyPopoverAlignment;
+
+  public allowFullscreen: boolean;
+
+  public dismissOnBlur: boolean;
 
   public messageStream = new Subject<SkyPopoverMessage>();
-  public asyncPopoverRef: SkyPopoverComponent;
 
-  @ViewChild('asyncPopover')
-  public asyncPopover: SkyPopoverComponent;
+  public placement: SkyPopoverPlacement;
 
-  @ViewChild('anotherAsyncPopover')
-  public anotherAsyncPopover: SkyPopoverComponent;
+  public popoverAlignment: SkyPopoverAlignment;
 
-  public attachAsyncPopover() {
-    this.asyncPopoverRef = this.asyncPopover;
+  public popoverPlacement: SkyPopoverPlacement;
+
+  public popoverTitle: string;
+
+  public trigger: SkyPopoverTrigger;
+
+  //#endregion directive properties
+
+  @ViewChild('directiveRef', {
+    read: ElementRef
+  })
+  public callerElementRef: ElementRef;
+
+  @ViewChild('directiveRef', {
+    read: SkyPopoverDirective
+  })
+  public directiveRef: SkyPopoverDirective;
+
+  @ViewChild('popoverRef', {
+    read: SkyPopoverComponent
+  })
+  public popoverRef: SkyPopoverComponent;
+
+  public height: number;
+
+  public showFocusableChildren: boolean = false;
+
+  public ngOnInit(): void {
+    this.popoverRef.enableAnimations = false;
   }
 
-  public attachAnotherAsyncPopover() {
-    this.asyncPopoverRef = this.anotherAsyncPopover;
-  }
+  public onPopoverClosed(): void { }
 
-  public sendMessage(messageType: SkyPopoverMessageType) {
+  public onPopoverOpened(): void { }
+
+  public sendMessage(messageType: SkyPopoverMessageType): void {
     this.messageStream.next({ type: messageType });
+  }
+
+  public setHeight(height: number): void {
+    this.height = height;
   }
 
 }

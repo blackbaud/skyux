@@ -1,31 +1,29 @@
-import { NgModule } from '@angular/core';
 import {
   CommonModule
 } from '@angular/common';
 
 import {
-  NoopAnimationsModule
-} from '@angular/platform-browser/animations';
+  NgModule
+} from '@angular/core';
 
 import {
   SkyDropdownModule
 } from '../dropdown.module';
 
 import {
-  DropdownTestComponent
+  DropdownFixtureComponent
 } from './dropdown.component.fixture';
 
 @NgModule({
   declarations: [
-    DropdownTestComponent
+    DropdownFixtureComponent
   ],
   imports: [
     CommonModule,
-    NoopAnimationsModule,
     SkyDropdownModule
   ],
   exports: [
-    DropdownTestComponent
+    DropdownFixtureComponent
   ]
 })
 export class SkyDropdownFixturesModule { }
