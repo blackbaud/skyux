@@ -1,3 +1,7 @@
+# 3.5.0 (2020-04-02)
+
+- Updated the dropdown and popover components to implement the affix and overlay services. [#61](https://github.com/blackbaud/skyux-popovers/pull/61)
+
 # 3.4.0 (2019-10-09)
 
 - Added the `allowFullscreen` input property to the popover component. The dropdown component uses the `allowFullscreen` input property to prevent dropdown menu items from displaying in full screen. [#36](https://github.com/blackbaud/skyux-popovers/pull/36)
