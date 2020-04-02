@@ -1,0 +1,157 @@
+<sky-docs-demo-page
+  moduleName="SkyIconModule"
+  moduleSourceCodePath="src/app/public/modules/icon/"
+  pageTitle="Icon"
+>
+  <sky-docs-demo-page-summary>
+    The icon component displays a <a href="https://fontawesome.com">Font Awesome icon</a> or a custom SKY UX icon.
+  </sky-docs-demo-page-summary>
+
+  <sky-docs-demo>
+    <div
+      class="sky-icon-demo"
+    >
+      <sky-icon
+        icon="bars"
+        size="lg"
+      >
+      </sky-icon>
+      <sky-icon
+        icon="chevron-down"
+        size="sm"
+      >
+      </sky-icon>
+      <sky-icon
+        icon="chevron-up"
+        size="5x"
+      >
+      </sky-icon>
+      <sky-icon
+        icon="cog"
+        size="2x"
+      >
+      </sky-icon>
+      <sky-icon
+        icon="comment"
+        size="xs"
+      >
+      </sky-icon>
+      <sky-icon
+        icon="database"
+        size="3x"
+      >
+      </sky-icon>
+      <sky-icon
+        fixedWidth="true"
+        icon="spinner"
+        size="3x"
+      >
+      </sky-icon>
+      <sky-icon
+        icon="trash"
+        size="sm"
+      >
+      </sky-icon>
+      <sky-icon
+        icon="users"
+        size="4x"
+      >
+      </sky-icon>
+      <sky-icon
+        icon="user"
+        size="5x"
+      >
+      </sky-icon>
+      <sky-icon
+        icon="sort"
+        iconType="skyux"
+        size="5x"
+      >
+      </sky-icon>
+    </div>
+  </sky-docs-demo>
+
+
+  <sky-docs-design-guidelines>
+
+    <sky-docs-demo-page-section
+      heading="Usage"
+    >
+      <sky-docs-design-guideline
+        heading="Use when"
+        headingStyle="success"
+      >
+        <p>
+          Icons are pictorial representations of objects. They help define the visual identity of SKY UX applications, and they provide a shorthand to visually convey meaning that users can understand at a glance. SKY UX uses glyphic, mono-color icons to facilitate, guide, and inform users.
+        </p>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline
+        heading="Don't use when"
+        headingStyle="danger"
+      >
+        <p>
+          Do not use icons solely for decorative purposes.
+        </p>
+        <p>
+          Do not use icons with established meanings for different purposes.
+        </p>
+      </sky-docs-design-guideline>
+
+      <div class="sky-subsection-heading" id="how-to-select-icons">
+        How to select icons
+      </div>
+
+      <p>
+        To determine whether an icon is available for a new component, check the SKY UX icon dictionary below. Then make sure that your use case is consistent with how other components use the icon.
+      </p>
+      <p>
+        Be mindful of how icons are used in specific components such as <a href="https://developer.blackbaud.com/skyux/components/grid">grids</a>, <a href="https://developer.blackbaud.com/skyux/components/tiles">tiles</a>, <a href="https://developer.blackbaud.com/skyux/components/button">buttons</a>, and <a href="https://developer.blackbaud.com/skyux/components/modal">modals</a>.
+      </p>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Styling"
+    >
+      <p>
+        Icons usually inherit their size and color from parent elements, particularly when you use them inline. If you use icons in a non-inline context and need a different size, Font Awesome provides size multiplier classes. Use the smallest size multiple that accomplishes your goals.
+      </p>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Dictionary"
+    >
+      <p>
+        The icon dictionary provides a complete list of icons that we recommend for use in SKY UX. All the icons are from <a href="http://fontawesome.io">Font Awesome</a>, and we support version 4.7.0. If Font Awesome does not have a particular icon, it is probably not common enough for its purpose to be immediately obvious to users.
+      </p>
+    </sky-docs-demo-page-section>
+
+    <app-icon-docs-icon-list
+      iconType="fa"
+      [icons]="faIcons"
+    ></app-icon-docs-icon-list>
+
+    <sky-docs-demo-page-section
+      heading="Custom Icons (Beta)"
+    >
+      <p>
+        In addition to the Font Awesome library, SKY UX also provides a set of custom icons.
+      </p>
+    </sky-docs-demo-page-section>
+
+    <app-icon-docs-icon-list
+      iconType="skyux"
+      [icons]="skyuxIcons"
+    ></app-icon-docs-icon-list>
+
+  </sky-docs-design-guidelines>
+
+  <sky-docs-code-examples>
+    <sky-docs-code-example
+      heading="Basic setup"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/icon"
+    >
+    </sky-docs-code-example>
+  </sky-docs-code-examples>
+
+</sky-docs-demo-page>

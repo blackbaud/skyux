@@ -12,6 +12,10 @@ import {
 } from '@skyux/router';
 
 import {
+  SkyCodeModule
+} from '@blackbaud/skyux-lib-code-block';
+
+import {
   SkyAlertModule,
   SkyChevronModule,
   SkyHelpInlineModule,
@@ -28,6 +32,7 @@ import {
     SkyAlertModule,
     SkyAppLinkModule,
     SkyChevronModule,
+    SkyCodeModule,
     SkyDocsToolsModule,
     SkyHelpInlineModule,
     SkyIconModule,

@@ -1,6 +1,6 @@
 <i *ngIf="icon"
   aria-hidden="true"
-  class="fa sky-icon"
-  [ngClass]="classList()"
+  class="sky-icon"
+  [ngClass]="icon | skyIconClassList:iconType:size:fixedWidth"
 >
 </i>
