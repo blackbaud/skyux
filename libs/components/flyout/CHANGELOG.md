@@ -1,3 +1,7 @@
+# 3.2.4 (2020-04-03)
+
+- Fixed the flyout component to allow clicks to propagate to the document. [#70](https://github.com/blackbaud/skyux-flyout/pull/70)
+
 # 3.2.3 (2019-11-19)
 
 - Fixed the flyout component to have proper spacing between buttons within its header. [#64](https://github.com/blackbaud/skyux-flyout/pull/64)
