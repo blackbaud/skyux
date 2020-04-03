@@ -1,5 +1,10 @@
+import {
+  SkyModalCloseArgs
+} from '../modal-close-args';
+
 export class SkyModalBeforeCloseHandler {
   constructor(
-    public closeModal: Function
+    public readonly closeModal: Function,
+    public readonly closeArgs: SkyModalCloseArgs
   ) { }
 }

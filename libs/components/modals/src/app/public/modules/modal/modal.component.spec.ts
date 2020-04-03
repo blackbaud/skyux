@@ -388,10 +388,18 @@ describe('Modal component', () => {
     applicationRef.tick();
     expect(document.querySelector('.sky-modal')).toExist();
 
+    const closeHandlerSpy = spyOn(instance.componentInstance, 'beforeCloseHandler').and.callThrough();
+
     instance.close();
     tick();
     applicationRef.tick();
     expect(document.querySelector('.sky-modal')).toExist();
+
+    // Verify the close handler has the correct data.
+    const closeHandler = closeHandlerSpy.calls.allArgs()[0][0];
+    expect(typeof closeHandler.closeModal).toEqual('function');
+    expect(closeHandler.closeArgs.reason).toEqual('close');
+    expect(closeHandler.closeArgs.data).toBeUndefined();
 
     // Escape key
     let escapeEvent: any = document.createEvent('CustomEvent');

@@ -50,7 +50,7 @@ export class SkyModalInstance {
       this.beforeClose.emit(new SkyModalBeforeCloseHandler(() => {
         this.closed.emit(args);
         this.closed.complete();
-      }));
+      }, args));
     }
   }
 }
