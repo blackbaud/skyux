@@ -2,7 +2,6 @@ import {
   ChangeDetectorRef,
   Component,
   ComponentFactoryResolver,
-  HostListener,
   Injector,
   ViewChild,
   ViewContainerRef
@@ -69,11 +68,6 @@ export class SkyModalHostComponent {
     private router: Router,
     private changeDetector: ChangeDetectorRef
   ) { }
-
-  @HostListener('click', ['$event'])
-  public onHostClick(event: any): void {
-    event.stopPropagation();
-  }
 
   public open(modalInstance: SkyModalInstance, component: any, config?: IConfig) {
     const params: IConfig = Object.assign({}, config);

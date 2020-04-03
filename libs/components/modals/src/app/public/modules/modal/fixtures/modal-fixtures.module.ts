@@ -43,10 +43,6 @@ import {
 } from './modal-tiled-body.component.fixture';
 
 import {
-  ModalWithCheckboxTestComponent
-} from './modal-with-checkbox.component.fixture';
-
-import {
   ModalWithCloseConfirmTestComponent
 } from './modal-with-close-confirm.component.fixture';
 
@@ -63,7 +59,6 @@ import {
     ModalNoHeaderTestComponent,
     ModalTiledBodyTestComponent,
     ModalWithFocusContentTestComponent,
-    ModalWithCheckboxTestComponent,
     ModalWithCloseConfirmTestComponent
   ],
   imports: [
@@ -82,7 +77,6 @@ import {
     ModalNoHeaderTestComponent,
     ModalTiledBodyTestComponent,
     ModalWithFocusContentTestComponent,
-    ModalWithCheckboxTestComponent,
     ModalWithCloseConfirmTestComponent
   ]
 })
