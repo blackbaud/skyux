@@ -1,3 +1,7 @@
+# 3.2.1 (2020-04-03)
+
+- Fixed the toast component to allow clicks to propagate to the document. [#36](https://github.com/blackbaud/skyux-toast/pull/36)
+
 # 3.2.0 (2019-11-08)
 
 - Added a display direction configuration option to the toast container. [#31](https://github.com/blackbaud/skyux-toast/pull/31)
