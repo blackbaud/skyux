@@ -1,4 +1,3 @@
-// #region imports
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -6,7 +5,6 @@ import {
   Component,
   ComponentFactoryResolver,
   ElementRef,
-  HostListener,
   Injector,
   OnDestroy,
   Optional,
@@ -54,8 +52,6 @@ import {
 import {
   SkyToastDisplayDirection
 } from './types/toast-display-direction';
-
-// #endregion
 
 @Component({
   selector: 'sky-toaster',
@@ -113,11 +109,6 @@ export class SkyToasterComponent implements AfterViewInit, OnDestroy {
 
         this.changeDetector.detectChanges();
       });
-  }
-
-  @HostListener('click', ['$event'])
-  public onHostClick(event: any): void {
-    event.stopPropagation();
   }
 
   public onToastClosed(toast: SkyToast): void {

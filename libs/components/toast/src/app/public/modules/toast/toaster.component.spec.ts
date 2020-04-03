@@ -235,7 +235,7 @@ describe('Toast component', () => {
     expect(cloaseAllSpy).not.toHaveBeenCalled();
   }));
 
-  it('should prevent click events from bubbling beyond toast components', fakeAsync(() => {
+  it('should allow click events to bubble up to the document to support 3rd-party event listeners', fakeAsync(() => {
     const message = 'Hello, component!';
 
     openComponent(message);
@@ -261,7 +261,7 @@ describe('Toast component', () => {
 
     checkbox.click();
 
-    expect(numDocumentClicks).toEqual(0);
+    expect(numDocumentClicks).toEqual(3);
     expect(numToasterClicks).toEqual(3);
 
     // Make sure that standard click events are still getting
