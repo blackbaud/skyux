@@ -21,6 +21,7 @@ import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/observable/fromEvent';
 
 import {
+  SkyCoreAdapterService,
   SkyDynamicComponentService,
   SkyWindowRefService
 } from '@skyux/core';
@@ -44,9 +45,10 @@ export class SkyFlyoutService implements OnDestroy {
   private host: ComponentRef<SkyFlyoutComponent>;
   private removeAfterClosed = false;
   private isOpening: boolean = false;
-  private idled = new Subject<boolean>();
+  private ngUnsubscribe = new Subject<boolean>();
 
   constructor(
+    private coreAdapter: SkyCoreAdapterService,
     private windowRef: SkyWindowRefService,
     private dynamicComponentService: SkyDynamicComponentService,
     private router: Router
@@ -108,20 +110,30 @@ export class SkyFlyoutService implements OnDestroy {
 
   private addListeners<T>(flyout: SkyFlyoutInstance<T>): void {
     if (this.host) {
+      const flyoutInstance = this.host.instance;
 
-      // Flyout should close when user clicks outside of flyout.
-      // Since the flyout component stops click propigation, we can watch the document for clicks.
+      /**
+       * Flyout should close when user clicks outside of flyout.
+       * Use mousedown instead of click to capture elements that are removed from DOM on click
+       */
       Observable
-      .fromEvent(document, 'click')
-      .takeUntil(this.idled)
-      .subscribe(() => {
-        if (!this.host.instance.isDragging) {
-          this.close();
-        }
-      });
+        .fromEvent(document, 'mousedown')
+        .takeUntil(this.ngUnsubscribe)
+        .subscribe((event: MouseEvent) => {
+          const isChild = flyoutInstance.flyoutRef.nativeElement.contains(event.target);
+          const isAbove = this.coreAdapter.isTargetAboveElement(
+            event.target,
+            flyoutInstance.flyoutRef.nativeElement
+          );
+
+          /* istanbul ignore else */
+          if (!isChild && !isAbove) {
+            this.close();
+          }
+        });
 
       this.removeAfterClosed = false;
-      this.host.instance.messageStream
+      flyoutInstance.messageStream
         .take(1)
         .subscribe((message: SkyFlyoutMessage) => {
           if (message.type === SkyFlyoutMessageType.Close) {
@@ -140,8 +152,8 @@ export class SkyFlyoutService implements OnDestroy {
   }
 
   private removeListners(): void {
-    this.idled.next(true);
-    this.idled.unsubscribe();
-    this.idled = new Subject<boolean>();
+    this.ngUnsubscribe.next(true);
+    this.ngUnsubscribe.unsubscribe();
+    this.ngUnsubscribe = new Subject<boolean>();
   }
 }

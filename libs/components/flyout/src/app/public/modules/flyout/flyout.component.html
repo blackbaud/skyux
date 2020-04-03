@@ -11,7 +11,9 @@
   }"
   (@flyoutState.done)="animationDone($event)"
   [@flyoutState]="getAnimationState()"
-  [style.width.px]="flyoutWidth">
+  [style.width.px]="flyoutWidth"
+  #flyoutRef
+>
 
   <input
     class="sky-flyout-resize-handle"

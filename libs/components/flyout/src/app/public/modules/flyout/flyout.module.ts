@@ -19,6 +19,7 @@ import {
 } from '@angular/router';
 
 import {
+  SkyCoreAdapterService,
   SkyDynamicComponentModule,
   SkyUIConfigService,
   SkyWindowRefService
@@ -58,6 +59,7 @@ import {
     SkyFlyoutIteratorComponent
   ],
   providers: [
+    SkyCoreAdapterService,
     SkyFlyoutAdapterService,
     SkyFlyoutService,
     SkyUIConfigService,

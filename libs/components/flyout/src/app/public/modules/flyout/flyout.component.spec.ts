@@ -62,6 +62,7 @@ describe('Flyout component', () => {
   let fixture: ComponentFixture<SkyFlyoutTestComponent>;
   let flyoutService: SkyFlyoutService;
 
+  //#region helpers
   function openFlyout(config: SkyFlyoutConfig = {}, showIframe?: boolean): SkyFlyoutInstance<any> {
     config = Object.assign({
       providers: [{
@@ -190,6 +191,7 @@ describe('Flyout component', () => {
   function getIframe(): HTMLElement {
     return document.querySelector('iframe') as HTMLElement;
   }
+  //#endregion
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -235,6 +237,7 @@ describe('Flyout component', () => {
     const flyout = openFlyout({});
     expect(flyout.isOpen).toBe(true);
 
+    SkyAppTestUtility.fireDomEvent(fixture.nativeElement, 'mousedown');
     fixture.nativeElement.click();
     fixture.detectChanges();
     tick();
@@ -247,6 +250,7 @@ describe('Flyout component', () => {
     expect(flyout.isOpen).toBe(true);
 
     const flyoutContentElement = getFlyoutElement();
+    SkyAppTestUtility.fireDomEvent(flyoutContentElement, 'mousedown');
     flyoutContentElement.click();
     fixture.detectChanges();
     tick();
@@ -259,6 +263,7 @@ describe('Flyout component', () => {
     expect(flyout.isOpen).toBe(true);
 
     const flyoutModalTriggerElement = getFlyoutModalTriggerElement();
+    SkyAppTestUtility.fireDomEvent(flyoutModalTriggerElement, 'mousedown');
     flyoutModalTriggerElement.click();
     fixture.detectChanges();
     tick();
@@ -280,11 +285,13 @@ describe('Flyout component', () => {
     expect(flyout.isOpen).toBe(true);
 
     const flyoutToastTriggerElement = getFlyoutToastTriggerElement();
+    SkyAppTestUtility.fireDomEvent(flyoutToastTriggerElement, 'mousedown');
     flyoutToastTriggerElement.click();
     fixture.detectChanges();
     tick();
 
     const toastContentElement = getToastElement();
+    SkyAppTestUtility.fireDomEvent(toastContentElement, 'mousedown');
     toastContentElement.click();
     fixture.detectChanges();
     tick();
@@ -302,8 +309,6 @@ describe('Flyout component', () => {
 
     grabDragHandle(1000);
     dragHandle(1100);
-
-    fixture.nativeElement.click();
     fixture.detectChanges();
     tick();
 
@@ -709,24 +714,24 @@ describe('Flyout component', () => {
     })
   );
 
-  it('should prevent click events from bubbling beyond the flyout component', fakeAsync(() => {
+  it('should allow click events to bubble up to the document to support 3rd-party event listeners', fakeAsync(() => {
     openFlyout({ maxWidth: 1000, minWidth: 200 });
     const flyout = document.querySelector('.sky-flyout');
 
     let numDocumentClicks = 0;
-    document.addEventListener('click', function () {
+    document.addEventListener('click', () => {
       numDocumentClicks++;
     });
 
     let numFlyoutClicks = 0;
-    flyout.addEventListener('click', function () {
+    flyout.addEventListener('click', () => {
       numFlyoutClicks++;
     });
 
     SkyAppTestUtility.fireDomEvent(flyout, 'click');
 
     expect(numFlyoutClicks).toEqual(1);
-    expect(numDocumentClicks).toEqual(0);
+    expect(numDocumentClicks).toEqual(1);
   }));
 
   describe('permalink', () => {

@@ -143,6 +143,12 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     return this.getString('skyux_flyout_primary_action_button');
   }
 
+  /**
+   * @internal
+   */
+  @ViewChild('flyoutRef', { read: ElementRef })
+  public flyoutRef: ElementRef;
+
   @ViewChild('target', { read: ViewContainerRef })
   private target: ViewContainerRef;
 
@@ -179,11 +185,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   public ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-  }
-
-  @HostListener('click', ['$event'])
-  public onHostClick(event: any): void {
-    event.stopPropagation();
   }
 
   @HostListener('window:resize', ['$event'])
