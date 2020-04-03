@@ -1,3 +1,7 @@
+# 3.2.0 (2020-04-02)
+
+- Updated the icon component to support icons from the SKY UX icon font. [#74](https://github.com/blackbaud/skyux-indicators/pull/74)
+
 # 3.1.3 (2020-02-12)
 
 - Fixed an Angular compiler template checking error on the tokens component's HTML template. [#55](https://github.com/blackbaud/skyux-indicators/pull/55)
