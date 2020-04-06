@@ -144,6 +144,8 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
     /* istanbul ignore else */
     if (this.dropdownComponent) {
       this.dropdownComponent.menuId = this.dropdownMenuId;
+      this.dropdownComponent.menuAriaRole = this.ariaRole;
+
       this.dropdownComponent.messageStream
         .takeUntil(this.ngUnsubscribe)
         .subscribe((message: SkyDropdownMessage) => {

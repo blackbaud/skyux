@@ -204,6 +204,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
 
   public set isOpen(value: boolean) {
     this._isOpen = value;
+    this.changeDetector.markForCheck();
   }
 
   public get isOpen(): boolean {
@@ -240,6 +241,8 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   public isVisible: boolean = false;
 
   public menuId: string;
+
+  public menuAriaRole: string;
 
   @ViewChild('menuContainerTemplateRef')
   private menuContainerTemplateRef: TemplateRef<any>;

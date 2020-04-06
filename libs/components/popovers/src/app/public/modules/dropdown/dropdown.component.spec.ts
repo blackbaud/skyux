@@ -1123,9 +1123,8 @@ describe('Dropdown component', function () {
   });
 
   describe('accessibility', function () {
-    it('should set ARIA attributes', fakeAsync(() => {
+    it('should set default ARIA attributes', fakeAsync(() => {
       detectChangesFakeAsync();
-
       const button = getButtonElement();
 
       button.click();
@@ -1134,13 +1133,21 @@ describe('Dropdown component', function () {
       const menu = getMenuElement();
       const item = getFirstMenuItem();
 
-      // First, confirm defaults.
+      expect(button.getAttribute('aria-haspopup')).toEqual(menu.getAttribute('role'));
       expect(button.getAttribute('aria-label')).toEqual('Context menu');
+      expect(button.getAttribute('aria-expanded')).toEqual('true');
       expect(menu.getAttribute('role')).toEqual('menu');
       expect(menu.getAttribute('aria-labelledby')).toBeNull();
       expect(item.getAttribute('role')).toEqual('menuitem');
+    }));
 
-      // Finally, confirm overrides.
+    it('should allow custom overrides of ARIA attributes', fakeAsync(() => {
+      detectChangesFakeAsync();
+      const button = getButtonElement();
+
+      button.click();
+      detectChangesFakeAsync();
+
       fixture.componentInstance.menuAriaRole = 'menu-role-override';
       fixture.componentInstance.menuAriaLabelledBy = 'menu-labelled-by-override';
       fixture.componentInstance.itemAriaRole = 'item-role-override';
@@ -1149,10 +1156,48 @@ describe('Dropdown component', function () {
       detectChangesFakeAsync();
       detectChangesFakeAsync();
 
+      const menu = getMenuElement();
+      const item = getFirstMenuItem();
+
       expect(button.getAttribute('aria-label')).toEqual('button-label-override');
       expect(menu.getAttribute('role')).toEqual('menu-role-override');
       expect(menu.getAttribute('aria-labelledby')).toEqual('menu-labelled-by-override');
       expect(item.getAttribute('role')).toEqual('item-role-override');
+    }));
+
+    it('should set the aria-expanded attribute', fakeAsync(() => {
+      detectChangesFakeAsync();
+      const button = getButtonElement();
+
+      expect(button.getAttribute('aria-expanded')).toEqual('false');
+
+      button.click();
+      detectChangesFakeAsync();
+
+      expect(button.getAttribute('aria-expanded')).toEqual('true');
+
+      button.click();
+      detectChangesFakeAsync();
+
+      expect(button.getAttribute('aria-expanded')).toEqual('false');
+    }));
+
+    it('should set the aria-controls attribute', fakeAsync(() => {
+      detectChangesFakeAsync();
+      const button = getButtonElement();
+
+      expect(button.getAttribute('aria-controls')).toBeNull();
+
+      button.click();
+      detectChangesFakeAsync();
+
+      const menu = getMenuElement();
+      expect(button.getAttribute('aria-controls')).toEqual(menu.getAttribute('id'));
+
+      button.click();
+      detectChangesFakeAsync();
+
+      expect(button.getAttribute('aria-controls')).toBeNull();
     }));
 
     it('should set the title attribute', fakeAsync(() => {
@@ -1171,7 +1216,17 @@ describe('Dropdown component', function () {
       expect(button.getAttribute('title')).toEqual('dropdown-title-override');
     }));
 
-    it('should be accessible', async(() => {
+    it('should be accessible when closed', async(() => {
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          expect(window.document.body).toBeAccessible();
+        });
+      });
+    }));
+
+    it('should be accessible when open', async(() => {
       fixture.detectChanges();
 
       fixture.whenStable().then(() => {

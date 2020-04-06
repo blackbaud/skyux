@@ -2,11 +2,11 @@
   class="sky-dropdown"
 >
   <button
-    aria-haspopup="true"
     class="sky-btn sky-dropdown-button"
     type="button"
     [attr.aria-expanded]="isOpen"
-    [attr.aria-controls]="menuId"
+    [attr.aria-controls]="isOpen ? menuId : null"
+    [attr.aria-haspopup]="menuAriaRole"
     [attr.aria-label]="label || ('skyux_dropdown_context_menu_default_label' | skyLibResources)"
     [attr.title]="title"
     [disabled]="disabled"
