@@ -1,3 +1,7 @@
+# 3.14.1 (2020-04-06)
+
+- Fixed the overlay component to appear above modal components. [#153](https://github.com/blackbaud/skyux-core/pull/153)
+
 # 3.14.0 (2020-03-30)
 
 - Added the `enablePointerEvents` option to `SkyOverlayConfig` to enable click events to pass through the overlay's backdrop. [#148](https://github.com/blackbaud/skyux-core/pull/148)
