@@ -52,7 +52,20 @@ import {
   SkyOverlayContext
 } from './overlay-context';
 
-let uniqueZIndex = 1001; // Omnibar is 1000
+/**
+ * Omnibar is 1000.
+ * See: https://github.com/blackbaud/auth-client/blob/master/src/omnibar/omnibar.ts#L139
+ * ---
+ * Modals start their z-indexes at 1040. However, each modal's z-index is a multiple of 10, so it
+ * will be difficult to reliably predict a z-index that will always appear above all other
+ * layers. Starting the z-index for overlays at a number much greater than modals will accommodate
+ * the most reasonable of scenarios.
+ * See: https://github.com/blackbaud/skyux-modals/blob/master/src/app/public/modules/modal/modal-host.service.ts#L22
+ * (NOTE: It should be noted that modals do not use the overlay service, which is something we
+ * should do in the near future to make sure z-indexes are predictable across all component
+ * libraries.)
+ */
+let uniqueZIndex = 5000;
 
 /**
  * @internal

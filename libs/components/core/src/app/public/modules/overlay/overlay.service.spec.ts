@@ -23,6 +23,10 @@ import {
 import 'rxjs/add/operator/take';
 
 import {
+  SkyCoreAdapterService
+} from '../adapter-service';
+
+import {
   OverlayFixtureContext
 } from './fixtures/overlay-context.fixture';
 
@@ -436,5 +440,24 @@ describe('Overlay service', () => {
     const zIndex2 = getComputedStyle(overlays.item(1)).zIndex;
     expect(zIndex2 > zIndex1).toEqual(true);
   }));
+
+  it('should appear above modals', fakeAsync(inject(
+    [SkyCoreAdapterService],
+    (adapter: SkyCoreAdapterService) => {
+      createOverlay();
+
+      const modal = fixture.componentInstance.createModal();
+
+      fixture.detectChanges();
+      tick();
+
+      expect(adapter.isTargetAboveElement(
+        getAllOverlays().item(0),
+        document.querySelector('.sky-modal-host-backdrop')
+      )).toEqual(true);
+
+      modal.close();
+    }
+  )));
 
 });

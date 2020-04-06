@@ -11,6 +11,10 @@ import {
 } from '@angular/router/testing';
 
 import {
+  SkyModalModule
+} from '@skyux/modals';
+
+import {
   SkyOverlayModule
 } from '../overlay.module';
 
@@ -26,6 +30,7 @@ import {
   imports: [
     CommonModule,
     RouterTestingModule,
+    SkyModalModule,
     SkyOverlayModule
   ],
   declarations: [

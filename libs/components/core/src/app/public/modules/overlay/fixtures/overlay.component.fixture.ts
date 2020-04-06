@@ -5,8 +5,17 @@ import {
 } from '@angular/core';
 
 import {
+  SkyModalInstance,
+  SkyModalService
+} from '@skyux/modals';
+
+import {
   SkyOverlayService
 } from '../overlay.service';
+
+import {
+  OverlayEntryFixtureComponent
+} from './overlay-entry.component.fixture';
 
 @Component({
   selector: 'app-overlay-test',
@@ -20,7 +29,12 @@ export class OverlayFixtureComponent {
   public myTemplate: TemplateRef<any>;
 
   constructor(
-    public overlayService: SkyOverlayService
+    public overlayService: SkyOverlayService,
+    private modalService: SkyModalService
   ) { }
+
+  public createModal(): SkyModalInstance {
+    return this.modalService.open(OverlayEntryFixtureComponent);
+  }
 
 }
