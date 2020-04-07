@@ -195,6 +195,40 @@ describe('Autonumeric directive', () => {
     expect(spy).toHaveBeenCalled();
   }));
 
+  it('should not update numeric value on blur when no change is made', fakeAsync(() => {
+    detectChanges();
+
+    const autonumericInstance = fixture.componentInstance.autonumericDirective['autonumericInstance'];
+    const spy = spyOn(autonumericInstance, 'getNumber').and.callThrough();
+
+    const input = fixture.nativeElement.querySelector('input');
+
+    SkyAppTestUtility.fireDomEvent(input, 'mouseenter');
+    SkyAppTestUtility.fireDomEvent(input, 'input');
+    SkyAppTestUtility.fireDomEvent(input, 'blur');
+    detectChanges();
+
+    expect(spy).not.toHaveBeenCalled();
+  }));
+
+  it('should not update numeric value on blur when no change is made and a currency symbol is specified', fakeAsync(() => {
+    setOptions('dollar');
+
+    detectChanges();
+
+    const autonumericInstance = fixture.componentInstance.autonumericDirective['autonumericInstance'];
+    const spy = spyOn(autonumericInstance, 'getNumber').and.callThrough();
+
+    const input = fixture.nativeElement.querySelector('input');
+
+    SkyAppTestUtility.fireDomEvent(input, 'mouseenter');
+    SkyAppTestUtility.fireDomEvent(input, 'input');
+    SkyAppTestUtility.fireDomEvent(input, 'blur');
+    detectChanges();
+
+    expect(spy).not.toHaveBeenCalled();
+  }));
+
   it('should not notify identical value changes', fakeAsync(() => {
     detectChanges();
 
