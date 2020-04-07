@@ -1,6 +1,6 @@
 # 3.2.6 (2020-04-07)
 
-- Fixed the tabset component to set the active tab when the `activeIndex` is set to a `string` value. [#61](https://github.com/blackbaud/skyux-tabs/issues/61)
+- Fixed the tabset component to set the active tab when `activeIndex` is set to a `string` value. [#62](https://github.com/blackbaud/skyux-tabs/pull/62)
 
 # 3.2.5 (2020-03-30)
 
