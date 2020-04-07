@@ -4,8 +4,9 @@
       {{ activeTabHeading }}
     </sky-dropdown-button>
     <sky-dropdown-menu>
-      <sky-dropdown-item
-        *ngFor="let tab of tabs">
+      <sky-dropdown-item *ngFor="let tab of tabs"
+        class="sky-tab-dropdown-menu-item"
+      >
         <div
           class="sky-tab-dropdown-item"
           [ngClass]="{ 'sky-tab-dropdown-item-selected': tab.active }">

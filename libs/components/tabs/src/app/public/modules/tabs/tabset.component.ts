@@ -143,7 +143,7 @@ export class SkyTabsetComponent
   @ContentChildren(SkyTabComponent)
   public tabs: QueryList<SkyTabComponent>;
 
-  private activeIndexOnLoad: number;
+  private activeIndexOnLoad: number | string;
 
   private ngUnsubscribe = new Subject<void>();
 
@@ -194,7 +194,7 @@ export class SkyTabsetComponent
   }
 
   public ngOnInit(): void {
-    this.activeIndexOnLoad = (this.active !== undefined) ? +this.active : 0;
+    this.activeIndexOnLoad = (this.active !== undefined) ? this.active : 0;
   }
 
   public ngOnChanges(changes: SimpleChanges): void {

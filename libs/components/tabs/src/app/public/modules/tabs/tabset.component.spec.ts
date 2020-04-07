@@ -281,19 +281,27 @@ describe('Tabset component', () => {
     expect(openTabSpy).toHaveBeenCalled();
   });
 
-  it('should notify the consumer when a tab\'s close button is clicked', () => {
+  it('should notify the consumer when a tab\'s close button is clicked', fakeAsync(() => {
     let fixture = TestBed.createComponent(TabsetTestComponent);
     let cmp: TabsetTestComponent = fixture.componentInstance;
     let el = fixture.nativeElement;
 
     fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+    tick();
 
     let closeTabSpy = spyOn(cmp, 'closeTab2');
 
     el.querySelectorAll('.sky-btn-tab')[1].querySelector('.sky-btn-tab-close').click();
 
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+    tick();
+
     expect(closeTabSpy).toHaveBeenCalled();
-  });
+  }));
 
   it('should select the next tab when the active tab is closed', fakeAsync(() => {
     let fixture = TestBed.createComponent(TabsetTestComponent);
@@ -471,8 +479,11 @@ describe('Tabset component', () => {
 
   it('should be accessible', async(() => {
     let fixture = TestBed.createComponent(TabsetTestComponent);
+
     fixture.detectChanges();
+
     fixture.whenStable().then(() => {
+      fixture.detectChanges();
       expect(fixture.nativeElement).toBeAccessible();
     });
   }));
@@ -535,15 +546,13 @@ describe('Tabset component', () => {
       let tabEl = el.querySelector('.sky-dropdown-button-type-tab');
 
       tabEl.click();
-      tick();
       fixture.detectChanges();
       tick();
 
-      let dropdownTabButtons = el.querySelectorAll('.sky-tab-dropdown-item .sky-btn-tab');
+      let dropdownTabButtons = document.querySelectorAll('.sky-tab-dropdown-item .sky-btn-tab');
       expect(dropdownTabButtons[1]).toHaveText('Tab 2');
 
-      dropdownTabButtons[1].click();
-      tick();
+      (dropdownTabButtons[1] as HTMLElement).click();
       fixture.detectChanges();
       tick();
 
@@ -569,27 +578,23 @@ describe('Tabset component', () => {
         let tabEl = el.querySelector('.sky-dropdown-button-type-tab');
 
         tabEl.click();
-        tick();
         fixture.detectChanges();
         tick();
 
-        let dropdownTabButtons = el.querySelectorAll('.sky-tab-dropdown-item .sky-btn-tab');
+        let dropdownTabButtons = document.querySelectorAll('.sky-tab-dropdown-item .sky-btn-tab');
 
-        dropdownTabButtons[0].click();
-        tick();
+        (dropdownTabButtons[0] as HTMLElement).click();
         fixture.detectChanges();
         tick();
 
         tabEl.click();
-        tick();
         fixture.detectChanges();
         tick();
 
         expect(dropdownTabButtons[1]).toHaveText('Tab 2');
         expect(dropdownTabButtons[1]).toHaveCssClass('sky-btn-tab-disabled');
 
-        dropdownTabButtons[1].click();
-        tick();
+        (dropdownTabButtons[1] as HTMLElement).click();
         fixture.detectChanges();
         tick();
 
@@ -599,29 +604,82 @@ describe('Tabset component', () => {
 
     it(
       'should notify the consumer when a tab\'s close button is clicked',
-      () => {
+      fakeAsync(() => {
+        fixture.detectChanges();
+        tick();
+
         let el = fixture.nativeElement;
 
+        const closeSpy = spyOn(fixture.componentInstance, 'closeTab2').and.callThrough();
+
         fixture.detectChanges();
+        tick();
 
         mockAdapterService.fakeOverflowChange(true);
 
         fixture.detectChanges();
+        tick();
 
         let tabEl = el.querySelector('.sky-dropdown-button-type-tab');
 
         tabEl.click();
+
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+
         el.querySelectorAll('.sky-btn-tab-close')[0].click();
 
         fixture.detectChanges();
+        tick();
 
         mockAdapterService.fakeOverflowChange(false);
 
         fixture.detectChanges();
+        tick();
 
         expect(el.querySelectorAll('.sky-btn-tab').length).toBe(2);
+        expect(closeSpy).toHaveBeenCalled();
       }
-    );
+    ));
+
+    it(
+      'should notify the consumer when a dropdown tab\'s close button is clicked',
+      fakeAsync(() => {
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        let el = fixture.nativeElement;
+
+        const closeSpy = spyOn(fixture.componentInstance, 'closeTab2').and.callThrough();
+
+        fixture.componentInstance.tabsetComponent.tabDisplayMode = 'dropdown';
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        let tabEl: HTMLElement = document.querySelector('.sky-dropdown-button');
+        tabEl.click();
+        fixture.detectChanges();
+        tick();
+
+        const closeButton = document.querySelectorAll(
+          '.sky-dropdown-item .sky-btn-tab-close'
+        )[0] as HTMLElement;
+
+        closeButton.click();
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        expect(el.querySelectorAll('.sky-btn-tab').length).toBe(2);
+        expect(closeSpy).toHaveBeenCalled();
+      }
+    ));
 
     it('should be accessible', async(() => {
       fixture.detectChanges();
@@ -642,6 +700,20 @@ describe('Tabset component', () => {
       tick();
       validateTabSelected(el, 0);
 
+    }));
+
+    it('should initialize active state based on string tabIndex values', fakeAsync(() => {
+      let fixture = TestBed.createComponent(TabsetActiveTestComponent);
+      let el = fixture.nativeElement;
+
+      fixture.componentInstance.activeIndex = 'something';
+
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      validateTabSelected(el, 2);
     }));
 
     it('should listen for changes in active state', fakeAsync(() => {
@@ -814,16 +886,24 @@ describe('Tabset component', () => {
       fixture.componentInstance.tabsetComponent.tabDisplayMode = 'dropdown';
       fixture.detectChanges();
 
-      let tabs = debugElement.queryAll(By.css('.sky-tab'));
-      tabs.forEach((value) => {
-        let tab = value.nativeElement;
-        let dropBtn = debugElement.query(By.css('#' + tab.getAttribute('id') + '-nav-btn')).nativeElement;
-        let tabBtn = debugElement.query(By.css('#' + tab.getAttribute('id') + '-hidden-nav-btn')).nativeElement;
+      const button = document.querySelector('.sky-dropdown-button') as HTMLElement;
+      button.click();
+
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      let tabs = document.querySelectorAll('.sky-tab');
+      for (let i = 0; i < tabs.length; i++) {
+        const tab = tabs.item(i);
+        let dropBtn = document.getElementById(`${tab.getAttribute('id')}-nav-btn`);
+        let tabBtn = document.getElementById(`${tab.getAttribute('id')}-hidden-nav-btn`);
 
         expect(tab.getAttribute('aria-labelledby')).toBe(dropBtn.getAttribute('id'));
         expect(dropBtn.getAttribute('aria-controls')).toBe(tab.getAttribute('id'));
         expect(tabBtn.tagName.toLowerCase()).toBe('sky-tab-button');
-      });
+      }
     }));
 
     it('should emit a click event on enter press', fakeAsync(() => {

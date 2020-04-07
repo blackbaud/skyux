@@ -23,7 +23,7 @@ export class TabsetActiveTestComponent {
 
   public tab3Available = true;
 
-  public activeIndex: any = 0;
+  public activeIndex: string | number = 0;
 
   public tabMaxWidth = 2000;
 
