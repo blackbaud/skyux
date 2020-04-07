@@ -1,3 +1,7 @@
+# 3.0.4 (2020-04-07)
+
+- Fixed the `skyAutonumeric` directive to no longer treat empty values as zero when using a currency symbol. [#18](https://github.com/blackbaud/skyux-autonumeric/pull/18)
+
 # 3.0.3 (2020-01-31)
 
 - Fixed the `skyAutonumeric` directive to properly set the invalid state when the input is required. [#15](https://github.com/blackbaud/skyux-autonumeric/pull/15)
