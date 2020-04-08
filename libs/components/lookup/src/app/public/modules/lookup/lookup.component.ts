@@ -116,6 +116,7 @@ export class SkyLookupComponent
   }
 
   public onAutocompleteSelectionChange(change: SkyAutocompleteSelectionChange) {
+    /* istanbul ignore else */
     if (change.selectedItem) {
       this.addToSelected(change.selectedItem);
       this.focusInput();

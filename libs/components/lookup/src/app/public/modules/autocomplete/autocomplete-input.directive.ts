@@ -1,7 +1,6 @@
 import {
   Directive,
   ElementRef,
-  EventEmitter,
   forwardRef,
   OnDestroy,
   OnInit,
@@ -56,6 +55,10 @@ const SKY_AUTOCOMPLETE_VALIDATOR = {
 })
 export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, ControlValueAccessor, Validator {
 
+  public get blur(): Observable<void> {
+    return this._blur.asObservable();
+  }
+
   public get displayWith(): string {
     return this._displayWith;
   }
@@ -65,9 +68,26 @@ export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, Control
     this.inputTextValue = this.getValueByKey();
   }
 
+  public get inputTextValue(): string {
+    return this.elementRef.nativeElement.value;
+  }
+
+  public set inputTextValue(value: string) {
+    this.elementRef.nativeElement.value = value || '';
+  }
+
+  public get textChanges(): Observable<SkyAutocompleteInputTextChange> {
+    return this._textChanges.asObservable();
+  }
+
+  public get value(): any {
+    return this._value;
+  }
+
   public set value(value: any) {
     const isNewValue = value !== this._value;
 
+    /* istanbul ignore else */
     if (isNewValue) {
       this._value = value;
       this.inputTextValue = this.getValueByKey();
@@ -85,26 +105,19 @@ export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, Control
     }
   }
 
-  public get value(): any {
-    return this._value;
-  }
-
-  public set inputTextValue(value: string) {
-    this.elementRef.nativeElement.value = value || '';
-  }
-
-  public get inputTextValue(): string {
-    return this.elementRef.nativeElement.value;
-  }
-
-  public textChanges = new EventEmitter<SkyAutocompleteInputTextChange>();
-  public blur = new EventEmitter<void>();
-
-  private isFirstChange = true;
-  private ngUnsubscribe = new Subject();
-  private _displayWith: string;
-  private _value: any;
   private control: AbstractControl;
+
+  private isFirstChange: boolean = true;
+
+  private ngUnsubscribe = new Subject<void>();
+
+  private _blur = new Subject<void>();
+
+  private _displayWith: string;
+
+  private _textChanges = new Subject<SkyAutocompleteInputTextChange>();
+
+  private _value: any;
 
   constructor(
     private elementRef: ElementRef,
@@ -120,7 +133,7 @@ export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, Control
       .fromEvent(element, 'keyup')
       .takeUntil(this.ngUnsubscribe)
       .subscribe(() => {
-        this.textChanges.emit({
+        this._textChanges.next({
           value: this.elementRef.nativeElement.value
         });
       });
@@ -142,8 +155,15 @@ export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, Control
   }
 
   public ngOnDestroy(): void {
+    this._blur.complete();
+    this._textChanges.complete();
+
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+
+    this._blur =
+      this._textChanges =
+      this.ngUnsubscribe = undefined;
   }
 
   public writeValue(value: any): void {
@@ -167,6 +187,22 @@ export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, Control
       this.control = control;
     }
     return;
+  }
+
+  // See: https://www.w3.org/TR/wai-aria-practices/#kbd_focus_activedescendant
+  public setActiveDescendant(descendantId: string | null): void {
+    if (descendantId) {
+      this.renderer.setAttribute(
+        this.elementRef.nativeElement,
+        'aria-activedescendant',
+        descendantId
+      );
+    } else {
+      this.renderer.removeAttribute(
+        this.elementRef.nativeElement,
+        'aria-activedescendant'
+      );
+    }
   }
 
   // Angular automatically constructs these methods.
@@ -194,7 +230,7 @@ export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, Control
       this.inputTextValue = modelValue;
     }
 
-    this.blur.emit();
+    this._blur.next();
   }
 
   private getValueByKey(): string {

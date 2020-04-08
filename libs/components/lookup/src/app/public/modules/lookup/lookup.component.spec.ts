@@ -57,8 +57,8 @@ describe('Lookup component', function () {
   }
 
   function selectSearchResult(index: number, fixture: ComponentFixture<any>) {
-    const dropdownButtons = document.querySelectorAll('.sky-dropdown-menu button');
-    (dropdownButtons.item(index) as HTMLElement).click();
+    const dropdownButtons = document.querySelectorAll('.sky-autocomplete-result');
+    SkyAppTestUtility.fireDomEvent(dropdownButtons.item(index), 'mousedown');
     tick();
     fixture.detectChanges();
     tick();

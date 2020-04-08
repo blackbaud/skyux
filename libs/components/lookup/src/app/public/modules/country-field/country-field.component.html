@@ -39,7 +39,8 @@
   #countrySearchResultTemplate
 >
   <div
-    [className]="'iti-flag ' + item.iso2.toLowerCase()"
+    class="sky-country-field-search-result-flag"
+    [ngClass]="'iti-flag ' + item.iso2.toLowerCase()"
   >
   </div>
   {{ item.name }}

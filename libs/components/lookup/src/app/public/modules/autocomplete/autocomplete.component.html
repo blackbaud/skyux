@@ -1,44 +1,50 @@
-<div class="sky-autocomplete">
+<div
+  aria-autocomplete="list"
+  aria-haspopup="true"
+  class="sky-autocomplete"
+  role="combobox"
+  [attr.aria-expanded]="isOpen"
+  [attr.aria-owns]="(isOpen) ? resultsListId : null"
+  [attr.id]="resultsWrapperId"
+>
   <ng-content>
   </ng-content>
-  <div class="sky-autocomplete-results">
-
-    <sky-dropdown
-      [dismissOnBlur]="false"
-      [messageStream]="dropdownController">
-
-      <sky-dropdown-button>
-      </sky-dropdown-button>
-
-      <sky-dropdown-menu
-        [useNativeFocus]="false"
-        (menuChanges)="onMenuChanges($event)"
-      >
-
-        <sky-dropdown-item
-          *ngFor="let result of searchResults; let i = index"
-          [skyHighlight]="highlightText"
-        >
-
-          <button
-            type="button">
-            <ng-container
-              *ngTemplateOutlet="searchResultTemplate; context: { item: result }">
-            </ng-container>
-          </button>
-
-        </sky-dropdown-item>
-        <sky-dropdown-item *ngIf="searchResults.length === 0">
-          <div class="sky-deemphasized sky-padding-squish-default">
-            {{ noResultsFoundText || ('skyux_autocomplete_no_results' | skyLibResources) }}
-          </div>
-        </sky-dropdown-item>
-      </sky-dropdown-menu>
-    </sky-dropdown>
-  </div>
-  <ng-template
-    let-item="item"
-    #defaultSearchResultTemplate>
-    {{ item[descriptorProperty] }}
-  </ng-template>
 </div>
+
+<ng-template
+  #resultsTemplateRef
+>
+  <div
+    class="sky-autocomplete-results sky-shadow"
+    role="listbox"
+    [attr.aria-labelledby]="ariaLabelledBy"
+    [attr.id]="resultsListId"
+    #resultsRef
+  >
+    <div *ngFor="let result of searchResults; let i = index"
+      class="sky-autocomplete-result"
+      role="option"
+      [attr.aria-selected]="isResultFocused(i)"
+      [attr.id]="result.elementId"
+      [class.selected]="isResultFocused(i)"
+      [skyHighlight]="highlightText"
+      (mousedown)="onResultMouseDown(i)"
+    >
+      <ng-container
+        *ngTemplateOutlet="searchResultTemplate; context: { item: result.data }">
+      </ng-container>
+    </div>
+    <div *ngIf="searchResults.length === 0"
+      class="sky-deemphasized sky-padding-squish-default"
+    >
+      {{ noResultsFoundText || ('skyux_autocomplete_no_results' | skyLibResources) }}
+    </div>
+  </div>
+</ng-template>
+
+<ng-template
+  let-item="item"
+  #defaultSearchResultTemplate
+>
+  {{ item[descriptorProperty] }}
+</ng-template>

@@ -1,6 +1,11 @@
 <form
   #myForm="ngForm"
   novalidate>
+  <label
+    for="my-autocomplete-input"
+  >
+    Favorite color
+  </label>
   <sky-autocomplete
     [data]="data"
     [debounceTime]="debounceTime"

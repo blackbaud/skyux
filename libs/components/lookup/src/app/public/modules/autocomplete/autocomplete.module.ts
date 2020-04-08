@@ -1,35 +1,40 @@
 import {
-  NgModule
-} from '@angular/core';
-import {
   CommonModule
 } from '@angular/common';
+
+import {
+  NgModule
+} from '@angular/core';
+
 import {
   FormsModule
 } from '@angular/forms';
 
 import {
-  SkyAppWindowRef
+  SkyAffixModule,
+  SkyOverlayModule
 } from '@skyux/core';
 
-import {
-  SkyDropdownModule
-} from '@skyux/popovers';
 import {
   SkyIconModule,
   SkyTextHighlightModule
 } from '@skyux/indicators';
 
 import {
-  SkyAutocompleteComponent
-} from './autocomplete.component';
+  SkyLookupResourcesModule
+} from '../shared/lookup-resources.module';
+
+import {
+  SkyAutocompleteAdapterService
+} from './autocomplete-adapter.service';
+
 import {
   SkyAutocompleteInputDirective
 } from './autocomplete-input.directive';
 
 import {
-  SkyLookupResourcesModule
-} from '../shared';
+  SkyAutocompleteComponent
+} from './autocomplete.component';
 
 @NgModule({
   declarations: [
@@ -39,17 +44,18 @@ import {
   imports: [
     CommonModule,
     FormsModule,
+    SkyAffixModule,
     SkyTextHighlightModule,
-    SkyDropdownModule,
     SkyIconModule,
-    SkyLookupResourcesModule
+    SkyLookupResourcesModule,
+    SkyOverlayModule
   ],
   exports: [
     SkyAutocompleteComponent,
     SkyAutocompleteInputDirective
   ],
   providers: [
-    SkyAppWindowRef
+    SkyAutocompleteAdapterService
   ]
 })
 export class SkyAutocompleteModule { }

@@ -1,4 +1,5 @@
 import {
+  async,
   ComponentFixture,
   fakeAsync,
   TestBed,
@@ -9,10 +10,6 @@ import {
   expect,
   SkyAppTestUtility
 } from '@skyux-sdk/testing';
-
-import {
-  SkyDropdownMessageType
-} from '@skyux/popovers';
 
 import {
   SkyAutocompleteComponent
@@ -40,6 +37,8 @@ import {
 
 describe('Autocomplete component', () => {
 
+  //#region helpers
+
   function getAutocompleteElement(): HTMLElement {
     return document.querySelector('sky-autocomplete') as HTMLElement;
   }
@@ -48,11 +47,21 @@ describe('Autocomplete component', () => {
     return document.getElementById('my-autocomplete-input') as HTMLInputElement;
   }
 
+  function getSearchResultsContainer(): Element {
+    return document.querySelector('.sky-autocomplete-results');
+  }
+
+  function getSearchResultItems(): NodeListOf<Element> {
+    return document.querySelectorAll('.sky-autocomplete-result');
+  }
+
   function enterSearch(newValue: string, fixture: ComponentFixture<any>): void {
     const inputElement = getInputElement();
     inputElement.value = newValue;
 
     SkyAppTestUtility.fireDomEvent(inputElement, 'keyup');
+    fixture.detectChanges();
+    tick();
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
@@ -69,13 +78,16 @@ describe('Autocomplete component', () => {
     const inputElement = getInputElement();
 
     enterSearch(newValue, fixture);
-    const searchResults = getAutocompleteElement().querySelectorAll('.sky-dropdown-item') as NodeListOf<HTMLElement>;
+
+    const searchResults = getSearchResultItems();
 
     // Note: the ordering of these events is important!
     SkyAppTestUtility.fireDomEvent(inputElement, 'change');
-    searchResults[index].querySelector('button').click();
+    SkyAppTestUtility.fireDomEvent(searchResults[index], 'mousedown');
     blurInput(inputElement, fixture);
   }
+
+  //#endregion
 
   describe('basic setup', () => {
     let fixture: ComponentFixture<SkyAutocompleteFixtureComponent>;
@@ -107,9 +119,11 @@ describe('Autocomplete component', () => {
       fixture.detectChanges();
       expect(autocomplete.debounceTime).toEqual(0);
       expect(autocomplete.descriptorProperty).toEqual('name');
+      expect(autocomplete.highlightText).toEqual('');
       expect(autocomplete.propertiesToSearch).toEqual(['name']);
       expect(autocomplete.search).toBeDefined();
       expect(autocomplete.searchFilters).toBeUndefined();
+      expect(autocomplete.searchResults).toEqual([]);
       expect(autocomplete.searchResultsLimit).toBeUndefined();
       expect(autocomplete.searchResultTemplate).toBeDefined();
       expect(autocomplete.searchTextMinimumCharacters).toEqual(1);
@@ -151,9 +165,9 @@ describe('Autocomplete component', () => {
       tick();
 
       expect(autocomplete.searchResults.length).toEqual(2);
-      expect(autocomplete.searchResults[0].name).toEqual('Yellow');
+      expect(autocomplete.searchResults[0].data.name).toEqual('Yellow');
       // The letter 'y' is in the objectid of 'Turquoise':
-      expect(autocomplete.searchResults[1].name).toEqual('Turquoise');
+      expect(autocomplete.searchResults[1].data.name).toEqual('Turquoise');
     }));
 
     it('should search with filters', fakeAsync(() => {
@@ -166,8 +180,8 @@ describe('Autocomplete component', () => {
       fixture.detectChanges();
 
       // First, test that 'Red' is included in the results:
-      let found = autocomplete.searchResults.find((result: any) => {
-        return (result.name === 'Red');
+      let found = autocomplete.searchResults.find((result) => {
+        return (result.data.name === 'Red');
       });
 
       // The number of search results that contain the letter 'r':
@@ -198,8 +212,8 @@ describe('Autocomplete component', () => {
       fixture.detectChanges();
       tick();
 
-      found = autocomplete.searchResults.find((result: any) => {
-        return (result.name === 'Red');
+      found = autocomplete.searchResults.find((result) => {
+        return (result.data.name === 'Red');
       });
 
       expect(found).toBeUndefined();
@@ -215,9 +229,8 @@ describe('Autocomplete component', () => {
       tick();
       fixture.detectChanges();
 
-      const firstItem = getAutocompleteElement()
-        .querySelector('.sky-dropdown-item') as HTMLElement;
-      expect(firstItem.textContent.trim()).toBe(expectedMessage);
+      const container = getSearchResultsContainer();
+      expect(container.textContent.trim()).toBe(expectedMessage);
     }));
 
     it('should show a custom no results found message', fakeAsync(() => {
@@ -230,9 +243,8 @@ describe('Autocomplete component', () => {
       tick();
       fixture.detectChanges();
 
-      const firstItem = getAutocompleteElement()
-        .querySelector('.sky-dropdown-item') as HTMLElement;
-      expect(firstItem.textContent.trim()).toBe(expectedMessage);
+      const container = getSearchResultsContainer();
+      expect(container.textContent.trim()).toBe(expectedMessage);
     }));
 
     it('should allow custom search result template', fakeAsync(() => {
@@ -246,52 +258,21 @@ describe('Autocomplete component', () => {
       fixture.detectChanges();
       tick();
 
-      const customElement = getAutocompleteElement()
+      const customElement = getSearchResultsContainer()
         .querySelector('.custom-search-result-id') as HTMLElement;
 
       expect(customElement).not.toBeNull();
     }));
 
-    it('should focus the first search result after being opened',
-      fakeAsync(() => {
-        fixture.detectChanges();
-
-        const messageSpy = spyOn(autocomplete as any, 'sendDropdownMessage')
-          .and.callThrough();
-
-        inputElement.value = 'r';
-        SkyAppTestUtility.fireDomEvent(inputElement, 'keyup');
-        tick();
-        fixture.detectChanges();
-        tick();
-
-        expect(messageSpy)
-          .toHaveBeenCalledWith(SkyDropdownMessageType.Open);
-        expect(messageSpy)
-          .toHaveBeenCalledWith(SkyDropdownMessageType.FocusFirstItem);
-      })
-    );
-
-    it('should only open the dropdown one time on keypress',
-      fakeAsync(() => {
-        fixture.detectChanges();
-
-        const messageSpy = spyOn(autocomplete as any, 'sendDropdownMessage')
-          .and.callThrough();
-
-        inputElement.value = 'r';
-        SkyAppTestUtility.fireDomEvent(inputElement, 'keyup');
-        tick();
-
-        inputElement.value = 're';
-        SkyAppTestUtility.fireDomEvent(inputElement, 'keyup');
-        tick();
-
-        expect(messageSpy)
-          .toHaveBeenCalledWith(SkyDropdownMessageType.Open);
-        expect(messageSpy.calls.count()).toEqual(1);
-      })
-    );
+    it('should focus the first search result after being opened', fakeAsync(() => {
+      fixture.detectChanges();
+      inputElement.value = 'r';
+      SkyAppTestUtility.fireDomEvent(inputElement, 'keyup');
+      tick();
+      fixture.detectChanges();
+      tick();
+      expect(getSearchResultItems().item(0)).toHaveCssClass('selected');
+    }));
 
     it('should limit search results', fakeAsync(() => {
       component.searchResultsLimit = 1;
@@ -419,18 +400,17 @@ describe('Autocomplete component', () => {
     }));
 
     it('should set the width of the dropdown when a search is performed', fakeAsync(() => {
-      const adapterSpy = spyOn(autocomplete['adapter'], 'setDropdownWidth').and.callThrough();
-      const rendererSpy = spyOn(autocomplete['adapter']['renderer'], 'setStyle').and.callThrough();
+      const adapterSpy = spyOn(autocomplete['adapterService'], 'setDropdownWidth').and.callThrough();
+      const rendererSpy = spyOn(autocomplete['adapterService']['renderer'], 'setStyle').and.callThrough();
 
       fixture.detectChanges();
-
-      inputElement.value = 'r';
-      SkyAppTestUtility.fireDomEvent(inputElement, 'keyup');
       tick();
 
-      expect(adapterSpy).toHaveBeenCalledWith(autocomplete['elementRef']);
+      enterSearch('r', fixture);
 
-      const dropdownElement = document.querySelector('.sky-popover-container');
+      expect(adapterSpy).toHaveBeenCalledWith(autocomplete['elementRef'], autocomplete['resultsRef']);
+
+      const dropdownElement = getSearchResultsContainer();
       const autocompleteElement = getAutocompleteElement();
       const formattedWidth = `${autocompleteElement.getBoundingClientRect().width}px`;
 
@@ -438,23 +418,21 @@ describe('Autocomplete component', () => {
     }));
 
     it('should set the width of the dropdown on window resize', fakeAsync(() => {
-      const adapterSpy = spyOn(autocomplete['adapter'], 'watchDropdownWidth').and.callThrough();
-      const rendererSpy = spyOn(autocomplete['adapter']['renderer'], 'setStyle').and.callThrough();
-
       fixture.detectChanges();
-
-      inputElement.value = 'r';
-      SkyAppTestUtility.fireDomEvent(inputElement, 'keyup');
       tick();
 
-      const event = document.createEvent('CustomEvent');
-      event.initEvent('resize', false, false);
-      window.dispatchEvent(event);
+      enterSearch('r', fixture);
+
+      const adapterSpy = spyOn(autocomplete['adapterService'], 'setDropdownWidth').and.callThrough();
+      const rendererSpy = spyOn(autocomplete['adapterService']['renderer'], 'setStyle').and.callThrough();
+
+      SkyAppTestUtility.fireDomEvent(window, 'resize');
+      fixture.detectChanges();
       tick();
 
-      expect(adapterSpy).toHaveBeenCalledWith(autocomplete['elementRef']);
+      expect(adapterSpy).toHaveBeenCalledWith(autocomplete['elementRef'], autocomplete['resultsRef']);
 
-      const dropdownElement = document.querySelector('.sky-popover-container');
+      const dropdownElement = getSearchResultsContainer();
       const autocompleteElement = getAutocompleteElement();
       const formattedWidth = `${autocompleteElement.getBoundingClientRect().width}px`;
 
@@ -507,9 +485,8 @@ describe('Autocomplete component', () => {
         SkyAppTestUtility.fireDomEvent(inputElement, 'keyup');
         tick();
         fixture.detectChanges();
-        const firstItem = getAutocompleteElement()
-          .querySelector('.sky-dropdown-item') as HTMLElement;
-        firstItem.querySelector('button').click();
+        const firstItem = getSearchResultItems().item(0);
+        SkyAppTestUtility.fireDomEvent(firstItem, 'mousedown');
         tick();
 
         // Expect new changes to have been emitted.
@@ -525,6 +502,21 @@ describe('Autocomplete component', () => {
       })
     );
 
+    it('should be accessible', async(() => {
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expect(getAutocompleteElement()).toBeAccessible(() => {
+          fixture.detectChanges();
+          inputElement.value = 'r';
+          SkyAppTestUtility.fireDomEvent(inputElement, 'keyup');
+          fixture.detectChanges();
+          fixture.whenStable().then(() => {
+            expect(getAutocompleteElement()).toBeAccessible();
+          });
+        });
+      });
+    }));
+
     describe('highlighting', () => {
       it('should highlight when one letter is pressesd',
         fakeAsync(() => {
@@ -536,8 +528,8 @@ describe('Autocomplete component', () => {
           tick();
           fixture.detectChanges();
 
-          expect(fixture.nativeElement.querySelector('mark').innerHTML.trim().toLowerCase()).toBe('r');
-          expect(fixture.nativeElement.querySelectorAll('mark').length).toBe(6);
+          expect(getSearchResultsContainer().querySelector('mark').innerHTML.trim().toLowerCase()).toBe('r');
+          expect(getSearchResultsContainer().querySelectorAll('mark').length).toBe(6);
         })
       );
 
@@ -551,13 +543,13 @@ describe('Autocomplete component', () => {
           tick();
           fixture.detectChanges();
 
-          expect(fixture.nativeElement.querySelectorAll('mark').length).toBe(0);
+          expect(getSearchResultsContainer().querySelectorAll('mark').length).toBe(0);
           enterSearch('red', fixture);
           tick();
           fixture.detectChanges();
 
-          expect(fixture.nativeElement.querySelector('mark').innerHTML.trim().toLowerCase()).toBe('red');
-          expect(fixture.nativeElement.querySelectorAll('mark').length).toBe(1);
+          expect(getSearchResultsContainer().querySelector('mark').innerHTML.trim().toLowerCase()).toBe('red');
+          expect(getSearchResultsContainer().querySelectorAll('mark').length).toBe(1);
         })
       );
 
@@ -571,14 +563,14 @@ describe('Autocomplete component', () => {
           tick();
           fixture.detectChanges();
 
-          expect(fixture.nativeElement.querySelector('mark').innerHTML.trim().toLowerCase()).toBe('bla');
-          expect(fixture.nativeElement.querySelectorAll('mark').length).toBe(1);
+          expect(getSearchResultsContainer().querySelector('mark').innerHTML.trim().toLowerCase()).toBe('bla');
+          expect(getSearchResultsContainer().querySelectorAll('mark').length).toBe(1);
           enterSearch('bl', fixture);
           tick();
           fixture.detectChanges();
 
-          expect(fixture.nativeElement.querySelector('mark').innerHTML.trim().toLowerCase()).toBe('bl');
-          expect(fixture.nativeElement.querySelectorAll('mark').length).toBe(2);
+          expect(getSearchResultsContainer().querySelector('mark').innerHTML.trim().toLowerCase()).toBe('bl');
+          expect(getSearchResultsContainer().querySelectorAll('mark').length).toBe(2);
         })
       );
     });
@@ -593,19 +585,15 @@ describe('Autocomplete component', () => {
         });
         tick();
 
-        const messageSpy = spyOn(autocomplete as any, 'sendDropdownMessage')
-          .and.callThrough();
         const notifySpy = spyOn(autocomplete.selectionChange, 'emit')
           .and.callThrough();
-        const autocompleteElement = getAutocompleteElement();
 
-        SkyAppTestUtility.fireDomEvent(autocompleteElement, 'keydown', {
+        SkyAppTestUtility.fireDomEvent(inputElement, 'keydown', {
           keyboardEventInit: { key: 'Enter' }
         });
         tick();
 
         expect(input.value.name).toEqual('Red');
-        expect(messageSpy).toHaveBeenCalledWith(SkyDropdownMessageType.Close);
         expect(notifySpy).toHaveBeenCalledWith({
           selectedItem: input.value
         });
@@ -618,19 +606,15 @@ describe('Autocomplete component', () => {
         SkyAppTestUtility.fireDomEvent(inputElement, 'keyup');
         tick();
 
-        const messageSpy = spyOn(autocomplete as any, 'sendDropdownMessage')
-          .and.callThrough();
         const notifySpy = spyOn(autocomplete.selectionChange, 'emit')
           .and.callThrough();
-        const autocompleteElement = getAutocompleteElement();
 
-        SkyAppTestUtility.fireDomEvent(autocompleteElement, 'keydown', {
+        SkyAppTestUtility.fireDomEvent(inputElement, 'keydown', {
           keyboardEventInit: { key: 'Tab' }
         });
         tick();
 
         expect(input.value.name).toEqual('Red');
-        expect(messageSpy).toHaveBeenCalledWith(SkyDropdownMessageType.Close);
         expect(notifySpy).toHaveBeenCalledWith({
           selectedItem: input.value
         });
@@ -639,58 +623,44 @@ describe('Autocomplete component', () => {
       it('should navigate items with arrow keys', fakeAsync(() => {
         fixture.detectChanges();
 
-        input.inputTextValue = 'r';
-        input.textChanges.emit({ value: 'r' });
-        tick();
-        fixture.detectChanges();
+        enterSearch('r', fixture);
+        expect(getSearchResultItems().item(0)).toHaveCssClass('selected');
 
-        const spy = spyOn(autocomplete as any, 'sendDropdownMessage')
-          .and.callThrough();
-        const autocompleteElement = getAutocompleteElement();
-        const dropdownElement = autocompleteElement
-          .querySelector('sky-dropdown-menu') as HTMLElement;
-
-        SkyAppTestUtility.fireDomEvent(dropdownElement, 'keydown', {
+        SkyAppTestUtility.fireDomEvent(inputElement, 'keydown', {
           keyboardEventInit: { key: 'ArrowDown' }
         });
+        fixture.detectChanges();
         tick();
 
-        SkyAppTestUtility.fireDomEvent(dropdownElement, 'keydown', {
+        expect(getSearchResultItems().item(1)).toHaveCssClass('selected');
+
+        SkyAppTestUtility.fireDomEvent(inputElement, 'keydown', {
           keyboardEventInit: { key: 'ArrowUp' }
         });
+        fixture.detectChanges();
         tick();
 
-        expect(spy)
-          .toHaveBeenCalledWith(SkyDropdownMessageType.FocusPreviousItem);
-        expect(spy)
-          .toHaveBeenCalledWith(SkyDropdownMessageType.FocusNextItem);
+        expect(getSearchResultItems().item(0)).toHaveCssClass('selected');
+
+        // Move up again to loop back to the bottom of the list.
+        SkyAppTestUtility.fireDomEvent(inputElement, 'keydown', {
+          keyboardEventInit: { key: 'Up' }
+        });
+        fixture.detectChanges();
+        tick();
+
+        expect(getSearchResultItems().item(5)).toHaveCssClass('selected');
+
+        // Move down to loop back to the top.
+        SkyAppTestUtility.fireDomEvent(inputElement, 'keydown', {
+          keyboardEventInit: { key: 'Down' }
+        });
+        fixture.detectChanges();
+        tick();
+
+        expect(getSearchResultItems().item(0)).toHaveCssClass('selected');
+
       }));
-
-      it('should trigger a new search when the down arrow key is pressed',
-        fakeAsync(() => {
-          fixture.detectChanges();
-
-          const spy = spyOn(autocomplete, 'search').and.callThrough();
-
-          inputElement.value = 'r';
-          SkyAppTestUtility.fireDomEvent(inputElement, 'keyup');
-          tick();
-
-          expect(spy.calls.argsFor(0)[0]).toEqual('r');
-
-          spy.calls.reset();
-          autocomplete['_searchResults'] = [];
-          fixture.detectChanges();
-
-          const autocompleteElement = getAutocompleteElement();
-          SkyAppTestUtility.fireDomEvent(autocompleteElement, 'keydown', {
-            keyboardEventInit: { key: 'ArrowDown' }
-          });
-          tick();
-
-          expect(spy.calls.argsFor(0)[0]).toEqual('r');
-        })
-      );
 
       it('should close the menu when escape key pressed', fakeAsync(() => {
         fixture.detectChanges();
@@ -699,16 +669,14 @@ describe('Autocomplete component', () => {
         SkyAppTestUtility.fireDomEvent(inputElement, 'keyup');
         tick();
 
-        const spy = spyOn(autocomplete as any, 'sendDropdownMessage').and.callThrough();
-        const autocompleteElement = getAutocompleteElement();
-
-        SkyAppTestUtility.fireDomEvent(autocompleteElement, 'keydown', {
+        SkyAppTestUtility.fireDomEvent(inputElement, 'keydown', {
           keyboardEventInit: { key: 'Escape' }
         });
+        fixture.detectChanges();
         tick();
 
-        expect(spy).toHaveBeenCalledWith(SkyDropdownMessageType.Close);
         expect(autocomplete.searchResults.length).toEqual(0);
+        expect(getSearchResultsContainer()).toBeNull();
       }));
 
       it('should reset input text value to descriptor value on blur',
@@ -813,57 +781,18 @@ describe('Autocomplete component', () => {
         tick();
         fixture.detectChanges();
 
-        const messageSpy = spyOn(autocomplete as any, 'sendDropdownMessage')
-          .and.callThrough();
         const notifySpy = spyOn(autocomplete.selectionChange, 'emit')
           .and.callThrough();
-        const firstItem = getAutocompleteElement()
-          .querySelector('.sky-dropdown-item') as HTMLElement;
+        const firstItem = getSearchResultItems().item(0);
 
-        firstItem.querySelector('button').click();
+        SkyAppTestUtility.fireDomEvent(firstItem, 'mousedown');
         tick();
 
         expect(input.value.name).toEqual('Red');
-        expect(messageSpy).toHaveBeenCalledWith(SkyDropdownMessageType.Close);
         expect(notifySpy).toHaveBeenCalledWith({
           selectedItem: input.value
         });
       }));
-
-      it('should not close the dropdown during input blur if mouseenter',
-        fakeAsync(() => {
-          fixture.detectChanges();
-
-          inputElement.value = 'r';
-          SkyAppTestUtility.fireDomEvent(inputElement, 'keyup');
-          tick();
-          fixture.detectChanges();
-          tick();
-
-          const spy = spyOn(autocomplete as any, 'sendDropdownMessage').and.callThrough();
-
-          SkyAppTestUtility.fireDomEvent(inputElement, 'mouseenter');
-          tick();
-          fixture.detectChanges();
-          tick();
-
-          input.blur.emit();
-          tick();
-
-          expect(spy).not.toHaveBeenCalled();
-          spy.calls.reset();
-
-          SkyAppTestUtility.fireDomEvent(inputElement, 'mouseleave');
-          tick();
-          fixture.detectChanges();
-          tick();
-
-          input.blur.emit();
-          tick();
-
-          expect(spy).toHaveBeenCalled();
-        })
-      );
     });
 
     describe('Angular form statuses (template-driven)', () => {

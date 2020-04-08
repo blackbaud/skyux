@@ -51,7 +51,7 @@ describe('Country Field Component', () => {
   }
 
   function getAutocompleteElement(): HTMLElement {
-    return document.querySelector('sky-autocomplete') as HTMLElement;
+    return document.querySelector('.sky-autocomplete-results') as HTMLElement;
   }
 
   function getInputElement(): HTMLTextAreaElement {
@@ -62,17 +62,17 @@ describe('Country Field Component', () => {
     const inputElement = getInputElement();
 
     enterSearch(newValue, fixture);
-    const searchResults = getAutocompleteElement().querySelectorAll('.sky-dropdown-item') as NodeListOf<HTMLElement>;
+    const searchResults = getAutocompleteElement().querySelectorAll('.sky-autocomplete-result');
 
     // Note: the ordering of these events is important!
     SkyAppTestUtility.fireDomEvent(inputElement, 'change');
-    searchResults[index].querySelector('button').click();
+    SkyAppTestUtility.fireDomEvent(searchResults[index], 'mousedown');
     blurInput(fixture);
   }
 
   function searchAndGetResults(newValue: string, fixture: ComponentFixture<any>): NodeListOf<HTMLElement> {
     enterSearch(newValue, fixture);
-    return getAutocompleteElement().querySelectorAll('.sky-dropdown-item') as NodeListOf<HTMLElement>;
+    return getAutocompleteElement().querySelectorAll('.sky-autocomplete-result');
   }
 
   describe('template form', () => {
@@ -782,11 +782,11 @@ describe('Country Field Component', () => {
             fixture.detectChanges();
             fixture.whenStable().then(() => {
 
-              const searchResults = getAutocompleteElement().querySelectorAll('.sky-dropdown-item') as NodeListOf<HTMLElement>;
+              const searchResults = getAutocompleteElement().querySelectorAll('.sky-autocomplete-result') as NodeListOf<HTMLElement>;
 
               // Note: the ordering of these events is important!
               SkyAppTestUtility.fireDomEvent(inputElement, 'change');
-              searchResults[0].querySelector('button').click();
+              SkyAppTestUtility.fireDomEvent(searchResults[0], 'mousedown');
               SkyAppTestUtility.fireDomEvent(getInputElement(), 'blur');
 
               fixture.detectChanges();

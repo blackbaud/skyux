@@ -217,6 +217,7 @@ export class SkyCountryFieldComponent implements ControlValueAccessor, OnDestroy
       .classList
       .contains('sky-phone-field-country-search');
 
+    /* istanbul ignore else */
     if (!this.isInPhoneField) {
       /**
        * The library we get the country data from includes extra phone properties.

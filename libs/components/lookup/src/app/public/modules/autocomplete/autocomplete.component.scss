@@ -1,14 +1,32 @@
-.sky-autocomplete {
-  position: relative;
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
 
-  ::ng-deep .sky-dropdown-button {
-    visibility: hidden;
-    overflow: hidden;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+.sky-autocomplete-results {
+  position: fixed;
+  background-color: $sky-color-white;
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 35px;
+  max-height: -webkit-calc(50vh - 50px);
+  max-height:    -moz-calc(50vh - 50px);
+  max-height:         calc(50vh - 50px);
+}
+
+.sky-autocomplete-result {
+  color: $sky-text-color-default;
+  margin-bottom: 4px;
+  padding: 3px $sky-padding-double;
+  cursor: pointer;
+
+  &.selected,
+  &:hover {
+    background-color: $sky-background-color-neutral-light;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
   }
 }

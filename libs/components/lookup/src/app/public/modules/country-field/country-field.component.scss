@@ -8,17 +8,11 @@
 
 .sky-country-field-container {
   width: 100%;
+}
 
-  ::ng-deep .sky-dropdown-item .iti-flag {
-    display: inline-block;
-    margin-right: $sky-margin-half;
-  }
-
-  ::ng-deep .sky-dropdown-button-content-container {
-    height: 100%;
-    margin: auto 0;
-    overflow: visible;
-  }
+.sky-country-field-search-result-flag {
+  display: inline-block;
+  margin-right: $sky-margin-half;
 }
 
 .sky-country-field-disabled {
