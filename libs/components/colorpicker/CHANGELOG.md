@@ -1,3 +1,7 @@
+# 3.3.0 (2020-04-08)
+
+- Updated the colorpicker component to implement the affix and overlay services. [#35](https://github.com/blackbaud/skyux-colorpicker/pull/35)
+
 # 3.2.1 (2020-02-13)
 
 - Fixed the colorpicker component to use the `Renderer2` service instead of the deprecated `Renderer` service. [#50](https://github.com/blackbaud/skyux-lookup/pull/50)
