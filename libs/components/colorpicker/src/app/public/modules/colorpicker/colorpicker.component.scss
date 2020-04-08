@@ -1,43 +1,16 @@
 @import "~@skyux/theme/scss/mixins";
 @import "~@skyux/theme/scss/_compat/mixins";
 
-:host-context(sky-colorpicker) {
-  ::ng-deep .sky-dropdown-button {
-    z-index: 1;
-    border-color: transparent;
-    height: 30px;
-    width: 30px;
-    color: transparent;
-    background-color: transparent;
-  }
-
-  ::ng-deep sky-dropdown {
-    position: absolute;
-    left: 0;
-  }
-
-  ::ng-deep .sky-dropdown-menu {
-    display: inherit;
-    flex-direction: initial;
-  }
-
-  // Overwrite popover's scrollbar and max-height behavior.
-  ::ng-deep .sky-popover {
-    overflow: visible !important;
-    max-height: 100% !important;
-  }
+.sky-colorpicker-container {
+  position: fixed;
 }
 
-:host-context(sky-colorpicker) ::ng-deep .sky-colorpicker-input {
+.sky-colorpicker-button {
   background-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2230%22%20height%3D%2230%22%20viewBox%3D%220%200%2030%2030%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E%3Cdefs%3E%3Cpath%20id%3D%22a%22%20d%3D%22M0%200h30v30H0V0zm14.5%204H4v22h14v-8h8V4H14.5z%22%2F%3E%3C%2Fdefs%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cuse%20fill%3D%22%23FFF%22%20xlink%3Ahref%3D%22%23a%22%2F%3E%3Cpath%20stroke%3D%22%23CCC%22%20d%3D%22M.5.5v29h29V.5H.5zm18%2018v8h-15v-23h23v15h-8z%22%2F%3E%3Cpath%20fill%3D%22%23292A2B%22%20d%3D%22M23.5%2025L21%2022h5%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E');
   width: 30px;
   height: 30px;
-  background-repeat: 20px;
-  border: none;
-  pointer-events: none;
-  z-index: 1;
-  flex: none;
-  color: transparent;
+  border: 0;
+  cursor: pointer;
 }
 
 .sky-colorpicker-reset-button::before {
@@ -58,12 +31,6 @@
   &:hover {
     color: darken($sky-text-color-deemphasized, 20%);
   }
-}
-
-.sky-colorpicker-hidden {
-  width: 0px;
-  height: 0px;
-  overflow: hidden;
 }
 
 .sky-colorpicker-footer {

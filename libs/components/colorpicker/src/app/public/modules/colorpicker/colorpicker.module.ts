@@ -7,8 +7,11 @@ import {
 } from '@angular/common';
 
 import {
-  SkyDropdownModule
-} from '@skyux/popovers';
+  SkyAffixModule,
+  SkyCoreAdapterModule,
+  SkyOverlayModule
+} from '@skyux/core';
+
 import {
   SkyI18nModule
 } from '@skyux/i18n';
@@ -42,9 +45,11 @@ import {
   ],
   imports: [
     CommonModule,
+    SkyAffixModule,
     SkyColorpickerResourcesModule,
+    SkyCoreAdapterModule,
     SkyI18nModule,
-    SkyDropdownModule
+    SkyOverlayModule
   ],
   exports: [
     SkyColorpickerComponent,

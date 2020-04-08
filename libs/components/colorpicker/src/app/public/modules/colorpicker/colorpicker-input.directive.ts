@@ -165,9 +165,9 @@ export class SkyColorpickerInputDirective
 
     const typeAttr = element.getAttribute('type');
     if (typeAttr && typeAttr === 'hidden') {
-      this.skyColorpickerInput.isVisible = false;
+      this.skyColorpickerInput.enablePicker = false;
     } else {
-      this.skyColorpickerInput.isVisible = true;
+      this.skyColorpickerInput.enablePicker = true;
     }
 
     element.setAttribute('readonly', 'true');
