@@ -1,3 +1,7 @@
+# 3.4.1 (2020-04-09)
+
+- Fixed the **package.json** `peerDependencies` to require a minimum of `^@skyux/core@3.4.2`. [#76](https://github.com/blackbaud/skyux-lookup/pull/76) (Thanks [@jeffbdye](https://github.com/jeffbdye)!)
+
 # 3.4.0 (2020-04-08)
 
 - Updated the autocomplete and lookup components to implement the affix and overlay services. [#74](https://github.com/blackbaud/skyux-lookup/pull/74)
