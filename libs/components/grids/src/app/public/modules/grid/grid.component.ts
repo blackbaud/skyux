@@ -708,6 +708,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
         break;
       case SkyGridMessageType.PromptDeleteRow:
         /* sanity check */
+        /* istanbul ignore else */
         if (message.data && message.data.promptDeleteRow) {
           const existingConfig = this.rowDeleteConfigs
             .find(config => config.id === message.data.promptDeleteRow.id);
@@ -720,6 +721,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
         break;
       case SkyGridMessageType.AbortDeleteRow:
         /* sanity check */
+        /* istanbul ignore else */
         if (message.data && message.data.abortDeleteRow) {
           this.rowDeleteConfigs = this.rowDeleteConfigs.filter(config => config.id !== message.data.abortDeleteRow.id);
         }

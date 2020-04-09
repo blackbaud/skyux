@@ -566,7 +566,10 @@ describe('Grid Component', () => {
         expect(header4.nativeElement.querySelector('sky-help-inline')).not.toBeNull();
       });
 
-      it('should handle different inlineHelpPopover content for different columns', fakeAsync(() => {
+      it('should handle different inlineHelpPopover content for different columns', async(() => {
+        fixture.detectChanges();
+        fixture.detectChanges();
+
         const header1 = getColumnHeader('column1', element);
         const header4 = getColumnHeader('column4', element);
         const inlineHelp1 = header1.nativeElement.querySelector('sky-help-inline');
@@ -574,26 +577,31 @@ describe('Grid Component', () => {
 
         // Open column 1 help popup.
         inlineHelp1.click();
-        tick();
-        fixture.detectChanges();
-        tick();
-        fixture.detectChanges();
-        let popupContent = element.nativeElement.querySelector('.sky-popover-body');
 
-        // Expect column 1 popup to contain column 1 content.
-        expect(popupContent.innerHTML.trim()).toEqual('Help content for column 1.');
-
-        // Open column 4 help popup.
-        popupContent.parentNode.removeChild(popupContent);
-        inlineHelp4.click();
-        tick();
         fixture.detectChanges();
-        tick();
-        fixture.detectChanges();
-        popupContent = element.nativeElement.querySelector('.sky-popover-body');
 
-        // Expect column 4 popup to contain column 4 content.
-        expect(popupContent.innerHTML.trim()).toEqual('Help content for column 4.');
+        fixture.whenStable().then(() => {
+          fixture.detectChanges();
+
+          let popupContent = document.querySelector('.sky-popover-body');
+
+          // Expect column 1 popup to contain column 1 content.
+          expect(popupContent.textContent.trim()).toEqual('Help content for column 1.');
+
+          // Open column 4 help popup.
+          popupContent.parentNode.removeChild(popupContent);
+          inlineHelp4.click();
+
+          fixture.detectChanges();
+
+          fixture.whenStable().then(() => {
+            fixture.detectChanges();
+            popupContent = document.querySelector('.sky-popover-body');
+
+            // Expect column 4 popup to contain column 4 content.
+            expect(popupContent.textContent.trim()).toEqual('Help content for column 4.');
+          });
+        });
       }));
 
       it('should pass accessibility', async(() => {

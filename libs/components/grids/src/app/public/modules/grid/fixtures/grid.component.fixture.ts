@@ -207,8 +207,9 @@ export class GridTestComponent {
       id: '8',
       column1: 'Some long text that would provoke an overflow of monster proportions!',
       column2: 'Some long text that would provoke an overflow of monster proportions!',
-      column3: 21,
-      column4: moment().add(7, 'minute'),
+      column3: 'Some long text that would provoke an overflow of monster proportions!',
+      column4: 21,
+      column5: moment().add(7, 'minute'),
       customId: '107'
     }];
   }
