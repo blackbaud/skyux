@@ -1,3 +1,7 @@
+# 3.14.2 (2020-04-09)
+
+- Fixed the overlay service to remove overlay component DOM nodes during unit tests. [#156](https://github.com/blackbaud/skyux-core/pull/156)
+
 # 3.14.1 (2020-04-06)
 
 - Fixed the overlay component to appear above modal components. [#153](https://github.com/blackbaud/skyux-core/pull/153)
