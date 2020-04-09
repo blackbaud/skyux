@@ -1,11 +1,11 @@
 import {
+  ApplicationRef,
+  ComponentFactoryResolver,
   ComponentRef,
-  Injectable
+  EmbeddedViewRef,
+  Injectable,
+  Injector
 } from '@angular/core';
-
-import {
-  SkyDynamicComponentService
-} from '../dynamic-component';
 
 import {
   SkyOverlayAdapterService
@@ -16,12 +16,16 @@ import {
 } from './overlay-config';
 
 import {
-  SkyOverlayHostComponent
-} from './overlay-host.component';
+  SkyOverlayContext
+} from './overlay-context';
 
 import {
   SkyOverlayInstance
 } from './overlay-instance';
+
+import {
+  SkyOverlayComponent
+} from './overlay.component';
 
 /**
  * This service is used to create new overlays.
@@ -30,12 +34,12 @@ import {
 @Injectable()
 export class SkyOverlayService {
 
-  private static host: ComponentRef<SkyOverlayHostComponent>;
-
   private static overlays: SkyOverlayInstance[] = [];
 
   constructor(
-    private dynamicComponentService: SkyDynamicComponentService,
+    private applicationRef: ApplicationRef,
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private injector: Injector,
     private adapter: SkyOverlayAdapterService
   ) { }
 
@@ -44,18 +48,13 @@ export class SkyOverlayService {
    * @param config Configuration for the overlay.
    */
   public create(config?: SkyOverlayConfig): SkyOverlayInstance {
-
-    if (!SkyOverlayService.host) {
-      this.createHostComponent();
-    }
-
     const settings = this.prepareConfig(config);
 
     if (settings.enableScroll === false) {
       this.adapter.restrictBodyScroll();
     }
 
-    const componentRef = SkyOverlayService.host.instance.createOverlay(settings);
+    const componentRef = this.createOverlay(settings);
     const instance = new SkyOverlayInstance(
       settings,
       componentRef
@@ -80,10 +79,19 @@ export class SkyOverlayService {
    */
   public close(instance: SkyOverlayInstance): void {
     this.destroyOverlay(instance);
+    this.applicationRef.detachView(instance.componentRef.hostView);
     instance.componentRef.destroy();
 
-    if (SkyOverlayService.overlays.length === 0) {
-      this.removeHostComponent();
+    // In some cases, Angular keeps dynamically-generated component's nodes in the DOM during
+    // unit tests. This can make querying difficult because the older DOM nodes still exist and
+    // produce inconsistent results.
+    // Angular Material's overlay appears to do the same thing:
+    // https://github.com/angular/components/blob/master/src/cdk/portal/dom-portal-outlet.ts#L143-L145
+    // (Ignoring coverage since this branch will only be hit by consumer unit tests.)
+    const componentElement = instance.componentRef.location.nativeElement;
+    /* istanbul ignore if */
+    if (componentElement.parentNode !== null) {
+      componentElement.parentNode.removeChild(componentElement);
     }
   }
 
@@ -98,13 +106,27 @@ export class SkyOverlayService {
     }
   }
 
-  private createHostComponent(): void {
-    SkyOverlayService.host = this.dynamicComponentService.createComponent(SkyOverlayHostComponent);
-  }
+  private createOverlay(config?: SkyOverlayConfig): ComponentRef<SkyOverlayComponent> {
+    const injector = Injector.create({
+      parent: this.injector,
+      providers: [{
+        provide: SkyOverlayContext,
+        useValue: new SkyOverlayContext(config)
+      }]
+    });
 
-  private removeHostComponent(): void {
-    this.dynamicComponentService.removeComponent(SkyOverlayService.host);
-    SkyOverlayService.host = undefined;
+    const componentRef = this.componentFactoryResolver
+      .resolveComponentFactory(SkyOverlayComponent)
+      .create(injector);
+
+    this.applicationRef.attachView(componentRef.hostView);
+
+    const domElem = (componentRef.hostView as EmbeddedViewRef<any>)
+      .rootNodes[0] as HTMLElement;
+
+    document.body.appendChild(domElem);
+
+    return componentRef;
   }
 
   private prepareConfig(config: SkyOverlayConfig): SkyOverlayConfig {

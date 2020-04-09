@@ -374,22 +374,6 @@ describe('Overlay service', () => {
 
   }));
 
-  it('should remove the host component if all overlays destroyed', fakeAsync(() => {
-    createOverlay();
-    createOverlay();
-
-    let hostComponents = document.querySelectorAll('sky-overlay-host');
-
-    expect(hostComponents.length).toEqual(1);
-
-    service.closeAll();
-    fixture.detectChanges();
-    tick();
-
-    hostComponents = document.querySelectorAll('sky-overlay-host');
-    expect(hostComponents.length).toEqual(0);
-  }));
-
   it('should emit when overlay is closed by the instance (deprecated)', fakeAsync(() => {
     const instance = createOverlay();
     const closedSpy = spyOn(instance['_closed'], 'next').and.callThrough();

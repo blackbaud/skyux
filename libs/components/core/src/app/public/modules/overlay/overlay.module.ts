@@ -15,20 +15,12 @@ import {
 } from '../adapter-service/adapter.module';
 
 import {
-  SkyDynamicComponentModule
-} from '../dynamic-component/dynamic-component.module';
-
-import {
   SkyAppWindowRef
 } from '../window/window-ref';
 
 import {
   SkyOverlayAdapterService
 } from './overlay-adapter.service';
-
-import {
-  SkyOverlayHostComponent
-} from './overlay-host.component';
 
 import {
   SkyOverlayComponent
@@ -42,16 +34,13 @@ import {
   imports: [
     CommonModule,
     RouterModule,
-    SkyCoreAdapterModule,
-    SkyDynamicComponentModule
+    SkyCoreAdapterModule
   ],
   declarations: [
-    SkyOverlayComponent,
-    SkyOverlayHostComponent
+    SkyOverlayComponent
   ],
   entryComponents: [
-    SkyOverlayComponent,
-    SkyOverlayHostComponent
+    SkyOverlayComponent
   ],
   providers: [
     SkyAppWindowRef,
