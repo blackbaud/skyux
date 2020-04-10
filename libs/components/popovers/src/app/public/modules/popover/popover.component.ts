@@ -144,9 +144,6 @@ export class SkyPopoverComponent implements OnDestroy {
 
   private contentRef: SkyPopoverContentComponent;
 
-  /**
-   * @deprecated The trigger type `mouseenter` will be removed in the next major version.
-   */
   private isMarkedForCloseOnMouseLeave: boolean = false;
 
   private ngUnsubscribe = new Subject<void>();
@@ -229,7 +226,6 @@ export class SkyPopoverComponent implements OnDestroy {
   /**
    * Adds a flag to the popover to close when the mouse leaves the popover's bounds.
    * @internal
-   * @deprecated The trigger type `mouseenter` will be removed in the next major version.
    */
   public markForCloseOnMouseLeave(): void {
     this.isMarkedForCloseOnMouseLeave = true;
