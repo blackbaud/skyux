@@ -12,8 +12,7 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  SkyAffixService,
-  SkyOverlayService
+  SkyAffixService
 } from '@skyux/core';
 
 import {
@@ -80,14 +79,6 @@ describe('Popover directive', () => {
 
     fixture = TestBed.createComponent(PopoverFixtureComponent);
   });
-
-  afterEach(inject(
-    [SkyOverlayService], (overlayService: SkyOverlayService) => {
-      overlayService.closeAll();
-      fixture.detectChanges();
-      fixture.destroy();
-    }
-  ));
 
   it('should set defaults', fakeAsync(() => {
     detectChangesFakeAsync();

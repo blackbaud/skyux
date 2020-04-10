@@ -121,10 +121,6 @@ describe('Dropdown component', function () {
     fixture = TestBed.createComponent(DropdownFixtureComponent);
   });
 
-  afterEach(() => {
-    fixture.destroy();
-  });
-
   it('should set defaults', fakeAsync(() => {
     detectChangesFakeAsync();
 
