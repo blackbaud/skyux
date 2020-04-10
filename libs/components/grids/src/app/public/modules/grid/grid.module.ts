@@ -12,7 +12,7 @@ import {
 
 import {
   DragulaModule
-} from 'ng2-dragula/ng2-dragula';
+} from 'ng2-dragula';
 
 import {
   SkyAppWindowRef,

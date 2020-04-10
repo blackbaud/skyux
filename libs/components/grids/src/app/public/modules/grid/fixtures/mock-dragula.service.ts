@@ -1,4 +1,6 @@
-import { DragulaService } from 'ng2-dragula/ng2-dragula';
+import {
+  DragulaService
+} from 'ng2-dragula';
 
 export class MockDragulaService extends DragulaService {
   public add() { }

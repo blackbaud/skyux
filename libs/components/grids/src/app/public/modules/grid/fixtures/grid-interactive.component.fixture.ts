@@ -20,7 +20,7 @@ import {
   SkyGridSelectedRowsModelChange
 } from '../types';
 
-const moment = require('moment');
+import * as moment from 'moment';
 
 @Component({
   selector: 'sky-test-cmp',

@@ -44,6 +44,7 @@
             [id]="'sky-grid-' + gridId + '-column-' + i"
             [style.max-width.px]="column.width"
             [style.width.px]="column.width"
+            [tabIndex]="column.isSortable ? 0 : -1"
             (mouseup)="sortByColumn(column)"
             (keydown)="onKeydown($event, column)"
             (touchmove)="onTouchMove($event)"
@@ -52,7 +53,6 @@
             <div
               class="overflow"
               [ngClass]="getTableHeaderClassNames(column)"
-              [tabIndex]="column.isSortable ? 0 : -1"
               [style.max-width.px]="column.width - 1"
               [style.width.px]="column.width - 1"
             >
@@ -79,7 +79,6 @@
               *ngIf="(fit==='width' && !last) || (fit==='scroll')"
               aria-hidden="true"
               class="sky-grid-resize-handle"
-              role="separator"
               tabindex="-1"
               [attr.sky-cmp-index]="i"
               (mousedown)="onResizeColumnStart($event)"
@@ -89,7 +88,6 @@
             <input
               aria-label="Width of column"
               class="sky-grid-column-input-aria-only"
-              role="separator"
               type="range"
               [attr.aria-controls]="'sky-grid-' + gridId + '-column-' + i"
               [attr.aria-valuemin]="minColWidth"
@@ -166,7 +164,6 @@
       *ngIf="showResizeBar"
       aria-hidden="true"
       id="sky-grid-resize-bar"
-      role="separator"
       tabindex="-1"
       #resizeBar>
     </div>

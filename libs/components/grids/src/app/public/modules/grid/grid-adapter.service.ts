@@ -7,7 +7,7 @@ import {
 
 import {
   DragulaService
-} from 'ng2-dragula/ng2-dragula';
+} from 'ng2-dragula';
 
 const GRID_HEADER_DRAGGING_CLASS = 'sky-grid-header-dragging';
 const GRID_HEADER_LOCKED_SELECTOR = '.sky-grid-header-locked';

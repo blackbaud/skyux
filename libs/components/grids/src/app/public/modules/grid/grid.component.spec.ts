@@ -26,7 +26,7 @@ import {
 
 import {
   DragulaService
-} from 'ng2-dragula/ng2-dragula';
+} from 'ng2-dragula';
 
 import {
   Observable
@@ -78,7 +78,7 @@ import {
   SkyGridSelectedRowsSource
 } from './types';
 
-const moment = require('moment');
+import * as moment from 'moment';
 
 //#region helpers
 function getColumnHeader(id: string, element: DebugElement): DebugElement {
@@ -169,13 +169,20 @@ function resizeColumnWithTouch(fixture: ComponentFixture<any>, deltaX: number, c
   resizeHandles[columnIndex].triggerEventHandler('touchstart', event);
   fixture.detectChanges();
 
-  let evt = document.createEvent('UIEvent');
-  evt.initUIEvent('touchmove', false, false, window, axis.x + deltaX);
-  document.dispatchEvent(evt);
+  SkyAppTestUtility.fireDomEvent(document, 'touchmove', {
+    customEventInit: {
+      pageX: axis.x + deltaX
+    }
+  });
+
   fixture.detectChanges();
-  evt = document.createEvent('UIEvent');
-  evt.initUIEvent('touchend', false, false, window, axis.x + deltaX);
-  document.dispatchEvent(evt);
+
+  SkyAppTestUtility.fireDomEvent(document, 'touchend', {
+    customEventInit: {
+      pageX: axis.x + deltaX
+    }
+  });
+
   fixture.detectChanges();
 }
 
@@ -446,19 +453,9 @@ describe('Grid Component', () => {
       });
 
       it('should change displayed headers and data when selected columnids change and emit the change event', async(() => {
-        component.grid.selectedColumnIdsChange.subscribe((newSelectedColumnIds: string[]) => {
-          expect(newSelectedColumnIds).toEqual([
-            'column1',
-            'column2',
-            'column3',
-            'column4',
-            'column5',
-            'hiddenCol1',
-            'hiddenCol2'
-          ]);
-        });
+        fixture.detectChanges();
 
-        component.selectedColumnIds = [
+        const selectedColumnIds = [
           'column1',
           'column2',
           'column3',
@@ -467,7 +464,23 @@ describe('Grid Component', () => {
           'hiddenCol1',
           'hiddenCol2'
         ];
+
+        const changeSpy = spyOn(component.grid.selectedColumnIdsChange, 'emit').and.callThrough();
+
+        component.selectedColumnIds = selectedColumnIds;
         fixture.detectChanges();
+
+        expect(changeSpy.calls.count()).toEqual(1);
+        expect(changeSpy).toHaveBeenCalledWith(selectedColumnIds);
+        changeSpy.calls.reset();
+
+        component.selectedColumnIds = [...selectedColumnIds];
+        fixture.detectChanges();
+
+        expect(changeSpy.calls.count()).toEqual(
+          0,
+          'Setting selectedColumnIds with the same value should not emit changes.'
+        );
 
         verifyHeaders(true);
         verifyData(false, true);

@@ -53,7 +53,7 @@ import 'rxjs/add/observable/fromEvent';
 
 import {
   DragulaService
-} from 'ng2-dragula/ng2-dragula';
+} from 'ng2-dragula';
 
 import {
   SkyAppWindowRef
@@ -153,32 +153,34 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
   public width: number;
 
   @Input()
-  public set selectedColumnIds(newIds: Array<string>) {
-    const oldIds = this._selectedColumnIds;
-    this._selectedColumnIds = newIds;
+  public set selectedColumnIds(value: Array<string>) {
+
+    const currentIds = this._selectedColumnIds;
+    this._selectedColumnIds = value;
 
     if (this.columns) {
       this.setDisplayedColumns();
     }
 
-    // Ensure that the ids have changed. The two null checks ensure that we short circuit and don't
-    // run the array equality check if it isn't needed due to one of the two values being undefined
-    if (!oldIds || !this._selectedColumnIds ||
-      !(this.arraysEqual(this._selectedColumnIds, oldIds))) {
-
+    // Ensure that the ids have changed.
+    if (
+      !currentIds ||
+      !value ||
+      !this.arraysEqual(value, currentIds)
+    ) {
       // This variable ensures that we do not set user config options or fire the change event
       // on the first time that the columns are set up
       if (this.selectedColumnIdsSet) {
         this.setUserConfig({
-          selectedColumnIds: newIds
+          selectedColumnIds: value
         });
+
         this.selectedColumnIdsChange.emit(this._selectedColumnIds);
 
         if (this.isResized) {
           this.resetTableWidth();
         }
       }
-
     }
 
     this.selectedColumnIdsSet = true;
@@ -857,7 +859,10 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
     this.columnElementRefs.forEach((col, index) => {
       let computedWidth = parseFloat(window.getComputedStyle(col.nativeElement).width);
       let offsetWidth = col.nativeElement.offsetWidth;
-      let width = Math.max(computedWidth || offsetWidth, this.minColWidth);
+      let width = Math.max(
+        computedWidth /* istanbul ignore next */ || offsetWidth,
+        this.minColWidth
+      );
       this.getColumnModelByIndex(index).width = width;
     });
 
@@ -1063,7 +1068,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
     });
   }
 
-  private arraysEqual(arrayA: any[], arrayB: any[]) {
+  private arraysEqual(arrayA: any[], arrayB: any[]): boolean {
     return arrayA.length === arrayB.length &&
       arrayA.every((value, index) =>
         value === arrayB[index]);
