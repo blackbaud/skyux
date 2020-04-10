@@ -268,8 +268,9 @@ describe('Dropdown component', function () {
     expect(menu.scrollHeight > menu.clientHeight).toEqual(true);
   }));
 
-  it('should emit when a menu item is selected', fakeAsync(() => {
+  it('should emit when a menu item is clicked', fakeAsync(() => {
     const menuChangesSpy = spyOn(fixture.componentInstance, 'onMenuChanges').and.callThrough();
+    const itemClickSpy = spyOn(fixture.componentInstance, 'onItemClick').and.callThrough();
     detectChangesFakeAsync();
 
     const button = getButtonElement();
@@ -290,6 +291,7 @@ describe('Dropdown component', function () {
 
     expect(menuChangesSpy).toHaveBeenCalledWith({ activeIndex: buttonIndex });
     expect(menuChangesSpy).toHaveBeenCalledWith({ selectedItem });
+    expect(itemClickSpy).toHaveBeenCalledWith(fixture.componentInstance.items[buttonIndex].name);
   }));
 
   describe('mouse interactions', function () {
@@ -920,72 +922,6 @@ describe('Dropdown component', function () {
 
       expect(container).toBeNull();
     }));
-
-    it('should select a menu item with the space bar', fakeAsync(() => {
-      detectChangesFakeAsync();
-
-      const button = getButtonElement();
-
-      SkyAppTestUtility.fireDomEvent(button, 'keydown', {
-        keyboardEventInit: {
-          key: 'down'
-        }
-      });
-
-      detectChangesFakeAsync();
-
-      let container = getMenuContainerElement();
-
-      expect(isElementVisible(container)).toEqual(true);
-
-      const menuItems = getMenuItems();
-      const menuSpy = spyOn(fixture.componentInstance, 'onMenuChanges').and.callThrough();
-
-      SkyAppTestUtility.fireDomEvent(menuItems.item(0), 'keydown', {
-        keyboardEventInit: {
-          key: ' '
-        }
-      });
-
-      detectChangesFakeAsync();
-
-      expect(menuSpy).toHaveBeenCalledWith({
-        selectedItem: fixture.componentInstance.dropdownItemRefs.first
-      });
-    }));
-
-    it('should select a menu item with the enter key', fakeAsync(() => {
-      detectChangesFakeAsync();
-
-      const button = getButtonElement();
-
-      SkyAppTestUtility.fireDomEvent(button, 'keydown', {
-        keyboardEventInit: {
-          key: 'down'
-        }
-      });
-
-      detectChangesFakeAsync();
-
-      let container = getMenuContainerElement();
-
-      expect(isElementVisible(container)).toEqual(true);
-
-      const menuItems = getMenuItems();
-      const menuSpy = spyOn(fixture.componentInstance, 'onMenuChanges').and.callThrough();
-
-      SkyAppTestUtility.fireDomEvent(menuItems.item(0), 'keydown', {
-        keyboardEventInit: {
-          key: 'enter'
-        }
-      });
-
-      detectChangesFakeAsync();
-
-      expect(menuSpy).toHaveBeenCalledWith({
-        selectedItem: fixture.componentInstance.dropdownItemRefs.first
-      });
-    }));
   });
 
   describe('message stream', function () {
@@ -1085,36 +1021,33 @@ describe('Dropdown component', function () {
       // The affixing method should be called now.
       expect(affixSpy).toHaveBeenCalled();
     }));
-  });
 
-  describe('focus properties', () => {
-
-    it('should reflect the state of focus', fakeAsync(() => {
+    it('should focus the last item', fakeAsync(() => {
       detectChangesFakeAsync();
 
-      const button = getButtonElement();
-      button.click();
+      fixture.componentInstance.sendMessage(SkyDropdownMessageType.Open);
+      fixture.componentInstance.sendMessage(SkyDropdownMessageType.FocusLastItem);
+
       detectChangesFakeAsync();
 
-      const firstItemButton = getFirstMenuItem().querySelector('button');
+      const items = getMenuItems();
 
-      const dropdownRef = fixture.componentInstance.dropdownRef;
+      verifyActiveMenuItemByIndex(items.length - 1);
 
-      expect(dropdownRef.buttonIsFocused).toEqual(false);
-      expect(dropdownRef.menuIsFocused).toEqual(false);
+      expect(isMenuItemFocused(items.length - 1)).toEqual(true);
 
-      button.focus();
+      fixture.componentInstance.items = [];
+
       detectChangesFakeAsync();
 
-      expect(dropdownRef.buttonIsFocused).toEqual(true);
-      expect(dropdownRef.menuIsFocused).toEqual(false);
+      fixture.componentInstance.sendMessage(SkyDropdownMessageType.FocusLastItem);
 
-      // Move focus to first item.
-      firstItemButton.focus();
       detectChangesFakeAsync();
 
-      expect(dropdownRef.buttonIsFocused).toEqual(false);
-      expect(dropdownRef.menuIsFocused).toEqual(true);
+      expect(getMenuElement().contains(document.activeElement)).toEqual(
+        false,
+        'Requesting to focus the last item of an empty menu should not trigger focus within the menu container.'
+      );
     }));
   });
 

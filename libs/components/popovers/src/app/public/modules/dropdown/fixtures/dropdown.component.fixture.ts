@@ -106,6 +106,8 @@ export class DropdownFixtureComponent {
 
   public onMenuChanges(): void { }
 
+  public onItemClick(): void {}
+
   public changeItems() {
     this.items.pop();
     this.changeDetector.detectChanges();

@@ -395,6 +395,27 @@ describe('Popover directive', () => {
       // Menu should still be open.
       expect(isElementVisible(popover)).toEqual(true);
     }));
+
+    it('should handle undefined popover', fakeAsync(() => {
+      detectChangesFakeAsync();
+
+      fixture.componentInstance.skyPopover = undefined;
+
+      detectChangesFakeAsync();
+      detectChangesFakeAsync();
+
+      const button = getCallerElement();
+
+      button.click();
+      SkyAppTestUtility.fireDomEvent(button, 'mouseenter');
+      SkyAppTestUtility.fireDomEvent(button, 'mouseleave');
+
+      detectChangesFakeAsync();
+
+      const popover = getPopoverElement();
+
+      expect(popover).toBeNull();
+    }));
   });
 
   describe('keyboard interactions', function () {

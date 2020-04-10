@@ -20,10 +20,6 @@ import {
 } from '../shared/popovers-resources.module';
 
 import {
-  SkyDropdownAdapterService
-} from './dropdown-adapter.service';
-
-import {
   SkyDropdownButtonComponent
 } from './dropdown-button.component';
 
@@ -58,9 +54,6 @@ import {
     SkyDropdownComponent,
     SkyDropdownItemComponent,
     SkyDropdownMenuComponent
-  ],
-  providers: [
-    SkyDropdownAdapterService
   ]
 })
 export class SkyDropdownModule { }

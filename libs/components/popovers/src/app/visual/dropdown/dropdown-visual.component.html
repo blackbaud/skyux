@@ -83,7 +83,10 @@
     </sky-dropdown-button>
     <sky-dropdown-menu>
       <sky-dropdown-item *ngFor="let item of colors">
-        <button type="button">
+        <button
+          type="button"
+          (click)="onItemClick()"
+        >
           {{ item.name }}
         </button>
       </sky-dropdown-item>

@@ -30,6 +30,7 @@
       <button
         type="button"
         [attr.disabled]="item.disabled ? '' : null"
+        (click)="onItemClick(item.name)"
       >
         {{ item.name }}
       </button>

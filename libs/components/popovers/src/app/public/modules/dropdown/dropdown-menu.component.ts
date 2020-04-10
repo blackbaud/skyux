@@ -365,13 +365,6 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
             }
             this.sendMessage(SkyDropdownMessageType.FocusTriggerButton);
             break;
-
-          case ' ': // Spacebar.
-          case 'enter':
-            this.selectItemByEventTarget(event.target);
-            event.stopPropagation();
-            event.preventDefault();
-            break;
         }
       });
 

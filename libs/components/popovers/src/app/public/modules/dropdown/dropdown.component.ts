@@ -49,10 +49,6 @@ import {
 } from './types/dropdown-trigger-type';
 
 import {
-  SkyDropdownAdapterService
-} from './dropdown-adapter.service';
-
-import {
   parseAffixHorizontalAlignment
 } from './dropdown-extensions';
 
@@ -193,15 +189,6 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     return this._trigger || 'click';
   }
 
-  /**
-   * @internal
-   * Indicates if the dropdown button element or any of its children have focus.
-   * @deprecated This property will be removed in the next major version release.
-   */
-  public get buttonIsFocused(): boolean {
-    return this.adapter.elementHasFocus(this.triggerButton);
-  }
-
   public set isOpen(value: boolean) {
     this._isOpen = value;
     this.changeDetector.markForCheck();
@@ -209,15 +196,6 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
 
   public get isOpen(): boolean {
     return this._isOpen || false;
-  }
-
-  /**
-   * @internal
-   * Indicates if the dropdown button menu or any of its children have focus.
-   * @deprecated This property will be removed in the next major version release.
-   */
-  public get menuIsFocused(): boolean {
-    return this.adapter.elementHasFocus(this.menuContainerElementRef);
   }
 
   @ViewChild('menuContainerElementRef', {
@@ -277,7 +255,6 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   constructor(
     private changeDetector: ChangeDetectorRef,
     private affixService: SkyAffixService,
-    private adapter: SkyDropdownAdapterService,
     private overlayService: SkyOverlayService
   ) { }
 
@@ -323,32 +300,41 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
         /* tslint:disable-next-line:switch-default */
         switch (key) {
           case 'escape':
-            this.sendMessage(SkyDropdownMessageType.Close);
-            this.sendMessage(SkyDropdownMessageType.FocusTriggerButton);
+            /*istanbul ignore else*/
+            if (this.isOpen) {
+              this.sendMessage(SkyDropdownMessageType.Close);
+              this.sendMessage(SkyDropdownMessageType.FocusTriggerButton);
+              event.stopPropagation();
+            }
             break;
 
           case 'tab':
-            if (this.dismissOnBlur) {
+            if (this.isOpen && this.dismissOnBlur) {
               this.sendMessage(SkyDropdownMessageType.Close);
             }
             break;
 
           case 'arrowup':
           case 'up':
-            this.sendMessage(SkyDropdownMessageType.Open);
-            this.sendMessage(SkyDropdownMessageType.FocusLastItem);
-            event.preventDefault();
-            event.stopPropagation();
+            if (!this.isOpen) {
+              this.sendMessage(SkyDropdownMessageType.Open);
+              this.sendMessage(SkyDropdownMessageType.FocusLastItem);
+              event.preventDefault();
+              event.stopPropagation();
+            }
             break;
 
           case 'enter':
           case 'arrowdown':
           case 'down':
           case ' ': // Spacebar.
-            this.sendMessage(SkyDropdownMessageType.Open);
-            this.sendMessage(SkyDropdownMessageType.FocusFirstItem);
-            event.preventDefault();
-            event.stopPropagation();
+            /*istanbul ignore else*/
+            if (!this.isOpen) {
+              this.sendMessage(SkyDropdownMessageType.Open);
+              this.sendMessage(SkyDropdownMessageType.FocusFirstItem);
+              event.preventDefault();
+              event.stopPropagation();
+            }
             break;
         }
       });

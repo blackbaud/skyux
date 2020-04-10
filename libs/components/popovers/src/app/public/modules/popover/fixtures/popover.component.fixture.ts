@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   OnInit,
@@ -42,7 +43,7 @@ import {
   templateUrl: './popover.component.fixture.html',
   styleUrls: ['./popover.component.fixture.scss']
 })
-export class PopoverFixtureComponent implements OnInit {
+export class PopoverFixtureComponent implements OnInit, AfterViewInit {
 
   //#region directive properties
 
@@ -61,6 +62,8 @@ export class PopoverFixtureComponent implements OnInit {
   public popoverPlacement: SkyPopoverPlacement;
 
   public popoverTitle: string;
+
+  public skyPopover: SkyPopoverComponent;
 
   public trigger: SkyPopoverTrigger;
 
@@ -87,6 +90,13 @@ export class PopoverFixtureComponent implements OnInit {
 
   public ngOnInit(): void {
     this.popoverRef.enableAnimations = false;
+  }
+
+  public ngAfterViewInit(): void {
+    // Avoid expression changed after checked errors in unit tests.
+    setTimeout(() => {
+      this.skyPopover = this.popoverRef;
+    });
   }
 
   public onPopoverClosed(): void { }
