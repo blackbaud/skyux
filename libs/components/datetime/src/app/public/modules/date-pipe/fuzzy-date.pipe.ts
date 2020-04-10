@@ -39,6 +39,8 @@ export class SkyFuzzyDatePipe implements PipeTransform {
    * @param format Specifies the format to apply to the transform. You construct the format
    * string with a two or more tokens that specify the components of date-time value. The
    * tokens are described in the [moment.js values](https://momentjs.com/docs/#/displaying/).
+   * If you don't provide a format, `SkyFuzzyDatePipe` attempts to format fuzzy dates based
+   * on the browser's default locale.
    * @param locale Specifies the locale code to use in the transform.
    */
   public transform(
