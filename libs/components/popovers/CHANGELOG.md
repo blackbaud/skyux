@@ -1,3 +1,10 @@
+# 3.5.2 (2020-04-10)
+
+- Fixed the dropdown component to prevent propagation of the escape key when the dropdown menu is open. [#75](https://github.com/blackbaud/skyux-popovers/pull/75)
+- Fixed the dropdown component to properly handle the `click` event handler on dropdown menu items. [#75](https://github.com/blackbaud/skyux-popovers/pull/75)
+- Fixed the dropdown component to find a valid placement on initialization. [#76](https://github.com/blackbaud/skyux-popovers/pull/76)
+- Removed the deprecation message from the popover component's `skyPopoverTrigger` property. [#74](https://github.com/blackbaud/skyux-popovers/pull/74)
+
 # 3.5.1 (2020-04-08)
 
 - Added a deprecation message to the `SkyPopoverTrigger` type. [#63](https://github.com/blackbaud/skyux-popovers/pull/63)
