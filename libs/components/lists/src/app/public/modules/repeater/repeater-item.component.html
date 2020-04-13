@@ -71,6 +71,7 @@
     <div
       class="sky-repeater-item-context-menu"
       [hidden]="contextMenuEl.children.length === 0"
+      (keydown)="onContextMenuKeydown($event)"
       #contextMenuEl
     >
       <ng-content

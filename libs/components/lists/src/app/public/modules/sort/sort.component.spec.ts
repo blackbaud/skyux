@@ -20,6 +20,7 @@ import {
 
 describe('Sort component', () => {
   let fixture: ComponentFixture<SortTestComponent>;
+  let nativeElement: HTMLElement;
   let component: SortTestComponent;
 
   beforeEach(() => {
@@ -33,19 +34,23 @@ describe('Sort component', () => {
     });
 
     fixture = TestBed.createComponent(SortTestComponent);
+    nativeElement = fixture.nativeElement as HTMLElement;
     component = fixture.componentInstance;
   });
 
-  function getDropdownButtonEl(): HTMLElement {
-    return document.querySelector('.sky-dropdown-button');
+  function getDropdownButtonEl() {
+    let dropdownButtonQuery = '.sky-sort .sky-dropdown .sky-dropdown-button';
+    return nativeElement.querySelector(dropdownButtonQuery) as HTMLElement;
   }
 
-  function getDropdownMenuEl(): HTMLElement {
-    return document.querySelector('.sky-dropdown-menu');
+  function getDropdownMenuEl() {
+    let dropdownMenuQuery = '.sky-sort .sky-dropdown-menu';
+    return nativeElement.querySelector(dropdownMenuQuery) as HTMLElement;
   }
 
-  function getSortItems(): NodeListOf<HTMLElement> {
-    return document.querySelectorAll('.sky-sort-item');
+  function getSortItems() {
+    let itemQuery = '.sky-sort .sky-dropdown-menu .sky-sort-item';
+    return nativeElement.querySelectorAll(itemQuery);
   }
 
   function verifyTextPresent() {
@@ -63,11 +68,12 @@ describe('Sort component', () => {
     expect(dropdownButtonEl).not.toBeNull();
 
     dropdownButtonEl.click();
+    tick();
     fixture.detectChanges();
     tick();
 
     let menuHeaderQuery = '.sky-sort-menu-heading';
-    expect(document.querySelector(menuHeaderQuery)).toHaveText('Sort by');
+    expect(nativeElement.querySelector(menuHeaderQuery)).toHaveText('Sort by');
 
     let itemsEl = getSortItems();
     expect(itemsEl.length).toBe(6);
@@ -83,20 +89,19 @@ describe('Sort component', () => {
     expect(dropdownButtonEl.getAttribute('title')).toBe('Sort');
 
     dropdownButtonEl.click();
+    tick();
     fixture.detectChanges();
     tick();
 
     expect(getDropdownMenuEl().getAttribute('aria-labelledby')).toBe(
-      document.querySelector('.sky-sort-menu-heading').getAttribute('id')
+      nativeElement.querySelector('.sky-sort-menu-heading').getAttribute('id')
     );
   }));
 
   it('changes active item on click and emits proper event', fakeAsync(() => {
     fixture.detectChanges();
-    tick();
     let dropdownButtonEl = getDropdownButtonEl();
     dropdownButtonEl.click();
-    fixture.detectChanges();
     tick();
     fixture.detectChanges();
     tick();
@@ -105,7 +110,6 @@ describe('Sort component', () => {
     let clickItem = itemsEl.item(1).querySelector('button') as HTMLElement;
 
     clickItem.click();
-    fixture.detectChanges();
     tick();
     fixture.detectChanges();
     tick();
@@ -117,33 +121,17 @@ describe('Sort component', () => {
       descending: true
     });
 
-    dropdownButtonEl.click();
-
-    fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
-    tick();
-
     itemsEl = getSortItems();
     expect(itemsEl.item(1)).toHaveCssClass('sky-sort-item-selected');
   }));
 
-  it('can set active input programmatically', fakeAsync(() => {
+  it('can set active input programmatically', () => {
     fixture.detectChanges();
-    tick();
-
     component.initialState = 4;
     fixture.detectChanges();
-    tick();
-
-    const button = getDropdownButtonEl();
-    button.click();
-    fixture.detectChanges();
-    tick();
-
     let itemsEl = getSortItems();
     expect(itemsEl.item(3)).toHaveCssClass('sky-sort-item-selected');
-  }));
+  });
 
   it('should allow button text to be hidden', () => {
     fixture.detectChanges();

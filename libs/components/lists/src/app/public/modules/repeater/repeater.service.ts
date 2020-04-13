@@ -39,7 +39,6 @@ export class SkyRepeaterService implements OnDestroy {
 
   public activateItem(item: SkyRepeaterItemComponent): void {
     if (this.enableActiveState) {
-      /* istanbul ignore else */
       if (item) {
         const index = this.items.findIndex(i => i === item);
         this.activeItemIndexChange.next(index);
@@ -49,7 +48,6 @@ export class SkyRepeaterService implements OnDestroy {
   }
 
   public activateItemByIndex(index: number): void {
-    /* istanbul ignore else */
     if (this.enableActiveState) {
       if (index === undefined) {
         this.activeItemChange.next(undefined);
