@@ -1,3 +1,7 @@
+# 3.3.1 (2020-04-13)
+
+- Fixed the colorpicker component to properly set ARIA attributes when the colorpicker is closed. [#38](https://github.com/blackbaud/skyux-colorpicker/pull/38)
+
 # 3.3.0 (2020-04-08)
 
 - Updated the colorpicker component to implement the affix and overlay services. [#35](https://github.com/blackbaud/skyux-colorpicker/pull/35)
