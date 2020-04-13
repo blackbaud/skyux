@@ -85,10 +85,8 @@ export class SkyInfiniteScrollComponent implements OnDestroy {
       this.domAdapter.parentChanges(this.elementRef)
         .takeUntil(this.ngUnsubscribe)
         .subscribe(() => {
-          if (this.isWaiting) {
-            this.isWaiting = false;
-            this.changeDetector.markForCheck();
-          }
+          this.isWaiting = false;
+          this.changeDetector.markForCheck();
       });
     } else {
       this.ngUnsubscribe.next();

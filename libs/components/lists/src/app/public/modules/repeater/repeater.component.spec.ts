@@ -79,7 +79,7 @@ describe('Repeater item component', () => {
   }
 
   function getDropdowns(el: HTMLElement): NodeListOf<HTMLElement> {
-    return el.querySelectorAll('.sky-dropdown-button') as NodeListOf<HTMLElement>;
+    return document.querySelectorAll('.sky-dropdown-button') as NodeListOf<HTMLElement>;
   }
 
   function getChevrons(el: HTMLElement): NodeListOf<HTMLElement> {
@@ -358,27 +358,6 @@ describe('Repeater item component', () => {
       expect(document.activeElement).toBe(items[1]);
     });
 
-    it('should prevent enter key from bubbling beyond sky-angular-tree-context-menu element', fakeAsync(() => {
-      const dropdowns = getDropdowns(el);
-
-      // Set focus on first dropdown and press keydown arrow.
-      dropdowns[0].click();
-      tick();
-      fixture.detectChanges();
-      tick();
-      SkyAppTestUtility.fireDomEvent(dropdowns[0], 'keydown', {
-        keyboardEventInit: {
-          key: 'ArrowDown'
-        }
-      });
-
-      // Expect focus to be on first dropdown menu item and NOT move to next repeater item.
-      const firstDropdownMenuItem = el.querySelectorAll('.sky-dropdown-item button')[0];
-      expect(document.activeElement).toBe(firstDropdownMenuItem);
-
-      flushDropdownTimer();
-    }));
-
     it('should select item with space and enter keys when selectable is set to true', () => {
       cmp.selectable = true;
       fixture.detectChanges();
@@ -421,6 +400,16 @@ describe('Repeater item component', () => {
       expect(isSelectedChangeSpy).toHaveBeenCalledWith(false);
       // Expect the event to have occurred twice.
       expect(isSelectedChangeSpy).toHaveBeenCalledTimes(1);
+
+      // Verify that selection via keyboard only happens on the parent item element.
+      SkyAppTestUtility.fireDomEvent(
+        items[1].querySelector('.sky-repeater-item-header'), 'keydown', {
+        keyboardEventInit: {
+          key: ' '
+        }
+      });
+      fixture.detectChanges();
+      expect(items[1]).not.toHaveCssClass('sky-repeater-item-selected');
     });
   });
 
@@ -1027,10 +1016,6 @@ describe('Repeater item component', () => {
       el = fixture.nativeElement;
     });
 
-    function getItems(): HTMLElement[] {
-      return el.querySelectorAll('.sky-repeater-item');
-    }
-
     it('should NOT show active item if activeIndex is set to undefined', fakeAsync(() => {
       cmp.showRepeaterWithActiveIndex = true;
       detectChangesAndTick(fixture);
@@ -1045,7 +1030,7 @@ describe('Repeater item component', () => {
       cmp.showRepeaterWithActiveIndex = true;
       cmp.activeIndex = 0;
       detectChangesAndTick(fixture);
-      const items = getItems();
+      const items = getRepeaterItems(el);
 
       let activeRepeaterItem = el.querySelectorAll('.sky-repeater-item-active');
       expect(activeRepeaterItem.length).toBe(1);
@@ -1065,7 +1050,7 @@ describe('Repeater item component', () => {
       cmp.showRepeaterWithActiveIndex = true;
       cmp.activeIndex = 2;
       detectChangesAndTick(fixture);
-      const items = getItems();
+      const items = getRepeaterItems(el);
 
       let activeRepeaterItem = el.querySelectorAll('.sky-repeater-item-active');
       expect(activeRepeaterItem.length).toBe(1);
@@ -1083,7 +1068,7 @@ describe('Repeater item component', () => {
     it('should update active item on click if activeIndex is set to undefined', fakeAsync(() => {
       cmp.showRepeaterWithActiveIndex = true;
       detectChangesAndTick(fixture);
-      const items = getItems();
+      const items = getRepeaterItems(el);
 
       items[0].click();
       fixture.detectChanges();
@@ -1099,7 +1084,7 @@ describe('Repeater item component', () => {
       cmp.showRepeaterWithActiveIndex = true;
       cmp.activeIndex = 2;
       detectChangesAndTick(fixture);
-      const items = getItems();
+      const items = getRepeaterItems(el);
 
       items[0].click();
       fixture.detectChanges();
@@ -1114,7 +1099,7 @@ describe('Repeater item component', () => {
     it('should update active item on enter key if activeIndex has been set', fakeAsync(() => {
       cmp.showRepeaterWithActiveIndex = true;
       detectChangesAndTick(fixture);
-      const items = getItems();
+      const items = getRepeaterItems(el);
 
       // Focus on first repeater item and press enter key.
       SkyAppTestUtility.fireDomEvent(items[0], 'focus');
@@ -1135,7 +1120,7 @@ describe('Repeater item component', () => {
     it('should update active item on space key if activeIndex has been set', fakeAsync(() => {
       cmp.showRepeaterWithActiveIndex = true;
       detectChangesAndTick(fixture);
-      const items = getItems();
+      const items = getRepeaterItems(el);
 
       // Focus on first repeater item and press enter key.
       SkyAppTestUtility.fireDomEvent(items[0], 'focus');
@@ -1154,8 +1139,9 @@ describe('Repeater item component', () => {
     }));
 
     it('should NOT update active item on click if activeIndex has not been set', fakeAsync(() => {
+      cmp.showRepeaterWithActiveIndex = false;
       detectChangesAndTick(fixture);
-      const items = getItems();
+      const items = getRepeaterItems(el);
 
       items[0].click();
       fixture.detectChanges();
@@ -1169,7 +1155,7 @@ describe('Repeater item component', () => {
     it('should emit activeIndex values as active index is changed', fakeAsync(() => {
       cmp.showRepeaterWithActiveIndex = true;
       detectChangesAndTick(fixture);
-      const items = getItems();
+      const items = getRepeaterItems(el);
       const emitterSpy = spyOnProperty(cmp, 'activeIndex', 'set').and.callThrough();
 
       items[0].click();
@@ -1184,7 +1170,7 @@ describe('Repeater item component', () => {
     it('should NOT emit activeIndex if new value is the same', fakeAsync(() => {
       cmp.showRepeaterWithActiveIndex = true;
       detectChangesAndTick(fixture);
-      const items = getItems();
+      const items = getRepeaterItems(el);
       const emitterSpy = spyOnProperty(cmp, 'activeIndex', 'set').and.callThrough();
 
       items[0].click();
@@ -1544,6 +1530,8 @@ describe('Repeater item component', () => {
           key: 'ArrowRight'
         }
       });
+      fixture.detectChanges();
+      tick();
       expect(document.activeElement).toBe(dragHandles[0]);
 
       // Press down key. Expect focus to go to next item.
@@ -1552,7 +1540,21 @@ describe('Repeater item component', () => {
           key: 'ArrowDown'
         }
       });
+      fixture.detectChanges();
+      tick();
       expect(document.activeElement).toBe(items[1]);
+
+      // Press down key on last item. Expect focus to remain.
+      const lastDragHandle = dragHandles[dragHandles.length - 1];
+      SkyAppTestUtility.fireDomEvent(lastDragHandle, 'keydown', {
+        keyboardEventInit: {
+          key: 'DOWN' // IE 11
+        }
+      });
+      lastDragHandle.focus();
+      fixture.detectChanges();
+      tick();
+      expect(document.activeElement).toBe(lastDragHandle);
     }));
 
     it(`should set focus on the previous item when the arrowUp key is pressed
@@ -1576,6 +1578,18 @@ describe('Repeater item component', () => {
         }
       });
       expect(document.activeElement).toBe(items[0]);
+
+      // Press up key on first item. Expect focus to remain.
+      const firstDragHandle = dragHandles[0];
+      SkyAppTestUtility.fireDomEvent(firstDragHandle, 'keydown', {
+        keyboardEventInit: {
+          key: 'UP' // IE 11
+        }
+      });
+      firstDragHandle.focus();
+      fixture.detectChanges();
+      tick();
+      expect(document.activeElement).toBe(firstDragHandle);
     }));
 
     it(`should set focus on the next child item when the arrowRight key is pressed
@@ -1726,23 +1740,6 @@ describe('Repeater item component', () => {
 
       // Expect new item to be added to the bottom.
       expect(cmp.sortedItemTags).toEqual([ 'item2', 'item1', 'item3' ]);
-
-      flushDropdownTimer();
-    }));
-
-    xit('should add new items to the service in the correct order after reordering', fakeAsync(() => {
-      let repeaterService = TestBed.get(SkyRepeaterService);
-      detectChangesAndTick(fixture);
-      const lastIndexId = repeaterService.items.length;
-
-      // Reorder items and add a new one.
-      el.querySelectorAll('.sky-repeater-item-reorder-top')[2].click();
-      cmp.addItem();
-      detectChangesAndTick(fixture);
-
-      // Expect last item in service's array to be the new item.
-      expect(repeaterService.items[3].contentId)
-        .toEqual(`sky-repeater-item-content-${lastIndexId + 1}`);
 
       flushDropdownTimer();
     }));

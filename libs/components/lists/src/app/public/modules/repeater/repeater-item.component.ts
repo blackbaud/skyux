@@ -38,7 +38,7 @@ import {
 
 import {
   SkyInlineDeleteComponent
-} from '@skyux/layout/modules/inline-delete';
+} from '@skyux/layout';
 
 import {
   Observable,
@@ -265,7 +265,7 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
   }
 
   public ngAfterViewInit(): void {
-    this.adapterService.setTabIndexOfFocusableElements(this.itemRef, -1, true);
+    this.adapterService.setTabIndexOfFocusableElements(this.itemRef, -1);
     this.hasItemContent = this.repeaterItemContentComponents.length > 0;
     this.updateExpandOnContentChange();
   }
@@ -292,23 +292,16 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
     this.updateForExpanded(direction === 'up', true);
   }
 
-  public onContextMenuKeydown(event: KeyboardEvent): void {
-    /*istanbul ignore else */
-    if (event.key) {
-      const reservedKeys = ['enter', ' ', 'arrowdown', 'arrowup'];
-      if (reservedKeys.indexOf(event.key.toLowerCase()) > -1) {
-        event.stopPropagation();
-      }
-    }
-  }
-
   public onFocus(): void {
     this.childFocusIndex = undefined;
   }
 
   public onItemKeyDown(event: KeyboardEvent): void {
-    /*istanbul ignore else */
+    /* istanbul ignore else */
     if (event.key) {
+      let focusableChildren: HTMLElement[];
+
+      /* tslint:disable-next-line:switch-default */
       switch (event.key.toLowerCase()) {
         case ' ':
         case 'enter':
@@ -324,6 +317,7 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
           break;
 
         case 'arrowup':
+        case 'up':
           this.childFocusIndex = undefined;
           this.repeaterService.focusPreviousListItem(this);
           event.preventDefault();
@@ -331,46 +325,45 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
           break;
 
         case 'arrowdown':
+        case 'down':
           this.childFocusIndex = undefined;
           this.repeaterService.focusNextListItem(this);
           event.preventDefault();
           event.stopPropagation();
           break;
 
-        case 'arrowleft': {
+        case 'arrowleft':
+        case 'left':
           // Cycle backwards through interactive child elements.
           // If user reaches the beginning, focus on parent item.
-          const focusableChildren = this.adapterService.getFocusableChildren(this.itemRef);
+          focusableChildren = this.adapterService.getFocusableChildren(this.itemRef);
+          /* istanbul ignore else */
           if (focusableChildren.length > 0) {
             if (this.childFocusIndex > 0) {
               this.childFocusIndex--;
-            } else if (this.childFocusIndex === 0) {
+            } else {
               this.childFocusIndex = undefined;
             }
           }
           event.stopPropagation();
           event.preventDefault();
           break;
-        }
 
-        case 'arrowright': {
+        case 'arrowright':
+        case 'right':
           // Cyle forward through interactive child elements.
           // If user reaches the end, do nothing.
-          const focusableChildren = this.adapterService.getFocusableChildren(this.itemRef);
+          focusableChildren = this.adapterService.getFocusableChildren(this.itemRef);
+          /* istanbul ignore else */
           if (focusableChildren.length > 0) {
             if (this.childFocusIndex < focusableChildren.length - 1) {
               this.childFocusIndex++;
-            } else if (this.childFocusIndex === undefined) {
+            } else {
               this.childFocusIndex = 0;
             }
           }
           event.stopPropagation();
           event.preventDefault();
-          break;
-        }
-
-        /* istanbul ignore next */
-        default:
           break;
       }
     }

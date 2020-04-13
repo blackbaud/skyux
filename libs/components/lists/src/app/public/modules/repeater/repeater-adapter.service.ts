@@ -35,13 +35,14 @@ export class SkyRepeaterAdapterService {
 
   public setTabIndexOfFocusableElements(
     element: ElementRef,
-    tabIndex: number,
-    ignoreVisibility = false
+    tabIndex: number
   ): void {
     const htmlElement = element.nativeElement as HTMLElement;
     const focusableElems = this.skyAdapterService.getFocusableChildren(
       htmlElement,
-      { ignoreVisibility: ignoreVisibility }
+      {
+        ignoreVisibility: true
+      }
     );
     let index = focusableElems.length;
     while (index--) {
