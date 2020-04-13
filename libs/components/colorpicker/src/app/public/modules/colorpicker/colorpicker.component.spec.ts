@@ -51,6 +51,7 @@ describe('Colorpicker Component', () => {
   let nativeElement: HTMLElement;
   let colorpickerComponent: SkyColorpickerComponent;
 
+  //#region helpers
   function getColorpickerContainer(): HTMLElement {
     return document.querySelector('.sky-colorpicker-container');
   }
@@ -183,6 +184,8 @@ describe('Colorpicker Component', () => {
     fixture.whenStable();
     return input[name];
   }
+
+  //#endregion
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -1000,6 +1003,31 @@ describe('Colorpicker Component', () => {
 
     }));
 
+  });
+
+  describe('accessibility', () => {
+
+    beforeEach(() => {
+      fixture = TestBed.createComponent(ColorpickerTestComponent);
+    });
+
+    it('should be accessible', async((done: DoneFn) => {
+      fixture.detectChanges();
+
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expect(document.body).toBeAccessible(() => {
+          fixture.componentInstance.sendMessage(SkyColorpickerMessageType.Open);
+          fixture.detectChanges();
+
+          fixture.whenStable().then(() => {
+            fixture.detectChanges();
+            expect(document.body).toBeAccessible(done);
+          });
+        });
+
+      });
+    }));
   });
 
 });

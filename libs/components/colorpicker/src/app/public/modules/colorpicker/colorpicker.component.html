@@ -8,10 +8,10 @@
   </div>
 
   <button
-    aria-haspopup="true"
+    aria-haspopup="dialog"
     class="sky-colorpicker-button"
     type="button"
-    [attr.aria-controls]="colorpickerId"
+    [attr.aria-controls]="isOpen ? colorpickerId : null"
     [attr.aria-expanded]="isOpen"
     [attr.aria-label]="'skyux_colorpicker_dropdown_button' | skyLibResources"
     [attr.id]="triggerButtonId"
@@ -24,6 +24,7 @@
   <ng-template #colorpickerTemplateRef>
     <div
       class="sky-colorpicker-container sky-shadow"
+      role="dialog"
       [attr.aria-labelledby]="triggerButtonId"
       [attr.id]="colorpickerId"
       [hidden]="!isPickerVisible"
