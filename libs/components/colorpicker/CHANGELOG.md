@@ -1,3 +1,7 @@
+# 3.3.2 (2020-04-14)
+
+- Fixed the colorpicker to hide the launch and reset buttons when the input element's `type` is `hidden`. [#40](https://github.com/blackbaud/skyux-colorpicker/pull/40)
+
 # 3.3.1 (2020-04-13)
 
 - Fixed the colorpicker component to properly set ARIA attributes when the colorpicker is closed. [#38](https://github.com/blackbaud/skyux-colorpicker/pull/38)
