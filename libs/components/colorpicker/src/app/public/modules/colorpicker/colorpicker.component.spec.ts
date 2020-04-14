@@ -672,14 +672,11 @@ describe('Colorpicker Component', () => {
       tick();
       fixture.detectChanges();
       tick();
-
-      const buttonElem = nativeElement.querySelector('.sky-colorpicker-button') as HTMLElement;
-      buttonElem.click();
+      component.sendMessage(SkyColorpickerMessageType.Open);
       fixture.detectChanges();
       tick();
-
-      const picker = getColorpickerContainer();
-      expect(picker).toBeNull();
+      expect(nativeElement.querySelectorAll('.sky-colorpicker-hidden').length).toEqual(1);
+      expect(getColorpickerContainer()).toBeTruthy();
     }));
 
     it('should show when input type is set to anything other than hidden.', fakeAsync(() => {

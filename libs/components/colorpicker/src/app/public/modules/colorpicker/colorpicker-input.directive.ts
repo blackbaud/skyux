@@ -156,18 +156,18 @@ export class SkyColorpickerInputDirective
     this.skyColorpickerInput.setColorFromString(this.initialColor);
 
     /// Set aria-label as default, if not set
-    if (!this.elementRef.nativeElement.getAttribute('aria-label')) {
+    if (!element.getAttribute('aria-label')) {
       this.renderer.setAttribute(
-        this.elementRef.nativeElement,
+        element,
         'aria-label',
         this.getString('skyux_colorpicker_input_default_label'));
     }
 
     const typeAttr = element.getAttribute('type');
     if (typeAttr && typeAttr === 'hidden') {
-      this.skyColorpickerInput.enablePicker = false;
+      this.skyColorpickerInput.isVisible = false;
     } else {
-      this.skyColorpickerInput.enablePicker = true;
+      this.skyColorpickerInput.isVisible = true;
     }
 
     element.setAttribute('readonly', 'true');

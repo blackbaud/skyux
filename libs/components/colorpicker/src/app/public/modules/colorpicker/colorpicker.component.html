@@ -1,5 +1,8 @@
 <div
   class="sky-input-group"
+  [ngClass]="{
+    'sky-colorpicker-hidden': !isVisible
+  }"
 >
   <div
     [hidden]="true"
