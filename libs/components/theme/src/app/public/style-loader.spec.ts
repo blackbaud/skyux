@@ -1,6 +1,10 @@
 import * as FontFaceObserver from 'fontfaceobserver';
 
 import {
+  Subject
+} from 'rxjs';
+
+import {
   SkyAppStyleLoader
 } from './style-loader';
 
@@ -62,5 +66,27 @@ describe('Style loader', () => {
         expect(spy).not.toHaveBeenCalled();
         done();
       });
+  });
+
+  it('should resolve a promise after initial theme settings have been provided', (done) => {
+    spyOn(FontFaceObserver.prototype, 'load').and.returnValue(
+      Promise.resolve()
+    );
+
+    const mockThemeSvc: any = {
+      settingsChange: new Subject<any>()
+    };
+
+    const styleLoader = new SkyAppStyleLoader(mockThemeSvc);
+
+    styleLoader.loadStyles()
+      .then(() => {
+        expect(styleLoader.isLoaded).toBe(true);
+        done();
+      });
+
+    expect(styleLoader.isLoaded).toBe(false);
+
+    mockThemeSvc.settingsChange.next({});
   });
 });

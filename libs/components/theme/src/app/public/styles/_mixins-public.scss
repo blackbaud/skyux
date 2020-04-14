@@ -51,3 +51,17 @@
     @content;
   }
 }
+
+@mixin sky-theme-modern {
+  .sky-theme-modern,
+  :host-context(.sky-theme-modern) {
+    @content;
+  }
+}
+
+@mixin sky-theme-mode-dark {
+  .sky-theme-mode-dark,
+  :host-context(.sky-theme-mode-dark) {
+    @content;
+  }
+}
