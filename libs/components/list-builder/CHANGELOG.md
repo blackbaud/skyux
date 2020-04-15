@@ -1,3 +1,7 @@
+# 3.8.0 (2020-04-15)
+
+- Upgraded the package development dependencies. [#85](https://github.com/blackbaud/skyux-list-builder/pull/85)
+
 # 3.7.1 (2020-03-11)
 
 - Fixed the list toolbar component to not display an empty toolbar when search is disabled. [#76](https://github.com/blackbaud/skyux-list-builder/pull/76)
