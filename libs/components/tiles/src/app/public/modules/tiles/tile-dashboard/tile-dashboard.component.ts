@@ -74,13 +74,13 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
   @Output()
   public configChange = new EventEmitter<SkyTileDashboardConfig>();
 
+  public tileMovedReport: string;
+
   @ViewChildren(SkyTileDashboardColumnComponent)
-  public columns: QueryList<SkyTileDashboardColumnComponent>;
+  private columns: QueryList<SkyTileDashboardColumnComponent>;
 
   @ViewChild('singleColumn', { read: SkyTileDashboardColumnComponent })
-  public singleColumn: SkyTileDashboardColumnComponent;
-
-  public tileMovedReport: string;
+  private singleColumn: SkyTileDashboardColumnComponent;
 
   private _config: SkyTileDashboardConfig;
 
@@ -91,9 +91,7 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
   private viewReady = false;
 
   constructor(
-    // HACK: This is public so it can be accessed via a unit test due to breaking changes
-    // in RC5. https://github.com/angular/angular/issues/10854
-    public dashboardService: SkyTileDashboardService,
+    private dashboardService: SkyTileDashboardService,
     private mediaQuery: SkyMediaQueryService,
     @Optional() private resourcesService?: SkyLibResourcesService
   ) {

@@ -124,10 +124,6 @@ describe('Tile component', () => {
     expect(contentAttrs['hidden']).not.toBeNull();
   });
 
-  xit('should update the tile state when the tile dashboard is initialized', () => {
-    expect(false).toBe(true);
-  });
-
   it('should notify the tile dashboard when the tile is collapsed',
     () => {
       let mockTileDashboardService = new MockSkyTileDashboardService();
@@ -160,30 +156,6 @@ describe('Tile component', () => {
       fixture.detectChanges();
 
       expect(dashboardSpy).toHaveBeenCalledWith(jasmine.any(SkyTileComponent), true);
-    }
-  );
-
-  xit('should notify the tile that repaint is required when the tile is expanded', () => {
-    expect(false).toBe(true);
-  });
-
-  xit('should react when tile display mode changes', () => {
-    expect(false).toBe(true);
-  });
-
-  xit(
-    `should not update tile state when display mode changed but the tile have not
-    been initialized by the tile dashboard`,
-    () => {
-      expect(false).toBe(true);
-    }
-  );
-
-  xit(
-    `should not update tile state when display mode changed but the tile have not
-    been initialized by the tile dashboard`,
-    () => {
-      expect(false).toBe(true);
     }
   );
 

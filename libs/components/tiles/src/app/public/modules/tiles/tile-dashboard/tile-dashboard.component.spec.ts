@@ -72,15 +72,6 @@ describe('Tile dashboard component', () => {
     });
   });
 
-  xit('should put the tile in the expected column for each breakpoint', () => {
-  });
-
-  xit('should remove the media breakpoint listener when destroyed', () => {
-  });
-
-  xit('should update tile order when tile moves to another column', () => {
-  });
-
   it('should update tile order when tile moves within a column', fakeAsync(() => {
     let fixture = TestBed
       .overrideComponent(
@@ -232,48 +223,6 @@ describe('Tile dashboard component', () => {
     expect(initSpy).not.toHaveBeenCalled();
   }));
 
-  xit('should update the tile collapsed state when the tile is collapsed', () => {
-  });
-
-  xit(
-    'should update the tile collapsed small state when the tile is collapsed on a small screen',
-    () => {
-    }
-  );
-
-  xit(
-    'should update the all-collapsed state when a tile\'s collapsed state changes',
-    () => {
-    }
-  );
-
-  xit(
-    'should update the tile collapsed state when the tile all-collapsed attribute changes',
-    () => {
-    }
-  );
-
-  xit(
-    `should not update tile state when display mode changed but the tile collapse state is not
-      changed by tile dashboard`,
-    () => {
-    }
-  );
-
-  xit(
-    `should not update tile state when display mode changed but the tile collapse state is not
-      changed by tile dashboard and tile intialization occurs after dashboard initialization`,
-    () => {
-    }
-  );
-
-  xit(
-    `should update the tile collapsed small state when the tile all-collapsed attribute
-    changes`,
-    () => {
-    }
-  );
-
   it(
     `should release resources when the component is destroyed`,
     () => {
@@ -337,7 +286,7 @@ describe('Tile dashboard component', () => {
 
       let tileComponentRef = cmp
         .dashboardComponent
-        .dashboardService
+        ['dashboardService']
         .getTileComponent('sky-test-tile-2');
 
       expect(tileComponentRef.instance.context.id).toBe(3);
@@ -360,7 +309,7 @@ describe('Tile dashboard component', () => {
 
       let tileComponentRef = cmp
         .dashboardComponent
-        .dashboardService
+        ['dashboardService']
         .getTileComponent('sky-test-tile-1');
 
       let tileEl = tileComponentRef.location.nativeElement;

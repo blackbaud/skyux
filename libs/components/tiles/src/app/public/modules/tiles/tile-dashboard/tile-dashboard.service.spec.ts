@@ -145,7 +145,7 @@ describe('Tile dashboard service', () => {
     fakeAsync(
       () => {
         let fixture = createDashboardTestComponent();
-        let dashboardService = fixture.componentInstance.dashboardComponent.dashboardService;
+        let dashboardService = fixture.componentInstance.dashboardComponent['dashboardService'];
         let configChanged = false;
 
         fixture.componentInstance.settingsKey = 'defaultSettings';
@@ -363,7 +363,7 @@ describe('Tile dashboard service', () => {
     tick();
     fixture.detectChanges();
 
-    let dashboardService: SkyTileDashboardService = fixture.componentInstance.dashboardComponent.dashboardService;
+    let dashboardService: SkyTileDashboardService = fixture.componentInstance.dashboardComponent['dashboardService'];
     dashboardService.moveTileOnKeyDown(new SkyTileComponent(fixture.elementRef, {} as SkyTileDashboardService), 'left', 'Tile 1');
 
     // Make sure eveything is still in the same spot

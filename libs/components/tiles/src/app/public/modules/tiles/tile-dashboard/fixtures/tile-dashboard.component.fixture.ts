@@ -147,10 +147,10 @@ export class TileDashboardTestComponent {
 
   public enableStickySettings(): void {
     this.settingsKey = 'test';
-    this.dashboardComponent.dashboardService.init(
+    this.dashboardComponent['dashboardService'].init(
       this.dashboardConfig,
-      this.dashboardComponent.columns,
-      this.dashboardComponent.singleColumn,
+      this.dashboardComponent['columns'],
+      this.dashboardComponent['singleColumn'],
       this.settingsKey
     );
   }
