@@ -67,6 +67,7 @@ import { ListViewDisplayedGridColumnsLoadAction } from './state/displayed-column
 @Component({
   selector: 'sky-list-view-grid',
   templateUrl: './list-view-grid.component.html',
+  styleUrls: ['./list-view-grid.component.scss'],
   providers: [
     /* tslint:disable */
     { provide: ListViewComponent, useExisting: forwardRef(() => SkyListViewGridComponent) },
@@ -118,6 +119,20 @@ export class SkyListViewGridComponent
   @ViewChild(SkyGridComponent)
   public gridComponent: SkyGridComponent;
 
+  public get gridHeight(): Observable<number> {
+    return (typeof this.height === 'number')
+      /* istanbul ignore next */
+      ? Observable.of(this.height)
+      : this.height;
+  }
+
+  public get gridWidth(): Observable<number> {
+    /* istanbul ignore next */
+    return (typeof this.width === 'number')
+      ? Observable.of(this.width)
+      : this.width;
+  }
+
   public columns: Observable<Array<SkyGridColumnModel>>;
 
   public selectedColumnIds: Observable<Array<string>>;
@@ -130,7 +145,7 @@ export class SkyListViewGridComponent
 
   public currentSearchText: Observable<string>;
 
-  private multiselectSelectedIds: string[] = [];
+  public multiselectSelectedIds: string[] = [];
 
   /* tslint:disable */
   @Input('search')

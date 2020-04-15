@@ -58,7 +58,7 @@ describe('List column selector action', () => {
   let nativeElement: HTMLElement;
 
   function getChooseColumnsButton() {
-    let button = nativeElement.querySelector('.sky-dropdown-menu button') as HTMLElement;
+    let button = document.querySelector('.sky-dropdown-menu button') as HTMLElement;
     if (!button) {
       button = nativeElement.querySelector('[sky-cmp-id="column-chooser"] button') as HTMLElement;
     }
@@ -75,6 +75,7 @@ describe('List column selector action', () => {
     expect(button).toBeDefined();
 
     button.click();
+    fixture.detectChanges();
     flush();
     tick();
     fixture.detectChanges();
@@ -334,6 +335,7 @@ describe('List column selector action', () => {
 
       const chooseColumnsButton = getChooseColumnsButton();
       chooseColumnsButton.click();
+      fixture.detectChanges();
       tick();
 
       const checkboxLabelEl = document.querySelectorAll(
@@ -341,10 +343,12 @@ describe('List column selector action', () => {
       ) as NodeListOf<HTMLElement>;
 
       checkboxLabelEl.item(0).click();
+      fixture.detectChanges();
       tick();
 
       const cancelButtonEl = document.querySelector('.sky-modal [sky-cmp-id="cancel"]') as HTMLButtonElement;
       cancelButtonEl.click();
+      fixture.detectChanges();
       tick();
 
       component.grid.gridState.take(1).subscribe((gridState) => {

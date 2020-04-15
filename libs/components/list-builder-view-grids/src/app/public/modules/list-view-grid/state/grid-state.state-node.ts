@@ -9,6 +9,7 @@ import {
 
 @Injectable()
 export class GridState extends StateNode<GridStateModel> {
+  /* istanbul ignore next */
   constructor(initialState: GridStateModel, dispatcher: GridStateDispatcher) {
     super(initialState, dispatcher);
 
