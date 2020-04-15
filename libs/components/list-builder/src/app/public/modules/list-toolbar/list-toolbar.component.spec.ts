@@ -386,10 +386,18 @@ describe('List Toolbar Component', () => {
     it('should create ascending and descending items for each sort label', fakeAsync(() => {
       initializeToolbar();
 
-      tick();
       fixture.detectChanges();
+      tick();
 
-      const sortItems = nativeElement.querySelectorAll('.sky-sort .sky-sort-item');
+      const dropdownButtonEl = nativeElement.querySelector(
+        '.sky-sort .sky-dropdown-button'
+      ) as HTMLButtonElement;
+      dropdownButtonEl.click();
+
+      fixture.detectChanges();
+      tick();
+
+      const sortItems = document.querySelectorAll('.sky-sort-item');
 
       expect(sortItems.length).toBe(8);
       verifyInnerText(sortItems.item(0), 'Custom');
@@ -402,31 +410,46 @@ describe('List Toolbar Component', () => {
       verifyInnerText(sortItems.item(7), 'Number (Lowest first)');
     }));
 
-    it('should handle sort item click', async(() => {
+    it('should handle sort item click', fakeAsync(() => {
       initializeToolbar();
-        fixture.whenStable().then(() => {
-          fixture.detectChanges();
-        let sortSelectorDropdownButtonEl = nativeElement
-          .querySelector('.sky-sort .sky-dropdown-button') as HTMLButtonElement;
-        sortSelectorDropdownButtonEl.click();
 
-        let sortItems = nativeElement.querySelectorAll('.sky-sort-item');
+      fixture.detectChanges();
+      tick();
 
-        let clickItem = sortItems.item(1).querySelector('button') as HTMLButtonElement;
+      let sortSelectorDropdownButtonEl = nativeElement.querySelector(
+        '.sky-sort .sky-dropdown-button'
+      ) as HTMLButtonElement;
+      sortSelectorDropdownButtonEl.click();
 
-        clickItem.click();
-        fixture.detectChanges();
-        sortItems = nativeElement.querySelectorAll('.sky-sort-item');
-        expect(sortItems.item(1)).toHaveCssClass('sky-sort-item-selected');
+      fixture.detectChanges();
+      tick();
 
-        clickItem = sortItems.item(0).querySelector('button') as HTMLButtonElement;
+      let sortItems = document.querySelectorAll('.sky-sort-item');
+      let clickItem = sortItems.item(1).querySelector('button') as HTMLButtonElement;
 
-        clickItem.click();
-        fixture.detectChanges();
-        sortItems = nativeElement.querySelectorAll('.sky-sort-item');
-        expect(sortItems.item(0)).toHaveCssClass('sky-sort-item-selected');
-        });
+      clickItem.click();
+      fixture.detectChanges();
+      tick();
 
+      sortSelectorDropdownButtonEl.click();
+      fixture.detectChanges();
+      tick();
+
+      sortItems = document.querySelectorAll('.sky-sort-item');
+      expect(sortItems.item(1)).toHaveCssClass('sky-sort-item-selected');
+
+      clickItem = sortItems.item(0).querySelector('button') as HTMLButtonElement;
+      clickItem.click();
+
+      fixture.detectChanges();
+      tick();
+
+      sortSelectorDropdownButtonEl.click();
+      fixture.detectChanges();
+      tick();
+
+      sortItems = document.querySelectorAll('.sky-sort-item');
+      expect(sortItems.item(0)).toHaveCssClass('sky-sort-item-selected');
     }));
 
     it('should load custom items', async(() => {

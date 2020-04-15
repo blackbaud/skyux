@@ -63,7 +63,7 @@ describe('List Secondary Actions Component', () => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      const query = '.sky-list-secondary-actions .sky-dropdown-item';
+      const query = '.sky-list-secondary-actions .sky-dropdown-button';
       expect(nativeElement.querySelector(query)).not.toBeNull();
     });
   }));

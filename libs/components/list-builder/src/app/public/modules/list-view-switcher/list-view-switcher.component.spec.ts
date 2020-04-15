@@ -195,8 +195,8 @@ describe('List View Switcher Component', () => {
         fixture.detectChanges();
         tick();
         const gridDropdownButton: HTMLElement =
-          <HTMLElement>nativeElement
-            .querySelector('sky-list-view-switcher sky-dropdown-item sky-icon[ng-reflect-icon="table"]');
+          <HTMLElement>document
+            .querySelector('sky-dropdown-item sky-icon[ng-reflect-icon="table"]');
         expect(gridDropdownButton).not.toBeNull();
         expect(gridDropdownButton.querySelector('i.fa-table')).not.toBeNull();
       }));
@@ -208,9 +208,11 @@ describe('List View Switcher Component', () => {
           .click();
         fixture.detectChanges();
         tick();
+        fixture.detectChanges();
+        tick();
         const customDropdownButton: HTMLElement =
-          <HTMLElement>nativeElement
-            .querySelector('sky-list-view-switcher sky-dropdown-item sky-icon[ng-reflect-icon="gavel"]');
+          <HTMLElement>document
+            .querySelector('sky-dropdown-item sky-icon[ng-reflect-icon="gavel"]');
         expect(customDropdownButton).not.toBeNull();
         expect(customDropdownButton.querySelector('i.fa-gavel')).not.toBeNull();
       }));
@@ -234,8 +236,8 @@ describe('List View Switcher Component', () => {
             .click();
           fixture.detectChanges();
           fixture.whenStable().then(() => {
-            (<HTMLElement>nativeElement
-              .querySelectorAll('sky-list-view-switcher sky-dropdown-item button')[0])
+            (<HTMLElement>document
+              .querySelectorAll('sky-dropdown-item button')[0])
               .click();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
