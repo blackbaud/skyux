@@ -13,7 +13,7 @@
   <div
     class="sky-repeater"
     role="listbox"
-    [attr.aria-label]="ariaLabel"
+    [attr.aria-label]="ariaLabel || ( 'skyux_repeater_label' | skyLibResources)"
     [dragula]="dragulaGroupName"
   >
     <ng-container *ngTemplateOutlet="content">
