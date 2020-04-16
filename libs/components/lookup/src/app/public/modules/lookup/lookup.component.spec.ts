@@ -1,4 +1,5 @@
 import {
+  async,
   ComponentFixture,
   fakeAsync,
   TestBed,
@@ -35,6 +36,8 @@ import {
 } from './fixtures/lookup-template.component.fixture';
 
 describe('Lookup component', function () {
+
+  //#region helpers
 
   function getInputElement(lookupComponent: SkyLookupComponent): HTMLInputElement {
     return lookupComponent['lookupInput'].nativeElement as HTMLInputElement;
@@ -106,6 +109,8 @@ describe('Lookup component', function () {
     fixture.detectChanges();
     tick();
   }
+
+  //#endregion
 
   beforeEach(function () {
     TestBed.configureTestingModule({
@@ -441,6 +446,31 @@ describe('Lookup component', function () {
         triggerClick(tokenElements.item(0), fixture, true);
 
         expect(document.activeElement).not.toEqual(input);
+      }));
+    });
+
+    describe('a11y', function () {
+      it('should be accessible', async(() => {
+        fixture.componentInstance.ariaLabelledBy = 'my-lookup-label';
+
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          expect(document.body).toBeAccessible(() => {
+            fixture.detectChanges();
+
+            const inputElement = getInputElement(fixture.componentInstance.lookupComponent);
+            inputElement.value = 'r';
+            inputElement.focus();
+            SkyAppTestUtility.fireDomEvent(inputElement, 'keyup', {
+              keyboardEventInit: { key: '' }
+            });
+
+            fixture.detectChanges();
+            fixture.whenStable().then(() => {
+              expect(document.body).toBeAccessible(() => {});
+            });
+          });
+        });
       }));
     });
   });

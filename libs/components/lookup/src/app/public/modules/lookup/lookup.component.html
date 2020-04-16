@@ -3,8 +3,10 @@
   [ngClass]="{
     'sky-lookup-focused': isInputFocused,
     'sky-lookup-disabled': disabled
-  }">
+  }"
+>
   <sky-autocomplete
+    [ariaLabelledBy]="ariaLabelledBy"
     [data]="data"
     [debounceTime]="debounceTime"
     [descriptorProperty]="descriptorProperty"

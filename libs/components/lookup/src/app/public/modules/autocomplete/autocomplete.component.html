@@ -1,9 +1,10 @@
 <div
   aria-autocomplete="list"
-  aria-haspopup="true"
+  aria-haspopup="listbox"
   class="sky-autocomplete"
   role="combobox"
   [attr.aria-expanded]="isOpen"
+  [attr.aria-labelledby]="ariaLabelledBy"
   [attr.aria-owns]="(isOpen) ? resultsListId : null"
   [attr.id]="resultsWrapperId"
 >
