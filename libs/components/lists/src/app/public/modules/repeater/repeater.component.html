@@ -1,6 +1,8 @@
 <ng-container #repeaterHost>
   <div *ngIf="!reorderable; else draggable"
     class="sky-repeater"
+    role="listbox"
+    [attr.aria-label]="ariaLabel || ( 'skyux_repeater_label' | skyLibResources)"
   >
     <ng-container *ngTemplateOutlet="content">
     </ng-container>
@@ -10,13 +12,14 @@
 <ng-template #draggable>
   <div
     class="sky-repeater"
+    role="listbox"
+    [attr.aria-label]="ariaLabel"
     [dragula]="dragulaGroupName"
   >
     <ng-container *ngTemplateOutlet="content">
     </ng-container>
   </div>
 </ng-template>
-
 
 <ng-template #content>
   <ng-content></ng-content>

@@ -252,10 +252,8 @@ describe('Paging component', () => {
         fixture.detectChanges();
 
         let navElement = element.query(
-          By.css('ul')
+          By.css('nav.sky-paging')
         ).nativeElement;
-
-        expect(navElement.getAttribute('role')).toBe('navigation');
 
         expect(navElement.getAttribute('aria-label')).toBe('My label');
       });
@@ -263,7 +261,7 @@ describe('Paging component', () => {
       it('should have a nav role on the parent element with a default aria-label', () => {
 
         let navElement = element.query(
-          By.css('ul')
+          By.css('nav.sky-paging')
         ).nativeElement;
 
         expect(navElement.getAttribute('aria-label')).toBe('Pagination');

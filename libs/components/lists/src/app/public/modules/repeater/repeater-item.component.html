@@ -1,5 +1,6 @@
 <div
   class="sky-repeater-item sky-padding-even-default"
+  role="option"
   tabindex="0"
   [ngClass]="{
     'sky-repeater-item-active': isActive,
@@ -85,7 +86,7 @@
     class="sky-repeater-item-right"
     #itemHeaderRef
   >
-    <header
+    <div
       class="sky-repeater-item-header"
       [hidden]="titleRef.children.length === 0"
       (click)="headerClick()"
@@ -128,7 +129,7 @@
       <div *ngIf="contextMenu"
         class="sky-repeater-item-chevron-placeholder-with-context"
       ></div>
-    </header>
+    </div>
     <div
       class="sky-repeater-item-content"
       [id]="contentId"

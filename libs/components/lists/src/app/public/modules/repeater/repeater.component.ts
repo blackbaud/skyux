@@ -50,6 +50,9 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
   public activeIndex: number;
 
   @Input()
+  public ariaLabel: string;
+
+  @Input()
   public reorderable: boolean = false;
 
   @Input()

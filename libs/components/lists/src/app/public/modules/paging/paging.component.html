@@ -1,44 +1,46 @@
-<ul *ngIf="pageCount > 1"
-  role="navigation"
+<nav *ngIf="pageCount > 1"
+  class="sky-paging"
   [attr.aria-label]="pagingLabel || ('skyux_paging_label' | skyLibResources)"
 >
-  <li>
-    <button
-      class="sky-btn sky-btn-default sky-paging-btn sky-paging-btn-previous"
-      sky-cmp-id="previous"
-      type="button"
-      [attr.aria-label]="'skyux_paging_previous' | skyLibResources"
-      [disabled]="isPreviousButtonDisabled"
-      (click)="previousPage()"
+  <ul>
+    <li>
+      <button
+        class="sky-btn sky-btn-default sky-paging-btn sky-paging-btn-previous"
+        sky-cmp-id="previous"
+        type="button"
+        [attr.aria-label]="'skyux_paging_previous' | skyLibResources"
+        [disabled]="isPreviousButtonDisabled"
+        (click)="previousPage()"
+      >
+        <sky-icon icon="caret-left "></sky-icon>
+      </button>
+    </li>
+    <li *ngFor="let pageNumber of displayedPages"
+      class="sky-list-paging-link"
     >
-      <sky-icon icon="caret-left "></sky-icon>
-    </button>
-  </li>
-  <li *ngFor="let pageNumber of displayedPages"
-    class="sky-list-paging-link"
-  >
-    <button
-      class="sky-btn sky-btn-default sky-paging-btn"
-      type="button"
-      [attr.aria-current]="currentPage === pageNumber"
-      [attr.sky-cmp-id]="pageNumber"
-      [disabled]="currentPage === pageNumber"
-      [ngClass]="{ 'sky-paging-current': currentPage === pageNumber }"
-      (click)="setPage(pageNumber)"
-    >
-      {{ pageNumber }}
-    </button>
-  </li>
-  <li>
-    <button
-      class="sky-btn sky-btn-default sky-paging-btn sky-paging-btn-next"
-      sky-cmp-id="next"
-      type="button"
-      [attr.aria-label]="'skyux_paging_next' | skyLibResources"
-      [disabled]="isNextButtonDisabled"
-      (click)="nextPage()"
-    >
-      <sky-icon icon="caret-right "></sky-icon>
-    </button>
-  </li>
-</ul>
+      <button
+        class="sky-btn sky-btn-default sky-paging-btn"
+        type="button"
+        [attr.aria-current]="(currentPage === pageNumber) ? 'page' : null"
+        [attr.sky-cmp-id]="pageNumber"
+        [disabled]="currentPage === pageNumber"
+        [ngClass]="{ 'sky-paging-current': currentPage === pageNumber }"
+        (click)="setPage(pageNumber)"
+      >
+        {{ pageNumber }}
+      </button>
+    </li>
+    <li>
+      <button
+        class="sky-btn sky-btn-default sky-paging-btn sky-paging-btn-next"
+        sky-cmp-id="next"
+        type="button"
+        [attr.aria-label]="'skyux_paging_next' | skyLibResources"
+        [disabled]="isNextButtonDisabled"
+        (click)="nextPage()"
+      >
+        <sky-icon icon="caret-right "></sky-icon>
+      </button>
+    </li>
+  </ul>
+</nav>
