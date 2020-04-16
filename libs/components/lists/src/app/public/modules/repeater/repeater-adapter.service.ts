@@ -4,10 +4,6 @@ import {
 } from '@angular/core';
 
 import {
-  SkyCoreAdapterService
-} from '@skyux/core';
-
-import {
   SkyRepeaterService
 } from './repeater.service';
 
@@ -16,36 +12,14 @@ export class SkyRepeaterAdapterService {
   private host: ElementRef;
 
   constructor(
-    private repeaterService: SkyRepeaterService,
-    private skyAdapterService: SkyCoreAdapterService
-  ) {}
-
-  public getFocusableChildren(element: ElementRef): HTMLElement[] {
-    const htmlElement = element.nativeElement as HTMLElement;
-    return this.skyAdapterService.getFocusableChildren(htmlElement, { ignoreTabIndex: true });
-  }
+    private repeaterService: SkyRepeaterService
+  ) { }
 
   public focusElement(element: ElementRef | HTMLElement): void {
     if (element instanceof ElementRef) {
       element.nativeElement.focus();
     } else {
       element.focus();
-    }
-  }
-
-  public setTabIndexOfFocusableElements(
-    element: ElementRef,
-    tabIndex: number,
-    ignoreVisibility = false
-  ): void {
-    const htmlElement = element.nativeElement as HTMLElement;
-    const focusableElems = this.skyAdapterService.getFocusableChildren(
-      htmlElement,
-      { ignoreVisibility: ignoreVisibility }
-    );
-    let index = focusableElems.length;
-    while (index--) {
-      focusableElems[index].tabIndex = tabIndex;
     }
   }
 

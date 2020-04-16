@@ -37,10 +37,6 @@ import {
 } from '@skyux/inline-form';
 
 import {
-  SkyInlineDeleteComponent
-} from '@skyux/layout/modules/inline-delete';
-
-import {
   Observable,
   Subject
 } from 'rxjs';
@@ -121,23 +117,6 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
   @Output()
   public isSelectedChange = new EventEmitter<boolean>();
 
-  public set childFocusIndex(value: number) {
-    if (value !== this._childFocusIndex) {
-      this._childFocusIndex = value;
-
-      const focusableChildren = this.adapterService.getFocusableChildren(this.itemRef);
-      if (focusableChildren.length > 0 && value !== undefined) {
-        this.adapterService.focusElement(focusableChildren[value]);
-      } else {
-        this.adapterService.focusElement(this.itemRef);
-      }
-    }
-  }
-
-  public get childFocusIndex(): number {
-    return this._childFocusIndex;
-  }
-
   public contentId: string = `sky-repeater-item-content-${++nextContentId}`;
 
   public hasItemContent: boolean = false;
@@ -166,8 +145,6 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
   public reorderButtonLabel: string;
   public reorderState: string;
 
-  public tabIndex: number = -1;
-
   /**
    * Specifies an object that the repeater component returns for this repeater item when the `orderChange` event fires.
    * Required if you set the `reorderable` property to `true`.
@@ -178,14 +155,17 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
   @ContentChild(SkyRepeaterItemContextMenuComponent, { read: ElementRef })
   public contextMenu: ElementRef;
 
-  @ContentChild(SkyInlineDeleteComponent)
-  public inlineDelete: SkyInlineDeleteComponent;
-
-  @ViewChild('skyRepeaterItem', { read: ElementRef })
-  private itemRef: ElementRef;
-
   @ViewChild('grabHandle', { read: ElementRef })
   private grabHandle: ElementRef;
+
+  @ViewChild('itemRef', { read: ElementRef })
+  private itemRef: ElementRef;
+
+  @ViewChild('itemContentRef', { read: ElementRef })
+  private itemContentRef: ElementRef;
+
+  @ViewChild('itemHeaderRef', { read: ElementRef })
+  private itemHeaderRef: ElementRef;
 
   @ContentChildren(SkyRepeaterItemContentComponent)
   private repeaterItemContentComponents: QueryList<SkyRepeaterItemContentComponent>;
@@ -198,8 +178,6 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
   private reorderMovedText: string;
   private reorderStateDescription: string;
   private reorderSteps: number;
-
-  private _childFocusIndex: number;
 
   private _isCollapsible = true;
 
@@ -247,25 +225,9 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
           this.changeDetector.markForCheck();
         }
     });
-
-    // When service emits a focus change, set the tabIndex and browser focus.
-    this.repeaterService.focusedItemChange
-      .takeUntil(this.ngUnsubscribe)
-      .subscribe((item: SkyRepeaterItemComponent) => {
-        if (this === item) {
-          this.tabIndex = 0;
-
-          if (!this.itemRef.nativeElement.contains(document.activeElement)) {
-            this.adapterService.focusElement(this.itemRef);
-          }
-        } else {
-          this.tabIndex = -1;
-        }
-    });
   }
 
   public ngAfterViewInit(): void {
-    this.adapterService.setTabIndexOfFocusableElements(this.itemRef, -1, true);
     this.hasItemContent = this.repeaterItemContentComponents.length > 0;
     this.updateExpandOnContentChange();
   }
@@ -292,99 +254,13 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
     this.updateForExpanded(direction === 'up', true);
   }
 
-  public onContextMenuKeydown(event: KeyboardEvent): void {
-    /*istanbul ignore else */
-    if (event.key) {
-      const reservedKeys = ['enter', ' ', 'arrowdown', 'arrowup'];
-      if (reservedKeys.indexOf(event.key.toLowerCase()) > -1) {
-        event.stopPropagation();
-      }
-    }
-  }
-
-  public onFocus(): void {
-    this.childFocusIndex = undefined;
-  }
-
-  public onItemKeyDown(event: KeyboardEvent): void {
-    /*istanbul ignore else */
-    if (event.key) {
-      switch (event.key.toLowerCase()) {
-        case ' ':
-        case 'enter':
-          // Unlike the arrow keys, space/enter should never execute
-          // unless focused on the parent item element.
-          if (event.target === this.itemRef.nativeElement) {
-            if (this.selectable) {
-              this.isSelected = !this.isSelected;
-            }
-            this.repeaterService.activateItem(this);
-            event.preventDefault();
-          }
-          break;
-
-        case 'arrowup':
-          this.childFocusIndex = undefined;
-          this.repeaterService.focusPreviousListItem(this);
-          event.preventDefault();
-          event.stopPropagation();
-          break;
-
-        case 'arrowdown':
-          this.childFocusIndex = undefined;
-          this.repeaterService.focusNextListItem(this);
-          event.preventDefault();
-          event.stopPropagation();
-          break;
-
-        case 'arrowleft': {
-          // Cycle backwards through interactive child elements.
-          // If user reaches the beginning, focus on parent item.
-          const focusableChildren = this.adapterService.getFocusableChildren(this.itemRef);
-          if (focusableChildren.length > 0) {
-            if (this.childFocusIndex > 0) {
-              this.childFocusIndex--;
-            } else if (this.childFocusIndex === 0) {
-              this.childFocusIndex = undefined;
-            }
-          }
-          event.stopPropagation();
-          event.preventDefault();
-          break;
-        }
-
-        case 'arrowright': {
-          // Cyle forward through interactive child elements.
-          // If user reaches the end, do nothing.
-          const focusableChildren = this.adapterService.getFocusableChildren(this.itemRef);
-          if (focusableChildren.length > 0) {
-            if (this.childFocusIndex < focusableChildren.length - 1) {
-              this.childFocusIndex++;
-            } else if (this.childFocusIndex === undefined) {
-              this.childFocusIndex = 0;
-            }
-          }
-          event.stopPropagation();
-          event.preventDefault();
-          break;
-        }
-
-        /* istanbul ignore next */
-        default:
-          break;
-      }
-    }
-  }
-
   public onRepeaterItemClick(event: MouseEvent): void {
-    if (!this.inlineDelete) {
-      const focusableChildren = this.adapterService.getFocusableChildren(this.itemRef);
-      if (focusableChildren.indexOf(<HTMLElement> event.target) < 0) {
-        this.childFocusIndex = undefined;
-      } else {
-        this.childFocusIndex = focusableChildren.indexOf(<HTMLElement> event.target);
-      }
-      this.repeaterService.focusListItem(this);
+    // Only activate item if clicking on the title, content, or parent item div.
+    // This will avoid accidental activations when clicking inside interactive elements like
+    // the expand/collapse chevron, dropdown, inline-delete, etc...
+    if (event.target === this.itemRef.nativeElement ||
+        this.itemContentRef.nativeElement.contains(event.target) ||
+        this.itemHeaderRef.nativeElement.contains(event.target)) {
       this.repeaterService.activateItem(this);
     }
   }
@@ -485,6 +361,29 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
     this.revertReorderSteps();
     this.reorderButtonLabel = this.reorderInstructions;
     this.reorderState = undefined;
+  }
+
+  public onItemKeyDown(event: KeyboardEvent): void {
+    /*istanbul ignore else */
+    if (event.key) {
+      switch (event.key.toLowerCase()) {
+        case ' ':
+        case 'enter':
+          // Space/enter should never execute unless focused on the parent item element.
+          if (event.target === this.itemRef.nativeElement) {
+            if (this.selectable) {
+              this.isSelected = !this.isSelected;
+            }
+            this.repeaterService.activateItem(this);
+            event.preventDefault();
+          }
+          break;
+
+        /* istanbul ignore next */
+        default:
+          break;
+      }
+    }
   }
 
   private slideForExpanded(animate: boolean): void {

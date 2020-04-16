@@ -23,8 +23,6 @@ export class SkyRepeaterService implements OnDestroy {
 
   public expandMode: string;
 
-  public focusedItemChange = new BehaviorSubject<SkyRepeaterItemComponent>(undefined);
-
   public itemCollapseStateChange = new EventEmitter<SkyRepeaterItemComponent>();
 
   public items: SkyRepeaterItemComponent[] = [];
@@ -39,6 +37,7 @@ export class SkyRepeaterService implements OnDestroy {
 
   public activateItem(item: SkyRepeaterItemComponent): void {
     if (this.enableActiveState) {
+      /* istanbul ignore else */
       if (item) {
         const index = this.items.findIndex(i => i === item);
         this.activeItemIndexChange.next(index);
@@ -48,6 +47,7 @@ export class SkyRepeaterService implements OnDestroy {
   }
 
   public activateItemByIndex(index: number): void {
+    /* istanbul ignore else */
     if (this.enableActiveState) {
       if (index === undefined) {
         this.activeItemChange.next(undefined);
@@ -69,37 +69,10 @@ export class SkyRepeaterService implements OnDestroy {
     if (indexOfDestroyedItem > -1) {
       this.items.splice(indexOfDestroyedItem, 1);
     }
-
-    // If the removed item had tabindex = 0, the re-assign tabindex 0 to other item.
-    if (item.tabIndex === 0) {
-      if (this.items[indexOfDestroyedItem]) {
-        this.items[indexOfDestroyedItem].tabIndex = 0;
-      } else if (this.items[indexOfDestroyedItem - 1]) {
-        this.items[indexOfDestroyedItem - 1].tabIndex = 0;
-      }
-    }
   }
 
   public onItemCollapseStateChange(item: SkyRepeaterItemComponent): void {
     this.itemCollapseStateChange.emit(item);
-  }
-
-  public focusListItem(item: SkyRepeaterItemComponent): void {
-    this.focusedItemChange.next(item);
-  }
-
-  public focusNextListItem(item: SkyRepeaterItemComponent): void {
-    const focusedIndex = this.items.indexOf(item);
-    if (this.items.length - 1 > focusedIndex) {
-      this.focusedItemChange.next(this.items[focusedIndex + 1]);
-    }
-  }
-
-  public focusPreviousListItem(item: SkyRepeaterItemComponent): void {
-    const focusedIndex = this.items.indexOf(item);
-    if (focusedIndex > 0) {
-      this.focusedItemChange.next(this.items[focusedIndex - 1]);
-    }
   }
 
   public getItemIndex(item: SkyRepeaterItemComponent): number {

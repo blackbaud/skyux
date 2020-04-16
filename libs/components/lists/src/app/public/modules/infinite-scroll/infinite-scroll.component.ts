@@ -79,17 +79,15 @@ export class SkyInfiniteScrollComponent implements OnDestroy {
           if (!this.isWaiting && this.enabled) {
             this.notifyScrollEnd();
           }
-      });
+        });
 
       // New items have been loaded into the parent element.
       this.domAdapter.parentChanges(this.elementRef)
         .takeUntil(this.ngUnsubscribe)
         .subscribe(() => {
-          if (this.isWaiting) {
-            this.isWaiting = false;
-            this.changeDetector.markForCheck();
-          }
-      });
+          this.isWaiting = false;
+          this.changeDetector.markForCheck();
+        });
     } else {
       this.ngUnsubscribe.next();
     }
