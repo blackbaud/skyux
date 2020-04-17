@@ -1,15 +1,17 @@
 import {
   AfterViewInit,
+  ApplicationRef,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ComponentFactoryResolver,
   ElementRef,
+  EmbeddedViewRef,
   Injector,
   OnDestroy,
   Optional,
-  ReflectiveInjector,
   QueryList,
+  StaticProvider,
   ViewChild,
   ViewChildren,
   ViewContainerRef
@@ -79,6 +81,7 @@ export class SkyToasterComponent implements AfterViewInit, OnDestroy {
   private ngUnsubscribe = new Subject<void>();
 
   constructor(
+    private applicationRef: ApplicationRef,
     private domAdapter: SkyToastAdapterService,
     private toastService: SkyToastService,
     private resolver: ComponentFactoryResolver,
@@ -89,7 +92,6 @@ export class SkyToasterComponent implements AfterViewInit, OnDestroy {
   ) { }
 
   public ngAfterViewInit(): void {
-    this.injectToastContent();
     this.toastContent.changes.subscribe(() => {
       this.injectToastContent();
     });
@@ -149,7 +151,7 @@ export class SkyToasterComponent implements AfterViewInit, OnDestroy {
   private injectToastContent(): void {
     // Dynamically inject each toast's body content when the number of toasts changes.
     this.toastService.toastStream.take(1).subscribe((toasts) => {
-      this.toastContent.toArray().forEach((target: ViewContainerRef, i: number) => {
+      this.toastContent.toArray().forEach((target: ViewContainerRef) => {
         const toastId = this.domAdapter.getToastId(target);
 
         const toast = toasts.find(item => item.toastId === toastId);
@@ -157,13 +159,19 @@ export class SkyToasterComponent implements AfterViewInit, OnDestroy {
         if (!toast.isRendered) {
           target.clear();
 
-          const componentFactory = this.resolver.resolveComponentFactory(toast.bodyComponent);
-          const injector = ReflectiveInjector.fromResolvedProviders(
-            ReflectiveInjector.resolve(toast.bodyComponentProviders),
-            this.injector
-          );
+          const injector = Injector.create({
+            providers: toast.bodyComponentProviders as StaticProvider[],
+            parent: this.injector
+          });
 
-          const componentRef = target.createComponent(componentFactory, undefined, injector);
+          const componentRef = this.resolver
+            .resolveComponentFactory(toast.bodyComponent)
+            .create(injector);
+
+          this.applicationRef.attachView(componentRef.hostView);
+
+          const el = (componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0];
+          document.querySelector(`[data-toast-id="${toast.toastId}"]`).appendChild(el);
           componentRef.changeDetectorRef.detectChanges();
 
           toast.isRendered = true;
