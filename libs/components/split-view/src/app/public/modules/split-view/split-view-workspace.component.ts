@@ -87,7 +87,7 @@ export class SkySplitViewWorkspaceComponent implements OnDestroy, OnInit {
     this.ngUnsubscribe.complete();
   }
 
-  @HostListener('window:resize', ['$event'])
+  @HostListener('window:resize')
   public onWindowResize(): void {
     this.updateBreakpoint();
   }
