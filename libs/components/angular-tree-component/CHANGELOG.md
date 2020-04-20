@@ -1,3 +1,8 @@
+# 3.0.0 (2020-04-20)
+
+- Major version release.
+- Updated the angular tree component to be compatible with the affix and overlay services. [#13](https://github.com/blackbaud/skyux-angular-tree-component/pull/13)
+
 # 3.0.0-rc.0 (2019-11-04)
 
 - Initial release candidate.
