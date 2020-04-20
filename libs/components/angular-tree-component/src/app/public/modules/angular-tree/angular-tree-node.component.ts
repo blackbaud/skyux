@@ -177,41 +177,62 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
     this.childFocusIndex = undefined;
   }
 
-  // Cycle backwards through interactive child elements
-  // If user reaches the beginning, activate drill up.
-  public onArrowLeft(event: KeyboardEvent): void {
+  public onKeyDown(event: KeyboardEvent): void {
     /* istanbul ignore else */
     if (document.activeElement === event.target) {
-      if (this.childFocusIndex !== undefined) {
-        if (this.childFocusIndex === 0) {
-          this.childFocusIndex = undefined;
-        } else {
-          this.childFocusIndex--;
-        }
-      } else {
-        this.node.setIsExpanded(false);
-      }
-      event.stopPropagation();
-      event.preventDefault();
-    }
-  }
+      const key = event.key.toLowerCase();
+      switch (key) {
+        case 'up':
+        case 'arrowup':
+          // Focus on previous node.
+          this.node.treeModel.focusPreviousNode();
+          break;
 
-  // Cyle forward through interactive child elements.
-  // If user reaches the end, activate drill down.
-  public onArrowRight(event: KeyboardEvent): void {
-    /* istanbul ignore else */
-    if (document.activeElement === event.target) {
-      if (this.focusableChildren.length <= 0 || this.childFocusIndex === this.focusableChildren.length - 1) {
-        this.node.setIsExpanded(true);
-      } else {
-        if (this.childFocusIndex === undefined) {
-          this.childFocusIndex = 0;
-        } else {
-          this.childFocusIndex++;
-        }
+        case 'down':
+        case 'arrowdown':
+          // Focus on next node.
+          this.node.treeModel.focusNextNode();
+          break;
+
+        case 'left':
+        case 'arrowleft':
+          // Cycle backwards through interactive child elements
+          // If user reaches the beginning, activate drill up.
+          /* istanbul ignore else */
+          if (this.childFocusIndex !== undefined) {
+            if (this.childFocusIndex === 0) {
+              this.childFocusIndex = undefined;
+            } else {
+              this.childFocusIndex--;
+            }
+          } else {
+            this.node.setIsExpanded(false);
+          }
+          event.stopPropagation();
+          event.preventDefault();
+          break;
+
+        case 'right':
+        case 'arrowright':
+          // Cyle forward through interactive child elements.
+          // If user reaches the end, activate drill down.
+          /* istanbul ignore else */
+          if (this.focusableChildren.length <= 0 || this.childFocusIndex === this.focusableChildren.length - 1) {
+            this.node.setIsExpanded(true);
+          } else {
+            if (this.childFocusIndex === undefined) {
+              this.childFocusIndex = 0;
+            } else {
+              this.childFocusIndex++;
+            }
+          }
+          event.stopPropagation();
+          event.preventDefault();
+          break;
+
+        default:
+          break;
       }
-      event.stopPropagation();
-      event.preventDefault();
     }
   }
 

@@ -754,21 +754,35 @@ describe('tree view', () => {
     }));
 
     it('should move between focusable children elements with left/right arrows', fakeAsync(() => {
+      setupCascadingMode();
       component.showContextMenus = true;
       fixture.detectChanges();
       tick(1000); // Allow angular-tree-node-component to set tabindexes & render context dropdown.
       const dropdownButtons = document.querySelectorAll('.sky-dropdown-button') as NodeListOf<HTMLButtonElement>;
+      const checkboxInputs = getCheckboxInputs();
       const nodes = getNodeContentWrappers();
 
       // Press right arrow key on first node.
       SkyAppTestUtility.fireDomEvent(nodes[0], 'focus');
       keyDownOnElement(nodes[0], 'ArrowRight', 39);
 
-      // Expect first child element to be selected (dropdown menu).
+      // Expect first child element to be selected (checkbox).
+      expect(document.activeElement).toEqual(checkboxInputs[0]);
+
+      // Press right arrow key on first node.
+      keyDownOnElement(checkboxInputs[0], 'ArrowRight', 39);
+
+      // Expect second child element to be selected (dropdown menu).
       expect(document.activeElement).toEqual(dropdownButtons[0]);
 
       // Press left arrow key.
       keyDownOnElement(dropdownButtons[0], 'ArrowLeft', 37);
+
+      // Active focus should move back to first child element (checkbox).
+      expect(document.activeElement).toEqual(checkboxInputs[0]);
+
+      // Press left arrow key.
+      keyDownOnElement(checkboxInputs[0], 'ArrowLeft', 37);
 
       // Active focus should move back to first node.
       expect(document.activeElement).toEqual(nodes[0]);
@@ -818,19 +832,19 @@ describe('tree view', () => {
       // Press down arrow twice.
       SkyAppTestUtility.fireDomEvent(nodes[0], 'focus');
       keyDownOnElement(nodes[0], 'ArrowDown', 40);
-      keyDownOnElement(nodes[0], 'ArrowDown', 40);
+      keyDownOnElement(nodes[1], 'ArrowDown', 40);
 
       // Expect focus to be on third node.
       expect(component.focusedNodeId).toEqual(3);
 
-      // Press right arrow key on first node.
-      keyDownOnElement(nodes[0], 'ArrowUp', 38);
+      // Press up arrow key on third node.
+      keyDownOnElement(nodes[2], 'ArrowUp', 38);
 
       // Expect focus to be on second element.
       expect(component.focusedNodeId).toEqual(2);
     });
 
-    it('should prevent enter key from bubbling beyond sky-angular-tree-context-menu element', fakeAsync(() => {
+    it('should not execute default node action when enter key is pressed on anything but the node wrapper', fakeAsync(() => {
       component.showContextMenus = true;
       setupNonCascadingMode();
       fixture.detectChanges();
@@ -841,9 +855,23 @@ describe('tree view', () => {
       // Set focus on first dropdown.
       SkyAppTestUtility.fireDomEvent(nodes[0], 'focus');
       keyDownOnElement(nodes[0], 'ArrowRight', 39);
+      keyDownOnElement(nodes[0], 'ArrowRight', 39);
+      fixture.detectChanges();
 
       // Press "Enter" on node.
       keyDownOnElement(dropdownButtons[0], 'Enter', 13);
+      fixture.detectChanges();
+      tick();
+      const dropdownMenu = document.querySelector('.sky-dropdown-menu');
+      const dropdownItems = document.querySelectorAll('.sky-dropdown-item') as NodeListOf<HTMLElement>;
+
+      // Expect node NOT to be selected.
+      expectNodeToBeSelected(1, false);
+      expect(dropdownMenu).not.toBeNull();
+
+      // Press "Enter" on a menu item.
+      SkyAppTestUtility.fireDomEvent(dropdownItems[0], 'focus');
+      keyDownOnElement(dropdownItems[0], 'Enter', 13);
 
       // Expect node NOT to be selected.
       expectNodeToBeSelected(1, false);
@@ -852,7 +880,7 @@ describe('tree view', () => {
       flush();
     }));
 
-    it('should prevent arrow keys from bubbling beyond sky-angular-tree-context-menu element', fakeAsync(() => {
+    it('should not execute default action when arrow keys are pressed on anything but the node wrapper', fakeAsync(() => {
       component.showContextMenus = true;
       setupNonCascadingMode();
       fixture.detectChanges();
@@ -864,6 +892,8 @@ describe('tree view', () => {
       SkyAppTestUtility.fireDomEvent(nodes[3], 'focus');
       keyDownOnElement(nodes[3], 'ArrowRight', 39);
       keyDownOnElement(dropdownButtons[3], 'ArrowDown', 40);
+      fixture.detectChanges();
+      tick();
 
       // Expect fourth node to still be focused.
       expect(component.focusedNodeId).toEqual(4);
@@ -945,6 +975,7 @@ describe('tree view', () => {
       expect(nodes[4].getAttribute('aria-current')).toBeNull();
 
       clickNode(0);
+      fixture.detectChanges();
       expect(nodes[0].getAttribute('aria-current')).toEqual('true');
       expect(nodes[1].getAttribute('aria-current')).toBeNull();
       expect(nodes[2].getAttribute('aria-current')).toBeNull();

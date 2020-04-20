@@ -55,6 +55,7 @@
     <div
       class="node-content-wrapper"
       [allowDragoverStyling]="node.allowDragoverStyling()"
+      [attr.data-node-id]="node.id"
       [attr.tabindex]="tabIndex"
       [treeAllowDrop]="node.allowDrop"
       [treeDrag]="node"
@@ -62,8 +63,7 @@
       (contextmenu)="node.mouseAction('contextMenu', $event)"
       (dblclick)="node.mouseAction('dblClick', $event)"
       (focus)="onFocus()"
-      (keydown.ArrowLeft)="onArrowLeft($event)"
-      (keydown.ArrowRight)="onArrowRight($event)"
+      (keydown)="onKeyDown($event)"
       (treeDrop)="node.onDrop($event)"
       (treeDropDragEnter)="node.mouseAction('dragEnter', $event)"
       (treeDropDragLeave)="node.mouseAction('dragLeave', $event)"
