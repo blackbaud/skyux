@@ -1,3 +1,8 @@
+# 3.8.6 (2020-04-21)
+
+- Fixed the repeater component to accept normal keyboard interactions within an inline form. [#151](https://github.com/blackbaud/skyux-lists/pull/151)
+- Fixed the paging and repeater components to pass accessibility tests. [#155](https://github.com/blackbaud/skyux-lists/pull/155)
+
 # 3.8.5 (2020-02-28)
 
 - Fixed the repeater component to output the correct `orderChange` value when users drag the first reorderable repeater item. [#138](https://github.com/blackbaud/skyux-lists/pull/138)
