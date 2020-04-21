@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Directive,
   ElementRef,
   forwardRef,
@@ -7,6 +8,14 @@ import {
   OnInit,
   Renderer2
 } from '@angular/core';
+
+import {
+  fromEvent
+} from 'rxjs';
+
+import {
+  debounceTime
+} from 'rxjs/operators';
 
 import {
   AbstractControl,
@@ -65,13 +74,41 @@ export class SkyAutonumericDirective implements OnInit, ControlValueAccessor, Va
   constructor(
     private elementRef: ElementRef,
     private globalConfig: SkyAutonumericOptionsProvider,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private changeDetector: ChangeDetectorRef
   ) {
     this.createAutonumericInstance();
   }
 
   public ngOnInit(): void {
     this.updateAutonumericInstance();
+
+    fromEvent(this.elementRef.nativeElement, 'keyup')
+      .pipe(debounceTime(250))
+      .subscribe(() => {
+        const inputValue = this.getInputValue();
+        /**
+         * Due to autocomplete's hover logic - when autocomplete has a currency symbol the value that we will get back on empty fields
+         * will be the currency symbol. The currency sybol logic here ensures that we don't accidentally set
+         * a form value when the only input was this programaticaly added currency symbol.
+         */
+        const currencySymbol = (<{ [key: string]: any; }>this.autonumericOptions)['currencySymbol'];
+        const numericValue = (inputValue && (!currencySymbol || inputValue !== currencySymbol.trim())) ?
+          this.autonumericInstance.getNumber() : undefined;
+
+        /* istanbul ignore else */
+        if (this.value !== numericValue) {
+          this.value = numericValue;
+          this.onChange(numericValue);
+        }
+
+        /* istanbul ignore else */
+        if (this.control && !this.control.dirty) {
+          this.control.markAsDirty();
+        }
+
+        this.changeDetector.markForCheck();
+      });
   }
 
   /**
@@ -133,31 +170,7 @@ export class SkyAutonumericDirective implements OnInit, ControlValueAccessor, Va
 
   @HostListener('blur')
   public onBlur(): void {
-    const inputValue = this.getInputValue();
-    /**
-     * Due to autocomplete's hover logic - when autocomplete has a currency symbol the value that we will get back on empty fields
-     * will be the currency symbol. The currency sybol logic here ensures that we don't accidentally set a form value when the only input
-     * was this programaticaly added currency symbol.
-     */
-    const currencySymbol = (<{ [key: string]: any; }>this.autonumericOptions)['currencySymbol'];
-    const numericValue = (inputValue && (!currencySymbol || inputValue !== currencySymbol.trim())) ?
-      this.autonumericInstance.getNumber() : undefined;
-
-    /* istanbul ignore else */
-    if (this.value !== numericValue) {
-      this.value = numericValue;
-      this.onChange(numericValue);
-    }
-
     this.onTouched();
-  }
-
-  @HostListener('keyup')
-  public onKeyUp(): void {
-    /* istanbul ignore else */
-    if (this.control) {
-      this.control.markAsDirty();
-    }
   }
 
   private getInputValue(): string {

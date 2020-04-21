@@ -36,7 +36,7 @@ describe('Autonumeric directive', () => {
   // #region helpers
   function detectChanges(): void {
     fixture.detectChanges();
-    tick();
+    tick(250);
   }
 
   function getReactiveInput(): HTMLInputElement {
@@ -179,7 +179,7 @@ describe('Autonumeric directive', () => {
     expect(formattedValue).toEqual('1,000.00000');
   }));
 
-  it('should update numeric value on blur', fakeAsync(() => {
+  it('should update numeric value on keyup', fakeAsync(() => {
     detectChanges();
 
     const autonumericInstance = fixture.componentInstance.autonumericDirective['autonumericInstance'];
@@ -189,13 +189,13 @@ describe('Autonumeric directive', () => {
 
     input.value = '1000';
     SkyAppTestUtility.fireDomEvent(input, 'input');
-    SkyAppTestUtility.fireDomEvent(input, 'blur');
+    SkyAppTestUtility.fireDomEvent(input, 'keyup');
     detectChanges();
 
     expect(spy).toHaveBeenCalled();
   }));
 
-  it('should not update numeric value on blur when no change is made', fakeAsync(() => {
+  it('should not update numeric value on keyup when no change is made', fakeAsync(() => {
     detectChanges();
 
     const autonumericInstance = fixture.componentInstance.autonumericDirective['autonumericInstance'];
@@ -205,13 +205,13 @@ describe('Autonumeric directive', () => {
 
     SkyAppTestUtility.fireDomEvent(input, 'mouseenter');
     SkyAppTestUtility.fireDomEvent(input, 'input');
-    SkyAppTestUtility.fireDomEvent(input, 'blur');
+    SkyAppTestUtility.fireDomEvent(input, 'keyup');
     detectChanges();
 
     expect(spy).not.toHaveBeenCalled();
   }));
 
-  it('should not update numeric value on blur when no change is made and a currency symbol is specified', fakeAsync(() => {
+  it('should not update numeric value on keyup when no change is made and a currency symbol is specified', fakeAsync(() => {
     setOptions('dollar');
 
     detectChanges();
@@ -223,7 +223,7 @@ describe('Autonumeric directive', () => {
 
     SkyAppTestUtility.fireDomEvent(input, 'mouseenter');
     SkyAppTestUtility.fireDomEvent(input, 'input');
-    SkyAppTestUtility.fireDomEvent(input, 'blur');
+    SkyAppTestUtility.fireDomEvent(input, 'keyup');
     detectChanges();
 
     expect(spy).not.toHaveBeenCalled();
@@ -351,7 +351,7 @@ describe('Autonumeric directive', () => {
       });
     }));
 
-    it('should mark the control as invalid on blur if the field is required and the value is undefined', fakeAsync(() => {
+    it('should mark the control as invalid on keyup if the field is required and the value is undefined', fakeAsync(() => {
       detectChanges();
       fixture.componentInstance.formControl.setValidators([Validators.required]);
       fixture.componentInstance.required = true;
@@ -365,7 +365,7 @@ describe('Autonumeric directive', () => {
       for (let i = 0; i < inputs.length; i++) {
         inputs[i].value = '';
         SkyAppTestUtility.fireDomEvent(inputs[i], 'input');
-        SkyAppTestUtility.fireDomEvent(inputs[i], 'blur');
+        SkyAppTestUtility.fireDomEvent(inputs[i], 'keyup');
       }
       detectChanges();
 
