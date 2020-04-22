@@ -16,7 +16,10 @@
           <sky-icon icon="chevron-left"></sky-icon>
         </button>
       </th>
-      <th [attr.colspan]="5 + (datepicker.showWeeks ? 1 : 0)" scope="col">
+      <th
+        scope="col"
+        [attr.colspan]="5"
+      >
         <button
           [id]="datepicker.datepickerId + '-title'"
           type="button"

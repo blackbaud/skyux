@@ -3,8 +3,12 @@
     "_description": "The label for the datepicker component's input field for screen readers when the consumer has not specified a label.",
     "message": "Date input field"
   },
+  "skyux_datepicker_trigger_button_label": {
+     "_description": "Label for the trigger button of the datepicker",
+     "message": "Select date"
+   },
   "skyux_timepicker_button_label": {
-    "_description": "Screen reader text for the timepicker component dropdown button",
+    "_description": "Screen reader text for the timepicker trigger button",
     "message": "Choose time"
   },
   "skyux_timepicker_close": {

@@ -6,8 +6,8 @@ import {
 
 import {
   FormGroup,
-  FormControl,
-  Validators } from '@angular/forms';
+  FormControl
+} from '@angular/forms';
 
 import {
   SkyTimepickerComponent
@@ -26,21 +26,27 @@ import {
   templateUrl: './timepicker-reactive-component.fixture.html'
 })
 export class TimepickerReactiveTestComponent implements OnInit {
+
   @ViewChild(SkyTimepickerComponent)
   public timepickerComponent: SkyTimepickerComponent;
 
   @ViewChild(SkyTimepickerInputDirective)
-  public timepicker: SkyTimepickerInputDirective;
+  public timepickerDirective: SkyTimepickerInputDirective;
 
-  public timeFormat: string = 'hh';
-  public returnFormat: string = undefined;
-  public selectedTime: SkyTimepickerTimeOutput;
-  public timepickerForm: FormGroup;
-  public timeControl: FormControl;
   public isDisabled: boolean;
 
-  public ngOnInit() {
-    this.timeControl = new FormControl('2:55 AM', [Validators.required]);
+  public returnFormat: string;
+
+  public selectedTime: SkyTimepickerTimeOutput;
+
+  public timeControl: FormControl;
+
+  public timeFormat: string;
+
+  public timepickerForm: FormGroup;
+
+  public ngOnInit(): void {
+    this.timeControl = new FormControl('2:55 AM');
     this.timepickerForm = new FormGroup({
       'time': this.timeControl
     });

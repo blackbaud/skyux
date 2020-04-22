@@ -14,19 +14,27 @@ import {
 import {
   SkyTimepickerTimeOutput
 } from '../timepicker.interface';
+
 @Component({
   selector: 'sky-test-cmp',
-  template: require('./timepicker-component.fixture.html')
+  templateUrl: './timepicker-component.fixture.html'
 })
 export class TimepickerTestComponent {
+
   @ViewChild(SkyTimepickerComponent)
   public timepickerComponent: SkyTimepickerComponent;
 
   @ViewChild(SkyTimepickerInputDirective)
   public timepicker: SkyTimepickerInputDirective;
 
-  public timeFormat: string = 'hh';
-  public returnFormat: string = undefined;
+  public disabled: boolean;
+
+  public required: boolean;
+
+  public returnFormat: string;
+
   public selectedTime: SkyTimepickerTimeOutput;
-  public isDisabled: boolean;
+
+  public timeFormat: string = 'hh';
+
 }

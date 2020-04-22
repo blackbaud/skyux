@@ -3,6 +3,12 @@ import {
 } from '@angular/core';
 
 import {
+  SkyAffixModule,
+  SkyCoreAdapterService,
+  SkyOverlayModule
+} from '@skyux/core';
+
+import {
   CommonModule
 } from '@angular/common';
 
@@ -11,8 +17,8 @@ import {
 } from '@skyux/i18n';
 
 import {
-  SkyDropdownModule
-} from '@skyux/popovers';
+  SkyIconModule
+} from '@skyux/indicators';
 
 import {
   SkyDateTimeResourcesModule
@@ -34,8 +40,13 @@ import {
   imports: [
     CommonModule,
     SkyI18nModule,
+    SkyIconModule,
     SkyDateTimeResourcesModule,
-    SkyDropdownModule
+    SkyAffixModule,
+    SkyOverlayModule
+  ],
+  providers: [
+    SkyCoreAdapterService
   ],
   exports: [
     SkyTimepickerInputDirective,

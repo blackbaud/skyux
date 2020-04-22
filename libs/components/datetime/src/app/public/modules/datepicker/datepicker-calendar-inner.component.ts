@@ -50,6 +50,7 @@ export class SkyDatepickerCalendarInnerComponent implements OnInit, OnChanges {
   public calendarModeChange: EventEmitter<string> = new EventEmitter<string>();
 
   public activeDate: Date;
+  public activeDateId: string;
 
   public minMode: string = 'day';
   public maxMode: string = 'year';
@@ -73,7 +74,6 @@ export class SkyDatepickerCalendarInnerComponent implements OnInit, OnChanges {
 
   protected modes: string[] = ['day', 'month', 'year'];
   protected dateFormatter: SkyDateFormatter = new SkyDateFormatter();
-  protected activeDateId: string;
 
   public refreshViewHandlerDay: Function;
   public compareHandlerDay: Function;
@@ -347,10 +347,10 @@ export class SkyDatepickerCalendarInnerComponent implements OnInit, OnChanges {
     }
   }
 
-  public toggleModeCalendar(event: Event, direction: number) {
+  public toggleModeCalendar(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    this.toggleMode(direction);
+    this.toggleMode(1);
   }
 
   public toggleMode(direction: number): void {

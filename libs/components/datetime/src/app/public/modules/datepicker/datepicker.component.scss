@@ -1,6 +1,6 @@
 @import "~@skyux/theme/scss/mixins";
 
-.sky-input-group-datepicker-btn ::ng-deep .sky-dropdown-button.sky-btn {
+.sky-input-group-datepicker-btn {
   border-radius: 0;
   border-left-color: transparent;
   &:hover{
@@ -8,17 +8,11 @@
   }
 }
 
-.sky-input-group-datepicker-btn ::ng-deep .sky-dropdown-menu {
-  box-shadow: none;
-  background-color: transparent;
-  text-align: center;
+.sky-datepicker-calendar-container {
+  position: fixed;
+  border-radius: 5px;
 }
 
-.sky-datepicker {
-  ::ng-deep .sky-popover-container {
-    .sky-popover {
-      box-shadow: none;
-      background-color: transparent;
-    }
-  }
+.sky-datepicker-hidden {
+  visibility: hidden;
 }

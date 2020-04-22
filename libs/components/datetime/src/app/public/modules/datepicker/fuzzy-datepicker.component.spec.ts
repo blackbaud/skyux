@@ -58,12 +58,12 @@ function detectChanges(fixture: ComponentFixture<any>): void {
   tick();
 }
 
-function getDatepickerButton(fixture: ComponentFixture<any>): HTMLElement {
-  return fixture.nativeElement.querySelector('.sky-input-group .sky-input-group-btn .sky-dropdown-button') as HTMLElement;
+function getTriggerButton(fixture: ComponentFixture<any>): HTMLButtonElement {
+  return fixture.nativeElement.querySelector('.sky-input-group-datepicker-btn') as HTMLButtonElement;
 }
 
 function clickDatepickerButton(fixture: ComponentFixture<any>, isfakeAsync: boolean = true): void {
-  getDatepickerButton(fixture).click();
+  getTriggerButton(fixture).click();
   if (isfakeAsync) {
     detectChanges(fixture);
   }
@@ -101,7 +101,7 @@ function getInputElementValue(fixture: ComponentFixture<any>): string {
 }
 
 function getCalendarDayButton(index: number, fixture: ComponentFixture<any>): HTMLButtonElement {
-  return fixture.nativeElement.querySelectorAll('tbody tr td .sky-btn-default').item(index) as HTMLButtonElement;
+  return document.querySelectorAll('tbody tr td .sky-btn-default').item(index) as HTMLButtonElement;
 }
 
 function clickCalendarDateButton(index: number, fixture: ComponentFixture<any>): void {
@@ -109,21 +109,26 @@ function clickCalendarDateButton(index: number, fixture: ComponentFixture<any>):
   detectChanges(fixture);
 }
 
-function getCalendarColumn(index: number, fixture: ComponentFixture<any>): HTMLElement {
-  return fixture.nativeElement.querySelectorAll('.sky-datepicker-center.sky-datepicker-weekdays').item(0) as HTMLElement;
+function getCalendarColumn(index: number): HTMLElement {
+  return document.querySelectorAll('.sky-datepicker-center.sky-datepicker-weekdays').item(index) as HTMLElement;
 }
 
-function getCalendarTitle(fixture: ComponentFixture<any>): HTMLElement {
-  return fixture.nativeElement.querySelector('.sky-datepicker-calendar-title') as HTMLElement;
+function getCalendarTitle(): HTMLElement {
+  return document.querySelector('.sky-datepicker-calendar-title') as HTMLElement;
 }
 
 function clickCalendarTitle(fixture: ComponentFixture<any>): void {
-  getCalendarTitle(fixture).click();
+  getCalendarTitle().click();
   detectChanges(fixture);
 }
 
-function getSelectedCalendarItem(fixture: ComponentFixture<any>): HTMLElement {
-  return fixture.nativeElement.querySelector('td .sky-datepicker-btn-selected') as HTMLElement;
+function getSelectedCalendarItem(): HTMLElement {
+  const datepicker = getDatepicker();
+  return datepicker.querySelector('td .sky-datepicker-btn-selected') as HTMLElement;
+}
+
+function getDatepicker(): HTMLElement {
+  return document.querySelector('.sky-datepicker-calendar-container');
 }
 // #endregion
 
@@ -234,7 +239,7 @@ describe('fuzzy datepicker input', () => {
       fixture.detectChanges();
 
       expect(getInputElement(fixture)).toHaveCssClass('sky-form-control');
-      expect(getDatepickerButton(fixture)).not.toBeNull();
+      expect(getTriggerButton(fixture)).not.toBeNull();
     });
 
     it('should apply aria-label to the datepicker input when none is provided', () => {
@@ -252,15 +257,16 @@ describe('fuzzy datepicker input', () => {
 
     it('should keep the calendar open on mode change', fakeAsync(() => {
       fixture.detectChanges();
-      clickDatepickerButton(fixture);
-      let dropdownMenuEl = nativeElement.querySelector('.sky-popover-container');
 
-      expect(dropdownMenuEl).not.toHaveCssClass('sky-popover-hidden');
+      clickDatepickerButton(fixture);
+      let datepicker = getDatepicker();
+
+      expect(datepicker).not.toBeNull();
 
       clickCalendarTitle(fixture);
-      dropdownMenuEl = nativeElement.querySelector('.sky-popover-container');
+      datepicker = getDatepicker();
 
-      expect(dropdownMenuEl).not.toHaveCssClass('sky-popover-hidden');
+      expect(datepicker).not.toBeNull();
 
       flush();
     }));
@@ -269,8 +275,8 @@ describe('fuzzy datepicker input', () => {
       setInputProperty(new Date('5/12/2017'), component, fixture);
       clickDatepickerButton(fixture);
 
-      expect(getSelectedCalendarItem(fixture)).toHaveText('12');
-      expect(getCalendarTitle(fixture)).toHaveText('May 2017');
+      expect(getSelectedCalendarItem()).toHaveText('12');
+      expect(getCalendarTitle()).toHaveText('May 2017');
 
       // Click May 6th
       clickCalendarDateButton(6, fixture);
@@ -284,6 +290,7 @@ describe('fuzzy datepicker input', () => {
     it('should be accessible', async(() => {
       fixture.detectChanges();
       clickDatepickerButton(fixture, false);
+      fixture.detectChanges();
 
       // Due to the nature of the calendar popup and this being an async test,
       // we need a couple when stable blocks to ensure the calendar is showing.
@@ -443,8 +450,8 @@ describe('fuzzy datepicker input', () => {
         setInputElementValue(nativeElement, '5/12/2017', fixture);
         clickDatepickerButton(fixture);
 
-        expect(getCalendarTitle(fixture)).toHaveText('May 2017');
-        expect(getSelectedCalendarItem(fixture)).toHaveText('12');
+        expect(getCalendarTitle()).toHaveText('May 2017');
+        expect(getSelectedCalendarItem()).toHaveText('12');
 
         flush();
       }));
@@ -943,7 +950,7 @@ describe('fuzzy datepicker input', () => {
 
         clickDatepickerButton(fixture);
 
-        const firstDayCol = getCalendarColumn(0, fixture);
+        const firstDayCol = getCalendarColumn(0);
         expect(firstDayCol.textContent).toContain('Fr');
 
         flush();
@@ -972,24 +979,24 @@ describe('fuzzy datepicker input', () => {
     });
 
     describe('disabled state', () => {
-      it('should disable the input and dropdown when disable is set to true', fakeAsync(() => {
+      it('should disable the input and trigger button when disable is set to true', fakeAsync(() => {
         component.isDisabled = true;
         detectChanges(fixture);
 
         expect(fixture.componentInstance.inputDirective.disabled).toBeTruthy();
         expect(fixture.debugElement.query(By.css('input')).nativeElement.disabled).toBeTruthy();
-        expect(fixture.debugElement.query(By.css('sky-dropdown button')).nativeElement.disabled).toBeTruthy();
+        expect(getTriggerButton(fixture).disabled).toBeTruthy();
 
         flush();
       }));
 
-      it('should not disable the input and dropdown when disable is set to false', fakeAsync(() => {
+      it('should not disable the input and trigger button when disable is set to false', fakeAsync(() => {
         component.isDisabled = false;
         detectChanges(fixture);
 
         expect(fixture.componentInstance.inputDirective.disabled).toBeFalsy();
         expect(fixture.debugElement.query(By.css('input')).nativeElement.disabled).toBeFalsy();
-        expect(fixture.debugElement.query(By.css('sky-dropdown button')).nativeElement.disabled).toBeFalsy();
+        expect(getTriggerButton(fixture).disabled).toBeFalsy();
 
         flush();
       }));
@@ -1161,8 +1168,8 @@ describe('fuzzy datepicker input', () => {
         setInputElementValue(nativeElement, '5/12/2017', fixture);
         clickDatepickerButton(fixture);
 
-        expect(getCalendarTitle(fixture)).toHaveText('May 2017');
-        expect(getSelectedCalendarItem(fixture)).toHaveText('12');
+        expect(getCalendarTitle()).toHaveText('May 2017');
+        expect(getSelectedCalendarItem()).toHaveText('12');
 
         flush();
       }));
@@ -1259,7 +1266,7 @@ describe('fuzzy datepicker input', () => {
         flush();
       }));
 
-      it('should set correct statuses after user selects from calendar', fakeAsync(function () {
+      it('should set correct statuses after user selects from calendar', fakeAsync(() => {
         fixture.componentInstance.initialValue = '5/15/2017';
         detectChanges(fixture);
 
@@ -1268,7 +1275,7 @@ describe('fuzzy datepicker input', () => {
         expect(component.dateControl.touched).toBe(false);
 
         clickDatepickerButton(fixture);
-        getSelectedCalendarItem(fixture).click();
+        getSelectedCalendarItem().click();
         detectChanges(fixture);
 
         expect(component.dateControl.valid).toBe(true);
@@ -1579,7 +1586,7 @@ describe('fuzzy datepicker input', () => {
 
         clickDatepickerButton(fixture);
 
-        const firstDayCol = getCalendarColumn(0, fixture);
+        const firstDayCol = getCalendarColumn(0);
         expect(firstDayCol.textContent).toContain('Fr');
 
         flush();
@@ -1587,24 +1594,24 @@ describe('fuzzy datepicker input', () => {
     });
 
     describe('disabled state', () => {
-      it('should disable the input and dropdown when disable is set to true', () => {
+      it('should disable the input and trigger button when disable is set to true', () => {
         fixture.detectChanges();
         component.dateControl.disable();
         fixture.detectChanges();
 
         expect(fixture.componentInstance.inputDirective.disabled).toBeTruthy();
         expect(fixture.debugElement.query(By.css('input')).nativeElement.disabled).toBeTruthy();
-        expect(fixture.debugElement.query(By.css('sky-dropdown button')).nativeElement.disabled).toBeTruthy();
+        expect(getTriggerButton(fixture).disabled).toBeTruthy();
       });
 
-      it('should not disable the input and dropdown when disable is set to false', () => {
+      it('should not disable the input and trigger button when disable is set to false', () => {
         fixture.detectChanges();
         component.dateControl.enable();
         fixture.detectChanges();
 
         expect(fixture.componentInstance.inputDirective.disabled).toBeFalsy();
         expect(fixture.debugElement.query(By.css('input')).nativeElement.disabled).toBeFalsy();
-        expect(fixture.debugElement.query(By.css('sky-dropdown button')).nativeElement.disabled).toBeFalsy();
+        expect(getTriggerButton(fixture).disabled).toBeFalsy();
       });
     });
   });

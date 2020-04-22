@@ -17,6 +17,10 @@ import {
 } from '@skyux/i18n';
 
 import {
+  take
+} from 'rxjs/operators';
+
+import {
   SkyFuzzyDateService
 } from './fuzzy-date.service';
 
@@ -45,10 +49,10 @@ describe('SkyFuzzyDateservice', () => {
     tick();
 
     appProvider.getLocaleInfo()
-    .take(1)
-    .subscribe((localeInfo) => {
-      currentLocale = localeInfo.locale;
-    });
+      .pipe(take(1))
+      .subscribe((localeInfo) => {
+        currentLocale = localeInfo.locale;
+      });
   }));
 
   describe('getCurrentLocale', () => {
