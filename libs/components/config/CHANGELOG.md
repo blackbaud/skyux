@@ -1,3 +1,7 @@
+# 3.9.0 (2020-04-22)
+
+- Added the `theming` property to `SkyuxConfigApp`. [#46](https://github.com/blackbaud/skyux-config/pull/46)
+
 # 3.8.1 (2020-02-20)
 
 - Fixed the `help` property in the schema to only accept values of type `object`. [#41](https://github.com/blackbaud/skyux-config/pull/41)
