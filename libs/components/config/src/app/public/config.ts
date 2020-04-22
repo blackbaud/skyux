@@ -56,11 +56,19 @@ export interface SkyuxConfigA11y {
   rules?: any;
 }
 
+export type SkyuxConfigAppSupportedTheme = 'default' | 'modern';
+
+export interface SkyuxConfigAppTheming {
+  supportedThemes: SkyuxConfigAppSupportedTheme[];
+  theme: SkyuxConfigAppSupportedTheme;
+}
+
 export interface SkyuxConfigApp {
   base?: string;
   externals?: Object;
   port?: string;
   styles?: string[];
+  theming?: SkyuxConfigAppTheming;
   title?: string;
 }
 
