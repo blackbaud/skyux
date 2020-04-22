@@ -19,8 +19,16 @@ $sky-switch-size: 22px !default;
 }
 
 .sky-switch-input {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
   position: absolute;
-  opacity: 0;
+  width: 1px;
+  outline: 0;
+  -webkit-appearance: none;
 
   &:checked + .sky-switch-control {
     background-color: $sky-background-color-info-light;
