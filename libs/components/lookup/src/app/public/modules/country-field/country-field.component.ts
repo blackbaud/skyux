@@ -111,6 +111,11 @@ export class SkyCountryFieldComponent implements ControlValueAccessor, OnDestroy
 
   public set selectedCountry(newCountry: SkyCountryFieldCountry) {
     if (this._selectedCountry !== newCountry) {
+
+      if (newCountry && newCountry.iso2 && !newCountry.name) {
+        newCountry = this.countries.find(country => country.iso2 === newCountry.iso2);
+      }
+
       this._selectedCountry = newCountry;
 
       this.sortCountriesWithSelectedAndDefault(newCountry);

@@ -41,6 +41,8 @@ export class CountryFieldVisualComponent implements OnInit {
     });
 
     this.countryControl.setValidators([Validators.required]);
+
+    this.countryControl.valueChanges.subscribe(value => console.log(value));
   }
 
   public toggleDisabledStates(): void {
@@ -51,6 +53,10 @@ export class CountryFieldVisualComponent implements OnInit {
       this.countryControl.disable();
       this.disableFields = true;
     }
+  }
+
+  public toggleGermany(): void {
+    this.countryControl.setValue({ iso2: 'de' });
   }
 
 }
