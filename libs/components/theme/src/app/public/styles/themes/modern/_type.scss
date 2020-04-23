@@ -1,0 +1,62 @@
+@import '../../variables-public';
+
+.sky-theme-modern {
+  .sky-font-body-default {
+    font-size: $sky-theme-modern-font-body-default-size;
+    font-weight: $sky-theme-modern-font-body-default-weight;
+  }
+
+  .sky-font-body-sm {
+    font-size: $sky-theme-modern-font-body-sm-size;
+    font-weight: $sky-theme-modern-font-body-sm-weight;
+  }
+
+  .sky-font-body-lg {
+    font-size: $sky-theme-modern-font-body-lg-size;
+    font-weight: $sky-theme-modern-font-body-lg-weight;
+  }
+
+  .sky-font-field-label {
+    color: $sky-theme-modern-font-field-label-color;
+    font-size: $sky-theme-modern-font-field-label-size;
+    font-weight: $sky-theme-modern-font-field-label-weight;
+  }
+
+  .sky-font-deemphasized {
+    color: $sky-theme-modern-font-deemphasized-color;
+    font-size: $sky-theme-modern-font-deemphasized-size;
+    font-style: $sky-theme-modern-font-deemphasized-style;
+  }
+
+  .sky-font-emphasized {
+    font-weight: $sky-theme-modern-font-emphasized-weight;
+  }
+
+  .sky-font-display-1 {
+    font-size: $sky-theme-modern-font-display-1-size;
+    font-weight: $sky-theme-modern-font-display-1-weight;
+  }
+
+  .sky-font-display-2 {
+    font-size: $sky-theme-modern-font-display-2-size;
+    font-weight: $sky-theme-modern-font-display-2-weight;
+  }
+
+  .sky-font-display-3 {
+    font-size: $sky-theme-modern-font-display-3-size;
+    font-weight: $sky-theme-modern-font-display-3-weight;
+  }
+
+  .sky-font-display-4 {
+    font-size: $sky-theme-modern-font-display-4-size;
+    font-weight: $sky-theme-modern-font-display-4-weight;
+  }
+
+
+  /* Experimental; eventually these color values should be moved to design tokens */
+  &.sky-theme-mode-dark {
+    .sky-font-emphasized {
+      color: #fff;
+    }
+  }
+}

@@ -1,0 +1,69 @@
+@import '../../variables-public';
+
+.sky-theme-modern {
+  .sky-elevation-0-bordered {
+    border: $sky-theme-modern-elevation-0-bordered-border;
+  }
+
+  .sky-elevation-1,
+  .sky-elevation-1-bordered {
+    box-shadow: $sky-theme-modern-elevation-1-shadow-size $sky-theme-modern-elevation-1-shadow-color;
+  }
+
+  .sky-elevation-1-bordered {
+    border: $sky-theme-modern-elevation-1-bordered-border;
+  }
+
+  .sky-elevation-3 {
+    box-shadow: $sky-theme-modern-elevation-3-shadow-size $sky-theme-modern-elevation-3-shadow-color;
+  }
+
+  .sky-elevation-4 {
+    box-shadow: $sky-theme-modern-elevation-4-shadow-size $sky-theme-modern-elevation-4-shadow-color;
+  }
+
+  .sky-elevation-8 {
+    box-shadow: $sky-theme-modern-elevation-8-shadow-size $sky-theme-modern-elevation-8-shadow-color;
+  }
+
+  .sky-elevation-16 {
+    box-shadow: $sky-theme-modern-elevation-16-shadow-size $sky-theme-modern-elevation-16-shadow-color;
+  }
+
+  .sky-elevation-24 {
+    box-shadow: $sky-theme-modern-elevation-24-shadow-size $sky-theme-modern-elevation-24-shadow-color;
+  }
+
+  /* Experimental; eventually these color values should be moved to design tokens */
+  &.sky-theme-mode-dark {
+    .sky-elevation-0-bordered,
+    .sky-elevation-1-bordered {
+      border-color: #505558;
+    }
+
+    .sky-elevation-1,
+    .sky-elevation-1-bordered {
+      background-color: #212327;
+    }
+
+    .sky-elevation-3 {
+      background-color: #252a2e;
+    }
+
+    .sky-elevation-4 {
+      background-color: #292e32;
+    }
+
+    .sky-elevation-8 {
+      background-color: #2c3337;
+    }
+
+    .sky-elevation-16 {
+      background-color: #373f46;
+    }
+
+    .sky-elevation-24 {
+      background-color: #3d4750;
+    }
+  }
+}

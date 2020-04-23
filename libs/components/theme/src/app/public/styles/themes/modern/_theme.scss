@@ -1,0 +1,52 @@
+@import '../../variables-public';
+
+.sky-theme-modern,
+.sky-theme-modern form {
+  font-size: $sky-theme-modern-font-body-default-size;
+  font-weight: $sky-theme-modern-font-body-default-weight;
+
+  &.sky-theme-mode-dark {
+    color: #fff;
+  }
+}
+
+.sky-theme-modern {
+  background-color: $sky-theme-modern-background-color-page-default;
+
+  h1, .sky-font-heading-1 {
+    font-size: $sky-theme-modern-font-heading-1-size;
+    font-weight: $sky-theme-modern-font-heading-1-weight;
+  }
+
+  h2, .sky-font-heading-2 {
+    font-size: $sky-theme-modern-font-heading-2-size;
+    font-weight: $sky-theme-modern-font-heading-2-weight;
+  }
+
+  h3, .sky-font-heading-3 {
+    font-size: $sky-theme-modern-font-heading-3-size;
+    font-weight: $sky-theme-modern-font-heading-3-weight;
+  }
+
+  h4, .sky-font-heading-4 {
+    color: $sky-theme-modern-font-heading-4-color;
+    font-size: $sky-theme-modern-font-heading-4-size;
+    font-weight: $sky-theme-modern-font-heading-4-weight;
+    text-transform: $sky-theme-modern-font-heading-4-transform;
+  }
+
+  h5, .sky-font-heading-5 {
+    color: $sky-theme-modern-font-heading-5-color;
+    font-size: $sky-theme-modern-font-heading-5-size;
+    font-weight: $sky-theme-modern-font-heading-5-weight;
+    text-transform: $sky-theme-modern-font-heading-5-transform;
+  }
+
+  p {
+    line-height: $sky-theme-modern-font-paragraph-line-height;
+  }
+
+  &.sky-theme-mode-dark {
+    background-color: #111;
+  }
+}

@@ -1,0 +1,63 @@
+@import '../../variables-public';
+
+.sky-theme-modern {
+  .sky-padding-even-sm {
+    padding: $sky-theme-modern-padding-even-sm;
+  }
+
+  .sky-padding-even-md {
+    padding: $sky-theme-modern-padding-even-md;
+  }
+
+  .sky-padding-even-lg {
+    padding: $sky-theme-modern-padding-even-lg;
+  }
+
+  .sky-padding-even-xl {
+    padding: $sky-theme-modern-padding-even-xl;
+  }
+
+  .sky-padding-vertical-md {
+    padding: $sky-theme-modern-padding-v-md;
+  }
+
+  .sky-padding-vertical-lg {
+    padding: $sky-theme-modern-padding-v-lg;
+  }
+
+  .sky-margin-inline-xs {
+    margin-right: $sky-theme-modern-margin-inline-xs;
+  }
+
+  .sky-margin-inline-sm {
+    margin-right: $sky-theme-modern-margin-inline-sm;
+  }
+
+  .sky-margin-inline-xl {
+    margin-right: $sky-theme-modern-margin-inline-xl;
+  }
+
+  .sky-margin-inline-xxl {
+    margin-right: $sky-theme-modern-margin-inline-xxl;
+  }
+
+  .sky-margin-stacked-xs {
+    margin-bottom: $sky-theme-modern-margin-stacked-xs;
+  }
+
+  .sky-margin-stacked-md {
+    margin-bottom: $sky-theme-modern-margin-stacked-md;
+  }
+
+  .sky-margin-stacked-lg {
+    margin-bottom: $sky-theme-modern-margin-stacked-lg;
+  }
+
+  .sky-margin-stacked-xl {
+    margin-bottom: $sky-theme-modern-margin-stacked-xl;
+  }
+
+  .sky-margin-stacked-xxl {
+    margin-bottom: $sky-theme-modern-margin-stacked-xxl;
+  }
+}

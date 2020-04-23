@@ -41,3 +41,65 @@
 .sky-margin-stacked-separate {
   margin-bottom: $sky-margin-stacked-separate;
 }
+
+// Retconning modern theme classes
+
+.sky-padding-even-sm {
+  padding: $sky-space-md;
+}
+
+.sky-padding-even-md {
+  padding: $sky-space-lg;
+}
+
+.sky-padding-even-lg {
+  padding: $sky-space-xl;
+}
+
+.sky-padding-even-xl {
+  padding: $sky-space-xl;
+}
+
+.sky-padding-vertical-md {
+  padding: $sky-space-lg 0;
+}
+
+.sky-padding-vertical-lg {
+  padding: $sky-space-xl 0;
+}
+
+.sky-margin-inline-xs {
+  margin-right: $sky-space-xs;
+}
+
+.sky-margin-inline-sm {
+  margin-right: $sky-space-md;
+}
+
+.sky-margin-inline-xl {
+  margin-right: $sky-space-xl;
+}
+
+.sky-margin-inline-xxl {
+  margin-right: $sky-space-xl;
+}
+
+.sky-margin-stacked-xs {
+  margin-bottom: $sky-space-xs;
+}
+
+.sky-margin-stacked-md {
+  margin-bottom: $sky-space-lg;
+}
+
+.sky-margin-stacked-lg {
+  margin-bottom: $sky-space-xl;
+}
+
+.sky-margin-stacked-xl {
+  margin-bottom: $sky-space-xl;
+}
+
+.sky-margin-stacked-xxl {
+  margin-bottom: $sky-space-xl;
+}
