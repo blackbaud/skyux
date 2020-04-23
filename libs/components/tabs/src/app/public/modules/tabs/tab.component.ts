@@ -96,19 +96,16 @@ export class SkyTabComponent implements OnDestroy, OnChanges {
   constructor(private tabsetService: SkyTabsetService, private ref: ChangeDetectorRef) {}
 
   public initializeTabIndex() {
-    setTimeout(() => {
-      this.tabsetService.addTab(this);
+    this.tabsetService.addTab(this);
 
-      this.tabsetService.activeIndex.subscribe((activeIndex: any) => {
-        this.active = this.tabIndex === activeIndex;
-        this.ref.markForCheck();
-      });
+    if (this.active) {
+      this.tabsetService.activateTab(this);
+    }
 
-      if (this.active) {
-        this.tabsetService.activateTab(this);
-      }
+    this.tabsetService.activeIndex.subscribe((activeIndex: any) => {
+      this.active = this.tabIndex === activeIndex;
+      this.ref.markForCheck();
     });
-
   }
 
   public ngOnChanges(changes: SimpleChanges) {

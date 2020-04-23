@@ -666,6 +666,9 @@ describe('Tabset component', () => {
         fixture.detectChanges();
         tick();
 
+        // Verify number of tabs before closing one.
+        expect(el.querySelectorAll('.sky-btn-tab').length).toBe(3);
+
         const closeButton = document.querySelectorAll(
           '.sky-dropdown-item .sky-btn-tab-close'
         )[0] as HTMLElement;
@@ -700,6 +703,19 @@ describe('Tabset component', () => {
       tick();
       validateTabSelected(el, 0);
 
+    }));
+
+    it('should activate the first tab if active is set to invalid index', fakeAsync(() => {
+      let fixture = TestBed.createComponent(TabsetActiveTestComponent);
+      let el = fixture.nativeElement;
+
+      fixture.componentInstance.activeIndex = 'invalid';
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      validateTabSelected(el, 0);
     }));
 
     it('should initialize active state based on string tabIndex values', fakeAsync(() => {

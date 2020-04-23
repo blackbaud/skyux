@@ -13,7 +13,6 @@ import {
   Input,
   OnChanges,
   OnDestroy,
-  OnInit,
   Optional,
   Output,
   QueryList,
@@ -63,7 +62,7 @@ import {
   ]
 })
 export class SkyTabsetComponent
-  implements OnInit, AfterContentInit, AfterViewInit, OnChanges, OnDestroy {
+  implements AfterContentInit, AfterViewInit, OnChanges, OnDestroy {
 
   /**
    * Specifies the index of the active tab.
@@ -193,10 +192,6 @@ export class SkyTabsetComponent
     this.tabsetService.activateTab(tab);
   }
 
-  public ngOnInit(): void {
-    this.activeIndexOnLoad = (this.active !== undefined) ? this.active : 0;
-  }
-
   public ngOnChanges(changes: SimpleChanges): void {
     const activeChange = changes['active'];
     if (
@@ -208,9 +203,6 @@ export class SkyTabsetComponent
   }
 
   public ngAfterContentInit(): void {
-    // Initialize each tab's index (in case tabs are instantiated out of order).
-    this.tabs.forEach(tab => tab.initializeTabIndex());
-
     this.tabs.changes
       .takeUntil(this.ngUnsubscribe)
       .subscribe((change: QueryList<SkyTabComponent>) => {
@@ -227,8 +219,16 @@ export class SkyTabsetComponent
       });
 
     if (this.active !== undefined) {
+      this.activeIndexOnLoad = this.active;
       this.tabsetService.activateTabIndex(this.active);
     }
+
+    // Render the template before activating a tab.
+    setTimeout(() => {
+      // Initialize each tab's index (in case tabs are instantiated out of order).
+      this.tabs.forEach(tab => tab.initializeTabIndex());
+      this.activateTabByPermalinkValue();
+    });
 
     this.tabsetService.activeIndex
       .distinctUntilChanged()
@@ -239,6 +239,9 @@ export class SkyTabsetComponent
         setTimeout(() => {
           if (newActiveIndex !== this.active) {
             this.active = newActiveIndex;
+            if (this.activeIndexOnLoad === undefined) {
+              this.activeIndexOnLoad = newActiveIndex;
+            }
             this.activeChange.emit(newActiveIndex);
           }
         });
@@ -261,8 +264,7 @@ export class SkyTabsetComponent
         this.updateDisplayMode(currentOverflow);
       });
 
-    this.activateTabByPermalinkValue();
-
+    // Render the template before setting display mode.
     setTimeout(() => {
       this.adapterService.detectOverflow();
       this.updateDisplayMode(this.adapterService.currentOverflow);
@@ -298,18 +300,21 @@ export class SkyTabsetComponent
   private activateTabByPermalinkValue(): void {
     const params = this.getPathParams();
 
-    if (!(this.permalinkId in params)) {
+    if (
+      !(this.permalinkId in params) &&
+      this.activeIndexOnLoad !== undefined
+    ) {
       this.tabsetService.activateTabIndex(this.activeIndexOnLoad);
       return;
     }
 
     const value = params[this.permalinkId];
 
-    let index: number;
+    let index: number | string;
 
     this.tabs.forEach((tabComponent, i) => {
       if (tabComponent.permalinkValue === value) {
-        index = i;
+        index = tabComponent.tabIndex;
       }
     });
 
