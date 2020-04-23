@@ -1,3 +1,7 @@
+# 3.2.1 (2020-04-23)
+
+- Fixed the label component to add space between the label icon and text. [#77](https://github.com/blackbaud/skyux-indicators/pull/77)
+
 # 3.2.0 (2020-04-02)
 
 - Updated the icon component to support icons from the SKY UX icon font. [#74](https://github.com/blackbaud/skyux-indicators/pull/74)
