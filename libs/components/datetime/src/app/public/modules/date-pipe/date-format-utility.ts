@@ -5,7 +5,7 @@
 
 import {
   SkyIntlDateFormatter
-} from '@skyux/i18n/modules/i18n/intl-date-formatter';
+} from '@skyux/i18n';
 
 const moment = require('moment');
 
