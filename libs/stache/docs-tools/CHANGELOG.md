@@ -1,3 +1,7 @@
+# 3.2.1 (2020-04-27)
+
+- Fixed the anchor link service to handle types wrapped within markdown links. [#49](https://github.com/blackbaud/skyux-docs-tools/pull/49)
+
 # 3.2.0 (2020-03-30)
 
 - Added a `heading` attribute to the demo component to allow consumers to provide a custom heading. [#26](https://github.com/blackbaud/skyux-docs-tools/pull/26)
