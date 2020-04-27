@@ -14,7 +14,7 @@ import {
  *  - If the type name starts with a period '.', then it is a sub property of an enumeration, etc. and should not be processed as a link.
  */
 function createRegex(keyword: string): RegExp {
-  return new RegExp(`(^|[^a-zA-Z0-9>.]+)(${keyword})([^a-zA-Z0-9<]+|$)`, 'g');
+  return new RegExp(`(^|[^a-zA-Z0-9>.[/]+)(${keyword})([^a-zA-Z0-9<]+|$)`, 'g');
 }
 
 @Injectable()
@@ -41,6 +41,9 @@ export class SkyDocsAnchorLinkService {
       const regex = createRegex(typeName);
 
       let matches: RegExpExecArray;
+      let counter = 0;
+      const max = 100;
+
       do {
         matches = regex.exec(content);
         if (matches) {
@@ -51,7 +54,8 @@ export class SkyDocsAnchorLinkService {
           );
           regex.lastIndex = 0;
         }
-      } while (matches !== null);
+        counter++;
+      } while (matches !== null && counter < max);
     });
 
     return content;

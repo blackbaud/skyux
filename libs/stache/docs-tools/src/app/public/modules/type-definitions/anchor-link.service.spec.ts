@@ -1,4 +1,8 @@
 import {
+  expect
+} from '@skyux-sdk/testing';
+
+import {
  SkyDocsAnchorLinkService
 } from './anchor-link.service';
 
@@ -13,6 +17,7 @@ describe('Anchor link service', function () {
   beforeEach(() => {
     mockTypeDefinitionsProvider = {
       anchorIds: {
+        'foouser': 'variable-foouser', // Test lowercase type names.
         'Foo': 'foo',
         'Foo2': 'foo2',
         'FooComponent': 'foo-component',
@@ -56,6 +61,13 @@ describe('Anchor link service', function () {
       'UnknownFoo',
       '<a class="sky-docs-anchor-link" href="#foo-enum">FooEnum</a>.Foo'
     ].join(' '));
+  });
+
+  it('should handle markdown', () => {
+    const service = new SkyDocsAnchorLinkService(mockTypeDefinitionsProvider);
+    const content = 'Accepts [foouser](https://foouser.com/).';
+    const result = service.applyTypeAnchorLinks(content);
+    expect(result).toEqual(content);
   });
 
 });
