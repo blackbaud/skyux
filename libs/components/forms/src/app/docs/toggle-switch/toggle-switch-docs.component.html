@@ -1,0 +1,202 @@
+<sky-docs-demo-page
+  moduleName="SkyToggleSwitchModule"
+  moduleSourceCodePath="src/app/public/modules/toggle-switch/"
+  pageTitle="Toggle Switch"
+>
+
+  <sky-docs-demo-page-summary>
+    The toggle switch component renders a SKY UX-themed switch for values that can either be "on" or "off." The change takes effect immediately.
+  </sky-docs-demo-page-summary>
+
+  <sky-docs-demo>
+    <sky-docs-demo-control-panel
+      (reset)="onReset()"
+      (selectionChange)="onDemoSelectionChange($event)"
+    >
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-checkbox
+          label="Include text label"
+          propertyName="toggleLabel"
+          [checked]="true"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
+
+    <sky-toggle-switch
+      [(ngModel)]="checked"
+      (toggleChange)="onDemoSelectionChange($event)"
+    >
+      <sky-toggle-switch-label *ngIf="showLabel">
+        {{ switchLabel }}
+      </sky-toggle-switch-label>
+    </sky-toggle-switch>
+  </sky-docs-demo>
+
+    <sky-docs-design-guidelines>
+
+      <sky-docs-demo-page-section
+        heading="Usage"
+      >
+        <sky-docs-design-guideline
+          heading="Use when"
+          headingStyle="success"
+        >
+          <p>
+            Use toggles when users can toggle between two states or options, and the changes take effect immediately.
+          </p>
+
+          <sky-docs-design-guideline-thumbnail
+            caption="Do use toggles to alternate between two states when changes take effect immediately."
+            captionType="success"
+            imageSource="~/assets/img/guidelines/toggle-switch/toggle-usage-1.png"
+          >
+          </sky-docs-design-guideline-thumbnail>
+
+          <sky-docs-design-guideline-thumbnail
+            caption="Do use toggles to set binary states on multiple items."
+            captionType="success"
+            imageSource="~/assets/img/guidelines/toggle-switch/toggle-usage-2.png"
+          >
+          </sky-docs-design-guideline-thumbnail>
+        </sky-docs-design-guideline>
+
+        <sky-docs-design-guideline
+          heading="Don't use when"
+          headingStyle="danger"
+        >
+          <p>
+            Don’t use toggles when the options have significant consequences that the users need to confirm before changes take effect. Use a workflow where users must confirm the changes instead.
+          </p>
+
+          <sky-docs-design-guideline-thumbnail
+            caption="Don't use toggles for states with significant consequences."
+            captionType="danger"
+            imageSource="~/assets/img/guidelines/toggle-switch/toggle-usage-3.png"
+          >
+          </sky-docs-design-guideline-thumbnail>
+        </sky-docs-design-guideline>
+
+        <sky-docs-design-guideline
+        >
+          <p>
+            Don't use toggles when the input is presented in a modal. Use <a href="https://developer.blackbaud.com/skyux/components/checkbox">checkboxes</a> instead.
+          </p>
+
+          <sky-docs-design-guideline-thumbnail
+            caption="Don't use toggles inside modals where they won't take effect immediately."
+            captionType="danger"
+            imageSource="~/assets/img/guidelines/toggle-switch/toggle-usage-4.png"
+          >
+          </sky-docs-design-guideline-thumbnail>
+        </sky-docs-design-guideline>
+      </sky-docs-demo-page-section>
+
+      <sky-docs-demo-page-section
+        heading="Anatomy"
+      >
+        <sky-docs-anatomy
+          imagePath="~/assets/img/guidelines/toggle-switch/toggle-anatomy.png"
+        >
+          <sky-docs-anatomy-item>Toggle body</sky-docs-anatomy-item>
+          <sky-docs-anatomy-item isOptional="true">Text label</sky-docs-anatomy-item>
+        </sky-docs-anatomy>
+      </sky-docs-demo-page-section>
+
+      <sky-docs-demo-page-section
+        heading="Options"
+      >
+        <sky-docs-design-guideline
+          heading="Text label"
+        >
+          <p>
+            Text labels describe the properties that toggles control, and you can provide labels for both the selected and unselected states. Always include text labels unless other labels clearly indicate the purpose of toggles. For example, when toggles are in grids, you can rely on column headings instead of text labels.
+          </p>
+          <p>
+            In scenarios where toggles may become disabled, always include labels for both the selected and unselected states to make those states clear to users.
+          </p>
+        </sky-docs-design-guideline>
+      </sky-docs-demo-page-section>
+
+      <sky-docs-demo-page-section
+        heading="Behavior & states"
+      >
+        <table class="sky-docs-table">
+          <tr>
+            <td class="sky-docs-table-cell sky-docs-table-cell-primary">
+              Unselected
+            </td>
+            <td class="sky-docs-table-cell">
+              <sky-docs-design-guideline-thumbnail
+                imageSource="~/assets/img/guidelines/toggle-switch/toggle-state-unselected.png"
+              >
+              </sky-docs-design-guideline-thumbnail>
+            </td>
+          </tr>
+          <tr>
+            <td class="sky-docs-table-cell">
+              Selected
+            </td>
+            <td class="sky-docs-table-cell">
+              <sky-docs-design-guideline-thumbnail
+                imageSource="~/assets/img/guidelines/toggle-switch/toggle-state-selected.png"
+              >
+              </sky-docs-design-guideline-thumbnail>
+            </td>
+          </tr>
+          <tr>
+            <td class="sky-docs-table-cell">
+              Hover
+            </td>
+            <td class="sky-docs-table-cell">
+              <sky-docs-design-guideline-thumbnail
+                imageSource="~/assets/img/guidelines/toggle-switch/toggle-state-hover.png"
+              >
+              </sky-docs-design-guideline-thumbnail>
+            </td>
+          </tr>
+          <tr>
+            <td class="sky-docs-table-cell">
+              Disable unselected
+            </td>
+            <td class="sky-docs-table-cell">
+              <sky-docs-design-guideline-thumbnail
+                imageSource="~/assets/img/guidelines/toggle-switch/toggle-state-disabled-unselected.png"
+              >
+              </sky-docs-design-guideline-thumbnail>
+            </td>
+          </tr>
+          <tr>
+            <td class="sky-docs-table-cell">
+              Disable selected
+            </td>
+            <td class="sky-docs-table-cell">
+              <sky-docs-design-guideline-thumbnail
+                imageSource="~/assets/img/guidelines/toggle-switch/toggle-state-disabled-selected.png"
+              >
+              </sky-docs-design-guideline-thumbnail>
+            </td>
+          </tr>
+        </table>
+      </sky-docs-demo-page-section>
+
+      <sky-docs-demo-page-section
+        heading="Related content"
+      >
+        <sky-docs-design-guideline
+          heading="Components"
+        >
+          <ul>
+            <li><a href="https://developer.blackbaud.com/skyux/components/checkbox">Checkbox</a></li>
+            <li><a href="https://developer.blackbaud.com/skyux/components/radio">Radio button</a></li>
+          </ul>
+        </sky-docs-design-guideline>
+      </sky-docs-demo-page-section>
+    </sky-docs-design-guidelines>
+
+    <sky-docs-code-examples>
+      <sky-docs-code-example heading="Toggle"
+        sourceCodePath="src/app/public/plugin-resources/code-examples/toggle-switch/basic"></sky-docs-code-example>
+    </sky-docs-code-examples>
+
+</sky-docs-demo-page>

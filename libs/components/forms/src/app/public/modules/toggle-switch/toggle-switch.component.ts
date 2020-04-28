@@ -62,9 +62,16 @@ let uniqueId = 0;
 })
 export class SkyToggleSwitchComponent implements AfterContentInit, OnDestroy, ControlValueAccessor, Validator {
 
+/**
+ * Sets the `aria-label` attribute of the toggle switch. Only use this value if the `sky-toggle-switch-label` component is not used.
+ */
   @Input()
   public ariaLabel: string;
 
+/**
+ * Indicates whether the toggle switch is selected.
+ * @default false
+ */
   @Input()
   public set checked(checked: boolean) {
     if (checked !== this.checked) {
@@ -84,12 +91,21 @@ export class SkyToggleSwitchComponent implements AfterContentInit, OnDestroy, Co
     return this._checked || false;
   }
 
+/**
+ * Indicates whether to disable the toggle switch.
+ */
   @Input()
   public disabled = false;
 
+/**
+ * Specifies a tab index for the toggle switch. If not defined, the index is set to the position of the toggle switch on load.
+ */
   @Input()
   public tabIndex = 0;
 
+/**
+ * Fires when the checked state of a toggle switch changes.
+ */
   @Output()
   public toggleChange = new EventEmitter<SkyToggleSwitchChange>();
 

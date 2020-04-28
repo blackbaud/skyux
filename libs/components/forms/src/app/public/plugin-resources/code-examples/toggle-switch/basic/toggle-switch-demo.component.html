@@ -1,0 +1,15 @@
+<p>
+  <sky-toggle-switch formControlName="controlToggle" (toggleChange)="toggleDisabled()">
+    <sky-toggle-switch-label>
+      Enable the bottom toggle switch
+    </sky-toggle-switch-label>
+  </sky-toggle-switch>
+</p>
+
+<p>
+  <sky-toggle-switch [disabled]="disabled" formControlName="dynamicToggle">
+    <sky-toggle-switch-label>
+      This switch can be enabled and disabled dynamically
+    </sky-toggle-switch-label>
+  </sky-toggle-switch>
+</p>
