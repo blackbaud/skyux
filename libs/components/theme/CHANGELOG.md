@@ -1,3 +1,7 @@
+# 3.14.2 (2020-04-27)
+
+- Fixed modern theme header styles by overriding the default theme's `font-family` and `color` CSS properties. [#122](https://github.com/blackbaud/skyux-theme/pull/122)
+
 # 3.14.1 (2020-04-24)
 
 - Restored the bold font style to the `sky-headline` CSS class used by components like key info. [#119](https://github.com/blackbaud/skyux-theme/pull/119)
