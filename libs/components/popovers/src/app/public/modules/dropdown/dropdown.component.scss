@@ -5,6 +5,7 @@
   @include sky-btn-tab();
   @include sky-btn-tab-selected();
   max-width: 100%;
+  text-align: left;
 }
 
 .sky-dropdown-button-type-context-menu {
