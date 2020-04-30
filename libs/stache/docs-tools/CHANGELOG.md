@@ -1,3 +1,7 @@
+# 3.3.0 (2020-04-30)
+
+- Added a theme switcher control panel to the demo component. [#52](https://github.com/blackbaud/skyux-docs-tools/pull/52)
+
 # 3.2.1 (2020-04-27)
 
 - Fixed the anchor link service to handle types wrapped within markdown links. [#49](https://github.com/blackbaud/skyux-docs-tools/pull/49)
