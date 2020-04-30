@@ -1,3 +1,7 @@
+# 3.15.0 (2020-04-30)
+
+- Added the `sky-box` CSS class to the modern theme. [#125](https://github.com/blackbaud/skyux-theme/pull/125)
+
 # 3.14.2 (2020-04-27)
 
 - Fixed modern theme header styles by overriding the default theme's `font-family` and `color` CSS properties. [#122](https://github.com/blackbaud/skyux-theme/pull/122)
