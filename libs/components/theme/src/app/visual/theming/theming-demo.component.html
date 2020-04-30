@@ -5,7 +5,7 @@
     <option value="modern-dark">Modern - Dark</option>
   </select>
   <select id="sectionSelector" [(ngModel)]="section">
-    <option value="elevation">Elevation</option>
+    <option value="box-elevation">Box/Elevation</option>
     <option value="headers">Headers</option>
     <option value="margin">Margin</option>
     <option value="padding">Padding</option>
@@ -14,15 +14,15 @@
 </div>
 
 <div class="theme-container" id="screenshot-theme-container" [skyTheme]="themeSettings">
-  <ng-container *ngIf="section === 'elevation'">
-    <div class="elevation-test sky-elevation-0-bordered">Elevation 0 (bordered)</div>
-    <div class="elevation-test sky-elevation-1">Elevation 1</div>
-    <div class="elevation-test sky-elevation-1-bordered">Elevation 1 (bordered)</div>
-    <div class="elevation-test sky-elevation-3">Elevation 3</div>
-    <div class="elevation-test sky-elevation-4">Elevation 4</div>
-    <div class="elevation-test sky-elevation-8">Elevation 8</div>
-    <div class="elevation-test sky-elevation-16">Elevation 16</div>
-    <div class="elevation-test sky-elevation-24">Elevation 24</div>
+  <ng-container *ngIf="section === 'box-elevation'">
+    <div class="elevation-test sky-box sky-elevation-0-bordered">Elevation 0 (bordered)</div>
+    <div class="elevation-test sky-box sky-elevation-1">Elevation 1</div>
+    <div class="elevation-test sky-box sky-elevation-1-bordered">Elevation 1 (bordered)</div>
+    <div class="elevation-test sky-box sky-elevation-3">Elevation 3</div>
+    <div class="elevation-test sky-box sky-elevation-4">Elevation 4</div>
+    <div class="elevation-test sky-box sky-elevation-8">Elevation 8</div>
+    <div class="elevation-test sky-box sky-elevation-16">Elevation 16</div>
+    <div class="elevation-test sky-box sky-elevation-24">Elevation 24</div>
   </ng-container>
 
   <ng-container *ngIf="section === 'headers'">
