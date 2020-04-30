@@ -3,6 +3,10 @@ import {
 } from '@angular/core';
 
 import {
+  SkyPageModule
+} from '@skyux/layout';
+
+import {
   SkyAppLinkModule
 } from '@skyux/router';
 
@@ -13,7 +17,8 @@ import {
 @NgModule({
   exports: [
     SkyAppLinkModule,
-    SkyErrorModule
+    SkyErrorModule,
+    SkyPageModule
   ]
 })
 export class AppExtrasModule { }
