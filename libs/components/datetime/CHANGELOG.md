@@ -1,3 +1,8 @@
+# 3.10.0 (2020-04-30)
+
+- Updated the datepicker, date range picker, timepicker, and fuzzy datepicker components to implement the affix and overlay services. [#140](https://github.com/blackbaud/skyux-datetime/pull/140)
+- Updated the datepicker, date range picker, and fuzzy datepicker components to respect locale overrides on the `SkyAppLocaleProvider`. [#144](https://github.com/blackbaud/skyux-datetime/pull/144)
+
 # 3.9.0 (2020-03-24)
 
 - Fixed the datepicker component to prevent an error when invalid numeric dates are entered. [#127](https://github.com/blackbaud/skyux-datetime/pull/127)
