@@ -32,3 +32,9 @@
     border: 0;
   }
 }
+
+.sky-docs-demo-control-panel-theme-column {
+  @include sky-border(dark, left);
+  height: 100%;
+  padding-left: $sky-padding-double;
+}

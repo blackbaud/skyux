@@ -47,6 +47,8 @@ export class DemoFixtureComponent {
 
   public showRadios: boolean = true;
 
+  public supportsTheming: boolean;
+
   @ViewChild(SkyDocsDemoComponent)
   public demoComponentRef: SkyDocsDemoComponent;
 

@@ -8,12 +8,20 @@ import {
 } from '@angular/core';
 
 import {
+  SkyThemeSettings
+} from '@skyux/theme';
+
+import {
   SkyDocsDemoContentAlignment
 } from './demo-content-alignment';
 
 import {
   SkyDocsDemoControlPanelComponent
 } from './demo-control-panel.component';
+
+import {
+  SkyDocsDemoThemeService
+} from './demo-theme.service';
 
 /**
  * Wraps all behavior demo components and handles the configuration and appearance of the behavior demo.
@@ -28,6 +36,7 @@ import {
   selector: 'sky-docs-demo',
   templateUrl: './demo.component.html',
   styleUrls: ['./demo.component.scss'],
+  providers: [SkyDocsDemoThemeService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyDocsDemoComponent {
@@ -51,8 +60,15 @@ export class SkyDocsDemoComponent {
   @Input()
   public heading: string;
 
+  @Input()
+  public set supportsTheming(value: boolean) {
+    this.demoThemeSvc.supportsTheming.next(value);
+  }
+
+  public themeSettings: SkyThemeSettings;
+
   public get hasOptions(): boolean {
-    return this.controlPanels && this.controlPanels.length > 0;
+    return this.supportsTheming || (this.controlPanels && this.controlPanels.length > 0);
   }
 
   @ContentChildren(SkyDocsDemoControlPanelComponent, { read: ElementRef })
@@ -65,6 +81,8 @@ export class SkyDocsDemoComponent {
   public areOptionsVisible = false;
 
   private _alignContents: SkyDocsDemoContentAlignment;
+
+  constructor(public demoThemeSvc: SkyDocsDemoThemeService) { }
 
   public onToggleOptionsButtonClick(): void {
     this.areOptionsVisible = !this.areOptionsVisible;

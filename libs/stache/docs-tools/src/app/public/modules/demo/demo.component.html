@@ -50,6 +50,7 @@
   <div
     class="sky-docs-demo-viewport"
     [ngClass]="'sky-docs-demo-viewport-align-' + alignContents"
+    [skyTheme]="demoThemeSvc.themeSettings | async"
   >
     <div class="sky-docs-demo-viewport-gutter">
       <ng-content></ng-content>

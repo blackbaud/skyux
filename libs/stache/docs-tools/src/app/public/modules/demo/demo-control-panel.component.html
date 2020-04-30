@@ -14,5 +14,16 @@
         {{ 'sky-docs-demo-control-panel-reset-button-label' | skyLibResources }}
       </button>
     </div>
+    <ng-container *ngIf="demoThemeSvc.supportsTheming | async">
+      <sky-restricted-view>
+        <div
+          class="sky-docs-demo-control-panel-column sky-docs-demo-control-panel-theme-column"
+        >
+          <sky-docs-demo-control-panel-theme
+            (themeSettingsChange)="onThemeSettingsChange($event)"
+          ></sky-docs-demo-control-panel-theme>
+        </div>
+      </sky-restricted-view>
+    </ng-container>
   </div>
 </div>

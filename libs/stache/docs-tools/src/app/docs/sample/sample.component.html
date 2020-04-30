@@ -7,7 +7,9 @@
     Sample descriptionn.
   </sky-docs-demo-page-summary>
 
-  <sky-docs-demo>
+  <sky-docs-demo
+    [supportsTheming]="true"
+  >
     <sky-docs-demo-control-panel
       (reset)="onDemoReset()"
       (selectionChange)="onDemoSelectionChange($event)"
