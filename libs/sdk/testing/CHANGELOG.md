@@ -1,3 +1,7 @@
+# 3.3.0 (2020-04-30)
+
+- Added the `SkyMatchers` interface to enable IDE code completion for the `expect()` function. [#25](https://github.com/blackbaud/skyux-sdk-testing/pull/25) (Thanks [@Blackbaud-KrisMahon](https://github.com/Blackbaud-KrisMahon)!)
+
 # 3.2.0 (2020-03-05)
 
 - Added the `toHaveResourceText` and `toEqualResourceText` matchers to to compare text strings to resources strings. [#18](https://github.com/blackbaud/skyux-sdk-testing/pull/18) (Thanks [@Blackbaud-JasonBodnar](https://github.com/Blackbaud-JasonBodnar)!)
