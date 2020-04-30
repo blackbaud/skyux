@@ -21,6 +21,10 @@ import {
 import 'rxjs/add/observable/of';
 
 import {
+  SkyA11yAnalyzerConfig
+} from '../a11y';
+
+import {
   expect
 } from './matchers';
 
@@ -179,7 +183,7 @@ describe('Jasmine matchers', () => {
       it('should allow SkyAppConfig override', async(
         inject([SkyAppConfig], (config: SkyAppConfig) => {
           const element = createPassingElement();
-          expect(element).toBeAccessible(() => {}, config.skyux.a11y);
+          expect(element).toBeAccessible(() => {}, config.skyux.a11y as SkyA11yAnalyzerConfig);
         }))
       );
     });
@@ -225,13 +229,13 @@ describe('Jasmine matchers', () => {
       expect(text).toEqualResourceText(messageKey, messageArgs, () => {});
     }));
 
-    it('should fail if the actual text does not match text provided by resources', async(() => {
+    it('should fail if the actual text does not match text provided by resources', (done) => {
       const messageKey = 'nameThatDoesNotExist';
       const messageValue = 'message from resource';
       const text = 'Some text that\'s not in the resources';
 
       const failSpy = spyOn((window as any), 'fail').and.callFake((message: string) => {
-        expect(message).toEqual(`Expected ${text} to equal ${messageValue}`);
+        expect(message).toEqual(`Expected "${text}" to equal "${messageValue}"`);
       });
 
       spyOn(resourcesService, 'getString').and.returnValue(Observable.of(messageValue));
@@ -239,10 +243,11 @@ describe('Jasmine matchers', () => {
       // This will result in a failure on a consumer unit test.
       // We're swallowing the error in order to double-check
       // that the text did not match the resource message
-      expect(text).toEqualResourceText(messageKey, () => {
+      expect(text).toEqualResourceText(messageKey, undefined, () => {
         expect(failSpy).toHaveBeenCalled();
+        done();
       });
-    }));
+    });
   });
 
   describe('toHaveResourceText', () => {
@@ -301,13 +306,13 @@ describe('Jasmine matchers', () => {
       expect(elem).toHaveResourceText(messageKey, messageArgs);
     }));
 
-    it('should fail if the element\'s text does not match text provided by resources', async(() => {
+    it('should fail if the element\'s text does not match text provided by resources', (done) => {
       const messageKey = 'nameThatDoesNotExist';
       const messageValue = 'message from resource';
       const elem = createElement('Some text that\'s not in the resources');
 
       const failSpy = spyOn((window as any), 'fail').and.callFake((message: string) => {
-        expect(message).toEqual(`Expected element's inner to be ${messageValue}`);
+        expect(message).toEqual(`Expected element's inner text to be "${messageValue}"`);
       });
 
       spyOn(resourcesService, 'getString').and.returnValue(Observable.of(messageValue));
@@ -315,18 +320,19 @@ describe('Jasmine matchers', () => {
       // This will result in a failure on a consumer unit test.
       // We're swallowing the error in order to double-check
       // that the text did not match the resource message
-      expect(elem).toHaveResourceText(messageKey, () => {
+      expect(elem).toHaveResourceText(messageKey, undefined, true, () => {
         expect(failSpy).toHaveBeenCalled();
+        done();
       });
-    }));
+    });
 
-    it('should fail if whitespace is not trimmed and the element\'s text does not match text provided by resources', async(() => {
+    it('should fail if whitespace is not trimmed and the element\'s text does not match text provided by resources', (done) => {
       const messageKey = 'name';
       const messageValue = 'message from resource';
       const elem = createElement(`    ${messageValue}    `);
 
       const failSpy = spyOn((window as any), 'fail').and.callFake((message: string) => {
-        expect(message).toEqual(`Expected element's inner to be ${messageValue}`);
+        expect(message).toEqual(`Expected element's inner text to be "${messageValue}"`);
       });
 
       spyOn(resourcesService, 'getString').and.returnValue(Observable.of(messageValue));
@@ -336,7 +342,8 @@ describe('Jasmine matchers', () => {
       // that the text did not match the resource message
       expect(elem).toHaveResourceText(messageKey, [], false, () => {
         expect(failSpy).toHaveBeenCalled();
+        done();
       });
-    }));
+    });
   });
 });

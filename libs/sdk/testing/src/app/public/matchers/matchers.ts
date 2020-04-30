@@ -108,7 +108,7 @@ const matchers: jasmine.CustomMatcherFactories = {
 
   toHaveStyle(): jasmine.CustomMatcher {
     return {
-      compare(el: any, expectedStyles: any): jasmine.CustomMatcherResult {
+      compare(el: any, expectedStyles: {[index: string]: string}): jasmine.CustomMatcherResult {
         const message: string[] = [];
 
         let hasFailure = false;
@@ -164,7 +164,7 @@ const matchers: jasmine.CustomMatcherFactories = {
         result.pass = actualText === expectedText;
 
         result.message = result.pass ?
-          `Expected element's inner text not to be ${expectedText}` :
+          `Expected element's inner text not to be: "${expectedText}"` :
           `Expected element's inner text to be: "${expectedText}"\n` +
           `Actual element's inner text was: "${actualText}"`;
 
@@ -178,14 +178,14 @@ const matchers: jasmine.CustomMatcherFactories = {
       compare(
         actual: string,
         name: string,
-        args: { name: string, args: any[] },
+        args?: any[],
         callback: () => void = () => {}
       ): jasmine.CustomMatcherResult {
 
         let skyAppResourcesService: SkyAppResourcesService = TestBed.get(SkyAppResourcesService);
         skyAppResourcesService.getString(name, args).toPromise().then(message => {
           if (actual !== message) {
-            windowRef.fail(`Expected ${actual} to equal ${message}`);
+            windowRef.fail(`Expected "${actual}" to equal "${message}"`);
             callback();
           }
         });
@@ -210,7 +210,7 @@ const matchers: jasmine.CustomMatcherFactories = {
       compare(
         el: any,
         name: string,
-        args: { name: string, args: any[] },
+        args?: any[],
         trimWhitespace: boolean = true,
         callback: () => void = () => {}
       ): jasmine.CustomMatcherResult {
@@ -223,7 +223,7 @@ const matchers: jasmine.CustomMatcherFactories = {
         let skyAppResourcesService: SkyAppResourcesService = TestBed.get(SkyAppResourcesService);
         skyAppResourcesService.getString(name, args).toPromise().then(message => {
           if (actual !== message) {
-            windowRef.fail(`Expected element's inner to be ${message}`);
+            windowRef.fail(`Expected element's inner text to be "${message}"`);
             callback();
           }
         });
@@ -248,4 +248,89 @@ windowRef.beforeEach(() => {
   jasmine.addMatchers(matchers);
 });
 
-export const expect: Function = windowRef.expect;
+/**
+ * Interface for "asynchronous" custom Sky matchers which cannot be paired with a `.not` operator.
+ */
+interface SkyAsyncMatchers<T> {
+  /**
+   * `expect` the actual component to be accessible based on Web Content Accessibility
+   * Guidelines 2.0 (WCAG20) Level A and AA success criteria.
+   * @param callback The callback to execute after accessibility checks run.
+   * @param config The configuration settings for overwriting or turning off specific accessibility checks.
+   * @see https://developer.blackbaud.com/skyux/learn/get-started/advanced/accessibility-unit-tests
+   */
+  toBeAccessible(callback?: () => void, config?: SkyA11yAnalyzerConfig): void;
+
+  /**
+   * `expect` the actual text to equal the text for the expected resource string.
+   * Uses `SkyAppResourcesService.getString(name, args)` to fetch the expected resource string
+   * and compares using ===.
+   * @param name The resource string to fetch from the resource file and compare against.
+   * @param args The string replacement arguments for the expected resource string.
+   * @param callback The callback to execute when the comparison fails.
+   */
+  toEqualResourceText(name: string, args?: any[], callback?: () => void): void;
+
+  /**
+   * `expect` the actual element to have the text for the expected resource string.
+   * Uses `SkyAppResourcesService.getString(name, args)` to fetch the expected resource string
+   * and compares using ===.
+   * @param name The resource string to fetch from the resource file and compare against.
+   * @param args The string replacement arguments for the expected resource string.
+   * @param trimWhitespace [true] Whether or not to trim whitespace from the actual element text before comparison.
+   * @param callback The callback to execute when the comparison fails.
+   */
+  toHaveResourceText(name: string, args?: any[], trimWhitespace?: boolean, callback?: () => void): void;
+}
+
+/**
+ * Interface for "normal" custom Sky matchers (includes original jasmine matchers).
+ */
+interface SkyNormalMatchers<T> extends jasmine.Matchers<T> {
+  /**
+   * Invert the matcher following this `expect`
+   */
+  not: SkyNormalMatchers<T>;
+
+  /**
+   * `expect` the actual element to be visible.
+   */
+  toBeVisible(): void;
+
+  /**
+   * `expect` the actual element to exist.
+   */
+  toExist(): void;
+
+  /**
+   * `expect` the actual element to have the expected css class.
+   * @param expectedClassName The css class name to check for.
+   */
+  toHaveCssClass(expectedClassName: string): void;
+
+  /**
+   * `expect` the actual element to have the expected style(s).
+   * @param expectedStyles An object representing the style(s) to check for.
+   */
+  toHaveStyle(expectedStyles: {[index: string]: string}): void;
+
+  /**
+   * `expect` the actual element to have the expected text.
+   * @param expectedText The text to check for in the actual element.
+   * @param trimWhitespace [true] Whether or not to trim whitespace from the actual element text before comparison.
+   */
+  toHaveText(expectedText: string, trimWhitespace?: boolean): void;
+}
+
+/**
+ * Interface for custom Sky matchers (includes original jasmine matchers).
+ */
+export interface SkyMatchers<T> extends SkyNormalMatchers<T>, SkyAsyncMatchers<T> {}
+
+/**
+ * Create an expectation for a spec.
+ * @param actual Actual computed value to test expectations against.
+ */
+export function expect<T>(actual: T): SkyMatchers<T> {
+  return windowRef.expect(actual);
+}
