@@ -23,6 +23,7 @@ import {
 } from '@angular/forms';
 
 import {
+  SkyAppLocaleProvider,
   SkyLibResourcesService
 } from '@skyux/i18n';
 
@@ -81,10 +82,18 @@ export class SkyFuzzyDatepickerInputDirective
   @Input()
   public set dateFormat(value: string) {
     this._dateFormat = value;
+
+    if (this.value) {
+      const formattedDate = this.fuzzyDateService.getStringFromFuzzyDate(this.value, this.dateFormat);
+      this.setInputElementValue(formattedDate);
+      this.changeDetector.markForCheck();
+    }
   }
 
   public get dateFormat(): string {
-    return this._dateFormat || this.configService.dateFormat;
+    return this._dateFormat ||
+            this.configService.dateFormat ||
+            this.preferredShortDateFormat;
   }
 
   @Input()
@@ -231,6 +240,8 @@ export class SkyFuzzyDatepickerInputDirective
 
   private isFirstChange = true;
 
+  private preferredShortDateFormat: string;
+
   private ngUnsubscribe = new Subject<void>();
 
   private _futureDisabled: boolean = false;
@@ -251,13 +262,21 @@ export class SkyFuzzyDatepickerInputDirective
 
   constructor(
     private changeDetector: ChangeDetectorRef,
-    private elementRef: ElementRef,
-    private renderer: Renderer2,
-    @Optional() private datepickerComponent: SkyDatepickerComponent,
     private configService: SkyDatepickerConfigService,
+    private elementRef: ElementRef,
     private fuzzyDateService: SkyFuzzyDateService,
-    private resourcesService: SkyLibResourcesService
-  ) { }
+    private localeProvider: SkyAppLocaleProvider,
+    private renderer: Renderer2,
+    private resourcesService: SkyLibResourcesService,
+    @Optional() private datepickerComponent: SkyDatepickerComponent
+  ) {
+    this.localeProvider.getLocaleInfo()
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe((localeInfo) => {
+        SkyDateFormatter.setLocale(localeInfo.locale);
+        this.preferredShortDateFormat = SkyDateFormatter.getPreferredShortDateFormat();
+      });
+  }
 
   public ngOnInit(): void {
     if (this.yearRequired) {

@@ -547,8 +547,7 @@ describe('Timepicker', () => {
       expect(getInput(fixture)).not.toHaveCssClass('ng-invalid');
     }));
 
-    // TODO: This should be fixed with issue https://github.com/blackbaud/skyux-datetime/issues/135
-    xit('should properly update model and input when required and undefined', fakeAsync(() => {
+    it('should properly update model and input when required and undefined', fakeAsync(() => {
       detectChangesAndTick(fixture);
       const inputElement = fixture.debugElement.query(By.css('input'));
       const ngModel = inputElement.injector.get(NgModel);
@@ -562,6 +561,9 @@ describe('Timepicker', () => {
 
       component.selectedTime = undefined;
       fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
 
       expect(ngModel.valid).toEqual(false);
       expect(getInput(fixture)).toHaveCssClass('ng-invalid');

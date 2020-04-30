@@ -23,6 +23,7 @@ import {
 } from '@angular/forms';
 
 import {
+  SkyAppLocaleProvider,
   SkyLibResourcesService
 } from '@skyux/i18n';
 
@@ -79,11 +80,16 @@ export class SkyDatepickerInputDirective
 
   @Input()
   public set dateFormat(value: string) {
-    this._dateFormat = value;
+    if (value !== this._dateFormat) {
+      this._dateFormat = value;
+      this.applyDateFormat();
+    }
   }
 
   public get dateFormat(): string {
-    return this._dateFormat || this.configService.dateFormat;
+    return this._dateFormat ||
+            this.configService.dateFormat ||
+            this.preferredShortDateFormat;
   }
 
   @Input()
@@ -214,6 +220,7 @@ export class SkyDatepickerInputDirective
   private control: AbstractControl;
   private dateFormatter = new SkyDateFormatter();
   private isFirstChange = true;
+  private preferredShortDateFormat: string;
   private ngUnsubscribe = new Subject<void>();
 
   private _dateFormat: string;
@@ -229,10 +236,19 @@ export class SkyDatepickerInputDirective
     private changeDetector: ChangeDetectorRef,
     private configService: SkyDatepickerConfigService,
     private elementRef: ElementRef,
+    private localeProvider: SkyAppLocaleProvider,
     private renderer: Renderer2,
     private resourcesService: SkyLibResourcesService,
     @Optional() private datepickerComponent: SkyDatepickerComponent
-  ) { }
+  ) {
+    this.localeProvider.getLocaleInfo()
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe((localeInfo) => {
+        SkyDateFormatter.setLocale(localeInfo.locale);
+        this.preferredShortDateFormat = SkyDateFormatter.getPreferredShortDateFormat();
+        this.applyDateFormat();
+      });
+  }
 
   public ngOnInit(): void {
     if (!this.datepickerComponent) {
@@ -421,6 +437,14 @@ export class SkyDatepickerInputDirective
    */
   public detectInputValueChange(): void {
     this.onValueChange(this.elementRef.nativeElement.value);
+  }
+
+  private applyDateFormat(): void {
+    if (this.value) {
+      const formattedDate = this.dateFormatter.format(this.value, this.dateFormat);
+      this.setInputElementValue(formattedDate);
+      this.changeDetector.markForCheck();
+    }
   }
 
   private onValueChange(newValue: string): void {

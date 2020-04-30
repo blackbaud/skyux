@@ -18,10 +18,10 @@
 >
   <sky-datepicker #picker>
     <input
+      skyDatepickerInput
       [disabled]="disabled"
       [maxDate]="maxDate"
       [minDate]="minDate"
-      [skyDatepickerInput]="picker"
       [skyDatepickerNoValidate]="noValidate"
       [startingDay]="startingDay"
       [strict]="strict"
@@ -83,7 +83,6 @@
         [minDate]="minDate"
         [skyDatepickerNoValidate]="noValidate"
         [startingDay]="startingDay"
-        [disabled]="disabled"
       />
     </sky-datepicker>
 

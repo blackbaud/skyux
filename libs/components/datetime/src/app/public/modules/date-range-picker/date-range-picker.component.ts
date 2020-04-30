@@ -27,6 +27,10 @@ import {
 } from '@skyux/core';
 
 import {
+  SkyAppLocaleProvider
+} from '@skyux/i18n';
+
+import {
   Observable
 } from 'rxjs/Observable';
 
@@ -43,8 +47,8 @@ import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/takeUntil';
 
 import {
-  SkyDatepickerConfigService
-} from '../datepicker/datepicker-config.service';
+  SkyDateFormatter
+} from '../datepicker/date-formatter';
 
 import {
   SkyDateRangeCalculation
@@ -101,7 +105,7 @@ export class SkyDateRangePickerComponent
   }
 
   public get dateFormat(): string {
-    return this._dateFormat || this.datePickerConfigService.dateFormat;
+    return this._dateFormat || this.preferredShortDateFormat;
   }
 
   @Input()
@@ -209,6 +213,7 @@ export class SkyDateRangePickerComponent
   }
 
   private control: AbstractControl;
+  private preferredShortDateFormat: string;
   private ngUnsubscribe = new Subject<void>();
 
   private _calculatorIds: SkyDateRangeCalculatorId[];
@@ -218,11 +223,18 @@ export class SkyDateRangePickerComponent
 
   constructor(
     private changeDetector: ChangeDetectorRef,
-    private datePickerConfigService: SkyDatepickerConfigService,
     private dateRangeService: SkyDateRangeService,
     private formBuilder: FormBuilder,
+    private localeProvider: SkyAppLocaleProvider,
     private windowRef: SkyAppWindowRef
-  ) { }
+  ) {
+    this.localeProvider.getLocaleInfo()
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe((localeInfo) => {
+        SkyDateFormatter.setLocale(localeInfo.locale);
+        this.preferredShortDateFormat = SkyDateFormatter.getPreferredShortDateFormat();
+      });
+  }
 
   public ngOnInit(): void {
     this.createForm();
