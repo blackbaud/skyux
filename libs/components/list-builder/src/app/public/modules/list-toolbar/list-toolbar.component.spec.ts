@@ -215,7 +215,7 @@ describe('List Toolbar Component', () => {
       });
     }));
 
-    it('should not set pagination to first page when pagination is undefined', async(() => {
+    it('should not set pagination to first page when pagination is undefined on search', async(() => {
       initializeToolbar();
       fixture.whenStable().then(() => {
         fixture.detectChanges();
@@ -450,6 +450,75 @@ describe('List Toolbar Component', () => {
 
       sortItems = document.querySelectorAll('.sky-sort-item');
       expect(sortItems.item(0)).toHaveCssClass('sky-sort-item-selected');
+    }));
+
+    it('should set pagination to first page when when sorting', async(() => {
+      initializeToolbar();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        dispatcher.next(
+          new ListPagingSetPageNumberAction(Number(2))
+        );
+
+        fixture.whenStable().then(() => {
+          fixture.detectChanges();
+          let sortSelectorDropdownButtonEl = nativeElement.querySelector(
+            '.sky-sort .sky-dropdown-button'
+          ) as HTMLButtonElement;
+          sortSelectorDropdownButtonEl.click();
+
+          fixture.detectChanges();
+          fixture.whenStable().then(() => {
+            fixture.detectChanges();
+
+            let sortItems = document.querySelectorAll('.sky-sort-item');
+            let clickItem = sortItems.item(1).querySelector('button') as HTMLButtonElement;
+
+            clickItem.click();
+            fixture.detectChanges();
+
+            sortSelectorDropdownButtonEl.click();
+            fixture.detectChanges();
+            state.take(1).subscribe((s) => {
+              expect(s.paging.pageNumber).toBe(1);
+            });
+            fixture.detectChanges();
+          });
+        });
+      });
+    }));
+
+    it('should not set pagination to first page when pagination is undefined on sort', async(() => {
+      initializeToolbar();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+
+        fixture.whenStable().then(() => {
+          fixture.detectChanges();
+          let sortSelectorDropdownButtonEl = nativeElement.querySelector(
+            '.sky-sort .sky-dropdown-button'
+          ) as HTMLButtonElement;
+          sortSelectorDropdownButtonEl.click();
+
+          fixture.detectChanges();
+          fixture.whenStable().then(() => {
+            fixture.detectChanges();
+
+            let sortItems = document.querySelectorAll('.sky-sort-item');
+            let clickItem = sortItems.item(1).querySelector('button') as HTMLButtonElement;
+
+            clickItem.click();
+            fixture.detectChanges();
+
+            sortSelectorDropdownButtonEl.click();
+            fixture.detectChanges();
+            state.take(1).subscribe((s) => {
+              expect(s.paging.pageNumber).not.toBe(1);
+            });
+            fixture.detectChanges();
+          });
+        });
+      });
     }));
 
     it('should load custom items', async(() => {

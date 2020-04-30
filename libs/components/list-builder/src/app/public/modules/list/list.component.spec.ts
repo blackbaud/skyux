@@ -32,6 +32,7 @@ import {
 } from '@skyux/list-builder-common';
 
 import {
+  ListPagingSetPageNumberAction,
   ListState,
   ListStateDispatcher,
   ListToolbarShowMultiselectToolbarAction
@@ -774,6 +775,38 @@ describe('List Component', () => {
         state.take(1).subscribe((current) => {
           expect(current.filters.length).toBe(1);
           expect(current.items.items.length).toBe(1);
+        });
+        tick();
+      }));
+
+      it('should return the list to page 1 when filters are changed', fakeAsync(() => {
+        dispatcher.next(
+          new ListPagingSetPageNumberAction(Number(2))
+        );
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        state.take(1).subscribe((current) => {
+          expect(current.filters.length).toBe(0);
+          expect(current.items.items.length).toBe(7);
+          expect(current.paging.pageNumber).toBe(2);
+        });
+
+        let appliedFilters = [
+          new ListFilterModel({
+            name: 'filter1',
+            value: 'Apple',
+            filterFunction: appleFilterFunction
+          })
+        ];
+
+        component.listFilters = appliedFilters;
+        fixture.detectChanges();
+        tick();
+        state.take(1).subscribe((current) => {
+          expect(current.filters.length).toBe(1);
+          expect(current.items.items.length).toBe(1);
+          expect(current.paging.pageNumber).toBe(1);
         });
         tick();
       }));

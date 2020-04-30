@@ -418,9 +418,17 @@ export class SkyListToolbarComponent implements OnInit, AfterContentInit, OnDest
   }
 
   public setSort(sort: ListSortLabelModel): void {
-    this.dispatcher.sortSetFieldSelectors(
-      [{ fieldSelector: sort.fieldSelector, descending: sort.descending }]
-    );
+    this.state.take(1).subscribe((currentState) => {
+      if (currentState.paging.pageNumber && currentState.paging.pageNumber !== 1) {
+        this.dispatcher.next(
+          new ListPagingSetPageNumberAction(Number(1))
+        );
+      }
+
+      this.dispatcher.sortSetFieldSelectors(
+        [{ fieldSelector: sort.fieldSelector, descending: sort.descending }]
+      );
+    });
   }
 
   public inlineFilterButtonClick() {

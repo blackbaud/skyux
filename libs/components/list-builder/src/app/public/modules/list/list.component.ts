@@ -63,6 +63,7 @@ import {
 } from '../list-data-provider-in-memory';
 
 import {
+  ListPagingSetPageNumberAction,
   ListState,
   ListStateDispatcher
 } from './state';
@@ -252,7 +253,15 @@ export class SkyListComponent implements AfterContentInit, OnChanges, OnDestroy 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes['appliedFilters'] &&
       changes['appliedFilters'].currentValue !== changes['appliedFilters'].previousValue) {
-      this.dispatcher.filtersUpdate(this.appliedFilters);
+      this.state.take(1).subscribe((currentState) => {
+        if (currentState.paging.pageNumber && currentState.paging.pageNumber !== 1) {
+          this.dispatcher.next(
+            new ListPagingSetPageNumberAction(Number(1))
+          );
+        }
+
+        this.dispatcher.filtersUpdate(this.appliedFilters);
+      });
     }
     if (changes['selectedIds']) {
       // Only send selection changes to dispatcher if changes are distinct.

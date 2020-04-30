@@ -8,11 +8,10 @@ import {
 import { SkyListFilterInlineItemComponent } from './list-filter-inline-item.component';
 
 import {
+  ListFilterModel,
+  ListPagingSetPageNumberAction,
+  ListState,
   ListStateDispatcher
-} from '../list/state';
-
-import {
-  ListFilterModel
 } from '../list/state';
 
 import {
@@ -30,7 +29,8 @@ export class SkyListFilterInlineComponent implements AfterContentInit {
   private filters: QueryList<SkyListFilterInlineItemComponent>;
 
   constructor(
-    private dispatcher: ListStateDispatcher
+    private dispatcher: ListStateDispatcher,
+    private state: ListState
   ) {}
 
   public ngAfterContentInit() {
@@ -54,7 +54,15 @@ export class SkyListFilterInlineComponent implements AfterContentInit {
   }
 
   public applyFilters() {
-    this.dispatcher.filtersUpdate(this.getFilterModelFromInline(this.inlineFilters));
+    this.state.take(1).subscribe((currentState) => {
+      if (currentState.paging.pageNumber && currentState.paging.pageNumber !== 1) {
+        this.dispatcher.next(
+          new ListPagingSetPageNumberAction(Number(1))
+        );
+      }
+
+      this.dispatcher.filtersUpdate(this.getFilterModelFromInline(this.inlineFilters));
+    });
   }
 
   private getFilterModelFromInline(inlineFilters: Array<SkyListFilterInlineModel>) {
