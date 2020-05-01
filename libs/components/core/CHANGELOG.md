@@ -1,3 +1,7 @@
+# 3.14.3 (2020-05-01)
+
+- Fixed `SkyNumericPipe` to properly format decimals for numbers over 1000. [#161](https://github.com/blackbaud/skyux-core/pull/161)
+
 # 3.14.2 (2020-04-09)
 
 - Fixed the overlay service to remove overlay component DOM nodes during unit tests. [#156](https://github.com/blackbaud/skyux-core/pull/156)
