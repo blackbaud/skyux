@@ -244,7 +244,7 @@ th.sky-grid-multiselect-cell {
   z-index: 99;
   height: 100%;
   width: $sky-grid-resize-handle-width;
-  background: black;
+  background: $sky-highlight-color-info;
   opacity: 0.6;
 }
 

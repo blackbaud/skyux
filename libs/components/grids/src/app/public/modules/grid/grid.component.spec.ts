@@ -78,8 +78,6 @@ import {
   SkyGridSelectedRowsSource
 } from './types';
 
-import * as moment from 'moment';
-
 //#region helpers
 function getColumnHeader(id: string, element: DebugElement): DebugElement {
   return element.query(
@@ -399,49 +397,50 @@ describe('Grid Component', () => {
             column1: '1',
             column2: 'Apple',
             column3: 1,
-            column4: moment().add(1, 'minute')
+            column4: new Date().getTime() + 600000
           },
           {
             id: '2',
             column1: '01',
             column2: 'Banana',
             column3: 1,
-            column4: moment().add(6, 'minute'), column5: 'test'
+            column4: new Date().getTime() + 3000000,
+            column5: 'test'
           },
           {
             id: '3',
             column1: '11',
             column2: 'Carrot',
             column3: 11,
-            column4: moment().add(4, 'minute')
+            column4: new Date().getTime() + 2400000
           },
           {
             id: '4',
             column1: '12',
             column2: 'Daikon',
             column3: 12,
-            column4: moment().add(2, 'minute')
+            column4: new Date().getTime() + 1200000
           },
           {
             id: '5',
             column1: '13',
             column2: 'Edamame',
             column3: 13,
-            column4: moment().add(5, 'minute')
+            column4: new Date().getTime() + 3000000
           },
           {
             id: '6',
             column1: '20',
             column2: 'Fig',
             column3: 20,
-            column4: moment().add(3, 'minute')
+            column4: new Date().getTime() + 1800000
           },
           {
             id: '7',
             column1: '21',
             column2: 'Grape',
             column3: 21,
-            column4: moment().add(7, 'minute')
+            column4: new Date().getTime() + 5600000
           }
         ];
 
@@ -813,6 +812,22 @@ describe('Grid Component', () => {
             let valuenow = resizeInput.nativeElement.getAttribute('aria-valuenow');
             verifyWidthsMatch(valuenow, colWidths[index]);
           });
+        }));
+
+        it('should show vertical resize bar when range input is focused with keyboard', fakeAsync(() => {
+          fixture.detectChanges();
+          let inputRange = getColumnRangeInputs(fixture)[1];
+
+          SkyAppTestUtility.fireDomEvent(inputRange.nativeElement, 'focus');
+          let resizeBar = fixture.nativeElement.querySelector('#sky-grid-resize-bar');
+
+          expect(resizeBar).not.toBeNull();
+
+          SkyAppTestUtility.fireDomEvent(inputRange.nativeElement, 'blur');
+          fixture.detectChanges();
+          resizeBar = fixture.nativeElement.querySelector('#sky-grid-resize-bar');
+
+          expect(resizeBar).toBeNull();
         }));
 
         it('should resize column when range input is changed', async(() => {

@@ -29,8 +29,6 @@ import {
   SkyGridMessageType
 } from '../types';
 
-import * as moment from 'moment';
-
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './grid.component.fixture.html'
@@ -47,7 +45,7 @@ export class GridTestComponent {
       column1: '1',
       column2: 'Apple',
       column3: 1,
-      column4: moment().add(1, 'minute'),
+      column4: new Date().getTime() + 600000,
       customId: '101'
     },
     {
@@ -55,7 +53,7 @@ export class GridTestComponent {
       column1: '01',
       column2: 'Banana',
       column3: 1,
-      column4: moment().add(6, 'minute'),
+      column4: new Date().getTime() + 3600000,
       column5: 'test',
       customId: '102'
     },
@@ -64,7 +62,7 @@ export class GridTestComponent {
       column1: '11',
       column2: 'Carrot',
       column3: 11,
-      column4: moment().add(4, 'minute'),
+      column4: new Date().getTime() + 2400000,
       customId: '103'
     },
     {
@@ -72,7 +70,7 @@ export class GridTestComponent {
       column1: '12',
       column2: 'Daikon',
       column3: 12,
-      column4: moment().add(2, 'minute'),
+      column4: new Date().getTime() + 1200000,
       customId: '104'
     },
     {
@@ -80,7 +78,7 @@ export class GridTestComponent {
       column1: '13',
       column2: 'Edamame',
       column3: 13,
-      column4: moment().add(5, 'minute'),
+      column4: new Date().getTime() + 3000000,
       customId: '105'
     },
     {
@@ -88,7 +86,7 @@ export class GridTestComponent {
       column1: '20',
       column2: 'Fig',
       column3: 20,
-      column4: moment().add(3, 'minute'),
+      column4: new Date().getTime() + 1800000,
       customId: '106'
     },
     {
@@ -96,7 +94,7 @@ export class GridTestComponent {
       column1: '21',
       column2: 'Some long text that would provoke an overflow of monster proportions!',
       column3: 21,
-      column4: moment().add(7, 'minute'),
+      column4: new Date().getTime() + 5600000,
       customId: '107'
     }
   ];
@@ -209,7 +207,7 @@ export class GridTestComponent {
       column2: 'Some long text that would provoke an overflow of monster proportions!',
       column3: 'Some long text that would provoke an overflow of monster proportions!',
       column4: 21,
-      column5: moment().add(7, 'minute'),
+      column5: new Date().getTime() + 5600000,
       customId: '107'
     }];
   }

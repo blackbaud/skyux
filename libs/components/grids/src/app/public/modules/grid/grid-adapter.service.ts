@@ -86,7 +86,9 @@ export class SkyGridAdapterService {
   }
 
   public setStyle(el: ElementRef, style: string, value: string): void {
-    this.renderer.setStyle(el.nativeElement, style, value);
+    if (el) {
+      this.renderer.setStyle(el.nativeElement, style, value);
+    }
   }
 
   private isLeftOfLocked(sourceColumn: HTMLElement, columns: NodeListOf<Element>): boolean {

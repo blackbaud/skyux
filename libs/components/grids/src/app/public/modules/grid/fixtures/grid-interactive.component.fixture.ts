@@ -20,8 +20,6 @@ import {
   SkyGridSelectedRowsModelChange
 } from '../types';
 
-import * as moment from 'moment';
-
 @Component({
   selector: 'sky-test-cmp',
   template: require('./grid-interactive.component.fixture.html')
@@ -59,7 +57,7 @@ export class GridInteractiveTestComponent {
       column1: '1',
       column2: 'Apple',
       column3: 1,
-      column4: moment().add(1, 'minute'),
+      column4: new Date().getTime() + 600000,
       customId: '101'
     },
     {
@@ -67,7 +65,7 @@ export class GridInteractiveTestComponent {
       column1: '01',
       column2: 'Banana',
       column3: 1,
-      column4: moment().add(6, 'minute'),
+      column4: new Date().getTime() + 3600000,
       column5: 'test',
       customId: '102'
     },

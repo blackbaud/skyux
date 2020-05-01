@@ -98,6 +98,8 @@
               [max]="maxColWidth"
               [step]="columnResizeStep"
               [(ngModel)]="column.width"
+              (blur)="onResizeHandleBlur($event)"
+              (focus)="onResizeHandleFocus($event)"
               (keydown)="onKeydownResizeCol($event)"
               (change)="onInputChangeResizeCol($event)"
               #colSizeRange />
@@ -160,12 +162,12 @@
         </tr>
       </tbody>
     </table>
-    <div
-      *ngIf="showResizeBar"
+    <div *ngIf="showResizeBar"
       aria-hidden="true"
       id="sky-grid-resize-bar"
       tabindex="-1"
-      #resizeBar>
+      #resizeBar
+    >
     </div>
   </div>
 </div>

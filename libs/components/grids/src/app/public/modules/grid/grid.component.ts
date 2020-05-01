@@ -513,9 +513,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
 
     // Show visual indicator of where mouse is dragging (resizeBar).
     this.ref.detectChanges();
-    let parentScroll = this.tableContainerElementRef.nativeElement.scrollLeft;
-    let resizeBarX = event.pageX - this.tableElementRef.nativeElement.getBoundingClientRect().left - parentScroll;
-    this.gridAdapter.setStyle(this.resizeBar, 'left', resizeBarX + 'px');
+    this.setResizeBarPosition(event.pageX);
 
     event.preventDefault();
     event.stopPropagation();
@@ -558,6 +556,8 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
     let newValue = Number(input.value);
     let deltaX = newValue - this.startColumnWidth;
     this.resizeColumnByIndex(this.activeResizeColumnIndex, newValue, deltaX);
+    const left = input.getBoundingClientRect().left;
+    this.setResizeBarPosition(left);
   }
 
   public onResizeHandleMove(event: MouseEvent) {
@@ -575,9 +575,20 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
       return;
     }
 
-    let parentScroll = this.tableContainerElementRef.nativeElement.scrollLeft;
-    let resizeBarX = event.pageX - this.tableElementRef.nativeElement.getBoundingClientRect().left - parentScroll;
-    this.gridAdapter.setStyle(this.resizeBar, 'left', resizeBarX + 'px');
+    this.setResizeBarPosition(event.pageX);
+  }
+
+  public onResizeHandleBlur(event: Event) {
+    this.showResizeBar = false;
+  }
+
+  public onResizeHandleFocus(event: KeyboardEvent) {
+    this.showResizeBar = true;
+    this.ref.detectChanges();
+
+    const target = event.target as HTMLElement;
+    const left = target.getBoundingClientRect().left;
+    this.setResizeBarPosition(left);
   }
 
   public onResizeHandleRelease(event: MouseEvent) {
@@ -978,6 +989,12 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
       menuitem,
       summary`;
     return event.target.closest(interactiveElSelectors);
+  }
+
+  private setResizeBarPosition(xPosition: number): void {
+    let parentScroll = this.tableContainerElementRef.nativeElement.scrollLeft;
+    let resizeBarX = xPosition - this.tableElementRef.nativeElement.getBoundingClientRect().left - parentScroll;
+    this.gridAdapter.setStyle(this.resizeBar, 'left', resizeBarX + 'px');
   }
 
   private applyUserConfig(): Promise<void> {
