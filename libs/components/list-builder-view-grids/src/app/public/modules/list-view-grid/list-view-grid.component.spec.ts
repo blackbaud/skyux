@@ -72,8 +72,6 @@ import {
   GridStateModel
 } from './state';
 
-const moment = require('moment');
-
 describe('List View Grid Component', () => {
   describe('Basic Fixture', () => {
     let state: ListState,
@@ -120,19 +118,19 @@ describe('List View Grid Component', () => {
 
       let items = [
         new ListItemModel('1', { column1: '1', column2: 'Apple',
-          column3: 1, column4: moment().add(1, 'minute') }),
+          column3: 1, column4: new Date().getTime() + 600000 }),
         new ListItemModel('2', { column1: '01', column2: 'Banana',
-          column3: 1, column4: moment().add(6, 'minute'), column5: 'test' }),
+          column3: 1, column4: new Date().getTime() + 3600000, column5: 'test' }),
         new ListItemModel('3', { column1: '11', column2: 'Carrot',
-          column3: 11, column4: moment().add(4, 'minute') }),
+          column3: 11, column4: new Date().getTime() + 2400000 }),
         new ListItemModel('4', { column1: '12', column2: 'Daikon',
-          column3: 12, column4: moment().add(2, 'minute') }),
+          column3: 12, column4: new Date().getTime() + 1200000 }),
         new ListItemModel('5', { column1: '13', column2: 'Edamame',
-          column3: 13, column4: moment().add(5, 'minute') }),
+          column3: 13, column4: new Date().getTime() + 3000000 }),
         new ListItemModel('6', { column1: '20', column2: 'Fig',
-          column3: 20, column4: moment().add(3, 'minute') }),
+          column3: 20, column4: new Date().getTime() + 1800000 }),
         new ListItemModel('7', { column1: '21', column2: 'Grape',
-          column3: 21, column4: moment().add(7, 'minute') })
+          column3: 21, column4: new Date().getTime() + 5600000 })
       ];
 
       dispatcher.next(new ListItemsLoadAction(items, true));
@@ -604,19 +602,19 @@ describe('List View Grid Component', () => {
 
       let items = [
         new ListItemModel('1', { column1: '1', column2: 'Apple',
-          column3: 1, column4: moment().add(1, 'minute') }),
+          column3: 1, column4: new Date().getTime() + 600000 }),
         new ListItemModel('2', { column1: '01', column2: 'Banana',
-          column3: 1, column4: moment().add(6, 'minute'), column5: 'test' }),
+          column3: 1, column4: new Date().getTime() + 3600000, column5: 'test' }),
         new ListItemModel('3', { column1: '11', column2: 'Carrot',
-          column3: 11, column4: moment().add(4, 'minute') }),
+          column3: 11, column4: new Date().getTime() + 2400000 }),
         new ListItemModel('4', { column1: '12', column2: 'Daikon',
-          column3: 12, column4: moment().add(2, 'minute') }),
+          column3: 12, column4: new Date().getTime() + 1200000 }),
         new ListItemModel('5', { column1: '13', column2: 'Edamame',
-          column3: 13, column4: moment().add(5, 'minute') }),
+          column3: 13, column4: new Date().getTime() + 3000000 }),
         new ListItemModel('6', { column1: '20', column2: 'Fig',
-          column3: 20, column4: moment().add(3, 'minute') }),
+          column3: 20, column4: new Date().getTime() + 1800000 }),
         new ListItemModel('7', { column1: '21', column2: 'Grape',
-          column3: 21, column4: moment().add(7, 'minute') })
+          column3: 21, column4: new Date().getTime() + 5600000 })
       ];
 
       dispatcher.next(new ListItemsLoadAction(items, true));

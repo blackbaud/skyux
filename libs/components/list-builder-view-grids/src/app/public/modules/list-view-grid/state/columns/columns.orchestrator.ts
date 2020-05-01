@@ -4,8 +4,6 @@ import { AsyncList } from 'microedge-rxstate/dist';
 import { SkyGridColumnModel } from '@skyux/grids';
 import { ListViewGridColumnsLoadAction } from './actions';
 
-const moment = require('moment');
-
 export class ListViewGridColumnsOrchestrator
   extends GridStateOrchestrator<AsyncList<SkyGridColumnModel>> {
   /* istanbul ignore next */
@@ -22,9 +20,9 @@ export class ListViewGridColumnsOrchestrator
     const newColumns = action.columns.map(g => new SkyGridColumnModel(g.template, g));
 
     if (action.refresh) {
-      return new AsyncList<SkyGridColumnModel>([...newColumns], moment());
+      return new AsyncList<SkyGridColumnModel>([...newColumns], new Date());
     }
 
-    return new AsyncList<SkyGridColumnModel>([...state.items, ...newColumns], moment());
+    return new AsyncList<SkyGridColumnModel>([...state.items, ...newColumns], new Date());
   }
 }
