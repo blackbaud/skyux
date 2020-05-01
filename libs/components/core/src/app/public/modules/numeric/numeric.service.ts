@@ -82,12 +82,11 @@ export class SkyNumericService {
       // Note: This will need to be reviewed if we support currencies with
       // three decimal digits.
       case 'currency':
-        const isShortened = (value > this.symbolIndex[this.symbolIndex.length - 1].value);
         const isDecimal = (value % 1 !== 0);
 
         if (options.minDigits) {
           digits = `1.${options.minDigits}-${options.digits}`;
-        } else if (!isShortened && isDecimal && options.digits >= 2) {
+        } else if (isDecimal && options.digits >= 2) {
           digits = `1.2-${options.digits}`;
         } else {
           digits = `1.0-${options.digits}`;

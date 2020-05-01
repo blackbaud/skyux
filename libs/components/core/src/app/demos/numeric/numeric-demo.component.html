@@ -99,6 +99,10 @@
         <td>3712.4 as US dollar currency and a minimum of 4 decimal digits</td>
         <td>{{ 3712.4 | skyNumeric: {minDigits: 4, format: 'currency', iso: 'USD', truncate: false} }}</td>
       </tr>
+      <tr>
+        <td>1234.5 as a US dollar currency with 2 digits and a trailing zero</td>
+        <td>{{ 1234.5 | skyNumeric: {digits: 2, format: 'currency', iso: 'USD', truncate: false} }}</td>
+      </tr>
     </tbody>
   </table>
 </div>

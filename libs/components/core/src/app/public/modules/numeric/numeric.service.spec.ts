@@ -265,6 +265,16 @@ describe('Numeric service', () => {
     expect(skyNumeric.formatNumber(value, options)).toBe('1.0001');
   });
 
+  it('should handle both trailing 0s and commas', () => {
+    const value = 1234.5;
+    const options = new NumericOptions();
+    options.digits = 2;
+    options.format = 'currency';
+    options.iso = 'USD';
+    options.truncate = false;
+    expect(skyNumeric.formatNumber(value, options)).toBe('$1,234.50');
+  });
+
   describe('roundNumber', () => {
 
     beforeEach(() => {
