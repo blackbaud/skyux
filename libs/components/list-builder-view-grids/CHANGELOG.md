@@ -1,3 +1,7 @@
+# 3.6.3 (2020-05-04)
+
+- Removed `moment` as a dependency. [#69](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/69)
+
 # 3.6.2 (2020-02-07)
 
 - Added support for `@skyux/list-builder@3.6.3` to prevent redundant updates to `ListItemModel` and improve performance for the list view grid component. [#77](https://github.com/blackbaud/skyux-list-builder/pull/77)
