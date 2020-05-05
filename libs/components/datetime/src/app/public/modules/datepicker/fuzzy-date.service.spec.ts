@@ -635,9 +635,9 @@ describe('SkyFuzzyDateservice', () => {
       const actual = service.getFuzzyDateRange(startFuzzyDate, endFuzzyDate);
 
       // assert
-      expect(actual.years).toEqual(2);
-      expect(actual.months).toEqual(26);
-      expect(actual.days).toEqual(792);
+      expect(parseInt(actual.years, 10)).toEqual(2);
+      expect(parseInt(actual.months, 10)).toEqual(26);
+      expect(parseInt(actual.days, 10)).toEqual(792);
     });
 
     it('returns a fuzzy date range when provided with partial fuzzy dates.', () => {
@@ -649,8 +649,8 @@ describe('SkyFuzzyDateservice', () => {
       const actual = service.getFuzzyDateRange(startFuzzyDate, endFuzzyDate);
 
       // assert
-      expect(actual.years).toEqual(2);
-      expect(actual.months).toEqual(26);
+      expect(parseInt(actual.years, 10)).toEqual(2);
+      expect(parseInt(actual.months, 10)).toEqual(26);
     });
 
     it('returns empty years, months, days values with valid = false if no years are provided.', () => {

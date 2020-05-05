@@ -2,8 +2,6 @@ import {
   Injectable
 } from '@angular/core';
 
-import 'moment/min/locales.min';
-
 @Injectable()
 export class SkyDatepickerConfigService {
 
