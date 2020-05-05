@@ -1,3 +1,7 @@
+# 3.11.0 (2020-05-05)
+
+- Added `moment` as a dependency. [#153](https://github.com/blackbaud/skyux-datetime/pull/153)
+
 # 3.10.0 (2020-04-30)
 
 - Updated the datepicker, date range picker, timepicker, and fuzzy datepicker components to implement the affix and overlay services. [#140](https://github.com/blackbaud/skyux-datetime/pull/140)
