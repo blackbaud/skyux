@@ -66,18 +66,31 @@ export class ListToolbarOrchestrator
     action: ListToolbarItemsLoadAction
   ): ListToolbarModel {
     const newModel = new ListToolbarModel(state);
-    const newListItems = action.items.map(item => new ListToolbarItemModel(item));
 
-    let resultItems = [...state.items];
-    if (action.index === -1 || action.index > state.items.length) {
-      resultItems = [...resultItems, ...newListItems];
-    } else if (action.index === 0) {
-      resultItems = [...newListItems, ...resultItems];
-    } else {
-      newListItems.reverse().forEach(item => resultItems.splice(action.index, 0, item));
-    }
+    const newListItems = action.items.map(item => {
+      /**
+       * NOTE: Originally this function went off the action index and item models did not include
+       * the index. We changed this but must leave functionality to convert the action index for
+       * backwards compatibility.
+       */
+      if (!item.index) {
+        item.index = action.index;
+      }
+      return new ListToolbarItemModel(item);
+    });
 
-    newModel.items = resultItems;
+    let items = [...state.items, ...newListItems];
+    items = items.sort((a, b) => {
+      if (a.index < b.index) {
+        return -1;
+      } else if (a.index > b.index) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+
+    newModel.items = items;
 
     return newModel;
   }

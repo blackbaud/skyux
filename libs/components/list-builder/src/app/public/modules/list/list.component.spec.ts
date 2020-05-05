@@ -1367,7 +1367,7 @@ describe('List Component', () => {
             id: '2'
           })
         ];
-        dispatcher.toolbarAddItems(newItems, -1);
+        dispatcher.toolbarAddItems(newItems);
 
         tick();
 
@@ -1382,7 +1382,9 @@ describe('List Component', () => {
         tick();
 
         state.take(1).subscribe((current) => {
-          expect(current.toolbar.items[0].id).toBe('blue');
+          expect(current.toolbar.items[0].id).toBe('0');
+          expect(current.toolbar.items[1].id).toBe('2');
+          expect(current.toolbar.items[2].id).toBe('blue');
         });
 
         tick();
@@ -1398,7 +1400,7 @@ describe('List Component', () => {
             id: '2'
           })
         ];
-        dispatcher.toolbarAddItems(newItems, -1);
+        dispatcher.toolbarAddItems(newItems);
 
         tick();
 
@@ -1413,7 +1415,45 @@ describe('List Component', () => {
         tick();
 
         state.take(1).subscribe((current) => {
+          expect(current.toolbar.items[0].id).toBe('0');
+          expect(current.toolbar.items[1].id).toBe('2');
+          expect(current.toolbar.items[2].id).toBe('blue');
+        });
+
+        tick();
+      }));
+
+      it('should handle index set on the items', fakeAsync(() => {
+
+        let newItems: ListToolbarItemModel[] = [
+          new ListToolbarItemModel({
+            id: '0',
+            index: 2
+          }),
+          new ListToolbarItemModel({
+            id: '2',
+            index: 0
+          })
+        ];
+        dispatcher.toolbarAddItems(newItems);
+
+        tick();
+
+        newItems = [
+          new ListToolbarItemModel({
+            id: 'blue',
+            index: 1
+          })
+        ];
+
+        dispatcher.toolbarAddItems(newItems);
+
+        tick();
+
+        state.take(1).subscribe((current) => {
+          expect(current.toolbar.items[0].id).toBe('2');
           expect(current.toolbar.items[1].id).toBe('blue');
+          expect(current.toolbar.items[2].id).toBe('0');
         });
 
         tick();
