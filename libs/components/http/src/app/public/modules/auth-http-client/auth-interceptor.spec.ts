@@ -1,18 +1,12 @@
 //#region imports
 
 import {
-  HttpHandler,
-  HttpParams,
-  HttpRequest
+  HttpHandler
 } from '@angular/common/http';
 
 import {
   TestBed
 } from '@angular/core/testing';
-
-import {
-  Observable
-} from 'rxjs/Observable';
 
 import 'rxjs/add/observable/of';
 
@@ -35,13 +29,14 @@ import {
 } from './auth-interceptor-default-permission-scope';
 
 import {
-  SKY_AUTH_PARAM_AUTH,
-  SKY_AUTH_PARAM_PERMISSION_SCOPE
-} from './auth-interceptor-params';
+  createAppConfig,
+  createRequest,
+  EXAMPLE_URL,
+  Spy,
+  validateRequest
+} from './testing/sky-http-interceptor.test-utils';
 
 //#endregion
-
-type Spy<T> = { [Method in keyof T]: jasmine.Spy; };
 
 describe('Auth interceptor', () => {
   let mockTokenProvider: Spy<SkyAuthTokenProvider>;
@@ -50,59 +45,8 @@ describe('Auth interceptor', () => {
   let next: Spy<HttpHandler>;
 
   function createInteceptor(envId?: string, leId?: string, getUrlResult?: string) {
-    return new SkyAuthInterceptor(
-      mockTokenProvider as any,
-      {
-        runtime: {
-          params: {
-            get: (name: string) => {
-              switch (name) {
-                case 'envid':
-                  return envId;
-                case 'leid':
-                  return leId;
-                default:
-                  return undefined;
-              }
-            },
-            getUrl: (url: string) => getUrlResult || url || 'https://example.com/get/'
-          }
-        } as any,
-        skyux: {}
-      });
-  }
-
-  function createRequest(isSkyAuth?: boolean, url?: string, permissionScope?: string) {
-    let params: HttpParams = new HttpParams();
-
-    if (isSkyAuth) {
-      params = params.set(SKY_AUTH_PARAM_AUTH, 'true');
-    }
-
-    if (permissionScope) {
-      params = params.set(SKY_AUTH_PARAM_PERMISSION_SCOPE, permissionScope);
-    }
-
-    const request = new HttpRequest(
-      'GET',
-      url || 'https://example.com/get/',
-      {
-        params: params
-      }
-    );
-
-    return request;
-  }
-
-  function validateAuthRequest(
-    done: DoneFn,
-    cb: (authRequest: HttpRequest<any>) => void
-  ): void {
-    next.handle.and.callFake((authRequest: HttpRequest<any>) => {
-      cb(authRequest);
-      done();
-      return Observable.of('');
-    });
+    return new SkyAuthInterceptor(mockTokenProvider as any,
+      createAppConfig(envId, leId, getUrlResult));
   }
 
   function validateContext(
@@ -124,7 +68,7 @@ describe('Auth interceptor', () => {
     });
 
     mockRuntimeConfigParameters.getUrl.and.callFake(() => {
-      return expectedUrl || 'https://example.com/get/';
+      return expectedUrl || EXAMPLE_URL;
     });
 
     const request = createRequest(true, undefined, permissionScope);
@@ -132,7 +76,7 @@ describe('Auth interceptor', () => {
     const interceptor: SkyAuthInterceptor = TestBed.get(SkyAuthInterceptor);
     interceptor.intercept(request, next);
 
-    validateAuthRequest(done, (authRequest) => {
+    validateRequest(next, done, (authRequest) => {
       expect(authRequest.url).toBe(expectedUrl);
     });
 
@@ -205,7 +149,7 @@ describe('Auth interceptor', () => {
     const interceptor: SkyAuthInterceptor = TestBed.get(SkyAuthInterceptor);
     const request = createRequest(true);
 
-    validateAuthRequest(done, (authRequest) => {
+    validateRequest(next, done, (authRequest) => {
       expect(authRequest.headers.get('Authorization')).toBe('Bearer abc');
     });
 
@@ -213,15 +157,15 @@ describe('Auth interceptor', () => {
   });
 
   it('should add a permission scope to the token request if specified', (done) => {
-    validateContext(undefined, undefined, '123', 'https://example.com/get/', done);
+    validateContext(undefined, undefined, '123', EXAMPLE_URL, done);
   });
 
   it('should apply the appropriate environment context', (done) => {
-    validateContext('abc', undefined, undefined, 'https://example.com/get/?envid=abc', done);
+    validateContext('abc', undefined, undefined, `${EXAMPLE_URL}?envid=abc`, done);
   });
 
   it('should apply the appropriate legal entity context', (done) => {
-    validateContext(undefined, 'abc', undefined, 'https://example.com/get/?leid=abc', done);
+    validateContext(undefined, 'abc', undefined, `${EXAMPLE_URL}?leid=abc`, done);
   });
 
   it('should convert tokenized urls and honor the hard-coded zone.', (done) => {
@@ -232,7 +176,7 @@ describe('Auth interceptor', () => {
       '1bb://eng-hub00-pusa01/version'
     );
 
-    validateAuthRequest(done, (authRequest) => {
+    validateRequest(next, done, (authRequest) => {
       expect(authRequest.url).toBe('https://eng-pusa01.app.blackbaud.net/hub00/version');
     });
 
@@ -247,7 +191,7 @@ describe('Auth interceptor', () => {
       '1bb://eng-hub00/version'
     );
 
-    validateAuthRequest(done, (authRequest) => {
+    validateRequest(next, done, (authRequest) => {
       expect(authRequest.url).toBe('https://eng-pcan01.app.blackbaud.net/hub00/version');
     });
 
@@ -271,7 +215,7 @@ describe('Auth interceptor', () => {
       const request = createRequest(true);
       const expectedTokenArgs: SkyAuthTokenContextArgs = {permissionScope: defaultPermissionScope};
 
-      validateAuthRequest(done, (authRequest) => {
+      validateRequest(next, done, (authRequest) => {
         const authHeader = authRequest.headers.get('Authorization');
         expect(authHeader).toBe('Bearer abc');
       });
@@ -288,7 +232,7 @@ describe('Auth interceptor', () => {
       const interceptor = TestBed.get(SkyAuthInterceptor);
       const request = createRequest(true);
 
-      validateAuthRequest(done, (authRequest) => {
+      validateRequest(next, done, (authRequest) => {
         const authHeader = authRequest.headers.get('Authorization');
         expect(authHeader).toBe('Bearer abc');
       });
@@ -317,7 +261,7 @@ describe('Auth interceptor', () => {
       const specifiedPermissionScope = 'specified-permission-scope';
       const request = createRequest(true, undefined, specifiedPermissionScope);
 
-      validateAuthRequest(done, (authRequest) => {
+      validateRequest(next, done, (authRequest) => {
         const authHeader = authRequest.headers.get('Authorization');
         expect(authHeader).toBe('Bearer abc');
       });
