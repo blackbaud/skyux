@@ -1,3 +1,7 @@
+# 3.10.0 (2020-05-06)
+
+- Added an HTTP interceptor to translate 1BB-protocol URLs for anonymous web service calls. [#59](https://github.com/blackbaud/skyux-http/pull/59) (Thanks [@Alex-Vaky](https://github.com/Alex-Vaky)!)
+
 # 3.9.0 (2019-11-21)
 
 - Added a deprecation message to the `SkyAuthHttp` utility. We will remove `SkyAuthHttp` in the next major version of `@skyux/http` because of a dependency on Angular's `@angular/http` module, which was removed in Angular version 8. We recommend using Angular's `HttpClient` and importing the `SkyAuthHttpClientModule` to implement features such as Blackbaud authentication. [#44](https://github.com/blackbaud/skyux-http/pull/44)
