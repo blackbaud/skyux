@@ -85,11 +85,6 @@ describe('File item component', () => {
 
     let otherEl = getOtherPreview();
     expect(otherEl).toBeFalsy();
-
-    // Test Accessibility
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
-    });
   }
 
   function testOtherPreview(extension: string, type: string) {
@@ -122,11 +117,6 @@ describe('File item component', () => {
 
     let imageEl = getImage();
     expect(imageEl).toBeFalsy();
-
-    // Test Accessibility
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
-    });
   }
   //#endregion
 

@@ -18,6 +18,14 @@
     (dragleave)="fileDragLeave($event)"
     (drop)="fileDrop($event)"
   >
+    <div
+      aria-hidden="true"
+      class="sky-file-attachment-drop-description"
+      role="tooltip"
+      [attr.id]="fileDropDescriptionElementId"
+    >
+      {{ 'skyux_file_attachment_file_upload_drag_or_click' | skyLibResources }}
+    </div>
     <input
       hidden
       tabindex="-1"
@@ -31,7 +39,7 @@
     <button
       class="sky-file-attachment-btn sky-btn sky-btn-default"
       type="button"
-      [attr.aria-label]="'skyux_file_attachment_file_upload_drag_or_click' | skyLibResources"
+      [attr.aria-describedby]="fileDropDescriptionElementId"
       [attr.aria-labelledby]="(hasLabelComponent) ? labelElementId : null"
       [disabled]="disabled"
       (click)="onDropClicked()"

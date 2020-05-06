@@ -116,11 +116,6 @@ describe('File attachment', () => {
 
     const imageEl = getImage();
     expect(imageEl.nativeElement.getAttribute('src')).toBe('myFile.' + extension);
-
-    // Test Accessibility
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
-    });
   }
 
   function testNonImageType(extension: string, type: string): void {
@@ -137,11 +132,6 @@ describe('File attachment', () => {
 
     const imageEl = getImage();
     expect(imageEl).toBeFalsy();
-
-    // Test Accessibility
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
-    });
   }
 
   function getLabelWrapper(): HTMLElement {

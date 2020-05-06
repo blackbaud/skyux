@@ -8,10 +8,10 @@
     [attr.aria-checked]="checked"
     [attr.aria-label]="ariaLabel"
     [attr.aria-labelledby]="(hasLabelComponent) ? labelElementId : null"
-    [attr.aria-readonly]="disabled"
+    [disabled]="disabled"
     [ngClass]="{
       'sky-toggle-switch-checked': checked,
-      'sky-toggle-switch-readonly': disabled
+      'sky-toggle-switch-disabled': disabled
     }"
     [tabIndex]="tabIndex"
     (blur)="onButtonBlur()"

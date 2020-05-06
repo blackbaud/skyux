@@ -182,12 +182,6 @@ export class SkyToggleSwitchComponent implements AfterContentInit, OnDestroy, Co
 
   public onButtonClick(event: any): void {
     event.stopPropagation();
-
-    if (this.disabled) {
-      event.preventDefault();
-      return;
-    }
-
     this.toggleChecked();
     this.emitChangeEvent();
   }
