@@ -1,3 +1,7 @@
+# 3.6.4 (2020-05-06)
+
+- Fixed the column selector action to display in the correct position inside a list toolbar. [#67](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/67)
+
 # 3.6.3 (2020-05-04)
 
 - Removed `moment` as a dependency. [#69](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/69)
