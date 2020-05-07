@@ -59,9 +59,9 @@
   }
 }
 
-@mixin sky-theme-mode-dark {
-  .sky-theme-mode-dark,
-  :host-context(.sky-theme-mode-dark) {
+@mixin sky-theme-modern-dark {
+  .sky-theme-modern.sky-theme-mode-dark,
+  :host-context(.sky-theme-modern.sky-theme-mode-dark) {
     @content;
   }
 }
