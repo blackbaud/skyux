@@ -8,10 +8,13 @@
 .sky-key-info-horizontal {
   .sky-key-info-value,
   .sky-key-info-label {
-      display: inline-block;
+    display: inline-block;
   }
 
   .sky-key-info-label {
-      margin-left: $sky-margin-half;
+    &:before {
+      content: ' ';
+      display: inline-block;
+    }
   }
 }
