@@ -1,8 +1,10 @@
 import {
-  Component
+  Component,
+  OnDestroy
 } from '@angular/core';
 
 import {
+  SkyDockItem,
   SkyDockService
 } from '../../public';
 
@@ -19,7 +21,7 @@ import {
   templateUrl: './dock-visual.component.html',
   styleUrls: ['./dock-visual.component.scss']
 })
-export class DockVisualComponent {
+export class DockVisualComponent implements OnDestroy {
 
   public stackOrder: number;
 
@@ -46,12 +48,18 @@ export class DockVisualComponent {
     }
   ];
 
+  private items: SkyDockItem<any>[] = [];
+
   constructor(
     private dockService: SkyDockService
   ) {
     this.configs.forEach((config) => {
       this.addToDock(config);
     });
+  }
+
+  public ngOnDestroy(): void {
+    this.items.forEach(item => item.destroy());
   }
 
   public onAddItemClick(): void {
@@ -82,5 +90,7 @@ export class DockVisualComponent {
     });
 
     item.componentInstance.closeClicked.subscribe(() => item.destroy());
+
+    this.items.push(item);
   }
 }
