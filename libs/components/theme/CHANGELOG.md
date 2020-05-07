@@ -1,3 +1,7 @@
+# 3.16.0 (2020-05-07)
+
+- Added modern theme styles for tabs. [#128](https://github.com/blackbaud/skyux-theme/pull/128)
+
 # 3.15.0 (2020-04-30)
 
 - Added the `sky-box` CSS class to the modern theme. [#125](https://github.com/blackbaud/skyux-theme/pull/125)
