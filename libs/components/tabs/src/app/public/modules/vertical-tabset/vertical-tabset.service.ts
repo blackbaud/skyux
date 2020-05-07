@@ -4,12 +4,9 @@ import {
 } from '@angular/core';
 
 import {
-  SkyMediaBreakpoints
-} from '@skyux/core/modules/media-query/media-breakpoints';
-
-import {
+  SkyMediaBreakpoints,
   SkyMediaQueryService
-} from '@skyux/core/modules/media-query/media-query.service';
+} from '@skyux/core';
 
 import {
   BehaviorSubject
