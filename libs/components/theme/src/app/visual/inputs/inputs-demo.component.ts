@@ -1,7 +1,10 @@
 import {
   Component
 } from '@angular/core';
-import { SkyAppStyleLoader } from '../../public';
+
+import {
+  SkyAppStyleLoader
+} from '../../public/public_api';
 
 @Component({
   selector: 'html-inputs-demo',

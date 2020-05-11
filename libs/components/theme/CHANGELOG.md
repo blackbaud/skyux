@@ -1,18 +1,53 @@
+# 4.0.0 (2020-05-08)
+
+### New features
+
+- Added support for `@angular/core@^9`. [#94](https://github.com/blackbaud/skyux-theme/pull/94)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#94](https://github.com/blackbaud/skyux-theme/pull/94)
+
+### Bug fixes
+
+- Added CSS overrides to changes made by `normalize-scss@7` to maintain style consistency with `@skyux/theme@3`. [#95](https://github.com/blackbaud/skyux-theme/pull/95)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#94](https://github.com/blackbaud/skyux-theme/pull/94)
+
+# 4.0.0-rc.7 (2020-05-07)
+
+- Added bug fixes and features from the `master` branch. [#131](https://github.com/blackbaud/skyux-theme/pull/131)
+
 # 3.16.0 (2020-05-07)
 
 - Added modern theme styles for tabs. [#128](https://github.com/blackbaud/skyux-theme/pull/128)
+
+# 4.0.0-rc.6 (2020-05-06)
+
+- Added bug fixes and features from the `master` branch. [#129](https://github.com/blackbaud/skyux-theme/pull/129)
 
 # 3.15.0 (2020-04-30)
 
 - Added the `sky-box` CSS class to the modern theme. [#125](https://github.com/blackbaud/skyux-theme/pull/125)
 
+# 4.0.0-rc.5 (2020-04-28)
+
+- Added bug fixes and features from the `master` branch. [#124](https://github.com/blackbaud/skyux-theme/pull/124)
+
 # 3.14.2 (2020-04-27)
 
 - Fixed modern theme header styles by overriding the default theme's `font-family` and `color` CSS properties. [#122](https://github.com/blackbaud/skyux-theme/pull/122)
 
+# 4.0.0-rc.4 (2020-04-24)
+
+- Added bug fixes and features from the `master` branch. [#121](https://github.com/blackbaud/skyux-theme/pull/121)
+
 # 3.14.1 (2020-04-24)
 
 - Restored the bold font style to the `sky-headline` CSS class used by components like key info. [#119](https://github.com/blackbaud/skyux-theme/pull/119)
+
+# 4.0.0-rc.3 (2020-04-23)
+
+- Added bug fixes and features from the `master` branch. [#121](https://github.com/blackbaud/skyux-theme/pull/121)
 
 # 3.14.0 (2020-04-23)
 
@@ -26,6 +61,10 @@
 
 - Added theming capabilities. [#108](https://github.com/blackbaud/skyux-theme/pull/108)
 
+# 4.0.0-rc.2 (2020-04-02)
+
+- Updated the development and peer dependencies. [#107](https://github.com/blackbaud/skyux-theme/pull/107)
+
 # 3.12.0 (2020-04-01)
 
 - Updated the SKY UX icon font version to 3.0.0-beta.1. [#105](https://github.com/blackbaud/skyux-theme/pull/105)
@@ -37,6 +76,23 @@
 # 3.10.0 (2020-03-19)
 
 - Added CSS classes for dark, light, and row borders. [#100](https://github.com/blackbaud/skyux-theme/pull/100)
+
+# 4.0.0-rc.1 (2020-02-20)
+
+### Bug fixes
+
+- Added CSS overrides to changes made by `normalize-scss@7` to maintain style consistency with `@skyux/theme@3`. [#95](https://github.com/blackbaud/skyux-theme/pull/95)
+
+# 4.0.0-rc.0 (2020-02-19)
+
+### New features
+
+- Added support for `@angular/core@^9`. [#94](https://github.com/blackbaud/skyux-theme/pull/94)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#94](https://github.com/blackbaud/skyux-theme/pull/94)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#94](https://github.com/blackbaud/skyux-theme/pull/94)
 
 # 3.9.0 (2019-12-16)
 

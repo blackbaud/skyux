@@ -7,7 +7,7 @@ import {
   SkyTheme,
   SkyThemeMode,
   SkyThemeSettings
-} from '../../public';
+} from '../../public/public_api';
 
 @Component({
   selector: 'app-theming-demo',

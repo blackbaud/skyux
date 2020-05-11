@@ -4,7 +4,7 @@ import {
 
 import {
   ReplaySubject
-} from 'rxjs/ReplaySubject';
+} from 'rxjs';
 
 /**
  * Provides information about the state of the application's viewport.
