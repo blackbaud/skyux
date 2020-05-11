@@ -25,6 +25,18 @@ import {
 } from '@angular/router';
 
 import {
+  BehaviorSubject
+} from 'rxjs';
+
+import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange
+} from '@skyux/theme';
+
+import {
   expect,
   SkyAppTestUtility
 } from '@skyux-sdk/testing';
@@ -62,10 +74,32 @@ import {
 } from './fixtures/tabset-permalinks.component.fixture';
 
 describe('Tabset component', () => {
+  let mockThemeSvc: {
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+  };
+
   beforeEach(() => {
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+        {
+          currentSettings: new SkyThemeSettings(
+            SkyTheme.presets.default,
+            SkyThemeMode.presets.light
+          ),
+          previousSettings: undefined
+        }
+      )
+    };
+
     TestBed.configureTestingModule({
       imports: [
         SkyTabsFixturesModule
+      ],
+      providers: [
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc
+        }
       ]
     });
   });
@@ -154,6 +188,64 @@ describe('Tabset component', () => {
       });
     });
   }));
+
+  it('should update the tab button margin class when the theme is modern', () => {
+    function validateMargins(theme: string): void {
+      for (const btnEl of btnEls) {
+        if (theme === 'modern') {
+          expect(btnEl).toHaveCssClass('sky-margin-inline-sm');
+        } else {
+          expect(btnEl).not.toHaveCssClass('sky-margin-inline-sm');
+        }
+      }
+    }
+
+    let template = `<sky-tabset (newTab)="newTab()" (openTab)="openTab()">
+  <sky-tab
+    tabHeading="Tab 1"
+  >
+    Tab content
+  </sky-tab>
+</sky-tabset>`;
+
+    let fixture = TestBed
+      .overrideComponent(
+        TabsetTestComponent,
+        {
+          set: {
+            template: template
+          }
+        }
+      )
+      .createComponent(TabsetTestComponent);
+
+    fixture.detectChanges();
+
+    const btnEls = [
+      ...Array.from(fixture.nativeElement.querySelectorAll('.sky-btn-tab')),
+      fixture.nativeElement.querySelector('.sky-tabset-btn-new'),
+      fixture.nativeElement.querySelector('.sky-tabset-btn-open')
+    ];
+
+    validateMargins('default');
+
+    mockThemeSvc.settingsChange.next(
+      {
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.light
+        ),
+        previousSettings: new SkyThemeSettings(
+          SkyTheme.presets.default,
+          SkyThemeMode.presets.light
+        )
+      }
+    );
+
+    fixture.detectChanges();
+
+    validateMargins('modern');
+  });
 
   describe('tabs with active attribute', () => {
     it('should change the active tab when tab active is set to true', fakeAsync(() => {

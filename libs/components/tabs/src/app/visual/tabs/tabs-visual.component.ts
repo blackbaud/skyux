@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component
+} from '@angular/core';
+
+import {
+  SkyThemeService,
+  SkyThemeSettings
+} from '@skyux/theme';
 
 @Component({
   selector: 'tabs-visual',
@@ -12,6 +20,8 @@ export class TabsVisualComponent {
   public requiredValue1: string;
 
   public requiredValue2: boolean;
+
+  constructor(private themeSvc: SkyThemeService) { }
 
   public newTabClick() { }
 
@@ -29,5 +39,9 @@ export class TabsVisualComponent {
 
   public validateStep1() {
     return true;
+  }
+
+  public themeSettingsChange(themeSettings: SkyThemeSettings) {
+    this.themeSvc.setTheme(themeSettings);
   }
 }

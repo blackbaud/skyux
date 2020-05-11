@@ -1,3 +1,4 @@
+@import "~@skyux/theme/scss/variables";
 @import "~@skyux/theme/scss/mixins";
 @import "~@skyux/theme/scss/_compat/mixins";
 
@@ -46,4 +47,10 @@
 .sky-tabset-btn-new,
 .sky-tabset-btn-open {
   color: $sky-text-color-action-primary;
+}
+
+@include sky-theme-modern {
+  .sky-tabset {
+    border-bottom: 1px solid $sky-theme-modern-border-color-neutral-medium;
+  }
 }

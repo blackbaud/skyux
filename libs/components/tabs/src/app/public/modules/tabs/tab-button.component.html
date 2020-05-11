@@ -8,7 +8,9 @@
       'sky-btn-tab-wizard': tabStyle === 'wizard',
       'sky-btn-tab-selected': active,
       'sky-btn-tab-disabled': disabled,
-      'sky-tab-btn-closeable': allowClose
+      'sky-tab-btn-closeable': allowClose,
+      'sky-margin-inline-sm':
+        (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name === 'modern'
     }"
     [tabindex]="disabled ? '-1' : '0'"
     (click)="doTabClick($event)"

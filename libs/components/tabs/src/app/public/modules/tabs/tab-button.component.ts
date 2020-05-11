@@ -12,6 +12,10 @@ import {
 } from '@angular/core';
 
 import {
+  SkyThemeService
+} from '@skyux/theme';
+
+import {
   SkyTabsetAdapterService
 } from './tabset-adapter.service';
 
@@ -112,7 +116,8 @@ export class SkyTabButtonComponent {
     private adapterService: SkyTabsetAdapterService,
     private ref: ChangeDetectorRef,
     private location: Location,
-    @Optional() private tabsetComponent: SkyTabsetComponent
+    @Optional() private tabsetComponent: SkyTabsetComponent,
+    @Optional() public themeSvc?: SkyThemeService
   ) { }
 
   public doTabClick(event: MouseEvent) {
