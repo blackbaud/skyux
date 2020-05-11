@@ -1,6 +1,6 @@
 import {
   Observable
-} from 'rxjs/Observable';
+} from 'rxjs';
 
 export function getData(item: any, selector: string): any {
   if (!selector) {

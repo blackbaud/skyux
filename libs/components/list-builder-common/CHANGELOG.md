@@ -1,3 +1,30 @@
+# 4.0.0 (2020-05-08)
+
+### New features
+
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#11](https://github.com/blackbaud/skyux-list-builder-common/pull/11)
+- Migrated all of the types from the deprecated library `microedge-rxstate`. [#12](https://github.com/blackbaud/skyux-list-builder-common/pull/12)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#11](https://github.com/blackbaud/skyux-list-builder-common/pull/11)
+
+# 4.0.0-rc.1 (2020-04-16)
+
+### New features
+
+- Migrated all of the types from the deprecated library `microedge-rxstate`. [#12](https://github.com/blackbaud/skyux-list-builder-common/pull/12)
+
+# 4.0.0-rc.0 (2020-04-06)
+
+### New features
+
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#11](https://github.com/blackbaud/skyux-list-builder-common/pull/11)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#11](https://github.com/blackbaud/skyux-list-builder-common/pull/11)
+
 # 3.0.0 (2019-01-11)
 
 - Major version release.
