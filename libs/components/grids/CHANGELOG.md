@@ -1,3 +1,7 @@
+# 3.8.0 (2020-05-11)
+
+- Added the ability to align the contents and header of a grid column. [#114](https://github.com/blackbaud/skyux-grids/pull/114)
+
 # 3.7.0 (2020-05-01)
 
 - Updated the visual styles of the column resize indicator. [#116](https://github.com/blackbaud/skyux-grids/pull/116)
