@@ -1,4 +1,6 @@
-import { skyAnimationSlide } from './slide';
+import {
+  skyAnimationSlide
+} from './slide';
 
 describe('Animation slide', () => {
   it('should define an animation trigger', () => {

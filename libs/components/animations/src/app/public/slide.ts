@@ -1,14 +1,13 @@
-// #region imports
 import {
   animate,
+  AnimationTriggerMetadata,
   state,
   style,
   transition,
   trigger
 } from '@angular/animations';
-// #endregion
 
-export const skyAnimationSlide = trigger('skyAnimationSlide', [
+export const skyAnimationSlide: AnimationTriggerMetadata = trigger('skyAnimationSlide', [
   state('down', style({
     overflow: 'visible',
     height: '*'
@@ -21,4 +20,4 @@ export const skyAnimationSlide = trigger('skyAnimationSlide', [
     'up <=> down',
     animate('150ms ease-in')
   )
-]) as any;
+]);

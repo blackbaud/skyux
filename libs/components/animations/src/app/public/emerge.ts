@@ -1,14 +1,13 @@
-// #region imports
 import {
   animate,
+  AnimationTriggerMetadata,
   state,
   style,
   transition,
   trigger
 } from '@angular/animations';
-// #endregion
 
-export const skyAnimationEmerge = trigger('skyAnimationEmerge', [
+export const skyAnimationEmerge: AnimationTriggerMetadata = trigger('skyAnimationEmerge', [
   state('open', style({
     opacity: 1,
     transform: 'scale(1)'
@@ -25,4 +24,4 @@ export const skyAnimationEmerge = trigger('skyAnimationEmerge', [
     animate('300ms ease-in-out')
   ]),
   transition(`* <=> *`, animate('300ms ease-in-out'))
-]) as any;
+]);

@@ -1,8 +1,6 @@
-// #region imports
 import {
   skyAnimationEmerge
 } from './emerge';
-// #endregion
 
 describe('Animation emerge', () => {
   it('should define an animation trigger', () => {
