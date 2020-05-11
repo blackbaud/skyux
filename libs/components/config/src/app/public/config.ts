@@ -33,6 +33,10 @@ export interface SkyuxConfigTestSettings {
   unit?: SkyuxConfigUnitTestSettings;
 }
 
+export interface SkyuxConfigLibrarySettings {
+  whitelistedNonPeerDependencies?: string[];
+}
+
 export interface RuntimeConfig {
   app: RuntimeConfigApp;
   command?: string;  // Dynamically added in "higher up" webpacks
@@ -106,9 +110,11 @@ export interface SkyuxConfig {
   command?: string;
   compileMode?: string;
   cssPath?: string;
+  enableIvy?: boolean;
   help?: any;
   host?: SkyuxConfigHost;
   importPath?: string;
+  librarySettings?: SkyuxConfigLibrarySettings;
   mode?: string;
   moduleAliases?: {[key: string]: string};
   name?: string;

@@ -1,4 +1,4 @@
-export type SkyuxConfigParams = string[] | {
+export type SkyuxConfigParams = {
   [key: string]: boolean | {
     value?: any;
     required?: boolean;

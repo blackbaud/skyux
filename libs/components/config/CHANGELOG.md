@@ -1,6 +1,39 @@
+# 4.0.0 (2020-05-08)
+
+### New features
+
+- Added the optional `librarySettings` property to the schema. [#37](https://github.com/blackbaud/skyux-config/pull/37)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#37](https://github.com/blackbaud/skyux-config/pull/37)
+- Added the optional `enableIvy` property to the schema to enable Angular's Ivy compiler. [#43](https://github.com/blackbaud/skyux-config/pull/43)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#37](https://github.com/blackbaud/skyux-config/pull/37)
+- Changed the `params` property on the schema to only accept type `object`. The value provided is converted into the `SkyConfigParams` TypeScript type during build time. [#18](https://github.com/blackbaud/skyux-config/pull/18)
+- Removed the `omnibar.experimental` property on the schema. To enable the omnibar after this release, provide an empty object `"omnibar": {}`. [#18](https://github.com/blackbaud/skyux-config/pull/18)
+
+# 4.0.0-rc.3 (2020-04-23)
+
+- Added bug fixes and features from the `master` branch. [#49](https://github.com/blackbaud/skyux-config/pull/49)
+
 # 3.9.0 (2020-04-22)
 
 - Added the `theming` property to `SkyuxConfigApp`. [#46](https://github.com/blackbaud/skyux-config/pull/46)
+
+# 4.0.0-rc.2 (2020-04-01)
+
+- Upgraded development dependencies. [#44](https://github.com/blackbaud/skyux-config/pull/44)
+
+# 4.0.0-rc.1 (2020-02-20)
+
+### New features
+
+- Added the optional `enableIvy` property to the schema to enable Angular's Ivy compiler. [#43](https://github.com/blackbaud/skyux-config/pull/43)
+
+### Breaking changes
+
+- Changed the `params` property on the schema to only accept type `object`. The value provided is converted into the `SkyConfigParams` TypeScript type during build time. [#18](https://github.com/blackbaud/skyux-config/pull/18)
+- Removed the `omnibar.experimental` property on the schema. To enable the omnibar after this release, provide an empty object `"omnibar": {}`. [#18](https://github.com/blackbaud/skyux-config/pull/18)
 
 # 3.8.1 (2020-02-20)
 
@@ -10,6 +43,17 @@
 # 3.8.0 (2020-02-18)
 
 - Added the `bbCheckout` and `frameOptions` properties. [#34](https://github.com/blackbaud/skyux-config/pull/34)
+
+# 4.0.0-rc.0 (2020-02-15)
+
+### New features
+
+- Added the optional `librarySettings` property to the schema. [#37](https://github.com/blackbaud/skyux-config/pull/37)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#37](https://github.com/blackbaud/skyux-config/pull/37)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#37](https://github.com/blackbaud/skyux-config/pull/37)
 
 # 3.7.0 (2019-11-19)
 
