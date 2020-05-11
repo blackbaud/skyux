@@ -1,3 +1,7 @@
+# 3.3.0 (2020-05-11)
+
+- Added modern theme styles to the tabset component. [#81](https://github.com/blackbaud/skyux-tabs/pull/81)
+
 # 3.2.8 (2020-05-07)
 
 - Fixed deep imports for `SkyMediaQueryService`. [#77](https://github.com/blackbaud/skyux-tabs/pull/77)
