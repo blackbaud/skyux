@@ -3,12 +3,11 @@ import {
 } from '@angular/core';
 
 import {
+  fromEvent,
   Observable,
   Subject,
   Subscription
 } from 'rxjs';
-
-import 'rxjs/add/observable/fromEvent';
 
 import {
   SkyAffixAutoFitContext
@@ -459,7 +458,7 @@ export class SkyAffixer {
   }
 
   private addResizeListener(): void {
-    this.resizeListener = Observable.fromEvent(window, 'resize')
+    this.resizeListener = fromEvent(window, 'resize')
       .subscribe(() => this.affix());
   }
 

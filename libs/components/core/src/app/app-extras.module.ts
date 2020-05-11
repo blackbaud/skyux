@@ -36,7 +36,7 @@ import {
   SkyNumericModule,
   SkyOverlayModule,
   SkyViewkeeperModule
-} from './public';
+} from './public/public_api';
 
 @NgModule({
   exports: [

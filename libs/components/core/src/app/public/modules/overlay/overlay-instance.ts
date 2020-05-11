@@ -50,7 +50,9 @@ export class SkyOverlayInstance {
     public readonly componentRef: ComponentRef<SkyOverlayComponent>
   ) {
     this.componentRef.instance.closed.subscribe(() => {
-      this.close();
+      this._closed.next();
+      this._closed.complete();
+      this._backdropClick.complete();
     });
 
     this.componentRef.instance.backdropClick.subscribe(() => {
@@ -81,16 +83,6 @@ export class SkyOverlayInstance {
     context?: T
   ): void {
     this.componentRef.instance.attachTemplate(templateRef, context);
-  }
-
-  /**
-   * Closes the overlay.
-   * @deprecated Use the public `close` method on the `SkyOverlayService` instead.
-   */
-  public close(): void {
-    this._closed.next();
-    this._closed.complete();
-    this._backdropClick.complete();
   }
 
 }

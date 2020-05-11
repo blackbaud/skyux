@@ -5,7 +5,7 @@ import {
 
 import {
   Subscription
-} from 'rxjs/Subscription';
+} from 'rxjs';
 
 import {
   SkyMediaBreakpoints

@@ -41,14 +41,10 @@ import {
 })
 export class SkyDockComponent implements OnInit {
 
-  /**
-   * Use `any` for backwards-compatibility with Angular 4-7.
-   * See: https://github.com/angular/angular/issues/30654
-   */
   @ViewChild('target', {
     read: ViewContainerRef,
     static: true
-  } as any)
+  })
   private target: ViewContainerRef;
 
   private itemRefs: SkyDockItemReference<any>[] = [];

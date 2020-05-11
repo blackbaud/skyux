@@ -22,7 +22,10 @@ import {
 })
 export class AdapterServiceFixtureComponent {
 
-  @ViewChild('paragraphContainer')
+  @ViewChild('paragraphContainer', {
+    read: ElementRef,
+    static: false
+  })
   public paragraphContainer: ElementRef;
 
   constructor(

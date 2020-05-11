@@ -5,12 +5,9 @@ import {
 } from '@angular/core';
 
 import {
-  BehaviorSubject
-} from 'rxjs/BehaviorSubject';
-
-import {
+  BehaviorSubject,
   Subscription
-} from 'rxjs/Subscription';
+} from 'rxjs';
 
 import {
   SkyMediaBreakpoints

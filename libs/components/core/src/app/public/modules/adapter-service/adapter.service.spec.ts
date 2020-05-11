@@ -152,6 +152,7 @@ describe('Core adapter service', () => {
 
   describe('setResponsiveContainerClass', () => {
     it('should set xs CSS class', () => {
+      fixture.detectChanges();
       const container = nativeElement.querySelector('#paragraph-container');
       component.setParagraphContainerClass(SkyMediaBreakpoints.xs);
 
@@ -162,6 +163,7 @@ describe('Core adapter service', () => {
     });
 
     it('should set sm CSS class', () => {
+      fixture.detectChanges();
       const container = nativeElement.querySelector('#paragraph-container');
       component.setParagraphContainerClass(SkyMediaBreakpoints.sm);
 
@@ -172,6 +174,7 @@ describe('Core adapter service', () => {
     });
 
     it('should set md CSS class', () => {
+      fixture.detectChanges();
       const container = nativeElement.querySelector('#paragraph-container');
       component.setParagraphContainerClass(SkyMediaBreakpoints.md);
 
@@ -182,6 +185,7 @@ describe('Core adapter service', () => {
     });
 
     it('should set lg CSS class', () => {
+      fixture.detectChanges();
       const container = nativeElement.querySelector('#paragraph-container');
       component.setParagraphContainerClass(SkyMediaBreakpoints.lg);
 

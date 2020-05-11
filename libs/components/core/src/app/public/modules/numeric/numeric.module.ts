@@ -8,7 +8,7 @@ import {
 
 import {
   SkyCoreResourcesModule
-} from '../shared';
+} from '../shared/core-resources.module';
 
 import {
   SkyNumericPipe

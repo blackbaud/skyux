@@ -13,7 +13,7 @@ import {
   SkyAffixPlacement,
   SkyAffixPlacementChange,
   SkyAffixVerticalAlignment
-} from '../../public';
+} from '../../public/public_api';
 
 @Component({
   selector: 'app-affix-demo',
@@ -85,13 +85,22 @@ export class AffixDemoComponent {
     'top'
   ];
 
-  @ViewChild('baseRef', { read: ElementRef })
+  @ViewChild('baseRef', {
+    read: ElementRef,
+    static: true
+  })
   private baseRef: ElementRef;
 
-  @ViewChild('parentOverflowRef', { read: ElementRef })
+  @ViewChild('parentOverflowRef', {
+    read: ElementRef,
+    static: true
+  })
   private parentOverflowRef: ElementRef;
 
-  @ViewChild('toolbarRef', { read: ElementRef })
+  @ViewChild('toolbarRef', {
+    read: ElementRef,
+    static: true
+  })
   private toolbarRef: ElementRef;
 
   private horizontalAlignmentIndex = 0;

@@ -11,8 +11,8 @@ import {
 } from '@angular/core';
 
 import {
-  SkyWindowRefService
-} from '../window';
+  SkyAppWindowRef
+} from '../window/window-ref';
 
 import {
   SkyDynamicComponentLocation
@@ -33,7 +33,7 @@ export class SkyDynamicComponentService {
     private componentFactoryResolver: ComponentFactoryResolver,
     private applicationRef: ApplicationRef,
     private injector: Injector,
-    private windowRef: SkyWindowRefService,
+    private windowRef: SkyAppWindowRef,
     rendererFactory: RendererFactory2
   ) {
     // Based on suggestions from https://github.com/angular/angular/issues/17824
@@ -64,7 +64,7 @@ export class SkyDynamicComponentService {
 
     const el = this.getRootNode(componentRef);
 
-    const bodyEl = this.windowRef.getWindow().document.body;
+    const bodyEl = this.windowRef.nativeWindow.document.body;
 
     switch (options.location) {
       case SkyDynamicComponentLocation.BodyTop:

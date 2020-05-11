@@ -6,7 +6,7 @@ import {
 import {
   SkyDynamicComponentLocation,
   SkyDynamicComponentService
-} from '../../public';
+} from '../../public/public_api';
 
 import {
   DynamicComponentDemoExampleComponent

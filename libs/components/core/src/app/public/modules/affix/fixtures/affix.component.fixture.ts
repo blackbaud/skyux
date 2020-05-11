@@ -21,6 +21,10 @@ import {
 } from '../affix-placement';
 
 import {
+  SkyAffixPlacementChange
+} from '../affix-placement-change';
+
+import {
   SkyAffixVerticalAlignment
 } from '../affix-vertical-alignment';
 
@@ -54,22 +58,26 @@ export class AffixFixtureComponent {
   // #endregion
 
   @ViewChild(SkyAffixDirective, {
-    read: SkyAffixDirective
+    read: SkyAffixDirective,
+    static: true
   })
   public affixDirective: SkyAffixDirective;
 
   @ViewChild('affixedRef', {
-    read: ElementRef
+    read: ElementRef,
+    static: true
   })
   public affixedRef: ElementRef;
 
   @ViewChild('overflowParentRef', {
-    read: ElementRef
+    read: ElementRef,
+    static: true
   })
   public overflowParentRef: ElementRef;
 
   @ViewChild('baseRef', {
-    read: ElementRef
+    read: ElementRef,
+    static: true
   })
   public baseRef: ElementRef;
 
@@ -81,7 +89,7 @@ export class AffixFixtureComponent {
 
   public onAffixOverflowScroll(): void {}
 
-  public onAffixPlacementChange(): void { }
+  public onAffixPlacementChange(change: SkyAffixPlacementChange): void { }
 
   public scrollTargetToLeft(offset: number = 0): void {
     const baseElement: HTMLDivElement = this.baseRef.nativeElement;

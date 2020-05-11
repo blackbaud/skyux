@@ -14,6 +14,10 @@ import {
 } from 'rxjs';
 
 import {
+  takeUntil
+} from 'rxjs/operators';
+
+import {
   SkyAffixAutoFitContext
 } from './affix-auto-fit-context';
 
@@ -134,15 +138,15 @@ export class SkyAffixDirective implements OnChanges, OnDestroy {
     this.affixer = this.affixService.createAffixer(elementRef);
 
     this.affixer.offsetChange
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((change) => this.affixOffsetChange.emit(change));
 
     this.affixer.overflowScroll
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((change) => this.affixOverflowScroll.emit(change));
 
     this.affixer.placementChange
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((change) => this.affixPlacementChange.emit(change));
   }
 

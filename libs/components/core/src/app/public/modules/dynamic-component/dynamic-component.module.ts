@@ -3,8 +3,8 @@ import {
 } from '@angular/core';
 
 import {
-  SkyWindowRefService
-} from '../window';
+  SkyAppWindowRef
+} from '../window/window-ref';
 
 import {
   SkyDynamicComponentService
@@ -15,7 +15,7 @@ import {
  */
 @NgModule({
   providers: [
-    SkyWindowRefService,
+    SkyAppWindowRef,
     SkyDynamicComponentService
   ]
 })

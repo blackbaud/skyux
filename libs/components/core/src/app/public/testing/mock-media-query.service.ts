@@ -7,15 +7,12 @@ import {
   SkyMediaBreakpoints,
   SkyMediaQueryListener,
   SkyMediaQueryService
-} from '../modules';
+} from '@skyux/core';
 
 import {
-  BehaviorSubject
-} from 'rxjs/BehaviorSubject';
-
-import {
- Subscription
-} from 'rxjs/Subscription';
+  BehaviorSubject,
+  Subscription
+} from 'rxjs';
 
 @Injectable()
 export class MockSkyMediaQueryService extends SkyMediaQueryService {

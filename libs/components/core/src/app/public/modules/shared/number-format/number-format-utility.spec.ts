@@ -1,7 +1,7 @@
 /* tslint:disable:no-null-keyword */
 import {
   SkyIntlNumberFormatStyle
-} from '@skyux/i18n/modules/i18n/intl-number-format-style';
+} from '@skyux/i18n';
 
 import {
   SkyNumberFormatUtility

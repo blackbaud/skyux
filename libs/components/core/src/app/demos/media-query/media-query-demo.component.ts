@@ -5,12 +5,12 @@ import {
 
 import {
   Subscription
-} from 'rxjs/Subscription';
+} from 'rxjs';
 
 import {
   SkyMediaBreakpoints,
   SkyMediaQueryService
-} from '../../public';
+} from '../../public/public_api';
 
 @Component({
   selector: 'sky-media-query-demo',

@@ -20,11 +20,13 @@ import {
   SkyAppTestUtility
 } from '@skyux-sdk/testing';
 
-import 'rxjs/add/operator/take';
+import {
+  take
+} from 'rxjs/operators';
 
 import {
   SkyCoreAdapterService
-} from '../adapter-service';
+} from '../adapter-service/adapter.service';
 
 import {
   OverlayFixtureContext
@@ -345,41 +347,33 @@ describe('Overlay service', () => {
     expect(getAllOverlays().item(0).textContent).toContain('Templated content ID: 5');
   }));
 
-  it('should be accessible', async(async () => {
+  it('should be accessible', async(async (done: DoneFn) => {
     const overlay = service.create();
 
     fixture.detectChanges();
 
     await fixture.whenStable();
 
-    await expect(getAllOverlays().item(0)).toBeAccessible();
+    expect(getAllOverlays().item(0)).toBeAccessible(async () => {
+      service.close(overlay);
 
-    service.close(overlay);
+      fixture.detectChanges();
 
-    fixture.detectChanges();
+      // Create overlay with all options turned on.
+      service.create({
+        closeOnNavigation: false,
+        enableClose: true,
+        enableScroll: false,
+        showBackdrop: true
+      });
 
-    // Create overlay with all options turned on.
-    service.create({
-      closeOnNavigation: false,
-      enableClose: true,
-      enableScroll: false,
-      showBackdrop: true
+      fixture.detectChanges();
+
+      await fixture.whenStable();
+
+      expect(getAllOverlays().item(0)).toBeAccessible(done);
     });
 
-    fixture.detectChanges();
-
-    await fixture.whenStable();
-
-    await expect(getAllOverlays().item(0)).toBeAccessible();
-
-  }));
-
-  it('should emit when overlay is closed by the instance (deprecated)', fakeAsync(() => {
-    const instance = createOverlay();
-    const closedSpy = spyOn(instance['_closed'], 'next').and.callThrough();
-    instance.close();
-    fixture.detectChanges();
-    expect(closedSpy).toHaveBeenCalled();
   }));
 
   it('should emit when overlay is closed by the service', fakeAsync(() => {
@@ -393,9 +387,11 @@ describe('Overlay service', () => {
     const instance = createOverlay();
 
     let backdropClickCalled = false;
-    instance.backdropClick.take(1).subscribe(() => {
-      backdropClickCalled = true;
-    });
+    instance.backdropClick
+      .pipe(take(1))
+      .subscribe(() => {
+        backdropClickCalled = true;
+      });
 
     SkyAppTestUtility.fireDomEvent(document.body, 'click');
     fixture.detectChanges();

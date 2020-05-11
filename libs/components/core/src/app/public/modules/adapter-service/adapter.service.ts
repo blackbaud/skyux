@@ -7,7 +7,7 @@ import {
 
 import {
   SkyMediaBreakpoints
-} from '../media-query';
+} from '../media-query/media-breakpoints';
 
 import {
   SkyFocusableChildrenOptions

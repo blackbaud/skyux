@@ -6,7 +6,7 @@ import {
   SkyOverlayConfig,
   SkyOverlayInstance,
   SkyOverlayService
-} from '../../public';
+} from '../../public/public_api';
 
 import {
   OverlayDemoExampleContext

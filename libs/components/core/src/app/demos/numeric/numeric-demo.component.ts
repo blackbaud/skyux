@@ -5,7 +5,7 @@ import {
 
 import {
   SkyNumericService
-} from '../../public';
+} from '../../public/public_api';
 
 @Component({
   selector: 'sky-numeric-demo',

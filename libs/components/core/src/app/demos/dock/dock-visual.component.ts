@@ -4,7 +4,7 @@ import {
 
 import {
   SkyDockService
-} from '../../public';
+} from '../../public/public_api';
 
 import {
   DockItemVisualContext

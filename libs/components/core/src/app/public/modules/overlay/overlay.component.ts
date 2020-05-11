@@ -23,26 +23,19 @@ import {
 } from '@angular/router';
 
 import {
-  Observable
-} from 'rxjs/Observable';
-
-import {
-  Subject
-} from 'rxjs/Subject';
-
-import {
+  fromEvent,
+  Observable,
+  Subject,
   Subscription
-} from 'rxjs/Subscription';
+} from 'rxjs';
 
-import 'rxjs/add/observable/fromEvent';
-
-import 'rxjs/add/observable/of';
-
-import 'rxjs/add/operator/takeUntil';
+import {
+  takeUntil
+} from 'rxjs/operators';
 
 import {
   SkyCoreAdapterService
-} from '../adapter-service';
+} from '../adapter-service/adapter.service';
 
 import {
   SkyOverlayConfig
@@ -92,13 +85,22 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
   public zIndex: string = `${++uniqueZIndex}`;
 
-  @ViewChild('overlayContentRef', { read: ElementRef })
+  @ViewChild('overlayContentRef', {
+    read: ElementRef,
+    static: true
+  })
   private overlayContentRef: ElementRef;
 
-  @ViewChild('overlayRef', { read: ElementRef })
+  @ViewChild('overlayRef', {
+    read: ElementRef,
+    static: true
+  })
   private overlayRef: ElementRef;
 
-  @ViewChild('target', { read: ViewContainerRef })
+  @ViewChild('target', {
+    read: ViewContainerRef,
+    static: true
+  })
   private targetRef: ViewContainerRef;
 
   private ngUnsubscribe = new Subject<void>();
@@ -170,8 +172,8 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
   }
 
   private addBackdropClickListener(): void {
-    Observable.fromEvent(window.document, 'click')
-      .takeUntil(this.ngUnsubscribe)
+    fromEvent(window.document, 'click')
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((event: MouseEvent) => {
         const isChild = this.overlayContentRef.nativeElement.contains(event.target);
         const isAbove = this.coreAdapter.isTargetAboveElement(

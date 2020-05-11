@@ -1,14 +1,20 @@
 import {
-  SkyLibResourcesTestService
-} from '@skyux/i18n/testing/lib-resources-test.service';
+  inject,
+  TestBed
+} from '@angular/core/testing';
 
 import {
-  SkyIntlNumberFormatStyle
-} from '@skyux/i18n/modules/i18n/intl-number-format-style';
+  SkyIntlNumberFormatStyle,
+  SkyLibResourcesService
+} from '@skyux/i18n';
 
 import {
   SkyNumberFormatUtility
 } from '../shared/number-format/number-format-utility';
+
+import {
+  SkyNumericModule
+} from './numeric.module';
 
 import {
   NumericOptions
@@ -18,11 +24,21 @@ import {
   SkyNumericService
 } from './numeric.service';
 
-const skyNumeric = new SkyNumericService(
-  new SkyLibResourcesTestService() as any
-);
-
 describe('Numeric service', () => {
+  let skyNumeric: SkyNumericService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        SkyNumericModule
+      ]
+    });
+  });
+
+  beforeEach(inject([SkyLibResourcesService], (resourcesService: SkyLibResourcesService) => {
+    skyNumeric = new SkyNumericService(resourcesService);
+  }));
+
   it('formats 0 with 0 digits as 0', () => {
     const value = 0;
     const options = new NumericOptions();
@@ -285,7 +301,7 @@ describe('Numeric service', () => {
         digits?: string | null,
         currency: string | null = undefined,
         currencyAsSymbol: boolean = false) => {
-        return value;
+        return value as (string | null);
       });
     });
 

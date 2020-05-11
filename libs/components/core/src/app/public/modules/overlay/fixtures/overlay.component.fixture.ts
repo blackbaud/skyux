@@ -24,7 +24,8 @@ import {
 export class OverlayFixtureComponent {
 
   @ViewChild('myTemplate', {
-    read: TemplateRef
+    read: TemplateRef,
+    static: true
   })
   public myTemplate: TemplateRef<any>;
 

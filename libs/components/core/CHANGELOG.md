@@ -1,6 +1,27 @@
+# 4.0.0 (2020-05-11)
+
+### New features
+
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#122](https://github.com/blackbaud/skyux-core/pull/122)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#122](https://github.com/blackbaud/skyux-core/pull/122)
+- Removed `SkyWindowRefService` and `SkyFormat`. Use `SkyAppWindowRef` and `SkyAppFormat` instead. [#122](https://github.com/blackbaud/skyux-core/pull/122)
+
+# 4.0.0-rc.5 (2020-05-01)
+
+- Added bug fixes and features from the `master` branch. [#163](https://github.com/blackbaud/skyux-core/pull/163)
+
 # 3.14.3 (2020-05-01)
 
 - Fixed `SkyNumericPipe` to properly format decimals for numbers over 1000. [#161](https://github.com/blackbaud/skyux-core/pull/161)
+
+# 4.0.0-rc.4 (2020-04-09)
+
+### New features
+
+- Added bug fixes and features from the `master` branch. [#158](https://github.com/blackbaud/skyux-core/pull/158)
 
 # 3.14.2 (2020-04-09)
 
@@ -9,6 +30,12 @@
 # 3.14.1 (2020-04-06)
 
 - Fixed the overlay component to appear above modal components. [#153](https://github.com/blackbaud/skyux-core/pull/153)
+
+# 4.0.0-rc.3 (2020-03-31)
+
+### New features
+
+- Added bug fixes and features from the `master` branch. [#150](https://github.com/blackbaud/skyux-core/pull/150)
 
 # 3.14.0 (2020-03-30)
 
@@ -32,6 +59,12 @@
 
 - Added the properties from the `SkyViewkeeperOptions` interface to `SkyViewkeeperHostOptions`. This fixes an issue where the Angular AoT compiler does not recognize interface properties that are not explicitly defined on the implementing class. [#139](https://github.com/blackbaud/skyux-core/pull/139)
 
+# 4.0.0-rc.2 (2020-03-03)
+
+### New features
+
+- Added bug fixes and features from the `master` branch. [#132](https://github.com/blackbaud/skyux-core/pull/132)
+
 # 3.12.0 (2020-03-03)
 
 - Added the affix service and directive that enables SKY UX components to affix an element to another element. [#135](https://github.com/blackbaud/skyux-core/pull/135)
@@ -46,6 +79,23 @@
 
 - Added the viewkeeper directive that enables SKY UX components to keep elements in view while users scroll. [#128](https://github.com/blackbaud/skyux-core/pull/128)
 - Added the dock service that enables SKY UX components to stack elements at the bottom of the window. [#125](https://github.com/blackbaud/skyux-core/pull/125)
+
+# 4.0.0-rc.1 (2020-02-20)
+
+### Bug fixes
+
+- Added missing components and directives to the exports API. [#127](https://github.com/blackbaud/skyux-core/pull/127)
+
+# 4.0.0-rc.0 (2020-02-15)
+
+### New features
+
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#122](https://github.com/blackbaud/skyux-core/pull/122)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#122](https://github.com/blackbaud/skyux-core/pull/122)
+- Removed `SkyWindowRefService` and `SkyFormat`. Use `SkyAppWindowRef` and `SkyAppFormat` instead. [#122](https://github.com/blackbaud/skyux-core/pull/122)
 
 # 3.10.1 (2020-02-07)
 

@@ -11,9 +11,11 @@ import {
 
 import {
   Subject
-} from 'rxjs/Subject';
+} from 'rxjs';
 
-import 'rxjs/add/operator/takeUntil';
+import {
+  takeUntil
+} from 'rxjs/operators';
 
 import {
   SkyNumberFormatUtility
@@ -43,7 +45,9 @@ export class SkyPercentPipe implements OnDestroy, PipeTransform {
     private localeProvider: SkyAppLocaleProvider
   ) {
     this.localeProvider.getLocaleInfo()
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe((localeInfo) => {
         this.defaultLocale = localeInfo.locale;
         this.updateFormattedValue();

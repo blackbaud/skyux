@@ -25,7 +25,7 @@ export class SkyNumericPipe implements PipeTransform {
     private readonly skyNumeric: SkyNumericService
   ) { }
 
-  public transform(value: number, config: any): string {
+  public transform(value: number, config: any = {}): string {
     const options = new NumericOptions();
 
     // The default number of digits is `1`. When truncate is disabled, set digits

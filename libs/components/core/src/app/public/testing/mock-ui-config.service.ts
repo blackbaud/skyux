@@ -3,14 +3,12 @@ import {
 } from '@angular/core';
 
 import {
-  Observable
-} from 'rxjs/Observable';
-
-import 'rxjs/add/observable/of';
+  SkyUIConfigService
+} from '@skyux/core';
 
 import {
-  SkyUIConfigService
-} from '../modules/ui-config/ui-config.service';
+  of as observableOf
+} from 'rxjs';
 
 @Injectable()
 export class MockSkyUIConfigService extends SkyUIConfigService {
@@ -21,11 +19,11 @@ export class MockSkyUIConfigService extends SkyUIConfigService {
   ): any {
     switch (key) {
       case 'defaultSettings':
-        return Observable.of(defaultConfig);
+        return observableOf(defaultConfig);
       case 'badData':
-        return Observable.of({invalidProperty: 'invalidData'});
+        return observableOf({invalidProperty: 'invalidData'});
       default: {
-        return Observable.of({
+        return observableOf({
           settings: {
             userSettings: {
               singleColumn: {

@@ -16,7 +16,7 @@ export interface SkyOverlayConfig {
   enablePointerEvents?: boolean;
 
   /**
-   * Specifies if window scrolling is disabled when the overlay is opened.
+   * Specifies if window scrolling should be enabled when the overlay is opened.
    */
   enableScroll?: boolean;
 

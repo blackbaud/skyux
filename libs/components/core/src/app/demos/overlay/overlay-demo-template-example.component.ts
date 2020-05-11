@@ -7,7 +7,7 @@ import {
 import {
   SkyOverlayInstance,
   SkyOverlayService
-} from '../../public';
+} from '../../public/public_api';
 
 @Component({
   selector: 'app-overlay-demo-template-example',
@@ -16,7 +16,8 @@ import {
 export class OverlayDemoTemplateExampleComponent {
 
   @ViewChild('content', {
-    read: TemplateRef
+    read: TemplateRef,
+    static: false
   })
   private contentTemplateRef: TemplateRef<any>;
 
@@ -53,7 +54,7 @@ export class OverlayDemoTemplateExampleComponent {
   }
 
   private closeOverlay(): void {
-    this.overlay.close();
+    this.overlayService.close(this.overlay);
     this.overlay = undefined;
   }
 
