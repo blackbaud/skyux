@@ -1,8 +1,6 @@
 import {
-  Observable
-} from 'rxjs/Observable';
-
-import 'rxjs/add/observable/of';
+  of as observableOf
+} from 'rxjs';
 
 import {
   SkyAppResourcesPipe
@@ -31,7 +29,7 @@ describe('Resources pipe', () => {
           value = 'hello';
         }
 
-        return Observable.of(value);
+        return observableOf(value);
       }
     } as SkyAppResourcesService;
   });

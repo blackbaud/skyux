@@ -3,18 +3,17 @@ import {
 } from '@angular/core';
 
 import {
-  Observable
-} from 'rxjs/Observable';
-
-import 'rxjs/add/observable/of';
+  SkyAppResources
+} from '@skyux/i18n';
 
 import {
-  SkyAppResources
-} from '../modules/i18n/resources';
+  Observable,
+  of as observableOf
+} from 'rxjs';
 
 import {
   Format
-} from '../utils/format';
+} from './format';
 
 declare const ROOT_DIR: string;
 declare const require: { context: any };
@@ -71,7 +70,7 @@ export class SkyAppResourcesTestService {
       );
     }
 
-    return Observable.of(
+    return observableOf(
       Format.formatText(resources[name].message, ...args)
     );
   }

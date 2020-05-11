@@ -13,20 +13,9 @@ import {
 } from '@skyux/assets';
 
 import {
-  SkyAppWindowRef
-} from '@skyux/core/modules/window';
-
-import {
-  throwError
+  of as observableOf,
+  throwError as observableThrowError
 } from 'rxjs';
-
-import {
-  Observable
-} from 'rxjs/Observable';
-
-import {
-  SkyAppHostLocaleProvider
-} from './host-locale-provider';
 
 import {
   SkyAppLocaleProvider
@@ -50,8 +39,10 @@ describe('Resources service', () => {
   let enGbUrl: string;
   let frCaUrl: string;
 
-  function configureTestingModule(mockLocaleProvider?: any,
-    mockResourceNameProvider?: any): void {
+  function configureTestingModule(
+    mockLocaleProvider?: any,
+    mockResourceNameProvider?: any
+  ): void {
     enUsUrl = 'https://example.com/locales/resources_en_US.json';
     enGbUrl = 'https://example.com/locales/resources_en_GB.json';
     esUrl = 'https://example.com/locales/resources_es.json';
@@ -70,13 +61,8 @@ describe('Resources service', () => {
     };
 
     const providers: any[] = [
-      SkyAppWindowRef,
       SkyAppAssetsService,
       SkyAppResourcesService,
-      {
-        provide: SkyAppLocaleProvider,
-        useClass: SkyAppHostLocaleProvider
-      },
       {
         provide: SkyAppAssetsService,
         useValue: {
@@ -99,6 +85,16 @@ describe('Resources service', () => {
       providers.push({
         provide: SkyAppLocaleProvider,
         useValue: mockLocaleProvider
+      });
+    } else {
+      providers.push({
+        provide: SkyAppLocaleProvider,
+        useValue: {
+          defaultLocale: 'en-US',
+          getLocaleInfo: () => observableOf({
+            locale: 'en-US'
+          })
+        }
       });
     }
 
@@ -203,7 +199,7 @@ describe('Resources service', () => {
     beforeEach(() => {
       currentLocale = undefined;
 
-      getLocaleInfo = () => Observable.of({
+      getLocaleInfo = () => observableOf({
         locale: currentLocale
       });
 
@@ -300,7 +296,7 @@ describe('Resources service', () => {
     it(
       'should fall back to the resource name if the locale provider throws an error',
       (done) => {
-        getLocaleInfo = () => throwError(new Error());
+        getLocaleInfo = () => observableThrowError(new Error());
 
         resources.getString('hi').subscribe((value) => {
           expect(value).toBe('hi');
@@ -345,7 +341,7 @@ describe('Resources service', () => {
     });
 
     it('should use the name from the provider if a recognized name is returned', (done) => {
-      getResourceName = (name: string) => Observable.of(name + '_alternate');
+      getResourceName = (name: string) => observableOf(name + '_alternate');
 
       resources.getString('hi').subscribe((value) => {
         expect(value).toBe('howdy');
@@ -357,7 +353,7 @@ describe('Resources service', () => {
 
     it(
       'should fall back to the original name if the name from the provider is unrecognized', (done) => {
-      getResourceName = (name: string) => Observable.of(name + '_unrecognized');
+      getResourceName = (name: string) => observableOf(name + '_unrecognized');
 
       resources.getString('hi').subscribe((value) => {
         expect(value).toBe('hello');

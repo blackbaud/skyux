@@ -4,10 +4,8 @@ import {
 } from '@angular/core/testing';
 
 import {
-  Observable
-} from 'rxjs/Observable';
-
-import 'rxjs/add/observable/of';
+  of as observableOf
+} from 'rxjs';
 
 import {
   SkyAppLocaleInfo
@@ -62,7 +60,7 @@ describe('Library resources service', () => {
     mockLocaleProvider = {
       defaultLocale: 'en_US',
       getLocaleInfo: () => {
-        return Observable.of({
+        return observableOf({
           locale: 'en_US'
         });
       }
@@ -90,7 +88,7 @@ describe('Library resources service', () => {
   });
 
   it('should get a string for a locale using locale provider', () => {
-    spyOn(mockLocaleProvider, 'getLocaleInfo').and.returnValue(Observable.of({
+    spyOn(mockLocaleProvider, 'getLocaleInfo').and.returnValue(observableOf({
       locale: 'fr_CA'
     }));
     service = new SkyLibResourcesService(mockLocaleProvider, mockProviders, undefined);
@@ -100,7 +98,7 @@ describe('Library resources service', () => {
   });
 
   it('should return the key if no string found', () => {
-    spyOn(mockLocaleProvider, 'getLocaleInfo').and.returnValue(Observable.of({
+    spyOn(mockLocaleProvider, 'getLocaleInfo').and.returnValue(observableOf({
       locale: 'foo_BAR'
     }));
     service = new SkyLibResourcesService(mockLocaleProvider, mockProviders, undefined);
@@ -110,7 +108,7 @@ describe('Library resources service', () => {
   });
 
   it('should handle formatted strings', () => {
-    spyOn(mockLocaleProvider, 'getLocaleInfo').and.returnValue(Observable.of({
+    spyOn(mockLocaleProvider, 'getLocaleInfo').and.returnValue(observableOf({
       locale: 'fr_FR'
     }));
     service = new SkyLibResourcesService(mockLocaleProvider, mockProviders, undefined);
@@ -122,7 +120,7 @@ describe('Library resources service', () => {
   it('should use the name from the name provider', () => {
     let mockResourceNameProvider: any = {
       getResourceName: (name: string) => {
-        return Observable.of(name + '_alternate');
+        return observableOf(name + '_alternate');
       }
     };
 

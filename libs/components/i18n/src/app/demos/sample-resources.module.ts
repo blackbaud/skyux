@@ -4,7 +4,7 @@ import {
 
 import {
   SKY_LIB_RESOURCES_PROVIDERS
-} from '../public';
+} from '../public/public_api';
 
 import {
   SkySampleResourcesProvider

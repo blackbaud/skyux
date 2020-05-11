@@ -1,10 +1,53 @@
+# 4.0.0 (2020-05-11)
+
+### New features
+
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#51](https://github.com/blackbaud/skyux-i18n/pull/51)
+
+### Breaking changes
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#51](https://github.com/blackbaud/skyux-i18n/pull/51)
+- Removed `SkyAppHostLocaleProvider`. This class is provided automatically by `@skyux-sdk/builder@>=3`. [#51](https://github.com/blackbaud/skyux-i18n/pull/51)
+- Removed `SkyLibResourcesTestService` because it is no longer needed. Instead of providing the test service in the `TestBed`, import the resources module used in production. [#75](https://github.com/blackbaud/skyux-i18n/pull/75)
+
+# 4.0.0-rc.5 (2020-04-20)
+
+### Breaking changes
+
+- Removed `SkyLibResourcesTestService` because it is no longer needed. Instead of providing the test service in the `TestBed`, import the resources module used in production. [#75](https://github.com/blackbaud/skyux-i18n/pull/75)
+
+# 4.0.0-rc.4 (2020-04-20)
+
+- Added bug fixes and features from the `master` branch. [#72](https://github.com/blackbaud/skyux-i18n/pull/72)
+
 # 3.11.0 (2020-04-20)
 
 - Added a `getStringForLocale()` method to `SkyAppResourcesService` for retrieving a resource string for the specified locale. [#67](https://github.com/blackbaud/skyux-i18n/pull/67) Thanks [@Blackbaud-JasonBodnar](https://github.com/Blackbaud-JasonBodnar)!
 
+# 4.0.0-rc.3 (2020-04-01)
+
+- Upgraded the development and peer dependencies. [#65](https://github.com/blackbaud/skyux-i18n/pull/65)
+
+# 4.0.0-rc.2 (2020-03-26)
+
+- Added bug fixes and features from the master branch. [#64](https://github.com/blackbaud/skyux-i18n/pull/64)
+
 # 3.10.0 (2020-03-16)
 
 - Updated `SkyAppResourcesService` and `skyAppResources` pipe to leave tokens intact when no corresponding parameter is specified. [#62](https://github.com/blackbaud/skyux-i18n/pull/62)
+
+# 4.0.0-rc.1 (2020-02-15)
+
+- Added the `SkyIntlNumberFormatStyle` type to the primary entry point. [#58](https://github.com/blackbaud/skyux-i18n/pull/58)
+
+# 4.0.0-rc.0 (2020-02-15)
+
+### New features
+
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#51](https://github.com/blackbaud/skyux-i18n/pull/51)
+
+### Breaking changes
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#51](https://github.com/blackbaud/skyux-i18n/pull/51)
+- Removed `SkyAppHostLocaleProvider`. This class is provided automatically by `@skyux-sdk/builder@>=3`. [#51](https://github.com/blackbaud/skyux-i18n/pull/51)
 
 # 3.9.3 (2020-02-10)
 

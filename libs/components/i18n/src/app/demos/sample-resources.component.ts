@@ -11,7 +11,7 @@ import {
 
 import {
   Observable
-} from 'rxjs/Observable';
+} from 'rxjs';
 
 @Component({
   selector: 'sky-sample-resources',

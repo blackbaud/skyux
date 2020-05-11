@@ -6,16 +6,18 @@ import {
 } from '@angular/core';
 
 import {
-  Observable
-} from 'rxjs/Observable';
+  forkJoin,
+  Observable,
+  of as observableOf
+} from 'rxjs';
+
+import {
+  map
+} from 'rxjs/operators';
 
 import {
   Format
 } from '../../utils/format';
-
-import {
-  forkJoin
-} from 'rxjs';
 
 import {
   SkyAppLocaleInfo
@@ -48,12 +50,13 @@ export class SkyLibResourcesService {
 
   public getString(name: string, ...args: any[]): Observable<string> {
     let mappedNameObs = this.resourceNameProvider ?
-    this.resourceNameProvider.getResourceName(name) : Observable.of(name);
+    this.resourceNameProvider.getResourceName(name) : observableOf(name);
 
     let localeInfoObs = this.localeProvider.getLocaleInfo();
 
-    return forkJoin([mappedNameObs, localeInfoObs])
-      .map(([mappedName, localeInfo]) => this.getStringForLocale(localeInfo, mappedName, ...args));
+    return forkJoin([mappedNameObs, localeInfoObs]).pipe(
+      map(([mappedName, localeInfo]) => this.getStringForLocale(localeInfo, mappedName, ...args))
+    );
   }
 
   public getStringForLocale(
