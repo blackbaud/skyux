@@ -1,3 +1,4 @@
+export * from './grid-column-alignment';
 export * from './grid-column-description-model-change';
 export * from './grid-column-heading-model-change';
 export * from './grid-column-inline-help-popover-model-change';

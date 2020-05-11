@@ -58,7 +58,6 @@ $sky-grid-resize-handle-width: 5px;
   background-color: $sky-color-white;
 
   overflow: visible;
-  text-align: left;
   background-clip: padding-box; // IE/Edge fix.
 
   &:first-child {
@@ -67,6 +66,39 @@ $sky-grid-resize-handle-width: 5px;
 
   &.sky-grid-header-dragging {
     background-color: $sky-background-color-neutral-light;
+  }
+
+  &.sky-grid-column-alignment-left, &.sky-grid-column-alignment-center {
+    // This ensures that the sort icon is a strict size. It is 13.98px without the style. It also
+    // ensures that things don't jump when the sort icon is not visible
+    .sky-grid-heading-sort {
+      width: 14px;
+    }
+
+    // When the sort icon is hidden, this class ensures the help icon has proper 5px spacing.
+    // The right margin is to help ensure that this style does not cause column resizing.
+    .sky-grid-help-inline-sort-hidden {
+      margin-left: -14px;
+      margin-right: 14px;
+    }
+  }
+
+  &.sky-grid-column-alignment-right {
+    // This style moves the icon spacing to the left of the text when the icon is not visible. This
+    // causes the column to not resize when the icon is hidden while not leaving extra visible space
+    // to the right of the header text.
+    .sky-grid-header-caret-hidden-spacing {
+      padding-left: 14px;
+    }
+
+    // This ensures that the sort icon is a strict size. It is 13.98px without the style.
+    .sky-grid-heading-sort-visible {
+      width: 14px;
+    }
+  }
+
+  .sky-grid-header-text {
+    display: inline-block;
   }
 
   -webkit-user-select: none;
@@ -142,6 +174,18 @@ $sky-grid-resize-handle-width: 5px;
   }
 }
 
+.sky-grid-column-alignment-left {
+  text-align: left;
+}
+
+.sky-grid-column-alignment-center {
+  text-align: center;
+}
+
+.sky-grid-column-alignment-right {
+  text-align: right;
+}
+
 .sky-grid-row-delete-heading {
   padding: 0;
   width: 0;
@@ -202,12 +246,15 @@ th.sky-grid-multiselect-cell {
   This prevents grid header width from changing when sort indication changes
 */
 .sky-grid-heading-sort {
-  min-width: 8px;
-}
 
-// When the sort icon is hidden, this class ensures the help icon has proper 5px spacing.
-.sky-grid-help-inline-sort-hidden {
-  margin-left: -14px;
+  &.sky-grid-heading-sort-hidden {
+    visibility: hidden;
+  }
+
+  &.sky-grid-heading-sort-visible {
+    visibility: visible;
+    padding-left: 5px;
+  }
 }
 
 .sky-grid-resize-handle {

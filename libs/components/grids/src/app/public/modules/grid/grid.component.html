@@ -42,6 +42,7 @@
             [attr.sky-cmp-id]="column.id || column.field"
             [attr.aria-sort]="getAriaSortDirection(column) | async"
             [id]="'sky-grid-' + gridId + '-column-' + i"
+            [ngClass]="'sky-grid-column-alignment-' + column.alignment"
             [style.max-width.px]="column.width"
             [style.width.px]="column.width"
             [tabIndex]="column.isSortable ? 0 : -1"
@@ -56,10 +57,17 @@
               [style.max-width.px]="column.width - 1"
               [style.width.px]="column.width - 1"
             >
-              {{column.heading}}
+              <span *ngIf="(getCaretVisibility(column.field) | async) === 'hidden'"
+                class="sky-grid-header-caret-hidden-spacing"
+              ></span>
+              <span
+                class="sky-grid-header-text"
+              >
+                {{column.heading.trim()}}
+              </span>
               <sky-icon
                 class="sky-grid-heading-sort"
-                [style.visibility]="getCaretVisibility(column.field) | async"
+                [ngClass]="'sky-grid-heading-sort-' + (getCaretVisibility(column.field) | async)"
                 [icon]="getCaretIconNames(column)"
               >
               </sky-icon>
@@ -147,6 +155,7 @@
           </td>
           <td *ngFor="let column of displayedColumns; let last = last; let i = index"
             class="sky-grid-cell"
+            [ngClass]="'sky-grid-column-alignment-' + column.alignment"
             [style.max-width.px]="column.width"
             [style.width.px]="column.width"
           >

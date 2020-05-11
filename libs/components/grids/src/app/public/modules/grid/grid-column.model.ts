@@ -6,6 +6,10 @@ import {
   SkyPopoverComponent
 } from '@skyux/popovers';
 
+import {
+  SkyGridColumnAlignment
+} from './types/grid-column-alignment';
+
 export class SkyGridColumnModel {
   public template: TemplateRef<any>;
   public id: string;
@@ -19,6 +23,12 @@ export class SkyGridColumnModel {
   public description: string;
   public isSortable: boolean = true;
   public excludeFromHighlighting: boolean;
+
+  /**
+   * The horizontal alignment of the column's data and header.
+   */
+  public alignment: SkyGridColumnAlignment;
+
   public searchFunction: (data: any, searchText: string) => boolean;
 
   constructor(template: TemplateRef<any>, data?: any) {
@@ -37,6 +47,7 @@ export class SkyGridColumnModel {
       this.searchFunction = data.searchFunction;
       this.isSortable = data.isSortable;
       this.excludeFromHighlighting = data.excludeFromHighlighting;
+      this.alignment = data.alignment;
     }
   }
 }

@@ -15,6 +15,7 @@ import {
 } from '@skyux/popovers';
 
 import {
+  SkyGridColumnAlignment,
   SkyGridColumnDescriptionModelChange,
   SkyGridColumnHeadingModelChange,
   SkyGridColumnInlineHelpPopoverModelChange
@@ -62,6 +63,13 @@ export class SkyGridColumnComponent implements OnChanges {
 
   @Input()
   public excludeFromHighlighting: boolean;
+
+  /**
+   * Specifies the horizontal alignment of the column's data and header.
+   * @default 'left'
+   */
+  @Input()
+  public alignment: SkyGridColumnAlignment = 'left';
 
   /* tslint:disable:no-input-rename */
   @Input('search')

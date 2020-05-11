@@ -627,7 +627,7 @@ describe('Grid Component', () => {
         it('adds appropriate icons and styles, and emits event on click to headers', () => {
           let headerEl = nativeElement.querySelectorAll('th').item(0) as HTMLElement;
           let skyIcon = headerEl.querySelector('sky-icon') as HTMLElement;
-          expect(skyIcon.style.visibility).toBe('hidden');
+          expect(skyIcon).toHaveCssClass('sky-grid-heading-sort-hidden');
           SkyAppTestUtility.fireDomEvent(headerEl, 'mouseup',
             { bubbles: false, cancelable: false });
           fixture.detectChanges();
@@ -636,7 +636,7 @@ describe('Grid Component', () => {
           expect(component.activeSortSelector)
             .toEqual({ fieldSelector: 'column1', descending: true });
           expect(headerEl.querySelector('i')).toHaveCssClass('fa-caret-down');
-          expect(skyIcon.style.visibility).toBe('visible');
+          expect(skyIcon).toHaveCssClass('sky-grid-heading-sort-visible');
 
           SkyAppTestUtility.fireDomEvent(headerEl, 'mouseup',
             { bubbles: false, cancelable: false });
@@ -646,7 +646,7 @@ describe('Grid Component', () => {
           expect(component.activeSortSelector)
             .toEqual({ fieldSelector: 'column1', descending: false });
           expect(headerEl.querySelector('i')).toHaveCssClass('fa-caret-up');
-          expect(skyIcon.style.visibility).toBe('visible');
+          expect(skyIcon).toHaveCssClass('sky-grid-heading-sort-visible');
         });
 
         it('should not respond to click when the appropriate column option is set', () => {
