@@ -10,7 +10,7 @@ import {
 
 import {
   SkyEmailValidationModule
-} from '../';
+} from '../email-validation.module';
 import {
   EmailValidationTestComponent
 } from './email-validation.component.fixture';

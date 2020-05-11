@@ -9,7 +9,7 @@ import {
 import {
   SkyEmailValidationModule,
   SkyUrlValidationModule
-} from './public';
+} from './public/public_api';
 
 @NgModule({
   exports: [

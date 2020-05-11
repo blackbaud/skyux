@@ -1,3 +1,23 @@
+# 4.0.0 (2020-05-08)
+
+### New features
+
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#23](https://github.com/blackbaud/skyux-validation/pull/23)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#23](https://github.com/blackbaud/skyux-validation/pull/23)
+
+# 4.0.0-rc.0 (2020-04-17)
+
+### New features
+
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#23](https://github.com/blackbaud/skyux-validation/pull/23)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#23](https://github.com/blackbaud/skyux-validation/pull/23)
+
 # 3.2.1 (2019-09-27)
 
 - Fixed the `SkyValidators.email` and `SkyValidators.url` validators to allow null string values. [#17](https://github.com/blackbaud/skyux-validation/pull/17) Thanks [@Blackbaud-MatthewMiles](https://github.com/Blackbaud-MatthewMiles)!
