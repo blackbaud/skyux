@@ -1,3 +1,7 @@
+# 3.6.0 (2020-05-08)
+
+- Added modern theme styles to the tab dropdown button. [#84](https://github.com/blackbaud/skyux-popovers/pull/84)
+
 # 3.5.3 (2020-04-29)
 
 - Fixed the dropdown button styles to left-align overflowing text within a tab dropdown. [#82](https://github.com/blackbaud/skyux-popovers/pull/82)
