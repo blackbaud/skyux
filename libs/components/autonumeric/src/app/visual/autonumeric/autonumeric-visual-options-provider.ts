@@ -1,7 +1,7 @@
 import {
   SkyAutonumericOptions,
   SkyAutonumericOptionsProvider
-} from '../../public';
+} from '../../public/public_api';
 
 export class AutonumericVisualOptionsProvider extends SkyAutonumericOptionsProvider {
   constructor() {

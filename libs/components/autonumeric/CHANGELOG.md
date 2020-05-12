@@ -1,6 +1,30 @@
+# 4.0.0 (2020-05-12)
+
+### New features
+
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#20](https://github.com/blackbaud/skyux-autonumeric/pull/20)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#20](https://github.com/blackbaud/skyux-autonumeric/pull/20)
+
+# 4.0.0-rc.1 (2020-04-24)
+
+- Added bug fixes and features from the `master` branch. [#24](https://github.com/blackbaud/skyux-autonumeric/pull/24)
+
 # 3.0.5 (2020-04-23)
 
 - Fixed the `skyAutonumeric` directive to validate on input changes. [#22](https://github.com/blackbaud/skyux-autonumeric/pull/22)
+
+# 4.0.0-rc.0 (2020-04-20)
+
+### New features
+
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#20](https://github.com/blackbaud/skyux-autonumeric/pull/20)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#20](https://github.com/blackbaud/skyux-autonumeric/pull/20)
 
 # 3.0.4 (2020-04-07)
 

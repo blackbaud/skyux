@@ -16,10 +16,16 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  AutonumericFixtureComponent,
-  AutonumericFixtureModule,
   AutonumericFixtureOptionsProvider
-} from './fixtures';
+} from './fixtures/autonumeric-options-provider.fixture';
+
+import {
+  AutonumericFixtureComponent
+} from './fixtures/autonumeric.component.fixture';
+
+import {
+  AutonumericFixtureModule
+} from './fixtures/autonumeric.module.fixture';
 
 import {
   SkyAutonumericOptions
