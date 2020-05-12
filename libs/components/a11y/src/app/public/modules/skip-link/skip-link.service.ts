@@ -5,8 +5,7 @@ import {
 
 import {
   SkyDynamicComponentLocation,
-  SkyDynamicComponentService,
-  SkyWindowRefService
+  SkyDynamicComponentService
 } from '@skyux/core';
 
 import {
@@ -27,14 +26,14 @@ import {
  * be displayed and focused.  Clicking the button will skip to the specified element.  Pressing
  * the Tab key again will move to the next skip link if more than one skip link is specified;
  * otherwise, focus will move to the first focusable element on the page.
+ * @dynamic
  */
 @Injectable()
 export class SkySkipLinkService {
   private static host: ComponentRef<SkySkipLinkHostComponent>;
 
   constructor(
-    private dynamicComponentService: SkyDynamicComponentService,
-    private windowRef: SkyWindowRefService
+    private dynamicComponentService: SkyDynamicComponentService
   ) { }
 
   public setSkipLinks(args: SkySkipLinkArgs) {
@@ -44,7 +43,7 @@ export class SkySkipLinkService {
     });
 
     // Timeout needed in case the consumer sets the skip links within an Angular lifecycle hook.
-    this.windowRef.getWindow().setTimeout(() => {
+    setTimeout(() => {
       const host = this.createHostComponent();
       host.instance.links = args.links;
     });
@@ -52,6 +51,7 @@ export class SkySkipLinkService {
 
   public removeHostComponent(): void {
     this.dynamicComponentService.removeComponent(SkySkipLinkService.host);
+    SkySkipLinkService.host = undefined;
   }
 
   private createHostComponent(): ComponentRef<SkySkipLinkHostComponent> {

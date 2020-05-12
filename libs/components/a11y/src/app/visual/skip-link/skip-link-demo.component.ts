@@ -9,7 +9,7 @@ import {
 
 import {
   SkySkipLinkService
-} from '../../public';
+} from '../../public/public_api';
 
 //#endregion
 

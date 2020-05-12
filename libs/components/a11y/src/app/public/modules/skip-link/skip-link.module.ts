@@ -7,6 +7,7 @@ import {
 } from '@angular/common';
 
 import {
+  SkyAppWindowRef,
   SkyDynamicComponentModule
 } from '@skyux/core';
 
@@ -47,6 +48,7 @@ import {
     SkyA11yResourcesModule
   ],
   providers: [
+    SkyAppWindowRef,
     SkySkipLinkAdapterService,
     SkySkipLinkService
   ]

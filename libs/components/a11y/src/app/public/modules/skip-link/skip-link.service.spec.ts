@@ -1,16 +1,14 @@
 import {
-  ApplicationRef, ElementRef
+  ApplicationRef,
+  ElementRef
 } from '@angular/core';
 
 import {
   fakeAsync,
+  inject,
   TestBed,
   tick
 } from '@angular/core/testing';
-
-import {
-  SkyWindowRefService
-} from '@skyux/core';
 
 import {
   expect
@@ -56,14 +54,20 @@ describe('Skip link service', () => {
     TestBed.configureTestingModule({
       imports: [
         SkySkipLinkModule
-      ],
-      providers: [
-        SkyWindowRefService
       ]
     });
+  });
 
-    service = TestBed.get(SkySkipLinkService);
-    appRef = TestBed.get(ApplicationRef);
+  beforeEach(inject(
+    [ApplicationRef, SkySkipLinkService],
+    (_appRef: ApplicationRef, _service: SkySkipLinkService) => {
+      appRef = _appRef;
+      service = _service;
+    }
+  ));
+
+  afterEach(() => {
+    service.removeHostComponent();
   });
 
   it('should only add the host component once at the top of the body', fakeAsync(() => {

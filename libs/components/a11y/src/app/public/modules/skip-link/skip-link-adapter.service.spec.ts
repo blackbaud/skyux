@@ -7,7 +7,7 @@ import {
 } from '@angular/core/testing';
 
 import {
-  SkyWindowRefService
+  SkyAppWindowRef
 } from '@skyux/core';
 
 import {
@@ -29,7 +29,7 @@ describe('Skip link adapter service', () => {
     scrollSpy = jasmine.createSpy('scroll');
 
     mockWindowService = {
-      getWindow: () => ({
+      nativeWindow: {
         document: {
           body: { }
         },
@@ -37,13 +37,13 @@ describe('Skip link adapter service', () => {
           marginTop: BODY_MARGIN_TOP + 'px'
         }),
         scroll: scrollSpy
-      })
+      }
     };
 
     TestBed.configureTestingModule({
       providers: [
         {
-          provide: SkyWindowRefService,
+          provide: SkyAppWindowRef,
           useValue: mockWindowService
         },
         SkySkipLinkAdapterService

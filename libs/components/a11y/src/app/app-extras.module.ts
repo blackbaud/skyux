@@ -3,11 +3,16 @@ import {
 } from '@angular/core';
 
 import {
+  SkyAppLinkModule
+} from '@skyux/router';
+
+import {
   SkySkipLinkModule
-} from './public';
+} from './public/public_api';
 
 @NgModule({
   exports: [
+    SkyAppLinkModule,
     SkySkipLinkModule
   ]
 })

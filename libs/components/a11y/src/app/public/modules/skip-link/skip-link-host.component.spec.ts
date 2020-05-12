@@ -13,10 +13,6 @@ import {
 } from '@angular/core/testing';
 
 import {
-  SkyWindowRefService
-} from '@skyux/core';
-
-import {
   expect
 } from '@skyux-sdk/testing';
 
@@ -62,9 +58,6 @@ describe('Skip link host component', () => {
     TestBed.configureTestingModule({
       imports: [
         SkySkipLinkModule
-      ],
-      providers: [
-        SkyWindowRefService
       ]
     });
 
@@ -100,11 +93,15 @@ describe('Skip link host component', () => {
     validateSkipLink(links[1], skipLinkEls[1], testEl2);
 
     fixture.whenStable().then(() => {
-      expect(document.body).toBeAccessible();
-
-      // Remove links from the DOM.
-      fixture.componentInstance.links = [];
-      fixture.detectChanges();
+      expect(document.body).toBeAccessible(() => {
+        // Remove links from the DOM.
+        fixture.componentInstance.links = [];
+        fixture.detectChanges();
+      }, {
+        rules: {
+          'region': { enabled: false }
+        }
+      });
     });
   }));
 

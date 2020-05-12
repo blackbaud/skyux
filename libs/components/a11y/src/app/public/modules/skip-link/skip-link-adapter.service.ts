@@ -3,7 +3,7 @@ import {
 } from '@angular/core';
 
 import {
-  SkyWindowRefService
+  SkyAppWindowRef
 } from '@skyux/core';
 
 import {
@@ -12,13 +12,14 @@ import {
 
 @Injectable()
 export class SkySkipLinkAdapterService {
+
   constructor(
-    private windowRef: SkyWindowRefService
+    private windowRef: SkyAppWindowRef
   ) { }
 
   public skipTo(link: SkySkipLink): void {
     const targetElement = link.elementRef.nativeElement;
-    const win = this.windowRef.getWindow();
+    const win = this.windowRef.nativeWindow;
     const bodyElement = win.document.body;
 
     const bodyMarginTop = parseInt(win.getComputedStyle(bodyElement).marginTop, 10);
