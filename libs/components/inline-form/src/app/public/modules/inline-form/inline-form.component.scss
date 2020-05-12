@@ -1,4 +1,5 @@
-@import "../../styles/mixins";
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
 
 .sky-inline-form {
   background: $sky-background-color-neutral-light;

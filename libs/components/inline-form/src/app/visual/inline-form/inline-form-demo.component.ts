@@ -10,7 +10,7 @@ import {
 import {
   SkyInlineFormButtonLayout,
   SkyInlineFormConfig
-} from '../../public';
+} from '../../public/public_api';
 
 @Component({
   selector: 'sky-inline-form-demo',

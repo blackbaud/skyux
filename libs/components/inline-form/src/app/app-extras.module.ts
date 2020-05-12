@@ -16,7 +16,7 @@ import {
 
 import {
   SkyInlineFormModule
-} from './public';
+} from './public/public_api';
 
 import {
   SkyTileDemoTileComponent

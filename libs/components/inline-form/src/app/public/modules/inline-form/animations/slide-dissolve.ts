@@ -1,5 +1,6 @@
 import {
   animate,
+  AnimationTriggerMetadata,
   group,
   query,
   style,
@@ -7,7 +8,7 @@ import {
   trigger
 } from '@angular/animations';
 
-export const skySlideDissolve = trigger('skySlideDissolve', [
+export const skySlideDissolve: AnimationTriggerMetadata = trigger('skySlideDissolve', [
   transition('* <=> *', [
 
     // Expand animations
@@ -38,4 +39,4 @@ export const skySlideDissolve = trigger('skySlideDissolve', [
 
     ])
   ])
-]) as any;
+]);
