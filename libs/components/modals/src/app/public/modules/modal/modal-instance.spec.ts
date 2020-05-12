@@ -1,4 +1,8 @@
 import {
+  take
+} from 'rxjs/operators';
+
+import {
   SkyModalInstance
 } from './modal-instance';
 
@@ -62,5 +66,19 @@ describe('Modal instance', () => {
     instance.close();
     expect(wasClosedEmitted).toBe(true);
     expect(wasClosedCompleted).toBe(true);
+  });
+
+  it('should allow users to subscribe to helpOpened event', () => {
+    const modalInstance = new SkyModalInstance();
+
+    let helpOpened = false;
+
+    modalInstance.helpOpened.pipe(take(1)).subscribe(() => {
+      helpOpened = true;
+    });
+
+    modalInstance.openHelp();
+
+    expect(helpOpened).toEqual(true);
   });
 });

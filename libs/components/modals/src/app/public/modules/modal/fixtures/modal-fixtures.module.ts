@@ -11,7 +11,7 @@ import {
 } from '@angular/router/testing';
 
 import {
-  SkyWindowRefService
+  SkyAppWindowRef
 } from '@skyux/core';
 
 import {
@@ -67,7 +67,7 @@ import {
     SkyModalModule
   ],
   providers: [
-    SkyWindowRefService
+    SkyAppWindowRef
   ],
   entryComponents: [
     ModalTestComponent,

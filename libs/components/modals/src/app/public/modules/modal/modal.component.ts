@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 import {
-  SkyWindowRefService
+  SkyAppWindowRef
 } from '@skyux/core';
 
 import {
@@ -97,7 +97,7 @@ export class SkyModalComponent implements AfterViewInit {
     private hostService: SkyModalHostService,
     private config: SkyModalConfiguration,
     private elRef: ElementRef,
-    private windowRef: SkyWindowRefService,
+    private windowRef: SkyAppWindowRef,
     private componentAdapter: SkyModalComponentAdapterService
   ) { }
 
@@ -154,7 +154,7 @@ export class SkyModalComponent implements AfterViewInit {
 
     // Adding a timeout to avoid ExpressionChangedAfterItHasBeenCheckedError.
     // https://stackoverflow.com/questions/40562845
-    this.windowRef.getWindow().setTimeout(() => {
+    this.windowRef.nativeWindow.setTimeout(() => {
       this.componentAdapter.modalOpened(this.elRef);
     });
   }

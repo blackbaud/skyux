@@ -9,11 +9,20 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  SkyModalInstance,
-  SkyModalHostService,
-  SkyModalConfiguration,
+  SkyModalConfiguration
+} from '../modal/modal-configuration';
+
+import {
+  SkyModalHostService
+} from '../modal/modal-host.service';
+
+import {
+  SkyModalInstance
+} from '../modal/modal-instance';
+
+import {
   SkyModalModule
-} from '../modal';
+} from '../modal/modal.module';
 
 import {
   MockSkyModalHostService,
@@ -21,9 +30,12 @@ import {
 } from './fixtures/mocks';
 
 import {
-  SkyConfirmConfig,
+  SkyConfirmConfig
+} from './confirm-config';
+
+import {
   SkyConfirmType
-} from './types';
+} from './confirm-type';
 
 import {
   SkyConfirmModule

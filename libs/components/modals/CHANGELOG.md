@@ -1,7 +1,56 @@
+# 4.0.0 (2020-05-12)
+
+### New features
+
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#77](https://github.com/blackbaud/skyux-modals/pull/77)
+
+### Breaking changes
+
+- Converted the `SkyModalInstance` event emitters (`closed`, `beforeClosed`, and `helpOpened`) to observables. Deliberate calls to these events' `emit` methods will no longer work. [#57](https://github.com/blackbaud/skyux-modals/pull/57)
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#77](https://github.com/blackbaud/skyux-modals/pull/77)
+
+# 4.0.0-rc.5 (2020-05-06)
+
+### Breaking changes
+
+- Converted the `SkyModalInstance` event emitters (`closed`, `beforeClosed`, and `helpOpened`) to observables. Deliberate calls to these events' `emit` methods will no longer work. [#57](https://github.com/blackbaud/skyux-modals/pull/57)
+
+# 4.0.0-rc.4 (2020-04-28)
+
+### Bug fixes
+
+- Added `SkyModalHostService` to the public exports API. [#90](https://github.com/blackbaud/skyux-modals/pull/90)
+
+# 4.0.0-rc.3 (2020-04-21)
+
+- Added bug fixes and features from the `master` branch. [#89](https://github.com/blackbaud/skyux-modals/pull/89)
+
 # 3.2.0 (2020-04-03)
 
 - Added the `args` property to the `beforeClose` event to let consumers access the provided `SkyModalCloseArgs` data. [#84](https://github.com/blackbaud/skyux-modals/pull/84)
 - Fixed the modal component to allow clicks to propagate to the document. [#83](https://github.com/blackbaud/skyux-modals/pull/83)
+
+# 4.0.0-rc.2 (2020-02-20)
+
+### Bug fixes
+
+- Added missing types to the exports API. [#78](https://github.com/blackbaud/skyux-modals/pull/78)
+
+# 4.0.0-rc.1 (2020-02-20)
+
+### Bug fixes
+
+- Added the missing `SkyModalCloseArgs` type to the package exports.
+
+# 4.0.0-rc.0 (2020-02-19)
+
+### New features
+
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#77](https://github.com/blackbaud/skyux-modals/pull/77)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#77](https://github.com/blackbaud/skyux-modals/pull/77)
 
 # 3.1.2 (2019-12-12)
 

@@ -4,7 +4,7 @@ import {
 
 import {
   SkyModalService
-} from '../../public';
+} from '../../public/public_api';
 
 import {
   ModalDemoComponent

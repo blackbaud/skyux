@@ -1,6 +1,6 @@
 import {
   SkyModalCloseArgs
-} from '../modal-close-args';
+} from '../modal/modal-close-args';
 
 export class SkyModalBeforeCloseHandler {
   constructor(

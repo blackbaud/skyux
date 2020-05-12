@@ -3,7 +3,7 @@ import {
 } from '@angular/core';
 
 import {
-  SkyWindowRefService
+  SkyAppWindowRef
 } from '@skyux/core';
 
 @Injectable()
@@ -15,10 +15,10 @@ export class SkyModalAdapterService {
   private bodyEl: HTMLElement;
 
   constructor(
-    private windowRef: SkyWindowRefService
+    private windowRef: SkyAppWindowRef
   ) {
-    this.docRef = this.windowRef.getWindow().document;
-    this.bodyEl = this.windowRef.getWindow().document.body;
+    this.docRef = this.windowRef.nativeWindow.document;
+    this.bodyEl = this.windowRef.nativeWindow.document.body;
   }
 
   public toggleFullPageModalClass(isAddFull: boolean): void {

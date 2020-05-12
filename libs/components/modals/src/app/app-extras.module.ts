@@ -13,7 +13,7 @@ import {
 import {
   SkyConfirmModule,
   SkyModalModule
-} from './public';
+} from './public/public_api';
 
 import {
   ModalDemoComponent

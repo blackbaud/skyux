@@ -1,17 +1,17 @@
 import {
-  EventEmitter
-} from '@angular/core';
+  Subject
+} from 'rxjs';
 
 import {
-  SkyModalService,
-  SkyModalInstance
-} from '../../modal';
+  SkyModalCloseArgs
+} from '../../modal/modal-close-args';
 
-export class MockSkyModalInstance extends SkyModalInstance {
-  public closed = new EventEmitter<any>();
+export class MockSkyModalInstance {
+  public closed = new Subject<SkyModalCloseArgs>();
   public close(result?: any) {
-    this.closed.emit({
-      data: result
+    this.closed.next({
+      data: result,
+      reason: 'save'
     });
   }
   public save() {}
@@ -23,14 +23,14 @@ export class MockSkyModalHostService {
   }
 }
 
-export class MockSkyModalService extends SkyModalService {
+export class MockSkyModalService {
   public openCalls: {
     component: any;
     config: any;
   }[] = [];
   public instance: MockSkyModalInstance;
 
-  public open(component: any, config?: any): MockSkyModalInstance {
+  public open(component: any, config?: any): any {
     this.openCalls.push({
       component,
       config

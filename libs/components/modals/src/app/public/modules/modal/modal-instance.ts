@@ -1,6 +1,7 @@
 import {
-  EventEmitter
-} from '@angular/core';
+  Observable,
+  Subject
+} from 'rxjs';
 
 import {
   SkyModalCloseArgs
@@ -8,14 +9,28 @@ import {
 
 import {
   SkyModalBeforeCloseHandler
-} from './types';
+} from './modal-before-close-handler';
 
 export class SkyModalInstance {
   public componentInstance: any;
 
-  public beforeClose = new EventEmitter<SkyModalBeforeCloseHandler>();
-  public closed = new EventEmitter<SkyModalCloseArgs>();
-  public helpOpened = new EventEmitter<any>();
+  public get beforeClose(): Observable<SkyModalBeforeCloseHandler> {
+    return this._beforeClose;
+  }
+
+  public get closed(): Observable<SkyModalCloseArgs> {
+    return this._closed;
+  }
+
+  public get helpOpened(): Observable<string> {
+    return this._helpOpened;
+  }
+
+  private _beforeClose = new Subject<SkyModalBeforeCloseHandler>();
+
+  private _closed = new Subject<SkyModalCloseArgs>();
+
+  private _helpOpened = new Subject<string>();
 
   public close(result?: any, reason?: string, ignoreBeforeClose?: boolean) {
     if (reason === undefined) {
@@ -34,7 +49,7 @@ export class SkyModalInstance {
   }
 
   public openHelp(helpKey?: string) {
-    this.helpOpened.emit(helpKey);
+    this._helpOpened.next(helpKey);
   }
 
   private closeModal(type: string, result?: any, ignoreBeforeClose = false) {
@@ -43,14 +58,19 @@ export class SkyModalInstance {
     args.reason = type;
     args.data = result;
 
-    if (this.beforeClose.observers.length === 0 || ignoreBeforeClose) {
-      this.closed.emit(args);
-      this.closed.complete();
+    if (this._beforeClose.observers.length === 0 || ignoreBeforeClose) {
+      this.notifyClosed(args);
     } else {
-      this.beforeClose.emit(new SkyModalBeforeCloseHandler(() => {
-        this.closed.emit(args);
-        this.closed.complete();
+      this._beforeClose.next(new SkyModalBeforeCloseHandler(() => {
+        this.notifyClosed(args);
       }, args));
     }
+  }
+
+  private notifyClosed(args: SkyModalCloseArgs): void {
+    this._closed.next(args);
+    this._closed.complete();
+    this._beforeClose.complete();
+    this._helpOpened.complete();
   }
 }

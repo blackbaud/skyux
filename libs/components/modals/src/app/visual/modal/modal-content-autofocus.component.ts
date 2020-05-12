@@ -4,7 +4,7 @@ import {
 
 import {
   SkyModalInstance
-} from '../../public';
+} from '../../public/public_api';
 
 @Component({
   selector: 'sky-test-cmp-modal-autofocus',

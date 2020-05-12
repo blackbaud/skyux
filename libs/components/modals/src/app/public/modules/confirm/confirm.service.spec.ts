@@ -4,7 +4,7 @@ import {
 
 import {
   SkyConfirmConfig
-} from './types';
+} from './confirm-config';
 
 import {
   MockSkyModalService
@@ -23,13 +23,8 @@ describe('Confirm service', () => {
   let confirmService: SkyConfirmService;
 
   beforeEach(() => {
-    modalService = new MockSkyModalService(
-      {
-        removeComponent: function (): any {},
-        addComponent: function (ref: any): any {}
-      } as any
-    );
-    confirmService = new SkyConfirmService(modalService);
+    modalService = new MockSkyModalService();
+    confirmService = new SkyConfirmService(modalService as any);
   });
 
   it('should open confirmation dialog with correct parameters', () => {

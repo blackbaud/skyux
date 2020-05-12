@@ -3,15 +3,24 @@ import {
 } from '@angular/core';
 
 import {
-  SkyModalService,
-  SkyModalInstance,
   SkyModalCloseArgs
-} from '../modal';
+} from '../modal/modal-close-args';
 
 import {
-  SkyConfirmCloseEventArgs,
+  SkyModalInstance
+} from '../modal/modal-instance';
+
+import {
+  SkyModalService
+} from '../modal/modal.service';
+
+import {
+  SkyConfirmCloseEventArgs
+} from './confirm-closed-event-args';
+
+import {
   SkyConfirmConfig
-} from './types';
+} from './confirm-config';
 
 import {
   SkyConfirmModalContext

@@ -8,7 +8,7 @@ import {
   SkyConfirmType,
   SkyConfirmCloseEventArgs,
   SkyModalBeforeCloseHandler
-} from '../../public';
+} from '../../public/public_api';
 
 @Component({
   selector: 'sky-test-cmp-modal-close-confirm',

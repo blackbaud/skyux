@@ -5,7 +5,7 @@ import {
 import {
   SkyConfirmService,
   SkyConfirmType
-} from '../../public';
+} from '../../public/public_api';
 
 @Component({
   selector: 'confirm-visual',

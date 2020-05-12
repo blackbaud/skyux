@@ -4,7 +4,7 @@ import {
 
 import {
   SkyConfirmCloseEventArgs
-} from './types';
+} from './confirm-closed-event-args';
 
 export class SkyConfirmInstance {
   public closed = new EventEmitter<SkyConfirmCloseEventArgs>();

@@ -12,7 +12,9 @@ import {
   Router
 } from '@angular/router';
 
-import 'rxjs/add/operator/takeWhile';
+import {
+  takeWhile
+} from 'rxjs/operators';
 
 import {
   SkyModalAdapterService
@@ -124,8 +126,11 @@ export class SkyModalHostComponent {
     });
 
     this.router.events
-      .takeWhile(() => isOpen)
+      .pipe(
+        takeWhile(() => isOpen)
+      )
       .subscribe((event) => {
+        /* istanbul ignore else */
         if (event instanceof NavigationStart) {
           modalInstance.close();
         }

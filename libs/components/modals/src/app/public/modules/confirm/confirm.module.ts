@@ -12,11 +12,11 @@ import {
 
 import {
   SkyModalModule
-} from '../modal';
+} from '../modal/modal.module';
 
 import {
   SkyModalsResourcesModule
-} from '../shared';
+} from '../shared/modals-resources.module';
 
 import {
   SkyConfirmService

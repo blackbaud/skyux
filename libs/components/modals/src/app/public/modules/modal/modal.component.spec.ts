@@ -62,6 +62,10 @@ import {
   ModalWithFocusContentTestComponent
 } from './fixtures/modal-with-focus-content.fixture';
 
+import {
+  SkyModalBeforeCloseHandler
+} from './modal-before-close-handler';
+
 describe('Modal component', () => {
   let applicationRef: ApplicationRef;
   let modalService: SkyModalService;
@@ -396,7 +400,7 @@ describe('Modal component', () => {
     expect(document.querySelector('.sky-modal')).toExist();
 
     // Verify the close handler has the correct data.
-    const closeHandler = closeHandlerSpy.calls.allArgs()[0][0];
+    const closeHandler = closeHandlerSpy.calls.allArgs()[0][0] as SkyModalBeforeCloseHandler;
     expect(typeof closeHandler.closeModal).toEqual('function');
     expect(closeHandler.closeArgs.reason).toEqual('close');
     expect(closeHandler.closeArgs.data).toBeUndefined();
