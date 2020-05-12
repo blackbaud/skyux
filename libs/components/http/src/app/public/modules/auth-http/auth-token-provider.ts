@@ -5,15 +5,16 @@ import {
   Optional
 } from '@angular/core';
 
-import * as jwtDecode from 'jwt-decode';
+import {
+  BBAuthClientFactory
+} from '@skyux/auth-client-factory';
 
 import {
   SkyAppConfig
 } from '@skyux/config';
 
-import {
-  BBAuthClientFactory
-} from '@skyux/auth-client-factory';
+import * as jwtDecode_ from 'jwt-decode';
+const jwtDecode = jwtDecode_;
 
 import {
   SkyAuthGetTokenArgs

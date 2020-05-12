@@ -7,12 +7,9 @@ import {
 } from '@skyux/config';
 
 import {
-  SkyAuthHttpClientModule
-} from '../../modules/auth-http-client/auth-http-client.module';
-
-import {
+  SkyAuthHttpClientModule,
   SkyAuthTokenProvider
-} from '../../modules/auth-http/auth-token-provider';
+} from '@skyux/http';
 
 import {
   SkyAuthTokenMockProvider

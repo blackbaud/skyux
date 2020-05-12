@@ -5,13 +5,13 @@ import {
 } from '@angular/common/http';
 
 import {
+  of
+} from 'rxjs';
+
+import {
   SKY_AUTH_PARAM_AUTH,
   SKY_AUTH_PARAM_PERMISSION_SCOPE
 } from '../auth-interceptor-params';
-
-import {
-  Observable
-} from 'rxjs/Observable';
 
 export const EXAMPLE_URL = 'https://example.com/get/';
 
@@ -58,7 +58,7 @@ export function validateRequest(
   next.handle.and.callFake((authRequest: HttpRequest<any>) => {
     cb(authRequest);
     done();
-    return Observable.of('');
+    return of('');
   });
 }
 

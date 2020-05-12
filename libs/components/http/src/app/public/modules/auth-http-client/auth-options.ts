@@ -4,10 +4,6 @@ import {
 } from '@angular/common/http';
 
 import {
-  HttpObserve
-} from '@angular/common/http/src/client';
-
-import {
   SKY_AUTH_PARAM_AUTH,
   SKY_AUTH_PARAM_PERMISSION_SCOPE
 } from './auth-interceptor-params';
@@ -20,7 +16,7 @@ import {
 export function skyAuthHttpOptions(options?: {
   body?: any,
   headers?: HttpHeaders,
-  observe?: HttpObserve,
+  observe?: 'body'|'events'|'response',
   params?: HttpParams,
   reportProgress?: boolean,
   permissionScope?: string,

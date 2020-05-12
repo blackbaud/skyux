@@ -8,17 +8,18 @@ import {
   TestBed
 } from '@angular/core/testing';
 
-import 'rxjs/add/observable/of';
-
 import {
   SkyAppConfig,
   SkyAppRuntimeConfigParams
 } from '@skyux/config';
 
 import {
-  SkyAuthTokenContextArgs,
+  SkyAuthTokenContextArgs
+} from '../auth-http/auth-token-context-args';
+
+import {
   SkyAuthTokenProvider
-} from '../auth-http';
+} from '../auth-http/auth-token-provider';
 
 import {
   SkyAuthInterceptor

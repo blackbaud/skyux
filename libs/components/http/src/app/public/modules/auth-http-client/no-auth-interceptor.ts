@@ -10,24 +10,25 @@ import {
 } from '@angular/common/http';
 
 import {
+  BBAuthClientFactory
+} from '@skyux/auth-client-factory';
+
+import {
   SkyAppConfig
 } from '@skyux/config';
 
 import {
+  from,
   Observable
-} from 'rxjs/Observable';
+} from 'rxjs';
+
+import {
+  switchMap
+} from 'rxjs/operators';
 
 import {
   SKY_AUTH_PARAM_AUTH
 } from './auth-interceptor-params';
-
-import {
-  BBAuthClientFactory
-} from '@skyux/auth-client-factory';
-
-import 'rxjs/add/observable/fromPromise';
-
-import 'rxjs/add/operator/switchMap';
 
 @Injectable()
 export class SkyNoAuthInterceptor implements HttpInterceptor {
@@ -40,14 +41,15 @@ export class SkyNoAuthInterceptor implements HttpInterceptor {
       request.params.get(SKY_AUTH_PARAM_AUTH) === 'false';
 
     if (noAuth) {
-      return Observable
-        .fromPromise(BBAuthClientFactory.BBAuth.getUrl(request.url))
-        .switchMap((url) => {
-          const newRequest = request.clone({
-            url: this.config.runtime.params.getUrl(url)
-          });
-          return next.handle(newRequest);
-        });
+      return from(BBAuthClientFactory.BBAuth.getUrl(request.url))
+        .pipe(
+          switchMap((url) => {
+            const newRequest = request.clone({
+              url: this.config.runtime.params.getUrl(url)
+            });
+            return next.handle(newRequest);
+          })
+        );
     } else {
       return next.handle(request);
     }
