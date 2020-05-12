@@ -1,10 +1,61 @@
+# 4.0.0 (2020-05-12)
+
+### New features
+
+- Added test fixtures for the alert and label components to use in consumer unit tests. [#81](https://github.com/blackbaud/skyux-indicators/pull/81)
+- Added support for `@angular/core@^9`. [#58](https://github.com/blackbaud/skyux-indicators/pull/58)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#58](https://github.com/blackbaud/skyux-indicators/pull/58)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#58](https://github.com/blackbaud/skyux-indicators/pull/58)
+
+# 4.0.0-rc.5 (2020-04-30)
+
+### New features
+
+- Added test fixtures for the alert and label components to use in consumer unit tests. [#81](https://github.com/blackbaud/skyux-indicators/pull/81)
+
+# 4.0.0-rc.4 (2020-04-23)
+
+- Added bug fixes and features from the `master` branch. [#79](https://github.com/blackbaud/skyux-indicators/pull/79)
+
 # 3.2.1 (2020-04-23)
 
 - Fixed the label component to add space between the label icon and text. [#77](https://github.com/blackbaud/skyux-indicators/pull/77)
 
+# 4.0.0-rc.3 (2020-04-03)
+
+### New features
+
+- Added bug fixes and features from the `master` branch. [#73](https://github.com/blackbaud/skyux-indicators/pull/73)
+
 # 3.2.0 (2020-04-02)
 
 - Updated the icon component to support icons from the SKY UX icon font. [#74](https://github.com/blackbaud/skyux-indicators/pull/74)
+
+# 4.0.0-rc.2 (2020-02-20)
+
+### Bug fixes
+
+- Removed internal components and directives from the exports API. [#64](https://github.com/blackbaud/skyux-indicators/pull/64)
+
+# 4.0.0-rc.1 (2020-02-20)
+
+### Bug fixes
+
+- Added missing components and directives to the exports API. [#63](https://github.com/blackbaud/skyux-indicators/pull/63)
+
+# 4.0.0-rc.0 (2020-02-19)
+
+### New features
+
+- Added support for `@angular/core@^9`. [#58](https://github.com/blackbaud/skyux-indicators/pull/58)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#58](https://github.com/blackbaud/skyux-indicators/pull/58)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#58](https://github.com/blackbaud/skyux-indicators/pull/58)
 
 # 3.1.3 (2020-02-12)
 

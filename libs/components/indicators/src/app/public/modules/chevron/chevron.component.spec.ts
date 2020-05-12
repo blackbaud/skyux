@@ -5,10 +5,6 @@ import {
 } from '@angular/core/testing';
 
 import {
-  SkyAppTestModule
-} from '@skyux-sdk/builder/runtime/testing/browser';
-
-import {
   expect
 } from '@skyux-sdk/testing';
 
@@ -26,7 +22,6 @@ describe('Chevron component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        SkyAppTestModule,
         SkyChevronModule
       ]
     });

@@ -12,10 +12,6 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  SkyTokensComponent
-} from './tokens.component';
-
-import {
   SkyTokensMessageType
 } from './types/tokens-message-type';
 
@@ -30,7 +26,6 @@ import {
 describe('Tokens component', () => {
   let fixture: ComponentFixture<SkyTokensTestComponent>;
   let component: SkyTokensTestComponent;
-  let tokensComponent: SkyTokensComponent;
 
   function getTokenElements(): NodeListOf<HTMLElement> {
     const tokensElement = component.tokensElementRef.nativeElement;
@@ -43,7 +38,7 @@ describe('Tokens component', () => {
     component.publishTokens();
 
     fixture.detectChanges();
-    expect(tokensComponent.activeIndex).toEqual(0);
+    expect(component.tokensComponent.activeIndex).toEqual(0);
 
     const tokenElements = getTokenElements();
     SkyAppTestUtility.fireDomEvent(tokenElements.item(0), 'keydown', {
@@ -51,7 +46,7 @@ describe('Tokens component', () => {
     });
 
     fixture.detectChanges();
-    expect(tokensComponent.activeIndex).toEqual(1);
+    expect(component.tokensComponent.activeIndex).toEqual(1);
     expect(document.activeElement).toEqual(tokenElements.item(1).querySelector('.sky-token'));
 
     SkyAppTestUtility.fireDomEvent(tokenElements.item(1), 'keydown', {
@@ -59,7 +54,7 @@ describe('Tokens component', () => {
     });
     fixture.detectChanges();
 
-    expect(tokensComponent.activeIndex).toEqual(0);
+    expect(component.tokensComponent.activeIndex).toEqual(0);
     expect(document.activeElement).toEqual(
       tokenElements.item(0).querySelector('.sky-token')
     );
@@ -72,7 +67,7 @@ describe('Tokens component', () => {
     const tokenElements = fixture.nativeElement.querySelectorAll('.sky-token');
     const focusedToken = tokenElements[index] as HTMLElement;
 
-    expect(tokensComponent.activeIndex).toEqual(index);
+    expect(component.tokensComponent.activeIndex).toEqual(index);
     expect(document.activeElement).toEqual(focusedToken);
   }
 
@@ -96,7 +91,6 @@ describe('Tokens component', () => {
 
     fixture = TestBed.createComponent(SkyTokensTestComponent);
     component = fixture.componentInstance;
-    tokensComponent = component.tokensComponent;
   });
 
   afterEach(() => {
@@ -105,13 +99,14 @@ describe('Tokens component', () => {
 
   describe('basic setup', () => {
     it('should set defaults', async(() => {
-      expect(tokensComponent.tokens).toEqual([]);
       fixture.detectChanges();
-      expect(tokensComponent.disabled).toEqual(false);
-      expect(tokensComponent.dismissible).toEqual(true);
-      expect(tokensComponent.displayWith).toEqual('name');
-      expect(tokensComponent.messageStream).toBeUndefined();
-      expect(tokensComponent.activeIndex).toEqual(0);
+      expect(component.tokensComponent.tokens).toEqual([]);
+      fixture.detectChanges();
+      expect(component.tokensComponent.disabled).toEqual(false);
+      expect(component.tokensComponent.dismissible).toEqual(true);
+      expect(component.tokensComponent.displayWith).toEqual('name');
+      expect(component.tokensComponent.messageStream).toBeUndefined();
+      expect(component.tokensComponent.activeIndex).toEqual(0);
 
       fixture.whenStable().then(() => {
         expect(fixture.nativeElement).toBeAccessible();
@@ -131,7 +126,7 @@ describe('Tokens component', () => {
       component.publishTokens();
 
       fixture.detectChanges();
-      tokensComponent.activeIndex = 2;
+      component.tokensComponent.activeIndex = 2;
 
       const tokenElements = getTokenElements();
       const spy = spyOn(component, 'onFocusIndexOverRange').and.callThrough();
@@ -142,7 +137,7 @@ describe('Tokens component', () => {
       fixture.detectChanges();
 
       expect(spy).toHaveBeenCalled();
-      expect(tokensComponent.activeIndex).toEqual(2);
+      expect(component.tokensComponent.activeIndex).toEqual(2);
     });
 
     it('should emit when the focus index is less than zero', () => {
@@ -151,7 +146,7 @@ describe('Tokens component', () => {
       component.publishTokens();
 
       fixture.detectChanges();
-      tokensComponent.activeIndex = 0;
+      component.tokensComponent.activeIndex = 0;
 
       const tokenElements = getTokenElements();
       const spy = spyOn(component, 'onFocusIndexUnderRange').and.callThrough();
@@ -162,7 +157,7 @@ describe('Tokens component', () => {
       fixture.detectChanges();
 
       expect(spy).toHaveBeenCalled();
-      expect(tokensComponent.activeIndex).toEqual(0);
+      expect(component.tokensComponent.activeIndex).toEqual(0);
     });
 
     it('should emit when token is selected on click', () => {
@@ -178,7 +173,7 @@ describe('Tokens component', () => {
       fixture.detectChanges();
 
       expect(spy).toHaveBeenCalledWith({
-        token: tokensComponent.tokens[0]
+        token: component.tokensComponent.tokens[0]
       });
     });
 
@@ -272,7 +267,7 @@ describe('Tokens component', () => {
       component.publishMessageStream();
       fixture.detectChanges();
 
-      const spy = spyOn((tokensComponent as any), 'focusLastToken').and.callThrough();
+      const spy = spyOn((component.tokensComponent as any), 'focusLastToken').and.callThrough();
 
       component.messageStream.next({
         type: SkyTokensMessageType.FocusLastToken
@@ -291,7 +286,7 @@ describe('Tokens component', () => {
       const lastToken = tokenElements[tokenElements.length - 1] as HTMLElement;
 
       expect(spy.calls.count()).toEqual(2);
-      expect(tokensComponent.activeIndex).toEqual(tokenElements.length - 1);
+      expect(component.tokensComponent.activeIndex).toEqual(tokenElements.length - 1);
       expect(document.activeElement).toEqual(lastToken);
     });
 
@@ -301,13 +296,13 @@ describe('Tokens component', () => {
 
       component.disabled = true;
       fixture.detectChanges();
-      expect(tokensComponent.activeIndex).toEqual(0);
+      expect(component.tokensComponent.activeIndex).toEqual(0);
 
       component.messageStream.next({
         type: SkyTokensMessageType.FocusLastToken
       });
       fixture.detectChanges();
-      expect(tokensComponent.activeIndex).toEqual(0);
+      expect(component.tokensComponent.activeIndex).toEqual(0);
     });
   });
 
@@ -354,7 +349,7 @@ describe('Tokens component', () => {
       fixture.detectChanges();
 
       expect(spy).toHaveBeenCalledWith({
-        token: tokensComponent.tokens[0]
+        token: component.tokensComponent.tokens[0]
       });
     });
 
@@ -381,17 +376,17 @@ describe('Tokens component', () => {
       fixture.detectChanges();
       component.publishTokens();
       fixture.detectChanges();
-      expect(tokensComponent.tokens.length).toEqual(3);
+      expect(component.tokensComponent.tokens.length).toEqual(3);
 
-      const removedToken = tokensComponent.tokens[0];
-      const spy = spyOn(tokensComponent, 'removeToken').and.callThrough();
+      const removedToken = component.tokensComponent.tokens[0];
+      const spy = spyOn(component.tokensComponent, 'removeToken').and.callThrough();
 
       let tokenElements = getTokenElements();
       (tokenElements.item(0).querySelector('.sky-token-btn-close') as HTMLElement).click();
       fixture.detectChanges();
 
       tokenElements = getTokenElements();
-      expect(tokensComponent.tokens.length).toEqual(2);
+      expect(component.tokensComponent.tokens.length).toEqual(2);
       expect(spy).toHaveBeenCalledWith(removedToken);
     });
 
@@ -401,9 +396,9 @@ describe('Tokens component', () => {
       component.publishTokens();
       fixture.detectChanges();
 
-      expect(tokensComponent.tokens.length).toEqual(3);
+      expect(component.tokensComponent.tokens.length).toEqual(3);
 
-      const spy = spyOn(tokensComponent, 'removeToken').and.callThrough();
+      const spy = spyOn(component.tokensComponent, 'removeToken').and.callThrough();
 
       let tokenElements = getTokenElements();
       (tokenElements.item(0).querySelector('.sky-token-btn-close') as HTMLElement).click();
@@ -411,7 +406,7 @@ describe('Tokens component', () => {
 
       tokenElements = getTokenElements();
       expect(tokenElements.item(0).querySelector('.sky-btn-disabled')).not.toBeNull();
-      expect(tokensComponent.tokens.length).toEqual(3);
+      expect(component.tokensComponent.tokens.length).toEqual(3);
       expect(spy).not.toHaveBeenCalled();
 
       fixture.whenStable().then(() => {

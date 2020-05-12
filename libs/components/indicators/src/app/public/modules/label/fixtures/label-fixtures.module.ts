@@ -8,7 +8,7 @@ import {
 
 import {
   SkyLabelModule
-} from '../';
+} from '../label.module';
 
 import {
   LabelTestComponent

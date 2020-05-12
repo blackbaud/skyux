@@ -10,7 +10,7 @@ import {
 } from '@angular/core/testing';
 
 import {
-  SkyWindowRefService
+  SkyAppWindowRef
 } from '@skyux/core';
 
 import {
@@ -50,7 +50,7 @@ describe('Wait service', () => {
       [
         ApplicationRef,
         SkyWaitService,
-        SkyWindowRefService
+        SkyAppWindowRef
       ],
       (
         _applicationRef: ApplicationRef,

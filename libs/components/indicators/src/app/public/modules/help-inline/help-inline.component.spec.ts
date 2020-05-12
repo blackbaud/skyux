@@ -14,10 +14,6 @@ import {
 } from '@angular/platform-browser';
 
 import {
-  SkyAppTestModule
-} from '@skyux-sdk/builder/runtime/testing/browser';
-
-import {
   expect
 } from '@skyux-sdk/testing';
 
@@ -41,7 +37,6 @@ describe('Help inline component', () => {
       ],
       imports: [
         BrowserModule,
-        SkyAppTestModule,
         SkyHelpInlineModule
       ]
     });

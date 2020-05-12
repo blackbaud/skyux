@@ -11,7 +11,7 @@ import {
 } from '@skyux/i18n';
 
 import {
-  SkyWindowRefService
+  SkyAppWindowRef
 } from '@skyux/core';
 
 import {
@@ -51,7 +51,7 @@ import {
   providers: [
     SkyWaitService,
     SkyWaitPageAdapterService,
-    SkyWindowRefService
+    SkyAppWindowRef
   ],
   entryComponents: [
     SkyWaitPageComponent

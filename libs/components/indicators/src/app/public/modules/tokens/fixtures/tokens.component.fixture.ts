@@ -7,14 +7,23 @@ import {
 
 import {
   Subject
-} from 'rxjs/Subject';
+} from 'rxjs';
 
 import {
-  SkyToken,
-  SkyTokensComponent,
-  SkyTokenSelectedEventArgs,
+  SkyToken
+} from '../types/token';
+
+import {
+  SkyTokenSelectedEventArgs
+} from '../types/token-selected-event-args';
+
+import {
   SkyTokensMessage
-} from '../index';
+} from '../types/tokens-message';
+
+import {
+  SkyTokensComponent
+} from '../tokens.component';
 
 @Component({
   selector: 'sky-tokens-test',

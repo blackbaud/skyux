@@ -5,7 +5,7 @@ import {
 
 import {
   SkyWaitComponent
-} from '..';
+} from '../wait.component';
 
 @Component({
   selector: 'sky-test-cmp',

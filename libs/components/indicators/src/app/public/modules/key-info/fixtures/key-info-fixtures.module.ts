@@ -8,7 +8,7 @@ import {
 
 import {
   SkyKeyInfoModule
-} from '../';
+} from '../key-info.module';
 
 import {
   KeyInfoTestComponent
