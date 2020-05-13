@@ -5,7 +5,7 @@ import {
 
 import {
   Observable
-} from 'rxjs/Observable';
+} from 'rxjs';
 // #endregion
 
 export class SkyToastInstance {

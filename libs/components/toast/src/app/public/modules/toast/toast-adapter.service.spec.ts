@@ -10,7 +10,7 @@ import {
 } from '@angular/core/testing';
 
 import {
-  SkyWindowRefService
+  SkyAppWindowRef
 } from '@skyux/core';
 
 import {
@@ -35,7 +35,7 @@ describe('Toast adapter service', () => {
     TestBed.configureTestingModule({
       providers: [
         SkyToastAdapterService,
-        SkyWindowRefService,
+        SkyAppWindowRef,
         {
           provide: RendererFactory2,
           useValue: {
@@ -61,7 +61,7 @@ describe('Toast adapter service', () => {
   );
 
   it('should scroll to the bottom of an element correctly', () => {
-    spyOn(window, 'setTimeout').and.callFake((fun: Function) => {
+    spyOn(window as any, 'setTimeout').and.callFake((fun: Function) => {
       fun();
     });
     let elementRefMock: any = {

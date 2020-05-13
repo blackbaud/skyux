@@ -21,7 +21,10 @@ import {
 export class SkyToastWithToasterServiceTestComponent {
   public autoClose: boolean;
 
-  @ViewChild(SkyToastComponent)
+  @ViewChild(SkyToastComponent, {
+    read: SkyToastComponent,
+    static: true
+  })
   public toastComponent: SkyToastComponent;
 
   constructor(public toasterService: SkyToasterService) { }

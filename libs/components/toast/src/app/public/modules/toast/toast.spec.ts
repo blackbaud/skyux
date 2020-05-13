@@ -9,7 +9,7 @@ import {
 
 import {
   SkyToastConfig
-} from './types';
+} from './types/toast-config';
 
 import {
   SkyToast

@@ -20,7 +20,10 @@ import {
 export class SkyToastTestComponent {
   public autoClose: boolean;
 
-  @ViewChild(SkyToastComponent)
+  @ViewChild(SkyToastComponent, {
+    read: SkyToastComponent,
+    static: true
+  })
   public toastComponent: SkyToastComponent;
 
   public toastType: SkyToastType;

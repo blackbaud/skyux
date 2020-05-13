@@ -5,7 +5,7 @@ import {
 
 import {
   SkyToastConfig
-} from './types';
+} from './types/toast-config';
 
 import {
   SkyToastInstance
@@ -14,6 +14,9 @@ import {
 
 let toastCount = 0;
 
+/**
+ * @internal
+ */
 export class SkyToast {
   public get bodyComponent(): any {
     return this._bodyComponent;

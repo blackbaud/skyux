@@ -16,14 +16,13 @@ import {
 } from '@angular/core';
 
 import {
-  Observable
-} from 'rxjs/Observable';
+  combineLatest,
+  Subject
+} from 'rxjs';
 
 import {
-  Subject
-} from 'rxjs/Subject';
-
-import 'rxjs/add/observable/combineLatest';
+  takeUntil
+} from 'rxjs/operators';
 
 import {
   skyAnimationEmerge
@@ -31,7 +30,7 @@ import {
 
 import {
   SkyToastType
-} from './types';
+} from './types/toast-type';
 
 import {
   SkyToasterService
@@ -127,11 +126,11 @@ export class SkyToastComponent implements OnInit, OnDestroy {
     this.startAutoCloseTimer();
 
     if (this.toasterService) {
-      Observable.combineLatest(
+      combineLatest([
         this.toasterService.focusIn,
         this.toasterService.mouseOver
-      )
-        .takeUntil(this.ngUnsubscribe)
+      ])
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(([hasFocus, hasMouseOver]) => {
           if (hasFocus || hasMouseOver) {
             this.stopAutoCloseTimer();

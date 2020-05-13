@@ -12,7 +12,7 @@ import {
 
 import {
   SkyToastModule
-} from './public';
+} from './public/public_api';
 
 import {
   ToastDemoComponent

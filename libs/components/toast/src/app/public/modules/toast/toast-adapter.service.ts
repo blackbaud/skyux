@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 
 import {
-  SkyWindowRefService
+  SkyAppWindowRef
 } from '@skyux/core';
 // #endregion
 
@@ -14,12 +14,12 @@ import {
 export class SkyToastAdapterService {
 
   constructor(
-    private windowRef: SkyWindowRefService
+    private windowRef: SkyAppWindowRef
   ) { }
 
   public scrollBottom(elementRef: ElementRef): void {
     const element = elementRef.nativeElement;
-    this.windowRef.getWindow().setTimeout(() => {
+    this.windowRef.nativeWindow.setTimeout(() => {
       element.scrollTop = element.scrollHeight;
     });
   }

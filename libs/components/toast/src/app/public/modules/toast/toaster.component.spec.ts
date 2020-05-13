@@ -20,11 +20,20 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  SkyToastFixturesModule,
-  SkyToasterTestComponent,
-  SkyToastBodyTestComponent,
+  SkyToastFixturesModule
+} from './fixtures/toast-fixtures.module';
+
+import {
+  SkyToasterTestComponent
+} from './fixtures/toaster.component.fixture';
+
+import {
+  SkyToastBodyTestComponent
+} from './fixtures/toast-body.component.fixture';
+
+import {
   SkyToastBodyTestContext
-} from './fixtures';
+} from './fixtures/toast-body-context';
 
 import {
   SkyToastInstance

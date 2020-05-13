@@ -11,11 +11,13 @@ import {
   SkyDynamicComponentService
 } from '@skyux/core';
 
-import 'rxjs/add/operator/take';
+import {
+  take
+} from 'rxjs/operators';
 
 import {
   SkyToastType
-} from './types';
+} from './types/toast-type';
 
 import {
   SkyToast
@@ -105,7 +107,7 @@ describe('Toast service', () => {
 
       instance.close();
 
-      toastService.toastStream.take(1).subscribe((value) => {
+      toastService.toastStream.pipe(take(1)).subscribe((value) => {
         expect(value.length).toEqual(0);
         expect(isClosedCalled).toBeTruthy();
       });
@@ -148,7 +150,7 @@ describe('Toast service', () => {
         [providers]
       );
 
-      toastService.toastStream.take(1).subscribe((toasts: SkyToast[]) => {
+      toastService.toastStream.pipe(take(1)).subscribe((toasts: SkyToast[]) => {
         expect(toasts[0].bodyComponentProviders[0]).toEqual(providers);
       });
 
@@ -168,7 +170,7 @@ describe('Toast service', () => {
         type: SkyToastType.Danger
       });
 
-      toastService.toastStream.take(1).subscribe((toasts: SkyToast[]) => {
+      toastService.toastStream.pipe(take(1)).subscribe((toasts: SkyToast[]) => {
         expect(toasts[0].bodyComponentProviders.length).toEqual(1);
       });
     });
