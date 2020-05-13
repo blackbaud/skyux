@@ -49,7 +49,7 @@ import {
 
 import {
   SkyFormsResourcesModule
-} from '../shared';
+} from '../shared/forms-resources.module';
 
 @NgModule({
   declarations: [

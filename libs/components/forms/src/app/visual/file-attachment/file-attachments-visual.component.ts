@@ -14,7 +14,7 @@ import {
   SkyFileDropChange,
   SkyFileItem,
   SkyFileLink
-} from '../../public';
+} from '../../public/public_api';
 
 @Component({
   selector: 'file-attachments-visual',

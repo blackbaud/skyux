@@ -1,3 +1,31 @@
+# 4.0.0 (2020-05-13)
+
+### New features
+
+- Added a test fixture for the checkbox component to use in consumer unit tests. [#115](https://github.com/blackbaud/skyux-forms/pull/115)
+- Added support for `@angular/core@^9`. [#102](https://github.com/blackbaud/skyux-forms/pull/102)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#102](https://github.com/blackbaud/skyux-forms/pull/102)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#102](https://github.com/blackbaud/skyux-forms/pull/102)
+
+# 4.0.0-rc.1 (2020-05-07)
+
+- Upgraded the development dependencies. [#115](https://github.com/blackbaud/skyux-forms/pull/115)
+- Added bug fixes and features from the `master` branch. [#115](https://github.com/blackbaud/skyux-forms/pull/115)
+
+# 4.0.0-rc.0 (2020-02-19)
+
+### New features
+
+- Added support for `@angular/core@^9`. [#102](https://github.com/blackbaud/skyux-forms/pull/102)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#102](https://github.com/blackbaud/skyux-forms/pull/102)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#102](https://github.com/blackbaud/skyux-forms/pull/102)
+
 # 3.6.3 (2020-02-12)
 
 - Fixed an Angular compiler template checking error on the file attachment component's HTML template. [#100](https://github.com/blackbaud/skyux-forms/pull/100)

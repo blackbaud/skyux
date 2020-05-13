@@ -1024,14 +1024,14 @@ describe('File attachment', () => {
     expect(fileChangeActual.file.url).toBe('url');
   });
 
-  it('shows the thumbnail if the item is an image', () => {
+  it('shows the thumbnail if the item is an image', async(() => {
     testImage('png');
     testImage('bmp');
     testImage('jpeg');
     testImage('gif');
-  });
+  }));
 
-  it('does not show an icon if it is not an image', () => {
+  it('does not show an icon if it is not an image', async(() => {
     testNonImageType('pdf', 'pdf');
     testNonImageType('gz', 'gz');
     testNonImageType('rar', 'rar');
@@ -1050,7 +1050,7 @@ describe('File attachment', () => {
     testNonImageType('tiff', 'image');
     testNonImageType('other', 'text');
     testNonImageType('mp4', 'video');
-  });
+  }));
 
   it('should not show an icon if file or type does not exist', () => {
     const imageEl = getImage();

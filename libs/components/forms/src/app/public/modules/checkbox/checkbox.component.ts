@@ -18,16 +18,14 @@ import {
   SkyFormsUtility
 } from '../shared/forms-utility';
 
+import {
+  SkyCheckboxChange
+} from './checkbox-change';
+
 /**
  * Monotonically increasing integer used to auto-generate unique ids for checkbox components.
  */
 let nextId = 0;
-
-// A simple change event emitted by the SkyCheckbox component.
-export class SkyCheckboxChange {
-  public source: SkyCheckboxComponent;
-  public checked: boolean;
-}
 
 @Component({
   selector: 'sky-checkbox',

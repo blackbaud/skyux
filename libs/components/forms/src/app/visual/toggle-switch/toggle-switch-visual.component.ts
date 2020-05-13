@@ -29,7 +29,7 @@ export class ToggleSwitchVisualComponent {
     }, 2000);
   }
 
-  public onReadonlyClick(): void {
+  public onToggleDisabledClick(): void {
     const control = this.formGroup.get('notifyByEmail');
 
     if (control.disabled) {

@@ -4,15 +4,18 @@ import {
   Component,
   DebugElement
 } from '@angular/core';
+
 import {
   ComponentFixture,
   async,
   TestBed
 } from '@angular/core/testing';
+
 import {
   BrowserModule,
   By
 } from '@angular/platform-browser';
+
 import {
   FormsModule,
   NgForm,
@@ -28,10 +31,16 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  SkyCheckboxChange,
-  SkyCheckboxComponent,
+  SkyCheckboxChange
+} from '../checkbox/checkbox-change';
+
+import {
+  SkyCheckboxComponent
+} from './checkbox.component';
+
+import {
   SkyCheckboxModule
-} from './';
+} from './checkbox.module';
 
 // #region helpers
 /** Simple component for testing a single checkbox. */
@@ -683,12 +692,12 @@ describe('Checkbox component', () => {
       });
     });
 
-    it('should not have "sky-control-label-required" class', () => {
+    it('should not have "sky-control-label-required" class', async(() => {
       fixture.whenStable().then(() => {
         fixture.detectChanges();
         expect(labelElement).not.toHaveCssClass('sky-control-label-required');
       });
-    });
+    }));
   });
 
   describe('with ngModel and required input', () => {
@@ -724,12 +733,12 @@ describe('Checkbox component', () => {
       });
     }));
 
-    it('should have "sky-control-label-required" class', () => {
+    it('should have "sky-control-label-required" class', async(() => {
       fixture.whenStable().then(() => {
         fixture.detectChanges();
         expect(labelElement).toHaveCssClass('sky-control-label-required');
       });
-    });
+    }));
 
     it('should not have required and aria-reqiured attributes when input is false', async(() => {
       fixture.detectChanges();
@@ -893,13 +902,13 @@ describe('Checkbox component', () => {
       });
     }));
 
-    it('should not have required and aria-reqiured attributes when not required', () => {
+    it('should not have required and aria-reqiured attributes when not required', async(() => {
       fixture.whenStable().then(() => {
         fixture.detectChanges();
         expect(inputElement.getAttribute('required')).toBeNull();
         expect(inputElement.getAttribute('aria-required')).toBeNull();
       });
-    });
+    }));
   });
 
   describe('with reactive form and required validator', () => {

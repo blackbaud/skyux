@@ -25,13 +25,28 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  SkyToggleSwitchChangeEventFixtureComponent,
-  SkyToggleSwitchFixtureComponent,
-  SkyToggleSwitchFixturesModule,
-  SkyToggleSwitchFormDirectivesFixtureComponent,
-  SkyToggleSwitchReactiveFormFixtureComponent,
+  SkyToggleSwitchChangeEventFixtureComponent
+} from './fixtures/toggle-switch-change-event.component.fixture';
+
+import {
+  SkyToggleSwitchFixtureComponent
+} from './fixtures/toggle-switch.component.fixture';
+
+import {
+  SkyToggleSwitchFixturesModule
+} from './fixtures/toggle-switch.module.fixture';
+
+import {
+  SkyToggleSwitchFormDirectivesFixtureComponent
+} from './fixtures/toggle-switch-form-directives.component.fixture';
+
+import {
   SkyToggleSwitchOnPushFixtureComponent
-} from './fixtures';
+} from './fixtures/toggle-switch-on-push.component.fixture';
+
+import {
+  SkyToggleSwitchReactiveFormFixtureComponent
+} from './fixtures/toggle-switch-reactive-form.component.fixture';
 
 import {
   SkyToggleSwitchComponent

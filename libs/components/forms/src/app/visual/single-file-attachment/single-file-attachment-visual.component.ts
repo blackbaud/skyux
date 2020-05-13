@@ -12,7 +12,7 @@ import {
 import {
   SkyFileItem,
   SkyFileLink
-} from '../../public';
+} from '../../public/public_api';
 
 @Component({
   selector: 'single-file-attachment-visual',

@@ -23,13 +23,15 @@ import {
 
 import {
   Subject
-} from 'rxjs/Subject';
+} from 'rxjs';
 
-import 'rxjs/add/operator/takeUntil';
+import {
+  takeUntil
+} from 'rxjs/operators';
 
 import {
   SkyToggleSwitchChange
-} from './types';
+} from './types/toggle-switch-change';
 
 import {
   SkyToggleSwitchLabelComponent
@@ -135,7 +137,9 @@ export class SkyToggleSwitchComponent implements AfterContentInit, OnDestroy, Co
 
   public ngAfterContentInit(): void {
     this.labelComponents.changes
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe(() => {
         // Allow the template to reload any ARIA attributes that are relying on the
         // label component existing in the DOM.

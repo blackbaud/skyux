@@ -15,11 +15,20 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  SkyRadioFixturesModule,
-  SkyRadioGroupBooleanTestComponent,
-  SkyRadioGroupReactiveFixtureComponent,
+  SkyRadioFixturesModule
+} from './fixtures/radio-fixtures.module';
+
+import {
+  SkyRadioGroupBooleanTestComponent
+} from './fixtures/radio-group-boolean.component.fixture';
+
+import {
+  SkyRadioGroupReactiveFixtureComponent
+} from './fixtures/radio-group-reactive.component.fixture';
+
+import {
   SkyRadioGroupFixtureComponent
-} from './fixtures';
+} from './fixtures/radio-group.component.fixture';
 
 //#region helpers
 function getRadios(radioFixture: ComponentFixture<any>): NodeListOf<HTMLInputElement> {

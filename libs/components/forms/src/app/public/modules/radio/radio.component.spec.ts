@@ -1,7 +1,3 @@
-// #region imports
-import {
-  DebugElement
-} from '@angular/core';
 import {
   ComponentFixture,
   fakeAsync,
@@ -9,9 +5,15 @@ import {
   tick,
   async
 } from '@angular/core/testing';
+
+import {
+  DebugElement
+} from '@angular/core';
+
 import {
   NgModel
 } from '@angular/forms';
+
 import {
   By
 } from '@angular/platform-browser';
@@ -22,21 +24,28 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  SkyRadioFixturesModule,
-  SkyRadioTestComponent,
-  SkySingleRadioComponent
-} from './fixtures';
+  SkyRadioTestComponent
+} from './fixtures/radio.component.fixture';
+
 import {
-  SkyRadioComponent
-} from './radio.component';
-import {
-  SkyRadioLabelComponent
-} from './radio-label.component';
+  SkyRadioFixturesModule
+} from './fixtures/radio-fixtures.module';
 
 import {
   SkyRadioOnPushTestComponent
 } from './fixtures/radio-on-push.component.fixture';
-// #endregion
+
+import {
+  SkySingleRadioComponent
+} from './fixtures/radio-single.component.fixture';
+
+import {
+  SkyRadioComponent
+} from './radio.component';
+
+import {
+  SkyRadioLabelComponent
+} from './radio-label.component';
 
 describe('Radio component', function () {
   let fixture: ComponentFixture<any>;

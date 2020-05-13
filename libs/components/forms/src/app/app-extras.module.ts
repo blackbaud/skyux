@@ -17,7 +17,7 @@ import {
   SkyRadioModule,
   SkyCharacterCounterModule,
   SkyToggleSwitchModule
-} from './public';
+} from './public/public_api';
 
 @NgModule({
   exports: [

@@ -18,7 +18,7 @@ import {
 
 import {
   Observable
-} from 'rxjs/Observable';
+} from 'rxjs';
 
 import {
   SkyFormsUtility
@@ -26,7 +26,7 @@ import {
 
 import {
   SkyRadioChange
-} from './types';
+} from './types/radio-change';
 // #endregion
 
 /**

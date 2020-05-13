@@ -1,10 +1,11 @@
-// #region imports
-import {
-  NgModule
-} from '@angular/core';
 import {
   CommonModule
 } from '@angular/common';
+
+import {
+  NgModule
+} from '@angular/core';
+
 import {
   FormsModule
 } from '@angular/forms';
@@ -16,13 +17,14 @@ import {
 import {
   SkyRadioComponent
 } from './radio.component';
+
 import {
   SkyRadioLabelComponent
 } from './radio-label.component';
+
 import {
   SkyRadioGroupComponent
 } from './radio-group.component';
-// #endregion
 
 @NgModule({
   declarations: [

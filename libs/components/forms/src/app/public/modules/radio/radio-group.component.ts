@@ -17,7 +17,11 @@ import {
 
 import {
   Subject
-} from 'rxjs/Subject';
+} from 'rxjs';
+
+import {
+  takeUntil
+} from 'rxjs/operators';
 
 import {
   SkyFormsUtility
@@ -25,7 +29,7 @@ import {
 
 import {
   SkyRadioChange
-} from './types';
+} from './types/radio-change';
 
 import {
   SkyRadioComponent
@@ -133,7 +137,9 @@ export class SkyRadioGroupComponent implements AfterContentInit, AfterViewInit, 
     this.watchForSelections();
 
     this.radios.changes
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe(() => {
         this.resetRadioButtons();
 
@@ -155,7 +161,9 @@ export class SkyRadioGroupComponent implements AfterContentInit, AfterViewInit, 
   public watchForSelections() {
     this.radios.forEach((radio) => {
       radio.change
-        .takeUntil(this.ngUnsubscribe)
+        .pipe(
+          takeUntil(this.ngUnsubscribe)
+        )
         .subscribe((change: SkyRadioChange) => {
           this.onTouched();
           this.writeValue(change.value);
