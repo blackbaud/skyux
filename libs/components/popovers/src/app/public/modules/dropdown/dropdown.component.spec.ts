@@ -18,8 +18,8 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  Observable
-} from 'rxjs/Observable';
+  of as observableOf
+} from 'rxjs';
 
 import {
   SkyDropdownFixturesModule
@@ -125,7 +125,6 @@ describe('Dropdown component', function () {
     detectChangesFakeAsync();
 
     const dropdownRef = fixture.componentInstance.dropdownRef;
-    expect(dropdownRef.alignment).toEqual('left');
     expect(dropdownRef.buttonStyle).toEqual('default');
     expect(dropdownRef.buttonType).toEqual('select');
     expect(dropdownRef.disabled).toEqual(false);
@@ -152,45 +151,12 @@ describe('Dropdown component', function () {
     (affixService: SkyAffixService) => {
       const expectedAlignment = 'center';
 
-      fixture.componentInstance.alignment = expectedAlignment;
-
-      let actualConfig: SkyAffixConfig;
-
-      const mockAffixer = {
-        placementChange: Observable.of({}),
-        affixTo(elem: any, config: SkyAffixConfig ) {
-          actualConfig = config;
-        },
-        destroy() {},
-        reaffix() {}
-      };
-
-      const button = getButtonElement();
-      const createAffixerSpy = spyOn(affixService, 'createAffixer').and.returnValue(mockAffixer);
-
-      detectChangesFakeAsync();
-      button.click();
-      detectChangesFakeAsync();
-
-      expect(actualConfig.horizontalAlignment).toEqual(expectedAlignment);
-
-      // Clear the spy to return the service to normal.
-      createAffixerSpy.and.callThrough();
-    }
-  )));
-
-  it('should use horizontalAlignment if alignment is undefined', fakeAsync(inject(
-    [SkyAffixService],
-    (affixService: SkyAffixService) => {
-      const expectedAlignment = 'right';
-
-      fixture.componentInstance.alignment = undefined;
       fixture.componentInstance.horizontalAlignment = expectedAlignment;
 
       let actualConfig: SkyAffixConfig;
 
-      const mockAffixer = {
-        placementChange: Observable.of({}),
+      const mockAffixer: any = {
+        placementChange: observableOf({}),
         affixTo(elem: any, config: SkyAffixConfig ) {
           actualConfig = config;
         },
@@ -200,10 +166,6 @@ describe('Dropdown component', function () {
 
       const button = getButtonElement();
       const createAffixerSpy = spyOn(affixService, 'createAffixer').and.returnValue(mockAffixer);
-
-      // Make sure the set alignment in our test doesn't match the default alignment.
-      // (We need to confirm that a change has occurred.)
-      expect(fixture.componentInstance.dropdownRef.alignment).not.toEqual(expectedAlignment);
 
       detectChangesFakeAsync();
       button.click();
@@ -1150,7 +1112,13 @@ describe('Dropdown component', function () {
       fixture.whenStable().then(() => {
         fixture.detectChanges();
         fixture.whenStable().then(() => {
-          expect(window.document.body).toBeAccessible();
+          expect(window.document.body).toBeAccessible(() => {}, {
+            rules: {
+              region: {
+                enabled: false
+              }
+            }
+          });
         });
       });
     }));
@@ -1165,7 +1133,13 @@ describe('Dropdown component', function () {
 
         fixture.detectChanges();
         fixture.whenStable().then(() => {
-          expect(window.document.body).toBeAccessible();
+          expect(window.document.body).toBeAccessible(() => {}, {
+            rules: {
+              region: {
+                enabled: false
+              }
+            }
+          });
         });
       });
     }));

@@ -1,3 +1,16 @@
+# 4.0.0 (2020-05-13)
+
+### New features
+
+- Added support for `@angular/core@^9`. [#53](https://github.com/blackbaud/skyux-popovers/pull/53)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#53](https://github.com/blackbaud/skyux-popovers/pull/53)
+
+### Breaking changes
+
+- Removed the `alignment` input from the dropdown component. Use the `horizontalAlignment` input instead. [#86](https://github.com/blackbaud/skyux-popovers/pull/86)
+- Removed the `allowFullscreen` input from the popover component since fullscreen popovers are not an approved SKY UX design pattern. Use the SKY UX modal component instead. [#86](https://github.com/blackbaud/skyux-popovers/pull/86)
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#53](https://github.com/blackbaud/skyux-popovers/pull/53)
+
 # 3.6.0 (2020-05-08)
 
 - Added modern theme styles to the tab dropdown button. [#84](https://github.com/blackbaud/skyux-popovers/pull/84)
@@ -6,12 +19,28 @@
 
 - Fixed the dropdown button styles to left-align overflowing text within a tab dropdown. [#82](https://github.com/blackbaud/skyux-popovers/pull/82)
 
+# 4.0.0-rc.3 (2020-04-28)
+
+- Upgraded development dependencies. [#81](https://github.com/blackbaud/skyux-popovers/pull/81)
+
+# 4.0.0-rc.2 (2020-04-10)
+
+### New features
+
+- Added bug fixes and features from the `master` branch. [#78](https://github.com/blackbaud/skyux-popovers/pull/78)
+
 # 3.5.2 (2020-04-10)
 
 - Fixed the dropdown component to prevent propagation of the escape key when the dropdown menu is open. [#75](https://github.com/blackbaud/skyux-popovers/pull/75)
 - Fixed the dropdown component to properly handle the `click` event handler on dropdown menu items. [#75](https://github.com/blackbaud/skyux-popovers/pull/75)
 - Fixed the dropdown component to find a valid placement on initialization. [#76](https://github.com/blackbaud/skyux-popovers/pull/76)
 - Removed the deprecation message from the popover component's `skyPopoverTrigger` property. [#74](https://github.com/blackbaud/skyux-popovers/pull/74)
+
+# 4.0.0-rc.1 (2020-04-08)
+
+### New features
+
+- Added bug fixes and features from the `master` branch. [#69](https://github.com/blackbaud/skyux-popovers/pull/69)
 
 # 3.5.1 (2020-04-08)
 
@@ -22,6 +51,17 @@
 # 3.5.0 (2020-04-02)
 
 - Updated the dropdown and popover components to implement the affix and overlay services. [#61](https://github.com/blackbaud/skyux-popovers/pull/61)
+
+# 4.0.0-rc.0 (2020-02-19)
+
+### New features
+
+- Added support for `@angular/core@^9`. [#53](https://github.com/blackbaud/skyux-popovers/pull/53)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#53](https://github.com/blackbaud/skyux-popovers/pull/53)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#53](https://github.com/blackbaud/skyux-popovers/pull/53)
 
 # 3.4.0 (2019-10-09)
 

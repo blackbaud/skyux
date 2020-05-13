@@ -22,7 +22,7 @@ import {
 
 import {
   SkyPopoversResourcesModule
-} from '../shared';
+} from '../shared/popovers-resources.module';
 
 import {
   SkyPopoverAdapterService

@@ -2,9 +2,5 @@
   "skyux_dropdown_context_menu_default_label": {
     "_description": "The label on the context menu button used for screen readers when the consumer has not specified a label",
     "message": "Context menu"
-  },
-  "skyux_popover_close": {
-    "_description": "Text for popover close button",
-    "message": "Close popover"
   }
 }

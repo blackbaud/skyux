@@ -4,7 +4,7 @@ import {
 
 import {
   SkyDropdownMenuChange
-} from '../../public';
+} from '../../public/public_api';
 
 @Component({
   selector: 'dropdown-visual',

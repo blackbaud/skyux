@@ -1,9 +1,8 @@
 <div
-  class="sky-popover-container"
+  class="sky-popover-container sky-popover-max-height"
   [@.disabled]="!enableAnimations"
   [@skyPopoverAnimation]="animationState"
   [class.sky-popover-hidden]="!placement"
-  [class.sky-popover-max-height]="!allowFullscreen"
   [ngClass]="[
     'sky-popover-alignment-' + horizontalAlignment,
     'sky-popover-placement-' + placement
@@ -16,7 +15,7 @@
     class="sky-popover sky-shadow sky-rounded-corners"
     tabindex="-1"
   >
-    <header *ngIf="popoverTitle || placement === 'fullscreen'"
+    <header *ngIf="popoverTitle"
       class="sky-popover-header sky-padding-even-default"
     >
       <h1 *ngIf="popoverTitle"
@@ -24,16 +23,6 @@
       >
         {{ popoverTitle }}
       </h1>
-      <button *ngIf="placement === 'fullscreen'"
-        class="sky-btn sky-popover-fullscreen-close"
-        type="button"
-        [attr.aria-label]="'skyux_popover_close' | skyLibResources"
-        (click)="close()"
-      >
-        <sky-icon
-          icon="close"
-        ></sky-icon>
-      </button>
     </header>
     <div
       class="sky-popover-body sky-padding-even-default"

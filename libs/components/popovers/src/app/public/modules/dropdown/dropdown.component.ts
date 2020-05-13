@@ -19,18 +19,13 @@ import {
 } from '@skyux/core';
 
 import {
-  Observable
-} from 'rxjs/Observable';
-
-import {
+  fromEvent as observableFromEvent,
   Subject
-} from 'rxjs/Subject';
-
-import 'rxjs/add/operator/takeUntil';
+} from 'rxjs';
 
 import {
-  SkyPopoverAlignment
-} from '../popover/types/popover-alignment';
+  takeUntil
+} from 'rxjs/operators';
 
 import {
   SkyDropdownHorizontalAlignment
@@ -59,21 +54,6 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyDropdownComponent implements OnInit, OnDestroy {
-
-  /**
-   * Specifies the horizontal alignment of the dropdown menu in relation to the dropdown button.
-   * Available values are `left`, `right`, and `center`.
-   * @default "left"
-   * @deprecated Use `horizontalAlignment` instead.
-   */
-  @Input()
-  public set alignment(value: SkyPopoverAlignment) {
-    this._alignment = value;
-  }
-
-  public get alignment(): SkyPopoverAlignment {
-    return this._alignment || 'left';
-  }
 
   /**
    * Specifies a background color for the dropdown button. Available values are `default` and
@@ -222,10 +202,16 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
 
   public menuAriaRole: string;
 
-  @ViewChild('menuContainerTemplateRef')
+  @ViewChild('menuContainerTemplateRef', {
+    read: TemplateRef,
+    static: true
+  })
   private menuContainerTemplateRef: TemplateRef<any>;
 
-  @ViewChild('triggerButton')
+  @ViewChild('triggerButton', {
+    read: ElementRef,
+    static: true
+  })
   private triggerButton: ElementRef;
 
   private affixer: SkyAffixer;
@@ -233,8 +219,6 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject();
 
   private overlay: SkyOverlayInstance;
-
-  private _alignment: SkyPopoverAlignment;
 
   private _buttonStyle: string;
 
@@ -262,7 +246,9 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     this.addEventListeners();
 
     this.messageStream
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe((message: SkyDropdownMessage) => {
         this.handleIncomingMessages(message);
       });
@@ -280,9 +266,10 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   private addEventListeners(): void {
     const buttonElement = this.triggerButton.nativeElement;
 
-    Observable
-      .fromEvent(buttonElement, 'click')
-      .takeUntil(this.ngUnsubscribe)
+    observableFromEvent(buttonElement, 'click')
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe(() => {
         if (this.isOpen) {
           this.sendMessage(SkyDropdownMessageType.Close);
@@ -291,9 +278,10 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
         }
       });
 
-    Observable
-      .fromEvent(buttonElement, 'keydown')
-      .takeUntil(this.ngUnsubscribe)
+    observableFromEvent(buttonElement, 'keydown')
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe((event: KeyboardEvent) => {
         const key = event.key.toLowerCase();
 
@@ -339,9 +327,10 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
         }
       });
 
-    Observable
-      .fromEvent(buttonElement, 'mouseenter')
-      .takeUntil(this.ngUnsubscribe)
+    observableFromEvent(buttonElement, 'mouseenter')
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe(() => {
         this.isMouseEnter = true;
         if (this.trigger === 'hover') {
@@ -349,9 +338,10 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
         }
       });
 
-    Observable
-      .fromEvent(buttonElement, 'mouseleave')
-      .takeUntil(this.ngUnsubscribe)
+    observableFromEvent(buttonElement, 'mouseleave')
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe(() => {
         this.isMouseEnter = false;
         if (this.trigger === 'hover') {
@@ -379,7 +369,9 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     overlay.attachTemplate(this.menuContainerTemplateRef);
 
     overlay.backdropClick
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe(() => {
         if (this.dismissOnBlur) {
           this.sendMessage(SkyDropdownMessageType.Close);
@@ -409,7 +401,9 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     const affixer = this.affixService.createAffixer(this.menuContainerElementRef);
 
     affixer.placementChange
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe((change) => {
         this.isVisible = (change.placement !== null);
         this.changeDetector.markForCheck();
@@ -460,9 +454,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
       this.affixer.affixTo(this.triggerButton.nativeElement, {
         autoFitContext: SkyAffixAutoFitContext.Viewport,
         enableAutoFit: true,
-        horizontalAlignment: parseAffixHorizontalAlignment(
-          this._alignment || this.horizontalAlignment
-        ),
+        horizontalAlignment: parseAffixHorizontalAlignment(this.horizontalAlignment),
         isSticky: true,
         placement: 'below'
       });

@@ -6,25 +6,26 @@ import {
   OnInit
 } from '@angular/core';
 
-import 'rxjs/add/observable/fromEvent';
-
-import 'rxjs/add/operator/takeUntil';
-
-import 'rxjs/add/operator/take';
-
 import {
-  Observable
-} from 'rxjs/Observable';
-
-import {
+  fromEvent as observableFromEvent,
   Subject
-} from 'rxjs/Subject';
+} from 'rxjs';
 
 import {
-  SkyPopoverAlignment,
-  SkyPopoverPlacement,
+  takeUntil
+} from 'rxjs/operators';
+
+import {
+  SkyPopoverAlignment
+} from './types/popover-alignment';
+
+import {
+  SkyPopoverPlacement
+} from './types/popover-placement';
+
+import {
   SkyPopoverTrigger
-} from './types';
+} from './types/popover-trigger';
 
 import {
   SkyPopoverComponent
@@ -131,14 +132,17 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
     const element = this.elementRef.nativeElement;
 
     this.skyPopoverMessageStream
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe(message => {
         this.handleIncomingMessages(message);
       });
 
-    Observable
-      .fromEvent(element, 'keydown')
-      .takeUntil(this.ngUnsubscribe)
+    observableFromEvent(element, 'keydown')
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe((event: KeyboardEvent) => {
         if (!this.skyPopover.isActive) {
           return;
@@ -175,18 +179,20 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
         }
       });
 
-    Observable
-      .fromEvent(element, 'click')
-      .takeUntil(this.ngUnsubscribe)
+    observableFromEvent(element, 'click')
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe(() => {
         if (this.skyPopover) {
           this.togglePopover();
         }
       });
 
-    Observable
-      .fromEvent(element, 'mouseenter')
-      .takeUntil(this.ngUnsubscribe)
+    observableFromEvent(element, 'mouseenter')
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe(() => {
         if (this.skyPopover) {
           this.skyPopover.isMouseEnter = true;
@@ -199,9 +205,10 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
         }
       });
 
-    Observable
-      .fromEvent(element, 'mouseleave')
-      .takeUntil(this.ngUnsubscribe)
+    observableFromEvent(element, 'mouseleave')
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe(() => {
         if (this.skyPopover) {
           this.skyPopover.isMouseEnter = false;

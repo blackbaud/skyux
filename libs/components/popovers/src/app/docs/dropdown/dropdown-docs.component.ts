@@ -67,4 +67,8 @@ export class DropdownDocsComponent {
       this.demoSettings.style = change.style;
     }
   }
+
+  public actionClicked(name: string): void {
+    console.log('Action clicked:', name);
+  }
 }

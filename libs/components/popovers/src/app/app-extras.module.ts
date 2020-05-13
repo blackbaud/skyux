@@ -18,7 +18,7 @@ import {
 import {
   SkyDropdownModule,
   SkyPopoverModule
-} from './public';
+} from './public/public_api';
 
 @NgModule({
   exports: [

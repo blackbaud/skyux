@@ -4,20 +4,16 @@ import {
   ViewChild
 } from '@angular/core';
 
-import {
-  SkyPopoverComponent
-} from '@skyux/popovers';
-
 @Component({
   selector: 'app-popover-demo',
   templateUrl: './popover-demo.component.html'
 })
 export class PopoverDemoComponent implements AfterViewInit {
 
-  public asyncPopoverRef: SkyPopoverComponent;
+  public asyncPopoverRef: any;
 
   @ViewChild('asyncPopover')
-  private asyncPopover: SkyPopoverComponent;
+  private asyncPopover: any;
 
   public ngAfterViewInit(): void {
     // Simulate asynchronous retrieval.

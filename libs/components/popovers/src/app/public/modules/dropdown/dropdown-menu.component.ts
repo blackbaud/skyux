@@ -14,16 +14,13 @@ import {
 } from '@angular/core';
 
 import {
-  Observable
-} from 'rxjs/Observable';
+  fromEvent as observableFromEvent,
+  Subject
+} from 'rxjs';
 
 import {
-  Subject
-} from 'rxjs/Subject';
-
-import 'rxjs/add/observable/fromEvent';
-
-import 'rxjs/add/operator/takeUntil';
+  takeUntil
+} from 'rxjs/operators';
 
 import {
   SkyDropdownComponent
@@ -34,10 +31,16 @@ import {
 } from './dropdown-item.component';
 
 import {
-  SkyDropdownMenuChange,
-  SkyDropdownMessage,
+  SkyDropdownMenuChange
+} from './types/dropdown-menu-change';
+
+import {
+  SkyDropdownMessage
+} from './types/dropdown-message';
+
+import {
   SkyDropdownMessageType
-} from './types';
+} from './types/dropdown-message-type';
 
 let nextId = 0;
 
@@ -148,7 +151,9 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
       this.dropdownComponent.menuAriaRole = this.ariaRole;
 
       this.dropdownComponent.messageStream
-        .takeUntil(this.ngUnsubscribe)
+        .pipe(
+          takeUntil(this.ngUnsubscribe)
+        )
         .subscribe((message: SkyDropdownMessage) => {
           /* tslint:disable-next-line:switch-default */
           switch (message.type) {
@@ -176,7 +181,9 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
         });
 
       this.menuChanges
-        .takeUntil(this.ngUnsubscribe)
+        .pipe(
+          takeUntil(this.ngUnsubscribe)
+        )
         .subscribe((change: SkyDropdownMenuChange) => {
           // Close the dropdown when a menu item is selected.
           if (change.selectedItem) {
@@ -193,7 +200,9 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
 
     // Reset dropdown whenever the menu items change.
     this.menuItems.changes
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe((items: QueryList<SkyDropdownItemComponent>) => {
         this.reset();
         this.menuChanges.emit({
@@ -325,16 +334,18 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
   private addEventListeners(): void {
     const dropdownMenuElement = this.elementRef.nativeElement;
 
-    Observable
-      .fromEvent(dropdownMenuElement, 'click')
-      .takeUntil(this.ngUnsubscribe)
+    observableFromEvent(dropdownMenuElement, 'click')
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe((event: MouseEvent) => {
         this.selectItemByEventTarget(event.target);
       });
 
-    Observable
-      .fromEvent(dropdownMenuElement, 'keydown')
-      .takeUntil(this.ngUnsubscribe)
+    observableFromEvent(dropdownMenuElement, 'keydown')
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe((event: KeyboardEvent) => {
         const key = event.key.toLowerCase();
 
@@ -368,16 +379,18 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
         }
       });
 
-    Observable
-      .fromEvent(dropdownMenuElement, 'mouseenter')
-      .takeUntil(this.ngUnsubscribe)
+    observableFromEvent(dropdownMenuElement, 'mouseenter')
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe(() => {
         this.dropdownComponent.isMouseEnter = true;
       });
 
-    Observable
-      .fromEvent(dropdownMenuElement, 'mouseleave')
-      .takeUntil(this.ngUnsubscribe)
+    observableFromEvent(dropdownMenuElement, 'mouseleave')
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe(() => {
         this.dropdownComponent.isMouseEnter = false;
         // Allow the dropdown component to set isMouseEnter before checking if the close action

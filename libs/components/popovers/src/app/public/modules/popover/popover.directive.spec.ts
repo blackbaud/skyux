@@ -12,12 +12,13 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
+  SkyAffixPlacementChange,
   SkyAffixService
 } from '@skyux/core';
 
 import {
   Subject
-} from 'rxjs/Subject';
+} from 'rxjs';
 
 import {
   PopoverFixtureComponent
@@ -30,10 +31,6 @@ import {
 import {
   SkyPopoverMessageType
 } from './types/popover-message-type';
-
-import {
-  SkyPopoverAdapterService
-} from './popover-adapter.service';
 
 describe('Popover directive', () => {
 
@@ -90,7 +87,6 @@ describe('Popover directive', () => {
 
     const popoverRef = fixture.componentInstance.popoverRef;
     expect(popoverRef.alignment).toEqual('center');
-    expect(popoverRef.allowFullscreen).toEqual(true);
     expect(popoverRef.dismissOnBlur).toEqual(true);
     expect(popoverRef.placement).toEqual('above');
     expect(popoverRef.popoverTitle).toBeUndefined();
@@ -213,22 +209,12 @@ describe('Popover directive', () => {
     button.click();
     detectChangesFakeAsync();
 
-    let popover = getPopoverElement().querySelector('.sky-popover');
-
-    // Should NOT have a scrollbar.
-    expect(popover.scrollHeight > popover.clientHeight).toEqual(false);
-
-    fixture.componentInstance.sendMessage(SkyPopoverMessageType.Close);
-    detectChangesFakeAsync();
-
-    fixture.componentInstance.allowFullscreen = false; // <-- this is important
-    detectChangesFakeAsync();
     fixture.componentInstance.sendMessage(SkyPopoverMessageType.Open);
     detectChangesFakeAsync();
     fixture.componentInstance.setHeight(4000);
     detectChangesFakeAsync();
 
-    popover = getPopoverElement().querySelector('.sky-popover');
+    const popover = getPopoverElement().querySelector('.sky-popover');
 
     // Should now have a scrollbar.
     expect(popover.scrollHeight > popover.clientHeight).toEqual(true);
@@ -734,7 +720,7 @@ describe('Popover directive', () => {
     it('should allow repositioning the popover', fakeAsync(inject(
       [SkyAffixService], (affixService: SkyAffixService) => {
 
-        const mockAffixer = {
+        const mockAffixer: any = {
           offsetChange: new Subject(),
           overflowScroll: new Subject(),
           placementChange: new Subject(),
@@ -780,25 +766,10 @@ describe('Popover directive', () => {
         detectChangesFakeAsync();
 
         // The original, preferred placement should be re-applied.
-        expect(affixSpy.calls.argsFor(0)[1].placement).toEqual('below');
+        expect((affixSpy.calls.argsFor(0)[1] as SkyAffixPlacementChange).placement).toEqual('below');
         expect(popover).toHaveCssClass('sky-popover-placement-below');
       }
     )));
-  });
-
-  describe('fullscreen mode', function () {
-    it('should display popovers as fullscreen', fakeAsync(() => {
-      fixture.componentInstance.placement = 'fullscreen';
-      detectChangesFakeAsync();
-
-      const button = getCallerElement();
-      button.click();
-      detectChangesFakeAsync();
-
-      const popover = getPopoverElement();
-
-      expect(popover).toHaveCssClass('sky-popover-placement-fullscreen');
-    }));
   });
 
   describe('affixer events', function () {
@@ -863,35 +834,6 @@ describe('Popover directive', () => {
 
       expect(popover).toHaveCssClass('sky-popover-hidden');
     }));
-
-    it('should display popovers as fullscreen if the popover is larger than its parent',
-      fakeAsync(inject(
-        [SkyPopoverAdapterService],
-        (adapterService: SkyPopoverAdapterService) => {
-          spyOn(adapterService, 'isPopoverLargerThanParent').and.returnValue(true);
-
-          fixture.componentInstance.placement = 'below';
-          detectChangesFakeAsync();
-
-          const button = getCallerElement();
-          button.click();
-          detectChangesFakeAsync();
-
-          const popover = getPopoverElement();
-
-          // Trigger a null placement change.
-          /*tslint:disable:no-null-keyword*/
-          mockAffixer.placementChange.next({
-            placement: null
-          });
-          /*tslint:enable:no-null-keyword*/
-
-          detectChangesFakeAsync();
-
-          expect(popover).toHaveCssClass('sky-popover-placement-fullscreen');
-        }
-      ))
-    );
 
     it('should update popover arrow on scroll', fakeAsync(() => {
       detectChangesFakeAsync();

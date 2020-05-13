@@ -21,16 +21,14 @@ import {
 } from '@skyux/core';
 
 import {
-  Observable
-} from 'rxjs/Observable';
+  fromEvent as observableFromEvent,
+  Observable,
+  Subject
+} from 'rxjs';
 
 import {
-  Subject
-} from 'rxjs/Subject';
-
-import 'rxjs/add/observable/fromEvent';
-
-import 'rxjs/add/operator/takeUntil';
+  takeUntil
+} from 'rxjs/operators';
 
 import {
   SkyPopoverAlignment
@@ -90,12 +88,6 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
 
   public affixer: SkyAffixer;
 
-  /**
-   * @deprecated Fullscreen popovers are not an approved SKY UX design pattern. Use the SKY UX
-   * modal component instead.
-   */
-  public allowFullscreen: boolean = false;
-
   public arrowLeft: number;
 
   public arrowTop: number;
@@ -112,13 +104,22 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
 
   public popoverTitle: string;
 
-  @ViewChild('arrowRef', { read: ElementRef })
+  @ViewChild('arrowRef', {
+    read: ElementRef,
+    static: true
+  })
   private arrowRef: ElementRef;
 
-  @ViewChild('popoverRef', { read: ElementRef })
+  @ViewChild('popoverRef', {
+    read: ElementRef,
+    static: true
+  })
   private popoverRef: ElementRef;
 
-  @ViewChild('contentTarget', { read: ViewContainerRef })
+  @ViewChild('contentTarget', {
+    read: ViewContainerRef,
+    static: true
+  })
   private contentTarget: ViewContainerRef;
 
   private caller: ElementRef;
@@ -153,6 +154,7 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     this._isMouseEnter.complete();
     this._opened.complete();
 
+    /* istanbul ignore else */
     if (this.affixer) {
       this.affixer.destroy();
     }
@@ -181,7 +183,6 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
   public open(
     caller: ElementRef,
     config: {
-      allowFullscreen: boolean;
       dismissOnBlur: boolean;
       enableAnimations: boolean;
       horizontalAlignment: SkyPopoverAlignment;
@@ -190,7 +191,6 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
       popoverTitle: string;
     }
   ): void {
-    this.allowFullscreen = config.allowFullscreen;
     this.caller = caller;
     this.dismissOnBlur = config.dismissOnBlur;
     this.enableAnimations = config.enableAnimations;
@@ -207,17 +207,6 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     if (config.isStatic) {
       this.isOpen = true;
       this.changeDetector.markForCheck();
-      return;
-    }
-
-    if (this.placement === 'fullscreen' && this.allowFullscreen) {
-      this.isOpen = true;
-      this.changeDetector.markForCheck();
-
-      // Let the styles render and then bring focus to the fullscreen popover.
-      setTimeout(() => {
-        this.popoverRef.nativeElement.querySelector('.sky-popover').focus();
-      });
       return;
     }
 
@@ -262,32 +251,29 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     const affixer = this.affixService.createAffixer(this.popoverRef);
 
     affixer.offsetChange
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe(() => {
         this.updateArrowOffset();
         this.changeDetector.markForCheck();
       });
 
     affixer.overflowScroll
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe(() => {
         this.updateArrowOffset();
         this.changeDetector.markForCheck();
       });
 
     affixer.placementChange
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe((change) => {
-        if (
-          change.placement === null &&
-          this.allowFullscreen &&
-          this.adapterService.isPopoverLargerThanParent(this.popoverRef)
-        ) {
-          this.activateFullscreen();
-        } else {
-          this.placement = change.placement;
-        }
-
+        this.placement = change.placement;
         this.changeDetector.markForCheck();
       });
 
@@ -306,31 +292,27 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
 
     this.arrowTop = top;
     this.arrowLeft = left;
-  }
-
-  /**
-   * @deprecated The fullscreen feature will be removed in the next major version release.
-   */
-  private activateFullscreen(): void {
-    this.placement = 'fullscreen';
-  }
+    }
 
   private addEventListeners(): void {
     const hostElement = this.elementRef.nativeElement;
 
-    Observable
-      .fromEvent(hostElement, 'mouseenter')
-      .takeUntil(this.ngUnsubscribe)
+    observableFromEvent(hostElement, 'mouseenter')
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe(() => this._isMouseEnter.next(true));
 
-    Observable
-      .fromEvent(hostElement, 'mouseleave')
-      .takeUntil(this.ngUnsubscribe)
+    observableFromEvent(hostElement, 'mouseleave')
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe(() => this._isMouseEnter.next(false));
 
-    Observable
-      .fromEvent(hostElement, 'keydown')
-      .takeUntil(this.ngUnsubscribe)
+    observableFromEvent(hostElement, 'keydown')
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe((event: KeyboardEvent) => {
         const key = event.key.toLowerCase();
 

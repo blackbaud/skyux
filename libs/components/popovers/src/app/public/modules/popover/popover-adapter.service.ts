@@ -1,32 +1,24 @@
 import {
-  ElementRef,
   Injectable
 } from '@angular/core';
 
 import {
-  SkyPopoverAdapterArrowCoordinates,
-  SkyPopoverAdapterElements,
+  SkyPopoverAdapterArrowCoordinates
+} from './types/popover-adapter-arrow-coordinates';
+
+import {
+  SkyPopoverAdapterElements
+} from './types/popover-adapter-elements';
+
+import {
   SkyPopoverPlacement
-} from './types';
+} from './types/popover-placement';
 
 /**
  * @internal
  */
 @Injectable()
 export class SkyPopoverAdapterService {
-
-  /**
-   * Used by the popover component to determine if fullscreen mode should be used.
-   * @deprecated This method will be removed in the next major version.
-   */
-  public isPopoverLargerThanParent(popover: ElementRef): boolean {
-    const popoverRect = popover.nativeElement.getBoundingClientRect();
-
-    return (
-      popoverRect.height >= window.innerHeight ||
-      popoverRect.width >= window.innerWidth
-    );
-  }
 
   public getArrowCoordinates(
     elements: SkyPopoverAdapterElements,

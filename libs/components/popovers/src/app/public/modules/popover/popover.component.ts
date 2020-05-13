@@ -16,11 +16,11 @@ import {
 
 import {
   Subject
-} from 'rxjs/Subject';
+} from 'rxjs';
 
-import 'rxjs/add/observable/fromEvent';
-
-import 'rxjs/add/operator/takeUntil';
+import {
+  takeUntil
+} from 'rxjs/operators';
 
 import {
   SkyPopoverAlignment
@@ -56,22 +56,6 @@ export class SkyPopoverComponent implements OnDestroy {
 
   public get alignment(): SkyPopoverAlignment {
     return this._alignment || 'center';
-  }
-
-  /**
-   * Indicates if the popover element should render as a full screen modal
-   * when the content is too large to fit inside its parent.
-   * @internal
-   * @deprecated Fullscreen popovers are not an approved SKY UX design pattern. Use the SKY UX
-   * modal component instead.
-   */
-  @Input()
-  public set allowFullscreen(value: boolean) {
-    this._allowFullscreen = value;
-  }
-
-  public get allowFullscreen(): boolean {
-    return this._allowFullscreen === undefined ? true : this._allowFullscreen;
   }
 
   /**
@@ -139,7 +123,10 @@ export class SkyPopoverComponent implements OnDestroy {
 
   public isMouseEnter: boolean = false;
 
-  @ViewChild('templateRef', { read: TemplateRef })
+  @ViewChild('templateRef', {
+    read: TemplateRef,
+    static: true
+  })
   private templateRef: TemplateRef<any>;
 
   private contentRef: SkyPopoverContentComponent;
@@ -151,8 +138,6 @@ export class SkyPopoverComponent implements OnDestroy {
   private overlay: SkyOverlayInstance;
 
   private _alignment: SkyPopoverAlignment;
-
-  private _allowFullscreen: boolean;
 
   private _dismissOnBlur: boolean;
 
@@ -196,7 +181,6 @@ export class SkyPopoverComponent implements OnDestroy {
     this.contentRef.open(
       caller,
       {
-        allowFullscreen: this.allowFullscreen,
         dismissOnBlur: this.dismissOnBlur,
         enableAnimations: this.enableAnimations,
         horizontalAlignment: this.alignment,
@@ -238,7 +222,9 @@ export class SkyPopoverComponent implements OnDestroy {
     });
 
     overlay.backdropClick
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe(() => {
         if (this.dismissOnBlur) {
           this.close();
@@ -253,13 +239,17 @@ export class SkyPopoverComponent implements OnDestroy {
     }]);
 
     contentRef.opened
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe(() => {
         this.popoverOpened.emit(this);
       });
 
     contentRef.closed
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe(() => {
         this.overlayService.close(this.overlay);
         this.overlay = undefined;
@@ -268,7 +258,9 @@ export class SkyPopoverComponent implements OnDestroy {
       });
 
     contentRef.isMouseEnter
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe((isMouseEnter) => {
         this.isMouseEnter = isMouseEnter;
         if (this.isMarkedForCloseOnMouseLeave) {

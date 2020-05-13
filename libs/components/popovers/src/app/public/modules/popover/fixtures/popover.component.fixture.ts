@@ -8,7 +8,7 @@ import {
 
 import {
   Subject
-} from 'rxjs/Subject';
+} from 'rxjs';
 
 import {
   SkyPopoverAlignment
@@ -49,8 +49,6 @@ export class PopoverFixtureComponent implements OnInit, AfterViewInit {
 
   public alignment: SkyPopoverAlignment;
 
-  public allowFullscreen: boolean;
-
   public dismissOnBlur: boolean;
 
   public messageStream = new Subject<SkyPopoverMessage>();
@@ -80,7 +78,8 @@ export class PopoverFixtureComponent implements OnInit, AfterViewInit {
   public directiveRef: SkyPopoverDirective;
 
   @ViewChild('popoverRef', {
-    read: SkyPopoverComponent
+    read: SkyPopoverComponent,
+    static: true
   })
   public popoverRef: SkyPopoverComponent;
 

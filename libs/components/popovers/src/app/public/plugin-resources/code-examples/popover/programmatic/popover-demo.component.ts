@@ -9,7 +9,7 @@ import {
 
 import {
   Subject
-} from 'rxjs/Subject';
+} from 'rxjs';
 
 @Component({
   selector: 'app-popover-demo',
