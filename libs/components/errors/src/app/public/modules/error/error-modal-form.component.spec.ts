@@ -9,9 +9,6 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  SkyWindowRefService
-} from '@skyux/core';
-import {
   SkyModalHostService
 } from '@skyux/modals';
 import {
@@ -39,13 +36,6 @@ import {
 } from './error-modal-form.component';
 
 describe('Error modal form component', () => {
-  const mockWindowService = {
-    getWindow(): any {
-      return {
-        setTimeout: (cb: Function) => cb()
-      };
-    }
-  };
 
   const config: ErrorModalConfig = {
     errorTitle: 'Some error title',
@@ -68,8 +58,7 @@ describe('Error modal form component', () => {
         { provide: ErrorModalConfig, useValue: config },
         { provide: SkyModalInstance, useValue: modalInstance },
         { provide: SkyModalHostService, useValue: mockHost },
-        { provide: SkyModalConfiguration, useValue: {} },
-        { provide: SkyWindowRefService, useValue: mockWindowService }
+        { provide: SkyModalConfiguration, useValue: {} }
       ]
     });
 

@@ -12,7 +12,7 @@ import {
 
 import {
   SkyErrorsResourcesModule
-} from '../shared';
+} from '../shared/errors-resources.module';
 
 import {
   SkyErrorComponent

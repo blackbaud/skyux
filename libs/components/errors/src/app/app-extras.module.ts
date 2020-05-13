@@ -12,7 +12,7 @@ import {
 
 import {
   SkyErrorModule
-} from './public';
+} from './public/public_api';
 
 @NgModule({
   exports: [

@@ -4,7 +4,7 @@ import {
 
 import {
   SkyErrorModalService
-} from '../../public/modules/error/error-modal.service';
+} from '../../public/public_api';
 
 @Component({
   selector: 'error-visual',
@@ -12,7 +12,10 @@ import {
   styleUrls: ['./error-visual.component.scss']
 })
 export class ErrorVisualComponent {
-  constructor(private modal: SkyErrorModalService) { }
+
+  constructor(
+    private modal: SkyErrorModalService
+  ) { }
 
   public openModal() {
     const config: any = {
