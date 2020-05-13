@@ -17,7 +17,9 @@ import {
 })
 export class CountryFieldNoFormTestComponent {
 
-  @ViewChild(SkyCountryFieldComponent)
+  @ViewChild(SkyCountryFieldComponent, {
+    static: true
+  })
   public countryFieldComponent: SkyCountryFieldComponent;
 
   public defaultCountry: string;

@@ -14,7 +14,9 @@ import {
 })
 export class SkyLookupTemplateTestComponent implements OnInit {
 
-  @ViewChild(SkyLookupComponent)
+  @ViewChild(SkyLookupComponent, {
+    static: true
+  })
   public lookupComponent: SkyLookupComponent;
 
   public ariaLabel: string;

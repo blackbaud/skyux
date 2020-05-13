@@ -10,7 +10,7 @@ import {
 
 import {
   SkyAutocompleteSelectionChange
-} from '../../public';
+} from '../../public/public_api';
 
 @Component({
   selector: 'autocomplete-visual',

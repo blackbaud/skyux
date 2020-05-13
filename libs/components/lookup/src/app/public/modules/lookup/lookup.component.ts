@@ -1,5 +1,5 @@
 import {
-  AfterContentInit,
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -16,14 +16,22 @@ import {
   NgControl
 } from '@angular/forms';
 
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/fromEvent';
-import { Subject } from 'rxjs/Subject';
+import {
+  fromEvent as observableFromEvent,
+  Subject
+} from 'rxjs';
 
 import {
-  SkyAutocompleteSelectionChange,
+  takeUntil
+} from 'rxjs/operators';
+
+import {
+  SkyAutocompleteSelectionChange
+} from '../autocomplete/types/autocomplete-selection-change';
+
+import {
   SkyAutocompleteInputDirective
-} from '../autocomplete';
+} from '../autocomplete/autocomplete-input.directive';
 
 import {
   SkyToken,
@@ -45,7 +53,7 @@ import { SkyLookupAutocompleteAdapter } from './lookup-autocomplete-adapter';
 })
 export class SkyLookupComponent
   extends SkyLookupAutocompleteAdapter
-  implements AfterContentInit, OnDestroy, ControlValueAccessor {
+  implements AfterViewInit, OnDestroy, ControlValueAccessor {
 
   @Input()
   public ariaLabel: string;
@@ -80,10 +88,16 @@ export class SkyLookupComponent
   public isInputFocused = false;
   public tokensController = new Subject<SkyTokensMessage>();
 
-  @ViewChild(SkyAutocompleteInputDirective)
+  @ViewChild(SkyAutocompleteInputDirective, {
+    read: SkyAutocompleteInputDirective,
+    static: false
+  })
   private autocompleteInputDirective: SkyAutocompleteInputDirective;
 
-  @ViewChild('lookupInput')
+  @ViewChild('lookupInput', {
+    read: ElementRef,
+    static: false
+  })
   private lookupInput: ElementRef;
 
   private ngUnsubscribe = new Subject();
@@ -102,7 +116,7 @@ export class SkyLookupComponent
     ngControl.valueAccessor = this;
   }
 
-  public ngAfterContentInit() {
+  public ngAfterViewInit() {
     if (!this.disabled) {
       this.addEventListeners();
     }
@@ -235,9 +249,8 @@ export class SkyLookupComponent
     // (Otherwise, a single character being escaped would register as empty on keyup.)
     // If empty on keydown, set a flag so that the appropriate action can be taken on keyup.
 
-    Observable
-      .fromEvent(inputElement, 'keydown')
-      .takeUntil(this.idle)
+    observableFromEvent(inputElement, 'keydown')
+      .pipe(takeUntil(this.idle))
       .subscribe((event: KeyboardEvent) => {
         const key = event.key.toLowerCase();
         if (
@@ -254,9 +267,8 @@ export class SkyLookupComponent
         }
       });
 
-    Observable
-      .fromEvent(inputElement, 'keyup')
-      .takeUntil(this.idle)
+    observableFromEvent(inputElement, 'keyup')
+      .pipe(takeUntil(this.idle))
       .subscribe((event: KeyboardEvent) => {
         const key = event.key.toLowerCase();
         if (
@@ -283,25 +295,22 @@ export class SkyLookupComponent
     // The input should NOT be focused if other elements (tokens, etc.)
     // are currently focused or being tabbed through.
 
-    Observable
-      .fromEvent(documentObj, 'mousedown')
-      .takeUntil(this.idle)
+    observableFromEvent(documentObj, 'mousedown')
+      .pipe(takeUntil(this.idle))
       .subscribe((event: MouseEvent) => {
         this.isInputFocused = hostElement.contains(event.target);
         this.changeDetector.markForCheck();
       });
 
-    Observable
-      .fromEvent(documentObj, 'focusin')
-      .takeUntil(this.idle)
+    observableFromEvent(documentObj, 'focusin')
+      .pipe(takeUntil(this.idle))
       .subscribe((event: KeyboardEvent) => {
         this.isInputFocused = hostElement.contains(event.target);
         this.changeDetector.markForCheck();
       });
 
-    Observable
-      .fromEvent(hostElement, 'mouseup')
-      .takeUntil(this.idle)
+    observableFromEvent(hostElement, 'mouseup')
+      .pipe(takeUntil(this.idle))
       .subscribe(() => {
         const classList = documentObj.activeElement.classList;
         if (!classList || !classList.contains('sky-token')) {

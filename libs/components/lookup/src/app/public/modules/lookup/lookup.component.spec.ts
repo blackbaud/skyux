@@ -348,6 +348,9 @@ describe('Lookup component', function () {
       }));
 
       it('should clear the search text if escape key is pressed', fakeAsync(function () {
+        fixture.detectChanges();
+        tick();
+
         const inputElement = getInputElement(lookupComponent);
 
         fixture.detectChanges();
@@ -450,6 +453,14 @@ describe('Lookup component', function () {
     });
 
     describe('a11y', function () {
+      const axeConfig = {
+        rules: {
+          'region': {
+            enabled: false
+          }
+        }
+      };
+
       it('should be accessible', async(() => {
         fixture.componentInstance.ariaLabelledBy = 'my-lookup-label';
 
@@ -467,9 +478,9 @@ describe('Lookup component', function () {
 
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              expect(document.body).toBeAccessible(() => {});
+              expect(document.body).toBeAccessible(() => {}, axeConfig);
             });
-          });
+          }, axeConfig);
         });
       }));
     });
@@ -705,6 +716,9 @@ describe('Lookup component', function () {
       }));
 
       it('should clear the search text if escape key is pressed', fakeAsync(function () {
+        fixture.detectChanges();
+        tick();
+
         const inputElement = getInputElement(lookupComponent);
 
         fixture.detectChanges();

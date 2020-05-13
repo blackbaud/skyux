@@ -22,17 +22,27 @@ import {
   SkyOverlayService
 } from '@skyux/core';
 
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/fromEvent';
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/takeUntil';
+import {
+  fromEvent as observableFromEvent,
+  Subject
+} from 'rxjs';
 
 import {
-  SkyAutocompleteSearchFunction,
-  SkyAutocompleteSearchFunctionFilter,
+  debounceTime,
+  takeUntil
+} from 'rxjs/operators';
+
+import {
+  SkyAutocompleteSearchFunction
+} from './types/autocomplete-search-function';
+
+import {
+  SkyAutocompleteSearchFunctionFilter
+} from './types/autocomplete-search-function-filter';
+
+import {
   SkyAutocompleteSelectionChange
-} from './types';
+} from './types/autocomplete-selection-change';
 
 import { SkyAutocompleteAdapterService } from './autocomplete-adapter.service';
 import { SkyAutocompleteInputDirective } from './autocomplete-input.directive';
@@ -161,7 +171,10 @@ export class SkyAutocompleteComponent
 
   //#endregion
 
-  @ViewChild('defaultSearchResultTemplate')
+  @ViewChild('defaultSearchResultTemplate', {
+    read: TemplateRef,
+    static: false
+  })
   private defaultSearchResultTemplate: TemplateRef<any>;
 
   @ContentChild(SkyAutocompleteInputDirective)
@@ -233,14 +246,18 @@ export class SkyAutocompleteComponent
     this.inputDirective.displayWith = this.descriptorProperty;
 
     this.inputDirective.textChanges
-      .takeUntil(this.ngUnsubscribe)
-      .debounceTime(this.debounceTime)
+      .pipe(
+        takeUntil(this.ngUnsubscribe),
+        debounceTime(this.debounceTime)
+      )
       .subscribe((change) => {
         this.searchTextChanged(change.value);
       });
 
     this.inputDirective.blur
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe(() => {
         this.searchText = '';
         this.closeDropdown();
@@ -382,8 +399,8 @@ export class SkyAutocompleteComponent
   private addInputEventListeners(): void {
     const element = this.elementRef.nativeElement;
 
-    Observable.fromEvent(element, 'keydown')
-      .takeUntil(this.ngUnsubscribe)
+    observableFromEvent(element, 'keydown')
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((event: KeyboardEvent) => {
         const key = event.key.toLowerCase();
 
@@ -431,8 +448,8 @@ export class SkyAutocompleteComponent
         }
       });
 
-    Observable.fromEvent(window, 'resize')
-      .takeUntil(this.ngUnsubscribe)
+    observableFromEvent(window, 'resize')
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         /* istanbul ignore else */
         if (this.isOpen) {

@@ -24,7 +24,9 @@ import {
 })
 export class CountryFieldReactiveTestComponent implements OnInit {
 
-  @ViewChild(SkyCountryFieldComponent)
+  @ViewChild(SkyCountryFieldComponent, {
+    static: true
+  })
   public countryFieldComponent: SkyCountryFieldComponent;
 
   public countryForm: FormGroup;

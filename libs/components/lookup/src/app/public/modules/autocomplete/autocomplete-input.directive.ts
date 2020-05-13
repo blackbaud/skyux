@@ -16,21 +16,19 @@ import {
   Validator
 } from '@angular/forms';
 
-import 'rxjs/add/observable/fromEvent';
-
-import 'rxjs/add/operator/takeUntil';
-
 import {
-  Observable
-} from 'rxjs/Observable';
-
-import {
+  fromEvent as observableFromEvent,
+  Observable,
   Subject
-} from 'rxjs/Subject';
+} from 'rxjs';
+
+import {
+  takeUntil
+} from 'rxjs/operators';
 
 import {
   SkyAutocompleteInputTextChange
-} from './types';
+} from './types/autocomplete-input-text-change';
 
 // tslint:disable:no-forward-ref no-use-before-declare
 const SKY_AUTOCOMPLETE_VALUE_ACCESSOR = {
@@ -129,26 +127,23 @@ export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, Control
 
     this.setAttributes(element);
 
-    Observable
-      .fromEvent(element, 'keyup')
-      .takeUntil(this.ngUnsubscribe)
+    observableFromEvent(element, 'keyup')
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         this._textChanges.next({
           value: this.elementRef.nativeElement.value
         });
       });
 
-    Observable
-      .fromEvent(element, 'blur')
-      .takeUntil(this.ngUnsubscribe)
+    observableFromEvent(element, 'blur')
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         this.restoreInputTextValueToPreviousState();
         this.onTouched();
       });
 
-      Observable
-        .fromEvent(element, 'change')
-        .takeUntil(this.ngUnsubscribe)
+      observableFromEvent(element, 'change')
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(() => {
           this.isFirstChange = false;
         });

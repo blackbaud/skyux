@@ -6,7 +6,7 @@ import {
   SkyAppWindowRef
 } from '@skyux/core';
 
-import { SkyAutocompleteModule } from '../autocomplete';
+import { SkyAutocompleteModule } from '../autocomplete/autocomplete.module';
 import { SkyTokensModule } from '@skyux/indicators';
 
 import { SkyLookupComponent } from './lookup.component';

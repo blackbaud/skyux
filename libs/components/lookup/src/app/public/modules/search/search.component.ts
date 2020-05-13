@@ -1,4 +1,13 @@
 import {
+  style,
+  state,
+  trigger,
+  transition,
+  animate,
+  AnimationEvent
+} from '@angular/animations';
+
+import {
   Component,
   OnInit,
   OnDestroy,
@@ -12,28 +21,23 @@ import {
 } from '@angular/core';
 
 import {
-  SkySearchAdapterService
-} from './search-adapter.service';
-
-import {
   SkyMediaBreakpoints,
   SkyMediaQueryService
 } from '@skyux/core';
 
-import { Subscription } from 'rxjs/Subscription';
-
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
+import {
+  Subject,
+  Subscription
+} from 'rxjs';
 
 import {
-  style,
-  state,
-  trigger,
-  transition,
-  animate,
-  AnimationEvent
-} from '@angular/animations';
+  debounceTime,
+  distinctUntilChanged
+} from 'rxjs/operators';
+
+import {
+  SkySearchAdapterService
+} from './search-adapter.service';
 
 const INPUT_SHOWN_STATE: string = 'inputShown';
 const INPUT_HIDDEN_STATE: string = 'inputHidden';
@@ -122,8 +126,11 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     }
 
     this.searchUpdated.asObservable()
-      .debounceTime(this.debounceTime)
-      .distinctUntilChanged().subscribe(value => {
+      .pipe(
+        debounceTime(this.debounceTime),
+        distinctUntilChanged()
+      )
+      .subscribe(value => {
         this.searchChange.emit(value);
       });
   }

@@ -9,12 +9,24 @@ import {
 } from '@angular/forms';
 
 import {
-  SkyAutocompleteComponent,
-  SkyAutocompleteInputDirective,
-  SkyAutocompleteSearchFunction,
-  SkyAutocompleteSearchFunctionFilter,
+  SkyAutocompleteSearchFunction
+} from '../types/autocomplete-search-function';
+
+import {
+  SkyAutocompleteSearchFunctionFilter
+} from '../types/autocomplete-search-function-filter';
+
+import {
   SkyAutocompleteSelectionChange
-} from '../index';
+} from '../types/autocomplete-selection-change';
+
+import {
+  SkyAutocompleteComponent
+} from '../autocomplete.component';
+
+import {
+  SkyAutocompleteInputDirective
+} from '../autocomplete-input.directive';
 
 @Component({
   selector: 'sky-autocomplete-fixture',
@@ -49,16 +61,28 @@ export class SkyAutocompleteFixtureComponent {
   public searchTextMinimumCharacters: number;
   public selectionFromChangeEvent: SkyAutocompleteSelectionChange;
 
-  @ViewChild(SkyAutocompleteComponent)
+  @ViewChild(SkyAutocompleteComponent, {
+    read: SkyAutocompleteComponent,
+    static: true
+  })
   public autocomplete: SkyAutocompleteComponent;
 
-  @ViewChild(SkyAutocompleteInputDirective)
+  @ViewChild(SkyAutocompleteInputDirective, {
+    read: SkyAutocompleteInputDirective,
+    static: true
+  })
   public autocompleteInput: SkyAutocompleteInputDirective;
 
-  @ViewChild('myForm')
+  @ViewChild('myForm', {
+    read: NgForm,
+    static: true
+  })
   public myForm: NgForm;
 
-  @ViewChild('customSearchResultTemplate')
+  @ViewChild('customSearchResultTemplate', {
+    read: TemplateRef,
+    static: true
+  })
   public customSearchResultTemplate: TemplateRef<any>;
 
   public onSelectionChange(event: SkyAutocompleteSelectionChange): void {

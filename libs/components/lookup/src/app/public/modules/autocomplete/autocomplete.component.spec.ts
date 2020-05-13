@@ -33,7 +33,7 @@ import {
 
 import {
   SkyAutocompleteSearchFunction
-} from './types';
+} from './types/autocomplete-search-function';
 
 describe('Autocomplete component', () => {
 
@@ -503,6 +503,14 @@ describe('Autocomplete component', () => {
     );
 
     it('should be accessible', async(() => {
+      const axeConfig = {
+        rules: {
+          'region': {
+            enabled: false
+          }
+        }
+      };
+
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         expect(document.body).toBeAccessible(() => {
@@ -511,9 +519,9 @@ describe('Autocomplete component', () => {
           SkyAppTestUtility.fireDomEvent(inputElement, 'keyup');
           fixture.detectChanges();
           fixture.whenStable().then(() => {
-            expect(document.body).toBeAccessible(() => {});
+            expect(document.body).toBeAccessible(() => {}, axeConfig);
           });
-        });
+        }, axeConfig);
       });
     }));
 

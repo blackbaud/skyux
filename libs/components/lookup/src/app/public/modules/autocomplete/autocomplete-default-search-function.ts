@@ -1,9 +1,18 @@
 import {
-  SkyAutocompleteSearchFunction,
-  SkyAutocompleteSearchFunctionFilter,
-  SkyAutocompleteSearchFunctionResponse,
+  SkyAutocompleteSearchFunction
+} from './types/autocomplete-search-function';
+
+import {
+  SkyAutocompleteSearchFunctionFilter
+} from './types/autocomplete-search-function-filter';
+
+import {
+  SkyAutocompleteSearchFunctionResponse
+} from './types/autocomplete-search-function-response';
+
+import {
   SkyAutocompleteDefaultSearchFunctionOptions
-} from './types';
+} from './types/autocomplete-default-search-function-options';
 
 export function skyAutocompleteDefaultSearchFunction(
   options: SkyAutocompleteDefaultSearchFunctionOptions

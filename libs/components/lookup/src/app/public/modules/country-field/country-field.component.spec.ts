@@ -347,11 +347,19 @@ describe('Country Field Component', () => {
 
     describe('a11y', () => {
 
+      const axeConfig = {
+        rules: {
+          'region': {
+            enabled: false
+          }
+        }
+      };
+
       it('should be accessible (empty)', async(() => {
         fixture.detectChanges();
         fixture.whenStable().then(() => {
           fixture.detectChanges();
-          expect(document.body).toBeAccessible();
+          expect(document.body).toBeAccessible(() => {}, axeConfig);
         });
       }));
 
@@ -363,7 +371,7 @@ describe('Country Field Component', () => {
         fixture.detectChanges();
         fixture.whenStable().then(() => {
           fixture.detectChanges();
-          expect(document.body).toBeAccessible();
+          expect(document.body).toBeAccessible(() => {}, axeConfig);
         });
       }));
 
@@ -702,11 +710,19 @@ describe('Country Field Component', () => {
 
     describe('a11y', () => {
 
+      const axeConfig = {
+        rules: {
+          'region': {
+            enabled: false
+          }
+        }
+      };
+
       it('should be accessible (empty)', async(() => {
         fixture.detectChanges();
         fixture.whenStable().then(() => {
           fixture.detectChanges();
-          expect(document.body).toBeAccessible();
+          expect(document.body).toBeAccessible(() => {}, axeConfig);
         });
       }));
 
@@ -718,7 +734,7 @@ describe('Country Field Component', () => {
         fixture.detectChanges();
         fixture.whenStable().then(() => {
           fixture.detectChanges();
-          expect(document.body).toBeAccessible();
+          expect(document.body).toBeAccessible(() => {}, axeConfig);
         });
       }));
 
@@ -890,11 +906,19 @@ describe('Country Field Component', () => {
 
     describe('a11y', () => {
 
+      const axeConfig = {
+        rules: {
+          'region': {
+            enabled: false
+          }
+        }
+      };
+
       it('should be accessible (empty)', async(() => {
         fixture.detectChanges();
         fixture.whenStable().then(() => {
           fixture.detectChanges();
-          expect(document.body).toBeAccessible();
+          expect(document.body).toBeAccessible(() => {}, axeConfig);
         });
       }));
 
@@ -922,7 +946,7 @@ describe('Country Field Component', () => {
               fixture.detectChanges();
               fixture.whenStable().then(() => {
                 fixture.detectChanges();
-                expect(document.body).toBeAccessible();
+                expect(document.body).toBeAccessible(() => {}, axeConfig);
               });
             });
           });

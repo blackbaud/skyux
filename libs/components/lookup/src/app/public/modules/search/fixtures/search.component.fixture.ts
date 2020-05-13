@@ -12,7 +12,11 @@ import {
   templateUrl: './search.component.fixture.html'
 })
 export class SearchTestComponent {
-  @ViewChild(SkySearchComponent)
+
+  @ViewChild(SkySearchComponent, {
+    read: SkySearchComponent,
+    static: false
+  })
   public searchComponent: SkySearchComponent;
 
   public searchText: string;

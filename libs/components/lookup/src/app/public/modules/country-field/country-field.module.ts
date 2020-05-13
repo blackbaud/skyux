@@ -17,11 +17,11 @@ import {
 
 import {
   SkyAutocompleteModule
-} from '../autocomplete';
+} from '../autocomplete/autocomplete.module';
 
 import {
   SkyLookupResourcesModule
-} from '../shared';
+} from '../shared/lookup-resources.module';
 
 import {
   SkyCountryFieldComponent

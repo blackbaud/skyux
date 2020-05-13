@@ -16,7 +16,7 @@ import {
   SkyCountryFieldModule,
   SkyLookupModule,
   SkySearchModule
-} from './public';
+} from './public/public_api';
 
 @NgModule({
   imports: [

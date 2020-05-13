@@ -4,9 +4,12 @@ import {
 } from '@angular/core';
 
 import {
-  SkyAutocompleteSearchFunction,
+  SkyAutocompleteSearchFunction
+} from '../autocomplete/types/autocomplete-search-function';
+
+import {
   SkyAutocompleteSearchFunctionFilter
-} from '../autocomplete';
+} from '../autocomplete/types/autocomplete-search-function-filter';
 
 export class SkyLookupAutocompleteAdapter {
   @Input()

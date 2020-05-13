@@ -1,6 +1,39 @@
+# 4.0.0 (2020-05-13)
+
+### New features
+
+- Added a test fixture for the search component to use in consumer unit tests. [#86](https://github.com/blackbaud/skyux-lookup/pull/86)
+- Added support for `@angular/core@^9`. [#54](https://github.com/blackbaud/skyux-lookup/pull/54)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#54](https://github.com/blackbaud/skyux-lookup/pull/54)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#54](https://github.com/blackbaud/skyux-lookup/pull/54)
+
+# 4.0.0-rc.4 (2020-05-11)
+
+### Bug fixes
+
+- Removed the `@types/intl-tel-input` package dependency because it caused compiler errors. [#88](https://github.com/blackbaud/skyux-lookup/pull/88)
+- Fixed the country selector to properly display country flags. [#88](https://github.com/blackbaud/skyux-lookup/pull/88)
+
+# 4.0.0-rc.3 (2020-04-30)
+
+### New features
+
+- Added a test fixture for the search component to be used in consumer unit tests. [#86](https://github.com/blackbaud/skyux-lookup/pull/86)
+
+# 4.0.0-rc.2 (2020-04-23)
+
+- Added bug fixes and features from the `master` branch. [#85](https://github.com/blackbaud/skyux-lookup/pull/85)
+
 # 3.5.0 (2020-04-23)
 
 - Added the ability to set the country field component's form value via an `iso2` country code. [#82](https://github.com/blackbaud/skyux-lookup/pull/82)
+
+# 4.0.0-rc.1 (2020-04-16)
+
+- Added bug fixes and features from the `master` branch. [#79](https://github.com/blackbaud/skyux-lookup/pull/79)
 
 # 3.4.1 (2020-04-09)
 
@@ -34,6 +67,17 @@
 # 3.3.0 (2020-03-10)
 
 - Added the country field component. [#55](https://github.com/blackbaud/skyux-lookup/pull/55)
+
+# 4.0.0-rc.0 (2020-02-21)
+
+### New features
+
+- Added support for `@angular/core@^9`. [#54](https://github.com/blackbaud/skyux-lookup/pull/54)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#54](https://github.com/blackbaud/skyux-lookup/pull/54)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#54](https://github.com/blackbaud/skyux-lookup/pull/54)
 
 # 3.2.1 (2020-02-13)
 
