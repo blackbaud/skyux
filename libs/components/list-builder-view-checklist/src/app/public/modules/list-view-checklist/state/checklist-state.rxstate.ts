@@ -5,7 +5,7 @@ import {
 import {
   StateDispatcher,
   StateOrchestrator
-} from 'microedge-rxstate/dist';
+} from '@skyux/list-builder-common';
 
 import {
   ChecklistStateAction

@@ -4,7 +4,7 @@ import {
 
 import {
   StateNode
-} from 'microedge-rxstate/dist';
+} from '@skyux/list-builder-common';
 
 import {
   ChecklistStateModel

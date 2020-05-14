@@ -13,7 +13,7 @@ import {
 
 import {
   SkyListViewChecklistModule
-} from './public';
+} from './public/public_api';
 
 @NgModule({
   exports: [

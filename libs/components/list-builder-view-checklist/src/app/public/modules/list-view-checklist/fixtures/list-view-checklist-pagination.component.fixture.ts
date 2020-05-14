@@ -3,8 +3,9 @@ import {
 } from '@angular/core';
 
 import {
-  Observable
-} from 'rxjs/Observable';
+  Observable,
+  of as observableOf
+} from 'rxjs';
 
 @Component({
   selector: 'sky-test-cmp',
@@ -15,7 +16,7 @@ export class ListViewChecklistPaginationTestComponent {
   public selectMode: string = 'multiple';
   public showOnlySelected: boolean = false;
 
-  public items: Observable<Array<any>> = Observable.of([
+  public items: Observable<Array<any>> = observableOf([
     { id: '1', column1: 101, column2: 'Apple', column3: 'Anne eats apples'},
     { id: '2', column1: 202, column2: 'Banana', column3: 'Ben eats bananas' },
     { id: '3', column1: 303, column2: 'Pear', column3: 'Patty eats pears' },

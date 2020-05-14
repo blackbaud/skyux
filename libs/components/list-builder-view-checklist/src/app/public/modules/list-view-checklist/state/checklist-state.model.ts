@@ -1,6 +1,6 @@
 import {
   AsyncList
-} from 'microedge-rxstate/dist';
+} from '@skyux/list-builder-common';
 
 import {
   ListViewChecklistItemModel

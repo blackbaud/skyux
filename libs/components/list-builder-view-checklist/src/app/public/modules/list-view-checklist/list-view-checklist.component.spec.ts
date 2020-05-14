@@ -15,16 +15,18 @@ import {
 } from '@angular/platform-browser';
 
 import {
-  Observable
-} from 'rxjs/Observable';
-
-import {
-  BehaviorSubject
-} from 'rxjs/BehaviorSubject';
-
-import {
   ListItemModel
 } from '@skyux/list-builder-common';
+
+import {
+  BehaviorSubject,
+  Observable
+} from 'rxjs';
+
+import {
+  skip,
+  take
+} from 'rxjs/operators';
 
 import {
   ListItemsLoadAction,
@@ -56,17 +58,23 @@ import {
 
 import {
   ListViewChecklistItemsLoadAction
-} from './state/items/actions';
+} from './state/items/load.action';
 
 import {
   ListViewChecklistItemModel
 } from './state/items/item.model';
 
 import {
-  ChecklistState,
-  ChecklistStateDispatcher,
+  ChecklistState
+} from './state/checklist-state.state-node';
+
+import {
+  ChecklistStateDispatcher
+} from './state/checklist-state.rxstate';
+
+import {
   ChecklistStateModel
-} from './state';
+} from './state/checklist-state.model';
 
 import {
   ListViewChecklistPaginationTestComponent
@@ -252,7 +260,7 @@ describe('List View Checklist Component', () => {
 
       // always skip the first update to ListState, when state is ready
       // run detectChanges once more then begin tests
-      state.skip(1).take(1).subscribe(() => fixture.detectChanges());
+      state.pipe(skip(1), take(1)).subscribe(() => fixture.detectChanges());
       fixture.detectChanges();
     }));
 
@@ -330,7 +338,7 @@ describe('List View Checklist Component', () => {
 
       // always skip the first update to ListState, when state is ready
       // run detectChanges once more then begin tests
-      state.skip(1).take(1).subscribe(() => fixture.detectChanges());
+      state.pipe(skip(1), take(1)).subscribe(() => fixture.detectChanges());
       fixture.detectChanges();
     }));
 
@@ -385,19 +393,19 @@ describe('List View Checklist Component', () => {
 
       // always skip the first update to ListState, when state is ready
       // run detectChanges once more then begin tests
-      state.skip(1).take(1).subscribe(() => fixture.detectChanges());
+      state.pipe(skip(1), take(1)).subscribe(() => fixture.detectChanges());
       fixture.detectChanges();
     }));
 
     it('should go to page 1 when "only show selected" is checked', fakeAsync(() => {
       // Expect we start on page 1.
-      state.take(1).subscribe((data) => {
+      state.pipe(take(1)).subscribe((data) => {
         expect(data.paging.pageNumber).toEqual(1);
       });
 
       // Go to next page.
       goToNextPage(fixture);
-      state.take(1).subscribe((data) => {
+      state.pipe(take(1)).subscribe((data) => {
         expect(data.paging.pageNumber).toEqual(2);
       });
 
@@ -406,7 +414,7 @@ describe('List View Checklist Component', () => {
       toggleOnlyShowSelected(fixture);
 
       // Expect we are sent back to page 1.
-      state.take(1).subscribe((data) => {
+      state.pipe(take(1)).subscribe((data) => {
         expect(data.paging.pageNumber).toEqual(1);
       });
     }));
@@ -457,14 +465,14 @@ describe('List View Checklist Component', () => {
 
       // always skip the first update to ListState, when state is ready
       // run detectChanges once more then begin tests
-      state.skip(1).take(1).subscribe(() => fixture.detectChanges());
+      state.pipe(skip(1), take(1)).subscribe(() => fixture.detectChanges());
       fixture.detectChanges();
     }));
 
     describe('without pagination', () => {
       it('should NOT go to the first page when "showOnlySelected" is selected', fakeAsync(() => {
         // Expect pagination to be undefined.
-        state.take(1).subscribe((data) => {
+        state.pipe(take(1)).subscribe((data) => {
           expect(data.paging.pageNumber).toBeUndefined();
         });
 
@@ -473,7 +481,7 @@ describe('List View Checklist Component', () => {
         toggleOnlyShowSelected(fixture);
 
         // Expect pagination is still undefined.
-        state.take(1).subscribe((data) => {
+        state.pipe(take(1)).subscribe((data) => {
           expect(data.paging.pageNumber).toBeUndefined();
         });
       }));
@@ -660,7 +668,7 @@ describe('List View Checklist Component', () => {
       tick();
       fixture.detectChanges();
 
-      state.take(1).subscribe((current) => {
+      state.pipe(take(1)).subscribe((current) => {
         expect(current.toolbar.type).toBe('search');
       });
       tick();
@@ -765,7 +773,7 @@ describe('List View Checklist Component', () => {
 
       // always skip the first update to ListState, when state is ready
       // run detectChanges once more then begin tests
-      state.skip(1).take(1).subscribe(() => fixture.detectChanges());
+      state.pipe(skip(1), take(1)).subscribe(() => fixture.detectChanges());
       fixture.detectChanges();
     }));
 
@@ -857,7 +865,7 @@ describe('List View Checklist Component', () => {
 
       // always skip the first update to ListState, when state is ready
       // run detectChanges once more then begin tests
-      state.skip(1).take(1).subscribe(() => fixture.detectChanges());
+      state.pipe(skip(1), take(1)).subscribe(() => fixture.detectChanges());
       fixture.detectChanges();
     }));
 

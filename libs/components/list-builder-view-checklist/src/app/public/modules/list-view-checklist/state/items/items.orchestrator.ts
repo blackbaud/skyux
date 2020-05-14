@@ -4,7 +4,7 @@ import {
 
 import {
   AsyncList
-} from 'microedge-rxstate/dist';
+} from '@skyux/list-builder-common';
 
 import {
   ListViewChecklistItemModel
@@ -12,7 +12,7 @@ import {
 
 import {
   ListViewChecklistItemsLoadAction
-} from './actions';
+} from './load.action';
 
 export class ListViewChecklistItemsOrchestrator
   extends ChecklistStateOrchestrator<AsyncList<ListViewChecklistItemModel>> {
