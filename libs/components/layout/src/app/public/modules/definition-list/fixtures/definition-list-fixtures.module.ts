@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { SkyDefinitionListModule } from '../';
+import { SkyDefinitionListModule } from '../definition-list.module';
 import { SkyDefinitionListTestComponent } from './definition-list.component.fixture';
 
 @NgModule({

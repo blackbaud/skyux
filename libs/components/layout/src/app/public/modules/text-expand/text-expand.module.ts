@@ -11,7 +11,7 @@ import {
 
 import {
   SkyLayoutResourcesModule
-} from '../shared';
+} from '../shared/layout-resources.module';
 
 import { SkyTextExpandComponent } from './text-expand.component';
 import { SkyTextExpandModalComponent } from './text-expand-modal.component';

@@ -34,7 +34,10 @@ export class InlineDeleteTestComponent {
 
   public showCoveredButtons = true;
 
-  @ViewChild(SkyInlineDeleteComponent)
+  @ViewChild(SkyInlineDeleteComponent, {
+    read: SkyInlineDeleteComponent,
+    static: false
+  })
   public inlineDelete: SkyInlineDeleteComponent;
 
   public onCancelTriggered(): void {

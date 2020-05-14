@@ -4,7 +4,7 @@ import {
 
 import {
   SkyFluidGridGutterSize
-} from '../../public';
+} from '../../public/public_api';
 
 @Component({
   selector: 'fluid-grid-visual',

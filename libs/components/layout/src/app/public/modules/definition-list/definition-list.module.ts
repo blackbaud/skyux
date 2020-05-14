@@ -7,7 +7,7 @@ import {
 
 import {
   SkyLayoutResourcesModule
-} from '../shared';
+} from '../shared/layout-resources.module';
 
 import { SkyDefinitionListComponent } from './definition-list.component';
 import { SkyDefinitionListContentComponent } from './definition-list-content.component';

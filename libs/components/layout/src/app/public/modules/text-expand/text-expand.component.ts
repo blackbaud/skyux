@@ -15,12 +15,12 @@ import {
 } from '@skyux/modals';
 
 import {
-  Observable
+  forkJoin as observableForkJoin
 } from 'rxjs';
 
-import 'rxjs/add/observable/forkJoin';
-
-import 'rxjs/add/operator/take';
+import {
+  take
+} from 'rxjs/operators';
 
 import {
   SkyTextExpandAdapterService
@@ -86,10 +86,16 @@ export class SkyTextExpandComponent implements AfterContentInit {
 
   public isModal: boolean;
 
-  @ViewChild('container', { read: ElementRef })
+  @ViewChild('container', {
+    read: ElementRef,
+    static: true
+  })
   private containerEl: ElementRef;
 
-  @ViewChild('text', { read: ElementRef })
+  @ViewChild('text', {
+    read: ElementRef,
+    static: true
+  })
   private textEl: ElementRef;
 
   private collapsedText: string;
@@ -160,16 +166,22 @@ export class SkyTextExpandComponent implements AfterContentInit {
   }
 
   public ngAfterContentInit(): void {
-    Observable.forkJoin(this.resources.getString('skyux_text_expand_see_more'),
-      this.resources.getString('skyux_text_expand_see_less')).take(1).subscribe(resources => {
+    observableForkJoin([
+      this.resources.getString('skyux_text_expand_see_more'),
+      this.resources.getString('skyux_text_expand_see_less')
+    ])
+      .pipe(take(1))
+      .subscribe(resources => {
         this.seeMoreText = resources[0];
         this.seeLessText = resources[1];
         this.setup(this.expandedText);
 
         if (!this.expandModalTitle) {
-          this.resources.getString('skyux_text_expand_modal_title').take(1).subscribe(resource => {
-            this.expandModalTitle = resource;
-          });
+          this.resources.getString('skyux_text_expand_modal_title')
+            .pipe(take(1))
+            .subscribe(resource => {
+              this.expandModalTitle = resource;
+            });
         }
       });
   }

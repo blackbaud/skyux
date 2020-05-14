@@ -11,7 +11,7 @@ import {
 import { ToolbarTestComponent } from './fixtures/toolbar.component.fixture';
 import { ToolbarSectionedTestComponent } from './fixtures/toolbar-sectioned.component.fixture';
 
-import { SkyToolbarModule } from '.';
+import { SkyToolbarModule } from './toolbar.module';
 
 describe('toolbar component', () => {
   describe('standard', () => {

@@ -1,10 +1,10 @@
 import {
-  NgModule
-} from '@angular/core';
-
-import {
   CommonModule
 } from '@angular/common';
+
+import {
+  NgModule
+} from '@angular/core';
 
 import {
   FormsModule
@@ -24,7 +24,7 @@ import {
 
 import {
   SkyLayoutResourcesModule
-} from '../shared';
+} from '../shared/layout-resources.module';
 
 import {
   SkyCardActionsComponent

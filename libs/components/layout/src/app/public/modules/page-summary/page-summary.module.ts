@@ -12,31 +12,31 @@ import {
 
 import {
   SkyPageSummaryAlertComponent
-} from './page-summary-alert';
+} from './page-summary-alert.component';
 
 import {
   SkyPageSummaryContentComponent
-} from './page-summary-content';
+} from './page-summary-content.component';
 
 import {
   SkyPageSummaryImageComponent
-} from './page-summary-image';
+} from './page-summary-image.component';
 
 import {
   SkyPageSummaryKeyInfoComponent
-} from './page-summary-key-info';
+} from './page-summary-key-info.component';
 
 import {
   SkyPageSummaryStatusComponent
-} from './page-summary-status';
+} from './page-summary-status.component';
 
 import {
   SkyPageSummarySubtitleComponent
-} from './page-summary-subtitle';
+} from './page-summary-subtitle.component';
 
 import {
   SkyPageSummaryTitleComponent
-} from './page-summary-title';
+} from './page-summary-title.component';
 
 import {
 SkyPageSummaryComponent

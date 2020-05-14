@@ -9,7 +9,7 @@ import {
   expect
 } from '@skyux-sdk/testing';
 
-import { SkyMediaQueryService, SkyMediaBreakpoints } from '@skyux/core/modules/media-query';
+import { SkyMediaQueryService, SkyMediaBreakpoints } from '@skyux/core';
 
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
 

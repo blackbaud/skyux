@@ -10,7 +10,7 @@ import {
 
 import {
   SkyPageModule
-} from '../';
+} from '../page.module';
 
 import {
   SkyPageChildTestComponent

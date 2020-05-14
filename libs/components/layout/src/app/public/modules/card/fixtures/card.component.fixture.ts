@@ -13,7 +13,10 @@ import {
 })
 export class CardTestComponent {
 
-  @ViewChild(SkyCardComponent)
+  @ViewChild(SkyCardComponent, {
+    read: SkyCardComponent,
+    static: false
+  })
   public card: SkyCardComponent;
 
   public cardSelected = false;

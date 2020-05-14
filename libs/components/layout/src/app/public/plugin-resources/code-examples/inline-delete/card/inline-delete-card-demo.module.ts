@@ -13,7 +13,7 @@ import {
 
 import {
   InlineDeleteCardDemoComponent
-} from './inilne-delete-card-demo.component';
+} from './inline-delete-card-demo.component';
 
 @NgModule({
   imports: [

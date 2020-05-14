@@ -28,6 +28,7 @@ export class SkyInlineDeleteAdapterService {
   }
 
   public clearListeners(): void {
+    /* istanbul ignore else */
     if (this.parentElUnlistenFn) {
       this.parentElUnlistenFn();
     }
@@ -36,6 +37,8 @@ export class SkyInlineDeleteAdapterService {
   public setEl(element: HTMLElement): void {
     this.element = element;
     this.parentEl = element.parentElement;
+
+    /* istanbul ignore else */
     if (this.parentEl) {
       this.parentElUnlistenFn = this.renderer.listen(this.parentEl, 'focusin',
         (event: FocusEvent) => {

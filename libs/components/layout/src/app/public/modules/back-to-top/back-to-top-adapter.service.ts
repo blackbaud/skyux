@@ -9,16 +9,15 @@ import {
 } from '@skyux/core';
 
 import {
-  Observable
-} from 'rxjs/Observable';
+  fromEvent,
+  Observable,
+  Subject
+} from 'rxjs';
 
 import {
-  Subject
-} from 'rxjs/Subject';
-
-import 'rxjs/add/observable/fromEvent';
-
-import 'rxjs/add/operator/filter';
+  map,
+  takeUntil
+} from 'rxjs/operators';
 
 /**
  * @internal
@@ -44,16 +43,17 @@ export class SkyBackToTopDomAdapterService implements OnDestroy {
   public elementInViewOnScroll(elementRef: ElementRef): Observable<boolean> {
     const parent = this.findScrollableParent(elementRef.nativeElement);
 
-    return Observable
-      .fromEvent(parent, 'scroll')
-      .takeUntil(this.ngUnsubscribe)
-      .map(() => {
-        const isInView = this.isElementScrolledInView(
-          elementRef.nativeElement,
-          parent
-        );
-        return isInView;
-    });
+    return fromEvent(parent, 'scroll')
+      .pipe(
+        takeUntil(this.ngUnsubscribe),
+        map(() => {
+          const isInView = this.isElementScrolledInView(
+            elementRef.nativeElement,
+            parent
+          );
+          return isInView;
+        })
+      );
   }
 
   /**

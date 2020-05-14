@@ -14,7 +14,7 @@ import {
 
 import {
   Subscription
-} from 'rxjs/Subscription';
+} from 'rxjs';
 
 import {
   SkyPageSummaryAdapterService
@@ -22,7 +22,7 @@ import {
 
 import {
   SkyPageSummaryKeyInfoComponent
-} from './page-summary-key-info';
+} from './page-summary-key-info.component';
 
 @Component({
   selector: 'sky-page-summary',

@@ -17,7 +17,7 @@ import {
 
 import {
   SkyLayoutResourcesModule
-} from '../shared';
+} from '../shared/layout-resources.module';
 
 import {
   SkyBackToTopDirective

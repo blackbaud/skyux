@@ -1,10 +1,60 @@
+# 4.0.0 (2020-05-14)
+
+### New features
+
+- Added test fixtures for the action button, card, and page summary components to use in consumer unit tests. [#102](https://github.com/blackbaud/skyux-layout/pull/102)
+- Added support for `@angular/core@^9`. [#78](https://github.com/blackbaud/skyux-layout/pull/78)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#78](https://github.com/blackbaud/skyux-layout/pull/78)
+
+### Breaking changes
+
+- Removed the deprecated dock module. Use the one in `@skyux/core` instead. [#88](https://github.com/blackbaud/skyux-layout/pull/88)
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#78](https://github.com/blackbaud/skyux-layout/pull/78)
+
+# 4.0.0-rc.4 (2020-04-30)
+
+### New features
+
+- Added test fixtures for the action button, card, and page summary components to use in consumer unit tests. [#102](https://github.com/blackbaud/skyux-layout/pull/102)
+
+# 4.0.0-rc.3 (2020-04-16)
+
+- Added bug fixes and features from the `master` branch. [#98](https://github.com/blackbaud/skyux-layout/pull/98)
+
 # 3.9.0 (2020-03-13)
 
 - Added the format component which displays rich content within a tokenized string. [#89](https://github.com/blackbaud/skyux-layout/pull/89)
 
+# 4.0.0-rc.2 (2020-03-05)
+
+### New features
+
+- Added all bug fixes and features from `master` branch. [#86](https://github.com/blackbaud/skyux-layout/pull/86)
+
+### Breaking changes
+
+- Removed the deprecated dock module. Use the one in `@skyux/core` instead. [#88](https://github.com/blackbaud/skyux-layout/pull/88)
+
 # 3.8.0 (2020-02-28)
 
 - Added the back to top component. [#84](https://github.com/blackbaud/skyux-layout/pull/84)
+
+# 4.0.0-rc.1 (2020-02-20)
+
+### Bug fixes
+
+- Added missing types to the exports API. [#81](https://github.com/blackbaud/skyux-layout/pull/81)
+
+# 4.0.0-rc.0 (2020-02-19)
+
+### New features
+
+- Added support for `@angular/core@^9`. [#78](https://github.com/blackbaud/skyux-layout/pull/78)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#78](https://github.com/blackbaud/skyux-layout/pull/78)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#78](https://github.com/blackbaud/skyux-layout/pull/78)
 
 # 3.7.0 (2020-02-12)
 

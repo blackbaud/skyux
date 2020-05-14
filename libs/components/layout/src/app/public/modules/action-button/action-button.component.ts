@@ -7,7 +7,7 @@ import {
 
 import {
   SkyActionButtonPermalink
-} from './types';
+} from './action-button-permalink';
 
 @Component({
   selector: 'sky-action-button',

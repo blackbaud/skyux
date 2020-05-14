@@ -4,7 +4,7 @@ import { SkyI18nModule } from '@skyux/i18n';
 
 import {
   SkyLayoutResourcesModule
-} from '../shared';
+} from '../shared/layout-resources.module';
 
 import { SkyTextExpandRepeaterComponent } from './text-expand-repeater.component';
 

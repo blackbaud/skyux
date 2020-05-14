@@ -21,16 +21,16 @@ import {
 } from '@angular/core';
 
 import {
+  SkyCoreAdapterService
+} from '@skyux/core';
+
+import {
   SkyInlineDeleteAdapterService
 } from './inline-delete-adapter.service';
 
 import {
   SkyInlineDeleteType
 } from './inline-delete-type';
-
-import {
-  SkyCoreAdapterService
-} from '@skyux/core';
 
 /**
  * Auto-incrementing integer used to generate unique ids for inline delete components.
@@ -102,7 +102,10 @@ export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
 
   public type: SkyInlineDeleteType = SkyInlineDeleteType.Standard;
 
-  @ViewChild('delete')
+  @ViewChild('delete', {
+    read: ElementRef,
+    static: false
+  })
   private deleteButton: ElementRef;
 
   constructor(

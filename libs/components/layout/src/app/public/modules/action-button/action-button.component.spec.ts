@@ -1,37 +1,46 @@
 import {
   DebugElement
 } from '@angular/core';
-import {
-  BrowserModule,
-  By
-} from '@angular/platform-browser';
+
 import {
   TestBed,
   ComponentFixture,
   async
 } from '@angular/core/testing';
+
+import {
+  BrowserModule,
+  By
+} from '@angular/platform-browser';
+
 import {
   RouterTestingModule
 } from '@angular/router/testing';
 
 import {
-  SkyMediaQueryService,
-  SkyMediaBreakpoints
-} from '@skyux/core/modules/media-query';
-import {
-  MockSkyMediaQueryService
-} from '@skyux/core/testing';
-import {
   expect
 } from '@skyux-sdk/testing';
 
 import {
-  SkyActionButtonComponent,
-  SkyActionButtonModule
-} from '.';
+  SkyMediaBreakpoints,
+  SkyMediaQueryService
+} from '@skyux/core';
+
+import {
+  MockSkyMediaQueryService
+} from '@skyux/core/testing';
+
 import {
   ActionButtonTestComponent
 } from './fixtures/action-button.component.fixture';
+
+import {
+  SkyActionButtonComponent
+} from './action-button.component';
+
+import {
+  SkyActionButtonModule
+} from './action-button.module';
 
 describe('Action button component', () => {
   let fixture: ComponentFixture<ActionButtonTestComponent>;

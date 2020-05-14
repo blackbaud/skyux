@@ -39,7 +39,6 @@ import {
   SkyBackToTopModule,
   SkyCardModule,
   SkyDefinitionListModule,
-  SkyDockModule,
   SkyFluidGridModule,
   SkyFormatModule,
   SkyInlineDeleteModule,
@@ -48,11 +47,7 @@ import {
   SkyTextExpandModule,
   SkyTextExpandRepeaterModule,
   SkyToolbarModule
-} from './public';
-
-import {
-  DockItemVisualComponent
-} from './visual/dock/dock-item-visual.component';
+} from './public/public_api';
 
 @NgModule({
   exports: [
@@ -63,7 +58,6 @@ import {
     SkyBackToTopModule,
     SkyCardModule,
     SkyDefinitionListModule,
-    SkyDockModule,
     SkyGridModule,
     SkyDocsToolsModule,
     SkyDropdownModule,
@@ -79,9 +73,6 @@ import {
     SkyTextExpandRepeaterModule,
     SkyToolbarModule,
     SkyInlineDeleteModule
-  ],
-  entryComponents: [
-    DockItemVisualComponent
   ],
   providers: [
     {
