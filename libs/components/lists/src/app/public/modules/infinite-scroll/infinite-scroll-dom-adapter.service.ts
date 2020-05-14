@@ -10,16 +10,16 @@ import {
 } from '@skyux/core';
 
 import {
-  Observable
-} from 'rxjs/Observable';
+  fromEvent as observableFromEvent,
+  Observable,
+  Subject
+} from 'rxjs';
 
 import {
-  Subject
-} from 'rxjs/Subject';
-
-import 'rxjs/add/observable/fromEvent';
-
-import 'rxjs/add/operator/filter';
+  filter,
+  map,
+  takeUntil
+} from 'rxjs/operators';
 
 @Injectable()
 export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
@@ -56,15 +56,17 @@ export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
   public scrollTo(elementRef: ElementRef): Observable<void> {
     const parent = this.findScrollableParent(elementRef.nativeElement);
 
-    return Observable
-      .fromEvent(parent, 'scroll')
-      .takeUntil(this.ngUnsubscribe)
-      .filter(() => {
-        return this.isElementScrolledInView(
-          elementRef.nativeElement,
-          parent
-        );
-    }).map(() => undefined); // Change to void return type
+    return observableFromEvent(parent, 'scroll')
+      .pipe(
+        takeUntil(this.ngUnsubscribe),
+        filter(() => {
+          return this.isElementScrolledInView(
+            elementRef.nativeElement,
+            parent
+          );
+        }),
+        map(() => undefined) // Change to void return type
+      );
   }
 
   private createObserver(element: any): void {

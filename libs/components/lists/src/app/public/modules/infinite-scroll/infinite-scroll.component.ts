@@ -11,9 +11,11 @@ import {
 
 import {
   Subject
-} from 'rxjs/Subject';
+} from 'rxjs';
 
-import 'rxjs/add/operator/takeWhile';
+import {
+  takeUntil
+} from 'rxjs/operators';
 
 import {
   SkyInfiniteScrollDomAdapterService
@@ -74,7 +76,7 @@ export class SkyInfiniteScrollComponent implements OnDestroy {
     if (this.enabled) {
       // The user has scrolled to the infinite scroll element.
       this.domAdapter.scrollTo(this.elementRef)
-        .takeUntil(this.ngUnsubscribe)
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(() => {
           if (!this.isWaiting && this.enabled) {
             this.notifyScrollEnd();
@@ -83,7 +85,7 @@ export class SkyInfiniteScrollComponent implements OnDestroy {
 
       // New items have been loaded into the parent element.
       this.domAdapter.parentChanges(this.elementRef)
-        .takeUntil(this.ngUnsubscribe)
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(() => {
           this.isWaiting = false;
           this.changeDetector.markForCheck();

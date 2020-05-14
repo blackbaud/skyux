@@ -11,9 +11,12 @@
   (keydown)="onItemKeyDown($event)"
   #itemRef
 >
-  <ng-content
-    select="sky-inline-delete"
-  ></ng-content>
+  <div #inlineDelete>
+    <ng-content
+      select="sky-inline-delete"
+    ></ng-content>
+  </div>
+
   <ng-container *ngIf="inlineFormTemplate">
     <sky-inline-form
       [config]="inlineFormConfig"

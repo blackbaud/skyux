@@ -62,7 +62,10 @@ export class RepeaterTestComponent {
 
   public sortedItemTags: any[];
 
-  @ViewChild(SkyRepeaterComponent)
+  @ViewChild(SkyRepeaterComponent, {
+    read: SkyRepeaterComponent,
+    static: false
+  })
   public repeater: SkyRepeaterComponent;
 
   private _activeIndex: number;

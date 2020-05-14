@@ -13,10 +13,16 @@ import {
   templateUrl: './infinite-scroll.component.fixture.html'
 })
 export class SkyInfiniteScrollTestComponent {
-  @ViewChild('infiniteScrollComponent')
+  @ViewChild('infiniteScrollComponent', {
+    read: SkyInfiniteScrollComponent,
+    static: true
+  })
   public infiniteScrollComponent: SkyInfiniteScrollComponent;
 
-  @ViewChild('wrapper')
+  @ViewChild('wrapper', {
+    read: ElementRef,
+    static: true
+  })
   public wrapper: ElementRef;
 
   public enabled: boolean;

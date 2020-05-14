@@ -12,7 +12,7 @@ import {
 
 import {
   SkyListsResourcesModule
-} from '../shared';
+} from '../shared/lists-resources.module';
 
 import {
   SkyPagingComponent

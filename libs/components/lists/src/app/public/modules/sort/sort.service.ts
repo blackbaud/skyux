@@ -4,7 +4,7 @@ import {
 
 import {
   BehaviorSubject
-} from 'rxjs/BehaviorSubject';
+} from 'rxjs';
 
 @Injectable()
 export class SkySortService {

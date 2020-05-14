@@ -10,9 +10,12 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  SkyInfiniteScrollFixturesModule,
+  SkyInfiniteScrollFixturesModule
+} from './fixtures/infinite-scroll-fixtures.module';
+
+import {
   SkyInfiniteScrollTestComponent
-} from './fixtures';
+} from './fixtures/infinite-scroll.component.fixture';
 
 describe('Infinite scroll', () => {
   let fixture: ComponentFixture<SkyInfiniteScrollTestComponent>;

@@ -17,7 +17,10 @@ import {
   templateUrl: './repeater-inline-form.component.fixture.html'
 })
 export class RepeaterInlineFormFixtureComponent {
-  @ViewChild(SkyRepeaterComponent)
+  @ViewChild(SkyRepeaterComponent, {
+    read: SkyRepeaterComponent,
+    static: true
+  })
   public repeater: SkyRepeaterComponent;
 
   public showInlineForm = false;

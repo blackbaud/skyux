@@ -12,7 +12,11 @@ import {
   templateUrl: './paging.component.fixture.html'
 })
 export class PagingTestComponent {
-  @ViewChild(SkyPagingComponent) public pagingComponent: SkyPagingComponent;
+  @ViewChild(SkyPagingComponent, {
+    read: SkyPagingComponent,
+    static: true
+  })
+  public pagingComponent: SkyPagingComponent;
 
   public pageSize: number = 2;
   public maxPages: number = 3;

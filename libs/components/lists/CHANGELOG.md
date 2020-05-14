@@ -1,7 +1,26 @@
+# 4.0.0 (2020-05-14)
+
+### New features
+
+- Added support for `@angular/core@^9`. [#124](https://github.com/blackbaud/skyux-lists/pull/124)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#124](https://github.com/blackbaud/skyux-lists/pull/124)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#124](https://github.com/blackbaud/skyux-lists/pull/124)
+
 # 3.8.6 (2020-04-21)
 
 - Fixed the repeater component to accept normal keyboard interactions within an inline form. [#151](https://github.com/blackbaud/skyux-lists/pull/151)
 - Fixed the paging and repeater components to pass accessibility tests. [#155](https://github.com/blackbaud/skyux-lists/pull/155)
+
+# 4.0.0-rc.2 (2020-04-16)
+
+- Added all bug fixes and features from the `master` branch. [#156](https://github.com/blackbaud/skyux-lists/pull/156)
+
+# 4.0.0-rc.1 (2020-03-04)
+
+- Added all bug fixes and features from the `master` branch. [#129](https://github.com/blackbaud/skyux-lists/pull/129) [#131](https://github.com/blackbaud/skyux-lists/pull/131) [#137](https://github.com/blackbaud/skyux-lists/pull/137) [#141](https://github.com/blackbaud/skyux-lists/pull/141)
 
 # 3.8.5 (2020-02-28)
 
@@ -19,6 +38,17 @@
 
 - Fixed the repeater component to load faster when using reorderable repeater items. [#121](https://github.com/blackbaud/skyux-lists/pull/121)
 - Fixed the repeater item component to properly update the `isSelected` property when the value changes using the `enter` or `space` keys. [#123](https://github.com/blackbaud/skyux-lists/pull/123) (Thanks, [@michael-tims](https://github.com/michael-tims)!)
+
+# 4.0.0-rc.0 (2020-02-22)
+
+### New features
+
+- Added support for `@angular/core@^9`. [#124](https://github.com/blackbaud/skyux-lists/pull/124)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#124](https://github.com/blackbaud/skyux-lists/pull/124)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#124](https://github.com/blackbaud/skyux-lists/pull/124)
 
 # 3.8.1 (2020-02-12)
 
