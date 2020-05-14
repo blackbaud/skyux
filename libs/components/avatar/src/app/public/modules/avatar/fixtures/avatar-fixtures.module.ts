@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { SkyAvatarModule } from '../';
+import {
+  SkyAvatarModule
+} from '../avatar.module';
+
 import { AvatarTestComponent } from './avatar.component.fixture';
 
 @NgModule({

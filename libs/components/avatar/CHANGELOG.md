@@ -1,6 +1,39 @@
+# 4.0.0 (2020-05-14)
+
+### New features
+
+- Added a test fixture for the avatar component to use in consumer unit tests. [#22](https://github.com/blackbaud/skyux-avatar/pull/22)
+- Added support for `@angular/core@^9`. [#15](https://github.com/blackbaud/skyux-avatar/pull/15)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#15](https://github.com/blackbaud/skyux-avatar/pull/15)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#15](https://github.com/blackbaud/skyux-avatar/pull/15)
+
+# 4.0.0-rc.2 (2020-04-30)
+
+### New features
+
+- Added a test fixture for the avatar component to use in consumer unit tests. [#22](https://github.com/blackbaud/skyux-avatar/pull/22)
+
+# 4.0.0-rc.1 (2020-04-18)
+
+- Added bug fixes and features from the `master` branch. [#21](https://github.com/blackbaud/skyux-avatar/pull/21)
+
 # 3.1.0 (2020-03-19)
 
 - Added the `maxFileSize` input to the avatar component. [#17](https://github.com/blackbaud/skyux-avatar/pull/17) (Thanks [blackbaud-conorwright](https://github.com/blackbaud-conorwright)!)
+
+# 4.0.0-rc.0 (2020-02-19)
+
+### New features
+
+- Added support for `@angular/core@^9`. [#15](https://github.com/blackbaud/skyux-avatar/pull/15)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#15](https://github.com/blackbaud/skyux-avatar/pull/15)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#15](https://github.com/blackbaud/skyux-avatar/pull/15)
 
 # 3.0.0 (2019-01-11)
 

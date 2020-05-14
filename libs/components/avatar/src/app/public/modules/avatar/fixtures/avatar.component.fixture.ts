@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 
-import { SkyAvatarSrc } from '../';
+import {
+  SkyAvatarSrc
+} from '../avatar-src';
 
 @Component({
   selector: 'sky-test-cmp',

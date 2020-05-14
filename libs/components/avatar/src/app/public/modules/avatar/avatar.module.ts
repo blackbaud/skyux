@@ -1,27 +1,27 @@
 import {
   NgModule
 } from '@angular/core';
+
 import {
   CommonModule
 } from '@angular/common';
 
 import {
-  SkyFileAttachmentsModule
-} from '@skyux/forms';
-import {
-  SkyModalModule
-} from '@skyux/modals';
-import {
-  SkyErrorModalService
+  SkyErrorModule
 } from '@skyux/errors';
 
 import {
+  SkyFileAttachmentsModule
+} from '@skyux/forms';
+
+import {
   SkyAvatarResourcesModule
-} from '../shared';
+} from '../shared/avatar-resources.module';
 
 import {
   SkyAvatarComponent
 } from './avatar.component';
+
 import {
   SkyAvatarInnerComponent
 } from './avatar.inner.component';
@@ -34,13 +34,12 @@ import {
   imports: [
     CommonModule,
     SkyAvatarResourcesModule,
-    SkyFileAttachmentsModule,
-    SkyModalModule
+    SkyErrorModule,
+    SkyFileAttachmentsModule
   ],
   exports: [
     SkyAvatarComponent,
     SkyAvatarInnerComponent
-  ],
-  providers: [SkyErrorModalService]
+  ]
 })
 export class SkyAvatarModule { }

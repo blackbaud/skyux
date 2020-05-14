@@ -12,7 +12,7 @@ import {
 
 import {
   SkyAvatarModule
-} from './public';
+} from './public/public_api';
 
 @NgModule({
   exports: [
