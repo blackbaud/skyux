@@ -21,6 +21,18 @@ import {
 
 @Injectable()
 export class SkyNumericService {
+
+  /**
+   * The browser's current locale.
+   */
+  public set currentLocale(value: string) {
+    this._locale = value;
+  }
+
+  public get currentLocale(): string {
+    return this._locale || 'en-US';
+  }
+
   public shortSymbol: string;
 
   private symbolIndex: SkyNumericSymbol[] = [
@@ -30,7 +42,7 @@ export class SkyNumericService {
     { value: 1E3, label: this.getSymbol('skyux_numeric_thousands_symbol') }
   ];
 
-  private defaultLocale = 'en-US';
+  private _locale: string;
 ​
   constructor(
     private resourcesService: SkyLibResourcesService
@@ -72,6 +84,8 @@ export class SkyNumericService {
 
     this.storeShortenSymbol(output);
 
+    const locale = options.locale || this.currentLocale;
+
     let digits: string;
     // Checks the string entered for format. Using toLowerCase to ignore case.
     switch (options.format.toLowerCase()) {
@@ -99,7 +113,7 @@ export class SkyNumericService {
         const symbolDisplay: any = 'symbol';
 
         output = SkyNumberFormatUtility.formatNumber(
-          this.defaultLocale,
+          locale,
           parseFloat(output),
           SkyIntlNumberFormatStyle.Currency,
           digits,
@@ -123,7 +137,7 @@ export class SkyNumericService {
         }
 
         output = SkyNumberFormatUtility.formatNumber(
-          this.defaultLocale,
+          locale,
           parseFloat(output),
           SkyIntlNumberFormatStyle.Decimal,
           digits

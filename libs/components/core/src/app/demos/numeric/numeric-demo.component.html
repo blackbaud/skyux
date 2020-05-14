@@ -1,4 +1,8 @@
-<div class="sky-numeric-demo">
+<h2>Numeric pipe</h2>
+
+<div
+  class="sky-numeric-demo"
+>
   <table>
     <thead>
       <tr>
@@ -105,4 +109,45 @@
       </tr>
     </tbody>
   </table>
+</div>
+
+<h2>Numeric pipe with different locales</h2>
+
+<div
+  class="sky-form-group"
+  style="width: 400px; margin: 40px 20px;"
+>
+  <label
+    class="sky-control-label"
+    for="locale"
+  >
+    Locale
+  </label>
+  <select
+    class="sky-form-control"
+    id="locale"
+    name="locale"
+    [(ngModel)]="locale"
+  >
+    <option *ngFor="let localeItem of localeList">
+      {{ localeItem }}
+    </option>
+  </select>
+  <span
+    class="sky-deemphasized"
+  >
+    Choose a locale to override browser's default settings.
+  </span>
+
+  <p>
+    {{ 123 | skyNumeric:{ truncate: false, minDigits:2, format: 'currency', locale: locale } }}
+  </p>
+
+  <p>
+    {{ 4.56 | skyNumeric:{ truncate: false, minDigits:2, format: 'currency', locale: locale } }}
+  </p>
+
+  <p>
+    {{ 789000 | skyNumeric:{ truncate: false, minDigits:2, format: 'currency', locale: locale } }}
+  </p>
 </div>

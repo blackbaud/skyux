@@ -1,6 +1,11 @@
 import {
-  TestBed
+  TestBed,
+  ComponentFixture
 } from '@angular/core/testing';
+
+import {
+  NumericPipeFixtureComponent
+} from './fixtures/numeric.pipe.fixture';
 
 import {
   SkyNumericModule
@@ -30,6 +35,9 @@ describe('Numeric pipe', () => {
     expectedConfig.iso = 'USD';
 
     TestBed.configureTestingModule({
+      declarations: [
+        NumericPipeFixtureComponent
+      ],
       imports: [
         SkyNumericModule
       ]
@@ -77,5 +85,44 @@ describe('Numeric pipe', () => {
     expect(() => {
       pipe.transform(42.87549, options);
     }).toThrowError();
+  });
+
+  describe('locale support', () => {
+    let fixture: ComponentFixture<NumericPipeFixtureComponent>;
+    let component: NumericPipeFixtureComponent;
+
+    beforeEach(() => {
+      fixture = TestBed.createComponent(NumericPipeFixtureComponent);
+      component = fixture.componentInstance;
+    });
+
+    it('should allow overriding SkyAppLocaleProvider', () => {
+      fixture.detectChanges();
+
+      // Get formatted date and remove unwanted special characters.
+      const el = document.querySelector('p');
+      const actual = el.innerHTML.trim().replace(/&nbsp;/g, ' ');
+
+      const expected = [
+        '1.234.567,89 $', // IE11 doesn't render 'US'.
+        '1.234.567,89 US$'
+      ];
+
+      // Expect spanish default format of ###.###.###,## CUR[SYMBOL].
+      expect(expected).toContain(actual);
+    });
+
+    it('should properly format date based on pipe locale parameter', () => {
+      component.locale = 'ru';
+
+      fixture.detectChanges();
+
+      // Get formatted date and remove unwanted special characters.
+      const el = document.querySelector('p');
+      const actual = el.innerHTML.trim().replace(/&nbsp;/g, ' ');
+
+      // Expect russian default format of ### ### ###,## [SYMBOL].
+      expect(actual).toEqual('1 234 567,89 $');
+    });
   });
 });
