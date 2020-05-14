@@ -12,7 +12,11 @@ import { SkyListSecondaryActionsService } from './list-secondary-actions.service
   templateUrl: './list-secondary-action.component.html'
 })
 export class SkyListSecondaryActionComponent implements AfterContentInit {
-  @ViewChild('listSecondaryAction')
+
+  @ViewChild('listSecondaryAction', {
+    read: TemplateRef,
+    static: true
+  })
   private templateRef: TemplateRef<any>;
 
   constructor(

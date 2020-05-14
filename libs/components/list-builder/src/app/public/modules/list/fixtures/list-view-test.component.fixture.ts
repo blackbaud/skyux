@@ -8,16 +8,24 @@ import {
 
 import {
   Observable
-} from 'rxjs/Observable';
+} from 'rxjs';
+
+import {
+  distinctUntilChanged,
+  map as observableMap
+} from 'rxjs/operators';
 
 import {
   ListItemModel
 } from '@skyux/list-builder-common';
 
 import {
-  ListState,
+  ListState
+} from '../state/list-state.state-node';
+
+import {
   ListStateDispatcher
-} from '../state';
+} from '../state/list-state.rxstate';
 
 import {
   ListViewComponent
@@ -53,8 +61,11 @@ export class ListViewTestComponent extends ListViewComponent {
   ) {
     super(state, 'Test View');
 
-    state.map(s => s.items)
-      .distinctUntilChanged()
+    state
+      .pipe(
+        observableMap(s => s.items),
+        distinctUntilChanged()
+      )
       .subscribe((items) => {
         this.items = items.items;
       });

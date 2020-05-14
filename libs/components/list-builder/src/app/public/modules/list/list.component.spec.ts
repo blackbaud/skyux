@@ -1,8 +1,4 @@
 import {
-  DebugElement
-} from '@angular/core';
-
-import {
   TestBed,
   async,
   fakeAsync,
@@ -11,72 +7,147 @@ import {
 } from '@angular/core/testing';
 
 import {
+  DebugElement
+} from '@angular/core';
+
+import {
   FormsModule
 } from '@angular/forms';
 
 import {
   By
 } from '@angular/platform-browser';
-
-import {
-  BehaviorSubject
-} from 'rxjs/BehaviorSubject';
-
-import {
-  Observable
-} from 'rxjs/Observable';
-
 import {
   ListItemModel,
   ListSortFieldSelectorModel
 } from '@skyux/list-builder-common';
 
 import {
-  ListPagingSetPageNumberAction,
-  ListState,
-  ListStateDispatcher,
+  BehaviorSubject,
+  Observable
+} from 'rxjs';
+
+import {
+  map as observableMap,
+  skip,
+  take
+} from 'rxjs/operators';
+
+import {
+  ListState
+} from '../list/state/list-state.state-node';
+
+import {
+  ListStateDispatcher
+} from '../list/state/list-state.rxstate';
+
+import {
+  ListPagingSetPageNumberAction
+} from '../list/state/paging/set-page-number.action';
+
+import {
   ListToolbarShowMultiselectToolbarAction
-} from '../list/state';
-
-import {
-  ListDualTestComponent,
-  ListEmptyTestComponent,
-  ListFilteredTestComponent,
-  ListFixturesModule,
-  ListSelectedTestComponent,
-  ListTestComponent,
-  ListViewTestComponent
-} from './fixtures';
-
-import {
-  ListDataRequestModel,
-  ListDataResponseModel,
-  SkyListComponent,
-  SkyListModule
-} from './';
-
-import {
-  SkyListToolbarModule
-} from '../list-toolbar';
-
-import {
-  ListFilterModel,
-  ListItemsSetSelectedAction,
-  ListPagingModel,
-  ListSearchModel,
-  ListSearchSetFunctionsAction,
-  ListSearchSetFieldSelectorsAction,
-  ListSelectedSetItemsSelectedAction,
-  ListSelectedSetItemSelectedAction,
-  ListSortSetFieldSelectorsAction,
-  ListSortLabelModel,
-  ListToolbarItemModel,
-  ListToolbarItemsLoadAction
-} from './state';
+} from '../list/state/toolbar/show-multiselect-toolbar.action';
 
 import {
   SkyListInMemoryDataProvider
-} from '../list-data-provider-in-memory';
+} from '../list-data-provider-in-memory/list-data-in-memory.provider';
+
+import {
+  SkyListToolbarModule
+} from '../list-toolbar/list-toolbar.module';
+
+import {
+  ListDualTestComponent
+} from './fixtures/list-dual.component.fixture';
+
+import {
+  ListEmptyTestComponent
+} from './fixtures/list-empty.component.fixture';
+
+import {
+  ListFilteredTestComponent
+} from './fixtures/list-filtered.component.fixture';
+
+import {
+  ListFixturesModule
+} from './fixtures/list-fixtures.module';
+
+import {
+  ListSelectedTestComponent
+} from './fixtures/list-selected.component.fixture';
+
+import {
+  ListTestComponent
+} from './fixtures/list.component.fixture';
+
+import {
+  ListViewTestComponent
+} from './fixtures/list-view-test.component.fixture';
+
+import {
+  ListDataRequestModel
+} from './list-data-request.model';
+
+import {
+  ListDataResponseModel
+} from './list-data-response.model';
+
+import {
+  SkyListComponent
+} from './list.component';
+
+import {
+  SkyListModule
+} from './list.module';
+
+import {
+  ListFilterModel
+} from './state/filters/filter.model';
+
+import {
+  ListItemsSetSelectedAction
+} from './state/items/set-items-selected.action';
+
+import {
+  ListPagingModel
+} from './state/paging/paging.model';
+
+import {
+  ListSearchModel
+} from './state/search/search.model';
+
+import {
+  ListSearchSetFunctionsAction
+} from './state/search/set-functions.action';
+
+import {
+  ListSearchSetFieldSelectorsAction
+} from './state/search/set-field-selectors.action';
+
+import {
+  ListSelectedSetItemsSelectedAction
+} from './state/selected/set-items-selected.action';
+
+import {
+  ListSelectedSetItemSelectedAction
+} from './state/selected/set-item-selected.action';
+
+import {
+  ListSortSetFieldSelectorsAction
+} from './state/sort/set-field-selectors.action';
+
+import {
+  ListSortLabelModel
+} from './state/sort/label.model';
+
+import {
+  ListToolbarItemModel
+} from './state/toolbar/toolbar-item.model';
+
+import {
+  ListToolbarItemsLoadAction
+} from './state/toolbar/load.action';
 
 describe('List Component', () => {
   describe('List Fixture', () => {
@@ -150,7 +221,7 @@ describe('List Component', () => {
 
         // always skip the first update to ListState, when state is ready
         // run detectChanges once more then begin tests
-        state.skip(1).take(1).subscribe(() => fixture.detectChanges());
+        state.pipe(skip(1), take(1)).subscribe(() => fixture.detectChanges());
         fixture.detectChanges();
       }
 
@@ -317,8 +388,8 @@ describe('List Component', () => {
         it('should return item count', fakeAsync(() => {
           initializeList();
           tick();
-          component.list.itemCount.take(1).subscribe(u => {
-            state.take(1).subscribe((s) => {
+          component.list.itemCount.pipe(take(1)).subscribe(u => {
+            state.pipe(take(1)).subscribe((s) => {
               expect(u).toBe(s.items.count);
             });
           });
@@ -329,8 +400,8 @@ describe('List Component', () => {
         it('should return last updated date', fakeAsync(() => {
           initializeList();
           tick();
-          component.list.lastUpdate.take(1).subscribe(u => {
-            state.take(1).subscribe((s) => {
+          component.list.lastUpdate.pipe(take(1)).subscribe(u => {
+            state.pipe(take(1)).subscribe((s) => {
               expect(u.getTime()).toEqual(s.items.lastUpdate)
             });
           });
@@ -339,8 +410,8 @@ describe('List Component', () => {
         it('should return undefined if not defined', fakeAsync(() => {
           initializeList();
           tick();
-          state.map((s) => s.items.lastUpdate = undefined).take(1).subscribe();
-          component.list.lastUpdate.take(1).subscribe((u) => {
+          state.pipe(observableMap((s) => s.items.lastUpdate = undefined), take(1)).subscribe();
+          component.list.lastUpdate.pipe(take(1)).subscribe((u) => {
             expect(u).toBeUndefined();
           });
         }));
@@ -407,7 +478,7 @@ describe('List Component', () => {
 
         // always skip the first update to ListState, when state is ready
         // run detectChanges once more then begin tests
-        state.skip(1).take(1).subscribe(() => fixture.detectChanges());
+        state.pipe(skip(1), take(1)).subscribe(() => fixture.detectChanges());
         fixture.detectChanges();
 
       }));
@@ -418,7 +489,7 @@ describe('List Component', () => {
 
           tick();
 
-          state.take(1).subscribe((current) => {
+          state.pipe(take(1)).subscribe((current) => {
             const selectedIdMap = current.selected.item.selectedIdMap;
             expect(selectedIdMap.get('2')).toBe(true);
             expect(selectedIdMap.get('1')).toBe(true);
@@ -430,7 +501,7 @@ describe('List Component', () => {
 
           tick();
 
-          state.take(1).subscribe((current) => {
+          state.pipe(take(1)).subscribe((current) => {
             const selectedIdMap = current.selected.item.selectedIdMap;
             expect(selectedIdMap.get('2')).toBe(true);
             expect(selectedIdMap.get('1')).toBe(false);
@@ -442,7 +513,7 @@ describe('List Component', () => {
 
           tick();
 
-          state.take(1).subscribe((current) => {
+          state.pipe(take(1)).subscribe((current) => {
             const selectedIdMap = current.selected.item.selectedIdMap;
             expect(selectedIdMap.get('2')).toBe(undefined);
             expect(selectedIdMap.get('3')).toBe(true);
@@ -457,7 +528,7 @@ describe('List Component', () => {
 
           tick();
 
-          state.take(1).subscribe((current) => {
+          state.pipe(take(1)).subscribe((current) => {
             const selectedIdMap = current.selected.item.selectedIdMap;
             expect(selectedIdMap.get('1')).toBe(true);
           });
@@ -468,7 +539,7 @@ describe('List Component', () => {
 
           tick();
 
-          state.take(1).subscribe((current) => {
+          state.pipe(take(1)).subscribe((current) => {
             const selectedIdMap = current.selected.item.selectedIdMap;
             expect(selectedIdMap.get('2')).toBe(true);
             expect(selectedIdMap.get('1')).toBe(true);
@@ -480,7 +551,7 @@ describe('List Component', () => {
 
           tick();
 
-          state.take(1).subscribe((current) => {
+          state.pipe(take(1)).subscribe((current) => {
             const selectedIdMap = current.selected.item.selectedIdMap;
             expect(selectedIdMap.get('2')).toBe(true);
             expect(selectedIdMap.get('1')).toBe(false);
@@ -494,7 +565,7 @@ describe('List Component', () => {
 
         tick();
         fixture.detectChanges();
-        state.take(1).subscribe((current) => {
+        state.pipe(take(1)).subscribe((current) => {
           const selectedIdMap = current.selected.item.selectedIdMap;
           expect(selectedIdMap.get('2')).toBe(true);
           expect(selectedIdMap.get('1')).toBe(true);
@@ -511,7 +582,7 @@ describe('List Component', () => {
         component.selectedIds = ['3', '4']
         tick();
         fixture.detectChanges();
-        state.take(1).subscribe((current) => {
+        state.pipe(take(1)).subscribe((current) => {
           const selectedIdMap = current.selected.item.selectedIdMap;
           expect(selectedIdMap.get('1')).toBeUndefined();
           expect(selectedIdMap.get('2')).toBeUndefined();
@@ -525,7 +596,7 @@ describe('List Component', () => {
         component.selectedIds = []
         tick();
         fixture.detectChanges();
-        state.take(1).subscribe((current) => {
+        state.pipe(take(1)).subscribe((current) => {
           const selectedIdMap = current.selected.item.selectedIdMap;
           expect(selectedIdMap.get('1')).toBeUndefined();
           expect(selectedIdMap.get('2')).toBeUndefined();
@@ -575,7 +646,7 @@ describe('List Component', () => {
         tick();
         fixture.detectChanges();
         expect(dispatcherSpy).toHaveBeenCalledTimes(1);
-        state.take(1).subscribe((current) => {
+        state.pipe(take(1)).subscribe((current) => {
           const selectedIdMap = current.selected.item.selectedIdMap;
           expect(selectedIdMap.get('1')).toBeUndefined();
           expect(selectedIdMap.get('2')).toBeUndefined();
@@ -632,7 +703,7 @@ describe('List Component', () => {
         fixture.detectChanges();
 
         // Expect rows to still be selected.
-        component.list.selectedItems.take(1).subscribe((items)=> {
+        component.list.selectedItems.pipe(take(1)).subscribe((items)=> {
           expect(items.length === 2);
           expect(items[0].data.column2).toBe('Apple');
           expect(items[1].data.column2).toBe('Banana');
@@ -644,7 +715,7 @@ describe('List Component', () => {
         fixture.detectChanges();
 
         // Expect new rows to be selected.
-        component.list.selectedItems.take(1).subscribe((items)=> {
+        component.list.selectedItems.pipe(take(1)).subscribe((items)=> {
           expect(items.length === 2);
           expect(items[0].data.column2).toBe('Apple');
           expect(items[1].data.column2).toBe('Banana');
@@ -668,7 +739,7 @@ describe('List Component', () => {
         fixture.detectChanges();
 
         // Expect all rows to be selected.
-        state.map(s => s.items.items).take(1).subscribe((items)=> {
+        state.pipe(observableMap(s => s.items.items), take(1)).subscribe((items)=> {
           items.forEach(i => {
             expect(i.isSelected).toEqual(true);
           });
@@ -683,7 +754,7 @@ describe('List Component', () => {
         fixture.detectChanges();
 
         // Expect no rows to be selected.
-        state.map(s => s.items.items).take(1).subscribe((items)=> {
+        state.pipe(observableMap(s => s.items.items), take(1)).subscribe((items)=> {
           items.forEach(i => {
             expect(i.isSelected).toEqual(false);
           });
@@ -751,7 +822,7 @@ describe('List Component', () => {
 
         // always skip the first update to ListState, when state is ready
         // run detectChanges once more then begin tests
-        state.skip(1).take(1).subscribe(() => fixture.detectChanges());
+        state.pipe(skip(1), take(1)).subscribe(() => fixture.detectChanges());
         fixture.detectChanges();
 
       }));
@@ -772,7 +843,7 @@ describe('List Component', () => {
         component.listFilters = appliedFilters;
         fixture.detectChanges();
         tick();
-        state.take(1).subscribe((current) => {
+        state.pipe(take(1)).subscribe((current) => {
           expect(current.filters.length).toBe(1);
           expect(current.items.items.length).toBe(1);
         });
@@ -786,7 +857,7 @@ describe('List Component', () => {
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
-        state.take(1).subscribe((current) => {
+        state.pipe(take(1)).subscribe((current) => {
           expect(current.filters.length).toBe(0);
           expect(current.items.items.length).toBe(7);
           expect(current.paging.pageNumber).toBe(2);
@@ -803,7 +874,39 @@ describe('List Component', () => {
         component.listFilters = appliedFilters;
         fixture.detectChanges();
         tick();
-        state.take(1).subscribe((current) => {
+        state.pipe(take(1)).subscribe((current) => {
+          expect(current.filters.length).toBe(1);
+          expect(current.items.items.length).toBe(1);
+          expect(current.paging.pageNumber).toBe(1);
+        });
+        tick();
+      }));
+
+      it('should return the list to page 1 when filters are changed', fakeAsync(() => {
+        dispatcher.next(
+          new ListPagingSetPageNumberAction(Number(2))
+        );
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        state.pipe(take(1)).subscribe((current) => {
+          expect(current.filters.length).toBe(0);
+          expect(current.items.items.length).toBe(7);
+          expect(current.paging.pageNumber).toBe(2);
+        });
+
+        let appliedFilters = [
+          new ListFilterModel({
+            name: 'filter1',
+            value: 'Apple',
+            filterFunction: appleFilterFunction
+          })
+        ];
+
+        component.listFilters = appliedFilters;
+        fixture.detectChanges();
+        tick();
+        state.pipe(take(1)).subscribe((current) => {
           expect(current.filters.length).toBe(1);
           expect(current.items.items.length).toBe(1);
           expect(current.paging.pageNumber).toBe(1);
@@ -897,7 +1000,7 @@ describe('List Component', () => {
 
         // always skip the first update to ListState, when state is ready
         // run detectChanges once more then begin tests
-        state.skip(1).take(1).subscribe(() => fixture.detectChanges());
+        state.pipe(skip(1), take(1)).subscribe(() => fixture.detectChanges());
         fixture.detectChanges();
       }));
 
@@ -959,7 +1062,7 @@ describe('List Component', () => {
 
         // always skip the first update to ListState, when state is ready
         // run detectChanges once more then begin tests
-        state.skip(1).take(1).subscribe(() => fixture.detectChanges());
+        state.pipe(skip(1), take(1)).subscribe(() => fixture.detectChanges());
         fixture.detectChanges();
       }));
 
@@ -1009,8 +1112,8 @@ describe('List Component', () => {
         });
 
         let response = provider.get(request);
-        response.take(1).subscribe();
-        response.take(1).subscribe((r: any) => expect(r.count).toBe(2));
+        response.pipe(take(1)).subscribe();
+        response.pipe(take(1)).subscribe((r: any) => expect(r.count).toBe(2));
 
       });
 
@@ -1025,7 +1128,7 @@ describe('List Component', () => {
         });
 
         let response = provider.get(request);
-        response.take(1).subscribe((r: any) => expect(r.count).toBe(2));
+        response.pipe(take(1)).subscribe((r: any) => expect(r.count).toBe(2));
 
       });
     });
@@ -1067,7 +1170,7 @@ describe('List Component', () => {
 
         // always skip the first update to ListState, when state is ready
         // run detectChanges once more then begin tests
-        state.skip(1).take(1).subscribe(() => fixture.detectChanges());
+        state.pipe(skip(1), take(1)).subscribe(() => fixture.detectChanges());
         fixture.detectChanges();
       }));
 
@@ -1078,7 +1181,7 @@ describe('List Component', () => {
         expect(list.dataProvider).not.toBe(null);
 
         list.dataProvider.count()
-          .take(1)
+          .pipe(take(1))
           .subscribe((count: any) => {
             expect(count).toBe(0);
         });
@@ -1120,7 +1223,7 @@ describe('List Component', () => {
 
         // always skip the first update to ListState, when state is ready
         // run detectChanges once more then begin tests
-        state.skip(1).take(1).subscribe(() => fixture.detectChanges());
+        state.pipe(skip(1), take(1)).subscribe(() => fixture.detectChanges());
         fixture.detectChanges();
       }));
 
@@ -1197,7 +1300,7 @@ describe('List Component', () => {
 
         // always skip the first update to ListState, when state is ready
         // run detectChanges once more then begin tests
-        state.skip(1).take(1).subscribe(() => fixture.detectChanges());
+        state.pipe(skip(1), take(1)).subscribe(() => fixture.detectChanges());
         fixture.detectChanges();
       }));
 
@@ -1276,14 +1379,14 @@ describe('List Component', () => {
         dispatcher = new ListStateDispatcher();
         state = new ListState(dispatcher);
 
-        state.skip(1).take(1).subscribe(() => tick());
+        state.pipe(skip(1), take(1)).subscribe(() => tick());
         tick();
       }));
 
       it('should call searchSetOptions with undefined parameters', fakeAsync(() => {
         dispatcher.searchSetOptions(new ListSearchModel());
 
-        state.map(s => s.search).take(1).subscribe(search => {
+        state.pipe(observableMap(s => s.search), take(1)).subscribe(search => {
           expect(search.searchText).toBe('');
           expect(search.functions.length).toBe(0);
           expect(search.fieldSelectors.length).toBe(0);
@@ -1299,7 +1402,7 @@ describe('List Component', () => {
           fieldSelectors: ['fields']
         }));
 
-        state.map(s => s.search).take(1).subscribe(search => {
+        state.pipe(observableMap(s => s.search), take(1)).subscribe(search => {
           expect(search.searchText).toBe('search text');
           expect(search.functions.length).toBe(1);
           expect(search.fieldSelectors.length).toBe(1);
@@ -1315,7 +1418,7 @@ describe('List Component', () => {
         dispatcher = new ListStateDispatcher();
         state = new ListState(dispatcher);
 
-        state.skip(1).take(1).subscribe(() => tick());
+        state.pipe(skip(1), take(1)).subscribe(() => tick());
         tick();
       }));
 
@@ -1333,7 +1436,7 @@ describe('List Component', () => {
 
         tick();
 
-        state.take(1).subscribe((current) => {
+        state.pipe(take(1)).subscribe((current) => {
           expect(current.toolbar.items.length).toBe(2);
         });
 
@@ -1349,7 +1452,7 @@ describe('List Component', () => {
 
         tick();
 
-        state.take(1).subscribe((current) => {
+        state.pipe(take(1)).subscribe((current) => {
           expect(current.toolbar.items[2].id).toBe('blue');
         });
 
@@ -1381,7 +1484,7 @@ describe('List Component', () => {
 
         tick();
 
-        state.take(1).subscribe((current) => {
+        state.pipe(take(1)).subscribe((current) => {
           expect(current.toolbar.items[0].id).toBe('0');
           expect(current.toolbar.items[1].id).toBe('2');
           expect(current.toolbar.items[2].id).toBe('blue');
@@ -1414,7 +1517,7 @@ describe('List Component', () => {
 
         tick();
 
-        state.take(1).subscribe((current) => {
+        state.pipe(take(1)).subscribe((current) => {
           expect(current.toolbar.items[0].id).toBe('0');
           expect(current.toolbar.items[1].id).toBe('2');
           expect(current.toolbar.items[2].id).toBe('blue');
@@ -1450,7 +1553,7 @@ describe('List Component', () => {
 
         tick();
 
-        state.take(1).subscribe((current) => {
+        state.pipe(take(1)).subscribe((current) => {
           expect(current.toolbar.items[0].id).toBe('2');
           expect(current.toolbar.items[1].id).toBe('blue');
           expect(current.toolbar.items[2].id).toBe('0');

@@ -6,8 +6,14 @@ import { SkyListComponent } from '../list.component';
   templateUrl: './list-dual.component.fixture.html'
 })
 export class ListDualTestComponent {
-  @ViewChild(SkyListComponent) public list: SkyListComponent;
 
-  constructor(@Inject('items') public items: any) {
-  }
+  @ViewChild(SkyListComponent, {
+    read: SkyListComponent,
+    static: true
+  })
+  public list: SkyListComponent;
+
+  constructor(
+    @Inject('items') public items: any
+  ) { }
 }

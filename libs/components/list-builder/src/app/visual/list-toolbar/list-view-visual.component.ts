@@ -10,17 +10,18 @@ import {
 
 import {
   Observable
-} from 'rxjs/Observable';
+} from 'rxjs';
+
+import {
+  map as observableMap
+} from 'rxjs/operators';
 
 import {
   ListState,
   ListStateDispatcher,
-  ListSelectedSetItemSelectedAction
-} from '../../public/modules/list/state';
-
-import {
+  ListSelectedSetItemSelectedAction,
   ListViewComponent
-} from '../../public/modules/list/list-view.component';
+} from '../../public/public_api';
 
 // Internal component only used to get at ListStateDispatcher.
 @Component({
@@ -41,7 +42,9 @@ export class ListViewTestComponent extends ListViewComponent implements OnInit {
   ) {
     super(state, 'Test View');
 
-    state.map(s => s.items)
+    state.pipe(
+      observableMap(s => s.items)
+    )
       .subscribe((items) => {
         this.localItems = items.items;
       });
@@ -52,7 +55,9 @@ export class ListViewTestComponent extends ListViewComponent implements OnInit {
   }
 
   public itemSelected(id: string): Observable<boolean> {
-    return this.state.map(state => state.selected.item.selectedIdMap.get(id));
+    return this.state.pipe(
+      observableMap(state => state.selected.item.selectedIdMap.get(id))
+    );
   }
 
   public setItemSelection(item: ListItemModel, event: any): void {

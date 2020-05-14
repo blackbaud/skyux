@@ -2,10 +2,16 @@ import { ListStateOrchestrator } from '../list-state.rxstate';
 import { ListSortModel } from './sort.model';
 import { ListSortLabelModel } from './label.model';
 import {
-  ListSortSetFieldSelectorsAction,
-  ListSortSetAvailableAction,
+  ListSortSetFieldSelectorsAction
+} from './set-field-selectors.action';
+
+import {
+  ListSortSetAvailableAction
+} from './set-available.action';
+
+import {
   ListSortSetGlobalAction
-} from './actions';
+} from './set-global.action';
 
 export class ListSortOrchestrator extends ListStateOrchestrator<ListSortModel> {
   /* istanbul ignore next */

@@ -1,5 +1,11 @@
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import {
+  BehaviorSubject,
+  Observable
+} from 'rxjs';
+
+import {
+  map as observableMap
+} from 'rxjs/operators';
 
 import {
   compare,
@@ -45,11 +51,11 @@ export class SkyListInMemoryDataProvider extends ListDataProvider {
   }
 
   public count(): Observable<number> {
-    return this.items.map((items) => items.length);
+    return this.items.pipe(observableMap((items) => items.length));
   }
 
   public get(request: ListDataRequestModel): Observable<ListDataResponseModel> {
-    return this.filteredItems(request).map((result: Array<ListItemModel>) => {
+    return this.filteredItems(request).pipe(observableMap((result) => {
       if (request.pageNumber && request.pageSize) {
         let itemStart = (request.pageNumber - 1) * request.pageSize;
         let pagedResult = result.slice(itemStart, itemStart + request.pageSize);
@@ -63,14 +69,13 @@ export class SkyListInMemoryDataProvider extends ListDataProvider {
           items: result
         });
       }
-
-    });
+    }));
   }
 
   private filteredItems(request: ListDataRequestModel): Observable<Array<ListItemModel>> {
     const showSelectedId = ['show-selected'];
 
-    return this.items.map(items => {
+    return this.items.pipe(observableMap(items => {
       let dataChanged = false;
       let search = request.search;
       let sort = request.sort;
@@ -191,6 +196,6 @@ export class SkyListInMemoryDataProvider extends ListDataProvider {
         });
       }
       return result;
-    });
+    }));
   }
 }

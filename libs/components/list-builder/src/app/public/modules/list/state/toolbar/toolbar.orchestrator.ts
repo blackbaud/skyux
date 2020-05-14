@@ -11,13 +11,28 @@ import {
 } from './toolbar-item.model';
 
 import {
-  ListToolbarItemsLoadAction,
-  ListToolbarItemsRemoveAction,
-  ListToolbarSetExistsAction,
-  ListToolbarSetTypeAction,
-  ListToolbarItemsDisableAction,
+  ListToolbarItemsLoadAction
+} from './load.action';
+
+import {
+  ListToolbarItemsRemoveAction
+} from './remove.action';
+
+import {
+  ListToolbarSetExistsAction
+} from './set-exists.action';
+
+import {
+  ListToolbarSetTypeAction
+} from './set-type.action';
+
+import {
+  ListToolbarItemsDisableAction
+} from './disable.action';
+
+import {
   ListToolbarShowMultiselectToolbarAction
-} from './actions';
+} from './show-multiselect-toolbar.action';
 
 export class ListToolbarOrchestrator
   extends ListStateOrchestrator<ListToolbarModel> {

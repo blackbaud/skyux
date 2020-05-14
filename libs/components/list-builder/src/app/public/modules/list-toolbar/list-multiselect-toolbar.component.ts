@@ -7,7 +7,14 @@ import {
 
 import {
   Subject
-} from 'rxjs/Subject';
+} from 'rxjs';
+
+import {
+  distinctUntilChanged,
+  map as observableMap,
+  take,
+  takeUntil
+} from 'rxjs/operators';
 
 import {
   SkyCheckboxChange
@@ -15,18 +22,27 @@ import {
 
 import {
   ListFilterModel
-} from '../list/state';
+} from '../list/state/filters/filter.model';
 
 import {
   ListItemModel
 } from '@skyux/list-builder-common';
 
 import {
-  ListPagingSetPageNumberAction,
-  ListSelectedModel,
-  ListState,
+  ListPagingSetPageNumberAction
+} from '../list/state/paging/set-page-number.action';
+
+import {
+  ListSelectedModel
+} from '../list/state/selected/selected.model';
+
+import {
+  ListState
+} from '../list/state/list-state.state-node';
+
+import {
   ListStateDispatcher
-} from '../list/state';
+} from '../list/state/list-state.rxstate';
 
 let uniqueId = 0;
 
@@ -52,9 +68,12 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.state.map(t => t.selected.item)
-      .takeUntil(this.ngUnsubscribe)
-      .distinctUntilChanged(this.selectedMapEqual)
+    this.state
+      .pipe(
+        observableMap(t => t.selected.item),
+        takeUntil(this.ngUnsubscribe),
+        distinctUntilChanged(this.selectedMapEqual)
+      )
       .subscribe((model: ListSelectedModel) => {
         this.selectedIdMap = model.selectedIdMap;
 
@@ -65,9 +84,12 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
 
     // If 'show-selected' filter is programatically set from a child component (e.g. checkilst),
     // make sure the checked state of the 'show-selected' checkbox stays in sync.
-    this.state.map(t => t.filters)
-      .takeUntil(this.ngUnsubscribe)
-      .distinctUntilChanged(this.showSelectedValuesEqual)
+    this.state
+      .pipe(
+        observableMap(t => t.filters),
+        takeUntil(this.ngUnsubscribe),
+        distinctUntilChanged(this.showSelectedValuesEqual)
+      )
       .subscribe((filters: ListFilterModel[]) => {
         const showSelectedFilter = filters.find(filter => filter.name === 'show-selected');
         if (showSelectedFilter) {
@@ -82,8 +104,11 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
   }
 
   public selectAll(): void {
-    this.state.map(state => state.items.items)
-      .take(1)
+    this.state
+      .pipe(
+        observableMap(state => state.items.items),
+        take(1)
+      )
       .subscribe(items => {
         this.dispatcher.setSelected(items.map(item => item.id), true);
         if (this.showOnlySelected) {
@@ -93,8 +118,11 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
   }
 
   public clearSelections(): void {
-    this.state.map(state => state.items.items)
-      .take(1)
+    this.state
+      .pipe(
+        observableMap(state => state.items.items),
+        take(1)
+      )
       .subscribe(items => {
         this.dispatcher.setSelected(items.map(item => item.id), false);
         if (this.showOnlySelected) {
@@ -111,8 +139,11 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
   private reapplyFilter(isSelected: boolean): void {
     let self = this;
 
-    this.state.map(state => state.filters)
-      .take(1)
+    this.state
+      .pipe(
+        observableMap(state => state.filters),
+        take(1)
+      )
       .subscribe((filters: ListFilterModel[]) => {
         filters = filters.filter(filter => filter.name !== 'show-selected');
         filters.push(self.getShowSelectedFilter(isSelected));
@@ -122,8 +153,7 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
     // If "show selected" is checked and paging is enabled, go to page one.
     /* istanbul ignore else */
     if (isSelected) {
-      this.state
-        .take(1)
+      this.state.pipe(take(1))
         .subscribe((currentState) => {
           if (currentState.paging.pageNumber && currentState.paging.pageNumber !== 1) {
             this.dispatcher.next(

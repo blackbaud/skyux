@@ -8,15 +8,29 @@ import {
 } from '@skyux/list-builder-common';
 
 import {
-  ListItemsLoadAction,
-  ListItemsSetLoadingAction,
-  ListItemsSetSelectedAction
-} from './actions';
+  skip,
+  take
+} from 'rxjs/operators';
 
 import {
-  ListState,
+  ListItemsLoadAction
+} from './load.action';
+
+import {
+  ListItemsSetLoadingAction
+} from './set-loading.action';
+
+import {
+  ListItemsSetSelectedAction
+} from './set-items-selected.action';
+
+import {
+  ListState
+} from '../list-state.state-node';
+
+import {
   ListStateDispatcher
-} from '../';
+} from '../list-state.rxstate';
 
 describe('list items', () => {
   describe('loading and set loading action', () => {
@@ -31,7 +45,7 @@ describe('list items', () => {
 
       // always skip the first update to ListState, when state is ready
       // run detectChanges once more then begin tests
-      state.skip(1).take(1).subscribe(() => tick());
+      state.pipe(skip(1), take(1)).subscribe(() => tick());
 
       // add some base items to be paged
       dispatcher.next(new ListItemsLoadAction([
@@ -49,7 +63,7 @@ describe('list items', () => {
 
     it('should set loading when action is dispatched and new items are loaded', fakeAsync (() => {
 
-      state.take(1).subscribe(stateModel => {
+      state.pipe(take(1)).subscribe(stateModel => {
         expect(stateModel.items.count).toBe(7);
         expect(stateModel.items.loading).toBe(false);
       });
@@ -60,7 +74,7 @@ describe('list items', () => {
 
       tick();
 
-      state.take(1).subscribe(stateModel => {
+      state.pipe(take(1)).subscribe(stateModel => {
         expect(stateModel.items.count).toBe(7);
         expect(stateModel.items.loading).toBe(true);
       });
@@ -79,7 +93,7 @@ describe('list items', () => {
 
       tick();
 
-      state.take(1).subscribe(stateModel => {
+      state.pipe(take(1)).subscribe(stateModel => {
         expect(stateModel.items.count).toBe(6);
         expect(stateModel.items.loading).toBe(false);
       });
@@ -90,7 +104,7 @@ describe('list items', () => {
 
       tick();
 
-      state.take(1).subscribe(stateModel => {
+      state.pipe(take(1)).subscribe(stateModel => {
         expect(stateModel.items.count).toBe(6);
         expect(stateModel.items.loading).toBe(true);
       });
@@ -98,7 +112,7 @@ describe('list items', () => {
 
     it('should append data when refresh is false on load', fakeAsync (() => {
 
-      state.take(1).subscribe(stateModel => {
+      state.pipe(take(1)).subscribe(stateModel => {
         expect(stateModel.items.count).toBe(7);
       });
 
@@ -116,7 +130,7 @@ describe('list items', () => {
 
       tick();
 
-      state.take(1).subscribe(stateModel => {
+      state.pipe(take(1)).subscribe(stateModel => {
         expect(stateModel.items.count).toBe(13);
       });
 
@@ -125,7 +139,7 @@ describe('list items', () => {
 
     it('should allow manually setting count', fakeAsync (() => {
 
-      state.take(1).subscribe(stateModel => {
+      state.pipe(take(1)).subscribe(stateModel => {
         expect(stateModel.items.count).toBe(7);
       });
 
@@ -143,7 +157,7 @@ describe('list items', () => {
 
       tick();
 
-      state.take(1).subscribe(stateModel => {
+      state.pipe(take(1)).subscribe(stateModel => {
         expect(stateModel.items.count).toBe(3);
       });
 
@@ -152,7 +166,7 @@ describe('list items', () => {
 
     it('should update lastUpdate appropriately', fakeAsync(() => {
       let lastUpdate: any;
-      state.take(1).subscribe(stateModel => {
+      state.pipe(take(1)).subscribe(stateModel => {
           lastUpdate = stateModel.items.lastUpdate;
       });
 
@@ -170,7 +184,7 @@ describe('list items', () => {
 
       tick(1000);
 
-      state.take(1).subscribe(stateModel => {
+      state.pipe(take(1)).subscribe(stateModel => {
           lastUpdate = stateModel.items.lastUpdate;
       });
 
@@ -188,7 +202,7 @@ describe('list items', () => {
 
       tick();
 
-      state.take(1).subscribe(stateModel => {
+      state.pipe(take(1)).subscribe(stateModel => {
           expect(lastUpdate).toEqual(stateModel.items.lastUpdate);
       });
 
@@ -197,7 +211,7 @@ describe('list items', () => {
     }));
 
     it('can manually set things in the load action', fakeAsync(() => {
-      state.take(1).subscribe(stateModel => {
+      state.pipe(take(1)).subscribe(stateModel => {
         expect(stateModel.items.count).toBe(7);
       });
 
@@ -215,7 +229,7 @@ describe('list items', () => {
 
       tick();
 
-      state.take(1).subscribe(stateModel => {
+      state.pipe(take(1)).subscribe(stateModel => {
         expect(stateModel.items.count).toBe(13);
       });
 
@@ -236,7 +250,7 @@ describe('list items', () => {
 
       // always skip the first update to ListState, when state is ready
       // run detectChanges once more then begin tests
-      state.skip(1).take(1).subscribe(() => tick());
+      state.pipe(skip(1), take(1)).subscribe(() => tick());
 
       // add some base items to be selected
       dispatcher.next(new ListItemsLoadAction([
@@ -249,7 +263,7 @@ describe('list items', () => {
     }));
 
     it('should select items when action is dispatched', fakeAsync (() => {
-      state.take(1).subscribe(stateModel => {
+      state.pipe(take(1)).subscribe(stateModel => {
         expect(stateModel.items.items[0].isSelected).toBeUndefined();
         expect(stateModel.items.items[1].isSelected).toBeUndefined();
         expect(stateModel.items.items[2].isSelected).toBeUndefined();
@@ -261,7 +275,7 @@ describe('list items', () => {
 
       tick();
 
-      state.take(1).subscribe(stateModel => {
+      state.pipe(take(1)).subscribe(stateModel => {
         expect(stateModel.items.items[0].isSelected).toBe(true);
         expect(stateModel.items.items[1].isSelected).toBeUndefined();
         expect(stateModel.items.items[2].isSelected).toBe(true);
@@ -275,7 +289,7 @@ describe('list items', () => {
 
       // Because we are setting the refresh property to true (default),
       // we expect item[0] to be reset to an undefined state.
-      state.take(1).subscribe(stateModel => {
+      state.pipe(take(1)).subscribe(stateModel => {
         expect(stateModel.items.items[0].isSelected).toBeUndefined();
         expect(stateModel.items.items[1].isSelected).toBe(true);
         expect(stateModel.items.items[2].isSelected).toBe(true);
@@ -287,7 +301,7 @@ describe('list items', () => {
 
       tick();
 
-      state.take(1).subscribe(stateModel => {
+      state.pipe(take(1)).subscribe(stateModel => {
         expect(stateModel.items.items[0].isSelected).toBe(false);
         expect(stateModel.items.items[1].isSelected).toBe(false);
         expect(stateModel.items.items[2].isSelected).toBe(false);
@@ -299,7 +313,7 @@ describe('list items', () => {
 
       tick();
 
-      state.take(1).subscribe(stateModel => {
+      state.pipe(take(1)).subscribe(stateModel => {
         expect(stateModel.items.items[0].isSelected).toBe(true);
         expect(stateModel.items.items[1].isSelected).toBe(true);
         expect(stateModel.items.items[2].isSelected).toBe(true);
@@ -313,7 +327,7 @@ describe('list items', () => {
 
       // Because we are setting the refresh property to false,
       // we expect item[0] amd item[2] to retain their old values.
-      state.take(1).subscribe(stateModel => {
+      state.pipe(take(1)).subscribe(stateModel => {
         expect(stateModel.items.items[0].isSelected).toBe(true);
         expect(stateModel.items.items[1].isSelected).toBe(false);
         expect(stateModel.items.items[2].isSelected).toBe(true);

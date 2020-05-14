@@ -17,7 +17,11 @@ import {
   templateUrl: './list-filtered.component.fixture.html'
 })
 export class ListFilteredTestComponent {
-  @ViewChild(SkyListComponent)
+
+  @ViewChild(SkyListComponent, {
+    read: SkyListComponent,
+    static: true
+  })
   public list: SkyListComponent;
 
   public listFilters: Array<ListFilterModel> = [];

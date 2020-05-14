@@ -7,32 +7,35 @@ import {
 } from '@angular/core';
 
 import {
+  AsyncList,
+  getValue,
   ListItemModel
 } from '@skyux/list-builder-common';
 
 import {
-  AsyncList
-} from 'microedge-rxstate/dist';
-
-import {
-  getValue
-} from 'microedge-rxstate/dist/helpers';
-
-import {
   Observable
-} from 'rxjs/Observable';
+} from 'rxjs';
 
-import 'rxjs/add/operator/distinctUntilChanged';
-
-import 'rxjs/add/operator/scan';
+import {
+  distinctUntilChanged,
+  map as observableMap,
+  scan
+} from 'rxjs/operators';
 
 import { ListPagingComponent } from '../list/list-paging.component';
-import { ListState, ListStateDispatcher } from '../list/state';
+import { ListState } from '../list/state/list-state.state-node';
+import { ListStateDispatcher } from '../list/state/list-state.rxstate';
 import {
-  ListPagingSetMaxPagesAction,
-  ListPagingSetItemsPerPageAction,
+  ListPagingSetMaxPagesAction
+} from '../list/state/paging/set-max-pages.action';
+
+import {
+  ListPagingSetItemsPerPageAction
+} from '../list/state/paging/set-items-per-page.action';
+
+import {
   ListPagingSetPageNumberAction
-} from '../list/state/paging/actions';
+} from '../list/state/paging/set-page-number.action';
 
 @Component({
   selector: 'sky-list-paging',
@@ -71,26 +74,29 @@ export class SkyListPagingComponent extends ListPagingComponent implements OnIni
 
   public ngOnInit() {
 
-    this.currentPageNumber = this.state.map(s => s.paging.pageNumber);
+    this.currentPageNumber = this.state.pipe(observableMap(s => s.paging.pageNumber));
 
-    this.maxDisplayedPages = this.state.map(s => s.paging.maxDisplayedPages);
+    this.maxDisplayedPages = this.state.pipe(observableMap(s => s.paging.maxDisplayedPages));
 
-    this.itemsPerPage = this.state.map(s => s.paging.itemsPerPage);
+    this.itemsPerPage = this.state.pipe(observableMap(s => s.paging.itemsPerPage));
 
-    this.itemCount = this.state.map((s) => {
-      return s.items;
-    })
-    .scan((previousValue: AsyncList<ListItemModel>, newValue: AsyncList<ListItemModel>) => {
-      if (previousValue.lastUpdate > newValue.lastUpdate) {
-        return previousValue;
-      } else {
-        return newValue;
-      }
-    })
-    .map((result: AsyncList<ListItemModel>) => {
-      return result.count;
-    })
-    .distinctUntilChanged();
+    this.itemCount = this.state
+      .pipe(
+        observableMap((s) => {
+          return s.items;
+        }),
+        scan((previousValue: AsyncList<ListItemModel>, newValue: AsyncList<ListItemModel>) => {
+          if (previousValue.lastUpdate > newValue.lastUpdate) {
+            return previousValue;
+          } else {
+            return newValue;
+          }
+        }),
+        observableMap((result: AsyncList<ListItemModel>) => {
+          return result.count;
+        }),
+        distinctUntilChanged()
+      );
 
     // subscribe to or use inputs
     getValue(this.pageSize, (pageSize: number) =>

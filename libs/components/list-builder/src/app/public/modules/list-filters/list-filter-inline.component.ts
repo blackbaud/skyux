@@ -5,14 +5,27 @@ import {
   AfterContentInit
 } from '@angular/core';
 
+import {
+  take
+} from 'rxjs/operators';
+
 import { SkyListFilterInlineItemComponent } from './list-filter-inline-item.component';
 
 import {
-  ListFilterModel,
-  ListPagingSetPageNumberAction,
-  ListState,
+  ListState
+} from '../list/state/list-state.state-node';
+
+import {
   ListStateDispatcher
-} from '../list/state';
+} from '../list/state/list-state.rxstate';
+
+import {
+  ListFilterModel
+} from '../list/state/filters/filter.model';
+
+import {
+  ListPagingSetPageNumberAction
+} from '../list/state/paging/set-page-number.action';
 
 import {
   SkyListFilterInlineModel
@@ -54,7 +67,7 @@ export class SkyListFilterInlineComponent implements AfterContentInit {
   }
 
   public applyFilters() {
-    this.state.take(1).subscribe((currentState) => {
+    this.state.pipe(take(1)).subscribe((currentState) => {
       if (currentState.paging.pageNumber && currentState.paging.pageNumber !== 1) {
         this.dispatcher.next(
           new ListPagingSetPageNumberAction(Number(1))

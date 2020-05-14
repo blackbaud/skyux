@@ -1,7 +1,10 @@
 import {
-  ListState,
+  ListState
+} from '../list/state/list-state.state-node';
+
+import {
   ListStateDispatcher
-} from '../list/state';
+} from '../list/state/list-state.rxstate';
 
 import {
   TestBed,
@@ -10,16 +13,22 @@ import {
 } from '@angular/core/testing';
 
 import {
+  skip,
+  take
+} from 'rxjs/operators';
+
+import {
   ListFilterButtonTestComponent
 } from './fixtures/list-filter-button.component.fixture';
 
 import {
   SkyListToolbarModule
-} from '../list-toolbar';
+} from '../list-toolbar/list-toolbar.module';
 
 import {
   SkyListFiltersModule
-} from '.';
+} from './list-filters.module';
+
 describe('List filter button', () => {
   let state: ListState,
     dispatcher: ListStateDispatcher,
@@ -47,7 +56,7 @@ describe('List filter button', () => {
     fixture = TestBed.createComponent(ListFilterButtonTestComponent);
     nativeElement = fixture.nativeElement as HTMLElement;
     fixture.detectChanges();
-    state.skip(1).take(1).subscribe(() => fixture.detectChanges());
+    state.pipe(skip(1), take(1)).subscribe(() => fixture.detectChanges());
   }));
 
   it('should place content in the appropriate area for the filter button', async(() => {

@@ -1,7 +1,14 @@
 import { Component, ViewChild, Inject } from '@angular/core';
+
+import {
+  BehaviorSubject
+} from 'rxjs';
+
+import {
+  SkyListToolbarComponent
+} from '../../list-toolbar/list-toolbar.component';
+
 import { SkyListComponent } from '../list.component';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { SkyListToolbarComponent } from '../../list-toolbar';
 import { ListViewComponent } from '../list-view.component';
 
 @Component({
@@ -9,10 +16,17 @@ import { ListViewComponent } from '../list-view.component';
   templateUrl: './list.component.fixture.html'
 })
 export class ListTestComponent {
-  @ViewChild(SkyListComponent)
+
+  @ViewChild(SkyListComponent, {
+    read: SkyListComponent,
+    static: true
+  })
   public list: SkyListComponent;
 
-  @ViewChild('toolbar')
+  @ViewChild('toolbar', {
+    read: SkyListToolbarComponent,
+    static: true
+  })
   public toolbar: SkyListToolbarComponent;
 
   public default: ListViewComponent;

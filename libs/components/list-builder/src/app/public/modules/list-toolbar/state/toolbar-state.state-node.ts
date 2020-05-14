@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { StateNode } from 'microedge-rxstate/dist';
+import { StateNode } from '@skyux/list-builder-common';
 import { ListToolbarStateModel } from './toolbar-state.model';
 import { ListToolbarStateDispatcher } from './toolbar-state.rxstate';
 import { ListToolbarConfigOrchestrator } from './config/config.orchestrator';

@@ -20,9 +20,8 @@ import {
   SkyListModule,
   SkyListPagingModule,
   SkyListSecondaryActionsModule,
-  SkyListToolbarModule,
-  SkyListViewSwitcherModule
-} from './public';
+  SkyListToolbarModule
+} from './public/public_api';
 
 @NgModule({
   exports: [
@@ -33,8 +32,7 @@ import {
     SkyListFiltersModule,
     SkyListPagingModule,
     SkyListSecondaryActionsModule,
-    SkyListToolbarModule,
-    SkyListViewSwitcherModule
+    SkyListToolbarModule
   ],
   providers: [
     {

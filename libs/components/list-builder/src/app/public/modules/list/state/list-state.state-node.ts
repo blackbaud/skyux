@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { StateNode } from 'microedge-rxstate/dist';
+import { StateNode } from '@skyux/list-builder-common';
 
 import { ListStateModel } from './list-state.model';
 import { ListStateDispatcher } from './list-state.rxstate';

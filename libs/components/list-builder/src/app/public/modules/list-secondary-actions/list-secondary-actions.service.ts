@@ -3,7 +3,9 @@ import {
   OnDestroy
 } from '@angular/core';
 
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import {
+  BehaviorSubject
+} from 'rxjs';
 
 import { SkyListSecondaryAction } from './list-secondary-action';
 

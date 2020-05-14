@@ -20,9 +20,15 @@ import {
   public searchText: string;
   public showCutomItem1 = true;
 
-  @ViewChild(SkyListToolbarComponent)
+  @ViewChild(SkyListToolbarComponent, {
+    read: SkyListToolbarComponent,
+    static: false
+  })
   public toolbar: SkyListToolbarComponent;
 
-  @ViewChild('default')
+  @ViewChild('default', {
+    read: TemplateRef,
+    static: true
+  })
   public default: TemplateRef<any>;
 }

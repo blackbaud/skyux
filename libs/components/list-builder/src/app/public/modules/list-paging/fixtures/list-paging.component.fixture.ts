@@ -6,6 +6,9 @@ import { SkyListPagingComponent } from '../list-paging.component';
   templateUrl: './list-paging.component.fixture.html'
 })
 export class ListPagingTestComponent {
-  @ViewChild(SkyListPagingComponent)
+  @ViewChild(SkyListPagingComponent, {
+    read: SkyListPagingComponent,
+    static: true
+  })
   public pagingComponent: SkyListPagingComponent;
 }

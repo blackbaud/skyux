@@ -16,7 +16,12 @@ export class SkyListFilterInlineItemRendererComponent implements OnInit {
   public template: TemplateRef<any>;
   @Input()
   public filter: any;
-  @ViewChild('container', { read: ViewContainerRef }) private container: ViewContainerRef;
+
+  @ViewChild('container', {
+    read: ViewContainerRef,
+    static: true
+  })
+  private container: ViewContainerRef;
 
   public ngOnInit() {
     /* istanbul ignore else */

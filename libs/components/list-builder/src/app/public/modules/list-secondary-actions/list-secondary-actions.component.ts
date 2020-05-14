@@ -6,14 +6,13 @@ import {
   ViewChild
 } from '@angular/core';
 
-import 'rxjs/add/operator/takeUntil';
-
-import 'rxjs/add/operator/distinctUntilChanged';
+import {
+  ListStateDispatcher
+} from '../list/state/list-state.rxstate';
 
 import {
-  ListStateDispatcher,
   ListToolbarItemModel
-} from '../list/state';
+} from '../list/state/toolbar/toolbar-item.model';
 
 import {
   SkyListSecondaryActionsService
@@ -30,7 +29,10 @@ import {
 export class SkyListSecondaryActionsComponent implements AfterViewInit {
   public actions: any[] = [];
 
-  @ViewChild('secondaryActions')
+  @ViewChild('secondaryActions', {
+    read: TemplateRef,
+    static: true
+  })
   private secondaryActionsTemplate: TemplateRef<any>;
 
   private secondaryActionsItemToolbarIndex: number = 5000;

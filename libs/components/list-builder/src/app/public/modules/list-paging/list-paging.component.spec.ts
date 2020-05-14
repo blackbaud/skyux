@@ -8,26 +8,46 @@ import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import {
+  AsyncList,
   ListItemModel
 } from '@skyux/list-builder-common';
 
 import {
-  ListState,
-  ListStateDispatcher,
+  skip,
+  take
+} from 'rxjs/operators';
+
+import {
+  ListState
+} from '../list/state/list-state.state-node';
+
+import {
+  ListStateDispatcher
+} from '../list/state/list-state.rxstate';
+
+import {
   ListStateModel
-} from '../list/state';
-import { SkyListPagingModule } from './';
+} from '../list/state/list-state.model';
+
+import {
+  SkyListPagingModule
+} from './list-paging.module';
+
 import {
   ListPagingTestComponent
 } from './fixtures/list-paging.component.fixture';
-import { ListItemsLoadAction } from '../list/state/items/actions';
+import { ListItemsLoadAction } from '../list/state/items/load.action';
 import {
-  ListPagingSetItemsPerPageAction,
-  ListPagingSetMaxPagesAction,
-  ListPagingSetPageNumberAction
-} from '../list/state/paging/actions';
+  ListPagingSetItemsPerPageAction
+} from '../list/state/paging/set-items-per-page.action';
 
-import { AsyncList } from 'microedge-rxstate/dist';
+import {
+  ListPagingSetMaxPagesAction
+} from '../list/state/paging/set-max-pages.action';
+
+import {
+  ListPagingSetPageNumberAction
+} from '../list/state/paging/set-page-number.action';
 
 describe('List Paging Component', () => {
   let state: ListState,
@@ -58,7 +78,7 @@ describe('List Paging Component', () => {
 
     // always skip the first update to ListState, when state is ready
     // run detectChanges once more then begin tests
-    state.skip(1).take(1).subscribe(() => fixture.detectChanges());
+    state.pipe(skip(1), take(1)).subscribe(() => fixture.detectChanges());
   }));
 
   function getPagingSelector(type: string) {
@@ -155,7 +175,7 @@ describe('List Paging Component', () => {
         tick();
         fixture.detectChanges();
 
-        state.take(1).subscribe(stateModel => {
+        state.pipe(take(1)).subscribe(stateModel => {
           expect(stateModel.paging.pageNumber).toBe(3);
         });
 

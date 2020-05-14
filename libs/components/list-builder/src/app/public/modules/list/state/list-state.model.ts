@@ -2,7 +2,7 @@ import {
   ListItemModel
 } from '@skyux/list-builder-common';
 
-import { AsyncList, AsyncItem } from 'microedge-rxstate/dist';
+import { AsyncList, AsyncItem } from '@skyux/list-builder-common';
 
 import { ListFilterModel } from './filters/filter.model';
 import { ListPagingModel } from './paging/paging.model';

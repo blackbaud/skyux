@@ -1,10 +1,16 @@
 import { ListStateOrchestrator } from '../list-state.rxstate';
 import { ListPagingModel } from './paging.model';
 import {
-  ListPagingSetMaxPagesAction,
-  ListPagingSetItemsPerPageAction,
+  ListPagingSetMaxPagesAction
+} from './set-max-pages.action';
+
+import {
+  ListPagingSetItemsPerPageAction
+} from './set-items-per-page.action';
+
+import {
   ListPagingSetPageNumberAction
-} from './actions';
+} from './set-page-number.action';
 
 export class ListPagingOrchestrator extends ListStateOrchestrator<ListPagingModel> {
   /* istanbul ignore next */

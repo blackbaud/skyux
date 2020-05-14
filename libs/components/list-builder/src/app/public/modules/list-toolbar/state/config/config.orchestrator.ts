@@ -2,9 +2,12 @@ import { ListToolbarStateOrchestrator } from '../toolbar-state.rxstate';
 import { ListToolbarConfigModel } from './config.model';
 
 import {
-  ListToolbarConfigSetSearchEnabledAction,
+  ListToolbarConfigSetSearchEnabledAction
+} from './set-search-enabled.action';
+
+import {
   ListToolbarConfigSetSortSelectorEnabledAction
-} from './actions';
+} from './set-sort-selector-enabled.action';
 
 export class ListToolbarConfigOrchestrator
   extends ListToolbarStateOrchestrator<ListToolbarConfigModel> {

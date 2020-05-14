@@ -8,11 +8,12 @@ import {
 
 import {
   Subject
-} from 'rxjs/Subject';
+} from 'rxjs';
 
-import 'rxjs/add/operator/takeUntil';
-
-import 'rxjs/add/operator/distinctUntilChanged';
+import {
+  distinctUntilChanged,
+  takeUntil
+} from 'rxjs/operators';
 
 import {
   SkyListSecondaryActionsService
@@ -44,8 +45,10 @@ export class SkyListSecondaryActionsHostComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.actionService.actionsStream
-      .takeUntil(this.ngUnsubscribe)
-      .distinctUntilChanged()
+      .pipe(
+        takeUntil(this.ngUnsubscribe),
+        distinctUntilChanged()
+      )
       .subscribe((actions: SkyListSecondaryAction[]) => {
         const hasSecondaryActions = (actions.length > 0);
         this.dropdownHidden = !hasSecondaryActions;

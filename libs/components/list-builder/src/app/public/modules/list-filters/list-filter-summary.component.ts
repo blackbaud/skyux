@@ -6,16 +6,25 @@ import {
 } from '@angular/core';
 
 import {
-  ListState,
+  Observable
+} from 'rxjs';
+
+import {
+  map as observableMap,
+  take
+} from 'rxjs/operators';
+
+import {
+  ListState
+} from '../list/state/list-state.state-node';
+
+import {
   ListStateDispatcher
-} from '../list/state';
+} from '../list/state/list-state.rxstate';
 
 import {
   ListFilterModel
-} from '../list/state';
-
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/take';
+} from '../list/state/filters/filter.model';
 
 @Component({
   selector: 'sky-list-filter-summary',
@@ -34,13 +43,13 @@ export class SkyListFilterSummaryComponent implements AfterContentInit {
   ) {}
 
   public ngAfterContentInit() {
-    this.appliedFilters = this.state.map((state) => {
+    this.appliedFilters = this.state.pipe(observableMap((state) => {
       return state.filters;
-    });
+    }));
   }
 
   public filterSummaryItemDismiss(index: number) {
-    this.appliedFilters.take(1).subscribe((filters) => {
+    this.appliedFilters.pipe(take(1)).subscribe((filters) => {
       filters.splice(index, 1);
       this.dispatcher.filtersUpdate(filters.slice());
     });

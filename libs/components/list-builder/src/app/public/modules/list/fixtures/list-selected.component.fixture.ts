@@ -6,7 +6,11 @@ import { SkyListComponent } from '../list.component';
   templateUrl: './list-selected.component.fixture.html'
 })
 export class ListSelectedTestComponent {
-  @ViewChild(SkyListComponent)
+
+  @ViewChild(SkyListComponent, {
+    read: SkyListComponent,
+    static: true
+  })
   public list: SkyListComponent;
 
   public selectedItems: Map<string, boolean>;

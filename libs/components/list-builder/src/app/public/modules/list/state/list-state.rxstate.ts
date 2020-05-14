@@ -5,7 +5,7 @@ import {
 import {
   StateDispatcher,
   StateOrchestrator
-} from 'microedge-rxstate/dist';
+} from '@skyux/list-builder-common';
 
 import {
   ListSortFieldSelectorModel
@@ -17,18 +17,27 @@ import {
 
 import {
   ListFiltersUpdateAction
-} from './filters/actions';
+} from './filters/update.action';
 
 import {
   ListStateAction
 } from './list-state-action.type';
 
 import {
-  ListSearchSetFunctionsAction,
-  ListSearchSetSearchTextAction,
-  ListSearchSetFieldSelectorsAction,
+  ListSearchSetFunctionsAction
+} from './search/set-functions.action';
+
+import {
+  ListSearchSetSearchTextAction
+} from './search/set-search-text.action';
+
+import {
+  ListSearchSetFieldSelectorsAction
+} from './search/set-field-selectors.action';
+
+import {
   ListSearchSetOptionsAction
-} from './search/actions';
+} from './search/set-options.action';
 
 import {
   ListSearchModel
@@ -36,25 +45,43 @@ import {
 
 import {
   ListSelectedSetItemsSelectedAction
-} from './selected/actions';
+} from './selected/set-items-selected.action';
 
 import {
-  ListSortSetAvailableAction,
-  ListSortSetFieldSelectorsAction,
+  ListSortSetAvailableAction
+} from './sort/set-available.action';
+
+import {
+  ListSortSetFieldSelectorsAction
+} from './sort/set-field-selectors.action';
+
+import {
   ListSortSetGlobalAction
-} from './sort/actions';
+} from './sort/set-global.action';
 
 import {
   ListSortLabelModel
 } from './sort/label.model';
 
 import {
-  ListToolbarItemsDisableAction,
-  ListToolbarItemsLoadAction,
-  ListToolbarItemsRemoveAction,
-  ListToolbarSetExistsAction,
+  ListToolbarItemsDisableAction
+} from './toolbar/disable.action';
+
+import {
+  ListToolbarItemsLoadAction
+} from './toolbar/load.action';
+
+import {
+  ListToolbarItemsRemoveAction
+} from './toolbar/remove.action';
+
+import {
+  ListToolbarSetExistsAction
+} from './toolbar/set-exists.action';
+
+import {
   ListToolbarShowMultiselectToolbarAction
-} from './toolbar/actions';
+} from './toolbar/show-multiselect-toolbar.action';
 
 import {
   ListToolbarItemModel
@@ -62,7 +89,7 @@ import {
 
 import {
   ListViewsSetActiveAction
-} from './views/actions';
+} from './views/set-active.action';
 
 export class ListStateOrchestrator<T> extends StateOrchestrator<T, ListStateAction> {
 }

@@ -12,15 +12,15 @@ import {
 
 import {
   SkyListModule
-} from '../';
+} from '../list.module';
 
 import {
   SkyListFiltersModule
-} from '../../list-filters';
+} from '../../list-filters/list-filters.module';
 
 import {
   SkyListToolbarModule
-} from '../../list-toolbar';
+} from '../../list-toolbar/list-toolbar.module';
 
 import {
   ListTestComponent

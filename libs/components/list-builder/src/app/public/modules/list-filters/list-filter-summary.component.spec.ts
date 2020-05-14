@@ -1,8 +1,14 @@
 import {
-  ListState,
-  ListStateDispatcher,
+  ListState
+} from '../list/state/list-state.state-node';
+
+import {
+  ListStateDispatcher
+} from '../list/state/list-state.rxstate';
+
+import {
   ListFilterModel
-} from '../list/state';
+} from '../list/state/filters/filter.model';
 
 import {
   TestBed,
@@ -15,16 +21,21 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
+  skip,
+  take
+} from 'rxjs/operators';
+
+import {
   ListFilterSummaryTestComponent
 } from './fixtures/list-filter-summary.component.fixture';
 
 import {
   SkyListToolbarModule
-} from '../list-toolbar';
+} from '../list-toolbar/list-toolbar.module';
 
 import {
   SkyListFiltersModule
-} from '.';
+} from './list-filters.module';
 
 describe('List filter summary', () => {
   let state: ListState,
@@ -73,7 +84,7 @@ describe('List filter summary', () => {
     nativeElement = fixture.nativeElement as HTMLElement;
     component = fixture.componentInstance;
     fixture.detectChanges();
-    state.skip(1).take(1).subscribe(() => fixture.detectChanges());
+    state.pipe(skip(1), take(1)).subscribe(() => fixture.detectChanges());
 
     dispatcher.filtersUpdate(filters);
   }));
@@ -127,7 +138,7 @@ describe('List filter summary', () => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         fixture.detectChanges();
-        state.take(1).subscribe((current) => {
+        state.pipe(take(1)).subscribe((current) => {
           expect(current.filters.length).toBe(1);
           expect(current.filters[0].name).toBe('color');
         });

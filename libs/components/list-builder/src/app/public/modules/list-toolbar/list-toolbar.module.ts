@@ -29,7 +29,7 @@ import {
 
 import {
   SkyListFiltersModule
-} from '../list-filters';
+} from '../list-filters/list-filters.module';
 
 import {
   SkyIconModule
