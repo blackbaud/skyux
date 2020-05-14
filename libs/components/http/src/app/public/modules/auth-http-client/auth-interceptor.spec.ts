@@ -14,20 +14,20 @@ import {
 } from '@skyux/config';
 
 import {
-  SkyAuthTokenContextArgs
-} from '../auth-http/auth-token-context-args';
-
-import {
-  SkyAuthTokenProvider
-} from '../auth-http/auth-token-provider';
-
-import {
   SkyAuthInterceptor
 } from './auth-interceptor';
 
 import {
   SKY_AUTH_DEFAULT_PERMISSION_SCOPE
 } from './auth-interceptor-default-permission-scope';
+
+import {
+  SkyAuthTokenContextArgs
+} from './auth-token-context-args';
+
+import {
+  SkyAuthTokenProvider
+} from './auth-token-provider';
 
 import {
   createAppConfig,

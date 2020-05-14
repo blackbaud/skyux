@@ -4,7 +4,7 @@ import {
 
 import {
   SkyAuthTokenMockProvider
-} from '../auth-http/auth-token-mock-provider';
+} from './auth-token-mock-provider';
 
 /**
  * Provides methods for testing HTTP requests when using `SkyAuthHttpClientModule`.

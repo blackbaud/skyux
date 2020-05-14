@@ -12,12 +12,12 @@ import {
 } from '@skyux/http';
 
 import {
-  SkyAuthTokenMockProvider
-} from '../auth-http/auth-token-mock-provider';
-
-import {
   SkyAuthHttpTestingController
 } from './auth-http-testing-controller';
+
+import {
+  SkyAuthTokenMockProvider
+} from './auth-token-mock-provider';
 
 import {
   SkyMockAppConfig
