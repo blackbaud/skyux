@@ -4,12 +4,15 @@
   [enableMultiselect]="enableMultiselect"
   [height]="400"
   [hiddenColumns]="hiddenColumns"
+  [messageStream]="gridController"
   [name]="gridview"
   [rowHighlightedId]="rowHighlightedId"
   [search]="searchFn"
   [settingsKey]="settingsKey"
   [width]="600"
   (multiselectSelectionChange)="multiselectSelectionChange($event)"
+  (rowDeleteCancel)="cancelRowDelete($event)"
+  (rowDeleteConfirm)="finishRowDelete($event)"
 >
 
   <sky-grid-column

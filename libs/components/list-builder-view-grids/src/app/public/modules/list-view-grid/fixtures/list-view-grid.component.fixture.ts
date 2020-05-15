@@ -2,19 +2,39 @@ import {
   Component,
   ContentChildren,
   OnInit,
-  TemplateRef,
   QueryList,
+  TemplateRef,
   ViewChild,
   ViewChildren
 } from '@angular/core';
+
+import {
+  SkyGridSelectedRowsModelChange
+} from '@skyux/grids';
 
 import {
   BehaviorSubject
 } from 'rxjs/BehaviorSubject';
 
 import {
-  SkyGridSelectedRowsModelChange
-} from '@skyux/grids';
+  Subject
+} from 'rxjs';
+
+import {
+  SkyListViewGridMessage
+} from '../types/list-view-grid-message';
+
+import {
+  SkyListViewGridMessageType
+} from '../types/list-view-grid-message-type';
+
+import {
+  SkyListViewGridRowDeleteCancelArgs
+} from '../types/list-view-grid-row-delete-cancel-args';
+
+import {
+  SkyListViewGridRowDeleteConfirmArgs
+} from '../types/list-view-grid-row-delete-confirm-args';
 
 import {
   SkyListViewGridComponent
@@ -28,6 +48,7 @@ export class ListViewGridTestComponent implements OnInit {
   public hiddenColumns: string[] = ['hiddenCol1', 'hiddenCol2'];
   public asyncHeading = new BehaviorSubject<string>('');
   public asyncDescription = new BehaviorSubject<string>('');
+  public gridController = new Subject<SkyListViewGridMessage>();
   public settingsKey: string;
 
   @ViewChild(SkyListViewGridComponent)
@@ -56,5 +77,31 @@ export class ListViewGridTestComponent implements OnInit {
 
   public multiselectSelectionChange(multiselectSelectionChange: SkyGridSelectedRowsModelChange) {
     console.log(multiselectSelectionChange);
+  }
+
+  public cancelRowDelete(cancelArgs: SkyListViewGridRowDeleteCancelArgs): void {
+    this.gridController.next({
+      type: SkyListViewGridMessageType.AbortDeleteRow,
+      data: {
+        abortDeleteRow: {
+          id: cancelArgs.id
+        }
+      }
+    });
+  }
+
+  public deleteItem(id: string): void {
+    this.gridController.next({
+      type: SkyListViewGridMessageType.PromptDeleteRow,
+      data: {
+        promptDeleteRow: {
+          id: id
+        }
+      }
+    });
+  }
+
+  public finishRowDelete(confirmArgs: SkyListViewGridRowDeleteConfirmArgs): void {
+    return;
   }
 }

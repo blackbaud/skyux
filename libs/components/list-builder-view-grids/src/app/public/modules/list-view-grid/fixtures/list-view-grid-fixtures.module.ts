@@ -2,6 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import {
+  NoopAnimationsModule
+} from '@angular/platform-browser/animations';
+
+import {
   SkyGridModule
 } from '@skyux/grids';
 import {
@@ -25,7 +29,8 @@ import { ListViewGridDynamicTestComponent } from './list-view-grid-dynamic.compo
     CommonModule,
     SkyGridModule,
     SkyListViewGridModule,
-    SkyListModule
+    SkyListModule,
+    NoopAnimationsModule
   ],
   exports: [
     ListViewGridTestComponent,

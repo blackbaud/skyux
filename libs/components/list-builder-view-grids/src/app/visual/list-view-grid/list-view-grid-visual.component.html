@@ -94,3 +94,68 @@
     </sky-list-view-grid>
   </sky-list>
 </div>
+
+<h2>List-view-grid with inline delete</h2>
+
+<div
+  class="sky-padding-even-default"
+  id="screenshot-list-view-grid-with-multiselect"
+>
+  <sky-list
+    [data]="items"
+    [defaultView]="gridWithInlineDelete"
+  >
+    <sky-list-toolbar>
+      <sky-list-column-selector-action
+        [gridView]="gridWithInlineDelete"
+      >
+      </sky-list-column-selector-action>
+    </sky-list-toolbar>
+
+    <sky-list-view-grid
+      fit="scroll"
+      [messageStream]="gridController"
+      (rowDeleteCancel)="onRowDeleteCancel($event)"
+      (rowDeleteConfirm)="onRowDeleteConfirm($event)"
+      #gridWithInlineDelete
+    >
+      <sky-grid-column
+        id="contsm"
+        heading=""
+        width="80"
+        [locked]="true"
+        [isSortable]="false"
+      >
+        <ng-template
+          let-row="row"
+        >
+          <button
+            type="button"
+            (click)="onDeleteItemClick(row.id)"
+          >
+            Delete
+          </button>
+        </ng-template>
+      </sky-grid-column>
+      <sky-grid-column
+        description="A numbered column"
+        field="column1"
+        heading="Column1"
+        [locked]="true"
+      >
+      </sky-grid-column>
+      <sky-grid-column
+        description="A fruit column"
+        field="column2"
+        heading="Column2"
+      >
+      </sky-grid-column>
+      <sky-grid-column
+        description="A sentence column"
+        field="column3"
+        heading="Column3"
+      >
+      </sky-grid-column>
+    </sky-list-view-grid>
+  </sky-list>
+</div>

@@ -3,20 +3,29 @@ import {
   ChangeDetectionStrategy,
   Component,
   ContentChildren,
+  EventEmitter,
   forwardRef,
   Input,
   OnDestroy,
+  Output,
   QueryList,
-  ViewChild,
-  EventEmitter,
-  Output
+  ViewChild
 } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import {
+  Observable
+} from 'rxjs/Observable';
+
+import {
+  Subject
+} from 'rxjs/Subject';
+
 import 'rxjs/add/operator/distinctUntilChanged';
+
 import 'rxjs/add/operator/scan';
+
 import 'rxjs/add/operator/take';
+
 import 'rxjs/add/operator/takeUntil';
 
 import {
@@ -28,20 +37,23 @@ import {
 } from 'microedge-rxstate/dist';
 
 import {
-  SkyGridComponent,
   SkyGridColumnComponent,
   SkyGridColumnHeadingModelChange,
   SkyGridColumnDescriptionModelChange,
   SkyGridColumnModel,
+  SkyGridComponent,
+  SkyGridMessage,
+  SkyGridMessageType,
   SkyGridSelectedRowsModelChange,
   SkyGridSelectedRowsSource
 } from '@skyux/grids';
 
 import {
   ListSearchModel,
-  ListStateDispatcher,
+  ListSelectedModel,
   ListState,
-  ListSelectedModel
+  ListStateDispatcher,
+  ListViewComponent
 } from '@skyux/list-builder';
 
 import {
@@ -52,17 +64,34 @@ import {
 } from '@skyux/list-builder-common';
 
 import {
-  ListViewComponent
-} from '@skyux/list-builder';
+  ListViewGridColumnsLoadAction
+} from './state/columns/actions';
+
+import {
+  ListViewDisplayedGridColumnsLoadAction
+} from './state/displayed-columns/actions';
+
+import {
+  SkyListViewGridMessage
+} from './types/list-view-grid-message';
+
+import {
+  SkyListViewGridMessageType
+} from './types/list-view-grid-message-type';
+
+import {
+  SkyListViewGridRowDeleteCancelArgs
+} from './types/list-view-grid-row-delete-cancel-args';
+
+import {
+  SkyListViewGridRowDeleteConfirmArgs
+} from './types/list-view-grid-row-delete-confirm-args';
 
 import {
   GridState,
   GridStateDispatcher,
   GridStateModel
 } from './state';
-
-import { ListViewGridColumnsLoadAction } from './state/columns/actions';
-import { ListViewDisplayedGridColumnsLoadAction } from './state/displayed-columns/actions';
 
 @Component({
   selector: 'sky-list-view-grid',
@@ -104,6 +133,25 @@ export class SkyListViewGridComponent
   @Input()
   public highlightSearchText: boolean = true;
 
+  /**
+   * Provides an observable to send commands to the grid.
+   * The commands should respect the `SkyListViewGridMessage` type. (See below.)
+   */
+  @Input()
+  public set messageStream(stream: Subject<SkyListViewGridMessage>) {
+    if (this._messageStream) {
+      this._messageStream.unsubscribe();
+    }
+
+    this._messageStream = stream;
+
+    this.initInlineDeleteMessages();
+  }
+
+  public get messageStream(): Subject<SkyListViewGridMessage> {
+    return this._messageStream;
+  }
+
   @Input()
   public rowHighlightedId: string;
 
@@ -112,6 +160,12 @@ export class SkyListViewGridComponent
 
   @Input()
   public settingsKey: string;
+
+  @Output()
+  public rowDeleteCancel = new EventEmitter<SkyListViewGridRowDeleteCancelArgs>();
+
+  @Output()
+  public rowDeleteConfirm = new EventEmitter<SkyListViewGridRowDeleteConfirmArgs>();
 
   @Output()
   public selectedColumnIdsChange = new EventEmitter<Array<string>>();
@@ -139,6 +193,12 @@ export class SkyListViewGridComponent
 
   public items: Observable<ListItemModel[]>;
 
+  /**
+   * Message stream for communicating with the internal grid instance
+   * @interal
+   */
+  public gridMessageStream = new Subject<SkyGridMessage>();
+
   public loading: Observable<boolean>;
 
   public sortField: Observable<ListSortFieldSelectorModel>;
@@ -156,6 +216,8 @@ export class SkyListViewGridComponent
   private columnComponents: QueryList<SkyGridColumnComponent>;
 
   private ngUnsubscribe = new Subject();
+
+  private _messageStream = new Subject<SkyListViewGridMessage>();
 
   constructor(
     state: ListState,
@@ -279,6 +341,8 @@ export class SkyListViewGridComponent
     if (this.enableMultiselect) {
       this.dispatcher.toolbarShowMultiselectToolbar(true);
     }
+
+    this.initInlineDeleteMessages();
   }
 
   public ngOnDestroy() {
@@ -335,6 +399,14 @@ export class SkyListViewGridComponent
       });
   }
 
+  public cancelRowDelete(args: SkyListViewGridRowDeleteCancelArgs): void {
+    this.rowDeleteCancel.emit(args);
+  }
+
+  public confirmRowDelete(args: SkyListViewGridRowDeleteConfirmArgs): void {
+    this.rowDeleteConfirm.emit(args);
+  }
+
   public sortFieldChanged(sortField: ListSortFieldSelectorModel) {
     this.dispatcher.sortSetFieldSelectors([sortField]);
   }
@@ -373,6 +445,28 @@ export class SkyListViewGridComponent
           }));
         });
       });
+  }
+
+  private initInlineDeleteMessages(): void {
+    if (this.messageStream) {
+      this.messageStream.subscribe((message: SkyListViewGridMessage) => {
+        if (message.type === SkyListViewGridMessageType.AbortDeleteRow) {
+          this.gridMessageStream.next({
+            type: SkyGridMessageType.AbortDeleteRow,
+            data: {
+              abortDeleteRow: message.data.abortDeleteRow
+            }
+          });
+        } else if (message.type === SkyListViewGridMessageType.PromptDeleteRow) {
+          this.gridMessageStream.next({
+            type: SkyGridMessageType.PromptDeleteRow,
+            data: {
+              promptDeleteRow: message.data.promptDeleteRow
+            }
+          });
+        }
+      });
+    }
   }
 
   private handleColumnChange() {
