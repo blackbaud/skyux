@@ -1,9 +1,5 @@
-import {
-  SkyPopoverComponent
-} from '@skyux/popovers';
-
 export interface SkyGridColumnInlineHelpPopoverModelChange {
-  value?: SkyPopoverComponent;
+  value?: any;
   id?: string;
   field?: string;
 }

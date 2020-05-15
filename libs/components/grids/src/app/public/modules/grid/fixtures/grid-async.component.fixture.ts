@@ -5,12 +5,8 @@ import {
 } from '@angular/core';
 
 import {
-  SkyPopoverComponent
-} from '@skyux/popovers';
-
-import {
   BehaviorSubject
-} from 'rxjs/BehaviorSubject';
+} from 'rxjs';
 
 import {
   SkyGridComponent
@@ -26,7 +22,7 @@ export class GridAsyncTestComponent implements OnInit {
 
   public asyncDescription = new BehaviorSubject<string>('');
 
-  public asyncPopover: SkyPopoverComponent;
+  public asyncPopover: any;
 
   public items: Array<any> = [
     { 'id': 1, 'name': 'Windstorm', 'email': 'windstorm@gmail.com' },
@@ -39,7 +35,7 @@ export class GridAsyncTestComponent implements OnInit {
   public grid: SkyGridComponent;
 
   @ViewChild('asyncPopoverRef')
-  private popoverTemplate: SkyPopoverComponent;
+  private popoverTemplate: any;
 
   public ngOnInit(): void {
     setTimeout(() => {

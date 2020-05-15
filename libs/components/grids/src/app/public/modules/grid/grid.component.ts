@@ -20,52 +20,79 @@ import {
 } from '@angular/core';
 
 import {
+  SkyAppWindowRef,
   SkyUIConfigService
 } from '@skyux/core';
-
-import {
-  Observable
-} from 'rxjs/Observable';
-
-import {
-  BehaviorSubject
-} from 'rxjs/BehaviorSubject';
-
-import {
-  Subject
-} from 'rxjs/Subject';
-
-import {
-  Subscription
-} from 'rxjs/Subscription';
-
-import 'rxjs/add/operator/distinctUntilChanged';
-
-import 'rxjs/add/operator/map';
-
-import 'rxjs/add/observable/merge';
-
-import 'rxjs/add/operator/take';
-
-import 'rxjs/add/operator/takeWhile';
-
-import 'rxjs/add/observable/fromEvent';
 
 import {
   DragulaService
 } from 'ng2-dragula';
 
 import {
-  SkyAppWindowRef
-} from '@skyux/core';
+  BehaviorSubject,
+  Observable,
+  Subject,
+  Subscription,
+  merge,
+  fromEvent
+} from 'rxjs';
 
 import {
-  ListItemModel
-} from '@skyux/list-builder-common/state/items/item.model';
+  distinctUntilChanged,
+  map,
+  take,
+  takeUntil,
+  takeWhile
+} from 'rxjs/operators';
 
 import {
+  ListItemModel,
   ListSortFieldSelectorModel
 } from '@skyux/list-builder-common';
+
+import {
+  SkyGridColumnDescriptionModelChange
+} from './types/grid-column-description-model-change';
+
+import {
+  SkyGridColumnHeadingModelChange
+} from './types/grid-column-heading-model-change';
+
+import {
+  SkyGridColumnInlineHelpPopoverModelChange
+} from './types/grid-column-inline-help-popover-model-change';
+
+import {
+  SkyGridColumnWidthModelChange
+} from './types/grid-column-width-model-change';
+
+import {
+  SkyGridMessage
+} from './types/grid-message';
+
+import {
+  SkyGridMessageType
+} from './types/grid-message-type';
+
+import {
+  SkyGridRowDeleteCancelArgs
+} from './types/grid-row-delete-cancel-args';
+
+import {
+  SkyGridRowDeleteConfig
+} from './types/grid-row-delete-config';
+
+import {
+  SkyGridRowDeleteConfirmArgs
+} from './types/grid-row-delete-confirm-args';
+
+import {
+  SkyGridSelectedRowsModelChange
+} from './types/grid-selected-rows-model-change';
+
+import {
+  SkyGridSelectedRowsSource
+} from './types/grid-selected-rows-source';
 
 import {
   SkyGridColumnComponent
@@ -78,20 +105,6 @@ import {
 import {
   SkyGridAdapterService
 } from './grid-adapter.service';
-
-import {
-  SkyGridColumnDescriptionModelChange,
-  SkyGridColumnHeadingModelChange,
-  SkyGridColumnInlineHelpPopoverModelChange,
-  SkyGridColumnWidthModelChange,
-  SkyGridMessage,
-  SkyGridMessageType,
-  SkyGridRowDeleteCancelArgs,
-  SkyGridRowDeleteConfig,
-  SkyGridRowDeleteConfirmArgs,
-  SkyGridSelectedRowsModelChange,
-  SkyGridSelectedRowsSource
-} from './types';
 
 import {
   SkyGridUIConfig
@@ -264,7 +277,6 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
 
   constructor(
     private dragulaService: DragulaService,
-    private ref: ChangeDetectorRef,
     private gridAdapter: SkyGridAdapterService,
     private skyWindow: SkyAppWindowRef,
     private uiConfigService: SkyUIConfigService,
@@ -280,7 +292,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
 
   public ngOnInit() {
     this.messageStream
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((message: SkyGridMessage) => {
         this.handleIncomingMessages(message);
       });
@@ -397,56 +409,67 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
   public sortByColumn(column: SkyGridColumnModel) {
     if (!this.isDraggingResizeHandle && column.isSortable) {
       this.currentSortField
-        .take(1)
-        .map(field => {
-          let selector = {
-            fieldSelector: column.field,
-            descending: true
-          };
-
-          if (field && field.fieldSelector === column.field && field.descending) {
-            selector = {
+        .pipe(
+          take(1),
+          map(field => {
+            let selector = {
               fieldSelector: column.field,
-              descending: false
+              descending: true
             };
-          }
-          this.sortFieldChange.emit(selector);
-          this.currentSortField.next(selector);
-        })
+
+            if (field && field.fieldSelector === column.field && field.descending) {
+              selector = {
+                fieldSelector: column.field,
+                descending: false
+              };
+            }
+            this.sortFieldChange.emit(selector);
+            this.currentSortField.next(selector);
+          })
+        )
         .subscribe();
     }
   }
 
   public getSortDirection(columnField: string): Observable<string> {
     return this.currentSortField
-      .distinctUntilChanged()
-      .map(field => {
-        return field.fieldSelector === columnField ?
-          (field.descending ? 'desc' : 'asc') : undefined;
-      });
+      .pipe(
+        distinctUntilChanged(),
+        map(field => {
+          return field.fieldSelector === columnField ?
+            (field.descending ? 'desc' : 'asc') : undefined;
+        })
+      );
   }
 
   public getAriaSortDirection(column: SkyGridColumnModel): Observable<string> {
     return this.currentSortField
-      .distinctUntilChanged()
-      .map(field => {
-        return field.fieldSelector === column.field ?
-          (field.descending ? 'descending' : 'ascending') : (column.isSortable ? 'none' : undefined);
-      });
+      .pipe(
+        distinctUntilChanged(),
+        map(field => {
+          return field.fieldSelector === column.field ?
+            (field.descending ? 'descending' : 'ascending') : (column.isSortable ? 'none' : undefined);
+        })
+      );
   }
 
   public getCaretVisibility(columnField: string): Observable<string> {
     return this.currentSortField
-      .distinctUntilChanged()
-      .map(field => {
-        return field.fieldSelector === columnField ? 'visible' : 'hidden';
-      });
+      .pipe(
+        distinctUntilChanged(),
+        map(field => {
+          return field.fieldSelector === columnField ? 'visible' : 'hidden';
+        })
+      );
   }
 
   public getHelpInlineClass(columnField: string): Observable<boolean> {
-    return this.getCaretVisibility(columnField).map((visibility: string) => {
-      return visibility === 'hidden';
-    });
+    return this.getCaretVisibility(columnField)
+      .pipe(
+        map((visibility: string) => {
+          return visibility === 'hidden';
+        })
+      );
   }
 
   public onMultiselectCheckboxChange() {
@@ -464,7 +487,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
     /* istanbul ignore else */
     if (foundColumnModel) {
       foundColumnModel.heading = change.value;
-      this.ref.markForCheck();
+      this.changeDetector.markForCheck();
     }
   }
 
@@ -479,7 +502,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
     /* istanbul ignore else */
     if (foundColumnModel) {
       foundColumnModel.inlineHelpPopover = change.value;
-      this.ref.markForCheck();
+      this.changeDetector.markForCheck();
     }
   }
 
@@ -494,7 +517,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
     /* istanbul ignore else */
     if (foundColumnModel) {
       foundColumnModel.description = change.value;
-      this.ref.markForCheck();
+      this.changeDetector.markForCheck();
     }
   }
 
@@ -512,30 +535,34 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
     this.showResizeBar = true;
 
     // Show visual indicator of where mouse is dragging (resizeBar).
-    this.ref.detectChanges();
+    this.changeDetector.detectChanges();
     this.setResizeBarPosition(event.pageX);
 
     event.preventDefault();
     event.stopPropagation();
 
-    const mouseMoveEvent = Observable.fromEvent(document, 'mousemove');
-    const touchMoveEvent = Observable.fromEvent(document, 'touchmove');
+    const mouseMoveEvent = fromEvent(document, 'mousemove');
+    const touchMoveEvent = fromEvent(document, 'touchmove');
 
-    Observable.merge(mouseMoveEvent, touchMoveEvent)
-      .takeWhile(() => {
-        return this.isDraggingResizeHandle;
-      })
+    merge(mouseMoveEvent, touchMoveEvent)
+      .pipe(
+        takeWhile(() => {
+          return this.isDraggingResizeHandle;
+        })
+      )
       .subscribe((moveEvent: any) => {
         this.onResizeHandleMove(moveEvent);
       });
 
-    const mouseUpEvent = Observable.fromEvent(document, 'mouseup');
-    const touchEndEvent = Observable.fromEvent(document, 'touchend');
+    const mouseUpEvent = fromEvent(document, 'mouseup');
+    const touchEndEvent = fromEvent(document, 'touchend');
 
-    Observable.merge(mouseUpEvent, touchEndEvent)
-      .takeWhile(() => {
-        return this.isDraggingResizeHandle;
-      })
+    merge(mouseUpEvent, touchEndEvent)
+      .pipe(
+        takeWhile(() => {
+          return this.isDraggingResizeHandle;
+        })
+      )
       .subscribe((endEvent: any) => {
         this.onResizeHandleRelease(endEvent);
       });
@@ -584,7 +611,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
 
   public onResizeHandleFocus(event: KeyboardEvent) {
     this.showResizeBar = true;
-    this.ref.detectChanges();
+    this.changeDetector.detectChanges();
 
     const target = event.target as HTMLElement;
     const left = target.getBoundingClientRect().left;
@@ -608,7 +635,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
     if (this.enableMultiselect) {
       if (event.target === event.currentTarget || !this.isInteractiveElement(event)) {
         selectedItem.isSelected = !selectedItem.isSelected;
-        this.ref.markForCheck();
+        this.changeDetector.markForCheck();
         this.emitSelectedRows(SkyGridSelectedRowsSource.RowClick);
       }
     }
@@ -697,7 +724,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
     for (let i = 0; i < this.items.length; i++) {
       this.items[i].isSelected = true;
     }
-    this.ref.markForCheck();
+    this.changeDetector.markForCheck();
     this.emitSelectedRows(SkyGridSelectedRowsSource.SelectAll);
   }
 
@@ -705,7 +732,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
     for (let i = 0; i < this.items.length; i++) {
       this.items[i].isSelected = false;
     }
-    this.ref.markForCheck();
+    this.changeDetector.markForCheck();
     this.emitSelectedRows(SkyGridSelectedRowsSource.ClearAll);
   }
 
@@ -748,7 +775,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
     this.selectedColumnIds = newColumnIds;
 
     // mark for check because we are using ChangeDetectionStrategy.onPush
-    this.ref.markForCheck();
+    this.changeDetector.markForCheck();
   }
 
   private setDisplayedColumns(respectHidden: boolean = false) {
@@ -797,7 +824,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
       for (let i = 0; i < this.items.length; i++) {
         this.items[i].isSelected = (this.selectedRowIds.indexOf(this.items[i].id) > -1);
       }
-      this.ref.markForCheck();
+      this.changeDetector.markForCheck();
     }
   }
 
@@ -814,7 +841,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
   private updateColumns() {
     this.getColumnsFromComponent();
     this.setDisplayedColumns(true);
-    this.ref.markForCheck();
+    this.changeDetector.markForCheck();
 
     // This set timeout is necessary to ensure the columns have rendered in the grid
     setTimeout(() => {
@@ -850,7 +877,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
       column.width = newColWidth;
     }
 
-    this.ref.detectChanges();
+    this.changeDetector.detectChanges();
     this.columnWidthChange.emit(this.getColumnWidthModelChange());
 
     // If in "scroll" mode, reset the full table width.
@@ -887,7 +914,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
       this.updateMaxRange();
     }
 
-    this.ref.detectChanges();
+    this.changeDetector.detectChanges();
   }
 
   private getColumnWidthModelChange() {
@@ -922,10 +949,10 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
   private resetTableWidth() {
     this.skyWindow.nativeWindow.setTimeout(() => {
       this.gridAdapter.setStyle(this.tableElementRef, 'width', `auto`);
-      this.ref.detectChanges();
+      this.changeDetector.detectChanges();
       this.tableWidth = this.tableElementRef.nativeElement.offsetWidth;
       this.gridAdapter.setStyle(this.tableElementRef, 'width', `${this.tableWidth}px`);
-      this.ref.detectChanges();
+      this.changeDetector.detectChanges();
     });
   }
 
@@ -1000,7 +1027,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
   private applyUserConfig(): Promise<void> {
     return new Promise<void>((resolve) => {
       this.uiConfigService.getConfig(this.settingsKey)
-        .take(1)
+        .pipe(take(1))
         .subscribe((config: SkyGridUIConfig) => {
           /* istanbul ignore else */
           if (config && config.selectedColumnIds) {
@@ -1011,7 +1038,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
             );
 
             this.selectedColumnIds = filteredColumnIds;
-            this.ref.markForCheck();
+            this.changeDetector.markForCheck();
           }
 
           resolve();
@@ -1030,7 +1057,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
       this.settingsKey,
       config
     )
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         () => { },
         (err) => {
@@ -1054,7 +1081,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
 
       this.transformData();
       this.setDisplayedColumns(true);
-      this.ref.markForCheck();
+      this.changeDetector.markForCheck();
     }
 
     // Watch for added/removed columns:

@@ -16,9 +16,12 @@ import {
 } from '../grid.component';
 
 import {
-  SkyGridColumnWidthModelChange,
+  SkyGridColumnWidthModelChange
+} from '../types/grid-column-width-model-change';
+
+import {
   SkyGridSelectedRowsModelChange
-} from '../types';
+} from '../types/grid-selected-rows-model-change';
 
 @Component({
   selector: 'sky-test-cmp',

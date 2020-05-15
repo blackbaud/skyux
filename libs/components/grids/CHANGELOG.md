@@ -1,11 +1,43 @@
+# 4.0.0 (2020-05-15)
+
+### New features
+
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#109](https://github.com/blackbaud/skyux-grids/pull/109)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#109](https://github.com/blackbaud/skyux-grids/pull/109)
+
 # 3.8.0 (2020-05-11)
 
 - Added the ability to align the contents and header of a grid column. [#114](https://github.com/blackbaud/skyux-grids/pull/114)
+
+# 4.0.0-rc.3 (2020-05-06)
+
+- Added bug fixes and features from the `master` branch. [#118](https://github.com/blackbaud/skyux-grids/pull/118)
 
 # 3.7.0 (2020-05-01)
 
 - Updated the visual styles of the column resize indicator. [#116](https://github.com/blackbaud/skyux-grids/pull/116)
 - Removed the dependency `moment`. [#116](https://github.com/blackbaud/skyux-grids/pull/116)
+
+# 4.0.0-rc.2 (2020-04-15)
+
+- Added `SkyGridColumnComponent` and `SkyGridComponent` to exports API (for internal use only).
+
+# 4.0.0-rc.1 (2020-04-15)
+
+- Added `SkyGridColumnModel` to the exports API.
+
+# 4.0.0-rc.0 (2020-04-10)
+
+### New features
+
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#109](https://github.com/blackbaud/skyux-grids/pull/109)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#109](https://github.com/blackbaud/skyux-grids/pull/109)
 
 # 3.6.0 (2020-03-23)
 

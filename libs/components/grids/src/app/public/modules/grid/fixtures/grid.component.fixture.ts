@@ -9,25 +9,43 @@ import {
 
 import {
   Subject
-} from 'rxjs/Subject';
+} from 'rxjs';
 
 import {
   ListSortFieldSelectorModel
 } from '@skyux/list-builder-common';
 
 import {
-  SkyGridComponent
-} from '../grid.component';
+  SkyGridColumnWidthModelChange
+} from '../types/grid-column-width-model-change';
 
 import {
-  SkyGridColumnWidthModelChange,
-  SkyGridRowDeleteCancelArgs,
-  SkyGridRowDeleteConfig,
-  SkyGridRowDeleteConfirmArgs,
-  SkyGridMessage,
-  SkyGridSelectedRowsModelChange,
+  SkyGridMessage
+} from '../types/grid-message';
+
+import {
   SkyGridMessageType
-} from '../types';
+} from '../types/grid-message-type';
+
+import {
+  SkyGridRowDeleteCancelArgs
+} from '../types/grid-row-delete-cancel-args';
+
+import {
+  SkyGridRowDeleteConfig
+} from '../types/grid-row-delete-config';
+
+import {
+  SkyGridRowDeleteConfirmArgs
+} from '../types/grid-row-delete-confirm-args';
+
+import {
+  SkyGridSelectedRowsModelChange
+} from '../types/grid-selected-rows-model-change';
+
+import {
+  SkyGridComponent
+} from '../grid.component';
 
 @Component({
   selector: 'sky-test-cmp',

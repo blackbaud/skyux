@@ -32,7 +32,10 @@ export class SkyGridCellComponent implements OnInit {
   @Input()
   private fieldSelector: string;
 
-  @ViewChild('cell', { read: ViewContainerRef })
+  @ViewChild('cell', {
+    read: ViewContainerRef,
+    static: true
+  })
   private container: ViewContainerRef;
 
   public ngOnInit() {

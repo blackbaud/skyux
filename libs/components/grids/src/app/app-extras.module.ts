@@ -13,7 +13,7 @@ import {
 
 import {
   SkyGridModule
-} from './public';
+} from './public/public_api';
 
 @NgModule({
   exports: [

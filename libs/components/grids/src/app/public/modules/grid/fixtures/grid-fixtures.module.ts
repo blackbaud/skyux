@@ -1,10 +1,10 @@
 import {
-  NgModule
-} from '@angular/core';
-
-import {
   CommonModule
 } from '@angular/common';
+
+import {
+  NgModule
+} from '@angular/core';
 
 import {
   NoopAnimationsModule
@@ -19,8 +19,8 @@ import {
 } from '@skyux/popovers';
 
 import {
-  Observable
-} from 'rxjs/Observable';
+  of as observableOf
+} from 'rxjs';
 
 import {
   SkyGridModule
@@ -69,10 +69,10 @@ import {
     {
       provide: SkyUIConfigService,
       useValue: {
-        getConfig: () => Observable.of({
+        getConfig: () => observableOf({
           selectedColumnIds: []
         }),
-        setConfig: () => Observable.of({})
+        setConfig: () => observableOf({})
       }
     }
   ],

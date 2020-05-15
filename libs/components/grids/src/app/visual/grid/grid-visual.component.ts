@@ -5,15 +5,11 @@ import {
 
 import {
   Subject
-} from 'rxjs/Subject';
+} from 'rxjs';
 
 import {
   ListSortFieldSelectorModel
 } from '@skyux/list-builder-common';
-
-import {
-  SkyPopoverComponent
-} from '@skyux/popovers';
 
 import {
   SkyGridMessage,
@@ -21,15 +17,16 @@ import {
   SkyGridRowDeleteCancelArgs,
   SkyGridRowDeleteConfirmArgs,
   SkyGridSelectedRowsModelChange
-} from '../../public';
+} from '../../public/public_api';
 
 @Component({
   selector: 'grid-visual',
-  templateUrl: './grid-visual.component.html'
+  templateUrl: './grid-visual.component.html',
+  styleUrls: ['./grid-visual.component.scss']
 })
 export class GridVisualComponent {
 
-  public asyncPopover: SkyPopoverComponent;
+  public asyncPopover: any;
 
   public dataForRowDeleteGrid: any = [
     { id: '1', column1: '1', column2: 'Apple', column3: 'aa' },
@@ -76,7 +73,7 @@ export class GridVisualComponent {
   public selectedRows: string;
 
   @ViewChild('asyncPopoverRef')
-  private popoverTemplate: SkyPopoverComponent;
+  private popoverTemplate: any;
 
   constructor() {
     setTimeout(() => {
