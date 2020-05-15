@@ -1,3 +1,7 @@
+# 3.7.0 (2020-05-15)
+
+- Added the ability to delete rows in the list view grid component. [#75](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/75)
+
 # 3.6.4 (2020-05-06)
 
 - Fixed the column selector action to display in the correct position inside a list toolbar. [#67](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/67)
