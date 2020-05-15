@@ -7,7 +7,8 @@ import {
   SkyIntlDateFormatter
 } from '@skyux/i18n';
 
-const moment = require('moment');
+import * as moment_ from 'moment';
+const moment = moment_;
 
 export class SkyDateFormatUtility {
 

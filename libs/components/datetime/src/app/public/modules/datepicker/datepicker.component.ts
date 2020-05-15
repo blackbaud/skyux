@@ -20,12 +20,13 @@ import {
 } from '@skyux/core';
 
 import {
-  Observable
-} from 'rxjs/Observable';
+  fromEvent,
+  Subject
+} from 'rxjs';
 
 import {
-  Subject
-} from 'rxjs/Subject';
+  takeUntil
+} from 'rxjs/operators';
 
 import {
   SkyDatepickerCalendarComponent
@@ -206,7 +207,11 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
   }
 
   public onTriggerButtonClick(): void {
-    this.openPicker();
+    if (this.isOpen) {
+      this.closePicker();
+    } else {
+      this.openPicker();
+    }
   }
 
   private closePicker() {
@@ -235,7 +240,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
 
     // Hide calendar when trigger button is scrolled off screen.
     affixer.placementChange
-      .takeUntil(this.calendarUnsubscribe)
+      .pipe(takeUntil(this.calendarUnsubscribe))
       .subscribe((change) => {
         this.isVisible = (change.placement !== null);
         this.changeDetector.markForCheck();
@@ -267,7 +272,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
     });
 
     overlay.backdropClick
-      .takeUntil(this.calendarUnsubscribe)
+      .pipe(takeUntil(this.calendarUnsubscribe))
       .subscribe(() => {
         if (this.isOpen) {
           this.closePicker();
@@ -288,8 +293,8 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
   }
 
   private addTriggerButtonEventListeners(): void {
-    Observable.fromEvent(window.document, 'keydown')
-      .takeUntil(this.ngUnsubscribe)
+    fromEvent(window.document, 'keydown')
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((event: KeyboardEvent) => {
         const key = event.key.toLowerCase();
         if (key === 'escape' && this.isOpen) {

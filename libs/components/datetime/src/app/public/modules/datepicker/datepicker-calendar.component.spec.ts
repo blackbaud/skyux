@@ -19,7 +19,8 @@ import {
 
 import { By } from '@angular/platform-browser';
 
-const moment = require('moment');
+import * as moment_ from 'moment';
+const moment = moment_;
 
 describe('datepicker calendar', () => {
 

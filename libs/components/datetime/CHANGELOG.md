@@ -1,6 +1,38 @@
+# 4.0.0 (2020-05-15)
+
+### New features
+
+- Added a test fixture for the datepicker component to use in consumer unit tests. [#155](https://github.com/blackbaud/skyux-datetime/pull/155)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#150](https://github.com/blackbaud/skyux-datetime/pull/150)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#150](https://github.com/blackbaud/skyux-datetime/pull/150)
+
+# 4.0.0-rc.2 (2020-05-06)
+
+### New features
+
+- Added a test fixture for the datepicker component to use in consumer unit tests. [#155](https://github.com/blackbaud/skyux-datetime/pull/155)
+
 # 3.11.0 (2020-05-05)
 
 - Added `moment` as a dependency. [#153](https://github.com/blackbaud/skyux-datetime/pull/153)
+
+# 4.0.0-rc-1 (2020-05-01)
+
+- Removed a deep import from `moment/min/locales.min`. [#152](https://github.com/blackbaud/skyux-datetime/pull/152)
+- Upgraded the package dependencies. [#152](https://github.com/blackbaud/skyux-datetime/pull/152)
+
+# 4.0.0-rc.0 (2020-04-30)
+
+### New features
+
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#150](https://github.com/blackbaud/skyux-datetime/pull/150)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#150](https://github.com/blackbaud/skyux-datetime/pull/150)
 
 # 3.10.0 (2020-04-30)
 

@@ -38,7 +38,8 @@ import {
   SkyTimepickerModule
 } from './timepicker.module';
 
-const moment = require('moment');
+import * as moment_ from 'moment';
+const moment = moment_;
 
 //#region helpers
 function getInput(fixture: ComponentFixture<any>): HTMLInputElement {

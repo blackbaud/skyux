@@ -26,7 +26,7 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  Observable
+  of
 } from 'rxjs';
 
 import {
@@ -53,7 +53,8 @@ import {
   FuzzyDatepickerReactiveTestComponent
 } from './fixtures/fuzzy-datepicker-reactive.component.fixture';
 
-const moment = require('moment');
+import * as moment_ from 'moment';
+const moment = moment_;
 
 // #region helpers
 function detectChanges(fixture: ComponentFixture<any>): void {
@@ -1638,7 +1639,7 @@ describe('fuzzy datepicker input', () => {
 
     it('should display formatted date based on locale by default', fakeAsync(() => {
       spyOn(localeProvider, 'getLocaleInfo').and.returnValue(
-        Observable.of({
+        of({
           locale: 'es' // Set locale to Spanish.
         })
       );

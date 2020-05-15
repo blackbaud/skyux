@@ -11,6 +11,10 @@ import {
   Validators
 } from '@angular/forms';
 
+import {
+  distinctUntilChanged
+} from 'rxjs/operators';
+
 @Component({
   selector: 'datepicker-visual',
   templateUrl: './datepicker-visual.component.html'
@@ -39,13 +43,13 @@ export class DatepickerVisualComponent implements OnInit {
     });
 
     this.reactiveDate.statusChanges
-      .distinctUntilChanged()
+      .pipe(distinctUntilChanged())
       .subscribe((status: any) => {
         console.log('Status changed:', status);
       });
 
     this.reactiveDate.valueChanges
-      .distinctUntilChanged()
+      .pipe(distinctUntilChanged())
       .subscribe((value: any) => {
         console.log('Value changed:', value);
       });

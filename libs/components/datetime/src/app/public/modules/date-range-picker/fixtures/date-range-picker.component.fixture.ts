@@ -13,7 +13,11 @@ import {
 
 import {
   Subject
-} from 'rxjs/Subject';
+} from 'rxjs';
+
+import {
+  takeUntil
+} from 'rxjs/operators';
 
 import {
   SkyDateRangeCalculation
@@ -60,7 +64,7 @@ export class DateRangePickerTestComponent implements OnInit, OnDestroy {
     });
 
     this.dateRange.valueChanges
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         this.numValueChangeNotifications++;
       });

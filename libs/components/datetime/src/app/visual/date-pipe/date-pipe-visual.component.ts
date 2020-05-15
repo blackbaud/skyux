@@ -5,7 +5,7 @@ import {
 
 import {
   SkyDatePipe
-} from '../../public';
+} from '../../public/public_api';
 
 @Component({
   selector: 'date-pipe-visual',

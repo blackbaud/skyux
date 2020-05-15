@@ -5,14 +5,17 @@ import {
 } from '@angular/core';
 
 import {
+  SkyAppLocaleInfo,
   SkyAppLocaleProvider
 } from '@skyux/i18n';
 
 import {
   Subject
-} from 'rxjs/Subject';
+} from 'rxjs';
 
-import 'rxjs/add/operator/takeUntil';
+import {
+  takeUntil
+} from 'rxjs/operators';
 
 import {
   SkyDateFormatUtility
@@ -51,8 +54,8 @@ export class SkyDatePipe implements OnDestroy, PipeTransform {
     private localeProvider: SkyAppLocaleProvider
   ) {
     this.localeProvider.getLocaleInfo()
-      .takeUntil(this.ngUnsubscribe)
-      .subscribe((localeInfo) => {
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((localeInfo: SkyAppLocaleInfo) => {
         this.defaultLocale = localeInfo.locale;
         this.updateFormattedValue();
       });

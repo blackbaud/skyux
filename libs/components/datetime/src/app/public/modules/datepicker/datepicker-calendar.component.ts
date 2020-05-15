@@ -66,7 +66,10 @@ export class SkyDatepickerCalendarComponent implements AfterViewInit {
     return this.adapter.elementIsVisible();
   }
 
-  @ViewChild(SkyDatepickerCalendarInnerComponent)
+  @ViewChild(SkyDatepickerCalendarInnerComponent, {
+    read: SkyDatepickerCalendarInnerComponent,
+    static: true
+  })
   public _datepicker: SkyDatepickerCalendarInnerComponent;
 
   protected _now: Date = new Date();

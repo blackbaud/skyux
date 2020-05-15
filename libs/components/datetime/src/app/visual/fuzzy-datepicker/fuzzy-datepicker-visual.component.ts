@@ -12,6 +12,10 @@ import {
 } from '@angular/forms';
 
 import {
+  distinctUntilChanged
+} from 'rxjs/operators';
+
+import {
   SkyFuzzyDateService
 } from '../../public/modules/datepicker/fuzzy-date.service';
 
@@ -69,13 +73,13 @@ export class FuzzyDatepickerVisualComponent implements OnInit {
     });
 
     this.reactiveDate.statusChanges
-      .distinctUntilChanged()
+      .pipe(distinctUntilChanged())
       .subscribe((status: any) => {
         console.log('Status changed:', status);
       });
 
     this.reactiveDate.valueChanges
-      .distinctUntilChanged()
+      .pipe(distinctUntilChanged())
       .subscribe((value: any) => {
         console.log('Value changed:', value);
       });

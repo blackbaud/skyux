@@ -1,4 +1,5 @@
-const moment = require('moment');
+import * as moment_ from 'moment';
+const moment = moment_;
 
 export class SkyDateFormatter {
 

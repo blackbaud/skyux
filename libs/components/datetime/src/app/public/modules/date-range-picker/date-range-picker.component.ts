@@ -31,20 +31,15 @@ import {
 } from '@skyux/i18n';
 
 import {
-  Observable
-} from 'rxjs/Observable';
+  combineLatest,
+  Subject
+} from 'rxjs';
 
 import {
-  Subject
-} from 'rxjs/Subject';
-
-import 'rxjs/add/observable/combineLatest';
-
-import 'rxjs/add/operator/distinctUntilChanged';
-
-import 'rxjs/add/operator/first';
-
-import 'rxjs/add/operator/takeUntil';
+  distinctUntilChanged,
+  first,
+  takeUntil
+} from 'rxjs/operators';
 
 import {
   SkyDateFormatter
@@ -229,7 +224,7 @@ export class SkyDateRangePickerComponent
     private windowRef: SkyAppWindowRef
   ) {
     this.localeProvider.getLocaleInfo()
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((localeInfo) => {
         SkyDateFormatter.setLocale(localeInfo.locale);
         this.preferredShortDateFormat = SkyDateFormatter.getPreferredShortDateFormat();
@@ -461,12 +456,11 @@ export class SkyDateRangePickerComponent
   private addEventListeners(): void {
     // Detect errors from the date pickers
     // when control is initialized with a value.
-    Observable
-      .combineLatest(
+      combineLatest([
         this.startDateControl.statusChanges,
         this.endDateControl.statusChanges
-      )
-      .first()
+      ])
+      .pipe(first())
       .subscribe((status: string[]) => {
         if (status.indexOf('INVALID') > -1) {
           // Wait for initial validation to complete.
@@ -478,7 +472,7 @@ export class SkyDateRangePickerComponent
 
     // Watch for selected calculator change.
     this.calculatorIdControl.valueChanges
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((value) => {
         const id = parseInt(value, 10);
         const calculator = this.getCalculatorById(id);
@@ -491,16 +485,20 @@ export class SkyDateRangePickerComponent
 
     // Watch for start date value changes.
     this.startDateControl.valueChanges
-      .distinctUntilChanged()
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(
+        distinctUntilChanged(),
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe((startDate) => {
         this.patchValue({ startDate });
       });
 
     // Watch for end date value changes.
     this.endDateControl.valueChanges
-      .distinctUntilChanged()
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(
+        distinctUntilChanged(),
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe((endDate) => {
         this.patchValue({ endDate });
       });

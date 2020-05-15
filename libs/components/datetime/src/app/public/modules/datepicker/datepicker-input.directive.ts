@@ -29,11 +29,12 @@ import {
 
 import {
   Subject
-} from 'rxjs/Subject';
+} from 'rxjs';
 
-import 'rxjs/add/operator/distinctUntilChanged';
-
-import 'rxjs/add/operator/takeUntil';
+import {
+  distinctUntilChanged,
+  takeUntil
+} from 'rxjs/operators';
 
 import {
   SkyDateFormatter
@@ -51,7 +52,8 @@ import {
   SkyDatepickerComponent
 } from './datepicker.component';
 
-const moment = require('moment');
+import * as moment_ from 'moment';
+const moment = moment_;
 
 // tslint:disable:no-forward-ref no-use-before-declare
 const SKY_DATEPICKER_VALUE_ACCESSOR = {
@@ -242,7 +244,7 @@ export class SkyDatepickerInputDirective
     @Optional() private datepickerComponent: SkyDatepickerComponent
   ) {
     this.localeProvider.getLocaleInfo()
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((localeInfo) => {
         SkyDateFormatter.setLocale(localeInfo.locale);
         this.preferredShortDateFormat = SkyDateFormatter.getPreferredShortDateFormat();
@@ -269,7 +271,7 @@ export class SkyDatepickerInputDirective
 
     if (!hasAriaLabel) {
       this.resourcesService.getString('skyux_date_field_default_label')
-        .takeUntil(this.ngUnsubscribe)
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((value: string) => {
           this.renderer.setAttribute(
             element,
@@ -282,8 +284,8 @@ export class SkyDatepickerInputDirective
 
   public ngAfterContentInit(): void {
     this.datepickerComponent.dateChange
-      .distinctUntilChanged()
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(distinctUntilChanged())
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((value: Date) => {
         this.isFirstChange = false;
         this.value = value;

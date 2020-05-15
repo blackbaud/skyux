@@ -28,7 +28,8 @@ import {
   SkyFuzzyDate
 } from './fuzzy-date';
 
-const moment = require('moment');
+import * as moment_ from 'moment';
+const moment = moment_;
 
 describe('SkyFuzzyDateservice', () => {
   let service: SkyFuzzyDateService;

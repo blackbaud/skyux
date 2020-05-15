@@ -8,12 +8,9 @@ import {
 } from '@skyux/i18n';
 
 import {
-  BehaviorSubject
-} from 'rxjs/BehaviorSubject';
-
-import {
+  BehaviorSubject,
   Observable
-} from 'rxjs/Observable';
+} from 'rxjs';
 
 export class MyLocaleProvider extends SkyAppLocaleProvider {
   public getLocaleInfo(): Observable<SkyAppLocaleInfo> {

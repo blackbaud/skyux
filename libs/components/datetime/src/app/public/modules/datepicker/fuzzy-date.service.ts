@@ -12,10 +12,15 @@ import {
 } from 'rxjs';
 
 import {
+  takeUntil
+} from 'rxjs/operators';
+
+import {
   SkyFuzzyDate
 } from './fuzzy-date';
 
-const moment = require('moment');
+import * as moment_ from 'moment';
+const moment = moment_;
 
 interface SkyDateIndexes {
   yearIndex: number;
@@ -41,7 +46,7 @@ export class SkyFuzzyDateService implements OnDestroy {
     private localeProvider: SkyAppLocaleProvider
   ) {
     this.localeProvider.getLocaleInfo()
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((localeInfo) => {
         this.currentLocale = localeInfo.locale;
       });

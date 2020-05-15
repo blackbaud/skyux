@@ -3,8 +3,6 @@ import {
   PipeTransform
 } from '@angular/core';
 
-import 'rxjs/add/operator/takeUntil';
-
 import {
   SkyFuzzyDate
 } from '../datepicker/fuzzy-date';
