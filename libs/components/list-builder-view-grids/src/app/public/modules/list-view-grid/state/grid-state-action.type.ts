@@ -1,4 +1,6 @@
-import { ListViewGridColumnsLoadAction } from './columns/actions';
+import {
+  ListViewGridColumnsLoadAction
+} from './columns/load.action';
 
 export type GridStateAction =
   ListViewGridColumnsLoadAction;

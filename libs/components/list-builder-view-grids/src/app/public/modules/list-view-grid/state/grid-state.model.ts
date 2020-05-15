@@ -1,4 +1,7 @@
-import { AsyncList } from 'microedge-rxstate/dist';
+import {
+  AsyncList
+} from '@skyux/list-builder-common';
+
 import { SkyGridColumnModel } from '@skyux/grids';
 
 export class GridStateModel {

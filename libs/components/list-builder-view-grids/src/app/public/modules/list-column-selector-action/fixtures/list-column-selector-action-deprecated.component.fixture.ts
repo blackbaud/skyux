@@ -4,20 +4,20 @@ import {
 } from '@angular/core';
 
 import {
-  Observable
-} from 'rxjs/Observable';
-import 'rxjs/Rx';
+  Observable,
+  of as observableOf
+} from 'rxjs';
 
 import {
   SkyListViewGridComponent
-} from '../../list-view-grid';
+} from '../../list-view-grid/list-view-grid.component';
 
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './list-column-selector-action-deprecated.component.fixture.html'
 })
 export class ListColumnSelectorActionDeprecatedTestComponent {
-  public items: Observable<Array<any>> = Observable.of([
+  public items: Observable<Array<any>> = observableOf([
     { id: '1', column1: 101, column2: 'Apple', column3: 'Anne eats apples' },
     { id: '2', column1: 202, column2: 'Banana', column3: 'Ben eats bananas' },
     { id: '3', column1: 303, column2: 'Pear', column3: 'Patty eats pears' },
@@ -27,6 +27,8 @@ export class ListColumnSelectorActionDeprecatedTestComponent {
     { id: '7', column1: 707, column2: 'Strawberry', column3: 'Sally eats strawberries' }
   ]);
 
-  @ViewChild(SkyListViewGridComponent)
+  @ViewChild(SkyListViewGridComponent, {
+    static: true
+  })
   public grid: SkyListViewGridComponent;
 }

@@ -17,10 +17,7 @@ import {
   SkyModalModule
 } from '@skyux/modals';
 import {
-  SkyListModule
-} from '@skyux/list-builder';
-
-import {
+  SkyListModule,
   SkyListToolbarModule
 } from '@skyux/list-builder';
 

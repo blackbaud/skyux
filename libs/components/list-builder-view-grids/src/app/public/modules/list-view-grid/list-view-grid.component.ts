@@ -13,28 +13,23 @@ import {
 } from '@angular/core';
 
 import {
-  Observable
-} from 'rxjs/Observable';
-
-import {
+  Observable,
+  of as observableOf,
   Subject
-} from 'rxjs/Subject';
-
-import 'rxjs/add/operator/distinctUntilChanged';
-
-import 'rxjs/add/operator/scan';
-
-import 'rxjs/add/operator/take';
-
-import 'rxjs/add/operator/takeUntil';
+} from 'rxjs';
 
 import {
+  distinctUntilChanged,
+  map as observableMap,
+  scan,
+  take,
+  takeUntil
+} from 'rxjs/operators';
+
+import {
+  AsyncList,
   getValue
-} from 'microedge-rxstate/dist/helpers';
-
-import {
-  AsyncList
-} from 'microedge-rxstate/dist';
+} from '@skyux/list-builder-common';
 
 import {
   SkyGridColumnComponent,
@@ -64,12 +59,24 @@ import {
 } from '@skyux/list-builder-common';
 
 import {
+  GridState
+} from './state/grid-state.state-node';
+
+import {
+  GridStateDispatcher
+} from './state/grid-state.rxstate';
+
+import {
+  GridStateModel
+} from './state/grid-state.model';
+
+import {
   ListViewGridColumnsLoadAction
-} from './state/columns/actions';
+} from './state/columns/load.action';
 
 import {
   ListViewDisplayedGridColumnsLoadAction
-} from './state/displayed-columns/actions';
+} from './state/displayed-columns/load.action';
 
 import {
   SkyListViewGridMessage
@@ -87,12 +94,6 @@ import {
   SkyListViewGridRowDeleteConfirmArgs
 } from './types/list-view-grid-row-delete-confirm-args';
 
-import {
-  GridState,
-  GridStateDispatcher,
-  GridStateModel
-} from './state';
-
 @Component({
   selector: 'sky-list-view-grid',
   templateUrl: './list-view-grid.component.html',
@@ -107,8 +108,8 @@ import {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyListViewGridComponent
-  extends ListViewComponent implements AfterContentInit, OnDestroy {
+export class SkyListViewGridComponent extends ListViewComponent
+  implements AfterContentInit, OnDestroy {
 
   @Input()
   public set name(value: string) {
@@ -176,14 +177,14 @@ export class SkyListViewGridComponent
   public get gridHeight(): Observable<number> {
     return (typeof this.height === 'number')
       /* istanbul ignore next */
-      ? Observable.of(this.height)
+      ? observableOf(this.height)
       : this.height;
   }
 
   public get gridWidth(): Observable<number> {
     /* istanbul ignore next */
     return (typeof this.width === 'number')
-      ? Observable.of(this.width)
+      ? observableOf(this.width)
       : this.width;
   }
 
@@ -231,9 +232,11 @@ export class SkyListViewGridComponent
   public ngAfterContentInit() {
 
     // Watch for selection changes and update multiselectSelectedIds for local comparison.
-    this.state.map(s => s.selected.item)
-      .takeUntil(this.ngUnsubscribe)
-      .distinctUntilChanged(this.selectedMapEqual)
+    this.state.pipe(
+      observableMap(s => s.selected.item),
+      takeUntil(this.ngUnsubscribe),
+      distinctUntilChanged(this.selectedMapEqual)
+    )
       .subscribe((items: ListSelectedModel) => {
         const selectedIds: string[] = [];
 
@@ -255,32 +258,34 @@ export class SkyListViewGridComponent
     });
 
     if (this.width && !isObservable(this.width)) {
-      this.width = Observable.of(this.width);
+      this.width = observableOf(this.width);
     }
 
     if (this.height && !isObservable(this.height)) {
-      this.height = Observable.of(this.height);
+      this.height = observableOf(this.height);
     }
 
     // Setup Observables for template
-    this.columns = this.gridState
-      .map(s => s.columns.items)
-      .distinctUntilChanged(this.arraysEqual)
-      .takeUntil(this.ngUnsubscribe);
+    this.columns = this.gridState.pipe(
+      observableMap(s => s.columns.items),
+      distinctUntilChanged(this.arraysEqual),
+      takeUntil(this.ngUnsubscribe)
+    );
 
     this.selectedColumnIds = this.getSelectedIds();
 
     this.items = this.getGridItems();
 
-    this.loading = this.state
-      .map((s) => {
+    this.loading = this.state.pipe(
+      observableMap((s) => {
         return s.items.loading;
-      })
-      .distinctUntilChanged()
-      .takeUntil(this.ngUnsubscribe);
+      }),
+      distinctUntilChanged(),
+      takeUntil(this.ngUnsubscribe)
+    );
 
-    this.sortField = this.state
-      .map((s) => {
+    this.sortField = this.state.pipe(
+      observableMap((s) => {
         /* istanbul ignore else */
         /* sanity check */
         if (s.sort && s.sort.fieldSelectors) {
@@ -289,13 +294,16 @@ export class SkyListViewGridComponent
         /* istanbul ignore next */
         /* sanity check */
         return undefined;
-      })
-      .distinctUntilChanged()
-      .takeUntil(this.ngUnsubscribe);
+      }),
+      distinctUntilChanged(),
+      takeUntil(this.ngUnsubscribe)
+    );
 
-    this.gridState.map(s => s.columns.items)
-      .takeUntil(this.ngUnsubscribe)
-      .distinctUntilChanged(this.arraysEqual)
+    this.gridState.pipe(
+      observableMap(s => s.columns.items),
+      takeUntil(this.ngUnsubscribe),
+      distinctUntilChanged(this.arraysEqual)
+    )
       .subscribe(columns => {
         if (this.hiddenColumns) {
           getValue(this.hiddenColumns, (hiddenColumns: string[]) => {
@@ -329,10 +337,11 @@ export class SkyListViewGridComponent
         }
       });
 
-    this.currentSearchText = this.state
-      .map(s => s.search.searchText)
-      .distinctUntilChanged()
-      .takeUntil(this.ngUnsubscribe);
+    this.currentSearchText = this.state.pipe(
+      observableMap(s => s.search.searchText),
+      distinctUntilChanged(),
+      takeUntil(this.ngUnsubscribe)
+    );
 
     this.gridDispatcher.next(new ListViewGridColumnsLoadAction(columnModels, true));
 
@@ -359,8 +368,10 @@ export class SkyListViewGridComponent
       event.source === SkyGridSelectedRowsSource.CheckboxChange ||
       event.source === SkyGridSelectedRowsSource.RowClick
     ) {
-    this.state.map(s => s.items.items)
-      .take(1)
+    this.state.pipe(
+      observableMap(s => s.items.items),
+      take(1)
+    )
       .subscribe((items: ListItemModel[]) => {
         const newItemIds = this.arrayIntersection(items.map(i => i.id), this.multiselectSelectedIds);
         const newIds = items.filter(i => i.isSelected).map(i => i.id);
@@ -381,12 +392,13 @@ export class SkyListViewGridComponent
   }
 
   public columnIdsChanged(selectedColumnIds: Array<string>) {
-    this.selectedColumnIds
-      .take(1)
+    this.selectedColumnIds.pipe(take(1))
       .subscribe(currentIds => {
         if (!(this.arraysEqual(selectedColumnIds, currentIds))) {
-          this.gridState.map(s => s.columns.items)
-            .take(1)
+          this.gridState.pipe(
+            observableMap(s => s.columns.items),
+            take(1)
+          )
             .subscribe(columns => {
               let displayedColumns = selectedColumnIds.map(
                 columnId => columns.filter(c => c.id === columnId)[0]
@@ -417,17 +429,18 @@ export class SkyListViewGridComponent
       update, the searchText update was consumed after the resulting list item update. Scanning the
       previous value of items lastUpdate ensures that we only receive the latest items.
     */
-    this.gridState
-      .takeUntil(this.ngUnsubscribe)
-      .scan((previousValue: GridStateModel, newValue: GridStateModel) => {
+    this.gridState.pipe(
+      takeUntil(this.ngUnsubscribe),
+      scan((previousValue: GridStateModel, newValue: GridStateModel) => {
         if (previousValue.displayedColumns.lastUpdate > newValue.displayedColumns.lastUpdate) {
           return previousValue;
         } else {
           return newValue;
         }
-      })
-      .map(s => s.displayedColumns.items)
-      .distinctUntilChanged(this.arraysEqual)
+      }),
+      observableMap(s => s.displayedColumns.items),
+      distinctUntilChanged(this.arraysEqual)
+    )
       .subscribe(displayedColumns => {
         let setFunctions =
           this.searchFunction !== undefined ? [this.searchFunction] :
@@ -437,7 +450,7 @@ export class SkyListViewGridComponent
               )
               .filter(c => c !== undefined);
 
-        this.state.take(1).subscribe(s => {
+        this.state.pipe(take(1)).subscribe(s => {
           this.dispatcher.searchSetOptions(new ListSearchModel({
             searchText: s.search.searchText,
             functions: setFunctions,
@@ -471,8 +484,9 @@ export class SkyListViewGridComponent
 
   private handleColumnChange() {
     // watch for changes in column components
-    this.columnComponents.changes
-      .takeUntil(this.ngUnsubscribe)
+    this.columnComponents.changes.pipe(
+      takeUntil(this.ngUnsubscribe)
+    )
       .subscribe((columnComponents) => {
         let columnModels = this.columnComponents.map(column => {
           return new SkyGridColumnModel(column.template, column);
@@ -481,14 +495,16 @@ export class SkyListViewGridComponent
       });
 
     // Watch for column heading changes:
-    this.columnComponents.forEach((comp: SkyGridColumnComponent) => {
-      comp.headingModelChanges
-        .takeUntil(this.ngUnsubscribe)
+    this.columnComponents.forEach((comp) => {
+      comp.headingModelChanges.pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
         .subscribe((change: SkyGridColumnHeadingModelChange) => {
           this.gridComponent.updateColumnHeading(change);
         });
-      comp.descriptionModelChanges
-        .takeUntil(this.ngUnsubscribe)
+      comp.descriptionModelChanges.pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
         .subscribe((change: SkyGridColumnDescriptionModelChange) => {
           this.gridComponent.updateColumnDescription(change);
         });
@@ -501,20 +517,22 @@ export class SkyListViewGridComponent
       static properties to a static state object with observable properties that you can subscribe
       to.
     */
-    return this.state.map((s) => {
-      return s.items;
-    })
-      .scan((previousValue: AsyncList<ListItemModel>, newValue: AsyncList<ListItemModel>) => {
+    return this.state.pipe(
+      observableMap((s) => {
+        return s.items;
+      }),
+      scan((previousValue: AsyncList<ListItemModel>, newValue: AsyncList<ListItemModel>) => {
         if (previousValue.lastUpdate > newValue.lastUpdate) {
           return previousValue;
         } else {
           return newValue;
         }
-      })
-      .map((result: AsyncList<ListItemModel>) => {
+      }),
+      observableMap((result: AsyncList<ListItemModel>) => {
         return result.items;
-      })
-      .distinctUntilChanged();
+      }),
+      distinctUntilChanged()
+    );
   }
 
   private getSelectedIds(): Observable<Array<string>> {
@@ -523,25 +541,26 @@ export class SkyListViewGridComponent
       static properties to a static state object with observable properties that you can subscribe
       to.
     */
-    return this.gridState
-      .map(s => s.displayedColumns)
-      .scan(
-        (previousValue: AsyncList<SkyGridColumnModel>, newValue: AsyncList<SkyGridColumnModel>) => {
-          if (previousValue.lastUpdate > newValue.lastUpdate) {
-            return previousValue;
-          } else {
-            return newValue;
-          }
-        })
-      .map((result: AsyncList<SkyGridColumnModel>) => {
+    return this.gridState.pipe(
+      observableMap(s => s.displayedColumns),
+      scan((previousValue: AsyncList<SkyGridColumnModel>, newValue: AsyncList<SkyGridColumnModel>) => {
+        if (previousValue.lastUpdate > newValue.lastUpdate) {
+          return previousValue;
+        } else {
+          return newValue;
+        }
+      }),
+      observableMap((result: AsyncList<SkyGridColumnModel>) => {
         /* istanbul ignore next */
         /* sanity check */
         return result.items.map((column: SkyGridColumnModel) => {
           return column.id || column.field;
         });
-      }).distinctUntilChanged((previousValue: string[], newValue: string[]) => {
+      }),
+      distinctUntilChanged((previousValue: string[], newValue: string[]) => {
         return this.haveColumnIdsChanged(previousValue, newValue);
-      });
+      })
+    );
   }
 
   private haveColumnIdsChanged(previousValue: string[], newValue: string[]) {

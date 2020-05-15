@@ -43,6 +43,11 @@ import {
 } from '@skyux/modals';
 
 import {
+  skip,
+  take
+} from 'rxjs/operators';
+
+import {
   SkyListViewGridModule
 } from '../list-view-grid/list-view-grid.module';
 import {
@@ -140,7 +145,7 @@ describe('List column selector action', () => {
 
       // always skip the first update to ListState, when state is ready
       // run detectChanges once more then begin tests
-      state.skip(1).take(1).subscribe(() => fixture.detectChanges());
+      state.pipe(skip(1), take(1)).subscribe(() => fixture.detectChanges());
       fixture.detectChanges();
     });
 
@@ -187,7 +192,7 @@ describe('List column selector action', () => {
         submitButtonEl.click();
         fixture.detectChanges();
 
-        component.grid.gridState.take(1).subscribe((gridState) => {
+        component.grid.gridState.pipe(take(1)).subscribe((gridState) => {
           expect(gridState.displayedColumns.items.length).toBe(2);
           expect(component.searchText).toEqual('something');
         });
@@ -322,7 +327,7 @@ describe('List column selector action', () => {
       submitButtonEl.click();
       tick();
 
-      component.grid.gridState.take(1).subscribe((gridState) => {
+      component.grid.gridState.pipe(take(1)).subscribe((gridState) => {
         expect(gridState.displayedColumns.items.length).toBe(2);
       });
 
@@ -351,7 +356,7 @@ describe('List column selector action', () => {
       fixture.detectChanges();
       tick();
 
-      component.grid.gridState.take(1).subscribe((gridState) => {
+      component.grid.gridState.pipe(take(1)).subscribe((gridState) => {
         expect(gridState.displayedColumns.items.length).toBe(3);
       });
 
@@ -363,7 +368,7 @@ describe('List column selector action', () => {
       fixture.detectChanges();
 
       // Skip the first update to ListState, when state is ready.
-      state.skip(1).take(1).subscribe(() => {
+      state.pipe(skip(1), take(1)).subscribe(() => {
         fixture.detectChanges();
         tick();
         dispatcher.viewsSetActive('other');

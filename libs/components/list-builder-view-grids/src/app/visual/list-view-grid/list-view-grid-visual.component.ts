@@ -7,8 +7,6 @@ import {
   Subject
 } from 'rxjs';
 
-import 'rxjs/add/observable/of';
-
 import {
   SkyListViewGridMessage
 } from '../../public/modules/list-view-grid/types/list-view-grid-message';
@@ -20,7 +18,7 @@ import {
 import {
   SkyListViewGridRowDeleteCancelArgs,
   SkyListViewGridRowDeleteConfirmArgs
-} from '../../public';
+} from '../../public/public_api';
 
 @Component({
   selector: 'list-view-grid-visual',

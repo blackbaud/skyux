@@ -1,6 +1,21 @@
+# 4.0.0 (2020-05-15)
+
+### New features
+
+- Added a test fixture for the list view grid component to use in consumer unit tests. [#68](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/68)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#65](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/65)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#65](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/65)
+
 # 3.7.0 (2020-05-15)
 
 - Added the ability to delete rows in the list view grid component. [#75](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/75)
+
+# 4.0.0-rc.2 (2020-05-07)
+
+- Added bug fixes and features from the `master` branch. [#73](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/73)
 
 # 3.6.4 (2020-05-06)
 
@@ -9,6 +24,22 @@
 # 3.6.3 (2020-05-04)
 
 - Removed `moment` as a dependency. [#69](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/69)
+
+# 4.0.0-rc.1 (2020-04-30)
+
+### New features
+
+- Added a test fixture for the list view grid component to use in consumer unit tests. [#68](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/68)
+
+# 4.0.0-rc.0 (2020-04-17)
+
+### New features
+
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#65](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/65)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#65](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/65)
 
 # 3.6.2 (2020-02-07)
 

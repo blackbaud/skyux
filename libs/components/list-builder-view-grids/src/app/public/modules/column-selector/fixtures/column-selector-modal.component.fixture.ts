@@ -8,9 +8,12 @@ import {
 } from '@skyux/modals';
 
 import {
-  SkyColumnSelectorComponent,
+  SkyColumnSelectorComponent
+} from '../column-selector-modal.component';
+
+import {
   SkyColumnSelectorContext
-} from '../';
+} from '../column-selector-context';
 
 @Component({
   selector: 'sky-test-cmp',
