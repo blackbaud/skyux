@@ -8,7 +8,7 @@ import {
 
 import {
   DragulaService
-} from 'ng2-dragula/ng2-dragula';
+} from 'ng2-dragula';
 
 import {
   MockDragulaService
@@ -30,12 +30,14 @@ import {
 } from './fixtures/tile-dashboard-fixtures.module';
 
 import {
-  SkyTileDashboardComponent,
+  SkyTileDashboardComponent
+} from '../tile-dashboard/tile-dashboard.component';
+import {
   SkyTileDashboardService
-} from '../tile-dashboard';
+} from '../tile-dashboard/tile-dashboard.service';
 import {
   SkyTileDashboardConfig
-} from '../tile-dashboard-config';
+} from '../tile-dashboard-config/tile-dashboard-config';
 import {
   SkyTilesModule
 } from '../tiles.module';
@@ -145,6 +147,7 @@ describe('Tile dashboard service', () => {
     fakeAsync(
       () => {
         let fixture = createDashboardTestComponent();
+        fixture.detectChanges();
         let dashboardService = fixture.componentInstance.dashboardComponent['dashboardService'];
         let configChanged = false;
 
@@ -289,7 +292,7 @@ describe('Tile dashboard service', () => {
     (function () {
       return new SkyTileDashboardService(
         mockDragulaService,
-        mockMediaQueryService,
+        mockMediaQueryService as any,
         mockUIConfigService
       );
     }());

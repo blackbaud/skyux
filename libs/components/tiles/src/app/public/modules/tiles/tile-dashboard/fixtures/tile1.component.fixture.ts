@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 
-import { SkyTileComponent } from '../../tile';
+import { SkyTileComponent } from '../../tile/tile.component';
 
 @Component({
   // tslint:disable-next-line
@@ -8,7 +8,10 @@ import { SkyTileComponent } from '../../tile';
   templateUrl: './tile1.component.fixture.html'
 })
 export class Tile1TestComponent {
-  @ViewChild(SkyTileComponent)
+  @ViewChild(SkyTileComponent, {
+    read: SkyTileComponent,
+    static: false
+  })
   public tile: SkyTileComponent;
 
   public title = 'Tile 1';

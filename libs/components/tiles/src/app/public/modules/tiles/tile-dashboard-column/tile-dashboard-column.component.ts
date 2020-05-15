@@ -20,7 +20,10 @@ export class SkyTileDashboardColumnComponent {
 
   public columnId: string;
 
-  @ViewChild('content', {read: ViewContainerRef})
+  @ViewChild('content', {
+    read: ViewContainerRef,
+    static: false
+  })
   public content: ViewContainerRef;
 
   constructor(

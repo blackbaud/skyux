@@ -21,7 +21,7 @@ import {
 
 import {
   SkyTilesResourcesModule
-} from '../../shared';
+} from '../../shared/tiles-resources.module';
 
 import {
   SkyTileComponent

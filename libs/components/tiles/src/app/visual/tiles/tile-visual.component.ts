@@ -4,7 +4,7 @@ import {
 
 import {
   SkyTileDashboardConfig
-} from '../../public';
+} from '../../public/public_api';
 
 import {
   SkyTileDemoTile1Component

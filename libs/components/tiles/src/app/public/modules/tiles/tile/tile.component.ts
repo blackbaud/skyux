@@ -58,10 +58,16 @@ export class SkyTileComponent {
     this.isCollapsedChange.emit(value);
   }
 
-  @ViewChild('grabHandle', { read: ElementRef })
+  @ViewChild('grabHandle', {
+    read: ElementRef,
+    static: false
+  })
   private grabHandle: ElementRef;
 
-  @ViewChild('titleContainer')
+  @ViewChild('titleContainer', {
+    read: ElementRef,
+    static: false
+  })
   private title: ElementRef;
 
   private _isCollapsed = false;

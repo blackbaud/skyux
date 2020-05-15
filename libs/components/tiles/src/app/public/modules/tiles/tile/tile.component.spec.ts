@@ -10,9 +10,13 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  MockSkyTileDashboardService,
+  MockSkyTileDashboardService
+} from './fixtures/mock-tile-dashboard.service';
+
+import {
   TileTestComponent
-} from './fixtures';
+} from './fixtures/tile.component.fixture';
+
 import { SkyTileComponent } from './tile.component';
 import { SkyTilesModule } from '../tiles.module';
 import { SkyTileDashboardService } from '../tile-dashboard/tile-dashboard.service';

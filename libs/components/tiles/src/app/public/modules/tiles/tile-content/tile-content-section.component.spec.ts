@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { SkyTilesModule } from '../tiles.module';
 
-import { TileContentSectionTestComponent } from './fixtures';
+import { TileContentSectionTestComponent } from './fixtures/tile-content-section.component.fixture';
 
 import {
   expect

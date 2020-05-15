@@ -12,7 +12,7 @@ import {
 
 import {
   SkyTilesModule
-} from './public';
+} from './public/public_api';
 
 import {
   SkyTileDemoTile1Component

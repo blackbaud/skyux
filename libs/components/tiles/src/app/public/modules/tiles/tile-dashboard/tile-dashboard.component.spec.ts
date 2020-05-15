@@ -21,28 +21,32 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  MockTileDashboardService,
-  SkyTileDashboardFixturesModule,
-  Tile1TestComponent,
-  Tile2TestComponent,
-  TileDashboardTestComponent,
-  TileDashboardOnPushTestComponent,
-  TileTestContext
-} from './fixtures';
-
-import {
   MockSkyUIConfigService
 } from './fixtures/mock-ui-config.service';
 
+import { MockTileDashboardService } from './fixtures/mock-tile-dashboard.service';
+
+import { SkyTileDashboardFixturesModule } from './fixtures/tile-dashboard-fixtures.module';
+
+import { TileDashboardTestComponent } from './fixtures/tile-dashboard.component.fixture';
+
+import { Tile1TestComponent } from './fixtures/tile1.component.fixture';
+
+import { Tile2TestComponent } from './fixtures/tile2.component.fixture';
+
+import { TileDashboardOnPushTestComponent } from './fixtures/tile-dashboard-on-push.component.fixture';
+
+import { TileTestContext } from './fixtures/tile-context.fixture';
+
 import {
   SkyTileDashboardColumnComponent
-} from '../tile-dashboard-column';
+} from '../tile-dashboard-column/tile-dashboard-column.component';
 import {
   SkyTileDashboardComponent
 } from './tile-dashboard.component';
 import {
   SkyTileDashboardConfig
-} from '../tile-dashboard-config';
+} from '../tile-dashboard-config/tile-dashboard-config';
 import {
   SkyTileDashboardService
 } from './tile-dashboard.service';

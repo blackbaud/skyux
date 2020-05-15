@@ -3,19 +3,21 @@ import {
   EventEmitter,
   Injectable,
   QueryList,
-  ReflectiveInjector,
-  Output
+  Output,
+  Injector
 } from '@angular/core';
 
 import {
   DragulaService
-} from 'ng2-dragula/ng2-dragula';
+} from 'ng2-dragula';
 
 import {
   Subscription
-} from 'rxjs/Subscription';
+} from 'rxjs';
 
-import 'rxjs/add/operator/take';
+import {
+  take
+} from 'rxjs/operators';
 
 import {
   SkyMediaBreakpoints,
@@ -24,13 +26,28 @@ import {
 } from '@skyux/core';
 
 import {
-  SkyTileComponent,
-  SkyTileDashboardColumnComponent,
-  SkyTileDashboardConfig,
-  SkyTileDashboardConfigLayoutColumn,
-  SkyTileDashboardConfigLayoutTile,
+  SkyTileComponent
+} from '../tile/tile.component';
+
+import {
+  SkyTileDashboardColumnComponent
+} from '../tile-dashboard-column/tile-dashboard-column.component';
+
+import {
+  SkyTileDashboardConfig
+} from '../tile-dashboard-config/tile-dashboard-config';
+
+import {
+  SkyTileDashboardConfigLayoutColumn
+} from '../tile-dashboard-config/tile-dashboard-config-layout-column';
+
+import {
+  SkyTileDashboardConfigLayoutTile
+} from '../tile-dashboard-config/tile-dashboard-config-layout-tile';
+
+import {
   SkyTileDashboardConfigTile
-} from '..';
+} from '../tile-dashboard-config/tile-dashboard-config-tile';
 
 const ATTR_TILE_ID = '_sky-tile-dashboard-tile-id';
 
@@ -82,8 +99,8 @@ export class SkyTileDashboardService {
 
       this.settingsKey = settingsKey;
 
-      this.uiConfigService.getConfig(settingsKey, config)
-        .take(1)
+      this.uiConfigService.getConfig(settingsKey, config).pipe(
+        take(1))
         .subscribe((value: any)  => {
           if (value.persisted) {
             this.config.layout = value.layout;
@@ -386,12 +403,13 @@ export class SkyTileDashboardService {
       let componentType = tile.componentType;
       let providers = tile.providers /* istanbul ignore next */ || [];
 
-      let resolvedProviders = ReflectiveInjector.resolve(providers);
+      const injector = Injector.create({
+        providers,
+        parent: column.injector
+      });
 
-      let injector = ReflectiveInjector.fromResolvedProviders(resolvedProviders, column.injector);
-
-      let factory = column.resolver.resolveComponentFactory(componentType);
-      let componentRef = column.content.createComponent(factory, undefined, injector);
+      const factory = column.resolver.resolveComponentFactory(componentType);
+      const componentRef = column.content.createComponent(factory, undefined, injector);
 
       this.addTileComponent(layoutTile, componentRef);
 

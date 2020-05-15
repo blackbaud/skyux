@@ -1,5 +1,0 @@
-export { SkyTileDashboardComponent } from './tile-dashboard.component';
-export { SkyTileDashboardService } from './tile-dashboard.service';
-export { SkyTileDashboardModule } from './tile-dashboard.module';
-export { SkyTileDashboardMessage } from './types/tile-dashboard-message';
-export { SkyTileDashboardMessageType } from './types/tile-dashboard-message-type';

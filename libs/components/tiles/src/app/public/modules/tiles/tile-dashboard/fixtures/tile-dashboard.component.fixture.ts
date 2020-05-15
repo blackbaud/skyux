@@ -9,10 +9,10 @@ import {
 
 import {
   SkyTileDashboardConfig
-} from '../../tile-dashboard-config';
+} from '../../tile-dashboard-config/tile-dashboard-config';
 import {
   SkyTileDashboardComponent
-} from '../../tile-dashboard';
+} from '../../tile-dashboard/tile-dashboard.component';
 
 import {
   Tile1TestComponent
@@ -26,14 +26,17 @@ import {
 
 import {
   SkyTileDashboardMessageType
-} from '../types';
+} from '../tile-dashboard-message-type';
 
 @Component({
   selector: 'sky-demo-app',
   templateUrl: './tile-dashboard.component.fixture.html'
 })
 export class TileDashboardTestComponent {
-  @ViewChild(SkyTileDashboardComponent)
+  @ViewChild(SkyTileDashboardComponent, {
+    read: SkyTileDashboardComponent,
+    static: false
+  })
   public dashboardComponent: SkyTileDashboardComponent;
 
   public dashboardConfig: SkyTileDashboardConfig;

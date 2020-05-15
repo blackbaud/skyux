@@ -4,7 +4,7 @@ import {
   ViewChild
 } from '@angular/core';
 
-import { SkyTileComponent } from '../../tile';
+import { SkyTileComponent } from '../../tile/tile.component';
 
 import { TileTestContext } from './tile-context.fixture';
 
@@ -14,7 +14,10 @@ import { TileTestContext } from './tile-context.fixture';
   templateUrl: './tile2.component.fixture.html'
 })
 export class Tile2TestComponent {
-  @ViewChild(SkyTileComponent)
+  @ViewChild(SkyTileComponent, {
+    read: SkyTileComponent,
+    static: false
+  })
   public tile: SkyTileComponent;
 
   constructor(@Optional() public context: TileTestContext) { }

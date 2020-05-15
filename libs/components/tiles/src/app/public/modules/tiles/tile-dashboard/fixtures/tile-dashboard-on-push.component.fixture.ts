@@ -9,9 +9,13 @@ import {
 } from 'rxjs';
 
 import {
-  SkyTileDashboardComponent,
+  SkyTileDashboardComponent
+} from '../../../tiles/tile-dashboard/tile-dashboard.component';
+
+import {
   SkyTileDashboardConfig
-} from '../../../tiles';
+} from '../../../tiles/tile-dashboard-config/tile-dashboard-config';
+
 import {
   Tile1TestComponent
 } from './tile1.component.fixture';
@@ -29,7 +33,10 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TileDashboardOnPushTestComponent {
-  @ViewChild(SkyTileDashboardComponent)
+  @ViewChild(SkyTileDashboardComponent, {
+    read: SkyTileDashboardComponent,
+    static: false
+  })
   public dashboardComponent: SkyTileDashboardComponent;
 
   public dashboardConfig: SkyTileDashboardConfig;

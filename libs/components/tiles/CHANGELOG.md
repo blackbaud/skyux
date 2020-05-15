@@ -1,3 +1,33 @@
+# 4.0.0 (2020-05-15)
+
+### New features
+
+- Added support for `@angular/core@^9`. [#49](https://github.com/blackbaud/skyux-tiles/pull/49)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#49](https://github.com/blackbaud/skyux-tiles/pull/49)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers may install `rxjs-compat@^6` to support older versions of `rxjs`. [#49](https://github.com/blackbaud/skyux-tiles/pull/49)
+
+# 4.0.0-rc.2 (2020-02-22)
+
+- Updated Angular and SKY UX package peer dependencies. [#51](https://github.com/blackbaud/skyux-tiles/pull/51)
+
+# 4.0.0-rc.1 (2020-02-22)
+
+- Removed the deep imports to `ng2-dragula` to support the Angular Ivy compiler. [#50](https://github.com/blackbaud/skyux-tiles/pull/50)
+
+# 4.0.0-rc.0 (2020-02-21)
+
+### New features
+
+- Added support for `@angular/core@^9`. [#49](https://github.com/blackbaud/skyux-tiles/pull/49)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#49](https://github.com/blackbaud/skyux-tiles/pull/49)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers may install `rxjs-compat@^6` to support older versions of `rxjs`. [#49](https://github.com/blackbaud/skyux-tiles/pull/49)
+
 # 3.3.0 (2020-01-21)
 
 - Added support for the SKY UX default theme to the tile dashboard. This ensures the tile dashboard will display the correct background color and padding for the default theme's white page background. [#45](https://github.com/blackbaud/skyux-tiles/pull/45)
