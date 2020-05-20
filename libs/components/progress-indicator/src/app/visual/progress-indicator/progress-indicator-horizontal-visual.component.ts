@@ -10,7 +10,7 @@ import {
 import {
   SkyProgressIndicatorChange,
   SkyProgressIndicatorDisplayMode
-} from '../../public';
+} from '../../public/public_api';
 
 @Component({
   selector: 'sky-progress-indicator-horizontal-visual',

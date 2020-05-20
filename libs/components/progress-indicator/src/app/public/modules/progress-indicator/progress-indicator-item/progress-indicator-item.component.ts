@@ -7,7 +7,7 @@ import {
 
 import {
   SkyProgressIndicatorItemStatus
-} from '../types';
+} from '../types/progress-indicator-item-status';
 
 @Component({
   selector: 'sky-progress-indicator-item',

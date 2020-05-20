@@ -10,7 +10,7 @@ import {
 
 import {
   SkyProgressIndicatorMessageType
-} from '../types';
+} from '../types/progress-indicator-message-type';
 
 import {
   SkyProgressIndicatorComponent

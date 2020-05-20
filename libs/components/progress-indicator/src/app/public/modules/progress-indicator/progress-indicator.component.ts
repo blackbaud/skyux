@@ -18,22 +18,36 @@ import {
 
 import {
   Subject
-} from 'rxjs/Subject';
+} from 'rxjs';
 
-import 'rxjs/add/operator/delay';
-import 'rxjs/add/operator/takeUntil';
+import {
+  delay,
+  takeUntil
+} from 'rxjs/operators';
 
 import {
   SkyProgressIndicatorItemComponent
 } from './progress-indicator-item/progress-indicator-item.component';
 
 import {
-  SkyProgressIndicatorChange,
-  SkyProgressIndicatorDisplayMode,
-  SkyProgressIndicatorItemStatus,
-  SkyProgressIndicatorMessage,
+  SkyProgressIndicatorChange
+} from './types/progress-indicator-change';
+
+import {
+  SkyProgressIndicatorDisplayMode
+} from './types/progress-indicator-mode';
+
+import {
+  SkyProgressIndicatorItemStatus
+} from './types/progress-indicator-item-status';
+
+import {
+  SkyProgressIndicatorMessage
+} from './types/progress-indicator-message';
+
+import {
   SkyProgressIndicatorMessageType
-} from './types';
+} from './types/progress-indicator-message-type';
 
 @Component({
   selector: 'sky-progress-indicator',
@@ -173,10 +187,11 @@ export class SkyProgressIndicatorComponent implements OnInit, AfterContentInit, 
 
     // Note: The delay here is to ensure all change detection on the items has finished. Without
     // the delay we receive a changed before checked error for vertical progress indicators
-    this.itemComponents
-      .changes
-      .takeUntil(this.ngUnsubscribe)
-      .delay(0)
+    this.itemComponents.changes
+      .pipe(
+        takeUntil(this.ngUnsubscribe),
+        delay(0)
+      )
       .subscribe(() => {
         this.updateSteps();
         this.notifyChange();
@@ -360,7 +375,7 @@ export class SkyProgressIndicatorComponent implements OnInit, AfterContentInit, 
 
   private subscribeToMessageStream(): void {
     this._messageStream
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((message) => {
         this.handleIncomingMessage(message);
       });

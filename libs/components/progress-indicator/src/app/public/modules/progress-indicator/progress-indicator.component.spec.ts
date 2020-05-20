@@ -23,11 +23,20 @@ import {
 } from './fixtures/progress-indicator.module.fixture';
 
 import {
-  SkyProgressIndicatorDisplayMode,
-  SkyProgressIndicatorItemStatus,
-  SkyProgressIndicatorMessageType,
+  SkyProgressIndicatorDisplayMode
+} from './types/progress-indicator-mode';
+
+import {
+  SkyProgressIndicatorItemStatus
+} from './types/progress-indicator-item-status';
+
+import {
+  SkyProgressIndicatorMessageType
+} from './types/progress-indicator-message-type';
+
+import {
   SkyProgressIndicatorNavButtonType
-} from './types';
+} from './types/progress-indicator-nav-button-type';
 
 import {
   SkyProgressIndicatorComponent

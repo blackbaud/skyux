@@ -1,3 +1,23 @@
+# 4.0.0 (2020-05-20)
+
+### New features
+
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#39](https://github.com/blackbaud/skyux-progress-indicator/pull/39)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#39](https://github.com/blackbaud/skyux-progress-indicator/pull/39)
+
+# 4.0.0-rc.0 (2020-04-20)
+
+### New features
+
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#39](https://github.com/blackbaud/skyux-progress-indicator/pull/39)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#39](https://github.com/blackbaud/skyux-progress-indicator/pull/39)
+
 # 3.3.0 (2020-03-30)
 
 - Added support for asynchronous calls before step advancement occurs in the progress indicator component. [#36](https://github.com/blackbaud/skyux-progress-indicator/pull/36)

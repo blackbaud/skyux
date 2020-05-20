@@ -5,7 +5,7 @@ import {
 
 import {
   Subject
-} from 'rxjs/Subject';
+} from 'rxjs';
 
 import {
   SkyProgressIndicatorActionClickArgs,
@@ -22,7 +22,9 @@ import {
 })
 export class SkyProgressIndicatorProgressHandlerFixtureComponent {
 
-  @ViewChild(SkyProgressIndicatorComponent)
+  @ViewChild(SkyProgressIndicatorComponent, {
+    static: true
+  })
   public progressIndicator: SkyProgressIndicatorComponent;
 
   public isLoading = false;

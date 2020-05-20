@@ -11,7 +11,7 @@ import {
 
 import {
   Subject
-} from 'rxjs/Subject';
+} from 'rxjs';
 
 import {
   SkyProgressIndicatorItemComponent
@@ -44,28 +44,49 @@ import {
 })
 export class SkyProgressIndicatorFixtureComponent {
 
-  @ViewChild(SkyProgressIndicatorComponent)
+  @ViewChild(SkyProgressIndicatorComponent, {
+    static: true
+  })
   public emptyProgressIndicator: SkyProgressIndicatorComponent;
 
-  @ViewChild(SkyProgressIndicatorComponent)
+  @ViewChild(SkyProgressIndicatorComponent, {
+    static: true
+  })
   public progressIndicator: SkyProgressIndicatorComponent;
 
-  @ViewChild('progressIndicator', { read: TemplateRef })
+  @ViewChild('progressIndicator', {
+    read: TemplateRef,
+    static: true
+  })
   public progressIndicatorTemplateRef: TemplateRef<any>;
 
-  @ViewChild(SkyProgressIndicatorResetButtonComponent)
+  @ViewChild(SkyProgressIndicatorResetButtonComponent, {
+    static: true
+  })
   public resetButtonComponentLegacy: SkyProgressIndicatorResetButtonComponent;
 
-  @ViewChild('legacyResetButton', { read: ElementRef })
+  @ViewChild('legacyResetButton', {
+    read: ElementRef,
+    static: false
+  })
   public legacyResetButton: ElementRef;
 
-  @ViewChild('legacyIsolatedResetButton', { read: ElementRef })
+  @ViewChild('legacyIsolatedResetButton', {
+    read: ElementRef,
+    static: false
+  })
   public legacyIsolatedResetButton: ElementRef;
 
-  @ViewChild('defaultNavButton', { read: SkyProgressIndicatorNavButtonComponent })
+  @ViewChild('defaultNavButton', {
+    read: SkyProgressIndicatorNavButtonComponent,
+    static: false
+  })
   public defaultNavButtonComponent: SkyProgressIndicatorNavButtonComponent;
 
-  @ViewChild('defaultNavButton', { read: ElementRef })
+  @ViewChild('defaultNavButton', {
+    read: ElementRef,
+    static: false
+  })
   public defaultNavButtonElement: ElementRef;
 
   @ViewChildren(SkyProgressIndicatorItemComponent)

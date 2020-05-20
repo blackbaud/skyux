@@ -9,14 +9,14 @@ import {
 
 import {
   Subject
-} from 'rxjs/Subject';
+} from 'rxjs';
 
 import {
   SkyProgressIndicatorActionClickArgs,
   SkyProgressIndicatorChange,
   SkyProgressIndicatorMessage,
   SkyProgressIndicatorMessageType
-} from '../../public';
+} from '../../public/public_api';
 
 import {
   ProgressIndicatorWizardDemoComponent
