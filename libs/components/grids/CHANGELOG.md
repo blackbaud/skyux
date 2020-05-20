@@ -1,3 +1,13 @@
+# 4.0.1 (2020-05-20)
+
+- Fixed the grid component to support columns with no headers. [#125](https://github.com/blackbaud/skyux-grids/pull/125)
+- Fixed the grid component to prevent rows from vertically collapsing when there is no content. [#124](https://github.com/blackbaud/skyux-grids/pull/124)
+
+# 3.8.1 (2020-05-20)
+
+- Fixed the grid component to support columns with no headers. [#125](https://github.com/blackbaud/skyux-grids/pull/125)
+- Fixed the grid component to prevent rows from vertically collapsing when there is no content. [#124](https://github.com/blackbaud/skyux-grids/pull/124)
+
 # 4.0.0 (2020-05-15)
 
 ### New features

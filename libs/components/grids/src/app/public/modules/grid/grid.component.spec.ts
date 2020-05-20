@@ -58,6 +58,10 @@ import {
 } from './fixtures/grid-interactive.component.fixture';
 
 import {
+  GridNoHeaderTestComponent
+} from './fixtures/grid-no-header.component.fixture';
+
+import {
   GridUndefinedTestComponent
 } from './fixtures/grid-undefined.component.fixture';
 
@@ -2409,6 +2413,38 @@ describe('Grid Component', () => {
       fixture.detectChanges();
 
       verifyColumnHeaders('column2');
+    }));
+  });
+
+  describe('undefined column headers', () => {
+    let fixture: ComponentFixture<GridNoHeaderTestComponent>;
+    let element: DebugElement;
+
+    beforeEach(async(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          GridFixturesModule
+        ]
+      }).compileComponents();
+    }));
+
+    beforeEach(() => {
+      fixture = TestBed.createComponent(GridNoHeaderTestComponent);
+      element = fixture.debugElement as DebugElement;
+    });
+
+    it('should allow columns with undefined headers', async(() => {
+      fixture.detectChanges();
+
+      const selectedColumnIds = [
+        'columnNoHeader'
+      ];
+
+      fixture.componentInstance.selectedColumnIds = selectedColumnIds;
+      fixture.detectChanges();
+
+      expect(element.queryAll(By.css('th.sky-grid-heading')).length).toBe(3);
+      expect(getColumnHeader('columnNoHeader', element).nativeElement.textContent.trim()).toBe('');
     }));
   });
 

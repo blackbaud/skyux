@@ -27,24 +27,28 @@ import {
 } from '../grid.module';
 
 import {
-  GridTestComponent
-} from './grid.component.fixture';
+  GridAsyncTestComponent
+} from './grid-async.component.fixture';
 
 import {
-  GridEmptyTestComponent
-} from './grid-empty.component.fixture';
+  GridTestComponent
+} from './grid.component.fixture';
 
 import {
   GridDynamicTestComponent
 } from './grid-dynamic.component.fixture';
 
 import {
-  GridAsyncTestComponent
-} from './grid-async.component.fixture';
+  GridEmptyTestComponent
+} from './grid-empty.component.fixture';
 
 import {
   GridInteractiveTestComponent
 } from './grid-interactive.component.fixture';
+
+import {
+  GridNoHeaderTestComponent
+} from './grid-no-header.component.fixture';
 
 import {
   GridUndefinedTestComponent
@@ -57,7 +61,8 @@ import {
     GridDynamicTestComponent,
     GridAsyncTestComponent,
     GridInteractiveTestComponent,
-    GridUndefinedTestComponent
+    GridUndefinedTestComponent,
+    GridNoHeaderTestComponent
   ],
   imports: [
     CommonModule,
@@ -82,7 +87,8 @@ import {
     GridDynamicTestComponent,
     GridAsyncTestComponent,
     GridInteractiveTestComponent,
-    GridUndefinedTestComponent
+    GridUndefinedTestComponent,
+    GridNoHeaderTestComponent
   ]
 })
 export class GridFixturesModule { }
