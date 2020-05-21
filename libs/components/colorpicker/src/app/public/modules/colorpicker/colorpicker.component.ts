@@ -20,21 +20,49 @@ import {
 } from '@skyux/core';
 
 import {
-  Observable,
+  fromEvent,
   Subject
 } from 'rxjs';
 
 import {
-  SkyColorpickerChangeAxis,
-  SkyColorpickerChangeColor,
-  SkyColorpickerHsla,
-  SkyColorpickerHsva,
-  SkyColorpickerMessage,
-  SkyColorpickerMessageType,
-  SkyColorpickerOutput,
-  SkyColorpickerRgba,
+  takeUntil
+} from 'rxjs/operators';
+
+import {
+  SkyColorpickerChangeAxis
+} from './types/colorpicker-axis';
+
+import {
+  SkyColorpickerChangeColor
+} from './types/colorpicker-color';
+
+import {
+  SkyColorpickerHsla
+} from './types/colorpicker-hsla';
+
+import {
+  SkyColorpickerHsva
+} from './types/colorpicker-hsva';
+
+import {
+  SkyColorpickerMessage
+} from './types/colorpicker-message';
+
+import {
+  SkyColorpickerMessageType
+} from './types/colorpicker-message-type';
+
+import {
+  SkyColorpickerOutput
+} from './types/colorpicker-output';
+
+import {
+  SkyColorpickerRgba
+} from './types/colorpicker-rgba';
+
+import {
   SkyColorpickerResult
-} from './types';
+} from './types/colorpicker-result';
 
 import {
  SkyColorpickerService
@@ -191,7 +219,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     this.sliderDimMax = new SliderDimension(182, 270, 170, 182);
     this.slider = new SliderPosition(0, 0, 0, 0);
     this.messageStream
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((message: SkyColorpickerMessage) => {
         this.handleIncomingMessages(message);
       });
@@ -383,7 +411,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     const affixer = this.affixService.createAffixer(this.colorpickerRef);
 
     affixer.placementChange
-      .takeUntil(this.pickerUnsubscribe)
+      .pipe(takeUntil(this.pickerUnsubscribe))
       .subscribe((change) => {
         this.isPickerVisible = (change.placement !== null);
       });
@@ -428,8 +456,8 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   }
 
   private addTriggerButtonEventListeners(): void {
-    Observable.fromEvent(window.document, 'keydown')
-      .takeUntil(this.ngUnsubscribe)
+    fromEvent(window.document, 'keydown')
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((event: KeyboardEvent) => {
         const key = event.key.toLowerCase();
         /* istanbul ignore else */

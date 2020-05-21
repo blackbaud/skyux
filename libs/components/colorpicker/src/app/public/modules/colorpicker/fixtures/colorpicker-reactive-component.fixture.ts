@@ -1,8 +1,28 @@
-import { Component, ViewChild } from '@angular/core';
-import { SkyColorpickerComponent } from '../';
-import { SkyColorpickerMessage, SkyColorpickerMessageType } from '../types';
-import { Subject } from 'rxjs/Subject';
-import { FormControl, FormGroup } from '@angular/forms';
+import {
+  Component,
+  ViewChild
+} from '@angular/core';
+
+import {
+  FormControl,
+  FormGroup
+} from '@angular/forms';
+
+import {
+  Subject
+} from 'rxjs';
+
+import {
+  SkyColorpickerMessage
+} from '../types/colorpicker-message';
+
+import {
+  SkyColorpickerMessageType
+} from '../types/colorpicker-message-type';
+
+import {
+  SkyColorpickerComponent
+} from '../colorpicker.component';
 
 @Component({
   selector: 'sky-colorpicker-fixture',
@@ -28,7 +48,9 @@ export class ColorpickerReactiveTestComponent {
   ];
   public inputType = 'text';
 
-  @ViewChild('colorPickerTest')
+  @ViewChild('colorPickerTest', {
+    static: true
+  })
   public colorpickerComponent: SkyColorpickerComponent;
   public colorpickerController = new Subject<SkyColorpickerMessage>();
 

@@ -20,7 +20,9 @@ import {
   ReactiveFormsModule
 } from '@angular/forms';
 
-import 'rxjs/add/operator/sampleTime';
+import {
+  sampleTime
+} from 'rxjs/operators';
 
 import {
   SkyColorpickerModule
@@ -36,7 +38,7 @@ import {
 
 import {
   SkyColorpickerMessageType
-} from './types';
+} from './types/colorpicker-message-type';
 
 import {
   SkyColorpickerInputDirective
@@ -941,7 +943,7 @@ describe('Colorpicker Component', () => {
       component.colorForm.valueChanges.subscribe(() => { callbackSpy(); });
       // This will give us 10 milliseconds pause before emitting the final valueChanges event that
       // was fired. Testing was done to ensure this was enough time to catch any bad behavior
-      component.colorForm.valueChanges.sampleTime(10).subscribe(() => {
+      component.colorForm.valueChanges.pipe(sampleTime(10)).subscribe(() => {
         expect(callbackSpy).toHaveBeenCalledTimes(1);
         done();
       });
@@ -1004,6 +1006,14 @@ describe('Colorpicker Component', () => {
 
   describe('accessibility', () => {
 
+    const axeConfig = {
+      rules: {
+        'region': {
+          enabled: false
+        }
+      }
+    };
+
     beforeEach(() => {
       fixture = TestBed.createComponent(ColorpickerTestComponent);
     });
@@ -1019,9 +1029,9 @@ describe('Colorpicker Component', () => {
 
           fixture.whenStable().then(() => {
             fixture.detectChanges();
-            expect(document.body).toBeAccessible(done);
+            expect(document.body).toBeAccessible(done, axeConfig);
           });
-        });
+        }, axeConfig);
 
       });
     }));

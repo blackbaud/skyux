@@ -18,7 +18,7 @@ import {
 
 import {
   SkyColorpickerResourcesModule
-} from '../shared';
+} from '../shared/colorpicker-resources.module';
 
 import {
   SkyColorpickerComponent

@@ -9,8 +9,7 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
-  SimpleChanges,
-  Type
+  SimpleChanges
 } from '@angular/core';
 
 import {
@@ -40,9 +39,12 @@ import {
 } from './colorpicker.component';
 
 import {
-  SkyColorpickerHsva,
+  SkyColorpickerHsva
+} from './types/colorpicker-hsva';
+
+import {
   SkyColorpickerOutput
-} from './types';
+} from './types/colorpicker-output';
 
 // tslint:disable:no-forward-ref no-use-before-declare
 const SKY_COLORPICKER_VALUE_ACCESSOR = {
@@ -210,7 +212,7 @@ export class SkyColorpickerInputDirective
         this.skyColorpickerInput.initialColor = value;
       }
       this.skyColorpickerInput.lastAppliedColor = value;
-      let control: FormControl = (this.injector.get<NgControl>(NgControl as Type<NgControl>)).control as FormControl;
+      let control: FormControl = (this.injector.get<NgControl>(NgControl)).control as FormControl;
       if (control) {
         control.setValue(this.modelValue, { emitEvent: false });
       }
