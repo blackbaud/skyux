@@ -14,6 +14,12 @@ import {
   SkyCharacterCounterIndicatorComponent
 } from './character-counter-indicator.component';
 
+/**
+ * Creates an input field that validates the number of characters. Place this directive on
+ * an `input` or `textarea` element. If users enter more characters than allowed, then the
+ * input field is invalid and the component displays an error indicator.
+ * @required
+ */
 @Directive({
   selector: '[skyCharacterCounter]',
   providers: [
@@ -25,10 +31,19 @@ import {
   ]
 })
 export class SkyCharacterCounterInputDirective implements Validator {
-
+  /**
+   * Specifies the character count indicator component that displays the character count,
+   * character limit, and over-the-limit indicator. Place this directive on an `input` or
+   * `textarea` element.
+   */
   @Input()
   public skyCharacterCounterIndicator: SkyCharacterCounterIndicatorComponent;
 
+  /**
+   * Specifies the maximum number of characters allowed in the input field. Place this directive
+   * on an `input` or `textarea` element. This property accepts `number` values.
+   * @required
+   */
   @Input()
   public set skyCharacterCounterLimit(value: number) {
     this._skyCharacterCounterLimit = value;
