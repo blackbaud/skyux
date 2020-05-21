@@ -1,9 +1,14 @@
-import { Observable } from 'rxjs/Observable';
+import {
+  Observable
+} from 'rxjs';
 
 import {
-  SkySelectField,
+  SkySelectField
+} from './types/select-field';
+
+import {
   SkySelectFieldSelectMode
-} from './types';
+} from './types/select-field-select-mode';
 
 export class SkySelectFieldPickerContext {
   public data: Observable<SkySelectField[]>;

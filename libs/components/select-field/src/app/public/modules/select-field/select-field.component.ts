@@ -16,10 +16,6 @@ import {
 } from '@angular/forms';
 
 import {
-  Observable
-} from 'rxjs/Observable';
-
-import {
   SkyModalService,
   SkyModalCloseArgs
 } from '@skyux/modals';
@@ -33,10 +29,25 @@ import {
 } from '@skyux/indicators';
 
 import {
-  SkySelectField,
-  SkySelectFieldCustomPicker,
+  Observable,
+  of as observableOf
+} from 'rxjs';
+
+import {
+  take
+} from 'rxjs/operators';
+
+import {
+  SkySelectField
+} from './types/select-field';
+
+import {
+  SkySelectFieldCustomPicker
+} from './types/select-field-custom-picker';
+
+import {
   SkySelectFieldSelectMode
-} from './types';
+} from './types/select-field-select-mode';
 
 import {
   SkySelectFieldPickerContext
@@ -186,7 +197,7 @@ export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy 
 
     const newIds = change.map(token => token.value.id);
 
-    this.data.take(1).subscribe((items: SkySelectField[]) => {
+    this.data.pipe(take(1)).subscribe((items: SkySelectField[]) => {
       const newValues = items.filter(item => newIds.indexOf(item.id) > -1);
       this.value = newValues;
       this.setTokensFromValue();
@@ -197,12 +208,12 @@ export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy 
   public openPicker() {
     (
       this.pickerHeading ?
-        Observable.of(this.pickerHeading) :
+        observableOf(this.pickerHeading) :
         this.resourcesService.getString(
           `skyux_select_field_${this.selectMode}_select_picker_heading`
         )
     )
-      .take(1)
+      .pipe(take(1))
       .subscribe((headingText) => {
         const pickerContext = new SkySelectFieldPickerContext();
         pickerContext.headingText = headingText;
@@ -287,7 +298,7 @@ export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy 
         'skyux_select_field_multiple_select_summary',
         this.value.length.toString()
       )
-        .take(1)
+        .pipe(take(1))
         .subscribe((label) => {
           this.tokens = [{
             value: {

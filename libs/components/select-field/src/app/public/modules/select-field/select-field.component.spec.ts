@@ -28,9 +28,12 @@ import {
 } from './fixtures/select-field.component.fixture';
 
 import {
-  SkySelectField,
+  SkySelectField
+} from './types/select-field';
+
+import {
   SkySelectFieldCustomPicker
-} from './types';
+} from './types/select-field-custom-picker';
 
 import {
   SkySelectFieldPickerContext
@@ -40,6 +43,8 @@ describe('Select field component', () => {
   let fixture: ComponentFixture<SkySelectFieldTestComponent>;
   let component: SkySelectFieldTestComponent;
   let selectField: SkySelectFieldComponent;
+
+  //#region helpers
 
   function detectNewValue() {
     fixture.detectChanges();
@@ -130,6 +135,8 @@ describe('Select field component', () => {
   function getSingleSelectInnerText(): string {
     return (document.querySelector('.sky-form-control') as HTMLElement).innerText;
   }
+
+  //#endregion
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -568,6 +575,69 @@ describe('Select field component', () => {
 
       expect(spy).toHaveBeenCalled();
     }));
+
+    describe('inMemorySearchEnabled', function () {
+      let modalService: SkyModalService;
+
+      beforeEach(inject(
+        [SkyModalService], (_modalService: SkyModalService) => {
+          modalService = _modalService;
+        }
+      ));
+
+      it('should set inMemorySearchEnabled to true when the corresponding context property is undefined', fakeAsync(() => {
+        const modalSpy = spyOn(modalService, 'open').and.callThrough();
+
+        fixture.componentInstance.inMemorySearchEnabled = undefined;
+
+        fixture.detectChanges();
+        tick();
+
+        fixture.detectChanges();
+        setValue(undefined);
+        openPicker();
+
+        const picker = modalSpy.calls.first().returnValue.componentInstance;
+
+        expect(picker.inMemorySearchEnabled).toEqual(true);
+      }));
+
+      it('should set inMemorySearchEnabled to false when the corresponding context property is false', fakeAsync(() => {
+        const modalSpy = spyOn(modalService, 'open').and.callThrough();
+
+        fixture.componentInstance.inMemorySearchEnabled = false;
+
+        fixture.detectChanges();
+        tick();
+
+        fixture.detectChanges();
+        setValue(undefined);
+        openPicker();
+
+        const picker = modalSpy.calls.first().returnValue.componentInstance;
+
+        expect(picker.inMemorySearchEnabled).toEqual(false);
+      }));
+
+      it('should set inMemorySearchEnabled to true when the corresponding context property is true', fakeAsync(() => {
+        const modalSpy = spyOn(modalService, 'open').and.callThrough();
+
+        fixture.componentInstance.inMemorySearchEnabled = true;
+
+        fixture.detectChanges();
+        tick();
+
+        fixture.detectChanges();
+        setValue(undefined);
+        openPicker();
+
+        const picker = modalSpy.calls.first().returnValue.componentInstance;
+
+        expect(picker.inMemorySearchEnabled).toEqual(true);
+      }));
+
+    });
+
   });
 
   describe('Add new record button', () => {

@@ -8,7 +8,7 @@ import {
 
 import {
   BehaviorSubject
-} from 'rxjs/BehaviorSubject';
+} from 'rxjs';
 
 import {
   SkySelectFieldComponent
@@ -16,7 +16,7 @@ import {
 
 import {
   SkySelectFieldCustomPicker
-} from '../types';
+} from '../types/select-field-custom-picker';
 
 @Component({
   selector: 'sky-select-field-test',
@@ -64,10 +64,16 @@ export class SkySelectFieldTestComponent implements OnInit, OnDestroy {
 
   public touched = 0;
 
-  @ViewChild(SkySelectFieldComponent, { read: ElementRef })
+  @ViewChild(SkySelectFieldComponent, {
+    read: ElementRef,
+    static: true
+  })
   public selectFieldElementRef: ElementRef;
 
-  @ViewChild(SkySelectFieldComponent)
+  @ViewChild(SkySelectFieldComponent, {
+    read: SkySelectFieldComponent,
+    static: true
+  })
   public selectField: SkySelectFieldComponent;
 
   public ngOnInit(): void {

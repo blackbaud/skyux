@@ -12,7 +12,7 @@ import {
 
 import {
   BehaviorSubject
-} from 'rxjs/BehaviorSubject';
+} from 'rxjs';
 
 @Component({
   selector: 'select-field-visual',

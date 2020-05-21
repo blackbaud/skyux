@@ -1,3 +1,27 @@
+# 4.0.0 (2020-05-21)
+
+### New features
+
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#61](https://github.com/blackbaud/skyux-select-field/pull/61)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#61](https://github.com/blackbaud/skyux-select-field/pull/61)
+
+# 4.0.0-rc.1 (2020-04-30)
+
+- Updated development dependencies.
+
+# 4.0.0-rc.0 (2020-04-20)
+
+### New features
+
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#61](https://github.com/blackbaud/skyux-select-field/pull/61)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#61](https://github.com/blackbaud/skyux-select-field/pull/61)
+
 # 3.5.1 (2020-03-26)
 
 - Fixed the `package.json` file to list the correct `@skyux/list-builder` version as a peer dependency. [#59](https://github.com/blackbaud/skyux-select-field/pull/59)

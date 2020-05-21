@@ -11,17 +11,7 @@ import {
 } from '@angular/core';
 
 import {
-  Observable
-} from 'rxjs/Observable';
-
-import {
-  Subject
-} from 'rxjs/Subject';
-
-import 'rxjs/add/operator/take';
-
-import {
-  SkyWindowRefService
+  SkyAppWindowRef
 } from '@skyux/core';
 
 import {
@@ -34,7 +24,7 @@ import {
 
 import {
   SkyListFilterInlineModel
-} from '@skyux/list-builder/modules/list-filters/list-filter-inline.model';
+} from '@skyux/list-builder';
 
 import {
   SkyListViewChecklistComponent
@@ -45,13 +35,26 @@ import {
 } from '@skyux/modals';
 
 import {
+  Observable,
+  Subject
+} from 'rxjs';
+
+import {
+  take,
+  takeUntil
+} from 'rxjs/operators';
+
+import {
   SkySelectFieldPickerContext
 } from './select-field-picker-context';
 
 import {
-  SkySelectField,
+  SkySelectField
+} from './types/select-field';
+
+import {
   SkySelectFieldSelectMode
-} from './types';
+} from './types/select-field-select-mode';
 
 @Component({
   selector: 'sky-select-field-picker',
@@ -97,10 +100,14 @@ export class SkySelectFieldPickerComponent implements OnInit, AfterContentInit, 
     return 'any';
   }
 
-  @ViewChild(SkyListViewChecklistComponent)
+  @ViewChild(SkyListViewChecklistComponent, {
+    static: true
+  })
   private listViewChecklist: SkyListViewChecklistComponent;
 
-  @ViewChild(SkyListToolbarComponent)
+  @ViewChild(SkyListToolbarComponent, {
+    static: true
+  })
   private listToolbar: SkyListToolbarComponent;
 
   private ngUnsubscribe = new Subject();
@@ -111,7 +118,7 @@ export class SkySelectFieldPickerComponent implements OnInit, AfterContentInit, 
     private context: SkySelectFieldPickerContext,
     private instance: SkyModalInstance,
     private elementRef: ElementRef,
-    private windowRef: SkyWindowRefService
+    private windowRef: SkyAppWindowRef
   ) { }
 
   public ngOnInit() {
@@ -125,14 +132,14 @@ export class SkySelectFieldPickerComponent implements OnInit, AfterContentInit, 
     this.assignCategories();
 
     this.listToolbar.searchApplied
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((searchText: string) => {
         this.searchApplied.emit(searchText);
       });
   }
 
   public ngAfterContentInit() {
-    this.windowRef.getWindow().setTimeout(() => {
+    this.windowRef.nativeWindow.setTimeout(() => {
       this.elementRef.nativeElement.querySelector('.sky-search-input').focus();
     });
   }
@@ -188,7 +195,7 @@ export class SkySelectFieldPickerComponent implements OnInit, AfterContentInit, 
   }
 
   private get latestData(): Observable<SkySelectField[]> {
-    return this.data.take(1);
+    return this.data.pipe(take(1));
   }
 
   private getSelectedIds(): string[] {
