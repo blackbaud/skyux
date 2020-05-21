@@ -15,7 +15,7 @@
       (click)="toggleCountrySearch(true)"
     >
       <div
-        [className]="'iti-flag ' + selectedCountry.iso2"
+        [className]="'sky-phone-field-flag iti-flag ' + selectedCountry.iso2"
       >
       </div>
     </button>
@@ -24,7 +24,7 @@
     <span
       class="sky-phone-field-container"
       [@phoneInputAnimation]
-      (@phoneInputAnimation.done)="phoneInputAnimationEnd($event)"
+      (@phoneInputAnimation.done)="phoneInputAnimationEnd()"
     >
       <ng-content></ng-content>
     </span>
@@ -33,11 +33,9 @@
     <span
       class="sky-phone-field-container"
       [@countrySearchAnimation]
-      (@countrySearchAnimation.done)="countrySearchAnimationEnd($event)"
-
+      (@countrySearchAnimation.done)="countrySearchAnimationEnd()"
     >
-      <form
-        novalidate
+      <div
         class="sky-phone-field-country-search"
         [formGroup]="countrySearchForm"
       >
@@ -51,7 +49,6 @@
           <input
             skyAutocomplete
             formControlName="countrySearch"
-            id="my-autocomplete-template-driven"
             name="selectedCountry"
             type="text"
             [attr.aria-label]="'skyux_phone_field_country_search_label' | skyLibResources"
@@ -59,7 +56,7 @@
             #countrySearchInput
           >
         </sky-autocomplete>
-      </form>
+      </div>
       <div
         class="sky-search-item-dismiss"
       >
@@ -85,13 +82,15 @@
   #countrySearchResultTemplate
 >
   <div
-    [className]="'iti-flag ' + item.iso2"
+    class="sky-phone-field-search-result"
   >
+    <i
+      aria-hidden="true"
+      [className]="'sky-phone-field-flag iti-flag ' + item.iso2"
+    ></i>
+    {{ item.name }}
+    <span
+      class="sky-deemphasized"
+    >{{ item.dialCode }}</span>
   </div>
-  {{ item.name }}
-  <span
-    class="sky-deemphasized"
-  >
-    {{ item.dialCode }}
-  </span>
 </ng-template>

@@ -39,10 +39,16 @@ export class PhoneFieldReactiveTestComponent implements OnInit {
 
   public showSecondaryPhoneField: boolean = false;
 
-  @ViewChild(SkyPhoneFieldInputDirective)
+  @ViewChild(SkyPhoneFieldInputDirective, {
+    read: SkyPhoneFieldInputDirective,
+    static: false
+  })
   public inputDirective: SkyPhoneFieldInputDirective;
 
-  @ViewChild(SkyPhoneFieldComponent)
+  @ViewChild(SkyPhoneFieldComponent, {
+    read: SkyPhoneFieldComponent,
+    static: false
+  })
   public phoneFieldComponent: SkyPhoneFieldComponent;
 
   public ngOnInit(): void {

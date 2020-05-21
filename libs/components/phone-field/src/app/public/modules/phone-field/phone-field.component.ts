@@ -7,6 +7,7 @@ import {
 
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -15,7 +16,7 @@ import {
   OnInit,
   Output,
   ViewChild,
-  ChangeDetectorRef
+  ViewEncapsulation
 } from '@angular/core';
 
 import {
@@ -25,7 +26,6 @@ import {
 } from '@angular/forms';
 
 import {
-  SkyAutocompleteInputDirective,
   SkyAutocompleteSelectionChange
 } from '@skyux/lookup';
 
@@ -43,7 +43,7 @@ import {
 
 import {
   SkyPhoneFieldCountry
-} from './types';
+} from './types/country';
 
 /**
  * NOTE: The no-op animation is here in order to block the input's "fade in" animation
@@ -54,6 +54,7 @@ import {
   selector: 'sky-phone-field',
   templateUrl: './phone-field.component.html',
   styleUrls: ['./phone-field.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     SkyPhoneFieldAdapterService
@@ -131,11 +132,11 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
 
   public countrySearchForm: FormGroup;
 
-  @ViewChild('countrySearchInput')
+  @ViewChild('countrySearchInput', {
+    read: ElementRef,
+    static: false
+  })
   public countrySearchInput: ElementRef;
-
-  @ViewChild(SkyAutocompleteInputDirective)
-  public countrySearchAutocompleteDirective: SkyAutocompleteInputDirective;
 
   public set selectedCountry(newCountry: SkyPhoneFieldCountry) {
     if (newCountry && this._selectedCountry !== newCountry) {
@@ -241,6 +242,8 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
 
       this.countrySearchForm.get('countrySearch').setValue(undefined);
     }
+
+    this.changeDetector.markForCheck();
   }
 
   public countrySearchAnimationEnd() {
@@ -249,6 +252,8 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     } else {
       this.adapterService.focusElement(this.countrySearchInput);
     }
+
+    this.changeDetector.markForCheck();
   }
 
   public phoneInputAnimationEnd() {
@@ -260,6 +265,8 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
         this.phoneInputAnimationTriggered = false;
       }
     }
+
+    this.changeDetector.markForCheck();
   }
 
   public setCountryByDialCode(phoneNumber: string): boolean {

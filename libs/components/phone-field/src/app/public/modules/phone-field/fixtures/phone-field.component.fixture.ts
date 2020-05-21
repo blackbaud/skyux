@@ -17,10 +17,16 @@ import {
 })
 export class PhoneFieldTestComponent {
 
-  @ViewChild(SkyPhoneFieldInputDirective)
+  @ViewChild(SkyPhoneFieldInputDirective, {
+    read: SkyPhoneFieldInputDirective,
+    static: false
+  })
   public inputDirective: SkyPhoneFieldInputDirective;
 
-  @ViewChild(SkyPhoneFieldComponent)
+  @ViewChild(SkyPhoneFieldComponent, {
+    read: SkyPhoneFieldComponent,
+    static: false
+  })
   public phoneFieldComponent: SkyPhoneFieldComponent;
 
   public modelValue: string;

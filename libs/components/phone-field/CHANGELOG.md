@@ -1,3 +1,23 @@
+# 4.0.0 (2020-05-21)
+
+### New features
+
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#37](https://github.com/blackbaud/skyux-phone-field/pull/37)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#37](https://github.com/blackbaud/skyux-phone-field/pull/37)
+
+# 4.0.0-rc.0 (2020-04-20)
+
+### New features
+
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#37](https://github.com/blackbaud/skyux-phone-field/pull/37)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#37](https://github.com/blackbaud/skyux-phone-field/pull/37)
+
 # 3.1.2 (2020-02-06)
 
 - Fixed the phone field component so that focus is not automatically applied to the phone field input when it is added back to a page after previously being hidden. [#32](https://github.com/blackbaud/skyux-phone-field/pull/32)

@@ -26,6 +26,11 @@ import {
 } from 'rxjs';
 
 import {
+  debounceTime,
+  takeUntil
+} from 'rxjs/operators';
+
+import {
   PhoneNumberFormat,
   PhoneNumberUtil
 } from 'google-libphonenumber';
@@ -40,7 +45,8 @@ import {
 
 import {
   SkyPhoneFieldCountry
-} from './types';
+} from './types/country';
+
 // tslint:disable:no-forward-ref no-use-before-declare
 const SKY_PHONE_FIELD_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
@@ -134,7 +140,7 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
 
   public ngAfterViewInit(): void {
     this.phoneFieldComponent.selectedCountryChange
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((country: SkyPhoneFieldCountry) => {
         this.modelValue = this.elRef.nativeElement.value;
         this.adapterService.setElementPlaceholder(this.elRef, country.exampleNumber);
@@ -245,9 +251,10 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
   private setupTextChangeSubscription(text: string) {
     this.textChanges = new BehaviorSubject(text);
 
-    this.textChanges
-      .debounceTime(500)
-      .takeUntil(this.ngUnsubscribe)
+    this.textChanges.pipe(
+      debounceTime(500),
+      takeUntil(this.ngUnsubscribe)
+    )
       .subscribe((newValue) => {
         this.writeValue(newValue);
       });

@@ -35,7 +35,6 @@ import {
 import {
   PhoneFieldReactiveTestComponent
 } from './fixtures/phone-field-reactive.component.fixture';
-import { BehaviorSubject, Observable } from 'rxjs';
 
 describe('Phone Field Component', () => {
 
@@ -56,7 +55,7 @@ describe('Phone Field Component', () => {
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
-    tick();
+    tick(500);
   }
 
   function setInput(
@@ -70,8 +69,7 @@ describe('Phone Field Component', () => {
     compFixture.detectChanges();
 
     SkyAppTestUtility.fireDomEvent(inputEl, 'change');
-    compFixture.detectChanges();
-    tick();
+    detectChangesAndTick(compFixture);
   }
 
   // NOTE: This is very specified for a specific test to test this edge case
@@ -99,7 +97,10 @@ describe('Phone Field Component', () => {
     SkyAppTestUtility.fireDomEvent(countrySearchInput, 'keyup');
     detectChangesAndTick(compFixture);
 
-    compFixture.debugElement.queryAll(By.css('.sky-dropdown-item button'))[0].nativeElement.click();
+    SkyAppTestUtility.fireDomEvent(
+      document.querySelector('.sky-autocomplete-result:first-child'),
+      'mousedown'
+    );
     detectChangesAndTick(compFixture);
   }
 
@@ -135,9 +136,6 @@ describe('Phone Field Component', () => {
       fixture = TestBed.createComponent(PhoneFieldTestComponent);
       nativeElement = fixture.nativeElement as HTMLElement;
       component = fixture.componentInstance;
-
-      spyOn(BehaviorSubject.prototype, 'debounceTime')
-      .and.callFake(function(this: Observable<any>, dueTime: number) { return this; });
     });
 
     it('should create the component with the appropriate styles', () => {
@@ -260,7 +258,7 @@ describe('Phone Field Component', () => {
           fixture.detectChanges();
           tick();
           setInput(nativeElement, '123', fixture);
-          fixture.detectChanges();
+          detectChangesAndTick(fixture);
 
           expect(nativeElement.querySelector('input').value).toBe('123');
 
@@ -403,8 +401,7 @@ describe('Phone Field Component', () => {
 
         setInput(fixture.nativeElement, '8675555309', fixture);
 
-        fixture.detectChanges();
-        tick();
+        detectChangesAndTick(fixture);
 
         expect(nativeElement.querySelector('input').value).toBe('8675555309');
 
@@ -558,19 +555,13 @@ describe('Phone Field Component', () => {
           component.defaultCountry = 'us';
           fixture.detectChanges();
           component.modelValue = '8675555309';
-          fixture.detectChanges();
-          tick();
-          fixture.detectChanges();
-          tick();
+          detectChangesAndTick(fixture);
 
           expect(ngModel.valid).toBe(true);
           expect(ngModel.errors).toBeNull();
 
           setInput(nativeElement, '+3558675555309', fixture);
-          fixture.detectChanges();
-          tick();
-          fixture.detectChanges();
-          tick();
+          detectChangesAndTick(fixture);
 
           expect(component.phoneFieldComponent.selectedCountry.iso2).toBe('al');
           expect(ngModel.valid).toBe(false);
@@ -722,9 +713,6 @@ describe('Phone Field Component', () => {
       fixture = TestBed.createComponent(PhoneFieldReactiveTestComponent);
       nativeElement = fixture.nativeElement as HTMLElement;
       component = fixture.componentInstance;
-
-      spyOn(BehaviorSubject.prototype, 'debounceTime')
-      .and.callFake(function(this: Observable<any>, dueTime: number) { return this; });
     });
 
     afterEach(() => {
@@ -1009,8 +997,7 @@ describe('Phone Field Component', () => {
 
         setInput(fixture.nativeElement, '8675555309', fixture);
 
-        fixture.detectChanges();
-        tick();
+        detectChangesAndTick(fixture);
 
         expect(nativeElement.querySelector('input').value).toBe('8675555309');
 
@@ -1027,6 +1014,8 @@ describe('Phone Field Component', () => {
         detectChangesAndTick(fixture);
 
         setInput(fixture.nativeElement, '1234', fixture);
+
+        detectChangesAndTick(fixture);
 
         expect(nativeElement.querySelector('input').value).toBe('1234');
 
@@ -1207,10 +1196,7 @@ describe('Phone Field Component', () => {
           expect(component.phoneControl.errors).toBeNull();
 
           setInput(nativeElement, '+1118675555309', fixture);
-          fixture.detectChanges();
-          tick();
-          fixture.detectChanges();
-          tick();
+          detectChangesAndTick(fixture);
 
           expect(component.phoneFieldComponent.selectedCountry.iso2).toBe('us');
           expect(component.phoneControl.valid).toBe(false);
@@ -1237,10 +1223,7 @@ describe('Phone Field Component', () => {
           expect(component.phoneControl.errors).toBeNull();
 
           setInput(nativeElement, '+61', fixture);
-          fixture.detectChanges();
-          tick();
-          fixture.detectChanges();
-          tick();
+          detectChangesAndTick(fixture);
 
           expect(component.phoneFieldComponent.selectedCountry.iso2).toBe('au');
           expect(component.phoneControl.valid).toBe(false);

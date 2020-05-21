@@ -6,12 +6,16 @@ import {
 } from '@angular/core';
 
 import {
-  Subject
-} from 'rxjs/Subject';
-
-import {
   SkyLibResourcesService
 } from '@skyux/i18n';
+
+import {
+  Subject
+} from 'rxjs';
+
+import {
+  takeUntil
+} from 'rxjs/operators';
 
 @Injectable()
 export class SkyPhoneFieldAdapterService implements OnDestroy {
@@ -57,7 +61,7 @@ export class SkyPhoneFieldAdapterService implements OnDestroy {
   public setAriaLabel(element: ElementRef): void {
     if (!element.nativeElement.getAttribute('aria-label')) {
       this.resourcesService.getString('skyux_phone_field_default_label')
-        .takeUntil(this.ngUnsubscribe)
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((value: string) => {
           this.renderer.setAttribute(
             element.nativeElement,

@@ -28,12 +28,8 @@ import {
 } from '@skyux/lookup';
 
 import {
-  SkyDropdownModule
-} from '@skyux/popovers';
-
-import {
   SkyPhoneFieldResourcesModule
-} from '../shared';
+} from '../shared/phone-field-resources.module';
 
 import {
   SkyPhoneFieldComponent
@@ -53,7 +49,6 @@ import {
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    SkyDropdownModule,
     SkyI18nModule,
     SkyPhoneFieldResourcesModule,
     SkyIconModule,
