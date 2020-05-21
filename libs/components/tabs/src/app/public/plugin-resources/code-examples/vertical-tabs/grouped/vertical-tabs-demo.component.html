@@ -1,0 +1,21 @@
+<sky-vertical-tabset
+    showTabsText="Tab list"
+    >
+
+    <sky-vertical-tabset-group
+      *ngFor="let group of groups"
+      [groupHeading]="group.heading"
+      [open]="group.isOpen"
+      [disabled]="group.isDisabled">
+
+      <sky-vertical-tab
+        *ngFor="let tab of group.subTabs"
+        [active]="tab.active"
+        [tabHeading]="tab.tabHeading"
+        [tabHeaderCount]="tab.tabHeaderCount"
+        [disabled]="tab.disabled">
+        {{ tab.content }}
+      </sky-vertical-tab>
+    </sky-vertical-tabset-group>
+  </sky-vertical-tabset>
+

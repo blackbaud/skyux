@@ -24,10 +24,17 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyVerticalTabComponent implements OnInit, OnDestroy {
-
+  /**
+   * Indicates whether the tab is active when the tabset loads.
+   */
   @Input()
   public active: boolean = false;
 
+  /**
+   * Specifies an ID to identify the element that contains the content that the vertical
+   * tab exposes. This ID corresponds to the `tabId`. This property supports [accessibility
+   * rules for disclosures](https://www.w3.org/TR/wai-aria-practices-1.1/#disclosure).
+   */
   @Input()
   public get ariaControls(): string {
     return this.isMobile ? undefined : this._ariaControls;
@@ -36,12 +43,24 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
     this._ariaControls = value;
   }
 
+  /**
+   * @internal
+   */
   @Input()
   public ariaInvalid: boolean;
 
+  /**
+   * @internal
+   */
   @Input()
   public ariaRequired: boolean;
 
+  /**
+   * Specifies an ARIA role for the tab to support accessibility by indicating how the
+   * tab functions and what it controls. For information about ARIA roles, see the
+   * [WAI-ARIA roles model](https://www.w3.org/WAI/PF/aria/roles).
+   * @default "tab"
+   */
   @Input()
   public get ariaRole(): string {
     if (this.isMobile) {
@@ -53,15 +72,29 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
     this._ariaRole = value;
   }
 
+  /**
+   * Indicates whether to disable the tab.
+   */
   @Input()
   public disabled: boolean = false;
 
+  /**
+   * Displays an item count alongside the tab header to indicate how many list items the tab contains.
+   */
   @Input()
   public tabHeaderCount: number;
 
+  /**
+   * Specifies the tab header.
+   * @required
+   */
   @Input()
   public tabHeading: string;
 
+  /**
+   * Indicates whether to display a chevron-right icon in the righthand side of the tab.
+   * @internal
+   */
   @Input()
   public get showTabRightArrow() {
     return this._showTabRightArrow && this.tabsetService.isMobile();
@@ -71,6 +104,9 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
     this._showTabRightArrow = value;
   }
 
+  /**
+   * Specifies an ID for the tab.
+   */
   @Input()
   public tabId: string;
 

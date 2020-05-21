@@ -62,9 +62,18 @@ import {
 })
 export class SkyVerticalTabsetComponent implements OnInit, AfterViewChecked, OnDestroy {
 
+  /**
+   * Specifies the text to display on the show tabs button on mobile devices.
+   */
   @Input()
   public showTabsText: string;
 
+  /**
+   * Specifies an ARIA role for the tabset to support accessibility by indicating
+   * how the tabset functions and what it controls. For information about ARIA roles,
+   * see the [WAI-ARIA roles model](https://www.w3.org/WAI/PF/aria/roles).
+   * @default "tablist"
+   */
   @Input()
   public get ariaRole(): string {
     if (this.isMobile) {
@@ -76,6 +85,10 @@ export class SkyVerticalTabsetComponent implements OnInit, AfterViewChecked, OnD
     this._ariaRole = value;
   }
 
+  /**
+   * Fires when the active tab changes. Emits the index of the active tab. The
+   * index is based on the tab's position when it loads.
+   */
   @Output()
   public activeChange = new EventEmitter<number>();
 
