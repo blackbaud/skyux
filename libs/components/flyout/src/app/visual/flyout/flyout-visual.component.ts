@@ -5,12 +5,16 @@ import {
 
 import {
   Subject
-} from 'rxjs/Subject';
+} from 'rxjs';
+
+import {
+  takeUntil
+} from 'rxjs/operators';
 
 import {
   SkyFlyoutInstance,
   SkyFlyoutService
-} from '../../public';
+} from '../../public/public_api';
 
 import {
   FlyoutDemoComponent
@@ -81,13 +85,13 @@ export class FlyoutVisualComponent implements OnDestroy {
     });
 
     this.flyout.iteratorPreviousButtonClick
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         console.log('previous clicked');
       });
 
     this.flyout.iteratorNextButtonClick
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         console.log('next clicked');
       });

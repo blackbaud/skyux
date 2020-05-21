@@ -1,6 +1,28 @@
+# 4.0.0 (2020-05-21)
+
+### New features
+
+- Added support for `@angular/core@^9`. [#73](https://github.com/blackbaud/skyux-flyout/pull/73)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#73](https://github.com/blackbaud/skyux-flyout/pull/73)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#73](https://github.com/blackbaud/skyux-flyout/pull/73)
+
 # 3.3.0 (2020-04-27)
 
 - Added `NavigationExtras.state` support to the flyout component's permalink button. [#78](https://github.com/blackbaud/skyux-flyout/pull/78) (Thanks [@Alex-Vaky](https://github.com/Alex-Vaky)!)
+
+# 4.0.0-rc.0 (2020-04-17)
+
+### New features
+
+- Added support for `@angular/core@^9`. [#73](https://github.com/blackbaud/skyux-flyout/pull/73)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#73](https://github.com/blackbaud/skyux-flyout/pull/73)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#73](https://github.com/blackbaud/skyux-flyout/pull/73)
 
 # 3.2.4 (2020-04-03)
 

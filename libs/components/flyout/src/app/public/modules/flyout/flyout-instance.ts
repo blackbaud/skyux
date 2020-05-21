@@ -5,12 +5,15 @@ import {
 
 import {
   Subject
-} from 'rxjs/Subject';
+} from 'rxjs';
 
 import {
-  SkyFlyoutMessage,
+  SkyFlyoutMessage
+} from './types/flyout-message';
+
+import {
   SkyFlyoutMessageType
-} from './types';
+} from './types/flyout-message-type';
 
 export class SkyFlyoutInstance<T> implements OnDestroy {
   public closed = new EventEmitter<void>();

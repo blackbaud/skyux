@@ -24,15 +24,16 @@ import {
 } from '@angular/animations';
 
 import {
-  Observable
-} from 'rxjs/Observable';
+  fromEvent,
+  merge as observableMerge,
+  Subject
+} from 'rxjs';
 
 import {
-  Subject
-} from 'rxjs/Subject';
-
-import 'rxjs/add/observable/merge';
-import 'rxjs/add/operator/takeUntil';
+  take,
+  takeUntil,
+  takeWhile
+} from 'rxjs/operators';
 
 import {
   SkyMediaBreakpoints,
@@ -57,12 +58,24 @@ import {
 } from './flyout-media-query.service';
 
 import {
-  SkyFlyoutAction,
-  SkyFlyoutConfig,
-  SkyFlyoutMessage,
-  SkyFlyoutMessageType,
+  SkyFlyoutAction
+} from './types/flyout-action';
+
+import {
+  SkyFlyoutConfig
+} from './types/flyout-config';
+
+import {
+  SkyFlyoutMessage
+} from './types/flyout-message';
+
+import {
+  SkyFlyoutMessageType
+} from './types/flyout-message-type';
+
+import {
   SkyFlyoutPermalink
-} from './types';
+} from './types/flyout-permalink';
 
 const FLYOUT_OPEN_STATE = 'flyoutOpen';
 const FLYOUT_CLOSED_STATE = 'flyoutClosed';
@@ -146,13 +159,22 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   /**
    * @internal
    */
-  @ViewChild('flyoutRef', { read: ElementRef })
+  @ViewChild('flyoutRef', {
+    read: ElementRef,
+    static: true
+  })
   public flyoutRef: ElementRef;
 
-  @ViewChild('target', { read: ViewContainerRef })
+  @ViewChild('target', {
+    read: ViewContainerRef,
+    static: true
+  })
   private target: ViewContainerRef;
 
-  @ViewChild('flyoutHeader')
+  @ViewChild('flyoutHeader', {
+    read: ElementRef,
+    static: true
+  })
   private flyoutHeader: ElementRef;
 
   private flyoutInstance: SkyFlyoutInstance<any>;
@@ -172,7 +194,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   ) {
     // All commands flow through the message stream.
     this.messageStream
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((message: SkyFlyoutMessage) => {
         this.handleIncomingMessages(message);
       });
@@ -244,7 +266,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
     if (this.config.settingsKey) {
       this.uiConfigService.getConfig(this.config.settingsKey)
-        .take(1)
+        .pipe(take(1))
         .subscribe((value: any) => {
           if (value && value.flyoutWidth) {
             this.flyoutWidth = value.flyoutWidth;
@@ -308,20 +330,22 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
     this.adapter.toggleIframePointerEvents(false);
 
-    Observable
-      .fromEvent(document, 'mousemove')
-      .takeWhile(() => {
-        return this.isDragging;
-      })
+    fromEvent(document, 'mousemove')
+      .pipe(
+        takeWhile(() => {
+          return this.isDragging;
+        })
+      )
       .subscribe((moveEvent: any) => {
         this.onMouseMove(moveEvent);
       });
 
-    Observable
-      .fromEvent(document, 'mouseup')
-      .takeWhile(() => {
-        return this.isDragging;
-      })
+    fromEvent(document, 'mouseup')
+      .pipe(
+        takeWhile(() => {
+          return this.isDragging;
+        })
+      )
       .subscribe((mouseUpEvent: any) => {
         this.onHandleRelease(mouseUpEvent);
       });
@@ -358,12 +382,11 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   }
 
   public onHandleRelease(event: MouseEvent): void {
-    const windowClickEvent = Observable.fromEvent(document, 'click');
-    const flyoutClickEvent = Observable.fromEvent(this.elementRef.nativeElement, 'click');
+    const windowClickEvent = fromEvent(document, 'click');
+    const flyoutClickEvent = fromEvent(this.elementRef.nativeElement, 'click');
 
-    Observable
-      .merge(windowClickEvent, flyoutClickEvent)
-      .take(1)
+    observableMerge(windowClickEvent, flyoutClickEvent)
+      .pipe(take(1))
       .subscribe(() => {
         this.isDragging = false;
         this.adapter.toggleIframePointerEvents(true);
@@ -384,7 +407,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
     instance.componentInstance = component;
     instance.hostController
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((message: SkyFlyoutMessage) => {
         this.messageStream.next(message);
       });
@@ -460,7 +483,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
           flyoutWidth: this.flyoutWidth
         }
       )
-        .take(1)
+        .pipe(take(1))
         .subscribe(
           () => { },
           (err) => {

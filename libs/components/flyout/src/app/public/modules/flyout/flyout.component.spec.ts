@@ -20,18 +20,17 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  Observable
+  of as observableOf,
+  throwError as observableThrow
 } from 'rxjs';
-
-import 'rxjs/add/observable/throw';
-
-import {
-  SkyFlyoutConfig
-} from './types';
 
 import {
   SkyFlyoutFixturesModule
 } from './fixtures/flyout-fixtures.module';
+
+import {
+  SkyFlyoutConfig
+} from './types/flyout-config';
 
 import {
   SkyFlyoutInstance
@@ -420,7 +419,7 @@ describe('Flyout component', () => {
   it('should set the flyout size to the value returned from the UI config service',
     fakeAsync(() => {
       spyOn(SkyUIConfigService.prototype, 'getConfig')
-        .and.returnValue(Observable.of({ flyoutWidth: 557 }));
+        .and.returnValue(observableOf({ flyoutWidth: 557 }));
 
       openFlyout({ settingsKey: 'testKey', minWidth: 320, maxWidth: 1000 });
 
@@ -435,7 +434,7 @@ describe('Flyout component', () => {
   it('should set the flyout size to the min width if value returned from the UI config service is too small',
     fakeAsync(() => {
       spyOn(SkyUIConfigService.prototype, 'getConfig')
-        .and.returnValue(Observable.of({ flyoutWidth: 200 }));
+        .and.returnValue(observableOf({ flyoutWidth: 200 }));
 
       openFlyout({ settingsKey: 'testKey', minWidth: 320, maxWidth: 1000 });
 
@@ -450,7 +449,7 @@ describe('Flyout component', () => {
   it('should set the flyout size to the max width if value returned from the UI config service is too big',
     fakeAsync(() => {
       spyOn(SkyUIConfigService.prototype, 'getConfig')
-        .and.returnValue(Observable.of({ flyoutWidth: 1200 }));
+        .and.returnValue(observableOf({ flyoutWidth: 1200 }));
 
       openFlyout({ settingsKey: 'testKey', minWidth: 320, maxWidth: 800 });
 
@@ -465,7 +464,7 @@ describe('Flyout component', () => {
   it('should set the flyout size to the default value when nothing is returned from the UI config service',
     fakeAsync(() => {
       spyOn(SkyUIConfigService.prototype, 'getConfig')
-        .and.returnValue(Observable.of(undefined));
+        .and.returnValue(observableOf(undefined));
 
       openFlyout({ defaultWidth: 590, settingsKey: 'testKey' });
 
@@ -480,7 +479,7 @@ describe('Flyout component', () => {
   it('should set the flyout size to the default value when a value without a flyout width is returned from the UI config service',
     fakeAsync(() => {
       spyOn(SkyUIConfigService.prototype, 'getConfig')
-        .and.returnValue(Observable.of({ otherValue: 557 }));
+        .and.returnValue(observableOf({ otherValue: 557 }));
 
       openFlyout({ defaultWidth: 590, settingsKey: 'testKey' });
 
@@ -580,7 +579,7 @@ describe('Flyout component', () => {
      * NOTE: We need to update this to use the new throwError Observable creation function
      */
     spyOn(SkyUIConfigService.prototype, 'setConfig')
-      .and.returnValue(Observable.throw({ message: 'Test error' }));
+      .and.returnValue(observableThrow({ message: 'Test error' }));
     /* tslint:enable:deprecation */
 
     resizeFlyout(1000, 1100);

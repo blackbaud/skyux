@@ -11,20 +11,21 @@ import {
 } from '@angular/router';
 
 import {
-  Observable,
+  SkyAppWindowRef,
+  SkyCoreAdapterService,
+  SkyDynamicComponentService
+} from '@skyux/core';
+
+import {
+  fromEvent,
   Subject
 } from 'rxjs';
 
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/takeWhile';
-import 'rxjs/add/operator/takeUntil';
-import 'rxjs/add/observable/fromEvent';
-
 import {
-  SkyCoreAdapterService,
-  SkyDynamicComponentService,
-  SkyWindowRefService
-} from '@skyux/core';
+  take,
+  takeUntil,
+  takeWhile
+} from 'rxjs/operators';
 
 import {
   SkyFlyoutComponent
@@ -35,10 +36,16 @@ import {
 } from './flyout-instance';
 
 import {
-  SkyFlyoutConfig,
-  SkyFlyoutMessage,
+  SkyFlyoutConfig
+} from './types/flyout-config';
+
+import {
+  SkyFlyoutMessage
+} from './types/flyout-message';
+
+import {
   SkyFlyoutMessageType
-} from './types';
+} from './types/flyout-message-type';
 
 @Injectable()
 export class SkyFlyoutService implements OnDestroy {
@@ -49,7 +56,7 @@ export class SkyFlyoutService implements OnDestroy {
 
   constructor(
     private coreAdapter: SkyCoreAdapterService,
-    private windowRef: SkyWindowRefService,
+    private windowRef: SkyAppWindowRef,
     private dynamicComponentService: SkyDynamicComponentService,
     private router: Router
   ) { }
@@ -64,7 +71,7 @@ export class SkyFlyoutService implements OnDestroy {
   public open<T>(component: Type<T>, config?: SkyFlyoutConfig): SkyFlyoutInstance<T> {
     // isOpening flag will prevent close() from firing when open() is also fired.
     this.isOpening = true;
-    this.windowRef.getWindow().setTimeout(() => {
+    this.windowRef.nativeWindow.setTimeout(() => {
       this.isOpening = false;
     });
 
@@ -72,7 +79,7 @@ export class SkyFlyoutService implements OnDestroy {
       this.host = this.createHostComponent();
 
       this.router.events
-      .takeWhile(() => this.host !== undefined)
+      .pipe(takeWhile(() => this.host !== undefined))
       .subscribe((event) => {
         if (event instanceof NavigationStart) {
           this.close();
@@ -116,9 +123,8 @@ export class SkyFlyoutService implements OnDestroy {
        * Flyout should close when user clicks outside of flyout.
        * Use mousedown instead of click to capture elements that are removed from DOM on click
        */
-      Observable
-        .fromEvent(document, 'mousedown')
-        .takeUntil(this.ngUnsubscribe)
+      fromEvent(document, 'mousedown')
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((event: MouseEvent) => {
           const isChild = flyoutInstance.flyoutRef.nativeElement.contains(event.target);
           const isAbove = this.coreAdapter.isTargetAboveElement(
@@ -134,7 +140,7 @@ export class SkyFlyoutService implements OnDestroy {
 
       this.removeAfterClosed = false;
       flyoutInstance.messageStream
-        .take(1)
+        .pipe(take(1))
         .subscribe((message: SkyFlyoutMessage) => {
           if (message.type === SkyFlyoutMessageType.Close) {
             this.removeAfterClosed = true;
@@ -142,7 +148,7 @@ export class SkyFlyoutService implements OnDestroy {
           }
         });
 
-      flyout.closed.take(1).subscribe(() => {
+      flyout.closed.pipe(take(1)).subscribe(() => {
         this.removeListners();
         if (this.removeAfterClosed) {
           this.removeHostComponent();

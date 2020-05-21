@@ -17,7 +17,7 @@ import {
 
 import {
   SkyFlyoutService
-} from '../../public/modules/flyout/flyout.service';
+} from '../../public/public_api';
 
 import {
   SkyFlyoutModalDemoComponent

@@ -18,8 +18,8 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  SkyDynamicComponentService,
-  SkyWindowRefService
+  SkyAppWindowRef,
+  SkyDynamicComponentService
 } from '@skyux/core';
 
 import {
@@ -35,12 +35,12 @@ import {
 } from './fixtures/flyout-hosts.component.fixture';
 
 import {
-  SkyFlyoutService
-} from './flyout.service';
+  SkyFlyoutMessageType
+} from './types/flyout-message-type';
 
 import {
-  SkyFlyoutMessageType
-} from './types';
+  SkyFlyoutService
+} from './flyout.service';
 
 describe('Flyout service', () => {
   let service: SkyFlyoutService;
@@ -53,8 +53,8 @@ describe('Flyout service', () => {
         SkyFlyoutFixturesModule
       ],
       providers: [
-        SkyFlyoutAdapterService,
-        SkyWindowRefService
+        SkyAppWindowRef,
+        SkyFlyoutAdapterService
       ]
     });
 
@@ -95,7 +95,7 @@ describe('Flyout service', () => {
   );
 
   it('should expose a method to remove the flyout from the DOM', () => {
-    spyOn(window, 'setTimeout').and.callFake((fun: any) => {
+    spyOn(window as any, 'setTimeout').and.callFake((fun: any) => {
       fun();
       return 0;
     });
@@ -111,7 +111,7 @@ describe('Flyout service', () => {
   );
 
   it('should dispose of any open host if the service is destroyed', () => {
-    spyOn(window, 'setTimeout').and.callFake((fun: any) => {
+    spyOn(window as any, 'setTimeout').and.callFake((fun: any) => {
       fun();
       return 0;
     });

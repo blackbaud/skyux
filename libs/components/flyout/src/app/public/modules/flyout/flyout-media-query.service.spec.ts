@@ -4,12 +4,12 @@ import {
 } from '@angular/core/testing';
 
 import {
-  Subscription
-} from 'rxjs/Subscription';
-
-import {
   SkyMediaBreakpoints
 } from '@skyux/core';
+
+import {
+  Subscription
+} from 'rxjs';
 
 import {
   SkyFlyoutMediaQueryService

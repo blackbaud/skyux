@@ -3,17 +3,14 @@ import {
 } from '@angular/core';
 
 import {
-  BehaviorSubject
-} from 'rxjs/BehaviorSubject';
-
-import {
-  Subscription
-} from 'rxjs/Subscription';
-
-import {
   SkyMediaBreakpoints,
   SkyMediaQueryListener
 } from '@skyux/core';
+
+import {
+  BehaviorSubject,
+  Subscription
+} from 'rxjs';
 
 @Injectable()
 export class SkyFlyoutMediaQueryService {

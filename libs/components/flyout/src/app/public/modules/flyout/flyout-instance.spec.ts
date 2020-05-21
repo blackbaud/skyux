@@ -1,10 +1,14 @@
 import {
-  SkyFlyoutInstance
-} from './index';
+  take
+} from 'rxjs/operators';
 
 import {
   SkyFlyoutMessageType
- } from './types';
+ } from './types/flyout-message-type';
+
+ import {
+  SkyFlyoutInstance
+} from './flyout-instance';
 
 describe('Flyout instance', () => {
   it('should expose observables for closed event', () => {
@@ -12,7 +16,7 @@ describe('Flyout instance', () => {
 
     let closedCalled = false;
 
-    flyout.closed.take(1).subscribe(() => {
+    flyout.closed.pipe(take(1)).subscribe(() => {
       closedCalled = true;
     });
 

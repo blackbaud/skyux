@@ -3,9 +3,12 @@ import {
 } from '@angular/core';
 
 import {
-  SkyFlyoutConfig,
+  SkyFlyoutConfig
+} from '../../flyout/types/flyout-config';
+
+import {
   SkyFlyoutService
-} from '../../flyout';
+} from '../../flyout/flyout.service';
 
 import {
   SkyFlyoutHostsTestComponent

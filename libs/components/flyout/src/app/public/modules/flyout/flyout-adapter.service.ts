@@ -6,8 +6,8 @@ import {
 } from '@angular/core';
 
 import {
-  SkyMediaBreakpoints,
-  SkyWindowRefService
+  SkyAppWindowRef,
+  SkyMediaBreakpoints
 } from '@skyux/core';
 
 @Injectable()
@@ -16,13 +16,13 @@ export class SkyFlyoutAdapterService {
 
   constructor(
     private rendererFactory: RendererFactory2,
-    private windowRef: SkyWindowRefService
+    private windowRef: SkyAppWindowRef
   ) {
     this.renderer = this.rendererFactory.createRenderer(undefined, undefined);
   }
 
   public adjustHeaderForHelp(header: ElementRef): void {
-    const windowObj = this.windowRef.getWindow();
+    const windowObj = this.windowRef.nativeWindow;
     const helpWidget = windowObj.document.getElementById('bb-help-invoker');
 
     if (helpWidget) {
