@@ -21,7 +21,7 @@ import {
 
 import {
   MockSkyMediaQueryService
-} from '@skyux/core/testing/mock-media-query.service';
+} from '@skyux/core/testing';
 
 import {
   expect,
@@ -511,6 +511,7 @@ describe('Split view component', () => {
     }));
 
     it('should pass accessibility', async(() => {
+      fixture.componentInstance.ariaLabelForDrawer = 'My drawer';
       fixture.detectChanges();
       expect(fixture.nativeElement).toBeAccessible();
     }));

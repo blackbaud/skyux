@@ -24,15 +24,12 @@ import {
 
 import {
   Subject
-} from 'rxjs/Subject';
+} from 'rxjs';
 
-import 'rxjs/add/operator/take';
-
-import 'rxjs/add/operator/takeUntil';
-
-import 'rxjs/add/operator/takeWhile';
-
-import 'rxjs/add/observable/fromEvent';
+import {
+  take,
+  takeUntil
+} from 'rxjs/operators';
 
 import {
   SkySplitViewMessage
@@ -127,20 +124,20 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.splitViewService.isMobileStream
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((mobile: boolean) => {
         this.isMobile = mobile;
         this.changeDetectorRef.markForCheck();
       });
 
     this.splitViewService.drawerVisible
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((visible: boolean) => {
         this.drawerVisible = visible;
       });
 
     this.messageStream
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((message: SkySplitViewMessage) => {
         this.handleIncomingMessages(message);
       });
@@ -175,7 +172,7 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
         if (!this.workspaceVisible) {
           this.drawerVisible = false;
           this.animationComplete
-            .take(1)
+            .pipe(take(1))
             .subscribe(() => {
               this.applyAutofocus();
             });

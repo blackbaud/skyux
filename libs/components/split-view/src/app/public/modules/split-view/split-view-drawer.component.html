@@ -7,8 +7,8 @@
 >
   <ng-content></ng-content>
   <input *ngIf="!isMobile"
+    aria-orientation="vertical"
     class="sky-split-view-resize-handle"
-    role="separator"
     step="10"
     type="range"
     [attr.aria-controls]="splitViewDrawerId"
@@ -16,6 +16,7 @@
     [attr.aria-valuemax]="widthMax"
     [attr.aria-valuemin]="widthMin"
     [attr.aria-valuenow]="width"
+    [attr.aria-valuetext]="width + ' pixels wide'"
     [max]="widthMax"
     [min]="widthMin"
     [style.left.px]="width - 7"

@@ -10,6 +10,10 @@ import {
 } from 'rxjs';
 
 import {
+  takeUntil
+} from 'rxjs/operators';
+
+import {
   SkySplitViewService
 } from './split-view.service';
 
@@ -31,7 +35,7 @@ export class SkySplitViewWorkspaceHeaderComponent implements OnDestroy, OnInit {
 
   public ngOnInit(): void {
     this.splitViewService.backButtonTextStream
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((text: string) => {
         this.backButtonText = text;
       });

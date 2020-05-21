@@ -21,7 +21,7 @@ import {
 
 import {
   SkySplitViewResourcesModule
-} from '../shared';
+} from '../shared/split-view-resources.module';
 
 import {
   SkySplitViewComponent

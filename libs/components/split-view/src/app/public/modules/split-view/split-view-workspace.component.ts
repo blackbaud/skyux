@@ -20,6 +20,10 @@ import {
 } from 'rxjs';
 
 import {
+  takeUntil
+} from 'rxjs/operators';
+
+import {
   SkySplitViewMediaQueryService
 } from './split-view-media-query.service';
 
@@ -68,14 +72,14 @@ export class SkySplitViewWorkspaceComponent implements OnDestroy, OnInit {
 
   public ngOnInit(): void {
     this.splitViewService.isMobileStream
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((mobile: boolean) => {
         this.isMobile = mobile;
         this.changeDetectorRef.markForCheck();
       });
 
     this.splitViewService.drawerWidthStream
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         this.updateBreakpoint();
       });

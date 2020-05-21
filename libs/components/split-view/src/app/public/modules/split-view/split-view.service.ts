@@ -5,12 +5,6 @@ import {
 } from '@angular/core';
 
 import {
-  BehaviorSubject,
-  Observable,
-  Subscription
-} from 'rxjs';
-
-import {
   SkyMediaBreakpoints,
   SkyMediaQueryService
 } from '@skyux/core';
@@ -18,6 +12,16 @@ import {
 import {
   SkyLibResourcesService
 } from '@skyux/i18n';
+
+import {
+  BehaviorSubject,
+  Observable,
+  Subscription
+} from 'rxjs';
+
+import {
+  take
+} from 'rxjs/operators';
 
 @Injectable()
 export class SkySplitViewService implements OnDestroy {
@@ -61,7 +65,7 @@ export class SkySplitViewService implements OnDestroy {
     private resources: SkyLibResourcesService
   ) {
     // Set default back button text.
-    this.resources.getString('skyux_split_view_back_to_list').take(1).subscribe(resource => {
+    this.resources.getString('skyux_split_view_back_to_list').pipe(take(1)).subscribe(resource => {
       this.updateBackButtonText(resource);
     });
 

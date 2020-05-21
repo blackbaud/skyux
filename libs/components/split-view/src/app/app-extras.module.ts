@@ -16,7 +16,7 @@ import {
 
 import {
   SkySplitViewModule
-} from './public';
+} from './public/public_api';
 
 @NgModule({
   exports: [

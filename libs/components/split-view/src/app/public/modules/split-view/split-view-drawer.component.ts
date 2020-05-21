@@ -17,7 +17,7 @@ import {
 } from '@skyux/core';
 
 import {
-  Observable,
+  fromEvent,
   Subject
 } from 'rxjs';
 
@@ -28,6 +28,7 @@ import {
 import {
   SkySplitViewService
 } from './split-view.service';
+import { takeUntil, takeWhile } from 'rxjs/operators';
 
 let skySplitViewNextId = 0;
 
@@ -103,7 +104,7 @@ export class SkySplitViewDrawerComponent implements AfterViewInit, OnInit, OnDes
     this.setMaxWidth();
 
     this.splitViewService.isMobileStream
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((mobile: boolean) => {
         this.isMobile = mobile;
         this.changeDetectorRef.markForCheck();
@@ -134,20 +135,18 @@ export class SkySplitViewDrawerComponent implements AfterViewInit, OnInit, OnDes
 
     this.coreAdapterService.toggleIframePointerEvents(false);
 
-    Observable
-      .fromEvent(document, 'mousemove')
-      .takeWhile(() => {
+    fromEvent(document, 'mousemove')
+      .pipe(takeWhile(() => {
         return this.isDragging;
-      })
+      }))
       .subscribe((moveEvent: any) => {
         this.onMouseMove(moveEvent);
       });
 
-    Observable
-      .fromEvent(document, 'mouseup')
-      .takeWhile(() => {
+    fromEvent(document, 'mouseup')
+      .pipe(takeWhile(() => {
         return this.isDragging;
-      })
+      }))
       .subscribe((mouseUpEvent: any) => {
         this.onHandleRelease(mouseUpEvent);
       });
