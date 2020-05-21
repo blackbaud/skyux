@@ -18,8 +18,13 @@ import {
   animate
 } from '@angular/animations';
 
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/takeUntil';
+import {
+  Subject
+} from 'rxjs';
+
+import {
+  takeUntil
+} from 'rxjs/operators';
 
 import {
   SkyVerticalTabsetService,
@@ -72,14 +77,14 @@ export class SkySectionedFormComponent implements OnInit, OnDestroy, AfterViewCh
 
   public ngOnInit() {
     this.tabService.indexChanged
-      .takeUntil(this._ngUnsubscribe)
+      .pipe(takeUntil(this._ngUnsubscribe))
       .subscribe(index => {
         this.indexChanged.emit(index);
         this.changeRef.markForCheck();
       });
 
     this.tabService.switchingMobile
-      .takeUntil(this._ngUnsubscribe)
+      .pipe(takeUntil(this._ngUnsubscribe))
       .subscribe((mobile: boolean) => {
         this.isMobile = mobile;
         this.changeRef.markForCheck();

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { SkySectionedFormModule } from '../';
+import { SkySectionedFormModule } from '../sectioned-form.module';
 import { SkySectionedFormFixtureComponent } from './sectioned-form.component.fixture';
 
 import {
@@ -21,7 +21,7 @@ import {
   SkySectionedFormFixtureInformation2Component
 } from './sectioned-form-fixture-information-2.component';
 
-import { SkyCheckboxModule } from '@skyux/forms/modules/checkbox/checkbox.module';
+import { SkyCheckboxModule } from '@skyux/forms';
 
 @NgModule({
   declarations: [

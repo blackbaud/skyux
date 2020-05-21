@@ -9,12 +9,9 @@ import {
 } from '@skyux/core';
 
 import {
-  BehaviorSubject
-} from 'rxjs/BehaviorSubject';
-
-import {
+  BehaviorSubject,
   Subject
-} from 'rxjs/Subject';
+} from 'rxjs';
 
 import {
   SkyVerticalTabComponent

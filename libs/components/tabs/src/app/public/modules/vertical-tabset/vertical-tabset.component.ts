@@ -19,8 +19,14 @@ import {
   animate
 } from '@angular/animations';
 
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/takeUntil';
+import {
+  Subject
+} from 'rxjs';
+
+import {
+  take,
+  takeUntil
+} from 'rxjs/operators';
 
 import { SkyLibResourcesService } from '@skyux/i18n';
 
@@ -90,14 +96,14 @@ export class SkyVerticalTabsetComponent implements OnInit, AfterViewChecked, OnD
 
   public ngOnInit() {
     this.tabService.indexChanged
-      .takeUntil(this._ngUnsubscribe)
+      .pipe(takeUntil(this._ngUnsubscribe))
       .subscribe((index: any) => {
         this.activeChange.emit(index);
         this.changeRef.markForCheck();
       });
 
     this.tabService.switchingMobile
-      .takeUntil(this._ngUnsubscribe)
+      .pipe(takeUntil(this._ngUnsubscribe))
       .subscribe((mobile: boolean) => {
         this.isMobile = mobile;
         this.changeRef.markForCheck();
@@ -109,12 +115,14 @@ export class SkyVerticalTabsetComponent implements OnInit, AfterViewChecked, OnD
       this.changeRef.markForCheck();
     }
     if (!this.showTabsText) {
-      this.resources.getString('skyux_vertical_tabs_show_tabs_text').take(1).subscribe(resource => {
-        /* sanity check */
-        if (!this.showTabsText) {
-          this.showTabsText = resource;
-        }
-      });
+      this.resources.getString('skyux_vertical_tabs_show_tabs_text')
+        .pipe(take(1))
+        .subscribe(resource => {
+          /* sanity check */
+          if (!this.showTabsText) {
+            this.showTabsText = resource;
+          }
+        });
     }
   }
 

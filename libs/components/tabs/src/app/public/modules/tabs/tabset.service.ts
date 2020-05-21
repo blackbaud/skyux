@@ -5,9 +5,11 @@ import {
 
 import {
   BehaviorSubject
- } from 'rxjs/BehaviorSubject';
+ } from 'rxjs';
 
-import 'rxjs/add/operator/take';
+ import {
+   take
+  } from 'rxjs/operators';
 
 import {
   SkyTabComponent
@@ -25,18 +27,21 @@ export class SkyTabsetService implements OnDestroy {
   public activeIndex: BehaviorSubject<any> = new BehaviorSubject(0);
 
   public ngOnDestroy(): void {
-    this.destroy();
+    this.tabs.complete();
+    this.activeIndex.complete();
   }
 
   public activateTab(tab: SkyTabComponent) {
-    this.tabs.take(1).subscribe((currentTabs) => {
-      this.activeIndex.next(tab.tabIndex);
-    });
+    this.tabs
+      .pipe(take(1))
+      .subscribe(() => {
+        this.activeIndex.next(tab.tabIndex);
+      });
   }
 
   public activateTabIndex(tabIndex: string | number) {
 
-    this.tabs.take(1).subscribe((currentTabs) => {
+    this.tabs.pipe(take(1)).subscribe((currentTabs) => {
       if (currentTabs.length === 0) {
         return;
       }
@@ -53,48 +58,42 @@ export class SkyTabsetService implements OnDestroy {
   }
 
   public addTab(tab: SkyTabComponent) {
-    this.tabs.take(1).subscribe((currentTabs) => {
-      if (tab.tabIndex === undefined) {
-        tab.tabIndex = 0;
-        let lastTabIndex = this.getLastTabIndex(currentTabs);
-        if (currentTabs && (lastTabIndex || lastTabIndex === 0)) {
-          tab.tabIndex = lastTabIndex + 1;
+    this.tabs
+      .pipe(take(1))
+      .subscribe((currentTabs) => {
+        if (tab.tabIndex === undefined) {
+          tab.tabIndex = 0;
+          let lastTabIndex = this.getLastTabIndex(currentTabs);
+          if (currentTabs && (lastTabIndex || lastTabIndex === 0)) {
+            tab.tabIndex = lastTabIndex + 1;
+          }
         }
-      }
-      currentTabs.push(tab);
-      this.tabs.next(currentTabs);
-    });
+        currentTabs.push(tab);
+        this.tabs.next(currentTabs);
+      });
   }
 
   public destroyTab(tab: SkyTabComponent) {
-    this.tabs.take(1).subscribe((currentTabs) => {
+    this.tabs
+      .pipe(take(1))
+      .subscribe((currentTabs) => {
+        let tabIndex = currentTabs.indexOf(tab);
+        if (tab.active) {
+          // Try selecting the next tab first, and if there's no next tab then
+          // try selecting the previous one.
+          let newActiveTab = currentTabs[tabIndex + 1] || currentTabs[tabIndex - 1];
 
-      let tabIndex = currentTabs.indexOf(tab);
-      if (tab.active) {
-        // Try selecting the next tab first, and if there's no next tab then
-        // try selecting the previous one.
-        let newActiveTab = currentTabs[tabIndex + 1] || currentTabs[tabIndex - 1];
-
-        /*istanbul ignore else */
-        if (newActiveTab) {
-          this.activeIndex.next(newActiveTab.tabIndex);
+          /*istanbul ignore else */
+          if (newActiveTab) {
+            this.activeIndex.next(newActiveTab.tabIndex);
+          }
         }
-      }
 
-      if (tabIndex > -1) {
-        currentTabs.splice(tabIndex, 1);
-      }
-      this.tabs.next(currentTabs);
-    });
-
-  }
-
-  /**
-   * @deprecated This method is called automatically during the OnDestroy lifecycle hook.
-   */
-  public destroy() {
-    this.tabs.complete();
-    this.activeIndex.complete();
+        if (tabIndex > -1) {
+          currentTabs.splice(tabIndex, 1);
+        }
+        this.tabs.next(currentTabs);
+      });
   }
 
   private getLastTabIndex(tabs: Array<SkyTabComponent>) {

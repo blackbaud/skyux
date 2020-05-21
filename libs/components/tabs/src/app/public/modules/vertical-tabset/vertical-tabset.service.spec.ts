@@ -1,6 +1,6 @@
 import { SkyVerticalTabsetService } from './vertical-tabset.service';
 import { SkyVerticalTabComponent } from './vertical-tab.component';
-import { MockSkyMediaQueryService } from '@skyux/core/testing/mock-media-query.service';
+import { MockSkyMediaQueryService } from '@skyux/core/testing';
 
 class MockChangeDetector {
   public detectChanges() {}
@@ -13,7 +13,7 @@ describe('Vertical tabset service', () => {
   let mockQueryService = new MockSkyMediaQueryService();
 
   beforeEach(() => {
-    service = new SkyVerticalTabsetService(mockQueryService);
+    service = new SkyVerticalTabsetService(mockQueryService as any);
   });
 
   it('should add two non active tabs', () => {

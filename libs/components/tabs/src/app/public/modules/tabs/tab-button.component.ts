@@ -40,9 +40,6 @@ export class SkyTabButtonComponent {
   public disabled: boolean;
 
   @Input()
-  public tabStyle: string;
-
-  @Input()
   public set allowClose(closeAllowed: boolean) {
     this._allowClose = closeAllowed;
     this.ref.detectChanges();

@@ -1055,7 +1055,7 @@ describe('Tabset component', () => {
         location = _location;
         router = _router;
 
-        spyOn(router, 'createUrlTree').and.callFake((commands: any[]) => {
+        spyOn(router as any, 'createUrlTree').and.callFake((commands: any[]) => {
           const params = Object.keys(commands[0])
             .map(k => `${k}=${commands[0][k]}`)
             .join(';');

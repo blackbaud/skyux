@@ -1,3 +1,21 @@
+# 4.0.0 (2020-05-21)
+
+### New features
+
+- Added support for `@angular/core@^9`. [#56](https://github.com/blackbaud/skyux-tabs/pull/56)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#56](https://github.com/blackbaud/skyux-tabs/pull/56)
+
+### Breaking changes
+
+- Removed the `tabStyle` input from the tabset component, which was used to switch between `'wizard'` or `'tabs'` tab styles. To use a wizard-styled component, use the progress indicator component. [#84](https://github.com/blackbaud/skyux-tabs/pull/84)
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#56](https://github.com/blackbaud/skyux-tabs/pull/56)
+
+# 4.0.0-rc.2 (2020-05-18)
+
+### Breaking changes
+
+- Removed the `tabStyle` input from the tabset component, which was used to switch between `'wizard'` or `'tabs'` tab styles. To use a wizard-styled component, use the progress indicator component. [#84](https://github.com/blackbaud/skyux-tabs/pull/84)
+
 # 3.3.0 (2020-05-11)
 
 - Added modern theme styles to the tabset component. [#81](https://github.com/blackbaud/skyux-tabs/pull/81)
@@ -5,6 +23,10 @@
 # 3.2.8 (2020-05-07)
 
 - Fixed deep imports for `SkyMediaQueryService`. [#77](https://github.com/blackbaud/skyux-tabs/pull/77)
+
+# 4.0.0-rc.1 (2020-04-30)
+
+- Added bug fixes and features from the `master` branch. [#75](https://github.com/blackbaud/skyux-tabs/pull/75)
 
 # 3.2.7 (2020-04-23)
 
@@ -17,6 +39,17 @@
 # 3.2.5 (2020-03-30)
 
 - Fixed the tabset component to avoid triggering navigation changes when using the `permalinkId` property. [#59](https://github.com/blackbaud/skyux-tabs/pull/59)
+
+# 4.0.0-rc.0 (2020-02-22)
+
+### New features
+
+- Added support for `@angular/core@^9`. [#56](https://github.com/blackbaud/skyux-tabs/pull/56)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#56](https://github.com/blackbaud/skyux-tabs/pull/56)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#56](https://github.com/blackbaud/skyux-tabs/pull/56)
 
 # 3.2.4 (2020-01-27)
 

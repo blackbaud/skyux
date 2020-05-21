@@ -1,7 +1,7 @@
 <div
     class="sky-tabset"
     role="tablist"
-    [ngClass]="'sky-tabset-mode-' + tabDisplayMode + ' sky-tabset-style-' + tabStyle"
+    [ngClass]="'sky-tabset-mode-' + tabDisplayMode"
     (window:resize)="windowResize()"
 >
   <span class="sky-tabset-dropdown">
@@ -24,7 +24,6 @@
         [permalinkValue]="tab.permalinkValue"
         [tabHeading]="tab.tabHeading"
         [tabHeaderCount]="tab.tabHeaderCount"
-        [tabStyle]="tabStyle"
         (closeClick)="tabCloseClick(tab)"
         (tabClick)="selectTab(tab)"
     >

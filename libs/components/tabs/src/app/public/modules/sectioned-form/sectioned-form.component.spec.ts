@@ -9,7 +9,7 @@ import {
 import {
   SkyMediaQueryService,
   SkyMediaBreakpoints
-} from '@skyux/core/modules/media-query';
+} from '@skyux/core';
 import {
   SkySectionedFormComponent
 } from './sectioned-form.component';
@@ -29,7 +29,7 @@ import {
 
 import {
   MockSkyMediaQueryService
-} from '@skyux/core/testing/mock-media-query.service';
+} from '@skyux/core/testing';
 
 function getVisibleContent(el: any) {
   return el.querySelectorAll('.sky-vertical-tab-content-pane:not(.sky-vertical-tab-hidden)');

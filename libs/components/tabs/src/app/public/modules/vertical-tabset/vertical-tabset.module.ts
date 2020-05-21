@@ -21,7 +21,7 @@ import {
 
 import {
   SkyTabsResourcesModule
-} from '../shared';
+} from '../shared/tabs-resources.module';
 
 import {
   SkyVerticalTabsetComponent

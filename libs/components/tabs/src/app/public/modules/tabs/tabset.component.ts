@@ -25,16 +25,15 @@ import {
 } from '@angular/router';
 
 import {
-  Observable
-} from 'rxjs/Observable';
+  fromEvent,
+  Subject
+} from 'rxjs';
 
 import {
-  Subject
-} from 'rxjs/Subject';
-
-import 'rxjs/add/operator/distinctUntilChanged';
-
-import 'rxjs/add/operator/takeUntil';
+  distinctUntilChanged,
+  take,
+  takeUntil
+} from 'rxjs/operators';
 
 import {
   SkyThemeService
@@ -97,31 +96,6 @@ export class SkyTabsetComponent
   }
 
   /**
-   * @deprecated
-   * Specifies the behavior for a series of tabs.
-   * The property was designed to create wizards by setting tabStyle="wizard" on tabsets in modals,
-   * but this wizard implementation was replaced by the
-   * [progress indicator component](https://developer.blackbaud.com/skyux/components/progress-indicator).
-   * @default "tabs"
-   */
-  @Input()
-  public set tabStyle(value: string) {
-    /*istanbul ignore else*/
-    if (value && value.toLowerCase() === 'wizard') {
-      console.warn(
-        'The tabset wizard is deprecated. Please implement the new approach using ' +
-        'progress indicator as documented here: https://developer.blackbaud.com/skyux/components/wizard.'
-      );
-    }
-
-    this._tabStyle = value;
-  }
-
-  public get tabStyle(): string {
-    return this._tabStyle || 'tabs';
-  }
-
-  /**
    * Fires when the active tab changes. This event emits the index of the active tab.
    */
   @Output()
@@ -151,8 +125,6 @@ export class SkyTabsetComponent
   private ngUnsubscribe = new Subject<void>();
 
   private _permalinkId: string;
-
-  private _tabStyle: string;
 
   constructor(
     private tabsetService: SkyTabsetService,
@@ -209,11 +181,11 @@ export class SkyTabsetComponent
 
   public ngAfterContentInit(): void {
     this.tabs.changes
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((change: QueryList<SkyTabComponent>) => {
 
         this.tabsetService.tabs
-          .take(1)
+          .pipe(take(1))
           .subscribe(tabs => {
             change
               .filter(tab => tabs.indexOf(tab) === -1)
@@ -236,8 +208,10 @@ export class SkyTabsetComponent
     });
 
     this.tabsetService.activeIndex
-      .distinctUntilChanged()
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(
+        distinctUntilChanged(),
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe((newActiveIndex) => {
         // HACK: Not selecting the active tab in a timeout causes an error.
         // https://github.com/angular/angular/issues/6005
@@ -255,8 +229,8 @@ export class SkyTabsetComponent
       // Listen for back/forward history button presses to detect path param changes in the URL.
       // (Angular's router events observable doesn't emit when path params change.)
       // See: https://stackoverflow.com/a/51471155/6178885
-      Observable.fromEvent(window, 'popstate')
-        .takeUntil(this.ngUnsubscribe)
+      fromEvent(window, 'popstate')
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(() => this.activateTabByPermalinkValue());
   }
 
@@ -264,7 +238,7 @@ export class SkyTabsetComponent
     this.adapterService.init(this.elRef);
 
     this.adapterService.overflowChange
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((currentOverflow: boolean) => {
         this.updateDisplayMode(currentOverflow);
       });

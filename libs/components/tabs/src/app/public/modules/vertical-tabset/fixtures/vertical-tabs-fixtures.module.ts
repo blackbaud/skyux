@@ -12,7 +12,7 @@ import {
 
 import {
   SkyVerticalTabsetModule
-} from '../';
+} from '../vertical-tabset.module';
 
 import {
   VerticalTabsetTestComponent

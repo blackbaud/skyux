@@ -9,8 +9,11 @@ import {
 
 import {
   Subject
-} from 'rxjs/Subject';
-import 'rxjs/add/operator/takeUntil';
+} from 'rxjs';
+
+import {
+  takeUntil
+} from 'rxjs/operators';
 
 import {
   SkyVerticalTabComponent
@@ -77,11 +80,11 @@ export class SkySectionedFormSectionComponent implements OnInit, OnDestroy {
       });
 
     this.sectionedFormService.requiredChange
-      .takeUntil(this._ngUnsubscribe)
+      .pipe(takeUntil(this._ngUnsubscribe))
       .subscribe((required: boolean) => this.fieldRequired = required);
 
     this.sectionedFormService.invalidChange
-      .takeUntil(this._ngUnsubscribe)
+      .pipe(takeUntil(this._ngUnsubscribe))
       .subscribe((invalid: boolean) => this.fieldInvalid = invalid);
   }
 

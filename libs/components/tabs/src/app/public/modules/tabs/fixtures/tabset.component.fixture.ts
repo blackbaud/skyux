@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import {
   SkyTabsetComponent
-} from '..';
+} from '../tabset.component';
 
 @Component({
   selector: 'sky-test-cmp',

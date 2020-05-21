@@ -15,8 +15,6 @@ import {
 })
 export class TabsVisualComponent {
 
-  public showWizard = false;
-
   public requiredValue1: string;
 
   public requiredValue2: boolean;

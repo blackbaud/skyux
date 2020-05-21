@@ -10,7 +10,7 @@ import {
 
 import {
   MockSkyMediaQueryService
-} from '@skyux/core/testing/mock-media-query.service';
+} from '@skyux/core/testing';
 
 import {
   SkyMediaBreakpoints,
