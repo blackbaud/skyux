@@ -1,3 +1,23 @@
+# 4.0.0 (2020-05-21)
+
+### New features
+
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#29](https://github.com/blackbaud/skyux-action-bars/pull/29)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#29](https://github.com/blackbaud/skyux-action-bars/pull/29)
+
+# 4.0.0-rc.0 (2020-04-18)
+
+### New features
+
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#29](https://github.com/blackbaud/skyux-action-bars/pull/29)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#29](https://github.com/blackbaud/skyux-action-bars/pull/29)
+
 # 3.1.3 (2019-11-19)
 
 - Fixed the summary action bar component to properly style modal footers when multiple modals are open. [#25](https://github.com/blackbaud/skyux-action-bars/pull/25)

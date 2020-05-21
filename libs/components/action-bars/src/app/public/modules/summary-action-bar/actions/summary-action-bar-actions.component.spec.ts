@@ -14,7 +14,7 @@ import {
 
 import {
   SkyMediaQueryService, SkyMediaBreakpoints
-} from '@skyux/core/modules/media-query';
+} from '@skyux/core';
 
 import {
   MockSkyMediaQueryService
@@ -38,7 +38,7 @@ import {
 
 import {
   SkySummaryActionBarSecondaryActionsComponent
-} from '.';
+} from './summary-action-bar-secondary-actions.component';
 
 describe('Summary Action Bar action components', () => {
   let fixture: ComponentFixture<SkySummaryActionBarTestComponent>;

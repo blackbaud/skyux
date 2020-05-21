@@ -9,16 +9,18 @@ import {
 } from '@angular/core';
 
 import {
-  Observable
-} from 'rxjs/Observable';
+  fromEvent
+} from 'rxjs';
+
+import {takeUntil} from 'rxjs/operators';
 
 import {
   Subject
-} from 'rxjs/Subject';
+} from 'rxjs';
 
 import {
   Subscription
-} from 'rxjs/Subscription';
+} from 'rxjs';
 
 import {
   skyAnimationSlide
@@ -28,7 +30,7 @@ import {
   MutationObserverService,
   SkyMediaBreakpoints,
   SkyMediaQueryService,
-  SkyWindowRefService
+  SkyAppWindowRef
 } from '@skyux/core';
 
 import {
@@ -85,7 +87,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
     private elementRef: ElementRef,
     private mediaQueryService: SkyMediaQueryService,
     private observerService: MutationObserverService,
-    private windowRef: SkyWindowRefService
+    private windowRef: SkyAppWindowRef
   ) { }
 
   public ngAfterViewInit(): void {
@@ -210,10 +212,9 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
 
   private setupResizeListener(): void {
     if (this.type !== SkySummaryActionBarType.SplitView) {
-      const windowObj = this.windowRef.getWindow();
-      Observable
-        .fromEvent(windowObj, 'resize')
-        .takeUntil(this.idled)
+      const windowObj = this.windowRef.nativeWindow;
+      fromEvent(windowObj, 'resize')
+        .pipe(takeUntil(this.idled))
         .subscribe(() => {
           this.adapterService.styleBodyElementForActionBar(this.elementRef);
         });

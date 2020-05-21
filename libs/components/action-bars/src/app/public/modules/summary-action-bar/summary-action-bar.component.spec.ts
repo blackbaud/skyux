@@ -400,7 +400,7 @@ describe('Summary Action Bar component', () => {
         });
       }));
 
-      it('should be accessible (modal setup)', (done) => {
+      it('should be accessible (modal setup)', async(() => {
         fixture.detectChanges();
         cmp.hideMainActionBar = true;
         fixture.detectChanges();
@@ -412,11 +412,10 @@ describe('Summary Action Bar component', () => {
           expect(modalHostElem).toBeAccessible();
           (<HTMLElement>document.querySelector('.sky-modal-btn-close')).click();
           fixture.detectChanges();
-          done();
         });
-      });
+      }));
 
-      it('should be accessible (modal setup collapsed summary)', (done) => {
+      it('should be accessible (modal setup collapsed summary)', async(() => {
         fixture.detectChanges();
         cmp.hideMainActionBar = true;
         fixture.detectChanges();
@@ -433,12 +432,11 @@ describe('Summary Action Bar component', () => {
             expect(modalHostElem).toBeAccessible();
             (<HTMLElement>document.querySelector('.sky-modal-btn-close')).click();
             fixture.detectChanges();
-            done();
           });
         });
-      });
+      }));
 
-      it('should be accessible (full screen modal lg setup)', (done) => {
+      it('should be accessible (full screen modal lg setup)', async(() => {
         fixture.detectChanges();
         cmp.hideMainActionBar = true;
         fixture.detectChanges();
@@ -450,11 +448,10 @@ describe('Summary Action Bar component', () => {
           expect(modalHostElem).toBeAccessible();
           (<HTMLElement>document.querySelector('.sky-modal-btn-close')).click();
           fixture.detectChanges();
-          done();
         });
-      });
+      }));
 
-      it('should be accessible (full screen modal xs setup)', (done) => {
+      it('should be accessible (full screen modal xs setup)', async(() => {
         fixture.detectChanges();
         cmp.hideMainActionBar = true;
         fixture.detectChanges();
@@ -468,11 +465,10 @@ describe('Summary Action Bar component', () => {
           expect(modalHostElem).toBeAccessible();
           (<HTMLElement>document.querySelector('.sky-modal-btn-close')).click();
           fixture.detectChanges();
-          done();
         });
-      });
+      }));
 
-      it('should be accessible (full screen modal xs setup collapsed summary)', (done) => {
+      it('should be accessible (full screen modal xs setup collapsed summary)', async(() => {
         fixture.detectChanges();
         cmp.hideMainActionBar = true;
         fixture.detectChanges();
@@ -491,10 +487,9 @@ describe('Summary Action Bar component', () => {
             expect(modalHostElem).toBeAccessible();
             (<HTMLElement>document.querySelector('.sky-modal-btn-close')).click();
             fixture.detectChanges();
-            done();
           });
         });
-      });
+      }));
     });
   });
 
@@ -637,7 +632,7 @@ describe('Summary Action Bar component', () => {
     describe('body stylings', () => {
 
       it('should set a margin on the split view workspace content if the action bar is displayed on intial load', (done) => {
-        spyOn(window, 'setTimeout').and.callFake((fun: Function) => { fun(); });
+        spyOn(window as any, 'setTimeout').and.callFake((fun: Function) => { fun(); });
         fixture.detectChanges();
         fixture.whenStable().then(() => {
           fixture.detectChanges();

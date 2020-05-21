@@ -29,7 +29,7 @@ import {
 
 import {
   SkySummaryActionBarModule
-} from './public';
+} from './public/public_api';
 
 import {
   SkySummaryActionBarModalDemoComponent

@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 
 import {
-  SkyWindowRefService
+  SkyAppWindowRef
 } from '@skyux/core';
 
 import {
@@ -20,13 +20,13 @@ export class SkySummaryActionBarAdapterService {
 
   constructor(
     private rendererFactory: RendererFactory2,
-    private windowRef: SkyWindowRefService
+    private windowRef: SkyAppWindowRef
   ) {
     this.renderer = this.rendererFactory.createRenderer(undefined, undefined);
   }
 
   public styleBodyElementForActionBar(summaryActionBarRef: ElementRef): void {
-    const window = this.windowRef.getWindow();
+    const window = this.windowRef.nativeWindow;
     const body = window.document.body;
     const actionBarEl = summaryActionBarRef.nativeElement.querySelector('.sky-summary-action-bar');
     if (actionBarEl.style.visibility !== 'hidden') {
@@ -45,7 +45,7 @@ export class SkySummaryActionBarAdapterService {
   }
 
   public revertBodyElementStyles(): void {
-    const window = this.windowRef.getWindow();
+    const window = this.windowRef.nativeWindow;
     const body = window.document.body;
     this.renderer.removeStyle(body, 'margin-bottom');
   }
