@@ -13,7 +13,10 @@ import {
 })
 export class AffixFixtureComponent {
 
-  @ViewChild(StacheAffixComponent)
+  @ViewChild(StacheAffixComponent, {
+    read: StacheAffixComponent,
+    static: true
+  })
   public affixComponent: StacheAffixComponent;
 
 }

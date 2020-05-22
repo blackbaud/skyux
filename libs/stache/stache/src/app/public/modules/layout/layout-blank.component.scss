@@ -9,7 +9,7 @@
   padding: 0;
   background-color: $stache-background-color-neutral-light;
 
-  /deep/
+  ::ng-deep
   .stache-tutorial {
     border: none;
   }

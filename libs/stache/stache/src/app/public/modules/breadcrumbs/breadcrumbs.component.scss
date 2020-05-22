@@ -4,7 +4,7 @@
   margin-bottom: $stache-margin * 2;
 }
 
-/deep/
+::ng-deep
 .stache-breadcrumbs {
   .stache-nav-breadcrumbs {
     color: $stache-text-color-deemphasized;

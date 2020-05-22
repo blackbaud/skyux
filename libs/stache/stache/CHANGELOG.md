@@ -1,3 +1,35 @@
+# 4.0.0 (2020-05-22)
+
+### New features
+
+- Added support for `@angular/core@^9`. [#68](https://github.com/blackbaud/skyux-lib-stache/pull/68)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#68](https://github.com/blackbaud/skyux-lib-stache/pull/68)
+
+### Bug fixes
+
+- Fixed the `InputConverter` to work when used with the Angular Ivy Compiler. [#70](https://github.com/blackbaud/skyux-lib-stache/pull/70)
+
+# 4.0.0-rc.2 (2020-04-18)
+
+- Added bug fixes and features from the `master` branch. [#75](https://github.com/blackbaud/skyux-lib-stache/pull/75)
+
+# 3.3.0 (2020-03-13)
+
+- Decreased the margin in the tutorial component. [#71](https://github.com/blackbaud/skyux-lib-stache/pull/71)
+
+# 4.0.0-rc.1 (2020-02-24)
+
+### Bug fixes
+
+- Fixed the `InputConverter` to work when used with the Angular Ivy Compiler. [#70](https://github.com/blackbaud/skyux-lib-stache/pull/70)
+
+# 4.0.0-rc.0 (2020-02-21)
+
+### New features
+
+- Added support for `@angular/core@^9`. [#68](https://github.com/blackbaud/skyux-lib-stache/pull/68)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#68](https://github.com/blackbaud/skyux-lib-stache/pull/68)
+
 # 3.3.0 (2019-12-10)
 
 - Decreased the margin used in the tutorial component. [#71](https://github.com/blackbaud/skyux-lib-stache/pull/71)

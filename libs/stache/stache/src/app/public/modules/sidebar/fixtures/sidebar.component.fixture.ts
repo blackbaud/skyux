@@ -21,7 +21,10 @@ export class SidebarFixtureComponent {
   @Input()
   public routes: StacheNavLink[];
 
-  @ViewChild(StacheSidebarWrapperComponent)
+  @ViewChild(StacheSidebarWrapperComponent, {
+    read: StacheSidebarWrapperComponent,
+    static: false
+  })
   public sidebarWrapperComponent: StacheSidebarWrapperComponent;
 
 }

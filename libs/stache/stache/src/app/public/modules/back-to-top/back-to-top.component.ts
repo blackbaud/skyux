@@ -5,7 +5,8 @@ import {
 } from '@angular/core';
 
 import {
-  InputConverter
+  InputConverter,
+  numberConverter
 } from '../shared/input-converter';
 
 import {
@@ -19,7 +20,7 @@ import {
 })
 export class StacheBackToTopComponent {
   @Input()
-  @InputConverter()
+  @InputConverter(numberConverter)
   public offset: number = 200;
 
   public isHidden: boolean = true;

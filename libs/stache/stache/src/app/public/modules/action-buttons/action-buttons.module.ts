@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import {
-  SkyActionButtonModule, SkyFluidGridModule
+  SkyActionButtonModule,
+  SkyFluidGridModule
 } from '@skyux/layout';
 
 import {

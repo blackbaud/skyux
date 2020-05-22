@@ -37,7 +37,7 @@
   flex-wrap: wrap;
 }
 
-/deep/
+::ng-deep
 .stache-action-buttons {
   .sky-column {
     display: inline-flex;

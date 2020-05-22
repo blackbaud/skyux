@@ -1,7 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { StacheNavLink } from '../nav/nav-link';
-import { InputConverter } from '../shared/input-converter';
+
+import {
+  booleanConverter,
+  InputConverter
+} from '../shared/input-converter';
 
 @Component({
   selector: 'stache-action-buttons',
@@ -20,7 +24,7 @@ export class StacheActionButtonsComponent implements OnInit {
   }
 
   @Input()
-  @InputConverter()
+  @InputConverter(booleanConverter)
   public showSearch: boolean = true;
 
   public filteredRoutes: StacheNavLink[];

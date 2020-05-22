@@ -55,13 +55,19 @@ export class StacheLayoutComponent implements OnInit, StacheLayout, AfterViewIni
 
   public templateRef: any;
 
-  @ViewChild('blankLayout')
+  @ViewChild('blankLayout', {
+    static: true
+  })
   private blankTemplateRef: any;
 
-  @ViewChild('containerLayout')
+  @ViewChild('containerLayout', {
+    static: true
+  })
   private containerTemplateRef: any;
 
-  @ViewChild('sidebarLayout')
+  @ViewChild('sidebarLayout', {
+    static: true
+  })
   private sidebarTemplateRef: any;
 
   constructor(

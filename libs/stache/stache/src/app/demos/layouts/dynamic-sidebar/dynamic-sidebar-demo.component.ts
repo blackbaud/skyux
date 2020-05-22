@@ -4,7 +4,7 @@ import {
 
 import {
   StacheNavLink
-} from '../../../public';
+} from '../../../public/public_api';
 
 @Component({
   selector: 'app-dynamic-sidebar-demo',

@@ -10,7 +10,9 @@ import {
 export class StacheWrapperTestComponent {
   public heading = 'Second Heading';
 
-  @ViewChild('testWrapper')
+  @ViewChild('testWrapper', {
+    static: false
+  })
   public testWrapper: any;
 
   public inPageRoutes: any[];

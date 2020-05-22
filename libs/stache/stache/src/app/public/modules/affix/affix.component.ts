@@ -25,12 +25,18 @@ import {
   styleUrls: ['./affix.component.scss']
 })
 export class StacheAffixComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('stacheAffixWrapper')
+  @ViewChild('stacheAffixWrapper', {
+    read: ElementRef,
+    static: false
+  })
   public wrapper: ElementRef;
   public minHeightFormatted: string;
   public maxWidthFormatted: string;
 
-  @ViewChild(StacheAffixTopDirective)
+  @ViewChild(StacheAffixTopDirective, {
+    read: StacheAffixTopDirective,
+    static: true
+  })
   public affixTopDirective: StacheAffixTopDirective;
 
   private windowSubscription: Subscription;

@@ -7,10 +7,6 @@ import {
 } from '@angular/common';
 
 import {
-  SkyFluidGridModule
-} from '@skyux/layout';
-
-import {
   StacheActionButtonsModule
 } from '../action-buttons/action-buttons.module';
 
@@ -81,7 +77,6 @@ import {
 @NgModule({
   imports: [
     CommonModule,
-    SkyFluidGridModule,
     StacheActionButtonsModule,
     StacheAffixModule,
     StacheBackToTopModule,

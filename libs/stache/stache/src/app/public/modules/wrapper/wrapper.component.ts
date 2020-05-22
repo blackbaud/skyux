@@ -53,6 +53,7 @@ import {
 } from '../page-anchor/page-anchor.service';
 
 import {
+  booleanConverter,
   InputConverter
 } from '../shared/input-converter';
 
@@ -89,7 +90,7 @@ export class StacheWrapperComponent implements OnInit, AfterViewInit, OnDestroy 
   public showEditButton: boolean = this.checkEditButtonUrl();
 
   @Input()
-  @InputConverter()
+  @InputConverter(booleanConverter)
   public showFooter: boolean = this.checkFooterData();
 
   @Input()

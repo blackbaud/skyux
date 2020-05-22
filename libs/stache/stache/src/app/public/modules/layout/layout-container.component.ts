@@ -8,6 +8,7 @@ import {
 } from './layout';
 
 import {
+  booleanConverter,
   InputConverter
 } from '../shared/input-converter';
 
@@ -30,18 +31,18 @@ export class StacheLayoutContainerComponent implements StacheLayout {
   public inPageRoutes: StacheNavLink[];
 
   @Input()
-  @InputConverter()
+  @InputConverter(booleanConverter)
   public showBackToTop: boolean;
 
   @Input()
-  @InputConverter()
+  @InputConverter(booleanConverter)
   public showBreadcrumbs: boolean;
 
   @Input()
-  @InputConverter()
+  @InputConverter(booleanConverter)
   public showEditButton: boolean;
 
   @Input()
-  @InputConverter()
+  @InputConverter(booleanConverter)
   public showTableOfContents: boolean;
 }

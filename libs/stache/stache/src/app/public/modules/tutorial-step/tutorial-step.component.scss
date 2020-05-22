@@ -58,7 +58,7 @@
   }
 }
 
-/deep/
+::ng-deep
 .stache-tutorial-step {
   stache-tutorial-step-heading + stache-tutorial-step-body {
     .stache-tutorial-step-body {
