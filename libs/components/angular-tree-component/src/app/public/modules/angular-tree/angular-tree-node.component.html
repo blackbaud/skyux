@@ -1,8 +1,4 @@
 <div
-  role="treeitem"
-  [attr.aria-current]="node.isActive"
-  [attr.aria-expanded]="node.isExpanded"
-  [attr.aria-selected]="ariaSelected()"
   [class]="node.getClass()"
   [class.tree-node]="true"
   [class.tree-node-active]="node.isActive"
@@ -54,7 +50,11 @@
     <!-- https://github.com/500tech/angular-tree-component/blob/master/lib/components/tree-node-wrapper.component.ts -->
     <div
       class="node-content-wrapper"
+      role="treeitem"
       [allowDragoverStyling]="node.allowDragoverStyling()"
+      [attr.aria-current]="node.isActive"
+      [attr.aria-expanded]="node.isExpanded"
+      [attr.aria-selected]="ariaSelected()"
       [attr.data-node-id]="node.id"
       [attr.tabindex]="tabIndex"
       [treeAllowDrop]="node.allowDrop"

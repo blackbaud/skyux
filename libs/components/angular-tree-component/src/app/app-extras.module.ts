@@ -16,7 +16,7 @@ import {
 
 import {
   SkyAngularTreeModule
-} from './public';
+} from './public/public_api';
 
 // Build will crash if we try to insert function calls inside the NgModule decorator.
 // To get around this, we just use a variable to refer to the .forRoot() function call.
@@ -28,9 +28,9 @@ const treeModuleForRoot = TreeModule.forRoot();
     treeModuleForRoot
   ],
   exports: [
+    SkyAngularTreeModule,
     SkyAppLinkModule,
     SkyDropdownModule,
-    SkyAngularTreeModule,
     TreeModule
   ]
 })
