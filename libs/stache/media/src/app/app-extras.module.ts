@@ -10,7 +10,7 @@ import {
   SkyHeroModule,
   SkyImageModule,
   SkyVideoModule
-} from './public';
+} from './public/public_api';
 
 @NgModule({
   exports: [

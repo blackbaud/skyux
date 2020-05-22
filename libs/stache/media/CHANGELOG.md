@@ -1,3 +1,17 @@
+# 4.0.0 (2020-05-22)
+
+### New features
+
+- Added support for `@angular/core@^9`. [#16](https://github.com/blackbaud/skyux-lib-media/pull/16)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#16](https://github.com/blackbaud/skyux-lib-media/pull/16)
+
+# 2.0.0-rc.0 (2020-02-22)
+
+### New features
+
+- Added support for `@angular/core@^9`. [#16](https://github.com/blackbaud/skyux-lib-media/pull/16)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#16](https://github.com/blackbaud/skyux-lib-media/pull/16)
+
 # 1.2.0 (2020-01-16)
 
 - Updated the image component's HTML to improve accessibility. [#13](https://github.com/blackbaud/skyux-lib-media/pull/13)
