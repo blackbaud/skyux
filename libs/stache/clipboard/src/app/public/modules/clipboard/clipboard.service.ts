@@ -4,7 +4,7 @@ import {
   Injectable
 } from '@angular/core';
 
-const clipboard = require('clipboard-polyfill/build/clipboard-polyfill.promise');
+import * as clipboard from 'clipboard-polyfill';
 
 @Injectable()
 export class SkyCopyToClipboardService {

@@ -12,7 +12,7 @@ import {
 
 import {
   SkyClipboardResourcesModule
-} from '../shared';
+} from '../shared/clipboard-resources.module';
 
 import {
   SkyCopyToClipboardComponent

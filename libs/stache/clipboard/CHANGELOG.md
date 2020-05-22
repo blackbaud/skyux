@@ -1,3 +1,17 @@
+# 4.0.0 (2020-05-22)
+
+### New features
+
+- Added support for `@angular/core@^9`. [#23](https://github.com/blackbaud/skyux-lib-clipboard/pull/23)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#23](https://github.com/blackbaud/skyux-lib-clipboard/pull/23)
+
+# 2.0.0-rc.0 (2020-02-21)
+
+### New features
+
+- Added support for `@angular/core@^9`. [#23](https://github.com/blackbaud/skyux-lib-clipboard/pull/23)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#23](https://github.com/blackbaud/skyux-lib-clipboard/pull/23)
+
 # 1.1.1 (2019-06-25)
 
 - Fixed an issue where the copy button text did not return to the original state after users selected it. [#15](https://github.com/blackbaud/skyux-lib-clipboard/pull/15)

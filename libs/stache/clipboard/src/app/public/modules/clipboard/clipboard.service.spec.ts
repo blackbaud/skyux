@@ -2,7 +2,7 @@ import {
   SkyCopyToClipboardService
 } from './clipboard.service';
 
-const clipboard = require('clipboard-polyfill/build/clipboard-polyfill.promise');
+import * as clipboard from 'clipboard-polyfill';
 
 describe('SkyCopyToClipboardService', () => {
   let clipboardService: SkyCopyToClipboardService;
@@ -15,6 +15,7 @@ describe('SkyCopyToClipboardService', () => {
     clipboardService = new SkyCopyToClipboardService();
     spyOn(clipboard, 'writeText').and.callFake((text: string) => {
       mockText = text;
+      return Promise.resolve();
     });
   });
 
