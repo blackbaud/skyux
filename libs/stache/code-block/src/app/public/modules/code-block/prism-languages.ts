@@ -150,7 +150,7 @@ import 'prismjs/components/prism-arduino';
 import 'prismjs/components/prism-crystal';
 import 'prismjs/components/prism-plsql';
 
-export const languages = {
+export const prismLanguages: {[_: string]: string} = {
   'properties': '.properties',
   'asm6502': '6502 Assembly',
   'abap': 'ABAP',

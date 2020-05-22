@@ -11,12 +11,12 @@ import {
 } from '@blackbaud/skyux-lib-clipboard';
 
 import {
-  SkyCodeBlockComponent
-} from './code-block.component';
+  SkyCodeBlockResourcesModule
+} from '../shared/code-block-resources.module';
 
 import {
-  SkyCodeBlockResourcesModule
-} from '../shared';
+  SkyCodeBlockComponent
+} from './code-block.component';
 
 @NgModule({
   declarations: [

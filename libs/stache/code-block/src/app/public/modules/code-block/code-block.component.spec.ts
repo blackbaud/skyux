@@ -23,7 +23,7 @@ import {
 
 import {
   SkyCodeBlockResourcesModule
-} from '../shared';
+} from '../shared/code-block-resources.module';
 
 class MockClipboardService {
   public copyContent() { }
