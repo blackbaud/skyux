@@ -1,15 +1,67 @@
+//#region imports
+
 import {
-  tick,
-  fakeAsync
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick
 } from '@angular/core/testing';
+
+import {
+  Component,
+  DebugElement
+} from '@angular/core';
 
 import {
   SkyAppTestUtility
 } from './test-utility';
 
+//#endregion
+
+//#region test components
+
+@Component({
+  selector: 'test-parent-cmp',
+  template: `
+<test-cmp
+  [attr.data-sky-id]="'my-id'"
+>
+  My component.
+</test-cmp>
+`
+})
+class TestParentComponent { }
+
+@Component({
+  selector: 'test-cmp',
+  template: `<ng-content></ng-content>`
+})
+class TestComponent { }
+
+//#endregion
+
 describe('Test utility', () => {
+  let bgEl: HTMLDivElement;
+  let textEl: HTMLSpanElement;
+  let inputEl: HTMLInputElement;
+
   beforeEach(() => {
     document.body.innerHTML = '';
+
+    bgEl = document.createElement('div');
+    textEl = document.createElement('span');
+    inputEl = document.createElement('input');
+    inputEl.type = 'text';
+
+    document.body.appendChild(bgEl);
+    document.body.appendChild(textEl);
+    document.body.appendChild(inputEl);
+  });
+
+  afterEach(() => {
+    document.body.removeChild(bgEl);
+    document.body.removeChild(textEl);
+    document.body.removeChild(inputEl);
   });
 
   it('should use keyboard event values', fakeAsync(() => {
@@ -59,4 +111,115 @@ describe('Test utility', () => {
     tick();
     expect(listenerCalled).toBeTruthy();
   }));
+
+  it('should determine if an element is visible', () => {
+    expect(SkyAppTestUtility.isVisible(textEl)).toBe(true);
+
+    textEl.style.display = 'none';
+
+    expect(SkyAppTestUtility.isVisible(textEl)).toBe(false);
+
+    expect(SkyAppTestUtility.isVisible(undefined)).toBeUndefined();
+  });
+
+  it('should retrieve an element\'s inner text', () => {
+    expect(SkyAppTestUtility.getText(textEl)).toBe('');
+
+    textEl.innerText = '    test   ';
+
+    expect(SkyAppTestUtility.getText(textEl)).toBe('test');
+
+    expect(SkyAppTestUtility.getText(undefined)).toBeUndefined();
+  });
+
+  it('should retrieve an element\'s background URL', () => {
+    let imageUrl: string;
+
+    imageUrl = SkyAppTestUtility.getBackgroundImageUrl(bgEl);
+
+    expect(imageUrl).toBeUndefined();
+
+    bgEl.style.backgroundImage = 'url("https://example.com/bg/")';
+
+    imageUrl = SkyAppTestUtility.getBackgroundImageUrl(bgEl);
+
+    expect(imageUrl).toBe('https://example.com/bg/');
+
+    imageUrl = SkyAppTestUtility.getBackgroundImageUrl(
+      new DebugElement(bgEl, document.body, undefined)
+    );
+
+    expect(imageUrl).toBe('https://example.com/bg/');
+
+    imageUrl = SkyAppTestUtility.getBackgroundImageUrl(undefined);
+
+    expect(imageUrl).toBeUndefined();
+  });
+
+  it('should set the value of an input', () => {
+    expect(inputEl.value).toEqual('');
+    SkyAppTestUtility.setInputValue(inputEl, 'foobar');
+    expect(inputEl.value).toEqual('foobar');
+  });
+
+  describe('getDebugElementByTestId', function () {
+    let fixture: ComponentFixture<TestParentComponent>;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        declarations: [
+          TestComponent,
+          TestParentComponent
+        ]
+      });
+      fixture = TestBed.createComponent(TestParentComponent);
+    });
+
+    afterEach(() => {
+      fixture.destroy();
+    });
+
+    it('should get the debug element of a component', () => {
+      fixture.detectChanges();
+
+      const debugElement = SkyAppTestUtility.getDebugElementByTestId(
+        fixture,
+        'my-id',
+        'test-cmp'
+      );
+
+      expect(debugElement).toBeDefined();
+    });
+
+    it('should throw if ID not found', () => {
+      const testId = 'invalid-id';
+
+      fixture.detectChanges();
+
+      expect(() => {
+        SkyAppTestUtility.getDebugElementByTestId(
+          fixture,
+          testId,
+          'test-cmp'
+        );
+      }).toThrowError(`No element was found with a \`data-sky-id\` value of "${testId}".`);
+    });
+
+    it('should throw if selector invalid', () => {
+      const testId = 'my-id';
+      const selector = 'invalid-selector';
+
+      fixture.detectChanges();
+
+      expect(() => {
+        SkyAppTestUtility.getDebugElementByTestId(
+          fixture,
+          testId,
+          selector
+        );
+      }).toThrowError(
+        `The element with the test ID "${testId}" is not a component of type ${selector}."`
+      );
+    });
+  });
 });

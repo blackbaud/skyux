@@ -1,6 +1,45 @@
+# 4.0.0 (2020-05-26)
+
+### New features
+
+- Added public methods `getText`, `isVisible`, `setInputValue`, `getBackgroundImageUrl`, and `getDebugElementByTestId` to `SkyAppTestUtility`. [#24](https://github.com/blackbaud/skyux-sdk-testing/pull/24)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#21](https://github.com/blackbaud/skyux-sdk-testing/pull/21)
+
+### Breaking changes
+
+- Added support for `axe-core@3.5.3` which includes a few breaking changes (see the [`axe-core` changelog](https://github.com/dequelabs/axe-core/releases/tag/v3.0.0) for details). [#21](https://github.com/blackbaud/skyux-sdk-testing/pull/21)
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#21](https://github.com/blackbaud/skyux-sdk-testing/pull/21)
+
+# 4.0.0-rc.3 (2020-05-07)
+
+- Added bug fixes and features from the `master` branch. [#27](https://github.com/blackbaud/skyux-sdk-testing/pull/27)
+
 # 3.3.0 (2020-04-30)
 
 - Added the `SkyMatchers` interface to enable IDE code completion for the `expect()` function. [#25](https://github.com/blackbaud/skyux-sdk-testing/pull/25) (Thanks [@Blackbaud-KrisMahon](https://github.com/Blackbaud-KrisMahon)!)
+
+# 4.0.0-rc.2 (2020-04-29)
+
+### New features
+
+- Added public methods `getText`, `isVisible`, `setInputValue`, `getBackgroundImageUrl`, and `getDebugElementByTestId` to `SkyAppTestUtility`. [#24](https://github.com/blackbaud/skyux-sdk-testing/pull/24)
+
+# 4.0.0-rc.1 (2020-04-08)
+
+### Bug fixes
+
+- Added the missing package `@types/axe-core` to dependencies. [#22](https://github.com/blackbaud/skyux-sdk-testing/pull/22)
+
+# 4.0.0-rc.0 (2020-04-06)
+
+### New features
+
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#21](https://github.com/blackbaud/skyux-sdk-testing/pull/21)
+
+### Breaking changes
+
+- Added support for `axe-core@3.5.3` which includes a few breaking changes (see the [`axe-core` changelog](https://github.com/dequelabs/axe-core/releases/tag/v3.0.0) for details). [#21](https://github.com/blackbaud/skyux-sdk-testing/pull/21)
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#21](https://github.com/blackbaud/skyux-sdk-testing/pull/21)
 
 # 3.2.0 (2020-03-05)
 

@@ -7,9 +7,12 @@ import {
 } from '@skyux/i18n';
 
 import {
-  SkyA11yAnalyzer,
+  SkyA11yAnalyzer
+} from '../a11y/a11y-analyzer';
+
+import {
   SkyA11yAnalyzerConfig
-} from '../a11y';
+} from '../a11y/a11y-analyzer-config';
 
 const windowRef: any = window;
 
