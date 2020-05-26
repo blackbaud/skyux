@@ -116,7 +116,14 @@ describe('Autocomplete component', () => {
 
     it('should set defaults', () => {
       expect(autocomplete.data).toEqual([]);
+
       fixture.detectChanges();
+
+      expect(inputElement.getAttribute('autocomplete')).toEqual('new-password');
+      expect(inputElement.getAttribute('autocapitalize')).toEqual('off');
+      expect(inputElement.getAttribute('autocorrect')).toEqual('off');
+      expect(inputElement.getAttribute('spellcheck')).toEqual('false');
+      expect(inputElement).toHaveCssClass('sky-form-control');
       expect(autocomplete.debounceTime).toEqual(0);
       expect(autocomplete.descriptorProperty).toEqual('name');
       expect(autocomplete.highlightText).toEqual('');

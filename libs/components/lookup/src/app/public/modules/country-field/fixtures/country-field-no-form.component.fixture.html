@@ -3,6 +3,7 @@
     [attr.required]="isRequired ? true : undefined"
     [defaultCountry]="defaultCountry"
     [disabled]="isDisabled ? true : undefined"
+    [supportedCountryISOs]="supportedCountryISOs"
     (selectedCountryChange)="countryChanged($event)"
   >
   </sky-country-field>

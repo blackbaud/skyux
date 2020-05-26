@@ -4,7 +4,8 @@
       name="countryField"
       [disabled]="isDisabled ? true : undefined"
       [defaultCountry]="defaultCountry"
-      [attr.required]="isRequired ? true : undefined"
+      [required]="isRequired ? true : undefined"
+      [supportedCountryISOs]="supportedCountryISOs"
       [(ngModel)]="modelValue"
       (selectedCountryChange)="countryChanged($event)"
     >

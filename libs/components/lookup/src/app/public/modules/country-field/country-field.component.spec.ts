@@ -130,6 +130,20 @@ describe('Country Field Component', () => {
         expect(nativeElement.querySelector('.sky-country-field-flag')).toHaveCssClass('us');
       }));
 
+      it('should initialize with a set country and fix an invalid name', fakeAsync(() => {
+        component.modelValue = {
+          iso2: 'us',
+          name: 'Test Name'
+        };
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(nativeElement.querySelector('textarea').value).toBe('United States');
+        expect(nativeElement.querySelector('.sky-country-field-flag')).toHaveCssClass('iti-flag');
+        expect(nativeElement.querySelector('.sky-country-field-flag')).toHaveCssClass('us');
+      }));
+
       it('should initialize without a set country', fakeAsync(() => {
         fixture.detectChanges();
         tick();
@@ -188,6 +202,31 @@ describe('Country Field Component', () => {
         expect(nativeElement.querySelector('.sky-country-field-flag')).toHaveCssClass('au');
       }));
 
+      it('should change countries correctly via a model change with an invalid name', fakeAsync(() => {
+        component.modelValue = {
+          name: 'United States',
+          iso2: 'us'
+        };
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(nativeElement.querySelector('textarea').value).toBe('United States');
+
+        component.modelValue = {
+          name: 'Test Name',
+          iso2: 'au'
+        };
+
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(nativeElement.querySelector('textarea').value).toBe('Australia');
+        expect(nativeElement.querySelector('.sky-country-field-flag')).toHaveCssClass('iti-flag');
+        expect(nativeElement.querySelector('.sky-country-field-flag')).toHaveCssClass('au');
+      }));
+
       it('should change countries correctly via a model change with only a iso2 code', fakeAsync(() => {
         component.modelValue = {
           name: 'United States',
@@ -224,6 +263,26 @@ describe('Country Field Component', () => {
         expect(results[0].innerText.trim()).toBe('Cyprus (Κύπρος)');
         expect(results[0].querySelector('div')).toHaveCssClass('iti-flag');
         expect(results[0].querySelector('div')).toHaveCssClass('cy');
+      }));
+
+      it('should only display supported countries', fakeAsync(() => {
+        component.defaultCountry = 'us';
+        component.supportedCountryISOs = ['au', 'us'];
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        const results = searchAndGetResults('us', fixture);
+
+        expect(results[0].innerText.trim()).toBe('United States');
+        expect(results[0].querySelector('div')).toHaveCssClass('iti-flag');
+        expect(results[0].querySelector('div')).toHaveCssClass('us');
+
+        expect(results[1].innerText.trim()).toBe('Australia');
+        expect(results[1].querySelector('div')).toHaveCssClass('iti-flag');
+        expect(results[1].querySelector('div')).toHaveCssClass('au');
+
+        expect(results.length).toBe(2);
       }));
 
       it('should display the default country second in the result list with a selection', fakeAsync(() => {
@@ -345,6 +404,98 @@ describe('Country Field Component', () => {
 
     });
 
+    describe('validation', () => {
+
+      it('should mark the form invalid when it is empty and required', fakeAsync(() => {
+        fixture.detectChanges();
+        component.isRequired = true;
+        fixture.detectChanges();
+        tick();
+        component.ngModel.control.updateValueAndValidity();
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(component.ngModel.valid).toEqual(false);
+      }));
+
+      it('should mark the form valid when it is set and required', fakeAsync(() => {
+        component.modelValue = {
+          name: 'United States',
+          iso2: 'us'
+        };
+        fixture.detectChanges();
+        component.isRequired = true;
+        fixture.detectChanges();
+        tick();
+        component.ngModel.control.updateValueAndValidity();
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(component.ngModel.valid).toEqual(true);
+      }));
+
+      it('should mark the form invalid when it is set to a non-real country', fakeAsync(() => {
+        component.modelValue = {
+          name: 'Test Country',
+          iso2: 'xx'
+        };
+        fixture.detectChanges();
+        component.ngModel.control.updateValueAndValidity();
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(component.ngModel.valid).toEqual(false);
+      }));
+
+      it('should mark the form valid when it is set to a real country', fakeAsync(() => {
+        component.modelValue = {
+          name: 'United States',
+          iso2: 'us'
+        };
+        fixture.detectChanges();
+        component.ngModel.control.updateValueAndValidity();
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(component.ngModel.valid).toEqual(true);
+      }));
+
+      it('should mark the form valid when it is set to a supported country', fakeAsync(() => {
+        component.modelValue = {
+          name: 'Australia',
+          iso2: 'au'
+        };
+        component.supportedCountryISOs = ['au', 'de'];
+        fixture.detectChanges();
+        component.ngModel.control.updateValueAndValidity();
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(component.ngModel.valid).toEqual(true);
+      }));
+
+      it('should mark the form invalid when it is set to a non-supported country', fakeAsync(() => {
+        component.modelValue = {
+          name: 'United States',
+          iso2: 'us'
+        };
+        component.supportedCountryISOs = ['au', 'de'];
+        fixture.detectChanges();
+        component.ngModel.control.updateValueAndValidity();
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(component.ngModel.valid).toEqual(false);
+      }));
+
+    });
+
     describe('a11y', () => {
 
       const axeConfig = {
@@ -430,6 +581,20 @@ describe('Country Field Component', () => {
         expect(nativeElement.querySelector('.sky-country-field-flag')).toHaveCssClass('us');
       }));
 
+      it('should initialize with a set country and fix an invalid name', fakeAsync(() => {
+        component.initialValue = {
+          iso2: 'us',
+          name: 'Test Name'
+        };
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(nativeElement.querySelector('textarea').value).toBe('United States');
+        expect(nativeElement.querySelector('.sky-country-field-flag')).toHaveCssClass('iti-flag');
+        expect(nativeElement.querySelector('.sky-country-field-flag')).toHaveCssClass('us');
+      }));
+
       it('should initialize without a set country', fakeAsync(() => {
         fixture.detectChanges();
         tick();
@@ -488,6 +653,31 @@ describe('Country Field Component', () => {
         expect(nativeElement.querySelector('.sky-country-field-flag')).toHaveCssClass('au');
       }));
 
+      it('should change countries correctly via a model change with an invalid name', fakeAsync(() => {
+        component.initialValue = {
+          name: 'United States',
+          iso2: 'us'
+        };
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(nativeElement.querySelector('textarea').value).toBe('United States');
+
+        component.countryControl.setValue({
+          name: 'Test Name',
+          iso2: 'au'
+        });
+
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(nativeElement.querySelector('textarea').value).toBe('Australia');
+        expect(nativeElement.querySelector('.sky-country-field-flag')).toHaveCssClass('iti-flag');
+        expect(nativeElement.querySelector('.sky-country-field-flag')).toHaveCssClass('au');
+      }));
+
       it('should change countries correctly via a model change with only a iso2 code', fakeAsync(() => {
         component.initialValue = {
           name: 'United States',
@@ -524,6 +714,26 @@ describe('Country Field Component', () => {
         expect(results[0].innerText.trim()).toBe('Cyprus (Κύπρος)');
         expect(results[0].querySelector('div')).toHaveCssClass('iti-flag');
         expect(results[0].querySelector('div')).toHaveCssClass('cy');
+      }));
+
+      it('should only display supported countries', fakeAsync(() => {
+        component.defaultCountry = 'us';
+        component.supportedCountryISOs = ['au', 'us'];
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        const results = searchAndGetResults('us', fixture);
+
+        expect(results[0].innerText.trim()).toBe('United States');
+        expect(results[0].querySelector('div')).toHaveCssClass('iti-flag');
+        expect(results[0].querySelector('div')).toHaveCssClass('us');
+
+        expect(results[1].innerText.trim()).toBe('Australia');
+        expect(results[1].querySelector('div')).toHaveCssClass('iti-flag');
+        expect(results[1].querySelector('div')).toHaveCssClass('au');
+
+        expect(results.length).toBe(2);
       }));
 
       it('should display the default country second in the result list with a selection', fakeAsync(() => {
@@ -708,6 +918,98 @@ describe('Country Field Component', () => {
 
     });
 
+    describe('validation', () => {
+
+      it('should mark the form invalid when it is empty and required', fakeAsync(() => {
+        fixture.detectChanges();
+        component.isRequired = true;
+        fixture.detectChanges();
+        tick();
+        component.countryControl.updateValueAndValidity();
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(component.countryForm.valid).toEqual(false);
+      }));
+
+      it('should mark the form valid when it is set and required', fakeAsync(() => {
+        component.initialValue = {
+          name: 'United States',
+          iso2: 'us'
+        };
+        fixture.detectChanges();
+        component.isRequired = true;
+        fixture.detectChanges();
+        tick();
+        component.countryControl.updateValueAndValidity();
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(component.countryForm.valid).toEqual(true);
+      }));
+
+      it('should mark the form invalid when it is set to a non-real country', fakeAsync(() => {
+        component.initialValue = {
+          name: 'Test Country',
+          iso2: 'xx'
+        };
+        fixture.detectChanges();
+        component.countryControl.updateValueAndValidity();
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(component.countryForm.valid).toEqual(false);
+      }));
+
+      it('should mark the form valid when it is set to a real country', fakeAsync(() => {
+        component.initialValue = {
+          name: 'United States',
+          iso2: 'us'
+        };
+        fixture.detectChanges();
+        component.countryControl.updateValueAndValidity();
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(component.countryForm.valid).toEqual(true);
+      }));
+
+      it('should mark the form valid when it is set to a supported country', fakeAsync(() => {
+        component.initialValue = {
+          name: 'Australia',
+          iso2: 'au'
+        };
+        component.supportedCountryISOs = ['au', 'de'];
+        fixture.detectChanges();
+        component.countryControl.updateValueAndValidity();
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(component.countryForm.valid).toEqual(true);
+      }));
+
+      it('should mark the form invalid when it is set to a non-supported country', fakeAsync(() => {
+        component.initialValue = {
+          name: 'United States',
+          iso2: 'us'
+        };
+        component.supportedCountryISOs = ['au', 'de'];
+        fixture.detectChanges();
+        component.countryControl.updateValueAndValidity();
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(component.countryForm.valid).toEqual(false);
+      }));
+
+    });
+
     describe('a11y', () => {
 
       const axeConfig = {
@@ -791,6 +1093,26 @@ describe('Country Field Component', () => {
         expect(results[0].innerText.trim()).toBe('Cyprus (Κύπρος)');
         expect(results[0].querySelector('div')).toHaveCssClass('iti-flag');
         expect(results[0].querySelector('div')).toHaveCssClass('cy');
+      }));
+
+      it('should only display supported countries', fakeAsync(() => {
+        component.defaultCountry = 'us';
+        component.supportedCountryISOs = ['au', 'us'];
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        const results = searchAndGetResults('us', fixture);
+
+        expect(results[0].innerText.trim()).toBe('United States');
+        expect(results[0].querySelector('div')).toHaveCssClass('iti-flag');
+        expect(results[0].querySelector('div')).toHaveCssClass('us');
+
+        expect(results[1].innerText.trim()).toBe('Australia');
+        expect(results[1].querySelector('div')).toHaveCssClass('iti-flag');
+        expect(results[1].querySelector('div')).toHaveCssClass('au');
+
+        expect(results.length).toBe(2);
       }));
 
       it('should display the default country second in the result list with a selection', fakeAsync(() => {

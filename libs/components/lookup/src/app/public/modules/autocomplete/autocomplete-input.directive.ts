@@ -209,7 +209,15 @@ export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, Control
   public onValidatorChange = () => {};
 
   private setAttributes(element: any): void {
-    this.renderer.setAttribute(element, 'autocomplete', 'off');
+    /**
+     * Modern browsers interpret autocomplete rules differently
+     * and sometimes completely ignore the 'off' value. As a workaround,
+     * 'new-password' will prevent autocomplete in FF 76.0.1, Chrome 81.0, and Edge 81.0.
+     * For preventing autocomplete in Safari, apply directive to a textarea element.
+     * https://developer.mozilla.org/en-US/docs/Web/Security/Securing_your_site/Turning_off_form_autocompletion
+     */
+    this.renderer.setAttribute(element, 'autocomplete', 'new-password');
+
     this.renderer.setAttribute(element, 'autocapitalize', 'off');
     this.renderer.setAttribute(element, 'autocorrect', 'off');
     this.renderer.setAttribute(element, 'spellcheck', 'false');

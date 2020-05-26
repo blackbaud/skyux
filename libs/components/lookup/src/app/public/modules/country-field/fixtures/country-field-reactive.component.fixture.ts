@@ -37,6 +37,8 @@ export class CountryFieldReactiveTestComponent implements OnInit {
 
   public initiallizeToUndefined: boolean = false;
 
+  public supportedCountryISOs: string[];
+
   public set isDisabled(value: boolean) {
     this._isDisabled = value;
 

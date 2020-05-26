@@ -5,6 +5,7 @@
     <sky-country-field
       formControlName="countryControl"
       [defaultCountry]="defaultCountry"
+      [supportedCountryISOs]="supportedCountryISOs"
       (selectedCountryChange)="countryChanged($event)"
     >
     </sky-country-field>
