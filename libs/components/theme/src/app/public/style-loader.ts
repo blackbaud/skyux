@@ -47,7 +47,7 @@ export class SkyAppStyleLoader {
         // when the font is loaded unless a known character with a different width
         // than the default is not specified.
         fontAwesome.load('\uf0fc', SkyAppStyleLoader.LOAD_TIMEOUT),
-        skyuxIcons.load('\ue808', SkyAppStyleLoader.LOAD_TIMEOUT),
+        skyuxIcons.load('\ue999', SkyAppStyleLoader.LOAD_TIMEOUT),
         blackbaudSans.load(undefined, SkyAppStyleLoader.LOAD_TIMEOUT),
         themePromise
       ])
