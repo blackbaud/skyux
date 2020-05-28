@@ -14,9 +14,11 @@ import {
 describe('BBHelpClientService', () => {
   let dataService = new HelpWidgetService();
   let resolvePromise = true;
+  let setHelpKeySpy: jasmine.Spy;
 
   beforeEach(() => {
     resolvePromise = true;
+    setHelpKeySpy = spyOn(BBHelpClient, 'setCurrentHelpKey').and.callFake((key: string) => { });
     spyOn(BBHelpClient, 'ready').and.callFake(() => {
       if (resolvePromise) {
         return Promise.resolve();
@@ -28,9 +30,8 @@ describe('BBHelpClientService', () => {
 
   it('should call the helpClient\'s setCurrentHelpKey and pass the helpKey to it', () => {
     let helpKey = 'test-key.html';
-    let spyHelp = spyOn(BBHelpClient, 'setCurrentHelpKey').and.callFake(() => { });
     dataService.setCurrentHelpKey(helpKey);
-    expect(spyHelp).toHaveBeenCalledWith(helpKey);
+    expect(setHelpKeySpy).toHaveBeenCalledWith(helpKey);
   });
 
   it('should call the helpClient\'s openToHelpKey and pass the helpKey to it', () => {
@@ -55,9 +56,8 @@ describe('BBHelpClientService', () => {
 
   it('should call the helpClient\'s setCurrentHelpKey with the pageDefaultKey when it is defined', () => {
     let pageDefaultKey = 'page-default-key.html';
-    let spyHelp = spyOn(BBHelpClient, 'setCurrentHelpKey').and.callFake(() => { });
     dataService.setPageDefaultKey(pageDefaultKey);
-    expect(spyHelp).toHaveBeenCalledWith(pageDefaultKey);
+    expect(setHelpKeySpy).toHaveBeenCalledWith(pageDefaultKey);
   });
 
   it('should remove the pageDefaultKey and call the helpClient\'s setHelpKeyToDefault method', () => {
@@ -73,12 +73,11 @@ describe('BBHelpClientService', () => {
 
   it('should call the helpClient\'s setCurrentHelpKey with the pageDefaultKey', () => {
     let defaultPageKey = 'default-page-key.html';
-    let spyHelp = spyOn(BBHelpClient, 'setCurrentHelpKey').and.callFake(() => { });
 
     dataService.pageDefaultKey = defaultPageKey;
     dataService.setHelpKeyToPageDefault();
 
-    expect(spyHelp).toHaveBeenCalledWith(defaultPageKey);
+    expect(setHelpKeySpy).toHaveBeenCalledWith(defaultPageKey);
   });
 
   it('should see if the client is ready before calling async methods', fakeAsync(() => {
