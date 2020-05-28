@@ -5,12 +5,9 @@ import {
 import {
   CellClassParams,
   GridOptions,
+  SuppressKeyboardEventParams,
   ValueFormatterParams
 } from 'ag-grid-community';
-
-import {
-  CellKeyPressEvent
-} from 'ag-grid-community/dist/lib/events';
 
 import {
   SkyAgGridCellEditorAutocompleteComponent,
@@ -28,6 +25,10 @@ import {
   SkyCellType,
   SkyGetGridOptionsArgs
 } from './types';
+
+import {
+  SkyAgGridAdapterService
+} from './ag-grid-adapter.service';
 
 function autocompleteComparator(value1: {name: string}, value2: {name: string}): number {
   if (value1 && value2) {
@@ -81,6 +82,10 @@ function dateComparator(date1: any, date2: any): number {
  */
 @Injectable()
 export class SkyAgGridService {
+
+  constructor(
+    private agGridAdapterService: SkyAgGridAdapterService
+  ) {}
 
   /**
    * Get SKY UX gridOptions to create your agGrid with default SKY styling and behavior.
@@ -180,7 +185,10 @@ export class SkyAgGridService {
             [SkyCellClass.Uneditable]: cellClassRuleTrueExpression
           },
           cellRendererFramework: SkyAgGridCellRendererRowSelectorComponent,
+          headerName: '',
           minWidth: 50,
+          maxWidth: 50,
+          sortable: false,
           width: 50
         },
         [SkyCellType.Text]: {
@@ -209,18 +217,26 @@ export class SkyAgGridService {
         columnMoveRight: this.getIconTemplate('arrows'),
         columnMovePin: this.getIconTemplate('arrows')
       },
-      onCellKeyPress: (keypress: CellKeyPressEvent) => this.onKeyPress(keypress),
+      onCellFocused: () => this.onCellFocused(),
+      suppressKeyboardEvent: (keypress: SuppressKeyboardEventParams) => this.suppressTab(keypress),
       rowHeight: 38,
       rowMultiSelectWithClick: true,
       rowSelection: 'multiple',
       singleClickEdit: true,
-      sortingOrder: ['desc', 'asc', 'null'],
-      stopEditingWhenGridLosesFocus: true,
-      suppressCellSelection: true,
+      // tslint:disable-next-line: no-null-keyword
+      sortingOrder: ['desc', 'asc', null],
+      stopEditingWhenGridLosesFocus: false,
+      suppressRowClickSelection: true,
       suppressDragLeaveHidesColumns: true
     };
 
     return defaultSkyGridOptions;
+  }
+
+  private onCellFocused(): void {
+    const currentElement = this.agGridAdapterService.getFocusedElement();
+
+    this.agGridAdapterService.focusOnFocusableChildren(currentElement);
   }
 
   private getDefaultEditableGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
@@ -251,14 +267,7 @@ export class SkyAgGridService {
     return `<i class="fa fa-${iconName}"></i>`;
   }
 
-  private onKeyPress(keypress: CellKeyPressEvent): void {
-    const event = keypress.event as KeyboardEvent;
-
-    if (event.key === 'Enter') {
-      keypress.api.startEditingCell({
-        rowIndex: keypress.rowIndex,
-        colKey: keypress.colDef.colId
-      });
-    }
+  private suppressTab(params: SuppressKeyboardEventParams): boolean {
+    return params.event.code === 'Tab';
   }
 }

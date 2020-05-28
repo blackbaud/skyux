@@ -6,8 +6,7 @@ import {
 } from '@angular/core';
 
 import {
-  SkyDatepickerInputDirective,
-  SkyDatepickerComponent
+  SkyDatepickerInputDirective
 } from '@skyux/datetime';
 
 import {
@@ -40,25 +39,6 @@ export class SkyAgGridCellEditorDatepickerComponent implements ICellEditorAngula
 
   @ViewChild(SkyDatepickerInputDirective)
   private inputDirective: SkyDatepickerInputDirective;
-
-  @ViewChild(SkyDatepickerComponent)
-  private datepickerComponent: SkyDatepickerComponent;
-
-  public get inputIsFocused(): boolean {
-    return this.inputDirective.inputIsFocused;
-  }
-
-  public get buttonIsFocused(): boolean {
-    return this.datepickerComponent.buttonIsFocused;
-  }
-
-  public get calendarIsFocused(): boolean {
-    return this.datepickerComponent.calendarIsFocused;
-  }
-
-  public get calendarIsVisible(): boolean {
-    return this.datepickerComponent.calendarIsVisible;
-  }
 
   constructor() { }
 
@@ -94,24 +74,6 @@ export class SkyAgGridCellEditorDatepickerComponent implements ICellEditorAngula
    */
   public isPopup(): boolean {
     return true;
-  }
-
-  public onDatepickerKeydown(e: KeyboardEvent): void {
-    const targetEl = e.target as HTMLElement;
-
-    if (targetEl && e.key.toLowerCase() === 'tab') {
-      // stop event propagation to prevent the grid from moving to the next cell if there is an element target, the tab key was pressed,
-      // the tab key press is a tab right and either the input has focus or
-      if (((!e.shiftKey && (this.inputIsFocused ||
-      // the calendar button has focus when the calendar is open or
-      (this.buttonIsFocused && this.calendarIsVisible))) ||
-      // the tab key press is a tab left and the calendar button has focus
-      (e.shiftKey && this.buttonIsFocused)) ||
-      // the tab key press is a tab left and the calendar has focus
-      (e.shiftKey && this.calendarIsFocused)) {
-        e.stopPropagation();
-      }
-    }
   }
 
   public focusOnDatepickerInput(): void {

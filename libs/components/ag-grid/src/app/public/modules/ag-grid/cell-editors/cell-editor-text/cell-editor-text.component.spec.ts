@@ -66,7 +66,7 @@ describe('SkyCellEditorTextComponent', () => {
 
   describe('agInit', () => {
     it('initializes the SkyCellEditorTextComponent properties', () => {
-      const value = 15;
+      const value = 'testing';
       const columnWidth = 100;
       const column = new Column(
         {

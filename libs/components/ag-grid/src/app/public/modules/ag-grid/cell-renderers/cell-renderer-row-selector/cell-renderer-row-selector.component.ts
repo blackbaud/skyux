@@ -50,13 +50,18 @@ export class SkyAgGridCellRendererRowSelectorComponent implements ICellRendererA
    */
   public agInit(params: ICellRendererParams): void {
     this.params = params;
-    this.checked = this.params.value;
     this.dataField = this.params.colDef && this.params.colDef.field;
     this.rowNode = this.params.node;
     this.rowNumber = this.params.rowIndex + 1;
 
+    if (this.dataField) {
+      this.checked = this.params.value;
+      this.rowNode.setSelected(this.checked);
+    } else {
+      this.checked = this.rowNode.isSelected();
+    }
+
     this.rowNode.addEventListener(RowNode.EVENT_ROW_SELECTED, (event: RowSelectedEvent) => { this.rowSelectedListener(event); });
-    this.rowNode.setSelected(this.checked);
   }
 
   public ngOnInit(): void {
@@ -83,12 +88,19 @@ export class SkyAgGridCellRendererRowSelectorComponent implements ICellRendererA
 
   public updateRow(): void {
     this.rowNode.setSelected(this.checked);
-    this.rowNode.data[this.dataField] = this.checked;
+
+    if (this.dataField) {
+      this.rowNode.data[this.dataField] = this.checked;
+    }
   }
 
-  private rowSelectedListener(event: RowSelectedEvent) {
+  private rowSelectedListener(event: RowSelectedEvent): void {
     this.checked = event.node.isSelected();
-    this.rowNode.data[this.dataField] = this.checked;
+
+    if (this.dataField) {
+      this.rowNode.data[this.dataField] = this.checked;
+    }
+
     this.changeDetection.markForCheck();
   }
 }

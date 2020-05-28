@@ -5,7 +5,6 @@
 >
   <sky-datepicker
     data-sky-id="cell-datepicker"
-    (keydown)="onDatepickerKeydown($event)"
   >
     <input
       skyDatepickerInput
@@ -16,7 +15,6 @@
       [startingDay]="skyComponentProperties.startingDay"
       [skyDatepickerNoValidate]="skyComponentProperties.skyDatepickerNoValidate"
       [(ngModel)]="currentDate"
-      (ngModelChange)="focusOnDatepickerInput()"
       #skyCellEditorDatepickerInput
     />
   </sky-datepicker>

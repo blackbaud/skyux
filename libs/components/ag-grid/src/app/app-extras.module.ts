@@ -3,6 +3,10 @@ import {
 } from '@angular/core';
 
 import {
+  SkyDropdownModule
+} from '@skyux/popovers';
+
+import {
   SkyInfiniteScrollModule
 } from '@skyux/lists';
 
@@ -34,12 +38,20 @@ import {
   SkyAgGridEditModalComponent
 } from './visual/edit-in-modal-grid/ag-grid-edit-modal.component';
 
+import {
+  ReadonlyGridContextMenuComponent
+} from './visual/readonly-grid/readonly-grid-context-menu.component';
+
 @NgModule({
   declarations: [],
+  imports: [
+    AgGridModule.withComponents([ReadonlyGridContextMenuComponent])
+  ],
   exports: [
     AgGridModule,
     SkyAgGridModule,
     SkyAppLinkModule,
+    SkyDropdownModule,
     SkyInfiniteScrollModule,
     SkyModalModule,
     SkySearchModule,

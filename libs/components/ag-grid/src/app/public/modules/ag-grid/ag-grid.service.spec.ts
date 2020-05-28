@@ -5,14 +5,21 @@ import {
 import {
   CellClassParams,
   ColumnApi,
-  GridApi,
   GridOptions,
   ValueFormatterParams
 } from 'ag-grid-community';
 
 import {
-  CellKeyPressEvent
-} from 'ag-grid-community/dist/lib/events';
+  expect
+} from '@skyux-sdk/testing';
+
+import {
+  SkyCoreAdapterService
+} from '@skyux/core';
+
+import {
+  SkyAgGridAdapterService
+} from './ag-grid-adapter.service';
 
 import {
   SkyAgGridService,
@@ -27,7 +34,9 @@ describe('SkyAgGridService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        SkyAgGridService
+        SkyAgGridService,
+        SkyAgGridAdapterService,
+        SkyCoreAdapterService
       ]
     });
 
@@ -336,54 +345,21 @@ describe('SkyAgGridService', () => {
     });
   });
 
-  describe('onKeyPress', () => {
-    let onKeyPressFunction: Function;
-    let gridApi: GridApi;
-    let keypress: CellKeyPressEvent;
+  describe('suppressKeyboardEvent', () => {
+    let suppressKeypressFunction: Function;
 
     beforeEach(() => {
-      onKeyPressFunction = defaultGridOptions.onCellKeyPress;
-      gridApi = new GridApi();
-
-      keypress = {
-        api: gridApi,
-        colDef: {
-          colId: 'test'
-        },
-        column: undefined,
-        columnApi: undefined,
-        context: undefined,
-        data: undefined,
-        node: undefined,
-        rowIndex: 1,
-        rowPinned: undefined,
-        type: 'keypress',
-        value: undefined
-      };
+      suppressKeypressFunction = defaultGridOptions.suppressKeyboardEvent;
     });
 
-    it('should start editing when the enter key was pressed', () => {
-      spyOn(gridApi, 'startEditingCell');
-      const event = {
-        key: 'Enter'
-      } as KeyboardEvent;
-      keypress.event = event;
-
-      onKeyPressFunction(keypress);
-
-      expect(gridApi.startEditingCell).toHaveBeenCalledWith({rowIndex: 1, colKey: 'test'});
+    it('should return true to suppress the event when the tab key is pressed', () => {
+      const params = { event: { code: 'Tab' }};
+      expect(suppressKeypressFunction(params)).toBe(true);
     });
 
-    it('should not start editing when the space key is pressed', () => {
-      spyOn(gridApi, 'startEditingCell');
-      const event = {
-        key: 'Space'
-      } as KeyboardEvent;
-      keypress.event = event;
-
-      onKeyPressFunction(keypress);
-
-      expect(gridApi.startEditingCell).not.toHaveBeenCalled();
+    it('should return false for non-tab keys to allow the keypress event', () => {
+      const params = { event: { code: 'Enter' }};
+      expect(suppressKeypressFunction(params)).toBe(false);
     });
   });
 

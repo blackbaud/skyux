@@ -4,8 +4,9 @@ import {
 } from '@angular/core';
 
 import {
-  GridReadyEvent,
+  GridApi,
   GridOptions,
+  GridReadyEvent,
   ICellRendererParams
 } from 'ag-grid-community';
 
@@ -13,6 +14,10 @@ import {
   READONLY_GRID_DATA,
   RowStatusNames
 } from './readonly-grid-data';
+
+import {
+  ReadonlyGridContextMenuComponent
+} from './readonly-grid-context-menu.component';
 
 import {
   SkyAgGridService,
@@ -32,22 +37,28 @@ let nextId = 0;
   styleUrls: ['./readonly-grid.component.scss']
 })
 export class ReadonlyGridComponent implements OnInit {
+  public gridApi: GridApi;
   public gridData = READONLY_GRID_DATA;
-  public hasMore = true;
   public gridOptions: GridOptions;
+  public hasMore = true;
+
   public columnDefs = [
     {
       field: 'selected',
       colId: 'selected',
+      type: SkyCellType.RowSelector
+    },
+    {
+      colId: 'contextMenu',
       headerName: '',
       sortable: false,
-      type: SkyCellType.RowSelector
+      cellRendererFramework: ReadonlyGridContextMenuComponent,
+      maxWidth: 55
     },
     {
       field: 'name',
       headerName: 'Goal Name',
-      autoHeight: true,
-      headerClass: 'sticky'
+      autoHeight: true
     },
     {
       field: 'value',
@@ -87,9 +98,7 @@ export class ReadonlyGridComponent implements OnInit {
   public ngOnInit(): void {
     this.gridOptions = {
       columnDefs: this.columnDefs,
-      onGridReady: gridReadyEvent => this.onGridReady(gridReadyEvent),
-      domLayout: 'autoHeight',
-      alignedGrids: []
+      onGridReady: gridReadyEvent => this.onGridReady(gridReadyEvent)
     };
     this.gridOptions = this.agGridService.getGridOptions({ gridOptions: this.gridOptions });
   }
@@ -99,7 +108,7 @@ export class ReadonlyGridComponent implements OnInit {
       // MAKE API REQUEST HERE
       // I am faking an API request because I don't have one to work with
       this.mockRemote().subscribe((result: any) => {
-        this.gridData = this.gridData.concat(result.data);
+        this.gridApi.updateRowData({add: result.data});
         this.hasMore = result.hasMore;
       });
     }
@@ -144,7 +153,8 @@ export class ReadonlyGridComponent implements OnInit {
   }
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
-    gridReadyEvent.api.sizeColumnsToFit();
-    gridReadyEvent.api.resetRowHeights();
+    this.gridApi = gridReadyEvent.api;
+    this.gridApi.sizeColumnsToFit();
+    this.gridApi.resetRowHeights();
   }
 }

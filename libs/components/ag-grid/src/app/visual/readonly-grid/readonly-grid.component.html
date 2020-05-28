@@ -1,11 +1,13 @@
 <div
   class="readonly-grid"
 >
-  <ag-grid-angular
-    [gridOptions]="gridOptions"
-    [rowData]="gridData"
-  >
-  </ag-grid-angular>
+  <sky-ag-grid-wrapper>
+    <ag-grid-angular
+      [gridOptions]="gridOptions"
+      [rowData]="gridData"
+    >
+    </ag-grid-angular>
+  </sky-ag-grid-wrapper>
   <sky-infinite-scroll
     [enabled]="hasMore"
     (scrollEnd)="onScrollEnd()"

@@ -3,12 +3,25 @@ import {
 } from '@angular/core';
 
 import {
+  SkyCoreAdapterModule,
+  SkyViewkeeperModule
+} from '@skyux/core';
+
+import {
   AgGridModule
 } from 'ag-grid-angular';
 
 import {
   SkyAgGridService
 } from './ag-grid.service';
+
+import {
+  SkyAgGridWrapperComponent
+} from './ag-grid-wrapper.component';
+
+import {
+  SkyAgGridAdapterService
+} from './ag-grid-adapter.service';
 
 import {
   SkyAgGridCellEditorAutocompleteComponent,
@@ -27,17 +40,25 @@ import {
 } from './cell-renderers';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    SkyAgGridWrapperComponent
+  ],
   imports: [
     AgGridModule,
     SkyAgGridCellEditorAutocompleteModule,
     SkyAgGridCellEditorDatepickerModule,
     SkyAgGridCellEditorNumberModule,
     SkyAgGridCellRendererRowSelectorModule,
-    SkyAgGridCellEditorTextModule
+    SkyAgGridCellEditorTextModule,
+    SkyCoreAdapterModule,
+    SkyViewkeeperModule
+  ],
+  exports: [
+    SkyAgGridWrapperComponent
   ],
   providers: [
-    SkyAgGridService
+    SkyAgGridService,
+    SkyAgGridAdapterService
   ],
   entryComponents: [
     SkyAgGridCellEditorAutocompleteComponent,
