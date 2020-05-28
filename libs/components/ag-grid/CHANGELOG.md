@@ -1,3 +1,8 @@
+# 3.0.0-rc.8 (2020/05/28)
+
+- Created the SKY UX ag-grid wrapper component to provide keyboard navigation and sticky column headers. [#35](https://github.com/blackbaud/skyux-ag-grid/pull/35)
+- Fixed the row selector cell component to optionally initialize with row data. [#35](https://github.com/blackbaud/skyux-ag-grid/pull/35)
+
 # 3.0.0-rc.7 (2020/03/23)
 
 - Fixed rows to keep their selected state when scrolling out of view. [#29](https://github.com/blackbaud/skyux-ag-grid/pull/29)
