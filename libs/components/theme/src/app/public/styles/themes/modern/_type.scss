@@ -56,7 +56,7 @@
   /* Experimental; eventually these color values should be moved to design tokens */
   &.sky-theme-mode-dark {
     .sky-font-emphasized {
-      color: #fff;
+      color: $sky-theme-modern-mode-dark-font-body-default-color;
     }
   }
 }

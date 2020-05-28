@@ -6,7 +6,7 @@
   font-weight: $sky-theme-modern-font-body-default-weight;
 
   &.sky-theme-mode-dark {
-    color: #fff;
+    color: $sky-theme-modern-mode-dark-font-body-default-color;
   }
 }
 
@@ -55,6 +55,6 @@
   }
 
   &.sky-theme-mode-dark {
-    background-color: #111;
+    background-color: $sky-theme-modern-mode-dark-background-color-page-default;
   }
 }

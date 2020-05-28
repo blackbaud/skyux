@@ -1,0 +1,9 @@
+@import '../../mixins';
+
+.sky-theme-modern {
+  &.sky-theme-mode-dark {
+    .sky-error-label {
+      color: $sky-theme-modern-mode-dark-font-body-default-color;
+    }
+  }
+}
