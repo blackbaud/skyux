@@ -1,3 +1,4 @@
 <div
-  [innerHtml]="getTrustedHtml(innerHtml | skyDocsMarkdown)"
+  class="sky-docs-safe-html"
+  [innerHtml]="getTrustedHtml(innerHtml)"
 ></div>

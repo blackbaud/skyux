@@ -10,7 +10,7 @@
 
   <sky-docs-safe-html
     class="sky-docs-type-alias-definition-description"
-    [innerHtml]="config.description | skyDocsTypeAnchorLinks"
+    [innerHtml]="config.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
   ></sky-docs-safe-html>
 
   <sky-code-block
@@ -44,7 +44,7 @@
         [parameterType]="parameter.type"
       >
         <sky-docs-safe-html
-          [innerHtml]="parameter.description | skyDocsTypeAnchorLinks"
+          [innerHtml]="parameter.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
         ></sky-docs-safe-html>
       </sky-docs-parameter-definition>
     </sky-docs-parameter-definitions>

@@ -10,8 +10,10 @@ import {
   Observable
 } from 'rxjs';
 
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/share';
+import {
+  map,
+  share
+} from 'rxjs/operators';
 
 import {
   SkyDocsComponentInfo
@@ -26,7 +28,9 @@ export class SkyDocsSupportalService {
   public getComponentsInfo(): Observable<SkyDocsComponentInfo[]> {
     return this.http
       .get('https://sky-pusa01.app.blackbaud.net/skysp/v1/docs/components-info')
-      .map((results: any) => results.components)
-      .share();
+      .pipe(
+        map((results: any) => results.components),
+        share()
+      );
   }
 }

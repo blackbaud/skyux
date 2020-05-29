@@ -10,7 +10,7 @@
 
   <sky-docs-safe-html
     class="sky-docs-directive-definition-description"
-    [innerHtml]="config.description | skyDocsTypeAnchorLinks"
+    [innerHtml]="config.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
   ></sky-docs-safe-html>
 
   <h4 class="sky-docs-directive-definition-h4">
@@ -44,7 +44,7 @@
       [propertyType]="property.type"
     >
       <sky-docs-safe-html
-        [innerHtml]="property.description | skyDocsTypeAnchorLinks"
+        [innerHtml]="property.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
       ></sky-docs-safe-html>
     </sky-docs-property-definition>
     <sky-docs-property-definition *ngFor="let property of eventProperties"
@@ -56,7 +56,7 @@
       [propertyType]="property.type"
     >
       <sky-docs-safe-html
-        [innerHtml]="property.description | skyDocsTypeAnchorLinks"
+        [innerHtml]="property.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
       ></sky-docs-safe-html>
     </sky-docs-property-definition>
   </sky-docs-property-definitions>

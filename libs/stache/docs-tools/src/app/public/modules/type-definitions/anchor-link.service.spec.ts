@@ -43,7 +43,7 @@ describe('Anchor link service', function () {
 
   it('should add anchor links to known types', () => {
     const service = new SkyDocsAnchorLinkService(mockTypeDefinitionsProvider);
-    const content = 'Foo FooComponent FooUser Foo2 [[Foo]] [[FooUser]] FooComponent [[Foo]] (FooUser) >Foo< FooUnknown UnknownFoo FooEnum.Foo';
+    const content = 'Foo FooComponent FooUser Foo2 [[Foo]] [[FooUser]] FooComponent [[Foo]] (FooUser) >Foo< FooUnknown UnknownFoo FooEnum.Foo `FooUser` <a href="#">FooUser</a>';
     const result = service.applyTypeAnchorLinks(content);
 
     expect(result).toEqual([
@@ -59,7 +59,9 @@ describe('Anchor link service', function () {
       '>Foo<',
       'FooUnknown',
       'UnknownFoo',
-      '<a class="sky-docs-anchor-link" href="#foo-enum">FooEnum</a>.Foo'
+      '<a class="sky-docs-anchor-link" href="#foo-enum">FooEnum</a>.Foo',
+      '<a class="sky-docs-anchor-link" href="#foo-user">FooUser</a>',
+      '<a href="#">FooUser</a>'
     ].join(' '));
   });
 

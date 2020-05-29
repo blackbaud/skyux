@@ -54,3 +54,8 @@
   width: 690px;
   max-width: 100%;
 }
+
+.sky-docs-code,
+code:not([class]) {
+  @include sky-docs-tools-code();
+}

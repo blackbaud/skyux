@@ -2,6 +2,8 @@ import {
   expect
 } from '@skyux-sdk/testing';
 
+import * as mockTypeDocJson from './fixtures/mock-documentation.json';
+
 import {
   SkyDocsTypeDefinitionsProvider
 } from './type-definitions-provider';
@@ -10,7 +12,11 @@ import {
   SkyDocsTypeDefinitionsService
 } from './type-definitions.service';
 
-import * as mockTypeDocJson from './fixtures/mock-documentation.json';
+import {
+  SkyDocsTypeAliasFunctionDefinition,
+  SkyDocsTypeAliasIndexSignatureDefinition,
+  SkyDocsTypeAliasUnionDefinition
+} from './type-alias-definition';
 
 describe('Type definitions service', function () {
 
@@ -425,20 +431,20 @@ describe('Type definitions service', function () {
             }
           ],
           returnType: 'FooUser'
-        },
+        } as SkyDocsTypeAliasFunctionDefinition,
         {
           anchorId: 'type-alias-footypeindexsignature',
           description: '',
           name: 'FooTypeIndexSignature',
           keyName: '_',
           valueType: 'FooUser'
-        },
+        } as SkyDocsTypeAliasIndexSignatureDefinition,
         {
           anchorId: 'type-alias-footypeunioncomplex',
           description: 'This is the description for FooTypeUnionComplex. It can be of type [[FooDate]].',
           name: 'FooTypeUnionComplex',
           types: [ 'string', 'FooDate', 'number', 'false', '1' ]
-        },
+        } as SkyDocsTypeAliasUnionDefinition,
         {
           anchorId: 'type-alias-footypeunionstring',
           description: 'This is the description for FooTypeUnionString.',
@@ -463,6 +469,15 @@ describe('Type definitions service', function () {
       services: [],
       typeAliases: []
     });
+  });
+
+  it('should warn if the provider does not include types', () => {
+    (definitionsProvider as any).typeDefinitions = [];
+
+    const spy = spyOn(console, 'warn');
+    const service = new SkyDocsTypeDefinitionsService(definitionsProvider);
+    service.getTypeDefinitions('/src/app/public/modules/empty/');
+    expect(spy).toHaveBeenCalledWith('Type definitions were not found for location: modules/empty/');
   });
 
   it('should throw an error if the source code path does not end in a slash', () => {

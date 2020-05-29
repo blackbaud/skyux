@@ -11,6 +11,13 @@ export * from './modules/demo-page/demo-page.module';
 
 export * from './modules/design-guidelines/design-guidelines.module';
 
+export * from './modules/heading-anchor/heading-anchor.module';
+
+export * from './modules/markdown/markdown.module';
+export * from './modules/markdown/markdown.pipe';
+
+export * from './modules/module-info/module-info.module';
+
 export * from './modules/shared/docs-tools-component-info';
 export * from './modules/shared/docs-tools-options';
 export * from './modules/shared/docs-tools-supportal.service';

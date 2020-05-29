@@ -17,7 +17,7 @@
       [propertyName]="member.name"
     >
       <sky-docs-safe-html
-        [innerHtml]="member.description | skyDocsTypeAnchorLinks"
+        [innerHtml]="member.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
       ></sky-docs-safe-html>
     </sky-docs-property-definition>
   </sky-docs-property-definitions>

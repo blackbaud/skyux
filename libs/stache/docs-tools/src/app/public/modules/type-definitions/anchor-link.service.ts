@@ -36,6 +36,7 @@ export class SkyDocsAnchorLinkService {
     content = this.removeDoubleSquareBrackets(content);
 
     Object.keys(this.anchorIds).forEach((typeName) => {
+      content = this.removeBackticks(typeName, content);
       const anchorId = this.anchorIds[typeName];
       const anchorHtml = `<a class="sky-docs-anchor-link" href="#${anchorId}">${typeName}</a>`;
       const regex = createRegex(typeName);
@@ -72,6 +73,15 @@ export class SkyDocsAnchorLinkService {
       content = content.replace(match[0], typeName);
     }
     return content;
+  }
+
+  /**
+   * Removes backtick characters around known types to prevent
+   * the markdown pipe from wrapping them with code elements.
+   */
+  private removeBackticks(typeName: string, content: string): string {
+    const regexp = new RegExp(`\`(${typeName})\``, 'g');
+    return content.replace(regexp, typeName);
   }
 
 }

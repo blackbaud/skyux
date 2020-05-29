@@ -12,7 +12,7 @@ import {
 
 import {
   SkyDocsDemoModule
-} from './modules/demo';
+} from './modules/demo/demo.module';
 
 import {
   SkyDocsDemoPageModule

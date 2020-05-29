@@ -79,7 +79,7 @@ export class SkyDocsTypeDefinitionsService {
       throw new Error('The source code path must end with a forward slash (`/`).');
     }
 
-    const typeDefinitions = this.typeDefinitionsProvider.typeDefinitions;
+    const allDefinitions = this.typeDefinitionsProvider.typeDefinitions;
     const requestedDir = sourceCodePath
       .replace(/src\/app\/public\//, '')
       .replace(/^\//, ''); // remove first slash.
@@ -94,14 +94,18 @@ export class SkyDocsTypeDefinitionsService {
       typeAliases: []
     };
 
-    if (!typeDefinitions) {
+    if (!allDefinitions) {
+      console.warn(`No types were found for this project!`);
       return types;
     }
 
     // Only process types that match the requested source code location.
-    typeDefinitions
-      .filter((item: any) => item.sources[0].fileName.match(requestedDir))
-      .forEach((item: any) => {
+    const typeDefinitions = allDefinitions.filter((i: any) => i.sources[0].fileName.match(requestedDir));
+    if (typeDefinitions.length === 0) {
+      console.warn(`Type definitions were not found for location: ${requestedDir}`);
+    }
+
+    typeDefinitions.forEach((item: any) => {
 
       // Components.
       if (this.endsWith(item.name, 'Component')) {

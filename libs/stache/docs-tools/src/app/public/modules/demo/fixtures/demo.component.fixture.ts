@@ -16,6 +16,10 @@ import {
 } from '../demo-control-panel.component';
 
 import {
+  SkyDocsDemoControlPanelChange
+} from '../demo-control-panel-change';
+
+import {
   SkyDocsDemoComponent
 } from '../demo.component';
 
@@ -57,7 +61,7 @@ export class DemoFixtureComponent {
 
   public onDemoReset(): void { }
 
-  public onDemoSelectionChange(): void { }
+  public onDemoSelectionChange(change: SkyDocsDemoControlPanelChange): void { }
 
   public changeFormControls(): void {
     this.showRadios = false;

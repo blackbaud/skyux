@@ -53,7 +53,7 @@ export class FooComponent<U extends FooUser> implements OnInit {
   public baz: boolean = false;
 
   /**
-   * This is the description for bar input. You must provide FooEnum values.
+   * This is the description for bar input. You must provide `FooEnum` values.
    * @defaultvalue FooEnum.Foo
    */
   @Input()

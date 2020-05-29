@@ -7,18 +7,6 @@
       margin: $sky-margin-plus-half 0;
     }
 
-    // Auto-generated code elements need to be styled like sky-code component.
-    // TODO: Need to address this so that there isn't duplicate code.
-    code:not([class]) {
-      @include sky-border("dark", "top", "right", "bottom", "left");
-      overflow-wrap: break-word;
-      font-family: 'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace;
-      font-size: 90%;
-      color: darken($sky-background-color-danger-dark, 5%);
-      padding: 0 4px;
-      background-color: $sky-background-color-selected;
-    }
-
     table {
       margin-top: $sky-margin-plus-half;
       margin-bottom: $sky-margin-plus-half;

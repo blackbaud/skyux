@@ -1,10 +1,10 @@
 import {
-  NgModule
-} from '@angular/core';
+  CommonModule
+} from '@angular/common';
 
 import {
-  SkyDocsMarkdownModule
-} from '../markdown/markdown.module';
+  NgModule
+} from '@angular/core';
 
 import {
   SkyDocsSafeHtmlComponent
@@ -15,7 +15,7 @@ import {
     SkyDocsSafeHtmlComponent
   ],
   imports: [
-    SkyDocsMarkdownModule
+    CommonModule
   ],
   exports: [
     SkyDocsSafeHtmlComponent

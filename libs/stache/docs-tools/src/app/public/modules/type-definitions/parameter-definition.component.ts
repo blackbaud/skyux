@@ -31,7 +31,10 @@ export class SkyDocsParameterDefinitionComponent {
   @Input()
   public parameterType: string;
 
-  @ViewChild('templateRef', { read: TemplateRef })
+  @ViewChild('templateRef', {
+    read: TemplateRef,
+    static: false
+  })
   public templateRef: TemplateRef<any>;
 
   private _isOptional: boolean;

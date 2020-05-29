@@ -1,10 +1,60 @@
+# 4.0.0 (2020-05-29)
+
+### New features
+
+- Added `SkyDocsHeadingAnchorModule`, `SkyDocsMarkdownModule`, `SkyDocsModuleInfoModule`, and `SkyDocsSafeHtmlModule` to the exports API. [#57](https://github.com/blackbaud/skyux-docs-tools/pull/57)
+- Added support for `@angular/core@^9`. [#32](https://github.com/blackbaud/skyux-docs-tools/pull/32)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#32](https://github.com/blackbaud/skyux-docs-tools/pull/32)
+
+### Bug fixes
+
+- Added a global style reference for the native `code` element to match what's provided by `@blackbaud/skyux-lib-stache`. [#60](https://github.com/blackbaud/skyux-docs-tools/pull/60)
+- Fixed the type definition components to run the markdown pipe in the correct order. [#59](https://github.com/blackbaud/skyux-docs-tools/pull/59)
+
+### Breaking changes
+
+- Upgraded all `@blackbaud/skyux-lib-*` dependencies to `4.0.0`. [#61](https://github.com/blackbaud/skyux-docs-tools/pull/61)
+- Dropped support for `rxjs@5`. Consumers may install `rxjs-compat@^6` to support older versions of `rxjs`. [#32](https://github.com/blackbaud/skyux-docs-tools/pull/32)
+
+# 4.0.0-rc.9 (2020-05-28)
+
+- Upgraded all `@blackbaud/skyux-lib-*` dependencies to `4.0.0`. [#61](https://github.com/blackbaud/skyux-docs-tools/pull/61)
+
+# 4.0.0-rc.8 (2020-05-22)
+
+- Added a global style reference for the native `code` element to match what's provided by `@blackbaud/skyux-lib-stache`. [#60](https://github.com/blackbaud/skyux-docs-tools/pull/60)
+
+# 4.0.0-rc.7 (2020-05-20)
+
+- Fixed the type definition components to run the markdown pipe in the correct order. [#59](https://github.com/blackbaud/skyux-docs-tools/pull/59)
+
+# 4.0.0-rc.6 (2020-05-19)
+
+- Added `code` element styles to the safe HTML component. [#58](https://github.com/blackbaud/skyux-docs-tools/pull/58)
+
+# 4.0.0-rc.5 (2020-05-19)
+
+- Added `SkyDocsHeadingAnchorModule`, `SkyDocsMarkdownModule`, `SkyDocsModuleInfoModule`, and `SkyDocsSafeHtmlModule` to the exports API. [#57](https://github.com/blackbaud/skyux-docs-tools/pull/57)
+
+# 4.0.0-rc.4 (2020-05-01)
+
+- Added bug fixes and features from the `master` branch. [#55](https://github.com/blackbaud/skyux-docs-tools/pull/55)
+
 # 3.3.0 (2020-04-30)
 
 - Added a theme switcher control panel to the demo component. [#52](https://github.com/blackbaud/skyux-docs-tools/pull/52)
 
+# 4.0.0-rc.3 (2020-04-28)
+
+- Added bug fixes and features from the `master` branch. [#51](https://github.com/blackbaud/skyux-docs-tools/pull/51)
+
 # 3.2.1 (2020-04-27)
 
 - Fixed the anchor link service to handle types wrapped within markdown links. [#49](https://github.com/blackbaud/skyux-docs-tools/pull/49)
+
+# 4.0.0-rc.2 (2020-04-16)
+
+- Added bug fixes and features from the `master` branch. [#44](https://github.com/blackbaud/skyux-docs-tools/pull/44)
 
 # 3.2.0 (2020-03-30)
 
@@ -18,6 +68,23 @@
 - Fixed the demo control panel component to display properly when only the Reset button is shown. [#42](https://github.com/blackbaud/skyux-docs-tools/pull/42)
 - Fixed the method definition component to display required parameters properly. [#42](https://github.com/blackbaud/skyux-docs-tools/pull/42)
 - Fixed the property definition component to provide in-page links to known types in the deprecation messages. [#42](https://github.com/blackbaud/skyux-docs-tools/pull/42)
+
+# 4.0.0-rc.1 (2020-02-24)
+
+### Bug fixes
+
+- Fixed the exports API to export the `SkyDemoModule`. [#34](https://github.com/blackbaud/skyux-docs-tools/pull/34)
+
+# 4.0.0-rc.0 (2020-02-22)
+
+### New features
+
+- Added support for `@angular/core@^9`. [#32](https://github.com/blackbaud/skyux-docs-tools/pull/32)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#32](https://github.com/blackbaud/skyux-docs-tools/pull/32)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers may install `rxjs-compat@^6` to support older versions of `rxjs`. [#32](https://github.com/blackbaud/skyux-docs-tools/pull/32)
 
 # 3.1.0 (2020-01-29)
 

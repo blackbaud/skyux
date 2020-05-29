@@ -7,7 +7,7 @@
   </sky-docs-heading-anchor>
 
   <sky-docs-safe-html
-    [innerHtml]="config.description | skyDocsTypeAnchorLinks"
+    [innerHtml]="config.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
   ></sky-docs-safe-html>
 
   <ng-container *ngIf="config.codeExample">
@@ -32,7 +32,7 @@
       [parameterType]="config.inputValue.type"
     >
       <sky-docs-safe-html
-        [innerHtml]="config.inputValue.description | skyDocsTypeAnchorLinks"
+        [innerHtml]="config.inputValue.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
       ></sky-docs-safe-html>
     </sky-docs-parameter-definition>
   </sky-docs-parameter-definitions>
@@ -49,7 +49,7 @@
         [parameterType]="parameter.type"
       >
         <sky-docs-safe-html
-          [innerHtml]="parameter.description | skyDocsTypeAnchorLinks"
+          [innerHtml]="parameter.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
         ></sky-docs-safe-html>
       </sky-docs-parameter-definition>
     </sky-docs-parameter-definitions>

@@ -10,7 +10,7 @@
 
   <sky-docs-safe-html
     class="sky-docs-class-definition-description"
-    [innerHtml]="config.description | skyDocsTypeAnchorLinks"
+    [innerHtml]="config.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
   ></sky-docs-safe-html>
 
   <ng-container *ngIf="config.properties && config.properties.length">
@@ -20,7 +20,7 @@
         [propertyType]="property.type"
       >
         <sky-docs-safe-html
-          [innerHtml]="property.description | skyDocsTypeAnchorLinks"
+          [innerHtml]="property.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
         ></sky-docs-safe-html>
       </sky-docs-property-definition>
     </sky-docs-property-definitions>
@@ -36,7 +36,7 @@
       >
         <sky-docs-safe-html
           class="sky-docs-class-definition-method-description"
-          [innerHtml]="method.description | skyDocsTypeAnchorLinks"
+          [innerHtml]="method.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
         ></sky-docs-safe-html>
 
         <sky-code-block
@@ -58,7 +58,7 @@
               [parameterType]="parameter.type"
             >
               <sky-docs-safe-html
-                [innerHtml]="parameter.description | skyDocsTypeAnchorLinks"
+                [innerHtml]="parameter.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
               ></sky-docs-safe-html>
             </sky-docs-parameter-definition>
           </sky-docs-parameter-definitions>

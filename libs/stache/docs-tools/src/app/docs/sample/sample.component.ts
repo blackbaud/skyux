@@ -6,7 +6,7 @@ import {
 import {
   SkyDocsDemoControlPanelChange,
   SkyDocsDemoControlPanelRadioChoice
-} from '../../public';
+} from '../../public/public_api';
 
 @Component({
   selector: 'app-sample-docs',
