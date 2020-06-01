@@ -1,3 +1,7 @@
+# 4.1.0 (2020-06-01)
+
+- Added the input box component to support the modern theme form field design. [#121](https://github.com/blackbaud/skyux-forms/pull/121)
+
 # 4.0.0 (2020-05-13)
 
 ### New features
