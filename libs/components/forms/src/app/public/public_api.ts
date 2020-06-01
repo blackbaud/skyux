@@ -12,6 +12,10 @@ export * from './modules/file-attachment/file-item-error-type';
 export * from './modules/file-attachment/file-link';
 export * from './modules/file-attachment/file-size.pipe';
 
+export * from './modules/input-box/input-box.module';
+export * from './modules/input-box/input-box-host.service';
+export * from './modules/input-box/input-box-populate-args';
+
 export * from './modules/radio/types/radio-change';
 export * from './modules/radio/radio.module';
 

@@ -1,0 +1,116 @@
+<ng-container
+  *ngIf="
+    (themeSvc.settingsChange | async)?.currentSettings?.theme?.name === 'modern';
+    then modernTemplate else defaultTemplate
+  "
+></ng-container>
+
+<ng-template
+  #defaultTemplate
+>
+  <div
+    class="sky-input-box"
+  >
+    <div
+      class="sky-form-group"
+    >
+      <ng-container
+        *ngTemplateOutlet="labelTemplate"
+      ></ng-container>
+      <div
+        class="sky-input-group"
+      >
+        <ng-container
+          *ngTemplateOutlet="inputTemplate"
+        ></ng-container>
+        <ng-container
+          *ngTemplateOutlet="buttonsTemplate"
+        ></ng-container>
+      </div>
+      <ng-container
+        *ngTemplateOutlet="errorLabelTemplate"
+      ></ng-container>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template
+  #modernTemplate
+>
+  <div
+    class="sky-input-box sky-margin-stacked-lg"
+  >
+    <div
+      class="sky-input-box-group"
+    >
+      <div
+        class="sky-input-box-group-form-control"
+        [ngClass]="{
+          'sky-input-box-group-form-control-focus': formControlHasFocus,
+          'sky-input-box-group-form-control-invalid':
+            hasErrors ||
+            formControl?.errors ||
+            formControlByName?.errors ||
+            ngModel?.errors
+        }"
+        (focusin)="formControlFocusIn()"
+        (focusout)="formControlFocusOut()"
+      >
+        <div
+          class="sky-form-group"
+        >
+          <ng-container
+            *ngTemplateOutlet="labelTemplate"
+          ></ng-container>
+          <ng-container
+            *ngTemplateOutlet="inputTemplate"
+          ></ng-container>
+        </div>
+      </div>
+      <ng-container
+        *ngTemplateOutlet="buttonsTemplate"
+      ></ng-container>
+    </div>
+    <ng-container
+      *ngTemplateOutlet="errorLabelTemplate"
+    ></ng-container>
+  </div>
+</ng-template>
+
+<ng-template
+  #labelTemplate
+>
+  <ng-content
+    select=".sky-control-label"
+  ></ng-content>
+</ng-template>
+
+<ng-template
+  #inputTemplate
+>
+  <ng-content
+    select=".sky-form-control"
+  ></ng-content>
+  <ng-container
+    *ngTemplateOutlet="hostInputTemplate"
+  ></ng-container>
+</ng-template>
+
+<ng-template
+  #buttonsTemplate
+>
+  <ng-content
+    select=".sky-input-group-btn"
+  ></ng-content>
+  <ng-container
+    *ngTemplateOutlet="hostButtonsTemplate"
+  ></ng-container>
+</ng-template>
+
+<ng-template
+  #errorLabelTemplate
+>
+  <ng-content
+    select=".sky-error-label"
+  ></ng-content>
+</ng-template>

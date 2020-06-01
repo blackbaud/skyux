@@ -1,0 +1,291 @@
+<sky-docs-demo-control-panel-theme
+  (themeSettingsChange)="themeSettingsChange($event)"
+></sky-docs-demo-control-panel-theme>
+
+<div
+  class="input-box-visual"
+  id="screenshot-input-box"
+>
+
+  <sky-fluid-grid
+    [gutterSize]="gutterSize"
+  >
+
+    <sky-row>
+      <sky-column>
+        <div
+          id="input-box-basic"
+        >
+          <sky-input-box>
+            <label
+              class="sky-control-label"
+              for="field1"
+            >
+              Input
+            </label>
+            <input
+              class="sky-form-control"
+              id="field1"
+              type="text"
+            >
+          </sky-input-box>
+        </div>
+      </sky-column>
+    </sky-row>
+
+    <sky-row>
+      <sky-column>
+        <div
+          id="input-box-textarea"
+        >
+          <sky-input-box>
+            <label
+              class="sky-control-label"
+              for="field2"
+            >
+              Textarea
+            </label>
+            <textarea
+              class="sky-form-control"
+              id="field2"
+            ></textarea>
+          </sky-input-box>
+        </div>
+      </sky-column>
+    </sky-row>
+
+    <sky-row>
+      <sky-column>
+        <div
+          id="input-box-button-single"
+        >
+          <sky-input-box>
+            <label
+              class="sky-control-label"
+              for="field3"
+            >
+              Input with one button
+            </label>
+            <input
+              class="sky-form-control"
+              id="field3"
+              type="text"
+            >
+            <button
+              class="sky-btn sky-btn-default sky-input-group-btn"
+              type="button"
+            >
+              <sky-icon
+                icon="calendar"
+              ></sky-icon>
+            </button>
+          </sky-input-box>
+        </div>
+      </sky-column>
+    </sky-row>
+
+    <sky-row>
+      <sky-column>
+        <div
+          id="input-box-button-multiple"
+        >
+          <sky-input-box>
+            <label
+              class="sky-control-label"
+              for="field4"
+            >
+              Input with multiple buttons
+            </label>
+            <input
+              class="sky-form-control"
+              id="field4"
+              type="text"
+            >
+            <button
+              class="sky-btn sky-btn-default sky-input-group-btn"
+              type="button"
+            >
+              <sky-icon
+                icon="calendar"
+              ></sky-icon>
+            </button>
+            <button
+              class="sky-btn sky-btn-default sky-input-group-btn"
+              type="button"
+            >
+              <sky-icon
+                icon="clock-o"
+              ></sky-icon>
+            </button>
+          </sky-input-box>
+        </div>
+      </sky-column>
+    </sky-row>
+
+    <sky-row id="input-box-side-by-side">
+      <sky-column
+        screenLarge="6"
+      >
+        <sky-input-box>
+          <label
+            class="sky-control-label"
+            for="field9"
+          >
+            Input left
+          </label>
+          <input
+            class="sky-form-control"
+            id="field9"
+            type="text"
+          >
+        </sky-input-box>
+      </sky-column>
+      <sky-column
+        screenLarge="6"
+      >
+        <sky-input-box>
+          <label
+            class="sky-control-label"
+            for="field10"
+          >
+            Input right with a label with a lot of text that should wrap and cause the height of the input box to expand to fit the extra text instead of truncating it.
+          </label>
+          <input
+            class="sky-form-control"
+            id="field10"
+            type="text"
+          >
+        </sky-input-box>
+      </sky-column>
+    </sky-row>
+
+    <sky-row>
+      <sky-column>
+        <div
+          id="input-box-form-control-error"
+        >
+          <sky-input-box>
+            <label
+              class="sky-control-label"
+              for="field5"
+            >
+              Form control error
+            </label>
+            <input
+              class="sky-form-control"
+              id="field5"
+              type="text"
+              [formControl]="errorField"
+            >
+            <div
+              class="sky-error-label"
+            >
+              Field is required.
+            </div>
+          </sky-input-box>
+        </div>
+      </sky-column>
+    </sky-row>
+
+    <sky-row>
+      <sky-column>
+        <div
+          id="input-box-form-control-name-error"
+        >
+          <form
+            [formGroup]="errorForm"
+          >
+            <sky-input-box>
+              <label
+                class="sky-control-label"
+                for="field6"
+              >
+                Form control by name error
+              </label>
+              <input
+                class="sky-form-control"
+                formControlName="errorFormField"
+                id="field6"
+                type="text"
+              >
+              <div
+                class="sky-error-label"
+              >
+                Field is required.
+              </div>
+            </sky-input-box>
+          </form>
+        </div>
+      </sky-column>
+    </sky-row>
+
+    <sky-row>
+      <sky-column>
+        <div
+          id="input-box-ngmodel-error"
+        >
+          <sky-input-box>
+            <label
+              class="sky-control-label"
+              for="field7"
+            >
+              NgModel error
+            </label>
+            <input
+              class="sky-form-control"
+              id="field7"
+              name="errorNgModel"
+              required
+              type="text"
+              [(ngModel)]="errorNgModelValue"
+              #errorNgModel="ngModel"
+            >
+            <div
+              class="sky-error-label"
+            >
+              Field is required.
+            </div>
+          </sky-input-box>
+        </div>
+      </sky-column>
+    </sky-row>
+
+    <sky-row>
+      <sky-column>
+        <div
+          id="input-box-form-control-error-button-single"
+        >
+          <sky-input-box>
+            <label
+              class="sky-control-label"
+              for="field8"
+            >
+              Form control error with one button
+            </label>
+            <input
+              class="sky-form-control"
+              id="field8"
+              type="text"
+              [formControl]="errorField"
+            >
+            <button
+              class="sky-btn sky-btn-default sky-input-group-btn"
+              type="button"
+            >
+              <sky-icon
+                icon="calendar"
+              ></sky-icon>
+            </button>
+            <div
+              class="sky-error-label"
+            >
+              Field is required.
+            </div>
+          </sky-input-box>
+        </div>
+      </sky-column>
+    </sky-row>
+
+  </sky-fluid-grid>
+
+</div>
