@@ -1,3 +1,7 @@
+<sky-docs-demo-control-panel-theme
+  (themeSettingsChange)="themeSettingsChange($event)"
+></sky-docs-demo-control-panel-theme>
+
 <div class="sky-buttons-demo">
 
   <h2>
@@ -37,27 +41,43 @@
     </button>
 
     <button
-      class="sky-btn sky-btn-link-inline sky-margin-inline-compact"
-      type="button"
-    >
-      Inline link button
-    </button>
-
-    <button
       class="sky-btn sky-btn-borderless sky-margin-inline-compact"
       type="button"
     >
       Borderless button
     </button>
 
+    <a
+      class="sky-btn sky-btn-primary sky-margin-inline-compact"
+    >
+      Anchor with button class
+    </a>
+
     <button
-      class="sky-btn sky-btn-borderless-inline sky-margin-inline-compact"
+      class="sky-btn sky-btn-default sky-btn-icon sky-margin-inline-compact"
       type="button"
     >
-      Borderless inline button
+      <i class="fa fa-angle-double-down"></i>
     </button>
 
-    <a class="sky-btn sky-btn-primary">Anchor with button class</a>
+    <div class="sky-buttons-demo-screenshot-inline">
+      Here's an
+      <button
+        class="sky-btn sky-btn-link-inline"
+        type="button"
+      >
+        inline link button
+      </button>
+      with some other text, and here's a
+      <button
+        class="sky-btn sky-btn-borderless-inline"
+        type="button"
+      >
+        borderless inline button
+      </button>
+      with some other text.
+    </div>
+
   </div>
 
   <h2>
@@ -76,7 +96,7 @@
     </button>
 
     <button
-      class="sky-btn sky-btn-default"
+      class="sky-btn sky-btn-default sky-margin-inline-compact"
       type="button"
       disabled
     >
@@ -110,7 +130,7 @@
       type="button"
       disabled
     >
-    Danger disabled (w/ attribute)
+      Danger disabled (w/ attribute)
     </button>
 
     <button
@@ -129,21 +149,6 @@
     </button>
 
     <button
-      class="sky-btn sky-btn-link-inline sky-btn-disabled sky-margin-inline-compact"
-      type="button"
-    >
-      Inline link button disabled (w/ class)
-    </button>
-
-    <button
-      class="sky-btn sky-btn-link-inline sky-margin-inline-compact"
-      type="button"
-      disabled
-    >
-      Inline link button disabled (w/ attribute)
-    </button>
-
-    <button
       class="sky-btn sky-btn-borderless sky-btn-disabled sky-margin-inline-compact"
       type="button"
     >
@@ -158,21 +163,6 @@
       Borderless button disabled (w/ attribute)
     </button>
 
-    <button
-      class="sky-btn sky-btn-borderless-inline sky-btn-disabled sky-margin-inline-compact"
-      type="button"
-    >
-      Borderless inline button disabled (w/ class)
-    </button>
-
-    <button
-      class="sky-btn sky-btn-borderless-inline sky-margin-inline-compact"
-      type="button"
-      disabled
-    >
-      Borderless inline button disabled (w/ attribute)
-    </button>
-
     <a class="sky-btn sky-btn-primary sky-btn-disabled sky-margin-inline-compact">
       Anchor button disabled (w/ class)
     </a>
@@ -183,5 +173,40 @@
     >
       Anchor button disabled (w/ attribute)
     </a>
+
+    <div class="sky-buttons-demo-screenshot-inline">
+      Inline test
+      <button
+        class="sky-btn sky-btn-link-inline sky-btn-disabled"
+        type="button"
+      >
+        Inline link button disabled (w/ class)
+      </button>
+      -
+      <button
+        class="sky-btn sky-btn-link-inline"
+        type="button"
+        disabled
+      >
+        Inline link button disabled (w/ attribute)
+      </button>
+      -
+      <button
+        class="sky-btn sky-btn-borderless-inline sky-btn-disabled"
+        type="button"
+      >
+        Borderless inline button disabled (w/ class)
+      </button>
+      -
+      <button
+        class="sky-btn sky-btn-borderless-inline"
+        type="button"
+        disabled
+      >
+        Borderless inline button disabled (w/ attribute)
+      </button>
+      inline test.
+    </div>
+
   </div>
 </div>
