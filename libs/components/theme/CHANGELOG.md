@@ -1,3 +1,7 @@
+# 4.2.0 (2020-06-03)
+
+- Added modern theme styles for buttons. [#140](https://github.com/blackbaud/skyux-theme/pull/140)
+
 # 4.1.0 (2020-05-28)
 
 - Added error label styling to the modern theme's dark mode. [#136](https://github.com/blackbaud/skyux-theme/pull/136)
