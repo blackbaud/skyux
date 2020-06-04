@@ -1,3 +1,5 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/variables";
 @import "scss/variables";
 
 .sky-toolbar-section {
@@ -14,4 +16,11 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+}
+
+@include sky-theme-modern {
+  .sky-toolbar-section {
+    padding-left: $sky-theme-modern-space-xl;
+    padding-right: $sky-theme-modern-space-xl;
+  }
 }

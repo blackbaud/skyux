@@ -1,7 +1,16 @@
 @import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/variables";
 @import "~@skyux/theme/scss/_compat/mixins";
 
 .sky-toolbar-item {
   margin-right: $sky-margin-half;
   margin-bottom: $sky-padding-half;
+}
+
+@include sky-theme-modern {
+
+  .sky-toolbar-item {
+    margin-right: $sky-theme-modern-margin-inline-sm;
+  }
+
 }

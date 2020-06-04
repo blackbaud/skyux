@@ -1,21 +1,23 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/variables";
 @import "scss/variables";
 
 .sky-toolbar-container {
-    min-height: $sky-toolbar-min-height;
-    background-color: $sky-toolbar-background-color;
-    padding: $sky-padding-half $sky-padding 0;
-    @include sky-border(dark, top, bottom);
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    position: relative;
-    ::ng-deep sky-toolbar-section:not(:first-child) .sky-toolbar-section {
-      @include sky-border(dark, top);
-    }
+  min-height: $sky-toolbar-min-height;
+  background-color: $sky-toolbar-background-color;
+  padding: $sky-padding-half $sky-padding 0;
+  @include sky-border(dark, top, bottom);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  position: relative;
+  ::ng-deep sky-toolbar-section:not(:first-child) .sky-toolbar-section {
+    @include sky-border(dark, top);
+  }
 
-    &:not(.sky-toolbar-sectioned) {
-      flex-wrap: nowrap;
-    }
+  &:not(.sky-toolbar-sectioned) {
+    flex-wrap: nowrap;
+  }
 }
 
 .sky-toolbar-sectioned {
@@ -27,4 +29,17 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+}
+
+@include sky-theme-modern {
+  .sky-toolbar-container {
+    background-color: transparent;
+    border: none;
+    padding-left: $sky-theme-modern-space-xl;
+    padding-right: $sky-theme-modern-space-xl;
+  }
+
+  .sky-toolbar-sectioned {
+    padding: 0;
+  }
 }
