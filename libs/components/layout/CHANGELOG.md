@@ -1,3 +1,7 @@
+# 4.1.0 (2020-06-04)
+
+- Added modern theme styles to the toolbar component. [#109](https://github.com/blackbaud/skyux-layout/pull/109)
+
 # 4.0.0 (2020-05-14)
 
 ### New features
