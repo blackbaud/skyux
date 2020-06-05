@@ -20,6 +20,10 @@ import {
 } from '@skyux/router';
 
 import {
+  SkyIconModule
+} from '@skyux/indicators';
+
+import {
   SkyThemeModule
 } from './public/public_api';
 
@@ -28,6 +32,7 @@ import {
     SkyAppLinkModule,
     SkyCodeModule,
     SkyDocsToolsModule,
+    SkyIconModule,
     SkyThemeModule,
     SkyMediaQueryModule
   ],
