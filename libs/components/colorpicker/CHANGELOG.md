@@ -1,3 +1,7 @@
+# 4.0.1 (2020-06-05)
+
+- Fixed the exports API to include `SkyColorpickerChangeAxis`, `SkyColorpickerCmyk`, `SkyColorpickerChangeColor`, `SkyColorpickerHsla`, `SkyColorpickerHsva`, and `SkyColorpickerRgba`. [#47](github.com/blackbaud/skyux-colorpicker/pull/47)
+
 # 4.0.0 (2020-05-21)
 
 ### New features
