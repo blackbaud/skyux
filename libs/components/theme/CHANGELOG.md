@@ -1,3 +1,7 @@
+# 4.2.1 (2020-06-05)
+
+- Fixed the input group buttons to properly reset the `border-radius` CSS property. [#142](https://github.com/blackbaud/skyux-theme/pull/142)
+
 # 4.2.0 (2020-06-03)
 
 - Added modern theme styles for buttons. [#140](https://github.com/blackbaud/skyux-theme/pull/140)
