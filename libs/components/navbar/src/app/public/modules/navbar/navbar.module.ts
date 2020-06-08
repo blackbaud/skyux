@@ -1,9 +1,22 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import {
+  CommonModule
+} from '@angular/common';
 
-import { SkyNavbarItemComponent } from './navbar-item.component';
-import { SkyNavbarComponent } from './navbar.component';
+import {
+  NgModule
+} from '@angular/core';
+
+import {
+  RouterModule
+} from '@angular/router';
+
+import {
+  SkyNavbarItemComponent
+} from './navbar-item.component';
+
+import {
+  SkyNavbarComponent
+} from './navbar.component';
 
 @NgModule({
   declarations: [
