@@ -108,12 +108,14 @@ describe('Input box component', () => {
 
     const inputGroupEl = inputBoxEl.querySelector('.sky-form-group > .sky-input-group');
     const inputEl = inputGroupEl.children.item(0);
+    const inputGroupBtnEl1 = inputGroupEl.children.item(1);
+    const inputGroupBtnEl2 = inputGroupEl.children.item(2);
 
     expect(inputEl).toExist();
     expect(inputEl.id).toBe('input2');
 
-    expect(inputGroupEl.children.item(1)).toHaveCssClass('test-button-1');
-    expect(inputGroupEl.children.item(2)).toHaveCssClass('test-button-2');
+    expect(inputGroupBtnEl1.children.item(0)).toHaveCssClass('test-button-1');
+    expect(inputGroupBtnEl2.children.item(0)).toHaveCssClass('test-button-2');
   });
 
   it('should allow a child to place template items inside the input box programmatically', () => {
@@ -125,12 +127,14 @@ describe('Input box component', () => {
 
     const inputGroupEl = inputBoxEl.querySelector('.sky-form-group > .sky-input-group');
     const inputEl = inputGroupEl.children.item(0);
+    const inputGroupBtnEl1 = inputGroupEl.children.item(1);
+    const inputGroupBtnEl2 = inputGroupEl.children.item(2);
 
     expect(inputEl).toExist();
     expect(inputEl.id).toBe('input3');
 
-    expect(inputGroupEl.children.item(1)).toHaveCssClass('host-service-button-1');
-    expect(inputGroupEl.children.item(2)).toHaveCssClass('host-service-button-2');
+    expect(inputGroupBtnEl1.children.item(0)).toHaveCssClass('host-service-button-1');
+    expect(inputGroupBtnEl2.children.item(0)).toHaveCssClass('host-service-button-2');
   });
 
   it('should pass accessibility', async(() => {
@@ -189,10 +193,13 @@ describe('Input box component', () => {
       const inputBoxEl = getInputBoxEl(fixture, 'input-multiple-buttons');
 
       const inputBoxGroupEl = inputBoxEl.querySelector('.sky-input-box-group');
+      const inputEl = inputBoxGroupEl.children.item(0);
+      const inputGroupBtnEl1 = inputBoxGroupEl.children.item(1);
+      const inputGroupBtnEl2 = inputBoxGroupEl.children.item(2);
 
-      expect(inputBoxGroupEl.children.item(0)).toHaveCssClass('sky-input-box-group-form-control');
-      expect(inputBoxGroupEl.children.item(1)).toHaveCssClass('test-button-1');
-      expect(inputBoxGroupEl.children.item(2)).toHaveCssClass('test-button-2');
+      expect(inputEl).toHaveCssClass('sky-input-box-group-form-control');
+      expect(inputGroupBtnEl1.children.item(0)).toHaveCssClass('test-button-1');
+      expect(inputGroupBtnEl2.children.item(0)).toHaveCssClass('test-button-2');
     });
 
     it('should set add a CSS class to the form control wrapper on focus in', () => {

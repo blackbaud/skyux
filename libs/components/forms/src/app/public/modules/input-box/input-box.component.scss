@@ -21,37 +21,41 @@
     }
 
     .sky-input-group-btn {
-      border-radius: 0;
-      color: $sky-theme-modern-font-deemphasized-color;
-      display: block;
-      margin-left: -1px;
-      padding: 0 22px;
+      .sky-btn {
+        border-radius: 0;
+        color: $sky-theme-modern-font-deemphasized-color;
+        padding: 0 22px;
 
-      .sky-icon {
-        font-size: 24px;
-      }
+        .sky-icon {
+          font-size: 24px;
+        }
 
-      &:focus {
-        outline: none;
-        border: solid 2px $sky-highlight-color-info;
-        color: $sky-text-color-default;
-        padding: 0 21px;
+        &:focus {
+          outline: none;
+          border: solid 2px $sky-highlight-color-info;
+          color: $sky-text-color-default;
+          padding: 0 21px;
+        }
       }
 
       &:last-child {
-        border-top-right-radius: $sky-theme-modern-box-border-radius-default;
-        border-bottom-right-radius: $sky-theme-modern-box-border-radius-default;
+        .sky-btn {
+          border-top-right-radius: $sky-theme-modern-box-border-radius-default;
+          border-bottom-right-radius: $sky-theme-modern-box-border-radius-default;
+        }
       }
     }
 
     .sky-input-box-group-form-control-focus + .sky-input-group-btn,
     .sky-input-box-group-form-control-invalid + .sky-input-group-btn,
-    .sky-input-group-btn:focus + .sky-input-group-btn {
-      margin-left: 0;
-      border-left-width: 0;
+    .sky-input-group-btn:focus-within + .sky-input-group-btn {
+      .sky-btn {
+        margin-left: 0;
+        border-left-width: 0;
+      }
     }
 
-    .sky-input-box-group-form-control-invalid + .sky-input-group-btn:focus {
+    .sky-input-box-group-form-control-invalid + .sky-input-group-btn .sky-btn:focus {
       border-left-width: 2px;
       margin-left: -2px;
     }
@@ -133,7 +137,7 @@
         color: $sky-theme-modern-mode-dark-font-deemphasized-color;
 
         .sky-form-control,
-        .sky-input-group-btn {
+        .sky-input-group-btn .sky-btn {
           background-color: transparent;
           color: $sky-theme-modern-mode-dark-font-body-default-color;
         }
@@ -154,7 +158,7 @@
         }
       }
 
-      .sky-input-group-btn.sky-btn-default {
+      .sky-input-group-btn .sky-btn.sky-btn-default {
         background-color: transparent;
         border-color: $sky-theme-modern-color-gray-70;
         color: $sky-theme-modern-mode-dark-font-deemphasized-color;
