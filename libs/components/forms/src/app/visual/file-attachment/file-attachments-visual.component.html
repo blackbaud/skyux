@@ -5,11 +5,12 @@
     id="screenshot-file-drop"
   >
     <sky-file-drop
-      (filesChanged)="filesUpdated($event)"
-      (linkChanged)="linkAdded($event)"
+      [allowLinks]="allowLinks"
       [maxFileSize]="maxFileSize"
       [validateFn]="validateFile"
-      [allowLinks]="allowLinks"
+      (filesChanged)="filesUpdated($event)"
+      (linkChanged)="linkAdded($event)"
+      (linkInputBlur)="linkInputBlur()"
     ></sky-file-drop>
 
     <div

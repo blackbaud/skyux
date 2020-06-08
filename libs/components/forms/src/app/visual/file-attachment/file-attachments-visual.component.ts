@@ -90,6 +90,10 @@ export class FileAttachmentsVisualComponent implements OnInit {
     this.removeFromArray(this.linksToUpload, file);
   }
 
+  public linkInputBlur(): void {
+    console.log('Link input blurred');
+  }
+
   private removeFromArray(items: Array<any>, obj: SkyFileItem | SkyFileLink): void {
     if (items) {
       const index = items.indexOf(obj);

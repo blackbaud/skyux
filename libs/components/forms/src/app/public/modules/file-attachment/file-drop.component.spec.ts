@@ -1,7 +1,8 @@
 import {
-  TestBed,
+  async,
   ComponentFixture,
-  async
+  fakeAsync,
+  TestBed
 } from '@angular/core/testing';
 
 import {
@@ -14,7 +15,8 @@ import {
 } from '@angular/platform-browser';
 
 import {
-  expect
+  expect,
+  SkyAppTestUtility
 } from '@skyux-sdk/testing';
 
 import {
@@ -763,6 +765,23 @@ describe('File drop component', () => {
 
     expect(linkInput).toBeTruthy();
   });
+
+  it('should emit the `linkInputBlur` event whenever the link input is blurred', fakeAsync(() => {
+      componentInstance.allowLinks = true;
+      fixture.detectChanges();
+
+      const blurEventSpy = spyOn(componentInstance.linkInputBlur, 'emit');
+
+      componentInstance.linkInputBlur.subscribe(() => {
+        expect(blurEventSpy).toHaveBeenCalled();
+      });
+
+      const linkInput = getLinkInput();
+
+      SkyAppTestUtility.fireDomEvent(linkInput.nativeElement, 'blur');
+
+      fixture.detectChanges();
+  }));
 
   it('should emit link event when link is added on click', () => {
     let fileLinkActual: SkyFileLink;

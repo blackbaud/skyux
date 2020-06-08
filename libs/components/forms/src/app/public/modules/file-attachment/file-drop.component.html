@@ -69,10 +69,12 @@
           <input
             type="text"
             class="sky-form-control"
+            [attr.aria-label]="'skyux_file_attachment_file_upload_link_input' | skyLibResources"
             [attr.placeholder]="'skyux_file_attachment_file_upload_link_placeholder' | skyLibResources"
             [(ngModel)]="linkUrl"
+            (blur)="onLinkBlur()"
             (keyup)="addLinkEnter($event)"
-            [attr.aria-label]="'skyux_file_attachment_file_upload_link_input' | skyLibResources">
+          >
         </div>
         <button
           type="button"
