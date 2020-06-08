@@ -12,13 +12,12 @@ export class SkyAgGridAdapterService {
     private skyAdapterService: SkyCoreAdapterService
   ) { }
 
-  public elementOrParentHasClass(element: HTMLElement, className: string): boolean {
-    if (element.classList.contains(className)) {
-      return true;
+  public getElementOrParentWithClass(element: HTMLElement, className: string): HTMLElement | undefined {
+    if (element && element.classList.contains(className)) {
+      return element;
     } else if (element.parentElement) {
-      return this.elementOrParentHasClass(element.parentElement, className);
+      return this.getElementOrParentWithClass(element.parentElement, className);
     }
-    return false;
   }
 
   public setFocusedElementById(parentEl: HTMLElement, selector: string): void {
@@ -32,6 +31,18 @@ export class SkyAgGridAdapterService {
 
   public getFocusedElement(): HTMLElement {
     return document.activeElement as HTMLElement;
+  }
+
+  public getNextFocusableElement(currentEl: HTMLElement, parentEl: HTMLElement, moveFocusLeft?: boolean): HTMLElement | undefined {
+    if (parentEl) {
+      const focusableChildren = this.skyAdapterService.getFocusableChildren(parentEl);
+      const currentElementIndex = focusableChildren.indexOf(currentEl);
+      const nextIndex = moveFocusLeft ? currentElementIndex - 1 : currentElementIndex + 1;
+
+      if ((!moveFocusLeft && focusableChildren.length >= nextIndex) || (moveFocusLeft && nextIndex >= 0)) {
+        return focusableChildren[nextIndex];
+      }
+    }
   }
 
   public focusOnFocusableChildren(element: HTMLElement): void {

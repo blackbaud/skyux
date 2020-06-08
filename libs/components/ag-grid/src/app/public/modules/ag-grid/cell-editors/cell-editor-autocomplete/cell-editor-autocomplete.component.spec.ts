@@ -139,12 +139,6 @@ describe('SkyCellEditorAutocompleteComponent', () => {
     });
   });
 
-  describe('isPopup', () => {
-    it('should return true', () => {
-      expect(component.isPopup()).toBeTruthy();
-    });
-  });
-
   it('should pass accessibility', async(() => {
     fixture.detectChanges();
 

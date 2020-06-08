@@ -68,8 +68,4 @@ export class SkyAgGridCellEditorAutocompleteComponent implements ICellEditorAngu
   public getValue(): any {
     return this.currentSelection;
   }
-
-  public isPopup(): boolean {
-    return true;
-  }
 }

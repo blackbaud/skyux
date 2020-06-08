@@ -68,7 +68,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
     });
 
     it('renders a skyux datepicker', () => {
-      const datepickerEditorSelector = `.ag-popup-editor .sky-ag-grid-cell-editor-datepicker`;
+      const datepickerEditorSelector = `.sky-ag-grid-cell-editor-datepicker`;
       let datepickerEditorElement = gridNativeElement.querySelector(datepickerEditorSelector);
 
       expect(datepickerEditorElement).toBeNull();
@@ -149,19 +149,16 @@ describe('SkyCellEditorDatepickerComponent', () => {
 
   describe('getValue', () => {
     it('updates value from input and returns currentDate', () => {
-      const previousDate = new Date('1/1/2019');
-      const elementDateValue = '12/1/2019';
+      const date = new Date('1/1/2019');
+      const inputEl = datepickerEditorComponent['datepickerInput'].nativeElement;
+      spyOn(inputEl, 'blur');
 
-      datepickerEditorComponent.columnWidth = 300;
-      datepickerEditorComponent.rowHeight = 37;
-      datepickerEditorComponent.currentDate = previousDate;
+      datepickerEditorComponent.currentDate = date;
 
       datepickerEditorFixture.detectChanges();
 
-      datepickerEditorComponent['datepickerInput'].nativeElement.value = elementDateValue;
-      datepickerEditorFixture.detectChanges();
-
-      expect(datepickerEditorComponent.getValue()).not.toEqual(previousDate);
+      expect(datepickerEditorComponent.getValue()).toEqual(date);
+      expect(inputEl.blur).toHaveBeenCalled();
     });
   });
 
@@ -180,12 +177,6 @@ describe('SkyCellEditorDatepickerComponent', () => {
 
       expect(input).toBeVisible();
       expect(input.focus).toHaveBeenCalled();
-    });
-  });
-
-  describe('isPopup', () => {
-    it('returns true', () => {
-      expect(datepickerEditorComponent.isPopup()).toBeTruthy();
     });
   });
 

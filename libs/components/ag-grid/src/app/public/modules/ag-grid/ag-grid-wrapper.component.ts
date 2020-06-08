@@ -48,12 +48,10 @@ export class SkyAgGridWrapperComponent implements AfterContentInit {
   }
 
   public onGridKeydown(event: KeyboardEvent): void {
-    if (this.agGrid && event.key === 'Tab') {
-      const inEditMode = this.agGrid.api.getEditingCells().length > 0;
-      if (!inEditMode) {
-        const idToFocus = event.shiftKey ? this.beforeAnchorId : this.afterAnchorId;
-        this.adapterService.setFocusedElementById(this.elementRef.nativeElement, idToFocus);
-      }
+    const inEditMode = this.agGrid && this.agGrid.api.getEditingCells().length > 0;
+    if (this.agGrid && !inEditMode && event.key === 'Tab') {
+      const idToFocus = event.shiftKey ? this.beforeAnchorId : this.afterAnchorId;
+      this.adapterService.setFocusedElementById(this.elementRef.nativeElement, idToFocus);
     }
   }
 
@@ -61,7 +59,7 @@ export class SkyAgGridWrapperComponent implements AfterContentInit {
     const gridId = this.gridId;
     const relatedTarget = event.relatedTarget as HTMLElement;
     const previousFocusedId = relatedTarget && relatedTarget.id;
-    const previousWasCell = relatedTarget && this.adapterService.elementOrParentHasClass(relatedTarget, 'ag-cell');
+    const previousWasCell = relatedTarget && !!this.adapterService.getElementOrParentWithClass(relatedTarget, 'ag-cell');
 
     if (previousFocusedId !== gridId && !previousWasCell) {
       this.adapterService.setFocusedElementById(this.elementRef.nativeElement, this.gridId);

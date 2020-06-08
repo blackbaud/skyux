@@ -268,6 +268,20 @@ export class SkyAgGridService {
   }
 
   private suppressTab(params: SuppressKeyboardEventParams): boolean {
-    return params.event.code === 'Tab';
+    if (params.event.code === 'Tab') {
+      if (params.editing) {
+        const currentlyFocusedEl = this.agGridAdapterService.getFocusedElement();
+        // inline cell editors have the 'ag-cell' class, while popup editors have the 'ag-popup-editor' class
+        const cellEl = this.agGridAdapterService.getElementOrParentWithClass(currentlyFocusedEl, 'ag-cell');
+        const popupEl = this.agGridAdapterService.getElementOrParentWithClass(currentlyFocusedEl, 'ag-popup-editor');
+        const parentEl = cellEl || popupEl;
+
+        const nextFocusableElementInCell =
+          this.agGridAdapterService.getNextFocusableElement(currentlyFocusedEl, parentEl, params.event.shiftKey);
+          return !!nextFocusableElementInCell;
+      }
+      return true;
+    }
+    return false;
   }
 }
