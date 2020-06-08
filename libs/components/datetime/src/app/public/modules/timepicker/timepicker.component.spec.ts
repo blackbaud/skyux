@@ -424,7 +424,7 @@ describe('Timepicker', () => {
     it('should apply aria-label to the timepicker input when none is provided', fakeAsync(() => {
       detectChangesAndTick(fixture);
 
-      expect(getInput(fixture).getAttribute('aria-label')).toBe('Time input field');
+      expect(getInput(fixture).getAttribute('aria-label')).toBe('Time');
     }));
 
     it('should not overwrite aria-label on the timepicker input when one is provided', fakeAsync(() => {
