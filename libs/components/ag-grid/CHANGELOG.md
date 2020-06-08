@@ -1,3 +1,7 @@
+# 3.0.0-rc.9 (2020/06/08)
+
+- Updated keyboard navigation to allow tabbing between cells when editing data. [#39](https://github.com/blackbaud/skyux-ag-grid/pull/39)
+
 # 3.0.0-rc.8 (2020/05/28)
 
 - Created the SKY UX ag-grid wrapper component to provide keyboard navigation and sticky column headers. [#35](https://github.com/blackbaud/skyux-ag-grid/pull/35)
