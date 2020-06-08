@@ -1,7 +1,7 @@
 {
   "skyux_phone_field_default_label": {
     "_description": "The label for the phone field component's input field for screen readers when the consumer has not specified a label.",
-    "message": "Phone input field"
+    "message": "Phone number"
   },
   "skyux_phone_field_country_search_dismiss": {
     "_description": "Label for dismissing country search input",
