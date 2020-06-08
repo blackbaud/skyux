@@ -1,3 +1,7 @@
+# 4.2.0 (2020-06-08)
+
+- Updated the input box component to support the intended DOM structure of input group buttons. [#125](https://github.com/blackbaud/skyux-forms/pull/125)
+
 # 4.1.0 (2020-06-01)
 
 - Added the input box component to support the modern theme form field design. [#121](https://github.com/blackbaud/skyux-forms/pull/121)
