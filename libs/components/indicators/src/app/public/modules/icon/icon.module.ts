@@ -11,19 +11,25 @@ import {
 } from './icon.component';
 
 import {
+  SkyIconStackComponent
+} from './icon-stack.component';
+
+import {
   SkyIconClassListPipe
 } from './icon-class-list.pipe';
 
 @NgModule({
   declarations: [
     SkyIconClassListPipe,
-    SkyIconComponent
+    SkyIconComponent,
+    SkyIconStackComponent
   ],
   imports: [
     CommonModule
   ],
   exports: [
-    SkyIconComponent
+    SkyIconComponent,
+    SkyIconStackComponent
   ]
 })
 export class SkyIconModule { }

@@ -4,6 +4,18 @@ import {
 } from '@angular/core/testing';
 
 import {
+  BehaviorSubject
+} from 'rxjs';
+
+import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange
+} from '@skyux/theme';
+
+import {
   expect
 } from '@skyux-sdk/testing';
 
@@ -16,13 +28,35 @@ import {
 } from '../alert/alert.module';
 
 describe('Alert component', () => {
+  let mockThemeSvc: {
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+  };
+
   beforeEach(() => {
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+        {
+          currentSettings: new SkyThemeSettings(
+            SkyTheme.presets.default,
+            SkyThemeMode.presets.light
+          ),
+          previousSettings: undefined
+        }
+      )
+    };
+
     TestBed.configureTestingModule({
       declarations: [
         AlertTestComponent
       ],
       imports: [
         SkyAlertModule
+      ],
+      providers: [
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc
+        }
       ]
     });
   });
@@ -110,4 +144,58 @@ describe('Alert component', () => {
     expect(alertEl.getAttribute('role')).toBe('alert');
     expect(fixture.nativeElement).toBeAccessible();
   }));
+
+  describe('in modern theme', () => {
+
+    function validateStackedIcon(
+      el: HTMLElement,
+      expectedBaseIcon: string,
+      expectedTopIcon: string
+    ): void {
+      const iconEl = el.querySelector('.sky-alert-icon-theme-modern');
+      const baseIconEl = iconEl.querySelector('.fa-stack-2x');
+      const topIconEl = iconEl.querySelector('.fa-stack-1x');
+
+      expect(baseIconEl.classList.contains('sky-i-' + expectedBaseIcon)).toBe(true);
+      expect(topIconEl.classList.contains('sky-i-' + expectedTopIcon)).toBe(true);
+    }
+
+    beforeEach(() => {
+      mockThemeSvc.settingsChange.next(
+        {
+          currentSettings: new SkyThemeSettings(
+            SkyTheme.presets.modern,
+            SkyThemeMode.presets.light
+          ),
+          previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings
+        }
+      );
+    });
+
+    it('should show the expected icon', async(() => {
+      const fixture = TestBed.createComponent(AlertTestComponent);
+      const cmp = fixture.componentInstance;
+      const el = fixture.nativeElement;
+
+      cmp.alertType = 'danger';
+      fixture.detectChanges();
+
+      validateStackedIcon(el, 'triangle-solid', 'exclamation');
+
+      cmp.alertType = 'info';
+      fixture.detectChanges();
+
+      validateStackedIcon(el, 'circle-solid', 'help-i');
+
+      cmp.alertType = 'success';
+      fixture.detectChanges();
+
+      validateStackedIcon(el, 'circle-solid', 'check');
+
+      cmp.alertType = 'warning';
+      fixture.detectChanges();
+
+      validateStackedIcon(el, 'triangle-solid', 'exclamation');
+    }));
+  });
 });

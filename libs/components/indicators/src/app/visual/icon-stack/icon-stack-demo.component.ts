@@ -8,13 +8,10 @@ import {
 } from '@skyux/theme';
 
 @Component({
-  selector: 'sky-alert-visual',
-  templateUrl: './alert-visual.component.html'
+  selector: 'sky-icon-stack-demo',
+  templateUrl: './icon-stack-demo.component.html'
 })
-export class AlertVisualComponent {
-  public alertCloseable = true;
-
-  public themeSettings: SkyThemeSettings;
+export class SkyIconStackDemoComponent {
 
   constructor(private themeSvc: SkyThemeService) { }
 

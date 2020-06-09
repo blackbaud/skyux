@@ -1,0 +1,22 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/variables";
+
+// Temporary overrides until the proportions of stackable SKY UX icons have been corrected.
+.fa-stack-1x {
+  &.sky-i-check:before {
+    position: relative;
+    top: 1px;
+  }
+
+  &.sky-i-exclamation:before {
+    position: relative;
+    top: 2px;
+    left: -0.5px;
+  }
+}
+
+@include sky-theme-modern-dark {
+  .sky-icon-inverse {
+    color: $sky-theme-modern-mode-dark-background-color-page-default;
+  }
+}
