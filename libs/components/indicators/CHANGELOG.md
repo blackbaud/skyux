@@ -1,3 +1,7 @@
+# 4.1.0 (2020-06-09)
+
+- Added modern theme styles to the alert component. [#87](https://github.com/blackbaud/skyux-indicators/pull/87)
+
 # 4.0.0 (2020-05-12)
 
 ### New features
