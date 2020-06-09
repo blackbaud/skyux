@@ -1,6 +1,6 @@
 <input
   type="number"
-  [attr.aria-label]="numberInputLabel"
+  [attr.aria-label]="'skyux_ag_grid_cell_editor_number_aria_label' | skyLibResources:columnHeader:rowNumber"
   [style.width.px]="columnWidth"
   [style.height.px]="rowHeightWithoutBorders"
   [(ngModel)]="value"

@@ -2,13 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  OnInit,
   ViewChild
 } from '@angular/core';
-
-import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
 
 import {
   ICellEditorAngularComp
@@ -28,9 +23,8 @@ import {
   styleUrls: ['./cell-editor-autocomplete.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyAgGridCellEditorAutocompleteComponent implements ICellEditorAngularComp, OnInit {
+export class SkyAgGridCellEditorAutocompleteComponent implements ICellEditorAngularComp {
   public currentSelection: any;
-  public autocompleteInputLabel: string;
 
   public columnWidth: number;
   public rowHeight: number;
@@ -42,8 +36,6 @@ export class SkyAgGridCellEditorAutocompleteComponent implements ICellEditorAngu
   @ViewChild('skyCellEditorAutocomplete', {read: ElementRef})
   public input: ElementRef;
 
-  constructor(private libResources: SkyLibResourcesService) { }
-
   public agInit(params: SkyCellEditorAutocompleteParams) {
     this.params = params;
     this.currentSelection = this.params.value;
@@ -52,13 +44,6 @@ export class SkyAgGridCellEditorAutocompleteComponent implements ICellEditorAngu
     this.columnHeader = this.params.colDef && this.params.colDef.headerName;
     this.rowNumber = this.params.rowIndex + 1;
     this.skyComponentProperties = this.params.skyComponentProperties || {};
-  }
-
-  public ngOnInit(): void {
-    this.libResources.getString('sky_ag_grid_cell_editor_autocomplete_aria_label', this.columnHeader, this.rowNumber)
-    .subscribe(label => {
-      this.autocompleteInputLabel = label;
-    });
   }
 
   public afterGuiAttached(): void {

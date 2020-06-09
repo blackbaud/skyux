@@ -32,7 +32,7 @@ import {
 
 import {
   SkyAgGridModule
-} from './public';
+} from './public/public_api';
 
 import {
   SkyAgGridEditModalComponent

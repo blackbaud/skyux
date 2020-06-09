@@ -1,14 +1,8 @@
 import {
   ChangeDetectorRef,
   ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit
+  Component
 } from '@angular/core';
-
-import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
 
 import {
   ICellRendererAngularComp
@@ -20,28 +14,22 @@ import {
   RowSelectedEvent
 } from 'ag-grid-community';
 
-import {
-  Subject
-} from 'rxjs/Subject';
-
 @Component({
   selector: 'sky-ag-grid-cell-renderer-row-selector',
   templateUrl: './cell-renderer-row-selector.component.html',
   styleUrls: ['./cell-renderer-row-selector.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyAgGridCellRendererRowSelectorComponent implements ICellRendererAngularComp, OnInit, OnDestroy {
+export class SkyAgGridCellRendererRowSelectorComponent implements ICellRendererAngularComp {
   public checked: boolean;
   public dataField: string;
   public rowNode: RowNode;
-  public checkboxLabel: string;
+  public rowNumber: number;
+
   private params: ICellRendererParams;
-  private rowNumber: number;
-  private ngUnsubscribe = new Subject<void>();
 
   constructor(
-    private changeDetection: ChangeDetectorRef,
-    private libResources: SkyLibResourcesService
+    private changeDetection: ChangeDetectorRef
   ) { }
 
   /**
@@ -61,20 +49,9 @@ export class SkyAgGridCellRendererRowSelectorComponent implements ICellRendererA
       this.checked = this.rowNode.isSelected();
     }
 
-    this.rowNode.addEventListener(RowNode.EVENT_ROW_SELECTED, (event: RowSelectedEvent) => { this.rowSelectedListener(event); });
-  }
-
-  public ngOnInit(): void {
-    this.libResources.getString('skyux_ag_grid_row_selector_aria_label', this.rowNumber)
-      .takeUntil(this.ngUnsubscribe)
-      .subscribe(label => {
-        this.checkboxLabel = label;
-      });
-  }
-
-  public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.rowNode.addEventListener(RowNode.EVENT_ROW_SELECTED, (event: RowSelectedEvent) => {
+      this.rowSelectedListener(event);
+    });
   }
 
   /**

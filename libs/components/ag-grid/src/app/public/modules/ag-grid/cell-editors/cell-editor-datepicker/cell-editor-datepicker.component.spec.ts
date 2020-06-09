@@ -12,12 +12,12 @@ import {
 } from 'ag-grid-community';
 
 import {
-  SkyTestComponentSelector
-} from '@blackbaud/skyux-lib-testing';
-
-import {
   expect
 } from '@skyux-sdk/testing';
+
+import {
+  SkyDatepickerFixture
+} from '@skyux/datetime/testing';
 
 import {
   SkyCellClass
@@ -124,7 +124,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
     it('initializes the SkyAgGridCellEditorDatepickerComponent properties', fakeAsync(() => {
       const dateString = '01/01/2019';
       const date = new Date(dateString);
-      const datepicker = SkyTestComponentSelector.selectDatepicker(
+      const datepicker = new SkyDatepickerFixture(
         datepickerEditorFixture,
         'cell-datepicker'
       );
@@ -148,17 +148,14 @@ describe('SkyCellEditorDatepickerComponent', () => {
   });
 
   describe('getValue', () => {
-    it('updates value from input and returns currentDate', () => {
+    it('should return currentDate', () => {
       const date = new Date('1/1/2019');
-      const inputEl = datepickerEditorComponent['datepickerInput'].nativeElement;
-      spyOn(inputEl, 'blur');
 
       datepickerEditorComponent.currentDate = date;
 
       datepickerEditorFixture.detectChanges();
 
       expect(datepickerEditorComponent.getValue()).toEqual(date);
-      expect(inputEl.blur).toHaveBeenCalled();
     });
   });
 

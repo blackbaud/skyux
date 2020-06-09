@@ -20,7 +20,7 @@
       #skyCellEditorAutocomplete
       type="text"
       [(ngModel)]="currentSelection"
-      [attr.aria-label]="autocompleteInputLabel"
+      [attr.aria-label]="'sky_ag_grid_cell_editor_autocomplete_aria_label' | skyLibResources:columnHeader:rowNumber"
     />
   </sky-autocomplete>
 </div>

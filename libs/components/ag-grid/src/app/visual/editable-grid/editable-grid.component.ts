@@ -22,7 +22,7 @@ import {
 import {
   SkyAgGridService,
   SkyCellType
-} from '../../public';
+} from '../../public/public_api';
 
 @Component({
   selector: 'editable-grid-visual',

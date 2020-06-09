@@ -2,14 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  OnDestroy,
-  OnInit,
   ViewChild
 } from '@angular/core';
-
-import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
 
 import {
   ICellEditorAngularComp
@@ -19,10 +13,6 @@ import {
   ICellEditorParams
 } from 'ag-grid-community';
 
-import {
-  Subject
-} from 'rxjs/Subject';
-
 @Component({
   selector: 'sky-ag-grid-cell-editor-text',
   templateUrl: './cell-editor-text.component.html',
@@ -30,22 +20,18 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class SkyAgGridCellEditorTextComponent implements ICellEditorAngularComp, OnInit, OnDestroy {
+export class SkyAgGridCellEditorTextComponent implements ICellEditorAngularComp {
   public value: string;
   public textInputLabel: string;
+  public columnHeader: string;
   public columnWidth: number;
   public rowHeightWithoutBorders: number;
+  public rowNumber: number;
+
   private params: ICellEditorParams;
-  private columnHeader: string;
-  private rowNumber: number;
-  private ngUnsubscribe = new Subject<void>();
 
   @ViewChild('skyCellEditorText', {read: ElementRef})
   private input: ElementRef;
-
-  constructor(
-    private libResources: SkyLibResourcesService
-  ) { }
 
   /**
    * agInit is called by agGrid once after the editor is created and provides the editor with the information it needs.
@@ -65,19 +51,6 @@ export class SkyAgGridCellEditorTextComponent implements ICellEditorAngularComp,
    */
   public afterGuiAttached(): void {
     this.input.nativeElement.focus();
-  }
-
-  public ngOnInit(): void {
-    this.libResources.getString('skyux_ag_grid_cell_editor_text_aria_label', this.columnHeader, this.rowNumber)
-      .takeUntil(this.ngUnsubscribe)
-      .subscribe(label => {
-        this.textInputLabel = label;
-      });
-  }
-
-  public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
   }
 
   /**

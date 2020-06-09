@@ -7,12 +7,12 @@ import {
 } from '@angular/core/testing';
 
 import {
-  SkyTestComponentSelector
-} from '@blackbaud/skyux-lib-testing';
-
-import {
   expect
 } from '@skyux-sdk/testing';
+
+import {
+  SkyCheckboxFixture
+} from '@skyux/forms/testing';
 
 import {
   ColDef,
@@ -94,7 +94,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
       cellRendererParams.node = rowNode;
       spyOn(rowNode, 'setSelected');
 
-      const checkbox = SkyTestComponentSelector.selectCheckbox(
+      const checkbox = new SkyCheckboxFixture(
         rowSelectorCellFixture,
         'row-checkbox'
       );
@@ -123,7 +123,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
       cellRendererParams.colDef.field = undefined;
       spyOn(rowNode, 'setSelected');
 
-      const checkbox = SkyTestComponentSelector.selectCheckbox(
+      const checkbox = new SkyCheckboxFixture(
         rowSelectorCellFixture,
         'row-checkbox'
       );
@@ -220,7 +220,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
 
       rowSelectorCellFixture.detectChanges();
 
-      const checkbox = SkyTestComponentSelector.selectCheckbox(
+      const checkbox = new SkyCheckboxFixture(
         rowSelectorCellFixture,
         'row-checkbox'
       );

@@ -25,7 +25,7 @@ import {
   SkyAgGridService,
   SkyCellClass,
   SkyCellType
-} from '../..';
+} from '../../public_api';
 
 describe('SkyAgGridService', () => {
   let agGridService: SkyAgGridService;
@@ -95,9 +95,6 @@ describe('SkyAgGridService', () => {
         cellClass: 'random'
       };
       const defaultDateColumnType = defaultGridOptions.columnTypes[SkyCellType.Date];
-      defaultDateColumnType.valueFormatter = jasmine.any(Function);
-      defaultDateColumnType.cellClassRules[SkyCellClass.Editable] = jasmine.any(Function);
-      defaultDateColumnType.cellClassRules[SkyCellClass.Uneditable] = jasmine.any(Function);
       const overrideGridOptions = {
         columnTypes: {
           [SkyCellType.Date]: overrideDateColumnType
@@ -107,7 +104,10 @@ describe('SkyAgGridService', () => {
       const mergedGridOptions = agGridService.getGridOptions({ gridOptions: overrideGridOptions });
       const mergedColumnTypes = mergedGridOptions.columnTypes;
 
-      expect(mergedColumnTypes[SkyCellType.Date]).toEqual(defaultDateColumnType);
+      expect(mergedColumnTypes[SkyCellType.Date].width).toEqual(defaultDateColumnType.width);
+      expect(mergedColumnTypes[SkyCellType.Date].width).not.toEqual(overrideDateColumnType.width);
+      expect(mergedColumnTypes[SkyCellType.Date].sortable).toEqual(defaultDateColumnType.sortable);
+      expect(mergedColumnTypes[SkyCellType.Date].sortable).not.toEqual(overrideDateColumnType.sortable);
       expect(mergedColumnTypes[SkyCellType.Number]).toBeDefined();
       expect(mergedColumnTypes[SkyCellType.RowSelector]).toBeDefined();
     });
@@ -348,6 +348,7 @@ describe('SkyAgGridService', () => {
   });
 
   describe('suppressKeyboardEvent', () => {
+    const mockEl = document.createElement('div');
     let suppressKeypressFunction: Function;
 
     beforeEach(() => {
@@ -365,8 +366,9 @@ describe('SkyAgGridService', () => {
         event: {
           code: 'Tab'
         }};
-      spyOn(agGridAdapterService, 'getElementOrParentWithClass').and.returnValue('<div class="ag-cell"></div>');
-      spyOn(agGridAdapterService, 'getNextFocusableElement').and.returnValue('<span></span>');
+
+      spyOn(agGridAdapterService, 'getElementOrParentWithClass').and.returnValue(mockEl);
+      spyOn(agGridAdapterService, 'getNextFocusableElement').and.returnValue(mockEl);
 
       expect(suppressKeypressFunction(params)).toBe(true);
     });
@@ -377,7 +379,8 @@ describe('SkyAgGridService', () => {
         event: {
           code: 'Tab'
         }};
-      spyOn(agGridAdapterService, 'getElementOrParentWithClass').and.returnValues(undefined, '<div class="ag-popup-editor"></div>');
+
+      spyOn(agGridAdapterService, 'getElementOrParentWithClass').and.returnValues(undefined, mockEl);
       spyOn(agGridAdapterService, 'getNextFocusableElement').and.returnValue(undefined);
 
       expect(suppressKeypressFunction(params)).toBe(false);

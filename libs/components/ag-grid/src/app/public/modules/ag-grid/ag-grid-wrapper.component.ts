@@ -23,7 +23,9 @@ let idIndex = 0;
 })
 export class SkyAgGridWrapperComponent implements AfterContentInit {
 
-  @ContentChild(AgGridAngular)
+  @ContentChild(AgGridAngular, {
+    static: true
+  })
   public agGrid: AgGridAngular;
 
   public afterAnchorId: string;
