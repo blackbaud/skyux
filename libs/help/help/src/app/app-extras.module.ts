@@ -5,7 +5,7 @@ import {
 import {
   BBHelpModule,
   HelpInitializationService
-} from './public';
+} from './public/public_api';
 
 import {
   SkyModalDemoFormComponent,

@@ -1,3 +1,18 @@
+## 4.0.0 (2020-06-09)
+
+### New features
+
+- Added support for `@angular/core@^9.1.9`. [#64](https://github.com/blackbaud/skyux-lib-help/pull/64)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#64](https://github.com/blackbaud/skyux-lib-help/pull/64)
+
+
+## 4.0.0-rc.0 (2020-06-01)
+
+### New features
+
+- Added support for `@angular/core@^9.1.9`. [#64](https://github.com/blackbaud/skyux-lib-help/pull/64)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#64](https://github.com/blackbaud/skyux-lib-help/pull/64)
+
 ## 3.3.0 (2020-03-24)
 
 - Updated Acorn from `6.3.0` to `6.4.1` to address a security vulnerability. [#56](https://github.com/blackbaud/skyux-lib-help/pull/56)

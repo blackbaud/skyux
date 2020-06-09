@@ -17,7 +17,7 @@ import {
 
 import {
   HelpWidgetService
-} from '../../public/';
+} from '../../public/public_api';
 
 describe('TestButtonComponent', () => {
   let component: TestButtonComponent;

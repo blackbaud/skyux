@@ -1,8 +1,13 @@
 import {
   ComponentFixture,
   TestBed,
-  fakeAsync
+  fakeAsync,
+  tick
 } from '@angular/core/testing';
+
+import {
+  SkyAppTestUtility
+} from '@skyux-sdk/testing';
 
 import {
   HelpWidgetService
@@ -58,25 +63,36 @@ describe('bbHelpDisableWidget Directive', () => {
   }));
 
   it('should call the widget service open method on enter keypress', fakeAsync(() => {
+    fixture.detectChanges();
+
     let aTag = fixture.debugElement.nativeElement.querySelector('a');
     let openSpy = spyOn(mockWidgetService, 'openWidget').and.callThrough();
-    const enterEvent = new KeyboardEvent('keydown', { key: 'Enter' });
-    fixture.detectChanges();
-    aTag.dispatchEvent(enterEvent);
-    fixture.whenStable().then(() => {
-      expect(openSpy).toHaveBeenCalledWith('foo.html');
+
+    SkyAppTestUtility.fireDomEvent(aTag, 'keydown', {
+      keyboardEventInit: {
+        key: 'Enter'
+      }
     });
+
+    fixture.detectChanges();
+    tick();
+
+    expect(openSpy).toHaveBeenCalledWith('foo.html');
   }));
 
   it('should not call the widget service open method on other keypresses', fakeAsync(() => {
     let aTag = fixture.debugElement.nativeElement.querySelector('a');
     let openSpy = spyOn(mockWidgetService, 'openWidget').and.callThrough();
-    const tabEvent = new KeyboardEvent('keydown', { key: 'Tab' });
+
+    SkyAppTestUtility.fireDomEvent(aTag, 'keydown', {
+      keyboardEventInit: {
+        key: 'Tab'
+      }
+    });
 
     fixture.detectChanges();
-    aTag.dispatchEvent(tabEvent);
-    fixture.whenStable().then(() => {
-      expect(openSpy).not.toHaveBeenCalled();
-    });
+    tick();
+
+    expect(openSpy).not.toHaveBeenCalled();
   }));
 });

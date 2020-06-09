@@ -12,7 +12,7 @@ import {
 
 import {
   HelpInitializationService
-} from '../../public';
+} from '../../public/public_api';
 
 function fullSpyOnClass<T>(type: Type<T>): jasmine.SpyObj<T> {
   return jasmine.createSpyObj(type.name, Object.keys(type.prototype));

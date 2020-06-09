@@ -5,7 +5,7 @@ import {
 
 import {
   HelpWidgetService
-} from '../../public/';
+} from '../../public/public_api';
 
 @Component({
   selector: 'bb-help-button',

@@ -147,7 +147,7 @@ function buildWindow(acceptLanguage: string = undefined): SkyAppWindowRef {
 function buildConfig(params: { svcid?: string, envid?: string } = undefined): SkyAppConfig {
   const host = 'https://example.com';
   const url: string = params ? `${host}?${buildQueryParamString(params)}` : host;
-  const runtimeParams: SkyAppRuntimeConfigParams = new SkyAppRuntimeConfigParams(url, ['svcid', 'envid']);
+  const runtimeParams: SkyAppRuntimeConfigParams = new SkyAppRuntimeConfigParams(url, { 'svcid': true, 'envid': true });
   return {runtime: {params: runtimeParams}} as SkyAppConfig;
 }
 

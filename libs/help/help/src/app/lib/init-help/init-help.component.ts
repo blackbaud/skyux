@@ -4,7 +4,7 @@ import {
 
 import {
   HelpInitializationService
-} from '../../public';
+} from '../../public/public_api';
 
 @Component({
   selector: 'init-help',
