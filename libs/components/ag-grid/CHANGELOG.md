@@ -1,3 +1,13 @@
+# 4.0.0 (2020-06-09)
+
+### New features
+
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#38](https://github.com/blackbaud/skyux-ag-grid/pull/38)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#38](https://github.com/blackbaud/skyux-ag-grid/pull/38)
+
 # 3.0.0-rc.9 (2020/06/08)
 
 - Updated keyboard navigation to allow tabbing between cells when editing data. [#39](https://github.com/blackbaud/skyux-ag-grid/pull/39)
