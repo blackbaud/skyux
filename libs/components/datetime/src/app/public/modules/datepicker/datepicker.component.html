@@ -1,25 +1,32 @@
-<div class="sky-datepicker">
-  <div class="sky-input-group">
+<div
+  class="sky-datepicker"
+>
+  <div
+    class="sky-input-group"
+  >
     <ng-content></ng-content>
-
-    <button
-      aria-haspopup="dialog"
-      class="sky-btn sky-btn-default sky-input-group-btn sky-input-group-datepicker-btn"
-      type="button"
-      [attr.aria-controls]="isOpen ? calendarId : null"
-      [attr.aria-expanded]="isOpen"
-      [attr.aria-label]="'skyux_datepicker_trigger_button_label' | skyLibResources"
-      [attr.id]="triggerButtonId"
-      [attr.title]="'skyux_datepicker_trigger_button_label' | skyLibResources"
-      [disabled]="disabled"
-      (click)="onTriggerButtonClick()"
-      #triggerButtonRef
+    <div
+      class="sky-input-group-btn"
     >
-      <sky-icon
-        icon="calendar"
-        size="lg"
-      ></sky-icon>
-    </button>
+      <button
+        aria-haspopup="dialog"
+        class="sky-btn sky-btn-default sky-input-group-datepicker-btn"
+        type="button"
+        [attr.aria-controls]="isOpen ? calendarId : null"
+        [attr.aria-expanded]="isOpen"
+        [attr.aria-label]="'skyux_datepicker_trigger_button_label' | skyLibResources"
+        [attr.id]="triggerButtonId"
+        [attr.title]="'skyux_datepicker_trigger_button_label' | skyLibResources"
+        [disabled]="disabled"
+        (click)="onTriggerButtonClick()"
+        #triggerButtonRef
+      >
+        <sky-icon
+          icon="calendar"
+          size="lg"
+        ></sky-icon>
+      </button>
+    </div>
   </div>
 </div>
 

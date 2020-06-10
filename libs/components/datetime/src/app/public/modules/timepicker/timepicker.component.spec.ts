@@ -47,7 +47,7 @@ function getInput(fixture: ComponentFixture<any>): HTMLInputElement {
 }
 
 function getTriggerButton(fixture: ComponentFixture<any>): HTMLButtonElement {
-  return fixture.nativeElement.querySelector('.sky-input-group-datepicker-btn') as HTMLButtonElement;
+  return fixture.nativeElement.querySelector('.sky-input-group-timepicker-btn') as HTMLButtonElement;
 }
 
 function openTimepicker(fixture: ComponentFixture<any>, isAsync: boolean = false): void {

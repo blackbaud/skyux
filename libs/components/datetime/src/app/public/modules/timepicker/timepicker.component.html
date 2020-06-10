@@ -1,28 +1,32 @@
 <div
-  class="sky-timepicker sky-input-group"
+  class="sky-timepicker"
 >
-  <ng-content></ng-content>
   <div
-    class="sky-input-group-btn sky-input-group-timepicker-btn"
+    class="sky-input-group"
   >
-    <button
-      aria-haspopup="dialog"
-      class="sky-btn sky-btn-default sky-input-group-btn sky-input-group-datepicker-btn"
-      type="button"
-      [attr.aria-controls]="isOpen ? timepickerId : null"
-      [attr.aria-expanded]="isOpen"
-      [attr.aria-label]="'skyux_timepicker_button_label' | skyLibResources"
-      [attr.id]="triggerButtonId"
-      [attr.title]="'skyux_timepicker_button_label' | skyLibResources"
-      [disabled]="disabled"
-      (click)="onTriggerButtonClick()"
-      #triggerButtonRef
+    <ng-content></ng-content>
+    <div
+      class="sky-input-group-btn"
     >
-      <sky-icon
-        icon="clock-o"
-        size="lg"
-      ></sky-icon>
-    </button>
+      <button
+        aria-haspopup="dialog"
+        class="sky-btn sky-btn-default sky-input-group-timepicker-btn"
+        type="button"
+        [attr.aria-controls]="isOpen ? timepickerId : null"
+        [attr.aria-expanded]="isOpen"
+        [attr.aria-label]="'skyux_timepicker_button_label' | skyLibResources"
+        [attr.id]="triggerButtonId"
+        [attr.title]="'skyux_timepicker_button_label' | skyLibResources"
+        [disabled]="disabled"
+        (click)="onTriggerButtonClick()"
+        #triggerButtonRef
+      >
+        <sky-icon
+          icon="clock-o"
+          size="lg"
+        ></sky-icon>
+      </button>
+    </div>
   </div>
 </div>
 
