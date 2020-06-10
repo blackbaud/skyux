@@ -1,10 +1,30 @@
+
 import {
+  EventEmitter
+} from '@angular/core';
+
+import {
+  ComponentFixture,
   fakeAsync,
   inject,
   TestBed,
-  tick,
-  ComponentFixture
+  tick
 } from '@angular/core/testing';
+
+import {
+  SkyMediaQueryService,
+  SkyMediaBreakpoints,
+  SkyUIConfigService
+} from '@skyux/core';
+
+import {
+  MockSkyMediaQueryService
+} from '@skyux/core/testing';
+
+import {
+  expect,
+  SkyAppTestUtility
+} from '@skyux-sdk/testing';
 
 import {
   DragulaService
@@ -13,53 +33,50 @@ import {
 import {
   MockDragulaService
 } from './fixtures/mock-dragula.service';
-import {
-  Tile1TestComponent
-} from './fixtures/tile1.component.fixture';
-import {
-  Tile2TestComponent
-} from './fixtures/tile2.component.fixture';
-import {
-  TileDashboardTestComponent
-} from './fixtures/tile-dashboard.component.fixture';
-import {
-  TileTestContext
-} from './fixtures/tile-context.fixture';
-import {
-  SkyTileDashboardFixturesModule
-} from './fixtures/tile-dashboard-fixtures.module';
-
-import {
-  SkyTileDashboardComponent
-} from '../tile-dashboard/tile-dashboard.component';
-import {
-  SkyTileDashboardService
-} from '../tile-dashboard/tile-dashboard.service';
-import {
-  SkyTileDashboardConfig
-} from '../tile-dashboard-config/tile-dashboard-config';
-import {
-  SkyTilesModule
-} from '../tiles.module';
-
-import {
-  MockSkyMediaQueryService
-} from '@skyux/core/testing';
-import {
-  SkyMediaQueryService,
-  SkyMediaBreakpoints,
-  SkyUIConfigService
-} from '@skyux/core';
-import {
-  expect,
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
 
 import {
   MockSkyUIConfigService
 } from './fixtures/mock-ui-config.service';
 
-import { SkyTileComponent } from '../tile/tile.component';
+import {
+  Tile1TestComponent
+} from './fixtures/tile1.component.fixture';
+
+import {
+  Tile2TestComponent
+} from './fixtures/tile2.component.fixture';
+
+import {
+  TileTestContext
+} from './fixtures/tile-context.fixture';
+
+import {
+  TileDashboardTestComponent
+} from './fixtures/tile-dashboard.component.fixture';
+
+import {
+  SkyTileDashboardFixturesModule
+} from './fixtures/tile-dashboard-fixtures.module';
+
+import {
+  SkyTileComponent
+} from '../tile/tile.component';
+
+import {
+  SkyTilesModule
+} from '../tiles.module';
+
+import {
+  SkyTileDashboardComponent
+} from '../tile-dashboard/tile-dashboard.component';
+
+import {
+  SkyTileDashboardService
+} from '../tile-dashboard/tile-dashboard.service';
+
+import {
+  SkyTileDashboardConfig
+} from '../tile-dashboard-config/tile-dashboard-config';
 
 describe('Tile dashboard service', () => {
   let dashboardConfig: SkyTileDashboardConfig;
@@ -72,7 +89,7 @@ describe('Tile dashboard service', () => {
       .overrideComponent(SkyTileDashboardComponent, {
         add: {
           providers: [
-            {provide: SkyMediaQueryService, useValue: mockMediaQueryService}
+            { provide: SkyMediaQueryService, useValue: mockMediaQueryService }
           ]
         }
       })
@@ -90,9 +107,9 @@ describe('Tile dashboard service', () => {
         SkyTilesModule
       ],
       providers: [
-        {provide: DragulaService, useValue: mockDragulaService},
-        {provide: SkyMediaQueryService, useValue: mockMediaQueryService},
-        {provide: SkyUIConfigService, useValue: mockUIConfigService},
+        { provide: DragulaService, useValue: mockDragulaService },
+        { provide: SkyMediaQueryService, useValue: mockMediaQueryService },
+        { provide: SkyUIConfigService, useValue: mockUIConfigService },
         SkyTileDashboardService
       ]
     });
@@ -367,7 +384,14 @@ describe('Tile dashboard service', () => {
     fixture.detectChanges();
 
     let dashboardService: SkyTileDashboardService = fixture.componentInstance.dashboardComponent['dashboardService'];
-    dashboardService.moveTileOnKeyDown(new SkyTileComponent(fixture.elementRef, {} as SkyTileDashboardService), 'left', 'Tile 1');
+    dashboardService.moveTileOnKeyDown(
+      new SkyTileComponent(
+        fixture.elementRef,
+        fixture.componentRef.changeDetectorRef,
+        {
+          configChange: new EventEmitter<SkyTileDashboardConfig>()
+        } as SkyTileDashboardService
+      ), 'left', 'Tile 1');
 
     // Make sure eveything is still in the same spot
     let columnEls = fixture.nativeElement.querySelectorAll('.sky-tile-dashboard-column');

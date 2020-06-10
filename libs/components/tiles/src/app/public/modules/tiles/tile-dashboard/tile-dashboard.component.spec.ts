@@ -334,6 +334,9 @@ describe('Tile dashboard component', () => {
       spyOn(mockUIConfigService, 'setConfig').and.callThrough();
       cmp.enableStickySettings();
       fixture.detectChanges();
+
+      expect(document.querySelector('.sky-test-tile-1 .sky-tile-collapsed')).not.toBeNull();
+
       cmp.expandAll();
       fixture.detectChanges();
       tick();
@@ -434,6 +437,7 @@ describe('Tile dashboard component', () => {
         }
       };
 
+      expect(document.querySelector('.sky-test-tile-1 .sky-tile-collapsed')).toBeNull();
       expect(cmp.dashboardConfig).toEqual(expectedDashboardConfig);
       expect(cmp.dashboardComponent.configChange.emit).toHaveBeenCalled();
       expect(mockUIConfigService.setConfig).toHaveBeenCalled();
@@ -448,6 +452,9 @@ describe('Tile dashboard component', () => {
       let cmp = fixture.componentInstance;
       spyOn(cmp.dashboardComponent.configChange, 'emit').and.callThrough();
       spyOn(mockUIConfigService, 'setConfig').and.callThrough();
+
+      expect(document.querySelector('.sky-test-tile-1 .sky-tile-collapsed')).toBeNull();
+
       cmp.collapseAll();
       fixture.detectChanges();
       tick();
@@ -548,6 +555,7 @@ describe('Tile dashboard component', () => {
         }
       };
 
+      expect(document.querySelector('.sky-test-tile-1 .sky-tile-collapsed')).not.toBeNull();
       expect(cmp.dashboardConfig).toEqual(expectedDashboardConfig);
       expect(cmp.dashboardComponent.configChange.emit).toHaveBeenCalled();
       expect(mockUIConfigService.setConfig).not.toHaveBeenCalled();

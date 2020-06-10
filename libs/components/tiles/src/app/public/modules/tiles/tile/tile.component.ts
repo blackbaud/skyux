@@ -1,15 +1,26 @@
 import {
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
   Input,
+  OnDestroy,
   Optional,
   Output,
   ViewChild
 } from '@angular/core';
+
 import {
   skyAnimationSlide
 } from '@skyux/animations';
+
+import {
+  Subject
+} from 'rxjs';
+
+import {
+  takeUntil
+} from 'rxjs/operators';
 
 import {
   SkyTileDashboardService
@@ -21,7 +32,7 @@ import {
   templateUrl: './tile.component.html',
   animations: [skyAnimationSlide]
 })
-export class SkyTileComponent {
+export class SkyTileComponent implements OnDestroy {
   public isInDashboardColumn = false;
 
   @Input()
@@ -41,7 +52,8 @@ export class SkyTileComponent {
 
   public get isCollapsed(): boolean {
     if (this.dashboardService) {
-      return this.dashboardService.tileIsCollapsed(this);
+      const configCollapsedState = this.dashboardService.tileIsCollapsed(this);
+      this._isCollapsed = configCollapsedState;
     }
 
     return this._isCollapsed;
@@ -51,9 +63,9 @@ export class SkyTileComponent {
   public set isCollapsed(value: boolean) {
     if (this.dashboardService) {
       this.dashboardService.setTileCollapsed(this, value);
-    } else {
-      this._isCollapsed = value;
     }
+
+    this._isCollapsed = value;
 
     this.isCollapsedChange.emit(value);
   }
@@ -70,13 +82,34 @@ export class SkyTileComponent {
   })
   private title: ElementRef;
 
+  private ngUnsubscribe = new Subject();
+
   private _isCollapsed = false;
 
   constructor(
     public elementRef: ElementRef,
+    private changeDetector: ChangeDetectorRef,
     @Optional() private dashboardService: SkyTileDashboardService
   ) {
     this.isInDashboardColumn = !!dashboardService;
+
+    if (this.dashboardService) {
+      /**
+       * This subscription ensures that if any values which come in from the dashboard service are
+       * updated that the component will update if the tile's parent component utilizes OnPush
+       * change detection.
+       */
+      this.dashboardService.configChange
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(() => {
+          this.changeDetector.markForCheck();
+        });
+    }
+  }
+
+  public ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   public settingsButtonClicked() {

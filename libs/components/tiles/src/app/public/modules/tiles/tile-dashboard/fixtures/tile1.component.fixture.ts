@@ -1,11 +1,18 @@
-import { Component, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewChild
+} from '@angular/core';
 
-import { SkyTileComponent } from '../../tile/tile.component';
+import {
+  SkyTileComponent
+} from '../../tile/tile.component';
 
 @Component({
   // tslint:disable-next-line
   selector: 'div.sky-test-tile-1',
-  templateUrl: './tile1.component.fixture.html'
+  templateUrl: './tile1.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Tile1TestComponent {
   @ViewChild(SkyTileComponent, {
