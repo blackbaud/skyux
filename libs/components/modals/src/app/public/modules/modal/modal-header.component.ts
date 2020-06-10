@@ -4,7 +4,10 @@ import {
 
 @Component({
   selector: 'sky-modal-header',
-  template: '<ng-content></ng-content>'
+  templateUrl: './modal-header.component.html',
+  styleUrls: [
+    './modal-header.component.scss'
+  ]
 })
 export class SkyModalHeaderComponent {
 }
