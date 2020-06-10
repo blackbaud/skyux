@@ -1,6 +1,8 @@
 <div
     class="sky-tabset"
     role="tablist"
+    [attr.aria-label]="ariaLabel"
+    [attr.aria-labelledby]="ariaLabelledBy"
     [ngClass]="'sky-tabset-mode-' + tabDisplayMode"
     (window:resize)="windowResize()"
 >
@@ -18,12 +20,12 @@
     <sky-tab-button *ngFor="let tab of tabs; let i = index"
         [active]="tab.active"
         [allowClose]="tab.allowClose"
-        [attr.aria-controls]="tab.tabId"
+        [ariaControls]="tab.tabId"
         [disabled]="tab.disabled"
-        [id]="getTabButtonId(tab)"
         [permalinkValue]="tab.permalinkValue"
         [tabHeading]="tab.tabHeading"
         [tabHeaderCount]="tab.tabHeaderCount"
+        [tabId]="getTabButtonId(tab)"
         (closeClick)="tabCloseClick(tab)"
         (tabClick)="selectTab(tab)"
     >

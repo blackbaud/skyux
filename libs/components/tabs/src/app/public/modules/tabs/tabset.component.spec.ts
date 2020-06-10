@@ -73,6 +73,16 @@ import {
   SkyTabsetPermalinksFixtureComponent
 } from './fixtures/tabset-permalinks.component.fixture';
 
+// #region helpers
+function getTabs(fixture: ComponentFixture<any>): NodeListOf<HTMLElement> {
+  return fixture.nativeElement.querySelectorAll('.sky-tab');
+}
+
+function getTabset(fixture: ComponentFixture<any>): HTMLElement {
+  return fixture.nativeElement.querySelector('.sky-tabset');
+}
+// #endregion
+
 describe('Tabset component', () => {
   let mockThemeSvc: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>
@@ -936,7 +946,7 @@ describe('Tabset component', () => {
 
   });
 
-  describe('keyboard accessibility', () => {
+  describe('general accessibility', () => {
     let debugElement: DebugElement;
     let fixture: ComponentFixture<TabsetTestComponent>;
 
@@ -949,6 +959,90 @@ describe('Tabset component', () => {
       fixture = TestBed.createComponent(TabsetTestComponent);
       debugElement = fixture.debugElement;
     });
+
+    it('should apply proper role attributes', () => {
+      fixture.detectChanges();
+
+      const tabSet = getTabset(fixture);
+
+      // Tabset should have role="tablist".
+      expect(tabSet.getAttribute('role')).toEqual('tablist');
+
+      const tabs = getTabs(fixture);
+      for (let i = 0; i < tabs.length; i++) {
+        const tab = tabs.item(i);
+        const tabId = tab.getAttribute('id');
+        const tabButton = document.getElementById(`${tabId}-nav-btn`);
+
+        // Each tab should have role="tabpanel".
+        expect(tab.getAttribute('role')).toBe('tabpanel');
+
+        // Each tab button have role="tab".
+        expect(tabButton.getAttribute('role')).toBe('tab');
+      }
+    });
+
+    it('should apply tablist role and aria-label', () => {
+      const myAriaLabel = 'my aria label';
+      fixture.componentInstance.ariaLabel = myAriaLabel;
+      fixture.detectChanges();
+
+      const tabSet = getTabset(fixture);
+
+      expect(tabSet.getAttribute('aria-label')).toEqual(myAriaLabel);
+    });
+
+    it('should apply tablist role and aria-labelledby', () => {
+      const myAriaLabelledById = 'foo';
+      fixture.componentInstance.ariaLabelledBy = myAriaLabelledById;
+      fixture.detectChanges();
+
+      const tabSet = getTabset(fixture);
+
+      expect(tabSet.getAttribute('aria-labelledby')).toEqual(myAriaLabelledById);
+    });
+
+    it('should have aria-controls and aria-labelledby references between tabs and panels', () => {
+      fixture.detectChanges();
+
+      const tabs = getTabs(fixture);
+      for (let i = 0; i < tabs.length; i++) {
+        const tab = tabs.item(i);
+        const tabId = tab.getAttribute('id');
+        const tabButton = document.getElementById(`${tabId}-nav-btn`);
+
+        expect(tab.getAttribute('aria-labelledby')).toBe(tabButton.getAttribute('id'));
+        expect(tabButton.getAttribute('aria-controls')).toBe(tabId);
+      }
+    });
+
+    it('should switch aria-controls and aria-labelledby references between tabs and dropdown buttons', fakeAsync(() => {
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      /// Switch to mobile display
+      fixture.componentInstance.tabsetComponent.tabDisplayMode = 'dropdown';
+      fixture.detectChanges();
+
+      const button = document.querySelector('.sky-dropdown-button') as HTMLElement;
+      button.click();
+
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      const tabs = getTabs(fixture);
+      for (let i = 0; i < tabs.length; i++) {
+        const tab = tabs.item(i);
+        const tabId = tab.getAttribute('id');
+        const tabButton = document.getElementById(`${tabId}-nav-btn`);
+
+        expect(tab.getAttribute('aria-labelledby')).toBe(tabButton.getAttribute('id'));
+        expect(tabButton.getAttribute('aria-controls')).toBe(tabId);
+      }
+    }));
 
     it('should have tabindex of 0', fakeAsync(() => {
       fixture.detectChanges();
@@ -971,47 +1065,6 @@ describe('Tabset component', () => {
       let butEl = debugElement.queryAll(By.css('.sky-btn-tab'))[1].nativeElement;
       expect(butEl.getAttribute('tabindex')).toBe('-1');
       expect(butEl.getAttribute('aria-disabled')).toBe('true');
-    }));
-
-    it('should have aria-controls and aria-labelledby references between tabs and panels', () => {
-      fixture.detectChanges();
-      let tabs = debugElement.queryAll(By.css('.sky-tab'));
-      tabs.forEach((value) => {
-        let tab = value.nativeElement;
-        let tabBtn = debugElement.query(By.css('#' + tab.getAttribute('id') + '-nav-btn')).nativeElement;
-
-        expect(tab.getAttribute('aria-labelledby')).toBe(tabBtn.getAttribute('id'));
-        expect(tabBtn.getAttribute('aria-controls')).toBe(tab.getAttribute('id'));
-      });
-    });
-
-    it('should switch aria-controls and aria-labelledby references between tabs and dropdown buttons', fakeAsync(() => {
-      fixture.detectChanges();
-      tick();
-      fixture.detectChanges();
-
-      /// Switch to mobile display
-      fixture.componentInstance.tabsetComponent.tabDisplayMode = 'dropdown';
-      fixture.detectChanges();
-
-      const button = document.querySelector('.sky-dropdown-button') as HTMLElement;
-      button.click();
-
-      fixture.detectChanges();
-      tick();
-      fixture.detectChanges();
-      tick();
-
-      let tabs = document.querySelectorAll('.sky-tab');
-      for (let i = 0; i < tabs.length; i++) {
-        const tab = tabs.item(i);
-        let dropBtn = document.getElementById(`${tab.getAttribute('id')}-nav-btn`);
-        let tabBtn = document.getElementById(`${tab.getAttribute('id')}-hidden-nav-btn`);
-
-        expect(tab.getAttribute('aria-labelledby')).toBe(dropBtn.getAttribute('id'));
-        expect(dropBtn.getAttribute('aria-controls')).toBe(tab.getAttribute('id'));
-        expect(tabBtn.tagName.toLowerCase()).toBe('sky-tab-button');
-      }
     }));
 
     it('should emit a click event on enter press', fakeAsync(() => {

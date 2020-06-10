@@ -1,5 +1,8 @@
 <div [ngStyle]="{'max-width.px': tabMaxWidth}">
-  <sky-tabset>
+  <sky-tabset
+    [ariaLabel]="ariaLabel"
+    [ariaLabelledBy]="ariaLabelledBy"
+  >
     <sky-tab
         [tabHeading]="tab1Heading"
         [active]="activeTab === 0"

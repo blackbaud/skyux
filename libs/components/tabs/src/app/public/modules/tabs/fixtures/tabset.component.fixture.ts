@@ -11,6 +11,11 @@ import {
   templateUrl: './tabset.component.fixture.html'
 })
 export class TabsetTestComponent {
+
+  public ariaLabel: string;
+
+  public ariaLabelledBy: string;
+
   public tab1Heading = 'Tab 1';
 
   public tab1Content: string;

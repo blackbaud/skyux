@@ -9,16 +9,17 @@
       >
         <div
           class="sky-tab-dropdown-item"
-          [ngClass]="{ 'sky-tab-dropdown-item-selected': tab.active }">
+          [ngClass]="{ 'sky-tab-dropdown-item-selected': tab.active }"
+        >
           <sky-tab-button
             [active]="tab.active"
             [allowClose]="tab.allowClose"
-            [attr.aria-controls]="tab.tabId"
+            [ariaControls]="tab.tabId"
             [disabled]="tab.disabled"
-            [id]="getTabButtonId(tab)"
             [permalinkValue]="tab.permalinkValue"
             [tabHeading]="tab.tabHeading"
             [tabHeaderCount]="tab.tabHeaderCount"
+            [tabId]="getTabButtonId(tab)"
             (closeClick)="closeTab(tab)"
             (tabClick)="selectTab(tab)"
           ></sky-tab-button>

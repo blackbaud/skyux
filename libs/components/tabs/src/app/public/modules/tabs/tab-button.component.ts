@@ -37,6 +37,9 @@ export class SkyTabButtonComponent {
   public active: boolean;
 
   @Input()
+  public ariaControls: string;
+
+  @Input()
   public disabled: boolean;
 
   @Input()
@@ -74,6 +77,9 @@ export class SkyTabButtonComponent {
 
   @Input()
   public permalinkValue: string;
+
+  @Input()
+  public tabId: string;
 
   @Output()
   public tabClick = new EventEmitter<any>();

@@ -75,6 +75,20 @@ export class SkyTabsetComponent
   public active: number | string;
 
   /**
+   * Defines a string value to label the tabset for accessibility.
+   * If a label is visible on the screen, use the `ariaLabelledBy` property instead.
+   */
+  @Input()
+  public ariaLabel: string;
+
+  /**
+   * Identifies the element that defines a label for the tabset.
+   * If a label is not visible on the screen, use the `ariaLabel` property instead.
+   */
+  @Input()
+  public ariaLabelledBy: string;
+
+  /**
    * Distinguishes a tabset's unique state in the URL by generating a query parameter
    * that is written as `?<queryParam>-active-tab=<sanitized-tab-heading`.
    * The query parameter's value is parsed automatically from the selected tab's heading text,
