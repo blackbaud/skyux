@@ -1,3 +1,7 @@
+# 4.0.1 (2020-06-11)
+
+- Fixed the bundle to work properly with Angular Ivy Compiler. [#33](https://github.com/blackbaud/skyux-action-bars/pull/33)
+
 # 4.0.0 (2020-05-21)
 
 ### New features
