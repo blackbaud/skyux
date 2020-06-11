@@ -1,3 +1,8 @@
+# 4.0.1 (2020-06-11)
+
+- Fixed the exports API to include `SkySectionedFormComponent`. [#92](https://github.com/blackbaud/skyux-tabs/pull/92)
+- Fixed the tabset component to allow setting the `tabStyle` to `'wizard'`. [#92](https://github.com/blackbaud/skyux-tabs/pull/92)
+
 # 4.0.0 (2020-05-21)
 
 ### New features
