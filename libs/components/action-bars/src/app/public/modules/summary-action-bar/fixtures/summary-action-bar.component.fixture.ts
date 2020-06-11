@@ -9,7 +9,7 @@ import {
 
 import {
   SkySummaryActionBarSecondaryActionsComponent
-} from '../actions';
+} from '../actions/summary-action-bar-secondary-actions.component';
 
 import {
   SkySummaryActionBarComponent

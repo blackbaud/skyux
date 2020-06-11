@@ -54,9 +54,12 @@ import {
 } from './fixtures/summary-action-bar.component.fixture';
 
 import {
-  SkySummaryActionBarAdapterService,
+  SkySummaryActionBarAdapterService
+} from './summary-action-bar-adapter.service';
+
+import {
   SkySummaryActionBarSecondaryActionsComponent
-} from '.';
+} from './actions/summary-action-bar-secondary-actions.component';
 
 describe('Summary Action Bar component', () => {
 

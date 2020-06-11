@@ -30,23 +30,35 @@ import {
 
 import {
   SkyActionBarsResourcesModule
-} from '../shared';
+} from '../shared/action-bars-resources.module';
 
 import {
   SkySummaryActionBarComponent
 } from './summary-action-bar.component';
 
 import {
-  SkySummaryActionBarActionsComponent,
-  SkySummaryActionBarCancelComponent,
-  SkySummaryActionBarPrimaryActionComponent,
-  SkySummaryActionBarSecondaryActionComponent,
+  SkySummaryActionBarActionsComponent
+} from './actions/summary-action-bar-actions.component';
+
+import {
+  SkySummaryActionBarCancelComponent
+} from './actions/summary-action-bar-cancel.component';
+
+import {
+  SkySummaryActionBarPrimaryActionComponent
+} from './actions/summary-action-bar-primary-action.component';
+
+import {
+  SkySummaryActionBarSecondaryActionComponent
+} from './actions/summary-action-bar-secondary-action.component';
+
+import {
   SkySummaryActionBarSecondaryActionsComponent
-} from './actions';
+} from './actions/summary-action-bar-secondary-actions.component';
 
 import {
   SkySummaryActionBarSummaryComponent
-} from './summary';
+} from './summary/summary-action-bar-summary.component';
 
 import {
   SkySummaryActionBarAdapterService

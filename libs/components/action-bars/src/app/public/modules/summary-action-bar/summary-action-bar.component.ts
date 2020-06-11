@@ -12,7 +12,9 @@ import {
   fromEvent
 } from 'rxjs';
 
-import {takeUntil} from 'rxjs/operators';
+import {
+  takeUntil
+} from 'rxjs/operators';
 
 import {
   Subject
@@ -35,15 +37,15 @@ import {
 
 import {
   SkySummaryActionBarSummaryComponent
-} from './summary';
+} from './summary/summary-action-bar-summary.component';
+
+import {
+  SkySummaryActionBarType
+} from './types/summary-action-bar-type';
 
 import {
   SkySummaryActionBarAdapterService
 } from './summary-action-bar-adapter.service';
-
-import {
-  SkySummaryActionBarType
-} from './types';
 
 /**
  * Auto-incrementing integer used to generate unique ids for summary action bar components.

@@ -11,7 +11,7 @@ import {
 
 import {
   SkySummaryActionBarType
-} from './types';
+} from './types/summary-action-bar-type';
 
 @Injectable()
 export class SkySummaryActionBarAdapterService {
