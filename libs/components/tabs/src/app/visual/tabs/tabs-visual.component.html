@@ -2,8 +2,17 @@
   (themeSettingsChange)="themeSettingsChange($event)"
 ></sky-docs-demo-control-panel-theme>
 
+<button
+  type="button"
+  style="margin-bottom: 10px"
+  class="sky-btn sky-btn-primary sky-test-show-wizard"
+  (click)="showWizard = !showWizard"
+>
+  Toggle Wizard
+</button>
+
 <div id="screenshot-tabset" style="height: 200px;">
-  <sky-tabset
+  <sky-tabset *ngIf="!showWizard"
     permalinkId="sample"
     (newTab)="newTabClick()"
     (openTab)="openTabClick()"
@@ -33,6 +42,52 @@
       Tab 3 Content
     </sky-tab>
   </sky-tabset>
+
+  <div *ngIf="showWizard">
+    <sky-tabset
+      tabStyle="wizard"
+      [active]="0"
+      #wizardDemo
+    >
+      <sky-tab
+        tabHeading="Step 1"
+      >
+        <label>
+          Enter text here to continue.
+          <input
+            type="text"
+            [(ngModel)]="requiredValue1"
+          />
+        </label>
+      </sky-tab>
+      <sky-tab
+        tabHeading="Step 2"
+        [disabled]="step2Disabled"
+      >
+        <sky-checkbox
+          [(ngModel)]="requiredValue2"
+        >
+          <sky-checkbox-label>
+            Check this box to enable step 3.
+          </sky-checkbox-label>
+        </sky-checkbox>
+      </sky-tab>
+      <sky-tab
+        tabHeading="Step 3"
+        [disabled]="step3Disabled"
+      >
+        Some other content
+      </sky-tab>
+    </sky-tabset>
+    <sky-tabset-nav-button
+      buttonType="previous"
+      [tabset]="wizardDemo"
+    ></sky-tabset-nav-button>
+    <sky-tabset-nav-button
+      buttonType="next"
+      [tabset]="wizardDemo"
+    ></sky-tabset-nav-button>
+  </div>
 </div>
 
 <div id="screenshot-tabset-long" style="margin-top: 300px; height: 200px;">

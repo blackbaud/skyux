@@ -3,7 +3,7 @@
     role="tablist"
     [attr.aria-label]="ariaLabel"
     [attr.aria-labelledby]="ariaLabelledBy"
-    [ngClass]="'sky-tabset-mode-' + tabDisplayMode"
+    [ngClass]="'sky-tabset-mode-' + tabDisplayMode + ' sky-tabset-style-' + tabStyle"
     (window:resize)="windowResize()"
 >
   <span class="sky-tabset-dropdown">
@@ -28,6 +28,7 @@
         [tabId]="getTabButtonId(tab)"
         (closeClick)="tabCloseClick(tab)"
         (tabClick)="selectTab(tab)"
+        [tabStyle]="tabStyle"
     >
     </sky-tab-button>
   </span>

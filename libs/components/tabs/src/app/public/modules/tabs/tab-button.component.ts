@@ -81,6 +81,9 @@ export class SkyTabButtonComponent {
   @Input()
   public tabId: string;
 
+  @Input()
+  public tabStyle: string;
+
   @Output()
   public tabClick = new EventEmitter<any>();
 

@@ -19,6 +19,8 @@ export class TabsVisualComponent {
 
   public requiredValue2: boolean;
 
+  public showWizard = false;
+
   constructor(private themeSvc: SkyThemeService) { }
 
   public newTabClick() { }

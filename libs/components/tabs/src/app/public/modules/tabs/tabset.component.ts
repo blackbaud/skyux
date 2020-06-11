@@ -110,6 +110,31 @@ export class SkyTabsetComponent
   }
 
   /**
+   * @deprecated
+   * Specifies the behavior for a series of tabs.
+   * The property was designed to create wizards by setting tabStyle="wizard" on tabsets in modals,
+   * but this wizard implementation was replaced by the
+   * [progress indicator component](https://developer.blackbaud.com/skyux/components/progress-indicator).
+   * @default "tabs"
+   */
+  @Input()
+  public set tabStyle(value: string) {
+    /*istanbul ignore else*/
+    if (value && value.toLowerCase() === 'wizard') {
+      console.warn(
+        'The tabset wizard is deprecated. Please implement the new approach using ' +
+        'progress indicator as documented here: https://developer.blackbaud.com/skyux/components/wizard.'
+      );
+    }
+
+    this._tabStyle = value;
+  }
+
+  public get tabStyle(): string {
+    return this._tabStyle || 'tabs';
+  }
+
+  /**
    * Fires when the active tab changes. This event emits the index of the active tab.
    */
   @Output()
@@ -139,6 +164,8 @@ export class SkyTabsetComponent
   private ngUnsubscribe = new Subject<void>();
 
   private _permalinkId: string;
+
+  private _tabStyle: string;
 
   constructor(
     private tabsetService: SkyTabsetService,
