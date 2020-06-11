@@ -4,6 +4,7 @@
 
 # 4.2.0 (2020-06-08)
 
+- Added an event listener for when the link text box is blurred within the file drop component. [#122](https://github.com/blackbaud/skyux-forms/pull/122)
 - Updated the input box component to support the intended DOM structure of input group buttons. [#125](https://github.com/blackbaud/skyux-forms/pull/125)
 
 # 4.1.0 (2020-06-01)
