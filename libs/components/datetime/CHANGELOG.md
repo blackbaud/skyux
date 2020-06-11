@@ -1,3 +1,8 @@
+# 4.0.1 (2020-06-11)
+
+- Fixed the datepicker and timepicker components to properly render in Chrome 83. [#163](https://github.com/blackbaud/skyux-datetime/pull/163)
+- Updated the default `aria-label` property for the datepicker and timepicker components to improve the experience when using assistive technology. [#162](https://github.com/blackbaud/skyux-datetime/pull/162)
+
 # 4.0.0 (2020-05-15)
 
 ### New features
