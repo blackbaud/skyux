@@ -24,17 +24,18 @@
       .sky-btn {
         border-radius: 0;
         color: $sky-theme-modern-font-deemphasized-color;
-        padding: 0 22px;
+        padding: 0 12px;
 
         .sky-icon {
           font-size: 24px;
+          width: 29px;
         }
 
         &:focus {
           outline: none;
           border: solid 2px $sky-highlight-color-info;
           color: $sky-text-color-default;
-          padding: 0 21px;
+          padding: 0 11px;
         }
       }
 
@@ -66,7 +67,7 @@
         border-style: solid;
         border-width: 2px;
 
-        label {
+        .sky-control-label {
           padding: 5px 14px 0 14px;
         }
 
@@ -102,9 +103,10 @@
       margin-bottom: 0;
       padding: 0;
 
-      label {
+      .sky-control-label {
         display: block;
-        font-size: 15px;
+        font-size: 13px;
+        margin-bottom: 0;
         padding: 6px 15px 0 15px;
       }
 
@@ -113,6 +115,7 @@
           border: none;
           border-radius: $sky-theme-modern-box-border-radius-default;
           font-size: $sky-theme-modern-font-body-default-size;
+          line-height: 1.15;
           padding: 3px 15px 10px 15px;
 
           &:focus,
