@@ -3,9 +3,10 @@ import {
   Injectable
 } from '@angular/core';
 
-// Need to add the following to classes which contain static methods.
-// See: https://github.com/ng-packagr/ng-packagr/issues/641
-// @dynamic
+/**
+ * @internal
+ * @dynamic
+ */
 @Injectable()
 export class SkyModalHostService {
 

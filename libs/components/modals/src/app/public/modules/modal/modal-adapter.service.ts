@@ -6,6 +6,9 @@ import {
   SkyAppWindowRef
 } from '@skyux/core';
 
+/**
+ * @internal
+ */
 @Injectable()
 export class SkyModalAdapterService {
   private static readonly MODAL_BODY_FULL_CLASS = 'sky-modal-body-full-page';

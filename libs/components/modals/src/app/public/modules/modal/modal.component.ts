@@ -28,6 +28,11 @@ import {
 
 let skyModalUniqueIdentifier: number = 0;
 
+/**
+ * Provides a common look-and-feel for modal content with options
+ * to display a common modal header, specify body content, and display
+ * a common modal footer and buttons.
+ */
 @Component({
   selector: 'sky-modal',
   templateUrl: './modal.component.html',
@@ -40,10 +45,21 @@ let skyModalUniqueIdentifier: number = 0;
   ]
 })
 export class SkyModalComponent implements AfterViewInit {
-  public modalState = 'in';
-  public modalContentId: string = 'sky-modal-content-id-' + skyModalUniqueIdentifier.toString();
-  public modalHeaderId: string = 'sky-modal-header-id-' + skyModalUniqueIdentifier.toString();
 
+  /**
+   * @internal
+   */
+  @Input()
+  public get ariaRole() {
+    return this.config.ariaRole || 'dialog';
+  }
+  public set ariaRole(value: string) {
+    this.config.ariaRole = value;
+  }
+
+  /**
+   * @internal
+   */
   @Input()
   public set tiledBody(value: boolean) {
     this.config.tiledBody = value;
@@ -73,14 +89,6 @@ export class SkyModalComponent implements AfterViewInit {
     return this.config.tiledBody;
   }
 
-  @Input()
-  public get ariaRole() {
-    return this.config.ariaRole || 'dialog';
-  }
-  public set ariaRole(value: string) {
-    this.config.ariaRole = value;
-  }
-
   public get ariaDescribedBy() {
     return this.config.ariaDescribedBy || this.modalContentId;
   }
@@ -92,6 +100,12 @@ export class SkyModalComponent implements AfterViewInit {
   public get helpKey() {
     return this.config.helpKey;
   }
+
+  public modalState = 'in';
+
+  public modalContentId: string = 'sky-modal-content-id-' + skyModalUniqueIdentifier.toString();
+
+  public modalHeaderId: string = 'sky-modal-header-id-' + skyModalUniqueIdentifier.toString();
 
   constructor(
     private hostService: SkyModalHostService,

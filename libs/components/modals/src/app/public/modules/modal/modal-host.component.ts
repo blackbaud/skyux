@@ -29,13 +29,16 @@ import {
 } from './modal-host.service';
 
 import {
-  SkyModalConfigurationInterface as IConfig
+  SkyModalConfigurationInterface
 } from './modal.interface';
 
 import {
   SkyModalConfiguration
 } from './modal-configuration';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-modal-host',
   templateUrl: './modal-host.component.html',
@@ -71,8 +74,12 @@ export class SkyModalHostComponent {
     private changeDetector: ChangeDetectorRef
   ) { }
 
-  public open(modalInstance: SkyModalInstance, component: any, config?: IConfig) {
-    const params: IConfig = Object.assign({}, config);
+  public open(
+    modalInstance: SkyModalInstance,
+    component: any,
+    config?: SkyModalConfigurationInterface
+  ) {
+    const params: SkyModalConfigurationInterface = Object.assign({}, config);
     const factory = this.resolver.resolveComponentFactory(component);
 
     const hostService = new SkyModalHostService();

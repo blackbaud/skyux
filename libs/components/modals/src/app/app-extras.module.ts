@@ -3,6 +3,11 @@ import {
 } from '@angular/core';
 
 import {
+  SkyDocsToolsModule,
+  SkyDocsToolsOptions
+} from '@skyux/docs-tools';
+
+import {
   SkyAppLinkModule
 } from '@skyux/router';
 
@@ -49,6 +54,7 @@ require('style-loader!./visual.scss');
   exports: [
     SkyAppLinkModule,
     SkyConfirmModule,
+    SkyDocsToolsModule,
     SkyModalModule,
     SkyTilesModule
   ],
@@ -60,6 +66,15 @@ require('style-loader!./visual.scss');
     ModalTiledDemoComponent,
     ModalContentAutofocusComponent,
     ModalCloseConfirmComponent
+  ],
+  providers: [
+    {
+      provide: SkyDocsToolsOptions,
+      useValue: {
+        gitRepoUrl: 'https://github.com/blackbaud/skyux-modals',
+        packageName: '@skyux/modals'
+      }
+    }
   ]
 })
 export class AppExtrasModule { }
