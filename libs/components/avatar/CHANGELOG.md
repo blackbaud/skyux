@@ -1,3 +1,7 @@
+# 4.0.1 (2020-06-11)
+
+- Upgraded the development dependencies. [#28](https://github.com/blackbaud/skyux-avatar/pull/28)
+
 # 4.0.0 (2020-05-14)
 
 ### New features
