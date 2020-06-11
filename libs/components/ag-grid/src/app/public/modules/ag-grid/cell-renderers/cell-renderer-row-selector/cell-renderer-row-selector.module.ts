@@ -12,11 +12,11 @@ import {
 
 import {
   SkyAgGridResourcesModule
-} from '../../../shared';
+} from '../../../shared/ag-grid-resources.module';
 
 import {
   SkyAgGridCellRendererRowSelectorComponent
-} from '../cell-renderer-row-selector';
+} from '../cell-renderer-row-selector/cell-renderer-row-selector.component';
 
 @NgModule({
   imports: [

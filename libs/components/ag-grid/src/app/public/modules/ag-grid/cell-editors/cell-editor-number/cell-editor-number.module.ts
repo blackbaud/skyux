@@ -8,11 +8,11 @@ import {
 
 import {
   SkyAgGridResourcesModule
-} from '../../../shared';
+} from '../../../shared/ag-grid-resources.module';
 
 import {
   SkyAgGridCellEditorNumberComponent
-} from '../cell-editor-number';
+} from '../cell-editor-number/cell-editor-number.component';
 
 @NgModule({
   imports: [

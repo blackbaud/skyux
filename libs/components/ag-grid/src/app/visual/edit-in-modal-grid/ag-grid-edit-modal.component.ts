@@ -6,7 +6,7 @@ import {
 import {
   SkyAgGridService,
   SkyCellType
-} from '../../public/modules/ag-grid';
+} from '../../public/public_api';
 
 import {
   SkyAutocompleteSelectionChange

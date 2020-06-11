@@ -21,16 +21,19 @@ import {
 
 import {
   SkyCellClass
-} from '../../types';
+} from '../../types/cell-class';
 
 import {
-  SkyAgGridFixtureComponent,
+  SkyAgGridFixtureComponent
+} from '../../fixtures/ag-grid.component.fixture';
+
+import {
   SkyAgGridFixtureModule
-} from '../../fixtures';
+} from '../../fixtures/ag-grid.module.fixture';
 
 import {
   SkyAgGridCellEditorDatepickerComponent
-} from '../cell-editor-datepicker';
+} from '../cell-editor-datepicker/cell-editor-datepicker.component';
 
 import {
   SkyCellEditorDatepickerParams

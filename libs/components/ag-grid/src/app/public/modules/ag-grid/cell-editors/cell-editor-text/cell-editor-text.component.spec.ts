@@ -15,12 +15,15 @@ import {
 
 import {
   SkyCellClass
-} from '../../types';
+} from '../../types/cell-class';
 
 import {
-  SkyAgGridFixtureComponent,
+  SkyAgGridFixtureComponent
+} from '../../fixtures/ag-grid.component.fixture';
+
+import {
   SkyAgGridFixtureModule
-} from '../../fixtures';
+} from '../../fixtures/ag-grid.module.fixture';
 
 import {
   SkyAgGridCellEditorTextComponent

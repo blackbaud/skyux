@@ -12,11 +12,11 @@ import {
 
 import {
   SkyAgGridCellEditorAutocompleteComponent
-} from '../cell-editor-autocomplete';
+} from '../cell-editor-autocomplete/cell-editor-autocomplete.component';
 
 import {
   SkyAgGridResourcesModule
-} from '../../../shared';
+} from '../../../shared/ag-grid-resources.module';
 
 @NgModule({
   imports: [

@@ -15,16 +15,19 @@ import {
 
 import {
   SkyCellClass
-} from '../../types';
+} from '../../types/cell-class';
 
 import {
-  SkyAgGridFixtureComponent,
+  SkyAgGridFixtureComponent
+} from '../../fixtures/ag-grid.component.fixture';
+
+import {
   SkyAgGridFixtureModule
-} from '../../fixtures/';
+} from '../../fixtures/ag-grid.module.fixture';
 
 import {
   SkyAgGridCellEditorNumberComponent
-} from '../cell-editor-number';
+} from '../cell-editor-number/cell-editor-number.component';
 
 describe('SkyCellEditorNumberComponent', () => {
   let numberEditorFixture: ComponentFixture<SkyAgGridCellEditorNumberComponent>;

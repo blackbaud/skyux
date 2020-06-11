@@ -12,7 +12,7 @@ import {
 
 import {
   SkyAgGridCellEditorDatepickerComponent
-} from '../cell-editor-datepicker';
+} from '../cell-editor-datepicker/cell-editor-datepicker.component';
 
 @NgModule({
   imports: [

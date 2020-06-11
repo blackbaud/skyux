@@ -19,7 +19,7 @@ import {
 
 import {
   SkyAgGridCellEditorAutocompleteComponent
-} from '../cell-editor-autocomplete';
+} from '../cell-editor-autocomplete/cell-editor-autocomplete.component';
 
 import {
   SkyCellEditorAutocompleteParams

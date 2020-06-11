@@ -213,7 +213,7 @@ describe('SkyAgGridService', () => {
 
     it('returns a date string in the DD/MM/YYYY string format when a Date object and british english en-gb locale  are provided', () => {
       const britishGridOptions = agGridService.getGridOptions({ gridOptions: {}, locale: 'en-gb' });
-      const britishDateValueFormatter = britishGridOptions.columnTypes[SkyCellType.Date].valueFormatter;
+      const britishDateValueFormatter = britishGridOptions.columnTypes[SkyCellType.Date].valueFormatter as Function;
       dateValueFormatterParams.value = new Date('12/1/2019');
 
       const formattedDate = britishDateValueFormatter(dateValueFormatterParams);

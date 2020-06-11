@@ -8,7 +8,7 @@ import {
 
 import {
   SkyAgGridResourcesModule
-} from '../../../shared';
+} from '../../../shared/ag-grid-resources.module';
 
 import {
   SkyAgGridCellEditorTextComponent

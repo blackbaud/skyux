@@ -24,20 +24,44 @@ import {
 } from './ag-grid-adapter.service';
 
 import {
-  SkyAgGridCellEditorAutocompleteComponent,
-  SkyAgGridCellEditorAutocompleteModule,
-  SkyAgGridCellEditorDatepickerComponent,
-  SkyAgGridCellEditorDatepickerModule,
-  SkyAgGridCellEditorNumberComponent,
-  SkyAgGridCellEditorNumberModule,
-  SkyAgGridCellEditorTextComponent,
-  SkyAgGridCellEditorTextModule
-} from './cell-editors';
+  SkyAgGridCellEditorAutocompleteComponent
+} from './cell-editors/cell-editor-autocomplete/cell-editor-autocomplete.component';
 
 import {
-  SkyAgGridCellRendererRowSelectorComponent,
+  SkyAgGridCellEditorAutocompleteModule
+} from './cell-editors/cell-editor-autocomplete/cell-editor-autocomplete.module';
+
+import {
+  SkyAgGridCellEditorDatepickerComponent
+} from './cell-editors/cell-editor-datepicker/cell-editor-datepicker.component';
+
+import {
+  SkyAgGridCellEditorDatepickerModule
+} from './cell-editors/cell-editor-datepicker/cell-editor-datepicker.module';
+
+import {
+  SkyAgGridCellEditorNumberComponent
+} from './cell-editors/cell-editor-number/cell-editor-number.component';
+
+import {
+  SkyAgGridCellEditorNumberModule
+} from './cell-editors/cell-editor-number/cell-editor-number.module';
+
+import {
+  SkyAgGridCellEditorTextComponent
+} from './cell-editors/cell-editor-text/cell-editor-text.component';
+
+import {
+  SkyAgGridCellEditorTextModule
+} from './cell-editors/cell-editor-text/cell-editor-text.module';
+
+import {
+  SkyAgGridCellRendererRowSelectorComponent
+} from './cell-renderers/cell-renderer-row-selector/cell-renderer-row-selector.component';
+
+import {
   SkyAgGridCellRendererRowSelectorModule
-} from './cell-renderers';
+} from './cell-renderers/cell-renderer-row-selector/cell-renderer-row-selector.module';
 
 @NgModule({
   declarations: [

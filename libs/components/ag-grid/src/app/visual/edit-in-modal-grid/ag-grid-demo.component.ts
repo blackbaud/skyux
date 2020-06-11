@@ -13,7 +13,7 @@ import {
 import {
   SkyCellType,
   SkyAgGridService
-} from '../../public/modules/ag-grid';
+} from '../../public/public_api';
 
 import {
   SkyModalService,

@@ -10,21 +10,36 @@ import {
 } from 'ag-grid-community';
 
 import {
-  SkyAgGridCellEditorAutocompleteComponent,
-  SkyAgGridCellEditorDatepickerComponent,
-  SkyAgGridCellEditorNumberComponent,
+  SkyAgGridCellEditorAutocompleteComponent
+} from './cell-editors/cell-editor-autocomplete/cell-editor-autocomplete.component';
+
+import {
+  SkyAgGridCellEditorDatepickerComponent
+} from './cell-editors/cell-editor-datepicker/cell-editor-datepicker.component';
+
+import {
+  SkyAgGridCellEditorNumberComponent
+} from './cell-editors/cell-editor-number/cell-editor-number.component';
+
+import {
   SkyAgGridCellEditorTextComponent
-} from './cell-editors';
+} from './cell-editors/cell-editor-text/cell-editor-text.component';
 
 import {
   SkyAgGridCellRendererRowSelectorComponent
-} from './cell-renderers';
+} from './cell-renderers/cell-renderer-row-selector/cell-renderer-row-selector.component';
 
 import {
-  SkyCellClass,
-  SkyCellType,
+  SkyCellClass
+} from './types/cell-class';
+
+import {
+  SkyCellType
+} from './types/cell-type';
+
+import {
   SkyGetGridOptionsArgs
-} from './types';
+} from './types/sky-grid-options';
 
 import {
   SkyAgGridAdapterService
