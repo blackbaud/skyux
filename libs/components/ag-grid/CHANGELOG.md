@@ -1,3 +1,7 @@
+# 4.0.1 (2020-06-11)
+
+- Removed the barrel export files to fix builds. [#43](https://github.com/blackbaud/skyux-ag-grid/pull/43)
+
 # 4.0.0 (2020-06-09)
 
 ### New features
