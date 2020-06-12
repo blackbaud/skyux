@@ -10,7 +10,6 @@
   <sky-fluid-grid
     [gutterSize]="gutterSize"
   >
-
     <sky-row>
       <sky-column>
         <div
@@ -27,6 +26,7 @@
               class="sky-form-control"
               id="field1"
               type="text"
+              value="Value"
             >
           </sky-input-box>
         </div>
@@ -48,7 +48,7 @@
             <textarea
               class="sky-form-control"
               id="field2"
-            ></textarea>
+            >Value</textarea>
           </sky-input-box>
         </div>
       </sky-column>
@@ -302,6 +302,69 @@
       </sky-column>
     </sky-row>
 
+    <sky-row>
+      <sky-column>
+        <div
+          id="input-box-disabled"
+        >
+          <sky-input-box
+            [disabled]="true"
+          >
+            <label
+              class="sky-control-label"
+              for="field11"
+            >
+              Disabled
+            </label>
+            <input
+              class="sky-form-control"
+              disabled
+              id="field11"
+              type="text"
+              value="Disabled value"
+            >
+          </sky-input-box>
+        </div>
+      </sky-column>
+    </sky-row>
+
+    <sky-row>
+      <sky-column>
+        <div
+          id="input-box-button-disabled"
+        >
+          <sky-input-box
+            [disabled]="true"
+          >
+            <label
+              class="sky-control-label"
+              for="field12"
+            >
+              Input with one button disabled
+            </label>
+            <input
+              disabled
+              class="sky-form-control"
+              id="field12"
+              type="text"
+            >
+            <div
+              class="sky-input-group-btn"
+            >
+              <button
+                disabled
+                class="sky-btn sky-btn-default"
+                type="button"
+              >
+                <sky-icon
+                  icon="calendar"
+                ></sky-icon>
+              </button>
+            </div>
+          </sky-input-box>
+        </div>
+      </sky-column>
+    </sky-row>
   </sky-fluid-grid>
 
 </div>

@@ -1,7 +1,9 @@
 <div
   class="input-basic"
 >
-  <sky-input-box>
+  <sky-input-box
+    [disabled]="basicDisabled"
+  >
     <label
       class="sky-control-label"
       for="input1"
@@ -12,6 +14,7 @@
       class="sky-form-control"
       id="input1"
       type="text"
+      [disabled]="basicDisabled"
     >
   </sky-input-box>
 </div>

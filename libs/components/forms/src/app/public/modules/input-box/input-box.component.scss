@@ -130,6 +130,21 @@
         resize: vertical;
       }
     }
+
+    &.sky-input-box-disabled {
+      .sky-form-group {
+        background-color: $sky-theme-modern-color-gray-07;
+
+        .sky-form-control {
+          background-color: transparent;
+        }
+      }
+
+      .sky-input-group-btn .sky-btn {
+        background-color: $sky-theme-modern-color-gray-07;
+        opacity: 1;
+      }
+    }
   }
 
   &.sky-theme-mode-dark {

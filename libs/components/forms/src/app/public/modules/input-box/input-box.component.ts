@@ -39,6 +39,9 @@ export class SkyInputBoxComponent implements OnInit {
   @Input()
   public hasErrors: boolean;
 
+  @Input()
+  public disabled: boolean;
+
   public hostInputTemplate: TemplateRef<any>;
 
   public hostButtonsTemplate: TemplateRef<any>;

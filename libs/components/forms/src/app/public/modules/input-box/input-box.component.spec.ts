@@ -225,6 +225,22 @@ describe('Input box component', () => {
       expect(inputBoxFormControlEl).not.toHaveCssClass(focusCls);
     });
 
+    it('should add a disabled CSS class when disabled', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+
+      fixture.detectChanges();
+
+      const inputBoxEl = getInputBoxEl(fixture, 'input-basic');
+      const inputBoxWrapperEl = inputBoxEl.querySelector('.sky-input-box');
+
+      expect(inputBoxWrapperEl).not.toHaveCssClass('sky-input-box-disabled');
+
+      fixture.componentInstance.basicDisabled = true;
+      fixture.detectChanges();
+
+      expect(inputBoxWrapperEl).toHaveCssClass('sky-input-box-disabled');
+    });
+
     it('should pass accessibility', async(() => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
 
