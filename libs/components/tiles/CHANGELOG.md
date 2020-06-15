@@ -1,3 +1,7 @@
+# 4.0.1 (2020-06-11)
+
+- Fixed the tile dashboard component to update tiles using `OnPush` change detection when it receives messages from the message stream. [#59](https://github.com/blackbaud/skyux-tiles/pull/59)
+
 # 4.0.0 (2020-05-15)
 
 ### New features
