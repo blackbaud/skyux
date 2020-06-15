@@ -1,3 +1,8 @@
+# 4.1.0 (2020-06-15)
+
+- Updated the modal header component to use HTML heading elements. [#95](https://github.com/blackbaud/skyux-modals/pull/95)
+- Updated code documentation. [#98](https://github.com/blackbaud/skyux-modals/pull/98)
+
 # 4.0.0 (2020-05-12)
 
 ### New features
