@@ -8,6 +8,10 @@ import {
 } from '@skyux/docs-tools';
 
 import {
+  SkyInputBoxModule
+} from '@skyux/forms';
+
+import {
   SkyPageModule
 } from '@skyux/layout';
 
@@ -29,6 +33,7 @@ import {
     SkyDatepickerModule,
     SkyDateRangePickerModule,
     SkyDocsToolsModule,
+    SkyInputBoxModule,
     SkyPageModule,
     SkyTimepickerModule
   ],

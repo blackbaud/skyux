@@ -21,6 +21,14 @@ import {
 } from '@skyux/i18n';
 
 import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange
+} from '@skyux/theme';
+
+import {
   expect,
   SkyAppTestUtility
 } from '@skyux-sdk/testing';
@@ -46,6 +54,10 @@ import {
 import {
   DatepickerTestModule
 } from './fixtures/datepicker.module.fixture';
+
+import {
+  DatepickerInputBoxTestComponent
+} from './fixtures/datepicker-input-box.component.fixture';
 
 import {
   DatepickerNoFormatTestComponent
@@ -75,6 +87,10 @@ export class MyLocaleProvider extends SkyAppLocaleProvider {
 }
 
 const isoFormat = 'YYYY-MM-DDTHH:mm:ss';
+
+let mockThemeSvc: {
+  settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+};
 
 function detectChanges(fixture: ComponentFixture<any>): void {
   fixture.detectChanges();
@@ -159,9 +175,27 @@ function getSelectedCalendarItem(): HTMLElement {
 
 describe('datepicker', () => {
   beforeEach(() => {
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+        {
+          currentSettings: new SkyThemeSettings(
+            SkyTheme.presets.default,
+            SkyThemeMode.presets.light
+          ),
+          previousSettings: undefined
+        }
+      )
+    };
+
     TestBed.configureTestingModule({
       imports: [
         DatepickerTestModule
+      ],
+      providers: [
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc
+        }
       ]
     });
 
@@ -208,14 +242,19 @@ describe('datepicker', () => {
     let component: DatepickerTestComponent;
     let nativeElement: HTMLElement;
 
-    beforeEach(() => {
+    // After implementing input box, it was necessary to use `tick()` to force the datepicker
+    // elements to render, which is why `fakeAsync()` and the call to the custom `detectChanges()`
+    // function are used here.
+    beforeEach(fakeAsync(() => {
       fixture = TestBed.createComponent(DatepickerTestComponent);
       nativeElement = fixture.nativeElement as HTMLElement;
       component = fixture.componentInstance;
 
       // Default to US long date format to avoid any test runners that are using a different locale.
       component.dateFormat = 'MM/DD/YYYY';
-    });
+
+      detectChanges(fixture);
+    }));
 
     it('should throw an error if directive is added in isolation', function () {
       try {
@@ -361,6 +400,26 @@ describe('datepicker', () => {
           expect(fixture.nativeElement).toBeAccessible();
         });
       });
+    }));
+
+    it('should display the expected calendar icon in the calendar button', fakeAsync(() => {
+      const iconEl = fixture.nativeElement.querySelector(
+        '.sky-input-group-datepicker-btn .sky-icon'
+      );
+
+      expect(iconEl).toHaveCssClass('fa-calendar');
+
+      mockThemeSvc.settingsChange.next({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.light
+        ),
+        previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings
+      });
+
+      detectChanges(fixture);
+
+      expect(iconEl).toHaveCssClass('sky-i-calendar');
     }));
 
     describe('initialization', () => {
@@ -899,17 +958,26 @@ describe('datepicker', () => {
     let component: DatepickerReactiveTestComponent;
     let nativeElement: HTMLElement;
 
-    beforeEach(() => {
+    beforeEach(fakeAsync(() => {
       fixture = TestBed.createComponent(DatepickerReactiveTestComponent);
       nativeElement = fixture.nativeElement as HTMLElement;
       component = fixture.componentInstance;
 
       // Default to US long date format to avoid any test runners that are using a different locale.
       component.dateFormat = 'MM/DD/YYYY';
-    });
+
+      detectChanges(fixture);
+    }));
 
     describe('initial value', () => {
       it('should set the initial value correctly', fakeAsync(() => {
+        fixture = TestBed.createComponent(DatepickerReactiveTestComponent);
+        nativeElement = fixture.nativeElement as HTMLElement;
+        component = fixture.componentInstance;
+
+        // Default to US long date format to avoid any test runners that are using a different locale.
+        component.dateFormat = 'MM/DD/YYYY';
+
         component.initialValue = '5/12/2017';
         detectChanges(fixture);
 
@@ -1290,6 +1358,23 @@ describe('datepicker', () => {
 
       // Expect spanish default format of DD/MM/YYYY.
       expect(getInputElementValue(fixture)).toBe('24/10/2017');
+    }));
+  });
+
+  describe('inside input box', () => {
+    it('should render in the expected input box containers', fakeAsync(() => {
+      const fixture = TestBed.createComponent(DatepickerInputBoxTestComponent);
+
+      detectChanges(fixture);
+
+      const inputBoxEl = fixture.nativeElement.querySelector('sky-input-box');
+
+      const inputGroupEl = inputBoxEl.querySelector('.sky-form-group > .sky-input-group');
+      const inputEl = inputGroupEl.children.item(0);
+      const inputGroupBtnEl1 = inputGroupEl.children.item(1);
+
+      expect(inputEl).toHaveCssClass('input-box-datepicker-input');
+      expect(inputGroupBtnEl1.children.item(0)).toHaveCssClass('sky-input-group-datepicker-btn');
     }));
   });
 });

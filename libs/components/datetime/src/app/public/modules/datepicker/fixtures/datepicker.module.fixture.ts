@@ -12,12 +12,20 @@ import {
 } from '@angular/platform-browser/animations';
 
 import {
+  SkyInputBoxModule
+} from '@skyux/forms';
+
+import {
   SkyDatepickerModule
 } from '../datepicker.module';
 
 import {
   DatepickerCalendarTestComponent
 } from './datepicker-calendar.component.fixture';
+
+import {
+  DatepickerInputBoxTestComponent
+} from './datepicker-input-box.component.fixture';
 
 import {
   DatepickerNoFormatTestComponent
@@ -34,6 +42,7 @@ import {
 @NgModule({
   declarations: [
     DatepickerCalendarTestComponent,
+    DatepickerInputBoxTestComponent,
     DatepickerNoFormatTestComponent,
     DatepickerReactiveTestComponent,
     DatepickerTestComponent
@@ -42,10 +51,12 @@ import {
     SkyDatepickerModule,
     NoopAnimationsModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SkyInputBoxModule
   ],
   exports: [
     DatepickerCalendarTestComponent,
+    DatepickerInputBoxTestComponent,
     DatepickerNoFormatTestComponent,
     DatepickerReactiveTestComponent,
     DatepickerTestComponent

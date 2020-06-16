@@ -186,7 +186,10 @@ describe('fuzzy datepicker input', () => {
     let component: FuzzyDatepickerTestComponent;
     let nativeElement: HTMLElement;
 
-    beforeEach(() => {
+    // After implementing input box, it was necessary to use `tick()` to force the datepicker
+    // elements to render, which is why `fakeAsync()` and the call to the custom `detectChanges()`
+    // function are used here.
+    beforeEach(fakeAsync(() => {
       fixture = TestBed.overrideComponent(SkyDatepickerComponent, {
         add: {
           providers: [
@@ -207,25 +210,22 @@ describe('fuzzy datepicker input', () => {
 
       // Default to US long date format to avoid any test runners that are using a different locale.
       component.dateFormat = 'MM/DD/YYYY';
-    });
+
+      detectChanges(fixture);
+    }));
 
     it('should throw an error if directive is added in isolation', () => {
+      let errorThrown = false;
+
       try {
         component.showInvalidDirective = true;
         fixture.detectChanges();
       } catch (err) {
         expect(err.message).toContain('skyFuzzyDatepickerInput');
+        errorThrown = true;
       }
-    });
 
-    it('should throw an error if yearRequired conflicts with the dateFormat', () => {
-      try {
-        component.yearRequired = true;
-        component.dateFormat = 'mm/dd';
-        fixture.detectChanges();
-      } catch (err) {
-        expect(err.message).toEqual('You have configured conflicting settings. Year is required and dateFormat does not include year.');
-      }
+      expect(errorThrown).toBeTrue();
     });
 
     it('should mark the control as dirty on keyup', () => {
@@ -1655,4 +1655,25 @@ describe('fuzzy datepicker input', () => {
       flush();
     }));
   });
+
+  describe('invalid date format/year required configuration', () => {
+    it('should throw an error if yearRequired conflicts with the dateFormat', fakeAsync(() => {
+      let errorThrown = false;
+
+      const fixture = TestBed.createComponent(FuzzyDatepickerTestComponent);
+      const component = fixture.componentInstance;
+
+      try {
+        component.yearRequired = true;
+        component.dateFormat = 'mm/dd';
+        detectChanges(fixture);
+      } catch (err) {
+        expect(err.message).toEqual('You have configured conflicting settings. Year is required and dateFormat does not include year.');
+        errorThrown = true;
+      }
+
+      expect(errorThrown).toBeTrue();
+    }));
+  });
+
 });
