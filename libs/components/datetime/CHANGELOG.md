@@ -1,3 +1,7 @@
+# 4.1.0 (2020-06-16)
+
+- Added input box support to the datepicker component. [#166](https://github.com/blackbaud/skyux-datetime/pull/166)
+
 # 4.0.1 (2020-06-11)
 
 - Fixed the datepicker and timepicker components to properly render in Chrome 83. [#163](https://github.com/blackbaud/skyux-datetime/pull/163)
