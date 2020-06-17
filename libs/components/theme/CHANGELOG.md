@@ -1,3 +1,7 @@
+# 4.3.0 (2020-06-17)
+
+- Added the `sky-screen-reader-only` CSS class which hides text from users but is read by assistive technology. [#145](https://github.com/blackbaud/skyux-theme/pull/145)
+
 # 4.2.1 (2020-06-05)
 
 - Fixed the input group buttons to properly reset the `border-radius` CSS property. [#142](https://github.com/blackbaud/skyux-theme/pull/142)
