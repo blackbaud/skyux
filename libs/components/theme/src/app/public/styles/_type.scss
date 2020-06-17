@@ -186,3 +186,7 @@
   font-weight: 600;
   font-size: 16px;
 }
+
+.sky-screen-reader-only {
+  @include sky-screen-reader-only;
+}
