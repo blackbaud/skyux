@@ -28,14 +28,18 @@ let nextId = 0;
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkySortComponent {
-  public sortByHeadingId: string = `sky-sort-heading-${++nextId}`;
 
+  /**
+   * Indicates whether to display a "Sort" label beside the icon on the sort button.
+   */
   @Input()
   public showButtonText = false;
 
   public dropdownController = new Subject<SkyDropdownMessage>();
 
-  public dropdownClicked() {
+  public sortByHeadingId: string = `sky-sort-heading-${++nextId}`;
+
+  public dropdownClicked(): void {
     this.dropdownController.next({
       type: SkyDropdownMessageType.Close
     });

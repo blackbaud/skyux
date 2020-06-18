@@ -63,6 +63,9 @@ import {
 
 let nextContentId: number = 0;
 
+/**
+ * Creates an individual repeater item.
+ */
 @Component({
   selector: 'sky-repeater-item',
   styleUrls: ['./repeater-item.component.scss'],
@@ -71,12 +74,25 @@ let nextContentId: number = 0;
 })
 export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewInit {
 
+  /**
+   * Specifies configuration options for the buttons to display on an inline form
+   * within the repeater. This property accepts
+   * [a `SkyInlineFormConfig` object](https://developer.blackbaud.com/skyux/components/inline-form#skyinlineformconfig-properties).
+   */
   @Input()
   public inlineFormConfig: SkyInlineFormConfig;
 
+  /**
+   * Specifies [an Angular `TemplateRef`](https://angular.io/api/core/TemplateRef) to use
+   * as a template to instantiate an inline form within the repeater.
+   */
   @Input()
   public inlineFormTemplate: TemplateRef<any>;
 
+  /**
+   * Indicates whether the repeater item is expanded.
+   * @default true
+   */
   @Input()
   public set isExpanded(value: boolean) {
     this.updateForExpanded(value, true);
@@ -86,6 +102,11 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
     return this._isExpanded;
   }
 
+  /**
+   * Indicates whether the repeater item's checkbox is selected.
+   * When users select the repeater item, the specified property on your model is updated accordingly.
+   * @default false
+   */
   @Input()
   public set isSelected(value: boolean) {
     if (value !== this._isSelected) {
@@ -98,26 +119,61 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
     return this._isSelected;
   }
 
-  @Input()
-  public selectable: boolean = false;
-
+  /**
+   * Indicates whether users can change the order of the repeater item.
+   * The repeater component's `reorderable` property must also be set to `true`.
+   */
   @Input()
   public reorderable: boolean = false;
 
+  /**
+   * Indicates whether to display a checkbox in the left of the repeater item.
+   */
+  @Input()
+  public selectable: boolean = false;
+
+  /**
+   * Indicates whether to display an inline form within the repeater.
+   * Users can toggle between displaying and hiding the inline form.
+   */
   @Input()
   public showInlineForm: boolean = false;
 
+  /**
+   * Specifies an object that the repeater component returns for this repeater item
+   * when the `orderChange` event fires. This is required
+   * if you set the `reorderable` property to `true`.
+   */
+  @Input()
+  public tag: any;
+
+  /**
+   * Fires when users collapse the repeater item.
+   */
   @Output()
   public collapse = new EventEmitter<void>();
 
+  /**
+   * Fires when users expand the repeater item.
+   */
   @Output()
   public expand = new EventEmitter<void>();
 
+  /**
+   * Fires when the repeater includes an inline form and users close it. This event emits
+   * [a `SkyInlineFormCloseArgs` type](https://developer.blackbaud.com/skyux/components/inline-form#skyinlineformcloseargs-properties).
+   */
   @Output()
   public inlineFormClose = new EventEmitter<SkyInlineFormCloseArgs>();
 
+  /**
+   * Fires when users select or clear the checkbox for the repeater item.
+   */
   @Output()
   public isSelectedChange = new EventEmitter<boolean>();
+
+  @ContentChild(SkyRepeaterItemContextMenuComponent, { read: ElementRef })
+  public contextMenu: ElementRef;
 
   public contentId: string = `sky-repeater-item-content-${++nextContentId}`;
 
@@ -142,26 +198,16 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
     return this._isCollapsible;
   }
 
-  public slideDirection: string;
   public keyboardReorderingEnabled: boolean = false;
+
   public reorderButtonLabel: string;
+
   public reorderState: string;
 
-  /**
-   * Specifies an object that the repeater component returns for this repeater item when the `orderChange` event fires.
-   * Required if you set the `reorderable` property to `true`.
-   */
-  @Input()
-  public tag: any;
-
-  @ContentChild(SkyRepeaterItemContextMenuComponent, { read: ElementRef })
-  public contextMenu: ElementRef;
+  public slideDirection: string;
 
   @ViewChild('grabHandle', { read: ElementRef })
   private grabHandle: ElementRef;
-
-  @ViewChild('itemRef', { read: ElementRef })
-  private itemRef: ElementRef;
 
   @ViewChild('itemContentRef', { read: ElementRef })
   private itemContentRef: ElementRef;
@@ -169,16 +215,26 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
   @ViewChild('itemHeaderRef', { read: ElementRef })
   private itemHeaderRef: ElementRef;
 
+  @ViewChild('itemRef', { read: ElementRef })
+  private itemRef: ElementRef;
+
   @ContentChildren(SkyRepeaterItemContentComponent)
   private repeaterItemContentComponents: QueryList<SkyRepeaterItemContentComponent>;
 
   private ngUnsubscribe = new Subject<void>();
+
   private reorderCancelText: string;
+
   private reorderCurrentIndex: number;
+
   private reorderFinishText: string;
+
   private reorderInstructions: string;
+
   private reorderMovedText: string;
+
   private reorderStateDescription: string;
+
   private reorderSteps: number;
 
   private _isCollapsible = true;

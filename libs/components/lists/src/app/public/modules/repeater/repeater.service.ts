@@ -12,6 +12,9 @@ import {
   SkyRepeaterItemComponent
 } from './repeater-item.component';
 
+/**
+ * @internal
+ */
 @Injectable()
 export class SkyRepeaterService implements OnDestroy {
 

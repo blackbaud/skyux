@@ -21,9 +21,14 @@ import {
   takeUntil
 } from 'rxjs/operators';
 
+/**
+ * @internal
+ */
 @Injectable()
 export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
+
   private ngUnsubscribe = new Subject<void>();
+
   private observer: MutationObserver;
 
   private _parentChanges = new EventEmitter<void>();

@@ -7,6 +7,9 @@ import {
   SkyRepeaterService
 } from './repeater.service';
 
+/**
+ * @internal
+ */
 @Injectable()
 export class SkyRepeaterAdapterService {
   private host: ElementRef;

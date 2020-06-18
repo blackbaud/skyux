@@ -41,6 +41,9 @@ import {
 
 let uniqueId = 0;
 
+/**
+ * Creates a container to display repeater items.
+ */
 @Component({
   selector: 'sky-repeater',
   styleUrls: ['./repeater.component.scss'],
@@ -50,15 +53,49 @@ let uniqueId = 0;
 })
 export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDestroy {
 
+  /**
+   * Specifies the index of the repeater item to visually highlight as active.
+   * For example, use this property in conjunction with the
+   * [split view component](https://developer.blackbaud.com/skyux/components/split-view)
+   * to highlight a repeater item while users edit it. Only one item can be active at a time.
+   */
   @Input()
   public activeIndex: number;
 
+  /**
+   * Defines a string value to label the repeater list for accessibility.
+   * @default 'List of items'
+   */
   @Input()
   public ariaLabel: string;
 
+  /**
+   * Indicates whether users can change the order of items in the repeater list.
+   * Each repeater item also has `reorderable` property to indicate whether
+   * users can change its order.
+   */
   @Input()
   public reorderable: boolean = false;
 
+  /**
+   * Specifies a layout for the repeater list to indicate whether users can collapse
+   * and expand repeater items. Items in a collapsed state display titles only.
+   * The valid options are `multiple`, `none`, and `single`.
+   * - `multiple` loads all repeater items in a collapsed state and allows users to expand
+   * and collapse them.This layout provides a more compact view but still allows users to expand
+   * as many repeater items as necessary. It is best-suited to repeater items where the most
+   * important information is in the titles and users only occasionally need to view body content.
+   * - `none` loads all repeater items in an expanded state and does not allow users to
+   * collapse them. This standard layout provides the quickest access to the details in the
+   * repeater items. It is best-suited to repeater items with concise content
+   * that users need to view frequently.
+   * - `single` loads all repeater items in a collapsed state and allows users to expand
+   * one item at a time. This layout provides the most compact view because users can only
+   * expand one repeater item at a time. It is best-suited to repeater items where the most
+   * important information is in the titles and users only occasionally need to view
+   * the body content of one repeater item at a time.
+   * @default none
+   */
   @Input()
   public set expandMode(value: string) {
     this.repeaterService.expandMode = value;
@@ -70,6 +107,9 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
     return this._expandMode || 'none';
   }
 
+  /**
+   * Fires when the active repeater item changes.
+   */
   @Output()
   public activeIndexChange = new EventEmitter<number>();
 

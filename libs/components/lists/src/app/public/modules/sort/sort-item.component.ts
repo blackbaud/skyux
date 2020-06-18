@@ -31,9 +31,16 @@ let sortItemIdNumber: number = 0;
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkySortItemComponent implements OnInit, OnChanges, OnDestroy {
+
+  /**
+   * Indicates whether the sorting option is active.
+   */
   @Input()
   public active: boolean;
 
+  /**
+   * Fires when a sort item is selected.
+   */
   @Output()
   public itemSelect: EventEmitter<any> = new EventEmitter();
 

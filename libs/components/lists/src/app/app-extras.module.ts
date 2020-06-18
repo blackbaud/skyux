@@ -3,6 +3,11 @@ import {
 } from '@angular/core';
 
 import {
+  SkyDocsToolsModule,
+  SkyDocsToolsOptions
+} from '@skyux/docs-tools';
+
+import {
   SkyIconModule
 } from '@skyux/indicators';
 
@@ -32,6 +37,7 @@ import {
   exports: [
     SkyAppLinkModule,
     SkyBackToTopModule,
+    SkyDocsToolsModule,
     SkyDropdownModule,
     SkyFilterModule,
     SkyFluidGridModule,
@@ -41,6 +47,15 @@ import {
     SkyPagingModule,
     SkyRepeaterModule,
     SkySortModule
+  ],
+  providers: [
+    {
+      provide: SkyDocsToolsOptions,
+      useValue: {
+        gitRepoUrl: 'https://github.com/blackbaud/skyux-lists',
+        packageName: '@skyux/lists'
+      }
+    }
   ]
 })
 export class AppExtrasModule { }

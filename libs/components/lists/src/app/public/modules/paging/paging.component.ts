@@ -15,28 +15,52 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyPagingComponent implements OnChanges {
-  @Input()
-  public pageSize: number = 10;
 
-  @Input()
-  public maxPages: number = 5;
-
+  /**
+   * Specifies the page number of the current page. Page numbers start at 1 and increment.
+   */
   @Input()
   public currentPage: number = 1;
 
+  /**
+   * Specifies the total number of items across all pages.
+   */
   @Input()
   public itemCount: number = 0;
 
+  /**
+   * Specifies the maximum number of pages to display in the pagination control.
+   */
+  @Input()
+  public maxPages: number = 5;
+
+  /**
+   * Specifies the number of items to display per page.
+   */
+  @Input()
+  public pageSize: number = 10;
+
+  /**
+   * Specifies a label for the pagination control when an application includes
+   * multiple paging components on the same page. The label should be unique and descriptive
+   * to help users of assistive technology differentiate pagination controls
+   * and understand what each one does.
+   * @default Pagination
+   */
   @Input()
   public pagingLabel: string;
 
+  /**
+   * Fires when the current page changes and emits the new current page.
+   */
   @Output()
   public currentPageChange: EventEmitter<number> = new EventEmitter<number>();
 
   public displayedPages: Array<number> = [];
+
   public pageCount: number = 0;
 
-  public ngOnChanges(changes: SimpleChanges) {
+  public ngOnChanges(changes: SimpleChanges): void {
     this.setPage(this.currentPage);
   }
 
@@ -115,18 +139,16 @@ export class SkyPagingComponent implements OnChanges {
     return displayedPageNumbers;
   }
 
-  private setPageCount() {
+  private setPageCount(): void {
     if (this.itemCount === 0 || this.pageSize === 0) {
       this.pageCount = 0;
       return;
     }
 
     this.pageCount = Math.ceil(this.itemCount / this.pageSize);
-
   }
 
-  private setDisplayedPages() {
-
+  private setDisplayedPages(): void {
     this.displayedPages =
       this.getDisplayedPageNumbers(this.pageCount, this.maxPages, this.currentPage);
   }
