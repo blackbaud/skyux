@@ -61,7 +61,11 @@ export class SkyTextExpandComponent implements AfterContentInit {
   @Input()
   public set maxLength(value: number) {
     this._maxLength = value;
-    this.setup(this.expandedText);
+
+    /** istanbul ignore else */
+    if (this.textEl) {
+      this.setup(this.expandedText);
+    }
   }
 
   public get maxLength(): number {
@@ -70,7 +74,10 @@ export class SkyTextExpandComponent implements AfterContentInit {
 
   @Input()
   public set text(value: string) {
-    this.setup(value);
+    /** istanbul ignore else */
+    if (this.textEl) {
+      this.setup(value);
+    }
   }
 
   @Input()
