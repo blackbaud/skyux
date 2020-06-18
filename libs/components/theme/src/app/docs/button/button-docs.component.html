@@ -1,0 +1,213 @@
+<sky-docs-demo-page
+  pageTitle="Buttons"
+  moduleName="SkyThemeModule"
+>
+  <sky-docs-demo-page-summary>
+    The button classes create buttons to trigger actions from within an interface.
+  </sky-docs-demo-page-summary>
+
+  <sky-docs-design-guidelines>
+
+    <sky-docs-demo-page-section
+      heading="Options"
+    >
+      <sky-docs-design-guideline
+        heading="Button classes"
+      >
+        <table class="sky-docs-table">
+          <tr>
+            <td class="sky-docs-table-cell">
+              <button
+                type="button"
+                class="sky-btn sky-btn-primary"
+              >
+                Primary
+              </button>
+            </td>
+            <td class="sky-docs-table-cell">
+              <p>
+                The primary button triggers the most important or most frequently used action on a page or the progressive terminal action on a modal such as <strong>Save</strong>. Pages and modals should only include one primary button to ensure that it draws user attention. For more information, see the <a href="https://developer.blackbaud.com/skyux/design/guidelines/page-layouts#primary-action-guidelines">primary action guidelines</a>.
+              </p>
+            </td>
+            <td class="sky-docs-table-cell">
+              <p>
+                <sky-code>class=&quot;sky-btn sky-btn-primary&quot;</sky-code>
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td class="sky-docs-table-cell">
+              <button
+                type="button"
+                class="sky-btn sky-btn-default"
+              >
+                Secondary
+              </button>
+            </td>
+            <td class="sky-docs-table-cell">
+              <p>
+                Secondary buttons trigger less important or less frequently used actions. SKY UX reduces the visual weight to make them less attention-drawing than the primary buttons.
+              </p>
+            </td>
+            <td class="sky-docs-table-cell">
+              <p>
+                <sky-code>class=&quot;sky-btn sky-btn-default&quot;</sky-code>
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td class="sky-docs-table-cell">
+              <button
+                type="button"
+                class="sky-btn sky-btn-link"
+              >
+                Link
+              </button>
+            </td>
+            <td class="sky-docs-table-cell">
+              <p>
+                Link buttons trigger actions that take users to other pages or actions that end tasks or exit modals (such as <strong>Cancel</strong>).
+              </p>
+            </td>
+            <td class="sky-docs-table-cell">
+              <p>
+                <sky-code>class=&quot;sky-btn sky-btn-link&quot;</sky-code>
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td class="sky-docs-table-cell">
+              <button
+                type="button"
+                class="sky-btn sky-btn-link-inline"
+              >
+                Inline link
+              </button>
+            </td>
+            <td class="sky-docs-table-cell">
+              <p>
+                Inline link buttons trigger the same type of actions as link buttons, but the styling is altered to fit inline.
+              </p>
+            </td>
+            <td class="sky-docs-table-cell">
+              <p>
+                <sky-code>class=&quot;sky-btn sky-btn-link-inline&quot;</sky-code>
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td class="sky-docs-table-cell">
+              <div style="margin-bottom: 10px;">
+                <button
+                  type="button"
+                  class="sky-btn sky-btn-primary sky-btn-disabled"
+                >
+                  Disabled
+                </button>
+              </div>
+              <div style="margin-bottom: 10px;">
+                <button
+                  type="button"
+                  class="sky-btn sky-btn-default sky-btn-disabled"
+                >
+                  Disabled
+                </button>
+              </div>
+              <div style="margin-bottom: 10px;">
+                <button
+                  type="button"
+                  class="sky-btn sky-btn-link sky-btn-disabled"
+                >
+                  Disabled
+                </button>
+              </div>
+              <div style="margin-bottom: 10px;">
+                <button
+                  type="button"
+                  class="sky-btn sky-btn-link-inline sky-btn-disabled"
+                >
+                  Disabled
+                </button>
+              </div>
+            </td>
+            <td class="sky-docs-table-cell">
+              <p>
+                The disable class disables all button types. The most common use case is to disable actions until users complete prerequisite tasks.
+              </p>
+            </td>
+            <td class="sky-docs-table-cell">
+              <p>
+                <sky-code>class="sky-btn-disabled"</sky-code>
+              </p>
+            </td>
+          </tr>
+        </table>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Content"
+    >
+      <sky-docs-design-guideline
+      >
+        <p>
+          For buttons with only one possible direct object such as <strong>Add</strong> buttons in record list toolbars, use the following format for button text:
+        </p>
+        <p>
+          <strong>&lt;Verb&gt;</strong>
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          imageSource="~/assets/img/guidelines/button/buttons-usage-1.png"
+          >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline>
+        <p class="sky-docs-text-block">
+          For buttons with multiple possible direct objects such as <strong>Add alert</strong> buttons in page summary toolbars, use the following format for button text:
+        </p>
+        <p>
+          <strong>&lt;Verb&gt; &lt;direct object&gt;</strong>
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          imageSource="~/assets/img/guidelines/button/buttons-usage-2.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline>
+        <p class="sky-docs-text-block">
+          Additional button text guidelines:
+        </p>
+        <ul>
+          <li>
+            Use sentence-style capitalization.
+          </li>
+          <li>
+            Use singular or plural direct objects to indicate whether the button acts on one or multiple items.
+          </li>
+          <li>
+            Don't include articles. For example, use <strong>Add constituent</strong> rather than <strong>Add a constituent</strong>.
+          </li>
+          <li>
+            Don’t append extra words such as “details.” For example, use <strong>Edit constituent</strong> rather than <strong>Edit constituent details</strong>.
+          </li>
+        </ul>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Related information"
+    >
+      <sky-docs-design-guideline
+        heading="Guidelines"
+      >
+        <ul>
+          <li>
+            <a href="https://developer.blackbaud.com/skyux/design/guidelines/buttons-links">Buttons and links</a>
+          </li>
+        </ul>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+  </sky-docs-design-guidelines>
+</sky-docs-demo-page>
