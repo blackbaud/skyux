@@ -24,6 +24,9 @@ import {
   SkyDateFormatter
 } from './date-formatter';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-datepicker-calendar',
   templateUrl: './datepicker-calendar.component.html',

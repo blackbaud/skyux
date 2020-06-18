@@ -1,3 +1,6 @@
+/**
+ * @internal
+ */
 export enum SkyDateRangeCalculatorType {
   After,
   Before,

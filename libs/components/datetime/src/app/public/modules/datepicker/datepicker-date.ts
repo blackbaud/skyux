@@ -1,4 +1,6 @@
-
+/**
+ * @internal
+ */
 export interface SkyDatepickerDate {
   date: Date;
   label: string;

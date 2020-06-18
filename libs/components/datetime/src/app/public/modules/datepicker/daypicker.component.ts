@@ -10,6 +10,9 @@ import {
   SkyDatepickerDate
 } from './datepicker-date';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-daypicker',
   templateUrl: 'daypicker.component.html'

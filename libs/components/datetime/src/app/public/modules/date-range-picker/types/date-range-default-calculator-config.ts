@@ -14,6 +14,9 @@ import {
   SkyDateRangeCalculatorValidateFunction
 } from './date-range-calculator-validate-function';
 
+/**
+ * @internal
+ */
 export interface SkyDateRangeDefaultCalculatorConfig {
 
   calculatorId: SkyDateRangeCalculatorId;

@@ -11,14 +11,20 @@ import {
   SkyDatepickerDate
 } from './datepicker-date';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-yearpicker',
   templateUrl: 'yearpicker.component.html'
 })
 export class SkyYearPickerComponent implements OnInit {
+
   public datepicker: SkyDatepickerCalendarInnerComponent;
-  public title: string;
+
   public rows: Array<Array<SkyDatepickerDate>> = [];
+
+  public title: string;
 
   public constructor(datepicker: SkyDatepickerCalendarInnerComponent) {
     this.datepicker = datepicker;

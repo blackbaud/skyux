@@ -80,6 +80,11 @@ const SKY_DATEPICKER_VALIDATOR = {
 export class SkyDatepickerInputDirective
   implements OnInit, OnDestroy, AfterViewInit, AfterContentInit, ControlValueAccessor, Validator {
 
+  /**
+   * Specifies the date format for the input. Place this attribute on the `input` element
+   * to override the default in the `SkyDatepickerConfigService`.
+   * @default MM/DD/YYYY
+   */
   @Input()
   public set dateFormat(value: string) {
     if (value !== this._dateFormat) {
@@ -94,6 +99,10 @@ export class SkyDatepickerInputDirective
             this.preferredShortDateFormat;
   }
 
+  /**
+   * Indicates whether to disable the datepicker.
+   * @default false
+   */
   @Input()
   public set disabled(value: boolean) {
     this._disabled = value;
@@ -106,7 +115,7 @@ export class SkyDatepickerInputDirective
   }
 
   public get disabled(): boolean {
-    return this._disabled;
+    return this._disabled || false;
   }
 
   /**
@@ -117,6 +126,10 @@ export class SkyDatepickerInputDirective
     return this.adapter.elementIsFocused();
   }
 
+  /**
+   * Specifies the latest date that is available in the calendar. Place this attribute on
+   * the `input` element to override the default in `SkyDatepickerConfigService`.
+   */
   @Input()
   public set maxDate(value: Date) {
     this._maxDate = value;
@@ -129,6 +142,10 @@ export class SkyDatepickerInputDirective
     return this._maxDate || this.configService.maxDate;
   }
 
+  /**
+   * Specifies the earliest date that is available in the calendar. Place this attribute on
+   * the `input` element to override the default in `SkyDatepickerConfigService`.
+   */
   @Input()
   public set minDate(value: Date) {
     this._minDate = value;
@@ -141,6 +158,12 @@ export class SkyDatepickerInputDirective
     return this._minDate || this.configService.minDate;
   }
 
+  /**
+   * Creates the datepicker input and calendar. Place this directive on an `input` element,
+   * and wrap the input in a `sky-datepicker` component. The value that users select is driven
+   * through the `ngModel` attribute specified on the `input` element.
+   * @required
+   */
   @Input()
   public set skyDatepickerInput(value: SkyDatepickerComponent) {
     if (value) {
@@ -154,9 +177,19 @@ export class SkyDatepickerInputDirective
     }
   }
 
+  /**
+   * Indicates whether to disable date validation on the datepicker input.
+   * @default false
+   */
   @Input()
   public skyDatepickerNoValidate = false;
 
+  /**
+   * Specifies the starting day of the week in the calendar, where `0` sets the starting day
+   * to Sunday. Place this attribute on the `input` element to override the default
+   * in `SkyDatepickerConfigService`.
+   * @default 0
+   */
   @Input()
   public set startingDay(value: number) {
     this._startingDay = value;
@@ -226,7 +259,7 @@ export class SkyDatepickerInputDirective
   private ngUnsubscribe = new Subject<void>();
 
   private _dateFormat: string;
-  private _disabled = false;
+  private _disabled: boolean;
   private _maxDate: Date;
   private _minDate: Date;
   private _startingDay: number;

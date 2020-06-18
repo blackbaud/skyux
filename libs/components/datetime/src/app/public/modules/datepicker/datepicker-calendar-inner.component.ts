@@ -16,6 +16,9 @@ import {
 
 let nextDatepickerId = 0;
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-datepicker-inner',
   templateUrl: './datepicker-calendar-inner.component.html',

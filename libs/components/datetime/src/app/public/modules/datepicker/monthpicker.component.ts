@@ -10,15 +10,22 @@ import {
   SkyDatepickerDate
 } from './datepicker-date';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-monthpicker',
   templateUrl: 'monthpicker.component.html'
 })
 export class SkyMonthPickerComponent implements OnInit {
-  public title: string;
-  public rows: Array<Array<SkyDatepickerDate>> = [];
+
   public datepicker: SkyDatepickerCalendarInnerComponent;
+
   public maxMode: string;
+
+  public rows: Array<Array<SkyDatepickerDate>> = [];
+
+  public title: string;
 
   public constructor(datepicker: SkyDatepickerCalendarInnerComponent) {
     this.datepicker = datepicker;

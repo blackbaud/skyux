@@ -22,12 +22,18 @@ import {
 import * as moment_ from 'moment';
 const moment = moment_;
 
+/**
+ * @internal
+ */
 interface SkyDateIndexes {
   yearIndex: number;
   monthIndex: number;
   dayIndex: number;
 }
 
+/**
+ * @internal
+ */
 interface SkyFuzzyDateRange {
   years: string;
   months: string;
@@ -35,6 +41,9 @@ interface SkyFuzzyDateRange {
   valid: boolean;
 }
 
+/**
+ * @internal
+ */
 @Injectable()
 export class SkyFuzzyDateService implements OnDestroy {
 
@@ -59,7 +68,7 @@ export class SkyFuzzyDateService implements OnDestroy {
   }
 
   /**
-   * Returns the browser's current locale string from SkyAppLocaleProvider.
+   * Returns the browser's current locale string.
    */
   public getCurrentLocale(): string {
     return this.currentLocale;
@@ -125,8 +134,7 @@ export class SkyFuzzyDateService implements OnDestroy {
   }
 
   /**
-   * If not provided, years will default to current year;
-   * months will default to January;
+   * If not provided, years will default to current year; months will default to January;
    * days will default to 1st of the month.
    */
   public getMomentFromFuzzyDate(fuzzyDate: SkyFuzzyDate): any {
