@@ -2,6 +2,9 @@ import { ElementRef, Injectable } from '@angular/core';
 
 import { SkyAvatarSrc } from './avatar-src';
 
+/**
+ * @internal
+ */
 @Injectable()
 export class SkyAvatarAdapterService {
   private blobUrl: string;

@@ -13,6 +13,9 @@ import {
   SkyAvatarSrc
 } from './avatar-src';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-avatar-inner',
   templateUrl: './avatar.inner.component.html',
