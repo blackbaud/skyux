@@ -1,0 +1,40 @@
+@import "~@skyux/theme/scss/mixins";
+
+.sky-status-indicator {
+  align-items: baseline;
+  display: flex;
+}
+
+.sky-status-indicator-icon {
+  flex-shrink: 1;
+}
+
+.sky-status-indicator-icon-modern {
+  display: none;
+}
+
+.sky-status-indicator-icon-info {
+  color: $sky-highlight-color-info;
+}
+
+.sky-status-indicator-icon-success {
+  color: $sky-highlight-color-success;
+}
+
+.sky-status-indicator-icon-warning {
+  color: $sky-highlight-color-warning;
+}
+
+.sky-status-indicator-icon-danger {
+  color: $sky-highlight-color-danger;
+}
+
+@include sky-theme-modern {
+  .sky-status-indicator-icon-default {
+    display: none;
+  }
+
+  .sky-status-indicator-icon-modern {
+    display: inline;
+  }
+}

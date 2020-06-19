@@ -42,6 +42,7 @@ describe('Icon stack component', () => {
 
     expect(wrapperEl).toHaveCssClass('fa-stack');
     expect(wrapperEl).toHaveCssClass('fa-3x');
+    expect(wrapperEl).toHaveCssClass('sky-icon-stack-size-3x');
 
     const iconEls = element.querySelectorAll('.sky-icon');
 

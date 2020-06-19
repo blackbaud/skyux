@@ -26,6 +26,7 @@ import {
   SkyIconModule,
   SkyKeyInfoModule,
   SkyLabelModule,
+  SkyStatusIndicatorModule,
   SkyTextHighlightModule,
   SkyTokensModule,
   SkyWaitModule
@@ -42,6 +43,7 @@ import {
     SkyIconModule,
     SkyKeyInfoModule,
     SkyLabelModule,
+    SkyStatusIndicatorModule,
     SkyTextHighlightModule,
     SkyThemeModule,
     SkyTokensModule,

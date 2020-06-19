@@ -7,6 +7,14 @@ import {
 } from '@angular/core';
 
 import {
+  SkyIndicatorIconType
+} from '../shared/indicator-icon-type';
+
+import {
+  SkyIndicatorIconUtility
+} from '../shared/indicator-icon-utility';
+
+import {
   SkyIconStackItem
 } from '../icon/icon-stack-item';
 
@@ -69,34 +77,11 @@ export class SkyAlertComponent implements OnInit {
   }
 
   private updateAlertIcon(): void {
-    let baseIcon: string;
-    let topIcon: string;
+    const indicatorIcon = SkyIndicatorIconUtility.getIconsForType(
+      this.alertType as SkyIndicatorIconType
+    );
 
-    // tslint:disable-next-line: switch-default
-    switch (this.alertType) {
-      case 'danger':
-      case 'warning':
-        baseIcon = 'triangle-solid';
-        topIcon = 'exclamation';
-        break;
-      case 'info':
-        baseIcon = 'circle-solid';
-        topIcon = 'help-i';
-        break;
-      case 'success':
-        baseIcon = 'circle-solid';
-        topIcon = 'check';
-        break;
-    }
-
-    this.alertBaseIcon = {
-      icon: baseIcon,
-      iconType: 'skyux'
-    };
-
-    this.alertTopIcon = {
-      icon: topIcon,
-      iconType: 'skyux'
-    };
+    this.alertBaseIcon = indicatorIcon.modernThemeBaseIcon;
+    this.alertTopIcon = indicatorIcon.modernThemeTopIcon;
   }
 }

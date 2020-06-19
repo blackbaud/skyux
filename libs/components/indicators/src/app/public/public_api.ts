@@ -11,6 +11,8 @@ export * from './modules/key-info/key-info.module';
 
 export * from './modules/label/label.module';
 
+export * from './modules/status-indicator/status-indicator.module';
+
 export * from './modules/text-highlight/text-highlight.module';
 
 export * from './modules/tokens/tokens.module';
