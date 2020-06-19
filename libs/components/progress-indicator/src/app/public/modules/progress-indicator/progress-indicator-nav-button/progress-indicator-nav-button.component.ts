@@ -43,6 +43,10 @@ import {
   SkyProgressIndicatorComponent
 } from '../progress-indicator.component';
 
+/**
+ * Displays a button to navigate the steps in modal wizards. We recommend against using it in
+ * passive progress indicators and waterfall progress indicators.
+ */
 @Component({
   selector: 'sky-progress-indicator-nav-button',
   templateUrl: './progress-indicator-nav-button.component.html',
@@ -50,9 +54,18 @@ import {
 })
 export class SkyProgressIndicatorNavButtonComponent implements AfterViewInit, OnDestroy {
 
+/**
+ * Specifies the label to display on the nav button.
+ * @default "Next"
+ */
   @Input()
   public buttonText: string;
 
+/**
+ * Specifies the type of nav button to include.
+ * The valid options are `finish`, `next`, `previous`, and `reset`.
+ * @default "next"
+ */
   @Input()
   public set buttonType(value: SkyProgressIndicatorNavButtonType) {
     this._buttonType = value;
@@ -66,6 +79,10 @@ export class SkyProgressIndicatorNavButtonComponent implements AfterViewInit, On
     return this._buttonType;
   }
 
+/**
+ * Indicates whether to disable the nav button.
+ * @default "false"
+ */
   @Input()
   public set disabled(value: boolean) {
     this._disabled = value;
@@ -94,6 +111,10 @@ export class SkyProgressIndicatorNavButtonComponent implements AfterViewInit, On
     return this._disabled || false;
   }
 
+  /**
+   * Specifies the progress indicator component to associate with the nav button.
+   * @required
+   */
   @Input()
   public set progressIndicator(value: SkyProgressIndicatorComponent) {
     this._progressIndicator = value;
@@ -141,6 +162,11 @@ export class SkyProgressIndicatorNavButtonComponent implements AfterViewInit, On
     return this._progressIndicator;
   }
 
+  /**
+   * Fires when users select the nav button and emits a `SkyProgressIndicatorActionClickArgs`
+   * object that is passed into the callback function to allow consumers to decide whether
+   * the button’s action should complete successfully.
+   */
   @Output()
   public actionClick = new EventEmitter<SkyProgressIndicatorActionClickArgs>();
 

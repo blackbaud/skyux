@@ -13,6 +13,10 @@ import {
   SkyProgressIndicatorItemStatus
 } from '../types/progress-indicator-item-status';
 
+/**
+ * Specifies the content to display in the status marker.
+ * @internal
+ */
 @Component({
   selector: 'sky-progress-indicator-status-marker',
   templateUrl: './progress-indicator-status-marker.component.html',

@@ -1,5 +1,6 @@
 /**
- * Allows the consumer to trigger step advancement manually.
+ * Allows the consumer to decide whether the button's action should be completed successfully.
+ * The handler is provided with all nav button types.
  */
 export class SkyProgressIndicatorActionClickProgressHandler {
 

@@ -3,6 +3,9 @@ import {
   Component
 } from '@angular/core';
 
+/**
+ * Specifies a header to display above the progress indicator.
+ */
 @Component({
   selector: 'sky-progress-indicator-title',
   templateUrl: './progress-indicator-title.component.html',
