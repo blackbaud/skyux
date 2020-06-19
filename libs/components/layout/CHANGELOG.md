@@ -1,3 +1,7 @@
+# 4.1.1 (2020-06-18)
+
+- Fixed the text expand component to prevent an error when using the `maxLength` property in a compiled application. [#112](https://github.com/blackbaud/skyux-layout/pull/112)
+
 # 4.1.0 (2020-06-04)
 
 - Added modern theme styles to the toolbar component. [#109](https://github.com/blackbaud/skyux-layout/pull/109)
