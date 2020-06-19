@@ -1,6 +1,8 @@
 import {
+  ChangeDetectorRef,
   Component,
-  OnDestroy
+  OnDestroy,
+  ViewChild
 } from '@angular/core';
 
 import {
@@ -19,6 +21,10 @@ import {
 } from '../../public/public_api';
 
 import {
+  SkyProgressIndicatorComponent
+} from '../../public/modules/progress-indicator/progress-indicator.component';
+
+import {
   ProgressIndicatorWizardDemoComponent
 } from './progress-indicator-horizontal-visual.component';
 
@@ -28,13 +34,29 @@ import {
 })
 export class ProgressIndicatorVisualComponent implements OnDestroy {
 
+  @ViewChild('horizontalIndicator')
+  public set progressIndicator(value: SkyProgressIndicatorComponent) {
+    this._progressIndicator = value;
+    // NOTE: Detect changes is used here instead of `markForCheck` as that still throws errors. The
+    // statement is needed as the template will throw errors when the ViewChild updates without it
+    this.changeDetector.detectChanges();
+  }
+
+  public get progressIndicator(): SkyProgressIndicatorComponent {
+    return this._progressIndicator;
+  }
+
   public disabled: boolean;
   public messageStream = new Subject<SkyProgressIndicatorMessage>();
   public messageStreamHorizontal = new Subject<any>();
+  public showElement: boolean = true;
   public startingIndex: number;
 
+  private _progressIndicator: SkyProgressIndicatorComponent;
+
   constructor(
-    private modalService: SkyModalService
+    private modalService: SkyModalService,
+    private changeDetector: ChangeDetectorRef
   ) { }
 
   public ngOnDestroy(): void {
@@ -86,5 +108,9 @@ export class ProgressIndicatorVisualComponent implements OnDestroy {
 
   public openModal(): void {
     this.modalService.open(ProgressIndicatorWizardDemoComponent);
+  }
+
+  public toggleProgressIndicator(): void {
+    this.showElement = !this.showElement;
   }
 }

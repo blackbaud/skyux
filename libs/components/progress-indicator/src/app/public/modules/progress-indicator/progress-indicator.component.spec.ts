@@ -676,12 +676,14 @@ describe('Progress indicator component', function () {
     it('should throw error if progress indicator not set as an input', fakeAsync(function () {
       componentInstance.defaultNavButtonProgressIndicatorRef = undefined;
 
-      try {
-        detectChanges();
-        fail('It should throw error!');
-      } catch (error) {
-        expect(error).toExist();
-      }
+      detectChanges();
+      expect(() => { tick(100); }).toThrowError();
+      /**
+       * Note: I'm not sure why this second expectation is needed but without it the test yells
+       * that a timer is still in the queue even though debugging only shows the timeout hitting
+       * once and in manual testing the error is only thrown once
+       */
+      expect(() => { tick(100); }).toThrowError();
     }));
   });
 

@@ -102,7 +102,7 @@
   class="app-screenshot"
   id="app-screenshot-display-mode-horizontal"
 >
-  <sky-progress-indicator
+  <sky-progress-indicator *ngIf="showElement"
     displayMode="horizontal"
     [messageStream]="messageStreamHorizontal"
     (progressChanges)="onProgressChanges($event)"
@@ -133,34 +133,34 @@
     </sky-progress-indicator-item>
   </sky-progress-indicator>
 
-  <sky-progress-indicator-nav-button
+  <sky-progress-indicator-nav-button *ngIf="progressIndicator"
     buttonType="previous"
     [disabled]="disabled"
-    [progressIndicator]="horizontalIndicator"
+    [progressIndicator]="progressIndicator"
   >
   </sky-progress-indicator-nav-button>
 
-  <sky-progress-indicator-nav-button
+  <sky-progress-indicator-nav-button *ngIf="progressIndicator"
     buttonType="next"
     id="app-screenshot-display-mode-horizontal-next-button"
     [disabled]="disabled"
-    [progressIndicator]="horizontalIndicator"
+    [progressIndicator]="progressIndicator"
   >
   </sky-progress-indicator-nav-button>
 
-  <sky-progress-indicator-nav-button
+  <sky-progress-indicator-nav-button *ngIf="progressIndicator"
     buttonType="finish"
     [disabled]="disabled"
-    [progressIndicator]="horizontalIndicator"
+    [progressIndicator]="progressIndicator"
     (actionClick)="onFinishClick($event)"
   >
   </sky-progress-indicator-nav-button>
 
-  <sky-progress-indicator-nav-button
+  <sky-progress-indicator-nav-button *ngIf="progressIndicator"
     buttonText="Start over"
     buttonType="reset"
     [disabled]="disabled"
-    [progressIndicator]="horizontalIndicator"
+    [progressIndicator]="progressIndicator"
   >
   </sky-progress-indicator-nav-button>
 </div>
@@ -173,6 +173,12 @@
     (click)="disableNavButtons()"
   >
     Disable nav buttons
+  </button>
+  <button
+    class="sky-btn sky-btn-primary"
+    (click)="toggleProgressIndicator()"
+  >
+    Toggle indicator
   </button>
 </p>
 
