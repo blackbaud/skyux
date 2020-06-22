@@ -8,8 +8,7 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
-  Renderer2,
-  SimpleChanges
+  Renderer2
 } from '@angular/core';
 
 import {
@@ -134,7 +133,7 @@ export class SkyColorpickerInputDirective
 
   /* istanbul ignore next */
   @HostListener('blur')
-  public onBlur(event: any) {
+  public onBlur() {
     /*istanbul ignore next */
     this._onTouched();
   }
@@ -192,7 +191,7 @@ export class SkyColorpickerInputDirective
     );
   }
 
-  public ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(): void {
     this._validatorChange();
     this.skyColorpickerInput.returnFormat = this.returnFormat;
     this.setColorPickerDefaults();
