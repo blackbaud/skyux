@@ -1,3 +1,7 @@
+# 4.0.2 (2020-06-22)
+
+- Fixed the peer dependency versions of `ag-grid-angular` and `ag-grid-community` packages to `^23.2.0` to support `@angular/core@^9.1.9`. [#46](https://github.com/blackbaud/skyux-ag-grid/pull/46)
+
 # 4.0.1 (2020-06-11)
 
 - Removed the barrel export files to fix builds. [#43](https://github.com/blackbaud/skyux-ag-grid/pull/43)
