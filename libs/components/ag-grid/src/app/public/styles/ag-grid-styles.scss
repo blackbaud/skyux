@@ -1,57 +1,48 @@
 @import '~@skyux/theme/scss/mixins';
 @import '~@skyux/theme/scss/_compat/mixins';
-
-/* base grid theme property variables */
-$odd-row-background-color: $sky-background-color-page-default !default;
-$background-color: $sky-color-gray-01 !default;
-$border-color: $sky-border-color-neutral-medium !default;
-$row-height: 38px !default;
-$header-height: 38px !default;
-$font-family: $sky-font-family !default;
-$foreground-color: $sky-text-color-default !default;
-$header-background-color: $sky-background-color-page-default !default;
-$header-foreground-color: $sky-text-color-deemphasized !default;
-$font-size: 15px !default;
-$row-border-width: 1px !default;
-$secondary-font-size: $sky-font-size-base !default;
-$secondary-font-weight: 400 !default;
-$secondary-foreground-color: $sky-text-color-deemphasized !default;
-$primary-color: $sky-highlight-color-info !default;
-$selected-color: $sky-background-color-selected !default;
-$hover-color: darken($sky-background-color-selected, 10%) !default;
-
-/* other variables */
-$sky-standard-border: 1px solid $border-color !default;
-
 @import "~ag-grid-community/src/styles/ag-grid.scss";
-@import "~ag-grid-community/src/styles/ag-theme-balham/sass/ag-theme-balham.scss";
+@import "~ag-grid-community/src/styles/ag-theme-base/sass/ag-theme-base-mixin.scss";
+
+$sky-standard-border: 1px solid $sky-border-color-neutral-medium;
 
 ag-grid-angular {
-  @extend .ag-theme-balham;
+  @include ag-theme-base((
+    background-color: $sky-color-gray-01,
+    border-color: $sky-border-color-neutral-medium,
+    borders: true,
+    font-family: $sky-font-family,
+    font-size: 15px,
+    foreground-color: $sky-text-color-default,
+    header-background-color: $sky-background-color-page-default,
+    header-column-separator: true,
+    header-column-separator-color: $sky-border-color-neutral-medium,
+    header-height: 38px,
+    input-focus-border-color: $sky-highlight-color-info,
+    odd-row-background-color: $sky-background-color-page-default,
+    row-border-color: $sky-border-color-neutral-medium,
+    row-height: 38px,
+    row-hover-color: darken($sky-background-color-selected, 10%),
+    range-selection-border-color: $sky-highlight-color-info,
+    secondary-foreground-color: $sky-text-color-deemphasized,
+    selected-row-background-color: $sky-background-color-selected
+  ));
 
   border-top: $sky-standard-border;
 
-  .ag-root {
+  .ag-root-wrapper {
     border: none;
   }
 
-  // ag grid renders a small column header divider that we don't want shown
-  .ag-header-cell::after {
-    display: none;
-  }
-
-  .ag-header-cell {
-    border-right: $sky-standard-border;
+  .ag-row:not(.ag-row-first) {
+    border-top: none;
   }
 
   .ag-row {
-    // don't shorthand these because it will overwrite the other grid border settings
-    border-color: $border-color;
-    border-style: dotted;
-  }
+    border-bottom-style: dotted;
 
-  .ag-row-selected:hover {
-    background-color: $hover-color;
+    + .ag-row-last {
+      border-bottom-style: dotted;
+    }
   }
 
   .sky-ag-grid-cell-number {
@@ -59,71 +50,84 @@ ag-grid-angular {
     padding-right: 12px;
   }
 
-  .sky-ag-grid-cell-autocomplete {
-    padding-left: 12px;
+  .sky-ag-grid-header-right-aligned .ag-header-cell-label {
+    justify-content: flex-end;
   }
 }
 
 ag-grid-angular {
-  button:focus {
-    outline: -webkit-focus-ring-color auto 5px;
+  input:focus {
+    border: none;
+    outline: none;
   }
+
+  input::-ms-clear {
+    display: none;
+}
 }
 
 ag-grid-angular.sky-ag-grid-editable {
+  @include ag-theme-base((
+    background-color: $sky-color-gray-01,
+    border-color: $sky-border-color-neutral-medium,
+    borders: true,
+    cell-horizontal-border: solid $sky-border-color-neutral-medium,
+    cell-horizontal-padding: 13px,
+    font-family: $sky-font-family,
+    font-size: 15px,
+    foreground-color: $sky-text-color-default,
+    header-background-color: $sky-background-color-page-default,
+    header-column-separator: true,
+    header-column-separator-color: $sky-border-color-neutral-medium,
+    header-height: 38px,
+    input-focus-border-color: $sky-highlight-color-info,
+    popup-shadow: none,
+    row-border-color: $sky-border-color-neutral-medium,
+    row-height: 38px,
+    range-selection-border-color: $sky-highlight-color-info,
+    secondary-foreground-color: $sky-text-color-deemphasized
+  ));
+
+  .ag-root-wrapper {
+    border: none;
+  }
+
   border-left: $sky-standard-border;
 
+  .ag-row:not(.ag-row-first) {
+    border-top: none;
+  }
+
   .ag-row {
-    border-style: solid;
+    border-bottom-style: solid;
   }
 
   .ag-cell {
-    border-right: $sky-standard-border;
     border-block-end: none;
     border-block-start: none;
+
+    .ag-cell-not-inline-editing {
+      padding-left: 12px !important;
+    }
   }
 
   .sky-ag-grid-cell-editable {
     background-color: $sky-background-color-page-default;
   }
 
-  .sky-ag-grid-cell-uneditable {
-    background-color: $sky-background-color-neutral-light;
-  }
-
-  .ag-popup > div {
-    box-shadow: none;
+  .ag-popup-editor {
+    border: none;
   }
 
   /* fine tune focus cell borders */
   .ag-row {
     .ag-cell-focus {
-      line-height: $row-height - ($row-border-width * 4);
+      line-height: ag-param(row-height) - 4;
     }
 
     .ag-cell-focus.ag-cell-inline-editing {
-      height: $row-height - 1;
-      border-radius: 0;
+      height: ag-param(row-height) - 1;
       @include sky-field-status(active)
-    }
-  }
-
-  .ag-row.ag-row-first {
-    // ag-grid sets the height on the element and the first row does not have a border, we must adjust the row height to account for that.
-    height: $row-height - 1 !important;
-  }
-
-  .ag-row:not(.ag-row-first) {
-    margin-top: -1px;
-  }
-
-  .ag-popup-editor {
-    border: none;
-  }
-
-  sky-ag-grid-cell-editor-datepicker {
-    sky-daypicker:focus {
-      outline: -webkit-focus-ring-color auto 5px;
     }
   }
 }

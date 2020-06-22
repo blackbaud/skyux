@@ -49,7 +49,7 @@ describe('SkyAgGridWrapperComponent', () => {
     });
 
     gridWrapperFixture = TestBed.createComponent(SkyAgGridWrapperComponent);
-    gridAdapterService = TestBed.get(SkyAgGridAdapterService);
+    gridAdapterService = TestBed.inject(SkyAgGridAdapterService);
     gridWrapperComponent = gridWrapperFixture.componentInstance;
     gridWrapperNativeElement = gridWrapperFixture.nativeElement;
     gridWrapperComponent.agGrid = agGrid;

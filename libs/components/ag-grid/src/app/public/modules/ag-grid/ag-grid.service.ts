@@ -38,6 +38,10 @@ import {
 } from './types/cell-type';
 
 import {
+  SkyHeaderClass
+} from './types/header-class';
+
+import {
   SkyGetGridOptionsArgs
 } from './types/sky-grid-options';
 
@@ -192,7 +196,8 @@ export class SkyAgGridService {
             [SkyCellClass.Number]: cellClassRuleTrueExpression,
             ...editableCellClassRules
           },
-          cellEditorFramework: SkyAgGridCellEditorNumberComponent
+          cellEditorFramework: SkyAgGridCellEditorNumberComponent,
+          headerClass: SkyHeaderClass.RightAligned
         },
         [SkyCellType.RowSelector]: {
           cellClassRules: {

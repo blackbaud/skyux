@@ -25,8 +25,6 @@ import {
 })
 export class SkyAgGridCellEditorDatepickerComponent implements ICellEditorAngularComp {
   public currentDate: Date;
-  public columnWidth: number;
-  public rowHeight: number;
   public skyComponentProperties: SkyDatepickerProperties = {};
   private params: SkyCellEditorDatepickerParams;
 
@@ -42,8 +40,6 @@ export class SkyAgGridCellEditorDatepickerComponent implements ICellEditorAngula
   public agInit(params: SkyCellEditorDatepickerParams): void {
     this.params = params;
     this.currentDate = this.params.value;
-    this.columnWidth = this.params.column.getActualWidth();
-    this.rowHeight = this.params.node.rowHeight - 1;
     this.skyComponentProperties = this.params.skyComponentProperties || {};
   }
 

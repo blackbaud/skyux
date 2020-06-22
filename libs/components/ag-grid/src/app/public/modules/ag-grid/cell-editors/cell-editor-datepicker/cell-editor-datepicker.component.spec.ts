@@ -135,8 +135,6 @@ describe('SkyCellEditorDatepickerComponent', () => {
       cellEditorParams.value = date;
 
       expect(datepickerEditorComponent.currentDate).toBeUndefined();
-      expect(datepickerEditorComponent.columnWidth).toBeUndefined();
-      expect(datepickerEditorComponent.rowHeight).toBeUndefined();
 
       datepickerEditorComponent.agInit(cellEditorParams);
       datepickerEditorFixture.detectChanges();
@@ -145,8 +143,6 @@ describe('SkyCellEditorDatepickerComponent', () => {
 
       expect(datepickerEditorComponent.currentDate).toEqual(date);
       expect(datepicker.date).toEqual(dateString);
-      expect(datepickerEditorComponent.columnWidth).toEqual(columnWidth);
-      expect(datepickerEditorComponent.rowHeight).toEqual(36);
     }));
   });
 
@@ -164,8 +160,6 @@ describe('SkyCellEditorDatepickerComponent', () => {
 
   describe('afterGuiAttached', () => {
     it('focuses on the datepicker input after it attaches to the DOM', () => {
-      datepickerEditorComponent.columnWidth = 300;
-      datepickerEditorComponent.rowHeight = 37;
       datepickerEditorComponent.currentDate = new Date('7/12/2019');
 
       datepickerEditorFixture.detectChanges();
@@ -181,9 +175,6 @@ describe('SkyCellEditorDatepickerComponent', () => {
   });
 
   it('should pass accessibility', async(() => {
-    datepickerEditorComponent.columnWidth = 300;
-    datepickerEditorComponent.rowHeight = 37;
-
     datepickerEditorFixture.detectChanges();
 
     expect(datepickerEditorNativeElement).toBeAccessible();

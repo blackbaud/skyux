@@ -11,6 +11,7 @@ import {
 } from '@skyux/lists';
 
 import {
+  SkyBackToTopModule,
   SkyToolbarModule
 } from '@skyux/layout';
 
@@ -55,7 +56,8 @@ import {
     SkyInfiniteScrollModule,
     SkyModalModule,
     SkySearchModule,
-    SkyToolbarModule
+    SkyToolbarModule,
+    SkyBackToTopModule
   ],
   providers: [],
   entryComponents: [

@@ -41,8 +41,8 @@ describe('SkyAgGridService', () => {
       ]
     });
 
-    agGridService = TestBed.get(SkyAgGridService);
-    agGridAdapterService = TestBed.get(SkyAgGridAdapterService);
+    agGridService = TestBed.inject(SkyAgGridService);
+    agGridAdapterService = TestBed.inject(SkyAgGridAdapterService);
     defaultGridOptions = agGridService.getGridOptions({ gridOptions: {}});
   });
 
@@ -178,7 +178,7 @@ describe('SkyAgGridService', () => {
     }
 
     beforeEach(() => {
-      dateValueFormatter = defaultGridOptions.columnTypes[SkyCellType.Date].valueFormatter;
+      dateValueFormatter = defaultGridOptions.columnTypes[SkyCellType.Date].valueFormatter as Function;
       dateValueFormatterParams = {
         value: undefined,
         node: undefined,
@@ -224,7 +224,7 @@ describe('SkyAgGridService', () => {
 
     it('returns a date string in the DD/MM/YYYY string format when a date string and british english en-gb locale  are provided', () => {
       const britishGridOptions = agGridService.getGridOptions({ gridOptions: {}, locale: 'en-gb' });
-      const britishDateValueFormatter = britishGridOptions.columnTypes[SkyCellType.Date].valueFormatter;
+      const britishDateValueFormatter = britishGridOptions.columnTypes[SkyCellType.Date].valueFormatter as Function;
       dateValueFormatterParams.value = '3/1/2019';
 
       const formattedDate = britishDateValueFormatter(dateValueFormatterParams);
@@ -287,7 +287,7 @@ describe('SkyAgGridService', () => {
     let autocompleteValueFormatterParams: ValueFormatterParams;
 
     beforeEach(() => {
-      autocompleteValueFormatter = defaultGridOptions.columnTypes[SkyCellType.Autocomplete].valueFormatter;
+      autocompleteValueFormatter = defaultGridOptions.columnTypes[SkyCellType.Autocomplete].valueFormatter as Function;
       autocompleteValueFormatterParams = {
         value: undefined,
         node: undefined,
@@ -389,6 +389,24 @@ describe('SkyAgGridService', () => {
     it('should return false for non-tab keys to allow the keypress event', () => {
       const params = { event: { code: 'Enter' }};
       expect(suppressKeypressFunction(params)).toBe(false);
+    });
+  });
+
+  describe('onCellFocused', () => {
+    let onCellFocusedFunction: Function;
+
+    beforeEach(() => {
+      onCellFocusedFunction = defaultGridOptions.onCellFocused;
+    });
+
+    it('should get the currently focused cell and place focus on its children elements', () => {
+      spyOn(agGridAdapterService, 'getFocusedElement');
+      spyOn(agGridAdapterService, 'focusOnFocusableChildren');
+
+      onCellFocusedFunction();
+
+      expect(agGridAdapterService.getFocusedElement).toHaveBeenCalled();
+      expect(agGridAdapterService.focusOnFocusableChildren).toHaveBeenCalled();
     });
   });
 

@@ -38,7 +38,7 @@ describe('SkyAgGridAdapterService', () => {
     });
 
     agGridAdapterServiceFixture = TestBed.createComponent(SkyAgGridAdapterFixtureComponent);
-    agGridAdapterService = TestBed.get(SkyAgGridAdapterService);
+    agGridAdapterService = TestBed.inject(SkyAgGridAdapterService);
     parentElement = agGridAdapterServiceFixture.nativeElement.querySelector('#parent');
     firstChildElement = agGridAdapterServiceFixture.nativeElement.querySelector('#child1');
     secondChildElement = agGridAdapterServiceFixture.nativeElement.querySelector('#child2');

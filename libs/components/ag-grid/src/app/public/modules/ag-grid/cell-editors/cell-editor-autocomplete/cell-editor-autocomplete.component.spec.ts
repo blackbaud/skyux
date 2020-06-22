@@ -99,14 +99,9 @@ describe('SkyCellEditorAutocompleteComponent', () => {
 
     it('should initialize the SkyAgGridCellEditorAutocompleteComponent properties', () => {
       expect(component.currentSelection).toBeUndefined();
-      expect(component.columnWidth).toBeUndefined();
-      expect(component.rowHeight).toBeUndefined();
-
       component.agInit(cellEditorParams);
 
       expect(component.currentSelection).toEqual(selection);
-      expect(component.columnWidth).toBe(columnWidth);
-      expect(component.rowHeight).toBe(36);
     });
   });
 

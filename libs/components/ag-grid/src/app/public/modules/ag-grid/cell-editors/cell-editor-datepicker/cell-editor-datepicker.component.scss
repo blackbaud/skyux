@@ -8,7 +8,3 @@ sky-datepicker {
     border-right: 1px solid $sky-border-color-neutral-medium;
   }
 }
-
-.sky-ag-grid-cell-editor-datepicker {
-  @include sky-field-status(active)
-}

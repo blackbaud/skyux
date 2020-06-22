@@ -25,9 +25,6 @@ import {
 })
 export class SkyAgGridCellEditorAutocompleteComponent implements ICellEditorAngularComp {
   public currentSelection: any;
-
-  public columnWidth: number;
-  public rowHeight: number;
   public columnHeader: string;
   public rowNumber: number;
   public skyComponentProperties: SkyAutocompleteProperties = {};
@@ -39,8 +36,6 @@ export class SkyAgGridCellEditorAutocompleteComponent implements ICellEditorAngu
   public agInit(params: SkyCellEditorAutocompleteParams) {
     this.params = params;
     this.currentSelection = this.params.value;
-    this.columnWidth = this.params.column && this.params.column.getActualWidth();
-    this.rowHeight = this.params.node && this.params.node.rowHeight - 1;
     this.columnHeader = this.params.colDef && this.params.colDef.headerName;
     this.rowNumber = this.params.rowIndex + 1;
     this.skyComponentProperties = this.params.skyComponentProperties || {};
