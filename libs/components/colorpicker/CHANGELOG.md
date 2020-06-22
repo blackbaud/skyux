@@ -1,3 +1,7 @@
+# 4.0.2 (2020-06-22)
+
+- Removed unused parameters from the colorpicker input directive `HostListener` to address build issues when consumed by another library. [#48](https://github.com/blackbaud/skyux-colorpicker/pull/48)
+
 # 4.0.1 (2020-06-05)
 
 - Fixed the exports API to include `SkyColorpickerChangeAxis`, `SkyColorpickerCmyk`, `SkyColorpickerChangeColor`, `SkyColorpickerHsla`, `SkyColorpickerHsva`, and `SkyColorpickerRgba`. [#47](github.com/blackbaud/skyux-colorpicker/pull/47)
