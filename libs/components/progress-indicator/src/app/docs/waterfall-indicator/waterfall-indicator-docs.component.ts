@@ -18,7 +18,9 @@ import {
   Subject
 } from 'rxjs';
 
-import 'rxjs/add/operator/take';
+import {
+  take
+} from 'rxjs/operators';
 
 import {
   SkyProgressIndicatorWaterfallDemoContext
@@ -98,7 +100,7 @@ export class WaterfallIndicatorDocsComponent {
       useValue: context
     }]);
 
-    modalForm.closed.take(1).subscribe((args: SkyModalCloseArgs) => {
+    modalForm.closed.pipe(take(1)).subscribe((args: SkyModalCloseArgs) => {
       if (args.reason === 'save' && isProgress) {
         this.progress();
       }
