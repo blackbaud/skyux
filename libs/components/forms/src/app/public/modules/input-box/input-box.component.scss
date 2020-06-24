@@ -2,6 +2,10 @@
 @import "~@skyux/theme/scss/_compat/mixins";
 @import "~@skyux/theme/scss/variables";
 
+sky-input-box {
+  display: block;
+}
+
 .sky-theme-modern {
 
   .sky-input-box {
