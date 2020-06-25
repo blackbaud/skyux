@@ -18,6 +18,14 @@
     }
   }
 
+  &.sky-lookup-disabled {
+
+    .sky-lookup-search {
+      background-color: $sky-background-color-disabled;
+    }
+
+  }
+
   ::ng-deep
   sky-tokens {
     &:focus {

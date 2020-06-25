@@ -2,6 +2,7 @@ import {
   Directive,
   ElementRef,
   forwardRef,
+  Input,
   OnDestroy,
   OnInit,
   Renderer2
@@ -52,6 +53,24 @@ const SKY_AUTOCOMPLETE_VALIDATOR = {
   ]
 })
 export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, ControlValueAccessor, Validator {
+
+  /**
+   * Indicates whether to disable the autocomplete field.
+   * @default "false"
+   */
+  @Input()
+  public set disabled(value: boolean) {
+    this._disabled = value;
+    this.renderer.setProperty(
+      this.elementRef.nativeElement,
+      'disabled',
+      value
+    );
+  }
+
+  public get disabled(): boolean {
+    return this._disabled;
+  }
 
   public get blur(): Observable<void> {
     return this._blur.asObservable();
@@ -111,6 +130,8 @@ export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, Control
 
   private _blur = new Subject<void>();
 
+  private _disabled = false;
+
   private _displayWith: string;
 
   private _textChanges = new Subject<SkyAutocompleteInputTextChange>();
@@ -130,23 +151,32 @@ export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, Control
     observableFromEvent(element, 'keyup')
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
-        this._textChanges.next({
-          value: this.elementRef.nativeElement.value
-        });
+        /** Sanity check */
+        if (!this.disabled) {
+          this._textChanges.next({
+            value: this.elementRef.nativeElement.value
+          });
+        }
       });
 
     observableFromEvent(element, 'blur')
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
-        this.restoreInputTextValueToPreviousState();
-        this.onTouched();
+        /** Sanity check */
+        if (!this.disabled) {
+          this.restoreInputTextValueToPreviousState();
+          this.onTouched();
+        }
       });
 
-      observableFromEvent(element, 'change')
-        .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(() => {
+    observableFromEvent(element, 'change')
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(() => {
+        /** Sanity check */
+        if (!this.disabled) {
           this.isFirstChange = false;
-        });
+        }
+      });
   }
 
   public ngOnDestroy(): void {
@@ -175,6 +205,10 @@ export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, Control
 
   public registerOnValidatorChange(fn: () => void): void {
     this.onValidatorChange = fn;
+  }
+
+  public setDisabledState(disabled: boolean): void {
+    this.disabled = disabled;
   }
 
   public validate(control: AbstractControl): ValidationErrors {
@@ -206,7 +240,7 @@ export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, Control
   /* istanbul ignore next */
   public onTouched(): void { }
   /* istanbul ignore next */
-  public onValidatorChange = () => {};
+  public onValidatorChange = () => { };
 
   private setAttributes(element: any): void {
     /**

@@ -22,8 +22,8 @@
         (selectionChange)="onSelectionChange($event)"
       >
         <input
-          id="favorite-color-reactive"
           formControlName="favoriteColor"
+          id="favorite-color-reactive"
           type="text"
           skyAutocomplete
         />
@@ -51,6 +51,14 @@
     </form>
   </div>
 
+  <button
+    class="sky-btn sky-btn-primary"
+    id="autocomplete-reactive-disable-button"
+    (click)="toggleReactiveDisabled()"
+  >
+    Toggle reactive autocomplete disabled
+  </button>
+
   <h2>
     Autocomplete (template-driven)
   </h2>
@@ -71,6 +79,7 @@
         id="favorite-color-template"
         type="text"
         skyAutocomplete
+        [disabled]="templateDisabledState"
         [(ngModel)]="templateDrivenModel"
         #model="ngModel"
       />
@@ -100,4 +109,11 @@
       </tr>
     </table>
   </div>
+
+  <button
+    class="sky-btn sky-btn-primary"
+    (click)="toggleTemplateDisabled()"
+  >
+    Toggle template autocomplete disabled
+  </button>
 </div>

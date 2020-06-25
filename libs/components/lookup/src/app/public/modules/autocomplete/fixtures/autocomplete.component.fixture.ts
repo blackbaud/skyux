@@ -53,6 +53,7 @@ export class SkyAutocompleteFixtureComponent {
   public customNoResultsMessage: string;
   public debounceTime: number;
   public descriptorProperty: string;
+  public disabled: boolean = false;
   public propertiesToSearch: string[];
   public search: SkyAutocompleteSearchFunction;
   public searchFilters: SkyAutocompleteSearchFunctionFilter[];

@@ -1,6 +1,7 @@
 import {
   Component,
-  OnInit
+  OnInit,
+  ViewChild
 } from '@angular/core';
 
 import {
@@ -8,11 +9,16 @@ import {
   FormGroup
 } from '@angular/forms';
 
+import {
+  SkyAutocompleteComponent
+} from '../autocomplete.component';
+
 @Component({
   selector: 'sky-autocomplete-reactive-fixture',
   templateUrl: './autocomplete-reactive.component.fixture.html'
 })
 export class SkyAutocompleteReactiveFixtureComponent implements OnInit {
+
   public reactiveForm: FormGroup;
 
   public data: any[] = [
@@ -28,6 +34,13 @@ export class SkyAutocompleteReactiveFixtureComponent implements OnInit {
     { name: 'White' },
     { name: 'Black' }
   ];
+
+  @ViewChild(SkyAutocompleteComponent, {
+    read: SkyAutocompleteComponent,
+    static: true
+  })
+  public autocomplete: SkyAutocompleteComponent;
+
   constructor(
     private formBuilder: FormBuilder
   ) {}
@@ -36,5 +49,13 @@ export class SkyAutocompleteReactiveFixtureComponent implements OnInit {
     this.reactiveForm = this.formBuilder.group({
       favoriteColor: undefined
     });
+  }
+
+  public disableForm() {
+    this.reactiveForm.get('favoriteColor').disable();
+  }
+
+  public enableForm() {
+    this.reactiveForm.get('favoriteColor').enable();
   }
 }

@@ -35,6 +35,10 @@ export class AutocompleteVisualComponent implements OnInit {
     { name: 'Black' }
   ];
 
+  public templateDisabledState: boolean = false;
+
+  private reactiveDisabledState: boolean = false;
+
   constructor(
     private formBuilder: FormBuilder
   ) {}
@@ -43,6 +47,20 @@ export class AutocompleteVisualComponent implements OnInit {
     this.reactiveForm = this.formBuilder.group({
       favoriteColor: undefined
     });
+  }
+
+  public toggleReactiveDisabled(): void {
+    if (this.reactiveDisabledState) {
+      this.reactiveForm.get('favoriteColor').enable();
+    } else {
+      this.reactiveForm.get('favoriteColor').disable();
+    }
+
+    this.reactiveDisabledState = !this.reactiveDisabledState;
+  }
+
+  public toggleTemplateDisabled(): void {
+    this.templateDisabledState = !this.templateDisabledState;
   }
 
   public onSelectionChange(event: SkyAutocompleteSelectionChange): void {
