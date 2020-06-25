@@ -1,3 +1,8 @@
+# 4.5.0 (2020-06-25)
+
+- Removed the bottom margin from the input box component in the modern theme. To stack input box components, specify the appropriate `sky-margin` CSS class on the `sky-input-box` element. [#137](https://github.com/blackbaud/skyux-forms/pull/137)
+- Added styles for the input box component's active, focused, and hover states. [#139](https://github.com/blackbaud/skyux-forms/pull/139)
+
 # 4.4.0 (2020-06-12)
 
 - Added the `disabled` property to the input box component. [#130](https://github.com/blackbaud/skyux-forms/pull/130)
