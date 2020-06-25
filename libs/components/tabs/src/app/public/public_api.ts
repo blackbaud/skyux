@@ -1,4 +1,5 @@
 export * from './modules/sectioned-form/sectioned-form.module';
+export * from './modules/sectioned-form/sectioned-form.service';
 
 export * from './modules/tabs/tabs.module';
 
