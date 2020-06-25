@@ -1,3 +1,7 @@
+# 4.1.1 (2020-06-25)
+
+- Fixed the exports API to include `SectionedFormService`. [#97](https://github.com/blackbaud/skyux-tabs/pull/97)
+
 # 4.1.0 (2020-06-16)
 
 - Added the `ariaLabel` and `ariaLabelledBy` input properties to the tabset component. [#90](https://github.com/blackbaud/skyux-tabs/pull/90)
