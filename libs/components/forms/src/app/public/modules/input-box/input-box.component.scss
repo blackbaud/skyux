@@ -2,12 +2,15 @@
 @import "~@skyux/theme/scss/_compat/mixins";
 @import "~@skyux/theme/scss/variables";
 
+$input-box-transitions: border-color 150ms, box-shadow 150ms, color 150ms;
+
 sky-input-box {
   display: block;
 }
 
 .sky-theme-modern {
 
+  /* Styles applied to both enabled and disabled input boxes */
   .sky-input-box {
     .sky-input-box-group {
       display: flex;
@@ -22,6 +25,12 @@ sky-input-box {
 
     .sky-input-box-group-form-control {
       flex-grow: 1;
+      /*
+        The combination of position: relative here and z-index on the focused form
+        control allows the drop shadow on the focused input group to display above the
+        input group buttons.
+      */
+      position: relative;
     }
 
     .sky-input-group-btn {
@@ -29,17 +38,12 @@ sky-input-box {
         border-radius: 0;
         color: $sky-theme-modern-font-deemphasized-color;
         padding: 0 12px;
+        position: relative;
+        transition: $input-box-transitions;
 
         .sky-icon {
           font-size: 24px;
           width: 29px;
-        }
-
-        &:focus {
-          outline: none;
-          border: solid 2px $sky-highlight-color-info;
-          color: $sky-text-color-default;
-          padding: 0 11px;
         }
       }
 
@@ -65,24 +69,6 @@ sky-input-box {
       margin-left: -2px;
     }
 
-    .sky-input-box-group-form-control-focus,
-    .sky-input-box-group-form-control-invalid {
-      .sky-form-group {
-        border-style: solid;
-        border-width: 2px;
-
-        .sky-control-label {
-          padding: 5px 14px 0 14px;
-        }
-
-        .sky-form-control {
-          &:not([type="range"]):not([type="radio"]):not([type="checkbox"]):not(select) {
-            padding: 3px 14px 9px 14px;
-          }
-        }
-      }
-    }
-
     .sky-input-box-group-form-control-invalid {
       .sky-form-group {
         border-color: $sky-highlight-color-danger;
@@ -90,10 +76,20 @@ sky-input-box {
       }
     }
 
-    .sky-input-box-group-form-control-focus,
-    .sky-input-box-group-form-control-focus.sky-input-box-group-form-control-invalid {
+    .sky-input-box-group-form-control-focus:not(:active),
+    .sky-input-box-group-form-control-focus:not(:active).sky-input-box-group-form-control-invalid {
+      /*
+        The combination of z-index here and position: relative on the form control
+        allows the drop shadow on the focused input group to display above the
+        input group buttons.
+      */
+      z-index: 1;
+
       .sky-form-group {
-        border-color: $sky-highlight-color-info;
+        border-color: $sky-theme-modern-background-color-primary-dark;
+        box-shadow:
+          $sky-theme-modern-elevation-1-shadow-size
+          $sky-theme-modern-elevation-1-shadow-color;
         color: $sky-theme-modern-text-color-action-primary;
       }
     }
@@ -101,7 +97,11 @@ sky-input-box {
     .sky-form-group {
       background-color: #fff;
       border: $sky-theme-modern-elevation-0-bordered-border;
-      border-radius: $sky-theme-modern-box-border-radius-default 0 0 $sky-theme-modern-box-border-radius-default;
+      border-radius:
+        $sky-theme-modern-box-border-radius-default
+        0
+        0
+        $sky-theme-modern-box-border-radius-default;
       color: $sky-theme-modern-font-field-label-color;
       display: block;
       margin-bottom: 0;
@@ -134,20 +134,152 @@ sky-input-box {
         resize: vertical;
       }
     }
+  }
 
-    &.sky-input-box-disabled {
+  /* hover/active/focus/invalid styles only valid for enabled input boxes */
+  .sky-input-box:not(.sky-input-box-disabled) {
+    .sky-input-box-group-form-control {
+      &:hover {
+        /* Ensure the form control border shows over the adjacent input group button. */
+        z-index: 1;
+
+        .sky-form-group {
+          border-color: $sky-theme-modern-background-color-primary-dark;
+        }
+      }
+    }
+
+    .sky-input-group-btn {
+      .sky-btn {
+        &:hover {
+          border-color: $sky-theme-modern-background-color-primary-dark;
+          z-index: 1;
+        }
+
+        &:active,
+        &:focus {
+          border: solid 2px $sky-theme-modern-background-color-primary-dark;
+          color: $sky-text-color-default;
+          padding: 0 11px;
+        }
+
+        &:focus:not(:active) {
+          outline: none;
+          box-shadow:
+            $sky-theme-modern-elevation-1-shadow-size
+            $sky-theme-modern-elevation-1-shadow-color;
+        }
+      }
+    }
+
+    .sky-input-box-group-form-control:active,
+    .sky-input-box-group-form-control-focus,
+    .sky-input-box-group-form-control-invalid:not(:hover) {
       .sky-form-group {
-        background-color: $sky-theme-modern-color-gray-07;
+        border-style: solid;
+        border-width: 2px;
+
+        .sky-control-label {
+          padding: 5px 14px 0 14px;
+        }
 
         .sky-form-control {
-          background-color: transparent;
+          &:not([type="range"]):not([type="radio"]):not([type="checkbox"]):not(select) {
+            padding: 3px 14px 9px 14px;
+          }
+        }
+      }
+    }
+
+    .sky-input-box-group-form-control-invalid {
+      .sky-form-group {
+        border-color: $sky-highlight-color-danger;
+        color: $sky-background-color-danger-dark;
+      }
+
+      &:active {
+        .sky-form-group {
+          color: $sky-theme-modern-text-color-action-primary;
+        }
+      }
+    }
+
+    .sky-input-box-group-form-control-focus:not(:active),
+    .sky-input-box-group-form-control-focus:not(:active).sky-input-box-group-form-control-invalid {
+      /*
+        The combination of z-index here and position: relative on the form control
+        allows the drop shadow on the focused input group to display above the
+        input group buttons.
+      */
+      z-index: 1;
+
+      .sky-form-group {
+        border-color: $sky-theme-modern-background-color-primary-dark;
+        box-shadow:
+          $sky-theme-modern-elevation-1-shadow-size
+          $sky-theme-modern-elevation-1-shadow-color;
+        color: $sky-theme-modern-text-color-action-primary;
+      }
+    }
+
+    .sky-form-group {
+      background-color: #fff;
+      border: $sky-theme-modern-elevation-0-bordered-border;
+      border-radius: $sky-theme-modern-box-border-radius-default 0 0 $sky-theme-modern-box-border-radius-default;
+      color: $sky-theme-modern-font-field-label-color;
+      display: block;
+      margin-bottom: 0;
+      padding: 0;
+      transition: $input-box-transitions;
+
+      .sky-control-label {
+        display: block;
+        font-size: 13px;
+        margin-bottom: 0;
+        padding: 6px 15px 0 15px;
+        transition: $input-box-transitions;
+      }
+
+      .sky-form-control {
+        &:not([type="range"]):not([type="radio"]):not([type="checkbox"]):not(select) {
+          border: none;
+          border-radius: $sky-theme-modern-box-border-radius-default;
+          font-size: $sky-theme-modern-font-body-default-size;
+          line-height: 1.15;
+          padding: 3px 15px 10px 15px;
+
+          &:focus,
+          &.ng-invalid {
+            box-shadow: none;
+            outline: none;
+          }
         }
       }
 
-      .sky-input-group-btn .sky-btn {
-        background-color: $sky-theme-modern-color-gray-07;
-        opacity: 1;
+      textarea.sky-form-control {
+        resize: vertical;
       }
+    }
+  }
+
+  .sky-input-box.sky-input-box-disabled {
+    .sky-form-control,
+    .sky-control-label,
+    .sky-input-group-btn {
+      cursor: not-allowed;
+    }
+
+    .sky-form-group {
+      background-color: $sky-theme-modern-color-gray-07;
+
+      .sky-form-control {
+        background-color: transparent;
+      }
+    }
+
+    .sky-input-group-btn .sky-btn {
+      background-color: $sky-theme-modern-color-gray-07;
+      opacity: 1;
     }
   }
 
@@ -168,8 +300,11 @@ sky-input-box {
       .sky-input-box-group-form-control-focus,
       .sky-input-box-group-form-control-focus.sky-input-box-group-form-control-invalid {
         .sky-form-group {
-          border-color: $sky-highlight-color-info;
-          color: $sky-highlight-color-info;
+          border-color: $sky-theme-modern-background-color-primary-dark;
+          box-shadow:
+            $sky-theme-modern-elevation-1-shadow-size
+            $sky-theme-modern-elevation-1-shadow-color;
+          color: $sky-theme-modern-background-color-primary-dark;
         }
       }
 
@@ -180,13 +315,16 @@ sky-input-box {
         }
       }
 
-      .sky-input-group-btn .sky-btn.sky-btn-default {
-        background-color: transparent;
+      .sky-input-group-btn .sky-btn {
         border-color: $sky-theme-modern-color-gray-70;
         color: $sky-theme-modern-mode-dark-font-deemphasized-color;
 
+        &.sky-btn-default {
+          background-color: transparent;
+        }
+
         &:focus {
-          border-color: $sky-highlight-color-info;
+          border-color: $sky-theme-modern-background-color-primary-dark;
           color: $sky-theme-modern-mode-dark-font-body-default-color;
         }
       }
