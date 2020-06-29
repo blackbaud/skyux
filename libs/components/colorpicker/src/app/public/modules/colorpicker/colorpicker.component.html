@@ -230,6 +230,11 @@
       </div>
     </div>
   </ng-template>
+  <span *ngIf="allowTransparency"
+    aria-hidden="true"
+    class="sky-colorpicker-checkered-background"
+  >
+  </span>
 
   <button *ngIf="showResetButton"
     class="sky-colorpicker-reset-button"
