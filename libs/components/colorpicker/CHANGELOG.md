@@ -1,3 +1,7 @@
+# 4.0.3 (2020-06-29)
+
+- Fixed the selected color indicator on the colorpicker component to enhance alpha channel visibility. [#52](https://github.com/blackbaud/skyux-colorpicker/pull/52) (Thanks [@blackbaud-conorwright](https://github.com/blackbaud-conorwright)!)
+
 # 4.0.2 (2020-06-22)
 
 - Removed unused parameters from the colorpicker input directive `HostListener` to address build issues when consumed by another library. [#48](https://github.com/blackbaud/skyux-colorpicker/pull/48)
