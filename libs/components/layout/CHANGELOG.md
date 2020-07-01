@@ -1,3 +1,7 @@
+# 4.2.0 (2020-07-01)
+
+- Added modern theme styles to the fluid grid component. [#117](https://github.com/blackbaud/skyux-layout/pull/117)
+
 # 4.1.1 (2020-06-18)
 
 - Fixed the text expand component to prevent an error when using the `maxLength` property in a compiled application. [#112](https://github.com/blackbaud/skyux-layout/pull/112)
