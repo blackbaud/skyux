@@ -7,6 +7,17 @@
   }
 }
 
+@mixin create_gutters_modern($gutter-size) {
+  :host-context(.sky-theme-modern) .sky-fluid-grid-gutter-size-#{$gutter-size} {
+    padding-left: map-get($gutter-sizes-modern, $gutter-size);
+    padding-right: map-get($gutter-sizes-modern, $gutter-size);
+  }
+}
+
 @include create_gutters(small);
 @include create_gutters(medium);
 @include create_gutters(large);
+
+@include create_gutters_modern(small);
+@include create_gutters_modern(medium);
+@include create_gutters_modern(large);

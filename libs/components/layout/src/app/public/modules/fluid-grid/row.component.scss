@@ -25,9 +25,30 @@
   }
 }
 
+@mixin create_row_gutters_modern($gutter-size) {
+  :host-context(.sky-theme-modern .sky-fluid-grid-gutter-size-#{$gutter-size}) {
+    .sky-row {
+      margin-left: -(map-get($gutter-sizes-modern, $gutter-size));
+      margin-right: -(map-get($gutter-sizes-modern, $gutter-size));
+    }
+  }
+  :host-context(
+    .sky-theme-modern .sky-fluid-grid-gutter-size-#{$gutter-size}.sky-fluid-grid-no-margin
+  ) {
+    .sky-row {
+      margin-left: -(map-get($gutter-sizes-modern, $gutter-size)) * 2;
+      margin-right: -(map-get($gutter-sizes-modern, $gutter-size)) * 2;
+    }
+  }
+}
+
 @include create_row_gutters(small);
 @include create_row_gutters(medium);
 @include create_row_gutters(large);
+
+@include create_row_gutters_modern(small);
+@include create_row_gutters_modern(medium);
+@include create_row_gutters_modern(large);
 
 @include sky-host-responsive-container-xs-min() {
   .sky-row.sky-row-reverse {
@@ -38,4 +59,14 @@
 @include sky-host-responsive-container-sm-min() {
   .sky-row.sky-row-reverse {
     flex-direction: row-reverse;
-  }}
+  }
+}
+
+@include sky-theme-modern {
+  .sky-row {
+    // Default to large gutters for backwards compatibility.
+    // (Prior versions of fluid-grid did not require the wrapping `sky-fluid-grid` component.)
+    margin-left: -(map-get($gutter-sizes-modern, large));
+    margin-right: -(map-get($gutter-sizes-modern, large));
+  }
+}

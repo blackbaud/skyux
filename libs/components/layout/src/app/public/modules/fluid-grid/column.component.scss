@@ -15,6 +15,13 @@
   }
 }
 
+@mixin create_column_gutters_modern($gutter-size) {
+  :host-context(.sky-theme-modern .sky-fluid-grid-gutter-size-#{$gutter-size}) {
+    padding-right: map-get($gutter-sizes-modern, $gutter-size);
+    padding-left: map-get($gutter-sizes-modern, $gutter-size);
+  }
+}
+
 :host.sky-column {
   padding-right: map-get($gutter-sizes, large);
   padding-left: map-get($gutter-sizes, large);
@@ -22,8 +29,18 @@
   min-height: 1px;
 }
 
+@include sky-theme-modern {
+  :host.sky-column {
+    padding-right: map-get($gutter-sizes-modern, large);
+    padding-left: map-get($gutter-sizes-modern, large);
+  }
+}
+
 @include create_column_gutters(small);
 @include create_column_gutters(medium);
+
+@include create_column_gutters_modern(small);
+@include create_column_gutters_modern(medium);
 
 @include sky-host-responsive-container-xs-min() {
   @include create_columns(xs);
