@@ -1,3 +1,7 @@
+# 4.1.0 (2020-07-01)
+
+- Added `restricted` property to `SkyDocsComponentInfo`. [#73](https://github.com/blackbaud/skyux-docs-tools/pull/73)
+
 # 4.0.0 (2020-05-29)
 
 ### New features
