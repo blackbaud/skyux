@@ -5,21 +5,29 @@
   <ul>
     <li>
       <button
-        class="sky-btn sky-btn-default sky-paging-btn sky-paging-btn-previous"
+        class="sky-btn sky-btn-default sky-paging-btn sky-paging-btn-previous sky-box"
         sky-cmp-id="previous"
         type="button"
         [attr.aria-label]="'skyux_paging_previous' | skyLibResources"
         [disabled]="isPreviousButtonDisabled"
         (click)="previousPage()"
       >
-        <sky-icon icon="caret-left "></sky-icon>
+        <sky-icon
+          class="sky-paging-icon-default"
+          icon="caret-left"
+        ></sky-icon>
+        <sky-icon
+          class="sky-paging-icon-modern"
+          icon="chevron-left"
+          iconType="skyux"
+        ></sky-icon>
       </button>
     </li>
     <li *ngFor="let pageNumber of displayedPages"
       class="sky-list-paging-link"
     >
       <button
-        class="sky-btn sky-btn-default sky-paging-btn"
+        class="sky-btn sky-btn-default sky-paging-btn sky-box"
         type="button"
         [attr.aria-current]="(currentPage === pageNumber) ? 'page' : null"
         [attr.sky-cmp-id]="pageNumber"
@@ -32,14 +40,22 @@
     </li>
     <li>
       <button
-        class="sky-btn sky-btn-default sky-paging-btn sky-paging-btn-next"
+        class="sky-btn sky-btn-default sky-paging-btn sky-paging-btn-next sky-box"
         sky-cmp-id="next"
         type="button"
         [attr.aria-label]="'skyux_paging_next' | skyLibResources"
         [disabled]="isNextButtonDisabled"
         (click)="nextPage()"
       >
-        <sky-icon icon="caret-right "></sky-icon>
+        <sky-icon
+          class="sky-paging-icon-default"
+          icon="caret-right"
+        ></sky-icon>
+        <sky-icon
+          class="sky-paging-icon-modern"
+          icon="chevron-right"
+          iconType="skyux"
+        ></sky-icon>
       </button>
     </li>
   </ul>

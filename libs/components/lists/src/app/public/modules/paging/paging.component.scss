@@ -1,5 +1,8 @@
 @import "~@skyux/theme/scss/mixins";
 @import "~@skyux/theme/scss/_compat/mixins";
+@import "~@skyux/theme/scss/variables";
+
+$sky-paging-modern-padding-top-bottom: 3px;
 
 :host {
   display: block;
@@ -56,5 +59,67 @@ li {
   &.sky-paging-btn-next {
     padding-left: 8.5px;
     padding-right: 8.5px;
+  }
+}
+
+.sky-paging-icon-modern {
+  display: none;
+}
+
+@include sky-theme-modern {
+  .sky-paging-btn {
+    background-color: transparent;
+    border: none;
+    border-radius: $sky-theme-modern-box-border-radius-default;
+    margin-right: $sky-theme-modern-margin-inline-sm;
+    padding: $sky-paging-modern-padding-top-bottom $sky-theme-modern-space-sm;
+
+    &:hover {
+      background-color: transparent;
+      border: solid 1px $sky-theme-modern-background-color-primary-dark;
+      padding: $sky-paging-modern-padding-top-bottom - 1 $sky-theme-modern-space-sm - 1;
+      z-index: 1;
+    }
+
+    &:active,
+    &:focus {
+      border: solid 2px $sky-theme-modern-background-color-primary-dark;
+      color: $sky-text-color-default;
+      padding: $sky-paging-modern-padding-top-bottom - 2 $sky-theme-modern-space-sm - 2;
+    }
+
+    &:focus:not(:active) {
+      outline: none;
+      box-shadow:
+        $sky-theme-modern-elevation-1-shadow-size
+        $sky-theme-modern-elevation-1-shadow-color;
+    }
+  }
+
+  .sky-paging-current {
+    background-color: $sky-background-color-info-light;
+    border: solid 1px $sky-theme-modern-background-color-primary-dark;
+    padding: 2px 9px;
+  }
+
+  .sky-paging-icon-default {
+    display: none;
+  }
+
+  .sky-paging-icon-modern {
+    display: inline;
+  }
+}
+
+@include sky-theme-modern-dark {
+  .sky-paging-btn {
+    &:active,
+    &:focus {
+      color: $sky-theme-modern-mode-dark-font-body-default-color;
+    }
+  }
+
+  .sky-paging-current {
+    background-color: $sky-theme-modern-background-color-primary-dark;
   }
 }
