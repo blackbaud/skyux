@@ -37,20 +37,37 @@ import {
 
 let nextUniqueId = 0;
 
+/**
+ * Organizes radio buttons into a group. It is required for radio
+ * buttons on Angular reactive forms, and we recommend using it with all radio buttons.
+ * On Angular forms, the component manages the selected values and keeps the forms up-to-date.
+ * When users select a radio button, its value is driven through an `ngModel` attribute that you specify on the `sky-radio-group` element.
+ */
 @Component({
   selector: 'sky-radio-group',
   templateUrl: './radio-group.component.html'
 })
 export class SkyRadioGroupComponent implements AfterContentInit, AfterViewInit, OnDestroy {
 
+/**
+ * Sets the radio button group's `aria-labelledby` attribute to support accessibility. The value
+ * should be the HTML element ID (without the leading `#`) of the element that labels the radio
+ * button group. If the radio button group does not include a visible label, use the `ariaLabel` property instead.
+ */
   @Input()
   public ariaLabelledBy: string;
 
+/**
+ * Defines a string value to label the radio button group and set the `aria-label`
+ * attribute to support accessibility. If the radio button group includes a visible
+ * label, use the `ariaLabelledBy` property instead.
+ */
   @Input()
   public ariaLabel: string;
 
   /**
-   * Indicates whether to disable the input. This property accepts `boolean` values.
+   * Indicates whether to disable the input.
+   * @default "false"
    */
   @Input()
   public set disabled(value: boolean) {
@@ -64,7 +81,12 @@ export class SkyRadioGroupComponent implements AfterContentInit, AfterViewInit, 
   public get disabled(): boolean {
     return this._disabled;
   }
-
+/**
+ * Specifies a name for the collection of radio buttons that the component groups together.
+ * This property overwrites the deprecated `name` property on individual `sky-radio` elements,
+ * and it is required unless the `name` property is set on individual `sky-radio` elements.
+ * @required
+ */
   @Input()
   public set name(value: string) {
     this._name = value;
@@ -78,11 +100,16 @@ export class SkyRadioGroupComponent implements AfterContentInit, AfterViewInit, 
    * Indicates whether the input is required for form validation.
    * When you set this property to `true`, the component adds `aria-required` and `required`
    * attributes to the input element so that forms display an invalid state until the input element
-   * is complete. This property accepts a `boolean` value.
+   * is complete.
+   * @default "false"
    */
   @Input()
   public required: boolean = false;
 
+/**
+ * Specifies the value of the radio button to select by default when the group loads.
+ * The value corresponds to the `value` property of an individual `sky-radio` element within the group.
+ */
   @Input()
   public set value(value: any) {
     const isNewValue = value !== this._value;
@@ -97,6 +124,13 @@ export class SkyRadioGroupComponent implements AfterContentInit, AfterViewInit, 
     return this._value;
   }
 
+/**
+ * Specifies an index for all the radio buttons in the group. If the index is not defined,
+ * the indices for individual radio buttons are set to their positions on load.
+ * This property supports accessibility by placing focus on the currently selected radio
+ * button. If no radio button is selected, it places focus on the first or last button
+ * depending on how users navigate to the radio button group.
+ */
   @Input()
   public set tabIndex(value: number) {
     if (this._tabIndex !== value) {

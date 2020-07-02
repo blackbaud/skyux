@@ -3,6 +3,9 @@ import {
   HostListener
 } from '@angular/core';
 
+/**
+ * Specifies a label for the radio button.
+ */
 @Component({
   selector: 'sky-radio-label',
   templateUrl: './radio-label.component.html'
