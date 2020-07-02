@@ -11,8 +11,21 @@ import {
 } from '@angular/router/testing';
 
 import {
+  MutationObserverService,
   SkyAppWindowRef
 } from '@skyux/core';
+
+import {
+  SkyThemeService
+} from '@skyux/theme';
+
+import {
+  ModalMockMutationObserverService
+} from './mock-modal-mutation-observer';
+
+import {
+  ModalMockThemeService
+} from './mock-theme.service';
 
 import {
   SkyModalModule
@@ -67,7 +80,15 @@ import {
     SkyModalModule
   ],
   providers: [
-    SkyAppWindowRef
+    SkyAppWindowRef,
+    {
+      provide: SkyThemeService,
+      useClass: ModalMockThemeService
+    },
+    {
+      provide: MutationObserverService,
+      useClass: ModalMockMutationObserverService
+    }
   ],
   entryComponents: [
     ModalTestComponent,

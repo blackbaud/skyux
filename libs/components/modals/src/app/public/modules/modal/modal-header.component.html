@@ -1,5 +1,9 @@
 <h1
   class="sky-emphasized"
+  [ngClass]="{
+    'sky-font-display-3':
+      (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern'
+  }"
 >
   <ng-content></ng-content>
 </h1>

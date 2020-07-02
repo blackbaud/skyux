@@ -1,7 +1,14 @@
 @import "~@skyux/theme/scss/mixins";
 @import "~@skyux/theme/scss/_compat/mixins";
+@import "~@skyux/theme/scss/variables";
 
 h1 {
   margin: 0;
   line-height: 1.2;
+}
+
+@include sky-theme-modern-dark {
+  h1 {
+    color: $sky-theme-modern-mode-dark-font-body-default-color;
+  }
 }

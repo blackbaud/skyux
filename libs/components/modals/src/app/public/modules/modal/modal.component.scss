@@ -1,5 +1,6 @@
 @import "~@skyux/theme/scss/mixins";
 @import "~@skyux/theme/scss/_compat/mixins";
+@import "~@skyux/theme/scss/variables";
 
 .sky-modal {
   @include sky-border(dark, top, bottom, left, right);
@@ -11,6 +12,7 @@
   margin: $sky-margin;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .sky-modal:focus {
@@ -106,6 +108,7 @@
 
 .sky-modal-header {
   flex-shrink: 0;
+  z-index: 2;
 }
 
 .sky-modal-content {
@@ -114,6 +117,8 @@
 
 .sky-modal-footer {
   flex-shrink: 0;
+  z-index: 2;
+
   ::ng-deep sky-tabset-nav-button + sky-tabset-nav-button {
     margin-left: $sky-margin;
   }
@@ -147,4 +152,40 @@
 :host ::ng-deep .sky-sectioned-form {
   min-height: 460px;
   margin: -$sky-margin-plus-half;
+}
+
+@include sky-theme-modern {
+  .sky-modal-header {
+    border: none;
+    padding: $sky-theme-modern-space-lg $sky-theme-modern-space-xl;
+  }
+
+  .sky-modal-btn-help,
+  .sky-modal-btn-close {
+    display: none;
+  }
+
+  .sky-modal-content {
+    padding: 0;
+  }
+
+  .sky-modal-full-page {
+    width: calc(100% - (#{$sky-theme-modern-space-xl * 2}));
+    margin: $sky-theme-modern-space-xl;
+  }
+}
+
+@include sky-theme-modern-dark {
+  .sky-modal {
+    border-color: $sky-theme-modern-mode-dark-background-color-page-default;
+  }
+
+  .sky-modal-header {
+    color: $sky-theme-modern-mode-dark-font-body-default-color;
+  }
+
+  .sky-modal-header,
+  .sky-modal-content {
+    background-color: transparent;
+  }
 }

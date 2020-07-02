@@ -9,6 +9,10 @@ import {
 } from '@skyux/i18n';
 
 import {
+  SkyThemeService
+} from '@skyux/theme';
+
+import {
   BehaviorSubject,
   Observable,
   zip as observableZip
@@ -52,7 +56,8 @@ export class SkyConfirmComponent implements OnInit {
   constructor(
     private config: SkyConfirmModalContext,
     private modal: SkyModalInstance,
-    @Optional() private resourcesService: SkyLibResourcesService
+    @Optional() private resourcesService: SkyLibResourcesService,
+    @Optional() public themeSvc?: SkyThemeService
   ) { }
 
   public ngOnInit() {

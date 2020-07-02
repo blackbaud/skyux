@@ -1,5 +1,6 @@
 @import "~@skyux/theme/scss/mixins";
 @import "~@skyux/theme/scss/_compat/mixins";
+@import "~@skyux/theme/scss/variables";
 
 .sky-confirm-message {
   margin-top: $sky-margin-half;
@@ -15,4 +16,24 @@
 
 .sky-confirm-preserve-white-space {
   white-space: pre-wrap;
+}
+
+@include sky-theme-modern {
+  .sky-confirm-content {
+    padding: $sky-theme-modern-space-lg $sky-theme-modern-space-xl;
+  }
+
+  .sky-confirm-message {
+    padding-bottom: $sky-theme-modern-space-lg;
+  }
+
+  .sky-confirm-body {
+    margin: 0;
+  }
+}
+
+@include sky-theme-modern-dark {
+  .sky-confirm-message {
+    color: $sky-theme-modern-mode-dark-font-body-default-color;
+  }
 }

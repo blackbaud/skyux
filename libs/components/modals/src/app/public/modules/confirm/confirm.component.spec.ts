@@ -5,6 +5,14 @@ import {
 } from '@angular/core/testing';
 
 import {
+  MutationObserverService
+} from '@skyux/core';
+
+import {
+  SkyThemeService
+} from '@skyux/theme';
+
+import {
   expect
 } from '@skyux-sdk/testing';
 
@@ -72,7 +80,9 @@ describe('Confirm component', () => {
       ],
       providers: [
         { provide: SkyModalHostService, useValue: modalHost },
-        { provide: SkyModalConfiguration, useValue: {} }
+        { provide: SkyModalConfiguration, useValue: {} },
+        SkyThemeService,
+        MutationObserverService
       ]
     });
   });

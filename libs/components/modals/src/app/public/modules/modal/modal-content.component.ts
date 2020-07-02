@@ -1,5 +1,6 @@
 import {
-  Component
+  Component,
+  ViewEncapsulation
 } from '@angular/core';
 
 /**
@@ -7,6 +8,8 @@ import {
  */
 @Component({
   selector: 'sky-modal-content',
-  template: '<ng-content></ng-content>'
+  templateUrl: './modal-content.component.html',
+  styleUrls: ['./modal-content.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class SkyModalContentComponent { }

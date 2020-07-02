@@ -1,93 +1,113 @@
 <div
   id="modal-screenshot"
-  style="height: 500px;"
 ></div>
 
-<div>
-  <button
-    class="sky-btn sky-btn-primary"
-    type="button"
-    (click)="openModal()"
+<div
+  class="modal-screenshot-buttons"
+>
+  <div
+    [ngClass]="{
+      'modal-screenshot-buttons-hidden': buttonsHidden
+    }"
   >
-    Open modal
-  </button>
+    <sky-docs-demo-control-panel-theme
+      (themeSettingsChange)="themeSettingsChange($event)"
+    ></sky-docs-demo-control-panel-theme>
+    <div>
+      <button
+        class="sky-btn sky-btn-primary"
+        type="button"
+        (click)="openModal()"
+      >
+        Open modal
+      </button>
 
-  <button
-    type="button"
-    class="sky-btn sky-btn-primary sky-modal-with-help"
-    (click)="openModalWithHelp()"
-  >
-    Open modal with Help
-  </button>
+      <button
+        type="button"
+        class="sky-btn sky-btn-primary sky-modal-with-help"
+        (click)="openModalWithHelp()"
+      >
+        Open modal with Help
+      </button>
 
-  <button
-    type="button"
-    class="sky-btn sky-btn-primary sky-modal-with-extended-title"
-    (click)="openModalWithExtendedTitle()"
-  >
-    Open modal with extended title
-  </button>
+      <button
+        type="button"
+        class="sky-btn sky-btn-primary sky-modal-with-extended-title"
+        (click)="openModalWithExtendedTitle()"
+      >
+        Open modal with extended title
+      </button>
 
-  <button
-    type="button"
-    class="sky-btn sky-btn-primary sky-test-large-modal"
-    (click)="openFullScreenModal()"
-  >
-    Open large modal
-  </button>
+      <button
+        type="button"
+        class="sky-btn sky-btn-primary sky-test-large-modal"
+        (click)="openFullScreenModal()"
+      >
+        Open large modal
+      </button>
 
-  <button
-    type="button"
-    class="sky-btn sky-btn-primary sky-test-content-only"
-    (click)="openContentModal()"
-  >
-    Open content modal
-  </button>
+      <button
+        type="button"
+        class="sky-btn sky-btn-primary sky-test-content-only"
+        (click)="openContentModal()"
+      >
+        Open content modal
+      </button>
 
-  <button
-    type="button"
-    class="sky-btn sky-btn-primary sky-test-small-size-modal"
-    (click)="openSmallSizeModal()"
-  >
-    Open small modal
-  </button>
+      <button
+        type="button"
+        class="sky-btn sky-btn-primary sky-test-small-size-modal"
+        (click)="openSmallSizeModal()"
+      >
+        Open small modal
+      </button>
 
-  <button
-    type="button"
-    class="sky-btn sky-btn-primary sky-test-medium-size-modal"
-    (click)="openMediumSizeModal()"
-  >
-    Open medium size modal
-  </button>
+      <button
+        type="button"
+        class="sky-btn sky-btn-primary sky-test-medium-size-modal"
+        (click)="openMediumSizeModal()"
+      >
+        Open medium size modal
+      </button>
 
-  <button
-    type="button"
-    class="sky-btn sky-btn-primary sky-test-large-size-modal"
-    (click)="openLargeSizeModal()"
-  >
-  Open large size modal
-  </button>
-  <button
-    type="button"
-    class="sky-btn sky-btn-primary sky-test-tiled-modal"
-    (click)="openTiledModal()"
-  >
-    Open tiled modal
-  </button>
+      <button
+        type="button"
+        class="sky-btn sky-btn-primary sky-test-large-size-modal"
+        (click)="openLargeSizeModal()"
+      >
+      Open large size modal
+      </button>
+      <button
+        type="button"
+        class="sky-btn sky-btn-primary sky-test-tiled-modal"
+        (click)="openTiledModal()"
+      >
+        Open tiled modal
+      </button>
 
-  <button
-    type="button"
-    class="sky-btn sky-btn-primary sky-test-large-modal-autofocus"
-    (click)="openAutofocusModal()"
-  >
-    Open autofocus modal
-  </button>
+      <button
+        type="button"
+        class="sky-btn sky-btn-primary sky-test-large-modal-autofocus"
+        (click)="openAutofocusModal()"
+      >
+        Open autofocus modal
+      </button>
 
-  <button
-    type="button"
-    class="sky-btn sky-btn-primary sky-test-large-modal-close-confirmation"
-    (click)="openCloseConfirmationModal()"
-  >
-    Open modal with close confirmation
-  </button>
+      <button
+        type="button"
+        class="sky-btn sky-btn-primary sky-test-large-modal-close-confirmation"
+        (click)="openCloseConfirmationModal()"
+      >
+        Open modal with close confirmation
+      </button>
+
+      <button
+        type="button"
+        class="sky-btn sky-btn-primary sky-test-modal-form"
+        (click)="openFormModal()"
+      >
+        Open form modal with scroll
+      </button>
+    </div>
+  </div>
 </div>

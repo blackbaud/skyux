@@ -11,6 +11,7 @@ import {
 } from '@angular/router';
 
 import {
+  MutationObserverService,
   SkyAppWindowRef,
   SkyDynamicComponentModule
 } from '@skyux/core';
@@ -48,6 +49,10 @@ import {
 } from './modal-host.component';
 
 import {
+  SkyModalScrollShadowDirective
+} from './modal-scroll-shadow.directive';
+
+import {
   SkyModalComponent
 } from './modal.component';
 
@@ -61,9 +66,11 @@ import {
     SkyModalContentComponent,
     SkyModalFooterComponent,
     SkyModalHeaderComponent,
-    SkyModalHostComponent
+    SkyModalHostComponent,
+    SkyModalScrollShadowDirective
   ],
   providers: [
+    MutationObserverService,
     SkyModalAdapterService,
     SkyModalService,
     SkyAppWindowRef

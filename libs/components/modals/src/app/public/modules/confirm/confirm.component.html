@@ -1,12 +1,16 @@
 <div class="sky-confirm">
   <sky-modal
     ariaRole="alertdialog">
-    <sky-modal-content>
+    <sky-modal-content class="sky-confirm-content">
 
       <div
-        class="sky-confirm-message sky-emphasized"
+        class="sky-confirm-message"
         [ngClass]="{
-          'sky-confirm-preserve-white-space': preserveWhiteSpace
+          'sky-emphasized':
+            (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'default',
+          'sky-confirm-preserve-white-space': preserveWhiteSpace,
+          'sky-font-heading-1 sky-font-display-3':
+            (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern'
         }"
       >{{ message }}</div>
 
@@ -21,8 +25,15 @@
         <button
           *ngFor="let button of buttons"
           type="button"
-          class="sky-btn sky-margin-inline-compact"
-          ngClass="sky-btn-{{ button.styleType }}"
+          class="sky-btn"
+          [ngClass]="
+            [
+              'sky-btn-' + button.styleType,
+              (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern' ?
+                'sky-margin-inline-sm' :
+                'sky-margin-inline-compact'
+            ]
+            "
           (click)="close(button)"
           [attr.autofocus]="button.autofocus ? 'autofocus': null"
         >

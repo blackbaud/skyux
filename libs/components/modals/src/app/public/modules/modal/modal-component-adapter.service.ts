@@ -27,8 +27,7 @@ export class SkyModalComponentAdapterService {
 
     boundedHeightEl.style.maxHeight = newHeight.toString() + 'px';
     if (fullPageModalEl) {
-      fullPageModalEl.style.height = window.innerHeight.toString() + 'px';
-      fullPageModalEl.style.maxHeight = window.innerHeight.toString() + 'px';
+      this.setFullPageHeight(fullPageModalEl);
     } else {
       /*
         IE11 doesn't handle flex and max-height correctly so we have to explicitly add
@@ -37,7 +36,6 @@ export class SkyModalComponentAdapterService {
       let modalContentEl = modalEl.nativeElement.querySelector('.sky-modal-content');
       let contentHeight = newHeight - 114;
       modalContentEl.style.maxHeight = contentHeight.toString() + 'px';
-
     }
   }
 
@@ -129,5 +127,19 @@ export class SkyModalComponentAdapterService {
       element.getClientRects().length
     );
     return hasBounds;
+  }
+
+  private setFullPageHeight(fullPageModalEl: HTMLElement): void {
+    const windowHeight = window.innerHeight;
+    const fullPageModalStyle = getComputedStyle(fullPageModalEl);
+
+    const marginTopBottom =
+      parseInt(fullPageModalStyle.marginTop, 10) +
+      parseInt(fullPageModalStyle.marginBottom, 10);
+
+    const fullPageModalHeight = (windowHeight - marginTopBottom) + 'px';
+
+    fullPageModalEl.style.height = fullPageModalHeight;
+    fullPageModalEl.style.maxHeight = fullPageModalHeight;
   }
 }

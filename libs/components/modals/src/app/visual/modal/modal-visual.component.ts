@@ -3,6 +3,13 @@ import {
 } from '@angular/core';
 
 import {
+  SkyThemeService,
+  SkyThemeSettings
+} from '@skyux/theme';
+
+import {
+  SkyModalConfigurationInterface,
+  SkyModalInstance,
   SkyModalService
 } from '../../public/public_api';
 
@@ -34,64 +41,109 @@ import {
   ModalCloseConfirmComponent
 } from './modal-close-confirm.component';
 
+import {
+  ModalFormDemoComponent
+} from './modal-form-demo.component';
+
 @Component({
   selector: 'modal-visual',
-  templateUrl: './modal-visual.component.html'
+  templateUrl: './modal-visual.component.html',
+  styleUrls: ['./modal-visual.component.scss']
 })
 export class ModalVisualComponent {
-  constructor(private modal: SkyModalService) { }
 
-  public openModal() {
-    this.modal.open(ModalDemoComponent, { 'providers': [] });
+  public buttonsHidden: boolean;
+
+  constructor(
+    private modal: SkyModalService,
+    private themeSvc: SkyThemeService
+  ) { }
+
+  public openModal(): void {
+    this.openModalInstance(ModalDemoComponent, { 'providers': [] });
   }
 
-  public openModalWithHelp() {
-    this.modal.open(ModalDemoComponent, { 'providers': [], 'helpKey': 'demo-key.html' });
+  public openModalWithHelp(): void {
+    this.openModalInstance(ModalDemoComponent, { 'providers': [], 'helpKey': 'demo-key.html' });
   }
 
-  public openModalWithExtendedTitle() {
-    const instance = this.modal.open(ModalDemoComponent, { 'providers': [], 'helpKey': 'demo-key.html' });
+  public openModalWithExtendedTitle(): void {
+    const instance = this.openModalInstance(ModalDemoComponent, { 'providers': [], 'helpKey': 'demo-key.html' });
     instance.componentInstance.title = 'This is a modal title with an extended header text that must wrap by default';
   }
 
-  public openLargeModal() {
-    this.modal.open(ModalLargeDemoComponent, { 'providers': [] });
+  public openLargeModal(): void {
+    this.openModalInstance(ModalLargeDemoComponent, { 'providers': [] });
   }
 
-  public openFullScreenModal() {
-    this.modal.open(ModalFullPageDemoComponent, { 'providers': [], 'fullPage': true });
+  public openFullScreenModal(): void {
+    this.openModalInstance(ModalFullPageDemoComponent, { 'providers': [], 'fullPage': true });
   }
 
-  public openContentModal() {
-    this.modal.open(ModalContentDemoComponent);
+  public openContentModal(): void {
+    this.openModalInstance(ModalContentDemoComponent);
   }
 
-  public openSmallSizeModal() {
-    this.modal.open(
+  public openSmallSizeModal(): void {
+    this.openModalInstance(
       ModalDemoComponent, { 'providers': [], 'fullPage': false , 'size': 'small'});
   }
 
-  public openMediumSizeModal() {
-    this.modal.open(
+  public openMediumSizeModal(): void {
+    this.openModalInstance(
       ModalDemoComponent, { 'providers': [], 'fullPage': false , 'size': 'medium'});
   }
 
-  public openLargeSizeModal() {
-    this.modal.open(
+  public openLargeSizeModal(): void {
+    this.openModalInstance(
       ModalDemoComponent, { 'providers': [], 'fullPage': false , 'size': 'large'});
   }
 
-  public openTiledModal() {
-    this.modal.open(ModalTiledDemoComponent, { 'providers': [] });
+  public openTiledModal(): void {
+    this.openModalInstance(ModalTiledDemoComponent, { 'providers': [] });
   }
 
-  public openAutofocusModal() {
-    this.modal.open(
+  public openAutofocusModal(): void {
+    this.openModalInstance(
       ModalContentAutofocusComponent, { 'providers': [], 'fullPage': false , 'size': 'large'});
   }
 
-  public openCloseConfirmationModal() {
-    this.modal.open(
+  public openCloseConfirmationModal(): void {
+    this.openModalInstance(
       ModalCloseConfirmComponent, { 'providers': [], 'fullPage': false , 'size': 'large'});
+  }
+
+  public openFormModal(): void {
+    this.openModalInstance(ModalFormDemoComponent);
+  }
+
+  public themeSettingsChange(themeSettings: SkyThemeSettings): void {
+    this.themeSvc.setTheme(themeSettings);
+  }
+
+  public hideButtons(): void {
+    this.buttonsHidden = true;
+  }
+
+  public showButtons(): void {
+    this.buttonsHidden = false;
+  }
+
+  private openModalInstance(
+    modalType: any,
+    options?: SkyModalConfigurationInterface
+  ): SkyModalInstance {
+    this.hideButtons();
+
+    const instance = this.modal.open(
+      modalType,
+      options
+    );
+
+    instance.closed.subscribe(() => {
+      this.showButtons();
+    });
+
+    return instance;
   }
 }

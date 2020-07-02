@@ -8,6 +8,10 @@ import {
 } from '@skyux/docs-tools';
 
 import {
+  SkyInputBoxModule
+} from '@skyux/forms';
+
+import {
   SkyAppLinkModule
 } from '@skyux/router';
 
@@ -48,6 +52,10 @@ import {
   ModalCloseConfirmComponent
 } from './visual/modal/modal-close-confirm.component';
 
+import {
+  ModalFormDemoComponent
+} from './visual/modal/modal-form-demo.component';
+
 require('style-loader!./visual.scss');
 
 @NgModule({
@@ -55,12 +63,14 @@ require('style-loader!./visual.scss');
     SkyAppLinkModule,
     SkyConfirmModule,
     SkyDocsToolsModule,
+    SkyInputBoxModule,
     SkyModalModule,
     SkyTilesModule
   ],
   entryComponents: [
     ModalDemoComponent,
     ModalContentDemoComponent,
+    ModalFormDemoComponent,
     ModalFullPageDemoComponent,
     ModalLargeDemoComponent,
     ModalTiledDemoComponent,

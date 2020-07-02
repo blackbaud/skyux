@@ -12,7 +12,8 @@
   [attr.role]="ariaRole"
   (window:resize)="windowResize()"
 >
-  <div class="sky-modal sky-shadow"
+  <div
+    class="sky-modal sky-shadow sky-box sky-elevation-16"
     tabindex="-1"
     [ngClass]="{
       'sky-modal-full-page': modalFullPage,
@@ -25,7 +26,13 @@
         zIndex: modalZIndex
       }">
 
-    <div class="sky-modal-header" [hidden]="!headerContent || !headerContent.children || headerContent.children.length < 1">
+    <div
+      class="sky-modal-header"
+      [hidden]="!headerContent || !headerContent.children || headerContent.children.length &lt; 1"
+      [ngStyle]="{
+        'box-shadow': scrollShadow?.topShadow
+      }"
+    >
       <div
         class="sky-modal-header-content"
         [attr.id]="modalHeaderId"
@@ -37,7 +44,13 @@
         <ng-content select="sky-modal-header"></ng-content>
       </div>
       <div class="sky-modal-header-buttons">
-        <button *ngIf="helpKey" type="button" class="sky-btn" name="help-button" [attr.aria-label]="'skyux_modal_open_help' | skyLibResources" (click)="helpButtonClick()">
+        <button *ngIf="helpKey"
+          class="sky-btn sky-modal-btn-help"
+          name="help-button"
+          type="button"
+          [attr.aria-label]="'skyux_modal_open_help' | skyLibResources"
+          (click)="helpButtonClick()"
+        >
           <sky-icon icon="question-circle"></sky-icon>
         </button>
 
@@ -53,11 +66,17 @@
       tabindex="0"
       [attr.aria-labelledby]="modalHeaderId"
       [attr.id]="modalContentId"
+      (skyModalScrollShadow)="scrollShadowChange($event)"
     >
       <ng-content select="sky-modal-content"></ng-content>
     </div>
-    <div class="sky-modal-footer">
+    <div
+      class="sky-modal-footer"
+      [ngStyle]="{
+        'box-shadow': scrollShadow?.bottomShadow
+      }"
+    >
       <ng-content select="sky-modal-footer"></ng-content>
     </div>
-</div>
+  </div>
 </div>

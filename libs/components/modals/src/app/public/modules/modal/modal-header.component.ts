@@ -1,6 +1,11 @@
 import {
-  Component
+  Component,
+  Optional
 } from '@angular/core';
+
+import {
+  SkyThemeService
+} from '@skyux/theme';
 
 /**
  * Specifies a header for the modal.
@@ -13,4 +18,9 @@ import {
   ]
 })
 export class SkyModalHeaderComponent {
+
+  constructor(
+    @Optional() public themeSvc?: SkyThemeService
+  ) { }
+
 }

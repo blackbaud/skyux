@@ -1,0 +1,17 @@
+#modal-screenshot {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.modal-screenshot-buttons {
+  height: 10000px;
+  position: relative;
+  z-index: 1;
+}
+
+.modal-screenshot-buttons-hidden {
+  visibility: hidden;
+}

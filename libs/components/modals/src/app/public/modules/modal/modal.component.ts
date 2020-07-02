@@ -23,6 +23,10 @@ import {
 } from './modal-component-adapter.service';
 
 import {
+  SkyModalScrollShadowEventArgs
+} from './modal-scroll-shadow-event-args';
+
+import {
   skyAnimationModalState
 } from './modal-state-animation';
 
@@ -107,6 +111,8 @@ export class SkyModalComponent implements AfterViewInit {
 
   public modalHeaderId: string = 'sky-modal-header-id-' + skyModalUniqueIdentifier.toString();
 
+  public scrollShadow: SkyModalScrollShadowEventArgs;
+
   constructor(
     private hostService: SkyModalHostService,
     private config: SkyModalConfiguration,
@@ -183,6 +189,10 @@ export class SkyModalComponent implements AfterViewInit {
 
   public windowResize() {
     this.componentAdapter.handleWindowChange(this.elRef);
+  }
+
+  public scrollShadowChange(args: SkyModalScrollShadowEventArgs): void {
+    this.scrollShadow = args;
   }
 
   private isSizeEqual(actualSize: string, size: string) {
