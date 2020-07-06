@@ -1,3 +1,7 @@
+# 4.1.0 (2020-07-02)
+
+- Added modern theme styles to the paging component. [#177](https://github.com/blackbaud/skyux-lists/pull/177)
+
 # 4.0.0 (2020-05-14)
 
 ### New features
