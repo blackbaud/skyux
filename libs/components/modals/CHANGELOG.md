@@ -1,3 +1,7 @@
+# 4.2.0 (2020-07-02)
+
+- Added modern theme styles to the confirm and modal components. [#103](https://github.com/blackbaud/skyux-modals/pull/103)
+
 # 4.1.0 (2020-06-15)
 
 - Updated the modal header component to use HTML heading elements. [#95](https://github.com/blackbaud/skyux-modals/pull/95)
