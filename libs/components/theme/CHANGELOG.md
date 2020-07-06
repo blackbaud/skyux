@@ -1,3 +1,7 @@
+# 4.4.0 (2020-07-01)
+
+- Updated the SKY UX icon font version to 4.0.0-beta.0. [#149](https://github.com/blackbaud/skyux-theme/pull/149)
+
 # 4.3.0 (2020-06-17)
 
 - Added the `sky-screen-reader-only` CSS class which hides text from users but is read by assistive technology. [#145](https://github.com/blackbaud/skyux-theme/pull/145)
