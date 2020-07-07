@@ -17,6 +17,10 @@ import {
   takeUntil
 } from 'rxjs/operators';
 
+/**
+ * Service for interacting with the DOM elements of the phone field.
+ * @internal
+ */
 @Injectable()
 export class SkyPhoneFieldAdapterService implements OnDestroy {
 

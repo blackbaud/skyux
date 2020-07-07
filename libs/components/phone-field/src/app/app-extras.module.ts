@@ -3,8 +3,9 @@ import {
 } from '@angular/core';
 
 import {
-  NoopAnimationsModule
-} from '@angular/platform-browser/animations';
+  SkyDocsToolsModule,
+  SkyDocsToolsOptions
+} from '@skyux/docs-tools';
 
 import {
   SkyAppLinkModule
@@ -17,8 +18,17 @@ import {
 @NgModule({
   exports: [
     SkyAppLinkModule,
-    SkyPhoneFieldModule,
-    NoopAnimationsModule
+    SkyDocsToolsModule,
+    SkyPhoneFieldModule
+  ],
+  providers: [
+    {
+      provide: SkyDocsToolsOptions,
+      useValue: {
+        gitRepoUrl: 'https://github.com/blackbaud/skyux-forms',
+        packageName: '@skyux/phone-field'
+      }
+    }
   ]
 })
 export class AppExtrasModule { }

@@ -61,6 +61,19 @@ const SKY_PHONE_FIELD_VALIDATOR = {
 };
 // tslint:enable
 
+/**
+ * Creates a button, search input, and text input for entering and validating
+ * international phone numbers. Place this attribute on an `input` element, and wrap
+ * that element in a `sky-phone-field` component. By default, the country selector
+ * button displays a flag icon for the default country, and the phone number input
+ * displays a sample of the correct phone number format. When users select the country
+ * selector button, they expose the country search input, which is
+ * [an autocomplete input](https://developer.blackbaud.com/skyux/components/autocomplete)
+ * that allows them to select different countries. When users enter `+` followed by an
+ * international dial code in the phone number input, the country automatically switches
+ * to the country associated with the dial code.
+ * @required
+ */
 @Directive({
   selector: '[skyPhoneFieldInput]',
   providers: [
@@ -71,6 +84,10 @@ const SKY_PHONE_FIELD_VALIDATOR = {
 export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterViewInit,
   ControlValueAccessor, Validator {
 
+  /**
+   * Indicates whether to disable the phone field.
+   * @default false
+   */
   @Input()
   public set disabled(value: boolean) {
     this.phoneFieldComponent.countrySelectDisabled = value;
@@ -82,6 +99,13 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
     return this._disabled || false;
   }
 
+  /**
+   * Indicates whether to prevent validation on the phone number input. For validation,
+   * phone numbers are driven through the `ngModel` attribute that you specify on an
+   * `input` element or on a `FormControl` in a reactive form. To prevent validation,
+   * set this property to `true`.
+   * @default false
+   */
   @Input()
   public skyPhoneFieldNoValidate: boolean = false;
 

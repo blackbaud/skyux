@@ -45,11 +45,9 @@ import {
   SkyPhoneFieldCountry
 } from './types/country';
 
-/**
- * NOTE: The no-op animation is here in order to block the input's "fade in" animation
- * from firing on initial load. For more information on this technique you can see
- * https://www.bennadel.com/blog/3417-using-no-op-transitions-to-prevent-animation-during-the-initial-render-of-ngfor-in-angular-5-2-6.htm
- */
+// NOTE: The no-op animation is here in order to block the input's "fade in" animation
+// from firing on initial load. For more information on this technique you can see
+// https://www.bennadel.com/blog/3417-using-no-op-transitions-to-prevent-animation-during-the-initial-render-of-ngfor-in-angular-5-2-6.htm
 @Component({
   selector: 'sky-phone-field',
   templateUrl: './phone-field.component.html',
@@ -104,6 +102,13 @@ import {
 })
 export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
 
+  /**
+   * Specifies the
+   * [International Organization for Standardization Alpha 2](https://www.nationsonline.org/oneworld/country_code_list.htm)
+   * country code for the default country. The country selector button displays a flag
+   * icon for this default country until users select a different country.
+   * @default us
+   */
   @Input()
   public set defaultCountry(value: string) {
     if (value !== this._defaultCountry) {
@@ -118,6 +123,11 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   public get defaultCountry(): string {
     return this._defaultCountry;
   }
+
+  /**
+   * Emits a `SkyPhoneFieldCountry` object when the selected country in the country search
+   * input changes.
+   */
 
   @Output()
   public selectedCountryChange = new EventEmitter<SkyPhoneFieldCountry>();
