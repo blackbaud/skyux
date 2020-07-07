@@ -1,3 +1,6 @@
+# 4.1.1 (2020-07-07)
+- Fixed an issue where the fuzzy date pipe returned incorrect data when the day value was 31. [#181](https://github.com/blackbaud/skyux-datetime/pull/181) (Thanks [@Blackbaud-CoreyArcher](https://github.com/Blackbaud-CoreyArcher)!)
+
 # 4.1.0 (2020-06-16)
 
 - Added input box support to the datepicker component. [#166](https://github.com/blackbaud/skyux-datetime/pull/166)
