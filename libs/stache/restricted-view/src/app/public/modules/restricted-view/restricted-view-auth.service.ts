@@ -17,6 +17,9 @@ import {
 @Injectable()
 export class SkyRestrictedViewAuthService  {
 
+  /**
+   * Indicates if the user is an authenticated Blackbaud user.
+   */
   public isAuthenticated = new BehaviorSubject<boolean>(false);
 
   constructor(private auth: SkyAuthTokenProvider) {

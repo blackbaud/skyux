@@ -7,6 +7,10 @@ import {
 } from '@angular/core';
 
 import {
+  SkyAuthTokenProvider
+} from '@skyux/http';
+
+import {
   SkyRestrictedViewAuthService
 } from './restricted-view-auth.service';
 
@@ -27,6 +31,7 @@ import {
     CommonModule
   ],
   providers: [
+    SkyAuthTokenProvider,
     SkyRestrictedViewAuthService
   ],
   exports: [
