@@ -119,12 +119,21 @@ describe('SkyFuzzyDateservice', () => {
       expect(actualWithUndefined).toEqual(expected);
     });
 
+    /**
+     * A bug was observed where the format() method was attempting to operate on a moment object of
+     * the current date instead of the supplied date, resulting in unexpected output during shorter
+     * months. This test has been updated to ensure that the correct date object is being used to
+     * construct the formatted date string.
+     */
     it(`should return formatted string, based on default browser locale`, () => {
+      const spy = spyOn(service, 'getMomentFromFuzzyDate').and.callThrough();
       const fuzzyDate = {month: 11, day: 5, year: 1955};
       const actual = service.format(fuzzyDate, currentShortFormat, currentLocale);
       const expected = moment('11/5/1955').format('L');
 
       expect(actual).toEqual(expected);
+      expect(spy).toHaveBeenCalledWith(fuzzyDate);
+      expect(spy).toHaveBeenCalledTimes(1);
     });
 
     it(`should return formatted string, when providing custom format and locale`, () => {

@@ -99,6 +99,7 @@ export class SkyFuzzyDateService implements OnDestroy {
     let dateParts: string[] = [];
     let formatTokens: string[] = format.split(separator);
     locale = locale || this.currentLocale;
+    let fuzzyDateMoment = this.getMomentFromFuzzyDate(fuzzyDate).locale(locale);
 
     for (let index = 0; index < formatTokens.length; index++) {
       const token = formatTokens[index];
@@ -108,21 +109,21 @@ export class SkyFuzzyDateService implements OnDestroy {
           case 'y':
             if (fuzzyDate.year) {
               dateParts.push(
-                moment().locale(locale).year(fuzzyDate.year).format(token)
+                fuzzyDateMoment.format(token)
               );
             }
             break;
           case 'm':
             if (fuzzyDate.month) {
               dateParts.push(
-                moment().locale(locale).month(fuzzyDate.month - 1).format(token)
+                fuzzyDateMoment.format(token)
               );
             }
             break;
           case 'd':
             if (fuzzyDate.day) {
               dateParts.push(
-                moment().locale(locale).date(fuzzyDate.day).format(token)
+                fuzzyDateMoment.format(token)
               );
             }
             break;
