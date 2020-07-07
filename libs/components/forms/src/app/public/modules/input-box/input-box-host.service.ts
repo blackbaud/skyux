@@ -10,6 +10,9 @@ import {
   SkyInputBoxPopulateArgs
 } from './input-box-populate-args';
 
+/**
+ * @internal
+ */
 @Injectable()
 export class SkyInputBoxHostService {
 
