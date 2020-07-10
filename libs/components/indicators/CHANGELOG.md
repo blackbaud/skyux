@@ -1,3 +1,7 @@
+# 4.3.0 (2020-07-10)
+
+- Added modern theme styles to the key info component and enabled styling of the key info value with CSS classes. [#101](https://github.com/blackbaud/skyux-indicators/pull/101)
+
 # 4.2.0 (2020-06-19)
 
 - Added the status indicator component to replace the previous CSS version. [#91](https://github.com/blackbaud/skyux-indicators/pull/91)
