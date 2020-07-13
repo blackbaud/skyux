@@ -44,7 +44,7 @@ export class SkyDatePipe implements OnDestroy, PipeTransform {
 
   private locale: string;
 
-  private value: Date;
+  private value: any;
 
   private formattedValue: string;
 
@@ -75,7 +75,7 @@ export class SkyDatePipe implements OnDestroy, PipeTransform {
    * @param locale Specifies the locale code to use in the transform.
    */
   public transform(
-    value: Date,
+    value: any,
     format?: string,
     locale?: string
   ): string {
