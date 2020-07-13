@@ -67,3 +67,22 @@
     </sky-action-button>
   </sky-action-button-container>
 </div>
+
+<div
+  id="screenshot-action-button-wrapping-header"
+  style="display: inline-block;"
+>
+  <sky-action-button
+    (actionClick)="buttonClicked()"
+  >
+    <sky-action-button-icon
+      iconType="filter"
+    ></sky-action-button-icon>
+    <sky-action-button-header>
+      Build a new list starting from scratch
+    </sky-action-button-header>
+    <sky-action-button-details>
+      Start from scratch and fine-tune with filters
+    </sky-action-button-details>
+  </sky-action-button>
+</div>
