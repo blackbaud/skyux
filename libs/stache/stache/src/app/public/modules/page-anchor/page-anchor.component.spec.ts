@@ -156,7 +156,8 @@ describe('StachePageAnchorComponent', () => {
     fixture.detectChanges();
     expect(anchorComponent.name).toEqual('foo');
     fixtureComponent.anchorContent = 'bar';
-    expect(anchorComponent.name).toEqual = 'bar';
+    fixture.detectChanges();
+    expect(anchorComponent.name).toEqual('bar');
   });
 
   it('should update the offsetTop value if the offsetTop changes ', () => {

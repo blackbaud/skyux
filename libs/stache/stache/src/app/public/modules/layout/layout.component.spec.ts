@@ -1,11 +1,17 @@
 import {
   ComponentFixture,
-  TestBed
+  fakeAsync,
+  TestBed,
+  tick
 } from '@angular/core/testing';
 
 import {
   NO_ERRORS_SCHEMA
 } from '@angular/core';
+
+import {
+  By
+} from '@angular/platform-browser';
 
 import {
   expect
@@ -180,5 +186,16 @@ describe('StacheLayoutComponent', () => {
     let layout = component['sidebarTemplateRef'];
     expect(component.templateRef).toBe(layout);
   });
+
+  it('should set the min-height of the wrapper', fakeAsync(() => {
+    const spy = spyOn(component['renderer'], 'setStyle').and.callThrough();
+    component.layoutType = 'sidebar';
+    component.ngOnChanges();
+    fixture.detectChanges();
+    tick();
+    const wrapper = fixture.debugElement.query(By.css('.stache-layout-wrapper')).nativeElement;
+    expect(spy.calls.argsFor(0)[0]).toEqual(wrapper);
+    expect(spy.calls.argsFor(0)[1]).toEqual('min-height');
+  }));
 
 });

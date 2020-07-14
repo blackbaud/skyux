@@ -1,11 +1,11 @@
 import {
   Component,
+  OnChanges,
   OnInit,
   Input,
   ViewChild,
   ElementRef,
-  Renderer2,
-  AfterViewInit
+  Renderer2
 } from '@angular/core';
 
 import {
@@ -25,7 +25,7 @@ import {
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss']
 })
-export class StacheLayoutComponent implements OnInit, StacheLayout, AfterViewInit {
+export class StacheLayoutComponent implements OnInit, OnChanges, StacheLayout {
   @Input()
   public pageTitle: string;
 
@@ -90,8 +90,11 @@ export class StacheLayoutComponent implements OnInit, StacheLayout, AfterViewIni
     }
   }
 
-  public ngAfterViewInit() {
-    this.setMinHeight();
+  public ngOnChanges(): void {
+    // Reset the wrapper height whenever there are changes.
+    this.windowRef.nativeWindow.setTimeout(() => {
+      this.setMinHeight();
+    });
   }
 
   private setMinHeight() {
