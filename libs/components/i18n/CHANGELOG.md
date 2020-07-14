@@ -1,3 +1,7 @@
+# 4.0.1 (2020-07-14)
+
+- Added support for `@skyux-sdk/builder@4.2.0`. [#84](https://github.com/blackbaud/skyux-i18n/pull/84)
+
 # 4.0.0 (2020-05-11)
 
 ### New features
