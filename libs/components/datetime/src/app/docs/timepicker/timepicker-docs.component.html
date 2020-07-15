@@ -17,4 +17,208 @@
     >
     </sky-docs-code-example>
   </sky-docs-code-examples> -->
+
+  <sky-docs-design-guidelines>
+
+    <sky-docs-demo-page-section
+      heading="Usage"
+    >
+      <sky-docs-design-guideline
+        heading="Use when"
+        headingStyle="success"
+      >
+        <p>
+          Use timepickers when users need to specify the time of day.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          caption="Do use timepickers when users specify times in 12-hour or 24-hour formats."
+          captionType="success"
+          imageSource="~/assets/img/guidelines/timepicker/timepicker-usage-1.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline>
+        <p>
+          Use two timepickers when users need to specify start and stop times.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          caption="Do use two timepickers when users specify time ranges with start and stop times."
+          captionType="success"
+          imageSource="~/assets/img/guidelines/timepicker/timepicker-usage-2.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline
+        heading="Don't use when"
+        headingStyle="danger"
+      >
+        <p>
+          Don't use timepickers when users need to specify general durations or time spans. Use <a href="https://developer.blackbaud.com/skyux/components/radio">radio buttons</a> or HTML select fields instead.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          caption="Don't use timepickers when users specify hours and minutes as lengths of time."
+          captionType="danger"
+          imageSource="~/assets/img/guidelines/timepicker/timepicker-usage-3.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+        <sky-docs-design-guideline-thumbnail
+          caption="Do use radio buttons or HTML select fields when users specify durations or time spans."
+          captionType="success"
+          imageSource="~/assets/img/guidelines/timepicker/timepicker-usage-4.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Anatomy"
+    >
+      <sky-docs-anatomy
+        imagePath="~/assets/img/guidelines/timepicker/timepicker-anatomy.png"
+      >
+        <sky-docs-anatomy-item anatomyNumber="1">Input field</sky-docs-anatomy-item>
+        <sky-docs-anatomy-item anatomyNumber="2">Picker button</sky-docs-anatomy-item>
+        <sky-docs-anatomy-item anatomyNumber="3">Picker</sky-docs-anatomy-item>
+      </sky-docs-anatomy>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Options"
+    >
+      <sky-docs-design-guideline
+        heading="12-hour timepicker"
+      >
+        <p>
+          Use the 12-hour option for regions and users that use 12-hour time designations. This allows users to select hours, minutes, and "AM" or "PM."
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          imageSource="~/assets/img/guidelines/timepicker/timepicker-options-1.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline
+        heading="24-hour timepicker"
+      >
+        <p>
+          Use the 24-hour option for regions and users that use 24-hour time designations. This allows users to select hours and minutes.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          imageSource="~/assets/img/guidelines/timepicker/timepicker-options-2.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Behavior and states"
+    >
+      <sky-docs-design-guideline
+        heading="Keyboard entries"
+      >
+        <p>
+          Users can use the keyboard to enter time values in the input field. Times automatically resolve to the correct format when the field loses focus.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          videoSource="~/assets/img/guidelines/timepicker/timepicker-autoformatting.mp4"
+          [showBorder]="true"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline
+        heading="States"
+      >
+        <table class="sky-docs-table">
+          <tr>
+            <td class="sky-docs-table-cell sky-docs-table-cell-primary">
+              Default
+            </td>
+            <td class="sky-docs-table-cell">
+              <sky-docs-design-guideline-thumbnail
+                imageSource="~/assets/img/guidelines/timepicker/timepicker-state-default.png"
+              >
+              </sky-docs-design-guideline-thumbnail>
+            </td>
+          </tr>
+          <tr>
+            <td class="sky-docs-table-cell">
+              Input field focused
+            </td>
+            <td class="sky-docs-table-cell">
+              <sky-docs-design-guideline-thumbnail
+                imageSource="~/assets/img/guidelines/timepicker/timepicker-state-focused.png"
+              >
+              </sky-docs-design-guideline-thumbnail>
+            </td>
+          </tr>
+          <tr>
+            <td class="sky-docs-table-cell">
+              Picker open
+            </td>
+            <td class="sky-docs-table-cell">
+              <sky-docs-design-guideline-thumbnail
+                imageSource="~/assets/img/guidelines/timepicker/timepicker-state-picker.png"
+              >
+              </sky-docs-design-guideline-thumbnail>
+            </td>
+          </tr>
+          <tr>
+            <td class="sky-docs-table-cell">
+              Time entered
+            </td>
+            <td class="sky-docs-table-cell">
+              <sky-docs-design-guideline-thumbnail
+                imageSource="~/assets/img/guidelines/timepicker/timepicker-state-entered.png"
+              >
+              </sky-docs-design-guideline-thumbnail>
+            </td>
+          </tr>
+          <tr>
+            <td class="sky-docs-table-cell">
+              Error
+            </td>
+            <td class="sky-docs-table-cell">
+              <sky-docs-design-guideline-thumbnail
+                imageSource="~/assets/img/guidelines/timepicker/timepicker-state-error.png"
+              >
+              </sky-docs-design-guideline-thumbnail>
+            </td>
+          </tr>
+        </table>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Layout"
+    >
+      <sky-docs-design-guideline>
+        <p class="sky-docs-text-block">
+          Use 1/2- or 1/3-width columns for individual timepicker fields inside <a href="https://developer.blackbaud.com/skyux/components/modal">modals</a>, except when using small (300px) modals. When using two timepickers for start and stop times, use 10px of horizontal space between them.
+        </p>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Related information"
+    >
+      <sky-docs-design-guideline
+       heading="Components"
+      >
+        <ul>
+          <li><a skyAppLink="/docs/datepicker">Datepicker</a></li>
+          <li><a href="https://developer.blackbaud.com/skyux-popovers/docs/popover">Popover</a></li>
+          <li><a href="https://developer.blackbaud.com/skyux/components/radio">Radio button</a></li>
+        </ul>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline
+        heading="Guidelines"
+      >
+        <ul>
+          <li><a href="https://developer.blackbaud.com/skyux/design/guidelines/form-design">Form design</a></li>
+        </ul>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+  </sky-docs-design-guidelines>
+
 </sky-docs-demo-page>
