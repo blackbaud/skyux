@@ -1,3 +1,7 @@
+# 4.0.1 (2020-07-15)
+
+- Fixed the sidebar layout component to properly set the height of the sidebar when it is longer than the primary content. [#84](https://github.com/blackbaud/skyux-lib-stache/pull/84)
+
 # 4.0.0 (2020-05-22)
 
 ### New features
