@@ -344,11 +344,15 @@ export class SkyTabsetComponent
     }
   }
 
-  private setPathParamPermalinkValue(value: string): void {
+  private setPathParamPermalinkValue(value: string | null): void {
     if (this.permalinkId) {
       const params = this.getPathParams();
 
-      params[this.permalinkId] = value;
+      if (value === null) {
+        delete params[this.permalinkId];
+      } else {
+        params[this.permalinkId] = value;
+      }
 
       // Update the URL without triggering a navigation state change.
       // See: https://stackoverflow.com/a/46486677
