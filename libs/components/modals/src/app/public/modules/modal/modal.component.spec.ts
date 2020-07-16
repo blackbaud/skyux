@@ -765,6 +765,10 @@ describe('Modal component', () => {
       validateShadow(modalHeaderEl, 0.3);
       validateShadow(modalFooterEl, 0.3);
 
+      scrollContent(modalContentEl, 31);
+      validateShadow(modalHeaderEl, 0.3);
+      validateShadow(modalFooterEl, 0.3);
+
       scrollContent(
         modalContentEl,
         (modalContentEl.scrollHeight - 15) - modalContentEl.clientHeight
