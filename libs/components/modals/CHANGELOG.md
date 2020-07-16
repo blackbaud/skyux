@@ -1,3 +1,7 @@
+# 4.3.1 (2020-07-16)
+
+- Fixed an issue where the modal component could cause an infinite loop when used with the modern theme. [#113](https://github.com/blackbaud/skyux-modals/pull/113)
+
 # 4.3.0 (2020-07-07)
 
 - Added modern theme styles to the confirm and modal components. [#103](https://github.com/blackbaud/skyux-modals/pull/103)
