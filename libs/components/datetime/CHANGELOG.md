@@ -1,3 +1,7 @@
+# 4.1.2 (2020-07-16)
+
+- Fixed the date pipe to allow all data types. [#186](https://github.com/blackbaud/skyux-datetime/pull/186)  (Thanks [@Blackbaud-NickGlyder](https://github.com/Blackbaud-NickGlyder)!)
+
 # 4.1.1 (2020-07-07)
 - Fixed an issue where the fuzzy date pipe returned incorrect data when the day value was 31. [#181](https://github.com/blackbaud/skyux-datetime/pull/181) (Thanks [@Blackbaud-CoreyArcher](https://github.com/Blackbaud-CoreyArcher)!)
 
