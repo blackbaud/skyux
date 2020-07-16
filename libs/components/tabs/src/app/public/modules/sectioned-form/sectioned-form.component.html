@@ -4,15 +4,19 @@
   [attr.role]="ariaRole"
   (window:resize)="tabService.updateContent()"
 >
-  <div *ngIf="tabsVisible()"
+  <div
+    *ngIf="maintainSectionContent || tabsVisible()"
     class="sky-sectioned-form-tabs"
-    [@tabEnter]="tabService.animationVisibleState"
+    [ngClass]="{'sky-sectioned-form-tabs-hidden': !tabsVisible()}"
+    [@tabEnter]="tabService.animationTabsVisibleState"
   >
     <ng-content></ng-content>
   </div>
-  <div *ngIf="tabService.contentVisible()"
+  <div
+    *ngIf="maintainSectionContent || tabService.contentVisible()"
     class="sky-sectioned-form-content sky-padding-even-large"
-    [@contentEnter]="tabService.animationVisibleState"
+    [ngClass]="{'sky-sectioned-form-content-hidden': !tabService.contentVisible()}"
+    [@contentEnter]="tabService.animationContentVisibleState"
     #skySectionSideContent
   >
   </div>

@@ -18,6 +18,7 @@ import {
 } from './vertical-tab.component';
 
 export const VISIBLE_STATE = 'shown';
+export const HIDDEN_STATE = 'void';
 
 /**
  * @internal
@@ -25,26 +26,38 @@ export const VISIBLE_STATE = 'shown';
 @Injectable()
 export class SkyVerticalTabsetService {
 
-  public tabs: Array<SkyVerticalTabComponent> = [];
-  public tabClicked: BehaviorSubject<boolean> = new BehaviorSubject(undefined);
   public activeIndex: number = undefined;
 
-  public hidingTabs = new BehaviorSubject(false);
-  public showingTabs = new BehaviorSubject(false);
-  public tabAdded: Subject<SkyVerticalTabComponent> = new Subject();
-  public indexChanged: BehaviorSubject<number> = new BehaviorSubject(undefined);
-  public switchingMobile: Subject<boolean> = new Subject();
+  public animationContentVisibleState: string;
 
-  public animationVisibleState: string;
-
-  private _content: ElementRef;
+  public animationTabsVisibleState: string;
 
   public set content(value: ElementRef) {
     this._content = value;
   }
 
-  private _tabsVisible: boolean = false;
+  public hidingTabs = new BehaviorSubject(false);
+
+  public indexChanged: BehaviorSubject<number> = new BehaviorSubject(undefined);
+
+  public maintainTabContent: boolean = false;
+
+  public showingTabs = new BehaviorSubject(false);
+
+  public switchingMobile: Subject<boolean> = new Subject();
+
+  public tabs: Array<SkyVerticalTabComponent> = [];
+
+  public tabAdded: Subject<SkyVerticalTabComponent> = new Subject();
+
+  public tabClicked: BehaviorSubject<boolean> = new BehaviorSubject(undefined);
+
+  private _content: ElementRef;
+
   private _contentAdded: boolean = false;
+
+  private _tabsVisible: boolean = false;
+
   private _isMobile: boolean = false;
 
   public constructor(private mediaQueryService: SkyMediaQueryService) {
@@ -87,20 +100,30 @@ export class SkyVerticalTabsetService {
 
   public destroyTab(tab: SkyVerticalTabComponent): void {
     let tabIndex = this.tabs.indexOf(tab);
-    if (tab.active) {
-      this.destroyContent();
+    if (tabIndex === -1) {
+      return;
+    }
 
+    if (this.maintainTabContent && tab.contentRendered && this._content) {
+      if (this._content.nativeElement.contains(tab.tabContent.nativeElement)) {
+        this._content.nativeElement.removeChild(tab.tabContent.nativeElement);
+      }
+    }
+    this.tabs.splice(tabIndex, 1);
+    // update tab indices
+    this.tabs.forEach((tabItem, index) => tabItem.index = index);
+
+    if (tab.active) {
+      if (!this.maintainTabContent) {
+        this.destroyContent();
+      }
       // Try selecting the next tab first, and if there's no next tab then
       // try selecting the previous one.
-      let newActiveTab = this.tabs[tabIndex + 1] || this.tabs[tabIndex - 1];
+      let newActiveTab = this.tabs[tabIndex] || this.tabs[tabIndex - 1];
       /*istanbul ignore else */
       if (newActiveTab) {
         newActiveTab.activateTab();
       }
-    }
-
-    if (tabIndex > -1) {
-      this.tabs.splice(tabIndex, 1);
     }
   }
 
@@ -118,14 +141,8 @@ export class SkyVerticalTabsetService {
     this.updateTabClicked();
   }
 
-  public activeTabContent(): ElementRef {
-    let activeTab = this.tabs.find(t => t.index === this.activeIndex);
-
-    if (activeTab) {
-      return activeTab.tabContent;
-    } else {
-      return undefined;
-    }
+  public activeTab(): SkyVerticalTabComponent {
+    return this.tabs.find(t => t.index === this.activeIndex);
   }
 
   public isMobile() {
@@ -133,13 +150,22 @@ export class SkyVerticalTabsetService {
   }
 
   public updateContent() {
-    if (!this._contentAdded && this.contentVisible()) {
-      // content needs to be moved
-      this.moveContent();
+    if (!this.maintainTabContent) {
+      if (!this._contentAdded && this.contentVisible()) {
+        // content needs to be moved
+        this.moveContent();
 
-    } else if (this._contentAdded && !this.contentVisible()) {
-      // content hidden
-      this._contentAdded = false;
+      } else if (this._contentAdded && !this.contentVisible()) {
+        // content hidden
+        this._contentAdded = false;
+      }
+    } else {
+      this.tabs.forEach((tab) => {
+        if (!tab.contentRendered) {
+          this._content.nativeElement.appendChild(tab.tabContent.nativeElement);
+          tab.contentRendered = true;
+        }
+      });
     }
   }
 
@@ -154,7 +180,8 @@ export class SkyVerticalTabsetService {
   public showTabs() {
     this._tabsVisible = true;
     this._contentAdded = false;
-    this.animationVisibleState = VISIBLE_STATE;
+    this.animationTabsVisibleState = VISIBLE_STATE;
+    this.animationContentVisibleState = HIDDEN_STATE;
     this.showingTabs.next(true);
   }
 
@@ -167,10 +194,12 @@ export class SkyVerticalTabsetService {
 
   private moveContent() {
     if (this._content && !this._contentAdded) {
-      let activeContent = this.activeTabContent();
+      let activeTab = this.activeTab();
+      let activeContent = activeTab ? activeTab.tabContent : undefined;
 
       if (activeContent && activeContent.nativeElement) {
         this._content.nativeElement.appendChild(activeContent.nativeElement);
+        activeTab.contentRendered = true;
         this._contentAdded = true;
       }
     }
@@ -181,7 +210,8 @@ export class SkyVerticalTabsetService {
 
     if (this.isMobile()) {
       this._tabsVisible = false;
-      this.animationVisibleState = VISIBLE_STATE;
+      this.animationContentVisibleState = VISIBLE_STATE;
+      this.animationTabsVisibleState = HIDDEN_STATE;
       this.hidingTabs.next(true);
     }
 

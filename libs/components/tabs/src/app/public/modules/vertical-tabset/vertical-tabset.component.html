@@ -1,17 +1,19 @@
  <div class="sky-vertical-tabset" (window:resize)="tabService.updateContent()">
   <div
-    *ngIf="tabService.tabsVisible()"
+    *ngIf="maintainTabContent || tabService.tabsVisible()"
     #contentWrapper
     class="sky-vertical-tabset-group-container"
+    [ngClass]="{'sky-vertical-tabset-hidden': !tabService.tabsVisible()}"
     [attr.role]="ariaRole"
-    [@tabGroupEnter]="tabService.animationVisibleState"
+    [@tabGroupEnter]="tabService.animationTabsVisibleState"
   >
     <ng-content></ng-content>
   </div>
   <div
+    *ngIf="maintainTabContent || tabService.contentVisible()"
     class="sky-vertical-tabset-content"
-    [@contentEnter]="tabService.animationVisibleState"
-    *ngIf="tabService.contentVisible()"
+    [ngClass]="{'sky-vertical-tabset-content-hidden': !tabService.contentVisible()}"
+    [@contentEnter]="tabService.animationContentVisibleState"
   >
     <div #skySideContent></div>
     <button

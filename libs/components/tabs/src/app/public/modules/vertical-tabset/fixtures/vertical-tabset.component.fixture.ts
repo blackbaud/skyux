@@ -8,6 +8,8 @@ import { SkyVerticalTabsetComponent } from './../vertical-tabset.component';
   styleUrls: ['./vertical-tabset.component.fixture.scss']
 })
 export class VerticalTabsetTestComponent {
+  public active: boolean = true;
+
   public group1Open: boolean = true;
   public group1Disabled: boolean = false;
 
@@ -17,7 +19,8 @@ export class VerticalTabsetTestComponent {
   public group3Open: boolean = false;
   public group3Disabled: boolean = true;
 
-  public active: boolean = true;
+  public maintainTabContent: boolean = false;
+
   public tabDisabled: boolean = true;
 
   @ViewChild(SkyVerticalTabsetComponent)

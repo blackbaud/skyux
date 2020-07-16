@@ -23,10 +23,18 @@
   }
 }
 
+.sky-vertical-tabset-hidden {
+  display: none;
+}
+
 .sky-vertical-tabset-content {
   margin: $sky-margin 0 0 $sky-margin;
   flex-basis: 75%;
   overflow-y: auto;
+}
+
+.sky-vertical-tabset-content-hidden {
+  display: none;
 }
 
 .sky-vertical-tabset-show-tabs-btn {

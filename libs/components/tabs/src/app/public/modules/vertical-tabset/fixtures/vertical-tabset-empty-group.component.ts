@@ -4,4 +4,6 @@ import { Component } from '@angular/core';
   selector: 'sky-test-cmp',
   templateUrl: './vertical-tabset-empty-group.component.fixture.html'
 })
-export class VerticalTabsetEmptyGroupTestComponent {}
+export class VerticalTabsetEmptyGroupTestComponent {
+  public maintainTabContent: boolean = false;
+}

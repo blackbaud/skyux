@@ -1,6 +1,8 @@
 <sky-vertical-tabset
   ariaRole="tablist"
-  showTabsText='Tab list'>
+  showTabsText='Tab list'
+  [maintainTabContent]="maintainTabContent"
+>
   <sky-vertical-tabset-group
     groupHeading="Group 1"
     [open]="group1Open"
@@ -12,11 +14,15 @@
       ariaRequired="true"
       ariaRole="tab"
       tabHeading="Group 1 Tab 1"
-      tabHeaderCount="5" [active]="active"
-      tabId="some-tab">
+      tabHeaderCount="5"
+      tabId="some-tab"
+      [active]="active"
+    >
       Group 1 Tab 1 content
     </sky-vertical-tab>
-    <sky-vertical-tab tabHeading="Group 1 Tab 2">
+    <sky-vertical-tab
+      tabHeading="Group 1 Tab 2"
+    >
       Group 1 Tab 2 content
     </sky-vertical-tab>
   </sky-vertical-tabset-group>
@@ -26,13 +32,20 @@
     [open]="group2Open"
     [disabled]="group2Disabled"
   >
-    <sky-vertical-tab tabHeading="Group 2 Tab 1">
+    <sky-vertical-tab
+      tabHeading="Group 2 Tab 1"
+    >
       Group 2 Tab 1 content
     </sky-vertical-tab>
-    <sky-vertical-tab tabHeading="Group 2 Tab 2">
+    <sky-vertical-tab
+      tabHeading="Group 2 Tab 2"
+    >
       Group 2 Tab 2 content
     </sky-vertical-tab>
-    <sky-vertical-tab tabHeading="Group 2 Tab 2 - disabled" [disabled]="tabDisabled">
+    <sky-vertical-tab
+      tabHeading="Group 2 Tab 2 - disabled"
+      [disabled]="tabDisabled"
+    >
       Group 2 Tab 3 content
     </sky-vertical-tab>
   </sky-vertical-tabset-group>
@@ -42,12 +55,19 @@
     [open]="group3Open"
     [disabled]="group3Disabled"
   >
-    <sky-vertical-tab tabHeading="Group 3 Tab 1">
+    <sky-vertical-tab
+      tabHeading="Group 3 Tab 1"
+    >
       Group 3 Tab 1 content
     </sky-vertical-tab>
-    <sky-vertical-tab tabHeading="Group 3 Tab 2">
+    <sky-vertical-tab
+      tabHeading="Group 3 Tab 2"
+    >
       Group 3 Tab 2 content
     </sky-vertical-tab>
   </sky-vertical-tabset-group>
 </sky-vertical-tabset>
-<div id="some-div" aria-labelledby="some-tab"></div>
+<div
+  aria-labelledby="some-tab"
+  id="some-div"
+></div>

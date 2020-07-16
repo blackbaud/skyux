@@ -1,9 +1,22 @@
-<div id="activeIndexDiv">active index = {{ activeIndexDisplay }}</div>
-<sky-sectioned-form (indexChanged)="updateIndex($event)">
-  <sky-sectioned-form-section heading="Information 1">
+<div
+  id="activeIndexDiv"
+>
+  active index = {{ activeIndexDisplay }}
+</div>
+<sky-sectioned-form
+  [maintainSectionContent]="maintainSectionContent"
+  (indexChanged)="updateIndex($event)"
+>
+  <sky-sectioned-form-section
+    heading="Information 1"
+  >
     <sky-sectioned-form-fixture-information-1></sky-sectioned-form-fixture-information-1>
   </sky-sectioned-form-section>
-  <sky-sectioned-form-section heading="Information 1a" itemCount="2" [active]="activeTab">
+  <sky-sectioned-form-section
+    heading="Information 1a"
+    itemCount="2"
+    [active]="activeTab"
+  >
     <sky-sectioned-form-fixture-information-2></sky-sectioned-form-fixture-information-2>
   </sky-sectioned-form-section>
 </sky-sectioned-form>

@@ -31,7 +31,15 @@ import {
   MockSkyMediaQueryService
 } from '@skyux/core/testing';
 
+function getVisibleTabs(el: any) {
+  return el.querySelectorAll('.sky-sectioned-form-tabs:not(.sky-sectioned-form-tabs-hidden)');
+}
+
 function getVisibleContent(el: any) {
+  return el.querySelectorAll('.sky-sectioned-form-content:not(.sky-sectioned-form-content-hidden)');
+}
+
+function getVisibleTabContent(el: any) {
   return el.querySelectorAll('.sky-vertical-tab-content-pane:not(.sky-vertical-tab-hidden)');
 }
 
@@ -58,7 +66,7 @@ describe('Sectioned form component', () => {
   });
 
   function createTestComponent() {
-    return TestBed.overrideComponent(SkySectionedFormComponent, {
+    let fixture = TestBed.overrideComponent(SkySectionedFormComponent, {
       add: {
         providers: [
           { provide: SkyMediaQueryService, useValue: mockQueryService }
@@ -66,6 +74,7 @@ describe('Sectioned form component', () => {
       }
     })
     .createComponent(SkySectionedFormFixtureComponent);
+    return fixture;
   }
 
   it('active tab should be open', () => {
@@ -85,7 +94,7 @@ describe('Sectioned form component', () => {
     expect(count.textContent.trim()).toBe('(2)');
 
     // check correct section content is displayed
-    let content = getVisibleContent(el);
+    let content = getVisibleTabContent(el);
     expect(content.length).toBe(1);
     expect(content[0].textContent.trim()).toBe('information 2');
   });
@@ -95,6 +104,12 @@ describe('Sectioned form component', () => {
     let el = fixture.nativeElement;
 
     fixture.detectChanges();
+
+    // check order of vertical tab content
+    let allTabContentElements = el.querySelectorAll('.sky-vertical-tab-content-pane');
+    expect(allTabContentElements.length).toBe(2);
+    expect(allTabContentElements[0].textContent.trim()).toBe('information 1 Mark required  Mark invalid');
+    expect(allTabContentElements[1].textContent.trim()).toBe('information 2');
 
     // click first tab
     let firstTab = el.querySelectorAll('.sky-vertical-tab');
@@ -118,6 +133,12 @@ describe('Sectioned form component', () => {
     expect(content.length).toBe(1);
     let informationContent = content[0].querySelector('.demo-content');
     expect(informationContent.textContent.trim()).toBe('information 1');
+
+    // check order of vertical tab content - order changes when tabs are clicked
+    allTabContentElements = el.querySelectorAll('.sky-vertical-tab-content-pane');
+    expect(allTabContentElements.length).toBe(2);
+    expect(allTabContentElements[0].textContent.trim()).toBe('information 2');
+    expect(allTabContentElements[1].textContent.trim()).toBe('information 1 Mark required  Mark invalid');
   });
 
   it('section should respect required field change', () => {
@@ -197,7 +218,7 @@ describe('Sectioned form component', () => {
 
     fixture.detectChanges();
 
-    expect(fixture.componentInstance.sectionedForm.tabService.animationVisibleState).toBe('shown');
+    expect(fixture.componentInstance.sectionedForm.tabService.animationContentVisibleState).toBe('shown');
   });
 
   it('should hide content and show tabs on mobile after calling showtabs function', () => {
@@ -208,10 +229,10 @@ describe('Sectioned form component', () => {
     fixture.detectChanges();
 
     // check tabs not visible and content visible
-    let tabs = el.querySelectorAll('.sky-vertical-tab');
+    let tabs = getVisibleTabs(el);
     expect(tabs.length).toBe(0);
 
-    let content = getVisibleContent(el);
+    let content = getVisibleTabContent(el);
     expect(content.length).toBe(1);
     expect(content[0].textContent.trim()).toBe('information 2');
 
@@ -316,7 +337,7 @@ describe('Sectioned form component', () => {
     fixture.detectChanges();
 
     // content should be visible
-    let content = getVisibleContent(el);
+    let content = getVisibleTabContent(el);
     expect(content.length).toBe(1);
     expect(content[0].textContent.trim()).toBe('information 2');
 
@@ -337,7 +358,7 @@ describe('Sectioned form component', () => {
     fixture.detectChanges();
 
     // content should be visible
-    content = getVisibleContent(el);
+    content = getVisibleTabContent(el);
     expect(content.length).toBe(1);
     expect(content[0].textContent.trim()).toBe('information 2');
   });
@@ -349,6 +370,49 @@ describe('Sectioned form component', () => {
       expect(fixture.nativeElement).toBeAccessible();
     });
   }));
+
+  it('maintainSectionContent - tab content remains in same order', () => {
+    let fixture = createTestComponent();
+    fixture.componentInstance.maintainSectionContent = true;
+    let el = fixture.nativeElement;
+
+    fixture.detectChanges();
+
+    // check order of vertical tab content
+    let allTabContentElements = el.querySelectorAll('.sky-vertical-tab-content-pane');
+    expect(allTabContentElements.length).toBe(2);
+    expect(allTabContentElements[0].textContent.trim()).toBe('information 1 Mark required  Mark invalid');
+    expect(allTabContentElements[1].textContent.trim()).toBe('information 2');
+
+    // click first tab
+    let firstTab = el.querySelectorAll('.sky-vertical-tab');
+    firstTab[0].click();
+
+    fixture.detectChanges();
+
+    // check correct section tab is active
+    let activeSection = getActiveSection(el);
+    expect(activeSection.length).toBe(1);
+
+    let heading = activeSection[0].querySelector('.sky-vertical-tab-heading');
+    expect(heading.textContent.trim()).toBe('Information 1');
+
+    let count = activeSection[0].querySelector('.sky-vertical-tab-count');
+    // tslint:disable-next-line:no-null-keyword
+    expect(count).toBe(null);
+
+    // check correct section content is displayed
+    let content = getVisibleContent(el);
+    expect(content.length).toBe(1);
+    let informationContent = content[0].querySelector('.demo-content');
+    expect(informationContent.textContent.trim()).toBe('information 1');
+
+    // check order of vertical tab content - order should not change
+    allTabContentElements = el.querySelectorAll('.sky-vertical-tab-content-pane');
+    expect(allTabContentElements.length).toBe(2);
+    expect(allTabContentElements[0].textContent.trim()).toBe('information 1 Mark required  Mark invalid');
+    expect(allTabContentElements[1].textContent.trim()).toBe('information 2');
+  });
 });
 
 describe('Sectioned form component - no sections', () => {
@@ -361,7 +425,8 @@ describe('Sectioned form component - no sections', () => {
   });
 
   function createTestComponent() {
-    return TestBed.createComponent(SkySectionedFormNoSectionsFixtureComponent);
+    let fixture = TestBed.createComponent(SkySectionedFormNoSectionsFixtureComponent);
+    return fixture;
   }
 
   it('should not fail to load when no sections exist', () => {
@@ -386,7 +451,8 @@ describe('Sectioned form component - no active sections', () => {
   });
 
   function createTestComponent() {
-    return TestBed.createComponent(SkySectionedFormNoActiveFixtureComponent);
+    let fixture = TestBed.createComponent(SkySectionedFormNoActiveFixtureComponent);
+    return fixture;
   }
 
   it('should not fail to load when no active sections exist', () => {

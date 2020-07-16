@@ -34,6 +34,8 @@ export class VerticalTabsVisualComponent {
 
   public group3Open: boolean = false;
 
+  public maintainTabContent: boolean = false;
+
   public tabDisabled: boolean = true;
 
   public tabs = [

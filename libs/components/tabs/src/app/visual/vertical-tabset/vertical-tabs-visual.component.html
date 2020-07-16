@@ -4,17 +4,29 @@
 ></div>
 
 <h2>Vertical tabset</h2>
-<div id="screenshot-vertical-tabset" [@.disabled]="true">
-  <sky-vertical-tabset showTabsText='Tab list'>
+<div
+  id="screenshot-vertical-tabset"
+  [@.disabled]="true"
+>
+  <sky-vertical-tabset
+    showTabsText='Tab list'
+    [maintainTabContent]="maintainTabContent"
+  >
     <sky-vertical-tabset-group
       groupHeading="Group 1"
       [open]="group1Open"
       [disabled]="group1Disabled"
     >
-      <sky-vertical-tab tabHeading="Group 1 Tab 1" tabHeaderCount="5" [active]="active">
+      <sky-vertical-tab
+        tabHeading="Group 1 Tab 1"
+        tabHeaderCount="5"
+        [active]="active"
+      >
         Group 1 Tab 1 content
       </sky-vertical-tab>
-      <sky-vertical-tab tabHeading="Group 1 Tab 2">
+      <sky-vertical-tab
+        tabHeading="Group 1 Tab 2"
+      >
         Group 1 Tab 2 content
       </sky-vertical-tab>
     </sky-vertical-tabset-group>
@@ -25,10 +37,17 @@
       [open]="group2Open"
       [disabled]="group2Disabled"
     >
-      <sky-vertical-tab tabHeading="Group 2 Tab 1" tabHeaderCount="6">
+      <sky-vertical-tab
+        tabHeading="Group 2 Tab 1"
+        tabHeaderCount="6"
+      >
         Group 2 Tab 1 content
       </sky-vertical-tab>
-      <sky-vertical-tab id="group2Tab2" tabHeading="Group 2 Tab 2" tabHeaderCount="0">
+      <sky-vertical-tab
+        id="group2Tab2"
+        tabHeading="Group 2 Tab 2"
+        tabHeaderCount="0"
+      >
         Group 2 Tab 2 content
       </sky-vertical-tab>
       <sky-vertical-tab
@@ -45,10 +64,14 @@
       [open]="group3Open"
       [disabled]="group3Disabled"
     >
-      <sky-vertical-tab tabHeading="Group 3 Tab 1">
+      <sky-vertical-tab
+        tabHeading="Group 3 Tab 1"
+      >
         Group 3 Tab 1 content
       </sky-vertical-tab>
-      <sky-vertical-tab tabHeading="Group 3 Tab 2">
+      <sky-vertical-tab
+        tabHeading="Group 3 Tab 2"
+      >
         Group 3 Tab 2 content
       </sky-vertical-tab>
     </sky-vertical-tabset-group>
@@ -56,15 +79,27 @@
 </div>
 
 <h2>Vertical tabset with no tab groups</h2>
-<div id="screenshot-vertical-tabs-no-groups" [@.disabled]="true">
-  <sky-vertical-tabset>
-    <sky-vertical-tab tabHeading="tab 1">
+<div
+  id="screenshot-vertical-tabs-no-groups"
+  [@.disabled]="true"
+>
+  <sky-vertical-tabset
+    [maintainTabContent]="maintainTabContent"
+  >
+    <sky-vertical-tab
+      tabHeading="tab 1"
+    >
       Tab 1 content
     </sky-vertical-tab>
-    <sky-vertical-tab tabHeading="tab 2" active="true">
+    <sky-vertical-tab
+      tabHeading="tab 2"
+      active="true"
+    >
       Tab 2 content
     </sky-vertical-tab>
-    <sky-vertical-tab tabHeading="tab 3">
+    <sky-vertical-tab
+      tabHeading="tab 3"
+    >
       Tab 3 content
     </sky-vertical-tab>
   </sky-vertical-tabset>
@@ -77,7 +112,9 @@
   id="screenshot-vertical-dynamic-tabs"
   [@.disabled]="true"
 >
-  <sky-vertical-tabset>
+  <sky-vertical-tabset
+    [maintainTabContent]="maintainTabContent"
+  >
     <sky-vertical-tab *ngFor="let tab of tabs; let i = index"
       [tabHeading]="tab.heading"
     >

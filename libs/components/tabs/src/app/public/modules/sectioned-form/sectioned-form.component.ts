@@ -8,7 +8,8 @@ import {
   Output,
   AfterViewChecked,
   ChangeDetectionStrategy,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  Input
 } from '@angular/core';
 
 import {
@@ -28,6 +29,7 @@ import {
 
 import {
   SkyVerticalTabsetService,
+  HIDDEN_STATE,
   VISIBLE_STATE
 } from './../vertical-tabset/vertical-tabset.service';
 
@@ -40,7 +42,7 @@ import {
   animations: [
     trigger(
       'tabEnter', [
-        transition(`void => ${VISIBLE_STATE}`, [
+        transition(`${HIDDEN_STATE} => ${VISIBLE_STATE}`, [
           style({transform: 'translate(-100%)'}),
           animate('150ms ease-in')
         ])
@@ -48,7 +50,7 @@ import {
     ),
     trigger(
       'contentEnter', [
-        transition(`void => ${VISIBLE_STATE}`, [
+        transition(`${HIDDEN_STATE} => ${VISIBLE_STATE}`, [
           style({transform: 'translate(100%)'}),
           animate('150ms ease-in')
         ])
@@ -57,6 +59,14 @@ import {
   ]
 })
 export class SkySectionedFormComponent implements OnInit, OnDestroy, AfterViewChecked {
+
+  /**
+   * Indicates whether the sectioned form should load section content when the form initializes
+   * and show/hide content without moving around elements in the content container.
+   * @default 'false'
+   */
+  @Input()
+  public maintainSectionContent: boolean = false;
 
   @Output()
   public indexChanged: EventEmitter<number> = new EventEmitter();
@@ -76,6 +86,8 @@ export class SkySectionedFormComponent implements OnInit, OnDestroy, AfterViewCh
     private changeRef: ChangeDetectorRef) {}
 
   public ngOnInit() {
+    this.tabService.maintainTabContent = this.maintainSectionContent;
+
     this.tabService.indexChanged
       .pipe(takeUntil(this._ngUnsubscribe))
       .subscribe(index => {
@@ -92,7 +104,7 @@ export class SkySectionedFormComponent implements OnInit, OnDestroy, AfterViewCh
 
     if (this.tabService.isMobile()) {
       this.isMobile = true;
-      this.tabService.animationVisibleState = VISIBLE_STATE;
+      this.tabService.animationContentVisibleState = VISIBLE_STATE;
       this.changeRef.markForCheck();
     }
   }

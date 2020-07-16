@@ -82,6 +82,27 @@ describe('Vertical tabset service', () => {
     service.addTab(tab1);
     service.addTab(tab2);
 
-    expect(service.activeTabContent()).toBe(undefined);
+    expect(service.activeTab()).toBe(undefined);
+  });
+
+  it('destroy tab removes it from the service', () => {
+    let tab1 = new SkyVerticalTabComponent(undefined, mockDetectChanges);
+    tab1.tabHeading = 'tab 1';
+
+    let tab2 = new SkyVerticalTabComponent(undefined, mockDetectChanges);
+    tab2.tabHeading = 'tab 2';
+
+    service.addTab(tab1);
+    service.addTab(tab2);
+
+    expect(service.tabs.length).toBe(2);
+
+    // attempt to destroy tab not existing in service
+    service.destroyTab(new SkyVerticalTabComponent(undefined, mockDetectChanges));
+    expect(service.tabs.length).toBe(2);
+
+    service.destroyTab(tab1);
+    expect(service.tabs.length).toBe(1);
+    expect(service.tabs[0]).toBe(tab2);
   });
 });
