@@ -10,4 +10,5 @@ export interface StacheNavLink {
   isActive?: boolean;
   isCurrent?: boolean;
   showInNav?: boolean;
+  restricted?: boolean;
 }

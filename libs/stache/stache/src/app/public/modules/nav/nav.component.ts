@@ -1,8 +1,21 @@
 import {
   Component,
   Input,
+  OnDestroy,
   OnInit
 } from '@angular/core';
+
+import {
+  SkyRestrictedViewAuthService
+} from '@blackbaud/skyux-lib-restricted-view';
+
+import {
+  Subject
+} from 'rxjs';
+
+import {
+  takeUntil
+} from 'rxjs/operators';
 
 import {
   StacheNavLink
@@ -21,10 +34,12 @@ import {
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss']
 })
-export class StacheNavComponent implements OnInit, StacheNav {
+export class StacheNavComponent implements OnDestroy, OnInit, StacheNav {
+
   @Input()
   public set routes(value: StacheNavLink[]) {
     this._routes = value;
+    this.filteredRoutes = this.filterRestrictedRoutes(this.routes, this.isAuthenticated);
     this.assignActiveStates();
   }
 
@@ -35,21 +50,31 @@ export class StacheNavComponent implements OnInit, StacheNav {
   @Input()
   public navType: string;
 
+  public set isAuthenticated(value: boolean) {
+    if (value !== this._isAuthenticated) {
+      this._isAuthenticated = value;
+      this.filteredRoutes = this.filterRestrictedRoutes(this.routes, value);
+    }
+  }
+
+  public get isAuthenticated(): boolean {
+    return this._isAuthenticated || false;
+  }
+
   public classname: string = '';
+
+  public filteredRoutes: StacheNavLink[];
+
+  private ngUnsubscribe = new Subject<void>();
+
+  private _isAuthenticated: boolean;
 
   private _routes: StacheNavLink[];
 
   public constructor(
-    private routeService: StacheRouteService
+    private routeService: StacheRouteService,
+    private restrictedViewAuthService: SkyRestrictedViewAuthService
   ) { }
-
-  public hasRoutes(): boolean {
-    return (Array.isArray(this.routes) && this.routes.length > 0);
-  }
-
-  public hasChildRoutes(route: StacheNavLink): boolean {
-    return Array.isArray(route.children);
-  }
 
   public ngOnInit(): void {
     if (this.navType) {
@@ -57,12 +82,31 @@ export class StacheNavComponent implements OnInit, StacheNav {
     }
 
     this.assignActiveStates();
+
+    this.restrictedViewAuthService.isAuthenticated
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((isAuthenticated: boolean) => {
+        this.isAuthenticated = isAuthenticated;
+      });
+  }
+
+  public ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
+  public hasRoutes(): boolean {
+    return (Array.isArray(this.filteredRoutes) && this.filteredRoutes.length > 0);
+  }
+
+  public hasChildRoutes(route: StacheNavLink): boolean {
+    return Array.isArray(route.children);
   }
 
   private assignActiveStates() {
     const activeUrl = this.routeService.getActiveUrl();
     if (this.hasRoutes()) {
-      this.routes.forEach((route) => {
+      this.filteredRoutes.forEach((route) => {
         route.isActive = this.isActive(activeUrl, route);
         route.isCurrent = this.isCurrent(activeUrl, route);
       });
@@ -97,5 +141,15 @@ export class StacheNavComponent implements OnInit, StacheNav {
     }
 
     return (activeUrl === `/${path}`);
+  }
+
+  private filterRestrictedRoutes(routes: StacheNavLink[], isAuthenticated: boolean): StacheNavLink[] {
+    if (!routes || routes.length === 0 || isAuthenticated) {
+      return routes;
+    }
+
+    return routes.filter(route => {
+      return !route.restricted;
+    });
   }
 }

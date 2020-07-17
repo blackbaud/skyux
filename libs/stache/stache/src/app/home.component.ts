@@ -2,10 +2,6 @@ import {
   Component
 } from '@angular/core';
 
-import {
-  StacheNavLink
-} from './public/public_api';
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html'
@@ -13,36 +9,43 @@ import {
 export class HomeComponent {
   public actionButtonRoutes = [
     {
-      name: 'Action Button 1',
+      name: 'Internal link',
+      path: '/demos',
+      icon: 'link',
+      summary: 'Link to our demo page.'
+    },
+    {
+      name: 'Long summary',
       path: '/demos',
       icon: 'book',
-      summary: 'Short summary here.'
+      summary: 'A long summary here about lots of interesting things. How does this impact the layout?'
     },
     {
-      name: 'Action Button 2',
-      path: 'mailto:brandon.hare@blackbaud.com',
-      icon: 'bookmark',
-      summary: 'Short summary here.'
+      name: 'External link',
+      path: 'http://example.com',
+      icon: 'link',
+      summary: 'Click here to link to http://example.com.'
     },
     {
-      name: 'Action Button 3',
-      path: 'http://google.com',
-      icon: 'certificate',
-      summary: 'Short summary here.'
-    },
-    {
-      name: 'Action Button 4',
+      name: 'Path with fragment',
       path: '/demos/tutorial/tutorial-one',
       fragment: 'clone-the-repository',
-      icon: 'certificate',
-      summary: 'Short summary here.'
+      icon: 'copy',
+      summary: 'This should link to "clone-the-repository".'
     },
     {
-      name: 'Action Button 5',
+      name: 'Another path with fragment',
       path: '/demos/tutorial/tutorial-one',
-      fragment: 'does-not-exist',
+      fragment: 'include-columns-and-rows',
       icon: 'certificate',
-      summary: 'Short summary here.'
+      summary: 'This should link to "include-columns-and-rows".'
+    },
+    {
+      name: 'Restricted Action Button 6',
+      path: '/demos',
+      icon: 'book',
+      summary: 'This should only show if user is a authenticated BB user.',
+      restricted: true
     }
   ];
 
@@ -58,6 +61,11 @@ export class HomeComponent {
         {
           name: 'Sidebar Link',
           path: '/1'
+        },
+        {
+          name: 'Restricted Sidebar Link',
+          path: '/1',
+          restricted: true
         },
         {
           name: 'Sidebar Link',
@@ -200,19 +208,6 @@ export class HomeComponent {
           path: '/9'
         }
       ]
-    }
-  ];
-
-  public inPageRoutes: StacheNavLink[] = [
-    {
-      name: 'test',
-      path: '/',
-      offsetTop: 200
-    },
-    {
-      name: 'test2',
-      path: '/',
-      offsetTop: 500
     }
   ];
 }

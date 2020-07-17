@@ -11,6 +11,10 @@ import {
 } from '@angular/router';
 
 import {
+  SkyRestrictedViewModule
+} from '@blackbaud/skyux-lib-restricted-view';
+
+import {
   StacheRouterLinkDirective
 } from './link.directive';
 
@@ -42,6 +46,7 @@ import {
   imports: [
     CommonModule,
     RouterModule,
+    SkyRestrictedViewModule,
     StacheResourcesModule,
     StacheRouterModule
   ],

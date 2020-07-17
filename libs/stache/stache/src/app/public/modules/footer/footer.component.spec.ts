@@ -123,7 +123,6 @@ describe('StacheFooterComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(component.footerLinks).not.toEqual(footerConfig.nav);
     expect(component.footerLinks).toEqual([]);
 
     expect(component.copyrightLabel).not.toEqual(footerConfig.copyrightLabel);
