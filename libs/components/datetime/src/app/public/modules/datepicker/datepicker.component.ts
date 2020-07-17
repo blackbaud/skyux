@@ -134,10 +134,11 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
   private set calendarRef(value: ElementRef) {
     if (value) {
       this._calendarRef = value;
-      this.calendar.writeValue(this._selectedDate);
 
       // Wait for the calendar component to render before gauging dimensions.
       setTimeout(() => {
+        this.calendar.writeValue(this._selectedDate);
+
         this.destroyAffixer();
         this.createAffixer();
 
