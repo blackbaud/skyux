@@ -87,8 +87,9 @@ export class SkyVerticalTabsetComponent implements OnInit, AfterViewChecked, OnD
   }
 
   /**
-   * Specifies if the vertical tabset should load tab content when tabs initialize
-   * and show/hide content without moving around elements in the content container.
+   * Indicates whether the vertical tabset loads tab content during initialization so that it
+   * displays content without moving around elements in the content container.
+   * @default 'false'
    */
   @Input()
   public maintainTabContent: boolean = false;

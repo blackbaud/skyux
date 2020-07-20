@@ -61,8 +61,8 @@ import {
 export class SkySectionedFormComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   /**
-   * Indicates whether the sectioned form should load section content when the form initializes
-   * and show/hide content without moving around elements in the content container.
+   * Indicates whether the sectioned form loads section content during initialization so that it
+   * displays content without moving around elements in the content container.
    * @default 'false'
    */
   @Input()
