@@ -90,7 +90,7 @@ export class SkyTabsetComponent
 
   /**
    * Distinguishes a tabset's unique state in the URL by generating a query parameter
-   * that is written as `?<queryParam>-active-tab=<sanitized-tab-heading`.
+   * that is written as `?<queryParam>-active-tab=<sanitized-tab-heading>`.
    * The query parameter's value is parsed automatically from the selected tab's heading text,
    * but you can supply a custom query parameter value for each tab with its `permalinkValue`.
    */
@@ -295,8 +295,13 @@ export class SkyTabsetComponent
   public ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-    /*tslint:disable-next-line:no-null-keyword*/
-    this.setPathParamPermalinkValue(null);
+
+    const params = this.getPathParams();
+
+    if (Object.keys(params).length > 0) {
+      /*tslint:disable-next-line:no-null-keyword*/
+      this.setPathParamPermalinkValue(null);
+    }
   }
 
   public getPathParams(): SkyTabsetPermalinkParams {
@@ -345,22 +350,20 @@ export class SkyTabsetComponent
   }
 
   private setPathParamPermalinkValue(value: string | null): void {
-    if (this.permalinkId) {
-      const params = this.getPathParams();
+    const params = this.getPathParams();
 
-      if (value === null) {
-        delete params[this.permalinkId];
-      } else {
-        params[this.permalinkId] = value;
-      }
-
-      // Update the URL without triggering a navigation state change.
-      // See: https://stackoverflow.com/a/46486677
-      const url = this.router.createUrlTree([params], {
-        relativeTo: this.activatedRoute
-      }).toString();
-
-      this.location.go(url);
+    if (value === null) {
+      delete params[this.permalinkId];
+    } else {
+      params[this.permalinkId] = value;
     }
+
+    // Update the URL without triggering a navigation state change.
+    // See: https://stackoverflow.com/a/46486677
+    const url = this.router.createUrlTree([params], {
+      relativeTo: this.activatedRoute
+    }).toString();
+
+    this.location.go(url);
   }
 }

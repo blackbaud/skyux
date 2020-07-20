@@ -199,6 +199,22 @@ describe('Tabset component', () => {
     });
   }));
 
+  it('should not attempt to remove the path param if permalinkId is not set', () => {
+    const location = TestBed.inject(Location);
+
+    const fixture = TestBed.createComponent(TabsetTestComponent);
+
+    fixture.detectChanges();
+
+    spyOn(location, 'path').and.returnValue('');
+
+    const goSpy = spyOn(location, 'go');
+
+    fixture.destroy();
+
+    expect(goSpy).not.toHaveBeenCalled();
+  });
+
   it('should update the tab button margin class when the theme is modern', () => {
     function validateMargins(theme: string): void {
       for (const btnEl of btnEls) {
