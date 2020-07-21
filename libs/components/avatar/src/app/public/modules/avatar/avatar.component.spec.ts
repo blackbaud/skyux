@@ -1,9 +1,15 @@
 import {
+  ComponentFixture,
   TestBed
 } from '@angular/core/testing';
 
 import {
-  expect
+  BehaviorSubject
+} from 'rxjs';
+
+import {
+  expect,
+  SkyMatchers
 } from '@skyux-sdk/testing';
 
 import {
@@ -17,24 +23,47 @@ import {
 } from '@skyux/forms';
 
 import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange
+} from '@skyux/theme';
+
+import {
   AvatarTestComponent
 } from './fixtures/avatar.component.fixture';
-import {
-  SkyAvatarComponent
-} from './avatar.component';
+
 import {
   SkyAvatarFixturesModule
 } from './fixtures/avatar-fixtures.module';
+
 import {
   MockErrorModalService
 } from './fixtures/mock-error-modal.service';
 
+import {
+  SkyAvatarSize
+} from './avatar-size';
+
+import {
+  SkyAvatarComponent
+} from './avatar.component';
+
 describe('Avatar component', () => {
+  let mockThemeSvc: {
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+  };
+
   /* tslint:disable-next-line max-line-length */
   let imgBase64 = 'iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAYAAAD0In+KAAAAFElEQVR42gEJAPb/AP//////////I+UH+Rtap+gAAAAASUVORK5CYII=';
   let imgUrl = 'data:image/png;base64,' + imgBase64;
 
   const mockErrorModalService = new MockErrorModalService();
+
+  function getWrapperEl(el: Element): Element {
+    return el.querySelector('.sky-avatar-wrapper');
+  }
 
   function getPhotoEl(el: Element): Element {
     return el.querySelector('.sky-avatar-image');
@@ -90,12 +119,28 @@ describe('Avatar component', () => {
   }
 
   beforeEach(() => {
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+        {
+          currentSettings: new SkyThemeSettings(
+            SkyTheme.presets.default,
+            SkyThemeMode.presets.light
+          ),
+          previousSettings: undefined
+        }
+      )
+    };
+
     TestBed.configureTestingModule({
       imports: [SkyAvatarFixturesModule],
       providers: [
         {
           provide: SkyErrorModalService,
           useValue: mockErrorModalService
+        },
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc
         }
       ]
     });
@@ -292,5 +337,68 @@ describe('Avatar component', () => {
     };
 
     expect(mockErrorModalService.open).toHaveBeenCalledWith(config);
+  });
+
+  function validateWrapperSizeClass(
+    fixture: ComponentFixture<AvatarTestComponent>,
+    size: SkyAvatarSize
+  ): void {
+    fixture.componentInstance.size = size;
+    fixture.detectChanges();
+
+    const wrapperEl = getWrapperEl(fixture.nativeElement);
+
+    (expect(wrapperEl)
+      .withContext(`When size is set to ${size}`) as SkyMatchers<Element>)
+      .toHaveCssClass(`sky-avatar-wrapper-size-${size || 'large'}`);
+  }
+
+  it('should add the expected CSS class for the specified size', () => {
+    const fixture = TestBed.createComponent(AvatarTestComponent);
+    fixture.detectChanges();
+
+    validateWrapperSizeClass(fixture, undefined);
+    validateWrapperSizeClass(fixture, 'large');
+    validateWrapperSizeClass(fixture, 'medium');
+    validateWrapperSizeClass(fixture, 'small');
+  });
+
+  describe('when modern theme', () => {
+    function validatePlaceholderClass(
+      fixture: ComponentFixture<AvatarTestComponent>,
+      size: SkyAvatarSize,
+      expectedClass: string
+    ) {
+      fixture.componentInstance.size = size;
+      fixture.detectChanges();
+
+      const initialsEl = fixture.nativeElement.querySelector('.sky-avatar-initials-inner');
+
+      (expect(initialsEl)
+        .withContext(`When size is set to ${size}`) as SkyMatchers<Element>)
+        .toHaveCssClass(expectedClass);
+    }
+
+    beforeEach(() => {
+      mockThemeSvc.settingsChange.next(
+        {
+          currentSettings: new SkyThemeSettings(
+            SkyTheme.presets.modern,
+            SkyThemeMode.presets.light
+          ),
+          previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings
+        }
+      );
+    });
+
+    it('should add the expected class to the initials element for the specified size', () => {
+      const fixture = TestBed.createComponent(AvatarTestComponent);
+      fixture.detectChanges();
+
+      validatePlaceholderClass(fixture, undefined, 'sky-font-display-2');
+      validatePlaceholderClass(fixture, 'large', 'sky-font-display-2');
+      validatePlaceholderClass(fixture, 'medium', 'sky-font-display-3');
+      validatePlaceholderClass(fixture, 'small', 'sky-font-body-sm');
+    });
   });
 });

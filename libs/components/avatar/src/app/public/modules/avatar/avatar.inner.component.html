@@ -1,12 +1,30 @@
-<div class="sky-avatar-wrapper">
-  <div class="sky-avatar-image" [hidden]="!src"></div>
+<div
+  class="sky-elevation-1 sky-avatar-wrapper"
+  [ngClass]="'sky-avatar-wrapper-size-' + (size || 'large')"
+>
+  <div
+    class="sky-avatar-image"
+    [hidden]="!src"
+  ></div>
   <div
     class="sky-avatar-initials"
-    [ngClass]="'sky-palette-multi-' + (colorIndex + 1)"
     [hidden]="src || !name"
+    [ngClass]="'sky-palette-multi-' + (colorIndex + 1)"
+  >
+    <div
+      class="sky-avatar-initials-inner"
+      [ngClass]="
+        (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern' ?
+          (
+            size === 'small' ? 'sky-font-body-sm' :
+              (
+                size === 'medium' ? 'sky-font-display-3' : 'sky-font-display-2'
+              )
+          ) :
+          ''
+      "
     >
-    <div class="sky-avatar-initials-inner">
-      {{initials}}
+      {{ initials }}
     </div>
   </div>
 </div>

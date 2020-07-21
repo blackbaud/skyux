@@ -1,5 +1,14 @@
 @import "~@skyux/theme/scss/mixins";
 @import "~@skyux/theme/scss/_compat/mixins";
+@import "~@skyux/theme/scss/variables";
+
+$avatar-size-large: $sky-avatar-height;
+$avatar-size-medium: 65px;
+$avatar-size-small: 32px;
+
+$modern-avatar-padding-large: 5px;
+$modern-avatar-padding-medium: 3px;
+$modern-avatar-padding-small: 2px;
 
 .sky-avatar-wrapper {
   height: $sky-avatar-height + ($sky-avatar-border-width * 2);
@@ -25,12 +34,179 @@
   justify-content: center;
 }
 
+.sky-avatar-initials {
+  font-size: $sky-avatar-height / 2;
+}
+
 .sky-avatar-initials-inner {
   color: #fff;
   cursor: default;
-  font-size: $sky-avatar-height / 2;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.sky-avatar-wrapper-size-medium {
+  height: $avatar-size-medium + ($sky-avatar-border-width * 2);
+  width: $avatar-size-medium + ($sky-avatar-border-width * 2);
+
+  .sky-avatar-image,
+  .sky-avatar-initials {
+    height: $avatar-size-medium;
+    width: $avatar-size-medium;
+  }
+
+  .sky-avatar-initials {
+    font-size: $avatar-size-medium / 2;
+  }
+}
+
+.sky-avatar-wrapper-size-small {
+  height: $avatar-size-small + ($sky-avatar-border-width * 2);
+  width: $avatar-size-small + ($sky-avatar-border-width * 2);
+
+  .sky-avatar-image,
+  .sky-avatar-initials {
+    height: $avatar-size-small;
+    width: $avatar-size-small;
+  }
+
+  .sky-avatar-initials {
+    font-size: $avatar-size-small / 2;
+  }
+}
+
+.sky-file-drop {
+  .sky-avatar-wrapper {
+    cursor: pointer;
+  }
+}
+
+.sky-file-drop-accept {
+  .sky-avatar-wrapper {
+    border-color: $sky-highlight-color-success;
+    border-style: dashed;
+  }
+}
+
+.sky-file-drop-reject {
+  .sky-avatar-wrapper {
+    border-color: $sky-highlight-color-danger;
+    border-style: dashed;
+  }
+}
+
+.sky-theme-modern {
+  .sky-avatar-wrapper {
+    height: $avatar-size-large;
+    width: $avatar-size-large;
+    background-color: #fff;
+    border-width: 0;
+    padding: $modern-avatar-padding-large;
+    top: 0;
+    left: 0;
+  }
+
+  .sky-avatar-image,
+  .sky-avatar-initials {
+    border-radius: 50%;
+    height: $avatar-size-large - ($modern-avatar-padding-large * 2);
+    width: $avatar-size-large - ($modern-avatar-padding-large * 2);
+  }
+
+  .sky-avatar-initials-inner {
+    color: $sky-text-color-default;
+  }
+
+  .sky-file-drop-accept,
+  .sky-file-drop-reject {
+    .sky-avatar-wrapper {
+      border-width: $sky-avatar-border-width;
+      padding: $modern-avatar-padding-large - $sky-avatar-border-width;
+    }
+
+    .sky-avatar-wrapper-size-medium {
+      padding: $modern-avatar-padding-medium - $sky-avatar-border-width;
+    }
+
+    .sky-avatar-wrapper-size-small {
+      padding: $modern-avatar-padding-small - $sky-avatar-border-width;
+    }
+  }
+
+  .sky-avatar-wrapper-size-medium {
+    padding: $modern-avatar-padding-medium;
+    height: $avatar-size-medium;
+    width: $avatar-size-medium;
+
+    .sky-avatar-image,
+    .sky-avatar-initials {
+      height: $avatar-size-medium - ($modern-avatar-padding-medium * 2);
+      width: $avatar-size-medium - ($modern-avatar-padding-medium * 2);
+    }
+  }
+
+  .sky-avatar-wrapper-size-small {
+    padding: $modern-avatar-padding-small;
+    height: $avatar-size-small;
+    width: $avatar-size-small;
+
+    .sky-avatar-image,
+    .sky-avatar-initials {
+      height: $avatar-size-small - ($modern-avatar-padding-small * 2);
+      width: $avatar-size-small - ($modern-avatar-padding-small * 2);
+    }
+  }
+
+  sky-file-drop {
+    &:hover {
+      .sky-avatar-wrapper {
+        border: solid 1px $sky-theme-modern-background-color-primary-dark;
+        padding: $modern-avatar-padding-large - 1;
+
+        &.sky-avatar-wrapper-size-medium {
+          padding: $modern-avatar-padding-medium - 1;
+        }
+
+        &.sky-avatar-wrapper-size-small {
+          padding: $modern-avatar-padding-small - 1;
+        }
+      }
+    }
+
+    &:active,
+    &:focus-within {
+      .sky-avatar-wrapper {
+        border: solid 2px $sky-theme-modern-background-color-primary-dark;
+        padding: $modern-avatar-padding-large - 2;
+
+        &.sky-avatar-wrapper-size-medium {
+          padding: $modern-avatar-padding-medium - 2;
+        }
+
+        &.sky-avatar-wrapper-size-small {
+          padding: $modern-avatar-padding-small - 2;
+        }
+      }
+    }
+
+    &:focus-within:not(:active) {
+      .sky-avatar-wrapper {
+        box-shadow:
+          $sky-theme-modern-elevation-3-shadow-size
+          $sky-theme-modern-elevation-3-shadow-color;
+      }
+    }
+  }
+
+  &.sky-theme-mode-dark {
+    .sky-avatar-wrapper {
+      background-color: transparent;
+    }
+
+    .sky-avatar-initials-inner {
+      color: $sky-text-color-default;
+    }
+  }
 }

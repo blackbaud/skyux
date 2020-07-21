@@ -2,7 +2,8 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output
+  Output,
+  ViewEncapsulation
 } from '@angular/core';
 
 import {
@@ -20,13 +21,18 @@ import {
 } from '@skyux/i18n';
 
 import {
+  SkyAvatarSize
+} from './avatar-size';
+
+import {
   SkyAvatarSrc
 } from './avatar-src';
 
 @Component({
   selector: 'sky-avatar',
   templateUrl: './avatar.component.html',
-  styleUrls: ['./avatar.component.scss']
+  styleUrls: ['./avatar.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class SkyAvatarComponent {
 
@@ -80,6 +86,12 @@ export class SkyAvatarComponent {
    */
   @Input()
   public maxFileSize = 500000;
+
+  /**
+   * Specifies the size of the avatar. Default is "large".
+   */
+  @Input()
+  public size: SkyAvatarSize = 'large';
 
   /**
    * Emits a `SkyFileItem` object when the image is updated.

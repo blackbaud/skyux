@@ -1,16 +1,33 @@
-<div class="sky-avatar">
+<div
+  class="sky-avatar"
+>
   <div *ngIf="canChange">
-    <div class="sky-avatar-file-drop">
+    <div
+      class="sky-avatar-file-drop"
+    >
       <sky-file-drop
-        [multiple]="false"
         [acceptedTypes]="'image/*'"
         [maxFileSize]="maxFileSize"
-        (filesChanged)="photoDrop($event)">
-        <sky-avatar-inner [src]="src" [name]="name"></sky-avatar-inner>
+        [multiple]="false"
+        (filesChanged)="photoDrop($event)"
+      >
+        <ng-container
+          *ngTemplateOutlet="innerTemplate"
+        ></ng-container>
       </sky-file-drop>
     </div>
   </div>
   <div *ngIf="!canChange">
-    <sky-avatar-inner [src]="src" [name]="name"></sky-avatar-inner>
+    <ng-container
+      *ngTemplateOutlet="innerTemplate"
+    ></ng-container>
   </div>
 </div>
+
+<ng-template #innerTemplate>
+  <sky-avatar-inner
+    [name]="name"
+    [size]="size"
+    [src]="src"
+  ></sky-avatar-inner>
+</ng-template>
