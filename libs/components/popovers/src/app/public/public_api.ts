@@ -1,3 +1,4 @@
+export * from './modules/dropdown/types/dropdown-horizontal-alignment';
 export * from './modules/dropdown/types/dropdown-menu-change';
 export * from './modules/dropdown/types/dropdown-message';
 export * from './modules/dropdown/types/dropdown-message-type';
