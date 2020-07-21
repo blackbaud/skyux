@@ -387,6 +387,64 @@
         </div>
       </sky-column>
     </sky-row>
+
+    <sky-row>
+      <sky-column>
+        <div
+          id="input-box-select"
+        >
+          <sky-input-box
+            class="sky-margin-stacked-lg"
+          >
+            <label
+              class="sky-control-label"
+              for="field13"
+            >
+              Select
+            </label>
+            <select
+              class="sky-form-control"
+              id="field13"
+            >
+              <option>Option 1</option>
+              <option>Option 2</option>
+              <option>Option 3</option>
+              <option>Option 4</option>
+            </select>
+          </sky-input-box>
+        </div>
+      </sky-column>
+    </sky-row>
+
+    <sky-row>
+      <sky-column>
+        <div
+          id="input-box-select-disabled"
+        >
+          <sky-input-box
+            class="sky-margin-stacked-lg"
+            [disabled]="true"
+          >
+            <label
+              class="sky-control-label"
+              for="field14"
+            >
+              Select disabled
+            </label>
+            <select
+              disabled
+              class="sky-form-control"
+              id="field14"
+            >
+              <option>Option 1</option>
+              <option>Option 2</option>
+              <option>Option 3</option>
+              <option>Option 4</option>
+            </select>
+          </sky-input-box>
+        </div>
+      </sky-column>
+    </sky-row>
   </sky-fluid-grid>
 
 </div>

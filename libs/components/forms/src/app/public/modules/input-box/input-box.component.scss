@@ -112,15 +112,34 @@ sky-input-box {
         font-size: 13px;
         margin-bottom: 0;
         padding: 6px 15px 0 15px;
+        position: relative;
+        /*
+          The label should be above input elements so clicking on it will focus on the
+          input element. It is important the user be able to click on the label rather
+          than the input element's top padding, because clicking the label will place
+          the cursor where the user last left it, while clicking the input's padding
+          always places the cursor at the beginning of the text.
+        */
+        z-index: 2;
       }
 
       .sky-form-control {
-        &:not([type="range"]):not([type="radio"]):not([type="checkbox"]):not(select) {
+        &:not([type="range"]):not([type="radio"]):not([type="checkbox"]) {
+          background-color: transparent;
           border: none;
           border-radius: $sky-theme-modern-box-border-radius-default;
           font-size: $sky-theme-modern-font-body-default-size;
+          /*
+            Allow the height of the control to be determined by the line height instead of the
+            browser's pre-defined height for the element. This is particularly important for the
+            select element since its height is normally larger than desired for controls in
+            an input box.
+          */
+          height: auto;
           line-height: 1.15;
-          padding: 3px 15px 10px 15px;
+          margin-top: -20px;
+          padding: 23px 15px 10px 15px;
+          position: relative;
 
           &:focus,
           &.ng-invalid {
@@ -128,6 +147,25 @@ sky-input-box {
             outline: none;
           }
         }
+      }
+
+      /* Firefox puts an extra 5px left padding on select elements. This removes it. */
+      @-moz-document url-prefix() {
+        select.sky-form-control {
+          &:not([type="range"]):not([type="radio"]):not([type="checkbox"]) {
+            padding-left: 10px;
+          }
+        }
+      }
+
+      select.sky-form-control {
+        background-position-x: calc(100% - 10px);
+        /*
+          Clicking on the label of a select element doesn't expand the select element;
+          placing the select element above the label, in addition to the padding, effectively
+          opens the select element when the label clicked.
+        */
+        z-index: 3;
       }
 
       textarea.sky-form-control {
@@ -184,9 +222,23 @@ sky-input-box {
         }
 
         .sky-form-control {
-          &:not([type="range"]):not([type="radio"]):not([type="checkbox"]):not(select) {
-            padding: 3px 14px 9px 14px;
+          &:not([type="range"]):not([type="radio"]):not([type="checkbox"]) {
+            margin-top: -19px;
+            padding: 22px 14px 9px 14px;
           }
+        }
+
+        /* Firefox puts an extra 5px left padding on select elements. This removes it. */
+        @-moz-document url-prefix() {
+          select.sky-form-control {
+            &:not([type="range"]):not([type="radio"]):not([type="checkbox"]) {
+              padding-left: 9px;
+            }
+          }
+        }
+
+        select.sky-form-control {
+          background-position-x: calc(100% - 9px);
         }
       }
     }
@@ -223,41 +275,10 @@ sky-input-box {
     }
 
     .sky-form-group {
-      background-color: #fff;
-      border: $sky-theme-modern-elevation-0-bordered-border;
-      border-radius: $sky-theme-modern-box-border-radius-default 0 0 $sky-theme-modern-box-border-radius-default;
-      color: $sky-theme-modern-font-field-label-color;
-      display: block;
-      margin-bottom: 0;
-      padding: 0;
       transition: $input-box-transitions;
 
       .sky-control-label {
-        display: block;
-        font-size: 13px;
-        margin-bottom: 0;
-        padding: 6px 15px 0 15px;
         transition: $input-box-transitions;
-      }
-
-      .sky-form-control {
-        &:not([type="range"]):not([type="radio"]):not([type="checkbox"]):not(select) {
-          border: none;
-          border-radius: $sky-theme-modern-box-border-radius-default;
-          font-size: $sky-theme-modern-font-body-default-size;
-          line-height: 1.15;
-          padding: 3px 15px 10px 15px;
-
-          &:focus,
-          &.ng-invalid {
-            box-shadow: none;
-            outline: none;
-          }
-        }
-      }
-
-      textarea.sky-form-control {
-        resize: vertical;
       }
     }
   }
@@ -271,10 +292,6 @@ sky-input-box {
 
     .sky-form-group {
       background-color: $sky-theme-modern-color-gray-07;
-
-      .sky-form-control {
-        background-color: transparent;
-      }
     }
 
     .sky-input-group-btn .sky-btn {
@@ -330,5 +347,4 @@ sky-input-box {
       }
     }
   }
-
 }
