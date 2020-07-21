@@ -1,3 +1,7 @@
+# 4.0.1 (2020-07-21)
+
+- Added missing `SkyDropdownHorizontalAlignment` to the exports API. [#102](https://github.com/blackbaud/skyux-popovers/pull/102)
+
 # 4.0.0 (2020-05-13)
 
 ### New features
