@@ -1,3 +1,12 @@
+# 4.1.0 (2020-07-21)
+
+- Added a test fixture for the dropdown component to use in consumer unit tests. [#99](https://github.com/blackbaud/skyux-popovers/pull/99)
+  ```
+  import { SkyDropdownFixture } from '@skyux/popovers/testing';
+
+  const dropdown = new SkyDropdownFixture(fixture, 'my-test-id');
+  ```
+
 # 4.0.1 (2020-07-21)
 
 - Added missing `SkyDropdownHorizontalAlignment` to the exports API. [#102](https://github.com/blackbaud/skyux-popovers/pull/102)
