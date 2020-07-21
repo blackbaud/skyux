@@ -1,3 +1,7 @@
+# 4.1.0 (2020-07-21)
+
+- Added modern theme styles to the avatar component. [#32](https://github.com/blackbaud/skyux-avatar/pull/32)
+
 # 4.0.1 (2020-06-11)
 
 - Upgraded the development dependencies. [#28](https://github.com/blackbaud/skyux-avatar/pull/28)
