@@ -1,3 +1,7 @@
+# 4.6.0 (2020-07-21)
+
+- Added `select` element support to the input box component. [#152](https://github.com/blackbaud/skyux-forms/pull/152)
+
 # 4.5.0 (2020-06-25)
 
 - Removed the bottom margin from the input box component in the modern theme. To stack input box components, specify the appropriate `sky-margin` CSS class on the `sky-input-box` element. [#137](https://github.com/blackbaud/skyux-forms/pull/137)
