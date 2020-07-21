@@ -1,3 +1,7 @@
+# 4.2.0 (2020-07-21)
+
+- Added the ability to hide restricted items in the sidebar navigation. [#79](https://github.com/blackbaud/skyux-docs-tools/pull/79)
+
 # 4.1.0 (2020-07-01)
 
 - Added `restricted` property to `SkyDocsComponentInfo`. [#73](https://github.com/blackbaud/skyux-docs-tools/pull/73)
