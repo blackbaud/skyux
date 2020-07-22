@@ -95,6 +95,24 @@ class MockStacheConfigService {
       },
       {
         routePath: 'other-parent/other-child/other-grandchild'
+      },
+      {
+        routePath: 'testing-children'
+      },
+      {
+        routePath: 'testing-children/child'
+      },
+      {
+        routePath: 'testing-children1'
+      },
+      {
+        routePath: 'testing-children1/child'
+      },
+      {
+        routePath: 'testing-children2'
+      },
+      {
+        routePath: 'testing-children2/child'
       }
     ]
   };
@@ -203,6 +221,12 @@ describe('StacheRouteService', () => {
       configService as SkyAppConfig,
       routeMetadataService as StacheRouteMetadataService
     );
+  });
+
+  it('should not include child routes from similar parents (a, a1, a2)', () => {
+    router.url = '/testing-children';
+    let activeRoutes = routeService.getActiveRoutes();
+    expect(activeRoutes[0].children.length).toBe(1);
   });
 
   it('should only assemble the active routes once', () => {

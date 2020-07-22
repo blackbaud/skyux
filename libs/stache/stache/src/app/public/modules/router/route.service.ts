@@ -86,7 +86,10 @@ export class StacheRouteService {
 
     routes.forEach(route => {
       const routeDepth = route.segments.length;
-      const isChildRoute = (depth === routeDepth && route.path.indexOf(parentPath) > -1);
+
+      // Adding trailing slash to force end of parent path.  Otherwise:
+      // a/child, a1/child, and a2/child would have all three children displayed under a.
+      const isChildRoute = (depth === routeDepth && route.path.indexOf(parentPath + '/') > -1);
 
       if (isChildRoute) {
         route.children = this.assignChildren(routes, route.path);
