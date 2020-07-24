@@ -3,12 +3,24 @@ import {
 } from '@angular/core';
 
 import {
+  CommonModule
+} from '@angular/common';
+
+import {
   AgGridModule
 } from 'ag-grid-angular';
 
 import {
+  SkyDataManagerModule
+} from '@skyux/data-manager';
+
+import {
   SkyAgGridModule
 } from '../ag-grid.module';
+
+import {
+  SkyAgGridDataManagerFixtureComponent
+} from './ag-grid-data-manager.component.fixture';
 
 import {
   SkyAgGridFixtureComponent
@@ -17,12 +29,16 @@ import {
 @NgModule({
   imports: [
     AgGridModule,
-    SkyAgGridModule
+    CommonModule,
+    SkyAgGridModule,
+    SkyDataManagerModule
   ],
   declarations: [
+    SkyAgGridDataManagerFixtureComponent,
     SkyAgGridFixtureComponent
   ],
   exports: [
+    SkyAgGridDataManagerFixtureComponent,
     SkyAgGridFixtureComponent
   ]
 })

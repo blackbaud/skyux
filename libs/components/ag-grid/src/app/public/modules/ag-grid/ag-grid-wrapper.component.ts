@@ -50,7 +50,7 @@ export class SkyAgGridWrapperComponent implements AfterContentInit {
   }
 
   public onGridKeydown(event: KeyboardEvent): void {
-    const inEditMode = this.agGrid && this.agGrid.api.getEditingCells().length > 0;
+    const inEditMode = this.agGrid && this.agGrid.api && this.agGrid.api.getEditingCells().length > 0;
     if (this.agGrid && !inEditMode && event.key === 'Tab') {
       const idToFocus = event.shiftKey ? this.beforeAnchorId : this.afterAnchorId;
       this.adapterService.setFocusedElementById(this.elementRef.nativeElement, idToFocus);
