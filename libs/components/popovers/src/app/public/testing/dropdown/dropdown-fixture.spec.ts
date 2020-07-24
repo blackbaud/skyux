@@ -50,6 +50,7 @@ const DATA_SKY_ID = 'test-dropdown';
         type="button"
         [attr.data-test-id]="'my-button-' + i"
         [attr.disabled]="item.disabled ? '' : null"
+        (click)="onItemClick()"
       >
         {{ item.name }}
       </button>
@@ -89,6 +90,8 @@ class DropdownTestComponent {
       this.activeIndex = itemName.activeIndex;
     }
   }
+
+  public onItemClick(): void {}
 
 }
 //#endregion Test component
@@ -170,11 +173,15 @@ describe('Dropdown fixture', () => {
   });
 
   it('should allow a dropdown item to be clicked', async() => {
+    const clickSpy = spyOn(fixture.componentInstance, 'onItemClick').and.callThrough();
+
     await dropdownFixture.clickDropdownButton();
     expect(fixture.componentInstance.activeIndex).toBeUndefined();
 
     await dropdownFixture.clickDropdownItem(2);
     expect(fixture.componentInstance.activeIndex).toEqual(2);
+
+    expect(clickSpy).toHaveBeenCalled();
   });
 
   it('should return content inside the dropdown menu with getDropdownMenuContent()', async() => {

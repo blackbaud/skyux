@@ -114,7 +114,7 @@ export class SkyDropdownFixture {
       throw new Error(`There is no dropdown item at index ${index}.`);
     }
 
-    itemEls[index].click();
+    itemEls[index].querySelector('button,a').click();
 
     this.fixture.detectChanges();
     return this.fixture.whenStable();
