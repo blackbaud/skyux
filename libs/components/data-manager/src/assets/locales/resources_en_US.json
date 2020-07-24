@@ -1,0 +1,30 @@
+{
+  "skyux_data_manager_column_picker_title": {
+    "_description": "Text for the title of the data manager column picker",
+    "message": "Choose columns to show in the list"
+  },
+  "skyux_data_manager_apply_changes_button_title": {
+    "_description": "Text for the apply changes button in the data manager column picker",
+    "message": "Apply changes"
+  },
+  "skyux_data_manager_cancel_button_title": {
+    "_description": "Text for the clear button in the data manager column picker",
+    "message": "Cancel"
+  },
+  "skyux_data_manager_select_all_button_title": {
+    "_description": "Text for the select all button in the data manager multiselect toolbar",
+    "message": "Select all"
+  },
+  "skyux_data_manager_clear_all_button_title": {
+    "_description": "Text for the clear all button in the data manager multiselect toolbar",
+    "message": "Clear all"
+  },
+  "skyux_data_manager_show_selected_option_title": {
+    "_description": "Text for the show selected checkbox in the data manager multiselect toolbar",
+    "message": "Show only selected items"
+  },
+  "skyux_data_manager_columns_button_title": {
+    "_description": "Text for the column picker button in the data manager toolbar",
+    "message": "Columns"
+  }
+}

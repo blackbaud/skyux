@@ -1,0 +1,49 @@
+
+<sky-modal>
+  <sky-modal-header>
+    {{'skyux_data_manager_column_picker_title' | skyLibResources}}
+  </sky-modal-header>
+  <sky-modal-content>
+    <sky-data-manager>
+      <sky-data-manager-toolbar>
+      </sky-data-manager-toolbar>
+
+      <sky-data-view
+      [viewId]="viewConfig.id"
+      >
+        <sky-repeater
+          expandMode="none"
+        >
+          <sky-repeater-item
+            *ngFor="let column of displayedColumnData"
+            [selectable]="true"
+            [(isSelected)]="column.isSelected"
+          >
+            <sky-repeater-item-title>
+              {{column.label}}
+            </sky-repeater-item-title>
+            <sky-repeater-item-content>
+              {{column.description}}
+            </sky-repeater-item-content>
+          </sky-repeater-item>
+        </sky-repeater>
+      </sky-data-view>
+    </sky-data-manager>
+  </sky-modal-content>
+  <sky-modal-footer>
+    <button
+      sky-cmp-id="apply-changes"
+      class="sky-btn sky-btn-primary"
+      (click)="applyChanges()"
+    >
+      {{'skyux_data_manager_apply_changes_button_title' | skyLibResources}}
+    </button>
+    <button
+      sky-cmp-id="cancel"
+      class="sky-btn sky-btn-link"
+      (click)="cancelChanges()"
+    >
+      {{'skyux_data_manager_cancel_button_title' | skyLibResources}}
+    </button>
+  </sky-modal-footer>
+</sky-modal>

@@ -1,0 +1,28 @@
+<sky-data-manager>
+  <sky-data-manager-toolbar>
+    <sky-data-manager-toolbar-left-items>
+      <sky-toolbar-item *ngIf="activeViewId === 'repeaterView'">
+        <button
+          type="button"
+          class="sky-btn sky-btn-primary"
+          (click)="searchSo()"
+        >
+          Set search text to "so"
+        </button>
+      </sky-toolbar-item>
+    </sky-data-manager-toolbar-left-items>
+  </sky-data-manager-toolbar>
+
+  <data-view-repeater
+    [items]="items"
+  >
+  </data-view-repeater>
+  <data-view-cards
+    [items]="items"
+  >
+  </data-view-cards>
+  <data-view-grid
+    [items]="items"
+  >
+  </data-view-grid>
+</sky-data-manager>
