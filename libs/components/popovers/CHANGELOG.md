@@ -1,3 +1,7 @@
+# 4.1.1 (2020-07-24)
+
+- Fixed the dropdown fixture to register click events on dropdown items. [#107](https://github.com/blackbaud/skyux-popovers/pull/107)
+
 # 4.1.0 (2020-07-21)
 
 - Added a test fixture for the dropdown component to use in consumer unit tests. [#99](https://github.com/blackbaud/skyux-popovers/pull/99)
