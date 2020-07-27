@@ -7,6 +7,7 @@
   .sky-btn {
     border-radius: $sky-theme-modern-border-radius-md;
     font-size: $sky-theme-modern-font-body-default-size;
+    transition: box-shadow $sky-transition-time-short;
   }
 
   .sky-btn-borderless,
@@ -18,28 +19,61 @@
   }
 
   .sky-btn-default {
-    @include sky-button-variant(
+    @include sky-theme-modern-button-variant(
       $sky-text-color-default,
       $sky-color-white,
       $sky-theme-modern-border-color-neutral-medium,
-      $sky-theme-modern-border-color-neutral-light
-    );
-  }
-
-  .sky-btn-primary {
-    @include sky-button-variant(
-      $sky-color-white,
-      $sky-theme-modern-background-color-primary-dark,
       $sky-theme-modern-background-color-primary-dark
     );
   }
 
+  .sky-btn-primary {
+    @include sky-theme-modern-button-variant(
+      $sky-color-white,
+      $sky-theme-modern-background-color-primary-dark,
+      $sky-theme-modern-background-color-primary-dark,
+      $sky-background-color-info-light
+    );
+  }
+
+  .sky-btn-danger {
+    @include sky-theme-modern-button-variant(
+      $sky-color-white,
+      $sky-background-color-danger-dark,
+      $sky-background-color-danger-dark,
+      $sky-background-color-danger
+    );
+  }
+
   .sky-btn-link {
-    color: $sky-theme-modern-text-color-action-primary;
+    @include sky-theme-modern-button-variant(
+      $sky-theme-modern-text-color-action-primary,
+      transparent,
+      transparent,
+      $sky-theme-modern-background-color-primary-dark
+    );
+  }
+
+  .sky-btn-borderless {
+    @include sky-theme-modern-button-variant(
+      $sky-theme-modern-font-deemphasized-color,
+      transparent,
+      transparent,
+      $sky-theme-modern-background-color-primary-dark
+    );
+  }
+  .sky-btn-borderless-inline {
+    color: $sky-theme-modern-font-deemphasized-color;
   }
 
   .sky-btn-icon {
-    padding: $sky-theme-modern-padding-button-icon;
+    @include sky-theme-modern-button-variant(
+      $sky-text-color-default,
+      $sky-color-white,
+      $sky-theme-modern-border-color-neutral-medium,
+      $sky-theme-modern-background-color-primary-dark,
+      $sky-theme-modern-padding-button-icon
+    );
   }
 
   .sky-btn-tab {
@@ -75,6 +109,25 @@
         $sky-theme-modern-mode-dark-font-body-default-color,
         transparent,
         $sky-theme-modern-color-gray-70
+      );
+    }
+
+    .sky-btn-danger,
+    .sky-btn-default,
+    .sky-btn-primary {
+      @include sky-theme-modern-btn-disabled(
+        $sky-theme-modern-font-deemphasized-color,
+        transparent,
+        $sky-theme-modern-color-gray-70
+      );
+    }
+
+    .sky-btn-borderless,
+    .sky-btn-link {
+      @include sky-theme-modern-btn-disabled(
+        $sky-theme-modern-font-deemphasized-color,
+        transparent,
+        transparent
       );
     }
 
