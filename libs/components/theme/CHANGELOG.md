@@ -1,3 +1,7 @@
+# 4.5.0 (2020-07-27)
+
+- Added modern theme button styles for active, focused, and hover states. [#162](https://github.com/blackbaud/skyux-theme/pull/162)
+
 # 4.4.0 (2020-07-06)
 
 - Added additional padding and margin classes to the modern theme. [#148](https://github.com/blackbaud/skyux-theme/pull/148)
