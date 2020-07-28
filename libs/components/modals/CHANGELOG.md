@@ -1,3 +1,7 @@
+# 4.4.0 (2020-07-28)
+
+- Updated the modal component to make `SkyThemeService` an optional dependency. [#120](https://github.com/blackbaud/skyux-modals/pull/120)
+
 # 4.3.1 (2020-07-16)
 
 - Fixed an issue where the modal component could cause an infinite loop when used with the modern theme. [#113](https://github.com/blackbaud/skyux-modals/pull/113)
