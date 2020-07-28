@@ -3,11 +3,20 @@ import {
 } from '@angular/core';
 
 import {
+  SkyCheckboxModule
+} from '@skyux/forms';
+
+import {
+  SkyDataManagerModule
+} from '@skyux/data-manager';
+
+import {
   SkyDropdownModule
 } from '@skyux/popovers';
 
 import {
-  SkyInfiniteScrollModule
+  SkyInfiniteScrollModule,
+  SkyRepeaterModule
 } from '@skyux/lists';
 
 import {
@@ -43,6 +52,10 @@ import {
   ReadonlyGridContextMenuComponent
 } from './visual/readonly-grid/readonly-grid-context-menu.component';
 
+import {
+  SkyDataManagerFiltersModalVisualComponent
+} from './visual/data-manager/data-filter-modal.component';
+
 @NgModule({
   declarations: [],
   imports: [
@@ -52,16 +65,20 @@ import {
     AgGridModule,
     SkyAgGridModule,
     SkyAppLinkModule,
+    SkyCheckboxModule,
+    SkyDataManagerModule,
     SkyDropdownModule,
     SkyInfiniteScrollModule,
     SkyModalModule,
+    SkyRepeaterModule,
     SkySearchModule,
     SkyToolbarModule,
     SkyBackToTopModule
   ],
   providers: [],
   entryComponents: [
-    SkyAgGridEditModalComponent
+    SkyAgGridEditModalComponent,
+    SkyDataManagerFiltersModalVisualComponent
   ]
 })
 export class AppExtrasModule { }
