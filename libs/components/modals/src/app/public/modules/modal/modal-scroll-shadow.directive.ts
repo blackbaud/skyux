@@ -5,6 +5,7 @@ import {
   HostListener,
   OnDestroy,
   OnInit,
+  Optional,
   Output,
   NgZone
 } from '@angular/core';
@@ -53,7 +54,7 @@ export class SkyModalScrollShadowDirective implements OnInit, OnDestroy {
 
   constructor(
     private elRef: ElementRef,
-    private themeSvc: SkyThemeService,
+    @Optional() private themeSvc: SkyThemeService,
     private mutationObserverSvc: MutationObserverService,
     private ngZone: NgZone
   ) { }
@@ -69,24 +70,26 @@ export class SkyModalScrollShadowDirective implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.themeSvc.settingsChange
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
-      .subscribe((themeSettings) => {
-        this.currentTheme = themeSettings.currentSettings.theme;
+    if (this.themeSvc) {
+      this.themeSvc.settingsChange
+        .pipe(
+          takeUntil(this.ngUnsubscribe)
+        )
+        .subscribe((themeSettings) => {
+          this.currentTheme = themeSettings.currentSettings.theme;
 
-        if (this.currentTheme === SkyTheme.presets.modern) {
-          this.initMutationObserver();
-        } else {
-          this.emitShadow({
-            bottomShadow: 'none',
-            topShadow: 'none'
-          });
+          if (this.currentTheme === SkyTheme.presets.modern) {
+            this.initMutationObserver();
+          } else {
+            this.emitShadow({
+              bottomShadow: 'none',
+              topShadow: 'none'
+            });
 
-          this.destroyMutationObserver();
-        }
-      });
+            this.destroyMutationObserver();
+          }
+        });
+    }
   }
 
   public ngOnDestroy(): void {

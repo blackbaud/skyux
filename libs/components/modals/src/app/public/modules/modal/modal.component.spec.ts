@@ -85,14 +85,26 @@ import {
 } from './modal-before-close-handler';
 
 describe('Modal component', () => {
-  let applicationRef: ApplicationRef;
-  let modalService: SkyModalService;
-  let router: Router;
-  let mockMutationObserverService: ModalMockMutationObserverService;
   let testModals: SkyModalInstance[];
 
+  function getApplicationRef(): ApplicationRef {
+    return TestBed.inject(ApplicationRef);
+  }
+
+  function getModalService(): SkyModalService {
+    return TestBed.inject(SkyModalService);
+  }
+
+  function getRouter(): Router {
+    return TestBed.inject(Router);
+  }
+
+  function getMockMutationObserverService(): ModalMockMutationObserverService {
+    return TestBed.inject<any>(MutationObserverService);
+  }
+
   function openModal(modalType: any, config?: Object) {
-    let modalInstance = modalService.open(modalType, config);
+    let modalInstance = getModalService().open(modalType, config);
 
     modalInstance.closed.subscribe(() => {
       const modalIndex = testModals.indexOf(modalInstance);
@@ -102,7 +114,7 @@ describe('Modal component', () => {
       }
     });
 
-    applicationRef.tick();
+    getApplicationRef().tick();
     tick();
 
     testModals.push(modalInstance);
@@ -113,7 +125,7 @@ describe('Modal component', () => {
   function closeModal(modalInstance: SkyModalInstance) {
     modalInstance.close();
     tick();
-    applicationRef.tick();
+    getApplicationRef().tick();
   }
 
   beforeEach(() => {
@@ -123,17 +135,12 @@ describe('Modal component', () => {
       ]
     });
 
-    applicationRef = TestBed.inject(ApplicationRef);
-    modalService = TestBed.inject(SkyModalService);
-    router = TestBed.inject(Router);
-    mockMutationObserverService = TestBed.inject<any>(MutationObserverService);
-
-    modalService.dispose();
-
     testModals = [];
   });
 
   afterEach(fakeAsync(() => {
+    getModalService().dispose();
+
     // Clean up any modals that did not close due to a test failure so subsequent tests
     // do not fail.
     const testModalsToClose = testModals.slice();
@@ -186,7 +193,7 @@ describe('Modal component', () => {
     document.dispatchEvent(escapeEvent);
 
     tick();
-    applicationRef.tick();
+    getApplicationRef().tick();
 
     expect(document.querySelector('.sky-modal')).not.toExist();
 
@@ -206,7 +213,7 @@ describe('Modal component', () => {
     document.querySelector('.sky-modal').dispatchEvent(escapeEvent);
 
     tick();
-    applicationRef.tick();
+    getApplicationRef().tick();
 
     expect(document.querySelector('.sky-modal')).not.toExist();
 
@@ -226,7 +233,7 @@ describe('Modal component', () => {
     document.querySelector('.sky-btn-primary').dispatchEvent(unknownEvent);
 
     tick();
-    applicationRef.tick();
+    getApplicationRef().tick();
 
     expect(document.activeElement).not.toEqual(document.querySelector('.sky-modal-btn-close'));
     expect(document.querySelector('.sky-modal')).toExist();
@@ -245,7 +252,7 @@ describe('Modal component', () => {
     document.querySelector('.sky-modal-dialog').dispatchEvent(tabEvent);
 
     tick();
-    applicationRef.tick();
+    getApplicationRef().tick();
 
     expect(document.activeElement).toEqual(document.querySelector('.sky-btn-primary'));
 
@@ -265,7 +272,7 @@ describe('Modal component', () => {
     document.querySelector('.sky-modal-btn-close').dispatchEvent(tabEvent);
 
     tick();
-    applicationRef.tick();
+    getApplicationRef().tick();
 
     expect(document.activeElement).toEqual(document.querySelector('.sky-btn-primary'));
 
@@ -286,7 +293,7 @@ describe('Modal component', () => {
     document.querySelector('.sky-btn-primary').dispatchEvent(tabEvent);
 
     tick();
-    applicationRef.tick();
+    getApplicationRef().tick();
 
     expect(document.activeElement).toEqual(document.querySelector('input'));
 
@@ -306,7 +313,7 @@ describe('Modal component', () => {
     document.querySelector('.sky-btn-primary').dispatchEvent(tabEvent);
 
     tick();
-    applicationRef.tick();
+    getApplicationRef().tick();
 
     expect(document.activeElement).toEqual(document.querySelector('.sky-modal-btn-close'));
 
@@ -325,7 +332,7 @@ describe('Modal component', () => {
     document.querySelector('input').dispatchEvent(tabEvent);
 
     tick();
-    applicationRef.tick();
+    getApplicationRef().tick();
 
     expect(document.activeElement).not.toEqual(document.querySelector('.sky-modal-btn-close'));
 
@@ -345,7 +352,7 @@ describe('Modal component', () => {
     document.querySelector('.sky-btn-primary').dispatchEvent(tabEvent);
 
     tick();
-    applicationRef.tick();
+    getApplicationRef().tick();
 
     expect(document.activeElement).toEqual(document.querySelector('.sky-modal-btn-close'));
 
@@ -365,7 +372,7 @@ describe('Modal component', () => {
     document.querySelector('.sky-btn-primary').dispatchEvent(tabEvent);
 
     tick();
-    applicationRef.tick();
+    getApplicationRef().tick();
 
     expect(document.activeElement).not.toEqual(document.querySelector('.sky-modal-btn-close'));
 
@@ -384,7 +391,7 @@ describe('Modal component', () => {
     document.dispatchEvent(tabEvent);
 
     tick();
-    applicationRef.tick();
+    getApplicationRef().tick();
 
     expect(document.activeElement).not.toEqual(document.querySelector('.sky-modal-btn-close'));
 
@@ -409,7 +416,7 @@ describe('Modal component', () => {
 
     expect(document.querySelector('.sky-modal')).not.toExist();
 
-    applicationRef.tick();
+    getApplicationRef().tick();
   }));
 
   it('should stop close event when beforeClose is subscribed to', fakeAsync(() => {
@@ -418,14 +425,14 @@ describe('Modal component', () => {
 
     (<HTMLElement>document.querySelector('.sky-modal-btn-close')).click();
     tick();
-    applicationRef.tick();
+    getApplicationRef().tick();
     expect(document.querySelector('.sky-modal')).toExist();
 
     const closeHandlerSpy = spyOn(instance.componentInstance, 'beforeCloseHandler').and.callThrough();
 
     instance.close();
     tick();
-    applicationRef.tick();
+    getApplicationRef().tick();
     expect(document.querySelector('.sky-modal')).toExist();
 
     // Verify the close handler has the correct data.
@@ -443,19 +450,19 @@ describe('Modal component', () => {
     document.dispatchEvent(escapeEvent);
 
     tick();
-    applicationRef.tick();
+    getApplicationRef().tick();
     expect(document.querySelector('.sky-modal')).toExist();
 
     // Confirm the close
     (<HTMLElement>document.querySelector('#toggle-btn')).click();
     tick();
-    applicationRef.tick();
+    getApplicationRef().tick();
     (<HTMLElement>document.querySelector('.sky-modal-btn-close')).click();
     tick();
-    applicationRef.tick();
+    getApplicationRef().tick();
 
     expect(document.querySelector('.sky-modal')).not.toExist();
-    applicationRef.tick();
+    getApplicationRef().tick();
   }));
 
   it('should close the modal anyway if ignoreBeforeClose is passed in', fakeAsync(() => {
@@ -464,10 +471,10 @@ describe('Modal component', () => {
 
     instance.close('', '', true);
     tick();
-    applicationRef.tick();
+    getApplicationRef().tick();
 
     expect(document.querySelector('.sky-modal')).not.toExist();
-    applicationRef.tick();
+    getApplicationRef().tick();
   }));
 
   it('should close when the user navigates through history', fakeAsync(() => {
@@ -475,11 +482,11 @@ describe('Modal component', () => {
 
     expect(document.querySelector('.sky-modal')).toExist();
 
-    router.navigate(['/']);
+    getRouter().navigate(['/']);
 
     expect(document.querySelector('.sky-modal')).not.toExist();
 
-    applicationRef.tick();
+    getApplicationRef().tick();
   }));
 
   it('should not close on route change if it is already closed', fakeAsync(() => {
@@ -492,13 +499,13 @@ describe('Modal component', () => {
     expect(closeSpy).toHaveBeenCalled();
     closeSpy.calls.reset();
 
-    router.navigate(['/']);
+    getRouter().navigate(['/']);
     tick();
 
     expect(document.querySelector('.sky-modal')).not.toExist();
     expect(closeSpy).not.toHaveBeenCalled();
 
-    applicationRef.tick();
+    getApplicationRef().tick();
   }));
 
   it('should trigger the help modal when the help button is clicked', fakeAsync(() => {
@@ -511,7 +518,7 @@ describe('Modal component', () => {
 
     expect(modalInstance.openHelp).toHaveBeenCalledWith('default.html');
 
-    applicationRef.tick();
+    getApplicationRef().tick();
 
     closeModal(modalInstance);
   }));
@@ -529,7 +536,7 @@ describe('Modal component', () => {
     expect(contentHeight).toEqual(windowHeight - 40 - 114);
 
     SkyAppTestUtility.fireDomEvent(window, 'resize');
-    applicationRef.tick();
+    getApplicationRef().tick();
     maxHeight = parseInt(getComputedStyle(modalEl).maxHeight, 10);
     expect(maxHeight).toEqual(window.innerHeight - 40);
 
@@ -544,7 +551,7 @@ describe('Modal component', () => {
     // innerHeight -2 is for IE Box Model Fix
     expect([window.innerHeight - 2, window.innerHeight]).toContain(height);
     SkyAppTestUtility.fireDomEvent(window, 'resize');
-    applicationRef.tick();
+    getApplicationRef().tick();
     modalEl = document.querySelector('.sky-modal-full-page');
     height = parseInt(getComputedStyle(modalEl).height, 10);
     // innerHeight -2 is for IE Box Model Fix
@@ -571,7 +578,7 @@ describe('Modal component', () => {
     modalEl.style.marginTop = '20px';
 
     SkyAppTestUtility.fireDomEvent(window, 'resize');
-    applicationRef.tick();
+    getApplicationRef().tick();
 
     let height = parseInt(getComputedStyle(modalEl).height, 10);
 
@@ -700,6 +707,19 @@ describe('Modal component', () => {
     closeModal(modalInstance);
   }));
 
+  it('should not error when no theme service is provided', fakeAsync(() => {
+    TestBed.overrideProvider(
+      SkyThemeService,
+      {
+        useValue: undefined
+      }
+    );
+
+    const modalInstance = openModal(ModalTiledBodyTestComponent);
+
+    closeModal(modalInstance);
+  }));
+
   describe('when modern theme', () => {
     let mutationObserverCreateSpy: jasmine.Spy;
 
@@ -709,7 +729,7 @@ describe('Modal component', () => {
       SkyAppTestUtility.fireDomEvent(contentEl, 'scroll');
 
       tick();
-      applicationRef.tick();
+      getApplicationRef().tick();
     }
 
     function validateShadow(el: HTMLElement, expectedAlpha?: number): void {
@@ -738,7 +758,9 @@ describe('Modal component', () => {
     }
 
     beforeEach(() => {
-      mutationObserverCreateSpy = spyOn(mockMutationObserverService, 'create').and.callThrough();
+      mutationObserverCreateSpy = spyOn(getMockMutationObserverService(), 'create')
+        .and
+        .callThrough();
 
       setModernTheme();
     });
@@ -814,7 +836,7 @@ describe('Modal component', () => {
       mutateCallback();
 
       tick();
-      applicationRef.tick();
+      getApplicationRef().tick();
 
       validateShadow(modalFooterEl, 0.3);
 
@@ -823,7 +845,7 @@ describe('Modal component', () => {
       mutateCallback();
 
       tick();
-      applicationRef.tick();
+      getApplicationRef().tick();
 
       validateShadow(modalFooterEl);
 

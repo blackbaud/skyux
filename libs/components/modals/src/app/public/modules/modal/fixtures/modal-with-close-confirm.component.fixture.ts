@@ -4,7 +4,7 @@ import {
 
 import {
   SkyModalBeforeCloseHandler
-} from '../types';
+} from '../modal-before-close-handler';
 
 import {
   SkyModalInstance
