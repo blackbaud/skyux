@@ -8,7 +8,7 @@
 
 # ~~4.5.0 (2020-07-27)~~
 
-- This version is broken. Upgrade to 4.6.0.
+- This version is broken. Upgrade to 4.7.0.
 
 # 4.4.0 (2020-07-06)
 
