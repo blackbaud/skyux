@@ -1,6 +1,10 @@
-# 4.6.0 (2020-07-28)
+# 4.7.0 (2020-07-29)
 
 - Added modern theme button styles for active, focused, and hover states. [#162](https://github.com/blackbaud/skyux-theme/pull/162)
+
+# ~~4.6.0 (2020-07-28)~~
+
+- This version is broken. Upgrade to 4.7.0.
 
 # ~~4.5.0 (2020-07-27)~~
 
