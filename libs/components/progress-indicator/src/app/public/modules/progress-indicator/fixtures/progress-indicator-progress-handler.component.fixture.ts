@@ -8,9 +8,12 @@ import {
 } from 'rxjs';
 
 import {
-  SkyProgressIndicatorActionClickArgs,
+  SkyProgressIndicatorActionClickArgs
+} from '../types/progress-indicator-action-click-args';
+
+import {
   SkyProgressIndicatorMessage
-} from '../types';
+} from '../types/progress-indicator-message';
 
 import {
   SkyProgressIndicatorComponent

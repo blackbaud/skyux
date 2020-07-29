@@ -26,12 +26,24 @@ import {
 } from '../progress-indicator-reset-button/progress-indicator-reset-button.component';
 
 import {
-  SkyProgressIndicatorDisplayMode,
-  SkyProgressIndicatorMessage,
-  SkyProgressIndicatorMessageType,
-  SkyProgressIndicatorNavButtonType,
   SkyProgressIndicatorChange
-} from '../types';
+} from '../types/progress-indicator-change';
+
+import {
+  SkyProgressIndicatorMessage
+} from '../types/progress-indicator-message';
+
+import {
+  SkyProgressIndicatorMessageType
+} from '../types/progress-indicator-message-type';
+
+import {
+  SkyProgressIndicatorDisplayMode
+} from '../types/progress-indicator-mode';
+
+import {
+  SkyProgressIndicatorNavButtonType
+} from '../types/progress-indicator-nav-button-type';
 
 import {
   SkyProgressIndicatorComponent
