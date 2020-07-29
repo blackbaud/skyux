@@ -1,3 +1,8 @@
+# 4.1.0 (2020-07-29)
+
+- Added the `skyAgGridDataManagerAdapter` directive to handle interactions between the data entry grid component and the data manager component. [#59](https://github.com/blackbaud/skyux-ag-grid/pull/59)
+- Added an example using the data entry grid component with the data manager component. [#61](https://github.com/blackbaud/skyux-ag-grid/pull/61)
+
 # 4.0.2 (2020-06-22)
 
 - Fixed the peer dependency versions of `ag-grid-angular` and `ag-grid-community` packages to `^23.2.0` to support `@angular/core@^9.1.9`. [#46](https://github.com/blackbaud/skyux-ag-grid/pull/46)
