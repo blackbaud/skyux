@@ -19,7 +19,8 @@ import {
 } from '@skyux/indicators';
 
 import {
-  SkyRepeaterModule
+  SkyRepeaterModule,
+  SkySortModule
 } from '@skyux/lists';
 
 import {
@@ -33,6 +34,14 @@ import {
 import {
   SkyGridModule
 } from '@skyux/grids';
+
+import {
+  SkyCodeModule
+} from '@blackbaud/skyux-lib-code-block';
+
+import {
+  SkyCheckboxModule
+} from '@skyux/forms';
 
 import {
   SkyActionButtonModule,
@@ -56,12 +65,14 @@ import {
     SkyAppLinkModule,
     SkyAvatarModule,
     SkyBackToTopModule,
+    SkyCodeModule,
     SkyCardModule,
     SkyDefinitionListModule,
     SkyGridModule,
     SkyDocsToolsModule,
     SkyDropdownModule,
     SkyFluidGridModule,
+    SkyCheckboxModule,
     SkyFormatModule,
     SkyIconModule,
     SkyKeyInfoModule,
@@ -69,6 +80,7 @@ import {
     SkyPageModule,
     SkyPageSummaryModule,
     SkyRepeaterModule,
+    SkySortModule,
     SkyTextExpandModule,
     SkyTextExpandRepeaterModule,
     SkyToolbarModule,

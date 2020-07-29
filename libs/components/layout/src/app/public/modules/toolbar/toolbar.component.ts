@@ -9,6 +9,9 @@ import {
   SkyToolbarSectionComponent
 } from './toolbar-section.component';
 
+/**
+ * Displays actions for lists, records, and tiles.
+ */
 @Component({
   selector: 'sky-toolbar',
   styleUrls: ['./toolbar.component.scss'],
