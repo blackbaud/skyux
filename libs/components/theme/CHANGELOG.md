@@ -1,3 +1,8 @@
+# 4.8.0 (2020-07-30)
+
+- Updated responsive mixins to work with components that do not use view encapsulation. [#170](https://github.com/blackbaud/skyux-theme/pull/170)
+- Updated modern theme padding styles for tab buttons. [#172](https://github.com/blackbaud/skyux-theme/pull/172)
+
 # 4.7.0 (2020-07-29)
 
 - Added modern theme button styles for active, focused, and hover states. [#162](https://github.com/blackbaud/skyux-theme/pull/162)
