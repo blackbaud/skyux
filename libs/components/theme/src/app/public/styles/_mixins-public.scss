@@ -1,54 +1,98 @@
 @import "~@blackbaud/skyux-design-tokens/scss/mixins.scss";
 
-@mixin sky-host-responsive-container-xs-min() {
-  :host {
-    @content;
-  }
-
-  :host-context(.sky-responsive-container-xs),
-  :host-context(.sky-responsive-container-sm),
-  :host-context(.sky-responsive-container-md),
-  :host-context(.sky-responsive-container-lg) {
-    @content;
-  }
-}
-
-@mixin sky-host-responsive-container-sm-min() {
-  @media (min-width: $sky-screen-sm-min) {
-    :host{
-      @content;
-    };
-  }
-
-  :host-context(.sky-responsive-container-sm),
-  :host-context(.sky-responsive-container-md),
-  :host-context(.sky-responsive-container-lg) {
-    @content;
-  }
-}
-
-@mixin sky-host-responsive-container-md-min() {
-  @media (min-width: $sky-screen-md-min) {
-    :host{
-      @content;
-    }
-  }
-
-  :host-context(.sky-responsive-container-md),
-  :host-context(.sky-responsive-container-lg) {
-    @content;
-  }
-}
-
-@mixin sky-host-responsive-container-lg-min() {
-  @media (min-width: $sky-screen-lg-min) {
+@mixin sky-host-responsive-container-xs-min($encapsulate: true) {
+  @if $encapsulate {
     :host {
       @content;
     }
-  }
 
-  :host-context(.sky-responsive-container-lg) {
+    :host-context(.sky-responsive-container-xs),
+    :host-context(.sky-responsive-container-sm),
+    :host-context(.sky-responsive-container-md),
+    :host-context(.sky-responsive-container-lg) {
+      @content;
+    }
+  } @else {
     @content;
+
+    .sky-responsive-container-xs,
+    .sky-responsive-container-sm,
+    .sky-responsive-container-md,
+    .sky-responsive-container-lg {
+      @content;
+    }
+  }
+}
+
+@mixin sky-host-responsive-container-sm-min($encapsulate: true) {
+  @if $encapsulate {
+    @media (min-width: $sky-screen-sm-min) {
+      :host {
+        @content;
+      };
+    }
+
+    :host-context(.sky-responsive-container-sm),
+    :host-context(.sky-responsive-container-md),
+    :host-context(.sky-responsive-container-lg) {
+      @content;
+    }
+  } @else {
+    @media (min-width: $sky-screen-sm-min) {
+      @content;
+    }
+
+    .sky-responsive-container-sm,
+    .sky-responsive-container-md,
+    .sky-responsive-container-lg {
+      @content;
+    }
+  }
+}
+
+@mixin sky-host-responsive-container-md-min($encapsulate: true) {
+  @if $encapsulate {
+    @media (min-width: $sky-screen-md-min) {
+      :host{
+        @content;
+      }
+    }
+
+    :host-context(.sky-responsive-container-md),
+    :host-context(.sky-responsive-container-lg) {
+      @content;
+    }
+  } @else {
+    @media (min-width: $sky-screen-md-min) {
+      @content;
+    }
+
+    .sky-responsive-container-md,
+    .sky-responsive-container-lg {
+      @content;
+    }
+  }
+}
+
+@mixin sky-host-responsive-container-lg-min($encapsulate: true) {
+  @if $encapsulate {
+    @media (min-width: $sky-screen-lg-min) {
+      :host {
+        @content;
+      }
+    }
+
+    :host-context(.sky-responsive-container-lg) {
+      @content;
+    }
+  } @else {
+    @media (min-width: $sky-screen-lg-min) {
+      @content;
+    }
+
+    .sky-responsive-container-lg {
+      @content;
+    }
   }
 }
 
