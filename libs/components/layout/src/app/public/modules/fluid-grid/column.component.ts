@@ -4,13 +4,15 @@ import {
   Input,
   OnInit,
   SimpleChanges,
-  OnChanges
+  OnChanges,
+  ViewEncapsulation
 } from '@angular/core';
 
 @Component({
   selector: 'sky-column',
   templateUrl: './column.component.html',
-  styleUrls: ['./column.component.scss']
+  styleUrls: ['./column.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class SkyColumnComponent implements OnInit, OnChanges {
 
