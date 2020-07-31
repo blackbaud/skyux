@@ -246,26 +246,24 @@ export class SkyTabsetComponent
       // Initialize each tab's index (in case tabs are instantiated out of order).
       this.tabs.forEach(tab => tab.initializeTabIndex());
       this.activateTabByPermalinkValue();
-    });
-
-    this.tabsetService.activeIndex
-      .pipe(
-        distinctUntilChanged(),
-        takeUntil(this.ngUnsubscribe)
-      )
-      .subscribe((newActiveIndex) => {
-        // HACK: Not selecting the active tab in a timeout causes an error.
-        // https://github.com/angular/angular/issues/6005
-        setTimeout(() => {
+      this.tabsetService.activeIndex
+        .pipe(
+          distinctUntilChanged(),
+          takeUntil(this.ngUnsubscribe)
+        )
+        .subscribe((newActiveIndex) => {
           if (newActiveIndex !== this.active) {
-            this.active = newActiveIndex;
             if (this.activeIndexOnLoad === undefined) {
               this.activeIndexOnLoad = newActiveIndex;
             }
-            this.activeChange.emit(newActiveIndex);
+            this.active = newActiveIndex;
+            // Emit change after tab changes have rendered.
+            setTimeout(() => {
+              this.activeChange.emit(newActiveIndex);
+            });
           }
         });
-      });
+    });
 
       // Listen for back/forward history button presses to detect path param changes in the URL.
       // (Angular's router events observable doesn't emit when path params change.)

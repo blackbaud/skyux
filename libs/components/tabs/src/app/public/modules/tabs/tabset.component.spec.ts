@@ -66,6 +66,10 @@ import {
 } from './fixtures/tabset-active.component.fixture';
 
 import {
+  TabsetActiveTwoWayBindingTestComponent
+} from './fixtures/tabset-active-two-way.component.fixture';
+
+import {
   MockTabsetAdapterService
 } from './fixtures/tabset-adapter.service.mock';
 
@@ -950,6 +954,28 @@ describe('Tabset component', () => {
       fixture.detectChanges();
       tick();
       validateTabSelected(el, 1);
+    }));
+
+    it('should handle two-way binding on `active` input', fakeAsync(() => {
+      const fixture = TestBed.createComponent(TabsetActiveTwoWayBindingTestComponent);
+      const component = fixture.componentInstance;
+      const activeSpy = spyOn(component, 'onActiveChange').and.callThrough();
+
+      component.activeTab = '1';
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+      validateTabSelected(fixture.nativeElement, 1);
+
+      component.activeTab = '0';
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+      validateTabSelected(fixture.nativeElement, 0);
+
+      expect(activeSpy).toHaveBeenCalledTimes(2);
     }));
 
     it('should be accessible', async(() => {

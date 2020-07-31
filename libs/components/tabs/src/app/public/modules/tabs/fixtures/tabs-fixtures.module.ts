@@ -31,6 +31,10 @@ import {
 } from './tabset-active.component.fixture';
 
 import {
+  TabsetActiveTwoWayBindingTestComponent
+} from './tabset-active-two-way.component.fixture';
+
+import {
   SkyTabsetPermalinksFixtureComponent
 } from './tabset-permalinks.component.fixture';
 
@@ -47,7 +51,8 @@ import {
     TabsetTestComponent,
     SkyTabsetPermalinksFixtureComponent,
     SkyWizardTestFormComponent,
-    TabsetActiveTestComponent
+    TabsetActiveTestComponent,
+    TabsetActiveTwoWayBindingTestComponent
   ],
   imports: [
     CommonModule,
@@ -60,7 +65,8 @@ import {
     TabsetTestComponent,
     SkyTabsetPermalinksFixtureComponent,
     SkyWizardTestFormComponent,
-    TabsetActiveTestComponent
+    TabsetActiveTestComponent,
+    TabsetActiveTwoWayBindingTestComponent
   ],
   entryComponents: [
     SkyWizardTestFormComponent
