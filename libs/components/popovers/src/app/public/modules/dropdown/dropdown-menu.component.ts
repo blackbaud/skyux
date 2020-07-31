@@ -10,7 +10,8 @@ import {
   OnDestroy,
   Optional,
   Output,
-  QueryList
+  QueryList,
+  ViewEncapsulation
 } from '@angular/core';
 
 import {
@@ -48,7 +49,8 @@ let nextId = 0;
   selector: 'sky-dropdown-menu',
   templateUrl: './dropdown-menu.component.html',
   styleUrls: ['./dropdown-menu.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
 

@@ -43,10 +43,27 @@
   visibility: hidden;
 }
 
+.sky-dropdown-caret-modern {
+  display: none;
+}
+
 @include sky-theme-modern {
+  .sky-dropdown-button-type-context-menu:focus {
+    padding: 2px 7px 2px 7px;
+  }
+
   .sky-dropdown-button-type-tab {
     @include sky-theme-modern-btn-tab();
     @include sky-theme-modern-btn-tab-selected();
+  }
+
+  .sky-dropdown-caret {
+    display: none;
+  }
+
+  .sky-dropdown-caret-modern {
+    display: inline;
+    margin-left: $sky-theme-modern-margin-inline-sm;
   }
 }
 

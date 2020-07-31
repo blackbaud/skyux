@@ -1,3 +1,4 @@
+@import "~@skyux/theme/scss/variables";
 @import "../../styles/mixins";
 
 .sky-dropdown-menu {
@@ -7,8 +8,17 @@
   flex-direction: column;
   background-color: #fff;
 
-  ::ng-deep button {
+  button {
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+}
+
+.sky-theme-modern {
+  &.sky-theme-mode-dark {
+    .sky-dropdown-menu {
+      background-color: #252a2e;
+      color: #fff;
+    }
   }
 }

@@ -5,14 +5,16 @@ import {
   Component,
   ElementRef,
   Input,
-  Renderer2
+  Renderer2,
+  ViewEncapsulation
 } from '@angular/core';
 
 @Component({
   selector: 'sky-dropdown-item',
   templateUrl: './dropdown-item.component.html',
   styleUrls: ['./dropdown-item.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class SkyDropdownItemComponent implements AfterViewInit {
 

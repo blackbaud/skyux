@@ -3,6 +3,11 @@ import {
 } from '@angular/core';
 
 import {
+  SkyThemeService,
+  SkyThemeSettings
+} from '@skyux/theme';
+
+import {
   SkyDropdownMenuChange
 } from '../../public/public_api';
 
@@ -38,12 +43,18 @@ export class DropdownVisualComponent {
     { name: 'Hunter green' }
   ];
 
+  constructor(private themeSvc: SkyThemeService) { }
+
   public onItemClick(): void {
     console.log('Item clicked!');
   }
 
   public onMenuChanges(change: SkyDropdownMenuChange): void {
     console.log('Menu change:', change);
+  }
+
+  public themeSettingsChange(themeSettings: SkyThemeSettings): void {
+    this.themeSvc.setTheme(themeSettings);
   }
 
 }
