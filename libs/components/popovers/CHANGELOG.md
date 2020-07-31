@@ -1,3 +1,7 @@
+# 4.2.0 (2020-07-31)
+
+- Added modern theme styles to the dropdown component. [#110](https://github.com/blackbaud/skyux-popovers/pull/110)
+
 # 4.1.1 (2020-07-24)
 
 - Fixed the dropdown fixture to register click events on dropdown items. [#107](https://github.com/blackbaud/skyux-popovers/pull/107)
