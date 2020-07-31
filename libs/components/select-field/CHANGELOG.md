@@ -1,3 +1,7 @@
+# 4.0.1 (2020-07-31)
+
+- Added the missing `SkySelectFieldPickerContext` type to the exports API. [#79](https://github.com/blackbaud/skyux-select-field/pull/79)
+
 # 4.0.0 (2020-05-21)
 
 ### New features
