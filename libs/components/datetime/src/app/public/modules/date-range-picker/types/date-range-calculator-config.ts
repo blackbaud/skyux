@@ -11,7 +11,7 @@ import {
 } from './date-range-calculator-validate-function';
 
 /**
- * @internal
+ * The configuration for a date range calculator.
  */
 export interface SkyDateRangeCalculatorConfig {
 

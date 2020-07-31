@@ -6,6 +6,9 @@ import {
   SkyDateRange
 } from './date-range';
 
+/**
+ * Represents the returned value of a `SkyDateRangeCalculator`.
+ */
 export interface SkyDateRangeCalculation extends SkyDateRange {
 
   /**

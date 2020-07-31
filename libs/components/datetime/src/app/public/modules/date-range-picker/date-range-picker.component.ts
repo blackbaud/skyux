@@ -82,7 +82,14 @@ const SKY_DATE_RANGE_PICKER_VALIDATOR = {
 let uniqueId = 0;
 
 /**
- * The form model for the date range picker field returns a value with a type of `SkyDateRangeCalculation`.
+ * This component acts as a form control with a form model of type `SkyDateRangeCalculation`.
+ * @example
+ * ```
+ * <sky-date-range-picker
+ *   formControlName="myPicker"
+ * >
+ * </sky-date-range-picker>
+ * ```
  */
 @Component({
   selector: 'sky-date-range-picker',
