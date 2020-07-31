@@ -1,3 +1,7 @@
+# 4.2.1 (2020-07-31)
+
+- Fixed the tabset component to properly handle two-way binding with the `active` input. [#121](https://github.com/blackbaud/skyux-tabs/pull/121)
+
 # 4.2.0 (2020-07-20)
 
 - Added a test fixture for the tabset component to use in consumer unit tests. [#113](https://github.com/blackbaud/skyux-tabs/pull/113)
