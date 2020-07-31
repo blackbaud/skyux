@@ -17,7 +17,9 @@
   (columnWidthChange)="onResize($event)"
   (rowDeleteCancel)="cancelRowDelete($event)"
   (rowDeleteConfirm)="finishRowDelete($event)"
-  (multiselectSelectionChange)="onMultiselectChange($event)">
+  (multiselectSelectionChange)="onMultiselectChange($event)"
+  (selectedColumnIdsChange)="onSelectedColumnIdsChange($event)"
+>
   <sky-grid-column
     field="column1"
     heading="Column1"

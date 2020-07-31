@@ -8,6 +8,7 @@
     [data]="dataForSimpleGrid"
     [highlightText]="highlightText"
     [rowHighlightedId]="rowHighlightedId"
+    (selectedColumnIdsChange)="onSelectedColumnIdsChange($event)"
     (sortFieldChange)="sortChangedSimpleGrid($event)"
     #grid
   >

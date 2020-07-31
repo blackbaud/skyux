@@ -271,4 +271,6 @@ export class GridTestComponent {
   public finishRowDelete(confirmArgs: SkyGridRowDeleteConfirmArgs): void {
     return;
   }
+
+  public onSelectedColumnIdsChange(event: any[]): void {}
 }

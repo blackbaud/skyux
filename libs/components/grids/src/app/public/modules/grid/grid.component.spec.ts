@@ -2013,6 +2013,60 @@ describe('Grid Component', () => {
       })
     );
 
+    it('should emit selectedColumnIds when a column is reorded on drop',
+      fakeAsync(() => {
+        fixture.detectChanges();
+        fixture.detectChanges();
+
+        const spy = spyOn(component, 'onSelectedColumnIdsChange').and.callThrough();
+
+        mockDragulaService.drop.emit([
+          undefined,
+          undefined,
+          {
+            querySelectorAll(elementSelector: string) {
+              expect(elementSelector).toBe('th:not(.sky-grid-multiselect-cell):not(.sky-grid-row-delete-heading)');
+              return [
+                {
+                  getAttribute(idSelector: string) {
+                    expect(idSelector).toBe('sky-cmp-id');
+                    return 'column2';
+                  }
+                },
+                {
+                  getAttribute(idSelector: string) {
+                    return 'column1';
+                  }
+                },
+                {
+                  getAttribute(idSelector: string) {
+                    return 'column3';
+                  }
+                },
+                {
+                  getAttribute(idSelector: string) {
+                    return 'column4';
+                  }
+                },
+                {
+                  getAttribute(idSelector: string) {
+                    return 'column5';
+                  }
+                }
+              ];
+            }
+          }
+        ]);
+        tick();
+        fixture.detectChanges();
+
+        expect(spy).toHaveBeenCalledTimes(1);
+        expect(spy).toHaveBeenCalledWith(
+          ['column2', 'column1', 'column3', 'column4', 'column5']
+        );
+      })
+    );
+
     it('should set dragula options for locked and resizable columns', () => {
       const standardHandleElement: any = {
         classList: {

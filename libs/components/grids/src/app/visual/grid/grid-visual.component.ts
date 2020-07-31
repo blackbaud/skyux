@@ -142,6 +142,10 @@ export class GridVisualComponent {
     this.selectedRowIds = ['2', '5', '7'];
   }
 
+  public onSelectedColumnIdsChange(event: any[]): void {
+    console.log(event);
+  }
+
   private performSort(activeSort: ListSortFieldSelectorModel, data: any[]): Array<any> {
     const sortField = activeSort.fieldSelector;
     const descending = activeSort.descending;

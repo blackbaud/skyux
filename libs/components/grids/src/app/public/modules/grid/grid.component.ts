@@ -772,6 +772,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
 
   private onHeaderDrop(newColumnIds: Array<string>) {
     // update selected columnIds
+    this.selectedColumnIdsSet = true;
     this.selectedColumnIds = newColumnIds;
 
     // mark for check because we are using ChangeDetectionStrategy.onPush
