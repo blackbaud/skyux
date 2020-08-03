@@ -7,17 +7,17 @@ import {
 } from '@angular/core';
 
 import {
+  SkyDataManagerService,
   SkyDataManagerState,
-  SkyDataViewConfig,
-  SkyDataManagerService
-} from '../../public/public_api';
+  SkyDataViewConfig
+} from '@skyux/data-manager';
 
 @Component({
-  selector: 'data-view-cards',
+  selector: 'app-data-view-cards-demo',
   templateUrl: './data-view-cards.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DataViewCardsComponent implements OnInit {
+export class DataViewCardsDemoComponent implements OnInit {
   @Input()
   public items: any[];
 
@@ -37,7 +37,7 @@ export class DataViewCardsComponent implements OnInit {
   constructor(
     private changeDetector: ChangeDetectorRef,
     private dataManagerService: SkyDataManagerService
-    ) { }
+  ) { }
 
   public ngOnInit(): void {
     this.displayedItems = this.items;

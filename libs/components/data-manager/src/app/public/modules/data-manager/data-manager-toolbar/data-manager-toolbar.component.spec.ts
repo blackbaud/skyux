@@ -199,8 +199,9 @@ describe('SkyDataManagerToolbarComponent', () => {
 
   it('should call the active view\'s onSelectAllClick function when select all is clicked', () => {
     const selectAllSpy = jasmine.createSpy();
-    dataManagerToolbarComponent.activeView.multiselectToolbarEnabled = true;
-    dataManagerToolbarComponent.activeView.onSelectAllClick = selectAllSpy;
+    const activeView = dataManagerToolbarComponent.activeView;
+    activeView.multiselectToolbarEnabled = true;
+    activeView.onSelectAllClick = selectAllSpy;
     dataManagerToolbarFixture.detectChanges();
 
     const selectAllBtn = dataManagerToolbarNativeElement.querySelector('.sky-data-manager-select-all-btn') as HTMLButtonElement;
@@ -211,8 +212,9 @@ describe('SkyDataManagerToolbarComponent', () => {
 
   it('should call the active view\'s onClearAllClick function when clear all is clicked', () => {
     const clearAllSpy = jasmine.createSpy();
-    dataManagerToolbarComponent.activeView.multiselectToolbarEnabled = true;
-    dataManagerToolbarComponent.activeView.onClearAllClick = clearAllSpy;
+    const activeView = dataManagerToolbarComponent.activeView;
+    activeView.multiselectToolbarEnabled = true;
+    activeView.onClearAllClick = clearAllSpy;
     dataManagerToolbarFixture.detectChanges();
 
     const clearAllBtn = dataManagerToolbarNativeElement.querySelector('.sky-data-manager-clear-all-btn') as HTMLButtonElement;

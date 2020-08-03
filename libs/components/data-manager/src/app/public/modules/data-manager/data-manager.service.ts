@@ -267,7 +267,7 @@ export class SkyDataManagerService implements OnDestroy {
     const existingViewIndex = currentViews.findIndex(currentView => currentView.id === view.id);
 
     if (existingViewIndex === -1) {
-      console.error('A view with the id {id} already exists.', view.id);
+      console.error('A view with the id {id} does not exist.', view.id);
     } else {
 
     currentViews[existingViewIndex] = view;

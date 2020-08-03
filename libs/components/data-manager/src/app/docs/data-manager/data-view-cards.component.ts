@@ -114,7 +114,7 @@ export class DataViewCardsDemoComponent implements OnInit {
     return filteredItems;
   }
 
-  public searchBe() {
+  public searchBe(): void {
     this.dataState.searchText = 'be';
     this.dataManagerService.updateDataState(this.dataState, 'searchButton');
   }

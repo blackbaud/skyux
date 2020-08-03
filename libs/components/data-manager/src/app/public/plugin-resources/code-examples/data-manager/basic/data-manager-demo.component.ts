@@ -9,26 +9,27 @@ import {
 } from '@skyux/core';
 
 import {
-  SkyDataManagerFiltersModalDemoComponent
-} from './data-filter-modal.component';
-
-import {
   SkyDataManagerService,
   SkyDataManagerState
-} from '../../public/public_api';
+} from '@skyux/data-manager';
+
+import {
+  DataManagerFiltersModalDemoComponent
+} from './data-filter-modal.component';
 
 @Component({
-  selector: 'data-manager-demo',
+  selector: 'app-data-manager-demo',
   templateUrl: './data-manager-demo.component.html',
-  providers: [SkyDataManagerService, {
-    provide: SkyUIConfigService
-  }],
+  providers: [
+    SkyDataManagerService,
+    SkyUIConfigService
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DataManagerDemoComponent implements OnInit {
 
   public dataManagerConfig = {
-    filterModalComponent: SkyDataManagerFiltersModalDemoComponent,
+    filterModalComponent: DataManagerFiltersModalDemoComponent,
     sortOptions: [
       {
         id: 'az',
@@ -61,34 +62,6 @@ export class DataManagerDemoComponent implements OnInit {
   });
 
   public dataState: SkyDataManagerState;
-
-  public get dataStateString(): string {
-    const tab = `\u00A0\u00A0`;
-    const doubleTab = `${tab}${tab}`;
-
-    const activeSortOption = this.dataState.activeSortOption && `{
-      ${doubleTab}descending: ${this.dataState.activeSortOption.descending},
-      ${doubleTab}id: ${this.dataState.activeSortOption.id},
-      ${doubleTab}label: ${this.dataState.activeSortOption.label},
-      ${doubleTab}propertyName: ${this.dataState.activeSortOption.propertyName}
-      ${tab}}`;
-
-    const filterData = this.dataState.filterData && `{
-      ${doubleTab}fruitType: ${this.dataState.filterData.filters.type},
-      ${doubleTab}hideOrange: ${this.dataState.filterData.filters.hideOrange}
-      ${tab}}`;
-
-    return `
-    {
-      ${tab}activeSortOption: ${activeSortOption},
-      ${tab}additionalData: ${this.dataState.additionalData},
-      ${tab}filterData: ${filterData},
-      ${tab}onlyShowSelected: ${this.dataState.onlyShowSelected},
-      ${tab}searchText: ${this.dataState.searchText},
-      ${tab}selectedIds: ${this.dataState.selectedIds && `[${this.dataState.selectedIds.join(', ')}]`}
-    }
-    `;
-  }
 
   public items: any[] = [
     {
@@ -140,8 +113,10 @@ export class DataManagerDemoComponent implements OnInit {
   constructor(
     private dataManagerService: SkyDataManagerService
   ) {
-    this.dataManagerService.getDataStateUpdates('dataManager').subscribe(state => this.dataState = state);
-    this.dataManagerService.getActiveViewIdUpdates().subscribe(activeViewId => this.activeViewId = activeViewId);
+    this.dataManagerService.getDataStateUpdates('dataManager')
+      .subscribe(state => this.dataState = state);
+    this.dataManagerService.getActiveViewIdUpdates()
+      .subscribe(activeViewId => this.activeViewId = activeViewId);
   }
 
   public ngOnInit(): void {

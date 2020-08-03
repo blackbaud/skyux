@@ -224,11 +224,17 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
   }
 
   public selectAll(): void {
-    this.activeView.onSelectAllClick();
+    /* istanbul ignore else */
+    if (this.activeView.onSelectAllClick) {
+      this.activeView.onSelectAllClick();
+    }
   }
 
   public clearAll(): void {
-    this.activeView.onClearAllClick();
+    /* istanbul ignore else */
+    if (this.activeView.onClearAllClick) {
+      this.activeView.onClearAllClick();
+    }
   }
 
   public onOnlyShowSelected(event: SkyCheckboxChange): void {

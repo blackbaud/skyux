@@ -133,7 +133,7 @@ export class DataManagerVisualComponent implements OnInit {
     );
   }
 
-  public searchSo() {
+  public searchSo(): void {
     this.dataState.searchText = 'so';
     this.dataManagerService.updateDataState(this.dataState, 'dataManager');
   }
