@@ -3,9 +3,9 @@ import {
 } from '@angular/core';
 
 /**
- * A wrapper for items to be rendered in the `SkyDataManagerToolbarComponent`. The contents will be
- * rendered after the standard toolbar actions and before the search box. Each item within the
- * wrapper should be wrapped in a `<sky-toolbar-item>` element to ensure proper styling.
+ * A wrapper for items to be rendered in `SkyDataManagerToolbarComponent`. The contents are
+ * rendered after the standard toolbar actions and before the search box. Wrap each item
+ * in a`<sky-toolbar-item>` element to ensure proper styling.
  */
 @Component({
   selector: 'sky-data-manager-toolbar-left-items',

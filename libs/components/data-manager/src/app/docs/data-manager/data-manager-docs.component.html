@@ -4,7 +4,12 @@
   pageTitle="Data Manager"
 >
   <sky-docs-demo-page-summary>
-    The data manager component and service manage the exploration of a data set across any number of SKY UX, third party, or custom views through state observables and data set- and view-level configs.
+    <p>
+      The data manager component and service manage the exploration of a data set across any number of SKY UX, third party, or custom views through state observables and data set- and view-level configs.
+    </p>
+    <sky-alert alertType="warning">
+      This component is a release candidate. We do not plan to make breaking changes before the official release, but such changes are possible.
+    </sky-alert>
   </sky-docs-demo-page-summary>
 
   <sky-docs-demo
@@ -20,14 +25,17 @@
   <div>
     <h2>Overview</h2>
     <p>
-      The SKY UX data manager is responsible for <b>the options applied to the data</b> but not the data itself. This means that the data manager handles rendering the toolbar and keeping track of what options are selected in the toolbar, but the consuming SPA provides the views that display the data and handles the application of the filters and sort to their data. This provides flexibility and control over the views and data loading while handling some of repetitive tasks like arranging items in the toolbar, applying sticky settings, etc.
-      <br/><br/>
-      The core pieces of the data manager are the configuration objects (SkyDataManagerConfig and SkyDataViewConfig), the states (SkyDataManagerState and the SkyDataViewStates it contains), and the SkyDataManagerService. The data manager renders a toolbar that is populated with options based on the overall data manager config and the individual view configs. When changes are made via the toolbar, the data state is updated. These updates are made available via Observables on the data manager service.
-      <br/><br/>
+      The data manager is responsible for <b>the options applied to the data</b> but not the data itself. The data manager renders the toolbar and tracks the options selected in the toolbar, but the consuming SPA provides the views that display the data and applies filters and sorts to the data. This provides flexibility and control over the views and data loading while handling some repetitive tasks, such as arranging items in the toolbar and applying sticky settings.
+    </p>
+    <p>
+      The core pieces of the data manager are the config objects (SkyDataManagerConfig and SkyDataViewConfig), the states (SkyDataManagerState and the SkyDataViewStates it contains), and SkyDataManagerService. The data manager renders a toolbar with options based on the overall data manager config and the individual view configs. When changes are made in the toolbar, the data state is updated. These updates are made available through observables on the data manager service.
+    </p>
+    <p>
       The data manager has one configuration object that includes options that apply across all views, and one configuration object per view that allows each view to be fine-tuned.
-      <br/><br/>
-      Similarly, the state includes information that could apply across all views or to a specific view. Options that dictate <b>what</b> data is displayed are in the SkyDataManagerState because the data that is displayed should be the same across views. Options that dictate <b>how</b> data is displayed (for example, what columns to show) are in the SkyDataViewState objects.
-      For example, if you are displaying constituents in a grid view and a map view, the same constituents should be in both views, but columns or whether or not the sort button should be displayed is determined by the view.
+    </p>
+    <p>
+      Similarly, the state includes information that could apply across all views or to a specific view. Options that dictate <b>what</b> data is displayed are in SkyDataManagerState because the data that is displayed should be the same across views. Options that dictate <b>how</b> data is displayed, such as what columns to display, are in SkyDataViewState objects.
+      For example, if you display constituents in a grid view and a map view, the same constituents should be in both views, but the view determines the columns to display and whether to display the sort button.
     </p>
   </div>
 </sky-docs-demo-page>

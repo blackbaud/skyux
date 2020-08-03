@@ -8,7 +8,7 @@ import {
 } from './data-manager.service';
 
 /**
- * The top-level data manager component. The `SkyDataManagerService` should be provided at this level.
+ * The top-level data manager component. Provide `SkyDataManagerService` at this level.
  */
 @Component({
   selector: 'sky-data-manager',

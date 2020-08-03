@@ -3,26 +3,26 @@ import {
 } from './data-manager-column-picker-option';
 
 /**
- * The data view config contains settings that apply to the specific view, like
- * column picker options and what buttons to display in the toolbar.
+ * The data view config contains settings that apply to the specific view, such as
+ * column picker options and the buttons to display in the toolbar.
  */
 export interface SkyDataViewConfig {
   /**
-   * An untyped property that can be used to keep track of any view config information relevant to a
-   * data view that is not included in the existing options.
+   * An untyped property that can track any view config information relevant to a
+   * data view that the existing options do not include.
    */
   additionalOptions?: Object;
   /**
-   * The column data to pass to the column picker. Columns that should always be displayed should be
+   * The column data to pass to the column picker. Columns that are always displayed should be
    * passed in addition to the optional columns. See SkyDataManagerColumnPickerOption.
    */
   columnOptions?: SkyDataManagerColumnPickerOption[];
   /**
-   * Indicates if the column picker button should be displayed for this view.
+   * Indicates whether to display the column picker button for this view.
    */
   columnPickerEnabled?: boolean;
   /**
-   * Inidicates if the filter button should be displayed for this view.
+   * Inidicates whether to display the filter button for this view.
    */
   filterButtonEnabled?: boolean;
   /**
@@ -35,7 +35,7 @@ export interface SkyDataViewConfig {
    */
   id: string;
   /**
-   * Indicates if the multiselect toolbar should be displayed for this view.
+   * Indicates whether to display the multiselect toolbar for this view.
    */
   multiselectToolbarEnabled?: boolean;
   /**
@@ -43,34 +43,36 @@ export interface SkyDataViewConfig {
    */
   name: string;
   /**
-   * The function called when a user clicks the "Clear all" button on the multi-select toolbar.
+   * The function called when a user selects the "Clear all" button on the multi-select toolbar.
    * Update your displayed data to indicate it is not selected in this function.
    */
   onClearAllClick?: Function;
   /**
-   * The function called when a user clicks the "Select all" button on the multi-select toolbar.
+   * The function called when a user selects the "Select all" button on the multi-select toolbar.
    * Update your displayed data to indicate it is selected in this function.
    */
   onSelectAllClick?: Function;
   /**
-   * Indicates if the search box should be displayed for this view.
+   * Indicates whether to display the search box for this view.
    */
   searchEnabled?: boolean;
   /**
-   * Sets the `expandMode` property on the search box for this view.
-   * It can be 'responsive', 'fit', or 'none'. If not set the default is 'responsive'.
+   * Sets the `expandMode` property on the search box for this view. The valid options
+   * are `responsive`, `fit`, and `none`. The default is `responsive`.
    */
   searchExpandMode?: string;
   /**
-   * Indicates if the displayed filter button for this view should include the "Filter" text. If it is not set no text will display.
+   * Indicates whether to include the "Filter" text on the displayed filter button for this view.
+   * If it is not set, no text appears.
    */
   showFilterButtonText?: boolean;
   /**
-   * Indicates if the displayed sort button for this view should include the "Sort" text. If it is not set no text will display.
+   * Indicates whether to include the "Sort" text on the displayed sort button for this view.
+   * If it is not set, no text appears.
    */
   showSortButtonText?: boolean;
   /**
-   * Indicates if the sort button should be displayed in this view.
+   * Indicates whether to display the sort button in this view.
    */
   sortEnabled?: boolean;
 }

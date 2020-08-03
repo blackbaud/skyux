@@ -1,10 +1,10 @@
 export interface SkyDataManagerFilterData {
   /**
-   * Indicates if any filters are currently applied.
+   * Indicates whether any filters are applied.
    */
   filtersApplied?: boolean;
   /**
-   * The filter data used within this data manager. You may use any filter model that works best for
+   * The filter data used in the data manager. You may use any filter model that works for
    * your data set and models. See the demo for an example.
    */
   filters?: any;

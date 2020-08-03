@@ -60,7 +60,7 @@ import {
 } from '../data-manager-filter-context';
 
 /**
- * Renders a `sky-toolbar` with the contents specified via the active view's `SkyDataViewConfig`
+ * Renders a `sky-toolbar` with the contents specified by the active view's `SkyDataViewConfig`
  * and the `SkyDataManagerToolbarLeftItemsComponent`, `SkyDataManagerToolbarRightItemsComponent`,
  * and `SkyDataManagerToolbarSectionComponent` wrappers.
  */

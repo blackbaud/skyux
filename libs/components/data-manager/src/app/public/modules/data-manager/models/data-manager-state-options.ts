@@ -16,8 +16,8 @@ export interface SkyDataManagerStateOptions {
    */
   activeSortOption?: SkyDataManagerSortOption;
   /**
-   * An untyped property that can be used to keep track of any state information relevant to a data
-   * manager that is not covered by the existing properties.
+   * An untyped property that can track any state information relevant to a data
+   * manager that the existing properties do not cover.
    */
   additionalData?: any;
   /**
@@ -25,7 +25,8 @@ export interface SkyDataManagerStateOptions {
    */
   filterData?: SkyDataManagerFilterData;
   /**
-   * Indicates if only the selected rows or objects should be displayed. This is used by the multiselect toolbar.
+   * Indicates whether to display only the selected rows or objects. The multiselect toolbar
+   * uses this property.
    */
   onlyShowSelected?: boolean;
   /**

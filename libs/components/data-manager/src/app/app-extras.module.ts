@@ -20,6 +20,7 @@ import {
 } from '@skyux/docs-tools';
 
 import {
+  SkyAlertModule,
   SkyIconModule
 } from '@skyux/indicators';
 
@@ -70,6 +71,7 @@ import {
   exports: [
     AgGridModule,
     SkyAgGridModule,
+    SkyAlertModule,
     SkyAppLinkModule,
     SkyCardModule,
     SkyCheckboxModule,

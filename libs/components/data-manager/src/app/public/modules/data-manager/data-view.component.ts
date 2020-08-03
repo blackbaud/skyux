@@ -25,8 +25,8 @@ import {
 
 /**
  * A data view is rendered within a data manager component.
- * It can subscribe to data state changes via the `SkyDataManagerService` and apply the filters,
- * search text, and more to the data it is displaying.
+ * It can subscribe to data state changes from `SkyDataManagerService` and apply the filters,
+ * search text, and more to the data it displays.
  */
 @Component({
   selector: 'sky-data-view',
