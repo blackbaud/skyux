@@ -1,3 +1,7 @@
+# 4.0.2 (2020-08-03)
+
+- Fixed the grid component to emit the `selectedColumnIdsChange` event the first time columns are reordered. [#142](https://github.com/blackbaud/skyux-grids/pull/142)
+
 # 4.0.1 (2020-05-20)
 
 - Fixed the grid component to support columns with no headers. [#125](https://github.com/blackbaud/skyux-grids/pull/125)
