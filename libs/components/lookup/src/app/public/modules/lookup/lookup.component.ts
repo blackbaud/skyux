@@ -96,7 +96,7 @@ export class SkyLookupComponent
 
   @ViewChild('lookupInput', {
     read: ElementRef,
-    static: false
+    static: true
   })
   private lookupInput: ElementRef;
 
