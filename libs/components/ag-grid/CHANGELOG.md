@@ -1,3 +1,7 @@
+# 4.1.1 (2020-07-29)
+
+- Added a peer dependency on `@skyux/data-manager`. [#64](https://github.com/blackbaud/skyux-ag-grid/pull/64)
+
 # 4.1.0 (2020-07-29)
 
 - Added the `skyAgGridDataManagerAdapter` directive to handle interactions between the data entry grid component and the data manager component. [#59](https://github.com/blackbaud/skyux-ag-grid/pull/59)
