@@ -102,6 +102,7 @@ describe('SkyAgGridWrapperComponent', () => {
 
     it('should not move focus when a non-tab key is pressed', () => {
       spyOn(gridAdapterService, 'setFocusedElementById');
+      spyOn(agGrid.api, 'getEditingCells').and.returnValue([]);
 
       fireKeydownOnGrid('L', false);
 
