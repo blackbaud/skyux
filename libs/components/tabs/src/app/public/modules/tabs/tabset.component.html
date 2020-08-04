@@ -34,7 +34,7 @@
   </span>
   <span class="sky-tabset-btns">
     <button *ngIf="newTab.observers.length > 0"
-      class="sky-btn sky-btn-default sky-tabset-btn-new sky-margin-inline-compact"
+      class="sky-btn sky-btn-icon sky-tabset-btn-new sky-margin-inline-compact"
       type="button"
       [attr.aria-label]="'skyux_tab_add' | skyLibResources"
       [ngClass]="{
@@ -50,7 +50,7 @@
       </sky-icon>
     </button>
     <button *ngIf="openTab.observers.length > 0"
-      class="sky-btn sky-btn-default sky-tabset-btn-open sky-margin-inline-compact"
+      class="sky-btn sky-btn-icon sky-tabset-btn-open sky-margin-inline-compact"
       type="button"
       [attr.aria-label]="'skyux_tab_open' | skyLibResources"
       [ngClass]="{

@@ -52,5 +52,6 @@
 @include sky-theme-modern {
   .sky-tabset {
     border-bottom: 1px solid $sky-theme-modern-border-color-neutral-medium;
+    overflow: visible; /* for drop shadow visibility on focused tabs */
   }
 }
