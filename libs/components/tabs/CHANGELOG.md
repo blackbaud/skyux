@@ -1,3 +1,7 @@
+# 4.3.0 (2020-08-04)
+
+- Added modern theme styles for active, focused, and hover states to the tabset component. [#122](https://github.com/blackbaud/skyux-tabs/pull/122)
+
 # 4.2.1 (2020-07-31)
 
 - Fixed the tabset component to properly handle two-way binding with the `active` input. [#121](https://github.com/blackbaud/skyux-tabs/pull/121)
