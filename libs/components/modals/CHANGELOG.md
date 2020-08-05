@@ -1,3 +1,12 @@
+# 4.5.0 (2020-08-05)
+
+- Added a test fixture for the modal component to use in consumer unit tests. [#116](https://github.com/blackbaud/skyux-modals/pull/116)
+  ```
+  import { SkyModalFixture } from '@skyux/modals/testing';
+
+  const modal = new SkyModalFixture(fixture, 'my-test-id');
+  ```
+
 # 4.4.0 (2020-07-28)
 
 - Updated the modal component to make `SkyThemeService` an optional dependency. [#120](https://github.com/blackbaud/skyux-modals/pull/120)
