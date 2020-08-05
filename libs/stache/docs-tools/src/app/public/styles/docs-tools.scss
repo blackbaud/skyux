@@ -58,4 +58,9 @@
 .sky-docs-code,
 code:not([class]) {
   @include sky-docs-tools-code();
+
+  a {
+    text-decoration: underline;
+    color: darken($sky-background-color-danger-dark, 5%);
+  }
 }

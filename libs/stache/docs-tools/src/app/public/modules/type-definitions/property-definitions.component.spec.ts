@@ -123,7 +123,7 @@ describe('Property definitions component', function () {
     );
   }));
 
-  it('should add links to types within deprecation messages', fakeAsync(() => {
+  it('should add links and code tags to types within deprecation messages', fakeAsync(() => {
     fixture.componentInstance.deprecationWarning = 'Use Foo from FooUser instead, because Foo is now supported.';
     fixture.componentInstance.propertyName = 'foobar';
     fixture.componentInstance.propertyType = 'number';
@@ -136,9 +136,9 @@ describe('Property definitions component', function () {
     );
 
     expect(descriptionElement.innerHTML).toContain([
-      'Use <a class="sky-docs-anchor-link" href="#foo">Foo</a> from',
-      '<a class="sky-docs-anchor-link" href="#foo-user">FooUser</a> instead,',
-      'because <a class="sky-docs-anchor-link" href="#foo">Foo</a> is now supported.'
+      'Use <code><a class="sky-docs-anchor-link" href="#foo">Foo</a></code> from',
+      '<code><a class="sky-docs-anchor-link" href="#foo-user">FooUser</a></code> instead,',
+      'because <code><a class="sky-docs-anchor-link" href="#foo">Foo</a></code> is now supported.'
     ].join(' '));
   }));
 

@@ -4,8 +4,16 @@ import {
 } from '@angular/core';
 
 import {
+  SkyDocsAnchorLinkConfig
+} from './anchor-link-service-config';
+
+import {
   SkyDocsAnchorLinkService
 } from './anchor-link.service';
+
+import {
+  SkyDocsAnchorLinkServiceFormatType
+} from './anchor-link-service-format';
 
 @Pipe({
   name: 'skyDocsTypeAnchorLinks',
@@ -17,8 +25,14 @@ export class SkyDocsTypeAnchorLinksPipe implements PipeTransform {
     private anchorLinkService: SkyDocsAnchorLinkService
   ) { }
 
-  public transform(value: string): string {
-    return this.anchorLinkService.applyTypeAnchorLinks(value);
+  public transform(
+    value: string,
+    formatType?: SkyDocsAnchorLinkServiceFormatType
+  ): string {
+    const anchorLinkConfig: SkyDocsAnchorLinkConfig = {
+      applyCodeFormatting: (formatType !== 'no-code-tags')
+    };
+    return this.anchorLinkService.applyTypeAnchorLinks(value, anchorLinkConfig);
   }
 
 }

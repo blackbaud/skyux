@@ -92,7 +92,7 @@
   <p *ngIf="property.isOptional"
     class="sky-docs-property-definition-label sky-docs-property-definition-label-optional"
   >Optional. <ng-container *ngIf="property.defaultValue">Default is <sky-code><span
-    [innerHtml]="property.defaultValue | skyDocsTypeAnchorLinks"
+    [innerHtml]="property.defaultValue | skyDocsTypeAnchorLinks:'no-code-tags'"
   ></span></sky-code>.</ng-container>
   </p>
 </ng-template>

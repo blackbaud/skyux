@@ -25,7 +25,7 @@
           <ng-container *ngIf="parameter.defaultValue">
             Default is
             <sky-code><span
-              [innerHtml]="parameter.defaultValue | skyDocsTypeAnchorLinks"
+              [innerHtml]="parameter.defaultValue | skyDocsTypeAnchorLinks:'no-code-tags'"
             ></span></sky-code>.
           </ng-container>
         </div>
