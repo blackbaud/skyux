@@ -1,3 +1,7 @@
+# 4.2.1 (2020-08-05)
+
+- Fixed the anchor link service to properly format known type names when they immedately precede a property. [#86](https://github.com/blackbaud/skyux-docs-tools/pull/86)
+
 # 4.2.0 (2020-07-21)
 
 - Added the ability to hide restricted items in the sidebar navigation. [#79](https://github.com/blackbaud/skyux-docs-tools/pull/79)
