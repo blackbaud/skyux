@@ -1,3 +1,7 @@
+# 4.0.1 (2020-08-05)
+
+- Added support for `@skyux/theme@4.8.0` and `@skyux-sdk/builder@4.3.0`. [#24](https://github.com/blackbaud/skyux-angular-tree-component/pull/24)
+
 # 4.0.0 (2020-05-22)
 
 ### New features
