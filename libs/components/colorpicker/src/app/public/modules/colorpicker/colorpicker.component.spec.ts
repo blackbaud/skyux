@@ -68,6 +68,8 @@ describe('Colorpicker Component', () => {
     tick();
     fixture.detectChanges();
     tick();
+    fixture.detectChanges();
+    tick();
     verifyMenuVisibility();
   }
 
