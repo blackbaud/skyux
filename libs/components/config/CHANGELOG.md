@@ -1,3 +1,7 @@
+# 4.0.2 (2020-08-05)
+
+- Added support for `@skyux/theme@4.8.0` and `@skyux-sdk/builder@4.3.0`. [#66](https://github.com/blackbaud/skyux-config/pull/66)
+
 # 4.0.1 (2020-07-08)
 
 - Moved `theming` to the `app` section in `skyuxconfig-schema.json` to match the corresponding TypeScript declarations. [#58](https://github.com/blackbaud/skyux-config/pull/58)
