@@ -1,3 +1,7 @@
+# 4.0.4 (2020-08-05)
+
+- Fixed the colorpicker component to position its overlay after the contents fully render. [#62](https://github.com/blackbaud/skyux-colorpicker/pull/62)
+
 # 4.0.3 (2020-06-29)
 
 - Fixed the selected color indicator on the colorpicker component to enhance alpha channel visibility. [#52](https://github.com/blackbaud/skyux-colorpicker/pull/52) (Thanks [@blackbaud-conorwright](https://github.com/blackbaud-conorwright)!)
