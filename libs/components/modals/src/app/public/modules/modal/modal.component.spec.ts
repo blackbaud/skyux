@@ -139,6 +139,9 @@ describe('Modal component', () => {
   });
 
   afterEach(fakeAsync(() => {
+    // NOTE: This is important as it ensures that the modal host component is fully disposed of
+    // between tests. This is important as the modal host might need a different set of component
+    // injectors than the previous test.
     getModalService().dispose();
 
     // Clean up any modals that did not close due to a test failure so subsequent tests
@@ -545,7 +548,7 @@ describe('Modal component', () => {
 
   it('should be a full screen modal and scale when window resizes', fakeAsync(() => {
 
-    let modalInstance = openModal(ModalTestComponent, {'fullPage': true});
+    let modalInstance = openModal(ModalTestComponent, { 'fullPage': true });
     let modalEl = document.querySelector('.sky-modal-full-page');
     let height = parseInt(getComputedStyle(modalEl).height, 10);
     // innerHeight -2 is for IE Box Model Fix
@@ -561,7 +564,7 @@ describe('Modal component', () => {
   }));
 
   it('should not contain small,medium, or large classes in full size mode', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent, {'fullPage': true});
+    let modalInstance = openModal(ModalTestComponent, { 'fullPage': true });
 
     expect(document.querySelector('.sky-modal-small')).not.toExist();
     expect(document.querySelector('.sky-modal-medium')).not.toExist();
@@ -571,7 +574,7 @@ describe('Modal component', () => {
   }));
 
   it('should account for margins when setting full-page modal height', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent, {'fullPage': true});
+    let modalInstance = openModal(ModalTestComponent, { 'fullPage': true });
     let modalEl = document.querySelector('.sky-modal-full-page') as HTMLElement;
 
     modalEl.style.marginBottom = '20px';
@@ -589,7 +592,7 @@ describe('Modal component', () => {
   }));
 
   it('should default to medium size', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent, {'fullPage': false});
+    let modalInstance = openModal(ModalTestComponent, { 'fullPage': false });
 
     expect(document.querySelector('.sky-modal-small')).not.toExist();
     expect(document.querySelector('.sky-modal-medium')).toExist();
@@ -599,7 +602,7 @@ describe('Modal component', () => {
   }));
 
   it('should respect medium config setting size', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent, {'fullPage': false, 'size': 'medium'});
+    let modalInstance = openModal(ModalTestComponent, { 'fullPage': false, 'size': 'medium' });
 
     expect(document.querySelector('.sky-modal-small')).not.toExist();
     expect(document.querySelector('.sky-modal-medium')).toExist();
@@ -609,7 +612,7 @@ describe('Modal component', () => {
   }));
 
   it('should respect small config setting size', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent, {'fullPage': false, 'size': 'small'});
+    let modalInstance = openModal(ModalTestComponent, { 'fullPage': false, 'size': 'small' });
 
     expect(document.querySelector('.sky-modal-small')).toExist();
     expect(document.querySelector('.sky-modal-medium')).not.toExist();
@@ -619,7 +622,7 @@ describe('Modal component', () => {
   }));
 
   it('should respect large config setting size', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent, {'fullPage': false, 'size': 'large'});
+    let modalInstance = openModal(ModalTestComponent, { 'fullPage': false, 'size': 'large' });
 
     expect(document.querySelector('.sky-modal-small')).not.toExist();
     expect(document.querySelector('.sky-modal-medium')).not.toExist();
@@ -642,25 +645,25 @@ describe('Modal component', () => {
   }));
 
   it('should accept configuration options for role, aria-labelledBy, and aria-describedby',
-  fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent, {
-      'ariaLabelledBy': 'customlabelledby',
-      'ariaDescribedBy': 'customdescribedby',
-      'ariaRole': 'alertdialog'
-    });
+    fakeAsync(() => {
+      let modalInstance = openModal(ModalTestComponent, {
+        'ariaLabelledBy': 'customlabelledby',
+        'ariaDescribedBy': 'customdescribedby',
+        'ariaRole': 'alertdialog'
+      });
 
-    expect(document.querySelector('.sky-modal-dialog').getAttribute('role')).toBe('alertdialog');
-    expect(document.querySelector('.sky-modal-dialog').getAttribute('aria-labelledby'))
-      .toBe('customlabelledby');
-    expect(document.querySelector('.sky-modal-dialog').getAttribute('aria-describedby'))
-      .toBe('customdescribedby');
+      expect(document.querySelector('.sky-modal-dialog').getAttribute('role')).toBe('alertdialog');
+      expect(document.querySelector('.sky-modal-dialog').getAttribute('aria-labelledby'))
+        .toBe('customlabelledby');
+      expect(document.querySelector('.sky-modal-dialog').getAttribute('aria-describedby'))
+        .toBe('customdescribedby');
 
-    closeModal(modalInstance);
+      closeModal(modalInstance);
 
-  }));
+    }));
 
   it('should default to tiled modal false', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent, {'tiledBody': false});
+    let modalInstance = openModal(ModalTestComponent, { 'tiledBody': false });
 
     expect(document.querySelector('.sky-modal-tiled')).not.toExist();
 

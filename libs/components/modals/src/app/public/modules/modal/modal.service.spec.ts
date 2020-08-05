@@ -84,11 +84,17 @@ describe('Modal service', () => {
         _applicationRef: ApplicationRef
       ) => {
         modalService = _modalService;
-        modalService.dispose();
         applicationRef = _applicationRef;
       }
     )
   );
+
+  afterEach(() => {
+    // NOTE: This is important as it ensures that the modal host component is fully disposed of
+    // between tests. This is important as the modal host might need a different set of component
+    // injectors than the previous test.
+    modalService.dispose();
+  });
 
   it('should show a modal and return an instance that can then be closed', fakeAsync(() => {
     let modalInstance = openModal(ModalTestComponent);
