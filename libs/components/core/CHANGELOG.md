@@ -1,3 +1,7 @@
+# 4.1.1 (2020-08-06)
+
+- Added support for `@skyux/theme@4.8.0` and `@skyux-sdk/builder@4.3.0`. [#189](https://github.com/blackbaud/skyux-core/pull/189)
+
 # 4.1.0 (2020-05-14)
 
 - Added the `locale` propertly to the `SkyNumericPipe` to support different locales [#167](https://github.com/blackbaud/skyux-core/pull/167)
