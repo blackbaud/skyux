@@ -3,6 +3,7 @@ export * from './modules/column-selector/column-selector-modal.module';
 
 export * from './modules/list-column-selector-action/list-column-selector-action.module';
 
+export * from './modules/list-view-grid/list-view-grid.component';
 export * from './modules/list-view-grid/list-view-grid.module';
 
 export * from './modules/list-view-grid/state/grid-state-action.type';
