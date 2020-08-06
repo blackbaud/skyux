@@ -1,3 +1,8 @@
+# 4.0.1 (2020-08-06)
+
+- Added `SkyListViewGridComponent` to the exports API. [#86](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/86)
+- Added support for `@skyux/theme@4.8.0` and `@skyux-sdk/builder@4.3.0`. [#86](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/86)
+
 # 4.0.0 (2020-05-15)
 
 ### New features
