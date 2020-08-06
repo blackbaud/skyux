@@ -1,3 +1,6 @@
+export * from './modules/autofill/autofill.directive';
+export * from './modules/autofill/autofill.module';
+
 export * from './modules/character-counter/character-counter.module';
 
 export * from './modules/checkbox/checkbox-change';

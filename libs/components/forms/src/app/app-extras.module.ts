@@ -24,6 +24,7 @@ import {
 } from '@skyux/router';
 
 import {
+  SkyAutofillModule,
   SkyCheckboxModule,
   SkyFileAttachmentsModule,
   SkyInputBoxModule,
@@ -35,6 +36,7 @@ import {
 @NgModule({
   exports: [
     SkyAppLinkModule,
+    SkyAutofillModule,
     SkyCodeModule,
     SkyCheckboxModule,
     SkyDocsToolsModule,

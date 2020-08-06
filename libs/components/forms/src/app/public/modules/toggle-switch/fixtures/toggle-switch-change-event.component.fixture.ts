@@ -4,7 +4,7 @@ import {
 
 import {
   SkyToggleSwitchChange
-} from '../types';
+} from '../types/toggle-switch-change';
 
 @Component({
   templateUrl: './toggle-switch-change-event.component.fixture.html'

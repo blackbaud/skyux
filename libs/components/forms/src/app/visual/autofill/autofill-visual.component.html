@@ -1,0 +1,145 @@
+<div
+  class="sky-padding-even-default"
+>
+
+  <h3>Autofill directive</h3>
+  <p>Note: your browser's autofill must be enabled with form data saved to see the directive in action.</p>
+
+  <div
+    class="sky-margin-stacked-default"
+  >
+    <p>Autofill is currently: <b>{{ autofill }}</b></p>
+    <button
+      class="sky-btn sky-btn-default"
+      type="button"
+      (click)="onToggleAutofillClick()"
+    >
+      Toggle autofill
+    </button>
+  </div>
+
+  <form
+    action="https://example.com/"
+    name="addressForm"
+    method="post"
+  >
+    <div
+      class="sky-margin-stacked-default"
+      style="width:300px;"
+    >
+      <label
+        class="sky-control-label"
+        for="name"
+      >
+        Name
+      </label>
+      <input
+        class="sky-form-control"
+        id="name"
+        name="name"
+        type="text"
+        [skyAutofill]="autofill"
+      >
+
+      <label
+        class="sky-control-label"
+        for="address"
+      >
+        Address
+      </label>
+      <input
+        class="sky-form-control"
+        id="address"
+        name="address"
+        type="text"
+        [skyAutofill]="autofill"
+      >
+
+      <label
+        class="sky-control-label"
+        for="city"
+      >
+        City
+      </label>
+      <input
+        class="sky-form-control"
+        id="city"
+        name="city"
+        type="text"
+        [skyAutofill]="autofill"
+      >
+
+      <label
+        class="sky-control-label"
+        for="state"
+      >
+        State
+      </label>
+      <select
+        class="sky-form-control"
+        id="state"
+        name="state"
+      >
+        <option value="CA">CA</option>
+        <option value="DC">DC</option>
+        <option value="IL">IL</option>
+        <option value="IN">IN</option>
+        <option value="MA">MA</option>
+        <option value="MD">MD</option>
+        <option value="NY">NY</option>
+        <option value="OH">OH</option>
+        <option value="OR">OR</option>
+        <option value="SC">SC</option>
+      </select>
+
+      <label
+        class="sky-control-label"
+        for="zip"
+      >
+        Zip
+      </label>
+      <input
+        class="sky-form-control"
+        id="zip"
+        name="zip"
+        type="text"
+        [skyAutofill]="autofill"
+      >
+
+      <label
+        class="sky-control-label"
+        for="email"
+      >
+        Email
+      </label>
+      <input
+        class="sky-form-control"
+        id="email"
+        name="email"
+        type="text"
+        [skyAutofill]="autofill"
+      >
+
+      <label
+        class="sky-control-label"
+        for="phone"
+      >
+        Phone
+      </label>
+      <input
+        class="sky-form-control"
+        id="phone"
+        name="phone"
+        type="text"
+        [skyAutofill]="autofill"
+      >
+    </div>
+    <button
+      class="sky-btn sky-btn-primary"
+      type="submit"
+    >
+      Submit
+    </button>
+  </form>
+
+</div>

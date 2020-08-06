@@ -1,11 +1,12 @@
-<sky-docs-demo-control-panel-theme
-  (themeSettingsChange)="themeSettingsChange($event)"
-></sky-docs-demo-control-panel-theme>
 
 <div
-  class="input-box-visual"
+  class="input-box-visual sky-padding-even-large"
   id="screenshot-input-box"
 >
+
+  <sky-docs-demo-control-panel-theme
+  (themeSettingsChange)="themeSettingsChange($event)"
+  ></sky-docs-demo-control-panel-theme>
 
   <sky-fluid-grid
     [gutterSize]="gutterSize"
