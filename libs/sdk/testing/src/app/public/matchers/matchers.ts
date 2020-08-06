@@ -39,7 +39,7 @@ const matchers: jasmine.CustomMatcherFactories = {
         // A side effect of this technique is the matcher cannot be
         // paired with a `.not.toBeAccessible` operator (since the returned
         // result is always `true`). For this particular matcher,
-        // checking if an element is not accessibile may be irrelevent.
+        // checking if an element is not accessible may be irrelevant.
         return {
           message: '',
           pass: true
@@ -185,7 +185,7 @@ const matchers: jasmine.CustomMatcherFactories = {
         callback: () => void = () => {}
       ): jasmine.CustomMatcherResult {
 
-        let skyAppResourcesService: SkyAppResourcesService = TestBed.get(SkyAppResourcesService);
+        let skyAppResourcesService = TestBed.inject(SkyAppResourcesService);
         skyAppResourcesService.getString(name, args).toPromise().then(message => {
           if (actual !== message) {
             windowRef.fail(`Expected "${actual}" to equal "${message}"`);
@@ -223,7 +223,7 @@ const matchers: jasmine.CustomMatcherFactories = {
           actual = actual.trim();
         }
 
-        let skyAppResourcesService: SkyAppResourcesService = TestBed.get(SkyAppResourcesService);
+        let skyAppResourcesService = TestBed.inject(SkyAppResourcesService);
         skyAppResourcesService.getString(name, args).toPromise().then(message => {
           if (actual !== message) {
             windowRef.fail(`Expected element's inner text to be "${message}"`);

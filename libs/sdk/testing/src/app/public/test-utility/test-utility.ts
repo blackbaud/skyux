@@ -58,7 +58,7 @@ export class SkyAppTestUtility {
     const nativeEl = getNativeEl(element);
 
     if (nativeEl) {
-      return getNativeEl(element).innerText.trim();
+      return nativeEl.innerText.trim();
     }
 
     return undefined;
@@ -71,7 +71,7 @@ export class SkyAppTestUtility {
     const nativeEl = getNativeEl(element);
 
     if (nativeEl) {
-      return getComputedStyle(getNativeEl(element)).display !== 'none';
+      return getComputedStyle(nativeEl).display !== 'none';
     }
 
     return undefined;
@@ -99,7 +99,7 @@ export class SkyAppTestUtility {
     const nativeEl = getNativeEl(el);
 
     if (nativeEl) {
-      const backgroundImageUrl = getComputedStyle(getNativeEl(el)).backgroundImage;
+      const backgroundImageUrl = getComputedStyle(nativeEl).backgroundImage;
 
       /* istanbul ignore else */
       // Browser will likely not return an empty value for the computed style,

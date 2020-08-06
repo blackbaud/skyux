@@ -20,11 +20,7 @@ import {
 
 import {
   SkyA11yAnalyzerConfig
-} from '../a11y';
-
-import {
-  SkyA11yAnalyzerConfig
-} from '../a11y';
+} from '../a11y/a11y-analyzer-config';
 
 import {
   expect
@@ -195,7 +191,7 @@ describe('Jasmine matchers', () => {
     let resourcesService: SkyAppResourcesService;
 
     beforeEach(() => {
-      resourcesService = TestBed.get(SkyAppResourcesService);
+      resourcesService = TestBed.inject(SkyAppResourcesService);
     });
 
     it('should check that the actual text matches text provided by resources', async(() => {
@@ -256,7 +252,7 @@ describe('Jasmine matchers', () => {
     let resourcesService: SkyAppResourcesService;
 
     beforeEach(() => {
-      resourcesService = TestBed.get(SkyAppResourcesService);
+      resourcesService = TestBed.inject(SkyAppResourcesService);
     });
 
     it('should check that the element\'s text matches text provided by resources', async(() => {
