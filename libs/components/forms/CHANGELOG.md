@@ -1,3 +1,7 @@
+# 4.7.0 (2020-08-06)
+
+- Added the `skyAutofill` directive. [#157](https://github.com/blackbaud/skyux-forms/pull/157)
+
 # 4.6.0 (2020-07-21)
 
 - Added `select` element support to the input box component. [#152](https://github.com/blackbaud/skyux-forms/pull/152)
