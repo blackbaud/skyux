@@ -1,3 +1,7 @@
+# 4.0.2 (2020-08-07)
+
+- Added support for `@skyux/theme@4.8.0` and `@skyux-sdk/builder@4.3.0`. [#68](https://github.com/blackbaud/skyux-tiles/pull/68)
+
 # 4.0.1 (2020-06-11)
 
 - Fixed the tile dashboard component to update tiles using `OnPush` change detection when it receives messages from the message stream. [#59](https://github.com/blackbaud/skyux-tiles/pull/59)
