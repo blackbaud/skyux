@@ -39,7 +39,7 @@ export class SkyFluidGridComponent {
   }
 
   public get gutterSize(): SkyFluidGridGutterSize {
-    return this._gutterSize || SkyFluidGridGutterSize.Large;
+    return this._gutterSize === undefined ? SkyFluidGridGutterSize.Large : this._gutterSize;
   }
 
   /**

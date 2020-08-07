@@ -1,5 +1,10 @@
-import { Component } from '@angular/core';
-import { SkyActionButtonPermalink } from '../types';
+import {
+  Component
+} from '@angular/core';
+
+import {
+  SkyActionButtonPermalink
+} from '../action-button-permalink';
 
 @Component({
   selector: 'sky-test-cmp',

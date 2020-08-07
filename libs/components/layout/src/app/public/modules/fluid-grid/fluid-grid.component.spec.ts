@@ -53,6 +53,13 @@ describe('SkyFluidGridComponent', () => {
   it('should change CSS class when gutterSize is updated', () => {
     const fluidGrid = getFluidGrid(fixture);
 
+    component.gutterSize = SkyFluidGridGutterSize.Small;
+    fixture.detectChanges();
+
+    expect(fluidGrid).toHaveCssClass('sky-fluid-grid-gutter-size-small');
+    expect(fluidGrid).not.toHaveCssClass('sky-fluid-grid-gutter-size-medium');
+    expect(fluidGrid).not.toHaveCssClass('sky-fluid-grid-gutter-size-large');
+
     component.gutterSize = SkyFluidGridGutterSize.Medium;
     fixture.detectChanges();
 
