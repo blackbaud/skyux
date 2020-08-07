@@ -1,3 +1,7 @@
+# 4.0.2 (2020-08-07)
+
+- Added support for `@skyux/theme@4.8.0` and `@skyux-sdk/builder@4.3.0`. [#58](https://github.com/blackbaud/skyux-phone-field/pull/58)
+
 # 4.0.1 (2020-06-11)
 
 - Updated the default `aria-label` property for the phone field component to improve the experience when using assistive technology [#42](https://github.com/blackbaud/skyux-phone-field/pull/42)
