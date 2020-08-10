@@ -1,3 +1,7 @@
+# 4.0.3 (2020-08-10)
+
+- Fixed the release to include `skyuxconfig-schema.json`. [#68](https://github.com/blackbaud/skyux-config/pull/68)
+
 # 4.0.2 (2020-08-05)
 
 - Added support for `@skyux/theme@4.8.0` and `@skyux-sdk/builder@4.3.0`. [#66](https://github.com/blackbaud/skyux-config/pull/66)
