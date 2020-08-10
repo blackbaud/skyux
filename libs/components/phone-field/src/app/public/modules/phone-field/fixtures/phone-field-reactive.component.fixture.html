@@ -3,6 +3,7 @@
 >
   <sky-phone-field *ngIf="showPhoneField"
     [defaultCountry]="defaultCountry"
+    [(selectedCountry)]="selectedCountry"
   >
     <input
       formControlName="phone"

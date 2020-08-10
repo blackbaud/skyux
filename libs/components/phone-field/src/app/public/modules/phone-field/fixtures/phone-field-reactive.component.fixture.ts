@@ -17,6 +17,10 @@ import {
   SkyPhoneFieldInputDirective
 } from '../phone-field-input.directive';
 
+import {
+ SkyPhoneFieldCountry
+} from '../types/country';
+
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './phone-field-reactive.component.fixture.html'
@@ -24,6 +28,8 @@ import {
 export class PhoneFieldReactiveTestComponent implements OnInit {
 
   public defaultCountry: string;
+
+  public selectedCountry: SkyPhoneFieldCountry;
 
   public initialValue: Date | string;
 
@@ -56,6 +62,10 @@ export class PhoneFieldReactiveTestComponent implements OnInit {
     this.phoneForm = new FormGroup({
       'phone': this.phoneControl
     });
+  }
+
+  public setValue(value: string) {
+    this.phoneControl.setValue(value);
   }
 
 }

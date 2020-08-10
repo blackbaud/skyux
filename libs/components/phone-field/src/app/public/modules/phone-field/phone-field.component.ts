@@ -26,7 +26,7 @@ import {
 } from '@angular/forms';
 
 import {
-  SkyAutocompleteSelectionChange
+  SkyCountryFieldCountry
 } from '@skyux/lookup';
 
 import {
@@ -111,12 +111,11 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
    */
   @Input()
   public set defaultCountry(value: string) {
-    if (value !== this._defaultCountry) {
+    if (value && value !== this._defaultCountry) {
       this._defaultCountry = value.toLowerCase();
 
       this.defaultCountryData = this.countries
         .find(country => country.iso2 === this._defaultCountry);
-      this.sortCountriesWithSelectedAndDefault(this.selectedCountry);
     }
   }
 
@@ -148,9 +147,13 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   })
   public countrySearchInput: ElementRef;
 
+  /**
+   * Specifies the currently selected country to validate against.
+   */
+  @Input()
   public set selectedCountry(newCountry: SkyPhoneFieldCountry) {
-    if (newCountry && this._selectedCountry !== newCountry) {
-      this._selectedCountry = newCountry;
+    if (newCountry && (!this._selectedCountry || this._selectedCountry.iso2 !== newCountry.iso2)) {
+      this._selectedCountry = newCountry ? this.countries.find(country => country.iso2 === newCountry.iso2) : undefined;
 
       if (!this._selectedCountry.exampleNumber) {
         const numberObj = this.phoneUtils.getExampleNumberForType(newCountry.iso2,
@@ -159,9 +162,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
           PhoneNumberFormat.NATIONAL);
       }
 
-      this.sortCountriesWithSelectedAndDefault(newCountry);
-
-      this.selectedCountryChange.emit(newCountry);
+      this.selectedCountryChange.emit(this._selectedCountry);
     }
   }
 
@@ -203,8 +204,6 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
         this.longestDialCodeLength = country.dialCode.length;
       }
     }
-    this.defaultCountryData = this.countries.find(country => country.iso2 === 'us');
-    this.selectedCountry = this.defaultCountryData;
 
     this.countrySearchForm = this.formBuilder.group({
       countrySearch: new FormControl()
@@ -212,14 +211,22 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   }
 
   public ngOnInit(): void {
-    if (!this.defaultCountry) {
-      this.defaultCountry = 'us';
-    } else {
-      this.selectedCountry = this.defaultCountryData;
-    }
 
-    this.countrySearchForm.get('countrySearch').valueChanges.subscribe(newValue => {
-      if (newValue) {
+    // The timeout here is needed to avoid a change before checked error when a user specifies
+    // a selected country on intialization of the component.
+    setTimeout(() => {
+      if (!this.defaultCountry) {
+        this.defaultCountry = 'us';
+      }
+
+      if (!this.selectedCountry) {
+        this.selectedCountry = this.defaultCountryData;
+      }
+      this.changeDetector.markForCheck();
+    }, 0);
+
+    this.countrySearchForm.get('countrySearch').valueChanges.subscribe((newValue: SkyCountryFieldCountry) => {
+      if (newValue && newValue.iso2 !== this.selectedCountry.iso2) {
         this.selectedCountry = newValue;
       }
     });
@@ -233,11 +240,12 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
    * Sets the country to validate against based on the county's iso2 code.
    * @param countryCode The International Organization for Standardization's two-letter code
    * for the default country.
+   * @internal
    */
-  public onCountrySelected(newCountry: SkyAutocompleteSelectionChange): void {
-    if (newCountry.selectedItem) {
+  public onCountrySelected(newCountry: SkyCountryFieldCountry): void {
+    if (newCountry) {
       this.selectedCountry = this.countries.find(countryInfo => countryInfo.iso2 ===
-        newCountry.selectedItem.iso2);
+        newCountry.iso2);
       this.toggleCountrySearch(false);
     }
   }
@@ -260,7 +268,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     if (!this.countrySearchShown) {
       this.phoneInputShown = true;
     } else {
-      this.adapterService.focusElement(this.countrySearchInput);
+      this.adapterService.focusCountrySearchElement(this.countrySearchInput);
     }
 
     this.changeDetector.markForCheck();
@@ -304,22 +312,6 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     }
 
     return false;
-  }
-
-  private sortCountriesWithSelectedAndDefault(selectedCountry: SkyPhoneFieldCountry): void {
-    this.countries.splice(this.countries.indexOf(selectedCountry), 1);
-
-    let sortedNewCountries = this.countries
-      .sort((a, b) => {
-        if ((a === this.defaultCountryData || a.name < b.name) && b !== this.defaultCountryData) {
-          return -1;
-        } else {
-          return 1;
-        }
-      });
-
-    sortedNewCountries.splice(0, 0, selectedCountry);
-    this.countries = sortedNewCountries;
   }
 
 }

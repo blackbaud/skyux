@@ -24,7 +24,7 @@ import {
 } from '@skyux/i18n';
 
 import {
-  SkyAutocompleteModule
+  SkyCountryFieldModule
 } from '@skyux/lookup';
 
 import {
@@ -52,7 +52,7 @@ import {
     SkyI18nModule,
     SkyPhoneFieldResourcesModule,
     SkyIconModule,
-    SkyAutocompleteModule
+    SkyCountryFieldModule
   ],
   exports: [
     SkyPhoneFieldComponent,

@@ -9,13 +9,13 @@
       aria-live="polite"
       class="sky-btn sky-btn-default"
       type="button"
-      [attr.title]="('skyux_phone_field_country_select_label' | skyLibResources) + ' ' + ('skyux_phone_field_country_selected_label' | skyLibResources:selectedCountry.name)"
-      [attr.aria-label]="('skyux_phone_field_country_select_label' | skyLibResources) + ' ' + ('skyux_phone_field_country_selected_label' | skyLibResources:selectedCountry.name)"
+      [attr.title]="('skyux_phone_field_country_select_label' | skyLibResources) + ' ' + ('skyux_phone_field_country_selected_label' | skyLibResources:selectedCountry?.name)"
+      [attr.aria-label]="('skyux_phone_field_country_select_label' | skyLibResources) + ' ' + ('skyux_phone_field_country_selected_label' | skyLibResources:selectedCountry?.name)"
       [disabled]="countrySelectDisabled"
       (click)="toggleCountrySearch(true)"
     >
       <div
-        [className]="'sky-phone-field-flag iti-flag ' + selectedCountry.iso2"
+        [className]="'sky-phone-field-flag iti-flag ' + selectedCountry?.iso2"
       >
       </div>
     </button>
@@ -39,23 +39,13 @@
         class="sky-phone-field-country-search"
         [formGroup]="countrySearchForm"
       >
-        <sky-autocomplete
-          [data]="countries"
-          [propertiesToSearch]="['name', 'iso2', 'dialCode']"
-          [searchResultTemplate]="countrySearchResultTemplate"
-          [searchTextMinimumCharacters]="2"
-          (selectionChange)="onCountrySelected($event)"
+        <sky-country-field
+          formControlName="countrySearch"
+          [defaultCountry]="defaultCountry"
+          (selectedCountryChange)="onCountrySelected($event)"
+          #countrySearchInput
         >
-          <input
-            skyAutocomplete
-            formControlName="countrySearch"
-            name="selectedCountry"
-            type="text"
-            [attr.aria-label]="'skyux_phone_field_country_search_label' | skyLibResources"
-            [placeholder]="'skyux_phone_field_country_search_placeholder' | skyLibResources"
-            #countrySearchInput
-          >
-        </sky-autocomplete>
+        </sky-country-field>
       </div>
       <div
         class="sky-search-item-dismiss"
