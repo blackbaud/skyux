@@ -1,3 +1,7 @@
+# 4.0.1 (2020-08-10)
+
+Added support for `prismjs^1.21.0`. [#45](https://github.com/blackbaud/skyux-lib-code-block/pull/45)
+
 # 4.0.0 (2020-05-22)
 
 ### New features
