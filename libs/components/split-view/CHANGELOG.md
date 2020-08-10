@@ -1,3 +1,7 @@
+# 4.0.1 (2020-08-10)
+
+- Added support for `@skyux/theme@4.8.0` and `@skyux-sdk/builder@4.3.0`. [#32](https://github.com/blackbaud/skyux-split-view/pull/32)
+
 # 4.0.0 (2020-05-21)
 
 ### New features
