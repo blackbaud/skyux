@@ -1,3 +1,7 @@
+# 4.0.3 (2020-08-11)
+
+- Fixed the grid component to prevent columns from hiding header text at small column widths. [#147](https://github.com/blackbaud/skyux-grids/pull/147)
+
 # 4.0.2 (2020-08-03)
 
 - Fixed the grid component to emit the `selectedColumnIdsChange` event the first time columns are reordered. [#142](https://github.com/blackbaud/skyux-grids/pull/142)
