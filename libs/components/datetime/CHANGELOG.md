@@ -1,3 +1,7 @@
+# 4.2.1 (2020-08-12)
+
+- Fixed the date range component to allow the component to be disabled when initialized. [#207](https://github.com/blackbaud/skyux-datetime/pull/207) (Thanks [@d4nleonard](https://github.com/d4nleonard)!)
+
 # 4.2.0 (2020-08-12)
 
 - Added the `SkyDatepickerConfigService` to the public exports. [#205](https://github.com/blackbaud/skyux-datetime/pull/205)
