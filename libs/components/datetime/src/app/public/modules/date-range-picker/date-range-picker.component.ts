@@ -505,12 +505,17 @@ export class SkyDateRangePickerComponent
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((value) => {
         const id = parseInt(value, 10);
-        const calculator = this.getCalculatorById(id);
-        const newValue = calculator.getValue();
+        // if the component is disabled during form creation, null is passed
+        // as the value of the calculator id control
+        // only handle the value changes if the calculator id is a number
+        if (!isNaN(id)) {
+          const calculator = this.getCalculatorById(id);
+          const newValue = calculator.getValue();
 
-        this.setValue(newValue);
-        this.resetFormGroupValue(newValue);
-        this.showRelevantFormFields();
+          this.setValue(newValue);
+          this.resetFormGroupValue(newValue);
+          this.showRelevantFormFields();
+        }
       });
 
     // Watch for start date value changes.
@@ -557,9 +562,9 @@ export class SkyDateRangePickerComponent
   }
 
   /* istanbul ignore next */
-  private onChange = (_: SkyDateRangeCalculation) => {};
+  private onChange = (_: SkyDateRangeCalculation) => { };
   /* istanbul ignore next */
-  private onTouched = () => {};
+  private onTouched = () => { };
   /* istanbul ignore next */
-  private onValidatorChange = () => {};
+  private onValidatorChange = () => { };
 }
