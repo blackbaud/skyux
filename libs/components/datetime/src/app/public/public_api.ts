@@ -10,6 +10,7 @@ export * from './modules/date-range-picker/types/date-range-calculator-type';
 export * from './modules/date-range-picker/date-range-picker.module';
 export * from './modules/date-range-picker/date-range.service';
 
+export * from './modules/datepicker/datepicker-config.service';
 export * from './modules/datepicker/datepicker.module';
 export * from './modules/datepicker/fuzzy-date';
 export * from './modules/datepicker/fuzzy-date.service';
