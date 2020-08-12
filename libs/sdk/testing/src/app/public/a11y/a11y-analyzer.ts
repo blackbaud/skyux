@@ -46,6 +46,12 @@ export abstract class SkyA11yAnalyzer {
       defaults.rules[rule.ruleId] = { enabled: true };
     });
 
+    // Disable autocomplete-valid
+    // Chrome browsers ignore autocomplete="off", which forces us to use non-standard values
+    // to disable the browser's native autofill.
+    // https://bugs.chromium.org/p/chromium/issues/detail?id=468153#c164
+    defaults.rules['autocomplete-valid'] = { enabled: false };
+
     return new Promise((resolve, reject) => {
 
       const callback: axe.RunCallback = (error, results) => {
