@@ -1307,5 +1307,30 @@ describe('Tabset component', () => {
 
       validateTabSelected(fixture.nativeElement, 0);
     }));
+
+    it('should handle URLs with query params', fakeAsync(() => {
+      fixture.componentInstance.activeIndex = 0;
+      fixture.componentInstance.permalinkId = 'foobar';
+      spyOn(location, 'path').and.returnValue(';foobar-active-tab=design-guidelines?bar=baz');
+
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      // Confirm the correct tab is selected.
+      validateTabSelected(fixture.nativeElement, 1);
+
+      const buttonElement = fixture.nativeElement.querySelectorAll('.sky-btn-tab')[1];
+      buttonElement.click();
+
+      fixture.detectChanges();
+      tick();
+
+      expect(createUrlTreeSpy.calls.argsFor(0)[1].preserveQueryParams).toEqual(
+        true,
+        'The router was not called with `preserveQueryParams: true`!'
+      );
+    }));
   });
 });
