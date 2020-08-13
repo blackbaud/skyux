@@ -1,0 +1,56 @@
+<h2>ID</h2>
+
+<ng-container *ngFor="let i of [1, 2, 3]">
+  <div
+    class="sky-form-group"
+  >
+    <label
+      class="sky-control-label"
+      [for]="input.id"
+    >
+      Input label
+    </label>
+    <input
+      class="sky-form-control"
+      type="text"
+      skyId
+      #input="skyId"
+    >
+  </div>
+</ng-container>
+
+<div
+  class="sky-form-group"
+>
+  <label
+    class="sky-control-label"
+    [for]="input2.id"
+  >
+    Input label
+  </label>
+  <select
+    class="sky-form-control"
+    type="text"
+    skyId
+    #input2="skyId"
+  >
+    <option>Value</option>
+  </select>
+</div>
+
+<div
+  class="sky-form-group"
+>
+  <label
+    class="sky-control-label"
+    [for]="input3.id"
+  >
+    Input label
+  </label>
+  <input
+    class="sky-form-control"
+    type="text"
+    skyId
+    #input3="skyId"
+  >
+</div>

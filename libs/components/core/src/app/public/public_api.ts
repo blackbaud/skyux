@@ -27,6 +27,8 @@ export * from './modules/dynamic-component/dynamic-component.service';
 
 export * from './modules/format/app-format';
 
+export * from './modules/id/id.module';
+
 export * from './modules/log/log.module';
 export * from './modules/log/log.service';
 
