@@ -3,6 +3,11 @@ import {
 } from '@angular/core';
 
 import {
+  SkyDocsToolsModule,
+  SkyDocsToolsOptions
+} from '@skyux/docs-tools';
+
+import {
   SkyPageModule
 } from '@skyux/layout';
 
@@ -17,8 +22,18 @@ import {
 @NgModule({
   exports: [
     SkyAppLinkModule,
+    SkyDocsToolsModule,
     SkyErrorModule,
     SkyPageModule
+  ],
+  providers: [
+    {
+      provide: SkyDocsToolsOptions,
+      useValue: {
+        gitRepoUrl: 'https://github.com/blackbaud/skyux-errors',
+        packageName: '@skyux/errors'
+      }
+    }
   ]
 })
 export class AppExtrasModule { }
