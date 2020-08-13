@@ -1,3 +1,7 @@
+# 4.3.1 (2020-08-13)
+
+- Fixed the tabset component to preserve URL query params when using `permalinkId`. [#126](https://github.com/blackbaud/skyux-tabs/pull/126)
+
 # 4.3.0 (2020-08-04)
 
 - Added modern theme styles for active, focused, and hover states to the tabset component. [#122](https://github.com/blackbaud/skyux-tabs/pull/122)
