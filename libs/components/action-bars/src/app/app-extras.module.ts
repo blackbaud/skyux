@@ -7,6 +7,11 @@ import {
 } from '@angular/platform-browser/animations';
 
 import {
+  SkyDocsToolsModule,
+  SkyDocsToolsOptions
+} from '@skyux/docs-tools';
+
+import {
   SkyKeyInfoModule
 } from '@skyux/indicators';
 
@@ -39,6 +44,7 @@ import {
   exports: [
     SkyAppLinkModule,
     SkyConfirmModule,
+    SkyDocsToolsModule,
     SkyKeyInfoModule,
     SkyModalModule,
     SkySummaryActionBarModule,
@@ -46,7 +52,15 @@ import {
     SkySplitViewModule,
     NoopAnimationsModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: SkyDocsToolsOptions,
+      useValue: {
+        gitRepoUrl: 'https://github.com/blackbaud/skyux-action-bars',
+        packageName: '@skyux/action-bars'
+      }
+    }
+  ],
   entryComponents: [
     SkySummaryActionBarModalDemoComponent
   ]
