@@ -1,3 +1,7 @@
+# 4.2.0 (2020-08-13)
+
+- Added the `skyId` directive for assigning a unique ID to an element. [#190](https://github.com/blackbaud/skyux-core/pull/190)
+
 # 4.1.1 (2020-08-06)
 
 - Added support for `@skyux/theme@4.8.0` and `@skyux-sdk/builder@4.3.0`. [#189](https://github.com/blackbaud/skyux-core/pull/189)
