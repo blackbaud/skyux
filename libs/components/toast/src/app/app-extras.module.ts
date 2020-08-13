@@ -3,8 +3,9 @@ import {
 } from '@angular/core';
 
 import {
-  NoopAnimationsModule
-} from '@angular/platform-browser/animations';
+  SkyDocsToolsModule,
+  SkyDocsToolsOptions
+} from '@skyux/docs-tools';
 
 import {
   SkyAppLinkModule
@@ -19,16 +20,22 @@ import {
 } from './visual/toast/toast-demo.component';
 
 @NgModule({
-  imports: [
-    SkyToastModule,
-    NoopAnimationsModule
-  ],
   exports: [
     SkyAppLinkModule,
+    SkyDocsToolsModule,
     SkyToastModule
   ],
   entryComponents: [
     ToastDemoComponent
+  ],
+  providers: [
+    {
+      provide: SkyDocsToolsOptions,
+      useValue: {
+        gitRepoUrl: 'https://github.com/blackbaud/skyux-toast',
+        packageName: '@skyux/toast'
+      }
+    }
   ]
 })
 export class AppExtrasModule { }
