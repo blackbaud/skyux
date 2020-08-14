@@ -3,6 +3,11 @@ import {
 } from '@angular/core';
 
 import {
+  SkyDocsToolsModule,
+  SkyDocsToolsOptions
+} from '@skyux/docs-tools';
+
+import {
   SkyAppLinkModule
 } from '@skyux/router';
 
@@ -18,9 +23,19 @@ import {
 @NgModule({
   exports: [
     SkyAppLinkModule,
+    SkyDocsToolsModule,
     SkyListModule,
     SkyListViewChecklistModule,
     SkyListToolbarModule
+  ],
+  providers: [
+    {
+      provide: SkyDocsToolsOptions,
+      useValue: {
+        gitRepoUrl: 'https://github.com/blackbaud/skyux-list-builder-view-checklist',
+        packageName: '@skyux/list-builder-view-checklist'
+      }
+    }
   ]
 })
 export class AppExtrasModule { }
