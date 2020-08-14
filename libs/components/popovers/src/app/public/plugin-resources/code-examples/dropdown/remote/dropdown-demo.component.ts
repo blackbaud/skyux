@@ -57,9 +57,11 @@ export class DropdownDemoComponent {
     this.sendMessage(SkyDropdownMessageType.FocusPreviousItem);
   }
 
-  public changeItems(): void {
-    this.items.pop();
-    this.changeDetector.detectChanges();
+  public removeItem(): void {
+    if (this.items.length > 1) {
+      this.items.pop();
+      this.changeDetector.detectChanges();
+    }
   }
 
   public onMenuChanges(change: SkyDropdownMenuChange): void {
