@@ -3,6 +3,11 @@ import {
 } from '@angular/core';
 
 import {
+  SkyDocsToolsModule,
+  SkyDocsToolsOptions
+} from '@skyux/docs-tools';
+
+import {
   SkyDropdownModule
 } from '@skyux/popovers';
 
@@ -30,8 +35,18 @@ const treeModuleForRoot = TreeModule.forRoot();
   exports: [
     SkyAngularTreeModule,
     SkyAppLinkModule,
+    SkyDocsToolsModule,
     SkyDropdownModule,
     TreeModule
+  ],
+  providers: [
+    {
+      provide: SkyDocsToolsOptions,
+      useValue: {
+        gitRepoUrl: 'https://github.com/blackbaud/skyux-angular-tree-component',
+        packageName: '@skyux/angular-tree-component'
+      }
+    }
   ]
 })
 export class AppExtrasModule { }
