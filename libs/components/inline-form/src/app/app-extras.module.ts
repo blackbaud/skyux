@@ -3,6 +3,11 @@ import {
 } from '@angular/core';
 
 import {
+  SkyDocsToolsModule,
+  SkyDocsToolsOptions
+} from '@skyux/docs-tools';
+
+import {
   SkyIconModule
 } from '@skyux/indicators';
 
@@ -25,12 +30,22 @@ import {
 @NgModule({
   exports: [
     SkyAppLinkModule,
+    SkyDocsToolsModule,
     SkyIconModule,
     SkyInlineFormModule,
     SkyTilesModule
   ],
   entryComponents: [
     SkyTileDemoTileComponent
+  ],
+  providers: [
+    {
+      provide: SkyDocsToolsOptions,
+      useValue: {
+        gitRepoUrl: 'https://github.com/blackbaud/skyux-inline-form',
+        packageName: '@skyux/inline-form'
+      }
+    }
   ]
 })
 export class AppExtrasModule { }
