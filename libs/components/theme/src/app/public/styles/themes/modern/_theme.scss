@@ -4,6 +4,7 @@
 .sky-theme-modern form {
   font-size: $sky-theme-modern-font-body-default-size;
   font-weight: $sky-theme-modern-font-body-default-weight;
+  transition: background-color $sky-transition-time-short, color $sky-transition-time-short;
 
   &.sky-theme-mode-dark {
     color: $sky-theme-modern-mode-dark-font-body-default-color;
@@ -56,5 +57,27 @@
 
   &.sky-theme-mode-dark {
     background-color: $sky-theme-modern-mode-dark-background-color-page-default;
+
+    h1,
+    h2,
+    h3,
+    h6,
+    .sky-font-heading-1,
+    .sky-font-heading-2,
+    .sky-font-heading-3,
+    .sky-font-heading-6 {
+      color: $sky-theme-modern-mode-dark-font-body-default-color;
+    }
+
+    h4,
+    h5,
+    .sky-font-heading-4,
+    .sky-font-heading-5 {
+      color: $sky-theme-modern-mode-dark-font-deemphasized-color;
+    }
+  }
+
+  a {
+    color: $sky-theme-modern-mode-dark-text-color-action-primary;
   }
 }

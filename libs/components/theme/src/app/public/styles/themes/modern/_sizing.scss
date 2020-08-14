@@ -1,7 +1,7 @@
 @import '../../variables-public';
 
 .sky-theme-modern {
-  
+
   .sky-padding-even-sm {
     padding: $sky-theme-modern-padding-even-sm;
   }
@@ -59,22 +59,27 @@
   }
 
   .sky-margin-stacked-xs {
+    margin-top: 0;
     margin-bottom: $sky-theme-modern-margin-stacked-xs;
   }
 
   .sky-margin-stacked-md {
+    margin-top: 0;
     margin-bottom: $sky-theme-modern-margin-stacked-md;
   }
 
   .sky-margin-stacked-lg {
+    margin-top: 0;
     margin-bottom: $sky-theme-modern-margin-stacked-lg;
   }
 
   .sky-margin-stacked-xl {
+    margin-top: 0;
     margin-bottom: $sky-theme-modern-margin-stacked-xl;
   }
 
   .sky-margin-stacked-xxl {
+    margin-top: 0;
     margin-bottom: $sky-theme-modern-margin-stacked-xxl;
   }
 }

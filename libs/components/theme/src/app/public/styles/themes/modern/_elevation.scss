@@ -34,36 +34,35 @@
     box-shadow: $sky-theme-modern-elevation-24-shadow-size $sky-theme-modern-elevation-24-shadow-color;
   }
 
-  /* Experimental; eventually these color values should be moved to design tokens */
   &.sky-theme-mode-dark {
     .sky-elevation-0-bordered,
     .sky-elevation-1-bordered {
-      border-color: #505558;
+      border-color: $sky-theme-modern-mode-dark-elevation-0-bordered-border;
     }
 
     .sky-elevation-1,
     .sky-elevation-1-bordered {
-      background-color: #212327;
+      background-color: $sky-theme-modern-mode-dark-background-color-elevation-1;
     }
 
     .sky-elevation-3 {
-      background-color: #252a2e;
+      background-color: $sky-theme-modern-mode-dark-background-color-elevation-3;
     }
 
     .sky-elevation-4 {
-      background-color: #292e32;
+      background-color: $sky-theme-modern-mode-dark-background-color-elevation-4;
     }
 
     .sky-elevation-8 {
-      background-color: #2c3337;
+      background-color: $sky-theme-modern-mode-dark-background-color-elevation-8;
     }
 
     .sky-elevation-16 {
-      background-color: #373f46;
+      background-color: $sky-theme-modern-mode-dark-background-color-elevation-16;
     }
 
     .sky-elevation-24 {
-      background-color: #3d4750;
+      background-color: $sky-theme-modern-mode-dark-background-color-elevation-24;
     }
   }
 }

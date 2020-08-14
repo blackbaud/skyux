@@ -73,5 +73,12 @@
     .sky-headline {
       color: $sky-theme-modern-mode-dark-font-body-default-color;
     }
+
+    .sky-font-deemphasized,
+    .sky-field-label,
+    .sky-font-data-label,
+    .sky-font-field-label {
+      color: $sky-theme-modern-mode-dark-font-deemphasized-color;
+    }
   }
 }
