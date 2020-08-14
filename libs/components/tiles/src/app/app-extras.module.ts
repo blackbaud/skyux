@@ -3,6 +3,11 @@ import {
 } from '@angular/core';
 
 import {
+  SkyDocsToolsModule,
+  SkyDocsToolsOptions
+} from '@skyux/docs-tools';
+
+import {
   SkyPageModule
 } from '@skyux/layout';
 
@@ -25,12 +30,22 @@ import {
 @NgModule({
   exports: [
     SkyAppLinkModule,
+    SkyDocsToolsModule,
     SkyPageModule,
     SkyTilesModule
   ],
   entryComponents: [
     SkyTileDemoTile1Component,
     SkyTileDemoTile2Component
+  ],
+  providers: [
+    {
+      provide: SkyDocsToolsOptions,
+      useValue: {
+        gitRepoUrl: 'https://github.com/blackbaud/skyux-tiles',
+        packageName: '@skyux/tiles'
+      }
+    }
   ]
 })
 export class AppExtrasModule { }
