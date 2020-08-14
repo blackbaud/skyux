@@ -7,6 +7,11 @@ import {
 } from '@angular/platform-browser/animations';
 
 import {
+  SkyDocsToolsModule,
+  SkyDocsToolsOptions
+} from '@skyux/docs-tools';
+
+import {
   SkyInfiniteScrollModule
 } from '@skyux/lists';
 
@@ -46,6 +51,7 @@ import {
   exports: [
     NoopAnimationsModule,
     SkyAppLinkModule,
+    SkyDocsToolsModule,
     SkyFlyoutModule,
     SkyDropdownModule,
     SkyModalModule,
@@ -56,6 +62,15 @@ import {
     FlyoutDemoComponent,
     FlyoutResponsiveDemoComponent,
     SkyFlyoutModalDemoComponent
+  ],
+  providers: [
+    {
+      provide: SkyDocsToolsOptions,
+      useValue: {
+        gitRepoUrl: 'https://github.com/blackbaud/skyux-flyout',
+        packageName: '@skyux/flyout'
+      }
+    }
   ]
 })
 export class AppExtrasModule { }
