@@ -1,3 +1,8 @@
+# 4.9.0 (2020-08-14)
+
+- Updated elevation background colors in the modern theme's dark mode. [#176](https://github.com/blackbaud/skyux-theme/pull/176)
+- Made header margins overridable in the modern theme. [#176](https://github.com/blackbaud/skyux-theme/pull/176)
+
 # 4.8.0 (2020-07-30)
 
 - Updated responsive mixins to work with components that do not use view encapsulation. [#170](https://github.com/blackbaud/skyux-theme/pull/170)
