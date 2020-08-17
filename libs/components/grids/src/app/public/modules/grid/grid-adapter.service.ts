@@ -50,7 +50,7 @@ export class SkyGridAdapterService {
 
     dragulaService.setOptions('sky-grid-heading', {
       moves: (el: HTMLElement, container: HTMLElement, handle: HTMLElement) => {
-        const columns = container.querySelectorAll('th div');
+        const columns: NodeListOf<HTMLElement> = container.querySelectorAll('th div');
         const isLeftOfLocked = this.isLeftOfLocked(handle, columns);
 
         return !el.querySelector(GRID_HEADER_LOCKED_SELECTOR)
@@ -70,7 +70,7 @@ export class SkyGridAdapterService {
           return true;
         }
 
-        const columns = source.querySelectorAll('th div');
+        const columns: NodeListOf<HTMLElement> = source.querySelectorAll('th div');
         const siblingDiv = sibling.querySelector('div');
         const isLeftOfLocked = this.isLeftOfLocked(siblingDiv, columns);
 
@@ -91,7 +91,14 @@ export class SkyGridAdapterService {
     }
   }
 
-  private isLeftOfLocked(sourceColumn: HTMLElement, columns: NodeListOf<Element>): boolean {
+  private isLeftOfLocked(handle: HTMLElement, columns: NodeListOf<HTMLElement>): boolean {
+    let sourceColumn = handle;
+    for (let column of Array.from(columns)) {
+      if (column.contains(handle)) {
+        sourceColumn = column;
+      }
+    }
+
     for (let i = (columns.length - 1); i >= 0; i--) {
       if (columns[i].classList.contains('sky-grid-header-locked')) {
         return true;

@@ -2079,6 +2079,9 @@ describe('Grid Component', () => {
         },
         querySelector(selector: string): any {
           return undefined;
+        },
+        contains(el: HTMLElement) {
+          return false;
         }
       };
 
@@ -2146,6 +2149,39 @@ describe('Grid Component', () => {
                 contains(classSelector: string) {
                   return true;
                 }
+              },
+              contains(el: HTMLElement) {
+                return false;
+              }
+            }
+          ];
+        }
+      };
+
+      const lockedSiblingHandleNotDirectMockElement: any = {
+        querySelector(selector: string): any {
+          return undefined;
+        },
+        querySelectorAll(selector: string) {
+          return [
+            {
+              classList: {
+                contains(classSelector: string) {
+                  return true;
+                }
+              },
+              contains(el: HTMLElement) {
+                return false;
+              }
+            },
+            {
+              classList: {
+                contains(classSelector: string) {
+                  return false;
+                }
+              },
+              contains(el: HTMLElement) {
+                return true;
               }
             }
           ];
@@ -2163,6 +2199,12 @@ describe('Grid Component', () => {
           const moveOptionLeftOfLocked = options.moves(
             standardMockElement,
             lockedSiblingMockElement,
+            standardHandleElement
+          );
+
+          const moveOptionLeftOfLockedNonDirect = options.moves(
+            standardMockElement,
+            lockedSiblingHandleNotDirectMockElement,
             standardHandleElement
           );
 
@@ -2236,6 +2278,7 @@ describe('Grid Component', () => {
           expect(moveOptionValid).toBeTruthy();
           expect(moveOptionLockedHeader).toBeFalsy();
           expect(moveOptionLeftOfLocked).toBeFalsy();
+          expect(moveOptionLeftOfLockedNonDirect).toBeTruthy();
           expect(moveOptionFromResize).toBeFalsy();
           expect(moveOptionUndefinedHandle).toBeFalsy();
           expect(acceptsOption).toBeTruthy();
