@@ -14,13 +14,17 @@ import {
   BehaviorSubject
 } from 'rxjs';
 
+import {
+  SkySelectField
+} from '../../public/public_api';
+
 @Component({
   selector: 'select-field-visual',
   templateUrl: './select-field-visual.component.html'
 })
 export class SelectFieldVisualComponent implements OnInit {
 
-  public data = new BehaviorSubject<any[]>([]);
+  public data = new BehaviorSubject<SkySelectField[]>([]);
 
   public model: any = {};
 

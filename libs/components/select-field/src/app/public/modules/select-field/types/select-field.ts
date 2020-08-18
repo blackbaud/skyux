@@ -1,6 +1,13 @@
 export interface SkySelectField {
-  id?: string;
-  label?: string;
+
   category?: string;
+
+  description?: string;
+
+  id?: string;
+
+  label?: string;
+
   [index: string]: any;
+
 }
