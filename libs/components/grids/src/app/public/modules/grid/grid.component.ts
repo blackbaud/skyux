@@ -324,6 +324,9 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
 
   public ngOnChanges(changes: SimpleChanges) {
     if (changes.columns && this.columns) {
+      if (this.selectedColumnIds) {
+        this.selectedColumnIds = this.selectedColumnIds.filter(columnId => this.columns.find(column => column.id === columnId));
+      }
       this.setDisplayedColumns(true);
     }
 
@@ -782,7 +785,10 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
   private setDisplayedColumns(respectHidden: boolean = false) {
     if (this.selectedColumnIds !== undefined) {
       // setup displayed columns
-      this.displayedColumns = this.selectedColumnIds.map(
+      this.displayedColumns = this.selectedColumnIds
+      .filter(
+        columnId => this.columns.find(column => column.id === columnId)
+      ).map(
         columnId => this.columns.filter(column => column.id === columnId)[0]
       );
     } else if (respectHidden) {

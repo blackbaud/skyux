@@ -985,7 +985,7 @@ describe('Grid Component', () => {
 
       it('should set top scroll width to the tables width on window resize when needed', async(() => {
         fixture.detectChanges();
-        spyOnProperty(TestBed.get(SkyAppWindowRef), 'nativeWindow', 'get').and.returnValue({ innerWidth: 100 });
+        spyOnProperty(TestBed.inject(SkyAppWindowRef), 'nativeWindow', 'get').and.returnValue({ innerWidth: 100 });
         SkyAppTestUtility.fireDomEvent(window, 'resize');
         fixture.detectChanges();
         fixture.whenStable().then(() => {
@@ -2345,8 +2345,12 @@ describe('Grid Component', () => {
       component = fixture.componentInstance;
     });
 
-    function verifyHeaders(hideColumn = false): void {
-      const headerCount = hideColumn ? 1 : 2;
+    function verifyHeaders(hideColumn = false, thirdColumn = false): void {
+      let headerCount = thirdColumn ? 3 : 2;
+
+      if (hideColumn) {
+        headerCount--;
+      }
 
       expect(element.queryAll(By.css('th.sky-grid-heading')).length).toBe(headerCount);
       expect(getColumnHeader('column1', element).nativeElement.textContent.trim()).toBe('Column 1');
@@ -2354,10 +2358,19 @@ describe('Grid Component', () => {
       if (!hideColumn) {
         expect(getColumnHeader('column2', element).nativeElement.textContent.trim())
           .toBe('Column 2');
+      } else {
+        expect(getColumnHeader('column2', element)).toBeNull();
+      }
+
+      if (thirdColumn) {
+        expect(getColumnHeader('column3', element).nativeElement.textContent.trim())
+          .toBe('Column 3');
+      } else {
+        expect(getColumnHeader('column3', element)).toBeNull();
       }
     }
 
-    function verifyData(hideColumn = false): void {
+    function verifyData(hideColumn = false, thirdColumn = false): void {
       for (let i = 0; i < component.data.length; i++) {
         const row = component.data[i];
 
@@ -2370,10 +2383,17 @@ describe('Grid Component', () => {
           expect(getCell(row.id, 'column2', element).nativeElement.textContent.trim())
             .toBe(row.column2);
         }
+
+        if (thirdColumn) {
+          expect(getCell(row.id, 'column3', element).nativeElement.textContent.trim())
+          .toBe(row.column3);
+        } else {
+          expect(getCell(row.id, 'column3', element)).toBeNull();
+        }
       }
     }
 
-    it('should be able to set columns without using sky-grid-column component', () => {
+    it('should be able to set columns when the columns input property is updated', () => {
       fixture.detectChanges();
       component.columns = [
         new SkyGridColumnModel(component.template, {
@@ -2409,6 +2429,165 @@ describe('Grid Component', () => {
       fixture.detectChanges();
       verifyHeaders(true);
       verifyData(true);
+    });
+
+    it('should be able to set columns when the columns input property is updated and update correctly after initialization', () => {
+      fixture.detectChanges();
+      component.columns = [
+        new SkyGridColumnModel(component.template, {
+          id: 'column1',
+          heading: 'Column 1'
+        }),
+        new SkyGridColumnModel(component.template, {
+          id: 'column2',
+          heading: 'Column 2'
+        })
+      ];
+
+      fixture.detectChanges();
+
+      verifyHeaders();
+
+      verifyData();
+
+      component.columns = [
+        new SkyGridColumnModel(component.template, {
+          id: 'column1',
+          heading: 'Column 1'
+        }),
+        new SkyGridColumnModel(component.template, {
+          id: 'column2',
+          heading: 'Column 2'
+        }),
+        new SkyGridColumnModel(component.template, {
+          id: 'column3',
+          heading: 'Column 3'
+        })
+      ];
+
+      fixture.detectChanges();
+
+      verifyHeaders(false, true);
+
+      verifyData(false, true);
+
+      component.columns = [
+        new SkyGridColumnModel(component.template, {
+          id: 'column1',
+          heading: 'Column 1'
+        }),
+        new SkyGridColumnModel(component.template, {
+          id: 'column2',
+          heading: 'Column 2'
+        })
+      ];
+
+      fixture.detectChanges();
+
+      verifyHeaders();
+
+      verifyData();
+    });
+
+    it('should be able to set columns when the columns input property is updated and update correctly after initialization with selected ids', () => {
+      fixture.detectChanges();
+      component.columns = [
+        new SkyGridColumnModel(component.template, {
+          id: 'column1',
+          heading: 'Column 1'
+        }),
+        new SkyGridColumnModel(component.template, {
+          id: 'column2',
+          heading: 'Column 2'
+        })
+      ];
+
+      let selectedColumnIds = [
+        'column1',
+        'column2'
+      ];
+      fixture.componentInstance.selectedColumnIds = selectedColumnIds;
+
+      fixture.detectChanges();
+
+      verifyHeaders();
+
+      verifyData();
+
+      component.columns = [
+        new SkyGridColumnModel(component.template, {
+          id: 'column1',
+          heading: 'Column 1'
+        }),
+        new SkyGridColumnModel(component.template, {
+          id: 'column2',
+          heading: 'Column 2'
+        }),
+        new SkyGridColumnModel(component.template, {
+          id: 'column3',
+          heading: 'Column 3'
+        })
+      ];
+
+      fixture.detectChanges();
+
+      verifyHeaders();
+
+      verifyData();
+
+      selectedColumnIds = [
+        'column1',
+        'column2',
+        'column3'
+      ];
+      fixture.componentInstance.selectedColumnIds = selectedColumnIds;
+
+      fixture.detectChanges();
+
+      verifyHeaders(false, true);
+
+      verifyData(false, true);
+
+      component.columns = [
+        new SkyGridColumnModel(component.template, {
+          id: 'column1',
+          heading: 'Column 1'
+        }),
+        new SkyGridColumnModel(component.template, {
+          id: 'column2',
+          heading: 'Column 2'
+        })
+      ];
+
+      fixture.detectChanges();
+
+      verifyHeaders();
+
+      verifyData();
+
+      // Check that the selectedColumnIds were automatically updated to not include the third
+      // column again.
+
+      component.columns = [
+        new SkyGridColumnModel(component.template, {
+          id: 'column1',
+          heading: 'Column 1'
+        }),
+        new SkyGridColumnModel(component.template, {
+          id: 'column2',
+          heading: 'Column 2'
+        }),
+        new SkyGridColumnModel(component.template, {
+          id: 'column3',
+          heading: 'Column 3'
+        })
+      ];
+
+      fixture.detectChanges();
+
+      verifyHeaders();
+
+      verifyData();
     });
   });
 
@@ -2560,7 +2739,7 @@ describe('Grid Component', () => {
 
       fixture = TestBed.createComponent(GridEmptyTestComponent);
       component = fixture.componentInstance;
-      uiConfigService = TestBed.get(SkyUIConfigService);
+      uiConfigService = TestBed.inject(SkyUIConfigService);
       element = fixture.debugElement as DebugElement;
     });
 

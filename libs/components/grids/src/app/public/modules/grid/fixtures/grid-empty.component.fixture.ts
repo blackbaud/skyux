@@ -35,12 +35,14 @@ export class GridEmptyTestComponent {
     {
       id: '1',
       column1: '1',
-      column2: 'Apple'
+      column2: 'Apple',
+      column3: 'Fruit'
     },
     {
       id: '2',
       column1: '01',
-      column2: 'Banana'
+      column2: 'Banana',
+      column3: 'Fruit'
     }
   ];
 }
