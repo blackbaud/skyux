@@ -31,6 +31,14 @@
     ></sky-docs-class-definition>
   </sky-docs-demo-page-section>
 
+  <sky-docs-demo-page-section *ngIf="types.classes.length"
+    heading="Classes"
+  >
+    <sky-docs-class-definition *ngFor="let config of types.classes"
+      [config]="config"
+    ></sky-docs-class-definition>
+  </sky-docs-demo-page-section>
+
   <sky-docs-demo-page-section *ngIf="types.interfaces.length"
     heading="Interfaces"
   >

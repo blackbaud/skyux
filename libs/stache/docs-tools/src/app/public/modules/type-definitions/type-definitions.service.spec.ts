@@ -34,6 +34,26 @@ describe('Type definitions service', function () {
     const result = service.getTypeDefinitions('/src/app/public/modules/_documentation-test/');
 
     expect(result).toEqual({
+      classes: [
+        {
+          anchorId: 'class-fooclass',
+          description: 'This is the description for FooClass.',
+          methods: [
+            {
+              codeExample: undefined,
+              codeExampleLanguage: 'markup',
+              deprecationWarning: undefined,
+              description: '',
+              name: 'getValue',
+              parameters: [],
+              returnType: 'string',
+              typeParameters: []
+            }
+          ],
+          name: 'FooClass',
+          properties: []
+        }
+      ],
       components: [
         {
           anchorId: 'class-foocomponent',
@@ -470,6 +490,7 @@ describe('Type definitions service', function () {
     const service = new SkyDocsTypeDefinitionsService(definitionsProvider);
     const result = service.getTypeDefinitions('/src/app/public/modules/empty/');
     expect(result).toEqual({
+      classes: [],
       components: [],
       directives: [],
       enumerations: [],

@@ -27,6 +27,8 @@ import {
  */
 export interface SkyDocsTypeDefinitions {
 
+  classes: SkyDocsClassDefinition[];
+
   components: SkyDocsDirectiveDefinition[];
 
   directives: SkyDocsDirectiveDefinition[];
