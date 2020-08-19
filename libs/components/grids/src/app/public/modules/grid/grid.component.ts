@@ -245,7 +245,7 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
   public showResizeBar: boolean = false;
   public showTopScroll: boolean = false;
 
-  @ContentChildren(SkyGridColumnComponent, { descendants: true })
+  @ContentChildren(SkyGridColumnComponent)
   private columnComponents: QueryList<SkyGridColumnComponent>;
 
   @ViewChildren('gridCol')

@@ -193,7 +193,8 @@
       [isSortable]="false"
     >
       <ng-template let-row="row">
-        <sky-dropdown
+        <!-- The `ngIf` here was added to verify that templates with Angular controls work when built. -->
+        <sky-dropdown *ngIf="row.id"
           buttonType="context-menu"
         >
           <sky-dropdown-menu>
