@@ -213,7 +213,7 @@ export class SkyListViewGridComponent extends ListViewComponent
   private searchFunction: (data: any, searchText: string) => boolean;
   /* tslint:enable */
 
-  @ContentChildren(SkyGridColumnComponent, { descendants: true })
+  @ContentChildren(SkyGridColumnComponent)
   private columnComponents: QueryList<SkyGridColumnComponent>;
 
   private ngUnsubscribe = new Subject();

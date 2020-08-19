@@ -129,7 +129,8 @@
         <ng-template
           let-row="row"
         >
-          <button
+          <!-- The `ngIf` here was added to verify that templates with Angular controls work when built. -->
+          <button *ngIf="row.id"
             type="button"
             (click)="onDeleteItemClick(row.id)"
           >
