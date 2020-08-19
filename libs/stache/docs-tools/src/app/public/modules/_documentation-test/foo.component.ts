@@ -89,6 +89,9 @@ export class FooComponent<U extends FooUser> implements OnInit {
   @Output()
   public newUser = new EventEmitter<U>();
 
+  @Output()
+  public rows = new EventEmitter<any[]>();
+
   /**
    * @internal
    */

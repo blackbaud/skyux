@@ -539,6 +539,9 @@ export class SkyDocsTypeDefinitionsService {
 
     if (typeConfig.typeArguments) {
       const typeArguments = typeConfig.typeArguments.map((typeArgument: any) => {
+        if (typeArgument.type === 'array') {
+          return `${typeArgument.elementType.name}[]`;
+        }
         return typeArgument.name;
       });
 

@@ -55,7 +55,7 @@ describe('Type definitions service', function () {
               decorator: 'Input',
               defaultValue: 'FooEnum.Foo',
               deprecationWarning: undefined,
-              description: 'This is the description for bar input. You must provide FooEnum values.',
+              description: 'This is the description for bar input. You must provide `FooEnum` values. If you provide FooEnum.Baz amazing things will happen.',
               isOptional: true,
               name: 'bar',
               type: 'string'
@@ -122,6 +122,15 @@ describe('Type definitions service', function () {
               isOptional: false,
               name: 'newUser',
               type: 'EventEmitter<U>'
+            },
+            {
+              decorator: 'Output',
+              defaultValue: 'new EventEmitter<any[]>()',
+              deprecationWarning: undefined,
+              description: '',
+              isOptional: false,
+              name: 'rows',
+              type: 'EventEmitter<any[]>'
             }
           ],
           selector: 'app-foo'
