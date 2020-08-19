@@ -1,3 +1,7 @@
+# 4.0.5 (2020-08-19)
+
+- Fixed the grid component to render grid column components which utilize an inline template. [#154](https://github.com/blackbaud/skyux-grids/pull/154)
+
 # 4.0.4 (2020-08-18)
 
 - Fixed the grid component to support moving columns by dragging the header text. [#150](https://github.com/blackbaud/skyux-grids/pull/150)
