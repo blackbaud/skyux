@@ -19,10 +19,6 @@ import {
   SkyDataManagerService
 } from './data-manager.service';
 
-// import {
-//   SkyDataViewConfig
-// } from './models/data-view-config';
-
 /**
  * A data view is rendered within a data manager component.
  * It can subscribe to data state changes from `SkyDataManagerService` and apply the filters,
@@ -39,20 +35,9 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
    * The configuration for the view. See the `SkyDataViewConfig` interface.
    * @required
    */
-  // @Input()
-  // public get viewConfig(): SkyDataViewConfig {
-  //   return this._viewConfig;
-  // }
 
   @Input()
   public viewId: string;
-
-  // public set viewConfig(config: SkyDataViewConfig) {
-  //   this._viewConfig = config;
-  //   setTimeout(() => {
-  //     this.dataManagerService.registerOrUpdateView(this.viewConfig);
-  //   });
-  // }
 
   public get isActive(): boolean {
     return this._isActive;
@@ -65,7 +50,6 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
 
   public _isActive = false;
   private _ngUnsubscribe = new Subject();
-  // private _viewConfig: SkyDataViewConfig;
 
   constructor(
     private changeDetector: ChangeDetectorRef,

@@ -11,7 +11,8 @@ import {
 } from '@angular/common';
 
 import {
-  SkyUIConfigService
+  SkyUIConfigService,
+  SkyViewkeeperModule
 } from '@skyux/core';
 
 import {
@@ -54,12 +55,12 @@ import {
 } from './data-manager.component';
 
 import {
-  SkyDataManagerToolbarLeftItemsComponent
-} from './data-manager-toolbar/data-manager-toolbar-left-items.component';
+  SkyDataManagerToolbarLeftItemComponent
+} from './data-manager-toolbar/data-manager-toolbar-left-item.component';
 
 import {
-  SkyDataManagerToolbarRightItemsComponent
-} from './data-manager-toolbar/data-manager-toolbar-right-items.component';
+  SkyDataManagerToolbarRightItemComponent
+} from './data-manager-toolbar/data-manager-toolbar-right-item.component';
 
 import {
   SkyDataManagerToolbarSectionComponent
@@ -77,8 +78,8 @@ import {
   declarations: [
     SkyDataManagerColumnPickerComponent,
     SkyDataManagerComponent,
-    SkyDataManagerToolbarLeftItemsComponent,
-    SkyDataManagerToolbarRightItemsComponent,
+    SkyDataManagerToolbarLeftItemComponent,
+    SkyDataManagerToolbarRightItemComponent,
     SkyDataManagerToolbarSectionComponent,
     SkyDataManagerToolbarComponent,
     SkyDataViewComponent
@@ -95,13 +96,14 @@ import {
     SkyRepeaterModule,
     SkySearchModule,
     SkySortModule,
-    SkyToolbarModule
+    SkyToolbarModule,
+    SkyViewkeeperModule
   ],
   exports: [
     SkyDataManagerColumnPickerComponent,
     SkyDataManagerComponent,
-    SkyDataManagerToolbarLeftItemsComponent,
-    SkyDataManagerToolbarRightItemsComponent,
+    SkyDataManagerToolbarLeftItemComponent,
+    SkyDataManagerToolbarRightItemComponent,
     SkyDataManagerToolbarSectionComponent,
     SkyDataManagerToolbarComponent,
     SkyDataViewComponent

@@ -26,7 +26,8 @@ import {
 
 import {
   SkyDataManagerModule,
-  SkyDataManagerService
+  SkyDataManagerService,
+  SkyDataManagerState
 } from '../../public_api';
 
 describe('SkyDataManagerComponent', () => {
@@ -54,8 +55,8 @@ describe('SkyDataManagerComponent', () => {
     dataManagerService = TestBed.inject(SkyDataManagerService);
   });
 
-  it('should render a toolbar and view if the data manager has been initialized', () => {
-    dataManagerService.isInitialized = true;
+  it('should render a toolbar and view if the data manager state has been set', () => {
+    dataManagerService.updateDataState(new SkyDataManagerState({}), 'test');
     dataManagerFixture.detectChanges();
 
     const toolbarEl = dataManagerNativeElement.querySelector('sky-data-manager-toolbar');
@@ -64,6 +65,25 @@ describe('SkyDataManagerComponent', () => {
     expect(dataManagerFixtureComponent.dataManagerComponent.isInitialized).toBeTrue();
     expect(toolbarEl).toBeVisible();
     expect(viewEl).toBeVisible();
+  });
+
+  it('should update the viewkeeper classes when the subscription provides a new value', () => {
+    const newClass = 'newClass';
+    const viewId = 'repeaterView';
+
+    dataManagerFixture.detectChanges();
+
+    dataManagerService.updateActiveViewId(viewId);
+
+    dataManagerFixture.detectChanges();
+
+    expect(dataManagerFixtureComponent.dataManagerComponent.currentViewkeeperClasses
+      .indexOf('.sky-data-manager-toolbar') >= 0).toBeTrue();
+    expect(dataManagerFixtureComponent.dataManagerComponent.currentViewkeeperClasses.indexOf(newClass) >= 0).toBeFalse();
+
+    dataManagerService.setViewkeeperClasses(viewId, [newClass]);
+
+    expect(dataManagerFixtureComponent.dataManagerComponent.currentViewkeeperClasses.indexOf(newClass) >= 0).toBeTrue();
   });
 
   it('should pass accessibility', async(() => {

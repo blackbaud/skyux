@@ -1,3 +1,4 @@
+<div class="sky-data-manager-toolbar">
 <sky-toolbar>
   <sky-toolbar-section>
 
@@ -38,7 +39,7 @@
       </button>
     </sky-toolbar-item>
 
-    <ng-content select="sky-data-manager-toolbar-left-items"></ng-content>
+    <ng-content select="sky-data-manager-toolbar-left-item"></ng-content>
 
     <sky-toolbar-item *ngIf="activeView?.searchEnabled">
       <sky-search
@@ -52,7 +53,7 @@
     </sky-toolbar-item>
 
     <sky-toolbar-view-actions>
-      <ng-content select="sky-data-manager-toolbar-right-items"></ng-content>
+      <ng-content select="sky-data-manager-toolbar-right-item"></ng-content>
       <sky-radio-group *ngIf="activeView && views && views.length > 1"
         [ariaLabel]="'data view switcher'"
         class="sky-switch-icon-group"
@@ -108,4 +109,4 @@
     </sky-toolbar-view-actions>
   </sky-toolbar-section>
 </sky-toolbar>
-
+</div>

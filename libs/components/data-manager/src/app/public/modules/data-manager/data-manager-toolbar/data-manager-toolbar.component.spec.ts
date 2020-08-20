@@ -38,6 +38,7 @@ import {
   SkyDataViewConfig,
   SkyDataViewState
 } from '../../../public_api';
+import { SkyDataManagerState } from '../models/data-manager-state';
 
 class MockModalService {
   public closeCallback: Function;
@@ -90,6 +91,7 @@ describe('SkyDataManagerToolbarComponent', () => {
       name: 'test view'
     };
     dataManagerToolbarComponent.activeView = viewConfig;
+    dataManagerToolbarComponent.dataState = new SkyDataManagerState({});
   });
 
   it('should show a sort button if the data view config has sort enabled', () => {
@@ -122,7 +124,6 @@ describe('SkyDataManagerToolbarComponent', () => {
     dataManagerToolbarComponent.dataState.activeSortOption = activeSortOption;
 
     expect(dataManagerToolbarComponent.activeSortOptionId).toEqual(activeSortOption.id);
-
   });
 
   it('should show a column picker button if the data view config has column picker enabled', () => {

@@ -48,7 +48,7 @@ describe('SkyDataManagerService', () => {
   let initialDataState: SkyDataManagerState;
   let uiConfigService: SkyUIConfigService;
 
-  const sourceId = 'test';
+  const sourceId = 'unitTests';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -88,20 +88,16 @@ describe('SkyDataManagerService', () => {
       };
     });
 
-    it('should set the data manager to initialized and set the activeViewId, config, and state', () => {
+    it('should set the data manager activeViewId, config, and state', () => {
       spyOn(dataManagerService, 'updateActiveViewId');
       spyOn(dataManagerService, 'updateDataManagerConfig');
       spyOn(dataManagerService, 'updateDataState');
-      dataManagerService.isInitialized = false;
-
-      expect(dataManagerService.isInitialized).toBeFalse();
 
       dataManagerService.initDataManager(initArgs);
 
       expect(dataManagerService.updateActiveViewId).toHaveBeenCalledWith(activeViewId);
       expect(dataManagerService.updateDataManagerConfig).toHaveBeenCalledWith(dataConfig);
       expect(dataManagerService.updateDataState).toHaveBeenCalledWith(initialDataState, 'dataManagerServiceInit');
-      expect(dataManagerService.isInitialized).toBeTrue();
     });
 
     describe('with settings key provided', () => {
@@ -177,17 +173,18 @@ describe('SkyDataManagerService', () => {
     const dataStateUpdate = new SkyDataManagerState({
       searchText: 'testChange'
     });
+    let currentDataState: SkyDataManagerState;
 
-    it('getCurrentDataState should return the current data state of the data manager', () => {
-      expect(dataManagerService.getCurrentDataState()).toEqual(initialDataState);
+    beforeEach(() => {
+      dataManagerService.getDataStateUpdates(sourceId).subscribe(state => currentDataState = state);
     });
 
     it('should update the data state of all subscribed components', () => {
-      expect(dataManagerService.getCurrentDataState()).toEqual(initialDataState);
+      expect(currentDataState).toEqual(initialDataState);
 
       dataManagerService.updateDataState(dataStateUpdate, 'test');
 
-      expect(dataManagerService.getCurrentDataState()).toEqual(dataStateUpdate);
+      expect(currentDataState).toEqual(dataStateUpdate);
       expect(dataManagerComponent.dataState).toEqual(dataStateUpdate);
     });
 
@@ -197,7 +194,7 @@ describe('SkyDataManagerService', () => {
 
       beforeEach(() => {
         dataStateObservable = dataManagerService.getDataStateUpdates(sourceId);
-        dataState = dataManagerService.getCurrentDataState();
+        dataState = currentDataState;
 
         dataStateObservable.subscribe(state => {
           dataState = state;
@@ -239,8 +236,6 @@ describe('SkyDataManagerService', () => {
     });
 
     it('updateDataManagerConfig should update the config of all subscribed components', () => {
-      expect(dataManagerService.getCurrentDataState()).toEqual(initialDataState);
-
       dataManagerService.updateDataManagerConfig(dataConfigUpdate);
 
       expect(dataManagerService.getCurrentDataManagerConfig()).toEqual(dataConfigUpdate);
@@ -294,16 +289,23 @@ describe('SkyDataManagerService', () => {
     });
   });
 
-  it('should create a new view config and view state when initDataView is called', async(() => {
+  it('should create a new view config and view state when a data state has been set', async(() => {
+    let currentDataState: SkyDataManagerState;
+
+    dataManagerService.getDataStateUpdates(sourceId).subscribe(state => currentDataState = state);
+    dataManagerService.updateDataState(new SkyDataManagerState({}), 'test');
+
+    dataManagerFixture.detectChanges();
+
     dataManagerFixture.whenStable().then(() => {
       const newView = { id: 'newView', name: 'newView' };
-      let viewState = dataManagerService.getCurrentDataState().getViewStateById(newView.id);
+      let viewState = currentDataState.getViewStateById(newView.id);
 
       expect(dataManagerService.getViewById(newView.id)).toBeUndefined();
       expect(viewState).toBeUndefined();
 
       dataManagerService.initDataView(newView);
-      viewState = dataManagerService.getCurrentDataState().getViewStateById(newView.id);
+      viewState = currentDataState.getViewStateById(newView.id);
 
       expect(dataManagerService.getViewById(newView.id)).toEqual(newView);
       expect(viewState).toBeDefined();
@@ -353,5 +355,18 @@ describe('SkyDataManagerService', () => {
         });
       }));
     });
+  });
+
+  it('should set the viewkeeper classes for the given viewId when setViewkeeperClasses is called', () => {
+    const newClass = 'newClass';
+    const viewId = 'testId';
+    let viewkeeperClasses: {[viewId: string]: string[]};
+
+    dataManagerService.viewkeeperClasses.subscribe(classes => viewkeeperClasses = classes);
+
+    dataManagerService.setViewkeeperClasses(viewId, [newClass]);
+
+    expect(viewkeeperClasses[viewId]).toBeDefined();
+    expect(viewkeeperClasses[viewId].indexOf(newClass) >= 0).toBeTrue();
   });
 });

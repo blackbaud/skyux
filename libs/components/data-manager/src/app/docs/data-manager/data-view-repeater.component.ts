@@ -21,7 +21,7 @@ export class DataViewRepeaterDemoComponent implements OnInit {
   @Input()
   public items: any[];
 
-  public dataState = new SkyDataManagerState({});
+  public dataState: SkyDataManagerState;
   public displayedItems: any[];
   public isActive: boolean;
   public viewId = 'repeaterView';
@@ -57,7 +57,7 @@ export class DataViewRepeaterDemoComponent implements OnInit {
   }
 
   public updateData(): void {
-    let selectedIds = this.dataState.selectedIds || [];
+    let selectedIds = this.dataState && this.dataState.selectedIds || [];
     this.items.forEach(item => {
       item.selected = selectedIds.indexOf(item.id) !== -1;
     });

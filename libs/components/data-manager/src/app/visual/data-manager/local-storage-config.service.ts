@@ -13,10 +13,13 @@ export class LocalStorageConfigService extends SkyUIConfigService {
 
   public getConfig(key: string, defaultConfig?: any): Observable<any> {
     let settingsJSON = localStorage.getItem(`${SETTINGS_KEY_PREFIX}${key}`);
-    if (settingsJSON) {
-      return of(JSON.parse(settingsJSON));
-    }
-    return of(defaultConfig);
+
+    return new Observable(subscriber => {
+      setTimeout(() => {
+        subscriber.next(JSON.parse(settingsJSON));
+        subscriber.complete();
+      }, 2000);
+    });
   }
 
   public setConfig(key: string, value: any): Observable<any> {

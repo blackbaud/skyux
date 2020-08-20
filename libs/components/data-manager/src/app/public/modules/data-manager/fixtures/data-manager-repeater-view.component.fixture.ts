@@ -21,7 +21,7 @@ export class DataViewRepeaterFixtureComponent implements OnInit {
   @Input()
   public items: any[];
 
-  public dataState = new SkyDataManagerState({});
+  public dataState: SkyDataManagerState;
   public displayedItems: any[];
   public isActive: boolean;
   public viewId = 'repeaterView';

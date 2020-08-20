@@ -21,7 +21,7 @@ export class DataViewRepeaterComponent implements OnInit {
   @Input()
   public items: any[];
 
-  public dataState = new SkyDataManagerState({});
+  public dataState: SkyDataManagerState;
   public displayedItems: any[];
   public isActive: boolean;
   public viewId = 'repeaterView';
@@ -42,8 +42,6 @@ export class DataViewRepeaterComponent implements OnInit {
     ) { }
 
   public ngOnInit(): void {
-    this.displayedItems = this.items;
-
     this.dataManagerService.initDataView(this.viewConfig);
 
     this.dataManagerService.getDataStateUpdates(this.viewId).subscribe(state => {
@@ -57,17 +55,19 @@ export class DataViewRepeaterComponent implements OnInit {
   }
 
   public updateData(): void {
-    let selectedIds = this.dataState.selectedIds || [];
-    this.items.forEach(item => {
-      item.selected = selectedIds.indexOf(item.id) !== -1;
-    });
-    this.displayedItems = this.filterItems(this.searchItems(this.items));
+    if (this.dataState) {
+      let selectedIds = this.dataState.selectedIds || [];
+      this.items.forEach(item => {
+        item.selected = selectedIds.indexOf(item.id) !== -1;
+      });
+      this.displayedItems = this.filterItems(this.searchItems(this.items));
 
-    if (this.dataState.onlyShowSelected) {
-      this.displayedItems = this.displayedItems.filter(item => item.selected);
+      if (this.dataState.onlyShowSelected) {
+        this.displayedItems = this.displayedItems.filter(item => item.selected);
+      }
+
+      this.changeDetector.detectChanges();
     }
-
-    this.changeDetector.detectChanges();
   }
 
   public searchItems(items: any[]): any[] {
@@ -142,7 +142,7 @@ export class DataViewRepeaterComponent implements OnInit {
   }
 
   public onItemSelect(isSelected: boolean, item: any): void {
-    let selectedItems = this.dataState.selectedIds || [];
+    let selectedItems = this.dataState && this.dataState.selectedIds || [];
     let itemIndex = selectedItems.indexOf(item.id);
 
     if (isSelected && itemIndex === -1) {
