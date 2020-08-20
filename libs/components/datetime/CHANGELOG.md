@@ -1,3 +1,7 @@
+# 4.3.0 (2020-08-20)
+
+- Added a test fixture for the timepicker component to use in consumer unit tests (import from `@skyux/datetime/testing`). [#196](https://github.com/blackbaud/skyux-datetime/pull/196)
+
 # 4.2.1 (2020-08-12)
 
 - Fixed the date range component to allow the component to be disabled when initialized. [#207](https://github.com/blackbaud/skyux-datetime/pull/207) (Thanks [@d4nleonard](https://github.com/d4nleonard)!)
@@ -15,6 +19,7 @@
 - Fixed the date pipe to allow all data types. [#186](https://github.com/blackbaud/skyux-datetime/pull/186)  (Thanks [@Blackbaud-NickGlyder](https://github.com/Blackbaud-NickGlyder)!)
 
 # 4.1.1 (2020-07-07)
+
 - Fixed an issue where the fuzzy date pipe returned incorrect data when the day value was 31. [#181](https://github.com/blackbaud/skyux-datetime/pull/181) (Thanks [@Blackbaud-CoreyArcher](https://github.com/Blackbaud-CoreyArcher)!)
 
 # 4.1.0 (2020-06-16)
