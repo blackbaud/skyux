@@ -1,3 +1,7 @@
+# 4.9.1 (2020-08-20)
+
+- Fixed small button styles in the modern theme. [#178](https://github.com/blackbaud/skyux-theme/pull/178)
+
 # 4.9.0 (2020-08-14)
 
 - Updated elevation background colors in the modern theme's dark mode. [#176](https://github.com/blackbaud/skyux-theme/pull/176)
