@@ -50,11 +50,7 @@
         class="sky-input-box-group-form-control"
         [ngClass]="{
           'sky-input-box-group-form-control-focus': formControlHasFocus,
-          'sky-input-box-group-form-control-invalid':
-            hasErrors ||
-            formControl?.errors ||
-            formControlByName?.errors ||
-            ngModel?.errors
+          'sky-input-box-group-form-control-invalid': hasErrorsComputed
         }"
         (focusin)="formControlFocusIn()"
         (focusout)="formControlFocusOut()"

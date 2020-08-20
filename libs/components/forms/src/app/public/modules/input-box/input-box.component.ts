@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   ContentChild,
   Input,
@@ -9,6 +8,7 @@ import {
 } from '@angular/core';
 
 import {
+  AbstractControlDirective,
   FormControlDirective,
   FormControlName,
   NgModel
@@ -34,7 +34,8 @@ import {
   templateUrl: './input-box.component.html',
   styleUrls: ['./input-box.component.scss'],
   providers: [SkyInputBoxHostService],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // Note that change detection is not set to OnPush; default change detection allows the
+  // invalid CSS class to be added when the content control's invalid/dirty state changes.
   encapsulation: ViewEncapsulation.None
 })
 export class SkyInputBoxComponent implements OnInit {
@@ -72,6 +73,16 @@ export class SkyInputBoxComponent implements OnInit {
   @ContentChild(NgModel)
   public ngModel: NgModel;
 
+  public get hasErrorsComputed(): boolean {
+    if (this.hasErrors === undefined) {
+      return this.controlHasErrors(this.formControl) ||
+        this.controlHasErrors(this.formControlByName) ||
+        this.controlHasErrors(this.ngModel);
+    }
+
+    return this.hasErrors;
+  }
+
   constructor(
     public themeSvc: SkyThemeService,
     private inputBoxHostSvc: SkyInputBoxHostService
@@ -92,6 +103,10 @@ export class SkyInputBoxComponent implements OnInit {
   public populate(args: SkyInputBoxPopulateArgs): void {
     this.hostInputTemplate = args.inputTemplate;
     this.hostButtonsTemplate = args.buttonsTemplate;
+  }
+
+  private controlHasErrors(control: AbstractControlDirective) {
+    return control && control.invalid && (control.dirty || control.touched);
   }
 
 }

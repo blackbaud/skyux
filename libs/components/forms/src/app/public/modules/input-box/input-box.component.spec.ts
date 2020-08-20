@@ -5,15 +5,25 @@ import {
 } from '@angular/core/testing';
 
 import {
+  AbstractControl,
+  FormsModule,
+  ReactiveFormsModule
+} from '@angular/forms';
+
+import {
   BehaviorSubject
 } from 'rxjs';
 
 import {
+  SkyIdModule
+} from '@skyux/core';
+
+import {
   SkyTheme,
   SkyThemeMode,
+  SkyThemeService,
   SkyThemeSettingsChange,
-  SkyThemeSettings,
-  SkyThemeService
+  SkyThemeSettings
 } from '@skyux/theme';
 
 import {
@@ -45,6 +55,55 @@ describe('Input box component', () => {
     return fixture.nativeElement.querySelector(`.${parentCls} sky-input-box`);
   }
 
+  function validateInvalid(
+    context: string,
+    inputBoxEl: Element,
+    invalid: boolean
+  ): void {
+    const formControlEl = inputBoxEl.querySelector('.sky-input-box-group-form-control');
+
+    const invalidCls = 'sky-input-box-group-form-control-invalid';
+
+    if (invalid) {
+      (expect(formControlEl).withContext(context) as any).toHaveCssClass(invalidCls);
+    } else {
+      (expect(formControlEl).withContext(context) as any).not.toHaveCssClass(invalidCls);
+    }
+  }
+
+  function validateControlValid(
+    fixture: ComponentFixture<InputBoxFixtureComponent>,
+    inputBoxEl: Element,
+    control: AbstractControl
+  ): void {
+    validateInvalid(
+      'when pristine and untouched',
+      inputBoxEl,
+      false
+    );
+
+    control.markAsTouched();
+
+    fixture.detectChanges();
+
+    validateInvalid(
+      'when pristine and touched',
+      inputBoxEl,
+      true
+    );
+
+    control.markAsUntouched();
+    control.markAsDirty();
+
+    fixture.detectChanges();
+
+    validateInvalid(
+      'when dirty and untouched',
+      inputBoxEl,
+      true
+    );
+  }
+
   beforeEach(() => {
     mockThemeSvc = {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
@@ -64,6 +123,9 @@ describe('Input box component', () => {
         InputBoxFixtureComponent
       ],
       imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        SkyIdModule,
         SkyInputBoxModule
       ],
       providers: [
@@ -85,18 +147,16 @@ describe('Input box component', () => {
     const formGroupEl = inputBoxEl.querySelector('.sky-form-group');
 
     const labelEl = formGroupEl.children.item(0) as HTMLLabelElement;
+    const inputGroupEl = formGroupEl.children.item(1);
+    const inputEl = inputGroupEl.children.item(0);
 
     expect(labelEl).toExist();
-    expect(labelEl.htmlFor).toBe('input1');
-
-    const inputGroupEl = formGroupEl.children.item(1);
+    expect(labelEl.htmlFor).toBe(inputEl.id);
 
     expect(inputGroupEl).toExist();
 
-    const inputEl = inputGroupEl.children.item(0);
-
     expect(inputEl).toExist();
-    expect(inputEl.id).toBe('input1');
+    expect(inputEl.tagName).toBe('INPUT');
   });
 
   it('should render the input group button elements in the expected locations', () => {
@@ -112,7 +172,7 @@ describe('Input box component', () => {
     const inputGroupBtnEl2 = inputGroupEl.children.item(2);
 
     expect(inputEl).toExist();
-    expect(inputEl.id).toBe('input2');
+    expect(inputEl.tagName).toBe('INPUT');
 
     expect(inputGroupBtnEl1.children.item(0)).toHaveCssClass('test-button-1');
     expect(inputGroupBtnEl2.children.item(0)).toHaveCssClass('test-button-2');
@@ -131,7 +191,7 @@ describe('Input box component', () => {
     const inputGroupBtnEl2 = inputGroupEl.children.item(2);
 
     expect(inputEl).toExist();
-    expect(inputEl.id).toBe('input3');
+    expect(inputEl.tagName).toBe('INPUT');
 
     expect(inputGroupBtnEl1.children.item(0)).toHaveCssClass('host-service-button-1');
     expect(inputGroupBtnEl2.children.item(0)).toHaveCssClass('host-service-button-2');
@@ -175,14 +235,13 @@ describe('Input box component', () => {
       expect(formGroupEl).toExist();
 
       const labelEl = formGroupEl.children.item(0) as HTMLLabelElement;
-
-      expect(labelEl).toExist();
-      expect(labelEl.htmlFor).toBe('input1');
-
       const inputEl = formGroupEl.children.item(1);
 
+      expect(labelEl).toExist();
+      expect(labelEl.htmlFor).toBe(inputEl.id);
+
       expect(inputEl).toExist();
-      expect(inputEl.id).toBe('input1');
+      expect(inputEl.tagName).toBe('INPUT');
     });
 
     it('should render the input group button elements in the expected locations', () => {
@@ -250,6 +309,71 @@ describe('Input box component', () => {
         expect(fixture.nativeElement).toBeAccessible();
       });
     }));
+
+    it('should add an invalid CSS class when marked invalid with hasErrors property', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+
+      fixture.detectChanges();
+
+      const inputBoxEl = getInputBoxEl(fixture, 'input-box-haserrors');
+
+      validateInvalid(
+        'when hasErrors is undefined',
+        inputBoxEl,
+        false
+      );
+
+      fixture.componentInstance.hasErrors = true;
+      fixture.detectChanges();
+
+      validateInvalid(
+        'when hasErrors is true',
+        inputBoxEl,
+        true
+      );
+    });
+
+    it('should add an invalid CSS class when ngModel is invalid', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+
+      fixture.detectChanges();
+
+      const inputBoxEl = getInputBoxEl(fixture, 'input-box-ngmodel-error');
+
+      validateControlValid(
+        fixture,
+        inputBoxEl,
+        fixture.componentInstance.errorNgModel.control
+      );
+    });
+
+    it('should add an invalid CSS class when form control is invalid', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+
+      fixture.detectChanges();
+
+      const inputBoxEl = getInputBoxEl(fixture, 'input-box-form-control-error');
+
+      validateControlValid(
+        fixture,
+        inputBoxEl,
+        fixture.componentInstance.errorField
+      );
+    });
+
+    it('should add an invalid CSS class when form control by name is invalid', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+
+      fixture.detectChanges();
+
+      const inputBoxEl = getInputBoxEl(fixture, 'input-box-form-control-name-error');
+
+      validateControlValid(
+        fixture,
+        inputBoxEl,
+        fixture.componentInstance.errorForm.controls['errorFormField']
+      );
+    });
 
   });
 

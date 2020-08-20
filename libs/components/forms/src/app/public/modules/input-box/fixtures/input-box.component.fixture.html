@@ -6,15 +6,15 @@
   >
     <label
       class="sky-control-label"
-      for="input1"
+      [for]="basicInput.id"
     >
       Basic input
     </label>
     <input
       class="sky-form-control"
-      id="input1"
-      type="text"
+      skyId
       [disabled]="basicDisabled"
+      #basicInput="skyId"
     >
   </sky-input-box>
 </div>
@@ -25,14 +25,15 @@
   <sky-input-box>
     <label
       class="sky-control-label"
-      for="input2"
+      [for]="multipleButtonsInput.id"
     >
       Input with multiple buttons
     </label>
     <input
       class="sky-form-control"
-      id="input2"
+      skyId
       type="text"
+      #multipleButtonsInput="skyId"
     >
     <div
       class="sky-input-group-btn"
@@ -61,16 +62,133 @@
   <sky-input-box>
     <label
       class="sky-control-label"
-      for="input3"
+      [for]="hostServiceInput.id"
     >
       Input using host service
     </label>
     <app-input-box-host-service-fixture>
       <input
         class="sky-form-control"
-        id="input3"
+        skyId
         type="text"
+        #hostServiceInput="skyId"
       >
     </app-input-box-host-service-fixture>
+  </sky-input-box>
+</div>
+
+<div
+  class="input-box-haserrors"
+>
+  <sky-input-box
+    class="sky-margin-stacked-lg"
+    [hasErrors]="hasErrors"
+  >
+    <label
+      class="sky-control-label"
+      [for]="hasErrorsInput.id"
+    >
+      hasErrors
+    </label>
+    <input
+      class="sky-form-control"
+      required
+      skyId
+      type="text"
+      #hasErrorsInput="skyId"
+    >
+    <div
+      class="sky-error-label"
+    >
+      Field is required.
+    </div>
+  </sky-input-box>
+</div>
+
+<div
+  class="input-box-form-control-error"
+>
+  <sky-input-box
+    class="sky-margin-stacked-lg"
+  >
+    <label
+      class="sky-control-label"
+      [for]="formControlErrorInput.id"
+    >
+      Form control error
+    </label>
+    <input
+      class="sky-form-control"
+      skyId
+      type="text"
+      [formControl]="errorField"
+      #formControlErrorInput="skyId"
+    >
+    <div
+      class="sky-error-label"
+    >
+      Field is required.
+    </div>
+  </sky-input-box>
+</div>
+
+<div
+  class="input-box-form-control-name-error"
+>
+  <form
+    [formGroup]="errorForm"
+  >
+    <sky-input-box
+      class="sky-margin-stacked-lg"
+    >
+      <label
+        class="sky-control-label"
+        [for]="formControlByNameInput.id"
+      >
+        Form control by name error
+      </label>
+      <input
+        class="sky-form-control"
+        formControlName="errorFormField"
+        skyId
+        type="text"
+        #formControlByNameInput="skyId"
+      >
+      <div
+        class="sky-error-label"
+      >
+        Field is required.
+      </div>
+    </sky-input-box>
+  </form>
+</div>
+
+<div
+  class="input-box-ngmodel-error"
+>
+  <sky-input-box
+    class="sky-margin-stacked-lg"
+  >
+    <label
+      class="sky-control-label"
+      [for]="errorNgModelInput.id"
+    >
+      NgModel error
+    </label>
+    <input
+      class="sky-form-control"
+      name="errorNgModel"
+      required
+      skyId
+      type="text"
+      [(ngModel)]="errorNgModelValue"
+      #errorNgModel="ngModel"
+      #errorNgModelInput="skyId"
+    >
+    <div
+      class="sky-error-label"
+    >
+      Field is required.
+    </div>
   </sky-input-box>
 </div>
