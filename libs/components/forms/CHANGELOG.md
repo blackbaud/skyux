@@ -1,3 +1,7 @@
+# 4.7.1 (2020-08-20)
+
+- Fixed an issue where the input box component displayed as invalid when the field was untouched. [#171](https://github.com/blackbaud/skyux-forms/pull/171)
+
 # 4.7.0 (2020-08-06)
 
 - Added the `skyAutofill` directive. [#157](https://github.com/blackbaud/skyux-forms/pull/157)
