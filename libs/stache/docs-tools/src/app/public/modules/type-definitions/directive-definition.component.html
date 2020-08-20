@@ -34,7 +34,7 @@
     </sky-code-block>
   </ng-container>
 
-  <sky-docs-property-definitions *ngIf="inputProperties.length">
+  <sky-docs-property-definitions *ngIf="inputProperties.length || eventProperties.length">
     <sky-docs-property-definition *ngFor="let property of inputProperties"
       [defaultValue]="property.defaultValue"
       [deprecationWarning]="property.deprecationWarning"

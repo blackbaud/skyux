@@ -31,7 +31,7 @@ export class SkyDocsDirectiveDefinitionComponent {
   }
 
   public get eventProperties(): SkyDocsPropertyDefinition[] {
-    const properties = this.config.properties;
+    const properties = this.config.properties || [];
     return properties.filter((property) => {
       return (property.decorator === 'Output');
     });

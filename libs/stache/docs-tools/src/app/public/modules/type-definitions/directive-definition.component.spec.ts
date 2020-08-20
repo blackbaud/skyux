@@ -101,6 +101,27 @@ describe('Directive definition component', function () {
     expect(rowElements.item(1).innerText).toContain('@Output()');
   });
 
+  it('should display Output properties if Inputs do not exist', () => {
+    fixture.componentInstance.config = {
+      name: 'FooComponent',
+      selector: 'app-foo',
+      properties: [
+        {
+          decorator: 'Output',
+          isOptional: true,
+          name: 'bar',
+          type: 'EventEmitter&lt;void&gt;'
+        }
+      ]
+    };
+
+    fixture.detectChanges();
+
+    const rowElements = fixture.nativeElement.querySelectorAll('.sky-docs-property-definitions-table-cell-name');
+
+    expect(rowElements.item(0).innerText).toContain('@Output()');
+  });
+
   it('should add links to types within description', fakeAsync(() => {
     fixture.componentInstance.config = {
       name: 'FooComponent',
