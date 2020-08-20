@@ -62,7 +62,7 @@ export class SkyDatepickerFixture {
   /**
    * Click the calendar button to open or close calendar.
    */
-  public clickDatepickerCalenderButtonEl() {
+  public clickDatepickerCalenderButtonEl(): void {
     this.debugEl.query(
       By.css('.sky-datepicker .sky-input-group-datepicker-btn')
     ).nativeElement.click();
