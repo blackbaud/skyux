@@ -1,3 +1,7 @@
+# 4.1.0 (2020-08-20)
+
+- Added the colorpicker testing fixture (import from `@skyux/colorpicker/testing`). [#67](https://github.com/blackbaud/skyux-colorpicker/pull/67)
+
 # 4.0.4 (2020-08-05)
 
 - Fixed the colorpicker component to position its overlay after the contents fully render. [#62](https://github.com/blackbaud/skyux-colorpicker/pull/62)
