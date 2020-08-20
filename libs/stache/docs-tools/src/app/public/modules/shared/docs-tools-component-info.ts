@@ -4,6 +4,7 @@
 export interface SkyDocsComponentInfo {
   children?: SkyDocsComponentInfo[];
   icon?: string;
+  modern?: boolean;
   name?: string;
   restricted?: boolean;
   summary?: string;
