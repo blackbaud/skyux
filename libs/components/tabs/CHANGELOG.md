@@ -1,3 +1,7 @@
+# 4.3.2 (2020-08-20)
+
+- Fixed the tabset component to use query params instead of matrix params when using `permalinkId` (matrix params cannot be used on the root route of an application). [#128](https://github.com/blackbaud/skyux-tabs/pull/128)
+
 # 4.3.1 (2020-08-13)
 
 - Fixed the tabset component to preserve URL query params when using `permalinkId`. [#126](https://github.com/blackbaud/skyux-tabs/pull/126)
