@@ -1,3 +1,10 @@
+# 4.3.0 (2020-08-20)
+
+- Added the `modern` property to `SkyDocsComponentInfo`. [#95](https://github.com/blackbaud/skyux-docs-tools/pull/95)
+- Added class definitions to the type definitions component. [#93](https://github.com/blackbaud/skyux-docs-tools/pull/93)
+- Fixed the type definitions component to display a property's array type arguments properly. [#91](https://github.com/blackbaud/skyux-docs-tools/pull/91)
+- Fixed the service definitions component to properly display outputs if a class does not include inputs. [#96](https://github.com/blackbaud/skyux-docs-tools/pull/96)
+
 # 4.2.1 (2020-08-05)
 
 - Fixed the anchor link service to properly format known type names when they immedately precede a property. [#86](https://github.com/blackbaud/skyux-docs-tools/pull/86)
