@@ -305,13 +305,12 @@ export class SkyTabsetComponent
   public getPathParams(): SkyTabsetPermalinkParams {
     const params: SkyTabsetPermalinkParams = {};
 
-    let path = this.location.path();
-    if (path.indexOf('?') > -1) {
-      path = path.substr(0, path.indexOf('?'));
+    const path = this.location.path();
+    if (path.indexOf('?') === -1) {
+      return params;
     }
 
-    const existingParamPairs = path.split(';');
-    existingParamPairs.shift();
+    const existingParamPairs = path.split('?')[1].split('&');
     existingParamPairs.forEach((pair) => {
       const fragments = pair.split('=');
       params[fragments[0]] = fragments[1];
@@ -363,9 +362,10 @@ export class SkyTabsetComponent
 
     // Update the URL without triggering a navigation state change.
     // See: https://stackoverflow.com/a/46486677
-    const url = this.router.createUrlTree([params], {
+    const url = this.router.createUrlTree(['.'], {
       relativeTo: this.activatedRoute,
-      preserveQueryParams: true
+      queryParams: params,
+      queryParamsHandling: 'merge'
     }).toString();
 
     this.location.go(url);

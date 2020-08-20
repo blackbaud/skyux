@@ -21,6 +21,7 @@ import {
 
 import {
   ActivatedRoute,
+  NavigationExtras,
   Router
 } from '@angular/router';
 
@@ -1151,27 +1152,26 @@ describe('Tabset component', () => {
         location = _location;
         router = _router;
 
-        createUrlTreeSpy = spyOn(router as any, 'createUrlTree').and.callFake((commands: any[]) => {
-          const params = Object.keys(commands[0])
-            .map(k => `${k}=${commands[0][k]}`)
-            .join(';');
-          return `;${params}`;
-        });
+        createUrlTreeSpy = spyOn(router as any, 'createUrlTree').and
+          .callFake((commands: any[], extras: NavigationExtras) => {
+            const params = Object.keys(extras.queryParams)
+              .map(k => `${k}=${extras.queryParams[k]}`)
+              .join('&');
+            return `?${params}`;
+          });
       }
     ));
 
     afterEach(() => {
       fixture.destroy();
-      expect(createUrlTreeSpy.calls.mostRecent().args[0]).toEqual(
-        [{}],
-        'The permalink param should be cleared when the tabset is destroyed.'
-      );
+      expect(createUrlTreeSpy.calls.mostRecent().args[1].queryParams['foobar-active-tab'])
+        .toBeUndefined('The permalink param should be cleared when the tabset is destroyed.');
     });
 
-    it('should activate a tab based on a path param', fakeAsync(() => {
+    it('should activate a tab based on a query param', fakeAsync(() => {
       fixture.componentInstance.activeIndex = 0;
       fixture.componentInstance.permalinkId = 'foobar';
-      spyOn(location, 'path').and.returnValue(';foobar-active-tab=design-guidelines');
+      spyOn(location, 'path').and.returnValue('?foobar-active-tab=design-guidelines');
 
       fixture.detectChanges();
       tick();
@@ -1181,10 +1181,10 @@ describe('Tabset component', () => {
       validateTabSelected(fixture.nativeElement, 1);
     }));
 
-    it('should handle unrecognized path param', fakeAsync(() => {
+    it('should handle unrecognized query param', fakeAsync(() => {
       fixture.componentInstance.activeIndex = 0;
       fixture.componentInstance.permalinkId = 'foobar';
-      spyOn(location, 'path').and.returnValue(';foobar-active-tab=invalid-tab');
+      spyOn(location, 'path').and.returnValue('?foobar-active-tab=invalid-tab');
 
       fixture.detectChanges();
       tick();
@@ -1194,7 +1194,7 @@ describe('Tabset component', () => {
       validateTabSelected(fixture.nativeElement, 0);
     }));
 
-    it('should set a path param when a tab is selected', fakeAsync(() => {
+    it('should set a query param when a tab is selected', fakeAsync(() => {
       fixture.componentInstance.permalinkId = 'foobar';
 
       fixture.detectChanges();
@@ -1212,11 +1212,11 @@ describe('Tabset component', () => {
       fixture.detectChanges();
       tick();
 
-      expect(location.path()).toEqual('/;foobar-active-tab=design-guidelines');
+      expect(location.path()).toEqual('/?foobar-active-tab=design-guidelines');
       expect(fixture.componentInstance.activeIndex).toEqual(1);
     }));
 
-    it('should allow custom path param value for each tab', fakeAsync(() => {
+    it('should allow custom query param value for each tab', fakeAsync(() => {
       fixture.componentInstance.permalinkId = 'foobar';
       fixture.componentInstance.permalinkValue = 'baz';
 
@@ -1235,7 +1235,7 @@ describe('Tabset component', () => {
       fixture.detectChanges();
       tick();
 
-      expect(location.path()).toEqual('/;foobar-active-tab=baz');
+      expect(location.path()).toEqual('/?foobar-active-tab=baz');
       expect(fixture.componentInstance.activeIndex).toEqual(1);
     }));
 
@@ -1258,7 +1258,7 @@ describe('Tabset component', () => {
       fixture.detectChanges();
       tick();
 
-      expect(location.path()).toEqual('/;foobar-active-tab=a-b-c-d');
+      expect(location.path()).toEqual('/?foobar-active-tab=a-b-c-d');
       expect(fixture.componentInstance.activeIndex).toEqual(1);
 
       // Make sure non-English special characters still work!
@@ -1273,11 +1273,11 @@ describe('Tabset component', () => {
       tick();
 
       expect(location.path()).toEqual(
-        '/;foobar-active-tab=片仮名'
+        '/?foobar-active-tab=片仮名'
       );
     }));
 
-    it('should fall back to `active` if path param value does not match a tab', fakeAsync(() => {
+    it('should fall back to `active` if query param value does not match a tab', fakeAsync(() => {
       fixture.componentInstance.activeIndex = 0;
       fixture.detectChanges();
       tick();
@@ -1295,7 +1295,7 @@ describe('Tabset component', () => {
       validateTabSelected(fixture.nativeElement, 2);
 
       fixture.componentInstance.permalinkId = 'foobar';
-      spyOn(location, 'path').and.returnValue(';foobar-active-tab=invalid-tab');
+      spyOn(location, 'path').and.returnValue('?foobar-active-tab=invalid-tab');
       SkyAppTestUtility.fireDomEvent(window, 'popstate');
 
       fixture.detectChanges();
@@ -1308,10 +1308,10 @@ describe('Tabset component', () => {
       validateTabSelected(fixture.nativeElement, 0);
     }));
 
-    it('should handle URLs with query params', fakeAsync(() => {
+    it('should not affect existing query params', fakeAsync(() => {
       fixture.componentInstance.activeIndex = 0;
       fixture.componentInstance.permalinkId = 'foobar';
-      spyOn(location, 'path').and.returnValue(';foobar-active-tab=design-guidelines?bar=baz');
+      spyOn(location, 'path').and.returnValue('?foobar-active-tab=design-guidelines&bar=baz');
 
       fixture.detectChanges();
       tick();
@@ -1327,9 +1327,16 @@ describe('Tabset component', () => {
       fixture.detectChanges();
       tick();
 
-      expect(createUrlTreeSpy.calls.argsFor(0)[1].preserveQueryParams).toEqual(
-        true,
-        'The router was not called with `preserveQueryParams: true`!'
+      const actualNavigationExtras = createUrlTreeSpy.calls.argsFor(0)[1];
+      expect(actualNavigationExtras.queryParams).toEqual(
+        jasmine.objectContaining({
+          bar: 'baz'
+        }),
+        'Existing query params should be unaffected.'
+      );
+      expect(actualNavigationExtras.queryParamsHandling).toEqual(
+        'merge',
+        'The router was not called with `queryParamsHandling: \'merge\'`!'
       );
     }));
   });
