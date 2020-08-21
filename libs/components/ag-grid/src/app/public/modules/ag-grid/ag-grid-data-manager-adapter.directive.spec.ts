@@ -27,7 +27,8 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  SkyDataManagerService
+  SkyDataManagerService,
+  SkyDataManagerState
 } from '@skyux/data-manager';
 
 import {
@@ -47,6 +48,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   let agGridDataManagerFixtureComponent: SkyAgGridDataManagerFixtureComponent;
   let agGridComponent: AgGridAngular;
   let dataManagerService: SkyDataManagerService;
+  let dataState: SkyDataManagerState;
   let dataViewEl: DebugElement;
   let agGridDataManagerDirective: SkyAgGridDataManagerAdapterDirective;
 
@@ -66,6 +68,27 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     agGridComponent = agGridDataManagerFixtureComponent.agGrid;
     dataViewEl = agGridDataManagerFixture.debugElement.query(By.directive(SkyAgGridDataManagerAdapterDirective));
     agGridDataManagerDirective = dataViewEl.injector.get(SkyAgGridDataManagerAdapterDirective);
+
+    dataManagerService.getDataStateUpdates('test').subscribe(state => dataState = state);
+  });
+
+  it('should update the data state when a row is selected', async () => {
+    await agGridDataManagerFixture.whenStable();
+
+    const rowNode = new RowNode();
+    rowNode.data = { id: '1' };
+    spyOn(rowNode, 'isSelected').and.returnValue(true);
+    spyOn(dataManagerService, 'updateDataState');
+
+    const rowSelected = {
+      node: rowNode
+    } as RowSelectedEvent;
+
+    dataState.selectedIds = ['1'];
+
+    agGridComponent.rowSelected.emit(rowSelected);
+
+    expect(dataManagerService.updateDataState).toHaveBeenCalledWith(dataState, agGridDataManagerFixtureComponent.viewConfig.id);
   });
 
   it('should set columns visible based on the data state changes', async () => {
@@ -79,60 +102,46 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     expect(agGridComponent.columnApi.setColumnVisible).toHaveBeenCalled();
   });
 
-  it('should update the data state when a column is moved', () => {
+  it('should update the data state when a column is moved', async () => {
+    await agGridDataManagerFixture.whenStable();
+
     const colId = 'testCol';
     const colDef = { colId };
     const column = new Column(colDef, undefined, colId, true);
 
     spyOn(agGridComponent.columnApi, 'getAllDisplayedVirtualColumns').and.returnValue([column]);
+    spyOn(dataManagerService, 'updateDataState');
 
     const columnMoved = {
       source: 'uiColumnMoved'
     } as ColumnMovedEvent;
 
-    const updatedState = agGridDataManagerFixtureComponent.initialDataState;
-    const viewState = updatedState.views[0];
+    const viewState = dataState.views[0];
     viewState.displayedColumnIds = [ colId ];
 
-    spyOn(dataManagerService, 'updateDataState');
     agGridComponent.columnMoved.emit(columnMoved);
 
-    expect(dataManagerService.updateDataState).toHaveBeenCalledWith(updatedState, agGridDataManagerFixtureComponent.viewConfig.id);
+    expect(dataManagerService.updateDataState).toHaveBeenCalledWith(dataState, agGridDataManagerFixtureComponent.viewConfig.id);
   });
 
-  it('should update the data state when a row is selected', () => {
-    const rowNode = new RowNode();
-    rowNode.data = { id: '1' };
-    spyOn(rowNode, 'isSelected').and.returnValue(true);
+  it('should update the data state when the sort changes', async () => {
+    await agGridDataManagerFixture.whenStable();
 
-    const rowSelected = {
-      node: rowNode
-    } as RowSelectedEvent;
-
-    const updatedState = agGridDataManagerFixtureComponent.initialDataState;
-    updatedState.selectedIds = ['1'];
-
-    spyOn(dataManagerService, 'updateDataState');
-    agGridComponent.rowSelected.emit(rowSelected);
-
-    expect(dataManagerService.updateDataState).toHaveBeenCalledWith(updatedState, agGridDataManagerFixtureComponent.viewConfig.id);
-  });
-
-  it('should update the data state when the sort changes', () => {
     const sortModel = [{ colId: 'name', sort: 'desc' }];
-    const updatedState = agGridDataManagerFixtureComponent.initialDataState;
-    updatedState.activeSortOption = {
+
+    spyOn(agGridComponent.api, 'getSortModel').and.returnValue(sortModel);
+    spyOn(dataManagerService, 'updateDataState');
+
+    dataState.activeSortOption = {
       id: 'name',
       descending: true,
       propertyName: 'name',
       label: 'Name'
     };
 
-    spyOn(agGridComponent.api, 'getSortModel').and.returnValue(sortModel);
-    spyOn(dataManagerService, 'updateDataState');
     agGridComponent.sortChanged.emit();
 
-    expect(dataManagerService.updateDataState).toHaveBeenCalledWith(updatedState, agGridDataManagerFixtureComponent.viewConfig.id);
+    expect(dataManagerService.updateDataState).toHaveBeenCalledWith(dataState, agGridDataManagerFixtureComponent.viewConfig.id);
   });
 
   describe('selecting rows', () => {
@@ -181,15 +190,18 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
   it('should register a grid if no other grids are rendered', () => {
     expect(agGridDataManagerDirective.agGridList.length).toBe(1);
+    expect(agGridDataManagerDirective.skyAgGridWrapperList.length).toBe(1);
 
     agGridDataManagerFixtureComponent.displayFirstGrid = false;
     agGridDataManagerFixture.detectChanges();
 
     expect(agGridDataManagerDirective.agGridList.length).toBe(0);
+    expect(agGridDataManagerDirective.skyAgGridWrapperList.length).toBe(0);
 
     agGridDataManagerFixtureComponent.displaySecondGrid = true;
     agGridDataManagerFixture.detectChanges();
 
     expect(agGridDataManagerDirective.agGridList.length).toBe(1);
+    expect(agGridDataManagerDirective.skyAgGridWrapperList.length).toBe(1);
   });
 });

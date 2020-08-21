@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   ChangeDetectionStrategy,
   Component,
   ContentChild,
@@ -31,10 +32,21 @@ export class SkyAgGridWrapperComponent implements AfterContentInit {
   public afterAnchorId: string;
   public beforeAnchorId: string;
   public gridId: string;
-  public viewkeeperClasses: string[] = [];
+
+  public get viewkeeperClasses(): string[] {
+    return this._viewkeeperClasses;
+  }
+
+  public set viewkeeperClasses(value: string[]) {
+    this._viewkeeperClasses = value;
+    this.changeDetector.markForCheck();
+  }
+
+  private _viewkeeperClasses: string[] = [];
 
   constructor(
     private adapterService: SkyAgGridAdapterService,
+    private changeDetector: ChangeDetectorRef,
     private elementRef: ElementRef
   ) {
     idIndex++;

@@ -33,6 +33,10 @@ import {
   SkyDataViewConfig
 } from '@skyux/data-manager';
 
+import {
+  SkyAgGridWrapperComponent
+} from './ag-grid-wrapper.component';
+
 @Directive({
   selector: '[skyAgGridDataManagerAdapter]'
 })
@@ -44,7 +48,12 @@ export class SkyAgGridDataManagerAdapterDirective implements AfterContentInit, O
   @ContentChildren(AgGridAngular, { descendants: true })
   public agGridList: QueryList<AgGridAngular>;
 
+  @ContentChildren(SkyAgGridWrapperComponent, { descendants: true })
+  public skyAgGridWrapperList: QueryList<SkyAgGridWrapperComponent>;
+
   private currentAgGrid: AgGridAngular;
+  private currentDataState: SkyDataManagerState;
+  private currentSkyAgGridWrapper: SkyAgGridWrapperComponent;
   private dataStateSub: Subscription;
   private viewConfig: SkyDataViewConfig;
   private ngUnsubscribe = new Subject();
@@ -54,12 +63,19 @@ export class SkyAgGridDataManagerAdapterDirective implements AfterContentInit, O
     private dataManagerSvc: SkyDataManagerService) { }
 
   public ngAfterContentInit(): void {
+    this.dataManagerSvc.setViewkeeperClasses(this.viewId, ['.ag-header']);
+
     this.viewConfig = this.dataManagerSvc.getViewById(this.viewId);
     this.checkForAgGrid();
+    this.checkForSkyAgGridWrapper();
 
     this.agGridList.changes
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => this.checkForAgGrid());
+
+    this.skyAgGridWrapperList.changes
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(() => this.checkForSkyAgGridWrapper());
   }
 
   public ngOnDestroy() {
@@ -71,15 +87,33 @@ export class SkyAgGridDataManagerAdapterDirective implements AfterContentInit, O
     const agGridCount = this.agGridList.length;
 
     /* istanbul ignore else */
-    if (agGridCount > 1) {
-      this.registerAgGrid();
-      console.warn(
-        'More than one ag-grid child component was found. Using the first ag-Grid.'
-      );
-    } else if (agGridCount === 0) {
+    if (agGridCount === 0) {
       this.unregisterAgGrid();
     } else if (this.agGridList.first !== this.currentAgGrid) {
       this.registerAgGrid();
+    }
+
+    if (agGridCount > 1) {
+      console.warn(
+        'More than one ag-grid child component was found. Using the first ag-Grid.'
+      );
+    }
+  }
+
+  private checkForSkyAgGridWrapper(): void {
+    const skyAgGridWrapperCount = this.skyAgGridWrapperList.length;
+
+    /* istanbul ignore else */
+    if (skyAgGridWrapperCount === 0) {
+      this.unregisterSkyAgGridWrapper();
+    } else if (this.skyAgGridWrapperList.first !== this.currentSkyAgGridWrapper) {
+      this.registerSkyAgGridWrapper();
+    }
+
+    if (skyAgGridWrapperCount > 1) {
+      console.warn(
+        'More than one ag-grid child component was found. Using the first ag-Grid.'
+      );
     }
   }
 
@@ -90,6 +124,22 @@ export class SkyAgGridDataManagerAdapterDirective implements AfterContentInit, O
     if (this.dataStateSub) {
       this.dataStateSub.unsubscribe();
     }
+  }
+
+  private unregisterSkyAgGridWrapper(): void {
+    this.currentSkyAgGridWrapper = undefined;
+  }
+
+  private registerSkyAgGridWrapper(): void {
+    this.unregisterSkyAgGridWrapper();
+
+    this.currentSkyAgGridWrapper = this.skyAgGridWrapperList.first;
+
+    setTimeout(() => {
+      if (this.currentSkyAgGridWrapper) {
+        this.currentSkyAgGridWrapper.viewkeeperClasses = [];
+      }
+    });
   }
 
   private registerAgGrid(): void {
@@ -107,11 +157,10 @@ export class SkyAgGridDataManagerAdapterDirective implements AfterContentInit, O
 
         this.dataManagerSvc.updateViewConfig(this.viewConfig);
 
-        this.displayColumns(this.dataManagerSvc.getCurrentDataState());
-
         this.dataStateSub = this.dataManagerSvc.getDataStateUpdates(this.viewConfig.id)
           .pipe(takeUntil(this.ngUnsubscribe))
           .subscribe((dataState: SkyDataManagerState) => {
+            this.currentDataState = dataState;
             this.displayColumns(dataState);
           });
 
@@ -126,13 +175,11 @@ export class SkyAgGridDataManagerAdapterDirective implements AfterContentInit, O
         );
 
         if (event.source !== 'api') {
-          const dataState = this.dataManagerSvc.getCurrentDataState();
-
-          const viewState = dataState.getViewStateById(this.viewConfig.id);
+          const viewState = this.currentDataState.getViewStateById(this.viewConfig.id);
           viewState.displayedColumnIds = columnOrder;
 
           this.dataManagerSvc.updateDataState(
-            dataState.addOrUpdateView(this.viewConfig.id, viewState),
+            this.currentDataState.addOrUpdateView(this.viewConfig.id, viewState),
             this.viewConfig.id
           );
         }
@@ -142,8 +189,7 @@ export class SkyAgGridDataManagerAdapterDirective implements AfterContentInit, O
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((event: RowSelectedEvent) => {
         const row = event.node;
-        let dataState = this.dataManagerSvc.getCurrentDataState();
-        let selectedIds = dataState.selectedIds || [];
+        let selectedIds = this.currentDataState.selectedIds || [];
         const rowIndex = selectedIds.indexOf(row.data.id);
 
         if (row.isSelected() && rowIndex === -1) {
@@ -152,8 +198,8 @@ export class SkyAgGridDataManagerAdapterDirective implements AfterContentInit, O
           selectedIds.splice(rowIndex, 1);
         }
 
-        dataState.selectedIds = selectedIds;
-        this.dataManagerSvc.updateDataState(dataState, this.viewConfig.id);
+        this.currentDataState.selectedIds = selectedIds;
+        this.dataManagerSvc.updateDataState(this.currentDataState, this.viewConfig.id);
         this.changeDetector.markForCheck();
       });
 
@@ -161,7 +207,6 @@ export class SkyAgGridDataManagerAdapterDirective implements AfterContentInit, O
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         const gridSortModel = agGrid.api.getSortModel();
-        const dataState = this.dataManagerSvc.getCurrentDataState();
         let sortOption: SkyDataManagerSortOption;
 
         /* istanbul ignore else */
@@ -175,8 +220,8 @@ export class SkyAgGridDataManagerAdapterDirective implements AfterContentInit, O
               option.descending === (activeSortModel.sort === 'desc');
           });
         }
-        dataState.activeSortOption = sortOption;
-        this.dataManagerSvc.updateDataState(dataState, this.viewConfig.id);
+        this.currentDataState.activeSortOption = sortOption;
+        this.dataManagerSvc.updateDataState(this.currentDataState, this.viewConfig.id);
       });
   }
 
@@ -204,5 +249,4 @@ export class SkyAgGridDataManagerAdapterDirective implements AfterContentInit, O
     const agGrid = this.agGridList.first;
     agGrid.api.deselectAll();
   }
-
 }
