@@ -1,5 +1,5 @@
 /**
- * This is the description for FooEnum.
+ * This is the description for FooEnum. It includes `Date` values.
  */
 export enum FooEnum {
   /**
@@ -10,5 +10,10 @@ export enum FooEnum {
   /**
    * The baz of the foo.
    */
-  Baz
+  Baz,
+
+  /**
+   * The `FooUser` birthday as a `Date` object.
+   */
+  FooUserId
 }

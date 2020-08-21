@@ -19,6 +19,10 @@ import {
 } from './directive-definition.component.fixture';
 
 import {
+  EnumerationDefinitionFixtureComponent
+} from './enumeration-definition.component.fixture';
+
+import {
   InterfaceDefinitionFixtureComponent
 } from './interface-definition.component.fixture';
 
@@ -42,6 +46,7 @@ import {
   exports: [
     ClassDefinitionFixtureComponent,
     DirectiveDefinitionFixtureComponent,
+    EnumerationDefinitionFixtureComponent,
     InterfaceDefinitionFixtureComponent,
     ParameterDefinitionsFixtureComponent,
     PropertyDefinitionsFixtureComponent,
@@ -50,6 +55,7 @@ import {
   declarations: [
     ClassDefinitionFixtureComponent,
     DirectiveDefinitionFixtureComponent,
+    EnumerationDefinitionFixtureComponent,
     InterfaceDefinitionFixtureComponent,
     ParameterDefinitionsFixtureComponent,
     PropertyDefinitionsFixtureComponent,

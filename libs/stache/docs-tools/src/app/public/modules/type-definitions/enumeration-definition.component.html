@@ -1,4 +1,6 @@
-<div class="sky-docs-enumeration-definition sky-docs-type-definition-wrapper">
+<div *ngIf="config"
+  class="sky-docs-enumeration-definition sky-docs-type-definition-wrapper"
+>
   <sky-docs-heading-anchor
     headingLevel="3"
     [anchorId]="config.anchorId"
@@ -7,7 +9,8 @@
   </sky-docs-heading-anchor>
 
   <sky-docs-safe-html
-    [innerHtml]="config.description | skyDocsTypeAnchorLinks"
+    class="sky-docs-enumeration-definition-description"
+    [innerHtml]="config.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
   ></sky-docs-safe-html>
 
   <sky-docs-property-definitions
