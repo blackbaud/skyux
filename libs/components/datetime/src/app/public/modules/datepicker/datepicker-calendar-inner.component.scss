@@ -1,41 +1,114 @@
 @import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/variables";
 
 .sky-datepicker-calendar-inner {
   border-radius: 5px;
   background-color: $sky-color-white;
   @include sky-border(light, top, bottom, left, right);
 
-  ::ng-deep .sky-btn-default {
-    border-color: $sky-color-white;
+  .sky-btn-default {
+    border-color: transparent;
     border: 2px solid $sky-color-white;
   }
 
-  ::ng-deep .sky-btn-default:hover {
+  .sky-btn-default:hover {
     border-color: $sky-background-color-neutral-light;
   }
 
-  ::ng-deep .sky-datepicker-center {
+  .sky-datepicker-center {
     text-align: center;
   }
 
-  ::ng-deep .sky-datepicker-btn-selected,
-  ::ng-deep .sky-btn-default.sky-datepicker-btn-selected:hover {
+  .sky-datepicker-btn-selected,
+  .sky-btn-default.sky-datepicker-btn-selected:hover {
     background-color: $sky-background-color-info-light;
     border: 2px solid $sky-highlight-color-info;
   }
-  ::ng-deep .sky-btn.sky-btn-active {
-    box-shadow:none;
+
+  .sky-btn.sky-btn-active {
+    box-shadow: none;
   }
 
-  ::ng-deep .sky-datepicker-secondary {
+  .sky-datepicker-secondary {
     color: $sky-text-color-deemphasized;
   }
 
-  ::ng-deep .sky-datepicker-btn-date {
+  .sky-datepicker-btn-date {
     min-width: 100%;
   }
 
-  ::ng-deep .sky-datepicker-calendar-title {
+  .sky-datepicker-calendar-title {
     width: 100%;
+  }
+
+  .sky-datepicker-chevron-modern {
+    display: none;
+  }
+
+  .sky-datepicker-header-left {
+    text-align: left;
+  }
+
+  .sky-datepicker-header-right {
+    text-align: right;
+  }
+}
+
+.sky-theme-modern {
+  .sky-datepicker-calendar-inner {
+    border-radius: $sky-theme-modern-border-radius-md;
+    padding: 5px 10px;
+
+    &:focus-within {
+      border: solid 2px $sky-theme-modern-background-color-primary-dark;
+      padding: 4px 9px;
+    }
+
+    .sky-btn-default {
+      border-width: 1px;
+      border-color: transparent;
+      padding: 4px 6px;
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+
+    .sky-btn-active,
+    .sky-btn-default:hover {
+      border: solid 1px $sky-theme-modern-background-color-primary-dark;
+    }
+  }
+
+  .sky-datepicker-chevron-default {
+    display: none;
+  }
+
+  .sky-datepicker-chevron-modern {
+    display: inline;
+    font-size: $sky-theme-modern-font-body-default-size;
+  }
+
+  &.sky-theme-mode-dark {
+    .sky-datepicker-calendar-inner {
+      background-color: transparent;
+
+      &:not(:focus-within) {
+        border-color: $sky-theme-modern-mode-dark-border-color-neutral-medium;
+      }
+
+      .sky-btn-default:not(.sky-datepicker-btn-selected) {
+        border-color: transparent;
+      }
+
+      .sky-btn-active,
+      .sky-btn-default:hover {
+        border: solid 1px $sky-theme-modern-background-color-primary-dark;
+      }
+
+      .sky-datepicker-btn-selected {
+        background-color: $sky-theme-modern-mode-dark-background-color-primary-dark;
+      }
+    }
   }
 }

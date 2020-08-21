@@ -1,14 +1,24 @@
 <table *ngIf="datepicker.datepickerMode==='month'" role="grid">
   <thead>
     <tr>
-      <th>
+      <th
+        class="sky-datepicker-header-left"
+      >
         <button
           type="button"
           class="sky-btn sky-btn-default sky-btn-sm sky-datepicker-btn-previous"
           (click)="datepicker.moveCalendar($event, -1)"
           tabindex="-1"
           >
-          <sky-icon icon="chevron-left"></sky-icon>
+          <sky-icon
+            class="sky-datepicker-chevron-default"
+            icon="chevron-left"
+          ></sky-icon>
+          <sky-icon
+            class="sky-datepicker-chevron-modern"
+            icon="chevron-left"
+            iconType="skyux"
+          ></sky-icon>
         </button></th>
       <th [attr.colspan]="((datepicker.monthColLimit - 2) <= 0) ? 1 : datepicker.monthColLimit - 2">
         <button
@@ -23,14 +33,24 @@
           <strong>{{title}}</strong>
         </button>
       </th>
-      <th>
+      <th
+        class="sky-datepicker-header-right"
+      >
         <button
           type="button"
           class="sky-btn sky-btn-default sky-btn-sm sky-datepicker-btn-next"
           (click)="datepicker.moveCalendar($event, 1)"
           tabindex="-1"
           >
-          <sky-icon icon="chevron-right"></sky-icon>
+          <sky-icon
+            class="sky-datepicker-chevron-default"
+            icon="chevron-right"
+          ></sky-icon>
+          <sky-icon
+            class="sky-datepicker-chevron-modern"
+            icon="chevron-right"
+            iconType="skyux"
+          ></sky-icon>
         </button>
       </th>
     </tr>

@@ -15,7 +15,8 @@ import {
  */
 @Component({
   selector: 'sky-monthpicker',
-  templateUrl: 'monthpicker.component.html'
+  templateUrl: 'monthpicker.component.html',
+  styleUrls: ['./monthpicker.component.scss']
 })
 export class SkyMonthPickerComponent implements OnInit {
 

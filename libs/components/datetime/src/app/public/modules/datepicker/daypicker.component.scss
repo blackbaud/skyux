@@ -1,0 +1,8 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/variables";
+
+@include sky-theme-modern {
+  :host:focus {
+    outline: none;
+  }
+}

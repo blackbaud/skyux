@@ -5,7 +5,8 @@ import {
   OnChanges,
   OnInit,
   Output,
-  SimpleChanges
+  SimpleChanges,
+  ViewEncapsulation
 } from '@angular/core';
 
 import { SkyDateFormatter } from './date-formatter';
@@ -22,7 +23,8 @@ let nextDatepickerId = 0;
 @Component({
   selector: 'sky-datepicker-inner',
   templateUrl: './datepicker-calendar-inner.component.html',
-  styleUrls: ['./datepicker-calendar-inner.component.scss']
+  styleUrls: ['./datepicker-calendar-inner.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class SkyDatepickerCalendarInnerComponent implements OnInit, OnChanges {
   @Input()
