@@ -1,3 +1,7 @@
+# 4.10.0 (2020-08-21)
+
+- Added modern theme styles shared by the radio button and checkbox components. [#180](https://github.com/blackbaud/skyux-theme/pull/180)
+
 # 4.9.1 (2020-08-20)
 
 - Fixed small button styles in the modern theme. [#178](https://github.com/blackbaud/skyux-theme/pull/178)
