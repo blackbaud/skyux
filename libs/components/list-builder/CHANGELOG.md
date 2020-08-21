@@ -1,3 +1,7 @@
+# 4.0.2 (2020-08-21)
+
+- Fixed the `selectedIds` property on the list component to handle observable values. [#109](https://github.com/blackbaud/skyux-list-builder/pull/109)
+
 # 4.0.1 (2020-08-06)
 
 - Added support for `@skyux/theme@4.8.0` and `@skyux-sdk/builder@4.3.0`. [#103](https://github.com/blackbaud/skyux-list-builder/pull/103)
