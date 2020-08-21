@@ -1,3 +1,9 @@
+# 4.3.1 (2020-08-21)
+
+- Fixed the property definition component to properly display call signatures. [#94](https://github.com/blackbaud/skyux-docs-tools/pull/94)
+- Fixed the directive definition component to properly display complex selectors. [#101](https://github.com/blackbaud/skyux-docs-tools/pull/101)
+- Fixed the enumeration definition component to properly format markdown in the description. [#100](https://github.com/blackbaud/skyux-docs-tools/pull/100)
+
 # 4.3.0 (2020-08-20)
 
 - Added the `modern` property to `SkyDocsComponentInfo`. [#95](https://github.com/blackbaud/skyux-docs-tools/pull/95)
