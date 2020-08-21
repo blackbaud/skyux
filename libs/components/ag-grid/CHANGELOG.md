@@ -1,3 +1,8 @@
+# 4.2.0 (2020-08-21)
+
+- Fixed the ag-Grid wrapper component to stop scrolling to the top of the grid when it receives focus. [#72](https://github.com/blackbaud/skyux-ag-grid/pull/72)
+- Updated the `skyAgGridDataManagerAdapter` directive to work with the new data manager API. [#73](https://github.com/blackbaud/skyux-ag-grid/pull/73)
+
 # 4.1.1 (2020-07-29)
 
 - Added a peer dependency on `@skyux/data-manager`. [#64](https://github.com/blackbaud/skyux-ag-grid/pull/64)
