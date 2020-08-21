@@ -73,6 +73,12 @@ export class FooComponent<U extends FooUser> implements OnInit {
   public experimental: boolean = false;
 
   /**
+   * @required
+   */
+  @Input()
+  public searchFunction: (searchTerm: string) => any[];
+
+  /**
    * This is the description for the click event.
    * @example
    * ```

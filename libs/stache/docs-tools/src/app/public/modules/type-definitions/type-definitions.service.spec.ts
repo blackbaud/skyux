@@ -73,6 +73,28 @@ describe('Type definitions service', function () {
             },
             {
               decorator: 'Input',
+              defaultValue: undefined,
+              deprecationWarning: undefined,
+              description: '',
+              isOptional: false,
+              name: 'searchFunction',
+              type: {
+                callSignature: {
+                  returnType: 'any[]',
+                  parameters: [
+                    {
+                      defaultValue: undefined,
+                      description: '',
+                      isOptional: false,
+                      name: 'searchTerm',
+                      type: 'string'
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              decorator: 'Input',
               defaultValue: 'FooEnum.Foo',
               deprecationWarning: undefined,
               description: 'This is the description for bar input. You must provide `FooEnum` values. If you provide FooEnum.Baz amazing things will happen.',
@@ -241,6 +263,43 @@ describe('Type definitions service', function () {
               type: 'U'
             },
             {
+              description: 'Gets a user from the database.',
+              isOptional: false,
+              name: 'getUser',
+              type: {
+                callSignature: {
+                  returnType: 'FooUser',
+                  parameters: [
+                    {
+                      defaultValue: undefined,
+                      description: 'The unique identifier.',
+                      isOptional: false,
+                      name: 'id',
+                      type: 'string'
+                    },
+                    {
+                      defaultValue: undefined,
+                      description: 'The locale of the user.',
+                      isOptional: true,
+                      name: 'locale',
+                      type: 'string'
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              description: '',
+              isOptional: true,
+              name: 'getUsers',
+              type: {
+                callSignature: {
+                  returnType: 'void',
+                  parameters: []
+                }
+              }
+            },
+            {
               description: '',
               isOptional: true,
               name: 'user',
@@ -407,7 +466,7 @@ describe('Type definitions service', function () {
                   type: 'string'
                 }
               ],
-              returnType: 'any[]',
+              returnType: 'string[]',
               typeParameters: []
             }
           ],
@@ -417,7 +476,18 @@ describe('Type definitions service', function () {
               defaultValue: '[]',
               description: 'This is the description for FOOS.',
               name: 'FOOS',
-              type: 'any[]'
+              type: 'string[]'
+            },
+            {
+              defaultValue: undefined,
+              description: 'This is the description for getFoos call signature.',
+              name: 'getFoos',
+              type: {
+                callSignature: {
+                  parameters: [],
+                  returnType: 'string[]'
+                }
+              }
             }
           ]
         },

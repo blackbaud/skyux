@@ -95,4 +95,34 @@
     [innerHtml]="property.defaultValue | skyDocsTypeAnchorLinks:'no-code-tags'"
   ></span></sky-code>.</ng-container>
   </p>
+
+  <ng-container *ngIf="property.type?.callSignature?.parameters?.length">
+    <h4 class="sky-docs-type-alias-definition-heading">
+      Parameters
+    </h4>
+    <sky-docs-parameter-definitions>
+      <sky-docs-parameter-definition *ngFor="let parameter of property.type.callSignature.parameters"
+        [defaultValue]="parameter.defaultValue"
+        [isOptional]="parameter.isOptional"
+        [parameterName]="parameter.name"
+        [parameterType]="parameter.type"
+      >
+        <sky-docs-safe-html
+          [innerHtml]="parameter.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
+        ></sky-docs-safe-html>
+      </sky-docs-parameter-definition>
+    </sky-docs-parameter-definitions>
+  </ng-container>
+
+  <ng-container *ngIf="property.type?.callSignature?.returnType">
+    <h4 class="sky-docs-type-alias-definition-heading">
+      Returns
+    </h4>
+
+    <p class="sky-docs-type-alias-definition-return-type">
+      <sky-code><span
+        [innerHtml]="property.type.callSignature.returnType | skyDocsTypeAnchorLinks:'no-code-tags'"
+      ></span></sky-code>
+    </p>
+  </ng-container>
 </ng-template>

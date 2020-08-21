@@ -87,6 +87,32 @@ describe('Property definitions component', function () {
     expect(signatureElement.textContent).toEqual('@Input()foobar: number');
   }));
 
+  it('should should display call signature types', fakeAsync(() => {
+    fixture.componentInstance.isOptional = true;
+    fixture.componentInstance.propertyName = 'foobar';
+    fixture.componentInstance.propertyType = {
+      callSignature: {
+        returnType: 'string[]',
+        parameters: [
+          {
+            isOptional: false,
+            name: 'userId',
+            type: 'number'
+          }
+        ]
+      }
+    };
+
+    fixture.detectChanges();
+    tick();
+
+    const signatureElement = fixture.nativeElement.querySelector(
+      '.sky-docs-property-definitions-table-cell-name'
+    );
+
+    expect(signatureElement.textContent).toEqual('foobar?: (userId: number) => string[]');
+  }));
+
   it('should display default value', fakeAsync(() => {
     fixture.componentInstance.propertyName = 'foobar';
     fixture.componentInstance.propertyType = 'number';

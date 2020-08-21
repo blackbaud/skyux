@@ -20,6 +20,11 @@ export class FooService implements OnDestroy {
   public FOOS: string[] = [];
 
   /**
+   * This is the description for getFoos call signature.
+   */
+  public getFoos: () => string[];
+
+  /**
    * This is the description for createFoo().
    * @example
    * ```typescript

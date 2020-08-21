@@ -15,6 +15,10 @@ import {
   SkyDocsPropertyDefinitionsComponent
 } from '../property-definitions.component';
 
+import {
+  SkyDocsTypeDefinition
+} from '../type-definition';
+
 @Component({
   selector: 'property-definition-test',
   templateUrl: './property-definitions.component.fixture.html'
@@ -31,7 +35,7 @@ export class PropertyDefinitionsFixtureComponent {
 
   public propertyName: string;
 
-  public propertyType: string;
+  public propertyType: SkyDocsTypeDefinition;
 
   public description: string;
 

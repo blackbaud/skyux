@@ -2,6 +2,10 @@ import {
   SkyDocsParameterDefinition
 } from './parameter-definition';
 
+import {
+  SkyDocsTypeDefinition
+} from './type-definition';
+
 export interface SkyDocsMethodDefinition {
 
   name: string;
@@ -16,7 +20,7 @@ export interface SkyDocsMethodDefinition {
 
   parameters?: SkyDocsParameterDefinition[];
 
-  returnType?: string;
+  returnType?: SkyDocsTypeDefinition;
 
   typeParameters?: string[];
 

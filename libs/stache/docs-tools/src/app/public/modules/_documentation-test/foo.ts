@@ -15,6 +15,16 @@ export interface Foo<T, U extends FooUser> {
   bar: T;
 
   /**
+   * Gets a user from the database.
+   * @param id The unique identifier.
+   * @param locale The locale of the user.
+   * @required
+   */
+  getUser: (id: string, locale?: string) => FooUser;
+
+  getUsers?: () => void;
+
+  /**
    * This is the description for baz.
    */
   baz?: U;

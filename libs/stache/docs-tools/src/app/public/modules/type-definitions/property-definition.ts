@@ -6,11 +6,15 @@ import {
   SkyDocsPropertyDecorator
 } from './property-decorator';
 
+import {
+  SkyDocsTypeDefinition
+} from './type-definition';
+
 export interface SkyDocsPropertyDefinition {
 
   name: string;
 
-  type: string;
+  type: SkyDocsTypeDefinition;
 
   decorator?: SkyDocsPropertyDecorator;
 

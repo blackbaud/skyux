@@ -111,4 +111,38 @@ describe('Interface definition component', function () {
     );
   }));
 
+  it('should display call signature types', fakeAsync(() => {
+    fixture.componentInstance.config = {
+      name: 'Foo',
+      description: 'This description has a FooUser.',
+      properties: [
+        {
+          isOptional: true,
+          name: 'foo',
+          type: {
+            callSignature: {
+              returnType: 'string[]',
+              parameters: [
+                {
+                  isOptional: false,
+                  name: 'userId',
+                  type: 'number'
+                }
+              ]
+            }
+          }
+        }
+      ]
+    };
+
+    fixture.detectChanges();
+    tick();
+
+    const nameElement = fixture.nativeElement.querySelector(
+      '.sky-docs-property-definitions-table-cell-name:first-child'
+    );
+
+    expect(nameElement.textContent).toEqual('foo?: (userId: number) => string[]');
+  }));
+
 });

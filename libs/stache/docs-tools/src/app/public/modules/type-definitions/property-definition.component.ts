@@ -10,6 +10,10 @@ import {
   SkyDocsPropertyDecorator
 } from './property-decorator';
 
+import {
+  SkyDocsTypeDefinition
+} from './type-definition';
+
 @Component({
   selector: 'sky-docs-property-definition',
   template: `
@@ -42,7 +46,7 @@ export class SkyDocsPropertyDefinitionComponent {
   public propertyName: string;
 
   @Input()
-  public propertyType: string;
+  public propertyType: SkyDocsTypeDefinition;
 
   @ViewChild('templateRef', {
     read: TemplateRef,

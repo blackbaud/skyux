@@ -28,6 +28,10 @@ import {
   SkyDocsTypeAliasUnionDefinition
 } from './type-alias-definition';
 
+import {
+  SkyDocsTypeDefinition
+} from './type-definition';
+
 @Injectable()
 export class SkyDocsTypeDefinitionsFormatService {
 
@@ -43,8 +47,12 @@ export class SkyDocsTypeDefinitionsFormatService {
     let signature: string = `interface ${definition.name}${typeParameterSignature} {`;
 
     definition.properties.forEach((property) => {
+      const propertyType = (typeof property.type === 'string')
+        ? property.type
+        : this.formatCallSignature(property.type.callSignature);
+
       const optionalIndicator = (property.isOptional) ? '?' : '';
-      signature += `\n  ${property.name}${optionalIndicator}: ${property.type.replace(/\"/g, '\'')};`;
+      signature += `\n  ${property.name}${optionalIndicator}: ${propertyType.replace(/\"/g, '\'')};`;
     });
 
     signature += '\n}';
@@ -125,8 +133,12 @@ export class SkyDocsTypeDefinitionsFormatService {
       signature += '?';
     }
 
-    const propertyType = this.anchorLinkService.applyTypeAnchorLinks(
-      this.escapeSpecialCharacters(item.type),
+    let propertyType = (typeof item.type === 'string')
+      ? item.type
+      : this.formatCallSignature(item.type.callSignature);
+
+    propertyType = this.anchorLinkService.applyTypeAnchorLinks(
+      this.escapeSpecialCharacters(propertyType),
       {
         applyCodeFormatting: false
       }
@@ -146,11 +158,7 @@ export class SkyDocsTypeDefinitionsFormatService {
 
     // Function type
     if ('returnType' in definition) {
-      const parameters = (definition.parameters)
-        ? definition.parameters.map(p => this.getParameterSignature(p))
-        : [];
-
-      signature += `(${parameters.join(', ')}) => ${definition.returnType}`;
+      signature += this.formatCallSignature(definition);
     }
 
     // Index signature
@@ -168,6 +176,17 @@ export class SkyDocsTypeDefinitionsFormatService {
 
   private escapeSpecialCharacters(value: string): string {
     return value.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  private formatCallSignature(definition: {
+    parameters?: SkyDocsParameterDefinition[];
+    returnType?: SkyDocsTypeDefinition;
+  }): string {
+    const parameters = (definition.parameters)
+      ? definition.parameters.map(p => this.getParameterSignature(p))
+      : [];
+
+    return `(${parameters.join(', ')}) => ${definition.returnType}`;
   }
 
 }

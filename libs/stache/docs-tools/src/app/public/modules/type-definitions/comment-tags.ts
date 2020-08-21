@@ -10,6 +10,13 @@ export interface SkyDocsCommentTags {
 
   description: string;
 
-  extras?: { [key: string]: any };
+  extras?: {
+    [key: string]: any;
+  };
+
+  parameters?: {
+    name: string;
+    description: string;
+  }[];
 
 }
