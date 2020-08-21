@@ -176,7 +176,11 @@ export class SkyDocsTypeDefinitionsService {
   }
 
   private parseDirectiveDefinition(item: TypeDocItem): SkyDocsDirectiveDefinition {
-    const selector = item.decorators[0].arguments.obj.split('selector: \'')[1].split('\'')[0];
+    const decoratorSource = item.decorators[0].arguments.obj;
+    const selector = (decoratorSource.indexOf('selector: `') > -1)
+      ? decoratorSource.split('selector: `')[1].split('`')[0].replace(/\s\s+/g, ' ')
+      : decoratorSource.split('selector: \'')[1].split('\'')[0];
+
     const properties: SkyDocsDirectivePropertyDefinition[] = [];
 
     const {

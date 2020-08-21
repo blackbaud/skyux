@@ -208,6 +208,15 @@ describe('Type definitions service', function () {
       ],
       directives: [
         {
+          anchorId: 'class-foocomplexdirective',
+          codeExample: undefined,
+          codeExampleLanguage: 'markup',
+          description: 'This is the description for FooComplexDirective.',
+          name: 'FooComplexDirective',
+          properties: [],
+          selector: 'input[fooComplex], textarea[fooComplex], [required][fooComplex]'
+        },
+        {
           anchorId: 'class-foodirective',
           codeExample: undefined,
           codeExampleLanguage: 'markup',
