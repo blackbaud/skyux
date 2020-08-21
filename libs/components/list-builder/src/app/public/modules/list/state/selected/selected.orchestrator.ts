@@ -1,10 +1,22 @@
-import { ListStateOrchestrator } from '../list-state.rxstate';
-import { AsyncItem } from '@skyux/list-builder-common';
-
-import { ListSelectedModel } from './selected.model';
 import {
-  ListSelectedLoadAction
-} from './load.action';
+  AsyncItem
+} from '@skyux/list-builder-common';
+
+import {
+  Observable
+} from 'rxjs';
+
+import {
+  take
+} from 'rxjs/operators';
+
+import {
+  ListStateOrchestrator
+} from '../list-state.rxstate';
+
+import {
+  ListSelectedModel
+} from './selected.model';
 
 import {
   ListSelectedSetLoadingAction
@@ -17,6 +29,10 @@ import {
 import {
   ListSelectedSetItemsSelectedAction
 } from './set-items-selected.action';
+
+import {
+  ListSelectedLoadAction
+} from './load.action';
 
 export class ListSelectedOrchestrator extends ListStateOrchestrator<AsyncItem<ListSelectedModel>> {
   /* istanbul ignore next */
@@ -69,7 +85,15 @@ export class ListSelectedOrchestrator extends ListStateOrchestrator<AsyncItem<Li
     const newSelectedIds = action.items || [];
     const newListSelectedModel = action.refresh ? new ListSelectedModel() : this.cloneListSelectedModel(state.item);
 
-    newSelectedIds.map(s => newListSelectedModel.selectedIdMap.set(s, action.selected));
+    if (newSelectedIds instanceof Observable) {
+      newSelectedIds
+        .pipe(take(1))
+        .subscribe(selectedIds => {
+          selectedIds.map(s => newListSelectedModel.selectedIdMap.set(s, action.selected));
+        });
+    } else {
+      newSelectedIds.map(s => newListSelectedModel.selectedIdMap.set(s, action.selected));
+    }
 
     return new AsyncItem<ListSelectedModel>(newListSelectedModel, state.lastUpdate, state.loading);
   }

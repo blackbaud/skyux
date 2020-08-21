@@ -3,6 +3,7 @@ import {
 } from '@angular/core';
 
 import {
+  BehaviorSubject,
   Observable,
   of as observableOf
 } from 'rxjs';
@@ -25,7 +26,7 @@ export class ListToolbarVisualComponent {
 
   public iconGroupSelectedValue = 'table';
 
-  public selectedIds: string[] = [];
+  public selectedIds: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
 
   public fruitTypeFilterFunction(): boolean {
     return true;
@@ -36,6 +37,6 @@ export class ListToolbarVisualComponent {
   }
 
   public onSelectRowsClick(): void {
-    this.selectedIds = ['2', '3', '5'];
+    this.selectedIds.next(['2', '3', '5']);
   }
 }

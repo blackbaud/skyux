@@ -5,12 +5,12 @@ import {
 } from '@angular/core';
 
 import {
-  SkyListComponent
-} from '../list.component';
+  ListFilterModel
+} from '../state/filters/filter.model';
 
 import {
-  ListFilterModel
-} from '../state';
+  SkyListComponent
+} from '../list.component';
 
 @Component({
   selector: 'sky-test-cmp',

@@ -1,5 +1,16 @@
-import { Component, ViewChild, Inject } from '@angular/core';
-import { SkyListComponent } from '../list.component';
+import {
+  Component,
+  Inject,
+  ViewChild
+} from '@angular/core';
+
+import {
+  BehaviorSubject
+} from 'rxjs';
+
+import {
+  SkyListComponent
+} from '../list.component';
 
 @Component({
   selector: 'sky-test-cmp',
@@ -15,7 +26,7 @@ export class ListSelectedTestComponent {
 
   public selectedItems: Map<string, boolean>;
 
-  public selectedIds: Array<string> = ['1', '2'];
+  public selectedIds: Array<string> | BehaviorSubject<Array<string>> = ['1', '2'];
 
   constructor(@Inject('items') public items: any) {
   }
