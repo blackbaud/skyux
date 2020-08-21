@@ -1,3 +1,7 @@
+# 4.1.1 (2020-08-21)
+
+- Added support for `google-libphonenumber@3.2.12`. [#62](https://github.com/blackbaud/skyux-phone-field/pull/62)
+
 # 4.1.0 (2020-08-10)
 
 - Added the ability to programatically set the phone field component's country value. [#51](https://github.com/blackbaud/skyux-phone-field/pull/51)
