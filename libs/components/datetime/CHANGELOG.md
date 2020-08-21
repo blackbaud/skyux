@@ -1,3 +1,7 @@
+# 4.4.0 (2020-08-21)
+
+- Added modern theme styles to the datepicker component. [#211](https://github.com/blackbaud/skyux-datetime/pull/211)
+
 # 4.3.0 (2020-08-20)
 
 - Added a test fixture for the timepicker component to use in consumer unit tests (import from `@skyux/datetime/testing`). [#196](https://github.com/blackbaud/skyux-datetime/pull/196)
