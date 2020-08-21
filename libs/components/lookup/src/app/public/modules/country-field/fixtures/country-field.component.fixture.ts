@@ -21,6 +21,8 @@ import {
 })
 export class CountryFieldTestComponent {
 
+  public autocompleteAttribute: string;
+
   @ViewChild(SkyCountryFieldComponent, {
     static: true
   })

@@ -19,14 +19,17 @@
     [searchResultTemplate]="searchResultTemplate"
     [searchTextMinimumCharacters]="searchTextMinimumCharacters"
     [noResultsFoundText]="customNoResultsMessage"
-    (selectionChange)="onSelectionChange($event)">
+    (selectionChange)="onSelectionChange($event)"
+  >
     <input
-      skyAutocomplete
-      type="text"
       id="my-autocomplete-input"
       name="favoriteColor"
+      skyAutocomplete
+      type="text"
+      [autocompleteAttribute]="autocompleteAttribute"
       [disabled]="disabled"
-      [(ngModel)]="model.favoriteColor">
+      [(ngModel)]="model.favoriteColor"
+    >
   </sky-autocomplete>
 </form>
 

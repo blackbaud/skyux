@@ -36,11 +36,12 @@
 
         <textarea
           class="sky-form-control"
+          skyAutocomplete
           [attr.aria-label]="ariaLabel"
           [attr.aria-labelledby]="ariaLabelledBy"
           [attr.placeholder]="placeholderText"
+          [autocompleteAttribute]="autocompleteAttribute"
           [disabled]="disabled"
-          skyAutocomplete
           (blur)="onAutocompleteBlur()"
           (keydown.enter)="$event.preventDefault();"
           (keyup.delete)="$event.stopPropagation();"

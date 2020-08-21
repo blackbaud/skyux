@@ -326,6 +326,23 @@ describe('Country Field Component', () => {
         expect(nativeElement.querySelector('.sky-country-field-flag')).toBeNull();
       }));
 
+      it('should set autocomplete defaults', () => {
+        fixture.detectChanges();
+
+        const textAreaElement = getInputElement();
+
+        expect(textAreaElement.getAttribute('autocomplete')).toEqual('off');
+      });
+
+      it('should update autocomplete value', fakeAsync(() => {
+        component.autocompleteAttribute = 'new-custom-field';
+        fixture.detectChanges();
+
+        const textAreaElement = getInputElement();
+
+        expect(textAreaElement.getAttribute('autocomplete')).toEqual('new-custom-field');
+      }));
+
       it('should disable the field correctly', fakeAsync(() => {
         component.modelValue = {
           name: 'United States',

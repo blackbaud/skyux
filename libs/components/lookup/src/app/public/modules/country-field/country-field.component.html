@@ -22,11 +22,12 @@
         [className]="'sky-country-field-flag iti-flag ' + selectedCountry.iso2.toLowerCase()"
       ></div>
       <textarea
-        skyAutocomplete
         name="selectedCountry"
+        skyAutocomplete
         [attr.aria-label]="'skyux_country_field_search_placeholder' | skyLibResources"
         [attr.disabled]="disabled ? true : undefined"
         [attr.id]="inputId"
+        [autocompleteAttribute]="autocompleteAttribute"
         [formControl]="countrySearchFormControl"
         [placeholder]="'skyux_country_field_search_placeholder' | skyLibResources"
         (blur)="onAutocompleteBlur()"

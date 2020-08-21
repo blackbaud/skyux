@@ -402,49 +402,51 @@ export class SkyAutocompleteComponent
     observableFromEvent(element, 'keydown')
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((event: KeyboardEvent) => {
-        const key = event.key.toLowerCase();
+        if (event.key) {
+          const key = event.key.toLowerCase();
 
-        /* tslint:disable-next-line:switch-default */
-        switch (key) {
-          case 'enter':
-            this.selectActiveSearchResult();
-            this.closeDropdown();
-            event.preventDefault();
-            event.stopPropagation();
-            break;
+          /* tslint:disable-next-line:switch-default */
+          switch (key) {
+            case 'enter':
+              this.selectActiveSearchResult();
+              this.closeDropdown();
+              event.preventDefault();
+              event.stopPropagation();
+              break;
 
-          case 'tab':
-            this.selectActiveSearchResult();
-            this.closeDropdown();
-            break;
+            case 'tab':
+              this.selectActiveSearchResult();
+              this.closeDropdown();
+              break;
 
-          case 'escape':
-            this.closeDropdown();
-            break;
+            case 'escape':
+              this.closeDropdown();
+              break;
 
-          case 'arrowdown':
-          case 'down':
-            this.searchResultsIndex++;
-            if (this.searchResultsIndex > this.searchResults.length - 1) {
-              this.searchResultsIndex = 0;
-            }
-            this.setActiveDescendant();
-            this.changeDetector.markForCheck();
-            event.preventDefault();
-            event.stopPropagation();
-            break;
+            case 'arrowdown':
+            case 'down':
+              this.searchResultsIndex++;
+              if (this.searchResultsIndex > this.searchResults.length - 1) {
+                this.searchResultsIndex = 0;
+              }
+              this.setActiveDescendant();
+              this.changeDetector.markForCheck();
+              event.preventDefault();
+              event.stopPropagation();
+              break;
 
-          case 'arrowup':
-          case 'up':
-            this.searchResultsIndex--;
-            if (this.searchResultsIndex < 0) {
-              this.searchResultsIndex = this.searchResults.length - 1;
-            }
-            this.setActiveDescendant();
-            this.changeDetector.markForCheck();
-            event.preventDefault();
-            event.stopPropagation();
-            break;
+            case 'arrowup':
+            case 'up':
+              this.searchResultsIndex--;
+              if (this.searchResultsIndex < 0) {
+                this.searchResultsIndex = this.searchResults.length - 1;
+              }
+              this.setActiveDescendant();
+              this.changeDetector.markForCheck();
+              event.preventDefault();
+              event.stopPropagation();
+              break;
+          }
         }
       });
 

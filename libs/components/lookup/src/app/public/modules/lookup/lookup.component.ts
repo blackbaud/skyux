@@ -61,6 +61,13 @@ export class SkyLookupComponent
   @Input()
   public ariaLabelledBy: string;
 
+  /**
+   * Specifies the value for the `autocomplete` attribute on the form input.
+   * @default "off"
+   */
+  @Input()
+  public autocompleteAttribute: string;
+
   @Input()
   public disabled = false;
 
@@ -162,19 +169,25 @@ export class SkyLookupComponent
   }
 
   public onTokensKeyUp(event: KeyboardEvent) {
-    const key = event.key.toLowerCase();
-    if (key === 'backspace') {
-      this.sendTokensMessage(SkyTokensMessageType.RemoveActiveToken);
-      this.sendTokensMessage(SkyTokensMessageType.FocusPreviousToken);
-      event.preventDefault();
-    }
+    if (event.key) {
+      const key = event.key.toLowerCase();
 
-    if (key === 'delete') {
-      this.sendTokensMessage(SkyTokensMessageType.RemoveActiveToken);
-      this.windowRef.nativeWindow.setTimeout(() => {
-        this.sendTokensMessage(SkyTokensMessageType.FocusActiveToken);
-      });
-      event.preventDefault();
+      /* tslint:disable-next-line:switch-default */
+      switch (key) {
+        case 'backspace':
+          this.sendTokensMessage(SkyTokensMessageType.RemoveActiveToken);
+          this.sendTokensMessage(SkyTokensMessageType.FocusPreviousToken);
+          event.preventDefault();
+          break;
+
+        case 'delete':
+          this.sendTokensMessage(SkyTokensMessageType.RemoveActiveToken);
+          this.windowRef.nativeWindow.setTimeout(() => {
+            this.sendTokensMessage(SkyTokensMessageType.FocusActiveToken);
+          });
+          event.preventDefault();
+          break;
+      }
     }
   }
 

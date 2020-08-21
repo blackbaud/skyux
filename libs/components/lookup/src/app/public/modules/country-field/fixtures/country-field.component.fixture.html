@@ -2,6 +2,7 @@
   <form>
     <sky-country-field
       name="countryField"
+      [autocompleteAttribute]="autocompleteAttribute"
       [disabled]="isDisabled ? true : undefined"
       [defaultCountry]="defaultCountry"
       [required]="isRequired ? true : undefined"

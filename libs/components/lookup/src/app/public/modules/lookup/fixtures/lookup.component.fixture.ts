@@ -27,6 +27,7 @@ export class SkyLookupTestComponent implements OnInit {
 
   public ariaLabel: string;
   public ariaLabelledBy: string;
+  public autocompleteAttribute: string;
   public data: any[];
   public friends: any[];
   public form: FormGroup;

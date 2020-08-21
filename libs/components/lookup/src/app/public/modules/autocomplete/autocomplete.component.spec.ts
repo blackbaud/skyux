@@ -119,7 +119,7 @@ describe('Autocomplete component', () => {
 
       fixture.detectChanges();
 
-      expect(inputElement.getAttribute('autocomplete')).toEqual('new-password');
+      expect(inputElement.getAttribute('autocomplete')).toEqual('off');
       expect(inputElement.getAttribute('autocapitalize')).toEqual('off');
       expect(inputElement.getAttribute('autocorrect')).toEqual('off');
       expect(inputElement.getAttribute('spellcheck')).toEqual('false');
@@ -134,6 +134,14 @@ describe('Autocomplete component', () => {
       expect(autocomplete.searchResultsLimit).toBeUndefined();
       expect(autocomplete.searchResultTemplate).toBeDefined();
       expect(autocomplete.searchTextMinimumCharacters).toEqual(1);
+    });
+
+    it('should be able to udpate autocomplete attribute', () => {
+      component.autocompleteAttribute = 'new-custom-field';
+
+      fixture.detectChanges();
+
+      expect(inputElement.getAttribute('autocomplete')).toEqual('new-custom-field');
     });
 
     it('should handle preselected values', fakeAsync(() => {

@@ -55,6 +55,29 @@ const SKY_AUTOCOMPLETE_VALIDATOR = {
 export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, ControlValueAccessor, Validator {
 
   /**
+   * Specifies the value for the `autocomplete` attribute on the form input.
+   * @default "off"
+   */
+  @Input()
+  public set autocompleteAttribute(value: string) {
+    if (!value) {
+      this._autocompleteAttribute = 'off';
+    } else {
+      if (value !== this._autocompleteAttribute) {
+        this._autocompleteAttribute = value;
+      }
+    }
+
+    this.renderer.setAttribute(
+      this.elementRef.nativeElement, 'autocomplete', this.autocompleteAttribute
+    );
+  }
+
+  public get autocompleteAttribute(): string {
+    return this._autocompleteAttribute || 'off';
+  }
+
+  /**
    * Indicates whether to disable the autocomplete field.
    * @default "false"
    */
@@ -127,6 +150,8 @@ export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, Control
   private isFirstChange: boolean = true;
 
   private ngUnsubscribe = new Subject<void>();
+
+  private _autocompleteAttribute: string;
 
   private _blur = new Subject<void>();
 
@@ -243,15 +268,7 @@ export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, Control
   public onValidatorChange = () => { };
 
   private setAttributes(element: any): void {
-    /**
-     * Modern browsers interpret autocomplete rules differently
-     * and sometimes completely ignore the 'off' value. As a workaround,
-     * 'new-password' will prevent autocomplete in FF 76.0.1, Chrome 81.0, and Edge 81.0.
-     * For preventing autocomplete in Safari, apply directive to a textarea element.
-     * https://developer.mozilla.org/en-US/docs/Web/Security/Securing_your_site/Turning_off_form_autocompletion
-     */
-    this.renderer.setAttribute(element, 'autocomplete', 'new-password');
-
+    this.renderer.setAttribute(element, 'autocomplete', this.autocompleteAttribute);
     this.renderer.setAttribute(element, 'autocapitalize', 'off');
     this.renderer.setAttribute(element, 'autocorrect', 'off');
     this.renderer.setAttribute(element, 'spellcheck', 'false');

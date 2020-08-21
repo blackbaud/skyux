@@ -141,6 +141,22 @@ describe('Lookup component', function () {
         expect(lookupComponent.value).toEqual([]);
       });
 
+      it('should set autocomplete defaults', () => {
+        fixture.detectChanges();
+
+        const inputElement = getInputElement(lookupComponent);
+
+        expect(inputElement.getAttribute('autocomplete')).toEqual('off');
+      });
+
+      it('should allow consumer to change autocomplete value', function () {
+        component.autocompleteAttribute = 'new-custom-field';
+
+        fixture.detectChanges();
+
+        expect(lookupComponent.autocompleteAttribute).toEqual('new-custom-field');
+      });
+
       it('should share the same inputs as autocomplete', function () {
         fixture.detectChanges();
         expect(typeof lookupComponent.data).not.toBeUndefined();

@@ -33,6 +33,9 @@ import {
   templateUrl: './autocomplete.component.fixture.html'
 })
 export class SkyAutocompleteFixtureComponent {
+
+  public autocompleteAttribute: string;
+
   public data: any[] = [
     { name: 'Red', objectid: 'abc' },
     { name: 'Blue', objectid: 'def' },
