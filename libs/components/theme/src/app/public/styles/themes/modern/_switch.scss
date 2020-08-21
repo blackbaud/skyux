@@ -1,0 +1,46 @@
+@import '../../variables-public';
+
+$sky-switch-size-modern: 26px !default;
+
+.sky-theme-modern {
+
+  .sky-switch {
+    &:hover .sky-switch-control {
+      border-width: 1px;
+    }
+  }
+
+  .sky-switch-input:not(:disabled) {
+    &:checked + .sky-switch-control {
+      border-width: 1px;
+    }
+
+    &:focus + .sky-switch-control,
+    &:active + .sky-switch-control {
+      border: solid 2px $sky-theme-modern-background-color-primary-dark;
+    }
+
+    &:focus:not(:active) + .sky-switch-control {
+      box-shadow:
+        $sky-theme-modern-elevation-3-shadow-size
+        $sky-theme-modern-elevation-3-shadow-color;
+      outline: none;
+    }
+  }
+
+  .sky-switch-control {
+    transition: box-shadow $sky-transition-time-short;
+
+    &:not(.sky-switch-control-icon) {
+      width: $sky-switch-size-modern;
+      max-width: $sky-switch-size-modern;
+      height: $sky-switch-size-modern;
+      flex: 1 0 $sky-switch-size-modern;
+    }
+  }
+
+  .sky-switch-label {
+    line-height: $sky-switch-size-modern;
+  }
+
+}
