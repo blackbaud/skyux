@@ -1,3 +1,7 @@
+# 4.2.3 (2020-08-21)
+
+- Fixed the fluid grid component to have `10px` gutters when `gutterSize` is set to `SkyFluidGridGutterSize.Small`. [#144](https://github.com/blackbaud/skyux-layout/pull/144)
+
 # 4.2.2 (2020-07-31)
 
 - Fixed a bug where the fluid grid component's `gutterSize` attribute was not respected in the modern theme. [#141](https://github.com/blackbaud/skyux-layout/pull/141)
