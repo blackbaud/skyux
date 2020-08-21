@@ -1,3 +1,8 @@
+# 4.3.0 (2020-08-21)
+
+- Added `autocompleteAttribute` to the autocomplete directive, lookup component, and country field component to set `autocomplete` attribute on form inputs. [#122](https://github.com/blackbaud/skyux-lookup/pull/122)
+- Fixed autocomplete and lookup components to no longer throw an error when users click on a browser's autofill menu. [#122](https://github.com/blackbaud/skyux-lookup/pull/122)
+
 # 4.2.1 (2020-08-03)
 
 - Fixed the lookup component to properly initialize the input element in consumer unit tests. [#116](https://github.com/blackbaud/skyux-lookup/pull/116)
