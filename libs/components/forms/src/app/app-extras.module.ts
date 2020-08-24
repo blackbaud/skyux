@@ -28,7 +28,6 @@ import {
 } from '@skyux/router';
 
 import {
-  SkyAutofillModule,
   SkyCheckboxModule,
   SkyFileAttachmentsModule,
   SkyInputBoxModule,
@@ -41,7 +40,6 @@ import {
   exports: [
     SkyAppLinkModule,
     SkyAuthHttpClientModule,
-    SkyAutofillModule,
     SkyCodeModule,
     SkyCheckboxModule,
     SkyDocsToolsModule,
