@@ -31,7 +31,10 @@ import {
   SkySplitViewService
 } from './split-view.service';
 
-@Component({
+  /**
+   * Contains the content, footer, and header to display in the split view's workspace panel.
+   */
+  @Component({
   selector: 'sky-split-view-workspace',
   templateUrl: 'split-view-workspace.component.html',
   styleUrls: ['./split-view-workspace.component.scss'],
@@ -53,6 +56,9 @@ export class SkySplitViewWorkspaceComponent implements OnDestroy, OnInit {
     return this._isMobile || false;
   }
 
+  /**
+   * Sets the workspace panel's `aria-label` attribute to support accessibility.
+   */
   @Input()
   public ariaLabel: string;
 

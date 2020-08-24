@@ -32,6 +32,9 @@ import { takeUntil, takeWhile } from 'rxjs/operators';
 
 let skySplitViewNextId = 0;
 
+/**
+ * Specifies the content to display in the split view's list panel.
+ */
 @Component({
   selector: 'sky-split-view-drawer',
   templateUrl: 'split-view-drawer.component.html',
@@ -44,9 +47,16 @@ let skySplitViewNextId = 0;
 })
 export class SkySplitViewDrawerComponent implements AfterViewInit, OnInit, OnDestroy {
 
+  /**
+   * Sets the list panel's `aria-label` attribute to support accessibility.
+   */
   @Input()
   public ariaLabel: string;
 
+  /**
+   * Sets the list panel's width in pixels.
+   * @default 320
+   */
   @Input()
   public set width(value: number) {
     if (value) {

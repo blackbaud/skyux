@@ -17,6 +17,9 @@ import {
   SkySplitViewService
 } from './split-view.service';
 
+/**
+ * Specifies the header to display in the split view's workspace panel.
+ */
 @Component({
   selector: 'sky-split-view-workspace-header',
   templateUrl: 'split-view-workspace-header.component.html',
