@@ -9,5 +9,6 @@ import {
  */
 export type FooTypeFunction = (
   needle: string,
-  haystack?: string
+  haystack?: string,
+  user?: FooUser
 ) => FooUser;

@@ -88,6 +88,7 @@ export class SkyDocsTypeDefinitionsFormatService {
   public getParameterSignature(
     parameter: SkyDocsParameterDefinition,
     config: {
+      applyCodeFormatting?: boolean;
       createAnchorLinks?: boolean;
       escapeSpecialCharacters?: boolean;
     } = {
@@ -105,7 +106,9 @@ export class SkyDocsTypeDefinitionsFormatService {
     }
 
     if (config.createAnchorLinks) {
-      signature = this.anchorLinkService.applyTypeAnchorLinks(signature);
+      signature = this.anchorLinkService.applyTypeAnchorLinks(signature, {
+        applyCodeFormatting: config.applyCodeFormatting
+      });
     }
 
     return signature;
@@ -135,7 +138,9 @@ export class SkyDocsTypeDefinitionsFormatService {
 
     let propertyType = (typeof item.type === 'string')
       ? item.type
-      : this.formatCallSignature(item.type.callSignature);
+      : this.formatCallSignature(item.type.callSignature, {
+        createAnchorLinks: false
+      });
 
     propertyType = this.anchorLinkService.applyTypeAnchorLinks(
       this.escapeSpecialCharacters(propertyType),
@@ -181,9 +186,11 @@ export class SkyDocsTypeDefinitionsFormatService {
   private formatCallSignature(definition: {
     parameters?: SkyDocsParameterDefinition[];
     returnType?: SkyDocsTypeDefinition;
+  }, config?: {
+    createAnchorLinks?: boolean;
   }): string {
     const parameters = (definition.parameters)
-      ? definition.parameters.map(p => this.getParameterSignature(p))
+      ? definition.parameters.map(p => this.getParameterSignature(p, config))
       : [];
 
     return `(${parameters.join(', ')}) => ${definition.returnType}`;

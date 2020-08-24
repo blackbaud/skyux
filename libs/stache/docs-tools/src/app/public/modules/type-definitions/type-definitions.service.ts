@@ -496,7 +496,7 @@ export class SkyDocsTypeDefinitionsService {
           const tagParam = paramTags.find((param) => param.name === p.name);
 
           const parameter: SkyDocsParameterDefinition = {
-            description: tagParam.description,
+            description: tagParam?.description,
             isOptional,
             name: p.name,
             type: p.type.name

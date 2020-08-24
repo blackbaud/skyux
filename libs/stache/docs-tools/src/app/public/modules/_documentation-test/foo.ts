@@ -20,7 +20,7 @@ export interface Foo<T, U extends FooUser> {
    * @param locale The locale of the user.
    * @required
    */
-  getUser: (id: string, locale?: string) => FooUser;
+  getUser: (id: FooUser, locale?: string) => FooUser;
 
   getUsers?: () => void;
 
