@@ -7,20 +7,20 @@ export class NumericOptions {
    * Specifies the maximum number of digits after the decimal separator.
    * @default "1"
    */
-  public digits = 1;
+  public digits?: number = 1;
 
   /**
    * Specifies how to format the number. Options are `currency` or `number`.
    * @default "number"
    */
-  public format = 'number';
+  public format?: string = 'number';
 
   /**
    * Specifies the ISO4217 currency code to use for currency formatting. If you do not specify a
    * currency code, the component uses the browser's culture to determine the currency unless your
    * SPA provides a different culture with `SkyAppLocaleProvider`.
    */
-  public iso = 'USD';
+  public iso?: string = 'USD';
 
   /**
    * Specifies the locale code to use when formatting.

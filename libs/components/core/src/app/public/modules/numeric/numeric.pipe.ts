@@ -52,7 +52,7 @@ export class SkyNumericPipe implements PipeTransform, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
-  public transform(value: number, config: any = {}): string {
+  public transform(value: number, config?: NumericOptions): string {
     const options = new NumericOptions();
 
     // The default number of digits is `1`. When truncate is disabled, set digits
