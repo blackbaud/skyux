@@ -26,11 +26,26 @@
       'sky-switch-control-warning': icon && radioType === 'warning',
       'sky-switch-control-danger': icon && radioType === 'danger'
     }">
-    <sky-icon
-      *ngIf="icon || checked"
+    <sky-icon *ngIf="icon || checked"
+      class="sky-radio-icon-default"
       fixedWidth="true"
-      [icon]="icon || 'circle'">
+      [icon]="icon || 'circle'"
+    >
     </sky-icon>
+    <div
+      class="sky-radio-icon-modern"
+    >
+      <sky-icon *ngIf="icon; else checkedTemplate"
+        fixedWidth="true"
+        [icon]="icon"
+      >
+      </sky-icon>
+      <ng-template #checkedTemplate>
+        <div *ngIf="checked"
+          class="sky-radio-icon-modern-checked sky-rounded-circle"
+        ></div>
+      </ng-template>
+    </div>
   </span>
   <ng-content select="sky-radio-label"></ng-content>
 </label>

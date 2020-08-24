@@ -6,7 +6,7 @@
   }"
 >
   <input
-    class="sky-switch-input"
+    class="sky-checkbox-input sky-switch-input"
     type="checkbox"
     [id]="inputId"
     [checked]="checked"
@@ -28,11 +28,30 @@
       'sky-switch-control-warning': checkboxType === 'warning',
       'sky-switch-control-danger': checkboxType === 'danger'
     }">
-    <sky-icon
-      *ngIf="icon || checked"
+    <sky-icon *ngIf="icon || checked"
+      class="sky-checkbox-icon-default"
       fixedWidth="true"
-      [icon]="icon || 'check'">
+      [icon]="icon || 'check'"
+    >
     </sky-icon>
+    <div
+      class="sky-checkbox-icon-modern"
+    >
+      <sky-icon *ngIf="icon; else checkedTemplate"
+        fixedWidth="true"
+        [icon]="icon"
+      >
+      </sky-icon>
+      <ng-template #checkedTemplate>
+        <sky-icon *ngIf="checked"
+          class="sky-checkbox-icon-modern-checked"
+          fixedWidth="true"
+          icon="check"
+          iconType="skyux"
+        >
+        </sky-icon>
+      </ng-template>
+    </div>
   </span>
   <ng-content select="sky-checkbox-label">
   </ng-content>

@@ -1,9 +1,19 @@
+<sky-docs-demo-control-panel-theme
+  (themeSettingsChange)="themeSettingsChange($event)"
+></sky-docs-demo-control-panel-theme>
+
 <div id="screenshot-checkbox">
   <sky-checkbox [checked]="true">
     <sky-checkbox-label>Checked Checkbox</sky-checkbox-label>
   </sky-checkbox>
   <sky-checkbox [checked]="false">
     <sky-checkbox-label>Unchecked Checkbox</sky-checkbox-label>
+  </sky-checkbox>
+  <sky-checkbox [checked]="false" [disabled]="true">
+    <sky-checkbox-label>Disabled Checkbox</sky-checkbox-label>
+  </sky-checkbox>
+  <sky-checkbox [checked]="true" [disabled]="true">
+    <sky-checkbox-label>Disabled Checked Checkbox</sky-checkbox-label>
   </sky-checkbox>
 </div>
 <div id="screenshot-icon-checkbox">

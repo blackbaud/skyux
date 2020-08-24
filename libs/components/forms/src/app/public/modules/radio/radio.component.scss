@@ -1,5 +1,35 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+@import "~@skyux/theme/scss/variables";
+
 .sky-switch-control:not(.sky-switch-control-icon) {
   sky-icon {
     font-size: 70%;
+  }
+}
+
+.sky-radio-icon-modern {
+  display: none;
+}
+
+@include sky-theme-modern {
+  .sky-radio-icon-default {
+    display: none;
+  }
+
+  .sky-radio-icon-modern {
+    display: block;
+  }
+
+  .sky-radio-icon-modern-checked {
+    background-color: $sky-text-color-action-primary;
+    height: 10px;
+    width: 10px;
+  }
+
+  .sky-radio-input:disabled + .sky-switch-control {
+    .sky-radio-icon-modern-checked {
+      background-color: $sky-text-color-default;
+    }
   }
 }

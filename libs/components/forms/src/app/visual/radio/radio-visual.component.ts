@@ -8,6 +8,11 @@ import {
   FormGroup
 } from '@angular/forms';
 
+import {
+  SkyThemeService,
+  SkyThemeSettings
+} from '@skyux/theme';
+
 @Component({
   selector: 'radio-visual',
   templateUrl: './radio-visual.component.html'
@@ -34,7 +39,8 @@ export class RadioVisualComponent implements OnInit {
   public selectedValue = '3';
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private themeSvc: SkyThemeService
   ) { }
 
   public ngOnInit(): void {
@@ -50,5 +56,9 @@ export class RadioVisualComponent implements OnInit {
     } else {
       this.radioForm.enable();
     }
+  }
+
+  public themeSettingsChange(themeSettings: SkyThemeSettings): void {
+    this.themeSvc.setTheme(themeSettings);
   }
 }

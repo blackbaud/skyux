@@ -29,7 +29,8 @@ let nextId = 0;
 
 @Component({
   selector: 'sky-checkbox',
-  templateUrl: './checkbox.component.html'
+  templateUrl: './checkbox.component.html',
+  styleUrls: ['./checkbox.component.scss']
 })
 export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
 

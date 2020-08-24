@@ -1,0 +1,31 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+@import "~@skyux/theme/scss/variables";
+
+.sky-checkbox-icon-modern {
+  display: none;
+}
+
+@include sky-theme-modern {
+  .sky-checkbox-icon-default {
+    display: none;
+  }
+
+  .sky-checkbox-icon-modern {
+    display: inline;
+  }
+
+  .sky-checkbox-icon-modern-checked {
+    color: $sky-text-color-action-primary;
+  }
+
+  .sky-checkbox-input:disabled + .sky-switch-control {
+    .sky-checkbox-icon-modern-checked {
+      color: $sky-text-color-default;
+    }
+  }
+
+  .sky-switch-control {
+    border-radius: $sky-theme-modern-box-border-radius-default;
+  }
+}
