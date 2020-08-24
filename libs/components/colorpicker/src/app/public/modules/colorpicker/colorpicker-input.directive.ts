@@ -60,7 +60,10 @@ const SKY_COLORPICKER_VALIDATOR = {
 // tslint:enable
 const SKY_COLORPICKER_DEFAULT_COLOR = '#FFFFFF';
 
-@Directive({
+  /**
+   * Creates the colorpicker element and dropdown.
+   */
+  @Directive({
   selector: '[skyColorpickerInput]',
   providers: [
     SKY_COLORPICKER_VALUE_ACCESSOR,
@@ -72,11 +75,21 @@ export class SkyColorpickerInputDirective
 
   public pickerChangedSubscription: Subscription;
 
+  /**
+   * Creates the colorpicker element and dropdown. Place this attribute on an `input` element
+   * or `button` element, wrap the element in a `sky-colorpicker` component, and set the attribute
+   * to the instance of the `sky-colorpicker` component.
+   * @required
+   */
   @Input()
   public skyColorpickerInput: SkyColorpickerComponent;
 
   /**
-   * @deprecated Use either a reactive or template driven form to set this value
+   * Specifies an initial color to load in the colorpicker. Use a reactive or
+   * template-driven form to set this value. This property is deprecated. As an alternative,
+   * we recommend the `formControlName` property on reactive forms or `ngModel` on
+   * template-driven forms. See the demo for examples.
+   * @deprecated
    */
   @Input()
   public set initialColor(value: string) {
@@ -90,18 +103,40 @@ export class SkyColorpickerInputDirective
     return this._initialColor || SKY_COLORPICKER_DEFAULT_COLOR;
   }
 
+  /**
+   * This property is deprecated and does not affect the colorpicker.
+   * We recommend against using it.
+   * @deprecated
+   */
   @Input()
   public returnFormat = 'rgba';
 
+  /**
+   * Specifies the format to use for the color when the colorpicker uses a native input
+   * element such as a standard text input or a button. This property accepts `rgba`, `hex`,
+   * or `hsla`, but we do not recommend using it because users never see or use its value.
+   * Instead, if you need to access this format value, see the demo for an example.
+   */
   @Input()
   public outputFormat = 'rgba';
 
+  /**
+   * Specifies an array of colors to load as preset choices. The colorpicker displays the
+   * colors in a series of 12 boxes for users to select.
+   */
   @Input()
   public presetColors = ['#333', '#888', '#EFEFEF', '#FFF'];
 
+  /**
+   * Specifies the type of transparency to use in the transparency slider.
+   */
   @Input()
   public alphaChannel = 'hex6';
 
+  /**
+   * Indicates whether to display a transparency slider for users to select transparency
+   * levels.
+   */
   @Input()
   public allowTransparency = true;
 

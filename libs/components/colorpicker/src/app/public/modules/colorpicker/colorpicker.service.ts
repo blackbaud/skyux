@@ -6,6 +6,9 @@ import { SkyColorpickerHsva } from './types/colorpicker-hsva';
 import { SkyColorpickerRgba } from './types/colorpicker-rgba';
 import { SkyColorpickerOutput } from './types/colorpicker-output';
 
+/**
+ * @internal
+ */
 @Injectable()
 export class SkyColorpickerService {
   constructor() { }

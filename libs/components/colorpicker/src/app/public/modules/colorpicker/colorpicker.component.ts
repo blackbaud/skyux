@@ -76,6 +76,11 @@ import {
 
 let componentIdIndex = 0;
 
+/**
+ * Provides a SKY UX-themed replacement for the HTML `input` element with `type="color"`.
+ * The value that users select is driven through the `ngModel` attribute specified on
+ * the `input` element.
+ */
 @Component({
   selector: 'sky-colorpicker',
   templateUrl: './colorpicker.component.html',
@@ -83,15 +88,27 @@ let componentIdIndex = 0;
 })
 
 export class SkyColorpickerComponent implements OnInit, OnDestroy {
+  /**
+   * Fires when users select a color in the colorpicker.
+   */
   @Output()
   public selectedColorChanged = new EventEmitter<SkyColorpickerOutput>();
 
+  /**
+   * Fires when users select **Apply** in the colorpicker to apply a color.
+   */
   @Output()
   public selectedColorApplied = new EventEmitter<SkyColorpickerResult>();
 
+  /**
+   * Specifies a message stream to toggle the reset button on and off.
+   */
   @Input()
   public messageStream = new Subject<SkyColorpickerMessage>();
 
+  /**
+   * Indicates whether to display a reset button to let users return to the default color.
+   */
   @Input()
   public showResetButton = true;
 
