@@ -1,3 +1,7 @@
+# 4.8.0 (2020-08-24)
+
+- Added modern theme styles to radio buttons and checkboxes. [#173](https://github.com/blackbaud/skyux-forms/pull/173)
+
 # 4.7.1 (2020-08-20)
 
 - Fixed an issue where the input box component displayed as invalid when the field was untouched. [#171](https://github.com/blackbaud/skyux-forms/pull/171)
