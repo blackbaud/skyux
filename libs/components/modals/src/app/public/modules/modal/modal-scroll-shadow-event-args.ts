@@ -1,5 +1,5 @@
 /**
- * internal
+ * @internal
  */
 export interface SkyModalScrollShadowEventArgs {
 
