@@ -321,6 +321,20 @@ describe('Autonumeric directive', () => {
       detectChanges();
 
       verifyFormControlStatuses({
+        dirty: false,
+        pristine: true,
+        touched: false,
+        valid: true
+      });
+    }));
+
+    it('should set correct statuses when initialized with falsey value', fakeAsync(() => {
+      detectChanges();
+
+      setValue(0);
+
+      verifyFormControlStatuses({
+        dirty: false,
         pristine: true,
         touched: false,
         valid: true
@@ -335,6 +349,7 @@ describe('Autonumeric directive', () => {
       detectChanges();
 
       verifyFormControlStatuses({
+        dirty: false,
         pristine: true,
         touched: false,
         valid: true
