@@ -1,3 +1,7 @@
+# 4.0.2 (2020-08-25)
+
+- Fixed the autonumeric directive to not set the `dirty` status when the model is set with a falsy value. [#39](https://github.com/blackbaud/skyux-autonumeric/pull/39)
+
 # 4.0.1 (2020-08-05)
 
 - Added support for `@skyux/theme@4.8.0` and `@skyux-sdk/builder@4.3.0`. [#33](https://github.com/blackbaud/skyux-autonumeric/pull/33)
