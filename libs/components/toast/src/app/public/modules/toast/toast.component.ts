@@ -50,9 +50,15 @@ const AUTO_CLOSE_MILLISECONDS = 6000;
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyToastComponent implements OnInit, OnDestroy {
+  /**
+   * Indicates whether to automatically close the toast.
+   */
   @Input()
   public autoClose: boolean;
 
+  /**
+   * Specifies a `SkyToastType` type for the toast to determine the color and icon to display.
+   */
   @Input()
   public set toastType(value: SkyToastType) {
     this._toastType = value;
@@ -62,6 +68,9 @@ export class SkyToastComponent implements OnInit, OnDestroy {
     return (this._toastType === undefined) ? SkyToastType.Info : this._toastType;
   }
 
+  /**
+   * Fires when the toast closes.
+   */
   @Output()
   public closed = new EventEmitter<void>();
 

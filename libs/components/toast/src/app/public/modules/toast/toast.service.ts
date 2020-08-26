@@ -64,9 +64,9 @@ export class SkyToastService implements OnDestroy {
   }
 
   /**
-   * Opens a new toast with a text message.
-   * @param message Text to display inside the toast
-   * @param config Optional configuration
+   * Opens a new toast and displays the specified message.
+   * @param message Specifies the text to display in the toast.
+   * @param config Specifies additional configuration options for the toast.
    */
   public openMessage(
     message: string,
@@ -85,9 +85,10 @@ export class SkyToastService implements OnDestroy {
 
   /**
    * Opens a new toast using a custom component.
-   * @param component Angular component to inject into the toast body
-   * @param config Optional configuration
-   * @param providers Optional providers for the custom component
+   * @param component Specifies an Angular component to inject into the toast body,
+   * @param config Specifies additional configuration options for the toast.
+   * @param providers Specifies an array of custom providers to pass to the custom component's
+   * constructor.
    */
   public openComponent(
     component: any,
