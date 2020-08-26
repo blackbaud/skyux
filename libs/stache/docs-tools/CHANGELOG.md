@@ -1,3 +1,8 @@
+# 4.3.2 (2020-08-26)
+
+- Fixed the class definition component to properly display default and required values. [#102](https://github.com/blackbaud/skyux-docs-tools/pull/102)
+- Fixed the parameter definition component to properly format complex property types. [#103](https://github.com/blackbaud/skyux-docs-tools/pull/103)
+
 # 4.3.1 (2020-08-21)
 
 - Fixed the property definition component to properly display call signatures. [#94](https://github.com/blackbaud/skyux-docs-tools/pull/94)
