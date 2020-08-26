@@ -3,6 +3,10 @@ import {
 } from '@angular/core';
 
 import {
+  SkyIdModule
+} from '@skyux/core';
+
+import {
   SkyDocsToolsModule,
   SkyDocsToolsOptions
 } from '@skyux/docs-tools';
@@ -33,6 +37,7 @@ import {
     SkyDatepickerModule,
     SkyDateRangePickerModule,
     SkyDocsToolsModule,
+    SkyIdModule,
     SkyInputBoxModule,
     SkyPageModule,
     SkyTimepickerModule

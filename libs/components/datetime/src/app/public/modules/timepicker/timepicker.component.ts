@@ -6,9 +6,11 @@ import {
   EventEmitter,
   OnDestroy,
   OnInit,
+  Optional,
   Output,
   TemplateRef,
-  ViewChild
+  ViewChild,
+  ViewEncapsulation
 } from '@angular/core';
 
 import {
@@ -19,6 +21,14 @@ import {
   SkyOverlayInstance,
   SkyOverlayService
 } from '@skyux/core';
+
+import {
+  SkyInputBoxHostService
+} from '@skyux/forms';
+
+import {
+  SkyThemeService
+} from '@skyux/theme';
 
 import {
   fromEvent,
@@ -48,6 +58,7 @@ let nextId = 0;
   selector: 'sky-timepicker',
   templateUrl: './timepicker.component.html',
   styleUrls: ['./timepicker.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyTimepickerComponent implements OnInit, OnDestroy {
@@ -213,6 +224,18 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
   })
   private triggerButtonRef: ElementRef;
 
+  @ViewChild('inputTemplateRef', {
+    read: TemplateRef,
+    static: true
+  })
+  private inputTemplateRef: TemplateRef<any>;
+
+  @ViewChild('triggerButtonTemplateRef', {
+    read: TemplateRef,
+    static: true
+  })
+  private triggerButtonTemplateRef: TemplateRef<any>;
+
   private affixer: SkyAffixer;
 
   private timepickerUnsubscribe: Subject<void>;
@@ -229,7 +252,9 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     private affixService: SkyAffixService,
     private changeDetector: ChangeDetectorRef,
     private coreAdapter: SkyCoreAdapterService,
-    private overlayService: SkyOverlayService
+    private overlayService: SkyOverlayService,
+    @Optional() public inputBoxHostService?: SkyInputBoxHostService,
+    @Optional() public themeSvc?: SkyThemeService
   ) {
     const uniqueId = nextId++;
     this.timepickerId = `sky-timepicker-${uniqueId}`;
@@ -239,6 +264,15 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.setFormat(this.timeFormat);
     this.addTriggerButtonEventListeners();
+
+    if (this.inputBoxHostService) {
+      this.inputBoxHostService.populate(
+        {
+          inputTemplate: this.inputTemplateRef,
+          buttonsTemplate: this.triggerButtonTemplateRef
+        }
+      );
+    }
   }
 
   public ngOnDestroy(): void {

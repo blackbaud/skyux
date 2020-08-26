@@ -1,3 +1,7 @@
+<sky-docs-demo-control-panel-theme
+  (themeSettingsChange)="themeSettingsChange($event)"
+></sky-docs-demo-control-panel-theme>
+
 <div
   class="app-screenshot"
   id="screenshot-timepicker12hr"
@@ -49,6 +53,33 @@
       Please enter a valid time.
     </span>
   </div>
+</div>
+
+<div
+  class="app-screenshot"
+  id="screenshot-timepicker-input-box"
+  style="max-width: 400px; height: 500px;"
+>
+  <sky-input-box>
+    <label
+      class="sky-control-label"
+      [for]="timePickerInputBox.id"
+    >
+      Input box
+    </label>
+    <sky-timepicker #timePickerExample5>
+      <input
+        skyId
+        timeFormat="hh"
+        type="text"
+        [disabled]="disabled"
+        [(ngModel)]="time12Hour"
+        [skyTimepickerInput]="timePickerExample5"
+        #time="ngModel"
+        #timePickerInputBox="skyId"
+      />
+    </sky-timepicker>
+  </sky-input-box>
 </div>
 
 <h3>

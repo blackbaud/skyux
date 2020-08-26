@@ -73,7 +73,14 @@ export class SkyTimepickerInputDirective implements
    * @required
    */
   @Input()
-  public skyTimepickerInput: SkyTimepickerComponent;
+  public get skyTimepickerInput(): SkyTimepickerComponent {
+    return this._skyTimepickerInput;
+  }
+
+  public set skyTimepickerInput(value: SkyTimepickerComponent) {
+    this._skyTimepickerInput = value;
+    this.updateTimepickerInput();
+  }
 
   /**
    * Specifies the 12-hour `hh` or 24-hour `HH` time format for the input.
@@ -83,6 +90,7 @@ export class SkyTimepickerInputDirective implements
   public set timeFormat(value: string) {
     this._timeFormat = value;
   }
+
   public get timeFormat(): string {
     return this._timeFormat || 'hh';
   }
@@ -102,9 +110,11 @@ export class SkyTimepickerInputDirective implements
   public get disabled(): boolean {
     return this._disabled || false;
   }
+
   public set disabled(value: boolean) {
     this._disabled = value;
-    this.skyTimepickerInput.disabled = value;
+
+    this.updateTimepickerInput();
 
     this.renderer.setProperty(
       this.elRef.nativeElement,
@@ -119,7 +129,7 @@ export class SkyTimepickerInputDirective implements
   private set modelValue(value: SkyTimepickerTimeOutput) {
     if (value !== this._modelValue) {
       this._modelValue = value;
-      this.skyTimepickerInput.selectedTime = value;
+      this.updateTimepickerInput();
       this.setInputValue(value);
       this._validatorChange();
       this._onChange(value);
@@ -130,6 +140,7 @@ export class SkyTimepickerInputDirective implements
 
   private _disabled: boolean;
   private _modelValue: SkyTimepickerTimeOutput;
+  private _skyTimepickerInput: SkyTimepickerComponent;
 
   constructor(
     private renderer: Renderer2,
@@ -269,6 +280,16 @@ export class SkyTimepickerInputDirective implements
         'customFormat': this.returnFormat
       };
       return formatTime;
+    }
+  }
+
+  private updateTimepickerInput(): void {
+    if (this.skyTimepickerInput) {
+      this.skyTimepickerInput.disabled = this.disabled;
+
+      if (this.skyTimepickerInput.selectedTime !== this.modelValue) {
+        this.skyTimepickerInput.selectedTime = this.modelValue;
+      }
     }
   }
 

@@ -1,38 +1,61 @@
 <div
   class="sky-timepicker"
 >
-  <div
-    class="sky-input-group"
-  >
-    <ng-content></ng-content>
+  <ng-container *ngIf="!inputBoxHostService">
     <div
-      class="sky-input-group-btn"
+      class="sky-input-group"
     >
-      <button
-        aria-haspopup="dialog"
-        class="sky-btn sky-btn-default sky-input-group-timepicker-btn"
-        type="button"
-        [attr.aria-controls]="isOpen ? timepickerId : null"
-        [attr.aria-expanded]="isOpen"
-        [attr.aria-label]="'skyux_timepicker_button_label' | skyLibResources"
-        [attr.id]="triggerButtonId"
-        [attr.title]="'skyux_timepicker_button_label' | skyLibResources"
-        [disabled]="disabled"
-        (click)="onTriggerButtonClick()"
-        #triggerButtonRef
+      <ng-container *ngTemplateOutlet="inputTemplateRef"></ng-container>
+      <ng-container *ngTemplateOutlet="triggerButtonTemplateRef"></ng-container>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #inputTemplateRef>
+  <ng-content></ng-content>
+</ng-template>
+
+<ng-template #triggerButtonTemplateRef>
+  <div
+    class="sky-input-group-btn"
+  >
+    <button
+      aria-haspopup="dialog"
+      class="sky-btn sky-btn-default sky-input-group-timepicker-btn"
+      type="button"
+      [attr.aria-controls]="isOpen ? timepickerId : null"
+      [attr.aria-expanded]="isOpen"
+      [attr.aria-label]="'skyux_timepicker_button_label' | skyLibResources"
+      [attr.id]="triggerButtonId"
+      [attr.title]="'skyux_timepicker_button_label' | skyLibResources"
+      [disabled]="disabled"
+      (click)="onTriggerButtonClick()"
+      #triggerButtonRef
+    >
+      <sky-icon *ngIf="
+          (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name === 'modern';
+          else iconDefault
+        "
+        icon="clock"
+        iconType="skyux"
+        size="lg"
+      ></sky-icon>
+
+      <ng-template
+        #iconDefault
       >
         <sky-icon
           icon="clock-o"
           size="lg"
         ></sky-icon>
-      </button>
-    </div>
+      </ng-template>
+    </button>
   </div>
-</div>
+</ng-template>
 
 <ng-template #timepickerTemplateRef>
   <div
-    class="sky-timepicker-container sky-shadow"
+    class="sky-timepicker-container sky-shadow sky-box sky-elevation-4"
     role="dialog"
     [attr.aria-labelledby]="triggerButtonId"
     [attr.id]="timepickerId"
@@ -109,6 +132,7 @@
         class="sky-timepicker-column"
       >
         <button
+          class="sky-btn sky-btn-default"
           type="button"
           (click)="onCloseButtonCick()"
         >

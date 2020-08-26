@@ -23,12 +23,33 @@ import {
 } from '@angular/platform-browser/animations';
 
 import {
-  expect, SkyAppTestUtility
+  BehaviorSubject
+} from 'rxjs';
+
+import {
+  expect,
+  SkyAppTestUtility
 } from '@skyux-sdk/testing';
+
+import {
+  SkyInputBoxModule
+} from '@skyux/forms';
+
+import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange
+} from '@skyux/theme';
 
 import {
   TimepickerTestComponent
 } from './fixtures/timepicker-component.fixture';
+
+import {
+  TimepickerInputBoxTestComponent
+} from './fixtures/timepicker-input-box-component.fixture';
 
 import {
   TimepickerReactiveTestComponent
@@ -144,6 +165,24 @@ function detectChangesAndTick(fixture: ComponentFixture<any>): void {
 //#endregion
 
 describe('Timepicker', () => {
+  let mockThemeSvc: {
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+  };
+
+  beforeEach(() => {
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+        {
+          currentSettings: new SkyThemeSettings(
+            SkyTheme.presets.default,
+            SkyThemeMode.presets.light
+          ),
+          previousSettings: undefined
+        }
+      )
+    };
+  });
+
   describe('basic setup', () => {
     let fixture: ComponentFixture<TimepickerTestComponent>;
     let component: TimepickerTestComponent;
@@ -157,6 +196,12 @@ describe('Timepicker', () => {
           SkyTimepickerModule,
           NoopAnimationsModule,
           FormsModule
+        ],
+        providers: [
+          {
+            provide: SkyThemeService,
+            useValue: mockThemeSvc
+          }
         ]
       });
 
@@ -427,12 +472,16 @@ describe('Timepicker', () => {
       expect(getInput(fixture).getAttribute('aria-label')).toBe('Time');
     }));
 
-    it('should not overwrite aria-label on the timepicker input when one is provided', fakeAsync(() => {
-      getInput(fixture).setAttribute('aria-label', 'This is a time field.');
-      detectChangesAndTick(fixture);
+    it(
+      'should not overwrite aria-label on the timepicker input when one is provided',
+      fakeAsync(() => {
+        detectChangesAndTick(fixture);
+        getInput(fixture).setAttribute('aria-label', 'This is a time field.');
+        detectChangesAndTick(fixture);
 
-      expect(getInput(fixture).getAttribute('aria-label')).toBe('This is a time field.');
-    }));
+        expect(getInput(fixture).getAttribute('aria-label')).toBe('This is a time field.');
+      })
+    );
 
     it('should close picker when `escape` key is pressed', fakeAsync(() => {
       detectChangesAndTick(fixture);
@@ -480,6 +529,32 @@ describe('Timepicker', () => {
       fixture.whenStable().then(() => {
         expect(fixture.nativeElement).toBeAccessible();
       });
+    }));
+
+    it('should display the expected clock icon in the calendar button', fakeAsync(() => {
+      function validateIcon(iconCls: string): void {
+        const iconEl = fixture.nativeElement.querySelector(
+          '.sky-input-group-timepicker-btn .sky-icon'
+        );
+
+        expect(iconEl).toHaveCssClass(iconCls);
+      }
+
+      detectChangesAndTick(fixture);
+
+      validateIcon('fa-clock-o');
+
+      mockThemeSvc.settingsChange.next({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.light
+        ),
+        previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings
+      });
+
+      detectChangesAndTick(fixture);
+
+      validateIcon('sky-i-clock');
     }));
   });
 
@@ -686,4 +761,40 @@ describe('Timepicker', () => {
       expect(getTriggerButton(fixture).disabled).toBeFalsy();
     }));
   });
+
+  describe('inside input box', () => {
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        declarations: [
+          TimepickerInputBoxTestComponent
+        ],
+        imports: [
+          SkyTimepickerModule,
+          SkyInputBoxModule
+        ],
+        providers: [
+          {
+            provide: SkyThemeService,
+            useValue: mockThemeSvc
+          }
+        ]
+      });
+    });
+
+    it('should render in the expected input box containers', fakeAsync(() => {
+      const fixture = TestBed.createComponent(TimepickerInputBoxTestComponent);
+
+      detectChangesAndTick(fixture);
+
+      const inputBoxEl = fixture.nativeElement.querySelector('sky-input-box');
+
+      const inputGroupEl = inputBoxEl.querySelector('.sky-form-group > .sky-input-group');
+      const inputEl = inputGroupEl.children.item(0);
+      const inputGroupBtnEl1 = inputGroupEl.children.item(1);
+
+      expect(inputEl).toHaveCssClass('input-box-timepicker-input');
+      expect(inputGroupBtnEl1.children.item(0)).toHaveCssClass('sky-input-group-timepicker-btn');
+    }));
+  });
+
 });
