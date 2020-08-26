@@ -386,6 +386,23 @@ describe('datepicker', () => {
       expect(component.datepicker.isVisible).toBe(false);
     }));
 
+    it('should handle non-keyboard events', fakeAsync(() => {
+      fixture.detectChanges();
+      tick();
+      clickTrigger(fixture);
+
+      SkyAppTestUtility.fireDomEvent(window.document, 'keydown', {
+        customEventInit: {
+          key: undefined
+        }
+      });
+      fixture.detectChanges();
+      tick();
+      const picker = getCalendar();
+
+      expect(picker).not.toBeNull();
+    }));
+
     it('should be accessible', async(() => {
       fixture.detectChanges();
       clickTrigger(fixture, false);
