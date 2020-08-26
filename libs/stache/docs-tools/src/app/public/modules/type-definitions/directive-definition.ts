@@ -1,6 +1,6 @@
 import {
-  SkyDocsDirectivePropertyDefinition
-} from './directive-property-definition';
+  SkyDocsPropertyDefinition
+} from './property-definition';
 
 export interface SkyDocsDirectiveDefinition {
 
@@ -8,7 +8,7 @@ export interface SkyDocsDirectiveDefinition {
 
   selector: string;
 
-  properties?: SkyDocsDirectivePropertyDefinition[];
+  properties?: SkyDocsPropertyDefinition[];
 
   description?: string;
 

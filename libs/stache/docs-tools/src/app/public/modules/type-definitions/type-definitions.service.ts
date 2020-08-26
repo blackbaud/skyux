@@ -11,10 +11,6 @@ import {
 } from './directive-definition';
 
 import {
-  SkyDocsDirectivePropertyDefinition
-} from './directive-property-definition';
-
-import {
   SkyDocsEnumerationDefinition
 } from './enumeration-definition';
 
@@ -70,6 +66,8 @@ import {
   TypeDocItem,
   TypeDocItemMember
 } from './typedoc-types';
+
+import orderBy from 'lodash.orderby';
 
 @Injectable()
 export class SkyDocsTypeDefinitionsService {
@@ -181,45 +179,14 @@ export class SkyDocsTypeDefinitionsService {
       ? decoratorSource.split('selector: `')[1].split('`')[0].replace(/\s\s+/g, ' ')
       : decoratorSource.split('selector: \'')[1].split('\'')[0];
 
-    const properties: SkyDocsDirectivePropertyDefinition[] = [];
+    const properties = this.parseClassProperties(item)
+      .filter(p => (p.decorator === 'Input' || p.decorator === 'Output'));
 
     const {
       codeExample,
       codeExampleLanguage,
       description
     } = this.parseCommentTags(item.comment);
-
-    /*istanbul ignore else*/
-    if (item.children) {
-      item.children.forEach((c) => {
-        const kindString = c.kindString;
-
-        /*istanbul ignore else*/
-        if (
-          kindString === 'Property' ||
-          kindString === 'Accessor'
-        ) {
-          if (!c.decorators) {
-            return;
-          }
-
-          const decorator = c.decorators[0].name;
-
-          /*istanbul ignore else*/
-          if (
-            decorator === 'Input' ||
-            decorator === 'Output'
-          ) {
-            const property = this.parseDirectivePropertyDefinition(kindString, c);
-            properties.push(property);
-          }
-        }
-      });
-    }
-
-    this.sortDirectiveProperties(properties, 'name');
-    this.sortDirectiveProperties(properties, 'isOptional');
-    this.sortDirectiveProperties(properties, 'decorator');
 
     const config: SkyDocsDirectiveDefinition = {
       anchorId: item.anchorId,
@@ -234,64 +201,11 @@ export class SkyDocsTypeDefinitionsService {
     return config;
   }
 
-  private parseDirectivePropertyDefinition(kindString: string, item: TypeDocItemMember): SkyDocsDirectivePropertyDefinition {
-    let description: string;
-    let typeName: SkyDocsTypeDefinition;
-
-    const tags = this.parseCommentTags(item.comment);
-    const decorator = item.decorators[0].name;
-    const deprecationWarning = tags.deprecationWarning;
-    const defaultValue = this.getDefaultValue(item);
-
-    /*tslint:disable-next-line:switch-default*/
-    switch (kindString) {
-      case 'Property':
-        description = tags.description;
-        typeName = this.parseFormattedType(item);
-        break;
-
-      case 'Accessor':
-        /*istanbul ignore else*/
-        if (item.setSignature) {
-          const setSignature = item.setSignature[0];
-          const {
-            description: setSignatureDescription
-          } = this.parseCommentTags(setSignature.comment);
-          description = setSignatureDescription;
-          typeName = this.parseFormattedType(setSignature.parameters[0]);
-        }
-        break;
-    }
-
-    return {
-      decorator,
-      defaultValue,
-      deprecationWarning,
-      description,
-      isOptional: (this.isOptional(item) && decorator === 'Input'),
-      name: item.name,
-      type: typeName
-    };
-  }
-
   private parseClassDefinition(item: TypeDocItem): SkyDocsClassDefinition {
-    const properties: SkyDocsPropertyDefinition[] = [];
+    const properties = this.parseClassProperties(item);
     const methods: SkyDocsMethodDefinition[] = [];
 
     item.children.forEach((child) => {
-      if (child.kindString === 'Property') {
-        const {
-          description: propertyDescription
-        } = this.parseCommentTags(child.comment);
-
-        properties.push({
-          defaultValue: this.getDefaultValue(child),
-          description: propertyDescription,
-          name: child.name,
-          type: this.parseFormattedType(child)
-        });
-      }
-
       if (
         child.kindString === 'Method' &&
         child.name.indexOf('ng') !== 0
@@ -324,12 +238,15 @@ export class SkyDocsTypeDefinitionsService {
       signature.parameters.forEach((p) => {
         const defaultValue = this.getDefaultValue(p);
         const parameter: SkyDocsParameterDefinition = {
-          defaultValue,
           description: (p.comment) ? p.comment.text.trim() : '',
           isOptional: (defaultValue) ? true : this.isOptional(p),
           name: p.name,
           type: this.parseFormattedType(p)
         };
+
+        if (defaultValue !== undefined) {
+          parameter.defaultValue = defaultValue;
+        }
 
         parameters.push(parameter);
       });
@@ -342,16 +259,21 @@ export class SkyDocsTypeDefinitionsService {
       description
     } = this.parseCommentTags(signature.comment);
 
-    return {
+    const method: SkyDocsMethodDefinition = {
       codeExample,
       codeExampleLanguage,
-      deprecationWarning,
       description,
       name: item.name,
       parameters,
       returnType: this.parseFormattedType(signature),
       typeParameters
     };
+
+    if (deprecationWarning !== undefined) {
+      method.deprecationWarning = deprecationWarning;
+    }
+
+    return method;
   }
 
   private parsePipeDefinition(item: TypeDocItem): SkyDocsPipeDefinition {
@@ -666,12 +588,15 @@ export class SkyDocsTypeDefinitionsService {
       }
 
       const parameter: SkyDocsParameterDefinition = {
-        defaultValue: this.getDefaultValue(p),
-        description,
         isOptional: this.isOptional(p),
         name: p.name,
         type: this.parseFormattedType(p)
       };
+
+      /* istanbul ignore else */
+      if (description !== undefined) {
+        parameter.description = description;
+      }
 
       return parameter;
     });
@@ -692,18 +617,85 @@ export class SkyDocsTypeDefinitionsService {
     return typeParameters;
   }
 
-  private sortDirectiveProperties(properties: SkyDocsDirectivePropertyDefinition[], key: keyof SkyDocsDirectivePropertyDefinition): void {
-    properties.sort((a, b) => {
-      if (a[key] > b[key]) {
-        return 1;
+  private parseClassProperties(item: TypeDocItem): SkyDocsPropertyDefinition[] {
+    let properties: SkyDocsPropertyDefinition[] = [];
+
+    if (!item.children) {
+      return properties;
+    }
+
+    item.children.forEach((child) => {
+      let description: string;
+      let type: SkyDocsTypeDefinition;
+
+      const tags = this.parseCommentTags(child.comment);
+      const decorator = (child.decorators) ? child.decorators[0].name as 'Input' | 'Output' : undefined;
+      const deprecationWarning = tags.deprecationWarning;
+      const defaultValue = this.getDefaultValue(child);
+      const kindString = child.kindString;
+
+      /*tslint:disable-next-line:switch-default*/
+      switch (kindString) {
+        case 'Property':
+          description = tags.description;
+          type = this.parseFormattedType(child);
+          break;
+
+        case 'Accessor':
+          /*istanbul ignore else*/
+          if (child.setSignature) {
+            const setSignature = child.setSignature[0];
+            const {
+              description: setSignatureDescription
+            } = this.parseCommentTags(setSignature.comment);
+            description = setSignatureDescription;
+            type = this.parseFormattedType(setSignature.parameters[0]);
+          } else if (child.getSignature) {
+            const getSignature = child.getSignature[0];
+            const {
+              description: getSignatureDescription
+            } = this.parseCommentTags(getSignature.comment);
+            description = getSignatureDescription;
+            type = this.parseFormattedType(getSignature);
+          }
+          break;
+
+        // Abort if not a supported type.
+        default:
+          return;
       }
 
-      if (a[key] < b[key]) {
-        return -1;
+      const isOptional = (decorator === 'Output') ? true : this.isOptional(child);
+
+      const property: SkyDocsPropertyDefinition = {
+        description,
+        isOptional,
+        name: child.name,
+        type
+      };
+
+      if (decorator !== undefined) {
+        property.decorator = decorator;
       }
 
-      return 0;
+      if (defaultValue !== undefined) {
+        property.defaultValue = defaultValue;
+      }
+
+      if (deprecationWarning !== undefined) {
+        property.deprecationWarning = deprecationWarning;
+      }
+
+      properties.push(property);
     });
+
+    properties = orderBy(
+      properties,
+      ['decorator', 'isOptional', 'name'],
+      ['asc', 'asc', 'asc']
+    );
+
+    return properties;
   }
 
   /**

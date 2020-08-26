@@ -7,6 +7,11 @@ import {
 } from '@angular/core';
 
 import {
+  Observable,
+  of
+} from 'rxjs';
+
+import {
   FooEnum
 } from './foo-enum';
 
@@ -26,6 +31,12 @@ import {
   template: ''
 })
 export class FooComponent<U extends FooUser> implements OnInit {
+
+  /**
+   * @required
+   */
+  @Input()
+  public alphabeticallyFirst: boolean;
 
   /**
    * This is the description for foo input. You must provide [[FooEnum]] values.
@@ -109,6 +120,17 @@ export class FooComponent<U extends FooUser> implements OnInit {
    */
   @Input()
   public requiredProperty: boolean = false;
+
+  /**
+   * Fires when a user is selected.
+   */
+  @Output()
+  public get change(): Observable<FooUser> {
+    return of({
+      firstName: 'Foo',
+      lastName: 'Bar'
+    });
+  }
 
   public propertyShouldNotBeDocumented: string;
 

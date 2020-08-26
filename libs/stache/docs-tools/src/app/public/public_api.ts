@@ -26,7 +26,6 @@ export * from './modules/source-code/source-code-provider';
 
 export * from './modules/type-definitions/class-definition';
 export * from './modules/type-definitions/directive-definition';
-export * from './modules/type-definitions/directive-property-definition';
 export * from './modules/type-definitions/enumeration-definition';
 export * from './modules/type-definitions/interface-definition';
 export * from './modules/type-definitions/interface-property-definition';

@@ -90,6 +90,7 @@ export interface TypeDocItemMember {
 
   getSignature?: {
     comment: TypeDocComment;
+    name: string;
     type: TypeDocType;
   }[];
 
