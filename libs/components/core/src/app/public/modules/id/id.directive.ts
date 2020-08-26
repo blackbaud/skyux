@@ -14,7 +14,7 @@ function generateId(): string {
 }
 
 /**
- * Sets the element's `id` property to a unique ID. To reference this unique ID on other elements,
+ * Sets the element's `id` attribute to a unique ID. To reference this unique ID on other elements,
  * such as in a `label` element's `for` attribute, assign this directive to a template reference
  * variable, then use its `id` property.
  */

@@ -4,7 +4,7 @@
   pageTitle="ID"
 >
   <sky-docs-demo-page-summary>
-    The ID module provides a directive that assigns a unique ID to an element and provides that ID to other elements.
+    The ID directive assigns a unique ID to an element and provides that ID to other elements.
   </sky-docs-demo-page-summary>
 
   <sky-docs-demo>
@@ -13,15 +13,7 @@
         <sky-column
           screenSmall="6"
         >
-          <p>
-            Each label element is associated to its corresponding input element by the unique ID
-            provided by the ID directive, so that clicking on the label will set focus to the
-            input element. Associating a label element to its input also enables
-            assistive technologies to describe the input to the user using the label text.
-          </p>
-          <div
-            class="sky-form-group"
-            >
+          <sky-input-box>
             <label
               class="sky-control-label"
               [for]="input1.id"
@@ -34,11 +26,9 @@
               skyId
               #input1="skyId"
             >
-            </div>
+          </sky-input-box>
 
-            <div
-            class="sky-form-group"
-            >
+          <sky-input-box>
             <label
               class="sky-control-label"
               [for]="input2.id"
@@ -53,24 +43,7 @@
             >
               <option>Value</option>
             </select>
-            </div>
-
-            <div
-            class="sky-form-group"
-            >
-            <label
-              class="sky-control-label"
-              [for]="input3.id"
-            >
-              Label
-            </label>
-            <input
-              class="sky-form-control"
-              type="text"
-              skyId
-              #input3="skyId"
-            >
-          </div>
+          </sky-input-box>
         </sky-column>
       </sky-row>
     </sky-fluid-grid>
@@ -86,11 +59,7 @@
         headingStyle="success"
       >
         <p>
-          Use the ID directive when one HTML element must be associated with another HTML by its
-          <sky-code>id</sky-code> attribute, such as the <sky-code>label</sky-code> element's
-          <sky-code>for</sky-code> attribute. Hard-coding an ID on an element can cause ID
-          collisions if another element on the page has the same ID, leading to errors with
-          functionality and accessibility. Using the ID directive guarantees a unique ID that will not conflict with another element on the page.
+          Use the ID directive when one HTML element must be associated with another HTML element by its <sky-code>id</sky-code> attribute. For example, <sky-code>input</sky-code> and <sky-code>label</sky-code> elements must be associated by a unique ID so that clicking on the label sets focus to the input. Associating a label to its input also enables assistive technologies to describe the input to the user using the label text.
         </p>
       </sky-docs-design-guideline>
 
@@ -99,9 +68,10 @@
         headingStyle="danger"
       >
         <p>
-          Don't use the ID directive when an element does not need to be referenced by its
-          ID attribute, since doing so adds unnecessary overhead to an application. The same rule
-          goes for assigning a hard-coded ID to an element, because it can lead to ID collisions.
+          Don't use the ID directive when an element does not need to be referenced by its ID attribute because doing so adds unnecessary overhead to an application.
+        </p>
+        <p>
+          Don't assign hard-coded IDs to elements because this causes collisions if IDs are not unique. Always use the ID directive to assign IDs because it guarantees that IDs are unique.
         </p>
       </sky-docs-design-guideline>
 
@@ -109,7 +79,11 @@
 
   </sky-docs-design-guidelines>
 
-  <sky-docs-code-examples>
+  <sky-docs-code-examples
+    [packageDependencies]="{
+      '@skyux/forms': '*'
+    }"
+  >
     <sky-docs-code-example
       sourceCodePath="src/app/public/plugin-resources/code-examples/id"
     >

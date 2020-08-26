@@ -1,6 +1,4 @@
-<div
-  class="sky-form-group"
-  >
+<sky-input-box>
   <label
     class="sky-control-label"
     [for]="input1.id"
@@ -13,11 +11,9 @@
     skyId
     #input1="skyId"
   >
-</div>
+</sky-input-box>
 
-<div
-  class="sky-form-group"
->
+<sky-input-box>
   <label
     class="sky-control-label"
     [for]="input2.id"
@@ -32,21 +28,4 @@
   >
     <option>Value</option>
   </select>
-</div>
-
-<div
-  class="sky-form-group"
->
-  <label
-    class="sky-control-label"
-    [for]="input3.id"
-  >
-    Label
-  </label>
-  <input
-    class="sky-form-control"
-    type="text"
-    skyId
-    #input3="skyId"
-  >
-</div>
+</sky-input-box>

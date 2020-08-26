@@ -12,6 +12,10 @@ import {
 } from '@skyux/docs-tools';
 
 import {
+  SkyInputBoxModule
+} from '@skyux/forms';
+
+import {
   SkyFluidGridModule,
   SkyPageModule
 } from '@skyux/layout';
@@ -55,6 +59,7 @@ import {
     SkyDynamicComponentModule,
     SkyFluidGridModule,
     SkyIdModule,
+    SkyInputBoxModule,
     SkyMediaQueryModule,
     SkyNumericModule,
     SkyOverlayModule,

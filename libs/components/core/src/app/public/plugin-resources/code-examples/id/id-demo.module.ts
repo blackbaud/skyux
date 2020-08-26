@@ -11,13 +11,18 @@ import {
 } from '@skyux/core';
 
 import {
+  SkyInputBoxModule
+} from '@skyux/forms';
+
+import {
   IdDemoComponent
 } from './id-demo.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    SkyIdModule
+    SkyIdModule,
+    SkyInputBoxModule
   ],
   declarations: [
     IdDemoComponent
