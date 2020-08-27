@@ -8,6 +8,10 @@ import {
 } from '@skyux/docs-tools';
 
 import {
+  SkyInputBoxModule
+} from '@skyux/forms';
+
+import {
   SkyIconModule
 } from '@skyux/indicators';
 
@@ -33,6 +37,7 @@ import {
     SkyDocsToolsModule,
     SkyIconModule,
     SkyInlineFormModule,
+    SkyInputBoxModule,
     SkyTilesModule
   ],
   entryComponents: [

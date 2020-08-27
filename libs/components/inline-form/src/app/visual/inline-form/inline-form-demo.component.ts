@@ -4,6 +4,11 @@ import {
 } from '@angular/core';
 
 import {
+  SkyThemeService,
+  SkyThemeSettings
+} from '@skyux/theme';
+
+import {
   SkyTileDemoTileComponent
 } from './inline-form-demo-tile.component';
 
@@ -66,6 +71,8 @@ export class SkyInlineFormDemoComponent {
     }
   };
 
+  constructor(public themeSvc: SkyThemeService) { }
+
   public onClose(event: any): void {
     console.log(event);
   }
@@ -93,4 +100,7 @@ export class SkyInlineFormDemoComponent {
     };
   }
 
+  public themeSettingsChange(themeSettings: SkyThemeSettings): void {
+    this.themeSvc.setTheme(themeSettings);
+  }
 }

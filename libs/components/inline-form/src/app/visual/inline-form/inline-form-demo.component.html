@@ -1,3 +1,7 @@
+<sky-docs-demo-control-panel-theme
+  (themeSettingsChange)="themeSettingsChange($event)"
+></sky-docs-demo-control-panel-theme>
+
 <div
   class="sky-inline-form-demo"
 >
@@ -17,8 +21,11 @@
   <ng-template
     #addForm
   >
-    <div
-      class="sky-form-group"
+    <sky-input-box
+      [ngClass]="{
+        'sky-margin-stacked-lg':
+          (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern'
+      }"
     >
       <label
         class="sky-control-label"
@@ -31,10 +38,8 @@
         class="sky-form-control"
         type="text"
       />
-    </div>
-    <div
-      class="sky-form-group"
-    >
+    </sky-input-box>
+    <sky-input-box>
       <label
         class="sky-control-label"
         for="demo-input-2"
@@ -46,7 +51,7 @@
         class="sky-form-control"
         type="text"
       />
-    </div>
+    </sky-input-box>
   </ng-template>
 
   <h2>"Edit" mode</h2>
@@ -65,8 +70,11 @@
   <ng-template
     #editForm
   >
-    <div
-      class="sky-form-group"
+    <sky-input-box
+      [ngClass]="{
+        'sky-margin-stacked-lg':
+          (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern'
+      }"
     >
       <label
         class="sky-control-label"
@@ -79,10 +87,8 @@
         class="sky-form-control"
         type="text"
       />
-    </div>
-    <div
-      class="sky-form-group"
-    >
+    </sky-input-box>
+    <sky-input-box>
       <label
         class="sky-control-label"
         for="demo-input-4"
@@ -94,7 +100,7 @@
         class="sky-form-control"
         type="text"
       />
-    </div>
+    </sky-input-box>
   </ng-template>
 
   <h2>Custom config</h2>
@@ -113,8 +119,11 @@
   <ng-template
     #customForm
   >
-    <div
-      class="sky-form-group"
+    <sky-input-box
+      [ngClass]="{
+        'sky-margin-stacked-lg':
+          (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern'
+      }"
     >
       <label
         class="sky-control-label"
@@ -127,10 +136,8 @@
         class="sky-form-control"
         type="text"
       />
-    </div>
-    <div
-      class="sky-form-group"
-    >
+    </sky-input-box>
+    <sky-input-box>
       <label
         class="sky-control-label"
         for="demo-input-4"
@@ -142,7 +149,7 @@
         class="sky-form-control"
         type="text"
       />
-    </div>
+    </sky-input-box>
   </ng-template>
 
   <p>

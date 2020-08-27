@@ -30,7 +30,12 @@
       </sky-inline-form>
 
       <ng-template #tileForm>
-        <div class="sky-form-group">
+        <sky-input-box
+          [ngClass]="{
+            'sky-margin-stacked-lg':
+              (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern'
+          }"
+        >
           <label
             class="sky-control-label"
             for="demo-input-3"
@@ -43,8 +48,8 @@
             type="text"
             [(ngModel)]="item.title"
           />
-        </div>
-        <div class="sky-form-group">
+        </sky-input-box>
+        <sky-input-box>
           <label
             class="sky-control-label"
             for="demo-input-4"
@@ -57,7 +62,7 @@
             type="text"
             [(ngModel)]="item.note"
           />
-        </div>
+        </sky-input-box>
       </ng-template>
 
     </sky-tile-content-section>

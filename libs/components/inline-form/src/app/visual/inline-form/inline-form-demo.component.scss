@@ -1,4 +1,12 @@
+@import "~@skyux/theme/scss/mixins";
+
 .sky-inline-form-demo {
-  background:#fff;
+  background: #fff;
   padding: 20px;
+}
+
+@include sky-theme-modern {
+  .sky-inline-form-demo {
+    background-color: transparent;
+  }
 }
