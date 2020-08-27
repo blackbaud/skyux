@@ -1,0 +1,169 @@
+<sky-docs-demo-page
+  moduleName="SkyFileAttachmentsModule"
+  moduleSourceCodePath="src/app/public/modules/file-attachment/"
+  pageTitle="Single file attachment"
+>
+  <sky-docs-demo-page-summary>
+    The single file attachment component creates an input to attach a single local file.
+  </sky-docs-demo-page-summary>
+
+  <sky-docs-design-guidelines>
+    <sky-docs-demo-page-section
+      heading="Usage"
+    >
+      <sky-docs-design-guideline
+        heading="Use when"
+        headingStyle="success"
+      >
+        <p>
+          Use the single file attachment input when users need to upload a single local file.
+        </p>
+
+        <sky-docs-design-guideline-thumbnail
+          caption="Do use the single file attachment input to upload one file."
+          captionType="success"
+          imageSource="~/assets/img/guidelines/single-file-attach/use.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline
+        heading="Don't use when"
+        headingStyle="danger"
+      >
+        <p class="sky-docs-text-block">
+          Don't use the single file attachment input when users need to link to a URL to attach an external file. Use <a href="https://developer.blackbaud.com/skyux-forms/docs/file-attachment">the file attachment component</a> instead.
+        </p>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline>
+        <p>
+          Don't use the single file attachment input to upload multiple local files. Use <a href="https://developer.blackbaud.com/skyux-forms/docs/file-attachment">the file attachment component</a> instead.
+        </p>
+
+        <sky-docs-design-guideline-thumbnail
+          caption="Don't use single file attachment inputs to upload more than one local file."
+          captionType="danger"
+          imageSource="~/assets/img/guidelines/single-file-attach/dont-use-multi.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Anatomy"
+    >
+      <sky-docs-anatomy
+        imagePath="~/assets/img/guidelines/single-file-attach/anatomy.png"
+      >
+        <sky-docs-anatomy-item>File attachment button</sky-docs-anatomy-item>
+        <sky-docs-anatomy-item>Replace file button</sky-docs-anatomy-item>
+        <sky-docs-anatomy-item>File name</sky-docs-anatomy-item>
+        <sky-docs-anatomy-item>Delete button</sky-docs-anatomy-item>
+        <sky-docs-anatomy-item>Image preview</sky-docs-anatomy-item>
+      </sky-docs-anatomy>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Behavior and states"
+    >
+      <sky-docs-design-guideline
+        heading="Image preview"
+      >
+        <p>
+          When users attach images, a small preview appears below the replace file button.
+        </p>
+
+        <sky-docs-design-guideline-thumbnail
+          imageSource="~/assets/img/guidelines/single-file-attach/behavior-preview.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section>
+      <sky-docs-design-guideline
+        heading="States"
+      >
+      </sky-docs-design-guideline>
+        <table class="sky-docs-table">
+          <tr>
+            <td class="sky-docs-table-cell sky-docs-table-cell-primary">
+              Base
+            </td>
+            <td class="sky-docs-table-cell">
+              <sky-docs-design-guideline-thumbnail
+                imageSource="~/assets/img/guidelines/single-file-attach/state-base.png"
+              >
+              </sky-docs-design-guideline-thumbnail>
+            </td>
+          </tr>
+          <tr>
+            <td class="sky-docs-table-cell sky-docs-table-cell-primary">
+              Attached image
+            </td>
+            <td class="sky-docs-table-cell">
+              <sky-docs-design-guideline-thumbnail
+                imageSource="~/assets/img/guidelines/single-file-attach/state-attached-image.png"
+              >
+              </sky-docs-design-guideline-thumbnail>
+            </td>
+          </tr>
+          <tr>
+            <td class="sky-docs-table-cell sky-docs-table-cell-primary">
+              Attached non-image
+            </td>
+            <td class="sky-docs-table-cell">
+              <sky-docs-design-guideline-thumbnail
+                imageSource="~/assets/img/guidelines/single-file-attach/state-attached-non-image.png"
+              >
+              </sky-docs-design-guideline-thumbnail>
+            </td>
+          </tr>
+          <tr>
+            <td class="sky-docs-table-cell sky-docs-table-cell-primary">
+              Missing required file error
+            </td>
+            <td class="sky-docs-table-cell">
+              <sky-docs-design-guideline-thumbnail
+                imageSource="~/assets/img/guidelines/single-file-attach/state-error-missing.png"
+              >
+              </sky-docs-design-guideline-thumbnail>
+            </td>
+          </tr>
+          <tr>
+            <td class="sky-docs-table-cell sky-docs-table-cell-primary">
+              File validation error
+            </td>
+            <td class="sky-docs-table-cell">
+              <sky-docs-design-guideline-thumbnail
+                imageSource="~/assets/img/guidelines/single-file-attach/state-error-validation.png"
+              >
+              </sky-docs-design-guideline-thumbnail>
+            </td>
+          </tr>
+        </table>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Related information"
+    >
+      <sky-docs-design-guideline
+        heading="Components"
+      >
+        <ul>
+          <li><a href="https://developer.blackbaud.com/skyux-forms/docs/file-attachment">File attachment</a></li>
+        </ul>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline
+        heading="Guidelines"
+      >
+        <ul>
+          <li><a href="https://developer.blackbaud.com/skyux/design/guidelines/form-design">Form design</a></li>
+        </ul>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+  </sky-docs-design-guidelines>
+
+</sky-docs-demo-page>

@@ -23,6 +23,7 @@ export const SKY_CHECKBOX_REQUIRED_VALIDATOR: Provider = {
  * extends the angular validator to work with `sky-checkbox` tags.
  * This is based on Angular Material's similar implementation:
  * https://github.com/angular/components/blob/a415b52ead2ec202ba37edb7d7866b29dd790394/src/material/checkbox/checkbox-required-validator.ts
+ * @internal
  */
 @Directive({
   selector: `sky-checkbox[required][formControlName],

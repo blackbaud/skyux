@@ -1,0 +1,189 @@
+<sky-docs-demo-page
+  moduleName="SkyFileAttachmentsModule"
+  moduleSourceCodePath="src/app/public/modules/file-attachment/"
+  pageTitle="File attachment"
+>
+  <sky-docs-demo-page-summary>
+    The file attachment module creates an element to attach multiple local files or to link to external files. It displays summary information about the attachments.
+  </sky-docs-demo-page-summary>
+
+  <sky-docs-design-guidelines>
+
+    <sky-docs-demo-page-section
+      heading="Usage"
+    >
+      <sky-docs-design-guideline
+        heading="Use when"
+        headingStyle="success"
+      >
+        <p>
+          Use the file attachment element when users need to upload multiple files or attach files from URLs rather than from local devices.
+        </p>
+
+        <sky-docs-design-guideline-thumbnail
+          caption="Do use a file attachment element to upload more than one file."
+          captionType="success"
+          imageSource="~/assets/img/guidelines/file-attach/use-multi.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline>
+        <p>
+          Use the file attachment element when users need to add metadata about uploaded files.
+        </p>
+
+        <sky-docs-design-guideline-thumbnail
+          caption="Do use a file attachment element to add metadata about uploaded files."
+          captionType="success"
+          imageSource="~/assets/img/guidelines/file-attach/use-metadata.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline
+        heading="Don't use when"
+        headingStyle="danger"
+      >
+        <p class="sky-docs-text-block">
+          Don't use the file attachment element when users only need to upload a single local file. Use the <a href="https://developer.blackbaud.com/skyux-forms/docs/single-file-attachment">single file attachment component</a> instead.
+        </p>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Anatomy"
+    >
+      <sky-docs-anatomy
+        imagePath="~/assets/img/guidelines/file-attach/anatomy.png"
+      >
+        <sky-docs-anatomy-item>Option to upload local files</sky-docs-anatomy-item>
+        <sky-docs-anatomy-item>File name</sky-docs-anatomy-item>
+        <sky-docs-anatomy-item>File size</sky-docs-anatomy-item>
+        <sky-docs-anatomy-item>File preview</sky-docs-anatomy-item>
+        <sky-docs-anatomy-item>Delete button</sky-docs-anatomy-item>
+        <sky-docs-anatomy-item isOptional="true">Option to link to external files</sky-docs-anatomy-item>
+        <sky-docs-anatomy-item isOptional="true">User-entered metadata</sky-docs-anatomy-item>
+      </sky-docs-anatomy>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Options"
+    >
+      <sky-docs-design-guideline
+        heading="Link to external files"
+      >
+        <p class="sky-docs-text-block">
+          You can indicate whether to include the option to attach external files using their URLs.
+        </p>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline
+        heading="Metadata"
+      >
+        <p class="sky-dpcs-text-block">
+          You can include inputs for users to add metadata about file attachments.
+        </p>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline
+        heading="Validation"
+      >
+        <p class="sky-docs-text-block">
+          You can specify parameters for valid files, including file types, minimum and maximum sizes, and custom validation.
+        </p>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Behavior and states"
+    >
+      <sky-docs-design-guideline
+        heading="File information"
+      >
+        <p>
+          After users attach files, summary information appears below the file attachment options. For local files, the default summary includes the file name, file size, file preview, and a delete button. For external files, the default summary includes the URL and a delete button. You can include additional inputs to display user-entered metadata.
+        </p>
+
+        <sky-docs-design-guideline-thumbnail
+          imageSource="~/assets/img/guidelines/file-attach/behavior-preview.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline
+        heading="Responsiveness"
+      >
+        <p>
+          The file attachment element switches to a vertical layout in smaller viewports.
+        </p>
+
+        <sky-docs-design-guideline-thumbnail
+          imageSource="~/assets/img/guidelines/file-attach/behavior-responsive.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline
+        heading="States"
+      >
+        <table class="sky-docs-table">
+          <tr>
+            <td class="sky-docs-table-cell sky-docs-table-cell-primary">
+              Base
+            </td>
+            <td class="sky-docs-table-cell">
+              <sky-docs-thumbnail
+                imageSource="~/assets/img/guidelines/file-attach/state-base.png"
+              >
+              </sky-docs-thumbnail>
+            </td>
+          </tr>
+          <tr>
+            <td class="sky-docs-table-cell sky-docs-table-cell-primary">
+              Attached image
+            </td>
+            <td class="sky-docs-table-cell">
+              <sky-docs-thumbnail
+                imageSource="~/assets/img/guidelines/file-attach/state-attached-image.png"
+              >
+              </sky-docs-thumbnail>
+            </td>
+          </tr>
+          <tr>
+            <td class="sky-docs-table-cell sky-docs-table-cell-primary">
+              Attached non-image
+            </td>
+            <td class="sky-docs-table-cell">
+              <sky-docs-thumbnail
+                imageSource="~/assets/img/guidelines/file-attach/state-attached-other.png"
+              >
+              </sky-docs-thumbnail>
+            </td>
+          </tr>
+        </table>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Related information"
+    >
+      <sky-docs-design-guideline
+        heading="Components"
+      >
+        <ul>
+          <li><a href="https://developer.blackbaud.com/skyux-forms/docs/single-file-attachment">Single file attachment</a></li>
+        </ul>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline
+        heading="Guidelines"
+      >
+        <ul>
+          <li><a href="https://developer.blackbaud.com/skyux/design/guidelines/form-design">Form design</a></li>
+        </ul>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+  </sky-docs-design-guidelines>
+
+</sky-docs-demo-page>

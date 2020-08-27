@@ -24,39 +24,70 @@ import {
   SkyFileAttachmentService
 } from './file-attachment.service';
 
+/**
+ * When the SKY UX module initializes, it disables the ability to drag and drop files
+ * for the entire window. This prevents the browser from opening files that are accidentally
+ * dropped outside the target zone. If you implement your own file drop functionality
+ * outside of the file drop component, you can place the `sky-file-drop-target` CSS class
+ * on the element that receives drop events to exempt it from the drop exclusion rule.
+ */
 @Component({
   selector: 'sky-file-drop',
   templateUrl: './file-drop.component.html',
   styleUrls: ['./file-drop.component.scss']
 })
 export class SkyFileDropComponent implements OnDestroy {
+  /**
+   * Fires when users add or remove files.
+   */
   @Output()
   public filesChanged = new EventEmitter<SkyFileDropChange>();
 
   @Output()
   public linkInputBlur = new EventEmitter<void>();
 
+/**
+ * Fires when users add or remove links.
+ */
   @Output()
   public linkChanged = new EventEmitter<SkyFileLink>();
 
+/**
+ * Specifies the minimum size in bytes for valid files.
+ */
   @Input()
   public minFileSize: number = 0;
 
+/**
+ * Specifies the maximum size in bytes for valid files.
+ */
   @Input()
   public maxFileSize: number = 500000;
 
+/**
+ * Indicates whether users can drag and drop multiple files at the same time.
+ */
   @Input()
   public multiple: boolean = true;
 
+/**
+ * Specifies a custom validation function: `[validateFn]="validateFile"`.
+ */
   @Input()
   public validateFn: Function;
 
   @Input()
   public acceptedTypes: string;
 
+/**
+ * Indicates whether to disable the option to browse for files to attach.
+ */
   @Input()
   public noClick: boolean = false;
 
+/**
+ * Indicates whether to display the option to attach files from URLs rather than from local devices.
+ */
   @Input()
   public allowLinks: boolean = false;
 
