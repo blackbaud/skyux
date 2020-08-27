@@ -76,6 +76,9 @@ export interface TypeDocItemMember {
   comment?: TypeDocComment;
 
   decorators?: {
+    arguments?: {
+      bindingPropertyName: string;
+    };
     name: 'Input' | 'Output';
     type: TypeDocType;
   }[];

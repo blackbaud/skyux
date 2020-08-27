@@ -144,6 +144,13 @@ describe('Type definitions service', function () {
             },
             {
               decorator: 'Input',
+              description: '',
+              isOptional: true,
+              name: 'foobarBinding',
+              type: 'string'
+            },
+            {
+              decorator: 'Input',
               defaultValue: '\'foobar\'',
               description: '',
               isOptional: true,

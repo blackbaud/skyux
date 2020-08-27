@@ -666,11 +666,14 @@ export class SkyDocsTypeDefinitionsService {
       }
 
       const isOptional = (decorator === 'Output') ? true : this.isOptional(child);
+      const name = (decorator === 'Input')
+        ? this.parseInputBindingName(child)
+        : child.name;
 
       const property: SkyDocsPropertyDefinition = {
         description,
         isOptional,
-        name: child.name,
+        name,
         type
       };
 
@@ -696,6 +699,10 @@ export class SkyDocsTypeDefinitionsService {
     );
 
     return properties;
+  }
+
+  private parseInputBindingName(child: TypeDocItemMember): string {
+    return child.decorators[0]?.arguments?.bindingPropertyName?.replace(/\'/g, '') || child.name;
   }
 
   /**

@@ -132,6 +132,10 @@ export class FooComponent<U extends FooUser> implements OnInit {
     });
   }
 
+  /* tslint:disable-next-line:no-input-rename */
+  @Input('foobarBinding')
+  public foobarProperty: string;
+
   public propertyShouldNotBeDocumented: string;
 
   private _bar: string;
