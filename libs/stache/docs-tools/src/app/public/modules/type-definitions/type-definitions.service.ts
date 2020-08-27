@@ -64,7 +64,8 @@ import {
 import {
   TypeDocComment,
   TypeDocItem,
-  TypeDocItemMember
+  TypeDocItemMember,
+  TypeDocType
 } from './typedoc-types';
 
 import orderBy from 'lodash.orderby';
@@ -461,6 +462,7 @@ export class SkyDocsTypeDefinitionsService {
 
     let formatted = 'any';
 
+    // Parse complex types.
     if (typeConfig.type === 'reflection') {
       /*istanbul ignore else*/
       if (typeConfig.declaration.signatures) {
@@ -474,19 +476,28 @@ export class SkyDocsTypeDefinitionsService {
       }
     }
 
+    // Parse union types.
+    if (typeConfig.type === 'union') {
+      return this.parseUnionType(typeConfig);
+    }
+
     if (typeConfig.name) {
       formatted = typeConfig.name;
     } else {
+      const elementType = typeConfig.elementType;
       /*istanbul ignore else*/
-      if (typeConfig.elementType.name) {
-        formatted = typeConfig.elementType.name;
+      if (elementType?.name) {
+        formatted = elementType.name;
       }
     }
 
+    // Parse any type arguments e.g. `<T, F>`.
     if (typeConfig.typeArguments) {
       const typeArguments = typeConfig.typeArguments.map((typeArgument) => {
         if (typeArgument.type === 'array') {
           return `${typeArgument.elementType.name}[]`;
+        } else if (typeArgument.type === 'union') {
+          return this.parseUnionType(typeArgument);
         }
         return typeArgument.name;
       });
@@ -499,6 +510,10 @@ export class SkyDocsTypeDefinitionsService {
     }
 
     return formatted;
+  }
+
+  private parseUnionType(typeConfig: TypeDocType): SkyDocsTypeDefinition {
+    return typeConfig.types.map(t => this.parseFormattedType({ type: t })).join(' | ');
   }
 
   private parseCommentTags(comment: TypeDocComment): SkyDocsCommentTags {
@@ -681,7 +696,7 @@ export class SkyDocsTypeDefinitionsService {
         property.decorator = decorator;
       }
 
-      if (defaultValue !== undefined) {
+      if (defaultValue !== undefined && decorator !== 'Output') {
         property.defaultValue = defaultValue;
       }
 
@@ -702,7 +717,7 @@ export class SkyDocsTypeDefinitionsService {
   }
 
   private parseInputBindingName(child: TypeDocItemMember): string {
-    return child.decorators[0]?.arguments?.bindingPropertyName?.replace(/\'/g, '') || child.name;
+    return child.decorators[0].arguments.bindingPropertyName?.replace(/\'/g, '') || child.name;
   }
 
   /**

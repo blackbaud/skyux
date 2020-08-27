@@ -1,3 +1,11 @@
+import {
+  EventEmitter
+} from '@angular/core';
+
+import {
+  FooUser
+} from './foo-user';
+
 /**
  * This is the description for FooClass.
  */
@@ -19,6 +27,10 @@ export class FooClass {
    * This is the description for `publicProperty`.
    */
   public publicProperty: string = 'foobar';
+
+  public unionType: FooUser | string;
+
+  public unionTypeEventEmitter: EventEmitter<FooUser | string>;
 
   private _foo: number;
 

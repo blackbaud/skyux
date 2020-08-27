@@ -3,10 +3,6 @@ import {
 } from '@angular/core';
 
 import {
-  SkyDocsAnchorLinkService
-} from './anchor-link.service';
-
-import {
   SkyDocsInterfaceDefinition
 } from './interface-definition';
 
@@ -34,10 +30,6 @@ import {
 
 @Injectable()
 export class SkyDocsTypeDefinitionsFormatService {
-
-  constructor(
-    private anchorLinkService: SkyDocsAnchorLinkService
-  ) { }
 
   public getInterfaceSignature(definition: SkyDocsInterfaceDefinition, config?: {
     createAnchorLinks: boolean;
@@ -92,7 +84,6 @@ export class SkyDocsTypeDefinitionsFormatService {
   public getParameterSignature(
     parameter: SkyDocsParameterDefinition,
     config: {
-      applyCodeFormatting?: boolean;
       createAnchorLinks?: boolean;
       escapeSpecialCharacters?: boolean;
     } = {
@@ -113,12 +104,6 @@ export class SkyDocsTypeDefinitionsFormatService {
 
     if (config.escapeSpecialCharacters) {
       signature = this.escapeSpecialCharacters(signature);
-    }
-
-    if (config.createAnchorLinks) {
-      signature = this.anchorLinkService.applyTypeAnchorLinks(signature, {
-        applyCodeFormatting: config.applyCodeFormatting
-      });
     }
 
     return signature;
@@ -151,13 +136,6 @@ export class SkyDocsTypeDefinitionsFormatService {
       : this.formatCallSignature(item.type.callSignature, {
         createAnchorLinks: false
       });
-
-    propertyType = this.anchorLinkService.applyTypeAnchorLinks(
-      this.escapeSpecialCharacters(propertyType),
-      {
-        applyCodeFormatting: false
-      }
-    );
 
     signature += `: ${propertyType}`;
 

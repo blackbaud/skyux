@@ -5,7 +5,7 @@
         class="sky-docs-parameter-definition-header"
       >
         <sky-code><span
-          [innerHtml]="getParameterSignature(parameter)"
+          [innerHtml]="getParameterSignature(parameter) | skyDocsTypeAnchorLinks:'no-code-tags'"
         ></span></sky-code>
       </th>
       <td

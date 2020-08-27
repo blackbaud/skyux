@@ -3,10 +3,6 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  SkyDocsAnchorLinkService
-} from './anchor-link.service';
-
-import {
   SkyDocsInterfaceDefinition
 } from './interface-definition';
 
@@ -32,32 +28,10 @@ import {
   SkyDocsTypeDefinitionsFormatService
 } from './type-definitions-format.service';
 
-import {
-  SkyDocsTypeDefinitionsProvider
-} from './type-definitions-provider';
-
 describe('Type definitions format service', () => {
 
-  let definitionsProvider: SkyDocsTypeDefinitionsProvider;
-  let anchorLinkService: SkyDocsAnchorLinkService;
-
-  beforeEach(() => {
-    definitionsProvider = {
-      anchorIds: {
-        'FooUser': 'foo-user'
-      },
-      typeDefinitions: [
-        {
-          name: 'FooUser'
-        }
-      ]
-    };
-
-    anchorLinkService = new SkyDocsAnchorLinkService(definitionsProvider);
-  });
-
   it('should generate a method signature', () => {
-    const service = new SkyDocsTypeDefinitionsFormatService(anchorLinkService);
+    const service = new SkyDocsTypeDefinitionsFormatService();
     const methodDef: SkyDocsMethodDefinition = {
       name: 'fooBar'
     };
@@ -69,7 +43,7 @@ describe('Type definitions format service', () => {
   });
 
   it('should generate a method signature with optional params', () => {
-    const service = new SkyDocsTypeDefinitionsFormatService(anchorLinkService);
+    const service = new SkyDocsTypeDefinitionsFormatService();
     const methodDef: SkyDocsMethodDefinition = {
       name: 'fooBar',
       parameters: [
@@ -94,7 +68,7 @@ describe('Type definitions format service', () => {
   });
 
   it('should generate a method signature with type params', () => {
-    const service = new SkyDocsTypeDefinitionsFormatService(anchorLinkService);
+    const service = new SkyDocsTypeDefinitionsFormatService();
     const methodDef: SkyDocsMethodDefinition = {
       name: 'fooBar',
       parameters: [
@@ -120,7 +94,7 @@ describe('Type definitions format service', () => {
   });
 
   it('should NOT wrap anchor tags around a method\'s known types', () => {
-    const service = new SkyDocsTypeDefinitionsFormatService(anchorLinkService);
+    const service = new SkyDocsTypeDefinitionsFormatService();
     const methodDef: SkyDocsMethodDefinition = {
       name: 'fooBar',
       returnType: 'FooUser',
@@ -138,7 +112,7 @@ describe('Type definitions format service', () => {
   });
 
   it('should generate a parameter signature', () => {
-    const service = new SkyDocsTypeDefinitionsFormatService(anchorLinkService);
+    const service = new SkyDocsTypeDefinitionsFormatService();
     const paramDef: SkyDocsParameterDefinition = {
       name: 'foobar',
       isOptional: false,
@@ -150,7 +124,7 @@ describe('Type definitions format service', () => {
   });
 
   it('should generate an interface signature', () => {
-    const service = new SkyDocsTypeDefinitionsFormatService(anchorLinkService);
+    const service = new SkyDocsTypeDefinitionsFormatService();
     const interfaceDef: SkyDocsInterfaceDefinition = {
       name: 'Foobar',
       properties: [
@@ -172,7 +146,7 @@ describe('Type definitions format service', () => {
   });
 
   it('should generate an interface signature with type params', () => {
-    const service = new SkyDocsTypeDefinitionsFormatService(anchorLinkService);
+    const service = new SkyDocsTypeDefinitionsFormatService();
     const interfaceDef: SkyDocsInterfaceDefinition = {
       name: 'Foobar',
       properties: [
@@ -193,7 +167,7 @@ describe('Type definitions format service', () => {
   });
 
   it('should generate a property signature', () => {
-    const service = new SkyDocsTypeDefinitionsFormatService(anchorLinkService);
+    const service = new SkyDocsTypeDefinitionsFormatService();
     const propertyDef: SkyDocsPropertyDefinition = {
       name: 'foobar',
       isOptional: false,
@@ -205,7 +179,7 @@ describe('Type definitions format service', () => {
   });
 
   it('should generate a property signature without a type', () => {
-    const service = new SkyDocsTypeDefinitionsFormatService(anchorLinkService);
+    const service = new SkyDocsTypeDefinitionsFormatService();
     const propertyDef: SkyDocsPropertyDefinition = {
       name: 'foobar',
       isOptional: false,
@@ -217,7 +191,7 @@ describe('Type definitions format service', () => {
   });
 
   it('should generate an optional property signature', () => {
-    const service = new SkyDocsTypeDefinitionsFormatService(anchorLinkService);
+    const service = new SkyDocsTypeDefinitionsFormatService();
     const propertyDef: SkyDocsPropertyDefinition = {
       name: 'foobar',
       isOptional: true,
@@ -229,7 +203,7 @@ describe('Type definitions format service', () => {
   });
 
   it('should generate a property signature with a decorator', () => {
-    const service = new SkyDocsTypeDefinitionsFormatService(anchorLinkService);
+    const service = new SkyDocsTypeDefinitionsFormatService();
     const propertyDef: SkyDocsPropertyDefinition = {
       name: 'foobar',
       isOptional: false,
@@ -242,7 +216,7 @@ describe('Type definitions format service', () => {
   });
 
   it('should generate a deprecated property signature', () => {
-    const service = new SkyDocsTypeDefinitionsFormatService(anchorLinkService);
+    const service = new SkyDocsTypeDefinitionsFormatService();
     const propertyDef: SkyDocsPropertyDefinition = {
       name: 'click',
       isOptional: true,
@@ -253,26 +227,12 @@ describe('Type definitions format service', () => {
 
     const signature = service.getPropertySignature(propertyDef);
     expect(signature).toEqual(
-      '@Output()<br /><strike>click</strike>: EventEmitter&lt;<a class="sky-docs-anchor-link" href="#foo-user">FooUser</a>&gt;'
-    );
-  });
-
-  it('should wrap anchor tags around a property\'s known types', () => {
-    const service = new SkyDocsTypeDefinitionsFormatService(anchorLinkService);
-    const propertyDef: SkyDocsPropertyDefinition = {
-      name: 'foobar',
-      isOptional: false,
-      type: 'FooUser'
-    };
-
-    const signature = service.getPropertySignature(propertyDef);
-    expect(signature).toEqual(
-      'foobar: <a class="sky-docs-anchor-link" href="#foo-user">FooUser</a>'
+      '@Output()<br /><strike>click</strike>: EventEmitter<FooUser>'
     );
   });
 
   it('should generate a type alias index signature', () => {
-    const service = new SkyDocsTypeDefinitionsFormatService(anchorLinkService);
+    const service = new SkyDocsTypeDefinitionsFormatService();
     const definition: SkyDocsTypeAliasIndexSignatureDefinition = {
       name: 'foo',
       keyName: '_',
@@ -284,7 +244,7 @@ describe('Type definitions format service', () => {
   });
 
   it('should generate a type alias union signature', () => {
-    const service = new SkyDocsTypeDefinitionsFormatService(anchorLinkService);
+    const service = new SkyDocsTypeDefinitionsFormatService();
     const definition: SkyDocsTypeAliasUnionDefinition = {
       name: 'foo',
       types: ['string', 'boolean', '\'above\'', 'FooUser']
@@ -295,7 +255,7 @@ describe('Type definitions format service', () => {
   });
 
   it('should generate a type alias function signature', () => {
-    const service = new SkyDocsTypeDefinitionsFormatService(anchorLinkService);
+    const service = new SkyDocsTypeDefinitionsFormatService();
     const definition: SkyDocsTypeAliasFunctionDefinition = {
       name: 'foo',
       parameters: [

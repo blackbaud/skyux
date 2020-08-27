@@ -68,7 +68,7 @@
 
 <ng-template let-property #nameTemplate>
   <sky-code><span
-    [innerHtml]="getPropertySignature(property)"
+    [innerHtml]="getPropertySignature(property) | skyDocsTypeAnchorLinks:'no-code-tags'"
   ></span></sky-code>
 </ng-template>
 

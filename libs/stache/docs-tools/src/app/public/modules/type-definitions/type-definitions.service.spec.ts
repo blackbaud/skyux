@@ -64,6 +64,18 @@ describe('Type definitions service', function () {
               isOptional: true,
               name: 'publicProperty',
               type: 'string'
+            },
+            {
+              description: '',
+              isOptional: true,
+              name: 'unionType',
+              type: 'FooUser | string'
+            },
+            {
+              description: '',
+              isOptional: true,
+              name: 'unionTypeEventEmitter',
+              type: 'EventEmitter<FooUser | string>'
             }
           ]
         }
@@ -173,7 +185,6 @@ describe('Type definitions service', function () {
             },
             {
               decorator: 'Output',
-              defaultValue: 'new EventEmitter<FooUser>()',
               description: 'This is the description for the click event.',
               isOptional: true,
               name: 'click',
@@ -181,7 +192,6 @@ describe('Type definitions service', function () {
             },
             {
               decorator: 'Output',
-              defaultValue: 'new EventEmitter<U>()',
               deprecationWarning: '',
               description: 'This property doesn\'t include a deprecation message.',
               isOptional: true,
@@ -190,7 +200,6 @@ describe('Type definitions service', function () {
             },
             {
               decorator: 'Output',
-              defaultValue: 'new EventEmitter<any[]>()',
               description: '',
               isOptional: true,
               name: 'rows',
@@ -224,7 +233,6 @@ describe('Type definitions service', function () {
             },
             {
               decorator: 'Output',
-              defaultValue: 'new EventEmitter<FooUser>()',
               description: '',
               isOptional: true,
               name: 'save',
