@@ -1,3 +1,7 @@
+# 4.4.1 (2020-08-27)
+
+- Fixed the property definition component to hide default values for `Output` properties. [#113](https://github.com/blackbaud/skyux-docs-tools/pull/113)
+
 # 4.4.0 (2020-08-27)
 
 - Added the `sky-docs-thumbnail` component. [#106](https://github.com/blackbaud/skyux-docs-tools/pull/106)
