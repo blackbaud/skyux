@@ -1,3 +1,7 @@
+# 4.5.0 (2020-08-27)
+
+- Added modern theme styles to the timepicker component. [#215](https://github.com/blackbaud/skyux-datetime/pull/215)
+
 # 4.4.0 (2020-08-21)
 
 - Added modern theme styles to the datepicker component. [#211](https://github.com/blackbaud/skyux-datetime/pull/211)
