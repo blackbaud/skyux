@@ -1,3 +1,9 @@
+# 4.4.0 (2020-08-27)
+
+- Added the `sky-docs-thumbnail` component. [#106](https://github.com/blackbaud/skyux-docs-tools/pull/106)
+- Fixed the directive definition component to properly parse `Input` property bindings (e.g., `@Input('foobar')`). [#107](https://github.com/blackbaud/skyux-docs-tools/pull/107)
+- Fixed the parameter definition component to properly handle parameters of type "call signature". [#110](https://github.com/blackbaud/skyux-docs-tools/pull/110)
+
 # 4.3.2 (2020-08-26)
 
 - Fixed the class definition component to properly display default and required values. [#102](https://github.com/blackbaud/skyux-docs-tools/pull/102)
