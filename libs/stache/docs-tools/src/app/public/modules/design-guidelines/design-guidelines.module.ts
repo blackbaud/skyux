@@ -7,12 +7,12 @@ import {
 } from '@angular/core';
 
 import {
-  SkyImageModule
-} from '@blackbaud/skyux-lib-media';
-
-import {
   SkyFluidGridModule
 } from '@skyux/layout';
+
+import {
+  SkyDocsThumbnailModule
+} from '../thumbnail/thumbnail.module';
 
 import {
   SkyDocsDesignGuidelineComponent
@@ -29,8 +29,8 @@ import {
 @NgModule({
   imports: [
     CommonModule,
-    SkyFluidGridModule,
-    SkyImageModule
+    SkyDocsThumbnailModule,
+    SkyFluidGridModule
   ],
   declarations: [
     SkyDocsDesignGuidelineComponent,

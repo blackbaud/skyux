@@ -1,0 +1,18 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+.sky-docs-thumbnail {
+  margin-bottom: $sky-margin * 5;
+}
+
+.sky-docs-video {
+  video {
+    max-width: 100%;
+  }
+}
+
+.sky-docs-video-border {
+  video {
+    @include sky-border(light, top, right, bottom, left);
+  }
+}

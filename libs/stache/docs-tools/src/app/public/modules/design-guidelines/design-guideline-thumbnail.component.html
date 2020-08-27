@@ -1,23 +1,10 @@
 <div class="sky-docs-design-guideline-thumbnail">
-  <sky-image *ngIf="imageSource"
-    [imageSource]="imageSource"
-    [imageAlt]="imageAlt"
+  <sky-docs-thumbnail
     [caption]="caption"
     [captionType]="captionType"
+    [imageAlt]="imageAlt"
+    [imageSource]="imageSource"
+    [videoSource]="videoSource"
     [showBorder]="showBorder"
-    [showCaptionPrefix]="false"
-  ></sky-image>
-  <div *ngIf="videoSource"
-    class="sky-docs-design-guideline-video"
-    [ngClass]="{
-      'sky-docs-design-guideline-video-border': showBorder
-    }"
-  >
-    <video controls>
-      <source
-        [attr.src]="videoSource"
-        type="video/mp4"
-      />
-    </video>
-  </div>
+  ></sky-docs-thumbnail>
 </div>

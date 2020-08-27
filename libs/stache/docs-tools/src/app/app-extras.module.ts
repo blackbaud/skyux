@@ -26,12 +26,17 @@ import {
   SkyAppLinkModule
 } from '@skyux/router';
 
+import {
+  SkyDocsThumbnailModule
+} from './public/public_api';
+
 @NgModule({
   exports: [
     SkyAlertModule,
     SkyAppLinkModule,
     SkyCodeBlockModule,
     SkyCodeModule,
+    SkyDocsThumbnailModule,
     SkyDocsToolsModule,
     SkyPopoverModule
   ],
