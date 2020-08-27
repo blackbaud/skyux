@@ -1,3 +1,7 @@
+# 4.9.0 (2020-08-27)
+
+- Added support for using the input box component without specifying a label. [#178](https://github.com/blackbaud/skyux-forms/pull/178)
+
 # 4.8.0 (2020-08-24)
 
 - Added modern theme styles to radio buttons and checkboxes. [#173](https://github.com/blackbaud/skyux-forms/pull/173)
