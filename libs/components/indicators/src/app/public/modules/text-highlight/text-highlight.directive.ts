@@ -21,10 +21,15 @@ const className = 'sky-highlight-mark';
   selector: '[skyHighlight]'
 })
 export class SkyTextHighlightDirective implements OnChanges, AfterViewInit, OnDestroy {
+
+  /**
+   * Specifies the text to highlight.
+   */
   @Input()
-  public skyHighlight: string = undefined;
+  public skyHighlight: string;
 
   private existingHighlight = false;
+
   private observer: MutationObserver;
 
   constructor(

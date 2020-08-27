@@ -9,6 +9,11 @@ import {
   styleUrls: ['./label.component.scss']
 })
 export class SkyLabelComponent {
+
+  /**
+   * The type of label to display. Possible values are `info`, `success`, `warning` and `danger`.
+   * @required
+   */
   @Input()
   public set labelType(value: string) {
     this._labelType = value;

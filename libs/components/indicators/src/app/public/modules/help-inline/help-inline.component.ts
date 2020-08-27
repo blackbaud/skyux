@@ -10,6 +10,10 @@ import {
   styleUrls: ['./help-inline.component.scss']
 })
 export class SkyHelpInlineComponent {
+
+  /**
+   * Fires when the user clicks the help inline button.
+   */
   @Output()
   public actionClick = new EventEmitter<any>();
 

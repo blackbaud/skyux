@@ -3,6 +3,9 @@ import {
   Input
 } from '@angular/core';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-wait-page',
   templateUrl: './wait-page.component.html',

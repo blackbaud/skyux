@@ -42,27 +42,47 @@ export class SkyWaitService {
     private windowSvc: SkyAppWindowRef
   ) {}
 
+  /**
+   * Starts a blocking page wait on the page.
+   */
   public beginBlockingPageWait(): void {
     this.beginPageWait(true);
   }
 
+  /**
+   * Starts a non-blocking page wait on the page.
+   */
   public beginNonBlockingPageWait(): void {
     this.beginPageWait(false);
   }
 
+  /**
+   * Ends a blocking page wait on the page. Blocking page wait indication
+   * is removed when all running blocking page waits are ended.
+   */
   public endBlockingPageWait(): void {
     this.endPageWait(true);
   }
 
+  /**
+   * Ends a non-blocking page wait on the page. Non-blocking page wait indication
+   * is removed when all running non-blocking page waits are ended.
+   */
   public endNonBlockingPageWait(): void {
     this.endPageWait(false);
   }
 
+  /**
+   * Clears all blocking and non-blocking page waits on the page.
+   */
   public clearAllPageWaits(): void {
     this.clearPageWait(true);
     this.clearPageWait(false);
   }
 
+  /**
+   * @internal
+   */
   public dispose(): void {
     if (SkyWaitService.waitComponent) {
       SkyWaitService.waitComponent = undefined;
@@ -72,6 +92,9 @@ export class SkyWaitService {
     }
   }
 
+  /**
+   * Launches a page wait and automatically stops when the specific asynchronous event completes.
+   */
   public blockingWrap<T>(observable: Observable<T>): Observable<T> {
     return observableDefer(() => {
       this.beginBlockingPageWait();
@@ -79,6 +102,10 @@ export class SkyWaitService {
     });
   }
 
+  /**
+   * Launches a non-blocking page wait and automatically stops when the specific
+   * asynchronous event completes.
+   */
   public nonBlockingWrap<T>(observable: Observable<T>): Observable<T> {
     return observableDefer(() => {
       this.beginNonBlockingPageWait();

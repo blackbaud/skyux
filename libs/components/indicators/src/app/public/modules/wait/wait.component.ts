@@ -27,9 +27,16 @@ let nextId = 0;
   providers: [SkyWaitAdapterService]
 })
 export class SkyWaitComponent implements OnInit {
+
+  /**
+   * Defines a string value to label the wait icon for accessibility while an element or page loads.
+   */
   @Input()
   public ariaLabel: string;
 
+  /**
+   * When set to `true`, wait indication appears on the parent element of the `sky-wait` component.
+   */
   @Input()
   public set isWaiting(value: boolean) {
     if (value && !this._isFullPage) {
@@ -53,6 +60,13 @@ export class SkyWaitComponent implements OnInit {
     return this._isWaiting;
   }
 
+  /**
+   * When set to `true`, wait indication appears on the page level instead of the
+   * parent element level. We recommend that you use the `beginBlockingPageWait` or
+   * `beginNonBlockingPageWait` functions of the `SkyWaitService` instead of setting this
+   * on the component level.
+   * @default false
+   */
   @Input()
   public set isFullPage(value: boolean) {
     if (value) {
@@ -68,6 +82,11 @@ export class SkyWaitComponent implements OnInit {
     return this._isFullPage;
   }
 
+  /**
+   * When set to `true`, wait indication appears in the bottom left corner of the element
+   * instead of hiding the entire parent element.
+   * @default false
+   */
   @Input()
   public isNonBlocking: boolean;
 
