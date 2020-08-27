@@ -1,3 +1,7 @@
+# 4.2.1 (2020-08-27)
+
+- Fixed the numeric service to reference `NumericOptions` instead of `any`. [#197](https://github.com/blackbaud/skyux-core/pull/197)
+
 # 4.2.0 (2020-08-13)
 
 - Added the `skyId` directive for assigning a unique ID to an element. [#190](https://github.com/blackbaud/skyux-core/pull/190)
