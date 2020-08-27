@@ -337,6 +337,42 @@ describe('Type definitions service', function () {
               }
             },
             {
+              description: 'Specifies a function to call when users select the text field or button.',
+              name: 'open',
+              isOptional: true,
+              type: {
+                callSignature: {
+                  parameters: [
+                    {
+                      description: 'A `FooUser` object that provides values to the custom picker.',
+                      isOptional: false,
+                      name: 'user',
+                      type: 'FooUser'
+                    },
+                    {
+                      description: 'A function that accepts an array of `FooUser` objects that\nrepresent the values selected in the custom picker.',
+                      isOptional: false,
+                      name: 'updateValue',
+                      type: {
+                        callSignature: {
+                          returnType: 'void',
+                          parameters: [
+                            {
+                              description: '',
+                              isOptional: false,
+                              name: 'value',
+                              type: 'FooUser[]'
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  returnType: 'void'
+                }
+              }
+            },
+            {
               description: '',
               isOptional: true,
               name: 'user',

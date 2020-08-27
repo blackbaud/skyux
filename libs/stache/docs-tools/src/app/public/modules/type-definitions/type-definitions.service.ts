@@ -337,7 +337,7 @@ export class SkyDocsTypeDefinitionsService {
         description: propertyDescription,
         isOptional: false,
         name: `[${param.name}: ${param.type.name}]`,
-        type: indexSignature.type.name
+        type: this.parseFormattedType(indexSignature)
       });
     }
 

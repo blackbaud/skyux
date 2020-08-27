@@ -11,6 +11,10 @@ import {
   SkyDocsParameterDefinitionsComponent
 } from '../parameter-definitions.component';
 
+import {
+  SkyDocsTypeDefinition
+} from '../type-definition';
+
 @Component({
   selector: 'parameter-definition-test',
   templateUrl: './parameter-definitions.component.fixture.html'
@@ -25,7 +29,7 @@ export class ParameterDefinitionsFixtureComponent {
 
   public parameterName: string;
 
-  public parameterType: string;
+  public parameterType: SkyDocsTypeDefinition;
 
   @ViewChild(SkyDocsParameterDefinitionComponent)
   public parameterDefinitionRef: SkyDocsParameterDefinitionComponent;

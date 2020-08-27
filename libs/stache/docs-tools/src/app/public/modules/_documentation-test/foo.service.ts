@@ -44,5 +44,10 @@ export class FooService implements OnDestroy {
    */
   public anotherFoo<T, U extends FooUser>(component: Type<T>, user: U): void {}
 
+  /**
+   * @internal
+   */
+  public internalMethod(): void {}
+
   public ngOnDestroy(): void {}
 }

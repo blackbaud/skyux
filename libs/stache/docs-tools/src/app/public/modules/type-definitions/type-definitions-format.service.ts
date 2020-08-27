@@ -39,7 +39,9 @@ export class SkyDocsTypeDefinitionsFormatService {
     private anchorLinkService: SkyDocsAnchorLinkService
   ) { }
 
-  public getInterfaceSignature(definition: SkyDocsInterfaceDefinition): string {
+  public getInterfaceSignature(definition: SkyDocsInterfaceDefinition, config?: {
+    createAnchorLinks: boolean;
+  }): string {
     const typeParameterSignature: string = (definition.typeParameters && definition.typeParameters.length)
       ? `<${definition.typeParameters.join(', ')}>`
       : '';
@@ -49,7 +51,9 @@ export class SkyDocsTypeDefinitionsFormatService {
     definition.properties.forEach((property) => {
       const propertyType = (typeof property.type === 'string')
         ? property.type
-        : this.formatCallSignature(property.type.callSignature);
+        : this.formatCallSignature(property.type.callSignature, {
+          createAnchorLinks: config.createAnchorLinks
+        });
 
       const optionalIndicator = (property.isOptional) ? '?' : '';
       signature += `\n  ${property.name}${optionalIndicator}: ${propertyType.replace(/\"/g, '\'')};`;
@@ -99,7 +103,13 @@ export class SkyDocsTypeDefinitionsFormatService {
     const optionalMarker = (parameter.isOptional && !parameter.defaultValue) ? '?' : '';
     const defaultValue = (parameter.defaultValue) ? ` = ${parameter.defaultValue}` : '';
 
-    let signature = `${parameter.name}${optionalMarker}: ${parameter.type}${defaultValue}`;
+    const parameterType = (!parameter.type || typeof parameter.type === 'string')
+      ? parameter.type
+      : this.formatCallSignature(parameter.type.callSignature, {
+        createAnchorLinks: false
+      });
+
+    let signature = `${parameter.name}${optionalMarker}: ${parameterType}${defaultValue}`;
 
     if (config.escapeSpecialCharacters) {
       signature = this.escapeSpecialCharacters(signature);
@@ -157,13 +167,20 @@ export class SkyDocsTypeDefinitionsFormatService {
   public getTypeAliasSignature(
     definition: SkyDocsTypeAliasIndexSignatureDefinition |
       SkyDocsTypeAliasFunctionDefinition |
-      SkyDocsTypeAliasUnionDefinition
+      SkyDocsTypeAliasUnionDefinition,
+    config: {
+      createAnchorLinks: boolean;
+    } = {
+      createAnchorLinks: true
+    }
   ): string {
     let signature = `type ${definition.name} = `;
 
     // Function type
     if ('returnType' in definition) {
-      signature += this.formatCallSignature(definition);
+      signature += this.formatCallSignature(definition, {
+        createAnchorLinks: config.createAnchorLinks
+      });
     }
 
     // Index signature

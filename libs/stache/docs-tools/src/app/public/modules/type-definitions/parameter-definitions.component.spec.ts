@@ -132,4 +132,42 @@ describe('Parameter definitions component', function () {
     );
   }));
 
+  it('should format parameters with call signature types', fakeAsync(() => {
+    fixture.componentInstance.isOptional = true;
+    fixture.componentInstance.parameterName = 'foobar';
+    fixture.componentInstance.parameterType = {
+      callSignature: {
+        returnType: 'void',
+        parameters: [
+          {
+            name: 'user',
+            type: 'FooUser',
+            isOptional: false
+          },
+          {
+            name: 'search',
+            type: {
+              callSignature: {
+                returnType: 'FooUser',
+                parameters: []
+              }
+            },
+            isOptional: true
+          }
+        ]
+      }
+    };
+
+    fixture.detectChanges();
+    tick();
+
+    const signatureElement = fixture.nativeElement.querySelector(
+      '.sky-docs-parameter-definition-header'
+    );
+
+    expect(signatureElement.textContent).toEqual(
+      'foobar?: (user: FooUser, search?: () => FooUser) => void'
+    );
+  }));
+
 });

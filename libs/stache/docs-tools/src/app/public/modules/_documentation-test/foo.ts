@@ -25,6 +25,17 @@ export interface Foo<T, U extends FooUser> {
   getUsers?: () => void;
 
   /**
+   * Specifies a function to call when users select the text field or button.
+   * @param user A `FooUser` object that provides values to the custom picker.
+   * @param updateValue A function that accepts an array of `FooUser` objects that
+   * represent the values selected in the custom picker.
+   */
+  open: (
+    user: FooUser,
+    updateValue: (value: FooUser[]) => void
+  ) => void;
+
+  /**
    * This is the description for baz.
    */
   baz?: U;

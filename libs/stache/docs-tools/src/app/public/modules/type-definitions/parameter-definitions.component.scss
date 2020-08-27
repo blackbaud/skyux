@@ -17,6 +17,14 @@
     text-align: left;
 
     ::ng-deep {
+
+      &:first-child {
+        .sky-code {
+          display: inline-block;
+          white-space: normal;
+        }
+      }
+
       p {
         margin: $sky-margin 0;
 
@@ -37,15 +45,15 @@
   }
 
   tr:first-child {
-    th,
-    td {
+    > th,
+    > td {
       padding-top: 0;
     }
   }
 
   tr:last-child {
-    th,
-    td {
+    > th,
+    > td {
       border-bottom: 0;
       padding-bottom: 0;
     }

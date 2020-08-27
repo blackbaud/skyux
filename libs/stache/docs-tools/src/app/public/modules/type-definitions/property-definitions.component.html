@@ -110,6 +110,18 @@
         <sky-docs-safe-html
           [innerHtml]="parameter.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
         ></sky-docs-safe-html>
+        <sky-docs-parameter-definitions *ngIf="parameter.type?.callSignature?.parameters?.length">
+          <sky-docs-parameter-definition *ngFor="let parameter of property.type.callSignature.parameters"
+            [defaultValue]="parameter.defaultValue"
+            [isOptional]="parameter.isOptional"
+            [parameterName]="parameter.name"
+            [parameterType]="parameter.type"
+          >
+            <sky-docs-safe-html
+              [innerHtml]="parameter.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
+            ></sky-docs-safe-html>
+          </sky-docs-parameter-definition>
+        </sky-docs-parameter-definitions>
       </sky-docs-parameter-definition>
     </sky-docs-parameter-definitions>
   </ng-container>

@@ -40,7 +40,9 @@ export class SkyDocsTypeAliasDefinitionComponent {
   }
 
   public get sourceCode(): string {
-    return this.formatService.getTypeAliasSignature(this.config);
+    return this.formatService.getTypeAliasSignature(this.config, {
+      createAnchorLinks: false
+    });
   }
 
   constructor(

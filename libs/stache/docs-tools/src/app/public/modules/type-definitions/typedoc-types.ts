@@ -130,11 +130,7 @@ export interface TypeDocItem {
 
   kindString?: 'Class' | 'Enumeration' | 'Interface' | 'Type alias';
 
-  indexSignature?: {
-    comment: TypeDocComment;
-    parameters: TypeDocParameter[];
-    type: TypeDocType;
-  }[];
+  indexSignature?: TypeDocSignature[];
 
   name: string;
 

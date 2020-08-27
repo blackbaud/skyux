@@ -23,7 +23,9 @@ export class SkyDocsInterfaceDefinitionComponent {
   public config: SkyDocsInterfaceDefinition;
 
   public get sourceCode(): string {
-    return this.formatService.getInterfaceSignature(this.config);
+    return this.formatService.getInterfaceSignature(this.config, {
+      createAnchorLinks: false
+    });
   }
 
   constructor(

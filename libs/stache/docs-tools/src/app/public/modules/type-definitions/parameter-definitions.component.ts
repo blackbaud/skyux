@@ -12,6 +12,10 @@ import {
 } from './parameter-definition.component';
 
 import {
+  SkyDocsTypeDefinition
+} from './type-definition';
+
+import {
   SkyDocsTypeDefinitionsFormatService
 } from './type-definitions-format.service';
 
@@ -20,7 +24,7 @@ interface SkyDocsParameterModel {
   isOptional: boolean;
   name: string;
   templateRef: TemplateRef<any>;
-  type: string;
+  type: SkyDocsTypeDefinition;
 }
 
 @Component({

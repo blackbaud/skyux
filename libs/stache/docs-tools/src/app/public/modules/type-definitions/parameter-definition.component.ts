@@ -6,6 +6,10 @@ import {
   ViewChild
 } from '@angular/core';
 
+import {
+  SkyDocsTypeDefinition
+} from './type-definition';
+
 @Component({
   selector: 'sky-docs-parameter-definition',
   templateUrl: './parameter-definition.component.html',
@@ -29,7 +33,7 @@ export class SkyDocsParameterDefinitionComponent {
   public parameterName: string;
 
   @Input()
-  public parameterType: string;
+  public parameterType: SkyDocsTypeDefinition;
 
   @ViewChild('templateRef', {
     read: TemplateRef,
