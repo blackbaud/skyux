@@ -1,3 +1,7 @@
+# 4.1.0 (2020-08-27)
+
+- Added modern theme styles to the inline form component. [#36](https://github.com/blackbaud/skyux-inline-form/pull/36)
+
 # 4.0.1 (2020-08-10)
 
 - Added support for `@skyux/theme@4.8.0` and `@skyux-sdk/builder@4.3.0`. [#29](https://github.com/blackbaud/skyux-inline-form/pull/29)
