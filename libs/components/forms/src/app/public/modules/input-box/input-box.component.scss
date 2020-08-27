@@ -149,6 +149,13 @@ sky-input-box {
         }
       }
 
+      .sky-form-control:only-child {
+        &:not([type="range"]):not([type="radio"]):not([type="checkbox"]) {
+          margin-top: 0;
+          padding-top: 10px;
+        }
+      }
+
       /* Firefox puts an extra 5px left padding on select elements. This removes it. */
       @-moz-document url-prefix() {
         select.sky-form-control {
@@ -225,6 +232,13 @@ sky-input-box {
           &:not([type="range"]):not([type="radio"]):not([type="checkbox"]) {
             margin-top: -19px;
             padding: 22px 14px 9px 14px;
+          }
+        }
+
+        .sky-form-control:only-child {
+          &:not([type="range"]):not([type="radio"]):not([type="checkbox"]) {
+            margin-top: 0;
+            padding-top: 9px;
           }
         }
 

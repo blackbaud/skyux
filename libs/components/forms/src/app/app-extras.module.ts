@@ -12,6 +12,10 @@ import {
 } from '@skyux/docs-tools';
 
 import {
+  SkyIdModule
+} from '@skyux/core';
+
+import {
   SkyAuthHttpClientModule
 } from '@skyux/http';
 
@@ -46,6 +50,7 @@ import {
     SkyFileAttachmentsModule,
     SkyFluidGridModule,
     SkyIconModule,
+    SkyIdModule,
     SkyInputBoxModule,
     SkyRadioModule,
     SkyCharacterCounterModule,

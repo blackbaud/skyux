@@ -5,7 +5,7 @@
 >
 
   <sky-docs-demo-control-panel-theme
-  (themeSettingsChange)="themeSettingsChange($event)"
+    (themeSettingsChange)="themeSettingsChange($event)"
   ></sky-docs-demo-control-panel-theme>
 
   <sky-fluid-grid
@@ -21,15 +21,16 @@
           >
             <label
               class="sky-control-label"
-              for="field1"
+              [for]="inputBoxBasic.id"
             >
               Input
             </label>
             <input
               class="sky-form-control"
-              id="field1"
+              skyId
               type="text"
               value="Value"
+              #inputBoxBasic="skyId"
             >
           </sky-input-box>
         </div>
@@ -46,13 +47,14 @@
           >
             <label
               class="sky-control-label"
-              for="field2"
+              [for]="inputBoxTextarea.id"
             >
               Textarea
             </label>
             <textarea
               class="sky-form-control"
-              id="field2"
+              skyId
+              #inputBoxTextarea="skyId"
             >Value</textarea>
           </sky-input-box>
         </div>
@@ -69,14 +71,15 @@
           >
             <label
               class="sky-control-label"
-              for="field3"
+              [for]="inputBoxButtonSingle.id"
             >
               Input with one button
             </label>
             <input
               class="sky-form-control"
-              id="field3"
+              skyId
               type="text"
+              #inputBoxButtonSingle="skyId"
             >
             <div
               class="sky-input-group-btn"
@@ -105,14 +108,15 @@
           >
             <label
               class="sky-control-label"
-              for="field4"
+              [for]="inputBoxButtonMultiple.id"
             >
               Input with multiple buttons
             </label>
             <input
               class="sky-form-control"
-              id="field4"
+              skyId
               type="text"
+              #inputBoxButtonMultiple="skyId"
             >
             <div
               class="sky-input-group-btn"
@@ -152,14 +156,15 @@
         >
           <label
             class="sky-control-label"
-            for="field9"
+            [for]="inputBoxSideBySide1.id"
           >
             Input left
           </label>
           <input
             class="sky-form-control"
-            id="field9"
+            skyId
             type="text"
+            #inputBoxSideBySide1="skyId"
           >
         </sky-input-box>
       </sky-column>
@@ -171,14 +176,15 @@
         >
           <label
             class="sky-control-label"
-            for="field10"
+            [for]="inputBoxSideBySide2.id"
           >
             Input right with a label with a lot of text that should wrap and cause the height of the input box to expand to fit the extra text instead of truncating it.
           </label>
           <input
             class="sky-form-control"
-            id="field10"
+            skyId
             type="text"
+            #inputBoxSideBySide2="skyId"
           >
         </sky-input-box>
       </sky-column>
@@ -194,15 +200,16 @@
           >
             <label
               class="sky-control-label"
-              for="field5"
+              [for]="inputBoxFormControlError.id"
             >
               Form control error
             </label>
             <input
               class="sky-form-control"
-              id="field5"
+              skyId
               type="text"
               [formControl]="errorField"
+              #inputBoxFormControlError="skyId"
             >
             <div
               class="sky-error-label"
@@ -227,15 +234,16 @@
             >
               <label
                 class="sky-control-label"
-                for="field6"
+                [for]="inputBoxFormControlNameError.id"
               >
                 Form control by name error
               </label>
               <input
                 class="sky-form-control"
                 formControlName="errorFormField"
-                id="field6"
+                skyId
                 type="text"
+                #inputBoxFormControlNameError="skyId"
               >
               <div
                 class="sky-error-label"
@@ -258,18 +266,19 @@
           >
             <label
               class="sky-control-label"
-              for="field7"
+              [for]="inputBoxNgModelError.id"
             >
               NgModel error
             </label>
             <input
               class="sky-form-control"
-              id="field7"
               name="errorNgModel"
               required
+              skyId
               type="text"
               [(ngModel)]="errorNgModelValue"
               #errorNgModel="ngModel"
+              #inputBoxNgModelError="skyId"
             >
             <div
               class="sky-error-label"
@@ -291,15 +300,17 @@
           >
             <label
               class="sky-control-label"
-              for="field8"
+              [for]="inputBoxFormControlErrorButtonSingle.id"
             >
               Form control error with one button
             </label>
             <input
               class="sky-form-control"
               id="field8"
+              skyId
               type="text"
               [formControl]="errorField"
+              #inputBoxFormControlErrorButtonSingle="skyId"
             >
             <div
               class="sky-input-group-btn"
@@ -334,16 +345,17 @@
           >
             <label
               class="sky-control-label"
-              for="field11"
+              [for]="inputBoxDisabled.id"
             >
               Disabled
             </label>
             <input
               class="sky-form-control"
               disabled
-              id="field11"
+              skyId
               type="text"
               value="Disabled value"
+              #inputBoxDisabled="skyId"
             >
           </sky-input-box>
         </div>
@@ -361,15 +373,16 @@
           >
             <label
               class="sky-control-label"
-              for="field12"
+              [for]="inputBoxButtonDisabled.id"
             >
               Input with one button disabled
             </label>
             <input
               disabled
               class="sky-form-control"
-              id="field12"
+              skyId
               type="text"
+              #inputBoxButtonDisabled
             >
             <div
               class="sky-input-group-btn"
@@ -399,13 +412,14 @@
           >
             <label
               class="sky-control-label"
-              for="field13"
+              [for]="inputBoxSelect.id"
             >
               Select
             </label>
             <select
               class="sky-form-control"
-              id="field13"
+              skyId
+              #inputBoxSelect="skyId"
             >
               <option>Option 1</option>
               <option>Option 2</option>
@@ -428,14 +442,15 @@
           >
             <label
               class="sky-control-label"
-              for="field14"
+              [for]="inputBoxSelectDisabled.id"
             >
               Select disabled
             </label>
             <select
               disabled
               class="sky-form-control"
-              id="field14"
+              skyId
+              #inputBoxSelectDisabled="skyId"
             >
               <option>Option 1</option>
               <option>Option 2</option>
@@ -446,6 +461,99 @@
         </div>
       </sky-column>
     </sky-row>
+
+    <sky-row>
+      <sky-column>
+        <!-- For automation to click to set focus -->
+        <label
+          class="test-label"
+          [for]="inputBoxBasicNoLabel.id"
+        ></label>
+        <div
+          id="input-box-basic-no-label"
+        >
+          <sky-input-box
+            class="sky-margin-stacked-lg"
+          >
+            <input
+              class="sky-form-control"
+              skyId
+              type="text"
+              value="No label"
+              #inputBoxBasicNoLabel="skyId"
+            >
+          </sky-input-box>
+        </div>
+      </sky-column>
+    </sky-row>
+
+    <sky-row>
+      <sky-column>
+        <!-- For automation to click to set focus -->
+        <label
+          class="test-label"
+          [for]="inputBoxButtonSingleNoLabel.id"
+        >
+        </label>
+        <div
+          id="input-box-button-single-no-label"
+        >
+          <sky-input-box
+            class="sky-margin-stacked-lg"
+          >
+            <input
+              class="sky-form-control"
+              skyId
+              type="text"
+              value="No label with one button"
+              #inputBoxButtonSingleNoLabel="skyId"
+            >
+            <div
+              class="sky-input-group-btn"
+            >
+              <button
+                class="sky-btn sky-btn-default"
+                type="button"
+              >
+                <sky-icon
+                  icon="calendar"
+                ></sky-icon>
+              </button>
+            </div>
+          </sky-input-box>
+        </div>
+      </sky-column>
+    </sky-row>
+
+    <sky-row>
+      <sky-column>
+        <!-- For automation to click to set focus -->
+        <label
+          class="test-label"
+          [for]="inputBoxSelectNoLabel.id"
+        >
+        </label>
+        <div
+          id="input-box-select-no-label"
+        >
+          <sky-input-box
+            class="sky-margin-stacked-lg"
+          >
+            <select
+              class="sky-form-control"
+              skyId
+              #inputBoxSelectNoLabel="skyId"
+            >
+              <option>Option 1</option>
+              <option>Option 2</option>
+              <option>Option 3</option>
+              <option>Option 4</option>
+            </select>
+          </sky-input-box>
+        </div>
+      </sky-column>
+    </sky-row>
+
   </sky-fluid-grid>
 
 </div>
