@@ -3,9 +3,17 @@ import {
 } from '@angular/core';
 
 import {
+  SkyCodeModule
+} from '@blackbaud/skyux-lib-code-block';
+
+import {
   SkyDocsToolsModule,
   SkyDocsToolsOptions
 } from '@skyux/docs-tools';
+
+import {
+  SkyFluidGridModule
+} from '@skyux/layout';
 
 import {
   SkyDropdownModule,
@@ -23,8 +31,10 @@ import {
 @NgModule({
   exports: [
     SkyAppLinkModule,
+    SkyCodeModule,
     SkyDocsToolsModule,
     SkyDropdownModule,
+    SkyFluidGridModule,
     SkyGridModule,
     SkyPopoverModule
   ],

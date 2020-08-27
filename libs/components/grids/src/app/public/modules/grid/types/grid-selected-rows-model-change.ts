@@ -3,6 +3,10 @@ import {
 } from './grid-selected-rows-source';
 
 export interface SkyGridSelectedRowsModelChange {
+
+  /**
+   * Indicates the `id`s of the rows that are selected.
+   */
   selectedRowIds?: string[];
 
   /**

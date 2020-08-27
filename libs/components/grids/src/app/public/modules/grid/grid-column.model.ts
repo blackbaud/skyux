@@ -6,6 +6,9 @@ import {
   SkyGridColumnAlignment
 } from './types/grid-column-alignment';
 
+/**
+ * @internal
+ */
 export class SkyGridColumnModel {
   public template: TemplateRef<any>;
   public id: string;

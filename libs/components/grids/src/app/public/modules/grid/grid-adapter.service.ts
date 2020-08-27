@@ -15,6 +15,9 @@ const GRID_HEADER_RESIZE_HANDLE = '.sky-grid-resize-handle';
 const GRID_ROW_DELETE_SELECTOR = '.sky-grid-row-delete-heading';
 const GRID_MULTISELECT_SELECTOR = '.sky-grid-multiselect-cell';
 
+/**
+ * @internal
+ */
 @Injectable()
 export class SkyGridAdapterService {
   private renderer: Renderer2;

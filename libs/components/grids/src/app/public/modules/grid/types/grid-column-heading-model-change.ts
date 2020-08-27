@@ -1,3 +1,6 @@
+/**
+ * @internal
+ */
 export interface SkyGridColumnHeadingModelChange {
   value?: string;
   id?: string;

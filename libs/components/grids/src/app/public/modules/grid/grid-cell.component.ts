@@ -13,6 +13,9 @@ import {
   ListItemModel
 } from '@skyux/list-builder-common';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-grid-cell',
   template: '<ng-template #cell></ng-template>',
