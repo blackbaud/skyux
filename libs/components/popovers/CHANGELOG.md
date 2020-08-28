@@ -1,3 +1,7 @@
+# 4.2.1 (2020-08-28)
+
+- Fixed the popover component to set default values for vertical and horizontal alignments. [#117](https://github.com/blackbaud/skyux-popovers/pull/117)
+
 # 4.2.0 (2020-07-31)
 
 - Added modern theme styles to the dropdown component. [#110](https://github.com/blackbaud/skyux-popovers/pull/110)
