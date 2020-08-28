@@ -12,6 +12,7 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
+  SkyAffixAutoFitContext,
   SkyAffixPlacementChange,
   SkyAffixService
 } from '@skyux/core';
@@ -791,6 +792,81 @@ describe('Popover directive', () => {
         spyOn(affixService, 'createAffixer').and.returnValue(mockAffixer);
       }
     ));
+
+    it('should create the affixer with proper arguments', fakeAsync(() => {
+      const affixToSpy = spyOn(mockAffixer, 'affixTo').and.callThrough();
+      detectChangesFakeAsync();
+
+      const button = getCallerElement();
+      button.click();
+      detectChangesFakeAsync();
+
+      expect(affixToSpy).toHaveBeenCalledWith(button, {
+        autoFitContext: SkyAffixAutoFitContext.Viewport,
+        enableAutoFit: true,
+        horizontalAlignment: 'center',
+        isSticky: true,
+        placement: 'above',
+        verticalAlignment: 'bottom'
+      });
+
+      fixture.componentInstance.sendMessage(SkyPopoverMessageType.Close);
+      detectChangesFakeAsync();
+
+      affixToSpy.calls.reset();
+      fixture.componentInstance.placement = 'below';
+      detectChangesFakeAsync();
+
+      button.click();
+      detectChangesFakeAsync();
+
+      expect(affixToSpy).toHaveBeenCalledWith(button, {
+        autoFitContext: SkyAffixAutoFitContext.Viewport,
+        enableAutoFit: true,
+        horizontalAlignment: 'center',
+        isSticky: true,
+        placement: 'below',
+        verticalAlignment: 'top'
+      });
+
+      fixture.componentInstance.sendMessage(SkyPopoverMessageType.Close);
+      detectChangesFakeAsync();
+
+      affixToSpy.calls.reset();
+      fixture.componentInstance.placement = 'left';
+      detectChangesFakeAsync();
+
+      button.click();
+      detectChangesFakeAsync();
+
+      expect(affixToSpy).toHaveBeenCalledWith(button, {
+        autoFitContext: SkyAffixAutoFitContext.Viewport,
+        enableAutoFit: true,
+        horizontalAlignment: 'center',
+        isSticky: true,
+        placement: 'left',
+        verticalAlignment: 'middle'
+      });
+
+      fixture.componentInstance.sendMessage(SkyPopoverMessageType.Close);
+      detectChangesFakeAsync();
+
+      affixToSpy.calls.reset();
+      fixture.componentInstance.placement = 'right';
+      detectChangesFakeAsync();
+
+      button.click();
+      detectChangesFakeAsync();
+
+      expect(affixToSpy).toHaveBeenCalledWith(button, {
+        autoFitContext: SkyAffixAutoFitContext.Viewport,
+        enableAutoFit: true,
+        horizontalAlignment: 'center',
+        isSticky: true,
+        placement: 'right',
+        verticalAlignment: 'middle'
+      });
+    }));
 
     it('should find a new placement if the current one is hidden', fakeAsync(() => {
       detectChangesFakeAsync();

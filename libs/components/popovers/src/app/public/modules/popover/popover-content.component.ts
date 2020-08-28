@@ -15,6 +15,7 @@ import {
 
 import {
   SkyAffixAutoFitContext,
+  SkyAffixConfig,
   SkyAffixer,
   SkyAffixService,
   SkyCoreAdapterService
@@ -216,14 +217,25 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
         this.setupAffixer();
       }
 
-      this.affixer.affixTo(this.caller.nativeElement, {
+      const affixOptions: SkyAffixConfig = {
         autoFitContext: SkyAffixAutoFitContext.Viewport,
         enableAutoFit: true,
         horizontalAlignment: parseAffixHorizontalAlignment(this.horizontalAlignment),
         isSticky: true,
-        placement: parseAffixPlacement(this.placement),
-        verticalAlignment: 'middle'
-      });
+        placement: parseAffixPlacement(this.placement)
+      };
+
+      // Ensure that we are positioning the vertical alginment correctly. These
+      // are the default alignments for all popovers but ensure that we are future proof here.
+      if (affixOptions.placement === 'left' || affixOptions.placement === 'right') {
+        affixOptions.verticalAlignment = 'middle';
+      } else if (affixOptions.placement === 'above') {
+        affixOptions.verticalAlignment = 'bottom';
+      } else {
+        affixOptions.verticalAlignment = 'top';
+      }
+
+      this.affixer.affixTo(this.caller.nativeElement, affixOptions);
 
       this.updateArrowOffset();
 
