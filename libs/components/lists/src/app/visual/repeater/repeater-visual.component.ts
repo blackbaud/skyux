@@ -7,6 +7,11 @@ import {
 } from '@skyux/config';
 
 import {
+  SkyThemeService,
+  SkyThemeSettings
+} from '@skyux/theme';
+
+import {
   SkyInlineFormButtonLayout,
   SkyInlineFormCloseArgs,
   SkyInlineFormConfig
@@ -90,7 +95,10 @@ export class RepeaterVisualComponent {
 
   public showStandardInlineDelete: boolean = false;
 
-  constructor(private skyAppConfig: SkyAppConfig) {
+  constructor(
+    private skyAppConfig: SkyAppConfig,
+    public themeSvc: SkyThemeService
+  ) {
     this.animationsDisabled = this.skyAppConfig.runtime.command === 'e2e';
   }
 
@@ -175,5 +183,9 @@ export class RepeaterVisualComponent {
 
   public triggerStandardInlineDelete(): void {
     this.showStandardInlineDelete = true;
+  }
+
+  public themeSettingsChange(themeSettings: SkyThemeSettings): void {
+    this.themeSvc.setTheme(themeSettings);
   }
 }

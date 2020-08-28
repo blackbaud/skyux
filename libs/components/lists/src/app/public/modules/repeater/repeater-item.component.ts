@@ -12,7 +12,8 @@ import {
   Output,
   QueryList,
   TemplateRef,
-  ViewChild
+  ViewChild,
+  ViewEncapsulation
 } from '@angular/core';
 
 import {
@@ -70,7 +71,8 @@ let nextContentId: number = 0;
   selector: 'sky-repeater-item',
   styleUrls: ['./repeater-item.component.scss'],
   templateUrl: './repeater-item.component.html',
-  animations: [skyAnimationSlide]
+  animations: [skyAnimationSlide],
+  encapsulation: ViewEncapsulation.None
 })
 export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewInit {
 

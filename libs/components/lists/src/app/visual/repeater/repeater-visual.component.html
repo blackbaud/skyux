@@ -1,3 +1,7 @@
+<sky-docs-demo-control-panel-theme
+  (themeSettingsChange)="themeSettingsChange($event)"
+></sky-docs-demo-control-panel-theme>
+
 <ng-container
   [@.disabled]="animationsDisabled"
 >
@@ -433,8 +437,11 @@
         <ng-template
           #myInlineForm
         >
-          <div
-            class="sky-form-group"
+          <sky-input-box
+            [ngClass]="{
+              'sky-margin-stacked-lg':
+                (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern'
+            }"
           >
             <label
               class="sky-control-label"
@@ -448,8 +455,8 @@
               type="text"
               [(ngModel)]="item.title"
             />
-          </div>
-          <div
+          </sky-input-box>
+          <sky-input-box
             class="sky-form-group"
           >
             <label
@@ -464,7 +471,7 @@
               type="text"
               [(ngModel)]="item.note"
             />
-          </div>
+          </sky-input-box>
         </ng-template>
 
       </sky-repeater-item>

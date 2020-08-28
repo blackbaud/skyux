@@ -1,158 +1,217 @@
 @import "~@skyux/theme/scss/mixins";
 @import "~@skyux/theme/scss/_compat/mixins";
+@import "~@skyux/theme/scss/variables";
 
-.sky-repeater-item {
-  display: flex;
-  @include sky-border(row);
-  padding-top: 0;
-  position: relative;
-
-  sky-inline-form {
-    display: block;
-    width: 100%;
-
-    // Force inline-forms to play nicely with repeater's flex-enabled structure.
-    ::ng-deep > :first-child, ::ng-deep .sky-slide-dissolve-first, ::ng-deep .sky-slide-dissolve-last {
-      display: flex;
-      flex: 1 0 auto;
-      width: 100%;
-    }
-
-    ::ng-deep .sky-slide-dissolve-last {
-      padding-top:10px;
-    }
-  }
-
-  &.sky-repeater-item-active {
-    background-color: $sky-background-color-neutral-light;
-    color: $sky-text-color-default;
-    padding-left: 6px;
-    border-left: $sky-nav-selected-border-width solid $sky-highlight-color-info;
-
-    ::ng-deep .sky-inline-delete {
-      margin-left: -$sky-nav-selected-border-width;
-      // NOTE: Unfoortunately, scss variables aren't compiled into calc functions. However, the
-      // added pixels should match 'sky-nav-selected-border-width'
-      width: calc(100% + 4px);
-    }
-  }
-}
-
-.sky-repeater-item-left {
-  display: flex;
-  padding-top: $sky-padding;
-  align-items: center;
-
-  ::ng-deep sky-checkbox {
+sky-repeater-item {
+  .sky-repeater-item {
     display: flex;
-  }
-}
+    @include sky-border(row);
+    padding-top: 0;
+    position: relative;
+    transition: box-shadow $sky-transition-time-short;
 
-.sky-repeater-item-right {
-  max-width: 100%;
-  flex-grow: 1;
-}
+    sky-inline-form {
+      display: block;
+      width: 100%;
 
-.sky-repeater-item-header {
-  align-items: center;
-  display: flex;
-  padding-top: $sky-padding;
-}
+      // Force inline-forms to play nicely with repeater's flex-enabled structure.
+      > :first-child,
+      .sky-slide-dissolve-first,
+      .sky-slide-dissolve-last {
+        display: flex;
+        flex: 1 0 auto;
+        width: 100%;
+      }
 
-.sky-repeater-item-chevron {
-  margin-left: $sky-margin;
-}
-
-// Height here is the standard height for checkboxes and the reorder handle. Used for when the
-// chevron is hidden to ensure that the right side is the same height as the left.
-.sky-repeater-item-chevron-placeholder {
-  height: 24px;
-}
-
-// Height here is the standard height for context menus. Used to ensure that the right side is
-// the same height as the left.
-.sky-repeater-item-chevron-placeholder-with-context {
-  height: 29px;
-}
-
-.sky-repeater-item-context-menu {
-  padding: 0 $sky-padding 0 0;
-}
-
-.sky-repeater-item-checkbox {
-  padding: 0 $sky-padding-half 0 0;
-}
-
-.sky-repeater-item-selected {
-  background-color: $sky-background-color-selected;
-  transition: background-color 150ms;
-}
-
-.sky-repeater-item-title {
-  margin: 0;
-  flex-grow: 1;
-  line-height: 1.1;
-  color: $sky-text-color-default;
-}
-
-::ng-deep sky-repeater-item-content {
-  display: block;
-  margin: $sky-margin 0 0;
-}
-
-.sky-repeater-item-collapsible {
-  .sky-repeater-item-header {
-    cursor: pointer;
-  }
-
-  .sky-repeater-item-content {
-    padding-right: $sky-context-menu-size + $sky-padding;
-  }
-}
-
-.sky-repeater-item-collapsed {
-  .sky-repeater-item-content {
-    display: none;
-  }
-}
-
-.sky-repeater-item-reorder-assistive-text {
-  @include sky-screen-reader-only();
-}
-
-.sky-repeater-item-grab-handle {
-  @include sky-icon-button-borderless();
-  border: 0;
-  width: 24px;
-  height: 24px;
-  cursor: grab;
-  cursor: -webkit-grab;
-  cursor: -moz-grab;
-  padding: 0;
-  margin-right: $sky-margin;
-}
-
-:host(.sky-repeater-item-dragging) {
-
-  &.gu-mirror {
-    opacity: initial;
-    -ms-filter: initial;
-    filter: initial;
-    background-color: #fff;
-    box-shadow: 0px 0px 5px 0 rgba(0, 0, 0, 0.3)
-  }
-
-  &.gu-transit .sky-repeater-item {
-    background-color: #d8d8d8;
-
-    .sky-repeater-item-left, .sky-repeater-item-right {
-      visibility: hidden;
+      .sky-slide-dissolve-last {
+        padding-top: 10px;
+      }
     }
+
+    &.sky-repeater-item-active {
+      background-color: $sky-background-color-neutral-light;
+      color: $sky-text-color-default;
+      padding-left: 6px;
+      border-left: $sky-nav-selected-border-width solid $sky-highlight-color-info;
+
+      .sky-inline-delete {
+        margin-left: -$sky-nav-selected-border-width;
+        // NOTE: Unfoortunately, scss variables aren't compiled into calc functions. However, the
+        // added pixels should match 'sky-nav-selected-border-width'
+        width: calc(100% + 4px);
+      }
+    }
+  }
+
+  .sky-repeater-item-left {
+    display: flex;
+    padding-top: $sky-padding;
+    align-items: center;
+
+    sky-checkbox {
+      display: flex;
+    }
+  }
+
+  .sky-repeater-item-right {
+    max-width: 100%;
+    flex-grow: 1;
+  }
+
+  .sky-repeater-item-header {
+    align-items: center;
+    display: flex;
+    padding-top: $sky-padding;
+  }
+
+  .sky-repeater-item-chevron {
+    margin-left: $sky-margin;
+  }
+
+  // Height here is the standard height for checkboxes and the reorder handle. Used for when the
+  // chevron is hidden to ensure that the right side is the same height as the left.
+  .sky-repeater-item-chevron-placeholder {
+    height: 24px;
+  }
+
+  // Height here is the standard height for context menus. Used to ensure that the right side is
+  // the same height as the left.
+  .sky-repeater-item-chevron-placeholder-with-context {
+    height: 29px;
+  }
+
+  .sky-repeater-item-context-menu {
+    padding: 0 $sky-padding 0 0;
+  }
+
+  .sky-repeater-item-checkbox {
+    padding: 0 $sky-padding-half 0 0;
+  }
+
+  .sky-repeater-item-selected {
+    background-color: $sky-background-color-selected;
+    transition: background-color 150ms;
+  }
+
+  .sky-repeater-item-title {
+    margin: 0;
+    flex-grow: 1;
+    line-height: 1.1;
+    color: $sky-text-color-default;
+  }
+
+  sky-repeater-item-content {
+    display: block;
+    margin: $sky-margin 0 0;
+  }
+
+  .sky-repeater-item-collapsible {
+    .sky-repeater-item-header {
+      cursor: pointer;
+    }
+
+    .sky-repeater-item-content {
+      padding-right: $sky-context-menu-size + $sky-padding;
+    }
+  }
+
+  .sky-repeater-item-collapsed {
+    .sky-repeater-item-content {
+      display: none;
+    }
+  }
+
+  .sky-repeater-item-reorder-assistive-text {
+    @include sky-screen-reader-only();
   }
 
   .sky-repeater-item-grab-handle {
-    cursor: grabbing;
-    cursor: -moz-grabbing;
-    cursor: -webkit-grabbing;
+    @include sky-icon-button-borderless();
+    border: 0;
+    width: 24px;
+    height: 24px;
+    cursor: grab;
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+    padding: 0;
+    margin-right: $sky-margin;
+  }
+
+  &.sky-repeater-item-dragging {
+
+    &.gu-mirror {
+      opacity: initial;
+      -ms-filter: initial;
+      filter: initial;
+      background-color: #fff;
+      box-shadow: 0px 0px 5px 0 rgba(0, 0, 0, 0.3)
+    }
+
+    &.gu-transit .sky-repeater-item {
+      background-color: #d8d8d8;
+
+      .sky-repeater-item-left, .sky-repeater-item-right {
+        visibility: hidden;
+      }
+    }
+
+    .sky-repeater-item-grab-handle {
+      cursor: grabbing;
+      cursor: -moz-grabbing;
+      cursor: -webkit-grabbing;
+    }
+  }
+
+}
+
+.sky-theme-modern {
+  sky-repeater-item {
+    .sky-repeater-item {
+      padding-bottom: $sky-theme-modern-margin-stacked-lg;
+
+      &.sky-repeater-item-active {
+        background-color: transparent;
+        border-left-color: $sky-theme-modern-background-color-primary-dark;
+      }
+
+      &:focus,
+      &:active:focus {
+        outline: solid 2px $sky-theme-modern-background-color-primary-dark;
+        outline-offset: -2px;
+      }
+
+      &:focus:not(:active) {
+        box-shadow:
+          $sky-theme-modern-elevation-3-shadow-size
+          $sky-theme-modern-elevation-3-shadow-color;
+      }
+    }
+
+    .sky-repeater-item-header,
+    .sky-repeater-item-left {
+      padding-top: $sky-theme-modern-margin-stacked-lg;
+    }
+
+    sky-inline-form {
+      .sky-slide-dissolve-last {
+        padding-top: $sky-theme-modern-margin-stacked-lg;
+      }
+    }
+  }
+
+  &.sky-theme-mode-dark {
+    sky-repeater-item {
+      .sky-repeater-item {
+        border-bottom-color: $sky-theme-modern-mode-dark-border-color-neutral-medium;
+
+        &.sky-repeater-item-active {
+          color: $sky-theme-modern-mode-dark-font-body-default-color;
+        }
+      }
+
+      .sky-repeater-item-title {
+        color: $sky-theme-modern-mode-dark-font-body-default-color;
+      }
+    }
   }
 }
