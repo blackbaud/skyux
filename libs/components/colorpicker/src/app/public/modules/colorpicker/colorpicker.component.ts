@@ -483,7 +483,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     fromEvent(window.document, 'keydown')
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((event: KeyboardEvent) => {
-        const key = event.key.toLowerCase();
+        const key = event.key?.toLowerCase();
         /* istanbul ignore else */
         if (key === 'escape') {
           this.sendMessage(SkyColorpickerMessageType.Close);

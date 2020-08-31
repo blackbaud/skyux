@@ -660,6 +660,15 @@ describe('Colorpicker Component', () => {
       verifyColorpicker(nativeElement, '#2889e5', '40, 137, 229');
     }));
 
+    it('should ignore undefined keyboard events', fakeAsync(() => {
+      openColorpicker(nativeElement, fixture);
+      setInputElementValue(nativeElement, 'hex', '#086A93');
+      keyHelper(undefined);
+      fixture.detectChanges();
+      tick();
+      verifyMenuVisibility();
+    }));
+
     it('should specify type="button" on all button elements.', fakeAsync(() => {
       component.selectedOutputFormat = 'hex';
       openColorpicker(nativeElement, fixture);
