@@ -50,8 +50,7 @@ const DEFAULT_AFFIX_CONFIG: SkyAffixConfig = {
   enableAutoFit: false,
   horizontalAlignment: 'center',
   isSticky: false,
-  placement: 'above',
-  verticalAlignment: 'middle'
+  placement: 'above'
 };
 
 export class SkyAffixer {
@@ -248,8 +247,32 @@ export class SkyAffixer {
     if (placement === 'above' || placement === 'below') {
       if (placement === 'above') {
         top = baseRect.top - affixedRect.height;
+
+        switch (verticalAlignment) {
+          case 'top':
+            top = top + affixedRect.height;
+            break;
+          case 'middle':
+            top = top + (affixedRect.height / 2);
+            break;
+          case 'bottom':
+          default:
+            break;
+        }
       } else {
         top = baseRect.bottom;
+
+        switch (verticalAlignment) {
+          case 'top':
+          default:
+            break;
+          case 'middle':
+            top = top - (affixedRect.height / 2);
+            break;
+          case 'bottom':
+            top = top - affixedRect.height;
+            break;
+        }
       }
 
       switch (horizontalAlignment) {
@@ -258,9 +281,9 @@ export class SkyAffixer {
           break;
 
         case 'center':
-          default:
-            left = baseRect.left + (baseRect.width / 2) - (affixedRect.width / 2);
-            break;
+        default:
+          left = baseRect.left + (baseRect.width / 2) - (affixedRect.width / 2);
+          break;
 
         case 'right':
           left = baseRect.right - affixedRect.width;

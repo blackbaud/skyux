@@ -217,12 +217,17 @@ export class AffixDemoComponent {
     this.changeDetector.markForCheck();
 
     if (placement === 'above' || placement === 'below') {
+      this.model.verticalAlignment = this.verticalAlignments[this.verticalAlignmentIndex];
       this.model.horizontalAlignment = this.horizontalAlignments[this.horizontalAlignmentIndex];
       this.horizontalAlignmentIndex++;
       if (this.horizontalAlignmentIndex === this.horizontalAlignments.length) {
-        this.placementIndex++;
+        this.verticalAlignmentIndex++;
+        if (this.verticalAlignmentIndex === this.verticalAlignments.length) {
+          this.placementIndex++;
+          this.horizontalAlignments.reverse();
+          this.verticalAlignmentIndex = 0;
+        }
         this.horizontalAlignmentIndex = 0;
-        this.horizontalAlignments.reverse();
       }
     } else {
       this.model.verticalAlignment = this.verticalAlignments[this.verticalAlignmentIndex];
