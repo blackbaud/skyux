@@ -1,3 +1,7 @@
+# 4.4.2 (2020-08-31)
+
+- Fixed the type alias definition component to handle undocumented parameters for function types. [#115](https://github.com/blackbaud/skyux-docs-tools/pull/115)
+
 # 4.4.1 (2020-08-27)
 
 - Fixed the property definition component to hide default values for `Output` properties. [#113](https://github.com/blackbaud/skyux-docs-tools/pull/113)
