@@ -1,3 +1,7 @@
+# 4.1.1 (2020-08-31)
+
+- Fixed the colorpicker component to handle non-keyboard events that pass through the `keydown` handler. [#69](https://github.com/blackbaud/skyux-colorpicker/pull/69)
+
 # 4.1.0 (2020-08-20)
 
 - Added the colorpicker testing fixture (import from `@skyux/colorpicker/testing`). [#67](https://github.com/blackbaud/skyux-colorpicker/pull/67)
