@@ -416,7 +416,7 @@ export class SkyDocsTypeDefinitionsService {
         const callSignature = item.type.declaration.signatures[0];
         const parameters = callSignature.parameters.map((p) => {
           const isOptional = this.isOptional(p);
-          const tagParam = paramTags.find((param) => param.name === p.name);
+          const tagParam = (paramTags) ? paramTags.find((param) => param.name === p.name) : undefined;
 
           const parameter: SkyDocsParameterDefinition = {
             description: tagParam?.description,

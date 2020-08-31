@@ -12,3 +12,8 @@ export type FooTypeFunction = (
   haystack?: string,
   user?: FooUser
 ) => FooUser;
+
+/**
+ * This type doesn't have descriptions for the arguments.
+ */
+export type FooTypeFunctionNoArgsDescription = (args: FooUser) => void;

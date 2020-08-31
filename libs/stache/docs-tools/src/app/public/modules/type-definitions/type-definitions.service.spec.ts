@@ -612,6 +612,20 @@ describe('Type definitions service', function () {
           returnType: 'FooUser'
         } as SkyDocsTypeAliasFunctionDefinition,
         {
+          anchorId: 'type-alias-footypefunctionnoargsdescription',
+          description: 'This type doesn\'t have descriptions for the arguments.',
+          name: 'FooTypeFunctionNoArgsDescription',
+          parameters: [
+            {
+              description: undefined,
+              isOptional: false,
+              name: 'args',
+              type: 'FooUser'
+            }
+          ],
+          returnType: 'void'
+        } as SkyDocsTypeAliasFunctionDefinition,
+        {
           anchorId: 'type-alias-footypeindexsignature',
           description: '',
           name: 'FooTypeIndexSignature',
