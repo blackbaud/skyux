@@ -1,3 +1,7 @@
+# 4.3.0 (2020-08-31)
+
+- Added support to the affixer for the `verticalAlignment` setting when the affixed element's placement is set to `above` or `below`. [#199](https://github.com/blackbaud/skyux-core/pull/199)
+
 # 4.2.1 (2020-08-27)
 
 - Fixed the numeric service to reference `NumericOptions` instead of `any`. [#197](https://github.com/blackbaud/skyux-core/pull/197)
