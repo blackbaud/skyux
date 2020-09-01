@@ -1,3 +1,7 @@
+# 4.10.2 (2020-09-01)
+
+- Fixed modern theme styles shared by the radio button and checkbox components. [#184](https://github.com/blackbaud/skyux-theme/pull/184)
+
 # 4.10.1 (2020-08-28)
 
 - Fixed hyperlink and tab text colors in the modern theme. [#182](https://github.com/blackbaud/skyux-theme/pull/182)
