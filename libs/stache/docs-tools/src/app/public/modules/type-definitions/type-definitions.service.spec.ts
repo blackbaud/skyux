@@ -582,6 +582,20 @@ describe('Type definitions service', function () {
           ],
           name: 'FooUserService',
           properties: []
+        },
+        {
+          anchorId: 'class-foowindowref',
+          description: 'This is the description for FooWindowRef.',
+          methods: [],
+          name: 'FooWindowRef',
+          properties: [
+            {
+              description: 'This is the description for nativeWindow().',
+              isOptional: true,
+              name: 'nativeWindow',
+              type: 'any'
+            }
+          ]
         }
       ],
       typeAliases: [
