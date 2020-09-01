@@ -3,16 +3,10 @@
 $sky-switch-size-modern: 26px !default;
 
 .sky-theme-modern {
-
-  .sky-switch {
-    &:hover .sky-switch-control {
-      border-width: 1px;
-    }
-  }
-
   .sky-switch-input:not(:disabled) {
-    &:checked + .sky-switch-control {
-      border-width: 1px;
+    &:checked + .sky-switch-control,
+    &:hover + .sky-switch-control {
+      border: solid 1px $sky-theme-modern-background-color-primary-dark;
     }
 
     &:focus + .sky-switch-control,
@@ -43,4 +37,12 @@ $sky-switch-size-modern: 26px !default;
     line-height: $sky-switch-size-modern;
   }
 
+  .sky-switch-input:disabled + .sky-switch-control {
+    background-color: $sky-theme-modern-background-color-neutral-medium;
+    border: solid 1px $sky-theme-modern-background-color-disabled;
+  }
+
+  .sky-switch-disabled {
+    cursor: not-allowed;
+  }
 }
