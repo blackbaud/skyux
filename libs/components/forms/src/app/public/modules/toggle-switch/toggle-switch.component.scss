@@ -1,5 +1,6 @@
 @import "~@skyux/theme/scss/mixins";
 @import "~@skyux/theme/scss/_compat/mixins";
+@import "~@skyux/theme/scss/variables";
 
 $indicator-size: 22px;
 
@@ -63,5 +64,65 @@ $indicator-size: 22px;
 
   &.sky-toggle-switch-transition {
     transition: left 150ms;
+  }
+}
+
+@include sky-theme-modern {
+  .sky-toggle-switch-button {
+    background-color: $sky-color-white;
+    border-width: 1px;
+    flex-basis: 48px;
+    transition: border-color $sky-transition-time-short, box-shadow $sky-transition-time-short;
+
+    &.sky-toggle-switch-disabled {
+      border-color: $sky-theme-modern-background-color-disabled;
+      cursor: not-allowed;
+    }
+
+    &.sky-toggle-switch-disabled,
+    &.sky-toggle-switch-disabled .sky-toggle-switch-indicator {
+      background-color: $sky-theme-modern-color-gray-07;
+    }
+
+    &.sky-toggle-switch-checked {
+      padding: 1px;
+    }
+
+    &:not(.sky-toggle-switch-disabled) {
+      &.sky-toggle-switch-checked {
+        background-color: $sky-background-color-info-light;
+        border-color: $sky-theme-modern-background-color-primary-dark;
+      }
+
+      &:active,
+      &:focus {
+        outline: none;
+        border: solid 2px $sky-theme-modern-background-color-primary-dark;
+        padding: 0;
+      }
+
+      &:not(:active) {
+        &:focus {
+          box-shadow:
+            $sky-theme-modern-elevation-3-shadow-size
+            $sky-theme-modern-elevation-3-shadow-color;
+        }
+
+        &:hover:not(:focus) {
+          padding: 1px;
+          border: solid 1px $sky-theme-modern-background-color-primary-dark;
+        }
+      }
+    }
+  }
+
+  .sky-toggle-switch-indicator {
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.5);
+  }
+}
+
+@include sky-theme-modern-dark {
+  .sky-toggle-switch-button {
+    background-color: $sky-theme-modern-mode-dark-background-color-page-default;
   }
 }
