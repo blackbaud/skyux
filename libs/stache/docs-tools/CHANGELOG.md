@@ -1,3 +1,7 @@
+# 4.4.3 (2020-09-01)
+
+- Fixed the type definition service to handle classes with the `@Injectable` decorator. [#116](https://github.com/blackbaud/skyux-docs-tools/pull/116)
+
 # 4.4.2 (2020-08-31)
 
 - Fixed the type alias definition component to handle undocumented parameters for function types. [#115](https://github.com/blackbaud/skyux-docs-tools/pull/115)
