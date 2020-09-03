@@ -7,6 +7,45 @@
     Checkboxes enable users to select multiple items from a short list of items.
   </sky-docs-demo-page-summary>
 
+  <sky-docs-demo>
+    <sky-fluid-grid>
+      <sky-row>
+        <sky-column screenSmall="6">
+          <h4>
+            Standard checkboxes
+          </h4>
+          <ul class="sky-list-unstyled">
+            <li *ngFor="let item of checkboxItems">
+              <sky-checkbox
+                [disabled]="item.disabled"
+                [(ngModel)]="item.checked"
+              >
+                <sky-checkbox-label>
+                  {{ item.label }}
+                </sky-checkbox-label>
+              </sky-checkbox>
+            </li>
+          </ul>
+        </sky-column>
+        <sky-column screenSmall="6">
+          <h4>
+            Icon checkbox group
+          </h4>
+          <div
+            class="sky-switch-icon-group"
+          >
+            <sky-checkbox *ngFor="let item of iconCheckboxGroup"
+              [icon]="item.icon"
+              [label]="item.label"
+              [(ngModel)]="item.checked"
+            >
+            </sky-checkbox>
+          </div>
+        </sky-column>
+      </sky-row>
+    </sky-fluid-grid>
+  </sky-docs-demo>
+
   <sky-docs-design-guidelines>
       <sky-docs-demo-page-section
         heading="Accessibility"
@@ -19,5 +58,12 @@
         </p>
       </sky-docs-demo-page-section>
   </sky-docs-design-guidelines>
+
+  <sky-docs-code-examples>
+    <sky-docs-code-example
+      sourceCodePath="src/app/public/plugin-resources/code-examples/checkbox"
+    >
+    </sky-docs-code-example>
+  </sky-docs-code-examples>
 
 </sky-docs-demo-page>
