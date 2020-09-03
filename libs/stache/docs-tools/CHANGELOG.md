@@ -1,3 +1,7 @@
+# 4.4.4 (2020-09-03)
+
+- Reverted the `moment` package version to `0.8.0` since `0.8.2` includes breaking changes. [#119](https://github.com/blackbaud/skyux-docs-tools/pull/119)
+
 # 4.4.3 (2020-09-01)
 
 - Fixed the type definition service to handle classes with the `@Injectable` decorator. [#116](https://github.com/blackbaud/skyux-docs-tools/pull/116)
