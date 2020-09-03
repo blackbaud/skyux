@@ -7,6 +7,44 @@
     The key info component highlights important summary information.
   </sky-docs-demo-page-summary>
 
+  <sky-docs-demo>
+    <sky-docs-demo-control-panel
+      (selectionChange)="onDemoSelectionChange($event)"
+    >
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-radio-group
+          heading="Layout"
+          propertyName="layout"
+          [choices]="layoutChoices"
+          [initialValue]="'vertical'"
+        >
+        </sky-docs-demo-control-panel-radio-group>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
+
+    <div
+      style="width:400px;"
+    >
+      <sky-key-info
+        [layout]="layout"
+      >
+        <sky-key-info-value>
+          575
+        </sky-key-info-value>
+        <sky-key-info-label>
+          New members
+        </sky-key-info-label>
+      </sky-key-info>
+    </div>
+
+  </sky-docs-demo>
+
+  <sky-docs-code-examples>
+    <sky-docs-code-example
+      sourceCodePath="src/app/public/plugin-resources/code-examples/key-info/basic"
+    ></sky-docs-code-example>
+  </sky-docs-code-examples>
+
     <sky-docs-design-guidelines>
 
     <sky-docs-demo-page-section
@@ -160,3 +198,4 @@
       </sky-docs-design-guideline>
     </sky-docs-demo-page-section>
   </sky-docs-design-guidelines>
+</sky-docs-demo-page>
