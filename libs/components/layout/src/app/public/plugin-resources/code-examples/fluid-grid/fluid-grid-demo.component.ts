@@ -3,8 +3,8 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'app-fluid-grid-docs',
-  templateUrl: './fluid-grid-docs.component.html',
+  selector: 'app-fluid-grid-demo',
+  templateUrl: './fluid-grid-demo.component.html',
   styles: [`
     .highlight-columns .sky-column {
       background-color: #97eced;
@@ -13,4 +13,4 @@ import {
     }`
   ]
 })
-export class FluidGridDocsComponent { }
+export class FluidGridDemoComponent { }
