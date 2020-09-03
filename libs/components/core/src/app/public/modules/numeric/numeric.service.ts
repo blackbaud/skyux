@@ -24,6 +24,7 @@ export class SkyNumericService {
 
   /**
    * The browser's current locale.
+   * @internal
    */
   public set currentLocale(value: string) {
     this._locale = value;
@@ -33,6 +34,9 @@ export class SkyNumericService {
     return this._locale || 'en-US';
   }
 
+  /**
+   * @internal
+   */
   public shortSymbol: string;
 
   private symbolIndex: SkyNumericSymbol[] = [

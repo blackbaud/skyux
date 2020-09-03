@@ -25,9 +25,14 @@ import {
 } from './numeric.options';
 
 /**
- * Shortens numbers to 1K, 1M, 1B, 1T and can format for currency.
- * Note: Be sure you have a space between the curly bracket surrounding the options object
- * and the two curly brackets closing the pipe or it will not work.
+ * Shorten numbers to rounded numbers and abbreviation characters such as K for thousands,
+ * M for millions, B for billions, and T for trillion. The pipe also formats for currency.
+ * Be sure you have a space after the two curly brackets opening the pipe and
+ * a space before the two curly brackets closing the pipe or it will not work.
+ * Usage:
+ * ```
+ * {{ value | skyNumeric(config) }}
+ * ```
  */
 @Pipe({
   name: 'skyNumeric'

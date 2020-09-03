@@ -5,7 +5,7 @@ export class NumericOptions {
 
   /**
    * Specifies the maximum number of digits after the decimal separator.
-   * @default "1"
+   * @default 1
    */
   public digits?: number = 1;
 
@@ -19,6 +19,7 @@ export class NumericOptions {
    * Specifies the ISO4217 currency code to use for currency formatting. If you do not specify a
    * currency code, the component uses the browser's culture to determine the currency unless your
    * SPA provides a different culture with `SkyAppLocaleProvider`.
+   * @default 'USD'
    */
   public iso?: string = 'USD';
 
@@ -43,7 +44,7 @@ export class NumericOptions {
   /**
    * Specifies the starting point after which numbers are shortened to rounded numbers
    * and abbreviation characters.
-   * @default "0"
+   * @default 0
    */
   public truncateAfter?: number = 0;
 }
