@@ -7,14 +7,36 @@
     The avatar component displays an image to identify a record.
   </sky-docs-demo-page-summary>
 
-  <!-- <sky-docs-code-examples
+  <sky-docs-demo>
+    <sky-docs-demo-control-panel
+      (selectionChange)="onDemoSelectionChange($event)"
+    >
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-checkbox
+          label="Show image"
+          propertyName="showImage"
+          [checked]="true"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
+    <sky-avatar
+      [canChange]="true"
+      [name]="name"
+      [src]="src"
+      (avatarChanged)="updateSrc($event)"
+    >
+    </sky-avatar>
+  </sky-docs-demo>
+
+  <sky-docs-code-examples
     [packageDependencies]="{
-      '@skyux/lists': '*'
+      '@skyux/avatar': '*'
     }"
   >
     <sky-docs-code-example
-      sourceCodePath="src/app/public/plugin-resources/code-examples/avatar/basic/"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/avatar/"
     >
     </sky-docs-code-example>
-  </sky-docs-code-examples> -->
+  </sky-docs-code-examples>
 </sky-docs-demo-page>
