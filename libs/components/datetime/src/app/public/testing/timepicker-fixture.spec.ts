@@ -145,11 +145,15 @@ describe('Timepicker fixture', () => {
       'test-timepicker'
     );
 
+    fixture.detectChanges();
+
     await fixture.whenStable();
 
     expect(timepicker.isValid).toBeTrue();
 
     timepicker.value = 'badValue';
+
+    fixture.detectChanges();
 
     expect(timepicker.isValid).toBeFalse();
   });

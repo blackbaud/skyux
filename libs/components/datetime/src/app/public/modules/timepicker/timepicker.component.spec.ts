@@ -498,6 +498,19 @@ describe('Timepicker', () => {
       expect(picker).toBeNull();
     }));
 
+    it('should handle non-keyboard events', fakeAsync(() => {
+      detectChangesAndTick(fixture);
+      openTimepicker(fixture);
+
+      SkyAppTestUtility.fireDomEvent(window.document, 'keydown', {
+        customEventInit: {} // Don't pass in a key value.
+      });
+      detectChangesAndTick(fixture);
+      const picker = getTimepicker();
+
+      expect(picker).not.toBeNull();
+    }));
+
     it('should close picker when clicking on a dackdrop', fakeAsync(() => {
       detectChangesAndTick(fixture);
       openTimepicker(fixture);
