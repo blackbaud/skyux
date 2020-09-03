@@ -8,4 +8,8 @@ import {
   templateUrl: './paging-docs.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PagingDocsComponent { }
+export class PagingDocsComponent {
+
+  public currentPage: number = 1;
+
+}
