@@ -1,0 +1,24 @@
+<form
+  novalidate
+  [formGroup]="myForm"
+>
+<sky-radio-group
+  ariaLabel="Demo view"
+  formControlName="myView"
+>
+  <div
+    class="sky-switch-icon-group"
+  >
+    <sky-radio *ngFor="let view of views"
+      [icon]="view.icon"
+      [label]="view.label"
+      [value]="view.name"
+    >
+    </sky-radio>
+  </div>
+</sky-radio-group>
+</form>
+
+<p>
+  {{ myForm.value.myView }} is selected
+</p>

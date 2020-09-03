@@ -7,8 +7,94 @@
     The radio button module ceates a small set of selection inputs for users to select one option.
   </sky-docs-demo-page-summary>
 
+  <sky-docs-demo>
+    <sky-fluid-grid>
+      <sky-row>
+        <sky-column screenSmall="6">
+          <h4
+            id="standardLabel"
+          >
+            Standard radio buttons
+          </h4>
+          <sky-radio-group
+            ariaLabelledBy="standardLabel"
+            name="radioDemo"
+            value="selected"
+          >
+            <ul
+              class="sky-list-unstyled"
+            >
+              <li>
+                <sky-radio
+                  value="selected"
+                >
+                  <sky-radio-label>
+                    Option 1
+                  </sky-radio-label>
+                </sky-radio>
+              </li>
+              <li>
+                <sky-radio
+                  value="unselected"
+                >
+                  <sky-radio-label>
+                    Option 2
+                  </sky-radio-label>
+                </sky-radio>
+              </li>
+              <li>
+                <sky-radio
+                  value="disabled"
+                  [disabled]="true"
+                >
+                  <sky-radio-label>
+                    Option 3 is disabled
+                  </sky-radio-label>
+                </sky-radio>
+              </li>
+            </ul>
+          </sky-radio-group>
+        </sky-column>
+        <sky-column screenSmall="6">
+          <h4
+            id="iconLabel"
+          >
+            Icon radio group
+          </h4>
+          <sky-radio-group
+            ariaLabelledBy="iconLabel"
+            name="iconRadioDemo"
+          >
+            <div
+              class="sky-switch-icon-group"
+            >
+              <sky-radio
+                icon="table"
+                label="Table"
+                value="table"
+              >
+              </sky-radio>
+              <sky-radio
+                icon="list"
+                label="List"
+                value="list"
+              >
+              </sky-radio>
+              <sky-radio
+                icon="map-marker"
+                label="Map"
+                value="map"
+              >
+              </sky-radio>
+            </div>
+          </sky-radio-group>
+        </sky-column>
+      </sky-row>
+    </sky-fluid-grid>
+  </sky-docs-demo>
+
   <sky-docs-design-guidelines>
-    
+
     <sky-docs-demo-page-section
       heading="Usage"
     >
@@ -19,7 +105,7 @@
         <p>
           Use radio buttons when users must choose one option from a set of up to five. Use radio buttons in modals where users confirm decisions before changes take effect.
         </p>
-        
+
         <sky-docs-design-guideline-thumbnail
           caption="Do use radio buttons when users select a single item from a short list of options in a modal."
           captionType="success"
@@ -346,4 +432,17 @@
       </sky-docs-design-guideline>
     </sky-docs-demo-page-section>
   </sky-docs-design-guidelines>
+
+  <sky-docs-code-examples>
+    <sky-docs-code-example
+      heading="Standard radio buttons"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/radio/standard"
+    >
+    </sky-docs-code-example>
+    <sky-docs-code-example
+      heading="Icon radio group"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/radio/icon"
+    >
+    </sky-docs-code-example>
+  </sky-docs-code-examples>
 </sky-docs-demo-page>
