@@ -27,7 +27,9 @@ import {
 } from './input-box-populate-args';
 
 /**
- * Creates a wrapper for `input` and `label` elements to provide styling.
+ * Creates a wrapper for `input` and `label` elements to provide styling. To render the
+ * component correctly, you must include the `sky-form-control` CSS class on the `input`
+ * element and include the `sky-control-label` CSS class on the `label` element.
  */
 @Component({
   selector: 'sky-input-box',
