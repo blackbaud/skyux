@@ -5,6 +5,9 @@ import {
   RendererFactory2
 } from '@angular/core';
 
+/**
+ * @internal
+ */
 @Injectable()
 export class SkyTextExpandAdapterService {
 

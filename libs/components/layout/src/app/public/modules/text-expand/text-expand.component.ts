@@ -49,15 +49,35 @@ let nextId = 0;
 })
 export class SkyTextExpandComponent implements AfterContentInit {
 
+  /**
+   * Specifies a title to display when the component expands the full text in a modal.
+   * @default 'Expanded view'
+   */
   @Input()
   public expandModalTitle: string;
 
+  /**
+   * Specifies the maximum number of text characters to display inline when users select the link
+   * to expand the full text. If the text exceeds this limit, then the component expands
+   * the full text in a modal instead.
+   */
   @Input()
   public maxExpandedLength: number = 600;
 
+  /**
+   * Specifies the maximum number of newline characters to display inline when users select
+   * the link to expand the full text. If the text exceeds this limit, then
+   * the component expands the full text in a modal view instead.
+   */
   @Input()
   public maxExpandedNewlines: number = 2;
 
+  /**
+   * Specifies the number of text characters to display before truncating the text.
+   * To avoid truncating text in the middle of a word, the component looks for a space
+   * in the 10 characters before the last character.
+   * @default 200
+   */
   @Input()
   public set maxLength(value: number) {
     this._maxLength = value;
@@ -72,6 +92,9 @@ export class SkyTextExpandComponent implements AfterContentInit {
     return this._maxLength;
   }
 
+  /**
+   * Specifies the text to truncate.
+   */
   @Input()
   public set text(value: string) {
     /** istanbul ignore else */
@@ -80,6 +103,9 @@ export class SkyTextExpandComponent implements AfterContentInit {
     }
   }
 
+  /**
+   * Indicates whether to replace newline characters in truncated text with spaces.
+   */
   @Input()
   public truncateNewlines: boolean = true;
 

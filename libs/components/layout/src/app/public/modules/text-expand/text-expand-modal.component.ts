@@ -10,6 +10,9 @@ import {
   SkyTextExpandModalContext
 } from './text-expand-modal-context';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-text-expand-modal',
   templateUrl: './text-expand-modal.component.html',
