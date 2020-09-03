@@ -116,58 +116,42 @@ export class SkyDocsTypeDefinitionsService {
     }
 
     typeDefinitions.forEach((item) => {
+      const decorator = item.decorators && item.decorators[0].name;
+      const kindString = item.kindString;
 
-      // Components.
-      if (this.endsWith(item.name, 'Component')) {
-        const definition = this.parseDirectiveDefinition(item);
-        types.components.push(definition);
-        return;
-      }
-
-      // Directives.
-      if (this.endsWith(item.name, 'Directive')) {
-        const definition = this.parseDirectiveDefinition(item);
-        types.directives.push(definition);
-        return;
-      }
-
-      // Pipes.
-      if (this.endsWith(item.name, 'Pipe')) {
-        const definition = this.parsePipeDefinition(item);
-        types.pipes.push(definition);
-        return;
-      }
-
-      // Services.
-      if (item.decorators && item.decorators[0].name === 'Injectable') {
-        const definition = this.parseClassDefinition(item);
-        types.services.push(definition);
-        return;
-
-      // Classes.
-      } else if (item.kindString === 'Class' && !item.decorators) {
-        const definition = this.parseClassDefinition(item);
-        types.classes.push(definition);
-      }
-
-      // Interfaces.
-      if (item.kindString === 'Interface') {
-        const definition = this.parseInterfaceDefinition(item);
-        types.interfaces.push(definition);
-        return;
-      }
-
-      // Enumerations.
-      if (item.kindString === 'Enumeration') {
-        const definition = this.parseEnumerationDefinition(item);
-        types.enumerations.push(definition);
-        return;
-      }
-
-      // Type aliases.
-      if (item.kindString === 'Type alias') {
-        const definition = this.parseTypeAliasDefinition(item);
-        types.typeAliases.push(definition);
+      switch (decorator) {
+        case 'Component':
+          types.components.push(this.parseDirectiveDefinition(item));
+          break;
+        case 'Directive':
+          types.directives.push(this.parseDirectiveDefinition(item));
+          break;
+        case 'Injectable':
+          types.services.push(this.parseClassDefinition(item));
+          break;
+        case 'NgModule':
+          // Don't document modules.
+          break;
+        case 'Pipe':
+          types.pipes.push(this.parsePipeDefinition(item));
+          break;
+        default:
+          switch (kindString) {
+            case 'Class':
+              types.classes.push(this.parseClassDefinition(item));
+              break;
+            case 'Interface':
+              types.interfaces.push(this.parseInterfaceDefinition(item));
+              break;
+            case 'Enumeration':
+              types.enumerations.push(this.parseEnumerationDefinition(item));
+              break;
+            case 'Type alias':
+              types.typeAliases.push(this.parseTypeAliasDefinition(item));
+              break;
+            default:
+              break;
+          }
       }
     });
 
@@ -206,15 +190,17 @@ export class SkyDocsTypeDefinitionsService {
     const properties = this.parseClassProperties(item);
     const methods: SkyDocsMethodDefinition[] = [];
 
-    item.children.forEach((child) => {
-      if (
-        child.kindString === 'Method' &&
-        child.name.indexOf('ng') !== 0
-      ) {
-        const definition = this.parseMethodDefinition(child);
-        methods.push(definition);
-      }
-    });
+    if (item.children) {
+      item.children.forEach((child) => {
+        if (
+          child.kindString === 'Method' &&
+          child.name.indexOf('ng') !== 0
+        ) {
+          const definition = this.parseMethodDefinition(child);
+          methods.push(definition);
+        }
+      });
+    }
 
     const {
       description
@@ -718,14 +704,6 @@ export class SkyDocsTypeDefinitionsService {
 
   private parseInputBindingName(child: TypeDocItemMember): string {
     return child.decorators[0].arguments.bindingPropertyName?.replace(/\'/g, '') || child.name;
-  }
-
-  /**
-   * Cross-browser check if string ends with another string.
-   * See: https://www.freecodecamp.org/news/two-ways-to-confirm-the-ending-of-a-string-in-javascript-62b4677034ac/
-   */
-  private endsWith(haystack: string, needle: string): boolean {
-    return (haystack.substr(needle.length * -1) === needle);
   }
 
   private isOptional(item: TypeDocItemMember): boolean {

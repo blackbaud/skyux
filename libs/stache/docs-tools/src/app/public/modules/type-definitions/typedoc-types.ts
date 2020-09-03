@@ -122,7 +122,7 @@ export interface TypeDocItem {
     arguments?: {
       obj: string;
     };
-    name: 'Component' | 'Injectable';
+    name: 'Component' | 'Directive' | 'Injectable' | 'NgModule' | 'Pipe';
     type: TypeDocType;
   }[];
 
