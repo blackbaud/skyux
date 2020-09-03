@@ -12,6 +12,9 @@ import {
   Subscription
 } from 'rxjs';
 
+/**
+ * @internal
+ */
 @Injectable()
 export class SkyFlyoutMediaQueryService {
 

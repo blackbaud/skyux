@@ -6,6 +6,9 @@ import {
   Output
 } from '@angular/core';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-flyout-iterator',
   templateUrl: './flyout-iterator.component.html'

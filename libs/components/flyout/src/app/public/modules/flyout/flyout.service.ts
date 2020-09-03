@@ -47,6 +47,11 @@ import {
   SkyFlyoutMessageType
 } from './types/flyout-message-type';
 
+/**
+ * Launches flyouts and provides a common look and feel.
+ * This service dynamically generates the flyout component and appends it directly to the
+ * document's `body` element. The `SkyFlyoutInstance` class watches for and triggers flyout events.
+ */
 @Injectable()
 export class SkyFlyoutService implements OnDestroy {
   private host: ComponentRef<SkyFlyoutComponent>;
@@ -68,6 +73,26 @@ export class SkyFlyoutService implements OnDestroy {
     }
   }
 
+  /**
+   * Closes the flyout. This method also removes the flyout's HTML elements from the DOM.
+   */
+  public close(): void {
+    if (this.host && !this.isOpening) {
+      this.removeAfterClosed = true;
+      this.host.instance.messageStream.next({
+        type: SkyFlyoutMessageType.Close
+      });
+    }
+  }
+
+  /**
+   * Opens a flyout and displays the specified component.
+   * @param component Specifies the component to render. Since you generate the component dynamically instead of
+   * with HTML selectors, you must register it with the `entryComponents` property in the
+   * `app-extras.module.ts` file. For more information, see the
+   * [entry components tutorial](https://developer.blackbaud.com/skyux/learn/get-started/advanced/entry-components).
+   * @param config Specifies the flyout configuration passed to the specified component's constructor.
+   */
   public open<T>(component: Type<T>, config?: SkyFlyoutConfig): SkyFlyoutInstance<T> {
     // isOpening flag will prevent close() from firing when open() is also fired.
     this.isOpening = true;
@@ -92,15 +117,6 @@ export class SkyFlyoutService implements OnDestroy {
     this.addListeners(flyout);
 
     return flyout;
-  }
-
-  public close(): void {
-    if (this.host && !this.isOpening) {
-      this.removeAfterClosed = true;
-      this.host.instance.messageStream.next({
-        type: SkyFlyoutMessageType.Close
-      });
-    }
   }
 
   private createHostComponent(): ComponentRef<SkyFlyoutComponent> {

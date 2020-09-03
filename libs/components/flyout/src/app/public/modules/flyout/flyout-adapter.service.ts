@@ -10,6 +10,9 @@ import {
   SkyMediaBreakpoints
 } from '@skyux/core';
 
+/**
+ * @internal
+ */
 @Injectable()
 export class SkyFlyoutAdapterService {
   private renderer: Renderer2;

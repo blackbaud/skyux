@@ -82,6 +82,9 @@ const FLYOUT_CLOSED_STATE = 'flyoutClosed';
 
 let nextId = 0;
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-flyout',
   templateUrl: './flyout.component.html',
