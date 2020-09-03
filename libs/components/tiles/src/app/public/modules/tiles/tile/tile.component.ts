@@ -35,18 +35,40 @@ import {
 export class SkyTileComponent implements OnDestroy {
   public isInDashboardColumn = false;
 
+  /**
+   * Indicates whether to display a settings button in the tile header. To display the
+   * button, you must also listen for the `settingsClick` event.
+   * @default true
+   */
   @Input()
   public showSettings = true;
 
+  /**
+   * Indicates whether to display a help button in the tile header. To display the
+   * button, you must also listen for the `helpClick` event.
+   * @default true
+   */
   @Input()
   public showHelp = true;
 
+  /**
+   * Fires when users select the settings button in the tile header. The settings
+   * button only appears when the `showSettings` property is set to `true`.
+   */
   @Output()
   public settingsClick = new EventEmitter();
 
+  /**
+   * Fires when the tile's collapsed state changes. Returns `true` when the tile
+   * collapses and `false` when it expands.
+   */
   @Output()
   public isCollapsedChange = new EventEmitter<boolean>();
 
+  /**
+   * Fires when users select the help button in the tile header. The help
+   * button only appears when the `showHelp` property is set to `true`.
+   */
   @Output()
   public helpClick = new EventEmitter();
 
@@ -59,6 +81,10 @@ export class SkyTileComponent implements OnDestroy {
     return this._isCollapsed;
   }
 
+  /**
+   * Indicates whether the tile is in a collapsed state.
+   * @default false
+   */
   @Input()
   public set isCollapsed(value: boolean) {
     if (this.dashboardService) {

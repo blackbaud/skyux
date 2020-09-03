@@ -55,6 +55,10 @@ import {
   providers: [SkyTileDashboardService]
 })
 export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
+  /**
+   * Populates the tile dashboard based on the `SkyTileDashboardConfig` object.
+   * @required
+   */
   @Input()
   public set config(value: SkyTileDashboardConfig) {
     if (value && !this.configSet) {
@@ -75,9 +79,21 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
   @Input()
   public messageStream = new Subject<SkyTileDashboardMessage>();
 
+  /**
+   * Specifies a unique key for the UI Config Service to retrieve stored settings
+   * from a database. The UI Config Service saves configuration settings for users
+   * to preserve the layout and collapsed state of tile dashboards. For more information
+   * about the UI Config Service, see the
+   * [sticky settings documentation](https://developer.blackbaud.com/skyux/learn/get-started/advanced/sticky-settings).
+   */
   @Input()
   public settingsKey: string;
 
+  /**
+   * Fires when the tile dashboard changes state and emits a SkyTileDashboardConfig
+   * object. This occurs when tiles collapse or expand and when users drag and drop
+   * tiles to rearrange them.
+   */
   @Output()
   public configChange = new EventEmitter<SkyTileDashboardConfig>();
 

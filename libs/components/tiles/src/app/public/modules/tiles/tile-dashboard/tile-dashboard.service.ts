@@ -59,6 +59,9 @@ export class SkyTileDashboardService {
 
   public configChange = new EventEmitter<SkyTileDashboardConfig>();
 
+  /**
+   * Fires when the tile dashboard's initialization is complete.
+   */
   @Output()
   public dashboardInitialized = new EventEmitter<void>();
 
