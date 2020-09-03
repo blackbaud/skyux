@@ -1,3 +1,7 @@
+# 4.5.1 (2020-09-03)
+
+- Fixed the timepicker component to handle non-keyboard events that pass through the keydown handler. [#219](https://github.com/blackbaud/skyux-datetime/pull/219)
+
 # 4.5.0 (2020-08-27)
 
 - Added modern theme styles to the timepicker component. [#215](https://github.com/blackbaud/skyux-datetime/pull/215)
