@@ -118,8 +118,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Specifies an accessibility label to provide a text equivalent for screen readers when the
-   * dropdown button has no text.
+   * Specifies an accessibility label to provide a text equivalent for screen readers.
    */
   @Input()
   public label: string;
