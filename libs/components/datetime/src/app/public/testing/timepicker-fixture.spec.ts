@@ -140,6 +140,8 @@ describe('Timepicker fixture', () => {
       TestComponent
     );
 
+    fixture.detectChanges();
+
     const timepicker = new SkyTimepickerFixture(
       fixture,
       'test-timepicker'

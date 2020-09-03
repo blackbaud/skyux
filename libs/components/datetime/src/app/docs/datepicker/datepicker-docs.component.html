@@ -7,14 +7,107 @@
     The datepicker module provides an input and calendar for users to select dates or fuzzy dates.
   </sky-docs-demo-page-summary>
 
-  <!-- <sky-docs-code-examples
+  <sky-docs-demo
+    [heading]="'Standard datepicker demo'"
+  >
+    <sky-docs-demo-control-panel
+      (selectionChange)="onDemoSelectionChange($event)"
+    >
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-checkbox
+          label="Include date range validator (01/01/2020 - 01/31/2020)"
+          propertyName="standardValidation"
+          [checked]="false"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
+
+    <div
+      style="width:400px;"
+    >
+      <form
+        novalidate
+        [formGroup]="standardForm"
+      >
+        <sky-datepicker>
+          <input
+            formControlName="myDate"
+            skyDatepickerInput
+            type="text"
+            [maxDate]="standardMaxDate"
+            [minDate]="standardMinDate"
+          />
+        </sky-datepicker>
+      </form>
+    </div>
+
+  </sky-docs-demo>
+  <sky-docs-demo
+    [heading]="'Fuzzy datepicker demo'"
+  >
+    <sky-docs-demo-control-panel
+      (selectionChange)="onDemoSelectionChange($event)"
+    >
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-checkbox
+          label="Include date range validator (01/01/2020 - 01/31/2020)"
+          propertyName="fuzzyValidation"
+          [checked]="false"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+        <sky-docs-demo-control-panel-checkbox
+          label="Require year"
+          propertyName="fuzzyYearRequired"
+          [checked]="false"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+        <sky-docs-demo-control-panel-checkbox
+          label="Allow future dates"
+          propertyName="fuzzyFutureDates"
+          [checked]="true"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
+
+    <div
+      style="width:400px;"
+    >
+      <form
+        novalidate
+        [formGroup]="fuzzyForm"
+      >
+        <sky-datepicker>
+          <input
+            formControlName="myDate"
+            skyFuzzyDatepickerInput
+            type="text"
+            [futureDisabled]="fuzzyFutureDisabled"
+            [maxDate]="fuzzyMaxDate"
+            [minDate]="fuzzyMinDate"
+            [yearRequired]="fuzzyYearRequired"
+          />
+        </sky-datepicker>
+      </form>
+    </div>
+
+  </sky-docs-demo>
+
+  <sky-docs-code-examples
     [packageDependencies]="{
       '@skyux/datetime': '*'
     }"
   >
     <sky-docs-code-example
-      sourceCodePath="src/app/public/plugin-resources/code-examples/date-picker/basic/"
+      heading="Datepicker"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/datepicker/basic/"
     >
     </sky-docs-code-example>
-  </sky-docs-code-examples> -->
+    <sky-docs-code-example
+      heading="Fuzzy datepicker"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/datepicker/fuzzy/"
+    >
+    </sky-docs-code-example>
+  </sky-docs-code-examples>
 </sky-docs-demo-page>
