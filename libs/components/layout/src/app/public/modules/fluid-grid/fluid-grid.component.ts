@@ -30,7 +30,8 @@ export class SkyFluidGridComponent {
   }
 
   /**
-   * Defines the size of the padding between each column.
+   * Specifies a `SkyFluidGridGutterSize` enum to define the size of the padding
+   * between columns.
    * @default SkyFluidGridGutterSize.Large
    */
   @Input()

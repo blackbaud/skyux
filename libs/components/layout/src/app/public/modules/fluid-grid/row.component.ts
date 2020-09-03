@@ -6,6 +6,10 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./row.component.scss']
 })
 export class SkyRowComponent {
+  /**
+   * Indicates whether to reverse the display order for columns in the row.
+   * @default false
+   */
   @Input()
   public reverseColumnOrder: boolean = false;
 }
