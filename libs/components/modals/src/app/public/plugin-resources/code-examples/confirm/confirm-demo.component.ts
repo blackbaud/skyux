@@ -1,6 +1,4 @@
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component
 } from '@angular/core';
 
@@ -9,22 +7,20 @@ import {
   SkyConfirmInstance,
   SkyConfirmService,
   SkyConfirmType
-} from '../../public/public_api';
+} from '@skyux/modals';
 
 @Component({
-  selector: 'app-confirm-docs',
-  templateUrl: './confirm-docs.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-confirm-demo',
+  templateUrl: './confirm-demo.component.html'
 })
-export class ConfirmDocsComponent {
+export class ConfirmDemoComponent {
 
   public selectedAction: SkyConfirmButtonAction;
 
   public selectedText: string;
 
   constructor(
-    private confirmService: SkyConfirmService,
-    private changeRef: ChangeDetectorRef
+    private confirmService: SkyConfirmService
   ) { }
 
   public openOKConfirm() {
@@ -36,7 +32,6 @@ export class ConfirmDocsComponent {
     dialog.closed.subscribe((result: any) => {
       this.selectedText = undefined;
       this.selectedAction = result.action;
-      this.changeRef.markForCheck();
     });
   }
 
@@ -50,7 +45,6 @@ export class ConfirmDocsComponent {
     dialog.closed.subscribe((result: any) => {
       this.selectedText = undefined;
       this.selectedAction = result.action;
-      this.changeRef.markForCheck();
     });
   }
 
@@ -77,7 +71,6 @@ export class ConfirmDocsComponent {
           return true;
         }
       });
-      this.changeRef.markForCheck();
     });
   }
 }

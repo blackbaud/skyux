@@ -7,6 +7,42 @@
     The confirm service launches simple confirmation dialogs to allow users to confirm actions.
   </sky-docs-demo-page-summary>
 
+  <sky-docs-demo>
+    <button
+      aria-haspopup="dialog"
+      class="sky-btn sky-btn-default sky-margin-inline-default"
+      type="button"
+      (click)="openOKConfirm()"
+    >
+      OK confirm
+    </button>
+
+    <button
+      aria-haspopup="dialog"
+      class="sky-btn sky-btn-default sky-margin-inline-default"
+      type="button"
+      (click)="openYesCancelConfirmWithBody()"
+    >
+      Yes/cancel confirm with body
+    </button>
+
+    <button
+      aria-haspopup="dialog"
+      class="sky-btn sky-btn-default sky-margin-inline-default"
+      type="button"
+      (click)="openCustomConfirm()"
+    >
+      Custom confirm
+    </button>
+
+    <p *ngIf="selectedAction && selectedText">
+      You selected the "{{ selectedText }}" button, which has an action of "{{ selectedAction }}."
+    </p>
+    <p *ngIf="selectedAction && !selectedText">
+      You selected the "{{ selectedAction }}" action.
+    </p>
+  </sky-docs-demo>
+
   <sky-docs-design-guidelines>
     <sky-docs-demo-page-section
       heading="UX Guidelines"
@@ -68,5 +104,12 @@
       </sky-docs-design-guideline>
     </sky-docs-demo-page-section>
   </sky-docs-design-guidelines>
+
+  <sky-docs-code-examples>
+    <sky-docs-code-example
+      sourceCodePath="src/app/public/plugin-resources/code-examples/confirm"
+    >
+    </sky-docs-code-example>
+  </sky-docs-code-examples>
 
 </sky-docs-demo-page>

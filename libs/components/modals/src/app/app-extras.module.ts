@@ -29,6 +29,10 @@ import {
 } from './public/public_api';
 
 import {
+  ModalDocsModalComponent
+} from './docs/modal/modal-docs-modal.component';
+
+import {
   ModalDemoComponent
 } from './visual/modal/modal-demo.component';
 
@@ -74,6 +78,7 @@ require('style-loader!./visual.scss');
   ],
   entryComponents: [
     ModalDemoComponent,
+    ModalDocsModalComponent,
     ModalContentDemoComponent,
     ModalFormDemoComponent,
     ModalFullPageDemoComponent,

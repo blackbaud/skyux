@@ -7,8 +7,38 @@
     The modal component and service launch modals in a consistent way in SKY UX applications. For information about how to test modals in SKY UX, see <a href="https://developer.blackbaud.com/skyux/learn/get-started/advanced/unit-test-modals">write unit tests for modals.</a>
   </sky-docs-demo-page-summary>
 
-  <sky-docs-design-guidelines>
+  <sky-docs-demo>
+    <sky-docs-demo-control-panel
+      (selectionChange)="onDemoSelectionChange($event)"
+    >
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-radio-group
+          heading="Size"
+          propertyName="modalSize"
+          [initialValue]="'medium'"
+          [choices]="modalSizeChoices"
+        >
+        </sky-docs-demo-control-panel-radio-group>
+      </sky-docs-demo-control-panel-section>
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-checkbox
+          label="Show help button"
+          propertyName="showHelpButton"
+          [checked]="false"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
+    <button
+      class="sky-btn sky-btn-default"
+      type="button"
+      (click)="onOpenModalClick()"
+    >
+      Open modal demo
+    </button>
+  </sky-docs-demo>
 
+  <sky-docs-design-guidelines>
     <sky-docs-demo-page-section
       heading="Usage"
     >
@@ -117,17 +147,12 @@
         </ul>
       </sky-docs-design-guideline>
     </sky-docs-demo-page-section>
-
   </sky-docs-design-guidelines>
 
-  <!-- <sky-docs-code-examples
-    [packageDependencies]="{
-      '@skyux/modal': '*'
-    }"
-  >
+  <sky-docs-code-examples>
     <sky-docs-code-example
-      sourceCodePath="src/app/public/plugin-resources/code-examples/modal/basic/"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/modal/"
     >
     </sky-docs-code-example>
-  </sky-docs-code-examples> -->
+  </sky-docs-code-examples>
 </sky-docs-demo-page>

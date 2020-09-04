@@ -1,0 +1,34 @@
+<sky-modal>
+  <sky-modal-header>
+    Modal title
+  </sky-modal-header>
+  <sky-modal-content>
+    <label
+      class="sky-control-label"
+      for="myInput"
+    >
+      An input inside a modal
+    </label>
+    <input
+      class="sky-form-control"
+      id="myInput"
+      type="text"
+    >
+  </sky-modal-content>
+  <sky-modal-footer>
+    <button
+      class="sky-btn sky-btn-primary"
+      type="button"
+      (click)="instance.save()"
+    >
+      Save
+    </button>
+    <button
+      class="sky-btn sky-btn-link"
+      type="button"
+      (click)="instance.close()"
+    >
+      Close
+    </button>
+  </sky-modal-footer>
+</sky-modal>
