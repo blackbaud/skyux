@@ -4,8 +4,121 @@
   pageTitle="Modal"
 >
   <sky-docs-demo-page-summary>
-    The modal component and service allow you to launch modals in a consistent way in SKY UX applications. For information about how to test modals in SKY UX, see <a href="https://developer.blackbaud.com/skyux/learn/get-started/advanced/unit-test-modals">write unit tests for modals.</a>
+    The modal component and service launch modals in a consistent way in SKY UX applications. For information about how to test modals in SKY UX, see <a href="https://developer.blackbaud.com/skyux/learn/get-started/advanced/unit-test-modals">write unit tests for modals.</a>
   </sky-docs-demo-page-summary>
+
+  <sky-docs-design-guidelines>
+
+    <sky-docs-demo-page-section
+      heading="Usage"
+    >
+      <sky-docs-design-guideline
+        heading="Use when"
+        headingStyle="success"
+      >
+        <p class="sky-docs-text-block">
+          Use modals when tasks are functionally modal and users must finish them before doing anything else.
+        </p>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline>
+        <p class="sky-docs-text-block">
+          Use modals when displaying forms inline would lead to substantial content shifting or require users to scroll to complete the forms.
+        </p>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline>
+        <p class="sky-docs-text-block">
+          Use modals when forms add records from paginated lists or infinite scroll lists.
+        </p>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline
+        heading="Use when"
+        headingStyle="success"
+      >
+        <p class="sky-docs-text-block">
+          Use full-screen modals when users usually perform self-contained tasks in a large viewport, and a full-screen modal can optimize the use of space.
+        </p>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline>
+        <p class="sky-docs-text-block">
+          Use full-screen modals when forms display feedback based on user entries or selections. For example, forms may display running totals or preview emails as they are constructed.
+        </p>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline>
+        <p class="sky-docs-text-block">
+          Use full-screen modals when forms support complex tasks for lists of objects such as filling out report cards for a class.
+        </p>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline>
+        <p class="sky-docs-text-block">
+          Use full-screen modals when tasks include subtasks that users need to complete in context.
+        </p>
+    </sky-docs-design-guideline>
+  </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Content"
+    >
+      <sky-docs-design-guideline
+        heading="Modal title text"
+      >
+        <p>
+          Modal titles use sentence-case capitalization and the following format:
+        </p>
+        <p>
+          <span class="sky-emphasized">&lt;Verb&gt; &lt;direct object&gt; for &lt;indirect object&gt;</span>
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          imageSource="~/assets/img/modal-with-object.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline>
+        <p>
+          If there is not an indirect object or the user is the implied indirect object, exclude it:
+        </p>
+        <p>
+          <span class="sky-emphasized">&lt;Verb&gt; &lt;direct object&gt;</span>
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          imageSource="~/assets/img/modal-without-object.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline
+        heading="Buttons in the modal action bar"
+      >
+        <p class="sky-docs-text-block">
+          Use a <a href="https://developer.blackbaud.com/skyux/components/button">primary button</a> for the most important action that users take. Use secondary buttons for less important actions. Use a link button for the Cancel action.
+        </p>
+        <p class="sky-docs-text-block">
+          If a modal has only one action, you should generally use the <a href="https://developer.blackbaud.com/skyux/components/confirm">confirm component</a> instead.
+        </p>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Related information"
+    >
+      <sky-docs-design-guideline
+        heading="Components"
+      >
+        <ul>
+          <li>
+            <a href="https://developer.blackbaud.com/skyux/components/button">Button</a>
+          </li>
+          <li>
+            <a href="https://developer.blackbaud.com/skyux/components/confirm">Confirm</a>
+          </li>
+          <li>
+            <a href="https://developer.blackbaud.com/skyux/components/form">Form</a>
+          </li>
+        </ul>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+  </sky-docs-design-guidelines>
 
   <!-- <sky-docs-code-examples
     [packageDependencies]="{
