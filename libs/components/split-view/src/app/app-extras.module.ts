@@ -8,6 +8,10 @@ import {
 } from '@skyux/docs-tools';
 
 import {
+  SkyCheckboxModule
+} from '@skyux/forms';
+
+import {
   SkyRepeaterModule
 } from '@skyux/lists';
 
@@ -26,6 +30,7 @@ import {
 @NgModule({
   exports: [
     SkyAppLinkModule,
+    SkyCheckboxModule,
     SkyConfirmModule,
     SkyDocsToolsModule,
     SkySplitViewModule,

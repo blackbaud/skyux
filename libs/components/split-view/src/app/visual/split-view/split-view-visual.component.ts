@@ -39,6 +39,8 @@ export class SplitViewVisualComponent {
 
   public activeRecord: any;
 
+  public bindHeightToWindow = false;
+
   public hasUnsavedWork = false;
 
   public items = [

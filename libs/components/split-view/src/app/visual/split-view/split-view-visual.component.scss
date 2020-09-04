@@ -27,3 +27,12 @@
   padding-left: 6px;
   border-left: 4px solid #00b4f1;
 }
+
+.split-view-visual-header {
+  display: flex;
+  align-items: center;
+
+  h3 {
+    padding-right: 10px;
+  }
+}

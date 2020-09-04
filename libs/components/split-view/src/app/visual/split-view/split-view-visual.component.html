@@ -1,10 +1,22 @@
-<h3>Split view for visual tests</h3>
+<div
+  class="split-view-visual-header"
+>
+  <h3>Split view for visual tests</h3>
+  <sky-checkbox
+    [(ngModel)]="bindHeightToWindow"
+  >
+    <sky-checkbox-label>
+      Bind Height To The Window
+    </sky-checkbox-label>
+  </sky-checkbox>
+</div>
 
 <div
   class="app-screenshot"
   id="screenshot-split-view"
 >
   <sky-split-view
+    [bindHeightToWindow]="bindHeightToWindow"
     [messageStream]="splitViewStream"
   >
     <sky-split-view-drawer

@@ -31,6 +31,8 @@ export class SplitViewFixtureComponent {
 
   public backButtonText: string;
 
+  public bindHeightToWindow = false;
+
   public hasUnsavedWork = false;
 
   public items = [
@@ -40,6 +42,10 @@ export class SplitViewFixtureComponent {
     { id: '4', name: 'pear' },
     { id: '5', name: 'strawberry' }
   ];
+
+  public lowerSplitView = false;
+
+  public showActionBar = false;
 
   public showIframe = false;
 

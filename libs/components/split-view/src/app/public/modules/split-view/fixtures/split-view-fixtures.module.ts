@@ -7,6 +7,10 @@ import {
 } from '@angular/core';
 
 import {
+  SkySummaryActionBarModule
+} from '@skyux/action-bars';
+
+import {
   SkyAppWindowRef
 } from '@skyux/core';
 
@@ -31,7 +35,8 @@ import {
   ],
   imports: [
     CommonModule,
-    SkySplitViewModule
+    SkySplitViewModule,
+    SkySummaryActionBarModule
   ],
   exports: [
     SkyConfirmModule

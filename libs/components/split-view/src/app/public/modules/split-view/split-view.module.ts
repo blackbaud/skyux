@@ -11,6 +11,7 @@ import {
 } from '@angular/platform-browser/animations';
 
 import {
+  MutationObserverService,
   SkyCoreAdapterService,
   SkyMediaQueryService
 } from '@skyux/core';
@@ -61,6 +62,7 @@ import {
     SkySplitViewWorkspaceHeaderComponent
   ],
   providers: [
+    MutationObserverService,
     SkyCoreAdapterService,
     SkyMediaQueryService,
     SkySplitViewMediaQueryService

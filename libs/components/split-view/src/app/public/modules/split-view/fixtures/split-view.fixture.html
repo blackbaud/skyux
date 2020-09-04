@@ -1,5 +1,9 @@
+<div *ngIf="lowerSplitView"
+  style="height: 100px;"
+></div>
 <sky-split-view
   [backButtonText]="backButtonText"
+  [bindHeightToWindow]="bindHeightToWindow"
   [messageStream]="splitViewMessageStream"
 >
   <sky-split-view-drawer
@@ -41,3 +45,27 @@
     </sky-split-view-workspace-content>
   </sky-split-view-workspace>
 </sky-split-view>
+<sky-summary-action-bar *ngIf="showActionBar">
+  <sky-summary-action-bar-actions>
+    <sky-summary-action-bar-primary-action>
+      Primary action
+    </sky-summary-action-bar-primary-action>
+    <sky-summary-action-bar-secondary-actions>
+      Foo
+      <sky-summary-action-bar-secondary-action>
+        Secondary action
+      </sky-summary-action-bar-secondary-action>
+      <sky-summary-action-bar-secondary-action>
+        Secondary action 2
+      </sky-summary-action-bar-secondary-action>
+    </sky-summary-action-bar-secondary-actions>
+    <sky-summary-action-bar-cancel>
+      Cancel
+    </sky-summary-action-bar-cancel>
+  </sky-summary-action-bar-actions>
+  <sky-summary-action-bar-summary>
+    <div>
+      <p>Test</p>
+    </div>
+  </sky-summary-action-bar-summary>
+</sky-summary-action-bar>

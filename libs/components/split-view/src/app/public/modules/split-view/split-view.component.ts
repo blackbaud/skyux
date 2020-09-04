@@ -32,6 +32,10 @@ import {
 } from 'rxjs/operators';
 
 import {
+  SkySplitViewAdapterService
+} from './split-view-adapter.service';
+
+import {
   SkySplitViewMessage
 } from './types/split-view-message';
 
@@ -55,24 +59,27 @@ import {
   selector: 'sky-split-view',
   templateUrl: './split-view.component.html',
   styleUrls: ['./split-view.component.scss'],
-  providers: [SkySplitViewService],
+  providers: [
+    SkySplitViewAdapterService,
+    SkySplitViewService
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger(
       'blockAnimationOnLoad', [
-        transition(':enter', [])
-      ]
+      transition(':enter', [])
+    ]
     ),
     trigger(
       'drawerEnter', [
-        state('false', style({transform: 'translate(-100%)'})),
-        transition('* => true', animate('150ms ease-in'))
-      ]),
+      state('false', style({ transform: 'translate(-100%)' })),
+      transition('* => true', animate('150ms ease-in'))
+    ]),
     trigger(
       'workspaceEnter', [
-        state('false', style({transform: 'translate(100%)'})),
-        transition('* => true', animate('150ms ease-in'))
-      ]
+      state('false', style({ transform: 'translate(100%)' })),
+      transition('* => true', animate('150ms ease-in'))
+    ]
     )
   ]
 })
@@ -88,6 +95,27 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
     if (value) {
       this.splitViewService.updateBackButtonText(value);
     }
+  }
+
+  /**
+   * Indicates whether the split view's height should be bound to the window height.
+   * @default false
+   */
+  @Input()
+  public set bindHeightToWindow(bindToHeight: boolean) {
+    this._bindHeightToWindow = bindToHeight;
+
+    if (bindToHeight) {
+      this.bindHeightToWindowUnsubscribe = new Subject();
+      this.adapter.bindHeightToWindow(this.elementRef, this.bindHeightToWindowUnsubscribe);
+    } else if (this.bindHeightToWindowUnsubscribe) {
+      this.bindHeightToWindowUnsubscribe.next();
+      this.bindHeightToWindowUnsubscribe.complete();
+    }
+  }
+
+  public get bindHeightToWindow(): boolean {
+    return this._bindHeightToWindow;
   }
 
   /**
@@ -121,11 +149,16 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
 
   private animationComplete = new Subject<void>();
 
+  private bindHeightToWindowUnsubscribe: Subject<void>;
+
   private ngUnsubscribe = new Subject<void>();
+
+  private _bindHeightToWindow = false;
 
   private _drawerVisible = true;
 
   constructor(
+    private adapter: SkySplitViewAdapterService,
     private changeDetectorRef: ChangeDetectorRef,
     private coreAdapterService: SkyCoreAdapterService,
     private elementRef: ElementRef,
@@ -161,6 +194,11 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    if (this.bindHeightToWindowUnsubscribe) {
+      this.bindHeightToWindowUnsubscribe.next();
+      this.bindHeightToWindowUnsubscribe.complete();
+    }
+
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
