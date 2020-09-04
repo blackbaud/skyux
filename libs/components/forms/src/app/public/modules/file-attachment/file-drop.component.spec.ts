@@ -844,6 +844,29 @@ describe('File drop component', () => {
     expect(el.querySelectorAll('button[type="button"]').length).toBe(1);
   });
 
+  it('should set aria-labels correctly', () => {
+    componentInstance.allowLinks = true;
+    fixture.detectChanges();
+
+    let linkInput: DebugElement = getLinkInput();
+    let dropEl: HTMLElement = getDropEl();
+
+    expect((<HTMLElement>linkInput.nativeElement).attributes.getNamedItem('aria-label').value)
+      .toBe('Add a link to a file');
+    expect(dropEl.attributes.getNamedItem('aria-label').value)
+      .toBe('Drag a file here or click to browse');
+
+    componentInstance.fileUploadAriaLabel = 'Test 12';
+    componentInstance.linkUploadAriaLabel = 'Test 34';
+
+    fixture.detectChanges();
+
+    expect((<HTMLElement>linkInput.nativeElement).attributes.getNamedItem('aria-label').value)
+      .toBe('Test 34');
+    expect(dropEl.attributes.getNamedItem('aria-label').value)
+      .toBe('Test 12');
+  });
+
   it('should pass accessibility', async(() => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {

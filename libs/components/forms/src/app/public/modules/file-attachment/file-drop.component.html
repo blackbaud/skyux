@@ -12,7 +12,7 @@
       (dragenter)="fileDragEnter($event)"
       (dragleave)="fileDragLeave($event)"
       (drop)="fileDrop($event)"
-      [attr.aria-label]="'skyux_file_attachment_file_upload_drag_or_click' | skyLibResources">
+      [attr.aria-label]="fileUploadAriaLabel || ('skyux_file_attachment_file_upload_drag_or_click' | skyLibResources)">
     </button>
 
     <input
@@ -69,7 +69,7 @@
           <input
             type="text"
             class="sky-form-control"
-            [attr.aria-label]="'skyux_file_attachment_file_upload_link_input' | skyLibResources"
+            [attr.aria-label]="linkUploadAriaLabel || ('skyux_file_attachment_file_upload_link_input' | skyLibResources)"
             [attr.placeholder]="'skyux_file_attachment_file_upload_link_placeholder' | skyLibResources"
             [(ngModel)]="linkUrl"
             (blur)="onLinkBlur()"
