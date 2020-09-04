@@ -141,7 +141,7 @@ describe('Property definitions component', function () {
     tick();
 
     const descriptionElement = fixture.nativeElement.querySelector(
-      '.sky-docs-property-definitions-table-cell-description .sky-text-warning'
+      '.sky-docs-property-definitions-deprecation-warning'
     );
 
     expect(descriptionElement.innerText).toContain(
@@ -158,7 +158,7 @@ describe('Property definitions component', function () {
     tick();
 
     const descriptionElement = fixture.nativeElement.querySelector(
-      '.sky-docs-property-definitions-table-cell-description .sky-text-warning'
+      '.sky-docs-property-definitions-deprecation-warning'
     );
 
     expect(descriptionElement.innerHTML).toContain([

@@ -37,6 +37,8 @@ export class SkyDocsPropertyDefinitionsComponent implements OnInit, AfterContent
   @Input()
   public propertyType = 'Property';
 
+  public deprecationWarningPrefix = `<span class="sky-text-warning"></span>**Deprecated.** `;
+
   public isMobile: boolean = true;
 
   public properties: SkyDocsPropertyDefinition[] = [];

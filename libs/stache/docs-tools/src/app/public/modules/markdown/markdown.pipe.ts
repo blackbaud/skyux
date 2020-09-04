@@ -3,20 +3,16 @@ import {
   PipeTransform
 } from '@angular/core';
 
-const marked = require('marked/lib/marked.js');
+import marked from 'marked';
 
 @Pipe({
   name: 'skyDocsMarkdown'
 })
 export class SkyDocsMarkdownPipe implements PipeTransform {
 
-  public transform(markdown: string, parsingMode: 'inline' | 'block' = 'block'): string {
+  public transform(markdown: string): string {
     if (!markdown) {
       return '';
-    }
-
-    if (parsingMode === 'inline') {
-      return marked.inlineLexer(markdown, []);
     }
 
     return marked(markdown);

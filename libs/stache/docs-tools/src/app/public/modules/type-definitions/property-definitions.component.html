@@ -77,13 +77,10 @@
     class="sky-docs-property-definition-label sky-text-danger"
   >Required.</p>
 
-  <p *ngIf="property.deprecationWarning !== undefined"
-    class="sky-docs-property-definition-label sky-text-warning"
-  >
-    <strong>Deprecated.</strong>&nbsp;<span
-      [innerHtml]="property.deprecationWarning | skyDocsMarkdown:'inline' | skyDocsTypeAnchorLinks"
-    ></span>
-  </p>
+  <sky-docs-safe-html *ngIf="property.deprecationWarning !== undefined"
+    class="sky-docs-property-definitions-deprecation-warning"
+    [innerHtml]="deprecationWarningPrefix + property.deprecationWarning | skyDocsMarkdown | skyDocsTypeAnchorLinks"
+  ></sky-docs-safe-html>
 
   <ng-container
     [ngTemplateOutlet]="property.templateRef"
