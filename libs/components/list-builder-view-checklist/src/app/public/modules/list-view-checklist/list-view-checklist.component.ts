@@ -78,22 +78,46 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyListViewChecklistComponent extends ListViewComponent implements OnInit, OnDestroy, OnChanges {
+  /**
+   * Specifies the name of the view.
+   * @required
+   */
   @Input()
   set name(value: string) {
     this.viewName = value;
   }
 
+  /**
+   * Specifies a search function to apply on the view data.
+   * The default function searches view data on label, description,
+   * and category if field selectors are defined for the given field.
+   * @default default search function
+   */
   @Input()
   public search: (data: any, searchText: string) => boolean = this.searchFunction();
 
+  /**
+   * Specifies the name of the label field selector.
+   * @default 'label'
+   */
   /* tslint:disable */
   @Input('label')
   public labelFieldSelector: string = 'label';
   /* tslint:enable */
 
+  /**
+   * Specifies the name of the description field selector.
+   * @default 'description'
+   */
   @Input()
   public description: string = 'description';
 
+  /**
+   * Specifies how many items users can select.
+   * `single` allows users to select one item in the checklist, while `multiple`
+   * allows users to select multiple items in the checklist.
+   * @default 'multiple'
+   */
   @Input()
   public set selectMode(value: string) {
     this._selectMode = value;
@@ -112,6 +136,10 @@ export class SkyListViewChecklistComponent extends ListViewComponent implements 
     return this._selectMode || 'multiple';
   }
 
+  /**
+   * Indicates whether to display selected items only.
+   * @default false
+   */
   @Input()
   public set showOnlySelected(value: boolean) {
     this._showOnlySelected = value;
