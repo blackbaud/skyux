@@ -12,6 +12,13 @@ import {
 // @dynamic
 export class SkyValidators {
 
+  /**
+   * Validates email addresses in reactive forms. Add this validator directly to the form control
+   * model in the component class. If users enter values that are not valid email addresses, the
+   * validator throws an error. Since this is a sync validator, it returns a set of validation
+   * errors or `undefined` immediately when users enter values.
+   * @param control
+   */
   public static email(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
 
@@ -22,6 +29,13 @@ export class SkyValidators {
     return SkyValidation.isEmail(value) ? undefined : { 'skyEmail': { invalid: value } };
   }
 
+  /**
+   * Validates URLs in reactive forms. Add this validator directly to the form control model in
+   * the component class. If users enter values that are not valid URLs, the validator throws an
+   * error. Since this is a sync validator, it returns a set of validation errors or `undefined`
+   * immediately when users enter values.
+   * @param control
+   */
   public static url(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
 

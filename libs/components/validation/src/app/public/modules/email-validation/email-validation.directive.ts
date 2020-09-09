@@ -21,6 +21,11 @@ const SKY_EMAIL_VALIDATION_VALIDATOR = {
 };
 // tslint:enable
 
+/**
+ * Creates an input to validate email addresses. Place this attribute on an `input` element.
+ * If users enter values that are not valid email addresses, an error message appears.
+ * The directive uses `NgModel` to bind data.
+ */
 @Directive({
   selector: '[skyEmailValidation]',
   providers: [SKY_EMAIL_VALIDATION_VALIDATOR]
