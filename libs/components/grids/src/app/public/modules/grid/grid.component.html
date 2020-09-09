@@ -22,9 +22,6 @@
       #gridTable>
       <thead>
         <tr dragula="sky-grid-heading">
-          <th *ngIf="rowDeleteConfigs && rowDeleteConfigs.length > 0"
-            class="sky-grid-row-delete-heading"
-          ></th>
           <th *ngIf="enableMultiselect"
             class="sky-grid-heading sky-grid-multiselect-cell sky-grid-header-locked"
             scope="col"
@@ -128,16 +125,6 @@
           }"
           (click)="onRowClick($event, item)"
         >
-          <td *ngIf="rowDeleteConfigs && rowDeleteConfigs.length > 0"
-            class="sky-grid-cell sky-grid-row-delete-cell"
-            [ngStyle]='{ "height": getRowDeleteItem(item.data.id) ? getRowHeight(i) : undefined }'
-          >
-            <sky-inline-delete *ngIf="getRowDeleteItem(item.data.id)"
-              [pending]="getRowDeleteItem(item.data.id).pending"
-              (cancelTriggered)="cancelRowDelete(item.data.id)"
-              (deleteTriggered)="confirmRowDelete(item.data.id)"
-            ></sky-inline-delete>
-          </td>
           <td *ngIf="enableMultiselect"
             class="sky-grid-multiselect-cell sky-grid-header-locked"
           >
@@ -182,3 +169,24 @@
 </div>
 
 <ng-template #defaultCellTemplate let-row="row" let-value="value">{{value}}</ng-template>
+
+<ng-template
+  let-item
+  #inlineDeleteTemplateRef
+>
+  <div
+    [id]="'row-delete-ref-' + item.id"
+    [ngStyle]='{
+      "height": getRowHeight(0),
+      "position": "fixed",
+      "width": tableWidth + "px"
+    }'
+    #inlineDeleteRef
+  >
+    <sky-inline-delete
+      [pending]="getRowDeleteItem(item.id).pending"
+      (cancelTriggered)="cancelRowDelete(item.id)"
+      (deleteTriggered)="confirmRowDelete(item.id)"
+    ></sky-inline-delete>
+  </div>
+</ng-template>

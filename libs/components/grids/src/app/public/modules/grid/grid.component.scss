@@ -182,11 +182,6 @@ $sky-grid-resize-handle-width: 5px;
   text-align: right;
 }
 
-.sky-grid-row-delete-heading {
-  padding: 0;
-  width: 0;
-}
-
 .sky-grid-multiselect-cell {
   padding: 0;
   text-align: center;
@@ -293,13 +288,6 @@ th.sky-grid-multiselect-cell {
 
 tr {
   position: relative;
-}
-
-.sky-grid-row-delete-cell {
-  padding: 0;
-  position: absolute;
-  display: block;
-  width: 100%;
 }
 
 .sky-grid-top-scroll-container {

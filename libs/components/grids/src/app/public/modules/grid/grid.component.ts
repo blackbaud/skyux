@@ -15,12 +15,16 @@ import {
   Output,
   QueryList,
   SimpleChanges,
+  TemplateRef,
   ViewChild,
   ViewChildren
 } from '@angular/core';
 
 import {
+  SkyAffixAutoFitContext,
+  SkyAffixService,
   SkyAppWindowRef,
+  SkyOverlayService,
   SkyUIConfigService
 } from '@skyux/core';
 
@@ -85,6 +89,10 @@ import {
 import {
   SkyGridRowDeleteConfirmArgs
 } from './types/grid-row-delete-confirm-args';
+
+import {
+  SkyGridRowDeleteContents
+} from './types/grid-row-delete-contents';
 
 import {
   SkyGridSelectedRowsModelChange
@@ -337,6 +345,10 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
   public showResizeBar: boolean = false;
   public showTopScroll: boolean = false;
 
+  public get tableWidth() {
+    return this.tableElementRef.nativeElement.offsetWidth;
+  }
+
   @ContentChildren(SkyGridColumnComponent)
   private columnComponents: QueryList<SkyGridColumnComponent>;
 
@@ -344,6 +356,10 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
   private columnElementRefs: QueryList<ElementRef>;
   @ViewChildren('colSizeRange')
   private columnRangeInputElementRefs: QueryList<ElementRef>;
+  @ViewChildren('inlineDeleteRef')
+  private inlineDeleteRefs: QueryList<ElementRef>;
+  @ViewChild('inlineDeleteTemplateRef', { read: TemplateRef })
+  private inlineDeleteTemplateRef: TemplateRef<any>;
   @ViewChild('gridContainer')
   private tableContainerElementRef: ElementRef;
   @ViewChild('gridTable')
@@ -357,9 +373,9 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
   private isDraggingResizeHandle: boolean = false;
   private isResized: boolean = false;
   private ngUnsubscribe = new Subject();
+  private rowDeleteContents: { [id: string]: SkyGridRowDeleteContents } = {};
   private startColumnWidth: number;
   private subscriptions: Subscription[] = [];
-  private tableWidth: number;
   private scrollTriggered: boolean = false;
   private selectedColumnIdsSet: boolean = false;
   private xPosStart: number;
@@ -368,11 +384,13 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
   private _selectedRowIds: Array<string>;
 
   constructor(
+    private affixService: SkyAffixService,
+    private changeDetector: ChangeDetectorRef,
     private dragulaService: DragulaService,
     private gridAdapter: SkyGridAdapterService,
+    private overlayService: SkyOverlayService,
     private skyWindow: SkyAppWindowRef,
-    private uiConfigService: SkyUIConfigService,
-    private changeDetector: ChangeDetectorRef
+    private uiConfigService: SkyUIConfigService
   ) {
     this.displayedColumns = new Array<SkyGridColumnModel>();
     this.items = new Array<any>();
@@ -427,6 +445,27 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
 
       // This set timeout is necessary to ensure the data has rendered in the grid
       setTimeout(() => {
+        // This cleans up any lingering row deletes for items that have been removed.
+        Object.keys(this.rowDeleteContents).forEach(id => {
+          if (!this.data.find(item => item.id === id)) {
+            this.destroyRowDelete(id);
+          } else {
+            // The rows re-render thus messing up the affixers. We must reaffix them so that things
+            // continue to render correctly.
+            let rowElement: HTMLElement =
+              this.tableElementRef.nativeElement.querySelector('[sky-cmp-id="' + id + '"]');
+
+            this.rowDeleteContents[id].affixer.affixTo(rowElement, {
+              autoFitContext: SkyAffixAutoFitContext.Viewport,
+              isSticky: true,
+              placement: 'above',
+              verticalAlignment: 'top',
+              horizontalAlignment: 'left',
+              enableAutoFit: false
+            });
+          }
+        });
+
         this.checkUserColumnWidthsForScroll();
       });
     }
@@ -444,6 +483,10 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
 
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+
+    Object.keys(this.rowDeleteContents).forEach(id => {
+        this.destroyRowDelete(id);
+    });
   }
 
   @HostListener('window:resize')
@@ -750,6 +793,8 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
   public cancelRowDelete(id: string) {
     this.rowDeleteConfigs = this.rowDeleteConfigs.filter(config => config.id !== id);
     this.rowDeleteCancel.emit({ id: id });
+
+    this.destroyRowDelete(id);
   }
 
   public confirmRowDelete(id: string) {
@@ -851,6 +896,49 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
             existingConfig.pending = false;
           } else {
             this.rowDeleteConfigs.push({ id: message.data.promptDeleteRow.id, pending: false });
+            let overlay = this.overlayService.create({
+              enableScroll: true,
+              showBackdrop: false,
+              closeOnNavigation: true,
+              enableClose: false,
+              enablePointerEvents: true
+            });
+
+            overlay.attachTemplate(this.inlineDeleteTemplateRef,
+              { $implicit: this.data.find(item => item.id === message.data.promptDeleteRow.id) });
+
+            /**
+             * We are manually setting the z-index here because overlays will always be on top of
+             * the omnibar. This manual setting is 1 less than the omnibar's z-index of 1000. We
+             * discussed changing the overlay service to allow for this but decided against that
+             * change at this time due to its niche nature.
+             */
+            overlay.componentRef.instance.zIndex = '999';
+
+            setTimeout(() => {
+              const inlineDeleteRef = this.inlineDeleteRefs.toArray()
+                .find(elRef => {
+                  return elRef.nativeElement.id === 'row-delete-ref-' + message.data.promptDeleteRow.id;
+                });
+              let affixer = this.affixService.createAffixer(inlineDeleteRef);
+
+              let rowElement: HTMLElement =
+                this.tableElementRef.nativeElement.querySelector('[sky-cmp-id="' + message.data.promptDeleteRow.id + '"]');
+
+              affixer.affixTo(rowElement, {
+                autoFitContext: SkyAffixAutoFitContext.Viewport,
+                isSticky: true,
+                placement: 'above',
+                verticalAlignment: 'top',
+                horizontalAlignment: 'left',
+                enableAutoFit: false
+              });
+
+              this.rowDeleteContents[message.data.promptDeleteRow.id] = {
+                affixer: affixer,
+                overlay: overlay
+              };
+            });
           }
         }
         break;
@@ -859,6 +947,8 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
         /* istanbul ignore else */
         if (message.data && message.data.abortDeleteRow) {
           this.rowDeleteConfigs = this.rowDeleteConfigs.filter(config => config.id !== message.data.abortDeleteRow.id);
+
+          this.destroyRowDelete(message.data.abortDeleteRow.id);
         }
         break;
     }
@@ -978,17 +1068,10 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
 
     this.changeDetector.detectChanges();
     this.columnWidthChange.emit(this.getColumnWidthModelChange());
-
-    // If in "scroll" mode, reset the full table width.
-    // This prevents pixel "hopping" for the non-resized columns
-    if (this.fit === 'scroll') {
-      this.tableWidth = this.tableElementRef.nativeElement.offsetWidth;
-    }
   }
 
   private initColumnWidths() {
     // Establish table width.
-    this.tableWidth = this.tableElementRef.nativeElement.offsetWidth;
     this.showTopScroll = true;
 
     // Set column widths based on the width initially given by the browser.
@@ -1049,7 +1132,6 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
     this.skyWindow.nativeWindow.setTimeout(() => {
       this.gridAdapter.setStyle(this.tableElementRef, 'width', `auto`);
       this.changeDetector.detectChanges();
-      this.tableWidth = this.tableElementRef.nativeElement.offsetWidth;
       this.gridAdapter.setStyle(this.tableElementRef, 'width', `${this.tableWidth}px`);
       this.changeDetector.detectChanges();
     });
@@ -1079,6 +1161,15 @@ export class SkyGridComponent implements OnInit, AfterContentInit, AfterViewInit
 
   private addDelimeter(text: string[], delimiter: string) {
     return text.filter(val => val).join(delimiter);
+  }
+
+  private destroyRowDelete(id: string) {
+    const rowDeleteContents = this.rowDeleteContents[id];
+    if (rowDeleteContents) {
+      rowDeleteContents.affixer.destroy();
+      this.overlayService.close(rowDeleteContents.overlay);
+      delete this.rowDeleteContents[id];
+    }
   }
 
   private emitSelectedRows(source: SkyGridSelectedRowsSource) {

@@ -55,6 +55,8 @@ export class GridTestComponent {
 
   public activeSortSelector: ListSortFieldSelectorModel;
 
+  public allColumnWidth: number;
+
   public columnWidthsChange: Array<SkyGridColumnWidthModelChange>;
 
   public data: any[] = [
@@ -218,7 +220,22 @@ export class GridTestComponent {
     this.selectedRowsChange = selectedRows;
   }
 
-  public addLongData() {
+  public addLongData(): void {
+    // We do the slice here as things will only update with a new value set. So this copies the array.
+    const newData = this.data.slice();
+    newData.push({
+      id: '8',
+      column1: 'Some long text that would provoke an overflow of monster proportions!',
+      column2: 'Some long text that would provoke an overflow of monster proportions!',
+      column3: 'Some long text that would provoke an overflow of monster proportions!',
+      column4: 21,
+      column5: new Date().getTime() + 5600000,
+      customId: '107'
+    });
+    this.data = newData;
+  }
+
+  public setLongData(): void {
     this.data = [{
       id: '8',
       column1: 'Some long text that would provoke an overflow of monster proportions!',
@@ -228,6 +245,12 @@ export class GridTestComponent {
       column5: new Date().getTime() + 5600000,
       customId: '107'
     }];
+  }
+
+  public removeFirstItem(): void {
+    // We do the slice here as things will only update with a new value set. So this copies the array.
+    const newData = this.data.slice(1);
+    this.data = newData;
   }
 
   public hideColumn(): void {
@@ -247,6 +270,10 @@ export class GridTestComponent {
   }
 
   public cancelRowDelete(cancelArgs: SkyGridRowDeleteCancelArgs): void {
+    return;
+  }
+
+  public cancelRowDeleteViaMessageStream(cancelArgs: SkyGridRowDeleteCancelArgs): void {
     this.gridController.next({
       type: SkyGridMessageType.AbortDeleteRow,
       data: {

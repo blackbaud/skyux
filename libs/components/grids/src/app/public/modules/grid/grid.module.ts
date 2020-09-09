@@ -15,7 +15,9 @@ import {
 } from 'ng2-dragula';
 
 import {
+  SkyAffixModule,
   SkyAppWindowRef,
+  SkyOverlayModule,
   SkyUIConfigService
 } from '@skyux/core';
 
@@ -63,11 +65,13 @@ import {
     CommonModule,
     DragulaModule,
     FormsModule,
+    SkyAffixModule,
     SkyCheckboxModule,
     SkyGridsResourcesModule,
     SkyHelpInlineModule,
     SkyIconModule,
     SkyInlineDeleteModule,
+    SkyOverlayModule,
     SkyPopoverModule,
     SkyTextHighlightModule
   ],

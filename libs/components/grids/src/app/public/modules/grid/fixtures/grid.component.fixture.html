@@ -23,6 +23,7 @@
   <sky-grid-column
     field="column1"
     heading="Column1"
+    [width]="allColumnWidth"
     [inlineHelpPopover]="column1Help"
     [locked]="true"
   >
@@ -44,7 +45,7 @@
     type="number"
     heading="Column3"
     [template]="template1"
-    [width]="dynamicWidth"
+    [width]="dynamicWidth || allColumnWidth"
   >
   </sky-grid-column>
   <sky-grid-column
@@ -53,6 +54,7 @@
     heading="Column4"
     [hidden]="true"
     [inlineHelpPopover]="column4Help"
+    [width]="allColumnWidth"
   >
   </sky-grid-column>
   <sky-grid-column
@@ -64,12 +66,16 @@
   <sky-grid-column
     id="hiddenCol1"
     field="column1"
-    heading="Column6">
+    heading="Column6"
+    [width]="allColumnWidth"
+  >
   </sky-grid-column>
   <sky-grid-column
     id="hiddenCol2"
     field="column1"
-    heading="Column7">
+    heading="Column7"
+    [width]="allColumnWidth"
+  >
   </sky-grid-column>
   <sky-grid-column *ngIf="showWideColumn"
     id="column6"
