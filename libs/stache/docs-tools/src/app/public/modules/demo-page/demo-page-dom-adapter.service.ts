@@ -41,12 +41,13 @@ export class SkyDocsDemoPageDomAdapterService implements OnDestroy {
   }
 
   public setupAnchorLinks(): void {
-    this.anchorLinks.forEach((anchor: HTMLAnchorElement) => {
+    for (let index = 0; index < this.anchorLinks.length; index++) {
+      const anchor = this.anchorLinks[index];
       const fragment = anchor.href.split('#')[1];
       const url = this.currentUrl;
       const href = `${url}#${fragment}`;
       anchor.href = href;
-    });
+    }
   }
 
   public get anchorLinkClick(): Observable<SkyDocsAnchorLink> {
@@ -70,14 +71,18 @@ export class SkyDocsDemoPageDomAdapterService implements OnDestroy {
   private addClickEventListeners(): void {
     // Wait for a tick to allow all anchors to be written.
     this.windowRef.nativeWindow.setTimeout(() => {
-      this.anchorLinks.forEach((anchor: HTMLAnchorElement) => {
+      for (let index = 0; index < this.anchorLinks.length; index++) {
+        const anchor = this.anchorLinks[index];
         anchor.addEventListener('click', this.eventListener);
-      });
+      }
     });
   }
 
   private removeClickEventListeners(): void {
-    this.anchorLinks.forEach(a => a.removeEventListener('click', this.eventListener));
+    for (let index = 0; index < this.anchorLinks.length; index++) {
+      const anchor = this.anchorLinks[index];
+      anchor.removeEventListener('click', this.eventListener);
+    }
   }
 
   private eventListener = (e: Event) => {

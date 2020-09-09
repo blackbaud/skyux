@@ -155,7 +155,8 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit, After
           children: results.map((component: SkyDocsComponentInfo) => ({
             name: component.name,
             // Replace host + SPA so Stache will mark active
-            path: component.url.replace(currentHostUrl, '')
+            // Remove URL params, as they only contain svcid params which are automatically handled by the nav service.
+            path: component.url.replace(currentHostUrl, '').split('?')[0]
           }))
         }];
         this.changeDetector.markForCheck();
