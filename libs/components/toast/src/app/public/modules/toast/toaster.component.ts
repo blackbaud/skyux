@@ -14,7 +14,8 @@ import {
   StaticProvider,
   ViewChild,
   ViewChildren,
-  ViewContainerRef
+  ViewContainerRef,
+  ViewEncapsulation
 } from '@angular/core';
 
 import {
@@ -60,7 +61,8 @@ import {
   templateUrl: './toaster.component.html',
   styleUrls: ['./toaster.component.scss'],
   providers: [SkyToasterService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class SkyToasterComponent implements AfterViewInit, OnDestroy {
   public toastsForDisplay: SkyToast[];

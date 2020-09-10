@@ -3,11 +3,28 @@
   (@skyAnimationEmerge.done)="onAnimationDone($event)"
 >
   <div
-    class="sky-toast sky-shadow sky-rounded-corners"
+    class="sky-toast sky-shadow sky-rounded-corners sky-box sky-elevation-24"
     [ngClass]="classNames"
     [attr.aria-live]="ariaLive"
     [attr.role]="ariaRole"
   >
+    <div
+      aria-hidden="true"
+      class="sky-toast-icon-theme-default"
+    >
+      <sky-icon
+        [icon]="icon"
+      ></sky-icon>
+    </div>
+    <div
+      aria-hidden="true"
+      class="sky-toast-icon-theme-modern"
+    >
+      <sky-icon-stack
+        [baseIcon]="baseIcon"
+        [topIcon]="topIcon"
+      ></sky-icon-stack>
+    </div>
     <div class="sky-toast-content">
       <ng-content></ng-content>
     </div>
@@ -17,7 +34,17 @@
       [attr.title]="'skyux_toast_close_button' | skyLibResources"
       (click)="close()"
     >
-      <sky-icon icon="close"></sky-icon>
+      <sky-icon
+        class="sky-toast-close-icon-theme-default"
+        icon="close"
+      ></sky-icon>
+      <sky-icon
+        class="sky-toast-close-icon-theme-modern"
+        icon="close"
+        iconType="skyux"
+        size="2x"
+      >
+      </sky-icon>
     </button>
   </div>
 </aside>
