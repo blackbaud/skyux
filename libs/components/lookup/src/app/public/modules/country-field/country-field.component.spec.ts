@@ -430,6 +430,85 @@ describe('Country Field Component', () => {
         expect(changeEventSpy).not.toHaveBeenCalled();
       }));
 
+      it('should not include dial code information when the `includePhoneInfo` input is not set', fakeAsync(() => {
+        let changeEventSpy = spyOn(component, 'countryChanged').and.callThrough();
+        component.countryFieldComponent.includePhoneInfo = false;
+        component.modelValue = {
+          name: 'United States',
+          iso2: 'us'
+        };
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(changeEventSpy).not.toHaveBeenCalled();
+        searchAndSelect('Austr', 0, fixture);
+        fixture.detectChanges();
+        tick();
+        expect(changeEventSpy).toHaveBeenCalledWith({
+          name: 'Australia',
+          iso2: 'au'
+        });
+
+        const searchResults = searchAndGetResults('Austr', fixture);
+        expect(searchResults[0].querySelector('.sky-deemphasized')).toBeNull();
+      }));
+
+      it('should include dial code information when the `includePhoneInfo` input is set', fakeAsync(() => {
+        let changeEventSpy = spyOn(component, 'countryChanged').and.callThrough();
+        component.countryFieldComponent.includePhoneInfo = true;
+        component.modelValue = {
+          name: 'United States',
+          iso2: 'us'
+        };
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(changeEventSpy).not.toHaveBeenCalled();
+        searchAndSelect('Austr', 0, fixture);
+        fixture.detectChanges();
+        tick();
+        expect(changeEventSpy).toHaveBeenCalledWith({
+          name: 'Australia',
+          iso2: 'au',
+          dialCode: '61',
+          priority: 0,
+          // Disabling null linting here as the library that sets this uses null here.
+          // tslint:disable-next-line: no-null-keyword
+          areaCodes: null
+        });
+
+        const searchResults = searchAndGetResults('Austr', fixture);
+        expect(searchResults[0].querySelector('.sky-deemphasized').textContent.trim()).toBe('61');
+      }));
+
+      it('should not hide the flag in the input box if the `hideSelectedCountryFlag` is not set', fakeAsync(() => {
+        component.countryFieldComponent.hideSelectedCountryFlag = false;
+        component.modelValue = {
+          name: 'United States',
+          iso2: 'us'
+        };
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(nativeElement.querySelector('.sky-country-field-flag')).not.toBeNull();
+      }));
+
+      it('should hide the flag in the input box if the `hideSelectedCountryFlag` is set', fakeAsync(() => {
+        component.countryFieldComponent.hideSelectedCountryFlag = true;
+        component.modelValue = {
+          name: 'United States',
+          iso2: 'us'
+        };
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(nativeElement.querySelector('.sky-country-field-flag')).toBeNull();
+      }));
+
     });
 
     describe('validation', () => {
@@ -955,6 +1034,81 @@ describe('Country Field Component', () => {
         });
       }));
 
+      it('should not include dial code information when the `includePhoneInfo` input is not set', fakeAsync(() => {
+        let changeEventSpy = spyOn(component, 'formValueChanged').and.callThrough();
+        component.countryFieldComponent.includePhoneInfo = false;
+        component.initialValue = {
+          name: 'United States',
+          iso2: 'us'
+        };
+        fixture.detectChanges();
+        tick();
+
+        expect(changeEventSpy).not.toHaveBeenCalled();
+        searchAndSelect('Austr', 0, fixture);
+        fixture.detectChanges();
+        tick();
+        expect(changeEventSpy).toHaveBeenCalledWith({
+          name: 'Australia',
+          iso2: 'au'
+        });
+
+        const searchResults = searchAndGetResults('Austr', fixture);
+        expect(searchResults[0].querySelector('.sky-deemphasized')).toBeNull();
+      }));
+
+      it('should include dial code information when the `includePhoneInfo` input is set', fakeAsync(() => {
+        let changeEventSpy = spyOn(component, 'formValueChanged').and.callThrough();
+        component.countryFieldComponent.includePhoneInfo = true;
+        component.initialValue = {
+          name: 'United States',
+          iso2: 'us'
+        };
+        fixture.detectChanges();
+        tick();
+
+        expect(changeEventSpy).not.toHaveBeenCalled();
+        searchAndSelect('Austr', 0, fixture);
+        fixture.detectChanges();
+        tick();
+        expect(changeEventSpy).toHaveBeenCalledWith({
+          name: 'Australia',
+          iso2: 'au',
+          dialCode: '61',
+          priority: 0,
+          // Disabling null linting here as the library that sets this uses null here.
+          // tslint:disable-next-line: no-null-keyword
+          areaCodes: null
+        });
+
+        const searchResults = searchAndGetResults('Austr', fixture);
+        expect(searchResults[0].querySelector('.sky-deemphasized').textContent.trim()).toBe('61');
+      }));
+
+      it('should not hide the flag in the input box if the `hideSelectedCountryFlag` is not set', fakeAsync(() => {
+        component.countryFieldComponent.hideSelectedCountryFlag = false;
+        component.initialValue = {
+          name: 'United States',
+          iso2: 'us'
+        };
+        fixture.detectChanges();
+        tick();
+
+        expect(nativeElement.querySelector('.sky-country-field-flag')).not.toBeNull();
+      }));
+
+      it('should hide the flag in the input box if the `hideSelectedCountryFlag` is set', fakeAsync(() => {
+        component.countryFieldComponent.hideSelectedCountryFlag = true;
+        component.initialValue = {
+          name: 'United States',
+          iso2: 'us'
+        };
+        fixture.detectChanges();
+        tick();
+
+        expect(nativeElement.querySelector('.sky-country-field-flag')).toBeNull();
+      }));
+
     });
 
     describe('validation', () => {
@@ -1261,6 +1415,75 @@ describe('Country Field Component', () => {
           name: 'Australia',
           iso2: 'au'
         });
+      }));
+
+      it('should not include dial code information when the `includePhoneInfo` input is not set', fakeAsync(() => {
+        let changeEventSpy = spyOn(component, 'countryChanged').and.callThrough();
+        component.countryFieldComponent.includePhoneInfo = false;
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        searchAndSelect('Austr', 0, fixture);
+        fixture.detectChanges();
+        tick();
+        expect(changeEventSpy).toHaveBeenCalledWith({
+          name: 'Australia',
+          iso2: 'au'
+        });
+
+        const searchResults = searchAndGetResults('Austr', fixture);
+        expect(searchResults[0].querySelector('.sky-deemphasized')).toBeNull();
+      }));
+
+      it('should include dial code information when the `includePhoneInfo` input is set', fakeAsync(() => {
+        let changeEventSpy = spyOn(component, 'countryChanged').and.callThrough();
+        component.countryFieldComponent.includePhoneInfo = true;
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        searchAndSelect('Austr', 0, fixture);
+        fixture.detectChanges();
+        tick();
+        expect(changeEventSpy).toHaveBeenCalledWith({
+          name: 'Australia',
+          iso2: 'au',
+          dialCode: '61',
+          priority: 0,
+          // Disabling null linting here as the library that sets this uses null here.
+          // tslint:disable-next-line: no-null-keyword
+          areaCodes: null
+        });
+
+        const searchResults = searchAndGetResults('Austr', fixture);
+        expect(searchResults[0].querySelector('.sky-deemphasized').textContent.trim()).toBe('61');
+      }));
+
+      it('should not hide the flag in the input box if the `hideSelectedCountryFlag` is not set', fakeAsync(() => {
+        component.countryFieldComponent.hideSelectedCountryFlag = false;
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        searchAndSelect('Austr', 0, fixture);
+        fixture.detectChanges();
+        tick();
+
+        expect(nativeElement.querySelector('.sky-country-field-flag')).not.toBeNull();
+      }));
+
+      it('should hide the flag in the input box if the `hideSelectedCountryFlag` is set', fakeAsync(() => {
+        component.countryFieldComponent.hideSelectedCountryFlag = true;
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        searchAndSelect('Austr', 0, fixture);
+        fixture.detectChanges();
+        tick();
+
+        expect(nativeElement.querySelector('.sky-country-field-flag')).toBeNull();
       }));
 
     });

@@ -18,7 +18,7 @@
         'sky-field-status-active': isInputFocused
       }"
     >
-      <div *ngIf="selectedCountry && selectedCountry.iso2 && !isInPhoneField"
+      <div *ngIf="selectedCountry && selectedCountry.iso2 && !hideSelectedCountryFlag"
         [className]="'sky-country-field-flag iti-flag ' + selectedCountry.iso2.toLowerCase()"
       ></div>
       <textarea
@@ -47,7 +47,7 @@
   >
   </div>
   {{ item.name }}
-  <span *ngIf="isInPhoneField"
+  <span *ngIf="includePhoneInfo"
     class="sky-deemphasized"
   >
     {{ item.dialCode }}
