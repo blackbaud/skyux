@@ -1,3 +1,8 @@
+# 4.0.6 (2020-09-11)
+
+- Fixed the grid component's resize handle to have a proper accessibility role. [#158](https://github.com/blackbaud/skyux-grids/pull/158)
+- Fixed the grid component's row delete functionality to not add an extra grid column when all columns have a specified width. [#157](https://github.com/blackbaud/skyux-grids/pull/157)
+
 # 4.0.5 (2020-08-19)
 
 - Fixed the grid component to render grid column components which utilize an inline template. [#154](https://github.com/blackbaud/skyux-grids/pull/154)
