@@ -23,10 +23,10 @@ import {
 } from 'rxjs';
 
 @Component({
-  selector: 'app-split-view-docs',
-  templateUrl: './split-view-docs.component.html'
+  selector: 'app-split-view-demo',
+  templateUrl: './split-view-demo.component.html'
 })
-export class SplitViewDocsComponent {
+export class SplitViewDemoComponent {
 
   public set activeIndex(value: number) {
     this._activeIndex = value;
@@ -160,4 +160,5 @@ export class SplitViewDocsComponent {
     };
     this.splitViewStream.next(message);
   }
+
 }
