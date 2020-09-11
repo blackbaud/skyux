@@ -1,3 +1,10 @@
+# 4.4.0 (2020-09-11)
+
+- Added the `hideSelectedCountryFlag` input property to the country field component to hide the flag icon from the selected country input box. [#127](https://github.com/blackbaud/skyux-lookup/pull/127)
+- Added the `includePhoneInfo` input property to the country field component to include phone information in the returned country and the country results dropdown. [#127](https://github.com/blackbaud/skyux-lookup/pull/127)
+- Fixed the country field component to treat two country objects with the same `iso2` properties as equal. [#126](https://github.com/blackbaud/skyux-lookup/pull/126)
+
+
 # 4.3.0 (2020-08-21)
 
 - Added `autocompleteAttribute` to the autocomplete directive, lookup component, and country field component to set `autocomplete` attribute on form inputs. [#122](https://github.com/blackbaud/skyux-lookup/pull/122)
