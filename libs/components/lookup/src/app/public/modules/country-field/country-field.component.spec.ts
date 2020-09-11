@@ -417,6 +417,17 @@ describe('Country Field Component', () => {
           name: 'Australia',
           iso2: 'au'
         });
+
+        changeEventSpy.calls.reset();
+
+        component.modelValue = {
+          name: 'Australia',
+          iso2: 'au'
+        };
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        expect(changeEventSpy).not.toHaveBeenCalled();
       }));
 
     });
@@ -881,6 +892,17 @@ describe('Country Field Component', () => {
           name: 'Australia',
           iso2: 'au'
         });
+
+        changeEventSpy.calls.reset();
+
+        component.setValue({
+          name: 'Australia',
+          iso2: 'au'
+        });
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        expect(changeEventSpy).not.toHaveBeenCalled();
       }));
 
       it('should emit the valueChange form control event correctly with an initial value', fakeAsync(() => {

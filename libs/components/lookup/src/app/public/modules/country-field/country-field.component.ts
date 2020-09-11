@@ -155,7 +155,7 @@ export class SkyCountryFieldComponent implements ControlValueAccessor, OnDestroy
   public countrySearchAutocompleteDirective: SkyAutocompleteInputDirective;
 
   public set selectedCountry(newCountry: SkyCountryFieldCountry) {
-    if (this._selectedCountry !== newCountry) {
+    if (!this.countriesAreEqual(this.selectedCountry, newCountry)) {
 
       if (newCountry && newCountry.iso2) {
         let isoCountry = this.countries.find(country => country.iso2 === newCountry.iso2);
@@ -185,17 +185,16 @@ export class SkyCountryFieldComponent implements ControlValueAccessor, OnDestroy
         this.ngControl.control.markAsPristine();
       }
 
+      this.isInitialChange = false;
+
       /**
        * The second portion of this if statement is complex. The control type check ensures that
        * we only watch for the initial time through this function on reactive forms. However,
        * template forms will send through `null` and then `undefined` on empty initialization
        * so we have to check for when the non-null pass through happens.
        */
-      if (this.isInitialChange && (!(this.ngControl instanceof NgModel) || newCountry !== null)) {
-        this.isInitialChange = false;
-      }
-    } else if (newCountry === undefined) {
-      /* Sanity check to ensure we properly handle if a consumer sets the control value to undefined on initialization */
+    } else if (this.isInitialChange &&
+      (!(this.ngControl instanceof NgModel) || newCountry !== null)) {
       this.isInitialChange = false;
     }
   }
@@ -370,6 +369,17 @@ export class SkyCountryFieldComponent implements ControlValueAccessor, OnDestroy
         this.isInputFocused = this.elRef.nativeElement.contains(event.target);
         this.changeDetector.markForCheck();
       });
+  }
+
+  private countriesAreEqual(country1: SkyCountryFieldCountry, country2: SkyCountryFieldCountry): boolean {
+    if (country1 && country2) {
+      return country1.iso2 === country2.iso2;
+    }
+
+    // NOTE: We are doing this in  this way because template forms will send through `null`
+    // and then `undefined` on empty initialization. These are functionally equivalent but will
+    // not pass a standard triple equals check.
+    return !country1 && !country2;
   }
 
   private countriesEqual(a: SkyCountryFieldCountry, b: SkyCountryFieldCountry): boolean {
