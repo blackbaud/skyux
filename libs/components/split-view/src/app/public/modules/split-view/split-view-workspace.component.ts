@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -6,8 +7,7 @@ import {
   EventEmitter,
   HostListener,
   Input,
-  OnDestroy,
-  OnInit
+  OnDestroy
 } from '@angular/core';
 
 import {
@@ -44,7 +44,7 @@ import {
     { provide: SkyMediaQueryService, useExisting: SkySplitViewMediaQueryService }
   ]
 })
-export class SkySplitViewWorkspaceComponent implements OnDestroy, OnInit {
+export class SkySplitViewWorkspaceComponent implements AfterViewInit, OnDestroy {
 
   public set isMobile(value: boolean) {
     this._isMobile = value;
@@ -76,7 +76,7 @@ export class SkySplitViewWorkspaceComponent implements OnDestroy, OnInit {
     private splitViewService: SkySplitViewService
   ) {}
 
-  public ngOnInit(): void {
+  public ngAfterViewInit(): void {
     this.splitViewService.isMobileStream
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((mobile: boolean) => {
@@ -107,5 +107,6 @@ export class SkySplitViewWorkspaceComponent implements OnDestroy, OnInit {
     this.splitViewMediaQueryService.setBreakpointForWidth(width);
     const newDrawerBreakpoint = this.splitViewMediaQueryService.current;
     this.coreAdapterService.setResponsiveContainerClass(this.elementRef, newDrawerBreakpoint);
+    this.changeDetectorRef.markForCheck();
   }
 }
