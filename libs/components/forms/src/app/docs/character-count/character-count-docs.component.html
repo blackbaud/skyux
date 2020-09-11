@@ -7,6 +7,52 @@
     The character count indicator component extends a text input to apply a character limit and display an indicator with the number of characters entered and the character limit.
   </sky-docs-demo-page-summary>
 
+  <sky-docs-demo>
+    <div
+      style="width: 50%;"
+    >
+      <form
+        novalidate
+        [formGroup]="characterCountForm"
+      >
+        <div
+          class="sky-form-group"
+        >
+          <div
+            style="display: flex;"
+          >
+            <label
+              class="sky-control-label"
+              style="flex-grow: 1;"
+            >
+              Transaction description
+            </label>
+
+            <sky-character-counter-indicator
+              #descriptionIndicator
+            >
+            </sky-character-counter-indicator>
+          </div>
+
+          <input
+            class="sky-form-control"
+            formControlName="description"
+            type="text"
+            skyCharacterCounter
+            [skyCharacterCounterIndicator]="descriptionIndicator"
+            [skyCharacterCounterLimit]="maxDescriptionCharacterCount"
+          />
+
+          <div *ngIf="description.errors?.skyCharacterCounter"
+            class="sky-error-label"
+          >
+            Limit Transaction description to {{maxDescriptionCharacterCount}} characters.
+          </div>
+        </div>
+      </form>
+    </div>
+  </sky-docs-demo>
+
   <sky-docs-design-guidelines>
 
     <sky-docs-demo-page-section
@@ -191,5 +237,12 @@
     </sky-docs-demo-page-section>
 
   </sky-docs-design-guidelines>
+
+  <sky-docs-code-examples>
+    <sky-docs-code-example
+      sourceCodePath="src/app/public/plugin-resources/code-examples/character-count"
+    >
+    </sky-docs-code-example>
+  </sky-docs-code-examples>
 
 </sky-docs-demo-page>
