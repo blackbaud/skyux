@@ -1,3 +1,7 @@
+# 4.3.3 (2020-09-11)
+
+- Fixed the tabset component to allow consumers to activate a tab as soon as they create it. [#132](https://github.com/blackbaud/skyux-tabs/pull/132)
+
 # 4.3.2 (2020-08-20)
 
 - Fixed the tabset component to use query params instead of matrix params when using `permalinkId` (matrix params cannot be used on the root route of an application). [#128](https://github.com/blackbaud/skyux-tabs/pull/128)
