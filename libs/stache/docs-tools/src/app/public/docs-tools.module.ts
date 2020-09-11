@@ -3,6 +3,10 @@ import {
 } from '@angular/core';
 
 import {
+  SkyAuthHttpClientModule
+} from '@skyux/http';
+
+import {
   SkyDocsAnatomyModule
 } from './modules/anatomy/anatomy.module';
 
@@ -31,6 +35,7 @@ import {
  */
 @NgModule({
   exports: [
+    SkyAuthHttpClientModule, // Supports the supportal service calls using the `svcid` param.
     SkyDocsAnatomyModule,
     SkyDocsCodeExamplesModule,
     SkyDocsDemoModule,
