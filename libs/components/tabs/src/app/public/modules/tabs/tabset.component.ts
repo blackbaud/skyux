@@ -228,17 +228,20 @@ export class SkyTabsetComponent
         this.tabsetService.tabs
           .pipe(take(1))
           .subscribe(tabs => {
-            change
-              .filter(tab => tabs.indexOf(tab) === -1)
-              .forEach(tab => tab.initializeTabIndex());
+            // Wait for tabs to render before activating.
+            setTimeout(() => {
+              change
+                .filter(tab => tabs.indexOf(tab) === -1)
+                .forEach(tab => tab.initializeTabIndex());
 
-            this.adapterService.detectOverflow();
+              this.tabsetService.activateTabIndex(this.active);
+              this.adapterService.detectOverflow();
+            });
           });
       });
 
     if (this.active !== undefined) {
       this.activeIndexOnLoad = this.active;
-      this.tabsetService.activateTabIndex(this.active);
     }
 
     // Render the template before activating a tab.

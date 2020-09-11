@@ -35,6 +35,10 @@ import {
 } from './tabset-active-two-way.component.fixture';
 
 import {
+  TabsetLoopTestComponent
+} from './tabset-loop.component.fixture';
+
+import {
   SkyTabsetPermalinksFixtureComponent
 } from './tabset-permalinks.component.fixture';
 
@@ -48,6 +52,7 @@ import {
 
 @NgModule({
   declarations: [
+    TabsetLoopTestComponent,
     TabsetTestComponent,
     SkyTabsetPermalinksFixtureComponent,
     SkyWizardTestFormComponent,
@@ -62,6 +67,7 @@ import {
     RouterTestingModule
   ],
   exports: [
+    TabsetLoopTestComponent,
     TabsetTestComponent,
     SkyTabsetPermalinksFixtureComponent,
     SkyWizardTestFormComponent,

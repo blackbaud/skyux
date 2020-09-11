@@ -1,0 +1,10 @@
+<sky-tabset
+  [active]="activeIndex"
+>
+  <sky-tab *ngFor="let tab of tabArray"
+    [tabIndex]="tab.tabIndex"
+    [tabHeading]="tab.tabHeading"
+  >
+    {{ tab.tabContent }}
+  </sky-tab>
+</sky-tabset>

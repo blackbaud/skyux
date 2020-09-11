@@ -75,6 +75,10 @@ import {
 } from './fixtures/tabset-adapter.service.mock';
 
 import {
+  TabsetLoopTestComponent
+} from './fixtures/tabset-loop.component.fixture';
+
+import {
   SkyTabsetPermalinksFixtureComponent
 } from './fixtures/tabset-permalinks.component.fixture';
 
@@ -943,6 +947,27 @@ describe('Tabset component', () => {
       tick();
       expect(cmp.activeIndex).toBe(0);
       validateTabSelected(el, 0, 'tab 1 content');
+    }));
+
+    it('should handle activating a tab immediately after being created in an array of tabs', fakeAsync(() => {
+      const fixture = TestBed.createComponent(TabsetLoopTestComponent);
+      fixture.componentInstance.activeIndex = 0;
+
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      validateTabSelected(fixture.elementRef.nativeElement, 0);
+
+      // Set the active index to the tab that is about to be created.
+      fixture.componentInstance.addTabAndActivate();
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      validateTabSelected(fixture.elementRef.nativeElement, 2);
     }));
 
     it('handles initialized tabs', fakeAsync(() => {
