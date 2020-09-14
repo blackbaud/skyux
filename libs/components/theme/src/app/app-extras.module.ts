@@ -3,6 +3,10 @@ import {
 } from '@angular/core';
 
 import {
+  SkyCodeModule
+} from '@blackbaud/skyux-lib-code-block';
+
+import {
   SkyMediaQueryModule
 } from '@skyux/core';
 
@@ -12,16 +16,12 @@ import {
 } from '@skyux/docs-tools';
 
 import {
-  SkyCodeModule
-} from '@blackbaud/skyux-lib-code-block';
+  SkyIconModule
+} from '@skyux/indicators';
 
 import {
   SkyAppLinkModule
 } from '@skyux/router';
-
-import {
-  SkyIconModule
-} from '@skyux/indicators';
 
 import {
   SkyThemeModule
