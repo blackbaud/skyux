@@ -22,18 +22,35 @@ import {
   SkyAngularTreeWrapperComponent
 } from './angular-tree-wrapper.component';
 
+/**
+ * Replaces the default tree node template with a SKY UX node. You must wrap this component in an `ng-template` tag with the
+ * template reference variable `#treeNodeFullTemplate`. For information about tree node templates, see the
+ * [Angular tree component documentation](https://angular2-tree.readme.io/docs/templates).
+ * To display context menus with actions for individual items in hierarchical lists, place dropdown components inside the
+ * Angular tree node component. The Angular tree node component automatically handles styling and positioning for context menus.
+ */
 @Component({
   selector: 'sky-angular-tree-node',
   templateUrl: './angular-tree-node.component.html'
 })
 export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
 
+  /**
+   * Specifies the `index` property from the parent `ng-template`.
+   */
   @Input()
   public index: number;
 
+  /**
+   * Specifies the `node` property from the parent `ng-template`. For information about the `TreeNode` object, see the
+   * [Angular tree component documentation](https://angular2-tree.readme.io/docs/api).
+   */
   @Input()
   public node: TreeNode;
 
+  /**
+   * Specifies the `templates` property from the parent `ng-template`.
+   */
   @Input()
   public templates: any;
 
@@ -139,9 +156,12 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
     }, 1000);
   }
 
-  // If single-select, set aria-selected=true for the selected node and undefined for all the others.
-  // For multiple-select, set aria-selected to either true or false.
-  // If node cannot be selected, aria-selected should be undefined (e.g. parent nodes in leaf-select-only mode).
+  /**
+   * If single-select, set aria-selected=true for the selected node and undefined for all the others.
+   * For multiple-select, set aria-selected to either true or false.
+   * If node cannot be selected, aria-selected should be undefined (e.g. parent nodes in leaf-select-only mode).
+   * @internal
+   */
   public ariaSelected(): boolean {
     if (!this.skyAngularTreeWrapper) {
       return;

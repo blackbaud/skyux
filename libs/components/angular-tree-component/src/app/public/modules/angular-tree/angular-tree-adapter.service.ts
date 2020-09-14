@@ -6,6 +6,9 @@ import {
   SkyCoreAdapterService
 } from '@skyux/core';
 
+/**
+ * @internal
+ */
 @Injectable()
 export class SkyAngularTreeAdapterService {
 

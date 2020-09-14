@@ -18,6 +18,10 @@ import {
   IDTypeDictionary
 } from 'angular-tree-component/dist/defs/api';
 
+/**
+ * Wraps the Angular `tree-root` component. For information about the `tree-root` component, see the
+ * [Angular tree component documentation](https://angular2-tree.readme.io/docs).
+ */
 @Component({
   selector: 'sky-angular-tree-wrapper',
   templateUrl: './angular-tree-wrapper.component.html',
@@ -26,15 +30,41 @@ import {
 })
 export class SkyAngularTreeWrapperComponent implements AfterViewInit {
 
+  /**
+   * Indicates whether to render the tree view in read-only mode.
+   * This mode disables selected and active states on the tree view nodes.
+   * @default false
+   */
   @Input()
   public readOnly: boolean = false;
 
+  /**
+   * Indicates whether to use leaf-only selection mode. For tree views with checkboxes,
+   * this mode limits user selections to leaf nodes and prevents users from selecting parent nodes.
+   * To enable checkboxes, see the
+   * [Angular tree component documentation](https://angular2-tree.readme.io/docs/tri-state-checkboxes).
+   * @default false
+   */
   @Input()
   public selectLeafNodesOnly: boolean = false;
 
+  /**
+   * Indicates whether to use single-select mode. For tree views with checkboxes,
+   * this mode limits user selections to one node at a time.
+   * To enable checkboxes, see the
+   * [Angular tree component documentation](https://angular2-tree.readme.io/docs/tri-state-checkboxes).
+   * @default false
+   */
   @Input()
   public selectSingle: boolean = false;
 
+  /**
+   * Indicates whether to display a toolbar with buttons to expand and collapse all nodes and buttons to select and clear all checkboxes.
+   * The select and clear all buttons only appear when you enable checkboxes.
+   * To enable checkboxes, see the
+   * [Angular tree component documentation](https://angular2-tree.readme.io/docs/tri-state-checkboxes).
+   * @default false
+   */
   @Input()
   public set showToolbar(value: boolean) {
     this._showToolbar = value;

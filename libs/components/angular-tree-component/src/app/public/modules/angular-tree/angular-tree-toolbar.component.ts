@@ -6,6 +6,9 @@ import {
   Output
 } from '@angular/core';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-angular-tree-toolbar',
   templateUrl: './angular-tree-toolbar.component.html',
