@@ -12,10 +12,6 @@ import {
 } from '@skyux/errors';
 
 import {
-  SkyAuthHttpClientModule
-} from '@skyux/http';
-
-import {
   SkyAppLinkModule
 } from '@skyux/router';
 
@@ -26,7 +22,6 @@ import {
 @NgModule({
   exports: [
     SkyAppLinkModule,
-    SkyAuthHttpClientModule, // Supports docs pages with `svcid` param.
     SkyAvatarModule,
     SkyDocsToolsModule,
     SkyErrorModule
