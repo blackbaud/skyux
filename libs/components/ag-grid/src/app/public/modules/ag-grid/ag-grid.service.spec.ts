@@ -155,7 +155,6 @@ describe('SkyAgGridService', () => {
       const editableGridOptions = agGridService.getEditableGridOptions({gridOptions: {}});
 
       expect(editableGridOptions.rowSelection).toEqual('none');
-      expect(editableGridOptions.suppressCellSelection).toBe(false);
     });
   });
 
