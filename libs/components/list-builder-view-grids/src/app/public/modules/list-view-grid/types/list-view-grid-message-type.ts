@@ -1,15 +1,15 @@
 /**
- * The command for the list view grid to respond to
+ * The command for the list view grid to respond to.
  */
 export enum SkyListViewGridMessageType {
 
   /**
-   * Triggers a row deletion on the list view grid
+   * Deletes of a row in the list view grid.
    */
   PromptDeleteRow = 0,
 
   /**
-   * Aborts a row deletion on the list view grid
+   * Cancels the deletion of a row in the list view grid.
    */
   AbortDeleteRow = 1
 }

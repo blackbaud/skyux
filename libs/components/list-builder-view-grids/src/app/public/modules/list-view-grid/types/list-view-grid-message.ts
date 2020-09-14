@@ -3,16 +3,16 @@ import {
 } from './list-view-grid-message-type';
 
 /**
- * Message for communicating commands to the list view grid
+ * Communicates commands to the list view grid.
  */
 export interface SkyListViewGridMessage {
   /**
-   * The type of message being sent
+   * The type of message to send.
    */
   type: SkyListViewGridMessageType;
 
   /**
-   * The data need to carry out the command
+   * The data required to carry out the command.
    */
   data?: {
     abortDeleteRow?: {

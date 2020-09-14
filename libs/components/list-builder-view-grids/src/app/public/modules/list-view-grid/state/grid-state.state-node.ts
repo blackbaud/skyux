@@ -11,6 +11,9 @@ import {
   ListViewDisplayedGridColumnsOrchestrator
 } from './displayed-columns/displayed-columns.orchestrator';
 
+/**
+ * @internal
+ */
 @Injectable()
 export class GridState extends StateNode<GridStateModel> {
   /* istanbul ignore next */

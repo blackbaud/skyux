@@ -56,17 +56,32 @@ import {
   SkyColumnSelectorComponent
 } from '../column-selector/column-selector-modal.component';
 
+/**
+ * Provides a column selector modal for a list grid view when placed in a
+ * [list toolbar](https://developer.blackbaud.com/skyux/components/list/toolbar).
+ */
 @Component({
   selector: 'sky-list-column-selector-action',
   templateUrl: './list-column-selector-action.component.html'
 })
 export class SkyListColumnSelectorActionComponent implements AfterContentInit {
+  /**
+   * Enables the column selector in the list toolbar. Set this attribute to the instance of
+   * the `sky-grid-view` component using the component's template reference variable.
+   */
   @Input()
   public gridView: SkyListViewGridComponent;
 
+  /**
+   * Specifies a `helpKey` string and dispays a help button in the grid header. When users select
+   * the button, the `helpOpened` event broadcasts the `helpKey` parameter.
+   */
   @Input()
   public helpKey: string;
 
+  /**
+   * Fires when users click the help button and broadcasts the `helpKey`.
+   */
   @Output()
   public helpOpened = new EventEmitter<string>();
 
