@@ -1,3 +1,6 @@
+/**
+ * @internal
+ */
 export enum SkySummaryActionBarType {
   Page = 0,
   StandardModal = 1,

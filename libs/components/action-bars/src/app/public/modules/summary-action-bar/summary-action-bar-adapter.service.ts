@@ -13,6 +13,9 @@ import {
   SkySummaryActionBarType
 } from './types/summary-action-bar-type';
 
+/**
+ * @internal
+ */
 @Injectable()
 export class SkySummaryActionBarAdapterService {
 

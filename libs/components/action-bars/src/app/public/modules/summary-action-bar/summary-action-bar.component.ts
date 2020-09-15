@@ -52,6 +52,10 @@ import {
  */
 let nextId = 0;
 
+/**
+ * Contains the `sky-summary-action-bar-actions` and
+ * `sky-summary-action-bar-summary` components.
+ */
 @Component({
   selector: 'sky-summary-action-bar',
   templateUrl: './summary-action-bar.component.html',

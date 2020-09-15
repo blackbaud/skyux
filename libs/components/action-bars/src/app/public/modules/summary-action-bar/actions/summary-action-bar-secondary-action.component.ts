@@ -7,6 +7,9 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 
+/**
+ * Specifies secondary actions.
+ */
 @Component({
   selector: 'sky-summary-action-bar-secondary-action',
   templateUrl: './summary-action-bar-secondary-action.component.html',
@@ -15,6 +18,10 @@ import {
 })
 export class SkySummaryActionBarSecondaryActionComponent {
 
+/**
+ * Indicates whether to disable a secondary action.
+ * @default false
+ */
   @Input()
   public disabled = false;
 
@@ -27,6 +34,9 @@ export class SkySummaryActionBarSecondaryActionComponent {
     return this._isDropdown;
   }
 
+/**
+ * Fires when users select a secondary action.
+ */
   @Output()
   public actionClick = new EventEmitter<void>();
 

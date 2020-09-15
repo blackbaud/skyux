@@ -21,6 +21,10 @@ import {
   SkySummaryActionBarSecondaryActionComponent
 } from './summary-action-bar-secondary-action.component';
 
+/**
+ * Contains secondary actions specified with `sky-summary-action-bar-secondary-action`
+ * components.
+ */
 @Component({
   selector: 'sky-summary-action-bar-secondary-actions',
   templateUrl: './summary-action-bar-secondary-actions.component.html',
