@@ -7,6 +7,10 @@ import {
 } from '@angular/core/testing';
 
 import {
+  Subject
+} from 'rxjs';
+
+import {
   expect,
   SkyAppTestUtility
 } from '@skyux-sdk/testing';
@@ -18,6 +22,14 @@ import {
 import {
   SkyBackToTopFixturesModule
 } from './fixtures/back-to-top.module.fixture';
+
+import {
+  SkyBackToTopMessage
+} from './models/back-to-top-message';
+
+import {
+  SkyBackToTopMessageType
+} from './models/back-to-top-message-type';
 
 //#region helpers
 function scrollWindowToBottom(fixture: ComponentFixture<any>): void {
@@ -114,6 +126,29 @@ describe('back to top component', () => {
 
       expect(isElementInView(backToTopTarget)).toBe(true);
     }));
+
+    it('should show the button if the user is already scrolled and buttonHidden changes to false', () => {
+      fixture.componentInstance.backToTopOptions = { buttonHidden: true };
+      fixture.detectChanges();
+
+      scrollWindowToBottom(fixture);
+
+      expect(getBackToTop()).toBeNull();
+
+      fixture.componentInstance.backToTopOptions = { buttonHidden: false };
+      fixture.detectChanges();
+
+      expect(getBackToTop()).not.toBeNull();
+    });
+
+    it('should default buttonHidden to false if the options are not defined', () => {
+      fixture.componentInstance.backToTopOptions = undefined;
+      fixture.detectChanges();
+
+      scrollWindowToBottom(fixture);
+
+      expect(getBackToTop()).not.toBeNull();
+    });
   });
 
   describe('when parent is scrollable element', () => {
@@ -154,5 +189,30 @@ describe('back to top component', () => {
 
       expect(isElementInView(backToTopTarget)).toBe(true);
     }));
+  });
+
+  describe('when the message stream is used', () => {
+    it('should scroll to target element when a BackToTop message is sent', () => {
+      fixture.detectChanges();
+      scrollWindowToBottom(fixture);
+      const backToTopTarget = getBackToTopTarget();
+
+      expect(isElementInView(backToTopTarget)).toBe(false);
+
+      fixture.componentInstance.backToTopController.next({ type: SkyBackToTopMessageType.BackToTop });
+
+      expect(isElementInView(backToTopTarget)).toBe(true);
+    });
+
+    it('unsubscribes from old back to top subscription streams', () => {
+      const newStream = new Subject<SkyBackToTopMessage>();
+      const oldStream = fixture.componentInstance.backToTopController;
+      spyOn(oldStream, 'unsubscribe');
+
+      fixture.componentInstance.backToTopController = newStream;
+      fixture.detectChanges();
+
+      expect(oldStream.unsubscribe).toHaveBeenCalled();
+    });
   });
 });
