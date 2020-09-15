@@ -1,3 +1,7 @@
+# 4.11.0 (2020-09-15)
+
+- Updated the input box component to support additional SKY UX components. [#195](https://github.com/blackbaud/skyux-forms/pull/195)
+
 # 4.10.0 (2020-09-04)
 
 - Added support for setting custom `aria-label` properties on the file attachment component. [#187](https://github.com/blackbaud/skyux-forms/pull/187)
