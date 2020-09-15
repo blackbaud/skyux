@@ -1,0 +1,160 @@
+<sky-docs-demo-page
+  moduleName="SkyInlineFormModule"
+  moduleSourceCodePath="src/app/public/modules/inline-form/"
+  pageTitle="Inline form"
+>
+  <sky-docs-demo-page-summary>
+    Inline forms render in context in the current view instead of in a separate modal. It is most commonly used in <a href="https://developer.blackbaud.com/skyux/components/grid">grids</a>, <a href="https://developer.blackbaud.com/skyux/components/repeater">repeaters</a>, and <a href="https://developer.blackbaud.com/skyux/components/tile">tiles</a>.
+  </sky-docs-demo-page-summary>
+
+  <sky-docs-demo>
+    See documentation for how to setup demos.
+  </sky-docs-demo>
+
+  <sky-docs-design-guidelines>
+    <sky-docs-demo-page-section
+      heading="Usage"
+    >
+      <sky-docs-design-guideline
+        heading="Use when"
+        headingStyle="success"
+      >
+        <p class="sky-docs-text-block">
+          Use inline forms when the add or edit form is simple in terms of the number of fields and the complexity of the input controls.
+        </p>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline>
+        <p class="sky-docs-text-block">
+          Use inline forms when the surrounding content will not distract users from the add or edit task.
+        </p>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline>
+        <p class="sky-docs-text-block">
+          Use inline forms when users are highly likely to add multiple records in succession.
+        </p>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline>
+        <p class="sky-docs-text-block">
+          Use inline forms to add or edit a subsection within a larger modal form.
+        </p>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline>
+        <p class="sky-docs-text-block">
+          Use inline forms when users can abandon the task while the add or edit form is open.
+        </p>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline
+        heading="Don't use when"
+        headingStyle="danger"
+      >
+        <p class="sky-docs-text-block">
+          Don't use infline forms when the add or edit form requires a large amount of page morphing or users must scroll to complete the form.
+        </p>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline>
+        <p class="sky-docs-text-block">
+          Don't use infline forms within a paginated or infinite scroll list of items.
+        </p>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline>
+        <p class="sky-docs-text-block">
+          Don't use infline forms when users must finish the add or edit form before doing anything else.
+        </p>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+    <sky-docs-demo-page-section
+    heading="Anatomy"
+  >
+    <sky-docs-design-guideline
+      heading="Large viewport"
+    >
+      <sky-docs-anatomy
+        imagePath="~/assets/img/anatomy.png"
+      >
+        <sky-docs-anatomy-item>
+          Edit button
+        </sky-docs-anatomy-item>
+        <sky-docs-anatomy-item>
+          Form fields
+        </sky-docs-anatomy-item>
+        <sky-docs-anatomy-item>
+          Form action buttons
+        </sky-docs-anatomy-item>
+        <sky-docs-anatomy-item>
+          Form background
+        </sky-docs-anatomy-item>
+        <sky-docs-anatomy-item>
+          Add button
+        </sky-docs-anatomy-item>
+      </sky-docs-anatomy>
+    </sky-docs-design-guideline>
+
+    <sky-docs-demo-page-section
+      heading="Behavior and states"
+    >
+      <sky-docs-design-guideline
+        heading="Add form"
+      >
+        <p class="sky-docs-text-block">
+          When users click the Add button, the form slides out from the bottom of the list.
+        </p>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline
+        heading="Edit form"
+      >
+        <p class="sky-docs-text-block">
+          When users click the Edit button, the view content fades out and the form slides in to replace the view content.
+        </p>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Content"
+    >
+      <sky-docs-design-guideline
+        heading="Primary buttons"
+      >
+        <p class="sky-docs-text-block">
+          The primary action on the inline form should be Save or Done.
+        </p>
+        <p class="sky-docs-text-block">
+          Use Save if the inline form saves data to the database immediately.
+        </p>
+        <p class="sky-docs-text-block">
+          Use Done if the inline form does not save data to the database immediately because it is part of a larger form.
+        </p>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Related information"
+    >
+      <sky-docs-design-guideline
+        heading="Guidelines"
+      >
+        <ul>
+          <li>
+            <a href="https://developer.blackbaud.com/skyux/design/guidelines/form-design">Form design</a>
+          </li>
+        </ul>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline
+        heading="Components"
+      >
+        <ul>
+          <li>
+            <a href="https://developer.blackbaud.com/skyux/components/form">Form</a>
+          </li>
+        </ul>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+  </sky-docs-demo-page-section>
+
+  </sky-docs-design-guidelines>
+
+  <sky-docs-code-examples>
+    See documentation for how to setup code examples.
+  </sky-docs-code-examples>
+</sky-docs-demo-page>

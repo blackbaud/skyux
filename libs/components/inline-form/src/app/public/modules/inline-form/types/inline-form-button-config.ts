@@ -6,17 +6,19 @@ export interface SkyInlineFormButtonConfig {
   /**
    * Specifies the action that the button performs.
    * The valid options are `cancel`, `delete`, `done`, and `save`.
-   * This property accepts `string` values.
+   * @required
    */
   action: string;
 
   /**
-   * Specifies a label for the button. This property accepts `string` values.
+   * Specifies a label for the button.
+   * @required
    */
   text: string;
 
   /**
-   * Indicates whether to disable the button. This property accepts `boolean` values.
+   * Indicates whether to disable the button.
+   * @default false
    */
   disabled?: boolean;
 
@@ -25,7 +27,6 @@ export interface SkyInlineFormButtonConfig {
    * The valid options are `default`, `link`, and `primary`.
    * These values set the background color and style from the
    * [secondary, link, and primary button classes](https://developer.blackbaud.com/skyux/components/button) respectively.
-   * This property accepts `string` values.
    */
   styleType?: string;
 }

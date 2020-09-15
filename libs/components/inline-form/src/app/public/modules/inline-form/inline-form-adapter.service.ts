@@ -19,6 +19,9 @@ const SKY_TABBABLE_SELECTOR = [
 ].join(', ');
 /* tslint:enable */
 
+/**
+ * @internal
+ */
 @Injectable()
 export class SkyInlineFormAdapterService {
 

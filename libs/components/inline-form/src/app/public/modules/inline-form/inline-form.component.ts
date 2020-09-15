@@ -51,6 +51,9 @@ import {
   SkyInlineFormAdapterService
 } from './inline-form-adapter.service';
 
+/**
+ * Renders form content in the current view instead of a separate modal.
+ */
 @Component({
   selector: 'sky-inline-form',
   templateUrl: './inline-form.component.html',
@@ -60,6 +63,10 @@ import {
 })
 export class SkyInlineFormComponent implements OnInit, OnDestroy {
 
+  /**
+   * Specifies configuration options for the buttons to display with the inline form.
+   * @required
+   */
   @Input()
   public set config(value: SkyInlineFormConfig) {
     if (value !== this._config) {
@@ -72,9 +79,18 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
     return this._config;
   }
 
+  /**
+   * Specifies a template to use to instantiate the inline form.
+   * @required
+   */
   @Input()
   public template: TemplateRef<any>;
 
+  /**
+   * Indicates whether to display the inline form. Users can toggle between displaying
+   * and hiding the inline form.
+   * @default false
+   */
   @Input()
   public set showForm(value: boolean) {
     this._showForm = value;
@@ -93,6 +109,9 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
     return this._showForm;
   }
 
+  /**
+   * Fires when users close the inline form.
+   */
   @Output()
   public close = new EventEmitter<SkyInlineFormCloseArgs>();
 

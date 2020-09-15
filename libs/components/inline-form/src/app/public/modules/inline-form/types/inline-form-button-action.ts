@@ -1,3 +1,6 @@
+/**
+ * @internal
+ */
 export type SkyInlineFormButtonAction =
     'done'
   | 'save'
