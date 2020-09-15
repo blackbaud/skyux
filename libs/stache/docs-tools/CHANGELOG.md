@@ -1,3 +1,7 @@
+# 4.5.3 (2020-09-15)
+
+- Fixed the demo page component to retain URL params in the sidebar nav when linking between repos. [#128](https://github.com/blackbaud/skyux-docs-tools/pull/128)
+
 # 4.5.2 (2020-09-11)
 
 - Fixed the `SkyDocsSupportalService` calls to properly retain the `svcid` URL parameter. [#126](https://github.com/blackbaud/skyux-docs-tools/pull/126)
