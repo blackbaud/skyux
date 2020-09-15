@@ -15,7 +15,7 @@
       skyId
       [disabled]="basicDisabled"
       #basicInput="skyId"
-    >
+    >f
   </sky-input-box>
 </div>
 
@@ -40,7 +40,7 @@
     >
       <button
         aria-label="Button 1"
-        class="sky-btn sky-btn-default sky-input-group-btn test-button-1"
+        class="sky-btn sky-btn-default test-button-1"
         type="button"
       ></button>
     </div>
@@ -49,7 +49,7 @@
     >
       <button
         aria-label="Button 2"
-        class="sky-btn sky-btn-default sky-input-group-btn test-button-2"
+        class="sky-btn sky-btn-default test-button-2"
         type="button"
       ></button>
     </div>
@@ -190,5 +190,33 @@
     >
       Field is required.
     </div>
+  </sky-input-box>
+</div>
+
+<div
+  class="input-single-button-left"
+>
+  <sky-input-box>
+    <label
+      class="sky-control-label"
+      [for]="singleButtonLeftInput.id"
+    >
+      Input with single button on left
+    </label>
+    <div
+      class="sky-input-group-btn sky-input-box-btn-left"
+    >
+      <button
+        aria-label="Button 1"
+        class="sky-btn sky-btn-default test-button-left"
+        type="button"
+      ></button>
+    </div>
+    <input
+      class="sky-form-control"
+      skyId
+      type="text"
+      #singleButtonLeftInput="skyId"
+    >
   </sky-input-box>
 </div>

@@ -1,7 +1,9 @@
 import {
   async,
   ComponentFixture,
-  TestBed
+  fakeAsync,
+  TestBed,
+  tick
 } from '@angular/core/testing';
 
 import {
@@ -261,7 +263,22 @@ describe('Input box component', () => {
       expect(inputGroupBtnEl2.children.item(0)).toHaveCssClass('test-button-2');
     });
 
-    it('should set add a CSS class to the form control wrapper on focus in', () => {
+    it('should render the left input group button element in the expected locations', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+
+      fixture.detectChanges();
+
+      const inputBoxEl = getInputBoxEl(fixture, 'input-single-button-left');
+
+      const inputBoxGroupEl = inputBoxEl.querySelector('.sky-input-box-group');
+      const inputGroupBtnEl1 = inputBoxGroupEl.children.item(0);
+      const inputEl = inputBoxGroupEl.children.item(1);
+
+      expect(inputEl).toHaveCssClass('sky-input-box-group-form-control');
+      expect(inputGroupBtnEl1.children.item(0)).toHaveCssClass('test-button-left');
+    });
+
+    it('should add a CSS class to the form control wrapper on focus in', fakeAsync(() => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
 
       fixture.detectChanges();
@@ -274,15 +291,19 @@ describe('Input box component', () => {
       expect(inputBoxFormControlEl).not.toHaveCssClass(focusCls);
 
       SkyAppTestUtility.fireDomEvent(inputBoxFormControlEl, 'focusin');
+
+      tick();
       fixture.detectChanges();
 
       expect(inputBoxFormControlEl).toHaveCssClass(focusCls);
 
       SkyAppTestUtility.fireDomEvent(inputBoxFormControlEl, 'focusout');
+
+      tick();
       fixture.detectChanges();
 
       expect(inputBoxFormControlEl).not.toHaveCssClass(focusCls);
-    });
+    }));
 
     it('should add a disabled CSS class when disabled', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);

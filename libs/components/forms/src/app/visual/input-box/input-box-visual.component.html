@@ -554,6 +554,70 @@
       </sky-column>
     </sky-row>
 
+    <sky-row>
+      <sky-column>
+        <div
+          id="input-box-basic-wrapper"
+        >
+          <sky-input-box
+            class="sky-margin-stacked-lg"
+          >
+            <label
+              class="sky-control-label"
+              [for]="inputBoxBasicWrapper.id"
+            >
+              Wrapper
+            </label>
+            <input-box-visual-host>
+              <input
+                class="sky-form-control"
+                skyId
+                type="text"
+                #inputBoxBasicWrapper="skyId"
+              >
+            </input-box-visual-host>
+          </sky-input-box>
+        </div>
+      </sky-column>
+    </sky-row>
+
+    <sky-row>
+      <sky-column>
+        <div
+          id="input-box-button-single-left"
+        >
+          <sky-input-box
+            class="sky-margin-stacked-lg"
+          >
+            <label
+              class="sky-control-label"
+              [for]="inputBoxButtonLeft.id"
+            >
+              Input with left button
+            </label>
+            <div
+              class="sky-input-group-btn sky-input-box-btn-left"
+            >
+              <button
+                class="sky-btn sky-btn-default"
+                type="button"
+              >
+                <sky-icon
+                  icon="calendar"
+                ></sky-icon>
+              </button>
+            </div>
+            <input
+              class="sky-form-control"
+              skyId
+              type="text"
+              #inputBoxButtonLeft="skyId"
+            >
+          </sky-input-box>
+        </div>
+      </sky-column>
+    </sky-row>
+
   </sky-fluid-grid>
 
 </div>

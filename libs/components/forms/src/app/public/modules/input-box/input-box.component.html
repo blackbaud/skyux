@@ -21,6 +21,9 @@
         class="sky-input-group"
       >
         <ng-container
+          *ngTemplateOutlet="buttonsLeftTemplate"
+        ></ng-container>
+        <ng-container
           *ngTemplateOutlet="inputTemplate"
         ></ng-container>
         <ng-container
@@ -46,6 +49,9 @@
     <div
       class="sky-input-box-group"
     >
+      <ng-container
+        *ngTemplateOutlet="buttonsLeftTemplate"
+      ></ng-container>
       <div
         class="sky-input-box-group-form-control"
         [ngClass]="{
@@ -96,10 +102,21 @@
 </ng-template>
 
 <ng-template
+  #buttonsLeftTemplate
+>
+  <ng-content
+    select=".sky-input-group-btn.sky-input-box-btn-left"
+  ></ng-content>
+  <ng-container
+    *ngTemplateOutlet="hostButtonsLeftTemplate"
+  ></ng-container>
+</ng-template>
+
+<ng-template
   #buttonsTemplate
 >
   <ng-content
-    select=".sky-input-group-btn"
+    select=".sky-input-group-btn:not(.sky-input-box-btn-left)"
   ></ng-content>
   <ng-container
     *ngTemplateOutlet="hostButtonsTemplate"
