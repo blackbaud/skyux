@@ -3,6 +3,10 @@ import {
 } from '@angular/core';
 
 import {
+  SkyIdModule
+} from '@skyux/core';
+
+import {
   SkyDocsToolsModule,
   SkyDocsToolsOptions
 } from '@skyux/docs-tools';
@@ -36,6 +40,7 @@ import {
     SkyAppLinkModule,
     SkyDocsToolsModule,
     SkyIconModule,
+    SkyIdModule,
     SkyInlineFormModule,
     SkyInputBoxModule,
     SkyTilesModule

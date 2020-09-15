@@ -8,7 +8,48 @@
   </sky-docs-demo-page-summary>
 
   <sky-docs-demo>
-    See documentation for how to setup demos.
+    <sky-docs-demo-control-panel
+      (selectionChange)="onDemoSelectionChange($event)"
+    >
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-radio-group
+          heading="Button configurations"
+          propertyName="buttonLayout"
+          [choices]="inlineFormButtonLayoutChoices"
+          [initialValue]="3"
+        >
+        </sky-docs-demo-control-panel-radio-group>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
+
+    <sky-inline-form
+      [config]="demoSettings.inlineFormConfig"
+      [showForm]="demoSettings.showForm"
+      [template]="inlineFormTemplate"
+      (close)="onInlineFormClose($event)"
+    >
+      <table>
+        <tr>
+          <th>
+            First name:
+          </th>
+          <td>
+            {{ demoSettings.firstName }}
+          </td>
+          <td>
+            <button
+              aria-label="Edit"
+              class="sky-btn sky-btn-link sky-demo-btn-edit"
+              (click)="demoSettings.showForm = true"
+            >
+              <sky-icon
+                icon="pencil"
+              ></sky-icon>
+            </button>
+          </td>
+        </tr>
+      </table>
+    </sky-inline-form>
   </sky-docs-demo>
 
   <sky-docs-design-guidelines>
@@ -154,7 +195,46 @@
 
   </sky-docs-design-guidelines>
 
-  <sky-docs-code-examples>
-    See documentation for how to setup code examples.
+  <sky-docs-code-examples
+    [packageDependencies]="{
+      '@skyux/inline-form': '*',
+      '@skyux/lists': '*'
+    }"
+  >
+    <sky-docs-code-example
+      heading="Basic setup"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/inline-form/basic"
+    ></sky-docs-code-example>
+    <sky-docs-code-example
+      heading="Custom buttons"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/inline-form/custom-buttons"
+    ></sky-docs-code-example>
+    <sky-docs-code-example
+      heading="Repeaters"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/inline-form/repeaters"
+    ></sky-docs-code-example>
   </sky-docs-code-examples>
 </sky-docs-demo-page>
+
+<ng-template
+  #inlineFormTemplate
+>
+  <div
+    class="sky-form-group"
+  >
+    <label
+      class="sky-control-label"
+      [for]="firstName.id"
+    >
+      First name
+    </label>
+    <input
+      id="demo-field-first-name"
+      class="sky-form-control"
+      skyId
+      type="text"
+      [(ngModel)]="demoModel.firstName"
+      #firstName="skyId"
+    />
+  </div>
+</ng-template>
