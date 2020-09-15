@@ -103,17 +103,17 @@ describe('Demo page component', () => {
     expect(sidebarLinks[1].getAttribute('href')).toEqual('https://www.anothersite.com/bar');
   });
 
-  it('should remove URL parameters from any URLs returned by supportal service', () => {
+  it('should remove URL parameters from any URLs returned by supportal service that match current site', () => {
     const supportalService = TestBed.inject(SkyDocsSupportalService);
     const spy = spyOn(supportalService, 'getComponentsInfo').and.returnValue(
       of([
         {
           name: 'foo',
-          url: '/foo?svcid=test-svcid'
+          url: 'https://www.notmatchingsite.com/foo?svcid=test-svcid' // Hostname matches MockSkyAppConfig.skyux.host.url
         },
         {
           name: 'bar',
-          url: '/bar?envid=test-envid&svcid=test-svcid'
+          url: 'https://www.example.com/demo-test/bar?svcid=test-svcid'
         }
       ])
     );
@@ -122,7 +122,7 @@ describe('Demo page component', () => {
     const sidebarLinks = getSidebarLinks(fixture);
 
     expect(spy).toHaveBeenCalled();
-    expect(sidebarLinks[0].getAttribute('href')).toEqual('/foo');
+    expect(sidebarLinks[0].getAttribute('href')).toEqual('https://www.notmatchingsite.com/foo?svcid=test-svcid');
     expect(sidebarLinks[1].getAttribute('href')).toEqual('/bar');
   });
 });

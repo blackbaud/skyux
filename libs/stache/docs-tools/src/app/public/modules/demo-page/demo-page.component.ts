@@ -143,7 +143,6 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit, After
 
   public ngOnInit(): void {
     const currentHostUrl = this.skyAppConfig.skyux.host.url + '/' + this.skyAppConfig.skyux.name;
-
     this.updateTitle();
 
     this.supportalService
@@ -154,9 +153,7 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit, After
           path: 'https://developer.blackbaud.com/skyux/components',
           children: results.map((component: SkyDocsComponentInfo) => ({
             name: component.name,
-            // Replace host + SPA so Stache will mark active
-            // Remove URL params, as they only contain svcid params which are automatically handled by the nav service.
-            path: component.url.replace(currentHostUrl, '').split('?')[0]
+            path: this.getPath(component.url, currentHostUrl)
           }))
         }];
         this.changeDetector.markForCheck();
@@ -199,6 +196,16 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit, After
   private updateTitle(): void {
     if (this.pageTitle) {
       this.titleService.setTitle(this.pageTitle, 'Components');
+    }
+  }
+
+  private getPath(url: string, currentHostUrl: string): string {
+    // Replace host + SPA so Stache will mark active.
+    // Strip URL params is url is local, as those will be preserved by stacheRouterLink.
+    if (url.indexOf(currentHostUrl) > -1) {
+      return url.replace(currentHostUrl, '').split('?')[0];
+    } else {
+      return url;
     }
   }
 
