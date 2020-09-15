@@ -8,7 +8,34 @@
   </sky-docs-demo-page-summary>
 
   <sky-docs-demo>
-    See documentation for how to setup demos.
+    <sky-docs-demo-control-panel
+      (selectionChange)="onDemoSelectionChange($event)"
+    >
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-radio-group
+          heading="Type"
+          propertyName="toastType"
+          [choices]="toastTypeChoices"
+          [initialValue]="0"
+        >
+        </sky-docs-demo-control-panel-radio-group>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
+
+    <button
+      class="sky-btn sky-btn-primary sky-margin-inline-default"
+      type="button"
+      (click)="openToast()"
+    >
+      Open toast
+    </button>
+    <button
+      class="sky-btn sky-btn-default"
+      type="button"
+      (click)="closeAll()"
+    >
+      Close all
+    </button>
   </sky-docs-demo>
 
   <sky-docs-design-guidelines>
@@ -65,7 +92,18 @@
     </sky-docs-demo-page-section>
   </sky-docs-design-guidelines>
 
-  <sky-docs-code-examples>
-    See documentation for how to setup code examples.
+  <sky-docs-code-examples
+    [packageDependencies]="{
+      '@skyux/toast': '*'
+    }"
+  >
+    <sky-docs-code-example
+      heading="Basic setup"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/toast/basic"
+    ></sky-docs-code-example>
+    <sky-docs-code-example
+      heading="Custom component"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/toast/custom-component"
+    ></sky-docs-code-example>
   </sky-docs-code-examples>
 </sky-docs-demo-page>
