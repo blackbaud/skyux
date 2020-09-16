@@ -6,6 +6,10 @@ import {
   SkyDocsCodeExampleModuleDependencies
 } from './code-example-module-dependencies';
 
+import {
+  SkyDocsCodeExampleTheme
+} from './code-example-theme';
+
 /**
  * @internal
  */
@@ -13,8 +17,10 @@ export interface SkyDocsCodeExample {
 
   heading: string;
 
+  packageDependencies: SkyDocsCodeExampleModuleDependencies;
+
   sourceCode: SkyDocsSourceCodeFile[];
 
-  packageDependencies: SkyDocsCodeExampleModuleDependencies;
+  theme: SkyDocsCodeExampleTheme;
 
 }

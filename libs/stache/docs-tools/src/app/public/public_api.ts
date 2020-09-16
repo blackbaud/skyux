@@ -1,6 +1,7 @@
 export * from './modules/anatomy/anatomy.module';
 
 export * from './modules/code-examples/code-examples.module';
+export * from './modules/code-examples/code-example-theme';
 
 export * from './modules/demo/demo-content-alignment';
 export * from './modules/demo/demo-control-panel-change';
