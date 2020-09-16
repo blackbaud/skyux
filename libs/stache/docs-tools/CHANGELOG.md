@@ -1,3 +1,7 @@
+# 4.6.0 (2020-09-16)
+
+- Added the `theme` property to the `SkyDocsCodeExampleComponent` to load Stackblitz demos in modern theme. [#130](https://github.com/blackbaud/skyux-docs-tools/pull/130)
+
 # 4.5.3 (2020-09-15)
 
 - Fixed the demo page component to retain URL params in the sidebar nav when linking between repos. [#128](https://github.com/blackbaud/skyux-docs-tools/pull/128)
