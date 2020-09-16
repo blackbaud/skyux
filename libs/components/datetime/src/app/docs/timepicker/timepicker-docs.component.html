@@ -7,16 +7,32 @@
     The timepicker module creates a SKY UX-themed input field and picker for users to enter or select times.
   </sky-docs-demo-page-summary>
 
-  <!-- <sky-docs-code-examples
-    [packageDependencies]="{
-      '@skyux/datetime': '*'
-    }"
-  >
-    <sky-docs-code-example
-      sourceCodePath="src/app/public/plugin-resources/code-examples/time-picker/basic/"
+  <sky-docs-demo>
+    <sky-docs-demo-control-panel
+      (selectionChange)="onDemoSelectionChange($event)"
     >
-    </sky-docs-code-example>
-  </sky-docs-code-examples> -->
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-radio-group
+          heading="Time format"
+          propertyName="timeFormat"
+          [choices]="timeFormatChoices"
+          [initialValue]="'hh'"
+        >
+        </sky-docs-demo-control-panel-radio-group>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
+
+    <div style="max-width: 50%;">
+      <sky-timepicker #timepicker>
+        <input
+          [disabled]="demoSettings.disabled"
+          [skyTimepickerInput]="timepicker"
+          [timeFormat]="demoSettings.timeFormat"
+          [(ngModel)]="demoModel.selectedTime"
+        />
+      </sky-timepicker>
+    </div>
+  </sky-docs-demo>
 
   <sky-docs-design-guidelines>
 
@@ -220,5 +236,15 @@
     </sky-docs-demo-page-section>
 
   </sky-docs-design-guidelines>
+
+  <sky-docs-code-examples
+    [packageDependencies]="{
+      '@skyux/datetime': '*'
+    }"
+  >
+    <sky-docs-code-example
+      sourceCodePath="src/app/public/plugin-resources/code-examples/timepicker/basic/"
+    ></sky-docs-code-example>
+  </sky-docs-code-examples>
 
 </sky-docs-demo-page>

@@ -280,6 +280,26 @@ describe('Timepicker', () => {
       flushTimers();
     }));
 
+    it('should allow switching between time formats', fakeAsync(() => {
+      component.timeFormat = 'hh';
+      detectChangesAndTick(fixture);
+      openTimepicker(fixture);
+      verifyTimepicker(fixture);
+      closeTimepicker(fixture);
+
+      component.timeFormat = 'HH';
+      detectChangesAndTick(fixture);
+      openTimepicker(fixture);
+      verifyTimepicker(fixture);
+      closeTimepicker(fixture);
+
+      component.timeFormat = 'hh';
+      detectChangesAndTick(fixture);
+      openTimepicker(fixture);
+      verifyTimepicker(fixture);
+      flushTimers();
+    }));
+
     it('should update active buttons when input value changes in twelve hour timeFormat', fakeAsync(() => {
       component.timeFormat = 'hh';
       fixture.detectChanges();

@@ -288,7 +288,13 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     let m: number = 12;
     let minuteMultiplier: number = 5;
     let localeFormat: string = 'h:mm A';
-    if (format === 'hh') { h = 12; m = 12; minuteMultiplier = 5; localeFormat = 'h:mm A'; }
+    if (format === 'hh') {
+      h = 12;
+      m = 12;
+      minuteMultiplier = 5;
+      localeFormat = 'h:mm A';
+      this.is8601 = false;
+    }
     if (format === 'HH') {
       h = 24;
       m = 4;

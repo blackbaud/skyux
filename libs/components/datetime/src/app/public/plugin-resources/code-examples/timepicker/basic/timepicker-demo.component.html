@@ -1,0 +1,30 @@
+<form
+  novalidate
+  [formGroup]="formGroup"
+>
+  <sky-timepicker
+    #timepicker
+  >
+    <input
+      formControlName="time"
+      type="text"
+      [skyTimepickerInput]="timepicker"
+    />
+  </sky-timepicker>
+
+  <p *ngIf="timeControl.errors && (timeControl.dirty || timeControl.touched)"
+    class="sky-error-label"
+  >
+    <span [hidden]="timeControl.errors && !timeControl.invalid">
+      Select or enter a valid time.
+    </span>
+  </p>
+</form>
+
+<button
+  class="sky-btn sky-btn-secondary"
+  type="button"
+  (click)="clearSelectedTime()"
+>
+  Clear selection
+</button>
