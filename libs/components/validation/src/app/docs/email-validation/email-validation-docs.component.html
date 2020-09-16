@@ -7,10 +7,6 @@
     The email validation module validates the format of email addresses in input fields.
   </sky-docs-demo-page-summary>
 
-  <sky-docs-demo>
-    See documentation for how to setup demos.
-  </sky-docs-demo>
-
   <sky-docs-design-guidelines>
     <sky-docs-demo-page-section
       heading="Usage"
@@ -115,7 +111,18 @@
     </sky-docs-demo-page-section>
   </sky-docs-design-guidelines>
 
-  <sky-docs-code-examples>
-    See documentation for how to setup code examples.
+  <sky-docs-code-examples
+    [packageDependencies]="{
+      '@skyux/validation': '*'
+    }"
+  >
+    <sky-docs-code-example
+      heading="Reactive form control validator"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/email-validation/control-validator"
+    ></sky-docs-code-example>
+    <sky-docs-code-example
+      heading="Directive"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/email-validation/directive"
+    ></sky-docs-code-example>
   </sky-docs-code-examples>
 </sky-docs-demo-page>

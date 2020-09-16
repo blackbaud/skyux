@@ -1,0 +1,29 @@
+<form
+  novalidate
+>
+  <div
+    class="sky-form-group"
+  >
+    <label
+      class="sky-control-label"
+      [for]="emailInput.id"
+    >
+      Email address
+    </label>
+    <input
+      class="sky-form-control"
+      name="emailAddress"
+      skyEmailValidation
+      skyId
+      [(ngModel)]="demoModel.emailAddress"
+      #emailInput="skyId"
+      #emailControl="ngModel"
+    />
+  </div>
+
+  <div *ngIf="emailControl.errors?.skyEmail && emailControl.dirty && emailControl.touched"
+    class="sky-error-label"
+  >
+    Enter a valid email in the "joe@abc.com" format.
+  </div>
+</form>
