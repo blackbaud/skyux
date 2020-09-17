@@ -265,6 +265,96 @@ describe('Phone Field Component', () => {
 
     });
 
+    describe('formatting', () => {
+
+      it('should correctly format a number on the default country when no return format is given', fakeAsync(() => {
+        detectChangesAndTick(fixture);
+
+        setInput(nativeElement, '8675555309', fixture);
+        expect(nativeElement.querySelector('input').value).toBe('8675555309');
+        expect(component.modelValue).toEqual('(867) 555-5309');
+      }));
+
+      it('should correctly format a number on a non-default country when no return format is given', fakeAsync(() => {
+        component.selectedCountry = {
+          iso2: 'au',
+          name: 'Australia'
+        };
+        detectChangesAndTick(fixture);
+
+        setInput(nativeElement, '0212345678', fixture);
+        expect(nativeElement.querySelector('input').value).toBe('0212345678');
+        expect(component.modelValue).toEqual('+61 2 1234 5678');
+      }));
+
+      it('should correctly format a number on the default country when the default return format is given', fakeAsync(() => {
+        component.returnFormat = 'default';
+        detectChangesAndTick(fixture);
+
+        setInput(nativeElement, '8675555309', fixture);
+        expect(nativeElement.querySelector('input').value).toBe('8675555309');
+        expect(component.modelValue).toEqual('(867) 555-5309');
+      }));
+
+      it('should correctly format a number on a non-default country when the default return format is given', fakeAsync(() => {
+        component.returnFormat = 'default';
+        component.selectedCountry = {
+          iso2: 'au',
+          name: 'Australia'
+        };
+        detectChangesAndTick(fixture);
+
+        setInput(nativeElement, '0212345678', fixture);
+        expect(nativeElement.querySelector('input').value).toBe('0212345678');
+        expect(component.modelValue).toEqual('+61 2 1234 5678');
+      }));
+
+      it('should correctly format a number on the default country when the national return format is given', fakeAsync(() => {
+        component.returnFormat = 'national';
+        detectChangesAndTick(fixture);
+
+        setInput(nativeElement, '8675555309', fixture);
+        expect(nativeElement.querySelector('input').value).toBe('8675555309');
+        expect(component.modelValue).toEqual('(867) 555-5309');
+      }));
+
+      it('should correctly format a number on a non-default country when the national return format is given', fakeAsync(() => {
+        component.returnFormat = 'national';
+        component.selectedCountry = {
+          iso2: 'au',
+          name: 'Australia'
+        };
+        detectChangesAndTick(fixture);
+
+        setInput(nativeElement, '0212345678', fixture);
+        expect(nativeElement.querySelector('input').value).toBe('0212345678');
+        expect(component.modelValue).toEqual('(02) 1234 5678');
+      }));
+
+      it('should correctly format a number on the default country when the national return format is given', fakeAsync(() => {
+        component.returnFormat = 'international';
+        detectChangesAndTick(fixture);
+
+        setInput(nativeElement, '8675555309', fixture);
+        expect(nativeElement.querySelector('input').value).toBe('8675555309');
+        expect(component.modelValue).toEqual('+1 867-555-5309');
+      }));
+
+      it('should correctly format a number on a non-default country when the national return format is given', fakeAsync(() => {
+        component.returnFormat = 'international';
+        component.selectedCountry = {
+          iso2: 'au',
+          name: 'Australia'
+        };
+        detectChangesAndTick(fixture);
+
+        setInput(nativeElement, '0212345678', fixture);
+        expect(nativeElement.querySelector('input').value).toBe('0212345678');
+        expect(component.modelValue).toEqual('+61 2 1234 5678');
+      }));
+
+    });
+
     describe('validation', () => {
       let ngModel: NgModel;
 
@@ -921,6 +1011,96 @@ describe('Phone Field Component', () => {
         detectChangesAndTick(fixture);
 
         expect(nativeElement.querySelector('input').value).toBe('8675555309');
+      }));
+
+    });
+
+    describe('formatting', () => {
+
+      it('should correctly format a number on the default country when no return format is given', fakeAsync(() => {
+        detectChangesAndTick(fixture);
+
+        setInput(nativeElement, '8675555309', fixture);
+        expect(nativeElement.querySelector('input').value).toBe('8675555309');
+        expect(component.phoneControl.value).toEqual('(867) 555-5309');
+      }));
+
+      it('should correctly format a number on a non-default country when no return format is given', fakeAsync(() => {
+        component.selectedCountry = {
+          iso2: 'au',
+          name: 'Australia'
+        };
+        detectChangesAndTick(fixture);
+
+        setInput(nativeElement, '0212345678', fixture);
+        expect(nativeElement.querySelector('input').value).toBe('0212345678');
+        expect(component.phoneControl.value).toEqual('+61 2 1234 5678');
+      }));
+
+      it('should correctly format a number on the default country when the default return format is given', fakeAsync(() => {
+        component.returnFormat = 'default';
+        detectChangesAndTick(fixture);
+
+        setInput(nativeElement, '8675555309', fixture);
+        expect(nativeElement.querySelector('input').value).toBe('8675555309');
+        expect(component.phoneControl.value).toEqual('(867) 555-5309');
+      }));
+
+      it('should correctly format a number on a non-default country when the default return format is given', fakeAsync(() => {
+        component.returnFormat = 'default';
+        component.selectedCountry = {
+          iso2: 'au',
+          name: 'Australia'
+        };
+        detectChangesAndTick(fixture);
+
+        setInput(nativeElement, '0212345678', fixture);
+        expect(nativeElement.querySelector('input').value).toBe('0212345678');
+        expect(component.phoneControl.value).toEqual('+61 2 1234 5678');
+      }));
+
+      it('should correctly format a number on the default country when the national return format is given', fakeAsync(() => {
+        component.returnFormat = 'national';
+        detectChangesAndTick(fixture);
+
+        setInput(nativeElement, '8675555309', fixture);
+        expect(nativeElement.querySelector('input').value).toBe('8675555309');
+        expect(component.phoneControl.value).toEqual('(867) 555-5309');
+      }));
+
+      it('should correctly format a number on a non-default country when the national return format is given', fakeAsync(() => {
+        component.returnFormat = 'national';
+        component.selectedCountry = {
+          iso2: 'au',
+          name: 'Australia'
+        };
+        detectChangesAndTick(fixture);
+
+        setInput(nativeElement, '0212345678', fixture);
+        expect(nativeElement.querySelector('input').value).toBe('0212345678');
+        expect(component.phoneControl.value).toEqual('(02) 1234 5678');
+      }));
+
+      it('should correctly format a number on the default country when the national return format is given', fakeAsync(() => {
+        component.returnFormat = 'international';
+        detectChangesAndTick(fixture);
+
+        setInput(nativeElement, '8675555309', fixture);
+        expect(nativeElement.querySelector('input').value).toBe('8675555309');
+        expect(component.phoneControl.value).toEqual('+1 867-555-5309');
+      }));
+
+      it('should correctly format a number on a non-default country when the national return format is given', fakeAsync(() => {
+        component.returnFormat = 'international';
+        component.selectedCountry = {
+          iso2: 'au',
+          name: 'Australia'
+        };
+        detectChangesAndTick(fixture);
+
+        setInput(nativeElement, '0212345678', fixture);
+        expect(nativeElement.querySelector('input').value).toBe('0212345678');
+        expect(component.phoneControl.value).toEqual('+61 2 1234 5678');
       }));
 
     });

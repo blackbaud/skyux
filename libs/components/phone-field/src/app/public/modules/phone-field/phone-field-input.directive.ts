@@ -306,11 +306,20 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
       const numberObj = this.phoneUtils.parseAndKeepRawInput(phoneNumber,
         this.phoneFieldComponent.selectedCountry.iso2);
       if (this.phoneUtils.isPossibleNumber(numberObj)) {
-        if (this.phoneFieldComponent.selectedCountry.iso2 !== this.phoneFieldComponent.defaultCountry) {
-          return this.phoneUtils.format(numberObj, PhoneNumberFormat.INTERNATIONAL);
-        } else {
-          return this.phoneUtils.format(numberObj, PhoneNumberFormat.NATIONAL);
+        switch (this.phoneFieldComponent.returnFormat) {
+          case 'international':
+            return this.phoneUtils.format(numberObj, PhoneNumberFormat.INTERNATIONAL);
+          case 'national':
+            return this.phoneUtils.format(numberObj, PhoneNumberFormat.NATIONAL);
+          case 'default':
+          default:
+            if (this.phoneFieldComponent.selectedCountry.iso2 !== this.phoneFieldComponent.defaultCountry) {
+              return this.phoneUtils.format(numberObj, PhoneNumberFormat.INTERNATIONAL);
+            } else {
+              return this.phoneUtils.format(numberObj, PhoneNumberFormat.NATIONAL);
+            }
         }
+
       } else {
         return phoneNumber;
       }

@@ -15,6 +15,10 @@ import {
   SkyPhoneFieldCountry
 } from '../types/country';
 
+import {
+  SkyPhoneFieldNumberReturnFormat
+} from '../types/number-return-format';
+
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './phone-field.component.fixture.html'
@@ -38,6 +42,8 @@ export class PhoneFieldTestComponent {
   public isDisabled: boolean = false;
 
   public defaultCountry: string;
+
+  public returnFormat: SkyPhoneFieldNumberReturnFormat;
 
   public selectedCountry: SkyPhoneFieldCountry;
 

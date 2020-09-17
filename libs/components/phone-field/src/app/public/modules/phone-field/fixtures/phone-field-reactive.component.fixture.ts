@@ -21,6 +21,10 @@ import {
  SkyPhoneFieldCountry
 } from '../types/country';
 
+import {
+  SkyPhoneFieldNumberReturnFormat
+} from '../types/number-return-format';
+
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './phone-field-reactive.component.fixture.html'
@@ -38,6 +42,8 @@ export class PhoneFieldReactiveTestComponent implements OnInit {
   public phoneControl: FormControl;
 
   public phoneForm: FormGroup;
+
+  public returnFormat: SkyPhoneFieldNumberReturnFormat;
 
   public showInvalidDirective: boolean = false;
 

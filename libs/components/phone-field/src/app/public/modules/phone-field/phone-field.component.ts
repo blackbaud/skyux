@@ -45,6 +45,10 @@ import {
   SkyPhoneFieldCountry
 } from './types/country';
 
+import {
+  SkyPhoneFieldNumberReturnFormat
+} from './types/number-return-format';
+
 // NOTE: The no-op animation is here in order to block the input's "fade in" animation
 // from firing on initial load. For more information on this technique you can see
 // https://www.bennadel.com/blog/3417-using-no-op-transitions-to-prevent-animation-during-the-initial-render-of-ngfor-in-angular-5-2-6.htm
@@ -122,6 +126,13 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   public get defaultCountry(): string {
     return this._defaultCountry;
   }
+
+  /**
+   * Specifies the format for validated phone numbers.
+   * @default 'default'
+   */
+  @Input()
+  public returnFormat: SkyPhoneFieldNumberReturnFormat = 'default';
 
   /**
    * Emits a `SkyPhoneFieldCountry` object when the selected country in the country search

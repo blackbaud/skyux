@@ -9,7 +9,9 @@
   style="width: 50%; height: 100px; margin: 10px; padding: 10px;"
   [@.disabled]="true"
 >
-  <sky-phone-field>
+  <sky-phone-field
+    [returnFormat]="'international'"
+  >
     <input
       [(ngModel)]="phoneNumber"
       skyPhoneFieldInput
