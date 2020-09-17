@@ -1,3 +1,7 @@
+# 4.3.0 (2020-09-17)
+
+- Added a message stream to interact with the back to top directive programatically and an option to hide the back to top button. [#158](https://github.com/blackbaud/skyux-layout/pull/158)
+
 # 4.2.3 (2020-08-21)
 
 - Fixed the fluid grid component to have `10px` gutters when `gutterSize` is set to `SkyFluidGridGutterSize.Small`. [#144](https://github.com/blackbaud/skyux-layout/pull/144)
