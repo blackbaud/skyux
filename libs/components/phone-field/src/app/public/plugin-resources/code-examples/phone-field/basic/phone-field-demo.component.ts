@@ -9,11 +9,11 @@ import {
 } from '@angular/forms';
 
 @Component({
-  selector: 'app-phone-field-docs',
-  templateUrl: './phone-field-docs.component.html',
-  styleUrls: ['./phone-field-docs.component.scss']
+  selector: 'app-phone-field-demo',
+  templateUrl: './phone-field-demo.component.html',
+  styleUrls: ['./phone-field-demo.component.scss']
 })
-export class PhoneFieldDocsComponent implements OnInit {
+export class PhoneFieldDemoComponent implements OnInit {
 
   public phoneControl: FormControl;
 

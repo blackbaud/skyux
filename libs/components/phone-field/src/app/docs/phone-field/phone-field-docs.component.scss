@@ -1,0 +1,7 @@
+.phone-field-demo {
+  width: 25%;
+
+  &.ng-valid ::ng-deep .sky-phone-field {
+    margin-bottom: 0;
+  }
+}

@@ -8,6 +8,10 @@ import {
 } from '@skyux/docs-tools';
 
 import {
+  SkyStatusIndicatorModule
+} from '@skyux/indicators';
+
+import {
   SkyAppLinkModule
 } from '@skyux/router';
 
@@ -19,7 +23,8 @@ import {
   exports: [
     SkyAppLinkModule,
     SkyDocsToolsModule,
-    SkyPhoneFieldModule
+    SkyPhoneFieldModule,
+    SkyStatusIndicatorModule
   ],
   providers: [
     {
