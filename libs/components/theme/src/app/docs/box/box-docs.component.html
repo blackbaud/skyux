@@ -1,0 +1,41 @@
+<sky-docs-demo-page
+  pageTitle="Box"
+>
+  <sky-docs-demo-page-summary>
+    The Box component contains content and actions related to one topic.
+  </sky-docs-demo-page-summary>
+
+  <sky-docs-demo>
+    <sky-docs-demo-control-panel
+      (selectionChange)="onDemoSelectionChange($event)"
+    >
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-radio-group
+          initialValue="page"
+          propertyName="layout"
+          [choices]="layoutChoices"
+        >
+        </sky-docs-demo-control-panel-radio-group>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
+    <div *ngIf="selectedLayout === 'page'"
+      class="sky-box sky-elevation-1-bordered"
+      style="width: 50%; height: 250px;"
+    ></div>
+    <div *ngIf="selectedLayout === 'container'"
+      class="sky-box sky-elevation-0-bordered"
+      style="width: 50%; height: 250px;"
+    ></div>
+  </sky-docs-demo>
+
+  <!-- <sky-docs-design-guidelines>
+  </sky-docs-design-guidelines> -->
+
+  <sky-docs-code-examples>
+    <sky-docs-code-example
+      sourceCodePath="src/app/public/plugin-resources/code-examples/box/basic"
+      theme="modern"
+    >
+    </sky-docs-code-example>
+  </sky-docs-code-examples>
+</sky-docs-demo-page>
