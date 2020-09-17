@@ -7,6 +7,47 @@
     The toolbar component displays actions for lists, records, and tiles.
   </sky-docs-demo-page-summary>
 
+  <sky-docs-demo>
+    <sky-toolbar>
+      <sky-toolbar-item>
+        <button
+          class="sky-btn sky-btn-primary"
+          type="button"
+        >
+          Button 1
+        </button>
+      </sky-toolbar-item>
+      <sky-toolbar-item>
+        <button
+          class="sky-btn sky-btn-default"
+          type="button"
+        >
+          Button 2
+        </button>
+      </sky-toolbar-item>
+      <sky-toolbar-view-actions>
+        <button
+          class="sky-btn sky-btn-default sky-btn-icon"
+          title="Sort descending"
+          type="button"
+        >
+          <sky-icon
+            icon="angle-double-down"
+          ></sky-icon>
+        </button>
+        <button
+          class="sky-btn sky-btn-default sky-btn-icon"
+          title="Sort ascending"
+          type="button"
+        >
+          <sky-icon
+            icon="angle-double-up"
+          ></sky-icon>
+        </button>
+      </sky-toolbar-view-actions>
+    </sky-toolbar>
+  </sky-docs-demo>
+
   <sky-docs-design-guidelines>
     <sky-docs-demo-page-section
       heading="Usage"
@@ -156,4 +197,20 @@
       </sky-docs-design-guideline>
     </sky-docs-demo-page-section>
   </sky-docs-design-guidelines>
+
+  <sky-docs-code-examples
+    [packageDependencies]="{
+      '@skyux/indicators': '*',
+      '@skyux/layout': '*'
+    }"
+  >
+    <sky-docs-code-example
+      heading="Basic setup"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/toolbar/basic"
+    ></sky-docs-code-example>
+    <sky-docs-code-example
+      heading="Toolbar sections"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/toolbar/sectioned"
+    ></sky-docs-code-example>
+  </sky-docs-code-examples>
 </sky-docs-demo-page>
