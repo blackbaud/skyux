@@ -32,5 +32,5 @@ import {
   ]
 })
 
-export class SkyRadioDemoModule {
+export class SkyCheckboxDemoModule {
 }

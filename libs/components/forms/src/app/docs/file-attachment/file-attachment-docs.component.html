@@ -7,6 +7,53 @@
     The file attachment module creates an element to attach multiple local files or to link to external files. It displays summary information about the attachments.
   </sky-docs-demo-page-summary>
 
+  <sky-docs-demo>
+    <sky-docs-demo-control-panel
+      (selectionChange)="onDemoSelectionChange($event)"
+    >
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-checkbox
+          label="Include URL upload"
+          propertyName="toggleUrl"
+          [checked]="true"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
+
+    <div
+      style="width: 60%; margin-bottom: 50px;"
+    >
+      <sky-file-drop
+        [acceptedTypes]="acceptedTypes"
+        [allowLinks]="showLinkInput"
+        [maxFileSize]="maxFileSize"
+        [validateFn]="validateFile"
+        (filesChanged)="filesUpdated($event)"
+        (linkChanged)="linkAdded($event)"
+      >
+      </sky-file-drop>
+
+      <sky-alert *ngIf="rejectedFiles.length > 0"
+        [alertType]="'danger'"
+        [closeable]="true"
+      >
+        The file <strong>{{rejectedFiles[rejectedFiles.length - 1].file.name}}</strong> is invalid.
+        Reason: {{rejectedFiles[rejectedFiles.length - 1].errorType}} violation.
+        Error param: {{rejectedFiles[rejectedFiles.length - 1].errorParam}}
+      </sky-alert>
+
+      <div *ngFor="let file of allItems">
+        <sky-file-item
+          [fileItem]="file"
+          (deleteFile)="deleteFile($event)"
+        >
+        </sky-file-item>
+      </div>
+    </div>
+
+  </sky-docs-demo>
+
   <sky-docs-design-guidelines>
 
     <sky-docs-demo-page-section
@@ -185,5 +232,11 @@
       </sky-docs-design-guideline>
     </sky-docs-demo-page-section>
   </sky-docs-design-guidelines>
+
+  <sky-docs-code-examples>
+    <sky-docs-code-example
+      sourceCodePath="src/app/public/plugin-resources/code-examples/file-attachment/basic"
+    ></sky-docs-code-example>
+  </sky-docs-code-examples>
 
 </sky-docs-demo-page>

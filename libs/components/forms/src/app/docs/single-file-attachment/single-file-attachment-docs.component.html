@@ -7,6 +7,39 @@
     The single file attachment component creates an input to attach a single local file.
   </sky-docs-demo-page-summary>
 
+  <sky-docs-demo>
+    <form
+      novalidate
+      [formGroup]="fileForm"
+    >
+      <div
+        style="margin-bottom:50px;"
+      >
+        <sky-file-attachment
+          formControlName="attachment"
+          [maxFileSize]="maxFileSize"
+          [validateFn]="validateFile"
+          (fileChange)="reactiveFileUpdated($event)"
+        >
+          <sky-file-attachment-label>
+            Attach any file
+          </sky-file-attachment-label>
+        </sky-file-attachment>
+
+        <div *ngIf="attachment?.invalid && attachment?.dirty"
+          class="sky-error-label"
+        >
+          Attach a file.
+        </div>
+        <div *ngIf="reactiveUploadError"
+          class="sky-error-label"
+        >
+          {{reactiveUploadError}}
+        </div>
+      </div>
+    </form>
+  </sky-docs-demo>
+
   <sky-docs-design-guidelines>
     <sky-docs-demo-page-section
       heading="Usage"
@@ -165,5 +198,11 @@
       </sky-docs-design-guideline>
     </sky-docs-demo-page-section>
   </sky-docs-design-guidelines>
+
+  <sky-docs-code-examples>
+    <sky-docs-code-example
+      sourceCodePath="src/app/public/plugin-resources/code-examples/single-file-attachment/basic"
+    ></sky-docs-code-example>
+  </sky-docs-code-examples>
 
 </sky-docs-demo-page>

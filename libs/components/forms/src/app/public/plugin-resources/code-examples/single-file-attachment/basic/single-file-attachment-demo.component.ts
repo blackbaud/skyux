@@ -17,10 +17,10 @@ import {
 } from '@skyux/forms';
 
 @Component({
-  selector: 'app-single-file-attachment-docs',
-  templateUrl: './single-file-attachment-docs.component.html'
+  selector: 'app-single-file-attachment-demo',
+  templateUrl: './single-file-attachment-demo.component.html'
 })
-export class SingleFileAttachmentDocsComponent implements OnInit {
+export class SingleFileAttachmentDemoComponent implements OnInit {
 
   public attachment: FormControl;
 

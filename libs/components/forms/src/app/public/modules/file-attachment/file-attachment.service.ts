@@ -6,6 +6,9 @@ import {
   SkyFileItem
 } from './file-item';
 
+/**
+ * @internal
+ */
 @Injectable()
 export class SkyFileAttachmentService {
 

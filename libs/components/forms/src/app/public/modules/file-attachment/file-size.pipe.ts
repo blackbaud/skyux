@@ -11,6 +11,9 @@ import {
   SkyLibResourcesService
 } from '@skyux/i18n';
 
+/**
+ * @internal
+ */
 @Pipe({
   name: 'skyFileSize'
 })

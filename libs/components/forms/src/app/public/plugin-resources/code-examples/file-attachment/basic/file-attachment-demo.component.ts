@@ -3,20 +3,16 @@ import {
 } from '@angular/core';
 
 import {
-  SkyDocsDemoControlPanelChange
-} from '@skyux/docs-tools';
-
-import {
   SkyFileDropChange,
   SkyFileItem,
   SkyFileLink
 } from '@skyux/forms';
 
 @Component({
-  selector: 'app-file-attachment-docs',
-  templateUrl: './file-attachment-docs.component.html'
+  selector: 'app-file-attachment-demo',
+  templateUrl: './file-attachment-demo.component.html'
 })
-export class FileAttachmentDocsComponent {
+export class FileAttachmentDemoComponent {
 
   public acceptedTypes: string = 'image/png,image/jpeg';
 
@@ -29,8 +25,6 @@ export class FileAttachmentDocsComponent {
   public maxFileSize: number = 4000000;
 
   public rejectedFiles: SkyFileItem[];
-
-  public showLinkInput: boolean = true;
 
   constructor() {
     this.filesToUpload = [];
@@ -56,12 +50,6 @@ export class FileAttachmentDocsComponent {
     this.allItems = this.allItems.concat(result);
   }
 
-  public onDemoSelectionChange(change: SkyDocsDemoControlPanelChange): void {
-    if (change.toggleUrl !== undefined) {
-      this.showLinkInput = change.toggleUrl;
-    }
-  }
-
   public validateFile(file: SkyFileItem): string {
     if (file.file.name.indexOf('a') === 0) {
       return 'You may not upload a file that begins with the letter "a."';
@@ -77,4 +65,5 @@ export class FileAttachmentDocsComponent {
       }
     }
   }
+
 }
