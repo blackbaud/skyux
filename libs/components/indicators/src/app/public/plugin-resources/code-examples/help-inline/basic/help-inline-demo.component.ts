@@ -3,10 +3,10 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'app-help-inline-docs',
-  templateUrl: './help-inline-docs.component.html'
+  selector: 'app-help-inline-demo',
+  templateUrl: './help-inline-demo.component.html'
 })
-export class HelpInlineDocsComponent {
+export class HelpInlineDemoComponent {
 
   public onActionClick(): void {
     alert('Help inline button clicked!');

@@ -7,17 +7,24 @@
     The help inline component creates a small button next to a field. When clicked they can trigger an action that displays more information about that field that the user might need information on.
   </sky-docs-demo-page-summary>
 
-  <!-- <sky-docs-demo>
+  <sky-docs-demo>
+    <sky-help-inline
+      (actionClick)="onActionClick()"
+    ></sky-help-inline>
   </sky-docs-demo>
 
-  <sky-docs-design-guidelines>
-  </sky-docs-design-guidelines>
+  <!-- <sky-docs-design-guidelines>
+  </sky-docs-design-guidelines> -->
 
-  <sky-docs-code-examples>
+  <sky-docs-code-examples
+    [packageDependencies]="{
+      '@skyux/indicators': '*'
+    }"
+  >
     <sky-docs-code-example
-      sourceCodePath="src/app/public/plugin-resources/code-examples/label"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/help-inline/basic"
     >
     </sky-docs-code-example>
-  </sky-docs-code-examples> -->
+  </sky-docs-code-examples>
 
 </sky-docs-demo-page>
