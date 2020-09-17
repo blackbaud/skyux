@@ -1,3 +1,7 @@
+# 4.0.2 (2020-09-17)
+
+- Fixed the `SkyAppResourcesTestService` to include the public `getStringForLocale` method. [#91](https://github.com/blackbaud/skyux-i18n/pull/91) Thanks [@Blackbaud-JasonBodnar](https://github.com/Blackbaud-JasonBodnar)!
+
 # 4.0.1 (2020-07-14)
 
 - Added support for `@skyux-sdk/builder@4.2.0`. [#84](https://github.com/blackbaud/skyux-i18n/pull/84)
