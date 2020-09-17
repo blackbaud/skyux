@@ -1,9 +1,10 @@
-// #region imports
 import {
   Injectable
 } from '@angular/core';
-// #endregion
 
+/**
+ * @internal
+ */
 @Injectable()
 export class SkyToastBodyContext {
   public message: string;

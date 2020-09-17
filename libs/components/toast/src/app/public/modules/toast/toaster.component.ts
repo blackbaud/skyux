@@ -56,6 +56,9 @@ import {
   SkyToastDisplayDirection
 } from './types/toast-display-direction';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-toaster',
   templateUrl: './toaster.component.html',
@@ -65,6 +68,7 @@ import {
   encapsulation: ViewEncapsulation.None
 })
 export class SkyToasterComponent implements AfterViewInit, OnDestroy {
+
   public toastsForDisplay: SkyToast[];
 
   public get toastStream(): Observable<SkyToast[]> {

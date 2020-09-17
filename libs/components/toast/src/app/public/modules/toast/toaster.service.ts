@@ -6,6 +6,9 @@ import {
   BehaviorSubject
 } from 'rxjs';
 
+/**
+ * @internal
+ */
 @Injectable()
 export class SkyToasterService {
 

@@ -1,4 +1,3 @@
-// #region imports
 import {
   ComponentRef,
   Injectable,
@@ -38,15 +37,19 @@ import {
 import {
   SkyToasterComponent
 } from './toaster.component';
-// #endregion
 
 @Injectable()
 export class SkyToastService implements OnDestroy {
+
+  /**
+   * @internal
+   */
   public get toastStream(): Observable<SkyToast[]> {
     return this._toastStream;
   }
 
   private host: ComponentRef<SkyToasterComponent>;
+
   private toasts: SkyToast[] = [];
 
   private _toastStream = new BehaviorSubject<SkyToast[]>([]);
@@ -55,7 +58,7 @@ export class SkyToastService implements OnDestroy {
     private dynamicComponentService: SkyDynamicComponentService
   ) { }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     if (this.host) {
       this.closeAll();
       this.removeHostComponent();

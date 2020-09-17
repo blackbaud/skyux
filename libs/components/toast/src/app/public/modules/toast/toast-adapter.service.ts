@@ -1,4 +1,3 @@
-// #region imports
 import {
   ElementRef,
   Injectable,
@@ -8,8 +7,10 @@ import {
 import {
   SkyAppWindowRef
 } from '@skyux/core';
-// #endregion
 
+/**
+ * @internal
+ */
 @Injectable()
 export class SkyToastAdapterService {
 

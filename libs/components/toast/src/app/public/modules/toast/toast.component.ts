@@ -1,4 +1,3 @@
-// #region imports
 import {
   AnimationEvent
 } from '@angular/animations';
@@ -41,10 +40,11 @@ import {
   SkyToasterService
 } from './toaster.service';
 
-// #endregion
-
 const AUTO_CLOSE_MILLISECONDS = 6000;
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-toast',
   templateUrl: './toast.component.html',
@@ -56,6 +56,7 @@ const AUTO_CLOSE_MILLISECONDS = 6000;
   encapsulation: ViewEncapsulation.None
 })
 export class SkyToastComponent implements OnInit, OnDestroy {
+
   /**
    * Indicates whether to automatically close the toast.
    */
