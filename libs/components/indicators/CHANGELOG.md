@@ -1,3 +1,7 @@
+# 4.4.0 (2020-09-17)
+
+- Added test fixtures for the wait component to use in consumer unit tests. [#134](https://github.com/blackbaud/skyux-indicators/pull/134) (Thanks [@Blackbaud-DiHuynh](https://github.com/Blackbaud-DiHuynh)!)
+
 # 4.3.0 (2020-07-10)
 
 - Added modern theme styles to the key info component and enabled styling of the key info value with CSS classes. [#101](https://github.com/blackbaud/skyux-indicators/pull/101)
