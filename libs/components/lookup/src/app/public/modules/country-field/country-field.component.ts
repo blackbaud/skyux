@@ -5,13 +5,15 @@ import {
   ElementRef,
   EventEmitter,
   forwardRef,
+  Injector,
   Input,
   OnDestroy,
   OnInit,
+  Optional,
   Output,
-  ViewChild,
-  Injector,
-  Type
+  TemplateRef,
+  Type,
+  ViewChild
 } from '@angular/core';
 
 import {
@@ -28,6 +30,10 @@ import {
 import {
   SkyAppWindowRef
 } from '@skyux/core';
+
+import {
+  SkyInputBoxHostService
+} from '@skyux/forms';
 
 import 'intl-tel-input';
 
@@ -229,6 +235,12 @@ export class SkyCountryFieldComponent implements ControlValueAccessor, OnDestroy
 
   public inputId: string;
 
+  @ViewChild('inputTemplateRef', {
+    read: TemplateRef,
+    static: true
+  })
+  private inputTemplateRef: TemplateRef<any>;
+
   private defaultCountryData: SkyCountryFieldCountry;
 
   private idle: Subject<any> = new Subject();
@@ -255,7 +267,8 @@ export class SkyCountryFieldComponent implements ControlValueAccessor, OnDestroy
     private changeDetector: ChangeDetectorRef,
     private elRef: ElementRef,
     private windowRef: SkyAppWindowRef,
-    private injector: Injector
+    private injector: Injector,
+    @Optional() public inputBoxHostSvc?: SkyInputBoxHostService
   ) {
     this.setupCountries();
 
@@ -267,6 +280,13 @@ export class SkyCountryFieldComponent implements ControlValueAccessor, OnDestroy
    * @internal
    */
   public ngOnInit(): void {
+    if (this.inputBoxHostSvc) {
+      this.inputBoxHostSvc.populate(
+        {
+          inputTemplate: this.inputTemplateRef
+        }
+      );
+    }
 
     // tslint:disable-next-line: no-null-keyword
     this.ngControl = this.injector.get<NgControl>(NgControl as unknown as Type<NgControl>, null);
@@ -433,9 +453,11 @@ export class SkyCountryFieldComponent implements ControlValueAccessor, OnDestroy
     // Ignoring coverage here as this will be removed in the next release.
     // istanbul ignore next
     if (!this.includePhoneInfo && !this.hideSelectedCountryFlag) {
-      if ((<HTMLElement>this.elRef.nativeElement.parentElement)
-        .classList
-        .contains('sky-phone-field-country-search')) {
+      if (
+        (<HTMLElement>this.elRef.nativeElement.parentElement)
+          ?.classList
+          ?.contains('sky-phone-field-country-search')
+      ) {
         this.includePhoneInfo = true;
         this.hideSelectedCountryFlag = true;
       }

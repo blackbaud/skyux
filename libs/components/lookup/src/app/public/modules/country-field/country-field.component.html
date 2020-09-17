@@ -1,41 +1,56 @@
-<span
-  class="sky-country-field-container"
-  [ngClass]="{
-    'sky-country-field-disabled': disabled
-  }"
+<ng-container *ngIf="!inputBoxHostSvc">
+  <ng-container *ngTemplateOutlet="inputTemplateRef"></ng-container>
+</ng-container>
+
+<ng-template
+  #inputTemplateRef
 >
-  <sky-autocomplete
-    [ariaLabelledBy]="inputId"
-    [data]="countries"
-    [propertiesToSearch]="['name', 'iso2']"
-    [searchResultTemplate]="countrySearchResultTemplate"
-    [searchTextMinimumCharacters]="searchTextMinimumCharacters"
-    (selectionChange)="onCountrySelected($event)"
+  <span
+    class="sky-country-field-container"
+    [ngClass]="{
+      'sky-country-field-disabled': disabled
+    }"
   >
-    <div
-      class="sky-form-control sky-country-field-input"
-      [ngClass]="{
-        'sky-field-status-active': isInputFocused
-      }"
+    <sky-autocomplete
+      [ariaLabelledBy]="inputId"
+      [data]="countries"
+      [propertiesToSearch]="['name', 'iso2']"
+      [searchResultTemplate]="countrySearchResultTemplate"
+      [searchTextMinimumCharacters]="searchTextMinimumCharacters"
+      (selectionChange)="onCountrySelected($event)"
     >
-      <div *ngIf="selectedCountry && selectedCountry.iso2 && !hideSelectedCountryFlag"
-        [className]="'sky-country-field-flag iti-flag ' + selectedCountry.iso2.toLowerCase()"
-      ></div>
-      <textarea
-        name="selectedCountry"
-        skyAutocomplete
-        [attr.aria-label]="'skyux_country_field_search_placeholder' | skyLibResources"
-        [attr.disabled]="disabled ? true : undefined"
-        [attr.id]="inputId"
-        [autocompleteAttribute]="autocompleteAttribute"
-        [formControl]="countrySearchFormControl"
-        [placeholder]="'skyux_country_field_search_placeholder' | skyLibResources"
-        (blur)="onAutocompleteBlur()"
-        #countrySearchInput
-      ></textarea>
-    </div>
-  </sky-autocomplete>
-</span>
+      <div
+        class="sky-country-field-input"
+        [ngClass]="{
+          'sky-country-field-input-with-flag':
+            selectedCountry && selectedCountry.iso2 && !hideSelectedCountryFlag
+        }"
+      >
+        <div *ngIf="selectedCountry && selectedCountry.iso2 && !hideSelectedCountryFlag"
+          class="sky-country-field-flag"
+        >
+          <div
+            class="iti-flag"
+            [ngClass]="selectedCountry.iso2.toLowerCase()"
+          ></div>
+        </div>
+        <textarea
+          class="sky-form-control"
+          name="selectedCountry"
+          rows="1"
+          skyAutocomplete
+          [attr.aria-label]="'skyux_country_field_search_placeholder' | skyLibResources"
+          [attr.disabled]="disabled ? true : undefined"
+          [attr.id]="inputId"
+          [autocompleteAttribute]="autocompleteAttribute"
+          [formControl]="countrySearchFormControl"
+          [placeholder]="'skyux_country_field_search_placeholder' | skyLibResources"
+          (blur)="onAutocompleteBlur()"
+        ></textarea>
+      </div>
+    </sky-autocomplete>
+  </span>
+</ng-template>
 
 <ng-template
   let-item="item"

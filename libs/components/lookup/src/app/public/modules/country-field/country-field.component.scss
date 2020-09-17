@@ -1,6 +1,13 @@
 @import "~@skyux/theme/scss/mixins";
 @import "~@skyux/theme/scss/_compat/mixins";
+@import "~@skyux/theme/scss/variables";
 @import "~intl-tel-input/build/css/intlTelInput";
+
+@mixin sky-country-field-textarea {
+  overflow: hidden;
+  resize: none;
+  white-space: nowrap;
+}
 
 .sky-country-field-country-btn + ::ng-deep .sky-form-control {
   border-left: none;
@@ -13,6 +20,10 @@
 .sky-country-field-search-result-flag {
   display: inline-block;
   margin-right: $sky-margin-half;
+}
+
+.sky-country-field-flag {
+  display: none;
 }
 
 .sky-country-field-disabled {
@@ -29,30 +40,30 @@
 .sky-country-field-input {
   cursor: text;
   display: flex;
-  background-color: $sky-color-white;
-  padding-left: 12px;
+  position: relative;
 
   .sky-country-field-flag {
+    align-items: center;
     margin-bottom: auto;
     margin-top: auto;
-    margin-right: $sky-margin;
+    position: absolute;
+    left: 13px;
+    height: 35px;
+    bottom: 0;
   }
 
   textarea {
-    resize: none;
-    border: 0;
-    overflow: hidden;
-    height: #{$sky-line-height-base}em;
-    box-sizing: content-box;
-    padding: 0;
-    display: inline-flex;
-    background-color: transparent;
+    @include sky-country-field-textarea;
+  }
+}
 
-    &:focus {
-      outline: none;
-      box-shadow: none;
-    }
+.sky-country-field-input-with-flag {
+  .sky-country-field-flag {
+    display: flex;
+  }
 
+  .sky-form-control {
+    padding-left: 40px;
   }
 }
 
@@ -60,8 +71,41 @@
   @include sky-border(light, bottom);
 }
 
-:host(.ng-invalid.ng-touched) .sky-country-field-input {
+:host(.ng-invalid.ng-touched) .sky-country-field-input textarea {
   @include sky-field-status(invalid);
+}
+
+::ng-deep {
+  .sky-theme-modern {
+    .sky-country-field-disabled {
+      .sky-country-field-flag {
+        filter: grayscale(100%);
+      }
+    }
+
+    .sky-input-box .sky-form-group {
+      .sky-country-field-input {
+        background-color: transparent;
+        border-radius: $sky-theme-modern-box-border-radius-default;
+
+        textarea.sky-form-control {
+          @include sky-country-field-textarea;
+        }
+      }
+
+      .sky-country-field-input-with-flag {
+        .sky-country-field-flag {
+          height: 40px;
+          left: 15px;
+          opacity: 1;
+        }
+
+        .sky-form-control {
+          padding-left: 45px;
+        }
+      }
+    }
+  }
 }
 
 .iti-flag {

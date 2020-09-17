@@ -8,6 +8,10 @@ import {
 } from '@skyux/docs-tools';
 
 import {
+  SkyInputBoxModule
+} from '@skyux/forms';
+
+import {
   SkyAppLinkModule
 } from '@skyux/router';
 
@@ -29,6 +33,7 @@ import {
     SkyAutocompleteModule,
     SkyCountryFieldModule,
     SkyDocsToolsModule,
+    SkyInputBoxModule,
     SkyLookupModule,
     SkySearchModule,
     SkyAppLinkModule
