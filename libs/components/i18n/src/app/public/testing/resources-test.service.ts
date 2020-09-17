@@ -3,6 +3,7 @@ import {
 } from '@angular/core';
 
 import {
+  SkyAppLocaleInfo,
   SkyAppResources
 } from '@skyux/i18n';
 
@@ -73,5 +74,10 @@ export class SkyAppResourcesTestService {
     return observableOf(
       Format.formatText(resources[name].message, ...args)
     );
+  }
+
+  // Ignores the locale passed and returns the resource for en_US
+  public getStringForLocale(locale: SkyAppLocaleInfo, name: string, ...args: any[]): Observable<string> {
+    return this.getString(name, args);
   }
 }
