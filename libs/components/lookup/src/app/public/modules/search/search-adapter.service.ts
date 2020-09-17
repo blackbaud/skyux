@@ -4,6 +4,9 @@ import {
   Renderer2
 } from '@angular/core';
 
+/**
+ * @internal
+ */
 @Injectable()
 export class SkySearchAdapterService {
 

@@ -79,7 +79,7 @@ export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, Control
 
   /**
    * Indicates whether to disable the autocomplete field.
-   * @default "false"
+   * @default false
    */
   @Input()
   public set disabled(value: boolean) {

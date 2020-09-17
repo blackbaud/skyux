@@ -70,24 +70,51 @@ const EXPAND_MODE_NONE: string = 'none';
 })
 export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
 
+/**
+ * Fires when the search text is applied.
+ */
   @Output()
   public searchApply = new EventEmitter<string>();
 
+/**
+ * Fires when the search text is changed.
+ */
   @Output()
   public searchChange = new EventEmitter<string>();
 
+/**
+ * Fires when the search text is cleared.
+ */
   @Output()
   public searchClear = new EventEmitter<void>();
 
+/**
+ * Specifies default search criteria for the input.
+ */
   @Input()
   public searchText: string;
 
+/**
+ * Specifies the expand mode for the search input. The valid options
+ * include `responsive` to collapse the search input into a button on
+ * mobile devices, `none` to *not* collapse the search input on mobile
+ * devices, and `fit` to extend the search input to fit the width of its container.
+ * @default responsive
+ */
   @Input()
   public expandMode: string = EXPAND_MODE_RESPONSIVE;
 
+/**
+ * Specifies how many milliseconds to wait before searching after users enter text in the search input.
+ * @default 0
+ */
   @Input()
   public debounceTime: number = 0;
 
+/**
+ * Indicates whether to disable the filter button.
+ * @default false
+ */
   @Input()
   public disabled: boolean = false;
 
@@ -95,6 +122,11 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
 
   public isCollapsible: boolean = true;
 
+/**
+ * Specifies placeholder text to display in the search input until users
+ * enter search criteria.
+ * @default Find in this list
+ */
   @Input()
   public placeholderText: string;
 

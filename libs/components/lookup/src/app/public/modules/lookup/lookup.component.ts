@@ -55,9 +55,17 @@ export class SkyLookupComponent
   extends SkyLookupAutocompleteAdapter
   implements AfterViewInit, OnDestroy, ControlValueAccessor {
 
+/**
+ * Defines a string value to label the typeahead search input for accessibility.
+ * If a label is visible on the screen, use the `ariaLabelledBy` property instead.
+ */
   @Input()
   public ariaLabel: string;
 
+/**
+ * Identifies the element that defines a label for the typeahead search input.
+ * If a label is not visible on the screen, use the `ariaLabel` property instead.
+ */
   @Input()
   public ariaLabelledBy: string;
 
@@ -68,9 +76,15 @@ export class SkyLookupComponent
   @Input()
   public autocompleteAttribute: string;
 
+/**
+ * Indicates whether to disable the lookup field.
+ */
   @Input()
   public disabled = false;
 
+/**
+ * Specifies placeholder text to display in the lookup field.
+ */
   @Input()
   public placeholderText: string;
 

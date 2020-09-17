@@ -48,6 +48,9 @@ import { SkyAutocompleteAdapterService } from './autocomplete-adapter.service';
 import { SkyAutocompleteInputDirective } from './autocomplete-input.directive';
 import { skyAutocompleteDefaultSearchFunction } from './autocomplete-default-search-function';
 
+/**
+ * @internal
+ */
 interface SkyAutocompleteSearchResult {
   elementId: string;
   data: any;
@@ -66,9 +69,17 @@ export class SkyAutocompleteComponent
 
   //#region public_api
 
+/**
+ * Identifies the element that defines a label for the text input.
+ */
   @Input()
   public ariaLabelledBy: string;
 
+/**
+ * Specifies a static data source for the autocomplete component to search
+ * when users enter text. For a dynamic data source such as an array that
+ * changes due to server calls, use the `search` property instead.
+ */
   @Input()
   public set data(value: any[]) {
     this._data = value;
@@ -78,6 +89,11 @@ export class SkyAutocompleteComponent
     return this._data || [];
   }
 
+/**
+ * Specifies how many milliseconds to wait before searching while users
+ * enter text in the autocomplete field.
+ * @default 0
+ */
   @Input()
   public set debounceTime(value: number) {
     this._debounceTime = value;
@@ -87,6 +103,11 @@ export class SkyAutocompleteComponent
     return this._debounceTime || 0;
   }
 
+/**
+ * Specifies an object property to display in the text input after users
+ * select an item in the dropdown list.
+ * @default name
+ */
   @Input()
   public set descriptorProperty(value: string) {
     this._descriptorProperty = value;
@@ -96,6 +117,10 @@ export class SkyAutocompleteComponent
     return this._descriptorProperty || 'name';
   }
 
+/**
+ * Specifies the object properties to search.
+ * @default ['name']
+ */
   @Input()
   public set propertiesToSearch(value: string[]) {
     this._propertiesToSearch = value;
@@ -105,6 +130,12 @@ export class SkyAutocompleteComponent
     return this._propertiesToSearch || ['name'];
   }
 
+/**
+ * Specifies a function to dynamically manage the data source when users
+ * change the text in the autocomplete field. The search function must return
+ * an array or a promise of an array. The `search` property is particularly
+ * useful when the data source does not live in the source code.
+ */
   @Input()
   public set search(value: SkyAutocompleteSearchFunction) {
     this._search = value;
@@ -118,6 +149,11 @@ export class SkyAutocompleteComponent
     });
   }
 
+/**
+ * Specifies a template to format each search result in the dropdown list.
+ * The autocomplete component injects search result values into the template
+ * as `item` variables that reference all of the object properties of the search results.
+ */
   @Input()
   public set searchResultTemplate(value: TemplateRef<any>) {
     this._searchResultTemplate = value;
@@ -127,6 +163,12 @@ export class SkyAutocompleteComponent
     return this._searchResultTemplate || this.defaultSearchResultTemplate;
   }
 
+/**
+ * Specifies the minimum number of characters that users must enter before
+ * the autocomplete component searches the data source and displays search
+ * results in the dropdown list.
+ * @default 1
+ */
   @Input()
   public set searchTextMinimumCharacters(value: number) {
     this._searchTextMinimumCharacters = value;
@@ -137,15 +179,33 @@ export class SkyAutocompleteComponent
       ? this._searchTextMinimumCharacters : 1;
   }
 
+/**
+ * Specifies an array of functions to call against each search result in order
+ * to filter the search results when using the default search function. When
+ * using the `search` property to specify a custom search function, you must
+ * manually apply filters inside that function. The function must return `true`
+ * or `false` for each result to indicate whether to display it in the dropdown list.
+ */
   @Input()
   public searchFilters: SkyAutocompleteSearchFunctionFilter[];
 
+/**
+ * Specifies the maximum number of search results to display in the dropdown list.
+ * By default, the component displays all matching results.
+ */
   @Input()
   public searchResultsLimit: number;
 
+/**
+ * Specifies the text to play when no search results are found.
+ * @default No matching items found
+ */
   @Input()
   public noResultsFoundText: string;
 
+/**
+ * Fires when users select items in the dropdown list.
+ */
   @Output()
   public get selectionChange(): EventEmitter<SkyAutocompleteSelectionChange> {
     return this._selectionChange;
