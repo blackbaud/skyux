@@ -27,4 +27,4 @@ import {
     IconDemoComponent
   ]
 })
-export class SkyIconDemoComponent { }
+export class IconDemoModule { }

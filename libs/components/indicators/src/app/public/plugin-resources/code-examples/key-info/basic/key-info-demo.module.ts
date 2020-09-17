@@ -26,4 +26,4 @@ import {
     KeyInfoDemoComponent
   ]
 })
-export class SkyKeyInfoDemoComponent { }
+export class KeyInfoDemoModule { }

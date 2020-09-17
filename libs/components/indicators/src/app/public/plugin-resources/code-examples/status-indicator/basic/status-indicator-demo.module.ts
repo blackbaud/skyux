@@ -27,4 +27,4 @@ import {
     StatusIndicatorDemoComponent
   ]
 })
-export class SkyStatusIndicatorDemoComponent { }
+export class StatusIndicatorDemoModule { }

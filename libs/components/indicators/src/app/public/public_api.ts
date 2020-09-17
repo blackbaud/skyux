@@ -9,6 +9,7 @@ export * from './modules/icon/icon.module';
 
 export * from './modules/key-info/key-info.module';
 
+export * from './modules/label/label-type';
 export * from './modules/label/label.module';
 
 export * from './modules/status-indicator/status-indicator.module';

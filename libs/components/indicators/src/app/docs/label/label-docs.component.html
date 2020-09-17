@@ -7,17 +7,36 @@
     The label component provides a compact, eye catching design element to draw attention to status information that users need to address. Statuses indicate a state or condition at a particular time and fall into four categories: info, success, warning, and danger.
   </sky-docs-demo-page-summary>
 
-  <!-- <sky-docs-demo>
+  <sky-docs-demo>
+    <sky-docs-demo-control-panel
+      (selectionChange)="onDemoSelectionChange($event)"
+    >
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-radio-group
+          heading="Label type"
+          propertyName="labelType"
+          [choices]="labelTypeChoices"
+          [initialValue]="'info'"
+        >
+        </sky-docs-demo-control-panel-radio-group>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
+
+    <sky-label
+      [labelType]="demoSettings.labelType"
+    >
+       Status
+    </sky-label>
   </sky-docs-demo>
 
-  <sky-docs-design-guidelines>
-  </sky-docs-design-guidelines>
+  <!-- <sky-docs-design-guidelines>
+  </sky-docs-design-guidelines> -->
 
   <sky-docs-code-examples>
     <sky-docs-code-example
-      sourceCodePath="src/app/public/plugin-resources/code-examples/label"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/label/basic"
     >
     </sky-docs-code-example>
-  </sky-docs-code-examples> -->
+  </sky-docs-code-examples>
 
 </sky-docs-demo-page>

@@ -3,6 +3,10 @@ import {
   Input
 } from '@angular/core';
 
+import {
+  SkyLabelType
+} from './label-type';
+
 @Component({
   selector: 'sky-label',
   templateUrl: './label.component.html',
@@ -11,17 +15,18 @@ import {
 export class SkyLabelComponent {
 
   /**
-   * The type of label to display. Possible values are `info`, `success`, `warning` and `danger`.
+   * The type of label to display.
    * @required
    */
   @Input()
-  public set labelType(value: string) {
+  public set labelType(value: SkyLabelType) {
     this._labelType = value;
   }
 
-  public get labelType(): string {
+  public get labelType(): SkyLabelType {
     return this._labelType || 'info';
   }
 
-  private _labelType: string;
+  private _labelType: SkyLabelType;
+
 }
