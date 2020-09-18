@@ -3,12 +3,12 @@ import {
 } from './back-to-top-message-type';
 
 /**
- * Specifies messages to be sent to the back to top component.
+ * Specifies messages to send to the back to top component.
  */
 export interface SkyBackToTopMessage {
 
   /**
-   * The type of message to send.
+   * Specifies the type of message to send.
    */
   type?: SkyBackToTopMessageType;
 }

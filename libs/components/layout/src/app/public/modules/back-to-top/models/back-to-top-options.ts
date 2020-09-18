@@ -4,7 +4,8 @@
 export interface SkyBackToTopOptions {
 
   /**
-   * Indicates if the "back to top" button should be hidden in the UI.
+   * Indicates whether to hide the back to top button.
+   * @default false
    */
   buttonHidden?: boolean;
 }

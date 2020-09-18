@@ -40,8 +40,8 @@ import {
 } from './models/back-to-top-options';
 
 /**
- * Associates a button with an element on the page and displays a button
- * to return to that element after users scroll away from it.
+ * Associates a button with an element on the page and displays that button
+ * to return to the element after users scroll away.
  */
 @Directive({
   selector: '[skyBackToTop]',
@@ -51,6 +51,9 @@ import {
 })
 export class SkyBackToTopDirective implements AfterViewInit, OnDestroy {
 
+  /**
+   * Specifies configuration options for the back to top component.
+   */
   @Input()
   public set skyBackToTop(value: SkyBackToTopOptions) {
     this.buttonHidden = !!value?.buttonHidden;
@@ -59,7 +62,8 @@ export class SkyBackToTopDirective implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * Provides an observable to send commands to the back to top that respect the `SkyBackToTopMessage` type.
+   * Provides an observable to send commands to the back to top component.
+   * The commands respect the `SkyBackToTopMessage` type.
    */
   @Input()
   public set skyBackToTopMessageStream(value: Subject<SkyBackToTopMessage>) {
