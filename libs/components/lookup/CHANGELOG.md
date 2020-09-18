@@ -1,3 +1,7 @@
+# 4.5.0 (2020-09-18)
+
+- Added input box support to the country field component. [#130](https://github.com/blackbaud/skyux-lookup/pull/130)
+
 # 4.4.0 (2020-09-11)
 
 - Added the `hideSelectedCountryFlag` input property to the country field component to hide the flag icon from the selected country input box. [#127](https://github.com/blackbaud/skyux-lookup/pull/127)
