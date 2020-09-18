@@ -26,4 +26,4 @@ import {
     PagingDemoComponent
   ]
 })
-export class SkyPagingDemoComponent { }
+export class PagingDemoModule { }

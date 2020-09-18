@@ -7,14 +7,102 @@
     The repeater component creates a container to display information for a list of objects. A repeater list is particularly effective as an alternative to a grid layout in mobile-intensive contexts and other scenarios that require the compact display of information.
   </sky-docs-demo-page-summary>
 
-  <!-- <sky-docs-code-examples
+  <sky-docs-demo>
+    <sky-docs-demo-control-panel
+      (selectionChange)="onDemoSelectionChange($event)"
+    >
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-radio-group
+          heading="Expand mode"
+          propertyName="expandMode"
+          [choices]="expandModeChoices"
+          [initialValue]="'single'"
+        >
+        </sky-docs-demo-control-panel-radio-group>
+
+        <sky-docs-demo-control-panel-checkbox
+          label="Enable reorderability"
+          propertyName="reorderable"
+          [checked]="false"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+
+        <sky-docs-demo-control-panel-checkbox
+          label="Enable selectability"
+          propertyName="selectable"
+          [checked]="false"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
+
+    <sky-repeater
+      [expandMode]="demoSettings.expandMode"
+      [reorderable]="demoSettings.reorderable"
+    >
+      <sky-repeater-item
+        *ngFor="let item of items"
+        [isExpanded]="item.expanded"
+        [selectable]="demoSettings.selectable"
+        [(isSelected)]="item.selected"
+      >
+        <sky-repeater-item-title
+          class="demo-repeater-flex"
+        >
+          <div
+            class="sky-emphasized"
+          >
+            {{item.title}}
+          </div>
+          <div>
+            {{item.status}}
+          </div>
+        </sky-repeater-item-title>
+        <sky-repeater-item-context-menu>
+          <sky-dropdown
+            buttonType="context-menu"
+          >
+            <sky-dropdown-menu>
+              <sky-dropdown-item>
+                <button
+                  type="button"
+                >
+                  Action 1
+                </button>
+              </sky-dropdown-item>
+              <sky-dropdown-item>
+                <button
+                  type="button"
+                >
+                  Action 2
+                </button>
+              </sky-dropdown-item>
+            </sky-dropdown-menu>
+          </sky-dropdown>
+        </sky-repeater-item-context-menu>
+        <sky-repeater-item-content>
+          {{item.note}}
+        </sky-repeater-item-content>
+      </sky-repeater-item>
+    </sky-repeater>
+  </sky-docs-demo>
+
+  <sky-docs-code-examples
     [packageDependencies]="{
+      '@blackbaud/auth-client': '*',
+      '@skyux/inline-form': '*',
       '@skyux/lists': '*'
     }"
   >
     <sky-docs-code-example
+      heading="Basic setup"
       sourceCodePath="src/app/public/plugin-resources/code-examples/repeater/basic/"
     >
     </sky-docs-code-example>
-  </sky-docs-code-examples> -->
+    <sky-docs-code-example
+      heading="Add/remove items"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/repeater/add-remove/"
+    >
+    </sky-docs-code-example>
+  </sky-docs-code-examples>
 </sky-docs-demo-page>
