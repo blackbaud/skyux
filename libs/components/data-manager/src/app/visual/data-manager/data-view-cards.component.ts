@@ -30,6 +30,7 @@ export class DataViewCardsComponent implements OnInit {
     icon: 'th-large',
     sortEnabled: true,
     searchEnabled: true,
+    searchPlaceholderText: 'Search these cards',
     filterButtonEnabled: true,
     showSortButtonText: true
   };

@@ -43,9 +43,10 @@
 
     <sky-toolbar-item *ngIf="activeView?.searchEnabled">
       <sky-search
-        [expandMode]="activeView?.searchExpandMode"
-        [searchText]="dataState?.searchText"
         [debounceTime]="250"
+        [expandMode]="activeView?.searchExpandMode"
+        [placeholderText]="activeView?.searchPlaceholderText"
+        [searchText]="dataState?.searchText"
         (searchApply)="searchApplied($event)"
         (searchChange)="searchApplied($event)"
       >

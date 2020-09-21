@@ -1,6 +1,7 @@
 export * from './modules/data-manager/data-manager.module';
 export * from './modules/data-manager/data-manager.service';
 export * from './modules/data-manager/data-manager-filter-context';
+export * from './modules/data-manager/models/data-manager-column-picker-sort-strategy';
 export * from './modules/data-manager/models/data-manager-config';
 export * from './modules/data-manager/models/data-manager-filter-data';
 export * from './modules/data-manager/models/data-manager-init-args';

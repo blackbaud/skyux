@@ -30,6 +30,10 @@ import {
 } from '../models/data-manager-column-picker-option';
 
 import {
+  SkyDataManagerColumnPickerSortStrategy
+} from '../models/data-manager-column-picker-sort-strategy';
+
+import {
   SkyDataManagerState
 } from '../models/data-manager-state';
 
@@ -168,22 +172,28 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
         id: columnOption.id,
         label: columnOption.label,
         description: columnOption.description,
-        isSelected: false
+        isSelected: colIndex !== -1
       };
 
-      // if the column is currently displayed put it in that order in the column options,
-      // else add it to the list of unselected columns to be alphebetized
-      if (colIndex !== -1) {
-        formattedColumn.isSelected = true;
-        formattedColumnOptions[colIndex] = formattedColumn;
+      // if column picker sorting is currently enabled sort columns by order displayed then alphabetical
+      // else display column in order they were specified in the columnOptions
+      if (this.context.columnPickerSortStrategy === SkyDataManagerColumnPickerSortStrategy.SelectedThenAlphabetical) {
+        if (formattedColumn.isSelected) {
+          formattedColumnOptions[colIndex] = formattedColumn;
+        } else {
+          unselectedColumnOptions.push(formattedColumn);
+        }
       } else {
-        unselectedColumnOptions.push(formattedColumn);
+        formattedColumnOptions.push(formattedColumn);
       }
     }
 
-    // sort the columns that are not currently displayed and add them after the currently displayed options
-    unselectedColumnOptions.sort((col1, col2) => col1.label.localeCompare(col2.label));
-    formattedColumnOptions = formattedColumnOptions.concat(unselectedColumnOptions);
+    // if column picker sorting is enabled, sort the columns that are not currently displayed
+    // and add them after the currently displayed options
+    if (this.context.columnPickerSortStrategy === SkyDataManagerColumnPickerSortStrategy.SelectedThenAlphabetical) {
+      unselectedColumnOptions.sort((col1, col2) => col1.label.localeCompare(col2.label));
+      formattedColumnOptions = formattedColumnOptions.concat(unselectedColumnOptions);
+    }
 
     return formattedColumnOptions;
   }

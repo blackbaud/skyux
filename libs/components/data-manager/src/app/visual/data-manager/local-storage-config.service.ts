@@ -16,7 +16,11 @@ export class LocalStorageConfigService extends SkyUIConfigService {
 
     return new Observable(subscriber => {
       setTimeout(() => {
-        subscriber.next(JSON.parse(settingsJSON));
+        if (settingsJSON) {
+          subscriber.next(JSON.parse(settingsJSON));
+        } else {
+          subscriber.next(defaultConfig);
+        }
         subscriber.complete();
       }, 2000);
     });

@@ -2,6 +2,10 @@ import {
   SkyDataManagerColumnPickerOption
 } from './data-manager-column-picker-option';
 
+import {
+  SkyDataManagerColumnPickerSortStrategy
+} from './data-manager-column-picker-sort-strategy';
+
 /**
  * The data view config contains settings that apply to the specific view, such as
  * column picker options and the buttons to display in the toolbar.
@@ -21,6 +25,11 @@ export interface SkyDataViewConfig {
    * Indicates whether to display the column picker button for this view.
    */
   columnPickerEnabled?: boolean;
+  /**
+   * The strategy used to sort the options in the column picker. If no strategy is provided the columns will be sorted
+   * by selected then alphabetical.
+   */
+  columnPickerSortStrategy?: SkyDataManagerColumnPickerSortStrategy;
   /**
    * Inidicates whether to display the filter button for this view.
    */
@@ -57,8 +66,13 @@ export interface SkyDataViewConfig {
    */
   searchEnabled?: boolean;
   /**
-   * Sets the `expandMode` property on the search box for this view. The valid options
-   * are `responsive`, `fit`, and `none`. The default is `responsive`.
+   * Specifies placeholder text to display in the search input until users enter search criteria.
+   * See the <a href="https://developer.blackbaud.com/skyux/components/search">search component</a> for the default value.
+   */
+  searchPlaceholderText?: string;
+  /**
+   * Sets the `expandMode` property on the search box for this view.
+   * See the <a href="https://developer.blackbaud.com/skyux/components/search">search component</a> for valid options and the default value.
    */
   searchExpandMode?: string;
   /**

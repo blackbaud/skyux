@@ -202,10 +202,13 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
   }
 
   public openColumnPicker(): void {
-    const context = new SkyDataManagerColumnPickerContext();
+    const columnOptions = this.activeView && this.activeView.columnOptions;
     const viewState = this.dataState.getViewStateById(this.activeView.id);
-    context.columnOptions = this.activeView && this.activeView.columnOptions;
-    context.displayedColumnIds = viewState.displayedColumnIds;
+    const context = new SkyDataManagerColumnPickerContext(columnOptions, viewState.displayedColumnIds);
+
+    if (this.activeView.columnPickerSortStrategy) {
+      context.columnPickerSortStrategy = this.activeView.columnPickerSortStrategy;
+    }
 
     const options: any = {
       providers: [{ provide: SkyDataManagerColumnPickerContext, useValue: context }]
