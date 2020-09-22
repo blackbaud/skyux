@@ -1,3 +1,7 @@
+<sky-docs-demo-control-panel-theme
+  (themeSettingsChange)="themeSettingsChange($event)"
+></sky-docs-demo-control-panel-theme>
+
 <div
   style="width: 60%;"
 >
@@ -107,5 +111,71 @@
       <td>{{ nameValue || 'Nothing entered...' }}</td>
     </tr>
   </table>
+
+  <h1>
+    Input box
+  </h1>
+
+  <div id="screenshot-character-count-input-box">
+    <sky-input-box>
+      <label
+        class="sky-control-label"
+        [for]="characterCountInputBox.id"
+      >
+        First name
+      </label>
+      <sky-character-counter-indicator
+        #templateIndicatorInputBox
+      >
+      </sky-character-counter-indicator>
+      <input
+        class="sky-form-control"
+        type="text"
+        skyCharacterCounter
+        skyId
+        [skyCharacterCounterIndicator]="templateIndicatorInputBox"
+        [skyCharacterCounterLimit]="maxCharacterCount"
+        [(ngModel)]="nameValue"
+        #characterCountInputBoxModel="ngModel"
+        #characterCountInputBox="skyId"
+      />
+
+      <div *ngIf="characterCountInputBoxModel.errors?.skyCharacterCounter"
+        class="sky-error-label"
+      >
+        Limit First name to {{maxCharacterCount}} characters.
+      </div>
+    </sky-input-box>
+  </div>
+
+  <h1>
+    Input box no label
+  </h1>
+
+  <div id="screenshot-character-count-input-box-no-label">
+    <sky-input-box>
+      <sky-character-counter-indicator
+        #templateIndicatorInputBoxNoLabel
+      >
+      </sky-character-counter-indicator>
+      <input
+        class="sky-form-control"
+        type="text"
+        skyCharacterCounter
+        skyId
+        [skyCharacterCounterIndicator]="templateIndicatorInputBoxNoLabel"
+        [skyCharacterCounterLimit]="maxCharacterCount"
+        [(ngModel)]="nameValue"
+        #characterCountInputBoxModelNoLabel="ngModel"
+        #characterCountInputBoxNoLabel="skyId"
+      />
+
+      <div *ngIf="characterCountInputBoxModelNoLabel.errors?.skyCharacterCounter"
+        class="sky-error-label"
+      >
+        Limit First name to {{maxCharacterCount}} characters.
+      </div>
+    </sky-input-box>
+  </div>
 
 </div>

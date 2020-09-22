@@ -7,8 +7,12 @@
 }
 
 .sky-character-count-label {
-  .sky-error-label {
+  &.sky-error-label {
     margin: 0;
+
+    &::before {
+      font-style: normal;
+    }
   }
 }
 

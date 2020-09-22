@@ -220,3 +220,28 @@
     >
   </sky-input-box>
 </div>
+
+<div
+  class="input-character-count"
+>
+  <sky-input-box>
+    <label
+      class="sky-control-label"
+      [for]="characterCountInput.id"
+    >
+      With character count
+    </label>
+    <sky-character-counter-indicator
+      #characterCount
+    >
+    </sky-character-counter-indicator>
+    <input
+      class="sky-form-control"
+      skyCharacterCounter
+      skyId
+      [skyCharacterCounterIndicator]="characterCount"
+      [skyCharacterCounterLimit]="10"
+      #characterCountInput="skyId"
+    >
+  </sky-input-box>
+</div>

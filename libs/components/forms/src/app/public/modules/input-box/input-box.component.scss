@@ -10,6 +10,30 @@ sky-input-box {
   .sky-input-box-input-container {
     width: 100%;
   }
+
+  .sky-form-group {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .sky-control-label {
+    flex-grow: 1;
+  }
+
+  sky-character-counter-indicator {
+    flex-grow: 1;
+    text-align: right;
+    margin-bottom: $sky-margin-half;
+  }
+
+  .sky-control-label + sky-character-counter-indicator {
+    flex-grow: 0;
+    flex-shrink: 0.001;
+  }
+
+  .sky-form-control {
+    flex-basis: 100%;
+  }
 }
 
 @mixin sky-input-box-modern-border($mode: "light") {
@@ -149,13 +173,11 @@ sky-input-box {
       background-color: $sky-color-white;
       @include sky-input-box-modern-border;
       color: $sky-theme-modern-font-data-label-color;
-      display: block;
       margin-bottom: 0;
       padding: 0;
 
-      .sky-control-label {
-        display: block;
-        font-size: 13px;
+      .sky-control-label,
+      sky-character-counter-indicator {
         margin-bottom: 0;
         padding: 7px 15px 0 15px;
         position: relative;
@@ -167,6 +189,11 @@ sky-input-box {
           always places the cursor at the beginning of the text.
         */
         z-index: 2;
+      }
+
+      .sky-control-label,
+      .sky-character-count-label {
+        font-size: 13px;
       }
 
       .sky-form-control {

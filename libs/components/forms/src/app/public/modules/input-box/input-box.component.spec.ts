@@ -34,6 +34,10 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
+  SkyCharacterCounterModule
+} from '../character-counter/character-counter.module';
+
+import {
   SkyInputBoxModule
 } from './input-box.module';
 
@@ -127,6 +131,7 @@ describe('Input box component', () => {
       imports: [
         FormsModule,
         ReactiveFormsModule,
+        SkyCharacterCounterModule,
         SkyIdModule,
         SkyInputBoxModule
       ],
@@ -178,6 +183,21 @@ describe('Input box component', () => {
 
     expect(inputGroupBtnEl1.children.item(0)).toHaveCssClass('test-button-1');
     expect(inputGroupBtnEl2.children.item(0)).toHaveCssClass('test-button-2');
+  });
+
+  it('should render the character count element in the expected locations', () => {
+    const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+
+    fixture.detectChanges();
+
+    const inputBoxEl = getInputBoxEl(fixture, 'input-character-count');
+
+    const formGroupEl = inputBoxEl.querySelector('.sky-form-group');
+
+    const characterCountEl = formGroupEl.children.item(1) as HTMLElement;
+
+    expect(characterCountEl).toExist();
+    expect(characterCountEl.tagName).toBe('SKY-CHARACTER-COUNTER-INDICATOR');
   });
 
   it('should allow a child to place template items inside the input box programmatically', () => {
@@ -244,6 +264,23 @@ describe('Input box component', () => {
 
       expect(inputEl).toExist();
       expect(inputEl.tagName).toBe('INPUT');
+    });
+
+    it('should render the character count element in the expected locations', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+
+      fixture.detectChanges();
+
+      const inputBoxEl = getInputBoxEl(fixture, 'input-character-count');
+
+      const formGroupEl = inputBoxEl.querySelector(
+        '.sky-input-box-group > .sky-input-box-group-form-control > .sky-form-group'
+      );
+
+      const characterCountEl = formGroupEl.children.item(1) as HTMLElement;
+
+      expect(characterCountEl).toExist();
+      expect(characterCountEl.tagName).toBe('SKY-CHARACTER-COUNTER-INDICATOR');
     });
 
     it('should render the input group button elements in the expected locations', () => {
