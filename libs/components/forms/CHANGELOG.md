@@ -1,3 +1,7 @@
+# 4.12.0 (2020-09-22)
+
+- Added character count component support to the input box component. [#201](https://github.com/blackbaud/skyux-forms/pull/201)
+
 # 4.11.0 (2020-09-15)
 
 - Updated the input box component to support additional SKY UX components. [#195](https://github.com/blackbaud/skyux-forms/pull/195)
