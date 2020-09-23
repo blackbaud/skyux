@@ -202,7 +202,7 @@ describe('Demo component', () => {
         );
       }
 
-      const mockAuthProvider = TestBed.get(SkyAuthTokenProvider) as DemoAuthTokenMockProvider;
+      const mockAuthProvider = TestBed.inject(SkyAuthTokenProvider) as DemoAuthTokenMockProvider;
 
       mockAuthProvider.testToken = {
         '1bb.perms': [1]

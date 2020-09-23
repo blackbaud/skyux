@@ -4,7 +4,7 @@ import {
 
 export class DemoAuthTokenMockProvider {
 
-  public testToken: SkyAuthToken = {
+  public testToken?: SkyAuthToken = {
     '1bb.perms': []
   };
 
