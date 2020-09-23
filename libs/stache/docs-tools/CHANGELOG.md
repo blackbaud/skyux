@@ -1,3 +1,8 @@
+# 4.7.0 (2020-09-23)
+
+- Added `SkyThemeService` to the app module's `providers` array for Stackblitz demos. [#137](https://github.com/blackbaud/skyux-docs-tools/pull/137)
+- Updated the `SkyDocsCodeExampleComponent` to set the theme in Stackblitz demos based on the `SkyThemeService`. [#138](https://github.com/blackbaud/skyux-docs-tools/pull/138)
+
 # 4.6.0 (2020-09-16)
 
 - Added the `theme` property to the `SkyDocsCodeExampleComponent` to load Stackblitz demos in modern theme. [#130](https://github.com/blackbaud/skyux-docs-tools/pull/130)
