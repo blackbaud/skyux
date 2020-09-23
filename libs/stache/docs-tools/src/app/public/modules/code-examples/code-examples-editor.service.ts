@@ -124,12 +124,10 @@ export class SkyDocsCodeExamplesEditorService {
       `import {\n  BrowserModule\n} from '@angular/platform-browser';`,
       `import {\n  RouterModule\n} from '@angular/router';`,
       `import {\n  SkyAppLocaleProvider\n} from '@skyux/i18n';`,
+      `import {\n  SkyThemeService\n} from '@skyux/theme';`,
       `import {\n  of as observableOf\n} from 'rxjs';`,
       `import {\n  AppComponent\n} from './app.component';`
     ];
-    if (theme === SkyDocsCodeExampleTheme.Modern) {
-      moduleImportStatements.push(`import {\n  SkyThemeService\n} from '@skyux/theme';`);
-    }
 
     const moduleImports: string[] = [
       'BrowserModule',
@@ -160,7 +158,6 @@ export class SkyDocsCodeExamplesEditorService {
       }
     });
 
-    if (theme === SkyDocsCodeExampleTheme.Modern) {
       files[`${appPath}app.component.ts`] = `${banner}
 import {
   Component,
@@ -181,35 +178,22 @@ import {
 export class AppComponent {
 
   constructor(
-    renderer?: Renderer2,
-    private themeSvc?: SkyThemeService
+    themeSvc: SkyThemeService,
+    renderer?: Renderer2
   ) {
-    if (themeSvc) {
       const themeSettings = new SkyThemeSettings(
-      SkyTheme.presets['modern'],
-      SkyThemeMode.presets.light
-    );
+        SkyTheme.presets['${theme === SkyDocsCodeExampleTheme.Modern ? 'modern' : 'default'}'],
+        SkyThemeMode.presets.light
+      );
 
-      this.themeSvc.init(
+      themeSvc.init(
         document.body,
         renderer,
         themeSettings
       );
-    }
   }
-}`;
-    } else {
-      files[`${appPath}app.component.ts`] = `${banner}
-import {
-  Component
-} from '@angular/core';
 
-@Component({
-  selector: 'sky-demo-app',
-  template: '${appComponentTemplate}'
-})
-export class AppComponent {}`;
-    }
+}`;
 
     files[`${appPath}app.module.ts`] = `${moduleImportStatements.join('\n\n')}
 
@@ -223,7 +207,8 @@ export class AppComponent {}`;
   bootstrap: [
     AppComponent
   ],
-  providers: [${theme === SkyDocsCodeExampleTheme.Modern ? '\n    SkyThemeService,' : ''}
+  providers: [
+    SkyThemeService,
     {
       provide: SkyAppLocaleProvider,
       useValue: {
