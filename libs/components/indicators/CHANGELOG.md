@@ -1,3 +1,7 @@
+# 4.5.0 (2020-09-23)
+
+- Added modern theme styles to the label component. [#138](https://github.com/blackbaud/skyux-indicators/pull/138)
+
 # 4.4.0 (2020-09-17)
 
 - Added test fixtures for the wait component to use in consumer unit tests. [#134](https://github.com/blackbaud/skyux-indicators/pull/134) (Thanks [@Blackbaud-DiHuynh](https://github.com/Blackbaud-DiHuynh)!)
