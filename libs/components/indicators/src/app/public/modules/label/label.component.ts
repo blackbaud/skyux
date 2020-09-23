@@ -4,6 +4,14 @@ import {
 } from '@angular/core';
 
 import {
+  SkyIndicatorIconUtility
+} from '../shared/indicator-icon-utility';
+
+import {
+  SkyIconStackItem
+} from '../icon/icon-stack-item';
+
+import {
   SkyLabelType
 } from './label-type';
 
@@ -21,12 +29,26 @@ export class SkyLabelComponent {
   @Input()
   public set labelType(value: SkyLabelType) {
     this._labelType = value;
+    this.updateIcon();
   }
 
   public get labelType(): SkyLabelType {
     return this._labelType || 'info';
   }
 
+  public baseIcon: SkyIconStackItem;
+
+  public icon: string;
+
+  public topIcon: SkyIconStackItem;
+
   private _labelType: SkyLabelType;
 
+  private updateIcon(): void {
+    const indicatorIcon = SkyIndicatorIconUtility.getIconsForType(this.labelType);
+
+    this.icon = indicatorIcon.defaultThemeIcon;
+    this.baseIcon = indicatorIcon.modernThemeBaseIcon;
+    this.topIcon = indicatorIcon.modernThemeTopIcon;
+  }
 }

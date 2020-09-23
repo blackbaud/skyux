@@ -14,41 +14,71 @@
 
 .sky-label-success {
   background-color: $sky-background-color-success;
-
-  &:before {
-    content: "\f00c";
-    font-family: FontAwesome;
-  }
 }
 
 .sky-label-info {
   background-color: $sky-background-color-info;
-
-  &:before {
-    content: "\f06a";
-    font-family: FontAwesome;
-  }
 }
 
 .sky-label-warning {
   background-color: $sky-background-color-warning;
-
-  &:before {
-    content: "\f071";
-    font-family: FontAwesome;
-  }
 }
 
 .sky-label-danger {
   background-color: $sky-background-color-danger;
-
-  &:before {
-    content: "\f071";
-    font-family: FontAwesome;
-  }
 }
 
 .sky-label-text {
   display: inline-block;
   padding-left: $sky-padding-half;
+}
+
+.sky-label-icon-theme-modern {
+  display: none;
+}
+
+@include sky-theme-modern {
+  .sky-label {
+    align-items: center;
+    display: inline-flex;
+    line-height: 1;
+
+    &.sky-label-info {
+      background-color: $sky-background-color-info-light;
+    }
+
+    &.sky-label-info,
+    &.sky-label-success {
+      padding: 4px 15px 4px 6px;
+    }
+
+    &.sky-label-warning,
+    &.sky-label-danger {
+      padding: 4px 15px 4px 9px;
+    }
+  }
+
+  .sky-label-icon-theme-default {
+    display: none;
+  }
+
+  .sky-label-icon-theme-modern {
+    display: block;
+  }
+
+  .sky-label-info .sky-label-icon-theme-modern {
+    color: $sky-highlight-color-info;
+  }
+
+  .sky-label-success .sky-label-icon-theme-modern {
+    color: $sky-highlight-color-success;
+  }
+
+  .sky-label-warning .sky-label-icon-theme-modern {
+    color: $sky-highlight-color-warning;
+  }
+
+  .sky-label-danger .sky-label-icon-theme-modern {
+    color: $sky-highlight-color-danger;
+  }
 }

@@ -7,6 +7,10 @@ import {
 } from '@angular/common';
 
 import {
+  SkyIconModule
+} from '../icon/icon.module';
+
+import {
   SkyLabelComponent
 } from './label.component';
 
@@ -15,7 +19,8 @@ import {
     SkyLabelComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    SkyIconModule
   ],
   exports: [
     SkyLabelComponent
