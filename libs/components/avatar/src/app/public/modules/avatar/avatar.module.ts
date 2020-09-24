@@ -15,6 +15,10 @@ import {
 } from '@skyux/forms';
 
 import {
+  SkyI18nModule
+} from '@skyux/i18n';
+
+import {
   SkyAvatarResourcesModule
 } from '../shared/avatar-resources.module';
 
@@ -35,7 +39,8 @@ import {
     CommonModule,
     SkyAvatarResourcesModule,
     SkyErrorModule,
-    SkyFileAttachmentsModule
+    SkyFileAttachmentsModule,
+    SkyI18nModule
   ],
   exports: [
     SkyAvatarComponent,

@@ -18,5 +18,17 @@
   "skyux_avatar_errormodal_ok": {
     "_description": "Text used on the primary button to dismiss the error modal.",
     "message": "OK"
+  },
+  "skyux_avatar_inner_description": {
+    "_description": "Accessibility info text for screen readers when using an avatar image",
+    "message": "Profile picture of {0}"
+  },
+  "skyux_avatar_upload_change_aria_label": {
+    "_description": "Accesibility text for when an avatar image can be changed.",
+    "message": "Change profile photo of {0}. Drag a file here or click to browse."
+  },
+  "skyux_avatar_upload_new_aria_label": {
+    "_description": "Accesibility text for when a new avatar image can be added.",
+    "message": "Add profile photo of {0}. Drag a file here or click to browse."
   }
 }

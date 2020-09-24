@@ -7,6 +7,8 @@
     >
       <sky-file-drop
         [acceptedTypes]="'image/*'"
+        [fileUploadAriaLabel]="src ? ('skyux_avatar_upload_change_aria_label' | skyLibResources:name) : ('skyux_avatar_upload_new_aria_label' | skyLibResources:name)"
+        [multiple]="false"
         [maxFileSize]="maxFileSize"
         [multiple]="false"
         (filesChanged)="photoDrop($event)"

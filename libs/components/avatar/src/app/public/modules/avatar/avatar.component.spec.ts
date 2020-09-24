@@ -1,6 +1,8 @@
 import {
   ComponentFixture,
-  TestBed
+  fakeAsync,
+  TestBed,
+  tick
 } from '@angular/core/testing';
 
 import {
@@ -61,12 +63,20 @@ describe('Avatar component', () => {
 
   const mockErrorModalService = new MockErrorModalService();
 
+  function getFileDropTargetEl(el: Element): Element {
+    return el.querySelector('.sky-file-drop-target');
+  }
+
   function getWrapperEl(el: Element): Element {
     return el.querySelector('.sky-avatar-wrapper');
   }
 
   function getPhotoEl(el: Element): Element {
     return el.querySelector('.sky-avatar-image');
+  }
+
+  function getScreenReaderEl(el: Element): Element {
+    return el.querySelector('.sky-screen-reader-only');
   }
 
   function getPlaceholderEl(el: Element): Element {
@@ -109,13 +119,13 @@ describe('Avatar component', () => {
   }
 
   function validateImageUrl(el: Element, url: string, startsWith: boolean = false) {
-      let backgroundImageUrl = getBackgroundImageUrl(el);
+    let backgroundImageUrl = getBackgroundImageUrl(el);
 
-      if (startsWith) {
-        expect(backgroundImageUrl.indexOf(url)).toBe(0);
-      } else {
-        expect(backgroundImageUrl).toBe(url);
-      }
+    if (startsWith) {
+      expect(backgroundImageUrl.indexOf(url)).toBe(0);
+    } else {
+      expect(backgroundImageUrl).toBe(url);
+    }
   }
 
   beforeEach(() => {
@@ -162,6 +172,21 @@ describe('Avatar component', () => {
     validateImageUrl(el, imgUrl);
   });
 
+  it('should include screen reader text when an image URL is specified', () => {
+    let fixture = TestBed.createComponent(AvatarTestComponent);
+
+    fixture.componentInstance.name = 'Robert Hernandez';
+    fixture.componentInstance.src = imgUrl;
+
+    fixture.detectChanges();
+
+    let el = fixture.nativeElement;
+
+    const screenReaderEl: HTMLElement = <HTMLElement>getScreenReaderEl(el);
+    expect(screenReaderEl).not.toBeNull();
+    expect(screenReaderEl.textContent.trim()).toBe('Profile picture of Robert Hernandez');
+  });
+
   it('should display the record name\'s initials when no image is specified', () => {
     let fixture = TestBed.createComponent(AvatarTestComponent);
 
@@ -183,6 +208,19 @@ describe('Avatar component', () => {
     expect(el.querySelector('.sky-avatar-initials-inner')).toHaveText('E');
   });
 
+  it('should not include screen reader text when no image is specified', () => {
+    let fixture = TestBed.createComponent(AvatarTestComponent);
+
+    fixture.componentInstance.name = 'Robert Hernandez';
+
+    fixture.detectChanges();
+
+    let el = fixture.nativeElement;
+
+    const screenReaderEl: HTMLElement = <HTMLElement>getScreenReaderEl(el);
+    expect(screenReaderEl).toBeNull();
+  });
+
   it('should display nothing when no image or name is specified', () => {
     let fixture = TestBed.createComponent(AvatarTestComponent);
 
@@ -194,16 +232,48 @@ describe('Avatar component', () => {
     expect(getPlaceholderEl(el)).not.toBeVisible();
   });
 
+  it(`should provide a aria label describing adding a new profile image when one can be uploaded
+  and has not been provided`, fakeAsync(() => {
+    let fixture = TestBed.createComponent(AvatarTestComponent);
+
+    fixture.componentInstance.name = 'Robert Hernandez';
+
+    fixture.detectChanges();
+    fixture.componentInstance.avatarComponent.canChange = true;
+
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+
+    expect(getFileDropTargetEl(fixture.nativeElement).attributes.getNamedItem('aria-label').value).toBe('Add profile photo of Robert Hernandez. Drag a file here or click to browse.');
+  }));
+
+  it(`should provide a aria label describing changing a profile image when one has been uploaded`, fakeAsync(() => {
+    let fixture = TestBed.createComponent(AvatarTestComponent);
+
+    fixture.componentInstance.name = 'Robert Hernandez';
+    fixture.componentInstance.src = imgUrl;
+
+    fixture.detectChanges();
+    fixture.componentInstance.avatarComponent.canChange = true;
+
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+
+    expect(getFileDropTargetEl(fixture.nativeElement).attributes.getNamedItem('aria-label').value).toBe('Change profile photo of Robert Hernandez. Drag a file here or click to browse.');
+  }));
+
   it('should show the avatar when the specified source is a Blob object', function () {
-      let fixture = TestBed.createComponent(AvatarTestComponent);
+    let fixture = TestBed.createComponent(AvatarTestComponent);
 
-      fixture.componentInstance.src = getImgBlob();
+    fixture.componentInstance.src = getImgBlob();
 
-      fixture.detectChanges();
+    fixture.detectChanges();
 
-      let el = fixture.nativeElement;
+    let el = fixture.nativeElement;
 
-      validateImageUrl(el, 'blob:', true);
+    validateImageUrl(el, 'blob:', true);
   });
 
   it(
@@ -230,16 +300,16 @@ describe('Avatar component', () => {
     let fixture = TestBed.createComponent(SkyAvatarComponent);
     let instance = fixture.componentInstance;
     let expectedFile: SkyFileItem;
-    let actualFile = <SkyFileItem> {
-         file: <File> {
-           name: 'foo.png',
-           type: 'image/png',
-           size: 1000
-         }
-      };
+    let actualFile = <SkyFileItem>{
+      file: <File>{
+        name: 'foo.png',
+        type: 'image/png',
+        size: 1000
+      }
+    };
     instance.canChange = true;
     instance.avatarChanged.subscribe(
-      (newFile: SkyFileItem) => expectedFile = newFile );
+      (newFile: SkyFileItem) => expectedFile = newFile);
 
     instance.photoDrop(<SkyFileDropChange>{
       files: [
@@ -256,8 +326,8 @@ describe('Avatar component', () => {
     let fixture = TestBed.createComponent(SkyAvatarComponent);
     let instance = fixture.componentInstance;
     let expectedFile: SkyFileItem;
-    let actualFile = <SkyFileItem> {
-      file: <File> {
+    let actualFile = <SkyFileItem>{
+      file: <File>{
         name: 'foo.png',
         type: 'image/png',
         size: 1000
@@ -266,7 +336,7 @@ describe('Avatar component', () => {
 
     instance.canChange = true;
     instance.avatarChanged.subscribe(
-      (newFile: SkyFileItem) => expectedFile = newFile );
+      (newFile: SkyFileItem) => expectedFile = newFile);
 
     instance.photoDrop(<SkyFileDropChange>{
       files: [
@@ -285,14 +355,14 @@ describe('Avatar component', () => {
     let fixture = TestBed.createComponent(SkyAvatarComponent);
     let instance = fixture.componentInstance;
 
-    let badFileType = <SkyFileItem> {
-         file: <File> {
-           name: 'foo.txt',
-           type: 'text',
-           size: 1
-         },
-         errorType: 'fileType'
-      };
+    let badFileType = <SkyFileItem>{
+      file: <File>{
+        name: 'foo.txt',
+        type: 'text',
+        size: 1
+      },
+      errorType: 'fileType'
+    };
 
     spyOn(mockErrorModalService, 'open');
 
@@ -314,14 +384,14 @@ describe('Avatar component', () => {
     let fixture = TestBed.createComponent(SkyAvatarComponent);
     let instance = fixture.componentInstance;
 
-    let badFileType = <SkyFileItem> {
-         file: <File> {
-           name: 'foo.txt',
-           type: 'text',
-           size: 1
-         },
-         errorType: 'maxFileSize'
-      };
+    let badFileType = <SkyFileItem>{
+      file: <File>{
+        name: 'foo.txt',
+        type: 'text',
+        size: 1
+      },
+      errorType: 'maxFileSize'
+    };
 
     spyOn(mockErrorModalService, 'open');
 
