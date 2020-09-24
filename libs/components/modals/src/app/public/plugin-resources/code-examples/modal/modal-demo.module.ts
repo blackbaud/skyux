@@ -11,6 +11,14 @@ import {
 } from '@angular/forms';
 
 import {
+  SkyIdModule
+} from '@skyux/core';
+
+import {
+  SkyInputBoxModule
+} from '@skyux/forms';
+
+import {
   SkyModalModule
 } from '@skyux/modals';
 
@@ -26,6 +34,8 @@ import {
   imports: [
     CommonModule,
     FormsModule,
+    SkyIdModule,
+    SkyInputBoxModule,
     SkyModalModule
   ],
   declarations: [

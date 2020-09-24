@@ -7,6 +7,10 @@ import {
 } from '@blackbaud/skyux-lib-code-block';
 
 import {
+  SkyIdModule
+} from '@skyux/core';
+
+import {
   SkyDocsToolsModule,
   SkyDocsToolsOptions
 } from '@skyux/docs-tools';
@@ -72,6 +76,7 @@ require('style-loader!./visual.scss');
     SkyCodeModule,
     SkyConfirmModule,
     SkyDocsToolsModule,
+    SkyIdModule,
     SkyInputBoxModule,
     SkyModalModule,
     SkyTilesModule
