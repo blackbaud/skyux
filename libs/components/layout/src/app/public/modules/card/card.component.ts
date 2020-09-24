@@ -25,21 +25,41 @@ import {
   SkyInlineDeleteType
 } from '../inline-delete/inline-delete-type';
 
+/**
+ * Creates a a small container to highlight important information.
+ */
 @Component({
   selector: 'sky-card',
   styleUrls: ['./card.component.scss'],
   templateUrl: './card.component.html'
 })
 export class SkyCardComponent implements AfterContentInit, OnDestroy {
+/**
+ * Specifies the size of the card. The valid options are `large` and `small`.
+ * @default large
+ */
   @Input()
   public size: string;
 
+/**
+ * Indicates whether to display a checkbox to the right of the card title.
+ * Users can select multiple checkboxes and perform actions on the selected cards.
+ * @default false
+ */
   @Input()
   public selectable: boolean;
 
+/**
+ * Indicates whether the card is selected. This only applies to card where
+ * `selectable` is set to `true`.
+ * @default false
+ */
   @Input()
   public selected: boolean;
 
+/**
+ * Fires when users select or deselect the card.
+ */
   @Output()
   public selectedChange = new EventEmitter<boolean>();
 
