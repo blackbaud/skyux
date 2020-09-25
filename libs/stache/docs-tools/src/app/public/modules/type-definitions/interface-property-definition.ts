@@ -1,8 +1,11 @@
 import {
-  SkyDocsPropertyDefinition
-} from './property-definition';
+  SkyDocsEntryChildDefinition
+} from './entry-child-definition';
 
-export interface SkyDocsInterfacePropertyDefinition extends SkyDocsPropertyDefinition {
+/**
+ * Describes interface properties.
+ */
+export interface SkyDocsInterfacePropertyDefinition extends SkyDocsEntryChildDefinition {
 
   isOptional: boolean;
 

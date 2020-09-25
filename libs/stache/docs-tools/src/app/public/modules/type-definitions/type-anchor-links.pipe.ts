@@ -15,6 +15,9 @@ import {
   SkyDocsAnchorLinkServiceFormatType
 } from './anchor-link-service-format';
 
+/**
+ * Adds same-page anchor tags around known TypeScript types.
+ */
 @Pipe({
   name: 'skyDocsTypeAnchorLinks',
   pure: true

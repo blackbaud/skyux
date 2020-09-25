@@ -5,13 +5,7 @@ import {
 } from '@angular/core';
 
 import {
-  SkyDocsParameterDefinition
-} from './parameter-definition';
-
-import {
-  SkyDocsTypeAliasFunctionDefinition,
-  SkyDocsTypeAliasIndexSignatureDefinition,
-  SkyDocsTypeAliasUnionDefinition
+  SkyDocsTypeAliasDefinition
 } from './type-alias-definition';
 
 import {
@@ -27,26 +21,25 @@ import {
 export class SkyDocsTypeAliasDefinitionComponent {
 
   @Input()
-  public config: SkyDocsTypeAliasIndexSignatureDefinition |
-    SkyDocsTypeAliasFunctionDefinition |
-    SkyDocsTypeAliasUnionDefinition;
-
-  public get parameters(): SkyDocsParameterDefinition[] {
-    return (this.config as SkyDocsTypeAliasFunctionDefinition).parameters;
+  public set config(value: SkyDocsTypeAliasDefinition) {
+    this._config = value;
+    this.updateView();
   }
 
-  public get returnType(): string {
-    return (this.config as SkyDocsTypeAliasFunctionDefinition).returnType;
+  public get config(): SkyDocsTypeAliasDefinition {
+    return this._config;
   }
 
-  public get sourceCode(): string {
-    return this.formatService.getTypeAliasSignature(this.config, {
-      createAnchorLinks: false
-    });
-  }
+  public sourceCode: string;
+
+  private _config: SkyDocsTypeAliasDefinition;
 
   constructor(
     private formatService: SkyDocsTypeDefinitionsFormatService
   ) { }
+
+  private updateView(): void {
+    this.sourceCode = (this.config) ? this.formatService.getTypeAliasSourceCode(this.config) : undefined;
+  }
 
 }

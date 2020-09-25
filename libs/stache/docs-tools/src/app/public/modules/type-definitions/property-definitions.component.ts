@@ -1,12 +1,9 @@
 import {
-  AfterContentInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ContentChildren,
   Input,
-  OnInit,
-  QueryList
+  OnInit
 } from '@angular/core';
 
 import {
@@ -15,16 +12,25 @@ import {
 } from '@skyux/core';
 
 import {
-  SkyDocsPropertyDefinitionComponent
-} from './property-definition.component';
+  SkyDocsCallSignatureDefinition
+} from './call-signature-definition';
 
 import {
-  SkyDocsPropertyDefinition
+  SkyDocsClassPropertyDefinition
 } from './property-definition';
 
 import {
   SkyDocsTypeDefinitionsFormatService
 } from './type-definitions-format.service';
+
+interface PropertyViewModel {
+  callSignature: SkyDocsCallSignatureDefinition;
+  defaultValue: string;
+  deprecationWarning: string;
+  description: string;
+  formattedName: string;
+  isOptional: boolean;
+}
 
 @Component({
   selector: 'sky-docs-property-definitions',
@@ -32,19 +38,33 @@ import {
   styleUrls: ['./property-definitions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyDocsPropertyDefinitionsComponent implements OnInit, AfterContentInit {
+export class SkyDocsPropertyDefinitionsComponent implements OnInit {
+
+  @Input()
+  public set config(value: { properties?: SkyDocsClassPropertyDefinition[]; }) {
+    this._config = value;
+    this.updateView();
+  }
+
+  public get config(): { properties?: SkyDocsClassPropertyDefinition[]; } {
+    return this._config || {};
+  }
 
   @Input()
   public propertyType = 'Property';
+
+  @Input()
+  public showOptionalStatus: boolean = true;
 
   public deprecationWarningPrefix = `<span class="sky-text-warning"></span>**Deprecated.** `;
 
   public isMobile: boolean = true;
 
-  public properties: SkyDocsPropertyDefinition[] = [];
+  public properties: PropertyViewModel[] = [];
 
-  @ContentChildren(SkyDocsPropertyDefinitionComponent)
-  private definitionRefs: QueryList<SkyDocsPropertyDefinitionComponent>;
+  private _config: {
+    properties?: SkyDocsClassPropertyDefinition[];
+  };
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -59,24 +79,19 @@ export class SkyDocsPropertyDefinitionsComponent implements OnInit, AfterContent
     });
   }
 
-  public ngAfterContentInit(): void {
-    this.properties = this.definitionRefs.map((definitionRef) => {
-      return {
-        type: definitionRef.propertyType,
-        defaultValue: definitionRef.defaultValue,
-        deprecationWarning: definitionRef.deprecationWarning,
-        decorator: definitionRef.propertyDecorator,
-        name: definitionRef.propertyName,
-        templateRef: definitionRef.templateRef,
-        isOptional: definitionRef.isOptional
+  private updateView(): void {
+    this.properties = this.config?.properties?.map(property => {
+      const vm: PropertyViewModel = {
+        callSignature: property.type?.callSignature,
+        defaultValue: this.formatService.escapeSpecialCharacters(property.defaultValue || ''),
+        deprecationWarning: property.deprecationWarning,
+        description: property.description,
+        formattedName: this.formatService.getFormattedPropertyName(property),
+        isOptional: property.isOptional
       };
+
+      return vm;
     });
-
-    this.changeDetector.markForCheck();
-  }
-
-  public getPropertySignature(item: SkyDocsPropertyDefinition): string {
-    return this.formatService.getPropertySignature(item);
   }
 
 }

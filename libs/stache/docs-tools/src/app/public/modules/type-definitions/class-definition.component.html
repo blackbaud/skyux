@@ -8,90 +8,20 @@
     {{ config.name }}
   </sky-docs-heading-anchor>
 
-  <sky-docs-safe-html
+  <sky-docs-safe-html *ngIf="config.description"
     class="sky-docs-class-definition-description"
     [innerHtml]="config.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
   ></sky-docs-safe-html>
 
-  <ng-container *ngIf="config.properties && config.properties.length">
-    <sky-docs-property-definitions>
-      <sky-docs-property-definition *ngFor="let property of config.properties"
-        [defaultValue]="property.defaultValue"
-        [deprecationWarning]="property.deprecationWarning"
-        [isOptional]="property.isOptional"
-        [propertyName]="property.name"
-        [propertyType]="property.type"
-      >
-        <sky-docs-safe-html
-          [innerHtml]="property.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
-        ></sky-docs-safe-html>
-      </sky-docs-property-definition>
-    </sky-docs-property-definitions>
+  <ng-container *ngIf="config.properties?.length">
+    <sky-docs-property-definitions
+      [config]="{ properties: config.properties }"
+    ></sky-docs-property-definitions>
   </ng-container>
 
-  <ng-container *ngIf="config.methods && config.methods.length">
-    <sky-docs-property-definitions
-      propertyType="Method"
-    >
-      <sky-docs-property-definition *ngFor="let method of config.methods"
-        [deprecationWarning]="method.deprecationWarning"
-        [propertyName]="method.name + '()'"
-      >
-        <sky-docs-safe-html
-          class="sky-docs-class-definition-method-description"
-          [innerHtml]="method.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
-        ></sky-docs-safe-html>
-
-        <sky-code-block
-          class="sky-docs-code-block"
-          languageType="typescript"
-          [code]="getMethodSignature(method)"
-          [hideHeader]="true"
-        ></sky-code-block>
-
-        <ng-container *ngIf="method.parameters && method.parameters.length">
-          <h4 class="sky-docs-class-definition-heading">
-            Parameters
-          </h4>
-          <sky-docs-parameter-definitions>
-            <sky-docs-parameter-definition *ngFor="let parameter of method.parameters"
-              [defaultValue]="parameter.defaultValue"
-              [isOptional]="parameter.isOptional"
-              [parameterName]="parameter.name"
-              [parameterType]="parameter.type"
-            >
-              <sky-docs-safe-html
-                [innerHtml]="parameter.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
-              ></sky-docs-safe-html>
-            </sky-docs-parameter-definition>
-          </sky-docs-parameter-definitions>
-        </ng-container>
-
-        <h4 class="sky-docs-class-definition-heading">
-          Returns
-        </h4>
-
-        <p class="sky-docs-class-definition-return-type">
-          <sky-code>
-            <span
-              [innerHtml]="method.returnType | skyDocsTypeAnchorLinks:'no-code-tags'"
-            ></span>
-          </sky-code>
-        </p>
-
-        <ng-container *ngIf="method.codeExample">
-          <h4 class="sky-docs-class-definition-heading">
-            Example
-          </h4>
-          <sky-code-block
-            class="sky-docs-code-block"
-            [code]="method.codeExample"
-            [hideHeader]="true"
-            [languageType]="method.codeExampleLanguage"
-          >
-          </sky-code-block>
-        </ng-container>
-      </sky-docs-property-definition>
-    </sky-docs-property-definitions>
+  <ng-container *ngIf="config.methods?.length">
+    <sky-docs-method-definitions
+      [config]="{ methods: config.methods }"
+    ></sky-docs-method-definitions>
   </ng-container>
 </div>

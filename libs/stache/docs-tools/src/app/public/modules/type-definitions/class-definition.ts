@@ -1,21 +1,22 @@
 import {
-  SkyDocsMethodDefinition
-} from './method-definition';
-
-import {
-  SkyDocsPropertyDefinition
+  SkyDocsClassPropertyDefinition
 } from './property-definition';
 
-export interface SkyDocsClassDefinition {
+import {
+  SkyDocsEntryDefinition
+} from './entry-definition';
 
-  name: string;
+import {
+  SkyDocsClassMethodDefinition
+} from './method-definition';
 
-  anchorId?: string;
+/**
+ * Describes classes and services.
+ */
+export interface SkyDocsClassDefinition extends SkyDocsEntryDefinition {
 
-  description?: string;
+  methods?: SkyDocsClassMethodDefinition[];
 
-  methods?: SkyDocsMethodDefinition[];
-
-  properties?: SkyDocsPropertyDefinition[];
+  properties?: SkyDocsClassPropertyDefinition[];
 
 }

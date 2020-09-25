@@ -62,6 +62,7 @@ describe('Enumeration definition component', function () {
 
   it('should add links to types within description', fakeAsync(() => {
     fixture.componentInstance.config = {
+      anchorId: 'foo-anchor-id',
       name: 'Foo',
       description: 'This description has a FooUser.',
       members: [
@@ -74,17 +75,18 @@ describe('Enumeration definition component', function () {
     fixture.detectChanges();
     tick();
 
-    const descriptionElement = fixture.nativeElement.querySelector(
+    const element = fixture.nativeElement.querySelector(
       '.sky-docs-enumeration-definition-description'
     );
 
-    expect(descriptionElement.innerHTML).toContain(
+    expect(element.innerHTML).toContain(
       '<a class="sky-docs-anchor-link" href="#foo-user">FooUser</a>'
     );
   }));
 
   it('should parse markdown within description', fakeAsync(() => {
     fixture.componentInstance.config = {
+      anchorId: 'foo-anchor-id',
       name: 'Foo',
       description: 'This description has a `Date`.',
       members: [
@@ -97,17 +99,18 @@ describe('Enumeration definition component', function () {
     fixture.detectChanges();
     tick();
 
-    const descriptionElement = fixture.nativeElement.querySelector(
+    const element = fixture.nativeElement.querySelector(
       '.sky-docs-enumeration-definition-description'
     );
 
-    expect(descriptionElement.innerHTML).toContain(
+    expect(element.innerHTML).toContain(
       '<code>Date</code>'
     );
   }));
 
   it('should add links to types within property descriptions', fakeAsync(() => {
     fixture.componentInstance.config = {
+      anchorId: 'foo-anchor-id',
       name: 'Foo',
       description: '',
       members: [
@@ -121,11 +124,11 @@ describe('Enumeration definition component', function () {
     fixture.detectChanges();
     tick();
 
-    const descriptionElement = fixture.nativeElement.querySelector(
+    const element = fixture.nativeElement.querySelector(
       '.sky-docs-property-definitions-table-cell-description'
     );
 
-    expect(descriptionElement.innerHTML).toContain(
+    expect(element.innerHTML).toContain(
       '<a class="sky-docs-anchor-link" href="#foo-user">FooUser</a>'
     );
   }));

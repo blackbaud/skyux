@@ -4,9 +4,7 @@ import {
 } from '@angular/core';
 
 import {
-  SkyDocsTypeAliasFunctionDefinition,
-  SkyDocsTypeAliasIndexSignatureDefinition,
-  SkyDocsTypeAliasUnionDefinition
+  SkyDocsTypeAliasDefinition
 } from '../type-alias-definition';
 
 import {
@@ -19,9 +17,7 @@ import {
 })
 export class TypeAliasDefinitionFixtureComponent {
 
-  public config: SkyDocsTypeAliasIndexSignatureDefinition |
-    SkyDocsTypeAliasFunctionDefinition |
-    SkyDocsTypeAliasUnionDefinition;
+  public config: SkyDocsTypeAliasDefinition;
 
   @ViewChild(SkyDocsTypeAliasDefinitionComponent)
   public typeAliasDefinitionRef: SkyDocsTypeAliasDefinitionComponent;

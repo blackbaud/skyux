@@ -1,11 +1,22 @@
 import {
-  SkyDocsPropertyDefinition
-} from './property-definition';
+  SkyDocsTypeDefinition
+} from './type-definition';
 
-export interface SkyDocsParameterDefinition extends SkyDocsPropertyDefinition {
+/**
+ * Describes function and method parameters.
+ */
+export interface SkyDocsParameterDefinition {
+
+  defaultValue?: string;
+
+  description?: string;
 
   isOptional: boolean;
 
-  defaultValue?: string;
+  name: string;
+
+  type: SkyDocsTypeDefinition;
+
+  typeArguments?: SkyDocsTypeDefinition[];
 
 }

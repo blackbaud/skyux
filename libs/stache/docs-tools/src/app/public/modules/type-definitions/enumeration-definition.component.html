@@ -8,20 +8,14 @@
     {{ config.name }}
   </sky-docs-heading-anchor>
 
-  <sky-docs-safe-html
+  <sky-docs-safe-html *ngIf="config.description"
     class="sky-docs-enumeration-definition-description"
     [innerHtml]="config.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
   ></sky-docs-safe-html>
 
-  <sky-docs-property-definitions
+  <sky-docs-property-definitions *ngIf="config.members"
     propertyType="Member"
-  >
-    <sky-docs-property-definition *ngFor="let member of config.members"
-      [propertyName]="member.name"
-    >
-      <sky-docs-safe-html
-        [innerHtml]="member.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
-      ></sky-docs-safe-html>
-    </sky-docs-property-definition>
-  </sky-docs-property-definitions>
+    [config]="{ properties: config.members }"
+    [showOptionalStatus]="false"
+  ></sky-docs-property-definitions>
 </div>

@@ -1,4 +1,8 @@
 import {
+  SkyDocsClassDefinition
+} from './class-definition';
+
+import {
   SkyDocsDirectiveDefinition
 } from './directive-definition';
 
@@ -13,10 +17,6 @@ import {
 import {
   SkyDocsPipeDefinition
 } from './pipe-definition';
-
-import {
-  SkyDocsClassDefinition
-} from './class-definition';
 
 import {
   SkyDocsTypeAliasDefinition

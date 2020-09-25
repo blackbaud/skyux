@@ -1,4 +1,6 @@
-<div class="sky-docs-pipe-definition sky-docs-type-definition-wrapper">
+<div *ngIf="config"
+  class="sky-docs-pipe-definition sky-docs-type-definition-wrapper"
+>
   <sky-docs-heading-anchor
     headingLevel="3"
     [anchorId]="config.anchorId"
@@ -6,12 +8,14 @@
     {{ config.name }}
   </sky-docs-heading-anchor>
 
-  <sky-docs-safe-html
+  <sky-docs-safe-html *ngIf="config.description"
     [innerHtml]="config.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
   ></sky-docs-safe-html>
 
   <ng-container *ngIf="config.codeExample">
-    <h4 class="sky-docs-pipe-definition-heading">
+    <h4
+      class="sky-docs-pipe-definition-heading"
+    >
       Example
     </h4>
     <sky-code-block
@@ -22,36 +26,9 @@
     ></sky-code-block>
   </ng-container>
 
-  <h4 class="sky-docs-pipe-definition-heading">
-    Input value
-  </h4>
-
-  <sky-docs-parameter-definitions>
-    <sky-docs-parameter-definition
-      [parameterName]="'value'"
-      [parameterType]="config.inputValue.type"
-    >
-      <sky-docs-safe-html
-        [innerHtml]="config.inputValue.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
-      ></sky-docs-safe-html>
-    </sky-docs-parameter-definition>
-  </sky-docs-parameter-definitions>
-
-  <ng-container *ngIf="config.parameters.length">
-    <h4 class="sky-docs-pipe-definition-heading">
-      Parameters
-    </h4>
-    <sky-docs-parameter-definitions>
-      <sky-docs-parameter-definition *ngFor="let parameter of config.parameters"
-        [defaultValue]="parameter.defaultValue"
-        [isOptional]="parameter.isOptional"
-        [parameterName]="parameter.name"
-        [parameterType]="parameter.type"
-      >
-        <sky-docs-safe-html
-          [innerHtml]="parameter.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
-        ></sky-docs-safe-html>
-      </sky-docs-parameter-definition>
-    </sky-docs-parameter-definitions>
-  </ng-container>
+  <sky-docs-method-definitions
+    [config]="{
+      methods: [config.transformMethod]
+    }"
+  ></sky-docs-method-definitions>
 </div>

@@ -1,25 +1,16 @@
 import {
-  SkyDocsParameterDefinition
-} from './parameter-definition';
+  SkyDocsEntryDefinition
+} from './entry-definition';
 
-export interface SkyDocsPipeDefinition {
+import {
+  SkyDocsClassMethodDefinition
+} from './method-definition';
 
-  inputValue: {
-    description: string;
-    name: string;
-    type: string;
-  };
+/**
+ * Describes pipes.
+ */
+export interface SkyDocsPipeDefinition extends SkyDocsEntryDefinition {
 
-  name: string;
-
-  anchorId?: string;
-
-  codeExample?: string;
-
-  codeExampleLanguage?: string;
-
-  description?: string;
-
-  parameters?: SkyDocsParameterDefinition[];
+  transformMethod: SkyDocsClassMethodDefinition;
 
 }

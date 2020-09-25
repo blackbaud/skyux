@@ -44,6 +44,10 @@ import {
 } from './anchor-link.service';
 
 import {
+  SkyDocsCallSignatureDefinitionComponent
+} from './call-signature-definition.component';
+
+import {
   SkyDocsDirectiveDefinitionComponent
 } from './directive-definition.component';
 
@@ -56,20 +60,12 @@ import {
 } from './interface-definition.component';
 
 import {
-  SkyDocsParameterDefinitionComponent
-} from './parameter-definition.component';
-
-import {
-  SkyDocsParameterDefinitionsComponent
-} from './parameter-definitions.component';
+  SkyDocsMethodDefinitionsComponent
+} from './method-definitions.component';
 
 import {
   SkyDocsPipeDefinitionComponent
 } from './pipe-definition.component';
-
-import {
-  SkyDocsPropertyDefinitionComponent
-} from './property-definition.component';
 
 import {
   SkyDocsPropertyDefinitionsComponent
@@ -99,6 +95,10 @@ import {
   SkyDocsTypeAnchorLinksPipe
 } from './type-anchor-links.pipe';
 
+import {
+  SkyDocsTypeDocAdapterService
+} from './typedoc-adapter.service';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -113,36 +113,36 @@ import {
     SkyMediaQueryModule
   ],
   declarations: [
+    SkyDocsCallSignatureDefinitionComponent,
     SkyDocsClassDefinitionComponent,
     SkyDocsDirectiveDefinitionComponent,
     SkyDocsEnumerationDefinitionComponent,
     SkyDocsInterfaceDefinitionComponent,
-    SkyDocsParameterDefinitionComponent,
-    SkyDocsParameterDefinitionsComponent,
+    SkyDocsMethodDefinitionsComponent,
     SkyDocsPipeDefinitionComponent,
-    SkyDocsPropertyDefinitionComponent,
     SkyDocsPropertyDefinitionsComponent,
     SkyDocsTypeAliasDefinitionComponent,
     SkyDocsTypeAnchorLinksPipe
   ],
   exports: [
+    SkyDocsCallSignatureDefinitionComponent,
     SkyDocsClassDefinitionComponent,
     SkyDocsDirectiveDefinitionComponent,
     SkyDocsEnumerationDefinitionComponent,
     SkyDocsInterfaceDefinitionComponent,
-    SkyDocsParameterDefinitionComponent,
-    SkyDocsParameterDefinitionsComponent,
+    SkyDocsMethodDefinitionsComponent,
     SkyDocsPipeDefinitionComponent,
-    SkyDocsPropertyDefinitionComponent,
     SkyDocsPropertyDefinitionsComponent,
-    SkyDocsTypeAliasDefinitionComponent
+    SkyDocsTypeAliasDefinitionComponent,
+    SkyDocsTypeAnchorLinksPipe
   ],
   providers: [
     SkyDocsAnchorLinkService,
     SkyDocsTypeAnchorLinksPipe,
     SkyDocsTypeDefinitionsFormatService,
     SkyDocsTypeDefinitionsProvider,
-    SkyDocsTypeDefinitionsService
+    SkyDocsTypeDefinitionsService,
+    SkyDocsTypeDocAdapterService
   ]
 })
 export class SkyDocsTypeDefinitionsModule { }

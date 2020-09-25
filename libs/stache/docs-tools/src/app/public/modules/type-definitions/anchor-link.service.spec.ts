@@ -100,4 +100,31 @@ describe('Anchor link service', function () {
     expect(result).toEqual(content);
   });
 
+  it('should handle undefined anchorIds', () => {
+    mockTypeDefinitionsProvider = {
+      anchorIds: undefined,
+      typeDefinitions: mockTypeDefinitionsProvider.typeDefinitions
+    };
+
+    const service = new SkyDocsAnchorLinkService(mockTypeDefinitionsProvider);
+    const content = 'FooUser';
+    const result = service.applyTypeAnchorLinks(content);
+
+    expect(result).toEqual(
+      content,
+      'Anchor tags should not be applied if anchorIds is undefined.'
+    );
+  });
+
+  it('should handle empty content', () => {
+    const service = new SkyDocsAnchorLinkService(mockTypeDefinitionsProvider);
+    const content = '';
+    const result = service.applyTypeAnchorLinks(content);
+
+    expect(result).toEqual(
+      content,
+      'Anchor tags should not be applied to empty content.'
+    );
+  });
+
 });

@@ -4,7 +4,7 @@ export interface TypeDocComment {
 
   tags?: {
     param?: string;
-    tag: 'default' | 'defaultvalue' | 'defaultValue' | 'deprecated' | 'example' | 'param';
+    tag: 'default' | 'defaultValue' | 'deprecated' | 'example' | 'param' | 'required';
     text: string;
   }[];
 
@@ -22,12 +22,22 @@ export interface TypeDocSignature {
 
   comment?: TypeDocComment;
 
+  kindString?: 'Call signature' | 'Index signature';
+
   name: string;
 
   parameters?: TypeDocParameter[];
 
   type: TypeDocType;
 
+  typeParameter?: TypeDocTypeParameter[];
+
+}
+
+export interface TypeDocTypeParameter {
+  name: string;
+  kindString: 'Type parameter';
+  type?: TypeDocType;
 }
 
 export interface TypeDocType {
@@ -43,9 +53,9 @@ export interface TypeDocType {
 
   elementType?: TypeDocType;
 
-  name: string;
+  name?: string;
 
-  type: 'array' | 'intrinsic' | 'reference' | 'reflection' | 'stringLiteral' | 'typeParameter' | 'union';
+  type?: 'array' | 'intrinsic' | 'reference' | 'reflection' | 'stringLiteral' | 'typeParameter' | 'union' | 'unknown';
 
   typeArguments?: TypeDocType[];
 
@@ -59,6 +69,10 @@ export interface TypeDocParameter {
 
   comment?: TypeDocComment;
 
+  defaultValue?: string;
+
+  kindString: 'Parameter';
+
   name: string;
 
   type: TypeDocType;
@@ -69,13 +83,13 @@ export interface TypeDocParameter {
 
 }
 
-export interface TypeDocItemMember {
+export interface TypeDocEntryChild {
 
   comment?: TypeDocComment;
 
   decorators?: {
     arguments?: {
-      bindingPropertyName: string;
+      bindingPropertyName?: string;
     };
     name: 'Input' | 'Output';
     type: TypeDocType;
@@ -87,7 +101,7 @@ export interface TypeDocItemMember {
     isOptional?: boolean;
   };
 
-  kindString?: 'Accessor' | 'Parameter' | 'Property' | 'Method';
+  kindString?: 'Accessor' | 'Call signature' | 'Index signature' | 'Enumeration member' | 'Parameter' | 'Property' | 'Method';
 
   getSignature?: {
     comment: TypeDocComment;
@@ -99,6 +113,7 @@ export interface TypeDocItemMember {
 
   setSignature?: {
     comment: TypeDocComment;
+    name: string;
     parameters?: TypeDocParameter[];
     type: TypeDocType;
   }[];
@@ -110,17 +125,17 @@ export interface TypeDocItemMember {
   type?: TypeDocType;
 }
 
-export interface TypeDocItem {
+export interface TypeDocEntry {
 
   anchorId?: string;
 
-  children?: TypeDocItemMember[];
+  children?: TypeDocEntryChild[];
 
   comment?: TypeDocComment;
 
   decorators?: {
     arguments?: {
-      obj: string;
+      obj?: string;
     };
     name: 'Component' | 'Directive' | 'Injectable' | 'NgModule' | 'Pipe';
     type: TypeDocType;
@@ -136,9 +151,6 @@ export interface TypeDocItem {
 
   type?: TypeDocType;
 
-  typeParameter?: {
-    name: string;
-    type: TypeDocType;
-  }[];
+  typeParameter?: TypeDocTypeParameter[];
 
 }

@@ -29,4 +29,17 @@ export class FooUserComponent implements OnInit {
   public save = new EventEmitter<FooUser>();
 
   public ngOnInit(): void { }
+
+  /**
+   * Gets a user from the database.
+   * @param id The unique identifier.
+   * @param locale The locale of the user.
+   */
+  public getUserById(id: FooUser, locale: string = 'en-US'): FooUser {
+    return {
+      firstName: 'John',
+      lastName: 'Doe'
+    };
+  }
+
 }

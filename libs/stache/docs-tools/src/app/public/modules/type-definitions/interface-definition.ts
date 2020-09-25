@@ -1,17 +1,22 @@
 import {
+  SkyDocsEntryDefinition
+} from './entry-definition';
+
+import {
   SkyDocsInterfacePropertyDefinition
 } from './interface-property-definition';
 
-export interface SkyDocsInterfaceDefinition {
+import {
+  SkyDocsTypeParameterDefinition
+} from './type-parameter-definition';
 
-  name: string;
+/**
+ * Describes interfaces.
+ */
+export interface SkyDocsInterfaceDefinition extends SkyDocsEntryDefinition {
 
   properties: SkyDocsInterfacePropertyDefinition[];
 
-  anchorId?: string;
-
-  description?: string;
-
-  typeParameters?: string[];
+  typeParameters?: SkyDocsTypeParameterDefinition[];
 
 }

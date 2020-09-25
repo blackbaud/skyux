@@ -20,16 +20,25 @@ import {
 export class SkyDocsInterfaceDefinitionComponent {
 
   @Input()
-  public config: SkyDocsInterfaceDefinition;
-
-  public get sourceCode(): string {
-    return this.formatService.getInterfaceSignature(this.config, {
-      createAnchorLinks: false
-    });
+  public set config(value: SkyDocsInterfaceDefinition) {
+    this._config = value;
+    this.updateView();
   }
+
+  public get config(): SkyDocsInterfaceDefinition {
+    return this._config;
+  }
+
+  public sourceCode: string;
+
+  private _config: SkyDocsInterfaceDefinition;
 
   constructor(
     private formatService: SkyDocsTypeDefinitionsFormatService
   ) { }
+
+  private updateView(): void {
+    this.sourceCode = (this.config) ? this.formatService.getInterfaceSourceCode(this.config) : undefined;
+  }
 
 }

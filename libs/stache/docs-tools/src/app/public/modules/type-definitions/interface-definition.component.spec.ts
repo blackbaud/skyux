@@ -62,13 +62,17 @@ describe('Interface definition component', function () {
 
   it('should add links to types within description', fakeAsync(() => {
     fixture.componentInstance.config = {
+      anchorId: 'foo-anchor-id',
       name: 'Foo',
       description: 'This description has a FooUser.',
       properties: [
         {
           isOptional: true,
           name: 'foo',
-          type: 'string'
+          type: {
+            type: 'intrinsic',
+            name: 'string'
+          }
         }
       ]
     };
@@ -76,17 +80,18 @@ describe('Interface definition component', function () {
     fixture.detectChanges();
     tick();
 
-    const descriptionElement = fixture.nativeElement.querySelector(
+    const element = fixture.nativeElement.querySelector(
       '.sky-docs-interface-definition-description'
     );
 
-    expect(descriptionElement.innerHTML).toContain(
+    expect(element.innerHTML).toContain(
       '<a class="sky-docs-anchor-link" href="#foo-user">FooUser</a>'
     );
   }));
 
   it('should add links to types within property descriptions', fakeAsync(() => {
     fixture.componentInstance.config = {
+      anchorId: 'foo-anchor-id',
       name: 'Foo',
       description: '',
       properties: [
@@ -94,7 +99,10 @@ describe('Interface definition component', function () {
           description: 'This description has a FooUser.',
           isOptional: true,
           name: 'foo',
-          type: 'string'
+          type: {
+            type: 'intrinsic',
+            name: 'string'
+          }
         }
       ]
     };
@@ -102,17 +110,18 @@ describe('Interface definition component', function () {
     fixture.detectChanges();
     tick();
 
-    const descriptionElement = fixture.nativeElement.querySelector(
+    const element = fixture.nativeElement.querySelector(
       '.sky-docs-property-definitions-table-cell-description'
     );
 
-    expect(descriptionElement.innerHTML).toContain(
+    expect(element.innerHTML).toContain(
       '<a class="sky-docs-anchor-link" href="#foo-user">FooUser</a>'
     );
   }));
 
   it('should display call signature types', fakeAsync(() => {
     fixture.componentInstance.config = {
+      anchorId: 'foo-anchor-id',
       name: 'Foo',
       description: 'This description has a FooUser.',
       properties: [
@@ -121,12 +130,18 @@ describe('Interface definition component', function () {
           name: 'foo',
           type: {
             callSignature: {
-              returnType: 'string[]',
+              returnType: {
+                type: 'array',
+                name: 'string'
+              },
               parameters: [
                 {
                   isOptional: false,
                   name: 'userId',
-                  type: 'number'
+                  type: {
+                    type: 'intrinsic',
+                    name: 'number'
+                  }
                 }
               ]
             }

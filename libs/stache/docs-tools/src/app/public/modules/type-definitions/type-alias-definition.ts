@@ -1,35 +1,22 @@
 import {
-  SkyDocsParameterDefinition
-} from './parameter-definition';
+  SkyDocsEntryDefinition
+} from './entry-definition';
 
-export interface SkyDocsTypeAliasDefinition {
+import {
+  SkyDocsTypeDefinition
+} from './type-definition';
 
-  name: string;
+import {
+  SkyDocsTypeParameterDefinition
+} from './type-parameter-definition';
 
-  anchorId?: string;
+/**
+ * Describes type aliases.
+ */
+export interface SkyDocsTypeAliasDefinition extends SkyDocsEntryDefinition {
 
-  description?: string;
+  type: SkyDocsTypeDefinition;
 
-}
-
-export interface SkyDocsTypeAliasFunctionDefinition extends SkyDocsTypeAliasDefinition {
-
-  returnType: string;
-
-  parameters?: SkyDocsParameterDefinition[];
-
-}
-
-export interface SkyDocsTypeAliasIndexSignatureDefinition extends SkyDocsTypeAliasDefinition {
-
-  keyName: string;
-
-  valueType: string;
-
-}
-
-export interface SkyDocsTypeAliasUnionDefinition extends SkyDocsTypeAliasDefinition {
-
-  types: string[];
+  typeParameters?: SkyDocsTypeParameterDefinition[];
 
 }

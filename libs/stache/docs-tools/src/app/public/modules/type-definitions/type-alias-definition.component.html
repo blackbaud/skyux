@@ -8,45 +8,19 @@
     {{ config.name }}
   </sky-docs-heading-anchor>
 
-  <sky-docs-safe-html
+  <sky-docs-safe-html *ngIf="config.description"
     class="sky-docs-type-alias-definition-description"
     [innerHtml]="config.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
   ></sky-docs-safe-html>
 
-  <sky-code-block
+  <sky-code-block *ngIf="sourceCode"
     class="sky-docs-code-block"
     languageType="typescript"
     [code]="sourceCode"
     [hideHeader]="true"
   ></sky-code-block>
 
-  <ng-container *ngIf="returnType">
-    <h4 class="sky-docs-type-alias-definition-heading">
-      Returns
-    </h4>
-
-    <p class="sky-docs-type-alias-definition-return-type">
-      <sky-code><span
-        [innerHtml]="returnType | skyDocsTypeAnchorLinks:'no-code-tags'"
-      ></span></sky-code>
-    </p>
-  </ng-container>
-
-  <ng-container *ngIf="parameters && parameters.length">
-    <h4 class="sky-docs-type-alias-definition-heading">
-      Parameters
-    </h4>
-    <sky-docs-parameter-definitions>
-      <sky-docs-parameter-definition *ngFor="let parameter of parameters"
-        [defaultValue]="parameter.defaultValue"
-        [isOptional]="parameter.isOptional"
-        [parameterName]="parameter.name"
-        [parameterType]="parameter.type"
-      >
-        <sky-docs-safe-html
-          [innerHtml]="parameter.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
-        ></sky-docs-safe-html>
-      </sky-docs-parameter-definition>
-    </sky-docs-parameter-definitions>
-  </ng-container>
+  <sky-docs-call-signature-definition *ngIf="config.type.callSignature"
+    [config]="config.type.callSignature"
+  ></sky-docs-call-signature-definition>
 </div>

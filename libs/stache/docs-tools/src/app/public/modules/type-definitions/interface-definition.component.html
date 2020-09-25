@@ -8,30 +8,19 @@
     {{ config.name }}
   </sky-docs-heading-anchor>
 
-  <sky-docs-safe-html
+  <sky-docs-safe-html *ngIf="config.description"
     class="sky-docs-interface-definition-description"
     [innerHtml]="config.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
   ></sky-docs-safe-html>
 
-  <sky-code-block
+  <sky-code-block *ngIf="sourceCode"
     class="sky-docs-code-block"
     languageType="typescript"
     [code]="sourceCode"
     [hideHeader]="true"
   ></sky-code-block>
 
-  <ng-container *ngIf="config.properties && config.properties.length">
-    <sky-docs-property-definitions>
-      <sky-docs-property-definition *ngFor="let property of config.properties"
-        [defaultValue]="property.defaultValue"
-        [isOptional]="property.isOptional"
-        [propertyName]="property.name"
-        [propertyType]="property.type"
-      >
-        <sky-docs-safe-html
-          [innerHtml]="property.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
-        ></sky-docs-safe-html>
-      </sky-docs-property-definition>
-    </sky-docs-property-definitions>
-  </ng-container>
+  <sky-docs-property-definitions *ngIf="config.properties"
+    [config]="{ properties: config.properties }"
+  ></sky-docs-property-definitions>
 </div>

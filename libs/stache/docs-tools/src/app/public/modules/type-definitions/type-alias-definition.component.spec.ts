@@ -62,61 +62,27 @@ describe('Type alias definition component', function () {
 
   it('should add links to types within description', fakeAsync(() => {
     fixture.componentInstance.config = {
+      anchorId: 'foo-anchor-id',
       name: 'Foo',
       description: 'This description has a FooUser.',
-      types: ['string', 'number']
+      type: {
+        callSignature: {
+          returnType: {
+            type: 'reference',
+            name: 'FooUser'
+          }
+        }
+      }
     };
 
     fixture.detectChanges();
     tick();
 
-    const descriptionElement = fixture.nativeElement.querySelector(
+    const element = fixture.nativeElement.querySelector(
       '.sky-docs-type-alias-definition-description'
     );
 
-    expect(descriptionElement.innerHTML).toContain(
-      '<a class="sky-docs-anchor-link" href="#foo-user">FooUser</a>'
-    );
-  }));
-
-  it('should add links to types around return type', fakeAsync(() => {
-    fixture.componentInstance.config = {
-      name: 'Foo',
-      returnType: 'FooUser'
-    };
-
-    fixture.detectChanges();
-    tick();
-
-    const returnValueElement = fixture.nativeElement.querySelector(
-      '.sky-docs-type-alias-definition-return-type'
-    );
-
-    expect(returnValueElement.innerHTML).toContain(
-      '<a class="sky-docs-anchor-link" href="#foo-user">FooUser</a>'
-    );
-  }));
-
-  it('should add links to types for parameters', fakeAsync(() => {
-    fixture.componentInstance.config = {
-      name: 'Foo',
-      returnType: 'void',
-      parameters: [{
-        description: 'This description has a FooUser.',
-        isOptional: false,
-        name: 'user',
-        type: 'string'
-      }]
-    };
-
-    fixture.detectChanges();
-    tick();
-
-    const descriptionElement = fixture.nativeElement.querySelector(
-      '.sky-docs-parameter-definition-description'
-    );
-
-    expect(descriptionElement.innerHTML).toContain(
+    expect(element.innerHTML).toContain(
       '<a class="sky-docs-anchor-link" href="#foo-user">FooUser</a>'
     );
   }));

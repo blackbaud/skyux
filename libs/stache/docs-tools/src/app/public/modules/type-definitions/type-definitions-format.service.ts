@@ -3,11 +3,19 @@ import {
 } from '@angular/core';
 
 import {
+  SkyDocsCallSignatureDefinition
+} from './call-signature-definition';
+
+import {
+  SkyDocsClassPropertyDefinition
+} from './property-definition';
+
+import {
   SkyDocsInterfaceDefinition
 } from './interface-definition';
 
 import {
-  SkyDocsMethodDefinition
+  SkyDocsClassMethodDefinition
 } from './method-definition';
 
 import {
@@ -15,40 +23,51 @@ import {
 } from './parameter-definition';
 
 import {
-  SkyDocsPropertyDefinition
-} from './property-definition';
-
-import {
-  SkyDocsTypeAliasFunctionDefinition,
-  SkyDocsTypeAliasIndexSignatureDefinition,
-  SkyDocsTypeAliasUnionDefinition
+  SkyDocsTypeAliasDefinition
 } from './type-alias-definition';
 
 import {
   SkyDocsTypeDefinition
 } from './type-definition';
 
+import {
+  SkyDocsTypeParameterDefinition
+} from './type-parameter-definition';
+
+interface GetFormattedTypeConfig {
+  escapeSpecialCharacters: boolean;
+}
+
+/**
+ * Formats type definitions into HTML-compatible strings.
+ */
 @Injectable()
 export class SkyDocsTypeDefinitionsFormatService {
 
-  public getInterfaceSignature(definition: SkyDocsInterfaceDefinition, config?: {
-    createAnchorLinks: boolean;
-  }): string {
-    const typeParameterSignature: string = (definition.typeParameters && definition.typeParameters.length)
-      ? `<${definition.typeParameters.join(', ')}>`
-      : '';
+  /**
+   * Returns an HTML-formatted representation of the provided interface config.
+   */
+  public getInterfaceSourceCode(definition: SkyDocsInterfaceDefinition): string {
+    const typeParameters = this.getFormattedTypeParameters(definition.typeParameters);
+    const config = {
+      escapeSpecialCharacters: false
+    };
 
-    let signature: string = `interface ${definition.name}${typeParameterSignature} {`;
+    let signature: string = `interface ${definition.name}${typeParameters} {`;
 
-    definition.properties.forEach((property) => {
-      const propertyType = (typeof property.type === 'string')
-        ? property.type
-        : this.formatCallSignature(property.type.callSignature, {
-          createAnchorLinks: config.createAnchorLinks
-        });
+    definition.properties.forEach(property => {
+      const indexSignature = property.type.indexSignature;
+      const optionalIndicator = (property.isOptional && !indexSignature) ? '?' : '';
+      const propertyType = this.getFormattedType(property.type, config);
 
-      const optionalIndicator = (property.isOptional) ? '?' : '';
-      signature += `\n  ${property.name}${optionalIndicator}: ${propertyType.replace(/\"/g, '\'')};`;
+      let name: string;
+      if (indexSignature) {
+        name = `[${indexSignature.key.name}: string]`;
+      } else {
+        name = property.name;
+      }
+
+      signature += `\n  ${name}${optionalIndicator}: ${propertyType};`;
     });
 
     signature += '\n}';
@@ -56,52 +75,73 @@ export class SkyDocsTypeDefinitionsFormatService {
     return signature;
   }
 
-  public getMethodSignature(method: SkyDocsMethodDefinition): string {
-    const typeParameterSignature: string = (method.typeParameters && method.typeParameters.length)
-      ? `<${method.typeParameters.join(', ')}>`
-      : '';
+  /**
+   * Returns an HTML-formatted representation of the provided method config.
+   */
+  public getMethodSourceCode(definition: SkyDocsClassMethodDefinition): string {
+    const config = {
+      escapeSpecialCharacters: false
+    };
 
-    let signature = `public ${method.name}${typeParameterSignature}(`;
+    const typeArguments = this.getFormattedTypeArguments(definition.type, config);
+    const callSignature = definition.type.callSignature;
+    const returnType = this.getFormattedType(callSignature.returnType, config);
 
-    if (method.parameters) {
-      signature += method.parameters
-        .map((parameter) => this.getParameterSignature(parameter, {
-          createAnchorLinks: false,
-          escapeSpecialCharacters: false
-        }))
+    let params: string = '';
+    if (callSignature.parameters) {
+      params += callSignature.parameters
+        .map(p => this.getFormattedParameterName(p, config))
         .join(', ');
     }
 
-    const returnType = (method.returnType)
-      ? method.returnType
-      : 'void';
+    return `public ${definition.name}${typeArguments}(${params}): ${returnType}`;
+  }
 
-    signature += `): ${returnType}`;
+  /**
+   * Returns an HTML-formatted representation of the provided type alias config.
+   */
+  public getTypeAliasSourceCode(definition: SkyDocsTypeAliasDefinition): string {
+    const config = {
+      escapeSpecialCharacters: false
+    };
+
+    const typeParameters = this.getFormattedTypeParameters(definition.typeParameters);
+
+    let signature = `type ${definition.name}${typeParameters} = `;
+
+    if (definition.type.callSignature) {
+      signature += this.getFormattedCallSignature(definition.type.callSignature, {
+        escapeSpecialCharacters: false
+      });
+    } else if (definition.type.indexSignature) {
+      const indexSignature = definition.type.indexSignature;
+      const type = this.getFormattedType(indexSignature.type, {
+        escapeSpecialCharacters: false
+      });
+      signature += `{\n  [${indexSignature.key.name}: string]: ${type};\n}`;
+    } else {
+      /*istanbul ignore else */
+      if (definition.type.type === 'union') {
+        signature += this.getFormattedUnion(definition.type, config);
+      }
+    }
 
     return signature;
   }
 
-  public getParameterSignature(
+  /**
+   * Returns a formatted string representing a parameter's name and value. For example: `'foo: string'`.
+   */
+  public getFormattedParameterName(
     parameter: SkyDocsParameterDefinition,
-    config: {
-      createAnchorLinks?: boolean;
-      escapeSpecialCharacters?: boolean;
-    } = {
-      createAnchorLinks: true,
+    config: GetFormattedTypeConfig = {
       escapeSpecialCharacters: true
     }
   ): string {
-    const optionalMarker = (parameter.isOptional && !parameter.defaultValue) ? '?' : '';
-    const defaultValue = (parameter.defaultValue) ? ` = ${parameter.defaultValue}` : '';
+    const optionalMarker = (parameter.isOptional) ? '?' : '';
+    const parameterType = this.getFormattedType(parameter.type, config);
 
-    const parameterType = (!parameter.type || typeof parameter.type === 'string')
-      ? parameter.type
-      : this.formatCallSignature(parameter.type.callSignature, {
-        createAnchorLinks: false
-      });
-
-    let signature = `${parameter.name}${optionalMarker}: ${parameterType}${defaultValue}`;
-
+    let signature = `${parameter.name}${optionalMarker}: ${parameterType}`;
     if (config.escapeSpecialCharacters) {
       signature = this.escapeSpecialCharacters(signature);
     }
@@ -109,86 +149,167 @@ export class SkyDocsTypeDefinitionsFormatService {
     return signature;
   }
 
-  public getPropertySignature(item: SkyDocsPropertyDefinition): string {
+  /**
+   * Returns a formatted string representing a property (or method's) name and value. For example: `'public foo: string'`.
+   */
+  public getFormattedPropertyName(property: SkyDocsClassPropertyDefinition): string {
     let signature = '';
 
-    if (item.decorator) {
-      signature += `@${item.decorator}()<br />`;
+    if (property.decorator?.name) {
+      signature += `@${property.decorator.name}()<br>`;
     }
 
-    if (item.deprecationWarning) {
-      signature += `<strike>${item.name}</strike>`;
+    const indexSignature = property.type?.indexSignature;
+    let name: string;
+    if (indexSignature) {
+      name = `[${indexSignature.key.name}: ${this.getFormattedType(indexSignature.key.type)}]`;
     } else {
-      signature += `${item.name}`;
+      name = property.name;
     }
 
-    if (!item.type) {
-      return signature;
+    if (property.deprecationWarning !== undefined) {
+      signature += `<strike>${name}</strike>`;
+    } else {
+      signature += name;
     }
 
-    // Don't use the '?' indicator if the property has a decorator.
-    if (item.isOptional && !item.decorator) {
+    if (property.isOptional && !indexSignature) {
       signature += '?';
     }
 
-    let propertyType = (typeof item.type === 'string')
-      ? item.type
-      : this.formatCallSignature(item.type.callSignature, {
-        createAnchorLinks: false
-      });
-
-    signature += `: ${propertyType}`;
+    if (indexSignature) {
+      signature += `: ${this.getFormattedType(indexSignature.type)}`;
+    } else if (property.type) {
+      signature += `: ${this.getFormattedType(property.type)}`;
+    }
 
     return signature;
   }
 
-  public getTypeAliasSignature(
-    definition: SkyDocsTypeAliasIndexSignatureDefinition |
-      SkyDocsTypeAliasFunctionDefinition |
-      SkyDocsTypeAliasUnionDefinition,
-    config: {
-      createAnchorLinks: boolean;
-    } = {
-      createAnchorLinks: true
+  /**
+   * Returns an HTML-formatted method name to be used on the properties table.
+   */
+  public getFormattedMethodName(definition: SkyDocsClassMethodDefinition): string {
+    let formatted = '';
+
+    if (definition.deprecationWarning !== undefined) {
+      formatted += `<strike>${definition.name}</strike>`;
+    } else {
+      formatted += definition.name;
+    }
+
+    return `${formatted}()`;
+  }
+
+  /**
+   * Returns a formatted string representing the provided type.
+   */
+  public getFormattedType(
+    type: SkyDocsTypeDefinition,
+    config: GetFormattedTypeConfig = {
+      escapeSpecialCharacters: true
     }
   ): string {
-    let signature = `type ${definition.name} = `;
+    let formatted = 'any';
 
-    // Function type
-    if ('returnType' in definition) {
-      signature += this.formatCallSignature(definition, {
-        createAnchorLinks: config.createAnchorLinks
-      });
+    if (!type) {
+      return formatted;
     }
 
-    // Index signature
-    if ('keyName' in definition) {
-      signature += `{ [${definition.keyName}: string]: ${definition.valueType} }`;
+    if (type.callSignature) {
+      return this.getFormattedCallSignature(type.callSignature, config);
     }
 
-    // Union type
-    if ('types' in definition) {
-      signature += definition.types.join(' | ');
+    if (type.unionTypes) {
+      return this.getFormattedUnion(type, config);
     }
 
-    return signature;
+    if (type.name) {
+      formatted = type.name;
+    }
+
+    if (type.typeArguments) {
+      formatted += this.getFormattedTypeArguments(type, config);
+    }
+
+    if (type.type === 'array') {
+      formatted += '[]';
+    }
+
+    if (config.escapeSpecialCharacters) {
+      return this.escapeSpecialCharacters(formatted);
+    }
+
+    return formatted;
   }
 
-  private escapeSpecialCharacters(value: string): string {
+  public escapeSpecialCharacters(value: string): string {
     return value.replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
 
-  private formatCallSignature(definition: {
-    parameters?: SkyDocsParameterDefinition[];
-    returnType?: SkyDocsTypeDefinition;
-  }, config?: {
-    createAnchorLinks?: boolean;
-  }): string {
-    const parameters = (definition.parameters)
-      ? definition.parameters.map(p => this.getParameterSignature(p, config))
-      : [];
+  private getFormattedCallSignature(
+    callSignature: SkyDocsCallSignatureDefinition,
+    config: GetFormattedTypeConfig = {
+      escapeSpecialCharacters: true
+    }
+  ): string {
+    const returnType = this.getFormattedType(callSignature.returnType, config);
 
-    return `(${parameters.join(', ')}) => ${definition.returnType}`;
+    if (!callSignature.parameters) {
+      return `() => ${returnType}`;
+    }
+
+    const formattedParams = callSignature.parameters
+      .map(p => this.getFormattedParameterName(p, config))
+      .join(', ');
+
+    return `(${formattedParams}) => ${returnType}`;
+  }
+
+  private getFormattedUnion(typeConfig: SkyDocsTypeDefinition, config: GetFormattedTypeConfig): string {
+    return typeConfig.unionTypes.map(t => {
+      return this.getFormattedType(t, config);
+    }).join(' | ');
+  }
+
+  /**
+   * Parse any type arguments e.g. `<T, F>`.
+   */
+  private getFormattedTypeArguments(typeConfig: SkyDocsTypeDefinition, config: GetFormattedTypeConfig): string {
+    if (!typeConfig.typeArguments) {
+      return '';
+    }
+
+    const typeArguments = typeConfig.typeArguments.map(typeArgument => {
+      if (typeArgument.type === 'array') {
+        return `${typeArgument.name}[]`;
+      }
+
+      if (typeArgument.unionTypes) {
+        return this.getFormattedUnion(typeArgument, config);
+      }
+
+      return typeArgument.name;
+    });
+
+    return `<${typeArguments.join(', ')}>`;
+  }
+
+  private getFormattedTypeParameters(typeParameters: SkyDocsTypeParameterDefinition[]): string {
+    if (!typeParameters) {
+      return '';
+    }
+
+    const formatted = typeParameters.map(typeParameter => {
+      let result = typeParameter.name;
+      if (typeParameter.type && typeParameter.type.type === 'reference') {
+        result += ` extends ${typeParameter.type.name}`;
+      }
+
+      return result;
+    });
+
+    return `<${formatted.join(', ')}>`;
   }
 
 }

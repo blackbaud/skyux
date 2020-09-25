@@ -1,5 +1,8 @@
-@import '~@skyux/theme/scss/mixins';
-@import '~@skyux/theme/scss/_compat/mixins';
+@import "../../styles/mixins";
+
+.sky-docs-call-signature-definition-heading {
+  @include sky-docs-tools-heading(4);
+}
 
 .sky-docs-parameter-definitions {
   width: auto;

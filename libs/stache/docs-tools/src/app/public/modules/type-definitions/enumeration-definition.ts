@@ -1,13 +1,16 @@
-export interface SkyDocsEnumerationDefinition {
+import {
+  SkyDocsEntryDefinition
+} from './entry-definition';
 
-  name: string;
+import {
+  SkyDocsEnumerationMemberDefinition
+} from './enumeration-member-definition';
 
-  members: {
-    name: string;
-    description?: string;
-  }[];
+/**
+ * Describes enumerations.
+ */
+export interface SkyDocsEnumerationDefinition extends SkyDocsEntryDefinition {
 
-  anchorId?: string;
+  members: SkyDocsEnumerationMemberDefinition[];
 
-  description?: string;
 }

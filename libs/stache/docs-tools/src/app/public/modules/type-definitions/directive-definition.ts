@@ -1,20 +1,20 @@
 import {
-  SkyDocsPropertyDefinition
+  SkyDocsClassPropertyDefinition
 } from './property-definition';
 
-export interface SkyDocsDirectiveDefinition {
+import {
+  SkyDocsEntryDefinition
+} from './entry-definition';
 
-  name: string;
+/**
+ * Describes components and directives.
+ */
+export interface SkyDocsDirectiveDefinition extends SkyDocsEntryDefinition {
+
+  eventProperties?: SkyDocsClassPropertyDefinition[];
+
+  inputProperties?: SkyDocsClassPropertyDefinition[];
 
   selector: string;
 
-  properties?: SkyDocsPropertyDefinition[];
-
-  description?: string;
-
-  anchorId?: string;
-
-  codeExample?: string;
-
-  codeExampleLanguage?: string;
 }

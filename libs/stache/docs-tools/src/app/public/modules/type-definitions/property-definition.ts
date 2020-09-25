@@ -1,30 +1,20 @@
 import {
-  TemplateRef
-} from '@angular/core';
+  SkyDocsEntryChildDefinition
+} from './entry-child-definition';
 
 import {
-  SkyDocsPropertyDecorator
+  SkyDocsPropertyDecoratorDefinition
 } from './property-decorator';
 
-import {
-  SkyDocsTypeDefinition
-} from './type-definition';
+/**
+ * Describes class properties.
+ */
+export interface SkyDocsClassPropertyDefinition extends SkyDocsEntryChildDefinition {
 
-export interface SkyDocsPropertyDefinition {
-
-  name: string;
-
-  type: SkyDocsTypeDefinition;
-
-  decorator?: SkyDocsPropertyDecorator;
+  decorator?: SkyDocsPropertyDecoratorDefinition;
 
   defaultValue?: string;
 
-  deprecationWarning?: string;
+  isOptional: boolean;
 
-  description?: string;
-
-  isOptional?: boolean;
-
-  templateRef?: TemplateRef<any>;
 }

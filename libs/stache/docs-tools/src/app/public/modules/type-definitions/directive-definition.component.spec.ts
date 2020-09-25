@@ -1,8 +1,6 @@
 import {
   ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick
+  TestBed
 } from '@angular/core/testing';
 
 import {
@@ -62,33 +60,51 @@ describe('Directive definition component', function () {
 
   it('should display the selector', () => {
     fixture.componentInstance.config = {
+      anchorId: 'foo-anchor-id',
       name: 'FooComponent',
       selector: 'app-foo'
     };
 
     fixture.detectChanges();
 
-    const selectorElement = fixture.nativeElement.querySelector('.sky-docs-directive-selector');
+    let selectorElement = fixture.nativeElement.querySelector('.sky-docs-directive-selector');
 
     expect(selectorElement.innerText).toEqual('app-foo');
   });
 
   it('should order Input properties first and then Output properties', () => {
     fixture.componentInstance.config = {
+      anchorId: 'foo-anchor-id',
       name: 'FooComponent',
       selector: 'app-foo',
-      properties: [
+      inputProperties: [
         {
-          decorator: 'Output',
+          name: 'config',
+          decorator: {
+            name: 'Input'
+          },
           isOptional: true,
-          name: 'bar',
-          type: 'EventEmitter&lt;void&gt;'
-        },
+          type: {
+            type: 'reference',
+            name: 'Config'
+          }
+        }
+      ],
+      eventProperties: [
         {
-          decorator: 'Input',
+          name: 'click',
+          decorator: {
+            name: 'Output'
+          },
           isOptional: true,
-          name: 'foo',
-          type: 'string'
+          type: {
+            type: 'reference',
+            name: 'EventEmitter',
+            typeArguments: [{
+              type: 'intrinsic',
+              name: 'string'
+            }]
+          }
         }
       ]
     };
@@ -97,20 +113,23 @@ describe('Directive definition component', function () {
 
     const rowElements = fixture.nativeElement.querySelectorAll('.sky-docs-property-definitions-table-cell-name');
 
-    expect(rowElements.item(0).innerText).toContain('@Input()');
-    expect(rowElements.item(1).innerText).toContain('@Output()');
+    expect(rowElements.item(0).innerText.replace(/\r?\n|\r/g, '')).toEqual('@Input()config?: Config');
+    expect(rowElements.item(1).innerText.replace(/\r?\n|\r/g, '')).toEqual('@Output()click?: EventEmitter<string>');
   });
 
   it('should display Output properties if Inputs do not exist', () => {
     fixture.componentInstance.config = {
+      anchorId: 'foo-anchor-id',
       name: 'FooComponent',
       selector: 'app-foo',
-      properties: [
+      eventProperties: [
         {
-          decorator: 'Output',
-          isOptional: true,
-          name: 'bar',
-          type: 'EventEmitter&lt;void&gt;'
+          name: 'click',
+          decorator: {
+            name: 'Output'
+          },
+          isOptional: false,
+          type: {}
         }
       ]
     };
@@ -122,23 +141,23 @@ describe('Directive definition component', function () {
     expect(rowElements.item(0).innerText).toContain('@Output()');
   });
 
-  it('should add links to types within description', fakeAsync(() => {
+  it('should add links to types within description', () => {
     fixture.componentInstance.config = {
+      anchorId: 'component-foocomponent',
       name: 'FooComponent',
       description: 'This description has a [[FooUser]].',
       selector: 'app-foo'
     };
 
     fixture.detectChanges();
-    tick();
 
-    const descriptionElement = fixture.nativeElement.querySelector(
+    const element = fixture.nativeElement.querySelector(
       '.sky-docs-directive-definition-description'
     );
 
-    expect(descriptionElement.innerHTML).toContain(
+    expect(element.innerHTML).toContain(
       '<a class="sky-docs-anchor-link" href="#foo-user">FooUser</a>'
     );
-  }));
+  });
 
 });

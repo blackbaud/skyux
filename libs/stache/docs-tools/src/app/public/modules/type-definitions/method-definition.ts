@@ -1,27 +1,16 @@
 import {
-  SkyDocsParameterDefinition
-} from './parameter-definition';
+  SkyDocsEntryChildDefinition
+} from './entry-child-definition';
 
 import {
-  SkyDocsTypeDefinition
-} from './type-definition';
+  SkyDocsTypeParameterDefinition
+} from './type-parameter-definition';
 
-export interface SkyDocsMethodDefinition {
+/**
+ * Describes class methods.
+ */
+export interface SkyDocsClassMethodDefinition extends SkyDocsEntryChildDefinition {
 
-  name: string;
-
-  codeExample?: string;
-
-  codeExampleLanguage?: string;
-
-  description?: string;
-
-  deprecationWarning?: string;
-
-  parameters?: SkyDocsParameterDefinition[];
-
-  returnType?: SkyDocsTypeDefinition;
-
-  typeParameters?: string[];
+  typeParameters?: SkyDocsTypeParameterDefinition[];
 
 }

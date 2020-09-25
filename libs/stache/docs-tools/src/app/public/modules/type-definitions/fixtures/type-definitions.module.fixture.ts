@@ -7,8 +7,16 @@ import {
 } from '@angular/core';
 
 import {
+  RouterTestingModule
+} from '@angular/router/testing';
+
+import {
   SkyDocsTypeDefinitionsModule
 } from '../type-definitions.module';
+
+import {
+  CallSignatureDefinitionFixtureComponent
+} from './call-signature-definition.component.fixture';
 
 import {
   ClassDefinitionFixtureComponent
@@ -27,39 +35,48 @@ import {
 } from './interface-definition.component.fixture';
 
 import {
-  PropertyDefinitionsFixtureComponent
-} from './property-definitions.component.fixture';
+  MethodDefinitionsFixtureComponent
+} from './method-definitions.component.fixture';
 
 import {
-  ParameterDefinitionsFixtureComponent
-} from './parameter-definitions.component.fixture';
+  PropertyDefinitionsFixtureComponent
+} from './property-definitions.component.fixture';
 
 import {
   TypeAliasDefinitionFixtureComponent
 } from './type-alias-definition.component.fixture';
 
+import {
+  TypeAnchorLinksPipeFixtureComponent
+} from './type-anchor-links.pipe.component.fixture';
+
 @NgModule({
   imports: [
     CommonModule,
+    RouterTestingModule,
     SkyDocsTypeDefinitionsModule
   ],
   exports: [
+    CallSignatureDefinitionFixtureComponent,
     ClassDefinitionFixtureComponent,
     DirectiveDefinitionFixtureComponent,
     EnumerationDefinitionFixtureComponent,
     InterfaceDefinitionFixtureComponent,
-    ParameterDefinitionsFixtureComponent,
+    MethodDefinitionsFixtureComponent,
     PropertyDefinitionsFixtureComponent,
-    TypeAliasDefinitionFixtureComponent
+    TypeAliasDefinitionFixtureComponent,
+    TypeAnchorLinksPipeFixtureComponent
   ],
   declarations: [
+    CallSignatureDefinitionFixtureComponent,
     ClassDefinitionFixtureComponent,
     DirectiveDefinitionFixtureComponent,
     EnumerationDefinitionFixtureComponent,
     InterfaceDefinitionFixtureComponent,
-    ParameterDefinitionsFixtureComponent,
+    MethodDefinitionsFixtureComponent,
     PropertyDefinitionsFixtureComponent,
-    TypeAliasDefinitionFixtureComponent
+    TypeAliasDefinitionFixtureComponent,
+    TypeAnchorLinksPipeFixtureComponent
   ]
 })
 export class TypeDefinitionsFixturesModule { }
