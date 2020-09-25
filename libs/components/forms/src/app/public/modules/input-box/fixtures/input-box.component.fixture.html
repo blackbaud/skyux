@@ -245,3 +245,31 @@
     >
   </sky-input-box>
 </div>
+
+<div
+  class="input-button-inset"
+>
+  <sky-input-box>
+    <label
+      class="sky-control-label"
+      [for]="inputBoxButtonInset.id"
+    >
+      Input with inset button
+    </label>
+    <input
+      class="sky-form-control"
+      skyId
+      type="text"
+      #inputBoxButtonInset="skyId"
+    >
+    <div
+      class="sky-input-group-btn sky-input-box-btn-inset"
+    >
+      <button
+        aria-label="Inset button"
+        class="sky-btn sky-btn-default test-button-inset"
+        type="button"
+      ></button>
+    </div>
+  </sky-input-box>
+</div>

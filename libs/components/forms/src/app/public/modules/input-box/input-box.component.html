@@ -23,9 +23,22 @@
         <ng-container
           *ngTemplateOutlet="buttonsLeftTemplate"
         ></ng-container>
-        <ng-container
-          *ngTemplateOutlet="inputTemplate"
-        ></ng-container>
+        <div
+          class="sky-input-box-input-group-inner"
+          [ngClass]="{
+            'sky-field-status-active': formControlHasFocus,
+            'sky-field-status-invalid': hasErrorsComputed
+          }"
+          (focusin)="formControlFocusIn()"
+          (focusout)="formControlFocusOut()"
+        >
+          <ng-container
+            *ngTemplateOutlet="inputTemplate"
+          ></ng-container>
+          <ng-container
+            *ngTemplateOutlet="buttonsInsetTemplate"
+          ></ng-container>
+        </div>
         <ng-container
           *ngTemplateOutlet="buttonsTemplate"
         ></ng-container>
@@ -64,11 +77,18 @@
         <div
           class="sky-form-group"
         >
+          <div
+            class="sky-input-box-form-group-inner"
+          >
+            <ng-container
+              *ngTemplateOutlet="labelTemplate"
+            ></ng-container>
+            <ng-container
+              *ngTemplateOutlet="inputTemplate"
+            ></ng-container>
+          </div>
           <ng-container
-            *ngTemplateOutlet="labelTemplate"
-          ></ng-container>
-          <ng-container
-            *ngTemplateOutlet="inputTemplate"
+            *ngTemplateOutlet="buttonsInsetTemplate"
           ></ng-container>
         </div>
       </div>
@@ -119,10 +139,21 @@
   #buttonsTemplate
 >
   <ng-content
-    select=".sky-input-group-btn:not(.sky-input-box-btn-left)"
+    select=".sky-input-group-btn:not(.sky-input-box-btn-left):not(.sky-input-box-btn-inset)"
   ></ng-content>
   <ng-container
     *ngTemplateOutlet="hostButtonsTemplate"
+  ></ng-container>
+</ng-template>
+
+<ng-template
+  #buttonsInsetTemplate
+>
+  <ng-content
+    select=".sky-input-group-btn.sky-input-box-btn-inset"
+  ></ng-content>
+  <ng-container
+    *ngTemplateOutlet="hostButtonsInsetTemplate"
   ></ng-container>
 </ng-template>
 

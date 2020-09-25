@@ -16,6 +16,24 @@ sky-input-box {
     flex-wrap: wrap;
   }
 
+  .sky-input-box-input-group-inner {
+    display: flex;
+    background-color: #fff;
+    width: 100%;
+    z-index: 1;
+
+    &:not(.sky-field-status-active):not(.sky-field-status-invalid) {
+      @include sky-border(dark, top, bottom, left, right);
+    }
+  }
+
+  .sky-input-box-btn-inset {
+    .sky-btn {
+      background-color: transparent;
+      border: none;
+    }
+  }
+
   .sky-control-label {
     flex-grow: 1;
   }
@@ -31,8 +49,16 @@ sky-input-box {
     flex-shrink: 0.001;
   }
 
-  .sky-form-control {
+  .sky-form-control,
+  .sky-form-control:focus {
+    border: none;
     flex-basis: 100%;
+
+    &:focus,
+    &.ng-invalid.ng-touched {
+      border: none;
+      box-shadow: none;
+    }
   }
 }
 
@@ -94,18 +120,24 @@ sky-input-box {
       }
     }
 
+    .sky-input-box-form-group-inner {
+      display: flex;
+      flex-grow: 1;
+      flex-wrap: wrap;
+    }
+
     .sky-input-group-btn {
       .sky-btn {
         border-radius: 0;
         color: $sky-theme-modern-font-deemphasized-color;
         margin: 0;
-        padding: 0 13px;
+        padding: 0;
         position: relative;
         transition: $input-box-transitions;
+        width: 55px;
 
         .sky-icon {
           font-size: 24px;
-          width: 29px;
         }
       }
 
@@ -220,10 +252,24 @@ sky-input-box {
         }
       }
 
-      > .sky-form-control:only-child,
-      > *:only-child .sky-form-control {
-        margin-top: 0;
-        padding-top: 10px;
+      .sky-input-box-btn-inset {
+        .sky-btn {
+          background-color: transparent;
+          border-radius: $sky-theme-modern-box-border-radius-default;
+          transition-property: none;
+
+          &:not(:active):not(:focus):not(:hover) {
+            box-shadow: none;
+          }
+        }
+      }
+
+      .sky-input-box-form-group-inner {
+        > .sky-form-control:first-child,
+        > *:first-child .sky-form-control {
+          margin-top: 0;
+          padding-top: 10px;
+        }
       }
 
       /* Firefox puts an extra 5px left padding on select elements. This removes it. */

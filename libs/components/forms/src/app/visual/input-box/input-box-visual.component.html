@@ -11,6 +11,7 @@
   <sky-fluid-grid
     [gutterSize]="gutterSize"
   >
+
     <sky-row>
       <sky-column>
         <div
@@ -613,6 +614,73 @@
               type="text"
               #inputBoxButtonLeft="skyId"
             >
+          </sky-input-box>
+        </div>
+      </sky-column>
+    </sky-row>
+
+    <sky-row>
+      <sky-column>
+        <div
+          id="input-box-button-inset"
+        >
+          <sky-input-box
+            class="sky-margin-stacked-lg"
+          >
+            <label
+              class="sky-control-label"
+              [for]="inputBoxButtonInset.id"
+            >
+              Input with inset button
+            </label>
+            <input
+              class="sky-form-control"
+              skyId
+              type="text"
+              #inputBoxButtonInset="skyId"
+            >
+            <div
+              class="sky-input-group-btn sky-input-box-btn-inset"
+            >
+              <button
+                class="sky-btn sky-btn-default"
+                type="button"
+              >
+                <sky-icon
+                  icon="search"
+                ></sky-icon>
+              </button>
+            </div>
+          </sky-input-box>
+        </div>
+      </sky-column>
+    </sky-row>
+
+    <sky-row>
+      <sky-column>
+        <div
+          id="input-box-button-inset-no-label"
+        >
+          <sky-input-box
+            class="sky-margin-stacked-lg"
+          >
+            <input
+              class="sky-form-control"
+              skyId
+              type="text"
+            >
+            <div
+              class="sky-input-group-btn sky-input-box-btn-inset"
+            >
+              <button
+                class="sky-btn sky-btn-default"
+                type="button"
+              >
+                <sky-icon
+                  icon="search"
+                ></sky-icon>
+              </button>
+            </div>
           </sky-input-box>
         </div>
       </sky-column>
