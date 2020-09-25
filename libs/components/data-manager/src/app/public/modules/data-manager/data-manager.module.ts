@@ -25,6 +25,7 @@ import {
 } from '@skyux/forms';
 
 import {
+  SkyBackToTopModule,
   SkyToolbarModule
 } from '@skyux/layout';
 
@@ -87,6 +88,7 @@ import {
   imports: [
     CommonModule,
     FormsModule,
+    SkyBackToTopModule,
     SkyCheckboxModule,
     SkyDataManagerResourcesModule,
     SkyFilterModule,

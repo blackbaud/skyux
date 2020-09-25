@@ -17,6 +17,10 @@ import {
 import {
   SkyDataManagerService
 } from './data-manager.service';
+import {
+  SkyBackToTopMessage,
+  SkyBackToTopMessageType
+ } from '@skyux/layout';
 
 /**
  * The top-level data manager component. Provide `SkyDataManagerService` at this level.
@@ -53,6 +57,12 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
     this.changeDetection.markForCheck();
   }
 
+  public backToTopController = new Subject<SkyBackToTopMessage>();
+
+  public backToTopOptions = {
+    buttonHidden: true
+  };
+
   private _isInitialized = false;
   private _currentViewkeeperClasses: string[];
   private activeViewId: string;
@@ -83,6 +93,7 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(activeViewId => {
         this.activeViewId = activeViewId;
+        this.backToTopController.next({ type: SkyBackToTopMessageType.BackToTop });
         this.currentViewkeeperClasses = this.allViewkeeperClasses[this.activeViewId];
       });
   }

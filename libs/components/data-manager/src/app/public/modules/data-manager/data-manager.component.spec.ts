@@ -5,6 +5,10 @@ import {
 } from '@angular/core/testing';
 
 import {
+  SkyBackToTopMessageType
+} from '@skyux/layout';
+
+import {
   expect
 } from '@skyux-sdk/testing';
 
@@ -84,6 +88,17 @@ describe('SkyDataManagerComponent', () => {
     dataManagerService.setViewkeeperClasses(viewId, [newClass]);
 
     expect(dataManagerFixtureComponent.dataManagerComponent.currentViewkeeperClasses.indexOf(newClass) >= 0).toBeTrue();
+  });
+
+  it('should send a message to the back to top component to scroll to top when the active view changes', () => {
+    dataManagerFixture.detectChanges();
+
+    const backToTopController = dataManagerFixture.componentInstance.dataManagerComponent.backToTopController;
+    spyOn(backToTopController, 'next');
+
+    dataManagerService.updateActiveViewId('newView');
+
+    expect(backToTopController.next).toHaveBeenCalledWith({ type: SkyBackToTopMessageType.BackToTop });
   });
 
   it('should pass accessibility', async(() => {
