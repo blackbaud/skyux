@@ -122,10 +122,8 @@ export class SkyAppRuntimeConfigParams {
   }
 
   /**
-   * Returns the value of the requested param.
+   * Returns the decoded value of the requested param.
    * @param key The parameter's key.
-   * @param urlDecode A flag indicating whether the value should be URL-decoded.
-   * Specify true when you anticipate the value of the parameter coming from the page's URL.
    */
   public get(key: string): string {
     if (this.has(key)) {
