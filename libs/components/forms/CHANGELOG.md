@@ -1,3 +1,8 @@
+# 4.13.0 (2020-09-25)
+
+- Made `SkyThemeService` an optional depependency of the input box component. [#203](https://github.com/blackbaud/skyux-forms/pull/203)
+- Added inset button support to the input box component. [#204](https://github.com/blackbaud/skyux-forms/pull/204)
+
 # 4.12.0 (2020-09-22)
 
 - Added character count component support to the input box component. [#201](https://github.com/blackbaud/skyux-forms/pull/201)
