@@ -1,3 +1,8 @@
+# 4.2.0 (2020-09-25)
+
+- Added the ability to limit the countries available for selection in the phone field component. [#68](https://github.com/blackbaud/skyux-phone-field/pull/68)
+- Added the ability to specify the returned phone number format from the phone field component. [#66](https://github.com/blackbaud/skyux-phone-field/pull/66)
+
 # 4.1.1 (2020-08-21)
 
 - Added support for `google-libphonenumber@3.2.12`. [#62](https://github.com/blackbaud/skyux-phone-field/pull/62)
