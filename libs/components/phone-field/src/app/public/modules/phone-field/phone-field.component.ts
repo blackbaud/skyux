@@ -135,6 +135,13 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   public returnFormat: SkyPhoneFieldNumberReturnFormat = 'default';
 
   /**
+   * Specifies the [International Organization for Standardization Alpha 2](https://www.nationsonline.org/oneworld/country_code_list.htm)
+   * country codes for the countries that users can select. By default, all countries are available.
+   */
+  @Input()
+  public supportedCountryISOs: string[];
+
+  /**
    * Emits a `SkyPhoneFieldCountry` object when the selected country in the country search
    * input changes.
    */

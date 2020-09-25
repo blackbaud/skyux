@@ -42,6 +42,7 @@
         <sky-country-field
           formControlName="countrySearch"
           [defaultCountry]="defaultCountry"
+          [supportedCountryISOs]="supportedCountryISOs"
           (selectedCountryChange)="onCountrySelected($event)"
           #countrySearchInput
         >

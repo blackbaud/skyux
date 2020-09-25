@@ -35,6 +35,8 @@ export class PhoneFieldReactiveTestComponent implements OnInit {
 
   public selectedCountry: SkyPhoneFieldCountry;
 
+  public supportedCountryISOs: string[];
+
   public initialValue: Date | string;
 
   public noValidate: boolean = false;

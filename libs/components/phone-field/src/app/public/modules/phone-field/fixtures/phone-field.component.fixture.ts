@@ -47,6 +47,8 @@ export class PhoneFieldTestComponent {
 
   public selectedCountry: SkyPhoneFieldCountry;
 
+  public supportedCountryISOs: string[];
+
   public showInvalidDirective: boolean = false;
 
   public noValidate: boolean = false;
