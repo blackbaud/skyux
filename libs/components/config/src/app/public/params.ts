@@ -102,7 +102,7 @@ export class SkyAppRuntimeConfigParams {
   }
 
   /**
-   * Are all the required params defined?.
+   * Are all the required params defined?
    */
   public hasAllRequiredParams(): boolean {
     if (this.requiredParams.length === 0) {

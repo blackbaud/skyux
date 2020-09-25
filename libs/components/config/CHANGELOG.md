@@ -1,3 +1,7 @@
+# 4.0.4 (2020-09-25)
+
+- Fixed the JSDoc comment for the `SkyAppRuntimeConfigParams.get()` method. [#69](https://github.com/blackbaud/skyux-config/pull/69)
+
 # 4.0.3 (2020-08-10)
 
 - Fixed the release to include `skyuxconfig-schema.json`. [#68](https://github.com/blackbaud/skyux-config/pull/68)
