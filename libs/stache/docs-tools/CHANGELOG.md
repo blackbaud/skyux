@@ -1,3 +1,7 @@
+# 4.7.1 (2020-09-25)
+
+- Fixed the type definitions service to handle additional type formats. [#142](https://github.com/blackbaud/skyux-docs-tools/pull/142)
+
 # 4.7.0 (2020-09-23)
 
 - Added `SkyThemeService` to the app module's `providers` array for Stackblitz demos. [#137](https://github.com/blackbaud/skyux-docs-tools/pull/137)
