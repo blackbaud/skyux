@@ -70,7 +70,8 @@ export class SkyDataManagerService implements OnDestroy {
   private readonly dataStateChange = new ReplaySubject<SkyDataManagerStateChange>(1);
 
   private _ngUnsubscribe = new Subject();
-  private _initSource = 'dataManagerServiceInit';
+  private initSource = 'dataManagerServiceInit';
+  private isInitialized = false;
 
   constructor(
     private uiConfigService: SkyUIConfigService
@@ -93,6 +94,11 @@ export class SkyDataManagerService implements OnDestroy {
    * and saves any state changes to the service.
    */
   public initDataManager(args: SkyDataManagerInitArgs): void {
+    if (this.isInitialized) {
+      console.warn('This data manager instance has already been initialized.');
+      return;
+    }
+
     const defaultDataState = args.defaultDataState;
     const settingsKey = args.settingsKey;
 
@@ -103,15 +109,15 @@ export class SkyDataManagerService implements OnDestroy {
       this.uiConfigService.getConfig(settingsKey, defaultDataState.getStateOptions())
         .pipe(take(1))
         .subscribe((config: SkyDataManagerStateOptions) => {
-          this.updateDataState(new SkyDataManagerState(config), this._initSource);
+          this.updateDataState(new SkyDataManagerState(config), this.initSource);
 
         });
     } else {
-      this.updateDataState(defaultDataState, this._initSource);
+      this.updateDataState(defaultDataState, this.initSource);
     }
 
     if (settingsKey) {
-      this.getDataStateUpdates(this._initSource)
+      this.getDataStateUpdates(this.initSource)
         .pipe(takeUntil(this._ngUnsubscribe))
         .subscribe((state: SkyDataManagerState) => {
           this.uiConfigService.setConfig(
@@ -137,6 +143,11 @@ export class SkyDataManagerService implements OnDestroy {
   public initDataView(viewConfig: SkyDataViewConfig): void {
     let currentViews: SkyDataViewConfig[] = this.views.value;
 
+    if (this.getViewById(viewConfig.id)) {
+      console.warn(`A data manager view with the id ${viewConfig.id} has already been initialized.`);
+      return;
+    }
+
     currentViews.push(viewConfig);
     this.views.next(currentViews);
 
@@ -155,7 +166,7 @@ export class SkyDataManagerService implements OnDestroy {
         const newViewState = new SkyDataViewState({ viewId: viewConfig.id });
         const newDataState = dataState.addOrUpdateView(viewConfig.id, newViewState);
 
-        this.updateDataState(newDataState, this._initSource);
+        this.updateDataState(newDataState, this.initSource);
       }
 
     }).unsubscribe();

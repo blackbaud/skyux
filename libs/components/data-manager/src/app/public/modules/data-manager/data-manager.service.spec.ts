@@ -100,6 +100,20 @@ describe('SkyDataManagerService', () => {
       expect(dataManagerService.updateDataState).toHaveBeenCalledWith(initialDataState, 'dataManagerServiceInit');
     });
 
+    it('should not set the data manager activeViewId, config, or state when it has already been initialized', () => {
+      dataManagerService['isInitialized'] = true;
+      spyOn(dataManagerService, 'updateActiveViewId');
+      spyOn(dataManagerService, 'updateDataManagerConfig');
+      spyOn(dataManagerService, 'updateDataState');
+
+      dataManagerService.initDataManager(initArgs);
+
+      expect(dataManagerService.updateActiveViewId).not.toHaveBeenCalled();
+      expect(dataManagerService.updateDataManagerConfig).not.toHaveBeenCalled();
+      expect(dataManagerService.updateDataState).not.toHaveBeenCalled();
+
+    });
+
     describe('with settings key provided', () => {
       const key = 'key';
       let uiConfigServiceGetObservable: Subject<any>;
@@ -289,28 +303,42 @@ describe('SkyDataManagerService', () => {
     });
   });
 
-  it('should create a new view config and view state when a data state has been set', async(() => {
-    let currentDataState: SkyDataManagerState;
+  describe('initDataView', () => {
+    it('should create a new view config and view state when a data state has been set', async(() => {
+      let currentDataState: SkyDataManagerState;
 
-    dataManagerService.getDataStateUpdates(sourceId).subscribe(state => currentDataState = state);
-    dataManagerService.updateDataState(new SkyDataManagerState({}), 'test');
+      dataManagerService.getDataStateUpdates(sourceId).subscribe(state => currentDataState = state);
+      dataManagerService.updateDataState(new SkyDataManagerState({}), 'test');
 
-    dataManagerFixture.detectChanges();
+      dataManagerFixture.detectChanges();
 
-    dataManagerFixture.whenStable().then(() => {
-      const newView = { id: 'newView', name: 'newView' };
-      let viewState = currentDataState.getViewStateById(newView.id);
+      dataManagerFixture.whenStable().then(() => {
+        const newView = { id: 'newView', name: 'newView' };
+        let viewState = currentDataState.getViewStateById(newView.id);
 
-      expect(dataManagerService.getViewById(newView.id)).toBeUndefined();
-      expect(viewState).toBeUndefined();
+        expect(dataManagerService.getViewById(newView.id)).toBeUndefined();
+        expect(viewState).toBeUndefined();
 
-      dataManagerService.initDataView(newView);
-      viewState = currentDataState.getViewStateById(newView.id);
+        dataManagerService.initDataView(newView);
+        viewState = currentDataState.getViewStateById(newView.id);
 
-      expect(dataManagerService.getViewById(newView.id)).toEqual(newView);
-      expect(viewState).toBeDefined();
+        expect(dataManagerService.getViewById(newView.id)).toEqual(newView);
+        expect(viewState).toBeDefined();
+      });
+    }));
+
+    it('should not create a new view and update the data state if a view with that ID is already defined', () => {
+      const view = { id: 'view', name: 'View' };
+      spyOn(dataManagerService, 'getViewById').and.returnValue(view);
+      spyOn(dataManagerService, 'updateDataState');
+      spyOn(console, 'warn');
+
+      dataManagerService.initDataView(view);
+
+      expect(dataManagerService.updateDataState).not.toHaveBeenCalled();
+      expect(console.warn).toHaveBeenCalledWith(`A data manager view with the id ${view.id} has already been initialized.`);
     });
-  }));
+  });
 
   describe('views', () => {
     it('getViewById should return the SkyDataViewConfig with the given id', async(() => {
@@ -321,7 +349,7 @@ describe('SkyDataManagerService', () => {
       });
     }));
 
-    describe('registerOrUpdateView', () => {
+    describe('updateViewConfig', () => {
       it('returns undefined when trying to update a view that it is not registered', async(() => {
         dataManagerFixture.whenStable().then(() => {
           const newView = { id: 'newView', name: 'newView' };
