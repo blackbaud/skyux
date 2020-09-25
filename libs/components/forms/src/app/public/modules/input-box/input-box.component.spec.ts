@@ -7,18 +7,12 @@ import {
 } from '@angular/core/testing';
 
 import {
-  AbstractControl,
-  FormsModule,
-  ReactiveFormsModule
+  AbstractControl
 } from '@angular/forms';
 
 import {
   BehaviorSubject
 } from 'rxjs';
-
-import {
-  SkyIdModule
-} from '@skyux/core';
 
 import {
   SkyTheme,
@@ -34,20 +28,12 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  SkyCharacterCounterModule
-} from '../character-counter/character-counter.module';
-
-import {
-  SkyInputBoxModule
-} from './input-box.module';
-
-import {
-  InputBoxHostServiceFixtureComponent
-} from './fixtures/input-box-host-service.component.fixture';
-
-import {
   InputBoxFixtureComponent
 } from './fixtures/input-box.component.fixture';
+
+import {
+  InputBoxFixturesModule
+} from './fixtures/input-box.module.fixture';
 
 describe('Input box component', () => {
   let mockThemeSvc: {
@@ -55,7 +41,7 @@ describe('Input box component', () => {
   };
 
   function getInputBoxEl(
-    fixture: ComponentFixture<SkyInputBoxModule>,
+    fixture: ComponentFixture<InputBoxFixtureComponent>,
     parentCls: string
   ): HTMLDivElement {
     return fixture.nativeElement.querySelector(`.${parentCls} sky-input-box`);
@@ -110,128 +96,131 @@ describe('Input box component', () => {
     );
   }
 
-  beforeEach(() => {
-    mockThemeSvc = {
-      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
-        {
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.default,
-            SkyThemeMode.presets.light
-          ),
-          previousSettings: undefined
-        }
-      )
-    };
+  describe('default theme', () => {
 
-    TestBed.configureTestingModule({
-      declarations: [
-        InputBoxHostServiceFixtureComponent,
-        InputBoxFixtureComponent
-      ],
-      imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        SkyCharacterCounterModule,
-        SkyIdModule,
-        SkyInputBoxModule
-      ],
-      providers: [
-        {
-          provide: SkyThemeService,
-          useValue: mockThemeSvc
-        }
-      ]
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          InputBoxFixturesModule
+        ]
+      });
     });
-  });
 
-  it('should render the label and input elements in the expected locations', () => {
-    const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+    it('should render the label and input elements in the expected locations', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
 
-    fixture.detectChanges();
+      fixture.detectChanges();
 
-    const inputBoxEl = getInputBoxEl(fixture, 'input-basic');
+      const inputBoxEl = getInputBoxEl(fixture, 'input-basic');
 
-    const formGroupEl = inputBoxEl.querySelector('.sky-form-group');
+      const formGroupEl = inputBoxEl.querySelector('.sky-form-group');
 
-    const labelEl = formGroupEl.children.item(0) as HTMLLabelElement;
-    const inputGroupEl = formGroupEl.children.item(1);
-    const inputEl = inputGroupEl.children.item(0);
+      const labelEl = formGroupEl.children.item(0) as HTMLLabelElement;
+      const inputGroupEl = formGroupEl.children.item(1);
+      const inputEl = inputGroupEl.children.item(0);
 
-    expect(labelEl).toExist();
-    expect(labelEl.htmlFor).toBe(inputEl.id);
+      expect(labelEl).toExist();
+      expect(labelEl.htmlFor).toBe(inputEl.id);
 
-    expect(inputGroupEl).toExist();
+      expect(inputGroupEl).toExist();
 
-    expect(inputEl).toExist();
-    expect(inputEl.tagName).toBe('INPUT');
-  });
-
-  it('should render the input group button elements in the expected locations', () => {
-    const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
-    fixture.detectChanges();
-
-    const inputBoxEl = getInputBoxEl(fixture, 'input-multiple-buttons');
-
-    const inputGroupEl = inputBoxEl.querySelector('.sky-form-group > .sky-input-group');
-    const inputEl = inputGroupEl.children.item(0);
-    const inputGroupBtnEl1 = inputGroupEl.children.item(1);
-    const inputGroupBtnEl2 = inputGroupEl.children.item(2);
-
-    expect(inputEl).toExist();
-    expect(inputEl.tagName).toBe('INPUT');
-
-    expect(inputGroupBtnEl1.children.item(0)).toHaveCssClass('test-button-1');
-    expect(inputGroupBtnEl2.children.item(0)).toHaveCssClass('test-button-2');
-  });
-
-  it('should render the character count element in the expected locations', () => {
-    const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
-    fixture.detectChanges();
-
-    const inputBoxEl = getInputBoxEl(fixture, 'input-character-count');
-
-    const formGroupEl = inputBoxEl.querySelector('.sky-form-group');
-
-    const characterCountEl = formGroupEl.children.item(1) as HTMLElement;
-
-    expect(characterCountEl).toExist();
-    expect(characterCountEl.tagName).toBe('SKY-CHARACTER-COUNTER-INDICATOR');
-  });
-
-  it('should allow a child to place template items inside the input box programmatically', () => {
-    const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
-    fixture.detectChanges();
-
-    const inputBoxEl = getInputBoxEl(fixture, 'input-host-service');
-
-    const inputGroupEl = inputBoxEl.querySelector('.sky-form-group > .sky-input-group');
-    const inputEl = inputGroupEl.children.item(0);
-    const inputGroupBtnEl1 = inputGroupEl.children.item(1);
-    const inputGroupBtnEl2 = inputGroupEl.children.item(2);
-
-    expect(inputEl).toExist();
-    expect(inputEl.tagName).toBe('INPUT');
-
-    expect(inputGroupBtnEl1.children.item(0)).toHaveCssClass('host-service-button-1');
-    expect(inputGroupBtnEl2.children.item(0)).toHaveCssClass('host-service-button-2');
-  });
-
-  it('should pass accessibility', async(() => {
-    const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-
-    fixture.detectChanges();
-
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
+      expect(inputEl).toExist();
+      expect(inputEl.tagName).toBe('INPUT');
     });
-  }));
+
+    it('should render the input group button elements in the expected locations', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+
+      fixture.detectChanges();
+
+      const inputBoxEl = getInputBoxEl(fixture, 'input-multiple-buttons');
+
+      const inputGroupEl = inputBoxEl.querySelector('.sky-form-group > .sky-input-group');
+      const inputEl = inputGroupEl.children.item(0);
+      const inputGroupBtnEl1 = inputGroupEl.children.item(1);
+      const inputGroupBtnEl2 = inputGroupEl.children.item(2);
+
+      expect(inputEl).toExist();
+      expect(inputEl.tagName).toBe('INPUT');
+
+      expect(inputGroupBtnEl1.children.item(0)).toHaveCssClass('test-button-1');
+      expect(inputGroupBtnEl2.children.item(0)).toHaveCssClass('test-button-2');
+    });
+
+    it('should render the character count element in the expected locations', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+
+      fixture.detectChanges();
+
+      const inputBoxEl = getInputBoxEl(fixture, 'input-character-count');
+
+      const formGroupEl = inputBoxEl.querySelector('.sky-form-group');
+
+      const characterCountEl = formGroupEl.children.item(1) as HTMLElement;
+
+      expect(characterCountEl).toExist();
+      expect(characterCountEl.tagName).toBe('SKY-CHARACTER-COUNTER-INDICATOR');
+    });
+
+    it('should allow a child to place template items inside the input box programmatically', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+
+      fixture.detectChanges();
+
+      const inputBoxEl = getInputBoxEl(fixture, 'input-host-service');
+
+      const inputGroupEl = inputBoxEl.querySelector('.sky-form-group > .sky-input-group');
+      const inputEl = inputGroupEl.children.item(0);
+      const inputGroupBtnEl1 = inputGroupEl.children.item(1);
+      const inputGroupBtnEl2 = inputGroupEl.children.item(2);
+
+      expect(inputEl).toExist();
+      expect(inputEl.tagName).toBe('INPUT');
+
+      expect(inputGroupBtnEl1.children.item(0)).toHaveCssClass('host-service-button-1');
+      expect(inputGroupBtnEl2.children.item(0)).toHaveCssClass('host-service-button-2');
+    });
+
+    it('should pass accessibility', async(() => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+
+      fixture.detectChanges();
+
+      fixture.whenStable().then(() => {
+        expect(fixture.nativeElement).toBeAccessible();
+      });
+    }));
+
+  });
 
   describe('in modern theme', () => {
 
     beforeEach(() => {
+      mockThemeSvc = {
+        settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+          {
+            currentSettings: new SkyThemeSettings(
+              SkyTheme.presets.default,
+              SkyThemeMode.presets.light
+            ),
+            previousSettings: undefined
+          }
+        )
+      };
+
+      TestBed.configureTestingModule({
+        imports: [
+          InputBoxFixturesModule
+        ],
+        providers: [
+          {
+            provide: SkyThemeService,
+            useValue: mockThemeSvc
+          }
+        ]
+      });
+
+      // Trigger the modern theme.
       mockThemeSvc.settingsChange.next(
         {
           currentSettings: new SkyThemeSettings(
