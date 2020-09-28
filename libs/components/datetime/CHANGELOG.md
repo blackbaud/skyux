@@ -1,3 +1,7 @@
+# 4.5.2 (2020-09-28)
+
+- Fixed the datepicker component to handle ISO date strings that contain milliseconds. [#229](https://github.com/blackbaud/skyux-datetime/pull/229)
+
 # 4.5.1 (2020-09-03)
 
 - Fixed the timepicker component to handle non-keyboard events that pass through the keydown handler. [#219](https://github.com/blackbaud/skyux-datetime/pull/219)
