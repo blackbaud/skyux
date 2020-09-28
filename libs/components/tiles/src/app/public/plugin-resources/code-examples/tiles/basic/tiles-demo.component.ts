@@ -4,7 +4,7 @@ import {
 
 import {
   SkyTileDashboardConfig
-} from '../../public/public_api';
+} from '@skyux/tiles';
 
 import {
   TileDemoTile1Component
@@ -15,10 +15,10 @@ import {
 } from './tile-demo-tile2.component';
 
 @Component({
-  selector: 'app-tile-docs',
-  templateUrl: './tile-docs.component.html'
+  selector: 'sky-tiles-demo',
+  templateUrl: './tiles-demo.component.html'
 })
-export class TileDocsComponent {
+export class TilesDemoComponent {
 
   public dashboardConfig: SkyTileDashboardConfig = {
     tiles: [
@@ -64,5 +64,4 @@ export class TileDocsComponent {
       ]
     }
   };
-
 }

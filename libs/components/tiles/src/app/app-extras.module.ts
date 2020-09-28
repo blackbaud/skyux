@@ -16,6 +16,14 @@ import {
 } from '@skyux/router';
 
 import {
+  TileDemoTile1Component
+} from './docs/tiles/tile-demo-tile1.component';
+
+import {
+  TileDemoTile2Component
+} from './docs/tiles/tile-demo-tile2.component';
+
+import {
   SkyTilesModule
 } from './public/public_api';
 
@@ -36,7 +44,9 @@ import {
   ],
   entryComponents: [
     SkyTileDemoTile1Component,
-    SkyTileDemoTile2Component
+    SkyTileDemoTile2Component,
+    TileDemoTile1Component,
+    TileDemoTile2Component
   ],
   providers: [
     {

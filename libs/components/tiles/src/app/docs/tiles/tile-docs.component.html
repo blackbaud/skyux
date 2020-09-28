@@ -7,8 +7,28 @@
     The tile component creates a collapsible container that serves as a building block for pages and forms in SKY UX applications.
   </sky-docs-demo-page-summary>
 
-  <sky-docs-design-guidelines>
+  <sky-docs-demo>
+    <sky-tile-dashboard
+      [(config)]="dashboardConfig"
+    ></sky-tile-dashboard>
+  </sky-docs-demo>
 
-  </sky-docs-design-guidelines>
+  <!-- <sky-docs-design-guidelines>
+  </sky-docs-design-guidelines> -->
+
+  <!-- Dragula dependency is needed or Stackblitz throws a `No provider for ElementRef` error. -->
+  <sky-docs-code-examples
+    [packageDependencies]="{
+      '@blackbaud/auth-client': '*',
+      '@skyux/tiles': '*',
+      'dragula': '3.7.2',
+      'ng2-dragula': '1.5.0'
+    }"
+  >
+    <sky-docs-code-example
+      sourceCodePath="src/app/public/plugin-resources/code-examples/tiles/basic/"
+    >
+    </sky-docs-code-example>
+  </sky-docs-code-examples>
 
 </sky-docs-demo-page>
