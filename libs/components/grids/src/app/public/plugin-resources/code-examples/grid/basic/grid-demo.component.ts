@@ -1,22 +1,16 @@
 import {
-  ChangeDetectionStrategy,
   Component
 } from '@angular/core';
-
-import {
-  SkyDocsDemoControlPanelChange
-} from '@skyux/docs-tools';
 
 import {
   ListSortFieldSelectorModel
 } from '@skyux/list-builder-common';
 
 @Component({
-  selector: 'app-grid-docs',
-  templateUrl: './grid-docs.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'sky-grid-demo',
+  templateUrl: './grid-demo.component.html'
 })
-export class GridDocsComponent {
+export class GridDemoComponent {
 
   public data: any[] = [
     { id: '1', name: 'Niels Bohr', email: 'niels.bohr@example.com', amount: 170.75, status: 'Paid' },
@@ -27,17 +21,6 @@ export class GridDocsComponent {
     { id: '6', name: 'Enrico Fermi', email: 'enrico.fermi@example.com', amount: 74.5, status: 'Past due' },
     { id: '7', name: 'Mae C. Jemison', email: 'mae.jemison@example.com', amount: 70.86, status: 'Paid' }
   ];
-
-  public demoSettings: any = {};
-
-  public onDemoSelectionChange(change: SkyDocsDemoControlPanelChange): void {
-    if (change.enableMultiselect === true) {
-      this.demoSettings.enableMultiselect = change.enableMultiselect;
-    } else if (change.enableMultiselect === false) {
-      this.demoSettings.enableMultiselect = change.enableMultiselect;
-      this.demoSettings.selectedRowIds = [];
-    }
-  }
 
   public onSortChangeForGrid(activeSort: ListSortFieldSelectorModel): void {
     this.data = this.sortGridData(activeSort, this.data);
@@ -72,4 +55,5 @@ export class GridDocsComponent {
       return result;
     }).slice();
   }
+
 }

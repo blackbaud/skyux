@@ -7,18 +7,73 @@
     The grid component provides a SKY UX-themed layout for tabular data.
   </sky-docs-demo-page-summary>
 
-  <!-- <sky-docs-demo>
-  </sky-docs-demo> -->
+  <sky-docs-demo>
+    <sky-docs-demo-control-panel
+      (selectionChange)="onDemoSelectionChange($event)"
+    >
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-checkbox
+          label="Enable multiselect"
+          propertyName="enableMultiselect"
+          [checked]="false"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
+    <sky-grid
+      fit="scroll"
+      [data]="data"
+      [enableMultiselect]="demoSettings.enableMultiselect"
+      [selectedRowIds]="demoSettings.selectedRowIds"
+      (sortFieldChange)="onSortChangeForGrid($event)"
+    >
+      <sky-grid-column
+        field="name"
+        heading="Name"
+      >
+      </sky-grid-column>
+      <sky-grid-column
+        field="email"
+        heading="Email"
+      >
+      </sky-grid-column>
+      <sky-grid-column
+        field="amount"
+        heading="Amount"
+      >
+      </sky-grid-column>
+      <sky-grid-column
+        field="status"
+        heading="Status"
+      >
+      </sky-grid-column>
+    </sky-grid>
+  </sky-docs-demo>
 
-  <!-- <sky-docs-code-examples
+  <!-- Dragula dependency is needed or Stackblitz throws a `No provider for ElementRef` error. -->
+  <sky-docs-code-examples
     [packageDependencies]="{
-      '@skyux/grids': '*'
+      '@blackbaud/auth-client': '*',
+      '@skyux/grids': '*',
+      '@skyux/list-builder-common': '*',
+      'dragula': '3.7.2',
+      'ng2-dragula': '1.5.0'
     }"
   >
-      <sky-docs-code-example
-        heading="Grid with async column and templated column"
-        sourceCodePath="src/app/public/plugin-resources/code-examples/grid/async"
-      >
-      </sky-docs-code-example>
-  </sky-docs-code-examples> -->
+    <sky-docs-code-example
+      heading="Basic grid"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/grid/basic"
+    >
+    </sky-docs-code-example>
+    <sky-docs-code-example
+      heading="Grid with multiselect"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/grid/multiselect"
+    >
+    </sky-docs-code-example>
+    <sky-docs-code-example
+      heading="Grid with templated column and async column header"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/grid/column-template"
+    >
+    </sky-docs-code-example>
+  </sky-docs-code-examples>
 </sky-docs-demo-page>
