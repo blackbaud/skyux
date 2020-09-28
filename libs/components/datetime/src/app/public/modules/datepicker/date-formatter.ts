@@ -29,7 +29,7 @@ export class SkyDateFormatter {
     let momentValue = moment(dateString, format, strict);
 
     if (!momentValue.isValid()) {
-      momentValue = moment(dateString, 'YYYY-MM-DDThh:mm:ss.sssZ', strict);
+      momentValue = moment(dateString, 'YYYY-MM-DDThh:mm:ss.SZ', strict);
     }
 
     return momentValue.toDate();

@@ -88,6 +88,8 @@ export class MyLocaleProvider extends SkyAppLocaleProvider {
 
 const isoFormat = 'YYYY-MM-DDTHH:mm:ss';
 
+const isoFormatWithOffset = 'YYYY-MM-DDThh:mm:ss.SZ';
+
 let mockThemeSvc: {
   settingsChange: BehaviorSubject<SkyThemeSettingsChange>
 };
@@ -466,7 +468,7 @@ describe('datepicker', () => {
 
         expect(getInputElementValue(fixture)).toBe('11/05/1994');
         expect(component.selectedDate)
-          .toEqual(moment('1994-11-05T08:15:30-05:00', 'YYYY-MM-DDThh:mm:ss.sssZ').toDate());
+          .toEqual(moment('1994-11-05T08:15:30-05:00', isoFormatWithOffset).toDate());
       }));
 
       it('should handle two digit years', fakeAsync(() => {
@@ -511,7 +513,7 @@ describe('datepicker', () => {
 
         expect(getInputElementValue(fixture)).toBe('11/05/1994');
         expect(component.selectedDate)
-          .toEqual(moment('1994-11-05T08:15:30-05:00', 'YYYY-MM-DDThh:mm:ss.sssZ').toDate());
+          .toEqual(moment('1994-11-05T08:15:30-05:00', isoFormatWithOffset).toDate());
       }));
 
       it('should handle two digit years', fakeAsync(() => {
@@ -597,7 +599,16 @@ describe('datepicker', () => {
 
         expect(getInputElementValue(fixture)).toBe('11/05/1994');
         expect(component.selectedDate)
-          .toEqual(moment('1994-11-05T08:15:30-05:00', 'YYYY-MM-DDThh:mm:ss.sssZ').toDate());
+          .toEqual(moment('1994-11-05T08:15:30-05:00', isoFormatWithOffset).toDate());
+      }));
+
+      it('should handle model change with an ISO string containing milliseconds', fakeAsync(() => {
+        fixture.detectChanges();
+        setInputProperty('1994-11-05T08:15:30.62', component, fixture);
+
+        expect(getInputElementValue(fixture)).toBe('11/05/1994');
+        expect(component.selectedDate)
+          .toEqual(moment('1994-11-05T08:15:30.62', isoFormatWithOffset).toDate());
       }));
 
       it('should attempt to convert poorly formatted date to ISO when strict is false', fakeAsync(() => {
@@ -1030,7 +1041,7 @@ describe('datepicker', () => {
 
         expect(getInputElementValue(fixture)).toBe('11/05/1994');
         expect(component.dateControl.value)
-          .toEqual(moment('1994-11-05T08:15:30-05:00', 'YYYY-MM-DDThh:mm:ss.sssZ').toDate());
+          .toEqual(moment('1994-11-05T08:15:30-05:00', isoFormatWithOffset).toDate());
       }));
 
       it('should handle two digit years', fakeAsync(() => {
@@ -1094,7 +1105,7 @@ describe('datepicker', () => {
 
         expect(getInputElementValue(fixture)).toBe('11/05/1994');
         expect(component.dateControl.value)
-          .toEqual(moment('1994-11-05T08:15:30-05:00', 'YYYY-MM-DDThh:mm:ss.sssZ').toDate());
+          .toEqual(moment('1994-11-05T08:15:30-05:00', isoFormatWithOffset).toDate());
       }));
 
       it('should attempt to convert poorly formatted date to ISO when strict is false', fakeAsync(() => {
