@@ -3,6 +3,9 @@ import {
   Component
 } from '@angular/core';
 
+/**
+ * Wraps the label-value pairs in the definition list.
+ */
 @Component({
   selector: 'sky-definition-list-content',
   templateUrl: './definition-list-content.component.html',

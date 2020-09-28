@@ -5,6 +5,9 @@ import {
 
 import { SkyDefinitionListService } from './definition-list.service';
 
+/**
+ * Specifies the label in a label-value pair.
+ */
 @Component({
   selector: 'sky-definition-list-label',
   templateUrl: './definition-list-label.component.html',

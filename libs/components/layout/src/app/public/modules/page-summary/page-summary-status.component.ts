@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 
+/**
+ * Displays [labels](https://developer.blackbaud.com/skyux/components/label)
+ * to highlight important status information about a page's content.
+ */
 @Component({
   selector: 'sky-page-summary-status',
   templateUrl: './page-summary-status.component.html',

@@ -1,5 +1,8 @@
 import { ElementRef, Injectable } from '@angular/core';
 
+/**
+ * @internal
+ */
 @Injectable()
 export class SkyPageSummaryAdapterService {
   public updateKeyInfoLocation(elRef: ElementRef, isXS: boolean) {

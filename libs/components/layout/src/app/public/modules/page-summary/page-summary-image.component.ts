@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 
+/**
+ * Displays an image in the page summary to identify a record
+ * or help users complete a core task.
+ */
 @Component({
   selector: 'sky-page-summary-image',
   templateUrl: './page-summary-image.component.html',

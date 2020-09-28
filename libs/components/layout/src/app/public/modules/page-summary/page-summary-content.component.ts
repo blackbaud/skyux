@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 
+/**
+ * Displays content in the arbitrary section of the page summary.
+ */
 @Component({
   selector: 'sky-page-summary-content',
   templateUrl: './page-summary-content.component.html',
