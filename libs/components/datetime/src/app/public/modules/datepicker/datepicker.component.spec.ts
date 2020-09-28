@@ -1385,13 +1385,11 @@ describe('datepicker', () => {
       detectChanges(fixture);
 
       const inputBoxEl = fixture.nativeElement.querySelector('sky-input-box');
-
-      const inputGroupEl = inputBoxEl.querySelector('.sky-form-group > .sky-input-group');
-      const inputEl = inputGroupEl.children.item(0);
-      const inputGroupBtnEl1 = inputGroupEl.children.item(1);
+      const inputEl = inputBoxEl.querySelector('input');
+      const inputGroupBtnEl = inputBoxEl.querySelector('.sky-input-group-btn > button');
 
       expect(inputEl).toHaveCssClass('input-box-datepicker-input');
-      expect(inputGroupBtnEl1.children.item(0)).toHaveCssClass('sky-input-group-datepicker-btn');
+      expect(inputGroupBtnEl).toHaveCssClass('sky-input-group-datepicker-btn');
     }));
   });
 });

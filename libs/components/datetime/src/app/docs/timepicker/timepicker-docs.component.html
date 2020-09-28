@@ -23,14 +23,24 @@
     </sky-docs-demo-control-panel>
 
     <div style="max-width: 50%;">
-      <sky-timepicker #timepicker>
-        <input
-          [disabled]="demoSettings.disabled"
-          [skyTimepickerInput]="timepicker"
-          [timeFormat]="demoSettings.timeFormat"
-          [(ngModel)]="demoModel.selectedTime"
-        />
-      </sky-timepicker>
+      <sky-input-box>
+        <label
+          class="sky-control-label"
+          [for]="startTime.id"
+        >
+          Start time
+        </label>
+        <sky-timepicker #timepicker>
+          <input
+            skyId
+            [disabled]="demoSettings.disabled"
+            [skyTimepickerInput]="timepicker"
+            [timeFormat]="demoSettings.timeFormat"
+            [(ngModel)]="demoModel.selectedTime"
+            #startTime="skyId"
+          />
+        </sky-timepicker>
+      </sky-input-box>
     </div>
   </sky-docs-demo>
 

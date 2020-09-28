@@ -30,15 +30,25 @@
         novalidate
         [formGroup]="standardForm"
       >
-        <sky-datepicker>
-          <input
-            formControlName="myDate"
-            skyDatepickerInput
-            type="text"
-            [maxDate]="standardMaxDate"
-            [minDate]="standardMinDate"
-          />
-        </sky-datepicker>
+        <sky-input-box>
+          <label
+            class="sky-control-label"
+            [for]="dateOfBirth.id"
+          >
+            Date of birth
+          </label>
+          <sky-datepicker>
+            <input
+              formControlName="myDate"
+              skyDatepickerInput
+              skyId
+              type="text"
+              [maxDate]="standardMaxDate"
+              [minDate]="standardMinDate"
+              #dateOfBirth="skyId"
+            />
+          </sky-datepicker>
+        </sky-input-box>
       </form>
     </div>
 
@@ -78,17 +88,27 @@
         novalidate
         [formGroup]="fuzzyForm"
       >
-        <sky-datepicker>
-          <input
-            formControlName="myDate"
-            skyFuzzyDatepickerInput
-            type="text"
-            [futureDisabled]="fuzzyFutureDisabled"
-            [maxDate]="fuzzyMaxDate"
-            [minDate]="fuzzyMinDate"
-            [yearRequired]="fuzzyYearRequired"
-          />
-        </sky-datepicker>
+        <sky-input-box>
+          <label
+            class="sky-control-label"
+            [for]="dateOfBirthFuzzy.id"
+          >
+            Date of birth
+          </label>
+          <sky-datepicker>
+            <input
+              formControlName="myDate"
+              skyFuzzyDatepickerInput
+              skyId
+              type="text"
+              [futureDisabled]="fuzzyFutureDisabled"
+              [maxDate]="fuzzyMaxDate"
+              [minDate]="fuzzyMinDate"
+              [yearRequired]="fuzzyYearRequired"
+              #dateOfBirthFuzzy="skyId"
+            />
+          </sky-datepicker>
+        </sky-input-box>
       </form>
     </div>
 

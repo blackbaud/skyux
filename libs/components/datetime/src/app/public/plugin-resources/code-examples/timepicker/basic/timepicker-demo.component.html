@@ -2,15 +2,25 @@
   novalidate
   [formGroup]="formGroup"
 >
-  <sky-timepicker
-    #timepicker
-  >
-    <input
-      formControlName="time"
-      type="text"
-      [skyTimepickerInput]="timepicker"
-    />
-  </sky-timepicker>
+  <sky-input-box>
+    <label
+      class="sky-control-label"
+      [for]="startTime.id"
+    >
+      Start time
+    </label>
+    <sky-timepicker
+      #timepicker
+    >
+      <input
+        formControlName="time"
+        type="text"
+        skyId
+        [skyTimepickerInput]="timepicker"
+        #startTime="skyId"
+      />
+    </sky-timepicker>
+  </sky-input-box>
 
   <p *ngIf="timeControl.errors && (timeControl.dirty || timeControl.touched)"
     class="sky-error-label"

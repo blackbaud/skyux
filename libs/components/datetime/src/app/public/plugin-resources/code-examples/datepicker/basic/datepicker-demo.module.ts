@@ -11,8 +11,16 @@ import {
 } from '@angular/forms';
 
 import {
+  SkyIdModule
+} from '@skyux/core';
+
+import {
   SkyDatepickerModule
 } from '@skyux/datetime';
+
+import {
+  SkyInputBoxModule
+} from '@skyux/forms';
 
 import {
   DatepickerDemoComponent
@@ -22,7 +30,9 @@ import {
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    SkyDatepickerModule
+    SkyDatepickerModule,
+    SkyIdModule,
+    SkyInputBoxModule
   ],
   exports: [
     DatepickerDemoComponent
