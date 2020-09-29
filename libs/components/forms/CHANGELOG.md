@@ -1,3 +1,7 @@
+# 4.13.1 (2020-09-29)
+
+- Fixed an error when programmatically setting focus to a form control inside an input box. [#208](https://github.com/blackbaud/skyux-forms/pull/208)
+
 # 4.13.0 (2020-09-25)
 
 - Made `SkyThemeService` an optional depependency of the input box component. [#203](https://github.com/blackbaud/skyux-forms/pull/203)
