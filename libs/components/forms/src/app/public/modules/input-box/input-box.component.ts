@@ -100,11 +100,11 @@ export class SkyInputBoxComponent implements OnInit {
   }
 
   public formControlFocusIn(): void {
-    this.formControlHasFocus = true;
+    this.updateHasFocus(true);
   }
 
   public formControlFocusOut(): void {
-    this.formControlHasFocus = false;
+    this.updateHasFocus(false);
   }
 
   public populate(args: SkyInputBoxPopulateArgs): void {
@@ -112,6 +112,15 @@ export class SkyInputBoxComponent implements OnInit {
     this.hostButtonsTemplate = args.buttonsTemplate;
     this.hostButtonsLeftTemplate = args.buttonsLeftTemplate;
     this.hostButtonsInsetTemplate = args.buttonsInsetTemplate;
+  }
+
+  private updateHasFocus(hasFocus: boolean): void {
+    // Some components manipulate the focus of elements inside an input box programmatically,
+    // which can cause an `ExpressionChangedAfterItHasBeenCheckedError` if focus was set after
+    // initial change detection. Using `setTimeout()` here fixes it.
+    setTimeout(() => {
+      this.formControlHasFocus = hasFocus;
+    });
   }
 
   private controlHasErrors(control: AbstractControlDirective) {
