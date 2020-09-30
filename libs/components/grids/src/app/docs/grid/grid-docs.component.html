@@ -76,4 +76,313 @@
     >
     </sky-docs-code-example>
   </sky-docs-code-examples>
+
+  <sky-docs-design-guidelines>
+    <sky-docs-demo-page-section
+      heading="Usage"
+    >
+      <sky-docs-design-guideline
+        heading="Use when"
+        headingStyle="success"
+      >
+        <p>
+          Use grids when users need to view a large amount of data to visually scan for certain values or outliers and to compare values between rows.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          caption="Do use grids to display data for users to visually scan and compare values."
+          captionType="success"
+          imageSource="~/assets/img/grid-use-when.png"
+          showBorder="true"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline
+        heading="Don't use when"
+        headingStyle="danger"
+      >
+        <p>
+          Don't use grids when the content calls for a more complex layout. If you need to display visual content such as graphs or images, use <a href="https://developer.blackbaud.com/skyux/components/repeater">repeaters</a> or <a href="https://developer.blackbaud.com/skyux/components/card">card views</a> instead. If the content requires multiple templated columns, use <a href="https://developer.blackbaud.com/skyux/components/repeater">repeaters</a> instead. If the content includes many fields and users are likely to view it in small viewports such as phones, use <a href="https://developer.blackbaud.com/skyux/components/repeater">repeaters</a> instead.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          caption="Don't use grids to display data that requires a complex layout."
+          captionType="danger"
+          imageSource="~/assets/img/grid-dont-use-complex.png"
+          showBorder="true"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Anatomy"
+    >
+      <sky-docs-anatomy
+        imagePath="~/assets/img/grid-annotated.png"
+      >
+        <sky-docs-anatomy-item
+          isOptional="true"
+        >
+          List count
+        </sky-docs-anatomy-item>
+        <sky-docs-anatomy-item
+          isOptional="true"
+        >
+          Toolbar
+        </sky-docs-anatomy-item>
+        <sky-docs-anatomy-item
+          isOptional="true"
+        >
+          Multiselect toolbar
+        </sky-docs-anatomy-item>
+        <sky-docs-anatomy-item>
+          Header row
+        </sky-docs-anatomy-item>
+        <sky-docs-anatomy-item
+          isOptional="true"
+        >
+          Row selection checkbox
+        </sky-docs-anatomy-item>
+        <sky-docs-anatomy-item
+          isOptional="true"
+        >
+          Context-menu dropdown button
+        </sky-docs-anatomy-item>
+        <sky-docs-anatomy-item>
+          Data
+        </sky-docs-anatomy-item>
+        <sky-docs-anatomy-item>
+          Alternate row striping
+        </sky-docs-anatomy-item>
+        <sky-docs-anatomy-item>
+          Row divider
+        </sky-docs-anatomy-item>
+        <sky-docs-anatomy-item>
+          Selected row background
+        </sky-docs-anatomy-item>
+        <sky-docs-anatomy-item
+          isOptional="true"
+        >
+          Pagination
+        </sky-docs-anatomy-item>
+        <sky-docs-anatomy-item
+          isOptional="true"
+        >
+          Summary action bar
+        </sky-docs-anatomy-item>
+      </sky-docs-anatomy>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Options"
+    >
+      <sky-docs-design-guideline
+        heading="Context-menu dropdown"
+      >
+        <p class="sky-docs-text-block">
+          Use <a href="https://developer.blackbaud.com/skyux/components/dropdown">context-menu dropdowns</a> in the first column when users need to access multiple actions in the rows.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+            imageSource="~/assets/img/grid-option-context-menu.png"
+            showBorder="true"
+            >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline
+        heading="Multiselect"
+      >
+        <p class="sky-docs-text-block">
+          Use multiselect when:
+        </p>
+        <ul>
+          <li>
+            Users need to act on more than one row at a time.
+          </li>
+          <li>
+            The list is presented as a full page, a full-page modal, or a full page within a flyout.
+          </li>
+        </ul>
+        <p class="sky-docs-text-block">
+          Don't use multiselect when:
+        </p>
+        <ul>
+          <li>
+            The list is presented in a tile, page section, or other container that might flow off the screen.
+          </li>
+        </ul>
+        <p class="sky-docs-text-block">
+          To let users select or clear all items and to view only selected items, include the multiselect toolbar. When users select rows, the <a href="https://developer.blackbaud.com/skyux/components/summary-actionbar">summary action bar</a> should fly in from the bottom of the page for actions that users can take on the selected items.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+            caption="Use multiselect to let users act on more than one row at a time."
+            captionType="success"
+            imageSource="~/assets/img/grid-option-multi.png"
+            showBorder="true"
+            >
+        </sky-docs-design-guideline-thumbnail>
+        <sky-docs-design-guideline-thumbnail
+            caption="Don't use multiselect when the list might flow off the screen."
+            captionType="danger"
+            imageSource="~/assets/img/grid-option-multi-dont-tile.png"
+            showBorder="true"
+            >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline
+        heading="Sorting"
+      >
+        <p class="sky-docs-text-block">
+          If users are likely to sort based on the data in columns, enable sorting so that they can select column headers to toggle between ascending and descending order for the specified fields in columns. If users need to sort by data in a templated column, use the <a href="https://developer.blackbaud.com/skyux/components/sort">sort component</a> instead to let them select the data to sort on.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+            imageSource="~/assets/img/grid-option-sort.png"
+            showBorder="true"
+            >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline
+        heading="Filtering"
+      >
+        <p class="sky-docs-text-block">
+          If users are likely to work with a subset of items in the grid, enable filtering so that they can focus on those items.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+            imageSource="~/assets/img/grid-option-filter.png"
+            showBorder="true"
+            >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline
+        heading="Templated items"
+      >
+        <p class="sky-docs-text-block">
+          When columns represent composite information instead of single values, use templated columns to lay out content as necessary.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+            imageSource="~/assets/img/grid-option-template-column.png"
+            showBorder="true"
+            >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Behvior and states"
+    >
+      <sky-docs-design-guideline
+        heading="Fit"
+      >
+        <p class="sky-docs-text-block">
+          The fit determines how to place the grid within its parent. If the grid does not have enough columns to fill the parent's width, it always stretches to the parent's full width.
+        </p>
+        <h4>
+          Scroll
+        </h4>
+        <p class="sky-docs-text-block">
+          The <sky-code>scroll</sky-code> option allows grids to take as much space as necessary by adding a horizontal scrollbar. This is most useful for grids with large numbers of columns.
+        </p>
+        <h4>
+          Width
+        </h4>
+        <p class="sky-docs-text-block">
+          The <sky-code>width</sky-code> option fixes the width of the grid to its container and resizes columns to fit. This is most useful for simple grids in smaller containers, such as tiles, where the content fits neatly in the allotted space.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+            caption="Grids with large numbers of columns can fit to the parent container by using a horizontal scrollbar to take as much space as necessary."
+            imageSource="~/assets/img/grid-fit-scroll.png"
+            showBorder="true"
+            >
+        </sky-docs-design-guideline-thumbnail>
+        <sky-docs-design-guideline-thumbnail
+            caption="Simple grids in smaller containers can resize columns to fit the grid to its container."
+            imageSource="~/assets/img/grid-fit-width.png"
+            showBorder="true"
+            >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline
+        heading="Reordering columns"
+      >
+        <p class="sky-docs-text-block">
+          Users can reorder columns by dragging and dropping.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+            imageSource="~/assets/img/grid-reorder.png"
+            showBorder="true"
+            >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline
+        heading="Resizing columns"
+      >
+        <p class="sky-docs-text-block">
+          Users can resize columns by selecting and dragging or by using the keyboard.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+            imageSource="~/assets/img/grid-resize.png"
+            showBorder="true"
+            >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline
+        heading="Responsiveness"
+      >
+        <p class="sky-docs-text-block">
+          Grids perform poorly in small viewports. The columns in fixed-width grids shrink down to the point of being unreadable, and scrolling grids require a lot of interaction to view the content. Use <a href="https://developer.blackbaud.com/skyux/components/repeater">repeaters</a> instead if possible.
+        </p>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Related information"
+    >
+      <sky-docs-design-guideline
+        heading="Components"
+      >
+        <ul>
+          <li>
+            <a href="https://developer.blackbaud.com/skyux/components/card">Card</a>
+          </li>
+          <li>
+            <a href="https://developer.blackbaud.com/skyux/components/dropdown">Dropdown</a>
+          </li>
+          <li>
+            <a href="https://developer.blackbaud.com/skyux/components/filter">Filter</a>
+          </li>
+          <li>
+            <a href="https://developer.blackbaud.com/skyux/components/infinite-scroll">Infinite scroll</a>
+          </li>
+          <li>
+            <a href="https://developer.blackbaud.com/skyux/components/list/grid">List view grid</a>
+          </li>
+          <li>
+            <a href="https://developer.blackbaud.com/skyux/components/paging">Paging</a>
+          </li>
+          <li>
+            <a href="https://developer.blackbaud.com/skyux/components/repeater">Repeater</a>
+          </li>
+          <li>
+            <a href="https://developer.blackbaud.com/skyux/components/sort">Sort</a>
+          </li>
+          <li>
+            <a href="https://developer.blackbaud.com/skyux/components/summary-actionbar">Summary action bar</a>
+          </li>
+          <li>
+            <a href="https://developer.blackbaud.com/skyux/components/toolbar">Toolbar</a>
+          </li>
+        </ul>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline
+        heading="Guidelines"
+      >
+      <ul>
+        <li>
+          <a href="https://developer.blackbaud.com/skyux/design/guidelines/page-layouts">Page design</a>
+        </li>
+      </ul>
+    </sky-docs-design-guideline>
+
+    </sky-docs-demo-page-section>
+
+  </sky-docs-design-guidelines>
+
 </sky-docs-demo-page>
