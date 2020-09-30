@@ -27,6 +27,9 @@ import {
 
 let nextId = 0;
 
+/**
+ * Creates an individual form to display as a section within the sectioned form.
+ */
 @Component({
   selector: 'sky-sectioned-form-section',
   templateUrl: './sectioned-form-section.component.html',
@@ -37,12 +40,24 @@ export class SkySectionedFormSectionComponent implements OnInit, OnDestroy {
   public sectionTabId = `sky-sectioned-form-tab-${++nextId}`;
   public sectionContentId = `sky-sectioned-form-section-${++nextId}`;
 
+/**
+ * Specifies the section header.
+ * @required
+ */
   @Input()
   public heading: string;
 
+/**
+ * Indicates the number of items within the section and displays a
+ * counter alongside the section header.
+ */
   @Input()
   public itemCount: number;
 
+/**
+ * Indicates whether the section is active when the form loads.
+ * @default false
+ */
   @Input()
   public active: boolean;
 

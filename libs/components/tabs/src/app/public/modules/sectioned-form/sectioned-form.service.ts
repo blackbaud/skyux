@@ -8,9 +8,13 @@ import {
 
 @Injectable()
 export class SkySectionedFormService {
-
+/**
+ * @internal
+ */
   public invalidChange: BehaviorSubject<boolean> = new BehaviorSubject(undefined);
-
+/**
+ * @internal
+ */
   public requiredChange: BehaviorSubject<boolean> = new BehaviorSubject(undefined);
 
   /**
