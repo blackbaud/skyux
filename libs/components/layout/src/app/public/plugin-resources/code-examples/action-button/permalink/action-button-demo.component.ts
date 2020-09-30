@@ -4,13 +4,13 @@ import {
 
 import {
   SkyActionButtonPermalink
-} from '../../public/public_api';
+} from '@skyux/layout';
 
 @Component({
-  selector: 'app-action-button-docs',
-  templateUrl: './action-button-docs.component.html'
+  selector: 'app-action-button-demo',
+  templateUrl: './action-button-demo.component.html'
 })
-export class ActionButtonDocsComponent {
+export class ActionButtonDemoComponent {
 
   public routerlink: SkyActionButtonPermalink = {
     route: {
@@ -26,13 +26,4 @@ export class ActionButtonDocsComponent {
   public url: SkyActionButtonPermalink = {
     url: 'https://developer.blackbaud.com/skyux/components'
   };
-
-  public filterActionClick(): void {
-    alert('Filter action clicked');
-  }
-
-  public openActionClick(): void {
-    alert('Open action clicked');
-  }
-
 }

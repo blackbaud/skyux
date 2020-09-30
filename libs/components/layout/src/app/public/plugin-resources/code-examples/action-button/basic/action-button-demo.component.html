@@ -1,0 +1,31 @@
+<sky-action-button-container>
+  <sky-action-button
+    (actionClick)="filterActionClick()"
+  >
+    <sky-action-button-icon
+      iconType="filter"
+    >
+    </sky-action-button-icon>
+    <sky-action-button-header>
+      Build a new list
+    </sky-action-button-header>
+    <sky-action-button-details>
+      Start from scratch and fine-tune with filters.
+    </sky-action-button-details>
+  </sky-action-button>
+
+  <sky-action-button
+    (actionClick)="openActionClick()"
+  >
+    <sky-action-button-icon
+      iconType="folder-open-o"
+    >
+    </sky-action-button-icon>
+    <sky-action-button-header>
+      Open a saved list
+    </sky-action-button-header>
+    <sky-action-button-details>
+      Open a list with filters saved in the web view.
+    </sky-action-button-details>
+  </sky-action-button>
+</sky-action-button-container>
