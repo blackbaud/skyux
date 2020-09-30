@@ -1,6 +1,4 @@
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   OnInit
 } from '@angular/core';
@@ -8,35 +6,29 @@ import {
 let nextId = 0;
 
 @Component({
-  selector: 'app-infinite-scroll-docs',
-  templateUrl: './infinite-scroll-docs.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-infinite-scroll-demo',
+  templateUrl: './infinite-scroll-demo.component.html'
 })
-export class InfiniteScrollDocsComponent implements OnInit {
+export class InfiniteScrollDemoComponent implements OnInit {
 
-  public data: any[] = [];
+  public items: any[] = [];
 
-  public hasMore = true;
-
-  constructor(
-    private changeRef: ChangeDetectorRef
-  ) {}
+  public itemsHaveMore = true;
 
   public ngOnInit(): void {
     this.addData();
   }
 
   public onScrollEnd(): void {
-    if (this.hasMore) {
+    if (this.itemsHaveMore) {
       this.addData();
     }
   }
 
   private addData(): void {
     this.mockRemote().then((result: any) => {
-      this.data = this.data.concat(result.data);
-      this.hasMore = result.hasMore;
-      this.changeRef.markForCheck();
+      this.items = this.items.concat(result.data);
+      this.itemsHaveMore = result.hasMore;
     });
   }
 

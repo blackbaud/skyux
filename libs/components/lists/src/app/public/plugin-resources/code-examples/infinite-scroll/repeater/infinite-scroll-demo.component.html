@@ -1,0 +1,18 @@
+<div
+  style="overflow-y: auto; max-height: 400px; position: relative;"
+>
+  <sky-repeater>
+    <sky-repeater-item *ngFor="let item of items">
+      <sky-repeater-item-title>
+        {{ item.name }}
+      </sky-repeater-item-title>
+    </sky-repeater-item>
+  </sky-repeater>
+  <sky-infinite-scroll
+    [enabled]="itemsHaveMore"
+    (scrollEnd)="onScrollEnd()"
+  >
+  </sky-infinite-scroll>
+</div>
+<br>
+<br>

@@ -115,6 +115,7 @@ export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
     } while (
       !regex.test(style.overflow) &&
       !regex.test(style.overflowY) &&
+      parent.parentNode &&
       parent !== bodyObj
     );
 
