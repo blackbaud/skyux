@@ -1,0 +1,48 @@
+<p>
+  These tokens define a custom property to display their values. When users select a token, it emits an event.
+</p>
+
+<p>
+  <sky-tokens
+    displayWith="label"
+    [messageStream]="tokensController"
+    (focusIndexOverRange)="onFocusIndexOverRange()"
+    (focusIndexUnderRange)="onFocusIndexUnderRange()"
+    (tokenSelected)="onTokenSelected($event)"
+    [(tokens)]="myTokens"
+  >
+    (You may also include content inside the tokens component.)
+  </sky-tokens>
+</p>
+
+<p>
+  <button
+    class="sky-btn sky-btn-default sky-margin-inline-default"
+    type="button"
+    (click)="changeTokens()"
+  >
+    Change tokens
+  </button>
+
+  <button
+    class="sky-btn sky-btn-default sky-margin-inline-default"
+    type="button"
+    (click)="resetTokens()"
+  >
+    Reset tokens
+  </button>
+
+  <button
+    class="sky-btn sky-btn-default sky-margin-inline-default"
+    type="button"
+    (click)="destroyTokens()"
+  >
+    Destroy tokens
+  </button>
+  <button
+    class="sky-btn sky-btn-default sky-margin-inline-default"
+    (click)="focusLastToken()"
+  >
+    Focus last token
+  </button>
+</p>

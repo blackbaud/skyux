@@ -7,17 +7,53 @@
     The tokens component displays a series of specified objects for users to interact with. Users can navigate through the list of tokens and remove tokens from the list. The tokens component includes a message stream to place focus on tokens or remove tokens from the list.
   </sky-docs-demo-page-summary>
 
-  <!-- <sky-docs-demo>
-  </sky-docs-demo>
+  <sky-docs-demo>
+    <sky-docs-demo-control-panel
+      (selectionChange)="onDemoSelectionChange($event)"
+      (reset)="onDemoReset()"
+    >
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-checkbox
+          label="Disabled"
+          propertyName="disabled"
+          [checked]="false"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+        <sky-docs-demo-control-panel-checkbox
+          label="Dismissible"
+          propertyName="dismissible"
+          [checked]="true"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+        <sky-docs-demo-control-panel-checkbox
+          label="Focusable"
+          propertyName="focusable"
+          [checked]="true"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
 
-  <sky-docs-design-guidelines>
-  </sky-docs-design-guidelines>
+    <sky-tokens
+      [disabled]="demoSettings.disabled"
+      [dismissible]="demoSettings.dismissible"
+      [focusable]="demoSettings.focusable"
+      [(tokens)]="colors"
+    >
+    </sky-tokens>
+  </sky-docs-demo>
 
   <sky-docs-code-examples>
     <sky-docs-code-example
-      sourceCodePath="src/app/public/plugin-resources/code-examples/label"
+      heading="Basic tokens"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/tokens/basic/"
     >
     </sky-docs-code-example>
-  </sky-docs-code-examples> -->
+    <sky-docs-code-example
+      heading="Custom tokens with message stream"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/tokens/custom/"
+    >
+    </sky-docs-code-example>
+  </sky-docs-code-examples>
 
 </sky-docs-demo-page>
