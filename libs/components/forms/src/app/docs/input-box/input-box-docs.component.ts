@@ -1,10 +1,12 @@
 import {
-  Component
+  Component,
+  Optional
 } from '@angular/core';
 
 import {
   SkyTheme,
   SkyThemeMode,
+  SkyThemeService,
   SkyThemeSettings
 } from '@skyux/theme';
 
@@ -18,5 +20,9 @@ export class InputBoxDocsComponent {
     SkyTheme.presets.modern,
     SkyThemeMode.presets.light
   );
+
+  constructor(
+    @Optional() public themeSvc: SkyThemeService
+  ) {}
 
 }
