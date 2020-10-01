@@ -1,3 +1,7 @@
+# 4.13.2 (2020-10-01)
+
+- Fixed a bug where an input box inset button would wrap if the input box was too narrow. [#211](https://github.com/blackbaud/skyux-forms/pull/211)
+
 # 4.13.1 (2020-09-29)
 
 - Fixed an error when programmatically setting focus to a form control inside an input box. [#208](https://github.com/blackbaud/skyux-forms/pull/208)
