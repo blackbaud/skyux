@@ -6,10 +6,38 @@
   <sky-docs-demo-page-summary>
     The date range picker component creates a text input with a dropdown for users to select a date range from a set of well-known options.
   </sky-docs-demo-page-summary>
+  <sky-docs-demo>
+    <form
+      id="screenshot-date-range-picker"
+      novalidate
+      [formGroup]="reactiveForm"
+    >
+      <div class="sky-form-group">
+        <sky-date-range-picker
+          formControlName="lastDonation"
+          label="Last donation"
+        >
+        </sky-date-range-picker>
+
+        <ng-container *ngIf="reactiveRange.errors && reactiveRange.touched">
+          <div *ngIf="reactiveRange.errors.skyDateRange?.errors.endDateBeforeStartDate"
+            class="sky-error-label"
+          >
+            Select a to date that occurs after the from date.
+          </div>
+          <div *ngIf="reactiveRange.errors.skyDate"
+            class="sky-error-label"
+          >
+            Enter valid dates.
+          </div>
+        </ng-container>
+      </div>
+    </form>
+  </sky-docs-demo>
 
   <!-- TODO: add error handling section once code blocks are supported. https://developer.blackbaud.com/skyux/components/date-range-picker#error-handling -->
 
-  <!-- <sky-docs-code-examples
+  <sky-docs-code-examples
     [packageDependencies]="{
       '@skyux/datetime': '*'
     }"
@@ -18,5 +46,5 @@
       sourceCodePath="src/app/public/plugin-resources/code-examples/date-range-picker/basic/"
     >
     </sky-docs-code-example>
-  </sky-docs-code-examples> -->
+  </sky-docs-code-examples>
 </sky-docs-demo-page>
