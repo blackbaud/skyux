@@ -1,3 +1,7 @@
+# 4.7.2 (2020-10-1)
+
+- Fixed the interface definition component to hide optional and required statuses for properties. [#145](https://github.com/blackbaud/skyux-docs-tools/pull/145)
+
 # 4.7.1 (2020-09-25)
 
 - Fixed the type definitions service to handle additional type formats. [#142](https://github.com/blackbaud/skyux-docs-tools/pull/142)
