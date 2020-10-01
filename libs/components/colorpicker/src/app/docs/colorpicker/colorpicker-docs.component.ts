@@ -8,4 +8,10 @@ import {
   templateUrl: './colorpicker-docs.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ColorpickerDocsComponent { }
+export class ColorpickerDocsComponent {
+
+  public model: any = {
+    favoriteColor: 'rgb(0, 0, 225)'
+  };
+
+}
