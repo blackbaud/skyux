@@ -1,3 +1,7 @@
+# 4.5.1 (2020-10-01)
+
+- Fixed the modal content component to fill the height of its container.
+
 # 4.5.0 (2020-08-05)
 
 - Added a test fixture for the modal component to use in consumer unit tests. [#116](https://github.com/blackbaud/skyux-modals/pull/116)
