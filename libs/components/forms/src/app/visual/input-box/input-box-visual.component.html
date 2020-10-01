@@ -686,6 +686,43 @@
       </sky-column>
     </sky-row>
 
+    <sky-row>
+      <sky-column>
+        <div
+          id="input-box-button-inset-narrow"
+        >
+          <sky-input-box
+            class="sky-margin-stacked-lg"
+          >
+            <label
+              class="sky-control-label"
+              [for]="inputBoxButtonInsetNarrow.id"
+            >
+              Input with inset button (narrow)
+            </label>
+            <input
+              class="sky-form-control"
+              skyId
+              type="text"
+              #inputBoxButtonInsetNarrow="skyId"
+            >
+            <div
+              class="sky-input-group-btn sky-input-box-btn-inset"
+            >
+              <button
+                class="sky-btn sky-btn-default"
+                type="button"
+              >
+                <sky-icon
+                  icon="search"
+                ></sky-icon>
+              </button>
+            </div>
+          </sky-input-box>
+        </div>
+      </sky-column>
+    </sky-row>
+
   </sky-fluid-grid>
 
 </div>
