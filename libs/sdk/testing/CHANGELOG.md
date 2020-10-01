@@ -1,3 +1,16 @@
+# 4.2.0 (2020-10-1)
+
+- Added support for `expectAsync` for the following Jasmine matchers: `toBeAccessible`, `toEqualResourceString`, and `toContainResourceString`. The older, synchronous versions have been deprecated. [#37](https://github.com/blackbaud/skyux-sdk-testing/pull/37) To convert existing synchronous matchers to the new synchronous versions do the following:
+```
+// Instead of...
+import { expect } from '@skyux-sdk/testing';
+expect(element).toBeAccessible(done, args);
+
+// Do...
+import { expectAsync } from '@skyux-sdk/testing';
+await expectAsync(element).toBeAccessible(args);
+```
+
 # 4.1.0 (2020-08-12)
 
 - Updated the accessibility rules to ignore invalid autocomplete values to support disabling autocomplete on Google Chrome. [#40](https://github.com/blackbaud/skyux-sdk-testing/pull/40)
