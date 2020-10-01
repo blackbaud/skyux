@@ -247,22 +247,111 @@ const matchers: jasmine.CustomMatcherFactories = {
   }
 };
 
+const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
+  toBeAccessible(): jasmine.CustomAsyncMatcher {
+    return {
+      compare<T>(element: T, config?: SkyA11yAnalyzerConfig): Promise<jasmine.CustomMatcherResult> {
+        return new Promise((resolve) => {
+          SkyA11yAnalyzer.run(element, config)
+            .then(() => {
+              resolve({
+                pass: true
+              });
+            })
+            .catch((err) => {
+              resolve({
+                pass: false,
+                message: err.message
+              });
+            });
+        });
+      }
+    };
+  },
+
+  toEqualResourceText(): jasmine.CustomAsyncMatcher {
+    return {
+      compare(
+        actual: string,
+        name: string,
+        args?: any[]
+      ): Promise<jasmine.CustomMatcherResult> {
+        const resourcesService: SkyAppResourcesService = TestBed.inject(SkyAppResourcesService);
+
+        return new Promise((resolve) => {
+          resourcesService.getString(name, args).toPromise().then(message => {
+            if (actual === message) {
+              resolve({
+                pass: true
+              });
+            } else {
+              resolve({
+                pass: false,
+                message: `Expected "${actual}" to equal "${message}"`
+              });
+            }
+          });
+        });
+      }
+    };
+  },
+
+  toHaveResourceText(): jasmine.CustomAsyncMatcher {
+    return {
+      compare(
+        element: any,
+        name: string,
+        args?: any[],
+        trimWhitespace: boolean = true
+      ): Promise<jasmine.CustomMatcherResult> {
+
+        return new Promise((resolve) => {
+          let actual = element.textContent;
+          if (trimWhitespace) {
+            actual = actual.trim();
+          }
+
+          const resourcesService: SkyAppResourcesService = TestBed.inject(SkyAppResourcesService);
+          resourcesService.getString(name, args).toPromise().then(message => {
+            if (actual === message) {
+              resolve({
+                pass: true
+              });
+            } else {
+              resolve({
+                pass: false,
+                message: `Expected element's inner text to be "${message}"`
+              });
+            }
+          });
+        });
+      }
+    };
+  }
+};
+
 windowRef.beforeEach(() => {
   jasmine.addMatchers(matchers);
+  jasmine.addAsyncMatchers(asyncMatchers);
 });
 
 /**
  * Interface for "asynchronous" custom Sky matchers which cannot be paired with a `.not` operator.
  */
 interface SkyAsyncMatchers<T> {
+
   /**
-   * `expect` the actual component to be accessible based on Web Content Accessibility
+   * Invert the matcher following this `expect`
+   */
+  not: SkyAsyncMatchers<T>;
+
+  /**
+   * `expect` an element to be accessible based on Web Content Accessibility
    * Guidelines 2.0 (WCAG20) Level A and AA success criteria.
-   * @param callback The callback to execute after accessibility checks run.
    * @param config The configuration settings for overwriting or turning off specific accessibility checks.
    * @see https://developer.blackbaud.com/skyux/learn/get-started/advanced/accessibility-unit-tests
    */
-  toBeAccessible(callback?: () => void, config?: SkyA11yAnalyzerConfig): void;
+  toBeAccessible(config?: SkyA11yAnalyzerConfig): Promise<jasmine.CustomMatcherResult>;
 
   /**
    * `expect` the actual text to equal the text for the expected resource string.
@@ -270,9 +359,8 @@ interface SkyAsyncMatchers<T> {
    * and compares using ===.
    * @param name The resource string to fetch from the resource file and compare against.
    * @param args The string replacement arguments for the expected resource string.
-   * @param callback The callback to execute when the comparison fails.
    */
-  toEqualResourceText(name: string, args?: any[], callback?: () => void): void;
+  toEqualResourceText(name: string, args?: any[]): Promise<jasmine.CustomMatcherResult>;
 
   /**
    * `expect` the actual element to have the text for the expected resource string.
@@ -281,19 +369,19 @@ interface SkyAsyncMatchers<T> {
    * @param name The resource string to fetch from the resource file and compare against.
    * @param args The string replacement arguments for the expected resource string.
    * @param trimWhitespace [true] Whether or not to trim whitespace from the actual element text before comparison.
-   * @param callback The callback to execute when the comparison fails.
    */
-  toHaveResourceText(name: string, args?: any[], trimWhitespace?: boolean, callback?: () => void): void;
+  toHaveResourceText(name: string, args?: any[], trimWhitespace?: boolean): Promise<jasmine.CustomMatcherResult>;
+
 }
 
 /**
  * Interface for "normal" custom Sky matchers (includes original jasmine matchers).
  */
-interface SkyNormalMatchers<T> extends jasmine.Matchers<T> {
+interface SkyMatchers<T> extends jasmine.Matchers<T> {
   /**
    * Invert the matcher following this `expect`
    */
-  not: SkyNormalMatchers<T>;
+  not: SkyMatchers<T>;
 
   /**
    * `expect` the actual element to be visible.
@@ -323,12 +411,40 @@ interface SkyNormalMatchers<T> extends jasmine.Matchers<T> {
    * @param trimWhitespace [true] Whether or not to trim whitespace from the actual element text before comparison.
    */
   toHaveText(expectedText: string, trimWhitespace?: boolean): void;
-}
 
-/**
- * Interface for custom Sky matchers (includes original jasmine matchers).
- */
-export interface SkyMatchers<T> extends SkyNormalMatchers<T>, SkyAsyncMatchers<T> {}
+  /**
+   * `expect` the actual component to be accessible based on Web Content Accessibility
+   * Guidelines 2.0 (WCAG20) Level A and AA success criteria.
+   * @deprecated Use `await expectAsync(element).toBeAccessible()` instead.
+   * @param callback The callback to execute after accessibility checks run.
+   * @param config The configuration settings for overwriting or turning off specific accessibility checks.
+   * @see https://developer.blackbaud.com/skyux/learn/get-started/advanced/accessibility-unit-tests
+   */
+  toBeAccessible(callback?: () => void, config?: SkyA11yAnalyzerConfig): void;
+
+  /**
+   * `expect` the actual text to equal the text for the expected resource string.
+   * Uses `SkyAppResourcesService.getString(name, args)` to fetch the expected resource string
+   * and compares using ===.
+   * @deprecated Use `await expectAsync('Some message.').toEqualResourceText('foo_bar_key')` instead.
+   * @param name The resource string to fetch from the resource file and compare against.
+   * @param args The string replacement arguments for the expected resource string.
+   * @param callback The callback to execute when the comparison fails.
+   */
+  toEqualResourceText(name: string, args?: any[], callback?: () => void): void;
+
+  /**
+   * `expect` the actual element to have the text for the expected resource string.
+   * Uses `SkyAppResourcesService.getString(name, args)` to fetch the expected resource string
+   * and compares using ===.
+   * @deprecated Use `await expectAsync(element).toHaveResourceText('foo_bar_key')` instead.
+   * @param name The resource string to fetch from the resource file and compare against.
+   * @param args The string replacement arguments for the expected resource string.
+   * @param trimWhitespace [true] Whether or not to trim whitespace from the actual element text before comparison.
+   * @param callback The callback to execute when the comparison fails.
+   */
+  toHaveResourceText(name: string, args?: any[], trimWhitespace?: boolean, callback?: () => void): void;
+}
 
 /**
  * Create an expectation for a spec.
@@ -336,4 +452,12 @@ export interface SkyMatchers<T> extends SkyNormalMatchers<T>, SkyAsyncMatchers<T
  */
 export function expect<T>(actual: T): SkyMatchers<T> {
   return windowRef.expect(actual);
+}
+
+/**
+ * Create an async expectation for a spec.
+ * @param actual Actual computed value to test expectations against.
+ */
+export function expectAsync<T>(actual: T): SkyAsyncMatchers<T> {
+  return windowRef.expectAsync(actual);
 }

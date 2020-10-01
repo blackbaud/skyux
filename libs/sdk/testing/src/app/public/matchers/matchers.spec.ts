@@ -23,7 +23,8 @@ import {
 } from '../a11y/a11y-analyzer-config';
 
 import {
-  expect
+  expect,
+  expectAsync
 } from './matchers';
 
 function createElement(innerText: string): any {
@@ -36,7 +37,27 @@ function createElement(innerText: string): any {
   return elem;
 }
 
+function createPassingElement(): any {
+  const wrapper = document.createElement('div');
+  const elem1 = document.createElement('div');
+  const elem2 = document.createElement('div');
+  wrapper.appendChild(elem1);
+  wrapper.appendChild(elem2);
+  document.body.appendChild(wrapper);
+  return wrapper;
+}
+
+function createFailingElement(): any {
+  // Make every DIV have the same ID:
+  const element = createPassingElement();
+  [].slice.call(element.querySelectorAll('div')).forEach((elem: any) => {
+    elem.setAttribute('id', 'same-id');
+  });
+  return element;
+}
+
 describe('Jasmine matchers', () => {
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyI18nModule],
@@ -114,24 +135,6 @@ describe('Jasmine matchers', () => {
   });
 
   describe('toBeAccessible', () => {
-    function createPassingElement(): any {
-      const wrapper = document.createElement('div');
-      const elem1 = document.createElement('div');
-      const elem2 = document.createElement('div');
-      wrapper.appendChild(elem1);
-      wrapper.appendChild(elem2);
-      document.body.appendChild(wrapper);
-      return wrapper;
-    }
-
-    function createFailingElement(): any {
-      // Make every DIV have the same ID:
-      const element = createPassingElement();
-      [].slice.call(element.querySelectorAll('div')).forEach((elem: any) => {
-        elem.setAttribute('id', 'same-id');
-      });
-      return element;
-    }
 
     it('should check accessibility', async(() => {
       const element = createPassingElement();
@@ -341,6 +344,149 @@ describe('Jasmine matchers', () => {
       expect(elem).toHaveResourceText(messageKey, [], false, () => {
         expect(failSpy).toHaveBeenCalled();
         done();
+      });
+    });
+  });
+
+  describe('expectAsync', () => {
+
+    describe('toBeAccessible', () => {
+      it('should check accessibility', async () => {
+        const element = createPassingElement();
+        await expectAsync(element).toBeAccessible();
+      });
+
+      it('should support the .not. operator', async () => {
+        const element = createFailingElement();
+        await expectAsync(element).not.toBeAccessible();
+      });
+    });
+
+    describe('toEqualResourceText', () => {
+      let resourcesService: SkyAppResourcesService;
+
+      beforeEach(() => {
+        resourcesService = TestBed.inject(SkyAppResourcesService);
+      });
+
+      it('should check that the actual text matches text provided by resources', async () => {
+        const messageKey = 'name';
+        const messageValue = 'message from resource';
+        const text = 'message from resource';
+
+        spyOn(resourcesService, 'getString').and.callFake((name: string) => {
+          if (name === messageKey) {
+            return observableOf(messageValue);
+          } else {
+            return EMPTY;
+          }
+        });
+
+        await expectAsync(text).toEqualResourceText(messageKey);
+      });
+
+      it('should check that the actual text matches text provided by resources with arguments', async () => {
+        const messageKey = 'nameWithArgs';
+        const messageValue = 'message from resources with args = {0}';
+        const messageArgs: any[] = [100];
+        const text = 'message from resources with args = 100';
+
+        spyOn(resourcesService, 'getString').and.callFake((name: string, args: any[]) => {
+          if (name === messageKey) {
+            return observableOf(messageValue.replace('{0}', args[0]));
+          } else {
+            return EMPTY;
+          }
+        });
+
+        await expectAsync(text).toEqualResourceText(messageKey, messageArgs);
+      });
+
+      it('should fail if the actual text does not match text provided by resources', async () => {
+        const messageKey = 'nameThatDoesNotExist';
+        const messageValue = 'message from resource';
+        const text = 'Some text that\'s not in the resources';
+
+        spyOn(resourcesService, 'getString').and.returnValue(observableOf(messageValue));
+
+        await expectAsync(text).not.toEqualResourceText(messageKey, undefined);
+      });
+    });
+
+    describe('toHaveResourceText', () => {
+      let resourcesService: SkyAppResourcesService;
+
+      beforeEach(() => {
+        resourcesService = TestBed.inject(SkyAppResourcesService);
+      });
+
+      it('should check that the element\'s text matches text provided by resources', async () => {
+        const messageKey = 'name';
+        const messageValue: string = 'message from resource';
+        const elem = createElement(messageValue);
+
+        spyOn(resourcesService, 'getString').and.callFake((name: string) => {
+          if (name === messageKey) {
+            return observableOf(messageValue);
+          } else {
+            return EMPTY;
+          }
+        });
+
+        await expectAsync(elem).toHaveResourceText(messageKey);
+      });
+
+      it('should default to trimming whitespace and check that the element\'s text matches text provided by resources', async () => {
+        const messageKey = 'name';
+        const messageValue: string = 'message from resource';
+        const elem: any = createElement(`    ${messageValue}     `);
+
+        spyOn(resourcesService, 'getString').and.callFake((name: string) => {
+          if (name === messageKey) {
+            return observableOf(messageValue);
+          } else {
+            return EMPTY;
+          }
+        });
+
+        await expectAsync(elem).toHaveResourceText(messageKey);
+      });
+
+      it('should check that the element\'s text matches text provided by resources with arguments', async () => {
+        const messageKey = 'nameWithArgs';
+        const messageValue = 'message from resources with args = {0}';
+        const messageArgs: any[] = [100];
+        const elem = createElement(messageValue.replace('{0}', messageArgs[0]));
+
+        spyOn(resourcesService, 'getString').and.callFake((name: string, args: any[]) => {
+          if (name === messageKey) {
+            return observableOf(messageValue.replace('{0}', args[0]));
+          } else {
+            return EMPTY;
+          }
+        });
+
+        await expectAsync(elem).toHaveResourceText(messageKey, messageArgs);
+      });
+
+      it('should fail if the element\'s text does not match text provided by resources', async () => {
+        const messageKey = 'nameThatDoesNotExist';
+        const messageValue = 'message from resource';
+        const elem = createElement('Some text that\'s not in the resources');
+
+        spyOn(resourcesService, 'getString').and.returnValue(observableOf(messageValue));
+
+        await expectAsync(elem).not.toHaveResourceText(messageKey);
+      });
+
+      it('should fail if whitespace is not trimmed and the element\'s text does not match text provided by resources', async () => {
+        const messageKey = 'name';
+        const messageValue = 'message from resource';
+        const elem = createElement(`    ${messageValue}    `);
+
+        spyOn(resourcesService, 'getString').and.returnValue(observableOf(messageValue));
+
+        await expectAsync(elem).not.toHaveResourceText(messageKey, [], false);
       });
     });
   });
