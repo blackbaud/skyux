@@ -3,6 +3,7 @@ $sky-switch-size: 22px !default;
 .sky-switch {
   cursor: pointer;
   display: inline-flex;
+  position: relative;
 
   &:hover .sky-switch-control {
     border-color: $sky-highlight-color-info;
