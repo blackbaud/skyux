@@ -25,9 +25,9 @@
   }
 
   @if $level == 4 {
-    font-weight: 500;
+    font-weight: 600;
     font-size: 15px;
-    margin: $sky-margin-plus-half 0 $sky-margin;
+    margin: 0 0 $sky-margin;
   }
 
   @if $level == 5 {}
