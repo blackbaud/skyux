@@ -1,3 +1,7 @@
+# 4.10.3 (2020-10-01)
+
+- Fixed the `.sky-switch` CSS styles to properly position its input elements within `overflow` parent elements. [#187](https://github.com/blackbaud/skyux-theme/pull/187)
+
 # 4.10.2 (2020-09-01)
 
 - Fixed modern theme styles shared by the radio button and checkbox components. [#184](https://github.com/blackbaud/skyux-theme/pull/184)
