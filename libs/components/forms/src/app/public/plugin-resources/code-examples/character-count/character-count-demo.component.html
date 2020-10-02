@@ -8,36 +8,35 @@
     <div
       class="sky-form-group"
     >
-      <div
-        style="display: flex;"
-      >
+      <sky-input-box>
         <label
           class="sky-control-label"
-          style="flex-grow: 1;"
+          [for]="descriptionInput.id"
         >
           Transaction description
         </label>
 
         <sky-character-counter-indicator
           #descriptionIndicator
+        ></sky-character-counter-indicator>
+
+        <input
+          class="sky-form-control"
+          formControlName="description"
+          type="text"
+          skyCharacterCounter
+          skyId
+          [skyCharacterCounterIndicator]="descriptionIndicator"
+          [skyCharacterCounterLimit]="maxDescriptionCharacterCount"
+          #descriptionInput="skyId"
         >
-        </sky-character-counter-indicator>
-      </div>
 
-      <input
-        class="sky-form-control"
-        formControlName="description"
-        type="text"
-        skyCharacterCounter
-        [skyCharacterCounterIndicator]="descriptionIndicator"
-        [skyCharacterCounterLimit]="maxDescriptionCharacterCount"
-      />
-
-      <div *ngIf="description.errors?.skyCharacterCounter"
-        class="sky-error-label"
-      >
-        Limit Transaction description to {{maxDescriptionCharacterCount}} characters.
-      </div>
+        <div *ngIf="description.errors?.skyCharacterCounter"
+          class="sky-error-label"
+        >
+          Limit Transaction description to {{ maxDescriptionCharacterCount }} characters.
+        </div>
+      </sky-input-box>
     </div>
   </form>
 </div>

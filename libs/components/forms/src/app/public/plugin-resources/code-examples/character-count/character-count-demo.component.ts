@@ -19,7 +19,7 @@ export class CharacterCountDemoComponent implements OnInit {
 
   public description: FormControl;
 
-  public maxDescriptionCharacterCount: number = 50;
+  public maxDescriptionCharacterCount = 50;
 
   constructor(
     private formBuilder: FormBuilder

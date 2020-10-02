@@ -12,7 +12,12 @@ import {
 } from '@angular/forms';
 
 import {
-  SkyCharacterCounterModule
+  SkyIdModule
+} from '@skyux/core';
+
+import {
+  SkyCharacterCounterModule,
+  SkyInputBoxModule
 } from '@skyux/forms';
 
 import {
@@ -24,7 +29,9 @@ import {
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    SkyCharacterCounterModule
+    SkyCharacterCounterModule,
+    SkyIdModule,
+    SkyInputBoxModule
   ],
   declarations: [
     CharacterCountDemoComponent
@@ -34,5 +41,4 @@ import {
   ]
 })
 
-export class SkyRadioDemoModule {
-}
+export class SkyCharacterCountDemoModule { }
