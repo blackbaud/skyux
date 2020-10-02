@@ -7,6 +7,112 @@
     The page summary displays critical information and actions for users to access quickly and frequently.
   </sky-docs-demo-page-summary>
 
+  <sky-docs-demo>
+    <sky-docs-demo-control-panel
+      (selectionChange)="onDemoSelectionChange($event)"
+    >
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-checkbox
+          label="Show title"
+          propertyName="title"
+          [checked]="true"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+        <sky-docs-demo-control-panel-checkbox
+          label="Show subtitle"
+          propertyName="subtitle"
+          [checked]="true"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+        <sky-docs-demo-control-panel-checkbox
+          label="Show image"
+          propertyName="image"
+          [checked]="true"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+        <sky-docs-demo-control-panel-checkbox
+          label="Show record status"
+          propertyName="status"
+          [checked]="true"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+        <sky-docs-demo-control-panel-checkbox
+          label="Show key information"
+          propertyName="keyInfo"
+          [checked]="true"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+        <sky-docs-demo-control-panel-checkbox
+          label="Show arbitrary content"
+          propertyName="content"
+          [checked]="true"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+        <sky-docs-demo-control-panel-checkbox
+          label="Show alert"
+          propertyName="alert"
+          [checked]="true"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
+    <sky-page-summary>
+      <sky-page-summary-alert *ngIf="demoSettings.alert">
+        <sky-alert
+          alertType="info"
+        >
+          This is an alert.
+        </sky-alert>
+      </sky-page-summary-alert>
+      <sky-page-summary-image *ngIf="demoSettings.image">
+        <sky-avatar
+          name="Robert C. Hernandez"
+          [canChange]="true"
+        ></sky-avatar>
+      </sky-page-summary-image>
+      <sky-page-summary-title *ngIf="demoSettings.title">
+        Robert C. Hernandez
+      </sky-page-summary-title>
+      <sky-page-summary-subtitle *ngIf="demoSettings.subtitle">
+        Board member
+      </sky-page-summary-subtitle>
+      <sky-page-summary-status *ngIf="demoSettings.status">
+        <sky-label
+          labelType="success"
+        >
+          Fundraiser
+        </sky-label>
+        <sky-label>
+          Inactive
+        </sky-label>
+      </sky-page-summary-status>
+      <sky-page-summary-content *ngIf="demoSettings.content">
+        This is the arbitrary content section. You can display any kind of content to complement the
+        content on a page. We recommend that you display content to support the key tasks of users of
+        users who visit the page. We also recommend that you keep in mind the context of how users
+        will use the content and limit the amount of content to avoid overloading the summary.
+      </sky-page-summary-content>
+      <sky-page-summary-key-info *ngIf="demoSettings.keyInfo">
+        <sky-key-info>
+          <sky-key-info-value>
+            $1,500
+          </sky-key-info-value>
+          <sky-key-info-label>
+            Largest gift
+          </sky-key-info-label>
+        </sky-key-info>
+        <sky-key-info>
+          <sky-key-info-value>
+            37
+          </sky-key-info-value>
+          <sky-key-info-label>
+            Total gifts
+          </sky-key-info-label>
+        </sky-key-info>
+      </sky-page-summary-key-info>
+    </sky-page-summary>
+  </sky-docs-demo>
+
   <sky-docs-design-guidelines>
     <sky-docs-demo-page-section
       heading="Usage"
@@ -92,4 +198,15 @@
       </sky-docs-design-guideline>
     </sky-docs-demo-page-section>
   </sky-docs-design-guidelines>
+
+  <sky-docs-code-examples
+    [packageDependencies]="{
+      '@blackbaud/auth-client': '*',
+      '@skyux/avatar': '*'
+    }"
+  >
+    <sky-docs-code-example
+      sourceCodePath="src/app/public/plugin-resources/code-examples/page-summary/basic/"
+    ></sky-docs-code-example>
+  </sky-docs-code-examples>
 </sky-docs-demo-page>

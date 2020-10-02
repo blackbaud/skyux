@@ -1,0 +1,71 @@
+<sky-card
+  [selectable]="showCheckbox"
+>
+  <sky-card-title *ngIf="showTitle">
+    Large card
+  </sky-card-title>
+  <sky-card-content *ngIf="showContent">
+    This card demonstrates the amount of space that is available for a card that uses
+    the default large size. If the content does not require this much space, you can
+    set the card size to small. The type of content to display in the body of a card
+    varies based on what the card represents and whether it prompts users to action.
+  </sky-card-content>
+  <sky-card-actions *ngIf="showAction">
+    <button
+      class="sky-btn sky-btn-default"
+      type="button"
+    >
+      Action
+    </button>
+  </sky-card-actions>
+  </sky-card>
+  <sky-card
+    size="small"
+    [selectable]="showCheckbox"
+  >
+  <sky-card-title *ngIf="showTitle">
+    Small card
+  </sky-card-title>
+  <sky-card-content *ngIf="showContent">
+    This card demonstrates the reduced amount of space that is available when you
+    set the card size to small.
+  </sky-card-content>
+  <sky-card-actions *ngIf="showAction">
+    <sky-dropdown
+      buttonType="context-menu"
+    >
+      <sky-dropdown-menu>
+        <sky-dropdown-item>
+          <button
+            type="button"
+          >
+            Action
+          </button>
+        </sky-dropdown-item>
+      </sky-dropdown-menu>
+    </sky-dropdown>
+  </sky-card-actions>
+</sky-card>
+
+<ul class="sky-list-unstyled">
+  <li>
+    <sky-checkbox [(ngModel)]="showTitle">
+      <sky-checkbox-label>Show title</sky-checkbox-label>
+    </sky-checkbox>
+  </li>
+  <li>
+    <sky-checkbox [(ngModel)]="showContent">
+      <sky-checkbox-label>Show content</sky-checkbox-label>
+    </sky-checkbox>
+  </li>
+  <li>
+    <sky-checkbox [(ngModel)]="showAction">
+      <sky-checkbox-label>Show action</sky-checkbox-label>
+    </sky-checkbox>
+  </li>
+  <li>
+    <sky-checkbox [(ngModel)]="showCheckbox">
+      <sky-checkbox-label>Show checkbox</sky-checkbox-label>
+    </sky-checkbox>
+  </li>
+</ul>

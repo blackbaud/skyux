@@ -7,6 +7,34 @@
     Definition lists display label-value pairs.
   </sky-docs-demo-page-summary>
 
+  <sky-docs-demo>
+    <sky-docs-demo-control-panel
+      (selectionChange)="onDemoSelectionChange($event)"
+      >
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-checkbox
+          label="Show heading"
+          propertyName="showHeading"
+          [checked]="true"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
+    <sky-definition-list>
+      <sky-definition-list-heading *ngIf="demoSettings.showHeading">
+        Definition list heading
+      </sky-definition-list-heading>
+      <sky-definition-list-content *ngFor="let item of items">
+        <sky-definition-list-label>
+          {{item.label}}
+        </sky-definition-list-label>
+        <sky-definition-list-value>
+          {{item.value}}
+        </sky-definition-list-value>
+      </sky-definition-list-content>
+    </sky-definition-list>
+  </sky-docs-demo>
+
   <sky-docs-design-guidelines>
     <sky-docs-demo-page-section
       heading="Content"
@@ -29,4 +57,10 @@
       </sky-docs-design-guideline>
     </sky-docs-demo-page-section>
   </sky-docs-design-guidelines>
+
+  <sky-docs-code-examples>
+    <sky-docs-code-example
+      sourceCodePath="src/app/public/plugin-resources/code-examples/definition-list/basic/"
+    ></sky-docs-code-example>
+  </sky-docs-code-examples>
 </sky-docs-demo-page>
