@@ -4,8 +4,53 @@
   pageTitle="Search"
 >
 
-<sky-docs-demo-page-summary>
-  The search component creates an input control for users to enter search criteria.
-</sky-docs-demo-page-summary>
+  <sky-docs-demo-page-summary>
+    The search component creates an input control for users to enter search criteria.
+  </sky-docs-demo-page-summary>
+
+  <sky-docs-demo>
+    <sky-toolbar>
+      <sky-toolbar-item>
+        <button
+          class="sky-btn sky-btn-default sky-demo-search-bar-item"
+          (click)="searchApplied('Robert')"
+        >
+          Predefined search text
+        </button>
+      </sky-toolbar-item>
+      <sky-toolbar-item>
+        <sky-search
+          [searchText]="searchText"
+          [debounceTime]="250"
+          (searchApply)="searchApplied($event)"
+          (searchChange)="searchApplied($event)"
+        >
+        </sky-search>
+      </sky-toolbar-item>
+    </sky-toolbar>
+    <sky-repeater
+      expandMode="none"
+    >
+      <sky-repeater-item *ngFor="let item of displayedItems">
+        <sky-repeater-item-title>
+          {{item.title}}
+        </sky-repeater-item-title>
+      </sky-repeater-item>
+    </sky-repeater>
+  </sky-docs-demo>
+
+  <sky-docs-code-examples
+    [packageDependencies]="{
+      '@blackbaud/auth-client': '*',
+      '@skyux/inline-form': '*',
+      '@skyux/lists': '*',
+      '@skyux/lookup': '*'
+    }"
+  >
+    <sky-docs-code-example
+      heading="Basic setup"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/search/basic"
+    ></sky-docs-code-example>
+  </sky-docs-code-examples>
 
 </sky-docs-demo-page>

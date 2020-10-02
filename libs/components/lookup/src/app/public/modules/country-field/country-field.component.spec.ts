@@ -1596,7 +1596,7 @@ describe('Country Field Component', () => {
 
       const inputBoxEl = nativeElement.querySelector('sky-input-box');
 
-      const inputGroupEl = inputBoxEl.querySelector('.sky-form-group > .sky-input-group');
+      const inputGroupEl = inputBoxEl.querySelector('.sky-input-box-input-group-inner');
       const containerEl = inputGroupEl.children.item(0);
 
       expect(containerEl).toHaveCssClass('sky-country-field-container');

@@ -12,6 +12,14 @@ import {
 } from '@skyux/forms';
 
 import {
+  SkyToolbarModule
+} from '@skyux/layout';
+
+import {
+  SkyRepeaterModule
+} from '@skyux/lists';
+
+import {
   SkyAppLinkModule
 } from '@skyux/router';
 
@@ -30,13 +38,15 @@ import {
     SkySearchModule
   ],
   exports: [
+    SkyAppLinkModule,
     SkyAutocompleteModule,
     SkyCountryFieldModule,
     SkyDocsToolsModule,
     SkyInputBoxModule,
     SkyLookupModule,
+    SkyRepeaterModule,
     SkySearchModule,
-    SkyAppLinkModule
+    SkyToolbarModule
   ],
   providers: [
     {
