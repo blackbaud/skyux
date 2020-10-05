@@ -1,5 +1,6 @@
 import {
   animate,
+  AnimationEvent,
   style,
   transition,
   trigger
@@ -9,12 +10,14 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
   OnInit,
+  Optional,
   Output,
+  SkipSelf,
+  TemplateRef,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
@@ -26,8 +29,16 @@ import {
 } from '@angular/forms';
 
 import {
+  SkyInputBoxHostService
+} from '@skyux/forms';
+
+import {
   SkyCountryFieldCountry
 } from '@skyux/lookup';
+
+import {
+  SkyThemeService
+} from '@skyux/theme';
 
 import {
   PhoneNumberFormat,
@@ -59,7 +70,14 @@ import {
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    SkyPhoneFieldAdapterService
+    SkyPhoneFieldAdapterService,
+    // Prevents the embedded country field component from changing its behavior based on
+    // being inside an input box. The phone field itself will handle the required changes
+    // for input box.
+    {
+      provide: SkyInputBoxHostService,
+      useValue: undefined
+    }
   ],
   animations: [
     trigger('blockAnimationOnLoad', [
@@ -159,12 +177,6 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
 
   public countrySearchForm: FormGroup;
 
-  @ViewChild('countrySearchInput', {
-    read: ElementRef,
-    static: false
-  })
-  public countrySearchInput: ElementRef;
-
   /**
    * Specifies the currently selected country to validate against.
    */
@@ -188,6 +200,24 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     return this._selectedCountry;
   }
 
+  @ViewChild('inputTemplateRef', {
+    read: TemplateRef,
+    static: true
+  })
+  private inputTemplateRef: TemplateRef<any>;
+
+  @ViewChild('countryBtnTemplateRef', {
+    read: TemplateRef,
+    static: true
+  })
+  private countryBtnTemplateRef: TemplateRef<any>;
+
+  @ViewChild('buttonsInsetTemplateRef', {
+    read: TemplateRef,
+    static: true
+  })
+  private buttonsInsetTemplateRef: TemplateRef<any>;
+
   private defaultCountryData: SkyPhoneFieldCountry;
 
   private phoneInputAnimationTriggered = false;
@@ -204,7 +234,8 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     private formBuilder: FormBuilder,
     private adapterService: SkyPhoneFieldAdapterService,
     private changeDetector: ChangeDetectorRef,
-    private elementRef: ElementRef
+    @Optional() public themeSvc?: SkyThemeService,
+    @Optional() @SkipSelf() public inputBoxHostSvc?: SkyInputBoxHostService
   ) {
     /**
      * The json functions here ensures that we get a copy of the array and not the global original.
@@ -229,10 +260,19 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   }
 
   public ngOnInit(): void {
-
     // The timeout here is needed to avoid a change before checked error when a user specifies
     // a selected country on intialization of the component.
     setTimeout(() => {
+      if (this.inputBoxHostSvc) {
+        this.inputBoxHostSvc.populate(
+          {
+            inputTemplate: this.inputTemplateRef,
+            buttonsInsetTemplate: this.buttonsInsetTemplateRef,
+            buttonsLeftTemplate: this.countryBtnTemplateRef
+          }
+        );
+      }
+
       if (!this.defaultCountry) {
         this.defaultCountry = 'us';
       }
@@ -282,22 +322,22 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     this.changeDetector.markForCheck();
   }
 
-  public countrySearchAnimationEnd() {
+  public countrySearchAnimationEnd(e: AnimationEvent) {
     if (!this.countrySearchShown) {
       this.phoneInputShown = true;
     } else {
-      this.adapterService.focusCountrySearchElement(this.countrySearchInput);
+      this.adapterService.focusCountrySearchElement(e.element);
     }
 
     this.changeDetector.markForCheck();
   }
 
-  public phoneInputAnimationEnd() {
+  public phoneInputAnimationEnd(e: AnimationEvent) {
     if (!this.phoneInputShown) {
       this.countrySearchShown = true;
     } else {
       if (this.phoneInputAnimationTriggered) {
-        this.adapterService.focusPhoneInput(this.elementRef);
+        this.adapterService.focusPhoneInput(e.element);
         this.phoneInputAnimationTriggered = false;
       }
     }

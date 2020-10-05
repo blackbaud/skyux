@@ -21,6 +21,22 @@ import {
 } from '@angular/platform-browser/animations';
 
 import {
+  BehaviorSubject
+} from 'rxjs';
+
+import {
+  SkyInputBoxModule
+} from '@skyux/forms';
+
+import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange
+} from '@skyux/theme';
+
+import {
   expect,
   SkyAppTestUtility
 } from '@skyux-sdk/testing';
@@ -28,6 +44,10 @@ import {
 import {
   SkyPhoneFieldModule
 } from './phone-field.module';
+
+import {
+  PhoneFieldInputBoxTestComponent
+} from './fixtures/phone-field-input-box.component.fixture';
 
 import {
   PhoneFieldTestComponent
@@ -45,7 +65,9 @@ describe('Phone Field Component', () => {
   }
 
   function getCountrySearchInput(fixture: ComponentFixture<any>): HTMLInputElement {
-    return fixture.nativeElement.querySelector('.sky-phone-field-country-search textarea');
+    return fixture.nativeElement.querySelector(
+      '.sky-country-field-input input, .sky-country-field-input textarea'
+    );
   }
 
   function getCountrySearchToggleButton(fixture: ComponentFixture<any>): HTMLInputElement {
@@ -97,8 +119,8 @@ describe('Phone Field Component', () => {
     countryInput.click();
     detectChangesAndTick(compFixture);
 
-    let countrySearchInput: HTMLInputElement = compFixture.debugElement.query(By.css('textarea'))
-      .nativeElement;
+    let countrySearchInput = getCountrySearchInput(compFixture);
+
     countrySearchInput.value = countryName;
 
     SkyAppTestUtility.fireDomEvent(countrySearchInput, 'keyup');
@@ -656,7 +678,7 @@ describe('Phone Field Component', () => {
         countryInput.click();
         detectChangesAndTick(fixture);
 
-        expect(document.activeElement === nativeElement.querySelector('textarea'))
+        expect(document.activeElement === getCountrySearchInput(fixture))
           .toBeTruthy();
       }));
 
@@ -1587,6 +1609,60 @@ describe('Phone Field Component', () => {
 
     });
 
+  });
+
+  describe('inside input box', () => {
+    let fixture: ComponentFixture<PhoneFieldInputBoxTestComponent>;
+    let nativeElement: HTMLElement;
+    let mockThemeSvc: any;
+
+    beforeEach(() => {
+      mockThemeSvc = {
+        settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+          {
+            currentSettings: new SkyThemeSettings(
+              SkyTheme.presets.default,
+              SkyThemeMode.presets.light
+            ),
+            previousSettings: undefined
+          }
+        )
+      };
+
+      TestBed.configureTestingModule({
+        declarations: [
+          PhoneFieldInputBoxTestComponent
+        ],
+        imports: [
+          SkyInputBoxModule,
+          SkyPhoneFieldModule,
+          NoopAnimationsModule,
+          FormsModule
+        ],
+        providers: [
+          {
+            provide: SkyThemeService,
+            useValue: mockThemeSvc
+          }
+        ]
+      });
+
+      fixture = TestBed.createComponent(PhoneFieldInputBoxTestComponent);
+      nativeElement = fixture.nativeElement as HTMLElement;
+    });
+
+    it('should render in the expected input box containers', fakeAsync(() => {
+      detectChangesAndTick(fixture);
+
+      const inputBoxEl = nativeElement.querySelector('sky-input-box');
+
+      const inputGroupEl = inputBoxEl.querySelector('.sky-form-group > .sky-input-group');
+      const countryBtnEl = inputGroupEl.children.item(0);
+      const containerEl = inputGroupEl.children.item(1).children.item(0);
+
+      expect(countryBtnEl).toHaveCssClass('sky-phone-field-country-btn');
+      expect(containerEl).toHaveCssClass('sky-phone-field-container');
+    }));
   });
 
 });

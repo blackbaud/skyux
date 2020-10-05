@@ -8,6 +8,14 @@ import {
 } from '@skyux/docs-tools';
 
 import {
+  SkyIdModule
+} from '@skyux/core';
+
+import {
+  SkyInputBoxModule
+} from '@skyux/forms';
+
+import {
   SkyStatusIndicatorModule
 } from '@skyux/indicators';
 
@@ -23,6 +31,8 @@ import {
   exports: [
     SkyAppLinkModule,
     SkyDocsToolsModule,
+    SkyIdModule,
+    SkyInputBoxModule,
     SkyPhoneFieldModule,
     SkyStatusIndicatorModule
   ],
