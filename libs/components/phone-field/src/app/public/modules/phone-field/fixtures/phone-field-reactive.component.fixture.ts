@@ -31,6 +31,8 @@ import {
 })
 export class PhoneFieldReactiveTestComponent implements OnInit {
 
+  public allowExtensions: boolean = true;
+
   public defaultCountry: string;
 
   public selectedCountry: SkyPhoneFieldCountry;

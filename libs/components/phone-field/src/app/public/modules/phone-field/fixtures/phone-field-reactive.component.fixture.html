@@ -2,6 +2,7 @@
   [formGroup]="phoneForm"
 >
   <sky-phone-field *ngIf="showPhoneField"
+    [allowExtensions]="allowExtensions"
     [defaultCountry]="defaultCountry"
     [returnFormat]="returnFormat"
     [supportedCountryISOs]="supportedCountryISOs"

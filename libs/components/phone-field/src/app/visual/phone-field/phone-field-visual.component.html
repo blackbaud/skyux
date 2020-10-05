@@ -14,7 +14,8 @@
   [@.disabled]="true"
 >
   <sky-phone-field
-    [returnFormat]="'international'"
+    [allowExtensions]="false"
+    returnFormat="international"
   >
     <input
       [(ngModel)]="phoneNumber"

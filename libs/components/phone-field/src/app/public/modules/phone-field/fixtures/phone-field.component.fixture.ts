@@ -25,6 +25,24 @@ import {
 })
 export class PhoneFieldTestComponent {
 
+  public allowExtensions: boolean = true;
+
+  public defaultCountry: string;
+
+  public isDisabled: boolean = false;
+
+  public modelValue: string;
+
+  public noValidate: boolean = false;
+
+  public returnFormat: SkyPhoneFieldNumberReturnFormat;
+
+  public selectedCountry: SkyPhoneFieldCountry;
+
+  public showInvalidDirective: boolean = false;
+
+  public supportedCountryISOs: string[];
+
   @ViewChild(SkyPhoneFieldInputDirective, {
     read: SkyPhoneFieldInputDirective,
     static: false
@@ -36,21 +54,5 @@ export class PhoneFieldTestComponent {
     static: false
   })
   public phoneFieldComponent: SkyPhoneFieldComponent;
-
-  public modelValue: string;
-
-  public isDisabled: boolean = false;
-
-  public defaultCountry: string;
-
-  public returnFormat: SkyPhoneFieldNumberReturnFormat;
-
-  public selectedCountry: SkyPhoneFieldCountry;
-
-  public supportedCountryISOs: string[];
-
-  public showInvalidDirective: boolean = false;
-
-  public noValidate: boolean = false;
 
 }

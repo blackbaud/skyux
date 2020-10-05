@@ -291,6 +291,10 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
       const numberObj = this.phoneUtils.parseAndKeepRawInput(phoneNumber,
         this.phoneFieldComponent.selectedCountry.iso2);
 
+      if (!this.phoneFieldComponent.allowExtensions && numberObj.getExtension()) {
+        return false;
+      }
+
       return this.phoneUtils.isValidNumber(numberObj);
     } catch (e) {
       return false;

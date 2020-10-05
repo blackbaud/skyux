@@ -125,6 +125,13 @@ import {
 export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
 
   /**
+   * Indicates whether or not phone number extensions are allowed.
+   * @default true
+   */
+  @Input()
+  public allowExtensions: boolean = true;
+
+  /**
    * Specifies the
    * [International Organization for Standardization Alpha 2](https://www.nationsonline.org/oneworld/country_code_list.htm)
    * country code for the default country. The country selector button displays a flag
