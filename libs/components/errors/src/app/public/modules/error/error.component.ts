@@ -17,12 +17,20 @@ import {
   SkyErrorDescriptionComponent
 } from './error-description.component';
 
+/**
+ * Displays a SKY UX-themed error message.
+ */
 @Component({
   selector: 'sky-error',
   styleUrls: ['./error.component.scss'],
   templateUrl: './error.component.html'
 })
 export class SkyErrorComponent implements OnInit {
+/**
+ * Specifies an error type to use a set of pre-defined values for the image,
+ * title, and description. The valid options are `'broken'`, `'construction'`,
+ * `'notfound'`, and `'security'`.
+ */
   @Input()
   public set errorType(value: string) {
     this._errorType = value;
@@ -33,6 +41,10 @@ export class SkyErrorComponent implements OnInit {
     return this._errorType;
   }
 
+/**
+ * Indicates whether to display the error image.
+ * @default true
+ */
   @Input()
   public showImage: boolean = true;
 

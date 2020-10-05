@@ -10,6 +10,9 @@ import {
   ErrorModalConfig
 } from './error-modal-config';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-error-modal-form',
   templateUrl: './error-modal-form.component.html',
