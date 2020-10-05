@@ -1,127 +1,177 @@
+@import "~@skyux/theme/scss/variables";
 @import "scss/variables";
 
-.sky-search-input {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  border-right: 0 none;
+sky-search {
+  .sky-search-container .sky-form-group {
+    margin-bottom: 0;
+  }
 
-  &:focus {
-    border: 0 none;
-    box-shadow: none;
-    outline: none;
+  .sky-search-input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: 0 none;
+
+    &:focus {
+      border: 0 none;
+      box-shadow: none;
+      outline: none;
+    }
+
+    /**
+     * Prevents the IE clear icon from displaying in the input
+     * because our search control already includes a clear icon.
+     */
+    &::-ms-clear {
+      display: none;
+    }
+  }
+
+  .sky-search-btn {
+    border-left: 0 none;
+
+    &:hover,
+    &:focus {
+      background-color: $sky-color-white;
+    }
+  }
+
+  .sky-search-btn-apply {
+    padding-left: 6px;
+    @include sky-border(dark, top, bottom, right);
+  }
+
+  .sky-search-btn-clear {
+    border-right: 0 none;
+    padding-right: 6px;
+    @include sky-border(dark, top, bottom);
+  }
+
+  .sky-search-input-focused {
+    .sky-search-btn {
+      border-color: transparent;
+      border-top: 0 none;
+      border-bottom: 0 none;
+    }
+
+    .sky-search-btn-apply {
+      border-right: 0 none;
+    }
+  }
+
+  // Search input (.sky-form-control) has z-index 2.
+  // This ensures the button's focus border won't get clipped by input.
+  .sky-search-input-container {
+    .sky-input-group-btn > button:focus {
+      z-index: 3;
+    }
   }
 
   /**
-   * Prevents the IE clear icon from displaying in the input
-   * because our search control already includes a clear icon.
+   * Mobile styles
    */
-  &::-ms-clear {
+  @include sky-host-responsive-container-xs-min(false) {
+    .sky-search-input-container {
+      min-width: auto;
+    }
+  }
+
+  @include sky-host-responsive-container-sm-min(false) {
+    .sky-search-input-container {
+      min-width: $sky-search-width;
+    }
+  }
+
+  /**
+   * On iOS, the input will zoom when focused,
+   * setting the font-size prevents this.
+   *
+   * Not using the reactive mixins due to this being a bug based on actual screen size
+   */
+  @media (max-width: $sky-screen-xs-max) {
+    .sky-search-input,
+    .sky-search-btn-apply,
+    .sky-search-btn-clear {
+      font-size: $sky-font-size-base;
+    }
+  }
+
+  .sky-search-btn-open-applied {
+    &.sky-search-btn-open,
+    &.sky-search-btn-open:hover {
+      color: $sky-highlight-color-success;
+      border: 2px solid $sky-highlight-color-success;
+      padding: 5px 11px;
+    }
+  }
+
+  .sky-search-dismiss-container {
+    display: flex;
+  }
+
+  .sky-search-item-dismiss {
+    flex-shrink: 0;
+    display: flex;
+
+    > .sky-btn {
+      border-color: transparent;
+    }
+  }
+
+  .sky-search-item-input {
+    flex-grow: 1;
+    display: flex;
+  }
+
+  .sky-search-dismiss-absolute {
+    align-items: center;
+    position: absolute;
+    background-color: $sky-search-background-color;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    padding: $sky-padding-half;
+  }
+
+  .sky-search-icon-modern {
     display: none;
   }
 }
 
-.sky-search-btn {
-  border-left: 0 none;
+.sky-theme-modern {
+  sky-search {
+    .sky-search-icon-default {
+      display: none;
+    }
 
-  &:hover,
-  &:focus {
-    background-color: $sky-color-white;
-  }
-}
+    .sky-search-icon-modern {
+      display: inline-block;
+    }
 
-.sky-search-btn-apply {
-  padding-left: 6px;
-  @include sky-border(dark, top, bottom, right);
-}
+    .sky-input-box .sky-input-group-btn .sky-btn.sky-search-btn {
+      width: 40px;
+    }
 
-.sky-search-btn-clear {
-  border-right: 0 none;
-  padding-right: 6px;
-  @include sky-border(dark, top, bottom);
-}
-
-.sky-search-input-focused {
-  .sky-search-btn {
-    border-color: transparent;
-    border-top: 0 none;
-    border-bottom: 0 none;
+    .sky-search-btn-open-applied {
+      &.sky-search-btn-open,
+      &.sky-search-btn-open:hover {
+        border: none;
+        box-shadow: inset 0 0 0 2px $sky-highlight-color-success;
+        padding: $sky-theme-modern-padding-button-icon;
+      }
+    }
   }
 
-  .sky-search-btn-apply {
-    border-right: 0 none;
+  &.sky-theme-mode-dark {
+    .sky-search-dismiss-absolute {
+      background-color: $sky-theme-modern-mode-dark-background-color-page-default;
+    }
+
+    .sky-search-btn-open-applied {
+      &.sky-search-btn-open,
+      &.sky-search-btn-open:hover {
+        color: $sky-highlight-color-success;
+      }
+    }
   }
-}
-
-// Search input (.sky-form-control) has z-index 2.
-// This ensures the button's focus border won't get clipped by input.
-.sky-search-input-container {
-  .sky-input-group-btn > button:focus {
-    z-index: 3;
-  }
-}
-
-/**
- * Mobile styles
- */
-@include sky-host-responsive-container-xs-min() {
-  .sky-search-input-container {
-    min-width: auto;
-  }
-}
-
-@include sky-host-responsive-container-sm-min() {
-  .sky-search-input-container {
-    min-width: $sky-search-width;
-  }
-}
-
-/**
- * On iOS, the input will zoom when focused,
- * setting the font-size prevents this.
- *
- * Not using the reactive mixins due to this being a bug based on actual screen size
- */
-@media (max-width: $sky-screen-xs-max) {
-  .sky-search-input,
-  .sky-search-btn-apply,
-  .sky-search-btn-clear {
-    font-size: $sky-font-size-base;
-  }
-}
-
-.sky-search-btn-open-applied {
-  &.sky-search-btn-open,
-  &.sky-search-btn-open:hover {
-    color: $sky-highlight-color-success;
-    border: 2px solid $sky-highlight-color-success;
-    padding: 5px 11px;
-  }
-}
-
-.sky-search-dismiss-container {
-  display: flex;
-}
-
-.sky-search-item-dismiss {
-  flex-shrink: 0;
-  display: flex;
-
-  > .sky-btn {
-    border-color: transparent;
-  }
-}
-
-.sky-search-item-input {
-  flex-grow: 1;
-  display: flex;
-}
-
-.sky-search-dismiss-absolute {
-  position: absolute;
-  background-color: $sky-search-background-color;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  padding: $sky-padding-half;
 }

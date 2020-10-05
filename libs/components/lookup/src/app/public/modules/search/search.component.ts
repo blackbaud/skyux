@@ -17,7 +17,8 @@ import {
   EventEmitter,
   OnChanges,
   SimpleChanges,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  ViewEncapsulation
 } from '@angular/core';
 
 import {
@@ -49,6 +50,7 @@ const EXPAND_MODE_NONE: string = 'none';
   selector: 'sky-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   animations: [
     trigger('inputState', [
       state(INPUT_HIDDEN_STATE,
@@ -136,7 +138,6 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   public mobileSearchShown: boolean = false;
   public dismissButtonShown: boolean = false;
   public clearButtonShown: boolean = false;
-  public searchInputFocused: boolean = false;
 
   private searchUpdated: Subject<string> = new Subject<string>();
 
@@ -193,10 +194,6 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
       }
     }
     this.changeRef.detectChanges();
-  }
-
-  public inputFocused(isFocused: boolean) {
-    this.searchInputFocused = isFocused;
   }
 
   public clearSearchText() {

@@ -5,22 +5,29 @@
   }
 </style>
 
+<sky-docs-demo-control-panel-theme
+  (themeSettingsChange)="themeSettingsChange($event)"
+></sky-docs-demo-control-panel-theme>
+
 <div
   class="app-screenshot"
-  id="search-visual"
   [@.disabled]="true"
 >
 
   <button
     type="button"
     (click)="applySearchText('Robert')"
-    class="sky-btn sky-btn-secondary">
+    class="sky-btn sky-btn-secondary"
+  >
     Set search text
   </button>
 
-  <sky-search
-    [searchText]="searchText"
-    (searchApply)="applySearchText(searchText)">
-  </sky-search>
-
+  <div
+    id="search-visual"
+  >
+    <sky-search
+      [searchText]="searchText"
+      (searchApply)="applySearchText(searchText)">
+    </sky-search>
+  </div>
 </div>

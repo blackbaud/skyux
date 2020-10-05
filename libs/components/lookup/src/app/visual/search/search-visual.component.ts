@@ -2,9 +2,15 @@ import {
   Component
 } from '@angular/core';
 
+import {
+  SkyThemeService,
+  SkyThemeSettings
+} from '@skyux/theme';
+
 @Component({
   selector: 'search-visual',
-  templateUrl: './search-visual.component.html'
+  templateUrl: './search-visual.component.html',
+  styleUrls: ['./search-visual.component.scss']
 })
 export class SearchVisualComponent {
   public displayedItems: any;
@@ -33,7 +39,9 @@ export class SearchVisualComponent {
     }
   ];
 
-  constructor() {
+  constructor(
+    private themeSvc: SkyThemeService
+  ) {
     this.displayedItems = this.items;
   }
 
@@ -56,5 +64,9 @@ export class SearchVisualComponent {
       });
     }
     this.displayedItems = filteredItems;
+  }
+
+  public themeSettingsChange(themeSettings: SkyThemeSettings): void {
+    this.themeSvc.setTheme(themeSettings);
   }
 }

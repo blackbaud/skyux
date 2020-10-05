@@ -146,18 +146,6 @@ describe('Search component', () => {
     fixture.detectChanges();
   }
 
-  function triggerFocus() {
-    let inputEl = element.query(By.css('input'));
-    inputEl.triggerEventHandler('focus', undefined);
-    fixture.detectChanges();
-  }
-
-  function triggerBlur() {
-    let inputEl = element.query(By.css('input'));
-    inputEl.triggerEventHandler('blur', undefined);
-    fixture.detectChanges();
-  }
-
   function triggerOpenButton() {
     let openEl = element.query(By.css('.sky-search-btn-open'));
     openEl.triggerEventHandler('click', undefined);
@@ -309,15 +297,6 @@ describe('Search component', () => {
 
     expect(element.query(By.css('.sky-input-group-clear')).nativeElement).not.toBeVisible();
     expect(component.searchComponent.searchClear.emit).toHaveBeenCalled();
-  });
-
-  it('should apply the correct focus class', () => {
-    triggerFocus();
-    let containerEl = element.query(By.css('.sky-search-input-container.sky-search-input-focused'));
-    expect(containerEl).not.toBeNull();
-    triggerBlur();
-    containerEl = element.query(By.css('.sky-search-input-container.sky-search-input-focused'));
-    expect(containerEl).toBeNull();
   });
 
   it('should update search text when applySearchText is called with new search text', () => {
