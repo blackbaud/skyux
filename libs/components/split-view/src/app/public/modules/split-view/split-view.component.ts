@@ -100,6 +100,9 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
   /**
    * Indicates whether the split view's height should be bound to the window height.
    * @default false
+   * @deprecated We recommend against using this property. This property will not react fully to
+   * other elements changing and CSS solutions provide a better alternative. An example of using CSS
+   * for this can be found in the developer code examples.
    */
   @Input()
   public set bindHeightToWindow(bindToHeight: boolean) {
