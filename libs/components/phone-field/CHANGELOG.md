@@ -1,3 +1,7 @@
+# 4.4.0 (2020-10-05)
+
+- Added support to the phone field component for specifying whether to allow phone number extensions. [#71](https://github.com/blackbaud/skyux-phone-field/pull/71)
+
 # 4.3.0 (2020-10-05)
 
 - Added input box support to the phone field component. [#69](https://github.com/blackbaud/skyux-phone-field/pull/69)
