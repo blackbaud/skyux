@@ -1,3 +1,7 @@
+# 4.3.0 (2020-10-05)
+
+- Added input box support to the phone field component. [#69](https://github.com/blackbaud/skyux-phone-field/pull/69)
+
 # 4.2.0 (2020-09-25)
 
 - Added the ability to limit the countries available for selection in the phone field component. [#68](https://github.com/blackbaud/skyux-phone-field/pull/68)
