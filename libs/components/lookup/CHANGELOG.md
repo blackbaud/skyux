@@ -1,3 +1,7 @@
+# 4.6.0 (2020-10-05)
+
+- Added modern theme styles to the search component. [#134](https://github.com/blackbaud/skyux-lookup/pull/134)
+
 # 4.5.0 (2020-09-18)
 
 - Added input box support to the country field component. [#130](https://github.com/blackbaud/skyux-lookup/pull/130)
