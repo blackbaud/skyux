@@ -15,6 +15,7 @@ import {
 } from 'rxjs';
 
 import {
+  distinctUntilChanged,
   filter,
   map,
   take,
@@ -36,6 +37,10 @@ import {
 import {
   SkyDataManagerStateOptions
 } from './models/data-manager-state-options';
+
+import {
+  SkyDataManagerStateUpdateFilterArgs
+} from './models/data-manager-state-update-filter-args';
 
 import {
   SkyDataViewConfig
@@ -179,13 +184,25 @@ export class SkyDataManagerService implements OnDestroy {
    * @param sourceId The ID of the entity subscribing to data state updates. This can be any value you choose
    * but should be unique within the data manager instance and should also be used when that entity updates the state.
    */
-  public getDataStateUpdates(sourceId: string): Observable<SkyDataManagerState> {
+  public getDataStateUpdates(
+    sourceId: string,
+    updateFilter?: SkyDataManagerStateUpdateFilterArgs
+  ): Observable<SkyDataManagerState> {
     // filter out events from the provided source and emit just the dataState
-    const dataStateObservable = this.dataStateChange.pipe(
-      filter(stateChange => sourceId !== stateChange.source),
-      map(stateChange => stateChange.dataState)
-    );
-    return dataStateObservable;
+    if (updateFilter) {
+      return this.dataStateChange.pipe(
+        filter(stateChange => sourceId !== stateChange.source),
+        map(stateChange => stateChange.dataState),
+        updateFilter.comparator ?
+          distinctUntilChanged(updateFilter.comparator) :
+          distinctUntilChanged(this.getDefaultStateComparator(updateFilter.properties))
+      );
+    } else {
+      return this.dataStateChange.pipe(
+        filter(stateChange => sourceId !== stateChange.source),
+        map(stateChange => stateChange.dataState)
+      );
+    }
   }
 
   /**
@@ -196,7 +213,8 @@ export class SkyDataManagerService implements OnDestroy {
    * subscribes to state changes from `getDataStateUpdates`.
    */
   public updateDataState(state: SkyDataManagerState, sourceId: string): void {
-    const newStateChange = new SkyDataManagerStateChange(state, sourceId);
+    const newState = new SkyDataManagerState(state.getStateOptions());
+    const newStateChange = new SkyDataManagerStateChange(newState, sourceId);
 
     this.dataStateChange.next(newStateChange);
   }
@@ -283,5 +301,26 @@ export class SkyDataManagerService implements OnDestroy {
     viewkeeperClasses[viewId] = classes;
 
     this.viewkeeperClasses.next(viewkeeperClasses);
+  }
+
+  private filterDataStateProperties(state: SkyDataManagerState, properties: string[]): SkyDataManagerStateOptions {
+    const stateProperties = state.getStateOptions() as { [key: string]: any; };
+    let filteredStateProperties: any = {};
+    for (let property of properties) {
+      /* istanbul ignore else */
+      if (stateProperties.hasOwnProperty(property)) {
+        filteredStateProperties[property] = stateProperties[property];
+      }
+    }
+
+    return filteredStateProperties;
+  }
+
+  private getDefaultStateComparator(properties: string[]): (state1: SkyDataManagerState, state2: SkyDataManagerState) => boolean {
+    return (state1: SkyDataManagerState, state2: SkyDataManagerState): boolean => {
+      const filteredState1 = this.filterDataStateProperties(state1, properties);
+      const filteredState2 = this.filterDataStateProperties(state2, properties);
+      return JSON.stringify(filteredState1) === JSON.stringify(filteredState2);
+    };
   }
 }

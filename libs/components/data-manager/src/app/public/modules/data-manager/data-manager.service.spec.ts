@@ -202,38 +202,118 @@ describe('SkyDataManagerService', () => {
       expect(dataManagerComponent.dataState).toEqual(dataStateUpdate);
     });
 
-    describe('getDataStateUpdates observable', () => {
+    describe('getDataStateUpdates', () => {
+      const otherSourceId = 'otherSourceId';
       let dataState: SkyDataManagerState;
       let dataStateObservable: Observable<SkyDataManagerState>;
 
-      beforeEach(() => {
-        dataStateObservable = dataManagerService.getDataStateUpdates(sourceId);
-        dataState = currentDataState;
+      describe('without filters', () => {
 
-        dataStateObservable.subscribe(state => {
-          dataState = state;
+        beforeEach(() => {
+          dataStateObservable = dataManagerService.getDataStateUpdates(sourceId);
+          dataState = currentDataState;
+
+          dataStateObservable.subscribe(state => {
+            dataState = state;
+          });
+        });
+
+        it('should emit new values when the sourceId of the change is different from the given sourceId', () => {
+          const startingDataState = dataState;
+
+          expect(dataState).toEqual(startingDataState);
+
+          dataManagerService.updateDataState(dataStateUpdate, otherSourceId);
+
+          expect(dataState).not.toEqual(startingDataState);
+          expect(dataState).toEqual(dataStateUpdate);
+        });
+
+        it('should not emit new values when the sourceId of the change matches the given sourceId', () => {
+          const startingDataState = dataState;
+
+          expect(dataState).toEqual(startingDataState);
+
+          dataManagerService.updateDataState(dataStateUpdate, sourceId);
+
+          expect(dataState).toEqual(startingDataState);
         });
       });
 
-      it('should emit new values when the sourceId of the change is different from the given sourceId', () => {
-        const startingDataState = dataState;
+      describe('with filters', () => {
+        const filterProperties = ['searchText', 'selectedIds'];
 
-        expect(dataState).toEqual(startingDataState);
+        beforeEach(() => {
+          dataStateObservable = dataManagerService.getDataStateUpdates(sourceId, { properties: filterProperties });
+          dataState = currentDataState;
 
-        dataManagerService.updateDataState(dataStateUpdate, 'differentId');
+          dataStateObservable.subscribe(state => {
+            dataState = state;
+          });
+        });
 
-        expect(dataState).not.toEqual(startingDataState);
-        expect(dataState).toEqual(dataStateUpdate);
+        it('should emit new values when one of the given filter properties changes', () => {
+          const startingDataState = dataState;
+
+          expect(dataState).toEqual(startingDataState);
+
+          dataManagerService.updateDataState(dataStateUpdate, otherSourceId);
+
+          expect(dataState).not.toEqual(startingDataState);
+          expect(dataState).toEqual(dataStateUpdate);
+        });
+
+        it('should not emit new values if a property that is not a given filter property changes', () => {
+          const startingDataState = dataState;
+          const newDataState = dataState;
+
+          expect(dataState).toEqual(startingDataState);
+
+          newDataState.onlyShowSelected = !newDataState.onlyShowSelected;
+
+          dataManagerService.updateDataState(newDataState, otherSourceId);
+
+          expect(dataState).toEqual(startingDataState);
+        });
       });
+      describe('with comparator', () => {
+        const firstDataState = new SkyDataManagerState({ searchText: 'SEARCHTEXT' });
+        const comparator = (state1: SkyDataManagerState, state2: SkyDataManagerState): boolean => {
+          return state1.searchText.toLowerCase() === state2.searchText.toLowerCase();
+        };
 
-      it('should not emit new values when the sourceId of the change matches the given sourceId', () => {
-        const startingDataState = dataState;
+        beforeEach(() => {
+          dataManagerService.updateDataState(firstDataState, otherSourceId);
+          dataStateObservable = dataManagerService.getDataStateUpdates(sourceId, { comparator });
+          dataState = currentDataState;
 
-        expect(dataState).toEqual(startingDataState);
+          dataStateObservable.subscribe(state => {
+            dataState = state;
+          });
+        });
 
-        dataManagerService.updateDataState(dataStateUpdate, sourceId);
+        it('should emit new values when the comparator detects changes', () => {
+          const startingDataState = dataState;
+          const newDataState = new SkyDataManagerState({ searchText: 'a new search' });
 
-        expect(dataState).toEqual(startingDataState);
+          expect(dataState).toEqual(startingDataState);
+
+          dataManagerService.updateDataState(newDataState, otherSourceId);
+
+          expect(dataState).not.toEqual(startingDataState);
+          expect(dataState).toEqual(newDataState);
+        });
+
+        it('should not emit new values when the comparator does not detect changes', () => {
+          const startingDataState = dataState;
+          const newDataState = new SkyDataManagerState({ searchText: 'searchtext' });
+
+          expect(dataState).toEqual(startingDataState);
+
+          dataManagerService.updateDataState(newDataState, otherSourceId);
+
+          expect(dataState).toEqual(startingDataState);
+        });
       });
     });
   });
