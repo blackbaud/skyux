@@ -23,6 +23,10 @@ import {
   take
 } from 'rxjs/operators';
 
+/**
+ * Internal service for operations between the split view drawer and workspace.
+ * @internal
+ */
 @Injectable()
 export class SkySplitViewService implements OnDestroy {
 

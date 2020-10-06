@@ -12,6 +12,10 @@ import {
   BehaviorSubject
 } from 'rxjs';
 
+/**
+ * Internal media query service for use determining the media query size of the split view workspace.
+ * @internal
+ */
 @Injectable()
 export class SkySplitViewMediaQueryService {
 

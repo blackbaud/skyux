@@ -22,7 +22,7 @@ import {
 
 /**
  * Adapter service for use when the split view component needs to manipulate the DOM
- * @interal
+ * @internal
  */
 @Injectable()
 export class SkySplitViewAdapterService {
