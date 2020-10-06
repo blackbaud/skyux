@@ -6,15 +6,40 @@
   <sky-docs-demo-page-summary>
     The filter module allows users to select filter criteria.
   </sky-docs-demo-page-summary>
+  <sky-docs-demo>
+    <sky-docs-demo-control-panel
+      (selectionChange)="onDemoSelectionChange($event)"
+    >
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-radio-group
+          heading="Filter type"
+          propertyName="filterType"
+          [choices]="filterTypeChoices"
+          [initialValue]="'modal'"
+        >
+        </sky-docs-demo-control-panel-radio-group>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
+    <app-modal-filter-demo *ngIf="demoSettings.filterType === 'modal'"></app-modal-filter-demo>
+    <app-inline-filter-demo *ngIf="demoSettings.filterType === 'inline'"></app-inline-filter-demo>
+  </sky-docs-demo>
 
-  <!-- <sky-docs-code-examples
+  <sky-docs-code-examples
     [packageDependencies]="{
-      '@skyux/lists': '*'
+      '@blackbaud/auth-client': '*',
+      '@skyux/lists': '*',
+      '@skyux/inline-form': '*'
     }"
   >
     <sky-docs-code-example
-      sourceCodePath="src/app/public/plugin-resources/code-examples/filter/basic/"
+      heading="Modal filter"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/filter/modal/"
     >
     </sky-docs-code-example>
-  </sky-docs-code-examples> -->
+    <sky-docs-code-example
+      heading="Inline filter"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/filter/inline/"
+    >
+    </sky-docs-code-example>
+  </sky-docs-code-examples>
 </sky-docs-demo-page>

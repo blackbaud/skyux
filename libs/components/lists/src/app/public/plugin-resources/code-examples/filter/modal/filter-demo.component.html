@@ -1,0 +1,29 @@
+<sky-toolbar>
+  <sky-toolbar-section>
+    <sky-toolbar-item>
+      <sky-filter-button
+        [showButtonText]="true"
+        (filterButtonClick)="onModalFilterButtonClick()"
+      >
+      </sky-filter-button>
+    </sky-toolbar-item>
+  </sky-toolbar-section>
+  <sky-toolbar-section *ngIf="appliedFilters && appliedFilters.length > 0">
+    <sky-filter-summary>
+      <sky-filter-summary-item *ngFor="let item of appliedFilters; let i = index"
+        (dismiss)="onDismiss(i)"
+      >
+        {{item.label}}
+      </sky-filter-summary-item>
+    </sky-filter-summary>
+  </sky-toolbar-section>
+</sky-toolbar>
+<sky-repeater
+  expandMode="none"
+>
+  <sky-repeater-item *ngFor="let item of filteredItems">
+    <sky-repeater-item-title>
+      {{item.name}}
+    </sky-repeater-item-title>
+  </sky-repeater-item>
+</sky-repeater>
