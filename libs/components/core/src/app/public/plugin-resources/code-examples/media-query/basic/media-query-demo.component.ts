@@ -4,19 +4,19 @@ import {
 } from '@angular/core';
 
 import {
+  SkyMediaBreakpoints,
+  SkyMediaQueryService
+} from '@skyux/core';
+
+import {
   Subscription
 } from 'rxjs';
 
-import {
-  SkyMediaBreakpoints,
-  SkyMediaQueryService
-} from '../../public/public_api';
-
 @Component({
-  selector: 'app-media-query-docs',
-  templateUrl: './media-query-docs.component.html'
+  selector: 'app-media-query-demo',
+  templateUrl: './media-query-demo.component.html'
 })
-export class MediaQueryDocsComponent implements OnDestroy {
+export class MediaQueryDemoComponent implements OnDestroy {
 
   public currentBreakpoint: string;
 
@@ -46,8 +46,6 @@ export class MediaQueryDocsComponent implements OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    /* istanbul ignore else */
-    /* sanity check */
     if (this.querySubscription) {
       this.querySubscription.unsubscribe();
     }

@@ -16,6 +16,11 @@ import {
 } from '@skyux/forms';
 
 import {
+  SkyAlertModule
+} from '@skyux/indicators';
+
+import {
+  SkyDefinitionListModule,
   SkyFluidGridModule,
   SkyPageModule
 } from '@skyux/layout';
@@ -51,9 +56,11 @@ import {
 @NgModule({
   exports: [
     SkyAffixModule,
+    SkyAlertModule,
     SkyAppLinkModule,
     SkyCodeModule,
     SkyCoreAdapterModule,
+    SkyDefinitionListModule,
     SkyDockModule,
     SkyDocsToolsModule,
     SkyDynamicComponentModule,
