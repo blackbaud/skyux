@@ -1,0 +1,39 @@
+<sky-page-summary>
+  <sky-page-summary-image>
+    <sky-avatar
+      [name]="context.name"
+    >
+    </sky-avatar>
+  </sky-page-summary-image>
+  <sky-page-summary-title>
+    {{context.name}}
+  </sky-page-summary-title>
+  <sky-page-summary-subtitle>
+    {{context.constituentCode}}
+  </sky-page-summary-subtitle>
+  <sky-page-summary-status>
+    <sky-label
+      labelType="{{ context.status === 'Past due' ? 'danger' : 'success' }}"
+    >
+      {{ context.status }}
+    </sky-label>
+  </sky-page-summary-status>
+  <sky-page-summary-content>
+    <h2>
+      Constituent Summary
+    </h2>
+    <p>
+      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quis quae mollitia rem obcaecati. Aspernatur vitae iusto cum corporis adipisci corrupti dolore odit a impedit enim. Porro ab exercitationem quidem? Maiores!
+    </p>
+  </sky-page-summary-content>
+  <sky-page-summary-key-info>
+    <sky-key-info>
+      <sky-key-info-value>
+        {{ context.latestGift }}
+      </sky-key-info-value>
+      <sky-key-info-label>
+        Latest gift
+      </sky-key-info-label>
+    </sky-key-info>
+  </sky-page-summary-key-info>
+</sky-page-summary>

@@ -6,4 +6,63 @@
   <sky-docs-demo-page-summary>
     The flyout service launches a container over a page's content to display large quantities of supplementary information related to a task.
   </sky-docs-demo-page-summary>
+  <sky-docs-demo>
+    <sky-docs-demo-control-panel
+      (selectionChange)="onDemoSelectionChange($event)"
+    >
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-checkbox
+          label="Show iterators"
+          propertyName="iterators"
+          [checked]="false"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+        <sky-docs-demo-control-panel-checkbox
+          label="Show permalink"
+          propertyName="permalink"
+          [checked]="false"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
+    <button
+      class="sky-btn sky-btn-default"
+      type="button"
+      (click)="openSimpleFlyout()"
+    >
+      Open flyout
+    </button>
+  </sky-docs-demo>
+
+  <sky-docs-code-examples
+    [packageDependencies]="{
+      '@blackbaud/auth-client': '*',
+      '@skyux/avatar': '*',
+      '@skyux/errors': '*',
+      '@skyux/flyout': '*',
+      '@skyux/grids': '*',
+      '@skyux/inline-form': '*',
+      '@skyux/list-builder': '*',
+      '@skyux/list-builder-common': '*',
+      '@skyux/list-builder-view-checklist': '*',
+      '@skyux/list-builder-view-grids': '*',
+      '@skyux/lists': '*',
+      '@skyux/lookup': '*',
+      'dragula': '3.7.2',
+      'ng2-dragula': '1.5.0'
+    }"
+  >
+    <sky-docs-code-example
+      heading="Basic flyout setup"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/flyout/basic"
+    ></sky-docs-code-example>
+    <sky-docs-code-example
+      heading="Flyout with customized headers"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/flyout/custom-headers"
+    ></sky-docs-code-example>
+    <sky-docs-code-example
+      heading="Flyout with grid"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/flyout/grid"
+    ></sky-docs-code-example>
+  </sky-docs-code-examples>
 </sky-docs-demo-page>
