@@ -338,7 +338,7 @@ windowRef.beforeEach(() => {
 /**
  * Interface for "asynchronous" custom Sky matchers which cannot be paired with a `.not` operator.
  */
-interface SkyAsyncMatchers<T> {
+export interface SkyAsyncMatchers<T> {
 
   /**
    * Invert the matcher following this `expect`
@@ -377,7 +377,7 @@ interface SkyAsyncMatchers<T> {
 /**
  * Interface for "normal" custom Sky matchers (includes original jasmine matchers).
  */
-interface SkyMatchers<T> extends jasmine.Matchers<T> {
+export interface SkyMatchers<T> extends jasmine.Matchers<T> {
   /**
    * Invert the matcher following this `expect`
    */
