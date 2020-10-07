@@ -1,3 +1,7 @@
+# 4.2.2 (2020-10-07)
+
+- Fixed the exports API to include `SkyMatchers` and `SkyAsyncMatchers`. [#45](https://github.com/blackbaud/skyux-sdk-testing/pull/45)
+
 # 4.2.1 (2020-10-07)
 
 - Removed the unnecessary `@types/axe-core` package from dependencies. [#44](https://github.com/blackbaud/skyux-sdk-testing/pull/44)
