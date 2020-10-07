@@ -7,17 +7,43 @@
     The wait component and service allow you to create waits on individual elements as well as on a page.
   </sky-docs-demo-page-summary>
 
-  <!-- <sky-docs-demo>
+  <sky-docs-demo>
+    <sky-docs-demo-control-panel
+      (selectionChange)="onDemoSelectionChange($event)"
+    >
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-radio-group
+          heading="Wait type"
+          propertyName="waitType"
+          [choices]="waitTypeChoices"
+          [initialValue]="'element'"
+        >
+        </sky-docs-demo-control-panel-radio-group>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
+    <button
+      type="button"
+      class="sky-btn sky-btn-default"
+      (click)="onToggleWaitClick()"
+    >
+      Display wait for 2 seconds
+    </button>
+    <sky-wait
+      [isWaiting]="isWaiting"
+    ></sky-wait>
   </sky-docs-demo>
-
-  <sky-docs-design-guidelines>
-  </sky-docs-design-guidelines>
 
   <sky-docs-code-examples>
     <sky-docs-code-example
-      sourceCodePath="src/app/public/plugin-resources/code-examples/label"
+      heading="Element wait"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/wait/element"
     >
     </sky-docs-code-example>
-  </sky-docs-code-examples> -->
+    <sky-docs-code-example
+      heading="Page wait"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/wait/page"
+    >
+    </sky-docs-code-example>
+  </sky-docs-code-examples>
 
 </sky-docs-demo-page>

@@ -3,9 +3,17 @@ import {
 } from '@angular/core';
 
 import {
+  SkyIdModule
+} from '@skyux/core';
+
+import {
   SkyDocsToolsModule,
   SkyDocsToolsOptions
 } from '@skyux/docs-tools';
+
+import {
+  SkyCheckboxModule
+} from '@skyux/forms';
 
 import {
   SkyAppLinkModule
@@ -36,10 +44,12 @@ import {
   exports: [
     SkyAlertModule,
     SkyAppLinkModule,
+    SkyCheckboxModule,
     SkyChevronModule,
     SkyCodeModule,
     SkyDocsToolsModule,
     SkyHelpInlineModule,
+    SkyIdModule,
     SkyIconModule,
     SkyKeyInfoModule,
     SkyLabelModule,
