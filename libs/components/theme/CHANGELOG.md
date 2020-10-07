@@ -1,3 +1,7 @@
+# 4.11.0 (2020-10-07)
+
+- Updated the `sky-headline` CSS class to have the same styles as the `sky-font-display-3` class in the modern theme. [#189](https://github.com/blackbaud/skyux-theme/pull/189)
+
 # 4.10.3 (2020-10-01)
 
 - Fixed the `.sky-switch` CSS styles to properly position its input elements within `overflow` parent elements. [#187](https://github.com/blackbaud/skyux-theme/pull/187)
