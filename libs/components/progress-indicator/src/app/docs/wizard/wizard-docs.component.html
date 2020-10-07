@@ -1,0 +1,110 @@
+<sky-docs-demo-page
+  moduleName="SkyProgressIndicatorModule"
+  moduleSourceCodePath="src/app/public/modules/progress-indicator/"
+  pageTitle="Wizard"
+>
+
+  <sky-docs-demo-page-summary>
+    <p>
+      Wizards guide users through pre-defined steps in a particular order to represent a series of related decisions in a user’s direct workflow.
+    </p>
+    <sky-alert alertType="info">
+      This wizard implementation replaces a deprecated wizard that used <a href="https://developer.blackbaud.com/skyux-tabs/docs/tabs">tabs</a> in a modal but interfered with complex configuration tasks. We recommend this implementation instead of the deprecated version that set <sky-code>tabStyle="wizard"</sky-code> on the <sky-code>sky-tabset</sky-code> component.
+    </sky-alert>
+  </sky-docs-demo-page-summary>
+
+  <sky-docs-demo>
+    <button
+      type="button"
+      class="sky-btn sky-btn-default"
+      (click)="openWizard()">
+      Open wizard
+    </button>
+  </sky-docs-demo>
+
+  <sky-docs-code-examples
+    [packageDependencies]="{
+      '@skyux/progress-indicator': '*'
+    }"
+  >
+    <sky-docs-code-example heading="Wizard"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/wizard/basic"></sky-docs-code-example>
+  </sky-docs-code-examples>
+
+  <sky-docs-design-guidelines>
+
+    <sky-docs-demo-page-section
+      heading="Usage"
+    >
+      <sky-docs-design-guideline
+        heading="Use when"
+        headingStyle="success"
+      >
+        <p>
+          Use wizards when users must perform multiple steps in a particular order. Wizards illustrate the step-wise nature of tasks and reinforce progress toward final goals as users complete steps.
+        </p>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline
+      >
+        <p>
+          Use wizards when users perform tasks repeatedly or when tasks are best presented as multiple steps but only require a single sitting.
+        </p>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline
+      >
+        <p>
+          Use wizards when tasks do not result in records or settings with page-level views.
+        </p>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline
+      >
+        <p>
+          Use wizards when interaction complexity of each step is low. For example, steps can use standard form inputs and controls.
+        </p>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline
+        heading="Don't use when"
+        headingStyle="danger"
+      >
+        <p>
+          Don’t use wizards when users for long or complex setup processes or when the complexity of steps varies drastically. Use <a href="https://developer.blackbaud.com/skyux/components/progress-indicator/waterfall-progress-indicator">waterfall progress indicators</a> instead.
+        </p>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline>
+        <p>
+          Don’t use wizards when tasks include more than six steps or require more time than a single sitting. Use <a href="https://developer.blackbaud.com/skyux/components/progress-indicator/waterfall-progress-indicator">waterfall progress indicators</a> instead.
+        </p>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline>
+        <p>
+          Don’t use wizards when users must be aware of sequential progress that they are not responsible for. Use <a href="https://developer.blackbaud.com/skyux-progress-indicator/docs/passive-indicator">passive progress indicators</a> instead.
+        </p>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Related information"
+    >
+      <sky-docs-design-guideline
+        heading="Components"
+      >
+        <ul>
+          <li><a href="https://developer.blackbaud.com/skyux/components/modal">Modal</a></li>
+          <li><a href="https://developer.blackbaud.com/skyux-progress-indicator/docs/passive-indicator">Passive progress indicator</a></li>
+          <li><a href="https://developer.blackbaud.com/skyux/components/progress-indicator/waterfall-progress-indicator">Waterfall progress indicator</a></li>
+        </ul>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline
+        heading="Guidelines"
+      >
+        <ul>
+          <li><a href="https://developer.blackbaud.com/skyux/design/guidelines/form-design">Form design</a></li>
+        </ul>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+  </sky-docs-design-guidelines>
+
+</sky-docs-demo-page>

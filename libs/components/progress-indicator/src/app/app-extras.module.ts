@@ -3,6 +3,7 @@ import {
 } from '@angular/core';
 
 import {
+  SkyCodeModule,
   SkyCodeBlockModule
 } from '@blackbaud/skyux-lib-code-block';
 
@@ -10,6 +11,14 @@ import {
   SkyDocsToolsModule,
   SkyDocsToolsOptions
 } from '@skyux/docs-tools';
+
+import {
+  SkyCheckboxModule
+} from '@skyux/forms';
+
+import {
+  SkyAlertModule
+} from '@skyux/indicators';
 
 import {
   SkyModalModule
@@ -28,15 +37,22 @@ import {
 } from './public/public_api';
 
 import {
-  ProgressIndicatorWizardDemoComponent
+  ProgressIndicatorWizardVisualComponent
 } from './visual/progress-indicator/progress-indicator-horizontal-visual.component';
 import {
-  SkyProgressIndicatorWaterfallDemoFormComponent
+  ProgressIndicatorWaterfallDemoFormComponent
 } from './docs/waterfall-indicator/progress-indicator-waterfall-demo-form.component';
+
+import {
+  WizardDemoModalComponent
+} from './docs/wizard/wizard-docs-demo-modal.component';
 
 @NgModule({
   exports: [
+    SkyAlertModule,
     SkyAppLinkModule,
+    SkyCheckboxModule,
+    SkyCodeModule,
     SkyCodeBlockModule,
     SkyDocsToolsModule,
     SkyModalModule,
@@ -44,8 +60,9 @@ import {
     SkyProgressIndicatorModule
   ],
   entryComponents: [
-    ProgressIndicatorWizardDemoComponent,
-    SkyProgressIndicatorWaterfallDemoFormComponent
+    ProgressIndicatorWizardVisualComponent,
+    ProgressIndicatorWaterfallDemoFormComponent,
+    WizardDemoModalComponent
   ],
   providers: [
     {

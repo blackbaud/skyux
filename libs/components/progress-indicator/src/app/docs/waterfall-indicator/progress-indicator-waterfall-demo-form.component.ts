@@ -7,18 +7,18 @@ import {
 } from '@skyux/modals';
 
 import {
-  SkyProgressIndicatorWaterfallDemoContext
+  ProgressIndicatorWaterfallDemoContext
 } from './progress-indicator-waterfall-demo-context';
 
 @Component({
-  selector: 'sky-demo-progress-indicator-waterfall-horizontal',
+  selector: 'app-progress-indicator-waterfall-horizontal-demo',
   templateUrl: './progress-indicator-waterfall-demo-form.component.html'
 })
-export class SkyProgressIndicatorWaterfallDemoFormComponent {
+export class ProgressIndicatorWaterfallDemoFormComponent {
 
   constructor(
     public instance: SkyModalInstance,
-    public context: SkyProgressIndicatorWaterfallDemoContext
+    public context: ProgressIndicatorWaterfallDemoContext
   ) { }
 
   public submit(): void {

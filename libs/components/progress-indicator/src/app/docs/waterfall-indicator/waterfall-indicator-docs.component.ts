@@ -23,11 +23,11 @@ import {
 } from 'rxjs/operators';
 
 import {
-  SkyProgressIndicatorWaterfallDemoContext
+  ProgressIndicatorWaterfallDemoContext
 } from './progress-indicator-waterfall-demo-context';
 
 import {
-  SkyProgressIndicatorWaterfallDemoFormComponent
+  ProgressIndicatorWaterfallDemoFormComponent
 } from './progress-indicator-waterfall-demo-form.component';
 
 @Component({
@@ -94,9 +94,9 @@ export class WaterfallIndicatorDocsComponent {
     this.progressMessageStream.next(SkyProgressIndicatorMessageType.Progress);
   }
 
-  private openModalForm(context: SkyProgressIndicatorWaterfallDemoContext, isProgress: boolean): void {
-    const modalForm = this.modal.open(SkyProgressIndicatorWaterfallDemoFormComponent, [{
-      provide: SkyProgressIndicatorWaterfallDemoContext,
+  private openModalForm(context: ProgressIndicatorWaterfallDemoContext, isProgress: boolean): void {
+    const modalForm = this.modal.open(ProgressIndicatorWaterfallDemoFormComponent, [{
+      provide: ProgressIndicatorWaterfallDemoContext,
       useValue: context
     }]);
 

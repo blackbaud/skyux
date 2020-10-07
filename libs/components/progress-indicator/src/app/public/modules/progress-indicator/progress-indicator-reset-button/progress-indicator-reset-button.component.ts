@@ -30,7 +30,7 @@ export class SkyProgressIndicatorResetButtonComponent implements OnDestroy {
 
   /**
    * Indicates whether to disable the reset button.
-   * @default "false"
+   * @default false
    */
   @Input()
   public set disabled(value: boolean) {

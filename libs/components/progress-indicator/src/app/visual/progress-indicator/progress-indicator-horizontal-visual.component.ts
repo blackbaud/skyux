@@ -17,7 +17,7 @@ import {
   templateUrl: './progress-indicator-horizontal-visual.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProgressIndicatorWizardDemoComponent {
+export class ProgressIndicatorWizardVisualComponent {
 
   public title = 'Progress indicator wizard example';
   public displayMode = SkyProgressIndicatorDisplayMode.Horizontal;

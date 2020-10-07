@@ -25,7 +25,7 @@ import {
 } from '../../public/modules/progress-indicator/progress-indicator.component';
 
 import {
-  ProgressIndicatorWizardDemoComponent
+  ProgressIndicatorWizardVisualComponent
 } from './progress-indicator-horizontal-visual.component';
 
 @Component({
@@ -107,7 +107,7 @@ export class ProgressIndicatorVisualComponent implements OnDestroy {
   }
 
   public openModal(): void {
-    this.modalService.open(ProgressIndicatorWizardDemoComponent);
+    this.modalService.open(ProgressIndicatorWizardVisualComponent);
   }
 
   public toggleProgressIndicator(): void {

@@ -7,12 +7,12 @@ import {
 } from '@angular/core';
 
 import {
-  SkyProgressIndicatorModule
-} from '@skyux/progress-indicator';
-
-import {
   SkyModalModule
 } from '@skyux/modals';
+
+import {
+  SkyProgressIndicatorModule
+} from '@skyux/progress-indicator';
 
 import {
   WaterfallIndicatorDocsComponent
