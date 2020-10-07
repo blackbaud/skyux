@@ -8,4 +8,68 @@
   The autocomplete component creates a text input that filters a data source based on user entries and then displays search results in a dropdown list.
 </sky-docs-demo-page-summary>
 
+<sky-docs-demo>
+  <form
+    novalidate
+    [formGroup]="myForm"
+  >
+    <div
+      class="sky-form-group"
+    >
+      <label
+        class="sky-control-label"
+        [for]="favoriteColorInput.id"
+      >
+        What is your favorite color?
+      </label>
+
+      <sky-autocomplete
+        [data]="colors"
+      >
+        <input
+          formControlName="favoriteColor"
+          type="text"
+          skyAutocomplete
+          skyId
+          #favoriteColorInput
+        >
+      </sky-autocomplete>
+    </div>
+  </form>
+</sky-docs-demo>
+
+<sky-docs-design-guidelines>
+
+  <sky-docs-demo-page-section
+    heading="Usage"
+  >
+    <p>
+      The autocomplete component is effective for scenarios where users know what they are looking for and can select a single item. For guidance on which selection inputs to use in other scenarios, see the <a href="https://developer.blackbaud.com/skyux/design/guidelines/form-design#selection-inputs">form design guidelines</a>.
+    </p>
+  </sky-docs-demo-page-section>
+</sky-docs-design-guidelines>
+
+<sky-docs-code-examples
+  [packageDependencies]="{
+    '@skyux/lookup': '*'
+  }"
+>
+  <sky-docs-code-example
+    heading="Basic autocomplete setup"
+    sourceCodePath="src/app/public/plugin-resources/code-examples/autocomplete/basic"
+  ></sky-docs-code-example>
+  <sky-docs-code-example
+    heading="Advanced autocomplete setup"
+    sourceCodePath="src/app/public/plugin-resources/code-examples/autocomplete/advanced"
+  ></sky-docs-code-example>
+  <sky-docs-code-example
+    heading="Autocomplete with search filters"
+    sourceCodePath="src/app/public/plugin-resources/code-examples/autocomplete/search-filters"
+  ></sky-docs-code-example>
+  <sky-docs-code-example
+    heading="Autocomplete with custom search"
+    sourceCodePath="src/app/public/plugin-resources/code-examples/autocomplete/custom-search"
+  ></sky-docs-code-example>
+</sky-docs-code-examples>
+
 </sky-docs-demo-page>

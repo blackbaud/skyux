@@ -9,10 +9,10 @@ import {
 } from '@angular/forms';
 
 @Component({
-  selector: 'app-autocomplete-docs',
-  templateUrl: './autocomplete-docs.component.html'
+  selector: 'app-autocomplete-demo',
+  templateUrl: './autocomplete-demo.component.html'
 })
-export class AutocompleteDocsComponent implements OnInit {
+export class AutocompleteDemoComponent implements OnInit {
 
   public colors: any[] = [
     { name: 'Red' },

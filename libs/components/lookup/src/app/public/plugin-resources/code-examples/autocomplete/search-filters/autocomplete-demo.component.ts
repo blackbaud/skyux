@@ -8,11 +8,15 @@ import {
   FormGroup
 } from '@angular/forms';
 
+import {
+  SkyAutocompleteSearchFunctionFilter
+} from '@skyux/lookup';
+
 @Component({
-  selector: 'app-autocomplete-docs',
-  templateUrl: './autocomplete-docs.component.html'
+  selector: 'app-autocomplete-demo',
+  templateUrl: './autocomplete-demo.component.html'
 })
-export class AutocompleteDocsComponent implements OnInit {
+export class AutocompleteDemoComponent implements OnInit {
 
   public colors: any[] = [
     { name: 'Red' },
@@ -29,6 +33,12 @@ export class AutocompleteDocsComponent implements OnInit {
   ];
 
   public myForm: FormGroup;
+
+  public searchFilters: SkyAutocompleteSearchFunctionFilter[] = [
+    (searchText: string, item: any): boolean => {
+      return (item.name !== 'Red');
+    }
+  ];
 
   constructor(
     private formBuilder: FormBuilder

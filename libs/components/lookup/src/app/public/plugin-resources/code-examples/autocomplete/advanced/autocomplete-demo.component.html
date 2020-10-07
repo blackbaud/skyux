@@ -1,0 +1,61 @@
+<form
+  novalidate
+  [formGroup]="myForm"
+>
+  <div
+    class="sky-margin-stacked-default"
+  >
+    The following field:<br>
+    <ul>
+      <li>utilizes a custom search result template,</li>
+      <li>searches against the name and description properties,</li>
+      <li>limits the search results to two,</li>
+      <li>runs the search if the query is at least three characters long,</li>
+      <li>and fires an event when a selection is made.</li>
+    </ul>
+  </div>
+
+  <div
+    class="sky-form-group"
+  >
+    <label
+      class="sky-control-label"
+      [for]="planetInput.id"
+    >
+      Which planet is farthest from the sun?
+    </label>
+    <sky-autocomplete
+      [data]="planets"
+      [propertiesToSearch]="['name', 'description']"
+      [searchResultsLimit]="2"
+      [searchResultTemplate]="planetSearchResultTemplate"
+      [searchTextMinimumCharacters]="3"
+      (selectionChange)="onPlanetSelection($event)"
+    >
+      <input
+        formControlName="farthestPlanet"
+        skyAutocomplete
+        skyId
+        type="text"
+        #planetInput
+      >
+    </sky-autocomplete>
+  </div>
+  <p
+    class="sky-emphasized"
+  >
+    Form model:
+  </p>
+  <pre>{{ myForm.value | json }}</pre>
+</form>
+
+<ng-template
+  let-item="item"
+  #planetSearchResultTemplate
+>
+  <strong>
+    {{ item.name }}
+  </strong>
+  <br>
+  {{ item.description }}
+</ng-template>
