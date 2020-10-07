@@ -1,3 +1,7 @@
+# 4.2.1 (2020-10-07)
+
+- Removed the unnecessary `@types/axe-core` package from dependencies. [#44](https://github.com/blackbaud/skyux-sdk-testing/pull/44)
+
 # 4.2.0 (2020-10-1)
 
 - Added support for `expectAsync` for the following Jasmine matchers: `toBeAccessible`, `toEqualResourceString`, and `toContainResourceString`. The older, synchronous versions have been deprecated. [#37](https://github.com/blackbaud/skyux-sdk-testing/pull/37) To convert existing synchronous matchers to the new synchronous versions do the following:
