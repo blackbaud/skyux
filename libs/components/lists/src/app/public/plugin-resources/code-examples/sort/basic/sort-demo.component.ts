@@ -4,10 +4,10 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'app-sort-docs',
-  templateUrl: './sort-docs.component.html'
+  selector: 'app-sort-demo',
+  templateUrl: './sort-demo.component.html'
 })
-export class SortDocsComponent implements OnInit {
+export class SortDemoComponent implements OnInit {
 
   public initialState: number;
 

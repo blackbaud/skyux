@@ -7,8 +7,51 @@
     The sort component provides a button and dropdown menu for users to select sorting criteria.
   </sky-docs-demo-page-summary>
 
-  <!-- <sky-docs-code-examples
+  <sky-docs-demo>
+    <sky-toolbar>
+      <sky-toolbar-item>
+        <sky-sort
+          [showButtonText]="true"
+        >
+          <sky-sort-item *ngFor="let item of sortOptions"
+            [active]="initialState === item.id"
+            (itemSelect)="sortItems(item)"
+          >
+            {{item.label}}
+          </sky-sort-item>
+        </sky-sort>
+      </sky-toolbar-item>
+    </sky-toolbar>
+    <sky-repeater
+      expandMode="none"
+    >
+      <sky-repeater-item *ngFor="let item of sortedItems">
+        <sky-repeater-item-title>
+          {{item.title}}
+        </sky-repeater-item-title>
+        <sky-repeater-item-content>
+          <div
+            style="display: flex; justify-content: space-between"
+          >
+            <div>
+              Assigned to {{item.assignee}}
+            </div>
+            <div>
+              Created {{item.date | date}}
+            </div>
+          </div>
+          <div>
+            {{item.note}}
+          </div>
+        </sky-repeater-item-content>
+      </sky-repeater-item>
+    </sky-repeater>
+  </sky-docs-demo>
+
+  <sky-docs-code-examples
     [packageDependencies]="{
+      '@blackbaud/auth-client': '*',
+      '@skyux/inline-form': '*',
       '@skyux/lists': '*'
     }"
   >
@@ -16,7 +59,7 @@
       sourceCodePath="src/app/public/plugin-resources/code-examples/sort/basic/"
     >
     </sky-docs-code-example>
-  </sky-docs-code-examples> -->
+  </sky-docs-code-examples>
 
   <sky-docs-design-guidelines>
     <sky-docs-demo-page-section
