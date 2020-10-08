@@ -320,7 +320,6 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         this.resetTabComponents();
-        this.updateTabsetComponent(this.tabsetService.currentActiveTabIndex, true);
       });
   }
 
@@ -338,7 +337,10 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
     combineLatest(this.tabs.map(tab => tab.stateChange))
       .pipe(takeUntil(race(this.tabComponentsStateChangeUnsubscribe, this.ngUnsubscribe)))
       .subscribe(() => {
-        this.updateTabsetComponent(this.tabsetService.currentActiveTabIndex, true);
+        // Wait for the tab components to render changes before finding the active one.
+        setTimeout(() => {
+          this.updateTabsetComponent(this.tabsetService.currentActiveTabIndex, true);
+        });
       });
   }
 
@@ -351,7 +353,9 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
     this.tabsetService.unregisterAll();
     this.initTabComponents();
     const activeIndex = this.getActiveTabComponent()?.tabIndex;
-    this.tabsetService.setActiveTabIndex(activeIndex);
+    this.tabsetService.setActiveTabIndex(activeIndex, {
+      emitChange: false
+    });
     this.listenTabComponentsStateChange();
   }
 

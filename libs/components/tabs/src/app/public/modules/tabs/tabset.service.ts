@@ -34,13 +34,17 @@ export class SkyTabsetService {
   /**
    * Sets the active tab by its unique `tabIndex` property.
    */
-  public setActiveTabIndex(value: SkyTabIndex): void {
+  public setActiveTabIndex(value: SkyTabIndex, config = {
+    emitChange: true
+  }): void {
     if (
       value !== undefined &&
       !this.tabIndexesEqual(value, this.currentActiveTabIndex)
     ) {
       this.currentActiveTabIndex = value;
-      this._activeTabIndex.next(value);
+      if (config.emitChange) {
+        this._activeTabIndex.next(value);
+      }
     }
   }
 
