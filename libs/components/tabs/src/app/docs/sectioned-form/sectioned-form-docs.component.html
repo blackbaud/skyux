@@ -7,6 +7,29 @@
     Sectioned forms combine multiple forms and display large amounts of related information.
   </sky-docs-demo-page-summary>
 
+  <sky-docs-demo>
+    <sky-sectioned-form>
+      <sky-sectioned-form-section
+        heading="Basic information"
+      >
+        <app-demo-information-form></app-demo-information-form>
+      </sky-sectioned-form-section>
+      <sky-sectioned-form-section
+        active="true"
+        heading="Addresses"
+        itemCount="2"
+      >
+        <app-demo-address-form></app-demo-address-form>
+      </sky-sectioned-form-section>
+      <sky-sectioned-form-section
+        heading="Phone numbers"
+        itemCount="3"
+      >
+        <app-demo-phone-form></app-demo-phone-form>
+      </sky-sectioned-form-section>
+    </sky-sectioned-form>
+  </sky-docs-demo>
+
   <sky-docs-design-guidelines>
     <sky-docs-demo-page-section
       heading="Usage"
@@ -22,7 +45,7 @@
           Use sectioned forms when it’s beneficial to group related but independent forms to simplify the UI on the page. For example, use an Add filters button to open a sectioned form with multiple filter options instead of separate buttons and separate forms to access options to filter by giving, status, constituent code, ratings, or other options.
         </p>
       </sky-docs-design-guideline>
-      
+
       <sky-docs-design-guideline
         heading="Don't use when"
         headingStyle="danger"
@@ -33,3 +56,21 @@
       </sky-docs-design-guideline>
     </sky-docs-demo-page-section>
   </sky-docs-design-guidelines>
+
+  <sky-docs-code-examples
+    [packageDependencies]="{
+      '@skyux/tabs': '*'
+    }"
+  >
+    <sky-docs-code-example
+      heading="Basic sectioned form"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/sectioned-form/basic"
+    >
+    </sky-docs-code-example>
+    <sky-docs-code-example
+      heading="Sectioned form inside a modal"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/sectioned-form/modal"
+    >
+    </sky-docs-code-example>
+  </sky-docs-code-examples>
+</sky-docs-demo-page>
