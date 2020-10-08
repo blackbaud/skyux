@@ -1,8 +1,12 @@
 import {
   ElementRef,
-  EventEmitter,
   Injectable
 } from '@angular/core';
+
+import {
+  BehaviorSubject,
+  Observable
+} from 'rxjs';
 
 /**
  * @internal
@@ -10,51 +14,58 @@ import {
 @Injectable()
 export class SkyTabsetAdapterService {
 
-  public overflowChange = new EventEmitter<boolean>();
+  public get overflowChange(): Observable<boolean> {
+    return this._overflowChange.asObservable();
+  }
 
-  public currentOverflow = false;
+  private currentOverflow: boolean;
 
-  private el: HTMLElement;
-
-  private tabsEl: HTMLElement;
-
-  private bntsEl: HTMLElement;
+  private tabsetRef: ElementRef;
 
   private tabsOffsetLeft: number;
 
-  public init(elRef: ElementRef) {
-    const nativeElement = elRef.nativeElement;
-    this.el = nativeElement.querySelector('.sky-tabset');
-    this.tabsEl = nativeElement.querySelector('.sky-tabset-tabs');
-    this.bntsEl = nativeElement.querySelector('.sky-tabset-btns');
+  private _overflowChange = new BehaviorSubject<boolean>(false);
 
-    this.tabsOffsetLeft = this.getTabsOffsetLeft();
-
-    this.detectOverflow();
+  public registerTabset(tabsetRef: ElementRef): void {
+    this.tabsetRef = tabsetRef;
+    this.tabsOffsetLeft = this.getTabsOffsetLeft(tabsetRef.nativeElement);
   }
 
+  /**
+   * Detects if the tab buttons are wider than the tabset container.
+   */
   public detectOverflow(): void {
-    if (this.el && this.tabsEl) {
-      let elWidth = this.el.offsetWidth;
-      let tabsElWidth = this.tabsEl.offsetWidth + this.bntsEl.offsetWidth + this.tabsOffsetLeft;
+    const nativeElement = this.tabsetRef.nativeElement;
 
-      const areTabsOverflowing = (tabsElWidth > elWidth);
+    const tabsetRect = nativeElement
+      .querySelector('.sky-tabset')
+      .getBoundingClientRect();
 
-      if (this.currentOverflow !== areTabsOverflowing) {
-        this.currentOverflow = areTabsOverflowing;
-        this.overflowChange.emit(this.currentOverflow);
-      }
+    const tabButtonsRect = nativeElement
+      .querySelector('.sky-tabset-tabs')
+      .getBoundingClientRect();
+
+    const tabExtraButtonsRect = nativeElement
+      .querySelector('.sky-tabset-btns')
+      .getBoundingClientRect();
+
+    const tabButtonsWidth = tabButtonsRect.width + tabExtraButtonsRect.width + this.tabsOffsetLeft;
+
+    const newOverflow = (tabButtonsWidth > tabsetRect.width);
+    if (this.currentOverflow !== newOverflow) {
+      this.currentOverflow = newOverflow;
+      this._overflowChange.next(this.currentOverflow);
     }
   }
 
   /**
    * Returns the number of pixels to the left of the first tab.
    */
-  private getTabsOffsetLeft(): number {
-    const tabsetRect = this.el.getBoundingClientRect();
+  private getTabsOffsetLeft(tabsetEl: HTMLElement): number {
+    const tabsetRect = tabsetEl.getBoundingClientRect();
 
     // The dropdown element is the first "tab" and always exists in the DOM, even when hidden.
-    const firstTabRect = this.el.querySelector('.sky-tabset-dropdown').getBoundingClientRect();
+    const firstTabRect = tabsetEl.querySelector('.sky-tabset-dropdown').getBoundingClientRect();
 
     return firstTabRect.left - tabsetRect.left;
   }

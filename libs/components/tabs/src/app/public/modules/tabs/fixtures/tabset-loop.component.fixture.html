@@ -2,6 +2,7 @@
   [active]="activeIndex"
 >
   <sky-tab *ngFor="let tab of tabArray"
+    [active]="tab.active"
     [tabIndex]="tab.tabIndex"
     [tabHeading]="tab.tabHeading"
   >

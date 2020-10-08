@@ -1,121 +1,132 @@
 import {
-  Injectable,
-  OnDestroy
+  Injectable
 } from '@angular/core';
 
 import {
-  BehaviorSubject
- } from 'rxjs';
-
- import {
-   take
-  } from 'rxjs/operators';
+  BehaviorSubject,
+  Observable
+} from 'rxjs';
 
 import {
-  SkyTabComponent
-} from './tab.component';
+  SkyTabIndex
+} from './tab-index';
 
 /**
  * @internal
  */
 @Injectable()
-export class SkyTabsetService implements OnDestroy {
+export class SkyTabsetService {
 
-  public tabs: BehaviorSubject<Array<SkyTabComponent>>
-    = new BehaviorSubject<Array<SkyTabComponent>>([]);
-
-  public activeIndex: BehaviorSubject<any> = new BehaviorSubject(0);
-
-  public ngOnDestroy(): void {
-    this.tabs.complete();
-    this.activeIndex.complete();
+  public get activeTabIndex(): Observable<SkyTabIndex> {
+    return this._activeTabIndex.asObservable();
   }
 
-  public activateTab(tab: SkyTabComponent) {
-    this.tabs
-      .pipe(take(1))
-      .subscribe(() => {
-        this.activeIndex.next(tab.tabIndex);
-      });
+  public currentActiveTabIndex: SkyTabIndex = 0;
+
+  private _activeTabIndex = new BehaviorSubject<SkyTabIndex>(0);
+
+  private tabs: {
+    tabIndex: SkyTabIndex;
+  }[] = [];
+
+  private tabCounter = 0;
+
+  /**
+   * Sets the active tab by its unique `tabIndex` property.
+   */
+  public setActiveTabIndex(value: SkyTabIndex): void {
+    if (
+      value !== undefined &&
+      !this.tabIndexesEqual(value, this.currentActiveTabIndex)
+    ) {
+      this.currentActiveTabIndex = value;
+      this._activeTabIndex.next(value);
+    }
   }
 
-  public activateTabIndex(tabIndex: string | number) {
+  /**
+   * Registers a tab component.
+   */
+  public registerTab(tabIndex?: SkyTabIndex): SkyTabIndex {
+    const nextIndex = this.tabCounter;
 
-    this.tabs.pipe(take(1)).subscribe((currentTabs) => {
-      if (currentTabs.length === 0) {
-        return;
-      }
+    const newTabIndex = (tabIndex !== undefined) ? tabIndex : nextIndex;
 
-      let newSelectedTab = this.getTabFromIndex(tabIndex, currentTabs);
-
-      if (newSelectedTab) {
-        this.activeIndex.next(newSelectedTab.tabIndex);
-      } else {
-        // If the tabIndex does not point to a specific tab, use the first tab's index instead.
-        this.activeIndex.next(currentTabs[0].tabIndex);
-      }
+    this.tabs.push({
+      tabIndex: newTabIndex
     });
+
+    this.tabCounter++;
+
+    return newTabIndex;
   }
 
-  public addTab(tab: SkyTabComponent) {
-    this.tabs
-      .pipe(take(1))
-      .subscribe((currentTabs) => {
-        if (tab.tabIndex === undefined) {
-          tab.tabIndex = 0;
-          let lastTabIndex = this.getLastTabIndex(currentTabs);
-          if (currentTabs && (lastTabIndex || lastTabIndex === 0)) {
-            tab.tabIndex = lastTabIndex + 1;
-          }
-        }
-        currentTabs.push(tab);
-        this.tabs.next(currentTabs);
-      });
-  }
+  /**
+   * Unregisters a tab component.
+   */
+  public unregisterTab(tabIndex: SkyTabIndex): void {
+    this.tabCounter--;
 
-  public destroyTab(tab: SkyTabComponent) {
-    this.tabs
-      .pipe(take(1))
-      .subscribe((currentTabs) => {
-        let tabIndex = currentTabs.indexOf(tab);
-        if (tab.active) {
-          // Try selecting the next tab first, and if there's no next tab then
-          // try selecting the previous one.
-          let newActiveTab = currentTabs[tabIndex + 1] || currentTabs[tabIndex - 1];
+    const index = this.tabs.findIndex(tab => this.tabIndexesEqual(tab.tabIndex, tabIndex));
 
-          /*istanbul ignore else */
-          if (newActiveTab) {
-            this.activeIndex.next(newActiveTab.tabIndex);
-          }
-        }
-
-        if (tabIndex > -1) {
-          currentTabs.splice(tabIndex, 1);
-        }
-        this.tabs.next(currentTabs);
-      });
-  }
-
-  private getLastTabIndex(tabs: Array<SkyTabComponent>) {
-    let result: any = undefined;
-    for (let i = 0; i < tabs.length; i++) {
-      if (typeof tabs[i].tabIndex === 'number' &&
-        (result === undefined || result < tabs[i].tabIndex)) {
-        result = tabs[i].tabIndex;
-      }
-    }
-    return result;
-  }
-
-  private getTabFromIndex(index: string | number, currentTabs: Array<SkyTabComponent>) {
-    for (let i = 0, n = currentTabs.length; i < n; i++) {
-      let existingTab = currentTabs[i];
-
-      if (existingTab.tabIndex === index || existingTab.tabIndex.toString() === index) {
-        return existingTab;
-      }
+    // If the currently active tab is getting unregistered, activate the next one.
+    if (this.isTabIndexActive(this.tabs[index].tabIndex)) {
+      this.activateNearestTab(index);
     }
 
-    return undefined;
+    this.tabs.splice(index, 1);
+  }
+
+  /**
+   * Unregisters all tab components at once.
+   */
+  public unregisterAll(): void {
+    this.tabCounter = 0;
+    this.tabs = [];
+  }
+
+  /**
+   * Compares two tab indexes and returns `true` if they are equal.
+   */
+  public tabIndexesEqual(tabIndex1: SkyTabIndex, tabIndex2: SkyTabIndex): boolean {
+    return (
+      tabIndex1 === tabIndex2 ||
+      +tabIndex1 === +tabIndex2
+    );
+  }
+
+  /**
+   * Verifies if a provided tab index is registered.
+   */
+  public isValidTabIndex(tabIndex: SkyTabIndex): boolean {
+    return this.tabs.some(tab => this.tabIndexesEqual(tab.tabIndex, tabIndex));
+  }
+
+  /**
+   * Activates the first registered tab.
+   */
+  public activateFirstTab(): SkyTabIndex | undefined {
+    const firstTabIndex = this.tabs[0] && this.tabs[0].tabIndex;
+    if (firstTabIndex !== undefined) {
+      this.setActiveTabIndex(firstTabIndex);
+      return firstTabIndex;
+    }
+  }
+
+  /**
+   * Activates the next registered tab, or the previous one based on a provided array index.
+   */
+  private activateNearestTab(arrayIndex: number): void {
+    const newActiveTab = this.tabs[arrayIndex + 1] || this.tabs[arrayIndex - 1];
+    if (newActiveTab) {
+      // Wait for tabset UI changes to render before activating.
+      setTimeout(() => {
+        this._activeTabIndex.next(newActiveTab.tabIndex);
+      });
+    }
+  }
+
+  private isTabIndexActive(tabIndex: SkyTabIndex): boolean {
+    return this.tabIndexesEqual(tabIndex, this.currentActiveTabIndex);
   }
 }

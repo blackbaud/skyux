@@ -6,7 +6,8 @@ import {
 } from '@angular/core/testing';
 
 import {
-  expect
+  expect,
+  expectAsync
 } from '@skyux-sdk/testing';
 
 import { SkyTabsetNavButtonComponent } from './tabset-nav-button.component';
@@ -60,22 +61,20 @@ describe('Tabset navigation button', () => {
     expect(fixture.nativeElement).toHaveText('Foo');
   });
 
-  it('should be accessible', async(() => {
+  it('should be accessible', async () => {
     let fixture = TestBed.createComponent(SkyTabsetNavButtonComponent);
     fixture.componentInstance.buttonText = 'Foo';
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
-    });
-  }));
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 
   describe('wizard style', () => {
-    it('should be accessible', async(() => {
+    it('should be accessible', async(async () => {
       let fixture = TestBed.createComponent(SkyWizardTestFormComponent);
       fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(fixture.nativeElement).toBeAccessible();
-      });
+      await fixture.whenStable();
+      fixture.detectChanges();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
     }));
 
     describe('previous button', () => {
@@ -84,9 +83,13 @@ describe('Tabset navigation button', () => {
 
         fixture.detectChanges();
         tick();
+        fixture.detectChanges();
+        tick();
 
         fixture.componentInstance.selectedTab = 1;
 
+        fixture.detectChanges();
+        tick();
         fixture.detectChanges();
         tick();
 
@@ -97,6 +100,8 @@ describe('Tabset navigation button', () => {
         let previousBtn = getPreviousBtn();
 
         previousBtn.click();
+        fixture.detectChanges();
+        tick();
         fixture.detectChanges();
         tick();
 
@@ -120,6 +125,8 @@ describe('Tabset navigation button', () => {
 
         fixture.detectChanges();
         tick();
+        fixture.detectChanges();
+        tick();
 
         let tabBtns = document.querySelectorAll('.sky-btn-tab-wizard');
 
@@ -130,16 +137,19 @@ describe('Tabset navigation button', () => {
         nextBtn.click();
         fixture.detectChanges();
         tick();
+        fixture.detectChanges();
+        tick();
 
         expect(tabBtns[1]).toHaveCssClass('sky-btn-tab-selected');
       }));
 
-      it('should be disabled if the next tab is disabled', () => {
+      it('should be disabled if the next tab is disabled', fakeAsync(() => {
         let fixture = TestBed.createComponent(SkyWizardTestFormComponent);
 
         fixture.componentInstance.step2Disabled = true;
 
         fixture.detectChanges();
+        tick();
 
         let nextBtn = getNextBtn();
 
@@ -148,9 +158,10 @@ describe('Tabset navigation button', () => {
         fixture.componentInstance.step2Disabled = false;
 
         fixture.detectChanges();
+        tick();
 
         expect(nextBtn.disabled).toBe(false);
-      });
+      }));
 
       it('should be disabled if the last tab is selected', () => {
         let fixture = TestBed.createComponent(SkyWizardTestFormComponent);

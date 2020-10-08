@@ -4,41 +4,42 @@
   [attr.aria-controls]="ariaControls"
   [attr.aria-disabled]="disabled"
   [attr.aria-selected]="active"
-  [attr.href]="tabHref"
-  [id]="tabId"
+  [attr.href]="buttonHref"
+  [id]="buttonId"
   [ngClass]="{
     'sky-btn-tab-wizard': tabStyle === 'wizard',
     'sky-btn-tab-selected': active,
     'sky-btn-tab-disabled': disabled,
-    'sky-tab-btn-closeable': allowClose,
+    'sky-tab-btn-closeable': closeable,
     'sky-margin-inline-sm':
       (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name === 'modern'
   }"
   [tabindex]="disabled ? '-1' : '0'"
-  (click)="doTabClick($event)"
-  (keydown)="keyDownFunction($event)"
+  (click)="onButtonClick($event)"
+  (keydown.enter)="onButtonEnterKeyDown($event)"
 >
   <span
     class="sky-tab-heading"
   >
-    {{tabHeading}}
-    <span *ngIf="tabHeaderCount || tabHeaderCount === 0"
+    {{ buttonText }}
+    <span *ngIf="buttonTextCount !== undefined"
       class="sky-tab-header-count"
     >
-      {{tabHeaderCount}}
+      {{ buttonTextCount }}
     </span>
   </span>
-  <button
-      type="button"
-      class="sky-btn-tab-close"
-      [ngClass]="{
-        'sky-btn-tab-close-disabled': disabled
-      }"
-      [disabled]="disabled"
-      [attr.aria-label]="'skyux_tab_close' | skyLibResources"
-      *ngIf="allowClose"
-      (click)="doCloseClick($event)"
+  <button *ngIf="closeable"
+    class="sky-btn-tab-close"
+    type="button"
+    [attr.aria-label]="'skyux_tab_close' | skyLibResources"
+    [disabled]="disabled"
+    [ngClass]="{
+      'sky-btn-tab-close-disabled': disabled
+    }"
+    (click)="onCloseClick($event)"
   >
-    <sky-icon icon="remove"></sky-icon>
+    <sky-icon
+      icon="remove"
+    ></sky-icon>
   </button>
 </a>

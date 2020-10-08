@@ -87,7 +87,7 @@ export class SkyTabsetNavButtonComponent implements AfterViewInit {
     let selectedTab: SkyTabComponent;
 
     if (this.tabset && this.tabset.tabs) {
-      selectedTab = this.tabset.tabs.filter((tab) => tab.active)[0];
+      selectedTab = this.tabset.tabs.find((tab) => tab.tabIndex === this.tabset.lastActiveTabIndex);
     }
 
     return selectedTab;
@@ -151,7 +151,7 @@ export class SkyTabsetNavButtonComponent implements AfterViewInit {
 
     /* istanbul ignore else */
     if (tabToSelect && !tabToSelect.disabled) {
-      this.tabset.selectTab(tabToSelect);
+      this.tabset.active = tabToSelect.tabIndex;
     }
   }
 }

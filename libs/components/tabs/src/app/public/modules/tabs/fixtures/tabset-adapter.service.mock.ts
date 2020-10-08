@@ -13,7 +13,7 @@ export class MockTabsetAdapterService extends SkyTabsetAdapterService {
   }
 
   public fakeOverflowChange(overflow: boolean) {
-    this.currentOverflow = overflow;
-    this.overflowChange.emit(overflow);
+    this['currentOverflow'] = overflow;
+    this['_overflowChange'].next(overflow);
   }
 }

@@ -8,7 +8,7 @@ import {
 })
 export class SkyTabsetPermalinksFixtureComponent {
 
-  public activeIndex: number;
+  public activeIndex: number = 0;
 
   public permalinkId: string;
 

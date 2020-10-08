@@ -1,9 +1,5 @@
 import {
-  Location
-} from '@angular/common';
-
-import {
-  ChangeDetectorRef,
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -16,12 +12,8 @@ import {
 } from '@skyux/theme';
 
 import {
-  SkyTabsetAdapterService
-} from './tabset-adapter.service';
-
-import {
-  SkyTabsetComponent
-} from './tabset.component';
+  SkyTabsetStyle
+} from './tabset-style';
 
 /**
  * @internal
@@ -29,7 +21,8 @@ import {
 @Component({
   selector: 'sky-tab-button',
   templateUrl: './tab-button.component.html',
-  styleUrls: ['./tab-button.component.scss']
+  styleUrls: ['./tab-button.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyTabButtonComponent {
 
@@ -40,111 +33,53 @@ export class SkyTabButtonComponent {
   public ariaControls: string;
 
   @Input()
+  public buttonHref: string;
+
+  @Input()
+  public buttonId: string;
+
+  @Input()
+  public buttonText: string;
+
+  @Input()
+  public buttonTextCount: string;
+
+  @Input()
+  public closeable: boolean;
+
+  @Input()
   public disabled: boolean;
 
   @Input()
-  public set allowClose(closeAllowed: boolean) {
-    this._allowClose = closeAllowed;
-    this.ref.detectChanges();
-    this.adapterService.detectOverflow();
-  }
-
-  public get allowClose() {
-    return this._allowClose;
-  }
-
-  @Input()
-  public set tabHeading(heading: string) {
-    this._tabHeading = heading;
-    this.ref.detectChanges();
-    this.adapterService.detectOverflow();
-  }
-
-  public get tabHeading() {
-    return this._tabHeading;
-  }
-
-  @Input()
-  public set tabHeaderCount(count: number) {
-    this._tabHeaderCount = count;
-    this.ref.detectChanges();
-    this.adapterService.detectOverflow();
-  }
-
-  public get tabHeaderCount() {
-    return this._tabHeaderCount;
-  }
-
-  @Input()
-  public permalinkValue: string;
-
-  @Input()
-  public tabId: string;
-
-  @Input()
-  public tabStyle: string;
+  public tabStyle: SkyTabsetStyle;
 
   @Output()
-  public tabClick = new EventEmitter<any>();
+  public buttonClick = new EventEmitter<void>();
 
   @Output()
-  public closeClick = new EventEmitter<any>();
-
-  public get tabHref(): string {
-    if (!this.hasPermalink) {
-      /*tslint:disable-next-line:no-null-keyword*/
-      return null;
-    }
-
-    const params = this.tabsetComponent.getPathParams();
-    params[this.tabsetComponent.permalinkId] = this.permalinkValue;
-
-    const baseUrl = this.location.path().split(';')[0];
-    const paramString = Object.keys(params).map(k => `${k}=${params[k]}`).join(';');
-
-    return this.location.prepareExternalUrl(`${baseUrl};${paramString}`);
-  }
-
-  private get hasPermalink(): boolean {
-    return !!(
-      this.tabsetComponent.permalinkId &&
-      this.permalinkValue
-    );
-  }
-
-  private _allowClose: boolean;
-
-  private _tabHeading: string;
-
-  private _tabHeaderCount: number;
+  public closeClick = new EventEmitter<void>();
 
   constructor(
-    private adapterService: SkyTabsetAdapterService,
-    private ref: ChangeDetectorRef,
-    private location: Location,
-    @Optional() private tabsetComponent: SkyTabsetComponent,
     @Optional() public themeSvc?: SkyThemeService
   ) { }
 
-  public doTabClick(event: MouseEvent) {
+  public onButtonClick(event: MouseEvent): void {
     if (!this.disabled) {
-      this.tabClick.emit(undefined);
+      this.buttonClick.emit();
       event.preventDefault();
     }
   }
 
-  public doCloseClick(event: any) {
-    this.closeClick.emit(undefined);
+  public onButtonEnterKeyDown(event: any): void {
+    this.onButtonClick(event);
+  }
+
+  public onCloseClick(event: any): void {
+    this.closeClick.emit();
 
     // Prevent the click event from bubbling up to the anchor tag;
     // otherwise it will trigger a page refresh.
     event.stopPropagation();
     event.preventDefault();
-  }
-
-  public keyDownFunction(event: any) {
-    if (event.keyCode === 13) {
-      this.doTabClick(event);
-    }
   }
 }
