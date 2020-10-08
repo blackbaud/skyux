@@ -58,6 +58,9 @@ import {
 
 let uniqueId = 0;
 
+/**
+ * Provides an element to attach a single local file.
+ */
 @Component({
   selector: 'sky-file-attachment',
   templateUrl: './file-attachment.component.html',
@@ -66,16 +69,17 @@ let uniqueId = 0;
 })
 export class SkyFileAttachmentComponent implements AfterViewInit, AfterContentInit, OnDestroy {
 
-/**
- * Specifies a comma-delimited string literal of MIME types that users can attach:
- * `[acceptedTypes]="validFileTypes"` or `acceptedTypes="image/png,image/jpeg"`. By default, all file types are allowed.
- * @required
- */
+  /**
+   * Specifies a comma-delimited string literal of MIME types that users can attach.
+   * By default, all file types are allowed.
+   * @required
+   */
   @Input()
   public acceptedTypes: string;
 
   /**
-   * Indicates whether to disable the input. This property accepts `boolean` values.
+   * Indicates whether to disable the input.
+   * @default false
    */
   @Input()
   public set disabled(value: boolean) {
@@ -89,24 +93,34 @@ export class SkyFileAttachmentComponent implements AfterViewInit, AfterContentIn
     return this._disabled;
   }
 
-/**
- * Specifies the maximum size in bytes for valid files.
- */
+  /**
+   * Specifies the maximum size in bytes for valid files.
+   */
   @Input()
   public maxFileSize: number = 500000;
 
-/**
- * Specifies the minimum size in bytes for valid files.
- */
+  /**
+   * Specifies the minimum size in bytes for valid files.
+   */
   @Input()
   public minFileSize: number = 0;
 
+  /**
+   * Specifies a custom validation function. This validation runs alongside the internal
+   * file validation. This function takes a `SkyFileItem` object as a parameter.
+   */
   @Input()
   public validateFn: Function;
 
+  /**
+   * Fires when users add or remove files.
+   */
   @Output()
   public fileChange = new EventEmitter<SkyFileAttachmentChange>();
 
+  /**
+   * Fires when users select the file link.
+   */
   @Output()
   public fileClick = new EventEmitter<SkyFileAttachmentClick>();
 

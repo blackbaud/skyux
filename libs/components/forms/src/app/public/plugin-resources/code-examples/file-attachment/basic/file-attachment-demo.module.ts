@@ -15,7 +15,7 @@ import {
 } from '@skyux/forms';
 
 import {
-  SkyAlertModule
+  SkyStatusIndicatorModule
 } from '@skyux/indicators';
 
 import {
@@ -26,8 +26,8 @@ import {
   imports: [
     CommonModule,
     FormsModule,
-    SkyAlertModule,
-    SkyFileAttachmentsModule
+    SkyFileAttachmentsModule,
+    SkyStatusIndicatorModule
   ],
   declarations: [
     FileAttachmentDemoComponent

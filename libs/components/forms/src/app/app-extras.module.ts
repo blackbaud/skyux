@@ -21,8 +21,8 @@ import {
 } from '@skyux/http';
 
 import {
-  SkyAlertModule,
-  SkyIconModule
+  SkyIconModule,
+  SkyStatusIndicatorModule
 } from '@skyux/indicators';
 
 import {
@@ -44,7 +44,6 @@ import {
 
 @NgModule({
   exports: [
-    SkyAlertModule,
     SkyAppLinkModule,
     SkyAuthHttpClientModule,
     SkyCodeModule,
@@ -57,6 +56,7 @@ import {
     SkyIdModule,
     SkyInputBoxModule,
     SkyRadioModule,
+    SkyStatusIndicatorModule,
     SkyCharacterCounterModule,
     SkyToggleSwitchModule
   ],
