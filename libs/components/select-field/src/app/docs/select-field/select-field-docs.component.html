@@ -8,7 +8,68 @@
   </sky-docs-demo-page-summary>
 
   <sky-docs-demo>
-    See documentation for how to setup demos.
+    <sky-docs-demo-control-panel
+      (reset)="onDemoReset()"
+      (selectionChange)="onDemoSelectionChange($event)"
+    >
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-radio-group
+          heading="Select mode"
+          propertyName="selectMode"
+          [choices]="selectModeChoices"
+          [initialValue]="'single'"
+        >
+        </sky-docs-demo-control-panel-radio-group>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
+    <form
+      style="width:50%;"
+      novalidate
+      [formGroup]="myForm"
+    >
+      <div *ngIf="demoSettings.selectMode === 'single'"
+        class="sky-form-group"
+      >
+        <label
+          class="sky-control-label"
+          skyId
+          #colorLabel="skyId"
+        >
+          Favorite color
+        </label>
+        <sky-select-field
+          formControlName="favoriteColor"
+          pickerHeading="Colors"
+          selectMode="single"
+          singleSelectClearButtonTitle="Clear selected color"
+          singleSelectOpenButtonTitle="Select color"
+          singleSelectPlaceholderText="Select color..."
+          [ariaLabelledBy]="colorLabel.id"
+          [data]="colorStream"
+        >
+        </sky-select-field>
+      </div>
+
+      <div *ngIf="demoSettings.selectMode === 'multiple'"
+        class="sky-form-group"
+      >
+        <label
+          class="sky-control-label"
+          skyId
+          #favoriteFruitLabel="skyId"
+        >
+          Favorite fruits
+        </label>
+        <sky-select-field
+          formControlName="favoriteFruits"
+          multipleSelectOpenButtonText="Select fruits"
+          pickerHeading="Fruits"
+          [ariaLabelledBy]="favoriteFruitLabel.id"
+          [data]="fruitStream"
+        >
+        </sky-select-field>
+      </div>
+    </form>
   </sky-docs-demo>
 
   <sky-docs-design-guidelines>
@@ -25,23 +86,42 @@
       </sky-docs-design-guideline>
 
       <sky-docs-demo-page-section
-      heading="Related information"
-    >
-      <sky-docs-design-guideline
-        heading="Guidelines"
+        heading="Related information"
       >
-        <ul>
-          <li>
-            <a href="https://developer.blackbaud.com/skyux/design/guidelines/form-design#selection-inputs">Form design</a>
-          </li>
-        </ul>
-      </sky-docs-design-guideline>
+        <sky-docs-design-guideline
+          heading="Guidelines"
+        >
+          <ul>
+            <li>
+              <a href="https://developer.blackbaud.com/skyux/design/guidelines/form-design#selection-inputs">Form design</a>
+            </li>
+          </ul>
+        </sky-docs-design-guideline>
+      </sky-docs-demo-page-section>
     </sky-docs-demo-page-section>
-    </sky-docs-demo-page-section>
-
   </sky-docs-design-guidelines>
 
-  <sky-docs-code-examples>
-    See documentation for how to setup code examples.
+  <sky-docs-code-examples
+    [packageDependencies]="{
+      '@blackbaud/auth-client': '*',
+      '@skyux/inline-form': '*',
+      '@skyux/list-builder': '*',
+      '@skyux/list-builder-common': '*',
+      '@skyux/list-builder-view-checklist': '*',
+      '@skyux/lists': '*',
+      '@skyux/lookup': '*',
+      '@skyux/select-field': '*'
+    }"
+  >
+  <sky-docs-code-example
+    heading="Basic select field"
+    sourceCodePath="src/app/public/plugin-resources/code-examples/select-field/basic/"
+  >
+  </sky-docs-code-example>
+  <sky-docs-code-example
+    heading="Select field with custom picker"
+    sourceCodePath="src/app/public/plugin-resources/code-examples/select-field/custom/"
+  >
+  </sky-docs-code-example>
   </sky-docs-code-examples>
 </sky-docs-demo-page>

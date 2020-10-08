@@ -1,0 +1,48 @@
+<sky-modal>
+  <sky-modal-header>
+    {{ title }}
+  </sky-modal-header>
+  <sky-modal-content>
+    <ng-container *ngIf="context.pickerType === 'color'; else fruitPicker">
+      <button *ngFor="let color of (context.pickerContext.data | async)"
+        class="sky-btn picker-btn"
+        [style.background-color]="color.label.toLowerCase()"
+        [ngClass]="{
+          'picker-btn-selected': color.id === context.pickerContext.selectedValue?.id
+        }"
+        type="button"
+        (click)="selectColor(color)"
+      >
+        &nbsp;
+      </button>
+    </ng-container>
+    <ng-template #fruitPicker>
+      <button *ngFor="let fruit of (context.pickerContext.data | async)"
+        class="sky-btn picker-btn"
+        [ngClass]="{
+          'picker-btn-selected': fruitIsSelected(fruit.id)
+        }"
+        type="button"
+        (click)="toggleFruit(fruit)"
+      >
+        {{ fruitMap[fruit.id] }}
+      </button>
+    </ng-template>
+  </sky-modal-content>
+  <sky-modal-footer *ngIf="context.pickerType === 'fruit'">
+    <button
+      class="sky-btn sky-btn-primary"
+      type="button"
+      (click)="saveFruits()"
+    >
+      Select
+    </button>
+    <button
+      class="sky-btn sky-btn-link"
+      type="button"
+      (click)="instance.cancel()"
+    >
+      Close
+    </button>
+  </sky-modal-footer>
+</sky-modal>

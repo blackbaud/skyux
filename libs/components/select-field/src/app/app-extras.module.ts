@@ -7,9 +7,17 @@ import {
 } from '@blackbaud/skyux-lib-code-block';
 
 import {
+  SkyIdModule
+} from '@skyux/core';
+
+import {
   SkyDocsToolsModule,
   SkyDocsToolsOptions
 } from '@skyux/docs-tools';
+
+import {
+  SkyModalModule
+} from '@skyux/modals';
 
 import {
   SkyAppLinkModule
@@ -24,6 +32,8 @@ import {
     SkyAppLinkModule,
     SkyCodeModule,
     SkyDocsToolsModule,
+    SkyIdModule,
+    SkyModalModule,
     SkySelectFieldModule
   ],
   providers: [

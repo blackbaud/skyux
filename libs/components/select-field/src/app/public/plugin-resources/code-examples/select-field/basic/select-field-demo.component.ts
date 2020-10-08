@@ -11,23 +11,16 @@ import {
 } from '@angular/forms';
 
 import {
-  SkyDocsDemoControlPanelChange,
-  SkyDocsDemoControlPanelRadioChoice
-} from '@skyux/docs-tools';
-
-import {
   BehaviorSubject
 } from 'rxjs';
 
 @Component({
-  selector: 'app-select-field-docs',
-  templateUrl: 'select-field-docs.component.html',
-  styleUrls: ['./select-field-docs.component.scss'],
+  selector: 'app-select-field-demo',
+  templateUrl: 'select-field-demo.component.html',
+  styleUrls: ['./select-field-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SelectFieldDocsComponent implements OnInit {
-
-  public demoSettings: any = {};
+export class SelectFieldDemoComponent implements OnInit {
 
   public colors: any[] = [
     { id: '1', label: 'Red' },
@@ -50,11 +43,6 @@ export class SelectFieldDocsComponent implements OnInit {
 
   public myForm: FormGroup;
 
-  public selectModeChoices: SkyDocsDemoControlPanelRadioChoice[] = [
-    { value: 'single', label: 'Single' },
-    { value: 'multiple', label: 'Multiple' }
-  ];
-
   constructor(
     private formBuilder: FormBuilder
   ) { }
@@ -64,14 +52,8 @@ export class SelectFieldDocsComponent implements OnInit {
     this.populateData();
   }
 
-  public onDemoReset(): void {
-    this.myForm.reset();
-  }
-
-  public onDemoSelectionChange(change: SkyDocsDemoControlPanelChange): void {
-    if (change.selectMode) {
-      this.demoSettings.selectMode = change.selectMode;
-    }
+  public onSubmit(): void {
+    alert('Form submitted with: \n' + JSON.stringify(this.myForm.value));
   }
 
   private createForm(): void {

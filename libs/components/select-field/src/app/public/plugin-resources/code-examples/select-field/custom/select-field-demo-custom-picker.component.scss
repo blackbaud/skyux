@@ -1,0 +1,30 @@
+@import '~@skyux/theme/scss/mixins';
+
+.picker-btn {
+  cursor: pointer;
+  border: solid 1px $sky-text-color-action-primary;
+  margin-right: 20px;
+  height: 60px;
+  width: 60px;
+  font-size: 30px;
+
+  &:focus {
+    outline: none
+  }
+}
+
+.color-btn-red {
+  background-color: red;
+}
+
+.color-btn-green {
+  background-color: green;
+}
+
+.color-btn-violet {
+  background-color: violet;
+}
+
+.picker-btn-selected {
+  border: solid 3px $sky-text-color-action-primary;
+}
