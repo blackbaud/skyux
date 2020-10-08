@@ -1,0 +1,103 @@
+<sky-error
+  errorType="broken"
+>
+  <sky-error-action>
+    <button
+      class="sky-btn sky-btn-primary"
+      type="button"
+      (click)="customAction()"
+    >
+      Refresh
+    </button>
+  </sky-error-action>
+</sky-error>
+
+<sky-error
+  errorType="notfound"
+>
+  <sky-error-action>
+    <button
+      class="sky-btn sky-btn-primary"
+      type="button"
+      (click)="customAction()"
+    >
+      Refresh
+    </button>
+  </sky-error-action>
+</sky-error>
+
+<sky-error
+  errorType="construction"
+>
+  <sky-error-action>
+    <button
+      class="sky-btn sky-btn-primary"
+      type="button"
+      (click)="customAction()"
+    >
+      Refresh
+    </button>
+  </sky-error-action>
+</sky-error>
+
+<sky-error
+  errorType="security"
+>
+  <sky-error-action>
+    <button
+      class="sky-btn sky-btn-primary"
+      type="button"
+      (click)="customAction()"
+    >
+      Refresh
+    </button>
+  </sky-error-action>
+</sky-error>
+
+<sky-error>
+  <sky-error-image>
+    <img
+      role="presentation"
+      src='data:image/png;base64,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'
+    />
+  </sky-error-image>
+  <sky-error-title>
+    Custom error with a custom image.
+  </sky-error-title>
+  <sky-error-description>
+    Custom description.
+  </sky-error-description>
+  <sky-error-action>
+    <button
+      class="sky-btn sky-btn-primary"
+      type="button"
+      (click)="customAction()"
+    >
+      Custom action
+    </button>
+  </sky-error-action>
+</sky-error>
+
+<sky-error
+  errorType="broken"
+>
+  <sky-error-title
+    [replaceDefaultTitle]="true"
+  >
+    Custom error with a default image.
+  </sky-error-title>
+  <sky-error-description
+    [replaceDefaultDescription]="true"
+  >
+    Custom description.
+  </sky-error-description>
+  <sky-error-action>
+    <button
+      class="sky-btn sky-btn-primary"
+      type="button"
+      (click)="customAction()"
+    >
+      Custom action
+    </button>
+  </sky-error-action>
+</sky-error>
