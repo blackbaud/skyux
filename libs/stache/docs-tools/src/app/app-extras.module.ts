@@ -7,12 +7,10 @@ import {
   SkyCodeModule
 } from '@blackbaud/skyux-lib-code-block';
 
-// Do not import from public_api since the SKY UX plugin needs to assign providers from the same place.
-// (The SKY UX plugin pulls types from node_modules.)
 import {
   SkyDocsToolsModule,
   SkyDocsToolsOptions
-} from '@skyux/docs-tools'; // <-- Important!
+} from './public/public_api';
 
 import {
   SkyAlertModule
