@@ -4,9 +4,7 @@
   pageTitle="Tree view"
 >
   <sky-docs-demo-page-summary>
-    The tree view module provides a hierarchical list view with multiple modes for selecting items in the list.
-    <a href="https://angular2-tree.readme.io/docs">The <code>angular-tree-component</code> library</a> is a dependency of <code>SkyAngularTreeModule</code>.
-    To install that package, run <code>npm install --save --save-exact angular-tree-component</code>.
+    <sky-code>SkyAngularTreeModule</sky-code> provides SKY UX components and styles to complement the <sky-code>angular-tree-component</sky-code> library and apply SKY UX themes and functionality to hierarchical list views. For information about the Angular tree component and its capabilities, see the <a href="https://angular2-tree.readme.io/docs">Angular tree component documentation</a>.
   </sky-docs-demo-page-summary>
 
   <!-- <sky-docs-demo>
@@ -18,5 +16,185 @@
     >
     </sky-docs-code-example>
   </sky-docs-code-examples> -->
+
+  <sky-docs-design-guidelines>
+    <sky-docs-demo-page-section
+      heading="Usage"
+    >
+      <sky-docs-design-guideline
+        heading="Use when"
+      >
+        <p class="sky-docs-text-block">
+          Use tree views to represent hierarchical information. You can make tree views read-only or allow users to select list items.
+        </p>
+
+        <sky-docs-design-guideline-thumbnail
+          imageSource="~/assets/img/guidelines/tree-view/use-when.png"
+          imageCaption="Do use tree views for hierarchical lists."
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Anatomy"
+    >
+      <sky-docs-anatomy
+        imagePath="~/assets/img/guidelines/tree-view/anatomy.png"
+      >
+        <sky-docs-anatomy-item>Expand/collapse button</sky-docs-anatomy-item>
+        <sky-docs-anatomy-item>List item</sky-docs-anatomy-item>
+        <sky-docs-anatomy-item isOptional="true">Checkbox</sky-docs-anatomy-item>
+        <sky-docs-anatomy-item isOptional="true">Context menu</sky-docs-anatomy-item>
+      </sky-docs-anatomy>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Options"
+    >
+      <sky-docs-design-guideline
+        heading="Selection mode"
+      >
+        <p class="sky-docs-text-block">
+          You can use the single-select and multiselect modes to allow users to select list items.
+        </p>
+
+        <sky-docs-design-guideline-thumbnail
+          imageSource="~/assets/img/guidelines/tree-view/option-select.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline>
+        <p class="sky-docs-text-block">
+          You can use the cascading selection mode to select descendant nodes when users select items. Use this mode when users are likely to select all descendants within nodes.
+        </p>
+
+        <sky-docs-design-guideline-thumbnail
+          imageSource="~/assets/img/guidelines/tree-view/option-cascading.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline>
+        <p class="sky-docs-text-block">
+          You can use the leaf-only selection mode to limit user selections to leaf nodes. Use this mode when higher-level nodes are categories that contain leaf nodes for users to select.
+        </p>
+
+        <sky-docs-design-guideline-thumbnail
+          imageSource="~/assets/img/guidelines/tree-view/option-leaf-only.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline
+        heading="Navigation mode"
+      >
+        <p class="sky-docs-text-block">
+          When users need to work with the items in hierarchical lists and take actions, you can place tree views within <a href="https://developer.blackbaud.com/skyux-split-view/docs/split-view">split views</a>. When users select items to work on, tree views highlight those items with the active state.
+        </p>
+
+        <sky-docs-design-guideline-thumbnail
+          imageSource="~/assets/img/guidelines/tree-view/option-split-view.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline
+        heading="Read-only mode"
+      >
+        <p class="sky-docs-text-block">
+          You can use the read-only mode to allow users to view hierarchical information in cases where items are not selectable and are not used for navigation. You can still include interactive elements such as hyperlinks in the list items.
+        </p>
+
+        <sky-docs-design-guideline-thumbnail
+          imageSource="~/assets/img/guidelines/tree-view/option-read-only.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline
+        heading="Context menus"
+      >
+        <p class="sky-docs-text-block">
+          When users need to perform actions on items in hierarchical lists, you can include <a href="https://developer.blackbaud.com/skyux-popovers/docs/dropdown">context menus</a> to provide access to those actions.
+        </p>
+
+        <sky-docs-design-guideline-thumbnail
+          imageSource="~/assets/img/guidelines/tree-view/option-context-menu.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Behavior and states"
+    >
+      <sky-docs-design-guideline
+        heading="Expand/collapse nodes"
+      >
+        <p class="sky-docs-text-block">
+          The expand/collapse button expands and collapses the node.
+        </p>
+
+        <sky-docs-design-guideline-thumbnail
+          imageSource="~/assets/img/guidelines/tree-view/behavior-expand.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline
+        heading="States"
+      >
+        <table class="sky-docs-table">
+          <tr>
+            <td class="sky-docs-table-cell sky-docs-table-cell-primary">
+              Active
+            </td>
+            <td class="sky-docs-table-cell">
+              <sky-docs-design-guideline-thumbnail
+                imageSource="~/assets/img/guidelines/tree-view/state-active.png"
+              >
+              </sky-docs-design-guideline-thumbnail>
+            </td>
+          </tr>
+          <tr>
+            <td class="sky-docs-table-cell">
+              Selected
+            </td>
+            <td class="sky-docs-table-cell">
+              <sky-docs-design-guideline-thumbnail
+                imageSource="~/assets/img/guidelines/tree-view/state-selected.png"
+              >
+              </sky-docs-design-guideline-thumbnail>
+            </td>
+          </tr>
+        </table>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Related information"
+    >
+      <sky-docs-design-guideline
+        heading="Components"
+      >
+        <ul>
+          <li>
+            <a href="https://developer.blackbaud.com/skyux-popovers/docs/dropdown">Drodpown</a>
+          </li>
+          <li>
+            <a href="https://developer.blackbaud.com/skyux-grids/docs/grid">Grid</a>
+          </li>
+          <li>
+            <a href="https://developer.blackbaud.com/skyux-lists/docs/repeater">Repeater</a>
+          </li>
+          <li>
+            <a href="https://developer.blackbaud.com/skyux-split-view/docs/split-view">Split view</a>
+          </li>
+        </ul>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+  </sky-docs-design-guidelines>
 
 </sky-docs-demo-page>

@@ -3,6 +3,10 @@ import {
 } from '@angular/core';
 
 import {
+  SkyCodeModule
+} from '@blackbaud/skyux-lib-code-block';
+
+import {
   SkyDocsToolsModule,
   SkyDocsToolsOptions
 } from '@skyux/docs-tools';
@@ -34,6 +38,7 @@ const treeModuleForRoot = TreeModule.forRoot();
   ],
   exports: [
     SkyAngularTreeModule,
+    SkyCodeModule,
     SkyAppLinkModule,
     SkyDocsToolsModule,
     SkyDropdownModule,
