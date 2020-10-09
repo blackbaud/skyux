@@ -2,6 +2,8 @@
 <sky-toolbar>
   <sky-toolbar-section>
 
+    <ng-content select="sky-data-manager-toolbar-primary-item"></ng-content>
+
     <sky-toolbar-item *ngIf="activeView?.filterButtonEnabled">
       <sky-filter-button
         [showButtonText]="activeView?.showFilterButtonText"

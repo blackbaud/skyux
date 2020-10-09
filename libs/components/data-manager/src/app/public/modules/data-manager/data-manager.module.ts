@@ -60,6 +60,10 @@ import {
 } from './data-manager-toolbar/data-manager-toolbar-left-item.component';
 
 import {
+  SkyDataManagerToolbarPrimaryItemComponent
+} from './data-manager-toolbar/data-manager-toolbar-primary-item.component';
+
+import {
   SkyDataManagerToolbarRightItemComponent
 } from './data-manager-toolbar/data-manager-toolbar-right-item.component';
 
@@ -80,6 +84,7 @@ import {
     SkyDataManagerColumnPickerComponent,
     SkyDataManagerComponent,
     SkyDataManagerToolbarLeftItemComponent,
+    SkyDataManagerToolbarPrimaryItemComponent,
     SkyDataManagerToolbarRightItemComponent,
     SkyDataManagerToolbarSectionComponent,
     SkyDataManagerToolbarComponent,
@@ -105,6 +110,7 @@ import {
     SkyDataManagerColumnPickerComponent,
     SkyDataManagerComponent,
     SkyDataManagerToolbarLeftItemComponent,
+    SkyDataManagerToolbarPrimaryItemComponent,
     SkyDataManagerToolbarRightItemComponent,
     SkyDataManagerToolbarSectionComponent,
     SkyDataManagerToolbarComponent,

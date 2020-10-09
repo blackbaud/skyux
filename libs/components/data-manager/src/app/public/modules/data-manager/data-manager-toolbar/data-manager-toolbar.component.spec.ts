@@ -25,8 +25,20 @@ import {
 } from 'rxjs';
 
 import {
+  DataManagerFixtureComponent
+} from '../fixtures/data-manager.component.fixture';
+
+import {
   DataManagerFixtureModule
 } from '../fixtures/data-manager.module.fixture';
+
+import {
+  DataViewCardFixtureComponent
+} from '../fixtures/data-manager-card-view.component.fixture';
+
+import {
+  DataViewRepeaterFixtureComponent
+} from '../fixtures/data-manager-repeater-view.component.fixture';
 
 import {
   SkyDataManagerToolbarComponent
@@ -83,6 +95,11 @@ describe('SkyDataManagerToolbarComponent', () => {
     modalServiceInstance = new MockModalService();
 
     TestBed.configureTestingModule({
+      declarations: [
+        DataManagerFixtureComponent,
+        DataViewCardFixtureComponent,
+        DataViewRepeaterFixtureComponent
+      ],
       imports: [
         DataManagerFixtureModule,
         SkyDataManagerModule
@@ -105,6 +122,20 @@ describe('SkyDataManagerToolbarComponent', () => {
     };
     dataManagerToolbarComponent.activeView = viewConfig;
     dataManagerToolbarComponent.dataState = new SkyDataManagerState({});
+  });
+
+  it('should render custom buttons', () => {
+    const dataManagerFixture = TestBed.createComponent(DataManagerFixtureComponent);
+    const dataManagerNativeElement = dataManagerFixture.nativeElement;
+    dataManagerFixture.detectChanges();
+
+    const primaryButton = dataManagerNativeElement.querySelector('.primary-test-button');
+    const leftButton = dataManagerNativeElement.querySelector('.left-test-button');
+    const rightButton = dataManagerNativeElement.querySelector('.right-test-button');
+
+    expect(primaryButton).toBeVisible();
+    expect(leftButton).toBeVisible();
+    expect(rightButton).toBeVisible();
   });
 
   it('should show a sort button if the data view config has sort enabled', () => {

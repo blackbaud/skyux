@@ -133,9 +133,4 @@ export class DataManagerFixtureComponent implements OnInit {
       defaultDataState: this.dataState
     });
   }
-
-  public searchSo(): void {
-    this.dataState.searchText = 'so';
-    this.dataManagerService.updateDataState(this.dataState, 'dataManager');
-  }
 }
