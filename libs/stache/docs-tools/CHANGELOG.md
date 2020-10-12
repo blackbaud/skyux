@@ -1,3 +1,7 @@
+# 4.7.3 (2020-10-12)
+
+- Fixed the interface and class type definitions components to support "type literal" properties. [#148](https://github.com/blackbaud/skyux-docs-tools/pull/148)
+
 # 4.7.2 (2020-10-1)
 
 - Fixed the interface definition component to hide optional and required statuses for properties. [#145](https://github.com/blackbaud/skyux-docs-tools/pull/145)
