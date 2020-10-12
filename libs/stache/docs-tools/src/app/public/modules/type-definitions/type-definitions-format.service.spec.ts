@@ -190,6 +190,25 @@ describe('Type definitions format service', () => {
           }
         },
         {
+          isOptional: false,
+          name: 'route',
+          type: {
+            type: 'reflection',
+            typeLiteral: {
+              properties: [
+                {
+                  isOptional: true,
+                  name: 'commands',
+                  type: {
+                    type: 'array',
+                    name: 'any'
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
           isOptional: true,
           name: '__index',
           type: {
@@ -227,6 +246,7 @@ describe('Type definitions format service', () => {
     expect(sourceCode).toEqual(`interface Foo<T, U extends FooUser> {
   foo?: T;
   user?: U;
+  route: { commands?: any[]; };
   [_: string]: any;
 }`
     );

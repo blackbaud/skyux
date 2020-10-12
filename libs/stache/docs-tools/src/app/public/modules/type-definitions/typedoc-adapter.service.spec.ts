@@ -1363,6 +1363,59 @@ describe('TypeDoc adapter', () => {
 
     });
 
+    it('should support type literal properties', () => {
+      entry.children = [
+        {
+          name: 'route',
+          kindString: 'Property',
+          type: {
+            type: 'reflection',
+            declaration: {
+              children: [
+                {
+                  name: 'commands',
+                  flags: {
+                    isOptional: true
+                  },
+                  type: {
+                    type: 'array',
+                    elementType: {
+                      type: 'intrinsic',
+                      name: 'any'
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ];
+
+      const def = adapter.toInterfaceDefinition(entry);
+
+      expect(def.properties).toEqual([
+        {
+          isOptional: false,
+          name: 'route',
+          type: {
+            type: 'reflection',
+            typeLiteral: {
+              properties: [
+                {
+                  isOptional: true,
+                  name: 'commands',
+                  type: {
+                    type: 'array',
+                    name: 'any'
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]);
+    });
+
   });
 
   describe('Pipe definitions', () => {

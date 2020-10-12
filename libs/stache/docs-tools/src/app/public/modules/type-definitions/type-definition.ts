@@ -6,6 +6,10 @@ import {
   SkyDocsIndexSignatureDefinition
 } from './index-signature-definition';
 
+import {
+  SkyDocsInterfacePropertyDefinition
+} from './interface-property-definition';
+
 /**
  * Describes TypeScript types.
  */
@@ -29,6 +33,13 @@ export interface SkyDocsTypeDefinition {
    * Describes any type arguments, e.g. `<T, F>`.
    */
   typeArguments?: SkyDocsTypeDefinition[];
+
+  /**
+   * Used for type literals or inline interfaces, e.g. `route: { commands: any[] }`
+   */
+  typeLiteral?: {
+    properties?: SkyDocsInterfacePropertyDefinition[];
+  };
 
   /**
    * The types that compose a union type.

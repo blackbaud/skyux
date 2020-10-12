@@ -34,6 +34,10 @@ import {
   SkyDocsTypeParameterDefinition
 } from './type-parameter-definition';
 
+import {
+  SkyDocsInterfacePropertyDefinition
+} from './interface-property-definition';
+
 interface GetFormattedTypeConfig {
   escapeSpecialCharacters: boolean;
 }
@@ -54,22 +58,7 @@ export class SkyDocsTypeDefinitionsFormatService {
     };
 
     let signature: string = `interface ${definition.name}${typeParameters} {`;
-
-    definition.properties.forEach(property => {
-      const indexSignature = property.type.indexSignature;
-      const optionalIndicator = (property.isOptional && !indexSignature) ? '?' : '';
-      const propertyType = this.getFormattedType(property.type, config);
-
-      let name: string;
-      if (indexSignature) {
-        name = `[${indexSignature.key.name}: string]`;
-      } else {
-        name = property.name;
-      }
-
-      signature += `\n  ${name}${optionalIndicator}: ${propertyType};`;
-    });
-
+    signature += this.getFormattedInterfaceProperties(definition, config);
     signature += '\n}';
 
     return signature;
@@ -236,6 +225,13 @@ export class SkyDocsTypeDefinitionsFormatService {
       formatted += '[]';
     }
 
+    if (type.typeLiteral) {
+      const formattedTypeLiteral = this.getFormattedInterfaceProperties(type.typeLiteral, config)
+        .replace(/\n/g, ' ')
+        .replace(/\s\s+/g, ' ');
+      formatted = `{${formattedTypeLiteral} }`;
+    }
+
     if (config.escapeSpecialCharacters) {
       return this.escapeSpecialCharacters(formatted);
     }
@@ -310,6 +306,32 @@ export class SkyDocsTypeDefinitionsFormatService {
     });
 
     return `<${formatted.join(', ')}>`;
+  }
+
+  private getFormattedInterfaceProperties(
+    definition: {
+      properties?: SkyDocsInterfacePropertyDefinition[];
+    },
+    config?: GetFormattedTypeConfig
+  ): string {
+    let signature: string = '';
+
+    definition.properties.forEach(property => {
+      const indexSignature = property.type.indexSignature;
+      const optionalIndicator = (property.isOptional && !indexSignature) ? '?' : '';
+      const propertyType = this.getFormattedType(property.type, config);
+
+      let name: string;
+      if (indexSignature) {
+        name = `[${indexSignature.key.name}: string]`;
+      } else {
+        name = property.name;
+      }
+
+      signature += `\n  ${name}${optionalIndicator}: ${propertyType};`;
+    });
+
+    return signature;
   }
 
 }

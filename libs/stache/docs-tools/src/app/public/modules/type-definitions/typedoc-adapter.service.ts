@@ -376,16 +376,27 @@ export class SkyDocsTypeDocAdapterService {
           definition.unionTypes = child.type.types.map(t => this.getTypeDefinition({ type: t }));
         }
 
-        // Convert call signature types.
+        // Convert reflection types.
         if (child.type.type === 'reflection') {
-          if (child.type.declaration.signatures) {
-            definition.callSignature = this.getCallSignatureDefinition(
-              child.type.declaration.signatures[0],
-              this.getCommentTags(child.comment)
-            );
-          } else {
-            const indexSignature = child.type.declaration.indexSignature[0];
-            definition.indexSignature = this.getIndexSignatureDefinition(indexSignature);
+          const declaration = child.type.declaration;
+          /*istanbul ignore else */
+          if (declaration) {
+            if (declaration.signatures) {
+              definition.callSignature = this.getCallSignatureDefinition(
+                declaration.signatures[0],
+                this.getCommentTags(child.comment)
+              );
+            } else if (declaration.indexSignature) {
+              const indexSignature = declaration.indexSignature[0];
+              definition.indexSignature = this.getIndexSignatureDefinition(indexSignature);
+            } else if (declaration.children) {
+              definition.typeLiteral = {
+                properties: this.getInterfaceProperties({
+                  children: declaration.children
+                })
+              };
+            }
+
           }
         }
 
