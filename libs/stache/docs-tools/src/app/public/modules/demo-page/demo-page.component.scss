@@ -7,11 +7,6 @@
       margin: $sky-margin-plus-half 0;
     }
 
-    table {
-      margin-top: $sky-margin-plus-half;
-      margin-bottom: $sky-margin-plus-half;
-    }
-
     .stache-max-width-container {
       max-width: none;
       margin: 0;
@@ -49,6 +44,11 @@
 
 .sky-docs-demo-page-main {
   padding: $sky-padding-triple 0;
+
+  table {
+    margin-top: $sky-margin-plus-half;
+    margin-bottom: $sky-margin-plus-half;
+  }
 
   // Make the tabset's bottom border stretch the full width of the page.
   ::ng-deep {
