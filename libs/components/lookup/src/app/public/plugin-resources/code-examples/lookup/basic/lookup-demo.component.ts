@@ -14,10 +14,11 @@ import {
 } from '@skyux/lookup';
 
 @Component({
-  selector: 'app-lookup-docs',
-  templateUrl: './lookup-docs.component.html'
+  selector: 'app-lookup-demo',
+  templateUrl: './lookup-demo.component.html',
+  styleUrls: ['./lookup-demo.component.scss']
 })
-export class LookupDocsComponent implements OnInit {
+export class LookupDemoComponent implements OnInit {
 
   public friends: any[] = [
     { name: 'Shirley' }
@@ -54,6 +55,12 @@ export class LookupDocsComponent implements OnInit {
 
   public ngOnInit(): void {
     this.createForm();
+
+    // If you need to execute some logic after the lookup values change,
+    // subscribe to Angular's built-in value changes observable.
+    this.myForm.valueChanges.subscribe(changes => {
+      console.log('Lookup value changes:', changes);
+    });
   }
 
   // Only show people in the search results that have not been chosen already.
@@ -67,9 +74,14 @@ export class LookupDocsComponent implements OnInit {
     ];
   }
 
+  public onSubmit(): void {
+    alert('Form submitted with: ' + JSON.stringify(this.myForm.value));
+  }
+
   private createForm(): void {
     this.myForm = this.formBuilder.group({
       friends: new FormControl(this.friends)
     });
   }
+
 }

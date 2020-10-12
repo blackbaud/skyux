@@ -4,18 +4,57 @@
   pageTitle="Lookup"
 >
 
-<sky-docs-demo-page-summary>
-  The lookup component creates a typeahead search input. Users enter text, and the component filters a data source based on the user entries.
-</sky-docs-demo-page-summary>
+  <sky-docs-demo-page-summary>
+    The lookup component creates a typeahead search input. Users enter text, and the component filters a data source based on the user entries.
+  </sky-docs-demo-page-summary>
 
-<sky-docs-design-guidelines>
-  <sky-docs-demo-page-section
-    heading="Usage"
+  <sky-docs-demo>
+    <form
+      class="lookup-demo-form"
+      novalidate
+      style="width: 50%;"
+      [formGroup]="myForm"
+    >
+      <div
+        class="sky-form-group"
+      >
+        <label
+          class="sky-control-label"
+          skyId
+          #friendsLabel="skyId"
+        >
+          Who are your friends?
+        </label>
+        <sky-lookup
+          formControlName="friends"
+          placeholderText="Enter a name..."
+          [ariaLabelledBy]="friendsLabel.id"
+          [data]="people"
+          [searchFilters]="getSearchFilters()"
+        >
+        </sky-lookup>
+      </div>
+    </form>
+  </sky-docs-demo>
+
+  <sky-docs-design-guidelines>
+    <sky-docs-demo-page-section
+      heading="Usage"
+    >
+      <p class="sky-docs-text-block">
+        The lookup component is effective for scenarios where users know what they are looking for and can select multiple items. For guidance on which selection inputs to use in other scenarios, see the <a href="https://developer.blackbaud.com/skyux/design/guidelines/form-design#selection-inputs">form design guidelines</a>.
+      </p>
+    </sky-docs-demo-page-section>
+  </sky-docs-design-guidelines>
+
+  <sky-docs-code-examples
+    [packageDependencies]="{
+      '@skyux/lookup': '*'
+    }"
   >
-    <p class="sky-docs-text-block">
-      The lookup component is effective for scenarios where users know what they are looking for and can select multiple items. For guidance on which selection inputs to use in other scenarios, see the <a href="https://developer.blackbaud.com/skyux/design/guidelines/form-design#selection-inputs">form design guidelines</a>.
-    </p>
-  </sky-docs-demo-page-section>
-</sky-docs-design-guidelines>
+    <sky-docs-code-example
+      sourceCodePath="src/app/public/plugin-resources/code-examples/lookup/basic"
+    ></sky-docs-code-example>
+  </sky-docs-code-examples>
 
 </sky-docs-demo-page>

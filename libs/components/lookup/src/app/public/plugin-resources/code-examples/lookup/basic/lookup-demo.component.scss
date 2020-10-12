@@ -1,0 +1,22 @@
+.lookup-demo-form ::ng-deep .sky-form-group {
+  background-color: #eeeeef;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+  margin: 10px 0;
+  padding: 10px;
+}
+
+.lookup-demo-form ::ng-deep h3 {
+  margin-top: 30px;
+}
+
+.lookup-demo-alert {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #cdcfd2;
+  border-radius: 3px;
+}
+
+.lookup-demo-alert pre {
+  margin: 0;
+}
