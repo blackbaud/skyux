@@ -1,3 +1,6 @@
+/**
+ * @internal
+ */
 export class AsyncList<T> {
   /* tslint:disable:no-null-keyword */
   constructor(

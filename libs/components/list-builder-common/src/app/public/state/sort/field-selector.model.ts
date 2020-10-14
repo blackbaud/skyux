@@ -1,6 +1,14 @@
 export class ListSortFieldSelectorModel {
-  public fieldSelector: string;
+
+  /**
+   * Indicates whether to sort in descending order.
+   */
   public descending: boolean = false;
+
+  /**
+   * Specifies the fields to sort.
+   */
+  public fieldSelector: string;
 
   constructor(data?: any) {
     if (data) {
@@ -8,4 +16,5 @@ export class ListSortFieldSelectorModel {
       this.descending = data.descending;
     }
   }
+
 }
