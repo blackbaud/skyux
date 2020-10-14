@@ -1,3 +1,4 @@
+@import '../../../mixins-public';
 @import '../../../variables';
 @import 'variables';
 
@@ -8,12 +9,13 @@
   $hover-border,
   $padding: $sky-theme-modern-padding-button-standard
 ) {
+  @include sky-theme-modern-border($border);
   background-color: $background;
-  border: solid 1px $border;
   color: $color;
   padding: $padding;
 
   &:hover {
+    @include sky-theme-modern-border-hover($hover-border);
     text-decoration: none;
   }
 
@@ -21,11 +23,11 @@
   &:active,
   &.sky-btn-active {
     color: $color;
-    border-color: $hover-border;
   }
 
   &:active,
   &.sky-btn-active {
+    @include sky-theme-modern-border-active($hover-border);
     background-image: none;
   }
 
@@ -35,19 +37,16 @@
     $sky-theme-modern-border-color-neutral-medium
   );
 
-  &:focus,
-  &:active {
-    border: solid 2px $hover-border;
+  &:focus {
     outline: none;
-    padding:
-      nth($padding, 1) - 1
-      nth($padding, 2) - 1;
-  }
 
-  &:focus:not(:active) {
-    box-shadow:
-      $sky-theme-modern-elevation-3-shadow-size
-      $sky-theme-modern-elevation-3-shadow-color;
+    &:not(:active) {
+      @include sky-theme-modern-border-focus(
+        $hover-border,
+        $sky-theme-modern-elevation-3-shadow-size,
+        $sky-theme-modern-elevation-3-shadow-color
+      );
+    }
   }
 }
 
@@ -65,8 +64,8 @@
     &.sky-btn-focus,
     &:active,
     &.sky-btn-active {
+      @include sky-theme-modern-border($border);
       background-color: $background;
-      border: solid 1px $border;
       color: $color;
       opacity: 1;
     }

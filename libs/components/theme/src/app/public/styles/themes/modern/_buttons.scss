@@ -5,6 +5,7 @@
 
 .sky-theme-modern {
   .sky-btn {
+    border: none;
     border-radius: $sky-theme-modern-border-radius-md;
     font-size: $sky-theme-modern-font-body-default-size;
     transition: box-shadow $sky-transition-time-short;
@@ -80,10 +81,6 @@
     padding: $sky-padding-half $sky-padding;
     font-size: 12px;
     line-height: 1.5;
-
-    &:focus {
-      padding: $sky-padding-half - 1 $sky-padding - 1;
-    }
   }
 
   .sky-btn-tab {
