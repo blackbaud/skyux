@@ -56,6 +56,10 @@ import {
   SkyTabsetService
 } from './tabset.service';
 
+import {
+  SkyTabsetTabIndexesChange
+} from './tabset-tab-indexes-change';
+
 /**
  * @internal
  */
@@ -193,6 +197,12 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
    */
   @Output()
   public openTab = new EventEmitter<void>();
+
+  /**
+   * Fires when any tab's `tabIndex` value changes.
+   */
+  @Output()
+  public tabIndexesChange = new EventEmitter<SkyTabsetTabIndexesChange>();
 
   public set tabDisplayMode(value: SkyTabsetButtonsDisplayMode) {
     this._tabDisplayMode = value;
@@ -334,6 +344,19 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
         });
       });
 
+    combineLatest(this.tabs.map(tab => tab.tabIndexChange))
+      .pipe(takeUntil(race(this.tabComponentsStateChangeUnsubscribe, this.ngUnsubscribe)))
+      .subscribe(() => {
+        // Don't emit the first change.
+        if (this.lastActiveTabIndex !== undefined) {
+          // Wait for the tab components to render changes before updating the view.
+          setTimeout(() => {
+            this.updateTabsetComponent(this.tabsetService.currentActiveTabIndex, true);
+            this.emitTabIndexChange();
+          });
+        }
+      });
+
     combineLatest(this.tabs.map(tab => tab.stateChange))
       .pipe(takeUntil(race(this.tabComponentsStateChangeUnsubscribe, this.ngUnsubscribe)))
       .subscribe(() => {
@@ -364,6 +387,15 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
       emitChange: false
     });
     this.listenTabComponentsStateChange();
+  }
+
+  private emitTabIndexChange(): void {
+    this.tabIndexesChange.emit({
+      tabs: this.tabs.map(tab => ({
+        tabHeading: tab.tabHeading,
+        tabIndex: tab.tabIndex
+      }))
+    });
   }
 
   private unsubscribeTabComponentsStateChange(): void {

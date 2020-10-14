@@ -52,25 +52,25 @@ export class SkyTabsetService {
    * Registers a tab component.
    */
   public registerTab(tabIndex?: SkyTabIndex): SkyTabIndex {
-    const nextIndex = this.tabCounter;
+    if (tabIndex === undefined) {
+      tabIndex = this.tabCounter;
+      this.tabCounter++;
+    }
 
-    const newTabIndex = (tabIndex !== undefined) ? tabIndex : nextIndex;
+    this.tabs.push({ tabIndex });
 
-    this.tabs.push({
-      tabIndex: newTabIndex
-    });
+    return tabIndex;
+  }
 
-    this.tabCounter++;
-
-    return newTabIndex;
+  public updateTabIndex(currentTabIndex: SkyTabIndex, newTabIndex: SkyTabIndex): void {
+    const found = this.tabs.find(tab => this.tabIndexesEqual(tab.tabIndex, currentTabIndex));
+    found.tabIndex = newTabIndex;
   }
 
   /**
    * Unregisters a tab component.
    */
   public unregisterTab(tabIndex: SkyTabIndex): void {
-    this.tabCounter--;
-
     const index = this.tabs.findIndex(tab => this.tabIndexesEqual(tab.tabIndex, tabIndex));
 
     // If the currently active tab is getting unregistered, activate the next one.
@@ -85,7 +85,6 @@ export class SkyTabsetService {
    * Unregisters all tab components at once.
    */
   public unregisterAll(): void {
-    this.tabCounter = 0;
     this.tabs = [];
   }
 

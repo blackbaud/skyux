@@ -405,6 +405,106 @@ describe('Tabset component', () => {
     expect(closeTabSpy).toHaveBeenCalled();
   }));
 
+  it('should notify the consumer when a tab\'s tabIndex changes', fakeAsync(() => {
+    const fixture = TestBed.createComponent(TabsetLoopTestComponent);
+    const spy = spyOn(fixture.componentInstance, 'onTabIndexesChange').and.callThrough();
+
+    fixture.componentInstance.activeIndex = 0;
+
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+    tick();
+
+    validateTabSelected(fixture.elementRef.nativeElement, 0);
+
+    fixture.componentInstance.tabArray[1].tabIndex = 'foobar';
+
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+    tick();
+
+    expect(spy).toHaveBeenCalledWith({
+      tabs: [
+        { tabHeading: 'Tab 1', tabIndex: 0 },
+        { tabHeading: 'Tab 2', tabIndex: 'foobar' }
+      ]
+    });
+    expect(spy).toHaveBeenCalledTimes(1);
+
+    // Add a new tab.
+    fixture.componentInstance.addTabAndActivate();
+
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+    tick();
+
+    expect(spy).toHaveBeenCalledWith({
+      tabs: [
+        { tabHeading: 'Tab 1', tabIndex: 0 },
+        { tabHeading: 'Tab 2', tabIndex: 'foobar' },
+        { tabHeading: 'Tab 3', tabIndex: 2 }
+      ]
+    });
+    expect(spy).toHaveBeenCalledTimes(2);
+  }));
+
+  it('should create unique tab indexes automatically', fakeAsync(() => {
+    const fixture = TestBed.createComponent(TabsetLoopTestComponent);
+    const spy = spyOn(fixture.componentInstance, 'onTabIndexesChange').and.callThrough();
+
+    fixture.componentInstance.tabArray = [
+      {
+        tabHeading: 'Tab 1',
+        tabContent: 'Tab 1 content'
+      },
+      {
+        tabHeading: 'Tab 2',
+        tabContent: 'Tab 2 content'
+      }
+    ];
+
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+    tick();
+
+    // Delete a tab.
+    fixture.componentInstance.tabArray.splice(1, 1);
+
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+    tick();
+
+    expect(spy).toHaveBeenCalledWith({
+      tabs: [
+        { tabHeading: 'Tab 1', tabIndex: 0 }
+      ]
+    });
+    spy.calls.reset();
+
+    // Add a new one.
+    fixture.componentInstance.tabArray.push({
+      tabHeading: 'New tab',
+      tabContent: 'New tab content'
+    });
+
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+    tick();
+
+    expect(spy).toHaveBeenCalledWith({
+      tabs: [
+        { tabHeading: 'Tab 1', tabIndex: 0 },
+        { tabHeading: 'New tab', tabIndex: 2 }
+      ]
+    });
+  }));
+
   it('should select the next tab when the active tab is closed', fakeAsync(() => {
     let fixture = TestBed.createComponent(TabsetTestComponent);
     let cmp: TabsetTestComponent = fixture.componentInstance;

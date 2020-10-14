@@ -2,6 +2,10 @@ import {
   Component
 } from '@angular/core';
 
+import {
+  SkyTabsetTabIndexesChange
+} from '../tabset-tab-indexes-change';
+
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './tabset-loop.component.fixture.html'
@@ -26,6 +30,8 @@ export class TabsetLoopTestComponent {
       }
     ];
   }
+
+  public onTabIndexesChange(change: SkyTabsetTabIndexesChange): void {}
 
   public addTabAndActivate(): void {
     this.tabArray.push({

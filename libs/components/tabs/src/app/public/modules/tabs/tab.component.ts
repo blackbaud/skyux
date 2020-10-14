@@ -105,7 +105,22 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
    * If not defined, the identifier is set to the position of the tab on load, starting with `0`.
    */
   @Input()
-  public tabIndex: SkyTabIndex;
+  public set tabIndex(value: SkyTabIndex) {
+    if (
+      value !== this._tabIndex &&
+      value !== undefined &&
+      this._tabIndex !== undefined
+    ) {
+      this.tabsetService.updateTabIndex(this._tabIndex, value);
+      this._tabIndexChange.next(value);
+    }
+
+    this._tabIndex = value;
+  }
+
+  public get tabIndex(): SkyTabIndex {
+    return this._tabIndex;
+  }
 
   /**
    * Fires when users click the button to close the tab.
@@ -125,6 +140,10 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
     return this._stateChange.asObservable();
   }
 
+  public get tabIndexChange(): Observable<SkyTabIndex> {
+    return this._tabIndexChange.asObservable();
+  }
+
   public showContent: boolean = false;
 
   public tabButtonId: string;
@@ -138,6 +157,10 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
   private _permalinkValue: string;
 
   private _stateChange = new BehaviorSubject<void>(undefined);
+
+  private _tabIndex: SkyTabIndex;
+
+  private _tabIndexChange = new BehaviorSubject<SkyTabIndex>(undefined);
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -166,7 +189,7 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
   }
 
   public init(): void {
-    this.tabIndex = this.tabsetService.registerTab(this.tabIndex);
+    this._tabIndex = this.tabsetService.registerTab(this.tabIndex);
   }
 
   public activate(): void {
