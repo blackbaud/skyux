@@ -80,8 +80,7 @@ export class SkyTabsetFixture {
     let permalinkValue: string;
 
     if (tabLinkEl.href) {
-      const permalink = tabLinkEl.href.split(';')[1];
-
+      const permalink = tabLinkEl.href.split('?')[1];
       if (permalink) {
         const permalinkParts = permalink.split('=');
 

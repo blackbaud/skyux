@@ -1025,6 +1025,58 @@ describe('Tabset component', () => {
       expect(activeSpy).toHaveBeenCalledTimes(1);
     }));
 
+    it('should handle removing all tabs after init', fakeAsync(() => {
+      const fixture = TestBed.createComponent(TabsetActiveTestComponent);
+
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+      validateTabSelected(fixture.nativeElement, 0);
+
+      fixture.componentInstance.tab1Available = false;
+      fixture.componentInstance.tab2Available = false;
+      fixture.componentInstance.tab3Available = false;
+      fixture.componentInstance.tab4Available = false;
+
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      const tabs = getTabs(fixture);
+      expect(tabs.length).toEqual(0);
+    }));
+
+    it('should set active index after tabset is initialized without tabs and active index',
+      fakeAsync(() => {
+        const fixture = TestBed.createComponent(TabsetActiveTestComponent);
+
+        // Remove all tabs on init.
+        fixture.componentInstance.tab1Available = false;
+        fixture.componentInstance.tab2Available = false;
+        fixture.componentInstance.tab3Available = false;
+        fixture.componentInstance.tab4Available = false;
+        fixture.componentInstance.activeIndex = 0;
+
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        // Create a new tab and unset the active index.
+        fixture.componentInstance.tab1Available = true;
+        fixture.componentInstance.activeIndex = undefined;
+
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        validateTabSelected(fixture.nativeElement, 0);
+      })
+    );
+
     it('should be accessible', async(async () => {
       let fixture = TestBed.createComponent(TabsetActiveTestComponent);
       fixture.detectChanges();

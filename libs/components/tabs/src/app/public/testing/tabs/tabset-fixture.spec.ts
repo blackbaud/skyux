@@ -128,6 +128,7 @@ describe('Tabset fixture', () => {
 
     fixture.detectChanges();
     await fixture.whenStable();
+    fixture.detectChanges();
 
     const tabset = new SkyTabsetFixture(fixture, 'test-tabset');
 
@@ -150,7 +151,7 @@ describe('Tabset fixture', () => {
     expect(tabset.getTab(2)).toEqual({
       active: false,
       disabled: true,
-      permalinkValue: 'tab-3',
+      permalinkValue: undefined,
       tabHeaderCount: undefined,
       tabHeading: 'Tab 3'
     });
@@ -181,6 +182,9 @@ describe('Tabset fixture', () => {
 
     const onActiveChangeSpy = spyOn(fixture.componentInstance, 'onActiveChange');
 
+    fixture.detectChanges();
+    await fixture.whenStable();
+
     await tabset.clickTab(1);
 
     expect(tabset.activeTabIndex).toBe(1);
@@ -206,6 +210,9 @@ describe('Tabset fixture', () => {
     const tabset = new SkyTabsetFixture(fixture, 'test-tabset');
 
     const onTab1CloseSpy = spyOn(fixture.componentInstance, 'onTab1Close');
+
+    fixture.detectChanges();
+    await fixture.whenStable();
 
     await tabset.clickTabClose(0);
 

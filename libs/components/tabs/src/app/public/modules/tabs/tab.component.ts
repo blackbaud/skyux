@@ -152,6 +152,7 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
   public ngOnChanges(changes: SimpleChanges): void {
     if (
       changes.disabled && !changes.disabled.firstChange ||
+      changes.tabHeading && !changes.tabHeading.firstChange ||
       changes.tabHeaderCount && !changes.tabHeaderCount.firstChange ||
       changes.permalinkValue && !changes.permalinkValue.firstChange
     ) {

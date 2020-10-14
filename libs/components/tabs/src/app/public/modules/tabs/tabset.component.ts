@@ -329,7 +329,7 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
       .subscribe(() => {
         // Wait for the tab components to render changes before finding the active one.
         setTimeout(() => {
-          const tabIndex = this.getActiveTabComponent().tabIndex;
+          const tabIndex = this.getActiveTabComponent()?.tabIndex;
           this.tabsetService.setActiveTabIndex(tabIndex);
         });
       });
@@ -351,6 +351,13 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
   private resetTabComponents(): void {
     this.unsubscribeTabComponentsStateChange();
     this.tabsetService.unregisterAll();
+
+    // If there are no tab components, do a hard reset of the view.
+    if (this.tabs.length === 0) {
+      this.updateTabsetComponent(0, true);
+      return;
+    }
+
     this.initTabComponents();
     const activeIndex = this.getActiveTabComponent()?.tabIndex;
     this.tabsetService.setActiveTabIndex(activeIndex, {
