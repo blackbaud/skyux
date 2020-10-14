@@ -1,3 +1,7 @@
+# 4.12.0 (2020-10-14)
+
+- Updated buttons to use the `box-shadow` CSS attribute instead of `border` for displaying borders. [#191](https://github.com/blackbaud/skyux-theme/pull/191)
+
 # 4.11.0 (2020-10-07)
 
 - Updated the `sky-headline` CSS class to have the same styles as the `sky-font-display-3` class in the modern theme. [#189](https://github.com/blackbaud/skyux-theme/pull/189)
