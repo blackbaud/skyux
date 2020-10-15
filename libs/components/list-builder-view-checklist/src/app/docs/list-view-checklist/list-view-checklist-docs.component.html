@@ -8,14 +8,55 @@
   </sky-docs-demo-page-summary>
 
   <sky-docs-demo>
-    See documentation for how to set up demos.
+    <sky-docs-demo-control-panel
+      (reset)="onDemoReset()"
+      (selectionChange)="onDemoSelectionChange($event)"
+    >
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-radio-group
+          heading="Selection mode"
+          propertyName="selectMode"
+          [initialValue]="'multiple'"
+          [choices]="selectModeChoices"
+        >
+        </sky-docs-demo-control-panel-radio-group>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
+    <sky-list
+      [data]="items"
+      [selectedIds]="selectedIds"
+    >
+      <sky-list-toolbar>
+      </sky-list-toolbar>
+      <sky-list-view-checklist
+        description="column3"
+        label="column2"
+        [selectMode]="demoSettings.selectMode"
+      >
+      </sky-list-view-checklist>
+    </sky-list>
   </sky-docs-demo>
 
-  <sky-docs-design-guidelines>
-    See documentation for how to setup design guidelines.
-  </sky-docs-design-guidelines>
-
-  <sky-docs-code-examples>
-    See documentation for how to setup code examples.
+  <sky-docs-code-examples
+    [packageDependencies]="{
+      '@blackbaud/auth-client': '*',
+      '@skyux/indicators': '*',
+      '@skyux/inline-form': '*',
+      '@skyux/list-builder': '*',
+      '@skyux/list-builder-common': '*',
+      '@skyux/list-builder-view-checklist': '*',
+      '@skyux/list-builder-view-grids': '*',
+      '@skyux/lists': '*',
+      '@skyux/lookup': '*',
+      '@skyux/grids': '*',
+      '@skyux/modals': '*',
+      '@skyux/popovers': '*',
+      'dragula': '3.7.2',
+      'ng2-dragula': '1.5.0'
+    }"
+  >
+    <sky-docs-code-example
+      sourceCodePath="src/app/public/plugin-resources/code-examples/list-view-checklist/basic"
+    ></sky-docs-code-example>
   </sky-docs-code-examples>
 </sky-docs-demo-page>
