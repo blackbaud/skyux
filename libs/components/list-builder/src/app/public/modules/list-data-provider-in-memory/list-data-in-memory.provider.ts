@@ -17,7 +17,7 @@ import { ListDataProvider } from '../list/list-data.provider';
 import { ListDataRequestModel } from '../list/list-data-request.model';
 import { ListDataResponseModel } from '../list/list-data-response.model';
 import { ListSearchModel } from '../list/state/search/search.model';
-import { ListFilterModel } from '../list/state/filters/filter.model';
+import { ListFilterModel } from '../list-filters/filter.model';
 
 let idIndex = 0;
 

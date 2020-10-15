@@ -4,7 +4,7 @@ import {
 
 import {
   ListFilterModel
-} from '../../list/state/filters/filter.model';
+} from '../filter.model';
 
  @Component({
    selector: 'sky-test-cmp',

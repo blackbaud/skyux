@@ -58,7 +58,7 @@ import {
 
 import {
   ListFilterModel
-} from '../list/state/filters/filter.model';
+} from '../list-filters/filter.model';
 
 import {
   ListPagingSetPageNumberAction
@@ -106,6 +106,9 @@ import {
 
 let nextId = 0;
 
+/**
+ * Displays a toolbar for a SKY UX-themed list of data.
+ */
 @Component({
   selector: 'sky-list-toolbar',
   templateUrl: './list-toolbar.component.html',
@@ -138,9 +141,18 @@ export class SkyListToolbarComponent implements OnInit, AfterContentInit, OnDest
     return this._inMemorySearchEnabled;
   }
 
+  /**
+   * Specifies placeholder text for the search bar that the list toolbar creates with
+   * a [search component](https://developer.blackbaud.com/skyux/components/search).
+   * @default 'Find in this list'
+   */
   @Input()
   public placeholder: string;
 
+  /**
+   * Indicates whether to enable the search bar.
+   * @default true
+   */
   @Input()
   public searchEnabled: boolean | Observable<boolean>;
 
@@ -150,12 +162,25 @@ export class SkyListToolbarComponent implements OnInit, AfterContentInit, OnDest
   })
   public searchComponent: SkySearchComponent;
 
+  /**
+   * Indicates whether to enable the sort selector.
+   * @default false
+   */
   @Input()
   public sortSelectorEnabled: boolean | Observable<boolean>;
 
+  /**
+   * Display the search bar in the standard position or in a separate section.
+   * To highlight the search bar in a section above all other toolbar items,
+   * set this property to `search`.
+   * @default 'standard'
+   */
   @Input()
   public toolbarType: string = 'standard';
 
+  /**
+   * Specifies a text string to search with.
+   */
   @Input()
   public searchText: string | Observable<string>;
 

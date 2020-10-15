@@ -5,6 +5,9 @@ import { ListSearchSetFunctionsAction } from './set-functions.action';
 import { ListSearchSetFieldSelectorsAction } from './set-field-selectors.action';
 import { ListSearchSetOptionsAction } from './set-options.action';
 
+/**
+ * @internal
+ */
 export class ListSearchOrchestrator extends ListStateOrchestrator<ListSearchModel> {
   /* istanbul ignore next */
   constructor() {

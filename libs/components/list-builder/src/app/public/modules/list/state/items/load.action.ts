@@ -2,6 +2,9 @@ import {
   ListItemModel
 } from '@skyux/list-builder-common';
 
+/**
+ * @internal
+ */
 export class ListItemsLoadAction {
   constructor(
     public items: Array<ListItemModel>,

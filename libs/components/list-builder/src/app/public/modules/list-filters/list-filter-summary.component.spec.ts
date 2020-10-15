@@ -8,7 +8,7 @@ import {
 
 import {
   ListFilterModel
-} from '../list/state/filters/filter.model';
+} from './filter.model';
 
 import {
   TestBed,

@@ -1,5 +1,8 @@
 import { ListToolbarItemModel } from './toolbar-item.model';
 
+/**
+ * @internal
+ */
 export class ListToolbarModel {
   public exists: boolean;
   public disabled: boolean;

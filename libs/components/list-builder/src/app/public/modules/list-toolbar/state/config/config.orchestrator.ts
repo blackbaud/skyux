@@ -9,6 +9,9 @@ import {
   ListToolbarConfigSetSortSelectorEnabledAction
 } from './set-sort-selector-enabled.action';
 
+/**
+ * @internal
+ */
 export class ListToolbarConfigOrchestrator
   extends ListToolbarStateOrchestrator<ListToolbarConfigModel> {
   /* istanbul ignore next */

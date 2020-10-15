@@ -1,5 +1,8 @@
 import { Component, ViewContainerRef, ViewChild, Input, TemplateRef, OnInit} from '@angular/core';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-list-toolbar-item-renderer',
   template: '<ng-template #container></ng-template>'

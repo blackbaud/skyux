@@ -24,6 +24,9 @@ import { ListFiltersUpdateAction } from './filters/update.action';
 import { ListToolbarItemsRemoveAction } from './toolbar/remove.action';
 import { ListToolbarItemsDisableAction } from './toolbar/disable.action';
 
+/**
+ * @internal
+ */
 export type ListStateAction =
   ListItemsSetLoadingAction | ListItemsLoadAction | ListItemsSetSelectedAction |
   ListPagingSetMaxPagesAction | ListPagingSetItemsPerPageAction | ListPagingSetPageNumberAction |

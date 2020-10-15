@@ -13,6 +13,9 @@ import {
   ListSortSetGlobalAction
 } from './set-global.action';
 
+/**
+ * @internal
+ */
 export class ListSortOrchestrator extends ListStateOrchestrator<ListSortModel> {
   /* istanbul ignore next */
   constructor() {

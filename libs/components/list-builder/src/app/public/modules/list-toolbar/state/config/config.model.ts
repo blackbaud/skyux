@@ -1,3 +1,6 @@
+/**
+ * @internal
+ */
 export class ListToolbarConfigModel {
   public searchEnabled: boolean = true;
   public sortSelectorEnabled: boolean = true;

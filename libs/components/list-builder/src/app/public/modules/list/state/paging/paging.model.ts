@@ -1,3 +1,6 @@
+/**
+ * @internal
+ */
 export class ListPagingModel {
   public itemsPerPage: number;
   public maxDisplayedPages: number;

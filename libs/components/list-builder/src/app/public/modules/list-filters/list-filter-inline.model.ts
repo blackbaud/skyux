@@ -7,6 +7,9 @@ import {
   TemplateRef
 } from '@angular/core';
 
+/**
+ * @internal
+ */
 export class SkyListFilterInlineModel {
   public name: string;
   public value: any;

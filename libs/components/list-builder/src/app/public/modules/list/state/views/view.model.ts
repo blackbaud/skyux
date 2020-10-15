@@ -1,3 +1,6 @@
+/**
+ * @internal
+ */
 export class ListViewModel {
   public id: string;
   public name: string;

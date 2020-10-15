@@ -37,6 +37,9 @@ import {
   ListPagingSetPageNumberAction
 } from '../list/state/paging/set-page-number.action';
 
+/**
+ * Displays a pagination control for a SKY UX-themed list of data.
+ */
 @Component({
   selector: 'sky-list-paging',
   templateUrl: './list-paging.component.html',
@@ -48,12 +51,24 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyListPagingComponent extends ListPagingComponent implements OnInit {
+  /**
+   * Specifies the number of list items per page.
+   * @default 10
+   */
   @Input()
   public pageSize: Observable<number> | number = 10;
 
+  /**
+   * Specifies the maximum pages to display.
+   * @default 5
+   */
   @Input()
   public maxPages: Observable<number> | number = 5;
 
+  /**
+   * Specifies the current page number.
+   * @default 1
+   */
   @Input()
   public pageNumber: Observable<number> | number = 1;
 

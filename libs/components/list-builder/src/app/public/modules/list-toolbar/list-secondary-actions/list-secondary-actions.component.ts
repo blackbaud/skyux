@@ -8,16 +8,20 @@ import {
 
 import {
   ListStateDispatcher
-} from '../list/state/list-state.rxstate';
+} from '../../list/state/list-state.rxstate';
 
 import {
   ListToolbarItemModel
-} from '../list/state/toolbar/toolbar-item.model';
+} from '../../list/state/toolbar/toolbar-item.model';
 
 import {
   SkyListSecondaryActionsService
 } from './list-secondary-actions.service';
 
+/**
+ * Adds a dropdown to the list toolbar for secondary actions. If the dropdown does not
+ * include actions, the secondary actions dropdown is hidden.
+ */
 @Component({
   selector: 'sky-list-secondary-actions',
   templateUrl: './list-secondary-actions.component.html',

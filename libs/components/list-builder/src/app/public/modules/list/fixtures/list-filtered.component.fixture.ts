@@ -6,7 +6,7 @@ import {
 
 import {
   ListFilterModel
-} from '../state/filters/filter.model';
+} from '../../list-filters/filter.model';
 
 import {
   SkyListComponent

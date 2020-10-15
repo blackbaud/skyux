@@ -9,6 +9,9 @@ import {
 
 import { SkyListSecondaryAction } from './list-secondary-action';
 
+/**
+ * @internal
+ */
 @Injectable()
 export class SkyListSecondaryActionsService implements OnDestroy {
   public secondaryActionsCount = 0;

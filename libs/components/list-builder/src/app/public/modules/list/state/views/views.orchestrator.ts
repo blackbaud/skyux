@@ -3,6 +3,9 @@ import { ListViewsModel } from './views.model';
 import { ListViewsLoadAction } from './load.action';
 import { ListViewsSetActiveAction } from './set-active.action';
 
+/**
+ * @internal
+ */
 export class ListViewsOrchestrator extends ListStateOrchestrator<ListViewsModel> {
   /* istanbul ignore next */
   constructor() {

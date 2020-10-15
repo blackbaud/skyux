@@ -34,6 +34,9 @@ import {
   ListSelectedLoadAction
 } from './load.action';
 
+/**
+ * @internal
+ */
 export class ListSelectedOrchestrator extends ListStateOrchestrator<AsyncItem<ListSelectedModel>> {
   /* istanbul ignore next */
   constructor() {

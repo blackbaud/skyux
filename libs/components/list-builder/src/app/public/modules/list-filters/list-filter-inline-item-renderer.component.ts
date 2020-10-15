@@ -7,6 +7,9 @@ import {
   OnInit
 } from '@angular/core';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-list-filter-inline-item-renderer',
   template: '<ng-template #container></ng-template>'

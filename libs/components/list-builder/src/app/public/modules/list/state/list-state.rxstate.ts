@@ -13,7 +13,7 @@ import {
 
 import {
   ListFilterModel
-} from './filters/filter.model';
+} from '../../list-filters/filter.model';
 
 import {
   ListFiltersUpdateAction
@@ -91,9 +91,15 @@ import {
   ListViewsSetActiveAction
 } from './views/set-active.action';
 
+/**
+ * @internal
+ */
 export class ListStateOrchestrator<T> extends StateOrchestrator<T, ListStateAction> {
 }
 
+/**
+ * @internal
+ */
 @Injectable()
 export class ListStateDispatcher extends StateDispatcher<ListStateAction> {
 

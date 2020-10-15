@@ -21,7 +21,7 @@ import {
 
 import {
   ListFilterModel
-} from '../list/state/filters/filter.model';
+} from './filter.model';
 
 import {
   ListPagingSetPageNumberAction
@@ -31,6 +31,10 @@ import {
   SkyListFilterInlineModel
 } from './list-filter-inline.model';
 
+/**
+ * Creates an inline filter area for the list. Place each filter
+ * in a `sky-list-filter-inline-item` component.
+ */
 @Component({
   selector: 'sky-list-filter-inline',
   templateUrl: './list-filter-inline.component.html'

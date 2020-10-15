@@ -1,9 +1,12 @@
 import { ListStateOrchestrator } from '../list-state.rxstate';
-import { ListFilterModel } from './filter.model';
+import { ListFilterModel } from '../../../list-filters/filter.model';
 import {
   ListFiltersUpdateAction
 } from './update.action';
 
+/**
+ * @internal
+ */
 export class ListFiltersOrchestrator extends ListStateOrchestrator<ListFilterModel[]> {
   /* istanbul ignore next */
   constructor() {

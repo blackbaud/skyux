@@ -13,6 +13,14 @@ import {
   ListToolbarItemModel
 } from '../list/state/toolbar/toolbar-item.model';
 
+/**
+ * Contains a filter button for the list toolbar. Place a
+ * [`sky-filter-button`](https://developer.blackbaud.com/skyux/components/filter)
+ * component inside this component to open a modal with filtering options.
+ * To apply filter options, use the
+ * [list component's](https://developer.blackbaud.com/skyux/components/list/overview#list-properties)
+ * `appliedFilters` property.
+ */
 @Component({
   selector: 'sky-list-filter-button',
   templateUrl: './list-filter-button.component.html'

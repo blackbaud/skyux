@@ -22,6 +22,9 @@ import {
   ListItemsSetSelectedAction
 } from './set-items-selected.action';
 
+/**
+ * @internal
+ */
 export class ListItemsOrchestrator extends ListStateOrchestrator<AsyncList<ListItemModel>> {
   /* istanbul ignore next */
   constructor() {

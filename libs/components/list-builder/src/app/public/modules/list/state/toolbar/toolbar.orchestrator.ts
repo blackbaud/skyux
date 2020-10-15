@@ -34,6 +34,9 @@ import {
   ListToolbarShowMultiselectToolbarAction
 } from './show-multiselect-toolbar.action';
 
+/**
+ * @internal
+ */
 export class ListToolbarOrchestrator
   extends ListStateOrchestrator<ListToolbarModel> {
   /* istanbul ignore next */

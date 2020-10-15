@@ -1,5 +1,8 @@
 import { ListViewModel } from './view.model';
 
+ /**
+  * @internal
+  */
  export class ListViewsModel {
    public active: string;
    public views: ListViewModel[] = [];

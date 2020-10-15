@@ -2,6 +2,9 @@ import {
   Observable
 } from 'rxjs';
 
+/**
+ * @internal
+ */
 export class ListSelectedSetItemsSelectedAction {
   constructor(
     public items: string[] | Observable<string[]>,

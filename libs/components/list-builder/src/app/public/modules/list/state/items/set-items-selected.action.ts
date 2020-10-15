@@ -1,3 +1,6 @@
+/**
+ * @internal
+ */
 export class ListItemsSetSelectedAction {
   constructor(
     public items: string[],

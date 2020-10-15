@@ -13,6 +13,9 @@ import { ListSearchOrchestrator } from './search/search.orchestrator';
 import { ListSelectedOrchestrator } from './selected/selected.orchestrator';
 import { ListSortOrchestrator } from './sort/sort.orchestrator';
 
+/**
+ * @internal
+ */
 @Injectable()
 export class ListState extends StateNode<ListStateModel> {
   constructor(dispatcher: ListStateDispatcher) {

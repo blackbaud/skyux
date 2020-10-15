@@ -12,6 +12,9 @@ import {
   ListPagingSetPageNumberAction
 } from './set-page-number.action';
 
+/**
+ * @internal
+ */
 export class ListPagingOrchestrator extends ListStateOrchestrator<ListPagingModel> {
   /* istanbul ignore next */
   constructor() {

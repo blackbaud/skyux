@@ -12,6 +12,9 @@ import { SkyListComponent } from '../list/list.component';
 
 let idIndex = 0;
 
+/**
+ * @internal
+ */
 export abstract class ListViewComponent {
   public active: Observable<boolean>;
 

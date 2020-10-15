@@ -12,15 +12,15 @@ import {
 
 import {
   ListState
-} from '../list/state/list-state.state-node';
+} from '../../list/state/list-state.state-node';
 
 import {
   ListStateDispatcher
-} from '../list/state/list-state.rxstate';
+} from '../../list/state/list-state.rxstate';
 
 import {
   SkyListToolbarModule
-} from '../list-toolbar/list-toolbar.module';
+} from '../../list-toolbar/list-toolbar.module';
 
 import {
   ListSecondaryActionsTestComponent

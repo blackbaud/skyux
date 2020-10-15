@@ -1,6 +1,9 @@
 import { ListViewModel } from './view.model';
 
- export class ListViewsLoadAction {
+/**
+ * @internal
+ */
+export class ListViewsLoadAction {
    constructor(public views: ListViewModel[]) {
    }
  }

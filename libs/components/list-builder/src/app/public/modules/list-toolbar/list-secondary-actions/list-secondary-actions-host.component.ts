@@ -26,6 +26,9 @@ import {
 // Note: this component is needed to ensure any reactive styles placed in the element have
 // their host to be based off of. Without this component the host is not written via the dispatcher.
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-list-secondary-actions-host',
   templateUrl: './list-secondary-actions-host.component.html',

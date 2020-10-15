@@ -8,7 +8,6 @@ export * from './modules/list/state/list-state.model';
 export * from './modules/list/state/list-state.rxstate';
 export * from './modules/list/state/list-state.state-node';
 
-export * from './modules/list/state/filters/filter.model';
 export * from './modules/list/state/filters/filters.orchestrator';
 export * from './modules/list/state/filters/update.action';
 
@@ -62,18 +61,19 @@ export * from './modules/list/state/views/views.orchestrator';
 
 export * from './modules/list-data-provider-in-memory/list-data-in-memory.provider';
 
+export * from './modules/list-filters/filter.model';
 export * from './modules/list-filters/list-filter-inline.model';
 export * from './modules/list-filters/list-filters.module';
 
 export * from './modules/list-paging/list-paging.module';
 
-export * from './modules/list-secondary-actions/list-secondary-action';
-export * from './modules/list-secondary-actions/list-secondary-actions.module';
+export * from './modules/list-toolbar/list-secondary-actions/list-secondary-action';
+export * from './modules/list-toolbar/list-secondary-actions/list-secondary-actions.module';
 
 export * from './modules/list-toolbar/list-toolbar.module';
 
 // The following exports are used internally by `@skyux/list-builder-view-grids`.
 export * from './modules/list/list-view.component';
 export * from './modules/list/list.component';
-export * from './modules/list-secondary-actions/list-secondary-actions.component';
+export * from './modules/list-toolbar/list-secondary-actions/list-secondary-actions.component';
 export * from './modules/list-toolbar/list-toolbar.component';

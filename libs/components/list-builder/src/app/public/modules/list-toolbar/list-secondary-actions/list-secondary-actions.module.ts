@@ -24,7 +24,7 @@ import {
 
 import {
   SkyListBuilderResourcesModule
-} from '../shared/list-builder-resources.module';
+} from '../../shared/list-builder-resources.module';
 
 import {
   SkyListSecondaryActionsComponent
