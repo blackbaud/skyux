@@ -48,6 +48,8 @@ export class SkyOverlayAdapterService {
   }
 
   private destroyStyleElement(): void {
-    this.renderer.removeChild(document.head, this.styleElement);
+    if (this.styleElement.parentElement === document.head) {
+      this.renderer.removeChild(document.head, this.styleElement);
+    }
   }
 }

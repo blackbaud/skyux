@@ -1,7 +1,6 @@
 import {
   Directive,
   ElementRef,
-  OnInit,
   Renderer2
 } from '@angular/core';
 
@@ -22,7 +21,7 @@ function generateId(): string {
   selector: '[skyId]',
   exportAs: 'skyId'
 })
-export class SkyIdDirective implements OnInit {
+export class SkyIdDirective {
 
   public get id(): string {
     return this._id;
@@ -31,15 +30,15 @@ export class SkyIdDirective implements OnInit {
   private _id: string;
 
   constructor(
-    private elRef: ElementRef,
-    private renderer: Renderer2
-  ) { }
-
-  public ngOnInit(): void {
+    elRef: ElementRef,
+    renderer: Renderer2
+  ) {
+    // Generate and apply the ID before the template is rendered
+    // to avoid a changed-after-checked error.
     const id = generateId();
 
-    this.renderer.setAttribute(
-      this.elRef.nativeElement,
+    renderer.setAttribute(
+      elRef.nativeElement,
       'id',
       id
     );

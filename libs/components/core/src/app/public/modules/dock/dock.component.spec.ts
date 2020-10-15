@@ -36,7 +36,7 @@ import {
 
 const STYLE_ELEMENT_SELECTOR = '[data-test-selector="sky-layout-dock-bottom-styles"]';
 
-describe('Dock component', function () {
+describe('Dock component', () => {
 
   let fixture: ComponentFixture<DockFixtureComponent>;
   let mutationCallbacks: Function[];
@@ -92,7 +92,7 @@ describe('Dock component', function () {
     ];
   }
 
-  beforeEach(function () {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         DockFixturesModule
@@ -115,7 +115,7 @@ describe('Dock component', function () {
     fixture = TestBed.createComponent(DockFixtureComponent);
   });
 
-  afterEach(fakeAsync(function () {
+  afterEach(fakeAsync(() => {
     // Verify the dock element is removed.
     expect(document.querySelectorAll('sky-dock').length).toEqual(1);
     resetDockItems([]);
@@ -129,7 +129,7 @@ describe('Dock component', function () {
     fixture.destroy();
   }));
 
-  it('should add elements to the dock in the proper stack order', fakeAsync(function () {
+  it('should add elements to the dock in the proper stack order', fakeAsync(() => {
     resetDockItems([
       {
         stackOrder: 0
@@ -161,7 +161,7 @@ describe('Dock component', function () {
     verifyStackOrder([102, 101, 100, 3, 3, 0, 0, -10]);
   }));
 
-  it('should default to placing new items at the top of the stack', fakeAsync(function () {
+  it('should default to placing new items at the top of the stack', fakeAsync(() => {
     resetDockItems([
       {
         stackOrder: 0
@@ -180,7 +180,7 @@ describe('Dock component', function () {
     verifyStackOrder([0]);
   }));
 
-  it('should apply margin to the `body` to accommodate item height', fakeAsync(function () {
+  it('should apply margin to the `body` to accommodate item height', fakeAsync(() => {
     resetDockItems([
       {
         providers: getProviders({ height: 10 })
@@ -239,7 +239,7 @@ describe('Dock component', function () {
     expect(newStyleElement).toEqual(originalStyleElement);
   }));
 
-  it('should remove old style elements on changes', fakeAsync(function () {
+  it('should remove old style elements on changes', fakeAsync(() => {
     resetDockItems([
       {
         providers: getProviders({ height: 10 })

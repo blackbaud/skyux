@@ -72,7 +72,7 @@ export class SkyDockComponent implements OnInit {
       parent: this.injector
     });
 
-    const componentRef = this.target.createComponent(factory, undefined, injector);
+    const componentRef = this.target.createComponent<T>(factory, undefined, injector);
     const stackOrder = (config.stackOrder !== null && config.stackOrder !== undefined)
       ? config.stackOrder
       : this.getHighestStackOrder();
@@ -103,13 +103,8 @@ export class SkyDockComponent implements OnInit {
   private sortItemsByStackOrder(): void {
     this.itemRefs.sort(sortByStackOrder);
 
-    // Detach all views so we can assign new indexes without overwriting their placement.
-    for (let i = 0, len = this.target.length; i < len; i++) {
-      this.target.detach(i);
-    }
-
     // Reassign the correct index for each view.
-    this.itemRefs.forEach((item, i) => this.target.insert(item.componentRef.hostView, i));
+    this.itemRefs.forEach((item, i) => this.target.move(item.componentRef.hostView, i));
   }
 
   private getHighestStackOrder(): number {
