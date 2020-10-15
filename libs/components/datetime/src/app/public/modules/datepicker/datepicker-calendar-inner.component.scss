@@ -56,28 +56,30 @@
 
 .sky-theme-modern {
   .sky-datepicker-calendar-inner {
+    @include sky-theme-modern-border;
     border-radius: $sky-theme-modern-border-radius-md;
     padding: 5px 10px;
 
     &:focus-within {
-      border: solid 2px $sky-theme-modern-background-color-primary-dark;
-      padding: 4px 9px;
+      @include sky-theme-modern-border-focus;
     }
 
     .sky-btn-default {
-      border-width: 1px;
-      border-color: transparent;
-      padding: 4px 6px;
-
-      &:focus {
-        box-shadow: none;
-      }
+      @include sky-theme-modern-border(transparent);
+      padding: 5px 7px;
     }
 
     .sky-btn-active,
     .sky-btn-default:hover {
-      border: solid 1px $sky-theme-modern-background-color-primary-dark;
+      @include sky-theme-modern-border-hover
     }
+  }
+
+  .sky-btn-sm.sky-datepicker-btn-date {
+    height: 30px;
+    min-width: 0;
+    padding: 0;
+    width: 30px;
   }
 
   .sky-datepicker-chevron-default {
@@ -94,16 +96,7 @@
       background-color: transparent;
 
       &:not(:focus-within) {
-        border-color: $sky-theme-modern-mode-dark-border-color-neutral-medium;
-      }
-
-      .sky-btn-default:not(.sky-datepicker-btn-selected) {
-        border-color: transparent;
-      }
-
-      .sky-btn-active,
-      .sky-btn-default:hover {
-        border: solid 1px $sky-theme-modern-background-color-primary-dark;
+        @include sky-theme-modern-border($sky-theme-modern-mode-dark-border-color-neutral-medium);
       }
 
       .sky-datepicker-btn-selected {
