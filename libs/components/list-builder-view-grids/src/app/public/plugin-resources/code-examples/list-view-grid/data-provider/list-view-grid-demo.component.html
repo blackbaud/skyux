@@ -1,0 +1,79 @@
+<sky-list
+  [dataProvider]="listDataProvider"
+>
+  <sky-list-toolbar>
+    <sky-list-filter-inline>
+      <sky-list-filter-inline-item
+        defaultValue="any"
+        name="fruitType"
+        value="any"
+      >
+        <ng-template
+          let-filter="filter"
+        >
+          <label
+            [for]="fruitTypeSelect.id"
+          >
+            Fruit type
+          </label>
+          <select
+            skyId
+            [ngModel]="filter.value"
+            (ngModelChange)="filter.changed($event)"
+            #fruitTypeSelect="skyId"
+          >
+            <option
+              value="any"
+            >
+              Any fruit
+            </option>
+            <option
+              value="citrus"
+            >
+              Citrus
+            </option>
+            <option
+              value="berry"
+            >
+              Berry
+            </option>
+          </select>
+        </ng-template>
+      </sky-list-filter-inline-item>
+      <sky-list-filter-inline-item
+        name="hideOrange"
+        [filter]="hideOrangeFilterFunction"
+      >
+        <ng-template
+          let-filter="filter"
+        >
+          <sky-checkbox
+            [ngModel]="filter.value"
+            (ngModelChange)="filter.changed($event)"
+          >
+            <sky-checkbox-label>
+              Hide orange fruits
+            </sky-checkbox-label>
+          </sky-checkbox>
+        </ng-template>
+      </sky-list-filter-inline-item>
+    </sky-list-filter-inline>
+  </sky-list-toolbar>
+  <sky-list-view-grid>
+    <sky-grid-column
+      field="name"
+      heading="Name"
+    ></sky-grid-column>
+    <sky-grid-column
+      field="description"
+      heading="Description"
+    ></sky-grid-column>
+    <sky-grid-column
+      field="highAcidity"
+      heading="High Acidity (&lt;5 pH)"
+    ></sky-grid-column>
+  </sky-list-view-grid>
+  <sky-list-paging
+    pageSize="5"
+  ></sky-list-paging>
+</sky-list>

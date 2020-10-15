@@ -537,23 +537,21 @@ describe('List View Grid Component', () => {
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
-        expect(fixture.nativeElement.querySelector('.sky-grid-row-delete-heading')).toBeNull();
+        expect(document.querySelector('#row-delete-ref-1')).toBeNull();
         fixture.componentInstance.deleteItem('1');
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
-        expect(fixture.nativeElement.querySelector('.sky-grid-row-delete-heading')).not.toBeNull();
-        expect(fixture.nativeElement.querySelectorAll('.sky-grid-row-delete-cell').length).toBe(7);
-        expect(fixture.nativeElement.querySelectorAll('.sky-inline-delete-standard').length).toBe(1);
+        expect(document.querySelector('#row-delete-ref-1')).not.toBeNull();
+        expect(document.querySelectorAll('.sky-inline-delete-standard').length).toBe(1);
         fixture.componentInstance.deleteItem('2');
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
         tick(500);
         fixture.detectChanges();
-        expect(fixture.nativeElement.querySelector('.sky-grid-row-delete-heading')).not.toBeNull();
-        expect(fixture.nativeElement.querySelectorAll('.sky-grid-row-delete-cell').length).toBe(7);
-        expect(fixture.nativeElement.querySelectorAll('.sky-inline-delete-standard').length).toBe(2);
+        expect(document.querySelector('#row-delete-ref-2')).not.toBeNull();
+        expect(document.querySelectorAll('.sky-inline-delete-standard').length).toBe(2);
       }));
 
       it('should cancel row delete elements correctly via the message stream', fakeAsync(() => {
@@ -561,21 +559,20 @@ describe('List View Grid Component', () => {
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
-        expect(fixture.nativeElement.querySelector('.sky-grid-row-delete-heading')).toBeNull();
+        expect(document.querySelector('#row-delete-ref-1')).toBeNull();
         fixture.componentInstance.deleteItem('1');
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
-        expect(fixture.nativeElement.querySelector('.sky-grid-row-delete-heading')).not.toBeNull();
-        expect(fixture.nativeElement.querySelectorAll('.sky-grid-row-delete-cell').length).toBe(7);
-        expect(fixture.nativeElement.querySelectorAll('.sky-inline-delete-standard').length).toBe(1);
+        expect(document.querySelector('#row-delete-ref-1')).not.toBeNull();
+        expect(document.querySelectorAll('.sky-inline-delete-standard').length).toBe(1);
         fixture.componentInstance.cancelRowDelete({ id: '1' });
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
         tick(500);
         fixture.detectChanges();
-        expect(fixture.nativeElement.querySelector('.sky-grid-row-delete-heading')).toBeNull();
+        expect(document.querySelector('#row-delete-ref-1')).toBeNull();
       }));
 
       it('should cancel row delete elements correctly via click', fakeAsync(() => {
@@ -583,21 +580,20 @@ describe('List View Grid Component', () => {
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
-        expect(fixture.nativeElement.querySelector('.sky-grid-row-delete-heading')).toBeNull();
+        expect(document.querySelector('#row-delete-ref-1')).toBeNull();
         fixture.componentInstance.deleteItem('1');
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
-        expect(fixture.nativeElement.querySelector('.sky-grid-row-delete-heading')).not.toBeNull();
-        expect(fixture.nativeElement.querySelectorAll('.sky-grid-row-delete-cell').length).toBe(7);
-        expect(fixture.nativeElement.querySelectorAll('.sky-inline-delete-standard').length).toBe(1);
-        fixture.nativeElement.querySelectorAll('.sky-inline-delete .sky-btn-default')[0].click();
+        expect(document.querySelector('#row-delete-ref-1')).not.toBeNull();
+        expect(document.querySelectorAll('.sky-inline-delete-standard').length).toBe(1);
+        (<HTMLElement>document.querySelectorAll('.sky-inline-delete .sky-btn-default')[0]).click();
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
         tick(500);
         fixture.detectChanges();
-        expect(fixture.nativeElement.querySelector('.sky-grid-row-delete-heading')).toBeNull();
+        expect(document.querySelector('#row-delete-ref-1')).toBeNull();
       }));
 
       it('should update the pending status of a row being deleted correctly', fakeAsync(() => {
@@ -605,29 +601,23 @@ describe('List View Grid Component', () => {
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
-        expect(fixture.nativeElement.querySelector('.sky-grid-row-delete-heading')).toBeNull();
+        expect(document.querySelector('#row-delete-ref-1')).toBeNull();
 
         fixture.componentInstance.deleteItem('1');
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
-        expect(fixture.nativeElement.querySelector('.sky-grid-row-delete-heading')).not.toBeNull();
-        expect(fixture.nativeElement.querySelectorAll('.sky-grid-row-delete-cell').length).toBe(7);
-        expect(fixture.nativeElement.querySelectorAll('.sky-inline-delete-standard').length).toBe(1);
-        expect(fixture.nativeElement
-          .querySelectorAll('.sky-grid-row-delete-cell .sky-wait-mask-loading-blocking').length)
-          .toBe(0);
+        expect(document.querySelector('#row-delete-ref-1')).not.toBeNull();
+        expect(document.querySelectorAll('.sky-inline-delete-standard').length).toBe(1);
+        expect(document.querySelectorAll('.sky-inline-delete-standard .sky-wait-mask-loading-blocking').length).toBe(0);
 
-        fixture.nativeElement.querySelectorAll('.sky-inline-delete-button')[0].click();
+        (<HTMLElement>document.querySelectorAll('.sky-inline-delete-button')[0]).click();
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
-        expect(fixture.nativeElement.querySelector('.sky-grid-row-delete-heading')).not.toBeNull();
-        expect(fixture.nativeElement.querySelectorAll('.sky-grid-row-delete-cell').length).toBe(7);
-        expect(fixture.nativeElement.querySelectorAll('.sky-inline-delete-standard').length).toBe(1);
-        expect(fixture.nativeElement
-          .querySelectorAll('.sky-grid-row-delete-cell .sky-wait-mask-loading-blocking').length)
-          .toBe(1);
+        expect(document.querySelector('#row-delete-ref-1')).not.toBeNull();
+        expect(document.querySelectorAll('.sky-inline-delete-standard').length).toBe(1);
+        expect(document.querySelectorAll('.sky-inline-delete-standard .sky-wait-mask-loading-blocking').length).toBe(1);
 
         fixture.componentInstance.deleteItem('1');
         fixture.detectChanges();
@@ -635,12 +625,9 @@ describe('List View Grid Component', () => {
         fixture.detectChanges();
         tick(500);
         fixture.detectChanges();
-        expect(fixture.nativeElement.querySelector('.sky-grid-row-delete-heading')).not.toBeNull();
-        expect(fixture.nativeElement.querySelectorAll('.sky-grid-row-delete-cell').length).toBe(7);
-        expect(fixture.nativeElement.querySelectorAll('.sky-inline-delete-standard').length).toBe(1);
-        expect(fixture.nativeElement
-          .querySelectorAll('.sky-grid-row-delete-cell .sky-wait-mask-loading-blocking').length)
-          .toBe(0);
+        expect(document.querySelector('#row-delete-ref-1')).not.toBeNull();
+        expect(document.querySelectorAll('.sky-inline-delete-standard').length).toBe(1);
+        expect(document.querySelectorAll('.sky-inline-delete-standard .sky-wait-mask-loading-blocking').length).toBe(0);
       }));
 
       it('should output the delete event correctly', fakeAsync(() => {
@@ -656,7 +643,7 @@ describe('List View Grid Component', () => {
         tick();
         fixture.detectChanges();
         expect(fixture.componentInstance.finishRowDelete).not.toHaveBeenCalled();
-        fixture.nativeElement.querySelectorAll('.sky-inline-delete-button')[0].click();
+        (<HTMLElement>document.querySelectorAll('.sky-inline-delete-button')[0]).click();
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -677,7 +664,7 @@ describe('List View Grid Component', () => {
         fixture.detectChanges();
         tick();
         expect(fixture.componentInstance.cancelRowDelete).not.toHaveBeenCalled();
-        fixture.nativeElement.querySelectorAll('.sky-inline-delete .sky-btn-default')[0].click();
+        (<HTMLElement>document.querySelectorAll('.sky-inline-delete .sky-btn-default')[0]).click();
         fixture.detectChanges();
         tick();
         fixture.detectChanges();

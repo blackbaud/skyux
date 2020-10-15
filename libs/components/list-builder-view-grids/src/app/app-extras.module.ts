@@ -13,6 +13,10 @@ import {
 } from '@skyux/list-builder';
 
 import {
+  SkyDropdownModule
+} from '@skyux/popovers';
+
+import {
   SkyAppLinkModule
 } from '@skyux/router';
 
@@ -24,6 +28,7 @@ import {
   exports: [
     SkyAppLinkModule,
     SkyDocsToolsModule,
+    SkyDropdownModule,
     SkyListModule,
     SkyListViewGridModule,
     SkyListToolbarModule
