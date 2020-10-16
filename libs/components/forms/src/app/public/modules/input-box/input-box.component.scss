@@ -62,34 +62,7 @@ sky-input-box {
   }
 }
 
-@mixin sky-input-box-modern-border($mode: "light") {
-  @if $mode == "dark" {
-    box-shadow: inset 0 0 0 1px $sky-theme-modern-color-gray-70;
-  } @else {
-    box-shadow: inset 0 0 0 1px $sky-theme-modern-border-color-neutral-medium;
-  }
-}
-
-@mixin sky-input-box-modern-border-hover() {
-  box-shadow: inset 0 0 0 1px $sky-theme-modern-background-color-primary-dark;
-}
-
-@mixin sky-input-box-modern-border-active() {
-  box-shadow: inset 0 0 0 2px $sky-theme-modern-background-color-primary-dark;
-}
-
-@mixin sky-input-box-modern-border-focus() {
-  box-shadow: inset 0 0 0 2px $sky-theme-modern-background-color-primary-dark,
-    $sky-theme-modern-elevation-1-shadow-size
-    $sky-theme-modern-elevation-1-shadow-color;
-}
-
-@mixin sky-input-box-modern-border-invalid() {
-  box-shadow: inset 0 0 0 2px $sky-highlight-color-danger;
-}
-
 .sky-theme-modern {
-
   /* Styles applied to both enabled and disabled input boxes */
   .sky-input-box {
     .sky-input-box-group {
@@ -181,7 +154,7 @@ sky-input-box {
 
     .sky-input-box-group-form-control-invalid {
       .sky-form-group {
-        @include sky-input-box-modern-border-invalid;
+        @include sky-theme-modern-border-invalid;
         color: $sky-background-color-danger-dark;
       }
     }
@@ -196,14 +169,14 @@ sky-input-box {
       z-index: 1;
 
       .sky-form-group {
-        @include sky-input-box-modern-border-focus;
+        @include sky-theme-modern-border-focus;
         color: $sky-theme-modern-text-color-action-primary;
       }
     }
 
     .sky-form-group {
       background-color: $sky-color-white;
-      @include sky-input-box-modern-border;
+      @include sky-theme-modern-border;
       color: $sky-theme-modern-font-data-label-color;
       flex-wrap: nowrap;
       margin-bottom: 0;
@@ -304,7 +277,7 @@ sky-input-box {
         z-index: 1;
 
         .sky-form-group {
-          @include sky-input-box-modern-border-hover;
+          @include sky-theme-modern-border-hover;
         }
       }
     }
@@ -312,23 +285,23 @@ sky-input-box {
     .sky-input-group-btn {
       .sky-btn {
         border: none;
-        @include sky-input-box-modern-border;
+        @include sky-theme-modern-border;
 
         &:hover {
-          @include sky-input-box-modern-border-hover;
+          @include sky-theme-modern-border-hover;
           z-index: 1;
         }
 
         &:active,
         &:focus {
-          @include sky-input-box-modern-border-active;
+          @include sky-theme-modern-border-active;
           color: $sky-text-color-default;
           z-index: 2;
         }
 
         &:focus:not(:active) {
           outline: none;
-          @include sky-input-box-modern-border-focus;
+          @include sky-theme-modern-border-focus;
         }
       }
     }
@@ -336,13 +309,13 @@ sky-input-box {
     .sky-input-box-group-form-control:active,
     .sky-input-box-group-form-control-focus {
       .sky-form-group {
-        @include sky-input-box-modern-border-active;
+        @include sky-theme-modern-border-active;
       }
     }
 
     .sky-input-box-group-form-control-invalid {
       .sky-form-group {
-        @include sky-input-box-modern-border-invalid;
+        @include sky-theme-modern-border-invalid;
         color: $sky-background-color-danger-dark;
       }
 
@@ -363,7 +336,7 @@ sky-input-box {
       z-index: 1;
 
       .sky-form-group {
-        @include sky-input-box-modern-border-focus;
+        @include sky-theme-modern-border-focus;
         color: $sky-theme-modern-text-color-action-primary;
       }
     }
@@ -391,7 +364,7 @@ sky-input-box {
     .sky-input-group-btn .sky-btn {
       background-color: $sky-theme-modern-color-gray-07;
       border: none;
-      @include sky-input-box-modern-border;
+      @include sky-theme-modern-border;
       opacity: 1;
     }
   }
@@ -400,7 +373,7 @@ sky-input-box {
     .sky-input-box {
       .sky-form-group {
         background-color: transparent;
-        @include sky-input-box-modern-border("dark");
+        @include sky-theme-modern-border($sky-theme-modern-color-gray-70);
         color: $sky-theme-modern-mode-dark-font-deemphasized-color;
 
         .sky-form-control,
@@ -419,13 +392,13 @@ sky-input-box {
 
       .sky-input-box-group-form-control-invalid {
         .sky-form-group {
-          @include sky-input-box-modern-border-invalid;
+          @include sky-theme-modern-border-invalid;
           color: $sky-background-color-danger-dark;
         }
       }
 
       .sky-input-group-btn .sky-btn {
-        @include sky-input-box-modern-border("dark");
+        @include sky-theme-modern-border($sky-theme-modern-color-gray-70);
         color: $sky-theme-modern-mode-dark-font-deemphasized-color;
 
         &.sky-btn-default {
