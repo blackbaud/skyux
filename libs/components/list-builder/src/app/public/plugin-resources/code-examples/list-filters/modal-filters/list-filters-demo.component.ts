@@ -1,11 +1,10 @@
 import {
-  Component,
-  OnInit
+  Component
 } from '@angular/core';
 
 import {
-  ListItemModel
-} from '@skyux/list-builder-common';
+  ListFilterModel
+} from '@skyux/list-builder';
 
 import {
   SkyModalCloseArgs,
@@ -17,39 +16,18 @@ import {
 } from 'rxjs';
 
 import {
-  ListFilterModel,
-  ListItemsLoadAction,
-  ListState,
-  ListStateDispatcher
-} from '../../public/public_api';
+  ListFilterDemoModalComponent
+} from './list-filters-demo-modal.component';
 
 import {
-  ListFiltersDocsModalContext
-} from './demo/list-filters-docs-modal-context';
-
-import {
-  ListFiltersDocsModalComponent
-} from './demo/list-filters-docs-modal.component';
-
-const dispatcher = new ListStateDispatcher();
-
-const state = new ListState(dispatcher);
+  ListFiltersDemoModalContext
+} from './list-filters-demo-modal-context';
 
 @Component({
-  selector: 'app-list-filters-docs',
-  templateUrl: './list-filters-docs.component.html',
-  providers: [
-    {
-      provide: ListState,
-      useValue: state
-    },
-    {
-      provide: ListStateDispatcher,
-      useValue: dispatcher
-    }
-  ]
+  selector: 'app-list-filters-demo',
+  templateUrl: './list-filters-demo.component.html'
 })
-export class ListFiltersDocsComponent implements OnInit {
+export class ListFiltersDemoComponent {
 
   public items = of([
     {
@@ -97,21 +75,9 @@ export class ListFiltersDocsComponent implements OnInit {
     private modalService: SkyModalService
   ) { }
 
-  public ngOnInit(): void {
-    dispatcher.next(new ListItemsLoadAction([
-      new ListItemModel('1', {}),
-      new ListItemModel('2', {}),
-      new ListItemModel('3', {}),
-      new ListItemModel('4', {}),
-      new ListItemModel('5', {}),
-      new ListItemModel('6', {}),
-      new ListItemModel('7', {})
-    ], true));
-  }
-
   public openFilterModal(): void {
-    const instance = this.modalService.open(ListFiltersDocsModalComponent, [{
-      provide: ListFiltersDocsModalContext,
+    const instance = this.modalService.open(ListFilterDemoModalComponent, [{
+      provide: ListFiltersDemoModalContext,
       useValue: {
         appliedFilters: this.modalFilters
       }
@@ -123,5 +89,4 @@ export class ListFiltersDocsComponent implements OnInit {
       }
     });
   }
-
 }

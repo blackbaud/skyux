@@ -8,7 +8,82 @@
   </sky-docs-demo-page-summary>
 
   <sky-docs-demo>
-    See documentation for how to setup demos.
+    <sky-list
+      [data]="data"
+    >
+      <sky-list-toolbar>
+        <sky-list-toolbar-item
+          id="custom-item"
+          index="0"
+          location="left"
+        >
+          <ng-template>
+            <sky-dropdown
+              buttonStyle="primary"
+            >
+              <sky-dropdown-button>
+                <sky-icon
+                  icon="plus-circle"
+                ></sky-icon>
+                Add
+              </sky-dropdown-button>
+            </sky-dropdown>
+          </ng-template>
+        </sky-list-toolbar-item>
+        <sky-list-filter-button>
+          <sky-filter-button
+            [showButtonText]="true"
+          >
+          </sky-filter-button>
+        </sky-list-filter-button>
+        <sky-list-filter-summary>
+        </sky-list-filter-summary>
+        <sky-list-toolbar-sort
+          field="column2"
+          label="Fruit name (A - Z)"
+          type="string"
+          [descending]="false"
+        >
+        </sky-list-toolbar-sort>
+        <sky-list-toolbar-sort
+          field="column2"
+          label="Fruit name (Z - A)"
+          type="string"
+          [descending]="true"
+        >
+        </sky-list-toolbar-sort>
+        <sky-list-secondary-actions>
+          <sky-list-secondary-action>
+            <button
+              type="button"
+            >
+              Option
+            </button>
+          </sky-list-secondary-action>
+        </sky-list-secondary-actions>
+        <sky-list-toolbar-view-actions>
+          <form
+            novalidate
+            [formGroup]="myForm"
+          >
+            <sky-radio-group
+              formControlName="myView"
+            >
+              <div
+                class="sky-switch-icon-group"
+              >
+                <sky-radio *ngFor="let view of views"
+                  [icon]="view.icon"
+                  [label]="view.label"
+                  [value]="view.name"
+                >
+                </sky-radio>
+              </div>
+            </sky-radio-group>
+          </form>
+        </sky-list-toolbar-view-actions>
+      </sky-list-toolbar>
+    </sky-list>
   </sky-docs-demo>
 
   <sky-docs-design-guidelines>
@@ -101,7 +176,31 @@
     </sky-docs-demo-page-section>
   </sky-docs-design-guidelines>
 
-  <sky-docs-code-examples>
-    See documentation for how to setup code examples.
+  <sky-docs-code-examples
+    [packageDependencies]="{
+      '@blackbaud/auth-client': '*',
+      '@skyux/indicators': '*',
+      '@skyux/inline-form': '*',
+      '@skyux/list-builder': '*',
+      '@skyux/list-builder-common': '*',
+      '@skyux/list-builder-view-checklist': '*',
+      '@skyux/list-builder-view-grids': '*',
+      '@skyux/lists': '*',
+      '@skyux/lookup': '*',
+      '@skyux/grids': '*',
+      '@skyux/modals': '*',
+      '@skyux/popovers': '*',
+      'dragula': '3.7.2',
+      'ng2-dragula': '1.5.0'
+    }"
+  >
+    <sky-docs-code-example
+      heading="List view grid with basic toolbar"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/list-toolbar/basic"
+    ></sky-docs-code-example>
+    <sky-docs-code-example
+      heading="List view grid with custom toolbar items"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/list-toolbar/custom"
+    ></sky-docs-code-example>
   </sky-docs-code-examples>
 </sky-docs-demo-page>

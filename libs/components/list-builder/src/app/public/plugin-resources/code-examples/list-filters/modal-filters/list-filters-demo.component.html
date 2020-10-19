@@ -1,0 +1,33 @@
+<sky-list
+  [appliedFilters]="listFilters"
+  [data]="items"
+  (appliedFiltersChange)="modalFilters = $event"
+>
+  <sky-list-toolbar
+    [searchEnabled]="false"
+  >
+    <sky-list-filter-button>
+      <sky-filter-button
+        (filterButtonClick)="openFilterModal()"
+        [showButtonText]="true"
+      >
+      </sky-filter-button>
+    </sky-list-filter-button>
+    <sky-list-filter-summary
+      (summaryItemClick)="openFilterModal()"
+    >
+    </sky-list-filter-summary>
+  </sky-list-toolbar>
+  <sky-list-view-grid>
+    <sky-grid-column
+      field="name"
+      heading="Name"
+    >
+    </sky-grid-column>
+    <sky-grid-column
+      field="description"
+      heading="Description"
+    >
+    </sky-grid-column>
+  </sky-list-view-grid>
+</sky-list>
