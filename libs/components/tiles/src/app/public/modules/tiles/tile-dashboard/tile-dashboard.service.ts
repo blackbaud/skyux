@@ -55,8 +55,15 @@ let bagIdIndex = 0;
 
 @Injectable()
 export class SkyTileDashboardService {
+
+  /**
+   * @internal
+   */
   public bagId: string;
 
+  /**
+   * @internal
+   */
   public configChange = new EventEmitter<SkyTileDashboardConfig>();
 
   /**
@@ -89,6 +96,9 @@ export class SkyTileDashboardService {
     this.initDragula();
   }
 
+  /**
+   * @internal
+   */
   public init(
     config: SkyTileDashboardConfig,
     columns?: QueryList<SkyTileDashboardColumnComponent>,
@@ -199,6 +209,9 @@ export class SkyTileDashboardService {
     }
   }
 
+  /**
+   * @internal
+   */
   public getTileComponentType(layoutTile: SkyTileDashboardConfigLayoutTile): any {
     if (layoutTile) {
       for (let tile of this.config.tiles) {
@@ -211,6 +224,9 @@ export class SkyTileDashboardService {
     return undefined;
   }
 
+  /**
+   * @internal
+   */
   public changeColumnMode(isSingleColumn: boolean) {
     /*istanbul ignore else */
     if (this.config) {
@@ -222,6 +238,9 @@ export class SkyTileDashboardService {
     }
   }
 
+  /**
+   * @internal
+   */
   public getTileComponent(tileId: string): ComponentRef<any> {
     for (let tileComponent of this.tileComponents) {
       if (tileComponent.location.nativeElement.getAttribute(ATTR_TILE_ID) === tileId) {
@@ -233,6 +252,9 @@ export class SkyTileDashboardService {
     return undefined;
   }
 
+  /**
+   * @internal
+   */
   public destroy() {
     /*istanbul ignore else */
     if (this.mediaSubscription) {
@@ -240,6 +262,9 @@ export class SkyTileDashboardService {
     }
   }
 
+  /**
+   * @internal
+   */
   public moveTileOnKeyDown(tileCmp: SkyTileComponent, direction: string, tileDescription: string) {
     const isSingleColumnMode = this.mediaQuery.current === SkyMediaBreakpoints.xs
       || this.mediaQuery.current === SkyMediaBreakpoints.sm;

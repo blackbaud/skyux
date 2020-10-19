@@ -26,6 +26,9 @@ import {
   SkyTileDashboardService
 } from '../tile-dashboard/tile-dashboard.service';
 
+/**
+ * Provides a common look-and-feel for tab content.
+ */
 @Component({
   selector: 'sky-tile',
   styleUrls: ['./tile.component.scss'],
@@ -33,7 +36,6 @@ import {
   animations: [skyAnimationSlide]
 })
 export class SkyTileComponent implements OnDestroy {
-  public isInDashboardColumn = false;
 
   /**
    * Indicates whether to display a settings button in the tile header. To display the
@@ -95,6 +97,8 @@ export class SkyTileComponent implements OnDestroy {
 
     this.isCollapsedChange.emit(value);
   }
+
+  public isInDashboardColumn = false;
 
   @ViewChild('grabHandle', {
     read: ElementRef,

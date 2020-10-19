@@ -48,6 +48,9 @@ import {
   SkyTileDashboardMessageType
 } from './tile-dashboard-message-type';
 
+/**
+ * Specifies a container to group multiple tiles.
+ */
 @Component({
   selector: 'sky-tile-dashboard',
   styleUrls: ['./tile-dashboard.component.scss'],
@@ -55,6 +58,7 @@ import {
   providers: [SkyTileDashboardService]
 })
 export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
+
   /**
    * Populates the tile dashboard based on the `SkyTileDashboardConfig` object.
    * @required

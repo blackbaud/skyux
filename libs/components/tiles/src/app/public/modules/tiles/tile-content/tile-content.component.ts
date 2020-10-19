@@ -1,5 +1,10 @@
-import { Component } from '@angular/core';
+import {
+  Component
+} from '@angular/core';
 
+/**
+ * Specifies content to display in the tile's body.
+ */
 @Component({
   selector: 'sky-tile-content',
   styleUrls: ['./tile-content.component.scss'],
