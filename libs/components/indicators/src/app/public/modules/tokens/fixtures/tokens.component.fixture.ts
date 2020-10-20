@@ -43,6 +43,7 @@ export class SkyTokensTestComponent implements OnDestroy {
   public focusable: boolean;
   public messageStream: Subject<SkyTokensMessage>;
   public tokens: SkyToken[];
+  public trackWith: string;
 
   public includeSingleToken = false;
 

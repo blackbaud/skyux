@@ -1,8 +1,13 @@
+<sky-docs-demo-control-panel-theme
+  (themeSettingsChange)="themeSettingsChange($event)"
+></sky-docs-demo-control-panel-theme>
+
 <div
   class="sky-tokens-demo"
 >
   <p>
     <sky-tokens
+      trackWith="id"
       [tokens]="colors"
     >
     </sky-tokens>
@@ -10,6 +15,7 @@
 
   <p>
     <sky-tokens
+      trackWith="id"
       [dismissible]="false"
       [tokens]="colors"
     >
@@ -18,6 +24,7 @@
 
   <p>
     <sky-tokens
+      trackWith="id"
       [disabled]="true"
       [tokens]="colors"
     >
@@ -27,6 +34,7 @@
   <p>
     <sky-tokens
       displayWith="label"
+      trackWith="id"
       [tokens]="filters"
     >
       (You may also include content inside the tokens component.)

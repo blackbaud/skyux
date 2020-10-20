@@ -1,20 +1,25 @@
 import {
+  animate,
+  style,
+  transition,
+  trigger
+} from '@angular/animations';
+
+import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
-  OnChanges,
   OnDestroy,
-  OnInit,
   Output,
   QueryList,
-  SimpleChanges,
   ViewChildren
 } from '@angular/core';
 
 import {
-  Subject
+  Subject,
+  Subscription
 } from 'rxjs';
 
 import {
@@ -45,9 +50,44 @@ import {
   selector: 'sky-tokens',
   templateUrl: './tokens.component.html',
   styleUrls: ['./tokens.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('blockAnimationOnLoad', [
+      transition(':enter', [])
+    ]),
+    trigger('dismiss', [
+      transition(
+        ':enter',
+        [
+          style({
+            opacity: 0,
+            width: 0
+          }),
+          animate(
+            '150ms ease-in',
+            style({
+              opacity: 1,
+              width: '*'
+            })
+          )
+        ]
+      ),
+      transition(
+        ':leave',
+        [
+          animate(
+            '150ms ease-in',
+            style({
+              opacity: 0,
+              width: 0
+            })
+          )
+        ]
+      )
+    ])
+  ]
 })
-export class SkyTokensComponent implements OnInit, OnChanges, OnDestroy {
+export class SkyTokensComponent implements OnDestroy {
 
   /**
    * Indicates whether to disable the tokens list to prevent users from selecting tokens,
@@ -92,6 +132,13 @@ export class SkyTokensComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   /**
+   * Specifies the token property that represents the token's unique identifier. When this property
+   * is set, animations are enabled when dismissing tokens.
+   */
+  @Input()
+  public trackWith: string;
+
+  /**
    * Indicates whether users can focus on items in the list using the `Tab` key.
    * This does not affect the ability of users to select tokens, dismiss tokens,
    * or navigate through the list with the arrow keys.
@@ -124,7 +171,14 @@ export class SkyTokensComponent implements OnInit, OnChanges, OnDestroy {
    * particular token or remove the active token from the list.
    */
   @Input()
-  public messageStream = new Subject<SkyTokensMessage>();
+  public set messageStream(value: Subject<SkyTokensMessage>) {
+    this._messageStream = value;
+    this.initMessageStream();
+  }
+
+  public get messageStream(): Subject<SkyTokensMessage> {
+    return this._messageStream;
+  }
 
   /**
    * Fires when users navigate through the tokens list with the `Tab` key
@@ -173,9 +227,15 @@ export class SkyTokensComponent implements OnInit, OnChanges, OnDestroy {
     this._activeIndex = value;
   }
 
+  /**
+   * internal
+   */
+  public trackTokenFn: (index: number, item: SkyToken) => any;
+
   @ViewChildren(SkyTokenComponent)
   private tokenComponents: QueryList<SkyTokenComponent>;
 
+  private messageStreamSub: Subscription;
   private ngUnsubscribe = new Subject();
 
   private _activeIndex: number;
@@ -184,34 +244,26 @@ export class SkyTokensComponent implements OnInit, OnChanges, OnDestroy {
   private _focusable: boolean;
   private _tokens: SkyToken[];
   private _displayWith: string;
+  private _messageStream: Subject<SkyTokensMessage>;
 
   constructor(
     private changeDetector: ChangeDetectorRef
-  ) { }
+  ) {
+    // Angular calls the trackBy function without applying the component instance's scope.
+    // Use a fat-arrow function so the current component instance's trackWith property can
+    // be referenced.
+    this.trackTokenFn = (_index, item) => {
+      if (this.trackWith) {
+        return item.value[this.trackWith];
+      }
 
-  public ngOnInit(): void {
-    if (this.messageStream) {
-      this.initMessageStream();
-    }
-  }
-
-  public ngOnChanges(changes: SimpleChanges): void {
-    if (
-      changes.messageStream &&
-      changes.messageStream.currentValue &&
-      !changes.messageStream.firstChange
-    ) {
-      this.initMessageStream();
-    }
+      return item;
+    };
   }
 
   public ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-
-    if (this.messageStream) {
-      this.messageStream.complete();
-    }
   }
 
   public onTokenClick(token: SkyToken): void {
@@ -223,36 +275,28 @@ export class SkyTokensComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public onTokenKeyDown(event: KeyboardEvent): void {
-    /*istanbul ignore else */
-    if (event.key) {
-      const key = event.key.toLowerCase();
-      if (this.disabled) {
-        return;
-      }
-
+    if (!this.disabled) {
       /* tslint:disable-next-line:switch-default */
-      switch (key) {
-        case 'left':
-        case 'arrowleft':
-        this.messageStream.next({ type: SkyTokensMessageType.FocusPreviousToken });
-        event.preventDefault();
-        break;
+      switch (event.key) {
+        case 'Left':
+        case 'ArrowLeft':
+          this.messageStream.next({ type: SkyTokensMessageType.FocusPreviousToken });
+          event.preventDefault();
+          break;
 
-        case 'right':
-        case 'arrowright':
-        this.messageStream.next({ type: SkyTokensMessageType.FocusNextToken });
-        event.preventDefault();
-        break;
+        case 'Right':
+        case 'ArrowRight':
+          this.messageStream.next({ type: SkyTokensMessageType.FocusNextToken });
+          event.preventDefault();
+          break;
       }
     }
   }
 
   public selectToken(token: SkyToken): void {
-    if (this.disabled) {
-      return;
+    if (!this.disabled) {
+      this.notifyTokenSelected(token);
     }
-
-    this.notifyTokenSelected(token);
   }
 
   public removeToken(token: SkyToken): void {
@@ -277,7 +321,7 @@ export class SkyTokensComponent implements OnInit, OnChanges, OnDestroy {
 
   private focusActiveToken(): void {
     const tokenComponent = this.tokenComponents
-      .find((comp: SkyTokenComponent, i: number) => {
+      .find((_comp: SkyTokenComponent, i: number) => {
         return (this.activeIndex === i);
       });
 
@@ -294,34 +338,40 @@ export class SkyTokensComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private initMessageStream(): void {
-    this.messageStream
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
-      .subscribe((message: SkyTokensMessage) => {
-        /* tslint:disable-next-line:switch-default */
-        switch (message.type) {
-          case SkyTokensMessageType.FocusLastToken:
-          this.focusLastToken();
-          break;
+    if (this.messageStreamSub) {
+      this.messageStreamSub.unsubscribe();
+    }
 
-          case SkyTokensMessageType.FocusActiveToken:
-          this.focusActiveToken();
-          break;
+    if (this.messageStream) {
+      this.messageStreamSub = this.messageStream
+        .pipe(
+          takeUntil(this.ngUnsubscribe)
+        )
+        .subscribe((message: SkyTokensMessage) => {
+          /* tslint:disable-next-line:switch-default */
+          switch (message.type) {
+            case SkyTokensMessageType.FocusLastToken:
+            this.focusLastToken();
+            break;
 
-          case SkyTokensMessageType.FocusPreviousToken:
-          this.focusPreviousToken();
-          break;
+            case SkyTokensMessageType.FocusActiveToken:
+            this.focusActiveToken();
+            break;
 
-          case SkyTokensMessageType.FocusNextToken:
-          this.focusNextToken();
-          break;
+            case SkyTokensMessageType.FocusPreviousToken:
+            this.focusPreviousToken();
+            break;
 
-          case SkyTokensMessageType.RemoveActiveToken:
-          this.removeActiveToken();
-          break;
-        }
-      });
+            case SkyTokensMessageType.FocusNextToken:
+            this.focusNextToken();
+            break;
+
+            case SkyTokensMessageType.RemoveActiveToken:
+            this.removeActiveToken();
+            break;
+          }
+        });
+    }
   }
 
   private notifyTokenSelected(token: SkyToken): void {

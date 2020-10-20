@@ -1,9 +1,12 @@
 <div *ngIf="tokens"
   class="sky-tokens"
+  [@blockAnimationOnLoad]
   [attr.role]="(tokens && tokens.length) ? 'list' : null"
 >
-  <sky-token *ngFor="let token of tokens; let i = index"
+  <sky-token *ngFor="let token of tokens; let i = index; trackBy: trackTokenFn"
     role="listitem"
+    [@.disabled]="!trackWith"
+    [@dismiss]
     [disabled]="disabled"
     [dismissible]="dismissible"
     [focusable]="focusable"
@@ -18,7 +21,6 @@
   <div
     class="sky-tokens-content"
   >
-    <ng-content>
-    </ng-content>
+    <ng-content></ng-content>
   </div>
 </div>

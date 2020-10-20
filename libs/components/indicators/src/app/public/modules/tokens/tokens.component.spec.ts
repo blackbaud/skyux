@@ -117,6 +117,41 @@ describe('Tokens component', () => {
       fixture.detectChanges();
       expect(component.tokensElementRef.nativeElement).toHaveText('INNER CONTENT');
     });
+
+    it('should respect trackWith', () => {
+      component.trackWith = 'id';
+      component.data = [
+        { id: 1, name: 'Red' },
+        { id: 2, name: 'White' },
+        { id: 3, name: 'Blue' }
+      ];
+
+      component.publishTokens();
+      fixture.detectChanges();
+
+      const tokenElements = getTokenElements();
+
+      expect(tokenElements.length).toBe(3);
+
+      component.data = [
+        { id: 1, name: 'Red' },
+        { id: 2, name: 'White' },
+        { id: 3, name: 'Blue' },
+        { id: 4, name: 'Black' }
+      ];
+
+      component.publishTokens();
+      fixture.detectChanges();
+
+      const newTokenElements = getTokenElements();
+
+      expect(newTokenElements.length).toBe(4);
+
+      // ngFor should not recreate these items since the bound data have the same ID.
+      expect(newTokenElements[0]).toBe(tokenElements[0]);
+      expect(newTokenElements[1]).toBe(tokenElements[1]);
+      expect(newTokenElements[2]).toBe(tokenElements[2]);
+    });
   });
 
   describe('events', () => {

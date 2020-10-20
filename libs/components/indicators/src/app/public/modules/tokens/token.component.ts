@@ -94,6 +94,16 @@ export class SkyTokenComponent {
     return (this.focusable) ? 0 : -1;
   }
 
+  /**
+   * @internal
+   */
+  public tokenActive: boolean;
+
+  /**
+   * @internal
+   */
+  public closeActive: boolean;
+
   private _ariaLabel: string;
   private _disabled: boolean;
   private _dismissible: boolean;

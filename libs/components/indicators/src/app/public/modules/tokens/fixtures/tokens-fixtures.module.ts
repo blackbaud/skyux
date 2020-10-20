@@ -7,6 +7,10 @@ import {
 } from '@angular/common';
 
 import {
+  NoopAnimationsModule
+} from '@angular/platform-browser/animations';
+
+import {
   SkyTokensModule
 } from '../tokens.module';
 
@@ -20,6 +24,7 @@ import {
   ],
   imports: [
     CommonModule,
+    NoopAnimationsModule,
     SkyTokensModule
   ],
   exports: [
