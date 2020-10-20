@@ -1,8 +1,17 @@
 import {
   ChangeDetectorRef,
+  OnDestroy,
   Pipe,
   PipeTransform
 } from '@angular/core';
+
+import {
+  Subject
+} from 'rxjs';
+
+import {
+  takeUntil
+} from 'rxjs/operators';
 
 import {
   SkyAppResourcesService
@@ -15,7 +24,10 @@ import {
   name: 'skyAppResources',
   pure: false
 })
-export class SkyAppResourcesPipe implements PipeTransform {
+export class SkyAppResourcesPipe implements PipeTransform, OnDestroy {
+
+  private ngUnsubscribe = new Subject<void>();
+
   private resourceCache: {[key: string]: any} = {};
 
   constructor(
@@ -31,8 +43,8 @@ export class SkyAppResourcesPipe implements PipeTransform {
     const cacheKey = name + JSON.stringify(args);
 
     if (!(cacheKey in this.resourceCache)) {
-      this.resourcesSvc
-        .getString(name, ...args)
+      this.resourcesSvc.getString(name, ...args)
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((result) => {
           this.resourceCache[cacheKey] = result;
           this.changeDetector.markForCheck();
@@ -40,5 +52,10 @@ export class SkyAppResourcesPipe implements PipeTransform {
     }
 
     return this.resourceCache[cacheKey];
+  }
+
+  public ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

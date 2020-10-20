@@ -15,6 +15,7 @@ import {
 describe('Library resources pipe', () => {
   let resources: SkyLibResourcesService;
   let changeDetector: any;
+  let pipe: SkyLibResourcesPipe;
 
   beforeEach(() => {
     changeDetector = {
@@ -36,18 +37,23 @@ describe('Library resources pipe', () => {
     } as SkyLibResourcesService;
   });
 
+  afterEach(() => {
+    // Simulate parent component being destroyed.
+    pipe.ngOnDestroy();
+  });
+
   it('should return the expected string', () => {
-    const pipe = new SkyLibResourcesPipe(changeDetector, resources);
+    pipe = new SkyLibResourcesPipe(changeDetector, resources);
     expect(pipe.transform('hi')).toBe('hello');
   });
 
   it('should return the expected string formatted with the specified parameters', () => {
-    const pipe = new SkyLibResourcesPipe(changeDetector, resources);
+    pipe = new SkyLibResourcesPipe(changeDetector, resources);
     expect(pipe.transform('hi', 'abc', 'def')).toBe('format me abc def');
   });
 
   it('should cache strings that have been retrieved via the resource service', () => {
-    const pipe = new SkyLibResourcesPipe(changeDetector, resources);
+    pipe = new SkyLibResourcesPipe(changeDetector, resources);
 
     const getStringSpy = spyOn(resources, 'getString').and.callThrough();
 
@@ -59,7 +65,7 @@ describe('Library resources pipe', () => {
   });
 
   it('should consider format args as part of the cache key', () => {
-    const pipe = new SkyLibResourcesPipe(changeDetector, resources);
+    pipe = new SkyLibResourcesPipe(changeDetector, resources);
     const getStringSpy = spyOn(resources, 'getString').and.callThrough();
 
     expect(pipe.transform('hi')).toBe('hello');
@@ -73,7 +79,7 @@ describe('Library resources pipe', () => {
   });
 
   it('should mark the change detector for check when the string is loaded asynchronously', () => {
-    const pipe = new SkyLibResourcesPipe(changeDetector, resources);
+    pipe = new SkyLibResourcesPipe(changeDetector, resources);
 
     pipe.transform('hi');
     pipe.transform('hi');

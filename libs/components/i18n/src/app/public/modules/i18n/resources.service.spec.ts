@@ -4,7 +4,6 @@ import {
 } from '@angular/common/http/testing';
 
 import {
-  getTestBed,
   TestBed
 } from '@angular/core/testing';
 
@@ -16,6 +15,10 @@ import {
   of as observableOf,
   throwError as observableThrowError
 } from 'rxjs';
+
+import {
+  take
+} from 'rxjs/operators';
 
 import {
   SkyAppLocaleProvider
@@ -112,11 +115,9 @@ describe('Resources service', () => {
   }
 
   function injectServices(): any {
-    const injector = getTestBed();
-
-    mockAssetsService = injector.get(SkyAppAssetsService);
-    resources = injector.get(SkyAppResourcesService);
-    httpMock = injector.get(HttpTestingController);
+    mockAssetsService = TestBed.inject(SkyAppAssetsService);
+    resources = TestBed.inject(SkyAppResourcesService);
+    httpMock = TestBed.inject(HttpTestingController);
   }
 
   function addTestResourceResponse(url?: string): void {
@@ -132,7 +133,7 @@ describe('Resources service', () => {
     });
 
     it('should return the specified string', (done) => {
-      resources.getString('hi').subscribe((value) => {
+      resources.getString('hi').pipe(take(1)).subscribe((value) => {
         expect(value).toBe('hello');
         done();
       });
@@ -141,7 +142,7 @@ describe('Resources service', () => {
     });
 
     it('should return the specified string formatted with the specified parameters', (done) => {
-      resources.getString('template', 'a', 'b').subscribe((value) => {
+      resources.getString('template', 'a', 'b').pipe(take(1)).subscribe((value) => {
         expect(value).toBe('format a me b a');
         done();
       });
@@ -150,7 +151,7 @@ describe('Resources service', () => {
     });
 
     it('should return the specified string for the locale provided ', (done: DoneFn) => {
-      resources.getStringForLocale({ 'locale': 'es-MX' }, 'hi').subscribe((value: string) => {
+      resources.getStringForLocale({ 'locale': 'es-MX' }, 'hi').pipe(take(1)).subscribe((value: string) => {
         expect(value).toBe('hello');
         done();
       });
@@ -159,7 +160,7 @@ describe('Resources service', () => {
     });
 
     it('should return the specified string with the specified parameters for the locale provided ', (done: DoneFn) => {
-      resources.getStringForLocale({ 'locale': 'es-MX' }, 'template', 'a', 'b').subscribe((value: string) => {
+      resources.getStringForLocale({ 'locale': 'es-MX' }, 'template', 'a', 'b').pipe(take(1)).subscribe((value: string) => {
         expect(value).toBe('format a me b a');
         done();
       });
@@ -172,20 +173,20 @@ describe('Resources service', () => {
         return undefined;
       };
 
-      resources.getString('hi').subscribe((value) => {
+      resources.getString('hi').pipe(take(1)).subscribe((value) => {
         expect(value).toBe('hi');
         done();
       });
     });
 
     it('only request the resource file once per instance', () => {
-      resources.getString('hi').subscribe(() => {});
+      resources.getString('hi').pipe(take(1)).subscribe(() => {});
       httpMock.expectOne(enUsUrl);
 
-      resources.getString('hi').subscribe(() => {});
+      resources.getString('hi').pipe(take(1)).subscribe(() => {});
       httpMock.expectNone(enUsUrl);
 
-      resources.getString('hi').subscribe(() => {});
+      resources.getString('hi').pipe(take(1)).subscribe(() => {});
       httpMock.expectNone(enUsUrl);
     });
 
@@ -218,7 +219,7 @@ describe('Resources service', () => {
     it('should fall back to the default locale if a blank locale is specified', (done) => {
       currentLocale = '';
 
-      resources.getString('hi').subscribe((value) => {
+      resources.getString('hi').pipe(take(1)).subscribe((value) => {
         expect(value).toBe('hello');
         done();
       });
@@ -232,7 +233,7 @@ describe('Resources service', () => {
       () => {
         currentLocale = 'es-MX';
 
-        resources.getString('hi').subscribe(() => { });
+        resources.getString('hi').pipe(take(1)).subscribe(() => { });
 
         addTestResourceResponse(esUrl);
       }
@@ -243,7 +244,7 @@ describe('Resources service', () => {
       (done) => {
         currentLocale = 'fr-FR';
 
-        resources.getString('hi').subscribe((value) => {
+        resources.getString('hi').pipe(take(1)).subscribe((value) => {
           expect(value).toBe('hello');
           done();
         });
@@ -257,7 +258,7 @@ describe('Resources service', () => {
       (done) => {
         currentLocale = 'en-GB';
 
-        resources.getString('hi').subscribe((value) => {
+        resources.getString('hi').pipe(take(1)).subscribe((value) => {
           expect(value).toBe('hello');
           done();
         });
@@ -279,7 +280,7 @@ describe('Resources service', () => {
       (done) => {
         currentLocale = 'en-US';
 
-        resources.getString('hi').subscribe((value) => {
+        resources.getString('hi').pipe(take(1)).subscribe((value) => {
           expect(value).toBe('hi');
           done();
         });
@@ -298,7 +299,7 @@ describe('Resources service', () => {
       (done) => {
         getLocaleInfo = () => observableThrowError(new Error());
 
-        resources.getString('hi').subscribe((value) => {
+        resources.getString('hi').pipe(take(1)).subscribe((value) => {
           expect(value).toBe('hi');
           done();
         });
@@ -308,18 +309,18 @@ describe('Resources service', () => {
     it('should use the per-locale cache for subsequent requests in the same locale', () => {
       currentLocale = 'en-US';
 
-      resources.getString('hi').subscribe(() => {});
+      resources.getString('hi').pipe(take(1)).subscribe(() => {});
       httpMock.expectOne(enUsUrl);
 
-      resources.getString('hi').subscribe(() => {});
+      resources.getString('hi').pipe(take(1)).subscribe(() => {});
       httpMock.expectNone(enUsUrl);
 
-      resources.getString('hi').subscribe(() => {});
+      resources.getString('hi').pipe(take(1)).subscribe(() => {});
       httpMock.expectNone(enUsUrl);
 
       currentLocale = 'fr-CA';
 
-      resources.getString('hi').subscribe(() => {});
+      resources.getString('hi').pipe(take(1)).subscribe(() => {});
       httpMock.expectOne(frCaUrl);
     });
   });
@@ -343,7 +344,7 @@ describe('Resources service', () => {
     it('should use the name from the provider if a recognized name is returned', (done) => {
       getResourceName = (name: string) => observableOf(name + '_alternate');
 
-      resources.getString('hi').subscribe((value) => {
+      resources.getString('hi').pipe(take(1)).subscribe((value) => {
         expect(value).toBe('howdy');
         done();
       });
@@ -355,7 +356,7 @@ describe('Resources service', () => {
       'should fall back to the original name if the name from the provider is unrecognized', (done) => {
       getResourceName = (name: string) => observableOf(name + '_unrecognized');
 
-      resources.getString('hi').subscribe((value) => {
+      resources.getString('hi').pipe(take(1)).subscribe((value) => {
         expect(value).toBe('hello');
         done();
       });

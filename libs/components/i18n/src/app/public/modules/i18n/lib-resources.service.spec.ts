@@ -8,6 +8,10 @@ import {
 } from 'rxjs';
 
 import {
+  take
+} from 'rxjs/operators';
+
+import {
   SkyAppLocaleInfo
 } from './locale-info';
 
@@ -82,7 +86,7 @@ describe('Library resources service', () => {
 
   it('should get a string for the default locale using locale provider', () => {
     service = new SkyLibResourcesService(mockLocaleProvider, mockProviders, undefined);
-    service.getString('greeting').subscribe((value: string) => {
+    service.getString('greeting').pipe(take(1)).subscribe((value: string) => {
       expect(value).toEqual('hello');
     });
   });
@@ -92,7 +96,7 @@ describe('Library resources service', () => {
       locale: 'fr_CA'
     }));
     service = new SkyLibResourcesService(mockLocaleProvider, mockProviders, undefined);
-    service.getString('greeting').subscribe((value: string) => {
+    service.getString('greeting').pipe(take(1)).subscribe((value: string) => {
       expect(value).toEqual('bonjour');
     });
   });
@@ -102,7 +106,7 @@ describe('Library resources service', () => {
       locale: 'foo_BAR'
     }));
     service = new SkyLibResourcesService(mockLocaleProvider, mockProviders, undefined);
-    service.getString('greeting').subscribe((value: string) => {
+    service.getString('greeting').pipe(take(1)).subscribe((value: string) => {
       expect(value).toEqual('greeting');
     });
   });
@@ -112,7 +116,7 @@ describe('Library resources service', () => {
       locale: 'fr_FR'
     }));
     service = new SkyLibResourcesService(mockLocaleProvider, mockProviders, undefined);
-    service.getString('greeting', 'foo', 'bar').subscribe((value: string) => {
+    service.getString('greeting', 'foo', 'bar').pipe(take(1)).subscribe((value: string) => {
       expect(value).toEqual('hello foo bar');
     });
   });
@@ -127,7 +131,7 @@ describe('Library resources service', () => {
     service = new SkyLibResourcesService(mockLocaleProvider, mockProviders,
       mockResourceNameProvider);
 
-    service.getString('greeting').subscribe((value: string) => {
+    service.getString('greeting').pipe(take(1)).subscribe((value: string) => {
       expect(value).toEqual('hi');
     });
   });
