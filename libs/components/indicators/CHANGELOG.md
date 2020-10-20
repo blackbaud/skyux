@@ -1,3 +1,7 @@
+# 4.6.0 (2020-10-20)
+
+- Added modern theme styles to the token component. [#144](https://github.com/blackbaud/skyux-indicators/pull/144)
+
 # 4.5.0 (2020-09-23)
 
 - Added modern theme styles to the label component. [#138](https://github.com/blackbaud/skyux-indicators/pull/138)
