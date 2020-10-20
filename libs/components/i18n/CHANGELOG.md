@@ -1,3 +1,7 @@
+# 4.0.3 (2020-10-20)
+
+- Fixed the `skyAppResources` and `skyLibResources` pipes to complete their observables when destroyed. [#93](https://github.com/blackbaud/skyux-i18n/pull/93)
+
 # 4.0.2 (2020-09-17)
 
 - Fixed the `SkyAppResourcesTestService` to include the public `getStringForLocale` method. [#91](https://github.com/blackbaud/skyux-i18n/pull/91) Thanks [@Blackbaud-JasonBodnar](https://github.com/Blackbaud-JasonBodnar)!
