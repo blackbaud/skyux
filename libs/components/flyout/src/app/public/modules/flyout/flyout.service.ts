@@ -54,6 +54,7 @@ import {
  */
 @Injectable()
 export class SkyFlyoutService implements OnDestroy {
+  private clickOnFlyout: boolean = false;
   private host: ComponentRef<SkyFlyoutComponent>;
   private removeAfterClosed = false;
   private isOpening: boolean = false;
@@ -137,21 +138,32 @@ export class SkyFlyoutService implements OnDestroy {
 
       /**
        * Flyout should close when user clicks outside of flyout.
-       * Use mousedown instead of click to capture elements that are removed from DOM on click
        */
-      fromEvent(document, 'mousedown')
+      fromEvent(document, 'click')
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((event: MouseEvent) => {
-          const isChild = flyoutInstance.flyoutRef.nativeElement.contains(event.target);
-          const isAbove = this.coreAdapter.isTargetAboveElement(
+          if (this.host.instance.isDragging) {
+            return;
+          }
+
+          const isAbove = event.target === document ? false : this.coreAdapter.isTargetAboveElement(
             event.target,
             flyoutInstance.flyoutRef.nativeElement
           );
 
           /* istanbul ignore else */
-          if (!isChild && !isAbove) {
+          if (!this.clickOnFlyout && !isAbove) {
             this.close();
           }
+        });
+
+      fromEvent(flyoutInstance.flyoutRef.nativeElement, 'click')
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe((event: MouseEvent) => {
+          this.clickOnFlyout = true;
+          this.windowRef.nativeWindow.setTimeout(() => {
+            this.clickOnFlyout = false;
+          });
         });
 
       this.removeAfterClosed = false;

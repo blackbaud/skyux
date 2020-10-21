@@ -22,9 +22,13 @@ import {
   SkyFlyoutTestSampleComponent
 } from './flyout-sample.component.fixture';
 
+import {
+  SkyFlyoutTestSampleContext
+} from './flyout-sample-context.fixture';
+
 @Component({
   selector: 'sky-test-component',
-  template: 'noop'
+  templateUrl: './flyout.component.fixture.html'
 })
 export class SkyFlyoutTestComponent {
 
@@ -33,6 +37,15 @@ export class SkyFlyoutTestComponent {
   ) { }
 
   public openFlyout(options?: SkyFlyoutConfig): SkyFlyoutInstance<any> {
+    if (!options) {
+      options = {
+        providers: [{
+          provide: SkyFlyoutTestSampleContext,
+          useValue: { name: 'Sam', showIframe: false }
+        }]
+      };
+    }
+
     return this.flyoutService.open(SkyFlyoutTestSampleComponent, options);
   }
 

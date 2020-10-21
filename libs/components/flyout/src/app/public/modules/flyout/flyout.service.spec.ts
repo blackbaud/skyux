@@ -58,7 +58,7 @@ describe('Flyout service', () => {
       ]
     });
 
-    service = TestBed.get(SkyFlyoutService);
+    service = TestBed.inject(SkyFlyoutService);
 
     // Needed in order to fix an odd timing issue in IE
     spyOnProperty(window, 'innerWidth', 'get').and.returnValue(1100);
@@ -117,7 +117,7 @@ describe('Flyout service', () => {
     });
     service.open(SkyFlyoutHostsTestComponent);
     applicationRef.tick();
-    const dynamicService = TestBed.get(SkyDynamicComponentService);
+    const dynamicService = TestBed.inject(SkyDynamicComponentService);
     const spy = spyOn(dynamicService, 'removeComponent').and.callThrough();
     // Note: Calling the lifecycle function directly as there is no way to destroy the service
     // as it would be in the wild.
