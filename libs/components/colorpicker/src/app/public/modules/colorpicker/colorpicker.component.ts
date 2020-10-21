@@ -101,7 +101,8 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   public selectedColorApplied = new EventEmitter<SkyColorpickerResult>();
 
   /**
-   * Specifies a message stream to toggle the reset button on and off.
+   * Provides an observable to send commands to the colorpicker. The commands should
+   * respect the `SkyColorPickerMessage` type.
    */
   @Input()
   public messageStream = new Subject<SkyColorpickerMessage>();

@@ -1,5 +1,8 @@
 // spell-checker:ignore colorpicker
 
+/**
+ * @internal
+ */
 export class SliderPosition {
   constructor(
     public hue: number,
@@ -7,6 +10,9 @@ export class SliderPosition {
     public value: number,
     public alpha: number) { }
 }
+/**
+ * @internal
+ */
 export class SliderDimension {
   constructor(
     public hue: number,
