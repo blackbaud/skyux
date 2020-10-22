@@ -83,11 +83,11 @@
 
   .sky-token-btn-close {
     align-items: center;
-    border-radius: $sky-theme-modern-border-radius-md -1;
+    border-radius: $sky-theme-modern-border-radius-md - 1;
     display: flex;
-    height: 22px;
+    height: 20px;
     margin-left: $sky-theme-modern-margin-inline-xs;
-    width: 22px;
+    width: 20px;
 
     &:hover {
       @include sky-theme-modern-border-hover(transparent);
