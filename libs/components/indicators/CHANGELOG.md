@@ -1,3 +1,8 @@
+# 4.7.0 (2020-10-22)
+
+- Updated the height of the token component in the modern theme. [#149](https://github.com/blackbaud/skyux-indicators/pull/149)
+- Updated `SkyTokensModule` to import `BrowserAnimationsModule`. [#149](https://github.com/blackbaud/skyux-indicators/pull/149)
+
 # 4.6.1 (2020-10-22)
 
 - Fixed the wait component to allow tabbing once all full page waits have been removed. [#146](https://github.com/blackbaud/skyux-indicators/pull/146)
