@@ -2,13 +2,13 @@
   class="sky-wait-page"
 >
   <sky-wait
-    isFullPage="true"
-    isNonBlocking="true"
+    [isFullPage]="true"
+    [isNonBlocking]="true"
     [isWaiting]="hasNonBlockingWait"
   >
   </sky-wait>
   <sky-wait
-    isFullPage="true"
+    [isFullPage]="true"
     [isWaiting]="hasBlockingWait"
   >
   </sky-wait>

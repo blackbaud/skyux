@@ -7,6 +7,7 @@ import {
 
 import {
   expect,
+  expectAsync,
   SkyAppTestUtility
 } from '@skyux-sdk/testing';
 
@@ -45,13 +46,13 @@ describe('Wait component', () => {
     fixture.componentInstance.isWaiting = true;
     fixture.detectChanges();
     expect(el.querySelector('.sky-wait')).not.toBeNull();
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
+    fixture.whenStable().then(async () => {
+      await expectAsync(fixture.nativeElement).toBeAccessible();
     });
   }));
 
   it('should set relative position on the wait component parent element', () => {
-     const fixture = TestBed.createComponent(SkyWaitTestComponent);
+    const fixture = TestBed.createComponent(SkyWaitTestComponent);
     fixture.detectChanges();
 
     const el = fixture.nativeElement;
@@ -117,6 +118,7 @@ describe('Wait component', () => {
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
+    const bodyFocusSpy = spyOn(document.body, 'focus').and.callThrough();
 
     SkyAppTestUtility.fireDomEvent(document.body, 'keydown', {
       keyboardEventInit: {
@@ -128,6 +130,7 @@ describe('Wait component', () => {
     tick();
     fixture.detectChanges();
     expect(document.activeElement).toBe(document.body);
+    expect(bodyFocusSpy).toHaveBeenCalledTimes(1);
 
     const anchor2: any = document.body.querySelector('#anchor-2');
     fixture.componentInstance.secondWaitIsWaiting = true;
@@ -145,6 +148,76 @@ describe('Wait component', () => {
     fixture.detectChanges();
 
     expect(document.activeElement).toBe(document.body);
+  }));
+
+  it(`should allow tab navigation and focus after a fullPage wait is removed when another non-blocking wait still exists and both waits were added at the same time`, fakeAsync(() => {
+    // NOTE: This test was added due to a race condition with two quickly added waits on load
+    const fixture = TestBed.createComponent(SkyWaitTestComponent);
+    fixture.detectChanges();
+
+    fixture.componentInstance.startBlockingWait();
+    fixture.componentInstance.startNonBlockingWait();
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+    const bodyFocusSpy = spyOn(document.body, 'focus').and.callThrough();
+
+    SkyAppTestUtility.fireDomEvent(document.body, 'keydown', {
+      keyboardEventInit: {
+        key: 'tab'
+      }
+    });
+
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+    expect(bodyFocusSpy).toHaveBeenCalledTimes(1);
+
+    const anchor2: any = document.body.querySelector('#anchor-2');
+
+    SkyAppTestUtility.fireDomEvent(anchor2, 'focusin', {
+      customEventInit: {
+        relatedTarget: document.body
+      }
+    });
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+
+    expect(document.activeElement).toBe(document.body);
+
+    fixture.componentInstance.endBlockingWait();
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+
+    SkyAppTestUtility.fireDomEvent(document.body, 'keydown', {
+      keyboardEventInit: {
+        key: 'tab'
+      }
+    });
+
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+    expect(bodyFocusSpy).toHaveBeenCalledTimes(1);
+
+    SkyAppTestUtility.fireDomEvent(anchor2, 'focusin', {
+      customEventInit: {
+        relatedTarget: document.body
+      }
+    });
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+
+    expect(document.activeElement).toBe(document.body);
+
+    // Clean up the existing wait so that there are not test side effects for other tests.
+    fixture.componentInstance.endNonBlockingWait();
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
   }));
 
   it('should propagate tab navigation forward and backward avoiding waited element', fakeAsync(() => {
@@ -350,16 +423,16 @@ describe('Wait component', () => {
     fixture.detectChanges();
 
     fixture.componentInstance.isFullPage = true;
+    fixture.detectChanges();
     fixture.componentInstance.isWaiting = true;
     fixture.detectChanges();
     expect(document.body.getAttribute('aria-busy')).toBe('true');
 
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible(() => {
-        fixture.componentInstance.isWaiting = false;
-        fixture.detectChanges();
-        expect(document.body.getAttribute('aria-busy')).toBeNull();
-      });
+    fixture.whenStable().then(async () => {
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+      fixture.componentInstance.isWaiting = false;
+      fixture.detectChanges();
+      expect(document.body.getAttribute('aria-busy')).toBeNull();
     });
   }));
 
@@ -409,12 +482,16 @@ describe('Wait component', () => {
     const fixture = TestBed.createComponent(SkyWaitTestComponent);
 
     fixture.componentInstance.ariaLabel = 'test label';
-    fixture.componentInstance.isWaiting = true;
     fixture.componentInstance.isNonBlocking = false;
     fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      fixture.componentInstance.isWaiting = true;
+      fixture.detectChanges();
 
-    const ariaLabel = getAriaLabel();
-    expect(ariaLabel).toBe('test label');
+      const ariaLabel = getAriaLabel();
+      expect(ariaLabel).toBe('test label');
+    });
   }));
 
   it('should set aria-label on document body when fullPage is true and is blocking',

@@ -7,6 +7,10 @@ import {
   SkyWaitComponent
 } from '../wait.component';
 
+import {
+  SkyWaitService
+} from '../wait.service';
+
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './wait.component.fixture.html'
@@ -31,4 +35,22 @@ export class SkyWaitTestComponent {
 
   @ViewChild(SkyWaitComponent)
   public waitComponent: SkyWaitComponent;
+
+  constructor(private waitService: SkyWaitService) {}
+
+  public endBlockingWait(): void {
+    this.waitService.endBlockingPageWait();
+  }
+
+  public endNonBlockingWait(): void {
+    this.waitService.endNonBlockingPageWait();
+  }
+
+  public startBlockingWait(): void {
+    this.waitService.beginBlockingPageWait();
+  }
+
+  public startNonBlockingWait(): void {
+    this.waitService.beginNonBlockingPageWait();
+  }
 }

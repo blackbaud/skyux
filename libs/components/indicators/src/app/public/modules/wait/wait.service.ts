@@ -130,11 +130,15 @@ export class SkyWaitService {
           crashing when wait service is called in Angular lifecycle functions.
       */
       this.windowSvc.nativeWindow.setTimeout(() => {
-        const factory = this.resolver.resolveComponentFactory(SkyWaitPageComponent);
-        this.waitAdapter.addPageWaitEl();
+        // Ensuring here that we recheck this after the setTimeout is over so that we don't clash
+        // with any other waits that are created.
+        if (!SkyWaitService.waitComponent) {
+          const factory = this.resolver.resolveComponentFactory(SkyWaitPageComponent);
+          this.waitAdapter.addPageWaitEl();
 
-        const cmpRef = this.appRef.bootstrap(factory);
-        SkyWaitService.waitComponent = cmpRef.instance;
+          const cmpRef = this.appRef.bootstrap(factory);
+          SkyWaitService.waitComponent = cmpRef.instance;
+        }
 
         this.setWaitComponentProperties(isBlocking);
       });
