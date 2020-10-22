@@ -1,3 +1,7 @@
+# 4.7.0 (2020-10-22)
+
+- Added resource files for `en_AU`, `en_GB`, and `en_NZ`. [#240](https://github.com/blackbaud/skyux-datetime/pull/240) (Thanks [@Blackbaud-ScottZetrouer](https://github.com/Blackbaud-ScottZetrouer)!)
+
 # 4.6.0 (2020-10-16)
 
 - Updated the datepicker component's calendar button sizes for the modern theme. [#235](https://github.com/blackbaud/skyux-datetime/pull/235)
