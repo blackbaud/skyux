@@ -1,3 +1,7 @@
+# 4.6.1 (2020-10-22)
+
+- Fixed the wait component to allow tabbing once all full page waits have been removed. [#146](https://github.com/blackbaud/skyux-indicators/pull/146)
+
 # 4.6.0 (2020-10-20)
 
 - Added modern theme styles to the token component. [#144](https://github.com/blackbaud/skyux-indicators/pull/144)
