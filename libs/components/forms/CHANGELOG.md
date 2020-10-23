@@ -1,3 +1,7 @@
+# 4.13.3 (2020-10-23)
+
+- Fixed the vertical position of the input box label in the modern theme. [#218](https://github.com/blackbaud/skyux-forms/pull/218)
+
 # 4.13.2 (2020-10-01)
 
 - Fixed a bug where an input box inset button would wrap if the input box was too narrow. [#211](https://github.com/blackbaud/skyux-forms/pull/211)
