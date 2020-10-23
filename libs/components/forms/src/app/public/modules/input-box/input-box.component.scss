@@ -185,7 +185,7 @@ sky-input-box {
       .sky-control-label,
       sky-character-counter-indicator {
         margin-bottom: 0;
-        padding: 7px 15px 0 15px;
+        padding: 6px 15px 1px 15px;
         position: relative;
         /*
           The label should be above input elements so clicking on it will focus on the
@@ -215,8 +215,8 @@ sky-input-box {
         */
         height: auto;
         line-height: 1.15;
-        margin-top: -20px;
-        padding: 23px 15px 11px 15px;
+        margin-top: -23px;
+        padding: 26px 15px 11px 15px;
         position: relative;
 
         &:focus,
