@@ -1,3 +1,7 @@
+# 4.4.1 (2020-10-26)
+
+- Fixed the phone field component to not indicate that the field is invalid while the user is still interacting with the component for the first time. [#74](https://github.com/blackbaud/skyux-phone-field/pull/74)
+
 # 4.4.0 (2020-10-05)
 
 - Added support to the phone field component for specifying whether to allow phone number extensions. [#71](https://github.com/blackbaud/skyux-phone-field/pull/71)
