@@ -1,3 +1,7 @@
+<sky-docs-demo-control-panel-theme
+  (themeSettingsChange)="themeSettingsChange($event)"
+></sky-docs-demo-control-panel-theme>
+
 <div
   class="app-screenshot"
   id="lookup-visual"
@@ -13,6 +17,7 @@
       <sky-lookup
         ariaLabelledBy="my-friends-label"
         formControlName="friends"
+        idProperty="id"
         placeholderText="Type a person's name..."
         [data]="people"
         [debounceTime]="1000"
@@ -29,6 +34,23 @@
         Disable lookup
       </button>
     </p>
+
+    <sky-input-box>
+      <label
+        class="sky-control-label"
+      >
+        Who are your friends?
+      </label>
+      <sky-lookup
+        ariaLabelledBy="my-friends-label"
+        formControlName="friends2"
+        idProperty="id"
+        placeholderText="Type a person's name..."
+        [data]="people"
+        [debounceTime]="1000"
+      >
+      </sky-lookup>
+    </sky-input-box>
   </form>
 </div>
 
@@ -47,6 +69,10 @@
   </tr>
   <tr>
     <th>Value</th>
-    <td>{{ form.value.friends?.name }}</td>
+    <td>
+      <ng-container *ngFor="let friend of form.value.friends">
+        {{ friend.name }}
+      </ng-container>
+    </td>
   </tr>
 </table>

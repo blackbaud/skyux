@@ -2,14 +2,13 @@
 @import "~@skyux/theme/scss/_compat/mixins";
 
 .sky-lookup {
-  textarea {
+  .sky-lookup-input.sky-form-control {
     resize: none;
     border: 0;
-    overflow: hidden;
-    height: #{$sky-line-height-base}em;
     box-sizing: content-box;
+    height: #{$sky-line-height-base}em;
+    overflow: hidden;
     padding: 0;
-    display: inline-flex;
     background-color: transparent;
 
     &:focus {
@@ -19,15 +18,12 @@
   }
 
   &.sky-lookup-disabled {
-
     .sky-lookup-search {
       background-color: $sky-background-color-disabled;
     }
-
   }
 
-  ::ng-deep
-  sky-tokens {
+  sky-tokens.sky-lookup-tokens {
     &:focus {
       outline: none;
     }
@@ -39,7 +35,7 @@
       .sky-tokens-content {
         padding-top: 5px;
         padding-bottom: 5px;
-        padding-left: 11px;
+        padding-left: 10px;
         flex-basis: 100px;
       }
     }
@@ -49,7 +45,12 @@
 .sky-lookup-search {
   cursor: text;
   background-color: $sky-color-white;
-  padding-left: 3px;
+  line-height: #{$sky-line-height-base}em;
+  padding: 6px 12px 6px 3px;
+
+  &:not(.sky-field-status-active) {
+    @include sky-border(dark, top, bottom, left, right);
+  }
 }
 
 .sky-lookup-disabled {
@@ -59,11 +60,63 @@
 }
 
 .sky-lookup-focused {
-  ::ng-deep .sky-tokens-content {
+  .sky-tokens-content {
     flex-basis: 100px;
   }
 }
 
-:host(.ng-invalid.ng-touched) .sky-lookup-search {
+sky-lookup.ng-invalid.ng-touched .sky-lookup-search {
   @include sky-field-status(invalid);
+}
+
+sky-input-box .sky-lookup {
+  width: 100%;
+
+  .sky-lookup-search {
+    border: none;
+    padding-bottom: 5px;
+    width: 100%;
+  }
+}
+
+.sky-theme-modern {
+
+  sky-tokens.sky-lookup-tokens {
+    .sky-tokens {
+      margin-top: -6px;
+    }
+  }
+
+  sky-input-box .sky-lookup {
+    sky-tokens.sky-lookup-tokens {
+      .sky-tokens {
+        margin-top: 0;
+        margin-bottom: 0;
+
+        sky-token {
+          padding-bottom: 0;
+          padding-top: 0;
+        }
+
+        .sky-tokens-content {
+          padding-bottom: 0;
+          padding-top: 0;
+
+          &:first-child {
+            padding-left: 0;
+          }
+        }
+      }
+    }
+
+    .sky-lookup-search {
+      background-color: transparent;
+      padding: 0 0 0 15px;
+    }
+
+    textarea.sky-lookup-input.sky-form-control {
+      padding-left: 0;
+      resize: none;
+    }
+  }
 }

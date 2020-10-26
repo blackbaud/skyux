@@ -12,6 +12,26 @@ import {
 } from '@angular/forms';
 
 import {
+  NoopAnimationsModule
+} from '@angular/platform-browser/animations';
+
+import {
+  BehaviorSubject
+} from 'rxjs';
+
+import {
+  SkyInputBoxModule
+} from '@skyux/forms';
+
+import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange
+} from '@skyux/theme';
+
+import {
   SkyLookupModule
 } from '../lookup.module';
 
@@ -20,23 +40,50 @@ import {
 } from './lookup.component.fixture';
 
 import {
+  SkyLookupInputBoxTestComponent
+} from './lookup-input-box.component.fixture';
+
+import {
   SkyLookupTemplateTestComponent
 } from './lookup-template.component.fixture';
+
+export function themeServiceFactory(): any {
+  return {
+    settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+      {
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.default,
+          SkyThemeMode.presets.light
+        ),
+        previousSettings: undefined
+      }
+    )
+  };
+}
 
 @NgModule({
   declarations: [
     SkyLookupTestComponent,
+    SkyLookupInputBoxTestComponent,
     SkyLookupTemplateTestComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
+    NoopAnimationsModule,
     ReactiveFormsModule,
+    SkyInputBoxModule,
     SkyLookupModule
   ],
   exports: [
     SkyLookupTestComponent,
     SkyLookupTemplateTestComponent
+  ],
+  providers: [
+    {
+      provide: SkyThemeService,
+      useFactory: themeServiceFactory
+    }
   ]
 })
 export class SkyLookupFixturesModule { }

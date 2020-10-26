@@ -6,9 +6,12 @@ import {
   ElementRef,
   Input,
   OnDestroy,
+  OnInit,
   Optional,
   Self,
-  ViewChild
+  TemplateRef,
+  ViewChild,
+  ViewEncapsulation
 } from '@angular/core';
 
 import {
@@ -26,12 +29,12 @@ import {
 } from 'rxjs/operators';
 
 import {
-  SkyAutocompleteSelectionChange
-} from '../autocomplete/types/autocomplete-selection-change';
+  SkyAppWindowRef
+} from '@skyux/core';
 
 import {
-  SkyAutocompleteInputDirective
-} from '../autocomplete/autocomplete-input.directive';
+  SkyInputBoxHostService
+} from '@skyux/forms';
 
 import {
   SkyToken,
@@ -40,20 +43,32 @@ import {
 } from '@skyux/indicators';
 
 import {
-  SkyAppWindowRef
-} from '@skyux/core';
+  SkyAutocompleteSelectionChange
+} from '../autocomplete/types/autocomplete-selection-change';
 
-import { SkyLookupAutocompleteAdapter } from './lookup-autocomplete-adapter';
+import {
+  SkyAutocompleteInputDirective
+} from '../autocomplete/autocomplete-input.directive';
+
+import {
+  SkyLookupAutocompleteAdapter
+} from './lookup-autocomplete-adapter';
+
+import {
+  SkyLookupAdapterService
+} from './lookup-adapter.service';
 
 @Component({
   selector: 'sky-lookup',
   templateUrl: './lookup.component.html',
   styleUrls: ['./lookup.component.scss'],
+  providers: [SkyLookupAdapterService],
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyLookupComponent
   extends SkyLookupAutocompleteAdapter
-  implements AfterViewInit, OnDestroy, ControlValueAccessor {
+  implements OnInit, AfterViewInit, OnDestroy, ControlValueAccessor {
 
 /**
  * Defines a string value to label the typeahead search input for accessibility.
@@ -88,6 +103,13 @@ export class SkyLookupComponent
   @Input()
   public placeholderText: string;
 
+  /**
+   * Specifies an object property that represents the object's unique identifier.
+   * Specifying this property enables token animations and more efficient rendering.
+   */
+  @Input()
+  public idProperty: string;
+
   public get tokens(): SkyToken[] {
     return this._tokens;
   }
@@ -115,11 +137,11 @@ export class SkyLookupComponent
   })
   private autocompleteInputDirective: SkyAutocompleteInputDirective;
 
-  @ViewChild('lookupInput', {
-    read: ElementRef,
+  @ViewChild('inputTemplateRef', {
+    read: TemplateRef,
     static: true
   })
-  private lookupInput: ElementRef;
+  private inputTemplateRef: TemplateRef<any>;
 
   private ngUnsubscribe = new Subject();
   private idle = new Subject();
@@ -131,10 +153,22 @@ export class SkyLookupComponent
     private changeDetector: ChangeDetectorRef,
     private elementRef: ElementRef,
     private windowRef: SkyAppWindowRef,
-    @Self() @Optional() ngControl: NgControl
+    @Self() @Optional() ngControl: NgControl,
+    private adapter: SkyLookupAdapterService,
+    @Optional() public inputBoxHostSvc?: SkyInputBoxHostService
   ) {
     super();
     ngControl.valueAccessor = this;
+  }
+
+  public ngOnInit(): void {
+    if (this.inputBoxHostSvc) {
+      this.inputBoxHostSvc.populate(
+        {
+          inputTemplate: this.inputTemplateRef
+        }
+      );
+    }
   }
 
   public ngAfterViewInit() {
@@ -183,25 +217,22 @@ export class SkyLookupComponent
   }
 
   public onTokensKeyUp(event: KeyboardEvent) {
-    if (event.key) {
-      const key = event.key.toLowerCase();
+    /* tslint:disable-next-line:switch-default */
+    switch (event.key) {
+      case 'Backspace':
+        this.sendTokensMessage(SkyTokensMessageType.RemoveActiveToken);
+        this.sendTokensMessage(SkyTokensMessageType.FocusPreviousToken);
+        event.preventDefault();
+        break;
 
-      /* tslint:disable-next-line:switch-default */
-      switch (key) {
-        case 'backspace':
-          this.sendTokensMessage(SkyTokensMessageType.RemoveActiveToken);
-          this.sendTokensMessage(SkyTokensMessageType.FocusPreviousToken);
-          event.preventDefault();
-          break;
-
-        case 'delete':
-          this.sendTokensMessage(SkyTokensMessageType.RemoveActiveToken);
-          this.windowRef.nativeWindow.setTimeout(() => {
-            this.sendTokensMessage(SkyTokensMessageType.FocusActiveToken);
-          });
-          event.preventDefault();
-          break;
-      }
+      case 'Del':
+      case 'Delete':
+        this.sendTokensMessage(SkyTokensMessageType.RemoveActiveToken);
+        this.windowRef.nativeWindow.setTimeout(() => {
+          this.sendTokensMessage(SkyTokensMessageType.FocusActiveToken);
+        });
+        event.preventDefault();
+        break;
     }
   }
 
@@ -243,75 +274,78 @@ export class SkyLookupComponent
     this.autocompleteInputDirective.inputTextValue = undefined;
   }
 
-  private addToSelected(item: any) {
-    let selectedItems: any[] = [];
+  // Handles when to focus on the tokens.
+  // Check for empty search text on keydown, before the escape key is fully pressed.
+  // (Otherwise, a single character being escaped would register as empty on keyup.)
+  // If empty on keydown, set a flag so that the appropriate action can be taken on keyup.
 
-    if (this.tokens) {
-      selectedItems = this.tokens.map(token => token.value);
+  public inputKeydown(event: KeyboardEvent, value: string): void {
+    switch (event.key) {
+      case 'Enter':
+        event.preventDefault();
+        break;
+      case 'ArrowLeft':
+      case 'Backspace':
+      case 'Left':
+        if (value) {
+          this.markForTokenFocusOnKeyUp = false;
+        } else {
+          this.markForTokenFocusOnKeyUp = true;
+        }
+        break;
+      default:
+    }
+  }
+
+  public inputKeyup(event: KeyboardEvent): void {
+    switch (event.key) {
+      case 'Esc':
+      case 'Escape':
+        this.clearSearchText();
+        event.preventDefault();
+        break;
+      case 'ArrowLeft':
+      case 'Backspace':
+      case 'Left':
+        /* istanbul ignore else */
+        if (this.markForTokenFocusOnKeyUp) {
+          this.sendTokensMessage(SkyTokensMessageType.FocusLastToken);
+          event.preventDefault();
+        }
+        break;
+      default:
     }
 
-    // Add the new item.
-    selectedItems = selectedItems.concat(item);
+    event.stopPropagation();
+  }
 
-    this.writeValue(selectedItems);
+  private addToSelected(item: any) {
+    // If items have a unique identifier, don't allow the same item to be added twice.
+    if (
+      !this.idProperty ||
+        !this.tokens?.some(
+          token => token.value[this.idProperty] === item[this.idProperty]
+        )
+    ) {
+      const selectedItems: any[] = [
+        ...(this.tokens?.map(token => token.value) || []),
+        item
+      ];
+
+      this.writeValue(selectedItems);
+    }
+
     this.clearSearchText();
   }
 
   private addEventListeners() {
     this.idle = new Subject();
-    this.focusTokensOnInputKeyUp();
     this.focusInputOnHostClick();
   }
 
   private removeEventListeners() {
     this.idle.next();
     this.idle.complete();
-  }
-
-  private focusTokensOnInputKeyUp() {
-    const inputElement = this.lookupInput.nativeElement;
-
-    // Handles when to focus on the tokens.
-    // Check for empty search text on keydown, before the escape key is fully pressed.
-    // (Otherwise, a single character being escaped would register as empty on keyup.)
-    // If empty on keydown, set a flag so that the appropriate action can be taken on keyup.
-
-    observableFromEvent(inputElement, 'keydown')
-      .pipe(takeUntil(this.idle))
-      .subscribe((event: KeyboardEvent) => {
-        const key = event.key.toLowerCase();
-        if (
-          key === 'left' ||
-          key === 'arrowleft' ||
-          key === 'backspace'
-        ) {
-          const isSearchEmpty = (!this.lookupInput.nativeElement.value);
-          if (isSearchEmpty) {
-            this.markForTokenFocusOnKeyUp = true;
-          } else {
-            this.markForTokenFocusOnKeyUp = false;
-          }
-        }
-      });
-
-    observableFromEvent(inputElement, 'keyup')
-      .pipe(takeUntil(this.idle))
-      .subscribe((event: KeyboardEvent) => {
-        const key = event.key.toLowerCase();
-        if (
-          key === 'left' ||
-          key === 'arrowleft' ||
-          key === 'backspace'
-        ) {
-          /* istanbul ignore else */
-          if (this.markForTokenFocusOnKeyUp) {
-            this.sendTokensMessage(SkyTokensMessageType.FocusLastToken);
-            event.preventDefault();
-          }
-        }
-
-        event.stopPropagation();
-      });
   }
 
   private focusInputOnHostClick() {
@@ -347,7 +381,7 @@ export class SkyLookupComponent
   }
 
   private focusInput() {
-    this.lookupInput.nativeElement.focus();
+    this.adapter.focusInput(this.elementRef);
   }
 
   private cloneItems(items: any[]): any[] {

@@ -35,12 +35,16 @@ import {
   SkyLookupTemplateTestComponent
 } from './fixtures/lookup-template.component.fixture';
 
+import {
+  SkyLookupInputBoxTestComponent
+} from './fixtures/lookup-input-box.component.fixture';
+
 describe('Lookup component', function () {
 
   //#region helpers
 
   function getInputElement(lookupComponent: SkyLookupComponent): HTMLInputElement {
-    return lookupComponent['lookupInput'].nativeElement as HTMLInputElement;
+    return lookupComponent['elementRef'].nativeElement.querySelector('.sky-lookup-input');
   }
 
   function getTokenElements(): NodeListOf<Element> {
@@ -132,6 +136,12 @@ describe('Lookup component', function () {
     });
 
     describe('basic setup', function () {
+      function validateItems(names: string[]): void {
+        const selectedItems = lookupComponent.value;
+
+        expect(selectedItems.map(item => item.name)).toEqual(names);
+      }
+
       it('should set defaults', function () {
         expect(lookupComponent.ariaLabel).toEqual(undefined);
         expect(lookupComponent.ariaLabelledBy).toEqual(undefined);
@@ -180,29 +190,12 @@ describe('Lookup component', function () {
 
       it('should add new tokens', fakeAsync(function () {
         fixture.detectChanges();
-        expect(lookupComponent.value).toEqual([]);
+        validateItems([]);
 
         performSearch('s', fixture);
         selectSearchResult(0, fixture);
 
-        const selectedItems = lookupComponent.value;
-        expect(selectedItems.length).toEqual(1);
-        expect(selectedItems[0].name).toEqual('Isaac');
-      }));
-
-      it('should NOT add new tokens if value is empty', fakeAsync(function () {
-        fixture.detectChanges();
-        expect(lookupComponent.value).toEqual([]);
-
-        performSearch('s', fixture);
-        selectSearchResult(0, fixture);
-
-        performSearch('', fixture);
-        getInputElement(lookupComponent).blur();
-
-        const selectedItems = lookupComponent.value;
-        expect(selectedItems.length).toEqual(1);
-        expect(selectedItems[0].name).toEqual('Isaac');
+        validateItems(['Isaac']);
       }));
 
       it('should change the value of the lookup if tokens change', fakeAsync(function () {
@@ -253,6 +246,47 @@ describe('Lookup component', function () {
         fixture.detectChanges();
 
         expect(component.form.touched).toEqual(true);
+      }));
+
+      it('should allow duplicate tokens if idProperty is not set', fakeAsync(function () {
+        fixture.detectChanges();
+        validateItems([]);
+
+        performSearch('s', fixture);
+        selectSearchResult(0, fixture);
+
+        performSearch('s', fixture);
+        selectSearchResult(0, fixture);
+
+        validateItems(['Isaac', 'Isaac']);
+      }));
+
+      it('should not allow duplicate tokens if idProperty is set', fakeAsync(function () {
+        component.idProperty = 'id';
+        fixture.detectChanges();
+
+        validateItems([]);
+
+        performSearch('s', fixture);
+        selectSearchResult(0, fixture);
+
+        performSearch('s', fixture);
+        selectSearchResult(0, fixture);
+
+        validateItems(['Isaac']);
+      }));
+
+      it('should NOT add new tokens if value is empty', fakeAsync(function () {
+        fixture.detectChanges();
+        validateItems([]);
+
+        performSearch('s', fixture);
+        selectSearchResult(0, fixture);
+
+        performSearch('', fixture);
+        getInputElement(lookupComponent).blur();
+
+        validateItems(['Isaac']);
       }));
     });
 
@@ -325,25 +359,24 @@ describe('Lookup component', function () {
       }));
 
       it('should focus the last token if arrowleft or backspace pressed', fakeAsync(function () {
+        function validateFocusedToken(key: string): void {
+          triggerKeyPress(inputElement, key, fixture);
+          expect(document.activeElement).toEqual(tokenElements.item(tokenElements.length - 1));
+
+          inputElement.focus();
+          tick();
+          fixture.detectChanges();
+        }
+
         component.friends = [{ name: 'Rachel' }];
         fixture.detectChanges();
 
         const tokenElements = getTokenElements();
         const inputElement = getInputElement(lookupComponent);
 
-        triggerKeyPress(inputElement, 'ArrowLeft', fixture);
-        expect(document.activeElement).toEqual(tokenElements.item(tokenElements.length - 1));
-
-        inputElement.focus();
-        tick();
-        fixture.detectChanges();
-
-        triggerKeyPress(inputElement, 'Backspace', fixture);
-        expect(document.activeElement).toEqual(tokenElements.item(tokenElements.length - 1));
-
-        inputElement.focus();
-        tick();
-        fixture.detectChanges();
+        validateFocusedToken('ArrowLeft');
+        validateFocusedToken('Backspace');
+        validateFocusedToken('Left');
 
         triggerKeyPress(inputElement, 'Space', fixture);
         expect(document.activeElement).toEqual(inputElement);
@@ -364,61 +397,62 @@ describe('Lookup component', function () {
       }));
 
       it('should clear the search text if escape key is pressed', fakeAsync(function () {
-        fixture.detectChanges();
-        tick();
+        function validate(key: string): void {
+          fixture.detectChanges();
+          tick();
 
-        const inputElement = getInputElement(lookupComponent);
+          const inputElement = getInputElement(lookupComponent);
 
-        fixture.detectChanges();
-        performSearch('s', fixture);
+          fixture.detectChanges();
+          performSearch('s', fixture);
 
-        expect(inputElement.value).toEqual('s');
+          expect(inputElement.value).toEqual('s');
 
-        SkyAppTestUtility.fireDomEvent(inputElement, 'keyup', {
-          keyboardEventInit: { key: 'Escape' }
-        });
-        tick();
-        fixture.detectChanges();
-        tick();
+          SkyAppTestUtility.fireDomEvent(inputElement, 'keyup', {
+            keyboardEventInit: { key }
+          });
+          tick();
+          fixture.detectChanges();
+          tick();
 
-        expect(inputElement.value).toEqual('');
+          expect(inputElement.value).toEqual('');
+        }
+
+        validate('Esc');
+        validate('Escape');
       }));
 
       it('should remove tokens when backpsace or delete is pressed', fakeAsync(function () {
+        function validate(key: string, expectedCount: number): void {
+          const tokensHostElement = document.querySelector('sky-tokens');
+          SkyAppTestUtility.fireDomEvent(tokensHostElement, 'keyup', {
+            keyboardEventInit: { key }
+          });
+          tick();
+          fixture.detectChanges();
+          tick();
+
+          tokenHostElements = document.querySelectorAll('sky-token');
+          expect(tokenHostElements.length).toEqual(expectedCount);
+          expect(tokenHostElements.item(0).contains(document.activeElement))
+            .toEqual(true);
+        }
+
         component.friends = [
           { name: 'John' },
           { name: 'Jane' },
+          { name: 'Jim' },
           { name: 'Doe' }
         ];
+
         fixture.detectChanges();
 
         let tokenHostElements = document.querySelectorAll('sky-token');
-        expect(tokenHostElements.length).toEqual(3);
+        expect(tokenHostElements.length).toEqual(4);
 
-        const tokensHostElement = document.querySelector('sky-tokens');
-        SkyAppTestUtility.fireDomEvent(tokensHostElement, 'keyup', {
-          keyboardEventInit: { key: 'Backspace' }
-        });
-        tick();
-        fixture.detectChanges();
-        tick();
-
-        tokenHostElements = document.querySelectorAll('sky-token');
-        expect(tokenHostElements.length).toEqual(2);
-        expect(tokenHostElements.item(0).contains(document.activeElement))
-          .toEqual(true);
-
-        SkyAppTestUtility.fireDomEvent(tokensHostElement, 'keyup', {
-          keyboardEventInit: { key: 'Delete' }
-        });
-        tick();
-        fixture.detectChanges();
-        tick();
-
-        tokenHostElements = document.querySelectorAll('sky-token');
-        expect(tokenHostElements.length).toEqual(1);
-        expect(tokenHostElements.item(0).contains(document.activeElement))
-          .toEqual(true);
+        validate('Backspace', 3);
+        validate('Del', 2);
+        validate('Delete', 1);
       }));
 
       it('should unfocus the component if it loses focus', fakeAsync(function () {
@@ -439,6 +473,31 @@ describe('Lookup component', function () {
 
         expect(lookupComponent.isInputFocused).toEqual(false);
       }));
+
+      it('should prevent default if Enter is pressed on the input element', fakeAsync(function () {
+        fixture.detectChanges();
+
+        const inputElement = getInputElement(lookupComponent);
+
+        const event = Object.assign(
+          document.createEvent('CustomEvent'),
+          {
+            key: 'Enter'
+          }
+        );
+
+        spyOn(event, 'preventDefault');
+
+        event.initEvent('keydown', true, true);
+        inputElement.dispatchEvent(event);
+
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        expect(event.preventDefault).toHaveBeenCalled();
+      }));
+
     });
 
     describe('mouse interactions', function () {
@@ -837,5 +896,27 @@ describe('Lookup component', function () {
         expect(document.activeElement).not.toEqual(input);
       }));
     });
+  });
+
+  describe('inside input box', () => {
+    let fixture: ComponentFixture<SkyLookupInputBoxTestComponent>;
+    let nativeElement: HTMLElement;
+
+    beforeEach(() => {
+      fixture = TestBed.createComponent(SkyLookupInputBoxTestComponent);
+      nativeElement = fixture.nativeElement as HTMLElement;
+    });
+
+    it('should render in the expected input box containers', fakeAsync(() => {
+      fixture.detectChanges();
+
+      const inputBoxEl = nativeElement.querySelector('sky-input-box');
+
+      const inputGroupEl = inputBoxEl.querySelector('.sky-input-box-input-group-inner');
+      const containerEl = inputGroupEl.children.item(0);
+
+      expect(containerEl).toHaveCssClass('sky-lookup');
+    }));
+
   });
 });

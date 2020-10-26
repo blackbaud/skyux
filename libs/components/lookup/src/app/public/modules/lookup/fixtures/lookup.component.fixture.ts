@@ -31,6 +31,7 @@ export class SkyLookupTestComponent implements OnInit {
   public data: any[];
   public friends: any[];
   public form: FormGroup;
+  public idProperty: string;
   public placeholderText: string;
 
   constructor(
