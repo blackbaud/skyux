@@ -1,3 +1,7 @@
+# 4.7.0 (2020-10-26)
+
+- Added input box support to the lookup component. [#142](https://github.com/blackbaud/skyux-lookup/pull/142)
+
 # 4.6.0 (2020-10-05)
 
 - Added modern theme styles to the search component. [#134](https://github.com/blackbaud/skyux-lookup/pull/134)
