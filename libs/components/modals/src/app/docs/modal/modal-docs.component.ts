@@ -9,6 +9,10 @@ import {
 } from '@skyux/docs-tools';
 
 import {
+  SkyThemeService
+} from '@skyux/theme';
+
+import {
   SkyModalService
 } from '../../public/public_api';
 
@@ -35,7 +39,8 @@ export class ModalDocsComponent {
   ];
 
   constructor(
-    private modal: SkyModalService
+    private modal: SkyModalService,
+    public themeSvc: SkyThemeService
   ) { }
 
   public onOpenModalClick(): void {
