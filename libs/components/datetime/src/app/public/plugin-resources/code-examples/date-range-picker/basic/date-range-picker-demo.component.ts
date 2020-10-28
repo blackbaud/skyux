@@ -55,6 +55,7 @@ export class DateRangePickerDemoComponent implements OnInit, OnDestroy {
       lastDonation: new FormControl()
     });
 
+    // Watch for status changes.
     this.reactiveRange.statusChanges.pipe(
       distinctUntilChanged(),
       takeUntil(this.ngUnsubscribe)
@@ -66,6 +67,7 @@ export class DateRangePickerDemoComponent implements OnInit, OnDestroy {
       );
     });
 
+    // Watch for value changes.
     this.reactiveRange.valueChanges.pipe(
       distinctUntilChanged(),
       takeUntil(this.ngUnsubscribe)

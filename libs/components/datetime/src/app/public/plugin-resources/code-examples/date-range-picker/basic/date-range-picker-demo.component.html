@@ -50,7 +50,9 @@
   Form control value
 </h3>
 
-<pre><code>{{ reactiveForm.value.lastDonation | json }}</code></pre>
+<pre><code style="display:block;">calculatorId: {{ reactiveForm.value.lastDonation?.calculatorId }}
+startDate: {{ reactiveForm.value.lastDonation?.startDate | date }}
+endDate: {{ reactiveForm.value.lastDonation?.endDate | date }}</code></pre>
 
 <h3>
   Manipulate value and state
