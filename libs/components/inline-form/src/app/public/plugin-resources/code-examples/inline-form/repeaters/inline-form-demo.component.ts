@@ -1,6 +1,13 @@
 import {
-  Component
+  Component,
+  OnInit
 } from '@angular/core';
+
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup
+} from '@angular/forms';
 
 import {
   SkyInlineFormButtonLayout,
@@ -13,14 +20,9 @@ import {
   templateUrl: './inline-form-demo.component.html',
   styleUrls: ['./inline-form-demo.component.scss']
 })
-export class InlineFormDemoComponent {
+export class InlineFormDemoComponent implements OnInit {
 
   public activeInlineFormId: string;
-
-  public demoModel: {
-    note?: string;
-    title?: string;
-  } = { };
 
   public inlineFormConfig: SkyInlineFormConfig = {
     buttonLayout: SkyInlineFormButtonLayout.SaveCancel
@@ -49,20 +51,37 @@ export class InlineFormDemoComponent {
     }
   ];
 
+  public myForm: FormGroup;
+
+  constructor(private formBuilder: FormBuilder) {}
+
+  public ngOnInit(): void {
+    this.myForm = this.formBuilder.group({
+      id: new FormControl(),
+      title: new FormControl(),
+      note: new FormControl()
+    });
+  }
+
   public showInlineForm(item: any): void {
     this.activeInlineFormId = item.id;
-    this.demoModel = {
+    this.myForm.patchValue({
       note: item.note,
       title: item.title
-    };
+    });
   }
 
   public onInlineFormClose(args: SkyInlineFormCloseArgs): void {
     if (args.reason === 'save') {
       const found = this.items.find(item => item.id === this.activeInlineFormId);
-      found.note = this.demoModel.note;
-      found.title = this.demoModel.title;
+      found.note = this.myForm.get('note').value;
+      found.title = this.myForm.get('title').value;
     }
+
+    this.myForm.patchValue({
+      note: undefined,
+      title: undefined
+    });
 
     // Close the active form.
     this.activeInlineFormId = undefined;

@@ -40,7 +40,7 @@
             <button
               aria-label="Edit"
               class="sky-btn sky-btn-link sky-demo-btn-edit"
-              (click)="demoSettings.showForm = true"
+              (click)="onInlineFormOpen()"
             >
               <sky-icon
                 icon="pencil"
@@ -219,22 +219,27 @@
 <ng-template
   #inlineFormTemplate
 >
-  <div
-    class="sky-form-group"
+  <form
+    novalidate
+    [formGroup]="demoForm"
   >
-    <label
-      class="sky-control-label"
-      [for]="firstName.id"
+    <div
+      class="sky-form-group"
     >
-      First name
-    </label>
-    <input
-      id="demo-field-first-name"
-      class="sky-form-control"
-      skyId
-      type="text"
-      [(ngModel)]="demoModel.firstName"
-      #firstName="skyId"
-    />
-  </div>
+      <label
+        class="sky-control-label"
+        [for]="firstName.id"
+      >
+        First name
+      </label>
+      <input
+        id="demo-field-first-name"
+        class="sky-form-control"
+        formControlName="firstName"
+        skyId
+        type="text"
+        #firstName="skyId"
+      />
+    </div>
+  </form>
 </ng-template>

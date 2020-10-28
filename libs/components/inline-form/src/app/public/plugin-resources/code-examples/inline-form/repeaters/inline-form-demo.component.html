@@ -39,38 +39,43 @@
 <ng-template
   #inlineFormTemplate
 >
-  <div
-    class="sky-form-group"
+  <form
+    novalidate
+    [formGroup]="myForm"
   >
-    <label
-      class="sky-control-label"
-      [for]="myTitle.id"
+    <div
+      class="sky-form-group"
     >
-      Title
-    </label>
-    <input
-      class="sky-form-control"
-      skyId
-      type="text"
-      [(ngModel)]="demoModel.title"
-      #myTitle="skyId"
-    />
-  </div>
-  <div
-    class="sky-form-group"
-  >
-    <label
-      class="sky-control-label"
-      [for]="myNote.id"
+      <label
+        class="sky-control-label"
+        [for]="myTitle.id"
+      >
+        Title
+      </label>
+      <input
+        class="sky-form-control"
+        formControlName="title"
+        skyId
+        type="text"
+        #myTitle="skyId"
+      />
+    </div>
+    <div
+      class="sky-form-group"
     >
-      Note
-    </label>
-    <input
-      class="sky-form-control"
-      skyId
-      type="text"
-      [(ngModel)]="demoModel.note"
-      #myNote="skyId"
-    />
-  </div>
+      <label
+        class="sky-control-label"
+        [for]="myNote.id"
+      >
+        Note
+      </label>
+      <input
+        class="sky-form-control"
+        formControlName="note"
+        skyId
+        type="text"
+        #myNote="skyId"
+      />
+    </div>
+  </form>
 </ng-template>
