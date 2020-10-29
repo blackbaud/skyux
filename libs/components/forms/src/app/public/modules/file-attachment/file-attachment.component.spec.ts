@@ -15,7 +15,8 @@ import {
 } from '@angular/core';
 
 import {
-  expect
+  expect,
+  expectAsync
 } from '@skyux-sdk/testing';
 
 import {
@@ -1079,8 +1080,16 @@ describe('File attachment', () => {
 
   it('should pass accessibility', async(() => {
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
+    fixture.whenStable().then(async () => {
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+  }));
+
+  it('should pass accessibility when label does not match the button text', async(() => {
+    fixture.componentInstance.labelText = 'Something different';
+    fixture.detectChanges();
+    fixture.whenStable().then(async () => {
+      await expectAsync(fixture.nativeElement).toBeAccessible();
     });
   }));
 });
