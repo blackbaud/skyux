@@ -1,3 +1,7 @@
+# 4.1.0 (2020-10-30)
+
+- Added the optional `dependenciesForTranspilation` property to the schema. [#70](https://github.com/blackbaud/skyux-config/pull/70)
+
 # 4.0.4 (2020-09-25)
 
 - Fixed the JSDoc comment for the `SkyAppRuntimeConfigParams.get()` method. [#69](https://github.com/blackbaud/skyux-config/pull/69)
