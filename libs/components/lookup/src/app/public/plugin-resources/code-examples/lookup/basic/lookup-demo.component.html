@@ -7,21 +7,23 @@
   <div
     class="sky-form-group"
   >
-    <label
-      class="sky-control-label"
-      skyId
-      #friendsLabel="skyId"
-    >
-      Who are your friends?
-    </label>
-    <sky-lookup
-      formControlName="friends"
-      placeholderText="Enter a name..."
-      [ariaLabelledBy]="friendsLabel.id"
-      [data]="people"
-      [searchFilters]="getSearchFilters()"
-    >
-    </sky-lookup>
+    <sky-input-box>
+      <label
+        class="sky-control-label"
+        skyId
+        #friendsLabel="skyId"
+      >
+        Who are your friends?
+      </label>
+      <sky-lookup
+        formControlName="friends"
+        placeholderText="Enter a name..."
+        [ariaLabelledBy]="friendsLabel.id"
+        [data]="people"
+        [searchFilters]="getSearchFilters()"
+      >
+      </sky-lookup>
+    </sky-input-box>
   </div>
   <div
     class="lookup-demo-alert"

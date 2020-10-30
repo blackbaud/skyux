@@ -15,6 +15,10 @@ import {
 } from '@skyux/core';
 
 import {
+  SkyInputBoxModule
+} from '@skyux/forms';
+
+import {
   SkyLookupModule
 } from '@skyux/lookup';
 
@@ -27,6 +31,7 @@ import {
     CommonModule,
     ReactiveFormsModule,
     SkyIdModule,
+    SkyInputBoxModule,
     SkyLookupModule
   ],
   declarations: [
