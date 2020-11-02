@@ -188,3 +188,11 @@ a.sky-btn {
 .sky-btn-borderless-inline:hover {
   border: none;
 }
+
+.sky-btn-icon-borderless {
+  @include sky-icon-button-borderless();
+  height: 26px;
+  width: 26px;
+  border: none;
+  padding: 0;
+}
