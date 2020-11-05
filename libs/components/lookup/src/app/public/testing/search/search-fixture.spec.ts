@@ -8,8 +8,8 @@ import {
 } from '@angular/core';
 
 import {
-  SkySearchModule
-} from '@skyux/lookup';
+  SkySearchTestingModule
+} from './search-testing.module';
 
 import {
   SkySearchFixture
@@ -48,7 +48,7 @@ describe('Search fixture', () => {
         TestComponent
       ],
       imports: [
-        SkySearchModule
+        SkySearchTestingModule
       ]
     });
   });
