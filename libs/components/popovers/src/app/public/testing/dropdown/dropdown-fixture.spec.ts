@@ -1,25 +1,28 @@
 import {
-  async,
-  TestBed,
-  ComponentFixture
-} from '@angular/core/testing';
-
-import {
   Component
 } from '@angular/core';
+
+import {
+  async,
+  ComponentFixture,
+  TestBed
+} from '@angular/core/testing';
 
 import {
   expect
 } from '@skyux-sdk/testing';
 
 import {
-  SkyDropdownMenuChange,
-  SkyDropdownModule
+  SkyDropdownMenuChange
 } from '@skyux/popovers';
 
 import {
   SkyDropdownFixture
 } from './dropdown-fixture';
+
+import {
+  SkyDropdownTestingModule
+} from './dropdown-testing.module';
 
 const DATA_SKY_ID = 'test-dropdown';
 
@@ -107,7 +110,7 @@ describe('Dropdown fixture', () => {
         DropdownTestComponent
       ],
       imports: [
-        SkyDropdownModule
+        SkyDropdownTestingModule
       ]
     });
 
@@ -125,7 +128,7 @@ describe('Dropdown fixture', () => {
     testComponent.buttonType = 'context-menu';
     testComponent.disabled = true;
     testComponent.label = 'A11y descriptor';
-    testComponent.title = 'my tile';
+    testComponent.title = 'my title';
     fixture.detectChanges();
 
     // Expect new values to be set on sky-dropdown component.
