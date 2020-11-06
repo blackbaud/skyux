@@ -6,12 +6,25 @@ import {
   Output
 } from '@angular/core';
 
+import {
+  SkyThemeService
+} from '@skyux/theme';
+
+import {
+  takeUntil
+} from 'rxjs/operators';
+
+import {
+  Subject
+} from 'rxjs';
+
 /**
  * @internal
  */
 @Component({
   selector: 'sky-flyout-iterator',
-  templateUrl: './flyout-iterator.component.html'
+  templateUrl: './flyout-iterator.component.html',
+  styleUrls: ['./flyout-iterator.component.scss']
 })
 export class SkyFlyoutIteratorComponent implements OnDestroy {
 
@@ -26,18 +39,32 @@ export class SkyFlyoutIteratorComponent implements OnDestroy {
     return this._previousButtonClick;
   }
 
-  private _previousButtonClick = new EventEmitter<void>();
-
   @Output()
   public get nextButtonClick(): EventEmitter<void> {
     return this._nextButtonClick;
   }
 
+  public themeName: string;
+
+  private ngUnsubscribe = new Subject();
+
   private _nextButtonClick = new EventEmitter<void>();
 
-  constructor() {}
+  private _previousButtonClick = new EventEmitter<void>();
+
+  constructor(
+    themeSvc: SkyThemeService
+  ) {
+    themeSvc.settingsChange
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(settings => {
+        this.themeName = settings.currentSettings?.theme?.name;
+    });
+  }
 
   public ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
     this._previousButtonClick.complete();
     this._nextButtonClick.complete();
   }

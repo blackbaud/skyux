@@ -1,4 +1,5 @@
 @import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/variables";
 @import "~@skyux/theme/scss/_compat/mixins";
 
 .sky-flyout {
@@ -122,4 +123,45 @@
 .sky-flyout-content {
   overflow-y: auto;
   height: calc(100% - 50px);
+}
+
+/* Theming */
+.sky-flyout-close-icon-theme-modern {
+  display: none;
+}
+
+@include sky-theme-modern {
+  .sky-flyout {
+    border-left: 0;
+  }
+
+  .sky-flyout-header {
+    border-bottom: none;
+    background: #fff;
+    padding: $sky-theme-modern-space-md $sky-theme-modern-space-sm;
+  }
+
+  .sky-flyout-close-icon-theme-default {
+    display: none;
+  }
+
+  .sky-flyout-close-icon-theme-modern {
+    display: inline;
+  }
+
+  .sky-flyout-header-grab-handle {
+    cursor: move;
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+  }
+}
+
+@include sky-theme-modern-dark {
+  .sky-flyout {
+    background: #000;
+  }
+
+  .sky-flyout-header {
+    background: #000;
+  }
 }

@@ -45,6 +45,10 @@ import {
 } from '@skyux/i18n';
 
 import {
+  SkyThemeService
+} from '@skyux/theme';
+
+import {
   SkyFlyoutAdapterService
 } from './flyout-adapter.service';
 
@@ -158,6 +162,13 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     return this.getString('skyux_flyout_primary_action_button');
   }
 
+  public themeName: string;
+
+  /**
+   * @internal
+   */
+  public widthStep: number = 10;
+
   /**
    * @internal
    */
@@ -180,6 +191,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   private flyoutHeader: ElementRef;
 
   private flyoutInstance: SkyFlyoutInstance<any>;
+
   private ngUnsubscribe = new Subject();
 
   private _messageStream = new Subject<SkyFlyoutMessage>();
@@ -192,7 +204,8 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     private resourcesService: SkyLibResourcesService,
     private flyoutMediaQueryService: SkyFlyoutMediaQueryService,
     private elementRef: ElementRef,
-    private uiConfigService: SkyUIConfigService
+    private uiConfigService: SkyUIConfigService,
+    themeSvc: SkyThemeService
   ) {
     // All commands flow through the message stream.
     this.messageStream
@@ -200,6 +213,12 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       .subscribe((message: SkyFlyoutMessage) => {
         this.handleIncomingMessages(message);
       });
+
+    themeSvc.settingsChange
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(settings => {
+        this.themeName = settings.currentSettings?.theme?.name;
+    });
   }
 
   public ngOnInit(): void {
@@ -318,7 +337,34 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     }
   }
 
-  public onMouseDown(event: MouseEvent): void {
+  public onHeaderGrabHandleMouseDown(event: MouseEvent): void {
+    this.onResizeHandleMouseDown(event);
+  }
+
+  public onHeaderGrabHandleKeyDown(event: KeyboardEvent): void {
+    if (event.key) {
+      const direction = event.key.toLowerCase().replace('arrow', '');
+      switch (direction) {
+        case 'left':
+          if (this.flyoutWidth < this.config.maxWidth) {
+            this.flyoutWidth = Math.min(this.flyoutWidth + this.widthStep, this.config.maxWidth);
+          }
+          break;
+
+        case 'right':
+          if (this.flyoutWidth > this.config.minWidth) {
+            this.flyoutWidth = Math.max(this.flyoutWidth - this.widthStep, this.config.minWidth);
+          }
+          break;
+
+        /* istanbul ignore next */
+        default:
+          break;
+      }
+    }
+  }
+
+  public onResizeHandleMouseDown(event: MouseEvent): void {
 
     event.preventDefault();
     event.stopPropagation();

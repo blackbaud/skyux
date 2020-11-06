@@ -19,6 +19,10 @@ import {
 } from '@skyux/modals';
 
 import {
+  SkyThemeService
+} from '@skyux/theme';
+
+import {
   SkyToastModule
 } from '@skyux/toast';
 
@@ -66,6 +70,9 @@ import {
     SkyFlyoutTestSampleComponent,
     SkyFlyoutHostsTestComponent,
     SkyFlyoutModalFixtureFormComponent
+  ],
+  providers: [
+    SkyThemeService
   ]
 })
 export class SkyFlyoutFixturesModule { }

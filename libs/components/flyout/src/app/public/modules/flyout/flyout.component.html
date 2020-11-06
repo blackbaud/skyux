@@ -1,5 +1,5 @@
 <div
-  class="sky-flyout sky-shadow"
+  class="sky-flyout"
   tabindex="-1"
   [attr.role]="config?.ariaRole"
   [attr.aria-describedby]="config?.ariaDescribedBy"
@@ -7,7 +7,9 @@
   [id]="flyoutId"
   [ngClass]="{
     'sky-flyout-hidden': !isOpen && !isOpening,
-    'sky-flyout-fullscreen': isFullscreen
+    'sky-flyout-fullscreen': isFullscreen,
+    'sky-shadow': themeName === 'default',
+    'sky-elevation-8': themeName === 'modern'
   }"
   (@flyoutState.done)="animationDone($event)"
   [@flyoutState]="getAnimationState()"
@@ -18,20 +20,41 @@
   <input
     class="sky-flyout-resize-handle"
     role="separator"
-    step="10"
     type="range"
     [attr.aria-controls]="flyoutId"
     [attr.aria-label]="'skyux_flyout_resize_handle' | skyLibResources"
     [attr.aria-valuemax]="config.maxWidth"
     [attr.aria-valuemin]="config.minWidth"
     [attr.aria-valuenow]="flyoutWidth"
+    [attr.step]="widthStep"
     [max]="config.maxWidth"
     [min]="config.minWidth"
     [(ngModel)]="flyoutWidth"
-    (mousedown)="onMouseDown($event)" />
+    (mousedown)="onResizeHandleMouseDown($event)" />
 
-  <div class="sky-flyout-header sky-padding-squish-large" #flyoutHeader>
+  <div
+    class="sky-flyout-header"
+    [ngClass]="{
+      'sky-padding-squish-large': themeName === 'default'
+    }"
+    #flyoutHeader
+  >
     <div class="sky-flyout-header-content">
+
+      <button *ngIf="themeName === 'modern'"
+        class="sky-btn sky-btn-icon-borderless sky-margin-inline-sm sky-flyout-header-grab-handle"
+        [attr.aria-label]="'skyux_flyout_resize_handle' | skyLibResources"
+        (keydown)="onHeaderGrabHandleKeyDown($event)"
+        (mousedown)="onHeaderGrabHandleMouseDown($event)"
+      >
+        <sky-icon
+          icon="tile-drag"
+          iconType="skyux"
+          size="lg"
+        >
+        </sky-icon>
+      </button>
+
       <sky-flyout-iterator *ngIf="config.showIterator"
         [nextButtonDisabled]="config.iteratorNextButtonDisabled"
         [previousButtonDisabled]="config.iteratorPreviousButtonDisabled"
@@ -46,12 +69,27 @@
       <ng-container *ngTemplateOutlet="primaryActionTemplate">
       </ng-container>
       <button
-        class="sky-btn sky-btn-default sky-flyout-btn-close"
+        class="sky-btn sky-flyout-btn-close sky-label-icon-theme-default"
         type="button"
         [attr.aria-label]="'skyux_flyout_close' | skyLibResources"
+        [ngClass]="{
+          'sky-btn-default': themeName === 'default',
+          'sky-btn-icon-borderless': themeName === 'modern'
+        }"
         (click)="close()"
       >
-        <sky-icon icon="close"></sky-icon>
+        <sky-icon
+          class="sky-flyout-close-icon-theme-default"
+          icon="close"
+        >
+        </sky-icon>
+        <sky-icon
+          class="sky-flyout-close-icon-theme-modern"
+          icon="close"
+          iconType="skyux"
+          size="lg"
+        >
+        </sky-icon>
       </button>
     </div>
   </div>
@@ -64,8 +102,12 @@
   <ng-template [ngIf]="permalink">
     <ng-template [ngIf]="permalink.url">
       <a
-        class="sky-btn sky-btn-default sky-flyout-btn-permalink sky-margin-inline-default"
+        class="sky-btn sky-flyout-btn-permalink sky-margin-inline-default"
         [href]="permalink.url"
+        [ngClass]="{
+          'sky-btn-default': themeName === 'default',
+          'sky-btn-borderless': themeName === 'modern'
+        }"
         (click)="close()"
       >
         {{ permalinkLabel }}
@@ -73,9 +115,13 @@
     </ng-template>
     <ng-template [ngIf]="permalink.route">
       <a
-        class="sky-btn sky-btn-default sky-flyout-btn-permalink sky-margin-inline-default"
+        class="sky-btn sky-flyout-btn-permalink sky-margin-inline-default"
         [routerLink]="permalink.route.commands"
         [fragment]="permalink.route.extras?.fragment"
+        [ngClass]="{
+          'sky-btn-default': themeName === 'default',
+          'sky-btn-borderless': themeName === 'modern'
+        }"
         [queryParams]="permalink.route.extras?.queryParams"
         [queryParamsHandling]="permalink.route.extras?.queryParamsHandling"
         [state]="permalink.route.extras?.state"

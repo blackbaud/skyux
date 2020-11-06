@@ -1,0 +1,24 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+/* Theming */
+.sky-flyout-iterator-up-theme-modern,
+.sky-flyout-iterator-down-theme-modern {
+  display: none;
+}
+
+@include sky-theme-modern {
+  .sky-flyout-iterators {
+    display: inline;
+  }
+
+  .sky-flyout-iterator-up-theme-default,
+  .sky-flyout-iterator-down-theme-default {
+    display: none;
+  }
+
+  .sky-flyout-iterator-up-theme-modern,
+  .sky-flyout-iterator-down-theme-modern {
+    display: inline;
+  }
+}
