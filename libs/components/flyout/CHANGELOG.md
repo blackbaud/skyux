@@ -1,3 +1,7 @@
+# 4.1.0 (2020-11-06)
+
+- Added modern theme styles to the flyout component. [#105](https://github.com/blackbaud/skyux-flyout/pull/105)
+
 # 4.0.2 (2020-10-21)
 
 - Fixed the flyout component to not close if another flyout is triggered when clicking outside the flyout. [#103](https://github.com/blackbaud/skyux-flyout/pull/103)
