@@ -26,6 +26,7 @@ export class SkyPopoverFixture {
   public get body(): HTMLElement {
     return this.bodyElement;
   }
+
   /**
    * Returns the popover position if the popover is open, otherwise undefined.
    */
@@ -39,6 +40,7 @@ export class SkyPopoverFixture {
   public get popoverTitle(): string {
     return SkyAppTestUtility.getText(this.titleElement);
   }
+
   /**
    * Indicates if the popover is open and visible.
    */

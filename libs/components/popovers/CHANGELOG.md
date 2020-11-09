@@ -1,3 +1,7 @@
+# 4.3.0 (2020-11-06)
+
+- Added a popover test fixture. [#125](https://github.com/blackbaud/skyux-popovers/pull/125)
+
 # 4.2.1 (2020-08-28)
 
 - Fixed the popover component to set default values for vertical and horizontal alignments. [#117](https://github.com/blackbaud/skyux-popovers/pull/117)
