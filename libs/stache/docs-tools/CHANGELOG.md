@@ -1,3 +1,7 @@
+# 4.7.4 (2020-11-09)
+
+- Fixed the type definitions service to support type operator properties (e.g., `keyof`). [#153](https://github.com/blackbaud/skyux-docs-tools/pull/153)
+
 # 4.7.3 (2020-10-12)
 
 - Fixed the interface and class type definitions components to support "type literal" properties. [#148](https://github.com/blackbaud/skyux-docs-tools/pull/148)
