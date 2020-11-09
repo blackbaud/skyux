@@ -1554,6 +1554,13 @@ describe('TypeDoc adapter', () => {
                   }
                 ]
               }
+            },
+            {
+              type: 'typeOperator',
+              operator: 'keyof',
+              target: {
+                name: 'FooUser'
+              }
             }
           ]
         }
@@ -1603,6 +1610,10 @@ describe('TypeDoc adapter', () => {
                   name: 'void'
                 }
               }
+            },
+            {
+              type: 'typeOperator',
+              name: 'keyof FooUser'
             }
           ]
         }

@@ -56,7 +56,13 @@ export interface TypeDocType {
 
   name?: string;
 
-  type?: 'array' | 'intrinsic' | 'reference' | 'reflection' | 'stringLiteral' | 'typeParameter' | 'union' | 'unknown';
+  operator?: 'keyof';
+
+  target?: {
+    name: string;
+  };
+
+  type?: 'array' | 'intrinsic' | 'reference' | 'reflection' | 'stringLiteral' | 'typeParameter' | 'typeOperator' | 'union' | 'unknown';
 
   typeArguments?: TypeDocType[];
 

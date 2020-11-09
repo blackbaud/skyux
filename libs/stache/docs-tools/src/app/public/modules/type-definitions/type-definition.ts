@@ -27,7 +27,7 @@ export interface SkyDocsTypeDefinition {
 
   name?: string;
 
-  type?: 'array' | 'intrinsic' | 'reference' | 'reflection' | 'stringLiteral' | 'typeParameter' | 'union' | 'unknown';
+  type?: 'array' | 'intrinsic' | 'reference' | 'reflection' | 'stringLiteral' | 'typeParameter' | 'typeOperator' | 'union' | 'unknown';
 
   /**
    * Describes any type arguments, e.g. `<T, F>`.

@@ -400,6 +400,10 @@ export class SkyDocsTypeDocAdapterService {
           }
         }
 
+        if (child.type.type === 'typeOperator') {
+          definition.name = `${child.type.operator} ${child.type.target.name}`;
+        }
+
         if (child.type.typeArguments) {
           definition.typeArguments = this.getTypeArgumentDefinitions(child.type);
         }
