@@ -8,8 +8,7 @@ import {
 } from '@angular/core';
 
 import {
-  expect,
-  SkyAppTestUtility
+  expect
 } from '@skyux-sdk/testing';
 
 import {
@@ -192,8 +191,6 @@ describe('Country field fixture', () => {
 
     // verify the top result is as expected
     const topResult = results[0];
-    const countryNameEl = topResult.querySelector('.sky-highlight-mark');
-    const countryName = SkyAppTestUtility.getText(countryNameEl);
-    expect(countryName).toEqual(COUNTRY.name);
+    expect(topResult).toEqual(COUNTRY.name);
   });
 });
