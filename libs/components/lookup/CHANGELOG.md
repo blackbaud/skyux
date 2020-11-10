@@ -1,3 +1,7 @@
+# 4.8.1 (2020-11-10)
+
+- Fixed the country field test fixture to avoid exposing the DOM structure of the underlying component. [#148](https://github.com/blackbaud/skyux-lookup/pull/148)
+
 # 4.8.0 (2020-11-05)
 
 - Added a country field testing fixture. [#145](https://github.com/blackbaud/skyux-lookup/pull/145)
