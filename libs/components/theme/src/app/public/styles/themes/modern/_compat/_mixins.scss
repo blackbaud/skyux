@@ -11,7 +11,7 @@
   @include sky-theme-modern-border($border);
   background-color: $background;
   color: $color;
-  padding: $padding;
+  padding: sky-theme-modern-border-padding($padding);
 
   &:hover {
     @include sky-theme-modern-border-hover($hover-border);

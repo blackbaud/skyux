@@ -11,14 +11,6 @@
     transition: box-shadow $sky-transition-time-short;
   }
 
-  .sky-btn-borderless,
-  .sky-btn-danger,
-  .sky-btn-default,
-  .sky-btn-link,
-  .sky-btn-primary {
-    padding: $sky-theme-modern-padding-button-standard;
-  }
-
   .sky-btn-default {
     @include sky-theme-modern-button-variant(
       $sky-text-color-default,
@@ -63,6 +55,7 @@
       $sky-theme-modern-background-color-primary-dark
     );
   }
+
   .sky-btn-borderless-inline {
     color: $sky-theme-modern-font-deemphasized-color;
   }
