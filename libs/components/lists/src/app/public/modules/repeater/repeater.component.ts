@@ -264,12 +264,14 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
   }
 
   private initializeDragAndDrop(): void {
-    this.dragulaService.setOptions(this.dragulaGroupName, {
-      moves: (el: HTMLElement, container: HTMLElement, handle: HTMLElement) => {
-        const target = el.querySelector('.sky-repeater-item-grab-handle');
-        return (target && target.contains(handle));
-      }
-    });
+    if (!this.dragulaService.find(this.dragulaGroupName)) {
+      this.dragulaService.setOptions(this.dragulaGroupName, {
+        moves: (el: HTMLElement, container: HTMLElement, handle: HTMLElement) => {
+          const target = el.querySelector('.sky-repeater-item-grab-handle');
+          return (target && target.contains(handle));
+        }
+      });
+    }
 
     // Reset the current dragula subscriptions.
     this.dragulaUnsubscribe.next();
