@@ -1,3 +1,7 @@
+# 4.3.1 (2020-11-11)
+
+- Fixed the context menu button padding in the modern theme. [#129](https://github.com/blackbaud/skyux-popovers/pull/129)
+
 # 4.3.0 (2020-11-06)
 
 - Added a popover test fixture. [#125](https://github.com/blackbaud/skyux-popovers/pull/125)
