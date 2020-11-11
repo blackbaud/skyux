@@ -1,3 +1,7 @@
+# 4.13.2 (2020-11-11)
+
+- Fixed button padding in the modern theme. [#198](https://github.com/blackbaud/skyux-theme/pull/198)
+
 # 4.13.1 (2020-11-06)
 
 - Removed a bad CSS import that was causing build failures. [#194](https://github.com/blackbaud/skyux-theme/pull/194)
