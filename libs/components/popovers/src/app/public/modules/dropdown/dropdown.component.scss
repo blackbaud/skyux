@@ -48,10 +48,6 @@
 }
 
 @include sky-theme-modern {
-  .sky-dropdown-button-type-context-menu:focus {
-    padding: 2px 7px 2px 7px;
-  }
-
   .sky-dropdown-button-type-tab {
     @include sky-theme-modern-btn-tab();
     @include sky-theme-modern-btn-tab-selected();
