@@ -1,3 +1,7 @@
+# 4.3.1 (2020-11-16)
+
+- Fixed the text expand component to wrap unbroken text to the next line when it overflows the text expand modal's container. [#174](https://github.com/blackbaud/skyux-layout/pull/174)
+
 # 4.3.0 (2020-09-17)
 
 - Added a message stream to interact with the back to top directive programatically and an option to hide the back to top button. [#158](https://github.com/blackbaud/skyux-layout/pull/158)
