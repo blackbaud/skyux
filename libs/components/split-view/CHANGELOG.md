@@ -1,3 +1,7 @@
+# 4.2.0 (2020-11-16)
+
+- Added a split view test fixture. [#48](https://github.com/blackbaud/skyux-split-view/pull/48)
+
 # 4.1.0 (2020-09-11)
 
 - Added the `bindHeightToWindow` input property to the split view component to bind split views on the main application page to the window's height. [#37](https://github.com/blackbaud/skyux-split-view/pull/37)
