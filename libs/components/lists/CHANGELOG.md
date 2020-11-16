@@ -1,3 +1,7 @@
+# 4.4.0 (2020-08-28)
+
+- Added a paging test fixture. [#209](https://github.com/blackbaud/skyux-lists/pull/209)
+
 # 4.3.0 (2020-08-28)
 
 - Added modern theme styles to the repeater component. [#194](https://github.com/blackbaud/skyux-lists/pull/194)
