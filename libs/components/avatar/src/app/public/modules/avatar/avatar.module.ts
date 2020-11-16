@@ -11,7 +11,8 @@ import {
 } from '@skyux/errors';
 
 import {
-  SkyFileAttachmentsModule
+  SkyFileAttachmentsModule,
+  SkyFileSizePipe
 } from '@skyux/forms';
 
 import {
@@ -41,6 +42,9 @@ import {
     SkyErrorModule,
     SkyFileAttachmentsModule,
     SkyI18nModule
+  ],
+  providers: [
+    SkyFileSizePipe
   ],
   exports: [
     SkyAvatarComponent,

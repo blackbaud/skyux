@@ -24,9 +24,12 @@ export class AvatarTestComponent {
   @ViewChild(SkyAvatarComponent)
   public avatarComponent: SkyAvatarComponent;
 
-  public src: SkyAvatarSrc;
+  public maxFileSize: number = 500000;
 
   public name: string;
 
   public size: SkyAvatarSize;
+
+  public src: SkyAvatarSrc;
+
 }

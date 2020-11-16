@@ -409,6 +409,37 @@ describe('Avatar component', () => {
     expect(mockErrorModalService.open).toHaveBeenCalledWith(config);
   });
 
+  it('should show error modal when file larger than 5MB is uploaded', function () {
+    let fixture = TestBed.createComponent(SkyAvatarComponent);
+    let instance = fixture.componentInstance;
+
+    fixture.componentInstance.maxFileSize = 5000000;
+
+    let badFileType = <SkyFileItem>{
+      file: <File>{
+        name: 'foo.txt',
+        type: 'text',
+        size: 1
+      },
+      errorType: 'maxFileSize'
+    };
+
+    spyOn(mockErrorModalService, 'open');
+
+    instance.photoDrop(<SkyFileDropChange>{
+      files: [],
+      rejectedFiles: [badFileType]
+    });
+
+    const config: ErrorModalConfig = {
+      errorTitle: 'File is too large.',
+      errorDescription: 'Please choose an image that is less than 5 MB.',
+      errorCloseText: 'OK'
+    };
+
+    expect(mockErrorModalService.open).toHaveBeenCalledWith(config);
+  });
+
   function validateWrapperSizeClass(
     fixture: ComponentFixture<AvatarTestComponent>,
     size: SkyAvatarSize

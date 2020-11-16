@@ -13,7 +13,8 @@ import {
 
 import {
   SkyFileDropChange,
-  SkyFileItem
+  SkyFileItem,
+  SkyFileSizePipe
 } from '@skyux/forms';
 
 import {
@@ -107,6 +108,7 @@ export class SkyAvatarComponent {
 
   constructor(
     private errorService: SkyErrorModalService,
+    private fileSizePipe: SkyFileSizePipe,
     private resourcesService: SkyLibResourcesService
   ) { }
 
@@ -141,7 +143,7 @@ export class SkyAvatarComponent {
   }
 
   private maxFileSizeText(): string {
-    return `${(this.maxFileSize / 1000)} KB`;
+    return this.fileSizePipe.transform(this.maxFileSize);
   }
 
   private openErrorModal(title: string, description: string): void {
