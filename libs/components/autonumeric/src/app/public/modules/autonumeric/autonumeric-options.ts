@@ -3,12 +3,11 @@ import AutoNumeric, {
 } from 'autonumeric';
 
 /**
- * @description Custom options to be provided directly to the underlying autoNumeric library.
- * The value can be set to one of `string` or `Object`.
- * - `string`: An alias representing a set of predefined options.
- *   This alias can be either a currency preset, or a language preset.
- *   See: https://github.com/autoNumeric/autoNumeric#predefined-options
- * - `Options`: A custom set of available options.
- *   See: https://github.com/autoNumeric/autoNumeric#options
+ * Specifies custom options to provide directly to the underlying [`autoNumeric` utility](https://github.com/autoNumeric/autoNumeric).
+ * The value can be set to `string`, which is an alias that represents
+ * a [set of predefined set of options](https://github.com/autoNumeric/autoNumeric#predefined-options)
+ * for a currency preset or a language preset, or `Options`, which is a
+ * [custom set of options](https://github.com/autoNumeric/autoNumeric#options)
+ * that override any default options that the `skyAutonumeric` attribute specifies.
  */
 export type SkyAutonumericOptions = string | keyof AutoNumeric.PredefinedOptions | Options;

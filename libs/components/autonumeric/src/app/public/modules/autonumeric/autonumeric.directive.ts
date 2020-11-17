@@ -52,7 +52,11 @@ const SKY_AUTONUMERIC_VALIDATOR = {
 };
 // tslint:enable
 
-@Directive({
+  /**
+   * Wraps the [`autoNumeric` utility](https://github.com/autoNumeric/autoNumeric) to format
+   * any type of number, including currency.
+   */
+  @Directive({
   selector: 'input[skyAutonumeric]',
   providers: [
     SKY_AUTONUMERIC_VALUE_ACCESSOR,
@@ -61,6 +65,9 @@ const SKY_AUTONUMERIC_VALIDATOR = {
 })
 export class SkyAutonumericDirective implements OnInit, ControlValueAccessor, Validator {
 
+  /**
+   * Assigns the name of a property from `SkyAutonumericOptionsProvider`.
+   */
   @Input()
   public set skyAutonumeric(value: SkyAutonumericOptions) {
     this.autonumericOptions = this.mergeOptions(value);
