@@ -2,6 +2,11 @@ import {
   Component
 } from '@angular/core';
 
+import {
+  SkyThemeService,
+  SkyThemeSettings
+} from '@skyux/theme';
+
 @Component({
   selector: 'colorpicker-visual',
   templateUrl: './colorpicker-visual.component.html'
@@ -42,5 +47,13 @@ export class ColorpickerVisualComponent {
     '#A1B1A7',
     '#68AFEF'
   ];
+
+  constructor(
+    private themeSvc: SkyThemeService
+  ) { }
+
+  public themeSettingsChange(themeSettings: SkyThemeSettings): void {
+    this.themeSvc.setTheme(themeSettings);
+  }
 
 }

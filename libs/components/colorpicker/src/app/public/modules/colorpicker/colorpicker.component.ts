@@ -8,7 +8,8 @@ import {
   OnInit,
   Output,
   TemplateRef,
-  ViewChild
+  ViewChild,
+  ViewEncapsulation
 } from '@angular/core';
 
 import {
@@ -19,6 +20,10 @@ import {
   SkyOverlayService,
   SkyCoreAdapterService
 } from '@skyux/core';
+
+import {
+  SkyThemeService
+} from '@skyux/theme';
 
 import {
   fromEvent,
@@ -84,10 +89,11 @@ let componentIdIndex = 0;
 @Component({
   selector: 'sky-colorpicker',
   templateUrl: './colorpicker.component.html',
-  styleUrls: ['./colorpicker.component.scss']
+  styleUrls: ['./colorpicker.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-
 export class SkyColorpickerComponent implements OnInit, OnDestroy {
+
   /**
    * Fires when users select a color in the colorpicker.
    */
@@ -145,6 +151,8 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
 
   public isVisible: boolean = true;
 
+  public themeName: string;
+
   public triggerButtonId: string;
 
   @ViewChild('colorpickerTemplateRef', {
@@ -201,7 +209,8 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     private changeDetector: ChangeDetectorRef,
     private coreAdapter: SkyCoreAdapterService,
     private overlayService: SkyOverlayService,
-    private service: SkyColorpickerService
+    private service: SkyColorpickerService,
+    public themeSvc: SkyThemeService
   ) {
     componentIdIndex++;
 
@@ -250,6 +259,25 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
       });
 
     this.addTriggerButtonEventListeners();
+
+    if (this.themeSvc) {
+      this.themeSvc.settingsChange
+        .pipe(
+          takeUntil(this.ngUnsubscribe)
+        )
+        .subscribe((themeSettings) => {
+          this.themeName = themeSettings.currentSettings?.theme?.name;
+
+          // Hue/alpha slider bars have different widths in Modern theme.
+          /* istanbul ignore if */
+          if (this.themeName === 'modern') {
+            this.sliderDimMax = new SliderDimension(174, 270, 170, 174);
+          } else {
+            this.sliderDimMax = new SliderDimension(182, 270, 170, 182);
+          }
+          this.updateSlider();
+        });
+    }
   }
 
   public ngOnDestroy() {
@@ -386,11 +414,18 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
       this.alphaChannel === 'hex8');
     this.selectedColor = this.service.skyColorpickerOut(this.hsva);
 
-    this.slider = new SliderPosition(
-      (this.hsva.hue) * this.sliderDimMax.hue - 8,
-      this.hsva.saturation * this.sliderDimMax.saturation - 8,
-      (1 - this.hsva.value) * this.sliderDimMax.value - 8,
-      this.hsva.alpha * this.sliderDimMax.alpha - 8);
+    this.updateSlider();
+  }
+
+  private updateSlider(): void {
+    if (this.hsva && this.sliderDimMax) {
+      this.slider = new SliderPosition(
+        (this.hsva.hue) * this.sliderDimMax.hue - 8,
+        this.hsva.saturation * this.sliderDimMax.saturation - 8,
+        (1 - this.hsva.value) * this.sliderDimMax.value - 8,
+        this.hsva.alpha * this.sliderDimMax.alpha - 8
+      );
+    }
   }
 
   private openPicker(): void {

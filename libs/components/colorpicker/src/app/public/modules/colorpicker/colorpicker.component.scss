@@ -1,16 +1,22 @@
 @import "~@skyux/theme/scss/mixins";
 @import "~@skyux/theme/scss/_compat/mixins";
+@import "~@skyux/theme/scss/variables";
 
 .sky-colorpicker-container {
   position: fixed;
 }
 
 .sky-colorpicker-button {
-  background-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2230%22%20height%3D%2230%22%20viewBox%3D%220%200%2030%2030%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E%3Cdefs%3E%3Cpath%20id%3D%22a%22%20d%3D%22M0%200h30v30H0V0zm14.5%204H4v22h14v-8h8V4H14.5z%22%2F%3E%3C%2Fdefs%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cuse%20fill%3D%22%23FFF%22%20xlink%3Ahref%3D%22%23a%22%2F%3E%3Cpath%20stroke%3D%22%23CCC%22%20d%3D%22M.5.5v29h29V.5H.5zm18%2018v8h-15v-23h23v15h-8z%22%2F%3E%3Cpath%20fill%3D%22%23292A2B%22%20d%3D%22M23.5%2025L21%2022h5%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E');
   width: 30px;
   height: 30px;
   border: 0;
   cursor: pointer;
+}
+
+// This ensures the nomalize CSS won't replace the active state of a button's background.
+.sky-colorpicker-button,
+.sky-colorpicker-button:active {
+  background-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2230%22%20height%3D%2230%22%20viewBox%3D%220%200%2030%2030%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E%3Cdefs%3E%3Cpath%20id%3D%22a%22%20d%3D%22M0%200h30v30H0V0zm14.5%204H4v22h14v-8h8V4H14.5z%22%2F%3E%3C%2Fdefs%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cuse%20fill%3D%22%23FFF%22%20xlink%3Ahref%3D%22%23a%22%2F%3E%3Cpath%20stroke%3D%22%23CCC%22%20d%3D%22M.5.5v29h29V.5H.5zm18%2018v8h-15v-23h23v15h-8z%22%2F%3E%3Cpath%20fill%3D%22%23292A2B%22%20d%3D%22M23.5%2025L21%2022h5%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E');
 }
 
 .sky-colorpicker-hidden {
@@ -85,7 +91,10 @@
       -webkit-appearance: none;
       margin: 0;
     }
-    -moz-appearance: textfield;
+  }
+  // Specificity is required to override sky-form-control's CSS values.
+  input[type=number].sky-form-control {
+    -moz-appearance: textfield !important;
   }
   .button-area {
     padding: 0 $sky-padding-plus-half $sky-padding-plus-half $sky-padding-plus-half;
@@ -98,10 +107,8 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    flex-flow: row wrap;
     .sky-preset-color {
       cursor: pointer;
-      display: flex;
       width: 32px;
       height: 32px;
       margin: 5px;
@@ -189,39 +196,27 @@
     height: 40px;
     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAh0lEQVRYR+2W0QlAMQgD60zdfwOdqa8TmI/wQMr5K0I5bZLIzLOa2nt37VVVbd+dDx5obgCC3KBLwJ2ff4PnVidkf+ucIhw80HQaCLo3DMH3CRK3iFsmAWVl6hPNDwt8EvNE5q+YuEXcMgkonVM6SdyCoEvAnZ8v1Hjx817MilmxSUB5rdLJDycZgUAZUch/AAAAAElFTkSuQmCC');
   }
-  .hsla-text,
   .rgba-text {
     width: 100%;
     font-size: 18px;
-    padding: 7px;
-    .box {
-      padding: 0 8px 8px 8px;
-      input:first-of-type {
-        flex: 2;
-      }
-      input {
-        min-width: 0;
-        flex: 1;
-        margin: 0;
-        float: left;
-        margin-right: 8px;
-        @include sky-border(light, top, right, bottom, left);
-        padding: 1px;
-        &:last-child {
-          margin-right: 0;
-        }
-      }
-      label:first-of-type {
-        flex: 2;
-      }
-      label {
-        flex: 1;
-        text-align: left;
-        margin-right: 8px;
-        &:last-child {
-          margin-right: 0;
-        }
-      }
+    padding: 7px 15px 15px;
+    display: flex;
+    input {
+      min-width: 0;
+      padding: 1px;
+    }
+    label {
+      margin: 0 0 8px 0;
+    }
+    sky-input-box {
+      flex: 1;
+      margin: 0 8px 0 0;
+    }
+    sky-input-box:first-child {
+      flex: 2;
+    }
+    sky-input-box:last-child {
+      margin: 0;
     }
   }
   .hex-text {
@@ -275,4 +270,130 @@
   transition: none;
   -webkit-transform: scaleX(1) scaleY(1) scaleZ(1);
   transform: scaleX(1) scaleY(1) scaleZ(1);
+}
+
+.sky-theme-modern {
+  .sky-colorpicker-button {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #d2d2d2;
+    border-radius: 6px;
+    position: relative;
+  }
+
+  .sky-colorpicker-button,
+  .sky-colorpicker-button:active {
+    background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMzhweCIgaGVpZ2h0PSIzOHB4IiB2aWV3Qm94PSIwIDAgMzggMzgiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+Y29sb3JwaWNrZXIgU1ZHIGxpZ2h0PC90aXRsZT4KICAgIDxnIGlkPSJjb2xvcnBpY2tlci1TVkctbGlnaHQiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxwYXRoIGQ9Ik0zMywwIEMzNS43NjE0MjM3LC01LjA3MjY1MzEzZS0xNiAzOCwyLjIzODU3NjI1IDM4LDUgTDM4LDMzIEMzOCwzNS43NjE0MjM3IDM1Ljc2MTQyMzcsMzggMzMsMzggTDUsMzggQzIuMjM4NTc2MjUsMzggLTUuNTAwMDE1NDRlLTE2LDM1Ljc2MTQyMzcgMCwzMyBMMCw1IEMtMy4zODE3Njg3NmUtMTYsMi4yMzg1NzYyNSAyLjIzODU3NjI1LC0zLjgwOTEzMTA2ZS0xNiA1LDAgTDMzLDAgWiBNMzMsMiBMNSwyIEMzLjM0MzE0NTc1LDIgMiwzLjM0MzE0NTc1IDIsNSBMMiw1IEwyLDMzIEMyLDM0LjY1Njg1NDIgMy4zNDMxNDU3NSwzNiA1LDM2IEw1LDM2IEwyNCwzNiBDMjUuMTA0NTY5NSwzNiAyNiwzNS4xMDQ1Njk1IDI2LDM0IEwyNiwzNCBMMjYsMjggQzI2LDI2Ljg5NTQzMDUgMjYuODk1NDMwNSwyNiAyOCwyNiBMMjgsMjYgTDM0LDI2IEMzNS4xMDQ1Njk1LDI2IDM2LDI1LjEwNDU2OTUgMzYsMjQgTDM2LDI0IEwzNiw1IEMzNiwzLjM0MzE0NTc1IDM0LjY1Njg1NDIsMiAzMywyIEwzMywyIFoiIGlkPSJDb21iaW5lZC1TaGFwZSIgZmlsbD0iI0ZGRkZGRiI+PC9wYXRoPgogICAgICAgIDxwYXRoIGQ9Ik0zMywyLjUgQzMzLjY5MDM1NTksMi41IDM0LjMxNTM1NTksMi43Nzk4MjIwMyAzNC43Njc3NjcsMy4yMzIyMzMwNSBDMzUuMjIwMTc4LDMuNjg0NjQ0MDYgMzUuNSw0LjMwOTY0NDA2IDM1LjUsNSBMMzUuNSw1IEwzNS41LDI0IEMzNS41LDI0LjQxNDIxMzYgMzUuMzMyMTA2OCwyNC43ODkyMTM2IDM1LjA2MDY2MDIsMjUuMDYwNjYwMiBDMzQuNzg5MjEzNiwyNS4zMzIxMDY4IDM0LjQxNDIxMzYsMjUuNSAzNCwyNS41IEwzNCwyNS41IEwyOCwyNS41IEMyNy4zMDk2NDQxLDI1LjUgMjYuNjg0NjQ0MSwyNS43Nzk4MjIgMjYuMjMyMjMzLDI2LjIzMjIzMyBDMjUuNzc5ODIyLDI2LjY4NDY0NDEgMjUuNSwyNy4zMDk2NDQxIDI1LjUsMjggTDI1LjUsMjggTDI1LjUsMzQgQzI1LjUsMzQuNDE0MjEzNiAyNS4zMzIxMDY4LDM0Ljc4OTIxMzYgMjUuMDYwNjYwMiwzNS4wNjA2NjAyIEMyNC43ODkyMTM2LDM1LjMzMjEwNjggMjQuNDE0MjEzNiwzNS41IDI0LDM1LjUgTDI0LDM1LjUgTDUsMzUuNSBDNC4zMDk2NDQwNiwzNS41IDMuNjg0NjQ0MDYsMzUuMjIwMTc4IDMuMjMyMjMzMDUsMzQuNzY3NzY3IEMyLjc3OTgyMjAzLDM0LjMxNTM1NTkgMi41LDMzLjY5MDM1NTkgMi41LDMzIEwyLjUsMzMgTDIuNSw1IEMyLjUsNC4zMDk2NDQwNiAyLjc3OTgyMjAzLDMuNjg0NjQ0MDYgMy4yMzIyMzMwNSwzLjIzMjIzMzA1IEMzLjY4NDY0NDA2LDIuNzc5ODIyMDMgNC4zMDk2NDQwNiwyLjUgNSwyLjUgTDUsMi41IFoiIGlkPSJQYXRoLUNvcHktNSIgc3Ryb2tlPSIjRDJEMkQyIiBmaWxsLW9wYWNpdHk9IjAiIGZpbGw9IiMwMDAwMDAiPjwvcGF0aD4KICAgIDwvZz4KPC9zdmc+")
+  }
+
+  .sky-colorpicker-checkered-background {
+    border-radius: 6px;
+  }
+
+  .sky-colorpicker-button-modern-chevron {
+    position: absolute;
+    bottom: 1px;
+    right: 1px;
+    font-size: 10px;
+  }
+
+  .sky-colorpicker-reset-button-modern {
+    width: 40px;
+    height: 40px;
+  }
+
+  .sky-colorpicker {
+    background-color: transparent;
+    width: 310px;
+
+    .saturation-lightness {
+      height: 170px;
+    }
+  }
+
+  .sky-colorpicker-container {
+    background-color: #fff;
+    border-radius: 0 0 6px 6px;
+  }
+
+  .sky-colorpicker-footer {
+    background: none;
+    border: none;
+    border-radius: 0 0 6px 6px;
+    padding: 10px 10px 15px;
+  }
+
+  .selected-color {
+    height: 46px;
+    width: 46px;
+    top: 0;
+    left: 0;
+  }
+
+  .selected-color-background {
+    height: 46px;
+    width: 46px;
+  }
+
+  input {
+    text-align: left;
+  }
+
+  .box {
+    padding: 15px 30px;
+
+    .left {
+      padding: 0 30px 0 0;
+    }
+
+    .right {
+      padding: 0;
+    }
+  }
+
+  .alpha {
+    margin-top: 10px;
+  }
+
+  .rgba-text {
+    padding: 0 10px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    sky-input-box:first-child {
+      width: 100%;
+      flex: 0 1 auto;
+      margin: 0 0 10px 0;
+    }
+
+    sky-input-box:not(:first-child) {
+      flex: 1;
+      margin: 0 10px 10px 0;
+    }
+
+    sky-input-box:last-child {
+      margin: 0 0 10px 0;
+    }
+  }
+
+  .sky-colorpicker-preset-color-area {
+    padding: 10px 10px 15px 10px;
+
+    .sky-btn {
+      height: 46px;
+      width: 46px;
+      border-radius: 4px;
+      margin: 0 15px 15px 0;
+
+      &:not(:active), &:not(:hover), &:not(:focus) {
+        border: 1px solid #d2d2d2;
+      }
+    }
+
+    .sky-btn:nth-child(5n) {
+      margin: 0 0 15px 0;
+    }
+  }
+
 }

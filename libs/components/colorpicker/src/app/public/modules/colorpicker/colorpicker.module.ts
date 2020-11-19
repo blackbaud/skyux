@@ -1,10 +1,10 @@
-// spell-checker:ignore Colorpicker, Dropdown
-import {
-  NgModule
-} from '@angular/core';
 import {
   CommonModule
 } from '@angular/common';
+
+import {
+  NgModule
+} from '@angular/core';
 
 import {
   SkyAffixModule,
@@ -13,8 +13,16 @@ import {
 } from '@skyux/core';
 
 import {
+  SkyInputBoxModule
+} from '@skyux/forms';
+
+import {
   SkyI18nModule
 } from '@skyux/i18n';
+
+import {
+  SkyIconModule
+} from '@skyux/indicators';
 
 import {
   SkyColorpickerResourcesModule
@@ -23,18 +31,22 @@ import {
 import {
   SkyColorpickerComponent
 } from './colorpicker.component';
+
 import {
   SkyColorpickerInputDirective
 } from './colorpicker-input.directive';
+
 import {
   SkyColorpickerService
 } from './colorpicker.service';
-import {
-  SkyColorpickerTextDirective
-} from './colorpicker-text.directive';
+
 import {
   SkyColorpickerSliderDirective
 } from './colorpicker-slider.directive';
+
+import {
+  SkyColorpickerTextDirective
+} from './colorpicker-text.directive';
 
 @NgModule({
   declarations: [
@@ -49,6 +61,8 @@ import {
     SkyColorpickerResourcesModule,
     SkyCoreAdapterModule,
     SkyI18nModule,
+    SkyIconModule,
+    SkyInputBoxModule,
     SkyOverlayModule
   ],
   exports: [

@@ -237,7 +237,7 @@ export class SkyColorpickerInputDirective
   public registerOnValidatorChange(fn: () => void): void { this._validatorChange = fn; }
 
   public writeValue(value: any) {
-    if (value && value !== this.skyColorpickerInput.lastAppliedColor) {
+    if (this.skyColorpickerInput && value && value !== this.skyColorpickerInput.lastAppliedColor) {
       this.modelValue = this.formatter(value);
       this.writeModelValue(this.modelValue);
 

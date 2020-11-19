@@ -7,51 +7,61 @@ import {
 } from '@angular/core/testing';
 
 import {
+  By
+} from '@angular/platform-browser';
+
+import {
   expect,
   SkyAppTestUtility
 } from '@skyux-sdk/testing';
 
 import {
-  By
-} from '@angular/platform-browser';
-
-import {
-  FormsModule,
-  ReactiveFormsModule
-} from '@angular/forms';
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange
+} from '@skyux/theme';
 
 import {
   sampleTime
 } from 'rxjs/operators';
 
 import {
-  SkyColorpickerModule
-} from './colorpicker.module';
+  BehaviorSubject
+} from 'rxjs';
 
 import {
   ColorpickerTestComponent
 } from './fixtures/colorpicker-component.fixture';
 
 import {
-  SkyColorpickerComponent
-} from './colorpicker.component';
+  SkyColorpickerFixturesModule
+} from './fixtures/colorpicker-fixtures.module';
+
+import {
+  ColorpickerReactiveTestComponent
+} from './fixtures/colorpicker-reactive-component.fixture';
 
 import {
   SkyColorpickerMessageType
 } from './types/colorpicker-message-type';
 
 import {
-  SkyColorpickerInputDirective
-} from './colorpicker-input.directive';
+  SkyColorpickerComponent
+} from './colorpicker.component';
 
 import {
-  ColorpickerReactiveTestComponent
-} from './fixtures/colorpicker-reactive-component.fixture';
+  SkyColorpickerInputDirective
+} from './colorpicker-input.directive';
 
 describe('Colorpicker Component', () => {
   let fixture: ComponentFixture<any>;
   let nativeElement: HTMLElement;
   let colorpickerComponent: SkyColorpickerComponent;
+  let mockThemeSvc: {
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+  };
 
   //#region helpers
   function getColorpickerContainer(): HTMLElement {
@@ -165,7 +175,7 @@ describe('Colorpicker Component', () => {
     fixture.detectChanges();
     fixture.whenStable();
     let inputElement: NodeListOf<Element> = getColorpickerContainer()
-      .querySelectorAll('.rgba-text > div:last-child > input');
+      .querySelectorAll('.rgba-text input');
     let input: any = {
       'hex': inputElement[0],
       'red': inputElement[1],
@@ -189,18 +199,42 @@ describe('Colorpicker Component', () => {
     return input[name];
   }
 
+  function verifyColorpickerHidden(isHidden: boolean): void {
+    const hiddenPicker = nativeElement.querySelectorAll('.sky-colorpicker-hidden');
+    if (isHidden) {
+      expect(hiddenPicker.length).toEqual(1);
+    } else {
+      expect(hiddenPicker.length).toEqual(0);
+    }
+  }
+
+  function getResetButton(): NodeListOf<HTMLElement> {
+    return nativeElement.querySelectorAll('.sky-colorpicker-reset-button');
+  }
   //#endregion
 
   beforeEach(async(() => {
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+        {
+          currentSettings: new SkyThemeSettings(
+            SkyTheme.presets.default,
+            SkyThemeMode.presets.light
+          ),
+          previousSettings: undefined
+        }
+      )
+    };
+
     TestBed.configureTestingModule({
-      declarations: [
-        ColorpickerTestComponent,
-        ColorpickerReactiveTestComponent
-      ],
       imports: [
-        SkyColorpickerModule,
-        FormsModule,
-        ReactiveFormsModule
+        SkyColorpickerFixturesModule
+      ],
+      providers: [
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc
+        }
       ]
     }).compileComponents();
   }));
@@ -222,7 +256,7 @@ describe('Colorpicker Component', () => {
       fixture.detectChanges();
       tick();
       expect(component.colorpickerComponent.initialColor).toBe('#00f');
-      expect(component.colorpickerComponent.lastAppliedColor).toEqual({
+      expect(component.colorpickerComponent.lastAppliedColor as any).toEqual({
         cmykText: 'cmyk(100%,100%,0%,0%)',
         hslaText: 'hsla(240,100%,50%,1)',
         rgbaText: 'rgba(0,0,255,1)',
@@ -239,7 +273,7 @@ describe('Colorpicker Component', () => {
       fixture.detectChanges();
       tick();
       expect(component.colorpickerComponent.initialColor).toBe('#2889e5');
-      expect(component.colorpickerComponent.lastAppliedColor).toEqual({
+      expect(component.colorpickerComponent.lastAppliedColor as any).toEqual({
         cmykText: 'cmyk(100%,100%,0%,0%)',
         hslaText: 'hsla(240,100%,50%,1)',
         rgbaText: 'rgba(0,0,255,1)',
@@ -688,7 +722,7 @@ describe('Colorpicker Component', () => {
       component.sendMessage(SkyColorpickerMessageType.Open);
       fixture.detectChanges();
       tick();
-      expect(nativeElement.querySelectorAll('.sky-colorpicker-hidden').length).toEqual(1);
+      verifyColorpickerHidden(true);
       expect(getColorpickerContainer()).toBeTruthy();
     }));
 
@@ -703,7 +737,7 @@ describe('Colorpicker Component', () => {
       tick();
       openColorpicker(nativeElement, fixture);
       fixture.detectChanges();
-      expect(nativeElement.querySelectorAll('.sky-colorpicker-hidden').length).toEqual(0);
+      verifyColorpickerHidden(false);
     }));
 
     it('should load with hidden reset button.', fakeAsync(() => {
@@ -711,12 +745,12 @@ describe('Colorpicker Component', () => {
       tick();
       fixture.detectChanges();
       tick();
-      expect(nativeElement.querySelectorAll('.sky-colorpicker-reset-button').length).toEqual(0);
+      expect(getResetButton().length).toEqual(0);
       colorpickerComponent.showResetButton = true;
       tick();
       fixture.detectChanges();
       tick();
-      expect(nativeElement.querySelectorAll('.sky-colorpicker-reset-button').length).toEqual(1);
+      expect(getResetButton().length).toEqual(1);
     }));
 
     it('should reset colorpicker via reset button.', fakeAsync(() => {
@@ -778,17 +812,17 @@ describe('Colorpicker Component', () => {
     it('should toggle reset button via messageStream.', fakeAsync(() => {
       fixture.detectChanges();
       tick();
-      expect(nativeElement.querySelectorAll('.sky-colorpicker-reset-button').length).toEqual(1);
+      expect(getResetButton().length).toEqual(1);
       component.sendMessage(SkyColorpickerMessageType.ToggleResetButton);
       tick();
       fixture.detectChanges();
       tick();
-      expect(nativeElement.querySelectorAll('.sky-colorpicker-reset-button').length).toEqual(0);
+      expect(getResetButton().length).toEqual(0);
       component.sendMessage(SkyColorpickerMessageType.ToggleResetButton);
       tick();
       fixture.detectChanges();
       tick();
-      expect(nativeElement.querySelectorAll('.sky-colorpicker-reset-button').length).toEqual(1);
+      expect(getResetButton().length).toEqual(1);
     }));
 
     it('should display alpha related elements by default', fakeAsync(() => {
@@ -937,17 +971,17 @@ describe('Colorpicker Component', () => {
     it('should toggle reset button via messageStream.', fakeAsync(() => {
       fixture.detectChanges();
       tick();
-      expect(nativeElement.querySelectorAll('.sky-colorpicker-reset-button').length).toEqual(1);
+      expect(getResetButton().length).toEqual(1);
       component.sendMessage(SkyColorpickerMessageType.ToggleResetButton);
       tick();
       fixture.detectChanges();
       tick();
-      expect(nativeElement.querySelectorAll('.sky-colorpicker-reset-button').length).toEqual(0);
+      expect(getResetButton().length).toEqual(0);
       component.sendMessage(SkyColorpickerMessageType.ToggleResetButton);
       tick();
       fixture.detectChanges();
       tick();
-      expect(nativeElement.querySelectorAll('.sky-colorpicker-reset-button').length).toEqual(1);
+      expect(getResetButton().length).toEqual(1);
     }));
 
     it('should only emit the form control valueChanged event once per change', (done) => {
