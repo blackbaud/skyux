@@ -12,8 +12,8 @@ import {
 } from '@angular/platform-browser';
 
 import {
-  BehaviorSubject
-} from 'rxjs';
+  MockSkyRestrictedViewAuthService
+} from './fixtures/mock-restricted-view-auth.service';
 
 import {
   RestrictedViewTestComponent
@@ -40,13 +40,11 @@ class MockViewContainer {
 describe('SkyRestrictedViewDirective', () => {
   let fixture: ComponentFixture<RestrictedViewTestComponent>;
   let directiveElement: any;
-  let mockAuth: any;
+  let mockAuth: MockSkyRestrictedViewAuthService;
   let mockViewContainer: any;
 
   beforeEach(() => {
-    mockAuth = {
-      isAuthenticated: new BehaviorSubject(true)
-    };
+    mockAuth = new MockSkyRestrictedViewAuthService();
     mockViewContainer = new MockViewContainer();
 
     TestBed.configureTestingModule({

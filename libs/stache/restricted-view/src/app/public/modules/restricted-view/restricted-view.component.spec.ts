@@ -8,8 +8,8 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  BehaviorSubject
-} from 'rxjs';
+  MockSkyRestrictedViewAuthService
+} from './fixtures/mock-restricted-view-auth.service';
 
 import {
   RestrictedViewTestComponent
@@ -23,16 +23,12 @@ import {
   SkyRestrictedViewAuthService
 } from './restricted-view-auth.service';
 
-class MockAuth {
-  public isAuthenticated = new BehaviorSubject<boolean>(true);
-}
-
 describe('SkyRestrictedViewComponent', () => {
   let fixture: ComponentFixture<RestrictedViewTestComponent>;
-  let mockAuth: any;
+  let mockAuth: MockSkyRestrictedViewAuthService;
 
   beforeEach(() => {
-    mockAuth = new MockAuth();
+    mockAuth = new MockSkyRestrictedViewAuthService();
 
     TestBed.configureTestingModule({
       imports: [
