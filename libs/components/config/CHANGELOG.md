@@ -1,3 +1,7 @@
+# 4.2.0 (2020-11-20)
+
+- Added the `SkyAppRuntimeConfigParamsProvider` to allow consuming applications to access `SkyAppRuntimeConfigParams` in their components and services. [#72](https://github.com/blackbaud/skyux-config/pull/72)
+
 # 4.1.0 (2020-10-30)
 
 - Added the optional `dependenciesForTranspilation` property to the schema. [#70](https://github.com/blackbaud/skyux-config/pull/70)
