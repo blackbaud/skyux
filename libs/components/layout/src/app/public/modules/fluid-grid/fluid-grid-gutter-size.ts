@@ -1,14 +1,14 @@
 export enum SkyFluidGridGutterSize {
   /**
-   * Specifies a 10px gutter.
+   * Specifies a small gutter.
    */
   Small,
   /**
-   * Specifies a 20px gutter.
+   * Specifies a medium gutter.
    */
   Medium,
   /**
-   * Specifies a 30px gutter.
+   * Specifies a large gutter.
    */
   Large
 }
