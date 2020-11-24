@@ -42,6 +42,7 @@ export class SkyAvatarComponent {
    * users click the image or drag another image on top of it,
    * much like the `sky-file-drop` component in the
    * [file attachment module](https://developer.blackbaud.com/skyux/components/file-attachments/file-attachment).
+   * @default false
    */
   @Input()
   public set canChange(value: boolean) {
@@ -89,7 +90,7 @@ export class SkyAvatarComponent {
   public maxFileSize = 500000;
 
   /**
-   * Specifies the size of the avatar. Default is "large".
+   * Specifies the size of the avatar.
    */
   @Input()
   public size: SkyAvatarSize = 'large';
