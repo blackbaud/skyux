@@ -1,3 +1,7 @@
+# 4.1.2 (2020-11-23)
+
+- Updated the tooltip for the button to close toasts. [#64](https://github.com/blackbaud/skyux-toast/pull/64)
+
 # 4.1.1 (2020-10-07)
 
 - Fixed a bug where two close icons would display on the toast component. [#60](https://github.com/blackbaud/skyux-toast/pull/60)
