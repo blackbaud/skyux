@@ -1,6 +1,6 @@
 # 4.7.1 (2020-10-23)
 
-- Fixed the help-inline component to avoid hover clashes when used in a hover-based popover. [#148](https://github.com/blackbaud/skyux-indicators/pull/148)
+- Fixed the help-inline component to use the `aria-label` attribute instead of the `title` attribute to prevent the title's tooltip from covering the help-inline's popover content. [#148](https://github.com/blackbaud/skyux-indicators/pull/148)
 
 # 4.7.0 (2020-10-22)
 
