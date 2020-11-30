@@ -11,6 +11,10 @@ import {
 } from '@angular/forms';
 
 import {
+  SkyInputBoxModule
+} from '@skyux/forms';
+
+import {
   SkyStatusIndicatorModule
 } from '@skyux/indicators';
 
@@ -29,6 +33,7 @@ import {
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    SkyInputBoxModule,
     SkyPhoneFieldModule,
     SkyStatusIndicatorModule
   ],
