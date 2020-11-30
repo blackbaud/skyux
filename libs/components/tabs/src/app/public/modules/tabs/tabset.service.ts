@@ -4,18 +4,27 @@ import {
 
 import {
   BehaviorSubject,
-  Observable
+  Observable,
+  Subject
 } from 'rxjs';
 
 import {
   SkyTabIndex
 } from './tab-index';
 
+import {
+  SkyTabsetActiveTabUnregisteredArgs
+} from './tabset-active-tab-unregistered-args';
+
 /**
  * @internal
  */
 @Injectable()
 export class SkyTabsetService {
+
+  public get activeTabUnregistered(): Observable<SkyTabsetActiveTabUnregisteredArgs> {
+    return this._activeTabUnregistered.asObservable();
+  }
 
   public get activeTabIndex(): Observable<SkyTabIndex> {
     return this._activeTabIndex.asObservable();
@@ -24,6 +33,8 @@ export class SkyTabsetService {
   public currentActiveTabIndex: SkyTabIndex = 0;
 
   private _activeTabIndex = new BehaviorSubject<SkyTabIndex>(0);
+
+  private _activeTabUnregistered = new Subject<SkyTabsetActiveTabUnregisteredArgs>();
 
   private tabs: {
     tabIndex: SkyTabIndex;
@@ -73,9 +84,11 @@ export class SkyTabsetService {
   public unregisterTab(tabIndex: SkyTabIndex): void {
     const index = this.tabs.findIndex(tab => this.tabIndexesEqual(tab.tabIndex, tabIndex));
 
-    // If the currently active tab is getting unregistered, activate the next one.
+    // Notify the tabset component when an active tab is unregistered.
     if (this.isTabIndexActive(this.tabs[index].tabIndex)) {
-      this.activateNearestTab(index);
+      this._activeTabUnregistered.next({
+        arrayIndex: index
+      });
     }
 
     this.tabs.splice(index, 1);
@@ -119,13 +132,10 @@ export class SkyTabsetService {
   /**
    * Activates the next registered tab, or the previous one based on a provided array index.
    */
-  private activateNearestTab(arrayIndex: number): void {
-    const newActiveTab = this.tabs[arrayIndex + 1] || this.tabs[arrayIndex - 1];
+  public activateNearestTab(arrayIndex: number): void {
+    const newActiveTab = this.tabs[arrayIndex] || this.tabs[arrayIndex - 1];
     if (newActiveTab) {
-      // Wait for tabset UI changes to render before activating.
-      setTimeout(() => {
-        this._activeTabIndex.next(newActiveTab.tabIndex);
-      });
+      this.currentActiveTabIndex = newActiveTab.tabIndex;
     }
   }
 

@@ -257,6 +257,16 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
     this.listenTabButtonsOverflowChange();
     this.listenLocationPopStateChange();
 
+    // If the currently active tab is getting unregistered, activate the next one.
+    this.tabsetService.activeTabUnregistered
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(tab => {
+        // Wait for the new tabs to render before activating.
+        setTimeout(() => {
+          this.tabsetService.activateNearestTab(tab.arrayIndex);
+        });
+      });
+
     // Let the tabset render the initial active index before listening for changes.
     setTimeout(() => {
       this.listenTabComponentsStructuralChange();

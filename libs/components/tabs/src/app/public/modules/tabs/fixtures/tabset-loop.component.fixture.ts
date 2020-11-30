@@ -17,7 +17,13 @@ export class TabsetLoopTestComponent {
   public tabArray: any[] = [];
 
   constructor() {
-    this.tabArray = [
+    this.tabArray = this.createTabArray();
+  }
+
+  public onTabIndexesChange(change: SkyTabsetTabIndexesChange): void {}
+
+  public createTabArray(): any[] {
+    return [
       {
         tabHeading: 'Tab 1',
         tabContent: 'A list containing 25012 items',
@@ -30,8 +36,6 @@ export class TabsetLoopTestComponent {
       }
     ];
   }
-
-  public onTabIndexesChange(change: SkyTabsetTabIndexesChange): void {}
 
   public addTabAndActivate(): void {
     this.tabArray.push({

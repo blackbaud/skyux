@@ -1066,6 +1066,28 @@ describe('Tabset component', () => {
       validateTabSelected(fixture.elementRef.nativeElement, 2);
     }));
 
+    it('should handle active index when entire tab array is rebuilt', fakeAsync(() => {
+      const fixture = TestBed.createComponent(TabsetLoopTestComponent);
+      fixture.componentInstance.activeIndex = 0;
+
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      validateTabSelected(fixture.elementRef.nativeElement, 0);
+
+      // Regenerate the tab array.
+      fixture.componentInstance.tabArray = fixture.componentInstance.createTabArray();
+
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      validateTabSelected(fixture.elementRef.nativeElement, 0);
+    }));
+
     it('should handle an empty tabset', fakeAsync(() => {
       const fixture = TestBed.createComponent(TabsetLoopTestComponent);
       fixture.componentInstance.activeIndex = undefined;
