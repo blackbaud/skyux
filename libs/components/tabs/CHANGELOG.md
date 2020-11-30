@@ -1,3 +1,7 @@
+# 4.4.1 (2020-11-30)
+
+- Fixed the tabset component to properly activate the nearest tab when the active tab is removed. [#148](https://github.com/blackbaud/skyux-tabs/pull/148)
+
 # 4.4.0 (2020-10-14)
 
 - Added the `tabIndexesChange` event to the tabset component which fires when tab indexes change. [#143](https://github.com/blackbaud/skyux-tabs/pull/143)
