@@ -1,3 +1,7 @@
+# 4.7.1 (2020-10-23)
+
+- Fixed the help-inline component to avoid hover clashes when used in a hover-based popover. [#148](https://github.com/blackbaud/skyux-indicators/pull/148)
+
 # 4.7.0 (2020-10-22)
 
 - Updated the height of the token component in the modern theme. [#149](https://github.com/blackbaud/skyux-indicators/pull/149)
