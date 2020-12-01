@@ -221,9 +221,10 @@ export class SkyAgGridService {
       },
       defaultColDef: {
         cellClassRules: editableCellClassRules,
-        sortable: true,
+        minWidth: 100,
         resizable: true,
-        minWidth: 100
+        sortable: true,
+        suppressKeyboardEvent: (keypress: SuppressKeyboardEventParams) => this.suppressTab(keypress)
       },
       domLayout: 'autoHeight',
       enterMovesDownAfterEdit: true,
@@ -238,7 +239,6 @@ export class SkyAgGridService {
         columnMovePin: this.getIconTemplate('arrows')
       },
       onCellFocused: () => this.onCellFocused(),
-      suppressKeyboardEvent: (keypress: SuppressKeyboardEventParams) => this.suppressTab(keypress),
       rowHeight: 38,
       rowMultiSelectWithClick: true,
       rowSelection: 'multiple',

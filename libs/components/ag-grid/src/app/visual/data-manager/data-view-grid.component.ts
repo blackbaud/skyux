@@ -13,6 +13,7 @@ import {
 
 import {
   ColDef,
+  ColumnApi,
   GridApi,
   GridOptions,
   GridReadyEvent
@@ -90,6 +91,7 @@ export class DataViewGridComponent implements OnInit {
     ]
   };
 
+  public columnApi: ColumnApi;
   public displayedItems: any[];
   public gridApi: GridApi;
   public gridInitialized: boolean;
@@ -159,6 +161,7 @@ export class DataViewGridComponent implements OnInit {
   }
 
   public onGridReady(event: GridReadyEvent): void {
+    this.columnApi = event.columnApi;
     this.gridApi = event.api;
     this.gridApi.sizeColumnsToFit();
     this.updateData();
@@ -166,11 +169,15 @@ export class DataViewGridComponent implements OnInit {
 
   public sortItems(): void {
     let sortOption = this.dataState.activeSortOption;
-    if (this.gridApi && sortOption) {
-      this.gridApi.setSortModel([{
-        colId: sortOption.propertyName,
-        sort: sortOption.descending ? 'desc' : 'asc'
-      }]);
+    if (this.columnApi && sortOption) {
+      const allColumns = this.columnApi.getAllColumns();
+      allColumns.forEach(column => {
+        if (column.getColId() === sortOption.propertyName) {
+          column.setSort(sortOption.descending ? 'desc' : 'asc');
+        } else {
+          column.setSort('none');
+        }
+      });
     }
   }
 

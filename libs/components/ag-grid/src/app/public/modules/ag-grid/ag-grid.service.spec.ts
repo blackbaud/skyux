@@ -351,7 +351,7 @@ describe('SkyAgGridService', () => {
     let suppressKeypressFunction: Function;
 
     beforeEach(() => {
-      suppressKeypressFunction = defaultGridOptions.suppressKeyboardEvent;
+      suppressKeypressFunction = defaultGridOptions.defaultColDef.suppressKeyboardEvent;
     });
 
     it('should return true to suppress the event when the tab key is pressed and cells are not being edited', () => {
