@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   ContentChild,
   Input,
@@ -92,6 +93,7 @@ export class SkyInputBoxComponent implements OnInit {
 
   constructor(
     @Optional() public themeSvc: SkyThemeService,
+    private changeRef: ChangeDetectorRef,
     private inputBoxHostSvc: SkyInputBoxHostService
   ) { }
 
@@ -120,6 +122,7 @@ export class SkyInputBoxComponent implements OnInit {
     // initial change detection. Using `setTimeout()` here fixes it.
     setTimeout(() => {
       this.formControlHasFocus = hasFocus;
+      this.changeRef.markForCheck();
     });
   }
 
