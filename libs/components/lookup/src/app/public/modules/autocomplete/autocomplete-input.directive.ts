@@ -269,7 +269,7 @@ export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, Control
 
   private setAttributes(element: any): void {
     this.renderer.setAttribute(element, 'autocomplete', this.autocompleteAttribute);
-    this.renderer.setAttribute(element, 'autocapitalize', 'off');
+    this.renderer.setAttribute(element, 'autocapitalize', 'none');
     this.renderer.setAttribute(element, 'autocorrect', 'off');
     this.renderer.setAttribute(element, 'spellcheck', 'false');
     this.renderer.addClass(element, 'sky-form-control');

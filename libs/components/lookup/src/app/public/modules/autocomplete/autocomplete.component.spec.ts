@@ -120,7 +120,7 @@ describe('Autocomplete component', () => {
       fixture.detectChanges();
 
       expect(inputElement.getAttribute('autocomplete')).toEqual('off');
-      expect(inputElement.getAttribute('autocapitalize')).toEqual('off');
+      expect(inputElement.getAttribute('autocapitalize')).toEqual('none');
       expect(inputElement.getAttribute('autocorrect')).toEqual('off');
       expect(inputElement.getAttribute('spellcheck')).toEqual('false');
       expect(inputElement).toHaveCssClass('sky-form-control');
