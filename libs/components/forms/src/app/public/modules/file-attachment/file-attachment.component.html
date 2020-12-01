@@ -36,7 +36,7 @@
       (change)="fileChangeEvent($event)"
       #fileInput
     >
-    <button
+    <button *ngIf="showFileAttachmentButton"
       class="sky-file-attachment-btn sky-btn sky-btn-default"
       type="button"
       [attr.aria-describedby]="fileDropDescriptionElementId"
@@ -51,6 +51,12 @@
         ('skyux_file_attachment_button_label_choose_file' | skyLibResources)
       }}
     </button>
+    <sky-icon *ngIf="value && !isImage() && currentThemeName === 'modern'"
+      class="sky-file-attachment-icon sky-deemphasized"
+      icon="file-o"
+      size="2x"
+    >
+    </sky-icon>
     <span
       class="sky-file-attachment-name"
     >
@@ -68,10 +74,13 @@
       </span>
     </ng-template>
     <button *ngIf="value"
-      class="sky-btn sky-file-attachment-delete"
+      class="sky-btn sky-btn-borderless sky-file-attachment-delete"
       type="button"
       [attr.aria-label]="'skyux_file_attachment_file_item_delete' | skyLibResources"
       [disabled]="disabled"
+      [ngClass]="{
+        'sky-btn-icon-borderless' : currentThemeName === 'modern'
+      }"
       (click)="deleteFileAttachment()"
     >
       <sky-icon
@@ -82,13 +91,11 @@
     </button>
   </div>
 
-  <div *ngIf="value && isImage()">
-    <img
-      class="sky-file-attachment-preview-img"
-      [alt]="'skyux_file_attachment_file_upload_image_preview_alt_text' | skyLibResources"
-      [src]="value.url"
-    />
-  </div>
+  <img *ngIf="value && isImage()"
+    class="sky-file-attachment-preview-img"
+    [alt]="'skyux_file_attachment_file_upload_image_preview_alt_text' | skyLibResources"
+    [src]="value.url"
+  />
 </div>
 
 <ng-template

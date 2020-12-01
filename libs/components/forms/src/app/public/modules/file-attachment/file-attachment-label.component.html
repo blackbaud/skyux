@@ -1,3 +1,9 @@
-<span class="sky-control-label">
+<span
+  class="sky-control-label"
+  [ngClass]="{
+    'sky-deemphasized':
+      (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern'
+  }"
+>
   <ng-content></ng-content>
 </span>

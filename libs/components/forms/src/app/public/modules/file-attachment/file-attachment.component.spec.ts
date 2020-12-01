@@ -20,6 +20,18 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange
+} from '@skyux/theme';
+
+import {
+  BehaviorSubject
+} from 'rxjs';
+
+import {
   SkyFileAttachmentComponent
 } from './file-attachment.component';
 
@@ -56,11 +68,31 @@ describe('File attachment', () => {
   let fixture: ComponentFixture<FileAttachmentTestComponent>;
   let el: HTMLElement;
   let fileAttachmentInstance: SkyFileAttachmentComponent;
+  let mockThemeSvc: {
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+  };
 
   beforeEach(() => {
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+        {
+          currentSettings: new SkyThemeSettings(
+            SkyTheme.presets.default,
+            SkyThemeMode.presets.light
+          ),
+          previousSettings: undefined
+        }
+      )
+    };
     TestBed.configureTestingModule({
       imports: [
         FileAttachmentTestModule
+      ],
+      providers: [
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc
+        }
       ]
     });
   });
@@ -1095,15 +1127,34 @@ describe('File attachment', () => {
 });
 
 describe('File attachment (template-driven)', () => {
-
   let fixture: ComponentFixture<TemplateDrivenFileAttachmentTestComponent>;
   let fileAttachmentInstance: SkyFileAttachmentComponent;
   let el: HTMLElement;
+  let mockThemeSvc: {
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+  };
 
   beforeEach(() => {
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+        {
+          currentSettings: new SkyThemeSettings(
+            SkyTheme.presets.default,
+            SkyThemeMode.presets.light
+          ),
+          previousSettings: undefined
+        }
+      )
+    };
     TestBed.configureTestingModule({
       imports: [
         FileAttachmentTestModule
+      ],
+      providers: [
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc
+        }
       ]
     });
     fixture = TestBed.createComponent(TemplateDrivenFileAttachmentTestComponent);

@@ -1,5 +1,6 @@
 @import "~@skyux/theme/scss/mixins";
 @import "~@skyux/theme/scss/_compat/mixins";
+@import "~@skyux/theme/scss/variables";
 
 .sky-file-attachment-wrapper {
   display: inline-block;
@@ -64,4 +65,57 @@
   width: 1px;
   height: 1px;
   overflow: hidden;
+}
+
+@include sky-theme-modern {
+  .sky-file-attachment-none {
+    font-size: $sky-theme-modern-text-size-125;
+  }
+
+  .sky-file-attachment-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+
+    .sky-file-attachment-label-wrapper {
+      width: 100%;
+    }
+
+    .sky-file-attachment-preview-img {
+      @include sky-border(dark, top, bottom, left, right);
+      box-shadow: none;
+      margin: 0 $sky-theme-modern-space-sm 0 0;
+      width: 100px;
+      flex: 0;
+      order: 1;
+    }
+
+    .sky-file-attachment-btn {
+      margin: 0 $sky-theme-modern-space-sm 0 0;
+    }
+
+    .sky-file-attachment-icon {
+      margin: $sky-theme-modern-space-xs
+              $sky-theme-modern-space-sm
+              $sky-theme-modern-space-xs
+              $sky-theme-modern-space-xs;
+    }
+
+    .sky-file-attachment-upload {
+      flex: 1;
+      order: 2;
+      display: flex;
+      align-items: flex-start;
+
+      .sky-file-attachment-name {
+        margin: $sky-theme-modern-space-sm $sky-theme-modern-space-sm 0 0;
+        padding: 0;
+      }
+    }
+
+    .sky-file-attachment-delete {
+      width: 40px;
+      height: 40px;
+      color: $sky-theme-modern-color-gray-70 !important;
+    }
+  }
 }

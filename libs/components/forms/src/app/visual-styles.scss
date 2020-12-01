@@ -9,3 +9,20 @@ body {
 .app-screenshot {
   padding: 15px;
 }
+
+#app-visual-test-single-file-attachment {
+  .app-screenshot {
+    width: 400px;
+  }
+}
+
+.app-test-output {
+  padding: 15px;
+  margin: 0 0 15px;
+
+  table {
+    th {
+      text-align: left;
+    }
+  }
+}

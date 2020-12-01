@@ -12,6 +12,10 @@ import {
 } from '@angular/core';
 
 import {
+  SkyThemeService
+} from '@skyux/theme';
+
+import {
   FileAttachmentTestComponent
 } from './file-attachment.component.fixture';
 
@@ -37,6 +41,9 @@ import {
   exports: [
     FileAttachmentTestComponent,
     TemplateDrivenFileAttachmentTestComponent
+  ],
+  providers: [
+    SkyThemeService
   ]
 })
 export class FileAttachmentTestModule { }
