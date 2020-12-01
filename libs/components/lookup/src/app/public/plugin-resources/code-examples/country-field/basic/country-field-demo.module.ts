@@ -11,6 +11,10 @@ import {
 } from '@angular/forms';
 
 import {
+  SkyInputBoxModule
+} from '@skyux/forms';
+
+import {
   SkyCountryFieldModule
 } from '@skyux/lookup';
 
@@ -22,7 +26,8 @@ import {
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    SkyCountryFieldModule
+    SkyCountryFieldModule,
+    SkyInputBoxModule
   ],
   declarations: [
     CountryFieldDemoComponent
