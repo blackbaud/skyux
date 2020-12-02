@@ -89,7 +89,7 @@ export class SkyColorpickerFixture {
   public async setValueFromPresets(presetIndex: number): Promise<any> {
     await this.clickColorpickerButtonEl();
 
-    const presetColors = document.querySelectorAll('.sky-preset-color');
+    const presetColors = document.querySelectorAll('.sky-colorpicker-preset-color-area button');
     const presetColor = presetColors && presetColors[presetIndex] as HTMLButtonElement;
 
     if (presetColor) {

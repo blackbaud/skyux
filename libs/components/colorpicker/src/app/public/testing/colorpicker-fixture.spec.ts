@@ -19,6 +19,10 @@ import {
 } from '@skyux/colorpicker';
 
 import {
+  SkyThemeService
+} from '@skyux/theme';
+
+import {
   SkyColorpickerFixture
 } from './colorpicker-fixture';
 
@@ -63,6 +67,9 @@ describe('Colorpicker fixture', () => {
       imports: [
         FormsModule,
         SkyColorpickerModule
+      ],
+      providers: [
+        SkyThemeService
       ]
     });
   });
