@@ -275,7 +275,13 @@
     type="button"
     [attr.aria-label]="'skyux_colorpicker_reset' | skyLibResources"
     (click)="resetPickerColor()"
-  ></button>
+  >
+    <sky-icon
+      icon="times"
+      size="sm"
+    >
+    </sky-icon>
+  </button>
 
   <button *ngIf="showResetButton && themeName === 'modern'"
     class="sky-btn sky-btn-icon-borderless sky-colorpicker-reset-button-modern"

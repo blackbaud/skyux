@@ -210,7 +210,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     private coreAdapter: SkyCoreAdapterService,
     private overlayService: SkyOverlayService,
     private service: SkyColorpickerService,
-    public themeSvc: SkyThemeService
+    private themeSvc: SkyThemeService
   ) {
     componentIdIndex++;
 

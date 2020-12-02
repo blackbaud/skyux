@@ -25,12 +25,6 @@
   overflow: hidden;
 }
 
-.sky-colorpicker-reset-button::before {
-  content: '\f00d';
-  font-family: FontAwesome;
-  font-size: $sky-font-size-base;
-}
-
 .sky-colorpicker-reset-button {
   background-color: $sky-color-white;
   margin-left: $sky-margin-half;
