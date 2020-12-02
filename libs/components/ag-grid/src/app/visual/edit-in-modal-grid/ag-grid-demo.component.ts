@@ -4,6 +4,11 @@ import {
 } from '@angular/core';
 
 import {
+  SkyThemeService,
+  SkyThemeSettings
+} from '@skyux/theme';
+
+import {
   GridApi,
   GridReadyEvent,
   GridOptions,
@@ -86,15 +91,17 @@ export class SkyAgGridDemoComponent implements OnInit {
 
   constructor(
     private agGridService: SkyAgGridService,
-    private modalService: SkyModalService
+    private modalService: SkyModalService,
+    public themeSvc: SkyThemeService
   ) { }
 
   public ngOnInit(): void {
-    this.gridOptions = {
-      columnDefs: this.columnDefs,
-      onGridReady: gridReadyEvent => this.onGridReady(gridReadyEvent)
-    };
-    this.gridOptions = this.agGridService.getGridOptions({ gridOptions: this.gridOptions });
+    this.getGridOptions();
+  }
+
+  public themeSettingsChange(themeSettings: SkyThemeSettings): void {
+    this.themeSvc.setTheme(themeSettings);
+    this.getGridOptions();
   }
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
@@ -134,5 +141,13 @@ export class SkyAgGridDemoComponent implements OnInit {
   private endDateFormatter(params: ValueFormatterParams) {
     const dateConfig = { year: 'numeric', month: '2-digit', day: '2-digit' };
     return params.value ? params.value.toLocaleDateString('en-us', dateConfig) : 'N/A';
+  }
+
+  private getGridOptions(): void {
+    this.gridOptions = {
+      columnDefs: this.columnDefs,
+      onGridReady: gridReadyEvent => this.onGridReady(gridReadyEvent)
+    };
+    this.gridOptions = this.agGridService.getGridOptions({ gridOptions: this.gridOptions });
   }
 }

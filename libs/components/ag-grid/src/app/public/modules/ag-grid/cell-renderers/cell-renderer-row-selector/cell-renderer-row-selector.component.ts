@@ -1,7 +1,8 @@
 import {
   ChangeDetectorRef,
   ChangeDetectionStrategy,
-  Component
+  Component,
+  ViewEncapsulation
 } from '@angular/core';
 
 import {
@@ -18,7 +19,8 @@ import {
   selector: 'sky-ag-grid-cell-renderer-row-selector',
   templateUrl: './cell-renderer-row-selector.component.html',
   styleUrls: ['./cell-renderer-row-selector.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class SkyAgGridCellRendererRowSelectorComponent implements ICellRendererAngularComp {
   public checked: boolean;

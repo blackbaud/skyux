@@ -2,7 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  ViewChild
+  ViewChild,
+  ViewEncapsulation
 } from '@angular/core';
 
 import {
@@ -21,10 +22,13 @@ import {
   selector: 'sky-ag-grid-cell-editor-datepicker',
   templateUrl: './cell-editor-datepicker.component.html',
   styleUrls: ['./cell-editor-datepicker.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class SkyAgGridCellEditorDatepickerComponent implements ICellEditorAngularComp {
+  public columnWidth: number;
   public currentDate: Date;
+  public rowHeightWithoutBorders: number;
   public skyComponentProperties: SkyDatepickerProperties = {};
   private params: SkyCellEditorDatepickerParams;
 
@@ -41,6 +45,8 @@ export class SkyAgGridCellEditorDatepickerComponent implements ICellEditorAngula
     this.params = params;
     this.currentDate = this.params.value;
     this.skyComponentProperties = this.params.skyComponentProperties || {};
+    this.columnWidth = this.params.column.getActualWidth();
+    this.rowHeightWithoutBorders = this.params.node && this.params.node.rowHeight - 4;
   }
 
   /**

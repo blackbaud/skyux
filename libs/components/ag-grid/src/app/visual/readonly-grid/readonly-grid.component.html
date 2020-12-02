@@ -1,17 +1,32 @@
-<div
-  class="readonly-grid"
+<sky-docs-demo-control-panel-theme
+  (themeSettingsChange)="themeSettingsChange($event)"
 >
-  <sky-ag-grid-wrapper>
-    <ag-grid-angular
-      [gridOptions]="gridOptions"
-      [rowData]="gridData"
-      skyBackToTop
-    >
-    </ag-grid-angular>
-  </sky-ag-grid-wrapper>
-  <sky-infinite-scroll
-    [enabled]="hasMore"
-    (scrollEnd)="onScrollEnd()"
+</sky-docs-demo-control-panel-theme>
+
+<ng-container
+  *ngIf="
+    (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name === 'modern';
+    then grid else grid
+  "
+>
+</ng-container>
+
+<ng-template #grid>
+  <div
+    class="readonly-grid"
   >
-  </sky-infinite-scroll>
-</div>
+    <sky-ag-grid-wrapper>
+      <ag-grid-angular
+        [gridOptions]="gridOptions"
+        [rowData]="gridData"
+        skyBackToTop
+      >
+      </ag-grid-angular>
+    </sky-ag-grid-wrapper>
+    <sky-infinite-scroll
+      [enabled]="hasMore"
+      (scrollEnd)="onScrollEnd()"
+    >
+    </sky-infinite-scroll>
+  </div>
+</ng-template>

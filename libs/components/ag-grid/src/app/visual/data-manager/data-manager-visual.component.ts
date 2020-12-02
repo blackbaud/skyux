@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   OnInit
 } from '@angular/core';
@@ -27,8 +26,7 @@ import {
   providers: [SkyDataManagerService, {
     provide: SkyUIConfigService,
     useClass: LocalStorageConfigService
-  }],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  }]
 })
 export class DataManagerVisualComponent implements OnInit {
 

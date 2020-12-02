@@ -1,39 +1,55 @@
-<div
-  class="editable-grid"
+
+<sky-docs-demo-control-panel-theme
+  (themeSettingsChange)="themeSettingsChange($event)"
 >
-  <sky-toolbar>
-    <sky-toolbar-item *ngIf="!editMode">
-      <button
-        class="sky-btn sky-btn-primary"
-        id="edit-btn"
-        (click)="setEditMode(true)"
+</sky-docs-demo-control-panel-theme>
+
+<ng-container
+  *ngIf="
+    (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name === 'modern';
+    then grid else grid
+  "
+>
+</ng-container>
+
+<ng-template #grid>
+  <div
+    class="editable-grid"
+  >
+    <sky-toolbar>
+      <sky-toolbar-item *ngIf="!editMode">
+        <button
+          class="sky-btn sky-btn-primary"
+          id="edit-btn"
+          (click)="setEditMode(true)"
+        >
+          Edit
+        </button>
+      </sky-toolbar-item>
+      <sky-toolbar-item *ngIf="editMode">
+        <button
+          class="sky-btn sky-btn-primary"
+          (click)="saveData();"
+        >
+          Save
+        </button>
+      </sky-toolbar-item>
+      <sky-toolbar-item *ngIf="editMode">
+        <button
+          class="sky-btn sky-btn-default"
+          (click)="cancelEdits();"
+        >
+          Cancel
+        </button>
+      </sky-toolbar-item>
+    </sky-toolbar>
+    <sky-ag-grid-wrapper>
+      <ag-grid-angular
+        [ngClass]="{'sky-ag-grid-editable': editMode}"
+        [gridOptions]="gridOptions"
+        [rowData]="gridData"
       >
-        Edit
-      </button>
-    </sky-toolbar-item>
-    <sky-toolbar-item *ngIf="editMode">
-      <button
-        class="sky-btn sky-btn-primary"
-        (click)="saveData();"
-      >
-        Save
-      </button>
-    </sky-toolbar-item>
-    <sky-toolbar-item *ngIf="editMode">
-      <button
-        class="sky-btn sky-btn-default"
-        (click)="cancelEdits();"
-      >
-        Cancel
-      </button>
-    </sky-toolbar-item>
-  </sky-toolbar>
-  <sky-ag-grid-wrapper>
-    <ag-grid-angular
-      [ngClass]="{'sky-ag-grid-editable': editMode}"
-      [gridOptions]="gridOptions"
-      [rowData]="gridData"
-    >
-    </ag-grid-angular>
-  </sky-ag-grid-wrapper>
-</div>
+      </ag-grid-angular>
+    </sky-ag-grid-wrapper>
+  </div>
+</ng-template>

@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   OnInit
 } from '@angular/core';
@@ -12,6 +11,11 @@ import {
   GridReadyEvent,
   GridOptions
 } from 'ag-grid-community';
+
+import {
+  SkyThemeService,
+  SkyThemeSettings
+} from '@skyux/theme';
 
 import {
   EDITABLE_GRID_AUTOCOMPLETE_OPTIONS,
@@ -27,8 +31,7 @@ import {
 @Component({
   selector: 'editable-grid-visual',
   templateUrl: './editable-grid.component.html',
-  styleUrls: ['./editable-grid.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./editable-grid.component.scss']
 })
 export class EditableGridComponent implements OnInit {
   public gridData = EDITABLE_GRID_DATA;
@@ -39,18 +42,14 @@ export class EditableGridComponent implements OnInit {
   public columnDefs: ColDef[];
 
   constructor(
-    private agGridService: SkyAgGridService
+    private agGridService: SkyAgGridService,
+    public themeSvc: SkyThemeService
   ) { }
 
   public ngOnInit(): void {
     this.setColumnDefs();
 
-    this.gridOptions = {
-      columnDefs: this.columnDefs,
-      onGridReady: gridReadyEvent => this.onGridReady(gridReadyEvent),
-      onGridSizeChanged: () => { this.sizeGrid(); }
-    };
-    this.gridOptions = this.agGridService.getEditableGridOptions({ gridOptions: this.gridOptions });
+    this.getGridOptions();
 
     this.gridData.forEach(row => {
       row.total = this.calculateRowTotal(row);
@@ -75,7 +74,6 @@ export class EditableGridComponent implements OnInit {
         headerName: 'Completed Date',
         editable: this.editMode,
         type: SkyCellType.Date,
-        minWidth: 160,
         cellEditorParams: {
           skyComponentProperties: {
            startingDay: 1
@@ -214,5 +212,19 @@ export class EditableGridComponent implements OnInit {
     if (this.gridApi) {
       this.gridApi.sizeColumnsToFit();
     }
+  }
+
+  public themeSettingsChange(themeSettings: SkyThemeSettings): void {
+    this.themeSvc.setTheme(themeSettings);
+    this.getGridOptions();
+  }
+
+  private getGridOptions(): void {
+    this.gridOptions = {
+      columnDefs: this.columnDefs,
+      onGridReady: gridReadyEvent => this.onGridReady(gridReadyEvent),
+      onGridSizeChanged: () => { this.sizeGrid(); }
+    };
+    this.gridOptions = this.agGridService.getEditableGridOptions({ gridOptions: this.gridOptions });
   }
 }

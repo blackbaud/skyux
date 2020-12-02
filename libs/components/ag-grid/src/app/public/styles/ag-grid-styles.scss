@@ -1,15 +1,18 @@
-@import '~@skyux/theme/scss/mixins';
-@import '~@skyux/theme/scss/_compat/mixins';
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+@import "~@skyux/theme/scss/variables";
 @import "~ag-grid-community/src/styles/ag-grid.scss";
 @import "~ag-grid-community/src/styles/ag-theme-base/sass/ag-theme-base-mixin.scss";
 
 $sky-standard-border: 1px solid $sky-border-color-neutral-medium;
+$sky-standard-border-theme-modern: 1px solid $sky-theme-modern-border-color-neutral-medium;
 
-ag-grid-angular {
+ag-grid-angular:not(.sky-ag-grid-editable) {
   @include ag-theme-base((
     background-color: $sky-color-gray-01,
     border-color: $sky-border-color-neutral-medium,
     borders: true,
+    cell-horizontal-padding: 12,
     font-family: $sky-font-family,
     font-size: 15px,
     foreground-color: $sky-text-color-default,
@@ -44,35 +47,14 @@ ag-grid-angular {
       border-bottom-style: dotted;
     }
   }
-
-  .sky-ag-grid-cell-number {
-    text-align: right;
-    padding-right: 12px;
-  }
-
-  .sky-ag-grid-header-right-aligned .ag-header-cell-label {
-    justify-content: flex-end;
-  }
-}
-
-ag-grid-angular {
-  input:focus {
-    border: none;
-    outline: none;
-  }
-
-  input::-ms-clear {
-    display: none;
-}
 }
 
 ag-grid-angular.sky-ag-grid-editable {
   @include ag-theme-base((
-    background-color: $sky-color-gray-01,
     border-color: $sky-border-color-neutral-medium,
     borders: true,
     cell-horizontal-border: solid $sky-border-color-neutral-medium,
-    cell-horizontal-padding: 13px,
+    cell-horizontal-padding: 11,
     font-family: $sky-font-family,
     font-size: 15px,
     foreground-color: $sky-text-color-default,
@@ -105,15 +87,12 @@ ag-grid-angular.sky-ag-grid-editable {
   .ag-cell {
     border-block-end: none;
     border-block-start: none;
-
-    .ag-cell-not-inline-editing {
-      padding-left: 12px !important;
-    }
   }
 
   .sky-ag-grid-cell-editable {
     background-color: $sky-background-color-page-default;
   }
+
 
   .sky-ag-grid-cell-uneditable {
     background-color: $sky-background-color-neutral-light;
@@ -136,12 +115,236 @@ ag-grid-angular.sky-ag-grid-editable {
   }
 }
 
-sky-toolbar + ag-grid-angular {
-  border-top: none;
+// ag-grid only allows one theme include per root selector; adding this
+.sky-theme-modern:not(.the-editing-theme) ag-grid-angular:not(.sky-ag-grid-editable) {
+  @include ag-theme-base((
+    border-color: $sky-theme-modern-border-color-neutral-medium,
+    borders: true,
+    cell-horizontal-padding: 12,
+    font-family: $sky-font-family,
+    font-size: 16px,
+    foreground-color: $sky-text-color-default,
+    header-background-color: $sky-theme-modern-background-color-page-default,
+    header-column-separator-color: $sky-theme-modern-border-color-neutral-medium,
+    header-height: 60px,
+    input-focus-border-color: $sky-theme-modern-color-blue-74,
+    row-border-color: $sky-theme-modern-border-color-neutral-medium,
+    row-height: 60px,
+    range-selection-border-color: $sky-theme-modern-color-blue-74,
+    secondary-foreground-color: $sky-theme-modern-font-deemphasized-color,
+    selected-row-background-color: $sky-background-color-selected
+  ));
+
+  .ag-header-cell-text {
+    text-transform: uppercase;
+  }
+
+  // set 1px of top and bottom padding when a cell is not focused and remove it when it is focused to prevent the 2px border causing contents to shift
+  .ag-cell {
+    padding-top: 1px;
+    padding-bottom: 1px;
+  }
+
+  .ag-cell-focus {
+    border-width: 2px !important;
+    padding: 0 10px;
+  }
+
+  .ag-cell:hover {
+    border: 1px solid $sky-theme-modern-color-blue-74;
+  }
+
+  .ag-row:not(.ag-row-first) {
+    border-top: none;
+  }
 }
 
-sky-toolbar + sky-ag-grid-wrapper ag-grid-angular {
-  border-top: none;
+.sky-theme-modern ag-grid-angular.sky-ag-grid-editable {
+  @include ag-theme-base((
+    border-color: $sky-theme-modern-border-color-neutral-medium,
+    borders: true,
+    cell-horizontal-border: solid $sky-theme-modern-border-color-neutral-medium,
+    cell-horizontal-padding: 12,
+    font-family: $sky-font-family,
+    font-size: 16px,
+    foreground-color: $sky-text-color-default,
+    header-background-color: $sky-theme-modern-background-color-page-default,
+    header-column-separator-color: $sky-theme-modern-border-color-neutral-medium,
+    header-height: 60px,
+    input-focus-border-color: $sky-theme-modern-color-blue-74,
+    row-border-color: $sky-theme-modern-border-color-neutral-medium,
+    row-height: 60px,
+    range-selection-border-color: $sky-theme-modern-color-blue-74,
+    secondary-foreground-color: $sky-theme-modern-font-deemphasized-color
+  ));
+
+  border-top: $sky-standard-border;
+
+  .ag-header-cell-text {
+    font-weight: 700;
+  }
+
+  // set 1px of top and bottom padding when a cell is not focused and remove it when it is focused to prevent the 2px border causing contents to shift
+  .ag-cell {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    border-right-color: $sky-border-color-neutral-medium;
+  }
+
+  .ag-cell-focus {
+    border-width: 2px !important;
+    padding: 0 10px;
+  }
+
+  .ag-cell:hover {
+    border: 1px solid $sky-theme-modern-color-blue-74;
+  }
+
+  .ag-row:not(.ag-row-first) {
+    border-top: none;
+  }
+
+  /* fine tune focus cell borders */
+  .ag-row {
+    .ag-cell-focus {
+      line-height: ag-param(row-height) - 4;
+    }
+
+    .ag-cell-focus.ag-cell-inline-editing {
+      height: ag-param(row-height) - 1;
+      padding-left: 0;
+      padding-right: 0;
+      @include sky-field-status(active)
+    }
+  }
+}
+
+// ag-grid only allows one theme include per root selector; adding this
+.sky-theme-modern.sky-theme-mode-dark:not(.the-editing-theme) ag-grid-angular:not(.sky-ag-grid-editable) {
+  @include ag-theme-base((
+    background-color: $sky-theme-modern-mode-dark-background-color-page-default,
+    border-color: $sky-theme-modern-mode-dark-border-color-neutral-medium,
+    borders: true,
+    cell-horizontal-padding: 12,
+    font-family: $sky-font-family,
+    font-size: 16px,
+    foreground-color: $sky-theme-modern-mode-dark-font-body-default-color,
+    header-background-color: $sky-theme-modern-mode-dark-background-color-page-default,
+    header-column-separator-color: $sky-theme-modern-mode-dark-border-color-neutral-medium,
+    header-height: 60px,
+    input-focus-border-color: $sky-theme-modern-mode-dark-background-color-primary-dark,
+    row-border-color: $sky-theme-modern-mode-dark-border-color-neutral-medium,
+    row-height: 60px,
+    range-selection-border-color: $sky-theme-modern-mode-dark-background-color-primary-dark,
+    secondary-foreground-color: $sky-theme-modern-mode-dark-font-deemphasized-color
+  ));
+
+  .ag-header-cell-text {
+    text-transform: uppercase;
+  }
+
+  // set 1px of top and bottom padding when a cell is not focused and remove it when it is focused to prevent the 2px border causing contents to shift
+  .ag-cell {
+    padding-top: 1px;
+    padding-bottom: 1px;
+  }
+
+  .ag-cell-focus {
+    border-width: 2px !important;
+    padding: 0 10px;
+  }
+
+  .ag-cell:hover {
+    border: 1px solid $sky-theme-modern-mode-dark-background-color-primary-dark;
+  }
+
+  .ag-row:not(.ag-row-first) {
+    border-top: none;
+  }
+}
+
+.sky-theme-modern.sky-theme-mode-dark ag-grid-angular.sky-ag-grid-editable {
+  @include ag-theme-base((
+    background-color: $sky-theme-modern-mode-dark-background-color-page-default,
+    border-color: $sky-theme-modern-mode-dark-border-color-neutral-medium,
+    borders: true,
+    cell-horizontal-border: solid $sky-theme-modern-mode-dark-border-color-neutral-medium,
+    cell-horizontal-padding: 12,
+    font-family: $sky-font-family,
+    font-size: 16px,
+    foreground-color: $sky-theme-modern-mode-dark-font-body-default-color,
+    header-background-color: $sky-theme-modern-mode-dark-background-color-page-default,
+    header-column-separator-color: $sky-theme-modern-mode-dark-border-color-neutral-medium,
+    header-height: 60px,
+    input-focus-border-color: $sky-theme-modern-mode-dark-background-color-primary-dark,
+    row-border-color: $sky-theme-modern-mode-dark-border-color-neutral-medium,
+    row-height: 60px,
+    range-selection-border-color: $sky-theme-modern-mode-dark-background-color-primary-dark,
+    secondary-foreground-color: $sky-theme-modern-mode-dark-font-deemphasized-color
+  ));
+
+  // set 1px of top and bottom padding when a cell is not focused and remove it when it is focused to prevent the 2px border causing contents to shift
+  .ag-cell {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    border-right-color: $sky-theme-modern-mode-dark-border-color-neutral-medium;
+  }
+
+  .ag-cell:hover {
+    border: 1px solid $sky-theme-modern-mode-dark-background-color-primary-dark;
+  }
+
+  .sky-ag-grid-cell-editable {
+    background-color: $sky-theme-modern-mode-dark-background-color-page-default;
+  }
+
+  .sky-ag-grid-cell-uneditable {
+    background-color: $sky-theme-modern-mode-dark-background-color-elevation-24;
+  }
+
+  input {
+    background-color: $sky-theme-modern-mode-dark-background-color-page-default;
+    color: $sky-theme-modern-mode-dark-font-body-default-color;
+  }
+
+  .ag-row:not(.ag-row-first) {
+    border-top: none;
+  }
+}
+
+ag-grid-angular {
+  input:focus {
+    border: none;
+    outline: none;
+  }
+
+  input::-ms-clear {
+    display: none;
+  }
+
+  .sky-ag-grid-cell-number {
+    text-align: right;
+    padding-right: 12px;
+  }
+
+  .sky-ag-grid-cell-row-selector {
+    text-overflow: clip;
+  }
+
+  .ag-header-cell-label {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .sky-ag-grid-header-right-aligned .ag-header-cell-label {
+    justify-content: flex-end;
+  }
+}
+
+.sky-theme-default sky-toolbar + sky-ag-grid-wrapper {
+  ag-grid-angular {
+    border-top: none !important;
+  }
 }
 
 ag-grid-angular + sky-infinite-scroll {
