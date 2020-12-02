@@ -58,7 +58,8 @@ const AUTO_CLOSE_MILLISECONDS = 6000;
 export class SkyToastComponent implements OnInit, OnDestroy {
 
   /**
-   * Indicates whether to automatically close the toast.
+   * Indicates whether to automatically close the toast. Only close toasts
+   * automatically if users can access the messages after the toasts close.
    */
   @Input()
   public autoClose: boolean;
