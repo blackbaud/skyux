@@ -19,7 +19,9 @@ import {
 } from 'angular-tree-component/dist/defs/api';
 
 /**
- * Wraps the Angular `tree-root` component. For information about the `tree-root` component, see the
+ * Wraps the Angular `tree-root` component as part of the `SkyAngularTreeModule` that provides
+ * SKY UX components and styles to complement the `angular-tree-component` library and apply SKY UX
+ * themes and functionality to hierarchical list views. For information about the `tree-root` component, see the
  * [Angular tree component documentation](https://angular2-tree.readme.io/docs).
  */
 @Component({
@@ -39,20 +41,18 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
   public readOnly: boolean = false;
 
   /**
-   * Indicates whether to use leaf-only selection mode. For tree views with checkboxes,
+   * Indicates whether to use leaf-only selection mode. For tree views with
+   * [checkboxes](https://angular2-tree.readme.io/docs/tri-state-checkboxes),
    * this mode limits user selections to leaf nodes and prevents users from selecting parent nodes.
-   * To enable checkboxes, see the
-   * [Angular tree component documentation](https://angular2-tree.readme.io/docs/tri-state-checkboxes).
    * @default false
    */
   @Input()
   public selectLeafNodesOnly: boolean = false;
 
   /**
-   * Indicates whether to use single-select mode. For tree views with checkboxes,
+   * Indicates whether to use single-select mode. For tree views with
+   * [checkboxes](https://angular2-tree.readme.io/docs/tri-state-checkboxes),
    * this mode limits user selections to one node at a time.
-   * To enable checkboxes, see the
-   * [Angular tree component documentation](https://angular2-tree.readme.io/docs/tri-state-checkboxes).
    * @default false
    */
   @Input()
@@ -60,9 +60,8 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
 
   /**
    * Indicates whether to display a toolbar with buttons to expand and collapse all nodes and buttons to select and clear all checkboxes.
-   * The select and clear all buttons only appear when you enable checkboxes.
-   * To enable checkboxes, see the
-   * [Angular tree component documentation](https://angular2-tree.readme.io/docs/tri-state-checkboxes).
+   * The select and clear buttons only appear when you enable checkboxes.
+   * To enable [checkboxes](https://angular2-tree.readme.io/docs/tri-state-checkboxes).
    * @default false
    */
   @Input()

@@ -4,7 +4,7 @@
   pageTitle="Tree view"
 >
   <sky-docs-demo-page-summary>
-    <sky-code>SkyAngularTreeModule</sky-code> provides SKY UX components and styles to complement the <sky-code>angular-tree-component</sky-code> library and apply SKY UX themes and functionality to hierarchical list views. For information about the Angular tree component and its capabilities, see the <a href="https://angular2-tree.readme.io/docs">Angular tree component documentation</a>.
+    Tree views provide hierarchical list views with multiple modes for selecting items in the lists.
   </sky-docs-demo-page-summary>
 
   <!-- <sky-docs-demo>
@@ -23,14 +23,16 @@
     >
       <sky-docs-design-guideline
         heading="Use when"
+        headingStyle="success"
       >
         <p class="sky-docs-text-block">
           Use tree views to represent hierarchical information. You can make tree views read-only or allow users to select list items.
         </p>
 
         <sky-docs-design-guideline-thumbnail
+          caption="Do use tree views for hierarchical lists."
+          captionType="success"
           imageSource="~/assets/img/guidelines/tree-view/use-when.png"
-          imageCaption="Do use tree views for hierarchical lists."
         >
         </sky-docs-design-guideline-thumbnail>
       </sky-docs-design-guideline>
@@ -131,10 +133,10 @@
       heading="Behavior and states"
     >
       <sky-docs-design-guideline
-        heading="Expand/collapse nodes"
+        heading="Expand and collapse nodes"
       >
         <p class="sky-docs-text-block">
-          The expand/collapse button expands and collapses the node.
+          The button beside items expands and collapses the node.
         </p>
 
         <sky-docs-design-guideline-thumbnail
@@ -180,6 +182,9 @@
         heading="Components"
       >
         <ul>
+          <li>
+            <a href="https://angular2-tree.readme.io/docs">Angular tree component</a>
+          </li>
           <li>
             <a href="https://developer.blackbaud.com/skyux-popovers/docs/dropdown">Drodpown</a>
           </li>

@@ -23,11 +23,14 @@ import {
 } from './angular-tree-wrapper.component';
 
 /**
- * Replaces the default tree node template with a SKY UX node. You must wrap this component in an `ng-template` tag with the
- * template reference variable `#treeNodeFullTemplate`. For information about tree node templates, see the
- * [Angular tree component documentation](https://angular2-tree.readme.io/docs/templates).
- * To display context menus with actions for individual items in hierarchical lists, place dropdown components inside the
- * Angular tree node component. The Angular tree node component automatically handles styling and positioning for context menus.
+ * Replaces the default tree node template with a SKY UX node as part of the `SkyAngularTreeModule` that
+ * provides SKY UX components and styles to complement the `angular-tree-component` library and apply SKY UX
+ * themes and functionality to hierarchical list views. You must wrap this component in an `ng-template`
+ * tag with the template reference variable `#treeNodeFullTemplate`. For information about tree node templates,
+ * see the [Angular tree component documentation](https://angular2-tree.readme.io/docs/templates).
+ * To display context menus with actions for individual items in hierarchical lists, place
+ * [dropdowns](https://developer.blackbaud.com/skyux-popovers/docs/dropdown?docs-active-tab=design) inside the
+ * Angular tree node component, which automatically handles styling and positioning for context menus.
  */
 @Component({
   selector: 'sky-angular-tree-node',
