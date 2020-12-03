@@ -63,7 +63,9 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
   public activeIndex: number;
 
   /**
-   * Defines a string value to label the repeater list for accessibility.
+   * Specifies an ARIA label for the repeater list.
+   * This sets the repeater list's `aria-label` attribute
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * @default 'List of items'
    */
   @Input()
