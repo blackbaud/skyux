@@ -55,17 +55,19 @@ let nextId = 0;
 export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
 
   /**
-   * Sets the dropdown menu's `aria-labelledby` attribute to support accessibility. The value should
-   * be the HTML element ID (without the leading `#`) of the element that labels the dropdown menu.
+   * Specifies the HTML element ID (without the leading `#`) of the element that labels
+   * the dropdown menu. This sets the dropdown menu's `aria-labelledby` attribute
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    */
   @Input()
   public ariaLabelledBy: string;
 
   /**
-   * Specifies an ARIA role for the dropdown menu to support accessibility by indicating how the
-   * dropdown menu functions and what it controls. The ARIA role indicates what the dropdown menu
-   * represents on the web page. The dropdown button inherits this value to set its `aria-haspopup`
-   * property. For information about ARIA roles, see the
+   * Specifies an ARIA role for the dropdown menu
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility)
+   * by indicating how the dropdown menu functions and what it controls. The dropdown button
+   * inherits this value to set its `aria-haspopup` property. For information
+   * about how an ARIA role indicates what an item represents on a web page, see the
    * [WAI-ARIA roles model](https://www.w3.org/WAI/PF/aria/roles).
    * @default "menu"
    */
