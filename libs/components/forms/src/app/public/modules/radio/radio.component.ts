@@ -109,19 +109,19 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   public id = `sky-radio-${++nextUniqueId}`;
 
 /**
- * Defines an ARIA label for the radio button to support accessibility when the
- * radio button does not include a visible label. You must set this property if you
- * are using an icon radio button. If the radio button includes a visible label,
- * use the `labelledBy` property instead.
+ * Specifies an ARIA label for the radio button. This sets the radio button's `aria-label`
+ * attribute [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility)
+ * when the radio button does not include a visible label. You must set this property for icon
+ * radio buttons. If the radio button includes a visible label, use `labelledBy` instead.
  */
   @Input()
   public label: string;
 
 /**
- * Sets the radio button's `aria-labelledby` attribute to support
- * accessibility. The value should be the HTML element ID (without the leading `#`) of the
- * element that labels the radio button. If the radio button does not include a visible label,
- * use the `label` property instead.
+ * Specifies the HTML element ID (without the leading `#`) of the element that labels
+ * the radio button. This sets the radio button's `aria-labelledby` attribute
+ * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+ * If the radio button does not include a visible label, use `label` instead.
  */
   @Input()
   public labelledBy: string;

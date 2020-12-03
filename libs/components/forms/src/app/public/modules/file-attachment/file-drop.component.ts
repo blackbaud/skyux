@@ -59,15 +59,15 @@ export class SkyFileDropComponent implements OnDestroy {
   public linkChanged = new EventEmitter<SkyFileLink>();
 
   /**
-   * Specifies an accessibility label for the file upload button to provide a text equivalent for
-   * screen readers.
+   * Specifies an ARIA label for the file upload button. This provides a text equivalent for
+   * screen readers [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    */
   @Input()
   public fileUploadAriaLabel: string;
 
   /**
-   * Specifies an accessibility label for the link upload input to provide a text equivalent for
-   * screen readers.
+   * Specifies an ARIA label for the link upload input. This provides a text equivalent for
+   * screen readers [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    */
   @Input()
   public linkUploadAriaLabel: string;

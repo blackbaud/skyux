@@ -65,7 +65,9 @@ let uniqueId = 0;
 export class SkyToggleSwitchComponent implements AfterContentInit, OnDestroy, ControlValueAccessor, Validator {
 
 /**
- * Sets the `aria-label` attribute of the toggle switch. Only use this value if the `sky-toggle-switch-label` component is not used.
+ * Specifies an ARIA label for the toggle switch. This sets the toggle switch's `aria-label`
+ * attribute [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+ * If the `sky-toggle-switch-label` component displays a visible label, do not use this property.
  */
   @Input()
   public ariaLabel: string;

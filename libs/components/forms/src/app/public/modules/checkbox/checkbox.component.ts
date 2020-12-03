@@ -39,19 +39,19 @@ let nextId = 0;
 export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
 
   /**
-   * Defines an ARIA label for the checkbox to support
-   * [accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility)
-   * when the checkbox does not include a visible label. This property must be set if
-   * you are using an icon checkbox. If the checkbox includes a visible label on the screen, use the `labelledBy` property instead.
+   * Specifies an ARIA label for the checkbox. This sets the checkbox's `aria-label` attribute
+   * [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility)
+   * when the checkbox does not include a visible label. You must set this property for icon
+   * checkboxes. If the checkbox includes a visible label, use `labelledBy` instead.
    */
   @Input()
   public label: string;
 
   /**
-   * Sets the checkbox's `aria-labelledby` attribute to support
-   * [accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility).
-   * The value should be the HTML element ID (without the leading `#`) of the element
-   * that labels the checkbox. If the checkbox does not include a visible label on the screen, use the `label` property instead.
+   * Specifies the HTML element ID (without the leading `#`) of the element that labels the
+   * checkbox. This sets the checkbox's `aria-labelledby` attribute
+   * [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility).
+   * If the checkbox does not include a visible label, use `label` instead.
    */
   @Input()
   public labelledBy: string;
