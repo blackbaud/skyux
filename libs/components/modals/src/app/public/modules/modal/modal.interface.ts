@@ -26,27 +26,32 @@ export interface SkyModalConfigurationInterface {
   providers?: any[];
 
   /**
-   * Sets the `aria-describedby` attribute for the modal dialog to support accessibility.
-   * The value should be an ID (without the leading `#`) that points to the element
-   * that describes the modal. Typically, this is the text on the modal,
-   * not including anything that users interact with such as buttons or a form.
-   * If no ID is specified, the default value is the content of the `sky-modal-content` component.
+   * Specifies the HTML element ID (without the leading `#`) of the element that describes
+   * the modal. This sets the modal's `aria-describedby` attribute
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * The description typically includes text on the modal but not on items that users interact
+   * with, such as buttons and forms. If you do not specify an ID, the default description is
+   * the content of the `sky-modal-content` component.
    */
   ariaDescribedBy?: string;
 
   /**
-   * Sets the `aria-labelledby` attribute for the modal dialog to support accessibility.
-   * The value should be an ID (without the leading `#`) that points to the element
-   * that labels the modal. Typically this is a header element. If no ID is specified,
-   * the default value is the content of the `sky-modal-header` component.
+   * Specifies the HTML element ID (without the leading `#`) of the element that labels
+   * the modal. This sets the `aria-labelledby` attribute for the modal
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * This is typically a header element, and if you do not specify an ID, the default value
+   * is the content of the `sky-modal-header` component.
    */
   ariaLabelledBy?: string;
 
   /**
-   * Specifies [an ARIA role](http://www.w3.org/WAI/PF/aria/roles) for the modal dialog
-   * to support accessibility by indicating how the modal functions and what it controls.
-   * The ARIA role indicates what the modal component represents on the web page.
-   * This property defaults to `dialog`.
+   * Specifies an ARIA role for the modal
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility)
+   * by indicating how the modal functions and what it controls. For information about
+   * how an ARIA role indicates what an item represents on a web page, see the
+   * [WAI-ARIA roles model](http://www.w3.org/WAI/PF/aria/roles). By default, modals set
+   * the ARIA role to `dialog`.
+   * @default "dialog"
    */
   ariaRole?: string;
 
