@@ -54,7 +54,6 @@ import {
 
 @NgModule({
   exports: [
-    NoopAnimationsModule,
     SkyAppLinkModule,
     SkyDocsThumbnailModule,
     SkyDocsToolsModule,
@@ -62,7 +61,11 @@ import {
     SkyDropdownModule,
     SkyModalModule,
     SkyToastModule,
-    SkyInfiniteScrollModule
+    SkyInfiniteScrollModule,
+
+    // The noop animations module needs to be loaded last to avoid
+    // subsequent modules adding animations and overriding this.
+    NoopAnimationsModule
   ],
   entryComponents: [
     FlyoutDemoComponent,

@@ -14,6 +14,13 @@ import {
     Modal content...
   </sky-modal-content>
   <sky-modal-footer>
+    <button *ngIf="visible"
+      class="sky-btn-default"
+      type="button"
+      (click)="visible=false"
+    >
+      Click to delete
+    </button>
     <button
       class="sky-btn sky-btn-primary"
       type="button"
@@ -26,6 +33,7 @@ import {
 `
 })
 export class SkyFlyoutModalDemoComponent {
+  public visible = true;
   constructor(
     private instance: SkyModalInstance
   ) { }

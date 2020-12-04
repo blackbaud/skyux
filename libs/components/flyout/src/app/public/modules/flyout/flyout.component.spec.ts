@@ -306,7 +306,7 @@ describe('Flyout component', () => {
     const flyout = openFlyout({});
     expect(flyout.isOpen).toBe(true);
 
-    SkyAppTestUtility.fireDomEvent(fixture.nativeElement, 'mousedown');
+    SkyAppTestUtility.fireDomEvent(fixture.nativeElement, 'mouseup');
     fixture.nativeElement.click();
     fixture.detectChanges();
     tick();
@@ -319,7 +319,7 @@ describe('Flyout component', () => {
     expect(flyout.isOpen).toBe(true);
 
     const flyoutContentElement = getFlyoutElement();
-    SkyAppTestUtility.fireDomEvent(flyoutContentElement, 'mousedown');
+    SkyAppTestUtility.fireDomEvent(flyoutContentElement, 'mouseup');
     flyoutContentElement.click();
     fixture.detectChanges();
     tick();
@@ -343,6 +343,45 @@ describe('Flyout component', () => {
     tick();
 
     expect(flyout.isOpen).toBe(true);
+
+    closeModal();
+    fixture.detectChanges();
+    tick();
+  }));
+
+  it('should NOT close when the click event immediately deletes the target, within a modal', fakeAsync(() => {
+    const flyout = fixture.componentInstance.openHostsFlyout();
+
+    fixture.detectChanges();
+    tick();
+
+    expect(flyout.isOpen).toBe(true);
+
+    const flyoutModalTriggerElement = getFlyoutModalTriggerElement();
+    SkyAppTestUtility.fireDomEvent(flyoutModalTriggerElement, 'mousedown');
+    flyoutModalTriggerElement.click();
+
+    fixture.detectChanges();
+    tick();
+
+    const deleteMeButton: HTMLButtonElement = getModalElement().querySelector('.delete-me-button');
+    // Remove the button before triggering the click event.
+    // Angular fires the click event before removing the element in unit tests.
+    deleteMeButton.parentElement.removeChild(deleteMeButton);
+
+    // Pass in the removed element as the target.
+    const event = document.createEvent('CustomEvent');
+    Object.defineProperty(event, 'target', {
+      value: deleteMeButton
+    });
+    event.initEvent('click', true, true);
+    document.dispatchEvent(event);
+
+    fixture.detectChanges();
+    tick();
+
+    expect(flyout.isOpen).toBe(true);
+    expect(getFlyoutElement()).not.toBeNull();
 
     closeModal();
     fixture.detectChanges();
