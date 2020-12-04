@@ -12,23 +12,26 @@ import {
 export interface SkyFlyoutConfig {
 
   /**
-   * Sets the flyout's `aria-describedby` attribute to support accessibility.
-   * The value should be the HTML element ID (without the leading `#`) of the element
-   * that describes the flyout. Typically, the description includes text on the flyout
-   * but not on items that users interact with such as buttons and forms.
+   * Specifies the HTML element ID (without the leading `#`) of the element that describes
+   * the flyout. This sets the flyout's `aria-describedby` attribute
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * The description typically includes text on the flyout but not on items that users
+   * interact with, such as buttons and forms.
    */
   ariaDescribedBy?: string;
 
   /**
-   * Sets the flyout's `aria-labelledby` attribute to support accessibility.The value
-   * should be the HTML element ID (without the leading `#`) of the element that labels the flyout.
+   * Specifies the HTML element ID (without the leading `#`) of the element that labels
+   * the flyout. This sets the flyout's `aria-labelledby` attribute
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    */
   ariaLabelledBy?: string;
 
   /**
-   * Specifies an ARIA role for the flyout to support accessibility by indicating how
-   * the flyout functions and what it controls. The ARIA role indicates what
-   * the flyout represents on the web page. For information about ARIA roles,
+   * Specifies an ARIA role for the flyout
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility)
+   * by indicating how the flyout functions and what it controls. For information about how
+   * an ARIA role indicates what an item represents on a web page,
    * see the [WAI-ARIA roles model](https://www.w3.org/WAI/PF/aria/roles).
    */
   ariaRole?: string;
