@@ -1,3 +1,7 @@
+# 4.5.0 (2020-12-04)
+
+- Added a sort test fixture. [#214](https://github.com/blackbaud/skyux-lists/pull/214)
+
 # 4.4.0 (2020-08-28)
 
 - Added a paging test fixture. [#209](https://github.com/blackbaud/skyux-lists/pull/209)
