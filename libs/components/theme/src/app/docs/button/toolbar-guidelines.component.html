@@ -1,0 +1,187 @@
+<div class="sky-emphasized">Add button</div>
+<sky-row>
+  <sky-column screenSmall="3" screenMedium="2">
+    <div style="margin: 5px 0;"><sky-dropdown buttonStyle="primary"><sky-dropdown-button><i class="fa fa-plus-circle" style="margin-right: 5px;"></i>Add</sky-dropdown-button></sky-dropdown></div>
+    <div style="margin: 5px 0;"><sky-dropdown><sky-dropdown-button><i class="fa fa-plus-circle" style="margin-right: 5px;"></i>Add</sky-dropdown-button></sky-dropdown></div>
+  </sky-column>
+  <sky-column screenSmall="9" screenMedium="10">
+    <sky-definition-list>
+      <sky-definition-list-content *ngFor="let item of addButtonInfo">
+        <sky-definition-list-label>
+          {{item.label}}
+        </sky-definition-list-label>
+        <sky-definition-list-value>
+          {{item.value}}
+        </sky-definition-list-value>
+      </sky-definition-list-content>
+    </sky-definition-list>
+  </sky-column>
+</sky-row>
+
+<div class="sky-emphasized">Edit button</div>
+<sky-row>
+  <sky-column screenSmall="3" screenMedium="2">
+    <div style="margin: 5px 0;"><sky-dropdown><sky-dropdown-button><i class="fa fa-pencil" style="margin-right: 5px;"></i>Edit</sky-dropdown-button></sky-dropdown></div>
+  </sky-column>
+  <sky-column screenSmall="9" screenMedium="10">
+    <sky-definition-list>
+      <sky-definition-list-content *ngFor="let item of editButtonInfo">
+        <sky-definition-list-label>
+          {{item.label}}
+        </sky-definition-list-label>
+        <sky-definition-list-value>
+          {{item.value}}
+        </sky-definition-list-value>
+      </sky-definition-list-content>
+    </sky-definition-list>
+  </sky-column>
+</sky-row>
+
+<div class="sky-emphasized">Save button</div>
+<sky-row>
+  <sky-column screenSmall="3" screenMedium="2">
+    <div style="margin: 5px 0;"><sky-dropdown><sky-dropdown-button><i class="fa fa-save" style="margin-right: 5px;"></i>Save</sky-dropdown-button></sky-dropdown></div>
+  </sky-column>
+  <sky-column screenSmall="9" screenMedium="10">
+    <sky-definition-list>
+      <sky-definition-list-content *ngFor="let item of saveButtonInfo">
+        <sky-definition-list-label>
+          {{item.label}}
+        </sky-definition-list-label>
+        <sky-definition-list-value>
+          {{item.value}}
+        </sky-definition-list-value>
+      </sky-definition-list-content>
+    </sky-definition-list>
+  </sky-column>
+</sky-row>
+
+<div class="sky-emphasized">Filter button</div>
+<sky-row>
+  <sky-column screenSmall="3" screenMedium="2">
+    <div style="margin: 5px 0;"><button class="sky-btn sky-btn-default"><i class="fa fa-filter" style="margin-right: 5px;"></i>Filter</button></div>
+  </sky-column>
+  <sky-column screenSmall="9" screenMedium="10">
+    <sky-definition-list>
+      <sky-definition-list-content *ngFor="let item of filterButtonInfo">
+        <sky-definition-list-label>
+          {{item.label}}
+        </sky-definition-list-label>
+        <sky-definition-list-value>
+          {{item.value}}
+        </sky-definition-list-value>
+      </sky-definition-list-content>
+    </sky-definition-list>
+  </sky-column>
+</sky-row>
+
+<div class="sky-emphasized">Sort button</div>
+<sky-row>
+  <sky-column screenSmall="3" screenMedium="2">
+    <div style="margin: 5px 0;"><sky-sort [showButtonText]="true"></sky-sort></div>
+  </sky-column>
+  <sky-column screenSmall="9" screenMedium="10">
+    <sky-definition-list>
+      <sky-definition-list-content *ngFor="let item of sortButtonInfo">
+        <sky-definition-list-label>
+          {{item.label}}
+        </sky-definition-list-label>
+        <sky-definition-list-value>
+          {{item.value}}
+        </sky-definition-list-value>
+      </sky-definition-list-content>
+    </sky-definition-list>
+  </sky-column>
+</sky-row>
+
+<div class="sky-emphasized">Columns button</div>
+<sky-row>
+  <sky-column screenSmall="3" screenMedium="2">
+    <div style="margin: 5px 0;"><button class="sky-btn sky-btn-default"><i class="fa fa-columns" style="margin-right: 5px;"></i>Columns</button></div>
+  </sky-column>
+  <sky-column screenSmall="9" screenMedium="10">
+    <sky-definition-list>
+      <sky-definition-list-content *ngFor="let item of columnsButtonInfo">
+        <sky-definition-list-label>
+          {{item.label}}
+        </sky-definition-list-label>
+        <sky-definition-list-value>
+          {{item.value}}
+        </sky-definition-list-value>
+      </sky-definition-list-content>
+    </sky-definition-list>
+  </sky-column>
+</sky-row>
+
+<div class="sky-emphasized">Share button</div>
+<sky-row>
+  <sky-column screenSmall="3" screenMedium="2">
+    <div style="margin: 5px 0;"><button class="sky-btn sky-btn-default"><i class="fa fa-share" style="margin-right: 5px;"></i>Share</button></div>
+  </sky-column>
+  <sky-column screenSmall="9" screenMedium="10">
+    <sky-definition-list>
+      <sky-definition-list-content *ngFor="let item of shareButtonInfo">
+        <sky-definition-list-label>
+          {{item.label}}
+        </sky-definition-list-label>
+        <sky-definition-list-value>
+          {{item.value}}
+        </sky-definition-list-value>
+      </sky-definition-list-content>
+    </sky-definition-list>
+  </sky-column>
+</sky-row>
+
+<div class="sky-emphasized">Export button</div>
+<sky-row>
+  <sky-column screenSmall="3" screenMedium="2">
+    <div style="margin: 5px 0;"><sky-dropdown><sky-dropdown-button><i class="fa fa-file-o" style="margin-right: 5px;"></i>Export</sky-dropdown-button></sky-dropdown></div>
+    <div style="margin: 5px 0;"><button class="sky-btn sky-btn-default"><i class="fa fa-file-excel-o" style="margin-right: 5px;"></i>Export</button></div>
+    <div style="margin: 5px 0;"><button class="sky-btn sky-btn-default"><i class="fa fa-file-pdf-o" style="margin-right: 5px;"></i>Export</button></div>
+  </sky-column>
+  <sky-column screenSmall="9" screenMedium="10">
+    <sky-definition-list>
+      <sky-definition-list-content *ngFor="let item of exportButtonInfo">
+        <sky-definition-list-label>
+          {{item.label}}
+        </sky-definition-list-label>
+        <sky-definition-list-value>
+          {{item.value}}
+        </sky-definition-list-value>
+      </sky-definition-list-content>
+    </sky-definition-list>
+  </sky-column>
+</sky-row>
+
+<sky-docs-design-guideline
+heading="More actions"
+>
+<p>
+  Place less important or less-frequently used actions in a more actions menu. And when horizontal space in a toolbar is insufficient for all actions, collapse standard actions into the more actions menu.
+</p>
+
+<div class="sky-emphasized">More button</div>
+<sky-row>
+  <sky-column screenSmall="3" screenMedium="2">
+    <div style="margin: 5px 0;">
+      <sky-dropdown>
+        <sky-dropdown-button>
+          <i class="fa fa-ellipsis-h" style="margin-right: 5px;"></i> More
+        </sky-dropdown-button>
+        </sky-dropdown>
+    </div>
+  </sky-column>
+  <sky-column screenSmall="9" screenMedium="10">
+    <sky-definition-list>
+      <sky-definition-list-content *ngFor="let item of moreButtonInfo">
+        <sky-definition-list-label>
+          {{item.label}}
+        </sky-definition-list-label>
+        <sky-definition-list-value>
+          {{item.value}}
+        </sky-definition-list-value>
+      </sky-definition-list-content>
+    </sky-definition-list>
+  </sky-column>
+</sky-row>
+</sky-docs-design-guideline>

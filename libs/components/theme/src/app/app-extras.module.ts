@@ -24,15 +24,42 @@ import {
 } from '@skyux/router';
 
 import {
+  SkyDropdownModule
+} from '@skyux/popovers';
+
+import {
   SkyThemeModule
 } from './public/public_api';
+
+import {
+  SkyDefinitionListModule,
+  SkyFluidGridModule
+} from '@skyux/layout';
+
+import {
+  SkyGridModule
+} from '@skyux/grids';
+
+import {
+  SkySortModule
+} from '@skyux/lists';
+
+import {
+  SkyCheckboxModule
+} from '@skyux/forms';
 
 @NgModule({
   exports: [
     SkyAppLinkModule,
+    SkyCheckboxModule,
     SkyCodeModule,
+    SkyDefinitionListModule,
     SkyDocsToolsModule,
+    SkyDropdownModule,
+    SkyFluidGridModule,
+    SkyGridModule,
     SkyIconModule,
+    SkySortModule,
     SkyThemeModule,
     SkyMediaQueryModule
   ],
