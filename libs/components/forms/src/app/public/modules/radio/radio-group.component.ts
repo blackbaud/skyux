@@ -49,21 +49,21 @@ let nextUniqueId = 0;
 })
 export class SkyRadioGroupComponent implements AfterContentInit, AfterViewInit, OnDestroy {
 
-/**
- * Specifies the HTML element ID (without the leading `#`) of the element that labels
- * the radio button group. This sets the radio button group's `aria-labelledby` attribute
- * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
- * If the radio button group does not include a visible label, use `ariaLabel` instead.
- */
+  /**
+   * Specifies the HTML element ID (without the leading `#`) of the element that labels
+   * the radio button group. This sets the radio button group's `aria-labelledby` attribute
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * If the radio button group does not include a visible label, use `ariaLabel` instead.
+   */
   @Input()
   public ariaLabelledBy: string;
 
-/**
- * Specifies an ARIA label for the radio button group. This sets the
- * radio button group's `aria-label` attribute
- * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
- * If the radio button group includes a visible label, use `ariaLabelledBy` instead.
- */
+  /**
+   * Specifies an ARIA label for the radio button group. This sets the
+   * radio button group's `aria-label` attribute
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * If the radio button group includes a visible label, use `ariaLabelledBy` instead.
+   */
   @Input()
   public ariaLabel: string;
 
@@ -83,12 +83,13 @@ export class SkyRadioGroupComponent implements AfterContentInit, AfterViewInit, 
   public get disabled(): boolean {
     return this._disabled;
   }
-/**
- * Specifies a name for the collection of radio buttons that the component groups together.
- * This property overwrites the deprecated `name` property on individual `sky-radio` elements,
- * and it is required unless the `name` property is set on individual `sky-radio` elements.
- * @required
- */
+
+  /**
+   * Specifies a name for the collection of radio buttons that the component groups together.
+   * This property overwrites the deprecated `name` property on individual `sky-radio` elements,
+   * and it is required unless the `name` property is set on individual `sky-radio` elements.
+   * @required
+   */
   @Input()
   public set name(value: string) {
     this._name = value;
@@ -108,10 +109,11 @@ export class SkyRadioGroupComponent implements AfterContentInit, AfterViewInit, 
   @Input()
   public required: boolean = false;
 
-/**
- * Specifies the value of the radio button to select by default when the group loads.
- * The value corresponds to the `value` property of an individual `sky-radio` element within the group.
- */
+  /**
+   * Specifies the value of the radio button to select by default when the group loads.
+   * The value corresponds to the `value` property of an individual `sky-radio` element within the
+   * group.
+   */
   @Input()
   public set value(value: any) {
     const isNewValue = value !== this._value;
@@ -126,13 +128,13 @@ export class SkyRadioGroupComponent implements AfterContentInit, AfterViewInit, 
     return this._value;
   }
 
-/**
- * Specifies an index for all the radio buttons in the group. If the index is not defined,
- * the indices for individual radio buttons are set to their positions on load.
- * This property supports accessibility by placing focus on the currently selected radio
- * button. If no radio button is selected, it places focus on the first or last button
- * depending on how users navigate to the radio button group.
- */
+  /**
+   * Specifies an index for all the radio buttons in the group. If the index is not defined,
+   * the indices for individual radio buttons are set to their positions on load.
+   * This property supports accessibility by placing focus on the currently selected radio
+   * button. If no radio button is selected, it places focus on the first or last button
+   * depending on how users navigate to the radio button group.
+   */
   @Input()
   public set tabIndex(value: number) {
     if (this._tabIndex !== value) {

@@ -56,54 +56,55 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   @Input()
   public labelledBy: string;
 
-/**
- * Specifies an ID for the checkbox.
- * @default a unique, auto-incrementing integer. For example: `sky-checkbox-1`
- */
+  /**
+   * Specifies an ID for the checkbox.
+   * @default a unique, auto-incrementing integer. For example: `sky-checkbox-1`
+   */
   @Input()
   public id: string = `sky-checkbox-${++nextId}`;
 
-/**
- * Indicates whether to disable the checkbox.
- */
+  /**
+   * Indicates whether to disable the checkbox.
+   */
   @Input()
   public disabled: boolean = false;
 
-/**
- * Specifies an index for the checkbox. If not defined, the index is set to the position of the checkbox on load.
- */
+  /**
+   * Specifies an index for the checkbox. If not defined, the index is set to the position of the
+   * checkbox on load.
+   */
   @Input()
   public tabindex: number = 0;
 
-/**
- * Specifies a name for a group of checkboxes.
- * @default a unique, auto-incrementing integer. For example: `sky-checkbox-1`
- */
+  /**
+   * Specifies a name for a group of checkboxes.
+   * @default a unique, auto-incrementing integer. For example: `sky-checkbox-1`
+   */
   @Input()
   public name: string = `sky-checkbox-${++nextId}`;
 
-/**
- * Fires when users select or deselect the checkbox.
- */
+  /**
+   * Fires when users select or deselect the checkbox.
+   */
   @Output()
   public change: EventEmitter<SkyCheckboxChange> = new EventEmitter<SkyCheckboxChange>();
 
-/**
- * Specifies an icon to display in place of the checkbox. To group icon checkboxes
- * like in the demo, place the `sky-switch-icon-group` class on the direct parent
- * element of the checkboxes.
- */
+  /**
+   * Specifies an icon to display in place of the checkbox. To group icon checkboxes
+   * like in the demo, place the `sky-switch-icon-group` class on the direct parent
+   * element of the checkboxes.
+   */
   @Input()
   public icon: String;
 
-/**
- * Specifies a type to set the background color after users select a checkbox where the
- * `icon` property displays an icon in place of the checkbox. The valid options correspond to
- * [the label component's](https://developer.blackbaud.com/skyux/components/label)
- * label types. `'info'` creates a blue background, `'success'` creates a green
- * background, `'warning'` creates an orange background, and `'danger'` creates a red background.
- * @default 'info'
- */
+  /**
+   * Specifies a type to set the background color after users select a checkbox where the
+   * `icon` property displays an icon in place of the checkbox. The valid options correspond to
+   * [the label component's](https://developer.blackbaud.com/skyux/components/label)
+   * label types. `'info'` creates a blue background, `'success'` creates a green
+   * background, `'warning'` creates an orange background, and `'danger'` creates a red background.
+   * @default 'info'
+   */
   @Input()
   public set checkboxType(value: string) {
     if (value) {
@@ -118,10 +119,11 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   public get inputId(): string {
     return `input-${this.id}`;
   }
-/**
- * Indicates whether the checkbox is selected.
- * @default false
- */
+
+  /**
+   * Indicates whether the checkbox is selected.
+   * @default false
+   */
   @Input()
   public set checked(checked: boolean) {
     if (checked !== this.checked) {

@@ -26,6 +26,7 @@ import {
   styleUrls: ['./file-item.component.scss']
 })
 export class SkyFileItemComponent implements DoCheck {
+
   /**
    * Specifies the summary information to display about file attachments. For local files,
    * the default summary includes the file name, file size, file preview, and a delete button.
@@ -36,9 +37,10 @@ export class SkyFileItemComponent implements DoCheck {
   @Input()
   public fileItem: SkyFileItem | SkyFileLink;
 
-/**
- * Fires when users select the delete button for an item. The deleted item is passed to the function.
- */
+  /**
+   * Fires when users select the delete button for an item. The deleted item is passed to the
+   * function.
+   */
   @Output()
   public deleteFile = new EventEmitter<SkyFileLink | SkyFileItem>();
 

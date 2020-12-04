@@ -61,10 +61,11 @@ const SKY_RADIO_CONTROL_VALUE_ACCESSOR: Provider = {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
-/**
- * Indicates whether the radio button is selected.
- * @default false
- */
+
+  /**
+   * Indicates whether the radio button is selected.
+   * @default false
+   */
   @Input()
   public set checked(value: boolean) {
     const newCheckedState = !!value;
@@ -101,39 +102,37 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
     return this._disabled;
   }
 
-/**
- * Specifies an ID for the radio button.
- * @default a unique, auto-incrementing integer. For example: `sky-radio-1`
- */
+  /**
+   * Specifies an ID for the radio button.
+   * @default a unique, auto-incrementing integer. For example: `sky-radio-1`
+   */
   @Input()
   public id = `sky-radio-${++nextUniqueId}`;
 
-/**
- * Specifies an ARIA label for the radio button. This sets the radio button's `aria-label`
- * attribute [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility)
- * when the radio button does not include a visible label. You must set this property for icon
- * radio buttons. If the radio button includes a visible label, use `labelledBy` instead.
- */
+  /**
+   * Specifies an ARIA label for the radio button. This sets the radio button's `aria-label`
+   * attribute [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility)
+   * when the radio button does not include a visible label. You must set this property for icon
+   * radio buttons. If the radio button includes a visible label, use `labelledBy` instead.
+   */
   @Input()
   public label: string;
 
-/**
- * Specifies the HTML element ID (without the leading `#`) of the element that labels
- * the radio button. This sets the radio button's `aria-labelledby` attribute
- * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
- * If the radio button does not include a visible label, use `label` instead.
- */
+  /**
+   * Specifies the HTML element ID (without the leading `#`) of the element that labels
+   * the radio button. This sets the radio button's `aria-labelledby` attribute
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * If the radio button does not include a visible label, use `label` instead.
+   */
   @Input()
   public labelledBy: string;
 
-// tslint:disable: max-line-length
-/**
- * This property is deprecated in favor of the `name` property on the `sky-radio-group element`.
- * We recommend using the `sky-radio-group` element with all radio buttons, but if you opt not to,
- * then this property specifies a name for a group of radio buttons.
- * @deprecated
- */
-// tslint:enable: max-line-length
+  /**
+   * This property is deprecated in favor of the `name` property on the `sky-radio-group element`.
+   * We recommend using the `sky-radio-group` element with all radio buttons, but if you opt not to,
+   * then this property specifies a name for a group of radio buttons.
+   * @deprecated
+   */
   @Input()
   public set name(value: string) {
     this._name = value;
@@ -144,14 +143,12 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
     return this._name;
   }
 
- // tslint:disable: max-line-length
-/**
- * This property is deprecated in favor of
- * the `tabIndex` property on the `sky-radio-group` element. It specifies an index for the radio button.
- * If the index is not defined, it is set to the position of the radio button on load.
- * @deprecated
- */
-// tslint:enable: max-line-length
+  /**
+   * This property is deprecated in favor of
+   * the `tabIndex` property on the `sky-radio-group` element. It specifies an index for the radio
+   * button. If the index is not defined, it is set to the position of the radio button on load.
+   * @deprecated
+   */
   @Input()
   public set tabindex(value: number) {
     console.warn('The sky-radio `tabindex` property is deprecated. Please use the `tabindex` property on the sky-radio-group component.');
@@ -168,11 +165,12 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
     this.changeDetector.detectChanges();
   }
 
-/**
- * Specifies and binds a value to the radio button's `value` property. The value usually corresponds
- * to the radio button's label, which you specify with the `sky-radio-label` component.
- * @required
- */
+  /**
+   * Specifies and binds a value to the radio button's `value` property. The value usually
+   * corresponds to the radio button's label, which you specify with the `sky-radio-label`
+   * component.
+   * @required
+   */
   @Input()
   public set value(value: any) {
     if (this._value !== value) {
@@ -192,21 +190,22 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
     return this._value;
   }
 
-/**
- * Specifies an icon to display in place of the radio button. To group radio buttons like in
- * the demo above, place the `sky-switch-icon-group` class on the direct parent element of the radio buttons.
- */
+  /**
+   * Specifies an icon to display in place of the radio button. To group radio buttons like in
+   * the demo above, place the `sky-switch-icon-group` class on the direct parent element of the
+   * radio buttons.
+   */
   @Input()
   public icon: string;
 
-/**
- * Specifies a type to set the background color after users select an icon radio button.
- * The valid options correspond
- * [the label component's](https://developer.blackbaud.com/skyux/components/label)
- * label types. `danger` creates a red background, `info` creates a blue background,
- * `success` creates a green background, and `warning` creates an orange background.
- * @default "info"
- */
+  /**
+   * Specifies a type to set the background color after users select an icon radio button.
+   * The valid options correspond
+   * [the label component's](https://developer.blackbaud.com/skyux/components/label)
+   * label types. `danger` creates a red background, `info` creates a blue background,
+   * `success` creates a green background, and `warning` creates an orange background.
+   * @default "info"
+   */
   @Input()
   public get radioType(): string {
     return this._radioType || 'info';
@@ -217,9 +216,9 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
     }
   }
 
-/**
- * Fires when users select a radio button.
- */
+  /**
+   * Fires when users select a radio button.
+   */
   @Output()
   public get change(): Observable<SkyRadioChange> {
     return this._change;
