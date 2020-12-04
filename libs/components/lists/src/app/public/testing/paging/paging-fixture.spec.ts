@@ -44,7 +44,7 @@ const DATA_SKY_ID = 'test-paging';
   </p>
 `
 })
-class PhoneFieldTestComponent {
+class PagingTestComponent {
   public currentPage: number = 1;
   public itemCount: number = 8;
   public maxPages: number = 3; // only show 3 pages in pager
@@ -56,8 +56,8 @@ class PhoneFieldTestComponent {
 //#endregion Test component
 
 describe('Paging fixture', () => {
-  let fixture: ComponentFixture<PhoneFieldTestComponent>;
-  let testComponent: PhoneFieldTestComponent;
+  let fixture: ComponentFixture<PagingTestComponent>;
+  let testComponent: PagingTestComponent;
   let pagingFixture: SkyPagingFixture;
 
   //#region helpers
@@ -96,7 +96,7 @@ describe('Paging fixture', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [
-        PhoneFieldTestComponent
+        PagingTestComponent
       ],
       imports: [
         SkyPagingTestingModule
@@ -104,7 +104,7 @@ describe('Paging fixture', () => {
     });
 
     fixture = TestBed.createComponent(
-      PhoneFieldTestComponent
+      PagingTestComponent
     );
     testComponent = fixture.componentInstance;
     pagingFixture = new SkyPagingFixture(fixture, DATA_SKY_ID);
