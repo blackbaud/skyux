@@ -121,15 +121,18 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * Defines a string value to label the tabset for accessibility.
-   * If a label is visible on the screen, use the `ariaLabelledBy` property instead.
+   * Specifies an ARIA label for the tabset. This sets the tabset's `aria-label` attribute
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * If the tabset includes a visible label, use `ariaLabelledBy` instead.
    */
   @Input()
   public ariaLabel: string;
 
   /**
-   * Identifies the element that defines a label for the tabset.
-   * If a label is not visible on the screen, use the `ariaLabel` property instead.
+   * Specifies the HTML element ID (without the leading `#`) of the element that labels
+   * the tabset. This sets the tabset's `aria-labelledby` attribute
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * If the tabset does not include a visible label, use `ariaLabel` instead.
    */
   @Input()
   public ariaLabelledBy: string;

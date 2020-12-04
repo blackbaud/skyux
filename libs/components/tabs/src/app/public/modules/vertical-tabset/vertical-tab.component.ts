@@ -31,9 +31,9 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   public active: boolean = false;
 
   /**
-   * Specifies an ID to identify the element that contains the content that the vertical
-   * tab exposes. This ID corresponds to the `tabId`. This property supports [accessibility
-   * rules for disclosures](https://www.w3.org/TR/wai-aria-practices-1.1/#disclosure).
+   * Specifies the HTML element ID (without the leading `#`) of the element that contains
+   * the content that the vertical tab displays, which corresponds to the `tabId`. This property
+   * [supports accessibility rules for disclosures](https://www.w3.org/TR/wai-aria-practices-1.1/#disclosure).
    */
   @Input()
   public get ariaControls(): string {
@@ -56,8 +56,10 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   public ariaRequired: boolean;
 
   /**
-   * Specifies an ARIA role for the tab to support accessibility by indicating how the
-   * tab functions and what it controls. For information about ARIA roles, see the
+   * Specifies an ARIA role for the vertical tab
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility)
+   * by indicating how the tab functions and what it controls. For information about how
+   * an ARIA role indicates what an item represents on a web page, see the
    * [WAI-ARIA roles model](https://www.w3.org/WAI/PF/aria/roles).
    * @default "tab"
    */
