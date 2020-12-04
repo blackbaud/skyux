@@ -73,15 +73,18 @@ import {
 })
 export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy {
   /**
-   * Defines a string value to label the text input or button for accessibility.
-   * If a label is visible on the screen, use the `ariaLabelledBy` property instead.
+   * Specifies an ARIA label for the text input or button. This sets the `aria-label` attribute
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * If the input or button includes a visible label, use `ariaLabelledBy` instead.
    */
   @Input()
   public ariaLabel: string;
 
   /**
-   * Identifies the element that defines a label for the text input or button.
-   * If a label is not visible on the screen, use the `ariaLabel` property instead.
+   * Specifies the HTML element ID (without the leading `#`) of the element that labels
+   * the text input or button. This sets the `aria-labelledby` attribute
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * If the input or button does not include a visible label, use `ariaLabel` instead.
    */
   @Input()
   public ariaLabelledBy: string;
