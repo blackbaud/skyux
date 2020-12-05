@@ -29,7 +29,9 @@ let nextId = 0;
 export class SkyWaitComponent implements OnInit {
 
   /**
-   * Defines a string value to label the wait icon for accessibility while an element or page loads.
+   * Specifies an ARIA label for the wait icon while an element or page loads.
+   * This sets the icon's `aria-label` attribute
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    */
   @Input()
   public ariaLabel: string;

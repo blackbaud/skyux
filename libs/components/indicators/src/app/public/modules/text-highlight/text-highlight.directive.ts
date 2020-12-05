@@ -17,6 +17,11 @@ const className = 'sky-highlight-mark';
 // Need to add the following to classes which contain static methods.
 // See: https://github.com/ng-packagr/ng-packagr/issues/641
 // @dynamic
+/**
+ * Highlights all matching text within DOM elements that it is placed on.
+ * The directive is only valid for elements that contain content, so you
+ * cannot place it on `ng-template`, `ng-content`, or `ng-container` tags.
+ */
 @Directive({
   selector: '[skyHighlight]'
 })
