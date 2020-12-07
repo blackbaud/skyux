@@ -118,7 +118,8 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Specifies an accessibility label to provide a text equivalent for screen readers.
+   * Specifies an ARIA label for the dropdown. This sets the dropdown's `aria-label` attribute
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    */
   @Input()
   public label: string;
@@ -151,8 +152,9 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   public title: string;
 
   /**
-   * Specifies how users interact with the dropdown button to expose the dropdown menu. We
-   * recommend the default `click` value because the `hover` value can pose accessibility issues
+   * Specifies how users interact with the dropdown button to expose the dropdown menu.
+   * We recommend the default `click` value because the `hover` value can pose
+   * [accessibility](https://developer.blackbaud.com/skyux/learn/accessibility) issues
    * for users on touch devices such as phones and tablets.
    * @deprecated We recommend against using this property. If you choose to use the deprecated
    * `hover` value anyway, we recommend that you not use it in combination with the `title`
