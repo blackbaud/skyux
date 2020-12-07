@@ -1,3 +1,7 @@
+# 4.2.2 (2020-12-07)
+
+- Added the missing `public_api.ts` file to expose the testing module's exports API. [#81](https://github.com/blackbaud/skyux-colorpicker/pull/81)
+
 # 4.2.1 (2020-12-02)
 
 - Fixed the hover and focus styles for the colorpicker button. [#77](https://github.com/blackbaud/skyux-colorpicker/pull/77)
