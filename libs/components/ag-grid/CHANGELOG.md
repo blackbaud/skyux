@@ -1,3 +1,7 @@
+# 4.3.0 (2020-12-02)
+- Added modern theme styling for data entry grid. [#83](https://github.com/blackbaud/skyux-ag-grid/pull/83)
+- Updated the peer dependencies to support the latest versions of `ag-grid-angular` and `ag-grid-community`. [#90](https://github.com/blackbaud/skyux-ag-grid/pull/90)
+
 # 4.2.0 (2020-08-21)
 
 - Fixed the ag-Grid wrapper component to stop scrolling to the top of the grid when it receives focus. [#72](https://github.com/blackbaud/skyux-ag-grid/pull/72)
