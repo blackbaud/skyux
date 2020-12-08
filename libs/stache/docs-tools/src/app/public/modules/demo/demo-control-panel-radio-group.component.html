@@ -3,6 +3,7 @@
 >
   <strong *ngIf="heading">{{ heading }}</strong>
   <sky-radio-group
+    [disabled]="disabled"
     [name]="propertyName"
     [ngModel]="value"
     (ngModelChange)="onModelChange($event);"

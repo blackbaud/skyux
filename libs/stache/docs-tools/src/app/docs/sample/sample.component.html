@@ -25,11 +25,12 @@
       </sky-docs-demo-control-panel-section>
 
       <sky-docs-demo-control-panel-section>
-        <sky-docs-demo-control-panel-radio-group *ngIf="showAlignmentOptions"
+        <sky-docs-demo-control-panel-radio-group
           heading="Alignment"
           propertyName="alignment"
-          [initialValue]="'center'"
           [choices]="alignmentChoices"
+          [disabled]="disableAlignmentOptions"
+          [initialValue]="'center'"
         >
         </sky-docs-demo-control-panel-radio-group>
 
@@ -37,6 +38,12 @@
           label="Show title"
           propertyName="showTitle"
           [checked]="true"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+        <sky-docs-demo-control-panel-checkbox
+          label="Disabled checkbox"
+          propertyName="disabledCheckbox"
+          [disabled]="true"
         >
         </sky-docs-demo-control-panel-checkbox>
       </sky-docs-demo-control-panel-section>

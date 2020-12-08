@@ -52,6 +52,12 @@ export class SkyDocsDemoControlPanelRadioGroupComponent implements OnInit, OnDes
   public choices: SkyDocsDemoControlPanelRadioChoice[];
 
   /**
+   * Indicates whether to disable the radio group.
+   */
+  @Input()
+  public disabled: boolean = false;
+
+  /**
    * The heading text to appear above the radio group.
    */
   @Input()

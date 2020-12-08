@@ -52,6 +52,12 @@ export class SkyDocsDemoControlPanelCheckboxComponent implements OnInit, OnDestr
   }
 
   /**
+   * Indicates whether to disable the checkbox.
+   */
+  @Input()
+  public disabled: boolean = false;
+
+  /**
    * The text label of the checkbox.
    * @required
    */

@@ -30,9 +30,9 @@ export class AppTypeDocComponent {
     { value: 'right', label: 'Right' }
   ];
 
-  public get showAlignmentOptions(): boolean {
+  public get disableAlignmentOptions(): boolean {
     const placement = this.demoSettings.skyPopoverPlacement;
-    return (placement === 'above' || placement === 'below');
+    return (placement === 'left' || placement === 'right');
   }
 
   public onDemoReset(): void {
