@@ -1,3 +1,7 @@
+# 4.8.0 (2020-12-08)
+
+- Added the `disabled` property to the `SkyDocsDemoControlPanelRadioGroupComponent` and `SkyDocsDemoControlPanelCheckboxComponent` to disable the demo form controls. [#154](https://github.com/blackbaud/skyux-docs-tools/pull/154)
+
 # 4.7.4 (2020-11-09)
 
 - Fixed the type definitions service to support type operator properties (e.g., `keyof`). [#153](https://github.com/blackbaud/skyux-docs-tools/pull/153)
