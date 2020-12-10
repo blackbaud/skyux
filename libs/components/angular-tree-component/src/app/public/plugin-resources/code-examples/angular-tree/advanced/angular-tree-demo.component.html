@@ -1,0 +1,190 @@
+<div
+  class="sky-margin-stacked-separate"
+>
+
+  <!-- #region The following tree options are for demonstration purposes only. -->
+  <form
+    novalidate
+    [formGroup]="demoOptions"
+  >
+    <sky-fluid-grid>
+      <sky-row>
+        <sky-column screenSmall="6">
+          <h4
+            id="sky-demo-modes"
+          >
+            Modes
+          </h4>
+          <sky-radio-group
+            ariaLabel="Tree modes"
+            formControlName="treeMode"
+          >
+            <ul
+              class="sky-list-unstyled"
+            >
+              <li>
+                <sky-radio
+                  value="navigation"
+                >
+                  <sky-radio-label>
+                    Navigation
+                  </sky-radio-label>
+                </sky-radio>
+              </li>
+              <li>
+                <sky-radio
+                  value="readOnly"
+                >
+                  <sky-radio-label>
+                    Read-only
+                  </sky-radio-label>
+                </sky-radio>
+              </li>
+              <li>
+                <sky-radio
+                  value="selection"
+                >
+                  <sky-radio-label>
+                    Selection
+                  </sky-radio-label>
+                </sky-radio>
+              </li>
+            </ul>
+          </sky-radio-group>
+          <ul
+            class="sky-list-unstyled"
+            style="margin: 10px 0 10px 20px"
+          >
+            <li>
+              <sky-checkbox
+                [disabled]="demoOptions.value.treeMode !== 'selection' || enableCascading"
+                formControlName="selectLeafNodesOnly"
+              >
+                <sky-checkbox-label>
+                  Leaf-node selection only
+                </sky-checkbox-label>
+              </sky-checkbox>
+            </li>
+            <li>
+              <sky-radio-group
+                ariaLabel="Select modes"
+                formControlName="selectMode"
+              >
+                <ul
+                  class="sky-list-unstyled"
+                >
+                  <li>
+                    <sky-radio
+                      value="singleSelect"
+                      [disabled]="demoOptions.value.treeMode !== 'selection'"
+                    >
+                      <sky-radio-label>
+                        Single-select
+                      </sky-radio-label>
+                    </sky-radio>
+                  </li>
+                  <li>
+                    <sky-radio
+                      value="multiSelect"
+                      [disabled]="demoOptions.value.treeMode !== 'selection'"
+                    >
+                      <sky-radio-label>
+                        Multi-select
+                      </sky-radio-label>
+                    </sky-radio>
+                    <ul
+                      class="sky-list-unstyled"
+                      style="margin: 10px 0 10px 20px"
+                    >
+                      <li>
+                        <sky-checkbox
+                          formControlName="enableCascading"
+                          [disabled]="demoOptions.value.treeMode !== 'selection' || selectLeafNodesOnly || selectSingle"
+                        >
+                          <sky-checkbox-label>
+                            Enable cascading
+                          </sky-checkbox-label>
+                        </sky-checkbox>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </sky-radio-group>
+            </li>
+          </ul>
+        </sky-column>
+        <sky-column screenSmall="6">
+          <ul
+            class="sky-list-unstyled"
+          >
+            <li>
+              <sky-checkbox
+                formControlName="showToolbar"
+              >
+                <sky-checkbox-label>
+                  Include toolbar
+                </sky-checkbox-label>
+              </sky-checkbox>
+            </li>
+            <li>
+              <sky-checkbox
+                formControlName="showContextMenus"
+              >
+                <sky-checkbox-label>
+                  Include context menus
+                </sky-checkbox-label>
+              </sky-checkbox>
+            </li>
+          </ul>
+        </sky-column>
+      </sky-row>
+    </sky-fluid-grid>
+  </form>
+  <!-- #endregion -->
+
+  <div
+    class="sky-padding-even-default app-demo-container"
+  >
+    <sky-angular-tree-wrapper
+      [readOnly]="readOnly"
+      [selectLeafNodesOnly]="selectLeafNodesOnly"
+      [selectSingle]="selectSingle"
+      [showToolbar]="demoOptions.value.showToolbar"
+    >
+      <tree-root
+        [nodes]="nodes"
+        [options]="treeOptions"
+        (stateChange)="onTreeStateChange($event)"
+        #tree
+      >
+        <ng-template
+          let-index="index"
+          let-node
+          let-templates="templates"
+          #treeNodeFullTemplate
+        >
+          <sky-angular-tree-node
+            [index]="index"
+            [node]="node"
+            [templates]="templates"
+          >
+            <sky-dropdown *ngIf="demoOptions.value.showContextMenus"
+              buttonType="context-menu"
+            >
+              <sky-dropdown-menu>
+                <sky-dropdown-item *ngFor="let item of dropdownItems">
+                  <button
+                    type="button"
+                    (click)="actionClicked(item.name, node)"
+                  >
+                    {{ item.name }}
+                  </button>
+                </sky-dropdown-item>
+              </sky-dropdown-menu>
+            </sky-dropdown>
+          </sky-angular-tree-node>
+        </ng-template>
+      </tree-root>
+    </sky-angular-tree-wrapper>
+  </div>
+</div>

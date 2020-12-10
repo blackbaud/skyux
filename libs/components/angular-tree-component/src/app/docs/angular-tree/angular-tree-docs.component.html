@@ -7,15 +7,110 @@
     Tree views provide hierarchical list views with multiple modes for selecting items in the lists.
   </sky-docs-demo-page-summary>
 
-  <!-- <sky-docs-demo>
-  </sky-docs-demo> -->
+  <sky-docs-demo>
+    <sky-docs-demo-control-panel
+      (selectionChange)="onDemoSelectionChange($event)"
+    >
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-checkbox
+          label="Include toolbar"
+          propertyName="toolbar"
+          [checked]="false"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+        <sky-docs-demo-control-panel-checkbox
+          label="Include context menus"
+          propertyName="contextMenus"
+          [checked]="false"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+        <sky-docs-demo-control-panel-radio-group
+          heading="Modes"
+          propertyName="treeMode"
+          [choices]="treeModeChoices"
+          [initialValue]="'navigation'"
+        >
+        </sky-docs-demo-control-panel-radio-group>
+      </sky-docs-demo-control-panel-section>
 
-  <!-- <sky-docs-code-examples>
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-radio-group
+          heading="Selection options"
+          propertyName="treeSelectMode"
+          [choices]="selectModeChoices"
+          [disabled]="demoSettings.treeMode && demoSettings.treeMode !== 'selection'"
+          [initialValue]="'multi'"
+        >
+        </sky-docs-demo-control-panel-radio-group>
+        <sky-docs-demo-control-panel-checkbox
+          label="Leaf-node selection only"
+          propertyName="selectLeafNodesOnly"
+          [checked]="demoSettings.selectLeafNodesOnly"
+          [disabled]="demoSettings.treeMode !== 'selection' || demoSettings.enableCascading"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+        <sky-docs-demo-control-panel-checkbox
+          label="Enable cascading"
+          propertyName="enableCascading"
+          [checked]="demoSettings.enableCascading"
+          [disabled]="demoSettings.treeMode !== 'selection' || demoSettings.selectLeafNodesOnly || demoSettings.selectSingle"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
+    <sky-angular-tree-wrapper
+      [readOnly]="demoSettings.readOnly"
+      [selectLeafNodesOnly]="demoSettings.selectLeafNodesOnly"
+      [selectSingle]="demoSettings.selectSingle"
+      [showToolbar]="demoSettings.toolbar"
+    >
+      <tree-root
+        [nodes]="nodes"
+        [options]="treeOptions"
+        #treeBasic
+      >
+        <ng-template
+          let-index="index"
+          let-node
+          let-templates="templates"
+          #treeNodeFullTemplate
+        >
+          <sky-angular-tree-node
+            [index]="index"
+            [node]="node"
+            [templates]="templates"
+          >
+            <sky-dropdown *ngIf="demoSettings.contextMenus"
+              buttonType="context-menu"
+            >
+              <sky-dropdown-menu>
+                <sky-dropdown-item *ngFor="let item of dropdownItems">
+                  <button
+                    type="button"
+                  >
+                    {{ item.name }}
+                  </button>
+                </sky-dropdown-item>
+              </sky-dropdown-menu>
+            </sky-dropdown>
+          </sky-angular-tree-node>
+        </ng-template>
+      </tree-root>
+    </sky-angular-tree-wrapper>
+  </sky-docs-demo>
+
+  <sky-docs-code-examples
+    [packageDependencies]="{
+      'angular-tree-component': '*',
+      '@blackbaud/auth-client': '*',
+      '@skyux/angular-tree-component': '*'
+    }"
+  >
     <sky-docs-code-example
-      sourceCodePath="src/app/public/plugin-resources/code-examples/angular-tree"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/angular-tree/advanced"
     >
     </sky-docs-code-example>
-  </sky-docs-code-examples> -->
+  </sky-docs-code-examples>
 
   <sky-docs-design-guidelines>
     <sky-docs-demo-page-section
