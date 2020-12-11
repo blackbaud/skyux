@@ -156,11 +156,13 @@ export class SkyCountryFieldComponent implements ControlValueAccessor, OnDestroy
    */
   @Input()
   public set supportedCountryISOs(value: string[]) {
-    this._supportedCountryISOs = value;
-
-    if (value && value.length > 0) {
-      this.setupCountries();
+    // Ensure all values are the same case.
+    if (Array.isArray(value)) {
+      value = value.map(v => v.toLowerCase());
     }
+
+    this._supportedCountryISOs = value;
+    this.setupCountries();
   }
 
   public get supportedCountryISOs(): string[] {

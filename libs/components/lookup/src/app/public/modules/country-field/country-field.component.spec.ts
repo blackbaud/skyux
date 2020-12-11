@@ -856,6 +856,49 @@ describe('Country Field Component', () => {
         expect(results.length).toBe(2);
       }));
 
+      it('should handle ISOs in mixed case', fakeAsync(() => {
+        component.defaultCountry = 'us';
+        component.supportedCountryISOs = ['au', 'US'];
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        let results = searchAndGetResults('us', fixture);
+
+        expect(results[0].innerText.trim()).toBe('United States');
+        expect(results[0].querySelector('div')).toHaveCssClass('iti-flag');
+        expect(results[0].querySelector('div')).toHaveCssClass('us');
+
+        expect(results[1].innerText.trim()).toBe('Australia');
+        expect(results[1].querySelector('div')).toHaveCssClass('iti-flag');
+        expect(results[1].querySelector('div')).toHaveCssClass('au');
+
+        expect(results.length).toBe(2);
+      }));
+
+      it('should handle reverting supported countries back to the defaults', fakeAsync(() => {
+        component.defaultCountry = 'us';
+        component.supportedCountryISOs = ['au', 'gb', 'us'];
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(component.countryFieldComponent.countries.length).toBe(
+          3,
+          'Expected total number of countries to be "3".'
+        );
+
+        component.supportedCountryISOs = undefined;
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(component.countryFieldComponent.countries.length).toBeGreaterThan(
+          2,
+          'Expected total number of countries to be greater than 2.'
+        );
+      }));
+
       it('should display the default country second in the result list with a selection', fakeAsync(() => {
         component.initialValue = {
           name: 'United States',
