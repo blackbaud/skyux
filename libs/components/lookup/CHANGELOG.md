@@ -1,3 +1,7 @@
+# 4.8.2 (2020-12-11)
+
+- Fixed the country field component to handle both uppercase and lowercase values for the `supportedCountryISOs` input. [#154](https://github.com/blackbaud/skyux-lookup/pull/154)
+
 # 4.8.1 (2020-11-10)
 
 - Fixed the country field test fixture to avoid exposing the DOM structure of the underlying component. [#148](https://github.com/blackbaud/skyux-lookup/pull/148)
