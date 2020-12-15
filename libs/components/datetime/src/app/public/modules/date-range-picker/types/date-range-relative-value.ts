@@ -2,9 +2,12 @@ import {
   SkyDateRange
 } from './date-range';
 
-// Need to add the following to classes which contain static methods.
-// See: https://github.com/ng-packagr/ng-packagr/issues/641
-// @dynamic
+/**
+ * Need to add the following to classes which contain static methods.
+ * See: https://github.com/ng-packagr/ng-packagr/issues/641
+ * @internal
+ * @dynamic
+ */
 export abstract class SkyDateRangeRelativeValue {
 
   // Abstract classes are not covered properly.

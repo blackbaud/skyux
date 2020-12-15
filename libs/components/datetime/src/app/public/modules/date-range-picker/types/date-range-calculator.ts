@@ -22,11 +22,25 @@ import {
   SkyDateRange
 } from './date-range';
 
+/**
+ * Represents the calculator.
+ */
 export class SkyDateRangeCalculator {
+
+  /**
+   * Specifies the text to display in the calculator select menu.
+   */
   public readonly shortDescription: string;
+
+  /**
+   * Specifies the type of calculations available for the date range.
+   */
   public readonly type: SkyDateRangeCalculatorType;
 
   constructor(
+    /**
+     * Provides a calculator ID to specify calculator objects that represent date ranges.
+     */
     public readonly calculatorId: SkyDateRangeCalculatorId,
     private config: SkyDateRangeCalculatorConfig
   ) {
@@ -34,6 +48,11 @@ export class SkyDateRangeCalculator {
     this.shortDescription = config.shortDescription;
   }
 
+  /**
+   * Gets the current value of the calculator.
+   * @param startDateInput The start date.
+   * @param endDateInput The end date.
+   */
   public getValue(startDateInput?: Date, endDateInput?: Date): SkyDateRangeCalculation {
 
     const result = this.config.getValue(startDateInput, endDateInput);
@@ -60,6 +79,9 @@ export class SkyDateRangeCalculator {
     };
   }
 
+  /**
+   * Performs synchronous validation against the control.
+   */
   public validate(value?: SkyDateRange): ValidationErrors {
     if (!this.config.validate) {
       return;

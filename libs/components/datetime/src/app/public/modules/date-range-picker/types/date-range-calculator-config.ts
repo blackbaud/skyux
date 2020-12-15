@@ -21,18 +21,18 @@ export interface SkyDateRangeCalculatorConfig {
   shortDescription: string;
 
   /**
-   * Type of calculator you wish to create.
+   * The type of calculator to create.
    */
   type: SkyDateRangeCalculatorType;
 
   /**
-   * Callback function that returns a `SkyDateRange` value.
+   * A callback function that returns a `SkyDateRange` value.
    */
   getValue: SkyDateRangeCalculatorGetValueFunction;
 
   /**
-   * Callback function that accepts user-selected start and end dates.
-   * Returning an Angular `ValidationErrors` value will invalidate the date range form control.
+   * A callback function that accepts user-selected start and end dates.
+   * Returning an Angular `ValidationErrors` value invalidates the date range form control.
    */
   validate?: SkyDateRangeCalculatorValidateFunction;
 
