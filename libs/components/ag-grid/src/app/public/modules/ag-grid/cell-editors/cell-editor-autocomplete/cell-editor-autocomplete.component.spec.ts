@@ -1,5 +1,4 @@
 import {
-  async,
   ComponentFixture,
   TestBed
 } from '@angular/core/testing';
@@ -9,7 +8,8 @@ import {
 } from '@skyux-sdk/builder/runtime/testing/browser';
 
 import {
-  expect
+  expect,
+  expectAsync
 } from '@skyux-sdk/testing';
 
 import {
@@ -26,6 +26,9 @@ import {
 } from '../../types/cell-editor-autocomplete-params';
 
 describe('SkyCellEditorAutocompleteComponent', () => {
+  // We've had some issue with grid rendering causing the specs to timeout in IE. Extending it slightly to help.
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 7500;
+
   let fixture: ComponentFixture<SkyAgGridCellEditorAutocompleteComponent>;
   let component: SkyAgGridCellEditorAutocompleteComponent;
   let nativeElement: HTMLElement;
@@ -134,11 +137,11 @@ describe('SkyCellEditorAutocompleteComponent', () => {
     });
   });
 
-  it('should pass accessibility', async(() => {
+  it('should pass accessibility', async () => {
     fixture.detectChanges();
+    await fixture.whenStable();
 
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
-    });
-  }));
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+
 });

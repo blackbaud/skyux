@@ -7,12 +7,20 @@ import {
 } from '@angular/common';
 
 import {
+  NoopAnimationsModule
+} from '@angular/platform-browser/animations';
+
+import {
   AgGridModule
 } from 'ag-grid-angular';
 
 import {
   SkyDataManagerModule
 } from '@skyux/data-manager';
+
+import {
+  SkyAgGridFixtureComponent
+} from './ag-grid.component.fixture';
 
 import {
   SkyAgGridModule
@@ -23,23 +31,26 @@ import {
 } from './ag-grid-data-manager.component.fixture';
 
 import {
-  SkyAgGridFixtureComponent
-} from './ag-grid.component.fixture';
+  SkyAgGridRowDeleteFixtureComponent
+} from './ag-grid-row-delete.component.fixture';
 
 @NgModule({
   imports: [
     AgGridModule,
     CommonModule,
     SkyAgGridModule,
-    SkyDataManagerModule
+    SkyDataManagerModule,
+    NoopAnimationsModule
   ],
   declarations: [
     SkyAgGridDataManagerFixtureComponent,
-    SkyAgGridFixtureComponent
+    SkyAgGridFixtureComponent,
+    SkyAgGridRowDeleteFixtureComponent
   ],
   exports: [
     SkyAgGridDataManagerFixtureComponent,
-    SkyAgGridFixtureComponent
+    SkyAgGridFixtureComponent,
+    SkyAgGridRowDeleteFixtureComponent
   ]
 })
 export class SkyAgGridFixtureModule { }

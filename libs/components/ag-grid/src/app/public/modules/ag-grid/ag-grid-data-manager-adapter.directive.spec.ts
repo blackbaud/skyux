@@ -84,7 +84,9 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       node: rowNode
     } as RowSelectedEvent;
 
-    dataState.selectedIds = ['1'];
+    dataState.selectedIds = [ '3', '1' ];
+
+    agGridDataManagerFixture.detectChanges();
 
     agGridComponent.rowSelected.emit(rowSelected);
 

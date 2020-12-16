@@ -1,11 +1,11 @@
 import {
-  async,
   ComponentFixture,
   TestBed
 } from '@angular/core/testing';
 
 import {
-  expect
+  expect,
+  expectAsync
 } from '@skyux-sdk/testing';
 
 import {
@@ -30,6 +30,9 @@ import {
 } from '../cell-editor-number/cell-editor-number.component';
 
 describe('SkyCellEditorNumberComponent', () => {
+  // We've had some issue with grid rendering causing the specs to timeout in IE. Extending it slightly to help.
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 7500;
+
   let numberEditorFixture: ComponentFixture<SkyAgGridCellEditorNumberComponent>;
   let numberEditorComponent: SkyAgGridCellEditorNumberComponent;
   let numberEditorNativeElement: HTMLElement;
@@ -83,7 +86,7 @@ describe('SkyCellEditorNumberComponent', () => {
 
       let cellEditorParams: ICellEditorParams = {
         value,
-        colDef: { headerName: 'Test number cell'},
+        colDef: { headerName: 'Test number cell' },
         rowIndex: 1,
         column,
         node: undefined,
@@ -150,11 +153,11 @@ describe('SkyCellEditorNumberComponent', () => {
     });
   });
 
-  it('should pass accessibility', async(() => {
+  it('should pass accessibility', async () => {
     numberEditorFixture.detectChanges();
+    await numberEditorFixture.whenStable();
 
-    numberEditorFixture.whenStable().then(() => {
-      expect(numberEditorFixture.nativeElement).toBeAccessible();
-    });
-  }));
+    await expectAsync(numberEditorFixture.nativeElement).toBeAccessible();
+  });
+
 });

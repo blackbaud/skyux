@@ -1,5 +1,4 @@
 import {
-  async,
   ComponentFixture,
   fakeAsync,
   TestBed,
@@ -7,7 +6,7 @@ import {
 } from '@angular/core/testing';
 
 import {
-  expect
+  expect, expectAsync
 } from '@skyux-sdk/testing';
 
 import {
@@ -38,6 +37,9 @@ import {
 } from '../cell-renderer-row-selector/cell-renderer-row-selector.component';
 
 describe('SkyCellRendererCheckboxComponent', () => {
+  // We've had some issue with grid rendering causing the specs to timeout in IE. Extending it slightly to help.
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 7500;
+
   let rowSelectorCellFixture: ComponentFixture<SkyAgGridCellRendererRowSelectorComponent>;
   let rowSelectorCellComponent: SkyAgGridCellRendererRowSelectorComponent;
   let rowSelectorCellNativeElement: HTMLElement;
@@ -259,11 +261,11 @@ describe('SkyCellRendererCheckboxComponent', () => {
   }));
   });
 
-  it('should pass accessibility', async(() => {
+  it('should pass accessibility', async () => {
     rowSelectorCellFixture.detectChanges();
+    await rowSelectorCellFixture.whenStable();
 
-    rowSelectorCellFixture.whenStable().then(() => {
-      expect(rowSelectorCellNativeElement).toBeAccessible();
-    });
-  }));
+    await expectAsync(rowSelectorCellNativeElement).toBeAccessible();
+  });
+
 });

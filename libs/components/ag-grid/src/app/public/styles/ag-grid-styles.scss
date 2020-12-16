@@ -347,6 +347,10 @@ ag-grid-angular {
   }
 }
 
+.sky-theme-default .sky-ag-grid-row-delete .sky-btn {
+  padding: 4px 12px;
+}
+
 ag-grid-angular + sky-infinite-scroll {
   .sky-infinite-scroll {
     margin-top: 0 !important;

@@ -15,7 +15,11 @@
   <div
     class="readonly-grid"
   >
-    <sky-ag-grid-wrapper>
+    <sky-ag-grid-wrapper
+      skyAgGridRowDelete
+      [(rowDeleteIds)]="gridOptions.context.rowDeleteIds"
+      (rowDeleteConfirm)="deleteConfirm($event)"
+    >
       <ag-grid-angular
         [gridOptions]="gridOptions"
         [rowData]="gridData"
