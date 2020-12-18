@@ -54,7 +54,12 @@ export class SkyListFilterSummaryComponent implements AfterContentInit {
 
   public ngAfterContentInit() {
     this.appliedFilters = this.state.pipe(observableMap((state) => {
-      return state.filters;
+      return state.filters.filter((filter) => {
+        return filter.value !== '' &&
+          filter.value !== undefined &&
+          filter.value !== false &&
+          filter.value !== filter.defaultValue;
+      });
     }));
   }
 

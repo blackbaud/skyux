@@ -112,6 +112,60 @@ describe('List filter summary', () => {
     });
   }));
 
+  it('should show filter summary in the appropriate area when filters which have no effect exist', async(() => {
+    filters = filters.concat([
+      new ListFilterModel({
+        name: 'name',
+        label: 'Berry fruit name',
+        value: 'joe',
+        defaultValue: 'joe',
+        filterFunction: function () {
+          return true;
+        }
+      }),
+      new ListFilterModel({
+        name: 'size',
+        label: 'Size',
+        value: '',
+        filterFunction: function () {
+          return true;
+        }
+      }),
+      new ListFilterModel({
+        name: 'type',
+        label: 'Food type',
+        value: undefined,
+        filterFunction: function () {
+          return true;
+        }
+      }),
+      new ListFilterModel({
+        name: 'canEat',
+        label: 'Safe to eat',
+        value: false,
+        filterFunction: function () {
+          return true;
+        }
+      })
+    ]);
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+
+      let summaryItems = getSummaryItems();
+
+      expect(summaryItems.length).toBe(2);
+
+      // verify first item with no dismiss
+      expect(summaryItems.item(0)).toHaveText('blue');
+      expect(summaryItems.item(0).querySelector('.fa-times')).toBeNull();
+
+      // verify second item with dismiss and label
+      expect(summaryItems.item(1)).toHaveText('Berry fruit type');
+      expect(summaryItems.item(1).querySelector('.fa-times')).not.toBeNull();
+    });
+  }));
+
   it('should emit a click event with the filter', async(() => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
