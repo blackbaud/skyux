@@ -12,20 +12,36 @@
   #popoverRef
 >
   <div
-    class="sky-popover sky-shadow sky-rounded-corners"
+    class="sky-popover"
     tabindex="-1"
+    [ngClass]="{
+      'sky-rounded-corners sky-shadow': themeName === 'default',
+      'sky-elevation-4': themeName === 'modern'
+    }"
   >
     <header *ngIf="popoverTitle"
-      class="sky-popover-header sky-padding-even-default"
+      class="sky-popover-header"
+      [ngClass]="{
+        'sky-padding-even-default': themeName === 'default',
+        'sky-padding-even-lg sky-margin-stacked-lg': themeName === 'modern'
+      }"
     >
       <h1 *ngIf="popoverTitle"
-        class="sky-popover-title sky-emphasized"
+        class="sky-popover-title"
+        [ngClass]="{
+          'sky-emphasized': themeName === 'default',
+          'sky-font-emphasized': themeName === 'modern'
+        }"
       >
         {{ popoverTitle }}
       </h1>
     </header>
     <div
-      class="sky-popover-body sky-padding-even-default"
+      class="sky-popover-body"
+      [ngClass]="{
+        'sky-padding-even-default': themeName === 'default',
+        'sky-padding-even-lg': themeName === 'modern'
+      }"
     >
       <ng-container #contentTarget></ng-container>
     </div>

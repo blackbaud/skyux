@@ -22,7 +22,8 @@ export class SkyPopoverAdapterService {
 
   public getArrowCoordinates(
     elements: SkyPopoverAdapterElements,
-    placement: SkyPopoverPlacement
+    placement: SkyPopoverPlacement,
+    themeName?: string
   ): SkyPopoverAdapterArrowCoordinates {
     const callerRect = elements.caller.nativeElement.getBoundingClientRect();
     const popoverRect = elements.popover.nativeElement.getBoundingClientRect();
@@ -44,9 +45,17 @@ export class SkyPopoverAdapterService {
       }
 
       if (placement === 'above') {
-        top = callerRect.top - arrowRect.height;
+        if (themeName !== 'modern') {
+          top = callerRect.top - arrowRect.height;
+        } else {
+          top = callerRect.top - arrowRect.height + 5;
+        }
       } else {
-        top = callerRect.bottom;
+        if (themeName !== 'modern') {
+          top = callerRect.bottom;
+        } else {
+          top = callerRect.bottom + 4;
+        }
       }
     } else {
       top = callerRect.top + (callerRect.height / 2);
@@ -59,9 +68,17 @@ export class SkyPopoverAdapterService {
       }
 
       if (placement === 'left') {
-        left = callerRect.left - arrowRect.width;
+        if (themeName !== 'modern') {
+          left = callerRect.left - arrowRect.width;
+        } else {
+          left = callerRect.left - arrowRect.width + 5;
+        }
       } else {
-        left = callerRect.right;
+        if (themeName !== 'modern') {
+          left = callerRect.right;
+        } else {
+          left = callerRect.right + 4;
+        }
       }
     }
 

@@ -18,6 +18,15 @@ import {
 } from '@skyux/core';
 
 import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange
+} from '@skyux/theme';
+
+import {
+  BehaviorSubject,
   Subject
 } from 'rxjs';
 
@@ -36,6 +45,10 @@ import {
 describe('Popover directive', () => {
 
   let fixture: ComponentFixture<PopoverFixtureComponent>;
+
+  let mockThemeSvc: {
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+  };
 
   //#region helpers
 
@@ -69,9 +82,27 @@ describe('Popover directive', () => {
   //#endregion
 
   beforeEach(() => {
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+        {
+          currentSettings: new SkyThemeSettings(
+            SkyTheme.presets.default,
+            SkyThemeMode.presets.light
+          ),
+          previousSettings: undefined
+        }
+      )
+    };
+
     TestBed.configureTestingModule({
       imports: [
         PopoverFixturesModule
+      ],
+      providers: [
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc
+        }
       ]
     });
 

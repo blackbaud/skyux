@@ -22,6 +22,10 @@ import {
 } from '@skyux/core';
 
 import {
+  SkyThemeService
+} from '@skyux/theme';
+
+import {
   fromEvent as observableFromEvent,
   Observable,
   Subject
@@ -105,6 +109,8 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
 
   public popoverTitle: string;
 
+  public themeName: string;
+
   @ViewChild('arrowRef', {
     read: ElementRef,
     static: true
@@ -139,12 +145,23 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     private affixService: SkyAffixService,
     private coreAdapterService: SkyCoreAdapterService,
     private adapterService: SkyPopoverAdapterService,
+    private themeSvc: SkyThemeService,
     @Optional() private context: SkyPopoverContext
   ) { }
 
   public ngOnInit(): void {
     this.contentTarget.createEmbeddedView(this.context.contentTemplateRef);
     this.addEventListeners();
+
+    if (this.themeSvc) {
+      this.themeSvc.settingsChange
+        .pipe(
+          takeUntil(this.ngUnsubscribe)
+        )
+        .subscribe((themeSettings) => {
+          this.themeName = themeSettings.currentSettings?.theme?.name;
+        });
+    }
   }
 
   public ngOnDestroy(): void {
@@ -299,7 +316,8 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
         popover: this.popoverRef,
         popoverArrow: this.arrowRef
       },
-      this.placement
+      this.placement,
+      this.themeName
     );
 
     this.arrowTop = top;

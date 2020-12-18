@@ -10,6 +10,11 @@ import {
 } from '@angular/core';
 
 import {
+  SkyThemeService,
+  SkyThemeSettings
+} from '@skyux/theme';
+
+import {
   SkyPopoverContentComponent
 } from '../../public/modules/popover/popover-content.component';
 
@@ -40,13 +45,18 @@ export class PopoverVisualComponent implements AfterViewInit {
   constructor(
     private resolver: ComponentFactoryResolver,
     private elementRef: ElementRef,
-    private injector: Injector
+    private injector: Injector,
+    private themeSvc: SkyThemeService
   ) { }
 
   public ngAfterViewInit(): void {
     setTimeout(() => {
       this.createStaticPopovers();
     });
+  }
+
+  public themeSettingsChange(themeSettings: SkyThemeSettings): void {
+    this.themeSvc.setTheme(themeSettings);
   }
 
   /**
