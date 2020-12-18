@@ -1,3 +1,7 @@
+# 4.0.3 (2020-12-18)
+
+- Fixed the filter summary component to only show filters which are being applied. [#123](https://github.com/blackbaud/skyux-list-builder/pull/123)
+
 # 4.0.2 (2020-08-21)
 
 - Fixed the `selectedIds` property on the list component to handle observable values. [#109](https://github.com/blackbaud/skyux-list-builder/pull/109)
