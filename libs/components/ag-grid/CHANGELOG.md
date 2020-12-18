@@ -1,3 +1,6 @@
+# 4.4.0 (2020-12-16)
+- Added the row delete directive to support showing inline deletes on grid rows. [#85](https://github.com/blackbaud/skyux-ag-grid/pull/85)
+
 # 4.3.0 (2020-12-02)
 - Added modern theme styling for data entry grid. [#83](https://github.com/blackbaud/skyux-ag-grid/pull/83)
 - Updated the peer dependencies to support the latest versions of `ag-grid-angular` and `ag-grid-community`. [#90](https://github.com/blackbaud/skyux-ag-grid/pull/90)
