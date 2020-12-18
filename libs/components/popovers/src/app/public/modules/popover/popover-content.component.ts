@@ -191,9 +191,9 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
 
     if (event.phaseName === 'done') {
       if (event.toState === 'open') {
-        this._opened.next();
+        this._opened?.next();
       } else {
-        this._closed.next();
+        this._closed?.next();
       }
     }
   }

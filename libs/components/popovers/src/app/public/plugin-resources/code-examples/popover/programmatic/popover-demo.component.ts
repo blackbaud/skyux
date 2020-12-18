@@ -19,8 +19,16 @@ export class PopoverDemoComponent {
 
   public popoverController = new Subject<SkyPopoverMessage>();
 
+  private popoverOpen: boolean = false;
+
+  public onPopoverStateChange(isOpen: boolean): void {
+    this.popoverOpen = isOpen;
+  }
+
   public openPopover(): void {
-    this.sendMessage(SkyPopoverMessageType.Open);
+    if (!this.popoverOpen) {
+      this.sendMessage(SkyPopoverMessageType.Open);
+    }
   }
 
   private sendMessage(type: SkyPopoverMessageType): void {

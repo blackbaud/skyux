@@ -8,9 +8,12 @@
   type="button"
   (click)="openPopover()"
 >
-  Open popover
+  Open popover with message stream
 </button>
 
-<sky-popover #myPopover>
+<sky-popover #myPopover
+  (popoverClosed)="onPopoverStateChange(false)"
+  (popoverOpened)="onPopoverStateChange(true)"
+>
   This is a popover.
 </sky-popover>
