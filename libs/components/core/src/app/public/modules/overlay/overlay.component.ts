@@ -143,8 +143,7 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
     this._closed.complete();
 
     this._backdropClick =
-      this._closed =
-      this.ngUnsubscribe = undefined;
+      this._closed = undefined;
   }
 
   public attachComponent<C>(component: Type<C>, providers: StaticProvider[] = []): ComponentRef<C> {
