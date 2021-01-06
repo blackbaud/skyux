@@ -1,3 +1,7 @@
+# 4.3.2 (2021-01-06)
+
+- Fixed the overlay component to avoid throwing errors when overlays are quickly created and destroyed. [#209](https://github.com/blackbaud/skyux-core/pull/209)
+
 # 4.3.1 (2020-10-19)
 
 - Adjusted some implementation details to add support for Angular 10. [#204](https://github.com/blackbaud/skyux-core/pull/204)
