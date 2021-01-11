@@ -47,9 +47,6 @@ export class SkyCheckboxFixture {
   /**
    * The checkbox's icon type
    */
-  /**
-   * The action button's current icon type.
-   */
   public get iconType(): string {
     const classList = this.debugEl.query(
       By.css('.fa.sky-icon')
