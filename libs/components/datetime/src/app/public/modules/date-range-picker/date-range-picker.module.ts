@@ -16,6 +16,10 @@ import {
 } from '@skyux/core';
 
 import {
+  SkyInputBoxModule
+} from '@skyux/forms';
+
+import {
   SkyI18nModule
 } from '@skyux/i18n';
 
@@ -45,7 +49,8 @@ import {
     ReactiveFormsModule,
     SkyI18nModule,
     SkyDatepickerModule,
-    SkyDateTimeResourcesModule
+    SkyDateTimeResourcesModule,
+    SkyInputBoxModule
   ],
   exports: [
     SkyDateRangePickerComponent

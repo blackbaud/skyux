@@ -471,7 +471,7 @@ describe('Date range picker', function () {
     expect(control.errors).toBeFalsy();
     expect(calculatorIdControl.errors).toBeFalsy();
 
-    const datepickerInputs = fixture.nativeElement.querySelectorAll('.sky-datepicker input');
+    const datepickerInputs = fixture.nativeElement.querySelectorAll('.sky-input-group input');
 
     datepickerInputs.item(0).value = '1/2/2000';
     datepickerInputs.item(1).value = '1/1/2000';

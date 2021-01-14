@@ -15,6 +15,11 @@ import {
 } from '@skyux/i18n';
 
 import {
+  SkyThemeService,
+  SkyThemeSettings
+} from '@skyux/theme';
+
+import {
   first
 } from 'rxjs/operators';
 
@@ -43,7 +48,8 @@ export class DateRangePickerVisualComponent implements OnInit {
   constructor(
     private dateRangeService: SkyDateRangeService,
     private formBuilder: FormBuilder,
-    private resourcesService: SkyAppResourcesService
+    private resourcesService: SkyAppResourcesService,
+    private themeSvc: SkyThemeService
   ) { }
 
   public ngOnInit(): void {
@@ -143,5 +149,9 @@ export class DateRangePickerVisualComponent implements OnInit {
 
   public setDateFormat(): void {
     this.dateFormat = 'YYYY-MM-DD';
+  }
+
+  public themeSettingsChange(themeSettings: SkyThemeSettings): void {
+    this.themeSvc.setTheme(themeSettings);
   }
 }

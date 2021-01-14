@@ -1,5 +1,6 @@
 @import "~@skyux/theme/scss/mixins";
 @import "~@skyux/theme/scss/_compat/mixins";
+@import "~@skyux/theme/scss/themes/modern/_compat/mixins";
 
 .sky-date-range-picker {
   display: flex;
@@ -19,11 +20,23 @@
   }
 
   .sky-date-range-picker-form-group {
-    margin-bottom: $sky-margin;
     flex-basis: 100%;
 
     &:last-child {
       margin-bottom: 0;
+    }
+  }
+}
+
+@include sky-theme-modern {
+  .sky-date-range-picker-form-group {
+    padding: 0;
+    margin: 0 $sky-theme-modern-margin-inline-lg 0 0;
+  }
+
+  @media (max-width: $sky-screen-xs-max) {
+    .sky-date-range-picker-form-group {
+      margin: 0 0 $sky-theme-modern-margin-stacked-lg 0;
     }
   }
 }
