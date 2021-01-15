@@ -8,6 +8,11 @@ import {
 } from '@skyux/modals';
 
 import {
+  SkyThemeService,
+  SkyThemeSettings
+} from '@skyux/theme';
+
+import {
   VerticalTabsetModalVisualComponent
 } from './vertical-tabs-modal-visual.component';
 
@@ -56,7 +61,10 @@ export class VerticalTabsVisualComponent {
     }
   ];
 
-  constructor(private modalService: SkyModalService) {}
+  constructor(
+    private modalService: SkyModalService,
+    private themeSvc: SkyThemeService
+  ) {}
 
   public onAddTabClick(): void {
     this.tabs.push({
@@ -73,6 +81,10 @@ export class VerticalTabsVisualComponent {
 
   public openVerticalTabsetModal() {
     this.modalService.open(VerticalTabsetModalVisualComponent);
+  }
+
+  public themeSettingsChange(themeSettings: SkyThemeSettings): void {
+    this.themeSvc.setTheme(themeSettings);
   }
 
 }

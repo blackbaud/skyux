@@ -1,3 +1,4 @@
+@import "~@skyux/theme/scss/variables";
 @import "~@skyux/theme/scss/mixins";
 @import "~@skyux/theme/scss/_compat/mixins";
 
@@ -31,4 +32,23 @@
   font-style: normal;
 }
 
+@include sky-theme-modern {
+  .sky-vertical-tabset-group {
+    border: none;
+  }
 
+  .sky-vertical-tabset-group-content {
+    border: none;
+    padding-left: 25px;
+  }
+
+  .sky-vertical-tabset-group-header {
+    position: relative;
+  }
+
+  .sky-vertical-tabset-group-header-chevron {
+    position: absolute;
+    top: 6px;
+    right: 5px
+  }
+}
