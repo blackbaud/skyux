@@ -1,3 +1,7 @@
+# 4.8.0 (2021-01-19)
+
+- Added modern theme styles to the date range picker component. [#246](https://github.com/blackbaud/skyux-datetime/pull/246)
+
 # 4.7.0 (2020-10-22)
 
 - Added resource files for `en_AU`, `en_GB`, and `en_NZ`. [#240](https://github.com/blackbaud/skyux-datetime/pull/240) (Thanks [@Blackbaud-ScottZetrouer](https://github.com/Blackbaud-ScottZetrouer)!)
