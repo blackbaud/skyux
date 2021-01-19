@@ -222,6 +222,7 @@ describe('Phone Field Component', () => {
       expect(nativeElement
         .querySelector('.sky-input-group .sky-input-group-btn .sky-btn-default'))
         .not.toBeNull();
+      expect(nativeElement.querySelector('input').type).toEqual('tel');
     });
 
     it('should be accessible', (done) => {

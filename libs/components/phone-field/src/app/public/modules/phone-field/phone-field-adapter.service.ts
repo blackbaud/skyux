@@ -52,6 +52,10 @@ export class SkyPhoneFieldAdapterService implements OnDestroy {
     this.renderer.setAttribute(elementRef.nativeElement, 'placeholder', placeholder);
   }
 
+  public setElementType(elementRef: ElementRef): void {
+    this.renderer.setAttribute(elementRef.nativeElement, 'type', 'tel');
+  }
+
   public setElementValue(elementRef: ElementRef, value: string): void {
     if (value) {
       this.renderer.setProperty(

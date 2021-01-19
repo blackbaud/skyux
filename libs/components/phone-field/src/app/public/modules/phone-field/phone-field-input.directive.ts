@@ -155,6 +155,7 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
       );
     }
 
+    this.adapterService.setElementType(this.elRef);
     this.adapterService.addElementClass(this.elRef, 'sky-form-control');
     if (this.phoneFieldComponent.selectedCountry) {
       this.adapterService.setElementPlaceholder(this.elRef,
@@ -340,6 +341,7 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
 
   private onChange = (_: any) => { };
 
+  /* istanbul ignore next */
   private onTouched = () => { };
 
   private validatorChange = () => { };
