@@ -1,3 +1,7 @@
+# 4.8.1 (2021-01-20)
+
+- Added support for `marked@1.2.7`. [#156](https://github.com/blackbaud/skyux-docs-tools/pull/156)
+
 # 4.8.0 (2020-12-08)
 
 - Added the `disabled` property to the `SkyDocsDemoControlPanelRadioGroupComponent` and `SkyDocsDemoControlPanelCheckboxComponent` to disable the demo form controls. [#154](https://github.com/blackbaud/skyux-docs-tools/pull/154)
