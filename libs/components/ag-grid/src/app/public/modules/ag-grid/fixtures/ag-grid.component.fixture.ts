@@ -63,6 +63,12 @@ export class SkyAgGridFixtureComponent implements OnInit {
       headerName: 'Completed Date',
       editable: true,
       type: SkyCellType.Date
+    },
+    {
+      field: 'currency',
+      headerName: 'Currency amount',
+      editable: true,
+      type: SkyCellType.Currency
     }
   ];
 

@@ -64,7 +64,15 @@ import {
   SkyAgGridAdapterService
 } from './ag-grid-adapter.service';
 
-function autocompleteComparator(value1: {name: string}, value2: {name: string}): number {
+import {
+  SkyAgGridCellRendererCurrencyComponent
+} from './cell-renderers/cell-renderer-currency/cell-renderer-currency.component';
+
+import {
+  SkyAgGridCellEditorCurrencyComponent
+} from './cell-editors/cell-editor-currency/cell-editor-currency.component';
+
+function autocompleteComparator(value1: { name: string }, value2: { name: string }): number {
   if (value1 && value2) {
     if (value1.name > value2.name) {
       return 1;
@@ -211,6 +219,15 @@ export class SkyAgGridService implements OnDestroy {
           comparator: autocompleteComparator,
           minWidth: 185
         },
+        [SkyCellType.Currency]: {
+          cellClassRules: {
+            [SkyCellClass.Currency]: cellClassRuleTrueExpression,
+            ...editableCellClassRules
+          },
+          cellRendererFramework: SkyAgGridCellRendererCurrencyComponent,
+          cellEditorFramework: SkyAgGridCellEditorCurrencyComponent,
+          minWidth: 185
+        },
         [SkyCellType.Date]: {
           cellClassRules: {
             [SkyCellClass.Date]: cellClassRuleTrueExpression,
@@ -327,7 +344,7 @@ export class SkyAgGridService implements OnDestroy {
 
         const nextFocusableElementInCell =
           this.agGridAdapterService.getNextFocusableElement(currentlyFocusedEl, parentEl, params.event.shiftKey);
-          return !!nextFocusableElementInCell;
+        return !!nextFocusableElementInCell;
       }
       return true;
     }

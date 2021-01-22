@@ -76,7 +76,7 @@ export class EditableGridComponent implements OnInit {
         type: SkyCellType.Date,
         cellEditorParams: {
           skyComponentProperties: {
-           startingDay: 1
+            startingDay: 1
           }
         }
       },
@@ -136,6 +136,15 @@ export class EditableGridComponent implements OnInit {
         type: SkyCellType.Date,
         sort: 'asc',
         minWidth: 160
+      },
+      {
+        colId: 'currencyAmount',
+        field: 'currencyAmount',
+        headerName: 'Currency',
+        type: SkyCellType.Currency,
+        editable: this.editMode,
+        cellRendererParams: {},
+        cellEditorParams: {}
       }
     ];
   }
@@ -143,7 +152,7 @@ export class EditableGridComponent implements OnInit {
   public cloneGridData(data: EditableGridRow[]): EditableGridRow[] {
     let clonedData: EditableGridRow[] = [];
     data.forEach(row => {
-      clonedData.push( {...row});
+      clonedData.push({ ...row });
     });
 
     return clonedData;
@@ -183,7 +192,7 @@ export class EditableGridComponent implements OnInit {
   public onUpdateCellValueChanged(cellValueChangedData: CellValueChangedEvent): void {
     if (cellValueChangedData.newValue !== cellValueChangedData.oldValue) {
       cellValueChangedData.data.total = this.calculateRowTotal(cellValueChangedData.data);
-      this.gridApi.refreshCells({rowNodes: [cellValueChangedData.node]});
+      this.gridApi.refreshCells({ rowNodes: [cellValueChangedData.node] });
     }
   }
 

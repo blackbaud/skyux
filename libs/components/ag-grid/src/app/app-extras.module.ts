@@ -3,6 +3,10 @@ import {
 } from '@angular/core';
 
 import {
+  SkyAutonumericModule
+} from '@skyux/autonumeric';
+
+import {
   SkyDocsToolsModule,
   SkyDocsToolsOptions
 } from '@skyux/docs-tools';
@@ -70,6 +74,7 @@ import {
     AgGridModule,
     SkyAgGridModule,
     SkyAppLinkModule,
+    SkyAutonumericModule,
     SkyCheckboxModule,
     SkyDataManagerModule,
     SkyDocsToolsModule,
