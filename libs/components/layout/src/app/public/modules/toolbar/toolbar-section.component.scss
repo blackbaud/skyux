@@ -20,7 +20,6 @@
 
 @include sky-theme-modern {
   .sky-toolbar-section {
-    padding-left: $sky-theme-modern-space-xl;
-    padding-right: $sky-theme-modern-space-xl;
+    padding: $sky-theme-modern-space-sm $sky-theme-modern-space-xl;
   }
 }

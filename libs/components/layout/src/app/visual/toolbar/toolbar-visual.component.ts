@@ -13,10 +13,14 @@ import {
 })
 export class ToolbarVisualComponent {
 
+  public theme: string;
+
   constructor(private themeSvc: SkyThemeService) { }
 
   public themeSettingsChange(themeSettings: SkyThemeSettings): void {
     this.themeSvc.setTheme(themeSettings);
+
+    this.theme = themeSettings.theme.name;
   }
 
 }

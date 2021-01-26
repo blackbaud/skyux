@@ -8,6 +8,21 @@
   <sky-toolbar>
     <sky-toolbar-item>
       <button
+        class="sky-btn sky-btn-primary"
+      >
+        <!-- The margin style here is to propery space the icon and button text in modern theme. This is not possible in the toolbar item with pure css today because you can't distinguish pure text nodes in css. -->
+        <sky-icon
+          icon="plus-circle"
+          [ngClass]="{
+            'sky-margin-inline-compact' : theme == 'modern'
+          }"
+        >
+        </sky-icon>
+        Button 0
+      </button>
+    </sky-toolbar-item>
+    <sky-toolbar-item>
+      <button
         class="sky-btn sky-btn-default"
       >
         Button 1

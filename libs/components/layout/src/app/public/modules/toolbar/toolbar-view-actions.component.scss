@@ -1,4 +1,6 @@
 @import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/variables";
+@import "scss/variables";
 
 :host {
   margin-left: auto;
@@ -7,9 +9,32 @@
 .sky-toolbar-view-actions {
   display: flex;
   align-items: center;
-  margin-bottom: 5px;
+  margin-bottom: $sky-margin-half;
+
+  ::ng-deep > :not(:last-child) {
+    margin-right: $sky-margin-half;
+  }
 }
 
-.sky-toolbar-view-actions ::ng-deep > :not(:last-child) {
-  margin-right: 5px;
+@include sky-theme-modern {
+  .sky-toolbar-view-actions {
+    margin-bottom: 0;
+
+    ::ng-deep > :not(:last-child) {
+      margin-top: $sky-theme-modern-margin-inline-xs;
+      margin-bottom: $sky-theme-modern-margin-inline-xs;
+      margin-right: $sky-theme-modern-margin-inline-sm;
+    }
+
+    ::ng-deep .sky-btn {
+      background-color: transparent;
+      border: none;
+      padding-left: $sky-theme-modern-space-sm;
+      padding-right: $sky-theme-modern-space-sm;
+
+      &:not(:hover):not(:active):not(:focus) {
+        box-shadow: inset 0 0 0 1px transparent;
+      }
+    }
+  }
 }
