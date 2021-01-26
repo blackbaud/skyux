@@ -1,3 +1,7 @@
+# 4.3.2 (2021-01-26)
+
+- Fixed the toolbar component to utilize the correct modern theme styles. [#181](https://github.com/blackbaud/skyux-layout/pull/181)
+
 # 4.3.1 (2020-11-16)
 
 - Fixed the text expand component to wrap unbroken text to the next line when it overflows the text expand modal's container. [#174](https://github.com/blackbaud/skyux-layout/pull/174)
