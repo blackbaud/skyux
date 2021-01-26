@@ -59,6 +59,15 @@ describe('List filter summary', () => {
         filterFunction: function () {
           return true;
         }
+      }),
+      new ListFilterModel({
+        name: 'size',
+        label: 'Fruit size',
+        value: 'large',
+        defaultValue: 'large',
+        filterFunction: function() {
+          return true;
+        }
       })
     ];
 
