@@ -1,3 +1,7 @@
+# 4.5.0 (2021-01-26)
+
+- Added the currency cell type. [#94](https://github.com/blackbaud/skyux-ag-grid/pull/94) (Thanks @[brianbianchi](https://github.com/brianbianchi)!)
+
 # 4.4.0 (2020-12-16)
 - Added the row delete directive to support showing inline deletes on grid rows. [#85](https://github.com/blackbaud/skyux-ag-grid/pull/85)
 
