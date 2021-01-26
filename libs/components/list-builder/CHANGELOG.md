@@ -1,3 +1,7 @@
+# 4.0.4 (2021-01-26)
+
+- Fixed the filter summary component to not error when an unapplied filter exists upon creation. [#126](https://github.com/blackbaud/skyux-list-builder/pull/126)
+
 # 4.0.3 (2020-12-18)
 
 - Fixed the filter summary component to only show filters which are being applied. [#123](https://github.com/blackbaud/skyux-list-builder/pull/123)
