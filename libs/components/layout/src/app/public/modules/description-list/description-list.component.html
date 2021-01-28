@@ -1,0 +1,25 @@
+<dl
+  class="sky-description-list"
+  [ngClass]="{
+      'sky-description-list-long-description-mode' : mode == 'longDescription',
+      'sky-description-list-vertical-mode' : mode == 'vertical',
+      'sky-description-list-horizontal-mode' : mode == 'horizontal'
+    }"
+  #descriptionListElement
+>
+  <!--
+    Wrapping div is for horizontal flexing. Also injecting children's templateRef directly
+    to avoid adding non-semantic HTML tags to DOM
+  -->
+  <div *ngFor="let contentComponent of contentComponents"
+    class="sky-description-list-content"
+    [style.width]="mode === 'horizontal' ? listItemWidth : ''"
+  >
+    <dt *ngFor="let termComponent of contentComponent?.termComponents">
+      <ng-container *ngTemplateOutlet="termComponent.templateRef"></ng-container>
+    </dt>
+    <dd *ngFor="let descriptionComponent of contentComponent?.descriptionComponents">
+      <ng-container *ngTemplateOutlet="descriptionComponent.templateRef"></ng-container>
+    </dd>
+  </div>
+</dl>

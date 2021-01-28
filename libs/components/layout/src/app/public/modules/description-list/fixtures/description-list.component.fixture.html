@@ -1,0 +1,33 @@
+<div
+  class="sky-description-list-test-1"
+>
+  <sky-description-list
+    [listItemWidth]="listItemWidth"
+    [mode]="mode"
+  >
+    <sky-description-list-content *ngFor="let item of personalInfo">
+      <sky-description-list-term>
+        {{item.term}}
+      </sky-description-list-term>
+      <sky-description-list-description>
+        {{item.description}}
+      </sky-description-list-description>
+    </sky-description-list-content>
+  </sky-description-list>
+</div>
+<div
+  class="sky-description-list-test-2"
+>
+  <sky-description-list
+    defaultDescription="No information found"
+  >
+    <sky-description-list-content *ngFor="let item of systemInfo">
+      <sky-description-list-term>
+        {{item.term}}
+      </sky-description-list-term>
+      <sky-description-list-description>
+        {{item.description}}
+      </sky-description-list-description>
+    </sky-description-list-content>
+  </sky-description-list>
+</div>

@@ -1,0 +1,84 @@
+<sky-docs-demo-page
+  moduleName="SkyDescriptionListModule"
+  moduleSourceCodePath="src/app/public/modules/description-list/"
+  pageTitle="Description list"
+>
+  <sky-docs-demo-page-summary>
+    Description lists display lists of terms and then pair each of the terms with a description.
+  </sky-docs-demo-page-summary>
+
+  <sky-docs-demo>
+    <sky-docs-demo-control-panel
+      (selectionChange)="onDemoSelectionChange($event)"
+      >
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-radio-group
+          heading="Mode"
+          initialValue="vertical"
+          propertyName="mode"
+          [choices]="layoutChoices"
+        >
+        </sky-docs-demo-control-panel-radio-group>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
+    <sky-description-list *ngIf="demoSettings?.mode === 'vertical'"
+      mode="vertical"
+    >
+      <sky-description-list-content *ngFor="let item of nameValueItems">
+        <sky-description-list-term>
+          {{item.term}}
+        </sky-description-list-term>
+        <sky-description-list-description>
+          {{item.description}}
+        </sky-description-list-description>
+      </sky-description-list-content>
+    </sky-description-list>
+    <sky-description-list *ngIf="demoSettings?.mode === 'horizontal'"
+      mode="horizontal"
+    >
+      <sky-description-list-content *ngFor="let item of nameValueItems">
+        <sky-description-list-term>
+          {{item.term}}
+        </sky-description-list-term>
+        <sky-description-list-description>
+          {{item.description}}
+        </sky-description-list-description>
+      </sky-description-list-content>
+    </sky-description-list>
+    <sky-description-list *ngIf="demoSettings?.mode === 'longDescription'"
+      mode="longDescription"
+    >
+      <sky-description-list-content *ngFor="let item of longDescriptionItems">
+        <sky-description-list-term>
+          {{item.term}}
+        </sky-description-list-term>
+        <sky-description-list-description>
+          {{item.description}}
+        </sky-description-list-description>
+      </sky-description-list-content>
+    </sky-description-list>
+  </sky-docs-demo>
+
+  <sky-docs-design-guidelines>
+    <sky-docs-demo-page-section
+      heading="Content"
+    >
+      <p>
+        Don't use colons after description list terms.
+      </p>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
+      heading="Related information"
+    >
+      <sky-docs-design-guideline
+        heading="Components"
+      >
+        <ul>
+          <li><a href="https://developer.blackbaud.com/skyux-indicators/docs/alert">Alert</a></li>
+          <li><a href="https://developer.blackbaud.com/skyux/components/toolbar">Toolbar</a></li>
+        </ul>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+  </sky-docs-design-guidelines>
+</sky-docs-demo-page>

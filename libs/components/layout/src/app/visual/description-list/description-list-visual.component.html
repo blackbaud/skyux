@@ -1,0 +1,64 @@
+<div
+  class="sky-padding-even-large"
+>
+  <sky-docs-demo-control-panel-theme
+    (themeSettingsChange)="themeSettingsChange($event)"
+  ></sky-docs-demo-control-panel-theme>
+
+  <h3>Vertical mode</h3>
+  <div
+    class="sky-padding-even-large"
+    id="screenshot-description-list-vertical-mode"
+  >
+    <sky-description-list
+      mode="vertical"
+    >
+      <sky-description-list-content *ngFor="let item of personalInfo">
+        <sky-description-list-term>
+          {{item.label}}
+        </sky-description-list-term>
+        <sky-description-list-description>
+          {{item.value}}
+        </sky-description-list-description>
+      </sky-description-list-content>
+    </sky-description-list>
+  </div>
+
+  <h3>Horizontal mode</h3>
+  <div
+    class="sky-padding-even-large"
+    id="screenshot-description-list-horizontal-mode"
+  >
+    <sky-description-list
+      mode="horizontal"
+    >
+      <sky-description-list-content *ngFor="let item of personalInfo">
+        <sky-description-list-term>
+          {{item.label}}
+        </sky-description-list-term>
+        <sky-description-list-description>
+          {{item.value}}
+        </sky-description-list-description>
+      </sky-description-list-content>
+    </sky-description-list>
+  </div>
+
+  <h3>Long description mode</h3>
+  <div
+    class="sky-padding-even-large"
+    id="screenshot-description-list-long-description-mode"
+  >
+    <sky-description-list
+      mode="longDescription"
+    >
+      <sky-description-list-content *ngFor="let item of orgInfo">
+        <sky-description-list-term>
+          {{item.label}}
+        </sky-description-list-term>
+        <sky-description-list-description>
+          {{item.value}}
+        </sky-description-list-description>
+      </sky-description-list-content>
+    </sky-description-list>
+  </div>
+</div>
