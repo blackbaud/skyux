@@ -5,8 +5,14 @@ import {
 import {
   async,
   ComponentFixture,
-  TestBed
+  fakeAsync,
+  TestBed,
+  tick
 } from '@angular/core/testing';
+
+import {
+  By
+} from '@angular/platform-browser';
 
 import {
   SkyCheckboxChange
@@ -17,7 +23,8 @@ import {
 } from '@skyux/modals';
 
 import {
-  expect
+  expect,
+  SkyAppTestUtility
 } from '@skyux-sdk/testing';
 
 import {
@@ -90,6 +97,42 @@ describe('SkyDataManagerToolbarComponent', () => {
   let dataManagerService: SkyDataManagerService;
   let modalServiceInstance: MockModalService;
   let viewConfig: SkyDataViewConfig;
+
+  function setSearchInput(text: string): void {
+    let inputEl = dataManagerToolbarFixture.debugElement.query(By.css('input'));
+    inputEl.nativeElement.value = text;
+
+    SkyAppTestUtility.fireDomEvent(inputEl.nativeElement, 'input', {
+      bubbles: false,
+      cancelable: false
+    });
+    dataManagerToolbarFixture.detectChanges();
+
+    SkyAppTestUtility.fireDomEvent(inputEl.nativeElement, 'change', {
+      bubbles: false,
+      cancelable: false
+    });
+    dataManagerToolbarFixture.detectChanges();
+  }
+
+  function triggerSearchInputEnter(): void {
+    let inputEl = dataManagerToolbarFixture.debugElement.query(By.css('.sky-search-container input'));
+
+    // The `any` cast here is because the typescript types for KeyboardEventInit do not include
+    // `which` but our current search component implementation uses it.
+    SkyAppTestUtility.fireDomEvent(inputEl.nativeElement, 'keyup', {
+      keyboardEventInit: <any> {
+        which: 13
+      }
+    });
+    dataManagerToolbarFixture.detectChanges();
+  }
+
+  function triggerSearchApplyButton(): void {
+    let applyEl = dataManagerToolbarFixture.debugElement.query(By.css('.sky-search-btn-apply'));
+    SkyAppTestUtility.fireDomEvent(applyEl.nativeElement, 'click');
+    dataManagerToolbarFixture.detectChanges();
+  }
 
   beforeEach(() => {
     modalServiceInstance = new MockModalService();
@@ -325,6 +368,65 @@ describe('SkyDataManagerToolbarComponent', () => {
 
     expect(dataManagerService.updateDataState).toHaveBeenCalledWith(dataState, 'toolbar');
   });
+
+  it('should not update the data state when search text is typed but not applied', fakeAsync(() => {
+    dataManagerToolbarComponent.activeView.searchEnabled = true;
+    spyOn(dataManagerService, 'updateDataState');
+
+    dataManagerToolbarFixture.detectChanges();
+
+    let dataState = dataManagerToolbarComponent.dataState;
+    expect(dataState.searchText).toBeUndefined();
+
+    setSearchInput('testing');
+
+    dataManagerToolbarFixture.detectChanges();
+    tick();
+    dataManagerToolbarFixture.detectChanges();
+
+    expect(dataState.searchText).toBeUndefined();
+    expect(dataManagerService.updateDataState).not.toHaveBeenCalled();
+  }));
+
+  it('should update the data state when search text is typed and applied via enter', fakeAsync(() => {
+    dataManagerToolbarComponent.activeView.searchEnabled = true;
+    spyOn(dataManagerService, 'updateDataState');
+
+    dataManagerToolbarFixture.detectChanges();
+
+    let dataState = dataManagerToolbarComponent.dataState;
+    expect(dataState.searchText).toBeUndefined();
+
+    setSearchInput('testing');
+    triggerSearchInputEnter();
+
+    dataManagerToolbarFixture.detectChanges();
+    tick();
+    dataManagerToolbarFixture.detectChanges();
+
+    expect(dataState.searchText).toBe('testing');
+    expect(dataManagerService.updateDataState).toHaveBeenCalledWith(dataState, 'toolbar');
+  }));
+
+  it('should update the data state when search text is typed and applied via the search button', fakeAsync(() => {
+    dataManagerToolbarComponent.activeView.searchEnabled = true;
+    spyOn(dataManagerService, 'updateDataState');
+
+    dataManagerToolbarFixture.detectChanges();
+
+    let dataState = dataManagerToolbarComponent.dataState;
+    expect(dataState.searchText).toBeUndefined();
+
+    setSearchInput('testing');
+    triggerSearchApplyButton();
+
+    dataManagerToolbarFixture.detectChanges();
+    tick();
+    dataManagerToolbarFixture.detectChanges();
+
+    expect(dataState.searchText).toBe('testing');
+    expect(dataManagerService.updateDataState).toHaveBeenCalledWith(dataState, 'toolbar');
+  }));
 
   it('should update the active view id via the data manager service when the view changes', () => {
     const newViewId = 'testId';
