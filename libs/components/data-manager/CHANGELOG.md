@@ -1,3 +1,7 @@
+# 4.0.2 (2021-01-28)
+
+- Fixed the data manager toolbar component to only execute searches when users press "Enter" or select the search button. [#25](https://github.com/blackbaud/skyux-data-manager/pull/25)
+
 # 4.0.1 (2021-01-19)
 - Updated the `SkyDataManagerColumnPickerSortStrategy` export to be referenceable. [#22](https://github.com/blackbaud/skyux-data-manager/pull/22)
 
