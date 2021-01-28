@@ -1,3 +1,7 @@
+# 4.4.0 (2021-01-28)
+
+- Added the description list component. [#179](https://github.com/blackbaud/skyux-layout/pull/179)
+
 # 4.3.2 (2021-01-26)
 
 - Fixed the toolbar component to utilize the correct modern theme styles. [#181](https://github.com/blackbaud/skyux-layout/pull/181)
