@@ -41,7 +41,7 @@ export class StacheEditButtonComponent implements OnInit {
     if (!base) {
       return '';
     }
-    const type = base.includes('visualstudio') ? 'vsts' : 'github';
+    const type = base.includes('visualstudio') || base.includes('azure') ? 'vsts' : 'github';
     const activeUrl = this.routeService.getActiveUrl();
     const frag = encodeURIComponent(activeUrl === '/' ? activeUrl : activeUrl + '/');
 
