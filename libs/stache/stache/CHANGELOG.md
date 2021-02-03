@@ -1,3 +1,7 @@
+# 4.2.2 (2021-02-03)
+
+- Fixed the edit button module to account for Azure DevOps URLs that contain `dev.azure.com`. [#100](https://github.com/blackbaud/skyux-lib-stache/pull/100)
+
 # 4.2.1 (2020-07-22)
 
 - Fixed the route service to not include children from similar parents. [#90](https://github.com/blackbaud/skyux-lib-stache/pull/90)
