@@ -7,7 +7,8 @@ import {
 } from '@angular/common';
 
 import {
-  FormsModule
+  FormsModule,
+  ReactiveFormsModule
 } from '@angular/forms';
 
 import {
@@ -22,6 +23,7 @@ import {
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     SkyCheckboxModule
   ],
   declarations: [
