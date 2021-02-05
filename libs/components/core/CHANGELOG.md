@@ -1,3 +1,7 @@
+# 4.3.3 (2021-02-05)
+
+- Fixed the overlay component to avoid additional errors when overlays are quickly created and destroyed. [#211](https://github.com/blackbaud/skyux-core/pull/211)
+
 # 4.3.2 (2021-01-06)
 
 - Fixed the overlay component to avoid throwing errors when overlays are quickly created and destroyed. [#209](https://github.com/blackbaud/skyux-core/pull/209)
