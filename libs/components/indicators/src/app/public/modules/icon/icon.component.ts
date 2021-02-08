@@ -14,7 +14,7 @@ export class SkyIconComponent {
 
   /**
    * Specifies the name of
-   * [the Font Awesome icon](https://developer.blackbaud.com/design/styles/icons) to
+   * [the Font Awesome icon](https://fontawesome.com/icons?d=gallery) to
    * display. Do not specify the `fa fa-` classes.
    * @required
    */
