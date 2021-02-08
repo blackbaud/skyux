@@ -60,7 +60,7 @@ export class SkyDescriptionListComponent implements AfterContentInit, OnDestroy 
 
   /**
    * Specifies the width of term-description pairs when `mode` is set to `horizontal`. By default,
-   * the term-description pairs use responsive widths for different screen sizes.
+   * the width is responsive based on the width of the container element.
    */
   @Input()
   public listItemWidth: string;
