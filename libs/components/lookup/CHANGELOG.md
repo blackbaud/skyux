@@ -1,3 +1,7 @@
+# 4.8.3 (2021-02-09)
+
+- Fixed the autocomplete component to no longer show the dropdown when tab or arrow keys are pressed on the form input. [#156](https://github.com/blackbaud/skyux-lookup/pull/156)
+
 # 4.8.2 (2020-12-11)
 
 - Fixed the country field component to handle both uppercase and lowercase values for the `supportedCountryISOs` input. [#154](https://github.com/blackbaud/skyux-lookup/pull/154)
