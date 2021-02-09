@@ -173,7 +173,7 @@ export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, Control
 
     this.setAttributes(element);
 
-    observableFromEvent(element, 'keyup')
+    observableFromEvent(element, 'input')
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         /** Sanity check */

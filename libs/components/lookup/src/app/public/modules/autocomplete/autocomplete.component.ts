@@ -44,9 +44,17 @@ import {
   SkyAutocompleteSelectionChange
 } from './types/autocomplete-selection-change';
 
-import { SkyAutocompleteAdapterService } from './autocomplete-adapter.service';
-import { SkyAutocompleteInputDirective } from './autocomplete-input.directive';
-import { skyAutocompleteDefaultSearchFunction } from './autocomplete-default-search-function';
+import {
+  SkyAutocompleteAdapterService
+} from './autocomplete-adapter.service';
+
+import {
+  skyAutocompleteDefaultSearchFunction
+} from './autocomplete-default-search-function';
+
+import {
+  SkyAutocompleteInputDirective
+} from './autocomplete-input.directive';
 
 /**
  * @internal
@@ -501,7 +509,8 @@ export class SkyAutocompleteComponent
             case 'up':
               this.searchResultsIndex--;
               if (this.searchResultsIndex < 0) {
-                this.searchResultsIndex = this.searchResults.length - 1;
+                // Fallback to 0 just in case results are async and aren't returned yet.
+                this.searchResultsIndex = Math.max(this.searchResults.length - 1, 0);
               }
               this.setActiveDescendant();
               this.changeDetector.markForCheck();
