@@ -31,14 +31,42 @@
   align-items: center;
 }
 
+// NOTE: These are not using the mixin because we need to look for both of these outside of the
+// component context and placing it in the mixin causes issues with doing this as the mixin uses
+// a `host-context` call already.
+:host-context(.sky-theme-modern .sky-viewkeeper-fixed) {
+  .sky-toolbar-container {
+    background-color: $sky-theme-modern-background-color-page-default;
+  }
+}
+
+:host-context(.sky-theme-modern.sky-theme-mode-dark .sky-viewkeeper-fixed) {
+  .sky-toolbar-container {
+    background-color: $sky-theme-modern-mode-dark-background-color-page-default;
+  }
+}
+
 @include sky-theme-modern {
+
   .sky-toolbar-container {
     background-color: transparent;
     border: none;
     padding: $sky-theme-modern-space-sm $sky-theme-modern-space-xl;
+
+    &.sky-viewkeeper-fixed {
+      background-color: $sky-theme-modern-background-color-page-default;
+    }
   }
 
   .sky-toolbar-sectioned {
     padding: 0;
+  }
+}
+
+@include sky-theme-modern-dark {
+  .sky-toolbar-container {
+    &.sky-viewkeeper-fixed {
+      background-color: $sky-theme-modern-mode-dark-background-color-page-default;
+    }
   }
 }

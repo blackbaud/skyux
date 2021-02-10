@@ -7,6 +7,10 @@ import {
 } from '@skyux/avatar';
 
 import {
+  SkyViewkeeperModule
+} from '@skyux/core';
+
+import {
   SkyDocsToolsModule,
   SkyDocsToolsOptions
 } from '@skyux/docs-tools';
@@ -86,7 +90,8 @@ import {
     SkyTextExpandModule,
     SkyTextExpandRepeaterModule,
     SkyToolbarModule,
-    SkyInlineDeleteModule
+    SkyInlineDeleteModule,
+    SkyViewkeeperModule
   ],
   providers: [
     {
