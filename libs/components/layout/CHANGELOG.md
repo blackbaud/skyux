@@ -1,3 +1,7 @@
+# 4.4.1 (2021-02-10)
+
+- Fixed the toolbar component to have a background when inside a viewkeeper. [#188](https://github.com/blackbaud/skyux-layout/pull/188)
+
 # 4.4.0 (2021-01-28)
 
 - Added the description list component. [#179](https://github.com/blackbaud/skyux-layout/pull/179)
