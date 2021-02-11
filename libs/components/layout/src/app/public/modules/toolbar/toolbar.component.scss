@@ -34,6 +34,7 @@
 // NOTE: These are not using the mixin because we need to look for both of these outside of the
 // component context and placing it in the mixin causes issues with doing this as the mixin uses
 // a `host-context` call already.
+/* clean-css ignore:start */
 :host-context(.sky-theme-modern .sky-viewkeeper-fixed) {
   .sky-toolbar-container {
     background-color: $sky-theme-modern-background-color-page-default;
@@ -45,6 +46,7 @@
     background-color: $sky-theme-modern-mode-dark-background-color-page-default;
   }
 }
+/* clean-css ignore:end */
 
 @include sky-theme-modern {
 
