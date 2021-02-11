@@ -93,6 +93,27 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     expect(dataManagerService.updateDataState).toHaveBeenCalledWith(dataState, agGridDataManagerFixtureComponent.viewConfig.id);
   });
 
+  it('should update the data state when a row is deselected', async () => {
+    await agGridDataManagerFixture.whenStable();
+
+    const rowNode = new RowNode();
+    rowNode.data = { id: '3' };
+    spyOn(rowNode, 'isSelected').and.returnValue(false);
+    spyOn(dataManagerService, 'updateDataState');
+
+    const rowSelected = {
+      node: rowNode
+    } as RowSelectedEvent;
+
+    dataState.selectedIds = [ ];
+
+    agGridDataManagerFixture.detectChanges();
+
+    agGridComponent.rowSelected.emit(rowSelected);
+
+    expect(dataManagerService.updateDataState).toHaveBeenCalledWith(dataState, agGridDataManagerFixtureComponent.viewConfig.id);
+  });
+
   it('should set columns visible based on the data state changes', async () => {
     spyOn(agGridComponent.columnApi, 'setColumnVisible');
 
