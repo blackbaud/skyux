@@ -1,3 +1,7 @@
+# 4.4.2 (2021-02-12)
+
+- Fixed the toolbar component to have proper visual styles when built for production. [#190](https://github.com/blackbaud/skyux-layout/pull/190)
+
 # 4.4.1 (2021-02-10)
 
 - Fixed the toolbar component to have a background when inside a viewkeeper. [#188](https://github.com/blackbaud/skyux-layout/pull/188)
