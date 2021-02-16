@@ -46,7 +46,7 @@ describe('SkyFuzzyDateservice', () => {
       ]
     });
 
-    service = TestBed.get(SkyFuzzyDateService);
+    service = TestBed.inject(SkyFuzzyDateService);
     tick();
 
     appProvider.getLocaleInfo()

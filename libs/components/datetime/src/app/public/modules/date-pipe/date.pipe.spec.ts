@@ -178,6 +178,7 @@ describe('Date pipe', () => {
     const value = fixture.nativeElement.textContent.trim();
     const expectedValues = [
       '2000-01-01 00 h 00',
+      '2000-01-01, 00 h 00', // Chrome 88
       '2000-01-01 00:00' // IE 11
     ];
     expect(expectedValues).toContain(value);
@@ -202,6 +203,7 @@ describe('Date pipe', () => {
     value = fixture.nativeElement.textContent.trim();
     expectedValues = [
       '2000-01-01 00 h 00',
+      '2000-01-01, 00 h 00', // Chrome 88
       '2000-01-01 00:00' // IE 11
     ];
     expect(expectedValues).toContain(value);
@@ -250,6 +252,7 @@ describe('Date pipe', () => {
     const date = new Date(2000, 0, 1);
     const expectedValues = [
       '2000-01-01 00 h 00',
+      '2000-01-01, 00 h 00', // Chrome 88
       '2000-01-01 00:00' // IE 11
     ];
 

@@ -40,7 +40,7 @@ describe('Date range service', function () {
       ]
     });
 
-    service = TestBed.get(SkyDateRangeService);
+    service = TestBed.inject(SkyDateRangeService);
   });
 
   it('should return a calculator by ID', function () {
