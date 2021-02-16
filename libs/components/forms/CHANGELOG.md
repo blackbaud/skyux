@@ -1,3 +1,7 @@
+# 4.15.1 (2021-02-16)
+
+- Fixed the single file attachment component to utilize the correct modern theme styles. [#237](https://github.com/blackbaud/skyux-forms/pull/237)
+
 # 4.15.0 (2021-01-15)
 - Added a test fixture for the radio button component to use in consumer unit tests. [#182](https://github.com/blackbaud/skyux-forms/pull/182)
 
