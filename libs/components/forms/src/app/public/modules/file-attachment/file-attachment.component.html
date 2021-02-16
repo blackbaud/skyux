@@ -57,7 +57,7 @@
       size="2x"
     >
     </sky-icon>
-    <span
+    <span *ngIf="value || currentThemeName === 'default'"
       class="sky-file-attachment-name"
     >
       <a *ngIf="value; else noFile"

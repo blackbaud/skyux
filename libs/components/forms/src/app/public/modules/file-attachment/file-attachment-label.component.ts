@@ -3,10 +3,6 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 
-import {
-  SkyThemeService
-} from '@skyux/theme';
-
 /**
  * Displays a label above the file attachment element.
  */
@@ -18,10 +14,4 @@ import {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyFileAttachmentLabelComponent {
-
-  constructor(
-    public themeSvc: SkyThemeService
-  ) {}
-
-}
+export class SkyFileAttachmentLabelComponent { }
