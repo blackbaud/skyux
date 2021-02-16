@@ -1,3 +1,7 @@
+# 4.9.0 (2021-02-16)
+
+- Added the ability to trigger responsive styles based on a parent component. [#248](https://github.com/blackbaud/skyux-datetime/pull/248)
+
 # 4.8.0 (2021-01-19)
 
 - Added modern theme styles to the date range picker component. [#246](https://github.com/blackbaud/skyux-datetime/pull/246)
