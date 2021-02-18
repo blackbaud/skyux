@@ -22,7 +22,7 @@ export class SkyRestrictedViewAuthService {
   /**
    * Indicates if the user is an authenticated Blackbaud user.
    */
-  public isAuthenticated = new BehaviorSubject<boolean>(false);
+  public isAuthenticated = new BehaviorSubject<boolean>(undefined);
 
   public get hasBeenAuthenticated(): boolean {
     try {

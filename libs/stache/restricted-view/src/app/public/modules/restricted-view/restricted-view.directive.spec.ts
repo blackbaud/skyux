@@ -67,12 +67,15 @@ describe('SkyRestrictedViewDirective', () => {
   });
 
   it('should display content if user is authenticated', () => {
+    mockAuth.isAuthenticated.next(true);
+
     directiveElement = fixture.debugElement.query(By.css('.skyux-restricted-view'));
     expect(directiveElement).toBeTruthy();
   });
 
   it('should not display content if use is not authenticated', () => {
     mockAuth.isAuthenticated.next(false);
+
     directiveElement = fixture.debugElement.query(By.css('.skyux-restricted-view'));
     expect(directiveElement).not.toBeTruthy();
   });

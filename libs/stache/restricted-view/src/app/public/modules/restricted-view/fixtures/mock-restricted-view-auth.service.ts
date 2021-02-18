@@ -3,7 +3,7 @@ import {
 } from 'rxjs';
 
 export class MockSkyRestrictedViewAuthService {
-  public isAuthenticated = new BehaviorSubject<boolean>(true);
+  public isAuthenticated = new BehaviorSubject<boolean>(undefined);
   public hasBeenAuthenticated: boolean = false;
 
   public clearHasBeenAuthenticated(): void {

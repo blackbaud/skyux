@@ -50,6 +50,8 @@ describe('SkyRestrictedViewComponent', () => {
   });
 
   it('should display content if the user is authenticated', () => {
+    mockAuth.isAuthenticated.next(true);
+
     fixture.detectChanges();
     const element = fixture.elementRef.nativeElement.querySelector('p');
     expect(element).toBeTruthy();

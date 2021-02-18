@@ -11,7 +11,6 @@ import {
 } from 'rxjs';
 
 import {
-  skip,
   takeUntil
 } from 'rxjs/operators';
 
@@ -57,14 +56,12 @@ export class SkyRestrictedContentAlertComponent implements OnInit, OnDestroy {
     this.signInUrl = 'https://signin.blackbaud.com?redirectUrl=' +
       encodeURIComponent(location.href);
 
-    // NOTE: We skip the first response here to ensure nothing is shown until the token request is complete.
     this.svc.isAuthenticated
       .pipe(
-        skip(1),
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe((isAuthenticated) => {
-        this.showAlert = !isAuthenticated && this.svc.hasBeenAuthenticated;
+        this.showAlert = (isAuthenticated === false) && this.svc.hasBeenAuthenticated;
         this.changeDetector.markForCheck();
       });
   }

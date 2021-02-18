@@ -56,7 +56,10 @@ describe('Restricted content alert component', () => {
     expect(fixture).toExist();
   });
 
-  it('should display not display the alert the user is authenticated', () => {
+  it('should display not display the alert if the user is authenticated', () => {
+    fixture.detectChanges();
+    mockAuth.isAuthenticated.next(true);
+
     fixture.detectChanges();
     const element = fixture.elementRef.nativeElement.querySelector('sky-alert');
     expect(element).toBeNull();
@@ -65,6 +68,15 @@ describe('Restricted content alert component', () => {
   it('should not display the alert if the user is not authenticated and the user was not previously authenticated', () => {
     fixture.detectChanges();
     mockAuth.isAuthenticated.next(false);
+
+    fixture.detectChanges();
+    const element = fixture.elementRef.nativeElement.querySelector('sky-alert');
+    expect(element).toBeNull();
+  });
+
+  it('should not display the alert if the user authentication has not been established', () => {
+    fixture.detectChanges();
+    mockAuth.hasBeenAuthenticated = true;
 
     fixture.detectChanges();
     const element = fixture.elementRef.nativeElement.querySelector('sky-alert');
