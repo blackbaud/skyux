@@ -1,6 +1,10 @@
+# 4.5.2 (2021-02-19)
+
+- Fixed the row delete directive to render on rows which use the `enableCellTextSelection` option in version 23 of AG Grid. [#101](https://github.com/blackbaud/skyux-ag-grid/pull/101)
+
 # 4.5.1 (2021-02-11)
 
-- Fixed the ag-grid wrapper to properly handle keyboard navigation while a master/detail grid is being used. [#98](https://github.com/blackbaud/skyux-ag-grid/pull/98)
+- Fixed the AG Grid wrapper to properly handle keyboard navigation while a master/detail grid is being used. [#98](https://github.com/blackbaud/skyux-ag-grid/pull/98)
 
 # 4.5.0 (2021-01-26)
 
@@ -15,7 +19,7 @@
 
 # 4.2.0 (2020-08-21)
 
-- Fixed the ag-Grid wrapper component to stop scrolling to the top of the grid when it receives focus. [#72](https://github.com/blackbaud/skyux-ag-grid/pull/72)
+- Fixed the AG Grid wrapper component to stop scrolling to the top of the grid when it receives focus. [#72](https://github.com/blackbaud/skyux-ag-grid/pull/72)
 - Updated the `skyAgGridDataManagerAdapter` directive to work with the new data manager API. [#73](https://github.com/blackbaud/skyux-ag-grid/pull/73)
 
 # 4.1.1 (2020-07-29)
@@ -51,7 +55,7 @@
 
 # 3.0.0-rc.8 (2020/05/28)
 
-- Created the SKY UX ag-grid wrapper component to provide keyboard navigation and sticky column headers. [#35](https://github.com/blackbaud/skyux-ag-grid/pull/35)
+- Created the SKY UX AG Grid wrapper component to provide keyboard navigation and sticky column headers. [#35](https://github.com/blackbaud/skyux-ag-grid/pull/35)
 - Fixed the row selector cell component to optionally initialize with row data. [#35](https://github.com/blackbaud/skyux-ag-grid/pull/35)
 
 # 3.0.0-rc.7 (2020/03/23)
@@ -71,7 +75,7 @@
 
 # 3.0.0-rc.4 (2019/10/21)
 
-- Added `getEditableGridOptions()` to the ag-Grid service, added a demo using a modal, and fixed the number editor width. [#15](https://github.com/blackbaud/skyux-ag-grid/pull/15)
+- Added `getEditableGridOptions()` to the AG Grid service, added a demo using a modal, and fixed the number editor width. [#15](https://github.com/blackbaud/skyux-ag-grid/pull/15)
 
 # 3.0.0-rc.3 (2019/10/16)
 
@@ -89,7 +93,7 @@
 
 # 3.0.0-rc.0 (2019/10/04)
 
-- Added the ag-Grid service and a stylesheet to create grids with default SKY UX styling and `gridOptions`. [#2](https://github.com/blackbaud/skyux-ag-grid/pull/2)
+- Added the AG Grid service and a stylesheet to create grids with default SKY UX styling and `gridOptions`. [#2](https://github.com/blackbaud/skyux-ag-grid/pull/2)
 - Added the cell editor number component to support editing numeric cells. [#2](https://github.com/blackbaud/skyux-ag-grid/pull/2)
 - Added the cell editor datepicker component to support editing date cells. [#2](https://github.com/blackbaud/skyux-ag-grid/pull/2)
 - Added the cell renderer row selector component to support selecting multiple rows. [#2](https://github.com/blackbaud/skyux-ag-grid/pull/2)
