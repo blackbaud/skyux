@@ -26,6 +26,7 @@
 }
 
 @mixin create_row_gutters_modern($gutter-size) {
+  /* clean-css ignore:start */
   :host-context(.sky-theme-modern .sky-fluid-grid-gutter-size-#{$gutter-size}) {
     .sky-row {
       margin-left: -(map-get($gutter-sizes-modern, $gutter-size));
@@ -40,6 +41,7 @@
       margin-right: -(map-get($gutter-sizes-modern, $gutter-size)) * 2;
     }
   }
+  /* clean-css ignore:end */
 }
 
 @include create_row_gutters(small);
