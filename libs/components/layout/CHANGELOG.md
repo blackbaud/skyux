@@ -1,3 +1,7 @@
+# 4.4.3 (2021-02-22)
+
+- Fixed the fluid grid component to disable the outer left and right margins in modern theme when `disableMargin` is set to `true`. [#193](https://github.com/blackbaud/skyux-layout/pull/193)
+
 # 4.4.2 (2021-02-12)
 
 - Fixed the toolbar component to have proper visual styles when built for production. [#190](https://github.com/blackbaud/skyux-layout/pull/190)
