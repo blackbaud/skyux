@@ -1,3 +1,7 @@
+# 4.0.2 (2021-02-23)
+
+- Fixed the Angular tree component to properly indent child nodes without children. [#37](https://github.com/blackbaud/skyux-angular-tree-component/pull/37)
+
 # 4.0.1 (2020-08-05)
 
 - Added support for `@skyux/theme@4.8.0` and `@skyux-sdk/builder@4.3.0`. [#24](https://github.com/blackbaud/skyux-angular-tree-component/pull/24)
