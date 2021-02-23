@@ -194,6 +194,10 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
     return this.node.isActive && !this.node.treeModel.options.useCheckbox;
   }
 
+  public showTogglePlaceholder(): boolean {
+    return !this.node.hasChildren && !this.skyAngularTreeWrapper?.selectLeafNodesOnly;
+  }
+
   public onFocus(): void {
     this.node.treeModel.setFocus(true);
     this.node.focus();

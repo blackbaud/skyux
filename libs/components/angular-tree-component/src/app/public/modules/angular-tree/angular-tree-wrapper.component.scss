@@ -31,7 +31,7 @@
     cursor: pointer;
   }
 
-  .tree-children, .tree-node-level-1.tree-node-leaf {
+  .tree-children {
     padding-left: 30px;
   }
 
@@ -70,7 +70,7 @@
   }
 
   .sky-switch-control {
-    margin: 0 $sky-margin 0 0;
+    margin: 0 8px 0 0;
   }
 
   // TODO: Remove me when checkboxes support indeterminate!

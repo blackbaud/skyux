@@ -37,6 +37,10 @@ export class SkyTreeViewFixtureComponent {
           ]
         }
       ]
+    },
+    {
+      id: 6,
+      name: 'Mexico'
     }
   ];
 

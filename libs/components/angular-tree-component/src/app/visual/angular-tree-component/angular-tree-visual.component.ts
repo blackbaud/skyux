@@ -55,8 +55,15 @@ export class SkyAngularTreeVisualComponent {
           { id: 6, name: 'Allen' },
           { id: 7, name: 'Bartholomew' }
           ]
-        }
+        },
+        { id: 13, name: 'Florida' }
       ]
+    },
+    {
+      id: 12,
+      name: 'Mexico',
+      isExpanded: true,
+      children: []
     },
     {
       id: 8,
@@ -67,6 +74,12 @@ export class SkyAngularTreeVisualComponent {
         { id: 10, name: 'British Columbia' },
         { id: 11, name: 'Manitoba' }
       ]
+    },
+    {
+      id: 14,
+      name: 'Argentina',
+      isExpanded: true,
+      children: []
     }
   ];
 
