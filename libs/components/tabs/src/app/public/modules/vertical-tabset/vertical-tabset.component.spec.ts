@@ -5,7 +5,8 @@ import {
 } from '@angular/core/testing';
 
 import {
-  expect
+  expect,
+  SkyAppTestUtility
 } from '@skyux-sdk/testing';
 
 import {
@@ -30,10 +31,6 @@ import {
 } from 'rxjs';
 
 import {
-  SkyVerticalTabsetComponent
-} from '../vertical-tabset/vertical-tabset.component';
-
-import {
   SkyVerticalTabsFixturesModule
 } from './fixtures/vertical-tabs-fixtures.module';
 
@@ -56,6 +53,14 @@ import {
 import {
   VerticalTabsetNoGroupTestComponent
 } from './fixtures/vertical-tabset-no-group.component.fixture';
+
+import {
+  SkyVerticalTabMediaQueryService
+} from './vertical-tab-media-query.service';
+
+import {
+  SkyVerticalTabsetComponent
+} from './vertical-tabset.component';
 
 // #region helpers
 let mockQueryService: MockSkyMediaQueryService;
@@ -604,6 +609,71 @@ describe('Vertical tabset component', () => {
     expect(allTabContentElements2[4].textContent.trim()).toBe('Group 2 Tab 3 content');
     expect(allTabContentElements2[5].textContent.trim()).toBe('Group 3 Tab 1 content');
     expect(allTabContentElements2[6].textContent.trim()).toBe('Group 3 Tab 2 content');
+  });
+
+  it('should add the appropriate responsive container upon initialization', async () => {
+    spyOnProperty(Element.prototype, 'clientWidth', 'get').and.returnValue(640);
+    const mediaQuerySpy = spyOn(SkyVerticalTabMediaQueryService.prototype, 'setBreakpointForWidth').and.callThrough();
+
+    const fixture = createTestComponent();
+    fixture.detectChanges();
+
+    const activeTab = fixture.componentInstance.verticalTabs.find(tab => tab.active);
+    fixture.detectChanges();
+
+    const tabContentPane: HTMLElement = activeTab.tabContent.nativeElement;
+    expect(mediaQuerySpy).toHaveBeenCalledWith(640);
+    expect(tabContentPane.classList.contains('sky-responsive-container-xs')).toBeTruthy();
+  });
+
+  it('should add the appropriate responsive container upon window resize', async () => {
+    let fixture = createTestComponent();
+    const widthSpy = spyOnProperty(Element.prototype, 'clientWidth', 'get').and.returnValue(1500);
+    fixture.detectChanges();
+
+    const activeTab = fixture.componentInstance.verticalTabs.find(tab => tab.active);
+    fixture.detectChanges();
+    let tabContentPane: HTMLElement = activeTab.tabContent.nativeElement;
+
+    expect(tabContentPane.classList.contains('sky-responsive-container-lg')).toBeTruthy();
+    widthSpy.and.returnValue(1100);
+    const mediaQuerySpy = spyOn(SkyVerticalTabMediaQueryService.prototype, 'setBreakpointForWidth').and.callThrough();
+
+    SkyAppTestUtility.fireDomEvent(window, 'resize');
+    fixture.detectChanges();
+
+    tabContentPane = activeTab.tabContent.nativeElement;
+    expect(mediaQuerySpy).toHaveBeenCalledWith(1100);
+    expect(tabContentPane.classList.contains('sky-responsive-container-md')).toBeTruthy();
+  });
+
+  it('should add the appropriate responsive container upon a tab being activated', () => {
+    let fixture = createTestComponent();
+    fixture.detectChanges();
+    let el = fixture.nativeElement;
+
+    spyOnProperty(Element.prototype, 'clientWidth', 'get').and.returnValue(800);
+    const mediaQuerySpy = spyOn(SkyVerticalTabMediaQueryService.prototype, 'setBreakpointForWidth').and.callThrough();
+
+    fixture.detectChanges();
+
+    // open second group
+    const groups = el.querySelectorAll('.sky-vertical-tabset-group-header');
+    groups[1].click();
+
+    fixture.detectChanges();
+
+    // open first tab in second group
+    const tabs = el.querySelectorAll('.sky-vertical-tab');
+    tabs[2].click();
+    fixture.detectChanges();
+
+    const activeTab = fixture.componentInstance.verticalTabs.find(tab => tab.active);
+    fixture.detectChanges();
+    let tabContentPane: HTMLElement = activeTab.tabContent.nativeElement;
+
+    expect(mediaQuerySpy).toHaveBeenCalledWith(800);
+    expect(tabContentPane.classList.contains('sky-responsive-container-sm')).toBeTruthy();
   });
 });
 

@@ -1,6 +1,17 @@
-import { Component, ViewChild } from '@angular/core';
-import { SkyVerticalTabComponent } from './../vertical-tab.component';
-import { SkyVerticalTabsetComponent } from './../vertical-tabset.component';
+import {
+  Component,
+  QueryList,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
+
+import {
+  SkyVerticalTabComponent
+} from '../vertical-tab.component';
+
+import {
+  SkyVerticalTabsetComponent
+} from '../vertical-tabset.component';
 
 @Component({
   selector: 'sky-test-cmp',
@@ -26,6 +37,6 @@ export class VerticalTabsetTestComponent {
   @ViewChild(SkyVerticalTabsetComponent)
   public tabset: SkyVerticalTabsetComponent;
 
-  @ViewChild(SkyVerticalTabComponent)
-  public verticalTabs: SkyVerticalTabComponent;
+  @ViewChildren(SkyVerticalTabComponent)
+  public verticalTabs: QueryList<SkyVerticalTabComponent>;
 }
