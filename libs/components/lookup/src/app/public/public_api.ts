@@ -10,6 +10,7 @@ export * from './modules/country-field/country-field.module';
 export * from './modules/country-field/types/country';
 
 export * from './modules/lookup/lookup.module';
+export * from './modules/lookup/types/lookup-select-mode';
 
 export * from './modules/search/search.module';
 

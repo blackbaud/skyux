@@ -11,7 +11,13 @@ import {
   Validators
 } from '@angular/forms';
 
-import { SkyLookupComponent } from '../lookup.component';
+import {
+  SkyLookupComponent
+} from '../lookup.component';
+
+import {
+  SkyLookupSelectMode
+} from '../types/lookup-select-mode';
 
 @Component({
   selector: 'sky-test-cmp',
@@ -33,6 +39,7 @@ export class SkyLookupTestComponent implements OnInit {
   public form: FormGroup;
   public idProperty: string;
   public placeholderText: string;
+  public selectMode: SkyLookupSelectMode;
 
   constructor(
     private formBuilder: FormBuilder
@@ -62,19 +69,27 @@ export class SkyLookupTestComponent implements OnInit {
     this.createForm();
   }
 
-  public enableLookup() {
+  public enableLookup(): void {
     this.form.controls.friends.enable();
   }
 
-  public disableLookup() {
+  public disableLookup(): void {
     this.form.controls.friends.disable();
   }
 
-  public setRequired() {
+  public setMultiSelect(): void {
+    this.selectMode = SkyLookupSelectMode.multiple;
+  }
+
+  public setRequired(): void {
     this.form.controls.friends.setValidators([Validators.required]);
   }
 
-  public removeRequired() {
+  public setSingleSelect(): void {
+    this.selectMode = SkyLookupSelectMode.single;
+  }
+
+  public removeRequired(): void {
     this.form.controls.friends.setValidators([]);
   }
 

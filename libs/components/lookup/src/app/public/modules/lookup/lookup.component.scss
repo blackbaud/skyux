@@ -40,6 +40,12 @@
       }
     }
   }
+
+  .sky-lookup-single-control {
+    display: inline-flex;
+    padding-left: 7px;
+    width: 100%;
+  }
 }
 
 .sky-lookup-search {
@@ -65,6 +71,12 @@
   }
 }
 
+.sky-lookup-single {
+  sky-tokens.sky-lookup-tokens sky-token {
+    display: none;
+  }
+}
+
 sky-lookup.ng-invalid.ng-touched .sky-lookup-search {
   @include sky-field-status(invalid);
 }
@@ -79,7 +91,7 @@ sky-input-box .sky-lookup {
   }
 }
 
-.sky-theme-modern {
+@include sky-theme-modern {
 
   sky-tokens.sky-lookup-tokens {
     .sky-tokens {
@@ -109,6 +121,14 @@ sky-input-box .sky-lookup {
       }
     }
 
+    &.sky-lookup-single {
+      sky-tokens.sky-lookup-tokens {
+        .sky-tokens-content {
+          padding-left: 0;
+        }
+      }
+    }
+
     .sky-lookup-search {
       background-color: transparent;
       padding: 0 0 0 15px;
@@ -117,6 +137,10 @@ sky-input-box .sky-lookup {
     textarea.sky-lookup-input.sky-form-control {
       padding-left: 0;
       resize: none;
+    }
+
+    .sky-lookup-single-control {
+      padding-left: 0;
     }
   }
 }

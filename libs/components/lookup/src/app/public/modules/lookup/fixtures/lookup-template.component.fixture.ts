@@ -8,6 +8,10 @@ import {
   SkyLookupComponent
 } from '../lookup.component';
 
+import {
+  SkyLookupSelectMode
+} from '../types/lookup-select-mode';
+
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './lookup-template.component.fixture.html'
@@ -23,9 +27,10 @@ export class SkyLookupTemplateTestComponent implements OnInit {
   public ariaLabelledBy: string;
   public data: any[];
   public disabled: boolean = false;
-  public friends: any[];
   public placeholderText: string;
   public required: boolean = false;
+  public selectedFriends: any;
+  public selectMode: SkyLookupSelectMode = SkyLookupSelectMode.multiple;
 
   public ngOnInit(): void {
     this.data = [
@@ -49,19 +54,27 @@ export class SkyLookupTemplateTestComponent implements OnInit {
     ];
   }
 
-  public enableLookup() {
+  public enableLookup(): void {
     this.disabled = false;
   }
 
-  public disableLookup() {
+  public disableLookup(): void {
     this.disabled = true;
   }
 
-  public setRequired() {
+  public setRequired(): void {
     this.required = true;
   }
 
-  public removeRequired() {
+  public removeRequired(): void {
     this.required = false;
+  }
+
+  public setMultiSelect(): void {
+    this.selectMode = SkyLookupSelectMode.multiple;
+  }
+
+  public setSingleSelect(): void {
+    this.selectMode = SkyLookupSelectMode.single;
   }
 }

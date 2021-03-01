@@ -6,71 +6,144 @@
   class="app-screenshot"
   id="lookup-visual"
 >
-  <form [formGroup]="form" novalidate>
+  <form
+    novalidate
+    [formGroup]="friendsForm"
+  >
+      <div class="sky-form-group">
+        <label
+          class="sky-control-label"
+          id="my-friends-label"
+        >
+          Who are your friends?
+        </label>
+        <sky-lookup
+          ariaLabelledBy="my-friends-label"
+          formControlName="friends"
+          idProperty="id"
+          placeholderText="Type a person's name..."
+          [data]="people"
+          [debounceTime]="1000"
+        >
+        </sky-lookup>
+      </div>
 
-    <div class="sky-form-group">
-      <label
-        id="my-friends-label"
-        class="sky-control-label">
-        Who are your friends?
-      </label>
-      <sky-lookup
-        ariaLabelledBy="my-friends-label"
-        formControlName="friends"
-        idProperty="id"
-        placeholderText="Type a person's name..."
-        [data]="people"
-        [debounceTime]="1000"
-      >
-      </sky-lookup>
-    </div>
+      <p>
+        <button
+          class="sky-btn sky-btn-default"
+          id="btn-disable-lookup"
+          type="button"
+          (click)="disableLookup()"
+        >
+          Disable lookup
+        </button>
+      </p>
 
-    <p>
-      <button
-        id="btn-disable-lookup"
-        type="button"
-        class="sky-btn sky-btn-default"
-        (click)="disableLookup()">
-        Disable lookup
-      </button>
-    </p>
-
-    <sky-input-box>
-      <label
-        class="sky-control-label"
+      <sky-input-box
+        class="sky-margin-stacked-lg"
       >
-        Who are your friends?
-      </label>
-      <sky-lookup
-        ariaLabelledBy="my-friends-label"
-        formControlName="friends2"
-        idProperty="id"
-        placeholderText="Type a person's name..."
-        [data]="people"
-        [debounceTime]="1000"
-      >
-      </sky-lookup>
-    </sky-input-box>
+        <label
+          class="sky-control-label"
+          skyId
+          #friendsInputBoxLabel="skyId"
+        >
+          Who are your friends?
+        </label>
+        <sky-lookup
+          formControlName="friends2"
+          idProperty="id"
+          placeholderText="Type a person's name..."
+          [ariaLabelledBy]="friendsInputBoxLabel.id"
+          [data]="people"
+          [debounceTime]="1000"
+        >
+        </sky-lookup>
+      </sky-input-box>
   </form>
 </div>
 
 <table>
   <tr>
     <th>Touched</th>
-    <td>{{ form.touched }}</td>
+    <td>{{ friendsForm.touched }}</td>
   </tr>
   <tr>
     <th>Pristine</th>
-    <td>{{ form.pristine }}</td>
+    <td>{{ friendsForm.pristine }}</td>
   </tr>
   <tr>
     <th>Valid</th>
-    <td>{{ form.valid }}</td>
+    <td>{{ friendsForm.valid }}</td>
   </tr>
   <tr>
     <th>Value</th>
     <td>
-      <ng-container *ngFor="let friend of form.value.friends">
+      <ng-container *ngFor="let friend of friendsForm.value.friends">
+        {{ friend.name }}
+      </ng-container>
+    </td>
+  </tr>
+</table>
+
+<div>
+  <p>
+    <button
+      class="sky-btn sky-btn-default"
+      id="btn-toggle-select-mode"
+      type="button"
+      (click)="toggleSelectMode()"
+    >
+      Toggle select mode
+    </button>
+  </p>
+
+  <div
+    class="app-screenshot"
+    id="lookup-single-visual"
+  >
+    <form
+      novalidate
+      [formGroup]="bestFriendsForm"
+    >
+      <sky-input-box
+        class="sky-margin-stacked-lg"
+      >
+        <label
+          class="sky-control-label"
+        >
+          Who is your best friend?
+        </label>
+        <sky-lookup
+          formControlName="bestFriend"
+          idProperty="id"
+          placeholderText="Type a person's name..."
+          [selectMode]="bestFriendSelectMode"
+          [data]="people"
+          [debounceTime]="1000"
+        >
+        </sky-lookup>
+      </sky-input-box>
+    </form>
+  </div>
+</div>
+
+<table>
+  <tr>
+    <th>Touched</th>
+    <td>{{ bestFriendsForm.touched }}</td>
+  </tr>
+  <tr>
+    <th>Pristine</th>
+    <td>{{ bestFriendsForm.pristine }}</td>
+  </tr>
+  <tr>
+    <th>Valid</th>
+    <td>{{ bestFriendsForm.valid }}</td>
+  </tr>
+  <tr>
+    <th>Value</th>
+    <td>
+      <ng-container *ngFor="let friend of bestFriendsForm.value.bestFriend">
         {{ friend.name }}
       </ng-container>
     </td>

@@ -14,12 +14,17 @@ import {
   SkyThemeSettings
 } from '@skyux/theme';
 
+import {
+  SkyLookupSelectMode
+} from '../../public/public_api';
+
 @Component({
   selector: 'lookup-visual',
   templateUrl: './lookup-visual.component.html'
 })
 export class LookupVisualComponent implements OnInit {
-  public form: FormGroup;
+  public friendsForm: FormGroup;
+  public bestFriendsForm: FormGroup;
 
   public people: any[] = [
     { id: 1, name: 'Andy' },
@@ -54,31 +59,46 @@ export class LookupVisualComponent implements OnInit {
     { id: 21, name: 'Zack' }
   ];
 
+  public bestFriend: any[] = [
+    { id: 16, name: 'Susan' }
+  ];
+
+  public bestFriendSelectMode: SkyLookupSelectMode = SkyLookupSelectMode.single;
+
   constructor(
     private formBuilder: FormBuilder,
     private themeSvc: SkyThemeService
   ) { }
 
   public ngOnInit(): void {
-    this.createForm();
+    this.createForms();
   }
 
-  public enableLookup() {
-    this.form.controls.friends.enable();
+  public enableLookup(): void {
+    this.friendsForm.controls.friends.enable();
   }
 
-  public disableLookup() {
-    this.form.controls.friends.disable();
+  public disableLookup(): void {
+    this.friendsForm.controls.friends.disable();
+  }
+
+  public toggleSelectMode(): void {
+    this.bestFriendSelectMode = this.bestFriendSelectMode === SkyLookupSelectMode.single ?
+      SkyLookupSelectMode.multiple : SkyLookupSelectMode.single;
   }
 
   public themeSettingsChange(themeSettings: SkyThemeSettings): void {
     this.themeSvc.setTheme(themeSettings);
   }
 
-  private createForm(): void {
-    this.form = this.formBuilder.group({
+  private createForms(): void {
+    this.friendsForm = this.formBuilder.group({
       friends: new FormControl(this.friends),
       friends2: new FormControl(this.friends2)
+    });
+
+    this.bestFriendsForm = this.formBuilder.group({
+      bestFriend: new FormControl(this.bestFriend)
     });
   }
 }

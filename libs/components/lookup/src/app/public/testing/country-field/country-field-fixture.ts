@@ -128,6 +128,7 @@ export class SkyCountryFieldFixture {
     inputElement.value = newValue;
 
     SkyAppTestUtility.fireDomEvent(inputElement, 'keyup');
+    SkyAppTestUtility.fireDomEvent(inputElement, 'input');
     fixture.detectChanges();
     return fixture.whenStable();
   }

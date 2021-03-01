@@ -93,8 +93,6 @@ describe('Autocomplete component', () => {
     let fixture: ComponentFixture<SkyAutocompleteFixtureComponent>;
     let component: SkyAutocompleteFixtureComponent;
     let autocomplete: SkyAutocompleteComponent;
-    let input: SkyAutocompleteInputDirective;
-    let inputElement: HTMLInputElement;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -106,8 +104,6 @@ describe('Autocomplete component', () => {
       fixture = TestBed.createComponent(SkyAutocompleteFixtureComponent);
       component = fixture.componentInstance;
       autocomplete = component.autocomplete;
-      input = component.autocompleteInput;
-      inputElement = getInputElement();
     });
 
     afterEach(() => {
@@ -118,6 +114,8 @@ describe('Autocomplete component', () => {
       expect(autocomplete.data).toEqual([]);
 
       fixture.detectChanges();
+
+      const inputElement: HTMLInputElement = getInputElement();
 
       expect(inputElement.getAttribute('autocomplete')).toEqual('off');
       expect(inputElement.getAttribute('autocapitalize')).toEqual('none');
@@ -141,6 +139,8 @@ describe('Autocomplete component', () => {
 
       fixture.detectChanges();
 
+      const inputElement: HTMLInputElement = getInputElement();
+
       expect(inputElement.getAttribute('autocomplete')).toEqual('new-custom-field');
     });
 
@@ -152,13 +152,14 @@ describe('Autocomplete component', () => {
       tick();
       fixture.detectChanges();
 
+      const input: SkyAutocompleteInputDirective = component.autocompleteInput;
+
       expect(component.myForm.value.favoriteColor).toEqual(selectedValue);
       expect(input.value).toEqual(selectedValue);
     }));
 
     it('should search', fakeAsync(() => {
       fixture.detectChanges();
-
       const spy = spyOn(autocomplete, 'search').and.callThrough();
 
       enterSearch('r', fixture);
@@ -198,8 +199,6 @@ describe('Autocomplete component', () => {
       fixture = TestBed.createComponent(SkyAutocompleteFixtureComponent);
       component = fixture.componentInstance;
       autocomplete = fixture.componentInstance.autocomplete;
-      input = component.autocompleteInput;
-      inputElement = getInputElement();
 
       fixture.componentInstance.searchFilters = [
         (searchText: string, item: any): boolean => {
@@ -347,6 +346,8 @@ describe('Autocomplete component', () => {
       tick();
       fixture.detectChanges();
 
+      const inputElement: HTMLInputElement = getInputElement();
+
       const spy = spyOn(autocomplete, 'search').and.callThrough();
 
       enterSearch('r', fixture);
@@ -356,12 +357,22 @@ describe('Autocomplete component', () => {
       expect(spy).not.toHaveBeenCalled();
     }));
 
-    it('should handle missing skyAutocomplete directive', fakeAsync(() => {
-      fixture.detectChanges();
-      component.autocomplete['inputDirective'] = undefined;
-      tick();
+    it('should handle missing skyAutocomplete directive on load', fakeAsync(() => {
+      component.hideInput = true;
 
       try {
+        fixture.detectChanges();
+      } catch (e) {
+        expect(e.message.indexOf('The SkyAutocompleteComponent requires a ContentChild input') > -1).toEqual(true);
+      }
+    }));
+
+    it('should handle missing skyAutocomplete directive on change', fakeAsync(() => {
+      fixture.detectChanges();
+
+      try {
+        component.autocomplete['inputDirective'] = undefined;
+        tick();
         autocomplete.ngAfterContentInit();
       } catch (e) {
         expect(e.message.indexOf('The SkyAutocompleteComponent requires a ContentChild input') > -1).toEqual(true);
@@ -412,6 +423,8 @@ describe('Autocomplete component', () => {
       component.debounceTime = 400;
       fixture.detectChanges();
 
+      const inputElement: HTMLInputElement = getInputElement();
+
       const spy = spyOn(autocomplete, 'search').and.callThrough();
 
       inputElement.value = 'r';
@@ -443,7 +456,6 @@ describe('Autocomplete component', () => {
 
     it('should show the dropdown when the form controls value changes', fakeAsync(() => {
       fixture.detectChanges();
-      inputElement = getInputElement();
 
       // Type 'r' to activate the autocomplete dropdown.
       enterSearch('r', fixture);
@@ -454,7 +466,8 @@ describe('Autocomplete component', () => {
 
     it('should not show the dropdown when tab is pressed on the form control', fakeAsync(() => {
       fixture.detectChanges();
-      inputElement = getInputElement();
+
+      const inputElement: HTMLInputElement = getInputElement();
 
       // Type 'r' to activate the autocomplete dropdown.
       inputElement.value = 'r';
@@ -470,7 +483,6 @@ describe('Autocomplete component', () => {
     it('should emit an undefined value when text input is cleared',
       fakeAsync(() => {
         fixture.detectChanges();
-        inputElement = getInputElement();
 
         // No changes should have been emitted yet.
         expect(component.selectionFromChangeEvent).toBeUndefined();
@@ -502,6 +514,9 @@ describe('Autocomplete component', () => {
       };
 
       fixture.detectChanges();
+
+      const inputElement: HTMLInputElement = getInputElement();
+
       fixture.whenStable().then(() => {
         expect(document.body).toBeAccessible(() => {
           fixture.detectChanges();
@@ -577,6 +592,9 @@ describe('Autocomplete component', () => {
       it('should notify selection when enter key pressed', fakeAsync(() => {
         fixture.detectChanges();
 
+        const input: SkyAutocompleteInputDirective = component.autocompleteInput;
+        const inputElement: HTMLInputElement = getInputElement();
+
         inputElement.value = 'r';
         SkyAppTestUtility.fireDomEvent(inputElement, 'input', {
           keyboardEventInit: { key: 'R' }
@@ -600,6 +618,9 @@ describe('Autocomplete component', () => {
       it('should notify selection when tab key pressed', fakeAsync(() => {
         fixture.detectChanges();
 
+        const input: SkyAutocompleteInputDirective = component.autocompleteInput;
+        const inputElement: HTMLInputElement = getInputElement();
+
         enterSearch('r', fixture);
 
         const notifySpy = spyOn(autocomplete.selectionChange, 'emit')
@@ -618,6 +639,8 @@ describe('Autocomplete component', () => {
 
       it('should navigate items with arrow keys', fakeAsync(() => {
         fixture.detectChanges();
+
+        const inputElement: HTMLInputElement = getInputElement();
 
         enterSearch('r', fixture);
         expect(getSearchResultItems().item(0)).toHaveCssClass('selected');
@@ -661,6 +684,8 @@ describe('Autocomplete component', () => {
       it('should close the menu when escape key pressed', fakeAsync(() => {
         fixture.detectChanges();
 
+        const inputElement: HTMLInputElement = getInputElement();
+
         enterSearch('r', fixture);
 
         SkyAppTestUtility.fireDomEvent(inputElement, 'keydown', {
@@ -676,6 +701,9 @@ describe('Autocomplete component', () => {
       it('should reset input text value to descriptor value on blur',
         fakeAsync(() => {
           fixture.detectChanges();
+
+          const input: SkyAutocompleteInputDirective = component.autocompleteInput;
+          const inputElement: HTMLInputElement = getInputElement();
 
           const selectedValue = { name: 'Red' };
           component.model.favoriteColor = selectedValue;
@@ -700,6 +728,9 @@ describe('Autocomplete component', () => {
       it('should not reset input text value if unchanged', fakeAsync(() => {
         fixture.detectChanges();
 
+        const input: SkyAutocompleteInputDirective = component.autocompleteInput;
+        const inputElement: HTMLInputElement = getInputElement();
+
         const selectedValue = { name: 'Red' };
         component.model.favoriteColor = selectedValue;
 
@@ -722,6 +753,9 @@ describe('Autocomplete component', () => {
       it('should clear the input selected value if text value empty on blur',
         fakeAsync(() => {
           fixture.detectChanges();
+
+          const input: SkyAutocompleteInputDirective = component.autocompleteInput;
+          const inputElement: HTMLInputElement = getInputElement();
 
           const selectedValue = { name: 'Red' };
           component.model.favoriteColor = selectedValue;
@@ -748,6 +782,9 @@ describe('Autocomplete component', () => {
         fakeAsync(() => {
           fixture.detectChanges();
 
+          const input: SkyAutocompleteInputDirective = component.autocompleteInput;
+          const inputElement: HTMLInputElement = getInputElement();
+
           const selectedValue: { name: string } = undefined;
           component.model.favoriteColor = selectedValue;
 
@@ -768,6 +805,8 @@ describe('Autocomplete component', () => {
     describe('mouse interactions', () => {
       it('should notify selection change on item click', fakeAsync(() => {
         fixture.detectChanges();
+
+        const input: SkyAutocompleteInputDirective = component.autocompleteInput;
 
         enterSearch('r', fixture);
 
@@ -812,6 +851,8 @@ describe('Autocomplete component', () => {
       it('should mark the control as touched on blur', fakeAsync(function () {
         fixture.detectChanges();
         tick();
+
+        const inputElement: HTMLInputElement = getInputElement();
 
         blurInput(inputElement, fixture);
 

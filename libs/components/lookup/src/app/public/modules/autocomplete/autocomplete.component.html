@@ -16,29 +16,40 @@
   #resultsTemplateRef
 >
   <div
-    class="sky-autocomplete-results sky-shadow"
-    role="listbox"
-    [attr.aria-labelledby]="ariaLabelledBy"
-    [attr.id]="resultsListId"
-    #resultsRef
+    class="sky-autocomplete-results-container"
+    [ngClass]="{
+      'sky-theme-modern' : themeName === 'modern'
+    }"
   >
-    <div *ngFor="let result of searchResults; let i = index"
-      class="sky-autocomplete-result"
-      role="option"
-      [attr.aria-selected]="isResultFocused(i)"
-      [attr.id]="result.elementId"
-      [class.selected]="isResultFocused(i)"
-      [skyHighlight]="highlightText"
-      (mousedown)="onResultMouseDown(i)"
+    <div
+      class="sky-autocomplete-results"
+      role="listbox"
+      [attr.aria-labelledby]="ariaLabelledBy"
+      [attr.id]="resultsListId"
+      [ngClass]="{
+        'sky-shadow' : themeName === 'default',
+        'sky-elevation-4' : themeName === 'modern'
+      }"
+      #resultsRef
     >
-      <ng-container
-        *ngTemplateOutlet="searchResultTemplate; context: { item: result.data }">
-      </ng-container>
-    </div>
-    <div *ngIf="searchResults.length === 0"
-      class="sky-deemphasized sky-padding-squish-default"
-    >
-      {{ noResultsFoundText || ('skyux_autocomplete_no_results' | skyLibResources) }}
+      <div *ngFor="let result of searchResults; let i = index"
+        class="sky-autocomplete-result"
+        role="option"
+        [attr.aria-selected]="isResultFocused(i)"
+        [attr.id]="result.elementId"
+        [class.selected]="isResultFocused(i)"
+        [skyHighlight]="highlightText"
+        (mousedown)="onResultMouseDown(i)"
+      >
+        <ng-container
+          *ngTemplateOutlet="searchResultTemplate; context: { item: result.data }">
+        </ng-container>
+      </div>
+      <div *ngIf="searchResults.length === 0"
+        class="sky-deemphasized sky-padding-squish-default"
+      >
+        {{ noResultsFoundText || ('skyux_autocomplete_no_results' | skyLibResources) }}
+      </div>
     </div>
   </div>
 </ng-template>

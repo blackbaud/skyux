@@ -21,7 +21,7 @@
     [noResultsFoundText]="customNoResultsMessage"
     (selectionChange)="onSelectionChange($event)"
   >
-    <input
+    <input *ngIf="!hideInput"
       id="my-autocomplete-input"
       name="favoriteColor"
       skyAutocomplete
