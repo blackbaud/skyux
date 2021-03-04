@@ -6,7 +6,6 @@ import {
   async,
   ComponentFixture,
   fakeAsync,
-  inject,
   TestBed,
   tick
 } from '@angular/core/testing';
@@ -18,12 +17,6 @@ import {
 import {
   By
 } from '@angular/platform-browser';
-
-import {
-  ActivatedRoute,
-  NavigationExtras,
-  Router
-} from '@angular/router';
 
 import {
   BehaviorSubject
@@ -920,11 +913,14 @@ describe('Tabset component', () => {
       let fixture = TestBed.createComponent(TabsetActiveTestComponent);
       let el = fixture.nativeElement;
 
+      // Set to something other than first tab.
+      fixture.componentInstance.activeIndex = 1;
+
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
       tick();
-      validateTabSelected(el, 0);
+      validateTabSelected(el, 1);
 
     }));
 
@@ -1370,36 +1366,22 @@ describe('Tabset component', () => {
   describe('Permalinks', () => {
     let fixture: ComponentFixture<SkyTabsetPermalinksFixtureComponent>;
     let location: Location;
-    let router: Router;
-    let createUrlTreeSpy: jasmine.Spy;
 
     beforeEach(() => {
+      location = TestBed.inject(Location);
       fixture = TestBed.createComponent(SkyTabsetPermalinksFixtureComponent);
     });
 
-    beforeEach(inject(
-      [Location, Router, ActivatedRoute],
-      (_location: Location, _router: Router) => {
-        location = _location;
-        router = _router;
-
-        createUrlTreeSpy = spyOn(router as any, 'createUrlTree').and
-          .callFake((commands: any[], extras: NavigationExtras) => {
-            const params = Object.keys(extras.queryParams)
-              .map(k => `${k}=${extras.queryParams[k]}`)
-              .join('&');
-            return `?${params}`;
-          });
-      }
-    ));
-
     afterEach(() => {
+      const spy = spyOn(location, 'go');
       fixture.destroy();
-      expect(createUrlTreeSpy.calls.mostRecent().args[1].queryParams['foobar-active-tab'])
-        .toBeUndefined('The permalink param should be cleared when the tabset is destroyed.');
+      expect(spy.calls.mostRecent().args[0].indexOf('?foobar-active-tab')).toBe(
+        -1,
+        'The permalink param should be cleared when the tabset is destroyed.'
+      );
     });
 
-    it('should activate a tab based on a query param', fakeAsync(() => {
+    it('should activate a tab based on a query param on init', fakeAsync(() => {
       fixture.componentInstance.activeIndex = 0;
       fixture.componentInstance.permalinkId = 'foobar';
       spyOn(location, 'path').and.returnValue('?foobar-active-tab=design-guidelines');
@@ -1510,7 +1492,7 @@ describe('Tabset component', () => {
       tick();
 
       expect(location.path()).toEqual(
-        '/?foobar-active-tab=片仮名'
+        `/?foobar-active-tab=${encodeURIComponent('片仮名')}`
       );
     }));
 
@@ -1570,17 +1552,42 @@ describe('Tabset component', () => {
       fixture.detectChanges();
       tick();
 
-      const actualNavigationExtras = createUrlTreeSpy.calls.argsFor(0)[1];
-      expect(actualNavigationExtras.queryParams).toEqual(
-        jasmine.objectContaining({
-          bar: 'baz'
-        }),
+      expect(location.path()).toBe(
+        '?foobar-active-tab=design-guidelines&bar=baz',
         'Existing query params should be unaffected.'
       );
-      expect(actualNavigationExtras.queryParamsHandling).toEqual(
-        'merge',
-        'The router was not called with `queryParamsHandling: \'merge\'`!'
-      );
+    }));
+
+    it('should activate tabs when popstate changes', fakeAsync(() => {
+      fixture.componentInstance.activeIndex = 0;
+      fixture.componentInstance.permalinkId = 'foobar';
+
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      validateTabSelected(fixture.nativeElement, 0);
+
+      const tabButtons = fixture.nativeElement.querySelectorAll('.sky-btn-tab');
+      tabButtons[1].click();
+
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      validateTabSelected(fixture.nativeElement, 1);
+
+      // Trigger "back" button in browser.
+      location.back();
+
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      validateTabSelected(fixture.nativeElement, 0);
     }));
   });
 });
