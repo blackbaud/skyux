@@ -22,11 +22,23 @@ import {
 })
 export class AdapterServiceFixtureComponent {
 
+  @ViewChild('getWidthContainer', {
+    read: ElementRef,
+    static: false
+  })
+  public getWidthContainer: ElementRef;
+
   @ViewChild('paragraphContainer', {
     read: ElementRef,
     static: false
   })
   public paragraphContainer: ElementRef;
+
+  @ViewChild('syncHeightContainer', {
+    read: ElementRef,
+    static: false
+  })
+  public syncHeightContainer: ElementRef;
 
   constructor(
     private adapterService: SkyCoreAdapterService
@@ -54,6 +66,18 @@ export class AdapterServiceFixtureComponent {
 
   public getFocusableChildren(element: HTMLElement, options?: SkyFocusableChildrenOptions): any[] {
     return this.adapterService.getFocusableChildren(element, options);
+  }
+
+  public getWidth(): number {
+    return this.adapterService.getWidth(this.getWidthContainer);
+  }
+
+  public resetHeight(): void {
+    this.adapterService.resetHeight(this.syncHeightContainer, 'div');
+  }
+
+  public syncHeight(): void {
+    this.adapterService.syncMaxHeight(this.syncHeightContainer, 'div');
   }
 
   public setParagraphContainerClass(breakpoint: SkyMediaBreakpoints): void {

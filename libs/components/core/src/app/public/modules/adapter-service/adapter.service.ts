@@ -162,6 +162,14 @@ export class SkyCoreAdapterService {
   }
 
   /**
+   * Returns the clientWidth of the provided elementRef.
+   * @param elementRef - The element to calculate width from.
+   */
+  public getWidth(elementRef: ElementRef): number {
+    return elementRef.nativeElement.clientWidth;
+  }
+
+  /**
    * Checks if an event target has a higher z-index than a given element.
    * @param target The event target element.
    * @param element The element to test against. A z-index must be explicitly set for this element.
@@ -189,6 +197,40 @@ export class SkyCoreAdapterService {
     }
 
     return false;
+  }
+
+  /**
+   * Remove inline height styles from the provided elements.
+   * @param elementRef - The element to search within.
+   * @param selector - The CSS selector to use when finding elements for removing height.
+   */
+  public resetHeight(elementRef: ElementRef, selector: string): void {
+    const children = elementRef.nativeElement.querySelectorAll(selector);
+    if (children.length > 0) {
+      for (let i = 0; i < children.length; i++) {
+        // Setting style attributes with Web API requires null instead of undefined.
+        // tslint:disable-next-line: no-null-keyword
+        children[i].style.height = null;
+      }
+    }
+  }
+
+  /**
+   * Sets all element heights to match the height of the tallest element.
+   * @param elementRef - The element to search within.
+   * @param selector - The CSS selector to use when finding elements for syncing height.
+   */
+  public syncMaxHeight(elementRef: ElementRef, selector: string): void {
+    const children = elementRef.nativeElement.querySelectorAll(selector);
+    if (children.length > 0) {
+      let maxHeight = 0;
+      for (let i = 0; i < children.length; i++) {
+        maxHeight = Math.max(maxHeight, children[i].offsetHeight);
+      }
+      for (let i = 0; i < children.length; i++) {
+        children[i].style.height = maxHeight + 'px';
+      }
+    }
   }
 
   private focusFirstElement(list: Array<HTMLElement>): boolean {

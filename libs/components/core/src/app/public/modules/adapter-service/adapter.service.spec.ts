@@ -196,6 +196,62 @@ describe('Core adapter service', () => {
     });
   });
 
+  describe('getWidth', () => {
+    it('should return the width of an element', () => {
+      fixture.detectChanges();
+      const width = component.getWidth();
+      expect(width).toEqual(300);
+    });
+  });
+
+  describe('height functions', () => {
+    let childrenArray: Array<HTMLElement>;
+
+    beforeEach(() => {
+      fixture.detectChanges();
+      const children = document.querySelectorAll('#height-sync-container div');
+      childrenArray = Array.prototype.slice.call(children) as Array<HTMLElement>;
+    });
+
+    //#region helpers
+    function heightsSynced(children: HTMLElement[]): boolean {
+      let height = children[0].clientHeight;
+      return children.every(element => {
+        return element.clientHeight === height;
+      });
+    }
+    //#endregion
+
+    it('syncHeight should sync height for a group of children elements', () => {
+      // Children should not have the same height to begin with,
+      // as some elements have more text than others.
+      expect(heightsSynced(childrenArray)).toEqual(false);
+
+      component.syncHeight();
+
+      // Expect all heights to now match, and height attributes to be set.
+      expect(heightsSynced(childrenArray)).toEqual(true);
+      for (let index = 0; index < childrenArray.length; index++) {
+        const element = childrenArray[index];
+        expect(element.getAttribute('style')).toContain('height');
+      }
+    });
+
+    it('resetHeight should reset height for a group of children elements', () => {
+      component.syncHeight();
+      component.resetHeight();
+
+      // Expect all heights to no longer be equal, and all inline height attributes to be removed.
+      expect(heightsSynced(childrenArray)).toEqual(false);
+      for (let index = 0; index < childrenArray.length; index++) {
+        const element = childrenArray[index];
+        // IE11 will result in 'height:;'. Remove that before running expectation.
+        const heightAttribute = element.getAttribute('style').replace('height:;', '');
+        expect(heightAttribute).toBe('');
+      }
+    });
+  });
+
   describe('isTargetAboveElement', () => {
     let adapter: SkyCoreAdapterService;
     let container: HTMLDivElement;
@@ -271,4 +327,5 @@ describe('Core adapter service', () => {
       expect(result).toEqual(false);
     });
   });
+
 });
