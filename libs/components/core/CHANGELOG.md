@@ -1,3 +1,7 @@
+# 4.4.0 (2021-03-04)
+
+- Added the `getWidth`, `syncMaxHeight`, and `resetHeight` methods to the `SkyCoreAdapterService`. [#213](https://github.com/blackbaud/skyux-core/pull/213)
+
 # 4.3.3 (2021-02-05)
 
 - Fixed the overlay component to avoid additional errors when overlays are quickly created and destroyed. [#211](https://github.com/blackbaud/skyux-core/pull/211)
