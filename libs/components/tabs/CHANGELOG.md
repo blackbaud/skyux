@@ -1,3 +1,7 @@
+# 4.6.1 (2021-03-04)
+
+- Fixed the tabset component to retain the selected tab (when using `permalinkId`) after the page has been reloaded. [#156](https://github.com/blackbaud/skyux-tabs/pull/156)
+
 # 4.6.0 (2021-02-26)
 
 - Added responsive container classes to the vertical tab component to allow child components to use the correct responsive styles. [#154](https://github.com/blackbaud/skyux-tabs/pull/154)
