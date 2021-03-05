@@ -1,3 +1,7 @@
+# 4.6.2 (2021-03-05)
+
+- Fixed the tabset component to fire the `activeChange` event when the component is initialized. [#157](https://github.com/blackbaud/skyux-tabs/pull/157)
+
 # 4.6.1 (2021-03-04)
 
 - Fixed the tabset component to retain the selected tab (when using `permalinkId`) after the page has been reloaded. [#156](https://github.com/blackbaud/skyux-tabs/pull/156)
