@@ -1130,7 +1130,8 @@ describe('Tabset component', () => {
       fixture.detectChanges();
       tick();
       validateTabSelected(fixture.nativeElement, 1);
-      expect(activeSpy).toHaveBeenCalledTimes(0);
+      expect(activeSpy).toHaveBeenCalledWith('1');
+      expect(activeSpy).toHaveBeenCalledTimes(1);
 
       component.activeTab = '0';
       fixture.detectChanges();
@@ -1140,7 +1141,7 @@ describe('Tabset component', () => {
       validateTabSelected(fixture.nativeElement, 0);
 
       expect(activeSpy).toHaveBeenCalledWith('0');
-      expect(activeSpy).toHaveBeenCalledTimes(1);
+      expect(activeSpy).toHaveBeenCalledTimes(2);
     }));
 
     it('should handle removing all tabs after init', fakeAsync(() => {

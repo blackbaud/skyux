@@ -533,14 +533,10 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
 
     this.changeDetector.markForCheck();
 
-    if (this.lastActiveTabIndex === undefined) {
+    // Emit the new active index value to consumers.
+    if (this.lastActiveTabIndex !== activeIndex) {
       this.lastActiveTabIndex = activeIndex;
-    } else {
-      // Emit the new active index value to consumers.
-      if (this.lastActiveTabIndex !== activeIndex) {
-        this.lastActiveTabIndex = activeIndex;
-        this.activeChange.emit(activeIndex);
-      }
+      this.activeChange.emit(activeIndex);
     }
   }
 }
