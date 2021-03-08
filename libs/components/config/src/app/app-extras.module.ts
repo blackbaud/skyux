@@ -3,31 +3,28 @@ import {
 } from '@angular/core';
 
 import {
-  SkyAppParamsConfig
+  SkyAppConfigModule
 } from './public/public_api';
 
 /**
- * Demonstrates how to provide params configuration from a consumer's application.
+ * Demonstrates how to provide params/host configuration from a consumer's application.
+ * NOTE: This is handled automatically by `@skyux-sdk/builder`.
  */
-function paramsConfigFactory(): SkyAppParamsConfig {
-  return new SkyAppParamsConfig({
-    params: {
-      envid: {
-        required: true
-      },
-      svcid: {
-        value: 'tcs'
-      }
-    }
-  });
-}
-
 @NgModule({
-  providers: [
-    {
-      provide: SkyAppParamsConfig,
-      useFactory: paramsConfigFactory
-    }
+  imports: [
+    SkyAppConfigModule.forRoot({
+      params: {
+        envid: {
+          required: true
+        },
+        svcid: {
+          value: 'tcs'
+        }
+      },
+      host: {
+        url: 'https://localhost:5243/'
+      }
+    })
   ]
 })
 export class AppExtrasModule { }

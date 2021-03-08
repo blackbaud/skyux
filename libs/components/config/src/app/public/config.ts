@@ -94,6 +94,9 @@ export interface SkyuxConfigHostFrameOptionsOthers {
   urls?: string[];
 }
 
+/**
+ * Blackbaud Only - Specifies configuration options for communication with SKY UX Host.
+ */
 export interface SkyuxConfigHost {
   bbCheckout?: SkyuxConfigHostBBCheckout;
   frameOptions?: SkyuxConfigHostFrameOptionsNone | SkyuxConfigHostFrameOptionsOthers;

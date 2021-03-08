@@ -3,6 +3,7 @@ import {
 } from '@angular/core';
 
 import {
+  SkyAppConfigHost,
   SkyAppRuntimeConfigParamsProvider
 } from './public/public_api';
 
@@ -13,9 +14,11 @@ import {
 export class HomeComponent {
 
   constructor(
+    hostConfig: SkyAppConfigHost,
     paramsProvider: SkyAppRuntimeConfigParamsProvider
   ) {
-    console.log('Runtime params:', paramsProvider.params);
+    console.log('Runtime params:', paramsProvider.params.getAll(true));
+    console.log('Host config:', hostConfig.host);
   }
 
 }
