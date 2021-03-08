@@ -1,3 +1,7 @@
+# 4.3.0 (2021-03-08)
+
+- Added the `SkyAppConfigModule` module to provide `host` and `params` values to the `SkyAppConfigHost` and `SkyAppParamsConfig` providers. [#73](https://github.com/blackbaud/skyux-config/pull/73)
+
 # 4.2.0 (2020-11-20)
 
 - Added the `SkyAppRuntimeConfigParamsProvider` to allow consuming applications to access `SkyAppRuntimeConfigParams` in their components and services. [#72](https://github.com/blackbaud/skyux-config/pull/72)
