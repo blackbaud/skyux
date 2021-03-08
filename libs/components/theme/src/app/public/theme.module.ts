@@ -11,19 +11,31 @@ import {
 } from './viewport.service';
 
 import {
+  SkyThemeClassDirective
+} from './theming/theme-class.directive';
+
+import {
   SkyThemeDirective
 } from './theming/theme.directive';
 
+import {
+  SkyThemeIfDirective
+} from './theming/theme-if.directive';
+
 @NgModule({
   declarations: [
-    SkyThemeDirective
+    SkyThemeClassDirective,
+    SkyThemeDirective,
+    SkyThemeIfDirective
   ],
   providers: [
     SkyAppStyleLoader,
     SkyAppViewportService
   ],
   exports: [
-    SkyThemeDirective
+    SkyThemeClassDirective,
+    SkyThemeDirective,
+    SkyThemeIfDirective
   ]
 })
 export class SkyThemeModule { }

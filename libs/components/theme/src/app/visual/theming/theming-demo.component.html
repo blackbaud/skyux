@@ -6,6 +6,7 @@
   </select>
   <select id="sectionSelector" [(ngModel)]="section">
     <option value="box-elevation">Box/Elevation</option>
+    <option value="conditional">Conditional elements</option>
     <option value="headers">Headers</option>
     <option value="margin">Margin</option>
     <option value="padding">Padding</option>
@@ -23,6 +24,15 @@
     <div class="elevation-test sky-box sky-elevation-8">Elevation 8</div>
     <div class="elevation-test sky-box sky-elevation-16">Elevation 16</div>
     <div class="elevation-test sky-box sky-elevation-24">Elevation 24</div>
+  </ng-container>
+
+  <ng-container *ngIf="section === 'conditional'">
+    <ng-template [skyThemeIf]="'modern'">
+      <h1>Modern Theme Element</h1>
+    </ng-template>
+    <ng-template [skyThemeIf]="'default'">
+      <h1>Default Theme Element</h1>
+    </ng-template>
   </ng-container>
 
   <ng-container *ngIf="section === 'headers'">
