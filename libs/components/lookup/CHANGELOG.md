@@ -1,3 +1,7 @@
+# 4.9.0 (2021-03-08)
+
+- Added a single select mode to the lookup component. [#155](https://github.com/blackbaud/skyux-lookup/pull/155)
+
 # 4.8.3 (2021-02-09)
 
 - Fixed the autocomplete component to no longer show the dropdown when tab or arrow keys are pressed on the form input. [#156](https://github.com/blackbaud/skyux-lookup/pull/156)
