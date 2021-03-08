@@ -1,3 +1,7 @@
+# 4.14.0 (2021-03-08)
+
+- Added the `skyThemeIf` and `skyThemeClass` directives [#204](https://github.com/blackbaud/skyux-theme/pull/204)
+
 # 4.13.2 (2020-11-11)
 
 - Fixed button padding in the modern theme. [#198](https://github.com/blackbaud/skyux-theme/pull/198)
