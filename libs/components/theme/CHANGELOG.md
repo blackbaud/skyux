@@ -1,3 +1,8 @@
+# 4.15.0 (2021-03-09)
+
+- Updated the SKY UX icon font version to 4.0.0-beta.2. [#205](https://github.com/blackbaud/skyux-theme/pull/205)
+- Added `SkyThemeIconManifestService` for retrieving metadata about the SKY UX icon font. [#205](https://github.com/blackbaud/skyux-theme/pull/205)
+
 # 4.14.0 (2021-03-08)
 
 - Added the `skyThemeIf` and `skyThemeClass` directives. [#204](https://github.com/blackbaud/skyux-theme/pull/204)
