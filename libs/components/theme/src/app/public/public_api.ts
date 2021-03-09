@@ -1,3 +1,6 @@
+export * from './icons/icon-manifest';
+export * from './icons/icon-manifest-glyph';
+export * from './icons/icon-manifest.service';
 export * from './style-loader';
 export * from './theme.module';
 export * from './theming/theme';
