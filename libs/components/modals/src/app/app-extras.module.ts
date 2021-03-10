@@ -68,8 +68,6 @@ import {
   ModalFormDemoComponent
 } from './visual/modal/modal-form-demo.component';
 
-require('style-loader!./visual.scss');
-
 @NgModule({
   exports: [
     SkyAppLinkModule,
