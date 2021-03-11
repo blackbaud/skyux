@@ -2,7 +2,7 @@
   class="sky-vertical-tab"
   [attr.aria-controls]="ariaControls"
   [attr.aria-invalid]="ariaInvalid"
-  [attr.aria-required]="ariaRequired"
+  [attr.aria-required]="ariaRequired ? ariaRequired : null"
   [attr.aria-selected]="active"
   [attr.id]="tabId"
   [attr.role]="ariaRole"

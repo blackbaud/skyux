@@ -217,6 +217,7 @@ describe('Vertical tabset component', () => {
   it('should pass through aria inputs, id, and set role', () => {
     mockQueryService.fire(SkyMediaBreakpoints.lg);
     let fixture = createTestComponent();
+    fixture.componentInstance.tab1Required = true;
     let el = fixture.nativeElement as HTMLElement;
 
     fixture.detectChanges();
@@ -549,6 +550,7 @@ describe('Vertical tabset component', () => {
     let fixture = createTestComponent();
     fixture.detectChanges();
     fixture.whenStable().then(() => {
+      fixture.detectChanges();
       expect(fixture.nativeElement).toBeAccessible();
     });
   }));
@@ -620,6 +622,7 @@ describe('Vertical tabset component', () => {
 
     const activeTab = fixture.componentInstance.verticalTabs.find(tab => tab.active);
     fixture.detectChanges();
+    await fixture.whenStable();
 
     const tabContentPane: HTMLElement = activeTab.tabContent.nativeElement;
     expect(mediaQuerySpy).toHaveBeenCalledWith(640);
@@ -633,6 +636,8 @@ describe('Vertical tabset component', () => {
 
     const activeTab = fixture.componentInstance.verticalTabs.find(tab => tab.active);
     fixture.detectChanges();
+    await fixture.whenStable();
+
     let tabContentPane: HTMLElement = activeTab.tabContent.nativeElement;
 
     expect(tabContentPane.classList.contains('sky-responsive-container-lg')).toBeTruthy();
@@ -647,7 +652,7 @@ describe('Vertical tabset component', () => {
     expect(tabContentPane.classList.contains('sky-responsive-container-md')).toBeTruthy();
   });
 
-  it('should add the appropriate responsive container upon a tab being activated', () => {
+  it('should add the appropriate responsive container upon a tab being activated', async () => {
     let fixture = createTestComponent();
     fixture.detectChanges();
     let el = fixture.nativeElement;
@@ -656,12 +661,14 @@ describe('Vertical tabset component', () => {
     const mediaQuerySpy = spyOn(SkyVerticalTabMediaQueryService.prototype, 'setBreakpointForWidth').and.callThrough();
 
     fixture.detectChanges();
+    await fixture.whenStable();
 
     // open second group
     const groups = el.querySelectorAll('.sky-vertical-tabset-group-header');
     groups[1].click();
 
     fixture.detectChanges();
+    await fixture.whenStable();
 
     // open first tab in second group
     const tabs = el.querySelectorAll('.sky-vertical-tab');
@@ -670,6 +677,8 @@ describe('Vertical tabset component', () => {
 
     const activeTab = fixture.componentInstance.verticalTabs.find(tab => tab.active);
     fixture.detectChanges();
+    await fixture.whenStable();
+
     let tabContentPane: HTMLElement = activeTab.tabContent.nativeElement;
 
     expect(mediaQuerySpy).toHaveBeenCalledWith(800);

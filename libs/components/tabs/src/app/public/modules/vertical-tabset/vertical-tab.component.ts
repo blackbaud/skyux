@@ -137,7 +137,10 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
     this._contentRendered = value;
 
     if (this._contentRendered) {
-      this.updateBreakpointAndResponsiveClass(this.adapterService.getWidth(this.tabContent));
+      // NOTE: Wrapped in a setTimeout here to ensure that everything has completed rendering.
+      setTimeout(() => {
+        this.updateBreakpointAndResponsiveClass(this.adapterService.getWidth(this.tabContent));
+      });
     }
   }
 
