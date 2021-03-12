@@ -1,3 +1,7 @@
+# 4.6.3 (2021-03-12)
+
+- Fixed the vertical tab component to ensure all content is rendered prior to responsive styles being added. [#158](https://github.com/blackbaud/skyux-tabs/pull/158)
+
 # 4.6.2 (2021-03-05)
 
 - Fixed the tabset component to fire the `activeChange` event when the component is initialized. [#157](https://github.com/blackbaud/skyux-tabs/pull/157)
