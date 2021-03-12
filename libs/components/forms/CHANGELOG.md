@@ -1,3 +1,7 @@
+# 4.15.2 (2021-03-12)
+
+- Fixed the file item component so that file titles do not extend outside of the component. [#239](https://github.com/blackbaud/skyux-forms/pull/239)
+
 # 4.15.1 (2021-02-16)
 
 - Fixed the single file attachment component to utilize the correct modern theme styles. [#237](https://github.com/blackbaud/skyux-forms/pull/237)
