@@ -27,9 +27,14 @@ import {
   SkyDropdownModule
 } from '@skyux/popovers';
 
+/**
+ * To avoid duplicates of the Theme components/modules, we need to import from node_modules.
+ * To populate node_modules with any changes to Theme components/modules run `npm start`
+ * instead of `skyux serve`.
+ */
 import {
   SkyThemeModule
-} from './public/public_api';
+} from '@skyux/theme';
 
 import {
   SkyDefinitionListModule,

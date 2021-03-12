@@ -4,7 +4,7 @@ import {
 
 import {
   SkyAppStyleLoader
-} from '../../public/public_api';
+} from '@skyux/theme';
 
 @Component({
   selector: 'html-inputs-demo',
