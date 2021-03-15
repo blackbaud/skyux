@@ -1,3 +1,7 @@
+# 4.4.0 (2021-03-15)
+
+- Added the `SkyAppConfigParams` injectable to replace (the now deprecated) `SkyAppParamsConfig`. This was done to address a naming convention inconsistency. [#74](https://github.com/blackbaud/skyux-config/pull/74)
+
 # 4.3.0 (2021-03-08)
 
 - Added the `SkyAppConfigModule` module to provide `host` and `params` values to the `SkyAppConfigHost` and `SkyAppParamsConfig` providers. [#73](https://github.com/blackbaud/skyux-config/pull/73)
