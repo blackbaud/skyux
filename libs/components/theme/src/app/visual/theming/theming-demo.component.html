@@ -33,6 +33,13 @@
     <ng-template [skyThemeIf]="'default'">
       <h1>Default Theme Element</h1>
     </ng-template>
+    <sky-icon *skyThemeIf="'modern'"
+      icon="check"
+      iconType="skyux"
+    ></sky-icon>
+    <sky-icon *skyThemeIf="'default'"
+      icon="check"
+    ></sky-icon>
   </ng-container>
 
   <ng-container *ngIf="section === 'headers'">

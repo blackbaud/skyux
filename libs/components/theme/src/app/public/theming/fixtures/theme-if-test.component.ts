@@ -20,6 +20,7 @@ import {
 })
 export class SkyThemeIfTestComponent {
   public themeSettings: SkyThemeSettings;
+  public testThemeName: 'default' | 'modern' = 'default';
 
   constructor() {
     this.useDefaultTheme();

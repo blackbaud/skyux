@@ -114,6 +114,25 @@ describe('ThemeIf directive', () => {
     return testForWrappedElementShowing('wrapped in modern theme');
   });
 
+  it('should reflect input changes', async () => {
+    fixture.componentInstance.testThemeName = 'default';
+    await testForInputElementShowing('This text shown for default theme.');
+    mockThemeSvc.settingsChange.next({
+      currentSettings: modernThemeSettings,
+      previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings
+    });
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const inputTestElements = fixture.debugElement.nativeElement.querySelectorAll('.sky-theme-if-input-test');
+    expect(inputTestElements.length).toBe(0);
+
+    fixture.componentInstance.testThemeName = 'modern';
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const inputTestElementsUpdated = fixture.debugElement.nativeElement.querySelectorAll('.sky-theme-if-input-test');
+    expect(inputTestElementsUpdated.length).toBe(1);
+  });
+
   async function testForElementShowing(expected: string) {
     fixture.detectChanges();
     await fixture.whenStable();
@@ -128,5 +147,12 @@ describe('ThemeIf directive', () => {
     const elements = fixture.debugElement.nativeElement.querySelectorAll('.sky-theme-if-wrapped-test');
     expect(elements.length).toBe(1);
     expect(elements[0]).toHaveText(expected);
+  }
+
+  async function testForInputElementShowing(expected: string) {
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const element = fixture.debugElement.nativeElement.querySelector('.sky-theme-if-input-test');
+    expect(element).toHaveText(expected);
   }
 });

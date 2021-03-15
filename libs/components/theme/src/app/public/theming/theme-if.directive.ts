@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Directive,
   Input,
   OnDestroy,
@@ -55,7 +56,8 @@ export class SkyThemeIfDirective implements OnDestroy {
   constructor(
     private themeSvc: SkyThemeService,
     private templateRef: TemplateRef<any>,
-    private viewContainer: ViewContainerRef
+    private viewContainer: ViewContainerRef,
+    private changeDetector: ChangeDetectorRef
   ) {
     this.themeSvc.settingsChange
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -74,6 +76,7 @@ export class SkyThemeIfDirective implements OnDestroy {
     if (condition && !this.hasView) {
       this.viewContainer.createEmbeddedView(this.templateRef);
       this.hasView = true;
+      this.changeDetector.detectChanges();
     } else if (!condition && this.hasView) {
       this.viewContainer.clear();
       this.hasView = false;
