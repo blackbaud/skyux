@@ -1,6 +1,7 @@
 import {
   ElementRef,
-  Injectable
+  Injectable,
+  Renderer2
 } from '@angular/core';
 
 /**
@@ -10,6 +11,10 @@ import {
 export class SkyDatepickerAdapterService {
 
   private el: HTMLElement;
+
+  constructor(
+    private renderer: Renderer2
+  ) {}
 
   public init(elRef: ElementRef) {
     this.el = elRef.nativeElement;
@@ -25,5 +30,13 @@ export class SkyDatepickerAdapterService {
     const styles = this.el && getComputedStyle(this.el);
 
     return styles && styles.visibility === 'visible';
+  }
+
+  public getPlaceholder(elementRef: ElementRef): string {
+    return elementRef.nativeElement.getAttribute('placeholder');
+  }
+
+  public setPlaceholder(elementRef: ElementRef, value: string): void {
+    this.renderer.setAttribute(elementRef.nativeElement, 'placeholder', value);
   }
 }

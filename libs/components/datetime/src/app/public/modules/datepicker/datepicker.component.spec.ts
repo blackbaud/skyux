@@ -441,6 +441,30 @@ describe('datepicker', () => {
       expect(iconEl).toHaveCssClass('sky-i-calendar');
     }));
 
+    it('should show a default placeholder of the default date format', fakeAsync(() => {
+      component.selectedDate = undefined;
+      detectChanges(fixture);
+
+      expect(getInputElement(fixture).getAttribute('placeholder')).toEqual('MM/DD/YYYY');
+    }));
+
+    it('should show a placeholder of the consumer provided date format', fakeAsync(() => {
+      component.selectedDate = undefined;
+      component.dateFormat = 'DD/MM/YY';
+      detectChanges(fixture);
+      detectChanges(fixture);
+
+      expect(getInputElement(fixture).getAttribute('placeholder')).toBe('DD/MM/YY');
+    }));
+
+    it('should allow consumer to override the default placeholder', fakeAsync(() => {
+      component.selectedDate = undefined;
+      getInputElement(fixture).setAttribute('placeholder', 'DD/MM/YY');
+      detectChanges(fixture);
+
+      expect(getInputElement(fixture).getAttribute('placeholder')).toBe('DD/MM/YY');
+    }));
+
     describe('initialization', () => {
       it('should handle initializing with a Date object', fakeAsync(() => {
         setInputProperty(new Date('5/12/2017'), component, fixture);
