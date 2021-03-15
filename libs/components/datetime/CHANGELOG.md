@@ -1,3 +1,7 @@
+# 4.10.0 (2021-03-15)
+
+- Added a default placeholder to the datepicker component that shows the current date format. [#252](https://github.com/blackbaud/skyux-datetime/pull/252)
+
 # 4.9.0 (2021-02-16)
 
 - Added the ability to trigger responsive styles based on a parent component. [#248](https://github.com/blackbaud/skyux-datetime/pull/248)
