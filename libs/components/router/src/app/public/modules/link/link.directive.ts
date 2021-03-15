@@ -1,6 +1,9 @@
 import {
   Directive,
-  Input
+  Input,
+  OnChanges,
+  Optional,
+  SimpleChanges
 } from '@angular/core';
 
 import {
@@ -14,7 +17,8 @@ import {
 } from '@angular/router';
 
 import {
-  SkyAppConfig
+  SkyAppConfig,
+  SkyAppRuntimeConfigParamsProvider
 } from '@skyux/config';
 
 import { SkyAppLinkQueryParams } from './link-query-params';
@@ -22,32 +26,39 @@ import { SkyAppLinkQueryParams } from './link-query-params';
 @Directive({
   selector: '[skyAppLink]'
 })
-export class SkyAppLinkDirective extends RouterLinkWithHref {
-  private _queryParams: SkyAppLinkQueryParams;
+export class SkyAppLinkDirective extends RouterLinkWithHref implements OnChanges {
 
   @Input()
   set skyAppLink(commands: any[] | string) {
     this.routerLink = commands;
   }
 
-  @Input()
-  set queryParams(params: { [k: string]: any }) {
-    this._queryParams = Object.assign(params, this.skyAppConfig.runtime.params.getAll(true));
-  }
-
-  get queryParams(): SkyAppLinkQueryParams {
-    if (!this._queryParams) {
-      this._queryParams = Object.assign({}, this.skyAppConfig.runtime.params.getAll(true));
-    }
-    return this._queryParams;
-  }
-
   constructor(
     router: Router,
     route: ActivatedRoute,
     locationStrategy: LocationStrategy,
-    private skyAppConfig: SkyAppConfig
+    @Optional() private skyAppConfig?: SkyAppConfig,
+    @Optional() private paramsProvider?: SkyAppRuntimeConfigParamsProvider
   ) {
     super(router, route, locationStrategy);
   }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    this.queryParams = this.mergeQueryParams(changes.queryParams?.currentValue);
+    super.ngOnChanges(changes);
+  }
+
+  private mergeQueryParams(queryParams: SkyAppLinkQueryParams): SkyAppLinkQueryParams {
+    const skyuxParams = (this.skyAppConfig)
+      ? this.skyAppConfig.runtime.params.getAll(true)
+      : this.paramsProvider.params.getAll(true);
+
+    return Object.assign(
+      {},
+      this.queryParams,
+      queryParams,
+      skyuxParams
+    );
+  }
+
 }

@@ -1,7 +1,6 @@
 import {
   Component,
-  DebugElement,
-  NO_ERRORS_SCHEMA
+  DebugElement
 } from '@angular/core';
 
 import {
@@ -18,7 +17,8 @@ import {
 } from '@angular/router/testing';
 
 import {
-  SkyAppConfig
+  SkyAppConfig,
+  SkyAppRuntimeConfigParamsProvider
 } from '@skyux/config';
 
 import {
@@ -42,25 +42,15 @@ describe('SkyAppLink Directive', () => {
 
   function setup(
     params: any,
-    useQueryParams: boolean
+    useQueryParams: boolean,
+    provideSkyAppConfig = true
   ): void {
     const componentToUse = useQueryParams ?
       SkyAppLinkWithParamsTestComponent :
       SkyAppLinkTestComponent;
 
-    TestBed.configureTestingModule({
-      schemas: [
-        NO_ERRORS_SCHEMA
-      ],
-      declarations: [
-        SkyAppLinkDirective,
-        SkyAppLinkTestComponent,
-        SkyAppLinkWithParamsTestComponent
-      ],
-      imports: [
-        RouterTestingModule
-      ],
-      providers: [
+    const providers = provideSkyAppConfig ?
+      [
         {
           provide: SkyAppConfig,
           useValue: {
@@ -75,7 +65,30 @@ describe('SkyAppLink Directive', () => {
             skyux: {}
           }
         }
-      ]
+      ] :
+      [
+        {
+          provide: SkyAppRuntimeConfigParamsProvider,
+          useValue: {
+            params: {
+              getAll() {
+                return params;
+              }
+            }
+          }
+        }
+      ];
+
+    TestBed.configureTestingModule({
+      declarations: [
+        SkyAppLinkDirective,
+        SkyAppLinkTestComponent,
+        SkyAppLinkWithParamsTestComponent
+      ],
+      imports: [
+        RouterTestingModule
+      ],
+      providers
     });
 
     fixture = TestBed.createComponent(componentToUse);
@@ -122,5 +135,14 @@ describe('SkyAppLink Directive', () => {
     setup({}, true);
     debugElement.query(By.directive(SkyAppLinkDirective));
     expect(getAllParam).toBe(true);
+  });
+
+  it('should get params from SkyAppRuntimeConfigParamsProvider if SkyAppConfig undefined', () => {
+    setup({
+      asdf: 123,
+      jkl: 'mno'
+    }, true, false);
+    const directive = debugElement.query(By.directive(SkyAppLinkDirective));
+    expect(directive.properties['href']).toEqual('/test?qp1=1&qp2=false&asdf=123&jkl=mno');
   });
 });

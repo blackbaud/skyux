@@ -1,6 +1,9 @@
 import {
   Directive,
-  Input
+  Input,
+  OnChanges,
+  Optional,
+  SimpleChanges
 } from '@angular/core';
 
 import {
@@ -15,7 +18,9 @@ import {
 } from '@angular/router';
 
 import {
-  SkyAppConfig
+  SkyAppConfig,
+  SkyAppConfigHost,
+  SkyAppRuntimeConfigParamsProvider
 } from '@skyux/config';
 
 import {
@@ -27,39 +32,55 @@ import { SkyAppLinkQueryParams } from './link-query-params';
 @Directive({
   selector: '[skyAppLinkExternal]'
 })
-export class SkyAppLinkExternalDirective extends RouterLinkWithHref {
-
-  private _queryParams: SkyAppLinkQueryParams;
+export class SkyAppLinkExternalDirective extends RouterLinkWithHref implements OnChanges {
 
   @Input()
   set skyAppLinkExternal(commands: any[] | string) {
     this.routerLink = commands;
   }
 
-  @Input()
-  set queryParams(params: SkyAppLinkQueryParams) {
-    this._queryParams = Object.assign(params, this.skyAppConfig.runtime.params.getAll());
-  }
-
-  get queryParams(): SkyAppLinkQueryParams {
-    if (!this._queryParams) {
-      this._queryParams = Object.assign({}, this.skyAppConfig.runtime.params.getAll());
-    }
-    return this._queryParams;
-  }
-
   constructor(
     router: Router,
     route: ActivatedRoute,
     platformLocation: PlatformLocation,
-    private skyAppConfig: SkyAppConfig,
-    private window: SkyAppWindowRef
+    private window: SkyAppWindowRef,
+    @Optional() private skyAppConfig?: SkyAppConfig,
+    @Optional() private paramsProvider?: SkyAppRuntimeConfigParamsProvider,
+    @Optional() hostConfig?: SkyAppConfigHost
   ) {
-    super(router, route, new PathLocationStrategy(platformLocation, skyAppConfig.skyux.host.url));
+    super(
+      router,
+      route,
+      new PathLocationStrategy(
+        platformLocation,
+        (hostConfig)
+          ? hostConfig.host.url
+          : skyAppConfig.skyux.host.url
+      )
+    );
+
     if (this.window.nativeWindow.window.name && this.window.nativeWindow.window.name !== '') {
       this.target = this.window.nativeWindow.window.name;
     } else {
       this.target = '_top';
     }
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    this.queryParams = this.mergeQueryParams(changes.queryParams?.currentValue);
+    super.ngOnChanges(changes);
+  }
+
+  private mergeQueryParams(queryParams: SkyAppLinkQueryParams): SkyAppLinkQueryParams {
+    const skyuxParams = (this.skyAppConfig)
+      ? this.skyAppConfig.runtime.params.getAll(true)
+      : this.paramsProvider.params.getAll(true);
+
+    return Object.assign(
+      {},
+      this.queryParams,
+      queryParams,
+      skyuxParams
+    );
   }
 }

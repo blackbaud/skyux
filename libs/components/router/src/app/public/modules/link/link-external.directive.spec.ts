@@ -1,7 +1,7 @@
 import {
   Component,
   DebugElement,
-  NO_ERRORS_SCHEMA
+  Provider
 } from '@angular/core';
 
 import {
@@ -18,7 +18,9 @@ import {
 } from '@angular/router/testing';
 
 import {
-  SkyAppConfig
+  SkyAppConfig,
+  SkyAppConfigHost,
+  SkyAppRuntimeConfigParamsProvider
 } from '@skyux/config';
 
 import {
@@ -62,15 +64,59 @@ describe('SkyAppLinkExternal Directive', () => {
   function setup(
     params: any,
     windowName: string,
-    useQueryParams: boolean
+    useQueryParams: boolean,
+    provideSkyAppConfig = true
   ): void {
     const mockWindowService = new MockWindowService(windowName);
     const componentToUse = useQueryParams ?
       SkyAppLinkExternalWithParamsTestComponent :
       SkyAppLinkExternalTestComponent;
 
+    const providers: Provider[] = [
+      {
+        provide: SkyAppWindowRef,
+        useValue: mockWindowService
+      }
+    ];
+
+    if (provideSkyAppConfig) {
+      providers.push({
+        provide: SkyAppConfig,
+        useValue: {
+          runtime: {
+            params: {
+              getAll: () => params
+            }
+          },
+          skyux: {
+            host: {
+              url: testUrl
+            }
+          }
+        }
+      });
+    } else {
+      providers.push({
+        provide: SkyAppRuntimeConfigParamsProvider,
+        useValue: {
+          params: {
+            getAll() {
+              return params;
+            }
+          }
+        }
+      });
+      providers.push({
+        provide: SkyAppConfigHost,
+        useValue: {
+          host: {
+            url: 'https://foo.bar.baz/'
+          }
+        }
+      });
+    }
+
     TestBed.configureTestingModule({
-      schemas: [NO_ERRORS_SCHEMA],
       declarations: [
         SkyAppLinkExternalDirective,
         SkyAppLinkExternalTestComponent,
@@ -79,24 +125,7 @@ describe('SkyAppLinkExternal Directive', () => {
       imports: [
         RouterTestingModule
       ],
-      providers: [
-        {
-          provide: SkyAppConfig,
-          useValue: {
-            runtime: {
-              params: {
-                getAll: () => params
-              }
-            },
-            skyux: {
-              host: {
-                url: testUrl
-              }
-            }
-          }
-        },
-        { provide: SkyAppWindowRef, useValue: mockWindowService }
-      ]
+      providers
     });
 
     fixture = TestBed.createComponent(componentToUse);
@@ -152,5 +181,15 @@ describe('SkyAppLinkExternal Directive', () => {
     const directive = debugElement.query(By.directive(SkyAppLinkExternalDirective));
     expect(directive.attributes['skyAppLinkExternal']).toEqual('test');
     expect(directive.properties['href']).toEqual('testUrl/test?qp1=1&qp2=false&asdf=123&jkl=mno');
+  });
+
+  it('should get config from separate providers if SkyAppConfig undefined', () => {
+    setup({
+      asdf: 123,
+      jkl: 'mno'
+    }, '', true, false);
+    const directive = debugElement.query(By.directive(SkyAppLinkExternalDirective));
+    expect(directive.properties['href'])
+      .toEqual('https://foo.bar.baz/test?qp1=1&qp2=false&asdf=123&jkl=mno');
   });
 });
