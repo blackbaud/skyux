@@ -6,6 +6,9 @@ import {
   SkyuxConfigParams
 } from './config-params';
 
+/**
+ * @deprecated
+ */
 @Injectable()
 export class SkyAppParamsConfigArgs {
 

@@ -5,11 +5,15 @@ import {
 
 import {
   SkyAppConfigModuleForRootArgs
-} from './config-module-for-root-args';
+} from './app-config-module-for-root-args';
 
 import {
   SkyAppConfigHost
-} from './host';
+} from './app-config-host';
+
+import {
+  SkyAppConfigParams
+} from './app-config-params';
 
 import {
   SkyAppParamsConfig
@@ -31,6 +35,14 @@ export class SkyAppConfigModule {
             return new SkyAppParamsConfig({
               params: config.params
             });
+          }
+        },
+        {
+          provide: SkyAppConfigParams,
+          useFactory() {
+            const appConfigParams = new SkyAppConfigParams();
+            appConfigParams.init(config.params);
+            return appConfigParams;
           }
         },
         {

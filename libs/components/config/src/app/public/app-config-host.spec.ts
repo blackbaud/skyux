@@ -1,6 +1,6 @@
 import {
   SkyAppConfigHost
-} from './host';
+} from './app-config-host';
 
 describe('SkyAppConfigHost', () => {
 

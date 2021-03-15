@@ -1,6 +1,11 @@
 import {
-  Injectable
+  Injectable,
+  Optional
 } from '@angular/core';
+
+import {
+  SkyAppConfigParams
+} from './app-config-params';
 
 import {
   SkyAppParamsConfig
@@ -25,11 +30,12 @@ export class SkyAppRuntimeConfigParamsProvider {
   private _params: SkyAppRuntimeConfigParams;
 
   constructor(
-    config: SkyAppParamsConfig
+    @Optional() paramsConfig?: SkyAppParamsConfig,
+    @Optional() configParams?: SkyAppConfigParams
   ) {
     this._params = new SkyAppRuntimeConfigParams(
       window.location.href,
-      config.params
+      configParams?.params || paramsConfig?.params || {}
     );
   }
 

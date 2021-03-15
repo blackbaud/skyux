@@ -1,9 +1,10 @@
-export * from './config-module-for-root-args';
-export * from './config-params';
-export * from './config.module';
-export * from './config';
+export * from './app-config-host';
+export * from './app-config-params';
+export * from './app-config-module-for-root-args';
+export * from './app-config.module';
 
-export * from './host';
+export * from './config-params';
+export * from './config';
 
 export * from './params-config-args';
 export * from './params-config';
