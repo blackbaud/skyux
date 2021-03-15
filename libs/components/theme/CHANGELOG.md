@@ -1,3 +1,7 @@
+# 4.15.2 (2021-03-15)
+
+- Added change detection to `skyThemeIf`. [#213](https://github.com/blackbaud/skyux-theme/pull/213)
+
 # 4.15.1 (2021-03-10)
 
 - Added `SkyThemeIconManifestModule` to the public API. [#210](https://github.com/blackbaud/skyux-theme/pull/210)
