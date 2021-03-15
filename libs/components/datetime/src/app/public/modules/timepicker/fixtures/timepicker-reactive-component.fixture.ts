@@ -1,7 +1,8 @@
 import {
   Component,
   ViewChild,
-  OnInit
+  OnInit,
+  AfterViewInit
 } from '@angular/core';
 
 import {
@@ -25,7 +26,7 @@ import {
   selector: 'sky-test-cmp',
   templateUrl: './timepicker-reactive-component.fixture.html'
 })
-export class TimepickerReactiveTestComponent implements OnInit {
+export class TimepickerReactiveTestComponent implements AfterViewInit, OnInit {
 
   @ViewChild(SkyTimepickerComponent)
   public timepickerComponent: SkyTimepickerComponent;
@@ -41,9 +42,15 @@ export class TimepickerReactiveTestComponent implements OnInit {
 
   public timeControl: FormControl;
 
+  public timeControlValueAfterInit: any;
+
   public timeFormat: string;
 
   public timepickerForm: FormGroup;
+
+  public ngAfterViewInit(): void {
+    this.timeControlValueAfterInit = this.timeControl.value;
+  }
 
   public ngOnInit(): void {
     this.timeControl = new FormControl('2:55 AM');
