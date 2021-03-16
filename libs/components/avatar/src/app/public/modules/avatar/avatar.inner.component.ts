@@ -4,13 +4,8 @@ import {
   ElementRef,
   Input,
   OnDestroy,
-  Optional,
   ViewEncapsulation
 } from '@angular/core';
-
-import {
-  SkyThemeService
-} from '@skyux/theme';
 
 import {
   SkyAvatarAdapterService
@@ -65,8 +60,7 @@ export class SkyAvatarInnerComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     private elementRef: ElementRef,
-    private adapter: SkyAvatarAdapterService,
-    @Optional() public themeSvc?: SkyThemeService
+    private adapter: SkyAvatarAdapterService
   ) { }
 
   public get initials(): string {

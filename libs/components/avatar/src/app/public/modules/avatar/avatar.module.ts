@@ -20,6 +20,10 @@ import {
 } from '@skyux/i18n';
 
 import {
+  SkyThemeModule
+} from '@skyux/theme';
+
+import {
   SkyAvatarResourcesModule
 } from '../shared/avatar-resources.module';
 
@@ -41,7 +45,8 @@ import {
     SkyAvatarResourcesModule,
     SkyErrorModule,
     SkyFileAttachmentsModule,
-    SkyI18nModule
+    SkyI18nModule,
+    SkyThemeModule
   ],
   providers: [
     SkyFileSizePipe

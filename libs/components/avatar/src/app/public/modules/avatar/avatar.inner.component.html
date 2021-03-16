@@ -16,20 +16,23 @@
     [hidden]="src || !name"
     [ngClass]="'sky-palette-multi-' + (colorIndex + 1)"
   >
-    <div
+    <div *ngIf="size === 'small'"
       class="sky-avatar-initials-inner"
-      [ngClass]="
-        (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern' ?
-          (
-            size === 'small' ? 'sky-font-body-sm' :
-              (
-                size === 'medium' ? 'sky-font-display-3' : 'sky-font-display-2'
-              )
-          ) :
-          ''
-      "
-    >
-      {{ initials }}
-    </div>
+      [skyThemeClass]="{
+        'sky-font-body-sm': 'modern'
+      }"
+    >{{ initials }}</div>
+    <div *ngIf="size === 'medium'"
+      class="sky-avatar-initials-inner"
+      [skyThemeClass]="{
+        'sky-font-display-3': 'modern'
+      }"
+    >{{ initials }}</div>
+    <div *ngIf="size !== 'small' && size !== 'medium'"
+      class="sky-avatar-initials-inner"
+      [skyThemeClass]="{
+        'sky-font-display-2': 'modern'
+      }"
+    >{{ initials }}</div>
   </div>
 </div>
