@@ -1,6 +1,11 @@
 @import "~@skyux/theme/scss/mixins";
 @import "~@skyux/theme/scss/_compat/mixins";
 
+// Host element must be a block to allow FF to make proper getBoundingClientRect() calculations.
+:host {
+  display: block;
+}
+
 @include sky-host-responsive-container-sm-min() {
   .sky-action-button-container {
     display: flex;
@@ -9,3 +14,33 @@
     padding: $sky-padding 0;
   }
 }
+
+@include sky-theme-modern {
+  .sky-action-button-container {
+    display: flex;
+    flex-flow: row wrap;
+    padding: 0 7.5px;
+    margin: 0 auto;
+
+    &.sky-action-button-container-sm {
+      max-width: 476px;
+    }
+
+    &.sky-action-button-container-md {
+      max-width: 937px;
+    }
+
+    &.sky-action-button-container-lg {
+      max-width: 1398px;
+    }
+
+    &.sky-action-button-container-align-center {
+      justify-content: center;
+    }
+
+    &.sky-action-button-container-align-left {
+      justify-content: flex-start;
+    }
+  }
+}
+

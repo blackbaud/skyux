@@ -1,5 +1,6 @@
 export * from './modules/action-button/action-button-permalink';
 export * from './modules/action-button/action-button.module';
+export * from './modules/action-button/types/action-button-container-align-items';
 
 export * from './modules/back-to-top/back-top-top.module';
 export * from './modules/back-to-top/models/back-to-top-message';

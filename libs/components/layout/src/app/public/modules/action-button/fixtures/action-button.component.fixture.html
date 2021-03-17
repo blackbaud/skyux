@@ -1,8 +1,13 @@
-<sky-action-button-container>
+<sky-action-button-container
+  [alignItems]="alignItems"
+>
   <sky-action-button
-    (actionClick)="buttonClicked()">
+    [style.height]="firstButtonHeight"
+    (actionClick)="buttonClicked()"
+  >
     <sky-action-button-icon
-      iconType="filter">
+      iconType="filter"
+    >
     </sky-action-button-icon>
     <sky-action-button-header>
       Build a new list
@@ -13,9 +18,11 @@
   </sky-action-button>
 
   <sky-action-button
-    [permalink]="permalink1">
+    [permalink]="permalink1"
+  >
     <sky-action-button-icon
-      iconType="link">
+      iconType="link"
+    >
     </sky-action-button-icon>
     <sky-action-button-header>
       Open a link
@@ -26,9 +33,11 @@
   </sky-action-button>
 
   <sky-action-button
-    [permalink]="permalink2">
+    [permalink]="permalink2"
+  >
     <sky-action-button-icon
-      iconType="link">
+      iconType="link"
+    >
     </sky-action-button-icon>
     <sky-action-button-header>
       Open a route link

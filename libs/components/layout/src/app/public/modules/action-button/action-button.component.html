@@ -2,6 +2,9 @@
   class="sky-action-button sky-btn-default sky-rounded-corners"
   tabindex="0"
   [fragment]="permalink.route?.extras?.fragment"
+  [skyThemeClass]="{
+    'sky-btn sky-box' : 'modern'
+  }"
   [queryParams]="permalink.route?.extras?.queryParams"
   [queryParamsHandling]="permalink.route?.extras?.queryParamsHandling"
   [routerLink]="permalink.route?.commands"
@@ -13,7 +16,11 @@
 <a *ngIf="permalink && !permalink.route"
   class="sky-action-button sky-btn-default sky-rounded-corners"
   tabindex="0"
-  [href]="permalink.url">
+  [href]="permalink.url"
+  [skyThemeClass]="{
+    'sky-btn sky-box' : 'modern'
+  }"
+>
   <ng-container *ngTemplateOutlet="actionButtonContent">
   </ng-container>
 </a>
@@ -22,6 +29,9 @@
   class="sky-action-button sky-btn-default sky-rounded-corners"
   tabindex="0"
   role="button"
+  [skyThemeClass]="{
+    'sky-btn sky-box' : 'modern'
+  }"
   (click)="buttonClicked()"
   (keydown.enter)="enterPress()"
 >
@@ -32,17 +42,38 @@
 <ng-template
   #actionButtonContent
 >
-  <div
-    class="sky-action-button-icon-header-container"
-  >
-    <ng-content
-      select="sky-action-button-icon"
-    ></ng-content>
-    <ng-content
-      select="sky-action-button-header"
-    ></ng-content>
-  </div>
-  <ng-content
-    select="sky-action-button-details"
-  ></ng-content>
+  <ng-container *skyThemeIf="'default'">
+    <div class="sky-action-button-icon-header-container">
+      <ng-container *ngTemplateOutlet="icon"></ng-container>
+      <ng-container *ngTemplateOutlet="header"></ng-container>
+    </div>
+    <ng-container *ngTemplateOutlet="details"></ng-container>
+  </ng-container>
+
+  <ng-container *skyThemeIf="'modern'">
+    <ng-container *ngTemplateOutlet="icon"></ng-container>
+    <div class="sky-action-button-content">
+      <ng-container *ngTemplateOutlet="header"></ng-container>
+      <div
+        class="sky-action-button-details"
+        [skyThemeClass]="{
+          'sky-font-deemphasized' : 'modern'
+        }"
+      >
+        <ng-container *ngTemplateOutlet="details"></ng-container>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>
+
+<ng-template #icon>
+  <ng-content select="sky-action-button-icon"></ng-content>
+</ng-template>
+
+<ng-template #header>
+  <ng-content select="sky-action-button-header"></ng-content>
+</ng-template>
+
+<ng-template #details>
+  <ng-content select="sky-action-button-details"></ng-content>
 </ng-template>

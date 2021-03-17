@@ -16,3 +16,22 @@
 .sky-action-button-icon {
   color: $sky-text-color-action-primary;
 }
+
+@include sky-theme-modern {
+  .sky-action-button-icon-container {
+    color: $sky-text-color-action-primary;
+    background: #e8f8ff;
+    margin: 0 $sky-space-xl 0 0;
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+
+    ::ng-deep .sky-icon {
+      font-size: 24px !important;
+    }
+  }
+}

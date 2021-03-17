@@ -18,6 +18,7 @@ import {
   templateUrl: './action-button.component.html'
 })
 export class SkyActionButtonComponent {
+
 /**
  * Specifies a link for the action button.
  */
