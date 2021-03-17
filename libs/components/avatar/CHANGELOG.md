@@ -1,3 +1,7 @@
+# 4.1.3 (2020-03-17)
+
+- Replaced theme conditionals in templates with the new `skyIfTheme` directive. [#52](https://github.com/blackbaud/skyux-avatar/pull/52)
+
 # 4.1.2 (2020-11-16)
 
 - Fixed the avatar component to use appropriate units when alerting users that images are too large. [#49](https://github.com/blackbaud/skyux-avatar/pull/49)
