@@ -22,9 +22,8 @@
     #addForm
   >
     <sky-input-box
-      [ngClass]="{
-        'sky-margin-stacked-lg':
-          (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern'
+      [skyThemeClass]="{
+        'sky-margin-stacked-lg': 'modern'
       }"
     >
       <label
@@ -71,9 +70,8 @@
     #editForm
   >
     <sky-input-box
-      [ngClass]="{
-        'sky-margin-stacked-lg':
-          (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern'
+      [skyThemeClass]="{
+        'sky-margin-stacked-lg': 'modern'
       }"
     >
       <label
@@ -120,9 +118,8 @@
     #customForm
   >
     <sky-input-box
-      [ngClass]="{
-        'sky-margin-stacked-lg':
-          (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern'
+      [skyThemeClass]="{
+        'sky-margin-stacked-lg': 'modern'
       }"
     >
       <label

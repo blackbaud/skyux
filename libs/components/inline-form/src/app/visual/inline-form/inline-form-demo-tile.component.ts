@@ -2,10 +2,6 @@ import {
   Component
 } from '@angular/core';
 
-import {
-  SkyThemeService
-} from '@skyux/theme';
-
 @Component({
   // tslint:disable-next-line
   selector: 'div.tile1',
@@ -18,8 +14,6 @@ export class SkyTileDemoTileComponent {
     { id: '2', title: 'With a Little Help from My Friends', note: 'Written by Paul McCartney and John Lennon' },
     { id: '3', title: 'While my Guitar Gently Weeps', note: 'Written by George Harrison' }
   ];
-
-  constructor(public themeSvc: SkyThemeService) { }
 
   public onInlineFormClose(event: any): void {
     this.activeItemId = undefined;
