@@ -47,7 +47,7 @@ export class FileAttachmentDocsComponent {
 
   public filesUpdated(result: SkyFileDropChange): void {
     this.filesToUpload = this.filesToUpload.concat(result.files);
-    this.rejectedFiles = this.rejectedFiles.concat(result.rejectedFiles);
+    this.rejectedFiles = result.rejectedFiles;
     this.allItems = this.allItems.concat(result.files);
   }
 
