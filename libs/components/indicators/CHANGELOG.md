@@ -1,3 +1,7 @@
+# 4.8.0 (2021-03-17)
+
+- Added modern theme styles to the chevron component. [#158](https://github.com/blackbaud/skyux-indicators/pull/158)
+
 # 4.7.1 (2020-10-23)
 
 - Fixed the help-inline component to use the `aria-label` attribute instead of the `title` attribute to prevent the title's tooltip from covering the help-inline's popover content. [#148](https://github.com/blackbaud/skyux-indicators/pull/148)
