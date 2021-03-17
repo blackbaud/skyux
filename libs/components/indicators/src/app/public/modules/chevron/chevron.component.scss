@@ -1,5 +1,10 @@
 @import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/variables";
 @import "~@skyux/theme/scss/_compat/mixins";
+
+button {
+  background: lightblue;
+}
 
 .sky-chevron {
   border: none;
@@ -8,7 +13,6 @@
   height: $sky-context-menu-size;
   margin: 0;
   overflow: hidden;
-  padding: 0;
   width: $sky-context-menu-size;
   cursor: pointer;
   position: relative;
@@ -53,5 +57,36 @@
   .sky-chevron-right {
     left: 12px;
     transform: rotate(-45deg);
+  }
+}
+
+@include sky-theme-modern {
+  .sky-chevron {
+    height: 26px;
+    width: 26px;
+  }
+
+  .sky-chevron-part {
+    background: $sky-theme-modern-font-deemphasized-color;
+    border: none;
+    height: 2px;
+    width: 11px;
+    top: 13px;
+  }
+
+  .sky-chevron-left {
+    border-radius: 1px 0 0 1px;
+  }
+
+  .sky-chevron-right {
+    border-radius: 0 1px 1px 0;
+  }
+
+  .sky-chevron-left {
+    left: 4px;
+  }
+
+  .sky-chevron-right {
+    left: 10.5px;
   }
 }

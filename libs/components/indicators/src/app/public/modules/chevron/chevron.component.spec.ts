@@ -1,12 +1,16 @@
 import {
-  async,
   ComponentFixture,
   TestBed
 } from '@angular/core/testing';
 
 import {
-  expect
+  expect,
+  expectAsync
 } from '@skyux-sdk/testing';
+
+import {
+  SkyThemeService
+} from '@skyux/theme';
 
 import {
   SkyChevronComponent
@@ -23,6 +27,9 @@ describe('Chevron component', () => {
     TestBed.configureTestingModule({
       imports: [
         SkyChevronModule
+      ],
+      providers: [
+        SkyThemeService
       ]
     });
 
@@ -68,10 +75,9 @@ describe('Chevron component', () => {
     validateDirection('up');
   });
 
-  it('should pass accessibility', async(() => {
+  it('should pass accessibility', async () => {
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
-    });
-  }));
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 });

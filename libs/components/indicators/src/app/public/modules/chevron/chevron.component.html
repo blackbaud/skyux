@@ -1,10 +1,13 @@
 <button
-    class="sky-chevron"
-    type="button"
-    [attr.aria-label]="(direction === 'down' ? 'skyux_chevron_expand' : 'skyux_chevron_collapse') | skyLibResources"
-    [disabled]="disabled"
-    [ngClass]="['sky-chevron-' + direction]"
-    (click)="chevronClick($event)"
+  class="sky-chevron"
+  type="button"
+  [attr.aria-label]="(direction === 'down' ? 'skyux_chevron_expand' : 'skyux_chevron_collapse') | skyLibResources"
+  [disabled]="disabled"
+  [ngClass]="['sky-chevron-' + direction]"
+  [skyThemeClass]="{
+    'sky-btn sky-btn-icon-borderless' : 'modern'
+  }"
+  (click)="chevronClick($event)"
 >
   <i
     aria-hidden="true"

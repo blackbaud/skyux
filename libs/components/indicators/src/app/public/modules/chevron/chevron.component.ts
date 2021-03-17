@@ -11,6 +11,7 @@ import {
   templateUrl: './chevron.component.html'
 })
 export class SkyChevronComponent {
+
   @Output()
   public directionChange = new EventEmitter<string>();
 
@@ -28,4 +29,5 @@ export class SkyChevronComponent {
     this.direction = this.direction === 'up' ? 'down' : 'up';
     this.directionChange.emit(this.direction);
   }
+
 }

@@ -11,6 +11,10 @@ import {
 } from '@skyux/i18n';
 
 import {
+  SkyThemeModule
+} from '@skyux/theme';
+
+import {
   SkyIndicatorsResourcesModule
 } from '../shared/indicators-resources.module';
 
@@ -25,7 +29,8 @@ import {
   imports: [
     CommonModule,
     SkyI18nModule,
-    SkyIndicatorsResourcesModule
+    SkyIndicatorsResourcesModule,
+    SkyThemeModule
   ],
   exports: [
     SkyChevronComponent
