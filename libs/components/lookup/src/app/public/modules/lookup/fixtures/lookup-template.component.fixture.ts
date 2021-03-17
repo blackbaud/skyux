@@ -31,6 +31,7 @@ export class SkyLookupTemplateTestComponent implements OnInit {
   public required: boolean = false;
   public selectedFriends: any;
   public selectMode: SkyLookupSelectMode = SkyLookupSelectMode.multiple;
+  public showAddButton: boolean = false;
 
   public ngOnInit(): void {
     this.data = [
@@ -52,6 +53,10 @@ export class SkyLookupTemplateTestComponent implements OnInit {
       { name: 'Yolanda' },
       { name: 'Zack' }
     ];
+  }
+
+  public addButtonClicked(): void {
+    return;
   }
 
   public enableLookup(): void {

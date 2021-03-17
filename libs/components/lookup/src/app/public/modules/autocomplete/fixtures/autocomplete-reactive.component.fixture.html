@@ -10,6 +10,8 @@
   </label>
   <sky-autocomplete
     [data]="data"
+    [showAddButton]="showAddButton"
+    (addClick)="addButtonClicked()"
   >
     <input
       id="my-autocomplete-input"

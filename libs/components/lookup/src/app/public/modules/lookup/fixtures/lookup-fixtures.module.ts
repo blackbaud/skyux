@@ -70,10 +70,10 @@ export function themeServiceFactory(): any {
   imports: [
     CommonModule,
     FormsModule,
-    NoopAnimationsModule,
     ReactiveFormsModule,
     SkyInputBoxModule,
-    SkyLookupModule
+    SkyLookupModule,
+    NoopAnimationsModule
   ],
   exports: [
     SkyLookupTestComponent,

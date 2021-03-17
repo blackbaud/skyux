@@ -120,6 +120,8 @@
           [selectMode]="bestFriendSelectMode"
           [data]="people"
           [debounceTime]="1000"
+          [showAddButton]="true"
+          (addClick)="addButtonClicked()"
         >
         </sky-lookup>
       </sky-input-box>

@@ -44,6 +44,10 @@ describe('Lookup component', function () {
 
   //#region helpers
 
+  function getAddButton(): HTMLElement {
+    return document.querySelector('.sky-autocomplete-add') as HTMLElement;
+  }
+
   function getInputElement(lookupComponent: SkyLookupComponent): HTMLInputElement {
     return lookupComponent['elementRef'].nativeElement.querySelector('.sky-lookup-input');
   }
@@ -55,7 +59,6 @@ describe('Lookup component', function () {
   function performSearch(searchText: string, fixture: ComponentFixture<any>) {
     const inputElement = getInputElement(fixture.componentInstance.lookupComponent);
     inputElement.value = searchText;
-    inputElement.focus();
     SkyAppTestUtility.fireDomEvent(inputElement, 'input');
     tick();
     fixture.detectChanges();
@@ -179,6 +182,41 @@ describe('Lookup component', function () {
         expect(typeof lookupComponent.searchResultsLimit).not.toBeUndefined();
       });
 
+      it('should emit an event correctly when the add button is enabled and clicked',
+        fakeAsync(() => {
+          component.showAddButton = true;
+          const addButtonSpy = spyOn(component, 'addButtonClicked').and.callThrough();
+          fixture.detectChanges();
+
+          // Type 'r' to activate the autocomplete dropdown, then click the first result.
+          performSearch('r', fixture);
+
+          const addButton = getAddButton();
+          expect(addButton).not.toBeNull();
+          expect(addButtonSpy).not.toHaveBeenCalled();
+
+          addButton.click();
+          fixture.detectChanges();
+
+          expect(addButtonSpy).toHaveBeenCalled();
+        })
+      );
+
+      it('should not show the add button unless the component input asks for it',
+        fakeAsync(() => {
+          component.showAddButton = false;
+          const addButtonSpy = spyOn(component, 'addButtonClicked').and.callThrough();
+          fixture.detectChanges();
+
+          // Type 'r' to activate the autocomplete dropdown, then click the first result.
+          performSearch('r', fixture);
+
+          const addButton = getAddButton();
+          expect(addButton).toBeNull();
+          expect(addButtonSpy).not.toHaveBeenCalled();
+        })
+      );
+
       describe('multi-select', () => {
         beforeEach(() => {
           component.setMultiSelect();
@@ -208,13 +246,18 @@ describe('Lookup component', function () {
 
         it('should NOT add new tokens if value is empty', fakeAsync(function () {
           fixture.detectChanges();
+          tick();
           expect(lookupComponent.value).toEqual([]);
 
           performSearch('s', fixture);
           selectSearchResult(0, fixture);
+          fixture.detectChanges();
+          tick();
 
           performSearch('', fixture);
           getInputElement(lookupComponent).blur();
+          fixture.detectChanges();
+          tick();
 
           const selectedItems = lookupComponent.value;
           expect(selectedItems.length).toEqual(1);
@@ -281,13 +324,18 @@ describe('Lookup component', function () {
 
         it('should NOT add new tokens if value is empty', fakeAsync(function () {
           fixture.detectChanges();
+          tick();
           validateItems([]);
 
           performSearch('s', fixture);
           selectSearchResult(0, fixture);
+          fixture.detectChanges();
+          tick();
 
           performSearch('', fixture);
           getInputElement(lookupComponent).blur();
+          fixture.detectChanges();
+          tick();
 
           validateItems(['Isaac']);
         }));
@@ -498,6 +546,7 @@ describe('Lookup component', function () {
           const inputElement = getInputElement(lookupComponent);
 
           performSearch('s', fixture);
+          inputElement.focus();
 
           expect(inputElement.value).toEqual('s');
 
@@ -755,6 +804,41 @@ describe('Lookup component', function () {
         expect(typeof lookupComponent.searchResultsLimit).not.toBeUndefined();
       });
 
+      it('should emit an event correctly when the add button is enabled and clicked',
+        fakeAsync(() => {
+          component.showAddButton = true;
+          const addButtonSpy = spyOn(component, 'addButtonClicked').and.callThrough();
+          fixture.detectChanges();
+
+          // Type 'r' to activate the autocomplete dropdown, then click the first result.
+          performSearch('r', fixture);
+
+          const addButton = getAddButton();
+          expect(addButton).not.toBeNull();
+          expect(addButtonSpy).not.toHaveBeenCalled();
+
+          addButton.click();
+          fixture.detectChanges();
+
+          expect(addButtonSpy).toHaveBeenCalled();
+        })
+      );
+
+      it('should not show the add button unless the component input asks for it',
+        fakeAsync(() => {
+          component.showAddButton = false;
+          const addButtonSpy = spyOn(component, 'addButtonClicked').and.callThrough();
+          fixture.detectChanges();
+
+          // Type 'r' to activate the autocomplete dropdown, then click the first result.
+          performSearch('r', fixture);
+
+          const addButton = getAddButton();
+          expect(addButton).toBeNull();
+          expect(addButtonSpy).not.toHaveBeenCalled();
+        })
+      );
+
       describe('multi-select', () => {
         beforeEach(() => {
           component.setMultiSelect();
@@ -785,13 +869,18 @@ describe('Lookup component', function () {
 
         it('should NOT add new tokens if value is empty', fakeAsync(function () {
           fixture.detectChanges();
+          tick();
           expect(lookupComponent.value).toEqual([]);
 
           performSearch('s', fixture);
           selectSearchResult(0, fixture);
+          fixture.detectChanges();
+          tick();
 
           performSearch('', fixture);
           getInputElement(lookupComponent).blur();
+          fixture.detectChanges();
+          tick();
 
           const selectedItems = lookupComponent.value;
           expect(selectedItems.length).toEqual(1);
@@ -1037,6 +1126,7 @@ describe('Lookup component', function () {
           const inputElement = getInputElement(lookupComponent);
 
           performSearch('s', fixture);
+          inputElement.focus();
 
           expect(inputElement.value).toEqual('s');
 

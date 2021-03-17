@@ -9,6 +9,8 @@
     [disabled]="disabled"
     [placeholderText]="placeholderText"
     [selectMode]="selectMode"
+    [showAddButton]="showAddButton"
+    (addClick)="addButtonClicked()"
     [(ngModel)]="selectedFriends"
   >
   </sky-lookup>

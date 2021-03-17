@@ -4,10 +4,12 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnDestroy,
   OnInit,
   Optional,
+  Output,
   Self,
   TemplateRef,
   ViewChild,
@@ -122,6 +124,12 @@ export class SkyLookupComponent
   public idProperty: string;
 
   /**
+   * Indicates whether to show an "Add" button in the dropdown list.
+   */
+  @Input()
+  public showAddButton: boolean = false;
+
+  /**
    * Specifies whether users can select one item or multiple items.
    * @default "mulitple"
    */
@@ -146,6 +154,12 @@ export class SkyLookupComponent
   public get selectMode(): SkyLookupSelectMode {
     return this._selectMode || SkyLookupSelectMode.multiple;
   }
+
+  /**
+   * Fires when users select the "Add" button.
+   */
+  @Output()
+  public addClick: EventEmitter<void> = new EventEmitter();
 
   public get tokens(): SkyToken[] {
     return this._tokens;
@@ -242,6 +256,10 @@ export class SkyLookupComponent
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
     this.tokensController.complete();
+  }
+
+  public addButtonClicked(): void {
+    this.addClick.emit();
   }
 
   public onAutocompleteSelectionChange(change: SkyAutocompleteSelectionChange): void {

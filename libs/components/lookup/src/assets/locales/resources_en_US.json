@@ -22,5 +22,9 @@
   "skyux_autocomplete_no_results": {
     "_description": "Placeholder text for autocomplete input component when no results are found",
     "message": "No matching items found"
+  },
+  "skyux_autocomplete_add": {
+    "_description": "Label for autocomplete add button",
+    "message": "Add"
   }
 }

@@ -35,6 +35,8 @@ export class SkyAutocompleteReactiveFixtureComponent implements OnInit {
     { name: 'Black' }
   ];
 
+  public showAddButton: boolean = false;
+
   @ViewChild(SkyAutocompleteComponent, {
     read: SkyAutocompleteComponent,
     static: true
@@ -51,11 +53,15 @@ export class SkyAutocompleteReactiveFixtureComponent implements OnInit {
     });
   }
 
-  public disableForm() {
+  public addButtonClicked(): void {
+    return;
+  }
+
+  public disableForm(): void {
     this.reactiveForm.get('favoriteColor').disable();
   }
 
-  public enableForm() {
+  public enableForm(): void {
     this.reactiveForm.get('favoriteColor').enable();
   }
 }

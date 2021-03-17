@@ -131,6 +131,9 @@ describe('Country Field Component', () => {
         declarations: [
           CountryFieldTestComponent
         ],
+        providers: [
+          SkyThemeService
+        ],
         imports: [
           FormsModule,
           SkyCountryFieldModule
@@ -674,6 +677,9 @@ describe('Country Field Component', () => {
       TestBed.configureTestingModule({
         declarations: [
           CountryFieldReactiveTestComponent
+        ],
+        providers: [
+          SkyThemeService
         ],
         imports: [
           ReactiveFormsModule,
@@ -1303,6 +1309,9 @@ describe('Country Field Component', () => {
       TestBed.configureTestingModule({
         declarations: [
           CountryFieldNoFormTestComponent
+        ],
+        providers: [
+          SkyThemeService
         ],
         imports: [
           SkyCountryFieldModule

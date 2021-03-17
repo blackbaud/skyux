@@ -21,6 +21,10 @@ import {
 } from '@skyux/indicators';
 
 import {
+  SkyThemeModule
+} from '@skyux/theme';
+
+import {
   SkyLookupResourcesModule
 } from '../shared/lookup-resources.module';
 
@@ -48,6 +52,7 @@ import {
     SkyTextHighlightModule,
     SkyIconModule,
     SkyLookupResourcesModule,
+    SkyThemeModule,
     SkyOverlayModule
   ],
   exports: [

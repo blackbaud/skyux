@@ -40,6 +40,7 @@ export class SkyLookupTestComponent implements OnInit {
   public idProperty: string;
   public placeholderText: string;
   public selectMode: SkyLookupSelectMode;
+  public showAddButton: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder
@@ -67,6 +68,10 @@ export class SkyLookupTestComponent implements OnInit {
     ];
 
     this.createForm();
+  }
+
+  public addButtonClicked(): void {
+    return;
   }
 
   public enableLookup(): void {

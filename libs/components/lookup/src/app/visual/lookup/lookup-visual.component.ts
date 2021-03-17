@@ -74,6 +74,10 @@ export class LookupVisualComponent implements OnInit {
     this.createForms();
   }
 
+  public addButtonClicked(): void {
+    console.log('Add Button Clicked!');
+  }
+
   public enableLookup(): void {
     this.friendsForm.controls.friends.enable();
   }

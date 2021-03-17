@@ -65,6 +65,7 @@ export class SkyAutocompleteFixtureComponent {
   public searchResultTemplate: TemplateRef<any>;
   public searchTextMinimumCharacters: number;
   public selectionFromChangeEvent: SkyAutocompleteSelectionChange;
+  public showAddButton: boolean = false;
 
   @ViewChild(SkyAutocompleteComponent, {
     read: SkyAutocompleteComponent,
@@ -88,6 +89,10 @@ export class SkyAutocompleteFixtureComponent {
     static: true
   })
   public customSearchResultTemplate: TemplateRef<any>;
+
+  public addButtonClicked(): void {
+    return;
+  }
 
   public onSelectionChange(event: SkyAutocompleteSelectionChange): void {
     this.selectionFromChangeEvent = event;

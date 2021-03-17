@@ -1,3 +1,10 @@
+<button
+  class="sky-btn sky-btn-primary"
+  id="previousButton"
+  type="button"
+>
+  Previous Button
+</button>
 <form
   #myForm="ngForm"
   novalidate>
@@ -18,7 +25,9 @@
     [searchResultsLimit]="searchResultsLimit"
     [searchResultTemplate]="searchResultTemplate"
     [searchTextMinimumCharacters]="searchTextMinimumCharacters"
+    [showAddButton]="showAddButton"
     [noResultsFoundText]="customNoResultsMessage"
+    (addClick)="addButtonClicked()"
     (selectionChange)="onSelectionChange($event)"
   >
     <input *ngIf="!hideInput"

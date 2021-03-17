@@ -24,6 +24,8 @@
       [searchResultsLimit]="searchResultsLimit"
       [searchResultTemplate]="searchResultTemplate"
       [searchTextMinimumCharacters]="searchTextMinimumCharacters"
+      [showAddButton]="showAddButton"
+      (addClick)="addButtonClicked()"
       (selectionChange)="onAutocompleteSelectionChange($event)">
 
       <div
