@@ -1,3 +1,7 @@
+# 4.5.0 (2021-03-17)
+
+- Added modern theme styles to the action button component. [#195](https://github.com/blackbaud/skyux-layout/pull/195)
+
 # 4.4.3 (2021-02-22)
 
 - Fixed the fluid grid component to disable the outer left and right margins in modern theme when `disableMargin` is set to `true`. [#193](https://github.com/blackbaud/skyux-layout/pull/193)
