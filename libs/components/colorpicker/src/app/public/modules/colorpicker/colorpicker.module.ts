@@ -25,6 +25,10 @@ import {
 } from '@skyux/indicators';
 
 import {
+  SkyThemeModule
+} from '@skyux/theme';
+
+import {
   SkyColorpickerResourcesModule
 } from '../shared/colorpicker-resources.module';
 
@@ -63,7 +67,8 @@ import {
     SkyI18nModule,
     SkyIconModule,
     SkyInputBoxModule,
-    SkyOverlayModule
+    SkyOverlayModule,
+    SkyThemeModule
   ],
   exports: [
     SkyColorpickerComponent,

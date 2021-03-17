@@ -151,8 +151,6 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
 
   public isVisible: boolean = true;
 
-  public themeName: string;
-
   public triggerButtonId: string;
 
   @ViewChild('colorpickerTemplateRef', {
@@ -266,11 +264,11 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
           takeUntil(this.ngUnsubscribe)
         )
         .subscribe((themeSettings) => {
-          this.themeName = themeSettings.currentSettings?.theme?.name;
+          const themeName = themeSettings.currentSettings?.theme?.name;
 
           // Hue/alpha slider bars have different widths in Modern theme.
           /* istanbul ignore if */
-          if (this.themeName === 'modern') {
+          if (themeName === 'modern') {
             this.sliderDimMax = new SliderDimension(174, 270, 170, 174);
           } else {
             this.sliderDimMax = new SliderDimension(182, 270, 170, 182);
