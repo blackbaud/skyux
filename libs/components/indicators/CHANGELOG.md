@@ -1,3 +1,7 @@
+# 4.9.0 (2021-03-18)
+
+- Updated the icon component to support line and solid variants for the SKY UX icon font. [#157](https://github.com/blackbaud/skyux-indicators/pull/157)
+
 # 4.8.0 (2021-03-17)
 
 - Added modern theme styles to the chevron component. [#158](https://github.com/blackbaud/skyux-indicators/pull/158)
