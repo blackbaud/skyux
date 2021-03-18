@@ -119,12 +119,14 @@
       <sky-docs-design-guideline
         heading="Buttons in the modal action bar"
       >
-        <p class="sky-docs-text-block">
-          Use a <a href="https://developer.blackbaud.com/skyux/components/button">primary button</a> for the most important action that users take. Use secondary buttons for less important actions. Use a link button for the Cancel action.
-        </p>
-        <p class="sky-docs-text-block">
-          If a modal has only one action, you should generally use the <a href="https://developer.blackbaud.com/skyux/components/confirm">confirm component</a> instead.
-        </p>
+        <div class="sky-docs-text-block">
+          <p>
+            Button labels should clearly indicate the actions that occur when users select buttons. For example, use <strong>Save</strong> as the standard label for actions where users save information to the database, but use <strong>Submit</strong> or another alternative if you need to indicate that an action sends data somewhere else. Make sure to use the label that is most accurate for all contexts. For example, while <strong>Cancel</strong> and <strong>Close</strong> both indicate that actions close modals, <strong>Cancel</strong> more clearly indicates that the actions do not save changes to modals; <strong>Cancel</strong> should be used in most cases.
+          </p>
+          <p>
+            Use a <a href="https://developer.blackbaud.com/skyux/components/button">primary button</a> for the most important action that users take, secondary buttons for less important actions, and a link button for the <strong>Cancel</strong> action. If a modal has only one action, use the <a href="https://developer.blackbaud.com/skyux/components/confirm">confirm component</a> instead.
+          </p>
+        </div>
       </sky-docs-design-guideline>
     </sky-docs-demo-page-section>
 
