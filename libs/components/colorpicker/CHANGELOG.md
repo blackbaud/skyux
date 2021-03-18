@@ -1,3 +1,7 @@
+# 4.2.3 (2021-03-18)
+
+- Replaced theme conditionals in templates with the new `skyIfTheme` directive. [#82](https://github.com/blackbaud/skyux-colorpicker/pull/82)
+
 # 4.2.2 (2020-12-07)
 
 - Added the missing `public_api.ts` file to expose the testing module's exports API. [#81](https://github.com/blackbaud/skyux-colorpicker/pull/81)
