@@ -124,13 +124,14 @@ describe('Phone Field Component', () => {
 
     countrySearchInput.value = countryName;
 
-    SkyAppTestUtility.fireDomEvent(countrySearchInput, 'keyup');
+    SkyAppTestUtility.fireDomEvent(countrySearchInput, 'input');
     detectChangesAndTick(compFixture);
 
     SkyAppTestUtility.fireDomEvent(
       document.querySelector('.sky-autocomplete-result:first-child'),
       'mousedown'
     );
+
     detectChangesAndTick(compFixture);
   }
 
@@ -143,7 +144,7 @@ describe('Phone Field Component', () => {
       .nativeElement;
     countrySearchInput.value = countryName;
 
-    SkyAppTestUtility.fireDomEvent(countrySearchInput, 'keyup');
+    SkyAppTestUtility.fireDomEvent(countrySearchInput, 'input');
     detectChangesAndTick(compFixture);
 
     return document.querySelectorAll('.sky-autocomplete-result');

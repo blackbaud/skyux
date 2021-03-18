@@ -40,7 +40,7 @@ import {
     {
       provide: SkyDocsToolsOptions,
       useValue: {
-        gitRepoUrl: 'https://github.com/blackbaud/skyux-forms',
+        gitRepoUrl: 'https://github.com/blackbaud/skyux-phone-field',
         packageName: '@skyux/phone-field'
       }
     }
