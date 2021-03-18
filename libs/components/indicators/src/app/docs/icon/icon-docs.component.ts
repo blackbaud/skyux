@@ -4,17 +4,16 @@ import {
 } from '@angular/core';
 
 import {
+  SkyThemeIconManifestService
+} from '@skyux/theme';
+
+import {
   SkyIconDocsIconItem
 } from './icon-item';
 
-import {
-  SkyIconDocsManifestService
-} from './icon-manifest.service';
-
 @Component({
   selector: 'app-icon-docs',
-  templateUrl: './icon-docs.component.html',
-  providers: [SkyIconDocsManifestService]
+  templateUrl: './icon-docs.component.html'
 })
 export class IconDocsComponent implements OnInit {
 
@@ -255,13 +254,42 @@ export class IconDocsComponent implements OnInit {
 
   public skyuxIcons: SkyIconDocsIconItem[];
 
-  constructor(private svc: SkyIconDocsManifestService) { }
+  constructor(private svc: SkyThemeIconManifestService) { }
 
   public ngOnInit(): void {
-    this.svc.getSkyUxIconManifest()
-      .subscribe((manifest) => {
-        this.skyuxIcons = manifest.glyphs;
-      });
+    const glyphs = this.svc.getManifest().glyphs;
+
+    this.skyuxIcons = [];
+
+    // We only want to document the non-variant or line variant of each icon and leave
+    // the solid icon undocumented for internal SKY UX use only.
+    for (const glyph of glyphs) {
+      const nameParts = glyph.name.split('-');
+      let nameToDocument: string;
+
+      if (nameParts.length > 1) {
+        switch (nameParts[nameParts.length - 1]) {
+          case 'line':
+            // Document the icon without the `-line` prefix. The icon component will
+            // fall back to this variant even if no variant is specified.
+            nameToDocument = nameParts.slice(0, -1).join('-');
+            break;
+          case 'solid':
+            break;
+          default:
+            nameToDocument = glyph.name;
+        }
+      } else {
+        nameToDocument = glyph.name;
+      }
+
+      if (nameToDocument) {
+        this.skyuxIcons.push({
+          name: nameToDocument,
+          usage: glyph.usage
+        });
+      }
+    }
   }
 
 }

@@ -4,6 +4,10 @@ import {
   Input
 } from '@angular/core';
 
+import {
+  SkyIconVariant
+} from './icon-variant';
+
 @Component({
   selector: 'sky-icon',
   templateUrl: './icon.component.html',
@@ -41,4 +45,11 @@ export class SkyIconComponent {
    */
   @Input()
   public fixedWidth: boolean;
+
+  /**
+   * Specifies the icon variant (`line` or `solid`). If the variant doesn't exist for the
+   * specified icon, the normal icon is displayed.
+   */
+  @Input()
+  public variant: SkyIconVariant;
 }

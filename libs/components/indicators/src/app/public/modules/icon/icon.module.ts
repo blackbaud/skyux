@@ -18,6 +18,14 @@ import {
   SkyIconClassListPipe
 } from './icon-class-list.pipe';
 
+import {
+  SkyIconResolverService
+} from './icon-resolver.service';
+
+import {
+  SkyThemeIconManifestModule
+} from '@skyux/theme';
+
 @NgModule({
   declarations: [
     SkyIconClassListPipe,
@@ -25,11 +33,15 @@ import {
     SkyIconStackComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    SkyThemeIconManifestModule
   ],
   exports: [
     SkyIconComponent,
     SkyIconStackComponent
+  ],
+  providers: [
+    SkyIconResolverService
   ]
 })
 export class SkyIconModule { }

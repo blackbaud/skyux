@@ -3,6 +3,14 @@ import {
   PipeTransform
 } from '@angular/core';
 
+import {
+  SkyIconResolverService
+} from './icon-resolver.service';
+
+import {
+  SkyIconVariant
+} from './icon-variant';
+
 /**
  * @internal
  */
@@ -11,13 +19,23 @@ import {
 })
 export class SkyIconClassListPipe implements PipeTransform {
 
+  constructor(private resolver: SkyIconResolverService) { }
+
   public transform(
     icon: string,
     iconType?: string,
     size?: string,
-    fixedWidth?: boolean
+    fixedWidth?: boolean,
+    variant?: SkyIconVariant
   ): string[] {
-    const classList = iconType === 'skyux' ? ['sky-i-' + icon] : ['fa', 'fa-' + icon];
+    let classList: string[];
+
+    if (iconType === 'skyux') {
+      const resolvedIcon = this.resolver.resolveIcon(icon, variant);
+      classList = ['sky-i-' + resolvedIcon];
+    } else {
+      classList = ['fa', 'fa-' + icon];
+    }
 
     if (size) {
       classList.push('fa-' + size);

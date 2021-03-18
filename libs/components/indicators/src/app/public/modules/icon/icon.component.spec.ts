@@ -16,18 +16,48 @@ import {
   IconTestComponent
 } from './fixtures/icon.component.fixture';
 
+import {
+  SkyIconResolverService
+} from './icon-resolver.service';
+
+import {
+  SkyIconVariant
+} from './icon-variant';
+
 describe('Icon component', () => {
   let fixture: ComponentFixture<IconTestComponent>;
   let cmp: IconTestComponent;
   let element: HTMLElement;
+  let mockResolver: jasmine.SpyObj<SkyIconResolverService>;
 
   beforeEach(() => {
+    mockResolver = jasmine.createSpyObj(
+      'mockResolver',
+      ['resolveIcon']
+    );
+
+    mockResolver.resolveIcon.and.callFake(
+      (iconName, variant) => {
+        if (iconName === 'variant-test') {
+          return 'variant-test-' + variant;
+        }
+
+        return iconName;
+      }
+    );
+
     TestBed.configureTestingModule({
       declarations: [
         IconTestComponent
       ],
       imports: [
         SkyIconModule
+      ],
+      providers: [
+        {
+          provide: SkyIconResolverService,
+          useValue: mockResolver
+        }
       ]
     });
 
@@ -72,5 +102,16 @@ describe('Icon component', () => {
 
     expect(element.querySelector('.sky-icon')).toHaveCssClass('fa-spinner');
     expect(element.querySelector('.sky-icon').classList.length).toBe(3);
+  });
+
+  it('should display the specified variant', () => {
+    cmp.icon = 'variant-test';
+    cmp.iconType = 'skyux';
+    cmp.size = undefined;
+    cmp.fixedWidth = undefined;
+    cmp.variant = SkyIconVariant.Solid;
+    fixture.detectChanges();
+
+    expect(element.querySelector('.sky-icon')).toHaveCssClass('sky-i-variant-test-solid');
   });
 });
