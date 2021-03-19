@@ -1,3 +1,7 @@
+# 4.10.2 (2021-03-19)
+
+- Replaced theme conditionals in templates with the new `skyThemeIf` directive. [#251](https://github.com/blackbaud/skyux-datetime/pull/251)
+
 # 4.10.1 (2021-03-15)
 
 - Fixed the timepicker component so that it initializes the control value during the lifecycle hook. [#253](https://github.com/blackbaud/skyux-datetime/pull/253)
