@@ -1,6 +1,6 @@
 # 4.2.3 (2021-03-18)
 
-- Replaced theme conditionals in templates with the new `skyIfTheme` directive. [#82](https://github.com/blackbaud/skyux-colorpicker/pull/82)
+- Replaced theme conditionals in templates with the new `skyThemeIf` directive. [#82](https://github.com/blackbaud/skyux-colorpicker/pull/82)
 
 # 4.2.2 (2020-12-07)
 
