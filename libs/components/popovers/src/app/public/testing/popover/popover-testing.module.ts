@@ -10,6 +10,11 @@ import {
   SkyPopoverModule
 } from '@skyux/popovers';
 
+import {
+  SkyThemeModule,
+  SkyThemeService
+} from '@skyux/theme';
+
 @NgModule({
   exports: [
     SkyPopoverModule,
@@ -17,6 +22,12 @@ import {
     // The noop animations module needs to be loaded last to avoid
     // subsequent modules adding animations and overriding this.
     NoopAnimationsModule
+  ],
+  imports: [
+    SkyThemeModule
+  ],
+  providers: [
+    SkyThemeService
   ]
 })
 export class SkyPopoverTestingModule { }

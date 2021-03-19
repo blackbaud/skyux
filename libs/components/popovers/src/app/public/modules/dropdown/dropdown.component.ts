@@ -430,7 +430,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
         case SkyDropdownMessageType.Reposition:
           // Only reposition the dropdown if it is already open.
           /* istanbul ignore else */
-          if (this.isOpen) {
+          if (this.isOpen && this.affixer) {
             this.affixer.reaffix();
           }
           break;

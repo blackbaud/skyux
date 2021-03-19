@@ -256,6 +256,15 @@ describe('Dropdown component', function () {
     expect(itemClickSpy).toHaveBeenCalledWith(fixture.componentInstance.items[buttonIndex].name);
   }));
 
+  it('should survive reposition when items change as the menu opens', fakeAsync(() => {
+    detectChangesFakeAsync();
+    fixture.componentInstance.dropdownRef.isOpen = true;
+    fixture.componentInstance.changeItems();
+    detectChangesFakeAsync();
+
+    expect(fixture.componentInstance.dropdownItemRefs.length).toEqual(3);
+  }));
+
   describe('mouse interactions', function () {
     it('should open and close menu via mouse click', fakeAsync(() => {
       fixture.componentInstance.trigger = 'click';

@@ -21,6 +21,11 @@ import {
 } from '@skyux/indicators';
 
 import {
+  SkyThemeModule,
+  SkyThemeService
+} from '@skyux/theme';
+
+import {
   SkyPopoversResourcesModule
 } from '../shared/popovers-resources.module';
 
@@ -53,7 +58,8 @@ import {
     SkyCoreAdapterModule,
     SkyIconModule,
     SkyOverlayModule,
-    SkyPopoversResourcesModule
+    SkyPopoversResourcesModule,
+    SkyThemeModule
   ],
   exports: [
     SkyPopoverComponent,
@@ -64,7 +70,8 @@ import {
     SkyPopoverContentComponent
   ],
   providers: [
-    SkyPopoverAdapterService
+    SkyPopoverAdapterService,
+    SkyThemeService
   ]
 })
 export class SkyPopoverModule { }
