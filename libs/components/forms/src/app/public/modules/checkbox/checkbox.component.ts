@@ -15,6 +15,11 @@ import {
 } from '@angular/forms';
 
 import {
+  BehaviorSubject,
+  Observable
+} from 'rxjs';
+
+import {
   SkyFormsUtility
 } from '../shared/forms-utility';
 
@@ -129,6 +134,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
     if (checked !== this.checked) {
       this._checked = checked;
       this._controlValueAccessorChangeFn(checked);
+      this._checkedChange.next(this._checked);
 
       // Do not mark the field as "dirty"
       // if the field has been initialized with a value.
@@ -159,11 +165,21 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
     return this._required;
   }
 
+  /**
+   * Fires when the selected value changes.
+   */
+  @Output()
+  public get checkedChange(): Observable<boolean> {
+    return this._checkedChange;
+  }
+
   private isFirstChange = true;
 
   private _checkboxType: string;
 
   private _checked: boolean = false;
+
+  private _checkedChange = new BehaviorSubject<boolean>(this._checked);
 
   private _required: boolean = false;
 

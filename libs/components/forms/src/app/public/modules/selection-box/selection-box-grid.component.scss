@@ -1,0 +1,51 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+
+// Host element must be a block to allow FF to make proper getBoundingClientRect() calculations.
+:host {
+  display: block;
+}
+
+.sky-selection-box-grid {
+  display: flex;
+  flex-flow: row wrap;
+  padding: 0 7.5px;
+  margin: 0 auto;
+
+  &.sky-selection-box-grid-align-center {
+    justify-content: center;
+  }
+
+  &.sky-selection-box-grid-align-left {
+    justify-content: flex-start;
+  }
+
+  > sky-selection-box {
+    margin: 0 7.5px 15px;
+    height: 100%;
+  }
+
+  &.sky-selection-box-container-sm {
+    max-width: 374px;
+
+    > sky-selection-box {
+      flex: 0 1 344px;
+    }
+  }
+
+  &.sky-selection-box-container-md {
+    max-width: 937px;
+
+    > sky-selection-box {
+      flex: 0 1 446px;
+    }
+  }
+
+  &.sky-selection-box-container-lg {
+    max-width: 1398px;
+
+    > sky-selection-box {
+      flex: 0 1 446px;
+    }
+  }
+}

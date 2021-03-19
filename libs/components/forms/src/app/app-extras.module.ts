@@ -34,11 +34,12 @@ import {
 } from '@skyux/router';
 
 import {
+  SkyCharacterCounterModule,
   SkyCheckboxModule,
   SkyFileAttachmentsModule,
   SkyInputBoxModule,
   SkyRadioModule,
-  SkyCharacterCounterModule,
+  SkySelectionBoxModule,
   SkyToggleSwitchModule
 } from './public/public_api';
 
@@ -56,6 +57,7 @@ import {
     SkyIdModule,
     SkyInputBoxModule,
     SkyRadioModule,
+    SkySelectionBoxModule,
     SkyStatusIndicatorModule,
     SkyCharacterCounterModule,
     SkyToggleSwitchModule

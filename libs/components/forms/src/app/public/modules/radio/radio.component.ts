@@ -1,4 +1,3 @@
-// #region imports
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -17,6 +16,7 @@ import {
 } from '@angular/forms';
 
 import {
+  BehaviorSubject,
   Observable
 } from 'rxjs';
 
@@ -27,10 +27,9 @@ import {
 import {
   SkyRadioChange
 } from './types/radio-change';
-// #endregion
 
 /**
- * Auto-incrementing integer used to generate unique ids for radio components.
+ * Auto-incrementing integer that generates unique IDs for radio components.
  */
 let nextUniqueId = 0;
 
@@ -72,6 +71,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
 
     if (this._checked !== newCheckedState) {
       this._checked = newCheckedState;
+      this._checkedChange.next(this._checked);
 
       if (newCheckedState) {
         this.selectedValue = this.value;
@@ -223,6 +223,15 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   public get change(): Observable<SkyRadioChange> {
     return this._change;
   }
+
+  /**
+   * Fires when the selected value changes.
+   */
+  @Output()
+  public get checkedChange(): Observable<boolean> {
+    return this._checkedChange;
+  }
+
   public get inputId(): string {
     return `sky-radio-${this.id}-input`;
   }
@@ -238,6 +247,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
 
   private _change = new EventEmitter<SkyRadioChange>();
   private _checked = false;
+  private _checkedChange = new BehaviorSubject<boolean>(this._checked);
   private _disabled: boolean = false;
   private _name: string;
   private _radioType: string;

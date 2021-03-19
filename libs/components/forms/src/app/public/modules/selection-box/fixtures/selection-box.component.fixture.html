@@ -1,0 +1,99 @@
+<div
+  id="radioSelectionBoxes"
+>
+  <sky-radio-group
+    ariaLabel="Test options"
+    value="red"
+  >
+    <sky-selection-box *ngFor="let item of radioArray"
+      [control]="radio"
+    >
+      <sky-icon
+        [icon]="item.icon"
+        [iconType]="item.iconType"
+      ></sky-icon>
+      <sky-selection-box-header
+        skyId
+        #radioHeaderId="skyId"
+      >
+        {{ item.header }}
+      </sky-selection-box-header>
+      <sky-radio
+        [labelledBy]="radioHeaderId.id"
+        [value]="item.name"
+        #radio
+      >
+      </sky-radio>
+    </sky-selection-box>
+  </sky-radio-group>
+</div>
+
+<div
+  id="checkboxSelectionBoxes"
+>
+  <sky-selection-box *ngFor="let item of checkboxArray; let i = index"
+    [control]="checkbox"
+  >
+    <sky-icon
+      [icon]="item.icon"
+      [iconType]="item.iconType"
+    ></sky-icon>
+    <sky-selection-box-header
+      skyId
+      #checkboxHeaderId="skyId"
+    >
+      {{ item.header }}
+    </sky-selection-box-header>
+    <sky-selection-box-description>
+      {{ item.description }}
+    </sky-selection-box-description>
+    <sky-checkbox
+      [labelledBy]="checkboxHeaderId.id"
+      #checkbox
+    >
+    </sky-checkbox>
+  </sky-selection-box>
+</div>
+
+<sky-selection-box
+  [control]="checkboxWithLink"
+>
+  <sky-selection-box-header
+    skyId
+    #checkboxWithLinkHeaderId="skyId"
+  >
+    Header
+  </sky-selection-box-header>
+  <sky-selection-box-description>
+    This <a id="link" href="#" class="sky-emphasized">link</a> should not be tabbable.
+  </sky-selection-box-description>
+  <sky-checkbox
+    [labelledBy]="checkboxWithLinkHeaderId.id"
+    #checkboxWithLink
+  >
+  </sky-checkbox>
+</sky-selection-box>
+
+<div
+  id="disabled-selection-box"
+>
+  <sky-selection-box
+    [control]="disabledCheckbox"
+  >
+    <sky-selection-box-header
+      skyId
+      #disabledCheckboxHeaderId="skyId"
+    >
+      Disabled selection box
+    </sky-selection-box-header>
+    <sky-selection-box-description>
+      I should be disabled
+    </sky-selection-box-description>
+    <sky-checkbox
+      [disabled]="true"
+      [labelledBy]="disabledCheckboxHeaderId.id"
+      #disabledCheckbox
+    >
+    </sky-checkbox>
+  </sky-selection-box>
+</div>

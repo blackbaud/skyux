@@ -1,0 +1,127 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/_compat/mixins";
+@import "~@skyux/theme/scss/themes/modern/_compat/mixins";
+
+.sky-selection-box {
+  display: flex;
+  flex-flow: row nowrap;
+  padding: $sky-padding-even-large;
+  text-align: left;
+
+  &:hover {
+    background: #ffffff;
+    box-shadow: 0px 0px 5px 0 rgba(0, 0, 0, 0.3),
+                inset 0 0 0 1px $sky-highlight-color-info;
+
+    .sky-switch-control {
+      border: solid 1px $sky-highlight-color-info;
+    }
+  }
+
+  &:focus {
+    .sky-switch-control {
+      //default
+      outline: thin dotted;
+
+      //webkit
+      outline: -webkit-focus-ring-color auto 5px;
+    }
+  }
+
+  &.sky-selection-box-selected {
+    background: $sky-background-color-selected;
+  }
+
+  &.sky-selection-box-disabled {
+    background: $sky-background-color-neutral-light;
+
+    .sky-selection-box-icon {
+      color: $sky-text-color-deemphasized;
+    }
+  }
+
+  .sky-selection-box-icon {
+    color: $sky-text-color-action-primary;
+    margin: 0 $sky-space-md 0 0;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+
+    .sky-icon {
+      font-size: 24px !important;
+    }
+  }
+
+  .sky-selection-box-content {
+    flex: 1 1 auto;
+    margin: 0 $sky-space-md 0 0;
+    white-space: initial;
+  }
+
+  .sky-selection-box-header {
+    padding-top: 3px;
+  }
+
+  .sky-selection-box-control {
+    flex: 0 0 auto;
+    padding-top: 5px;
+  }
+}
+
+@include sky-theme-modern {
+  .sky-selection-box {
+    padding: $sky-theme-modern-padding-even-xl;
+
+    &:hover {
+      box-shadow: $sky-theme-modern-elevation-1-shadow-size $sky-theme-modern-elevation-1-shadow-color,
+      inset 0 0 0 1px $sky-theme-modern-background-color-primary-dark;
+
+      .sky-switch-control {
+        border: solid 1px $sky-theme-modern-background-color-primary-dark;
+      }
+    }
+
+    &:focus {
+      .sky-switch-control {
+        border: solid 2px $sky-theme-modern-background-color-primary-dark;
+        outline: none;
+      }
+    }
+
+    &.sky-selection-box-selected {
+      background: #e8f8ff;
+      box-shadow: inset 0 0 0 2px #1870B8, 0px 1px 8px 0px rgba(0, 0, 0, 0.3), inset 6px 0 0 0 $sky-background-color-primary-dark;
+    }
+
+    &.sky-selection-box-disabled {
+      .sky-selection-box-icon {
+        background: #D2D2D2;
+        color: $sky-text-color-deemphasized;
+      }
+    }
+
+    .sky-selection-box-icon {
+      color: $sky-text-color-action-primary;
+      background: #e8f8ff;
+      margin: 0 $sky-theme-modern-space-md 0 0;
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+    }
+
+    .sky-selection-box-content {
+      margin: 0 $sky-theme-modern-space-xl 0 0;
+    }
+
+    .sky-selection-box-description {
+      margin: 3px 0 0 0;
+    }
+  }
+}
