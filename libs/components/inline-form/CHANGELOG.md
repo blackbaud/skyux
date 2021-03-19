@@ -1,6 +1,6 @@
 # 4.1.1 (2021-03-18)
 
-- Replaced theme conditionals in templates with the new `skyIfTheme` directive. [#42](https://github.com/blackbaud/skyux-inline-form/pull/42)
+- Replaced theme conditionals in templates with the new `skyThemeIf` directive. [#42](https://github.com/blackbaud/skyux-inline-form/pull/42)
 
 # 4.1.0 (2020-08-27)
 
