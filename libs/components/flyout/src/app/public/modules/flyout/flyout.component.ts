@@ -45,10 +45,6 @@ import {
 } from '@skyux/i18n';
 
 import {
-  SkyThemeService
-} from '@skyux/theme';
-
-import {
   SkyFlyoutAdapterService
 } from './flyout-adapter.service';
 
@@ -204,8 +200,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     private resourcesService: SkyLibResourcesService,
     private flyoutMediaQueryService: SkyFlyoutMediaQueryService,
     private elementRef: ElementRef,
-    private uiConfigService: SkyUIConfigService,
-    themeSvc: SkyThemeService
+    private uiConfigService: SkyUIConfigService
   ) {
     // All commands flow through the message stream.
     this.messageStream
@@ -213,12 +208,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       .subscribe((message: SkyFlyoutMessage) => {
         this.handleIncomingMessages(message);
       });
-
-    themeSvc.settingsChange
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(settings => {
-        this.themeName = settings.currentSettings?.theme?.name;
-    });
   }
 
   public ngOnInit(): void {

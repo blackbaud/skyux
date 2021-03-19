@@ -125,11 +125,6 @@
   height: calc(100% - 50px);
 }
 
-/* Theming */
-.sky-flyout-close-icon-theme-modern {
-  display: none;
-}
-
 @include sky-theme-modern {
   .sky-flyout {
     border-left: 0;
@@ -139,14 +134,6 @@
     border-bottom: none;
     background: #fff;
     padding: $sky-theme-modern-space-md $sky-theme-modern-space-sm;
-  }
-
-  .sky-flyout-close-icon-theme-default {
-    display: none;
-  }
-
-  .sky-flyout-close-icon-theme-modern {
-    display: inline;
   }
 
   .sky-flyout-header-grab-handle {

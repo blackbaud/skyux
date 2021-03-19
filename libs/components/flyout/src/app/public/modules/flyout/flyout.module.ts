@@ -34,6 +34,10 @@ import {
 } from '@skyux/i18n';
 
 import {
+  SkyThemeModule
+} from '@skyux/theme';
+
+import {
   SkyFlyoutResourcesModule
 } from '../shared/flyout-resources.module';
 
@@ -73,7 +77,8 @@ import {
     SkyI18nModule,
     SkyIconModule,
     SkyFlyoutResourcesModule,
-    SkyDynamicComponentModule
+    SkyDynamicComponentModule,
+    SkyThemeModule
   ],
   exports: [
     SkyFlyoutComponent
