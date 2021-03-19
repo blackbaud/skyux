@@ -1,3 +1,8 @@
+# 4.4.1 (2021-03-19)
+
+- Replaced theme conditionals in templates with the new `skyThemeIf` directive. [#138](https://github.com/blackbaud/skyux-popovers/pull/138)
+- Fixed the dropdown component to prevent an error when items are added before the menu is fully open. [#137](https://github.com/blackbaud/skyux-popovers/issues/137)
+
 # 4.4.0 (2020-12-18)
 
 - Added modern theme styles to the popover component. [#131](https://github.com/blackbaud/skyux-popovers/pull/131)
