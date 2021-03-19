@@ -32,14 +32,14 @@
       (click)="onTriggerButtonClick()"
       #triggerButtonRef
     >
-      <sky-icon
+      <sky-icon *skyThemeIf="'default'"
         icon="calendar"
         size="lg"
-        [iconType]="
-          (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name === 'modern' ?
-            'skyux' :
-            'fa'
-        "
+      ></sky-icon>
+      <sky-icon *skyThemeIf="'modern'"
+        icon="calendar"
+        size="lg"
+        iconType="skyux"
       ></sky-icon>
     </button>
   </div>

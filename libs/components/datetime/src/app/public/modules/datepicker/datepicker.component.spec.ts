@@ -422,11 +422,24 @@ describe('datepicker', () => {
     }));
 
     it('should display the expected calendar icon in the calendar button', fakeAsync(() => {
-      const iconEl = fixture.nativeElement.querySelector(
+
+      mockThemeSvc.settingsChange.next({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.default,
+          SkyThemeMode.presets.light
+        ),
+        previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings
+      });
+
+      detectChanges(fixture);
+      tick();
+      fixture.whenStable();
+
+      const iconDefault = fixture.nativeElement.querySelector(
         '.sky-input-group-datepicker-btn .sky-icon'
       );
 
-      expect(iconEl).toHaveCssClass('fa-calendar');
+      expect(iconDefault).toHaveCssClass('fa-calendar');
 
       mockThemeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(
@@ -437,8 +450,14 @@ describe('datepicker', () => {
       });
 
       detectChanges(fixture);
+      tick();
+      fixture.whenStable();
 
-      expect(iconEl).toHaveCssClass('sky-i-calendar');
+      const iconModern = fixture.nativeElement.querySelector(
+        '.sky-input-group-datepicker-btn .sky-icon'
+      );
+
+      expect(iconModern).toHaveCssClass('sky-i-calendar');
     }));
 
     it('should show a default placeholder of the default date format', fakeAsync(() => {

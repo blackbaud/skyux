@@ -32,23 +32,15 @@
       (click)="onTriggerButtonClick()"
       #triggerButtonRef
     >
-      <sky-icon *ngIf="
-          (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name === 'modern';
-          else iconDefault
-        "
-        icon="clock"
-        iconType="skyux"
+      <sky-icon *skyThemeIf="'default'"
+        icon="clock-o"
         size="lg"
       ></sky-icon>
-
-      <ng-template
-        #iconDefault
-      >
-        <sky-icon
-          icon="clock-o"
-          size="lg"
-        ></sky-icon>
-      </ng-template>
+      <sky-icon *skyThemeIf="'modern'"
+        icon="clock"
+        size="lg"
+        iconType="skyux"
+      ></sky-icon>
     </button>
   </div>
 </ng-template>

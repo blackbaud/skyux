@@ -16,6 +16,11 @@ import {
 } from '@skyux/forms';
 
 import {
+  SkyThemeModule,
+  SkyThemeService
+} from '@skyux/theme';
+
+import {
   SkyDatepickerModule
 } from '../datepicker.module';
 
@@ -52,7 +57,8 @@ import {
     NoopAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    SkyInputBoxModule
+    SkyInputBoxModule,
+    SkyThemeModule
   ],
   exports: [
     DatepickerCalendarTestComponent,
@@ -60,6 +66,9 @@ import {
     DatepickerNoFormatTestComponent,
     DatepickerReactiveTestComponent,
     DatepickerTestComponent
+  ],
+  providers: [
+    SkyThemeService
   ]
 })
 export class DatepickerTestModule { }

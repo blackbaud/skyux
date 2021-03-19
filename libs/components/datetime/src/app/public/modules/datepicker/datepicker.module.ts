@@ -26,6 +26,11 @@ import {
 } from '@skyux/indicators';
 
 import {
+  SkyThemeModule,
+  SkyThemeService
+} from '@skyux/theme';
+
+import {
   SkyDateTimeResourcesModule
 } from '../shared/datetime-resources.module';
 
@@ -87,7 +92,8 @@ import {
     SkyIconModule,
     SkyDateTimeResourcesModule,
     SkyAffixModule,
-    SkyOverlayModule
+    SkyOverlayModule,
+    SkyThemeModule
   ],
   exports: [
     SkyDatepickerCalendarComponent,
@@ -103,7 +109,8 @@ import {
     SkyAppWindowRef,
     SkyDatepickerConfigService,
     SkyFuzzyDateService,
-    SkyCoreAdapterService
+    SkyCoreAdapterService,
+    SkyThemeService
   ]
 })
 export class SkyDatepickerModule { }

@@ -564,7 +564,7 @@ describe('Timepicker', () => {
       });
     }));
 
-    it('should display the expected clock icon in the calendar button', fakeAsync(() => {
+    it('should display the expected clock icon in the time button', fakeAsync(() => {
       function validateIcon(iconCls: string): void {
         const iconEl = fixture.nativeElement.querySelector(
           '.sky-input-group-timepicker-btn .sky-icon'
