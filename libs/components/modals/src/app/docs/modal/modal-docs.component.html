@@ -20,7 +20,7 @@
         >
         </sky-docs-demo-control-panel-radio-group>
       </sky-docs-demo-control-panel-section>
-      <sky-docs-demo-control-panel-section *ngIf="(themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'default'">
+      <sky-docs-demo-control-panel-section *skyThemeIf="'default'">
         <sky-docs-demo-control-panel-checkbox
           label="Show help button"
           propertyName="showHelpButton"

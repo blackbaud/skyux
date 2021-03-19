@@ -11,6 +11,11 @@ import {
 } from '@skyux/i18n';
 
 import {
+  SkyThemeModule,
+  SkyThemeService
+} from '@skyux/theme';
+
+import {
   SkyModalModule
 } from '../modal/modal.module';
 
@@ -34,13 +39,15 @@ import {
     CommonModule,
     SkyI18nModule,
     SkyModalModule,
-    SkyModalsResourcesModule
+    SkyModalsResourcesModule,
+    SkyThemeModule
   ],
   exports: [
     SkyConfirmComponent
   ],
   providers: [
-    SkyConfirmService
+    SkyConfirmService,
+    SkyThemeService
   ],
   entryComponents: [
     SkyConfirmComponent

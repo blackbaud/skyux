@@ -6,11 +6,11 @@
       <div
         class="sky-confirm-message"
         [ngClass]="{
-          'sky-emphasized':
-            (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'default',
-          'sky-confirm-preserve-white-space': preserveWhiteSpace,
-          'sky-font-heading-1 sky-font-display-3':
-            (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern'
+          'sky-confirm-preserve-white-space': preserveWhiteSpace
+        }"
+        [skyThemeClass]="{
+          'sky-emphasized': 'default',
+          'sky-font-heading-1 sky-font-display-3': 'modern'
         }"
       >{{ message }}</div>
 
@@ -26,14 +26,13 @@
           *ngFor="let button of buttons"
           type="button"
           class="sky-btn"
-          [ngClass]="
-            [
-              'sky-btn-' + button.styleType,
-              (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern' ?
-                'sky-margin-inline-sm' :
-                'sky-margin-inline-compact'
-            ]
-            "
+          [ngClass]="[
+            'sky-btn-' + button.styleType
+          ]"
+          [skyThemeClass]="{
+            'sky-margin-inline-sm': 'modern',
+            'sky-margin-inline-compact': 'default'
+          }"
           (click)="close(button)"
           [attr.autofocus]="button.autofocus ? 'autofocus': null"
         >
