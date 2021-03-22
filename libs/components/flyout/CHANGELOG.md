@@ -1,3 +1,7 @@
+# 4.1.1 (2021-03-22)
+
+- Replaced theme conditionals in templates with the new `skyThemeIf` directive. [#110](https://github.com/blackbaud/skyux-flyout/pull/110)
+
 # 4.1.0 (2020-11-06)
 
 - Added modern theme styles to the flyout component. [#105](https://github.com/blackbaud/skyux-flyout/pull/105)
