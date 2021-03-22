@@ -1,3 +1,7 @@
+# 4.5.2 (2021-03-22)
+
+- Replaced theme conditionals in templates with the new `skyThemeIf` directive. [#143](https://github.com/blackbaud/skyux-modals/pull/143)
+
 # 4.5.1 (2020-10-01)
 
 - Fixed the modal content component to fill the height of its container.
