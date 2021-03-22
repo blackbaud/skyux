@@ -1,3 +1,7 @@
+# 4.9.1 (2021-03-22)
+
+- Adjusted the chevron component so that it is the same size as the borderless icon buttons. [#161](https://github.com/blackbaud/skyux-indicators/pull/161)
+
 # 4.9.0 (2021-03-18)
 
 - Updated the icon component to support line and solid variants for the SKY UX icon font. [#157](https://github.com/blackbaud/skyux-indicators/pull/157)
