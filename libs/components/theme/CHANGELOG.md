@@ -1,3 +1,7 @@
+# 4.15.3 (2021-03-23)
+
+- Updated the change detection for `skyThemeIf` to use lifecycle hook. [#215](https://github.com/blackbaud/skyux-theme/pull/215)
+
 # 4.15.2 (2021-03-15)
 
 - Added change detection to `skyThemeIf`. [#213](https://github.com/blackbaud/skyux-theme/pull/213)
