@@ -1,4 +1,8 @@
 import {
+  Component
+} from '@angular/core';
+
+import {
   ComponentFixture,
   TestBed
 } from '@angular/core/testing';
@@ -39,6 +43,18 @@ import {
   SkyThemeSettingsChange
 } from './theme-settings-change';
 
+@Component({
+  selector: 'app-theme-if-test-projection',
+  template: `
+    <app-theme-if-test>
+      <ng-container class="projectable">
+        Example content projection.
+      </ng-container>
+    </app-theme-if-test>
+  `
+})
+class TestProjectionComponent {}
+
 describe('ThemeIf directive', () => {
   let fixture: ComponentFixture<SkyThemeIfTestComponent>;
   const defaultThemeSettings = new SkyThemeSettings(SkyTheme.presets.default, SkyThemeMode.presets.light);
@@ -59,9 +75,11 @@ describe('ThemeIf directive', () => {
         }
       )
     };
+
     TestBed.configureTestingModule({
       declarations: [
-        SkyThemeIfTestComponent
+        SkyThemeIfTestComponent,
+        TestProjectionComponent
       ],
       imports: [
         SkyThemeModule
@@ -69,7 +87,7 @@ describe('ThemeIf directive', () => {
       providers: [
         { provide: SkyThemeService, useValue: mockThemeSvc }
       ]
-    });
+    }).compileComponents();
     fixture = TestBed.createComponent(SkyThemeIfTestComponent);
   });
 
@@ -122,20 +140,32 @@ describe('ThemeIf directive', () => {
       previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings
     });
     fixture.detectChanges();
-    await fixture.whenStable();
     const inputTestElements = fixture.debugElement.nativeElement.querySelectorAll('.sky-theme-if-input-test');
     expect(inputTestElements.length).toBe(0);
 
     fixture.componentInstance.testThemeName = 'modern';
     fixture.detectChanges();
-    await fixture.whenStable();
     const inputTestElementsUpdated = fixture.debugElement.nativeElement.querySelectorAll('.sky-theme-if-input-test');
     expect(inputTestElementsUpdated.length).toBe(1);
   });
 
+  it('should flip back and forth', async () => {
+    const componentFixture = TestBed.createComponent(TestProjectionComponent);
+    await testForContentProjectionShowing('default: Example content projection.', componentFixture);
+    mockThemeSvc.settingsChange.next({
+      currentSettings: modernThemeSettings,
+      previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings
+    });
+    await testForContentProjectionShowing('modern: Example content projection.', componentFixture);
+    mockThemeSvc.settingsChange.next({
+      currentSettings: defaultThemeSettings,
+      previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings
+    });
+    await testForContentProjectionShowing('default: Example content projection.', componentFixture);
+  });
+
   async function testForElementShowing(expected: string) {
     fixture.detectChanges();
-    await fixture.whenStable();
     const elements = fixture.debugElement.nativeElement.querySelectorAll('.sky-theme-if-test');
     expect(elements.length).toBe(1);
     expect(elements[0]).toHaveText(expected);
@@ -143,7 +173,6 @@ describe('ThemeIf directive', () => {
 
   async function testForWrappedElementShowing(expected: string) {
     fixture.detectChanges();
-    await fixture.whenStable();
     const elements = fixture.debugElement.nativeElement.querySelectorAll('.sky-theme-if-wrapped-test');
     expect(elements.length).toBe(1);
     expect(elements[0]).toHaveText(expected);
@@ -151,8 +180,13 @@ describe('ThemeIf directive', () => {
 
   async function testForInputElementShowing(expected: string) {
     fixture.detectChanges();
-    await fixture.whenStable();
     const element = fixture.debugElement.nativeElement.querySelector('.sky-theme-if-input-test');
+    expect(element).toHaveText(expected);
+  }
+
+  async function testForContentProjectionShowing(expected: string, component: ComponentFixture<any>) {
+    component.detectChanges();
+    const element = component.debugElement.nativeElement.querySelector('.sky-theme-template');
     expect(element).toHaveText(expected);
   }
 });

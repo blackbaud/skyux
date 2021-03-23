@@ -19,3 +19,14 @@
 >
   This text shown for {{ testThemeName }} theme.
 </div>
+<div class="sky-theme-template">
+  <ng-container *skyThemeIf="'default'">
+    default:<ng-container *ngTemplateOutlet="foo"></ng-container>
+  </ng-container>
+  <ng-container *skyThemeIf="'modern'">
+    modern:<ng-container *ngTemplateOutlet="foo"></ng-container>
+  </ng-container>
+  <ng-template #foo>
+    <ng-content select=".projectable"></ng-content>
+  </ng-template>
+</div>
