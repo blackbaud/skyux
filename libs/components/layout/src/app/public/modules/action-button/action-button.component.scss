@@ -2,32 +2,11 @@
 @import "~@skyux/theme/scss/_compat/mixins";
 @import "~@skyux/theme/scss/themes/modern/_compat/_mixins";
 
-:host-context(.sky-action-button-container) {
-  & {
-    display: block;
-  }
-
-  .sky-action-button {
-    height: 100%;
-    min-width: 236px;
-    margin-left: $sky-margin;
-    margin-right: $sky-margin;
-  }
-}
-
-:host-context(.sky-theme-modern .sky-action-button-container) {
-  .sky-action-button {
-    height: auto;
-    min-width: auto;
-    margin: 0;
-  }
-}
-
 .sky-action-button {
   @include sky-border(dark, top, bottom, left, right);
   cursor: pointer;
   text-align: center;
-  text-decoration: none;
+  text-decoration: none !important;
   display: block;
 
   &:hover {
@@ -40,20 +19,7 @@
   justify-content: center;
 }
 
-@include sky-host-responsive-container-xs-min() {
-
-  :host-context(.sky-action-button-container) {
-    & {
-      margin: $sky-margin-double 0;
-    }
-  }
-
-  :host-context(.sky-theme-modern .sky-action-button-container) {
-    & {
-      margin: 0 7.5px 15px;
-    }
-  }
-
+@include sky-host-responsive-container-xs-min(false) {
   .sky-action-button {
     padding: $sky-padding-double $sky-padding-double $sky-padding-triple;
     margin: 0 $sky-margin-plus-half;
@@ -64,19 +30,7 @@
   }
 }
 
-@include sky-host-responsive-container-sm-min() {
-  :host-context(.sky-action-button-container) {
-    & {
-      margin: $sky-margin 0;
-    }
-  }
-
-  :host-context(.sky-theme-modern .sky-action-button-container) {
-    & {
-      margin: 0 7.5px 15px;
-    }
-  }
-
+@include sky-host-responsive-container-sm-min(false) {
   .sky-action-button {
     padding: $sky-padding-triple $sky-padding-double;
     margin: 0;
@@ -89,7 +43,7 @@
   }
 }
 
-@include sky-theme-modern {
+.sky-theme-modern {
   .sky-action-button {
     display: flex;
     flex-flow: row nowrap;
@@ -104,7 +58,7 @@
     }
   }
 
-  @include sky-host-responsive-container-xs-min() {
+  @include sky-host-responsive-container-xs-min(false) {
     .sky-action-button {
       padding: $sky-theme-modern-padding-even-xl;
       margin: 0;
@@ -112,7 +66,7 @@
     }
   }
 
-  @include sky-host-responsive-container-sm-min() {
+  @include sky-host-responsive-container-sm-min(false) {
     .sky-action-button {
       padding: $sky-theme-modern-padding-even-xl;
       margin: 0;

@@ -2,7 +2,8 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output
+  Output,
+  ViewEncapsulation
 } from '@angular/core';
 
 import {
@@ -15,7 +16,8 @@ import {
 @Component({
   selector: 'sky-action-button',
   styleUrls: ['./action-button.component.scss'],
-  templateUrl: './action-button.component.html'
+  templateUrl: './action-button.component.html',
+  encapsulation: ViewEncapsulation.None
 })
 export class SkyActionButtonComponent {
 

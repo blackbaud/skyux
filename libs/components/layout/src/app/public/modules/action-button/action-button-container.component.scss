@@ -6,22 +6,44 @@
   display: block;
 }
 
-@include sky-host-responsive-container-sm-min() {
-  .sky-action-button-container {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: stretch;
-    padding: $sky-padding 0;
+.sky-action-button-container {
+  sky-action-button {
+    display: block;
+  }
+
+  .sky-action-button {
+    height: 100%;
+    min-width: 236px;
+    margin-left: $sky-margin;
+    margin-right: $sky-margin;
   }
 }
 
-@include sky-theme-modern {
+@include sky-host-responsive-container-xs-min(false) {
+  .sky-action-button-container {
+    display: block;
+    padding: 0;
+
+    sky-action-button {
+      margin: $sky-margin-double 0;
+    }
+  }
+}
+
+@include sky-host-responsive-container-sm-min(false) {
   .sky-action-button-container {
     display: flex;
     flex-flow: row wrap;
-    padding: 0 7.5px;
-    margin: 0 auto;
+    padding: $sky-padding 0;
 
+    sky-action-button {
+      margin: $sky-margin 0;
+    }
+  }
+}
+
+.sky-theme-modern {
+  .sky-action-button-container {
     &.sky-action-button-container-sm {
       max-width: 476px;
     }
@@ -40,6 +62,26 @@
 
     &.sky-action-button-container-align-left {
       justify-content: flex-start;
+    }
+
+    .sky-action-button {
+      height: auto;
+      min-width: auto;
+      margin: 0;
+    }
+  }
+
+  @include sky-host-responsive-container-xs-min(false) {
+    .sky-action-button-container {
+      display: flex;
+      flex-flow: row wrap;
+      padding: 0 7.5px;
+      margin: 0 auto;
+
+      sky-action-button {
+        margin: 0 7.5px 15px;
+        flex: 0 1 446px;
+      }
     }
   }
 }

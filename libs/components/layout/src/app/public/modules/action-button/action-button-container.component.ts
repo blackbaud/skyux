@@ -5,7 +5,8 @@ import {
   HostListener,
   Input,
   OnInit,
-  ViewChild
+  ViewChild,
+  ViewEncapsulation
 } from '@angular/core';
 
 import {
@@ -39,7 +40,8 @@ import {
 @Component({
   selector: 'sky-action-button-container',
   styleUrls: ['./action-button-container.component.scss'],
-  templateUrl: './action-button-container.component.html'
+  templateUrl: './action-button-container.component.html',
+  encapsulation: ViewEncapsulation.None
 })
 export class SkyActionButtonContainerComponent implements OnInit {
 
