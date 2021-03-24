@@ -2,6 +2,7 @@ import {
   Directive,
   Input,
   OnDestroy,
+  Optional,
   TemplateRef,
   ViewContainerRef
 } from '@angular/core';
@@ -13,6 +14,14 @@ import {
 import {
   takeUntil
 } from 'rxjs/operators';
+
+import {
+  SkyTheme
+} from './theme';
+
+import {
+  SkyThemeMode
+} from './theme-mode';
 
 import {
   SkyThemeSettings
@@ -53,15 +62,22 @@ export class SkyThemeIfDirective implements OnDestroy {
   private hasView = false;
 
   constructor(
-    private themeSvc: SkyThemeService,
     private templateRef: TemplateRef<any>,
-    private viewContainer: ViewContainerRef
+    private viewContainer: ViewContainerRef,
+    @Optional() themeSvc: SkyThemeService
   ) {
-    this.themeSvc.settingsChange
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(settingsChange => {
-        this.themeSettings = settingsChange.currentSettings;
-      });
+    if (themeSvc) {
+      themeSvc.settingsChange
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(settingsChange => {
+          this.themeSettings = settingsChange.currentSettings;
+        });
+    } else {
+      this.themeSettings = new SkyThemeSettings(
+        SkyTheme.presets.default,
+        SkyThemeMode.presets.light
+      );
+    }
   }
 
   public ngOnDestroy(): void {

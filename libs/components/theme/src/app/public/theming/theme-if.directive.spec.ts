@@ -55,138 +55,192 @@ import {
 })
 class TestProjectionComponent {}
 
+class MockThemeService {
+  public settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
+}
+
+const DEFAULT_THEME = new SkyThemeSettings(
+  SkyTheme.presets.default,
+  SkyThemeMode.presets.light
+);
+const MODERN_THEME = new SkyThemeSettings(
+  SkyTheme.presets.modern,
+  SkyThemeMode.presets.light
+);
+
 describe('ThemeIf directive', () => {
-  let fixture: ComponentFixture<SkyThemeIfTestComponent>;
-  const defaultThemeSettings = new SkyThemeSettings(SkyTheme.presets.default, SkyThemeMode.presets.light);
-  const modernThemeSettings = new SkyThemeSettings(SkyTheme.presets.modern, SkyThemeMode.presets.dark);
-  let mockThemeSvc: {
-    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
-  };
 
-  beforeEach(() => {
-    mockThemeSvc = {
-      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
-        {
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.default,
-            SkyThemeMode.presets.light
-          ),
-          previousSettings: undefined
-        }
-      )
-    };
-
-    TestBed.configureTestingModule({
-      declarations: [
-        SkyThemeIfTestComponent,
-        TestProjectionComponent
-      ],
-      imports: [
-        SkyThemeModule
-      ],
-      providers: [
-        { provide: SkyThemeService, useValue: mockThemeSvc }
-      ]
-    }).compileComponents();
-    fixture = TestBed.createComponent(SkyThemeIfTestComponent);
-  });
-
-  it('should display nothing if no theme is set', () => {
-    expect(fixture.debugElement.nativeElement.querySelectorAll('.sky-theme-if-test').length).toBe(0);
-  });
-
-  it('should work with the default theme', async () => {
-    mockThemeSvc.settingsChange.next({
-      currentSettings: defaultThemeSettings,
-      previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings
-    });
-    return testForElementShowing('default theme');
-  });
-
-  it('should work with the modern theme', async () => {
-    mockThemeSvc.settingsChange.next({
-      currentSettings: modernThemeSettings,
-      previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings
-    });
-    return testForElementShowing('modern theme');
-  });
-
-  // Test the scenario where settings change and previously displayed elements need to be hidden.
-  it('should reflect theme changes', async () => {
-    mockThemeSvc.settingsChange.next({
-      currentSettings: defaultThemeSettings,
-      previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings
-    });
-    await testForElementShowing('default theme');
-    mockThemeSvc.settingsChange.next({
-      currentSettings: modernThemeSettings,
-      previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings
-    });
-    return testForElementShowing('modern theme');
-  });
-
-  // Test the scenario where `skyTheme` directive sets a theme and those settings are inherited.
-  it('should work when wrapped in Theme directive', async () => {
-    await testForWrappedElementShowing('wrapped in default theme');
-    fixture.componentInstance.useModernTheme();
-    return testForWrappedElementShowing('wrapped in modern theme');
-  });
-
-  it('should reflect input changes', async () => {
-    fixture.componentInstance.testThemeName = 'default';
-    await testForInputElementShowing('This text shown for default theme.');
-    mockThemeSvc.settingsChange.next({
-      currentSettings: modernThemeSettings,
-      previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings
-    });
-    fixture.detectChanges();
-    const inputTestElements = fixture.debugElement.nativeElement.querySelectorAll('.sky-theme-if-input-test');
-    expect(inputTestElements.length).toBe(0);
-
-    fixture.componentInstance.testThemeName = 'modern';
-    fixture.detectChanges();
-    const inputTestElementsUpdated = fixture.debugElement.nativeElement.querySelectorAll('.sky-theme-if-input-test');
-    expect(inputTestElementsUpdated.length).toBe(1);
-  });
-
-  it('should flip back and forth', async () => {
-    const componentFixture = TestBed.createComponent(TestProjectionComponent);
-    await testForContentProjectionShowing('default: Example content projection.', componentFixture);
-    mockThemeSvc.settingsChange.next({
-      currentSettings: modernThemeSettings,
-      previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings
-    });
-    await testForContentProjectionShowing('modern: Example content projection.', componentFixture);
-    mockThemeSvc.settingsChange.next({
-      currentSettings: defaultThemeSettings,
-      previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings
-    });
-    await testForContentProjectionShowing('default: Example content projection.', componentFixture);
-  });
-
-  async function testForElementShowing(expected: string) {
-    fixture.detectChanges();
+  //#region helpers
+  function expectOnlyElementShowing(fixture: ComponentFixture<any>, expected: string): void {
     const elements = fixture.debugElement.nativeElement.querySelectorAll('.sky-theme-if-test');
     expect(elements.length).toBe(1);
     expect(elements[0]).toHaveText(expected);
   }
 
-  async function testForWrappedElementShowing(expected: string) {
+  function testForWrappedElementShowing(fixture: ComponentFixture<any>, expected: string): void {
     fixture.detectChanges();
-    const elements = fixture.debugElement.nativeElement.querySelectorAll('.sky-theme-if-wrapped-test');
+    const elements =
+      fixture.debugElement.nativeElement.querySelectorAll('.sky-theme-if-wrapped-test');
     expect(elements.length).toBe(1);
     expect(elements[0]).toHaveText(expected);
   }
 
-  async function testForInputElementShowing(expected: string) {
+  function testForInputElementShowing(fixture: ComponentFixture<any>, expected: string): void {
     fixture.detectChanges();
-    const element = fixture.debugElement.nativeElement.querySelector('.sky-theme-if-input-test');
+    const element = getInputTestElement(fixture);
     expect(element).toHaveText(expected);
   }
 
-  async function testForContentProjectionShowing(expected: string, component: ComponentFixture<any>) {
-    component.detectChanges();
-    const element = component.debugElement.nativeElement.querySelector('.sky-theme-template');
+  function testForContentProjectionShowing(fixture: ComponentFixture<any>, expected: string): void {
+    fixture.detectChanges();
+    const element = fixture.debugElement.nativeElement.querySelector('.sky-theme-template');
     expect(element).toHaveText(expected);
   }
+
+  async function changeTheme(
+    fixture: ComponentFixture<any>,
+    mockThemeSvc: MockThemeService,
+    theme: SkyThemeSettings
+  ): Promise<void> {
+    mockThemeSvc.settingsChange.next({
+      currentSettings: theme,
+      previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings
+    });
+    fixture.detectChanges();
+    await fixture.whenStable();
+    return;
+  }
+
+  function getInputTestElement(fixture: ComponentFixture<any>): HTMLElement {
+    return fixture.debugElement.nativeElement.querySelector('.sky-theme-if-input-test');
+  }
+  //#endregion
+
+  describe('without SkyThemeService provider', () => {
+    let fixture: ComponentFixture<SkyThemeIfTestComponent>;
+
+    beforeEach(async () => {
+      TestBed.configureTestingModule({
+        declarations: [
+          SkyThemeIfTestComponent,
+          TestProjectionComponent
+        ],
+        imports: [
+          SkyThemeModule
+        ],
+        providers: [
+          { provide: SkyThemeService, useValue: undefined }
+        ]
+      }).compileComponents();
+      fixture = TestBed.createComponent(SkyThemeIfTestComponent);
+      fixture.detectChanges();
+      await fixture.whenStable();
+    });
+
+    // Establish that our test is set up correctly.
+    it('should not have a SkyThemeService provider', () => {
+      const themeService = TestBed.inject(SkyThemeService);
+
+      expect(themeService).toBeUndefined();
+    });
+
+    it('should show default theme content only', () => {
+      expectOnlyElementShowing(fixture, 'default theme');
+    });
+  });
+
+  describe('with SkyThemeService provider', () => {
+    let fixture: ComponentFixture<SkyThemeIfTestComponent>;
+    let mockThemeSvc: MockThemeService;
+
+    beforeEach(async () => {
+      mockThemeSvc = {
+        settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+          {
+            currentSettings: DEFAULT_THEME,
+            previousSettings: undefined
+          }
+        )
+      };
+
+      TestBed.configureTestingModule({
+        declarations: [
+          SkyThemeIfTestComponent,
+          TestProjectionComponent
+        ],
+        imports: [
+          SkyThemeModule
+        ],
+        providers: [
+          { provide: SkyThemeService, useValue: mockThemeSvc }
+        ]
+      }).compileComponents();
+      fixture = TestBed.createComponent(SkyThemeIfTestComponent);
+      fixture.detectChanges();
+      await fixture.whenStable();
+    });
+
+    // Establish that our test is set up correctly.
+    it('should have a SkyThemeService provider', () => {
+      const themeService = TestBed.inject(SkyThemeService);
+
+      expect(themeService).not.toBeUndefined();
+    });
+
+    it('should update template when SkyThemeService changes to default theme', async () => {
+      await changeTheme(fixture, mockThemeSvc, DEFAULT_THEME);
+      expectOnlyElementShowing(fixture, 'default theme');
+    });
+
+    it('should update template when SkyThemeService changes to modern theme', async () => {
+      await changeTheme(fixture, mockThemeSvc, MODERN_THEME);
+      expectOnlyElementShowing(fixture, 'modern theme');
+    });
+
+    it('should update template with content that was previously hidden', async () => {
+      await changeTheme(fixture, mockThemeSvc, MODERN_THEME);
+      await changeTheme(fixture, mockThemeSvc, DEFAULT_THEME);
+      expectOnlyElementShowing(fixture, 'default theme');
+    });
+
+    // Test the scenario where `skyTheme` directive sets a theme and those settings are inherited.
+    it('should work when wrapped in Theme directive', async () => {
+      testForWrappedElementShowing(fixture, 'wrapped in default theme');
+      fixture.componentInstance.useModernTheme();
+      fixture.detectChanges();
+      await fixture.whenStable();
+      testForWrappedElementShowing(fixture, 'wrapped in modern theme');
+    });
+
+    it('should reflect input changes', async () => {
+      fixture.componentInstance.testThemeName = 'default';
+      testForInputElementShowing(fixture, 'This text shown for default theme.');
+      await changeTheme(fixture, mockThemeSvc, MODERN_THEME);
+      const inputTestElements = getInputTestElement(fixture);
+
+      expect(inputTestElements).toBeNull();
+
+      fixture.componentInstance.testThemeName = 'modern';
+      fixture.detectChanges();
+      const inputTestElementsUpdated = getInputTestElement(fixture);
+      expect(inputTestElementsUpdated).not.toBeNull();
+    });
+
+    it('should properly display projected content when changing between themes', async () => {
+      const componentFixture = TestBed.createComponent(TestProjectionComponent);
+      testForContentProjectionShowing(
+        componentFixture, 'default: Example content projection.'
+      );
+
+      await changeTheme(fixture, mockThemeSvc, MODERN_THEME);
+      testForContentProjectionShowing(
+        componentFixture, 'modern: Example content projection.'
+      );
+
+      await changeTheme(fixture, mockThemeSvc, DEFAULT_THEME);
+      testForContentProjectionShowing(
+        componentFixture, 'default: Example content projection.'
+      );
+    });
+  });
 });
