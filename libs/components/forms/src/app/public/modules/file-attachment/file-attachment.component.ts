@@ -124,7 +124,8 @@ export class SkyFileAttachmentComponent implements AfterViewInit, AfterContentIn
   public fileChange = new EventEmitter<SkyFileAttachmentChange>();
 
   /**
-   * Fires when users select the file link.
+   * Fires when users select the file name link. Make sure to bind the event.
+   * If you do not, the file name link will be a dead link.
    */
   @Output()
   public fileClick = new EventEmitter<SkyFileAttachmentClick>();
