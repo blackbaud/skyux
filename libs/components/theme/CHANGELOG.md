@@ -1,3 +1,7 @@
+# 4.15.4 (2021-03-24)
+
+- Fixed the `skyThemeIf` and `skyThemeClass` directives to work properly when `SkyThemeService` is not provided. [#217](https://github.com/blackbaud/skyux-theme/pull/217)
+
 # 4.15.3 (2021-03-23)
 
 - Updated the change detection for `skyThemeIf` to use lifecycle hook. [#215](https://github.com/blackbaud/skyux-theme/pull/215)
