@@ -1,10 +1,14 @@
 <div
   class="sky-action-button-container"
-  [ngClass]="{
-    'sky-action-button-container-align-left' : alignItems === 'left',
-    'sky-action-button-container-align-center' : alignItems === 'center'
-  }"
   #container
 >
-  <ng-content></ng-content>
+  <div
+    class="sky-action-button-flex"
+    [ngClass]="{
+      'sky-action-button-flex-align-left' : alignItems === 'left',
+      'sky-action-button-flex-align-center' : alignItems === 'center'
+    }"
+  >
+    <ng-content></ng-content>
+  </div>
 </div>

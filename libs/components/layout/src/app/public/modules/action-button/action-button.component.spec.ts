@@ -21,6 +21,7 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
+  SkyCoreAdapterService,
   SkyMediaBreakpoints,
   SkyMediaQueryService
 } from '@skyux/core';
@@ -46,20 +47,24 @@ import {
 } from './fixtures/action-button.component.fixture';
 
 import {
-  SkyActionButtonComponent
-} from './action-button.component';
+  SkyActionButtonFixturesModule
+} from './fixtures/action-button.module.fixture';
+
+import {
+  ActionButtonNgforTestComponent
+} from './fixtures/action-button-ngfor.component.fixture';
 
 import {
   SkyActionButtonContainerAlignItems
 } from './types/action-button-container-align-items';
 
 import {
-  SkyActionButtonFixturesModule
-} from './fixtures/action-button.module.fixture';
+  SkyActionButtonComponent
+} from './action-button.component';
 
 //#region helpers
-function getContainer(fixture: ComponentFixture<any>): HTMLElement {
-  return fixture.nativeElement.querySelector('.sky-action-button-container');
+function getFlexParent(fixture: ComponentFixture<any>): HTMLElement {
+  return fixture.nativeElement.querySelector('.sky-action-button-flex');
 }
 
 function getActionButtons(fixture: ComponentFixture<any>): NodeListOf<HTMLElement> {
@@ -258,25 +263,25 @@ describe('Action button component modern theme', () => {
 
   it('should have center justified class by default', () => {
     fixture.detectChanges();
-    const container = getContainer(fixture);
-    expect(container).toHaveCssClass('sky-action-button-container-align-center');
-    expect(container).not.toHaveCssClass('sky-action-button-container-align-left');
+    const flexParent = getFlexParent(fixture);
+    expect(flexParent).toHaveCssClass('sky-action-button-flex-align-center');
+    expect(flexParent).not.toHaveCssClass('sky-action-button-flex-align-left');
   });
 
   it(`should set class when alignItems property is 'left'`, () => {
     fixture.componentInstance.alignItems = SkyActionButtonContainerAlignItems.Left;
     fixture.detectChanges();
-    const container = getContainer(fixture);
-    expect(container).toHaveCssClass('sky-action-button-container-align-left');
-    expect(container).not.toHaveCssClass('sky-action-button-container-align-center');
+    const flexParent = getFlexParent(fixture);
+    expect(flexParent).toHaveCssClass('sky-action-button-flex-align-left');
+    expect(flexParent).not.toHaveCssClass('sky-action-button-flex-align-center');
   });
 
   it(`should set class when alignItems property is 'right'`, () => {
     fixture.componentInstance.alignItems = SkyActionButtonContainerAlignItems.Center;
     fixture.detectChanges();
-    const container = getContainer(fixture);
-    expect(container).toHaveCssClass('sky-action-button-container-align-center');
-    expect(container).not.toHaveCssClass('sky-action-button-container-align-left');
+    const flexParent = getFlexParent(fixture);
+    expect(flexParent).toHaveCssClass('sky-action-button-flex-align-center');
+    expect(flexParent).not.toHaveCssClass('sky-action-button-flex-align-left');
   });
 
   it(`should sync all child action buttons to have the same height as the tallest action button`, async(() => {
@@ -302,4 +307,60 @@ describe('Action button component modern theme', () => {
 
     expect(spy).toHaveBeenCalledTimes(1);
   });
+});
+
+describe('Action button container with dynamic action buttons', () => {
+  let fixture: ComponentFixture<ActionButtonNgforTestComponent>;
+  let cmp: ActionButtonNgforTestComponent;
+  let mockMediaQueryService: MockSkyMediaQueryService;
+  let mockThemeSvc: {
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+  };
+
+  beforeEach(() => {
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+        {
+          currentSettings: new SkyThemeSettings(
+            SkyTheme.presets.default,
+            SkyThemeMode.presets.light
+          ),
+          previousSettings: undefined
+        }
+      )
+    };
+
+    mockMediaQueryService = new MockSkyMediaQueryService();
+    TestBed.configureTestingModule({
+      imports: [
+        SkyActionButtonFixturesModule
+      ],
+      providers: [
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc
+        },
+        {
+          provide: SkyMediaQueryService,
+          useValue: mockMediaQueryService
+        }
+      ]
+    }).createComponent(ActionButtonTestComponent);
+
+    fixture = TestBed.createComponent(ActionButtonNgforTestComponent);
+    cmp = fixture.componentInstance as ActionButtonNgforTestComponent;
+
+    fixture.detectChanges();
+  });
+
+  it('should reset height when action buttons dynamically change', fakeAsync(() => {
+    const adapterService = TestBed.inject(SkyCoreAdapterService);
+    const spy = spyOn(adapterService, 'resetHeight');
+
+    // Remove an item from the dynamic list of action buttons.
+    cmp.items = cmp.items.slice(0, cmp.items.length - 1);
+    fixture.detectChanges();
+
+    expect(spy).toHaveBeenCalled();
+  }));
 });

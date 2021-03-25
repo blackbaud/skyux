@@ -1,10 +1,13 @@
 import {
+  AfterContentInit,
   ChangeDetectorRef,
   Component,
+  ContentChildren,
   ElementRef,
   HostListener,
   Input,
   OnInit,
+  QueryList,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
@@ -26,12 +29,16 @@ import {
 } from 'rxjs';
 
 import {
+  SkyActionButtonContainerAlignItems
+} from './types/action-button-container-align-items';
+
+import {
   SkyActionButtonAdapterService
 } from './action-button-adapter-service';
 
 import {
-  SkyActionButtonContainerAlignItems
-} from './types/action-button-container-align-items';
+  SkyActionButtonComponent
+} from './action-button.component';
 
 /**
  * Wraps action buttons to ensures that they have consistent height and spacing.
@@ -43,7 +50,7 @@ import {
   templateUrl: './action-button-container.component.html',
   encapsulation: ViewEncapsulation.None
 })
-export class SkyActionButtonContainerComponent implements OnInit {
+export class SkyActionButtonContainerComponent implements AfterContentInit, OnInit {
 
   /**
    * Specifies how to display the action buttons inside the action button container.
@@ -58,6 +65,9 @@ export class SkyActionButtonContainerComponent implements OnInit {
     return this._alignItems || SkyActionButtonContainerAlignItems.Center;
   }
 
+  @ContentChildren(SkyActionButtonComponent)
+  private actionButtons: QueryList<SkyActionButtonComponent>;
+
   @ViewChild('container', {
     read: ElementRef,
     static: true
@@ -69,13 +79,7 @@ export class SkyActionButtonContainerComponent implements OnInit {
   private set themeName(value: string) {
     this._themeName = value;
     this.updateResponsiveClass();
-    this.coreAdapterService.resetHeight(this.containerRef, '.sky-action-button');
-    if (this._themeName === 'modern') {
-      // Wait for children components to complete rendering before height is determined.
-      setTimeout(() => {
-        this.coreAdapterService.syncMaxHeight(this.containerRef, '.sky-action-button');
-      });
-    }
+    this.updateHeight();
   }
 
   private _alignItems: SkyActionButtonContainerAlignItems;
@@ -100,11 +104,37 @@ export class SkyActionButtonContainerComponent implements OnInit {
           this.changeRef.markForCheck();
         });
     }
+
+    // Wait for children components to complete rendering before container width is determined.
+    setTimeout(() => {
+      this.updateResponsiveClass();
+    });
+  }
+
+  public ngAfterContentInit(): void {
+    // Watch for dynamic action button changes and recalculate height.
+    this.actionButtons?.changes
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(() => {
+        this.updateHeight();
+      });
   }
 
   @HostListener('window:resize')
   public onWindowResize(): void {
     this.updateResponsiveClass();
+  }
+
+  private updateHeight(): void {
+    this.coreAdapterService.resetHeight(this.containerRef, '.sky-action-button');
+    if (this._themeName === 'modern') {
+      // Wait for children components to complete rendering before height is determined.
+      setTimeout(() => {
+        this.coreAdapterService.syncMaxHeight(this.containerRef, '.sky-action-button');
+      });
+    }
   }
 
   private updateResponsiveClass(): void {

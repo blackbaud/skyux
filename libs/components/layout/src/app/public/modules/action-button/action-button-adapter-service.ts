@@ -9,10 +9,8 @@ const RESPONSIVE_CLASS_SM = 'sky-action-button-container-sm';
 const RESPONSIVE_CLASS_MD = 'sky-action-button-container-md';
 const RESPONSIVE_CLASS_LG = 'sky-action-button-container-lg';
 
-const BREAKPOINT_SM_MIN_PIXELS = 477;
-const BREAKPOINT_SM_MAX_PIXELS = 937;
-const BREAKPOINT_MD_MIN_PIXELS = 938;
-const BREAKPOINT_MD_MAX_PIXELS = 1398;
+const BREAKPOINT_MD = 912;
+const BREAKPOINT_LG = 1378;
 
 /**
  * @internal
@@ -44,9 +42,9 @@ export class SkyActionButtonAdapterService {
   }
 
   private getResponsiveClassName(width: number): string {
-    if (width >= BREAKPOINT_SM_MIN_PIXELS && width <= BREAKPOINT_SM_MAX_PIXELS) {
+    if (width < BREAKPOINT_MD) {
       return RESPONSIVE_CLASS_SM;
-    } else if (width >= BREAKPOINT_MD_MIN_PIXELS && width <= BREAKPOINT_MD_MAX_PIXELS) {
+    } else if (width > BREAKPOINT_MD && width < BREAKPOINT_LG) {
       return RESPONSIVE_CLASS_MD;
     } else {
       return RESPONSIVE_CLASS_LG;

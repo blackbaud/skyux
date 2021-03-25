@@ -6,7 +6,7 @@
   display: block;
 }
 
-.sky-action-button-container {
+.sky-action-button-flex {
   sky-action-button {
     display: block;
   }
@@ -20,7 +20,7 @@
 }
 
 @include sky-host-responsive-container-xs-min(false) {
-  .sky-action-button-container {
+  .sky-action-button-flex {
     display: block;
     padding: 0;
 
@@ -31,7 +31,7 @@
 }
 
 @include sky-host-responsive-container-sm-min(false) {
-  .sky-action-button-container {
+  .sky-action-button-flex {
     display: flex;
     flex-flow: row wrap;
     padding: $sky-padding 0;
@@ -44,45 +44,49 @@
 
 .sky-theme-modern {
   .sky-action-button-container {
+    margin: 0 auto;
+
+    // Grid based on the assumption that each action button is 446px wide with 30px inner margins.
     &.sky-action-button-container-sm {
-      max-width: 476px;
+      max-width: 446px; // 1 action button per row.
     }
 
     &.sky-action-button-container-md {
-      max-width: 937px;
+      max-width: 912px; // 2 action buttons per row.
     }
 
     &.sky-action-button-container-lg {
-      max-width: 1398px;
+      max-width: 1378px; // 3 action buttons per row.
     }
 
-    &.sky-action-button-container-align-center {
-      justify-content: center;
-    }
+    .sky-action-button-flex {
+      &.sky-action-button-flex-align-center {
+        justify-content: center;
+      }
 
-    &.sky-action-button-container-align-left {
-      justify-content: flex-start;
-    }
+      &.sky-action-button-flex-align-left {
+        justify-content: flex-start;
+      }
 
-    .sky-action-button {
-      height: auto;
-      min-width: auto;
-      margin: 0;
+      .sky-action-button {
+        height: auto;
+        min-width: auto;
+        margin: 0;
+      }
     }
   }
 
   @include sky-host-responsive-container-xs-min(false) {
-    .sky-action-button-container {
+    .sky-action-button-flex {
       display: flex;
       flex-flow: row wrap;
-      padding: 0 7.5px;
-      margin: 0 auto;
+      padding: 0;
+      margin: 0 0 -20px -20px;
 
       sky-action-button {
-        margin: 0 7.5px 15px;
+        margin: 0 0 20px 20px;
         flex: 0 1 446px;
       }
     }
   }
 }
-

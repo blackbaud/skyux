@@ -15,12 +15,12 @@ import {
 } from '@angular/router/testing';
 
 import {
-  SkyCoreAdapterService
-} from '@skyux/core';
-
-import {
   SkyActionButtonModule
 } from '../action-button.module';
+
+import {
+  ActionButtonNgforTestComponent
+} from './action-button-ngfor.component.fixture';
 
 import {
   ActionButtonTestComponent
@@ -28,16 +28,14 @@ import {
 
 @NgModule({
   declarations: [
-    ActionButtonTestComponent
+    ActionButtonTestComponent,
+    ActionButtonNgforTestComponent
   ],
   imports: [
     CommonModule,
     BrowserModule,
     RouterTestingModule,
     SkyActionButtonModule
-  ],
-  providers: [
-    SkyCoreAdapterService
   ]
 })
 export class SkyActionButtonFixturesModule { }
