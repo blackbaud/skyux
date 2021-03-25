@@ -1,3 +1,7 @@
+# 4.16.0 (2021-03-25)
+
+- Added the selection box component. [#232](https://github.com/blackbaud/skyux-forms/pull/232)
+
 # 4.15.2 (2021-03-12)
 
 - Fixed the file item component so that file titles do not extend outside of the component. [#239](https://github.com/blackbaud/skyux-forms/pull/239)
