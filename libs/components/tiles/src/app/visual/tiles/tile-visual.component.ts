@@ -3,6 +3,11 @@ import {
 } from '@angular/core';
 
 import {
+  SkyThemeService,
+  SkyThemeSettings
+} from '@skyux/theme';
+
+import {
   SkyTileDashboardConfig
 } from '../../public/public_api';
 
@@ -21,7 +26,9 @@ import {
 export class SkyTileDemoComponent {
   public dashboardConfig: SkyTileDashboardConfig;
 
-  constructor() {
+  constructor(
+    private themeSvc: SkyThemeService
+  ) {
     this.dashboardConfig = {
       tiles: [
         {
@@ -66,5 +73,9 @@ export class SkyTileDemoComponent {
         ]
       }
     };
+  }
+
+  public themeSettingsChange(themeSettings: SkyThemeSettings): void {
+    this.themeSvc.setTheme(themeSettings);
   }
 }

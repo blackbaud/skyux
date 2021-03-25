@@ -20,6 +20,10 @@ import {
 } from '@skyux/indicators';
 
 import {
+  SkyThemeModule
+} from '@skyux/theme';
+
+import {
   SkyTilesResourcesModule
 } from '../../shared/tiles-resources.module';
 
@@ -47,6 +51,7 @@ import {
     SkyChevronModule,
     SkyI18nModule,
     SkyIconModule,
+    SkyThemeModule,
     SkyTilesResourcesModule
   ],
   exports: [

@@ -1,16 +1,13 @@
 import {
   QueryList
 } from '@angular/core';
+
 import {
   fakeAsync,
   TestBed,
   tick,
   async
 } from '@angular/core/testing';
-
-import {
-  of
-} from 'rxjs';
 
 import {
   SkyUIConfigService
@@ -21,32 +18,62 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  MockSkyUIConfigService
-} from './fixtures/mock-ui-config.service';
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange
+} from '@skyux/theme';
 
-import { MockTileDashboardService } from './fixtures/mock-tile-dashboard.service';
-
-import { SkyTileDashboardFixturesModule } from './fixtures/tile-dashboard-fixtures.module';
-
-import { TileDashboardTestComponent } from './fixtures/tile-dashboard.component.fixture';
-
-import { Tile1TestComponent } from './fixtures/tile1.component.fixture';
-
-import { Tile2TestComponent } from './fixtures/tile2.component.fixture';
-
-import { TileDashboardOnPushTestComponent } from './fixtures/tile-dashboard-on-push.component.fixture';
-
-import { TileTestContext } from './fixtures/tile-context.fixture';
+import {
+  BehaviorSubject,
+  of
+} from 'rxjs';
 
 import {
   SkyTileDashboardColumnComponent
 } from '../tile-dashboard-column/tile-dashboard-column.component';
+
+import {
+  MockSkyUIConfigService
+} from './fixtures/mock-ui-config.service';
+
+import {
+  MockTileDashboardService
+} from './fixtures/mock-tile-dashboard.service';
+
+import {
+  SkyTileDashboardFixturesModule
+} from './fixtures/tile-dashboard-fixtures.module';
+
+import {
+  TileDashboardTestComponent
+} from './fixtures/tile-dashboard.component.fixture';
+
+import {
+  Tile1TestComponent
+} from './fixtures/tile1.component.fixture';
+
+import {
+  Tile2TestComponent
+} from './fixtures/tile2.component.fixture';
+
+import {
+  TileDashboardOnPushTestComponent
+} from './fixtures/tile-dashboard-on-push.component.fixture';
+
+import {
+  TileTestContext
+} from './fixtures/tile-context.fixture';
+
 import {
   SkyTileDashboardComponent
 } from './tile-dashboard.component';
+
 import {
   SkyTileDashboardConfig
 } from '../tile-dashboard-config/tile-dashboard-config';
+
 import {
   SkyTileDashboardService
 } from './tile-dashboard.service';
@@ -54,10 +81,24 @@ import {
 describe('Tile dashboard component', () => {
   let mockTileDashboardService: MockTileDashboardService;
   let mockUIConfigService: MockSkyUIConfigService;
+  let mockThemeSvc: {
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+  };
 
   beforeEach(() => {
     mockTileDashboardService = new MockTileDashboardService();
     mockUIConfigService = new MockSkyUIConfigService();
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+        {
+          currentSettings: new SkyThemeSettings(
+            SkyTheme.presets.default,
+            SkyThemeMode.presets.light
+          ),
+          previousSettings: undefined
+        }
+      )
+    };
 
     TestBed.configureTestingModule({
       providers: [
@@ -68,6 +109,10 @@ describe('Tile dashboard component', () => {
         {
           provide: SkyUIConfigService,
           useValue: mockUIConfigService
+        },
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc
         }
       ],
       imports: [

@@ -27,6 +27,18 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange
+} from '@skyux/theme';
+
+import {
+  BehaviorSubject
+} from 'rxjs';
+
+import {
   DragulaService
 } from 'ng2-dragula';
 
@@ -83,6 +95,9 @@ describe('Tile dashboard service', () => {
   let mockDragulaService: DragulaService;
   let mockMediaQueryService: MockSkyMediaQueryService;
   let mockUIConfigService: MockSkyUIConfigService;
+  let mockThemeSvc: {
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+  };
 
   function createDashboardTestComponent() {
     return TestBed
@@ -100,6 +115,17 @@ describe('Tile dashboard service', () => {
     mockDragulaService = new MockDragulaService();
     mockMediaQueryService = new MockSkyMediaQueryService();
     mockUIConfigService = new MockSkyUIConfigService();
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+        {
+          currentSettings: new SkyThemeSettings(
+            SkyTheme.presets.default,
+            SkyThemeMode.presets.light
+          ),
+          previousSettings: undefined
+        }
+      )
+    };
 
     TestBed.configureTestingModule({
       imports: [
@@ -110,7 +136,11 @@ describe('Tile dashboard service', () => {
         { provide: DragulaService, useValue: mockDragulaService },
         { provide: SkyMediaQueryService, useValue: mockMediaQueryService },
         { provide: SkyUIConfigService, useValue: mockUIConfigService },
-        SkyTileDashboardService
+        SkyTileDashboardService,
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc
+        }
       ]
     });
 

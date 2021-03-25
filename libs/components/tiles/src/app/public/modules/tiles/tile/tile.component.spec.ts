@@ -10,6 +10,18 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange
+} from '@skyux/theme';
+
+import {
+  BehaviorSubject
+} from 'rxjs';
+
+import {
   MockSkyTileDashboardService
 } from './fixtures/mock-tile-dashboard.service';
 
@@ -17,18 +29,48 @@ import {
   TileTestComponent
 } from './fixtures/tile.component.fixture';
 
-import { SkyTileComponent } from './tile.component';
-import { SkyTilesModule } from '../tiles.module';
-import { SkyTileDashboardService } from '../tile-dashboard/tile-dashboard.service';
+import {
+  SkyTileComponent
+} from './tile.component';
+
+import {
+  SkyTilesModule
+} from '../tiles.module';
+
+import {
+  SkyTileDashboardService
+} from '../tile-dashboard/tile-dashboard.service';
 
 describe('Tile component', () => {
+  let mockThemeSvc: {
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+  };
+
   beforeEach(() => {
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+        {
+          currentSettings: new SkyThemeSettings(
+            SkyTheme.presets.default,
+            SkyThemeMode.presets.light
+          ),
+          previousSettings: undefined
+        }
+      )
+    };
+
     TestBed.configureTestingModule({
       declarations: [
         TileTestComponent
       ],
       imports: [
         SkyTilesModule
+      ],
+      providers: [
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc
+        }
       ]
     });
   });

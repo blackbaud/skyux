@@ -1,4 +1,5 @@
 @import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/variables";
 @import "~@skyux/theme/scss/_compat/mixins";
 
 @include sky-host-responsive-container-xs-min() {
@@ -52,4 +53,13 @@
 
 :host-context(.sky-theme-default) {
   background-color: $sky-background-color-neutral-light;
+}
+
+@include sky-theme-modern {
+  @include sky-host-responsive-container-sm-min() {
+    .sky-tile-dashboard-layout-single ::ng-deep .sky-tile,
+    .sky-tile-dashboard-layout-multi ::ng-deep .sky-tile {
+      margin-bottom: $sky-theme-modern-space-xl;
+    }
+  }
 }

@@ -1,53 +1,95 @@
 <section
-    class="sky-tile"
-    [ngClass]="{
-      'sky-tile-collapsed': isCollapsed
-    }"
+  class="sky-tile"
+  [ngClass]="{
+    'sky-tile-collapsed': isCollapsed
+  }"
+  [skyThemeClass]="{
+    'sky-box sky-elevation-1-bordered sky-padding-even-xl' : 'modern'
+  }"
 >
   <header class="sky-tile-header">
-    <div class="sky-tile-header-content" (click)="titleClick()">
+    <div
+      class="sky-tile-header-content"
+      (click)="titleClick()"
+    >
       <div
         class="sky-tile-header-title"
         #titleContainer
       >
         <ng-content select="sky-tile-title"></ng-content>
       </div>
-      <div class="sky-tile-summary sky-headline">
+      <div
+        class="sky-tile-summary"
+        [skyThemeClass]="{
+          'sky-font-heading-4' : 'modern',
+          'sky-headline' : 'default'
+        }"
+      >
         <ng-content select="sky-tile-summary"></ng-content>
       </div>
     </div>
     <div class="sky-tile-header-column-tools">
       <div class="sky-tile-tools">
-        <button *ngIf="hasHelp"
-          class="sky-btn sky-tile-tools-control sky-tile-help"
-          type="button"
-          [attr.aria-label]="'skyux_tile_help' | skyLibResources"
-          (click)="helpButtonClicked();"
-        >
-          <sky-icon icon="question-circle"></sky-icon>
-        </button>
+        <ng-container *skyThemeIf="'default'">
+          <button *ngIf="hasHelp"
+            class="sky-btn sky-tile-tools-control sky-tile-help"
+            type="button"
+            [attr.aria-label]="'skyux_tile_help' | skyLibResources"
+            [skyThemeClass]="{
+              'sky-btn-icon-borderless' : 'modern'
+            }"
+            (click)="helpButtonClicked();"
+          >
+            <sky-icon
+              icon="question-circle"
+            ></sky-icon>
+          </button>
+        </ng-container>
         <sky-chevron
-          class="sky-tile-tools-control"
           [direction]="isCollapsed ? 'down' : 'up'"
+          [skyThemeClass]="{
+            'sky-tile-tools-control' : 'default',
+            'sky-margin-inline-default' : 'modern'
+          }"
           (directionChange)="chevronDirectionChange($event)"
         >
         </sky-chevron>
         <button *ngIf="hasSettings"
-          class="sky-btn sky-tile-tools-control sky-tile-settings"
+          class="sky-btn sky-tile-settings"
           type="button"
           [attr.aria-label]="'skyux_tile_settings' | skyLibResources"
+          [skyThemeClass]="{
+            'sky-tile-tools-control' : 'default',
+            'sky-btn-icon-borderless sky-margin-inline-default' : 'modern'
+          }"
           (click)="settingsButtonClicked();"
         >
-          <sky-icon icon="cog"></sky-icon>
+          <sky-icon *skyThemeIf="'default'"
+            icon="cog"
+          ></sky-icon>
+          <sky-icon *skyThemeIf="'modern'"
+            icon="cog-line"
+            iconType="skyux"
+          ></sky-icon>
         </button>
         <button *ngIf="isInDashboardColumn"
-          class="sky-btn sky-tile-tools-control sky-tile-grab-handle"
+          class="sky-btn sky-tile-grab-handle"
           [attr.aria-label]="'skyux_tile_grab_handle' | skyLibResources"
+          [skyThemeClass]="{
+            'sky-tile-tools-control' : 'default',
+            'sky-btn-icon-borderless' : 'modern'
+          }"
           (click)="$event.stopPropagation()"
           (keydown)="moveTile($event)"
           #grabHandle
         >
-          <sky-icon icon="th"></sky-icon>
+          <sky-icon *skyThemeIf="'default'"
+            icon="th"
+          ></sky-icon>
+          <sky-icon *skyThemeIf="'modern'"
+            icon="tile-drag"
+            iconType="skyux"
+          ></sky-icon>
         </button>
       </div>
     </div>

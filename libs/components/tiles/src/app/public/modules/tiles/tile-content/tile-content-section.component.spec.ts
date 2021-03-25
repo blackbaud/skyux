@@ -1,16 +1,54 @@
-import { TestBed, async } from '@angular/core/testing';
-import { BrowserModule } from '@angular/platform-browser';
+import {
+  async,
+  TestBed
+} from '@angular/core/testing';
 
-import { SkyTilesModule } from '../tiles.module';
-
-import { TileContentSectionTestComponent } from './fixtures/tile-content-section.component.fixture';
+import {
+  BrowserModule
+} from '@angular/platform-browser';
 
 import {
   expect
 } from '@skyux-sdk/testing';
 
+import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange
+} from '@skyux/theme';
+
+import {
+  BehaviorSubject
+} from 'rxjs';
+
+import {
+  SkyTilesModule
+} from '../tiles.module';
+
+import {
+  TileContentSectionTestComponent
+} from './fixtures/tile-content-section.component.fixture';
+
 describe('Tile content section component', () => {
+  let mockThemeSvc: {
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+  };
+
   beforeEach(() => {
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+        {
+          currentSettings: new SkyThemeSettings(
+            SkyTheme.presets.default,
+            SkyThemeMode.presets.light
+          ),
+          previousSettings: undefined
+        }
+      )
+    };
+
     TestBed.configureTestingModule({
       declarations: [
         TileContentSectionTestComponent
@@ -18,6 +56,12 @@ describe('Tile content section component', () => {
       imports: [
         BrowserModule,
         SkyTilesModule
+      ],
+      providers: [
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc
+        }
       ]
     });
   });

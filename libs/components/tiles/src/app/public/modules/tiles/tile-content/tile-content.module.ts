@@ -1,8 +1,22 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  NgModule
+} from '@angular/core';
 
-import { SkyTileContentSectionComponent } from './tile-content-section.component';
-import { SkyTileContentComponent } from './tile-content.component';
+import {
+  CommonModule
+} from '@angular/common';
+
+import {
+  SkyThemeModule
+} from '@skyux/theme';
+
+import {
+  SkyTileContentSectionComponent
+} from './tile-content-section.component';
+
+import {
+  SkyTileContentComponent
+} from './tile-content.component';
 
 @NgModule({
   declarations: [
@@ -10,7 +24,8 @@ import { SkyTileContentComponent } from './tile-content.component';
     SkyTileContentSectionComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    SkyThemeModule
   ],
   exports: [
     SkyTileContentComponent,
