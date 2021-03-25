@@ -1,3 +1,7 @@
+# 4.1.0 (2021-03-25)
+
+- Added modern theme styles to the tile component. [#75](https://github.com/blackbaud/skyux-tiles/pull/75)
+
 # 4.0.2 (2020-08-07)
 
 - Added support for `@skyux/theme@4.8.0` and `@skyux-sdk/builder@4.3.0`. [#68](https://github.com/blackbaud/skyux-tiles/pull/68)
