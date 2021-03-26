@@ -36,6 +36,14 @@
     flex-flow: row wrap;
     padding: $sky-padding 0;
 
+    &.sky-action-button-flex-align-center {
+      justify-content: center;
+    }
+
+    &.sky-action-button-flex-align-left {
+      justify-content: flex-start;
+    }
+
     sky-action-button {
       margin: $sky-margin 0;
     }
@@ -60,14 +68,6 @@
     }
 
     .sky-action-button-flex {
-      &.sky-action-button-flex-align-center {
-        justify-content: center;
-      }
-
-      &.sky-action-button-flex-align-left {
-        justify-content: flex-start;
-      }
-
       .sky-action-button {
         height: auto;
         min-width: auto;
