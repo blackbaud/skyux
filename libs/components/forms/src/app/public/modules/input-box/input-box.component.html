@@ -1,14 +1,4 @@
-<ng-container
-  *ngIf="
-    (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name === 'modern';
-    then modernTemplate else defaultTemplate
-  "
-></ng-container>
-
-<ng-template
-  #defaultTemplate
->
-  <div
+  <div *skyThemeIf="'default'"
     class="sky-input-box"
   >
     <div
@@ -48,12 +38,8 @@
       ></ng-container>
     </div>
   </div>
-</ng-template>
 
-<ng-template
-  #modernTemplate
->
-  <div
+  <div *skyThemeIf="'modern'"
     class="sky-input-box"
     [ngClass]="{
       'sky-input-box-disabled': disabled
@@ -100,7 +86,6 @@
       *ngTemplateOutlet="errorLabelTemplate"
     ></ng-container>
   </div>
-</ng-template>
 
 <ng-template
   #labelTemplate

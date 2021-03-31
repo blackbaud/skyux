@@ -141,9 +141,27 @@ describe('Input box component', () => {
     }
 
     beforeEach(() => {
+      mockThemeSvc = {
+        settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+          {
+            currentSettings: new SkyThemeSettings(
+              SkyTheme.presets.default,
+              SkyThemeMode.presets.light
+            ),
+            previousSettings: undefined
+          }
+        )
+      };
+
       TestBed.configureTestingModule({
         imports: [
           InputBoxFixturesModule
+        ],
+        providers: [
+          {
+            provide: SkyThemeService,
+            useValue: mockThemeSvc
+          }
         ]
       });
     });

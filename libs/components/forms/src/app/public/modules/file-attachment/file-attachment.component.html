@@ -78,8 +78,8 @@
       type="button"
       [attr.aria-label]="'skyux_file_attachment_file_item_delete' | skyLibResources"
       [disabled]="disabled"
-      [ngClass]="{
-        'sky-btn-icon-borderless' : currentThemeName === 'modern'
+      [skyThemeClass]="{
+        'sky-btn-icon-borderless': 'modern'
       }"
       (click)="deleteFileAttachment()"
     >

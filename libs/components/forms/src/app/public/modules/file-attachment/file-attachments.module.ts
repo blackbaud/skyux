@@ -20,6 +20,10 @@ import {
 } from '@skyux/indicators';
 
 import {
+  SkyThemeModule
+} from '@skyux/theme';
+
+import {
   SkyFileAttachmentComponent
 } from './file-attachment.component';
 
@@ -64,7 +68,8 @@ import {
     FormsModule,
     SkyFormsResourcesModule,
     SkyI18nModule,
-    SkyIconModule
+    SkyIconModule,
+    SkyThemeModule
   ],
   exports: [
     SkyFileAttachmentComponent,

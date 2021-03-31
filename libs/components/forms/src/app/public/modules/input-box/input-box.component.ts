@@ -4,7 +4,6 @@ import {
   ContentChild,
   Input,
   OnInit,
-  Optional,
   TemplateRef,
   ViewEncapsulation
 } from '@angular/core';
@@ -15,10 +14,6 @@ import {
   FormControlName,
   NgModel
 } from '@angular/forms';
-
-import {
-  SkyThemeService
-} from '@skyux/theme';
 
 import {
   SkyInputBoxHostService
@@ -92,7 +87,6 @@ export class SkyInputBoxComponent implements OnInit {
   }
 
   constructor(
-    @Optional() public themeSvc: SkyThemeService,
     private changeRef: ChangeDetectorRef,
     private inputBoxHostSvc: SkyInputBoxHostService
   ) { }

@@ -22,6 +22,7 @@ import {
 import {
   SkyTheme,
   SkyThemeMode,
+  SkyThemeModule,
   SkyThemeService,
   SkyThemeSettings,
   SkyThemeSettingsChange
@@ -86,7 +87,8 @@ describe('File attachment', () => {
     };
     TestBed.configureTestingModule({
       imports: [
-        FileAttachmentTestModule
+        FileAttachmentTestModule,
+        SkyThemeModule
       ],
       providers: [
         {

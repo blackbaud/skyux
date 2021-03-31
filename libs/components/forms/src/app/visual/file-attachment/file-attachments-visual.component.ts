@@ -16,6 +16,11 @@ import {
   SkyFileLink
 } from '../../public/public_api';
 
+import {
+  SkyThemeService,
+  SkyThemeSettings
+} from '@skyux/theme';
+
 @Component({
   selector: 'file-attachments-visual',
   templateUrl: './file-attachments-visual.component.html'
@@ -44,7 +49,8 @@ export class FileAttachmentsVisualComponent implements OnInit {
   public showLabel: boolean = true;
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private themeSvc: SkyThemeService
   ) {
     this.filesToUpload = [];
     this.rejectedFiles = [];
@@ -92,6 +98,10 @@ export class FileAttachmentsVisualComponent implements OnInit {
 
   public linkInputBlur(): void {
     console.log('Link input blurred');
+  }
+
+  public themeSettingsChange(themeSettings: SkyThemeSettings): void {
+    this.themeSvc.setTheme(themeSettings);
   }
 
   private removeFromArray(items: Array<any>, obj: SkyFileItem | SkyFileLink): void {
