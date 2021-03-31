@@ -1,3 +1,7 @@
+# 4.6.4 (2021-03-31)
+
+- Replaced theme conditionals in templates with the new `skyThemeIf` directive. [#159](https://github.com/blackbaud/skyux-tabs/pull/159)
+
 # 4.6.3 (2021-03-12)
 
 - Fixed the vertical tab component to ensure all content is rendered prior to responsive styles being added. [#158](https://github.com/blackbaud/skyux-tabs/pull/158)
