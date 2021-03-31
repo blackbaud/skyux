@@ -1,3 +1,7 @@
+# 4.16.1 (2021-03-31)
+
+- Replaced theme conditionals in templates with the new `skyThemeIf` directive. [#240](https://github.com/blackbaud/skyux-forms/pull/240)
+
 # 4.16.0 (2021-03-25)
 
 - Added the selection box component. [#232](https://github.com/blackbaud/skyux-forms/pull/232)
