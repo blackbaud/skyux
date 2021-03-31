@@ -10,9 +10,10 @@
     'sky-btn-tab-wizard': tabStyle === 'wizard',
     'sky-btn-tab-selected': active,
     'sky-btn-tab-disabled': disabled,
-    'sky-tab-btn-closeable': closeable,
-    'sky-margin-inline-sm':
-      (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name === 'modern'
+    'sky-tab-btn-closeable': closeable
+  }"
+  [skyThemeClass]="{
+    'sky-margin-inline-sm': 'modern'
   }"
   [tabindex]="disabled ? '-1' : '0'"
   (click)="onButtonClick($event)"

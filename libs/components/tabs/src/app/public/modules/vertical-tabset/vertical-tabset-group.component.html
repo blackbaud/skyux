@@ -11,7 +11,7 @@
     [tabIndex]="-1"
   >
     {{ groupHeading }}
-    <sky-chevron *ngIf="themeName === 'default'"
+    <sky-chevron *skyThemeIf="'default'"
       class="sky-vertical-tabset-group-header-chevron"
       [direction]="open ? 'up' : 'down'"
       [disabled]="disabled"
@@ -19,7 +19,8 @@
       (keyup.enter)="$event.stopPropagation()"
     >
     </sky-chevron>
-    <button *ngIf="themeName === 'modern' && !open"
+    <ng-container *skyThemeIf="'modern'">
+    <button *ngIf="!open"
       class="sky-btn sky-btn-icon-borderless sky-vertical-tabset-group-header-chevron"
       type="button"
     >
@@ -29,7 +30,7 @@
       >
       </sky-icon>
     </button>
-    <button *ngIf="themeName === 'modern' && open"
+    <button *ngIf="open"
       class="sky-btn sky-btn-icon-borderless sky-vertical-tabset-group-header-chevron"
       type="button"
     >
@@ -39,6 +40,7 @@
       >
       </sky-icon>
     </button>
+    </ng-container>
   </div>
   <div
     class="sky-vertical-tabset-group-content"

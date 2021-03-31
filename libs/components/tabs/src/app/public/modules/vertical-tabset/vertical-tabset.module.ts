@@ -20,6 +20,10 @@ import {
 } from '@skyux/indicators';
 
 import {
+  SkyThemeModule
+} from '@skyux/theme';
+
+import {
   SkyTabsResourcesModule
 } from '../shared/tabs-resources.module';
 
@@ -51,7 +55,8 @@ import {
     SkyChevronModule,
     SkyIconModule,
     SkyMediaQueryModule,
-    SkyTabsResourcesModule
+    SkyTabsResourcesModule,
+    SkyThemeModule
   ],
   providers: [
     SkyVerticalTabsetAdapterService

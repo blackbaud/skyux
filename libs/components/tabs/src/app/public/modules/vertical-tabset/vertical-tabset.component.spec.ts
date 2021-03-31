@@ -19,18 +19,6 @@ import {
 } from '@skyux/core';
 
 import {
-  SkyTheme,
-  SkyThemeMode,
-  SkyThemeService,
-  SkyThemeSettings,
-  SkyThemeSettingsChange
-} from '@skyux/theme';
-
-import {
-  BehaviorSubject
-} from 'rxjs';
-
-import {
   SkyVerticalTabsFixturesModule
 } from './fixtures/vertical-tabs-fixtures.module';
 
@@ -83,23 +71,8 @@ function getTabs(fixture: ComponentFixture<any>): HTMLElement[] {
 // #endregion
 
 describe('Vertical tabset component', () => {
-  let mockThemeSvc: {
-    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
-  };
-
   beforeEach(() => {
     mockQueryService  = new MockSkyMediaQueryService();
-    mockThemeSvc = {
-      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
-        {
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.default,
-            SkyThemeMode.presets.light
-          ),
-          previousSettings: undefined
-        }
-      )
-    };
 
     TestBed.configureTestingModule({
       imports: [
@@ -109,10 +82,6 @@ describe('Vertical tabset component', () => {
         {
           provide: SkyMediaQueryService,
           useValue: mockQueryService
-        },
-        {
-          provide: SkyThemeService,
-          useValue: mockThemeSvc
         }
       ]
     });

@@ -3,13 +3,8 @@ import {
   Component,
   EventEmitter,
   Input,
-  Optional,
   Output
 } from '@angular/core';
-
-import {
-  SkyThemeService
-} from '@skyux/theme';
 
 import {
   SkyTabsetStyle
@@ -58,10 +53,6 @@ export class SkyTabButtonComponent {
 
   @Output()
   public closeClick = new EventEmitter<void>();
-
-  constructor(
-    @Optional() public themeSvc?: SkyThemeService
-  ) { }
 
   public onButtonClick(event: MouseEvent): void {
     if (!this.disabled) {

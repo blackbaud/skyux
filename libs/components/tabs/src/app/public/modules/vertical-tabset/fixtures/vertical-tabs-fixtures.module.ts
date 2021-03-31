@@ -11,10 +11,6 @@ import {
 } from '@angular/forms';
 
 import {
-  SkyThemeService
-} from '@skyux/theme';
-
-import {
   SkyVerticalTabsetModule
 } from '../vertical-tabset.module';
 
@@ -57,9 +53,6 @@ import {
     VerticalTabsetNoGroupTestComponent,
     VerticalTabsetNoActiveTestComponent,
     VerticalTabsetWithNgForTestComponent
-  ],
-  providers: [
-    SkyThemeService
   ]
 })
 export class SkyVerticalTabsFixturesModule { }

@@ -23,6 +23,10 @@ import {
 } from '@skyux/popovers';
 
 import {
+  SkyThemeModule
+} from '@skyux/theme';
+
+import {
   SkyTabsResourcesModule
 } from '../shared/tabs-resources.module';
 
@@ -55,7 +59,8 @@ import {
     SkyDropdownModule,
     SkyI18nModule,
     SkyIconModule,
-    SkyTabsResourcesModule
+    SkyTabsResourcesModule,
+    SkyThemeModule
   ],
   exports: [
     SkyTabComponent,

@@ -47,9 +47,8 @@
       class="sky-btn sky-btn-icon sky-tabset-btn-new sky-margin-inline-compact"
       type="button"
       [attr.aria-label]="'skyux_tab_add' | skyLibResources"
-      [ngClass]="{
-        'sky-margin-inline-sm':
-          (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name === 'modern'
+      [skyThemeClass]="{
+        'sky-margin-inline-sm': 'modern'
       }"
       (click)="onNewTabClick()"
     >
@@ -63,9 +62,8 @@
       class="sky-btn sky-btn-icon sky-tabset-btn-open sky-margin-inline-compact"
       type="button"
       [attr.aria-label]="'skyux_tab_open' | skyLibResources"
-      [ngClass]="{
-        'sky-margin-inline-sm':
-          (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name === 'modern'
+      [skyThemeClass]="{
+        'sky-margin-inline-sm': 'modern'
       }"
       (click)="onOpenTabClick()"
     >

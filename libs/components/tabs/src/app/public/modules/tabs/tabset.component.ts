@@ -8,14 +8,9 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
-  Optional,
   Output,
   QueryList
 } from '@angular/core';
-
-import {
-  SkyThemeService
-} from '@skyux/theme';
 
 import {
   combineLatest,
@@ -250,8 +245,7 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
     private elementRef: ElementRef,
     private adapterService: SkyTabsetAdapterService,
     private permalinkService: SkyTabsetPermalinkService,
-    private tabsetService: SkyTabsetService,
-    @Optional() public themeSvc?: SkyThemeService
+    private tabsetService: SkyTabsetService
   ) { }
 
   public ngAfterViewInit(): void {

@@ -17,10 +17,6 @@ import {
 } from '@angular/animations';
 
 import {
-  SkyThemeService
-} from '@skyux/theme';
-
-import {
   Subject
 } from 'rxjs';
 
@@ -95,8 +91,6 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
     return !this.disabled && this._open;
   }
 
-  public themeName: string;
-
   @ContentChildren(SkyVerticalTabComponent)
   private tabs: QueryList<SkyVerticalTabComponent>;
 
@@ -108,8 +102,7 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
 
   constructor(
     private tabService: SkyVerticalTabsetService,
-    private changeRef: ChangeDetectorRef,
-    private themeSvc: SkyThemeService
+    private changeRef: ChangeDetectorRef
   ) {}
 
   public ngOnInit(): void {
@@ -124,17 +117,6 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
     this.tabService.tabClicked
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(this.tabClicked);
-
-    if (this.themeSvc) {
-      this.themeSvc.settingsChange
-        .pipe(
-          takeUntil(this.ngUnsubscribe)
-        )
-        .subscribe((themeSettings) => {
-          this.themeName = themeSettings.currentSettings?.theme?.name;
-          this.changeRef.markForCheck();
-        });
-    }
   }
 
   public ngOnDestroy(): void {
