@@ -84,8 +84,12 @@ export class ActionButtonVisualComponent {
     private themeSvc: SkyThemeService
   ) { }
 
-  public buttonClicked() {
+  public buttonClicked(): void {
     this.buttonIsClicked = true;
+  }
+
+  public changeContentClick(): void {
+    this.actionButtons[7].details = 'This shorter string should make all buttons shrink in height.';
   }
 
   public onCenterAlignClick(): void {

@@ -11,6 +11,7 @@ import {
 } from '@angular/router';
 
 import {
+  MutationObserverService,
   SkyCoreAdapterService,
   SkyMediaQueryModule
 } from '@skyux/core';
@@ -71,6 +72,7 @@ import {
     SkyActionButtonIconComponent
   ],
   providers: [
+    MutationObserverService,
     SkyActionButtonAdapterService,
     SkyCoreAdapterService,
     SkyThemeService

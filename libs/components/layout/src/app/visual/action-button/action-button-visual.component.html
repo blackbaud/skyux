@@ -38,7 +38,7 @@
 </div>
 
 <h3>Action buttons inside sky-action-button-container</h3>
-<div *skyThemeIf="'modern'"
+<div
   class="sky-padding-even-default"
 >
   <button
@@ -56,6 +56,14 @@
     (click)="onCenterAlignClick()"
   >
     Center align items
+  </button>
+  <button
+    class="sky-btn sky-btn-default"
+    id="screenshot-action-button-center-align"
+    type="button"
+    (click)="changeContentClick()"
+  >
+    Simulate change of content
   </button>
 </div>
 
