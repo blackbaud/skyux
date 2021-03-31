@@ -85,13 +85,19 @@
     }
 
     &:focus {
+      .sky-switch-input:not(:disabled):checked + .sky-switch-control {
+        border: none;
+      }
+
       .sky-switch-control {
-        border: solid 2px $sky-theme-modern-background-color-primary-dark;
         outline: none;
+        border: none;
+        box-shadow: inset 0 0 0 2px $sky-theme-modern-color-blue-74;
       }
     }
 
-    &.sky-selection-box-selected {
+    &.sky-selection-box-selected,
+    &:focus.sky-selection-box-selected {
       background: #e8f8ff;
       box-shadow: inset 0 0 0 2px #1870B8, 0px 1px 8px 0px rgba(0, 0, 0, 0.3), inset 6px 0 0 0 $sky-background-color-primary-dark;
     }
