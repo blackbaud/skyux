@@ -1,3 +1,8 @@
+# 4.5.2 (2021-03-31)
+
+- Fixed the action button container component to properly resize all action buttons containing asynchronous content. [#203](https://github.com/blackbaud/skyux-layout/pull/203)
+- Fixed the action button container component to use the proper responsive layout in Firefox. [#203](https://github.com/blackbaud/skyux-layout/pull/203)
+
 # 4.5.1 (2021-03-26)
 
 - Fixed the action button container component to be center aligned by default. [#201](https://github.com/blackbaud/skyux-layout/pull/201)
