@@ -21,6 +21,8 @@ export class SelectionBoxGridTestComponent {
 
   public firstBoxHeight: string = '500px';
 
+  public dynamicDescription: string = 'description three';
+
   @ViewChild(SkySelectionBoxGridComponent, {
     read: SkySelectionBoxGridComponent,
     static: false

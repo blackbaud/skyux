@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 
 import {
+  MutationObserverService,
   SkyCoreAdapterService
 } from '@skyux/core';
 
@@ -53,6 +54,7 @@ import {
     SkySelectionBoxHeaderComponent
   ],
   providers: [
+    MutationObserverService,
     SkyCoreAdapterService,
     SkySelectionBoxAdapterService,
     SkyThemeService

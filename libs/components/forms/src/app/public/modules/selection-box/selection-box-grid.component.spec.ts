@@ -123,6 +123,18 @@ describe('Selection box grid component', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   }));
 
+  it(`should recalculate heights when child DOM elements change`, async(() => {
+    const spy = spyOn(component.selectionBoxGrid as any, 'updateChildrenHeights');
+    expect(spy).not.toHaveBeenCalled();
+
+    component.dynamicDescription = `Something really really really really really really really really really really really really really really really long to force a large height than before!`;
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+  }));
+
   it('should be accessible', async () => {
     fixture.detectChanges();
     await fixture.whenStable();

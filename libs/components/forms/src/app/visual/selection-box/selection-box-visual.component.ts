@@ -59,6 +59,8 @@ export class SelectionBoxVisualComponent implements OnInit {
 
   public myForm: FormGroup;
 
+  public showDesription: boolean = true;
+
   constructor(
     private formBuilder: FormBuilder,
     private themeSvc: SkyThemeService
@@ -90,6 +92,10 @@ export class SelectionBoxVisualComponent implements OnInit {
 
   public onSubmit(value: any): void {
     console.log(value);
+  }
+
+  public onToggleDescriptionsClick(): void {
+    this.showDesription = !this.showDesription;
   }
 
   public themeSettingsChange(themeSettings: SkyThemeSettings): void {

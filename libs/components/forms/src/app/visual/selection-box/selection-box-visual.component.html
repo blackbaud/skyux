@@ -135,6 +135,14 @@
     >
       Center align items
     </button>
+    <button
+      class="sky-btn sky-btn-default"
+      id="screenshot-action-button-center-align"
+      type="button"
+      (click)="onToggleDescriptionsClick()"
+    >
+      ToggleDescriptions
+    </button>
   </div>
   <div
     class="sky-margin-stacked-default"
@@ -153,7 +161,7 @@
         <sky-selection-box-header>
           {{ item.name }}
         </sky-selection-box-header>
-        <sky-selection-box-description>
+        <sky-selection-box-description *ngIf="showDesription">
           {{ item.description }}
         </sky-selection-box-description>
         <sky-checkbox
