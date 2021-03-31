@@ -6,6 +6,7 @@ import {
   ContentChildren,
   ElementRef,
   EventEmitter,
+  HostBinding,
   Input,
   OnDestroy,
   OnInit,
@@ -207,6 +208,11 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
   public reorderState: string;
 
   public slideDirection: string;
+
+  @HostBinding('class')
+  get repeaterGroupClass(): string {
+    return 'sky-repeater-item-group-' + this.repeaterService.repeaterGroupId;
+  }
 
   @ViewChild('grabHandle', { read: ElementRef })
   private grabHandle: ElementRef;

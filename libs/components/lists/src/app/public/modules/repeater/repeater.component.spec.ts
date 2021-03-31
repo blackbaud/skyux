@@ -50,6 +50,10 @@ import {
 } from './fixtures/repeater-missing-tag.fixture';
 
 import {
+  NestedRepeaterTestComponent
+} from './fixtures/nested-repeater.component.fixture';
+
+import {
   SkyRepeaterComponent
 } from './repeater.component';
 
@@ -1446,6 +1450,34 @@ describe('Repeater item component', () => {
 
       fixture.destroy();
       flush();
+    }));
+  });
+
+  describe('with nested repeater items', () => {
+    let fixture: ComponentFixture<NestedRepeaterTestComponent>;
+    let el: any;
+
+    beforeEach(fakeAsync(() => {
+      fixture = TestBed.createComponent(NestedRepeaterTestComponent);
+      el = fixture.nativeElement;
+      fixture.detectChanges();
+      tick();
+    }));
+
+    it('should reorder top-level repeater items', fakeAsync(() => {
+      let initialTopRepeaterItem = el.querySelector('sky-repeater-item[tag="top-item"]');
+      let initialBottomRepeaterItem = el.querySelector('sky-repeater-item[tag="bottom-item"]');
+
+      expect(initialTopRepeaterItem).toBeDefined();
+      expect(initialBottomRepeaterItem).toBeDefined();
+
+      el.querySelectorAll('.sky-repeater-item-reorder-top')[1].click();
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      const topRepeaterItem = el.querySelectorAll('sky-repeater-item')[0];
+
+      expect(topRepeaterItem).toBe(initialBottomRepeaterItem);
     }));
   });
 });

@@ -15,6 +15,10 @@ import {
 } from '../repeater.module';
 
 import {
+  NestedRepeaterTestComponent
+} from './nested-repeater.component.fixture';
+
+import {
   RepeaterTestComponent
 } from './repeater.component.fixture';
 
@@ -35,7 +39,8 @@ import {
     RepeaterAsyncItemsTestComponent,
     RepeaterInlineFormFixtureComponent,
     RepeaterTestComponent,
-    RepeaterWithMissingTagsFixtureComponent
+    RepeaterWithMissingTagsFixtureComponent,
+    NestedRepeaterTestComponent
   ],
   imports: [
     CommonModule,
@@ -46,7 +51,8 @@ import {
     RepeaterAsyncItemsTestComponent,
     RepeaterInlineFormFixtureComponent,
     RepeaterTestComponent,
-    RepeaterWithMissingTagsFixtureComponent
+    RepeaterWithMissingTagsFixtureComponent,
+    NestedRepeaterTestComponent
   ]
 })
 export class SkyRepeaterFixturesModule { }

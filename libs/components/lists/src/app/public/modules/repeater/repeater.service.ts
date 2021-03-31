@@ -32,6 +32,8 @@ export class SkyRepeaterService implements OnDestroy {
 
   public orderChange = new BehaviorSubject<void>(undefined);
 
+  public repeaterGroupId: number;
+
   public ngOnDestroy(): void {
     this.activeItemChange.complete();
     this.itemCollapseStateChange.complete();

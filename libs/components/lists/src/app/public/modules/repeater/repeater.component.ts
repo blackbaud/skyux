@@ -170,6 +170,8 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
         this.emitTags();
       });
 
+    this.repeaterService.repeaterGroupId = uniqueId;
+
     this.updateForExpandMode();
 
     this.adapterService.setRepeaterHost(this.elementRef);
