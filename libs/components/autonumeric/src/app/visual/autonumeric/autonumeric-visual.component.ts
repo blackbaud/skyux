@@ -60,6 +60,7 @@ export class AutonumericVisualComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
+      currency: new FormControl(undefined, [Validators.required]),
       donationAmount: new FormControl(1000, [Validators.required])
     });
 
@@ -79,7 +80,8 @@ export class AutonumericVisualComponent implements OnInit, OnDestroy {
 
   public setValue(): void {
     this.formGroup.setValue({
-      donationAmount: 3756.8
+      donationAmount: 3756.8,
+      currency: 18.99
     });
     this.templateDrivenModel.donationAmount = 3756.8;
   }
@@ -97,6 +99,14 @@ export class AutonumericVisualComponent implements OnInit, OnDestroy {
 
   public setOptionsByPreset(): void {
     this.autonumericOptions = 'Chinese';
+  }
+
+  public setOptionsToCustom(): void {
+    this.autonumericOptions = {
+      currencySymbol: '#',
+      currencySymbolPlacement: 's',
+      decimalPlaces: 3
+    };
   }
 
   public onDisableClick(): void {

@@ -42,7 +42,7 @@ describe('Autonumeric directive', () => {
   // #region helpers
   function detectChanges(): void {
     fixture.detectChanges();
-    tick(250);
+    tick();
   }
 
   function getReactiveInput(): HTMLInputElement {

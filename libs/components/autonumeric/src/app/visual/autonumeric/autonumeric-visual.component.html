@@ -66,6 +66,43 @@
     Valid: {{ donationAmount.valid }}
   </div>
 
+  <!--
+    Currency Example - https://github.com/blackbaud/skyux-autonumeric/issues/17
+  -->
+  <div>
+    <h2>
+      Currency example
+    </h2>
+    <form
+      [formGroup]="formGroup"
+    >
+      <input
+        class="sky-form-control"
+        formControlName="currency"
+        type="text"
+        [skyAutonumeric]="{
+          currencySymbol: '$',
+          decimalPlaces: 2
+        }"
+      />
+    </form>
+    <div>
+      Value: {{formGroup.controls.currency.value}}
+    </div>
+    <div>
+      Dirty: {{formGroup.controls.currency.dirty}}
+    </div>
+    <div>
+      Pristine: {{formGroup.controls.currency.pristine}}
+    </div>
+    <div>
+      Touched: {{formGroup.controls.currency.touched}}
+    </div>
+    <div>
+      Valid: {{formGroup.controls.currency.valid}}
+    </div>
+  </div>
+
   <h2>
     Modify value and state
   </h2>
@@ -105,8 +142,18 @@
   <button
     class="sky-btn"
     type="button"
+    (click)="setOptionsToCustom()"
+  >
+    Set options to custom
+  </button>
+
+  <button
+    class="sky-btn"
+    type="button"
     (click)="onDisableClick()"
   >
     Toggle disabled
   </button>
+
+  <pre>{{ autonumericOptions | json }}</pre>
 </div>
