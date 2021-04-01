@@ -62,10 +62,6 @@ li {
   }
 }
 
-.sky-paging-icon-modern {
-  display: none;
-}
-
 @include sky-theme-modern {
   .sky-paging-btn {
     background-color: transparent;
@@ -101,14 +97,6 @@ li {
     background-color: $sky-background-color-info-light;
     border: solid 1px $sky-theme-modern-background-color-primary-dark;
     padding: 2px 9px;
-  }
-
-  .sky-paging-icon-default {
-    display: none;
-  }
-
-  .sky-paging-icon-modern {
-    display: inline;
   }
 }
 

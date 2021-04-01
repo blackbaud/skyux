@@ -11,6 +11,11 @@ import {
 } from '@skyux/indicators';
 
 import {
+  SkyThemeModule,
+  SkyThemeService
+} from '@skyux/theme';
+
+import {
   SkyListsResourcesModule
 } from '../shared/lists-resources.module';
 
@@ -22,13 +27,17 @@ import {
   declarations: [
     SkyPagingComponent
   ],
-  imports: [
-    CommonModule,
-    SkyIconModule,
-    SkyListsResourcesModule
-  ],
+    imports: [
+        CommonModule,
+        SkyIconModule,
+        SkyListsResourcesModule,
+        SkyThemeModule
+    ],
   exports: [
     SkyPagingComponent
+  ],
+  providers: [
+    SkyThemeService
   ]
 })
 export class SkyPagingModule { }

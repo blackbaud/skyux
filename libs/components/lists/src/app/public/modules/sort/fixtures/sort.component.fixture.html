@@ -1,4 +1,7 @@
-<sky-sort [showButtonText]="showButtonText">
+<sky-sort
+  [showButtonText]="showButtonText"
+  [skyTheme]="skyThemeSettings"
+>
   <sky-sort-item
     *ngFor="let item of sortOptions"
     [active]="initialState === item.id"

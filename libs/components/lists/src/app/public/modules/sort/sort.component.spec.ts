@@ -11,6 +11,11 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
+  SkyThemeModule,
+  SkyThemeService
+} from '@skyux/theme';
+
+import {
   SortTestComponent
 } from './fixtures/sort.component.fixture';
 
@@ -28,7 +33,11 @@ describe('Sort component', () => {
         SortTestComponent
       ],
       imports: [
-        SkySortModule
+        SkySortModule,
+        SkyThemeModule
+      ],
+      providers: [
+        SkyThemeService
       ]
     });
 
@@ -159,4 +168,15 @@ describe('Sort component', () => {
       expect(fixture.nativeElement).toBeAccessible();
     });
   }));
+
+  it('should use modern icon when applicable', async () => {
+    fixture.detectChanges();
+    fixture.whenStable();
+    const defaultIcon = fixture.nativeElement.querySelector('sky-dropdown-button sky-icon i');
+    expect(defaultIcon).toHaveCssClass('fa-sort');
+    fixture.componentInstance.useModernTheme();
+    fixture.detectChanges();
+    const modernIcon = fixture.nativeElement.querySelector('sky-dropdown-button sky-icon i');
+    expect(modernIcon).toHaveCssClass('sky-i-sort');
+  });
 });

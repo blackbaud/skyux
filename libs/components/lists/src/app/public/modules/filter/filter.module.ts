@@ -12,6 +12,11 @@ import {
 } from '@skyux/indicators';
 
 import {
+  SkyThemeModule,
+  SkyThemeService
+} from '@skyux/theme';
+
+import {
   SkyListsResourcesModule
 } from '../shared/lists-resources.module';
 
@@ -47,7 +52,8 @@ import {
     CommonModule,
     SkyIconModule,
     SkyListsResourcesModule,
-    SkyTokensModule
+    SkyTokensModule,
+    SkyThemeModule
   ],
   exports: [
     SkyFilterButtonComponent,
@@ -55,6 +61,9 @@ import {
     SkyFilterInlineItemComponent,
     SkyFilterSummaryComponent,
     SkyFilterSummaryItemComponent
+  ],
+  providers: [
+    SkyThemeService
   ]
 })
 export class SkyFilterModule { }

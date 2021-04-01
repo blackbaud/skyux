@@ -1,10 +1,16 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
+  OnInit,
   Output
 } from '@angular/core';
+
+import {
+  SkyThemeService
+} from '@skyux/theme';
 
 let nextId = 0;
 
@@ -14,7 +20,7 @@ let nextId = 0;
   templateUrl: './filter-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyFilterButtonComponent {
+export class SkyFilterButtonComponent implements OnInit {
 
   /**
    * Specifies an ID for the filter button.
@@ -69,6 +75,19 @@ export class SkyFilterButtonComponent {
   public filterButtonClick: EventEmitter<any> = new EventEmitter();
 
   private _filterButtonId: string;
+
+  constructor(
+    public themeSvc: SkyThemeService,
+    private changeDetector: ChangeDetectorRef
+  ) {
+  }
+
+  public ngOnInit(): void {
+    this.themeSvc.settingsChange.subscribe(() => {
+      // Push changes b/c SkyIconComponent uses ChangeDetectionStrategy.OnPush
+      this.changeDetector.markForCheck();
+    });
+  }
 
   public filterButtonOnClick(): void {
     this.filterButtonClick.emit(undefined);

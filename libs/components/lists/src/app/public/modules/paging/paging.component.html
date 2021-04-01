@@ -12,12 +12,10 @@
         [disabled]="isPreviousButtonDisabled"
         (click)="previousPage()"
       >
-        <sky-icon
-          class="sky-paging-icon-default"
+        <sky-icon *skyThemeIf="'default'"
           icon="caret-left"
         ></sky-icon>
-        <sky-icon
-          class="sky-paging-icon-modern"
+        <sky-icon *skyThemeIf="'modern'"
           icon="chevron-left"
           iconType="skyux"
         ></sky-icon>
@@ -47,12 +45,10 @@
         [disabled]="isNextButtonDisabled"
         (click)="nextPage()"
       >
-        <sky-icon
-          class="sky-paging-icon-default"
+        <sky-icon *skyThemeIf="'default'"
           icon="caret-right"
         ></sky-icon>
-        <sky-icon
-          class="sky-paging-icon-modern"
+        <sky-icon *skyThemeIf="'modern'"
           icon="chevron-right"
           iconType="skyux"
         ></sky-icon>

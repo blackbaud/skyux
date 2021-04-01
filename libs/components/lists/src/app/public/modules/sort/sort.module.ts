@@ -19,6 +19,11 @@ import {
 } from '@skyux/popovers';
 
 import {
+  SkyThemeModule,
+  SkyThemeService
+} from '@skyux/theme';
+
+import {
   SkyListsResourcesModule
 } from '../shared/lists-resources.module';
 
@@ -40,11 +45,15 @@ import {
     SkyDropdownModule,
     SkyIconModule,
     SkyListsResourcesModule,
-    SkyMediaQueryModule
+    SkyMediaQueryModule,
+    SkyThemeModule
   ],
   exports: [
     SkySortComponent,
     SkySortItemComponent
+  ],
+  providers: [
+    SkyThemeService
   ]
 })
 export class SkySortModule { }

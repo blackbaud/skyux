@@ -438,9 +438,8 @@
           #myInlineForm
         >
           <sky-input-box
-            [ngClass]="{
-              'sky-margin-stacked-lg':
-                (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern'
+            [skyThemeClass]="{
+              'sky-margin-stacked-lg': 'modern'
             }"
           >
             <label

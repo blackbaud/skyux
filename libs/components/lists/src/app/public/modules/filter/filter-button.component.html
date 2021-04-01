@@ -7,14 +7,24 @@
   [attr.title]="'skyux_filter_button_title' | skyLibResources"
   [disabled]="disabled"
   [id]="filterButtonId"
-  [ngClass]="{'sky-filter-btn-active sky-rounded-corners': active}"
+  [ngClass]="{
+    'sky-filter-btn-active': active
+  }"
+  [skyThemeClass]="{
+    'sky-rounded-corners': 'default',
+    'sky-theme-modern': 'modern'
+  }"
   (click)="filterButtonOnClick()"
 >
-  <sky-icon
+  <sky-icon *skyThemeIf="'default'"
     icon="filter"
     size="lg"
   >
 </sky-icon>
+  <sky-icon *skyThemeIf="'modern'"
+    icon="filter"
+    iconType="skyux"
+  ></sky-icon>
   <span
     *ngIf="showButtonText"
     class="sky-filter-btn-text"

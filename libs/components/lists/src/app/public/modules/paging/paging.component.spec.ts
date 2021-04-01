@@ -16,6 +16,10 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
+  SkyThemeService
+} from '@skyux/theme';
+
+import {
   PagingTestComponent
 } from './fixtures/paging.component.fixture';
 
@@ -35,6 +39,9 @@ describe('Paging component', () => {
       ],
       imports: [
         SkyPagingModule
+      ],
+      providers: [
+        SkyThemeService
       ]
     });
 

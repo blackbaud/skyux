@@ -2,6 +2,11 @@ import {
   Component
 } from '@angular/core';
 
+import {
+  SkyThemeService,
+  SkyThemeSettings
+} from '@skyux/theme';
+
 @Component({
   selector: 'sort-visual',
   templateUrl: './sort-visual.component.html'
@@ -49,8 +54,16 @@ export class SortVisualComponent {
 
   public sortedItem: any;
 
+  constructor(
+    public themeSvc: SkyThemeService
+  ) {
+  }
+
   public sortItems(item: any) {
     this.sortedItem = item;
   }
 
+  public themeSettingsChange(themeSettings: SkyThemeSettings): void {
+    this.themeSvc.setTheme(themeSettings);
+  }
 }
