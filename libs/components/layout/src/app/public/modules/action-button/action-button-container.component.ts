@@ -9,6 +9,7 @@ import {
   NgZone,
   OnDestroy,
   OnInit,
+  Optional,
   QueryList,
   ViewChild,
   ViewEncapsulation
@@ -95,10 +96,10 @@ export class SkyActionButtonContainerComponent implements AfterContentInit, OnDe
     private actionButtonAdapterService: SkyActionButtonAdapterService,
     private changeRef: ChangeDetectorRef,
     private coreAdapterService: SkyCoreAdapterService,
-    private themeSvc: SkyThemeService,
     private hostElRef: ElementRef,
     private mutationObserverSvc: MutationObserverService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    @Optional() private themeSvc?: SkyThemeService
   ) { }
 
   public ngOnInit(): void {

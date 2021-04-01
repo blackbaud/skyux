@@ -21,8 +21,7 @@ import {
 } from '@skyux/indicators';
 
 import {
-  SkyThemeModule,
-  SkyThemeService
+  SkyThemeModule
 } from '@skyux/theme';
 
 import {
@@ -74,8 +73,7 @@ import {
   providers: [
     MutationObserverService,
     SkyActionButtonAdapterService,
-    SkyCoreAdapterService,
-    SkyThemeService
+    SkyCoreAdapterService
   ]
 })
 export class SkyActionButtonModule { }
