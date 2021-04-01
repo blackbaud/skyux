@@ -1,3 +1,7 @@
+# 4.5.3 (2021-04-01)
+
+- Fixed the action button container component to properly implement the `SkyThemeService`. [#205](https://github.com/blackbaud/skyux-layout/pull/205)
+
 # 4.5.2 (2021-03-31)
 
 - Fixed the action button container component to properly resize all action buttons containing asynchronous content. [#203](https://github.com/blackbaud/skyux-layout/pull/203)
