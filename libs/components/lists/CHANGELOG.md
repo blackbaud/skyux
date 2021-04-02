@@ -1,3 +1,7 @@
+# 4.7.0 (2021-04-02)
+
+- Updated the filter and sort buttons to use modern theme icons. [#222](https://github.com/blackbaud/skyux-lists/pull/222)
+
 # 4.6.1 (2021-03-31)
 
 - Fixed the repeater component to allow reordering with nested repeaters. [#224](https://github.com/blackbaud/skyux-lists/pull/224)
