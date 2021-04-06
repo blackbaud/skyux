@@ -32,6 +32,13 @@ ag-grid-angular:not(.sky-ag-grid-editable) {
 
   border-top: $sky-standard-border;
 
+  .ag-cell.ag-cell-wrap-text {
+    min-height: ag-param(row-height) - 2px;
+    line-height: $sky-line-height-base;
+    padding-top: 7px;
+    padding-bottom: 7px;
+  }
+
   .ag-root-wrapper {
     border: none;
   }
@@ -152,6 +159,13 @@ ag-grid-angular.sky-ag-grid-editable {
 
   .ag-cell:hover {
     border: 1px solid $sky-theme-modern-color-blue-74;
+  }
+
+  .ag-cell.ag-cell-wrap-text {
+    min-height: ag-param(row-height) - 2px;
+    line-height: $sky-theme-modern-font-paragraph-line-height;
+    padding-top: 16px;
+    padding-bottom: 16px;
   }
 
   .ag-row:not(.ag-row-first) {
