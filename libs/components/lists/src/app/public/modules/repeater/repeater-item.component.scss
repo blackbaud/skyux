@@ -56,6 +56,7 @@ sky-repeater-item {
   .sky-repeater-item-right {
     max-width: 100%;
     flex-grow: 1;
+    align-self: center;
   }
 
   .sky-repeater-item-header {
@@ -185,6 +186,10 @@ sky-repeater-item {
           $sky-theme-modern-elevation-3-shadow-size
           $sky-theme-modern-elevation-3-shadow-color;
       }
+    }
+
+    .sky-repeater-item-header[hidden]+.sky-repeater-item-content sky-repeater-item-content {
+      margin: $sky-theme-modern-margin-stacked-lg 0 0;
     }
 
     .sky-repeater-item-header,
