@@ -31,6 +31,11 @@ function ensureStyleEl(): void {
   opacity: 0.95;
   overflow: hidden;
 }
+
+.sky-theme-modern .${CLS_VIEWKEEPER_FIXED} {
+  box-shadow: 0px 1px 8px -1px rgba(0, 0, 0, 0.3);
+  opacity: initial;
+}
 `
     );
 
