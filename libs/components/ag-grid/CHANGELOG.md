@@ -1,3 +1,7 @@
+# 4.6.0 (2021-04-06)
+
+- Fixed the line height style of multiline cells in read-only mode. [#105](https://github.com/blackbaud/skyux-ag-grid/pull/105)
+
 # 4.5.2 (2021-02-19)
 
 - Fixed the row delete directive to render on rows which use the `enableCellTextSelection` option in version 23 of AG Grid. [#101](https://github.com/blackbaud/skyux-ag-grid/pull/101)
