@@ -1,3 +1,7 @@
+# 4.5.0 (2021-04-06)
+
+- Added modern theme styles to the viewkeeper directive. [#215](https://github.com/blackbaud/skyux-core/pull/215)
+
 # 4.4.0 (2021-03-04)
 
 - Added the `getWidth`, `syncMaxHeight`, and `resetHeight` methods to the `SkyCoreAdapterService`. [#213](https://github.com/blackbaud/skyux-core/pull/213)
