@@ -1,3 +1,7 @@
+# 4.0.4 (2021-04-07)
+
+- Removed an incorrect provider for `SkyAppAssetsService` from `SkyI18nModule` that caused the correct asset service provider to be overridden in certain configurations. [#96](https://github.com/blackbaud/skyux-i18n/pull/96)
+
 # 4.0.3 (2020-10-20)
 
 - Fixed the `skyAppResources` and `skyLibResources` pipes to complete their observables when destroyed. [#93](https://github.com/blackbaud/skyux-i18n/pull/93)
