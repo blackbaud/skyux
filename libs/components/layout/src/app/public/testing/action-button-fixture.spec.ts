@@ -49,24 +49,22 @@ describe('Action button fixture', () => {
     });
   });
 
-  // TODO: currently blocked by a possible issue with the skyThemeIf directive.
-  // Will circle back to this in an upcomming PR.
-  // it('should expose the expected properties', () => {
-  //   const fixture = TestBed.createComponent(
-  //     TestComponent
-  //   );
+  it('should expose the expected properties', () => {
+    const fixture = TestBed.createComponent(
+      TestComponent
+    );
 
-  //   fixture.detectChanges();
+    fixture.detectChanges();
 
-  //   const actionButton = new SkyActionButtonFixture(
-  //     fixture,
-  //     'filter-button'
-  //   );
+    const actionButton = new SkyActionButtonFixture(
+      fixture,
+      'filter-button'
+    );
 
-  //   expect(actionButton.headerText).toBe('Build a new list');
-  //   expect(actionButton.detailsText).toBe('Start from scratch and fine-tune with filters');
-  //   expect(actionButton.iconType).toBe('filter');
-  // });
+    expect(actionButton.headerText).toBe('Build a new list');
+    expect(actionButton.detailsText).toBe('Start from scratch and fine-tune with filters');
+    expect(actionButton.iconType).toBe('filter');
+  });
 
   it('should provide methods for invoking events', () => {
     const fixture = TestBed.createComponent(
