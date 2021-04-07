@@ -44,7 +44,8 @@ describe('Resources service', () => {
 
   function configureTestingModule(
     mockLocaleProvider?: any,
-    mockResourceNameProvider?: any
+    mockResourceNameProvider?: any,
+    excludeAssetsService?: boolean
   ): void {
     enUsUrl = 'https://example.com/locales/resources_en_US.json';
     enGbUrl = 'https://example.com/locales/resources_en_GB.json';
@@ -64,25 +65,31 @@ describe('Resources service', () => {
     };
 
     const providers: any[] = [
-      SkyAppAssetsService,
-      SkyAppResourcesService,
-      {
-        provide: SkyAppAssetsService,
-        useValue: {
-          getUrl: (path: string) => {
-            if (
-              // These represent unavailable locales.
-              path.indexOf('fr.json') >= 0 ||
-              path.indexOf('fr_FR.json') >= 0 ||
-              path.indexOf('es_MX.json') >= 0
-            ) {
-              return undefined;
-            }
-            return 'https://example.com/' + path;
-          }
-        }
-      }
+      SkyAppResourcesService
     ];
+
+    if (excludeAssetsService) {
+      mockAssetsService = undefined;
+    } else {
+      mockAssetsService = {
+        getUrl: (path: string) => {
+          if (
+            // These represent unavailable locales.
+            path.indexOf('fr.json') >= 0 ||
+            path.indexOf('fr_FR.json') >= 0 ||
+            path.indexOf('es_MX.json') >= 0
+          ) {
+            return undefined;
+          }
+          return 'https://example.com/' + path;
+        }
+      };
+
+      providers.push({
+        provide: SkyAppAssetsService,
+        useFactory: () => mockAssetsService
+      });
+    }
 
     if (mockLocaleProvider) {
       providers.push({
@@ -115,7 +122,6 @@ describe('Resources service', () => {
   }
 
   function injectServices(): any {
-    mockAssetsService = TestBed.inject(SkyAppAssetsService);
     resources = TestBed.inject(SkyAppResourcesService);
     httpMock = TestBed.inject(HttpTestingController);
   }
@@ -125,6 +131,24 @@ describe('Resources service', () => {
 
     request.flush(testResources);
   }
+
+  describe('without an assets service', () => {
+    beforeEach(() => {
+      configureTestingModule(
+        undefined,
+        undefined,
+        true
+      );
+      injectServices();
+    });
+
+    it('should fall back to the specified resource key', (done) => {
+      resources.getString('hi').pipe(take(1)).subscribe((value) => {
+        expect(value).toBe('hi');
+        done();
+      });
+    });
+  });
 
   describe('without a locale provider', () => {
     beforeEach(() => {

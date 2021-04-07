@@ -62,7 +62,7 @@ export class SkyAppResourcesService {
   constructor(
     private http: HttpClient,
     /* tslint:disable-next-line no-forward-ref */
-    @Inject(forwardRef(() => SkyAppAssetsService)) private assets: SkyAppAssetsService,
+    @Optional() @Inject(forwardRef(() => SkyAppAssetsService)) private assets: SkyAppAssetsService,
     @Optional() private localeProvider: SkyAppLocaleProvider,
     @Optional() private resourceNameProvider: SkyAppResourceNameProvider
   ) { }
@@ -171,6 +171,6 @@ export class SkyAppResourcesService {
   }
 
   private getUrlForLocale(locale: string): string {
-    return this.assets.getUrl(`locales/resources_${locale.replace('-', '_')}.json`);
+    return this.assets?.getUrl(`locales/resources_${locale.replace('-', '_')}.json`);
   }
 }
