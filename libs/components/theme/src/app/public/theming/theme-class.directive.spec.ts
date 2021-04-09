@@ -218,4 +218,26 @@ describe('ThemeClass directive', () => {
       );
     });
   });
+
+  describe('with SkyThemeService provider', () => {
+    it('should use the default theme if the theme service is not initialized', async () => {
+      TestBed.configureTestingModule({
+        declarations: [
+          SkyThemeClassTestComponent
+        ],
+        imports: [
+          SkyThemeModule
+        ],
+        providers: [
+          {
+            provide: SkyThemeService,
+            useValue: new SkyThemeService()
+          }
+        ]
+      });
+      const fixture = TestBed.createComponent(SkyThemeClassTestComponent);
+      fixture.detectChanges();
+      expectElementWithClasses(fixture, '.sky-theme-class-test', 'example-default');
+    });
+  });
 });

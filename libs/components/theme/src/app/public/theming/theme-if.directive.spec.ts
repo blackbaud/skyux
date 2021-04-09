@@ -120,7 +120,7 @@ describe('ThemeIf directive', () => {
     let fixture: ComponentFixture<SkyThemeIfTestComponent>;
 
     beforeEach(async () => {
-      TestBed.configureTestingModule({
+      await TestBed.configureTestingModule({
         declarations: [
           SkyThemeIfTestComponent,
           TestProjectionComponent
@@ -163,7 +163,7 @@ describe('ThemeIf directive', () => {
         )
       };
 
-      TestBed.configureTestingModule({
+      await TestBed.configureTestingModule({
         declarations: [
           SkyThemeIfTestComponent,
           TestProjectionComponent
@@ -241,6 +241,29 @@ describe('ThemeIf directive', () => {
       testForContentProjectionShowing(
         componentFixture, 'default: Example content projection.'
       );
+    });
+  });
+
+  describe('with SkyThemeService provider', () => {
+    it('should use the default theme if the theme service is not initialized', async () => {
+      TestBed.configureTestingModule({
+        declarations: [
+          SkyThemeIfTestComponent,
+          TestProjectionComponent
+        ],
+        imports: [
+          SkyThemeModule
+        ],
+        providers: [
+          {
+            provide: SkyThemeService,
+            useValue: new SkyThemeService()
+          }
+        ]
+      });
+      const fixture = TestBed.createComponent(SkyThemeIfTestComponent);
+      fixture.detectChanges();
+      expectOnlyElementShowing(fixture, 'default theme');
     });
   });
 });

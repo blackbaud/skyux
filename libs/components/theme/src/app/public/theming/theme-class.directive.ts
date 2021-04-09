@@ -16,14 +16,6 @@ import {
 } from 'rxjs/operators';
 
 import {
-  SkyTheme
-} from './theme';
-
-import {
-  SkyThemeMode
-} from './theme-mode';
-
-import {
   SkyThemeSettings
 } from './theme-settings';
 
@@ -95,11 +87,6 @@ export class SkyThemeClassDirective implements OnDestroy {
         .subscribe(settingsChange => {
           this.themeSettings = settingsChange.currentSettings;
         });
-    } else {
-      this.themeSettings = new SkyThemeSettings(
-        SkyTheme.presets.default,
-        SkyThemeMode.presets.light
-      );
     }
   }
 
@@ -116,8 +103,9 @@ export class SkyThemeClassDirective implements OnDestroy {
 
   private applySkyThemeClassMap(skyThemeClassMap: SkyThemeClassMap): void {
     if (skyThemeClassMap) {
+      const themeName = this.currentTheme?.theme.name || 'default';
       Object.keys(skyThemeClassMap).forEach(className => {
-        const enabled = this.currentTheme?.theme.name === skyThemeClassMap[className];
+        const enabled = themeName === skyThemeClassMap[className];
         this.toggleClass(className, enabled);
       });
     }

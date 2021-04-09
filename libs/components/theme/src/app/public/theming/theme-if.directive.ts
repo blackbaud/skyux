@@ -16,14 +16,6 @@ import {
 } from 'rxjs/operators';
 
 import {
-  SkyTheme
-} from './theme';
-
-import {
-  SkyThemeMode
-} from './theme-mode';
-
-import {
   SkyThemeSettings
 } from './theme-settings';
 
@@ -72,11 +64,6 @@ export class SkyThemeIfDirective implements OnDestroy {
         .subscribe(settingsChange => {
           this.themeSettings = settingsChange.currentSettings;
         });
-    } else {
-      this.themeSettings = new SkyThemeSettings(
-        SkyTheme.presets.default,
-        SkyThemeMode.presets.light
-      );
     }
   }
 
@@ -86,7 +73,8 @@ export class SkyThemeIfDirective implements OnDestroy {
   }
 
   private updateView(): void {
-    const condition = this.context && this.currentTheme?.theme.name === this.context;
+    const themeName = this.currentTheme?.theme.name || 'default';
+    const condition = this.context && themeName === this.context;
     if (condition && !this.hasView) {
       this.viewContainer.createEmbeddedView(this.templateRef);
       this.hasView = true;
