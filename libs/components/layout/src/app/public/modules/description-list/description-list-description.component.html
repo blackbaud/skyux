@@ -6,9 +6,9 @@
   </span>
   <span *ngIf="!valueEl.textContent.trim()"
     data-sky-id="sky-description-list-default-value"
-    [ngClass]="{
-      'sky-font-deemphasized' : themeName === 'modern',
-      'sky-deemphasized' : themeName == 'default'
+    [skyThemeClass]="{
+      'sky-font-deemphasized': 'modern',
+      'sky-deemphasized': 'default'
     }"
   >
     {{ (service.defaultDescription | async) || ('skyux_description_list_none_found' | skyLibResources) }}

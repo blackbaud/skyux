@@ -20,7 +20,12 @@ import {
 } from '@skyux/theme';
 
 import {
-  BehaviorSubject
+  MutationObserverService
+} from '@skyux/core';
+
+import {
+  BehaviorSubject,
+  of
 } from 'rxjs';
 
 import {
@@ -63,6 +68,7 @@ describe('Description list component', () => {
         SkyDescriptionListFixturesModule
       ],
       providers: [
+        MutationObserverService,
         {
           provide: SkyThemeService,
           useValue: mockThemeSvc
@@ -224,6 +230,32 @@ describe('Description list component', () => {
     await asyncFixture.whenStable().then(async () => {
       await expectAsync(asyncFixture.nativeElement).toBeAccessible();
     });
+  });
+
+  it('should acknowledge asynchronous changes', () => {
+    let list3El = getListEl(fixture.nativeElement, 3);
+    let termEls = getTermEls(list3El);
+    let descriptionEls = getDescriptionEls(list3El);
+
+    expect(termEls.length).toEqual(3);
+    expect(descriptionEls.length).toEqual(3);
+    expect(descriptionEls[0]).toHaveText('Example 1');
+
+    fixture.componentInstance.asyncInfo = [
+      {
+        term: 'boo',
+        description: of('far')
+      }
+    ];
+    fixture.detectChanges();
+    list3El = getListEl(fixture.nativeElement, 3);
+    termEls = getTermEls(list3El);
+    descriptionEls = getDescriptionEls(list3El);
+
+    expect(termEls.length).toEqual(1);
+    expect(descriptionEls.length).toEqual(1);
+    expect(termEls[0]).toHaveText('boo');
+    expect(descriptionEls[0]).toHaveText('far');
   });
 
 });

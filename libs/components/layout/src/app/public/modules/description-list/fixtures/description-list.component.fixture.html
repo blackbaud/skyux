@@ -31,3 +31,19 @@
     </sky-description-list-content>
   </sky-description-list>
 </div>
+<div
+  class="sky-description-list-test-3"
+>
+  <sky-description-list
+    defaultDescription="Not yet loaded"
+  >
+    <sky-description-list-content *ngFor="let item of asyncInfo">
+      <sky-description-list-term>
+        {{item.term}}
+      </sky-description-list-term>
+      <sky-description-list-description>
+        {{item.description | async}}
+      </sky-description-list-description>
+    </sky-description-list-content>
+  </sky-description-list>
+</div>

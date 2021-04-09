@@ -1,5 +1,6 @@
 import {
   AfterContentInit,
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -11,6 +12,10 @@ import {
   QueryList,
   ViewChild
 } from '@angular/core';
+
+import {
+  MutationObserverService
+} from '@skyux/core';
 
 import {
   takeUntil
@@ -46,8 +51,7 @@ import {
   providers: [SkyDescriptionListService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyDescriptionListComponent implements AfterContentInit, OnDestroy {
-
+export class SkyDescriptionListComponent implements AfterContentInit, AfterViewInit, OnDestroy {
 /**
  * Specifies a default description to display when no description is provided
  * for a term-description pair.
@@ -81,6 +85,8 @@ export class SkyDescriptionListComponent implements AfterContentInit, OnDestroy 
   @ContentChildren(SkyDescriptionListContentComponent)
   public contentComponents: QueryList<SkyDescriptionListContentComponent>;
 
+  private contentObserver: MutationObserver;
+
   @ViewChild('descriptionListElement', {
     read: ElementRef,
     static: true
@@ -94,7 +100,8 @@ export class SkyDescriptionListComponent implements AfterContentInit, OnDestroy 
   constructor(
     private adapterService: SkyDescriptionListAdapterService,
     private changeDetector: ChangeDetectorRef,
-    private descriptionListService: SkyDescriptionListService
+    private descriptionListService: SkyDescriptionListService,
+    private mutationSvc: MutationObserverService
   ) { }
 
   public ngAfterContentInit(): void {
@@ -111,9 +118,21 @@ export class SkyDescriptionListComponent implements AfterContentInit, OnDestroy 
       });
   }
 
+  public ngAfterViewInit(): void {
+    this.contentObserver = this.mutationSvc.create(() => {
+      this.changeDetector.markForCheck();
+    });
+    this.contentObserver.observe(this.elementRef.nativeElement, {
+      childList: true,
+      characterData: true,
+      subtree: true
+    });
+  }
+
   public ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+    this.contentObserver.disconnect();
   }
 
   @HostListener('window:resize')

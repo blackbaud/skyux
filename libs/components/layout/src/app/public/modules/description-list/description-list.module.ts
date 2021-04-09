@@ -11,6 +11,10 @@ import {
 } from '@skyux/i18n';
 
 import {
+  SkyThemeModule
+} from '@skyux/theme';
+
+import {
   SkyLayoutResourcesModule
 } from '../shared/layout-resources.module';
 
@@ -44,7 +48,8 @@ import {
   imports: [
     CommonModule,
     SkyI18nModule,
-    SkyLayoutResourcesModule
+    SkyLayoutResourcesModule,
+    SkyThemeModule
   ],
   exports: [
     SkyDescriptionListComponent,

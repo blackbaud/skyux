@@ -3,6 +3,12 @@ import {
 } from '@angular/core';
 
 import {
+  asyncScheduler,
+  Observable,
+  scheduled
+} from 'rxjs';
+
+import {
   SkyDescriptionListMode
 } from '../types/description-list-mode';
 
@@ -41,6 +47,21 @@ export class SkyDescriptionListTestComponent {
     },
     {
       term: 'Last log-in time'
+    }
+  ];
+
+  public asyncInfo: {term: string, description?: Observable<string>}[] = [
+    {
+      term: 'First',
+      description: scheduled(['Example 1'], asyncScheduler)
+    },
+    {
+      term: 'Second',
+      description: scheduled(['Example 2'], asyncScheduler)
+    },
+    {
+      term: 'Third',
+      description: scheduled(['Example 3'], asyncScheduler)
     }
   ];
 
