@@ -1,3 +1,7 @@
+# 4.15.5 (2021-04-09)
+
+- Fixed the `skyThemeIf` and `skyThemeClass` directives to work properly when `SkyThemeService` is provided but not initialized. [#220](https://github.com/blackbaud/skyux-theme/pull/220)
+
 # 4.15.4 (2021-03-24)
 
 - Fixed the `skyThemeIf` and `skyThemeClass` directives to work properly when `SkyThemeService` is not provided. [#217](https://github.com/blackbaud/skyux-theme/pull/217)
