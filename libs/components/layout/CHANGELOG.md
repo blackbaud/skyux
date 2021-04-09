@@ -1,3 +1,7 @@
+# 4.6.0 (2021-04-09)
+
+- Fixed the description list component to prevent showing both actual and default values. [#209](https://github.com/blackbaud/skyux-layout/pull/209)
+
 # 4.5.3 (2021-04-01)
 
 - Fixed the action button container component to properly implement the `SkyThemeService`. [#205](https://github.com/blackbaud/skyux-layout/pull/205)
