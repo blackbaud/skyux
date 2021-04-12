@@ -1,0 +1,141 @@
+<sky-docs-demo-page
+  moduleName="SkySelectionBoxModule"
+  moduleSourceCodePath="src/app/public/modules/selection-box/"
+  pageTitle="Selection box"
+>
+  <sky-docs-demo-page-summary>
+    <!-- Page summary goes here -->
+  </sky-docs-demo-page-summary>
+
+  <sky-docs-demo>
+    <sky-docs-demo-control-panel
+      (selectionChange)="onDemoSelectionChange($event)"
+    >
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-radio-group
+          heading="Selection mode"
+          initialValue="checkbox"
+          propertyName="mode"
+          [choices]="formChoices"
+        >
+        </sky-docs-demo-control-panel-radio-group>
+      </sky-docs-demo-control-panel-section>
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-checkbox
+          label="Include icon"
+          propertyName="showIcon"
+          [checked]="true"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+        <sky-docs-demo-control-panel-checkbox
+          label="Include description"
+          propertyName="showDescription"
+          [checked]="true"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
+    <!-- Due to how the selection box styles react to the existence of the icon, we have to
+      initially render the whole selection box component with or without the icon present to get
+      the styles to work correctly. -->
+    <ng-container *ngIf="demoSettings?.mode === 'checkbox'">
+      <sky-selection-box-grid *ngIf="demoSettings?.showIcon">
+        <sky-selection-box *ngFor="let item of items"
+          [control]="checkbox"
+        >
+          <sky-icon
+            iconType="skyux"
+            [icon]="item.icon"
+          ></sky-icon>
+          <sky-selection-box-header>
+            {{ item.name }}
+          </sky-selection-box-header>
+          <sky-selection-box-description *ngIf="demoSettings?.showDescription">
+            {{ item.description }}
+          </sky-selection-box-description>
+          <sky-checkbox
+            #checkbox
+          >
+          </sky-checkbox>
+        </sky-selection-box>
+      </sky-selection-box-grid>
+      <sky-selection-box-grid *ngIf="!demoSettings?.showIcon">
+        <sky-selection-box *ngFor="let item of items"
+          [control]="checkbox"
+        >
+          <sky-selection-box-header>
+            {{ item.name }}
+          </sky-selection-box-header>
+          <sky-selection-box-description *ngIf="demoSettings?.showDescription">
+            {{ item.description }}
+          </sky-selection-box-description>
+          <sky-checkbox
+            #checkbox
+          >
+          </sky-checkbox>
+        </sky-selection-box>
+      </sky-selection-box-grid>
+    </ng-container>
+    <ng-container *ngIf="demoSettings?.mode === 'radio'">
+      <sky-radio-group *ngIf="demoSettings?.showIcon">
+        <sky-selection-box-grid>
+          <sky-selection-box *ngFor="let item of items"
+            [control]="radio"
+          >
+            <sky-icon
+              iconType="skyux"
+              [icon]="item.icon"
+            ></sky-icon>
+            <sky-selection-box-header>
+              {{ item.name }}
+            </sky-selection-box-header>
+            <sky-selection-box-description *ngIf="demoSettings?.showDescription">
+              {{ item.description }}
+            </sky-selection-box-description>
+            <sky-radio
+              [value]="item.value"
+              #radio
+            >
+            </sky-radio>
+          </sky-selection-box>
+        </sky-selection-box-grid>
+      </sky-radio-group>
+      <sky-radio-group *ngIf="!demoSettings?.showIcon">
+        <sky-selection-box-grid>
+          <sky-selection-box *ngFor="let item of items"
+            [control]="radio"
+          >
+            <sky-selection-box-header>
+              {{ item.name }}
+            </sky-selection-box-header>
+            <sky-selection-box-description *ngIf="demoSettings?.showDescription">
+              {{ item.description }}
+            </sky-selection-box-description>
+            <sky-radio
+              [value]="item.value"
+              #radio
+            >
+            </sky-radio>
+          </sky-selection-box>
+        </sky-selection-box-grid>
+      </sky-radio-group>
+    </ng-container>
+  </sky-docs-demo>
+
+  <sky-docs-design-guidelines>
+    <!-- UX guidelines go here -->
+  </sky-docs-design-guidelines>
+
+  <sky-docs-code-examples>
+    <sky-docs-code-example
+      heading="Selection boxes with checkboxes"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/selection-box/checkbox"
+    >
+    </sky-docs-code-example>
+    <sky-docs-code-example
+      heading="Selection boxes with radio buttons"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/selection-box/radio"
+    >
+    </sky-docs-code-example>
+  </sky-docs-code-examples>
+</sky-docs-demo-page>
