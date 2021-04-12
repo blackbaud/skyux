@@ -10,10 +10,13 @@ import {
   SkyMediaBreakpoints
 } from '@skyux/core';
 
+const RESPONSIVE_CLASS_XS = 'sky-selection-box-container-xs';
 const RESPONSIVE_CLASS_SM = 'sky-selection-box-container-sm';
 const RESPONSIVE_CLASS_MD = 'sky-selection-box-container-md';
 const RESPONSIVE_CLASS_LG = 'sky-selection-box-container-lg';
 
+const BREAKPOINT_XS_MAX_PIXELS = 767;
+const BREAKPOINT_SM_MIN_PIXELS = 768;
 const BREAKPOINT_SM_MAX_PIXELS = 991;
 const BREAKPOINT_MD_MIN_PIXELS = 992;
 const BREAKPOINT_MD_MAX_PIXELS = 1439;
@@ -53,7 +56,9 @@ export class SkySelectionBoxAdapterService {
    * @param width Width of the element in pixels.
    */
   public getBreakpointForWidth(width: number): SkyMediaBreakpoints {
-    if (width <= BREAKPOINT_SM_MAX_PIXELS) {
+    if (width <= BREAKPOINT_XS_MAX_PIXELS) {
+      return SkyMediaBreakpoints.xs;
+    } else if (width >= BREAKPOINT_SM_MIN_PIXELS && width <= BREAKPOINT_SM_MAX_PIXELS) {
       return SkyMediaBreakpoints.sm;
     } else if (width >= BREAKPOINT_MD_MIN_PIXELS && width <= BREAKPOINT_MD_MAX_PIXELS) {
       return SkyMediaBreakpoints.md;
@@ -96,6 +101,7 @@ export class SkySelectionBoxAdapterService {
   public setResponsiveClass(element: ElementRef, breakpoint: SkyMediaBreakpoints): void {
     const nativeEl: HTMLElement = element.nativeElement;
 
+    this.renderer.removeClass(nativeEl, RESPONSIVE_CLASS_XS);
     this.renderer.removeClass(nativeEl, RESPONSIVE_CLASS_SM);
     this.renderer.removeClass(nativeEl, RESPONSIVE_CLASS_MD);
     this.renderer.removeClass(nativeEl, RESPONSIVE_CLASS_LG);
@@ -104,6 +110,10 @@ export class SkySelectionBoxAdapterService {
 
     // tslint:disable-next-line: switch-default
     switch (breakpoint) {
+      case SkyMediaBreakpoints.xs: {
+        newClass = RESPONSIVE_CLASS_XS;
+        break;
+      }
       case SkyMediaBreakpoints.sm: {
         newClass = RESPONSIVE_CLASS_SM;
         break;

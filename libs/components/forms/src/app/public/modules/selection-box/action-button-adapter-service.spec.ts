@@ -100,6 +100,11 @@ describe('Action button adapter service', () => {
     expect(isDescendant).toBeFalse();
   });
 
+  it('should return xs breakpoint when width is under 768', () => {
+    const breakpoint = adapter.getBreakpointForWidth(767);
+    expect(breakpoint).toEqual(SkyMediaBreakpoints.xs);
+  });
+
   it('should return sm breakpoint when width is under 991', () => {
     const breakpoint = adapter.getBreakpointForWidth(991);
     expect(breakpoint).toEqual(SkyMediaBreakpoints.sm);
@@ -115,10 +120,21 @@ describe('Action button adapter service', () => {
     expect(breakpoint).toEqual(SkyMediaBreakpoints.lg);
   });
 
+  it('should set responsive xs class when breakpoint is xs', () => {
+    adapter.setResponsiveClass(inputRef, SkyMediaBreakpoints.xs);
+    fixture.detectChanges();
+
+    expect(inputRef.nativeElement).toHaveClass('sky-selection-box-container-xs');
+    expect(inputRef.nativeElement).not.toHaveClass('sky-selection-box-container-sm');
+    expect(inputRef.nativeElement).not.toHaveClass('sky-selection-box-container-md');
+    expect(inputRef.nativeElement).not.toHaveClass('sky-selection-box-container-lg');
+  });
+
   it('should set responsive sm class when breakpoint is sm', () => {
     adapter.setResponsiveClass(inputRef, SkyMediaBreakpoints.sm);
     fixture.detectChanges();
 
+    expect(inputRef.nativeElement).not.toHaveClass('sky-selection-box-container-xs');
     expect(inputRef.nativeElement).toHaveClass('sky-selection-box-container-sm');
     expect(inputRef.nativeElement).not.toHaveClass('sky-selection-box-container-md');
     expect(inputRef.nativeElement).not.toHaveClass('sky-selection-box-container-lg');
@@ -128,6 +144,7 @@ describe('Action button adapter service', () => {
     adapter.setResponsiveClass(inputRef, SkyMediaBreakpoints.md);
     fixture.detectChanges();
 
+    expect(inputRef.nativeElement).not.toHaveClass('sky-selection-box-container-xs');
     expect(inputRef.nativeElement).not.toHaveClass('sky-selection-box-container-sm');
     expect(inputRef.nativeElement).toHaveClass('sky-selection-box-container-md');
     expect(inputRef.nativeElement).not.toHaveClass('sky-selection-box-container-lg');
@@ -137,6 +154,7 @@ describe('Action button adapter service', () => {
     adapter.setResponsiveClass(inputRef, SkyMediaBreakpoints.lg);
     fixture.detectChanges();
 
+    expect(inputRef.nativeElement).not.toHaveClass('sky-selection-box-container-xs');
     expect(inputRef.nativeElement).not.toHaveClass('sky-selection-box-container-sm');
     expect(inputRef.nativeElement).not.toHaveClass('sky-selection-box-container-md');
     expect(inputRef.nativeElement).toHaveClass('sky-selection-box-container-lg');
