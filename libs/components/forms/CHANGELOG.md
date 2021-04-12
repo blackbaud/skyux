@@ -1,3 +1,7 @@
+# 4.16.2 (2021-04-12)
+
+- Fixed the input box to work properly when a theme is not specified. [#220](https://github.com/blackbaud/skyux-theme/pull/220)
+
 # 4.16.1 (2021-03-31)
 
 - Replaced theme conditionals in templates with the new `skyThemeIf` directive. [#240](https://github.com/blackbaud/skyux-forms/pull/240)
