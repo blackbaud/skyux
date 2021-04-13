@@ -1,3 +1,7 @@
+# 4.9.2 (2021-04-13)
+
+- Fixed the key info component to use pixel padding instead of the CSS content property. [#163](https://github.com/blackbaud/skyux-indicators/pull/163)
+
 # 4.9.1 (2021-03-22)
 
 - Adjusted the chevron component so that it is the same size as the borderless icon buttons. [#161](https://github.com/blackbaud/skyux-indicators/pull/161)
