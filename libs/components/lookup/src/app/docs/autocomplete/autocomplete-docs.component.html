@@ -5,7 +5,20 @@
 >
 
 <sky-docs-demo-page-summary>
-  The autocomplete text input filters a data source based on user entries and then displays search results in a dropdown list.
+  <p>
+    The autocomplete text input filters a data source based on user entries and then displays search results in a dropdown list.
+  </p>
+
+  <sky-alert alertType="warning">
+      We recommend the
+      <a *skyThemeIf="'default'" href="https://developer.blackbaud.com/skyux-lookup/docs/lookup">
+        lookup component
+      </a>
+      <a *skyThemeIf="'modern'" href="https://developer.blackbaud.com/skyux-lookup/docs/lookup?svcid=modern">
+        lookup component
+      </a>
+      instead of autocomplete. We will deprecate the autocomplete component in the next major version of SKY UX.
+  </sky-alert>
 </sky-docs-demo-page-summary>
 
 <sky-docs-demo>

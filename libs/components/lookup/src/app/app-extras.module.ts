@@ -16,6 +16,10 @@ import {
 } from '@skyux/forms';
 
 import {
+  SkyAlertModule
+} from '@skyux/indicators';
+
+import {
   SkyToolbarModule
 } from '@skyux/layout';
 
@@ -26,6 +30,10 @@ import {
 import {
   SkyAppLinkModule
 } from '@skyux/router';
+
+import {
+  SkyThemeModule
+} from '@skyux/theme';
 
 import {
   SkyAutocompleteModule,
@@ -42,6 +50,7 @@ import {
     SkySearchModule
   ],
   exports: [
+    SkyAlertModule,
     SkyAppLinkModule,
     SkyAutocompleteModule,
     SkyCountryFieldModule,
@@ -51,6 +60,7 @@ import {
     SkyLookupModule,
     SkyRepeaterModule,
     SkySearchModule,
+    SkyThemeModule,
     SkyToolbarModule
   ],
   providers: [
