@@ -1,20 +1,28 @@
+@import "~@skyux/theme/scss/variables";
 @import "~@skyux/theme/scss/mixins";
 @import "~@skyux/theme/scss/_compat/mixins";
 
 .sky-key-info {
   display: inline-block;
+
+  &.sky-key-info-horizontal {
+    .sky-key-info-value,
+    .sky-key-info-label {
+      display: inline-block;
+    }
+
+    .sky-key-info-label {
+      padding: 0 0 0 $sky-space-xs;
+    }
+  }
 }
 
-.sky-key-info-horizontal {
-  .sky-key-info-value,
-  .sky-key-info-label {
-    display: inline-block;
-  }
-
-  .sky-key-info-label {
-    &:before {
-      content: ' ';
-      display: inline-block;
+@include sky-theme-modern {
+  .sky-key-info {
+    &.sky-key-info-horizontal {
+      .sky-key-info-label {
+        padding: 0 0 0 $sky-theme-modern-space-xs;
+      }
     }
   }
 }
