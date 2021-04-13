@@ -31,7 +31,7 @@ import {
 } from './selection-box-adapter.service';
 
 /**
- * Creates a button to present users with an option to move forward with tasks.
+ * Creates a button to present users with a choice or question before proceeding with a one-time process.
  */
 @Component({
   selector: 'sky-selection-box',
@@ -43,7 +43,7 @@ import {
 export class SkySelectionBoxComponent implements AfterViewInit, OnDestroy {
 
   /**
-   * Specifies the radio button or checkbox for the selection box.
+   * Specifies the radio button or checkbox to display in the selection box.
    * @required
    */
   @Input()
