@@ -7,15 +7,21 @@ import {
 } from '@skyux/config';
 
 import {
-  SkyThemeService,
-  SkyThemeSettings
-} from '@skyux/theme';
+  FormArray,
+  FormControl,
+  Validators
+} from '@angular/forms';
 
 import {
   SkyInlineFormButtonLayout,
   SkyInlineFormCloseArgs,
   SkyInlineFormConfig
 } from '@skyux/inline-form';
+
+import {
+  SkyThemeService,
+  SkyThemeSettings
+} from '@skyux/theme';
 
 let nextItemId: number = 0;
 
@@ -89,6 +95,18 @@ export class RepeaterVisualComponent {
     }
   ];
 
+  public get itemsForReorderableRepeaterWithAddButton(): FormArray {
+    if (typeof this._itemsForReorderableRepeaterWithAddButton === 'undefined') {
+      this._itemsForReorderableRepeaterWithAddButton = new FormArray(
+        Array.from(Array(5).keys())
+          .map(n => this.newItemForReorderableRepeaterWithAddButton(n + 1))
+      );
+    }
+    return this._itemsForReorderableRepeaterWithAddButton as FormArray;
+  }
+
+  public _itemsForReorderableRepeaterWithAddButton: FormArray | undefined;
+
   public showActiveInlineDelete: boolean = false;
 
   public showContent: boolean = false;
@@ -130,8 +148,22 @@ export class RepeaterVisualComponent {
     this.items.push(newItem);
   }
 
+  public addItemToReorderableRepeaterWithAddButton(): void {
+    this.itemsForReorderableRepeaterWithAddButton.push(
+      this.newItemForReorderableRepeaterWithAddButton(this._itemsForReorderableRepeaterWithAddButton.length + 1)
+    );
+  }
+
   public onOrderChange(tags: any): void {
     console.log(tags);
+  }
+
+  public onOrderChangeForReorderableRepeaterWithAddButton(tags: FormControl[]): void {
+    console.log(tags);
+    this.itemsForReorderableRepeaterWithAddButton.clear();
+    tags.forEach(formControl => {
+      this.itemsForReorderableRepeaterWithAddButton.push(formControl);
+    });
   }
 
   public getSelectedItems(): string[] {
@@ -187,5 +219,9 @@ export class RepeaterVisualComponent {
 
   public themeSettingsChange(themeSettings: SkyThemeSettings): void {
     this.themeSvc.setTheme(themeSettings);
+  }
+
+  private newItemForReorderableRepeaterWithAddButton(n: number): FormControl {
+    return new FormControl(`item ${n}`, [Validators.required, Validators.maxLength(20)]);
   }
 }

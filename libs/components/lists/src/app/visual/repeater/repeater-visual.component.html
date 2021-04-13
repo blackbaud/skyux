@@ -676,4 +676,37 @@
       </sky-repeater-item>
     </sky-repeater>
   </div>
+
+  <div
+    class="app-screenshot sky-margin-stacked-default"
+    id="screenshot-repeater-reorderable-with-add-button"
+  >
+    <h3>
+      Repeater with "reordering" enabled and add button
+    </h3>
+    <sky-repeater
+      expandMode="none"
+      [reorderable]="true"
+      (orderChange)="onOrderChangeForReorderableRepeaterWithAddButton($event)"
+    >
+      <sky-repeater-item *ngFor="let control of itemsForReorderableRepeaterWithAddButton.controls"
+        [tag]="control"
+      >
+        <sky-repeater-item-content>
+          <input
+            type="text"
+            class="sky-form-control"
+            maxlength="20"
+            [formControl]="control"
+          >
+        </sky-repeater-item-content>
+      </sky-repeater-item>
+    </sky-repeater>
+    <button
+      type="button"
+      (click)="addItemToReorderableRepeaterWithAddButton()"
+    >
+      Add new item
+    </button>
+  </div>
 </ng-container>

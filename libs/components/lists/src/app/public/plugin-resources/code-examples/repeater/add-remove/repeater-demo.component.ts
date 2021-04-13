@@ -26,10 +26,14 @@ export class RepeaterDemoComponent {
 
   public addItem(): void {
     this.items.push({
-      title: 'New reminder ' + nextId++,
+      title: 'New reminder ' + ++nextId,
       note: 'This is a new reminder',
       status: 'Active'
     });
+  }
+
+  public changeItems(tags: any): void {
+    this.items = tags;
   }
 
   public removeItem(): void {

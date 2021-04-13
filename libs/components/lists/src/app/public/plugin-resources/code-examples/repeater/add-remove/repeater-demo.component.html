@@ -1,9 +1,13 @@
 <div
   class="sky-margin-stacked-default"
 >
-  <sky-repeater>
+  <sky-repeater
+    [reorderable]="true"
+    (orderChange)="changeItems($event)"
+  >
     <sky-repeater-item
       *ngFor="let item of items"
+      [tag]="item"
     >
       <sky-repeater-item-title
         class="repeater-flex"
