@@ -24,8 +24,21 @@ import {
 
 describe('No-auth interceptor', () => {
   let mockRuntimeConfigParameters: Spy<SkyAppRuntimeConfigParams>;
-  let config: SkyAppConfig;
+  let mockConfig: SkyAppConfig;
   let next: Spy<HttpHandler>;
+
+  function validateTokenizedUrl(interceptor: SkyNoAuthInterceptor, done: DoneFn): void {
+    const request = createRequest(
+      false,
+      '1bb://eng-hub00-pusa01/version'
+    );
+
+    validateRequest(next, done, (authRequest) => {
+      expect(authRequest.url).toBe('https://eng-pusa01.app.blackbaud.net/hub00/version');
+    });
+
+    interceptor.intercept(request, next).subscribe();
+  }
 
   beforeEach(() => {
     mockRuntimeConfigParameters = jasmine.createSpyObj(
@@ -33,7 +46,7 @@ describe('No-auth interceptor', () => {
       ['get', 'getUrl']
     );
 
-    config = {
+    mockConfig = {
       runtime: {
         params: mockRuntimeConfigParameters
       } as any,
@@ -46,7 +59,7 @@ describe('No-auth interceptor', () => {
       providers: [
         {
           provide: SkyAppConfig,
-          useValue: config
+          useValue: mockConfig
         },
         SkyNoAuthInterceptor
       ]
@@ -54,7 +67,7 @@ describe('No-auth interceptor', () => {
   });
 
   it('should pass through the existing request when a bb-authed request', () => {
-    const interceptor: SkyNoAuthInterceptor = TestBed.get(SkyNoAuthInterceptor);
+    const interceptor: SkyNoAuthInterceptor = TestBed.inject(SkyNoAuthInterceptor);
     const request = createRequest(true);
 
     next.handle.and.stub();
@@ -82,15 +95,21 @@ describe('No-auth interceptor', () => {
   it('should convert tokenized urls and honor the hard-coded zone.', (done) => {
     const interceptor = new SkyNoAuthInterceptor(createAppConfig());
 
-    const request = createRequest(
-      false,
-      '1bb://eng-hub00-pusa01/version'
-    );
+    validateTokenizedUrl(interceptor, done);
+  });
 
-    validateRequest(next, done, (authRequest) => {
-      expect(authRequest.url).toBe('https://eng-pusa01.app.blackbaud.net/hub00/version');
+  describe('with missing SkyAppConfig', () => {
+    it('should fall back to params provider if SkyAppConfig is undefined', (done) => {
+      const config = createAppConfig();
+
+      const interceptor = new SkyNoAuthInterceptor(
+        undefined,
+        {
+          params: config.runtime.params
+        } as any
+      );
+
+      validateTokenizedUrl(interceptor, done);
     });
-
-    interceptor.intercept(request, next).subscribe(() => {});
   });
 });

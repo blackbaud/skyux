@@ -10,7 +10,8 @@ import {
 } from '@skyux/auth-client-factory';
 
 import {
-  SkyAppConfig
+  SkyAppConfig,
+  SkyAppRuntimeConfigParamsProvider
 } from '@skyux/config';
 
 import * as jwtDecode_ from 'jwt-decode';
@@ -37,7 +38,8 @@ import {
 export class SkyAuthTokenProvider {
 
   constructor (
-    @Optional() private config?: SkyAppConfig
+    @Optional() private config?: SkyAppConfig,
+    @Optional() private paramsProvider?: SkyAppRuntimeConfigParamsProvider
   ) { }
 
   /**
@@ -97,9 +99,9 @@ export class SkyAuthTokenProvider {
   private getContextArgs(args: SkyAuthTokenContextArgs): SkyAuthGetTokenArgs {
     const tokenArgs: SkyAuthGetTokenArgs = {};
 
-    if (this.config) {
-      const runtimeParams = this.config.runtime.params;
+    const runtimeParams = this.config?.runtime.params || this.paramsProvider?.params;
 
+    if (runtimeParams) {
       const envId = runtimeParams.get('envid');
       const leId = runtimeParams.get('leid');
 

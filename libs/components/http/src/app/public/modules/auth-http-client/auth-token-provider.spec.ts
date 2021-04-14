@@ -143,43 +143,63 @@ describe('Auth token provider', () => {
   });
 
   describe('getDecodedContextToken() method', () => {
+    let testParams: any;
+
+    function validate(provider: SkyAuthTokenProvider, done: DoneFn): void {
+      const getTokenSpy = spyOn(BBAuthClientFactory.BBAuth, 'getToken')
+        .and
+        .returnValue(Promise.resolve(testToken));
+
+      provider.getDecodedContextToken({
+        permissionScope: 'xyz'
+      }).then((token) => {
+        expect(getTokenSpy).toHaveBeenCalledWith({
+          leId: 'test-leid',
+          permissionScope: 'xyz'
+        });
+
+        expect(token).toEqual(testDecodedToken);
+
+        done();
+      });
+    }
+
+    beforeEach(() => {
+      testParams = {
+        get: (name: string) => {
+          switch (name) {
+            case 'leid':
+              return 'test-leid';
+            default:
+              return undefined;
+          }
+        }
+      };
+    });
 
     it(
       'should call BBAuth.getToken() with the SPA\'s context parameters and decode the token',
       (done) => {
-        const getTokenSpy = spyOn(BBAuthClientFactory.BBAuth, 'getToken')
-          .and
-          .returnValue(Promise.resolve(testToken));
-
         const provider = new SkyAuthTokenProvider({
           runtime: {
-            params: {
-              get: (name: string) => {
-                switch (name) {
-                  case 'leid':
-                    return 'test-leid';
-                  default:
-                    return undefined;
-                }
-              }
-            }
+            params: testParams
           }
         } as any);
 
-        provider.getDecodedContextToken({
-          permissionScope: 'xyz'
-        }).then((token) => {
-          expect(getTokenSpy).toHaveBeenCalledWith({
-            leId: 'test-leid',
-            permissionScope: 'xyz'
-          });
-
-          expect(token).toEqual(testDecodedToken);
-
-          done();
-        });
+        validate(provider, done);
       }
     );
+
+    it('should fall back to the params provider if no config is provided', (done) => {
+      const provider = new SkyAuthTokenProvider(
+        undefined,
+        {
+          params: testParams
+        } as any
+      );
+
+      validate(provider, done);
+    });
 
   });
 

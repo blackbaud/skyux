@@ -1,5 +1,6 @@
 import {
-  Injectable
+  Injectable,
+  Optional
 } from '@angular/core';
 
 import {
@@ -14,7 +15,8 @@ import {
 } from '@skyux/auth-client-factory';
 
 import {
-  SkyAppConfig
+  SkyAppConfig,
+  SkyAppRuntimeConfigParamsProvider
 } from '@skyux/config';
 
 import {
@@ -33,7 +35,10 @@ import {
 @Injectable()
 export class SkyNoAuthInterceptor implements HttpInterceptor {
 
-  constructor(private config: SkyAppConfig) {}
+  constructor(
+    @Optional() private config?: SkyAppConfig,
+    @Optional() private paramsProvider?: SkyAppRuntimeConfigParamsProvider
+  ) {}
 
   public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const noAuth = !request.params ||
@@ -44,9 +49,12 @@ export class SkyNoAuthInterceptor implements HttpInterceptor {
       return from(BBAuthClientFactory.BBAuth.getUrl(request.url))
         .pipe(
           switchMap((url) => {
+            const runtimeParams = this.config?.runtime.params || this.paramsProvider.params;
+
             const newRequest = request.clone({
-              url: this.config.runtime.params.getUrl(url)
+              url: runtimeParams.getUrl(url)
             });
+
             return next.handle(newRequest);
           })
         );
