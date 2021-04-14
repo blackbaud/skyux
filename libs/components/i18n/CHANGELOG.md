@@ -1,3 +1,8 @@
+# 4.1.0 (2021-04-14)
+
+- Added the `SkyI18nCurrencyFormatService`. [#95](https://github.com/blackbaud/skyux-i18n/pull/95) [#98](https://github.com/blackbaud/skyux-i18n/pull/98) (Thanks [@ThomasOrtiz](https://github.com/ThomasOrtiz)!)
+- Fixed the `SkyAppResourcesTestService` to work with applications that include the word "public" in their name. [#99](https://github.com/blackbaud/skyux-i18n/pull/99)
+
 # 4.0.4 (2021-04-07)
 
 - Removed an incorrect provider for `SkyAppAssetsService` from `SkyI18nModule` that caused the correct asset service provider to be overridden in certain configurations. [#96](https://github.com/blackbaud/skyux-i18n/pull/96)
