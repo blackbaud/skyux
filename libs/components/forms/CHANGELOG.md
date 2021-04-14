@@ -1,3 +1,7 @@
+# 4.16.3 (2021-04-14)
+
+- Fixed the selection box component to have a responsive layout at smaller screen sizes. [#255](https://github.com/blackbaud/skyux-forms/pull/255)
+
 # 4.16.2 (2021-04-12)
 
 - Fixed the input box to work properly when a theme is not specified. [#220](https://github.com/blackbaud/skyux-theme/pull/220)
