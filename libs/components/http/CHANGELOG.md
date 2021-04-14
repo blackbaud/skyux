@@ -1,3 +1,7 @@
+# 4.2.0 (2021-04-14)
+
+- Added support for `SkyAppRuntimeConfigParamsProvider`. [#75](https://github.com/blackbaud/skyux-http/pull/75)
+
 # 4.1.0 (2020-11-11)
 
 - Added the `SkyAuthContextProvider`. [#72](https://github.com/blackbaud/skyux-http/pull/72)
