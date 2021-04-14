@@ -38,7 +38,7 @@ export class SkyAppResourcesTestService {
     // that has no resource files from erroring during a unit test run unless it
     // explicitly tries to reference a resource string.
     let resourcesContext;
-    if (ROOT_DIR.indexOf('public') === -1) {
+    if (/(\/|\\)src(\/|\\)app(\/|\\)public(\/|\\)/.test(ROOT_DIR) === false) {
       resourcesContext = require.context(
         `${ROOT_DIR}/..`,
         true,
