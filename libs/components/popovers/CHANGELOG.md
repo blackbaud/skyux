@@ -1,3 +1,7 @@
+# 4.5.0 (2021-04-15)
+
+- Added support for SKY UX icons on dropdown component. [#141](https://github.com/blackbaud/skyux-popovers/pull/141)
+
 # 4.4.1 (2021-03-19)
 
 - Replaced theme conditionals in templates with the new `skyThemeIf` directive. [#138](https://github.com/blackbaud/skyux-popovers/pull/138)
