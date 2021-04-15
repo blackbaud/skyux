@@ -9,12 +9,24 @@ import {
 } from '@angular/core/testing';
 
 import {
+  BehaviorSubject
+} from 'rxjs';
+
+import {
   expect
 } from '@skyux-sdk/testing';
 
 import {
   SkyDropdownMenuChange
 } from '@skyux/popovers';
+
+import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange
+} from '@skyux/theme';
 
 import {
   SkyDropdownFixture
@@ -103,14 +115,35 @@ describe('Dropdown fixture', () => {
   let fixture: ComponentFixture<DropdownTestComponent>;
   let testComponent: DropdownTestComponent;
   let dropdownFixture: SkyDropdownFixture;
+  let mockThemeSvc: {
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+  };
 
   beforeEach(() => {
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+        {
+          currentSettings: new SkyThemeSettings(
+            SkyTheme.presets.default,
+            SkyThemeMode.presets.light
+          ),
+          previousSettings: undefined
+        }
+      )
+    };
+
     TestBed.configureTestingModule({
       declarations: [
         DropdownTestComponent
       ],
       imports: [
         SkyDropdownTestingModule
+      ],
+      providers: [
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc
+        }
       ]
     });
 
