@@ -25,7 +25,7 @@ export interface SkyActionButtonPermalink {
  */
   route?: {
     commands: any[],
-    extras: NavigationExtras
+    extras?: NavigationExtras
   };
   /**
    * Specifies a direct link for the action button.
