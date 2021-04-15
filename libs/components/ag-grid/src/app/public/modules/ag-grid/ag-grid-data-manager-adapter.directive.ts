@@ -215,7 +215,7 @@ export class SkyAgGridDataManagerAdapterDirective implements AfterContentInit, O
           const activeSortColumn = agGrid.columnApi.getColumn(activeSortModel.colId);
           const dataManagerConfig = this.dataManagerSvc.getCurrentDataManagerConfig();
 
-          sortOption = dataManagerConfig.sortOptions.find((option: SkyDataManagerSortOption) => {
+          sortOption = dataManagerConfig.sortOptions?.find((option: SkyDataManagerSortOption) => {
             return option.propertyName === activeSortColumn.getColDef().field &&
               option.descending === (activeSortModel.sort === 'desc');
           });
