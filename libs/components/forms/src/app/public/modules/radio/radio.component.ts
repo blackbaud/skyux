@@ -17,7 +17,8 @@ import {
 
 import {
   BehaviorSubject,
-  Observable
+  Observable,
+  Subject
 } from 'rxjs';
 
 import {
@@ -60,6 +61,11 @@ const SKY_RADIO_CONTROL_VALUE_ACCESSOR: Provider = {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
+
+  /**
+   * Fires when users focus off a radio button.
+   */
+  public blur = new Subject<void>();
 
   /**
    * Indicates whether the radio button is selected.
@@ -307,6 +313,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
 
   public onInputFocusChange(event: Event): void {
     this.onTouchedCallback();
+    this.blur.next();
   }
 
   /* istanbul ignore next */

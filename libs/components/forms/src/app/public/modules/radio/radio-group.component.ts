@@ -206,6 +206,14 @@ export class SkyRadioGroupComponent implements AfterContentInit, AfterViewInit, 
           this.onTouched();
           this.writeValue(change.value);
         });
+      radio.blur
+        .pipe(
+          takeUntil(this.ngUnsubscribe)
+        )
+        .subscribe(() => {
+          this.onTouched();
+          this.changeDetector.markForCheck();
+        });
     });
   }
 
