@@ -18,8 +18,12 @@
   >
     <ng-container [ngSwitch]="buttonType">
       <ng-template ngSwitchCase="context-menu">
-        <sky-icon
+        <sky-icon *skyThemeIf="'default'"
           icon="ellipsis-h"
+        ></sky-icon>
+        <sky-icon *skyThemeIf="'modern'"
+          icon="ellipsis"
+          iconType="skyux"
         ></sky-icon>
       </ng-template>
 
@@ -38,13 +42,13 @@
           <div
             class="sky-dropdown-button-icon-container"
           >
-            <sky-icon
+            <sky-icon *skyThemeIf="'default'"
               class="sky-dropdown-caret"
               icon="caret-down"
             >
             </sky-icon>
-            <sky-icon
-              class="sky-dropdown-caret-modern"
+            <sky-icon *skyThemeIf="'modern'"
+              class="sky-dropdown-caret"
               icon="chevron-down"
               iconType="skyux"
             >

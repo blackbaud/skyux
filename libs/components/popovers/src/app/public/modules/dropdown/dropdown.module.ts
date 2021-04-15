@@ -16,6 +16,10 @@ import {
 } from '@skyux/indicators';
 
 import {
+  SkyThemeModule
+} from '@skyux/theme';
+
+import {
   SkyPopoversResourcesModule
 } from '../shared/popovers-resources.module';
 
@@ -47,7 +51,8 @@ import {
     SkyAffixModule,
     SkyIconModule,
     SkyOverlayModule,
-    SkyPopoversResourcesModule
+    SkyPopoversResourcesModule,
+    SkyThemeModule
   ],
   exports: [
     SkyDropdownButtonComponent,

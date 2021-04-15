@@ -19,6 +19,10 @@ import {
 } from '@skyux/core';
 
 import {
+  SkyThemeService
+} from '@skyux/theme';
+
+import {
   fromEvent as observableFromEvent,
   Subject
 } from 'rxjs';
@@ -240,7 +244,8 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   constructor(
     private changeDetector: ChangeDetectorRef,
     private affixService: SkyAffixService,
-    private overlayService: SkyOverlayService
+    private overlayService: SkyOverlayService,
+    private themeSvc: SkyThemeService
   ) { }
 
   public ngOnInit(): void {
@@ -252,6 +257,15 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
       )
       .subscribe((message: SkyDropdownMessage) => {
         this.handleIncomingMessages(message);
+      });
+
+    // Load proper icons on theme change.
+    this.themeSvc.settingsChange
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(() => {
+        this.changeDetector.markForCheck();
       });
   }
 

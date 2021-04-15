@@ -13,11 +13,21 @@ import {
 } from '@skyux/core';
 
 import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeModule,
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange
+} from '@skyux/theme';
+
+import {
   expect,
   SkyAppTestUtility
 } from '@skyux-sdk/testing';
 
 import {
+  BehaviorSubject,
   of as observableOf
 } from 'rxjs';
 
@@ -40,6 +50,9 @@ import {
 describe('Dropdown component', function () {
 
   let fixture: ComponentFixture<DropdownFixtureComponent>;
+  let mockThemeService: {
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+  };
 
   //#region helpers
 
@@ -112,9 +125,27 @@ describe('Dropdown component', function () {
   //#endregion
 
   beforeEach(() => {
+    mockThemeService = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+        {
+          currentSettings: new SkyThemeSettings(
+            SkyTheme.presets.default,
+            SkyThemeMode.presets.light
+          ),
+          previousSettings: undefined
+        }
+      )
+    };
     TestBed.configureTestingModule({
       imports: [
-        SkyDropdownFixturesModule
+        SkyDropdownFixturesModule,
+        SkyThemeModule
+      ],
+      providers: [
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeService
+        }
       ]
     });
 
@@ -144,6 +175,20 @@ describe('Dropdown component', function () {
 
     const button = getButtonElement();
     expect(button).toHaveCssClass('sky-btn-default');
+  }));
+
+  it('should change theme', fakeAsync(() => {
+    detectChangesFakeAsync();
+    mockThemeService.settingsChange.next({
+      currentSettings: new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.light
+      ),
+      previousSettings: mockThemeService.settingsChange.getValue().currentSettings
+    });
+    detectChangesFakeAsync();
+    const icon = fixture.nativeElement.querySelector('[ng-reflect-icon-type="skyux"]');
+    expect(icon).toExist();
   }));
 
   it('should allow setting the horizontal alignment', fakeAsync(inject(
