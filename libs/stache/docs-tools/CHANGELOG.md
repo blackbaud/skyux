@@ -1,3 +1,8 @@
+# 4.9.0 (2021-04-15)
+
+- Updated the StackBlitz demos to use Angular 9. [#160](https://github.com/blackbaud/skyux-docs-tools/pull/160)
+- Fixed the StackBlitz demos to properly display Font Awesome and SKY UX icons. [#160](https://github.com/blackbaud/skyux-docs-tools/pull/160)
+
 # 4.8.1 (2021-01-20)
 
 - Added support for `marked@1.2.7`. [#156](https://github.com/blackbaud/skyux-docs-tools/pull/156)
