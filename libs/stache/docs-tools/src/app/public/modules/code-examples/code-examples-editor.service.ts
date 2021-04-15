@@ -39,7 +39,7 @@ export class SkyDocsCodeExamplesEditorService {
   }
 
   private getPayload(codeExample: SkyDocsCodeExample): StackBlitzProject {
-    const angularVersion = '^7.0.0';
+    const angularVersion = '^9.0.0';
     const skyuxVersion = '*';
 
     const defaultDependencies: SkyDocsCodeExampleModuleDependencies = {
@@ -48,7 +48,6 @@ export class SkyDocsCodeExamplesEditorService {
       '@angular/compiler': angularVersion,
       '@angular/core': angularVersion,
       '@angular/forms': angularVersion,
-      '@angular/http': angularVersion,
       '@angular/platform-browser': angularVersion,
       '@angular/platform-browser-dynamic': angularVersion,
       '@angular/router': angularVersion,
@@ -66,11 +65,11 @@ export class SkyDocsCodeExamplesEditorService {
       '@skyux/popovers': skyuxVersion,
       '@skyux/router': skyuxVersion,
       '@skyux/theme': skyuxVersion,
-      'core-js': '^2.6.5',
+      'core-js': '2',
       'rxjs': '^6.0.0',
       'rxjs-compat': '^6.0.0',
-      'tslib': '1.9.3',
-      'zone.js': '~0.8.29'
+      'tslib': '~1.14.1',
+      'zone.js': '~0.11.4'
     };
 
     const mergedDependencies = Object.assign(
@@ -222,7 +221,14 @@ export class AppComponent {
 export class AppModule { }
 `;
 
-    files[`${srcPath}index.html`] = `<sky-demo-app>
+    files[`${srcPath}index.html`] = `<!--
+  The CSS links are needed for the StackBlitz demo only.
+  This is a workaround for a known bug that prevents external imports in CSS.
+  https://github.com/stackblitz/core/issues/133
+-->
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />${theme === SkyDocsCodeExampleTheme.Modern ? `<link rel="stylesheet" type="text/css" href="https://sky.blackbaudcdn.net/static/skyux-icons/4.0.0-beta.2/assets/css/skyux-icons.min.css" />` : ``}
+
+<sky-demo-app>
   Loading...
 </sky-demo-app>`;
 
