@@ -1,3 +1,7 @@
+# 4.6.1 (2021-04-15)
+
+- Fixed column sorting when `sortOptions` is undefined. [#108](https://github.com/blackbaud/skyux-ag-grid/pull/108)
+
 # 4.6.0 (2021-04-06)
 
 - Fixed the line height style of multiline cells in read-only mode. [#105](https://github.com/blackbaud/skyux-ag-grid/pull/105)
