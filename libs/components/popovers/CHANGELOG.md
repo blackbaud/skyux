@@ -1,3 +1,7 @@
+# 4.5.1 (2021-04-15)
+
+- Fixed the service injection so that `SkyThemeService` is not required. [#144](https://github.com/blackbaud/skyux-popovers/pull/144)
+
 # 4.5.0 (2021-04-15)
 
 - Added support for SKY UX icons on dropdown component. [#141](https://github.com/blackbaud/skyux-popovers/pull/141)
