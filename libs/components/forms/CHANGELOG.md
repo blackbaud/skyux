@@ -1,3 +1,7 @@
+# 4.16.4 (2021-04-16)
+
+- Updated the radio group component to mark it as touched after its radio buttons lose focus. [#257](https://github.com/blackbaud/skyux-forms/pull/257)
+
 # 4.16.3 (2021-04-14)
 
 - Fixed the selection box component to have a responsive layout at smaller screen sizes. [#255](https://github.com/blackbaud/skyux-forms/pull/255)
