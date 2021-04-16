@@ -1,3 +1,7 @@
+# 4.1.0 (2021-04-16)
+
+- Updated the demo code to use `<sky-data-manager-toolbar-primary-item>` for the primary button. [#28](https://github.com/blackbaud/skyux-data-manager/pull/28)
+
 # 4.0.2 (2021-01-28)
 
 - Fixed the data manager toolbar component to only execute searches when users press "Enter" or select the search button. [#25](https://github.com/blackbaud/skyux-data-manager/pull/25)
