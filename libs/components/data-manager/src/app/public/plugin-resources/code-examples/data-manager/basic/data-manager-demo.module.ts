@@ -3,6 +3,10 @@ import {
 } from 'ag-grid-angular';
 
 import {
+  CommonModule
+} from '@angular/common';
+
+import {
   NgModule
 } from '@angular/core';
 
@@ -59,6 +63,7 @@ import {
     DataViewRepeaterDemoComponent
   ],
   imports: [
+    CommonModule,
     FormsModule,
     AgGridModule,
     SkyAgGridModule,
