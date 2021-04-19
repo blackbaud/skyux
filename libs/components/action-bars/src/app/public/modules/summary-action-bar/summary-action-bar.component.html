@@ -32,36 +32,31 @@
         <div *ngIf="isSummaryCollapsible && !isSummaryCollapsed"
           class="sky-summary-action-bar-details-collapse"
         >
-          <button
-            class="sky-btn sky-btn-secondary"
-            type="button"
-            [attr.title]="'skyux_summary_action_bar_hide_summary' | skyLibResources"
-            [attr.aria-controls]="summaryId"
-            [attr.aria-expanded]="true"
-            (click)="hideSummarySection()"
-          >
-            <sky-icon
-              icon="chevron-down"
-            ></sky-icon>
-          </button>
+          <ng-container *ngTemplateOutlet="chevron"></ng-container>
         </div>
       </div>
     </div>
     <div *ngIf="isSummaryCollapsible && isSummaryCollapsed"
       class="sky-summary-action-bar-details-expand"
     >
-      <button
-        class="sky-btn sky-btn-secondary"
-        type="button"
-        [attr.title]="'skyux_summary_action_bar_show_summary' | skyLibResources"
-        [attr.aria-controls]="summaryId"
-        [attr.aria-expanded]="false"
-        (click)="showSummarySection()"
-        >
-        <sky-icon
-          icon="chevron-up"
-        ></sky-icon>
-      </button>
+      <ng-container *ngTemplateOutlet="chevron"></ng-container>
     </div>
   </ng-container>
 </div>
+
+<ng-template #chevron>
+  <sky-chevron
+    [attr.title]="isSummaryCollapsed ?
+      ('skyux_summary_action_bar_hide_summary' | skyLibResources) :
+      ('skyux_summary_action_bar_show_summary' | skyLibResources)
+    "
+    [attr.aria-controls]="summaryId"
+    [attr.aria-expanded]="!isSummaryCollapsed"
+    [direction]="isSummaryCollapsed ? 'up' : 'down'"
+    [skyThemeClass]="{
+      'sky-margin-inline-default' : 'modern'
+    }"
+    (directionChange)="onDirectionChange($event)"
+  >
+  </sky-chevron>
+</ng-template>

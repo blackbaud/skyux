@@ -140,19 +140,15 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
     this.idled.complete();
   }
 
+  public onDirectionChange(direction: string): void {
+    this.slideDirection = direction;
+  }
+
   public summaryContentExists(): boolean {
     return (
       this.summaryElement &&
       this.summaryElement.nativeElement.children.length > 0
     );
-  }
-
-  public showSummarySection(): void {
-    this.slideDirection = 'down';
-  }
-
-  public hideSummarySection(): void {
-    this.slideDirection = 'up';
   }
 
   // NOTE: This function is needed so that the button is not removed until post-animation

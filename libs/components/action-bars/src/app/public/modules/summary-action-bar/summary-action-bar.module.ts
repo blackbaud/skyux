@@ -29,6 +29,10 @@ import {
 } from '@skyux/popovers';
 
 import {
+  SkyThemeModule
+} from '@skyux/theme';
+
+import {
   SkyActionBarsResourcesModule
 } from '../shared/action-bars-resources.module';
 
@@ -82,7 +86,8 @@ import {
     SkyI18nModule,
     SkyIconModule,
     SkyActionBarsResourcesModule,
-    SkyMediaQueryModule
+    SkyMediaQueryModule,
+    SkyThemeModule
   ],
   providers: [
     MutationObserverService,
