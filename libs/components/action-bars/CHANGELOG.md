@@ -1,3 +1,7 @@
+# 4.2.0 (2021-04-19)
+
+- Added modern theme styles to the summary action bar component. [#49](https://github.com/blackbaud/skyux-action-bars/pull/49)
+
 # 4.1.0 (2020-12-04)
 
 - Added a summary action bar test fixture. [#47](https://github.com/blackbaud/skyux-action-bars/pull/47)
