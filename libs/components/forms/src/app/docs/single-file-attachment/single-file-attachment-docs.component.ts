@@ -13,6 +13,7 @@ import {
 
 import {
   SkyFileAttachmentChange,
+  SkyFileAttachmentClick,
   SkyFileItem
 } from '@skyux/forms';
 
@@ -43,6 +44,13 @@ export class SingleFileAttachmentDocsComponent implements OnInit {
     this.fileForm = this.formBuilder.group({
       attachment: this.attachment
     });
+  }
+
+  public fileClick($event: SkyFileAttachmentClick): void {
+    const link = document.createElement('a');
+    link.download = $event.file.file.name;
+    link.href = $event.file.url;
+    link.click();
   }
 
   public reactiveFileUpdated(result: SkyFileAttachmentChange): void {

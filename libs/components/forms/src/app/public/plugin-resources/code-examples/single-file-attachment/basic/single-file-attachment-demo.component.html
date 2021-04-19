@@ -10,6 +10,7 @@
       [maxFileSize]="maxFileSize"
       [validateFn]="validateFile"
       (fileChange)="reactiveFileUpdated($event)"
+      (fileClick)="fileClick($event)"
     >
       <sky-file-attachment-label>
         Attach any file

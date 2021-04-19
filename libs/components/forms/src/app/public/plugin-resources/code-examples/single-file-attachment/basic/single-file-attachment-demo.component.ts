@@ -13,6 +13,7 @@ import {
 
 import {
   SkyFileAttachmentChange,
+  SkyFileAttachmentClick,
   SkyFileItem
 } from '@skyux/forms';
 
@@ -37,6 +38,13 @@ export class SingleFileAttachmentDemoComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder
   ) {}
+
+  public fileClick($event: SkyFileAttachmentClick): void {
+    const link = document.createElement('a');
+    link.download = $event.file.file.name;
+    link.href = $event.file.url;
+    link.click();
+  }
 
   public ngOnInit(): void {
     this.attachment = new FormControl(undefined, Validators.required);
