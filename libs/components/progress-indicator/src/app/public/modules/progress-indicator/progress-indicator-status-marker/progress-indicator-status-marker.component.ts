@@ -2,8 +2,22 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Input
+  Input,
+  OnDestroy,
+  Optional
 } from '@angular/core';
+
+import {
+  SkyThemeService
+} from '@skyux/theme';
+
+import {
+  takeUntil
+} from 'rxjs/operators';
+
+import {
+  Subject
+} from 'rxjs';
 
 import {
   SkyProgressIndicatorDisplayMode
@@ -23,7 +37,8 @@ import {
   styleUrls: ['./progress-indicator-status-marker.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyProgressIndicatorStatusMarkerComponent {
+export class SkyProgressIndicatorStatusMarkerComponent implements OnDestroy {
+
   @Input()
   public set displayMode(value: SkyProgressIndicatorDisplayMode) {
     this._displayMode = value;
@@ -85,10 +100,25 @@ export class SkyProgressIndicatorStatusMarkerComponent {
     return name;
   }
 
+  private ngUnsubscribe = new Subject<void>();
+
   private _displayMode: SkyProgressIndicatorDisplayMode;
   private _status: SkyProgressIndicatorItemStatus;
 
   constructor(
-    private changeDetector: ChangeDetectorRef
-  ) { }
+    private changeDetector: ChangeDetectorRef,
+    @Optional() themeSvc?: SkyThemeService
+  ) {
+    // Update icons when theme changes.
+    themeSvc?.settingsChange
+    .pipe(takeUntil(this.ngUnsubscribe))
+    .subscribe(() => {
+      this.changeDetector.markForCheck();
+    });
+  }
+
+  public ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
 }

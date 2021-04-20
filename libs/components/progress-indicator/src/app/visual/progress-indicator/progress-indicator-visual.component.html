@@ -1,3 +1,7 @@
+<sky-docs-demo-control-panel-theme
+  (themeSettingsChange)="themeSettingsChange($event)"
+></sky-docs-demo-control-panel-theme>
+
 <h2>
   Vertical mode (default)
 </h2>
@@ -6,7 +10,7 @@
   class="app-screenshot"
 >
   <sky-progress-indicator
-    id="app-screenshot-display-mode-vertical"
+    id="screenshot-progress-indicator-vertical"
     [messageStream]="messageStream"
     [startingIndex]="startingIndex"
     (progressChanges)="onProgressChanges($event)"
@@ -20,7 +24,7 @@
       title="Configure connection"
     >
       <button
-        class="sky-btn sky-btn-link"
+        class="sky-btn sky-btn-primary"
         type="button"
       >
         Edit connection
@@ -31,7 +35,7 @@
       title="Select remote server"
     >
       <button
-        class="sky-btn sky-btn-link"
+        class="sky-btn sky-btn-primary"
         type="button"
       >
         Change server
@@ -77,7 +81,7 @@
 
     <button
       class="sky-btn sky-btn-primary"
-      id="app-screenshot-display-mode-vertical-next-button"
+      id="screenshot-progress-indicator-vertical-next-button"
       type="button"
       (click)="onNextClick()"
     >
@@ -100,7 +104,7 @@
 
 <div
   class="app-screenshot"
-  id="app-screenshot-display-mode-horizontal"
+  id="screenshot-progress-indicator-horizontal"
 >
   <sky-progress-indicator *ngIf="showElement"
     displayMode="horizontal"
@@ -142,7 +146,7 @@
 
   <sky-progress-indicator-nav-button *ngIf="progressIndicator"
     buttonType="next"
-    id="app-screenshot-display-mode-horizontal-next-button"
+    id="screenshot-progress-indicator-horizontal-next-button"
     [disabled]="disabled"
     [progressIndicator]="progressIndicator"
   >
@@ -168,7 +172,7 @@
 <p>
   <button
     class="sky-btn sky-btn-default"
-    id="app-screenshot-display-mode-horizontal-disable-buttons-button"
+    id="screenshot-progress-indicator-horizontal-disable-button"
     type="button"
     (click)="disableNavButtons()"
   >
@@ -238,7 +242,7 @@
 <p>
   <button
     class="sky-btn sky-btn-primary"
-    id="app-screenshot-open-modal-button"
+    id="screenshot-open-modal-button"
     type="button"
     (click)="openModal()"
   >
@@ -254,7 +258,7 @@
   class="app-screenshot"
 >
   <sky-progress-indicator
-    id="app-screenshot-passive-mode"
+    id="screenshot-progress-indicator-passive"
     [isPassive]="true"
     [startingIndex]="1"
   >
@@ -279,11 +283,11 @@
 
 <div
   class="app-screenshot"
-  id="app-screenshot-passive-mode-popover"
+  id="screenshot-progress-indicator-passive-popover"
 >
   <button
     class="sky-btn sky-btn-link"
-    id="app-screenshot-passive-mode-popover-button"
+    id="screenshot-progress-indicator-passive-popover-button"
     type="button"
     [skyPopover]="myPopover"
     skyPopoverPlacement="right"
@@ -292,7 +296,7 @@
   </button>
 
   <sky-popover
-    id="app-screenshot-passive-mode-popover-target"
+    id="screenshot-progress-indicator-passive-popover-target"
     #myPopover
   >
     <sky-progress-indicator

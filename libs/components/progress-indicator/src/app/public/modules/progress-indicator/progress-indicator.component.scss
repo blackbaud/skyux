@@ -1,3 +1,4 @@
+@import "~@skyux/theme/scss/themes/modern/_compat/mixins";
 @import "~@skyux/theme/scss/mixins";
 @import "~@skyux/theme/scss/_compat/mixins";
 @import "./scss/progress-indicator-variables";
@@ -35,6 +36,12 @@
       padding-top: $sky-padding-triple;
       padding-left: $sky-margin-plus-half;
     }
+  }
+}
+
+::ng-deep .sky-popover {
+  ::ng-deep .sky-progress-indicator-mode-vertical {
+      min-width: auto;
   }
 }
 
@@ -81,6 +88,28 @@
         .sky-progress-indicator-status-marker-line {
           display: none;
         }
+      }
+    }
+  }
+}
+
+@include sky-theme-modern {
+  .sky-progress-indicator-mode-horizontal {
+    ::ng-deep {
+      .sky-progress-indicator-item-heading {
+        font-weight: inherit;
+        font-size: inherit;
+      }
+    }
+  }
+
+  .sky-progress-indicator-mode-vertical {
+    ::ng-deep {
+      sky-progress-indicator-nav-button,
+      sky-progress-indicator-reset-button {
+        padding: 0;
+        margin: $sky-theme-modern-margin-stacked-xxl 0 0;
+        text-align: center;
       }
     }
   }

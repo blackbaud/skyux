@@ -3,11 +3,20 @@
   role="presentation"
   [ngClass]="cssClassNames"
 >
-  <div
+  <div *skyThemeIf="'default'"
     class="sky-progress-indicator-status-marker-icon"
   >
     <sky-icon *ngIf="statusName === 'complete'"
       icon="check"
+    >
+    </sky-icon>
+  </div>
+  <div *skyThemeIf="'modern'"
+    class="sky-progress-indicator-status-marker-icon"
+  >
+    <sky-icon *ngIf="statusName === 'complete'"
+      icon="check"
+      iconType="skyux"
     >
     </sky-icon>
   </div>

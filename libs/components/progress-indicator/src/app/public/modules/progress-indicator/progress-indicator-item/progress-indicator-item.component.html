@@ -14,7 +14,12 @@
       aria-level="2"
       class="sky-progress-indicator-item-heading"
       role="heading"
-      [ngClass]="{ 'sky-deemphasized': statusName === 'pending' }"
+      [ngClass]="{
+        'sky-deemphasized': statusName === 'pending'
+      }"
+      [skyThemeClass]="{
+        'sky-font-display-3': 'modern'
+      }"
     >
       {{ formattedTitle }}
     </div>

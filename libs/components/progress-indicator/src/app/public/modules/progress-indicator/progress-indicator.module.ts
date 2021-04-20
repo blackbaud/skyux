@@ -19,6 +19,10 @@ import {
 } from '@skyux/indicators';
 
 import {
+  SkyThemeModule
+} from '@skyux/theme';
+
+import {
   SkyProgressIndicatorResourcesModule
 } from '../shared/progress-indicator-resources.module';
 
@@ -59,7 +63,8 @@ import {
     CommonModule,
     SkyI18nModule,
     SkyIconModule,
-    SkyProgressIndicatorResourcesModule
+    SkyProgressIndicatorResourcesModule,
+    SkyThemeModule
   ],
   exports: [
     SkyProgressIndicatorComponent,

@@ -11,6 +11,18 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange
+} from '@skyux/theme';
+
+import {
+  BehaviorSubject
+} from 'rxjs';
+
+import {
   SkyProgressIndicatorProgressHandlerFixtureComponent
 } from './fixtures/progress-indicator-progress-handler.component.fixture';
 
@@ -47,6 +59,9 @@ describe('Progress indicator component', function () {
   let componentInstance: SkyProgressIndicatorFixtureComponent;
   let progressIndicator: SkyProgressIndicatorComponent;
   let consoleWarnSpy: jasmine.Spy;
+  let mockThemeSvc: {
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+  };
 
   function detectChanges(): void {
     fixture.detectChanges();
@@ -101,9 +116,27 @@ describe('Progress indicator component', function () {
   }
 
   beforeEach(function () {
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+        {
+          currentSettings: new SkyThemeSettings(
+            SkyTheme.presets.default,
+            SkyThemeMode.presets.light
+          ),
+          previousSettings: undefined
+        }
+      )
+    };
+
     TestBed.configureTestingModule({
       imports: [
         SkyProgressIndicatorFixtureModule
+      ],
+      providers: [
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc
+        }
       ]
     });
 
