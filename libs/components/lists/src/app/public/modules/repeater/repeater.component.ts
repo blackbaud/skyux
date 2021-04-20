@@ -80,22 +80,22 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
   public reorderable: boolean = false;
 
   /**
-   * Specifies a layout for the repeater list to indicate whether users can collapse
-   * and expand repeater items. Items in a collapsed state display titles only.
+   * Specifies a layout to determine which repeater items are expanded by default and whether
+   * repeater items are expandable and collapsible. Collapsed items display titles only.
    * The valid options are `multiple`, `none`, and `single`.
-   * - `multiple` loads all repeater items in a collapsed state and allows users to expand
-   * and collapse them.This layout provides a more compact view but still allows users to expand
-   * as many repeater items as necessary. It is best-suited to repeater items where the most
-   * important information is in the titles and users only occasionally need to view body content.
+   * - `multiple` loads repeater items in an expanded state unless `isExpanded` is set to
+   * `false` for a repeater item. This layout allows users to expand and collapse
+   * as many repeater items as necessary. It is best-suited to repeater items where body
+   * content is important but users don't always need to see it.
    * - `none` loads all repeater items in an expanded state and does not allow users to
-   * collapse them. This standard layout provides the quickest access to the details in the
+   * collapse them. This default layout provides the quickest access to the details in the
    * repeater items. It is best-suited to repeater items with concise content
    * that users need to view frequently.
-   * - `single` loads all repeater items in a collapsed state and allows users to expand
-   * one item at a time. This layout provides the most compact view because users can only
-   * expand one repeater item at a time. It is best-suited to repeater items where the most
-   * important information is in the titles and users only occasionally need to view
-   * the body content of one repeater item at a time.
+   * - `single` loads one repeater item in an expanded state and collapses all others.
+   * The expanded repeater item is the first one where `isExpanded` is set to `true`. This layout
+   * allows users to expand one item at a time. It provides the most compact view and is
+   * best-suited to repeater items where the most important information is in the titles
+   * and users only occasionally need to view the body content.
    * @default none
    */
   @Input()
