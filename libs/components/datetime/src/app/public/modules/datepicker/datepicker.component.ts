@@ -202,11 +202,18 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
     private coreAdapter: SkyCoreAdapterService,
     private overlayService: SkyOverlayService,
     @Optional() public inputBoxHostService?: SkyInputBoxHostService,
-    @Optional() public themeSvc?: SkyThemeService
+    @Optional() themeSvc?: SkyThemeService
   ) {
     const uniqueId = nextId++;
     this.calendarId = `sky-datepicker-calendar-${uniqueId}`;
     this.triggerButtonId = `sky-datepicker-button-${uniqueId}`;
+
+    // Update icons when theme changes.
+    themeSvc?.settingsChange
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(() => {
+        this.changeDetector.markForCheck();
+      });
   }
 
   public ngOnInit(): void {

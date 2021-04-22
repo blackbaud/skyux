@@ -35,6 +35,7 @@
       <label
         class="sky-control-label"
         [attr.for]="dateRangePickerId + '-start-date'"
+        [ngClass]="{ 'sky-control-label-required' : startDateRequired }"
       >
         {{ startDateLabelResourceKey | skyLibResources }}
       </label>
@@ -45,6 +46,7 @@
           [attr.aria-label]="startDateLabelResourceKey | skyLibResources"
           [attr.id]="dateRangePickerId + '-start-date'"
           [attr.placeholder]="dateFormat"
+          [required]="startDateRequired"
           [dateFormat]="dateFormat"
           (blur)="onFieldBlur()"
           skyDatepickerInput
@@ -61,6 +63,7 @@
       <label
         class="sky-control-label"
         [attr.for]="dateRangePickerId + '-end-date'"
+        [ngClass]="{ 'sky-control-label-required' : endDateRequired }"
       >
         {{ endDateLabelResourceKey | skyLibResources }}
       </label>
@@ -73,6 +76,7 @@
           [attr.id]="dateRangePickerId + '-end-date'"
           [attr.placeholder]="dateFormat"
           [dateFormat]="dateFormat"
+          [required]="endDateRequired"
           (blur)="onFieldBlur()"
         />
       </sky-datepicker>

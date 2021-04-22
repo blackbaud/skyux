@@ -16,14 +16,10 @@
         label="Last donation"
         [calculatorIds]="calculatorIds"
         [dateFormat]="dateFormat"
+        [endDateRequired]="endDateRequired"
+        [startDateRequired]="startDateRequired"
       >
       </sky-date-range-picker>
-
-      <div *ngIf="reactiveRange.errors && reactiveRange.touched"
-        class="sky-error-label"
-      >
-        {{ reactiveRange.errors | json }}
-      </div>
     </div>
 
     <div class="sky-form-group">
@@ -38,26 +34,32 @@
   </form>
 
   <h3>
-    Form control statuses
+    &lt;sky-date-range-picker&gt; statuses
   </h3>
 
   <table>
     <tr>
       <th>Touched</th>
-      <td>{{ reactiveRange.touched }}</td>
+      <td>{{ pickerFormControl.touched }}</td>
     </tr>
     <tr>
       <th>Pristine</th>
-      <td>{{ reactiveRange.pristine }}</td>
+      <td>{{ pickerFormControl.pristine }}</td>
     </tr>
     <tr>
       <th>Valid</th>
-      <td>{{ reactiveRange.valid }}</td>
+      <td>{{ pickerFormControl.valid }}</td>
     </tr>
   </table>
 
+  <div *ngIf="pickerFormControl.errors"
+    class="sky-error-label"
+  >
+    {{ pickerFormControl.errors | json }}
+  </div>
+
   <h3>
-    Form control value
+    &lt;sky-date-range-picker&gt; value
   </h3>
 
   <pre><code style="display:block;">calculatorId: {{ reactiveForm.value.lastDonation?.calculatorId }}
@@ -74,6 +76,20 @@ endDate: {{ reactiveForm.value.lastDonation?.endDate | date }}</code></pre>
     (click)="toggleDisabled()"
   >
     Toggle disabled
+  </button>
+  <button
+    class="sky-btn sky-btn-default"
+    type="button"
+    (click)="toggleStartDateRequired()"
+  >
+    Toggle start date required
+  </button>
+  <button
+    class="sky-btn sky-btn-default"
+    type="button"
+    (click)="toggleEndDateRequired()"
+  >
+    Toggle end date required
   </button>
   <button
     class="sky-btn sky-btn-default"

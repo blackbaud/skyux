@@ -7,6 +7,7 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
+  Optional,
   SimpleChanges
 } from '@angular/core';
 
@@ -29,6 +30,10 @@ import {
 import {
   SkyAppLocaleProvider
 } from '@skyux/i18n';
+
+import {
+  SkyThemeService
+} from '@skyux/theme';
 
 import {
   combineLatest,
@@ -178,6 +183,20 @@ export class SkyDateRangePickerComponent
   @Input()
   public label: string;
 
+  /**
+   * Indicates whether to require users to specify a start date.
+   * @default false
+   */
+  @Input()
+  public startDateRequired: boolean = false;
+
+  /**
+   * Indicates whether to require users to specify a end date.
+   * @default false
+   */
+  @Input()
+  public endDateRequired: boolean = false;
+
   public get startDateLabelResourceKey(): string {
     if (this.selectedCalculator.type === SkyDateRangeCalculatorType.Range) {
       return 'skyux_date_range_picker_start_date_label';
@@ -251,13 +270,21 @@ export class SkyDateRangePickerComponent
     private dateRangeService: SkyDateRangeService,
     private formBuilder: FormBuilder,
     private localeProvider: SkyAppLocaleProvider,
-    private windowRef: SkyAppWindowRef
+    private windowRef: SkyAppWindowRef,
+    @Optional() themeSvc?: SkyThemeService
   ) {
     this.localeProvider.getLocaleInfo()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((localeInfo) => {
         SkyDateFormatter.setLocale(localeInfo.locale);
         this.preferredShortDateFormat = SkyDateFormatter.getPreferredShortDateFormat();
+      });
+
+    // Update icons when theme changes.
+    themeSvc?.settingsChange
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(() => {
+        this.changeDetector.markForCheck();
       });
   }
 
@@ -536,6 +563,18 @@ export class SkyDateRangePickerComponent
       )
       .subscribe((endDate) => {
         this.patchValue({ endDate });
+      });
+
+      // Detect errors from the date inputs and update ng- classes on picker.
+      combineLatest([
+        this.startDateControl.statusChanges,
+        this.endDateControl.statusChanges
+      ])
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(() => {
+        this.changeDetector.markForCheck();
       });
   }
 

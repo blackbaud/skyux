@@ -254,11 +254,18 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     private coreAdapter: SkyCoreAdapterService,
     private overlayService: SkyOverlayService,
     @Optional() public inputBoxHostService?: SkyInputBoxHostService,
-    @Optional() public themeSvc?: SkyThemeService
+    @Optional() themeSvc?: SkyThemeService
   ) {
     const uniqueId = nextId++;
     this.timepickerId = `sky-timepicker-${uniqueId}`;
     this.triggerButtonId = `sky-timepicker-button-${uniqueId}`;
+
+    // Update icons when theme changes.
+    themeSvc?.settingsChange
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(() => {
+        this.changeDetector.markForCheck();
+      });
   }
 
   public ngOnInit(): void {
