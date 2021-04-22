@@ -1,3 +1,7 @@
+# 4.2.4 (2021-04-22)
+
+- Fixed the label for the button that closes the colorpicker. [#86]https://github.com/blackbaud/skyux-colorpicker/pull/86)
+
 # 4.2.3 (2021-03-18)
 
 - Replaced theme conditionals in templates with the new `skyThemeIf` directive. [#82](https://github.com/blackbaud/skyux-colorpicker/pull/82)
