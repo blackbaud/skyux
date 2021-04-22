@@ -1,3 +1,7 @@
+# 4.16.1 (2021-04-22)
+
+- Fixed the NPM release.
+
 # 4.16.0 (2021-04-22)
 
 - Added additional spacing classes for templates. [#222](https://github.com/blackbaud/skyux-theme/pull/222)
