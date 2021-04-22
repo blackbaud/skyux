@@ -1,3 +1,7 @@
+# 4.0.2 (2021-04-22)
+
+- Fixed the label for the button that closes the select field modal. [#97](https://github.com/blackbaud/skyux-select-field/pull/97)
+
 # 4.0.1 (2020-07-31)
 
 - Added the missing `SkySelectFieldPickerContext` type to the exports API. [#79](https://github.com/blackbaud/skyux-select-field/pull/79)
