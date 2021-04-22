@@ -46,6 +46,10 @@
     margin-right: $sky-theme-modern-margin-inline-sm;
   }
 
+  .sky-margin-inline-md {
+    margin-right: $sky-theme-modern-margin-inline-md;
+  }
+
   .sky-margin-inline-lg {
     margin-right: $sky-theme-modern-margin-inline-lg;
   }
@@ -61,6 +65,11 @@
   .sky-margin-stacked-xs {
     margin-top: 0;
     margin-bottom: $sky-theme-modern-margin-stacked-xs;
+  }
+
+  .sky-margin-stacked-sm {
+    margin-top: 0;
+    margin-bottom: $sky-theme-modern-margin-stacked-sm;
   }
 
   .sky-margin-stacked-md {
