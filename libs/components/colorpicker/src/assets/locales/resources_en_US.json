@@ -33,7 +33,7 @@
   },
   "skyux_colorpicker_close": {
     "_description": "Label for the close button",
-    "message": "Close"
+    "message": "Cancel"
   },
  "skyux_colorpicker_dropdown_button": {
     "_description": "Label for the dropdown button",
