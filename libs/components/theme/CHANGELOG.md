@@ -1,3 +1,7 @@
+# 4.16.0 (2021-04-22)
+
+- Added additional spacing classes for templates. [#222](https://github.com/blackbaud/skyux-theme/pull/222)
+
 # 4.15.5 (2021-04-09)
 
 - Fixed the `skyThemeIf` and `skyThemeClass` directives to work properly when `SkyThemeService` is provided but not initialized. [#220](https://github.com/blackbaud/skyux-theme/pull/220)
