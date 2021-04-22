@@ -1,6 +1,7 @@
 @import "~@skyux/theme/scss/mixins";
 @import "~@skyux/theme/scss/_compat/mixins";
 @import "~@skyux/theme/scss/variables";
+@import "~@skyux/theme/scss/_compat/variables";
 
 $input-box-transitions: border-color 150ms, box-shadow 150ms, color 150ms;
 
@@ -214,10 +215,14 @@ sky-input-box {
           an input box.
         */
         height: auto;
-        line-height: 1.15;
+        line-height: 18px;
         margin-top: -23px;
-        padding: 26px 15px 11px 15px;
+        padding: 26px 15px 10px 15px;
         position: relative;
+
+        &:first-line {
+          line-height: 19px;
+        }
 
         &:focus,
         &.ng-invalid {
