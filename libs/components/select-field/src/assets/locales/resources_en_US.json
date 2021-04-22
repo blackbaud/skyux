@@ -33,7 +33,7 @@
   },
   "skyux_select_field_picker_close_button": {
     "_description": "Text displayed on the button in multi select mode to close form",
-    "message": "Close"
+    "message": "Cancel"
   },
   "skyux_select_field_picker_save_button": {
     "_description": "Text displayed on the primary dialog button to confirm selection of multiple items",
