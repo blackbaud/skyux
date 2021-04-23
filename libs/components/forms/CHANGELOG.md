@@ -1,3 +1,7 @@
+# 4.17.0 (2021-04-22)
+
+- Updated the form control `line-height` to fit descenders. [#261](https://github.com/blackbaud/skyux-forms/pull/261)
+
 # 4.16.4 (2021-04-16)
 
 - Updated the radio group component to mark it as touched after its radio buttons lose focus. [#257](https://github.com/blackbaud/skyux-forms/pull/257)
