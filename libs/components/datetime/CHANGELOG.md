@@ -1,3 +1,8 @@
+# 4.11.0 (2021-04-23)
+
+- Added the `startDateRequired` and `endDateRequired` inputs to the date range picker component. [#257](https://github.com/blackbaud/skyux-datetime/pull/257)
+- Fixed the timepicker component to use primary button styles. [#259](https://github.com/blackbaud/skyux-datetime/pull/259)
+
 # 4.10.2 (2021-03-19)
 
 - Replaced theme conditionals in templates with the new `skyThemeIf` directive. [#251](https://github.com/blackbaud/skyux-datetime/pull/251)
