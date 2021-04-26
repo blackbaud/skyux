@@ -19,10 +19,6 @@ import {
 } from '@skyux/modals';
 
 import {
-  SkyThemeService
-} from '@skyux/theme';
-
-import {
   SkyTabsModule
 } from '../tabs.module';
 
@@ -76,9 +72,6 @@ import {
   ],
   entryComponents: [
     SkyWizardTestFormComponent
-  ],
-  providers: [
-    SkyThemeService
   ]
 })
 export class SkyTabsFixturesModule { }

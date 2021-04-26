@@ -45,24 +45,27 @@
     min-width: 300px;
   }
 
-  ::ng-deep {
-    .sky-dropdown-item {
-      margin: 0;
+  .sky-dropdown-item {
+    margin: 0;
+  }
+
+  .sky-btn-tab-wrapper {
+    width: 100%;
+    margin-right: 0;
+  }
+
+  .sky-btn-tab {
+    margin: 0;
+    border-radius: 0;
+    width: 100%;
+    display: flex;
+
+    > .sky-tab-heading {
+      flex: 1 1 auto;
     }
 
-    .sky-btn-tab {
-      margin: 0;
-      border-radius: 0;
-      width: 100%;
-      display: flex;
-
-      > .sky-tab-heading {
-        flex: 1 1 auto;
-      }
-
-      > .sky-btn-tab-close {
-        flex: 0 1 auto;
-      }
+    > .sky-btn-tab-close {
+      flex: 0 1 auto;
     }
   }
 }
@@ -77,9 +80,15 @@
   color: $sky-text-color-action-primary;
 }
 
-@include sky-theme-modern {
+.sky-theme-modern {
   .sky-tabset {
     border-bottom: 1px solid $sky-theme-modern-border-color-neutral-medium;
     overflow: visible; /* for drop shadow visibility on focused tabs */
+  }
+
+  .sky-tab-dropdown-menu-item {
+    .sky-btn-tab-wrapper {
+      margin-right: 0;
+    }
   }
 }

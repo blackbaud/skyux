@@ -9,7 +9,8 @@ import {
   Input,
   OnDestroy,
   Output,
-  QueryList
+  QueryList,
+  ViewEncapsulation
 } from '@angular/core';
 
 import {
@@ -79,7 +80,8 @@ interface TabButtonViewModel {
     SkyTabsetPermalinkService,
     SkyTabsetService
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
 

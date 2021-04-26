@@ -302,7 +302,7 @@ describe('Tabset component', () => {
       fixture.detectChanges();
 
       let tab = el.querySelectorAll('.sky-btn-tab')[1];
-      let closeBtn = tab.querySelector('.sky-btn-tab-close');
+      let closeBtn = el.querySelector('.sky-btn-tab-close');
       expect(closeBtn.getAttribute('disabled')).toBe('');
       expect(closeBtn).toHaveCssClass('sky-btn-tab-close-disabled');
 
@@ -388,7 +388,7 @@ describe('Tabset component', () => {
 
     let closeTabSpy = spyOn(cmp, 'closeTab2');
 
-    el.querySelectorAll('.sky-btn-tab')[1].querySelector('.sky-btn-tab-close').click();
+    el.querySelector('.sky-btn-tab-close').click();
 
     fixture.detectChanges();
     tick();

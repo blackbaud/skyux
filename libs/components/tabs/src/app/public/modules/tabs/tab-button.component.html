@@ -1,46 +1,52 @@
-<a
-  class="sky-btn-tab sky-margin-inline-compact"
-  role="tab"
-  [attr.aria-controls]="ariaControls"
-  [attr.aria-disabled]="disabled"
-  [attr.aria-selected]="active"
-  [attr.href]="buttonHref"
-  [id]="buttonId"
+<div
+  class="sky-btn-tab-wrapper"
   [ngClass]="{
-    'sky-btn-tab-wizard': tabStyle === 'wizard',
-    'sky-btn-tab-selected': active,
-    'sky-btn-tab-disabled': disabled,
-    'sky-tab-btn-closeable': closeable
+    'sky-btn-tab-wrapper-selected': active,
+    'sky-btn-tab-wrapper-disabled': disabled
   }"
-  [skyThemeClass]="{
-    'sky-margin-inline-sm': 'modern'
-  }"
-  [tabindex]="disabled ? '-1' : '0'"
-  (click)="onButtonClick($event)"
-  (keydown.enter)="onButtonEnterKeyDown($event)"
 >
-  <span
-    class="sky-tab-heading"
+  <a
+    class="sky-btn-tab"
+    role="tab"
+    [attr.aria-controls]="ariaControls"
+    [attr.aria-disabled]="disabled"
+    [attr.aria-selected]="active"
+    [attr.href]="buttonHref"
+    [id]="buttonId"
+    [ngClass]="{
+      'sky-btn-tab-wizard': tabStyle === 'wizard',
+      'sky-btn-tab-selected': active,
+      'sky-btn-tab-disabled': disabled,
+      'sky-tab-btn-closeable': closeable
+    }"
+    [tabindex]="disabled ? '-1' : '0'"
+    (click)="onButtonClick($event)"
+    (keydown.enter)="onButtonEnterKeyDown($event)"
   >
-    {{ buttonText }}
-    <span *ngIf="buttonTextCount !== undefined"
-      class="sky-tab-header-count"
+    <span
+      class="sky-tab-heading"
     >
-      {{ buttonTextCount }}
+      {{ buttonText }}
+      <span *ngIf="buttonTextCount !== undefined"
+        class="sky-tab-header-count"
+      >
+        {{ buttonTextCount }}
+      </span>
     </span>
-  </span>
+  </a>
+
   <button *ngIf="closeable"
     class="sky-btn-tab-close"
     type="button"
-    [attr.aria-label]="'skyux_tab_close' | skyLibResources"
+    [attr.aria-label]="'skyux_tab_close' | skyLibResources:buttonText"
     [disabled]="disabled"
     [ngClass]="{
       'sky-btn-tab-close-disabled': disabled
     }"
     (click)="onCloseClick($event)"
-  >
+    >
     <sky-icon
       icon="remove"
     ></sky-icon>
   </button>
-</a>
+</div>

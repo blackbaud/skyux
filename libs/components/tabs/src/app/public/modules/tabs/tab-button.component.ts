@@ -3,7 +3,8 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output
+  Output,
+  ViewEncapsulation
 } from '@angular/core';
 
 import {
@@ -17,7 +18,8 @@ import {
   selector: 'sky-tab-button',
   templateUrl: './tab-button.component.html',
   styleUrls: ['./tab-button.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class SkyTabButtonComponent {
 

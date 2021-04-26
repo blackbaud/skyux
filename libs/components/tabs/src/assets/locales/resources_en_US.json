@@ -5,7 +5,7 @@
   },
   "skyux_tab_close": {
     "_description": "Label for the tab close button",
-    "message": "Close tab"
+    "message": "Close {0} tab"
   },
   "skyux_tabs_navigator_next": {
     "_description": "Text displayed on a tab's next button.",

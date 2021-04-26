@@ -2,23 +2,65 @@
 @import "~@skyux/theme/scss/mixins";
 @import "~@skyux/theme/scss/_compat/mixins";
 
-.sky-tab-button-close {
-  color: $sky-text-color-deemphasized;
-  line-height: 1.4;
-  margin-left: $sky-margin-half;
+.sky-btn-tab-wrapper {
+  display: inline-block;
+  position: relative;
+  margin-right: $sky-margin-inline-compact;
 
-  &:hover {
-    color: $sky-text-color-default;
-    transition: color $sky-transition-time-short;
+  .sky-btn-tab-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: $sky-text-color-deemphasized;
+
+    &:hover {
+      color: $sky-text-color-default;
+      transition: color $sky-transition-time-short;
+    }
+  }
+
+  &.sky-btn-tab-wrapper-selected:not(.sky-btn-tab-wrapper-disabled) {
+    .sky-btn-tab-close {
+      color: #fff;
+    }
   }
 }
 
-.sky-btn-tab-selected:not(.sky-btn-tab-disabled) {
-  .sky-tab-button-close {
-    color: #fff;
+.sky-tab-btn-closeable {
+  padding-right: 43px;
+}
+
+@include sky-theme-modern {
+  .sky-btn-tab-wrapper {
+    margin-right: $sky-theme-modern-margin-inline-sm;
+
+    .sky-btn-tab-close {
+      top: 12px;
+      right: 10px;
+    }
+
+    &.sky-btn-tab-wrapper-selected:not(.sky-btn-tab-wrapper-disabled) {
+      .sky-btn-tab-close {
+        color: $sky-text-color-deemphasized;
+      }
+    }
+  }
+
+  .sky-tab-btn-closeable {
+    padding-right: 44px;
   }
 }
 
-.sky-btn-tab.sky-tab-btn-closeable {
-  padding-right: $sky-padding;
+@include sky-theme-modern-dark {
+  .sky-btn-tab-wrapper {
+    .sky-btn-tab-close {
+      color: $sky-background-color-neutral-light;
+    }
+
+    &.sky-btn-tab-wrapper-selected:not(.sky-btn-tab-wrapper-disabled) {
+      .sky-btn-tab-close {
+        color: $sky-background-color-neutral-light;
+      }
+    }
+  }
 }

@@ -37,7 +37,7 @@
     >
       <ng-container *ngFor="let tab of tabArray; let i = index">
         <sky-tab
-          [tabHeaderCount]="demoSettings.showCounts ? tab.tabHeaderCount : null"
+          [tabHeaderCount]="demoSettings.showCounts ? tab.tabHeaderCount : undefined"
           [tabHeading]="tab.tabHeading"
         >
           <div
@@ -57,7 +57,7 @@
       <ng-container *ngFor="let tab of tabArray; let i = index">
         <!-- Closeable tabs -->
         <sky-tab *ngIf="tab.tabClosable"
-          [tabHeaderCount]="demoSettings.showCounts ? tab.tabHeaderCount : null"
+          [tabHeaderCount]="demoSettings.showCounts ? tab.tabHeaderCount : undefined"
           [tabHeading]="tab.tabHeading"
           (close)="onCloseClick(i)"
         >
@@ -69,7 +69,7 @@
         </sky-tab>
         <!-- Non-closeable tabs -->
         <sky-tab *ngIf="!tab.tabClosable"
-          [tabHeaderCount]="demoSettings.showCounts ? tab.tabHeaderCount : null"
+          [tabHeaderCount]="demoSettings.showCounts ? tab.tabHeaderCount : undefined"
           [tabHeading]="tab.tabHeading"
         >
           <div
