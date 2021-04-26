@@ -1,3 +1,7 @@
+# 4.6.5 (2021-04-26)
+
+- Fixed the tab close button to follow accessibility guidelines. [#162](https://github.com/blackbaud/skyux-tabs/pull/162)
+
 # 4.6.4 (2021-03-31)
 
 - Replaced theme conditionals in templates with the new `skyThemeIf` directive. [#159](https://github.com/blackbaud/skyux-tabs/pull/159)
