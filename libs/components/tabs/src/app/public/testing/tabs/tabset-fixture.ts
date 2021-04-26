@@ -133,9 +133,15 @@ export class SkyTabsetFixture {
    * @param tabIndex The index of the tab.
    */
   public async clickTabClose(tabIndex: number): Promise<any> {
-    const tabLinkEl = this.getTabLinkEl(tabIndex);
+    const tabWrapperEl = this.getTabsetEl().querySelectorAll(
+      `.sky-tabset-tabs .sky-btn-tab-wrapper`
+    )[tabIndex];
 
-    const closeBtnEl = tabLinkEl.querySelector('.sky-btn-tab-close') as HTMLButtonElement;
+    if (!tabWrapperEl) {
+      throw new Error(`There is no tab at index ${tabIndex}.`);
+    }
+
+    const closeBtnEl = tabWrapperEl.querySelector('.sky-btn-tab-close') as HTMLButtonElement;
 
     if (!closeBtnEl) {
       throw new Error('The specified tab does not have a close button.');
