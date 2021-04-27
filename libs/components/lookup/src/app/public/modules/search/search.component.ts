@@ -209,7 +209,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   }
 
   public enterPress(event: KeyboardEvent, searchText: string) {
-    if (event.which === 13) {
+    if (event.code === 'Enter' || event.code === 'NumpadEnter') {
       this.applySearchText(searchText);
     }
   }

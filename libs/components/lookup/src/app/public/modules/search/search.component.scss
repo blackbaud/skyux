@@ -132,24 +132,17 @@ sky-search {
     right: 0;
     padding: $sky-padding-half;
   }
-
-  .sky-search-icon-modern {
-    display: none;
-  }
 }
 
-@include sky-theme-modern {
+.sky-theme-modern {
   sky-search {
-    .sky-search-icon-default {
-      display: none;
-    }
-
-    .sky-search-icon-modern {
-      display: inline-block;
-    }
-
     .sky-input-box .sky-input-group-btn .sky-btn.sky-search-btn {
       width: 40px;
+
+      .sky-icon.sky-i-close {
+        color: $sky-theme-modern-color-gray-110;
+        font-size: inherit;
+      }
     }
 
     .sky-search-btn-open-applied {
@@ -158,6 +151,48 @@ sky-search {
         border: none;
         box-shadow: inset 0 0 0 2px $sky-highlight-color-success;
         padding: $sky-theme-modern-padding-button-icon;
+      }
+    }
+
+    .sky-search-container .sky-search-input-container {
+      &.sky-search-input-container-has-value {
+        .sky-input-box-group-form-control:not(.sky-input-box-group-form-control-focus, :hover) .sky-form-group {
+          border: none;
+          border-radius: unset;
+          box-shadow: inset 0 -1px 0 0 $sky-theme-modern-background-color-primary-dark;
+        }
+      }
+
+      .sky-input-box-group .sky-form-group {
+        box-shadow: none;
+
+        .sky-input-box-form-group-inner {
+          label {
+            flex-grow: 0;
+            padding: $sky-theme-modern-space-sm $sky-theme-modern-space-sm 1px;
+
+            .sky-icon.sky-i-search {
+              color: $sky-theme-modern-color-gray-110;
+            }
+          }
+
+          input {
+            flex-basis: auto;
+            width: auto;
+            padding: $sky-theme-modern-space-sm $sky-theme-modern-space-sm $sky-theme-modern-space-sm 0;
+            margin: 0;
+
+            &::placeholder {
+              font-style: normal;
+              color: inherit;
+              font-weight: $sky-theme-modern-font-deemphasized-weight;
+            }
+
+            &:focus::placeholder {
+              color: transparent;
+            }
+          }
+        }
       }
     }
   }
@@ -171,6 +206,26 @@ sky-search {
       &.sky-search-btn-open,
       &.sky-search-btn-open:hover {
         color: $sky-highlight-color-success;
+      }
+    }
+
+    sky-search {
+      .sky-input-box .sky-input-group-btn .sky-btn.sky-search-btn {
+        .sky-icon.sky-i-close {
+          color: $sky-theme-modern-mode-dark-font-body-default-color;
+        }
+      }
+
+      .sky-search-container .sky-search-input-container {
+        .sky-input-box-group .sky-form-group {
+          .sky-input-box-form-group-inner {
+            label {
+              .sky-icon.sky-i-search {
+                color: $sky-theme-modern-mode-dark-font-body-default-color;
+              }
+            }
+          }
+        }
       }
     }
   }

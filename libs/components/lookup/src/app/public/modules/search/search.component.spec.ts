@@ -13,20 +13,17 @@ import {
 } from '@angular/platform-browser';
 
 import {
-  expect
+  NoopAnimationsModule
+} from '@angular/platform-browser/animations';
+
+import {
+  BehaviorSubject
+} from 'rxjs';
+
+import {
+  expect,
+  expectAsync
 } from '@skyux-sdk/testing';
-
-import {
-  SkySearchModule
-} from './search.module';
-
-import {
-  SkySearchComponent
-} from './search.component';
-
-import {
-  SearchTestComponent
-} from './fixtures/search.component.fixture';
 
 import {
   MockSkyMediaQueryService
@@ -45,15 +42,45 @@ import {
   SkyAppResourcesTestService
 } from '@skyux/i18n/testing';
 
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange
+} from '@skyux/theme';
+
+import {
+  SkySearchModule
+} from './search.module';
+
+import {
+  SkySearchComponent
+} from './search.component';
+
+import {
+  SearchTestComponent
+} from './fixtures/search.component.fixture';
 
 describe('Search component', () => {
   let fixture: ComponentFixture<SearchTestComponent>;
   let component: SearchTestComponent;
   let element: DebugElement;
   let mockMediaQueryService: MockSkyMediaQueryService;
+  let mockThemeSvc: { settingsChange: BehaviorSubject<SkyThemeSettingsChange> };
 
   beforeEach(() => {
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+        {
+          currentSettings: new SkyThemeSettings(
+            SkyTheme.presets.default,
+            SkyThemeMode.presets.light
+          ),
+          previousSettings: undefined
+        }
+      )
+    };
 
     mockMediaQueryService = new MockSkyMediaQueryService();
 
@@ -66,10 +93,17 @@ describe('Search component', () => {
         NoopAnimationsModule
       ],
       providers: [
-        {provide: SkyMediaQueryService, useValue: mockMediaQueryService},
+        {
+          provide: SkyMediaQueryService,
+          useValue: mockMediaQueryService
+        },
         {
           provide: SkyAppResourcesService,
           useClass: SkyAppResourcesTestService
+        },
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc
         }
       ]
     });
@@ -130,7 +164,7 @@ describe('Search component', () => {
 
   function triggerInputEnter() {
     let inputEl = element.query(By.css('input'));
-    inputEl.triggerEventHandler('keyup', { which: 13});
+    inputEl.triggerEventHandler('keyup', { which: 13, code: 'Enter' });
     fixture.detectChanges();
   }
 
@@ -476,4 +510,32 @@ describe('Search component', () => {
       });
    }));
  });
+
+  describe('a11y', async () => {
+    async function checkAccessibility() {
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+
+      setInput('foo bar');
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    }
+
+    it('should be accessible using default theme at wide and small breakpoints', async () => {
+      await checkAccessibility();
+    });
+
+    it('should be accessible using modern theme at wide and small breakpoints', async () => {
+      mockThemeSvc.settingsChange.next({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.light
+        ),
+        previousSettings: mockThemeSvc.settingsChange.value.currentSettings
+      });
+      await checkAccessibility();
+    });
+
+  });
 });

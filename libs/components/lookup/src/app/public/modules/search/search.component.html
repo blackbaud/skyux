@@ -3,7 +3,7 @@
     <button
       class="sky-btn sky-btn-default sky-btn-icon sky-search-btn-open"
       type="button"
-      [attr.title]="'skyux_search_open' | skyLibResources"
+      [attr.aria-label]="'skyux_search_open' | skyLibResources"
       [hidden]="!searchButtonShown"
       [ngClass]="{'sky-search-btn-open-applied': clearButtonShown}"
       (click)="toggleSearchInput(true)"
@@ -22,6 +22,9 @@
         [@inputState]="inputAnimate"
         (@inputState.start)="inputAnimationStart($event)"
         (@inputState.done)="inputAnimationEnd($event)"
+        [ngClass]="{
+          'sky-search-input-container-has-value': searchText?.trim()
+        }"
       >
         <sky-input-box>
           <input
@@ -33,6 +36,8 @@
             [ngModel]="searchText"
             (keyup)="enterPress($event, searchText)"
             (ngModelChange)="searchTextChanged($event)"
+            skyId
+            #searchInput="skyId"
           >
           <span
             class="sky-input-group-btn sky-input-group-clear sky-input-box-btn-inset"
@@ -46,19 +51,17 @@
               [disabled]="disabled"
               (click)="clearSearchText()"
             >
-              <sky-icon
-                class="sky-search-icon-default"
+              <sky-icon *skyThemeIf="'default'"
                 icon="times"
-              >
-              </sky-icon>
-              <sky-icon
-                class="sky-search-icon-modern"
+              ></sky-icon>
+              <sky-icon *skyThemeIf="'modern'"
                 icon="close"
                 iconType="skyux"
+                size="sm"
               ></sky-icon>
             </button>
           </span>
-          <span
+          <span *skyThemeIf="'default'"
             class="sky-input-group-btn sky-input-box-btn-inset"
           >
             <button
@@ -71,6 +74,13 @@
               <ng-container *ngTemplateOutlet="searchIconTemplate"></ng-container>
             </button>
           </span>
+          <label *skyThemeIf="'modern'"
+            class="sky-control-label"
+            [attr.aria-label]="'skyux_search_label' | skyLibResources"
+            [attr.for]="searchInput.id"
+          >
+            <ng-container *ngTemplateOutlet="searchIconTemplate"></ng-container>
+          </label>
         </sky-input-box>
       </div>
     </div>
@@ -97,17 +107,13 @@
 <ng-template
   #searchIconTemplate
 >
-  <sky-icon
-    class="sky-search-icon-default"
+  <sky-icon *skyThemeIf="'default'"
     icon="search"
     size="lg"
-  >
-  </sky-icon>
-  <sky-icon
-    class="sky-search-icon-modern"
+  ></sky-icon>
+  <sky-icon *skyThemeIf="'modern'"
     icon="search"
     iconType="skyux"
     size="lg"
-  >
-  </sky-icon>
+  ></sky-icon>
 </ng-template>

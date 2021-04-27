@@ -12,6 +12,7 @@ import {
 } from '@angular/platform-browser/animations';
 
 import {
+  SkyIdModule,
   SkyMediaQueryModule
 } from '@skyux/core';
 
@@ -22,6 +23,10 @@ import {
 import {
   SkyIconModule
 } from '@skyux/indicators';
+
+import {
+  SkyThemeModule
+} from '@skyux/theme';
 
 import {
   SkyLookupResourcesModule
@@ -42,7 +47,9 @@ import {
     SkyLookupResourcesModule,
     SkyMediaQueryModule,
     FormsModule,
-    SkyIconModule
+    SkyIconModule,
+    SkyThemeModule,
+    SkyIdModule
   ],
   exports: [
     SkySearchComponent
