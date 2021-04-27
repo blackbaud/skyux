@@ -1,3 +1,7 @@
+# 4.11.0 (2021-04-27)
+
+- Updated the search component to use the modern theme. [#166](https://github.com/blackbaud/skyux-lookup/pull/166)
+
 # 4.10.0 (2021-03-17)
 
 - Added the option of including an add button for the lookup component results dropdown. [#158](https://github.com/blackbaud/skyux-lookup/pull/158)
