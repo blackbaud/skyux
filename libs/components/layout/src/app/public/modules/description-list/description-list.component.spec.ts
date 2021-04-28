@@ -20,10 +20,6 @@ import {
 } from '@skyux/theme';
 
 import {
-  MutationObserverService
-} from '@skyux/core';
-
-import {
   BehaviorSubject,
   of
 } from 'rxjs';
@@ -68,7 +64,6 @@ describe('Description list component', () => {
         SkyDescriptionListFixturesModule
       ],
       providers: [
-        MutationObserverService,
         {
           provide: SkyThemeService,
           useValue: mockThemeSvc

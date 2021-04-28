@@ -7,6 +7,10 @@ import {
 } from '@angular/core';
 
 import {
+  MutationObserverService
+} from '@skyux/core';
+
+import {
   SkyI18nModule
 } from '@skyux/i18n';
 
@@ -58,6 +62,7 @@ import {
     SkyDescriptionListDescriptionComponent
   ],
   providers: [
+    MutationObserverService,
     SkyDescriptionListAdapterService
   ]
 })
