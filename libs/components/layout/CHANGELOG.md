@@ -1,3 +1,7 @@
+# 4.6.1 (2021-04-28)
+
+- Updated `SkyActionButtonPermalink` to make its `route.extras` property optional. [#211](https://github.com/blackbaud/skyux-layout/pull/211)
+
 # 4.6.0 (2021-04-09)
 
 - Fixed the description list component to prevent showing both actual and default values. [#209](https://github.com/blackbaud/skyux-layout/pull/209)
