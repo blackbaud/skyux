@@ -1,3 +1,7 @@
+# 4.2.5 (2021-04-30)
+
+- Fixed the colorpicker component to display the previously selected color after users select the cancel button. [#88](https://github.com/blackbaud/skyux-colorpicker/pull/88)
+
 # 4.2.4 (2021-04-22)
 
 - Fixed the label for the button that closes the colorpicker. [#86]https://github.com/blackbaud/skyux-colorpicker/pull/86)
