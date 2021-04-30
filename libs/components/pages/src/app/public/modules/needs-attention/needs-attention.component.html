@@ -1,0 +1,62 @@
+<div
+  class="sky-needs-attention-container"
+  [skyThemeClass]="{
+    'sky-padding-even-large sky-shadow': 'default',
+    'sky-box sky-elevation-1-bordered sky-padding-even-xl': 'modern'
+  }"
+>
+  <h2 class="sky-font-heading-4">
+    {{ 'sky_action_hub_needs_attention' | skyLibResources }}
+  </h2>
+  <sky-fluid-grid [gutterSize]="gutterSize" [disableMargin]="true">
+    <sky-row>
+      <sky-column
+        *ngFor="let item of items; let isLast = last"
+        [screenSmall]="items.length > 6 ? 6 : 12"
+        [screenXSmall]="12"
+      >
+        <ng-template #link>
+          <sky-icon
+            *skyThemeIf="'default'"
+            class="sky-needs-attention-item-icon"
+            icon="chevron-right"
+          ></sky-icon>
+          <sky-icon
+            *skyThemeIf="'modern'"
+            class="sky-needs-attention-item-icon"
+            icon="chevron-right"
+            iconType="skyux"
+          ></sky-icon>
+          <sky-key-info
+            layout="horizontal"
+            class="sky-needs-attention-item-key-info"
+          >
+            <sky-key-info-label>{{ item.message }}</sky-key-info-label>
+            <sky-key-info-value
+              [skyThemeClass]="{
+                'sky-emphasized': 'default',
+                'sky-font-display-4': 'modern'
+              }"
+            >
+              {{ item.title }}
+            </sky-key-info-value>
+          </sky-key-info>
+        </ng-template>
+        <a
+          *ngIf="item.permalink.route"
+          [routerLink]="item.permalink.route"
+          class="sky-needs-attention-item sky-padding-vertical-lg sky-border-bottom-row"
+        >
+          <ng-container *ngTemplateOutlet="link"></ng-container>
+        </a>
+        <a
+          *ngIf="item.permalink.url"
+          [href]="item.permalink.url"
+          class="sky-needs-attention-item sky-padding-vertical-lg sky-border-bottom-row"
+        >
+          <ng-container *ngTemplateOutlet="link"></ng-container>
+        </a>
+      </sky-column>
+    </sky-row>
+  </sky-fluid-grid>
+</div>

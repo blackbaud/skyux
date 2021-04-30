@@ -1,22 +1,11 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
+import { SkyDocsToolsModule, SkyDocsToolsOptions } from '@skyux/docs-tools';
+import { SkyAppLinkModule } from '@skyux/router';
 
-import {
-  SkyDocsToolsModule,
-  SkyDocsToolsOptions
-} from '@skyux/docs-tools';
-
-import {
-  SkyAppLinkModule
-} from '@skyux/router';
+import { SkyActionHubModule } from './public/public_api';
 
 @NgModule({
-  exports: [
-    SkyAppLinkModule,
-    SkyDocsToolsModule
-  ],
-  entryComponents: [],
+  exports: [SkyActionHubModule, SkyAppLinkModule, SkyDocsToolsModule],
   providers: [
     {
       provide: SkyDocsToolsOptions,
@@ -27,4 +16,4 @@ import {
     }
   ]
 })
-export class AppExtrasModule { }
+export class AppExtrasModule {}

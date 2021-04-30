@@ -1,0 +1,15 @@
+.sky-action-hub-docs {
+  &-demo {
+    border: 1px solid red;
+    background-color: rgb(255, 180, 180);
+    opacity: 0.7;
+
+    &-buttons {
+      padding: 10px;
+    }
+
+    &-additional-content {
+      padding: 60px 20px;
+    }
+  }
+}

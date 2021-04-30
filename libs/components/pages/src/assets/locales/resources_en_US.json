@@ -1,2 +1,14 @@
 {
+  "sky_action_hub_related_links": {
+    "_description": "Heading for related links",
+    "message": "Related Links"
+  },
+  "sky_action_hub_recent_links": {
+    "_description": "Heading for recently accessed links",
+    "message": "Recently Accessed"
+  },
+  "sky_action_hub_needs_attention": {
+    "_description": "Heading for needs attention items",
+    "message": "Needs Attention"
+  }
 }

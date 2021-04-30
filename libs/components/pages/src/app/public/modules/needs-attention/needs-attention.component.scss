@@ -1,0 +1,52 @@
+@import "~@skyux/theme/scss/variables";
+@import "~@skyux/theme/scss/mixins";
+
+.sky-needs-attention-container {
+  background-color: #fff;
+}
+
+.sky-needs-attention-item {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+
+  &-icon {
+    color: $sky-theme-modern-font-deemphasized-color;
+  }
+
+  &-key-info {
+    flex-grow: 1;
+  }
+
+  &-icon {
+    order: 1;
+  }
+
+  sky-key-info-value {
+    color: $sky-text-color-action-primary;
+  }
+
+  &:hover {
+    sky-key-info-value, sky-key-info-label {
+      text-decoration: underline;
+    }
+  }
+
+  &:focus {
+    outline: none;
+
+    &:not(:active) {
+      @include sky-theme-modern-border-focus(
+        $sky-theme-modern-border-color-primary-dark,
+        $sky-theme-modern-elevation-3-shadow-size,
+        $sky-theme-modern-elevation-3-shadow-color
+      );
+    }
+  }
+}
+
+sky-column:last-child {
+  > a {
+    border-bottom: none;
+  }
+}

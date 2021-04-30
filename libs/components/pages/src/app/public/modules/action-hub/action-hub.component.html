@@ -1,0 +1,48 @@
+<sky-wait [isFullPage]="true" [isWaiting]="loading"></sky-wait>
+<sky-fluid-grid *ngIf="!loading">
+  <sky-row>
+    <sky-column>
+      <h1 class="sky-font-heading-1">{{ title }}</h1>
+    </sky-column>
+  </sky-row>
+  <sky-row>
+    <sky-column screenLarge="9" screenXSmall="12">
+      <div
+        [skyThemeClass]="{
+          'sky-margin-stacked-separate': 'default',
+          'sky-margin-stacked-xl': 'modern'
+        }"
+      >
+        <ng-content select="sky-action-hub-buttons"></ng-content>
+      </div>
+
+      <div
+        [skyThemeClass]="{
+          'sky-margin-stacked-separate': 'default',
+          'sky-margin-stacked-xxl': 'modern'
+        }"
+      >
+        <sky-needs-attention [items]="needsAttention"></sky-needs-attention>
+      </div>
+
+      <div
+        [skyThemeClass]="{
+          'sky-margin-stacked-separate': 'default',
+          'sky-margin-stacked-xxl': 'modern'
+        }"
+      >
+        <ng-content select="sky-action-hub-content"></ng-content>
+      </div>
+    </sky-column>
+    <sky-column screenLarge="3" screenXSmall="12">
+      <sky-link-list
+        [links]="relatedLinks"
+        [title]="'sky_action_hub_related_links' | skyLibResources"
+      ></sky-link-list>
+      <sky-link-list
+        [links]="recentLinks"
+        [title]="'sky_action_hub_recent_links' | skyLibResources"
+      ></sky-link-list>
+    </sky-column>
+  </sky-row>
+</sky-fluid-grid>

@@ -1,0 +1,27 @@
+<ng-container *ngIf="links?.length > 0">
+  <h2 class="sky-font-heading-4 sky-margin-stacked-sm">
+    {{ title }}
+  </h2>
+  <ul
+    class="sky-link-list"
+    [skyThemeClass]="{
+      'sky-margin-stacked-separate': 'default',
+      'sky-margin-stacked-xl': 'modern'
+    }"
+  >
+    <li
+      *ngFor="let link of links"
+      [skyThemeClass]="{
+        'sky-margin-stacked-default': 'default',
+        'sky-margin-stacked-sm': 'modern'
+      }"
+    >
+      <a *ngIf="link.permalink.url" [href]="link.permalink.url">
+        {{ link.label }}
+      </a>
+      <a *ngIf="link.permalink.route" [routerLink]="link.permalink.route">
+        {{ link.label }}
+      </a>
+    </li>
+  </ul>
+</ng-container>

@@ -1,0 +1,20 @@
+<sky-docs-demo-control-panel-theme
+  (themeSettingsChange)="themeSettingsChange($event)"
+></sky-docs-demo-control-panel-theme>
+
+<sky-action-hub [data]="data">
+  <sky-action-hub-buttons *ngIf="buttons">
+    <a
+      *ngFor="let button of buttons"
+      class="sky-btn sky-btn-default sky-margin-inline-sm"
+      [href]="button.permalink"
+    >
+      {{ button.label }}
+    </a>
+  </sky-action-hub-buttons>
+
+  <sky-action-hub-content>
+    <h2 class="sky-font-heading-2">Additional Content</h2>
+    <p>Additional content can go here as needed for the functional area</p>
+  </sky-action-hub-content>
+</sky-action-hub>
