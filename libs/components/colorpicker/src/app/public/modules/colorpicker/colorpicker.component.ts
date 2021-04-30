@@ -6,6 +6,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  Optional,
   Output,
   TemplateRef,
   ViewChild,
@@ -208,7 +209,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     private coreAdapter: SkyCoreAdapterService,
     private overlayService: SkyOverlayService,
     private service: SkyColorpickerService,
-    private themeSvc: SkyThemeService
+    @Optional() private themeSvc?: SkyThemeService
   ) {
     componentIdIndex++;
 
@@ -231,7 +232,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     presetColors: Array<string>,
     alphaChannel: string,
     allowTransparency: boolean
-  ) {
+  ): void {
     this.initialColor = color;
     this.outputFormat = outputFormat;
     this.presetColors = presetColors;
@@ -247,7 +248,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     }
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.sliderDimMax = new SliderDimension(182, 270, 170, 182);
     this.slider = new SliderPosition(0, 0, 0, 0);
     this.messageStream
@@ -278,7 +279,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     }
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
     this.removePickerEventListeners();
@@ -290,8 +291,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     this.sendMessage(SkyColorpickerMessageType.Open);
   }
 
-  public closePicker() {
-    this.setColorFromString(this.lastAppliedColor);
+  public closePicker(): void {
     this.destroyAffixer();
     this.destroyOverlay();
     this.removePickerEventListeners();
@@ -299,37 +299,35 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     this.isOpen = false;
   }
 
-  public resetPickerColor() {
-    this.sendMessage(SkyColorpickerMessageType.Reset);
-  }
-
-  public applyColor() {
+  public onApplyColorClick(): void {
     this.selectedColorChanged.emit(this.selectedColor);
     this.selectedColorApplied.emit({ color: this.selectedColor });
     this.lastAppliedColor = this.selectedColor.rgbaText;
+    this.updatePickerValues(this.lastAppliedColor);
+    this.backgroundColorForDisplay = this.selectedColor.rgbaText;
     this.closePicker();
   }
 
-  public setColorFromString(value: string) {
-    let hsva: SkyColorpickerHsva;
+  public onCancelClick(): void {
+    // Revert picker values back to previous color.
+    this.updatePickerValues(this.backgroundColorForDisplay);
+    this.closePicker();
+  }
 
-    if (this.alphaChannel === 'hex8') {
-      hsva = this.service.stringToHsva(value, true);
-      if (!hsva && !this.hsva) {
-        hsva = this.service.stringToHsva(value, false);
-      }
+  public onPresetClick(value: string): void {
+    this.updatePickerValues(value);
+  }
 
-    } else {
-      hsva = this.service.stringToHsva(value, false);
-    }
+  public onResetClick(): void {
+    this.sendMessage(SkyColorpickerMessageType.Reset);
+  }
 
+  public updatePickerValues(value: string): void {
+    const hsva = this.getHsvaValue(value);
     if (hsva) {
       this.hsva = hsva;
       this.update();
     }
-
-    // Update trigger button's background color.
-    this.backgroundColorForDisplay = this.selectedColor.rgbaText;
   }
 
   public set hue(change: SkyColorpickerChangeAxis) {
@@ -369,7 +367,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   }
 
   public set hex(change: SkyColorpickerChangeColor) {
-    this.setColorFromString(change.color);
+    this.updatePickerValues(change.color);
   }
 
   public set saturationAndLightness(value: SkyColorpickerChangeAxis) {
@@ -378,7 +376,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     this.update();
   }
 
-  public update() {
+  public update(): void {
     let hsla: SkyColorpickerHsla = this.service.hsva2hsla(this.hsva);
     let dHsla: SkyColorpickerHsla = this.service.denormalizeHSLA(hsla);
     let rgba: SkyColorpickerRgba = this.service.hsvaToRgba(this.hsva);
@@ -454,7 +452,8 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
         break;
 
       case SkyColorpickerMessageType.Reset:
-        this.setColorFromString(this.initialColor);
+        this.updatePickerValues(this.initialColor);
+        this.backgroundColorForDisplay = this.initialColor;
         this.selectedColorChanged.emit(this.selectedColor);
         this.selectedColorApplied.emit({ color: this.selectedColor });
         break;
@@ -532,5 +531,21 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
       this.pickerUnsubscribe.complete();
       this.pickerUnsubscribe = undefined;
     }
+  }
+
+  private getHsvaValue(value: string): SkyColorpickerHsva {
+    let hsva: SkyColorpickerHsva;
+
+    if (this.alphaChannel === 'hex8') {
+      hsva = this.service.stringToHsva(value, true);
+      if (!hsva && !this.hsva) {
+        hsva = this.service.stringToHsva(value, false);
+      }
+
+    } else {
+      hsva = this.service.stringToHsva(value, false);
+    }
+
+    return hsva;
   }
 }

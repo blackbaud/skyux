@@ -231,7 +231,7 @@
               'sky-btn sky-btn-link': 'modern'
             }"
             [style.backgroundColor]="color"
-            (click)="setColorFromString(color)"
+            (click)="onPresetClick(color)"
           ></button>
         </div>
       </div>
@@ -250,7 +250,7 @@
             type="button"
             [attr.aria-label]="'skyux_colorpicker_apply' | skyLibResources"
             [skyThemeClass]="{ 'sky-margin-inline-sm' : 'modern' }"
-            (click)="applyColor()"
+            (click)="onApplyColorClick()"
           >
             {{ 'skyux_colorpicker_apply' | skyLibResources }}
           </button>
@@ -258,7 +258,7 @@
             class="sky-btn sky-btn-link sky-btn-colorpicker-close"
             type="button"
             [attr.aria-label]="'skyux_colorpicker_close' | skyLibResources"
-            (click)="closePicker()"
+            (click)="onCancelClick()"
           >
             {{ 'skyux_colorpicker_close' | skyLibResources }}
           </button>
@@ -279,7 +279,7 @@
     }"
     type="button"
     [attr.aria-label]="'skyux_colorpicker_reset' | skyLibResources"
-    (click)="resetPickerColor()"
+    (click)="onResetClick()"
   >
     <sky-icon *skyThemeIf="'default'"
       icon="times"

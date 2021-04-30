@@ -154,7 +154,8 @@ export class SkyColorpickerInputDirective
   @HostListener('input', ['$event'])
   public changeInput(event: any) {
     const value = event.target.value;
-    this.skyColorpickerInput.setColorFromString(value);
+    this.skyColorpickerInput.updatePickerValues(value);
+    this.skyColorpickerInput.backgroundColorForDisplay = value;
   }
 
   @HostListener('change', ['$event'])
@@ -189,7 +190,8 @@ export class SkyColorpickerInputDirective
         this._onChange(newColor);
       });
 
-    this.skyColorpickerInput.setColorFromString(this.initialColor);
+    this.skyColorpickerInput.updatePickerValues(this.initialColor);
+    this.skyColorpickerInput.backgroundColorForDisplay = this.initialColor;
 
     /// Set aria-label as default, if not set
     if (!element.getAttribute('aria-label')) {
@@ -285,7 +287,8 @@ export class SkyColorpickerInputDirective
         break;
     }
 
-    this.skyColorpickerInput.setColorFromString(output);
+    this.skyColorpickerInput.updatePickerValues(output);
+    this.skyColorpickerInput.backgroundColorForDisplay = output;
 
     this.renderer.setStyle(element, 'background-color', setElementValue);
     this.renderer.setProperty(element, 'value', output);

@@ -83,6 +83,11 @@ describe('Colorpicker Component', () => {
     verifyMenuVisibility();
   }
 
+  function getColorpickerButtonBackgroundColor(element: HTMLElement): string {
+    const buttonElem = element.querySelector('.sky-colorpicker-button') as HTMLElement;
+    return buttonElem.style.backgroundColor;
+  }
+
   function applyColorpicker(element: HTMLElement, compFixture: ComponentFixture<ColorpickerTestComponent>) {
     const buttonElem = getColorpickerContainer().querySelector('.sky-btn-colorpicker-apply') as HTMLElement;
     buttonElem.click();
@@ -428,6 +433,63 @@ describe('Colorpicker Component', () => {
       verifyColorpicker(nativeElement, '#2b7230', '43, 114, 48');
     }));
 
+    it('should not change button displayed color when user selects a preset color and then clicks cancel', fakeAsync(() => {
+      component.selectedOutputFormat = 'hex';
+      component.colorModel = '#2889e5';
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      const initialBackgroundColor = getColorpickerButtonBackgroundColor(nativeElement);
+
+      expect(initialBackgroundColor).toBeDefined();
+
+      openColorpicker(nativeElement, fixture);
+      const container = getColorpickerContainer();
+      const presetColors = container.querySelectorAll('.sky-preset-color') as NodeListOf<HTMLElement>;
+      presetColors[0].click();
+      fixture.detectChanges();
+      closeColorpicker(nativeElement, fixture);
+
+      expect(getColorpickerButtonBackgroundColor(nativeElement)).toEqual(initialBackgroundColor);
+    }));
+
+    it('should not change button displayed color when user changes slider values then clicks cancel', fakeAsync(() => {
+      component.selectedOutputFormat = 'hex';
+      component.colorModel = '#2889e5';
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      const initialBackgroundColor = getColorpickerButtonBackgroundColor(nativeElement);
+
+      expect(initialBackgroundColor).toBeDefined();
+      openColorpicker(nativeElement, fixture);
+      const hueBar = getColorpickerContainer().querySelector('.hue');
+      const axis = getElementCoords(hueBar);
+      SkyAppTestUtility.fireDomEvent(hueBar, 'mousedown', {
+        customEventInit: { pageX: axis.x - 50, pageY: axis.y }
+      });
+      fixture.detectChanges();
+      tick();
+      closeColorpicker(nativeElement, fixture);
+
+      expect(getColorpickerButtonBackgroundColor(nativeElement)).toEqual(initialBackgroundColor);
+    }));
+
+    it('should not change button displayed color when user changes input values then clicks cancel', fakeAsync(() => {
+      component.selectedOutputFormat = 'hex';
+      component.colorModel = '#2889e5';
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      const initialBackgroundColor = getColorpickerButtonBackgroundColor(nativeElement);
+
+      openColorpicker(nativeElement, fixture);
+      setInputElementValue(nativeElement, 'hex', '#2B7230');
+      closeColorpicker(nativeElement, fixture);
+
+      expect(getColorpickerButtonBackgroundColor(nativeElement)).toEqual(initialBackgroundColor);
+    }));
+
     it('should allow user to click apply the color change.', fakeAsync(() => {
       component.selectedOutputFormat = 'hex';
       openColorpicker(nativeElement, fixture);
@@ -754,7 +816,7 @@ describe('Colorpicker Component', () => {
     }));
 
     it('should reset colorpicker via reset button.', fakeAsync(() => {
-      let spyOnResetColorPicker = spyOn(colorpickerComponent, 'resetPickerColor').and.callThrough();
+      let spyOnResetColorPicker = spyOn(colorpickerComponent, 'onResetClick').and.callThrough();
       fixture.detectChanges();
       tick();
       openColorpicker(nativeElement, fixture);
@@ -926,7 +988,7 @@ describe('Colorpicker Component', () => {
 
     it('should reset colorpicker via reset button.', fakeAsync(() => {
       fixture.detectChanges();
-      let spyOnResetColorPicker = spyOn(colorpickerComponent, 'resetPickerColor').and.callThrough();
+      let spyOnResetColorPicker = spyOn(colorpickerComponent, 'onResetClick').and.callThrough();
       fixture.detectChanges();
       tick();
       openColorpicker(nativeElement, fixture);
