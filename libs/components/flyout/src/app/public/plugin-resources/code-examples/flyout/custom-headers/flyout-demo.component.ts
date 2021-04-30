@@ -26,6 +26,8 @@ export class FlyoutDemoComponent {
 
   public openFlyoutWithIterators(): void {
     const flyoutConfig: SkyFlyoutConfig = {
+      ariaLabelledBy: 'flyout-title',
+      ariaRole: 'dialog',
       showIterator: true
     };
     this.flyout = this.flyoutService.open(FlyoutDemoFlyoutComponent, flyoutConfig);
@@ -45,6 +47,8 @@ export class FlyoutDemoComponent {
 
   public openFlyoutWithRoutePermalink(): void {
     const flyoutConfig: SkyFlyoutConfig = {
+      ariaLabelledBy: 'flyout-title',
+      ariaRole: 'dialog',
       permalink: {
         label: 'Go to Components page',
         route: {
@@ -67,6 +71,8 @@ export class FlyoutDemoComponent {
 
   public openFlyoutWithUrlPermalink(): void {
     const flyoutConfig: SkyFlyoutConfig = {
+      ariaLabelledBy: 'flyout-title',
+      ariaRole: 'dialog',
       permalink: {
         label: `Visit blackbaud.com`,
         url: 'http://www.blackbaud.com'

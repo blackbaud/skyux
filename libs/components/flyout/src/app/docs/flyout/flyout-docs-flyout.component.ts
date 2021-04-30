@@ -8,7 +8,9 @@ import {
     <div
       class="sky-padding-even-large"
     >
-      <h2>
+      <h2
+        id="flyout-title"
+      >
         Sample flyout
       </h2>
       <p>

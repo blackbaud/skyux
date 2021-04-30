@@ -40,7 +40,10 @@ export class FlyoutDocsComponent {
   }
 
   public openSimpleFlyout(): void {
-    let flyoutConfig: SkyFlyoutConfig = {};
+    let flyoutConfig: SkyFlyoutConfig = {
+      ariaLabelledBy: 'flyout-title',
+      ariaRole: 'dialog'
+    };
 
     if (this.demoSettings.iterators) {
       flyoutConfig.showIterator = true;

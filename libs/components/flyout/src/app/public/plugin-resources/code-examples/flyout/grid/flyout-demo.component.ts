@@ -79,9 +79,8 @@ export class FlyoutDemoComponent {
         provide: FlyoutDemoContext,
         useValue: record
       }],
-      ariaDescribedBy: 'my-describedby-id',
-      ariaLabelledBy: 'my-labelledby-id',
-      ariaRole: 'modal',
+      ariaLabelledBy: 'flyout-title',
+      ariaRole: 'dialog',
       permalink: {
         route: {
           commands: ['/users', record.id],

@@ -33,6 +33,8 @@ export class FlyoutDemoComponent {
 
   public openFlyoutWithCutsomWidth(): void {
     const flyoutConfig: SkyFlyoutConfig = {
+      ariaLabelledBy: 'flyout-title',
+      ariaRole: 'dialog',
       defaultWidth: 350,
       maxWidth: 500,
       minWidth: 200
@@ -45,7 +47,11 @@ export class FlyoutDemoComponent {
   }
 
   public openSimpleFlyout(): void {
-    this.flyout = this.flyoutService.open(FlyoutDemoFlyoutComponent);
+    const flyoutConfig: SkyFlyoutConfig = {
+      ariaLabelledBy: 'flyout-title',
+      ariaRole: 'dialog'
+    };
+    this.flyout = this.flyoutService.open(FlyoutDemoFlyoutComponent, flyoutConfig);
 
     this.flyout.closed.subscribe(() => {
       this.flyout = undefined;
