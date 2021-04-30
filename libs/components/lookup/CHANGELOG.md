@@ -1,3 +1,7 @@
+# 4.11.1 (2021-04-30)
+
+- Fixed the lookup component to respond to changes in reactive form control values. [#169](https://github.com/blackbaud/skyux-lookup/pull/169)
+
 # 4.11.0 (2021-04-27)
 
 - Updated the search component to use the modern theme. [#166](https://github.com/blackbaud/skyux-lookup/pull/166)
