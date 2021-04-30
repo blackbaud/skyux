@@ -33,12 +33,16 @@ import {
 } from '@skyux/tabs';
 
 import {
-  SkySummaryActionBarModule
-} from './public/public_api';
+  SummaryActionBarModalDocsComponent
+} from './docs/summary-action-bar/summary-action-bar-modal-docs.component';
 
 import {
   SkySummaryActionBarModalDemoComponent
 } from './visual/summary-action-bar/summary-action-bar-modal-demo.component';
+
+import {
+  SkySummaryActionBarModule
+} from './public/public_api';
 
 @NgModule({
   exports: [
@@ -62,7 +66,8 @@ import {
     }
   ],
   entryComponents: [
-    SkySummaryActionBarModalDemoComponent
+    SkySummaryActionBarModalDemoComponent,
+    SummaryActionBarModalDocsComponent
   ]
 })
 export class AppExtrasModule { }

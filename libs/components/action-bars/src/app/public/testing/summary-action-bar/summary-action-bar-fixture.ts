@@ -179,13 +179,13 @@ export class SkySummaryActionBarFixture {
 
   private getSummaryCollapseButton(): HTMLButtonElement {
     return this.debugEl.query(
-      By.css('.sky-summary-action-bar-details-collapse .sky-btn')
+      By.css('.sky-summary-action-bar-details-collapse button')
     )?.nativeElement;
   }
 
   private getSummaryExpandButton(): HTMLButtonElement {
     return this.debugEl.query(
-      By.css('.sky-summary-action-bar-details-expand .sky-btn')
+      By.css('.sky-summary-action-bar-details-expand button')
     )?.nativeElement;
   }
 

@@ -4,9 +4,40 @@
   pageTitle="Summary action bar"
 >
 
-<sky-docs-demo-page-summary>
-  The summary action bar module provides a docked container for actions and summary information on forms or multiselect lists.
-</sky-docs-demo-page-summary>
+  <sky-docs-demo-page-summary>
+    The summary action bar module provides a docked container for actions and summary information on forms or multiselect lists.
+  </sky-docs-demo-page-summary>
+
+  <sky-docs-demo>
+    <button
+      type="button"
+      class="sky-btn sky-btn-primary"
+      (click)="openModal()"
+    >
+      Open modal with summary action bar
+    </button>
+  </sky-docs-demo>
+
+  <sky-docs-code-examples
+    [packageDependencies]="{
+      '@blackbaud/auth-client': '*',
+      '@skyux/action-bars': '*',
+      '@skyux/tabs': '*'
+    }"
+  >
+    <sky-docs-code-example
+      heading="Basic summary action bar"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/summary-action-bar/basic"
+    ></sky-docs-code-example>
+    <sky-docs-code-example
+      heading="Modal with summary action bar"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/summary-action-bar/modal"
+    ></sky-docs-code-example>
+    <sky-docs-code-example
+      heading="Tab with summary action bar"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/summary-action-bar/tab"
+    ></sky-docs-code-example>
+  </sky-docs-code-examples>
 
   <sky-docs-design-guidelines>
     <sky-docs-demo-page-section

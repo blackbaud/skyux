@@ -1,0 +1,49 @@
+<sky-tabset
+  [active]="0"
+>
+  <sky-tab
+    tabHeading="Tab 1"
+  >
+    Tab without summary action bar.
+  </sky-tab>
+  <sky-tab
+    tabHeading="Tab 2"
+  >
+    Tab with summary action bar.
+    <sky-summary-action-bar>
+      <sky-summary-action-bar-actions>
+        <sky-summary-action-bar-primary-action
+          (actionClick)="onPrimaryActionClick()"
+        >
+          Primary action
+        </sky-summary-action-bar-primary-action>
+        <sky-summary-action-bar-secondary-actions>
+          <sky-summary-action-bar-secondary-action
+            (actionClick)="onSecondaryActionClick()"
+          >
+            Secondary action
+          </sky-summary-action-bar-secondary-action>
+          <sky-summary-action-bar-secondary-action
+            (actionClick)="onSecondaryAction2Click()"
+          >
+            Secondary action 2
+          </sky-summary-action-bar-secondary-action>
+        </sky-summary-action-bar-secondary-actions>
+      </sky-summary-action-bar-actions>
+      <sky-summary-action-bar-summary>
+        <sky-key-info>
+          <sky-key-info-value>$250</sky-key-info-value>
+          <sky-key-info-label>Given this month</sky-key-info-label>
+        </sky-key-info>
+        <sky-key-info>
+          <sky-key-info-value>$1,000</sky-key-info-value>
+          <sky-key-info-label>Given this year</sky-key-info-label>
+        </sky-key-info>
+        <sky-key-info>
+          <sky-key-info-value>$1,300</sky-key-info-value>
+          <sky-key-info-label>Given all time</sky-key-info-label>
+        </sky-key-info>
+      </sky-summary-action-bar-summary>
+    </sky-summary-action-bar>
+  </sky-tab>
+</sky-tabset>
