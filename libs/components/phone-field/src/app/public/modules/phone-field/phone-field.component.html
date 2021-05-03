@@ -14,6 +14,8 @@
 >
   <div
     class="sky-input-group-btn sky-phone-field-country-btn"
+    [attr.data-sky-test-iso2]="selectedCountry?.iso2"
+    [attr.data-sky-test-name]="selectedCountry?.name"
   >
     <button
       aria-live="polite"

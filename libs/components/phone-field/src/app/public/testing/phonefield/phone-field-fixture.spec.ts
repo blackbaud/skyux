@@ -12,12 +12,9 @@ import {
   FormControl,
   FormGroup,
   FormsModule,
-  ReactiveFormsModule
+  ReactiveFormsModule,
+  Validators
 } from '@angular/forms';
-
-import {
-  expect
-} from '@skyux-sdk/testing';
 
 import {
   SkyStatusIndicatorModule
@@ -70,6 +67,7 @@ const VALID_US_NUMBER = '8675555309';
       <input
         formControlName="phoneControl"
         skyPhoneFieldInput
+        [attr.disabled]="disabled"
         [skyPhoneFieldNoValidate]="noValidate"
       >
     </sky-phone-field>
@@ -86,6 +84,7 @@ const VALID_US_NUMBER = '8675555309';
 class PhoneFieldTestComponent implements OnInit {
   public allowExtensions: boolean = true;
   public defaultCountry: string;
+  public disabled: boolean;
   public noValidate: boolean = false;
   public returnFormat: SkyPhoneFieldNumberReturnFormat;
   public selectedCountry: SkyPhoneFieldCountry;
@@ -130,6 +129,27 @@ describe('PhoneField fixture', () => {
     );
     testComponent = fixture.componentInstance;
     phonefieldFixture = new SkyPhoneFieldFixture(fixture, DATA_SKY_ID);
+  });
+
+  it('should be able to check if phone field is disabled', async () => {
+    let isDisabled = await phonefieldFixture.isDisabled();
+    expect(isDisabled).toBe(false);
+
+    testComponent.disabled = true;
+    fixture.detectChanges();
+    await fixture.whenStable();
+    isDisabled = await phonefieldFixture.isDisabled();
+    expect(isDisabled).toBe(true);
+  });
+
+  it('should be able to check if phone field is invalid', async () => {
+    expect(await phonefieldFixture.isValid()).toBe(true);
+    testComponent.phoneControl.setValidators(Validators.required);
+
+    await phonefieldFixture.setInputText('');
+    await phonefieldFixture.blur();
+
+    expect(await phonefieldFixture.isValid()).toBe(false);
   });
 
   it('should use selected country', async () => {
