@@ -1,3 +1,7 @@
+# 4.6.0 (2021-05-03)
+
+- Added methods to the phone field testing fixture. [#88](https://github.com/blackbaud/skyux-phone-field/pull/88)
+
 # 4.5.1 (2021-01-20)
 
 - Fixed the phone field input directive to automatically set the input's type to `tel`. [#83](https://github.com/blackbaud/skyux-phone-field/pull/83) (Thanks [@dougdomeny](https://github.com/dougdomeny)!)
