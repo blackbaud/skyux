@@ -36,14 +36,16 @@ export class SkyFilterButtonComponent implements OnInit {
   /**
    * Specifies an ID to identify the element that contains
    * the filtering options that the filter button exposes.
-   * This property supports [accessibility rules for disclosures](https://www.w3.org/TR/wai-aria-practices-1.1/#disclosure).
+   * To support [accessibility rules for disclosures](https://www.w3.org/TR/wai-aria-practices-1.1/#disclosure),
+   * this property is necessary when using inline filters.
    */
   @Input()
   public ariaControls: string;
 
   /**
    * Indicates whether the filtering options are exposed.
-   * This property supports [accessibility rules for disclosures](https://www.w3.org/TR/wai-aria-practices-1.1/#disclosure).
+   * To support [accessibility rules for disclosures](https://www.w3.org/TR/wai-aria-practices-1.1/#disclosure),
+   * this property is necessary when using inline filters.
    */
   @Input()
   public ariaExpanded: boolean;
