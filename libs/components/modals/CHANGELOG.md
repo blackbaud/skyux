@@ -1,3 +1,7 @@
+# 4.5.3 (2021-05-04)
+
+- Deprecated `SkyConfirmType.YesCancel` and `SkyConfirmType.YesNoCancel`. Use the `SkyConfirmType.Custom` type to follow the guidance that labels should clearly indicate the actions that occur when users select buttons. [#147](https://github.com/blackbaud/skyux-modals/pull/147)
+
 # 4.5.2 (2021-03-22)
 
 - Replaced theme conditionals in templates with the new `skyThemeIf` directive. [#143](https://github.com/blackbaud/skyux-modals/pull/143)
