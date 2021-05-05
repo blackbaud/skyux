@@ -33,6 +33,7 @@
 
     <!-- Add/close disabled -->
     <sky-tabset *ngIf="!demoSettings.includeAddAndClose"
+      ariaLabel="User management"
       style="width: 100%"
     >
       <ng-container *ngFor="let tab of tabArray; let i = index">
@@ -51,7 +52,8 @@
 
     <!-- Add/close enabled -->
     <sky-tabset *ngIf="demoSettings.includeAddAndClose"
-    style="width: 100%"
+      ariaLabel="User management"
+      style="width: 100%"
       (newTab)="onNewTabClick()"
     >
       <ng-container *ngFor="let tab of tabArray; let i = index">

@@ -21,20 +21,20 @@ export class TabsDocsComponent {
 
   public initialTabArray = [
     {
-      tabHeading: 'Tab 1',
-      tabContent: 'Content for Tab 1',
+      tabHeading: 'Small groups',
+      tabContent: 'Content for small groups',
       tabHeaderCount: 99,
       tabClosable: true
     },
     {
-      tabHeading: 'Tab 2',
-      tabContent: 'Content for Tab 2',
+      tabHeading: 'Participants',
+      tabContent: 'Content for participants',
       tabHeaderCount: 99,
       tabClosable: true
     },
     {
-      tabHeading: 'Tab 3',
-      tabContent: 'Content for Tab 3',
+      tabHeading: 'Attendance',
+      tabContent: 'Content for attendance',
       tabClosable: false
     }
   ];
