@@ -7,12 +7,17 @@ import {
 } from '@skyux/action-bars';
 
 import {
+  SkyIdModule
+} from '@skyux/core';
+
+import {
   SkyDocsToolsModule,
   SkyDocsToolsOptions
 } from '@skyux/docs-tools';
 
 import {
-  SkyCheckboxModule
+  SkyCheckboxModule,
+  SkyInputBoxModule
 } from '@skyux/forms';
 
 import {
@@ -42,6 +47,8 @@ import {
     SkyConfirmModule,
     SkyDefinitionListModule,
     SkyDocsToolsModule,
+    SkyIdModule,
+    SkyInputBoxModule,
     SkySplitViewModule,
     SkySummaryActionBarModule,
     SkyRepeaterModule

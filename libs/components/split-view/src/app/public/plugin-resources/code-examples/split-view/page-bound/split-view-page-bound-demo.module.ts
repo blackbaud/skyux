@@ -15,6 +15,14 @@ import {
 } from '@skyux/action-bars';
 
 import {
+  SkyIdModule
+} from '@skyux/core';
+
+import {
+  SkyInputBoxModule
+} from '@skyux/forms';
+
+import {
   SkyAlertModule
 } from '@skyux/indicators';
 
@@ -48,6 +56,8 @@ import {
     ReactiveFormsModule,
     SkyAlertModule,
     SkyConfirmModule,
+    SkyIdModule,
+    SkyInputBoxModule,
     SkyDefinitionListModule,
     SkyPageSummaryModule,
     SkyRepeaterModule,

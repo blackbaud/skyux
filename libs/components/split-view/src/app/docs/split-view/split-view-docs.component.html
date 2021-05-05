@@ -79,34 +79,42 @@
           <div
             class="sky-form-group"
           >
-            <label
-              class="sky-control-label"
-              for="approvedAmount"
-            >
-              Approved amount
-            </label>
-            <input
-              class="sky-form-control"
-              formControlName="approvedAmount"
-              name="approvedAmount"
-              type="text"
-            />
+            <sky-input-box>
+              <label
+                class="sky-control-label"
+                [for]="amountInput.id"
+              >
+                Approved amount
+              </label>
+              <input
+                class="sky-form-control"
+                formControlName="approvedAmount"
+                name="approvedAmount"
+                type="text"
+                skyId
+                #amountInput
+              />
+            </sky-input-box>
           </div>
 
           <div
             class="sky-form-group"
           >
-            <label
-              class="sky-control-label"
-              for="comments"
-            >
-              Comments
-            </label>
-            <textarea
-              class="sky-form-control"
-              formControlName="comments"
-              name="comments"
-            ></textarea>
+            <sky-input-box>
+              <label
+                class="sky-control-label"
+                [for]="commentsInput.id"
+              >
+                Comments
+              </label>
+              <textarea
+                class="sky-form-control"
+                formControlName="comments"
+                name="comments"
+                skyId
+                #commentsInput
+              ></textarea>
+            </sky-input-box>
           </div>
         </form>
       </sky-split-view-workspace-content>
