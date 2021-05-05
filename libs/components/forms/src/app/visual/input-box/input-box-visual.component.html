@@ -723,6 +723,33 @@
       </sky-column>
     </sky-row>
 
+    <sky-row>
+      <sky-column>
+        <div
+          class="sky-form-group"
+          id="input-box-placeholder"
+        >
+          <sky-input-box
+            class="sky-margin-stacked-lg"
+          >
+            <label
+              class="sky-control-label"
+              [for]="inputBoxPlaceholder.id"
+            >
+              Input W/ Placeholder
+            </label>
+            <input
+              class="sky-form-control"
+              placeholder="Placeholder Text"
+              skyId
+              type="text"
+              #inputBoxPlaceholder="skyId"
+            >
+          </sky-input-box>
+        </div>
+      </sky-column>
+    </sky-row>
+
   </sky-fluid-grid>
 
 </div>

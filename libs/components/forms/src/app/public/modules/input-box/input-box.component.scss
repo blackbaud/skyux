@@ -229,6 +229,26 @@ sky-input-box {
           box-shadow: none;
           outline: none;
         }
+
+        // Placeholder text
+        &::-webkit-input-placeholder {
+          font-size: $sky-theme-modern-font-body-default-size;
+        }
+
+        &::-moz-placeholder {
+          /* Firefox 19+ */
+          font-size: $sky-theme-modern-font-body-default-size;
+        }
+
+        &input:-moz-placeholder {
+          /* Firefox 18- */
+          font-size: $sky-theme-modern-font-body-default-size;
+        }
+
+        &:-ms-input-placeholder {
+          /* IE */
+          font-size: $sky-theme-modern-font-body-default-size;
+        }
       }
 
       .sky-input-box-btn-inset {
