@@ -22,12 +22,15 @@ export class SkyActionHubComponent {
   @Input()
   public set data(value: typeof data) {
     this.needsAttention = value.needsAttention;
+    this.parentLink = value.parentLink;
     this.recentLinks = value.recentLinks;
     this.relatedLinks = value.relatedLinks;
     this.title = value.title;
   }
 
   public needsAttention: SkyActionHubNeedsAttention[];
+
+  public parentLink: SkyPageLink;
 
   public recentLinks: SkyPageLink[];
 

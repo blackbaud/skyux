@@ -2,7 +2,10 @@
 <sky-fluid-grid *ngIf="!loading">
   <sky-row>
     <sky-column>
-      <h1 class="sky-font-heading-1">{{ title }}</h1>
+      <sky-page-header
+        [pageTitle]="title"
+        [parentLink]="parentLink"
+      ></sky-page-header>
     </sky-column>
   </sky-row>
   <sky-row>

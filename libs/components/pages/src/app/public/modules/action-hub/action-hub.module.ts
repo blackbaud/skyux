@@ -12,6 +12,7 @@ import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyLinkListComponent } from '../link-list/link-list.component';
 import { SkyNeedsAttentionComponent } from '../needs-attention/needs-attention.component';
+import { SkyPageHeaderModule } from '../page-header/page-header.module';
 import { SkyPagesResourcesModule } from '../shared/pages-resources.module';
 
 import { SkyActionHubButtonsComponent } from './action-hub-buttons.component';
@@ -27,6 +28,7 @@ import { SkyActionHubComponent } from './action-hub.component';
     SkyI18nModule,
     SkyIconModule,
     SkyKeyInfoModule,
+    SkyPageHeaderModule,
     SkyPagesResourcesModule,
     SkyThemeModule,
     SkyWaitModule

@@ -10,6 +10,10 @@ export interface SkyActionHubData {
    */
   title?: string;
   /**
+   * Specifies a parent page to link in the page heading.
+   */
+  parentLink?: SkyPageLink;
+  /**
    * List of actions that need attention with link to where the item would be resolved.
    */
   needsAttention?: SkyActionHubNeedsAttention[];
