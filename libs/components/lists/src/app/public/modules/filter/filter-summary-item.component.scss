@@ -7,3 +7,10 @@
 :host:not(:last-child) {
   margin-right: $sky-margin-inline-compact;
 }
+
+@include sky-theme-modern() {
+  .sky-filter-summary-item {
+    padding: 0 0 5px 0;
+  }
+}
+

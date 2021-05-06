@@ -2,7 +2,7 @@
 @import "~@skyux/theme/scss/_compat/mixins";
 
 .sky-filter-summary-header {
-  margin-right: $sky-margin;
+  margin: $sky-margin-half $sky-margin 0 0;
   font-weight: 600;
 }
 
@@ -10,9 +10,17 @@
   background-color: $sky-color-white;
   overflow-x: auto;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .sky-filter-summary-items {
-  white-space: nowrap;
+  display: flex;
+  flex-wrap: wrap;
 }
+
+@include sky-theme-modern() {
+  .sky-filter-summary-header {
+    margin: 0 $sky-margin 0 0;
+  }
+}
+
