@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 /**
- * Content that is displayed below any "Needs Attention" items.
+ * Displays additional content after the action items.
  */
 @Component({
   selector: 'sky-action-hub-content',

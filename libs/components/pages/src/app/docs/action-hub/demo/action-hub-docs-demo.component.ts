@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { SkyConfirmService, SkyConfirmType } from '@skyux/modals';
 
 @Component({
-  selector: 'app-action-hub-docs',
-  styleUrls: ['action-hub-docs.component.scss'],
-  templateUrl: 'action-hub-docs.component.html'
+  selector: 'app-action-hub-docs-demo',
+  styleUrls: ['action-hub-docs-demo.component.scss'],
+  templateUrl: 'action-hub-docs-demo.component.html'
 })
-export class ActionHubDocsComponent {
+export class ActionHubDocsDemoComponent implements AfterViewInit {
   public data = {
     title: 'Page title',
     needsAttention: [
@@ -74,11 +74,29 @@ export class ActionHubDocsComponent {
     ]
   };
 
+  @ViewChild('actionHubComponent')
+  public actionHubComponent: ElementRef;
+
+  public get dropdownItems(): string[] {
+    const offset = 3;
+    return Array.from(Array(3).keys()).map((i) => `Action ${i + offset}`);
+  }
+
   constructor(private confirmService: SkyConfirmService) {}
+
+  public ngAfterViewInit(): void {
+    const items = this.actionHubComponent.nativeElement.querySelectorAll('a');
+    Array.from(items).forEach((item: HTMLAnchorElement) => {
+      item.addEventListener('click', ($event: MouseEvent) => {
+        $event.preventDefault();
+        this.buttonClick($event);
+      });
+    });
+  }
 
   public buttonClick($event: MouseEvent) {
     this.confirmService.open({
-      message: `You pressed “${($event.target as HTMLButtonElement).textContent.trim()}”`,
+      message: `You pressed “${($event.currentTarget as HTMLElement).textContent.trim()}”`,
       type: SkyConfirmType.OK
     });
   }

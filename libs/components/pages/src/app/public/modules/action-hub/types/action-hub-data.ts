@@ -2,27 +2,27 @@ import { SkyActionHubNeedsAttention } from './action-hub-needs-attention';
 import { SkyPageLink } from './page-link';
 
 /**
- * Data object that drives the Action Hub, intended to be loaded from a HTTP service.
+ * Specifies a data object to drive the action hub that can be loaded from an HTTP service.
  */
 export interface SkyActionHubData {
   /**
-   * Page title for this screen. Before the title is set, the screen will show as loading.
+   * Specifies a page title for the action hub. The page loads until `title` has a value.
    */
-  title?: string;
+  title: string;
   /**
    * Specifies a parent page to link in the page heading.
    */
   parentLink?: SkyPageLink;
   /**
-   * List of actions that need attention with link to where the item would be resolved.
+   * Specifies action items that require attention and links to resolve them.
    */
   needsAttention?: SkyActionHubNeedsAttention[];
   /**
-   * Display the five items most recently accessed by the user in reverse chronological order.
+   * Specifies links to recently accessed items. List the five items most recently accessed by the user in reverse chronological order.
    */
   recentLinks?: SkyPageLink[];
   /**
-   * Related links should be displayed in alphabetical order.
+   * Specifies links to related items. List items in alphabetical order.
    */
   relatedLinks?: SkyPageLink[];
 }

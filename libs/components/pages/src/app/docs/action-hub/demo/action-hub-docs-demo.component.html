@@ -1,0 +1,42 @@
+<div #actionHubComponent>
+  <sky-action-hub [data]="data">
+    <sky-action-hub-buttons>
+      <button
+        (click)="buttonClick($event)"
+        type="button"
+        class="sky-btn sky-btn-default sky-margin-inline-sm"
+      >
+        <sky-icon *skyThemeIf="'default'" icon="plus-circle"></sky-icon>
+        <sky-icon *skyThemeIf="'modern'" icon="add" iconType="skyux"></sky-icon>
+        New
+      </button>
+      <button
+        (click)="buttonClick($event)"
+        type="button"
+        class="sky-btn sky-btn-default sky-margin-inline-sm"
+      >
+        Action 2
+      </button>
+      <span class="sky-action-hub-docs-demo-inline">
+        <sky-dropdown>
+          <sky-dropdown-button>More</sky-dropdown-button>
+          <sky-dropdown-menu>
+            <sky-dropdown-item *ngFor="let item of dropdownItems">
+              <button type="button" (click)="buttonClick($event)">
+                {{ item }}
+              </button>
+            </sky-dropdown-item>
+          </sky-dropdown-menu>
+        </sky-dropdown>
+      </span>
+    </sky-action-hub-buttons>
+    <sky-action-hub-content>
+      <div
+        class="sky-action-hub-docs-demo sky-action-hub-docs-demo-additional-content sky-box"
+      >
+        <h2 class="sky-font-heading-2">Additional content</h2>
+        <p>More content can go here as needed for the functional area.</p>
+      </div>
+    </sky-action-hub-content>
+  </sky-action-hub>
+</div>

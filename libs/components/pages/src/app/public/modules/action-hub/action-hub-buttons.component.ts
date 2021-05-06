@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 /**
- * Buttons that show just below the page title.
+ * Displays buttons after the page title.
  *
  * Example:
  *

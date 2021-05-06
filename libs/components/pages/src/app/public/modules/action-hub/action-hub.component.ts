@@ -7,7 +7,8 @@ import { SkyPageLink } from './types/page-link';
 let data: SkyActionHubData;
 
 /**
- * Wrapper component for the Action Hub.
+ * Creates an action hub to direct user attention to important
+ * actions and provide quick access to common tasks.
  */
 @Component({
   selector: 'sky-action-hub',
@@ -15,7 +16,8 @@ let data: SkyActionHubData;
 })
 export class SkyActionHubComponent {
   /**
-   * Pass an SkyActionHubData object to build the screen. The page will be loading until `title` has a value.
+   * Passes a SkyActionHubData object to build the action hub. The page loads until
+   * `title` has a value.
    *
    * @param value
    */

@@ -1,21 +1,22 @@
 import { NavigationExtras } from '@angular/router';
 
 /**
- * Call to action displayed prominently on the Action Hub page.
+ * Specifies action items that require attention and directs users to pages
+ * where they can resolve them.
  */
 export interface SkyActionHubNeedsAttention {
   /**
-   * Bold text for the action item
+   * Specifies a bold title to display at the start of the action item.
    */
-  title?: string;
+  title: string;
   /**
-   * De-emphasized text for action item
+   * Specifies de-emphasized text to display after the title.
    */
   message?: string;
   /**
-   * Link to where to resolve action
+   * Specifies a link to resolve the action item.
    */
-  permalink?: {
+  permalink: {
     route?: {
       commands: any[];
       extras?: NavigationExtras;
