@@ -1,3 +1,7 @@
+# 4.7.2 (2021-05-07)
+
+- Fixed the filter summary component to properly wrap filters. [#233](https://github.com/blackbaud/skyux-lists/pull/233)
+
 # 4.7.1 (2021-04-06)
 
 - Fixed the repeater item component to allow for items without a title in modern theme. [#223](https://github.com/blackbaud/skyux-lists/pull/223)
