@@ -291,6 +291,10 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
           this.sendMessage(SkyDropdownMessageType.Close);
         } else {
           this.sendMessage(SkyDropdownMessageType.Open);
+          // Wait for dropdown to open, then set focus on first item.
+          setTimeout(() => {
+            this.sendMessage(SkyDropdownMessageType.FocusFirstItem);
+          });
         }
       });
 

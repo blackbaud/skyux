@@ -449,6 +449,21 @@ describe('Dropdown component', function () {
       // Menu should still be open.
       expect(isElementVisible(container)).toEqual(true);
     }));
+
+    it('should focus on first menu item when clicked', fakeAsync(() => {
+      detectChangesFakeAsync();
+      const spy = spyOn(fixture.componentInstance.messageStream, 'next').and.callThrough();
+      const button = getButtonElement();
+      button.click();
+      detectChangesFakeAsync();
+
+      expect(spy).toHaveBeenCalledWith(
+        { type: SkyDropdownMessageType.Open }
+      );
+      expect(spy).toHaveBeenCalledWith(
+        { type: SkyDropdownMessageType.FocusFirstItem }
+      );
+    }));
   });
 
   describe('keyboard interactions', function () {
