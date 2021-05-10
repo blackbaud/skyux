@@ -1,3 +1,7 @@
+# 4.5.2 (2021-05-10)
+
+- Fixed the dropdown component to focus on the first menu item after users select the dropdown button. [#148](https://github.com/blackbaud/skyux-popovers/pull/148)
+
 # 4.5.1 (2021-04-15)
 
 - Fixed the service injection so that `SkyThemeService` is not required. [#144](https://github.com/blackbaud/skyux-popovers/pull/144)
