@@ -253,6 +253,7 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
   public ngAfterViewInit(): void {
 
     this.initTabComponents();
+    this.listenTabComponentsStructuralChange();
 
     const initialTabIndex = this.getInitialTabIndex();
     this.tabsetService.setActiveTabIndex(initialTabIndex);
@@ -272,7 +273,6 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
 
     // Let the tabset render the initial active index before listening for changes.
     setTimeout(() => {
-      this.listenTabComponentsStructuralChange();
       this.listenTabComponentsStateChange();
       this.listenActiveIndexChange();
       this.permalinkService.init();
