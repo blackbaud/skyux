@@ -157,6 +157,14 @@ describe('SkyDataManagerColumnPickerComponent', () => {
       expect(searchResults).toEqual(columns);
     });
 
+    it('should return all columns when the data state search text does not match casing', () => {
+      dataManagerColumnPickerComponent.dataState.searchText = 'CoL';
+
+      const searchResults = dataManagerColumnPickerComponent.searchColumns(columns);
+
+      expect(searchResults).toEqual(columns);
+    });
+
     it('should return column1 when the data state search text is "1"', () => {
       dataManagerColumnPickerComponent.dataState.searchText = '1';
 

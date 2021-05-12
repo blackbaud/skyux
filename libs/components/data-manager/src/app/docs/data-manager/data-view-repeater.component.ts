@@ -72,7 +72,7 @@ export class DataViewRepeaterDemoComponent implements OnInit {
 
   public searchItems(items: any[]): any[] {
     let searchedItems = items;
-    let searchText = this.dataState && this.dataState.searchText;
+    let searchText = this.dataState && this.dataState.searchText?.toUpperCase();
 
     if (searchText) {
       searchedItems = items.filter(function (item: any) {
@@ -80,7 +80,7 @@ export class DataViewRepeaterDemoComponent implements OnInit {
 
         for (property in item) {
           if (item.hasOwnProperty(property) && (property === 'name' || property === 'description')) {
-            const propertyText = item[property].toLowerCase();
+            const propertyText = item[property].toUpperCase();
             if (propertyText.indexOf(searchText) > -1) {
               return true;
             }

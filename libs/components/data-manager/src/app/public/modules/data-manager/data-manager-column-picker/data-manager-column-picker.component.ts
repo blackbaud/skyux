@@ -117,7 +117,7 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
 
   public searchColumns(columns: Column[]): Column[] {
     let searchedColumns = columns;
-    let searchText = this.dataState && this.dataState.searchText;
+    let searchText = this.dataState && this.dataState.searchText?.toUpperCase();
 
     if (searchText) {
       searchedColumns = columns.filter(function (item: any) {
@@ -125,7 +125,7 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
 
         for (property in item) {
           if (item.hasOwnProperty(property) && (property === 'label' || property === 'description')) {
-            const propertyText = item[property] && item[property].toLowerCase();
+            const propertyText: string = item[property] && item[property].toUpperCase();
             if (propertyText && propertyText.indexOf(searchText) > -1) {
               return true;
             }
