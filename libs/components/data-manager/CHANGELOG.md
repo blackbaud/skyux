@@ -1,3 +1,7 @@
+# 4.1.1 (2021-05-12)
+
+- Fixed the column picker to disregard letter casing when searching for columns. [#30](https://github.com/blackbaud/skyux-data-manager/pull/30)
+
 # 4.1.0 (2021-04-16)
 
 - Updated the demo code to use `<sky-data-manager-toolbar-primary-item>` for the primary button. [#28](https://github.com/blackbaud/skyux-data-manager/pull/28)
