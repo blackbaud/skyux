@@ -1,3 +1,7 @@
+# 4.6.6 (2021-05-12)
+
+- Fixed the tabset component to ensure all tabs are registered if new tabs are added quickly on initialization. [#166](https://github.com/blackbaud/skyux-tabs/pull/166)
+
 # 4.6.5 (2021-04-26)
 
 - Fixed the tab close button to follow accessibility guidelines. [#162](https://github.com/blackbaud/skyux-tabs/pull/162)
