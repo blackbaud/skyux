@@ -257,7 +257,11 @@
 
   </sky-docs-design-guidelines>
 
-  <sky-docs-code-examples>
+  <sky-docs-code-examples
+    [packageDependencies]="{
+      '@skyux/tabs': '*'
+    }"
+  >
     <sky-docs-code-example heading="Vertical tabs"
       sourceCodePath="src/app/public/plugin-resources/code-examples/vertical-tabs/basic"></sky-docs-code-example>
     <sky-docs-code-example heading="Grouped tabs"
