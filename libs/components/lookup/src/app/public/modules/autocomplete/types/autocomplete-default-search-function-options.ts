@@ -8,5 +8,6 @@ import {
 export interface SkyAutocompleteDefaultSearchFunctionOptions {
   propertiesToSearch?: string[];
   searchFilters?: SkyAutocompleteSearchFunctionFilter[];
+  /** @deprecated */
   searchResultsLimit?: number;
 }

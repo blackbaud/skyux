@@ -1,7 +1,39 @@
 {
+  "skyux_autocomplete_add": {
+    "_description": "Label for autocomplete add button",
+    "message": "New"
+  },
+  "skyux_autocomplete_no_results": {
+    "_description": "Placeholder text for autocomplete input component when no results are found",
+    "message": "No matches found"
+  },
   "skyux_country_field_search_placeholder": {
     "_description": "Placeholder for country search autocomplete",
     "message": "Search for a country"
+  },
+  "skyux_lookup_show_more_add": {
+    "_description": "Label for lookup's show more modal add button",
+    "message": "New"
+  },
+  "skyux_lookup_show_more_cancel": {
+    "_description": "Label for lookup's show more modal cancel button",
+    "message": "Cancel"
+  },
+  "skyux_lookup_show_more_modal_title_single": {
+    "_description": "Default show more modal title for single select mode",
+    "message": "Select an option"
+  },
+  "skyux_lookup_show_more_modal_title_multiple": {
+    "_description": "Default show more modal title for multiple select mode",
+    "message": "Select options"
+  },
+  "skyux_lookup_show_more_no_results": {
+    "_description": "Placeholder text for lookup's show more modal when no results are found",
+    "message": "No matches found"
+  },
+  "skyux_lookup_show_more_select": {
+    "_description": "Label for lookup's show more modal select (save) button",
+    "message": "Select"
   },
   "skyux_search_dismiss": {
     "_description": "Label for dismissing search input",
@@ -18,13 +50,5 @@
   "skyux_search_placeholder": {
     "_description": "Placeholder text for search input component",
     "message": "Find in this list"
-  },
-  "skyux_autocomplete_no_results": {
-    "_description": "Placeholder text for autocomplete input component when no results are found",
-    "message": "No matching items found"
-  },
-  "skyux_autocomplete_add": {
-    "_description": "Label for autocomplete add button",
-    "message": "Add"
   }
 }

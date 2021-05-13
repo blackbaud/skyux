@@ -19,6 +19,7 @@
     [data]="data"
     [debounceTime]="debounceTime"
     [descriptorProperty]="descriptorProperty"
+    [enableShowMore]="enableShowMore"
     [propertiesToSearch]="propertiesToSearch"
     [search]="search"
     [searchFilters]="searchFilters"
@@ -29,6 +30,7 @@
     [noResultsFoundText]="customNoResultsMessage"
     (addClick)="addButtonClicked()"
     (selectionChange)="onSelectionChange($event)"
+    (showMoreClick)="showMoreButtonClicked()"
   >
     <input *ngIf="!hideInput"
       id="my-autocomplete-input"

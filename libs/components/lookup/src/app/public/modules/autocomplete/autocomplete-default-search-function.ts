@@ -44,15 +44,6 @@ export function skyAutocompleteDefaultSearchFunction(
     const results = [];
 
     for (let i = 0, n = filteredData.length; i < n; i++) {
-      const limitReached = (
-        options.searchResultsLimit &&
-        options.searchResultsLimit <= results.length
-      );
-
-      if (limitReached) {
-        return results;
-      }
-
       const result = filteredData[i];
       const isMatch = options.propertiesToSearch.find((property: string) => {
         const value = (result[property] || '').toString().toLowerCase();

@@ -13,10 +13,28 @@
     [ariaLabelledBy]="ariaLabelledBy"
     [autocompleteAttribute]="autocompleteAttribute"
     [data]="data"
+    [descriptorProperty]="descriptorProperty"
+    [enableShowMore]="enableShowMore"
     [idProperty]="idProperty"
     [placeholderText]="placeholderText"
+    [searchResultTemplate]="enabledSearchResultTemplate"
     [selectMode]="selectMode"
     [showAddButton]="showAddButton"
+    [showMoreConfig]="showMoreConfig"
     (addClick)="addButtonClicked()"
   ></sky-lookup>
 </form>
+
+<ng-template
+  let-item="item"
+  #customSearchResultTemplate
+>
+  {{ item.description }}
+</ng-template>
+
+<ng-template
+  let-item="item"
+  #customShowMoreTemplate
+>
+  {{ item.name }} - {{ item.birthDate }}
+</ng-template>

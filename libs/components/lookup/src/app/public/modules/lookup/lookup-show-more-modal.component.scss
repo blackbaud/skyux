@@ -1,0 +1,12 @@
+@import "~@skyux/theme/scss/mixins";
+@import "~@skyux/theme/scss/variables";
+
+.sky-lookup-show-more-no-results {
+  padding: $sky-space-xl 0;
+}
+
+@include sky-theme-modern {
+  .sky-lookup-show-more-no-results {
+    padding: $sky-theme-modern-space-xl 0;
+  }
+}
