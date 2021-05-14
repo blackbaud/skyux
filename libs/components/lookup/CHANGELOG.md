@@ -1,5 +1,10 @@
+# 4.12.1 (2021-05-14)
+
+- Revert `4.12.1` due to compliation issues with `@skyux/data-manager`. [#177](https://github.com/blackbaud/skyux-lookup/pull/177)
+
 # 4.12.0 (2021-05-13)
 
+This version is broken. Upgrade to 4.12.1.
 - Added the ability to open a picker to show and select more results from the lookup component. [#163](https://github.com/blackbaud/skyux-lookup/pull/163)
 
 # 4.11.1 (2021-04-30)

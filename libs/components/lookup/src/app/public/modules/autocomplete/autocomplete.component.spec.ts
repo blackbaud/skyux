@@ -43,10 +43,6 @@ describe('Autocomplete component', () => {
     return document.querySelector('.sky-autocomplete-add') as HTMLElement;
   }
 
-  function getActionsContainer(): HTMLElement {
-    return document.querySelector('.sky-autocomplete-actions') as HTMLElement;
-  }
-
   function getAutocompleteElement(): HTMLElement {
     return document.querySelector('sky-autocomplete') as HTMLElement;
   }
@@ -65,10 +61,6 @@ describe('Autocomplete component', () => {
 
   function getSearchResultItems(): NodeListOf<Element> {
     return document.querySelectorAll('.sky-autocomplete-result');
-  }
-
-  function getShowMoreButton(): HTMLElement {
-    return document.querySelector('.sky-autocomplete-more') as HTMLElement;
   }
 
   function enterSearch(newValue: string, fixture: ComponentFixture<any>): void {
@@ -259,50 +251,14 @@ describe('Autocomplete component', () => {
     }));
 
     it('should show a no results found message', fakeAsync(() => {
-      const expectedMessage = 'No matches found';
+      const expectedMessage = 'No matching items found';
       fixture.detectChanges();
 
       enterSearch('rasdasdlhasdjklh', fixture);
 
       const container = getSearchResultsSection();
       expect(container.textContent.trim()).toBe(expectedMessage);
-
-      const actionsContainer = getActionsContainer();
-      expect(actionsContainer).toBeNull();
     }));
-
-    it('should show a no results found message in the actions area if the add button is shown',
-      fakeAsync(() => {
-        component.showAddButton = true;
-        // NOTE: The "New" is from the "New" button
-        const expectedMessage = 'No matches found  New';
-        fixture.detectChanges();
-
-        enterSearch('rasdasdlhasdjklh', fixture);
-
-        const resultsContainer = getSearchResultsSection();
-        expect(resultsContainer).toBeNull();
-
-        const actionsContainer = getActionsContainer();
-        expect(actionsContainer.textContent.trim()).toBe(expectedMessage);
-      })
-    );
-
-    it('should show a no results found message in the actions area if the show more button is shown',
-      fakeAsync(() => {
-        component.enableShowMore = true;
-        const expectedMessage = 'No matches found';
-        fixture.detectChanges();
-
-        enterSearch('rasdasdlhasdjklh', fixture);
-
-        const resultsContainer = getSearchResultsSection();
-        expect(resultsContainer).toBeNull();
-
-        const actionsContainer = getActionsContainer();
-        expect(actionsContainer.textContent.trim()).toBe(expectedMessage);
-      })
-    );
 
     it('should show a custom no results found message', fakeAsync(() => {
       const expectedMessage = 'Custom message';
@@ -342,7 +298,7 @@ describe('Autocomplete component', () => {
       // The letter 'r' should return multiple results.
       enterSearch('r', fixture);
 
-      expect(getSearchResultItems().length).toEqual(1);
+      expect(autocomplete.searchResults.length).toEqual(1);
     }));
 
     it('should not search if search text empty', fakeAsync(() => {
@@ -646,75 +602,6 @@ describe('Autocomplete component', () => {
       })
     );
 
-    it('should emit an event correctly when the add button is enabled and clicked',
-      fakeAsync(() => {
-        component.enableShowMore = true;
-        const showMoreButtonSpy = spyOn(component, 'showMoreButtonClicked').and.callThrough();
-        fixture.detectChanges();
-
-        // Type 'r' to activate the autocomplete dropdown, then click the first result.
-        enterSearch('r', fixture);
-
-        const showMoreButton = getShowMoreButton();
-        expect(showMoreButton).not.toBeNull();
-        expect(showMoreButtonSpy).not.toHaveBeenCalled();
-
-        showMoreButton.click();
-        fixture.detectChanges();
-
-        expect(showMoreButtonSpy).toHaveBeenCalled();
-      })
-    );
-
-    it('should not show the show more button unless the component input asks for it',
-      fakeAsync(() => {
-        component.enableShowMore = false;
-        const showMoreButtonSpy = spyOn(component, 'showMoreButtonClicked').and.callThrough();
-        fixture.detectChanges();
-
-        // Type 'r' to activate the autocomplete dropdown, then click the first result.
-        enterSearch('r', fixture);
-
-        const showMoreButton = getShowMoreButton();
-        expect(showMoreButton).toBeNull();
-        expect(showMoreButtonSpy).not.toHaveBeenCalled();
-      })
-    );
-
-    it('should open the dropdown when the input is focused if the show more button is shown',
-      fakeAsync(() => {
-        component.enableShowMore = true;
-        fixture.detectChanges();
-
-        const inputElement: HTMLInputElement = getInputElement();
-
-        SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
-        fixture.detectChanges();
-        tick();
-        fixture.detectChanges();
-
-        expect(getSearchResultsContainer()).not.toBeNull();
-        expect(getShowMoreButton()).not.toBeNull();
-      })
-    );
-
-    it('should not open the dropdown when the input is focused if the add button is not shown',
-      fakeAsync(() => {
-        component.enableShowMore = false;
-        fixture.detectChanges();
-
-        const inputElement: HTMLInputElement = getInputElement();
-
-        SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
-        fixture.detectChanges();
-        tick();
-        fixture.detectChanges();
-
-        expect(getSearchResultsContainer()).toBeNull();
-        expect(getShowMoreButton()).toBeNull();
-      })
-    );
-
     it('should be accessible', async(() => {
       const axeConfig = {
         rules: {
@@ -735,7 +622,7 @@ describe('Autocomplete component', () => {
           SkyAppTestUtility.fireDomEvent(inputElement, 'input');
           fixture.detectChanges();
           fixture.whenStable().then(() => {
-            expect(document.body).toBeAccessible(() => { }, axeConfig);
+            expect(document.body).toBeAccessible(() => {}, axeConfig);
           });
         }, axeConfig);
       });
@@ -997,7 +884,7 @@ describe('Autocomplete component', () => {
           expect(inputElement.value).toEqual('re');
 
           inputElement.focus();
-          SkyAppTestUtility.fireDomEvent(getAddButton(), 'focusout', { customEventInit: { relatedTarget: inputElement } });
+          SkyAppTestUtility.fireDomEvent(getAddButton(), 'focusout', { customEventInit: { relatedTarget: inputElement }});
           fixture.detectChanges();
           tick();
 
@@ -1092,26 +979,6 @@ describe('Autocomplete component', () => {
           enterSearch('r', fixture);
 
           const inputElement: HTMLInputElement = getInputElement();
-
-          sendTab(inputElement, fixture);
-
-          expect(document.activeElement).toBe(getAddButton());
-        })
-      );
-
-      it('should tab to the second action when multiple actions exists',
-        fakeAsync(() => {
-          component.showAddButton = true;
-          component.enableShowMore = true;
-          fixture.detectChanges();
-
-          enterSearch('r', fixture);
-
-          const inputElement: HTMLInputElement = getInputElement();
-
-          sendTab(inputElement, fixture);
-
-          expect(document.activeElement).toBe(getShowMoreButton());
 
           sendTab(inputElement, fixture);
 
@@ -1290,43 +1157,6 @@ describe('Autocomplete component', () => {
           expect(getSearchResultItems().item(0)).toHaveCssClass('selected');
         })
       );
-
-      it('should navigate items with arrow keys with search results limits', fakeAsync(() => {
-        component.searchResultsLimit = 4;
-        fixture.detectChanges();
-
-        const inputElement: HTMLInputElement = getInputElement();
-
-        enterSearch('r', fixture);
-        expect(getSearchResultItems().item(0)).toHaveCssClass('selected');
-
-        sendArrowDown(inputElement, fixture);
-
-        expect(getSearchResultItems().item(1)).toHaveCssClass('selected');
-
-        sendArrowUp(inputElement, fixture);
-
-        expect(getSearchResultItems().item(0)).toHaveCssClass('selected');
-
-        // Move up again to loop back to the bottom of the list.
-        SkyAppTestUtility.fireDomEvent(inputElement, 'keydown', {
-          keyboardEventInit: { key: 'Up' }
-        });
-        fixture.detectChanges();
-        tick();
-
-        expect(getSearchResultItems().item(3)).toHaveCssClass('selected');
-
-        // Move down to loop back to the top.
-        SkyAppTestUtility.fireDomEvent(inputElement, 'keydown', {
-          keyboardEventInit: { key: 'Down' }
-        });
-        fixture.detectChanges();
-        tick();
-
-        expect(getSearchResultItems().item(0)).toHaveCssClass('selected');
-
-      }));
     });
 
     describe('mouse interactions', () => {
@@ -1628,71 +1458,6 @@ describe('Autocomplete component', () => {
 
         expect(getSearchResultsContainer()).toBeNull();
         expect(getAddButton()).toBeNull();
-      })
-    );
-
-    it('should emit an event correctly when the add button is enabled and clicked',
-      fakeAsync(() => {
-        component.enableShowMore = true;
-        const showMoreButtonSpy = spyOn(component, 'showMoreButtonClicked').and.callThrough();
-        fixture.detectChanges();
-
-        // Type 'r' to activate the autocomplete dropdown, then click the first result.
-        enterSearch('r', fixture);
-
-        const showMoreButton = getShowMoreButton();
-        expect(showMoreButton).not.toBeNull();
-        expect(showMoreButtonSpy).not.toHaveBeenCalled();
-
-        showMoreButton.click();
-        fixture.detectChanges();
-
-        expect(showMoreButtonSpy).toHaveBeenCalled();
-      })
-    );
-
-    it('should not show the show more button unless the component input asks for it',
-      fakeAsync(() => {
-        component.enableShowMore = false;
-        const showMoreButtonSpy = spyOn(component, 'showMoreButtonClicked').and.callThrough();
-        fixture.detectChanges();
-
-        // Type 'r' to activate the autocomplete dropdown, then click the first result.
-        enterSearch('r', fixture);
-
-        const showMoreButton = getShowMoreButton();
-        expect(showMoreButton).toBeNull();
-        expect(showMoreButtonSpy).not.toHaveBeenCalled();
-      })
-    );
-
-    it('should open the dropdown when the input is focused if the show more button is shown',
-      fakeAsync(() => {
-        component.enableShowMore = true;
-        fixture.detectChanges();
-
-        SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
-        fixture.detectChanges();
-        tick();
-        fixture.detectChanges();
-
-        expect(getSearchResultsContainer()).not.toBeNull();
-        expect(getShowMoreButton()).not.toBeNull();
-      })
-    );
-
-    it('should not open the dropdown when the input is focused if the add button is not shown',
-      fakeAsync(() => {
-        component.enableShowMore = false;
-        fixture.detectChanges();
-
-        SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
-        fixture.detectChanges();
-        tick();
-        fixture.detectChanges();
-
-        expect(getSearchResultsContainer()).toBeNull();
-        expect(getShowMoreButton()).toBeNull();
       })
     );
 

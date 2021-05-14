@@ -37,11 +37,6 @@
 
 .sky-autocomplete-actions {
   @include sky-border(dark, top);
-
-  .sky-autocomplete-actions-no-results {
-    display: inline-block;
-    padding: 7px 13px;
-  }
 }
 
 .sky-autocomplete-add {

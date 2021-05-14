@@ -45,24 +45,16 @@ import {
 } from '@skyux/indicators';
 
 import {
-  SkyModalService
-} from '@skyux/modals';
-
-import {
   SkyThemeService
 } from '@skyux/theme';
 
 import {
-  SkyAutocompleteComponent
-} from '../autocomplete/autocomplete.component';
+  SkyAutocompleteSelectionChange
+} from '../autocomplete/types/autocomplete-selection-change';
 
 import {
   SkyAutocompleteInputDirective
 } from '../autocomplete/autocomplete-input.directive';
-
-import {
-  SkyAutocompleteSelectionChange
-} from '../autocomplete/types/autocomplete-selection-change';
 
 import {
   SkyLookupAutocompleteAdapter
@@ -73,20 +65,8 @@ import {
 } from './lookup-adapter.service';
 
 import {
-  SkyLookupShowMoreModalComponent
-} from './lookup-show-more-modal.component';
-
-import {
   SkyLookupSelectMode
 } from './types/lookup-select-mode';
-
-import {
-  SkyLookupShowMoreConfig
-} from './types/lookup-show-more-config';
-
-import {
-  SkyLookupShowMoreNativePickerContext
-} from './types/lookup-show-more-native-picker-context';
 
 @Component({
   selector: 'sky-lookup',
@@ -100,20 +80,20 @@ export class SkyLookupComponent
   extends SkyLookupAutocompleteAdapter
   implements OnInit, AfterViewInit, OnDestroy, ControlValueAccessor {
 
-  /**
-   * Specifies an ARIA label for the typeahead search input
-   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
-   * If the input includes a visible label, use `ariaLabelledBy` instead.
-   */
+/**
+ * Specifies an ARIA label for the typeahead search input
+ * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+ * If the input includes a visible label, use `ariaLabelledBy` instead.
+ */
   @Input()
   public ariaLabel: string;
 
-  /**
-   * Specifies the HTML element ID (without the leading `#`) of the element that labels
-   * the typeahead search input. This sets the input's `aria-labelledby` attribute
-   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
-   * If the input does not include a visible label, use `ariaLabel` instead.
-   */
+/**
+ * Specifies the HTML element ID (without the leading `#`) of the element that labels
+ * the typeahead search input. This sets the input's `aria-labelledby` attribute
+ * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+ * If the input does not include a visible label, use `ariaLabel` instead.
+ */
   @Input()
   public ariaLabelledBy: string;
 
@@ -124,21 +104,15 @@ export class SkyLookupComponent
   @Input()
   public autocompleteAttribute: string;
 
-  /**
-   * Indicates whether to disable the lookup field.
-   */
+/**
+ * Indicates whether to disable the lookup field.
+ */
   @Input()
   public disabled = false;
 
-  /**
-   * Indicates whether to allow consumers to view all search results in a picker.
-   */
-  @Input()
-  public enableShowMore: boolean = false;
-
-  /**
-   * Specifies placeholder text to display in the lookup field.
-   */
+/**
+ * Specifies placeholder text to display in the lookup field.
+ */
   @Input()
   public placeholderText: string;
 
@@ -154,11 +128,6 @@ export class SkyLookupComponent
    */
   @Input()
   public showAddButton: boolean = false;
-  /**
-   * Specifies the configuration options for the show more feature.
-   */
-  @Input()
-  public showMoreConfig: SkyLookupShowMoreConfig;
 
   /**
    * Specifies whether users can select one item or multiple items.
@@ -226,9 +195,6 @@ export class SkyLookupComponent
     return this._autocompleteInputDirective;
   }
 
-  @ViewChild(SkyAutocompleteComponent)
-  private autocompleteComponent: SkyAutocompleteComponent;
-
   @ViewChild('inputTemplateRef', {
     read: TemplateRef,
     static: true
@@ -249,7 +215,6 @@ export class SkyLookupComponent
     private windowRef: SkyAppWindowRef,
     @Self() @Optional() ngControl: NgControl,
     private adapter: SkyLookupAdapterService,
-    private modalService: SkyModalService,
     @Optional() public inputBoxHostSvc?: SkyInputBoxHostService,
     @Optional() public themeSvc?: SkyThemeService
   ) {
@@ -364,9 +329,9 @@ export class SkyLookupComponent
 
   // Angular automatically constructs these methods.
   /* istanbul ignore next */
-  public onChange = (value: any[]) => { };
+  public onChange = (value: any[]) => {};
   /* istanbul ignore next */
-  public onTouched = () => { };
+  public onTouched = () => {};
 
   public registerOnChange(fn: (value: any) => void) {
     this.onChange = fn;
@@ -446,57 +411,6 @@ export class SkyLookupComponent
     }
   }
 
-  public showMoreButtonClicked(): void {
-    if (this.showMoreConfig?.customPicker) {
-      this.showMoreConfig.customPicker.open({
-        items: this.data,
-        initialSearch: this.autocompleteComponent.searchText,
-        initialValue: this.tokens?.map(token => { return token.value; })
-      });
-    } else {
-      const modalConfig = this.showMoreConfig?.nativePickerConfig || {};
-      if (!modalConfig.itemTemplate) {
-        modalConfig.itemTemplate = this.searchResultTemplate;
-      }
-
-      const modalInstance = this.modalService.open(SkyLookupShowMoreModalComponent, {
-        providers: [{
-          provide: SkyLookupShowMoreNativePickerContext, useValue: {
-            items: this.data,
-            descriptorProperty: this.descriptorProperty,
-            initialSearch: this.autocompleteComponent.searchText,
-            initialValue: this.tokens,
-            selectMode: this.selectMode,
-            showAddButton: this.showAddButton,
-            userConfig: modalConfig
-          }
-        }]
-      });
-
-      modalInstance.componentInstance.addClick.subscribe(() => {
-        this.addClick.emit();
-      });
-
-      modalInstance.closed.subscribe(closeArgs => {
-        if (closeArgs.reason === 'save') {
-          let selectedItems: any[] = [];
-
-          this.data.forEach((item: any, dataIndex: number) => {
-            if (closeArgs.data.some((savedItemIndex: any) => {
-              return savedItemIndex === dataIndex;
-            })) {
-              selectedItems.push(item);
-            }
-          });
-
-          this.writeValue(selectedItems);
-          this.updateForSelectMode();
-          this.changeDetector.markForCheck();
-        }
-      });
-    }
-  }
-
   private addToSelected(item: any): void {
     let selectedItems: any[];
 
@@ -508,9 +422,9 @@ export class SkyLookupComponent
       // If items have a unique identifier, don't allow the same item to be added twice.
       if (
         !this.idProperty ||
-        !this.tokens?.some(
-          token => token.value[this.idProperty] === item[this.idProperty]
-        )
+          !this.tokens?.some(
+            token => token.value[this.idProperty] === item[this.idProperty]
+          )
       ) {
         selectedItems.push(item);
       }

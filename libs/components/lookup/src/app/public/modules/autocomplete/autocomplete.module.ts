@@ -29,16 +29,16 @@ import {
 } from '../shared/lookup-resources.module';
 
 import {
-  SkyAutocompleteComponent
-} from './autocomplete.component';
-
-import {
   SkyAutocompleteAdapterService
 } from './autocomplete-adapter.service';
 
 import {
   SkyAutocompleteInputDirective
 } from './autocomplete-input.directive';
+
+import {
+  SkyAutocompleteComponent
+} from './autocomplete.component';
 
 @NgModule({
   declarations: [
@@ -52,8 +52,8 @@ import {
     SkyTextHighlightModule,
     SkyIconModule,
     SkyLookupResourcesModule,
-    SkyOverlayModule,
-    SkyThemeModule
+    SkyThemeModule,
+    SkyOverlayModule
   ],
   exports: [
     SkyAutocompleteComponent,

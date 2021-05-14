@@ -126,6 +126,7 @@ export class SkyCountryFieldFixture {
   ): Promise<void> {
     const inputElement = this.getInputElement();
     inputElement.value = newValue;
+
     SkyAppTestUtility.fireDomEvent(inputElement, 'keyup');
     SkyAppTestUtility.fireDomEvent(inputElement, 'input');
     fixture.detectChanges();
@@ -137,8 +138,6 @@ export class SkyCountryFieldFixture {
     fixture: ComponentFixture<any>
   ): Promise<NodeListOf<HTMLElement>> {
     await this.enterSearch(newValue, fixture);
-    fixture.detectChanges();
-    await fixture.whenStable();
     return this.getAutocompleteElement().querySelectorAll('.sky-autocomplete-result');
   }
 

@@ -1,7 +1,6 @@
 import {
   Component,
   OnInit,
-  TemplateRef,
   ViewChild
 } from '@angular/core';
 
@@ -20,18 +19,6 @@ import {
   SkyLookupSelectMode
 } from '../types/lookup-select-mode';
 
-import {
-  SkyLookupShowMoreConfig
-} from '../types/lookup-show-more-config';
-
-import {
-  SkyLookupShowMoreCustomPickerContext
-} from '../types/lookup-show-more-custom-picker-context';
-
-import {
-  SkyLookupShowMoreNativePickerConfig
-} from '../types/lookup-show-more-native-picker-config';
-
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './lookup.component.fixture.html'
@@ -44,26 +31,16 @@ export class SkyLookupTestComponent implements OnInit {
   })
   public lookupComponent: SkyLookupComponent;
 
-  @ViewChild('customSearchResultTemplate')
-  public searchResultTemplate: TemplateRef<any>;
-
-  @ViewChild('customShowMoreTemplate')
-  public showMoreTemplate: TemplateRef<any>;
-
   public ariaLabel: string;
   public ariaLabelledBy: string;
   public autocompleteAttribute: string;
   public data: any[];
-  public descriptorProperty: string;
-  public enabledSearchResultTemplate: TemplateRef<any>;
-  public enableShowMore: boolean = false;
   public friends: any[];
   public form: FormGroup;
   public idProperty: string;
   public placeholderText: string;
   public selectMode: SkyLookupSelectMode;
   public showAddButton: boolean = false;
-  public showMoreConfig: SkyLookupShowMoreConfig = {};
 
   constructor(
     private formBuilder: FormBuilder
@@ -71,36 +48,20 @@ export class SkyLookupTestComponent implements OnInit {
 
   public ngOnInit(): void {
     this.data = [
-      {
-        name: 'Andy',
-        description: 'Mr. Andy',
-        birthDate: '1/1/1995'
-      },
+      { name: 'Andy' },
       { name: 'Beth' },
-      { name: 'Dan' },
       { name: 'David' },
       { name: 'Frank' },
-      { name: 'Fred' },
       { name: 'Isaac' },
       { name: 'John' },
       { name: 'Joyce' },
       { name: 'Lindsey' },
       { name: 'Mitch' },
-      { name: 'Oliver' },
-      {
-        name: 'Patty',
-        description: 'Ms. Patty',
-        birthDate: '1/1/1996'
-      },
-      {
-        name: 'Paul',
-        description: 'Mr. Paul',
-        birthDate: '11/1997'
-      },
+      { name: 'Patty' },
+      { name: 'Paul' },
       { name: 'Sally' },
       { name: 'Susan' },
       { name: 'Vanessa' },
-      { name: 'Vinny' },
       { name: 'Xavier' },
       { name: 'Yolanda' },
       { name: 'Zack' }
@@ -113,20 +74,8 @@ export class SkyLookupTestComponent implements OnInit {
     return;
   }
 
-  public enableCustomPicker(): void {
-    this.showMoreConfig.customPicker = {
-      open: (context: SkyLookupShowMoreCustomPickerContext) => {
-        return;
-      }
-    };
-  }
-
   public enableLookup(): void {
     this.form.controls.friends.enable();
-  }
-
-  public enableSearchResultTemplate(): void {
-    this.enabledSearchResultTemplate = this.searchResultTemplate;
   }
 
   public disableLookup(): void {
@@ -143,10 +92,6 @@ export class SkyLookupTestComponent implements OnInit {
 
   public setRequired(): void {
     this.form.controls.friends.setValidators([Validators.required]);
-  }
-
-  public setShowMoreNativePickerConfig(config: SkyLookupShowMoreNativePickerConfig): void {
-    this.showMoreConfig.nativePickerConfig = config;
   }
 
   public setSingleSelect(): void {

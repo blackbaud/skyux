@@ -12,10 +12,6 @@ import {
 } from '@angular/forms';
 
 import {
-  RouterTestingModule
-} from '@angular/router/testing';
-
-import {
   NoopAnimationsModule
 } from '@angular/platform-browser/animations';
 
@@ -75,7 +71,6 @@ export function themeServiceFactory(): any {
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterTestingModule,
     SkyInputBoxModule,
     SkyLookupModule,
     NoopAnimationsModule

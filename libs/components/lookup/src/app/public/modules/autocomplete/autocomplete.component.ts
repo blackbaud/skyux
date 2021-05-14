@@ -128,13 +128,6 @@ export class SkyAutocompleteComponent
   }
 
   /**
-   * @internal
-   * Indicates whether to allow consumers to view all search results in a picker.
-   */
-  @Input()
-  public enableShowMore: boolean = false;
-
-  /**
    * Specifies the object properties to search.
    * @default ['name']
    */
@@ -161,7 +154,8 @@ export class SkyAutocompleteComponent
   public get search(): SkyAutocompleteSearchFunction {
     return this._search || skyAutocompleteDefaultSearchFunction({
       propertiesToSearch: this.propertiesToSearch,
-      searchFilters: this.searchFilters
+      searchFilters: this.searchFilters,
+      searchResultsLimit: this.searchResultsLimit
     });
   }
 
@@ -210,17 +204,7 @@ export class SkyAutocompleteComponent
    * By default, the component displays all matching results.
    */
   @Input()
-  public set searchResultsLimit(value: number) {
-    this._searchResultsLimit = value;
-  }
-
-  public get searchResultsLimit(): number {
-    if (this._searchResultsLimit) {
-      return this._searchResultsLimit;
-    } else {
-      return this.enableShowMore ? 5 : this._searchResultsLimit;
-    }
-  }
+  public searchResultsLimit: number;
 
   /**
    * @internal
@@ -231,7 +215,7 @@ export class SkyAutocompleteComponent
 
   /**
    * Specifies the text to play when no search results are found.
-   * @default No matches found
+   * @default No matching items found
    */
   @Input()
   public noResultsFoundText: string;
@@ -242,13 +226,6 @@ export class SkyAutocompleteComponent
    */
   @Output()
   public addClick: EventEmitter<void> = new EventEmitter();
-
-  /**
-   * @internal
-   * Fires when users select the "Show more" button
-   */
-  @Output()
-  public showMoreClick: EventEmitter<void> = new EventEmitter();
 
   /**
    * Fires when users select items in the dropdown list.
@@ -277,10 +254,6 @@ export class SkyAutocompleteComponent
   public resultsWrapperId: string;
 
   public searchText: string;
-
-  public get showActionsArea(): boolean {
-    return this.showAddButton || this.enableShowMore;
-  }
 
   //#endregion
 
@@ -331,7 +304,7 @@ export class SkyAutocompleteComponent
           takeUntil(this.inputDirectiveUnsubscribe)
         )
         .subscribe(() => {
-          if (this.showAddButton || this.enableShowMore) {
+          if (this.showAddButton) {
             this.openDropdown();
           }
         });
@@ -382,7 +355,6 @@ export class SkyAutocompleteComponent
   private _search: SkyAutocompleteSearchFunction;
   private _searchResults: SkyAutocompleteSearchResult[];
   private _searchResultTemplate: TemplateRef<any>;
-  private _searchResultsLimit: number;
   private _searchTextMinimumCharacters: number;
   private _selectionChange = new EventEmitter<SkyAutocompleteSelectionChange>();
 
@@ -480,6 +452,8 @@ export class SkyAutocompleteComponent
                 event.stopPropagation();
                 event.preventDefault();
               } else if (focusedActionIndex > 0) {
+                /* NOTE: This is for future work and this ignore should be removed at that time */
+                /* istanbul ignore next */
                 focusableActions[focusedActionIndex - 1].focus();
                 event.stopPropagation();
                 event.preventDefault();
@@ -493,6 +467,8 @@ export class SkyAutocompleteComponent
                 this.inputDirective.restoreInputTextValueToPreviousState();
                 this.closeDropdown();
               } else {
+                /* NOTE: This is for future work and this ignore should be removed at that time */
+                /* istanbul ignore next */
                 focusableActions[focusedActionIndex + 1].focus();
               }
               event.stopPropagation();
@@ -512,7 +488,7 @@ export class SkyAutocompleteComponent
         case 'down':
           if (focusedActionIndex < 0) {
             this.searchResultsIndex++;
-            if (this.searchResultsIndex >= (this.searchResultsLimit || this.searchResults.length)) {
+            if (this.searchResultsIndex > this.searchResults.length - 1) {
               this.searchResultsIndex = 0;
             }
             this.setActiveDescendant();
@@ -528,7 +504,7 @@ export class SkyAutocompleteComponent
             this.searchResultsIndex--;
             if (this.searchResultsIndex < 0) {
               // Fallback to 0 just in case results are async and aren't returned yet.
-              this.searchResultsIndex = Math.max((this.searchResultsLimit || this.searchResults.length) - 1, 0);
+              this.searchResultsIndex = Math.max(this.searchResults.length - 1, 0);
             }
             this.setActiveDescendant();
             this.changeDetector.markForCheck();
@@ -538,10 +514,6 @@ export class SkyAutocompleteComponent
           break;
       }
     }
-  }
-
-  public moreButtonClicked(): void {
-    this.showMoreClick.emit();
   }
 
   public onResultMouseDown(index: number): void {

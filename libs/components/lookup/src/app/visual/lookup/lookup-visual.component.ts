@@ -1,9 +1,6 @@
 import {
-  ChangeDetectorRef,
   Component,
-  OnInit,
-  TemplateRef,
-  ViewChild
+  OnInit
 } from '@angular/core';
 
 import {
@@ -13,34 +10,21 @@ import {
 } from '@angular/forms';
 
 import {
-  SkyModalCloseArgs,
-  SkyModalService
-} from '@skyux/modals';
-
-import {
   SkyThemeService,
   SkyThemeSettings
 } from '@skyux/theme';
 
 import {
-  SkyLookupVisualCustomPickerComponent
-} from './lookup-visual-custom-picker.component';
-
-import {
-  SkyLookupSelectMode,
-  SkyLookupShowMoreCustomPickerContext,
-  SkyLookupShowMoreConfig
+  SkyLookupSelectMode
 } from '../../public/public_api';
 
 @Component({
   selector: 'lookup-visual',
-  templateUrl: './lookup-visual.component.html',
-  styleUrls: ['./lookup-visual.component.scss']
+  templateUrl: './lookup-visual.component.html'
 })
 export class LookupVisualComponent implements OnInit {
   public friendsForm: FormGroup;
   public bestFriendsForm: FormGroup;
-  public showMoreConfig: SkyLookupShowMoreConfig = {};
 
   public people: any[] = [
     { id: 1, name: 'Andy' },
@@ -50,7 +34,6 @@ export class LookupVisualComponent implements OnInit {
     { id: 5, name: 'Grace' },
     { id: 6, name: 'Isaac' },
     { id: 7, name: 'John' },
-    { id: 8, name: 'Jupiter' },
     { id: 9, name: 'Joyce' },
     { id: 10, name: 'Lindsey' },
     { id: 11, name: 'Mitch' },
@@ -82,18 +65,9 @@ export class LookupVisualComponent implements OnInit {
 
   public bestFriendSelectMode: SkyLookupSelectMode = SkyLookupSelectMode.single;
 
-  @ViewChild('itemTemplate2')
-  public set modalItemTemplate(itemTemplate: TemplateRef<any>) {
-    this.showMoreConfig.nativePickerConfig = {
-      itemTemplate: itemTemplate
-    };
-  }
-
   constructor(
     private formBuilder: FormBuilder,
-    private themeSvc: SkyThemeService,
-    private modalService: SkyModalService,
-    private changeDetector: ChangeDetectorRef
+    private themeSvc: SkyThemeService
   ) { }
 
   public ngOnInit(): void {
@@ -110,35 +84,6 @@ export class LookupVisualComponent implements OnInit {
 
   public disableLookup(): void {
     this.friendsForm.controls.friends.disable();
-  }
-
-  public toggleCustomPicker(): void {
-    if (this.showMoreConfig.customPicker) {
-      this.showMoreConfig.customPicker = undefined;
-    } else {
-      this.showMoreConfig.customPicker = {
-        open: (context: SkyLookupShowMoreCustomPickerContext) => {
-          const instance = this.modalService.open(SkyLookupVisualCustomPickerComponent, {
-            providers: [
-              {
-                provide: SkyLookupShowMoreCustomPickerContext,
-                useValue: context
-              }
-            ]
-          });
-
-          instance.closed.subscribe((closeArgs: SkyModalCloseArgs) => {
-            if (closeArgs.reason === 'save') {
-              if (closeArgs.data) {
-                this.bestFriendsForm
-                  .setValue({ 'bestFriend': [this.people[this.people.length - 1]] });
-                this.changeDetector.markForCheck();
-              }
-            }
-          });
-        }
-      };
-    }
   }
 
   public toggleSelectMode(): void {

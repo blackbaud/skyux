@@ -11,10 +11,6 @@ export * from './modules/country-field/types/country';
 
 export * from './modules/lookup/lookup.module';
 export * from './modules/lookup/types/lookup-select-mode';
-export * from './modules/lookup/types/lookup-show-more-config';
-export * from './modules/lookup/types/lookup-show-more-custom-picker';
-export * from './modules/lookup/types/lookup-show-more-custom-picker-context';
-export * from './modules/lookup/types/lookup-show-more-native-picker-config';
 
 export * from './modules/search/search.module';
 
