@@ -1,3 +1,7 @@
+# 4.12.0 (2021-05-13)
+
+- Added the ability to open a picker to show and select more results from the lookup component. [#163](https://github.com/blackbaud/skyux-lookup/pull/163)
+
 # 4.11.1 (2021-04-30)
 
 - Fixed the lookup component to respond to changes in reactive form control values. [#169](https://github.com/blackbaud/skyux-lookup/pull/169)
