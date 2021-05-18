@@ -57,6 +57,7 @@ export class SkyAutocompleteFixtureComponent {
   public debounceTime: number;
   public descriptorProperty: string;
   public disabled: boolean = false;
+  public enableShowMore: boolean = false;
   public hideInput: boolean = false;
   public propertiesToSearch: string[];
   public search: SkyAutocompleteSearchFunction;
@@ -96,5 +97,9 @@ export class SkyAutocompleteFixtureComponent {
 
   public onSelectionChange(event: SkyAutocompleteSelectionChange): void {
     this.selectionFromChangeEvent = event;
+  }
+
+  public showMoreButtonClicked(): void {
+    return;
   }
 }

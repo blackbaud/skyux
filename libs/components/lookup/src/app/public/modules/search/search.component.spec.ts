@@ -512,21 +512,20 @@ describe('Search component', () => {
  });
 
   describe('a11y', async () => {
-    async function checkAccessibility() {
+
+    it('should be accessible using default theme at wide and small breakpoints', async(() => {
       fixture.detectChanges();
-      await fixture.whenStable();
-      await expectAsync(fixture.nativeElement).toBeAccessible();
+      fixture.whenStable().then(() => {
+        expectAsync(fixture.nativeElement).toBeAccessible().then(() => {
+          setInput('foo bar');
+          fixture.whenStable().then(() => {
+            expectAsync(fixture.nativeElement).toBeAccessible();
+          });
+        });
+      });
+    }), 10000);
 
-      setInput('foo bar');
-      await fixture.whenStable();
-      await expectAsync(fixture.nativeElement).toBeAccessible();
-    }
-
-    it('should be accessible using default theme at wide and small breakpoints', async () => {
-      await checkAccessibility();
-    });
-
-    it('should be accessible using modern theme at wide and small breakpoints', async () => {
+    it('should be accessible using modern theme at wide and small breakpoints', async(() => {
       mockThemeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.modern,
@@ -534,8 +533,16 @@ describe('Search component', () => {
         ),
         previousSettings: mockThemeSvc.settingsChange.value.currentSettings
       });
-      await checkAccessibility();
-    });
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expectAsync(fixture.nativeElement).toBeAccessible().then(() => {
+          setInput('foo bar');
+          fixture.whenStable().then(() => {
+            expectAsync(fixture.nativeElement).toBeAccessible();
+          });
+        });
+      });
+    }), 10000);
 
   });
 });

@@ -1,6 +1,12 @@
-<sky-docs-demo-control-panel-theme
-  (themeSettingsChange)="themeSettingsChange($event)"
-></sky-docs-demo-control-panel-theme>
+<div id="theme-controls">
+  <sky-docs-demo-control-panel-theme
+    (themeSettingsChange)="themeSettingsChange($event)"
+  ></sky-docs-demo-control-panel-theme>
+</div>
+
+<div
+  id="show-more-modal-screenshot"
+></div>
 
 <div
   class="app-screenshot"
@@ -23,7 +29,9 @@
           idProperty="id"
           placeholderText="Type a person's name..."
           [data]="people"
+          [enableShowMore]="true"
           [debounceTime]="1000"
+          [showAddButton]="true"
         >
         </sky-lookup>
       </div>
@@ -86,7 +94,9 @@
 </table>
 
 <div>
-  <p>
+  <p
+    class="lookup-single-controls"
+  >
     <button
       class="sky-btn sky-btn-default"
       id="btn-toggle-select-mode"
@@ -95,6 +105,13 @@
     >
       Toggle select mode
     </button>
+    <sky-checkbox
+      (change)="toggleCustomPicker()"
+    >
+      <sky-checkbox-label>
+        Enable Custom Picker
+      </sky-checkbox-label>
+    </sky-checkbox>
   </p>
 
   <div
@@ -120,7 +137,10 @@
           [selectMode]="bestFriendSelectMode"
           [data]="people"
           [debounceTime]="1000"
+          [enableShowMore]="true"
+          [searchResultTemplate]="itemTemplate"
           [showAddButton]="true"
+          [showMoreConfig]="showMoreConfig"
           (addClick)="addButtonClicked()"
         >
         </sky-lookup>
@@ -129,7 +149,22 @@
   </div>
 </div>
 
-<table>
+<ng-template
+  let-item="item"
+  #itemTemplate
+>
+  <strong>{{item.name}}</strong><br/>
+  {{item.id}}
+</ng-template>
+<ng-template
+  let-item="item"
+  #itemTemplate2
+>
+  {{item.name}}<br/>
+  {{item.id}}
+</ng-template>
+
+<table id="single-mode-info">
   <tr>
     <th>Touched</th>
     <td>{{ bestFriendsForm.touched }}</td>
