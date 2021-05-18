@@ -1,3 +1,7 @@
+# 4.13.0 (2021-05-18)
+
+- Added the ability to open a picker to show and select more results from the lookup component. [#179](https://github.com/blackbaud/skyux-lookup/pull/179)
+
 # 4.12.1 (2021-05-14)
 
 - Reverted the changes to the lookup component introduced in `4.12.1` to address a circular dependency with `@skyux/data-manager`. [#177](https://github.com/blackbaud/skyux-lookup/pull/177)
