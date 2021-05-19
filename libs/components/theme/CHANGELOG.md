@@ -1,3 +1,7 @@
+# 4.16.3 (2021-05-19)
+
+- Added a CSS class to omit the link style on `<a>` tags that do not have `href` attributes. [#229](https://github.com/blackbaud/skyux-theme/pull/229)
+
 # 4.16.2 (2021-04-30)
 
 - Fixed placeholder text styles in modern theme. [#226](https://github.com/blackbaud/skyux-theme/pull/226)
