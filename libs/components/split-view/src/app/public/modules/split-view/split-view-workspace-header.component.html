@@ -8,8 +8,12 @@
       class="sky-btn sky-btn-link"
       (click)="onShowDrawerButtonClick()"
     >
-      <sky-icon
+      <sky-icon *skyThemeIf="'default'"
         icon="chevron-left"
+      ></sky-icon>
+      <sky-icon *skyThemeIf="'modern'"
+        icon="chevron-left"
+        iconType="skyux"
       ></sky-icon>
       {{ backButtonText }}
     </button>

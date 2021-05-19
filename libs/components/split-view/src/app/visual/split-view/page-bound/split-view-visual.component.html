@@ -1,30 +1,21 @@
 <div
-  class="split-view-visual-header"
+  class="sky-padding-even-large"
 >
-  <h3>Split view for visual tests</h3>
-  <sky-checkbox
-    [(ngModel)]="bindHeightToWindow"
-  >
-    <sky-checkbox-label>
-      Bind Height To The Window
-    </sky-checkbox-label>
-  </sky-checkbox>
-</div>
+  <h3>Split view with page binding</h3>
 
-<div
-  class="app-screenshot"
-  id="screenshot-split-view"
->
+  <div
+    style="height: 300px;"
+  >
+    Intentional white space to help show page binding below.
+  </div>
+
   <sky-split-view
-    [bindHeightToWindow]="bindHeightToWindow"
+    [bindHeightToWindow]="true"
     [messageStream]="splitViewStream"
   >
     <sky-split-view-drawer
       [width]="width"
     >
-      <h3>
-        <strong>{{ items.length }}</strong> transactions
-      </h3>
       <ul
         class="sky-visual-list"
       >
@@ -76,7 +67,11 @@
         </form>
       </sky-split-view-workspace-content>
       <sky-split-view-workspace-footer>
-        <button type="button" class="sky-btn sky-btn-primary" (click)="submitForm()">
+        <button
+          class="sky-btn sky-btn-primary"
+          type="button"
+          (click)="submitForm()"
+        >
           Save transaction
         </button>
       </sky-split-view-workspace-footer>

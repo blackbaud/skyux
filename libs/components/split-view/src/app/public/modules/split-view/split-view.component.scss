@@ -6,7 +6,7 @@
   position: relative;
   display: flex;
   border: 1px solid $sky-border-color-neutral-medium;
-  background: #fff;
+  background: transparent;
   max-height: 100%;
 
   .sky-split-view-workspace-flex-container {
@@ -27,4 +27,12 @@
   .sky-split-view-drawer-flex-container {
     width: auto;
   }
+}
+
+@include sky-theme-modern {
+
+  .sky-split-view {
+    border: none;
+  }
+
 }

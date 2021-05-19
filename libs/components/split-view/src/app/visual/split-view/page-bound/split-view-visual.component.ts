@@ -1,6 +1,6 @@
 import {
-  ChangeDetectorRef,
-  Component
+  Component,
+  ChangeDetectorRef
 } from '@angular/core';
 
 import {
@@ -15,18 +15,18 @@ import {
 
 import {
   SkySplitViewMessageType
-} from '../../public/modules/split-view/types/split-view-message-type';
+} from '../../../public/modules/split-view/types/split-view-message-type';
 
 import {
   SkySplitViewMessage
-} from '../../public/modules/split-view/types/split-view-message';
+} from '../../../public/modules/split-view/types/split-view-message';
 
 @Component({
-  selector: 'split-view-with-repeater-visual',
-  templateUrl: './split-view-with-repeater-visual.component.html',
+  selector: 'split-view-visual-page-bound',
+  templateUrl: './split-view-visual.component.html',
   styleUrls: ['./split-view-visual.component.scss']
 })
-export class SplitViewWithRepeaterVisualComponent {
+export class SplitViewVisualComponent {
 
   public set activeIndex(value: number) {
     this._activeIndex = value;

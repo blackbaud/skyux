@@ -1,9 +1,11 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   OnDestroy,
   OnInit
 } from '@angular/core';
+import { SkyThemeService } from '@skyux/theme';
 
 import {
   Subject
@@ -33,8 +35,14 @@ export class SkySplitViewWorkspaceHeaderComponent implements OnDestroy, OnInit {
   private ngUnsubscribe = new Subject<void>();
 
   constructor(
-    private splitViewService: SkySplitViewService
-  ) {}
+    private splitViewService: SkySplitViewService,
+    private changeRef: ChangeDetectorRef,
+    skyThemeSvc: SkyThemeService
+  ) {
+    skyThemeSvc.settingsChange.subscribe(() => {
+      this.changeRef.markForCheck();
+    });
+  }
 
   public ngOnInit(): void {
     this.splitViewService.backButtonTextStream

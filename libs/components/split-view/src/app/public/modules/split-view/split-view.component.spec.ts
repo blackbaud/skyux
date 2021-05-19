@@ -30,6 +30,18 @@ import {
 } from '@skyux/core/testing';
 
 import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange
+} from '@skyux/theme';
+
+import {
+  BehaviorSubject
+} from 'rxjs';
+
+import {
   SplitViewFixturesModule
 } from './fixtures/split-view-fixtures.module';
 
@@ -146,8 +158,22 @@ describe('Split view component', () => {
   let fixture: ComponentFixture<SplitViewFixtureComponent>;
   let minWidth = 100;
   let maxWidth: number;
+  let mockThemeSvc: {
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+  };
 
   beforeEach(fakeAsync(() => {
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+        {
+          currentSettings: new SkyThemeSettings(
+            SkyTheme.presets.default,
+            SkyThemeMode.presets.light
+          ),
+          previousSettings: undefined
+        }
+      )
+    };
 
     // replace the mock service before using in the test bed to avoid change detection errors
     mockQueryService = new MockSkyMediaQueryService();
@@ -157,7 +183,11 @@ describe('Split view component', () => {
         SplitViewFixturesModule
       ],
       providers: [
-        { provide: SkyMediaQueryService, useValue: mockQueryService }
+        { provide: SkyMediaQueryService, useValue: mockQueryService },
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc
+        }
       ]
     });
 

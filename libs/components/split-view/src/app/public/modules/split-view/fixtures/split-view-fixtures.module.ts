@@ -19,6 +19,10 @@ import {
 } from '@skyux/modals';
 
 import {
+  SkyThemeModule
+} from '@skyux/theme';
+
+import {
   SplitViewFixtureComponent
 } from './split-view.fixture';
 
@@ -36,7 +40,8 @@ import {
   imports: [
     CommonModule,
     SkySplitViewModule,
-    SkySummaryActionBarModule
+    SkySummaryActionBarModule,
+    SkyThemeModule
   ],
   exports: [
     SkyConfirmModule

@@ -21,6 +21,10 @@ import {
 } from '@skyux/indicators';
 
 import {
+  SkyThemeModule
+} from '@skyux/theme';
+
+import {
   SkySplitViewResourcesModule
 } from '../shared/split-view-resources.module';
 
@@ -71,7 +75,8 @@ import {
     BrowserAnimationsModule,
     CommonModule,
     SkyIconModule,
-    SkySplitViewResourcesModule
+    SkySplitViewResourcesModule,
+    SkyThemeModule
   ],
   exports: [
     SkySplitViewComponent,
