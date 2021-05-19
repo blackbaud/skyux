@@ -1,3 +1,7 @@
+# 4.13.1 (2021-05-19)
+
+- Fixed the peer dependencies to list `@skyux/lists` as a dependency instead of `@skyux/list`. [#182](https://github.com/blackbaud/skyux-lookup/pull/182)
+
 # 4.13.0 (2021-05-18)
 
 - Added the ability to open a picker to show and select more results from the lookup component. [#179](https://github.com/blackbaud/skyux-lookup/pull/179)
