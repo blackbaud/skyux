@@ -78,6 +78,11 @@
 
     a {
       color: $sky-theme-modern-mode-dark-text-color-action-primary;
+
+      &.sky-href[href=""],
+      &.sky-href:not([href]) {
+        color: inherit;
+      }
     }
   }
 }

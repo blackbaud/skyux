@@ -71,6 +71,15 @@ a {
     color: darken($sky-text-color-action-primary, 10%);
     text-decoration: underline;
   }
+
+  &.sky-href[href=""],
+  &.sky-href:not([href]) {
+    &,
+    &:hover {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
 }
 
 .sky-pull-right {
