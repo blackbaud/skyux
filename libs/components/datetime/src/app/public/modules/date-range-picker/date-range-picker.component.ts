@@ -169,6 +169,15 @@ export class SkyDateRangePickerComponent
   @Input()
   public set disabled(value: boolean) {
     this._disabled = value;
+
+    if (this.formGroup) {
+      if (this._disabled) {
+        this.formGroup.disable();
+      } else {
+        this.formGroup.enable();
+      }
+    }
+
     this.changeDetector.markForCheck();
   }
 
@@ -290,9 +299,10 @@ export class SkyDateRangePickerComponent
 
   public ngOnInit(): void {
     this.createForm();
-    this.addEventListeners();
 
     this.updateCalculators().then(() => {
+      this.addEventListeners();
+
       this.isReady = true;
 
       this.resetFormGroupValue();
@@ -434,11 +444,6 @@ export class SkyDateRangePickerComponent
 
   public setDisabledState(disabled: boolean): void {
     this.disabled = disabled;
-    if (this.disabled) {
-      this.formGroup.disable();
-    } else {
-      this.formGroup.enable();
-    }
   }
 
   private setValue(value: SkyDateRangeCalculation, notifyChange = true): void {
@@ -465,6 +470,10 @@ export class SkyDateRangePickerComponent
       startDate: new FormControl(),
       endDate: new FormControl()
     });
+
+    if (this.disabled) {
+      this.formGroup.disable();
+    }
   }
 
   private showRelevantFormFields(): void {

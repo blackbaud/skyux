@@ -47,6 +47,7 @@ export class DateRangePickerTestComponent implements OnInit, OnDestroy {
 
   public calculatorIds: SkyDateRangeCalculatorId[];
   public dateFormat: string;
+  public disableReactiveOnInit: boolean = false;
   public endDateRequired: boolean = false;
   public initialDisabled: boolean = false;
   public initialValue: SkyDateRangeCalculation;
@@ -54,6 +55,7 @@ export class DateRangePickerTestComponent implements OnInit, OnDestroy {
   public numValueChangeNotifications = 0;
   public reactiveForm: FormGroup;
   public startDateRequired: boolean = false;
+  public templateDisable: boolean = undefined;
 
   private ngUnsubscribe = new Subject<void>();
 
@@ -71,6 +73,10 @@ export class DateRangePickerTestComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.numValueChangeNotifications++;
       });
+
+    if (this.disableReactiveOnInit) {
+      this.reactiveForm.disable();
+    }
   }
 
   public ngOnDestroy(): void {

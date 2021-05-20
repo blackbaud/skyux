@@ -314,6 +314,58 @@ describe('Date range picker', function () {
     verifyFormFieldsDisabledStatus(false);
   }));
 
+  it('should set disabled state on initialization', fakeAsync(function () {
+    component.disableReactiveOnInit = true;
+
+    detectChanges();
+
+    verifyFormFieldsDisabledStatus(true);
+
+    component.reactiveForm.enable();
+
+    detectChanges();
+
+    verifyFormFieldsDisabledStatus(false);
+  }));
+
+  it('should set disabled state via template input', fakeAsync(function() {
+    component.templateDisable = false;
+
+    detectChanges();
+
+    selectCalculator(SkyDateRangeCalculatorId.SpecificRange);
+
+    detectChanges();
+
+    verifyFormFieldsDisabledStatus(false);
+
+    component.templateDisable = true;
+
+    detectChanges();
+
+    verifyFormFieldsDisabledStatus(true);
+
+    component.templateDisable = false;
+
+    detectChanges();
+
+    verifyFormFieldsDisabledStatus(false);
+  }));
+
+  it('should set disabled state via template input on initialization', fakeAsync(function() {
+    component.templateDisable = true;
+
+    detectChanges();
+
+    verifyFormFieldsDisabledStatus(true);
+
+    component.templateDisable = false;
+
+    detectChanges();
+
+    verifyFormFieldsDisabledStatus(false);
+  }));
+
   it('should allow for disabling the control on initialization', fakeAsync(function () {
     component.initialValue = {
       calculatorId: SkyDateRangeCalculatorId.SpecificRange
