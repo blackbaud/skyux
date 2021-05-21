@@ -270,29 +270,30 @@
         >
         </sky-docs-design-guideline-thumbnail>
       </sky-docs-design-guideline>
-
-      <sky-docs-design-guideline
-        heading="List manipulation"
-      >
-        <p>
-          If users need to search for specific items in the list or show and hide items with certain statuses, include a search input or status checkbox filter in the list panel.
-        </p>
-        <sky-docs-design-guideline-thumbnail
-          imageSource="~/assets/img/option-search-toggle.png"
+      <div *skyThemeIf="'default'">
+        <sky-docs-design-guideline
+          heading="List manipulation"
         >
-        </sky-docs-design-guideline-thumbnail>
-      </sky-docs-design-guideline>
-      <sky-docs-design-guideline>
-        <p>
-          When possible, pre-filter the list to relevant items and pre-sort it to the expected useful order. If you can't predict how users will use the list, include a <a href="https://developer.blackbaud.com/skyux/components/toolbar">toolbar</a> to let them add items or filter, sort, and search the list.
-        </p>
-        <sky-docs-design-guideline-thumbnail
-        caption="Use caution when using a full toolbar with a split view. Automatically filter and sort the list when possible."
-        captionType="warning"
-        imageSource="~/assets/img/option-toolbar.png"
-        >
-        </sky-docs-design-guideline-thumbnail>
-      </sky-docs-design-guideline>
+          <p>
+            If users need to search for specific items in the list or show and hide items with certain statuses, include a search input or status checkbox filter in the list panel.
+          </p>
+          <sky-docs-design-guideline-thumbnail
+            imageSource="~/assets/img/option-search-toggle.png"
+          >
+          </sky-docs-design-guideline-thumbnail>
+        </sky-docs-design-guideline>
+        <sky-docs-design-guideline>
+          <p>
+            When possible, pre-filter the list to relevant items and pre-sort it to the expected useful order. If you can't predict how users will use the list, include a <a href="https://developer.blackbaud.com/skyux/components/toolbar">toolbar</a> to let them add items or filter, sort, and search the list.
+          </p>
+          <sky-docs-design-guideline-thumbnail
+          caption="Use caution when using a full toolbar with a split view. Automatically filter and sort the list when possible."
+          captionType="warning"
+          imageSource="~/assets/img/option-toolbar.png"
+          >
+          </sky-docs-design-guideline-thumbnail>
+        </sky-docs-design-guideline>
+    </div>
     </sky-docs-demo-page-section>
 
     <sky-docs-demo-page-section
