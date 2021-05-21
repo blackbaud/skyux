@@ -19,7 +19,19 @@
       <a *ngIf="link.permalink.url" [href]="link.permalink.url">
         {{ link.label }}
       </a>
-      <a *ngIf="link.permalink.route" [routerLink]="link.permalink.route">
+      <a
+        *ngIf="link.permalink.route"
+        [skyAppLink]="link.permalink.route?.commands"
+        [queryParams]="link.permalink.route?.extras?.queryParams"
+        [queryParamsHandling]="
+          link.permalink.route?.extras?.queryParamsHandling
+        "
+        [fragment]="link.permalink.route?.extras?.fragment"
+        [preserveFragment]="link.permalink.route?.extras?.preserveFragment"
+        [skipLocationChange]="link.permalink.route?.extras?.skipLocationChange"
+        [replaceUrl]="link.permalink.route?.extras?.replaceUrl"
+        [state]="link.permalink.route?.extras?.state"
+      >
         {{ link.label }}
       </a>
     </li>

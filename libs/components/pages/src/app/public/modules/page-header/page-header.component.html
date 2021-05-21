@@ -8,7 +8,18 @@
     >
     <a
       *ngIf="parentLink.permalink?.route"
-      [routerLink]="parentLink.permalink.route"
+      [skyAppLink]="parentLink.permalink.route"
+      [queryParams]="parentLink.permalink.route?.extras?.queryParams"
+      [queryParamsHandling]="
+        parentLink.permalink.route?.extras?.queryParamsHandling
+      "
+      [fragment]="parentLink.permalink.route?.extras?.fragment"
+      [preserveFragment]="parentLink.permalink.route?.extras?.preserveFragment"
+      [skipLocationChange]="
+        parentLink.permalink.route?.extras?.skipLocationChange
+      "
+      [replaceUrl]="parentLink.permalink.route?.extras?.replaceUrl"
+      [state]="parentLink.permalink.route?.extras?.state"
       class="sky-font-heading-1 sky-page-header-parent-link"
       >{{ parentLink.label }}</a
     >

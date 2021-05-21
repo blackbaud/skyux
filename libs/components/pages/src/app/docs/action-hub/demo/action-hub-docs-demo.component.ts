@@ -11,22 +11,22 @@ export class ActionHubDocsDemoComponent implements AfterViewInit {
     title: 'Page title',
     needsAttention: [
       {
-        title: '1 update',
-        message: 'from portal',
+        title: '1',
+        message: 'update from portal',
         permalink: {
           url: '#'
         }
       },
       {
-        title: '2 new messages',
-        message: 'from online donation',
+        title: '2',
+        message: 'new messages from online donation',
         permalink: {
           url: '#'
         }
       },
       {
-        title: '3 possible duplicates',
-        message: 'from constituent lists',
+        title: '3',
+        message: 'possible duplicates from constituent lists',
         permalink: {
           url: '#'
         }

@@ -44,7 +44,7 @@
         </ng-template>
         <a
           *ngIf="item.permalink.route"
-          [routerLink]="item.permalink.route"
+          [skyAppLink]="item.permalink.route.commands"
           class="sky-needs-attention-item sky-padding-vertical-lg sky-border-bottom-row"
         >
           <ng-container *ngTemplateOutlet="link"></ng-container>

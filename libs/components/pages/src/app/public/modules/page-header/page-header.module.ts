@@ -2,12 +2,19 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SkyIconModule } from '@skyux/indicators';
+import { SkyAppLinkModule } from '@skyux/router';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyPageHeaderComponent } from './page-header.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, SkyIconModule, SkyThemeModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    SkyAppLinkModule,
+    SkyIconModule,
+    SkyThemeModule
+  ],
   declarations: [SkyPageHeaderComponent],
   exports: [SkyPageHeaderComponent]
 })

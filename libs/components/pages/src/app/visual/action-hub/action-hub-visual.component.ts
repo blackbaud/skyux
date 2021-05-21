@@ -10,64 +10,64 @@ export class ActionHubVisualComponent {
     title: 'Action Hub',
     needsAttention: [
       {
-        title: '1 update',
-        message: 'from portal',
+        title: '1',
+        message: 'update from portal',
         permalink: {
           url: '#'
         }
       },
       {
-        title: '2 new messages',
-        message: 'from online donation',
+        title: '2',
+        message: 'new messages from online donation',
         permalink: {
           url: '#'
         }
       },
       {
-        title: '3 possible duplicates',
-        message: 'from constituent lists',
+        title: '3',
+        message: 'possible duplicates from constituent lists',
         permalink: {
           url: '#'
         }
       },
       {
-        title: '4 updates',
-        message: 'from portal',
+        title: '4',
+        message: 'updates from portal',
         permalink: {
           url: '#'
         }
       },
       {
-        title: '5 new messages',
-        message: 'from online donation',
+        title: '5',
+        message: 'new messages from online donation',
         permalink: {
           url: '#'
         }
       },
       {
-        title: '6 possible duplicates',
-        message: 'from constituent lists',
+        title: '6',
+        message: 'possible duplicates from constituent lists',
         permalink: {
           url: '#'
         }
       },
       {
-        title: '7 update',
-        message: 'from portal',
+        title: '7',
+        message: 'update from portal',
         permalink: {
           url: '#'
         }
       },
       {
-        title: '8 new messages',
-        message: 'from online donation',
+        title: '8',
+        message: 'new messages from online donation',
         permalink: {
           url: '#'
         }
       },
       {
-        title: '9 possible duplicates',
-        message: 'from constituent lists',
+        title: '9',
+        message: 'possible duplicates from constituent lists',
         permalink: {
           url: '#'
         }

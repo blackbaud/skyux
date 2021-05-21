@@ -20,6 +20,7 @@
       </div>
 
       <div
+        *ngIf="needsAttention?.length > 0"
         [skyThemeClass]="{
           'sky-margin-stacked-separate': 'default',
           'sky-margin-stacked-xxl': 'modern'

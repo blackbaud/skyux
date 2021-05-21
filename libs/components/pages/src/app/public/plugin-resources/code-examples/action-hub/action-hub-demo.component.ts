@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
 
+const pastHours = Array.from(Array(5).keys()).map((i) => {
+  const date = new Date();
+  date.setHours(date.getHours() - (i + 1));
+  return date;
+});
+
 @Component({
   selector: 'app-action-hub-visual',
   templateUrl: './action-hub-demo.component.html'
@@ -9,64 +15,64 @@ export class ActionHubDemoComponent {
     title: 'Page title',
     needsAttention: [
       {
-        title: '9 updates',
-        message: 'from portal',
+        title: '9',
+        message: 'updates from portal',
         permalink: {
           url: '#'
         }
       },
       {
-        title: '8 new messages',
-        message: 'from online donation',
+        title: '8',
+        message: 'new messages from online donation',
         permalink: {
           url: '#'
         }
       },
       {
-        title: '7 possible duplicates',
-        message: 'from constituent lists',
+        title: '7',
+        message: 'possible duplicates from constituent lists',
         permalink: {
           url: '#'
         }
       },
       {
-        title: '6 updates',
-        message: 'from portal',
+        title: '6',
+        message: 'updates from portal',
         permalink: {
           url: '#'
         }
       },
       {
-        title: '5 new messages',
-        message: 'from online donation',
+        title: '5',
+        message: 'new messages from online donation',
         permalink: {
           url: '#'
         }
       },
       {
-        title: '4 possible duplicates',
-        message: 'from constituent lists',
+        title: '4',
+        message: 'possible duplicates from constituent lists',
         permalink: {
           url: '#'
         }
       },
       {
-        title: '3 update',
-        message: 'from portal',
+        title: '3',
+        message: 'update from portal',
         permalink: {
           url: '#'
         }
       },
       {
-        title: '2 new messages',
-        message: 'from online donation',
+        title: '2',
+        message: 'new messages from online donation',
         permalink: {
           url: '#'
         }
       },
       {
-        title: '1 possible duplicate',
-        message: 'from constituent lists',
+        title: '1',
+        message: 'possible duplicate from constituent lists',
         permalink: {
           url: '#'
         }
@@ -77,31 +83,36 @@ export class ActionHubDemoComponent {
         label: 'Recent 1',
         permalink: {
           url: '#'
-        }
+        },
+        lastAccessed: pastHours[0]
       },
       {
         label: 'Recent 2',
         permalink: {
           url: '#'
-        }
+        },
+        lastAccessed: pastHours[1]
       },
       {
         label: 'Recent 3',
         permalink: {
           url: '#'
-        }
+        },
+        lastAccessed: pastHours[2]
       },
       {
         label: 'Recent 4',
         permalink: {
           url: '#'
-        }
+        },
+        lastAccessed: pastHours[3]
       },
       {
         label: 'Recent 5',
         permalink: {
           url: '#'
-        }
+        },
+        lastAccessed: pastHours[4]
       }
     ],
     relatedLinks: [
