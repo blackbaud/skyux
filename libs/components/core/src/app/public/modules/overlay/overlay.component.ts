@@ -152,7 +152,12 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
       parent: this.injector
     });
 
-    return this.targetRef.createComponent<C>(factory, undefined, injector);
+    const componentRef = this.targetRef.createComponent<C>(factory, undefined, injector);
+
+    // Run an initial change detection cycle after the component has been created.
+    componentRef.changeDetectorRef.detectChanges();
+
+    return componentRef;
   }
 
   public attachTemplate<T>(templateRef: TemplateRef<T>, context: T): EmbeddedViewRef<T> {
