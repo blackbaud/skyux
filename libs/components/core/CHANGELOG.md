@@ -1,3 +1,7 @@
+# 4.5.1 (2021-05-24)
+
+- Fixed the overlay component to run change detection after creating the content component. [#220](https://github.com/blackbaud/skyux-core/pull/220)
+
 # 4.5.0 (2021-04-06)
 
 - Added modern theme styles to the viewkeeper directive. [#215](https://github.com/blackbaud/skyux-core/pull/215)
