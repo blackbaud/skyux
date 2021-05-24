@@ -14,13 +14,13 @@ import {
 } from '@skyux/lookup';
 
 @Component({
-  selector: 'app-lookup-demo',
-  templateUrl: './lookup-demo.component.html',
-  styleUrls: ['./lookup-demo.component.scss']
+  selector: 'app-single-select-lookup-demo',
+  templateUrl: './lookup-single-demo.component.html',
+  styleUrls: ['./lookup-single-demo.component.scss']
 })
-export class LookupDemoComponent implements OnInit {
+export class LookupSingleSelectDemoComponent implements OnInit {
 
-  public friends: any[] = [
+  public name: any[] = [
     { name: 'Shirley' }
   ];
 
@@ -65,10 +65,10 @@ export class LookupDemoComponent implements OnInit {
 
   // Only show people in the search results that have not been chosen already.
   public getSearchFilters(): SkyAutocompleteSearchFunctionFilter[] {
-    const friends: any[] = this.myForm.controls.friends.value;
+    const name: any[] = this.myForm.controls.name.value;
     return [
       (searchText: string, item: any): boolean => {
-        const found = friends.find(friend => friend.name === item.name);
+        const found = name.find(option => option.name === item.name);
         return !found;
       }
     ];
@@ -80,7 +80,7 @@ export class LookupDemoComponent implements OnInit {
 
   private createForm(): void {
     this.myForm = this.formBuilder.group({
-      friends: new FormControl(this.friends)
+      name: new FormControl(this.name)
     });
   }
 

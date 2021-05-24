@@ -129,7 +129,7 @@ export class SkyAutocompleteComponent
 
   /**
    * @internal
-   * Indicates whether to allow consumers to view all search results in a picker.
+   * Indicates whether to display a button in the dropdown that opens a picker where users can view all options.
    */
   @Input()
   public enableShowMore: boolean = false;
@@ -224,13 +224,13 @@ export class SkyAutocompleteComponent
 
   /**
    * @internal
-   * Fires when users select the "Add" button.
+   * Indicates whether to display a button that lets users add options to the data source.
    */
   @Input()
   public showAddButton: boolean = false;
 
   /**
-   * Specifies the text to play when no search results are found.
+   * Specifies the text to display when no search results are found.
    * @default No matches found
    */
   @Input()
@@ -238,14 +238,14 @@ export class SkyAutocompleteComponent
 
   /**
    * @internal
-   * Fires when users select the "Add" button
+   * Fires when users select the button to add options to the data source.
    */
   @Output()
   public addClick: EventEmitter<void> = new EventEmitter();
 
   /**
    * @internal
-   * Fires when users select the "Show more" button
+   * Fires when users select the button to view all options.
    */
   @Output()
   public showMoreClick: EventEmitter<void> = new EventEmitter();

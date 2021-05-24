@@ -23,8 +23,8 @@ import {
 } from '@skyux/lookup';
 
 import {
-  LookupDemoComponent
-} from './lookup-demo.component';
+  LookupSingleSelectDemoComponent
+} from './lookup-single-demo.component';
 
 @NgModule({
   imports: [
@@ -35,10 +35,10 @@ import {
     SkyLookupModule
   ],
   declarations: [
-    LookupDemoComponent
+    LookupSingleSelectDemoComponent
   ],
   exports: [
-    LookupDemoComponent
+    LookupSingleSelectDemoComponent
   ]
 })
-export class LookupDemoModule { }
+export class LookupSingleSelectDemoModule { }

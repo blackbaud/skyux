@@ -64,9 +64,9 @@ export class SkyLookupAutocompleteAdapter {
   public search: SkyAutocompleteSearchFunction;
 
   /**
-   * Specifies a template to format each search result in the dropdown list.
-   * The lookup component injects search result values into the template as
-   * `item` variables that reference all of the object properties of the search results.
+   * Specifies a template to format each option in the dropdown list. The lookup component
+   * injects values into the template as `item` variables that reference all the object
+   * properties of the options.
    */
   @Input()
   public searchResultTemplate: TemplateRef<any>;

@@ -11,15 +11,18 @@
       <label
         class="sky-control-label"
         skyId
-        #friendsLabel="skyId"
+        #namesLabel="skyId"
       >
         Favorite names
       </label>
       <sky-lookup
-        formControlName="friends"
-        [ariaLabelledBy]="friendsLabel.id"
+        formControlName="names"
+        [ariaLabelledBy]="namesLabel.id"
         [data]="people"
+        [enableShowMore]="true"
         [searchFilters]="getSearchFilters()"
+        [showAddButton]="true"
+        [showMoreConfig]="showMoreConfig"
       >
       </sky-lookup>
     </sky-input-box>

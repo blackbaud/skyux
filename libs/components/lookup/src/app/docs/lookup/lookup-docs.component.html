@@ -9,6 +9,24 @@
   </sky-docs-demo-page-summary>
 
   <sky-docs-demo>
+    <sky-docs-demo-control-panel
+      (selectionChange)="onDemoSelectionChange($event)"
+      >
+      <sky-docs-demo-control-panel-section>
+        <sky-docs-demo-control-panel-radio-group
+          initialValue="multiple"
+          propertyName="selectMode"
+          [choices]="selectModeChoices"
+        >
+        </sky-docs-demo-control-panel-radio-group>
+        <sky-docs-demo-control-panel-checkbox
+          label="Allow creation of new options"
+          propertyName="showAddButton"
+          [checked]="true"
+        >
+        </sky-docs-demo-control-panel-checkbox>
+      </sky-docs-demo-control-panel-section>
+    </sky-docs-demo-control-panel>
     <form
       class="lookup-demo-form"
       novalidate
@@ -22,15 +40,20 @@
           <label
             class="sky-control-label"
             skyId
-            #friendsLabel="skyId"
+            #namesLabel="skyId"
           >
-            Favorite names
+            <ng-container *ngIf="selectMode === 'multiple'">Favorite names</ng-container>
+            <ng-container *ngIf="selectMode === 'single'">Favorite name</ng-container>
           </label>
           <sky-lookup
-            formControlName="friends"
-            [ariaLabelledBy]="friendsLabel.id"
+            formControlName="names"
+            [ariaLabelledBy]="namesLabel.id"
             [data]="people"
+            [enableShowMore]="true"
             [searchFilters]="getSearchFilters()"
+            [selectMode]="selectMode"
+            [showAddButton]="showAddButton"
+            (addClick)="addButtonClicked()"
           >
           </sky-lookup>
         </sky-input-box>
@@ -137,11 +160,26 @@
 
   <sky-docs-code-examples
     [packageDependencies]="{
+      '@skyux/inline-form': '*',
+      '@skyux/lists': '*',
       '@skyux/lookup': '*'
     }"
   >
     <sky-docs-code-example
-      sourceCodePath="src/app/public/plugin-resources/code-examples/lookup/basic"
+      heading="Multiple select mode"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/lookup/multi-select"
+    ></sky-docs-code-example>
+    <sky-docs-code-example
+      heading="Single select mode"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/lookup/single-select"
+    ></sky-docs-code-example>
+    <sky-docs-code-example
+      heading="Custom picker"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/lookup/custom-picker"
+    ></sky-docs-code-example>
+    <sky-docs-code-example
+      heading="Result templates"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/lookup/result-templates"
     ></sky-docs-code-example>
   </sky-docs-code-examples>
 

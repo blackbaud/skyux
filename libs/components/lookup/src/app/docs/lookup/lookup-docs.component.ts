@@ -10,8 +10,23 @@ import {
 } from '@angular/forms';
 
 import {
-  SkyAutocompleteSearchFunctionFilter
+  SkyDocsDemoControlPanelChange,
+  SkyDocsDemoControlPanelRadioChoice
+} from '@skyux/docs-tools';
+
+import {
+  SkyAutocompleteSearchFunctionFilter,
+  SkyLookupSelectMode
 } from '@skyux/lookup';
+
+import {
+  SkyModalCloseArgs,
+  SkyModalService
+} from '@skyux/modals';
+
+import {
+  SkyLookupDocsDemoModalComponent
+} from './lookup-docs-demo-modal.component';
 
 @Component({
   selector: 'app-lookup-docs',
@@ -19,7 +34,7 @@ import {
 })
 export class LookupDocsComponent implements OnInit {
 
-  public friends: any[] = [
+  public names: any[] = [
     { name: 'Shirley' }
   ];
 
@@ -48,20 +63,61 @@ export class LookupDocsComponent implements OnInit {
     { name: 'Vicki' }
   ];
 
+  public selectMode: SkyLookupSelectMode = SkyLookupSelectMode.multiple;
+
+  public selectModeChoices: SkyDocsDemoControlPanelRadioChoice[] = [
+    { value: SkyLookupSelectMode.multiple, label: 'Multiple' },
+    { value: SkyLookupSelectMode.single, label: 'Single' }
+  ];
+
+  public showAddButton: boolean = true;
+
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private modalService: SkyModalService
   ) { }
 
   public ngOnInit(): void {
     this.createForm();
   }
 
+  public addButtonClicked(): void {
+    console.log('clicked');
+
+    const modalInstance = this.modalService.open(SkyLookupDocsDemoModalComponent);
+    modalInstance.closed.subscribe((modalCloseArgs: SkyModalCloseArgs) => {
+      if (modalCloseArgs.reason === 'save') {
+        const formControl: FormControl = this.myForm.get('names') as FormControl;
+        let newValue: any[] = formControl.value.concat([{ name: modalCloseArgs.data }]);
+
+        this.people.push({ name: modalCloseArgs.data });
+        this.people = this.people.sort((a, b) => {
+          return a.name.localeCompare(b.name);
+       });
+
+       newValue = newValue.sort((a, b) => {
+         return this.people.indexOf(a) < this.people.indexOf(b) ? 1 : -1;
+       });
+       formControl.setValue(newValue);
+      }
+    });
+  }
+
+  public onDemoSelectionChange(change: SkyDocsDemoControlPanelChange): void {
+    if (change.selectMode !== undefined) {
+      this.selectMode = change.selectMode;
+    }
+    if (change.showAddButton !== undefined) {
+      this.showAddButton = change.showAddButton;
+    }
+  }
+
   // Only show people in the search results that have not been chosen already.
   public getSearchFilters(): SkyAutocompleteSearchFunctionFilter[] {
-    const friends: any[] = this.myForm.controls.friends.value;
+    const names: any[] = this.myForm.controls.names.value;
     return [
       (searchText: string, item: any): boolean => {
-        const found = friends.find(friend => friend.name === item.name);
+        const found = names.find(option => option.name === item.name);
         return !found;
       }
     ];
@@ -69,7 +125,7 @@ export class LookupDocsComponent implements OnInit {
 
   private createForm(): void {
     this.myForm = this.formBuilder.group({
-      friends: new FormControl(this.friends)
+      names: new FormControl(this.names)
     });
   }
 }

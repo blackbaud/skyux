@@ -24,7 +24,7 @@ import {
 
 /**
  * @internal
- * Internal component for our implementation of the show more native picker.
+ * Internal component to implement the native picker.
  */
 @Component({
   selector: 'skyux-lookup-show-more-modal',
@@ -36,7 +36,7 @@ export class SkyLookupShowMoreModalComponent implements AfterViewInit, OnDestroy
 
   /**
    * @internal
-   * Fires when users select the "Add" button
+   * Fires when users select the button to add new options to the list.
    */
   public addClick: Subject<void> = new Subject();
 

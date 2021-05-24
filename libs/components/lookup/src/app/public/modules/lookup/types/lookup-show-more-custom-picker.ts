@@ -3,7 +3,7 @@ import {
 } from './lookup-show-more-custom-picker-context';
 
 /**
- * Interface for defining a custom lookup show more picker.
+ * Defines a custom picker to display when users select the button to view all options.
  */
 export interface SkyLookupShowMoreCustomPicker {
 

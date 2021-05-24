@@ -1,17 +1,18 @@
 /**
- * Provides information for the launching of a custom "Show more" picker.
+ * Specifies configuration options to launch a custom picker when users select
+ * the button to view all options.
  */
 export class SkyLookupShowMoreCustomPickerContext {
   /**
-   * The items available for selection.
+   * Specifies the options that users can select in the custom picker.
    */
   public items: any[];
   /**
-   * The current search text from the lookup component.
+   * Specifies search text to filter the contents of the custom picker.
    */
   public initialSearch: string;
   /**
-   * The current selection from the lookup component.
+   * Specifies the current selections in the lookup field.
    */
   public initialValue: any;
 }

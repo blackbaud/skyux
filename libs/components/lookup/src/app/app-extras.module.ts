@@ -41,6 +41,10 @@ import {
 } from '@skyux/theme';
 
 import {
+  SkyLookupDocsDemoModalComponent
+} from './docs/lookup/lookup-docs-demo-modal.component';
+
+import {
   SkyAutocompleteModule,
   SkyCountryFieldModule,
   SkyLookupModule,
@@ -84,6 +88,7 @@ import {
     }
   ],
   entryComponents: [
+    SkyLookupDocsDemoModalComponent,
     SkyLookupVisualCustomPickerComponent
   ]
 })

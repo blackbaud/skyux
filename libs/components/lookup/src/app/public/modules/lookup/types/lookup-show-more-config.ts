@@ -7,16 +7,19 @@ import {
 } from './lookup-show-more-native-picker-config';
 
 /**
- * Configuration for the lookup show more functionality.
+ * Specifies configuration options for the picker to display when users select the button
+ * to view all options. You can use a native, out-of-the-box modal picker, or you can create
+ * a custom picker. If you provide configuration options for both, the lookup component uses
+ * the custom configuration.
  */
 export interface SkyLookupShowMoreConfig {
   /**
-   * Specifies a configuration object to display a custom UI when users select the show more button.
+   * Specifies a configuration object to display a custom picker.
    */
   customPicker?: SkyLookupShowMoreCustomPicker;
 
   /**
-   * Specifies the configuration for the built in UI when users select the show more button.
+   * Specifies configuration options for the native picker.
    */
   nativePickerConfig?: SkyLookupShowMoreNativePickerConfig;
 }

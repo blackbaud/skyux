@@ -131,7 +131,7 @@ export class SkyLookupComponent
   public disabled = false;
 
   /**
-   * Indicates whether to allow consumers to view all search results in a picker.
+   * Indicates whether to enable users to open a picker where they can view all options.
    */
   @Input()
   public enableShowMore: boolean = false;
@@ -150,18 +150,18 @@ export class SkyLookupComponent
   public idProperty: string;
 
   /**
-   * Indicates whether to show an "Add" button in the dropdown list.
+   * Indicates whether to display a button that lets users add options to the list.
    */
   @Input()
   public showAddButton: boolean = false;
   /**
-   * Specifies the configuration options for the show more feature.
+   * Specifies configuration options for the picker that displays all options.
    */
   @Input()
   public showMoreConfig: SkyLookupShowMoreConfig;
 
   /**
-   * Specifies whether users can select one item or multiple items.
+   * Specifies whether users can select one option or multiple options.
    * @default "mulitple"
    */
   @Input()
@@ -187,7 +187,7 @@ export class SkyLookupComponent
   }
 
   /**
-   * Fires when users select the "Add" button.
+   * Fires when users select the button to add options to the list.
    */
   @Output()
   public addClick: EventEmitter<void> = new EventEmitter();

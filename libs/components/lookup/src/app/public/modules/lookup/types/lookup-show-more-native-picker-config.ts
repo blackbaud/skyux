@@ -3,18 +3,20 @@ import {
 } from '@angular/core';
 
 /**
- * Configuration for the native lookup show more picker.
+ * Specifies configuration options to display the native picker when users select
+ * the button to view all options.
  */
 export interface SkyLookupShowMoreNativePickerConfig {
   /**
-   * Specifies a template to format each search result in the picker's list.
-   * The autocomplete component injects search result values into the template as item variables
-   * that reference all of the object properties of the search results.
+   * Specifies a template to format each option in the picker. The lookup component
+   * injects values into the template as `item` variables that reference all the object
+   * properties of the options. If you do not specify a template, the picker uses
+   * the same template as the dropdown list.
    */
   itemTemplate?: TemplateRef<any>;
 
   /**
-   * Specifies the title of the picker.
+   * Specifies a title for the picker.
    * @default 'Select an option/Select options'
    */
   title?: string;
