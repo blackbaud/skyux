@@ -12,6 +12,10 @@ import {
 } from '@skyux/core';
 
 import {
+  SkyIconModule
+} from '@skyux/indicators';
+
+import {
   SkyCharacterCounterModule
 } from '../../character-counter/character-counter.module';
 
@@ -32,6 +36,7 @@ import {
     FormsModule,
     ReactiveFormsModule,
     SkyCharacterCounterModule,
+    SkyIconModule,
     SkyIdModule,
     SkyInputBoxModule
   ],

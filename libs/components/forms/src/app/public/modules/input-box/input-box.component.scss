@@ -35,6 +35,27 @@ sky-input-box {
     }
   }
 
+  .sky-input-box-icon-inset-wrapper {
+    display: flex;
+
+    .sky-input-group-icon {
+      width: 33px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .sky-input-box-disabled {
+    .sky-input-box-icon-inset-wrapper {
+      background-color: $sky-background-color-disabled;
+
+      .sky-icon {
+        color: $sky-text-color-deemphasized;
+      }
+    }
+  }
+
   .sky-control-label {
     flex-grow: 1;
   }
@@ -132,6 +153,15 @@ sky-input-box {
           border-top-right-radius: $sky-theme-modern-box-border-radius-default;
           border-bottom-right-radius: $sky-theme-modern-box-border-radius-default;
         }
+      }
+    }
+
+    .sky-input-group-icon {
+      width: 55px;
+
+      .sky-icon {
+        color: $sky-theme-modern-font-deemphasized-color;
+        font-size: 24px;
       }
     }
 
@@ -380,6 +410,10 @@ sky-input-box {
     .sky-control-label,
     .sky-input-group-btn {
       cursor: not-allowed;
+    }
+
+    .sky-input-box-icon-inset-wrapper {
+      background-color: transparent;
     }
 
     .sky-form-group {

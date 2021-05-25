@@ -1,5 +1,8 @@
   <div *skyThemeIf="'default'"
     class="sky-input-box"
+    [ngClass]="{
+      'sky-input-box-disabled': disabled
+    }"
   >
     <div
       class="sky-form-group"
@@ -27,6 +30,9 @@
           ></ng-container>
           <ng-container
             *ngTemplateOutlet="buttonsInsetTemplate"
+          ></ng-container>
+          <ng-container
+            *ngTemplateOutlet="iconsInsetTemplate"
           ></ng-container>
         </div>
         <ng-container
@@ -75,6 +81,9 @@
           </div>
           <ng-container
             *ngTemplateOutlet="buttonsInsetTemplate"
+          ></ng-container>
+          <ng-container
+            *ngTemplateOutlet="iconsInsetTemplate"
           ></ng-container>
         </div>
       </div>
@@ -140,6 +149,22 @@
   <ng-container
     *ngTemplateOutlet="hostButtonsInsetTemplate"
   ></ng-container>
+</ng-template>
+
+<ng-template
+  #iconsInsetTemplate
+>
+  <div
+    class="sky-input-box-icon-inset-wrapper"
+    (click)="onInsetIconClick()"
+  >
+    <ng-content
+      select=".sky-input-group-icon.sky-input-box-icon-inset"
+    ></ng-content>
+    <ng-container
+      *ngTemplateOutlet="hostIconsInsetTemplate"
+    ></ng-container>
+  </div>
 </ng-template>
 
 <ng-template

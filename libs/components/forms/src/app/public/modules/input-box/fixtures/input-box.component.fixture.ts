@@ -24,6 +24,9 @@ export class InputBoxFixtureComponent implements OnInit {
   @Input()
   public hasErrors: boolean;
 
+  @Input()
+  public insetIconDisabled: boolean;
+
   public errorField: FormControl;
 
   public errorForm: FormGroup;

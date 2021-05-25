@@ -11,6 +11,10 @@ import {
 } from '@skyux/theme';
 
 import {
+  SkyInputBoxAdapterService
+} from './input-box-adapter.service';
+
+import {
   SkyInputBoxComponent
 } from './input-box.component';
 
@@ -24,6 +28,9 @@ import {
   ],
   exports: [
     SkyInputBoxComponent
+  ],
+  providers: [
+    SkyInputBoxAdapterService
   ]
 })
 export class SkyInputBoxModule { }

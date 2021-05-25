@@ -726,6 +726,72 @@
     <sky-row>
       <sky-column>
         <div
+          id="input-box-icon-inset"
+        >
+          <sky-input-box
+            class="sky-margin-stacked-lg"
+          >
+            <label
+              class="sky-control-label"
+              [for]="inputBoxIconInset.id"
+            >
+              Input with inset icon
+            </label>
+            <input
+              class="sky-form-control"
+              skyId
+              type="text"
+              #inputBoxIconInset="skyId"
+            >
+            <div
+              class="sky-input-group-icon sky-input-box-icon-inset"
+            >
+              <sky-icon
+                icon="search"
+              ></sky-icon>
+            </div>
+          </sky-input-box>
+        </div>
+      </sky-column>
+    </sky-row>
+
+    <sky-row>
+      <sky-column>
+        <div
+          id="input-box-icon-inset-disabled"
+        >
+          <sky-input-box
+            class="sky-margin-stacked-lg"
+            [disabled]="true"
+          >
+            <label
+              class="sky-control-label"
+              [for]="inputBoxIconInsetDisabled.id"
+            >
+              Disabled input with inset icon
+            </label>
+            <input
+              class="sky-form-control"
+              disabled
+              skyId
+              type="text"
+              #inputBoxIconInsetDisabled="skyId"
+            >
+            <div
+              class="sky-input-group-icon sky-input-box-icon-inset"
+            >
+              <sky-icon
+                icon="search"
+              ></sky-icon>
+            </div>
+          </sky-input-box>
+        </div>
+      </sky-column>
+    </sky-row>
+
+    <sky-row>
+      <sky-column>
+        <div
           class="sky-form-group"
           id="input-box-placeholder"
         >

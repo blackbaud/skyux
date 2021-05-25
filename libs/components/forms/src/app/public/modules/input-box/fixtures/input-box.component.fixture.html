@@ -273,3 +273,33 @@
     </div>
   </sky-input-box>
 </div>
+
+<div
+  class="input-icon-inset"
+>
+  <sky-input-box
+    [disabled]="insetIconDisabled"
+  >
+    <label
+      class="sky-control-label"
+      [for]="inputBoxIconInset.id"
+    >
+      Input with inset icon
+    </label>
+    <input
+      class="sky-form-control"
+      skyId
+      type="text"
+      [disabled]="insetIconDisabled"
+      #inputBoxIconInset="skyId"
+    >
+    <div
+      class="sky-input-group-icon sky-input-box-icon-inset"
+    >
+      <sky-icon
+        class="test-icon-inset"
+        icon="search"
+      ></sky-icon>
+    </div>
+  </sky-input-box>
+</div>

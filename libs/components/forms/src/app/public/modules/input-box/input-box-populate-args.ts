@@ -15,4 +15,6 @@ export interface SkyInputBoxPopulateArgs {
 
   buttonsInsetTemplate?: TemplateRef<any>;
 
+  iconsInsetTemplate?: TemplateRef<any>;
+
 }

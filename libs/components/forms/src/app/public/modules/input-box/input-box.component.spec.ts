@@ -35,6 +35,10 @@ import {
   InputBoxFixturesModule
 } from './fixtures/input-box.module.fixture';
 
+import {
+  SkyInputBoxAdapterService
+} from './input-box-adapter.service';
+
 describe('Input box component', () => {
   let mockThemeSvc: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>
@@ -45,6 +49,20 @@ describe('Input box component', () => {
     parentCls: string
   ): HTMLDivElement {
     return fixture.nativeElement.querySelector(`.${parentCls} sky-input-box`);
+  }
+
+  function getControlEl(
+    fixture: ComponentFixture<any>,
+    parentCls: string
+  ): HTMLInputElement {
+    return fixture.nativeElement.querySelector(`.${parentCls} .sky-form-control`);
+  }
+
+  function getInsetIconWrapperEl(
+    fixture: ComponentFixture<any>,
+    parentCls: string
+  ): HTMLInputElement {
+    return fixture.nativeElement.querySelector(`.${parentCls} .sky-input-box-icon-inset-wrapper`);
   }
 
   function validateInvalid(
@@ -231,6 +249,22 @@ describe('Input box component', () => {
       expect(els.inputGroupBtnEls[1].children.item(0)).toHaveCssClass('host-service-button-2');
     });
 
+    it('should add a disabled CSS class when disabled', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+
+      fixture.detectChanges();
+
+      const inputBoxEl = getInputBoxEl(fixture, 'input-basic');
+      const inputBoxWrapperEl = inputBoxEl.querySelector('.sky-input-box');
+
+      expect(inputBoxWrapperEl).not.toHaveCssClass('sky-input-box-disabled');
+
+      fixture.componentInstance.basicDisabled = true;
+      fixture.detectChanges();
+
+      expect(inputBoxWrapperEl).toHaveCssClass('sky-input-box-disabled');
+    });
+
     it('should pass accessibility', async(() => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
 
@@ -251,6 +285,7 @@ describe('Input box component', () => {
       inputEl: HTMLElement,
       inputGroupBtnEls: HTMLElement[],
       insetBtnEl: HTMLElement,
+      insetIconWrapperEl: HTMLElement,
       labelEl: HTMLLabelElement
     } {
       const inputBoxEl = getInputBoxEl(fixture, parentCls);
@@ -275,6 +310,8 @@ describe('Input box component', () => {
 
       const insetBtnEl = formGroupEl.children.item(1) as HTMLElement;
 
+      const insetIconWrapperEl = formGroupEl.children.item(1) as HTMLElement;
+
       const inputGroupBtnEls = Array.from(inputGroupEl.children).slice(1) as HTMLElement[];
 
       return {
@@ -283,6 +320,7 @@ describe('Input box component', () => {
         inputEl,
         inputGroupBtnEls,
         insetBtnEl,
+        insetIconWrapperEl,
         labelEl
       };
     }
@@ -374,6 +412,43 @@ describe('Input box component', () => {
       const els = getModernEls(fixture, 'input-button-inset');
 
       expect(els.insetBtnEl.children.item(0)).toHaveCssClass('test-button-inset');
+    });
+
+    it('should render the inset icon element in the expected location', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+
+      fixture.detectChanges();
+
+      const els = getModernEls(fixture, 'input-icon-inset');
+
+      expect(els.insetBtnEl.children.item(0).children.item(0)).toHaveCssClass('test-icon-inset');
+    });
+
+    it('should focus on the control when clicking on an inset icon', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      const adapterService = TestBed.inject(SkyInputBoxAdapterService);
+      const spy = spyOn(adapterService, 'focusControl').and.callThrough();
+
+      fixture.detectChanges();
+      const insetIconWrapperEl = getInsetIconWrapperEl(fixture, 'input-icon-inset');
+      const el = getControlEl(fixture, 'input-icon-inset') as Element;
+      insetIconWrapperEl.click();
+
+      expect(spy).toHaveBeenCalled();
+      expect(el).toEqual(document.activeElement);
+    });
+
+    it('should not call adapter method when clicking on a disabled inset icon', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.componentInstance.insetIconDisabled = true;
+      const adapterService = TestBed.inject(SkyInputBoxAdapterService);
+      const spy = spyOn(adapterService, 'focusControl');
+
+      fixture.detectChanges();
+      const insetIconWrapperEl = getInsetIconWrapperEl(fixture, 'input-icon-inset');
+      insetIconWrapperEl.click();
+
+      expect(spy).not.toHaveBeenCalled();
     });
 
     it('should render the left input group button element in the expected locations', () => {

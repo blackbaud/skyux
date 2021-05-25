@@ -2,6 +2,7 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChild,
+  ElementRef,
   Input,
   OnInit,
   TemplateRef,
@@ -14,6 +15,10 @@ import {
   FormControlName,
   NgModel
 } from '@angular/forms';
+
+import {
+  SkyInputBoxAdapterService
+} from './input-box-adapter.service';
 
 import {
   SkyInputBoxHostService
@@ -67,6 +72,8 @@ export class SkyInputBoxComponent implements OnInit {
 
   public formControlHasFocus: boolean;
 
+  public hostIconsInsetTemplate: TemplateRef<any>;
+
   @ContentChild(FormControlDirective)
   public formControl: FormControlDirective;
 
@@ -88,7 +95,9 @@ export class SkyInputBoxComponent implements OnInit {
 
   constructor(
     private changeRef: ChangeDetectorRef,
-    private inputBoxHostSvc: SkyInputBoxHostService
+    private inputBoxHostSvc: SkyInputBoxHostService,
+    private adapterService: SkyInputBoxAdapterService,
+    private elementRef: ElementRef
   ) { }
 
   public ngOnInit(): void {
@@ -103,11 +112,18 @@ export class SkyInputBoxComponent implements OnInit {
     this.updateHasFocus(false);
   }
 
+  public onInsetIconClick(): void {
+    if (!this.disabled) {
+      this.adapterService.focusControl(this.elementRef);
+    }
+  }
+
   public populate(args: SkyInputBoxPopulateArgs): void {
     this.hostInputTemplate = args.inputTemplate;
     this.hostButtonsTemplate = args.buttonsTemplate;
     this.hostButtonsLeftTemplate = args.buttonsLeftTemplate;
     this.hostButtonsInsetTemplate = args.buttonsInsetTemplate;
+    this.hostIconsInsetTemplate = args.iconsInsetTemplate;
   }
 
   private updateHasFocus(hasFocus: boolean): void {
