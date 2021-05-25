@@ -1,3 +1,7 @@
+# 4.18.0 (2021-05-25)
+
+- Added support for inset icons to the input box component. [#266](https://github.com/blackbaud/skyux-forms/pull/266)
+
 # 4.17.1 (2021-05-07)
 
 - Fixed the input box component to use the correct font size for placeholder text. [#263](https://github.com/blackbaud/skyux-forms/pull/263)
