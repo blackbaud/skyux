@@ -47,6 +47,10 @@
     "_description": "Label for lookup's show more modal select (save) button",
     "message": "Select"
   },
+  "skyux_lookup_tokens_summary": {
+    "_description": "Text displayed when the user has more than the maximum items selected",
+    "message": "{0} items selected"
+  },
   "skyux_search_dismiss": {
     "_description": "Label for dismissing search input",
     "message": "Dismiss search"

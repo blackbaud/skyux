@@ -51,7 +51,7 @@ export class SkyLookupTemplateTestComponent implements OnInit {
   public placeholderText: string;
   public required: boolean = false;
   public selectedFriends: any;
-  public selectMode: SkyLookupSelectMode = SkyLookupSelectMode.multiple;
+  public selectMode: SkyLookupSelectMode;
   public showAddButton: boolean = false;
   public showMoreConfig: SkyLookupShowMoreConfig = {};
 

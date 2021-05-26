@@ -20,6 +20,10 @@ import {
 } from '@skyux/forms';
 
 import {
+  SkyI18nModule
+} from '@skyux/i18n';
+
+import {
   SkyIconModule,
   SkyTokensModule
 } from '@skyux/indicators';
@@ -73,6 +77,7 @@ import {
     SkyCheckboxModule,
     SkyIconModule,
     SkyInfiniteScrollModule,
+    SkyI18nModule,
     SkyLookupResourcesModule,
     SkyModalModule,
     SkyRepeaterModule,

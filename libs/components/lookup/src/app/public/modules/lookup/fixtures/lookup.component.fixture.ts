@@ -57,13 +57,26 @@ export class SkyLookupTestComponent implements OnInit {
   public descriptorProperty: string;
   public enabledSearchResultTemplate: TemplateRef<any>;
   public enableShowMore: boolean = false;
-  public friends: any[];
   public form: FormGroup;
   public idProperty: string;
   public placeholderText: string;
   public selectMode: SkyLookupSelectMode;
   public showAddButton: boolean = false;
   public showMoreConfig: SkyLookupShowMoreConfig = {};
+
+  public get friends(): any[] {
+    return this._friends;
+  }
+
+  public set friends(value: any[]) {
+    this._friends = value;
+
+    if (this.form?.controls.friends) {
+      this.form.controls.friends.setValue(value);
+    }
+  }
+
+  private _friends: any[];
 
   constructor(
     private formBuilder: FormBuilder

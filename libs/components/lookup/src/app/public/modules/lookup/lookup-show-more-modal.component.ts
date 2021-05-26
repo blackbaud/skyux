@@ -106,7 +106,7 @@ export class SkyLookupShowMoreModalComponent implements AfterViewInit, OnDestroy
 
         if (initialIsArray) {
           initialValueContainsItem = this.context.initialValue
-            .findIndex((initialItem: any) => this.isEquivalent(initialItem.value, item.value)) >= 0;
+            .findIndex((initialItem: any) => this.isEquivalent(initialItem, item.value)) >= 0;
         }
 
         if (isInitialValue || (initialIsArray && initialValueContainsItem)) {

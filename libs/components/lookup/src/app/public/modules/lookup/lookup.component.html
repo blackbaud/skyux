@@ -46,6 +46,7 @@
           [tokens]="tokens"
           (keyup)="onTokensKeyUp($event)"
           (tokensChange)="onTokensChange($event)"
+          (tokenSelected)="enableShowMore ? showMoreButtonClicked() : undefined"
           (focusIndexOverRange)="onTokensFocusIndexOverRange()"
         >
           <textarea
