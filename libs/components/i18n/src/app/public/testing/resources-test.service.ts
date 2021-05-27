@@ -9,7 +9,8 @@ import {
 
 import {
   Observable,
-  of as observableOf
+  of as observableOf,
+  forkJoin
 } from 'rxjs';
 
 import {
@@ -18,6 +19,9 @@ import {
 
 declare const ROOT_DIR: string;
 declare const require: { context: any };
+type ResourceKey = string;
+type TemplatedResource = [ResourceKey, ...any[]];
+type ResourceDictionary = Record<string, ResourceKey | TemplatedResource>;
 
 /**
  * Provides a replacement for the SkyAppResourcesService to use in unit tests.
@@ -74,6 +78,23 @@ export class SkyAppResourcesTestService {
     return observableOf(
       Format.formatText(resources[name].message, ...args)
     );
+  }
+
+  public getStrings<T extends ResourceDictionary>(dictionary: T): Observable<{ [K in keyof T]: string }> {
+    const resources$: Record<string, Observable<string>> = {};
+
+    for (const objKey of Object.keys(dictionary)) {
+      const resource: string | [string, ...any[]] = dictionary[objKey];
+
+      if (typeof resource === 'string') {
+        resources$[objKey] = this.getString(resource);
+      } else {
+        const [key, ...templateItems] = resource;
+        resources$[objKey] = this.getString(key, ...templateItems);
+      }
+    }
+
+    return forkJoin(resources$);
   }
 
   // Ignores the locale passed and returns the resource for en_US
