@@ -121,7 +121,7 @@ describe('Resources service', () => {
     });
   }
 
-  function injectServices(): any {
+  function injectServices(): void {
     resources = TestBed.inject(SkyAppResourcesService);
     httpMock = TestBed.inject(HttpTestingController);
   }
@@ -382,6 +382,79 @@ describe('Resources service', () => {
 
       resources.getString('hi').pipe(take(1)).subscribe((value) => {
         expect(value).toBe('hello');
+        done();
+      });
+
+      addTestResourceResponse();
+    });
+  });
+
+  describe('getStrings', () => {
+    beforeEach(() => {
+      configureTestingModule({
+        defaultLocale: 'en-US',
+        getLocaleInfo: () => observableOf({ locale: 'en-US' })
+      });
+      injectServices();
+    });
+
+    it('returns a completed observable (this is default forkJoin behavior)', (done) => {
+      const resources$ = resources.getStrings({}).pipe(take(1));
+
+      resources$.subscribe({
+        next: () => fail(),
+        complete: () => {
+          httpMock.expectNone(enUsUrl);
+          done();
+        },
+        error: () => fail()
+      });
+    });
+    it('returns a dictionary of resources (1 resource)', (done) => {
+      const resources$ = resources.getStrings({ hi: 'hello' }).pipe(take(1));
+
+      resources$.subscribe(values => {
+        expect(Object.keys(values).length).toBe(1);
+        expect(values.hi).toBe('hello');
+        expect((values as any)['hi_alternate']).toBeUndefined();
+        expect((values as any)['NOT DEFINED']).toBeUndefined();
+        done();
+      });
+
+      addTestResourceResponse();
+    });
+    it('returns a dictionary of resources (1+ resources)', (done) => {
+      const resources$ = resources.getStrings({
+        hi: 'hello',
+        hi_alternate: 'hi_alternate'
+      }).pipe(take(1));
+
+      resources$.subscribe(values => {
+        expect(Object.keys(values).length).toBe(2);
+        expect((values as any)['NOT DEFINED']).toBeUndefined();
+        expect(values.hi).toBe('hello');
+        expect(values.hi_alternate).toBe('howdy');
+        done();
+      });
+
+      addTestResourceResponse();
+    });
+    it('handles templated resources', (done) => {
+      const resources$ = resources.getStrings({
+        hi: 'hello',
+        hiAlternate: 'hi_alternate',
+        hiWithTemplateSyntax: ['hi'],
+        template: ['template', 'a', 'b'],
+        templateWithMissingTokens: ['template']
+      }).pipe(take(1));
+
+      resources$.subscribe(values => {
+        expect(Object.keys(values).length).toBe(5);
+        expect(values.hi).toBe('hello');
+        expect(values.hiAlternate).toBe('howdy');
+        expect(values.hiWithTemplateSyntax).toBe('hello');
+        expect(values.template).toBe('format a me b a');
+        expect(values.templateWithMissingTokens).toBe('format {0} me {1} {0}');
         done();
       });
 
