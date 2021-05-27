@@ -1,6 +1,10 @@
+# 4.2.1 (2021-05-27)
+
+- Added a `getStrings()` method to `SkyAppResourcesTestService` to support unit testing code that uses `SkyAppResourcesService`. [#105](https://github.com/blackbaud/skyux-i18n/pull/105) (Thanks [@ThomasOrtiz](https://github.com/ThomasOrtiz)!)
+
 # 4.2.0 (2021-05-27)
 
-- Added a `getStrings()` method to `SkyAppResources` for retreiving multiple resource strings in one asynchronous operation. [#103](https://github.com/blackbaud/skyux-i18n/pull/103) (Thanks [@ThomasOrtiz](https://github.com/ThomasOrtiz)!)
+- Added a `getStrings()` method to `SkyAppResourcesService` for retreiving multiple resource strings in one asynchronous operation. [#103](https://github.com/blackbaud/skyux-i18n/pull/103) (Thanks [@ThomasOrtiz](https://github.com/ThomasOrtiz)!)
 
 # 4.1.0 (2021-04-14)
 
