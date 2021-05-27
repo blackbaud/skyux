@@ -12,6 +12,13 @@ export interface SkyDataManagerColumnPickerOption {
    */
   description?: string;
   /**
+   * Initially hide the column when it is added to the grid unless given in the view state's
+   * `displayedColumnIds`. When enabled, this column will not be automatically added to a view's
+   * state when this column is recognized as being missing from an initial data state or a data
+   * state returned via the SKY UI config service.
+   */
+  initialHide?: boolean;
+  /**
    * The ID of the corresponding column.
    * @required
    */

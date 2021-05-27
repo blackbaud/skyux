@@ -121,8 +121,8 @@ describe('SkyDataManagerToolbarComponent', () => {
     // The `any` cast here is because the typescript types for KeyboardEventInit do not include
     // `which` but our current search component implementation uses it.
     SkyAppTestUtility.fireDomEvent(inputEl.nativeElement, 'keyup', {
-      keyboardEventInit: <any> {
-        which: 13
+      keyboardEventInit: {
+        code: 'Enter'
       }
     });
     dataManagerToolbarFixture.detectChanges();
