@@ -1,3 +1,7 @@
+# 4.2.0 (2021-05-27)
+
+- Added a `getStrings()` method to `SkyAppResources` for retreiving multiple resource strings in one asynchronous operation. [#103](https://github.com/blackbaud/skyux-i18n/pull/103) (Thanks [@ThomasOrtiz](https://github.com/ThomasOrtiz)!)
+
 # 4.1.0 (2021-04-14)
 
 - Added the `SkyI18nCurrencyFormatService`. [#95](https://github.com/blackbaud/skyux-i18n/pull/95) [#98](https://github.com/blackbaud/skyux-i18n/pull/98) (Thanks [@ThomasOrtiz](https://github.com/ThomasOrtiz)!)
