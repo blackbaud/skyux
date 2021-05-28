@@ -1,3 +1,7 @@
+# 4.2.0 (2021-05-28)
+
+- Added the `skyHref` directive for providing access control checks to hide or disable links. [#25](https://github.com/blackbaud/skyux-router/pull/25)
+
 # 4.1.0 (2021-03-15)
 
 - Fixed `SkyAppLinkDirective` and `SkyAppLinkExternalDirective` to properly extend Angular's `RouterLinkWithHref`. [#23](https://github.com/blackbaud/skyux-router/pull/23)
