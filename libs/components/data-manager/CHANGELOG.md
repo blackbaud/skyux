@@ -1,3 +1,7 @@
+# 4.2.0 (2021-05-28)
+
+- Updated the data view state to track `columnIds` and added the ability to initially hide columns on views which include column options. [#33](https://github.com/blackbaud/skyux-data-manager/pull/33)
+
 # 4.1.1 (2021-05-12)
 
 - Fixed the column picker to disregard letter casing when searching for columns. [#30](https://github.com/blackbaud/skyux-data-manager/pull/30)
