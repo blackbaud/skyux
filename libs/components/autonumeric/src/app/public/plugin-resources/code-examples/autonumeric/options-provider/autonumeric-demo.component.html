@@ -1,0 +1,37 @@
+<form
+  [formGroup]="formGroup"
+  novalidate
+>
+  <sky-input-box>
+    <label
+      class="sky-control-label"
+      [for]="donationInput.id"
+    >
+      Donation amount
+    </label>
+    <input
+      class="sky-form-control"
+      formControlName="donationAmount"
+      skyId
+      type="text"
+      #donationInput="skyId"
+      [skyAutonumeric]="donationOptions"
+    />
+  </sky-input-box>
+  <sky-input-box>
+    <label
+      class="sky-control-label"
+      [for]="pledgeInput.id"
+    >
+      Pledge amount
+    </label>
+    <input
+      class="sky-form-control"
+      formControlName="pledgeAmount"
+      skyId
+      type="text"
+      #pledgeInput="skyId"
+      [skyAutonumeric]="pledgeOptions"
+    />
+  </sky-input-box>
+</form>

@@ -4,22 +4,32 @@
   pageTitle="Autonumeric"
 >
   <sky-docs-demo-page-summary>
-    The autonumeric module automatically formats currency and other numbers that users enter in form inputs.
+    The autonumeric directive automatically formats currency and other numbers that users enter in form inputs. This directive wraps the third-party autoNumeric library. For in-depth information about autoNumeric and its capabilities, see <a href="https://github.com/autoNumeric/autoNumeric/blob/next/README.md">the autoNumeric documentation.</a>
   </sky-docs-demo-page-summary>
 
-<!--
-  <sky-docs-demo>
-    See documentation for how to setup demos
-  </sky-docs-demo>
--->
-<!--
   <sky-docs-code-examples
     [packageDependencies]="{
-      '@skyux/autonumeric': '*'
+      '@skyux/autonumeric': '*',
+      'autonumeric': '*'
     }"
   >
-    See documentation for how to setup code examples.
+    <sky-docs-code-example
+      heading="Currency"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/autonumeric/currency/"
+    ></sky-docs-code-example>
+    <sky-docs-code-example
+      heading="International formatting"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/autonumeric/international-formatting/"
+    ></sky-docs-code-example>
+    <sky-docs-code-example
+      heading="Predefined options"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/autonumeric/preset/"
+    ></sky-docs-code-example>
+    <sky-docs-code-example
+      heading="Options provider"
+      sourceCodePath="src/app/public/plugin-resources/code-examples/autonumeric/options-provider/"
+    ></sky-docs-code-example>
   </sky-docs-code-examples
   >
-  -->
+
 </sky-docs-demo-page>

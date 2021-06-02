@@ -55,7 +55,7 @@ const SKY_AUTONUMERIC_VALIDATOR = {
 // tslint:enable
 
   /**
-   * Wraps the [`autoNumeric` utility](https://github.com/autoNumeric/autoNumeric) to format
+   * Wraps the [autoNumeric utility](https://github.com/autoNumeric/autoNumeric) to format
    * any type of number, including currency.
    */
   @Directive({
