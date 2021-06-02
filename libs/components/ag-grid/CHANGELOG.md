@@ -1,3 +1,7 @@
+# 4.7.0 (2021-06-02)
+
+- Added support for AG Grid version 25. [#111](https://github.com/blackbaud/skyux-ag-grid/pull/111)
+
 # 4.6.1 (2021-04-15)
 
 - Fixed column sorting when `sortOptions` is undefined. [#108](https://github.com/blackbaud/skyux-ag-grid/pull/108)
