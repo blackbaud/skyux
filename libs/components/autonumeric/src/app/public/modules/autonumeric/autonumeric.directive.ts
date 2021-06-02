@@ -94,6 +94,10 @@ export class SkyAutonumericDirective implements OnInit, OnDestroy, ControlValueA
   }
 
   public ngOnInit(): void {
+    // Ensure that we set the global config even if no local config has been given.
+    if (!this.autonumericOptions) {
+      this.autonumericOptions = this.globalConfig.getConfig();
+    }
     this.updateAutonumericInstance();
 
     fromEvent(this.elementRef.nativeElement, 'keyup')

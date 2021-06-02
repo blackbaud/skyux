@@ -28,6 +28,10 @@ import {
 } from './fixtures/autonumeric.module.fixture';
 
 import {
+  SkyAutonumericDirective
+} from './autonumeric.directive';
+
+import {
   SkyAutonumericOptions
 } from './autonumeric-options';
 
@@ -285,6 +289,38 @@ describe('Autonumeric directive', () => {
     });
 
     it('should support global configuration', fakeAsync(() => {
+      detectChanges();
+
+      setValue(1000);
+
+      detectChanges();
+
+      const modelValue = getModelValue();
+      const formattedValue = getFormattedValue();
+
+      expect(modelValue).toEqual(1000);
+      expect(formattedValue).toEqual('%1,000.00000');
+    }));
+
+    it('should support global configuration when the local configuration setter is not called', fakeAsync(() => {
+      spyOnProperty(SkyAutonumericDirective.prototype, 'skyAutonumeric', 'set').and.stub();
+
+      detectChanges();
+
+      setValue(1000);
+
+      detectChanges();
+
+      const modelValue = getModelValue();
+      const formattedValue = getFormattedValue();
+
+      expect(modelValue).toEqual(1000);
+      expect(formattedValue).toEqual('%1,000.00000');
+    }));
+
+    it('should support global configuration when the local configuration is set to undefined', fakeAsync(() => {
+      fixture.componentInstance.autonumericOptions = undefined;
+
       detectChanges();
 
       setValue(1000);
