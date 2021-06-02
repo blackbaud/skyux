@@ -1,10 +1,14 @@
+# 4.0.4 (2021-06-02)
+
+- Fixed the `skyAutonumeric` directive to use the options provider when no local options are given to the directive. [#50](https://github.com/blackbaud/skyux-autonumeric/pull/50)
+
 # 4.0.3 (2021-04-01)
 
-- Fixed the `SkyAutonumericDirective` to work properly within an AG Grid cell editor. [#47](https://github.com/blackbaud/skyux-autonumeric/pull/47) (Thanks [@ThomasOrtiz](https://github.com/ThomasOrtiz)!)
+- Fixed the `skyAutonumeric` directive to work properly within an AG Grid cell editor. [#47](https://github.com/blackbaud/skyux-autonumeric/pull/47) (Thanks [@ThomasOrtiz](https://github.com/ThomasOrtiz)!)
 
 # 4.0.2 (2020-08-25)
 
-- Fixed the autonumeric directive to not set the `dirty` status when the model is set with a falsy value. [#39](https://github.com/blackbaud/skyux-autonumeric/pull/39)
+- Fixed the `skyAutonumeric` directive to not set the `dirty` status when the model is set with a falsy value. [#39](https://github.com/blackbaud/skyux-autonumeric/pull/39)
 
 # 4.0.1 (2020-08-05)
 
