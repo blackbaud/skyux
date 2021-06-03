@@ -1,3 +1,7 @@
+# 4.6.1 (2021-06-03)
+
+- Fixed the phone field component to display the correct "close" icon when searching for a country in modern theme. [#92](https://github.com/blackbaud/skyux-phone-field/pull/92)
+
 # 4.6.0 (2021-05-03)
 
 - Added methods to the phone field testing fixture. [#88](https://github.com/blackbaud/skyux-phone-field/pull/88)
