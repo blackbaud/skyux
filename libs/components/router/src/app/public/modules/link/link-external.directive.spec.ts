@@ -85,7 +85,7 @@ describe('SkyAppLinkExternal Directive', () => {
         useValue: {
           runtime: {
             params: {
-              getAll: () => params
+              getAll: (omit: boolean) => omit ? {} : params
             }
           },
           skyux: {
@@ -100,9 +100,7 @@ describe('SkyAppLinkExternal Directive', () => {
         provide: SkyAppRuntimeConfigParamsProvider,
         useValue: {
           params: {
-            getAll() {
-              return params;
-            }
+            getAll: (omit: boolean) => omit ? {} : params
           }
         }
       });

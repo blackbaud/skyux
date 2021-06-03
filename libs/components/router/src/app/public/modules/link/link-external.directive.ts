@@ -73,8 +73,8 @@ export class SkyAppLinkExternalDirective extends RouterLinkWithHref implements O
 
   private mergeQueryParams(queryParams: SkyAppLinkQueryParams): SkyAppLinkQueryParams {
     const skyuxParams = (this.skyAppConfig)
-      ? this.skyAppConfig.runtime.params.getAll(true)
-      : this.paramsProvider.params.getAll(true);
+      ? this.skyAppConfig.runtime.params.getAll()
+      : this.paramsProvider.params.getAll();
 
     return Object.assign(
       {},
