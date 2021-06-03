@@ -1,3 +1,7 @@
+# 4.2.1 (2021-06-03)
+
+- Fixed `SkyAppLinkExternalDirective` to properly include query parameters on link URLs. [#27](https://github.com/blackbaud/skyux-router/pull/27)
+
 # 4.2.0 (2021-05-28)
 
 - Added the `skyHref` directive for providing access control checks to hide or disable links. [#25](https://github.com/blackbaud/skyux-router/pull/25)
