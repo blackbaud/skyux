@@ -23,10 +23,6 @@
 
 .sky-phone-field-search-btn-dismiss {
   border-color: transparent;
-
-  .sky-phone-field-search-close-icon-modern {
-    display: none;
-  }
 }
 
 .sky-phone-field-country-selected, .sky-phone-field-country-default {
@@ -54,16 +50,6 @@
 
     .sky-phone-field-country-btn.sky-input-group-btn .sky-btn {
       padding: 0 17px 0 18px;
-    }
-
-    .sky-phone-field-search-btn-dismiss {
-      .sky-phone-field-search-close-icon-default {
-        display: none;
-      }
-
-      .sky-phone-field-search-close-icon-modern {
-        display: inline;
-      }
     }
   }
 }

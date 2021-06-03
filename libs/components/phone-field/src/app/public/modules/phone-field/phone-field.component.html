@@ -91,15 +91,13 @@
       }"
       (click)="toggleCountrySearch(false)"
     >
-      <sky-icon
-        class="sky-phone-field-search-close-icon-default"
+      <sky-icon *skyThemeIf="'default'"
         icon="chevron-circle-left"
         size="lg"
       >
       </sky-icon>
-      <sky-icon
-        class="sky-phone-field-search-close-icon-modern"
-        icon="close"
+      <sky-icon *skyThemeIf="'modern'"
+        icon="double-chevron-left"
         iconType="skyux"
         size="2x"
       >
