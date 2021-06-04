@@ -94,9 +94,14 @@
         [attr.title]="'skyux_search_dismiss' | skyLibResources"
         (click)="toggleSearchInput(false)"
       >
-        <sky-icon
+        <sky-icon *skyThemeIf="'default'"
           icon="chevron-circle-left"
           size="lg"
+        >
+        </sky-icon>
+        <sky-icon *skyThemeIf="'modern'"
+          icon="double-chevron-left"
+          iconType="skyux"
         >
         </sky-icon>
       </button>
