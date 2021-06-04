@@ -1,3 +1,7 @@
+# 4.14.1 (2020-06-04)
+
+- Fixed the search component to display the correct "collapse" icon when expanded on a small screen. [#191](https://github.com/blackbaud/skyux-lookup/pull/191)
+
 # 4.14.0 (2021-05-26)
 
 - Updated the lookup component to collapse tokens if users select more than 5 items when the lookup menu includes the 'Show all/matches' button. [#186](https://github.com/blackbaud/skyux-lookup/pull/186)
