@@ -58,8 +58,8 @@ import {
 } from '@skyux/theme';
 
 import {
-  SkyAutocompleteComponent
-} from '../autocomplete/autocomplete.component';
+  SkyAutocompleteShowMoreArgs
+} from '../autocomplete/types/autocomplete-show-more-args';
 
 import {
   SkyAutocompleteInputDirective
@@ -249,9 +249,6 @@ export class SkyLookupComponent
     return this._autocompleteInputDirective;
   }
 
-  @ViewChild(SkyAutocompleteComponent)
-  private autocompleteComponent: SkyAutocompleteComponent;
-
   @ViewChild('inputTemplateRef', {
     read: TemplateRef,
     static: true
@@ -428,7 +425,6 @@ export class SkyLookupComponent
   // Check for empty search text on keydown, before the escape key is fully pressed.
   // (Otherwise, a single character being escaped would register as empty on keyup.)
   // If empty on keydown, set a flag so that the appropriate action can be taken on keyup.
-
   public inputKeydown(event: KeyboardEvent, value: string): void {
     /* Sanity check as this should only be called when in multiple select mode */
     /* istanbul ignore else */
@@ -477,11 +473,11 @@ export class SkyLookupComponent
     }
   }
 
-  public showMoreButtonClicked(): void {
+  public showMoreButtonClicked(event: SkyAutocompleteShowMoreArgs): void {
     if (this.showMoreConfig?.customPicker) {
       this.showMoreConfig.customPicker.open({
         items: this.data,
-        initialSearch: this.autocompleteComponent.searchText,
+        initialSearch: event?.inputValue,
         initialValue: this.value
       });
     } else {
@@ -495,7 +491,7 @@ export class SkyLookupComponent
           provide: SkyLookupShowMoreNativePickerContext, useValue: {
             items: this.data,
             descriptorProperty: this.descriptorProperty,
-            initialSearch: this.autocompleteComponent.searchText,
+            initialSearch: event?.inputValue,
             initialValue: this.value,
             selectMode: this.selectMode,
             showAddButton: this.showAddButton,

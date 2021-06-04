@@ -103,7 +103,7 @@ describe('Lookup component', function () {
   }
 
   function getAddButton(): HTMLElement {
-    return document.querySelector('.sky-autocomplete-add') as HTMLElement;
+    return document.querySelector('.sky-autocomplete-action-add') as HTMLElement;
   }
 
   function getInputElement(lookupComponent: SkyLookupComponent): HTMLInputElement {
@@ -119,7 +119,7 @@ describe('Lookup component', function () {
   }
 
   function getShowMoreButton(): HTMLElement {
-    return document.querySelector('.sky-autocomplete-more') as HTMLElement;
+    return document.querySelector('.sky-autocomplete-action-more') as HTMLElement;
   }
 
   function getShowMoreRepeaterItemContent(index: number): string {

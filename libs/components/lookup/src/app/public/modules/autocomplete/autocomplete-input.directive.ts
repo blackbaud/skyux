@@ -28,10 +28,6 @@ import {
 } from 'rxjs/operators';
 
 import {
-  SkyAutocompleteAdapterService
-} from './autocomplete-adapter.service';
-
-import {
   SkyAutocompleteInputTextChange
 } from './types/autocomplete-input-text-change';
 
@@ -112,6 +108,13 @@ export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, Control
     this.inputTextValue = this.getValueByKey();
   }
 
+  /**
+   * @internal
+   */
+  public get inputElement(): any {
+    return this.elementRef.nativeElement;
+  }
+
   public get focus(): Observable<void> {
     return this._focus.asObservable();
   }
@@ -174,7 +177,6 @@ export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, Control
   private _value: any;
 
   constructor(
-    private adapterService: SkyAutocompleteAdapterService,
     private elementRef: ElementRef,
     private renderer: Renderer2
   ) { }
@@ -233,16 +235,6 @@ export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, Control
     this._blur =
       this._textChanges =
       this.ngUnsubscribe = undefined;
-  }
-
-  public focusInput(): void {
-    this.elementRef.nativeElement.focus();
-  }
-
-  public focusNextSibling(): void {
-    const focusable = this.adapterService.getBodyFocusable();
-    const inputIndex = focusable.findIndex(element => element === this.elementRef.nativeElement);
-    focusable[inputIndex + 1].focus();
   }
 
   public writeValue(value: any): void {

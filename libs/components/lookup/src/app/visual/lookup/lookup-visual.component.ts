@@ -112,6 +112,10 @@ export class LookupVisualComponent implements OnInit {
     this.friendsForm.controls.friends.disable();
   }
 
+  public onResetValueClick(): void {
+    this.bestFriendsForm.get('bestFriend').setValue(undefined);
+  }
+
   public toggleCustomPicker(): void {
     if (this.showMoreConfig.customPicker) {
       this.showMoreConfig.customPicker = undefined;

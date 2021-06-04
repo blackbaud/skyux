@@ -21,7 +21,6 @@
       'sky-shadow' : 'default',
       'sky-theme-modern sky-elevation-4' : 'modern'
     }"
-    (focusout)="handleBlur($event)"
     (keydown)="handleKeydown($event)"
     #resultsRef
   >
@@ -35,11 +34,13 @@
         <div *ngIf="!searchResultsLimit || i < searchResultsLimit"
           class="sky-autocomplete-result"
           role="option"
-          [attr.aria-selected]="isResultFocused(i)"
+          tabindex="0"
+          [attr.aria-selected]="isElementFocused(searchResultEl)"
           [attr.id]="result.elementId"
-          [class.selected]="isResultFocused(i)"
           [skyHighlight]="highlightText"
-          (mousedown)="onResultMouseDown(i)"
+          (mousedown)="onResultMouseDown(result.elementId)"
+          (mousemove)="onResultMouseMove(i)"
+          #searchResultEl
         >
           <ng-container
             *ngTemplateOutlet="searchResultTemplate; context: { item: result.data }">
@@ -56,7 +57,7 @@
       class="sky-autocomplete-actions"
     >
       <button *ngIf="enableShowMore && (!searchText || searchResults.length > 0)"
-        class="sky-autocomplete-more sky-btn sky-btn-link"
+        class="sky-autocomplete-action sky-autocomplete-action-more sky-btn sky-btn-link"
         type="button"
         (click)="moreButtonClicked()"
       >
@@ -73,9 +74,13 @@
         {{ noResultsFoundText || ('skyux_autocomplete_no_results' | skyLibResources) }}
       </div>
       <button *ngIf="showAddButton"
-        class="sky-autocomplete-add sky-btn sky-btn-link"
+        class="sky-autocomplete-action sky-autocomplete-action-add sky-btn sky-btn-link"
+        tabindex="0"
         type="button"
+        skyId
+        [class.focused]="isElementFocused(addButtonEl)"
         (click)="addButtonClicked()"
+        #addButtonEl
       >
         <sky-icon *skyThemeIf="'modern'"
           icon="add"
