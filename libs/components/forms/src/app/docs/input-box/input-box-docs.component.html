@@ -51,9 +51,17 @@
           Use input boxes when users need to enter data in forms. Input boxes provide styling for many types of data entry, including basic text fields, text areas, and SKY UX inputs such as <a href="https://developer.blackbaud.com/skyux-datetime/docs/datepicker">datepicker</a>.
         </p>
         <sky-docs-design-guideline-thumbnail
+          *skyThemeIf="'modern'"
           caption="Do use input boxes for data entry on forms."
           captionType="success"
           imageSource="~/assets/img/guidelines/input-box/input-box-usage-1.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+        <sky-docs-design-guideline-thumbnail
+          *skyThemeIf="'default'"
+          caption="Do use input boxes for data entry on forms."
+          captionType="success"
+          imageSource="~/assets/img/guidelines/input-box/input-box-usage-1-default.png"
         >
         </sky-docs-design-guideline-thumbnail>
       </sky-docs-design-guideline>
@@ -63,7 +71,16 @@
       heading="Anatomy"
     >
       <sky-docs-anatomy
+        *skyThemeIf="'modern'"
         imagePath="~/assets/img/guidelines/input-box/input-box-anatomy.png"
+      >
+        <sky-docs-anatomy-item>Input container</sky-docs-anatomy-item>
+        <sky-docs-anatomy-item>Input label</sky-docs-anatomy-item>
+        <sky-docs-anatomy-item>Text value</sky-docs-anatomy-item>
+      </sky-docs-anatomy>
+      <sky-docs-anatomy
+        *skyThemeIf="'default'"
+        imagePath="~/assets/img/guidelines/input-box/input-box-anatomy-default.png"
       >
         <sky-docs-anatomy-item>Input container</sky-docs-anatomy-item>
         <sky-docs-anatomy-item>Input label</sky-docs-anatomy-item>
@@ -81,12 +98,20 @@
           </td>
           <td class="sky-docs-table-cell">
             <sky-docs-design-guideline-thumbnail
+              *skyThemeIf="'modern'"
               imageSource="~/assets/img/guidelines/input-box/input-box-states-base.png"
+            >
+            </sky-docs-design-guideline-thumbnail>
+            <sky-docs-design-guideline-thumbnail
+              *skyThemeIf="'default'"
+              imageSource="~/assets/img/guidelines/input-box/input-box-states-base-default.png"
             >
             </sky-docs-design-guideline-thumbnail>
           </td>
         </tr>
-        <tr>
+        <tr
+          *skyThemeIf="'modern'"    
+        >
           <td class="sky-docs-table-cell">
             Hover
           </td>
@@ -103,12 +128,20 @@
           </td>
           <td class="sky-docs-table-cell">
             <sky-docs-design-guideline-thumbnail
+              *skyThemeIf="'modern'"
               imageSource="~/assets/img/guidelines/input-box/input-box-states-focus.png"
+            >
+            </sky-docs-design-guideline-thumbnail>
+            <sky-docs-design-guideline-thumbnail
+              *skyThemeIf="'default'"
+              imageSource="~/assets/img/guidelines/input-box/input-box-states-focus-default.png"
             >
             </sky-docs-design-guideline-thumbnail>
           </td>
         </tr>
-        <tr>
+        <tr
+          *skyThemeIf="'modern'"    
+        >
           <td class="sky-docs-table-cell sky-docs-table-cell-primary">
             Active
           </td>
@@ -125,7 +158,13 @@
           </td>
           <td class="sky-docs-table-cell">
             <sky-docs-design-guideline-thumbnail
+              *skyThemeIf="'modern'"
               imageSource="~/assets/img/guidelines/input-box/input-box-states-disabled.png"
+            >
+            </sky-docs-design-guideline-thumbnail>
+            <sky-docs-design-guideline-thumbnail
+              *skyThemeIf="'default'"
+              imageSource="~/assets/img/guidelines/input-box/input-box-states-disabled-default.png"
             >
             </sky-docs-design-guideline-thumbnail>
           </td>
@@ -136,7 +175,13 @@
           </td>
           <td class="sky-docs-table-cell">
             <sky-docs-design-guideline-thumbnail
+              *skyThemeIf="'modern'"
               imageSource="~/assets/img/guidelines/input-box/input-box-states-required.png"
+            >
+            </sky-docs-design-guideline-thumbnail>
+            <sky-docs-design-guideline-thumbnail
+              *skyThemeIf="'default'"
+              imageSource="~/assets/img/guidelines/input-box/input-box-states-required-default.png"
             >
             </sky-docs-design-guideline-thumbnail>
           </td>
@@ -147,7 +192,13 @@
           </td>
           <td class="sky-docs-table-cell">
             <sky-docs-design-guideline-thumbnail
+              *skyThemeIf="'modern'"
               imageSource="~/assets/img/guidelines/input-box/input-box-states-error.png"
+            >
+            </sky-docs-design-guideline-thumbnail>
+            <sky-docs-design-guideline-thumbnail
+              *skyThemeIf="'default'"
+              imageSource="~/assets/img/guidelines/input-box/input-box-states-error-default.png"
             >
             </sky-docs-design-guideline-thumbnail>
           </td>
@@ -163,15 +214,31 @@
           Make input labels succinct and descriptive. Use nouns for input labels. Don't use verbs or questions.
         </p>
         <sky-docs-design-guideline-thumbnail
+          *skyThemeIf="'modern'"
           caption="Don't use full sentences or questions for input labels."
           captionType="danger"
           imageSource="~/assets/img/guidelines/input-box/input-box-content-1.png"
         >
         </sky-docs-design-guideline-thumbnail>
         <sky-docs-design-guideline-thumbnail
+          *skyThemeIf="'default'"
+          caption="Don't use full sentences or questions for input labels."
+          captionType="danger"
+          imageSource="~/assets/img/guidelines/input-box/input-box-content-1-default.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+        <sky-docs-design-guideline-thumbnail
+          *skyThemeIf="'modern'"
           caption="Do use succinct input labels."
           captionType="success"
           imageSource="~/assets/img/guidelines/input-box/input-box-content-2.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+        <sky-docs-design-guideline-thumbnail
+          *skyThemeIf="'default'"
+          caption="Do use succinct input labels."
+          captionType="success"
+          imageSource="~/assets/img/guidelines/input-box/input-box-content-2-default.png"
         >
         </sky-docs-design-guideline-thumbnail>
       </sky-docs-design-guideline>
