@@ -11,6 +11,10 @@ import {
 } from '@skyux/i18n';
 
 import {
+  SkyThemeModule
+} from '@skyux/theme';
+
+import {
   SkyIconModule
 } from '../icon/icon.module';
 
@@ -30,7 +34,8 @@ import {
     CommonModule,
     SkyI18nModule,
     SkyIconModule,
-    SkyIndicatorsResourcesModule
+    SkyIndicatorsResourcesModule,
+    SkyThemeModule
   ],
   exports: [
     SkyHelpInlineComponent

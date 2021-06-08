@@ -14,3 +14,17 @@
     cursor: pointer;
   }
 }
+
+@include sky-theme-modern {
+
+  .sky-help-inline {
+    ::ng-deep .fa-stack-2x {
+      font-size: 16px;
+    }
+
+    ::ng-deep .fa-stack-1x {
+      font-size: 10px;
+    }
+  }
+
+}
