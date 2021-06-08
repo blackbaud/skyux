@@ -109,7 +109,7 @@ export class SkyBackToTopDirective implements AfterViewInit, OnDestroy {
       this.addBackToTop();
     }
     // Remove back to top button if user scrolls back up.
-    if (elementInView) {
+    if (elementInView || this.buttonHidden) {
       this.destroyBackToTop();
     }
   }

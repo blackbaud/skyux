@@ -141,6 +141,20 @@ describe('back to top component', () => {
       expect(getBackToTop()).not.toBeNull();
     });
 
+    it('should show the button if the user is already scrolled and buttonHidden changes to true', () => {
+      fixture.componentInstance.backToTopOptions = { buttonHidden: false };
+      fixture.detectChanges();
+
+      scrollWindowToBottom(fixture);
+
+      expect(getBackToTop()).not.toBeNull();
+
+      fixture.componentInstance.backToTopOptions = { buttonHidden: true };
+      fixture.detectChanges();
+
+      expect(getBackToTop()).toBeNull();
+    });
+
     it('should default buttonHidden to false if the options are not defined', () => {
       fixture.componentInstance.backToTopOptions = undefined;
       fixture.detectChanges();
