@@ -5,7 +5,7 @@
     pageTitle="Text editor"
   >
     <sky-docs-demo-page-summary>
-      Description for text editor module.
+      Text editors let users format and manipulate text.
     </sky-docs-demo-page-summary>
 
     <!-- <sky-docs-demo>
@@ -20,5 +20,153 @@
       >
       </sky-docs-code-example>
     </sky-docs-code-examples> -->
+
+    <sky-docs-design-guidelines>
+
+      <sky-docs-demo-page-section
+        heading="Usage"
+      >
+        <sky-docs-design-guideline
+          heading="Use when"
+          headingStyle="success"
+        >
+          <p>
+            Use text editors when users need to create blocks of text that include formatted text, hyperlinks, or merge fields.
+          </p>
+          <sky-docs-design-guideline-thumbnail
+            *skyThemeIf="'default'"
+            caption="Use text editors when users need to manipulate blocks of text."
+            captionType="success"
+            imageSource="~/assets/img/default-use-when.png"
+          >
+          </sky-docs-design-guideline-thumbnail>
+          <sky-docs-design-guideline-thumbnail
+            *skyThemeIf="'modern'"
+            caption="Use text editors when users need to manipulate blocks of text."
+            captionType="success"
+            imageSource="~/assets/img/modern-use-when.png"
+          >
+          </sky-docs-design-guideline-thumbnail>
+        </sky-docs-design-guideline>
+  
+        <sky-docs-design-guideline
+          heading="Don't use when"
+          headingStyle="danger"
+        >
+          <p class="sky-docs-text-block">
+            Don’t use the text editor when users only need to enter unformatted plain text. Use a text <code>input</code> or <code>textarea</code> instead.
+          </p>
+        </sky-docs-design-guideline>
+      </sky-docs-demo-page-section>
+  
+      <sky-docs-demo-page-section
+        heading="Anatomy"
+      >
+          <sky-docs-anatomy
+            *skyThemeIf="'default'"
+            imagePath="~/assets/img/default-anatomy.png"
+          >
+            <sky-docs-anatomy-item>
+              Label
+            </sky-docs-anatomy-item>
+            <sky-docs-anatomy-item>
+              Menu bar
+            </sky-docs-anatomy-item>
+            <sky-docs-anatomy-item>
+              Toolbar
+            </sky-docs-anatomy-item>
+            <sky-docs-anatomy-item>
+              Text entry area
+            </sky-docs-anatomy-item>
+        </sky-docs-anatomy>
+          <sky-docs-anatomy
+            *skyThemeIf="'modern'"
+            imagePath="~/assets/img/modern-anatomy.png"
+          >
+            <sky-docs-anatomy-item>
+              Label
+            </sky-docs-anatomy-item>
+            <sky-docs-anatomy-item>
+              Menu bar
+            </sky-docs-anatomy-item>
+            <sky-docs-anatomy-item>
+              Toolbar
+            </sky-docs-anatomy-item>
+            <sky-docs-anatomy-item>
+              Text entry area
+            </sky-docs-anatomy-item>
+          </sky-docs-anatomy>
+
+      </sky-docs-demo-page-section>
+  
+      <sky-docs-demo-page-section
+        heading="Options"
+      >
+        <sky-docs-design-guideline
+          heading="Menu bar and toolbar"
+        >
+          <p class="sky-docs-text-block">
+            Default menus:
+          </p>
+          <ul>
+            <li>Edit</li>
+            <li>Format</li>
+          </ul>
+          <p class="sky-docs-text-block">
+            Optional menu:
+          </p>
+          <ul>
+            <li>Merge</li>
+          </ul>
+          <p class="sky-docs-text-block">
+            Default toolbar actions:
+          </p>
+          <ul>
+            <li>Font</li>
+            <li>Text size</li>
+            <li>Text style (bold/italic/underline)</li>
+            <li>Text color</li>
+            <li>Highlight color</li>
+            <li>List format (numbered/bulleted)</li>
+            <li>Hyperlink</li>
+          </ul>
+          <p class="sky-docs-text-block">
+            Optional toolbar actions:
+          </p>
+          <ul>
+            <li>Alignment (left/center/right)</li>
+            <li>Undo/redo</li>
+            <li>Indentation</li>
+          </ul>
+          <sky-docs-design-guideline-thumbnail
+            *skyThemeIf="'default'"
+            caption="Text editor with default options."
+            imageSource="~/assets/img/default-option-menu-toolbar-items.png"
+          >
+          </sky-docs-design-guideline-thumbnail>
+          <sky-docs-design-guideline-thumbnail
+            *skyThemeIf="'modern'"
+            caption="Text editor with default options."
+            imageSource="~/assets/img/modern-option-menu-toolbar-items.png"
+          >
+          </sky-docs-design-guideline-thumbnail>
+        </sky-docs-design-guideline>
+      </sky-docs-demo-page-section>
+
+      <sky-docs-demo-page-section
+      heading="Related information"
+    >
+      <sky-docs-design-guideline
+        heading="Guidelines"
+      >
+        <ul>
+          <li>
+            <a href="https://developer.blackbaud.com/skyux/design/guidelines/form-design">Form design</a>
+          </li>
+        </ul>
+      </sky-docs-design-guideline>
+    </sky-docs-demo-page-section>
+
+  </sky-docs-design-guidelines>
   </sky-docs-demo-page>
 </sky-page>
