@@ -1,3 +1,7 @@
+# 4.10.0 (2021-06-09)
+
+- Added modern theme styles to the inline help component. [#173](https://github.com/blackbaud/skyux-indicators/pull/173)
+
 # 4.9.2 (2021-04-13)
 
 - Fixed the key info component to use pixel padding instead of the CSS content property. [#163](https://github.com/blackbaud/skyux-indicators/pull/163)
