@@ -34,6 +34,10 @@ import {
 } from '@skyux/i18n';
 
 import {
+  SkyHrefModule
+} from '@skyux/router';
+
+import {
   SkyThemeModule
 } from '@skyux/theme';
 
@@ -78,7 +82,8 @@ import {
     SkyIconModule,
     SkyFlyoutResourcesModule,
     SkyDynamicComponentModule,
-    SkyThemeModule
+    SkyThemeModule,
+    SkyHrefModule
   ],
   exports: [
     SkyFlyoutComponent
