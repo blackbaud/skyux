@@ -12,6 +12,10 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
+  SkyInputBoxHostService
+} from '@skyux/forms';
+
+import {
   SkyAutocompleteComponent
 } from './autocomplete.component';
 
@@ -494,7 +498,11 @@ describe('Autocomplete component', () => {
 
       enterSearch('r', fixture);
 
-      expect(adapterSpy).toHaveBeenCalledWith(autocomplete['elementRef'], autocomplete['resultsRef']);
+      expect(adapterSpy).toHaveBeenCalledWith(
+        autocomplete['elementRef'],
+        autocomplete['resultsRef'],
+        false
+      );
 
       const dropdownElement = getSearchResultsContainer();
       const autocompleteElement = getAutocompleteElement();
@@ -516,7 +524,11 @@ describe('Autocomplete component', () => {
       fixture.detectChanges();
       tick();
 
-      expect(adapterSpy).toHaveBeenCalledWith(autocomplete['elementRef'], autocomplete['resultsRef']);
+      expect(adapterSpy).toHaveBeenCalledWith(
+        autocomplete['elementRef'],
+        autocomplete['resultsRef'],
+        false
+      );
 
       const dropdownElement = getSearchResultsContainer();
       const autocompleteElement = getAutocompleteElement();
@@ -666,7 +678,7 @@ describe('Autocomplete component', () => {
     it('should emit an event correctly when the add button is enabled and clicked',
       fakeAsync(() => {
         component.enableShowMore = true;
-        const showMoreButtonSpy = spyOn(component, 'showMoreButtonClicked').and.callThrough();
+        const showMoreButtonSpy = spyOn(component, 'onShowMoreClick').and.callThrough();
         fixture.detectChanges();
 
         // Type 'r' to activate the autocomplete dropdown, then click the first result.
@@ -686,7 +698,7 @@ describe('Autocomplete component', () => {
     it('should not show the show more button unless the component input asks for it',
       fakeAsync(() => {
         component.enableShowMore = false;
-        const showMoreButtonSpy = spyOn(component, 'showMoreButtonClicked').and.callThrough();
+        const showMoreButtonSpy = spyOn(component, 'onShowMoreClick').and.callThrough();
         fixture.detectChanges();
 
         // Type 'r' to activate the autocomplete dropdown, then click the first result.
@@ -1458,7 +1470,7 @@ describe('Autocomplete component', () => {
     it('should emit an event correctly when the add button is enabled and clicked',
       fakeAsync(() => {
         component.enableShowMore = true;
-        const showMoreButtonSpy = spyOn(component, 'showMoreButtonClicked').and.callThrough();
+        const showMoreButtonSpy = spyOn(component, 'onShowMoreClick').and.callThrough();
         fixture.detectChanges();
 
         // Type 'r' to activate the autocomplete dropdown, then click the first result.
@@ -1478,7 +1490,7 @@ describe('Autocomplete component', () => {
     it('should not show the show more button unless the component input asks for it',
       fakeAsync(() => {
         component.enableShowMore = false;
-        const showMoreButtonSpy = spyOn(component, 'showMoreButtonClicked').and.callThrough();
+        const showMoreButtonSpy = spyOn(component, 'onShowMoreClick').and.callThrough();
         fixture.detectChanges();
 
         // Type 'r' to activate the autocomplete dropdown, then click the first result.
@@ -1519,6 +1531,47 @@ describe('Autocomplete component', () => {
         expect(getShowMoreButton()).toBeNull();
       })
     );
+
+  });
+
+  describe('within an input box', () => {
+    let fixture: ComponentFixture<SkyAutocompleteFixtureComponent>;
+    let component: SkyAutocompleteFixtureComponent;
+    let autocomplete: SkyAutocompleteComponent;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          SkyAutocompleteFixturesModule
+        ],
+        providers: [
+          SkyInputBoxHostService
+        ]
+      });
+
+      fixture = TestBed.createComponent(SkyAutocompleteFixtureComponent);
+      component = fixture.componentInstance;
+      autocomplete = component.autocomplete;
+    });
+
+    afterEach(() => {
+      fixture.destroy();
+    });
+
+    it('should call the setDropdownWidth with the proper parameters', fakeAsync(() => {
+      const adapterSpy = spyOn(autocomplete['adapterService'], 'setDropdownWidth').and.callThrough();
+
+      fixture.detectChanges();
+      tick();
+
+      enterSearch('r', fixture);
+
+      expect(adapterSpy).toHaveBeenCalledWith(
+        autocomplete['elementRef'],
+        autocomplete['resultsRef'],
+        true
+      );
+    }));
 
   });
 });

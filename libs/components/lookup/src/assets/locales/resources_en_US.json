@@ -11,6 +11,14 @@
     "_description": "Placeholder for country search autocomplete",
     "message": "Search for a country"
   },
+  "skyux_lookup_search_icon": {
+    "_description": "Label for lookup's search icon",
+    "message": "Search"
+  },
+  "skyux_lookup_search_button_show_more": {
+    "_description": "Label for lookup's search button that opens superselect modal",
+    "message": "Show all search results"
+  },
   "skyux_lookup_show_more_add": {
     "_description": "Label for lookup's show more modal add button",
     "message": "New"

@@ -66,7 +66,7 @@ export class SkyAutocompleteReactiveFixtureComponent implements OnInit {
     this.reactiveForm.get('favoriteColor').enable();
   }
 
-  public showMoreButtonClicked(): void {
+  public onShowMoreClick(): void {
     return;
   }
 }

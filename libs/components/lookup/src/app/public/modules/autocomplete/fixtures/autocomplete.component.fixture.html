@@ -30,7 +30,7 @@
     [noResultsFoundText]="customNoResultsMessage"
     (addClick)="addButtonClicked()"
     (selectionChange)="onSelectionChange($event)"
-    (showMoreClick)="showMoreButtonClicked()"
+    (showMoreClick)="onShowMoreClick()"
   >
     <input *ngIf="!hideInput"
       id="my-autocomplete-input"

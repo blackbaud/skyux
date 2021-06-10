@@ -19,6 +19,7 @@
       [debounceTime]="debounceTime"
       [descriptorProperty]="descriptorProperty"
       [enableShowMore]="enableShowMore"
+      [messageStream]="autocompleteController"
       [propertiesToSearch]="propertiesToSearch"
       [search]="search"
       [searchFilters]="searchFilters"
@@ -27,60 +28,110 @@
       [searchTextMinimumCharacters]="searchTextMinimumCharacters"
       [showAddButton]="showAddButton"
       (addClick)="addButtonClicked()"
-      (showMoreClick)="showMoreButtonClicked($event)"
-      (selectionChange)="onAutocompleteSelectionChange($event)">
+      (selectionChange)="onAutocompleteSelectionChange($event)"
+      (showMoreClick)="onShowMoreClick($event)"
+    >
 
-      <div
-        class="sky-lookup-search"
-        [ngClass]="{
-          'sky-field-status-active': isInputFocused
-        }"
-      >
-        <sky-tokens *ngIf="selectMode === 'multiple'"
-          class="sky-lookup-tokens"
-          [disabled]="disabled"
-          [displayWith]="descriptorProperty"
-          [focusable]="false"
-          [messageStream]="tokensController"
-          [trackWith]="idProperty"
-          [tokens]="tokens"
-          (keyup)="onTokensKeyUp($event)"
-          (tokensChange)="onTokensChange($event)"
-          (tokenSelected)="enableShowMore ? showMoreButtonClicked(undefined) : undefined"
-          (focusIndexOverRange)="onTokensFocusIndexOverRange()"
+      <div class="sky-lookup-search-flex-wrapper">
+        <div
+          class="sky-lookup-search"
+          [ngClass]="{
+            'sky-field-status-active': isInputFocused
+          }"
         >
-          <textarea
-            class="sky-form-control sky-lookup-input"
-            rows="1"
-            skyAutocomplete
-            wrap="off"
-            [attr.aria-label]="ariaLabel"
-            [attr.aria-labelledby]="ariaLabelledBy"
-            [attr.placeholder]="placeholderText"
-            [autocompleteAttribute]="autocompleteAttribute"
+          <sky-tokens *ngIf="selectMode === 'multiple'"
+            class="sky-lookup-tokens"
             [disabled]="disabled"
-            (blur)="onAutocompleteBlur()"
-            (keydown)="inputKeydown($event, $event.target.value)"
-            (keyup)="inputKeyup($event)"
-          ></textarea>
-        </sky-tokens>
-        <div *ngIf="selectMode === 'single'"
-          class="sky-lookup-single-control"
-        >
-          <textarea
-            class="sky-form-control sky-lookup-input"
-            rows="1"
-            skyAutocomplete
-            wrap="off"
-            [attr.aria-label]="ariaLabel"
-            [attr.aria-labelledby]="ariaLabelledBy"
-            [attr.placeholder]="placeholderText"
-            [autocompleteAttribute]="autocompleteAttribute"
-            [disabled]="disabled"
-            (blur)="onAutocompleteBlur()"
-          ></textarea>
+            [displayWith]="descriptorProperty"
+            [focusable]="false"
+            [messageStream]="tokensController"
+            [trackWith]="idProperty"
+            [tokens]="tokens"
+            (keyup)="onTokensKeyUp($event)"
+            (tokensChange)="onTokensChange($event)"
+            (tokenSelected)="enableShowMore ? openPicker(undefined) : undefined"
+            (focusIndexOverRange)="onTokensFocusIndexOverRange()"
+          >
+            <textarea
+              class="sky-form-control sky-lookup-input"
+              rows="1"
+              skyAutocomplete
+              wrap="off"
+              [attr.aria-label]="ariaLabel"
+              [attr.aria-labelledby]="ariaLabelledBy"
+              [attr.placeholder]="placeholderText"
+              [autocompleteAttribute]="autocompleteAttribute"
+              [disabled]="disabled"
+              (blur)="onAutocompleteBlur()"
+              (keydown)="inputKeydown($event, $event.target.value)"
+              (keyup)="inputKeyup($event)"
+            ></textarea>
+          </sky-tokens>
+          <div *ngIf="selectMode === 'single'"
+            class="sky-lookup-single-control"
+          >
+            <textarea
+              class="sky-form-control sky-lookup-input"
+              rows="1"
+              skyAutocomplete
+              wrap="off"
+              [attr.aria-label]="ariaLabel"
+              [attr.aria-labelledby]="ariaLabelledBy"
+              [attr.placeholder]="placeholderText"
+              [autocompleteAttribute]="autocompleteAttribute"
+              [disabled]="disabled"
+              (blur)="onAutocompleteBlur()"
+            ></textarea>
+          </div>
         </div>
+        <ng-container *ngIf="!inputBoxHostSvc && enableShowMore">
+          <ng-container *ngTemplateOutlet="showMoreButtonTemplateRef"></ng-container>
+        </ng-container>
+        <ng-container *ngIf="!inputBoxHostSvc && !enableShowMore">
+          <ng-container *ngTemplateOutlet="searchIconTemplateRef"></ng-container>
+        </ng-container>
       </div>
     </sky-autocomplete>
+  </div>
+</ng-template>
+
+<ng-template
+  #showMoreButtonTemplateRef
+>
+  <div
+    class="sky-input-group-btn"
+  >
+    <button
+      class="sky-btn sky-btn-default"
+      type="button"
+      [attr.aria-label]="'skyux_lookup_search_button_show_more' | skyLibResources"
+      (click)="onSearchButtonClick()"
+    >
+      <sky-icon *skyThemeIf="'default'"
+        icon="search"
+      ></sky-icon>
+      <sky-icon *skyThemeIf="'modern'"
+        iconType="skyux"
+        icon="search"
+      ></sky-icon>
+    </button>
+  </div>
+</ng-template>
+
+<ng-template
+  #searchIconTemplateRef
+>
+  <div
+    class="sky-input-group-icon sky-input-box-icon-inset"
+  >
+    <sky-icon *skyThemeIf="'default'"
+      icon="search"
+      [attr.aria-label]="'skyux_lookup_search_icon' | skyLibResources"
+    ></sky-icon>
+    <sky-icon *skyThemeIf="'modern'"
+      iconType="skyux"
+      icon="search"
+      [attr.aria-label]="'skyux_lookup_search_icon' | skyLibResources"
+    ></sky-icon>
   </div>
 </ng-template>

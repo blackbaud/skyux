@@ -17,6 +17,10 @@
     }
   }
 
+  .sky-lookup-search-flex-wrapper {
+    display: flex;
+  }
+
   &.sky-lookup-disabled {
     .sky-lookup-search {
       background-color: $sky-background-color-disabled;
@@ -53,6 +57,7 @@
   background-color: $sky-color-white;
   line-height: #{$sky-line-height-base}em;
   padding: 6px 12px 6px 3px;
+  flex-grow: 1;
 
   &:not(.sky-field-status-active) {
     @include sky-border(dark, top, bottom, left, right);

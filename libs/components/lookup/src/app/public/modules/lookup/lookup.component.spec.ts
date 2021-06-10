@@ -71,6 +71,12 @@ describe('Lookup component', function () {
     tick();
   }
 
+  function clickSearchButton(fixture: ComponentFixture<any>): void {
+    getSearchButton().click();
+    fixture.detectChanges();
+    tick();
+  }
+
   function clickShowMoreClearAll(fixture: ComponentFixture<any>): void {
     (<HTMLElement>document.querySelector('.sky-lookup-show-more-modal-clear-all-btn')).click();
     fixture.detectChanges();
@@ -106,6 +112,10 @@ describe('Lookup component', function () {
     return document.querySelector('.sky-autocomplete-action-add') as HTMLElement;
   }
 
+  function getDropdown(): HTMLElement {
+    return document.querySelector('.sky-autocomplete-results-container');
+  }
+
   function getInputElement(lookupComponent: SkyLookupComponent): HTMLInputElement {
     return lookupComponent['elementRef'].nativeElement.querySelector('.sky-lookup-input');
   }
@@ -114,8 +124,18 @@ describe('Lookup component', function () {
     return document.querySelector('.sky-lookup-show-more-modal-add') as HTMLElement;
   }
 
+  function getModalSearchInputValue(): string {
+    const modalSearchInput =
+      document.querySelector('.sky-search-input-container .sky-form-control') as HTMLInputElement;
+    return modalSearchInput.value;
+  }
+
   function getRepeaterItemCount(): number {
     return document.querySelectorAll('sky-modal sky-repeater-item').length;
+  }
+
+  function getSearchButton(): HTMLElement {
+    return document.querySelector('.sky-input-group-btn .sky-btn') as HTMLElement;
   }
 
   function getShowMoreButton(): HTMLElement {
@@ -377,7 +397,7 @@ describe('Lookup component', function () {
         }));
 
         it('should not do anything on token click', fakeAsync(() => {
-          const showMoreSpy = spyOn(component.lookupComponent, 'showMoreButtonClicked').and.stub();
+          const showMoreSpy = spyOn(component.lookupComponent, 'openPicker').and.stub();
 
           component.friends = [
             { name: 'Fred' },
@@ -704,6 +724,52 @@ describe('Lookup component', function () {
           })
         );
 
+        it('should open the modal when the search button is clicked',
+          fakeAsync(() => {
+            component.enableShowMore = true;
+            fixture.detectChanges();
+
+            spyOn(modalService, 'open').and.callThrough();
+
+            clickSearchButton(fixture);
+
+            expect(modalService.open).toHaveBeenCalled();
+
+            closeModal(fixture);
+          })
+        );
+
+        it('should close the dropdown when the search button is clicked',
+          fakeAsync(() => {
+            component.enableShowMore = true;
+            fixture.detectChanges();
+
+            performSearch('r', fixture);
+            expect(getDropdown()).not.toBeNull();
+
+            clickSearchButton(fixture);
+
+            expect(getDropdown()).toBeNull();
+
+            closeModal(fixture);
+          })
+        );
+
+        it('should populate search bar with current input value when the search button is clicked',
+          fakeAsync(() => {
+            component.enableShowMore = true;
+            fixture.detectChanges();
+
+            performSearch('foo', fixture);
+
+            clickSearchButton(fixture);
+
+            expect(getModalSearchInputValue()).toEqual('foo');
+
+            closeModal(fixture);
+          })
+        );
+
         describe('multi-select', () => {
 
           it('should populate the correct selected item and save that when no changes are made',
@@ -998,7 +1064,7 @@ describe('Lookup component', function () {
           }));
 
           it('should open the show more modal on token click', fakeAsync(() => {
-            const showMoreSpy = spyOn(component.lookupComponent, 'showMoreButtonClicked').and.stub();
+            const showMoreSpy = spyOn(component.lookupComponent, 'openPicker').and.stub();
 
             component.enableShowMore = true;
             component.friends = [
@@ -1013,7 +1079,7 @@ describe('Lookup component', function () {
           }));
 
           it('should open the show more modal on collapsed token click', fakeAsync(() => {
-            const showMoreSpy = spyOn(component.lookupComponent, 'showMoreButtonClicked').and.stub();
+            const showMoreSpy = spyOn(component.lookupComponent, 'openPicker').and.stub();
 
             component.enableShowMore = true;
             component.friends = [
@@ -1818,7 +1884,7 @@ describe('Lookup component', function () {
         }));
 
         it('should not do anything on token click', fakeAsync(() => {
-          const showMoreSpy = spyOn(component.lookupComponent, 'showMoreButtonClicked').and.stub();
+          const showMoreSpy = spyOn(component.lookupComponent, 'openPicker').and.stub();
 
           component.selectedFriends = [
             { name: 'Fred' },
@@ -2304,7 +2370,7 @@ describe('Lookup component', function () {
           }));
 
           it('should open the show more modal on token click', fakeAsync(() => {
-            const showMoreSpy = spyOn(component.lookupComponent, 'showMoreButtonClicked').and.stub();
+            const showMoreSpy = spyOn(component.lookupComponent, 'openPicker').and.stub();
 
             component.enableShowMore = true;
             component.selectedFriends = [
@@ -2321,7 +2387,7 @@ describe('Lookup component', function () {
           }));
 
           it('should open the show more modal on collapsed token click', fakeAsync(() => {
-            const showMoreSpy = spyOn(component.lookupComponent, 'showMoreButtonClicked').and.stub();
+            const showMoreSpy = spyOn(component.lookupComponent, 'openPicker').and.stub();
 
             component.enableShowMore = true;
             component.selectedFriends = [

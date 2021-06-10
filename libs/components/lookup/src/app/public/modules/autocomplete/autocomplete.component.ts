@@ -9,6 +9,7 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
+  Optional,
   Output,
   TemplateRef,
   ViewChild
@@ -23,14 +24,27 @@ import {
 } from '@skyux/core';
 
 import {
+  SkyInputBoxHostService
+} from '@skyux/forms';
+
+import {
   fromEvent as observableFromEvent,
-  Subject
+  Subject,
+  Subscription
 } from 'rxjs';
 
 import {
   debounceTime,
   takeUntil
 } from 'rxjs/operators';
+
+import {
+  SkyAutocompleteMessage
+} from './types/autocomplete-message';
+
+import {
+  SkyAutocompleteMessageType
+} from './types/autocomplete-message-type';
 
 import {
   SkyAutocompleteSearchFunction
@@ -137,6 +151,20 @@ export class SkyAutocompleteComponent
    */
   @Input()
   public enableShowMore: boolean = false;
+
+  /**
+   * Specifies an observable of `SkyAutocompleteMessage` that can close the dropdown.
+   * @internal
+   */
+  @Input()
+  public set messageStream(value: Subject<SkyAutocompleteMessage>) {
+    this._messageStream = value;
+    this.initMessageStream();
+  }
+
+  public get messageStream(): Subject<SkyAutocompleteMessage> {
+    return this._messageStream;
+  }
 
   /**
    * Specifies the object properties to search.
@@ -375,6 +403,8 @@ export class SkyAutocompleteComponent
 
   private inputDirectiveUnsubscribe = new Subject();
 
+  private messageStreamSub: Subscription;
+
   private ngUnsubscribe = new Subject();
 
   private overlay: SkyOverlayInstance;
@@ -391,6 +421,7 @@ export class SkyAutocompleteComponent
   private _descriptorProperty: string;
   private _highlightText: string;
   private _inputDirective: SkyAutocompleteInputDirective;
+  private _messageStream: Subject<SkyAutocompleteMessage>;
   private _propertiesToSearch: string[];
   private _resultsRef: ElementRef;
   private _search: SkyAutocompleteSearchFunction;
@@ -405,7 +436,8 @@ export class SkyAutocompleteComponent
     private elementRef: ElementRef,
     private affixService: SkyAffixService,
     private adapterService: SkyAutocompleteAdapterService,
-    private overlayService: SkyOverlayService
+    private overlayService: SkyOverlayService,
+    @Optional() private inputBoxHostSvc?: SkyInputBoxHostService
   ) {
     const id = ++uniqueId;
     this.resultsListId = `sky-autocomplete-list-${id}`;
@@ -680,7 +712,11 @@ export class SkyAutocompleteComponent
       .subscribe(() => {
         /* istanbul ignore else */
         if (this.isOpen) {
-          this.adapterService.setDropdownWidth(this.elementRef, this.resultsRef);
+          this.adapterService.setDropdownWidth(
+            this.elementRef,
+            this.resultsRef,
+            !!this.inputBoxHostSvc
+          );
         }
       });
   }
@@ -696,7 +732,11 @@ export class SkyAutocompleteComponent
     if (!this.affixer) {
       const affixer = this.affixService.createAffixer(this.resultsRef);
 
-      this.adapterService.setDropdownWidth(this.elementRef, this.resultsRef);
+      this.adapterService.setDropdownWidth(
+        this.elementRef,
+        this.resultsRef,
+        !!this.inputBoxHostSvc
+      );
 
       affixer.affixTo(this.elementRef.nativeElement, {
         autoFitContext: SkyAffixAutoFitContext.Viewport,
@@ -714,6 +754,28 @@ export class SkyAutocompleteComponent
     if (this.affixer) {
       this.affixer.destroy();
       this.affixer = undefined;
+    }
+  }
+
+  private initMessageStream(): void {
+    /* istanbul ignore if */
+    if (this.messageStreamSub) {
+      this.messageStreamSub.unsubscribe();
+    }
+
+    if (this.messageStream) {
+      this.messageStreamSub = this.messageStream
+        .pipe(
+          takeUntil(this.ngUnsubscribe)
+        )
+        .subscribe((message: SkyAutocompleteMessage) => {
+          /* tslint:disable-next-line:switch-default */
+          switch (message.type) {
+            case SkyAutocompleteMessageType.CloseDropdown:
+            this.closeDropdown();
+            break;
+          }
+        });
     }
   }
 

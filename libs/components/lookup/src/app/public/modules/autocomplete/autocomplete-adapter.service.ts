@@ -10,6 +10,8 @@ import {
   SkyOverlayInstance
 } from '@skyux/core';
 
+import '../../polyfills';
+
 /**
  * @internal
  */
@@ -49,9 +51,18 @@ export class SkyAutocompleteAdapterService {
     }
   }
 
-  public setDropdownWidth(elementRef: ElementRef, dropdownRef: ElementRef): void {
-    const width = elementRef.nativeElement.getBoundingClientRect().width;
-    this.renderer.setStyle(dropdownRef.nativeElement, 'width', `${width}px`);
+  public setDropdownWidth(
+    elementRef: ElementRef,
+    dropdownRef: ElementRef,
+    isInputBox: boolean = false
+  ): void {
+    const parentElement = isInputBox
+      ? elementRef.nativeElement.closest('.sky-input-box')
+      : elementRef.nativeElement;
+    if (parentElement) {
+      const width = parentElement.getBoundingClientRect().width;
+      this.renderer.setStyle(dropdownRef.nativeElement, 'width', `${width}px`);
+    }
   }
 
   /**

@@ -99,7 +99,7 @@ export class SkyAutocompleteFixtureComponent {
     this.selectionFromChangeEvent = event;
   }
 
-  public showMoreButtonClicked(): void {
+  public onShowMoreClick(): void {
     return;
   }
 }
