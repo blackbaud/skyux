@@ -1,3 +1,7 @@
+# 4.7.0 (2021-06-10)
+
+- Added `skyHref` support to the action button component. [#221](https://github.com/blackbaud/skyux-layout/pull/221)
+
 # 4.6.2 (2021-04-28)
 
 - Fixed the description list component to properly provide the `MutationObserverService`. [#215](https://github.com/blackbaud/skyux-layout/pull/215)
