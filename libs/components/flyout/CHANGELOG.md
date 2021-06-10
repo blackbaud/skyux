@@ -1,3 +1,7 @@
+# 4.2.0 (2021-06-10)
+
+- Added `skyHref` support to the flyout component. [#116](https://github.com/blackbaud/skyux-flyout/pull/116)
+
 # 4.1.1 (2021-03-22)
 
 - Replaced theme conditionals in templates with the new `skyThemeIf` directive. [#110](https://github.com/blackbaud/skyux-flyout/pull/110)
