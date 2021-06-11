@@ -1,3 +1,7 @@
+# 4.19.0 (2021-06-11)
+
+- Added support for inline help positioning inside the input box component. [#265](https://github.com/blackbaud/skyux-forms/pull/265)
+
 # 4.18.0 (2021-05-25)
 
 - Added support for inset icons to the input box component. [#266](https://github.com/blackbaud/skyux-forms/pull/266)
