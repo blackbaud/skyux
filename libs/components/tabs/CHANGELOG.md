@@ -1,6 +1,6 @@
 # 4.6.7 (2021-06-11)
 
-- Fixed the module name component in the installation documentation. [#171](https://github.com/blackbaud/skyux-tabs/pull/171)
+- Fixed the module name in the installation documentation. [#171](https://github.com/blackbaud/skyux-tabs/pull/171)
 
 # 4.6.6 (2021-05-12)
 
