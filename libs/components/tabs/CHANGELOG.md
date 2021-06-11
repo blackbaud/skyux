@@ -1,3 +1,7 @@
+# 4.6.7 (2021-06-11)
+
+- Fixed the module name component in the installation documentation. [#171](https://github.com/blackbaud/skyux-tabs/pull/171)
+
 # 4.6.6 (2021-05-12)
 
 - Fixed the tabset component to ensure all tabs are registered if new tabs are added quickly on initialization. [#166](https://github.com/blackbaud/skyux-tabs/pull/166)
