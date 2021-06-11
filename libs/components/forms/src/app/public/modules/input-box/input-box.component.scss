@@ -15,6 +15,15 @@ sky-input-box {
   .sky-form-group {
     display: flex;
     flex-wrap: wrap;
+
+    .sky-control-help {
+      margin: 0 0 0 4px;
+    }
+
+    .sky-input-box-label-wrapper {
+      display: flex;
+      width: 100%;
+    }
   }
 
   .sky-input-box-input-group-inner {
@@ -56,14 +65,11 @@ sky-input-box {
     }
   }
 
-  .sky-control-label {
-    flex-grow: 1;
-  }
-
   sky-character-counter-indicator {
     flex-grow: 1;
     text-align: right;
     margin-bottom: $sky-margin-half;
+    margin-left: auto;
   }
 
   .sky-control-label + sky-character-counter-indicator {
@@ -213,24 +219,52 @@ sky-input-box {
       margin-bottom: 0;
       padding: 0;
 
-      .sky-control-label,
-      sky-character-counter-indicator {
-        margin-bottom: 0;
-        padding: 6px 15px 1px 15px;
-        position: relative;
-        /*
-          The label should be above input elements so clicking on it will focus on the
-          input element. It is important the user be able to click on the label rather
-          than the input element's top padding, because clicking the label will place
-          the cursor where the user last left it, while clicking the input's padding
-          always places the cursor at the beginning of the text.
-        */
-        z-index: 2;
-      }
+      .sky-input-box-label-wrapper {
+        display: flex;
+        padding: $sky-theme-modern-padding-h-md;
+        width: 100%;
 
-      .sky-control-label,
-      .sky-character-count-label {
-        font-size: 13px;
+        .sky-control-label,
+        .sky-control-help,
+        sky-character-counter-indicator {
+          margin-bottom: 0;
+          position: relative;
+          /*
+            The label elements should be above input elements so clicking on it will focus on the
+            input element. It is important the user be able to click on the label rather
+            than the input element's top padding, because clicking the label will place
+            the cursor where the user last left it, while clicking the input's padding
+            always places the cursor at the beginning of the text.
+          */
+          z-index: 2;
+        }
+
+        .sky-control-label {
+          padding: 6px 0 1px 0;
+        }
+
+        .sky-control-label,
+        .sky-character-count-label {
+          font-size: 13px;
+        }
+
+        .sky-control-help {
+          margin: 0;
+
+          .sky-help-inline {
+            font-size: 16px;
+            padding: 3px $sky-theme-modern-margin-inline-sm 0;
+          }
+
+          &:last-child .sky-help-inline {
+            padding: 3px 0 0 $sky-theme-modern-margin-inline-sm;
+          }
+        }
+
+        sky-character-counter-indicator {
+          margin-left: auto;
+          padding: 3px 0 0;
+        }
       }
 
       .sky-form-control {
@@ -293,12 +327,10 @@ sky-input-box {
         }
       }
 
-      .sky-input-box-form-group-inner {
-        > .sky-form-control:first-child,
-        > *:first-child .sky-form-control {
-          margin-top: 0;
-          padding-top: 10px;
-        }
+      .sky-input-box-label-wrapper:empty + .sky-form-control,
+      .sky-input-box-label-wrapper:empty + *:first-child .sky-form-control {
+        margin-top: 0;
+        padding-top: $sky-theme-modern-space-sm;
       }
 
       /* Firefox puts an extra 5px left padding on select elements. This removes it. */

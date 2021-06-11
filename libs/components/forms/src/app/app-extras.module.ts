@@ -21,6 +21,7 @@ import {
 } from '@skyux/http';
 
 import {
+  SkyHelpInlineModule,
   SkyIconModule,
   SkyStatusIndicatorModule
 } from '@skyux/indicators';
@@ -53,6 +54,7 @@ import {
     SkyDocsToolsModule,
     SkyFileAttachmentsModule,
     SkyFluidGridModule,
+    SkyHelpInlineModule,
     SkyIconModule,
     SkyIdModule,
     SkyInputBoxModule,

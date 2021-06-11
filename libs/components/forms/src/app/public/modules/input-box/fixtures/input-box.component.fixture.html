@@ -15,7 +15,34 @@
       skyId
       [disabled]="basicDisabled"
       #basicInput="skyId"
-    >f
+    >
+  </sky-input-box>
+</div>
+
+<div
+  class="input-inline-help"
+>
+  <sky-input-box>
+    <label
+      class="sky-control-label"
+      [for]="inlineHelp.id"
+    >
+      Basic input with inline help
+    </label>
+    <div
+      class="sky-control-help"
+    >
+      <button
+        type="button"
+      >
+        CUSTOM HELP WIDGET
+      </button>
+    </div>
+    <input
+      class="sky-form-control"
+      skyId
+      #inlineHelp="skyId"
+    >
   </sky-input-box>
 </div>
 

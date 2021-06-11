@@ -36,6 +36,8 @@ export class InputBoxVisualComponent implements OnInit, AfterViewInit {
 
   public errorNgModelValue: string;
 
+  public myValue: string = 'Value';
+
   @ViewChild('errorNgModel')
   public errorNgModel: NgModel;
 
@@ -71,6 +73,10 @@ export class InputBoxVisualComponent implements OnInit, AfterViewInit {
 
   public themeSettingsChange(themeSettings: SkyThemeSettings): void {
     this.themeSvc.setTheme(themeSettings);
+  }
+
+  public onActionClick(): void {
+    console.log('click!');
   }
 
 }

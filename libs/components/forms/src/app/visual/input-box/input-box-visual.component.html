@@ -65,6 +65,102 @@
     <sky-row>
       <sky-column>
         <div
+          id="input-box-help-inline"
+        >
+          <sky-input-box
+            class="sky-margin-stacked-lg"
+          >
+            <sky-help-inline
+              class="sky-control-help"
+            ></sky-help-inline>
+            <label
+              class="sky-control-label"
+              [for]="inputBoxInlineHelp.id"
+            >
+              Input with inline help
+            </label>
+            <input
+              class="sky-form-control"
+              skyId
+              type="text"
+              value="Value"
+              #inputBoxInlineHelp="skyId"
+            >
+          </sky-input-box>
+        </div>
+      </sky-column>
+    </sky-row>
+
+    <sky-row>
+      <sky-column>
+        <div
+          id="input-box-help-inline-required-with-character-counter"
+        >
+          <sky-input-box
+            class="sky-margin-stacked-lg"
+          >
+            <sky-help-inline
+              class="sky-control-help"
+            ></sky-help-inline>
+            <label
+              class="sky-control-label sky-control-label-required"
+              [for]="inputBoxInlineHelpRequiredCharacterCounter.id"
+            >
+              Required input with inline help and character counter
+            </label>
+            <sky-character-counter-indicator
+              #indicator
+            >
+            </sky-character-counter-indicator>
+            <input
+              class="sky-form-control"
+              skyId
+              type="text"
+              required
+              skyCharacterCounter
+              [(ngModel)]="myValue"
+              [skyCharacterCounterIndicator]="indicator"
+              [skyCharacterCounterLimit]="10"
+              #inputBoxInlineHelpRequiredCharacterCounter="skyId"
+            >
+          </sky-input-box>
+        </div>
+      </sky-column>
+    </sky-row>
+
+    <sky-row>
+      <sky-column>
+        <div
+          id="input-box-help-inline-overflow"
+        >
+          <sky-input-box
+            class="sky-margin-stacked-lg"
+          >
+            <sky-help-inline
+              class="sky-control-help"
+              (actionClick)="onActionClick()"
+            ></sky-help-inline>
+            <label
+              class="sky-control-label"
+              [for]="inputBoxInlineHelpOverflow.id"
+            >
+              Input with inline help and overflowing text. The label should wrap while the inline help icon should stick to the top right of the input box.
+            </label>
+            <input
+              class="sky-form-control"
+              skyId
+              type="text"
+              value="Value"
+              #inputBoxInlineHelpOverflow="skyId"
+            >
+          </sky-input-box>
+        </div>
+      </sky-column>
+    </sky-row>
+
+    <sky-row>
+      <sky-column>
+        <div
           id="input-box-button-single"
         >
           <sky-input-box

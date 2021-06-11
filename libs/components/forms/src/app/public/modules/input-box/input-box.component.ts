@@ -105,7 +105,10 @@ export class SkyInputBoxComponent implements OnInit {
   }
 
   public formControlFocusIn(): void {
-    this.updateHasFocus(true);
+    const inlineHelpEl = this.adapterService.getInlineHelpElement(this.elementRef);
+    if (!this.adapterService.isFocusInElement(inlineHelpEl)) {
+      this.updateHasFocus(true);
+    }
   }
 
   public formControlFocusOut(): void {

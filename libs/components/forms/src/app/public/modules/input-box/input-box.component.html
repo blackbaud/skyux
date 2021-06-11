@@ -7,9 +7,19 @@
     <div
       class="sky-form-group"
     >
-      <ng-container
-        *ngTemplateOutlet="labelTemplate"
-      ></ng-container>
+      <div
+        class="sky-input-box-label-wrapper"
+      >
+        <ng-container
+          *ngTemplateOutlet="labelTemplate"
+        ></ng-container>
+        <ng-container
+          *ngTemplateOutlet="inlineHelpTemplate"
+        ></ng-container>
+        <ng-container
+          *ngTemplateOutlet="characterCountTemplate"
+        ></ng-container>
+      </div>
       <div
         class="sky-input-group"
       >
@@ -72,9 +82,19 @@
           <div
             class="sky-input-box-form-group-inner"
           >
-            <ng-container
-              *ngTemplateOutlet="labelTemplate"
-            ></ng-container>
+            <div
+              class="sky-input-box-label-wrapper"
+            >
+              <ng-container
+                *ngTemplateOutlet="labelTemplate"
+              ></ng-container>
+              <ng-container
+                *ngTemplateOutlet="inlineHelpTemplate"
+              ></ng-container>
+              <ng-container
+                *ngTemplateOutlet="characterCountTemplate"
+              ></ng-container>
+            </div>
             <ng-container
               *ngTemplateOutlet="inputTemplate"
             ></ng-container>
@@ -102,6 +122,19 @@
   <ng-content
     select=".sky-control-label"
   ></ng-content>
+</ng-template>
+
+<ng-template
+  #inlineHelpTemplate
+>
+  <ng-content
+    select=".sky-control-help"
+  ></ng-content>
+</ng-template>
+
+<ng-template
+  #characterCountTemplate
+>
   <ng-content
     select="sky-character-counter-indicator"
   ></ng-content>
