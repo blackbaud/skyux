@@ -4,6 +4,14 @@ import {
 } from '@angular/core/testing';
 
 import {
+  SkyMediaQueryService
+} from '@skyux/core';
+
+import {
+  MockSkyMediaQueryService
+} from '@skyux/core/testing';
+
+import {
   of
 } from 'rxjs';
 
@@ -28,11 +36,19 @@ describe('Demo page component', () => {
 
   let fixture: ComponentFixture<DemoPageFixtureComponent>;
   let component: DemoPageFixtureComponent;
+  let mockMediaQueryService: MockSkyMediaQueryService;
 
   beforeEach(() => {
+    mockMediaQueryService = new MockSkyMediaQueryService();
     TestBed.configureTestingModule({
       imports: [
         DemoPageFixturesModule
+      ],
+      providers: [
+        {
+          provide: SkyMediaQueryService,
+          useValue: mockMediaQueryService
+        }
       ]
     });
 

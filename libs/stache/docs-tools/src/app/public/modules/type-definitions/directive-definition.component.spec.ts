@@ -4,6 +4,14 @@ import {
 } from '@angular/core/testing';
 
 import {
+  SkyMediaQueryService
+} from '@skyux/core';
+
+import {
+  MockSkyMediaQueryService
+} from '@skyux/core/testing';
+
+import {
   expect
 } from '@skyux-sdk/testing';
 
@@ -22,8 +30,11 @@ import {
 describe('Directive definition component', function () {
 
   let fixture: ComponentFixture<DirectiveDefinitionFixtureComponent>;
+  let mockMediaQueryService: MockSkyMediaQueryService;
 
   beforeEach(() => {
+    mockMediaQueryService = new MockSkyMediaQueryService();
+
     TestBed.configureTestingModule({
       imports: [
         TypeDefinitionsFixturesModule
@@ -41,6 +52,10 @@ describe('Directive definition component', function () {
               }
             ]
           }
+        },
+        {
+          provide: SkyMediaQueryService,
+          useValue: mockMediaQueryService
         }
       ]
     });
