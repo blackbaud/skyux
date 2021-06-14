@@ -25,8 +25,7 @@ import {
 } from '@skyux/indicators';
 
 import {
-  SkyThemeModule,
-  SkyThemeService
+  SkyThemeModule
 } from '@skyux/theme';
 
 import {
@@ -78,8 +77,7 @@ import {
     MutationObserverService,
     SkyModalAdapterService,
     SkyModalService,
-    SkyAppWindowRef,
-    SkyThemeService
+    SkyAppWindowRef
   ],
   imports: [
     CommonModule,
