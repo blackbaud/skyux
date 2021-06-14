@@ -1,3 +1,7 @@
+# 4.6.0 (2021-06-14)
+
+- Added an optional `wrapperClass` for the overlay component. [#226](https://github.com/blackbaud/skyux-core/pull/226)
+
 # 4.5.1 (2021-05-24)
 
 - Fixed the overlay component to run change detection after creating the content component. [#220](https://github.com/blackbaud/skyux-core/pull/220)
