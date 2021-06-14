@@ -1,6 +1,7 @@
 # 4.7.0 (2021-06-10)
 
 - Added `skyHref` support to the action button component. [#221](https://github.com/blackbaud/skyux-layout/pull/221)
+- Fixed the back to top directive to hide the back to top button if the `buttonHidden` option is enabled after the button renders. [#219](https://github.com/blackbaud/skyux-layout/pull/219)
 
 # 4.6.2 (2021-04-28)
 
