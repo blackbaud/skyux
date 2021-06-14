@@ -135,7 +135,8 @@ export class SkyOverlayService {
       enableClose: false,
       enablePointerEvents: false,
       enableScroll: true,
-      showBackdrop: false
+      showBackdrop: false,
+      wrapperClass: ''
     };
 
     return {...defaults, ...config};
