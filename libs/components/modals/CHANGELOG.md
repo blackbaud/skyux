@@ -1,3 +1,7 @@
+# 4.5.4 (2021-06-14)
+
+- Fixed a bug where `SkyThemeService` was erroneously provided by `SkyConfirmModule` and `SkyModalModule`. [#153](https://github.com/blackbaud/skyux-modals/pull/153)
+
 # 4.5.3 (2021-05-04)
 
 - Deprecated `SkyConfirmType.YesCancel` and `SkyConfirmType.YesNoCancel`. Use the `SkyConfirmType.Custom` type to follow the guidance that labels should clearly indicate the actions that occur when users select buttons. [#147](https://github.com/blackbaud/skyux-modals/pull/147)
