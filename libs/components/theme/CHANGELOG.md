@@ -1,3 +1,7 @@
+# 4.17.0 (2021-06-15)
+
+- Updated the SKY UX icon font version to 4.0.0-beta.3. [#238](https://github.com/blackbaud/skyux-theme/pull/238)
+
 # 4.16.3 (2021-05-19)
 
 - Added a CSS class to omit the link style on `<a>` tags that do not have `href` attributes. [#229](https://github.com/blackbaud/skyux-theme/pull/229)
