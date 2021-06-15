@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  Input,
   TemplateRef,
   OnDestroy,
   OnInit,
@@ -54,6 +55,12 @@ let nextId = 0;
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyDatepickerComponent implements OnDestroy, OnInit {
+
+  /**
+   * Adds a class to the date picker.
+   */
+  @Input()
+  public pickerClass = '';
 
   /**
    * @internal
@@ -311,6 +318,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
 
   private createOverlay(): void {
     const overlay = this.overlayService.create({
+      wrapperClass: this.pickerClass,
       enableClose: false,
       enablePointerEvents: false
     });

@@ -1022,6 +1022,16 @@ describe('datepicker', () => {
         expect(component.datepicker.calendarIsVisible).toBe(true);
       }));
     });
+
+    describe('overlay wrapperClass', () => {
+      it('should pass a wrapper class to the overlay', fakeAsync(() => {
+        component.datepicker.pickerClass = 'example-class';
+        fixture.detectChanges();
+        clickTrigger(fixture);
+        const overlay = document.querySelector('.sky-overlay');
+        expect(overlay).toHaveCssClass('example-class');
+      }));
+    });
   });
 
   describe('reactive form', () => {
