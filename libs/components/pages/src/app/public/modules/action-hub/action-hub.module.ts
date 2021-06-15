@@ -8,7 +8,7 @@ import {
   SkyWaitModule
 } from '@skyux/indicators';
 import { SkyActionButtonModule, SkyFluidGridModule } from '@skyux/layout';
-import { SkyAppLinkModule } from '@skyux/router';
+import { SkyAppLinkModule, SkyHrefModule } from '@skyux/router';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyLinkListComponent } from '../link-list/link-list.component';
@@ -33,7 +33,8 @@ import { SkyActionHubComponent } from './action-hub.component';
     SkyPageHeaderModule,
     SkyPagesResourcesModule,
     SkyThemeModule,
-    SkyWaitModule
+    SkyWaitModule,
+    SkyHrefModule
   ],
   declarations: [
     SkyActionHubButtonsComponent,

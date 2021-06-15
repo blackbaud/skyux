@@ -37,19 +37,22 @@ export class ActionHubDocsDemoComponent implements AfterViewInit {
         label: 'Recent 1',
         permalink: {
           url: '#'
-        }
+        },
+        lastAccessed: new Date(2021, 6, 14, 11, 45)
       },
       {
         label: 'Recent 2',
         permalink: {
           url: '#'
-        }
+        },
+        lastAccessed: new Date(2021, 6, 14, 11, 44)
       },
       {
         label: 'Recent 3',
         permalink: {
           url: '#'
-        }
+        },
+        lastAccessed: new Date(2021, 6, 14, 11, 43)
       }
     ],
     relatedLinks: [

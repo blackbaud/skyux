@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { expect } from '@skyux-sdk/testing';
 import { SkyIconModule } from '@skyux/indicators';
-import { SkyAppLinkModule } from '@skyux/router';
+import { SkyAppLinkModule, SkyHrefModule } from '@skyux/router';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { PageHeaderFixturesComponent } from './fixtures/page-header-fixtures.component';
@@ -18,7 +19,9 @@ describe('Page header component', () => {
         CommonModule,
         SkyAppLinkModule,
         SkyThemeModule,
-        SkyIconModule
+        SkyIconModule,
+        SkyHrefModule,
+        RouterTestingModule.withRoutes([])
       ]
     });
   });

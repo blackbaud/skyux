@@ -1,5 +1,10 @@
 <div #actionHubComponent>
-  <sky-action-hub [data]="data">
+  <sky-action-hub
+    [needsAttention]="data.needsAttention"
+    [relatedLinks]="data.relatedLinks"
+    [recentLinks]="data.recentLinks"
+    [title]="data.title"
+  >
     <sky-action-hub-buttons>
       <button
         (click)="buttonClick($event)"

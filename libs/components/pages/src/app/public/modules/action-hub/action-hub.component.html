@@ -1,5 +1,7 @@
-<sky-wait [isFullPage]="true" [isWaiting]="loading"></sky-wait>
-<sky-fluid-grid *ngIf="!loading">
+<ng-template #loadingTemplateRef>
+  <sky-wait [isWaiting]="true"></sky-wait>
+</ng-template>
+<sky-fluid-grid>
   <sky-row>
     <sky-column>
       <sky-page-header
@@ -20,13 +22,21 @@
       </div>
 
       <div
-        *ngIf="needsAttention?.length > 0"
         [skyThemeClass]="{
           'sky-margin-stacked-separate': 'default',
           'sky-margin-stacked-xxl': 'modern'
         }"
       >
-        <sky-needs-attention [items]="needsAttention"></sky-needs-attention>
+        <ng-container
+          *ngIf="
+            needsAttention === 'loading';
+            then loadingTemplateRef;
+            else needsAttentionTemplateRef
+          "
+        ></ng-container>
+        <ng-template #needsAttentionTemplateRef>
+          <sky-needs-attention [items]="needsAttention"></sky-needs-attention>
+        </ng-template>
       </div>
 
       <div
@@ -40,11 +50,11 @@
     </sky-column>
     <sky-column screenLarge="3" screenXSmall="12">
       <sky-link-list
-        [links]="relatedLinks"
+        [links]="getRelatedLinksSorted(relatedLinks)"
         [title]="'sky_action_hub_related_links' | skyLibResources"
       ></sky-link-list>
       <sky-link-list
-        [links]="recentLinks"
+        [links]="getRecentLinksSorted(recentLinks, 5)"
         [title]="'sky_action_hub_recent_links' | skyLibResources"
       ></sky-link-list>
     </sky-column>

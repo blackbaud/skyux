@@ -9,7 +9,7 @@ import { SkyPageLink } from '../action-hub/types/page-link';
 })
 export class SkyLinkListComponent {
   @Input()
-  public links: SkyPageLink[];
+  public links: SkyPageLink[] | 'loading';
 
   @Input()
   public title: string;
