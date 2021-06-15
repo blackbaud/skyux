@@ -1,3 +1,7 @@
+# 4.12.0 (2021-06-15)
+
+- Added an optional `pickerClass` input for the datepicker component. [#264](https://github.com/blackbaud/skyux-datetime/pull/264)
+
 # 4.11.1 (2021-05-21)
 
 - Fixed the date range picker to disable the inner form controls when consumers use reactive form controls during initialization and when they use the `disabled` input. [#261](https://github.com/blackbaud/skyux-datetime/pull/261)
