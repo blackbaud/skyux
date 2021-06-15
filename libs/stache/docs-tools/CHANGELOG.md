@@ -1,3 +1,7 @@
+# 4.9.1 (2021-06-15)
+
+- Added support for `marked@2.0.7`. [#163](https://github.com/blackbaud/skyux-docs-tools/pull/163)
+
 # 4.9.0 (2021-04-15)
 
 - Updated the StackBlitz demos to use Angular 9. [#160](https://github.com/blackbaud/skyux-docs-tools/pull/160)
