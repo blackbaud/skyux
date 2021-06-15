@@ -117,7 +117,7 @@ describe('Lookup component', function () {
   }
 
   function getInputElement(lookupComponent: SkyLookupComponent): HTMLInputElement {
-    return lookupComponent['elementRef'].nativeElement.querySelector('.sky-lookup-input');
+    return lookupComponent['lookupWrapperRef'].nativeElement.querySelector('.sky-lookup-input');
   }
 
   function getModalAddButton(): HTMLElement {
@@ -665,6 +665,7 @@ describe('Lookup component', function () {
 
             addButton.click();
             fixture.detectChanges();
+            tick();
 
             expect(addButtonSpy).toHaveBeenCalled();
           })
@@ -2016,6 +2017,7 @@ describe('Lookup component', function () {
 
             addButton.click();
             fixture.detectChanges();
+            tick();
 
             expect(addButtonSpy).toHaveBeenCalled();
           })
@@ -3008,9 +3010,13 @@ describe('Lookup component', function () {
   describe('inside input box', () => {
     let fixture: ComponentFixture<SkyLookupInputBoxTestComponent>;
     let nativeElement: HTMLElement;
+    let component: SkyLookupInputBoxTestComponent;
+    let lookupComponent: SkyLookupComponent;
 
     beforeEach(() => {
       fixture = TestBed.createComponent(SkyLookupInputBoxTestComponent);
+      component = fixture.componentInstance;
+      lookupComponent = component.lookupComponent;
       nativeElement = fixture.nativeElement as HTMLElement;
     });
 
@@ -3025,5 +3031,50 @@ describe('Lookup component', function () {
       expect(containerEl).toHaveCssClass('sky-lookup');
     }));
 
+    it('should unfocus the component if it loses focus', fakeAsync(function () {
+      fixture.detectChanges();
+
+      const inputElement = getInputElement(lookupComponent);
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focusin');
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      expect(lookupComponent.isInputFocused).toEqual(true);
+
+      SkyAppTestUtility.fireDomEvent(document, 'focusin');
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      expect(lookupComponent.isInputFocused).toEqual(false);
+    }));
+
+    describe('mouse interactions', function () {
+      it('should focus the input if the host is clicked', fakeAsync(function () {
+        fixture.detectChanges();
+
+        const hostElement = document.querySelector('.sky-lookup');
+        const input = getInputElement(lookupComponent);
+
+        triggerClick(hostElement, fixture);
+
+        expect(document.activeElement).toEqual(input);
+      }));
+
+      it('should not focus the input if a token is clicked', fakeAsync(function () {
+        fixture.detectChanges();
+
+        performSearch('s', fixture);
+        selectSearchResult(0, fixture);
+
+        const tokenElements = getTokenElements();
+        const input = getInputElement(lookupComponent);
+
+        triggerClick(tokenElements.item(0), fixture, true);
+
+        expect(document.activeElement).not.toEqual(input);
+      }));
+    });
   });
 });

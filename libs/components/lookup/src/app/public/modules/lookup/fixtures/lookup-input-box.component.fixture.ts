@@ -1,6 +1,7 @@
 import {
   Component,
-  OnInit
+  OnInit,
+  ViewChild
 } from '@angular/core';
 
 import {
@@ -9,11 +10,20 @@ import {
   FormGroup
 } from '@angular/forms';
 
+import {
+  SkyLookupComponent
+} from '../lookup.component';
+
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './lookup-input-box.component.fixture.html'
 })
 export class SkyLookupInputBoxTestComponent implements OnInit {
+
+  @ViewChild(SkyLookupComponent, {
+    static: true
+  })
+  public lookupComponent: SkyLookupComponent;
 
   public autocompleteAttribute: string;
   public data: any[];

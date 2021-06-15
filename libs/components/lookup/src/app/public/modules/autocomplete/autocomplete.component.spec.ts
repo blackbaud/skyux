@@ -621,6 +621,7 @@ describe('Autocomplete component', () => {
 
         addButton.click();
         fixture.detectChanges();
+        tick();
 
         expect(addButtonSpy).toHaveBeenCalled();
       })
@@ -675,7 +676,7 @@ describe('Autocomplete component', () => {
       })
     );
 
-    it('should emit an event correctly when the add button is enabled and clicked',
+    it('should emit an event correctly when the show more button is enabled and clicked',
       fakeAsync(() => {
         component.enableShowMore = true;
         const showMoreButtonSpy = spyOn(component, 'onShowMoreClick').and.callThrough();
@@ -690,6 +691,7 @@ describe('Autocomplete component', () => {
 
         showMoreButton.click();
         fixture.detectChanges();
+        tick();
 
         expect(showMoreButtonSpy).toHaveBeenCalled();
       })
@@ -951,6 +953,7 @@ describe('Autocomplete component', () => {
           const notifySpy = spyOn(autocomplete.selectionChange, 'emit').and.callThrough();
 
           enterSearch('r', fixture);
+          expect(getSearchResultsContainer()).not.toBeNull();
           sendEnter(inputElement, fixture);
 
           expect(inputElement.value).toEqual('Red');
@@ -958,6 +961,35 @@ describe('Autocomplete component', () => {
           expect(notifySpy).toHaveBeenCalledWith({
             selectedItem: input.value
           });
+          expect(getSearchResultsContainer()).toBeNull();
+        })
+      );
+
+      it('should not close the dropdown when enter is pressed on an item with the add button enabled',
+        fakeAsync(() => {
+          component.showAddButton = true;
+          fixture.detectChanges();
+          const inputElement: HTMLInputElement = getInputElement();
+
+          enterSearch('r', fixture);
+          expect(getSearchResultsContainer()).not.toBeNull();
+          sendEnter(inputElement, fixture);
+
+          expect(getSearchResultsContainer()).not.toBeNull();
+        })
+      );
+
+      it('should not close the dropdown when enter is pressed on an item with show more enabled',
+        fakeAsync(() => {
+          component.enableShowMore = true;
+          fixture.detectChanges();
+          const inputElement: HTMLInputElement = getInputElement();
+
+          enterSearch('r', fixture);
+          expect(getSearchResultsContainer()).not.toBeNull();
+          sendEnter(inputElement, fixture);
+
+          expect(getSearchResultsContainer()).not.toBeNull();
         })
       );
 
@@ -1015,6 +1047,7 @@ describe('Autocomplete component', () => {
         btn.focus();
         const overlay = document.querySelector('.sky-overlay') as any;
         SkyAppTestUtility.fireDomEvent(overlay, 'click');
+        tick();
 
         expect(component.myForm.value.favoriteColor).toEqual(selectedValue);
         expect(input.value).toEqual(selectedValue);
@@ -1060,6 +1093,65 @@ describe('Autocomplete component', () => {
         })
       );
 
+      it('should close the dropdown if text value becomes empty',
+        fakeAsync(() => {
+          fixture.detectChanges();
+          const inputElement: HTMLInputElement = getInputElement();
+          const selectedValue = { name: 'Red' };
+
+          updateNgModel(fixture, selectedValue);
+
+          enterSearch('re', fixture);
+
+          expect(getSearchResultsContainer()).not.toBeNull();
+
+          enterSearch('', fixture);
+
+          expect(getSearchResultsContainer()).toBeNull();
+          expect(inputElement.value).toEqual('');
+        })
+      );
+
+      it('should not close the dropdown if text value becomes empty with the add button enabled',
+        fakeAsync(() => {
+          component.showAddButton = true;
+          fixture.detectChanges();
+          const inputElement: HTMLInputElement = getInputElement();
+          const selectedValue = { name: 'Red' };
+
+          updateNgModel(fixture, selectedValue);
+
+          enterSearch('re', fixture);
+
+          expect(getSearchResultsContainer()).not.toBeNull();
+
+          enterSearch('', fixture);
+
+          expect(getSearchResultsContainer()).not.toBeNull();
+          expect(inputElement.value).toEqual('');
+        })
+      );
+
+      it('should not close the dropdown if text value becomes empty with show more enabled',
+        fakeAsync(() => {
+          component.enableShowMore = true;
+          fixture.detectChanges();
+          const inputElement: HTMLInputElement = getInputElement();
+          const selectedValue = { name: 'Red' };
+
+          updateNgModel(fixture, selectedValue);
+
+          enterSearch('re', fixture);
+
+          expect(getSearchResultsContainer()).not.toBeNull();
+
+          enterSearch('', fixture);
+
+          expect(getSearchResultsContainer()).not.toBeNull();
+          expect(inputElement.value).toEqual('');
+        })
+      );
+
       it('should clear the input selected value if the search field is empty',
         fakeAsync(() => {
           fixture.detectChanges();
@@ -1093,6 +1185,7 @@ describe('Autocomplete component', () => {
 
           const addButton = getAddButton();
           expect(addButton).toHaveCssClass('sky-autocomplete-descendant-focus');
+          expect(getSearchResultsContainer()).not.toBeNull();
 
           sendEnter(inputElement, fixture);
 
@@ -1100,6 +1193,7 @@ describe('Autocomplete component', () => {
           expect(input.value).toEqual(selectedValue);
           expect(inputElement.value).toEqual(selectedValue.name);
           expect(addButtonSpy).toHaveBeenCalled();
+          expect(getSearchResultsContainer()).toBeNull();
         })
       );
 
@@ -1139,6 +1233,7 @@ describe('Autocomplete component', () => {
         const input: SkyAutocompleteInputDirective = component.autocompleteInput;
 
         enterSearch('r', fixture);
+        expect(getSearchResultsContainer()).not.toBeNull();
 
         const notifySpy = spyOn(autocomplete.selectionChange, 'emit')
           .and.callThrough();
@@ -1147,10 +1242,39 @@ describe('Autocomplete component', () => {
         SkyAppTestUtility.fireDomEvent(firstItem, 'mousedown');
         tick();
 
+        expect(getSearchResultsContainer()).toBeNull();
         expect(input.value.name).toEqual('Red');
         expect(notifySpy).toHaveBeenCalledWith({
           selectedItem: input.value
         });
+      }));
+
+      it('should not close the dropdown on item click with the add button enabled', fakeAsync(() => {
+        component.showAddButton = true;
+        fixture.detectChanges();
+
+        enterSearch('r', fixture);
+        expect(getSearchResultsContainer()).not.toBeNull();
+        const firstItem = getSearchResultItems().item(0);
+
+        SkyAppTestUtility.fireDomEvent(firstItem, 'mousedown');
+        tick();
+
+        expect(getSearchResultsContainer()).not.toBeNull();
+      }));
+
+      it('should not close the dropdown on item click with show more enabled', fakeAsync(() => {
+        component.enableShowMore = true;
+        fixture.detectChanges();
+
+        enterSearch('r', fixture);
+        expect(getSearchResultsContainer()).not.toBeNull();
+        const firstItem = getSearchResultItems().item(0);
+
+        SkyAppTestUtility.fireDomEvent(firstItem, 'mousedown');
+        tick();
+
+        expect(getSearchResultsContainer()).not.toBeNull();
       }));
 
       it('should navigate items with mousemove event', fakeAsync(() => {
@@ -1417,6 +1541,7 @@ describe('Autocomplete component', () => {
 
         addButton.click();
         fixture.detectChanges();
+        tick();
 
         expect(addButtonSpy).toHaveBeenCalled();
       })
@@ -1467,7 +1592,7 @@ describe('Autocomplete component', () => {
       })
     );
 
-    it('should emit an event correctly when the add button is enabled and clicked',
+    it('should emit an event correctly when the show more button is enabled and clicked',
       fakeAsync(() => {
         component.enableShowMore = true;
         const showMoreButtonSpy = spyOn(component, 'onShowMoreClick').and.callThrough();
@@ -1482,6 +1607,7 @@ describe('Autocomplete component', () => {
 
         showMoreButton.click();
         fixture.detectChanges();
+        tick();
 
         expect(showMoreButtonSpy).toHaveBeenCalled();
       })

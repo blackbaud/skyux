@@ -3,7 +3,7 @@
   aria-haspopup="listbox"
   class="sky-autocomplete"
   role="combobox"
-  [attr.aria-expanded]="isOpen"
+  [attr.aria-expanded]="isOpen && searchText"
   [attr.aria-labelledby]="ariaLabelledBy"
   [attr.aria-owns]="(isOpen) ? resultsListId : null"
   [attr.id]="resultsWrapperId"
@@ -38,7 +38,7 @@
           [attr.aria-selected]="isElementFocused(searchResultEl)"
           [attr.id]="result.elementId"
           [skyHighlight]="highlightText"
-          (mousedown)="onResultMouseDown(result.elementId)"
+          (mousedown)="onResultMouseDown(result.elementId, $event)"
           (mousemove)="onResultMouseMove(i)"
           #searchResultEl
         >

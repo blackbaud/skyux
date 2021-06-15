@@ -363,7 +363,7 @@ export class SkyAutocompleteComponent
           takeUntil(this.inputDirectiveUnsubscribe)
         )
         .subscribe(() => {
-          if (this.showAddButton || this.enableShowMore) {
+          if (this.showActionsArea) {
             this.openDropdown();
           }
         });
@@ -488,7 +488,12 @@ export class SkyAutocompleteComponent
 
           if (targetIsSearchResult) {
             this.selectSearchResultById(activeElementId);
-            this.closeDropdown();
+
+            if (!this.showActionsArea) {
+              this.closeDropdown();
+            } else {
+              this.resetSearch();
+            }
           } else {
             if (activeElement) {
               activeElement.click();
@@ -505,6 +510,7 @@ export class SkyAutocompleteComponent
           } else {
             this.inputDirective.restoreInputTextValueToPreviousState();
           }
+
           this.closeDropdown();
           break;
 
@@ -548,14 +554,22 @@ export class SkyAutocompleteComponent
   }
 
   public moreButtonClicked(): void {
-    this.showMoreClick.emit({ inputValue: this.inputDirective.inputTextValue });
+    this.showMoreClick.emit({ inputValue: this.searchText });
     this.inputDirective.restoreInputTextValueToPreviousState();
     this.closeDropdown();
   }
 
-  public onResultMouseDown(id: string): void {
+  public onResultMouseDown(id: string, event: MouseEvent): void {
     this.selectSearchResultById(id);
-    this.closeDropdown();
+
+    if (!this.showActionsArea) {
+      this.closeDropdown();
+    } else {
+      this.resetSearch();
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
   }
 
   public onResultMouseMove(id: number): void {
@@ -583,8 +597,12 @@ export class SkyAutocompleteComponent
         });
       }
 
-      this.searchText = '';
-      this.closeDropdown();
+      if (!this.showActionsArea) {
+        this.closeDropdown();
+      } else {
+        this.resetSearch();
+      }
+
       return;
     }
 
@@ -618,7 +636,7 @@ export class SkyAutocompleteComponent
           // Let the results populate in the DOM before recalculating placement.
           setTimeout(() => {
             this.affixer.reaffix();
-            this.changeDetector.markForCheck();
+            this.changeDetector.detectChanges();
             this.initOverlayFocusableElements();
           });
         } else {
@@ -676,10 +694,7 @@ export class SkyAutocompleteComponent
   }
 
   private closeDropdown(): void {
-    this._searchResults = [];
-    this.searchText = '';
-    this._highlightText = '';
-    this.activeElementIndex = -1;
+    this.resetSearch();
     this.isOpen = false;
     this.destroyOverlay();
     this.removeActiveDescendant();
@@ -696,6 +711,16 @@ export class SkyAutocompleteComponent
   private removeActiveDescendant(): void {
     /* tslint:disable-next-line:no-null-keyword */
     this.inputDirective.setActiveDescendant(null);
+  }
+
+  private resetSearch(): void {
+    this._searchResults = [];
+    this.searchText = '';
+    this._highlightText = '';
+    this.activeElementIndex = -1;
+    this.removeActiveDescendant();
+    this.initOverlayFocusableElements();
+    this.changeDetector.markForCheck();
   }
 
   private addInputEventListeners(): void {

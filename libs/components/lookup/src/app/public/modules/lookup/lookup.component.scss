@@ -137,6 +137,10 @@ sky-input-box .sky-lookup {
     .sky-lookup-search {
       background-color: transparent;
       padding: 0 0 0 15px;
+
+      &.sky-field-status-active {
+        box-shadow: none;
+      }
     }
 
     textarea.sky-lookup-input.sky-form-control {
