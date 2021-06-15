@@ -31,6 +31,10 @@ const defaultTheme = new SkyThemeSettings(
   SkyThemeMode.presets.light
 );
 
+/**
+ * Creates a new instance of `SkyThemeService` to allow a container
+ * to have its own theme.
+ */
 @Directive({
   selector: '[skyTheme]',
   providers: [SkyThemeService]

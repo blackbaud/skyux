@@ -56,7 +56,7 @@ export class SkyThemeIfDirective implements OnDestroy {
   constructor(
     private templateRef: TemplateRef<any>,
     private viewContainer: ViewContainerRef,
-    @Optional() themeSvc: SkyThemeService
+    @Optional() themeSvc?: SkyThemeService
   ) {
     if (themeSvc) {
       themeSvc.settingsChange

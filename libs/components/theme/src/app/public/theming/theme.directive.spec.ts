@@ -58,6 +58,9 @@ describe('Theme directive', () => {
       ],
       imports: [
         SkyThemeModule
+      ],
+      providers: [
+        SkyThemeService
       ]
     });
   });

@@ -79,7 +79,7 @@ export class SkyThemeClassDirective implements OnDestroy {
   constructor(
     private ngEl: ElementRef,
     private renderer: Renderer2,
-    @Optional() themeSvc: SkyThemeService
+    @Optional() themeSvc?: SkyThemeService
   ) {
     if (themeSvc) {
       themeSvc.settingsChange
