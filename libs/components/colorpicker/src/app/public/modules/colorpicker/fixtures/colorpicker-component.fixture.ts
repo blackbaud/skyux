@@ -24,6 +24,8 @@ import {
   templateUrl: './colorpicker-component.fixture.html'
 })
 export class ColorpickerTestComponent {
+  public label: string;
+  public labelledBy: string;
   public selectedHexType = 'hex6';
   public selectedColor = '#2889e5';
   public selectedOutputFormat = 'rgba';

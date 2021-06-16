@@ -16,9 +16,10 @@
     type="button"
     [attr.aria-controls]="isOpen ? colorpickerId : null"
     [attr.aria-expanded]="isOpen"
-    [attr.aria-label]="'skyux_colorpicker_dropdown_button' | skyLibResources"
+    [attr.aria-label]="label || (labelledBy ? null : ('skyux_colorpicker_dropdown_button' | skyLibResources))"
+    [attr.aria-labelledby]="labelledBy"
     [attr.id]="triggerButtonId"
-    [attr.title]="'skyux_colorpicker_dropdown_button' | skyLibResources"
+    [attr.title]="label || (labelledBy ? null : ('skyux_colorpicker_dropdown_button' | skyLibResources))"
     [skyThemeClass]="{
       'sky-margin-inline-sm': 'modern'
     }"

@@ -1,5 +1,10 @@
 <div>
-  <sky-colorpicker #colorPickerTest [messageStream]="colorpickerController">
+  <sky-colorpicker
+    [label]="label"
+    [labelledBy]="labelledBy"
+    [messageStream]="colorpickerController"
+    #colorPickerTest
+  >
     <input
       [type]="inputType"
       [skyColorpickerInput]="colorPickerTest"

@@ -83,8 +83,12 @@ describe('Colorpicker Component', () => {
     verifyMenuVisibility();
   }
 
+  function getColorpickerButton(element: HTMLElement): HTMLElement {
+    return element.querySelector('.sky-colorpicker-button') as HTMLElement;
+  }
+
   function getColorpickerButtonBackgroundColor(element: HTMLElement): string {
-    const buttonElem = element.querySelector('.sky-colorpicker-button') as HTMLElement;
+    const buttonElem = getColorpickerButton(element);
     return buttonElem.style.backgroundColor;
   }
 
@@ -290,17 +294,52 @@ describe('Colorpicker Component', () => {
       });
     }));
 
-    it('should add aria-label to input if not specified', fakeAsync(() => {
+    it('should add aria-label and title attributes to button if not specified', fakeAsync(() => {
+      const defaultLabel = 'Select color value';
       fixture.detectChanges();
       tick();
-      expect(nativeElement.querySelector('input').getAttribute('aria-label')).toBe('Color value');
+
+      expect(getColorpickerButton(nativeElement).getAttribute('aria-label')).toBe(defaultLabel);
+      expect(getColorpickerButton(nativeElement).getAttribute('title')).toBe(defaultLabel);
     }));
 
-    it('should not add aria-label to input when one was specified', fakeAsync(() => {
-      nativeElement.querySelector('input').setAttribute('aria-label', 'Best picker');
+    it('should allow consumer to override aria-label and title attributes', fakeAsync(() => {
+      const newLabel = 'FOOBAR';
+      component.label = newLabel;
+
       fixture.detectChanges();
       tick();
-      expect(nativeElement.querySelector('input').getAttribute('aria-label')).toBe('Best picker');
+
+      expect(getColorpickerButton(nativeElement).getAttribute('aria-label')).toBe(newLabel);
+      expect(getColorpickerButton(nativeElement).getAttribute('title')).toBe(newLabel);
+    }));
+
+    it('should not provide aria-labelledby attribute to button if none is specified', fakeAsync(() => {
+      fixture.detectChanges();
+      tick();
+
+      expect(getColorpickerButton(nativeElement).getAttribute('aria-labelledby')).toBeNull();
+    }));
+
+    it('should add aria-labelledby attribute to button if provided by consumer', fakeAsync(() => {
+      const customLabelledBy = 'myId';
+      component.labelledBy = customLabelledBy;
+
+      fixture.detectChanges();
+      tick();
+
+      expect(getColorpickerButton(nativeElement)
+        .getAttribute('aria-labelledby')).toBe(customLabelledBy);
+    }));
+
+    it('should not set label and title attributes if labelledby is provided by consumer', fakeAsync(() => {
+      component.labelledBy = 'myId';
+
+      fixture.detectChanges();
+      tick();
+
+      expect(getColorpickerButton(nativeElement).getAttribute('aria-label')).toBeNull();
+      expect(getColorpickerButton(nativeElement).getAttribute('title')).toBeNull();
     }));
 
     it('should output RGBA', fakeAsync(() => {
