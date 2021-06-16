@@ -115,7 +115,8 @@ ag-grid-angular.sky-ag-grid-editable {
       line-height: ag-param(row-height) - 4;
     }
 
-    .ag-cell-focus.ag-cell-inline-editing {
+    .ag-cell-focus.ag-cell-inline-editing,
+    .ag-cell-focus.ag-cell-popup-editing {
       height: ag-param(row-height) - 1;
       @include sky-field-status(active)
     }

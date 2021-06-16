@@ -1,0 +1,31 @@
+@import '~@skyux/theme/scss/mixins';
+
+.complete i {
+  color: $sky-highlight-color-success;
+}
+
+.current i {
+  color: $sky-highlight-color-warning;
+}
+
+.behind i {
+  color: $sky-highlight-color-danger;
+}
+
+.status {
+  padding: 0 2px;
+}
+
+::ng-deep {
+  .green {
+    color: #86BF6D;
+  }
+
+  .red {
+    color: #FF4848;
+  }
+
+  .yellow {
+    color: #FAD448;
+  }
+}

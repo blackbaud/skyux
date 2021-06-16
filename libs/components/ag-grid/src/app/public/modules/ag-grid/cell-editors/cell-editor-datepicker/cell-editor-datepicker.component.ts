@@ -11,6 +11,10 @@ import {
 } from 'ag-grid-angular';
 
 import {
+  PopupComponent
+} from 'ag-grid-community';
+
+import {
   SkyCellEditorDatepickerParams
 } from '../../types/cell-editor-datepicker-params';
 
@@ -25,9 +29,10 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class SkyAgGridCellEditorDatepickerComponent implements ICellEditorAngularComp {
+export class SkyAgGridCellEditorDatepickerComponent extends PopupComponent implements ICellEditorAngularComp {
   public columnWidth: number;
   public currentDate: Date;
+  public columnWidthWithoutBorders: number;
   public rowHeightWithoutBorders: number;
   public skyComponentProperties: SkyDatepickerProperties = {};
   private params: SkyCellEditorDatepickerParams;
@@ -35,7 +40,9 @@ export class SkyAgGridCellEditorDatepickerComponent implements ICellEditorAngula
   @ViewChild('skyCellEditorDatepickerInput', { read: ElementRef })
   private datepickerInput: ElementRef;
 
-  constructor() { }
+  constructor() {
+    super();
+  }
 
   /**
    * agInit is called by agGrid once after the editor is created and provides the editor with the information it needs.
@@ -46,6 +53,7 @@ export class SkyAgGridCellEditorDatepickerComponent implements ICellEditorAngula
     this.currentDate = this.params.value;
     this.skyComponentProperties = this.params.skyComponentProperties || {};
     this.columnWidth = this.params.column.getActualWidth();
+    this.columnWidthWithoutBorders = this.columnWidth - 2;
     this.rowHeightWithoutBorders = this.params.node && this.params.node.rowHeight - 4;
   }
 
