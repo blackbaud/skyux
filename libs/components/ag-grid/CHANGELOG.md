@@ -1,3 +1,7 @@
+# 4.8.0 (2021-06-16)
+
+- Added support for the AG Grid options [`stopEditingWhenCellsLoseFocus`](https://www.ag-grid.com/angular-grid/grid-properties/#reference-editing) (AG Grid 25.2.0+) and `stopEditingWhenGridLosesFocus` with `SkyCellType.Date` columns. [#113](https://github.com/blackbaud/skyux-ag-grid/pull/113)
+
 # 4.7.0 (2021-06-02)
 
 - Added support for AG Grid version 25. [#111](https://github.com/blackbaud/skyux-ag-grid/pull/111)
