@@ -1,3 +1,8 @@
+# 4.3.0 (2021-06-16)
+
+- Added the `label` and `labelledBy` inputs to the colorpicker component. [#91](https://github.com/blackbaud/skyux-colorpicker/pull/91)
+- Fixed the colorpicker component in modern theme to properly display a transparent background in the picker button. [#91](https://github.com/blackbaud/skyux-colorpicker/pull/91)
+
 # 4.2.5 (2021-04-30)
 
 - Fixed the colorpicker component to display the previously selected color after users select the cancel button. [#88](https://github.com/blackbaud/skyux-colorpicker/pull/88)
