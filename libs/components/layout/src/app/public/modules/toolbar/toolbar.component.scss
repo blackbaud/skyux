@@ -58,6 +58,10 @@
     &.sky-viewkeeper-fixed {
       background-color: $sky-theme-modern-background-color-page-default;
     }
+
+    ::ng-deep sky-toolbar-section:not(:first-child) .sky-toolbar-section {
+      border-top: 1px solid $sky-theme-modern-border-color-neutral-medium;
+    }
   }
 
   .sky-toolbar-sectioned {
