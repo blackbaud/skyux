@@ -1,3 +1,7 @@
+# 4.7.1 (2021-06-18)
+
+- Fixed the toolbar component to show the proper border color in modern theme. [#223](https://github.com/blackbaud/skyux-layout/pull/223)
+
 # 4.7.0 (2021-06-10)
 
 - Added `skyHref` support to the action button component. [#221](https://github.com/blackbaud/skyux-layout/pull/221)
