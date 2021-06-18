@@ -1,0 +1,325 @@
+
+  <sky-toolbar-item *ngFor="let action of toolbarActions"
+    class="sky-text-editor-toolbar-action"
+    [ngClass]="'sky-text-editor-toolbar-action-' + toolbarActionEnum[action]"
+  >
+    <ng-container
+      [ngSwitch]="action"
+    >
+      <ng-container *ngSwitchCase="toolbarActionEnum.FontFamily">
+        <sky-dropdown
+          class="sky-text-editor-font-picker"
+          label="Font family"
+          [messageStream]="fontPickerStream"
+        >
+          <sky-dropdown-button
+            role="menuitem"
+            [ngStyle]="{
+              'font-family': styleState.font
+            }"
+          >
+            {{ styleStateFontName }}
+          </sky-dropdown-button>
+          <sky-dropdown-menu>
+            <sky-dropdown-item *ngFor="let fontModel of fontList">
+              <button
+                type="button"
+                [ngStyle]="{
+                  'font-family': fontModel.value
+                }"
+                (click)="execCommand('fontname', fontModel.name)"
+              >
+                {{ fontModel.name }}
+              </button>
+            </sky-dropdown-item>
+          </sky-dropdown-menu>
+        </sky-dropdown>
+      </ng-container>
+      <ng-container *ngSwitchCase="toolbarActionEnum.FontSize">
+        <sky-dropdown
+          class="sky-text-editor-font-size-picker"
+          label="Font size"
+          [messageStream]="fontSizeStream"
+        >
+          <sky-dropdown-button
+            role="menuitem"
+            [ngStyle]="{
+              'font-family': styleState.fontSize
+            }"
+          >
+            {{ styleState.fontSize + 'px'  }}
+          </sky-dropdown-button>
+          <sky-dropdown-menu>
+            <sky-dropdown-item *ngFor="let size of fontSizeList">
+              <button
+                type="button"
+                (click)="changeFontSize(size)"
+              >
+                {{ size + 'px' }}
+              </button>
+            </sky-dropdown-item>
+          </sky-dropdown-menu>
+        </sky-dropdown>
+      </ng-container>
+      <ng-container *ngSwitchCase="toolbarActionEnum.FontStyle">
+        <div
+          class="sky-switch-icon-group sky-text-editor-font-style-picker"
+        >
+          <sky-checkbox
+            icon="bold"
+            label="Bold"
+            title="Bold"
+            [ngModel]="styleState.boldState"
+            (ngModelChange)="toggleFontStyle(styleState.boldState, $event, 'bold')"
+          >
+          </sky-checkbox>
+          <sky-checkbox
+            icon="italic"
+            label="Italicized"
+            title="Italicized"
+            [ngModel]="styleState.italicState"
+            (ngModelChange)="toggleFontStyle(styleState.italicState, $event, 'italic')"
+          >
+          </sky-checkbox>
+          <sky-checkbox
+            icon="underline"
+            label="Underline"
+            title="Underline"
+            [ngModel]="styleState.underlineState"
+            (ngModelChange)="toggleFontStyle(styleState.underlineState, $event, 'underline')"
+          >
+          </sky-checkbox>
+        </div>
+      </ng-container>
+      <ng-container *ngSwitchCase="toolbarActionEnum.Color">
+        <div class="sky-text-editor-colorpicker-group">
+          <div class="sky-text-editor-colorpicker-container">
+            <sky-colorpicker
+              class="sky-text-editor-font-color-picker"
+              label="Font color"
+              [messageStream]="colorpickerStream"
+              [showResetButton]="false"
+              (selectedColorChanged)="onColorpickerColorChanged($event)"
+              #colorPicker
+            >
+              <input
+                outputFormat="hex"
+                type="text"
+                [allowTransparency]="false"
+                [ngModel]="styleState.fontColor"
+                [skyColorpickerInput]="colorPicker"
+              />
+            </sky-colorpicker>
+          </div>
+          <div class="sky-text-editor-colorpicker-container">
+            <sky-colorpicker
+              class="sky-text-editor-background-color-picker"
+              label="Background color"
+              [messageStream]="backColorpickerStream"
+              [showResetButton]="false"
+              (selectedColorChanged)="onColorpickerColorChanged($event, true)"
+              #backColorPicker
+            >
+              <input
+                outputFormat="rgba"
+                type="text"
+                [allowTransparency]="true"
+                [ngModel]="styleState.backColor"
+                [skyColorpickerInput]="backColorPicker"
+              />
+            </sky-colorpicker>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngSwitchCase="toolbarActionEnum.List">
+        <div
+          class="sky-switch-icon-group"
+        >
+          <button
+            aria-label="Bulleted list"
+            class="sky-btn sky-btn-default sky-btn-icon"
+            title="Bulleted list"
+            (click)="execCommand('insertUnorderedList')"
+          >
+            <sky-icon *skyThemeIf="'default'"
+              icon="list-ul"
+            >
+            </sky-icon>
+            <sky-icon *skyThemeIf="'modern'"
+              icon="bullet-list-line"
+              iconType="skyux"
+            >
+            </sky-icon>
+          </button>
+          <button
+            aria-label="Numbered list"
+            class="sky-btn sky-btn-default sky-btn-icon"
+            title="Numbered list"
+            (click)="execCommand('insertOrderedList')"
+          >
+            <sky-icon *skyThemeIf="'default'"
+              icon="list-ol"
+            >
+            </sky-icon>
+            <sky-icon *skyThemeIf="'modern'"
+              icon="number-list-line"
+              iconType="skyux"
+            >
+            </sky-icon>
+          </button>
+        </div>
+      </ng-container>
+      <ng-container *ngSwitchCase="toolbarActionEnum.Alignment">
+        <div
+          class="sky-switch-icon-group"
+        >
+          <button
+            aria-label="Align left"
+            class="sky-btn sky-btn-default sky-btn-icon"
+            title="Align left"
+            (click)="execCommand('justifyLeft')"
+          >
+            <sky-icon *skyThemeIf="'default'"
+              icon="align-left"
+            >
+            </sky-icon>
+            <sky-icon *skyThemeIf="'modern'"
+              icon="align-left-text-line"
+              iconType="skyux"
+            >
+            </sky-icon>
+          </button>
+          <button
+            aria-label="Align center"
+            class="sky-btn sky-btn-default sky-btn-icon"
+            title="Align center"
+            (click)="execCommand('justifyCenter')"
+          >
+            <sky-icon *skyThemeIf="'default'"
+              icon="align-center"
+            >
+            </sky-icon>
+            <sky-icon *skyThemeIf="'modern'"
+              icon="center-text-line"
+              iconType="skyux"
+            >
+            </sky-icon>
+          </button>
+          <button
+            aria-label="Align right"
+            class="sky-btn sky-btn-default sky-btn-icon"
+            title="Align right"
+            (click)="execCommand('justifyRight')"
+          >
+            <sky-icon *skyThemeIf="'default'"
+              icon="align-right"
+            >
+            </sky-icon>
+            <sky-icon *skyThemeIf="'modern'"
+              icon="align-right-text-line"
+              iconType="skyux"
+            >
+            </sky-icon>
+          </button>
+        </div>
+      </ng-container>
+      <ng-container *ngSwitchCase="toolbarActionEnum.Indentation">
+        <div
+          class="sky-switch-icon-group"
+        >
+          <button
+            aria-label="Outdent"
+            class="sky-btn sky-btn-default sky-btn-icon"
+            title="Outdent"
+            (click)="execCommand('outdent')"
+          >
+            <sky-icon
+              icon="outdent"
+            >
+            </sky-icon>
+          </button>
+          <button
+            aria-label="Indent"
+            class="sky-btn sky-btn-default sky-btn-icon"
+            title="Indent"
+            (click)="execCommand('indent')"
+          >
+            <sky-icon
+              icon="indent"
+            >
+            </sky-icon>
+          </button>
+        </div>
+      </ng-container>
+      <ng-container *ngSwitchCase="toolbarActionEnum.UndoRedo">
+        <div
+          class="sky-switch-icon-group"
+        >
+          <button
+            aria-label="Undo"
+            class="sky-btn sky-btn-default sky-btn-icon"
+            title="Undo"
+            (click)="execCommand('undo')"
+          >
+            <sky-icon
+              icon="undo"
+            >
+            </sky-icon>
+          </button>
+          <button
+            aria-label="Redo"
+            class="sky-btn sky-btn-default sky-btn-icon"
+            title="Redo"
+            (click)="execCommand('redo')"
+          >
+            <sky-icon
+              icon="repeat"
+            >
+            </sky-icon>
+          </button>
+        </div>
+      </ng-container>
+      <ng-container *ngSwitchCase="toolbarActionEnum.Link">
+        <div
+          class="sky-switch-icon-group"
+        >
+          <button
+            aria-label="Link"
+            class="sky-btn sky-btn-default sky-btn-icon"
+            title="Link"
+            [ngClass]="{
+              'icon-btn-active': styleState.linkState
+            }"
+            (click)="link()"
+          >
+            <sky-icon *skyThemeIf="'default'"
+              icon="link"
+            >
+            </sky-icon>
+            <sky-icon *skyThemeIf="'modern'"
+              icon="link-line"
+              iconType="skyux"
+            >
+            </sky-icon>
+          </button>
+          <button
+            aria-label="Unlink"
+            class="sky-btn sky-btn-default sky-btn-icon"
+            title="Unlink"
+            [disabled]="!styleState.linkState"
+            (click)="unlink()"
+          >
+            <sky-icon *skyThemeIf="'default'"
+              icon="unlink"
+            >
+            </sky-icon>
+            <sky-icon *skyThemeIf="'modern'"
+              icon="unlink-line"
+              iconType="skyux"
+            >
+            </sky-icon>
+          </button>
+        </div>
+      </ng-container>
+    </ng-container>
+  </sky-toolbar-item>

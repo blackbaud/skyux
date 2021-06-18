@@ -1,0 +1,42 @@
+<div
+  class="sky-text-editor"
+>
+  <sky-toolbar
+    class="sky-text-editor-toolbar"
+  >
+    <sky-toolbar-section
+      aria-hidden="true"
+      class="menubar"
+      role="menubar"
+    >
+      <sky-text-editor-menubar
+        [editorFocusStream]="editorFocusStream"
+        [editorId]="id"
+        [menus]="menus"
+        [mergeFields]="mergeFields"
+      >
+      </sky-text-editor-menubar>
+    </sky-toolbar-section>
+    <sky-toolbar-section
+      aria-hidden="true"
+      class="toolbar"
+    >
+      <sky-text-editor-toolbar
+        [editorFocusStream]="editorFocusStream"
+        [editorId]="id"
+        [fontList]="fontList"
+        [fontSizeList]="fontSizeList"
+        [toolbarActions]="toolbarActions"
+        [styleState]="initialStyleState"
+      >
+      </sky-text-editor-toolbar>
+    </sky-toolbar-section>
+  </sky-toolbar>
+  <iframe
+    #iframe
+    class="sky-text-editor-wrapper"
+    src="about:blank"
+    title="Text Editor"
+  >
+  </iframe>
+</div>

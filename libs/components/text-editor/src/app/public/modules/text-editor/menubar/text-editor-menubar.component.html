@@ -1,0 +1,98 @@
+
+  <sky-toolbar-item *ngFor="let menu of menus"
+    class="sky-text-editor-menu"
+    [ngClass]="'sky-text-editor-menu-' + menuEnum[menu]"
+  >
+    <ng-container
+      [ngSwitch]="menu"
+    >
+      <ng-container *ngSwitchCase="menuEnum.Edit">
+        <sky-dropdown
+          [messageStream]="editDropdownStream"
+        >
+          <sky-dropdown-button
+            role="menuitem"
+          >
+            Edit
+          </sky-dropdown-button>
+          <sky-dropdown-menu>
+            <sky-dropdown-item *ngFor="let editItem of editItems">
+              <button *ngIf="!editItem.isDivider"
+                type="button"
+                (click)="editItem.function()"
+              >
+                {{ editItem.label }}
+                <div *ngIf="editItem.keyShortcut"
+                  class="sky-text-editor-menu-key-shortcut"
+                  [skyThemeClass]="{
+                    'sky-font-deemphasized' : 'modern',
+                    'sky-deemphasized' : 'default'
+                  }"
+                >
+                  {{ editItem.keyShortcut }}
+                </div>
+              </button>
+              <div *ngIf="editItem.isDivider"
+                class="sky-text-editor-dropdown-item-divider"
+                role="divider"
+              >
+              </div>
+            </sky-dropdown-item>
+          </sky-dropdown-menu>
+        </sky-dropdown>
+      </ng-container>
+      <ng-container *ngSwitchCase="menuEnum.Format">
+        <sky-dropdown
+          [messageStream]="formatDropdownStream"
+        >
+          <sky-dropdown-button>
+            Format
+          </sky-dropdown-button>
+          <sky-dropdown-menu>
+            <sky-dropdown-item *ngFor="let formatItem of formatItems">
+              <button *ngIf="!formatItem.isDivider"
+                type="button"
+                (click)="formatItem.function()"
+              >
+                {{ formatItem.label }}
+                <div *ngIf="formatItem.keyShortcut"
+                  class="sky-text-editor-menu-key-shortcut"
+                  [skyThemeClass]="{
+                    'sky-font-deemphasized' : 'modern',
+                    'sky-deemphasized' : 'default'
+                  }"
+                >
+                  {{ formatItem.keyShortcut}}
+                </div>
+              </button>
+              <div *ngIf="formatItem.isDivider"
+                class="sky-text-editor-dropdown-item-divider"
+                role="divider"
+              >
+              </div>
+            </sky-dropdown-item>
+          </sky-dropdown-menu>
+        </sky-dropdown>
+      </ng-container>
+      <ng-container *ngSwitchCase="menuEnum.MergeField">
+        <sky-dropdown *ngIf="mergeFields && mergeFields.length > 0"
+          aria-label="Insert merge field"
+          [messageStream]="mergeFieldDropdownStream"
+        >
+          <sky-dropdown-button>
+            Insert merge field
+          </sky-dropdown-button>
+          <sky-dropdown-menu>
+            <sky-dropdown-item *ngFor="let mergeField of mergeFields">
+              <button
+                type="button"
+                (click)="insertMergeField(mergeField)"
+              >
+                {{ mergeField.name }}
+              </button>
+            </sky-dropdown-item>
+          </sky-dropdown-menu>
+        </sky-dropdown>
+      </ng-container>
+    </ng-container>
+  </sky-toolbar-item>

@@ -1,3 +1,41 @@
-<sky-page>
-  <!-- Insert visual tests here. -->
-</sky-page>
+<sky-docs-demo-control-panel-theme
+  (themeSettingsChange)="themeSettingsChange($event)"
+></sky-docs-demo-control-panel-theme>
+
+<div
+  class="sky-padding-even-large"
+>
+  <h1>Text editor</h1>
+  <form>
+    <div
+      id="screenshot-text-editor"
+    >
+      <sky-text-editor
+        name="text-editor"
+        [autofocus]="true"
+        [mergeFields]="mergeFields"
+        [menus]="menus"
+        [placeholder]="placeholder"
+        [toolbarActions]="toolbarActions"
+        [(ngModel)]="value"
+      >
+      </sky-text-editor>
+    </div>
+    <h2>
+      Preview HTML
+    </h2>
+    <div *ngIf="value"
+      class="content-display"
+    >
+      {{ value }}
+    </div>
+    <h2>
+      Preview render
+    </h2>
+    <div
+      class="content-display"
+      [innerHTML]="displayValue"
+    >
+    </div>
+  </form>
+</div>

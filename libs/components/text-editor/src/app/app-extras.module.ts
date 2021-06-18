@@ -3,9 +3,21 @@ import {
 } from '@angular/core';
 
 import {
+  SkyIdModule
+} from '@skyux/core';
+
+import {
   SkyDocsToolsModule,
   SkyDocsToolsOptions
 } from '@skyux/docs-tools';
+
+import {
+  SkyInputBoxModule
+} from '@skyux/forms';
+
+import {
+  SkyIconModule
+} from '@skyux/indicators';
 
 import {
   SkyPageModule
@@ -15,11 +27,22 @@ import {
   SkyAppLinkModule
 } from '@skyux/router';
 
+import {
+  SkyRichTextDisplayModule,
+  SkyTextEditorModule
+} from './public/public_api';
+
 @NgModule({
   exports: [
     SkyAppLinkModule,
     SkyDocsToolsModule,
-    SkyPageModule
+    SkyPageModule,
+    SkyAppLinkModule,
+    SkyTextEditorModule,
+    SkyRichTextDisplayModule,
+    SkyIconModule,
+    SkyIdModule,
+    SkyInputBoxModule
   ],
   providers: [
     {

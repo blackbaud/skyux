@@ -1,0 +1,80 @@
+@import "~@skyux/theme/scss/variables";
+@import "~@skyux/theme/scss/mixins";
+
+.sky-text-editor {
+
+  .sky-text-editor-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: white;
+    width: 100%;
+    height: 300px;
+    padding: 1rem;
+    font-size: 1.2rem;
+    border: 1px solid #C0C0C0;
+    overflow-y: auto;
+    outline: none;
+  }
+
+  .sky-text-editor-toolbar {
+
+    .sky-toolbar-section {
+      padding: 10px 10px 0 10px;
+    }
+
+    .sky-toolbar-sectioned {
+      // !important is needed to override specificity from modern stylsheet in theme.
+      border-left: 1px solid $sky-border-color-neutral-medium !important;
+      border-right: 1px solid $sky-border-color-neutral-medium !important;
+    }
+
+    .sky-toolbar-item {
+      margin: 0 20px 10px 0;
+    }
+
+    .sky-dropdown-button {
+      border: none;
+    }
+
+    sky-text-editor-menubar,
+    sky-text-editor-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+  }
+}
+
+.sky-theme-modern {
+
+  .sky-text-editor {
+
+    .sky-text-editor-wrapper {
+      border: 1px solid $sky-theme-modern-border-color-neutral-medium;
+    }
+
+    .sky-text-editor-toolbar {
+
+      .sky-toolbar {
+        padding: 10px 10px 0 10px;
+      }
+
+      .sky-toolbar-section {
+        padding: 10px !important;
+      }
+
+      .sky-toolbar-sectioned {
+        // !important is needed to override specificity from modern stylsheet in theme.
+        border-top: 1px solid $sky-theme-modern-border-color-neutral-medium !important;
+        border-left: 1px solid $sky-theme-modern-border-color-neutral-medium !important;
+        border-right: 1px solid $sky-theme-modern-border-color-neutral-medium !important;
+      }
+
+      .sky-toolbar-item {
+        margin: 0 20px 0 0 !important;
+      }
+
+    }
+  }
+
+}
