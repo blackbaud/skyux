@@ -273,6 +273,13 @@ ag-grid-angular.sky-ag-grid-editable {
     border: 1px solid $sky-theme-modern-mode-dark-background-color-primary-dark;
   }
 
+  .ag-cell.ag-cell-wrap-text {
+    min-height: ag-param(row-height) - 2px;
+    line-height: $sky-theme-modern-font-paragraph-line-height;
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+
   .ag-row:not(.ag-row-first) {
     border-top: none;
   }
