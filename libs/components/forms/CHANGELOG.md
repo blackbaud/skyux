@@ -1,3 +1,7 @@
+# 4.19.1 (2021-06-23)
+
+- Fixed the single file attachment component to display the full file name in the anchor's title attribute. [#271](https://github.com/blackbaud/skyux-forms/pull/271)
+
 # 4.19.0 (2021-06-11)
 
 - Added support for inline help positioning inside the input box component. [#265](https://github.com/blackbaud/skyux-forms/pull/265)
