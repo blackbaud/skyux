@@ -61,6 +61,7 @@
       class="sky-file-attachment-name"
     >
       <a *ngIf="value; else noFile"
+        [attr.title]="getFileName(false)"
         (click)="emitClick()"
       >
         {{ getFileName() }}

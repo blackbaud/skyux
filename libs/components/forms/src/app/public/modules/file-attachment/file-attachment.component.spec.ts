@@ -598,6 +598,13 @@ describe('File attachment', () => {
 
     expect(getFileNameText()).toBe('abcdefghijklmnopqrstuvwxyz...');
 
+    expect(el.querySelector('.sky-file-attachment-name > a')
+      .getAttribute('title'))
+      .toBe(
+        'abcdefghijklmnopqrstuvwxyz12345.png',
+        'Expected the anchor title to display the full file name.'
+      );
+
     // File with no name
     testFile = <SkyFileItem> {
       file: {

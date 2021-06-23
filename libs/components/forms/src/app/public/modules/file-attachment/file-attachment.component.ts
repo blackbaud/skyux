@@ -334,12 +334,12 @@ export class SkyFileAttachmentComponent implements AfterViewInit, AfterContentIn
     this.emitFileChangeEvent(this.value);
   }
 
-  public getFileName(): string | undefined {
+  public getFileName(truncate = true): string | undefined {
     if (this.value) {
       // tslint:disable-next-line: max-line-length
       let dropName = this.fileItemService.isFile(this.value) && this.value.file.name ? this.value.file.name : this.value.url;
 
-      if (dropName.length > 26) {
+      if (truncate && dropName.length > 26) {
         return dropName.slice(0, 26) + '...';
       } else {
         return dropName;
