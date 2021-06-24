@@ -1,3 +1,7 @@
+# 4.8.1 (2021-06-23)
+
+- For dark mode, fixed the line height style of multiline cells in read-only mode. [#118](https://github.com/blackbaud/skyux-ag-grid/pull/118)
+
 # 4.8.0 (2021-06-16)
 
 - Added support for the AG Grid options [`stopEditingWhenCellsLoseFocus`](https://www.ag-grid.com/angular-grid/grid-properties/#reference-editing) (AG Grid 25.2.0+) and `stopEditingWhenGridLosesFocus` with `SkyCellType.Date` columns. [#113](https://github.com/blackbaud/skyux-ag-grid/pull/113)
