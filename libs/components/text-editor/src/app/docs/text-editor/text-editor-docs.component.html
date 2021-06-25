@@ -5,19 +5,38 @@
     pageTitle="Text editor"
   >
 
-    <sky-alert alertType="warning">
-      This component is in beta. We do not plan to make any breaking changes to the component before the official release, but such changes are possible.
-    </sky-alert>
-
     <sky-docs-demo-page-summary>
-      Text editors let users format and manipulate text.
+      <sky-alert alertType="warning">
+        This component is in beta. We do not plan to make any breaking changes to the component before the official release, but such changes are possible.
+      </sky-alert>
+      <p>
+        Text editors let users format and manipulate text.
+      </p>
     </sky-docs-demo-page-summary>
 
     <!-- <sky-docs-demo>
       Demo here.
-    </sky-docs-demo>
+    </sky-docs-demo> -->
 
-    <sky-docs-code-examples
+    <h2>
+      HTML sanitization
+    </h2>
+    <p  class="sky-docs-text-block">
+      Don't blindly trust the HTML that users provide in the text editor. They can insert malicious content into HTML strings before you save it to your service, so we recommend using an HTML sanitizer to clean up the HTML and protect against XSS attacks.
+    </p>
+    <ul  class="sky-docs-text-block">
+      <li>
+        We recommend the <a href="https://github.com/mganss/HtmlSanitizer">HtmlSanitizer package</a> for C# projects.
+      </li>
+      <li>
+        We recommend the <a href="https://owasp.org/www-project-java-html-sanitizer/">Owasp HTML Sanitizer package</a> for Java projects.
+      </li>
+    </ul>
+    <p  class="sky-docs-text-block">
+      Make sure that you allow the attributes and schemes that you need. For example, email links often violate the default rules of HTML sanitizers.
+    </p>
+
+    <!-- <sky-docs-code-examples
       [packageDependencies]="{}"
     >
       <sky-docs-code-example
