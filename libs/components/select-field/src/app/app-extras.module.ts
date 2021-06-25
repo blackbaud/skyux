@@ -27,6 +27,10 @@ import {
   SkySelectFieldModule
 } from './public/public_api';
 
+import {
+  SkyAlertModule
+} from '@skyux/indicators';
+
 @NgModule({
   exports: [
     SkyAppLinkModule,
@@ -34,7 +38,8 @@ import {
     SkyDocsToolsModule,
     SkyIdModule,
     SkyModalModule,
-    SkySelectFieldModule
+    SkySelectFieldModule,
+    SkyAlertModule
   ],
   providers: [
     {

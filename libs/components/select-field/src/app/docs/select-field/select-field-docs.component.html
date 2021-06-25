@@ -4,7 +4,20 @@
   pageTitle="Select field"
 >
   <sky-docs-demo-page-summary>
-    A select field creates a text input or button to launch a modal picker for users to select items from a searchable, browsable, and filterable list.
+    <p>
+      A select field creates a text input or button to launch a modal picker for users to select items from a searchable, browsable, and filterable list.
+    </p>
+  
+  <sky-alert alertType="warning">
+      We recommend the
+      <a *skyThemeIf="'default'" href="https://developer.blackbaud.com/skyux-lookup/docs/lookup">
+        lookup component
+      </a>
+      <a *skyThemeIf="'modern'" href="https://developer.blackbaud.com/skyux-lookup/docs/lookup?svcid=modern">
+        lookup component
+      </a>
+     instead of the select field because we improved the lookup component to better handle the use cases of both components. We will deprecate the select field component in the next major version of SKY UX.
+  </sky-alert>  
   </sky-docs-demo-page-summary>
 
   <sky-docs-demo>
