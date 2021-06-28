@@ -14,7 +14,7 @@
     [selectMode]="selectMode"
     [showAddButton]="showAddButton"
     [showMoreConfig]="showMoreConfig"
-    (addClick)="addButtonClicked()"
+    (addClick)="addButtonClicked($event)"
     [(ngModel)]="selectedFriends"
   >
   </sky-lookup>

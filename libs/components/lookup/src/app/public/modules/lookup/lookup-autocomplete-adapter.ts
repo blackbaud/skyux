@@ -17,15 +17,6 @@ import {
 export class SkyLookupAutocompleteAdapter {
 
   /**
-   * Specifies a data source for the lookup component to search when users
-   * enter text. You can specify static data such as an array of objects, or
-   * you can pull data from a database.
-   * @default []
-   */
-  @Input()
-  public data: any[];
-
-  /**
    * Specifies how many milliseconds to wait before searching while users
    * enter text in the lookup field.
    * @default 0

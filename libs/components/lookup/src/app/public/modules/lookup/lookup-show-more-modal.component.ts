@@ -63,7 +63,7 @@ export class SkyLookupShowMoreModalComponent implements AfterViewInit, OnDestroy
   public itemsHaveMore: boolean = false;
   public onlyShowSelected: boolean = false;
   public searchText: string;
-  public selectedIds: any[] = [];
+  public selectedItems: { index: number, itemData: any }[] = [];
 
   private itemIndex: number = 0;
   private ngUnsubscribe = new Subject<void>();
@@ -90,7 +90,7 @@ export class SkyLookupShowMoreModalComponent implements AfterViewInit, OnDestroy
 
   public addItems(): void {
     if (!this.items || this.items.length === 0) {
-      let selectedIds: any[] = this.selectedIds?.slice() || [];
+      let selectedItems: any[] = this.selectedItems?.slice() || [];
       this.items = this.context.items?.map(item => {
         return {
           value: item,
@@ -99,27 +99,27 @@ export class SkyLookupShowMoreModalComponent implements AfterViewInit, OnDestroy
       });
 
       this.items.forEach(item => {
-        const isInitialValue: boolean = this.isEquivalent(this.context.initialValue, item.value);
+        const isInitialValue: boolean = this.context.initialValue === item.value;
 
         const initialIsArray: boolean = Array.isArray(this.context.initialValue);
         let initialValueContainsItem: boolean;
 
         if (initialIsArray) {
           initialValueContainsItem = this.context.initialValue
-            .findIndex((initialItem: any) => this.isEquivalent(initialItem, item.value)) >= 0;
+            .findIndex((initialItem: any) => initialItem === item.value) >= 0;
         }
 
         if (isInitialValue || (initialIsArray && initialValueContainsItem)) {
           item.selected = true;
           const itemIndex = this.items.indexOf(item);
-          if (selectedIds.indexOf(itemIndex) < 0) {
-            selectedIds.push(itemIndex);
+          if (selectedItems.findIndex(selectedItem => selectedItem.index === itemIndex) < 0) {
+            selectedItems.push({ index: itemIndex, itemData: item.value });
           }
         }
       });
 
-      this.selectedIds = selectedIds;
-      this.updateData();
+      this.selectedItems = selectedItems;
+      this.updateDataState();
       this.changeDetector.markForCheck();
     }
 
@@ -138,54 +138,50 @@ export class SkyLookupShowMoreModalComponent implements AfterViewInit, OnDestroy
     this.displayedItems.forEach(item => {
       if (item.selected) {
         item.selected = false;
-
-        const index = this.items.indexOf(item);
-
-        this.selectedIds = this.selectedIds.filter(selectedId => {
-          return selectedId !== index;
-        });
       }
     });
-    this.selectedIds = [];
-    this.updateData();
+    this.selectedItems = [];
+    this.updateDataState();
     this.changeDetector.markForCheck();
   }
 
   public itemClick(selectedItem: any): void {
     if (this.context.selectMode === SkyLookupSelectMode.single) {
-      if (!selectedItem.selected) {
-        selectedItem.selected = true;
+      this.onItemSelect(!selectedItem.selected, selectedItem);
+    }
+  }
+
+  public onItemSelect(newSelectState: boolean, itemToSelect: any): void {
+    if (this.context.selectMode === SkyLookupSelectMode.single) {
+      if (newSelectState) {
+        itemToSelect.selected = true;
         this.items.forEach(item => {
-          if (item.value !== selectedItem.value) {
+          if (item.value !== itemToSelect.value) {
             item.selected = false;
           }
         });
         this.displayedItems.forEach(item => {
-          if (item.value !== selectedItem.value) {
+          if (item.value !== itemToSelect.value) {
             item.selected = false;
           }
         });
-        const itemIndex = this.items.indexOf(selectedItem);
-        this.selectedIds = <any[]>[itemIndex];
-        this.updateData();
-        this.changeDetector.markForCheck();
+        const itemIndex = this.items.findIndex(item => item.value === itemToSelect.value);
+        this.selectedItems = [{ index: itemIndex, itemData: this.items[itemIndex].value }];
       }
+    } else {
+      let selectedItems: { index: number, itemData: any }[] = this.selectedItems || [];
+      const allItemsIndex = this.items.findIndex(item => item.value === itemToSelect.value);
+      let selectedItemsIndex = selectedItems.findIndex(selectedItem => selectedItem.index === allItemsIndex);
+
+      if (newSelectState && selectedItemsIndex === -1) {
+        selectedItems.push({ index: allItemsIndex, itemData: this.items[allItemsIndex].value });
+      } else if (!newSelectState && selectedItemsIndex !== -1) {
+        selectedItems.splice(selectedItemsIndex, 1);
+      }
+
+      this.selectedItems = selectedItems;
     }
-  }
-
-  public onItemSelect(isSelected: boolean, item: any): void {
-    let selectedItems: any[] = this.selectedIds || [];
-    const allItemsIndex = this.items.indexOf(item);
-    let selectedItemsIndex = selectedItems.indexOf(allItemsIndex);
-
-    if (isSelected && selectedItemsIndex === -1) {
-      selectedItems.push(allItemsIndex);
-    } else if (!isSelected && selectedItemsIndex !== -1) {
-      selectedItems.splice(selectedItemsIndex, 1);
-    }
-
-    this.selectedIds = selectedItems;
-    this.updateData();
+    this.updateDataState();
     this.changeDetector.markForCheck();
   }
 
@@ -194,7 +190,7 @@ export class SkyLookupShowMoreModalComponent implements AfterViewInit, OnDestroy
       this.itemIndex = 10;
     }
     this.searchText = searchText;
-    this.updateData();
+    this.updateDataState();
   }
 
   public searchItems(items: any[]): any[] {
@@ -222,7 +218,7 @@ export class SkyLookupShowMoreModalComponent implements AfterViewInit, OnDestroy
   }
 
   public selectAll(): void {
-    let selectedIds: any[] = this.selectedIds || [];
+    let selectedItems: { index: number, itemData: any }[] = this.selectedItems || [];
 
     this.displayedItems.forEach((item: any) => {
       if (!item.selected) {
@@ -232,21 +228,21 @@ export class SkyLookupShowMoreModalComponent implements AfterViewInit, OnDestroy
 
         /* Sanity check */
         /* istanbul ignore else */
-        if (selectedIds.indexOf(index) < 0) {
-          selectedIds.push(index);
+        if (selectedItems.findIndex(selectedItem => selectedItem.index === index) < 0) {
+          selectedItems.push({ index: index, itemData: this.items[index].value });
         }
       }
     });
 
-    this.selectedIds = selectedIds;
-    this.updateData();
+    this.selectedItems = selectedItems;
+    this.updateDataState();
     this.changeDetector.markForCheck();
   }
 
-  public updateData(): void {
-    let selectedIds: any[] = this.selectedIds || [];
+  public updateDataState(): void {
+    let selectedItems: { index: number, itemData: any }[] = this.selectedItems || [];
     this.items.forEach((item: any, index: number) => {
-      item.selected = selectedIds.indexOf(index) !== -1;
+      item.selected = selectedItems.findIndex(selectedItem => selectedItem.index === index) !== -1;
     });
 
     let searchedItems = this.searchItems(this.items);
@@ -264,29 +260,20 @@ export class SkyLookupShowMoreModalComponent implements AfterViewInit, OnDestroy
     this.changeDetector.markForCheck();
   }
 
-  private isEquivalent(a: any, b: any): boolean {
-    // Create arrays of property names
-    const aProps = a ? Object.getOwnPropertyNames(a) : [];
-    const bProps = b ? Object.getOwnPropertyNames(b) : [];
+  public updateItemData(data: any[]): void {
+    this.context.items = data;
+    this.items = undefined;
+    this.itemIndex = 10;
+    this.selectedItems.forEach(selectedItem => {
+      this.context.items.forEach((item: any, index: number) => {
+        if (selectedItem.itemData === item) {
+          selectedItem.index = index;
+        }
+      });
+    });
 
-    // If number of properties is different,
-    // objects are not equivalent
-    if (aProps.length !== bProps.length) {
-      return false;
-    }
+    this.addItems();
 
-    for (let i = 0; i < aProps.length; i++) {
-      const propName = aProps[i];
-
-      // If values of same property are not equal,
-      // objects are not equivalent
-      if (a[propName] !== b[propName]) {
-        return false;
-      }
-    }
-
-    // If we made it this far, objects
-    // are considered equivalent
-    return true;
+    this.changeDetector.markForCheck();
   }
 }
