@@ -1,3 +1,8 @@
+# 4.20.0 (2021-07-01)
+
+- Added a layout to the input box component that supports the search component in modern theme. [#273](https://github.com/blackbaud/skyux-forms/pull/273)
+- Fixed the input box component to have proper spacing within the country field component. [#273](https://github.com/blackbaud/skyux-forms/pull/273)
+
 # 4.19.1 (2021-06-23)
 
 - Fixed the single file attachment component to display the full file name in the anchor's title attribute. [#271](https://github.com/blackbaud/skyux-forms/pull/271)
