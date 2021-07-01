@@ -36,6 +36,9 @@
           (focusout)="formControlFocusOut()"
         >
           <ng-container
+            *ngTemplateOutlet="iconsInsetLeftTemplate"
+          ></ng-container>
+          <ng-container
             *ngTemplateOutlet="inputTemplate"
           ></ng-container>
           <ng-container
@@ -79,6 +82,9 @@
         <div
           class="sky-form-group"
         >
+          <ng-container
+            *ngTemplateOutlet="iconsInsetLeftTemplate"
+          ></ng-container>
           <div
             class="sky-input-box-form-group-inner"
           >
@@ -196,6 +202,22 @@
     ></ng-content>
     <ng-container
       *ngTemplateOutlet="hostIconsInsetTemplate"
+    ></ng-container>
+  </div>
+</ng-template>
+
+<ng-template
+  #iconsInsetLeftTemplate
+>
+  <div
+    class="sky-input-box-icon-inset-left-wrapper"
+    (click)="onInsetIconClick()"
+  >
+    <ng-content
+      select=".sky-input-group-icon.sky-input-box-icon-inset-left"
+    ></ng-content>
+    <ng-container
+      *ngTemplateOutlet="hostIconsInsetLeftTemplate"
     ></ng-container>
   </div>
 </ng-template>

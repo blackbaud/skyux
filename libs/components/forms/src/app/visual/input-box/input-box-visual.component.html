@@ -854,6 +854,38 @@
     <sky-row>
       <sky-column>
         <div
+          id="input-box-icon-inset-left"
+        >
+          <sky-input-box
+            class="sky-margin-stacked-lg"
+          >
+            <label
+              class="sky-control-label"
+              [for]="inputBoxIconInset.id"
+            >
+              Input with left inset icon
+            </label>
+            <input
+              class="sky-form-control"
+              skyId
+              type="text"
+              #inputBoxIconInset="skyId"
+            >
+            <div
+              class="sky-input-group-icon sky-input-box-icon-inset-left"
+            >
+              <sky-icon
+                icon="search"
+              ></sky-icon>
+            </div>
+          </sky-input-box>
+        </div>
+      </sky-column>
+    </sky-row>
+
+    <sky-row>
+      <sky-column>
+        <div
           id="input-box-icon-inset-disabled"
         >
           <sky-input-box

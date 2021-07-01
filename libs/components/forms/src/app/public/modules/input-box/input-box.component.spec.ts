@@ -138,11 +138,13 @@ describe('Input box component', () => {
 
       const inputGroupEl = formGroupEl.querySelector('.sky-input-group') as HTMLElement;
 
-      const inputGroupInnerEl = inputGroupEl.children.item(0) as HTMLElement;
+      const inputGroupInnerEl = inputGroupEl.querySelector(
+        '.sky-input-box-input-group-inner'
+      ) as HTMLElement;
 
-      const inputEl = inputGroupInnerEl.children.item(0) as HTMLElement;
+      const inputEl = inputGroupInnerEl.querySelector('.sky-form-control') as HTMLElement;
 
-      const insetBtnEl = inputGroupInnerEl.children.item(1) as HTMLElement;
+      const insetBtnEl = inputGroupInnerEl.querySelector('.sky-input-box-btn-inset') as HTMLElement;
 
       const inputGroupBtnEls = Array.from(inputGroupEl.children).slice(1) as HTMLElement[];
 
@@ -296,35 +298,49 @@ describe('Input box component', () => {
       inputEl: HTMLElement,
       inputGroupBtnEls: HTMLElement[],
       insetBtnEl: HTMLElement,
+      insetIconEl: HTMLElement,
       insetIconWrapperEl: HTMLElement,
+      leftInsetIconEl: HTMLElement,
       labelEl: HTMLLabelElement,
       inlineHelpEl: HTMLElement
     } {
       const inputBoxEl = getInputBoxEl(fixture, parentCls);
 
       const inputGroupEl = inputBoxEl.querySelector('.sky-input-box-group') as HTMLElement;
+
       const formGroupEl = inputGroupEl.querySelector(
         '.sky-input-box-group-form-control > .sky-form-group'
       );
-      const formGroupInnerEl = formGroupEl.children.item(0);
 
-      const labelEl = formGroupInnerEl.children.item(0).children.item(0) as HTMLLabelElement;
+      const formGroupInnerEl = formGroupEl.querySelector(
+        '.sky-input-box-form-group-inner'
+      ) as HTMLElement;
+
+      const labelEl = formGroupInnerEl.querySelector(
+        '.sky-input-box-label-wrapper > .sky-control-label'
+      ) as HTMLLabelElement;
 
       const inlineHelpEl = formGroupEl.querySelector('.sky-control-help') as HTMLElement;
 
       const characterCountEl = formGroupInnerEl.children.item(0).children.item(1) as HTMLLabelElement;
 
-      let inputEl: HTMLElement;
+      const inputEl = formGroupInnerEl.querySelector('.sky-form-control') as HTMLElement;
 
-      if (formGroupInnerEl.children.item(1).tagName === 'SKY-CHARACTER-COUNTER-INDICATOR') {
-        inputEl = formGroupInnerEl.children.item(2) as HTMLElement;
-      } else {
-        inputEl = formGroupInnerEl.children.item(1) as HTMLElement;
-      }
+      const insetBtnEl = formGroupEl.querySelector(
+        '.sky-input-box-btn-inset'
+      ) as HTMLElement;
 
-      const insetBtnEl = formGroupEl.children.item(1) as HTMLElement;
+      const insetIconEl = formGroupEl.querySelector(
+        '.sky-input-box-icon-inset'
+      ) as HTMLElement;
 
-      const insetIconWrapperEl = formGroupEl.children.item(1) as HTMLElement;
+      const insetIconWrapperEl = formGroupEl.querySelector(
+        '.sky-input-box-icon-inset-wrapper'
+      ) as HTMLElement;
+
+      const leftInsetIconEl = formGroupEl.querySelector(
+        '.sky-input-box-icon-inset-left'
+      ) as HTMLElement;
 
       const inputGroupBtnEls = Array.from(inputGroupEl.children).slice(1) as HTMLElement[];
 
@@ -334,7 +350,9 @@ describe('Input box component', () => {
         inputEl,
         inputGroupBtnEls,
         insetBtnEl,
+        insetIconEl,
         insetIconWrapperEl,
+        leftInsetIconEl,
         labelEl,
         inlineHelpEl
       };
@@ -441,7 +459,17 @@ describe('Input box component', () => {
 
       const els = getModernEls(fixture, 'input-icon-inset');
 
-      expect(els.insetBtnEl.children.item(0).children.item(0)).toHaveCssClass('test-icon-inset');
+      expect(els.insetIconEl.children.item(0)).toHaveCssClass('test-icon-inset');
+    });
+
+    it('should render the left inset icon element in the expected location', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+
+      fixture.detectChanges();
+
+      const els = getModernEls(fixture, 'input-icon-inset-left');
+
+      expect(els.leftInsetIconEl.children.item(0)).toHaveCssClass('test-icon-inset');
     });
 
     it('should focus on the control when clicking on an inset icon', () => {

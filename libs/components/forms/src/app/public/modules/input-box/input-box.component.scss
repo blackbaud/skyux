@@ -44,7 +44,8 @@ sky-input-box {
     }
   }
 
-  .sky-input-box-icon-inset-wrapper {
+  .sky-input-box-icon-inset-wrapper,
+  .sky-input-box-icon-inset-left-wrapper {
     display: flex;
 
     .sky-input-group-icon {
@@ -56,7 +57,8 @@ sky-input-box {
   }
 
   .sky-input-box-disabled {
-    .sky-input-box-icon-inset-wrapper {
+    .sky-input-box-icon-inset-wrapper,
+    .sky-input-box-icon-inset-left-wrapper  {
       background-color: $sky-background-color-disabled;
 
       .sky-icon {
@@ -86,6 +88,13 @@ sky-input-box {
     &.ng-invalid.ng-touched {
       border: none;
       box-shadow: none;
+    }
+  }
+
+  .sky-input-box-icon-inset-left-wrapper {
+    .sky-input-box-icon-inset-left {
+      padding: 0 0 0 $sky-space-md;
+      width: initial;
     }
   }
 }
@@ -328,7 +337,7 @@ sky-input-box {
       }
 
       .sky-input-box-label-wrapper:empty + .sky-form-control,
-      .sky-input-box-label-wrapper:empty + *:first-child .sky-form-control {
+      .sky-input-box-label-wrapper:empty + * .sky-form-control {
         margin-top: 0;
         padding-top: $sky-theme-modern-space-sm;
       }
@@ -352,6 +361,13 @@ sky-input-box {
 
       textarea.sky-form-control {
         resize: vertical;
+      }
+    }
+
+    .sky-input-box-icon-inset-left-wrapper {
+      .sky-input-box-icon-inset-left {
+        padding: 0 0 0 $sky-theme-modern-space-md;
+        width: initial;
       }
     }
   }
@@ -444,7 +460,8 @@ sky-input-box {
       cursor: not-allowed;
     }
 
-    .sky-input-box-icon-inset-wrapper {
+    .sky-input-box-icon-inset-wrapper,
+    .sky-input-box-icon-inset-left-wrapper {
       background-color: transparent;
     }
 
