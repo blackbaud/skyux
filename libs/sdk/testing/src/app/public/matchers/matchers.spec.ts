@@ -78,32 +78,56 @@ describe('Jasmine matchers', () => {
       document.body.appendChild(parent);
     });
 
-    it('should check element existance', () => {
-      expect(undefined).not.toBeVisible();
+    it('should check element existence', () => {
+      expect(undefined).not.toBeVisible({
+        checkExists: true
+      });
     });
 
-    it('should check element display', () => {
-      expect(child).toBeVisible();
+    it('should check element CSS display', () => {
+      expect(parent).toBeVisible();
 
       parent.style.display = 'none';
-      expect(child).not.toBeVisible();
-      parent.style.display = 'block';
-      expect(child).toBeVisible();
-
-      child.style.display = 'none';
-      expect(child).not.toBeVisible();
+      expect(parent).not.toBeVisible();
     });
 
-    it('should check element visibility', () => {
-      expect(child).toBeVisible();
+    it('should check element CSS visibility', () => {
+      expect(child).toBeVisible({
+        checkCssDisplay: false,
+        checkCssVisibility: true
+      });
 
       parent.style.visibility = 'hidden';
-      expect(child).not.toBeVisible();
+      expect(child).not.toBeVisible({
+        checkCssDisplay: false,
+        checkCssVisibility: true
+      });
+
       parent.style.visibility = 'visible';
-      expect(child).toBeVisible();
+      expect(child).toBeVisible({
+        checkCssDisplay: false,
+        checkCssVisibility: true
+      });
 
       child.style.visibility = 'hidden';
-      expect(child).not.toBeVisible();
+      expect(child).not.toBeVisible({
+        checkCssDisplay: false,
+        checkCssVisibility: true
+      });
+    });
+
+    it('should check element dimensions', () => {
+      expect(child).toBeVisible({
+        checkDimensions: true
+      });
+
+      child.style.setProperty('height', '0');
+      child.style.setProperty('width', '0');
+      child.style.setProperty('position', 'fixed');
+
+      expect(child).not.toBeVisible({
+        checkDimensions: true
+      });
     });
   });
 

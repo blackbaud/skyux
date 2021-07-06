@@ -18,6 +18,10 @@ import {
   SkyA11yAnalyzerConfig
 } from '../a11y/a11y-analyzer-config';
 
+import {
+  SkyToBeVisibleOptions
+} from './to-be-visible-options';
+
 const windowRef: any = window;
 
 function getResourcesObservable(name: string, args: any[] = []): Observable<string> {
@@ -59,25 +63,40 @@ const matchers: jasmine.CustomMatcherFactories = {
 
   toBeVisible(): jasmine.CustomMatcher {
     return {
-      compare(el: Element): jasmine.CustomMatcherResult {
+      compare(el: Element, options?: SkyToBeVisibleOptions): jasmine.CustomMatcherResult {
+        const defaults: SkyToBeVisibleOptions = {
+          checkCssDisplay: true,
+          checkCssVisibility: false,
+          checkDimensions: false,
+          checkExists: false
+        };
+
+        const settings = {...defaults, ...options};
+
         const result = {
-          pass: false,
+          pass: true,
           message: ''
         };
 
-        result.pass = !!el;
-
-        let computedStyle: CSSStyleDeclaration; // Only get this once, not a trivial thing to get
-        if (result.pass) {
-          computedStyle = getComputedStyle(el); // Only get computed style if passing
-          // el style check, does NOT check parents in all cases
-          result.pass = (computedStyle.display !== 'none' && computedStyle.visibility !== 'hidden');
+        if (settings.checkExists) {
+          result.pass = !!el;
         }
 
         if (result.pass) {
-          // Checks if the el has a physical presence.
-          let box: DOMRect = el.getBoundingClientRect();
-          result.pass = !(box.height + box.width === 0);
+          const computedStyle = window.getComputedStyle(el);
+
+          if (settings.checkCssDisplay) {
+            result.pass = computedStyle.display !== 'none';
+          }
+
+          if (settings.checkCssVisibility) {
+            result.pass = computedStyle.visibility !== 'hidden';
+          }
+
+          if (settings.checkDimensions) {
+            const box = el.getBoundingClientRect();
+            result.pass = (box.width > 0 && box.height > 0);
+          }
         }
 
         result.message = result.pass ?
@@ -405,7 +424,7 @@ export interface SkyMatchers<T> extends jasmine.Matchers<T> {
    * `expect` the actual element to be visible.
    * Checks elements style display and visibility and bounding box width/height.
    */
-  toBeVisible(): void;
+  toBeVisible(options?: SkyToBeVisibleOptions): void;
 
   /**
    * `expect` the actual element to exist.
