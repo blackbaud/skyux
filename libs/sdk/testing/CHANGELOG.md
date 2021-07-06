@@ -1,3 +1,7 @@
+# 4.3.0 (2021-07-06)
+
+- Added options to the `toBeVisible` matcher to check an element's existence, CSS `visibility` property, and bounding-box dimensions. [#50](https://github.com/blackbaud/skyux-sdk-testing/pull/50) (Thanks [@Sean-Blackbaud](https://github.com/Sean-Blackbaud)!)
+
 # 4.2.3 (2020-12-10)
 
 - Fixed the `toHaveResourceText` matcher to properly handle the `args` array before checking the value. [#47](https://github.com/blackbaud/skyux-sdk-testing/pull/47) (Thanks [@Blackbaud-JasonBodnar](https://github.com/Blackbaud-JasonBodnar)!)
