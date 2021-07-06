@@ -66,13 +66,45 @@ describe('Jasmine matchers', () => {
     document.body.innerHTML = '';
   });
 
-  it('should check element visibility', () => {
-    const elem = document.createElement('div');
-    document.body.appendChild(elem);
-    expect(elem).toBeVisible();
+  describe('toBeVisible', () => {
+    let child: HTMLDivElement;
+    let parent: HTMLDivElement;
+    beforeEach(() => {
+      child = document.createElement('div');
+      child.innerText = 'Child';
+      parent = document.createElement('div');
+      parent.innerText = 'Parent';
+      parent.appendChild(child);
+      document.body.appendChild(parent);
+    });
 
-    elem.style.display = 'none';
-    expect(elem).not.toBeVisible();
+    it('should check element existance', () => {
+      expect(undefined).not.toBeVisible();
+    });
+
+    it('should check element display', () => {
+      expect(child).toBeVisible();
+
+      parent.style.display = 'none';
+      expect(child).not.toBeVisible();
+      parent.style.display = 'block';
+      expect(child).toBeVisible();
+
+      child.style.display = 'none';
+      expect(child).not.toBeVisible();
+    });
+
+    it('should check element visibility', () => {
+      expect(child).toBeVisible();
+
+      parent.style.visibility = 'hidden';
+      expect(child).not.toBeVisible();
+      parent.style.visibility = 'visible';
+      expect(child).toBeVisible();
+
+      child.style.visibility = 'hidden';
+      expect(child).not.toBeVisible();
+    });
   });
 
   it('should check element inner text', () => {
@@ -174,7 +206,7 @@ describe('Jasmine matchers', () => {
 
       it('should allow configuration override', async(() => {
         const element = createFailingElement();
-        expect(element).toBeAccessible(() => {}, {
+        expect(element).toBeAccessible(() => { }, {
           rules: {
             'duplicate-id': { enabled: false }
           }
@@ -184,7 +216,7 @@ describe('Jasmine matchers', () => {
       it('should allow SkyAppConfig override', async(
         inject([SkyAppConfig], (config: SkyAppConfig) => {
           const element = createPassingElement();
-          expect(element).toBeAccessible(() => {}, config.skyux.a11y as SkyA11yAnalyzerConfig);
+          expect(element).toBeAccessible(() => { }, config.skyux.a11y as SkyA11yAnalyzerConfig);
         }))
       );
     });
@@ -227,7 +259,7 @@ describe('Jasmine matchers', () => {
         }
       });
 
-      expect(text).toEqualResourceText(messageKey, messageArgs, () => {});
+      expect(text).toEqualResourceText(messageKey, messageArgs, () => { });
     }));
 
     it('should fail if the actual text does not match text provided by resources', (done) => {
