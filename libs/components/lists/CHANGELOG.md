@@ -1,3 +1,7 @@
+# 4.8.0 (2021-07-06)
+
+- Added the `loading` input to the infinite scroll component to allow for setting the loading state explicitly. The default behavior watches for DOM updates which can cause an excessive number of `scrollEnd` events and lead to poor performance. [#238](https://github.com/blackbaud/skyux-lists/pull/238)
+
 # 4.7.2 (2021-05-07)
 
 - Fixed the filter summary component to properly wrap filters. [#233](https://github.com/blackbaud/skyux-lists/pull/233)
