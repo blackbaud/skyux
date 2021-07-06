@@ -26,6 +26,9 @@ export class SkyInfiniteScrollTestComponent {
   public wrapper: ElementRef;
 
   public enabled: boolean;
+
+  public loading: boolean;
+
   public items: object[] = [];
 
   public onScrollEnd(): void {

@@ -49,6 +49,29 @@ export class SkyInfiniteScrollComponent implements OnDestroy {
   }
 
   /**
+   * Indicates whether data is loading because of a `scrollEnd` event. Setting the property
+   * to `true` disables new `scrollEnd` events from firing until it changes to `false`. If this
+   * property is not specified, the infinite scroll component watches the DOM for changes
+   * and fires `scrollEnd` events when changes occur on its parent DOM element. Relying
+   * on this default behavior could fire an excessive number of `scrollEnd` events
+   * if the DOM changes are not related to loading data, so we strongly recommend using this
+   * property to explicitly set the infinite scroll's loading state.
+   * @required
+   */
+  @Input()
+  public get loading(): boolean | undefined {
+    return this._loading;
+  }
+
+  public set loading(value: boolean | undefined) {
+    this._loading = value;
+
+    if (value !== undefined) {
+      this.isWaiting = value;
+    }
+  }
+
+  /**
    * Fires when scrolling triggers the need to load more data or when users select the button
    * to load more data. This event only fires when the `enabled` property is set to `true`
    * and data is not already loading.
@@ -61,6 +84,8 @@ export class SkyInfiniteScrollComponent implements OnDestroy {
   private ngUnsubscribe = new Subject<void>();
 
   private _enabled: boolean;
+
+  private _loading: boolean | undefined;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -99,8 +124,10 @@ export class SkyInfiniteScrollComponent implements OnDestroy {
       this.domAdapter.parentChanges(this.elementRef)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(() => {
-          this.isWaiting = false;
-          this.changeDetector.markForCheck();
+          if (!this.loading) {
+            this.isWaiting = false;
+            this.changeDetector.markForCheck();
+          }
         });
     } else {
       this.ngUnsubscribe.next();
