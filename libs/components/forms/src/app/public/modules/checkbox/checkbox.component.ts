@@ -89,10 +89,10 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   public name: string = `sky-checkbox-${++nextId}`;
 
   /**
-   * Fires when users select or deselect the checkbox.
+   * Fires when the selected value changes.
    */
   @Output()
-  public change: EventEmitter<SkyCheckboxChange> = new EventEmitter<SkyCheckboxChange>();
+  public change = new EventEmitter<SkyCheckboxChange>();
 
   /**
    * Specifies an icon to display in place of the checkbox. To group icon checkboxes
@@ -166,7 +166,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   }
 
   /**
-   * Fires when the selected value changes.
+   * Fires when users select or deselect the checkbox.
    */
   @Output()
   public get checkedChange(): Observable<boolean> {
