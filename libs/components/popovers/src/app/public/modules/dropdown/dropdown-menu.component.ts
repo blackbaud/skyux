@@ -131,7 +131,7 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
     return this._menuIndex;
   }
 
-  @ContentChildren(SkyDropdownItemComponent)
+  @ContentChildren(SkyDropdownItemComponent, {descendants: true})
   public menuItems: QueryList<SkyDropdownItemComponent>;
 
   private ngUnsubscribe = new Subject();
