@@ -2,9 +2,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  Optional,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
+
+import {
+  SkyThemeService
+} from '@skyux/theme';
 
 import {
   ICellEditorAngularComp
@@ -40,7 +45,9 @@ export class SkyAgGridCellEditorDatepickerComponent extends PopupComponent imple
   @ViewChild('skyCellEditorDatepickerInput', { read: ElementRef })
   private datepickerInput: ElementRef;
 
-  constructor() {
+  constructor(
+    @Optional() private themeSvc?: SkyThemeService
+  ) {
     super();
   }
 
@@ -54,7 +61,16 @@ export class SkyAgGridCellEditorDatepickerComponent extends PopupComponent imple
     this.skyComponentProperties = this.params.skyComponentProperties || {};
     this.columnWidth = this.params.column.getActualWidth();
     this.columnWidthWithoutBorders = this.columnWidth - 2;
-    this.rowHeightWithoutBorders = this.params.node && this.params.node.rowHeight - 4;
+    this.rowHeightWithoutBorders = this.params.node && this.params.node.rowHeight - 3;
+    this.themeSvc?.settingsChange.subscribe((themeSettings) => {
+      if (themeSettings.currentSettings.theme.name === 'modern') {
+        this.columnWidthWithoutBorders = this.columnWidth;
+        this.rowHeightWithoutBorders = this.params.node && this.params.node.rowHeight;
+      } else {
+        this.columnWidthWithoutBorders = this.columnWidth - 2;
+        this.rowHeightWithoutBorders = this.params.node && this.params.node.rowHeight - 3;
+      }
+    });
   }
 
   /**

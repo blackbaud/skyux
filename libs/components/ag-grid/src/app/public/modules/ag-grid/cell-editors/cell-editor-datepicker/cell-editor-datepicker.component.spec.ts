@@ -6,6 +6,14 @@ import {
 } from '@angular/core/testing';
 
 import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange
+} from '@skyux/theme';
+
+import {
   Column,
   RowNode
 } from 'ag-grid-community';
@@ -18,6 +26,10 @@ import {
 import {
   SkyDatepickerFixture
 } from '@skyux/datetime/testing';
+
+import {
+  BehaviorSubject
+} from 'rxjs';
 
 import {
   SkyCellClass
@@ -46,11 +58,32 @@ describe('SkyCellEditorDatepickerComponent', () => {
   let datepickerEditorFixture: ComponentFixture<SkyAgGridCellEditorDatepickerComponent>;
   let datepickerEditorComponent: SkyAgGridCellEditorDatepickerComponent;
   let datepickerEditorNativeElement: HTMLElement;
+  let mockThemeSvc: {
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+  };
 
   beforeEach(() => {
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+        {
+          currentSettings: new SkyThemeSettings(
+            SkyTheme.presets.default,
+            SkyThemeMode.presets.light
+          ),
+          previousSettings: undefined
+        }
+      )
+    };
+
     TestBed.configureTestingModule({
       imports: [
         SkyAgGridFixtureModule
+      ],
+      providers: [
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc
+        }
       ]
     });
 
@@ -146,6 +179,23 @@ describe('SkyCellEditorDatepickerComponent', () => {
 
       expect(datepickerEditorComponent.currentDate).toEqual(date);
       expect(datepicker.date).toEqual(dateString);
+    }));
+
+    it('should work with theme change', fakeAsync(() => {
+      datepickerEditorComponent.agInit(cellEditorParams);
+
+      const initialColumnWidthWithoutBorders = datepickerEditorComponent.columnWidthWithoutBorders;
+      const initialRowHeightWithoutBorders = datepickerEditorComponent.rowHeightWithoutBorders;
+
+      mockThemeSvc.settingsChange.next({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.light
+        ),
+        previousSettings: mockThemeSvc.settingsChange.value.currentSettings
+      });
+      expect(datepickerEditorComponent.columnWidthWithoutBorders).toBeGreaterThan(initialColumnWidthWithoutBorders);
+      expect(datepickerEditorComponent.rowHeightWithoutBorders).toBeGreaterThan(initialRowHeightWithoutBorders);
     }));
   });
 
