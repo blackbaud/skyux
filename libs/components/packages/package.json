@@ -1,0 +1,70 @@
+{
+  "name": "@skyux/packages",
+  "version": "5.0.0-beta.0",
+  "description": "Handles the `ng update` command for SKY UX component libraries.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blackbaud/skyux-packages.git"
+  },
+  "author": "Blackbaud, Inc.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/blackbaud/skyux-packages/issues"
+  },
+  "homepage": "https://github.com/blackbaud/skyux-packages#readme",
+  "ng-update": {
+    "migrations": "./migrations/migration-collection.json",
+    "packageGroup": {
+      "@skyux/a11y": "^5.0.0-beta.0",
+      "@skyux/action-bars": "^5.0.0-alpha.0",
+      "@skyux/ag-grid": "^4",
+      "@skyux/angular-tree-component": "^4",
+      "@skyux/animations": "^5.0.0-beta.0",
+      "@skyux/autonumeric": "^4",
+      "@skyux/avatar": "^4",
+      "@skyux/colorpicker": "^4",
+      "@skyux/core": "^5.0.0-beta.0",
+      "@skyux/data-manager": "^5.0.0-beta.0",
+      "@skyux/datetime": "^4",
+      "@skyux/errors": "^4",
+      "@skyux/flyout": "^5.0.0-alpha.0",
+      "@skyux/forms": "^5.0.0-beta.0",
+      "@skyux/grids": "^4",
+      "@skyux/i18n": "^5.0.0-beta.0",
+      "@skyux/icons": "^5.0.0-beta.0",
+      "@skyux/indicators": "^5.0.0-beta.0",
+      "@skyux/inline-form": "^5.0.0-beta.0",
+      "@skyux/layout": "^5.0.0-beta.0",
+      "@skyux/list-builder": "^4",
+      "@skyux/list-builder-common": "^4",
+      "@skyux/list-builder-view-checklist": "^4",
+      "@skyux/list-builder-view-grids": "^4",
+      "@skyux/lists": "^5.0.0-alpha.0",
+      "@skyux/lookup": "^5.0.0-alpha.0",
+      "@skyux/modals": "^5.0.0-beta.0",
+      "@skyux/navbar": "^5.0.0-beta.0",
+      "@skyux/pages": "^5.0.0-beta.0",
+      "@skyux/phone-field": "^5.0.0-alpha.0",
+      "@skyux/popovers": "^5.0.0-beta.0",
+      "@skyux/progress-indicator": "^4",
+      "@skyux/router": "^5.0.0-beta.0",
+      "@skyux/select-field": "^4",
+      "@skyux/split-view": "^5.0.0-alpha.0",
+      "@skyux/tabs": "^5.0.0-alpha.0",
+      "@skyux/text-editor": "^5.0.0-beta.0",
+      "@skyux/theme": "^5.0.0-beta.0",
+      "@skyux/tiles": "^5.0.0-alpha.0",
+      "@skyux/toast": "^5.0.0-beta.0",
+      "@skyux/validation": "^5.0.0-beta.0"
+    }
+  },
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^2.0.2",
+    "eslint": "^7.30.0",
+    "eslint-config-prettier": "^8.3.0",
+    "prettier": "^2.3.2"
+  }
+}
