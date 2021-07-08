@@ -40,6 +40,8 @@ export class AdapterServiceFixtureComponent {
   })
   public syncHeightContainer: ElementRef;
 
+  public disableInput: boolean = false;
+
   constructor(
     private adapterService: SkyCoreAdapterService
   ) {}

@@ -46,6 +46,17 @@ describe('Core adapter service', () => {
       expect(actual.length).toEqual(8);
     });
 
+    it('should not return an input with a specified tab index that is disabled', () => {
+      component.disableInput = true;
+      fixture.detectChanges();
+
+      const disabledInput = nativeElement.querySelectorAll('input')[0];
+
+      const actual = component.getFocusableChildren(nativeElement);
+      expect(actual.length).toEqual(7);
+      expect(actual[0]).not.toEqual(disabledInput);
+    });
+
     it('should not return any tabIndex with -1', () => {
       const inputs = nativeElement.querySelectorAll('input');
       const links = nativeElement.querySelectorAll('a');
