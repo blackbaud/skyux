@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -30,6 +31,10 @@ import {
 import {
   SkyAppWindowRef
 } from '@skyux/core';
+
+import {
+  SkyThemeService
+} from '@skyux/theme';
 
 import {
   SkyInputBoxHostService
@@ -77,7 +82,7 @@ let uniqueId: number = 0;
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyCountryFieldComponent implements ControlValueAccessor, OnDestroy, OnInit, Validator {
+export class SkyCountryFieldComponent implements AfterViewInit, ControlValueAccessor, OnDestroy, OnInit, Validator {
 
   /**
    * Specifies the value for the `autocomplete` attribute on the form input.
@@ -235,6 +240,8 @@ export class SkyCountryFieldComponent implements ControlValueAccessor, OnDestroy
     return this._selectedCountry;
   }
 
+  public currentTheme: string = 'default';
+
   public inputId: string;
 
   @ViewChild('inputTemplateRef', {
@@ -242,6 +249,12 @@ export class SkyCountryFieldComponent implements ControlValueAccessor, OnDestroy
     static: true
   })
   private inputTemplateRef: TemplateRef<any>;
+
+  @ViewChild('searchIconTemplateRef', {
+    read: TemplateRef,
+    static: true
+  })
+  private searchIconTemplateRef: TemplateRef<any>;
 
   private defaultCountryData: SkyCountryFieldCountry;
 
@@ -270,7 +283,8 @@ export class SkyCountryFieldComponent implements ControlValueAccessor, OnDestroy
     private elRef: ElementRef,
     private windowRef: SkyAppWindowRef,
     private injector: Injector,
-    @Optional() public inputBoxHostSvc?: SkyInputBoxHostService
+    @Optional() public inputBoxHostSvc?: SkyInputBoxHostService,
+    @Optional() private themeSvc?: SkyThemeService
   ) {
     this.setupCountries();
 
@@ -282,13 +296,7 @@ export class SkyCountryFieldComponent implements ControlValueAccessor, OnDestroy
    * @internal
    */
   public ngOnInit(): void {
-    if (this.inputBoxHostSvc) {
-      this.inputBoxHostSvc.populate(
-        {
-          inputTemplate: this.inputTemplateRef
-        }
-      );
-    }
+    this.updateInputBox();
 
     // tslint:disable-next-line: no-null-keyword
     this.ngControl = this.injector.get<NgControl>(NgControl as unknown as Type<NgControl>, null);
@@ -322,6 +330,15 @@ export class SkyCountryFieldComponent implements ControlValueAccessor, OnDestroy
     if (!this.disabled) {
       this.addEventListeners();
     }
+  }
+
+  public ngAfterViewInit(): void {
+    this.themeSvc.settingsChange
+      .subscribe(change => {
+        this.currentTheme = change.currentSettings.theme.name;
+        this.updateInputBox();
+        this.changeDetector.markForCheck();
+      });
   }
 
   /**
@@ -516,6 +533,17 @@ export class SkyCountryFieldComponent implements ControlValueAccessor, OnDestroy
     }
 
     this.countries = sortedNewCountries;
+  }
+
+  private updateInputBox(): void {
+    if (this.inputBoxHostSvc) {
+      this.inputBoxHostSvc.populate(
+        {
+          inputTemplate: this.inputTemplateRef,
+          iconsInsetTemplate: this.currentTheme === 'modern' ? this.searchIconTemplateRef : undefined
+        }
+      );
+    }
   }
 
 }

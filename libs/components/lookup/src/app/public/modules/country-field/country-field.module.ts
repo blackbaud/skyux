@@ -16,6 +16,14 @@ import {
 } from '@skyux/i18n';
 
 import {
+  SkyIconModule
+} from '@skyux/indicators';
+
+import {
+  SkyThemeModule
+} from '@skyux/theme';
+
+import {
   SkyAutocompleteModule
 } from '../autocomplete/autocomplete.module';
 
@@ -36,8 +44,10 @@ import {
     FormsModule,
     ReactiveFormsModule,
     SkyAutocompleteModule,
+    SkyIconModule,
     SkyI18nModule,
-    SkyLookupResourcesModule
+    SkyLookupResourcesModule,
+    SkyThemeModule
   ],
   exports: [
     SkyCountryFieldComponent

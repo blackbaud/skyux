@@ -1643,15 +1643,57 @@ describe('Country Field Component', () => {
       nativeElement = fixture.nativeElement as HTMLElement;
     });
 
+    //#region helpers
+    function setModernTheme() {
+      const modernTheme = new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.light
+      );
+      mockThemeSvc.settingsChange.next({
+        currentSettings: modernTheme,
+        previousSettings: undefined
+      });
+      fixture.detectChanges();
+      tick();
+    }
+    //#endregion
+
     it('should render in the expected input box containers', fakeAsync(() => {
       fixture.detectChanges();
 
       const inputBoxEl = nativeElement.querySelector('sky-input-box');
 
       const inputGroupEl = inputBoxEl.querySelector('.sky-input-box-input-group-inner');
-      const containerEl = inputGroupEl.children.item(0);
+      const containerEl = inputGroupEl.children.item(1);
 
       expect(containerEl).toHaveCssClass('sky-country-field-container');
+    }));
+
+    it('should show an inset button in modern theme', fakeAsync(() => {
+      fixture.detectChanges();
+      tick();
+
+      const inputBoxEl = nativeElement.querySelector('sky-input-box');
+      let inputBoxInsetIcon = inputBoxEl.querySelector('.sky-input-box-icon-inset');
+      expect(inputBoxInsetIcon).toBeNull();
+
+      setModernTheme();
+
+      inputBoxInsetIcon = inputBoxEl.querySelector('.sky-input-box-icon-inset');
+      expect(inputBoxInsetIcon).not.toBeNull();
+    }));
+
+    it('should remove placeholder in modern theme', fakeAsync(() => {
+      fixture.detectChanges();
+      tick();
+
+      const input = nativeElement.querySelector('.sky-form-control');
+      expect(input.getAttribute('placeholder')).toEqual('Search for a country');
+
+      setModernTheme();
+
+      const modernInput = nativeElement.querySelector('.sky-form-control');
+      expect(modernInput.getAttribute('placeholder')).toEqual('');
     }));
 
   });

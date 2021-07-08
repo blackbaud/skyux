@@ -163,19 +163,23 @@ sky-search {
         }
       }
 
+      .sky-input-box-icon-inset-left-wrapper {
+        .sky-input-box-icon-inset-left {
+          padding: 0 10px;
+        }
+      }
+
+      .sky-input-group-icon {
+        .sky-icon {
+          font-size: 17.3333px; // Override input-box's size with the old font-awesome size.
+          color: $sky-theme-modern-color-gray-110;
+        }
+      }
+
       .sky-input-box-group .sky-form-group {
         box-shadow: none;
 
         .sky-input-box-form-group-inner {
-          label {
-            flex-grow: 0;
-            padding: $sky-theme-modern-space-sm $sky-theme-modern-space-sm 1px;
-
-            .sky-icon.sky-i-search {
-              color: $sky-theme-modern-color-gray-110;
-            }
-          }
-
           input {
             flex-basis: auto;
             width: auto;
@@ -216,15 +220,10 @@ sky-search {
         }
       }
 
-      .sky-search-container .sky-search-input-container {
-        .sky-input-box-group .sky-form-group {
-          .sky-input-box-form-group-inner {
-            label {
-              .sky-icon.sky-i-search {
-                color: $sky-theme-modern-mode-dark-font-body-default-color;
-              }
-            }
-          }
+      .sky-input-group-icon {
+        .sky-icon {
+          font-size: 17.333px;
+          color: $sky-theme-modern-mode-dark-font-body-default-color;
         }
       }
     }

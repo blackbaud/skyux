@@ -3681,7 +3681,7 @@ if (!isIE) {
         const inputBoxEl = nativeElement.querySelector('sky-input-box');
 
         const inputGroupEl = inputBoxEl.querySelector('.sky-input-box-input-group-inner');
-        const containerEl = inputGroupEl.children.item(0);
+        const containerEl = inputGroupEl.children.item(1);
 
         expect(containerEl).toHaveCssClass('sky-lookup');
       }));

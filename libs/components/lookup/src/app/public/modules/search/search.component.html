@@ -74,13 +74,12 @@
               <ng-container *ngTemplateOutlet="searchIconTemplate"></ng-container>
             </button>
           </span>
-          <label *skyThemeIf="'modern'"
-            class="sky-control-label"
-            [attr.aria-label]="'skyux_search_label' | skyLibResources"
-            [attr.for]="searchInput.id"
+          <div *skyThemeIf="'modern'"
+            aria-hidden="true"
+            class="sky-input-group-icon sky-input-box-icon-inset-left"
           >
             <ng-container *ngTemplateOutlet="searchIconTemplate"></ng-container>
-          </label>
+        </div>
         </sky-input-box>
       </div>
     </div>
