@@ -7,7 +7,8 @@ import {
 } from '@angular/core';
 
 import {
-  SkyAppWindowRef
+  SkyAppWindowRef,
+  SkyCoreAdapterService
 } from '@skyux/core';
 
 import {
@@ -119,7 +120,8 @@ export class SkyModalComponent implements AfterViewInit {
     private config: SkyModalConfiguration,
     private elRef: ElementRef,
     private windowRef: SkyAppWindowRef,
-    private componentAdapter: SkyModalComponentAdapterService
+    private componentAdapter: SkyModalComponentAdapterService,
+    private coreAdapter: SkyCoreAdapterService
   ) { }
 
   @HostListener('document:keyup', ['$event'])
@@ -147,7 +149,7 @@ export class SkyModalComponent implements AfterViewInit {
         if (event.which === 9) { // Tab pressed
           let focusChanged = false;
 
-          let focusElementList = this.componentAdapter.loadFocusElementList(this.elRef);
+          let focusElementList = this.coreAdapter.getFocusableChildren(this.elRef.nativeElement);
 
           if (
             event.shiftKey &&

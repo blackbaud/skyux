@@ -13,6 +13,7 @@ import {
 import {
   MutationObserverService,
   SkyAppWindowRef,
+  SkyCoreAdapterModule,
   SkyDynamicComponentModule
 } from '@skyux/core';
 
@@ -82,6 +83,7 @@ import {
   imports: [
     CommonModule,
     RouterModule,
+    SkyCoreAdapterModule,
     SkyDynamicComponentModule,
     SkyI18nModule,
     SkyIconModule,

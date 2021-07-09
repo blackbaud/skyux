@@ -15,8 +15,15 @@
     </button>
     <button
       id="visible-btn"
+      [disabled]="context?.disableFirstContent"
     >
       Content
+    </button>
+    <button
+      id="visible-btn-2"
+      [disabled]="context?.disableSecondContent"
+    >
+      Content 2
     </button>
   </sky-modal-content>
 </sky-modal>
