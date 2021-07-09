@@ -1,3 +1,7 @@
+# 4.0.3 (2021-07-09)
+
+- Added support for `prismjs@1.24.1` to address a security vulnerability warning. [#51](https://github.com/blackbaud/skyux-lib-code-block/pull/51)
+
 # 4.0.2 (2021-03-04)
 
 - Added support for `prismjs@1.23.0` to address a security vulnerability warning. [#49](https://github.com/blackbaud/skyux-lib-code-block/pull/49)
