@@ -2,7 +2,7 @@ export interface SkyIconStackItem {
 
   /**
    * Specifies the name of
-   * [the Font Awesome icon](https://fontawesome.com/icons?d=gallery) to
+   * [the Font Awesome 4.7 icon](https://fontawesome.com/v4.7/icons/) to
    * display. Do not specify the `fa fa-` classes.
    * @required
    */
