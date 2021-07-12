@@ -145,11 +145,13 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
   }
 
   public sortName(): void {
-    this.gridApi.setSortModel([
-      {
-        colId: 'name',
-        sort: 'desc'
-      }
-    ]);
+    this.columnApi.applyColumnState({
+      state: [
+        {
+          colId: 'name',
+          sort: 'desc'
+        }
+      ]
+    });
   }
 }

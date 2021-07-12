@@ -27,26 +27,6 @@ export const READONLY_GRID_DATA: ReadonlyGridRow[] = [
   },
   {
     id: '1',
-    name: 'First quarter team goal 1',
-    value: 50,
-    startDate: new Date('1/1/2019'),
-    endDate: new Date('3/31/2019'),
-    comment: `We completed this goal one month early. For the next quarter,
-    we are going to double our target to further challenge ourselves.`,
-    status: RowStatusNames.COMPLETE,
-    selected: false
-  },
-  {
-    id: '2',
-    name: 'First quarter team goal 2',
-    value: 25,
-    startDate: new Date('1/1/2019'),
-    endDate: new Date('3/31/2019'),
-    status: RowStatusNames.COMPLETE,
-    selected: false
-  },
-  {
-    id: '3',
     name: 'Yearly department goal 1',
     value: 15,
     startDate: new Date('1/1/2019'),
@@ -56,12 +36,32 @@ export const READONLY_GRID_DATA: ReadonlyGridRow[] = [
     selected: true
   },
   {
-    id: '4',
+    id: '2',
     name: 'Yearly department goal 2',
     value: 1005,
     startDate: new Date('1/1/2019'),
     endDate: new Date('12/31/2019'),
     status: RowStatusNames.CURRENT,
+    selected: false
+  },
+  {
+    id: '3',
+    name: 'First quarter team goal 1',
+    value: 50,
+    startDate: new Date('1/1/2019'),
+    endDate: new Date('3/31/2019'),
+    status: RowStatusNames.COMPLETE,
+    selected: false
+  },
+  {
+    id: '4',
+    name: 'First quarter team goal 2',
+    value: 25,
+    startDate: new Date('1/1/2019'),
+    endDate: new Date('3/31/2019'),
+    comment: `We completed this goal one month early. For the next quarter,
+    we are going to double our target to further challenge ourselves.`,
+    status: RowStatusNames.COMPLETE,
     selected: false
   },
   {

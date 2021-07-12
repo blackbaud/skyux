@@ -7,7 +7,7 @@ import {
 } from '@angular/core/testing';
 
 import {
-  expect
+  expect, expectAsync
 } from '@skyux-sdk/testing';
 
 import {
@@ -121,7 +121,7 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
     currencyFixture.detectChanges();
 
     currencyFixture.whenStable().then(() => {
-      expect(currencyNativeElement).toBeAccessible();
+      return expectAsync(currencyNativeElement).toBeAccessible();
     });
   }));
 });
