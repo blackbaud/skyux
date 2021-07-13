@@ -67,24 +67,36 @@ export class SkyNumericService {
     }
 
     const decimalPlaceRegExp = /\.0+$|(\.[0-9]*[1-9])0+$/;
-    const symbol: SkyNumericSymbol = this.symbolIndex.find((si) => {
-      // Checks both positive and negative of value to ensure
-      // negative numbers are shortened.
-      return options.truncate &&
-        (
-          (value >= options.truncateAfter && value >= si.value) ||
-          (-value >= options.truncateAfter && -value >= si.value)
-        );
-    });
 
-    let output: string;
-    if (symbol) {
-      const roundedNumber: number = this.roundNumber((value / symbol.value), options.digits);
-      output = roundedNumber.toString().replace(decimalPlaceRegExp, '$1') + symbol.label;
-    } else {
-      const roundedNumber: number = this.roundNumber(value, options.digits);
-      output = roundedNumber.toString().replace(decimalPlaceRegExp, '$1');
+    // Get the symbol for the number after rounding, since rounding could push the number
+    // into a different symbol range.
+    let roundedNumber = this.roundNumber(value, options.digits);
+    let roundedNumberAbs = Math.abs(roundedNumber);
+
+    let suffix = '';
+
+    for (let i = 0; i < this.symbolIndex.length; i++) {
+      let symbol = this.symbolIndex[i];
+
+      if (
+        options.truncate &&
+          roundedNumberAbs >= options.truncateAfter && roundedNumberAbs >= symbol.value
+      ) {
+        roundedNumber = this.roundNumber((value / symbol.value), options.digits);
+
+        if (Math.abs(roundedNumber) === 1000 && i > 0) {
+          // Rounding caused the number to cross into the range of the next symbol.
+          symbol = this.symbolIndex[i - 1];
+          roundedNumber /= 1000;
+        }
+
+        suffix = symbol.label;
+
+        break;
+      }
     }
+
+    let output = roundedNumber.toString().replace(decimalPlaceRegExp, '$1') + suffix;
 
     this.storeShortenSymbol(output);
 

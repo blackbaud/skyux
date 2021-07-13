@@ -130,6 +130,97 @@ describe('Numeric service', () => {
     expect(skyNumeric.formatNumber(value, options)).toBe('999M');
   });
 
+  it('should format 99 as 99', () => {
+    const value = 99;
+    const options = new NumericOptions();
+    options.digits = 1;
+    expect(skyNumeric.formatNumber(value, options)).toBe('99');
+  });
+
+  it('should format -99 as -99', () => {
+    const value = -99;
+    const options = new NumericOptions();
+    options.digits = 1;
+    expect(skyNumeric.formatNumber(value, options)).toBe('-99');
+  });
+
+  it('should format 999 as 999', () => {
+    const value = 999;
+    const options = new NumericOptions();
+    options.digits = 1;
+    expect(skyNumeric.formatNumber(value, options)).toBe('999');
+  });
+
+  it('should format -999 as -999', () => {
+    const value = -999;
+    const options = new NumericOptions();
+    options.digits = 1;
+    expect(skyNumeric.formatNumber(value, options)).toBe('-999');
+  });
+
+  it('should format 999.9 with 0 digits as 1K', () => {
+    const value = 999.9;
+    const options = new NumericOptions();
+    options.digits = 0;
+    expect(skyNumeric.formatNumber(value, options)).toBe('1K');
+  });
+
+  it('should format -999.9 with 0 digits as -1K', () => {
+    const value = -999.9;
+    const options = new NumericOptions();
+    options.digits = 0;
+    expect(skyNumeric.formatNumber(value, options)).toBe('-1K');
+  });
+
+  it('should format 999999 as 1M', () => {
+    const value = 999999;
+    const options = new NumericOptions();
+    options.digits = 1;
+    expect(skyNumeric.formatNumber(value, options)).toBe('1M');
+  });
+
+  it('should format -999999 as -1M', () => {
+    const value = -999999;
+    const options = new NumericOptions();
+    options.digits = 1;
+    expect(skyNumeric.formatNumber(value, options)).toBe('-1M');
+  });
+
+  it('should format 999999999 as 1B', () => {
+    const value = 999999999;
+    const options = new NumericOptions();
+    options.digits = 1;
+    expect(skyNumeric.formatNumber(value, options)).toBe('1B');
+  });
+
+  it('should format -999999999 as -1B', () => {
+    const value = -999999999;
+    const options = new NumericOptions();
+    options.digits = 1;
+    expect(skyNumeric.formatNumber(value, options)).toBe('-1B');
+  });
+
+  it('should format 999999999999 as 1T', () => {
+    const value = 999999999999;
+    const options = new NumericOptions();
+    options.digits = 1;
+    expect(skyNumeric.formatNumber(value, options)).toBe('1T');
+  });
+
+  it('should format -999999999999 as -1T', () => {
+    const value = -999999999999;
+    const options = new NumericOptions();
+    options.digits = 1;
+    expect(skyNumeric.formatNumber(value, options)).toBe('-1T');
+  });
+
+  it('should format 999999999999999 as 1,000T', () => {
+    const value = 999999999999999;
+    const options = new NumericOptions();
+    options.digits = 1;
+    expect(skyNumeric.formatNumber(value, options)).toBe('1,000T');
+  });
+
   it('formats 1234000 with 2 digits as 1.23M', () => {
     const value = 1234000;
     const options = new NumericOptions();
