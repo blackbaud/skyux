@@ -1,3 +1,7 @@
+# 4.8.3 (2021-07-13)
+
+- Fixed the AG Grid wrapper to allow for the use of features added in AG Grid 24. [#123](https://github.com/blackbaud/skyux-ag-grid/pull/123)
+
 # 4.8.2 (2021-07-09)
 
 - Updated styles for AG Grid version 24+ in modern theme. [#121](https://github.com/blackbaud/skyux-ag-grid/pull/121)
