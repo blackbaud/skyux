@@ -97,7 +97,7 @@ describe('Avatar component', () => {
   }
 
   function getBackgroundImageUrl(el: Element): string {
-    let regex = /url\((.*?)\)/gi;
+    let regex = /url\(\"(.*?)\"\)/gi;
     let backgroundImage = getComputedStyle(getPhotoEl(el)).backgroundImage;
 
     let match = regex.exec(backgroundImage);
@@ -106,11 +106,6 @@ describe('Avatar component', () => {
 
     if (match && match.length > 0) {
       url = match[1];
-
-      // Some browsers return quotes around the URL and some don't; account for both.
-      if (url.indexOf('"') === 0) {
-        url = url.substr(1, url.length - 2);
-      }
     } else {
       url = '';
     }
@@ -170,6 +165,22 @@ describe('Avatar component', () => {
     expect(getPlaceholderEl(el)).not.toBeVisible();
 
     validateImageUrl(el, imgUrl);
+  });
+
+  it('should display an image when an image URL is specified with parenthesis', () => {
+    let fixture = TestBed.createComponent(AvatarTestComponent);
+
+    fixture.componentInstance.name = 'Robert Hernandez';
+    fixture.componentInstance.src = 'stff://fake(2).png/';
+
+    fixture.detectChanges();
+
+    let el = fixture.nativeElement;
+
+    expect(getPhotoEl(el)).toBeVisible();
+    expect(getPlaceholderEl(el)).not.toBeVisible();
+
+    validateImageUrl(el, 'stff://fake(2).png/');
   });
 
   it('should include screen reader text when an image URL is specified', () => {

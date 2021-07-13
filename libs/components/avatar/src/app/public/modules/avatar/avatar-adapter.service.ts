@@ -30,7 +30,8 @@ export class SkyAvatarAdapterService {
           }
         }
 
-        imageEl.style.backgroundImage = url ? 'url(' + url + ')' : '';
+        // Notice the quotes inside the `url` function. This ensures proper url escaping.
+        imageEl.style.backgroundImage = url ? 'url("' + url + '")' : '';
       }
     }
   }
