@@ -1,3 +1,7 @@
+# 4.5.5 (2021-07-13)
+
+- Fixed the modal component so that it does not include disabled elements with `tabIndex` attributes among the focusable elements when a modal loads. [#158](https://github.com/blackbaud/skyux-modals/pull/158)
+
 # 4.5.4 (2021-06-14)
 
 - Fixed a bug where `SkyThemeService` was erroneously provided by `SkyConfirmModule` and `SkyModalModule`. [#153](https://github.com/blackbaud/skyux-modals/pull/153)
