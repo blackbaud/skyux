@@ -199,8 +199,21 @@ describe('Phone Field Component', () => {
     let fixture: ComponentFixture<PhoneFieldTestComponent>;
     let component: PhoneFieldTestComponent;
     let nativeElement: HTMLElement;
+    let mockThemeSvc: any;
 
     beforeEach(() => {
+      mockThemeSvc = {
+        settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+          {
+            currentSettings: new SkyThemeSettings(
+              SkyTheme.presets.default,
+              SkyThemeMode.presets.light
+            ),
+            previousSettings: undefined
+          }
+        )
+      };
+
       TestBed.configureTestingModule({
         declarations: [
           PhoneFieldTestComponent
@@ -209,6 +222,12 @@ describe('Phone Field Component', () => {
           SkyPhoneFieldModule,
           NoopAnimationsModule,
           FormsModule
+        ],
+        providers: [
+          {
+            provide: SkyThemeService,
+            useValue: mockThemeSvc
+          }
         ]
       });
 
@@ -863,8 +882,21 @@ describe('Phone Field Component', () => {
     let fixture: ComponentFixture<PhoneFieldReactiveTestComponent>;
     let component: PhoneFieldReactiveTestComponent;
     let nativeElement: HTMLElement;
+    let mockThemeSvc: any;
 
     beforeEach(() => {
+      mockThemeSvc = {
+        settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+          {
+            currentSettings: new SkyThemeSettings(
+              SkyTheme.presets.default,
+              SkyThemeMode.presets.light
+            ),
+            previousSettings: undefined
+          }
+        )
+      };
+
       TestBed.configureTestingModule({
         declarations: [
           PhoneFieldReactiveTestComponent
@@ -874,6 +906,12 @@ describe('Phone Field Component', () => {
           NoopAnimationsModule,
           FormsModule,
           ReactiveFormsModule
+        ],
+        providers: [
+          {
+            provide: SkyThemeService,
+            useValue: mockThemeSvc
+          }
         ]
       });
 
@@ -1519,7 +1557,7 @@ describe('Phone Field Component', () => {
 
       const inputGroupEl = inputBoxEl.querySelector('.sky-form-group > .sky-input-group');
       const countryBtnEl = inputGroupEl.children.item(0);
-      const containerEl = inputGroupEl.children.item(1).children.item(0);
+      const containerEl = inputGroupEl.children.item(1).children.item(1);
 
       expect(countryBtnEl).toHaveCssClass('sky-phone-field-country-btn');
       expect(containerEl).toHaveCssClass('sky-phone-field-container');

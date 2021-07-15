@@ -26,6 +26,18 @@ import {
 } from '@skyux/phone-field';
 
 import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange
+} from '@skyux/theme';
+
+import {
+  BehaviorSubject
+} from 'rxjs';
+
+import {
   SkyPhoneFieldFixture
 } from './phone-field-fixture';
 
@@ -109,8 +121,21 @@ describe('PhoneField fixture', () => {
   let fixture: ComponentFixture<PhoneFieldTestComponent>;
   let testComponent: PhoneFieldTestComponent;
   let phonefieldFixture: SkyPhoneFieldFixture;
+  let mockThemeSvc: any;
 
   beforeEach(async () => {
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+        {
+          currentSettings: new SkyThemeSettings(
+            SkyTheme.presets.default,
+            SkyThemeMode.presets.light
+          ),
+          previousSettings: undefined
+        }
+      )
+    };
+
     TestBed.configureTestingModule({
       declarations: [
         PhoneFieldTestComponent
@@ -120,6 +145,12 @@ describe('PhoneField fixture', () => {
         ReactiveFormsModule,
         SkyPhoneFieldTestingModule,
         SkyStatusIndicatorModule
+      ],
+      providers: [
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc
+        }
       ]
     });
 
