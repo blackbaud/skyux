@@ -21,11 +21,17 @@
     </sky-docs-demo-control-panel>
     <div *ngIf="selectedLayout === 'page'"
       class="sky-box sky-elevation-1-bordered"
-      style="width: 50%; height: 250px;"
+      [skyThemeClass]="{
+        'sky-padding-even-large': 'default',
+        'sky-padding-even-xl': 'modern'
+      }"
     ></div>
     <div *ngIf="selectedLayout === 'container'"
       class="sky-box sky-elevation-0-bordered"
-      style="width: 50%; height: 250px;"
+      [skyThemeClass]="{
+        'sky-padding-even-large': 'default',
+        'sky-padding-even-xl': 'modern'
+      }"
     ></div>
   </sky-docs-demo>
 
