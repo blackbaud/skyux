@@ -1,3 +1,7 @@
+# 5.0.0-beta.3 (2021-07-16)
+
+- `@skyux/ag-grid@5.0.0-beta.0` [Release notes](https://github.com/blackbaud/skyux-ag-grid/blob/5.0.0-beta.0/CHANGELOG.md)
+
 # 5.0.0-beta.2 (2021-07-16)
 
 - `@skyux/phone-field@5.0.0-beta.0` [Release notes](https://github.com/blackbaud/skyux-phone-field/blob/5.0.0-beta.0/CHANGELOG.md)
