@@ -1,3 +1,7 @@
+# 4.2.1 (2021-07-16)
+
+- Fixed the column selector to have proper spacing between the column's title and description. [#38](https://github.com/blackbaud/skyux-data-manager/pull/38)
+
 # 4.2.0 (2021-05-28)
 
 - Updated the data view state to track `columnIds` and added the ability to initially hide columns on views which include column options. [#33](https://github.com/blackbaud/skyux-data-manager/pull/33)
