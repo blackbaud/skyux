@@ -27,7 +27,8 @@
       'sky-switch-control-success': checkboxType === 'success',
       'sky-switch-control-warning': checkboxType === 'warning',
       'sky-switch-control-danger': checkboxType === 'danger'
-    }">
+    }"
+  >
     <sky-icon *ngIf="icon || checked"
       class="sky-checkbox-icon-default"
       fixedWidth="true"
@@ -42,7 +43,9 @@
         [icon]="icon"
       >
       </sky-icon>
-      <ng-template #checkedTemplate>
+      <ng-template
+        #checkedTemplate
+      >
         <sky-icon *ngIf="checked"
           class="sky-checkbox-icon-modern-checked"
           fixedWidth="true"

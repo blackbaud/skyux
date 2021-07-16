@@ -66,13 +66,25 @@ describe('Radio component', function () {
   });
 
   describe('Standard radio component', () => {
-    beforeEach(fakeAsync(function () {
+    let testComponent: SkyRadioTestComponent;
+
+    beforeEach(fakeAsync(() => {
       fixture = TestBed.createComponent(SkyRadioTestComponent);
+
+      componentInstance = fixture.componentInstance;
+      testComponent = fixture.debugElement.componentInstance;
 
       fixture.detectChanges();
       tick();
-      componentInstance = fixture.componentInstance;
     }));
+
+    it('should emit the new disabled value when it is modified', () => {
+      const onDisabledChangeSpy = spyOn(testComponent, 'onDisabledChange');
+      expect(onDisabledChangeSpy).toHaveBeenCalledTimes(0);
+      testComponent.disabled1 = true;
+      fixture.detectChanges();
+      expect(onDisabledChangeSpy).toHaveBeenCalledTimes(1);
+    });
 
     it('should update the ngModel properly when radio button is changed', fakeAsync(function () {
       let radioElement = fixture.debugElement.queryAll(By.directive(SkyRadioComponent))[0];
@@ -147,25 +159,16 @@ describe('Radio component', function () {
     }));
 
     it('should handle disabled state properly', fakeAsync(function () {
-      componentInstance.disabled2 = true;
-      fixture.detectChanges();
-      tick();
-
       const radios = fixture.nativeElement.querySelectorAll('input');
       radios.item(1).click();
       fixture.detectChanges();
       tick();
 
-      expect(radios.item(0).checked).toBeTruthy();
-      expect(radios.item(1).checked).toBeFalsy();
-      expect(radios.item(2).checked).toBeFalsy();
-      expect(componentInstance.selectedValue).toBe('1');
-
-      componentInstance.disabled2 = false;
+      componentInstance.disabled1 = true;
       fixture.detectChanges();
       tick();
 
-      radios.item(1).click();
+      radios.item(0).click();
       fixture.detectChanges();
       tick();
 
@@ -173,6 +176,19 @@ describe('Radio component', function () {
       expect(radios.item(1).checked).toBeTruthy();
       expect(radios.item(2).checked).toBeFalsy();
       expect(componentInstance.selectedValue).toBe('2');
+
+      componentInstance.disabled1 = false;
+      fixture.detectChanges();
+      tick();
+
+      radios.item(0).click();
+      fixture.detectChanges();
+      tick();
+
+      expect(radios.item(0).checked).toBeTruthy();
+      expect(radios.item(1).checked).toBeFalsy();
+      expect(radios.item(2).checked).toBeFalsy();
+      expect(componentInstance.selectedValue).toBe('1');
     }));
 
     it('should pass a label when specified', fakeAsync(function () {

@@ -4,8 +4,8 @@ import {
 } from '@angular/core';
 
 import {
+  FormArray,
   FormBuilder,
-  FormControl,
   FormGroup
 } from '@angular/forms';
 
@@ -24,9 +24,13 @@ import {
 })
 export class SelectionBoxVisualComponent implements OnInit {
 
+  public get checkboxArray(): FormArray {
+    return this.myForm.get('checkboxes') as FormArray;
+  }
+
   public alignItems: SkySelectionBoxGridAlignItems;
 
-  public items: any[] = [
+  public selectionBoxes: any[] = [
     {
       name: 'Save time and effort',
       description: 'Encourage supporters to interact with your organization'
@@ -59,7 +63,7 @@ export class SelectionBoxVisualComponent implements OnInit {
 
   public myForm: FormGroup;
 
-  public showDesription: boolean = true;
+  public showDescription: boolean = true;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -68,17 +72,7 @@ export class SelectionBoxVisualComponent implements OnInit {
 
   public ngOnInit(): void {
     this.myForm = this.formBuilder.group({
-      radioGroup: new FormControl(),
-      checkboxGroup: this.formBuilder.array([
-        new FormControl(),
-        new FormControl(),
-        new FormControl()
-      ]),
-      checkboxNoIconsGroup: this.formBuilder.array([
-        new FormControl(),
-        new FormControl(),
-        new FormControl()
-      ])
+      checkboxes: this.buildCheckboxes()
     });
   }
 
@@ -95,10 +89,31 @@ export class SelectionBoxVisualComponent implements OnInit {
   }
 
   public onToggleDescriptionsClick(): void {
-    this.showDesription = !this.showDesription;
+    this.showDescription = !this.showDescription;
+  }
+
+  public onToggleAbleFirstCheckboxClick(): void {
+    if (this.myForm.get('checkboxes').get('0').disabled) {
+      this.myForm
+        .get('checkboxes')
+        .get('0')
+        .enable();
+    } else {
+      this.myForm
+        .get('checkboxes')
+        .get('0')
+        .disable();
+    }
   }
 
   public themeSettingsChange(themeSettings: SkyThemeSettings): void {
     this.themeSvc.setTheme(themeSettings);
+  }
+
+  private buildCheckboxes(): FormArray {
+    const selectionBoxControls = this.selectionBoxes.map(aSelectionBox => {
+      return this.formBuilder.control(aSelectionBox.undefinedValue);
+    });
+    return this.formBuilder.array(selectionBoxControls);
   }
 }

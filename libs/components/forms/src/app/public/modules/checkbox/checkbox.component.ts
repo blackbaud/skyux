@@ -70,9 +70,23 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
 
   /**
    * Indicates whether to disable the checkbox.
+   * @default false
    */
-  @Input()
-  public disabled: boolean = false;
+   @Input()
+   public set disabled(value: boolean) {
+     const coercedValue = SkyFormsUtility.coerceBooleanProperty(value);
+     if (coercedValue !== this.disabled) {
+       this._disabled = coercedValue;
+       this._disabledChange.next(this._disabled);
+     }
+   }
+
+  /**
+   * Indicates whether the checkbox is disabled.
+   */
+  public get disabled() {
+    return this._disabled;
+  }
 
   /**
    * Specifies an index for the checkbox. If not defined, the index is set to the position of the
@@ -145,9 +159,12 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-  public get checked() {
-    return this._checked;
-  }
+  /**
+   * Indicates whether the checkbox is selected.
+   */
+   public get checked() {
+     return this._checked;
+   }
 
   /**
    * Indicates whether the input is required for form validation.
@@ -173,6 +190,14 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
     return this._checkedChange;
   }
 
+  /**
+   * Fires when the selected value changes.
+   */
+   @Output()
+   public get disabledChange(): Observable<boolean> {
+     return this._disabledChange;
+   }
+
   private isFirstChange = true;
 
   private _checkboxType: string;
@@ -180,6 +205,10 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   private _checked: boolean = false;
 
   private _checkedChange = new BehaviorSubject<boolean>(this._checked);
+
+  private _disabled: boolean = false;
+
+  private _disabledChange = new BehaviorSubject<boolean>(this._disabled);
 
   private _required: boolean = false;
 

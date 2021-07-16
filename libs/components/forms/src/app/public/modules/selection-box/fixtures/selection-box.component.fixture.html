@@ -31,28 +31,31 @@
 <div
   id="checkboxSelectionBoxes"
 >
-  <sky-selection-box *ngFor="let item of checkboxArray; let i = index"
-    [control]="checkbox"
-  >
-    <sky-icon
-      [icon]="item.icon"
-      [iconType]="item.iconType"
-    ></sky-icon>
-    <sky-selection-box-header
-      skyId
-      #checkboxHeaderId="skyId"
+  <form [formGroup]="myForm">
+    <sky-selection-box *ngFor="let aControl of selectionBoxFormArray.controls; let i = index"
+      [control]="checkbox"
     >
-      {{ item.header }}
-    </sky-selection-box-header>
-    <sky-selection-box-description>
-      {{ item.description }}
-    </sky-selection-box-description>
-    <sky-checkbox
-      [labelledBy]="checkboxHeaderId.id"
-      #checkbox
-    >
-    </sky-checkbox>
-  </sky-selection-box>
+      <sky-icon
+        [icon]="checkboxSelectionBoxes[i].icon"
+        [iconType]="checkboxSelectionBoxes[i].iconType"
+      ></sky-icon>
+      <sky-selection-box-header
+        skyId
+        #checkboxHeaderId="skyId"
+      >
+        {{ checkboxSelectionBoxes[i].header }}
+      </sky-selection-box-header>
+      <sky-selection-box-description>
+        {{ checkboxSelectionBoxes[i].description }}
+      </sky-selection-box-description>
+      <sky-checkbox
+        [formControl]="aControl"
+        [labelledBy]="checkboxHeaderId.id"
+        #checkbox
+      >
+      </sky-checkbox>
+    </sky-selection-box>
+  </form>
 </div>
 
 <sky-selection-box

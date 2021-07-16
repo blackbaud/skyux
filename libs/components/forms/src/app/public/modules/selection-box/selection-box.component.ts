@@ -61,6 +61,7 @@ export class SkySelectionBoxComponent implements AfterViewInit, OnDestroy {
   public set disabled(value: boolean) {
     this.selectionBoxAdapterService.setTabIndex(this.selectionBoxEl, value ? -1 : 0);
     this._disabled = value;
+    this.changeDetector.markForCheck();
   }
 
   public get disabled(): boolean {
@@ -138,6 +139,11 @@ export class SkySelectionBoxComponent implements AfterViewInit, OnDestroy {
   }
 
   private updateDisabledState(): void {
-    this.disabled = !!this.control?.disabled;
+    this.control?.disabledChange
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      ).subscribe((value) => {
+        this.disabled = value;
+    });
   }
 }

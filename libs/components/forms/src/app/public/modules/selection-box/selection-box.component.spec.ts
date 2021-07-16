@@ -1,8 +1,14 @@
+import { DebugElement } from '@angular/core';
+
 import {
   async,
   ComponentFixture,
   TestBed
 } from '@angular/core/testing';
+
+import {
+  By
+} from '@angular/platform-browser';
 
 import {
   expect,
@@ -63,6 +69,8 @@ describe('Selection box component', () => {
   //#endregion
 
   let fixture: ComponentFixture<SelectionBoxTestComponent>;
+  let testComponent: SelectionBoxTestComponent;
+  let debugElement: DebugElement;
   let mockThemeSvc: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>
   };
@@ -91,7 +99,38 @@ describe('Selection box component', () => {
         }
       ]
     }).createComponent(SelectionBoxTestComponent);
+
+    debugElement = fixture.debugElement;
+
+    testComponent = debugElement.componentInstance;
+
     fixture.detectChanges();
+  });
+
+  it('should enable and disable AfterViewInit', async () => {
+
+    let outermostDiv = debugElement.query(By.css('div#checkboxSelectionBoxes > form > sky-selection-box > div')).nativeElement;
+    fixture.detectChanges();
+
+    expect(outermostDiv).not.toHaveCssClass('sky-selection-box-disabled');
+
+    fixture.detectChanges();
+
+    testComponent.myForm.get('checkboxes').get('0').disable();
+
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(outermostDiv).toHaveCssClass('sky-selection-box-disabled');
+
+    fixture.detectChanges();
+
+    testComponent.myForm.get('checkboxes').get('0').enable();
+
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(outermostDiv).not.toHaveCssClass('sky-selection-box-disabled');
   });
 
   it('should transclude icon, header, and description sections', () => {

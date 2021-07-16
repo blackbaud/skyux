@@ -1,13 +1,16 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  DebugElement
+  DebugElement,
+  ViewChild
 } from '@angular/core';
 
 import {
-  ComponentFixture,
   async,
+  ComponentFixture,
+  fakeAsync,
   TestBed
 } from '@angular/core/testing';
 
@@ -32,7 +35,7 @@ import {
 
 import {
   SkyCheckboxChange
-} from '../checkbox/checkbox-change';
+} from './checkbox-change';
 
 import {
   SkyCheckboxComponent
@@ -60,15 +63,27 @@ import {
     </sky-checkbox>
   </div>`
 })
-class SingleCheckboxComponent {
+class SingleCheckboxComponent implements AfterViewInit {
   public checkboxType: string;
   public icon: string = 'bold';
   public isChecked: boolean = false;
   public isDisabled: boolean = false;
 
+  @ViewChild(SkyCheckboxComponent)
+  public checkboxComponent: SkyCheckboxComponent;
+
+  public ngAfterViewInit() {
+    this.checkboxComponent.disabledChange.subscribe((value) => {
+      this.onDisabledChange(value);
+    });
+  }
+
+  public onDisabledChange(value: boolean): void {}
+
   public checkboxChange($event: any) {
     this.isChecked = $event.checked;
   }
+
 }
 
 /** Simple component for testing an MdCheckbox with ngModel. */
@@ -309,6 +324,14 @@ describe('Checkbox component', () => {
       });
     }));
 
+    it('should emit the new disabled value when it is modified', fakeAsync(() => {
+      const onDisabledChangeSpy = spyOn(testComponent, 'onDisabledChange');
+      expect(onDisabledChangeSpy).toHaveBeenCalledTimes(0);
+      testComponent.isDisabled = true;
+      fixture.detectChanges();
+      expect(onDisabledChangeSpy).toHaveBeenCalledTimes(1);
+    }));
+
     it('should add and remove the checked state', () => {
       expect(checkboxInstance.checked).toBe(false);
       expect(inputElement.checked).toBe(false);
@@ -400,7 +423,6 @@ describe('Checkbox component', () => {
         expect(fixture.nativeElement).toBeAccessible();
       });
     }));
-
   });
 
   describe('with change event and no initial value', () => {
