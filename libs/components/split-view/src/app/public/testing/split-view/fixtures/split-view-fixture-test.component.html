@@ -15,6 +15,7 @@
       >
         <sky-repeater-item *ngFor="let item of items; let i = index"
           (click)="onItemClick(i)"
+          (keyup.enter)="onItemClick(i)"
         >
           <sky-repeater-item-content>
             {{ item.amount }} <br />
