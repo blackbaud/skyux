@@ -29,9 +29,6 @@
     ></div>
   </sky-docs-demo>
 
-  <!-- <sky-docs-design-guidelines>
-  </sky-docs-design-guidelines> -->
-
   <sky-docs-code-examples>
     <sky-docs-code-example
       sourceCodePath="src/app/public/plugin-resources/code-examples/box/basic"
@@ -39,4 +36,155 @@
     >
     </sky-docs-code-example>
   </sky-docs-code-examples>
+
+  <sky-docs-design-guidelines>
+
+    <sky-docs-demo-page-section
+    heading="Usage"
+  >
+    <sky-docs-design-guideline
+      heading="Use when"
+      headingStyle="success"
+    >
+      <p>
+        Use boxes to contain sections in the content areas of <a href="https://developer.blackbaud.com/skyux-modern/design/page-layouts/action-hub">action hubs</a> and <a href="https://developer.blackbaud.com/skyux-modern/design/page-layouts/record">record pages</a>.
+      </p>
+      <sky-docs-design-guideline-thumbnail
+        caption="Do use boxes to contain sections on record pages."
+        captionType="success"
+        imageSource="~/assets/img/guidelines/box/box-use-record.png"
+        showBorder="true"
+      >
+      </sky-docs-design-guideline-thumbnail>
+      <sky-docs-design-guideline-thumbnail
+        caption="Do use boxes to contain sections on action hub pages."
+        captionType="success"
+        imageSource="~/assets/img/guidelines/box/box-use-action-hub.png"
+        showBorder="true"
+      >
+      </sky-docs-design-guideline-thumbnail>
+    </sky-docs-design-guideline>
+
+    <sky-docs-design-guideline
+      heading="Don't use when"
+      headingStyle="danger"
+    >
+      <p>
+        Don't use boxes to contain individual elements. Use <a href="https://developer.blackbaud.com/skyux-layout/docs/repeater?svcid=skyux-modern">repeaters</a> or other layout approaches instead.
+      </p>
+      <sky-docs-design-guideline-thumbnail
+        caption="Don't use boxes to contain individual elements."
+        captionType="danger"
+        imageSource="~/assets/img/guidelines/box/box-dont-individual-element.png"
+      >
+      </sky-docs-design-guideline-thumbnail>
+    </sky-docs-design-guideline>
+
+    <sky-docs-design-guideline>
+      <p>
+        Don't use boxes to contain sections in <a href="https://developer.blackbaud.com/skyux-modals/docs/modal?svcid=skyux-modern&docs-active-tab=design">modal forms</a> or <a href="https://developer.blackbaud.com/skyux-split-view/docs/split-view?svcid=skyux-modern&docs-active-tab=design">split view workspaces</a>. Use headers and spacing to separate the content instead.
+      </p>
+      <sky-docs-design-guideline-thumbnail
+        caption="Don't use boxes to contain sections in forms."
+        captionType="danger"
+        imageSource="~/assets/img/guidelines/box/box-dont-form.png"
+      >
+      </sky-docs-design-guideline-thumbnail>
+      <sky-docs-design-guideline-thumbnail
+        caption="Don't use boxes to contain sections in split views."
+        captionType="danger"
+        imageSource="~/assets/img/guidelines/box/box-dont-split-view.png"
+        showBorder="true"
+      >
+      </sky-docs-design-guideline-thumbnail>
+    </sky-docs-design-guideline>
+
+    <sky-docs-design-guideline>
+      <p>
+        Don't add boxes to pre-defined sections when page templates don't use boxes.
+      </p>
+      <sky-docs-design-guideline-thumbnail
+        caption="Don't add boxes to the sections in the right panel of an action hub."
+        captionType="danger"
+        imageSource="~/assets/img/guidelines/box/box-dont-related-recent.png"
+        showBorder="true"
+      >
+      </sky-docs-design-guideline-thumbnail>
+      <sky-docs-design-guideline-thumbnail
+        caption="Don't add a box to the list on a list page."
+        captionType="danger"
+        imageSource="~/assets/img/guidelines/box/box-dont-list.png"
+        showBorder="true"
+      >
+      </sky-docs-design-guideline-thumbnail>
+    </sky-docs-design-guideline>
+
+  </sky-docs-demo-page-section>
+
+  <sky-docs-demo-page-section
+    heading="Anatomy"
+  >
+    <sky-docs-anatomy
+      imagePath="~/assets/img/guidelines/box/box-anatomy.png"
+    >
+      <sky-docs-anatomy-item>Box container</sky-docs-anatomy-item>
+      <sky-docs-anatomy-item isOptional="true">Elevation shadow</sky-docs-anatomy-item>
+    </sky-docs-anatomy>
+  </sky-docs-demo-page-section>
+   
+  <sky-docs-demo-page-section
+    heading="Layout"
+  >
+
+    <sky-docs-design-guideline>
+      <p>
+        Add <code>class="sky-padding-even-xl"</code> to the box to ensure proper spacing of the content from the borders of the box.
+      </p>
+      <sky-docs-design-guideline-thumbnail
+        caption="Add the sky-padding-even-xl class to the box."
+        captionType="success"
+        imageSource="~/assets/img/guidelines/box/box-layout-padding.png"
+      >
+      </sky-docs-design-guideline-thumbnail>
+    </sky-docs-design-guideline>
+
+    <sky-docs-design-guideline>
+      <p>
+        Use <code>$sky-theme-modern-space-xl</code> spacing between boxes. Depending on your scenario, you can use <a href="https://developer.blackbaud.com/skyux-layout/docs/fluid-grid?svcid=skyux-modern">fluid grid</a>, CSS Flexbox, CSS Grid or <a href="https://developer.blackbaud.com/skyux-modern/design/spacing">spacing classes</a>.
+      </p>
+      <sky-docs-design-guideline-thumbnail
+        caption="Use $sky-theme-modern-space-xl spacing between boxes."
+        captionType="success"
+        imageSource="~/assets/img/guidelines/box/box-layout-margin.png"
+      >
+      </sky-docs-design-guideline-thumbnail>
+    </sky-docs-design-guideline>
+
+  </sky-docs-demo-page-section>
+
+  <sky-docs-demo-page-section
+    heading="Related information"
+  >
+    <sky-docs-design-guideline
+      heading="Components"
+    >
+      <ul>
+        <li><a href="https://developer.blackbaud.com/skyux-layout/docs/fluid-grid?svcid=skyux-modern">Fluid grid</a></li>
+      </ul>
+    </sky-docs-design-guideline>
+
+    <sky-docs-design-guideline
+      heading="Guidelines"
+    >
+      <ul>
+        <li><a href="https://developer.blackbaud.com/skyux-modern/design/page-layouts/action-hub">Action hub page</a></li>
+        <li><a href="https://developer.blackbaud.com/skyux-modern/design/page-layouts/record">Record page</a></li>
+        <li><a href="https://developer.blackbaud.com/skyux-modern/design/spacing">Spacing</a></li>
+      </ul>
+    </sky-docs-design-guideline>
+
+  </sky-docs-demo-page-section>
+
+</sky-docs-design-guidelines>
+
 </sky-docs-demo-page>
