@@ -1,3 +1,8 @@
+<sky-docs-demo-control-panel-theme
+  (themeSettingsChange)="themeSettingsChange($event)"
+>
+</sky-docs-demo-control-panel-theme>
+
 <sky-data-manager>
   <sky-data-manager-toolbar>
     <sky-data-manager-toolbar-primary-item *ngIf="activeViewId === 'repeaterView'">
@@ -19,4 +24,8 @@
     [items]="items"
   >
   </data-view-cards>
+  <data-view-legacy-grid
+    [items]="items"
+  >
+  </data-view-legacy-grid>
 </sky-data-manager>

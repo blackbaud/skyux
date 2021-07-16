@@ -1,0 +1,14 @@
+<sky-data-view
+  [viewId]="viewConfig.id"
+>
+  <sky-grid
+    fit="scroll"
+    [data]="displayedItems"
+  >
+    <sky-grid-column *ngFor="let column of displayedColumns"
+      [field]="column.id"
+      [heading]="column.label"
+    >
+    </sky-grid-column>
+  </sky-grid>
+</sky-data-view>

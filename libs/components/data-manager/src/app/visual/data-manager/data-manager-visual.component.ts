@@ -1,12 +1,18 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnInit
+  OnInit,
+  Optional
 } from '@angular/core';
 
 import {
   SkyUIConfigService
 } from '@skyux/core';
+
+import {
+  SkyThemeService,
+  SkyThemeSettings
+} from '@skyux/theme';
 
 import {
   LocalStorageConfigService
@@ -60,7 +66,7 @@ export class DataManagerVisualComponent implements OnInit {
     views: [
       {
         viewId: 'gridView',
-        displayedColumnIds: ['selected', 'name', 'description']
+        displayedColumnIds: ['name', 'description']
       }
     ]
   });
@@ -116,7 +122,8 @@ export class DataManagerVisualComponent implements OnInit {
   public settingsKey = 'test';
 
   constructor(
-    private dataManagerService: SkyDataManagerService
+    private dataManagerService: SkyDataManagerService,
+    @Optional() private themeSvc: SkyThemeService
   ) {
     this.dataManagerService.getDataStateUpdates('dataManager').subscribe(state => this.dataState = state);
     this.dataManagerService.getActiveViewIdUpdates().subscribe(activeViewId => this.activeViewId = activeViewId);
@@ -136,5 +143,9 @@ export class DataManagerVisualComponent implements OnInit {
   public searchSo(): void {
     this.dataState.searchText = 'so';
     this.dataManagerService.updateDataState(this.dataState, 'dataManager');
+  }
+
+  public themeSettingsChange(themeSettings: SkyThemeSettings): void {
+    this.themeSvc.setTheme(themeSettings);
   }
 }

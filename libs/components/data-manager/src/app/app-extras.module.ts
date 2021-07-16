@@ -20,6 +20,10 @@ import {
 } from '@skyux/docs-tools';
 
 import {
+  SkyGridModule
+} from '@skyux/grids';
+
+import {
   SkyAlertModule,
   SkyIconModule
 } from '@skyux/indicators';
@@ -81,6 +85,7 @@ import {
     SkyDropdownModule,
     SkyFilterModule,
     SkyFluidGridModule,
+    SkyGridModule,
     SkyIconModule,
     SkyInfiniteScrollModule,
     SkyInlineDeleteModule,
