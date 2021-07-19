@@ -23,7 +23,7 @@
     "packageGroup": {
       "@skyux/a11y": "^5.0.0-beta.0",
       "@skyux/action-bars": "^5.0.0-beta.0",
-      "@skyux/ag-grid": "^4",
+      "@skyux/ag-grid": "^5.0.0-beta.0",
       "@skyux/angular-tree-component": "^4",
       "@skyux/animations": "^5.0.0-beta.0",
       "@skyux/assets": "^5.0.0-beta.0",
@@ -54,7 +54,7 @@
       "@skyux/navbar": "^5.0.0-beta.0",
       "@skyux/omnibar-interop": "^5.0.0-beta.0",
       "@skyux/pages": "^5.0.0-beta.0",
-      "@skyux/phone-field": "^5.0.0-alpha.0",
+      "@skyux/phone-field": "^5.0.0-beta.0",
       "@skyux/popovers": "^5.0.0-beta.0",
       "@skyux/progress-indicator": "^5.0.0-beta.0",
       "@skyux/router": "^5.0.0-beta.0",
