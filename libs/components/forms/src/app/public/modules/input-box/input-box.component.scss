@@ -342,6 +342,11 @@ sky-input-box {
         padding-top: $sky-theme-modern-space-sm;
       }
 
+      textarea.sky-form-control {
+        margin-top: 0;
+        padding-top: $sky-theme-modern-space-xs;
+      }
+
       /* Firefox puts an extra 5px left padding on select elements. This removes it. */
       @-moz-document url-prefix() {
         select.sky-form-control {
