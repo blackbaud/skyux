@@ -60,8 +60,8 @@ import {
 } from './types/font-state';
 
 import {
-  SkyTextEditorMenu
-} from './types/menu';
+  SkyTextEditorMenuType
+} from './types/menu-type';
 
 import {
   SkyTextEditorStyleState
@@ -72,8 +72,8 @@ import {
 } from './types/text-editor-merge-field';
 
 import {
-  SkyTextEditorToolbarActions
-} from './types/toolbar-action';
+  SkyTextEditorToolbarActionType
+} from './types/toolbar-action-type';
 
 /**
  * Auto-incrementing integer used to generate unique ids for radio components.
@@ -131,10 +131,10 @@ export class SkyTextEditorComponent implements AfterViewInit, ControlValueAccess
 
   /**
    * Specifies the menus to include in the menu bar.
-   * @default [ SkyTextEditorMenu.Edit, SkyTextEditorMenu.Format ]
+   * @default [ 'edit', 'format' ]
    */
   @Input()
-  public menus: SkyTextEditorMenu[] = MENU_DEFAULTS;
+  public menus: SkyTextEditorMenuType[] = MENU_DEFAULTS;
 
   /**
    * Specifies the merge fields to include in the merge field menu.
@@ -180,11 +180,11 @@ export class SkyTextEditorComponent implements AfterViewInit, ControlValueAccess
   // tslint:disable: max-line-length
   /**
    * Specifies the actions to include in the toolbar and determines their order.
-   * @default [ SkyTextEditorToolbarActions.FontFamily, SkyTextEditorToolbarActions.FontSize, SkyTextEditorToolbarActions.FontStyle, SkyTextEditorToolbarActions.Color, SkyTextEditorToolbarActions.List, SkyTextEditorToolbarActions.Link ]
+   * @default [ 'font-family', 'font-size', 'font-style', 'color', 'list', 'link ]
    */
   // tslint:enable: max-line-length
   @Input()
-  public toolbarActions: SkyTextEditorToolbarActions[] = TOOLBAR_ACTION_DEFAULTS;
+  public toolbarActions: SkyTextEditorToolbarActionType[] = TOOLBAR_ACTION_DEFAULTS;
 
   public set value(value: string) {
     // Set clear state to be an empty string

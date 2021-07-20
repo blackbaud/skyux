@@ -1,12 +1,12 @@
 
   <sky-toolbar-item *ngFor="let menu of menus"
     class="sky-text-editor-menu"
-    [ngClass]="'sky-text-editor-menu-' + menuEnum[menu]"
+    [ngClass]="'sky-text-editor-menu-' + menu"
   >
     <ng-container
       [ngSwitch]="menu"
     >
-      <ng-container *ngSwitchCase="menuEnum.Edit">
+      <ng-container *ngSwitchCase="'edit'">
         <sky-dropdown
           [messageStream]="editDropdownStream"
         >
@@ -41,7 +41,7 @@
           </sky-dropdown-menu>
         </sky-dropdown>
       </ng-container>
-      <ng-container *ngSwitchCase="menuEnum.Format">
+      <ng-container *ngSwitchCase="'format'">
         <sky-dropdown
           [messageStream]="formatDropdownStream"
         >
@@ -74,7 +74,7 @@
           </sky-dropdown-menu>
         </sky-dropdown>
       </ng-container>
-      <ng-container *ngSwitchCase="menuEnum.MergeField">
+      <ng-container *ngSwitchCase="'merge-field'">
         <sky-dropdown *ngIf="mergeFields && mergeFields.length > 0"
           aria-label="Insert merge field"
           [messageStream]="mergeFieldDropdownStream"

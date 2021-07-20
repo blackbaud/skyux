@@ -43,8 +43,8 @@ import {
 } from '../types/style-state';
 
 import {
-  SkyTextEditorToolbarActions
-} from '../types/toolbar-action';
+  SkyTextEditorToolbarActionType
+} from '../types/toolbar-action-type';
 
 import {
   SkyTextEditorUrlModalComponent
@@ -82,7 +82,7 @@ export class SkyTextEditorToolbarComponent implements OnInit {
   public fontSizeList: number[];
 
   @Input()
-  public toolbarActions: SkyTextEditorToolbarActions[];
+  public toolbarActions: SkyTextEditorToolbarActionType[];
 
   @Input()
   public get styleState(): SkyTextEditorStyleState {
@@ -104,8 +104,6 @@ export class SkyTextEditorToolbarComponent implements OnInit {
   public fontSizeStream = new Subject<SkyDropdownMessage>();
 
   public styleStateFontName: string;
-
-  public toolbarActionEnum = SkyTextEditorToolbarActions;
 
   private _styleState = STYLE_STATE_DEFAULTS;
 

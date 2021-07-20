@@ -14,8 +14,8 @@ import {
 } from '@skyux/theme';
 
 import {
-  SkyTextEditorToolbarActions,
-  SkyTextEditorMenu
+  SkyTextEditorToolbarActionType,
+  SkyTextEditorMenuType
 } from '../../public/public_api';
 
 @Component({
@@ -27,10 +27,10 @@ export class RichTextEditorVisualComponent {
 
   public displayValue: SafeHtml;
 
-  public menus: SkyTextEditorMenu[] = [
-    SkyTextEditorMenu.Edit,
-    SkyTextEditorMenu.Format,
-    SkyTextEditorMenu.MergeField
+  public menus: SkyTextEditorMenuType[] = [
+    'edit',
+    'format',
+    'merge-field'
   ];
 
   public mergeFields = [
@@ -50,16 +50,16 @@ export class RichTextEditorVisualComponent {
 
   public placeholder: string = 'Please enter some text';
 
-  public toolbarActions: SkyTextEditorToolbarActions[] = [
-    SkyTextEditorToolbarActions.FontFamily,
-    SkyTextEditorToolbarActions.FontSize,
-    SkyTextEditorToolbarActions.FontStyle,
-    SkyTextEditorToolbarActions.Color,
-    SkyTextEditorToolbarActions.List,
-    SkyTextEditorToolbarActions.Alignment,
-    SkyTextEditorToolbarActions.Indentation,
-    SkyTextEditorToolbarActions.UndoRedo,
-    SkyTextEditorToolbarActions.Link
+  public toolbarActions: SkyTextEditorToolbarActionType[] = [
+    'font-family',
+    'font-size',
+    'font-style',
+    'color',
+    'list',
+    'alignment',
+    'indentation',
+    'undo-redo',
+    'link'
   ];
 
   public set value(value: string) {

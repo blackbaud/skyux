@@ -9,17 +9,18 @@ import {
 import {
   SkyTextEditorStyleState
 } from '../types/style-state';
+
 import {
-  SkyTextEditorToolbarActions
-} from '../types/toolbar-action';
+  SkyTextEditorToolbarActionType
+} from '../types/toolbar-action-type';
 
 import {
   FONT_SIZE_LIST_DEFAULTS
 } from '../defaults/font-size-list-defaults';
 
 import {
-  SkyTextEditorMenu
-} from '../types/menu';
+  SkyTextEditorMenuType
+} from '../types/menu-type';
 
 import {
   SkyTextEditorMergeField
@@ -40,22 +41,22 @@ export class TextEditorFixtureComponent {
 
   public fontList = FONT_LIST_DEFAULTS;
 
-  public toolbarActions: SkyTextEditorToolbarActions[] = [
-    SkyTextEditorToolbarActions.FontFamily,
-    SkyTextEditorToolbarActions.FontSize,
-    SkyTextEditorToolbarActions.Color,
-    SkyTextEditorToolbarActions.List,
-    SkyTextEditorToolbarActions.FontStyle,
-    SkyTextEditorToolbarActions.Alignment,
-    SkyTextEditorToolbarActions.Indentation,
-    SkyTextEditorToolbarActions.UndoRedo,
-    SkyTextEditorToolbarActions.Link
+  public toolbarActions: SkyTextEditorToolbarActionType[] = [
+    'font-family',
+    'font-size',
+    'color',
+    'list',
+    'font-style',
+    'alignment',
+    'indentation',
+    'undo-redo',
+    'link'
   ];
 
-  public menus: SkyTextEditorMenu[] = [
-    SkyTextEditorMenu.Edit,
-    SkyTextEditorMenu.Format,
-    SkyTextEditorMenu.MergeField
+  public menus: SkyTextEditorMenuType[] = [
+    'edit',
+    'format',
+    'merge-field'
   ];
 
   public autofocus = false;

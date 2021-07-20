@@ -1,15 +1,15 @@
 import {
-  SkyTextEditorToolbarActions
-} from '../types/toolbar-action';
+  SkyTextEditorToolbarActionType
+} from '../types/toolbar-action-type';
 
 /**
  * @internal
  */
-export const TOOLBAR_ACTION_DEFAULTS: SkyTextEditorToolbarActions[] = [
-  SkyTextEditorToolbarActions.FontFamily,
-  SkyTextEditorToolbarActions.FontSize,
-  SkyTextEditorToolbarActions.FontStyle,
-  SkyTextEditorToolbarActions.Color,
-  SkyTextEditorToolbarActions.List,
-  SkyTextEditorToolbarActions.Link
+export const TOOLBAR_ACTION_DEFAULTS: SkyTextEditorToolbarActionType[] = [
+  'font-family',
+  'font-size',
+  'font-style',
+  'color',
+  'list',
+  'link'
 ];

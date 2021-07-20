@@ -1,11 +1,11 @@
 import {
-  SkyTextEditorMenu
-} from '../types/menu';
+  SkyTextEditorMenuType
+} from '../types/menu-type';
 
 /**
  * @internal
  */
-export const MENU_DEFAULTS: SkyTextEditorMenu[] = [
-  SkyTextEditorMenu.Edit,
-  SkyTextEditorMenu.Format
+export const MENU_DEFAULTS: SkyTextEditorMenuType[] = [
+  'edit',
+  'format'
 ];
