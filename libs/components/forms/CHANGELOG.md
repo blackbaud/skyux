@@ -1,3 +1,7 @@
+# 4.20.1 (2021-07-19)
+
+- Fixed the selection box component to properly style selection boxes that are disabled after initialization. [#280](https://github.com/blackbaud/skyux-forms/pull/280)
+
 # 4.20.0 (2021-07-01)
 
 - Added a layout to the input box component that supports the search component in modern theme. [#273](https://github.com/blackbaud/skyux-forms/pull/273)
