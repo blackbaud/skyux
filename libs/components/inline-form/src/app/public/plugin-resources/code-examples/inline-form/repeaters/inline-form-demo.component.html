@@ -46,36 +46,40 @@
     <div
       class="sky-form-group"
     >
-      <label
-        class="sky-control-label"
-        [for]="myTitle.id"
-      >
-        Title
-      </label>
-      <input
-        class="sky-form-control"
-        formControlName="title"
-        skyId
-        type="text"
-        #myTitle="skyId"
-      />
+      <sky-input-box>
+        <label
+          class="sky-control-label"
+          [for]="myTitle.id"
+        >
+          Title
+        </label>
+        <input
+          class="sky-form-control"
+          formControlName="title"
+          skyId
+          type="text"
+          #myTitle="skyId"
+        />
+      </sky-input-box>
     </div>
     <div
       class="sky-form-group"
     >
-      <label
-        class="sky-control-label"
-        [for]="myNote.id"
-      >
-        Note
-      </label>
-      <input
-        class="sky-form-control"
-        formControlName="note"
-        skyId
-        type="text"
-        #myNote="skyId"
-      />
+      <sky-input-box>
+        <label
+          class="sky-control-label"
+          [for]="myNote.id"
+        >
+          Note
+        </label>
+        <input
+          class="sky-form-control"
+          formControlName="note"
+          skyId
+          type="text"
+          #myNote="skyId"
+        />
+      </sky-input-box>
     </div>
   </form>
 </ng-template>

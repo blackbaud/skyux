@@ -37,20 +37,22 @@
     <div
       class="sky-form-group"
     >
-      <label
-        class="sky-control-label sky-control-label-required"
-        [for]="firstNameInput.id"
-      >
-        First name
-      </label>
-      <input
-        class="sky-form-control"
-        formControlName="myFirstName"
-        required
-        skyId
-        type="text"
-        #firstNameInput="skyId"
+      <sky-input-box>
+        <label
+          class="sky-control-label sky-control-label-required"
+          [for]="firstNameInput.id"
+        >
+          First name
+        </label>
+        <input
+          class="sky-form-control"
+          formControlName="myFirstName"
+          required
+          skyId
+          type="text"
+          #firstNameInput="skyId"
         />
+      </sky-input-box>
     </div>
   </form>
 </ng-template>

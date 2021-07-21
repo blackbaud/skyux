@@ -15,6 +15,10 @@ import {
 } from '@skyux/core';
 
 import {
+  SkyInputBoxModule
+} from '@skyux/forms';
+
+import {
   SkyIconModule
 } from '@skyux/indicators';
 
@@ -32,7 +36,8 @@ import {
     ReactiveFormsModule,
     SkyIconModule,
     SkyIdModule,
-    SkyInlineFormModule
+    SkyInlineFormModule,
+    SkyInputBoxModule
   ],
   exports: [
     InlineFormDemoComponent

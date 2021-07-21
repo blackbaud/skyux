@@ -15,6 +15,10 @@ import {
 } from '@skyux/core';
 
 import {
+  SkyInputBoxModule
+} from '@skyux/forms';
+
+import {
   SkyIconModule
 } from '@skyux/indicators';
 
@@ -37,6 +41,7 @@ import {
     SkyIconModule,
     SkyIdModule,
     SkyInlineFormModule,
+    SkyInputBoxModule,
     SkyRepeaterModule
   ],
   exports: [
