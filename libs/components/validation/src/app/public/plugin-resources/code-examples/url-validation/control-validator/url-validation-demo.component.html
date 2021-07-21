@@ -5,18 +5,20 @@
   <div
     class="sky-form-group"
   >
-    <label
-      class="sky-control-label"
-      [for]="urlInput.id"
-    >
-      URL
-    </label>
-    <input
-      class="sky-form-control"
-      formControlName="url"
-      skyId
-      #urlInput="skyId"
-    />
+    <sky-input-box>
+      <label
+        class="sky-control-label"
+        [for]="urlInput.id"
+      >
+        URL
+      </label>
+      <input
+        class="sky-form-control"
+        formControlName="url"
+        skyId
+        #urlInput="skyId"
+      />
+    </sky-input-box>
   </div>
 
   <ng-container *ngIf="urlControl.errors && urlControl.touched">

@@ -5,18 +5,20 @@
   <div
     class="sky-form-group"
   >
-    <label
-      class="sky-control-label"
-      [for]="emailInput.id"
-    >
-      Email address
-    </label>
-    <input
-      class="sky-form-control"
-      formControlName="email"
-      skyId
-      #emailInput="skyId"
-    />
+    <sky-input-box>
+      <label
+        class="sky-control-label"
+        [for]="emailInput.id"
+      >
+        Email address
+      </label>
+      <input
+        class="sky-form-control"
+        formControlName="email"
+        skyId
+        #emailInput="skyId"
+      />
+    </sky-input-box>
   </div>
 
   <ng-container *ngIf="emailControl.errors && emailControl.touched">

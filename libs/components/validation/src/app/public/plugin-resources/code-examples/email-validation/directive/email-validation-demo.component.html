@@ -4,21 +4,23 @@
   <div
     class="sky-form-group"
   >
-    <label
-      class="sky-control-label"
-      [for]="emailInput.id"
-    >
-      Email address
-    </label>
-    <input
-      class="sky-form-control"
-      name="emailAddress"
-      skyEmailValidation
-      skyId
-      [(ngModel)]="demoModel.emailAddress"
-      #emailInput="skyId"
-      #emailControl="ngModel"
-    />
+    <sky-input-box>
+      <label
+        class="sky-control-label"
+        [for]="emailInput.id"
+      >
+        Email address
+      </label>
+      <input
+        class="sky-form-control"
+        name="emailAddress"
+        skyEmailValidation
+        skyId
+        [(ngModel)]="demoModel.emailAddress"
+        #emailInput="skyId"
+        #emailControl="ngModel"
+      />
+    </sky-input-box>
   </div>
 
   <div *ngIf="emailControl.errors?.skyEmail && emailControl.dirty && emailControl.touched"

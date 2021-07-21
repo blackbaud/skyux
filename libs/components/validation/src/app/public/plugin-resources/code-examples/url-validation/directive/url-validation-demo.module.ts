@@ -15,6 +15,10 @@ import {
 } from '@skyux/core';
 
 import {
+  SkyInputBoxModule
+} from '@skyux/forms';
+
+import {
   SkyUrlValidationModule
 } from '@skyux/validation';
 
@@ -27,6 +31,7 @@ import {
     CommonModule,
     FormsModule,
     SkyIdModule,
+    SkyInputBoxModule,
     SkyUrlValidationModule
   ],
   exports: [
