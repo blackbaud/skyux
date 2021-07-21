@@ -9,35 +9,39 @@
       class="sky-margin-inline-default"
       style="flex: 1;"
     >
-      <label
-        class="sky-control-label sky-control-label-required"
-        [for]="nameInput.id"
-      >
-        Name
-      </label>
-      <input
-        class="sky-form-control"
-        formControlName="name"
-        skyId
-        type="text"
-        #nameInput
-      />
+      <sky-input-box>
+        <label
+          class="sky-control-label sky-control-label-required"
+          [for]="nameInput.id"
+        >
+          Name
+        </label>
+        <input
+          class="sky-form-control"
+          formControlName="name"
+          skyId
+          type="text"
+          #nameInput
+        />
+      </sky-input-box>
     </div>
     <div
       style="flex: 1;"
     >
-      <label
-        class="sky-control-label"
-        [for]="idInput.id"
-      >
-        ID
-      </label>
-      <input
-        class="sky-form-control"
-        formControlName="id"
-        type="text"
-        #idInput
-      />
+      <sky-input-box>
+        <label
+          class="sky-control-label"
+          [for]="idInput.id"
+        >
+          ID
+        </label>
+        <input
+          class="sky-form-control"
+          formControlName="id"
+          type="text"
+          #idInput
+        />
+      </sky-input-box>
       <div *ngIf="myForm.get('id').invalid"
         class="alert alert-danger"
       >
