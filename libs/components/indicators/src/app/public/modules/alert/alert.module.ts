@@ -19,6 +19,10 @@ import {
 } from '../icon/icon.module';
 
 import {
+  SkyThemeModule
+} from '@skyux/theme';
+
+import {
   SkyAlertComponent
 } from './alert.component';
 
@@ -30,7 +34,8 @@ import {
     CommonModule,
     SkyI18nModule,
     SkyIconModule,
-    SkyIndicatorsResourcesModule
+    SkyIndicatorsResourcesModule,
+    SkyThemeModule
   ],
   exports: [
     SkyAlertComponent

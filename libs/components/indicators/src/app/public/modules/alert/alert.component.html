@@ -1,5 +1,9 @@
 <div
-  class="sky-box sky-elevation-1 sky-alert sky-rounded-corners"
+  class="sky-alert"
+  [skyThemeClass]= "{
+    'sky-rounded-corners': 'default',
+    'sky-box sky-elevation-1': 'modern'
+  }"
   role="alert"
   [hidden]="closed"
   [ngClass]="{
