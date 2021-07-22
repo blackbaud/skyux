@@ -1,3 +1,7 @@
+# 4.19.0 (2021-07-22)
+
+- Added modern theme styles for the text highlight directive. [#248](https://github.com/blackbaud/skyux-theme/pull/248)
+
 # 4.18.0 (2021-07-19)
 
 - Added default theme styles for the box and elevation classes. [#246](https://github.com/blackbaud/skyux-theme/pull/246)
