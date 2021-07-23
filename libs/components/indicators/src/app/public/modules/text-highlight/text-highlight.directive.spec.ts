@@ -9,7 +9,8 @@ import {
 } from '@angular/forms';
 
 import {
-  expect
+  expect,
+  expectAsync
 } from '@skyux-sdk/testing';
 
 import {
@@ -83,14 +84,9 @@ describe('Text Highlight', () => {
     containerEl = getContainerEl(fixture);
   });
 
-  it('should not highlight any text when search term is blank', async(() => {
+  it('should not highlight any text when search term is blank', () => {
     expect(containerEl.querySelector('mark')).toBeFalsy();
-
-    // Accessibility checks
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
-    });
-  }));
+  });
 
   it('should highlight on startup if search term is set in component', async(() => {
     fixture = TestBed.createComponent(SkyTextHighlightTestComponent);
@@ -106,18 +102,13 @@ describe('Text Highlight', () => {
     expect(mark.innerHTML.trim()).toBe('test');
   }));
 
-  it('should highlight search term', async(() => {
+  it('should highlight search term', () => {
     updateInputText(fixture, 'text');
 
     const mark = fixture.nativeElement.querySelector('mark');
     expect(mark).toBeTruthy();
     expect(mark.innerHTML.trim()).toBe('text');
-
-    // Accessibility checks
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
-    });
-  }));
+  });
 
   it('highlight should NOT be called when DOM attributes are changed', ((done) => {
     const spy = spyOn<any>(component.textHighlightDirective, 'highlight').and.callThrough();
@@ -224,5 +215,16 @@ describe('Text Highlight', () => {
     mark = fixture.nativeElement.querySelector('mark');
     expect(mark).toBeTruthy();
     expect(mark.innerHTML.trim()).toBe('additional');
+  });
+
+  it('should be accessible when search term is highlighted', async () => {
+    updateInputText(fixture, 'text');
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+
+  it('should be accessible when search term is empty', async () => {
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
   });
 });

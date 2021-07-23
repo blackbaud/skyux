@@ -1,3 +1,7 @@
+# 4.11.0 (2021-07-23)
+
+- Updated skyux-theme version to enable modern theme styles for the text highlight directive. [#183](https://github.com/blackbaud/skyux-indicators/pull/183)
+
 # 4.10.0 (2021-06-09)
 
 - Added modern theme styles to the inline help component. [#173](https://github.com/blackbaud/skyux-indicators/pull/173)
