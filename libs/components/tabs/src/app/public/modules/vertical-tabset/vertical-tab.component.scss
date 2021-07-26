@@ -42,8 +42,8 @@
   flex-grow: 1;
 }
 
-.sky-vertical-tab-heading {
-  flex-grow: 1;
+.sky-vertical-tab-heading-error {
+  padding-left: $sky-padding-half;
 }
 
 .sky-vertical-tab-count {
@@ -90,6 +90,10 @@
     &:active {
       border-left: 3px solid $sky-highlight-color-info;
       padding-left: 7px;
+    }
+
+    .sky-vertical-tab-heading-error {
+      padding-left: $sky-theme-modern-space-sm;
     }
   }
 

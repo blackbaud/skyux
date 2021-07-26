@@ -4,7 +4,3 @@
 :host .sky-tab-field-required ::ng-deep .sky-vertical-tab-heading:after {
   @include sky-required-field();
 }
-
-:host .sky-tab-field-invalid ::ng-deep .sky-vertical-tab-heading:after {
-  @include sky-danger();
-}

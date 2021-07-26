@@ -23,6 +23,11 @@
         ({{ tabHeaderCount }})
       </span>
     </div>
+    <sky-status-indicator *ngIf="errorIndicator"
+      class="sky-vertical-tab-heading-error"
+      descriptionType="error"
+      indicatorType="danger"
+    ></sky-status-indicator>
 
     <sky-icon
       *ngIf="showTabRightArrow"

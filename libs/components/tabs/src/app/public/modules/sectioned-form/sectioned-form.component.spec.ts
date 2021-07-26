@@ -280,9 +280,9 @@ describe('Sectioned form component', () => {
     let tabs = el.querySelectorAll('sky-vertical-tab');
     expect(tabs.length).toBe(2);
 
-    let activeTab = tabs[1];
-    expect(activeTab.classList.contains('sky-tab-field-invalid')).toBe(false);
-    expect(activeTab.querySelector('a').getAttribute('aria-invalid')).toBeFalsy();
+    let firstTab = tabs[0];
+    expect(firstTab.querySelector('sky-status-indicator')).toBeNull();
+    expect(firstTab.querySelector('a').getAttribute('aria-invalid')).toBeFalsy();
 
     // mark invalid
     let checkbox = el.querySelector('#invalidTestCheckbox input');
@@ -290,10 +290,8 @@ describe('Sectioned form component', () => {
     fixture.detectChanges();
 
     // check section is required
-    tabs = el.querySelectorAll('sky-vertical-tab');
-    let invalidTab = tabs[0];
-    expect(invalidTab.classList.contains('sky-tab-field-invalid')).toBe(true);
-    expect(invalidTab.querySelector('a').getAttribute('aria-invalid')).toBe('true');
+    expect(firstTab.querySelector('sky-status-indicator')).not.toBeNull();
+    expect(firstTab.querySelector('a').getAttribute('aria-invalid')).toBe('true');
   });
 
   it('section should have appropriate aria labels', () => {

@@ -16,7 +16,8 @@ import {
 
 import {
   SkyChevronModule,
-  SkyIconModule
+  SkyIconModule,
+  SkyStatusIndicatorModule
 } from '@skyux/indicators';
 
 import {
@@ -55,6 +56,7 @@ import {
     SkyChevronModule,
     SkyIconModule,
     SkyMediaQueryModule,
+    SkyStatusIndicatorModule,
     SkyTabsResourcesModule,
     SkyThemeModule
   ],

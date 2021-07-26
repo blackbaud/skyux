@@ -102,6 +102,13 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   public disabled: boolean = false;
 
   /**
+   * Indicates whether to indicate that the tab has an error.
+   * @internal This is used for sectioned forms and is not currently a supported design for pure vertical tabs.
+   */
+  @Input()
+  public errorIndicator: boolean = false;
+
+  /**
    * Displays an item count alongside the tab header to indicate how many list items the tab contains.
    */
   @Input()
