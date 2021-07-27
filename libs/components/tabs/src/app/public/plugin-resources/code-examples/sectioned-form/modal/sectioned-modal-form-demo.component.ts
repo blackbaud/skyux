@@ -33,7 +33,7 @@ export class SectionedModalFormDemoComponent {
   }
 
   public tabsHidden(): boolean {
-    return !this.sectionedFormComponent.tabsVisible();
+    return !this.sectionedFormComponent?.tabsVisible();
   }
 
   public showTabs(): void {

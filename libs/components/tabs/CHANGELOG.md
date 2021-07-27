@@ -1,3 +1,7 @@
+# 4.6.8 (2021-07-27)
+
+- Fixed the sectioned form component to have proper spacing between a section's heading and invalid icon. [#176](https://github.com/blackbaud/skyux-tabs/pull/176)
+
 # 4.6.7 (2021-06-11)
 
 - Fixed the module name in the installation documentation. [#171](https://github.com/blackbaud/skyux-tabs/pull/171)
