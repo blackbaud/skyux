@@ -63,6 +63,8 @@
       (contextmenu)="node.mouseAction('contextMenu', $event)"
       (dblclick)="node.mouseAction('dblClick', $event)"
       (focus)="onFocus()"
+      (mousedown)="onMouseDown()"
+      (mouseup)="onMouseUp()"
       (keydown)="onKeyDown($event)"
       (treeDrop)="node.onDrop($event)"
       (treeDropDragEnter)="node.mouseAction('dragEnter', $event)"

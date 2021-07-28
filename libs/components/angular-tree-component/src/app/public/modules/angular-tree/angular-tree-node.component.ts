@@ -114,6 +114,8 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
 
   private focusableChildren: HTMLElement[] = [];
 
+  private mouseDown: boolean = false;
+
   private _childFocusIndex: number;
 
   private _isPartiallySelected: boolean;
@@ -199,9 +201,21 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
   }
 
   public onFocus(): void {
-    this.node.treeModel.setFocus(true);
-    this.node.focus();
-    this.childFocusIndex = undefined;
+    // <tree-node-content> has its own click handler, so we need to check if this focus event
+    // is coming from the mouse click or the keyboard to prevent the logic from running twice.
+    if (!this.mouseDown) {
+      this.node.treeModel.setFocus(true);
+      this.node.focus();
+      this.childFocusIndex = undefined;
+    }
+  }
+
+  public onMouseDown(): void {
+    this.mouseDown = true;
+  }
+
+  public onMouseUp(): void {
+    this.mouseDown = false;
   }
 
   public onKeyDown(event: KeyboardEvent): void {

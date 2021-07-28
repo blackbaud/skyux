@@ -644,6 +644,45 @@ describe('tree view', () => {
       expect(component.treeComponent.treeModel.focusedNodeId).toEqual(1);
     });
 
+    it('should only fire the onStateChange event once when a node is given focus', () => {
+      fixture.detectChanges();
+      const nodes = getNodeContentWrappers();
+      const spy = spyOn(component, 'onStateChange').and.callThrough();
+
+      SkyAppTestUtility.fireDomEvent(nodes[0], 'focus');
+      fixture.detectChanges();
+
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should only fire the onStateChange event once when a node is clicked', () => {
+      fixture.detectChanges();
+      const spy = spyOn(component, 'onStateChange').and.callThrough();
+
+      clickNode(0);
+      fixture.detectChanges();
+
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should only fire the onStateChange event once when a node is triggered with the mousedown/mouseup events', () => {
+      fixture.detectChanges();
+      const nodes = getNodeContentWrappers();
+      const spy = spyOn(component, 'onStateChange').and.callThrough();
+
+      // Simulate mouse click events in order: mousedown > focus > mouseup > click.
+      SkyAppTestUtility.fireDomEvent(nodes[0], 'mousedown');
+      fixture.detectChanges();
+      SkyAppTestUtility.fireDomEvent(nodes[0], 'focus');
+      fixture.detectChanges();
+      SkyAppTestUtility.fireDomEvent(nodes[0], 'mouseup');
+      fixture.detectChanges();
+      clickNode(0); // Note: click bubbles down to <tree-node-content>.
+      fixture.detectChanges();
+
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+
     it('should give the focused node a tabIndex of 0, and the rest a tabIndex of -1', () => {
       fixture.detectChanges();
       const nodes = getNodeContentWrappers();
