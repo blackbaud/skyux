@@ -20,14 +20,14 @@
     </sky-dropdown-button>
     <sky-dropdown-menu
       ariaRole="menu"
-      [ariaLabelledBy]="sortByHeadingId"
-      (click)="dropdownClicked()">
-      <div
-        class="sky-sort-menu-heading sky-subsection-heading"
-        [id]="sortByHeadingId">
-        {{ 'skyux_sort_menu_heading' | skyLibResources }}
-      </div>
-      <div class="sky-sort-heading-divider">
+      [ariaLabelledBy]="sortMenuHeading.id"
+      (click)="dropdownClicked()"
+    >
+      <sky-sort-menu-heading
+        skyId
+        #sortMenuHeading="skyId"
+      ></sky-sort-menu-heading>
+      <div *skyThemeIf="'default'" class="sky-sort-heading-divider">
       </div>
       <ng-content></ng-content>
     </sky-dropdown-menu>

@@ -22,8 +22,6 @@ import {
 import {
   SkySortService
 } from './sort.service';
-
-let nextId = 0;
 @Component({
   selector: 'sky-sort',
   styleUrls: ['./sort.component.scss'],
@@ -42,8 +40,6 @@ export class SkySortComponent implements OnInit {
   public showButtonText = false;
 
   public dropdownController = new Subject<SkyDropdownMessage>();
-
-  public sortByHeadingId: string = `sky-sort-heading-${++nextId}`;
 
   constructor(
     public themeSvc: SkyThemeService,

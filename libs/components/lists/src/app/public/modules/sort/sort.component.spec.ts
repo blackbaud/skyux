@@ -96,7 +96,7 @@ describe('Sort component', () => {
     tick();
 
     expect(getDropdownMenuEl().getAttribute('aria-labelledby')).toBe(
-      document.querySelector('.sky-sort-menu-heading').getAttribute('id')
+      document.querySelector('sky-sort-menu-heading').getAttribute('id')
     );
   }));
 
