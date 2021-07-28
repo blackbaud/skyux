@@ -1,3 +1,7 @@
+# 4.20.0 (2021-07-28)
+
+- Updated the SKY UX icon font version to 4.0.0-beta.5. [#252](https://github.com/blackbaud/skyux-theme/pull/252)
+
 # 4.19.0 (2021-07-22)
 
 - Added modern theme styles for the text highlight directive. [#248](https://github.com/blackbaud/skyux-theme/pull/248)
