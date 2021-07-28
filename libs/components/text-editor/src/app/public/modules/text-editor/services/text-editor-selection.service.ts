@@ -9,6 +9,14 @@ import {
   providedIn: 'root'
 })
 export class SkyTextEditorSelectionService {
+  public isElementSelected(documentEl: Document, element: HTMLElement) {
+    const selectedNode = this.getCurrentSelection(documentEl).anchorNode as HTMLElement;
+    return selectedNode &&
+      (
+        element.contains(selectedNode) ||
+        (selectedNode.parentNode && element.contains(selectedNode.parentNode))
+      );
+  }
 
   public getCurrentSelection(documentEl: Document): Selection {
     return documentEl.getSelection();
@@ -32,7 +40,7 @@ export class SkyTextEditorSelectionService {
     return selectedEl;
   }
 
-  public saveSelection(documentEl: Document, windowEl: Window): Range {
+  public getCurrentSelectionRange(documentEl: Document, windowEl: Window): Range {
     /* istanbul ignore else */
     if (windowEl.getSelection) {
       const sel = windowEl.getSelection();
@@ -41,22 +49,6 @@ export class SkyTextEditorSelectionService {
       }
     } else if (documentEl.getSelection() && documentEl.getSelection().getRangeAt) {
       return documentEl.getSelection().getRangeAt(0);
-    }
-    return undefined;
-  }
-
-  public restoreSelection(documentEl: Document, selectedRange: Range, windowEl: Window): void {
-    if (selectedRange) {
-      /* istanbul ignore else */
-      if (windowEl.getSelection) {
-        const sel = windowEl.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(selectedRange);
-      } else if (documentEl.getSelection) {
-        const sel = documentEl.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(selectedRange);
-      }
     }
   }
 

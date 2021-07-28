@@ -7,7 +7,6 @@ import {
   ViewChild,
   ElementRef,
   OnDestroy,
-  ChangeDetectorRef,
   ChangeDetectionStrategy
 } from '@angular/core';
 
@@ -229,7 +228,6 @@ export class SkyTextEditorComponent implements AfterViewInit, ControlValueAccess
   private _value: string = '<p></p>';
 
   constructor (
-    private changeDetector: ChangeDetectorRef,
     private adapterService: SkyTextEditorAdapterService,
     private editorService: SkyTextEditorService,
     private sanitizationService: SkyTextSanitizationService
@@ -313,11 +311,6 @@ export class SkyTextEditorComponent implements AfterViewInit, ControlValueAccess
       ...this._initialStyleState,
       ...this.adapterService.getStyleState(this.id) as any
     };
-
-    // Without setTimeout, correct styles aren't indicated on user's initial click.
-    setTimeout(() => {
-      this.changeDetector.detectChanges();
-    });
   }
 
   /* istanbul ignore next */

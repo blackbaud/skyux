@@ -72,7 +72,7 @@ export class SkyTextEditorAdapterService {
     if (!(id in this.editors)) {
       this.editors[id] = this.createObservers(id, iframeElement);
 
-      const documentEl = this.getDocumentEl(id);
+      const documentEl = this.getIframeDocumentEl(id);
 
       const styleEl = documentEl.createElement('style');
       styleEl.innerHTML = `.editor:empty:before {
@@ -105,13 +105,9 @@ export class SkyTextEditorAdapterService {
    */
   public execCommand(id: string, editorCommand: EditorCommand): void {
     if (id in this.editors) {
-      const documentEl = this.getDocumentEl(id);
+      const documentEl = this.getIframeDocumentEl(id);
 
-      if (!this.editorSelected(documentEl)) {
-        this.focusEditor(id);
-      }
-
-      if (this.editorSelected(documentEl)) {
+      if (this.editorSelected(id)) {
         const commandIsSupportedAndEnabled = documentEl.execCommand(editorCommand.command, false, editorCommand.value);
 
         // IE11 doesn't support insertHTML
@@ -123,17 +119,14 @@ export class SkyTextEditorAdapterService {
           this.insertHtmlInIE11(id, editorCommand.value);
         }
 
-        /* istanbul ignore next */
-        if (!this.editorSelected(documentEl)) {
-          this.focusEditor(id);
-        }
+        this.focusEditor(id);
         this.editors[id].commandChangeObservable.next();
       }
     }
   }
 
   public getCurrentSelection(id: string): Selection {
-    return this.selectionService.getCurrentSelection(this.getDocumentEl(id));
+    return this.selectionService.getCurrentSelection(this.getIframeDocumentEl(id));
   }
 
   /**
@@ -173,9 +166,9 @@ export class SkyTextEditorAdapterService {
   }
 
   public getStyleState(id: string): Partial<SkyTextEditorStyleState> {
-    const documentEl = this.getDocumentEl(id);
+    const documentEl = this.getIframeDocumentEl(id);
 
-    if (this.editorSelected(documentEl)) {
+    if (this.editorSelected(id)) {
       return {
         backColor: this.getColor(documentEl, 'BackColor'),
         fontColor: this.getColor(documentEl, 'ForeColor'),
@@ -193,7 +186,7 @@ export class SkyTextEditorAdapterService {
   }
 
   public getEditorInnerHtml(id: string): string {
-    const documentEl = this.getDocumentEl(id);
+    const documentEl = this.getIframeDocumentEl(id);
     if (documentEl) {
       return this.replaceHtmlCodes(documentEl.body.innerHTML);
     }
@@ -201,37 +194,46 @@ export class SkyTextEditorAdapterService {
   }
 
   public setEditorInnerHtml(id: string, value: string): void {
-    const documentEl = this.getDocumentEl(id);
+    const documentEl = this.getIframeDocumentEl(id);
     const editorContent = documentEl.body;
     if (editorContent.innerHTML !== value) {
-      const previousSelection = this.selectionService.saveSelection(documentEl, this.getContentWindowEl(id));
       editorContent.innerHTML = value;
-      this.selectionService.restoreSelection(documentEl, previousSelection, this.getContentWindowEl(id));
     }
   }
 
   public focusEditor(id: string): void {
     if (id in this.editors) {
       const windowEl = this.getContentWindowEl(id);
-      const documentEl = this.windowService.nativeWindow.document;
+      const iframeDocumentEl = this.getIframeDocumentEl(id);
+      const currentSelection = this.selectionService.getCurrentSelectionRange(iframeDocumentEl, windowEl);
+      const cursorIsNotActiveAndHasReset = currentSelection && (currentSelection.startOffset === 0 && currentSelection.endOffset === 0);
 
-      const editor: any = this.getDocumentEl(id).body;
-      const range = documentEl.createRange();
+      if (!this.editorSelected(id) || cursorIsNotActiveAndHasReset) {
+        // focus the end of the editor
+        const documentEl = this.windowService.nativeWindow.document;
+        const editor: any = iframeDocumentEl.body;
+        const range = documentEl.createRange();
 
-      this.editors[id].iframeElementRef.focus();
-      editor.focus();
-      /* istanbul ignore else */
-      if (windowEl.getSelection && documentEl.createRange) {
-        range.selectNodeContents(editor);
-        range.collapse(false);
-        const sel = windowEl.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(range);
+        this.editors[id].iframeElementRef.focus();
+        editor.focus();
+        /* istanbul ignore else */
+        if (windowEl.getSelection && documentEl.createRange) {
+          range.selectNodeContents(editor);
+          range.collapse(false);
+          const sel = windowEl.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+        } else {
+          // IE only
+          const textRange = editor.createTextRange();
+          textRange.moveToElementText(editor);
+          textRange.collapse(false);
+          textRange.select();
+        }
       } else {
-        const textRange = editor.createTextRange();
-        textRange.moveToElementText(editor);
-        textRange.collapse(false);
-        textRange.select();
+        // Cursor may not be active, restore it
+        this.editors[id].iframeElementRef.focus();
+        iframeDocumentEl.body.focus();
       }
     }
   }
@@ -255,25 +257,21 @@ export class SkyTextEditorAdapterService {
     return this.getParent(selectedEl, 'a') as HTMLAnchorElement;
   }
 
-  public restoreSelection(id: string, range: Range): void {
-    this.selectionService.restoreSelection(this.getDocumentEl(id), range, this.getContentWindowEl(id));
-  }
-
   public saveSelection(id: string): Range {
-    return this.selectionService.saveSelection(this.getDocumentEl(id), this.getContentWindowEl(id));
+    return this.selectionService.getCurrentSelectionRange(this.getIframeDocumentEl(id), this.getContentWindowEl(id));
   }
 
   public selectElement(id: string, element: HTMLElement): void {
-    this.selectionService.selectElement(this.getDocumentEl(id), this.getContentWindowEl(id), element);
+    this.selectionService.selectElement(this.getIframeDocumentEl(id), this.getContentWindowEl(id), element);
   }
 
   public setPlaceholder(id: string, placeholder?: string): void {
-    const documentEl = this.getDocumentEl(id);
+    const documentEl = this.getIframeDocumentEl(id);
     documentEl.body.setAttribute('data-placeholder', placeholder || '');
   }
 
   public setFontSize(id: string, fontSize: number): void {
-    const doc = this.getDocumentEl(id);
+    const doc = this.getIframeDocumentEl(id);
     this.execCommand(id, {command: 'fontSize', value: 1});
     const fontElements: HTMLElement[] = Array.from(doc.querySelectorAll('font[size="1"]'));
     for (let element of fontElements) {
@@ -282,10 +280,7 @@ export class SkyTextEditorAdapterService {
     }
     this.cleanUpBlankStyleTags(doc);
 
-    /* istanbul ignore next */
-    if (!this.editorSelected(doc)) {
-      this.focusEditor(id);
-    }
+    this.focusEditor(id);
     this.editors[id].commandChangeObservable.next();
   }
 
@@ -337,7 +332,7 @@ export class SkyTextEditorAdapterService {
     });
   }
 
-  private getDocumentEl(id: string): Document {
+  private getIframeDocumentEl(id: string): Document {
     /* istanbul ignore next */
     if (!(id in this.editors)) {
       return undefined;
@@ -353,7 +348,6 @@ export class SkyTextEditorAdapterService {
   }
 
   private getFontSize(id: string): string {
-    /* istanbul ignore next */
     let fontSize = STYLE_STATE_DEFAULTS.fontSize.toString();
     const selection = this.getCurrentSelection(id);
     if (
@@ -415,7 +409,7 @@ export class SkyTextEditorAdapterService {
   }
 
   private getCurrentSelectionParentElement(id: string): Element {
-    return this.selectionService.getCurrentSelectionParentElement(this.getDocumentEl(id));
+    return this.selectionService.getCurrentSelectionParentElement(this.getIframeDocumentEl(id));
   }
 
   private getColor(documentEl: Document, selector: string): string {
@@ -457,43 +451,37 @@ export class SkyTextEditorAdapterService {
     return undefined;
   }
 
-  private editorSelected(documentEl: Document): boolean {
-    const editor: HTMLElement = documentEl.body;
-    const selectedNode = this.selectionService.getCurrentSelection(documentEl).anchorNode;
-    /* istanbul ignore next */
-    return selectedNode &&
-      (
-        editor.contains(selectedNode) ||
-        (selectedNode.parentNode && editor.contains(selectedNode.parentNode))
-      );
+  private editorSelected(id: string): boolean {
+    const documentEl = this.getIframeDocumentEl(id);
+    return this.selectionService.isElementSelected(documentEl, documentEl.body);
   }
 
   /* istanbul ignore next */
   private insertHtmlInIE11(id: string, html: string): void {
-    const documentEl = this.getDocumentEl(id);
+    const documentEl = this.getIframeDocumentEl(id);
     const windowEl = this.getContentWindowEl(id);
     const sel = windowEl.getSelection();
     if (sel.getRangeAt && sel.rangeCount) {
-        let range = sel.getRangeAt(0);
-        range.deleteContents();
+      let range = sel.getRangeAt(0);
+      range.deleteContents();
 
-        const el = documentEl.createElement('div');
-        el.innerHTML = html;
-        let frag = documentEl.createDocumentFragment(), node, lastNode;
-        while (el.firstChild) {
-          node = el.firstChild;
-          lastNode = frag.appendChild(node);
-        }
-        range.insertNode(frag);
+      const el = documentEl.createElement('div');
+      el.innerHTML = html;
+      let frag = documentEl.createDocumentFragment(), node, lastNode;
+      while (el.firstChild) {
+        node = el.firstChild;
+        lastNode = frag.appendChild(node);
+      }
+      range.insertNode(frag);
 
-        // Preserve the selection
-        if (lastNode) {
-            range = range.cloneRange();
-            range.setStartAfter(lastNode);
-            range.collapse(true);
-            sel.removeAllRanges();
-            sel.addRange(range);
-        }
+      // Preserve the selection
+      if (lastNode) {
+        range = range.cloneRange();
+        range.setStartAfter(lastNode);
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
     }
   }
 
