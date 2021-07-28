@@ -30,6 +30,7 @@ import {
 } from '@skyux/theme';
 
 import {
+  expectAsync,
   expect,
   SkyAppTestUtility
 } from '@skyux-sdk/testing';
@@ -1193,8 +1194,9 @@ describe('Text editor', () => {
     }));
   });
 
-  // TODO: Async test causing issues in our CI build. Will fix this in upcomming accessibility work.
-  // it('should pass accessibility', async () => {
-  //   await expectAsync(fixture.nativeElement).toBeAccessible();
-  // });
+  it('should pass accessibility', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 });

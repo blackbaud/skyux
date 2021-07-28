@@ -8,11 +8,10 @@
     >
       <ng-container *ngSwitchCase="'edit'">
         <sky-dropdown
+          label="Edit menu"
           [messageStream]="editDropdownStream"
         >
-          <sky-dropdown-button
-            role="menuitem"
-          >
+          <sky-dropdown-button>
             Edit
           </sky-dropdown-button>
           <sky-dropdown-menu>
@@ -43,6 +42,7 @@
       </ng-container>
       <ng-container *ngSwitchCase="'format'">
         <sky-dropdown
+          label="Format menu"
           [messageStream]="formatDropdownStream"
         >
           <sky-dropdown-button>
@@ -76,7 +76,7 @@
       </ng-container>
       <ng-container *ngSwitchCase="'merge-field'">
         <sky-dropdown *ngIf="mergeFields && mergeFields.length > 0"
-          aria-label="Insert merge field"
+          label="Insert merge field"
           [messageStream]="mergeFieldDropdownStream"
         >
           <sky-dropdown-button>

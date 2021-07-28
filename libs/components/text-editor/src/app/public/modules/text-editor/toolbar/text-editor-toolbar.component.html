@@ -9,11 +9,10 @@
       <ng-container *ngSwitchCase="'font-family'">
         <sky-dropdown
           class="sky-text-editor-font-picker"
-          label="Font family"
+          [label]="'Font: ' + styleStateFontName"
           [messageStream]="fontPickerStream"
         >
           <sky-dropdown-button
-            role="menuitem"
             [ngStyle]="{
               'font-family': styleState.font
             }"
@@ -38,11 +37,10 @@
       <ng-container *ngSwitchCase="'font-size'">
         <sky-dropdown
           class="sky-text-editor-font-size-picker"
-          label="Font size"
+          [label]="'Font size: ' + styleState.fontSize + 'px'"
           [messageStream]="fontSizeStream"
         >
           <sky-dropdown-button
-            role="menuitem"
             [ngStyle]="{
               'font-family': styleState.fontSize
             }"
