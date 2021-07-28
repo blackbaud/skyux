@@ -47,11 +47,11 @@ export class SkyNumericService {
   ];
 
   private _locale: string;
-​
+
   constructor(
     private resourcesService: SkyLibResourcesService
   ) { }
-​
+
   /**
    * Shortens with or without symbol (K/M/B/T) depending on value of number.
    * @param value The number to format.
@@ -104,7 +104,7 @@ export class SkyNumericService {
 
     let digits: string;
     // Checks the string entered for format. Using toLowerCase to ignore case.
-    switch (options.format.toLowerCase()) {
+    switch (options.format?.toLowerCase()) {
 
       // In a case where a decimal value was not shortened and
       // the digit input is 2 or higher, it forces 2 digits.
@@ -183,14 +183,14 @@ export class SkyNumericService {
     if (precision < 0) {
       throw new Error('SkyInvalidArgument: precision must be >= 0');
     }
-​
+
     /* tslint:disable-next-line:no-null-keyword */
     /* Sanity check - ignoring coverage but should not ignore if we make this method public */
     /* istanbul ignore next */
     if (isNaN(value) || value === null) {
       return 0;
     }
-​
+
     const scaledValue: number = this.scaleNumberByPowerOfTen(value, precision, true);
     const scaledRoundedValue: number = Math.round(scaledValue);
     const unscaledRoundedValue: number = this.scaleNumberByPowerOfTen(
@@ -198,10 +198,10 @@ export class SkyNumericService {
       precision,
       false
     );
-​
+
     return unscaledRoundedValue;
   }
-​
+
   /**
    * Scales a given number by a power of 10
    * @param value - value to scale
@@ -215,7 +215,7 @@ export class SkyNumericService {
   ): number {
     const valueStr: string = value.toString().toLowerCase();
     const isExponentFormat: boolean = valueStr.includes('e');
-​
+
     if (isExponentFormat) {
       const [base, exp] = valueStr.split('e');
       const newExp = scaleUp ? (Number(exp) + scalar) : (Number(exp) - scalar);
@@ -225,7 +225,7 @@ export class SkyNumericService {
       return Number(`${value}${e}${scalar}`);
     }
   }
-​
+
   /**
    * Stores the symbol added from shortening to reapply later.
    * @param value The string to derive the shorten symbol from.
