@@ -1,3 +1,7 @@
+# 4.0.3 (2021-07-29)
+
+- Fixed the Angular tree component to fire the `stateChange` event once on click. [#42](https://github.com/blackbaud/skyux-angular-tree-component/pull/42)
+
 # 4.0.2 (2021-02-23)
 
 - Fixed the Angular tree component to properly indent child nodes without children. [#37](https://github.com/blackbaud/skyux-angular-tree-component/pull/37)
