@@ -10,6 +10,7 @@
     <option value="headers">Headers</option>
     <option value="margin">Margin</option>
     <option value="padding">Padding</option>
+    <option value="paragraph">Paragraph</option>
     <option value="text">Text</option>
   </select>
 </div>
@@ -83,6 +84,15 @@
     <div class="padding-test sky-padding-horizontal-sm">Padding horizontal small</div>
     <div class="padding-test sky-padding-horizontal-md">Padding horizontal medium</div>
     <div class="padding-test sky-padding-horizontal-xl">Padding horizontal extra-large</div>
+  </ng-container>
+
+  <ng-container *ngIf="section === 'paragraph'">
+    <div class="sky-paragraph">
+      Paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fermentum ante massa, nec hendrerit dui
+      pulvinar vel. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum ac bibendum purus. Morbi
+      dapibus id purus et egestas. Nulla sollicitudin vestibulum consequat. Aenean sagittis tortor tempus magna
+      pellentesque tristique.
+    </div>
   </ng-container>
 
   <ng-container *ngIf="section === 'text'">
