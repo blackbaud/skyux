@@ -231,8 +231,13 @@
             title="Outdent"
             (click)="execCommand('outdent')"
           >
-            <sky-icon
+            <sky-icon *skyThemeIf="'default'"
               icon="outdent"
+            >
+            </sky-icon>
+            <sky-icon *skyThemeIf="'modern'"
+              icon="outdent-line"
+              iconType="skyux"
             >
             </sky-icon>
           </button>
@@ -242,8 +247,13 @@
             title="Indent"
             (click)="execCommand('indent')"
           >
-            <sky-icon
+            <sky-icon *skyThemeIf="'default'"
               icon="indent"
+            >
+            </sky-icon>
+            <sky-icon *skyThemeIf="'modern'"
+              icon="indent-line"
+              iconType="skyux"
             >
             </sky-icon>
           </button>
@@ -259,8 +269,13 @@
             title="Undo"
             (click)="execCommand('undo')"
           >
-            <sky-icon
+            <sky-icon *skyThemeIf="'default'"
               icon="undo"
+            >
+            </sky-icon>
+            <sky-icon *skyThemeIf="'modern'"
+              icon="undo-line"
+              iconType="skyux"
             >
             </sky-icon>
           </button>
@@ -270,8 +285,13 @@
             title="Redo"
             (click)="execCommand('redo')"
           >
-            <sky-icon
+            <sky-icon *skyThemeIf="'default'"
               icon="repeat"
+            >
+            </sky-icon>
+            <sky-icon *skyThemeIf="'modern'"
+              icon="redo-line"
+              iconType="skyux"
             >
             </sky-icon>
           </button>
