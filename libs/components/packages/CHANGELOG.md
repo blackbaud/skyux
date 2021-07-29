@@ -1,3 +1,7 @@
+# 5.0.0-beta.8 (2021-07-29)
+
+- `@skyux/core@5.0.0-beta.9` [Release notes](https://github.com/blackbaud/skyux-core/blob/5.0.0-beta.9/CHANGELOG.md)
+
 # 5.0.0-beta.7 (2021-07-27)
 
 - `@skyux/pages@5.0.0-beta.3` [Release notes](https://github.com/blackbaud/skyux-pages/blob/5.0.0-beta.3/CHANGELOG.md)
