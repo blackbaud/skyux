@@ -3,6 +3,10 @@ import {
 } from '@angular/core';
 
 import {
+  SkyCodeModule
+} from '@blackbaud/skyux-lib-code-block';
+
+import {
   SkyIdModule
 } from '@skyux/core';
 
@@ -44,7 +48,8 @@ import {
     SkyRichTextDisplayModule,
     SkyIconModule,
     SkyIdModule,
-    SkyInputBoxModule
+    SkyInputBoxModule,
+    SkyCodeModule
   ],
   providers: [
     {

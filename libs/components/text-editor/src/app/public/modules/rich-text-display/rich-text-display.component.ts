@@ -19,7 +19,7 @@ import {
 export class SkyRichTextDisplayComponent {
 
   /**
-   * Rich text to display.
+   * Specifies the rich text to display.
    */
   @Input()
   public set richText(value: string) {
