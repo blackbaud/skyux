@@ -1,3 +1,7 @@
+# 4.20.1 (2021-07-29)
+
+- Added paragraph line height class `.sky-paragraph` for default theme. [#253](https://github.com/blackbaud/skyux-theme/pull/253)
+
 # 4.20.0 (2021-07-28)
 
 - Updated the SKY UX icon font version to 4.0.0-beta.5. [#252](https://github.com/blackbaud/skyux-theme/pull/252)
