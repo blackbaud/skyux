@@ -1,3 +1,7 @@
+# 5.0.0-beta.9 (2021-07-29)
+
+- `@skyux/progress-indicator@5.0.0-beta.1` [Release notes](https://github.com/blackbaud/skyux-progress-indicator/blob/5.0.0-beta.1/CHANGELOG.md)
+
 # 5.0.0-beta.8 (2021-07-29)
 
 - `@skyux/core@5.0.0-beta.9` [Release notes](https://github.com/blackbaud/skyux-core/blob/5.0.0-beta.9/CHANGELOG.md)
