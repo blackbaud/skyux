@@ -1,3 +1,7 @@
+# 5.0.0-beta.11 (2021-07-29)
+
+- `@skyux/theme@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-theme/blob/5.0.0-beta.2/CHANGELOG.md)
+
 # 5.0.0-beta.10 (2021-07-29)
 
 - `@skyux/layout@5.0.0-beta.1` [Release notes](https://github.com/blackbaud/skyux-layout/blob/5.0.0-beta.1/CHANGELOG.md)
