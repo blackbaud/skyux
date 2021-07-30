@@ -1,3 +1,7 @@
+# 4.17.1 (2021-07-30)
+
+- Fixed the autocomplete component to not include the `skyux-theme-modern` class on its dropdown. [#206](https://github.com/blackbaud/skyux-lookup/pull/206)
+
 # 4.17.0 (2021-07-09)
 
 - Added a search icon to the country field. [#189](https://github.com/blackbaud/skyux-lookup/pull/189)
