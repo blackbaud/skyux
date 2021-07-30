@@ -62,12 +62,11 @@
   outline: -webkit-focus-ring-color auto 5px;
 }
 
-// This exists outside the mixin as there are host context issues with the overlay.
-.sky-theme-modern.sky-autocomplete-results-container {
-  border-radius: $sky-theme-modern-box-border-radius-default;
-}
+::ng-deep .sky-theme-modern {
+  .sky-autocomplete-results-container {
+    border-radius: $sky-theme-modern-box-border-radius-default;
+  }
 
-@include sky-theme-modern {
   .sky-autocomplete-results {
     padding: $sky-theme-modern-space-sm 0;
   }
