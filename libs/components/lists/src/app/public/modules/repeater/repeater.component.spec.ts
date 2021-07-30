@@ -1416,6 +1416,23 @@ describe('Repeater item component', () => {
       expect(cmp.sortedItemTags).toEqual(['item2', 'item3', 'item1']);
     }));
 
+    it('should not reset items if reorderability is toggled off after reordering', fakeAsync(() => {
+      cmp.reorderable = true;
+      detectChangesAndTick(fixture);
+
+      let items = el.querySelectorAll('sky-repeater-item');
+      const itemToTest = items[1];
+      el.querySelectorAll('.sky-repeater-item-reorder-top')[1].click();
+      detectChangesAndTick(fixture);
+
+      expect(el.querySelectorAll('sky-repeater-item')[0]).toBe(itemToTest);
+
+      cmp.reorderable = false;
+      detectChangesAndTick(fixture);
+
+      expect(el.querySelectorAll('sky-repeater-item')[0]).toBe(itemToTest);
+    }));
+
     it('should be accessible', async(() => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
