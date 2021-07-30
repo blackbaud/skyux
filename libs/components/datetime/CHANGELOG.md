@@ -1,3 +1,7 @@
+# 4.12.1 (2021-07-30)
+
+- Fixed the fuzzy datepicker component to properly format dates based on the given date format. [#270](https://github.com/blackbaud/skyux-datetime/pull/270)
+
 # 4.12.0 (2021-06-15)
 
 - Added an optional `pickerClass` input for the datepicker component. [#264](https://github.com/blackbaud/skyux-datetime/pull/264)
