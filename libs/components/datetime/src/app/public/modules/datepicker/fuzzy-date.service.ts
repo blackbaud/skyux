@@ -86,7 +86,12 @@ export class SkyFuzzyDateService implements OnDestroy {
    * Formats a fuzzy date by using the provided format and locale strings.
    * If not provided, the locale will be taken from the browser's default locale.
    */
-  public format(fuzzyDate: SkyFuzzyDate, format: string, locale: string): string {
+  public format(fuzzyDate: SkyFuzzyDate, format: string, locale?: string): string {
+
+    if (!locale) {
+      locale = this.currentLocale;
+    }
+
     if (!this.isFuzzyDateValid(fuzzyDate)) {
       return '';
     }
@@ -150,6 +155,10 @@ export class SkyFuzzyDateService implements OnDestroy {
     return moment([year, month, day]);
   }
 
+  /**
+   * Gets a string instance of a fuzzy date.
+   * @deprecated Deprecated in favor of the `format` function.
+   */
   public getStringFromFuzzyDate(fuzzyDate: SkyFuzzyDate, dateFormat: string): string {
     if (!fuzzyDate || !dateFormat) {
       return;
@@ -444,6 +453,10 @@ export class SkyFuzzyDateService implements OnDestroy {
    * year only
    */
   private isFuzzyDateValid(fuzzyDate: SkyFuzzyDate): boolean {
+
+    if (!fuzzyDate) {
+      return false;
+    }
 
     // If none of the dates part are specified, return false.
     if (!fuzzyDate.day && !fuzzyDate.month && !fuzzyDate.year) {

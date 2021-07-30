@@ -90,7 +90,7 @@ export class SkyFuzzyDatepickerInputDirective
     this._dateFormat = value;
 
     if (this.value) {
-      const formattedDate = this.fuzzyDateService.getStringFromFuzzyDate(this.value, this.dateFormat);
+      const formattedDate = this.fuzzyDateService.format(this.value, this.dateFormat, this.locale);
       this.setInputElementValue(formattedDate);
       this.changeDetector.markForCheck();
     }
@@ -237,8 +237,12 @@ export class SkyFuzzyDatepickerInputDirective
       fuzzyDate = this.fuzzyDateService.getFuzzyDateFromSelectedDate(value, this.dateFormat);
 
     } else if (typeof value === 'string') {
-      formattedDate = value;
       fuzzyDate = this.fuzzyDateService.getFuzzyDateFromString(value, this.dateFormat);
+      formattedDate = this.fuzzyDateService.format(fuzzyDate, this.dateFormat, this.locale);
+
+      if (!formattedDate) {
+        formattedDate = value;
+      }
 
       fuzzyMoment = this.fuzzyDateService.getMomentFromFuzzyDate(fuzzyDate);
 
@@ -248,7 +252,7 @@ export class SkyFuzzyDatepickerInputDirective
 
     } else {
       fuzzyDate = value as SkyFuzzyDate;
-      formattedDate = this.fuzzyDateService.getStringFromFuzzyDate(fuzzyDate, this.dateFormat);
+      formattedDate = this.fuzzyDateService.format(fuzzyDate, this.dateFormat, this.locale);
       fuzzyMoment = this.fuzzyDateService.getMomentFromFuzzyDate(fuzzyDate);
 
       if (fuzzyMoment) {
@@ -289,6 +293,8 @@ export class SkyFuzzyDatepickerInputDirective
 
   private isFirstChange = true;
 
+  private locale: string;
+
   private preferredShortDateFormat: string;
 
   private ngUnsubscribe = new Subject<void>();
@@ -322,7 +328,8 @@ export class SkyFuzzyDatepickerInputDirective
     this.localeProvider.getLocaleInfo()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((localeInfo) => {
-        SkyDateFormatter.setLocale(localeInfo.locale);
+        this.locale = localeInfo.locale;
+        SkyDateFormatter.setLocale(this.locale);
         this.preferredShortDateFormat = SkyDateFormatter.getPreferredShortDateFormat();
       });
   }
@@ -409,7 +416,7 @@ export class SkyFuzzyDatepickerInputDirective
   public onInputBlur(): void {
     this.onTouched();
 
-    let formattedDate = this.fuzzyDateService.getStringFromFuzzyDate(this.value, this.dateFormat);
+    let formattedDate = this.fuzzyDateService.format(this.value, this.dateFormat, this.locale);
     if (this.control.valid) {
       this.setInputElementValue(formattedDate || '');
     }

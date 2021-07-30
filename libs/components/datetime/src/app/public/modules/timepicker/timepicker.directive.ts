@@ -195,7 +195,8 @@ export class SkyTimepickerInputDirective implements
   }
 
   @HostListener('blur')
-  public onBlur /* istanbul ignore next */ () {
+  public onBlur() {
+    /* istanbul ignore next */
     this._onTouched();
   }
 
