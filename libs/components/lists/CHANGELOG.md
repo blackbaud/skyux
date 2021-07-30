@@ -1,3 +1,7 @@
+# 4.9.1 (2021-07-30)
+
+- Fixed the repeater component to not reset items which have been reordered when reorderability is toggled off. [#245](https://github.com/blackbaud/skyux-lists/pull/245)
+
 # 4.9.0 (2021-07-28)
 
 - Added modern theme styles for the sort commponent. [#243](https://github.com/blackbaud/skyux-lists/pull/243)
