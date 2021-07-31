@@ -3,9 +3,13 @@ import {
   ChangeDetectorRef,
   Component,
   OnDestroy,
-  OnInit
+  OnInit,
+  Optional
 } from '@angular/core';
-import { SkyThemeService } from '@skyux/theme';
+
+import {
+  SkyThemeService
+} from '@skyux/theme';
 
 import {
   Subject
@@ -37,9 +41,9 @@ export class SkySplitViewWorkspaceHeaderComponent implements OnDestroy, OnInit {
   constructor(
     private splitViewService: SkySplitViewService,
     private changeRef: ChangeDetectorRef,
-    skyThemeSvc: SkyThemeService
+    @Optional() skyThemeSvc?: SkyThemeService
   ) {
-    skyThemeSvc.settingsChange.subscribe(() => {
+    skyThemeSvc?.settingsChange.subscribe(() => {
       this.changeRef.markForCheck();
     });
   }

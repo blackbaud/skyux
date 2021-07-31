@@ -18,13 +18,11 @@ import {
 } from '@angular/animations';
 
 import {
-  SkyCoreAdapterService,
-  SkyMediaQueryService
+  SkyCoreAdapterService
 } from '@skyux/core';
 
 import {
-  Subject,
-  Subscription
+  Subject
 } from 'rxjs';
 
 import {
@@ -155,8 +153,6 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
 
   private bindHeightToWindowUnsubscribe: Subject<void>;
 
-  private mediaQuerySubscription: Subscription;
-
   private ngUnsubscribe = new Subject<void>();
 
   private _bindHeightToWindow = false;
@@ -168,7 +164,6 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private coreAdapterService: SkyCoreAdapterService,
     private elementRef: ElementRef,
-    private mediaQueryService: SkyMediaQueryService,
     private splitViewService: SkySplitViewService
   ) {
     splitViewService.splitViewElementRef = this.elementRef;
@@ -193,20 +188,12 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
       .subscribe((message: SkySplitViewMessage) => {
         this.handleIncomingMessages(message);
       });
-
-    this.mediaQuerySubscription = this.mediaQueryService.subscribe(breakpoint => {
-      this.coreAdapterService.setResponsiveContainerClass(this.elementRef, breakpoint);
-    });
   }
 
   public ngOnDestroy(): void {
     if (this.bindHeightToWindowUnsubscribe) {
       this.bindHeightToWindowUnsubscribe.next();
       this.bindHeightToWindowUnsubscribe.complete();
-    }
-
-    if (this.mediaQuerySubscription) {
-      this.mediaQuerySubscription.unsubscribe();
     }
 
     this.ngUnsubscribe.next();
