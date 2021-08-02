@@ -1,3 +1,7 @@
+# 4.9.2 (2021-08-02)
+
+- Fixed the demo theme control panel to dynamically update when the theme is externally changed. [#165](https://github.com/blackbaud/skyux-docs-tools/pull/165)
+
 # 4.9.1 (2021-06-15)
 
 - Added support for `marked@2.0.7`. [#163](https://github.com/blackbaud/skyux-docs-tools/pull/163)
