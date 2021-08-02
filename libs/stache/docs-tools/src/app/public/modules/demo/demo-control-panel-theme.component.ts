@@ -1,16 +1,28 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
+  OnDestroy,
   OnInit,
+  Optional,
   Output
 } from '@angular/core';
 
 import {
   SkyTheme,
   SkyThemeMode,
+  SkyThemeService,
   SkyThemeSettings
 } from '@skyux/theme';
+
+import {
+  Subject
+} from 'rxjs';
+
+import {
+  takeUntil
+} from 'rxjs/operators';
 
 @Component({
   selector: 'sky-docs-demo-control-panel-theme',
@@ -18,7 +30,7 @@ import {
   styleUrls: ['./demo-control-panel-theme.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyDocsDemoControlPanelThemeComponent implements OnInit {
+export class SkyDocsDemoControlPanelThemeComponent implements OnDestroy, OnInit {
 
   @Output()
   public themeSettingsChange = new EventEmitter<SkyThemeSettings>();
@@ -52,9 +64,34 @@ export class SkyDocsDemoControlPanelThemeComponent implements OnInit {
     value: string
   }[];
 
+  private ngUnsubscribe = new Subject<void>();
+
   private _mode = 'light';
 
   private _theme = 'default';
+
+  constructor(
+    private changeDetector: ChangeDetectorRef,
+    @Optional() private themeSvc?: SkyThemeService
+  ) {
+    // Update theme property with SkyThemeService if it has not been set.
+    if (this.themeSvc) {
+      this.themeSvc.settingsChange
+        .pipe(
+          takeUntil(this.ngUnsubscribe)
+        )
+        .subscribe(change => {
+          if (change.currentSettings.theme.name !== this.theme) {
+            this.theme = change.currentSettings.theme.name;
+          }
+
+          if (change.currentSettings.mode.name !== this.mode) {
+            this.mode = change.currentSettings.mode.name;
+          }
+          this.changeDetector.markForCheck();
+      });
+    }
+  }
 
   public ngOnInit(): void {
     this.themeOptions = Object.keys(SkyTheme.presets).map(
@@ -63,6 +100,11 @@ export class SkyDocsDemoControlPanelThemeComponent implements OnInit {
 
     this.updateModesForTheme();
     this.updateTheme();
+  }
+
+  public ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   private updateModesForTheme(): void {

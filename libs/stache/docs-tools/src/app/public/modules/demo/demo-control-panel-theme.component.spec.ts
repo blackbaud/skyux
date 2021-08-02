@@ -4,7 +4,9 @@ import {
 
 import {
   ComponentFixture,
-  TestBed
+  fakeAsync,
+  TestBed,
+  tick
 } from '@angular/core/testing';
 
 import {
@@ -14,12 +16,18 @@ import {
 import {
   SkyTheme,
   SkyThemeMode,
-  SkyThemeSettings
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange
 } from '@skyux/theme';
 
 import {
   expect
 } from '@skyux-sdk/testing';
+
+import {
+  BehaviorSubject
+} from 'rxjs';
 
 import {
   SkyDocsDemoModule
@@ -58,10 +66,32 @@ describe('Demo control panel theme', () => {
     expect(inputEl.nativeElement.value).toBe(expectedValue);
   }
 
+  let mockThemeSvc: {
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+  };
+
   beforeEach(() => {
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+        {
+          currentSettings: new SkyThemeSettings(
+            SkyTheme.presets.default,
+            SkyThemeMode.presets.light
+          ),
+          previousSettings: undefined
+        }
+      )
+    };
+
     TestBed.configureTestingModule({
       imports: [
         SkyDocsDemoModule
+      ],
+      providers: [
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc
+        }
       ]
     });
   });
@@ -155,4 +185,41 @@ describe('Demo control panel theme', () => {
       )
     );
   });
+
+  it('should update the selected radio items based on an external theme change', fakeAsync(() => {
+    const fixture = TestBed.createComponent(SkyDocsDemoControlPanelThemeComponent);
+
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+    let themeRadioEls = getRadioEls(fixture, 'theme');
+    let modeRadioEls = getRadioEls(fixture, 'mode');
+
+    expect(themeRadioEls.length).toBe(2);
+    expect(modeRadioEls.length).toBe(1);
+    expect(getRadioInputEl(themeRadioEls[0]).nativeElement.checked).toBeTruthy();
+    expect(getRadioInputEl(themeRadioEls[1]).nativeElement.checked).toBeFalsy();
+    expect(getRadioInputEl(modeRadioEls[0]).nativeElement.checked).toBeTruthy();
+
+    mockThemeSvc.settingsChange.next({
+      currentSettings: new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.dark
+      ),
+      previousSettings: undefined
+    });
+
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+    themeRadioEls = getRadioEls(fixture, 'theme');
+    modeRadioEls = getRadioEls(fixture, 'mode');
+
+    expect(themeRadioEls.length).toBe(2);
+    expect(modeRadioEls.length).toBe(2);
+    expect(getRadioInputEl(themeRadioEls[0]).nativeElement.checked).toBeFalsy();
+    expect(getRadioInputEl(themeRadioEls[1]).nativeElement.checked).toBeTruthy();
+    expect(getRadioInputEl(modeRadioEls[0]).nativeElement.checked).toBeFalsy();
+    expect(getRadioInputEl(modeRadioEls[1]).nativeElement.checked).toBeTruthy();
+  }));
 });
