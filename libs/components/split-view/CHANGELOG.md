@@ -1,3 +1,7 @@
+# 4.3.1 (2021-08-02)
+
+- Fixed the split view component to properly render tile components in the workspace. [#62](https://github.com/blackbaud/skyux-split-view/pull/62)
+
 # 4.3.0 (2021-05-21)
 
 - Updated the split view component to use the modern theme. [#55](https://github.com/blackbaud/skyux-split-view/pull/55)
