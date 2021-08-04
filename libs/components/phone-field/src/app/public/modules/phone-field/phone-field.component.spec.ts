@@ -777,6 +777,27 @@ describe('Phone Field Component', () => {
           validateInputAndModel('+3558675555309', '+3558675555309', false, true, ngModel, fixture);
         }));
 
+      it('should not change to a new country when the dial code is for an unsupported country', fakeAsync(() => {
+        fixture.detectChanges();
+        let inputElement = fixture.debugElement.query(By.css('input'));
+        let ngModel = <NgModel>inputElement.injector.get(NgModel);
+
+        component.defaultCountry = 'us';
+        component.supportedCountryISOs = ['us'];
+        fixture.detectChanges();
+        component.modelValue = '8675555309';
+        detectChangesAndTick(fixture);
+
+        validateInputAndModel('8675555309', '(867) 555-5309', true, false, ngModel, fixture);
+
+        setInput(nativeElement, '+3558675555309', fixture);
+        blurInput(nativeElement, fixture);
+        detectChangesAndTick(fixture);
+
+        expect(component.phoneFieldComponent.selectedCountry.iso2).toBe('us');
+        validateInputAndModel('+3558675555309', '+3558675555309', false, true, ngModel, fixture);
+      }));
+
       it('should not change to a new country when the dial code is not found',
         fakeAsync(() => {
           fixture.detectChanges();
@@ -1430,6 +1451,30 @@ describe('Phone Field Component', () => {
           expect(component.phoneFieldComponent.selectedCountry.iso2).toBe('al');
           validateInputAndModel('+3558675555309', '+3558675555309', false, true, component.phoneControl, fixture);
         }));
+
+      it('should not change to a new country when the dial code is for an unsupported country', fakeAsync(() => {
+        fixture.detectChanges();
+        component.defaultCountry = 'us';
+        component.supportedCountryISOs = ['us'];
+        fixture.detectChanges();
+        component.phoneControl.setValue('8675555309');
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        validateInputAndModel('8675555309', '(867) 555-5309', true, false, component.phoneControl, fixture);
+
+        setInput(nativeElement, '+3558675555309', fixture);
+        blurInput(nativeElement, fixture);
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        expect(component.phoneFieldComponent.selectedCountry.iso2).toBe('us');
+        validateInputAndModel('+3558675555309', '+3558675555309', false, true, component.phoneControl, fixture);
+      }));
 
       it('should not change to a new country when the dial code is not found',
         fakeAsync(() => {
