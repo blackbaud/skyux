@@ -1,3 +1,7 @@
+# 4.6.2 (2021-08-04)
+
+- Fixed the phone field component to only switch to supported countries via dial code when using the `supportedCountryISOs` input. [#97](https://github.com/blackbaud/skyux-phone-field/pull/97)
+
 # 4.6.1 (2021-06-03)
 
 - Fixed the phone field component to display the correct "close" icon when searching for a country in modern theme. [#92](https://github.com/blackbaud/skyux-phone-field/pull/92)
