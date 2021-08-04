@@ -16,16 +16,34 @@ import {
 } from '@skyux/docs-tools';
 
 import {
+  SkyCheckboxModule,
+  SkyRadioModule
+} from '@skyux/forms';
+
+import {
+  SkyGridModule
+} from '@skyux/grids';
+
+import {
   SkyIconModule
 } from '@skyux/indicators';
 
 import {
-  SkyAppLinkModule
-} from '@skyux/router';
+  SkyDefinitionListModule,
+  SkyFluidGridModule
+} from '@skyux/layout';
+
+import {
+  SkySortModule
+} from '@skyux/lists';
 
 import {
   SkyDropdownModule
 } from '@skyux/popovers';
+
+import {
+  SkyAppLinkModule
+} from '@skyux/router';
 
 /**
  * To avoid duplicates of the Theme components/modules, we need to import from node_modules.
@@ -35,23 +53,6 @@ import {
 import {
   SkyThemeModule
 } from '@skyux/theme';
-
-import {
-  SkyDefinitionListModule,
-  SkyFluidGridModule
-} from '@skyux/layout';
-
-import {
-  SkyGridModule
-} from '@skyux/grids';
-
-import {
-  SkySortModule
-} from '@skyux/lists';
-
-import {
-  SkyCheckboxModule
-} from '@skyux/forms';
 
 @NgModule({
   exports: [
@@ -64,6 +65,7 @@ import {
     SkyFluidGridModule,
     SkyGridModule,
     SkyIconModule,
+    SkyRadioModule,
     SkySortModule,
     SkyThemeModule,
     SkyMediaQueryModule
