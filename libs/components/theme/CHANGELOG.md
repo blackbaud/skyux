@@ -1,3 +1,7 @@
+# 4.21.0 (2021-08-05)
+
+- Added modern theme styles for radio icon groups and checkbox icon groups. [#257](https://github.com/blackbaud/skyux-theme/pull/257)
+
 # 4.20.1 (2021-07-29)
 
 - Added paragraph line height class `.sky-paragraph` for default theme. [#253](https://github.com/blackbaud/skyux-theme/pull/253)
