@@ -1,3 +1,7 @@
+# 5.0.0-beta.17 (2021-08-05)
+
+- `@skyux/theme@5.0.0-beta.3` [Release notes](https://github.com/blackbaud/skyux-theme/blob/5.0.0-beta.3/CHANGELOG.md)
+
 # 5.0.0-beta.16 (2021-08-03)
 
 - `@skyux/split-view@5.0.0-beta.1` [Release notes](https://github.com/blackbaud/skyux-split-view/blob/5.0.0-beta.1/CHANGELOG.md)
