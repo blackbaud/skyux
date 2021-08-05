@@ -1,3 +1,7 @@
+# 4.2.2 (2021-08-05)
+
+- Fixed the secondary action dropdown menu to collapse when clicking an action. [#60](https://github.com/blackbaud/skyux-action-bars/pull/60)
+
 # 4.2.1 (2021-06-11)
 
 - Fixed the module name in the installation documentation. [#57](https://github.com/blackbaud/skyux-action-bars/pull/57)
