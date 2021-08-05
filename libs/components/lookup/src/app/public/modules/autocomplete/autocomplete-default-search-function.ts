@@ -39,15 +39,15 @@ export function skyAutocompleteDefaultSearchFunction(
     data: any[]
   ): SkyAutocompleteSearchFunctionResponse {
 
-    const searchTextLower = searchText.toLowerCase();
+    const searchTextUpper = searchText?.toUpperCase();
     const filteredData = filterData(searchText, data);
     const results = [];
 
     for (let i = 0, n = filteredData.length; i < n; i++) {
       const result = filteredData[i];
       const isMatch = options.propertiesToSearch.find((property: string) => {
-        const value = (result[property] || '').toString().toLowerCase();
-        return (value.indexOf(searchTextLower) > -1);
+        const value = (result[property] || '').toString().toUpperCase();
+        return (value.indexOf(searchTextUpper) > -1);
       });
 
       if (isMatch) {

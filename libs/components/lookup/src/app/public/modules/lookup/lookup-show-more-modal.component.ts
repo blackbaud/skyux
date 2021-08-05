@@ -124,14 +124,16 @@ export class SkyLookupShowMoreModalComponent implements AfterViewInit, OnDestroy
     }
 
     this.itemIndex = this.itemIndex + 10;
-    const searchedItems = this.searchItems(this.items);
-    this.displayedItems = searchedItems.slice(0, this.itemIndex);
+    this.searchItems(this.items).then(searchedItems => {
+      this.displayedItems = searchedItems.slice(0, this.itemIndex);
 
-    if (this.itemIndex > searchedItems.length) {
-      this.itemsHaveMore = false;
-    } else {
-      this.itemsHaveMore = true;
-    }
+      if (this.itemIndex > searchedItems.length) {
+        this.itemsHaveMore = false;
+      } else {
+        this.itemsHaveMore = true;
+      }
+      this.changeDetector.markForCheck();
+    });
   }
 
   public clearAll(): void {
@@ -193,28 +195,24 @@ export class SkyLookupShowMoreModalComponent implements AfterViewInit, OnDestroy
     this.updateDataState();
   }
 
-  public searchItems(items: any[]): any[] {
-    let searchedItems = items;
-    let searchText = this.searchText?.toUpperCase();
+  public searchItems(items: any[]): Promise<any[]> {
+    let searchText = this.searchText;
 
     if (searchText) {
-      searchedItems = items.filter(function (item: any) {
-        let property: any;
-        const value = item.value;
+      const resultValues = this.context.search(searchText, items.map(item => { return item.value; }));
 
-        for (property in value) {
-          if (value.hasOwnProperty(property) && (property === 'name' || property === 'description')) {
-            const propertyText = value[property].toUpperCase();
-            if (propertyText.indexOf(searchText) > -1) {
-              return true;
-            }
-          }
-        }
-
-        return false;
-      });
+      if (resultValues instanceof Array) {
+        const result = items.filter(item => resultValues.indexOf(item.value) >= 0);
+        return Promise.resolve(result);
+      } else {
+        return resultValues.then((values) => {
+          const result = items.filter(item => values.indexOf(item.value) >= 0);
+          return Promise.resolve(result);
+        });
+      }
+    } else {
+      return Promise.resolve(items);
     }
-    return searchedItems;
   }
 
   public selectAll(): void {
@@ -245,19 +243,20 @@ export class SkyLookupShowMoreModalComponent implements AfterViewInit, OnDestroy
       item.selected = selectedItems.findIndex(selectedItem => selectedItem.index === index) !== -1;
     });
 
-    let searchedItems = this.searchItems(this.items);
-    if (this.onlyShowSelected) {
-      searchedItems = searchedItems.filter(item => item.selected);
-    }
-    this.displayedItems = searchedItems.slice(0, this.itemIndex);
+    this.searchItems(this.items).then(searchedItems => {
+      if (this.onlyShowSelected) {
+        searchedItems = searchedItems.filter(item => item.selected);
+      }
+      this.displayedItems = searchedItems.slice(0, this.itemIndex);
 
-    if (this.itemIndex > searchedItems.length) {
-      this.itemsHaveMore = false;
-    } else {
-      this.itemsHaveMore = true;
-    }
+      if (this.itemIndex > searchedItems.length) {
+        this.itemsHaveMore = false;
+      } else {
+        this.itemsHaveMore = true;
+      }
 
-    this.changeDetector.markForCheck();
+      this.changeDetector.markForCheck();
+    });
   }
 
   public updateItemData(data: any[]): void {

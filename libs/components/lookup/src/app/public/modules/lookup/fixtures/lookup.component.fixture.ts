@@ -13,6 +13,10 @@ import {
 } from '@angular/forms';
 
 import {
+  SkyAutocompleteSearchFunction
+} from '../../autocomplete/types/autocomplete-search-function';
+
+import {
   SkyLookupComponent
 } from '../lookup.component';
 
@@ -61,6 +65,7 @@ export class SkyLookupTestComponent implements OnInit {
   public ariaLabel: string;
   public ariaLabelledBy: string;
   public autocompleteAttribute: string;
+  public customSearch: SkyAutocompleteSearchFunction;
   public data: any[];
   public descriptorProperty: string;
   public enabledSearchResultTemplate: TemplateRef<any>;
@@ -69,6 +74,7 @@ export class SkyLookupTestComponent implements OnInit {
   public idProperty: string;
   public ignoreAddDataUpdate: boolean = false;
   public placeholderText: string;
+  public propertiesToSearch: string[];
   public selectMode: SkyLookupSelectMode;
   public showAddButton: boolean = false;
   public showMoreConfig: SkyLookupShowMoreConfig = {};

@@ -67,17 +67,17 @@ export class LookupVisualComponent implements OnInit {
   ];
 
   public friends: any[] = [
-    { id: 16, name: 'Susan' },
-    { id: 21, name: 'Zack' }
+    this.people[15],
+    this.people[20]
   ];
 
   public friends2: any[] = [
-    { id: 16, name: 'Susan' },
-    { id: 21, name: 'Zack' }
+    this.people[15],
+    this.people[20]
   ];
 
   public bestFriend: any[] = [
-    { id: 16, name: 'Susan' }
+    this.people[15]
   ];
 
   public bestFriendSelectMode: SkyLookupSelectMode = SkyLookupSelectMode.single;

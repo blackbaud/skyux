@@ -562,6 +562,7 @@ export class SkyLookupComponent
         descriptorProperty: this.descriptorProperty,
         initialSearch: initialSearch,
         initialValue: initialValue,
+        search: this.search,
         selectMode: this.selectMode,
         showAddButton: this.showAddButton,
         userConfig: modalConfig

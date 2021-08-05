@@ -4,6 +4,10 @@ import {
 } from '@angular/core';
 
 import {
+  skyAutocompleteDefaultSearchFunction
+} from '../autocomplete/autocomplete-default-search-function';
+
+import {
   SkyAutocompleteSearchFunction
 } from '../autocomplete/types/autocomplete-search-function';
 
@@ -42,8 +46,14 @@ export class SkyLookupAutocompleteAdapter {
    * Specifies an array of object properties to search.
    * @default ['name']
    */
-  @Input()
-  public propertiesToSearch: string[];
+   @Input()
+   public set propertiesToSearch(value: string[]) {
+     this._propertiesToSearch = value;
+   }
+
+   public get propertiesToSearch(): string[] {
+     return this._propertiesToSearch || ['name'];
+   }
 
   /**
    * Specifies a function to dynamically manage the data source when users
@@ -51,8 +61,17 @@ export class SkyLookupAutocompleteAdapter {
    * an array or a promise of an array. The `search` property is particularly
    * useful when the data source does not live in the source code.
    */
-  @Input()
-  public search: SkyAutocompleteSearchFunction;
+   @Input()
+   public set search(value: SkyAutocompleteSearchFunction) {
+     this._search = value;
+   }
+
+   public get search(): SkyAutocompleteSearchFunction {
+     return this._search || skyAutocompleteDefaultSearchFunction({
+       propertiesToSearch: this.propertiesToSearch,
+       searchFilters: this.searchFilters
+     });
+   }
 
   /**
    * Specifies a template to format each option in the dropdown list. The lookup component
@@ -89,4 +108,6 @@ export class SkyLookupAutocompleteAdapter {
   public searchResultsLimit: number;
 
   private _descriptorProperty: string;
+  private _propertiesToSearch: string[];
+  private _search: SkyAutocompleteSearchFunction;
 }

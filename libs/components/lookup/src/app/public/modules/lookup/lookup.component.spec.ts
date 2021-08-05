@@ -134,9 +134,12 @@ if (!isIE) {
       return document.querySelector('.sky-lookup-show-more-modal-add') as HTMLElement;
     }
 
+    function getModalSearchInput(): HTMLInputElement {
+      return document.querySelector('.sky-search-input-container .sky-form-control');
+    }
+
     function getModalSearchInputValue(): string {
-      const modalSearchInput =
-        document.querySelector('.sky-search-input-container .sky-form-control') as HTMLInputElement;
+      const modalSearchInput = getModalSearchInput();
       return modalSearchInput.value;
     }
 
@@ -1033,6 +1036,55 @@ if (!isIE) {
               closeModal(fixture);
             })
           );
+
+          it('should respect the `propertiesToSearch` input in the show more modal',
+            fakeAsync(() => {
+              component.enableShowMore = true;
+              component.propertiesToSearch = ['description'];
+              fixture.detectChanges();
+
+              performSearch('Mr', fixture);
+
+              clickSearchButton(fixture);
+
+              expect(getRepeaterItemCount()).toBe(2);
+
+              closeModal(fixture);
+            }));
+
+          it('should respect the `search` input in the show more modal',
+            fakeAsync(() => {
+              component.enableShowMore = true;
+              component.customSearch = (_: string, data: any[]) => {
+                return [data[0]];
+              };
+              fixture.detectChanges();
+
+              performSearch('Mr', fixture);
+
+              clickSearchButton(fixture);
+
+              expect(getRepeaterItemCount()).toBe(1);
+
+              closeModal(fixture);
+            }));
+
+          it('should respect the `search` input in the show more modal when the function returns a promise',
+            fakeAsync(() => {
+              component.enableShowMore = true;
+              component.customSearch = (_: string, data: any[]) => {
+                return Promise.resolve([data[0]]);
+              };
+              fixture.detectChanges();
+
+              performSearch('Mr', fixture);
+
+              clickSearchButton(fixture);
+
+              expect(getRepeaterItemCount()).toBe(1);
+
+              closeModal(fixture);
+            }));
 
           describe('multi-select', () => {
 
@@ -2660,6 +2712,55 @@ if (!isIE) {
               closeModal(fixture);
             })
           );
+
+          it('should respect the `propertiesToSearch` input in the show more modal',
+            fakeAsync(() => {
+              component.enableShowMore = true;
+              component.propertiesToSearch = ['description'];
+              fixture.detectChanges();
+
+              performSearch('Mr', fixture);
+
+              clickSearchButton(fixture);
+
+              expect(getRepeaterItemCount()).toBe(2);
+
+              closeModal(fixture);
+            }));
+
+          it('should respect the `search` input in the show more modal when the function returns an array',
+            fakeAsync(() => {
+              component.enableShowMore = true;
+              component.customSearch = (_: string, data: any[]) => {
+                return [data[0]];
+              };
+              fixture.detectChanges();
+
+              performSearch('Mr', fixture);
+
+              clickSearchButton(fixture);
+
+              expect(getRepeaterItemCount()).toBe(1);
+
+              closeModal(fixture);
+            }));
+
+          it('should respect the `search` input in the show more modal when the function returns a promise',
+            fakeAsync(() => {
+              component.enableShowMore = true;
+              component.customSearch = (_: string, data: any[]) => {
+                return Promise.resolve([data[0]]);
+              };
+              fixture.detectChanges();
+
+              performSearch('Mr', fixture);
+
+              clickSearchButton(fixture);
+
+              expect(getRepeaterItemCount()).toBe(1);
+
+              closeModal(fixture);
+            }));
 
           describe('multi-select', () => {
 

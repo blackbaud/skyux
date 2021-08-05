@@ -1,4 +1,8 @@
 import {
+  SkyAutocompleteSearchFunction
+} from '../../autocomplete/types/autocomplete-search-function';
+
+import {
   SkyLookupSelectMode
 } from './lookup-select-mode';
 
@@ -15,6 +19,7 @@ import {
   public descriptorProperty: string;
   public initialSearch: string;
   public initialValue: any;
+  public search: SkyAutocompleteSearchFunction;
   public selectMode: SkyLookupSelectMode;
   public showAddButton: boolean;
   public userConfig: SkyLookupShowMoreNativePickerConfig;

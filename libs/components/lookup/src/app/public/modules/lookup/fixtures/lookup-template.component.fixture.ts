@@ -6,6 +6,10 @@ import {
 } from '@angular/core';
 
 import {
+  SkyAutocompleteSearchFunction
+} from '../../autocomplete/types/autocomplete-search-function';
+
+import {
   SkyLookupComponent
 } from '../lookup.component';
 
@@ -51,6 +55,7 @@ export class SkyLookupTemplateTestComponent implements OnInit {
 
   public ariaLabel: string;
   public ariaLabelledBy: string;
+  public customSearch: SkyAutocompleteSearchFunction;
   public data: any[];
   public descriptorProperty: string;
   public disabled: boolean = false;
@@ -58,6 +63,7 @@ export class SkyLookupTemplateTestComponent implements OnInit {
   public enableShowMore: boolean = false;
   public ignoreAddDataUpdate: boolean = false;
   public placeholderText: string;
+  public propertiesToSearch: string[];
   public required: boolean = false;
   public selectedFriends: any;
   public selectMode: SkyLookupSelectMode;
