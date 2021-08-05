@@ -1,3 +1,7 @@
+# 4.17.2 (2021-08-05)
+
+- Fixed the lookup component's show more picker to respect the component's `search` and `propertiesToSearch` inputs. [#208](https://github.com/blackbaud/skyux-lookup/pull/208)
+
 # 4.17.1 (2021-07-30)
 
 - Fixed the autocomplete component to not include the `skyux-theme-modern` class on its dropdown. [#206](https://github.com/blackbaud/skyux-lookup/pull/206)
