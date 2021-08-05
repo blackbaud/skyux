@@ -8,6 +8,7 @@
   <sky-dropdown
     buttonType="ellipsis-h"
     [attr.title]="'skyux_summary_action_bar_open_secondary' | skyLibResources"
+    [messageStream]="dropdownMessageStream"
   >
     <sky-dropdown-menu>
       <ng-container *ngTemplateOutlet="summaryActionBarSecondaryActions"></ng-container>

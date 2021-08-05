@@ -9,7 +9,9 @@ import {
 import {
   TestBed,
   ComponentFixture,
-  async
+  async,
+  fakeAsync,
+  tick
 } from '@angular/core/testing';
 
 import {
@@ -19,6 +21,10 @@ import {
 import {
   MockSkyMediaQueryService
 } from '@skyux/core/testing';
+
+import {
+  SkyDropdownMessageType
+} from '@skyux/popovers';
 
 import {
   expect
@@ -163,6 +169,25 @@ describe('Summary Action Bar action components', () => {
         expect(action.isDropdown).toBeTruthy();
       });
     });
+
+    it('should dismiss dropdown menu when the secondary action button is clicked', fakeAsync(() => {
+      cmp.extraActions = true;
+      fixture.detectChanges();
+      tick();
+      let root: HTMLElement = fixture.nativeElement;
+      while (root.parentElement) {
+        root = root.parentElement;
+      }
+      expect(root.querySelector('sky-dropdown-menu sky-summary-action-bar-secondary-action button')).toBeFalsy();
+      cmp.secondaryActions.dropdownMessageStream.next({ type: SkyDropdownMessageType.Open });
+      fixture.detectChanges();
+      tick();
+      expect(root.querySelector('sky-dropdown-menu sky-summary-action-bar-secondary-action button')).toBeTruthy();
+      cmp.secondaryActions.secondaryActionComponents.first.actionClick.emit();
+      fixture.detectChanges();
+      tick();
+      expect(root.querySelector('sky-dropdown-menu sky-summary-action-bar-secondary-action button')).toBeFalsy();
+    }));
 
   });
 
