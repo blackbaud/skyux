@@ -1,3 +1,7 @@
+# 4.6.0 (2021-08-06)
+
+- Added the error type for popovers. [#158](https://github.com/blackbaud/skyux-popovers/pull/158)
+
 # 4.5.3 (2021-07-09)
 
 - Fixed the dropdown menu component to close after users select items that are nested in multiple layers, such as `*ngFor` and `*ngIf` directives. [#156](https://github.com/blackbaud/skyux-popovers/pull/156)
