@@ -4,6 +4,7 @@
   [attr.aria-label]="ariaLabel"
   [id]="splitViewDrawerId"
   [style.width.px]="width"
+  tabindex="0"
 >
   <ng-content></ng-content>
   <input *ngIf="!isMobile"

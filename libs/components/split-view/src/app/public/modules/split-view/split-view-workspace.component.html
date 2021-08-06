@@ -2,6 +2,7 @@
   class="sky-split-view-workspace"
   role="region"
   [attr.aria-label]="ariaLabel"
+  tabindex="0"
 >
   <sky-split-view-workspace-header *ngIf="isMobile"></sky-split-view-workspace-header>
   <ng-content select="sky-split-view-workspace-content"></ng-content>

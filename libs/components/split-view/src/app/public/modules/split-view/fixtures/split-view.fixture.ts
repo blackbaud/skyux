@@ -25,6 +25,8 @@ import {
 })
 export class SplitViewFixtureComponent {
 
+  public additionalItems: string[] = [];
+
   public ariaLabelForDrawer: string;
 
   public ariaLabelForWorkspace: string;

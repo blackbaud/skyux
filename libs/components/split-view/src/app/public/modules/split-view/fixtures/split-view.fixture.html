@@ -42,6 +42,11 @@
       <iframe *ngIf="showIframe"
         src="https://developer.blackbaud.com/skyux/"
       ></iframe>
+      <ul>
+        <li *ngFor="let item of additionalItems">
+          {{ item }}
+        </li>
+      </ul>
     </sky-split-view-workspace-content>
   </sky-split-view-workspace>
 </sky-split-view>
