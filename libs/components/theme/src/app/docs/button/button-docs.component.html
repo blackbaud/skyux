@@ -29,7 +29,7 @@
                 The primary button triggers the most important or most frequently used action on a page or the progressive terminal action on a modal such as <strong>Save</strong>. Pages and modals should only include one primary button to ensure that it draws user attention. For more information, see the <a href="https://developer.blackbaud.com/skyux/design/guidelines/page-layouts#primary-action-guidelines">primary action guidelines</a>.
               </p>
             </td>
-            <td class="sky-docs-table-cell">
+            <td class="sky-docs-table-cell" style="width: 30%" >
               <p>
                 <sky-code>class=&quot;sky-btn sky-btn-primary&quot;</sky-code>
               </p>
@@ -92,6 +92,29 @@
             <td class="sky-docs-table-cell">
               <p>
                 <sky-code>class=&quot;sky-btn sky-btn-link-inline&quot;</sky-code>
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td class="sky-docs-table-cell">
+              <button
+                type="button"
+                class="sky-btn sky-btn-icon-borderless"
+              >
+              <i [skyThemeClass]="{
+                'fa fa-pencil': 'default',
+                'sky-icon sky-i-edit': 'modern'
+              }"></i>
+              </button>
+            </td>
+            <td class="sky-docs-table-cell">
+              <p>
+                Icon buttons trigger common actions, such as edit and delete, when space is too tight for text labels and icons are sufficient to represent actions. For example, use icon buttons to invoke inline forms from repeater rows.
+              </p>
+            </td>
+            <td class="sky-docs-table-cell">
+              <p>
+                <sky-code>class=&quot;sky-btn sky-btn-icon-borderless&quot;</sky-code>
               </p>
             </td>
           </tr>
@@ -161,28 +184,37 @@
       <sky-docs-design-guideline
       >
         <p>
-          For buttons with only one possible direct object such as <strong>Add</strong> buttons in record list toolbars, use the following format for button text:
+          For buttons with only one possible direct object, such as <strong *skyThemeIf="'default'">Add</strong><strong *skyThemeIf="'modern'">New</strong> buttons in record list toolbars, use the following format for button text:
         </p>
         <p>
           <strong>&lt;Verb&gt;</strong>
         </p>
-        <sky-docs-design-guideline-thumbnail
+        <sky-docs-design-guideline-thumbnail *skyThemeIf="'default'"
           imageSource="~/assets/img/guidelines/button/buttons-usage-1.png"
+          >
+        </sky-docs-design-guideline-thumbnail>
+        <sky-docs-design-guideline-thumbnail  *skyThemeIf="'modern'"
+          imageSource="~/assets/img/guidelines/button/buttons-usage-1-modern.png"
           >
         </sky-docs-design-guideline-thumbnail>
       </sky-docs-design-guideline>
 
       <sky-docs-design-guideline>
-        <p class="sky-docs-text-block">
-          For buttons with multiple possible direct objects such as <strong>Add alert</strong> buttons in page summary toolbars, use the following format for button text:
+        <p *skyThemeIf="'default'" class="sky-docs-text-block">
+          For buttons with multiple possible direct objects, such as <strong >Add alert</strong> buttons in page summary toolbars, use the following format for button text:
+        </p>
+        <p *skyThemeIf="'modern'" class="sky-docs-text-block">
+          For buttons with multiple possible direct objects, such as <strong>Edit goals</strong> or <strong>Email contact</strong> buttons in page headers, use the following format for button text:
         </p>
         <p>
           <strong>&lt;Verb&gt; &lt;direct object&gt;</strong>
         </p>
-        <sky-docs-design-guideline-thumbnail
+        <sky-docs-design-guideline-thumbnail *skyThemeIf="'default'"
           imageSource="~/assets/img/guidelines/button/buttons-usage-2.png"
-        >
-        </sky-docs-design-guideline-thumbnail>
+        ></sky-docs-design-guideline-thumbnail>
+        <sky-docs-design-guideline-thumbnail *skyThemeIf="'modern'"
+          imageSource="~/assets/img/guidelines/button/buttons-usage-2-modern.png"
+        ></sky-docs-design-guideline-thumbnail>
       </sky-docs-design-guideline>
 
       <sky-docs-design-guideline>
@@ -197,10 +229,10 @@
             Use singular or plural direct objects to indicate whether the button acts on one or multiple items.
           </li>
           <li>
-            Don't include articles. For example, use <strong>Add constituent</strong> rather than <strong>Add a constituent</strong>.
+            Don't include articles. For example, use <strong>Delete goal</strong> rather than <strong>Delete a goal</strong>.
           </li>
           <li>
-            Don’t append extra words such as “details.” For example, use <strong>Edit constituent</strong> rather than <strong>Edit constituent details</strong>.
+            Don’t append extra words such as “details.” For example, use <strong>Edit goal</strong> rather than <strong>Edit goal details</strong>.
           </li>
         </ul>
       </sky-docs-design-guideline>

@@ -18,14 +18,32 @@ public addButtonInfo: {label: string, value: string}[] = [
   },
   {
     label: 'Dropdown',
-    value: 'Optional. Allows users to add more than one type of record.'
+    value: 'Optional. Allows users to add more than one type of item.'
   },
   {
     label: 'Notes',
     value: 'If add is the primary action, use the blue primary button styling. Otherwise, use the white secondary button styling.'
   }
 ];
-public editButtonInfo: {label: string, value: string}[] = [
+public newButtonInfo: {label: string, value: string}[] = [
+  {
+    label: 'Text',
+    value: 'New'
+  },
+  {
+    label: 'Icon',
+    value: 'sky-i-add'
+  },
+  {
+    label: 'Dropdown',
+    value: 'Optional. Allows users to add more than one type of item.'
+  },
+  {
+    label: 'Notes',
+    value: 'If new is the primary action, use the blue primary button styling. Otherwise, use the white secondary button styling.'
+  }
+];
+public editButtonInfoDefault: {label: string, value: string}[] = [
   {
     label: 'Text',
     value: 'Edit'
@@ -39,7 +57,21 @@ public editButtonInfo: {label: string, value: string}[] = [
     value: 'Optional. Allows users to edit multiple types of records in a content container.'
   }
 ];
-public saveButtonInfo: {label: string, value: string}[] = [
+public editButtonInfo: {label: string, value: string}[] = [
+  {
+    label: 'Text',
+    value: 'Edit'
+  },
+  {
+    label: 'Icon',
+    value: 'sky-i-edit'
+  },
+  {
+    label: 'Dropdown',
+    value: 'Optional. Allows users to edit multiple types of records in a content container.'
+  }
+];
+public saveButtonInfoDefault: {label: string, value: string}[] = [
   {
     label: 'Text',
     value: 'Save'
@@ -53,7 +85,21 @@ public saveButtonInfo: {label: string, value: string}[] = [
     value: 'Optional. Allows users to select multiple choices for how to save a list, such as "Save" and "Save as."'
   }
 ];
-public filterButtonInfo: {label: string, value: string}[] = [
+public saveButtonInfo: {label: string, value: string}[] = [
+  {
+    label: 'Text',
+    value: 'Save'
+  },
+  {
+    label: 'Icon',
+    value: 'sky-i-save-line'
+  },
+  {
+    label: 'Dropdown',
+    value: 'Optional. Allows users to select multiple choices for how to save a list, such as "Save" and "Save as."'
+  }
+];
+public filterButtonInfoDefault: {label: string, value: string}[] = [
   {
     label: 'Text',
     value: 'Filter'
@@ -67,7 +113,21 @@ public filterButtonInfo: {label: string, value: string}[] = [
     value: 'None'
   }
 ];
-public sortButtonInfo: {label: string, value: string}[] = [
+public filterButtonInfo: {label: string, value: string}[] = [
+  {
+    label: 'Text',
+    value: 'Filter'
+  },
+  {
+    label: 'Icon',
+    value: 'sky-i-filter'
+  },
+  {
+    label: 'Dropdown',
+    value: 'None'
+  }
+];
+public sortButtonInfoDefault: {label: string, value: string}[] = [
   {
     label: 'Text',
     value: 'Sort'
@@ -81,7 +141,21 @@ public sortButtonInfo: {label: string, value: string}[] = [
     value: 'Yes'
   }
 ];
-public columnsButtonInfo: {label: string, value: string}[] = [
+public sortButtonInfo: {label: string, value: string}[] = [
+  {
+    label: 'Text',
+    value: 'Sort'
+  },
+  {
+    label: 'Icon',
+    value: 'sky-i-sort'
+  },
+  {
+    label: 'Dropdown',
+    value: 'Yes'
+  }
+];
+public columnsButtonInfoDefault: {label: string, value: string}[] = [
   {
     label: 'Text',
     value: 'Columns'
@@ -99,7 +173,25 @@ public columnsButtonInfo: {label: string, value: string}[] = [
     value: 'Only visible when viewing a list as a grid.'
   }
 ];
-public shareButtonInfo: {label: string, value: string}[] = [
+public columnsButtonInfo: {label: string, value: string}[] = [
+  {
+    label: 'Text',
+    value: 'Columns'
+  },
+  {
+    label: 'Icon',
+    value: 'sky-i-columns'
+  },
+  {
+    label: 'Dropdown',
+    value: 'None'
+  },
+  {
+    label: 'Notes',
+    value: 'Only visible when viewing a list as a grid.'
+  }
+];
+public shareButtonInfoDefault: {label: string, value: string}[] = [
   {
     label: 'Text',
     value: 'Share'
@@ -113,7 +205,21 @@ public shareButtonInfo: {label: string, value: string}[] = [
     value: 'None'
   }
 ];
-public exportButtonInfo: {label: string, value: string}[] = [
+public shareButtonInfo: {label: string, value: string}[] = [
+  {
+    label: 'Text',
+    value: 'Share'
+  },
+  {
+    label: 'Icon',
+    value: 'sky-i-share-line'
+  },
+  {
+    label: 'Dropdown',
+    value: 'None'
+  }
+];
+public exportButtonInfoDefault: {label: string, value: string}[] = [
   {
     label: 'Text',
     value: 'Export'
@@ -131,7 +237,25 @@ public exportButtonInfo: {label: string, value: string}[] = [
     value: 'For multiple export options, use the generic fa-file-o icon and a dropdown. For a single export option, use the icon for the file type that the option creates.'
   }
 ];
-public moreButtonInfo: {label: string, value: string}[] = [
+public exportButtonInfo: {label: string, value: string}[] = [
+  {
+    label: 'Text',
+    value: 'Export'
+  },
+  {
+    label: 'Icon',
+    value: 'sky-i-file-line, sky-i-xls-file-line, sky-i-pdf-file-line, or sky-i-doc-file-line'
+  },
+  {
+    label: 'Dropdown',
+    value: 'Optional. Allows users to select from multiple export options.'
+  },
+  {
+    label: 'Notes',
+    value: 'For multiple export options, use the generic sky-i-file-line icon and a dropdown. For a single export option, use the icon for the file type that the option creates.'
+  }
+];
+public moreButtonInfoDefault: {label: string, value: string}[] = [
   {
     label: 'Text',
     value: 'More'
@@ -139,6 +263,24 @@ public moreButtonInfo: {label: string, value: string}[] = [
   {
     label: 'Icon',
     value: 'fa-ellipsis-h'
+  },
+  {
+    label: 'Dropdown',
+    value: 'Yes'
+  },
+  {
+    label: 'Notes',
+    value: 'Only use the more actions button for multiple items. For a single action, display the action button directly in the toolbar.'
+  }
+];
+public moreButtonInfo: {label: string, value: string}[] = [
+  {
+    label: 'Text',
+    value: 'More'
+  },
+  {
+    label: 'Icon',
+    value: 'sky-i-ellipsis'
   },
   {
     label: 'Dropdown',
