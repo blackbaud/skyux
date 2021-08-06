@@ -14,9 +14,12 @@
       </p>
     </sky-docs-demo-page-summary>
 
-    <!-- <sky-docs-demo>
-      Demo here.
-    </sky-docs-demo> -->
+    <sky-docs-demo>
+      <sky-text-editor
+        [(ngModel)]="richText"
+      >
+      </sky-text-editor>
+    </sky-docs-demo>
 
     <h2>
       HTML sanitization
@@ -36,14 +39,28 @@
       Make sure that you allow the attributes and schemes that you need. For example, email links often violate the default rules of HTML sanitizers.
     </p>
 
-    <!-- <sky-docs-code-examples
-      [packageDependencies]="{}"
+    <sky-docs-code-examples
+      [packageDependencies]="{
+        '@blackbaud/auth-client': '*',
+        '@skyux/colorpicker': '*',
+        '@skyux/inline-form': '*',
+        '@skyux/list-builder': '*',
+        '@skyux/list-builder-common': '*',
+        '@skyux/list-builder-view-checklist': '*',
+        '@skyux/lists': '*',
+        '@skyux/lookup': '*',
+        '@skyux/popovers': '*',
+        '@skyux/tabs': '*',
+        '@skyux/text-editor': '*',
+        '@skyux/validation': '*',
+        'dompurify': '*'
+      }"
     >
       <sky-docs-code-example
-        sourceCodePath="src/app/public/plugin-resources/code-examples/text-editor/basic/"
+        sourceCodePath="src/app/public/plugin-resources/code-examples/text-editor/"
       >
       </sky-docs-code-example>
-    </sky-docs-code-examples> -->
+    </sky-docs-code-examples>
 
     <sky-docs-design-guidelines>
 
