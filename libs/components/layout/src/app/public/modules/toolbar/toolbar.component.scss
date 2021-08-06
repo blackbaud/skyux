@@ -53,7 +53,7 @@
   .sky-toolbar-container {
     background-color: transparent;
     border: none;
-    padding: $sky-theme-modern-space-sm $sky-theme-modern-space-xl;
+    padding: $sky-theme-modern-space-sm 0;
 
     &.sky-viewkeeper-fixed {
       background-color: $sky-theme-modern-background-color-page-default;
