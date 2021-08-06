@@ -11,16 +11,33 @@
   ></ng-container>
 </div>
 
+<div
+  class="static-popovers"
+  id="screenshot-all-danger-popovers"
+>
+  <ng-container
+    #staticDangerPopoversTarget
+  ></ng-container>
+</div>
+
 <ng-template #staticPopoverContentRef>
   <div>The content of a popover can be text, HTML, or Angular components.</div>
 </ng-template>
+
+<div>
+  <strong>Popover type:</strong>
+  <ul class="sky-list-unstyled">
+    <li><label><input type="radio" [formControl]="popoverType" value="info"> info</label></li>
+    <li><label><input type="radio" [formControl]="popoverType" value="danger"> danger</label></li>
+  </ul>
+</div>
 
 <div id="screenshot-popover-placements">
   <button id="btn-popover-placement-default" class="sky-btn" [skyPopover]="myPopover5">
     Default
   </button>
 
-  <sky-popover #myPopover5>
+  <sky-popover #myPopover5 [popoverType]="popoverType.value">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed elit arcu.
   </sky-popover>
 
@@ -28,7 +45,7 @@
     Right
   </button>
 
-  <sky-popover #myPopover1>
+  <sky-popover #myPopover1 [popoverType]="popoverType.value">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed elit arcu.
   </sky-popover>
 
@@ -36,7 +53,7 @@
     Top
   </button>
 
-  <sky-popover #myPopover2>
+  <sky-popover #myPopover2 [popoverType]="popoverType.value">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed elit arcu.
   </sky-popover>
 
@@ -45,7 +62,7 @@
     Top, align left
   </button>
 
-  <sky-popover #myPopover2a>
+  <sky-popover #myPopover2a [popoverType]="popoverType.value">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed elit arcu.
   </sky-popover>
 
@@ -54,7 +71,7 @@
     Top, align right
   </button>
 
-  <sky-popover #myPopover2b>
+  <sky-popover #myPopover2b [popoverType]="popoverType.value">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed elit arcu.
   </sky-popover>
 
@@ -62,7 +79,7 @@
     Below
   </button>
 
-  <sky-popover #myPopover3>
+  <sky-popover #myPopover3 [popoverType]="popoverType.value">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed elit arcu.
   </sky-popover>
 
@@ -71,7 +88,7 @@
     Below, align left
   </button>
 
-  <sky-popover #myPopover3a>
+  <sky-popover #myPopover3a [popoverType]="popoverType.value">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed elit arcu.
   </sky-popover>
 
@@ -80,7 +97,7 @@
     Below, align right
   </button>
 
-  <sky-popover #myPopover3b>
+  <sky-popover #myPopover3b [popoverType]="popoverType.value">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed elit arcu.
   </sky-popover>
 
@@ -88,7 +105,7 @@
     Left
   </button>
 
-  <sky-popover #myPopover4>
+  <sky-popover #myPopover4 [popoverType]="popoverType.value">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed elit arcu.
   </sky-popover>
 </div>
@@ -98,7 +115,7 @@
     Default
   </button>
 
-  <sky-popover #myPopoverTiny>
+  <sky-popover #myPopoverTiny [popoverType]="popoverType.value">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed elit arcu.
   </sky-popover>
 </div>
@@ -111,6 +128,7 @@
   <sky-popover
     popoverTitle="Did you know?"
     #myPopoverWithDropdown
+    [popoverType]="popoverType.value"
   >
     <div
       id="popover-with-dropdown"
@@ -159,6 +177,7 @@
 
               <sky-popover
                 #positionedParent1
+                [popoverType]="popoverType.value"
               >
                 <div
                   id="popover-positioned-parent-left"
@@ -200,6 +219,7 @@
 
               <sky-popover
                 #positionedParent2
+                [popoverType]="popoverType.value"
               >
                 <div
                   id="popover-positioned-parent-right"

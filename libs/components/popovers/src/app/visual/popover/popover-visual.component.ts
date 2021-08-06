@@ -10,6 +10,10 @@ import {
 } from '@angular/core';
 
 import {
+  FormControl
+} from '@angular/forms';
+
+import {
   SkyThemeService,
   SkyThemeSettings
 } from '@skyux/theme';
@@ -39,8 +43,15 @@ export class PopoverVisualComponent implements AfterViewInit {
   })
   private staticPopoversTarget: ViewContainerRef;
 
+  @ViewChild('staticDangerPopoversTarget', {
+    read: ViewContainerRef
+  })
+  private staticDangerPopoversTarget: ViewContainerRef;
+
   @ViewChild('staticPopoverContentRef', { read: TemplateRef })
   private staticPopoverContentRef: TemplateRef<any>;
+
+  public popoverType = new FormControl('info');
 
   constructor(
     private resolver: ComponentFactoryResolver,
@@ -139,6 +150,20 @@ export class PopoverVisualComponent implements AfterViewInit {
         isStatic: true,
         placement: config.placement,
         popoverTitle: config.popoverTitle
+      });
+    });
+
+    configs.forEach((config) => {
+      const componentRef = this.staticDangerPopoversTarget.createComponent(factory, undefined, injector);
+
+      componentRef.instance.open(this.elementRef, {
+        dismissOnBlur: false,
+        enableAnimations: false,
+        horizontalAlignment: config.horizontalAlignment,
+        isStatic: true,
+        placement: config.placement,
+        popoverTitle: config.popoverTitle,
+        popoverType: 'danger'
       });
     });
   }

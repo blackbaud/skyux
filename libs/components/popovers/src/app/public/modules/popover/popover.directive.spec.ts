@@ -252,6 +252,35 @@ describe('Popover directive', () => {
     expect(popover.scrollHeight > popover.clientHeight).toEqual(true);
   }));
 
+  it('should apply popup type', fakeAsync(() => {
+    detectChangesFakeAsync();
+
+    const button = getCallerElement();
+
+    button.click();
+    detectChangesFakeAsync();
+
+    let element = getPopoverElement();
+
+    expect(element).toHaveCssClass('sky-popover-info');
+    button.click();
+
+    fixture.componentInstance.popoverType = 'danger';
+    detectChangesFakeAsync();
+    button.click();
+    detectChangesFakeAsync();
+    element = getPopoverElement();
+    expect(element).toHaveCssClass('sky-popover-danger');
+    button.click();
+
+    fixture.componentInstance.popoverType = 'info';
+    detectChangesFakeAsync();
+    button.click();
+    detectChangesFakeAsync();
+    element = getPopoverElement();
+    expect(element).toHaveCssClass('sky-popover-info');
+  }));
+
   describe('mouse interactions', function () {
     it('should open and close the popover via mouse click', fakeAsync(() => {
       fixture.componentInstance.trigger = 'click';

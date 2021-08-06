@@ -5,7 +5,8 @@
   [class.sky-popover-hidden]="!placement"
   [ngClass]="[
     'sky-popover-alignment-' + horizontalAlignment,
-    'sky-popover-placement-' + placement
+    'sky-popover-placement-' + placement,
+    'sky-popover-' + popoverType
   ]"
   (@skyPopoverAnimation.done)="onAnimationEvent($event)"
   (@skyPopoverAnimation.start)="onAnimationEvent($event)"
