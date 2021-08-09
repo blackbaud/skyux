@@ -1,3 +1,7 @@
+# 5.0.0-beta.19 (2021-08-09)
+
+- `@skyux/layout@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-layout/blob/5.0.0-beta.2/CHANGELOG.md)
+
 # 5.0.0-beta.18 (2021-08-06)
 
 - `@skyux/i18n@5.0.0-beta.3` [Release notes](https://github.com/blackbaud/skyux-i18n/blob/5.0.0-beta.3/CHANGELOG.md)
