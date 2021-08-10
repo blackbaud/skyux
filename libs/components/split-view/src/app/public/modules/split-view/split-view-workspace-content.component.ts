@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
-  Component
+  Component,
+  HostBinding
 } from '@angular/core';
 
 /**
@@ -13,5 +14,6 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkySplitViewWorkspaceContentComponent {
-
+  @HostBinding('attr.tabindex')
+  public tabIndex = '0';
 }
