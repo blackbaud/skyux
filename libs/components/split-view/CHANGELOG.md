@@ -1,3 +1,7 @@
+# 4.3.3 (2021-08-10)
+
+- Fixed `sky-split-view-workspace-content` to address keyboard access to the component. [#69](https://github.com/blackbaud/skyux-split-view/pull/69)
+
 # 4.3.2 (2021-08-06)
 
 - Fixed the accessibility of scrollable regions in the split view component. [#66](https://github.com/blackbaud/skyux-split-view/pull/66)
