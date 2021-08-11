@@ -97,15 +97,19 @@
 }
 
 @mixin sky-theme-modern {
-  .sky-theme-modern,
   :host-context(.sky-theme-modern) {
+    @content;
+  }
+  .sky-theme-modern {
     @content;
   }
 }
 
 @mixin sky-theme-modern-dark {
-  .sky-theme-modern.sky-theme-mode-dark,
   :host-context(.sky-theme-modern.sky-theme-mode-dark) {
+    @content;
+  }
+  .sky-theme-modern.sky-theme-mode-dark {
     @content;
   }
 }
