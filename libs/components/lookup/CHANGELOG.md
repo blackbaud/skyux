@@ -1,3 +1,7 @@
+# 4.17.3 (2021-08-11)
+
+- Fixed the lookup styles in Firefox and Safari. [#211](https://github.com/blackbaud/skyux-lookup/pull/211)
+
 # 4.17.2 (2021-08-05)
 
 - Fixed the lookup component's show more picker to respect the component's `search` and `propertiesToSearch` inputs. [#208](https://github.com/blackbaud/skyux-lookup/pull/208)

@@ -333,7 +333,7 @@ export class SkyCountryFieldComponent implements AfterViewInit, ControlValueAcce
   }
 
   public ngAfterViewInit(): void {
-    this.themeSvc.settingsChange
+    this.themeSvc?.settingsChange
       .subscribe(change => {
         this.currentTheme = change.currentSettings.theme.name;
         this.updateInputBox();

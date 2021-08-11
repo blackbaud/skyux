@@ -355,7 +355,7 @@ export class SkyLookupComponent
     if (this.themeSvc) {
       // This is required for the autocomplete directive to be set after elements
       // are rearranged when switching themes.
-      this.themeSvc.settingsChange
+      this.themeSvc?.settingsChange
         .pipe(
           takeUntil(this.ngUnsubscribe)
         )
