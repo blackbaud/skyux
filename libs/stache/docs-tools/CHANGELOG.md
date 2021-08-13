@@ -1,3 +1,7 @@
+# 4.9.3 (2021-08-13)
+
+- Fixed the `SkyDocsTypeDocAdapterService` to use `SkyDocsTypeDefinitionsProvider.anchorIds` if the `anchorId` property has not been set on the individual type definitions. [#167](https://github.com/blackbaud/skyux-docs-tools/pull/167)
+
 # 4.9.2 (2021-08-02)
 
 - Fixed the demo theme control panel to dynamically update when the theme is externally changed. [#165](https://github.com/blackbaud/skyux-docs-tools/pull/165)
