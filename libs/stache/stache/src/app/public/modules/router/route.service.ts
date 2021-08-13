@@ -44,7 +44,7 @@ export class StacheRouteService {
       .replace(/^\//, '')
       .split('/')[0];
 
-    const appRoutes = this.clone(this.configService.runtime.routes);
+    const appRoutes = this.clone(this.configService.runtime?.routes || []);
 
     let activeChildRoutes = appRoutes
       .filter((route: any) => {

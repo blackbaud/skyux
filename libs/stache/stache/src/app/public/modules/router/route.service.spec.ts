@@ -238,6 +238,13 @@ describe('StacheRouteService', () => {
     expect(activeRoutes[0].children.length).toBe(1);
   });
 
+  it('should handle missing config.runtime', () => {
+    delete configService.runtime;
+
+    let activeRoutes = routeService.getActiveRoutes();
+    expect(activeRoutes[0].children.length).toBe(0);
+  });
+
   it('should only unset the active routes on NavigationStart', () => {
     router.events = observableOf(new NavigationEnd(0, '', ''));
     spyOn(StacheRouteService.prototype, 'clearActiveRoutes');
