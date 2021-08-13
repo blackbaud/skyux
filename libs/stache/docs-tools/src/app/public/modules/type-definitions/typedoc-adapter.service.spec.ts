@@ -1816,4 +1816,22 @@ describe('TypeDoc adapter', () => {
 
   });
 
+  it('should use SkyDocsTypeDefinitionsProvider.anchorIds if anchorId not set on entry', () => {
+    adapter = new SkyDocsTypeDocAdapterService({
+      anchorIds: {
+        'SkyFoobar': 'class-skyfoobar'
+      },
+      typeDefinitions: []
+    });
+
+    const def = adapter.toClassDefinition({
+      name: 'SkyFoobar'
+    });
+
+    expect(def).toEqual({
+      anchorId: 'class-skyfoobar',
+      name: 'SkyFoobar'
+    });
+  });
+
 });

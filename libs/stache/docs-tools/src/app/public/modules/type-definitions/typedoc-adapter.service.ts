@@ -1,5 +1,6 @@
 import {
-  Injectable
+  Injectable,
+  Optional
 } from '@angular/core';
 
 import {
@@ -67,6 +68,10 @@ import {
 } from './type-definition';
 
 import {
+  SkyDocsTypeDefinitionsProvider
+} from './type-definitions-provider';
+
+import {
   SkyDocsTypeParameterDefinition
 } from './type-parameter-definition';
 
@@ -88,9 +93,13 @@ import orderBy from 'lodash.orderby';
 @Injectable()
 export class SkyDocsTypeDocAdapterService {
 
+  constructor(
+    @Optional() private typeDefinitionsProvider?: SkyDocsTypeDefinitionsProvider
+  ) {}
+
   public toClassDefinition(entry: TypeDocEntry): SkyDocsClassDefinition {
     const definition: SkyDocsClassDefinition = {
-      anchorId: entry.anchorId,
+      anchorId: this.getAnchorId(entry),
       name: entry.name
     };
 
@@ -112,7 +121,7 @@ export class SkyDocsTypeDocAdapterService {
 
   public toDirectiveDefinition(entry: TypeDocEntry): SkyDocsDirectiveDefinition {
     const definition: SkyDocsDirectiveDefinition = {
-      anchorId: entry.anchorId,
+      anchorId: this.getAnchorId(entry),
       name: entry.name,
       selector: this.getSelector(entry)
     };
@@ -138,7 +147,7 @@ export class SkyDocsTypeDocAdapterService {
   public toEnumerationDefinition(entry: TypeDocEntry): SkyDocsEnumerationDefinition {
     const members = this.getEnumerationMembers(entry);
     const definition: SkyDocsEnumerationDefinition = {
-      anchorId: entry.anchorId,
+      anchorId: this.getAnchorId(entry),
       members,
       name: entry.name
     };
@@ -152,7 +161,7 @@ export class SkyDocsTypeDocAdapterService {
   public toInterfaceDefinition(entry: TypeDocEntry): SkyDocsInterfaceDefinition {
     const properties = this.getInterfaceProperties(entry);
     const definition: SkyDocsInterfaceDefinition = {
-      anchorId: entry.anchorId,
+      anchorId: this.getAnchorId(entry),
       name: entry.name,
       properties
     };
@@ -172,7 +181,7 @@ export class SkyDocsTypeDocAdapterService {
     const methods = this.getClassMethods(entry);
     const transformMethod = methods.find(m => m.name === 'transform');
     const definition: SkyDocsPipeDefinition = {
-      anchorId: entry.anchorId,
+      anchorId: this.getAnchorId(entry),
       name: entry.name,
       transformMethod
     };
@@ -185,7 +194,7 @@ export class SkyDocsTypeDocAdapterService {
 
   public toTypeAliasDefinition(entry: TypeDocEntry): SkyDocsTypeAliasDefinition {
     const definition: SkyDocsTypeAliasDefinition = {
-      anchorId: entry.anchorId,
+      anchorId: this.getAnchorId(entry),
       name: entry.name,
       type: this.getTypeDefinition({
         comment: entry.comment,
@@ -632,6 +641,10 @@ export class SkyDocsTypeDocAdapterService {
 
   private getDefaultValue(child: TypeDocEntryChild, tags: SkyDocsCommentTags): string | undefined {
     return tags.defaultValue || child.defaultValue || undefined;
+  }
+
+  private getAnchorId(entry: TypeDocEntry): string {
+    return entry.anchorId || this.typeDefinitionsProvider?.anchorIds[entry.name] || '';
   }
 
 }
