@@ -1,3 +1,7 @@
+# 4.2.3 (2021-08-13)
+
+- Fixed the route service to work when `SkyAppConfig.runtime` is not defined. [#103](https://github.com/blackbaud/skyux-lib-stache/pull/103)
+
 # 4.2.2 (2021-02-03)
 
 - Fixed the edit button module to account for Azure DevOps URLs that contain `dev.azure.com`. [#100](https://github.com/blackbaud/skyux-lib-stache/pull/100)
