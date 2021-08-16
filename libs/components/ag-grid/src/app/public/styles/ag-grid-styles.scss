@@ -106,15 +106,47 @@ ag-grid-angular.sky-ag-grid-editable {
 
   .sky-ag-grid-cell-editable {
     background-color: $sky-background-color-page-default;
-  }
 
+    .ag-select {
+      .ag-picker-field-display {
+        margin-top: 2px;
+        margin-left: 9px;
+      }
+    }
+  }
 
   .sky-ag-grid-cell-uneditable {
     background-color: $sky-background-color-neutral-light;
   }
 
-  .ag-popup-editor {
-    border: none;
+  .ag-popup {
+    .ag-popup-editor {
+      border: none;
+    }
+
+    .ag-select-list {
+      box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+
+      .ag-select-list-item {
+        cursor: pointer;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        height: 30px;
+
+        &:last-of-type {
+          padding-bottom: 10px;
+          height: 35px;
+        }
+
+        &:hover {
+          background-color: $sky-background-color-selected;
+        }
+      }
+    }
+  }
+
+  .ag-picker-field-wrapper {
+    border-radius: 0;
   }
 
   /* fine tune focus cell borders */
@@ -206,6 +238,20 @@ ag-grid-angular.sky-ag-grid-editable {
     .ag-popup-editor {
       border: none;
     }
+
+    .ag-select-list {
+      box-shadow: $sky-theme-modern-elevation-4-shadow-size $sky-theme-modern-elevation-4-shadow-color;
+
+      .ag-select-list-item {
+        cursor: pointer;
+        border: 1px solid transparent;
+
+        &:hover {
+          background-color: transparent;
+          border-color: $sky-theme-modern-border-color-primary-dark;
+        }
+      }
+    }
   }
 
   border-top: $sky-standard-border;
@@ -255,6 +301,13 @@ ag-grid-angular.sky-ag-grid-editable {
 
       &.ag-cell-popup-editing {
         border: none;
+      }
+
+      .ag-select {
+        .ag-picker-field-display {
+          margin-top: 6px;
+          margin-left: 9px;
+        }
       }
     }
   }
