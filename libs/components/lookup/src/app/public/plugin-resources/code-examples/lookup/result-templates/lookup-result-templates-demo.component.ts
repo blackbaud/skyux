@@ -23,10 +23,6 @@ import {
 })
 export class LookupResultTemplatesDemoComponent implements OnInit {
 
-  public names: any[] = [
-    { name: 'Shirley' }
-  ];
-
   public myForm: FormGroup;
 
   public people: any[] = [
@@ -110,6 +106,10 @@ export class LookupResultTemplatesDemoComponent implements OnInit {
       name: 'Vicki',
       formal: 'Ms. Jenkins'
     }
+  ];
+
+  public names: any[] = [
+    this.people[15]
   ];
 
   public showMoreConfig: SkyLookupShowMoreConfig = {

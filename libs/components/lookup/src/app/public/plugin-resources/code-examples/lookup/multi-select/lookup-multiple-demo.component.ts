@@ -20,10 +20,6 @@ import {
 })
 export class LookupMultipleSelectDemoComponent implements OnInit {
 
-  public names: any[] = [
-    { name: 'Shirley' }
-  ];
-
   public myForm: FormGroup;
 
   public people: any[] = [
@@ -47,6 +43,10 @@ export class LookupMultipleSelectDemoComponent implements OnInit {
     { name: 'Troy' },
     { name: 'Vaughn' },
     { name: 'Vicki' }
+  ];
+
+  public names: any[] = [
+    this.people[15]
   ];
 
   constructor(

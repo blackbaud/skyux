@@ -34,10 +34,6 @@ export class LookupCustomPickerDemoComponent implements OnInit {
 
   public showMoreConfig: SkyLookupShowMoreConfig;
 
-  public names: any[] = [
-    { name: 'Shirley' }
-  ];
-
   public myForm: FormGroup;
 
   public people: any[] = [
@@ -61,6 +57,10 @@ export class LookupCustomPickerDemoComponent implements OnInit {
     { name: 'Troy' },
     { name: 'Vaughn' },
     { name: 'Vicki' }
+  ];
+
+  public names: any[] = [
+    this.people[15]
   ];
 
   constructor(
