@@ -32,7 +32,8 @@ import {
 
 import {
   fromEvent,
-  Subject
+  Subject,
+  Subscription
 } from 'rxjs';
 
 import {
@@ -244,6 +245,8 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
 
   private overlay: SkyOverlayInstance;
 
+  private overlayKeydownListner: Subscription;
+
   private _disabled: boolean;
 
   private _timepickerRef: ElementRef;
@@ -270,7 +273,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.setFormat(this.timeFormat);
-    this.addTriggerButtonEventListeners();
+    this.addKeydownListner();
 
     if (this.inputBoxHostService) {
       this.inputBoxHostService.populate(
@@ -432,6 +435,8 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
         }
       });
 
+    this.addKeydownListner();
+
     overlay.attachTemplate(this.timepickerTemplateRef);
 
     this.overlay = overlay;
@@ -445,8 +450,8 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     }
   }
 
-  private addTriggerButtonEventListeners(): void {
-    fromEvent(window.document, 'keydown')
+  private addKeydownListner(): void {
+    this.overlayKeydownListner = fromEvent(window.document, 'keydown')
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((event: KeyboardEvent) => {
         const key = event.key?.toLowerCase();
@@ -464,5 +469,6 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
       this.timepickerUnsubscribe.complete();
       this.timepickerUnsubscribe = undefined;
     }
+    this.overlayKeydownListner?.unsubscribe();
   }
 }

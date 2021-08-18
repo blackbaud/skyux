@@ -31,7 +31,8 @@ import {
 
 import {
   fromEvent,
-  Subject
+  Subject,
+  Subscription
 } from 'rxjs';
 
 import {
@@ -197,6 +198,8 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
 
   private overlay: SkyOverlayInstance;
 
+  private overlayKeydownListner: Subscription;
+
   private _calendarRef: ElementRef;
 
   private _disabled = false;
@@ -224,8 +227,6 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
   }
 
   public ngOnInit(): void {
-    this.addTriggerButtonEventListeners();
-
     if (this.inputBoxHostService) {
       this.inputBoxHostService.populate(
         {
@@ -331,6 +332,8 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
         }
       });
 
+    this.addKeydownListner();
+
     overlay.attachTemplate(this.calendarTemplateRef);
 
     this.overlay = overlay;
@@ -344,8 +347,8 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
     }
   }
 
-  private addTriggerButtonEventListeners(): void {
-    fromEvent(window.document, 'keydown')
+  private addKeydownListner(): void {
+    this.overlayKeydownListner = fromEvent(window.document, 'keydown')
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((event: KeyboardEvent) => {
         const key = event.key?.toLowerCase();
@@ -362,5 +365,6 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
       this.calendarUnsubscribe.complete();
       this.calendarUnsubscribe = undefined;
     }
+    this.overlayKeydownListner?.unsubscribe();
   }
 }
