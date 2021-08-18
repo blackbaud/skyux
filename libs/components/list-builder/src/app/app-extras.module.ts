@@ -17,6 +17,7 @@ import {
 } from '@skyux/forms';
 
 import {
+  SkyAlertModule,
   SkyIconModule
 } from '@skyux/indicators';
 
@@ -54,6 +55,7 @@ import {
 
 @NgModule({
   exports: [
+    SkyAlertModule,
     SkyAppLinkModule,
     SkyCheckboxModule,
     SkyDocsToolsModule,
