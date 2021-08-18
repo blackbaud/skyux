@@ -1,3 +1,7 @@
+# 5.0.0-beta.21 (2021-08-18)
+
+- `@skyux/datetime@5.0.0-beta.1` [Release notes](https://github.com/blackbaud/skyux-datetime/blob/5.0.0-beta.1/CHANGELOG.md)
+
 # 5.0.0-beta.20 (2021-08-13)
 
 - `@skyux/i18n@5.0.0-beta.4` [Release notes](https://github.com/blackbaud/skyux-i18n/blob/5.0.0-beta.4/CHANGELOG.md)
