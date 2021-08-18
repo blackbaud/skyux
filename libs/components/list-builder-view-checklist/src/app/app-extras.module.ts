@@ -12,6 +12,10 @@ import {
 } from '@skyux/router';
 
 import {
+  SkyAlertModule
+} from '@skyux/indicators';
+
+import {
   SkyListModule,
   SkyListToolbarModule
 } from '@skyux/list-builder';
@@ -22,6 +26,7 @@ import {
 
 @NgModule({
   exports: [
+    SkyAlertModule,
     SkyAppLinkModule,
     SkyDocsToolsModule,
     SkyListModule,
