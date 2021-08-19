@@ -69,6 +69,21 @@ export class EditComplexCellsComponent implements OnInit {
           values: ['English', 'Spanish', 'French', 'Portuguese', '(other)']
         },
         editable: this.editMode
+      },
+      {
+        colId: 'text',
+        field: 'text',
+        editable: this.editMode
+      },
+      {
+        colId: 'text2',
+        field: 'text2',
+        editable: this.editMode
+      },
+      {
+        colId: 'text3',
+        field: 'text3',
+        editable: this.editMode
       }
     ];
   }

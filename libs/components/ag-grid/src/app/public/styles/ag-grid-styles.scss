@@ -421,6 +421,26 @@ ag-grid-angular.sky-ag-grid-editable {
       }
     }
   }
+
+  .ag-popup {
+    .ag-popup-editor {
+      border: none;
+    }
+
+    .ag-select-list {
+      .ag-select-list-item {
+        cursor: pointer;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        height: 30px;
+
+        &:last-of-type {
+          padding-bottom: 10px;
+          height: 35px;
+        }
+      }
+    }
+  }
 }
 
 ag-grid-angular {
