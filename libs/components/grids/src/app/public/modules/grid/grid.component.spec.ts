@@ -223,7 +223,7 @@ function getTableRows(fixture: ComponentFixture<any>): DebugElement[] {
 
 function getTableWidth(fixture: ComponentFixture<any>): number {
   const table = getTable(fixture);
-  return table.nativeElement.offsetWidth;
+  return table.nativeElement.scrollWidth;
 }
 
 function getTopScroll(fixture: ComponentFixture<any>): DebugElement {

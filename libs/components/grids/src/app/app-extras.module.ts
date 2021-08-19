@@ -16,6 +16,10 @@ import {
 } from '@skyux/layout';
 
 import {
+  SkyAlertModule
+} from '@skyux/indicators';
+
+import {
   SkyDropdownModule,
   SkyPopoverModule
 } from '@skyux/popovers';
@@ -30,6 +34,7 @@ import {
 
 @NgModule({
   exports: [
+    SkyAlertModule,
     SkyAppLinkModule,
     SkyCodeModule,
     SkyDocsToolsModule,
