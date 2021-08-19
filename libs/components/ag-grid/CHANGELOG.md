@@ -1,3 +1,8 @@
+# 4.9.0 (2021-08-19)
+
+- Added styles to support `agSelectCellEditor` in both default and modern themes. [#127](https://github.com/blackbaud/skyux-ag-grid/pull/127)
+- Added visual regression coverage for `agSelectCellEditor` styles. [#129](https://github.com/blackbaud/skyux-ag-grid/pull/129)
+
 # 4.8.3 (2021-07-13)
 
 - Fixed the AG Grid wrapper to allow for the use of features added in AG Grid 24. [#123](https://github.com/blackbaud/skyux-ag-grid/pull/123)
