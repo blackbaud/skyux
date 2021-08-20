@@ -140,6 +140,7 @@ export class SkyColorpickerInputDirective
   @Input()
   public allowTransparency = true;
 
+  private _disabled: boolean;
   private _initialColor: string;
   private modelValue: SkyColorpickerOutput;
 
@@ -191,7 +192,10 @@ export class SkyColorpickerInputDirective
       });
 
     this.skyColorpickerInput.updatePickerValues(this.initialColor);
-    this.skyColorpickerInput.backgroundColorForDisplay = this.initialColor;
+
+    if (!this._disabled) {
+      this.skyColorpickerInput.backgroundColorForDisplay = this.initialColor;
+    }
 
     /// Set aria-label as default, if not set
     if (!element.getAttribute('aria-label')) {
@@ -261,6 +265,19 @@ export class SkyColorpickerInputDirective
       return;
     }
     // Validation
+  }
+
+  /**
+   * Implemented as part of ControlValueAccessor.
+   */
+   public setDisabledState(isDisabled: boolean): void {
+    this._disabled = isDisabled;
+    this.skyColorpickerInput.disabled = isDisabled;
+    if (this._disabled) {
+      this.skyColorpickerInput.backgroundColorForDisplay = '#fff';
+    } else {
+      this.skyColorpickerInput.backgroundColorForDisplay = this.modelValue.hex;
+    }
   }
 
   private writeModelValue(model: SkyColorpickerOutput) {

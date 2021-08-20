@@ -1,4 +1,8 @@
 import {
+  DebugElement
+} from '@angular/core';
+
+import {
   async,
   fakeAsync,
   TestBed,
@@ -62,6 +66,7 @@ describe('Colorpicker Component', () => {
   let mockThemeSvc: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>
   };
+  let debugElement: DebugElement;
 
   //#region helpers
   function getColorpickerContainer(): HTMLElement {
@@ -257,6 +262,7 @@ describe('Colorpicker Component', () => {
       nativeElement = fixture.nativeElement as HTMLElement;
       component = <ColorpickerTestComponent> fixture.componentInstance;
       colorpickerComponent = component.colorpickerComponent;
+      debugElement = fixture.debugElement;
     });
 
     it('should populate correct information if model is given', fakeAsync(() => {
@@ -960,6 +966,28 @@ describe('Colorpicker Component', () => {
       expect(alphaInput).toBeFalsy();
     }));
 
+    it('should enable and disable AfterViewInit using a template-driven form', async () => {
+
+      let outermostDiv = debugElement.query(By.css('div > sky-colorpicker > div')).nativeElement;
+
+      expect(outermostDiv).not.toHaveCssClass('sky-colorpicker-disabled');
+
+      component.disabled = true;
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      expect(outermostDiv).toHaveCssClass('sky-colorpicker-disabled');
+
+      component.disabled = false;
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      expect(outermostDiv).not.toHaveCssClass('sky-colorpicker-disabled');
+    });
   });
 
   describe('reactive configuration', () => {
@@ -971,6 +999,7 @@ describe('Colorpicker Component', () => {
       nativeElement = fixture.nativeElement as HTMLElement;
       component = fixture.componentInstance;
       colorpickerComponent = component.colorpickerComponent;
+      debugElement = fixture.debugElement;
     });
 
     it('should populate correct information if model is given', fakeAsync(() => {
@@ -1150,6 +1179,27 @@ describe('Colorpicker Component', () => {
       expect(overlaySpy).toHaveBeenCalledTimes(0);
 
     }));
+
+    it('should enable and disable AfterViewInit using a reactive form', async () => {
+
+      let outermostDiv = debugElement.query(By.css('form > sky-colorpicker > div')).nativeElement;
+
+      expect(outermostDiv).not.toHaveCssClass('sky-colorpicker-disabled');
+
+      component.colorForm.controls['colorModel'].disable();
+
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      expect(outermostDiv).toHaveCssClass('sky-colorpicker-disabled');
+
+      component.colorForm.controls['colorModel'].enable();
+
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      expect(outermostDiv).not.toHaveCssClass('sky-colorpicker-disabled');
+    });
 
   });
 

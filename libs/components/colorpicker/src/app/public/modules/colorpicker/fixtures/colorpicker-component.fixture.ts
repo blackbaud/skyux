@@ -45,6 +45,7 @@ export class ColorpickerTestComponent {
   ];
   public inputType = 'text';
   public selectedTransparency = true;
+  public disabled = false;
 
   @ViewChild(SkyColorpickerComponent, {
     static: true

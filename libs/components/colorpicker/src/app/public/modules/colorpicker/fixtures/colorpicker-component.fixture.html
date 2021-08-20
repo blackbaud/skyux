@@ -6,13 +6,15 @@
     #colorPickerTest
   >
     <input
-      [type]="inputType"
-      [skyColorpickerInput]="colorPickerTest"
-      [(ngModel)]="colorModel"
-      [presetColors]="presetColors"
+      [allowTransparency]="selectedTransparency"
+      [alphaChannel]="selectedHexType"
+      [disabled]="disabled"
       [initialColor]="selectedColor"
       [outputFormat]="selectedOutputFormat"
-      [alphaChannel]="selectedHexType"
-      [allowTransparency]="selectedTransparency">
+      [presetColors]="presetColors"
+      [skyColorpickerInput]="colorPickerTest"
+      [type]="inputType"
+      [(ngModel)]="colorModel"
+    >
   </sky-colorpicker>
 </div>
