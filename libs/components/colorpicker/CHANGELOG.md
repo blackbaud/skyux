@@ -1,3 +1,7 @@
+# 4.4.0 (2021-08-20)
+
+- Added the ability to disable the colorpicker via reactive or template-driven forms. [#94](https://github.com/blackbaud/skyux-colorpicker/pull/94)
+
 # 4.3.0 (2021-06-16)
 
 - Added the `label` and `labelledBy` inputs to the colorpicker component. [#91](https://github.com/blackbaud/skyux-colorpicker/pull/91)
