@@ -1,3 +1,7 @@
+# 5.0.0-beta.22 (2021-08-24)
+
+- `@skyux/colorpicker@5.0.0-beta.1` [Release notes](https://github.com/blackbaud/skyux-colorpicker/blob/5.0.0-beta.1/CHANGELOG.md)
+
 # 5.0.0-beta.21 (2021-08-18)
 
 - `@skyux/datetime@5.0.0-beta.1` [Release notes](https://github.com/blackbaud/skyux-datetime/blob/5.0.0-beta.1/CHANGELOG.md)
