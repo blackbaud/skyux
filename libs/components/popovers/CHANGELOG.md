@@ -1,3 +1,7 @@
+# 4.7.0 (2021-08-25)
+
+- Added reference checking on close to support AG Grid popovers. [#161](https://github.com/blackbaud/skyux-popovers/pull/161)
+
 # 4.6.0 (2021-08-06)
 
 - Added the error type for popovers. [#158](https://github.com/blackbaud/skyux-popovers/pull/158)
