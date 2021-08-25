@@ -240,7 +240,9 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
         break;
 
       case SkyPopoverMessageType.Close:
-        this.closePopover();
+        if (this.skyPopover.isActive) {
+          this.closePopover();
+        }
         break;
 
       case SkyPopoverMessageType.Reposition:

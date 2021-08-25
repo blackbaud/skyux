@@ -155,6 +155,7 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     this.contentTarget.createEmbeddedView(this.context.contentTemplateRef);
     this.addEventListeners();
 
+    /*istanbul ignore else*/
     if (this.themeSvc) {
       this.themeSvc.settingsChange
         .pipe(
@@ -236,6 +237,11 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
 
     // Let the styles render before gauging the affix dimensions.
     setTimeout(() => {
+      /*istanbul ignore next*/
+      if (!this.popoverRef?.nativeElement || !this.ngUnsubscribe || this.ngUnsubscribe.isStopped) {
+        return;
+      }
+
       if (!this.affixer) {
         this.setupAffixer();
       }

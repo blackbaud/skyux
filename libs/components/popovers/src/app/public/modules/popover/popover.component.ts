@@ -204,7 +204,7 @@ export class SkyPopoverComponent implements OnDestroy {
    * @internal
    */
   public close(): void {
-    this.contentRef.close();
+    this.contentRef?.close();
   }
 
   /**
@@ -212,7 +212,7 @@ export class SkyPopoverComponent implements OnDestroy {
    * @internal
    */
   public applyFocus(): void {
-    this.contentRef.applyFocus();
+    this.contentRef?.applyFocus();
   }
 
   /**
@@ -259,10 +259,12 @@ export class SkyPopoverComponent implements OnDestroy {
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(() => {
-        this.overlayService.close(this.overlay);
-        this.overlay = undefined;
-        this.isActive = false;
-        this.popoverClosed.emit(this);
+        if (this.isActive) {
+          this.overlayService.close(this.overlay);
+          this.overlay = undefined;
+          this.isActive = false;
+          this.popoverClosed.emit(this);
+        }
       });
 
     contentRef.isMouseEnter
