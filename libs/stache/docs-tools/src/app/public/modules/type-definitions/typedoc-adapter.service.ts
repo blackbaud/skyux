@@ -640,7 +640,18 @@ export class SkyDocsTypeDocAdapterService {
   }
 
   private getDefaultValue(child: TypeDocEntryChild, tags: SkyDocsCommentTags): string | undefined {
-    return tags.defaultValue || child.defaultValue || undefined;
+    if (tags.defaultValue) {
+      return tags.defaultValue;
+    }
+
+    // TypeDoc version 0.20.x stopped auto-generating initializers for the default value
+    // (and replaced them with "...") due to the complicated logic it required.
+    // See: https://github.com/TypeStrong/typedoc/issues/1552
+    if (child.defaultValue === '...') {
+      return;
+    }
+
+    return child.defaultValue;
   }
 
   private getAnchorId(entry: TypeDocEntry): string {
