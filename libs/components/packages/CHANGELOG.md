@@ -1,3 +1,7 @@
+# 5.0.0-beta.25 (2021-08-26)
+
+- `@skyux/animations@5.0.0-beta.1` [Release notes](https://github.com/blackbaud/skyux-animations/blob/5.0.0-beta.1/CHANGELOG.md)
+
 # 5.0.0-beta.24 (2021-08-26)
 
 - `@skyux/a11y@5.0.0-beta.1` [Release notes](https://github.com/blackbaud/skyux-a11y/blob/5.0.0-beta.1/CHANGELOG.md)
