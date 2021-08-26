@@ -1,3 +1,7 @@
+# 5.0.0-beta.24 (2021-08-26)
+
+- `@skyux/a11y@5.0.0-beta.1` [Release notes](https://github.com/blackbaud/skyux-a11y/blob/5.0.0-beta.1/CHANGELOG.md)
+
 # 5.0.0-beta.23 (2021-08-26)
 
 - `@skyux/modals@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-modals/blob/5.0.0-beta.2/CHANGELOG.md)
