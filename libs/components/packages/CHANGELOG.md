@@ -1,3 +1,7 @@
+# 5.0.0-beta.26 (2021-08-26)
+
+- `@skyux/flyout@5.0.0-beta.1` [Release notes](https://github.com/blackbaud/skyux-flyout/blob/5.0.0-beta.1/CHANGELOG.md)
+
 # 5.0.0-beta.25 (2021-08-26)
 
 - `@skyux/animations@5.0.0-beta.1` [Release notes](https://github.com/blackbaud/skyux-animations/blob/5.0.0-beta.1/CHANGELOG.md)
