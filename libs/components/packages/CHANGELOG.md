@@ -1,3 +1,7 @@
+# 5.0.0-beta.30 (2021-08-27)
+
+- `@skyux/indicators@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-indicators/blob/5.0.0-beta.2/CHANGELOG.md)
+
 # 5.0.0-beta.29 (2021-08-27)
 
 - `@skyux/tabs@5.0.0-beta.1` [Release notes](https://github.com/blackbaud/skyux-tabs/blob/5.0.0-beta.1/CHANGELOG.md)
