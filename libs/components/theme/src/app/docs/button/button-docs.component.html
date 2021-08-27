@@ -245,8 +245,11 @@
         heading="Components"
       >
         <ul>
-          <li>
+          <li *skyThemeIf="'default'">
             <a href="https://developer.blackbaud.com/skyux-layout/docs/toolbar?docs-active-tab=design">Toolbar</a>
+          </li>
+          <li *skyThemeIf="'modern'">
+            <a href="https://developer.blackbaud.com/skyux-layout/docs/toolbar?svcid=skyux-modern&docs-active-tab=design">Toolbar</a>
           </li>
         </ul>
       </sky-docs-design-guideline>
