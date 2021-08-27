@@ -1,3 +1,7 @@
+# 5.0.0-beta.28 (2021-08-27)
+
+- `@skyux/tiles@5.0.0-beta.1` [Release notes](https://github.com/blackbaud/skyux-tiles/blob/5.0.0-beta.1/CHANGELOG.md)
+
 # 5.0.0-beta.27 (2021-08-27)
 
 - `@skyux/assets@5.0.0-beta.1` [Release notes](https://github.com/blackbaud/skyux-assets/blob/5.0.0-beta.1/CHANGELOG.md)
