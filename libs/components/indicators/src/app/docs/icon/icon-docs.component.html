@@ -4,144 +4,178 @@
   pageTitle="Icon"
 >
   <sky-docs-demo-page-summary>
-    The icon component displays a Font Awesome icon or a custom SKY UX icon.
+    <p class="sky-docs-text-block">
+    Icons represent actions, content, and ideas, and they help define the visual identity of SKY UX applications. The icon component displays Font Awesome icons or custom SKY UX icons.
+    </p>
   </sky-docs-demo-page-summary>
-
-  <sky-docs-demo>
-    <div
-      class="sky-icon-demo"
-    >
-      <sky-icon
-        icon="bars"
-        size="lg"
-      >
-      </sky-icon>
-      <sky-icon
-        icon="chevron-down"
-        size="sm"
-      >
-      </sky-icon>
-      <sky-icon
-        icon="chevron-up"
-        size="5x"
-      >
-      </sky-icon>
-      <sky-icon
-        icon="cog"
-        size="2x"
-      >
-      </sky-icon>
-      <sky-icon
-        icon="comment"
-        size="xs"
-      >
-      </sky-icon>
-      <sky-icon
-        icon="database"
-        size="3x"
-      >
-      </sky-icon>
-      <sky-icon
-        fixedWidth="true"
-        icon="spinner"
-        size="3x"
-      >
-      </sky-icon>
-      <sky-icon
-        icon="trash"
-        size="sm"
-      >
-      </sky-icon>
-      <sky-icon
-        icon="users"
-        size="4x"
-      >
-      </sky-icon>
-      <sky-icon
-        icon="user"
-        size="5x"
-      >
-      </sky-icon>
-      <sky-icon
-        icon="sort"
-        iconType="skyux"
-        size="5x"
-      >
-      </sky-icon>
-    </div>
-  </sky-docs-demo>
-
 
   <sky-docs-design-guidelines>
 
     <sky-docs-demo-page-section
-      heading="Usage"
+      heading="Principles"
     >
-      <p>
-        Icons are pictorial representations of objects. They help define the visual identity of SKY UX applications, and they provide a shorthand to visually convey meaning that users can understand at a glance. SKY UX uses glyphic, mono-color icons to facilitate, guide, and inform users.
+      <p class="sky-docs-text-block">
+        Icons deliberately facilitate user comprehension and drive focus to actions or sections, and they follow these principles:
       </p>
-      <p>
-        Icons should not be used solely for decorative purposes.
-      </p>
-
       <sky-docs-design-guideline
-        heading="How to select icons"
+        heading="Global"
       >
-        <p>
-          To determine whether an icon is available for a new component, check the SKY UX icon dictionary below. Then make sure that your use case is consistent with how other components use the icon.
+        <p class="sky-docs-text-block">
+          Use established, universally-known icons in a purposeful manner wherever possible.
         </p>
-
-        <ul>
-          <li>
-            <p>
-              Do not use icons with established meanings for different purposes.
-            </p>
-          </li>
-          <li>
-            <p>
-              Be mindful of how icons are used in specific components such as <a href="https://developer.blackbaud.com/skyux/components/grid">grids</a>, <a href="https://developer.blackbaud.com/skyux/components/tiles">tiles</a>, <a href="https://developer.blackbaud.com/skyux/components/button">buttons</a>, and <a href="https://developer.blackbaud.com/skyux/components/modal">modals</a>
-            </p>
-          </li>
-        </ul>
-        <p>
-          Do not use icons with established meanings for different purposes.
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline
+        heading="Supplemental"
+      >
+        <p class="sky-docs-text-block">
+          Icons should be paired with text wherever possible; avoid using icons solely for decoration or visual interest.
+        </p>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline
+        heading="Specific"
+      >
+        <p class="sky-docs-text-block">
+          Icons should have a single meaning, and variations should be limited: A single icon should represent a common idea or subject and should not be abstract.
         </p>
       </sky-docs-design-guideline>
     </sky-docs-demo-page-section>
 
     <sky-docs-demo-page-section
-      heading="Styling"
+      heading="Usage"
     >
-      <p>
-        Icons usually inherit their size and color from parent elements, particularly when you use them inline. If you use icons in a non-inline context and need a different size, Font Awesome provides size multiplier classes. Use the smallest size multiple that accomplishes your goals.
-      </p>
+      <sky-docs-design-guideline
+        heading="Use when"
+        headingStyle="success"
+        >
+        <p>
+          Use icons alongside meaningful action labels to help users understand the purpose of actions at a glance.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          caption="Do use icons as a visual shorthand to supplement action labels."
+          captionType="success"
+          imageSource="~/assets/img/guidelines/icons/icon-usage-1.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+        <sky-docs-design-guideline-thumbnail
+          caption="Avoid standalone icons."
+          captionType="danger"
+          imageSource="~/assets/img/guidelines/icons/icon-usage-2.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline
+        heading="Don't use when"
+        headingStyle="danger"
+      >
+        <p>
+          Don't use icons solely for visual interest or decoration.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          caption="Don't use icons as decoration."
+          captionType="danger"
+          imageSource="~/assets/img/guidelines/icons/icon-usage-4.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+        <sky-docs-design-guideline-thumbnail
+          caption="Do exclude icons when they don't facilitate user comprehension or drive focus."
+          captionType="success"
+          imageSource="~/assets/img/guidelines/icons/icon-usage-3.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
+
+      <sky-docs-design-guideline
+      >
+        <p>
+          Don't use icons for multiple purposes. Each icon conveys a single, specific meaning that users can understand at a glance.
+        </p>
+        <sky-docs-design-guideline-thumbnail
+          caption="Don't use icons with established meanings for other purposes."
+          captionType="danger"
+          imageSource="~/assets/img/guidelines/icons/icon-usage-6.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+        <sky-docs-design-guideline-thumbnail
+          caption="Do use icons consistently to represent one specific idea or subject."
+          captionType="success"
+          imageSource="~/assets/img/guidelines/icons/icon-usage-5.png"
+        >
+        </sky-docs-design-guideline-thumbnail>
+      </sky-docs-design-guideline>
     </sky-docs-demo-page-section>
 
     <sky-docs-demo-page-section
-      heading="Dictionary"
+      heading="Behavior and states"
     >
-      <p>
-        The icon dictionary provides a complete list of the Font Awesome icons that we recommend for use in SKY UX. We support <a href="https://fontawesome.com/v4.7/icons/">Font Awesome version 4.7.0</a>. If Font Awesome does not have a particular icon, it is probably not common enough for its purpose to be immediately obvious to users.
+      <p class="sky-docs-text-block">
+        SKY UX uses simple, glyphic, mono-color icons to facilitate, guide, and inform users. Icons are designed in Blackbaud's brand personality, reflecting a human, visionary approach, and are built on the SKY UX's modern theme's visual language.
       </p>
+      <sky-docs-design-guideline
+        heading="Color"
+      >
+        <p class="sky-docs-text-block">
+          Icons are always a solid, monochromatic color and must meet the <a href="https://www.w3.org/WAI/WCAG21/Techniques/general/G207.html" target="_blank">WCAG contrast ratio of 3:1</a>. An icon's color should be reflective of the component to which it is tied. For more information, view the SKY UX color guidelines <span *skyThemeIf="'modern'">for modern theme</span>.
+        </p>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline
+        heading="Variations"
+      >
+        <p class="sky-docs-text-block">
+          SKY UX icons have two different style variations: outlined and filled. Use the outlined variation for all icons displayed within your experiences. The filled variation is only used to indicate state changes on a given component as described in its documentation.
+        </p>
+      </sky-docs-design-guideline>
+      <sky-docs-design-guideline
+      heading="Sizing"
+    >
+      <p class="sky-docs-text-block">
+        Icons usually inherit their size and color from parent elements, particularly when you use them inline. SKY UX icons are typically 16px to match standard body copy. Icons of varying size can be used depending on its parent's component specifications. 
+      </p>
+    </sky-docs-design-guideline>
+    <sky-docs-design-guideline
+      heading="Localization"
+    >
+      <p class="sky-docs-text-block">
+        The standard set of SKY UX icons are selected with global considerations with the goal to ensure that they are understood by international users of varying cultures and backgrounds.
+      </p>
+    </sky-docs-design-guideline>
     </sky-docs-demo-page-section>
-
-    <app-icon-docs-icon-list
-      iconType="fa"
-      [icons]="faIcons"
-    ></app-icon-docs-icon-list>
 
     <sky-docs-demo-page-section
-      heading="Custom icons (Beta)"
+      heading="Accessibility"
     >
-      <p>
-        SKY UX also provides a set of custom icons.
+      <p class="sky-docs-text-block">
+        Icons in SKY UX should be used in a way that meet <a href="https://www.w3.org/WAI/WCAG21/Techniques/general/G207.html" target="_blank">WCAG contrast standards</a>. Icons must meet a 3:1 contrast ratio with the background on which they're applied. 
       </p>
     </sky-docs-demo-page-section>
 
-    <app-icon-docs-icon-list
-      iconType="skyux"
-      [icons]="skyuxIcons"
-    ></app-icon-docs-icon-list>
+  <sky-docs-demo-page-section
+    heading="Contributing">
+    <p>
+      To request an icon not currently available in the SKY UX icon library, please reach out to the <code>@skyux-team</code> design team.
+    </p>
+  </sky-docs-demo-page-section>
+
+  <sky-docs-demo-page-section
+    heading="Inventory"
+  >
+  <p>
+    The SKY UX icon inventory continues to grow as we approve additional use cases.
+  </p>
+  <app-icon-docs-icon-list
+    iconType="fa"
+    [icons]="faIcons"
+    *skyThemeIf="'default'"
+  ></app-icon-docs-icon-list>
+  <div *skyThemeIf="'modern'">
+
+  </div>
+  <app-icon-docs-icon-list
+    iconType="skyux"
+    [icons]="skyuxIcons"
+    *skyThemeIf="'modern'"
+  ></app-icon-docs-icon-list>
+  </sky-docs-demo-page-section>
 
   </sky-docs-design-guidelines>
 
