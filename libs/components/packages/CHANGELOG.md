@@ -1,3 +1,7 @@
+# 5.0.0-beta.32 (2021-08-30)
+
+- `@skyux/toast@5.0.0-beta.1` [Release notes](https://github.com/blackbaud/skyux-toast/blob/5.0.0-beta.1/CHANGELOG.md)
+
 # 5.0.0-beta.31 (2021-08-27)
 
 - `@skyux/autonumeric@5.0.0-beta.1` [Release notes](https://github.com/blackbaud/skyux-autonumeric/blob/5.0.0-beta.1/CHANGELOG.md)
