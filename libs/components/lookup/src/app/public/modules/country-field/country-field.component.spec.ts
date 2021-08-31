@@ -53,7 +53,21 @@ import {
 } from './fixtures/country-field.component.fixture';
 
 describe('Country Field Component', () => {
+  let mockThemeSvc: any;
 
+  beforeEach(() => {
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+        {
+          currentSettings: new SkyThemeSettings(
+            SkyTheme.presets.default,
+            SkyThemeMode.presets.light
+          ),
+          previousSettings: undefined
+        }
+      )
+    };
+  });
   //#region helpers
 
   function blurInput(fixture: ComponentFixture<any>): void {
@@ -132,7 +146,10 @@ describe('Country Field Component', () => {
           CountryFieldTestComponent
         ],
         providers: [
-          SkyThemeService
+          {
+            provide: SkyThemeService,
+            useValue: mockThemeSvc
+          }
         ],
         imports: [
           FormsModule,
@@ -679,7 +696,10 @@ describe('Country Field Component', () => {
           CountryFieldReactiveTestComponent
         ],
         providers: [
-          SkyThemeService
+          {
+            provide: SkyThemeService,
+            useValue: mockThemeSvc
+          }
         ],
         imports: [
           ReactiveFormsModule,
@@ -1311,7 +1331,10 @@ describe('Country Field Component', () => {
           CountryFieldNoFormTestComponent
         ],
         providers: [
-          SkyThemeService
+          {
+            provide: SkyThemeService,
+            useValue: mockThemeSvc
+          }
         ],
         imports: [
           SkyCountryFieldModule
@@ -1607,21 +1630,8 @@ describe('Country Field Component', () => {
   describe('inside input box', () => {
     let fixture: ComponentFixture<CountryFieldInputBoxTestComponent>;
     let nativeElement: HTMLElement;
-    let mockThemeSvc: any;
 
     beforeEach(() => {
-      mockThemeSvc = {
-        settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
-          {
-            currentSettings: new SkyThemeSettings(
-              SkyTheme.presets.default,
-              SkyThemeMode.presets.light
-            ),
-            previousSettings: undefined
-          }
-        )
-      };
-
       TestBed.configureTestingModule({
         declarations: [
           CountryFieldInputBoxTestComponent
