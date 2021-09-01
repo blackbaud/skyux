@@ -1,3 +1,7 @@
+# 5.0.0-beta.37 (2021-09-01)
+
+- `@skyux/errors@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-errors/blob/5.0.0-beta.2/CHANGELOG.md)
+
 # 5.0.0-beta.36 (2021-09-01)
 
 - `@skyux/modals@5.0.0-beta.3` [Release notes](https://github.com/blackbaud/skyux-modals/blob/5.0.0-beta.3/CHANGELOG.md)
