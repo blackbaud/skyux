@@ -1,3 +1,7 @@
+# 5.0.0-beta.35 (2021-09-01)
+
+- `@skyux/i18n@5.0.0-beta.6` [Release notes](https://github.com/blackbaud/skyux-i18n/blob/5.0.0-beta.6/CHANGELOG.md)
+
 # 5.0.0-beta.34 (2021-08-31)
 
 - `@skyux/i18n@5.0.0-beta.5` [Release notes](https://github.com/blackbaud/skyux-i18n/blob/5.0.0-beta.5/CHANGELOG.md)
