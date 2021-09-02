@@ -84,4 +84,38 @@ describe('Intl number formatter', function () {
     }
   });
 
+  it('should format positive accounting values', function() {
+    const result = SkyIntlNumberFormatter.format(
+      100.12,
+      'en-US',
+      SkyIntlNumberFormatStyle.Currency,
+      {
+        currency: 'USD',
+        currencyAsSymbol: true,
+        currencySign: 'accounting'
+      }
+    );
+
+    verifyResult(result, '$100.12');
+  });
+
+  it('should format negative accounting values', function() {
+    const result = SkyIntlNumberFormatter.format(
+      -100.12,
+      'en-US',
+      SkyIntlNumberFormatStyle.Currency,
+      {
+        currency: 'USD',
+        currencyAsSymbol: true,
+        currencySign: 'accounting'
+      }
+    );
+
+    // IE 11 doesn't support currencySign
+    if (isIE && isWindows7) {
+      verifyResult(result, '-$100.12');
+    } else {
+      verifyResult(result, '($100.12)');
+    }
+  });
 });
