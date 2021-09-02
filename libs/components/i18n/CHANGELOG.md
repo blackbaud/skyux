@@ -1,6 +1,10 @@
+# 4.4.0 (2021-09-02)
+
+- Added a `getStrings()` method to `SkyLibResourcesService` for retrieving multiple resource strings in one asynchronous operation. [#125](https://github.com/blackbaud/skyux-i18n/pull/125) (Thanks [@ThomasOrtiz](https://github.com/ThomasOrtiz)!)
+
 # 4.3.0 (2021-09-02)
 
-- Updated the `SkyIntlNumberFormatter` utility to support the accounting currency sign. [#123](https://github.com/blackbaud/skyux-i18n/pull/123)
+- Updated the `SkyIntlNumberFormatter` utility to support the accounting currency sign. [#123](https://github.com/blackbaud/skyux-i18n/pull/123) (Thanks [@Blackbaud-TomMaszk](https://github.com/Blackbaud-TomMaszk)!)
 
 # 4.2.1 (2021-05-27)
 
