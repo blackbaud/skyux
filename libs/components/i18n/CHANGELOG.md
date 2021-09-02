@@ -1,3 +1,7 @@
+# 4.3.0 (2021-09-02)
+
+- Updated the `SkyIntlNumberFormatter` utility to support the accounting currency sign. [#123](https://github.com/blackbaud/skyux-i18n/pull/123)
+
 # 4.2.1 (2021-05-27)
 
 - Added a `getStrings()` method to `SkyAppResourcesTestService` to support unit testing code that uses `SkyAppResourcesService`. [#105](https://github.com/blackbaud/skyux-i18n/pull/105) (Thanks [@ThomasOrtiz](https://github.com/ThomasOrtiz)!)
