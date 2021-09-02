@@ -1,3 +1,7 @@
+# 5.0.0-beta.43 (2021-09-02)
+
+- `@skyux/http@5.0.0-beta.1` [Release notes](https://github.com/blackbaud/skyux-http/blob/5.0.0-beta.1/CHANGELOG.md)
+
 # 5.0.0-beta.42 (2021-09-02)
 
 - `@skyux/action-bars@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-action-bars/blob/5.0.0-beta.2/CHANGELOG.md)
