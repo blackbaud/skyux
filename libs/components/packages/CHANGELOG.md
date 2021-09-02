@@ -1,3 +1,7 @@
+# 5.0.0-beta.46 (2021-09-02)
+
+- `@skyux/layout@5.0.0-beta.3` [Release notes](https://github.com/blackbaud/skyux-layout/blob/5.0.0-beta.3/CHANGELOG.md)
+
 # 5.0.0-beta.45 (2021-09-02)
 
 - `@skyux/animations@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-animations/blob/5.0.0-beta.2/CHANGELOG.md)
