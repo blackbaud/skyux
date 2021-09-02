@@ -1,3 +1,7 @@
+# 5.0.0-beta.40 (2021-09-02)
+
+- `@skyux/data-manager@5.0.0-beta.3` [Release notes](https://github.com/blackbaud/skyux-data-manager/blob/5.0.0-beta.3/CHANGELOG.md)
+
 # 5.0.0-beta.39 (2021-09-02)
 
 - `@skyux/errors@5.0.0-beta.3` [Release notes](https://github.com/blackbaud/skyux-errors/blob/5.0.0-beta.3/CHANGELOG.md)
