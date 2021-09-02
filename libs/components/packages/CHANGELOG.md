@@ -1,3 +1,7 @@
+# 5.0.0-beta.42 (2021-09-02)
+
+- `@skyux/action-bars@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-action-bars/blob/5.0.0-beta.2/CHANGELOG.md)
+
 # 5.0.0-beta.41 (2021-09-02)
 
 - `@skyux/a11y@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-a11y/blob/5.0.0-beta.2/CHANGELOG.md)
