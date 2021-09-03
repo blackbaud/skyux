@@ -1,3 +1,7 @@
+# 5.0.0-beta.48 (2021-09-03)
+
+- `@skyux/i18n@5.0.0-beta.7` [Release notes](https://github.com/blackbaud/skyux-i18n/blob/5.0.0-beta.7/CHANGELOG.md)
+
 # 5.0.0-beta.47 (2021-09-02)
 
 - `@skyux/indicators@5.0.0-beta.3` [Release notes](https://github.com/blackbaud/skyux-indicators/blob/5.0.0-beta.3/CHANGELOG.md)
