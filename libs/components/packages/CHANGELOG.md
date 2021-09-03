@@ -1,3 +1,7 @@
+# 5.0.0-beta.49 (2021-09-03)
+
+- `@skyux/autonumeric@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-autonumeric/blob/5.0.0-beta.2/CHANGELOG.md)
+
 # 5.0.0-beta.48 (2021-09-03)
 
 - `@skyux/i18n@5.0.0-beta.7` [Release notes](https://github.com/blackbaud/skyux-i18n/blob/5.0.0-beta.7/CHANGELOG.md)
