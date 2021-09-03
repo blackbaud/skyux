@@ -72,7 +72,7 @@ describe('SkyHref Directive', () => {
 
     tick(100);
     const links = Array.from(fixture.nativeElement.querySelectorAll('a'));
-    expect(links.filter((e: HTMLElement) => !!e.offsetParent).length).toEqual(5);
+    expect(links.filter((e: HTMLElement) => !!e.offsetParent).length).toEqual(6);
   }));
 
   it('should hide links that the user cannot access', fakeAsync(() => {
@@ -225,5 +225,20 @@ describe('SkyHref Directive', () => {
       const element = fixture.nativeElement.querySelector('.dynamicLink a');
       expect(element.style.display).not.toBe('none');
     });
+  }));
+
+  it('should handle link with a fragment', fakeAsync(() => {
+    setup(
+      {},
+      false
+    );
+
+    fixture.detectChanges();
+    tick(100);
+
+    const element = fixture.nativeElement.querySelector('.fragmentLink a');
+    expect(element.getAttribute('href')).toEqual(
+      'https://success/example/page#foobar'
+    );
   }));
 });
