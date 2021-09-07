@@ -1,3 +1,7 @@
+# 5.0.0-beta.53 (2021-09-07)
+
+- `@skyux/forms@5.0.0-beta.3` [Release notes](https://github.com/blackbaud/skyux-forms/blob/5.0.0-beta.3/CHANGELOG.md)
+
 # 5.0.0-beta.52 (2021-09-07)
 
 - `@skyux/progress-indicator@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-progress-indicator/blob/5.0.0-beta.2/CHANGELOG.md)
