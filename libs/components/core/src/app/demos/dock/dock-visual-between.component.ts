@@ -1,9 +1,11 @@
 import {
   AfterViewInit,
-  Component
+  Component,
+  Host
 } from '@angular/core';
 
 import {
+  SkyDockLocation,
   SkyDockService
 } from '../../public/public_api';
 
@@ -16,11 +18,12 @@ import {
 } from './dock-item-visual.component';
 
 @Component({
-  selector: 'dock-visual',
-  templateUrl: './dock-visual.component.html',
-  styleUrls: ['./dock-visual.component.scss']
+  selector: 'dock-visual-between',
+  templateUrl: './dock-visual-between.component.html',
+  styleUrls: ['./dock-visual.component.scss', './dock-visual-between.component.scss'],
+  providers: [SkyDockService]
 })
-export class DockVisualComponent implements AfterViewInit {
+export class DockVisualBetweenComponent implements AfterViewInit {
 
   public stackOrder: number;
 
@@ -48,10 +51,14 @@ export class DockVisualComponent implements AfterViewInit {
   ];
 
   constructor(
-    private dockService: SkyDockService
+    @Host() private dockService: SkyDockService
   ) {}
 
   public ngAfterViewInit(): void {
+    this.dockService.setDockOptions({
+      location: SkyDockLocation.BeforeElement,
+      referenceEl: document.querySelector('#dock-visual-between-bottom')
+    });
     this.configs.forEach((config) => {
       this.addToDock(config);
     });

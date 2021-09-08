@@ -18,9 +18,13 @@ import {
   DockItemFixtureComponent
 } from './dock-item.component.fixture';
 
+import {
+  SkyDockOptions
+} from '../dock-options';
+
 @Component({
   selector: 'dock-test',
-  template: ''
+  template: '<div id="innerDiv"></div>'
 })
 export class DockFixtureComponent {
 
@@ -40,6 +44,10 @@ export class DockFixtureComponent {
 
   public removeAllItems(): void {
     this.dockItems.forEach(i => i.destroy());
+  }
+
+  public setOptions(options: SkyDockOptions): void {
+    this.dockService.setDockOptions(options);
   }
 
 }

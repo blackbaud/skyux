@@ -5,7 +5,6 @@ import {
   ComponentFactoryResolver,
   ElementRef,
   Injector,
-  OnInit,
   Type,
   ViewChild,
   ViewContainerRef
@@ -24,6 +23,14 @@ import {
 } from './dock-item-reference';
 
 import {
+  SkyDockLocation
+} from './dock-location';
+
+import {
+  SkyDockOptions
+} from './dock-options';
+
+import {
   sortByStackOrder
 } from './sort-by-stack-order';
 
@@ -39,7 +46,9 @@ import {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyDockComponent implements OnInit {
+export class SkyDockComponent  {
+
+  private options: SkyDockOptions;
 
   @ViewChild('target', {
     read: ViewContainerRef,
@@ -57,15 +66,10 @@ export class SkyDockComponent implements OnInit {
     private domAdapter: SkyDockDomAdapterService
   ) { }
 
-  public ngOnInit(): void {
-    this.domAdapter.watchDomChanges(this.elementRef);
-  }
-
   public insertComponent<T>(
     component: Type<T>,
     config: SkyDockInsertComponentConfig = {}
   ): SkyDockItemReference<T> {
-
     const factory = this.resolver.resolveComponentFactory(component);
     const injector = Injector.create({
       providers: config.providers || [],
@@ -98,6 +102,18 @@ export class SkyDockComponent implements OnInit {
 
     const found = this.itemRefs.find(i => i.componentRef.hostView === viewRef);
     this.itemRefs.splice(this.itemRefs.indexOf(found), 1);
+  }
+
+  public setOptions(options: SkyDockOptions): void {
+    this.options = options;
+
+    if (this.options?.location === SkyDockLocation.BeforeElement) {
+      this.domAdapter.unbindDock(this.elementRef);
+    }
+
+    if (this.options?.zIndex) {
+      this.domAdapter.setZIndex(this.options.zIndex, this.elementRef);
+    }
   }
 
   private sortItemsByStackOrder(): void {

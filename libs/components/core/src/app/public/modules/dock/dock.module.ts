@@ -18,10 +18,6 @@ import {
   SkyDockComponent
 } from './dock.component';
 
-import {
-  SkyDockService
-} from './dock.service';
-
 @NgModule({
   imports: [
     CommonModule,
@@ -34,8 +30,7 @@ import {
     SkyDockComponent
   ],
   providers: [
-    MutationObserverService,
-    SkyDockService
+    MutationObserverService
   ]
 })
 export class SkyDockModule { }

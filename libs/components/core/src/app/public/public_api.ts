@@ -17,6 +17,8 @@ export * from './modules/affix/affixer';
 export * from './modules/dock/dock-insert-component-config';
 export * from './modules/dock/dock-item';
 export * from './modules/dock/dock-item-config';
+export * from './modules/dock/dock-location';
+export * from './modules/dock/dock-options';
 export * from './modules/dock/dock.module';
 export * from './modules/dock/dock.service';
 

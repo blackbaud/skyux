@@ -34,41 +34,46 @@ import {
 } from './dynamic-component-location';
 
 describe('Dynamic component service', () => {
-  let cmpRef: ComponentRef<DynamicComponentTestComponent>;
+  let cmpRefs: ComponentRef<DynamicComponentTestComponent>[] = [];
   let applicationRef: ApplicationRef;
 
   function createTestComponent(
-    location?: SkyDynamicComponentLocation
+    location?: SkyDynamicComponentLocation,
+    reference?: HTMLElement
   ): ComponentRef<DynamicComponentTestComponent> {
-    const svc: SkyDynamicComponentService = TestBed.get(SkyDynamicComponentService);
+    const svc: SkyDynamicComponentService = TestBed.inject(SkyDynamicComponentService);
 
-    cmpRef = svc.createComponent(
+    let cmpRef: ComponentRef<DynamicComponentTestComponent> = svc.createComponent(
       DynamicComponentTestComponent,
-      location && {
-        location
+      {
+        location: location,
+        referenceEl: reference
       }
     );
 
     cmpRef.changeDetectorRef.detectChanges();
     applicationRef.tick();
 
+    cmpRefs.push(cmpRef);
     return cmpRef;
   }
 
   function removeTestComponent(
     refToRemove: ComponentRef<any>
   ): ComponentRef<DynamicComponentTestComponent> {
-    const svc: SkyDynamicComponentService = TestBed.get(SkyDynamicComponentService);
+    const svc: SkyDynamicComponentService = TestBed.inject(SkyDynamicComponentService);
 
     svc.removeComponent(refToRemove);
 
     applicationRef.tick();
 
-    return cmpRef;
+    cmpRefs = cmpRefs.filter(cmpRef => cmpRef !== refToRemove);
+
+    return refToRemove;
   }
 
-  function getComponentEl(): any {
-    return (cmpRef.hostView as EmbeddedViewRef<any>).rootNodes[0];
+  function getComponentEl(index: number): any {
+    return (cmpRefs[index].hostView as EmbeddedViewRef<any>).rootNodes[0];
   }
 
   beforeEach(() => {
@@ -104,15 +109,17 @@ describe('Dynamic component service', () => {
   );
 
   afterEach(() => {
-    if (cmpRef) {
-      removeTestComponent(cmpRef);
+    if (cmpRefs.length) {
+      for (let cmpRef of cmpRefs) {
+        removeTestComponent(cmpRef);
+      }
     }
   });
 
   it('should add a component to the page', () => {
     createTestComponent();
 
-    const el = getComponentEl();
+    const el = getComponentEl(0);
 
     expect(document.body.lastChild).toBe(el);
     expect(el.querySelector('.component-test')).toHaveText('Hello world');
@@ -121,18 +128,46 @@ describe('Dynamic component service', () => {
   it('should allow components to be created at the top of the page', () => {
     createTestComponent(SkyDynamicComponentLocation.BodyTop);
 
-    expect(document.body.firstChild).toBe(getComponentEl());
+    expect(document.body.firstChild).toBe(getComponentEl(0));
+  });
+
+  it('should allow components to be created in the bottom of another element', () => {
+    const referenceRef = createTestComponent(SkyDynamicComponentLocation.BodyTop);
+    const referenceEl = referenceRef.location.nativeElement;
+
+    createTestComponent(SkyDynamicComponentLocation.ElementBottom, referenceEl);
+
+    expect(referenceEl.lastChild).toBe(getComponentEl(1));
+  });
+
+  it('should allow components to be created in the top of another element', () => {
+    const referenceRef = createTestComponent(SkyDynamicComponentLocation.BodyTop);
+    const referenceEl = referenceRef.location.nativeElement;
+
+    createTestComponent(SkyDynamicComponentLocation.ElementTop, referenceEl);
+
+    expect(referenceEl.firstChild).toBe(getComponentEl(1));
+  });
+
+  it('should allow components to be created in the top of another element', () => {
+    const referenceRef = createTestComponent(SkyDynamicComponentLocation.BodyTop);
+    const referenceEl = referenceRef.location.nativeElement;
+
+    createTestComponent(SkyDynamicComponentLocation.BeforeElement, referenceEl);
+
+    expect(document.body.firstChild).toBe(getComponentEl(1));
+    expect(document.body.firstChild.nextSibling).toBe(getComponentEl(0));
   });
 
   it('should remove a component from the page', () => {
     createTestComponent();
 
-    const el = getComponentEl();
+    const el = getComponentEl(0);
 
     expect(document.body.lastChild).toBe(el);
     expect(el.querySelector('.component-test')).toHaveText('Hello world');
 
-    removeTestComponent(cmpRef);
+    removeTestComponent(cmpRefs[0]);
 
     expect(document.body.lastChild).not.toBe(el);
   });

@@ -6,17 +6,8 @@ import {
 } from '@angular/core/testing';
 
 import {
-  StaticProvider
-} from '@angular/core';
-
-import {
-  expect,
-  SkyAppTestUtility
+  expect
 } from '@skyux-sdk/testing';
-
-import {
-  MutationObserverService
-} from '../mutation/mutation-observer-service';
 
 import {
   DockFixtureComponent
@@ -27,19 +18,18 @@ import {
 } from './fixtures/dock.module.fixture';
 
 import {
-  DockItemFixtureContext
-} from './fixtures/dock-item-context.fixture';
-
-import {
   SkyDockInsertComponentConfig
 } from './dock-insert-component-config';
 
-const STYLE_ELEMENT_SELECTOR = '[data-test-selector="sky-layout-dock-bottom-styles"]';
+import {
+  SkyDockLocation
+} from './dock-location';
+
+const isIE = window.navigator.userAgent.indexOf('rv:11.0') >= 0;
 
 describe('Dock component', () => {
 
   let fixture: ComponentFixture<DockFixtureComponent>;
-  let mutationCallbacks: Function[];
 
   function resetDockItems(itemConfigs: SkyDockInsertComponentConfig[]): void {
     fixture.componentInstance.removeAllItems();
@@ -59,59 +49,17 @@ describe('Dock component', () => {
     });
   }
 
-  /**
-   * Mocks the mutation observer callback on DOM change.
-   * Angular does not patch `MutationObserver` as a `Task` (like `setTimeout`) so observer callbacks
-   * never get triggered in a `fakeAsync` zone.
-   * See: https://github.com/angular/angular/issues/31695#issuecomment-425589295
-   */
-  function triggerMutationChange(): void {
-    mutationCallbacks[0]();
-    fixture.detectChanges();
-    tick();
-  }
-
-  function triggerWindowResize(): void {
-    SkyAppTestUtility.fireDomEvent(window, 'resize');
-    fixture.detectChanges();
-    tick(250); // Respect the RxJS debounceTime.
-    fixture.detectChanges();
-    tick();
-  }
-
-  function getStyleElement(): HTMLStyleElement {
-    return document.getElementsByTagName('head')[0].querySelector(STYLE_ELEMENT_SELECTOR);
-  }
-
-  function getProviders(args: any): StaticProvider[] {
-    return [
-      {
-        provide: DockItemFixtureContext,
-        useValue: new DockItemFixtureContext(args)
-      }
-    ];
+  function getDockStyle(): CSSStyleDeclaration {
+    const dock: HTMLElement = document.getElementsByTagName('sky-dock')[0] as HTMLElement;
+    return window.getComputedStyle(dock);
   }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         DockFixturesModule
-      ],
-      providers: [{
-        provide: MutationObserverService,
-        useValue: {
-          create: function (callback: Function): any {
-            mutationCallbacks.push(callback);
-            return {
-              observe() {},
-              disconnect() {}
-            };
-          }
-        }
-      }]
+      ]
     });
-
-    mutationCallbacks = [];
     fixture = TestBed.createComponent(DockFixtureComponent);
   });
 
@@ -120,11 +68,6 @@ describe('Dock component', () => {
     expect(document.querySelectorAll('sky-dock').length).toEqual(1);
     resetDockItems([]);
     expect(document.querySelectorAll('sky-dock').length).toEqual(0);
-
-    // Verify the style elements are removed.
-    const headElement = document.getElementsByTagName('head')[0];
-    const styleElements = headElement.querySelectorAll(STYLE_ELEMENT_SELECTOR);
-    expect(styleElements.length).toEqual(0);
 
     fixture.destroy();
   }));
@@ -180,89 +123,96 @@ describe('Dock component', () => {
     verifyStackOrder([0]);
   }));
 
-  it('should apply margin to the `body` to accommodate item height', fakeAsync(() => {
-    resetDockItems([
-      {
-        providers: getProviders({ height: 10 })
-      },
-      {
-        providers: getProviders({ height: 20 })
-      },
-      {
-        providers: getProviders({ height: 30 })
-      }
-    ]);
+  // Disabling these tests in IE 11 due to IE not supporting sticky positioning.
+  if (!isIE) {
 
-    triggerMutationChange();
+    it('should apply the correct positioning styles to a dock which is bound to the body bottom', fakeAsync(() => {
+      resetDockItems([
+        {
+          stackOrder: 0
+        }
+      ]);
 
-    const styleElement = getStyleElement();
+      fixture.detectChanges();
+      tick();
 
-    expect(styleElement.textContent).toContain(`body { margin-bottom: 60px; }`);
-  }));
+      const dockStyle = getDockStyle();
 
-  it('should adjust `body` margin if window resized', fakeAsync(() => {
-    resetDockItems([
-      {
-        providers: getProviders({ height: 10 })
-      },
-      {
-        providers: getProviders({ height: 20 })
-      },
-      {
-        providers: getProviders({ height: 30 })
-      }
-    ]);
+      expect(document.body.lastChild).toBe(document.querySelector('sky-dock'));
+      expect(dockStyle.position).toBe('sticky');
+      expect(dockStyle.right).toBe('0px');
+      expect(dockStyle.left).toBe('0px');
+      expect(dockStyle.bottom).toBe('0px');
+    }));
 
-    triggerWindowResize();
+    it('should apply the correct positioning styles to a dock which is bound to an element bottom', fakeAsync(() => {
+      const innerDiv: HTMLElement = document.querySelector('#innerDiv');
+      fixture.componentInstance.setOptions({
+        location: SkyDockLocation.ElementBottom,
+        referenceEl: innerDiv
+      });
 
-    const styleElement = getStyleElement();
+      resetDockItems([
+        {
+          stackOrder: 0
+        }
+      ]);
 
-    expect(styleElement.textContent).toContain(`body { margin-bottom: 60px; }`);
-  }));
+      fixture.detectChanges();
+      tick();
 
-  it('should not adjust `body` margin if dock height unchanged', fakeAsync(() => {
-    resetDockItems([
-      {
-        providers: getProviders({ height: 10 })
-      }
-    ]);
+      const dockStyle = getDockStyle();
 
-    triggerMutationChange();
+      expect(innerDiv.lastChild).toBe(document.querySelector('sky-dock'));
+      expect(dockStyle.position).toBe('sticky');
+      expect(dockStyle.right).toBe('0px');
+      expect(dockStyle.left).toBe('0px');
+      expect(dockStyle.bottom).toBe('0px');
+    }));
 
-    const originalStyleElement = getStyleElement();
+    it('should apply the correct positioning styles to a dock which is bound before an element', fakeAsync(() => {
+      const innerDiv: HTMLElement = document.querySelector('#innerDiv');
+      fixture.componentInstance.setOptions({
+        location: SkyDockLocation.BeforeElement,
+        referenceEl: innerDiv
+      });
 
-    triggerWindowResize();
+      resetDockItems([
+        {
+          stackOrder: 0
+        }
+      ]);
 
-    const newStyleElement = getStyleElement();
+      fixture.detectChanges();
+      tick();
 
-    // If the style element is unaffected, the margin styles were left unchanged.
-    expect(newStyleElement).toEqual(originalStyleElement);
-  }));
+      const dockStyle = getDockStyle();
 
-  it('should remove old style elements on changes', fakeAsync(() => {
-    resetDockItems([
-      {
-        providers: getProviders({ height: 10 })
-      }
-    ]);
+      expect(innerDiv.previousSibling).toBe(document.querySelector('sky-dock'));
+      expect(dockStyle.position).toBe('static');
+      expect(dockStyle.right).not.toBe('0px');
+      expect(dockStyle.left).not.toBe('0px');
+      expect(dockStyle.bottom).not.toBe('0px');
+    }));
 
-    triggerMutationChange();
+  }
 
-    const originalStyleElement = getStyleElement();
-
-    // Add a dock item to affect the dock's height.
-    fixture.componentInstance.addItem({
-      providers: getProviders({ height: 40 })
+  it('should set the z-index if given via a dock service option', fakeAsync(() => {
+    fixture.componentInstance.setOptions({
+      zIndex: 5
     });
+
+    resetDockItems([
+      {
+        stackOrder: 0
+      }
+    ]);
 
     fixture.detectChanges();
     tick();
 
-    triggerMutationChange();
-
-    const newStyleElement = getStyleElement();
-
-    expect(originalStyleElement).not.toEqual(newStyleElement);
+    /// The `toString` is needed for IE
+    expect((<any> getDockStyle().zIndex).toString()).toBe('5');
   }));
 
 });

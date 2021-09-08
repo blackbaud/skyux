@@ -1,15 +1,85 @@
-<button
-  class="sky-btn sky-btn-default"
-  type="button"
-  (click)="createComponent()"
+<div
+  id="demo-buttons"
 >
-  Create component
-</button>
+  <div>
+    <button
+      class="sky-btn sky-btn-default"
+      type="button"
+      (click)="createComponentBottom()"
+    >
+      Create component (BodyBottom)
+    </button>
 
-<button
-  class="sky-btn sky-btn-default"
-  type="button"
-  (click)="removeComponent()"
+    <button
+      class="sky-btn sky-btn-default"
+      type="button"
+      (click)="removeComponentBottom()"
+    >
+      Remove component (BodyBottom)
+    </button>
+  </div>
+
+  <div>
+    <button
+      class="sky-btn sky-btn-default"
+      type="button"
+      (click)="createComponentTop()"
+    >
+      Create component (BodyTop)
+    </button>
+
+    <button
+      class="sky-btn sky-btn-default"
+      type="button"
+      (click)="removeComponentTop()"
+    >
+      Remove component (BodyTop)
+    </button>
+  </div>
+
+  <div>
+    <button
+      class="sky-btn sky-btn-default"
+      type="button"
+      (click)="createComponentElementBottom()"
+    >
+      Create component (ElementBottom)
+    </button>
+
+    <button
+      class="sky-btn sky-btn-default"
+      type="button"
+      (click)="removeComponentElementBottom()"
+    >
+      Remove component (ElementBottom)
+    </button>
+  </div>
+
+  <div>
+    <button
+      class="sky-btn sky-btn-default"
+      type="button"
+      (click)="createComponentElementTop()"
+    >
+      Create component (ElementTop)
+    </button>
+
+    <button
+      class="sky-btn sky-btn-default"
+      type="button"
+      (click)="removeComponentElementTop()"
+    >
+      Remove component (ElementTop)
+    </button>
+  </div>
+</div>
+
+<div
+  id="content-ref"
+  #contentRef
 >
-  Remove component
-</button>
+  <div
+    id="content-break"
+  >
+  </div>
+</div>

@@ -5,10 +5,6 @@ import {
 } from '@angular/core';
 
 import {
-  SkyDynamicComponentService
-} from '../dynamic-component/dynamic-component.service';
-
-import {
   SkyDockItem
 } from './dock-item';
 
@@ -21,13 +17,35 @@ import {
 } from './dock-insert-component-config';
 
 import {
+  SkyDockLocation
+} from './dock-location';
+
+import {
+  SkyDockOptions
+} from './dock-options';
+
+import {
+  SkyDynamicComponentLocation
+} from '../dynamic-component/dynamic-component-location';
+
+import {
+  SkyDynamicComponentOptions
+} from '../dynamic-component/dynamic-component-options';
+
+import {
+  SkyDynamicComponentService
+} from '../dynamic-component/dynamic-component.service';
+
+import {
   sortByStackOrder
 } from './sort-by-stack-order';
 
 /**
  * This service docks components to specific areas on the page.
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class SkyDockService {
 
   /**
@@ -38,6 +56,8 @@ export class SkyDockService {
   }
 
   private dockRef: ComponentRef<SkyDockComponent>;
+
+  private options: SkyDockOptions;
 
   private _items: SkyDockItem<any>[] = [];
 
@@ -72,8 +92,42 @@ export class SkyDockService {
     return item;
   }
 
+  /**
+   * Sets options for the positioning and styling of the dock component. Since the dock service is a
+   * singleton instance, these options will be applied to all components inserted into the dock. In
+   * order to create a seperate dock with different options, consumers should provide a different
+   * instance of the dock service.
+   * @param options The options for positioning and styling
+   */
+  public setDockOptions(options: SkyDockOptions): void {
+    this.options = options;
+  }
+
   private createDock(): void {
-    this.dockRef = this.dynamicComponentService.createComponent(SkyDockComponent);
+    let dockOptions: SkyDynamicComponentOptions;
+
+    if (this.options) {
+      let dynamicLocation: SkyDynamicComponentLocation;
+      switch (this.options.location) {
+        case SkyDockLocation.BeforeElement:
+          dynamicLocation = SkyDynamicComponentLocation.BeforeElement;
+          break;
+        case SkyDockLocation.ElementBottom:
+          dynamicLocation = SkyDynamicComponentLocation.ElementBottom;
+          break;
+        default:
+          dynamicLocation = SkyDynamicComponentLocation.BodyTop;
+          break;
+      }
+
+      dockOptions = {
+        location: dynamicLocation,
+        referenceEl: this.options.referenceEl
+      };
+    }
+
+    this.dockRef = this.dynamicComponentService.createComponent(SkyDockComponent, dockOptions);
+    this.dockRef.instance.setOptions(this.options);
   }
 
   private destroyDock(): void {

@@ -67,6 +67,15 @@ export class SkyDynamicComponentService {
     const bodyEl = this.windowRef.nativeWindow.document.body;
 
     switch (options.location) {
+      case SkyDynamicComponentLocation.BeforeElement:
+        this.renderer.insertBefore(options.referenceEl.parentElement, el, options.referenceEl);
+        break;
+      case SkyDynamicComponentLocation.ElementTop:
+        this.renderer.insertBefore(options.referenceEl, el, options.referenceEl.firstChild);
+        break;
+      case SkyDynamicComponentLocation.ElementBottom:
+        this.renderer.appendChild(options.referenceEl, el);
+        break;
       case SkyDynamicComponentLocation.BodyTop:
         this.renderer.insertBefore(bodyEl, el, bodyEl.firstChild);
         break;
