@@ -21,6 +21,7 @@
   "ng-update": {
     "migrations": "./migrations/migration-collection.json",
     "packageGroup": {
+      "@skyux-sdk/documentation-schematics": "^5.0.0-beta.0",
       "@skyux-sdk/testing": "^5.0.0-beta.0",
       "@skyux/a11y": "^5.0.0-beta.0",
       "@skyux/action-bars": "^5.0.0-beta.0",
@@ -35,6 +36,7 @@
       "@skyux/core": "^5.0.0-beta.0",
       "@skyux/data-manager": "^5.0.0-beta.0",
       "@skyux/datetime": "^5.0.0-beta.0",
+      "@skyux/e2e-client": "^5.0.0",
       "@skyux/errors": "^5.0.0-beta.0",
       "@skyux/flyout": "^5.0.0-beta.0",
       "@skyux/forms": "^5.0.0-beta.0",
