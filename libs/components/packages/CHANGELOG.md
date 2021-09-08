@@ -1,3 +1,7 @@
+# 5.0.0-beta.58 (2021-09-08)
+
+- `@skyux/angular-tree-component@5.0.0-beta.0` [Release notes](https://github.com/blackbaud/skyux-angular-tree-component/blob/5.0.0-beta.0/CHANGELOG.md)
+
 # 5.0.0-beta.57 (2021-09-08)
 
 - `@skyux/action-bars@5.0.0-beta.3` [Release notes](https://github.com/blackbaud/skyux-action-bars/blob/5.0.0-beta.3/CHANGELOG.md)
