@@ -1,3 +1,7 @@
+# 5.0.0-beta.57 (2021-09-08)
+
+- `@skyux/action-bars@5.0.0-beta.3` [Release notes](https://github.com/blackbaud/skyux-action-bars/blob/5.0.0-beta.3/CHANGELOG.md)
+
 # 5.0.0-beta.56 (2021-09-08)
 
 - `@skyux/autonumeric@5.0.0-beta.3` [Release notes](https://github.com/blackbaud/skyux-autonumeric/blob/5.0.0-beta.3/CHANGELOG.md)
