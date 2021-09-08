@@ -9,6 +9,7 @@ import {
 import {
   expect, expectAsync
 } from '@skyux-sdk/testing';
+import { NumericOptions } from '@skyux/core';
 
 import {
   SkyCellClass
@@ -23,6 +24,10 @@ import {
 } from '../../fixtures/ag-grid.module.fixture';
 
 import {
+  ValidatorOptions
+} from '../../types/validator-options';
+
+import {
   SkyAgGridCellRendererCurrencyComponent
 } from './cell-renderer-currency.component';
 
@@ -34,10 +39,6 @@ import {
   Column,
   RowNode
 } from 'ag-grid-community';
-
-import {
-  NumericOptions
-} from '@skyux/core';
 
 describe('SkyAgGridCellRendererCurrencyComponent', () => {
   let currencyFixture: ComponentFixture<SkyAgGridCellRendererCurrencyComponent>;
@@ -73,12 +74,16 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
       columnApi: undefined,
       data: undefined,
       rowIndex: undefined,
-      api: undefined,
+      api: {
+        getCellRendererInstances: () => {
+          return [];
+        }
+      },
       context: undefined,
       $scope: undefined,
       eGridCell: undefined,
       formatValue: undefined,
-      skyComponentProperties: {} as NumericOptions
+      skyComponentProperties: {} as NumericOptions & ValidatorOptions
     } as SkyCellRendererCurrencyParams;
   });
 
@@ -111,10 +116,54 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
     }));
   });
 
+  describe('parameters', () => {
+
+    it('sets the SkyAgGridCellRendererCurrencyComponent params', fakeAsync(() => {
+      cellRendererParams.value = 123;
+      cellRendererParams.skyComponentProperties.format = 'currency';
+      cellRendererParams.skyComponentProperties.iso = 'USD';
+
+      expect(currencyComponent.value).toBeUndefined();
+
+      currencyComponent.params = cellRendererParams;
+
+      currencyFixture.detectChanges();
+      tick();
+      currencyFixture.detectChanges();
+
+      expect(currencyComponent.value).toBe(123);
+    }));
+  });
+
   describe('refresh', () => {
-    it('returns false', () => {
-      expect(currencyComponent.refresh()).toBe(false);
+    it('returns true', () => {
+      expect(currencyComponent.refresh(cellRendererParams)).toBe(true);
     });
+
+    it('updates the value if the params have changed', fakeAsync(() => {
+      cellRendererParams.value = 123;
+      cellRendererParams.skyComponentProperties.format = 'currency';
+      cellRendererParams.skyComponentProperties.iso = 'USD';
+
+      expect(currencyComponent.value).toBeUndefined();
+
+      currencyComponent.agInit(cellRendererParams);
+
+      currencyFixture.detectChanges();
+      tick();
+      currencyFixture.detectChanges();
+
+      expect(currencyComponent.value).toBe(123);
+
+      cellRendererParams.value = 245;
+      currencyComponent.refresh(cellRendererParams);
+
+      currencyFixture.detectChanges();
+      tick();
+      currencyFixture.detectChanges();
+
+      expect(currencyComponent.value).toBe(245);
+    }));
   });
 
   it('should pass accessibility', async(() => {

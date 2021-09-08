@@ -68,6 +68,33 @@ export class SkyAgGridFixtureComponent implements OnInit {
       headerName: 'Currency amount',
       editable: true,
       type: SkyCellType.Currency
+    },
+    {
+      field: 'validNumber',
+      headerName: 'Valid number',
+      editable: true,
+      type: SkyCellType.NumberValidator
+    },
+    {
+      field: 'validCurrency',
+      headerName: 'Valid currency',
+      editable: true,
+      type: SkyCellType.Currency
+    },
+    {
+      field: 'validDate',
+      headerName: 'Valid date',
+      editable: true,
+      type: [SkyCellType.Date, SkyCellType.Validator],
+      cellRendererParams: {
+        skyComponentProperties: {
+          validator: (value: Date) => {
+            const dt = new Date(1985, 10, 5, 12);
+            return !!value && value > dt;
+          },
+          validatorMessage: 'Please enter a future date'
+        }
+      }
     }
   ];
 

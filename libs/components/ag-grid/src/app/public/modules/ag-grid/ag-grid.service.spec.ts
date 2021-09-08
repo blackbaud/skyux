@@ -8,6 +8,7 @@ import {
   GridOptions,
   ValueFormatterParams
 } from 'ag-grid-community';
+import { ICellRendererParams } from 'ag-grid-community/dist/lib/rendering/cellRenderers/iCellRenderer';
 
 import {
   BehaviorSubject
@@ -561,6 +562,147 @@ describe('SkyAgGridService', () => {
       const editable = cellClassRuleUneditableFunction(cellClassParams);
 
       expect(editable).toBeFalsy();
+    });
+  });
+
+  describe('getDefaultGridOptions validator', () => {
+    let cellClassRuleValidatorFunction: Function;
+    let cellClassParams: CellClassParams;
+    let cellRendererParams: ICellRendererParams;
+
+    beforeEach(() => {
+      const cellClassRuleValidator = defaultGridOptions.columnTypes[SkyCellType.Validator].cellClassRules[SkyCellClass.Invalid];
+      if (typeof cellClassRuleValidator === 'function') {
+        cellClassRuleValidatorFunction = cellClassRuleValidator;
+      }
+
+      cellClassParams = {
+        value: undefined,
+        data: undefined,
+        node: undefined,
+        rowIndex: undefined,
+        $scope: undefined,
+        api: undefined,
+        columnApi: new ColumnApi(),
+        context: undefined,
+        colDef: {}
+      };
+
+      cellRendererParams = {
+        $scope: undefined,
+        addRenderedRowListener(): void {},
+        api: undefined,
+        colDef: {},
+        column: undefined,
+        columnApi: undefined,
+        context: undefined,
+        data: undefined,
+        eGridCell: undefined,
+        eParentOfValue: undefined,
+        formatValue(): any {},
+        getValue(): any {},
+        node: undefined,
+        refreshCell(): void {},
+        rowIndex: 0,
+        setValue(): void {},
+        value: 1.23,
+        valueFormatted: undefined
+      } as ICellRendererParams;
+    });
+
+    it('should return false when there is no validator function', () => {
+      const invalidClass = cellClassRuleValidatorFunction(cellClassParams);
+
+      expect(invalidClass).toBeFalsy();
+    });
+
+    it('should return false when the validator function passes', () => {
+      cellClassParams.colDef.cellRendererParams = {
+        skyComponentProperties: {
+          validator: () => true
+        }
+      };
+      const invalidClass = cellClassRuleValidatorFunction(cellClassParams);
+
+      expect(invalidClass).toBeFalsy();
+    });
+
+    it('should return true when the validator function fails', () => {
+      cellClassParams.colDef.cellRendererParams = {
+        skyComponentProperties: {
+          validator: () => false
+        }
+      };
+      const invalidClass = cellClassRuleValidatorFunction(cellClassParams);
+
+      expect(invalidClass).toBeTruthy();
+    });
+
+    it('should select currency cell renderer when the validator function passes', () => {
+      const cellRendererSelector = defaultGridOptions.columnTypes[SkyCellType.CurrencyValidator].cellRendererSelector;
+      const validator = defaultGridOptions.columnTypes[SkyCellType.CurrencyValidator].cellRendererParams.skyComponentProperties.validator;
+      const params = {
+        ...cellRendererParams,
+        colDef: {
+          cellRendererParams: {
+            skyComponentProperties: {
+              validator
+            }
+          }
+        },
+        value: 1.23
+      } as ICellRendererParams;
+      expect(cellRendererSelector(params).component).toBe('sky-ag-grid-cell-renderer-currency');
+    });
+
+    it('should select validator cell renderer when the validator function fails', () => {
+      const cellRendererSelector = defaultGridOptions.columnTypes[SkyCellType.NumberValidator].cellRendererSelector;
+      const validator = defaultGridOptions.columnTypes[SkyCellType.NumberValidator].cellRendererParams.skyComponentProperties.validator;
+      const params = {
+        ...cellRendererParams,
+        colDef: {
+          cellRendererParams: {
+            skyComponentProperties: {
+              validator
+            }
+          }
+        },
+        value: 'invalid'
+      } as ICellRendererParams;
+      expect(cellRendererSelector(params).component).toBe('sky-ag-grid-cell-renderer-validator-tooltip');
+    });
+
+    it('should select currency cell renderer when the validator function omitted', () => {
+      const cellRendererSelector = defaultGridOptions.columnTypes[SkyCellType.Currency].cellRendererSelector;
+      const params = {
+        ...cellRendererParams,
+        colDef: {
+          cellRendererParams: {
+            skyComponentProperties: {
+              validator: undefined
+            }
+          }
+        },
+        value: 1.23
+      } as ICellRendererParams;
+      expect(cellRendererSelector(params).component).toBe('sky-ag-grid-cell-renderer-currency');
+    });
+
+    it('should select validator cell renderer when the value is empty', () => {
+      const cellRendererSelector = defaultGridOptions.columnTypes[SkyCellType.CurrencyValidator].cellRendererSelector;
+      const validator = defaultGridOptions.columnTypes[SkyCellType.CurrencyValidator].cellRendererParams.skyComponentProperties.validator;
+      const params = {
+        ...cellRendererParams,
+        colDef: {
+          cellRendererParams: {
+            skyComponentProperties: {
+              validator
+            }
+          }
+        },
+        value: ''
+      } as ICellRendererParams;
+      expect(cellRendererSelector(params).component).toBe('sky-ag-grid-cell-renderer-currency-validator');
     });
   });
 });

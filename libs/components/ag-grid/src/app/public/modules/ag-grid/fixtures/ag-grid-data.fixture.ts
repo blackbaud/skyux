@@ -6,6 +6,9 @@ export class SkyAgGridRow {
   public target: number;
   public date?: Date;
   public selected: boolean;
+  public validNumber?: number;
+  public validCurrency?: string;
+  public validDate?: Date;
 }
 
 export const SKY_AG_GRID_DATA: SkyAgGridRow[] = [
@@ -15,13 +18,19 @@ export const SKY_AG_GRID_DATA: SkyAgGridRow[] = [
     value: 7,
     target: 10,
     date: new Date('1/1/19'),
-    selected: true
+    selected: true,
+    validNumber: 23,
+    validCurrency: '$1.23',
+    validDate: new Date(1955, 10, 5)
   },
   {
     id: '1',
     name: 'Jill',
     target: 12,
-    selected: false
+    selected: false,
+    validNumber: 45,
+    validCurrency: '$4.56',
+    validDate: new Date(2015, 10, 5)
   },
   {
     id: '2',
@@ -30,7 +39,10 @@ export const SKY_AG_GRID_DATA: SkyAgGridRow[] = [
     value: 13,
     target: 9,
     date: new Date('3/1/19'),
-    selected: false
+    selected: false,
+    validNumber: 67,
+    validCurrency: '$7.89',
+    validDate: new Date()
   },
   {
     id: '3',

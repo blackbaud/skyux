@@ -18,5 +18,13 @@
   "sky_ag_grid_cell_renderer_currency_aria_label": {
     "_description": "aria label for the currency cell renderer",
     "message": "Editable currency {0} for row {1}"
+  },
+  "sky_ag_grid_cell_renderer_number_validator_message": {
+    "_description": "popover error for the number validator",
+    "message": "Please enter a valid number"
+  },
+  "sky_ag_grid_cell_renderer_currency_validator_message": {
+    "_description": "popover error for the currency validator",
+    "message": "Please enter a valid currency"
   }
 }

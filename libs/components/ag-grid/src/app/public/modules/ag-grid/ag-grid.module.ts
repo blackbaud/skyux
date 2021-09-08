@@ -68,6 +68,10 @@ import {
 } from './cell-editors/cell-editor-text/cell-editor-text.module';
 
 import {
+  SkyAgGridCellRendererCurrencyValidatorComponent
+} from './cell-renderers/cell-renderer-currency/cell-renderer-currency-validator.component';
+
+import {
   SkyAgGridCellRendererRowSelectorComponent
 } from './cell-renderers/cell-renderer-row-selector/cell-renderer-row-selector.component';
 
@@ -103,6 +107,18 @@ import {
   SkyAgGridCellEditorCurrencyComponent
 } from './cell-editors/cell-editor-currency/cell-editor-currency.component';
 
+import {
+  SkyAgGridCellRendererValidatorTooltipComponent
+} from './cell-renderers/cell-renderer-validator-tooltip/cell-renderer-validator-tooltip.component';
+
+import {
+  SkyAgGridCellRendererValidatorTooltipModule
+} from './cell-renderers/cell-renderer-validator-tooltip/cell-renderer-validator-tooltip.module';
+
+import {
+  SkyAgGridCellValidatorModule
+} from './cell-validator/ag-grid-cell-validator.module';
+
 @NgModule({
   declarations: [
     SkyAgGridDataManagerAdapterDirective,
@@ -119,6 +135,8 @@ import {
     SkyAgGridCellEditorCurrencyModule,
     SkyAgGridCellRendererCurrencyModule,
     SkyAgGridCellRendererRowSelectorModule,
+    SkyAgGridCellRendererValidatorTooltipModule,
+    SkyAgGridCellValidatorModule,
     SkyAgGridCellEditorTextModule,
     SkyCoreAdapterModule,
     SkyDataManagerModule,
@@ -141,7 +159,9 @@ import {
     SkyAgGridCellEditorNumberComponent,
     SkyAgGridCellEditorCurrencyComponent,
     SkyAgGridCellRendererCurrencyComponent,
+    SkyAgGridCellRendererCurrencyValidatorComponent,
     SkyAgGridCellRendererRowSelectorComponent,
+    SkyAgGridCellRendererValidatorTooltipComponent,
     SkyAgGridCellEditorTextComponent,
     SkyAgGridRowDeleteComponent
   ]

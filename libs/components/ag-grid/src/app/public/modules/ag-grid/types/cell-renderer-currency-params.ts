@@ -6,6 +6,10 @@ import {
   ICellRendererParams
 } from 'ag-grid-community';
 
+import {
+  ValidatorOptions
+} from './validator-options';
+
 export interface SkyCellRendererCurrencyParams extends ICellRendererParams {
-  skyComponentProperties?: NumericOptions;
+  skyComponentProperties?: NumericOptions & ValidatorOptions;
 }
