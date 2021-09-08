@@ -1,3 +1,7 @@
+# 4.7.0 (2021-09-08)
+
+- Added the ability to place an element at the bottom of another element or before another element when using the dock service and the dynamic component service. [#250](https://github.com/blackbaud/skyux-core/pull/250)
+
 # 4.6.3 (2021-07-28)
 
 - Fixed `SkyNumericService`'s `formatNumber` method to allow number formatting to be undefined. [#245](https://github.com/blackbaud/skyux-core/pull/245)
