@@ -22,11 +22,12 @@
     "migrations": "./migrations/migration-collection.json",
     "packageGroup": {
       "@skyux-sdk/documentation-schematics": "^5.0.0-beta.0",
+      "@skyux-sdk/e2e": "^4.1.0",
       "@skyux-sdk/testing": "^5.0.0-beta.0",
       "@skyux/a11y": "^5.0.0-beta.0",
       "@skyux/action-bars": "^5.0.0-beta.0",
       "@skyux/ag-grid": "^5.0.0-beta.0",
-      "@skyux/angular-tree-component": "^4",
+      "@skyux/angular-tree-component": "^5.0.0-beta.0",
       "@skyux/animations": "^5.0.0-beta.0",
       "@skyux/assets": "^5.0.0-beta.0",
       "@skyux/autonumeric": "^5.0.0-beta.0",
