@@ -1,3 +1,7 @@
+# 5.0.0-beta.63 (2021-09-09)
+
+- `@skyux/layout@5.0.0-beta.5` [Release notes](https://github.com/blackbaud/skyux-layout/blob/5.0.0-beta.5/CHANGELOG.md)
+
 # 5.0.0-beta.62 (2021-09-09)
 
 - `@skyux/colorpicker@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-colorpicker/blob/5.0.0-beta.2/CHANGELOG.md)
