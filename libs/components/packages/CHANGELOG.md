@@ -1,3 +1,7 @@
+# 5.0.0-beta.62 (2021-09-09)
+
+- `@skyux/colorpicker@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-colorpicker/blob/5.0.0-beta.2/CHANGELOG.md)
+
 # 5.0.0-beta.61 (2021-09-09)
 
 - `@skyux/avatar@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-avatar/blob/5.0.0-beta.2/CHANGELOG.md)
