@@ -319,6 +319,16 @@ describe('Numeric service', () => {
       .formatNumber(value, options));
   });
 
+  it('formats -15.50 as accounting with 2 digits as ($15.50)', () => {
+    const value = -15.50;
+    const options = new NumericOptions();
+    options.digits = 2;
+    options.iso = 'USD';
+    options.format = 'currency';
+    options.currencySign = 'accounting';
+    expect(skyNumeric .formatNumber(value, options)).toBe('($15.50)');
+  });
+
   it('formats 145.45 with 1 digits as 145.5', () => {
     const value = 145.45;
     const options = new NumericOptions();

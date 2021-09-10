@@ -7,14 +7,15 @@ import {
   SkyNumberFormatUtility
 } from './number-format-utility';
 
-function formatCurrency(value: any, digits: string): string {
+function formatCurrency(value: any, digits: string, currencySign?: 'accounting' | 'standard'): string {
   return SkyNumberFormatUtility.formatNumber(
     'en-US',
     value,
     SkyIntlNumberFormatStyle.Currency,
     digits,
     'USD',
-    true
+    true,
+    currencySign || 'standard'
   );
 }
 
@@ -24,6 +25,12 @@ describe('Number format utility', function () {
     const result = formatCurrency('50.00', '');
 
     expect(result).toEqual('$50.00');
+  });
+
+  it('should format currency in accounting format', function () {
+    const result = formatCurrency('-50.00', '', 'accounting');
+
+    expect(result).toEqual('($50.00)');
   });
 
   it('should throw error for invalid types', function () {
