@@ -1,3 +1,7 @@
+# 5.0.0-beta.66 (2021-09-10)
+
+- `@skyux/omnibar-interop@5.0.0-beta.1` [Release notes](https://github.com/blackbaud/skyux-omnibar-interop/blob/5.0.0-beta.1/CHANGELOG.md)
+
 # 5.0.0-beta.65 (2021-09-10)
 
 - `@skyux/indicators@5.0.0-beta.4` [Release notes](https://github.com/blackbaud/skyux-indicators/blob/5.0.0-beta.4/CHANGELOG.md)
