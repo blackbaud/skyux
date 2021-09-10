@@ -1,3 +1,7 @@
+# 5.0.0-beta.73 (2021-09-10)
+
+- `@skyux/layout@5.0.0-beta.6` [Release notes](https://github.com/blackbaud/skyux-layout/blob/5.0.0-beta.6/CHANGELOG.md)
+
 # 5.0.0-beta.72 (2021-09-10)
 
 - `@skyux/toast@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-toast/blob/5.0.0-beta.2/CHANGELOG.md)
