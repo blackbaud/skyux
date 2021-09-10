@@ -1,3 +1,7 @@
+# 5.0.0-beta.68 (2021-09-10)
+
+- `@skyux/navbar@5.0.0-beta.3` [Release notes](https://github.com/blackbaud/skyux-navbar/blob/5.0.0-beta.3/CHANGELOG.md)
+
 # 5.0.0-beta.67 (2021-09-10)
 
 - `@skyux/config@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-config/blob/5.0.0-beta.2/CHANGELOG.md)
