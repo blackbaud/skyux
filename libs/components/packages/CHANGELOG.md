@@ -1,3 +1,7 @@
+# 5.0.0-beta.71 (2021-09-10)
+
+- `@skyux/modals@5.0.0-beta.5` [Release notes](https://github.com/blackbaud/skyux-modals/blob/5.0.0-beta.5/CHANGELOG.md)
+
 # 5.0.0-beta.70 (2021-09-10)
 
 - `@skyux/list-builder-common@5.0.0-beta.1` [Release notes](https://github.com/blackbaud/skyux-list-builder-common/blob/5.0.0-beta.1/CHANGELOG.md)
