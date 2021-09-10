@@ -1,3 +1,7 @@
+# 5.0.0-beta.65 (2021-09-10)
+
+- `@skyux/indicators@5.0.0-beta.4` [Release notes](https://github.com/blackbaud/skyux-indicators/blob/5.0.0-beta.4/CHANGELOG.md)
+
 # 5.0.0-beta.64 (2021-09-09)
 
 - `@skyux/theme@5.0.0-beta.5` [Release notes](https://github.com/blackbaud/skyux-theme/blob/5.0.0-beta.5/CHANGELOG.md)
