@@ -1,3 +1,7 @@
+# 5.0.0-beta.69 (2021-09-10)
+
+- `@skyux/forms@5.0.0-beta.4` [Release notes](https://github.com/blackbaud/skyux-forms/blob/5.0.0-beta.4/CHANGELOG.md)
+
 # 5.0.0-beta.68 (2021-09-10)
 
 - `@skyux/navbar@5.0.0-beta.3` [Release notes](https://github.com/blackbaud/skyux-navbar/blob/5.0.0-beta.3/CHANGELOG.md)
