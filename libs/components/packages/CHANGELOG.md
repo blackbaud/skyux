@@ -1,3 +1,7 @@
+# 5.0.0-beta.70 (2021-09-10)
+
+- `@skyux/list-builder-common@5.0.0-beta.1` [Release notes](https://github.com/blackbaud/skyux-list-builder-common/blob/5.0.0-beta.1/CHANGELOG.md)
+
 # 5.0.0-beta.69 (2021-09-10)
 
 - `@skyux/forms@5.0.0-beta.4` [Release notes](https://github.com/blackbaud/skyux-forms/blob/5.0.0-beta.4/CHANGELOG.md)
