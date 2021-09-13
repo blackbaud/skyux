@@ -1,3 +1,7 @@
+# 5.0.0-beta.82 (2021-09-13)
+
+- `@skyux/list-builder@5.0.0-beta.1` [Release notes](https://github.com/blackbaud/skyux-list-builder/blob/5.0.0-beta.1/CHANGELOG.md)
+
 # 5.0.0-beta.81 (2021-09-13)
 
 - `@skyux/datetime@5.0.0-beta.4` [Release notes](https://github.com/blackbaud/skyux-datetime/blob/5.0.0-beta.4/CHANGELOG.md)
