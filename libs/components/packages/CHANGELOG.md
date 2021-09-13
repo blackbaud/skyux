@@ -1,3 +1,7 @@
+# 5.0.0-beta.85 (2021-09-13)
+
+- `@skyux/router@5.0.0-beta.1` [Release notes](https://github.com/blackbaud/skyux-router/blob/5.0.0-beta.1/CHANGELOG.md)
+
 # 5.0.0-beta.84 (2021-09-13)
 
 - `@skyux-sdk/testing@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-sdk-testing/blob/5.0.0-beta.2/CHANGELOG.md)
