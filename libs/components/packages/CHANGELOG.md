@@ -1,3 +1,7 @@
+# 5.0.0-beta.84 (2021-09-13)
+
+- `@skyux-sdk/testing@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-sdk-testing/blob/5.0.0-beta.2/CHANGELOG.md)
+
 # 5.0.0-beta.83 (2021-09-13)
 
 - `@skyux/core@5.0.0-beta.11` [Release notes](https://github.com/blackbaud/skyux-core/blob/5.0.0-beta.11/CHANGELOG.md)
