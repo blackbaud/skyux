@@ -1,3 +1,7 @@
+# 5.0.0-beta.98 (2021-09-14)
+
+- `@skyux/tiles@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-tiles/blob/5.0.0-beta.2/CHANGELOG.md)
+
 # 5.0.0-beta.97 (2021-09-14)
 
 - `@skyux/list-builder@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-list-builder/blob/5.0.0-beta.2/CHANGELOG.md)
