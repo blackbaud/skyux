@@ -1,3 +1,7 @@
+# 5.0.0-beta.94 (2021-09-14)
+
+- `@skyux/grids@5.0.0-beta.1` [Release notes](https://github.com/blackbaud/skyux-grids/blob/5.0.0-beta.1/CHANGELOG.md)
+
 # 5.0.0-beta.93 (2021-09-14)
 
 - `@skyux/forms@5.0.0-beta.5` [Release notes](https://github.com/blackbaud/skyux-forms/blob/5.0.0-beta.5/CHANGELOG.md)
