@@ -1,3 +1,7 @@
+# 5.0.0-beta.91 (2021-09-14)
+
+- `@skyux/inline-form@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-inline-form/blob/5.0.0-beta.2/CHANGELOG.md)
+
 # 5.0.0-beta.90 (2021-09-14)
 
 - `@skyux/layout@5.0.0-beta.7` [Release notes](https://github.com/blackbaud/skyux-layout/blob/5.0.0-beta.7/CHANGELOG.md)
