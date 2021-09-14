@@ -1,3 +1,7 @@
+# 5.0.0-beta.96 (2021-09-14)
+
+- `@skyux/errors@5.0.0-beta.4` [Release notes](https://github.com/blackbaud/skyux-errors/blob/5.0.0-beta.4/CHANGELOG.md)
+
 # 5.0.0-beta.95 (2021-09-14)
 
 - `@skyux/lookup@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-lookup/blob/5.0.0-beta.2/CHANGELOG.md)
