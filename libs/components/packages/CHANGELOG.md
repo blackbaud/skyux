@@ -1,3 +1,7 @@
+# 5.0.0-beta.87 (2021-09-14)
+
+- `@skyux/action-bars@5.0.0-beta.4` [Release notes](https://github.com/blackbaud/skyux-action-bars/blob/5.0.0-beta.4/CHANGELOG.md)
+
 # 5.0.0-beta.86 (2021-09-13)
 
 - `@skyux/popovers@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-popovers/blob/5.0.0-beta.2/CHANGELOG.md)
