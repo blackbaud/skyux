@@ -1,3 +1,7 @@
+# 5.0.0-beta.95 (2021-09-14)
+
+- `@skyux/lookup@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-lookup/blob/5.0.0-beta.2/CHANGELOG.md)
+
 # 5.0.0-beta.94 (2021-09-14)
 
 - `@skyux/grids@5.0.0-beta.1` [Release notes](https://github.com/blackbaud/skyux-grids/blob/5.0.0-beta.1/CHANGELOG.md)
