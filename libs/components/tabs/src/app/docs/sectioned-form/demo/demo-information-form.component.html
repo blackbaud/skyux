@@ -2,55 +2,37 @@
   novalidate
   [formGroup]="myForm"
 >
-  <div
-    style="display: flex;"
-  >
-    <div
-      class="sky-margin-inline-default"
-      style="flex: 1;"
-    >
-      <sky-input-box>
-        <label
-          class="sky-control-label sky-control-label-required"
-          [for]="nameInput.id"
-        >
-          Name
-        </label>
-        <input
-          class="sky-form-control"
-          formControlName="name"
-          skyId
-          type="text"
-          #nameInput
-        />
-      </sky-input-box>
+  <div style="display: flex;">
+    <div style="margin-right: 10px; flex: 1;">
+      <label
+        for="inputName"
+        class="sky-control-label"
+        [ngClass]="{'sky-control-label-required': true}"
+      >
+        Name
+      </label>
+      <input
+        class="sky-form-control"
+        [required]="true"
+        (blur)="checkValidity()"
+        formControlName="name"
+        id="inputName"
+        type="text"
+      >
     </div>
-    <div
-      style="flex: 1;"
-    >
-      <sky-input-box>
-        <label
-          class="sky-control-label"
-          [for]="idInput.id"
-        >
-          ID
-        </label>
-        <input
-          class="sky-form-control"
-          formControlName="id"
-          type="text"
-          #idInput
-        />
-      </sky-input-box>
-      <div *ngIf="myForm.get('id').invalid"
-        class="alert alert-danger"
+    <div style="margin-right: 10px; flex: 1;">
+      <label
+        for="inputId"
+        class="sky-control-label"
       >
-      </div>
-      <div *ngIf="myForm.get('id').invalid"
-        class="alert alert-danger sky-error-label"
+        Id
+      </label>
+      <input
+        class="sky-form-control"
+        formControlName='id'
+        id="inputId"
+        type="text"
       >
-        Numeric values only.
-      </div>
     </div>
   </div>
 </form>

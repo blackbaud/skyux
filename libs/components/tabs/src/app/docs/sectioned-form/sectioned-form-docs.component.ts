@@ -6,4 +6,4 @@ import {
   selector: 'app-sectioned-form-docs',
   templateUrl: './sectioned-form-docs.component.html'
 })
-export class SectionedFormDocsComponent { }
+export class SectionedFormDocsComponent {}

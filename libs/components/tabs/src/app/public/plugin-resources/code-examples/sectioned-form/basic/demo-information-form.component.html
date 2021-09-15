@@ -2,55 +2,48 @@
   novalidate
   [formGroup]="myForm"
 >
+  <div style="display: flex;">
+    <div style="margin-right: 10px; flex: 1;">
+      <label
+        for="inputName"
+        class="sky-control-label"
+        [ngClass]="{'sky-control-label-required': nameRequired}"
+      >
+        Name
+      </label>
+      <input
+        class="sky-form-control"
+        [required]="nameRequired"
+        (blur)="checkValidity()"
+        formControlName="name"
+        id="inputName"
+        type="text"
+      >
+    </div>
+    <div style="margin-right: 10px; flex: 1;">
+      <label
+        for="inputId"
+        class="sky-control-label"
+      >
+        Id
+      </label>
+      <input
+        class="sky-form-control"
+        formControlName='id'
+        id="inputId"
+        type="text"
+      >
+    </div>
+  </div>
+
   <div
-    style="display: flex;"
+    id="name-checkbox-container"
+    style="margin-top: 10px;"
   >
-    <div
-      class="sky-margin-inline-default"
-      style="flex: 1;"
-    >
-      <sky-input-box>
-        <label
-          class="sky-control-label sky-control-label-required"
-          [for]="nameInput.id"
-        >
-          Name
-        </label>
-        <input
-          class="sky-form-control"
-          formControlName="name"
-          skyId
-          type="text"
-          #nameInput
-        />
-      </sky-input-box>
-    </div>
-    <div
-      style="flex: 1;"
-    >
-      <sky-input-box>
-        <label
-          class="sky-control-label"
-          [for]="idInput.id"
-        >
-          ID
-        </label>
-        <input
-          class="sky-form-control"
-          formControlName="id"
-          type="text"
-          #idInput
-        />
-      </sky-input-box>
-      <div *ngIf="myForm.get('id').invalid"
-        class="alert alert-danger"
-      >
-      </div>
-      <div *ngIf="myForm.get('id').invalid"
-        class="alert alert-danger sky-error-label"
-      >
-        Enter a valid value.
-      </div>
-    </div>
+    <sky-checkbox formControlName="nameRequired">
+      <sky-checkbox-label>
+        Mark 'Name' required
+      </sky-checkbox-label>
+    </sky-checkbox>
   </div>
 </form>
