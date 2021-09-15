@@ -67,6 +67,7 @@
       [attr.aria-labelledby]="modalHeaderId"
       [attr.id]="modalContentId"
       (skyModalScrollShadow)="scrollShadowChange($event)"
+      #modalContentWrapper
     >
       <ng-content select="sky-modal-content"></ng-content>
     </div>

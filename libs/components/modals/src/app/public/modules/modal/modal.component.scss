@@ -154,6 +154,14 @@
   margin: -$sky-margin-plus-half;
 }
 
+.sky-modal-content > ::ng-deep sky-dock {
+  bottom: -$sky-padding-plus-half;
+  margin-left: -$sky-margin-plus-half;
+  margin-bottom: -$sky-margin-plus-half;
+  padding-top: $sky-padding-plus-half;
+  width: calc(100% + 30px)
+}
+
 @include sky-theme-modern {
   .sky-modal-header {
     border: none;
@@ -172,6 +180,14 @@
   .sky-modal-full-page {
     width: calc(100% - (#{$sky-theme-modern-space-xl * 2}));
     margin: $sky-theme-modern-space-xl;
+  }
+
+  .sky-modal-content > ::ng-deep sky-dock {
+    bottom: 0;
+    margin-left: initial;
+    margin-bottom: initial;
+    padding-top: initial;
+    width: 100%;
   }
 }
 

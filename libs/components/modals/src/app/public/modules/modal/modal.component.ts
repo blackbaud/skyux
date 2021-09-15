@@ -1,14 +1,18 @@
 import {
+  AfterViewInit,
   Component,
   Input,
   ElementRef,
-  AfterViewInit,
-  HostListener
+  Host,
+  HostListener,
+  ViewChild
 } from '@angular/core';
 
 import {
   SkyAppWindowRef,
-  SkyCoreAdapterService
+  SkyCoreAdapterService,
+  SkyDockLocation,
+  SkyDockService
 } from '@skyux/core';
 
 import {
@@ -47,7 +51,8 @@ let skyModalUniqueIdentifier: number = 0;
     skyAnimationModalState
   ],
   providers: [
-    SkyModalComponentAdapterService
+    SkyModalComponentAdapterService,
+    SkyDockService
   ]
 })
 export class SkyModalComponent implements AfterViewInit {
@@ -115,13 +120,17 @@ export class SkyModalComponent implements AfterViewInit {
 
   public scrollShadow: SkyModalScrollShadowEventArgs;
 
+  @ViewChild('modalContentWrapper', { read: ElementRef })
+  private modalContentWrapperElement: ElementRef;
+
   constructor(
     private hostService: SkyModalHostService,
     private config: SkyModalConfiguration,
     private elRef: ElementRef,
     private windowRef: SkyAppWindowRef,
     private componentAdapter: SkyModalComponentAdapterService,
-    private coreAdapter: SkyCoreAdapterService
+    private coreAdapter: SkyCoreAdapterService,
+    @Host() private dockService: SkyDockService
   ) { }
 
   @HostListener('document:keyup', ['$event'])
@@ -179,6 +188,12 @@ export class SkyModalComponent implements AfterViewInit {
     // https://stackoverflow.com/questions/40562845
     this.windowRef.nativeWindow.setTimeout(() => {
       this.componentAdapter.modalOpened(this.elRef);
+    });
+
+    this.dockService.setDockOptions({
+      location: SkyDockLocation.ElementBottom,
+      referenceEl: this.modalContentWrapperElement.nativeElement,
+      zIndex: 5
     });
   }
 

@@ -20,6 +20,10 @@ import {
 } from '@skyux/forms';
 
 import {
+  SkyBackToTopModule
+} from '@skyux/layout';
+
+import {
   SkyAppLinkModule
 } from '@skyux/router';
 
@@ -71,6 +75,7 @@ import {
 @NgModule({
   exports: [
     SkyAppLinkModule,
+    SkyBackToTopModule,
     SkyCodeModule,
     SkyConfirmModule,
     SkyDocsToolsModule,

@@ -14,7 +14,9 @@ import {
 
 import {
   MutationObserverService,
-  SkyCoreAdapterService
+  SkyCoreAdapterService,
+  SkyDockLocation,
+  SkyDockService
 } from '@skyux/core';
 
 import {
@@ -755,6 +757,25 @@ describe('Modal component', () => {
     );
 
     const modalInstance = openModal(ModalTiledBodyTestComponent);
+
+    closeModal(modalInstance);
+  }));
+
+  it('should set the dock service location to between the modal content and footer', fakeAsync(() => {
+    const dockServiceLocationSpy = spyOn(SkyDockService.prototype, 'setDockOptions');
+
+    const modalInstance = openModal(ModalTestComponent);
+
+    tick();
+    getApplicationRef().tick();
+
+    const modalContent = document.querySelector('.sky-modal-content');
+
+    expect(dockServiceLocationSpy).toHaveBeenCalledWith({
+      location: SkyDockLocation.ElementBottom,
+      referenceEl: modalContent,
+      zIndex: 5
+    });
 
     closeModal(modalInstance);
   }));
