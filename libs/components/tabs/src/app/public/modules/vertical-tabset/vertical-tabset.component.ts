@@ -20,6 +20,10 @@ import {
 } from '@angular/animations';
 
 import {
+  SkyLibResourcesService
+} from '@skyux/i18n';
+
+import {
   Subject
 } from 'rxjs';
 
@@ -28,7 +32,9 @@ import {
   takeUntil
 } from 'rxjs/operators';
 
-import { SkyLibResourcesService } from '@skyux/i18n';
+import {
+  SkyVerticalTabsetAdapterService
+} from './vertical-tabset-adapter.service';
 
 import {
   SkyVerticalTabsetService,
@@ -103,17 +109,21 @@ export class SkyVerticalTabsetComponent implements OnInit, AfterViewChecked, OnD
   @Output()
   public activeChange = new EventEmitter<number>();
 
-  @ViewChild('contentWrapper')
+  @ViewChild('groupContainerWrapper')
   public tabGroups: ElementRef;
 
   @ViewChild('skySideContent')
   public content: ElementRef;
+
+  @ViewChild('contentContainerWrapper')
+  private contentWrapper: ElementRef;
 
   private isMobile = false;
   private _ngUnsubscribe = new Subject();
   private _ariaRole: string;
 
   constructor(
+    public adapterService: SkyVerticalTabsetAdapterService,
     public tabService: SkyVerticalTabsetService,
     private resources: SkyLibResourcesService,
     private changeRef: ChangeDetectorRef) {}
@@ -125,6 +135,9 @@ export class SkyVerticalTabsetComponent implements OnInit, AfterViewChecked, OnD
       .pipe(takeUntil(this._ngUnsubscribe))
       .subscribe((index: any) => {
         this.activeChange.emit(index);
+        if (this.contentWrapper) {
+          this.adapterService.scrollToContentTop(this.contentWrapper);
+        }
         this.changeRef.markForCheck();
       });
 

@@ -23,6 +23,10 @@ export class SkyVerticalTabsetAdapterService {
     return elementRef.nativeElement.clientWidth;
   }
 
+  public scrollToContentTop(element: ElementRef): void {
+    element.nativeElement.scrollTop = 0;
+  }
+
   public setResponsiveClass(element: ElementRef, breakpoint: SkyMediaBreakpoints): void {
     const nativeEl: HTMLElement = element.nativeElement;
 

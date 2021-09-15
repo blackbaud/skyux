@@ -32,6 +32,8 @@ export class VerticalTabsetTestComponent {
 
   public maintainTabContent: boolean = false;
 
+  public showScrollable: boolean = false;
+
   public tabDisabled: boolean = true;
   public tab1Required: boolean = false;
 

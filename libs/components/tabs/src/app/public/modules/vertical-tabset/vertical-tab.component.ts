@@ -243,5 +243,7 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
     const newBreakpiont = this.verticalTabMediaQueryService.current;
 
     this.adapterService.setResponsiveClass(this.tabContent, newBreakpiont);
+
+    this.changeRef.markForCheck();
   }
 }
