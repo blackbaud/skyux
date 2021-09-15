@@ -16,6 +16,7 @@ import {
 } from '@skyux/colorpicker';
 
 import {
+  SkyCoreAdapterModule,
   SkyIdModule
 } from '@skyux/core';
 
@@ -77,6 +78,7 @@ import {
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    SkyCoreAdapterModule,
     SkyTextEditorResourcesModule,
     SkyI18nModule,
     SkyIconModule,

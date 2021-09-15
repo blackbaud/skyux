@@ -77,7 +77,7 @@ export class SkyTextEditorAdapterService {
       const styleEl = documentEl.createElement('style');
       styleEl.innerHTML = `.editor:empty:before {
         content: attr(data-placeholder);
-        font-family: "Blackbaud Sans", "Helvetica Neue", Arial, sans-serif;
+        font-family: "Blackbaud Sans", Arial, sans-serif;
         color: #686c73;
         font-weight: 400;
         font-size: 15px;
@@ -98,6 +98,14 @@ export class SkyTextEditorAdapterService {
       documentEl.body.setAttribute('style', bodyStyle);
       documentEl.body.setAttribute('data-placeholder', placeholder || '');
     }
+  }
+
+  public disableEditor(id: string, focusableChildren: HTMLElement[], textEditorNativeElement: any): void {
+    this.setEditorDisabled(id, focusableChildren, textEditorNativeElement, true);
+  }
+
+  public enableEditor(id: string, focusableChildren: HTMLElement[], textEditorNativeElement: any): void {
+    this.setEditorDisabled(id, focusableChildren, textEditorNativeElement, false);
   }
 
   /**
@@ -133,7 +141,7 @@ export class SkyTextEditorAdapterService {
    * Returns a data URI using the provided text string.
    * Used to display a merge field inside a string of text.
    */
-   public getMergeFieldDataURI(text: string): string {
+  public getMergeFieldDataURI(text: string): string {
     const documentEl = this.windowService.nativeWindow.document;
     let textToUse = text;
     if (text.length > 18) {
@@ -515,6 +523,15 @@ export class SkyTextEditorAdapterService {
       .replace(/&lt;/g, '<')
       .replace(/&gt;/g, '>')
       .replace(/&amp;/g, '&');
+  }
+
+  private setEditorDisabled(id: string, focusableChildren: HTMLElement[], textEditorNativeElement: any, disabled: boolean): void {
+    textEditorNativeElement.style.pointerEvents = disabled ? 'none' : 'auto';
+    textEditorNativeElement.setAttribute('aria-disabled', disabled ? 'true' : 'false');
+    focusableChildren.forEach(aFocusableChild => {
+      aFocusableChild.tabIndex = disabled ? -1 : 0;
+    });
+    this.getIframeDocumentEl(id).body.setAttribute('contenteditable', disabled ? 'false' : 'true');
   }
 
 }

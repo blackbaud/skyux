@@ -16,7 +16,7 @@ export interface SkyTextEditorStyleState {
   fontSize: number;
 
   /**
-   * Specifies the font family. Available values: `"Blackbaud Sans"`, `"Helvetica Neue"`,
+   * Specifies the font family. Available values: `"Blackbaud Sans"`,
    * `"Arial"`, `"sans-serif"`, `"Arial Black"`, `"Courier New"`, and `"Times New Roman"`.
    */
   font: string;

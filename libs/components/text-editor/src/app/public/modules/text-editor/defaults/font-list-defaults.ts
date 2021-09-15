@@ -8,7 +8,7 @@ import {
 export const FONT_LIST_DEFAULTS: SkyTextEditorFont[] = [
   {
     name: 'Blackbaud Sans',
-    value: '"Blackbaud Sans", "Helvetica Neue", Arial, sans-serif'
+    value: '"Blackbaud Sans", Arial, sans-serif'
   },
   {
     name: 'Arial',
@@ -27,10 +27,6 @@ export const FONT_LIST_DEFAULTS: SkyTextEditorFont[] = [
     value: 'Georgia, serif'
   },
   {
-    name: 'Helvetica',
-    value: 'Helvetica, Arial, sans-serif'
-  },
-  {
     name: 'Tahoma',
     value: 'Tahoma, Geneva, sans-serif'
   },
@@ -39,8 +35,8 @@ export const FONT_LIST_DEFAULTS: SkyTextEditorFont[] = [
     value: '"Times New Roman"'
   },
   {
-    name: 'Trebuchet',
-    value: '"Trebuchet MS", Helvetica, sans-serif'
+    name: 'Trebuchet MS',
+    value: '"Trebuchet MS", sans-serif'
   },
   {
     name: 'Verdana',

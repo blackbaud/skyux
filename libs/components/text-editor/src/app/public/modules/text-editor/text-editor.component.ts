@@ -1,13 +1,14 @@
 import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy,
   Component,
-  ViewEncapsulation,
+  ElementRef,
   forwardRef,
   Input,
-  AfterViewInit,
-  ViewChild,
-  ElementRef,
   OnDestroy,
-  ChangeDetectionStrategy
+  ViewChild,
+  ViewEncapsulation
 } from '@angular/core';
 
 import {
@@ -24,6 +25,10 @@ import {
 } from 'rxjs';
 
 import {
+  SkyCoreAdapterService
+} from '@skyux/core';
+
+import {
   MENU_DEFAULTS
 } from './defaults/menu-defaults';
 
@@ -34,6 +39,7 @@ import {
 import {
   TOOLBAR_ACTION_DEFAULTS
 } from './defaults/toolbar-action-defaults';
+
 import {
   SkyTextEditorAdapterService
 } from './services/text-editor-adapter.service';
@@ -74,6 +80,10 @@ import {
   SkyTextEditorToolbarActionType
 } from './types/toolbar-action-type';
 
+import {
+  SkyFormsUtility
+} from '../shared/forms-utility';
+
 /**
  * Auto-incrementing integer used to generate unique ids for radio components.
  */
@@ -105,10 +115,34 @@ export class SkyTextEditorComponent implements AfterViewInit, ControlValueAccess
   @Input()
   public autofocus: boolean = false;
 
+  /**
+   * Indicates whether to disable the text editor.
+   * @default false
+   */
+  @Input()
+  public set disabled(value: boolean) {
+    const coercedValue = SkyFormsUtility.coerceBooleanProperty(value);
+    if (coercedValue !== this.disabled) {
+      this._disabled = coercedValue;
+      if (this._disabled) {
+        this.adapterService.disableEditor(this.id, this.focusableChildren, this.iframeRef.nativeElement);
+      } else {
+        this.adapterService.enableEditor(this.id, this.focusableChildren, this.iframeRef.nativeElement);
+      }
+      this.changeDetector.markForCheck();
+    }
+  }
+
+  public get disabled() {
+    return this._disabled;
+  }
+
+  public editorFocusStream = new Subject();
+
   // tslint:disable: max-line-length
   /**
    * Specifies the fonts to include in the font picker.
-   * @default [{name: 'Blackbaud Sans', value: '"Blackbaud Sans", "Helvetica Neue", Arial, sans-serif'}, {name: 'Arial', value: 'Arial'}, {name: 'Arial Black', value: '"Arial Black"'}, {name: 'Courier New', value: '"Courier New"'}, {name: 'Georgia', value: 'Georgia, serif'}, {name: 'Helvetica', value: 'Helvetica, Arial, sans-serif'}, {name: 'Tahoma', value: 'Tahoma, Geneva, sans-serif'}, {name: 'Times New Roman', value: '"Times New Roman"'}, {name: 'Trebuchet', value: '"Trebuchet MS", Helvetica, sans-serif'}, {name: 'Verdana', value: 'Verdana, Geneva, sans-serif'}]
+   * @default [{name: 'Blackbaud Sans', value: '"Blackbaud Sans", Arial, sans-serif'}, {name: 'Arial', value: 'Arial'}, {name: 'Arial Black', value: '"Arial Black"'}, {name: 'Courier New', value: '"Courier New"'}, {name: 'Georgia', value: 'Georgia, serif'}, {name: 'Tahoma', value: 'Tahoma, Geneva, sans-serif'}, {name: 'Times New Roman', value: '"Times New Roman"'}, {name: 'Trebuchet MS', value: '"Trebuchet MS", sans-serif'}, {name: 'Verdana', value: 'Verdana, Geneva, sans-serif'}]
    */
   // tslint:enable: max-line-length
   @Input()
@@ -127,6 +161,24 @@ export class SkyTextEditorComponent implements AfterViewInit, ControlValueAccess
    */
   @Input()
   public id = `sky-text-editor-${++nextUniqueId}`;
+
+  /**
+   * Specifies the initial styles for all content, including background color, font size, and link state.
+   */
+   @Input()
+   public set initialStyleState(state: SkyTextEditorStyleState) {
+     // Do not update the state after initialization has taken place
+     if (!this.initialized) {
+       this._initialStyleState = {
+         ...STYLE_STATE_DEFAULTS,
+         ...state
+       };
+     }
+   }
+
+   public get initialStyleState(): SkyTextEditorStyleState {
+     return this._initialStyleState;
+   }
 
   /**
    * Specifies the menus to include in the menu bar.
@@ -156,24 +208,6 @@ export class SkyTextEditorComponent implements AfterViewInit, ControlValueAccess
 
   public get placeholder(): string {
     return this._placeholder;
-  }
-
-  /**
-   * Specifies the initial styles for all content, including background color, font size, and link state.
-   */
-  @Input()
-  public set initialStyleState(state: SkyTextEditorStyleState) {
-    // Do not update the state after initialization has taken place
-    if (!this.initialized) {
-      this._initialStyleState = {
-        ...STYLE_STATE_DEFAULTS,
-        ...state
-      };
-    }
-  }
-
-  public get initialStyleState(): SkyTextEditorStyleState {
-    return this._initialStyleState;
   }
 
   // tslint:disable: max-line-length
@@ -210,24 +244,28 @@ export class SkyTextEditorComponent implements AfterViewInit, ControlValueAccess
     return this._value;
   }
 
-  public editorFocusStream = new Subject();
+  private focusableChildren: HTMLElement[];
+
+  private focusInitialized: boolean = false;
 
   @ViewChild('iframe')
   private iframeRef: ElementRef;
-
-  private focusInitialized: boolean = false;
 
   private initialized: boolean = false;
 
   private ngUnsubscribe = new Subject<void>();
 
-  private _placeholder = '';
+  private _disabled: boolean = false;
 
   private _initialStyleState = Object.assign({}, STYLE_STATE_DEFAULTS);
+
+  private _placeholder = '';
 
   private _value: string = '<p></p>';
 
   constructor (
+    private changeDetector: ChangeDetectorRef,
+    private coreAdapterService: SkyCoreAdapterService,
     private adapterService: SkyTextEditorAdapterService,
     private editorService: SkyTextEditorService,
     private sanitizationService: SkyTextSanitizationService
@@ -273,6 +311,10 @@ export class SkyTextEditorComponent implements AfterViewInit, ControlValueAccess
       this.adapterService.focusEditor(this.id);
     }
 
+    this.focusableChildren = this.coreAdapterService.getFocusableChildren(this.iframeRef.nativeElement, {
+      ignoreVisibility: true
+    });
+
     this.initialized = true;
   }
 
@@ -299,6 +341,13 @@ export class SkyTextEditorComponent implements AfterViewInit, ControlValueAccess
 
   public registerOnTouched(fn: any): void {
     this.onTouch = fn;
+  }
+
+  /**
+   * Implemented as part of ControlValueAccessor.
+   */
+  public setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
   }
 
   public onChange(): void {

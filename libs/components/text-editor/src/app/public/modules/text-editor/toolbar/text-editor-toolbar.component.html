@@ -9,6 +9,7 @@
       <ng-container *ngSwitchCase="'font-family'">
         <sky-dropdown
           class="sky-text-editor-font-picker"
+          [disabled]="disabled"
           [label]="'Font: ' + styleStateFontName"
           [messageStream]="fontPickerStream"
         >
@@ -37,6 +38,7 @@
       <ng-container *ngSwitchCase="'font-size'">
         <sky-dropdown
           class="sky-text-editor-font-size-picker"
+          [disabled]="disabled"
           [label]="'Font size: ' + styleState.fontSize + 'px'"
           [messageStream]="fontSizeStream"
         >
@@ -67,6 +69,7 @@
             icon="bold"
             label="Bold"
             title="Bold"
+            [disabled]="disabled"
             [ngModel]="styleState.boldState"
             (ngModelChange)="toggleFontStyle(styleState.boldState, $event, 'bold')"
           >
@@ -75,6 +78,7 @@
             icon="italic"
             label="Italicized"
             title="Italicized"
+            [disabled]="disabled"
             [ngModel]="styleState.italicState"
             (ngModelChange)="toggleFontStyle(styleState.italicState, $event, 'italic')"
           >
@@ -83,6 +87,7 @@
             icon="underline"
             label="Underline"
             title="Underline"
+            [disabled]="disabled"
             [ngModel]="styleState.underlineState"
             (ngModelChange)="toggleFontStyle(styleState.underlineState, $event, 'underline')"
           >
@@ -104,6 +109,7 @@
                 outputFormat="hex"
                 type="text"
                 [allowTransparency]="false"
+                [disabled]="disabled"
                 [ngModel]="styleState.fontColor"
                 [skyColorpickerInput]="colorPicker"
               />
@@ -122,6 +128,7 @@
                 outputFormat="rgba"
                 type="text"
                 [allowTransparency]="true"
+                [disabled]="disabled"
                 [ngModel]="styleState.backColor"
                 [skyColorpickerInput]="backColorPicker"
               />
@@ -137,6 +144,7 @@
             aria-label="Bulleted list"
             class="sky-btn sky-btn-default sky-btn-icon"
             title="Bulleted list"
+            [disabled]="disabled"
             (click)="execCommand('insertUnorderedList')"
           >
             <sky-icon *skyThemeIf="'default'"
@@ -153,6 +161,7 @@
             aria-label="Numbered list"
             class="sky-btn sky-btn-default sky-btn-icon"
             title="Numbered list"
+            [disabled]="disabled"
             (click)="execCommand('insertOrderedList')"
           >
             <sky-icon *skyThemeIf="'default'"
@@ -175,6 +184,7 @@
             aria-label="Align left"
             class="sky-btn sky-btn-default sky-btn-icon"
             title="Align left"
+            [disabled]="disabled"
             (click)="execCommand('justifyLeft')"
           >
             <sky-icon *skyThemeIf="'default'"
@@ -191,6 +201,7 @@
             aria-label="Align center"
             class="sky-btn sky-btn-default sky-btn-icon"
             title="Align center"
+            [disabled]="disabled"
             (click)="execCommand('justifyCenter')"
           >
             <sky-icon *skyThemeIf="'default'"
@@ -207,6 +218,7 @@
             aria-label="Align right"
             class="sky-btn sky-btn-default sky-btn-icon"
             title="Align right"
+            [disabled]="disabled"
             (click)="execCommand('justifyRight')"
           >
             <sky-icon *skyThemeIf="'default'"
@@ -229,6 +241,7 @@
             aria-label="Outdent"
             class="sky-btn sky-btn-default sky-btn-icon"
             title="Outdent"
+            [disabled]="disabled"
             (click)="execCommand('outdent')"
           >
             <sky-icon *skyThemeIf="'default'"
@@ -245,6 +258,7 @@
             aria-label="Indent"
             class="sky-btn sky-btn-default sky-btn-icon"
             title="Indent"
+            [disabled]="disabled"
             (click)="execCommand('indent')"
           >
             <sky-icon *skyThemeIf="'default'"
@@ -267,6 +281,7 @@
             aria-label="Undo"
             class="sky-btn sky-btn-default sky-btn-icon"
             title="Undo"
+            [disabled]="disabled"
             (click)="execCommand('undo')"
           >
             <sky-icon *skyThemeIf="'default'"
@@ -283,6 +298,7 @@
             aria-label="Redo"
             class="sky-btn sky-btn-default sky-btn-icon"
             title="Redo"
+            [disabled]="disabled"
             (click)="execCommand('redo')"
           >
             <sky-icon *skyThemeIf="'default'"
@@ -305,6 +321,7 @@
             aria-label="Link"
             class="sky-btn sky-btn-default sky-btn-icon"
             title="Link"
+            [disabled]="disabled"
             [ngClass]="{
               'icon-btn-active': styleState.linkState
             }"
@@ -324,7 +341,7 @@
             aria-label="Unlink"
             class="sky-btn sky-btn-default sky-btn-icon"
             title="Unlink"
-            [disabled]="!styleState.linkState"
+            [disabled]="!styleState.linkState || disabled"
             (click)="unlink()"
           >
             <sky-icon *skyThemeIf="'default'"

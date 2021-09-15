@@ -14,6 +14,9 @@
     border: 1px solid #C0C0C0;
     overflow-y: auto;
     outline: none;
+    &.sky-text-editor-wrapper-disabled {
+      background-color: #ededee;
+    }
   }
 
   .sky-text-editor-toolbar {
@@ -51,6 +54,9 @@
 
     .sky-text-editor-wrapper {
       border: 1px solid $sky-theme-modern-border-color-neutral-medium;
+      &.sky-text-editor-wrapper-disabled {
+        background-color: #ececed;
+      }
     }
 
     .sky-text-editor-toolbar {

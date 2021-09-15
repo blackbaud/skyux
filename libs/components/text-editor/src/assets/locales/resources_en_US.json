@@ -78,5 +78,53 @@
   "skyux_text_editor_edit_menu_action_select_all_key_shortcut": {
     "_description": "Text for the 'Select all' key shortcut in the edit menu",
     "message": "Ctrl+A"
+  },
+  "skyux_text_editor_menubar_dropdown_button_edit_label": {
+    "_description": "Text for the 'Edit' dropdown button in the menubar",
+    "message": "Edit"
+  },
+  "skyux_text_editor_menubar_dropdown_button_format_label": {
+    "_description": "Text for the 'Format' dropdown button in the menubar",
+    "message": "Format"
+  },
+  "skyux_text_editor_menubar_dropdown_button_insert_label": {
+    "_description": "Text for the 'Insert merge field' dropdown button in the menubar",
+    "message": "Insert merge field"
+  },
+  "skyux_text_editor_url_modal_header_label": {
+    "_description": "Text for the 'Create link' header of the url modal",
+    "message": "Create link"
+  },
+  "skyux_text_editor_url_modal_url_label": {
+    "_description": "Text for the 'Enter a URL to link to:' label in the url modal",
+    "message": "Enter a URL to link to:"
+  },
+  "skyux_text_editor_url_modal_open_label": {
+    "_description": "Text for the 'Where should it open?' label in the url modal",
+    "message": "Where should it open?"
+  },
+  "skyux_text_editor_url_modal_current_option_label": {
+    "_description": "Text for the 'Current window' option label in the url modal",
+    "message": "Current window"
+  },
+  "skyux_text_editor_url_modal_new_option_label": {
+    "_description": "Text for the 'New window' option label in the url modal",
+    "message": "New window"
+  },
+  "skyux_text_editor_url_modal_email_label": {
+    "_description": "Text for the 'Email address' label in the url modal",
+    "message": "Email address"
+  },
+  "skyux_text_editor_url_modal_subject_label": {
+    "_description": "Text for the 'Subject line' label in the url modal",
+    "message": "Subject line"
+  },
+  "skyux_text_editor_url_modal_save_button_label": {
+    "_description": "Text for the 'Save' button in the url modal",
+    "message": "Save"
+  },
+  "skyux_text_editor_url_modal_cancel_button_label": {
+    "_description": "Text for the 'Cancel' button in the url modal",
+    "message": "Cancel"
   }
 }

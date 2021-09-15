@@ -1,6 +1,6 @@
 <sky-modal>
   <sky-modal-header>
-    Create link
+    {{ 'skyux_text_editor_url_modal_header_label' | skyLibResources }}
   </sky-modal-header>
   <sky-modal-content>
     <sky-tabset
@@ -17,7 +17,7 @@
               class="sky-control-label sky-control-label-required"
               [for]="urlInput.id"
             >
-              Enter a URL to link to:
+              {{ 'skyux_text_editor_url_modal_url_label' | skyLibResources }}
             </label>
             <input
               class="sky-form-control"
@@ -33,7 +33,7 @@
             class="sky-control-label"
             [for]="targetInput.id"
           >
-            Where should it open?
+          {{ 'skyux_text_editor_url_modal_open_label' | skyLibResources }}
           </label>
           <select
             class="sky-form-control"
@@ -41,8 +41,12 @@
             skyId
             #targetInput="skyId"
           >
-            <option value="0">Current window</option>
-            <option value="1">New window</option>
+            <option value="0">
+              {{ 'skyux_text_editor_url_modal_current_option_label' | skyLibResources }}
+            </option>
+            <option value="1">
+              {{ 'skyux_text_editor_url_modal_new_option_label' | skyLibResources }}
+            </option>
           </select>
         </sky-input-box>
       </sky-tab>
@@ -55,7 +59,7 @@
               class="sky-control-label sky-control-label-required"
               [for]="emailAddressInput.id"
             >
-              Email address
+              {{ 'skyux_text_editor_url_modal_email_label' | skyLibResources }}
             </label>
             <input
               class="sky-form-control"
@@ -71,7 +75,7 @@
             class="sky-control-label"
             [for]="subjectInput.id"
           >
-            Subject line
+            {{ 'skyux_text_editor_url_modal_subject_label' | skyLibResources }}
           </label>
           <input
             class="sky-form-control"
@@ -91,14 +95,14 @@
       [disabled]="!valid"
       (click)="save()"
     >
-      Save
+      {{ 'skyux_text_editor_url_modal_save_button_label' | skyLibResources }}
     </button>
     <button
       type="button"
       class="sky-btn sky-btn-link"
       (click)="cancel()"
     >
-      Cancel
+      {{ 'skyux_text_editor_url_modal_cancel_button_label' | skyLibResources }}
     </button>
   </sky-modal-footer>
 </sky-modal>

@@ -10,6 +10,7 @@
       role="toolbar"
     >
       <sky-text-editor-menubar
+        [disabled]="disabled"
         [editorFocusStream]="editorFocusStream"
         [editorId]="id"
         [menus]="menus"
@@ -23,6 +24,7 @@
       role="toolbar"
     >
       <sky-text-editor-toolbar
+        [disabled]="disabled"
         [editorFocusStream]="editorFocusStream"
         [editorId]="id"
         [fontList]="fontList"
@@ -34,10 +36,13 @@
     </sky-toolbar-section>
   </sky-toolbar>
   <iframe
-    #iframe
     class="sky-text-editor-wrapper"
     src="about:blank"
     title="Text Editor"
+    [ngClass]="{
+      'sky-text-editor-wrapper-disabled': disabled
+    }"
+    #iframe
   >
   </iframe>
 </div>

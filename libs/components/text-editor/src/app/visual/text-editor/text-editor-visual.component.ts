@@ -1,7 +1,15 @@
 import {
   Component,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  OnInit,
+  AfterViewInit
 } from '@angular/core';
+
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup
+} from '@angular/forms';
 
 import {
   DomSanitizer,
@@ -23,7 +31,7 @@ import {
   templateUrl: './text-editor-visual.component.html',
   styleUrls: ['./text-editor-visual.component.scss']
 })
-export class RichTextEditorVisualComponent {
+export class RichTextEditorVisualComponent implements OnInit, AfterViewInit {
 
   public displayValue: SafeHtml;
 
@@ -47,6 +55,8 @@ export class RichTextEditorVisualComponent {
       name: 'A field that is really too long for its own good'
     }
   ];
+
+  public myForm: FormGroup;
 
   public placeholder: string = 'Please enter some text';
 
@@ -78,14 +88,33 @@ export class RichTextEditorVisualComponent {
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
+    private formBuilder: FormBuilder,
     private sanitizer: DomSanitizer,
     private themeSvc: SkyThemeService
   ) {
     this.displayValue = this.sanitizer.bypassSecurityTrustHtml(this.value);
   }
 
+  public ngOnInit(): void {
+    this.myForm = this.formBuilder.group({
+      textEditor: new FormControl('')
+    });
+  }
+
+  public ngAfterViewInit(): void {
+    this.myForm.controls['textEditor'].setValue(this.value);
+  }
+
   public themeSettingsChange(themeSettings: SkyThemeSettings): void {
     this.themeSvc.setTheme(themeSettings);
+  }
+
+  public onToggleAbleTextEditor(): void {
+    if (this.myForm.controls['textEditor'].disabled) {
+      this.myForm.controls['textEditor'].enable();
+    } else {
+      this.myForm.controls['textEditor'].disable();
+    }
   }
 
 }

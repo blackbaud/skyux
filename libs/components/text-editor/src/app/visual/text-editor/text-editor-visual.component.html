@@ -2,22 +2,33 @@
   (themeSettingsChange)="themeSettingsChange($event)"
 ></sky-docs-demo-control-panel-theme>
 
+<button
+  id="sky-btn-toggle-text-editor-ability"
+  class="sky-btn sky-btn-default"
+  type="button"
+  (click)="onToggleAbleTextEditor()"
+>
+  Toggle Able/Disable Text Editor
+</button>
+
 <div
   class="sky-padding-even-large"
 >
   <h1>Text editor</h1>
-  <form>
+  <form
+    [formGroup]="myForm"
+  >
     <div
       id="screenshot-text-editor"
     >
       <sky-text-editor
+        formControlName="textEditor"
         name="text-editor"
         [autofocus]="true"
-        [mergeFields]="mergeFields"
         [menus]="menus"
+        [mergeFields]="mergeFields"
         [placeholder]="placeholder"
         [toolbarActions]="toolbarActions"
-        [(ngModel)]="value"
       >
       </sky-text-editor>
     </div>
