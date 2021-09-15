@@ -1,3 +1,7 @@
+# 4.17.5 (2021-09-15)
+
+- Fixed the lookup component to only send search text to the show more picker when a search is being executed. [#213](https://github.com/blackbaud/skyux-lookup/pull/213)
+
 # 4.17.4 (2021-08-30)
 
 - Updated screenshots to reflect theme updates. [#214](https://github.com/blackbaud/skyux-lookup/pull/214)
