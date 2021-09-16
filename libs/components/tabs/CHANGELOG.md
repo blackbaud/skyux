@@ -1,3 +1,7 @@
+# 4.6.9 (2021-09-16)
+
+- Fixed the vertical tabs component to scroll the top of the content pane when a new tab is activated. [#182](https://github.com/blackbaud/skyux-tabs/pull/182)
+
 # 4.6.8 (2021-07-27)
 
 - Fixed the sectioned form component to have proper spacing between a section's heading and invalid icon. [#176](https://github.com/blackbaud/skyux-tabs/pull/176)
