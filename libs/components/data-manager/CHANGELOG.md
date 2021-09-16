@@ -1,3 +1,7 @@
+# 4.2.2 (2021-09-16)
+
+- Fixed the column selector button to be responsive on smaller screens. [#46](https://github.com/blackbaud/skyux-data-manager/pull/46)
+
 # 4.2.1 (2021-07-16)
 
 - Fixed the column selector to have proper spacing between the column's title and description. [#38](https://github.com/blackbaud/skyux-data-manager/pull/38)
