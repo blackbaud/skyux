@@ -67,6 +67,7 @@ import {
 @Component({
   selector: 'sky-data-manager-toolbar',
   templateUrl: './data-manager-toolbar.component.html',
+  styleUrls: ['./data-manager-toolbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {

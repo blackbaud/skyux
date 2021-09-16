@@ -28,6 +28,8 @@
       <button
         class="sky-btn sky-btn-default sky-col-picker-btn"
         type="button"
+        [attr.aria-label]="'skyux_data_manager_columns_button_title' | skyLibResources"
+        [attr.title]="'skyux_data_manager_columns_button_title' | skyLibResources"
         (click)="openColumnPicker()"
       >
         <sky-icon

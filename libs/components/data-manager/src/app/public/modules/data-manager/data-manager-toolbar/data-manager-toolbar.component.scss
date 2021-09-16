@@ -1,0 +1,13 @@
+@import "~@skyux/theme/scss/mixins";
+
+@include sky-host-responsive-container-xs-min() {
+  .sky-col-picker-btn .sky-column-selector-action-btn-text {
+    display: none;
+  }
+}
+
+@include sky-host-responsive-container-sm-min() {
+  .sky-col-picker-btn .sky-column-selector-action-btn-text {
+    display: inline;
+  }
+}
