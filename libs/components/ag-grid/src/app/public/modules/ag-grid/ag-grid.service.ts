@@ -139,7 +139,7 @@ function dateComparator(date1: any, date2: any): number {
 function getValidatorCellRendererSelector(component: string, fallback?: ComponentSelectorResult) {
   return (params: ICellRendererParams): ComponentSelectorResult => {
     if (typeof params.colDef?.cellRendererParams?.skyComponentProperties?.validator === 'function') {
-      if (!params.colDef.cellRendererParams.skyComponentProperties.validator(params.value)) {
+      if (!params.colDef.cellRendererParams.skyComponentProperties.validator(params.value, params.data, params.rowIndex)) {
         return {
           component,
           params: {
@@ -245,7 +245,7 @@ export class SkyAgGridService implements OnDestroy {
     function getValidatorFn(): ((params: CellClassParams) => boolean) {
       return function (param: CellClassParams) {
         if (typeof param.colDef?.cellRendererParams?.skyComponentProperties?.validator === 'function') {
-          return !param.colDef.cellRendererParams.skyComponentProperties.validator(param.value);
+          return !param.colDef.cellRendererParams.skyComponentProperties.validator(param.value, param.data, param.rowIndex);
         }
         return false;
       };
@@ -365,7 +365,7 @@ export class SkyAgGridService implements OnDestroy {
       ...defaultSkyGridOptions.columnTypes[SkyCellType.Currency],
       cellRendererParams: {
         skyComponentProperties: {
-          validator: (value: any) => {
+          validator: (value: any, data: any, rowIndex: number) => {
             return !!`${value || ''}`.match(/^[^0-9]*(\d+[,.]?)+\d*[^0-9]*$/);
           },
           validatorMessage: 'Please enter a valid currency'
@@ -385,7 +385,7 @@ export class SkyAgGridService implements OnDestroy {
       },
       cellRendererParams: {
         skyComponentProperties: {
-          validator: (value: any) => {
+          validator: (value: any, data: any, rowIndex: number) => {
             return !!value && !isNaN(parseFloat(value));
           },
           validatorMessage: 'Please enter a valid number'

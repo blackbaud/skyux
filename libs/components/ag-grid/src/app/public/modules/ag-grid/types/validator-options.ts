@@ -1,4 +1,4 @@
 export interface ValidatorOptions {
-  validator?: (value: any) => boolean;
-  validatorMessage?: string | ((value: any) => string);
+  validator?: (value: any, data?: any, rowIndex?: number) => boolean;
+  validatorMessage?: string | ((value: any, data?: any, rowIndex?: number) => string);
 }

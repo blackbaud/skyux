@@ -37,7 +37,11 @@ export class SkyAgGridCellValidatorTooltipComponent {
     });
 
     if (typeof this.cellRendererParams.skyComponentProperties?.validatorMessage === 'function') {
-      this.validatorMessage = this.cellRendererParams.skyComponentProperties.validatorMessage(this.cellRendererParams.value);
+      this.validatorMessage = this.cellRendererParams.skyComponentProperties.validatorMessage(
+        this.cellRendererParams.value,
+        this.cellRendererParams.data,
+        this.cellRendererParams.rowIndex
+      );
     } else {
       this.validatorMessage = this.cellRendererParams.skyComponentProperties?.validatorMessage;
     }

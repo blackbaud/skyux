@@ -704,5 +704,37 @@ describe('SkyAgGridService', () => {
       } as ICellRendererParams;
       expect(cellRendererSelector(params).component).toBe('sky-ag-grid-cell-renderer-currency-validator');
     });
+
+    it('should pass data and rowId to validator', () => {
+      const cellRendererSelector = defaultGridOptions.columnTypes[SkyCellType.CurrencyValidator].cellRendererSelector;
+      const validator = (value: any, data: any, rowId: number) => {
+        return value && data && rowId;
+      };
+      const validatorMessage = (value: any, data: any, rowId: number) => {
+        return value && data && rowId ? 'Good' : 'Bad';
+      };
+
+      const paramsInvalid = {
+        ...cellRendererParams,
+        colDef: {
+          cellRendererParams: {
+            skyComponentProperties: {
+              validator,
+              validatorMessage
+            }
+          }
+        },
+        value: ''
+      } as ICellRendererParams;
+      expect(cellRendererSelector(paramsInvalid).component).toBe('sky-ag-grid-cell-renderer-currency-validator');
+
+      const paramsValid = {
+        ...paramsInvalid,
+        data: true,
+        rowIndex: 1,
+        value: 'valuable'
+      } as ICellRendererParams;
+      expect(cellRendererSelector(paramsValid).component).toBe('sky-ag-grid-cell-renderer-currency');
+    });
   });
 });
