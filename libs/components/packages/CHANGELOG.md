@@ -1,3 +1,7 @@
+# 5.0.0-beta.109 (2021-09-16)
+
+- `@skyux/select-field@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-select-field/blob/5.0.0-beta.2/CHANGELOG.md)
+
 # 5.0.0-beta.108 (2021-09-16)
 
 - `@skyux/tabs@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-tabs/blob/5.0.0-beta.2/CHANGELOG.md)
