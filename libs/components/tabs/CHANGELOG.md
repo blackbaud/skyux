@@ -1,3 +1,7 @@
+# 4.7.0 (2021-09-16)
+
+- Added modern theme styles for the sectioned form component. [#178](https://github.com/blackbaud/skyux-tabs/pull/178)
+
 # 4.6.9 (2021-09-16)
 
 - Fixed the vertical tabs component to scroll the top of the content pane when a new tab is activated. [#182](https://github.com/blackbaud/skyux-tabs/pull/182)
