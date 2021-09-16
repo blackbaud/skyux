@@ -1,12 +1,13 @@
-## 4.0.0 (2020-06-09)
+## 4.0.1
 
 ### New features
 
-- Added support for `@angular/core@^9.1.9`. [#64](https://github.com/blackbaud/skyux-lib-help/pull/64)
-- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#64](https://github.com/blackbaud/skyux-lib-help/pull/64)
+- Depend on `@blackbaud/help-client@3.0.1`. [75](https://github.com/blackbaud/skyux-lib-help/pull/75)
+- Add `helpMode` config property to enable _menu_ mode. [75](https://github.com/blackbaud/skyux-lib-help/pull/75)
+- Deprecate properties that only apply to a `helpMode` of _legacy_; _menu_ is the preferred mode going forward. [75](https://github.com/blackbaud/skyux-lib-help/pull/75)
+- Provide `HelpWidgetService` when `HelpKeyModule` is used in isolation. [75](https://github.com/blackbaud/skyux-lib-help/pull/75)
 
-
-## 4.0.0-rc.0 (2020-06-01)
+## 4.0.0 (2020-06-01)
 
 ### New features
 

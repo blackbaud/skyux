@@ -8,8 +8,8 @@ import {
   styleUrls: ['./toggle-key.component.scss']
 })
 export class ToggleKeyComponent {
-  public helpKey1: string = 'gonxt-workflow.html';
-  public helpKey2: string = 'example1.html';
+  public helpKey1: string = 'events-welcome.html';
+  public helpKey2: string = 'wd-workflows.html';
 
   public helpKey: string = this.helpKey1;
 

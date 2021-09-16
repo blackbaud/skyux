@@ -83,6 +83,12 @@ export class HelpWidgetService {
     return Promise.resolve();
   }
 
+  /**
+   * This was not intended to be public.
+   * It is not recommended for consumers to use.
+   * Use the other methods in this class instead.
+   * @deprecated
+   */
   public ready(): Promise<any> {
     return BBHelpClient.ready();
   }
