@@ -6,7 +6,10 @@
     "build": "npm run clean && tsc -p tsconfig.json",
     "postbuild": "node ./scripts/after-build-success.js",
     "clean": "rimraf dist",
-    "format-all": "npx prettier --write ."
+    "format-all": "npx prettier --write .",
+    "lint": "eslint src --ext .ts",
+    "test": "npm run lint && nyc npm run test:unit",
+    "test:unit": "ts-node --project tsconfig.test.json node_modules/jasmine/bin/jasmine.js --config=jasmine.json"
   },
   "repository": {
     "type": "git",
@@ -19,7 +22,7 @@
   },
   "homepage": "https://github.com/blackbaud/skyux-packages#readme",
   "ng-update": {
-    "migrations": "./migrations/migration-collection.json",
+    "migrations": "./schematics/migrations/migration-collection.json",
     "packageGroup": {
       "@skyux-sdk/documentation-schematics": "^5.0.0-beta.0",
       "@skyux-sdk/e2e": "^5.0.0-beta.0",
@@ -72,13 +75,30 @@
       "@skyux/validation": "^5.0.0-beta.0"
     }
   },
+  "peerDependencies": {
+    "@angular-devkit/schematics": "^12.2.5"
+  },
+  "dependencies": {
+    "jsonc-parser": "^3.0.0"
+  },
   "devDependencies": {
+    "@angular-devkit/schematics": "^12.2.5",
+    "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@schematics/angular": "^12.2.6",
     "@trivago/prettier-plugin-sort-imports": "^2.0.2",
+    "@types/fs-extra": "^9.0.12",
+    "@types/jasmine": "^3.6.11",
+    "@types/node": "~14.14.45",
+    "@typescript-eslint/eslint-plugin": "^4.31.1",
+    "@typescript-eslint/parser": "^4.31.1",
     "eslint": "^7.30.0",
     "eslint-config-prettier": "^8.3.0",
     "fs-extra": "^10.0.0",
+    "jasmine": "^3.6.4",
+    "nyc": "^15.1.0",
     "prettier": "^2.3.2",
     "rimraf": "^3.0.2",
+    "ts-node": "^10.2.1",
     "typescript": "^4.2.4"
   }
 }

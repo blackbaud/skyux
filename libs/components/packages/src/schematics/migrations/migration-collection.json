@@ -1,0 +1,14 @@
+{
+  "schematics": {
+    "noop": {
+      "version": "5.0.0-beta.0",
+      "factory": "./noop/noop.schematic",
+      "description": "Update all SKY UX component packages"
+    },
+    "setup-coverage-for-testing-module": {
+      "version": "5.0.0-beta.0",
+      "factory": "./setup-coverage-for-testing-module/setup-coverage-for-testing-module.schematic",
+      "description": "Setup coverage for the testing module"
+    }
+  }
+}
