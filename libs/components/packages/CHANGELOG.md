@@ -1,3 +1,7 @@
+# 5.0.0-beta.110 (2021-09-16)
+
+- Added the `ng update` schematic `setup-coverage-for-testing-module` to setup code coverage for library testing modules. [#7](https://github.com/blackbaud/skyux-packages/pull/7)
+
 # 5.0.0-beta.109 (2021-09-16)
 
 - `@skyux/select-field@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-select-field/blob/5.0.0-beta.2/CHANGELOG.md)
