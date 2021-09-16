@@ -12,7 +12,7 @@
   display: flex;
   justify-content: space-between;
 
-  &:focus {
+  &:focus-visible {
     @include sky-focus-outline;
   }
 }
@@ -29,12 +29,12 @@
 .sky-vertical-tabset-disabled {
   cursor: not-allowed;
   pointer-events: none;
-  font-style: normal;
 }
 
 @include sky-theme-modern {
   .sky-vertical-tabset-group {
     border: none;
+    margin: $sky-theme-modern-space-sm 0;
   }
 
   .sky-vertical-tabset-group-content {

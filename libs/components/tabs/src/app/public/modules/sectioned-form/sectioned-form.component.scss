@@ -1,3 +1,4 @@
+@import "~@skyux/theme/scss/variables";
 @import "~@skyux/theme/scss/mixins";
 @import "~@skyux/theme/scss/_compat/mixins";
 
@@ -28,6 +29,7 @@
 
   .sky-sectioned-form-content {
     flex-basis: 70%;
+    margin: $sky-padding-even-large;
     overflow-y: auto;
   }
 
@@ -44,3 +46,19 @@
 .sky-sectioned-form-content-hidden {
   display: none;
 }
+
+@include sky-theme-modern {
+  .sky-sectioned-form-content {
+    margin: $sky-theme-modern-space-md;
+  }
+  .sky-sectioned-form-tabs {
+    border-right: 1px solid $sky-theme-modern-border-color-neutral-medium;
+  }
+  @include sky-host-responsive-container-sm-min() {
+    .sky-sectioned-form-content {
+      margin: $sky-theme-modern-space-lg $sky-theme-modern-space-xl;
+    }
+  }
+}
+
+

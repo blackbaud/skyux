@@ -17,7 +17,7 @@
     background-color: $sky-background-color-neutral-light;
   }
 
-  &:focus {
+  &:focus-visible {
     @include sky-focus-outline;
   }
 
@@ -53,7 +53,6 @@
 .sky-vertical-tab-disabled {
   cursor: not-allowed;
   pointer-events: none;
-  font-style: normal;
 }
 
 .sky-vertical-tab-right-arrow {
@@ -63,6 +62,7 @@
 
 @include sky-theme-modern {
   .sky-vertical-tab {
+    color: $sky-text-color-deemphasized;
     cursor: pointer;
     padding: $sky-theme-modern-space-sm 0 $sky-theme-modern-space-sm $sky-theme-modern-space-sm;
     margin: $sky-theme-modern-margin-inline-sm 0 $sky-theme-modern-margin-inline-lg $sky-theme-modern-margin-inline-sm;
@@ -74,7 +74,7 @@
       border-left: 1px solid $sky-highlight-color-info;
     }
 
-    &:not(:active):focus {
+    &:not(:active):focus-visible {
       outline: solid 2px $sky-theme-modern-background-color-primary-dark;
       outline-offset: -2px;
       box-shadow:
@@ -89,16 +89,18 @@
 
     &:active {
       border-left: 3px solid $sky-highlight-color-info;
+      color: $sky-text-color-default;
       padding-left: 7px;
     }
-
     .sky-vertical-tab-heading-error {
       padding-left: $sky-theme-modern-space-sm;
+      position: relative;
+      top: -2px;
     }
   }
-
   .sky-vertical-tab-active {
     background: none;
+    color: $sky-text-color-default;
     padding-left: 7px;
     border-left: 3px solid $sky-theme-modern-color-blue-74;
   }

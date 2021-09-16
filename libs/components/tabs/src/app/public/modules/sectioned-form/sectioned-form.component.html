@@ -14,7 +14,7 @@
   </div>
   <div
     *ngIf="maintainSectionContent || tabService.contentVisible()"
-    class="sky-sectioned-form-content sky-padding-even-large"
+    class="sky-sectioned-form-content"
     [ngClass]="{'sky-sectioned-form-content-hidden': !tabService.contentVisible()}"
     [@contentEnter]="tabService.animationContentVisibleState"
     #skySectionSideContent

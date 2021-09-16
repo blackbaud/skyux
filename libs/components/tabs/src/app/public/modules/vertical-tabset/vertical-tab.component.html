@@ -9,6 +9,7 @@
   [ngClass]="{
     'sky-vertical-tab-active': active,
     'sky-vertical-tab-disabled': disabled,
+    'sky-font-deemphasized': disabled,
     'sky-deemphasized': disabled
   }"
   [tabIndex]="tabIndex()"
@@ -28,7 +29,6 @@
       descriptionType="error"
       indicatorType="danger"
     ></sky-status-indicator>
-
     <sky-icon
       *ngIf="showTabRightArrow"
       class="sky-vertical-tab-right-arrow"

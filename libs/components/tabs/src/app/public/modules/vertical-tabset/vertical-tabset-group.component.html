@@ -1,8 +1,10 @@
 <div class="sky-vertical-tabset-group">
+   <!-- [ngClass] includes font classes for both modern and default styles -->
   <div
     class="sky-vertical-tabset-group-header sky-padding-even-default"
     [ngClass]="{
-      'sky-vertical-tabset-group-header-sub-open sky-emphasized': subMenuOpen(),
+      'sky-vertical-tabset-group-header-sub-open sky-font-emphasized sky-emphasized': subMenuOpen(),
+      'sky-font-deemphasized': disabled,
       'sky-deemphasized': disabled,
       'sky-vertical-tabset-disabled': disabled
     }"
@@ -25,7 +27,7 @@
       type="button"
     >
       <sky-icon
-        icon="chevron-right"
+        icon="chevron-up"
         iconType="skyux"
       >
       </sky-icon>
@@ -40,7 +42,7 @@
       >
       </sky-icon>
     </button>
-    </ng-container>
+  </ng-container>
   </div>
   <div
     class="sky-vertical-tabset-group-content"

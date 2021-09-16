@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SkySectionedFormComponent } from './sectioned-form.component';
 import { SkySectionedFormSectionComponent } from './sectioned-form-section.component';
+import { SkyThemeModule} from '@skyux/theme';
 import { SkyVerticalTabsetModule } from '../vertical-tabset/vertical-tabset.module';
 import { SkyCheckboxModule } from '@skyux/forms';
 
@@ -13,6 +14,7 @@ import { SkyCheckboxModule } from '@skyux/forms';
   imports: [
     CommonModule,
     SkyCheckboxModule,
+    SkyThemeModule,
     SkyVerticalTabsetModule
   ],
   exports: [
