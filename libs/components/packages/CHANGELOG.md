@@ -1,3 +1,7 @@
+# 5.0.0-beta.111 (2021-09-16)
+
+- `@skyux/tabs@5.0.0-beta.3` [Release notes](https://github.com/blackbaud/skyux-tabs/blob/5.0.0-beta.3/CHANGELOG.md)
+
 # 5.0.0-beta.110 (2021-09-16)
 
 - Added the `ng update` schematic `setup-coverage-for-testing-module` to setup code coverage for library testing modules. [#7](https://github.com/blackbaud/skyux-packages/pull/7)
