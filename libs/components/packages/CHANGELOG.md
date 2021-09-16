@@ -1,3 +1,7 @@
+# 5.0.0-beta.107 (2021-09-16)
+
+- `@skyux/data-manager@5.0.0-beta.6` [Release notes](https://github.com/blackbaud/skyux-data-manager/blob/5.0.0-beta.6/CHANGELOG.md)
+
 # 5.0.0-beta.106 (2021-09-16)
 
 - `@skyux/phone-field@5.0.0-beta.1` [Release notes](https://github.com/blackbaud/skyux-phone-field/blob/5.0.0-beta.1/CHANGELOG.md)
