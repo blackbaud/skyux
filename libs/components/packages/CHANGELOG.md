@@ -1,3 +1,7 @@
+# 5.0.0-beta.105 (2021-09-16)
+
+- `@skyux/modals@5.0.0-beta.6` [Release notes](https://github.com/blackbaud/skyux-modals/blob/5.0.0-beta.6/CHANGELOG.md)
+
 # 5.0.0-beta.104 (2021-09-16)
 
 - `@skyux/avatar@5.0.0-beta.3` [Release notes](https://github.com/blackbaud/skyux-avatar/blob/5.0.0-beta.3/CHANGELOG.md)
