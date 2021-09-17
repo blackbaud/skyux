@@ -78,9 +78,6 @@
   "peerDependencies": {
     "@angular-devkit/schematics": "^12.2.5"
   },
-  "dependencies": {
-    "jsonc-parser": "^3.0.0"
-  },
   "devDependencies": {
     "@angular-devkit/schematics": "^12.2.5",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
