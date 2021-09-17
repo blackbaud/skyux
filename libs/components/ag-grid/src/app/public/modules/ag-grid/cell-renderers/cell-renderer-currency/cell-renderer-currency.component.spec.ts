@@ -136,8 +136,8 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
   });
 
   describe('refresh', () => {
-    it('returns true', () => {
-      expect(currencyComponent.refresh(cellRendererParams)).toBe(true);
+    it('returns false', () => {
+      expect(currencyComponent.refresh(cellRendererParams)).toBe(false);
     });
 
     it('updates the value if the params have changed', fakeAsync(() => {
@@ -156,7 +156,7 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
       expect(currencyComponent.value).toBe(123);
 
       cellRendererParams.value = 245;
-      currencyComponent.refresh(cellRendererParams);
+      currencyComponent.agInit(cellRendererParams);
 
       currencyFixture.detectChanges();
       tick();
