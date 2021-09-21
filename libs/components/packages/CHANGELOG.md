@@ -1,3 +1,7 @@
+# 5.0.0-beta.113 (2021-09-21)
+
+- `@skyux/validation@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-validation/blob/5.0.0-beta.2/CHANGELOG.md)
+
 # 5.0.0-beta.112 (2021-09-21)
 
 - `@skyux/ag-grid@5.0.0-beta.3` [Release notes](https://github.com/blackbaud/skyux-ag-grid/blob/5.0.0-beta.3/CHANGELOG.md)
