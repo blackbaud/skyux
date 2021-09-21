@@ -1,3 +1,7 @@
+# 4.9.6 (2021-09-21)
+
+- Fixed the `SkyDocsSourceCodeService` to handle both encoded and decoded URI strings for the source code. [#173](https://github.com/blackbaud/skyux-docs-tools/pull/173)
+
 # 4.9.5 (2021-08-25)
 
 - Fixed the NPM release. [#172](https://github.com/blackbaud/skyux-docs-tools/pull/172)
