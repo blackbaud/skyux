@@ -1,3 +1,7 @@
+# 5.0.0-beta.118 (2021-09-23)
+
+- `@skyux/flyout@5.0.0-beta.4` [Release notes](https://github.com/blackbaud/skyux-flyout/blob/5.0.0-beta.4/CHANGELOG.md)
+
 # 5.0.0-beta.117 (2021-09-22)
 
 - `@skyux/flyout@5.0.0-beta.3` [Release notes](https://github.com/blackbaud/skyux-flyout/blob/5.0.0-beta.3/CHANGELOG.md)
