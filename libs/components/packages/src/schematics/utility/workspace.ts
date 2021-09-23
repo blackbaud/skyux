@@ -1,5 +1,5 @@
 import { workspaces } from '@angular-devkit/core';
-import { SchematicsException, Tree } from '@angular-devkit/schematics';
+import { Rule, SchematicsException, Tree } from '@angular-devkit/schematics';
 
 import { readRequiredFile } from './tree';
 
@@ -51,4 +51,21 @@ export async function getProject(
   }
 
   return { project, projectName };
+}
+
+/**
+ * Allows updates to the Angular project config (angular.json).
+ */
+export function updateWorkspace(
+  updater: (workspace: workspaces.WorkspaceDefinition) => void
+): Rule {
+  return async (tree) => {
+    const { host, workspace } = await getWorkspace(tree);
+
+    // Send the workspace to the callback to allow it to be modified.
+    await updater(workspace);
+
+    // Update the workspace config with any changes.
+    await workspaces.writeWorkspace(workspace, host);
+  };
 }

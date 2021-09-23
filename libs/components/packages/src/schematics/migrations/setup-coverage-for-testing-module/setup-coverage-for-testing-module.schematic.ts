@@ -1,7 +1,11 @@
 import { chain, Rule } from '@angular-devkit/schematics';
 
 import { readRequiredFile } from '../../utility/tree';
-import { getProject, getWorkspace } from '../../utility/workspace';
+import {
+  getProject,
+  getWorkspace,
+  updateWorkspace,
+} from '../../utility/workspace';
 
 function updateSpecsEntryPoint(projectName: string): Rule {
   return (tree) => {
@@ -20,6 +24,22 @@ try {
   };
 }
 
+function addEntryPointToCodeCoverageIgnore(projectName: string): Rule {
+  return updateWorkspace((workspace) => {
+    const project = workspace.projects.get(projectName)!;
+    const testTarget = project.targets.get('test')!;
+    const options = testTarget.options!;
+
+    options.codeCoverageExclude = (options.codeCoverageExclude ||
+      []) as string[];
+
+    const ignorePattern = `projects/${projectName}/src/test.ts`;
+    if (!options.codeCoverageExclude.includes(ignorePattern)) {
+      options.codeCoverageExclude.push(ignorePattern);
+    }
+  });
+}
+
 export default function updatePackages(): Rule {
   return async (tree) => {
     const { workspace } = await getWorkspace(tree);
@@ -34,6 +54,9 @@ export default function updatePackages(): Rule {
       return;
     }
 
-    return chain([updateSpecsEntryPoint(projectName)]);
+    return chain([
+      updateSpecsEntryPoint(projectName),
+      addEntryPointToCodeCoverageIgnore(projectName),
+    ]);
   };
 }

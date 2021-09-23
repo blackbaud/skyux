@@ -40,8 +40,8 @@ try {
       .toPromise();
   }
 
-  function validateFiles() {
-    const entryPointContents = tree.readContent(
+  function validateFiles(updatedTree: UnitTestTree) {
+    const entryPointContents = updatedTree.readContent(
       `projects/${defaultProjectName}/src/test.ts`
     );
     expect(entryPointContents)
@@ -76,19 +76,25 @@ context.keys().map(context);
 
 ${testingModuleContext}
 `);
+
+    const angularJson = JSON.parse(updatedTree.readContent('angular.json'));
+    expect(
+      angularJson.projects[defaultProjectName].architect.test.options
+        .codeCoverageExclude
+    ).toEqual([`projects/${defaultProjectName}/src/test.ts`]);
   }
 
   it('should setup testing module for code coverage', async () => {
-    await runSchematic();
-    validateFiles();
+    const updatedTree = await runSchematic();
+    validateFiles(updatedTree);
   });
 
   it('should abort if testing module already setup', async () => {
-    await runSchematic();
-    validateFiles();
+    let updatedTree = await runSchematic();
+    validateFiles(updatedTree);
     // Run the schematic again.
-    await runSchematic();
-    validateFiles();
+    updatedTree = await runSchematic();
+    validateFiles(updatedTree);
   });
 
   it('should abort if project type is application', async () => {
