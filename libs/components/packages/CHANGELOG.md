@@ -1,3 +1,7 @@
+# 5.0.0-beta.120 (2021-09-23)
+
+- `@skyux/datetime@5.0.0-beta.5` [Release notes](https://github.com/blackbaud/skyux-datetime/blob/5.0.0-beta.5/CHANGELOG.md)
+
 # 5.0.0-beta.119 (2021-09-23)
 
 - `@skyux/config@5.0.0-beta.4` [Release notes](https://github.com/blackbaud/skyux-config/blob/5.0.0-beta.4/CHANGELOG.md)
