@@ -477,7 +477,8 @@ ag-grid-angular {
     display: none;
   }
 
-  .sky-ag-grid-cell-number {
+  .sky-ag-grid-cell-number,
+  .sky-ag-grid-cell-currency {
     text-align: right;
     padding-right: 12px;
   }
