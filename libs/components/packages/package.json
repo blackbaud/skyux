@@ -1,9 +1,9 @@
 {
   "name": "@skyux/packages",
-  "version": "5.0.0-beta.121",
+  "version": "5.0.0-beta.122",
   "description": "Handles the `ng update` command for SKY UX component libraries.",
   "scripts": {
-    "build": "npm run clean && tsc -p tsconfig.json",
+    "build": "npm run clean && tsc -p tsconfig.build.json",
     "postbuild": "node ./scripts/after-build-success.js",
     "clean": "rimraf dist",
     "format-all": "npx prettier --write .",
@@ -26,7 +26,7 @@
     "save": "dependencies"
   },
   "ng-update": {
-    "migrations": "./schematics/migrations/migration-collection.json",
+    "migrations": "./src/schematics/migrations/migration-collection.json",
     "packageGroup": {
       "@skyux-sdk/documentation-schematics": "^5.0.0-beta.0",
       "@skyux-sdk/e2e": "^5.0.0-beta.0",

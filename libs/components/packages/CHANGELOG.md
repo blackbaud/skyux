@@ -1,3 +1,7 @@
+# 5.0.0-beta.122 (2021-09-24)
+
+- Fixed release.
+
 # 5.0.0-beta.121 (2021-09-24)
 
 - Added a `ng add` schematic. [#11](https://github.com/blackbaud/skyux-packages/pull/11)
