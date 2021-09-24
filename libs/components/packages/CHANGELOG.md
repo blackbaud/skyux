@@ -1,3 +1,7 @@
+# 5.0.0-beta.123 (2021-09-24)
+
+- Fixed the `ng add` schematic to use the version range listed in `packageGroup` when determining the latest version. [#12](https://github.com/blackbaud/skyux-packages/pull/12)
+
 # 5.0.0-beta.122 (2021-09-24)
 
 - Fixed release.

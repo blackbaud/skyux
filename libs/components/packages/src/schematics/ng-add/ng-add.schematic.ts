@@ -1,7 +1,9 @@
 import { Rule, SchematicContext } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 
+import fs from 'fs-extra';
 import getLatestVersion from 'latest-version';
+import path from 'path';
 import semver from 'semver';
 
 import { readRequiredFile } from '../utility/tree';
@@ -13,11 +15,16 @@ async function ensureLatestVersions(
   context: SchematicContext,
   dependencies: {
     [_: string]: string;
+  },
+  packageGroup: {
+    [_: string]: string;
   }
 ): Promise<void> {
   for (const packageName in dependencies) {
     if (TARGET_PACKAGES_REGEXP.test(packageName)) {
-      let version = dependencies[packageName];
+      let version = packageGroup[packageName]
+        ? packageGroup[packageName]
+        : dependencies[packageName];
 
       // Check if the version provided is valid.
       const validRange = semver.validRange(version);
@@ -57,8 +64,16 @@ export default function ngAdd(): Rule {
     const packageJsonPath = 'package.json';
     const packageJson = JSON.parse(readRequiredFile(tree, packageJsonPath));
 
-    await ensureLatestVersions(context, packageJson.dependencies);
-    await ensureLatestVersions(context, packageJson.devDependencies);
+    const { packageGroup } = fs.readJsonSync(
+      path.resolve(__dirname, '../../../package.json')
+    )['ng-update'];
+
+    await ensureLatestVersions(context, packageJson.dependencies, packageGroup);
+    await ensureLatestVersions(
+      context,
+      packageJson.devDependencies,
+      packageGroup
+    );
 
     tree.overwrite(packageJsonPath, JSON.stringify(packageJson, undefined, 2));
 

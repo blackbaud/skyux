@@ -16,12 +16,18 @@ describe('ng-add.schematic', () => {
 
   let tree: UnitTestTree;
 
+  let latestVersionCalls: { [_: string]: string };
+
   beforeEach(async () => {
     tree = await createTestLibrary(runner, {
       name: defaultProjectName,
     });
 
+    latestVersionCalls = {};
+
     mock('latest-version', (packageName, args) => {
+      latestVersionCalls[packageName] = args.version;
+
       if (packageName === '@skyux/already-latest') {
         return args.version.replace(/^(\^|~)/, '');
       }
@@ -42,6 +48,7 @@ describe('ng-add.schematic', () => {
     packageJson.dependencies['@skyux/core'] = '^5.0.1';
     packageJson.dependencies['@skyux/already-latest'] = '5.4.1';
     packageJson.dependencies['@skyux/invalid'] = 'invalid'; // Invalid versions should be skipped.
+    packageJson.dependencies['@skyux/i18n'] = '4.2.1'; // <-- Version should be switched to what's in `packageGroup`.
     tree.overwrite('package.json', JSON.stringify(packageJson));
 
     const updatedTree = await runSchematic();
@@ -60,6 +67,7 @@ describe('ng-add.schematic', () => {
       '@skyux/already-latest': '5.4.1',
       '@skyux/invalid': 'invalid',
       '@skyux/core': 'LATEST',
+      '@skyux/i18n': 'LATEST',
       rxjs: '~6.6.0',
       tslib: 'LATEST',
       'zone.js': '~0.11.4',
@@ -80,5 +88,13 @@ describe('ng-add.schematic', () => {
       'ng-packagr': 'LATEST',
       typescript: '~4.3.5',
     });
+
+    expect(latestVersionCalls).toEqual(
+      jasmine.objectContaining({
+        '@skyux/core': '^5.0.0-beta.0',
+        '@skyux/already-latest': '^5.4.1',
+        '@skyux/i18n': '^5.0.0-beta.0',
+      })
+    );
   });
 });
