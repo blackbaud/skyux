@@ -1,3 +1,7 @@
+# 5.0.0-beta.124 (2021-09-27)
+
+- `@skyux/text-editor@5.0.0-beta.4` [Release notes](https://github.com/blackbaud/skyux-text-editor/blob/5.0.0-beta.4/CHANGELOG.md)
+
 # 5.0.0-beta.123 (2021-09-24)
 
 - Fixed the `ng add` schematic to use the version range listed in `packageGroup` when determining the latest version. [#12](https://github.com/blackbaud/skyux-packages/pull/12)
