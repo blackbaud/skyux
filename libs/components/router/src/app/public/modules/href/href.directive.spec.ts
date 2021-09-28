@@ -136,7 +136,7 @@ describe('SkyHref Directive', () => {
   }));
 
   it('should override query parameters', fakeAsync(() => {
-    setup({ query: 'param' }, false);
+    setup({query: 'param'}, false);
     fixture.componentInstance.dynamicLink = '1bb-nav://simple-app/example/page?query=override';
     fixture.detectChanges();
 
@@ -240,5 +240,20 @@ describe('SkyHref Directive', () => {
     expect(element.getAttribute('href')).toEqual(
       'https://success/example/page#foobar'
     );
+  }));
+
+  it('should accept several formats for the link', fakeAsync(() => {
+    setup({}, true);
+
+    fixture.componentInstance.dynamicLink = ['1bb-nav://simple-app', 'allowed'];
+    fixture.detectChanges();
+    tick(100);
+    const element = fixture.nativeElement.querySelector('.dynamicLink a');
+    expect(element.getAttribute('hidden')).toBeNull();
+
+    fixture.componentInstance.dynamicLink = ['test://simple-app', 'allowed', 'to', 'be', 'complicated'];
+    fixture.detectChanges();
+    tick(100);
+    expect(element.getAttribute('href')).toBe('https://success/allowed/to/be/complicated');
   }));
 });

@@ -21,9 +21,20 @@ type HrefChanges = { href: string, hidden: boolean };
   selector: '[skyHref]'
 })
 export class SkyHrefDirective {
+  /**
+   * Provide a link as a string or as an array of strings to be joined by a slash to form a complete
+   * URL.
+   *
+   * @param skyHref
+   */
   @Input()
-  public set skyHref(skyHref: string) {
-    this._skyHref = skyHref;
+  public set skyHref(skyHref: string | string[]) {
+    if (typeof skyHref === 'string') {
+      this._skyHref = skyHref;
+    } else {
+      this._skyHref = skyHref.join('/');
+    }
+
     this.checkRouteAccess();
   }
 

@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
 })
 export class HrefDirectiveFixtureComponent {
   @Input()
-  public dynamicLink = '1bb-nav://simple-app/';
+  public dynamicLink: string | any[] = '1bb-nav://simple-app/';
 
   @Input()
   public dynamicElse = 'hide';
