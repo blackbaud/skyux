@@ -1,3 +1,7 @@
+# 5.0.0-beat.1 (2021-09-28)
+
+- Fixed the `SkyDocsTypeDocAdapterService` to properly handle index signatures when using `typedoc@~0.20.0` and above. [#176](https://github.com/blackbaud/skyux-docs-tools/pull/176)
+
 # 5.0.0-beta.0 (2021-09-28)
 
 - Initial `5.0.0-beta` release. [#175](https://github.com/blackbaud/skyux-docs-tools/pull/175)

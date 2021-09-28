@@ -498,26 +498,25 @@ describe('TypeDoc adapter', () => {
         type: {
           type: 'reflection',
           declaration: {
-            indexSignature: [
-              {
-                name: '__index',
-                kindString: 'Index signature',
-                parameters: [
-                  {
-                    name: '_',
-                    kindString: 'Parameter',
-                    type: {
-                      type: 'intrinsic',
-                      name: 'string'
-                    }
+            indexSignature: {
+              name: '__index',
+              kindString: 'Index signature',
+              parameters: [
+                {
+                  name: '_',
+                  kindString: 'Parameter',
+                  type: {
+                    type: 'intrinsic',
+                    name: 'string'
                   }
-                ],
-                type: {
-                  type: 'intrinsic',
-                  name: 'string'
                 }
+              ],
+              type: {
+                type: 'intrinsic',
+                name: 'string'
               }
-            ]
+            }
+
           }
         }
       }];
@@ -1374,26 +1373,25 @@ describe('TypeDoc adapter', () => {
     });
 
     it('should support index signature properties', () => {
-      entry.indexSignature = [
-        {
-          name: '__index',
-          kindString: 'Index signature',
-          parameters: [
-            {
-              name: '_',
-              kindString: 'Parameter',
-              type: {
-                type: 'intrinsic',
-                name: 'string'
-              }
+      entry.indexSignature = {
+        name: '__index',
+        kindString: 'Index signature',
+        parameters: [
+          {
+            name: '_',
+            kindString: 'Parameter',
+            type: {
+              type: 'intrinsic',
+              name: 'string'
             }
-          ],
-          type: {
-            type: 'intrinsic',
-            name: 'any'
           }
+        ],
+        type: {
+          type: 'intrinsic',
+          name: 'any'
         }
-      ];
+      }
+        ;
 
       const def = adapter.toInterfaceDefinition(entry);
 
@@ -1685,26 +1683,24 @@ describe('TypeDoc adapter', () => {
         type: {
           type: 'reflection',
           declaration: {
-            indexSignature: [
-              {
-                name: '__index',
-                kindString: 'Index signature',
-                parameters: [
-                  {
-                    name: '_',
-                    kindString: 'Parameter',
-                    type: {
-                      type: 'intrinsic',
-                      name: 'string'
-                    }
+            indexSignature: {
+              name: '__index',
+              kindString: 'Index signature',
+              parameters: [
+                {
+                  name: '_',
+                  kindString: 'Parameter',
+                  type: {
+                    type: 'intrinsic',
+                    name: 'string'
                   }
-                ],
-                type: {
-                  type: 'reference',
-                  name: 'FooUser'
                 }
+              ],
+              type: {
+                type: 'reference',
+                name: 'FooUser'
               }
-            ]
+            }
           }
         }
       };

@@ -48,7 +48,7 @@ export interface TypeDocType {
 
   declaration?: {
     children?: TypeDocEntryChild[];
-    indexSignature?: TypeDocSignature[];
+    indexSignature?: TypeDocSignature;
     signatures?: TypeDocSignature[];
   };
 
@@ -150,7 +150,7 @@ export interface TypeDocEntry {
 
   kindString?: 'Class' | 'Enumeration' | 'Interface' | 'Type alias';
 
-  indexSignature?: TypeDocSignature[];
+  indexSignature?: TypeDocSignature;
 
   name?: string;
 
