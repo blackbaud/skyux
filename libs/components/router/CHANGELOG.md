@@ -1,3 +1,7 @@
+# 4.3.0 (2021-09-28)
+
+- Updated the `skyHref` directive to support using array inputs for route parameters. [#37](https://github.com/blackbaud/skyux-router/pull/37)
+
 # 4.2.2 (2021-06-09)
 
 - Added the `sky-href` class for the link style, added handling for the null config and resolver, and switched to using the `hidden` attribute when hiding `skyHref` links. [#29](https://github.com/blackbaud/skyux-router/pull/29)
