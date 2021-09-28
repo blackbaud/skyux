@@ -1,3 +1,7 @@
+# 5.0.0-beta.125 (2021-09-28)
+
+- `@skyux/docs-tools@5.0.0-beta.0` [Release notes](https://github.com/blackbaud/skyux-docs-tools/blob/5.0.0-beta.0/CHANGELOG.md)
+
 # 5.0.0-beta.124 (2021-09-27)
 
 - `@skyux/text-editor@5.0.0-beta.4` [Release notes](https://github.com/blackbaud/skyux-text-editor/blob/5.0.0-beta.4/CHANGELOG.md)
