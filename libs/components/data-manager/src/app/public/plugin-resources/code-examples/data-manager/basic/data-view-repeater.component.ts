@@ -141,6 +141,11 @@ export class DataViewRepeaterDemoComponent implements OnInit {
         selectedIds.splice(itemIndex, 1);
       }
     });
+
+    if (this.dataState.onlyShowSelected) {
+      this.displayedItems = [];
+    }
+
     this.dataState.selectedIds = selectedIds;
     this.dataManagerService.updateDataState(this.dataState, this.viewId);
     this.changeDetector.markForCheck();
@@ -158,5 +163,9 @@ export class DataViewRepeaterDemoComponent implements OnInit {
 
     this.dataState.selectedIds = selectedItems;
     this.dataManagerService.updateDataState(this.dataState, this.viewId);
+    if (this.dataState.onlyShowSelected && this.displayedItems) {
+      this.displayedItems = this.displayedItems.filter((itm) => itm.selected);
+      this.changeDetector.markForCheck();
+    }
   }
 }
