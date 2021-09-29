@@ -13,6 +13,8 @@ export function getData(item: any, selector: string): any {
   }
 
   let result = item;
+
+  /* istanbul ignore else */
   if (resultFieldParts.length > 0) {
     for (let index = 0; index < resultFieldParts.length; index++) {
     let part = resultFieldParts[index];
@@ -59,5 +61,6 @@ export function compare(value1: any, value2: any) {
   See: https://github.com/ReactiveX/rxjs/blob/master/src/internal/util/isObservable.ts
 */
 export function isObservable<T>(obj: any): obj is Observable<T> {
+  /* istanbul ignore next */
   return !!obj && (obj instanceof Observable || (typeof obj.lift === 'function' && typeof obj.subscribe === 'function'));
 }
