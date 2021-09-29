@@ -1,3 +1,7 @@
+# 5.0.0-beta.131 (2021-09-29)
+
+- `@skyux/theme@5.0.0` [Release notes](https://github.com/blackbaud/skyux-theme/blob/5.0.0/CHANGELOG.md)
+
 # 5.0.0-beta.130 (2021-09-28)
 
 - `@skyux/angular-tree-component@5.0.0-beta.1` [Release notes](https://github.com/blackbaud/skyux-angular-tree-component/blob/5.0.0-beta.1/CHANGELOG.md)
