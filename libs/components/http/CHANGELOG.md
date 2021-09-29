@@ -1,3 +1,16 @@
+# 5.0.0-beta.2 (2021-09-10)
+
+- Updated the peer dependencies. [#82](https://github.com/blackbaud/skyux-http/pull/82)
+
+# 5.0.0-beta.1 (2021-09-02)
+
+- Migrated to Angular CLI. [#80](https://github.com/blackbaud/skyux-http/pull/80)
+
+# 5.0.0-beta.0 (2021-07-01)
+
+- Initial beta release.
+- Added support for `@angular/core@^12`. [#77](https://github.com/blackbaud/skyux-http/pull/77)
+
 # 4.2.0 (2021-04-14)
 
 - Added support for `SkyAppRuntimeConfigParamsProvider`. [#75](https://github.com/blackbaud/skyux-http/pull/75)

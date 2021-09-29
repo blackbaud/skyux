@@ -14,8 +14,7 @@ import {
   SkyAppRuntimeConfigParamsProvider
 } from '@skyux/config';
 
-import * as jwtDecode_ from 'jwt-decode';
-const jwtDecode = jwtDecode_;
+import jwtDecode from "jwt-decode";
 
 import {
   SkyAuthGetTokenArgs
