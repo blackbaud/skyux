@@ -1,3 +1,9 @@
+# 5.0.0 (2021-09-29)
+
+### New features
+
+- Added support for Angular 12. [#22](https://github.com/blackbaud/skyux-omnibar-interop/pull/22)
+
 # 5.0.0-beta.1 (2021-09-10)
 
 - Migrated to Angular CLI [#22](https://github.com/blackbaud/skyux-omnibar-interop/pull/22)
