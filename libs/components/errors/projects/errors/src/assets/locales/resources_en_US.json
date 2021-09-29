@@ -1,0 +1,34 @@
+{
+  "skyux_errors_broken_description": {
+    "_description": "The error component description message for the broken error type",
+    "message": "Something went wrong.\nTry again or come back later."
+  },
+  "skyux_errors_broken_title": {
+    "_description": "The error component title message for the broken error type",
+    "message": "That's odd..."
+  },
+  "skyux_errors_construction_description": {
+    "_description": "The error component description message for the construction error type",
+    "message": "We appreciate your patience while we\nmake improvements."
+  },
+  "skyux_errors_construction_title": {
+    "_description": "The error component title message for the construction error type",
+    "message": "Work in progress."
+  },
+  "skyux_errors_not_found_description": {
+    "_description": "The error component description message for the not found error type",
+    "message": "Pardon us, but this page\nis missing or has moved."
+  },
+  "skyux_errors_not_found_title": {
+    "_description": "The error component title message for the not found error type",
+    "message": "Nothing to see here."
+  },
+  "skyux_errors_security_description": {
+    "_description": "The error component description message for the security error type",
+    "message": "Ask your administrator for access."
+  },
+  "skyux_errors_security_title": {
+    "_description": "The error component title message for the security error type",
+    "message": "Heads up!\nYou're in a restricted area."
+  }
+}

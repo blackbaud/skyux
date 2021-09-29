@@ -1,3 +1,27 @@
+# 5.0.0-beta.4 (2021-09-14)
+
+- Updated SKY UX dependencies. [#58](https://github.com/blackbaud/skyux-errors/pull/58)
+
+# 5.0.0-beta.3 (2021-09-02)
+
+- Enabled Ivy's "partial" compilation mode. [#55](https://github.com/blackbaud/skyux-errors/pull/55)
+
+# 5.0.0-beta.2 (2021-09-01)
+
+- Migrated to Angular CLI. [#50](https://github.com/blackbaud/skyux-errors/pull/50)
+
+# 5.0.0-beta.1 (2021-08-30)
+
+- Added default descriptions for the `notfound` and `security` error types. [#49](https://github.com/blackbaud/skyux-autonumeric/pull/49)
+- Updated the images for all the error types. [#49](https://github.com/blackbaud/skyux-autonumeric/pull/49)
+
+# 5.0.0-beta.0 (2021-07-08)
+
+- Initial beta release.
+- Added support for `@angular/core@^12`. [#48](https://github.com/blackbaud/skyux-autonumeric/pull/48)
+- Added support for `5.0.0-beta.*` versions of SKY UX component libraries. [#48](https://github.com/blackbaud/skyux-autonumeric/pull/48)
+- Fixed `SkyErrorModalService` to work within lazy-loaded feature modules. [#46](https://github.com/blackbaud/skyux-autonumeric/pull/46)
+
 # 4.0.1 (2020-08-06)
 
 - Added support for `@skyux/theme@4.8.0` and `@skyux-sdk/builder@4.3.0`. [#31](https://github.com/blackbaud/skyux-errors/pull/31)
