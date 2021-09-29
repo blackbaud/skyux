@@ -1,3 +1,15 @@
+# 5.0.0-beta.2 (2021-09-03)
+
+- Enabled Ivy's `partial` compilation mode. [#29](https://github.com/blackbaud/skyux-assets/pull/29)
+
+# 5.0.0-beta.1 (2021-08-27)
+
+- Migrated to Angular CLI. [#27](https://github.com/blackbaud/skyux-assets/pull/27)
+
+# 5.0.0-beta.0 (2021-06-16)
+
+- Initial beta release.
+
 # 4.0.1 (2020-08-05)
 
 - Added support for `@skyux/theme@4.8.0` and `@skyux-sdk/builder@4.3.0`. [#24](https://github.com/blackbaud/skyux-assets/pull/24)
