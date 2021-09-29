@@ -15,6 +15,7 @@ const DEFAULTS: SkyuxConfigHost = {
 
 /**
  * Provides host configuration to components and applications.
+ * @deprecated Use `SkyAppConfig.skyux.host` instead.
  */
 @Injectable()
 export class SkyAppConfigHost {

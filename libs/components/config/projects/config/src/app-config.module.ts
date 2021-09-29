@@ -15,10 +15,9 @@ import {
   SkyAppConfigParams
 } from './app-config-params';
 
-import {
-  SkyAppParamsConfig
-} from './params-config';
-
+/**
+ * @deprecated Provide `SkyAppConfig` at the root instead.
+ */
 @NgModule({})
 export class SkyAppConfigModule {
 
@@ -29,14 +28,6 @@ export class SkyAppConfigModule {
     return {
       ngModule: SkyAppConfigModule,
       providers: [
-        {
-          provide: SkyAppParamsConfig,
-          useFactory() {
-            return new SkyAppParamsConfig({
-              params: config.params
-            });
-          }
-        },
         {
           provide: SkyAppConfigParams,
           useFactory() {
