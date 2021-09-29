@@ -1,3 +1,7 @@
+# 4.2.3 (2021-09-29)
+
+- Update implementation examples for only showing selected items [#49](https://github.com/blackbaud/skyux-data-manager/pull/49)
+
 # 4.2.2 (2021-09-16)
 
 - Fixed the column selector button to be responsive on smaller screens. [#46](https://github.com/blackbaud/skyux-data-manager/pull/46)
