@@ -1,3 +1,21 @@
+# 5.0.0-beta.3 (2021-09-08)
+
+- Updated peer dependencies. [#58](https://github.com/blackbaud/skyux-autonumeric/pull/58)
+
+# 5.0.0-beta.2 (2021-09-03)
+
+- Enabled Ivy's `partial` compilation mode. [#56](https://github.com/blackbaud/skyux-autonumeric/pull/56)
+
+# 5.0.0-beta.1 (2021-08-27)
+
+- Migrated to Angular CLI. [#54](https://github.com/blackbaud/skyux-autonumeric/pull/54)
+
+# 5.0.0-beta.0 (2021-07-08)
+
+- Initial beta release.
+- Added support for `@angular/core@^12`. [#53](https://github.com/blackbaud/skyux-autonumeric/pull/53)
+- Fixed `SkyAutonumericOptionsProvider` to work within lazy-loaded feature modules. [#52](https://github.com/blackbaud/skyux-autonumeric/pull/52)
+
 # 4.0.4 (2021-06-02)
 
 - Fixed the `skyAutonumeric` directive to use the options provider when no local options are given to the directive. [#50](https://github.com/blackbaud/skyux-autonumeric/pull/50)
