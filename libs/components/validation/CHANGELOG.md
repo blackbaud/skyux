@@ -1,3 +1,15 @@
+# 5.0.0-beta.2 (2021-9-21)
+
+- Fixed the public exports API to be consistent with the other SKY UX component libraries. [#53](https://github.com/blackbaud/skyux-validation/pull/53)
+
+# 5.0.0-beta.1 (2021-09-10)
+
+- Migrated to Angular CLI. [#50](https://github.com/blackbaud/skyux-validation/pull/50)
+
+# 5.0.0-beta.0 (2021-06-24)
+
+- Initial beta release.
+
 # 4.0.1 (2020-08-07)
 
 - Added support for `@skyux/theme@4.8.0` and `@skyux-sdk/builder@4.3.0`. [#34](https://github.com/blackbaud/skyux-validation/pull/34)
