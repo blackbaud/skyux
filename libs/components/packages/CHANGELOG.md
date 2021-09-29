@@ -1,3 +1,7 @@
+# 5.0.0-beta.136 (2021-09-29)
+
+- `@skyux/omnibar-interop@5.0.0` [Release notes](https://github.com/blackbaud/skyux-omnibar-interop/blob/5.0.0/CHANGELOG.md)
+
 # 5.0.0-beta.135 (2021-09-29)
 
 - `@skyux/validation@5.0.0` [Release notes](https://github.com/blackbaud/skyux-validation/blob/5.0.0/CHANGELOG.md)
