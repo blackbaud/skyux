@@ -1,3 +1,12 @@
+# 5.0.0-beta.1 (2021-09-10)
+
+- Migrated to Angular CLI [#22](https://github.com/blackbaud/skyux-omnibar-interop/pull/22)
+
+# 5.0.0-beta.0 (2021-06-15)
+
+- Initial beta release.
+- Removed the `Injectable` decorator from `SkyAppOmnibarProvider`. [#21](https://github.com/blackbaud/skyux-omnibar-interop/pull/21)
+
 # 4.0.1 (2020-08-10)
 
 - Added support for `@skyux/theme@4.8.0` and `@skyux-sdk/builder@4.3.0`. [#20](https://github.com/blackbaud/skyux-omnibar-interop/pull/20)
