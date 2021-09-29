@@ -1,6 +1,6 @@
 {
   "name": "@skyux/autonumeric",
-  "version": "5.0.0-beta.3",
+  "version": "5.0.0",
   "dependencies": {
     "autonumeric": "4.6.0",
     "tslib": "^2.3.0"
