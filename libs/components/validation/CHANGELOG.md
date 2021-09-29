@@ -1,3 +1,9 @@
+# 5.0.0 (2021-09-29)
+
+### New features
+
+- Added support for Angular 12. [#50](https://github.com/blackbaud/skyux-validation/pull/50)
+
 # 5.0.0-beta.2 (2021-9-21)
 
 - Fixed the public exports API to be consistent with the other SKY UX component libraries. [#53](https://github.com/blackbaud/skyux-validation/pull/53)
