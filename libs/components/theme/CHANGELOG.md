@@ -1,10 +1,39 @@
+# 5.0.0 (2021-09-29)
+
+### New features
+
+- Added support for Angular 12. [#265](https://github.com/blackbaud/skyux-theme/pull/265)
+- Added font face definitions for "BLKB Sans" and deprecated "Blackbaud Sans." [#243](https://github.com/blackbaud/skyux-theme/pull/243)
+- Added support for "lazy loaded" feature modules. [#232](https://github.com/blackbaud/skyux-theme/pull/232)
+
+# 5.0.0-beta.6 (2021-09-22)
+
+- Added support for `@skyux/icons@5.0.0-beta.0`. [#267](https://github.com/blackbaud/skyux-theme/pull/267)
+
+# 5.0.0-beta.5 (2021-09-09)
+
+- Ejected to Angular CLI. [#265](https://github.com/blackbaud/skyux-theme/pull/265)
+
+# 5.0.0-beta.4 (2021-08-11)
+
+- Added bug fixes and features from the `master` branch. [#263](https://github.com/blackbaud/skyux-theme/pull/263)
+
 # 4.21.1 (2021-08-11)
 
 - Fixed modern theme selectors when view encapsulation is disabled. [#261](https://github.com/blackbaud/skyux-theme/pull/261)
 
+# 5.0.0-beta.3 (2021-08-05)
+
+- Added bug fixes and features from the `master` branch. [#259](https://github.com/blackbaud/skyux-theme/pull/259)
+
 # 4.21.0 (2021-08-05)
 
 - Added modern theme styles for radio icon groups and checkbox icon groups. [#257](https://github.com/blackbaud/skyux-theme/pull/257)
+
+# 5.0.0-beta.2 (2021-07-29)
+
+- Added bug fixes and features from the `master` branch. [#255](https://github.com/blackbaud/skyux-theme/pull/255)
+- Removed extra space around unstyled list. [#250](https://github.com/blackbaud/skyux-theme/pull/250)
 
 # 4.20.1 (2021-07-29)
 
@@ -22,6 +51,15 @@
 
 - Added default theme styles for the box and elevation classes. [#246](https://github.com/blackbaud/skyux-theme/pull/246)
 
+# 5.0.0-beta.1 (2021-06-24)
+
+- Added font face definitions for "BLKB Sans" and deprecated "Blackbaud Sans." [#243](https://github.com/blackbaud/skyux-theme/pull/243)
+
+# 5.0.0-beta.0 (2021-06-15)
+
+- Initial beta release.
+- Updated `5.0.0-next` branch with features from the `master` branch. [#236](https://github.com/blackbaud/skyux-theme/pull/236)
+
 # 4.17.0 (2021-06-15)
 
 - Updated the SKY UX icon font version to 4.0.0-beta.3. [#238](https://github.com/blackbaud/skyux-theme/pull/238)
@@ -29,6 +67,11 @@
 # 4.16.3 (2021-05-19)
 
 - Added a CSS class to omit the link style on `<a>` tags that do not have `href` attributes. [#229](https://github.com/blackbaud/skyux-theme/pull/229)
+
+# 5.0.0-alpha.0 (2021-05-19)
+
+- Added support for `@angular/core@^12`. [#232](https://github.com/blackbaud/skyux-theme/pull/232)
+- Removed `SkyAppStyleLoader` and `SkyAppViewportService` from the `providers` section of `SkyThemeModule` and added `providedIn: 'root'` to those services. [#232](https://github.com/blackbaud/skyux-theme/pull/232)
 
 # 4.16.2 (2021-04-30)
 
