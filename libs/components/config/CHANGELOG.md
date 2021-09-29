@@ -1,3 +1,16 @@
+# 5.0.0 (2021-09-29)
+
+### New features
+
+- Added support for Angular 12. [#77](https://github.com/blackbaud/skyux-config/pull/77)
+- Added the `blackbaudEmployee` property to a new `authSettings` configuration. [#85](https://github.com/blackbaud/skyux-config/pull/85)\
+- Updated `skyuxconfig.json` schema to be more specific and match documentation. [#78](https://github.com/blackbaud/skyux-config/pull/78)
+- Deprecated `SkyAppConfigHost`, `SkyAppConfigParams`, `SkyAppConfigModule`, and `SkyAppRuntimeConfigParamsProvider`. [#77](https://github.com/blackbaud/skyux-config/pull/77)
+
+### Breaking changes
+
+- Removed `SkyAppParamsConfig`. Use `SkyAppConfig.skyux.params` instead. [#77](https://github.com/blackbaud/skyux-config/pull/77)
+
 # 5.0.0-beta.4 (2021-09-23)
 
 - Moved the `blackbaudEmployee` property to a new `authSettings` configuration. [#85](https://github.com/blackbaud/skyux-config/pull/85)
