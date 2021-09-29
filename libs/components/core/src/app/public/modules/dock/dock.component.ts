@@ -46,7 +46,7 @@ import {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkyDockComponent  {
+export class SkyDockComponent {
 
   private options: SkyDockOptions;
 
@@ -107,8 +107,17 @@ export class SkyDockComponent  {
   public setOptions(options: SkyDockOptions): void {
     this.options = options;
 
-    if (this.options?.location === SkyDockLocation.BeforeElement) {
-      this.domAdapter.unbindDock(this.elementRef);
+    switch (this.options?.location) {
+      case SkyDockLocation.BeforeElement:
+        this.domAdapter.unbindDock(this.elementRef);
+        break;
+      case SkyDockLocation.ElementBottom:
+        this.domAdapter.setSticky(this.elementRef);
+        break;
+      case SkyDockLocation.BodyBottom:
+      default:
+        this.domAdapter.watchDomChanges(this.elementRef);
+        break;
     }
 
     if (this.options?.zIndex) {

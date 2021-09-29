@@ -5,8 +5,12 @@
 }
 
 :host:not(.sky-dock-unbound) {
-  position: sticky;
+  position: fixed;
   left: 0;
   bottom: 0;
   right: 0;
+}
+
+:host.sky-dock-sticky {
+  position: sticky;
 }
