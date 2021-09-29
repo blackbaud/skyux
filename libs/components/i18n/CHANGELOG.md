@@ -1,3 +1,15 @@
+# 5.0.0 (2021-09-29)
+
+### New features
+
+- Added support for Angular 12. [#107](https://github.com/blackbaud/skyux-i18n/pull/107)
+- Updated the following singleton services to use [Angular's preferred method to become tree-shakeable](https://angular.io/guide/singleton-services#using-providedin): `SkyAppLocaleProvider`, `SkyAppResourceNameProvider`, `SkyAppResourcesService`, and `SkyLibResourcesService`. [#107](https://github.com/blackbaud/skyux-i18n/pull/107)
+
+### Breaking changes
+
+- Removed the `SkyAppResourcesTestService`. [#101](https://github.com/blackbaud/skyux-i18n/pull/101)
+- Dropped Internet Explorer 11 support. [#127](https://github.com/blackbaud/skyux-i18n/pull/127)
+
 # 5.0.0-beta.7 (2021-09-03)
 
 - Enabled Ivy's "partial" compilation mode. [#127](https://github.com/blackbaud/skyux-i18n/pull/127)
@@ -85,6 +97,7 @@
 - Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#51](https://github.com/blackbaud/skyux-i18n/pull/51)
 
 ### Breaking changes
+
 - Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#51](https://github.com/blackbaud/skyux-i18n/pull/51)
 - Removed `SkyAppHostLocaleProvider`. This class is provided automatically by `@skyux-sdk/builder@>=3`. [#51](https://github.com/blackbaud/skyux-i18n/pull/51)
 - Removed `SkyLibResourcesTestService` because it is no longer needed. Instead of providing the test service in the `TestBed`, import the resources module used in production. [#75](https://github.com/blackbaud/skyux-i18n/pull/75)
@@ -126,6 +139,7 @@
 - Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#51](https://github.com/blackbaud/skyux-i18n/pull/51)
 
 ### Breaking changes
+
 - Dropped support for `rxjs@5`. Consumers can install `rxjs-compat@^6` to support older versions of `rxjs`. [#51](https://github.com/blackbaud/skyux-i18n/pull/51)
 - Removed `SkyAppHostLocaleProvider`. This class is provided automatically by `@skyux-sdk/builder@>=3`. [#51](https://github.com/blackbaud/skyux-i18n/pull/51)
 
