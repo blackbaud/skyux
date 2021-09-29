@@ -1,3 +1,8 @@
+# 5.0.0-beta.7 (2021-09-03)
+
+- Enabled Ivy's "partial" compilation mode. [#127](https://github.com/blackbaud/skyux-i18n/pull/127)
+- Dropped Internet Explorer 11 support. [#127](https://github.com/blackbaud/skyux-i18n/pull/127)
+
 # 4.4.0 (2021-09-02)
 
 - Added a `getStrings()` method to `SkyLibResourcesService` for retrieving multiple resource strings in one asynchronous operation. [#125](https://github.com/blackbaud/skyux-i18n/pull/125) (Thanks [@ThomasOrtiz](https://github.com/ThomasOrtiz)!)
@@ -6,13 +11,51 @@
 
 - Updated the `SkyIntlNumberFormatter` utility to support the accounting currency sign. [#123](https://github.com/blackbaud/skyux-i18n/pull/123) (Thanks [@Blackbaud-TomMaszk](https://github.com/Blackbaud-TomMaszk)!)
 
+# 5.0.0-beta.6 (2021-09-01)
+
+- Fixed the `getStringForLocale` function to return empty resource strings if they are defined for a given resource key. [#121](https://github.com/blackbaud/skyux-i18n/pull/121)
+
+# 5.0.0-beta.5 (2021-08-31)
+
+- Fixed `SkyLibResourcesService` to return empty resource strings if they are defined for a given resource key. [#119](https://github.com/blackbaud/skyux-i18n/pull/119)
+
+# 5.0.0-beta.4 (2021-08-13)
+
+- Fixed the `lib-resources-module` schematic to work with ahead-of-time compilation. [#115](https://github.com/blackbaud/skyux-i18n/pull/115)
+
+# 5.0.0-beta.3 (2021-08-06)
+
+- Added the `ng add` schematic. [113](https://github.com/blackbaud/skyux-i18n/pull/113)
+- Added the `ng generate @skyux/i18n:lib-resources-module` schematic. [113](https://github.com/blackbaud/skyux-i18n/pull/113)
+
+# 5.0.0-beta.2 (2021-06-29)
+
+- Fixed the peer dependencies to only reference beta versions for SKY UX packages. [110](https://github.com/blackbaud/skyux-i18n/pull/110)
+
+# 5.0.0-beta.1 (2021-06-22)
+
+- Fixed the `SkyLibResourcesService` to work within lazy-loaded feature modules. [#108](https://github.com/blackbaud/skyux-i18n/pull/108)
+
+# 5.0.0-beta.0 (2021-06-15)
+
+- Initial beta release.
+- Added support for `@angular/core@^12`. [#107](https://github.com/blackbaud/skyux-i18n/pull/107)
+- Updated the following singleton services to use [Angular's preferred method to become tree-shakeable](https://angular.io/guide/singleton-services#using-providedin): `SkyAppLocaleProvider`, `SkyAppResourceNameProvider`, `SkyAppResourcesService`, and `SkyLibResourcesService`. [#107](https://github.com/blackbaud/skyux-i18n/pull/107)
+- Updated `5.0.0-next` branch with features from the `master` branch. [#107](https://github.com/blackbaud/skyux-i18n/pull/107)
+
 # 4.2.1 (2021-05-27)
 
 - Added a `getStrings()` method to `SkyAppResourcesTestService` to support unit testing code that uses `SkyAppResourcesService`. [#105](https://github.com/blackbaud/skyux-i18n/pull/105) (Thanks [@ThomasOrtiz](https://github.com/ThomasOrtiz)!)
 
 # 4.2.0 (2021-05-27)
 
-- Added a `getStrings()` method to `SkyAppResourcesService` for retreiving multiple resource strings in one asynchronous operation. [#103](https://github.com/blackbaud/skyux-i18n/pull/103) (Thanks [@ThomasOrtiz](https://github.com/ThomasOrtiz)!)
+- Added a `getStrings()` method to `SkyAppResourcesService` for retrieving multiple resource strings in one asynchronous operation. [#103](https://github.com/blackbaud/skyux-i18n/pull/103) (Thanks [@ThomasOrtiz](https://github.com/ThomasOrtiz)!)
+
+# 5.0.0-alpha.0 (2021-05-26)
+
+### Breaking changes
+
+- Removed the `SkyAppResourcesTestService`. [#101](https://github.com/blackbaud/skyux-i18n/pull/101)
 
 # 4.1.0 (2021-04-14)
 

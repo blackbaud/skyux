@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the library resources module.",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use for the resources module?"
+    },
+    "project": {
+      "type": "string",
+      "description": "The name of the project to generate the library resources module.",
+      "$default": {
+        "$source": "projectName"
+      }
+    }
+  }
+}
