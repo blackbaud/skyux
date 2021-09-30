@@ -1,10 +1,36 @@
+# 5.0.0-beta.4 (2021-09-10)
+
+- Updated peer dependencies. [#191](https://github.com/blackbaud/skyux-indicators/pull/191)
+
+# 5.0.0-beta.3 (2021-09-02)
+
+- Enabled Ivy's "partial" compilation mode. [#190](https://github.com/blackbaud/skyux-indicators/pull/190)
+
+# 5.0.0-beta.2 (2021-08-27)
+
+- Migrated to Angular CLI. [#188](https://github.com/blackbaud/skyux-indicators/pull/188)
+
+# 5.0.0-beta.1 (2021-07-29)
+
+- Deprecated the `SkyIconVariant` enum in favor of a string union type to support specifying string literals in Angular templates. [#182](https://github.com/blackbaud/skyux-indicators/pull/182)
+
 # 4.11.0 (2021-07-23)
 
 - Updated skyux-theme version to enable modern theme styles for the text highlight directive. [#183](https://github.com/blackbaud/skyux-indicators/pull/183)
 
+# 5.0.0-beta.0 (2021-06-28)
+
+- Initial beta release.
+- Added support for `5.0.0-beta.*` versions of SKY UX component libraries. [#176](https://github.com/blackbaud/skyux-indicators/pull/176)
+- Fixed `SkyWaitService` to work within lazy-loaded feature modules. [#176](https://github.com/blackbaud/skyux-indicators/pull/176)
+
 # 4.10.0 (2021-06-09)
 
 - Added modern theme styles to the inline help component. [#173](https://github.com/blackbaud/skyux-indicators/pull/173)
+
+# 5.0.0-alpha.0 (2021-05-20)
+
+- Removed `BrowserAnimationsModule` from the `imports` section of `SkyTokensModule` to support lazy-loading. Consumers of `SkyTokensModule` must now import `BrowserAnimationsModule` into their application's root module. [#169](https://github.com/blackbaud/skyux-indicators/pull/169)
 
 # 4.9.2 (2021-04-13)
 
