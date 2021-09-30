@@ -4,12 +4,8 @@ import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import fs from 'fs-extra';
 import getLatestVersion from 'latest-version';
 import path from 'path';
-import semver from 'semver';
 
 import { readRequiredFile } from '../utility/tree';
-
-const TARGET_PACKAGES_REGEXP =
-  /^((@skyux(-sdk)?\/)|(@blackbaud\/)|(@blackbaud-internal\/skyux-.*)|(@angular(-devkit)?\/)|(ng-packagr)|(tslib))/;
 
 async function ensureLatestVersions(
   context: SchematicContext,
@@ -21,26 +17,9 @@ async function ensureLatestVersions(
   }
 ): Promise<void> {
   for (const packageName in dependencies) {
-    if (TARGET_PACKAGES_REGEXP.test(packageName)) {
-      let version = packageGroup[packageName]
-        ? packageGroup[packageName]
-        : dependencies[packageName];
+    const version = packageGroup[packageName];
 
-      // Check if the version provided is valid.
-      const validRange = semver.validRange(version);
-      if (!validRange) {
-        context.logger.warn(
-          `Invalid range provided for "${packageName}" (wanted "${version}"). Skipping.`
-        );
-        continue;
-      }
-
-      // Convert the specific version into a range.
-      version =
-        validRange === version
-          ? `^${version}`
-          : `^${semver.minVersion(validRange)!.version}`;
-
+    if (version) {
       // Get the latest version from NPM.
       const latestVersion = await getLatestVersion(packageName, { version });
 

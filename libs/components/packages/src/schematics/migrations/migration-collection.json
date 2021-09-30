@@ -14,6 +14,11 @@
       "version": "5.0.0-beta.0",
       "factory": "./setup-coverage-for-testing-module/setup-coverage-for-testing-module.schematic",
       "description": "Setup coverage for the testing module"
+    },
+    "remove-package-json-scripts": {
+      "version": "5.0.0-beta.0",
+      "factory": "./remove-package-json-scripts/remove-package-json-scripts.schematic",
+      "description": "Remove SKY UX scripts from package.json"
     }
   }
 }
