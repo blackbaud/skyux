@@ -1,3 +1,24 @@
+# 5.0.0-beta.5 (2021-09-23)
+
+- Fixed the datepicker directive and fuzzy datepicker directive to allow for undefined component references when strict mode is enabled. [#284](https://github.com/blackbaud/skyux-datetime/pull/284)
+
+# 5.0.0-beta.4 (2021-09-10)
+
+- Updated peer dependencies. [#282](https://github.com/blackbaud/skyux-datetime/pull/282)
+
+# 5.0.0-beta.3 (2021-09-10)
+
+- Updated peer dependencies. [#280](https://github.com/blackbaud/skyux-datetime/pull/280)
+- Enabled Ivy's "partial" compilation mode. [#280](https://github.com/blackbaud/skyux-datetime/pull/280)
+
+# 5.0.0-beta.2 (2021-09-01)
+
+- Migrated to Angular CLI. [#278](https://github.com/blackbaud/skyux-datetime/pull/278)
+
+# 5.0.0-beta.1 (2021-08-18)
+
+- Added bug fixes and features from the `master` branch. [#277](https://github.com/blackbaud/skyux-datetime/pull/277)
+
 # 4.12.2 (2021-08-18)
 
 - Fixed performance issues with the datepicker and timepicker components. [#275](https://github.com/blackbaud/skyux-datetime/pull/275)
@@ -5,6 +26,13 @@
 # 4.12.1 (2021-07-30)
 
 - Fixed the fuzzy datepicker component to properly format dates based on the given date format. [#270](https://github.com/blackbaud/skyux-datetime/pull/270)
+
+# 5.0.0-beta.0 (2021-07-08)
+
+- Initial beta release.
+- Added support for `@angular/core@^12`. [#269](https://github.com/blackbaud/skyux-datetime/pull/269)
+- Added support for `5.0.0-beta.*` versions of SKY UX component libraries. [#269](https://github.com/blackbaud/skyux-datetime/pull/269)
+- Fixed `SkyDateRangeService`, `SkyFuzzyDateService`,  and `SkyDatepickerConfigService` to work within lazy-loaded feature modules. [#263](https://github.com/blackbaud/skyux-datetime/pull/263)
 
 # 4.12.0 (2021-06-15)
 
