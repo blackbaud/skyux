@@ -1,3 +1,9 @@
+# 5.0.0 (2021-09-30)
+
+### New features
+
+- Added support for Angular 12. [#277](https://github.com/blackbaud/skyux-forms/pull/277)
+
 # 5.0.0-beta.5 (2021-09-14)
 
 - Updated peer dependencies. [#293](https://github.com/blackbaud/skyux-forms/pull/293)
