@@ -1,7 +1,33 @@
+# 5.0.0-beta.5 (2021-09-14)
+
+- Updated peer dependencies. [#293](https://github.com/blackbaud/skyux-forms/pull/293)
+
+# 5.0.0-beta.4 (2021-09-10)
+
+- Updated peer dependencies. [#292](https://github.com/blackbaud/skyux-forms/pull/292)
+
+# 5.0.0-beta.3 (2021-09-07)
+
+- Updated peer dependencies. [#290](https://github.com/blackbaud/skyux-forms/pull/290)
+
+# 5.0.0-beta.2 (2021-09-03)
+
+- Migrated to Angular CLI. [#288](https://github.com/blackbaud/skyux-forms/pull/288)
+
+# 5.0.0-beta.1 (2021-07-29)
+
+- Deprecated the `SkySelectionBoxGridAlignItems` enum in favor of a string union type to support specifying string literals in Angular templates. [#281](https://github.com/blackbaud/skyux-forms/pull/281)
+
 # 4.20.1 (2021-07-21)
 
 - Fixed the selection box component to properly style selection boxes that are disabled after initialization. [#280](https://github.com/blackbaud/skyux-forms/pull/280)
 - Fixed the input box component to prevent overlap between the label and the `textarea` element. [#279](https://github.com/blackbaud/skyux-forms/pull/279)
+
+# 5.0.0-beta.0 (2021-07-07)
+
+- Initial beta release.
+- Added support for `@angular/core@^12`. [#277](https://github.com/blackbaud/skyux-forms/pull/277)
+- Added support for `5.0.0-beta.*` versions of SKY UX component libraries. [#277](https://github.com/blackbaud/skyux-forms/pull/277)
 
 # 4.20.0 (2021-07-01)
 
