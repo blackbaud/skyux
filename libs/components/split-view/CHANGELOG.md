@@ -1,3 +1,9 @@
+# 5.0.0 (2021-09-30)
+
+### New features
+
+- Added support for Angular 12. [#58](https://github.com/blackbaud/skyux-split-view/pull/58)
+
 # 5.0.0-beta.3 (2021-09-15)
 
 - Added bug fixes and features from the `master` branch and migrated to Angular CLI. [#71](https://github.com/blackbaud/skyux-split-view/pull/71)
