@@ -1,13 +1,13 @@
 {
   "name": "@skyux/pages",
-  "version": "5.0.0-beta.4",
+  "version": "5.0.0",
   "peerDependencies": {
     "@angular/common": "^12.2.7",
     "@angular/core": "^12.2.7",
     "@skyux/i18n": "^5.0.0",
-    "@skyux/indicators": "^5.0.0-beta.4",
+    "@skyux/indicators": "^5.0.0",
     "@skyux/layout": "^5.0.0-beta.8",
-    "@skyux/router": "^5.0.0-beta.3",
+    "@skyux/router": "^5.0.0",
     "@skyux/theme": "^5.0.0"
   },
   "dependencies": {
