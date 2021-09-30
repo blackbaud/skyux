@@ -1,3 +1,9 @@
+# 5.0.0 (2021-09-30)
+
+### New features
+
+- Added support for Angular 12. [#31](https://github.com/blackbaud/skyux-router/pull/31)
+
 # 5.0.0-beta.3 (2021-09-28)
 
 - Added bug fixes and features from the `master` branch. [#39](https://github.com/blackbaud/skyux-router/pull/39)
