@@ -7,10 +7,6 @@ import {
 } from '@angular/core';
 
 import {
-  RouterModule
-} from '@angular/router';
-
-import {
   SkyNavbarItemComponent
 } from './navbar-item.component';
 
@@ -24,8 +20,7 @@ import {
     SkyNavbarItemComponent
   ],
   imports: [
-    CommonModule,
-    RouterModule
+    CommonModule
   ],
   exports: [
     SkyNavbarComponent,

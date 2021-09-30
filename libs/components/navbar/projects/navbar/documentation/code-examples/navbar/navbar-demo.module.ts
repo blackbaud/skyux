@@ -12,7 +12,7 @@ import {
 
 import {
   SkyNavbarModule
-} from '@skyux/navbar';
+} from 'projects/navbar/src/public-api';
 
 import {
   NavbarDemoComponent
