@@ -4,7 +4,7 @@ import {
 
 import {
   SkyAvatarModule
-} from '@skyux/avatar';
+} from 'projects/avatar/src/public-api';
 
 import {
   AvatarDemoComponent

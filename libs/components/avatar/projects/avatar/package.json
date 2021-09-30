@@ -1,0 +1,16 @@
+{
+  "name": "@skyux/avatar",
+  "version": "5.0.0-beta.3",
+  "peerDependencies": {
+    "@angular/common": "^12.2.7",
+    "@angular/core": "^12.2.7",
+    "@angular/router": "^12.2.7",
+    "@skyux/core": "^5.0.0",
+    "@skyux/i18n": "^5.0.0",
+    "@skyux/errors": "^5.0.0",
+    "@skyux/forms": "^5.0.0-beta.5"
+  },
+  "dependencies": {
+    "tslib": "^2.3.1"
+  }
+}

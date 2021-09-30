@@ -24,16 +24,13 @@ import {
 } from '@skyux/theme';
 
 import {
-  SkyAvatarResourcesModule
-} from '../shared/avatar-resources.module';
-
-import {
   SkyAvatarComponent
 } from './avatar.component';
 
 import {
   SkyAvatarInnerComponent
 } from './avatar.inner.component';
+import { SkyAvatarResourcesModule } from '../shared/sky-avatar-resources.module';
 
 @NgModule({
   declarations: [
@@ -52,8 +49,7 @@ import {
     SkyFileSizePipe
   ],
   exports: [
-    SkyAvatarComponent,
-    SkyAvatarInnerComponent
+    SkyAvatarComponent
   ]
 })
 export class SkyAvatarModule { }
