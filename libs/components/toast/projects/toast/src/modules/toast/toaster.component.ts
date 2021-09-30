@@ -63,7 +63,10 @@ import {
   selector: 'sky-toaster',
   templateUrl: './toaster.component.html',
   styleUrls: ['./toaster.component.scss'],
-  providers: [SkyToasterService],
+  providers: [
+    SkyToastAdapterService,
+    SkyToasterService
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })

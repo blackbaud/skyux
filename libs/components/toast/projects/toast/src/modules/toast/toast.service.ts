@@ -38,7 +38,9 @@ import {
   SkyToasterComponent
 } from './toaster.component';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class SkyToastService implements OnDestroy {
 
   /**

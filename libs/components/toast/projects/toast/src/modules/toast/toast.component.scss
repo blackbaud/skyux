@@ -170,29 +170,37 @@ sky-toast {
       display: block;
     }
 
-    .sky-toast-info {
-      background-color: $sky-background-color-info-light;
+    .sky-box {
+      &.sky-toast-info {
+        background-color: $sky-background-color-info-light;
 
-      .sky-toast-icon-theme-modern {
-        color: $sky-highlight-color-info;
+        .sky-toast-icon-theme-modern {
+          color: $sky-highlight-color-info;
+        }
       }
-    }
 
-    .sky-toast-success {
-      .sky-toast-icon-theme-modern {
-        color: $sky-highlight-color-success;
+      &.sky-toast-success {
+        background-color: $sky-background-color-success;
+
+        .sky-toast-icon-theme-modern {
+          color: $sky-highlight-color-success;
+        }
       }
-    }
 
-    .sky-toast-warning {
-      .sky-toast-icon-theme-modern {
-        color: $sky-highlight-color-warning;
+      &.sky-toast-warning {
+        background-color: $sky-background-color-warning;
+
+        .sky-toast-icon-theme-modern {
+          color: $sky-highlight-color-warning;
+        }
       }
-    }
 
-    .sky-toast-danger {
-      .sky-toast-icon-theme-modern {
-        color: $sky-highlight-color-danger;
+      &.sky-toast-danger {
+        background-color: $sky-background-color-danger;
+
+        .sky-toast-icon-theme-modern {
+          color: $sky-highlight-color-danger;
+        }
       }
     }
   }
@@ -210,22 +218,6 @@ sky-toast {
             color: $sky-text-color-default;
           }
         }
-      }
-
-      .sky-toast-info {
-        background-color: $sky-background-color-info-light;
-      }
-
-      .sky-toast-success {
-        background-color: $sky-background-color-success;
-      }
-
-      .sky-toast-warning {
-        background-color: $sky-background-color-warning;
-      }
-
-      .sky-toast-danger {
-        background-color: $sky-background-color-danger;
       }
     }
   }

@@ -21,7 +21,7 @@ import {
 
 //#region Test component
 @Component({
-  selector: 'toast-test',
+  selector: 'sky-toast-test',
   template: `
 <sky-toast
   data-sky-id="test-toast"

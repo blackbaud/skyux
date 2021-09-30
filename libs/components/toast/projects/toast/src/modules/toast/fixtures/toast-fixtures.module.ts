@@ -1,4 +1,3 @@
-// #region imports
 import {
   NgModule
 } from '@angular/core';
@@ -34,7 +33,6 @@ import {
 import {
   SkyToastWithToasterServiceTestComponent
 } from './toast-with-toaster-service.component.fixture';
-// #endregion
 
 @NgModule({
   declarations: [
