@@ -1,3 +1,7 @@
+# 5.0.0-beta.159 (2021-09-30)
+
+- `@skyux/lookup@5.0.0` [Release notes](https://github.com/blackbaud/skyux-lookup/blob/5.0.0/CHANGELOG.md)
+
 # 5.0.0-beta.158 (2021-09-30)
 
 - `@skyux/progress-indicator@5.0.0` [Release notes](https://github.com/blackbaud/skyux-progress-indicator/blob/5.0.0/CHANGELOG.md)
