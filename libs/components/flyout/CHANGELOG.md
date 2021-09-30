@@ -1,6 +1,33 @@
+# 5.0.0-beta.4 (2021-09-23)
+
+- Fixed `SkyFlyoutInstance` to be declared properly. [#125](https://github.com/blackbaud/skyux-flyout/pull/125)
+
+# 5.0.0-beta.3 (2021-09-22)
+
+- Updated peer dependencies. [#124](https://github.com/blackbaud/skyux-flyout/pull/124)
+
+# 5.0.0-beta.2 (2021-09-10)
+
+- Updated peer dependencies. [#122](https://github.com/blackbaud/skyux-flyout/pull/122)
+
+# 5.0.0-beta.1 (2021-08-26)
+
+- Migrated to Angular CLI. [#119](https://github.com/blackbaud/skyux-flyout/pull/119)
+
+# 5.0.0-beta.0 (2021-07-08)
+
+- Initial beta release.
+- Added support for `5.0.0-beta.*` versions of SKY UX component libraries. [#269](https://github.com/blackbaud/skyux-flyout/pull/269)
+- Fixed `SkyFlyoutService` to work within lazy-loaded feature modules. [#115](https://github.com/blackbaud/skyux-flyout/pull/115)
+
 # 4.2.0 (2021-06-10)
 
 - Added `skyHref` support to the flyout component. [#116](https://github.com/blackbaud/skyux-flyout/pull/116)
+
+# 5.0.0-alpha.0 (2021-05-21)
+
+- Added support for `@angular/core@^12`. [#114](https://github.com/blackbaud/skyux-flyout/pull/114)
+- Removed `BrowserAnimationsModule` from the `imports` section of `SkyFlyoutModule` to support lazy-loading. Consumers of `SkyFlyoutModule` must now import `BrowserAnimationsModule` into their application's root module. [#114](https://github.com/blackbaud/skyux-flyout/pull/114)
 
 # 4.1.1 (2021-03-22)
 
