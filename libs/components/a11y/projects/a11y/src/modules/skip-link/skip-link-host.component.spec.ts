@@ -13,8 +13,12 @@ import {
 } from '@angular/core/testing';
 
 import {
-  expect
+  expect, expectAsync
 } from '@skyux-sdk/testing';
+
+import {
+  SkyA11yForRootCompatModule
+} from '../shared/a11y-for-root-compat.module';
 
 import {
   SkySkipLinkHostComponent
@@ -57,7 +61,8 @@ describe('Skip link host component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        SkySkipLinkModule
+        SkySkipLinkModule,
+        SkyA11yForRootCompatModule
       ]
     });
 
@@ -91,18 +96,32 @@ describe('Skip link host component', () => {
 
     validateSkipLink(links[0], skipLinkEls[0], testEl1);
     validateSkipLink(links[1], skipLinkEls[1], testEl2);
-
-    fixture.whenStable().then(() => {
-      expect(document.body).toBeAccessible(() => {
-        // Remove links from the DOM.
-        fixture.componentInstance.links = [];
-        fixture.detectChanges();
-      }, {
-        rules: {
-          'region': { enabled: false }
-        }
-      });
-    });
   }));
+
+  it('should be accssible', async () => {
+    const fixture = TestBed.createComponent(SkySkipLinkHostComponent);
+
+    const links = [
+      {
+        elementRef: new ElementRef(testEl1),
+        title: 'Link 1'
+      },
+      {
+        elementRef: new ElementRef(testEl2),
+        title: 'Link 2'
+      }
+    ];
+
+    fixture.componentInstance.links = links;
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const linkContainer = document.querySelector('.sky-skip-link').parentElement;
+    await expectAsync(linkContainer).toBeAccessible();
+
+    // Remove links from the DOM.
+    fixture.componentInstance.links = [];
+    fixture.detectChanges();
+  });
 
 });

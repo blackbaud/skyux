@@ -28,7 +28,9 @@ import {
  * otherwise, focus will move to the first focusable element on the page.
  * @dynamic
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class SkySkipLinkService {
   private static host: ComponentRef<SkySkipLinkHostComponent>;
 

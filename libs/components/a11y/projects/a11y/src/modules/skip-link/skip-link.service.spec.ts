@@ -15,6 +15,10 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
+  SkyA11yForRootCompatModule
+} from '../shared/a11y-for-root-compat.module';
+
+import {
   SkySkipLink
 } from './skip-link';
 
@@ -53,7 +57,8 @@ describe('Skip link service', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        SkySkipLinkModule
+        SkySkipLinkModule,
+        SkyA11yForRootCompatModule
       ]
     });
   });

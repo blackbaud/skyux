@@ -11,6 +11,10 @@ import {
 } from '@skyux/core';
 
 import {
+  SkyA11yForRootCompatModule
+} from '../shared/a11y-for-root-compat.module';
+
+import {
   SkySkipLinkAdapterService
 } from './skip-link-adapter.service';
 
@@ -46,6 +50,7 @@ describe('Skip link adapter service', () => {
           provide: SkyAppWindowRef,
           useValue: mockWindowService
         },
+        SkyA11yForRootCompatModule,
         SkySkipLinkAdapterService
       ]
     });
