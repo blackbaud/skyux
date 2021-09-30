@@ -1,3 +1,9 @@
+# 5.0.0 (2021-09-30)
+
+### New features
+
+- Added support for Angular 12. [#20](https://github.com/blackbaud/skyux-navbar/pull/20)
+
 # 5.0.0-beta.3 (2021-09-10)
 
 - Migrated to Angular CLI. [#20](https://github.com/blackbaud/skyux-navbar/pull/20)
