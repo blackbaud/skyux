@@ -1,3 +1,14 @@
+# 5.0.0 (2021-09-30)
+
+### New features
+
+- Added support for Angular 12. [#176](https://github.com/blackbaud/skyux-indicators/pull/176)
+- Added support for "lazy loaded" feature modules. [#176](https://github.com/blackbaud/skyux-indicators/pull/176)
+
+### Breaking changes
+
+- Deprecated the `SkyIconVariant` enum in favor of a string union type to support specifying string literals in Angular templates. [#182](https://github.com/blackbaud/skyux-indicators/pull/182)
+
 # 5.0.0-beta.4 (2021-09-10)
 
 - Updated peer dependencies. [#191](https://github.com/blackbaud/skyux-indicators/pull/191)
