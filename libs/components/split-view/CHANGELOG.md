@@ -1,14 +1,36 @@
+# 5.0.0-beta.3 (2021-09-15)
+
+- Added bug fixes and features from the `master` branch and migrated to Angular CLI. [#71](https://github.com/blackbaud/skyux-split-view/pull/71)
+
 # 4.3.3 (2021-08-10)
 
 - Fixed `sky-split-view-workspace-content` to address keyboard access to the component. [#69](https://github.com/blackbaud/skyux-split-view/pull/69)
+
+# 5.0.0-beta.2 (2021-08-09)
+
+- Added bug fixes and features from the `master` branch. [#68](https://github.com/blackbaud/skyux-split-view/pull/68)
 
 # 4.3.2 (2021-08-06)
 
 - Fixed the accessibility of scrollable regions in the split view component. [#66](https://github.com/blackbaud/skyux-split-view/pull/66)
 
+# 5.0.0-beta.1 (2021-08-03)
+
+- Added bug fixes and features from the `master` branch. [#65](https://github.com/blackbaud/skyux-split-view/pull/65)
+
 # 4.3.1 (2021-08-02)
 
 - Fixed the split view component to properly render tile components in the workspace. [#62](https://github.com/blackbaud/skyux-split-view/pull/62)
+
+# 5.0.0-beta.0 (2021-07-15)
+
+- Initial beta release.
+- Added support for `5.0.0-beta.*` versions of SKY UX component libraries. [#60](https://github.com/blackbaud/skyux-split-view/pull/60)
+
+# 5.0.0-alpha.0 (2021-05-24)
+
+- Added support for `@angular/core@^12`. [#58](https://github.com/blackbaud/skyux-split-view/pull/58)
+- Removed `BrowserAnimationsModule` from the `imports` section of `SkySplitViewModule` to support lazy-loading. Consumers of `SkySplitViewModule` must now import `BrowserAnimationsModule` into their application's root module. [#58](https://github.com/blackbaud/skyux-split-view/pull/58)
 
 # 4.3.0 (2021-05-21)
 

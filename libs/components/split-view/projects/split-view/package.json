@@ -1,0 +1,16 @@
+{
+  "name": "@skyux/split-view",
+  "version": "5.0.0-beta.3",
+  "peerDependencies": {
+    "@angular/animations": "^12.2.7",
+    "@angular/common": "^12.2.7",
+    "@angular/core": "^12.2.7",
+    "@angular/forms": "^12.2.7",
+    "@skyux/core": "^5.0.0-beta.12",
+    "@skyux/i18n": "^5.0.0",
+    "@skyux/indicators": "^5.0.0-beta.4"
+  },
+  "dependencies": {
+    "tslib": "^2.3.1"
+  }
+}
