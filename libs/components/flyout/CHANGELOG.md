@@ -1,3 +1,9 @@
+# 5.0.0 (2021-09-30)
+
+### New features
+
+- Added support for Angular 12. [#114](https://github.com/blackbaud/skyux-flyout/pull/114)
+
 # 5.0.0-beta.4 (2021-09-23)
 
 - Fixed `SkyFlyoutInstance` to be declared properly. [#125](https://github.com/blackbaud/skyux-flyout/pull/125)
