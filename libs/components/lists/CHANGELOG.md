@@ -1,3 +1,11 @@
+# 5.0.0-beta.3 (2021-09-14)
+
+- Updated peer dependencies. [#250](https://github.com/blackbaud/skyux-lists/pull/250)
+
+# 5.0.0-beta.2 (2021-09-13)
+
+- Migrated to Angular CLI. [#248](https://github.com/blackbaud/skyux-lists/pull/248)
+
 # 4.9.2 (2021-08-10)
 
 - Reverted 4.9.1 [#247](https://github.com/blackbaud/skyux-lists/pull/247)
@@ -10,9 +18,23 @@
 
 - Added modern theme styles for the sort commponent. [#243](https://github.com/blackbaud/skyux-lists/pull/243)
 
+# 5.0.0-beta.1 (2021-07-07)
+
+- Added support for `5.0.0-beta.*` versions of SKY UX component libraries. [#241](https://github.com/blackbaud/skyux-lists/pull/241)
+
+# 5.0.0-beta.0 (2021-07-07)
+
+- Initial beta release.
+- Added support for `@angular/core@^12`. [#238](https://github.com/blackbaud/skyux-lists/pull/238)
+- Merged changes from 4.8.0. [#238](https://github.com/blackbaud/skyux-lists/pull/238)
+
 # 4.8.0 (2021-07-06)
 
 - Added the `loading` input to the infinite scroll component to allow for setting the loading state explicitly. The default behavior watches for DOM updates which can cause an excessive number of `scrollEnd` events and lead to poor performance. [#238](https://github.com/blackbaud/skyux-lists/pull/238)
+
+# 5.0.0-alpha.0 (2021-05-24)
+
+- Removed `BrowserAnimationsModule` from the `imports` section of `SkyRepeaterModule` to support lazy-loading. Consumers of `SkyRepeaterModule` must now import `BrowserAnimationsModule` into their application's root module. [#237](https://github.com/blackbaud/skyux-lists/pull/237)
 
 # 4.7.2 (2021-05-07)
 
