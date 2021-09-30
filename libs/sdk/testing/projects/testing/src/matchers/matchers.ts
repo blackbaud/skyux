@@ -34,15 +34,23 @@ const matchers: jasmine.CustomMatcherFactories = {
     return {
       compare(
         element: any,
-        callback: () => void = () => { },
+        callback?: () => void,
         config?: SkyA11yAnalyzerConfig
       ): jasmine.CustomMatcherResult {
 
         SkyA11yAnalyzer.run(element, config)
-          .then(() => callback())
+          .then(() => {
+            /*istanbul ignore else*/
+            if (callback) {
+              callback();
+            }
+          })
           .catch((err) => {
             windowRef.fail(err.message);
-            callback();
+            /*istanbul ignore else*/
+            if (callback) {
+              callback();
+            }
           });
 
         // Asynchronous matchers are currently unsupported, but
@@ -223,12 +231,16 @@ const matchers: jasmine.CustomMatcherFactories = {
         actual: string,
         name: string,
         args?: any[],
-        callback: () => void = () => { }
+        callback?: () => void
       ): jasmine.CustomMatcherResult {
 
         getResourcesObservable(name, args).toPromise().then(message => {
+          /*istanbul ignore else*/
           if (actual !== message) {
             windowRef.fail(`Expected "${actual}" to equal "${message}"`);
+          }
+          /*istanbul ignore else*/
+          if (callback) {
             callback();
           }
         });
@@ -255,7 +267,7 @@ const matchers: jasmine.CustomMatcherFactories = {
         name: string,
         args?: any[],
         trimWhitespace: boolean = true,
-        callback: () => void = () => { }
+        callback?: () => void
       ): jasmine.CustomMatcherResult {
         let actual = el.textContent;
 
@@ -266,6 +278,9 @@ const matchers: jasmine.CustomMatcherFactories = {
         getResourcesObservable(name, args).toPromise().then(message => {
           if (actual !== message) {
             windowRef.fail(`Expected element's inner text to be "${message}"`);
+          }
+          /*istanbul ignore else*/
+          if (callback) {
             callback();
           }
         });

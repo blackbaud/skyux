@@ -133,7 +133,7 @@ describe('Test utility', () => {
   });
 
   it('should retrieve an element\'s background URL', () => {
-    let imageUrl: string;
+    let imageUrl: string | undefined;
 
     imageUrl = SkyAppTestUtility.getBackgroundImageUrl(bgEl);
 

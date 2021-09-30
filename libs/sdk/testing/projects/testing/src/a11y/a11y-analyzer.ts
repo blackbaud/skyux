@@ -69,7 +69,7 @@ export abstract class SkyA11yAnalyzer {
       };
 
       SkyA11yAnalyzer.analyzer.run(
-        element,
+        element!,
         {...defaults, ...config},
         callback
       );

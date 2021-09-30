@@ -54,7 +54,7 @@ export class SkyAppTestUtility {
   /**
    * Returns the inner text content of an element.
    */
-  public static getText(element: any): string {
+  public static getText(element: any): string | undefined {
     const nativeEl = getNativeEl(element);
 
     if (nativeEl) {
@@ -67,7 +67,7 @@ export class SkyAppTestUtility {
   /**
    * Returns true if the element exists on the page.
    */
-  public static isVisible(element: any): boolean {
+  public static isVisible(element: any): boolean | undefined {
     const nativeEl = getNativeEl(element);
 
     if (nativeEl) {
@@ -95,7 +95,7 @@ export class SkyAppTestUtility {
   /**
    * Returns the URL of an element's background image, if it exists.
    */
-  public static getBackgroundImageUrl(el: any): string {
+  public static getBackgroundImageUrl(el: any): string | undefined {
     const nativeEl = getNativeEl(el);
 
     if (nativeEl) {

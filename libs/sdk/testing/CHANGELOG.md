@@ -1,6 +1,19 @@
+# 5.0.0-beta.2 (2021-09-13)
+
+- Migrated to Angular CLI. [#54](https://github.com/blackbaud/skyux-sdk-testing/pull/54)
+
+# 5.0.0-beta.1 (2021-07-28)
+
+- Removed the peer dependency `@skyux/config` since it was not being used, and replaced it with `@skyux/i18n`. [#53](https://github.com/blackbaud/skyux-sdk-testing/pull/53)
+
 # 4.3.0 (2021-07-06)
 
 - Added options to the `toBeVisible` matcher to check an element's existence, CSS `visibility` property, and bounding-box dimensions. [#50](https://github.com/blackbaud/skyux-sdk-testing/pull/50) (Thanks [@Sean-Blackbaud](https://github.com/Sean-Blackbaud)!)
+
+# 5.0.0-beta.0 (2021-06-23)
+
+- Initial beta release.
+- Added support for `@angular/core@^12`. [#48](https://github.com/blackbaud/skyux-sdk-testing/pull/48)
 
 # 4.2.3 (2020-12-10)
 
