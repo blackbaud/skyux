@@ -1,3 +1,9 @@
+# 5.0.0 (2021-09-30)
+
+### New features
+
+- Added support for Angular 12. [#163](https://github.com/blackbaud/skyux-popovers/pull/163)
+
 # 5.0.0-beta.2 (2021-09-13)
 
 - Migrated to Angular CLI. [#163](https://github.com/blackbaud/skyux-popovers/pull/163)
