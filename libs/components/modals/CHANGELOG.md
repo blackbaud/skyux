@@ -1,10 +1,39 @@
+# 5.0.0-beta.6 (2021-09-16)
+
+- Merge master and update peer dependencies. [#174](https://github.com/blackbaud/skyux-modals/pull/174)
+
 # 4.6.0 (2021-09-15)
 
 - Updated the modal component to place docked elements at the bottom of the modal content. [#168](https://github.com/blackbaud/skyux-modals/pull/168)
 
+# 5.0.0-beta.5 (2021-09-10)
+
+- Updated the peer dependencies. [#172](https://github.com/blackbaud/skyux-modals/pull/172)
+
+# 5.0.0-beta.4 (2021-09-09)
+
+- Added support for "partial" Ivy compilation mode. [#169](https://github.com/blackbaud/skyux-modals/pull/169)
+
+# 5.0.0-beta.3 (2021-09-01)
+
+- Fixed the `SkyModalModule` to work with consuming libraries that are compiled with the legacy View Engine. [#166](https://github.com/blackbaud/skyux-modals/pull/166)
+
+# 5.0.0-beta.2 (2021-08-26)
+
+- Migrated to Angular CLI. [#163](https://github.com/blackbaud/skyux-modals/pull/163)
+
+# 5.0.0-beta.1 (2021-07-26)
+
+- Fixed the `SkyModalService` to work within lazy-loaded modules. [#160](https://github.com/blackbaud/skyux-modals/pull/160)
+
 # 4.5.5 (2021-07-13)
 
 - Fixed the modal component so that it does not include disabled elements with `tabIndex` attributes among the focusable elements when a modal loads. [#158](https://github.com/blackbaud/skyux-modals/pull/158)
+
+# 5.0.0-beta.0 (2021-07-06)
+
+- Initial beta release.
+- Added support for `5.0.0-beta.*` versions of SKY UX component libraries. [#155](https://github.com/blackbaud/skyux-modals/pull/155)
 
 # 4.5.4 (2021-06-14)
 
