@@ -1,3 +1,9 @@
+# 5.0.0 (2021-09-30)
+
+### New features
+
+- Added support for Angular 12. [#19](https://github.com/blackbaud/skyux-a11y/pull/19)
+
 # 5.0.0-beta.2 (2021-09-02)
 
 - Enabled Ivy's `partial` compilation mode. [#22](https://github.com/blackbaud/skyux-a11y/pull/22)
