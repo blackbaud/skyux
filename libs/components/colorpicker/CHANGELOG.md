@@ -1,6 +1,29 @@
+# 5.0.0-beta.4 (2021-09-20)
+
+- Merge master and update peer dependencies. [#103](https://github.com/blackbaud/skyux-colorpicker/pull/103)
+
+# 5.0.0-beta.3 (2021-09-14)
+
+- Updated peer dependencies. [#102](https://github.com/blackbaud/skyux-colorpicker/pull/102)
+
+# 5.0.0-beta.2 (2021-09-09)
+
+- Fixed peer dependencies to include `@skyux/forms` and `@skyux/indicators`. [#100](https://github.com/blackbaud/skyux-colorpicker/pull/100)
+- Enabled the `partial` Ivy compilation mode. [#100](https://github.com/blackbaud/skyux-colorpicker/pull/100)
+
+# 5.0.0-beta.1 (2021-08-24)
+
+- Migrated to Angular CLI. [#96](https://github.com/blackbaud/skyux-colorpicker/pull/96)
+
 # 4.4.0 (2021-08-20)
 
 - Added the ability to disable the colorpicker via reactive or template-driven forms. [#94](https://github.com/blackbaud/skyux-colorpicker/pull/94)
+
+# 5.0.0-beta.0 (2021-07-08)
+
+- Initial beta release.
+- Added support for `@angular/core@^12`. [#93](https://github.com/blackbaud/skyux-colorpicker/pull/93)
+- Added support for `5.0.0-beta.*` versions of SKY UX component libraries. [#93](https://github.com/blackbaud/skyux-colorpicker/pull/93)
 
 # 4.3.0 (2021-06-16)
 
