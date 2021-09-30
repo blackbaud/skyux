@@ -16,32 +16,9 @@ describe('SkyHref Directive', () => {
 
   function setup(
     params: any,
-    useQueryParams: boolean,
     provideSkyAppConfig = true
   ): void {
-    const skyAppConfig = {
-      skyux: {
-        name: 'test'
-      },
-      runtime: {}
-    };
-    if (provideSkyAppConfig) {
-      skyAppConfig.runtime = {
-        params: {
-          getAll: (p?: boolean) => {
-            getAllParam = p;
-            return params;
-          }
-        }
-      };
-    }
-    const providers = [
-      {
-        provide: SkyAppConfig,
-        useValue: {
-          ...skyAppConfig
-        }
-      },
+    const providers: any[] = [
       {
         provide: SkyAppRuntimeConfigParamsProvider,
         useValue: {
@@ -56,6 +33,27 @@ describe('SkyHref Directive', () => {
       }
     ];
 
+    if (provideSkyAppConfig) {
+      const skyAppConfig = {
+        skyux: {
+          name: 'test'
+        },
+        runtime: {
+          params: {
+            getAll: (p?: boolean) => {
+              getAllParam = p;
+              return params;
+            }
+          }
+        }
+      };
+
+      providers.push({
+        provide: SkyAppConfig,
+        useValue: skyAppConfig
+      });
+    }
+
     TestBed.configureTestingModule({
       declarations: [HrefDirectiveFixtureComponent],
       imports: [RouterTestingModule, SkyHrefModule, HttpClientTestingModule],
@@ -68,7 +66,7 @@ describe('SkyHref Directive', () => {
   }
 
   it('should create links', fakeAsync(() => {
-    setup({}, false);
+    setup({});
 
     tick(100);
     const links = Array.from(fixture.nativeElement.querySelectorAll('a'));
@@ -76,7 +74,7 @@ describe('SkyHref Directive', () => {
   }));
 
   it('should hide links that the user cannot access', fakeAsync(() => {
-    setup({}, true);
+    setup({});
 
     tick(100);
     const element = debugElement.nativeElement.querySelector('.noAccessLink a');
@@ -84,7 +82,7 @@ describe('SkyHref Directive', () => {
   }));
 
   it('should check availability when the link changes', fakeAsync(() => {
-    setup({}, true);
+    setup({});
 
     tick(100);
     const element = fixture.nativeElement.querySelector('.dynamicLink a');
@@ -102,7 +100,7 @@ describe('SkyHref Directive', () => {
   }));
 
   it('should default to local app', fakeAsync(() => {
-    setup({}, true);
+    setup({});
 
     tick(100);
     const element = debugElement.nativeElement.querySelector('.localLink');
@@ -110,7 +108,7 @@ describe('SkyHref Directive', () => {
   }));
 
   it('should set href without any query parameters', fakeAsync(() => {
-    setup({}, false);
+    setup({});
 
     tick(100);
     const element = debugElement.nativeElement.querySelector('.simpleLink a');
@@ -124,8 +122,7 @@ describe('SkyHref Directive', () => {
       {
         asdf: 123,
         jkl: 'mno'
-      },
-      false
+      }
     );
 
     tick(100);
@@ -152,8 +149,7 @@ describe('SkyHref Directive', () => {
       {
         asdf: 123,
         jkl: 'mno'
-      },
-      true
+      }
     );
 
     tick(100);
@@ -164,7 +160,7 @@ describe('SkyHref Directive', () => {
   }));
 
   it('should call getAll with excludeDefaults set to true', fakeAsync(() => {
-    setup({}, true);
+    setup({});
     expect(getAllParam).toBe(true);
   }));
 
@@ -174,7 +170,6 @@ describe('SkyHref Directive', () => {
         asdf: 123,
         jkl: 'mno'
       },
-      true,
       false
     );
 
@@ -186,7 +181,7 @@ describe('SkyHref Directive', () => {
   }));
 
   it('should handle an error', fakeAsync(() => {
-    setup({}, true);
+    setup({});
 
     tick(100);
     const element = fixture.nativeElement.querySelector('.dynamicLink a');
@@ -204,7 +199,7 @@ describe('SkyHref Directive', () => {
   }));
 
   it('should handle the else parameter', fakeAsync(() => {
-    setup({}, true);
+    setup({});
 
     fixture.componentInstance.dynamicElse = 'unlink';
     fixture.componentInstance.dynamicLink = 'nope://simple-app/example/page';
@@ -217,7 +212,7 @@ describe('SkyHref Directive', () => {
   }));
 
   it('should handle link without protocol', fakeAsync(() => {
-    setup({}, true);
+    setup({});
 
     fixture.componentInstance.dynamicLink = '/example/page';
     fixture.detectChanges();
@@ -229,8 +224,7 @@ describe('SkyHref Directive', () => {
 
   it('should handle link with a fragment', fakeAsync(() => {
     setup(
-      {},
-      false
+      {}
     );
 
     fixture.detectChanges();

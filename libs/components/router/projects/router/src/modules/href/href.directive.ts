@@ -166,7 +166,7 @@ export class SkyHrefDirective {
   }
 
   private getSkyuxParams(): SkyHrefQueryParams {
-    return typeof this.skyAppConfig.runtime.params?.getAll === 'function'
+    return typeof this.skyAppConfig?.runtime.params?.getAll === 'function'
       ? this.skyAppConfig.runtime.params.getAll(true)
       : this.paramsProvider.params.getAll(true);
   }
