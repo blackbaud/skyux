@@ -1,3 +1,23 @@
+# 5.0.0-beta.4 (2021-09-15)
+
+- Migrated to Angular CLI. [#19](https://github.com/blackbaud/skyux-pages/pull/19)
+
+# 5.0.0-beta.3 (2021-07-27)
+
+- Fixed the peer dependency ranges for the `@skyux/*` packages. [#18](https://github.com/blackbaud/skyux-pages/pull/18)
+
+# 5.0.0-beta.2 (2021-07-14)
+
+- Added support for `5.0.0-beta.*` versions of SKY UX component libraries. [#17](https://github.com/blackbaud/skyux-pages/pull/17)
+
+# 5.0.0-beta.1 (2021-06-25)
+
+- Added support for `@angular/core@^12`. [#16](https://github.com/blackbaud/skyux-pages/pull/16)
+
+# 5.0.0-beta.0 (2021-06-24)
+
+- Initial `5.0.0-beta` release.
+
 # 4.0.0-beta.3 (2021-06-15)
 
 - Replaced the `data` input with separate inputs. Added support for `skyHref`. Added support for navigation extras on needs attention router links. Added a message that displays when there are no needs attention items. [#14](https://github.com/blackbaud/skyux-pages/pull/14)
