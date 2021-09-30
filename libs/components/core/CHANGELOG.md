@@ -1,3 +1,11 @@
+# 5.0.0 (2021-09-30)
+
+### New features
+
+- Added support for Angular 12. [#248](https://github.com/blackbaud/skyux-core/pull/248)
+- Deprecated the `SkyCoreAdapterModule`, `SkyDynamicComponentModule`, `SkyLogModule`, and `SkyMediaQueryModule` modules. [#223](https://github.com/blackbaud/skyux-core/pull/223)
+- Deprecated the `SkyLogService`. [#223](https://github.com/blackbaud/skyux-core/pull/223)
+
 # 5.0.0-beta.12 (2021-09-29)
 
 - Added all features and bug fixes from the `master` branch. [#260](https://github.com/blackbaud/skyux-core/pull/260)
