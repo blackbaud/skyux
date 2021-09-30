@@ -1,0 +1,12 @@
+{
+  "name": "@skyux/animations",
+  "version": "5.0.0-beta.2",
+  "peerDependencies": {
+    "@angular/animations": "^12.2.7",
+    "@angular/core": "^12.2.7",
+    "@angular/common": "^12.2.7"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
+}
