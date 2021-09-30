@@ -1,18 +1,47 @@
+# 5.0.0-beta.12 (2021-09-29)
+
+- Added all features and bug fixes from the `master` branch. [#260](https://github.com/blackbaud/skyux-core/pull/260)
+
 # 4.8.1 (2021-09-29)
 
 - Fixed the dock component to properly position elements when docked to the bottom of the screen and the `body` element does not fill the entire height of the viewport. [#258](https://github.com/blackbaud/skyux-core/pull/258)
+
+# 5.0.0-beta.11 (2021-09-13)
+
+- Added all features and bug fixes from the `master` branch. [#255](https://github.com/blackbaud/skyux-core/pull/255)
 
 # 4.8.0 (2021-09-10)
 
 - Updated the `SkyNumericPipe` to format currency values using the ["accounting" currency sign](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#parameters). [#251](https://github.com/blackbaud/skyux-core/pull/251) (Thanks [@Blackbaud-TomMaszk](https://github.com/Blackbaud-TomMaszk)!)
 
+# 5.0.0-beta.10 (2021-09-09)
+
+- Migrated to Angular CLI. [#248](https://github.com/blackbaud/skyux-core/pull/248)
+
+
 # 4.7.0 (2021-09-08)
 
 - Added the ability to place an element at the bottom of another element or before another element when using the dock service and the dynamic component service. [#250](https://github.com/blackbaud/skyux-core/pull/250)
 
+# 5.0.0-beta.9 (2021-07-29)
+
+- Merged bug fixes from the 4.x branch into the 5.x branch.
+
 # 4.6.3 (2021-07-28)
 
 - Fixed `SkyNumericService`'s `formatNumber` method to allow number formatting to be undefined. [#245](https://github.com/blackbaud/skyux-core/pull/245)
+
+# 5.0.0-beta.8 (2021-07-26)
+
+- Fixed the `SkyDynamicComponentService` to work within lazy-loaded modules. [#244](https://github.com/blackbaud/skyux-core/pull/244)
+
+# 5.0.0-beta.7 (2021-07-15)
+
+- Added all features and bug fixes from the `master` branch. [#242](https://github.com/blackbaud/skyux-core/pull/242)
+
+# 5.0.0-beta.6 (2021-07-15)
+
+- Removed the `ng update` schematic and package group. To update all SKY UX component packages, run `ng update @skyux/packages` instead. [#241](https://github.com/blackbaud/skyux-core/pull/241)
 
 # 4.6.2 (2021-07-13)
 
@@ -22,9 +51,47 @@
 
 - Fixed the `getFocusableChildren` method with the `SkyCoreAdapterService` to not include elements which have a `tabIndex` but are disabled as focusable children. [#237](https://github.com/blackbaud/skyux-core/pull/237)
 
+# 5.0.0-beta.5 (2021-07-08)
+
+- Updated the package group to be used by Angular CLI's `ng update` command. [#236](https://github.com/blackbaud/skyux-core/pull/236)
+
+# 5.0.0-beta.4 (2021-06-29)
+
+- Fixed the peer dependencies to only reference beta versions for SKY UX packages. [#235](https://github.com/blackbaud/skyux-core/pull/235)
+
+# 5.0.0-beta.3 (2021-06-22)
+
+- Added a "no operation" schematic to test Angular CLI's `ng update` command. [#233](https://github.com/blackbaud/skyux-core/pull/233)
+
+# 5.0.0-beta.2 (2021-06-22)
+
+- Added a package group to be used by Angular CLI's `ng update` command. [#232](https://github.com/blackbaud/skyux-core/pull/232)
+
+# 5.0.0-beta.1 (2021-06-22)
+
+- Fixed the `SkyNumericService` to work within lazy-loaded feature modules. [#230](https://github.com/blackbaud/skyux-core/pull/230)
+
+# 5.0.0-beta.0 (2021-06-15)
+
+- Initial beta release.
+- Updated `5.0.0-next` branch with features from the `master` branch. [#229](https://github.com/blackbaud/skyux-core/pull/229)
+
 # 4.6.0 (2021-06-14)
 
 - Added an optional `wrapperClass` for the overlay component. [#226](https://github.com/blackbaud/skyux-core/pull/226)
+
+# 5.0.0-alpha.0 (2021-06-11)
+
+### New features
+
+- Added support for `@angular/core@^12`. [#223](https://github.com/blackbaud/skyux-core/pull/223)
+- Updated the following singleton services to use [Angular's preferred method to become tree-shakeable](https://angular.io/guide/singleton-services#using-providedin): `SkyCoreAdapterService`, `SkyAffixService`, `SkyDockService`, `SkyDynamicComponentService`, `SkyAppFormat`, `SkyLogService`, `SkyMediaQueryService`, `MutationObserverService`, `SkyNumericService`, `SkyOverlayAdapterService`, `SkyOverlayService`, `SkyAppTitleService`, `SkyUIConfigService`, `SkyViewkeeperService`, and `SkyAppWindowRef`. [#223](https://github.com/blackbaud/skyux-core/pull/223)
+- Deprecated the `SkyCoreAdapterModule`, `SkyDynamicComponentModule`, `SkyLogModule`, and `SkyMediaQueryModule` modules. [#223](https://github.com/blackbaud/skyux-core/pull/223)
+- Deprecated the `SkyLogService`. [#223](https://github.com/blackbaud/skyux-core/pull/223)
+
+## Bug fixes
+
+- Added `@angular/router` as a peer dependency. [#223](https://github.com/blackbaud/skyux-core/pull/223)
 
 # 4.5.1 (2021-05-24)
 
