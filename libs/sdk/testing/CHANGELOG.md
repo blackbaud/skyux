@@ -1,3 +1,9 @@
+# 5.0.0 (2021-09-30)
+
+### New features
+
+- Added support for Angular 12. [#48](https://github.com/blackbaud/skyux-sdk-testing/pull/48)
+
 # 5.0.0-beta.2 (2021-09-13)
 
 - Migrated to Angular CLI. [#54](https://github.com/blackbaud/skyux-sdk-testing/pull/54)
