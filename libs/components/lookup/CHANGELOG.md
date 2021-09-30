@@ -1,6 +1,14 @@
+# 5.0.0-beta.3 (2021-09-16)
+
+- Merge master and update peer dependencies. [#221](https://github.com/blackbaud/skyux-lookup/pull/221)
+
 # 4.17.5 (2021-09-15)
 
 - Fixed the lookup component to only send search text to the show more picker when a search is being executed. [#213](https://github.com/blackbaud/skyux-lookup/pull/213)
+
+# 5.0.0-beta.2 (2021-09-14)
+
+- Adopt Angular CLI. [#218](https://github.com/blackbaud/skyux-lookup/pull/218)
 
 # 4.17.4 (2021-08-30)
 
@@ -17,6 +25,15 @@
 # 4.17.1 (2021-07-30)
 
 - Fixed the autocomplete component to not include the `skyux-theme-modern` class on its dropdown. [#206](https://github.com/blackbaud/skyux-lookup/pull/206)
+
+# 5.0.0-beta.1 (2021-07-29)
+
+- Deprecated the `SkyLookupSelectMode` enum in favor of a string union type to support specifying string literals in Angular templates. [#203](https://github.com/blackbaud/skyux-lookup/pull/203)
+
+# 5.0.0-beta.0 (2021-07-12)
+
+- Initial beta release.
+- Added support for `5.0.0-beta.*` versions of SKY UX component libraries. [#199](https://github.com/blackbaud/skyux-lookup/pull/199)
 
 # 4.17.0 (2021-07-09)
 
@@ -41,6 +58,11 @@
 # 4.14.0 (2021-05-26)
 
 - Updated the lookup component to collapse tokens if users select more than 5 items when the lookup menu includes the 'Show all/matches' button. [#186](https://github.com/blackbaud/skyux-lookup/pull/186)
+
+# 5.0.0-alpha.0 (2021-05-21)
+
+- Added support for `@angular/core@^12`. [#185](https://github.com/blackbaud/skyux-lookup/pull/185)
+- Removed `BrowserAnimationsModule` from the `imports` section of `SkySearchModule` to support lazy-loading. Consumers of `SkySearchModule` must now import `BrowserAnimationsModule` into their application's root module. [#185](https://github.com/blackbaud/skyux-lookup/pull/185)
 
 # 4.13.1 (2021-05-19)
 

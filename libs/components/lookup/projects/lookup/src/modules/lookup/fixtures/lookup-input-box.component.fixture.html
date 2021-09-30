@@ -1,0 +1,18 @@
+<form
+  [formGroup]="form"
+  novalidate
+>
+  <sky-input-box>
+    <label
+      id="my-lookup-label"
+    >
+      My friends
+    </label>
+    <sky-lookup
+      formControlName="friends"
+      [autocompleteAttribute]="autocompleteAttribute"
+      [data]="data"
+      [enableShowMore]="enableShowMore"
+    ></sky-lookup>
+  </sky-input-box>
+</form>
