@@ -1,3 +1,7 @@
+# 5.0.0-beta.148 (2021-09-30)
+
+- `@skyux/flyout@5.0.0` [Release notes](https://github.com/blackbaud/skyux-flyout/blob/5.0.0/CHANGELOG.md)
+
 # 5.0.0-beta.147 (2021-09-30)
 
 - `@skyux-sdk/testing@5.0.0` [Release notes](https://github.com/blackbaud/skyux-sdk-testing/blob/5.0.0/CHANGELOG.md)
