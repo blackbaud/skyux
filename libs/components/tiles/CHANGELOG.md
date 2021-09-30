@@ -1,3 +1,22 @@
+# 5.0.0-beta.2 (2021-09-14)
+
+- Added support for "partial" Ivy compilation mode. [#83](https://github.com/blackbaud/skyux-tiles/pull/83)
+- Updated the peer dependencies. [#83](https://github.com/blackbaud/skyux-tiles/pull/83)
+
+# 5.0.0-beta.1 (2021-08-27)
+
+- Migrated to Angular CLI. [#81](https://github.com/blackbaud/skyux-tiles/pull/81)
+
+# 5.0.0-beta.0 (2021-07-14)
+
+- Initial `5.0.0-beta` release.
+- Added support for `5.0.0-beta.*` versions of SKY UX component libraries. [#79](https://github.com/blackbaud/skyux-tiles/pull/79)
+
+# 5.0.0-alpha.0 (2021-05-24)
+
+- Added support for `@angular/core@^12`. [#78](https://github.com/blackbaud/skyux-tiles/pull/78)
+- Removed `BrowserAnimationsModule` from the `imports` section of `SkyTilesModule` to support lazy-loading. Consumers of `SkyTilesModule` must now import `BrowserAnimationsModule` into their application's root module. [#78](https://github.com/blackbaud/skyux-tiles/pull/78)
+
 # 4.1.0 (2021-03-25)
 
 - Added modern theme styles to the tile component. [#75](https://github.com/blackbaud/skyux-tiles/pull/75)
