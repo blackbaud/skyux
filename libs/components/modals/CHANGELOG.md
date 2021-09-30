@@ -1,3 +1,10 @@
+# 5.0.0 (2021-09-30)
+
+### New features
+
+- Added support for Angular 12. [#163](https://github.com/blackbaud/skyux-modals/pull/163)
+- Added support for "lazy loaded" feature modules. [#160](https://github.com/blackbaud/skyux-modals/pull/160)
+
 # 5.0.0-beta.6 (2021-09-16)
 
 - Merge master and update peer dependencies. [#174](https://github.com/blackbaud/skyux-modals/pull/174)
