@@ -1,3 +1,9 @@
+# 5.0.0 (2021-09-30)
+
+### New features
+
+- Added support for Angular 12. [#56](https://github.com/blackbaud/skyux-avatar/pull/56)
+
 # 5.0.0-beta.3 (2021-9-16)
 
 - Updated peer dependencies. [#64](https://github.com/blackbaud/skyux-avatar/pull/64)
