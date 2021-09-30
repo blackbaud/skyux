@@ -1,3 +1,9 @@
+# 5.0.0 (2021-09-30)
+
+### New features
+
+- Added support for Angular 12. [#50](https://github.com/blackbaud/skyux-inline-form/pull/50)
+
 # 5.0.0-beta.2 (2021-09-14)
 
 - Updated peer dependencies. [#55](https://github.com/blackbaud/skyux-inline-form/pull/55)
