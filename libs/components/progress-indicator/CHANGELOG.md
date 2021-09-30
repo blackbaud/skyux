@@ -1,3 +1,10 @@
+# 5.0.0 (2021-09-30)
+
+### New features
+
+- Added support for Angular 12. [#68](https://github.com/blackbaud/skyux-progress-indicator/pull/68)
+- Deprecated the `SkyProgressIndicatorDisplayMode` enum in favor of a string union type to support specifying string literals in Angular templates. [#69](https://github.com/blackbaud/skyux-progress-indicator/pull/69)
+
 # 5.0.0-beta.3 (2021-09-22)
 
 - Updated the peer dependencies. [#74](https://github.com/blackbaud/skyux-progress-indicator/pull/74)
