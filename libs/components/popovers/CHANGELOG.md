@@ -1,6 +1,14 @@
+# 5.0.0-beta.2 (2021-09-13)
+
+- Migrated to Angular CLI. [#163](https://github.com/blackbaud/skyux-popovers/pull/163)
+
 # 4.7.0 (2021-08-25)
 
 - Added reference checking on close to support AG Grid popovers. [#161](https://github.com/blackbaud/skyux-popovers/pull/161)
+
+# 5.0.0-beta.1 (2021-08-09)
+
+- Added bug fixes and features from the `master` branch. [#160](https://github.com/blackbaud/skyux-popovers/pull/160)
 
 # 4.6.0 (2021-08-06)
 
@@ -9,6 +17,15 @@
 # 4.5.3 (2021-07-09)
 
 - Fixed the dropdown menu component to close after users select items that are nested in multiple layers, such as `*ngFor` and `*ngIf` directives. [#156](https://github.com/blackbaud/skyux-popovers/pull/156)
+
+# 5.0.0-beta.0 (2021-07-06)
+
+- Initial beta release.
+- Added support for `5.0.0-beta.*` versions of SKY UX component libraries. [#154](https://github.com/blackbaud/skyux-popovers/pull/154)
+
+# 5.0.0-alpha.0 (2021-05-20)
+
+- Removed `BrowserAnimationsModule` from the `imports` section of `SkyPopoverModule` to support lazy-loading. Consumers of `SkyPopoverModule` must now import `BrowserAnimationsModule` into their application's root module. [#152](https://github.com/blackbaud/skyux-indicators/pull/152)
 
 # 4.5.2 (2021-05-10)
 
