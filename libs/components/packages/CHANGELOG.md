@@ -1,3 +1,7 @@
+# 5.0.0-beta.152 (2021-09-30)
+
+- `@skyux/a11y@5.0.0` [Release notes](https://github.com/blackbaud/skyux-a11y/blob/5.0.0/CHANGELOG.md)
+
 # 5.0.0-beta.151 (2021-09-30)
 
 - `@skyux/indicators@5.0.0` [Release notes](https://github.com/blackbaud/skyux-indicators/blob/5.0.0/CHANGELOG.md)
