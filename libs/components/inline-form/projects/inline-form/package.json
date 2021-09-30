@@ -1,0 +1,14 @@
+{
+  "name": "@skyux/inline-form",
+  "version": "5.0.0-beta.2",
+  "peerDependencies": {
+    "@angular/animations": "^12.2.7",
+    "@angular/common": "^12.2.7",
+    "@angular/core": "^12.2.7",
+    "@skyux/core": "^5.0.0-beta.12",
+    "@skyux/i18n": "^5.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.1"
+  }
+}

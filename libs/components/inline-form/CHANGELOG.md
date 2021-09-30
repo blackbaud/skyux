@@ -1,3 +1,20 @@
+# 5.0.0-beta.2 (2021-09-14)
+
+- Updated peer dependencies. [#55](https://github.com/blackbaud/skyux-inline-form/pull/55)
+
+# 5.0.0-beta.1 (2021-09-10)
+
+- Migrated to Angular CLI. [#53](https://github.com/blackbaud/skyux-inline-form/pull/53)
+
+# 5.0.0-beta.0 (2021-07-07)
+
+- Initial beta release.
+- Added support for `5.0.0-beta.*` versions of SKY UX component libraries. [#50](https://github.com/blackbaud/skyux-inline-form/pull/50)
+
+# 5.0.0-alpha.0 (2021-05-21)
+
+- Removed `BrowserAnimationsModule` from the `imports` section of `SkyInlineFormModule` to support lazy-loading. Consumers of `SkyInlineFormModule` must now import `BrowserAnimationsModule` into their application's root module. [#47](https://github.com/blackbaud/skyux-inline-form/pull/47)
+
 # 4.1.1 (2021-03-18)
 
 - Replaced theme conditionals in templates with the new `skyThemeIf` directive. [#42](https://github.com/blackbaud/skyux-inline-form/pull/42)
