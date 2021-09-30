@@ -1,3 +1,11 @@
+# 5.0.0 (2021-09-30)
+
+### New features
+
+- Added support for Angular 12. [#50](https://github.com/blackbaud/skyux-errors/pull/50)
+- Added default descriptions for the `notfound` and `security` error types. [#49](https://github.com/blackbaud/skyux-autonumeric/pull/49)
+- Updated the images for all the error types. [#49](https://github.com/blackbaud/skyux-autonumeric/pull/49)
+
 # 5.0.0-beta.4 (2021-09-14)
 
 - Updated SKY UX dependencies. [#58](https://github.com/blackbaud/skyux-errors/pull/58)
