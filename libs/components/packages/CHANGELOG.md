@@ -1,3 +1,7 @@
+# 5.0.0-beta.150 (2021-09-30)
+
+- `@skyux/inline-form@5.0.0` [Release notes](https://github.com/blackbaud/skyux-inline-form/blob/5.0.0/CHANGELOG.md)
+
 # 5.0.0-beta.149 (2021-09-30)
 
 - `@skyux/router@5.0.0` [Release notes](https://github.com/blackbaud/skyux-router/blob/5.0.0/CHANGELOG.md)
