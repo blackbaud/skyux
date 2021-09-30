@@ -1,15 +1,15 @@
 {
   "name": "@skyux/lookup",
-  "version": "5.0.0-beta.3",
+  "version": "5.0.0",
   "peerDependencies": {
     "@angular/common": "^12.2.7",
     "@angular/core": "^12.2.7",
     "@angular/router": "^12.2.7",
     "@skyux/core": "^5.0.0",
-    "@skyux/modals": "^5.0.0-beta.6",
-    "@skyux/forms": "^5.0.0-beta.5",
+    "@skyux/modals": "^5.0.0",
+    "@skyux/forms": "^5.0.0",
     "@skyux/i18n": "^5.0.0",
-    "@skyux/indicators": "^5.0.0-beta.4",
+    "@skyux/indicators": "^5.0.0",
     "@skyux/layout": "^5.0.0-beta.8",
     "@skyux/lists": "^5.0.0-beta.3",
     "@skyux/theme": "^5.0.0"

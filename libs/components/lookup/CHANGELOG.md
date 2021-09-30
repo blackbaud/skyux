@@ -1,3 +1,13 @@
+# 5.0.0 (2021-09-30)
+
+### New features
+
+- Added support for Angular 12. [#185](https://github.com/blackbaud/skyux-lookup/pull/185)
+
+### Breaking changes
+
+- Deprecated the `SkyLookupSelectMode` enum in favor of a string union type to support specifying string literals in Angular templates. [#203](https://github.com/blackbaud/skyux-lookup/pull/203)
+
 # 5.0.0-beta.3 (2021-09-16)
 
 - Merge master and update peer dependencies. [#221](https://github.com/blackbaud/skyux-lookup/pull/221)
