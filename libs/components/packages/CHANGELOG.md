@@ -1,3 +1,7 @@
+# 5.0.0 (2021-10-01)
+
+- Initial `5.0.0` release.
+
 # 5.0.0-beta.177 (2021-10-01)
 
 - `@skyux/tabs@5.0.0` [Release notes](https://github.com/blackbaud/skyux-tabs/blob/5.0.0/CHANGELOG.md)
