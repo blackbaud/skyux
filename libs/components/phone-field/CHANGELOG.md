@@ -1,10 +1,24 @@
+# 5.0.0-beta.1 (2021-09-16)
+
+- Adopt Angular CLI. [#100](https://github.com/blackbaud/skyux-phone-field/pull/100)
+
 # 4.6.2 (2021-08-04)
 
 - Fixed the phone field component to only switch to supported countries via dial code when using the `supportedCountryISOs` input. [#97](https://github.com/blackbaud/skyux-phone-field/pull/97)
 
+# 5.0.0-beta.0 (2021-07-16)
+
+- Initial beta release.
+- Added support for `5.0.0-beta.*` versions of SKY UX component libraries. [#96](https://github.com/blackbaud/skyux-phone-field/pull/96)
+
 # 4.6.1 (2021-06-03)
 
 - Fixed the phone field component to display the correct "close" icon when searching for a country in modern theme. [#92](https://github.com/blackbaud/skyux-phone-field/pull/92)
+
+# 5.0.0-alpha.0 (2021-05-24)
+
+- Added support for `@angular/core@^12`. [#91](https://github.com/blackbaud/skyux-phone-field/pull/91)
+- Removed `BrowserAnimationsModule` from the `imports` section of `SkyPhoneFieldModule` to support lazy-loading. Consumers of `SkyPhoneFieldModule` must now import `BrowserAnimationsModule` into their application's root module. [#91](https://github.com/blackbaud/skyux-phone-field/pull/91)
 
 # 4.6.0 (2021-05-03)
 
