@@ -1,14 +1,46 @@
+# 5.0.0-beta.7 (2021-09-29)
+
+- Added bug fixes and features from the `master` branch. [#51](https://github.com/blackbaud/skyux-data-manager/pull/51)
+
 # 4.2.3 (2021-09-29)
 
-- Update implementation examples for only showing selected items [#49](https://github.com/blackbaud/skyux-data-manager/pull/49)
+- Updated implementation examples for only showing selected items. [#49](https://github.com/blackbaud/skyux-data-manager/pull/49)
+
+# 5.0.0-beta.6 (2021-09-16)
+
+- Added bug fixes and features from the `master` branch. [#48](https://github.com/blackbaud/skyux-data-manager/pull/48)
 
 # 4.2.2 (2021-09-16)
 
 - Fixed the column selector button to be responsive on smaller screens. [#46](https://github.com/blackbaud/skyux-data-manager/pull/46)
 
+# 5.0.0-beta.5 (2021-09-15)
+
+- Updated peer dependencies. [#45](https://github.com/blackbaud/skyux-data-manager/pull/45)
+
+# 5.0.0-beta.4 (2021-09-13)
+
+- Updated peer dependencies. [#43](https://github.com/blackbaud/skyux-data-manager/pull/43)
+
+# 5.0.0-beta.3 (2021-09-02)
+
+- Migrated to Angular CLI. [#41](https://github.com/blackbaud/skyux-data-manager/pull/41)
+
 # 4.2.1 (2021-07-16)
 
 - Fixed the column selector to have proper spacing between the column's title and description. [#38](https://github.com/blackbaud/skyux-data-manager/pull/38)
+
+# 5.0.0-beta.2 (2021-07-14)
+
+- Added support for `5.0.0-beta.*` versions of SKY UX component libraries. [#37](https://github.com/blackbaud/skyux-data-manager/pull/37)
+
+# 5.0.0-beta.1 (2021-06-25)
+
+- Added support for `@angular/core@^12`. [#35](https://github.com/blackbaud/skyux-data-manager/pull/35)
+
+# 5.0.0-beta.0 (2021-06-24)
+
+- Initial `5.0.0-beta` release.
 
 # 4.2.0 (2021-05-28)
 
