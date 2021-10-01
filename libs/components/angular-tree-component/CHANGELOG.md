@@ -1,3 +1,13 @@
+# 5.0.0 (2021-10-01)
+
+### New features
+
+- Added support for Angular 12. [#45](https://github.com/blackbaud/skyux-angular-tree-component/pull/45)
+
+### Breaking changes
+
+- Added support for `@circlon/angular-tree-component` and dropped support for the deprecated library `angular-tree-component`. [#45](https://github.com/blackbaud/skyux-angular-tree-component/pull/45)
+
 # 5.0.0-beta.1 (2021-09-28)
 
 - Updated peer dependencies. [#49](https://github.com/blackbaud/skyux-angular-tree-component/pull/49)
@@ -7,8 +17,7 @@
 - Initial beta release.
 - Added support for `5.0.0-beta.*` versions of SKY UX component libraries. [#45](https://github.com/blackbaud/skyux-angular-tree-component/pull/45)
 - Migrated to Angular CLI. [#45](https://github.com/blackbaud/skyux-angular-tree-component/pull/45)
-- Added support for `@circlon/angular-tree-component` and dropped support for the deprecated library `angular-tree-component
-`. [#45](https://github.com/blackbaud/skyux-angular-tree-component/pull/45)
+- Added support for `@circlon/angular-tree-component` and dropped support for the deprecated library `angular-tree-component`. [#45](https://github.com/blackbaud/skyux-angular-tree-component/pull/45)
 
 # 4.0.3 (2021-07-29)
 
