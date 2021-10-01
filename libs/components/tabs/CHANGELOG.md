@@ -1,3 +1,17 @@
+# 5.0.0 (2021-10-01)
+
+### New features
+
+- Added support for Angular 12. [#169](https://github.com/blackbaud/skyux-tabs/pull/169)
+
+### Bug fixes
+
+- Fixed the `tabHeaderCount` input to support both `string` and `undefined` types. [#192](https://github.com/blackbaud/skyux-tabs/pull/192)
+
+### Breaking changes
+
+- Removed `BrowserAnimationsModule` from the `imports` section of `SkyVerticalTabsetModule` to support lazy-loading. Consumers of `SkyVerticalTabsetModule` must now import `BrowserAnimationsModule` into their application's root module. [#169](https://github.com/blackbaud/skyux-tabs/pull/169)
+
 # 5.0.0-beta.4 (2021-09-28)
 
 - Fixed the `tabHeaderCount` input to support both `string` and `undefined` types. [#192](https://github.com/blackbaud/skyux-tabs/pull/192)
