@@ -1,14 +1,14 @@
 {
   "name": "@skyux/data-manager",
-  "version": "5.0.0-beta.7",
+  "version": "5.0.0",
   "peerDependencies": {
     "@angular/common": "^12.2.8",
     "@angular/core": "^12.2.8",
     "@skyux/forms": "^5.0.0",
     "@skyux/indicators": "^5.0.0",
-    "@skyux/layout": "^5.0.0-beta.8",
-    "@skyux/lists": "^5.0.0-beta.3",
-    "@skyux/lookup": "^5.0.0-beta.2",
+    "@skyux/layout": "^5.0.0",
+    "@skyux/lists": "^5.0.0",
+    "@skyux/lookup": "^5.0.0",
     "@skyux/modals": "^5.0.0",
     "@skyux/i18n": "^5.0.0"
   },

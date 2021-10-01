@@ -1,3 +1,9 @@
+# 5.0.0 (2021-09-30)
+
+### New features
+
+- Added support for Angular 12. [#35](https://github.com/blackbaud/skyux-data-manager/pull/35)
+
 # 5.0.0-beta.7 (2021-09-29)
 
 - Added bug fixes and features from the `master` branch. [#51](https://github.com/blackbaud/skyux-data-manager/pull/51)
