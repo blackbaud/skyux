@@ -1,3 +1,7 @@
+# 5.0.0-beta.176 (2021-10-01)
+
+- `@skyux/action-bars@5.0.0` [Release notes](https://github.com/blackbaud/skyux-action-bars/blob/5.0.0/CHANGELOG.md)
+
 # 5.0.0-beta.175 (2021-10-01)
 
 - `@skyux/text-editor@5.0.0` [Release notes](https://github.com/blackbaud/skyux-text-editor/blob/5.0.0/CHANGELOG.md)
