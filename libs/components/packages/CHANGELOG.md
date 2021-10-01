@@ -1,3 +1,7 @@
+# 5.0.0-beta.173 (2021-10-01)
+
+- `@skyux/data-manager@5.0.0` [Release notes](https://github.com/blackbaud/skyux-data-manager/blob/5.0.0/CHANGELOG.md)
+
 # 5.0.0-beta.172 (2021-10-01)
 
 - `@skyux/lists@5.0.0` [Release notes](https://github.com/blackbaud/skyux-lists/blob/5.0.0/CHANGELOG.md)
