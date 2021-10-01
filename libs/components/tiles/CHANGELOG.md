@@ -1,3 +1,13 @@
+# 5.0.0 (2021-10-01)
+
+### New features
+
+- Added support for Angular 12. [#81](https://github.com/blackbaud/skyux-tiles/pull/81)
+
+### Breaking changes
+
+- Removed `BrowserAnimationsModule` from the `imports` section of `SkyTilesModule` to support lazy-loading. Consumers of `SkyTilesModule` must now import `BrowserAnimationsModule` into their application's root module. [#78](https://github.com/blackbaud/skyux-tiles/pull/78)
+
 # 5.0.0-beta.2 (2021-09-14)
 
 - Added support for "partial" Ivy compilation mode. [#83](https://github.com/blackbaud/skyux-tiles/pull/83)
