@@ -10,3 +10,7 @@ export * from './modules/list-view-checklist/state/items/load.action';
 // The following export is used internally by `@skyux/select-field`.
 // TODO: Find a way to remove this in the next major version release.
 export * from './modules/list-view-checklist/list-view-checklist.component';
+
+// Components and directives must be exported to support Angular’s “partial” Ivy compiler.
+// Obscure names are used to indicate types are not part of the public API.
+export { SkyListViewChecklistItemComponent as λ1 } from './modules/list-view-checklist/list-view-checklist-item.component';

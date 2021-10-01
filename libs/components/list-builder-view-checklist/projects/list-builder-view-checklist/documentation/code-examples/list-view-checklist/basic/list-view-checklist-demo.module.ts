@@ -21,7 +21,7 @@ import {
 
 import {
   SkyListViewChecklistModule
-} from '@skyux/list-builder-view-checklist';
+} from 'projects/list-builder-view-checklist/src/public-api';
 
 import {
   ListViewChecklistDemoComponent

@@ -15,6 +15,10 @@ import {
 } from '@angular/platform-browser';
 
 import {
+  NoopAnimationsModule
+} from '@angular/platform-browser/animations';
+
+import {
   ListItemModel
 } from '@skyux/list-builder-common';
 
@@ -206,6 +210,7 @@ describe('List View Checklist Component', () => {
           ListViewChecklistTestComponent
         ],
         imports: [
+          NoopAnimationsModule,
           SkyListViewChecklistModule
         ],
         providers: [
@@ -309,6 +314,7 @@ describe('List View Checklist Component', () => {
           ListViewChecklistEmptyTestComponent
         ],
         imports: [
+          NoopAnimationsModule,
           SkyListViewChecklistModule
         ],
         providers: [
@@ -373,6 +379,7 @@ describe('List View Checklist Component', () => {
           ListViewChecklistPaginationTestComponent
         ],
         imports: [
+          NoopAnimationsModule,
           SkyListModule,
           SkyListToolbarModule,
           SkyListViewChecklistModule,
@@ -441,6 +448,7 @@ describe('List View Checklist Component', () => {
           ListViewChecklistToolbarTestComponent
         ],
         imports: [
+          NoopAnimationsModule,
           SkyListModule,
           SkyListToolbarModule,
           SkyListViewChecklistModule
@@ -729,6 +737,60 @@ describe('List View Checklist Component', () => {
     }));
   });
 
+  describe('Undefined select mode', () => {
+    let dispatcher: ListStateDispatcher,
+      state: ListState,
+      bs: BehaviorSubject<Array<any>>,
+      items: Observable<Array<any>>,
+      fixture: ComponentFixture<ListViewChecklistToolbarTestComponent>,
+      component: ListViewChecklistToolbarTestComponent;
+
+    beforeEach(fakeAsync(() => {
+      dispatcher = new ListStateDispatcher();
+      state = new ListState(dispatcher);
+
+      bs = new BehaviorSubject<Array<any>>(itemsArray);
+      items = bs.asObservable();
+
+      TestBed.configureTestingModule({
+        declarations: [
+          ListViewChecklistToolbarTestComponent
+        ],
+        imports: [
+          NoopAnimationsModule,
+          SkyListModule,
+          SkyListToolbarModule,
+          SkyListViewChecklistModule
+        ],
+        providers: [
+          { provide: 'items', useValue: items }
+        ]
+      })
+        .overrideComponent(SkyListComponent, {
+          set: {
+            providers: [
+              { provide: ListState, useValue: state },
+              { provide: ListStateDispatcher, useValue: dispatcher }
+            ]
+          }
+        });
+
+      fixture = TestBed.createComponent(ListViewChecklistToolbarTestComponent);
+      component = fixture.componentInstance;
+      component.selectMode = undefined;
+      fixture.detectChanges();
+
+      // always skip the first update to ListState, when state is ready
+      // run detectChanges once more then begin tests
+      state.pipe(skip(1), take(1)).subscribe(() => fixture.detectChanges());
+      fixture.detectChanges();
+    }));
+
+    it('should default to multiple select mode, if none has been defined', fakeAsync(() => {
+      expect(component.checklist.selectMode).toBe('multiple');
+    }));
+  });
+
   describe('Single select mode', () => {
     let dispatcher: ListStateDispatcher,
       state: ListState,
@@ -749,6 +811,7 @@ describe('List View Checklist Component', () => {
           ListViewChecklistToolbarTestComponent
         ],
         imports: [
+          NoopAnimationsModule,
           SkyListModule,
           SkyListToolbarModule,
           SkyListViewChecklistModule
@@ -842,6 +905,7 @@ describe('List View Checklist Component', () => {
           ListViewChecklistToolbarTestComponent
         ],
         imports: [
+          NoopAnimationsModule,
           SkyListModule,
           SkyListToolbarModule,
           SkyListViewChecklistModule
@@ -867,10 +931,6 @@ describe('List View Checklist Component', () => {
       // run detectChanges once more then begin tests
       state.pipe(skip(1), take(1)).subscribe(() => fixture.detectChanges());
       fixture.detectChanges();
-    }));
-
-    it('should default to multiple select mode, if none has been defined', fakeAsync(() => {
-      expect(component.checklist.selectMode).toBe('multiple');
     }));
 
     it('should show the multiselect toolbar on load, if select mode has NOT been defined', fakeAsync(() => {

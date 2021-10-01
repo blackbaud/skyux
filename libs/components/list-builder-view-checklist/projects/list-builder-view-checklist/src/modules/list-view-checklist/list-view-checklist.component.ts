@@ -68,9 +68,7 @@ import {
   templateUrl: './list-view-checklist.component.html',
   styleUrls: ['./list-view-checklist.component.scss'],
   providers: [
-    /* tslint:disable */
     { provide: ListViewComponent, useExisting: forwardRef(() => SkyListViewChecklistComponent) },
-    /* tslint:enable */
     ChecklistState,
     ChecklistStateDispatcher,
     ChecklistStateModel
@@ -100,10 +98,9 @@ export class SkyListViewChecklistComponent extends ListViewComponent implements 
    * Specifies the name of the label field selector.
    * @default 'label'
    */
-  /* tslint:disable */
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('label')
   public labelFieldSelector: string = 'label';
-  /* tslint:enable */
 
   /**
    * Specifies the name of the description field selector.
@@ -313,7 +310,6 @@ export class SkyListViewChecklistComponent extends ListViewComponent implements 
     return (data: any, searchText: string) => {
       if (this.labelFieldSelector !== undefined) {
         let label = getData(data, this.labelFieldSelector);
-        /* tslint:disable:no-null-keyword */
         if (
           label !== undefined &&
           label !== null &&
@@ -321,12 +317,10 @@ export class SkyListViewChecklistComponent extends ListViewComponent implements 
         ) {
           return true;
         }
-        /* tslint:enable:no-null-keyword */
       }
 
       if (this.description !== undefined) {
         let description = getData(data, this.description);
-        /* tslint:disable:no-null-keyword */
         if (
           description !== undefined &&
           description !== null &&
@@ -334,7 +328,6 @@ export class SkyListViewChecklistComponent extends ListViewComponent implements 
         ) {
           return true;
         }
-        /* tslint:enable:no-null-keyword */
       }
 
       return false;
@@ -358,6 +351,7 @@ export class SkyListViewChecklistComponent extends ListViewComponent implements 
       name: 'show-selected',
       value: isSelected.toString(),
       filterFunction: (model: ListItemModel, showOnlySelected: boolean) => {
+        /* istanbul ignore else */
         if (showOnlySelected.toString() !== false.toString()) {
           return this._selectedIdMap.get(model.id);
         }
