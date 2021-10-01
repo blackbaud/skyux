@@ -1,3 +1,7 @@
+# 5.0.0-beta.169 (2021-10-01)
+
+- `@skyux/grids@5.0.0` [Release notes](https://github.com/blackbaud/skyux-grids/blob/5.0.0/CHANGELOG.md)
+
 # 5.0.0-beta.168 (2021-10-01)
 
 - `@skyux/datetime@5.0.0` [Release notes](https://github.com/blackbaud/skyux-datetime/blob/5.0.0/CHANGELOG.md)
