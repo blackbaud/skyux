@@ -1,6 +1,20 @@
+# 5.0.0-beta.5 (2021-09-28)
+
+- Updated the `e2e` tests to produce more consistent results. [#151](https://github.com/blackbaud/skyux-ag-grid/pull/151)
+
+# 5.0.0-beta.4 (2021-09-27)
+
+- Added bug fixes and features from the `master` branch. [#149](https://github.com/blackbaud/skyux-ag-grid/pull/149)
+- Updated the peer dependency to AG Grid 26. [#146](https://github.com/blackbaud/skyux-ag-grid/pull/146)
+
 # 4.11.0 (2021-09-24)
 
 - Fixed the currency column type so the values are right-aligned. [#147](https://github.com/blackbaud/skyux-ag-grid/pull/147)
+
+# 5.0.0-beta.3 (2021-09-20)
+
+- Added bug fixes and features from the `master` branch. [#141](https://github.com/blackbaud/skyux-ag-grid/pull/141)
+- Migrated the project to use Angular CLI. [#141](https://github.com/blackbaud/skyux-ag-grid/pull/141)
 
 # 4.10.2 (2021-09-20)
 
@@ -10,6 +24,10 @@
 
 - Added additional parameters to the validator function. [#138](https://github.com/blackbaud/skyux-ag-grid/pull/138) (Thanks @[blackbaud-jeremymorgan](https://github.com/blackbaud-jeremymorgan)!)
 
+# 5.0.0-beta.2 (2021-09-08)
+
+- Added bug fixes and features from the `master` branch. [#136](https://github.com/blackbaud/skyux-ag-grid/pull/136)
+
 # 4.10.0  (2021-09-08)
 
 - Added a validator option for cells. [#134](https://github.com/blackbaud/skyux-ag-grid/pull/134)
@@ -18,6 +36,16 @@
 
 - Added styles to support `agSelectCellEditor` in both default and modern themes. [#127](https://github.com/blackbaud/skyux-ag-grid/pull/127)
 - Added visual regression coverage for `agSelectCellEditor` styles. [#129](https://github.com/blackbaud/skyux-ag-grid/pull/129)
+
+# 5.0.0-beta.1 (2021-07-20)
+
+- Fixed the build to export `ag-grid-styles.scss`. [#126](https://github.com/blackbaud/skyux-ag-grid/pull/126)
+
+# 5.0.0-beta.0 (2021-07-16)
+
+- Initial beta release.
+- Added support for `@angular/core@^12`. [#125](https://github.com/blackbaud/skyux-ag-grid/pull/125)
+- Added support for `5.0.0-beta.*` versions of SKY UX component libraries. [#125](https://github.com/blackbaud/skyux-ag-grid/pull/125)
 
 # 4.8.3 (2021-07-13)
 
