@@ -1,3 +1,9 @@
+# 5.0.0 (2021-10-01)
+
+### New features
+
+- Added support for Angular 12. [#165](https://github.com/blackbaud/skyux-grids/pull/165)
+
 # 5.0.0-beta.1 (2021-09-14)
 
 - Adopt Angular CLI. [#167](https://github.com/blackbaud/skyux-grids/pull/167)
