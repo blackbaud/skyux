@@ -1,3 +1,13 @@
+# 5.0.0 (2021-09-30)
+
+### New features
+
+- Added support for Angular 12. [#238](https://github.com/blackbaud/skyux-lists/pull/238)
+
+### Breaking changes
+
+- Removed `BrowserAnimationsModule` from the `imports` section of `SkyRepeaterModule` to support lazy-loading. Consumers of `SkyRepeaterModule` must now import `BrowserAnimationsModule` into their application's root module. [#237](https://github.com/blackbaud/skyux-lists/pull/237)
+
 # 5.0.0-beta.3 (2021-09-14)
 
 - Updated peer dependencies. [#250](https://github.com/blackbaud/skyux-lists/pull/250)
