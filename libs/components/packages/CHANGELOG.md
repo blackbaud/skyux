@@ -1,3 +1,7 @@
+# 5.0.0-beta.166 (2021-10-01)
+
+- `@skyux/colorpicker@5.0.0` [Release notes](https://github.com/blackbaud/skyux-colorpicker/blob/5.0.0/CHANGELOG.md)
+
 # 5.0.0-beta.165 (2021-10-01)
 
 - `@skyux/tiles@5.0.0` [Release notes](https://github.com/blackbaud/skyux-tiles/blob/5.0.0/CHANGELOG.md)
