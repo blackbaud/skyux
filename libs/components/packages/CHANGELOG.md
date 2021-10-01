@@ -1,3 +1,7 @@
+# 5.0.0-beta.175 (2021-10-01)
+
+- `@skyux/text-editor@5.0.0` [Release notes](https://github.com/blackbaud/skyux-text-editor/blob/5.0.0/CHANGELOG.md)
+
 # 5.0.0-beta.174 (2021-10-01)
 
 - `@skyux/phone-field@5.0.0` [Release notes](https://github.com/blackbaud/skyux-phone-field/blob/5.0.0/CHANGELOG.md)
