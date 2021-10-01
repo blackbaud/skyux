@@ -1,3 +1,7 @@
+# 5.0.0-beta.165 (2021-10-01)
+
+- `@skyux/tiles@5.0.0` [Release notes](https://github.com/blackbaud/skyux-tiles/blob/5.0.0/CHANGELOG.md)
+
 # 5.0.0-beta.164 (2021-10-01)
 
 - `@skyux/angular-tree-component@5.0.0` [Release notes](https://github.com/blackbaud/skyux-angular-tree-component/blob/5.0.0/CHANGELOG.md)
