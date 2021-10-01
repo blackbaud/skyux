@@ -1,12 +1,12 @@
 {
   "schematics": {
     "noop": {
-      "version": "5.0.0-beta.170",
+      "version": "5.0.0-beta.171",
       "factory": "./noop/noop.schematic",
       "description": "Update all SKY UX component packages"
     },
     "update-peer-dependencies": {
-      "version": "5.0.0-beta.170",
+      "version": "5.0.0-beta.171",
       "factory": "./update-peer-dependencies/update-peer-dependencies.schematic",
       "description": "Update library peer dependencies"
     },

@@ -1,3 +1,7 @@
+# 5.0.0-beta.171 (2021-10-01)
+
+- `@skyux/list-builder-view-grids@5.0.0` [Release notes](https://github.com/blackbaud/skyux-list-builder-view-grids/blob/5.0.0/CHANGELOG.md)
+
 # 5.0.0-beta.170 (2021-10-01)
 
 - `@skyux/list-builder-view-checklist@5.0.0` [Release notes](https://github.com/blackbaud/skyux-list-builder-view-checklist/blob/5.0.0/CHANGELOG.md)
