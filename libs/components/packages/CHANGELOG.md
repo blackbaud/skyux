@@ -1,3 +1,7 @@
+# 5.0.0-beta.160 (2021-10-01)
+
+- `@skyux/list-builder@5.0.0` [Release notes](https://github.com/blackbaud/skyux-list-builder/blob/5.0.0/CHANGELOG.md)
+
 # 5.0.0-beta.159 (2021-09-30)
 
 - `@skyux/lookup@5.0.0` [Release notes](https://github.com/blackbaud/skyux-lookup/blob/5.0.0/CHANGELOG.md)
