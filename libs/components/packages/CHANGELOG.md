@@ -1,3 +1,7 @@
+# 5.0.0-beta.163 (2021-10-01)
+
+- `@skyux/layout@5.0.0` [Release notes](https://github.com/blackbaud/skyux-layout/blob/5.0.0/CHANGELOG.md)
+
 # 5.0.0-beta.162 (2021-10-01)
 
 - `@skyux/ag-grid@5.0.0` [Release notes](https://github.com/blackbaud/skyux-ag-grid/blob/5.0.0/CHANGELOG.md)
