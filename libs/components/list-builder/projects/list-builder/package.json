@@ -1,6 +1,6 @@
 {
   "name": "@skyux/list-builder",
-  "version": "5.0.0-beta.2",
+  "version": "5.0.0",
   "peerDependencies": {
     "@angular/common": "^12.2.8",
     "@angular/core": "^12.2.8",
@@ -12,7 +12,7 @@
     "@skyux/layout": "^5.0.0-beta.8",
     "@skyux/list-builder-common": "^5.0.0",
     "@skyux/lists": "^5.0.0-beta.3",
-    "@skyux/lookup": "^5.0.0-beta.2",
+    "@skyux/lookup": "^5.0.0",
     "@skyux/popovers": "^5.0.0"
   },
   "dependencies": {

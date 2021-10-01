@@ -1,3 +1,9 @@
+# 5.0.0 (2021-10-01)
+
+### New features
+
+- Added support for Angular 12. [#129](https://github.com/blackbaud/skyux-list-builder/pull/129)
+
 # 5.0.0-beta.2 (2021-09-14)
 
 - Updated the peer dependencies. [#136](https://github.com/blackbaud/skyux-list-builder/pull/136)
