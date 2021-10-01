@@ -1,10 +1,36 @@
+# 5.0.0-beta.4 (2021-09-13)
+
+- Updated peer dependencies. [#67](https://github.com/blackbaud/skyux-action-bars/pull/67)
+
+# 5.0.0-beta.3 (2021-09-08)
+
+- Updated peer dependencies. [#65](https://github.com/blackbaud/skyux-action-bars/pull/65)
+
+# 5.0.0-beta.2 (2021-09-02)
+
+- Migrated to Angular CLI. [#63](https://github.com/blackbaud/skyux-action-bars/pull/63)
+
+# 5.0.0-beta.1 (2021-08-06)
+
+- Added bug fixes and features from the master branch. [#62](https://github.com/blackbaud/skyux-action-bars/pull/62)
+
 # 4.2.2 (2021-08-05)
 
 - Fixed the secondary action dropdown menu to collapse when clicking an action. [#60](https://github.com/blackbaud/skyux-action-bars/pull/60)
 
+# 5.0.0-beta.0 (2021-07-09)
+
+- Initial beta release.
+- Added support for `5.0.0-beta.*` versions of SKY UX component libraries. [#59](https://github.com/blackbaud/skyux-action-bars/pull/59)
+
 # 4.2.1 (2021-06-11)
 
 - Fixed the module name in the installation documentation. [#57](https://github.com/blackbaud/skyux-action-bars/pull/57)
+
+# 5.0.0-alpha.0 (2021-05-21)
+
+- Added support for `@angular/core@^12`. [#54](https://github.com/blackbaud/skyux-action-bars/pull/54)
+- Removed `BrowserAnimationsModule` from the `imports` section of `SkySummaryActionBarModule` to support lazy-loading. Consumers of `SkySummaryActionBarModule` must now import `BrowserAnimationsModule` into their application's root module. [#54](https://github.com/blackbaud/skyux-action-bars/pull/54)
 
 # 4.2.0 (2021-04-19)
 
