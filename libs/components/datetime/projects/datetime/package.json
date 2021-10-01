@@ -1,6 +1,6 @@
 {
   "name": "@skyux/datetime",
-  "version": "5.0.0-beta.5",
+  "version": "5.0.0",
   "peerDependencies": {
     "@angular/common": "^12.2.7",
     "@angular/core": "^12.2.7",
