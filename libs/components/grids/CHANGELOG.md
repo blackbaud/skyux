@@ -1,3 +1,13 @@
+# 5.0.0-beta.1 (2021-09-14)
+
+- Adopt Angular CLI. [#167](https://github.com/blackbaud/skyux-grids/pull/167)
+
+# 5.0.0-beta.0 (2021-07-09)
+
+- Initial beta release.
+- Added support for `5.0.0-beta.*` versions of SKY UX component libraries. [#165](https://github.com/blackbaud/skyux-grids/pull/165)
+- Added support for `@angular/core@^12`. [#165](https://github.com/blackbaud/skyux-grids/pull/165)
+
 # 4.0.6 (2020-09-11)
 
 - Fixed the grid component's resize handle to have a proper accessibility role. [#158](https://github.com/blackbaud/skyux-grids/pull/158)

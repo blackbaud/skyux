@@ -1,0 +1,115 @@
+<sky-grid
+  [data]="data"
+  [fit]="fitType"
+  [hasToolbar]="hasToolbar"
+  [height]="400"
+  [enableMultiselect]="enableMultiselect"
+  [messageStream]="gridController"
+  [multiselectRowId]="multiselectRowId"
+  [selectedRowIds]="selectedRowIds"
+  [rowHighlightedId]="rowHighlightedId"
+  [selectedColumnIds]="selectedColumnIds"
+  [settingsKey]="settingsKey"
+  [sortField]="sortField"
+  [width]="600"
+  (sortFieldChange)="onSort($event)"
+  (columnWidthChange)="onResize($event)"
+  (rowDeleteCancel)="cancelRowDelete($event)"
+  (rowDeleteConfirm)="finishRowDelete($event)"
+  (multiselectSelectionChange)="onMultiselectChange($event)"
+  (selectedColumnIdsChange)="onSelectedColumnIdsChange($event)"
+>
+  <sky-grid-column
+    field="column1"
+    heading="Column1"
+    [width]="allColumnWidth"
+    [inlineHelpPopover]="column1Help"
+    [locked]="true"
+  >
+  </sky-grid-column>
+  <sky-grid-column
+    field="column2"
+    heading="Column2"
+    [width]="150"
+    [isSortable]="false"
+    [search]="searchFunction">
+    <ng-template
+      let-row="row">
+      {{row?.column2}}
+    </ng-template>
+  </sky-grid-column>
+  <sky-grid-column
+    id="column3"
+    field="column3"
+    type="number"
+    heading="Column3"
+    [template]="template1"
+    [width]="dynamicWidth || allColumnWidth"
+  >
+  </sky-grid-column>
+  <sky-grid-column
+    id="column4"
+    type="date"
+    heading="Column4"
+    [hidden]="true"
+    [inlineHelpPopover]="column4Help"
+    [width]="allColumnWidth"
+  >
+  </sky-grid-column>
+  <sky-grid-column
+    field="column5"
+    heading="Column5"
+    [width]="50"
+   >
+  </sky-grid-column>
+  <sky-grid-column
+    id="hiddenCol1"
+    field="column1"
+    heading="Column6"
+    [width]="allColumnWidth"
+  >
+  </sky-grid-column>
+  <sky-grid-column
+    id="hiddenCol2"
+    field="column1"
+    heading="Column7"
+    [width]="allColumnWidth"
+  >
+  </sky-grid-column>
+  <sky-grid-column *ngIf="showWideColumn"
+    id="column6"
+    field="column1"
+    heading="Column8"
+    [width]="50000"
+  >
+  </sky-grid-column>
+</sky-grid>
+
+<sky-popover #column1Help>
+  Help content for column 1.
+</sky-popover>
+
+<sky-popover #column4Help>
+  Help content for column 4.
+</sky-popover>
+
+<ng-template let-value="value" #template1>
+  <div class="sky-test-custom-template">
+  {{value}}
+  </div>
+</ng-template>
+
+<button
+  id="hide-column-button"
+  class="sky-btn sky-btn-primary"
+  (click)="hideColumn()"
+>
+  Hide Column 2
+</button>
+<button
+  id="show-column-button"
+  class="sky-btn sky-btn-primary"
+  (click)="showColumn()"
+>
+  Show Column 2
+</button>
