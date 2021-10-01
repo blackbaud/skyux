@@ -37,7 +37,7 @@ import {
 
 import {
   SkySelectFieldResourcesModule
-} from '../../plugin-resources/select-field-resources.module';
+} from '../shared/sky-select-field-resources.module';
 
 import {
   SkySelectFieldComponent
@@ -64,8 +64,7 @@ import {
     SkyIconModule
   ],
   exports: [
-    SkySelectFieldComponent,
-    SkySelectFieldPickerComponent
+    SkySelectFieldComponent
   ],
   declarations: [
     SkySelectFieldComponent,

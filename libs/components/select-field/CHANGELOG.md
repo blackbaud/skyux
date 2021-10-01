@@ -1,3 +1,17 @@
+# 5.0.0-beta.2 (2021-09-16)
+
+- Updated peer dependencies. [#104](https://github.com/blackbaud/skyux-select-field/pull/104)
+
+# 5.0.0-beta.1 (2021-09-02)
+
+- Migrated to Angular CLI. [#101](https://github.com/blackbaud/skyux-select-field/pull/101)
+
+# 5.0.0-beta.0 (2021-07-14)
+
+- Initial beta release.
+- Added support for `@angular/core@^12`. [#100](https://github.com/blackbaud/skyux-select-field/pull/100)
+- Added support for `5.0.0-beta.*` versions of SKY UX component libraries. [#100](https://github.com/blackbaud/skyux-select-field/pull/100)
+
 # 4.0.2 (2021-04-22)
 
 - Fixed the label for the button that closes the select field modal. [#97](https://github.com/blackbaud/skyux-select-field/pull/97)

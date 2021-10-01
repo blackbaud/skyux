@@ -7,6 +7,10 @@ import {
 } from '@angular/core/testing';
 
 import {
+  NoopAnimationsModule
+} from '@angular/platform-browser/animations';
+
+import {
   expect,
   SkyAppTestUtility
 } from '@skyux-sdk/testing';
@@ -141,6 +145,7 @@ describe('Select field component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
+        NoopAnimationsModule,
         SkySelectFieldFixturesModule
       ]
     });
