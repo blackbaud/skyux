@@ -1,3 +1,14 @@
+# 5.0.0-beta.1 (2021-09-15)
+
+- Migrated to Angular CLI. [#99](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/99)
+- Added support for "partial" Ivy compilation mode. [#99](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/99)
+
+# 5.0.0-beta.0 (2021-07-15)
+
+- Initial beta release.
+- Added support for `@angular/core@^12`. [#97](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/97)
+- Added support for `5.0.0-beta.*` versions of SKY UX component libraries. [#97](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/97)
+
 # 4.0.2 (2020-08-19)
 
 - Fixed the list view grid component to render grid column components which utilize an inline template. [#89](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/89)
