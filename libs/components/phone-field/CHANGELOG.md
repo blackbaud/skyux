@@ -1,3 +1,9 @@
+# 5.0.0 (2021-09-30)
+
+### New features
+
+- Added support for Angular 12. [#91](https://github.com/blackbaud/skyux-phone-field/pull/91)
+
 # 5.0.0-beta.1 (2021-09-16)
 
 - Adopt Angular CLI. [#100](https://github.com/blackbaud/skyux-phone-field/pull/100)

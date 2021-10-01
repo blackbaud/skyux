@@ -1,6 +1,6 @@
 {
   "name": "@skyux/phone-field",
-  "version": "5.0.0-beta.1",
+  "version": "5.0.0",
   "peerDependencies": {
     "@angular/animations": "^12.2.8",
     "@angular/common": "^12.2.8",
@@ -9,7 +9,7 @@
     "@skyux/forms": "^5.0.0",
     "@skyux/i18n": "^5.0.0",
     "@skyux/indicators": "^5.0.0",
-    "@skyux/lookup": "^5.0.0-beta.2",
+    "@skyux/lookup": "^5.0.0",
     "@skyux/theme": "^5.0.0"
   },
   "dependencies": {
