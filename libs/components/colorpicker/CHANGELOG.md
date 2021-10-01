@@ -1,3 +1,9 @@
+# 5.0.0 (2021-10-01)
+
+### New features
+
+- Added support for Angular 12. [#96](https://github.com/blackbaud/skyux-colorpicker/pull/96)
+
 # 5.0.0-beta.4 (2021-09-20)
 
 - Merge master and update peer dependencies. [#103](https://github.com/blackbaud/skyux-colorpicker/pull/103)
