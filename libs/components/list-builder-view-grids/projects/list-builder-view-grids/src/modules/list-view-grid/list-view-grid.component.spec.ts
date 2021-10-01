@@ -388,19 +388,19 @@ describe('List View Grid Component', () => {
         await expectAsync(fixture.nativeElement).toBeAccessible();
       });
 
-      it('should be accessible when a search is applied', async (done) => {
+      it('should be accessible when a search is applied', async () => {
         setupTest();
 
         await fixture.whenStable();
         fixture.detectChanges();
 
-        state.pipe(take(1)).subscribe(async () => {
+        await state.pipe(take(1)).subscribe(async () => {
           dispatcher.searchSetText('searchText');
-          await fixture.whenStable();
-          fixture.detectChanges();
-          await expectAsync(fixture.nativeElement).toBeAccessible();
-          done();
         });
+
+        await fixture.whenStable();
+        fixture.detectChanges();
+        await expectAsync(fixture.nativeElement).toBeAccessible();
       });
 
       describe('Models and State', () => {

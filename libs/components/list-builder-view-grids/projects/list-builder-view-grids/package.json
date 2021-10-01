@@ -1,13 +1,13 @@
 {
   "name": "@skyux/list-builder-view-grids",
-  "version": "5.0.0-beta.1",
+  "version": "5.0.0",
   "peerDependencies": {
     "@angular/common": "^12.2.8",
     "@angular/core": "^12.2.8",
-    "@skyux/grids": "^5.0.0-beta.1",
+    "@skyux/grids": "^5.0.0",
     "@skyux/i18n": "^5.0.0",
     "@skyux/indicators": "^5.0.0",
-    "@skyux/list-builder": "^5.0.0-beta.2",
+    "@skyux/list-builder": "^5.0.0",
     "@skyux/list-builder-view-checklist": "^5.0.0-beta.1",
     "@skyux/list-builder-common": "^5.0.0",
     "@skyux/modals": "^5.0.0"

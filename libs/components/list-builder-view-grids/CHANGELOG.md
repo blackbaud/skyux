@@ -1,3 +1,9 @@
+# 5.0.0 (2021-10-01)
+
+### New features
+
+- Added support for Angular 12. [#99](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/99)
+
 # 5.0.0-beta.1 (2021-09-15)
 
 - Migrated to Angular CLI. [#99](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/99)
