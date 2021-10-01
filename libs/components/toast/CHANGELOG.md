@@ -1,3 +1,9 @@
+# 5.0.0 (2021-10-01)
+
+### New features
+
+- Added support for Angular 12. [#70](https://github.com/blackbaud/skyux-toast/pull/70)
+
 # 5.0.0-beta.2 (2021-09-10)
 
 - Enabled Ivy's "partial" compilation mode. [#73](https://github.com/blackbaud/skyux-toast/pull/73)
