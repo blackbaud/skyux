@@ -1,3 +1,7 @@
+# 5.0.1 (2021-10-05)
+
+- Marked `skyAppLinkExternal` as deprecated in favor of `skyHref`. [#42](https://github.com/blackbaud/skyux-router/pull/42)
+
 # 5.0.0 (2021-09-30)
 
 ### New features
