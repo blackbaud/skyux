@@ -29,6 +29,9 @@ import {
 
 import { SkyAppLinkQueryParams } from './link-query-params';
 
+/**
+ * @deprecated Use `skyHref` directive instead.
+ */
 @Directive({
   selector: '[skyAppLinkExternal]'
 })
