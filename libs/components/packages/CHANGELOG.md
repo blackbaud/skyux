@@ -1,3 +1,7 @@
+# 5.2.0 (2021-10-06)
+
+- `@skyux/ag-grid@5.0.1` [Release notes](https://github.com/blackbaud/skyux-ag-grid/blob/5.0.1/CHANGELOG.md)
+
 # 5.1.0 (2021-10-05)
 
 - `@skyux/router@5.0.1` [Release notes](https://github.com/blackbaud/skyux-router/blob/5.0.1/CHANGELOG.md)
