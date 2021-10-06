@@ -1,18 +1,18 @@
 {
   "name": "@skyux/ag-grid",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "peerDependencies": {
     "@angular/common": "^12.2.8",
     "@angular/core": "^12.2.8",
     "ag-grid-angular": "^26.0.0",
     "ag-grid-community": "^26.0.0",
     "@skyux/autonumeric": "^5.0.0",
-    "@skyux/data-manager": "^5.0.0-beta.7",
-    "@skyux/datetime": "^5.0.0-beta.5",
+    "@skyux/data-manager": "^5.0.0",
+    "@skyux/datetime": "^5.0.0",
     "@skyux/forms": "^5.0.0",
     "@skyux/i18n": "^5.0.0",
     "@skyux/indicators": "^5.0.0",
-    "@skyux/layout": "^5.0.0-beta.8",
+    "@skyux/layout": "^5.0.0",
     "@skyux/lookup": "^5.0.0",
     "@skyux/popovers": "^5.0.0"
   },
