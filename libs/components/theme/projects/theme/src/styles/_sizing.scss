@@ -60,6 +60,18 @@
   padding: $sky-space-xl;
 }
 
+.sky-padding-horizontal-sm {
+  padding: 0 $sky-space-sm;
+}
+
+.sky-padding-horizontal-md {
+  padding: 0 $sky-space-md;
+}
+
+.sky-padding-horizontal-xl {
+  padding: 0 $sky-space-xl;
+}
+
 .sky-padding-vertical-md {
   padding: $sky-space-lg 0;
 }
@@ -76,6 +88,14 @@
   margin-right: $sky-space-md;
 }
 
+.sky-margin-inline-md {
+  margin-right: $sky-space-md;
+}
+
+.sky-margin-inline-lg {
+  margin-right: $sky-space-lg;
+}
+
 .sky-margin-inline-xl {
   margin-right: $sky-space-xl;
 }
@@ -86,6 +106,10 @@
 
 .sky-margin-stacked-xs {
   margin-bottom: $sky-space-xs;
+}
+
+.sky-margin-stacked-sm {
+  margin-bottom: $sky-space-sm;
 }
 
 .sky-margin-stacked-md {
