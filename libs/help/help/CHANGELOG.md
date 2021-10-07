@@ -1,3 +1,15 @@
+## 5.0.0 (2021-10-07)
+
+- Initial `5.0.0` release.
+
+## 5.0.0-beta.1 (2021-10-07)
+
+- Added support for lazy-loaded modules. [#81](https://github.com/blackbaud/skyux-lib-help/pull/81)
+
+## 5.0.0-beta.0 (2021-10-06)
+
+- Added support for Angular 12. [#79](https://github.com/blackbaud/skyux-lib-help/pull/79)
+
 ## 4.0.1
 
 ### New features
