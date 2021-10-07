@@ -3,10 +3,6 @@ import {
 } from '@angular/core';
 
 import {
-  SkyAppConfig
-} from '@skyux/config';
-
-import {
   StacheRouteMetadataService
 } from './route-metadata.service';
 
@@ -20,7 +16,6 @@ import {
 
 @NgModule({
   providers: [
-    SkyAppConfig,
     StacheRouteService,
     StacheRouteMetadataService,
     {

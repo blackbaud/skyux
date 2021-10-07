@@ -1,3 +1,8 @@
+# 5.0.0-beta.0 (2021-10-07)
+
+- Initial 5.0.0 beta release. [#105](https://github.com/blackbaud/skyux-lib-stache/pull/105)
+- Removed `SkyAppConfig` to multiple providers to enable lazy-loading for consuming applications. [#105](https://github.com/blackbaud/skyux-lib-stache/pull/105)
+
 # 4.2.3 (2021-08-13)
 
 - Fixed the route service to work when `SkyAppConfig.runtime` is not defined. [#103](https://github.com/blackbaud/skyux-lib-stache/pull/103)

@@ -12,6 +12,10 @@ import {
 } from '@angular/core';
 
 import {
+  SkyAppConfig
+} from '@skyux/config';
+
+import {
   expect
 } from '@skyux-sdk/testing';
 
@@ -31,6 +35,9 @@ describe('StacheTutorialStepHeadingComponent', () => {
       imports: [
         RouterTestingModule,
         StacheTutorialStepModule
+      ],
+      providers: [
+        SkyAppConfig
       ],
       schemas: [
         NO_ERRORS_SCHEMA

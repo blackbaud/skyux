@@ -7,10 +7,6 @@ import {
 } from '@angular/common';
 
 import {
-  SkyAppConfig
-} from '@skyux/config';
-
-import {
   StacheEditButtonComponent
 } from './edit-button.component';
 
@@ -23,9 +19,6 @@ import {
   ],
   exports: [
     StacheEditButtonComponent
-  ],
-  providers: [
-    SkyAppConfig
   ]
 })
 export class StacheEditButtonModule { }

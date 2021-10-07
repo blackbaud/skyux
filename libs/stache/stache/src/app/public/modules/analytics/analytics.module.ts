@@ -10,16 +10,9 @@ import {
   StacheGoogleAnalyticsDirective
 } from './google-analytics.directive';
 
-import {
-  SkyAppConfig
-} from '@skyux/config';
-
 @NgModule({
   imports: [
     RouterModule
-  ],
-  providers: [
-    SkyAppConfig
   ],
   declarations: [
     StacheGoogleAnalyticsDirective
