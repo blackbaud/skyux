@@ -1,3 +1,7 @@
+# 5.0.1 (2021-10-08)
+
+- Added additional modern theme spacing classes to the default theme. [#270](https://github.com/blackbaud/skyux-theme/pull/270)
+
 # 5.0.0 (2021-09-29)
 
 ### New features

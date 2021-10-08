@@ -1,14 +1,14 @@
 {
   "name": "@skyux/theme",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "peerDependencies": {
-    "@angular/core": "^12.2.7",
-    "@angular/common": "^12.2.7"
+    "@angular/core": "^12.2.9",
+    "@angular/common": "^12.2.9"
   },
   "dependencies": {
     "@blackbaud/skyux-design-tokens": "0.0.24",
     "@skyux/icons": "5.0.0",
     "fontfaceobserver": "2.1.0",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.1"
   }
 }
