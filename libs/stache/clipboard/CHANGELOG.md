@@ -1,3 +1,9 @@
+# 5.0.0-beta.0 (2020-10-08)
+
+### New features
+
+- Added support for Angular 12. [#38](https://github.com/blackbaud/skyux-lib-clipboard/pull/38)
+
 # 4.0.0 (2020-05-22)
 
 ### New features
