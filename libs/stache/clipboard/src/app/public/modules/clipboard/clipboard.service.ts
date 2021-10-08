@@ -4,7 +4,7 @@ import {
   Injectable
 } from '@angular/core';
 
-import * as clipboard from 'clipboard-polyfill';
+import clipboard from 'clipboard-polyfill';
 
 @Injectable()
 export class SkyCopyToClipboardService {

@@ -2,7 +2,7 @@ import {
   SkyCopyToClipboardService
 } from './clipboard.service';
 
-import * as clipboard from 'clipboard-polyfill';
+import clipboard from 'clipboard-polyfill';
 
 describe('SkyCopyToClipboardService', () => {
   let clipboardService: SkyCopyToClipboardService;
