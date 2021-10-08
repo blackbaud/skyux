@@ -1,3 +1,7 @@
+# 5.0.0-beta.0 (2021-10-08)
+
+- Initial `5.0.0-beta` release. [#26](https://github.com/blackbaud/skyux-lib-media/pull/26)
+
 # 4.0.0 (2020-05-22)
 
 ### New features

@@ -8,7 +8,7 @@ import {
 
 import {
   SkyMediaResourcesModule
-} from '../shared/media-resources.module';
+} from '../shared/sky-media-resources.module';
 
 import {
   SkyImageComponent
