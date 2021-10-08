@@ -1,3 +1,7 @@
+# 5.0.0-beta.0 (2021-10-08)
+
+- Added support for Angular 12. [#54](https://github.com/blackbaud/skyux-lib-code-block/pull/54)
+
 # 4.0.3 (2021-07-09)
 
 - Added support for `prismjs@1.24.1` to address a security vulnerability warning. [#51](https://github.com/blackbaud/skyux-lib-code-block/pull/51)

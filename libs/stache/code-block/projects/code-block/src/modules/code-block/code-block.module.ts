@@ -12,7 +12,7 @@ import {
 
 import {
   SkyCodeBlockResourcesModule
-} from '../shared/code-block-resources.module';
+} from '../shared/sky-code-block-resources.module';
 
 import {
   SkyCodeBlockComponent
