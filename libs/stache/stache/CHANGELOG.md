@@ -1,3 +1,7 @@
+# 5.0.0-beta.2 (2021-10-11)
+
+- Released new version to work around NPM outage.
+
 # 5.0.0-beta.1 (2021-10-11)
 
 - Added support for Angular 12. [#106](https://github.com/blackbaud/skyux-lib-stache/pull/106)
