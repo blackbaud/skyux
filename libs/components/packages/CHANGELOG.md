@@ -1,3 +1,7 @@
+# 5.4.0 (2021-10-11)
+
+- `@blackbaud/skyux-lib-stache@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-lib-stache/blob/5.0.0-beta.2/CHANGELOG.md)
+
 # 5.3.0 (2021-10-08)
 
 - `@skyux/theme@5.0.1` [Release notes](https://github.com/blackbaud/skyux-theme/blob/5.0.1/CHANGELOG.md)
