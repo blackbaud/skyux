@@ -1,3 +1,8 @@
+# 5.0.0-beta.1 (2021-10-11)
+
+- Added support for Angular 12. [#106](https://github.com/blackbaud/skyux-lib-stache/pull/106)
+- Removed references to `@blackbaud/skyux-lib-restricted-view` and added `StacheAuthService` so consumers can provide their own authentication logic. [#106](https://github.com/blackbaud/skyux-lib-stache/pull/106)
+
 # 5.0.0-beta.0 (2021-10-07)
 
 - Initial 5.0.0 beta release. [#105](https://github.com/blackbaud/skyux-lib-stache/pull/105)
