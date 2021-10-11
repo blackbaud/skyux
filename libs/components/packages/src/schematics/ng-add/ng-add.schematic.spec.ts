@@ -47,7 +47,7 @@ describe('ng-add.schematic', () => {
     // Add custom packages for the test.
     let packageJson = JSON.parse(tree.readContent('package.json'));
     packageJson.dependencies['@skyux/core'] = '^5.0.1';
-    packageJson.dependencies['@skyux/layout'] = '5.0.0-beta.0'; // Test if package already on latest version.
+    packageJson.dependencies['@skyux/layout'] = '5.0.0'; // Test if package already on latest version.
     packageJson.dependencies['@skyux/i18n'] = '4.2.1'; // <-- Version should be switched to what's in `packageGroup`.
     tree.overwrite('package.json', JSON.stringify(packageJson));
 
@@ -64,7 +64,7 @@ describe('ng-add.schematic', () => {
       '@angular/platform-browser': '~12.2.0',
       '@angular/platform-browser-dynamic': '~12.2.0',
       '@angular/router': '~12.2.0',
-      '@skyux/layout': '5.0.0-beta.0',
+      '@skyux/layout': '5.0.0',
       '@skyux/core': 'LATEST',
       '@skyux/i18n': 'LATEST',
       rxjs: '~6.6.0',
@@ -90,8 +90,8 @@ describe('ng-add.schematic', () => {
 
     expect(latestVersionCalls).toEqual(
       jasmine.objectContaining({
-        '@skyux/core': '^5.0.0-beta.0',
-        '@skyux/i18n': '^5.0.0-beta.0',
+        '@skyux/core': '^5.0.0',
+        '@skyux/i18n': '^5.0.0',
       })
     );
   });
