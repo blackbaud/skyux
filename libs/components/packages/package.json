@@ -48,7 +48,7 @@
       "@skyux/core": "^5.0.0",
       "@skyux/data-manager": "^5.0.0",
       "@skyux/datetime": "^5.0.0",
-      "@skyux/docs-tools": "^5.0.0",
+      "@skyux/docs-tools": "^5.0.0-beta.0",
       "@skyux/e2e-client": "^5.0.0",
       "@skyux/errors": "^5.0.0",
       "@skyux/flyout": "^5.0.0",
