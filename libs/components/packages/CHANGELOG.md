@@ -1,3 +1,7 @@
+# 5.5.0 (2021-10-12)
+
+- `@skyux/docs-tools@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-docs-tools/blob/5.0.0-beta.2/CHANGELOG.md)
+
 # 5.4.0 (2021-10-11)
 
 - `@blackbaud/skyux-lib-stache@5.0.0-beta.2` [Release notes](https://github.com/blackbaud/skyux-lib-stache/blob/5.0.0-beta.2/CHANGELOG.md)
