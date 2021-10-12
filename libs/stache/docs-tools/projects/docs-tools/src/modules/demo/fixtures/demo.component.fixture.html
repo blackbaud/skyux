@@ -1,0 +1,47 @@
+<sky-docs-demo
+  [alignContents]="alignContents"
+  [heading]="heading"
+>
+  <sky-docs-demo-control-panel
+    (reset)="onDemoReset()"
+    (selectionChange)="onDemoSelectionChange($event)"
+  >
+    <sky-docs-demo-control-panel-section *ngIf="showRadios">
+      <sky-docs-demo-control-panel-radio-group
+        heading="Background color"
+        propertyName="backgroundColor"
+        [choices]="backgroundColors"
+        [initialValue]="'#f00'"
+      >
+      </sky-docs-demo-control-panel-radio-group>
+      <sky-docs-demo-control-panel-radio-group
+        heading="Users"
+        propertyName="user"
+        [choices]="users"
+        [initialValue]="users[0].value"
+      >
+      </sky-docs-demo-control-panel-radio-group>
+    </sky-docs-demo-control-panel-section>
+
+    <sky-docs-demo-control-panel-section>
+      <sky-docs-demo-control-panel-checkbox
+        label="Show icon"
+        propertyName="showIcon"
+        [checked]="true"
+      >
+      </sky-docs-demo-control-panel-checkbox>
+    </sky-docs-demo-control-panel-section>
+  </sky-docs-demo-control-panel>
+
+  <button
+    class="sky-btn"
+    type="button"
+    [ngStyle]="{
+      'background-color': demoSettings.backgroundColor
+    }"
+  >
+    <i *ngIf="demoSettings.showIcon"
+      class="fa fa-trash"
+    ></i> Sample button
+  </button>
+</sky-docs-demo>

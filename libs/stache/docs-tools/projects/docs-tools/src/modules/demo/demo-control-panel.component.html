@@ -1,0 +1,18 @@
+<div class="sky-docs-demo-control-panel">
+  <div class="sky-docs-demo-control-panel-row sky-rounded-corners">
+    <div class="sky-docs-demo-control-panel-column sky-docs-demo-control-panel-sections-column">
+      <ng-content select="sky-docs-demo-control-panel-section"></ng-content>
+    </div>
+
+    <div class="sky-docs-demo-control-panel-column sky-docs-demo-control-panel-button-column">
+      <button
+        class="sky-btn sky-btn-link"
+        type="button"
+        [attr.data-test-selector]="'sky-docs-demo-control-panel-reset-button'"
+        (click)="onResetButtonClick()"
+      >
+        {{ 'sky-docs-demo-control-panel-reset-button-label' | skyLibResources }}
+      </button>
+    </div>
+  </div>
+</div>
