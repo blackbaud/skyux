@@ -446,10 +446,8 @@ export class SkyLookupComponent
   }
 
   public writeValue(value: any[]): void {
-    if (!this.disabled) {
-      this.value = value ? value : [];
-      this.updateForSelectMode();
-    }
+    this.value = value ? value : [];
+    this.updateForSelectMode();
   }
 
   // Angular automatically constructs these methods.

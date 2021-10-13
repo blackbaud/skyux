@@ -555,6 +555,30 @@ if (!isIE) {
               birthDate: '1/1/1995'
             }]);
           }));
+
+          it('should allow api value changes when disabled ', fakeAsync(() => {
+            fixture.detectChanges();
+            performSearch('s', fixture);
+            selectSearchResult(0, fixture);
+            expect(lookupComponent.tokens.length).toBe(1);
+            expect(lookupComponent.tokens[0].value).toEqual({ name: 'Isaac' });
+            expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
+
+            component.disableLookup();
+            component.setValue(0);
+
+            expect(lookupComponent.tokens.length).toBe(1);
+            expect(lookupComponent.tokens[0].value).toEqual({
+              name: 'Andy',
+              description: 'Mr. Andy',
+              birthDate: '1/1/1995'
+            });
+            expect(lookupComponent.value).toEqual([{
+              name: 'Andy',
+              description: 'Mr. Andy',
+              birthDate: '1/1/1995'
+            }]);
+          }));
         });
       });
 
