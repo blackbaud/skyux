@@ -1,3 +1,7 @@
+# 5.0.1 (2021-10-14)
+
+- Added support for wrapping modals in a CSS class. [#177](https://github.com/blackbaud/skyux-modals/pull/177)
+
 # 5.0.0 (2021-09-30)
 
 ### New features
