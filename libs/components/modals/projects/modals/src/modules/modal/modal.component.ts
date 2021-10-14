@@ -4,6 +4,7 @@ import {
   Input,
   ElementRef,
   Host,
+  HostBinding,
   HostListener,
   ViewChild
 } from '@angular/core';
@@ -56,6 +57,10 @@ let skyModalUniqueIdentifier: number = 0;
   ]
 })
 export class SkyModalComponent implements AfterViewInit {
+  @HostBinding('class')
+  public get wrapperClass(): string {
+    return this.config.wrapperClass;
+  }
 
   /**
    * @internal

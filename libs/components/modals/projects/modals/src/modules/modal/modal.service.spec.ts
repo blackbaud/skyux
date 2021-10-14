@@ -219,4 +219,12 @@ describe('Modal service', () => {
 
     closeModal(modalInstance);
   }));
+
+  it('should show a modal with a wrapper class', fakeAsync(() => {
+    const wrapperClass = 'custom-wrapper-class';
+    openModal(ModalTestComponent, { wrapperClass });
+    applicationRef.tick();
+
+    expect(document.body.querySelector(`sky-modal.${wrapperClass}`)).toExist();
+  }));
 });

@@ -70,4 +70,10 @@ export interface SkyModalConfigurationInterface {
    * [display help content in a flyout panel](https://docs.blackbaud.com/bb-help-docs/components/modal-header).
    */
   helpKey?: string;
+
+  /**
+   * Specifies a CSS class to add to the modal, such as `ag-custom-component-popup` for
+   * using a modal as part of a cell editor in Data Entry Grid.
+   */
+  wrapperClass?: string;
 }

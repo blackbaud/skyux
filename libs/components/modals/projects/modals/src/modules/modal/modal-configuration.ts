@@ -17,6 +17,7 @@ export class SkyModalConfiguration {
   public ariaRole?: string;
   public tiledBody?: boolean;
   public helpKey?: string;
+  public wrapperClass?: string;
 
   constructor() {
     this.fullPage = this.fullPage;
