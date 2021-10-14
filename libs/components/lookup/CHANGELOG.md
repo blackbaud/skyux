@@ -1,6 +1,6 @@
 # 5.0.1 (2021-10-13)
 
-- Fixed lookup component to allow for setting the value programatically when the component is disabled. [#222](https://github.com/blackbaud/skyux-lookup/pull/222)
+- Fixed lookup component to allow for setting the value programatically when the component is disabled. [#222](https://github.com/blackbaud/skyux-lookup/pull/222) (Thanks [@ThomasOrtiz](https://github.com/ThomasOrtiz)!)
 
 # 5.0.0 (2021-09-30)
 
