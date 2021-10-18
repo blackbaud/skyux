@@ -778,7 +778,7 @@ describe('Country Field Component', () => {
         validateSelectedCountry(nativeElement, 'Australia', 'au');
       }));
 
-      it('should change countries correctly via a model change', fakeAsync(() => {
+      it('should change countries correctly via a model change, even when disabled', fakeAsync(() => {
         component.initialValue = {
           name: 'United States',
           iso2: 'us'
@@ -799,6 +799,23 @@ describe('Country Field Component', () => {
         fixture.detectChanges();
 
         validateSelectedCountry(nativeElement, 'Australia', 'au');
+
+        component.countryFieldComponent.disabled = true;
+
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        component.countryControl.setValue({
+          name: 'United States',
+          iso2: 'us'
+        });
+
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        validateSelectedCountry(nativeElement, 'United States', 'us');
       }));
 
       it('should change countries correctly via a model change with an invalid name', fakeAsync(() => {

@@ -411,9 +411,7 @@ export class SkyCountryFieldComponent implements AfterViewInit, ControlValueAcce
   }
 
   public writeValue(value: SkyCountryFieldCountry): void {
-    if (!this.disabled) {
-      this.selectedCountry = value;
-    }
+    this.selectedCountry = value;
     this.changeDetector.markForCheck();
   }
 
