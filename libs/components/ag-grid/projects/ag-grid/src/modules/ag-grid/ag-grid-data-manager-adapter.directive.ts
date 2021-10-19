@@ -43,7 +43,7 @@ import {
 export class SkyAgGridDataManagerAdapterDirective implements AfterContentInit, OnDestroy {
 
   @Input()
-  private viewId: string;
+  public viewId: string;
 
   @ContentChildren(AgGridAngular, { descendants: true })
   public agGridList: QueryList<AgGridAngular>;
