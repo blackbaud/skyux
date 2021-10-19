@@ -1,3 +1,8 @@
+# 5.0.3 (2021-10-19)
+
+- Fixed the lookup component to disable the button when the component is disabled. [#229](https://github.com/blackbaud/skyux-lookup/pull/229)
+- Updated the country field component to allow programmatic updates when the component is disabled. [#232](https://github.com/blackbaud/skyux-lookup/pull/232)
+
 # 5.0.2 (2021-10-14)
 
 - Added support for wrapping lookup in a CSS class. [#230](https://github.com/blackbaud/skyux-lookup/pull/230)
