@@ -142,6 +142,10 @@ if (!isIE) {
       return document.querySelectorAll('sky-modal sky-repeater-item').length;
     }
 
+    function isModalOpen(): boolean {
+      return document.querySelectorAll('sky-modal').length > 0;
+    }
+
     function getSearchButton(): HTMLElement {
       return document.querySelector('.sky-input-group-btn .sky-btn') as HTMLElement;
     }
@@ -1504,6 +1508,18 @@ if (!isIE) {
                 expect(tokenElements.item(0).textContent.trim()).toBe('Isaac');
               })
             );
+
+            it('should not open the show more modal when disabled', fakeAsync(() => {
+              const showMoreSpy = spyOn(component.lookupComponent, 'openPicker').and.stub();
+
+              component.enableShowMore = true;
+              component.lookupComponent.disabled = true;
+              fixture.detectChanges();
+
+              fixture.nativeElement.querySelector('button[aria-label="Show all search results"]').click();
+
+              expect(showMoreSpy).not.toHaveBeenCalled();
+            }));
 
           });
 
@@ -2909,6 +2925,22 @@ if (!isIE) {
               expect(getShowMoreNoResultsElement()).not.toBeNull();
 
               closeModal(fixture);
+            }));
+
+          it('should handle disabled',
+            fakeAsync(() => {
+              component.enableShowMore = true;
+              component.disabled = true;
+              component.customSearch = (_: string, data: any[]) => {
+                return Promise.resolve([data[0]]);
+              };
+              fixture.detectChanges();
+
+              performSearch('Mr', fixture);
+
+              clickSearchButton(fixture);
+
+              expect(isModalOpen()).toBe(false);
             }));
 
           describe('multi-select', () => {

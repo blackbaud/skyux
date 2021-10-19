@@ -38,7 +38,7 @@
         <div
           class="sky-lookup-search"
           [ngClass]="{
-            'sky-field-status-active': isInputFocused
+            'sky-field-status-active': isInputFocused && !disabled
           }"
         >
           <sky-tokens *ngIf="selectMode === 'multiple'"
@@ -105,6 +105,8 @@
   >
     <button
       class="sky-btn sky-btn-default"
+      [disabled]="disabled"
+      [ngClass]="{'sky-btn-disabled': disabled}"
       type="button"
       [attr.aria-label]="'skyux_lookup_search_button_show_more' | skyLibResources"
       (click)="onSearchButtonClick()"
@@ -125,6 +127,7 @@
 >
   <div
     class="sky-input-group-icon sky-input-box-icon-inset"
+    [ngClass]="{'sky-lookup-disabled': disabled}"
   >
     <sky-icon *skyThemeIf="'default'"
       icon="search"
