@@ -1,3 +1,7 @@
+# 5.0.2 (2021-10-19)
+
+- Fixed an issue where components with the `skyThemeIf` directive rendered incorrectly after the current theme changed. [#275](https://github.com/blackbaud/skyux-theme/pull/275)
+
 # 5.0.1 (2021-10-08)
 
 - Added additional modern theme spacing classes to the default theme. [#270](https://github.com/blackbaud/skyux-theme/pull/270)
