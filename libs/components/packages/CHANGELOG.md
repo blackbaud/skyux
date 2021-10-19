@@ -1,3 +1,7 @@
+# 5.10.0 (2021-10-19)
+
+- `@skyux/lookup@5.0.3` [Release notes](https://github.com/blackbaud/skyux-lookup/blob/5.0.3/CHANGELOG.md)
+
 # 5.9.0 (2021-10-19)
 
 - `@skyux/theme@5.0.2` [Release notes](https://github.com/blackbaud/skyux-theme/blob/5.0.2/CHANGELOG.md)
