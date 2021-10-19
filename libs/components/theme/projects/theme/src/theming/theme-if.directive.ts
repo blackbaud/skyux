@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Directive,
   Input,
   OnDestroy,
@@ -43,11 +44,6 @@ export class SkyThemeIfDirective implements OnDestroy {
     this.updateView();
   }
 
-  private set themeSettings(settings: SkyThemeSettings) {
-    this.currentTheme = settings;
-    this.updateView();
-  }
-
   private context: string;
   private currentTheme: SkyThemeSettings | undefined;
   private ngUnsubscribe = new Subject();
@@ -56,13 +52,21 @@ export class SkyThemeIfDirective implements OnDestroy {
   constructor(
     private templateRef: TemplateRef<any>,
     private viewContainer: ViewContainerRef,
+    changeDetector: ChangeDetectorRef,
     @Optional() themeSvc?: SkyThemeService
   ) {
     if (themeSvc) {
       themeSvc.settingsChange
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(settingsChange => {
-          this.themeSettings = settingsChange.currentSettings;
+          this.currentTheme = settingsChange.currentSettings;
+          this.updateView();
+
+          // Components that use OnPush change detection will not automatically
+          // check for changes when created as a result of a theme change if
+          // it happens outside of an Angular change detection cycle. This
+          // ensures change detection runs on those components.
+          changeDetector.markForCheck();
         });
     }
   }
