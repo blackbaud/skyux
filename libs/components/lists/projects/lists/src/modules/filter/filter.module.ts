@@ -12,8 +12,7 @@ import {
 } from '@skyux/indicators';
 
 import {
-  SkyThemeModule,
-  SkyThemeService
+  SkyThemeModule
 } from '@skyux/theme';
 
 import {
@@ -61,9 +60,6 @@ import {
     SkyFilterInlineItemComponent,
     SkyFilterSummaryComponent,
     SkyFilterSummaryItemComponent
-  ],
-  providers: [
-    SkyThemeService
   ]
 })
 export class SkyFilterModule { }

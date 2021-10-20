@@ -1,10 +1,8 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   Input,
-  OnInit,
-  Optional
+  OnInit
 } from '@angular/core';
 
 import {
@@ -15,10 +13,6 @@ import {
   SkyDropdownMessage,
   SkyDropdownMessageType
 } from '@skyux/popovers';
-
-import {
-  SkyThemeService
-} from '@skyux/theme';
 
 import {
   SkySortService
@@ -32,7 +26,7 @@ import {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkySortComponent implements OnInit {
+export class SkySortComponent {
 
   /**
    * Indicates whether to display a "Sort" label beside the icon on the sort button.
@@ -41,19 +35,6 @@ export class SkySortComponent implements OnInit {
   public showButtonText = false;
 
   public dropdownController = new Subject<SkyDropdownMessage>();
-
-  constructor(
-    @Optional() public themeSvc: SkyThemeService,
-    private changeDetector: ChangeDetectorRef
-  ) {
-  }
-
-  public ngOnInit(): void {
-    this.themeSvc?.settingsChange.subscribe(() => {
-      // Push changes b/c SkyDropdownComponent uses ChangeDetectionStrategy.OnPush
-      this.changeDetector.markForCheck();
-    });
-  }
 
   public dropdownClicked(): void {
     this.dropdownController.next({

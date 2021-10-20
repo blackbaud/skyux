@@ -9,8 +9,7 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  SkyThemeModule,
-  SkyThemeService
+  SkyThemeModule
 } from '@skyux/theme';
 
 import {
@@ -34,9 +33,6 @@ describe('Filter button', () => {
       imports: [
         SkyFilterModule,
         SkyThemeModule
-      ],
-      providers: [
-        SkyThemeService
       ]
     });
 
