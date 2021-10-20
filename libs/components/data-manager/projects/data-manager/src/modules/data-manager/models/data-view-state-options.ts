@@ -4,7 +4,7 @@ export interface SkyDataViewStateOptions {
    */
   viewId: string;
   /**
-   * The IDs of the columns able to be displayed for column-based views.
+   * The IDs of the columns able to be displayed for column-based views. This property is required when utilizing a grid-based view, a column picker, or both.
    */
   columnIds?: string[];
   /**
