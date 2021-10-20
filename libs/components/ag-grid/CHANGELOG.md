@@ -1,3 +1,7 @@
+# 5.0.2 (2021-10-20)
+
+- Fixed an issue with `skyAgGridDataManagerAdapter` where the `viewId` input was marked private. [#158](https://github.com/blackbaud/skyux-ag-grid/pull/158)
+
 # 5.0.1 (2021-10-06)
 
 - Fixed an issue so the css file is now included in the package. [#155](https://github.com/blackbaud/skyux-ag-grid/pull/155)
