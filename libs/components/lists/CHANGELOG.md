@@ -1,3 +1,7 @@
+# 5.0.1 (2021-10-20)
+
+- Fixed an issue that caused some components to render improperly in the modern theme when loaded via a lazy-loaded module. [#253](https://github.com/blackbaud/skyux-lists/pull/253)
+
 # 5.0.0 (2021-09-30)
 
 ### New features
