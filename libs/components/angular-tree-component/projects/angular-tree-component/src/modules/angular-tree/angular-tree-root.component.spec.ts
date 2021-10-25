@@ -590,6 +590,78 @@ describe('tree view', () => {
       expect(clearAllButton).toBeNull();
     });
 
+    it('should only emit a change once when selecting a node and selectSingle is true', () => {
+      setupSingleSelectMode();
+      fixture.detectChanges();
+      const spy = spyOn(component, 'onStateChange').and.callThrough();
+
+      // Click the first node.
+      clickNode(0);
+
+      // Expect emit to fire once.
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(component.selectedLeafNodeIds).toEqual({ [1]: true });
+      spy.calls.reset();
+
+      // Click a different node.
+      clickNode(1);
+
+      // Expect emit to fire once.
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(component.selectedLeafNodeIds).toEqual({ [2]: true });
+    });
+
+    it('should maintain the tree state when selecting a node and selectSingle is true', () => {
+      setupSingleSelectMode();
+      fixture.detectChanges();
+      const expectedExpandedNodeIds = {
+        1: true,
+        3: true
+      };
+      const expectedActiveNodeIds = {};
+
+      // Click the first node.
+      clickNode(0);
+
+      // Expect selected and focused to be updated, and the rest to remain the same.
+      expect(component.selectedLeafNodeIds).toEqual({ [1]: true });
+      expect(component.focusedNodeId).toEqual(1);
+      expect(component.expandedNodeIds).toEqual(expectedExpandedNodeIds);
+      expect(component.activeNodeIds).toEqual(expectedActiveNodeIds);
+
+      // Click a different node.
+      clickNode(1);
+
+      // Expect selected and focused to be updated, and the rest to remain the same.
+      expect(component.selectedLeafNodeIds).toEqual({ [2]: true });
+      expect(component.focusedNodeId).toEqual(2);
+      expect(component.expandedNodeIds).toEqual(expectedExpandedNodeIds);
+      expect(component.activeNodeIds).toEqual(expectedActiveNodeIds);
+    });
+
+    it('should allow user to deselect node when selectSingle is true', () => {
+      setupSingleSelectMode();
+      fixture.detectChanges();
+      const spy = spyOn(component, 'onStateChange').and.callThrough();
+
+      // Click the first node.
+      clickNode(0);
+
+      // Expect emit to fire once and selected/focused to be updated.
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(component.selectedLeafNodeIds).toEqual({ [1]: true });
+      expect(component.focusedNodeId).toEqual(1);
+      spy.calls.reset();
+
+      // Click the same node.
+      clickNode(0);
+
+      // Expect emit to fire once and selected/focused to be updated.
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(component.selectedLeafNodeIds).toEqual({ [1]: false });
+      expect(component.focusedNodeId).toEqual(1);
+    });
+
     it('should retain focus when select all is clicked', fakeAsync(() => {
       setupCascadingMode();
       fixture.detectChanges();

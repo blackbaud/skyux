@@ -204,15 +204,20 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
   }
 
   private toggleSelected(node: TreeNode, event: any): void {
-    // If single-selection is enabled, first de-select all other nodes.
+    // If single-selection is enabled, only select the node clicked.
     if (this.selectSingle && !node.isSelected) {
-      const selectedNodes = node.treeModel.selectedLeafNodes;
-      selectedNodes
-        .forEach((n: TreeNode) => {
-          n.setIsSelected(false);
-        });
+      const oldState = this.treeComponent.treeModel.getState();
+      const newState = {
+        expandedNodeIds: oldState.expandedNodeIds,
+        selectedLeafNodeIds: Object.assign({}, node.id, {[node.id]: true}),
+        activeNodeIds: oldState.activeNodeIds,
+        hiddenNodeIds: oldState.hiddenNodeIds,
+        focusedNodeId: node.id
+      }
+      // Reconstruct the state in one go, so we don't create multiple events for the consumer.
+      this.treeComponent.treeModel.setState(newState);
+    } else {
+      TREE_ACTIONS.TOGGLE_SELECTED(node.treeModel, node, event);
     }
-
-    TREE_ACTIONS.TOGGLE_SELECTED(node.treeModel, node, event);
   }
 }
