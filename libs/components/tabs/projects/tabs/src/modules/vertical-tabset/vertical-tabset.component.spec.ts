@@ -676,6 +676,18 @@ describe('Vertical tabset component', () => {
 
     expect(contentPane.scrollTop).toBe(0);
   });
+
+  it('should be accessible when content pane is scrollable', async () => {
+    let fixture = createTestComponent();
+    fixture.detectChanges();
+
+    let el = fixture.nativeElement;
+    fixture.componentInstance.showScrollable = true;
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 });
 
 describe('Vertical tabset component - with ngFor', () => {
