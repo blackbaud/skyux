@@ -1,3 +1,7 @@
+# 5.14.0 (2021-10-26)
+
+- `@skyux/tabs@5.0.1` [Release notes](https://github.com/blackbaud/skyux-tabs/blob/5.0.1/CHANGELOG.md)
+
 # 5.13.0 (2021-10-26)
 
 - `@skyux/angular-tree-component@5.0.1` [Release notes](https://github.com/blackbaud/skyux-angular-tree-component/blob/5.0.1/CHANGELOG.md)
