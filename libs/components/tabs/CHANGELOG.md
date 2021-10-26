@@ -1,3 +1,7 @@
+# 5.0.1 (2021-10-26)
+
+- Fixed the tab content in the vertical tabset component to allow focus and scrolling with keyboard controls. [#195](https://github.com/blackbaud/skyux-tabs/pull/195)
+
 # 5.0.0 (2021-10-01)
 
 ### New features
