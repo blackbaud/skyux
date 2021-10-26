@@ -272,6 +272,63 @@ export class SkyTextEditorComponent implements AfterViewInit, ControlValueAccess
   ) {}
 
   public ngAfterViewInit(): void {
+    this.initIframe();
+  }
+
+  public ngOnDestroy(): void {
+    this.adapterService.removeObservers(this.editorService.editors[this.id]);
+    this.editorService.removeEditor(this.id);
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
+  public onIframeLoad(): void {
+    // Remove editor if it already exists to cover situations where the text editor might have been moved in the DOM.
+    /* istanbul ignore else */
+    if (this.editorService.editors[this.id]) {
+      this.editorService.removeEditor(this.id);
+      this.initIframe();
+    }
+  }
+
+  public writeValue(obj: string): void {
+    this.value = obj;
+
+    // Update HTML if necessary.
+    const editorValue = this.adapterService.getEditorInnerHtml(this.id);
+    if (this.initialized && editorValue !== this._value) {
+      this.adapterService.setEditorInnerHtml(this.id, this._value);
+    }
+  }
+
+  public registerOnChange(fn: any): void {
+    this._onChange = fn;
+  }
+
+  public registerOnTouched(fn: any): void {
+    this.onTouch = fn;
+  }
+
+  /**
+   * Implemented as part of ControlValueAccessor.
+   */
+  public setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
+  public onChange(): void {
+    this._onChange(this.value);
+  }
+
+  public updateValueAndStyle(): void {
+    this.value = this.adapterService.getEditorInnerHtml(this.id);
+    this._initialStyleState = {
+      ...this._initialStyleState,
+      ...this.adapterService.getStyleState(this.id) as any
+    };
+  }
+
+  private initIframe(): void {
     this.adapterService.addEditor(
       this.id,
       this.iframeRef.nativeElement,
@@ -316,50 +373,6 @@ export class SkyTextEditorComponent implements AfterViewInit, ControlValueAccess
     });
 
     this.initialized = true;
-  }
-
-  public ngOnDestroy(): void {
-    this.adapterService.removeObservers(this.editorService.editors[this.id]);
-    this.editorService.removeEditor(this.id);
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-  }
-
-  public writeValue(obj: string): void {
-    this.value = obj;
-
-    // Update HTML if necessary.
-    const editorValue = this.adapterService.getEditorInnerHtml(this.id);
-    if (this.initialized && editorValue !== this._value) {
-      this.adapterService.setEditorInnerHtml(this.id, this._value);
-    }
-  }
-
-  public registerOnChange(fn: any): void {
-    this._onChange = fn;
-  }
-
-  public registerOnTouched(fn: any): void {
-    this.onTouch = fn;
-  }
-
-  /**
-   * Implemented as part of ControlValueAccessor.
-   */
-  public setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
-  public onChange(): void {
-    this._onChange(this.value);
-  }
-
-  public updateValueAndStyle(): void {
-    this.value = this.adapterService.getEditorInnerHtml(this.id);
-    this._initialStyleState = {
-      ...this._initialStyleState,
-      ...this.adapterService.getStyleState(this.id) as any
-    };
   }
 
   /* istanbul ignore next */

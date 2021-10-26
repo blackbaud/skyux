@@ -1126,6 +1126,28 @@ describe('Text editor', () => {
       expect(outermostDiv).not.toHaveCssClass('sky-text-editor-wrapper-disabled');
     });
 
+    it('should reinitialize text editor when iframe is loaded', fakeAsync(() => {
+      fixture.componentInstance.value = '<p>FOO BAR</p>';
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      const textEditorEl: HTMLElement = document.querySelector('#fixture-wrapper');
+      const iframe = textEditorEl.querySelector('iframe');
+
+      expect(iframe.contentDocument.body.innerHTML).toEqual('<p>FOO BAR</p>');
+
+      // Move text editor in DOM, which will destroy and reload the iframe.
+      document.body.appendChild(textEditorEl);
+      const textEditorElNew: HTMLElement = document.querySelector('#fixture-wrapper');
+      const iframeNew = textEditorElNew.querySelector('iframe');
+      SkyAppTestUtility.fireDomEvent(iframeNew, 'load');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      expect(iframeNew.contentDocument.body.innerHTML).toEqual('<p>FOO BAR</p>');
+    }));
+
     describe('Menubar commands', () => {
       it('should execute undo', fakeAsync(() => {
         fixture.detectChanges();
