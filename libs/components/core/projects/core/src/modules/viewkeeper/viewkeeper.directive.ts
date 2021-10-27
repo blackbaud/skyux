@@ -3,12 +3,16 @@ import {
   ElementRef,
   Input,
   OnDestroy,
-  OnInit
+  OnInit,
+  Optional
 } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import {
   MutationObserverService
 } from '../mutation/mutation-observer-service';
+import { SkyScrollableHostService } from '../scrollable-host/scrollable-host.service';
 
 import {
   SkyViewkeeper
@@ -42,10 +46,13 @@ export class SkyViewkeeperDirective implements OnInit, OnDestroy {
 
   private currentViewkeeperEls: HTMLElement[];
 
+  private scrollableHostWatchUnsubscribe: Subject<void> | undefined = undefined;
+
   constructor(
     private el: ElementRef,
     private mutationObserverSvc: MutationObserverService,
-    private viewkeeperSvc: SkyViewkeeperService
+    private viewkeeperSvc: SkyViewkeeperService,
+    @Optional() private scrollableHostService: SkyScrollableHostService
   ) { }
 
   public ngOnInit(): void {
@@ -116,24 +123,38 @@ export class SkyViewkeeperDirective implements OnInit, OnDestroy {
     let viewkeeperEls = this.getViewkeeperEls();
 
     if (this.viewkeeperElsChanged(viewkeeperEls)) {
-      this.destroyViewkeepers();
 
-      let previousViewkeeperEl: HTMLElement;
-
-      for (const viewkeeperEl of viewkeeperEls) {
-        this.viewkeepers.push(
-          this.viewkeeperSvc.create(
-            {
-              boundaryEl: this.el.nativeElement,
-              el: viewkeeperEl,
-              setWidth: true,
-              verticalOffsetEl: previousViewkeeperEl
-            }
-          )
-        );
-
-        previousViewkeeperEl = viewkeeperEl;
+      if (this.scrollableHostWatchUnsubscribe) {
+        this.scrollableHostWatchUnsubscribe.next();
+        this.scrollableHostWatchUnsubscribe = new Subject();
+      } else {
+        this.scrollableHostWatchUnsubscribe = new Subject();
       }
+
+      this.scrollableHostService.watchScrollableHost(this.el, this.scrollableHostWatchUnsubscribe)
+        .pipe(takeUntil(this.scrollableHostWatchUnsubscribe))
+        .subscribe(scrollableHost => {
+          this.destroyViewkeepers();
+
+          let previousViewkeeperEl: HTMLElement;
+
+          for (const viewkeeperEl of viewkeeperEls) {
+            this.viewkeepers.push(
+              this.viewkeeperSvc.create(
+                {
+                  boundaryEl: this.el.nativeElement,
+                  scrollableHost: scrollableHost instanceof HTMLElement ? scrollableHost : undefined,
+                  el: viewkeeperEl,
+                  setWidth: true,
+                  verticalOffsetEl: previousViewkeeperEl
+                }
+              )
+            );
+
+            previousViewkeeperEl = viewkeeperEl;
+          }
+        });
+
 
       this.currentViewkeeperEls = viewkeeperEls;
     }
