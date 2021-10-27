@@ -12,7 +12,7 @@ export class SkyHrefResolverService implements SkyHrefResolver {
   public resolveHref(args: SkyHrefResolverArgs): Promise<SkyHref> {
     return Promise.resolve<SkyHref>({
       url: args.url,
-      userHasAccess: true
+      userHasAccess: true,
     });
   }
 }

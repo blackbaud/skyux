@@ -3,29 +3,20 @@ import {
   Input,
   OnChanges,
   Optional,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 
-import {
-  PathLocationStrategy,
-  PlatformLocation
-} from '@angular/common';
+import { PathLocationStrategy, PlatformLocation } from '@angular/common';
 
-import {
-  ActivatedRoute,
-  Router,
-  RouterLinkWithHref
-} from '@angular/router';
+import { ActivatedRoute, Router, RouterLinkWithHref } from '@angular/router';
 
 import {
   SkyAppConfig,
   SkyAppConfigHost,
-  SkyAppRuntimeConfigParamsProvider
+  SkyAppRuntimeConfigParamsProvider,
 } from '@skyux/config';
 
-import {
-  SkyAppWindowRef
-} from '@skyux/core';
+import { SkyAppWindowRef } from '@skyux/core';
 
 import { SkyAppLinkQueryParams } from './link-query-params';
 
@@ -33,10 +24,12 @@ import { SkyAppLinkQueryParams } from './link-query-params';
  * @deprecated Use `skyHref` directive instead.
  */
 @Directive({
-  selector: '[skyAppLinkExternal]'
+  selector: '[skyAppLinkExternal]',
 })
-export class SkyAppLinkExternalDirective extends RouterLinkWithHref implements OnChanges {
-
+export class SkyAppLinkExternalDirective
+  extends RouterLinkWithHref
+  implements OnChanges
+{
   @Input()
   set skyAppLinkExternal(commands: any[] | string) {
     this.routerLink = commands;
@@ -56,13 +49,14 @@ export class SkyAppLinkExternalDirective extends RouterLinkWithHref implements O
       route,
       new PathLocationStrategy(
         platformLocation,
-        (hostConfig)
-          ? hostConfig.host.url
-          : skyAppConfig.skyux.host.url
+        hostConfig ? hostConfig.host.url : skyAppConfig.skyux.host.url
       )
     );
 
-    if (this.window.nativeWindow.window.name && this.window.nativeWindow.window.name !== '') {
+    if (
+      this.window.nativeWindow.window.name &&
+      this.window.nativeWindow.window.name !== ''
+    ) {
       this.target = this.window.nativeWindow.window.name;
     } else {
       this.target = '_top';
@@ -74,16 +68,13 @@ export class SkyAppLinkExternalDirective extends RouterLinkWithHref implements O
     super.ngOnChanges(changes);
   }
 
-  private mergeQueryParams(queryParams: SkyAppLinkQueryParams): SkyAppLinkQueryParams {
-    const skyuxParams = (this.skyAppConfig)
+  private mergeQueryParams(
+    queryParams: SkyAppLinkQueryParams
+  ): SkyAppLinkQueryParams {
+    const skyuxParams = this.skyAppConfig
       ? this.skyAppConfig.runtime.params.getAll()
       : this.paramsProvider.params.getAll();
 
-    return Object.assign(
-      {},
-      this.queryParams,
-      queryParams,
-      skyuxParams
-    );
+    return Object.assign({}, this.queryParams, queryParams, skyuxParams);
   }
 }

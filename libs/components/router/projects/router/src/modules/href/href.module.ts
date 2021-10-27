@@ -6,6 +6,6 @@ import { SkyHrefDirective } from './href.directive';
 @NgModule({
   declarations: [SkyHrefDirective],
   exports: [SkyHrefDirective],
-  imports: [CommonModule]
+  imports: [CommonModule],
 })
 export class SkyHrefModule {}

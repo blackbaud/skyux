@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'sky-smart-link-fixture',
-  templateUrl: 'href-fixture.component.html'
+  templateUrl: 'href-fixture.component.html',
 })
 export class HrefDirectiveFixtureComponent {
   @Input()

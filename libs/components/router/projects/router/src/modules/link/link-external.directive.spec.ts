@@ -1,45 +1,31 @@
-import {
-  Component,
-  DebugElement,
-  Provider
-} from '@angular/core';
+import { Component, DebugElement, Provider } from '@angular/core';
 
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  RouterTestingModule
-} from '@angular/router/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import {
   SkyAppConfig,
   SkyAppConfigHost,
-  SkyAppRuntimeConfigParamsProvider
+  SkyAppRuntimeConfigParamsProvider,
 } from '@skyux/config';
 
-import {
-  SkyAppWindowRef
-} from '@skyux/core';
+import { SkyAppWindowRef } from '@skyux/core';
 
-import {
-  SkyAppLinkExternalDirective
-} from './link-external.directive';
+import { SkyAppLinkExternalDirective } from './link-external.directive';
 
 @Component({
-  template: '<a skyAppLinkExternal="test">Test</a>'
+  template: '<a skyAppLinkExternal="test">Test</a>',
 })
-class SkyAppLinkExternalTestComponent { }
+class SkyAppLinkExternalTestComponent {}
 
 @Component({
-  template: '<a skyAppLinkExternal="test" [queryParams]="{qp1: 1, qp2: false}">Test</a>'
+  template:
+    '<a skyAppLinkExternal="test" [queryParams]="{qp1: 1, qp2: false}">Test</a>',
 })
-class SkyAppLinkExternalWithParamsTestComponent { }
+class SkyAppLinkExternalWithParamsTestComponent {}
 
 const testUrl: string = 'testUrl';
 
@@ -48,15 +34,13 @@ describe('SkyAppLinkExternal Directive', () => {
   let debugElement: DebugElement;
 
   class MockWindowService {
-    constructor(
-      private name: string
-    ) { }
+    constructor(private name: string) {}
 
     public get nativeWindow(): any {
       return {
         window: {
-          name: this.name
-        }
+          name: this.name,
+        },
       };
     }
   }
@@ -68,15 +52,15 @@ describe('SkyAppLinkExternal Directive', () => {
     provideSkyAppConfig = true
   ): void {
     const mockWindowService = new MockWindowService(windowName);
-    const componentToUse = useQueryParams ?
-      SkyAppLinkExternalWithParamsTestComponent :
-      SkyAppLinkExternalTestComponent;
+    const componentToUse = useQueryParams
+      ? SkyAppLinkExternalWithParamsTestComponent
+      : SkyAppLinkExternalTestComponent;
 
     const providers: Provider[] = [
       {
         provide: SkyAppWindowRef,
-        useValue: mockWindowService
-      }
+        useValue: mockWindowService,
+      },
     ];
 
     if (provideSkyAppConfig) {
@@ -85,32 +69,32 @@ describe('SkyAppLinkExternal Directive', () => {
         useValue: {
           runtime: {
             params: {
-              getAll: (omit: boolean) => omit ? {} : params
-            }
+              getAll: (omit: boolean) => (omit ? {} : params),
+            },
           },
           skyux: {
             host: {
-              url: testUrl
-            }
-          }
-        }
+              url: testUrl,
+            },
+          },
+        },
       });
     } else {
       providers.push({
         provide: SkyAppRuntimeConfigParamsProvider,
         useValue: {
           params: {
-            getAll: (omit: boolean) => omit ? {} : params
-          }
-        }
+            getAll: (omit: boolean) => (omit ? {} : params),
+          },
+        },
       });
       providers.push({
         provide: SkyAppConfigHost,
         useValue: {
           host: {
-            url: 'https://foo.bar.baz/'
-          }
-        }
+            url: 'https://foo.bar.baz/',
+          },
+        },
       });
     }
 
@@ -118,12 +102,10 @@ describe('SkyAppLinkExternal Directive', () => {
       declarations: [
         SkyAppLinkExternalDirective,
         SkyAppLinkExternalTestComponent,
-        SkyAppLinkExternalWithParamsTestComponent
+        SkyAppLinkExternalWithParamsTestComponent,
       ],
-      imports: [
-        RouterTestingModule
-      ],
-      providers
+      imports: [RouterTestingModule],
+      providers,
     });
 
     fixture = TestBed.createComponent(componentToUse);
@@ -134,14 +116,18 @@ describe('SkyAppLinkExternal Directive', () => {
 
   it('should set the target to _top when the window name is null', () => {
     setup({}, undefined, false);
-    const directive = debugElement.query(By.directive(SkyAppLinkExternalDirective));
+    const directive = debugElement.query(
+      By.directive(SkyAppLinkExternalDirective)
+    );
     expect(directive.attributes['target']).toEqual('_top');
     expect(directive.properties['href']).toEqual('testUrl/test');
   });
 
   it('should set the target to _top when the window name is an empty string', () => {
     setup({}, '', false);
-    const directive = debugElement.query(By.directive(SkyAppLinkExternalDirective));
+    const directive = debugElement.query(
+      By.directive(SkyAppLinkExternalDirective)
+    );
     expect(directive.attributes['target']).toEqual('_top');
     expect(directive.properties['href']).toEqual('testUrl/test');
   });
@@ -149,45 +135,75 @@ describe('SkyAppLinkExternal Directive', () => {
   it('should set the target to the name of the frame if it has one', () => {
     const windowName = 'windowName';
     setup({}, windowName, false);
-    const directive = debugElement.query(By.directive(SkyAppLinkExternalDirective));
+    const directive = debugElement.query(
+      By.directive(SkyAppLinkExternalDirective)
+    );
     expect(directive.attributes['target']).toEqual(windowName);
     expect(directive.properties['href']).toEqual('testUrl/test');
   });
 
   it('should set href with app config queryParams', () => {
-    setup({
-      asdf: 123,
-      jkl: 'mno'
-    }, '', false);
-    const directive = debugElement.query(By.directive(SkyAppLinkExternalDirective));
+    setup(
+      {
+        asdf: 123,
+        jkl: 'mno',
+      },
+      '',
+      false
+    );
+    const directive = debugElement.query(
+      By.directive(SkyAppLinkExternalDirective)
+    );
     expect(directive.attributes['skyAppLinkExternal']).toEqual('test');
-    expect(directive.properties['href']).toEqual('testUrl/test?asdf=123&jkl=mno');
+    expect(directive.properties['href']).toEqual(
+      'testUrl/test?asdf=123&jkl=mno'
+    );
   });
 
   it('should set href with queryParams supplied by the queryParams attribute', () => {
     setup({}, '', true);
-    const directive = debugElement.query(By.directive(SkyAppLinkExternalDirective));
+    const directive = debugElement.query(
+      By.directive(SkyAppLinkExternalDirective)
+    );
     expect(directive.attributes['skyAppLinkExternal']).toEqual('test');
-    expect(directive.properties['href']).toEqual('testUrl/test?qp1=1&qp2=false');
+    expect(directive.properties['href']).toEqual(
+      'testUrl/test?qp1=1&qp2=false'
+    );
   });
 
   it('should set href with merged queryParams supplied by the queryParams attribute and app config', () => {
-    setup({
-      asdf: 123,
-      jkl: 'mno'
-    }, '', true);
-    const directive = debugElement.query(By.directive(SkyAppLinkExternalDirective));
+    setup(
+      {
+        asdf: 123,
+        jkl: 'mno',
+      },
+      '',
+      true
+    );
+    const directive = debugElement.query(
+      By.directive(SkyAppLinkExternalDirective)
+    );
     expect(directive.attributes['skyAppLinkExternal']).toEqual('test');
-    expect(directive.properties['href']).toEqual('testUrl/test?qp1=1&qp2=false&asdf=123&jkl=mno');
+    expect(directive.properties['href']).toEqual(
+      'testUrl/test?qp1=1&qp2=false&asdf=123&jkl=mno'
+    );
   });
 
   it('should get config from separate providers if SkyAppConfig undefined', () => {
-    setup({
-      asdf: 123,
-      jkl: 'mno'
-    }, '', true, false);
-    const directive = debugElement.query(By.directive(SkyAppLinkExternalDirective));
-    expect(directive.properties['href'])
-      .toEqual('https://foo.bar.baz/test?qp1=1&qp2=false&asdf=123&jkl=mno');
+    setup(
+      {
+        asdf: 123,
+        jkl: 'mno',
+      },
+      '',
+      true,
+      false
+    );
+    const directive = debugElement.query(
+      By.directive(SkyAppLinkExternalDirective)
+    );
+    expect(directive.properties['href']).toEqual(
+      'https://foo.bar.baz/test?qp1=1&qp2=false&asdf=123&jkl=mno'
+    );
   });
 });
