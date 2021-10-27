@@ -1,6 +1,6 @@
 {
   "name": "@skyux-sdk/prettier-schematics",
-  "version": "5.0.0-beta.0",
+  "version": "5.0.0",
   "description": "Prettier schematics for Angular CLI projects",
   "scripts": {
     "build": "npm run clean && npm run lint && tsc -p tsconfig.build.json",
