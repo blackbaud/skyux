@@ -1,0 +1,54 @@
+{
+  "name": "@skyux-sdk/prettier-schematics",
+  "version": "5.0.0-beta.0",
+  "description": "Prettier schematics for Angular CLI projects",
+  "scripts": {
+    "build": "npm run clean && npm run lint && tsc -p tsconfig.build.json",
+    "postbuild": "node ./scripts/after-build-success.js",
+    "clean": "rimraf dist",
+    "e2e": "node ./scripts/e2e.js",
+    "lint": "eslint src --ext .ts",
+    "format-all": "npx prettier --write .",
+    "start": "npm run clean && tsc-watch -p tsconfig.build.json --onSuccess \"npm run postbuild\"",
+    "test": "nyc npm run test:unit",
+    "test:unit": "npm run lint && ts-node --project tsconfig.test.json node_modules/jasmine/bin/jasmine.js --config=jasmine.json"
+  },
+  "author": "Blackbaud, Inc.",
+  "license": "MIT",
+  "schematics": "./collection.json",
+  "ng-add": {
+    "save": "devDependencies"
+  },
+  "peerDependencies": {
+    "@angular-devkit/build-angular": "^12.2.7"
+  },
+  "dependencies": {
+    "comment-json": "4.1.1"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "12.2.7",
+    "@angular-devkit/schematics": "12.2.7",
+    "@angular/compiler": "12.2.7",
+    "@angular/compiler-cli": "12.2.7",
+    "@istanbuljs/nyc-config-typescript": "1.0.1",
+    "@schematics/angular": "12.2.7",
+    "@trivago/prettier-plugin-sort-imports": "2.0.4",
+    "@types/jasmine": "3.6.11",
+    "@types/mock-require": "2.0.0",
+    "@types/node": "14.14.45",
+    "@typescript-eslint/eslint-plugin": "4.32.0",
+    "@typescript-eslint/parser": "4.32.0",
+    "eslint": "7.32.0",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-prettier": "3.4.1",
+    "fs-extra": "10.0.0",
+    "jasmine": "3.6.4",
+    "mock-require": "3.0.3",
+    "nyc": "15.1.0",
+    "prettier": "2.4.1",
+    "rimraf": "3.0.2",
+    "ts-node": "8.10.2",
+    "tsc-watch": "4.5.0",
+    "typescript": "4.2.4"
+  }
+}

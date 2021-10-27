@@ -1,0 +1,10 @@
+{
+  "$schema": "./node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "description": "Add @skyux-sdk/prettier-schematics to your project.",
+      "factory": "./src/schematics/ng-add/ng-add.schematic",
+      "schema": "./src/schematics/ng-add/schema.json"
+    }
+  }
+}
