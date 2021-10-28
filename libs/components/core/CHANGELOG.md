@@ -1,3 +1,8 @@
+# 5.1.0 (2021-10-27)
+
+- Added the `SkyScrollableHostService` to be able to get and watch for an element's scrollable host. [#264](https://github.com/blackbaud/skyux-core/pull/264)
+- Updated the viewkeeper directive to watch for scrollable hosts when positioning elements. [#264](https://github.com/blackbaud/skyux-core/pull/264)
+
 # 5.0.0 (2021-09-30)
 
 ### New features
