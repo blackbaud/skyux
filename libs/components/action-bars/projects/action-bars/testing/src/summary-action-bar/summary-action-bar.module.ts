@@ -1,14 +1,8 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  NoopAnimationsModule
-} from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import {
-  SkySummaryActionBarModule
-} from '@skyux/action-bars';
+import { SkySummaryActionBarModule } from '@skyux/action-bars';
 
 @NgModule({
   exports: [
@@ -16,7 +10,7 @@ import {
 
     // The noop animations module needs to be loaded last to avoid
     // subsequent modules adding animations and overriding this.
-    NoopAnimationsModule
-  ]
+    NoopAnimationsModule,
+  ],
 })
-export class SkySummaryActionBarTestingModule { }
+export class SkySummaryActionBarTestingModule {}

@@ -6,5 +6,5 @@ export enum SkySummaryActionBarType {
   StandardModal = 1,
   FullPageModal = 2,
   Tab = 3,
-  SplitView = 4
+  SplitView = 4,
 }

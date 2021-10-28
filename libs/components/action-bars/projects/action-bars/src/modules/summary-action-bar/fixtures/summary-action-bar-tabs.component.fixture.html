@@ -1,9 +1,5 @@
-<sky-tabset
-  [active]="activeTab"
->
-  <sky-tab
-    tabHeading="Tab 1 "
-  >
+<sky-tabset [active]="activeTab">
+  <sky-tab tabHeading="Tab 1 ">
     <div>
       Tab 1 Content
       <sky-summary-action-bar *ngIf="showBar1">
@@ -67,9 +63,7 @@
       </sky-summary-action-bar>
     </div>
   </sky-tab>
-  <sky-tab
-    tabHeading="Tab 2"
-  >
+  <sky-tab tabHeading="Tab 2">
     <div>
       Tab 2 Content
       <sky-summary-action-bar *ngIf="showBar2">

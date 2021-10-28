@@ -1,23 +1,14 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {
-  SkyModalInstance
-} from '@skyux/modals';
+import { SkyModalInstance } from '@skyux/modals';
 
 @Component({
   selector: 'sky-test-cmp-modal',
   templateUrl: './summary-action-bar-modal-demo.component.html',
-  styleUrls: [
-    './summary-action-bar-modal-demo.component.scss'
-  ]
+  styleUrls: ['./summary-action-bar-modal-demo.component.scss'],
 })
 export class SkySummaryActionBarModalDemoComponent {
-
-  constructor(
-    public instance: SkyModalInstance
-  ) { }
+  constructor(public instance: SkyModalInstance) {}
 
   public onSecondaryActionClick(): void {
     console.log('Secondary action button clicked.');
@@ -26,5 +17,4 @@ export class SkySummaryActionBarModalDemoComponent {
   public onSecondaryAction2Click(): void {
     console.log('Secondary action 2 button clicked.');
   }
-
 }

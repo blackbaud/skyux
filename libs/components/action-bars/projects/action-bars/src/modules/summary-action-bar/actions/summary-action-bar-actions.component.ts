@@ -1,7 +1,4 @@
-import {
-  Component,
-  ChangeDetectionStrategy
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 /**
  * Contains actions for the `sky-summary-action-bar` component.
@@ -10,7 +7,6 @@ import {
   selector: 'sky-summary-action-bar-actions',
   templateUrl: './summary-action-bar-actions.component.html',
   styleUrls: ['./summary-action-bar-actions.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkySummaryActionBarActionsComponent {
-}
+export class SkySummaryActionBarActionsComponent {}

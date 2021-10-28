@@ -3,7 +3,7 @@ import {
   EventEmitter,
   Input,
   Output,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 /**
@@ -13,20 +13,19 @@ import {
   selector: 'sky-summary-action-bar-primary-action',
   templateUrl: './summary-action-bar-primary-action.component.html',
   styleUrls: ['./summary-action-bar-primary-action.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkySummaryActionBarPrimaryActionComponent {
-
-/**
- * Indicates whether to disable the primary action.
- * @default false
- */
+  /**
+   * Indicates whether to disable the primary action.
+   * @default false
+   */
   @Input()
   public disabled = false;
 
-/**
- * Fires when users select the primary action.
- */
+  /**
+   * Fires when users select the primary action.
+   */
   @Output()
   public actionClick = new EventEmitter<void>();
 

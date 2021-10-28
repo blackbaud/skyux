@@ -2,23 +2,18 @@ import {
   ElementRef,
   Injectable,
   Renderer2,
-  RendererFactory2
+  RendererFactory2,
 } from '@angular/core';
 
-import {
-  SkyAppWindowRef
-} from '@skyux/core';
+import { SkyAppWindowRef } from '@skyux/core';
 
-import {
-  SkySummaryActionBarType
-} from './types/summary-action-bar-type';
+import { SkySummaryActionBarType } from './types/summary-action-bar-type';
 
 /**
  * @internal
  */
 @Injectable()
 export class SkySummaryActionBarAdapterService {
-
   private renderer: Renderer2;
 
   constructor(
@@ -31,20 +26,38 @@ export class SkySummaryActionBarAdapterService {
   public styleBodyElementForActionBar(summaryActionBarRef: ElementRef): void {
     const window = this.windowRef.nativeWindow;
     const body = window.document.body;
-    const actionBarEl = summaryActionBarRef.nativeElement.querySelector('.sky-summary-action-bar');
+    const actionBarEl = summaryActionBarRef.nativeElement.querySelector(
+      '.sky-summary-action-bar'
+    );
     /* istanbul ignore else */
     if (actionBarEl.style.visibility !== 'hidden') {
-      this.renderer.setStyle(body, 'margin-bottom', actionBarEl.offsetHeight + 'px');
+      this.renderer.setStyle(
+        body,
+        'margin-bottom',
+        actionBarEl.offsetHeight + 'px'
+      );
     }
   }
 
-  public styleSplitViewElementForActionBar(summaryActionBarRef: ElementRef): void {
-    const splitViewWorkspaceContent = document.querySelector('.sky-split-view-workspace-content');
-    const splitViewWorkspaceFooter = document.querySelector('.sky-split-view-workspace-footer');
-    const actionBarEl = summaryActionBarRef.nativeElement.querySelector('.sky-summary-action-bar');
+  public styleSplitViewElementForActionBar(
+    summaryActionBarRef: ElementRef
+  ): void {
+    const splitViewWorkspaceContent = document.querySelector(
+      '.sky-split-view-workspace-content'
+    );
+    const splitViewWorkspaceFooter = document.querySelector(
+      '.sky-split-view-workspace-footer'
+    );
+    const actionBarEl = summaryActionBarRef.nativeElement.querySelector(
+      '.sky-summary-action-bar'
+    );
     /* istanbul ignore else */
     if (actionBarEl.style.visibility !== 'hidden') {
-      this.renderer.setStyle(splitViewWorkspaceContent, 'padding-bottom', '20px');
+      this.renderer.setStyle(
+        splitViewWorkspaceContent,
+        'padding-bottom',
+        '20px'
+      );
       this.renderer.setStyle(splitViewWorkspaceFooter, 'padding', 0);
     }
   }
@@ -56,14 +69,20 @@ export class SkySummaryActionBarAdapterService {
   }
 
   public revertSplitViewElementStyles(): void {
-    const splitViewWorkspaceContent = document.querySelector('.sky-split-view-workspace-content');
-    const splitViewWorkspaceFooter = document.querySelector('.sky-split-view-workspace-footer');
+    const splitViewWorkspaceContent = document.querySelector(
+      '.sky-split-view-workspace-content'
+    );
+    const splitViewWorkspaceFooter = document.querySelector(
+      '.sky-split-view-workspace-footer'
+    );
     this.renderer.setStyle(splitViewWorkspaceContent, 'padding-bottom', 'none');
     this.renderer.setStyle(splitViewWorkspaceFooter, 'padding', '10px');
   }
 
   public styleModalFooter(summaryActionBarRef: ElementRef): void {
-    const modalFooterEls = document.getElementsByClassName('sky-modal-footer-container');
+    const modalFooterEls = document.getElementsByClassName(
+      'sky-modal-footer-container'
+    );
     for (let i = 0; i < modalFooterEls.length; i++) {
       if (modalFooterEls.item(i).contains(summaryActionBarRef.nativeElement)) {
         this.renderer.setStyle(modalFooterEls.item(i), 'padding', 0);

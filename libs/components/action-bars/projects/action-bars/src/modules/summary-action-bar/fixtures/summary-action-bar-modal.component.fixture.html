@@ -1,34 +1,22 @@
-<sky-modal id='action-bar-modal'>
-  <sky-modal-header>
-    Summary Action Bar In Modal
-  </sky-modal-header>
-  <sky-modal-content>
-    Content A
-  </sky-modal-content>
+<sky-modal id="action-bar-modal">
+  <sky-modal-header> Summary Action Bar In Modal </sky-modal-header>
+  <sky-modal-content> Content A </sky-modal-content>
   <sky-modal-footer>
     <sky-summary-action-bar>
       <sky-summary-action-bar-actions>
-        <sky-summary-action-bar-primary-action
-          (actionClick)="instance.save()"
-        >
+        <sky-summary-action-bar-primary-action (actionClick)="instance.save()">
           Save
         </sky-summary-action-bar-primary-action>
         <sky-summary-action-bar-secondary-actions>
           Foo
-          <sky-summary-action-bar-secondary-action
-            (actionClick)="printHello()"
-          >
+          <sky-summary-action-bar-secondary-action (actionClick)="printHello()">
             Secondary action
           </sky-summary-action-bar-secondary-action>
-          <sky-summary-action-bar-secondary-action
-            (actionClick)="printHello()"
-          >
+          <sky-summary-action-bar-secondary-action (actionClick)="printHello()">
             Secondary action 2
           </sky-summary-action-bar-secondary-action>
         </sky-summary-action-bar-secondary-actions>
-        <sky-summary-action-bar-cancel
-          (actionClick)="instance.cancel()"
-        >
+        <sky-summary-action-bar-cancel (actionClick)="instance.cancel()">
           Cancel
         </sky-summary-action-bar-cancel>
       </sky-summary-action-bar-actions>

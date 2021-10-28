@@ -5,47 +5,31 @@ import {
   Component,
   ContentChild,
   ElementRef,
-  OnDestroy
+  OnDestroy,
 } from '@angular/core';
 
-import {
-  fromEvent
-} from 'rxjs';
+import { fromEvent } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  Subscription
-} from 'rxjs';
+import { Subscription } from 'rxjs';
 
-import {
-  skyAnimationSlide
-} from '@skyux/animations';
+import { skyAnimationSlide } from '@skyux/animations';
 
 import {
   MutationObserverService,
   SkyMediaBreakpoints,
   SkyMediaQueryService,
-  SkyAppWindowRef
+  SkyAppWindowRef,
 } from '@skyux/core';
 
-import {
-  SkySummaryActionBarSummaryComponent
-} from './summary/summary-action-bar-summary.component';
+import { SkySummaryActionBarSummaryComponent } from './summary/summary-action-bar-summary.component';
 
-import {
-  SkySummaryActionBarType
-} from './types/summary-action-bar-type';
+import { SkySummaryActionBarType } from './types/summary-action-bar-type';
 
-import {
-  SkySummaryActionBarAdapterService
-} from './summary-action-bar-adapter.service';
+import { SkySummaryActionBarAdapterService } from './summary-action-bar-adapter.service';
 
 /**
  * Auto-incrementing integer used to generate unique ids for summary action bar components.
@@ -61,18 +45,17 @@ let nextId = 0;
   templateUrl: './summary-action-bar.component.html',
   styleUrls: ['./summary-action-bar.component.scss'],
   animations: [skyAnimationSlide],
-  providers: [
-    SkySummaryActionBarAdapterService
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  providers: [SkySummaryActionBarAdapterService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
-
   public isSummaryCollapsed = false;
 
   public get isSummaryCollapsible(): boolean {
-    return this.type === SkySummaryActionBarType.StandardModal ||
-      this.mediaQueryService.current === SkyMediaBreakpoints.xs;
+    return (
+      this.type === SkySummaryActionBarType.StandardModal ||
+      this.mediaQueryService.current === SkyMediaBreakpoints.xs
+    );
   }
 
   public type: SkySummaryActionBarType;
@@ -97,11 +80,18 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
     private mediaQueryService: SkyMediaQueryService,
     private observerService: MutationObserverService,
     private windowRef: SkyAppWindowRef
-  ) { }
+  ) {}
 
   public ngAfterViewInit(): void {
-    this.type = this.adapterService.getSummaryActionBarType(this.elementRef.nativeElement);
-    if (!(this.type === SkySummaryActionBarType.FullPageModal || this.type === SkySummaryActionBarType.StandardModal)) {
+    this.type = this.adapterService.getSummaryActionBarType(
+      this.elementRef.nativeElement
+    );
+    if (
+      !(
+        this.type === SkySummaryActionBarType.FullPageModal ||
+        this.type === SkySummaryActionBarType.StandardModal
+      )
+    ) {
       this.setupReactiveState();
 
       if (this.type === SkySummaryActionBarType.SplitView) {
@@ -126,11 +116,12 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-
     if (this.type === SkySummaryActionBarType.SplitView) {
       this.adapterService.revertSplitViewElementStyles();
-    } else if ((this.type === SkySummaryActionBarType.Page) ||
-      (this.type === SkySummaryActionBarType.Tab)) {
+    } else if (
+      this.type === SkySummaryActionBarType.Page ||
+      this.type === SkySummaryActionBarType.Tab
+    ) {
       this.adapterService.revertBodyElementStyles();
     }
 
@@ -160,8 +151,10 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
       this.isSummaryCollapsed = true;
     }
 
-    if ((this.type === SkySummaryActionBarType.Page) ||
-      (this.type === SkySummaryActionBarType.Tab)) {
+    if (
+      this.type === SkySummaryActionBarType.Page ||
+      this.type === SkySummaryActionBarType.Tab
+    ) {
       this.adapterService.styleBodyElementForActionBar(this.elementRef);
     }
   }
@@ -174,32 +167,43 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   }
 
   private setupReactiveState() {
-    this.mediaQuerySubscription = this.mediaQueryService.subscribe((args: SkyMediaBreakpoints) => {
-      if (args !== SkyMediaBreakpoints.xs) {
-        this.isSummaryCollapsed = false;
-        this.slideDirection = 'down';
+    this.mediaQuerySubscription = this.mediaQueryService.subscribe(
+      (args: SkyMediaBreakpoints) => {
+        if (args !== SkyMediaBreakpoints.xs) {
+          this.isSummaryCollapsed = false;
+          this.slideDirection = 'down';
+        }
+        this.changeDetector.detectChanges();
       }
-      this.changeDetector.detectChanges();
-    });
+    );
   }
 
   private setupTabListener(): void {
     /* istanbul ignore else */
     if (!this.observer) {
-      this.observer = this.observerService.create((mutations: MutationRecord[]) => {
-        if ((<HTMLElement>mutations[0].target).attributes.getNamedItem('hidden')) {
-          this.adapterService.revertBodyElementStyles();
-          this.removeResizeListener();
-        } else {
-          setTimeout(() => {
-            this.adapterService.styleBodyElementForActionBar(this.elementRef);
-            this.setupResizeListener();
-          });
+      this.observer = this.observerService.create(
+        (mutations: MutationRecord[]) => {
+          if (
+            (<HTMLElement>mutations[0].target).attributes.getNamedItem('hidden')
+          ) {
+            this.adapterService.revertBodyElementStyles();
+            this.removeResizeListener();
+          } else {
+            setTimeout(() => {
+              this.adapterService.styleBodyElementForActionBar(this.elementRef);
+              this.setupResizeListener();
+            });
+          }
         }
-      });
+      );
     }
 
-    const config = { attributes: true, attributeFilter: ['hidden'], childList: false, characterDate: false };
+    const config = {
+      attributes: true,
+      attributeFilter: ['hidden'],
+      childList: false,
+      characterDate: false,
+    };
     let el = this.elementRef.nativeElement;
     do {
       if (el.classList.contains('sky-tab')) {
@@ -230,5 +234,4 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   private removeResizeListener(): void {
     this.idled.next(true);
   }
-
 }

@@ -1,59 +1,30 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  SkyI18nModule
-} from '@skyux/i18n';
+import { SkyI18nModule } from '@skyux/i18n';
 
-import {
-  SkyChevronModule,
-  SkyIconModule
-} from '@skyux/indicators';
+import { SkyChevronModule, SkyIconModule } from '@skyux/indicators';
 
-import {
-  SkyDropdownModule
-} from '@skyux/popovers';
+import { SkyDropdownModule } from '@skyux/popovers';
 
-import {
-  SkyThemeModule
-} from '@skyux/theme';
+import { SkyThemeModule } from '@skyux/theme';
 
-import {
-  SkyActionBarsResourcesModule
-} from '../shared/sky-action-bars-resources.module';
+import { SkyActionBarsResourcesModule } from '../shared/sky-action-bars-resources.module';
 
-import {
-  SkySummaryActionBarComponent
-} from './summary-action-bar.component';
+import { SkySummaryActionBarComponent } from './summary-action-bar.component';
 
-import {
-  SkySummaryActionBarActionsComponent
-} from './actions/summary-action-bar-actions.component';
+import { SkySummaryActionBarActionsComponent } from './actions/summary-action-bar-actions.component';
 
-import {
-  SkySummaryActionBarCancelComponent
-} from './actions/summary-action-bar-cancel.component';
+import { SkySummaryActionBarCancelComponent } from './actions/summary-action-bar-cancel.component';
 
-import {
-  SkySummaryActionBarPrimaryActionComponent
-} from './actions/summary-action-bar-primary-action.component';
+import { SkySummaryActionBarPrimaryActionComponent } from './actions/summary-action-bar-primary-action.component';
 
-import {
-  SkySummaryActionBarSecondaryActionComponent
-} from './actions/summary-action-bar-secondary-action.component';
+import { SkySummaryActionBarSecondaryActionComponent } from './actions/summary-action-bar-secondary-action.component';
 
-import {
-  SkySummaryActionBarSecondaryActionsComponent
-} from './actions/summary-action-bar-secondary-actions.component';
+import { SkySummaryActionBarSecondaryActionsComponent } from './actions/summary-action-bar-secondary-actions.component';
 
-import {
-  SkySummaryActionBarSummaryComponent
-} from './summary/summary-action-bar-summary.component';
+import { SkySummaryActionBarSummaryComponent } from './summary/summary-action-bar-summary.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +34,7 @@ import {
     SkySummaryActionBarPrimaryActionComponent,
     SkySummaryActionBarSecondaryActionComponent,
     SkySummaryActionBarSecondaryActionsComponent,
-    SkySummaryActionBarSummaryComponent
+    SkySummaryActionBarSummaryComponent,
   ],
   imports: [
     CommonModule,
@@ -72,7 +43,7 @@ import {
     SkyI18nModule,
     SkyIconModule,
     SkyActionBarsResourcesModule,
-    SkyThemeModule
+    SkyThemeModule,
   ],
   exports: [
     SkySummaryActionBarComponent,
@@ -81,7 +52,7 @@ import {
     SkySummaryActionBarPrimaryActionComponent,
     SkySummaryActionBarSecondaryActionComponent,
     SkySummaryActionBarSecondaryActionsComponent,
-    SkySummaryActionBarSummaryComponent
-  ]
+    SkySummaryActionBarSummaryComponent,
+  ],
 })
-export class SkySummaryActionBarModule { }
+export class SkySummaryActionBarModule {}

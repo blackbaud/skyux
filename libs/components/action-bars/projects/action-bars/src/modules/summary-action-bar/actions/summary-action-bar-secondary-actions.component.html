@@ -1,8 +1,11 @@
-<div *ngIf="!isMobile && secondaryActionComponents.length < 5"
+<div
+  *ngIf="!isMobile && secondaryActionComponents.length < 5"
   class="sky-summary-action-bar-secondary-buttons"
   role="menubar"
 >
-  <ng-container *ngTemplateOutlet="summaryActionBarSecondaryActions"></ng-container>
+  <ng-container
+    *ngTemplateOutlet="summaryActionBarSecondaryActions"
+  ></ng-container>
 </div>
 <div *ngIf="isMobile || secondaryActionComponents.length > 4">
   <sky-dropdown
@@ -11,14 +14,12 @@
     [messageStream]="dropdownMessageStream"
   >
     <sky-dropdown-menu>
-      <ng-container *ngTemplateOutlet="summaryActionBarSecondaryActions"></ng-container>
+      <ng-container
+        *ngTemplateOutlet="summaryActionBarSecondaryActions"
+      ></ng-container>
     </sky-dropdown-menu>
   </sky-dropdown>
 </div>
-<ng-template
-  #summaryActionBarSecondaryActions
->
-  <ng-content
-    select="sky-summary-action-bar-secondary-action"
-  ></ng-content>
+<ng-template #summaryActionBarSecondaryActions>
+  <ng-content select="sky-summary-action-bar-secondary-action"></ng-content>
 </ng-template>

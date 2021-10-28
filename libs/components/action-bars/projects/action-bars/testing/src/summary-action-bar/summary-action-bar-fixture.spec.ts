@@ -1,37 +1,18 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  expect,
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  SkyMediaBreakpoints,
-  SkyMediaQueryService
-} from '@skyux/core';
+import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 
-import {
-  MockSkyMediaQueryService
-} from '@skyux/core/testing';
+import { MockSkyMediaQueryService } from '@skyux/core/testing';
 
-import {
-  SkyKeyInfoModule
-} from '@skyux/indicators';
+import { SkyKeyInfoModule } from '@skyux/indicators';
 
-import {
-  SummaryActionBarTestComponent
-} from './fixtures/summary-action-bar-fixture-test.component';
+import { SummaryActionBarTestComponent } from './fixtures/summary-action-bar-fixture-test.component';
 
-import {
-  SkySummaryActionBarFixture
-} from './summary-action-bar-fixture';
+import { SkySummaryActionBarFixture } from './summary-action-bar-fixture';
 
-import {
-  SkySummaryActionBarTestingModule
-} from './summary-action-bar.module';
+import { SkySummaryActionBarTestingModule } from './summary-action-bar.module';
 
 describe('Summary action bar fixture', () => {
   let fixture: ComponentFixture<SummaryActionBarTestComponent>;
@@ -41,7 +22,9 @@ describe('Summary action bar fixture', () => {
 
   //#region helpers
 
-  async function initiateResponsiveMode(breakpoint: SkyMediaBreakpoints): Promise<void> {
+  async function initiateResponsiveMode(
+    breakpoint: SkyMediaBreakpoints
+  ): Promise<void> {
     mockQueryService.fire(breakpoint);
     fixture.detectChanges();
     return fixture.whenStable();
@@ -54,21 +37,14 @@ describe('Summary action bar fixture', () => {
     mockQueryService = new MockSkyMediaQueryService();
 
     TestBed.configureTestingModule({
-      declarations: [
-        SummaryActionBarTestComponent
-      ],
-      imports: [
-        SkyKeyInfoModule,
-        SkySummaryActionBarTestingModule
-      ],
+      declarations: [SummaryActionBarTestComponent],
+      imports: [SkyKeyInfoModule, SkySummaryActionBarTestingModule],
       providers: [
-        { provide: SkyMediaQueryService, useValue: mockQueryService }
-      ]
+        { provide: SkyMediaQueryService, useValue: mockQueryService },
+      ],
     });
 
-    fixture = TestBed.createComponent(
-      SummaryActionBarTestComponent
-    );
+    fixture = TestBed.createComponent(SummaryActionBarTestComponent);
     testComponent = fixture.componentInstance;
     fixture.detectChanges();
     summaryActionBarFixture = new SkySummaryActionBarFixture(
@@ -78,7 +54,6 @@ describe('Summary action bar fixture', () => {
   });
 
   describe('primary action', () => {
-
     it('should expose primary action button default properties', async () => {
       const actionSpy = spyOn(testComponent, 'primaryActionClicked');
       const action = summaryActionBarFixture.primaryAction;
@@ -111,7 +86,7 @@ describe('Summary action bar fixture', () => {
       testComponent.primaryAction = {
         buttonText: 'some action',
         isDisabled: true,
-        click: () => testComponent.primaryActionClicked()
+        click: () => testComponent.primaryActionClicked(),
       };
       fixture.detectChanges();
 
@@ -121,11 +96,9 @@ describe('Summary action bar fixture', () => {
       expect(action.buttonText).toEqual(testComponent.primaryAction.buttonText);
       expect(action.isDisabled).toEqual(testComponent.primaryAction.isDisabled);
     });
-
   });
 
   describe('secondary actions', () => {
-
     it('should expose secondary action button default properties', async () => {
       const actionSpy = spyOn(testComponent, 'secondaryActionClicked');
       const actions = summaryActionBarFixture.secondaryActions;
@@ -134,8 +107,12 @@ describe('Summary action bar fixture', () => {
         const action = actions[i];
 
         // verify button state
-        expect(action.buttonText).toEqual(testComponent.secondaryActions[i].buttonText);
-        expect(action.isDisabled).toEqual(testComponent.secondaryActions[i].isDisabled);
+        expect(action.buttonText).toEqual(
+          testComponent.secondaryActions[i].buttonText
+        );
+        expect(action.isDisabled).toEqual(
+          testComponent.secondaryActions[i].isDisabled
+        );
 
         // verify the click methods work on the button state
         await action.click();
@@ -152,8 +129,12 @@ describe('Summary action bar fixture', () => {
         const action = actions[i];
 
         // verify button state
-        expect(action.buttonText).toEqual(testComponent.secondaryActions[i].buttonText);
-        expect(action.isDisabled).toEqual(testComponent.secondaryActions[i].isDisabled);
+        expect(action.buttonText).toEqual(
+          testComponent.secondaryActions[i].buttonText
+        );
+        expect(action.isDisabled).toEqual(
+          testComponent.secondaryActions[i].isDisabled
+        );
 
         // verify the click methods work on the button state
         await action.click();
@@ -167,8 +148,8 @@ describe('Summary action bar fixture', () => {
         {
           buttonText: 'some action',
           isDisabled: true,
-          click: () => testComponent.secondaryActionClicked(0)
-        }
+          click: () => testComponent.secondaryActionClicked(0),
+        },
       ];
       fixture.detectChanges();
       await fixture.whenStable();
@@ -179,15 +160,17 @@ describe('Summary action bar fixture', () => {
         const action = actions[i];
 
         // verify button state
-        expect(action.buttonText).toEqual(testComponent.secondaryActions[i].buttonText);
-        expect(action.isDisabled).toEqual(testComponent.secondaryActions[i].isDisabled);
+        expect(action.buttonText).toEqual(
+          testComponent.secondaryActions[i].buttonText
+        );
+        expect(action.isDisabled).toEqual(
+          testComponent.secondaryActions[i].isDisabled
+        );
       }
     });
-
   });
 
   describe('cancel button', () => {
-
     it('should expose cancel action button default properties', async () => {
       const actionSpy = spyOn(testComponent, 'cancelActionClicked');
       const action = summaryActionBarFixture.cancelAction;
@@ -220,7 +203,7 @@ describe('Summary action bar fixture', () => {
       testComponent.cancelAction = {
         buttonText: 'some action',
         isDisabled: true,
-        click: () => testComponent.cancelActionClicked()
+        click: () => testComponent.cancelActionClicked(),
       };
       fixture.detectChanges();
       await fixture.whenStable();
@@ -234,10 +217,11 @@ describe('Summary action bar fixture', () => {
   });
 
   describe('summary content', () => {
-
     it('should support summary body query selectors', async () => {
       const summaryContent = summaryActionBarFixture.querySummaryBody('div');
-      expect(SkyAppTestUtility.getText(summaryContent)).toEqual(testComponent.summaryBody);
+      expect(SkyAppTestUtility.getText(summaryContent)).toEqual(
+        testComponent.summaryBody
+      );
     });
 
     it('should support summary body query all selectors', async () => {
@@ -246,14 +230,18 @@ describe('Summary action bar fixture', () => {
       expect(results.length).toBe(1);
 
       const summaryContent = results[0];
-      expect(SkyAppTestUtility.getText(summaryContent)).toEqual(testComponent.summaryBody);
+      expect(SkyAppTestUtility.getText(summaryContent)).toEqual(
+        testComponent.summaryBody
+      );
     });
 
     it('should expose content body when responsive', async () => {
       await initiateResponsiveMode(SkyMediaBreakpoints.xs);
 
       const summaryContent = summaryActionBarFixture.querySummaryBody('div');
-      expect(SkyAppTestUtility.getText(summaryContent)).toEqual(testComponent.summaryBody);
+      expect(SkyAppTestUtility.getText(summaryContent)).toEqual(
+        testComponent.summaryBody
+      );
     });
 
     it('should expose content body even when not visible', async () => {
@@ -266,7 +254,9 @@ describe('Summary action bar fixture', () => {
       // verify the content matches
       // - we use textContent since safari/firefox won't populate innerText for hidden elements
       const summaryContent = summaryActionBarFixture.querySummaryBody('div');
-      expect(summaryContent.textContent.trim()).toEqual(testComponent.summaryBody);
+      expect(summaryContent.textContent.trim()).toEqual(
+        testComponent.summaryBody
+      );
     });
 
     it('should open and close summary content when responsive', async () => {
@@ -290,7 +280,5 @@ describe('Summary action bar fixture', () => {
 
       expect(summaryActionBarFixture.summaryBodyIsVisible).toBeTrue();
     });
-
   });
-
 });

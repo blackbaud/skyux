@@ -1,16 +1,11 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-summary-action-bar-demo',
   templateUrl: './summary-action-bar-demo.component.html',
-  styleUrls: [
-    './summary-action-bar-demo.component.scss'
-  ]
+  styleUrls: ['./summary-action-bar-demo.component.scss'],
 })
 export class SummaryActionBarDemoComponent {
-
   public onPrimaryActionClick(): void {
     console.log('Primary action button clicked.');
   }
@@ -22,5 +17,4 @@ export class SummaryActionBarDemoComponent {
   public onSecondaryAction2Click(): void {
     console.log('Secondary action 2 button clicked.');
   }
-
 }

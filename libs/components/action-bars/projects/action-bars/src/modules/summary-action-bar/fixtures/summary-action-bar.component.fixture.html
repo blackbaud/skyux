@@ -22,9 +22,7 @@
 >
   Open Fullscreen Modal
 </button>
-<sky-summary-action-bar *ngIf="!hideMainActionBar"
-  id="summary-action-bar"
->
+<sky-summary-action-bar *ngIf="!hideMainActionBar" id="summary-action-bar">
   <sky-summary-action-bar-actions>
     <sky-summary-action-bar-primary-action
       [disabled]="disableButtons"
@@ -46,19 +44,22 @@
       >
         Secondary action 2
       </sky-summary-action-bar-secondary-action>
-      <sky-summary-action-bar-secondary-action *ngIf="extraActions"
+      <sky-summary-action-bar-secondary-action
+        *ngIf="extraActions"
         [disabled]="disableButtons"
         (actionClick)="clickHandler()"
       >
         Secondary action 3
       </sky-summary-action-bar-secondary-action>
-      <sky-summary-action-bar-secondary-action *ngIf="extraActions"
+      <sky-summary-action-bar-secondary-action
+        *ngIf="extraActions"
         [disabled]="disableButtons"
         (actionClick)="clickHandler()"
       >
         Secondary action 4
       </sky-summary-action-bar-secondary-action>
-      <sky-summary-action-bar-secondary-action *ngIf="extraActions"
+      <sky-summary-action-bar-secondary-action
+        *ngIf="extraActions"
         [disabled]="disableButtons"
         (actionClick)="clickHandler()"
       >
@@ -113,9 +114,7 @@
     </div>
   </sky-summary-action-bar-summary>
 </sky-summary-action-bar>
-<sky-summary-action-bar *ngIf="showSecondaryActionBar"
-  id="summary-action-bar"
->
+<sky-summary-action-bar *ngIf="showSecondaryActionBar" id="summary-action-bar">
   <sky-summary-action-bar-actions>
     <sky-summary-action-bar-primary-action
       [disabled]="disableButtons"
@@ -137,19 +136,22 @@
       >
         Secondary action 2
       </sky-summary-action-bar-secondary-action>
-      <sky-summary-action-bar-secondary-action *ngIf="extraActions"
+      <sky-summary-action-bar-secondary-action
+        *ngIf="extraActions"
         [disabled]="disableButtons"
         (actionClick)="clickHandler()"
       >
         Secondary action 3
       </sky-summary-action-bar-secondary-action>
-      <sky-summary-action-bar-secondary-action *ngIf="extraActions"
+      <sky-summary-action-bar-secondary-action
+        *ngIf="extraActions"
         [disabled]="disableButtons"
         (actionClick)="clickHandler()"
       >
         Secondary action 4
       </sky-summary-action-bar-secondary-action>
-      <sky-summary-action-bar-secondary-action *ngIf="extraActions"
+      <sky-summary-action-bar-secondary-action
+        *ngIf="extraActions"
         [disabled]="disableButtons"
         (actionClick)="clickHandler()"
       >

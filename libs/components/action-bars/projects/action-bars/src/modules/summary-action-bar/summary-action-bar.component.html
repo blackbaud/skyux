@@ -6,12 +6,8 @@
     'sky-summary-action-bar-split-view': type === 4
   }"
 >
-  <div
-    class="sky-summary-action-bar-actions"
-  >
-    <ng-content
-      select="sky-summary-action-bar-actions"
-      ></ng-content>
+  <div class="sky-summary-action-bar-actions">
+    <ng-content select="sky-summary-action-bar-actions"></ng-content>
   </div>
   <ng-container *ngIf="summaryContentExists()">
     <div
@@ -21,22 +17,20 @@
       (@skyAnimationSlide.start)="summaryTransitionStart()"
       (@skyAnimationSlide.done)="summaryTransitionEnd()"
     >
-      <div
-        class="sky-summary-action-bar-summary-body"
-      >
+      <div class="sky-summary-action-bar-summary-body">
         <div class="sky-summary-action-bar-summary-items">
-          <ng-content
-            select="sky-summary-action-bar-summary"
-          ></ng-content>
+          <ng-content select="sky-summary-action-bar-summary"></ng-content>
         </div>
-        <div *ngIf="isSummaryCollapsible && !isSummaryCollapsed"
+        <div
+          *ngIf="isSummaryCollapsible && !isSummaryCollapsed"
           class="sky-summary-action-bar-details-collapse"
         >
           <ng-container *ngTemplateOutlet="chevron"></ng-container>
         </div>
       </div>
     </div>
-    <div *ngIf="isSummaryCollapsible && isSummaryCollapsed"
+    <div
+      *ngIf="isSummaryCollapsible && isSummaryCollapsed"
       class="sky-summary-action-bar-details-expand"
     >
       <ng-container *ngTemplateOutlet="chevron"></ng-container>
@@ -46,15 +40,16 @@
 
 <ng-template #chevron>
   <sky-chevron
-    [attr.title]="isSummaryCollapsed ?
-      ('skyux_summary_action_bar_hide_summary' | skyLibResources) :
-      ('skyux_summary_action_bar_show_summary' | skyLibResources)
+    [attr.title]="
+      isSummaryCollapsed
+        ? ('skyux_summary_action_bar_hide_summary' | skyLibResources)
+        : ('skyux_summary_action_bar_show_summary' | skyLibResources)
     "
     [attr.aria-controls]="summaryId"
     [attr.aria-expanded]="!isSummaryCollapsed"
     [direction]="isSummaryCollapsed ? 'up' : 'down'"
     [skyThemeClass]="{
-      'sky-margin-inline-default' : 'modern'
+      'sky-margin-inline-default': 'modern'
     }"
     (directionChange)="onDirectionChange($event)"
   >
