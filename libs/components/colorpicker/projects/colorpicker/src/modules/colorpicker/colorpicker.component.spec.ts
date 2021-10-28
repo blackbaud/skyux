@@ -87,6 +87,10 @@ describe('Colorpicker Component', () => {
     return element.querySelector('.sky-colorpicker-button') as HTMLElement;
   }
 
+  function getColorpickerIcon(): HTMLElement {
+    return document.querySelector('.sky-colorpicker-button-icon');
+  }
+
   function getColorpickerButtonBackgroundColor(element: HTMLElement): string {
     const buttonElem = getColorpickerButton(element);
     return buttonElem.style.backgroundColor;
@@ -341,6 +345,20 @@ describe('Colorpicker Component', () => {
 
       expect(getColorpickerButton(nativeElement).getAttribute('aria-label')).toBeNull();
       expect(getColorpickerButton(nativeElement).getAttribute('title')).toBeNull();
+    }));
+
+    it('should add icon overlay', fakeAsync(() => {
+      const icon = getColorpickerIcon();
+      expect(icon).toBeNull();
+
+      fixture.componentInstance.pickerButtonIcon = 'text-color';
+      fixture.componentInstance.pickerButtonIconType = 'skyux';
+      fixture.detectChanges();
+      tick();
+
+      const iconNew = getColorpickerIcon();
+
+      expect(iconNew).not.toBeNull();
     }));
 
     it('should output RGBA', fakeAsync(() => {
@@ -1160,6 +1178,25 @@ describe('Colorpicker Component', () => {
 
     beforeEach(() => {
       fixture = TestBed.createComponent(ColorpickerTestComponent);
+    });
+
+    it('should update foreground icon color to have proper color contrast', async () => {
+      fixture.componentInstance.colorModel = '#ffffff';
+      fixture.componentInstance.pickerButtonIcon = 'text-color';
+      fixture.componentInstance.pickerButtonIconType = 'skyux';
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+      const icon = getColorpickerIcon();
+
+      expect(icon.getAttribute('style')).toEqual('color: rgb(0, 0, 0);');
+
+      fixture.componentInstance.colorModel = '#000000';
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      expect(icon.getAttribute('style')).toEqual('color: rgb(255, 255, 255);');
     });
 
     it('should be accessible when closed', async () => {

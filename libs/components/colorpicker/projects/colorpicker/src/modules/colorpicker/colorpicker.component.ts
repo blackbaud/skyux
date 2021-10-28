@@ -99,6 +99,20 @@ let componentIdIndex = 0;
 export class SkyColorpickerComponent implements OnInit, OnDestroy {
 
   /**
+   * Specifies the name of the [Font Awesome 4.7](https://fontawesome.com/v4.7/icons/) icon to overlay on top of the picker. Do not specify the `fa fa-` classes.
+   * @internal
+   */
+  @Input()
+  public pickerButtonIcon?: string;
+
+  /**
+   * Specifies the type of icon to display. Specifying `fa` will display a Font Awesome icon, while specifying `skyux` will display an icon from the custom SKY UX icon font. Note that the custom SKY UX icon font is currently in beta.
+   * @internal
+   */
+  @Input()
+  public pickerButtonIconType?: string = 'fa';
+
+  /**
    * Specifies an ARIA label for the colorpicker. This sets the colorpicker's `aria-label` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility)
    * when the colorpicker does not include a visible label. If the colorpicker includes a visible label, use `labelledBy` instead.
@@ -170,11 +184,22 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   public rgbaText: SkyColorpickerRgba;
   public selectedColor: SkyColorpickerOutput;
   public slider: SliderPosition;
+  public iconColor: string;
   public initialColor: string;
   public lastAppliedColor: string;
   public isPickerVisible: boolean;
 
-  public backgroundColorForDisplay: string = '#fff';
+  public set backgroundColorForDisplay(value: string) {
+    this._backgroundColorForDisplay = value;
+    if (this.pickerButtonIcon) {
+      this.iconColor = this.getAccessibleIconColor(this.selectedColor);
+    }
+  }
+
+  public get backgroundColorForDisplay(): string {
+    /* istanbul ignore next */
+    return this._backgroundColorForDisplay || '#fff';
+  }
 
   public colorpickerId: string;
 
@@ -230,6 +255,8 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   private overlay: SkyOverlayInstance;
 
   private pickerUnsubscribe: Subject<void>;
+
+  private _backgroundColorForDisplay: string;
 
   private _colorpickerRef: ElementRef;
 
@@ -581,5 +608,14 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     }
 
     return hsva;
+  }
+
+  // http://www.w3.org/TR/AERT#color-contrast
+  private getAccessibleIconColor(backgroundColor: SkyColorpickerOutput): string {
+    const rgb = backgroundColor.rgba;
+    const brightness = Math.round(((rgb.red * 299) +
+                        (rgb.green * 587) +
+                        (rgb.blue * 114)) / 1000);
+    return (brightness > 125) ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)';
   }
 }

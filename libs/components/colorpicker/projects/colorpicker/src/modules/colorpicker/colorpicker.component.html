@@ -32,6 +32,14 @@
     (click)="onTriggerButtonClick()"
     #triggerButtonRef
   >
+    <sky-icon *ngIf="pickerButtonIcon"
+      class="sky-colorpicker-button-icon"
+      [icon]="pickerButtonIcon"
+      [iconType]="pickerButtonIconType"
+      [size]="'1x'"
+      [style.color]="iconColor"
+    >
+    </sky-icon>
     <ng-container *skyThemeIf="'modern'">
       <sky-icon
         class="sky-colorpicker-button-modern-chevron"
