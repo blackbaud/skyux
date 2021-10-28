@@ -89,9 +89,9 @@ describe('Autonumeric directive', () => {
     SkyAppTestUtility.fireDomEvent(fixture.nativeElement.querySelector('.app-template-driven-input'), 'blur');
   }
 
-  function triggerKeyUp(): void {
-    SkyAppTestUtility.fireDomEvent(fixture.nativeElement.querySelector('.app-reactive-form-input'), 'keyup');
-    SkyAppTestUtility.fireDomEvent(fixture.nativeElement.querySelector('.app-template-driven-input'), 'keyup');
+  function triggerInput(): void {
+    SkyAppTestUtility.fireDomEvent(fixture.nativeElement.querySelector('.app-reactive-form-input'), 'input');
+    SkyAppTestUtility.fireDomEvent(fixture.nativeElement.querySelector('.app-template-driven-input'), 'input');
   }
 
   /**
@@ -454,7 +454,7 @@ describe('Autonumeric directive', () => {
         dirty: false
       });
 
-      triggerKeyUp();
+      triggerInput();
 
       detectChanges();
 

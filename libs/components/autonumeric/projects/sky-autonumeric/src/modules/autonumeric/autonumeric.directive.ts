@@ -98,7 +98,7 @@ export class SkyAutonumericDirective implements OnInit, OnDestroy, ControlValueA
     }
     this.updateAutonumericInstance();
 
-    fromEvent(this.elementRef.nativeElement, 'keyup')
+    fromEvent(this.elementRef.nativeElement, 'input')
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         const numericValue: number | undefined = this.getNumericValue();
