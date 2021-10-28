@@ -175,6 +175,8 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
     this.updateForExpandMode();
 
     this.adapterService.setRepeaterHost(this.elementRef);
+
+    this.initializeDragAndDrop();
   }
 
   public ngAfterContentInit(): void {
@@ -228,10 +230,6 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
         this.items.forEach(item => item.reorderable = this.reorderable);
       }
 
-      if (this.reorderable) {
-        this.initializeDragAndDrop();
-      }
-
       this.changeDetector.markForCheck();
     }
   }
@@ -268,19 +266,16 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
   }
 
   private initializeDragAndDrop(): void {
+    /* Sanity check that we haven't already set up dragging abilities */
+    /* istanbul ignore else */
     if (!this.dragulaService.find(this.dragulaGroupName)) {
       this.dragulaService.setOptions(this.dragulaGroupName, {
         moves: (el: HTMLElement, container: HTMLElement, handle: HTMLElement) => {
           const target = el.querySelector('.sky-repeater-item-grab-handle');
-          return (target && target.contains(handle));
+          return (this.reorderable && target && target.contains(handle));
         }
       });
     }
-
-    // Reset the current dragula subscriptions.
-    this.dragulaUnsubscribe.next();
-    this.dragulaUnsubscribe.complete();
-    this.dragulaUnsubscribe = new Subject<void>();
 
     let draggedItemIndex: number;
 
@@ -319,6 +314,8 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
     this.dragulaUnsubscribe.complete();
     this.dragulaUnsubscribe = undefined;
 
+    /* Sanity check that we have set up dragging abilities */
+    /* istanbul ignore else */
     if (this.dragulaService.find(this.dragulaGroupName)) {
       this.dragulaService.destroy(this.dragulaGroupName);
     }
