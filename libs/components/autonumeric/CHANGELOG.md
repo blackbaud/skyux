@@ -1,3 +1,7 @@
+# 5.0.1 (2021-10-28)
+
+- Fixed an issue with `skyAutonumeric` where mouse interactions did not update values. [#62](https://github.com/blackbaud/skyux-autonumeric/pull/62)
+
 # 5.0.0 (2021-09-29)
 
 ### New features
