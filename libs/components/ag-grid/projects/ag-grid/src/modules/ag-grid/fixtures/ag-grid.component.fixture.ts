@@ -17,6 +17,7 @@ import {
 } from '../ag-grid.service';
 
 import {
+  SKY_AG_GRID_LOOKUP,
   SKY_AG_GRID_DATA
 } from './ag-grid-data.fixture';
 
@@ -93,6 +94,49 @@ export class SkyAgGridFixtureComponent implements OnInit {
             return !!value && value > dt;
           },
           validatorMessage: 'Please enter a future date'
+        }
+      }
+    },
+    {
+      colId: 'lookupSingle',
+      field: 'lookupSingle',
+      minWidth: 185,
+      maxWidth: 235,
+      editable: true,
+      type: SkyCellType.Lookup,
+      cellEditorParams: {
+        skyComponentProperties: {
+          data: SKY_AG_GRID_LOOKUP,
+          idProperty: 'id',
+          descriptorProperty: 'name',
+          selectMode: 'single'
+        }
+      },
+      cellRendererParams: {
+        skyComponentProperties: {
+          descriptorProperty: 'name'
+        }
+      }
+    },
+    {
+      colId: 'lookupMultiple',
+      field: 'lookupMultiple',
+      minWidth: 185,
+      maxWidth: 235,
+      editable: true,
+      type: SkyCellType.Lookup,
+      cellEditorParams: {
+        skyComponentProperties: {
+          data: SKY_AG_GRID_LOOKUP,
+          idProperty: 'id',
+          descriptorProperty: 'name',
+          selectMode: 'multiple',
+          enableShowMore: true
+        }
+      },
+      cellRendererParams: {
+        skyComponentProperties: {
+          descriptorProperty: 'name'
         }
       }
     }

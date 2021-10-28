@@ -4,6 +4,7 @@ export enum SkyCellClass {
   Date = 'sky-ag-grid-cell-date',
   Editable = 'sky-ag-grid-cell-editable',
   Invalid = 'sky-ag-grid-cell-invalid',
+  Lookup = 'sky-ag-grid-cell-lookup',
   Number = 'sky-ag-grid-cell-number',
   RowSelector = 'sky-ag-grid-cell-row-selector',
   Text = 'sky-ag-grid-cell-text',

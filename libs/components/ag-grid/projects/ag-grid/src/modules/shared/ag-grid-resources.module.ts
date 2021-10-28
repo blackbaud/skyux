@@ -16,7 +16,7 @@ import {
 } from '@skyux/i18n';
 
 const RESOURCES: { [locale: string]: SkyLibResources } = {
-  'EN-US': {"sky_ag_grid_row_selector_aria_label":{"message":"Row selector for row {0}"},"sky_ag_grid_cell_editor_number_aria_label":{"message":"Editable number {0} for row {1}"},"sky_ag_grid_cell_editor_text_aria_label":{"message":"Editable text {0} for row {1}"},"sky_ag_grid_cell_editor_autocomplete_aria_label":{"message":"Editable autocomplete {0} for row {1}"},"sky_ag_grid_cell_renderer_currency_aria_label":{"message":"Editable currency {0} for row {1}"},"sky_ag_grid_cell_renderer_number_validator_message":{"message":"Please enter a valid number"},"sky_ag_grid_cell_renderer_currency_validator_message":{"message":"Please enter a valid currency"}},
+  'EN-US': {"sky_ag_grid_row_selector_aria_label":{"message":"Row selector for row {0}"},"sky_ag_grid_cell_editor_number_aria_label":{"message":"Editable number {0} for row {1}"},"sky_ag_grid_cell_editor_text_aria_label":{"message":"Editable text {0} for row {1}"},"sky_ag_grid_cell_editor_autocomplete_aria_label":{"message":"Editable autocomplete {0} for row {1}"},"sky_ag_grid_cell_renderer_currency_aria_label":{"message":"Editable currency {0} for row {1}"},"sky_ag_grid_cell_renderer_number_validator_message":{"message":"Please enter a valid number"},"sky_ag_grid_cell_renderer_currency_validator_message":{"message":"Please enter a valid currency"},"skyux_lookup_tokens_summary":{"message":"{0} items selected"}},
 };
 
 export class AgGridResourcesProvider implements SkyLibResourcesProvider {

@@ -26,5 +26,9 @@
   "sky_ag_grid_cell_renderer_currency_validator_message": {
     "_description": "popover error for the currency validator",
     "message": "Please enter a valid currency"
+  },
+  "skyux_lookup_tokens_summary": {
+    "_description": "Text displayed when the user has more than the maximum items selected",
+    "message": "{0} items selected"
   }
 }

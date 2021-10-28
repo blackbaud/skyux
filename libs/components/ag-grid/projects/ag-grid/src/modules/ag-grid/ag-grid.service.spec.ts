@@ -6,6 +6,7 @@ import {
   CellClassParams,
   ColumnApi,
   GridOptions,
+  ValueFormatterFunc,
   ValueFormatterParams
 } from 'ag-grid-community';
 
@@ -425,6 +426,37 @@ describe('SkyAgGridService', () => {
 
     it('should return -1 when value2 is defined and value1 is undefined', () => {
       expect(autocompleteComparator(undefined, dog)).toEqual(-1);
+    });
+  });
+
+  describe('lookup value formatter', () => {
+    let lookupValueFormatter: ValueFormatterFunc;
+    const baseParameters = {
+      api: undefined,
+      colDef: undefined,
+      column: undefined,
+      columnApi: undefined,
+      context: undefined,
+      data: undefined,
+      node: undefined,
+      value: undefined
+    };
+
+    beforeEach(() => {
+      lookupValueFormatter = defaultGridOptions.columnTypes[SkyCellType.Lookup].valueFormatter as ValueFormatterFunc;
+    });
+
+    it('should format an empty value', () => {
+      expect(lookupValueFormatter({...baseParameters})).toBe('');
+    });
+
+    it('should format a single value', () => {
+      expect(lookupValueFormatter({
+        ...baseParameters,
+        value: [
+          { name: 'expected'}
+        ]
+      })).toBe('expected');
     });
   });
 

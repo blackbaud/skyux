@@ -172,7 +172,7 @@ ag-grid-angular.sky-ag-grid-editable {
     }
 
     .ag-cell-focus.ag-cell-inline-editing,
-    .ag-cell-focus.ag-cell-popup-editing {
+    .ag-cell-focus.ag-cell-popup-editing:not(.sky-ag-grid-cell-lookup) {
       height: ag-param(row-height) - 1;
       @include sky-field-status(active)
     }
@@ -464,8 +464,12 @@ ag-grid-angular.sky-ag-grid-editable {
   .ag-row {
     .ag-cell-focus {
       &.ag-cell-inline-editing,
-      &.ag-cell-popup-editing {
+      &.ag-cell-popup-editing:not(.sky-ag-grid-cell-lookup) {
         border: 2px solid $sky-theme-modern-mode-dark-text-color-action-primary;
+      }
+
+      &.ag-cell-popup-editing.sky-ag-grid-cell-lookup {
+        color: transparent;
       }
     }
   }

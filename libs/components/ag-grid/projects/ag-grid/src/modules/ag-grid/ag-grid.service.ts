@@ -42,6 +42,10 @@ import {
 } from './cell-editors/cell-editor-datepicker/cell-editor-datepicker.component';
 
 import {
+  SkyAgGridCellEditorLookupComponent
+} from './cell-editors/cell-editor-lookup/cell-editor-lookup.component';
+
+import {
   SkyAgGridCellEditorNumberComponent
 } from './cell-editors/cell-editor-number/cell-editor-number.component';
 
@@ -52,6 +56,10 @@ import {
 import {
   SkyAgGridCellRendererCurrencyValidatorComponent
 } from './cell-renderers/cell-renderer-currency/cell-renderer-currency-validator.component';
+
+import {
+  SkyAgGridCellRendererLookupComponent
+} from './cell-renderers/cell-renderer-lookup/cell-renderer-lookup.component';
 
 import {
   SkyAgGridCellRendererRowSelectorComponent
@@ -72,6 +80,7 @@ import {
 import {
   SkyHeaderClass
 } from './types/header-class';
+import { applySkyLookupPropertiesDefaults } from './types/lookup-properties';
 
 import {
   SkyGetGridOptionsArgs
@@ -292,6 +301,24 @@ export class SkyAgGridService implements OnDestroy {
           comparator: dateComparator,
           minWidth: this.currentTheme?.theme?.name === 'modern' ? 180 : 160,
           valueFormatter: (params: ValueFormatterParams) => this.dateFormatter(params, args.locale)
+        },
+        [SkyCellType.Lookup]: {
+          cellClassRules: {
+            [SkyCellClass.Lookup]: cellClassRuleTrueExpression,
+            ...editableCellClassRules
+          },
+          cellEditorFramework: SkyAgGridCellEditorLookupComponent,
+          cellRendererFramework: SkyAgGridCellRendererLookupComponent,
+          valueFormatter: (params) => {
+            const lookupProperties = applySkyLookupPropertiesDefaults(params);
+            return (params.value || [])
+              .map((value) => {
+                return value[lookupProperties.descriptorProperty];
+              })
+              .filter((value) => value !== '' && value !== undefined)
+              .join('; ')
+          },
+          minWidth: 185
         },
         [SkyCellType.Number]: {
           cellClassRules: {

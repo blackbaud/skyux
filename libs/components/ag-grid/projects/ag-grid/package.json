@@ -2,8 +2,8 @@
   "name": "@skyux/ag-grid",
   "version": "5.0.2",
   "peerDependencies": {
-    "@angular/common": "^12.2.10",
-    "@angular/core": "^12.2.10",
+    "@angular/common": "^12.2.11",
+    "@angular/core": "^12.2.11",
     "ag-grid-angular": "^26.0.0",
     "ag-grid-community": "^26.0.0",
     "@skyux/autonumeric": "^5.0.0",

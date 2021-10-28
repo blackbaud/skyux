@@ -9,7 +9,16 @@ export class SkyAgGridRow {
   public validNumber?: number;
   public validCurrency?: string;
   public validDate?: Date;
+  public lookupSingle?: { id: string, name: string }[];
+  public lookupMultiple?: { id: string, name: string }[];
 }
+
+export const SKY_AG_GRID_LOOKUP = Array.from(Array(50).keys()).map((i) => {
+  return {
+    id: `record_${i + 1}`,
+    name: `Record ${i + 1}`
+  };
+});
 
 export const SKY_AG_GRID_DATA: SkyAgGridRow[] = [
   {
@@ -50,7 +59,19 @@ export const SKY_AG_GRID_DATA: SkyAgGridRow[] = [
     target: 8,
     selected: true
   }
-];
+].map((row: SkyAgGridRow, i) => {
+  row.lookupSingle = SKY_AG_GRID_LOOKUP.filter((value) => {
+    return `record_${(i * 3) + 1}` === value.id;
+  });
+  row.lookupMultiple = SKY_AG_GRID_LOOKUP.filter((value) => {
+    return [
+      `record_${(i * 3) + 2}`,
+      `record_${(i * 3) + 3}`,
+      `record_${(i * 3) + 4}`
+    ].includes(value.id);
+  });
+  return row;
+});
 
 export const SKY_AG_GRID_LONG_DATA: SkyAgGridRow[] = [
   {
@@ -94,4 +115,16 @@ export const SKY_AG_GRID_LONG_DATA: SkyAgGridRow[] = [
     target: 7,
     selected: false
   }
-];
+].map((row: SkyAgGridRow, i) => {
+  row.lookupSingle = SKY_AG_GRID_LOOKUP.filter((value) => {
+    return `record_${(i * 3) + 1}` === value.id;
+  });
+  row.lookupMultiple = SKY_AG_GRID_LOOKUP.filter((value) => {
+    return [
+      `record_${(i * 3) + 2}`,
+      `record_${(i * 3) + 3}`,
+      `record_${(i * 3) + 4}`
+    ].includes(value.id);
+  });
+  return row;
+});
