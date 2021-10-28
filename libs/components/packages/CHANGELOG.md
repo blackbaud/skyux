@@ -1,3 +1,7 @@
+# 5.15.0 (2021-10-28)
+
+- `@skyux/core@5.1.0` [Release notes](https://github.com/blackbaud/skyux-core/blob/5.1.0/CHANGELOG.md)
+
 # 5.14.0 (2021-10-26)
 
 - `@skyux/tabs@5.0.1` [Release notes](https://github.com/blackbaud/skyux-tabs/blob/5.0.1/CHANGELOG.md)
