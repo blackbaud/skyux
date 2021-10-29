@@ -1,3 +1,7 @@
+# 5.1.0 (2021-10-29)
+
+- Added the lookup cell type. [#157](https://github.com/blackbaud/skyux-ag-grid/pull/157)
+
 # 5.0.2 (2021-10-20)
 
 - Fixed an issue with `skyAgGridDataManagerAdapter` where the `viewId` input was marked private. [#158](https://github.com/blackbaud/skyux-ag-grid/pull/158)
