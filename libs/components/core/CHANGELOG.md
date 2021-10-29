@@ -1,3 +1,7 @@
+# 5.1.1 (2021-10-29)
+
+- Fixed the scrollable host service to properly handle a race condition where elements are removed from the DOM prior to the mutation observer subscription firing. [#266](https://github.com/blackbaud/skyux-core/pull/266)
+
 # 5.1.0 (2021-10-27)
 
 - Added the `SkyScrollableHostService` to be able to get and watch for an element's scrollable host. [#264](https://github.com/blackbaud/skyux-core/pull/264)
