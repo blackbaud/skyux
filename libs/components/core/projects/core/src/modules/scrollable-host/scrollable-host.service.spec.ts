@@ -36,6 +36,28 @@ describe('Scrollable host service', () => {
     expect(scrollableHostService.getScrollabeHost(cmp.target)).toBe(window);
   });
 
+  // Sanity check
+  it('should return the window if the element ref returns no native element', () => {
+    cmp.isParentScrollable = false;
+    fixture.detectChanges();
+
+    const scrollableHostService = TestBed.inject(SkyScrollableHostService);
+
+    expect(scrollableHostService.getScrollabeHost({ nativeElement: undefined })).toBe(window);
+  });
+
+  // Sanity check
+  it('should return the window if the element is not scrollable and the parent is not an element', () => {
+    cmp.isParentScrollable = false;
+    fixture.detectChanges();
+
+    const scrollableHostService = TestBed.inject(SkyScrollableHostService);
+    spyOnProperty(cmp.target.nativeElement, 'parentNode', 'get').and.returnValue(undefined);
+
+    expect(scrollableHostService.getScrollabeHost(cmp.target)).toBe(window);
+  });
+
+
   it('should return an observable with the initial value of the current scrollable parent', async () => {
     const completionObservable = new Subject<void>();
     const scrollableHostService = TestBed.inject(SkyScrollableHostService);

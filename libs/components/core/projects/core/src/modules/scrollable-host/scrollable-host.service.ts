@@ -40,16 +40,27 @@ export class SkyScrollableHostService {
     return behaviorSubject;
   }
 
-  private findScrollableHost(element: any): HTMLElement | Window {
+  private findScrollableHost(element: HTMLElement): HTMLElement | Window {
     const regex = /(auto|scroll)/;
     const windowObj = this.windowRef.nativeWindow;
     const bodyObj = windowObj.document.body;
 
+    /* Sanity check */
+    if (!element) {
+      return windowObj;
+    }
+
     let style = windowObj.getComputedStyle(element);
-    let parent = element;
+    let parent: HTMLElement = element;
 
     do {
-      parent = parent.parentNode;
+      parent = <HTMLElement> parent.parentNode;
+
+      /* Sanity check for if this function is called for an element which has been removed from the DOM */
+      if (!(parent instanceof HTMLElement)) {
+        return windowObj
+      }
+
       style = windowObj.getComputedStyle(parent);
     } while (
       !regex.test(style.overflow) &&
