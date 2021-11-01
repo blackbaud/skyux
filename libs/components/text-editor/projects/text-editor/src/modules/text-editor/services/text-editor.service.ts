@@ -41,6 +41,7 @@ export class SkyTextEditorService {
    * Removes editor from the `editors` index by id.
    */
   public removeEditor(id: string): void {
+    /* istanbul ignore else */
     if (id in this.editors) {
       delete this.editors[id];
     }

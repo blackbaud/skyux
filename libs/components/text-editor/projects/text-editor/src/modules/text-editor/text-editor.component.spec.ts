@@ -69,6 +69,7 @@ import {
   SkyTextEditorModule
 } from './text-editor.module';
 import { TextEditorReactiveFixtureComponent } from './fixtures/text-editor-reactive.component.fixture';
+import { SkyCoreAdapterService } from '@skyux/core';
 
 const isIE = window.navigator.userAgent.indexOf('rv:11.0') >= 0;
 
@@ -216,6 +217,24 @@ describe('Text editor', () => {
     elementToSelect.focus();
     const range = documentEl.createRange();
     range.selectNodeContents(elementToSelect);
+    const sel = windowEl.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+  }
+
+  function selectRangeInsideElement(selector = '', rangeStart: number, rangeEnd: number): void {
+    const iframe = fixture.nativeElement.querySelector('iframe');
+    const documentEl = iframe.contentDocument;
+    const windowEl = iframe.contentWindow;
+    const elementToSelect = !selector ? documentEl.body : documentEl.body.querySelector(selector);
+    elementToSelect.focus();
+    const range = documentEl.createRange();
+    range.setStart(elementToSelect.firstChild, rangeStart);
+    range.setEnd(elementToSelect.firstChild, rangeEnd);
     const sel = windowEl.getSelection();
     sel.removeAllRanges();
     sel.addRange(range);
@@ -399,6 +418,24 @@ describe('Text editor', () => {
       expect(placeholder).toBe(expectedPlaceholder2);
     });
 
+    it('should handle undefined placeholder', () => {
+      const expectedPlaceholder = 'Please enter some text';
+      fixture.componentInstance.placeholder = expectedPlaceholder;
+      fixture.detectChanges();
+
+      let iframe: HTMLIFrameElement = fixture.nativeElement.querySelector('iframe');
+      let placeholder = iframe.contentDocument.body.getAttribute('data-placeholder');
+      expect(placeholder).toBe(expectedPlaceholder);
+
+
+      fixture.componentInstance.placeholder = undefined;
+      fixture.detectChanges();
+
+      iframe = fixture.nativeElement.querySelector('iframe');
+      placeholder = iframe.contentDocument.body.getAttribute('data-placeholder');
+      expect(placeholder).toBe('');
+    });
+
     it('Shows correct font size list', fakeAsync(() => {
       fixture.componentInstance.fontSizeList = [
         3,
@@ -453,6 +490,34 @@ describe('Text editor', () => {
       expect(document.activeElement).toBe(iframe);
       expect(iframe.contentDocument.activeElement).toBe(iframe.contentDocument.body);
     }); */
+
+    it('should revert a single <br> tag to an empty string', fakeAsync(() => {
+      fixture.componentInstance.value = 'foobar';
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      expect(fixture.componentInstance.value).toEqual('foobar');
+
+      fixture.componentInstance.value = '<br>';
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      expect(fixture.componentInstance.value).toEqual('');
+    }));
+
+    it('should revert a single empty <p> tag to an empty string', fakeAsync(() => {
+      fixture.componentInstance.value = 'foobar';
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      expect(fixture.componentInstance.value).toEqual('foobar');
+
+      fixture.componentInstance.value = '<p></p>';
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      expect(fixture.componentInstance.value).toEqual('');
+    }));
 
     it('should close dropdowns when editor is clicked', fakeAsync(() => {
       fixture.detectChanges();
@@ -614,6 +679,37 @@ describe('Text editor', () => {
       fixture.detectChanges();
 
       iframeDocumentEl.body.focus();
+      iframeDocumentEl.execCommand = (command: string, _: boolean, value: any) => {
+        execCommandCalled = true;
+        expect(command).toBe(expectedCommand);
+        expect(value).toBe(expectedValue);
+      };
+
+      openDropdown('.sky-text-editor-toolbar-action-font-size');
+      const items = getDropdownItems();
+      items[1].querySelector('button').click();
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      expect(execCommandCalled).toBeTruthy();
+    }));
+
+    it('should set font size when selecting inner text content of element', fakeAsync(() => {
+      fixture.componentInstance.value = '<p>Click here</p>';
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      selectRangeInsideElement('p', 2, 4);
+
+      const expectedCommand = 'fontSize';
+      const expectedValue = 1;
+      let execCommandCalled = false;
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
       iframeDocumentEl.execCommand = (command: string, _: boolean, value: any) => {
         execCommandCalled = true;
         expect(command).toBe(expectedCommand);
@@ -821,7 +917,7 @@ describe('Text editor', () => {
       tick();
       fixture.detectChanges();
 
-      selectContent();
+      selectContent('p');
 
       clickLinkButton();
 
@@ -934,7 +1030,7 @@ describe('Text editor', () => {
     }));
 
     it('should be able to update an existing link', fakeAsync(() => {
-      fixture.componentInstance.value = '<a href="https://google.com">Click here</p>';
+      fixture.componentInstance.value = '<a href="https://google.com" target="_blank">Click here</p>';
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -957,7 +1053,7 @@ describe('Text editor', () => {
       fixture.detectChanges();
 
       expect(document.querySelector('.sky-modal')).toBeFalsy();
-      expect(fixture.componentInstance.value).toContain('<a href="https://uncyclopedia.org">');
+      expect(fixture.componentInstance.value).toContain('href="https://uncyclopedia.org"');
     }));
 
     it('should load in selected link data', fakeAsync(() => {
@@ -990,6 +1086,33 @@ describe('Text editor', () => {
 
     it('should load in selected email link data', fakeAsync(() => {
       fixture.componentInstance.value = '<a href="mailto:nero.claudius@pharoah-emperors.gov?Subject=Padoru%20Padoru">Click here</a>';
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      selectContent('a');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      clickLinkButton();
+
+      const inputs: NodeListOf<HTMLInputElement> = document.querySelectorAll('.sky-modal input');
+      expect(document.querySelector('.sky-modal')).toBeTruthy();
+      expect(inputs[1].value).toBe('nero.claudius@pharoah-emperors.gov');
+      expect(inputs[2].value).toBe('Padoru Padoru');
+
+      const cancelButton = document.querySelector('.sky-modal-footer-container .sky-btn-link');
+      SkyAppTestUtility.fireDomEvent(cancelButton, 'click');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      expect(document.querySelector('.sky-modal')).toBeFalsy();
+    }));
+
+    it('should load in selected email link data with case-sensitive "subject"', fakeAsync(() => {
+      fixture.componentInstance.value = '<a href="mailto:nero.claudius@pharoah-emperors.gov?subject=Padoru%20Padoru">Click here</a>';
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -1099,6 +1222,42 @@ describe('Text editor', () => {
       fixture.detectChanges();
       await fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should update tabIndex for focusable elements inside the iframe when text editor is disabled and enabled', async () => {
+      await fixture.whenStable();
+      fixture.detectChanges();
+      testComponent.value = '<a href="#">focusable hyperlink</a><div tabindex="0">focusable div</div><button type="button">focusable button</button>';
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      const coreAdapterService = TestBed.inject(SkyCoreAdapterService);
+      const iframe = fixture.nativeElement.querySelector('iframe');
+      const focusableElements = coreAdapterService.getFocusableChildren(iframe.contentDocument.body, {
+        ignoreVisibility: true
+      });
+
+      testComponent.disabled = true;
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      focusableElements.forEach(element => {
+        expect(element.getAttribute('tabIndex')).toEqual('-1');
+      })
+
+      testComponent.disabled = false;
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      focusableElements.forEach(element => {
+        expect(element.getAttribute('tabIndex')).toEqual('0');
+      })
     });
 
     it('should enable and disable AfterViewInit using a template-driven form', async () => {

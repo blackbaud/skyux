@@ -242,6 +242,7 @@ export class SkyTextEditorMenubarComponent implements OnDestroy, OnInit {
 
   private clearFormat(): void {
     let currentSelection = this.adapterService.getCurrentSelection(this.editorId);
+    /* istanbul ignore else */
     if (currentSelection.rangeCount > 0 && currentSelection.getRangeAt(0).toString().length <= 0) {
       this.execCommand('selectAll');
     }

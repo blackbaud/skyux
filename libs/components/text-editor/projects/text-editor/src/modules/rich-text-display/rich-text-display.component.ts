@@ -24,6 +24,7 @@ export class SkyRichTextDisplayComponent {
   @Input()
   public set richText(value: string) {
     const cleaned = this.sanitizationService.sanitize(value);
+    /* istanbul ignore else */
     if (cleaned !== this._richText) {
       this._richText = cleaned;
 

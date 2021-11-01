@@ -30,7 +30,7 @@ import {
  * @internal
  */
 @Component({
-  selector: 'text-editor-test',
+  selector: 'sky-text-editor-test',
   templateUrl: './text-editor.component.fixture.html'
 })
 export class TextEditorFixtureComponent {

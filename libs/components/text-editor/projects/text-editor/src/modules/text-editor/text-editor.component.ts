@@ -124,10 +124,21 @@ export class SkyTextEditorComponent implements AfterViewInit, ControlValueAccess
     const coercedValue = SkyFormsUtility.coerceBooleanProperty(value);
     if (coercedValue !== this.disabled) {
       this._disabled = coercedValue;
+
+      // Update focusableChildren inside the iframe.
+      let focusableChildren: HTMLElement[];
+      /* istanbul ignore else */
+      if (this.iframeRef) {
+        focusableChildren = this.coreAdapterService.getFocusableChildren(this.iframeRef.nativeElement.contentDocument.body, {
+          ignoreVisibility: true,
+          ignoreTabIndex: true
+        });
+      }
+
       if (this._disabled) {
-        this.adapterService.disableEditor(this.id, this.focusableChildren, this.iframeRef.nativeElement);
+        this.adapterService.disableEditor(this.id, focusableChildren, this.iframeRef.nativeElement);
       } else {
-        this.adapterService.enableEditor(this.id, this.focusableChildren, this.iframeRef.nativeElement);
+        this.adapterService.enableEditor(this.id, focusableChildren, this.iframeRef.nativeElement);
       }
       this.changeDetector.markForCheck();
     }
@@ -168,6 +179,7 @@ export class SkyTextEditorComponent implements AfterViewInit, ControlValueAccess
   @Input()
   public set initialStyleState(state: SkyTextEditorStyleState) {
     // Do not update the state after initialization has taken place
+    /* istanbul ignore else */
     if (!this.initialized) {
       this._initialStyleState = {
         ...STYLE_STATE_DEFAULTS,
@@ -198,6 +210,7 @@ export class SkyTextEditorComponent implements AfterViewInit, ControlValueAccess
    */
   @Input()
   public set placeholder(value: string) {
+    /* istanbul ignore else */
     if (value !== this._placeholder) {
       this._placeholder = value;
       if (this.initialized) {
@@ -222,7 +235,7 @@ export class SkyTextEditorComponent implements AfterViewInit, ControlValueAccess
   public set value(value: string) {
     // Set clear state to be an empty string
     let valueString: string = value;
-    if (!value || (value.trim() === '<p></p>' && value.trim() === '<br>')) {
+    if (!value || value.trim() === '<p></p>' || value.trim() === '<br>') {
       valueString = '';
     }
     valueString = this.sanitizationService.sanitize(valueString).trim();
@@ -243,8 +256,6 @@ export class SkyTextEditorComponent implements AfterViewInit, ControlValueAccess
   public get value(): string {
     return this._value;
   }
-
-  private focusableChildren: HTMLElement[];
 
   private focusInitialized: boolean = false;
 
@@ -367,10 +378,6 @@ export class SkyTextEditorComponent implements AfterViewInit, ControlValueAccess
     if (this.autofocus) {
       this.adapterService.focusEditor(this.id);
     }
-
-    this.focusableChildren = this.coreAdapterService.getFocusableChildren(this.iframeRef.nativeElement, {
-      ignoreVisibility: true
-    });
 
     this.initialized = true;
   }

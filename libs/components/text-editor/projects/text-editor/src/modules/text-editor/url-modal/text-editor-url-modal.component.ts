@@ -84,6 +84,7 @@ export class SkyTextEditorUrlModalComponent {
         let queryStringIndex = this.emailAddress.indexOf(queryStringParamKey);
         queryStringIndex = queryStringIndex > -1 ? queryStringIndex : this.emailAddress.indexOf(queryStringParamKey.toLowerCase());
 
+        /* istanbul ignore else */
         if (queryStringIndex > -1) {
           this.subject = decodeURI(this.emailAddress).slice(queryStringIndex + queryStringParamKey.length);
           this.emailAddress = this.emailAddress.slice(0, queryStringIndex);
@@ -106,6 +107,7 @@ export class SkyTextEditorUrlModalComponent {
   }
 
   public save(): void {
+    /* istanbul ignore else */
     if (this.isValid()) {
       if (this.activeTab === 0) {
         this.modalInstance.save({
