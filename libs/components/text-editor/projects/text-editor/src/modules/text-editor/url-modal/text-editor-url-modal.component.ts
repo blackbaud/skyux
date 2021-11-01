@@ -29,7 +29,7 @@ const queryStringParamKey = '?Subject=';
  * @internal
  */
 @Component({
-  selector: 'skyux-text-editor-url-modal',
+  selector: 'sky-text-editor-url-modal',
   templateUrl: './text-editor-url-modal.component.html',
   styleUrls: ['./text-editor-url-modal.component.scss']
 })
