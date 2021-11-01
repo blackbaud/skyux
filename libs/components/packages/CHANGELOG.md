@@ -1,3 +1,7 @@
+# 5.21.0 (2021-11-01)
+
+- `@skyux/data-manager@5.0.1` [Release notes](https://github.com/blackbaud/skyux-data-manager/blob/5.0.1/CHANGELOG.md)
+
 # 5.20.0 (2021-10-29)
 
 - `@skyux/core@5.1.1` [Release notes](https://github.com/blackbaud/skyux-core/blob/5.1.1/CHANGELOG.md)
