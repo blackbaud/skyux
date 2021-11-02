@@ -37,7 +37,7 @@ import {
  * Creates and manages `SkyDateRangeCalculator` instances.
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'any'
 })
 export class SkyDateRangeService {
 
