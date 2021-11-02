@@ -1,3 +1,7 @@
+# 5.23.0 (2021-11-02)
+
+- `@skyux/datetime@5.0.1` [Release notes](https://github.com/blackbaud/skyux-datetime/blob/5.0.1/CHANGELOG.md)
+
 # 5.22.0 (2021-11-01)
 
 - `@skyux/text-editor@5.0.1` [Release notes](https://github.com/blackbaud/skyux-text-editor/blob/5.0.1/CHANGELOG.md)
