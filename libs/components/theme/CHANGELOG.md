@@ -1,3 +1,7 @@
+# 5.0.3 (2021-11-08)
+
+- Fixed deprecation warnings which appeared when consumers used any public mixins or variables. [#277](https://github.com/blackbaud/skyux-theme/pull/277)
+
 # 5.0.2 (2021-10-19)
 
 - Fixed an issue where components with the `skyThemeIf` directive rendered incorrectly after the current theme changed. [#275](https://github.com/blackbaud/skyux-theme/pull/275)
