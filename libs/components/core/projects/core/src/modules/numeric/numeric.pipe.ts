@@ -1,7 +1,8 @@
 import {
   Pipe,
   PipeTransform,
-  OnDestroy
+  OnDestroy,
+  ChangeDetectorRef
 } from '@angular/core';
 
 import {
@@ -35,20 +36,30 @@ import {
  * ```
  */
 @Pipe({
-  name: 'skyNumeric'
+  name: 'skyNumeric',
+  pure: false
 })
 export class SkyNumericPipe implements PipeTransform, OnDestroy {
+
+  private cacheKey: string;
+  private formattedValue: string;
+  private lastTransformLocale: string;
+  private rawValue: number;
+  private providerLocale: string;
 
   private ngUnsubscribe = new Subject<void>();
 
   constructor(
     private localeProvider: SkyAppLocaleProvider,
-    private readonly numericService: SkyNumericService
+    private readonly numericService: SkyNumericService,
+    private changeDetector: ChangeDetectorRef
   ) {
     this.localeProvider.getLocaleInfo()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((localeInfo) => {
-        numericService.currentLocale = localeInfo.locale;
+        this.providerLocale = localeInfo.locale;
+        numericService.currentLocale = this.providerLocale;
+        this.changeDetector.markForCheck();
       });
   }
 
@@ -58,6 +69,15 @@ export class SkyNumericPipe implements PipeTransform, OnDestroy {
   }
 
   public transform(value: number, config?: NumericOptions): string {
+
+    let newCacheKey = (config ? JSON.stringify(config, Object.keys(config).sort()) : '') + `${value}_${config?.locale || this.providerLocale}`;
+
+    /* If the value and locale are the same as the last transform then return the previous value
+    instead of reformatting. */
+    if (this.formattedValue && this.cacheKey === newCacheKey) {
+      return this.formattedValue;
+    }
+
     const options = new NumericOptions();
 
     // The default number of digits is `1`. When truncate is disabled, set digits
@@ -67,7 +87,7 @@ export class SkyNumericPipe implements PipeTransform, OnDestroy {
       config.truncate === false &&
       config.digits === undefined
     ) {
-      config.digits = 0;
+      options.digits = 0;
     }
 
     // If the minimum digits is less than the set maximum digits then throw an error
@@ -87,11 +107,17 @@ export class SkyNumericPipe implements PipeTransform, OnDestroy {
       config.minDigits &&
       !config.digits
     ) {
-      config.digits = config.minDigits;
+      options.digits = config.minDigits;
     }
 
     Object.assign(options, config);
 
-    return this.numericService.formatNumber(value, options);
+    // Assign properties for proper result caching.
+    this.rawValue = value;
+    this.lastTransformLocale = config?.locale ?? this.providerLocale;
+    this.cacheKey = newCacheKey;
+
+    this.formattedValue = this.numericService.formatNumber(value, options);
+    return this.formattedValue;
   }
 }

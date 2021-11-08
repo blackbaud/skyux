@@ -8,15 +8,19 @@ import {
 } from '@skyux/i18n';
 
 import {
+  BehaviorSubject,
   of
 } from 'rxjs';
+
+let providedLocale: string = 'es';
+let providedLocaleBehaviorSubject = new BehaviorSubject({
+  locale: providedLocale
+});
 
 @Injectable()
 class MockLocaleProvider extends SkyAppLocaleProvider {
   public getLocaleInfo() {
-    return of({
-      locale: 'es'
-    });
+    return providedLocaleBehaviorSubject;
   }
 }
 
@@ -31,4 +35,10 @@ export class NumericPipeFixtureComponent {
 
   public locale: string;
 
+  public updateLocaleProviderLocale(newLocale: string): void {
+    providedLocale = newLocale;
+    providedLocaleBehaviorSubject.next({
+      locale: providedLocale
+    });
+  }
 }

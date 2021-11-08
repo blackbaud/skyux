@@ -2,6 +2,7 @@ import {
   TestBed,
   ComponentFixture
 } from '@angular/core/testing';
+import { SkyAppLocaleProvider } from '@skyux/i18n';
 
 import {
   NumericPipeFixtureComponent
@@ -25,10 +26,15 @@ import {
 
 describe('Numeric pipe', () => {
   let pipe: any;
+  let changeDetector: any;
   let numericService: any;
   let expectedConfig: NumericOptions;
 
   beforeEach(() => {
+    changeDetector = {
+      markForCheck: jasmine.createSpy('markForCheck')
+    };
+
     expectedConfig = new NumericOptions();
     expectedConfig.digits = 1;
     expectedConfig.format = 'number';
@@ -43,8 +49,8 @@ describe('Numeric pipe', () => {
       ]
     });
 
-    numericService = TestBed.get(SkyNumericService);
-    pipe = TestBed.get(SkyNumericPipe);
+    numericService = TestBed.inject(SkyNumericService);
+    pipe = new SkyNumericPipe(TestBed.inject(SkyAppLocaleProvider), numericService, changeDetector);
   });
 
   it('should pass default configuration to service', () => {
@@ -124,5 +130,136 @@ describe('Numeric pipe', () => {
       // Expect russian default format of ### ### ###,## [SYMBOL].
       expect(actual).toEqual('1 234 567,89 $');
     });
+  });
+
+  describe('caching', () => {
+
+    it('should cache the result when calling `transform` twice with no value change', () => {
+      const options: any = {
+        minDigits: 3,
+        locale: 'en-US'
+      };
+      const spy = spyOn(numericService, 'formatNumber').and.callThrough();
+      pipe.transform(42.87549);
+      expect(spy).toHaveBeenCalledTimes(1);
+
+      pipe.transform(42.87549);
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should cache the result when calling `transform` twice with no options changes', () => {
+      const options: any = {
+        minDigits: 3,
+        locale: 'en-US'
+      };
+      const spy = spyOn(numericService, 'formatNumber').and.callThrough();
+      expect(pipe.transform(42.87549, options)).toBe('42.875');
+      expect(spy).toHaveBeenCalledTimes(1);
+
+      pipe.transform(42.87549, options);
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not cache the result when calling `transform` twice with a value change', () => {
+      const options: any = {
+        minDigits: 3,
+        locale: 'en-US'
+      };
+      const spy = spyOn(numericService, 'formatNumber').and.callThrough();
+      pipe.transform(42.87550);
+      expect(spy).toHaveBeenCalledTimes(1);
+
+      pipe.transform(42.87549);
+      expect(spy).toHaveBeenCalledTimes(2);
+    });
+
+    it('should not cache the result when calling `transform` with options changes', () => {
+      let options: NumericOptions = {
+        digits: 4,
+        format: 'number',
+        currencySign: 'standard',
+        iso: 'USD',
+        locale: 'en-US',
+        minDigits: 3,
+        truncate: false,
+        truncateAfter: 0
+      };
+      const spy = spyOn(numericService, 'formatNumber').and.callThrough();
+      pipe.transform(42.87549, options);
+      expect(spy).toHaveBeenCalledTimes(1);
+
+      pipe.transform(42.87549, options);
+      expect(spy).toHaveBeenCalledTimes(1);
+
+      options.digits = 5;
+      pipe.transform(42.87549, options);
+      expect(spy).toHaveBeenCalledTimes(2);
+
+      pipe.transform(42.87549, options);
+      expect(spy).toHaveBeenCalledTimes(2);
+
+      options.format = 'currency';
+      pipe.transform(42.87549, options);
+      expect(spy).toHaveBeenCalledTimes(3);
+
+      pipe.transform(42.87549, options);
+      expect(spy).toHaveBeenCalledTimes(3);
+
+      options.currencySign = 'accounting';
+      pipe.transform(42.87549, options);
+      expect(spy).toHaveBeenCalledTimes(4);
+
+      pipe.transform(42.87549, options);
+      expect(spy).toHaveBeenCalledTimes(4);
+
+      options.iso = 'GBP';
+      pipe.transform(42.87549, options);
+      expect(spy).toHaveBeenCalledTimes(5);
+
+      pipe.transform(42.87549, options);
+      expect(spy).toHaveBeenCalledTimes(5);
+
+      options.locale = 'en-GB';
+      pipe.transform(42.87549, options);
+      expect(spy).toHaveBeenCalledTimes(6);
+
+      pipe.transform(42.87549, options);
+      expect(spy).toHaveBeenCalledTimes(6);
+
+      options.minDigits = 5;
+      pipe.transform(42.87549, options);
+      expect(spy).toHaveBeenCalledTimes(7);
+
+      pipe.transform(42.87549, options);
+      expect(spy).toHaveBeenCalledTimes(7);
+
+      options.truncate = true;
+      pipe.transform(42.87549, options);
+      expect(spy).toHaveBeenCalledTimes(8);
+
+      pipe.transform(42.87549, options);
+      expect(spy).toHaveBeenCalledTimes(8);
+
+      options.truncateAfter = 2;
+      pipe.transform(42.87549, options);
+      expect(spy).toHaveBeenCalledTimes(9);
+
+      pipe.transform(42.87549, options);
+      expect(spy).toHaveBeenCalledTimes(9);
+    });
+
+    it('should not cache the result when calling `transform` twice with a provided locale change', () => {
+      let fixture = TestBed.createComponent(NumericPipeFixtureComponent);
+      let component = fixture.componentInstance;
+      const spy = spyOn(numericService, 'formatNumber').and.callThrough();
+      fixture.detectChanges();
+      expect(spy).toHaveBeenCalledTimes(1);
+
+      component.updateLocaleProviderLocale('en-US');
+      fixture.detectChanges();
+
+      expect(spy).toHaveBeenCalledTimes(2);
+    });
+
   });
 });
