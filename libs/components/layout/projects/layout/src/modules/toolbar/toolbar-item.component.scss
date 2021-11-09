@@ -18,7 +18,7 @@
       padding-left: $sky-theme-modern-space-sm;
       padding-right: $sky-theme-modern-space-sm;
 
-      &.sky-btn-default {
+      &.sky-btn-default:not(:disabled) {
         background-color: transparent;
         border: none;
 
