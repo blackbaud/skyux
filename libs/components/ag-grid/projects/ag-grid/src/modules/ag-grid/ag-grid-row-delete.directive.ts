@@ -243,7 +243,10 @@ export class SkyAgGridRowDeleteDirective implements AfterContentInit, OnDestroy 
   }
 
   private affixToRow(affixer: SkyAffixer, id: string) {
-    let rowElement: HTMLElement = this.elementRef.nativeElement.querySelector('[row-id="' + id + '"] div[aria-colindex="1"]');
+    let rowElement: HTMLElement = this.elementRef.nativeElement.querySelector(`
+      [row-id="${id}"] div[aria-colindex="1"],
+      .ag-row.sky-ag-grid-row-${id} div[aria-colindex="1"]
+    `);
 
     // This covers cases where AG Grid places the column index on an inner element (such as with the `enableCellTextSelection` option)
     // This appears to have been fixed by AG Grid in version 24 and so it is not testable after that version.
