@@ -6,11 +6,27 @@ import {
  * @internal
  */
 export interface EditorSetting {
-  clickObservable: Subject<unknown>;
-  commandChangeObservable: Subject<unknown>;
-  iframeElementRef: HTMLIFrameElement;
-  selectionChangeObservable: Subject<unknown>;
+
+  blurListener: () => void;
+
+  blurObservable: Subject<unknown>;
+
   clickListener: () => void;
-  selectionListener: () => void;
+
+  clickObservable: Subject<unknown>;
+
+  commandChangeObservable: Subject<unknown>;
+
+  iframeElementRef: HTMLIFrameElement;
+
+  inputListener: () => void;
+
+  inputObservable: Subject<unknown>;
+
   pasteListener: (e: ClipboardEvent) => void;
+
+  selectionChangeObservable: Subject<unknown>;
+
+  selectionListener: () => void;
+
 }

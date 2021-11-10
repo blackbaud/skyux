@@ -1,9 +1,9 @@
+/* eslint-disable @angular-eslint/component-class-suffix */
 import {
   CommonModule
 } from '@angular/common';
 
 import {
-  async,
   ComponentFixture,
   fakeAsync,
   TestBed,
@@ -11,7 +11,9 @@ import {
 } from '@angular/core/testing';
 
 import {
+  FormControl,
   FormsModule,
+  NgModel,
   ReactiveFormsModule
 } from '@angular/forms';
 
@@ -26,14 +28,6 @@ import {
 import {
   SkyModalService
 } from '@skyux/modals';
-
-import {
-  SkyDropdownModule
-} from '@skyux/popovers';
-
-import {
-  SkyThemeService
-} from '@skyux/theme';
 
 import {
   expectAsync,
@@ -54,32 +48,70 @@ import {
 } from './services/text-editor-adapter.service';
 
 import {
-  SkyTextEditorService
-} from './services/text-editor.service';
-
-import {
-  SkyTextEditorSelectionService
-} from './services/text-editor-selection.service';
-
-import {
   SkyTextEditorStyleState
 } from './types/style-state';
 
 import {
   SkyTextEditorModule
 } from './text-editor.module';
-import { TextEditorReactiveFixtureComponent } from './fixtures/text-editor-reactive.component.fixture';
 import { SkyCoreAdapterService } from '@skyux/core';
+import { Component, DebugElement, Type } from '@angular/core';
+import { SkyTextEditorComponent } from './text-editor.component';
 
-const isIE = window.navigator.userAgent.indexOf('rv:11.0') >= 0;
+const HELLO_WORLD: string = '<p>Hello world</p>';
 
 describe('Text editor', () => {
   let fixture: ComponentFixture<any>;
-  let iframeDocumentEl: any;
+  let iframeElement: HTMLIFrameElement;
+  let iframeDocument: any;
+  let textEditorComponent: SkyTextEditorComponent;
+  let textEditorDebugElement: DebugElement;
+  let textEditorNativeElement: HTMLElement;
 
-  //#region helpers
-  function getIframeDocument(): any {
-    return fixture.nativeElement.querySelector('iframe').contentDocument;
+  /** The body element inside the iframe with the contenteditable attribute. */
+  let editableElement: HTMLElement;
+
+  //#region test classes
+  @Component({
+    template: `<sky-text-editor [required]="isRequired" [(ngModel)]="value"></sky-text-editor>`,
+  })
+  class TextEditorWithNgModel {
+    public value: string;
+    public isRequired: boolean = true;
+  }
+
+  @Component({
+    template: `<sky-text-editor [formControl]="formControl"></sky-text-editor>`,
+  })
+  class TextEditorWithFormControl {
+    public formControl = new FormControl();
+  }
+  //#endregion
+
+  //#region helper functions
+  function createComponent<T>(componentType: Type<T>): ComponentFixture<T> {
+    TestBed.configureTestingModule({
+      imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        SkyTextEditorModule,
+        RouterTestingModule
+      ],
+      declarations: [
+        componentType
+      ]
+    }).compileComponents();
+
+    return TestBed.createComponent<T>(componentType);
+  }
+
+  function getIframeElement(): HTMLIFrameElement {
+    return fixture.nativeElement.querySelector('iframe');
+  }
+
+  function getIframeDocument(): Document {
+    return getIframeElement().contentDocument;
   }
 
   function checkboxExecCommandTest(checkboxInputElement: HTMLElement, expectedCommand: string): void {
@@ -88,8 +120,8 @@ describe('Text editor', () => {
     tick();
     fixture.detectChanges();
 
-    iframeDocumentEl.body.focus();
-    iframeDocumentEl.execCommand = (command: string, _: boolean, value: string) => {
+    iframeDocument.body.focus();
+    iframeDocument.execCommand = (command: string, _: boolean, value: string) => {
       execCommandCalled = true;
       expect(command).toBe(expectedCommand);
     };
@@ -112,8 +144,8 @@ describe('Text editor', () => {
     tick();
     fixture.detectChanges();
 
-    iframeDocumentEl.body.focus();
-    iframeDocumentEl.execCommand = (command: string, _: boolean, value: string) => {
+    iframeDocument.body.focus();
+    iframeDocument.execCommand = (command: string, _: boolean, value: string) => {
       execCommandCalled = true;
       expect(command).toBe(expectedCommand);
       expect(value).toBe(expectedValue);
@@ -175,8 +207,8 @@ describe('Text editor', () => {
     tick();
     fixture.detectChanges();
 
-    iframeDocumentEl.body.focus();
-    iframeDocumentEl.execCommand = (command: string, _: boolean, value: string) => {
+    iframeDocument.body.focus();
+    iframeDocument.execCommand = (command: string, _: boolean, value: string) => {
       execCommandCalled = true;
       expect(value).toBe(expectedValue);
       commandsCalled.push(command);
@@ -325,51 +357,32 @@ describe('Text editor', () => {
   }
   //#endregion
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        RouterTestingModule,
-        SkyDropdownModule,
-        SkyTextEditorModule
-      ],
-      declarations: [
-        TextEditorFixtureComponent,
-        TextEditorReactiveFixtureComponent
-      ],
-      providers: [
-        SkyThemeService,
-        SkyTextEditorAdapterService,
-        SkyTextEditorService,
-        SkyTextEditorSelectionService
-      ]
-    });
-  }));
-
-  afterEach(() => {
-    fixture.detectChanges();
-    const modalService = TestBed.inject(SkyModalService);
-    modalService.dispose();
-  });
-
-  describe('standard setup', () => {
+  describe('basic behaviors', () => {
     let testComponent: TextEditorFixtureComponent;
+    let ngModel: NgModel;
 
     beforeEach(() => {
-      fixture = TestBed.createComponent(TextEditorFixtureComponent);
-      testComponent = <TextEditorFixtureComponent> fixture.componentInstance;
-      iframeDocumentEl = getIframeDocument();
+      fixture = createComponent(TextEditorFixtureComponent);
+      testComponent = fixture.componentInstance;
+      iframeDocument = getIframeDocument();
+      iframeElement = getIframeElement();
+      textEditorDebugElement = fixture.debugElement.query(By.directive(SkyTextEditorComponent))!;
+      ngModel = textEditorDebugElement.injector.get<NgModel>(NgModel);
+    });
+
+    afterEach(() => {
+      fixture.detectChanges();
+      const modalService = TestBed.inject(SkyModalService);
+      modalService.dispose();
     });
 
     it('Shows correct toolbar content', () => {
-      fixture.componentInstance.menus = [
+      testComponent.menus = [
         'edit',
         'merge-field',
         'format'
       ];
-      fixture.componentInstance.toolbarActions = [
+      testComponent.toolbarActions = [
         'alignment',
         'color',
         'font-family',
@@ -385,13 +398,13 @@ describe('Text editor', () => {
       const toolbarActions = fixture.nativeElement.querySelectorAll('.sky-text-editor-toolbar-action');
       expect(toolbarActions.length).toBe(9);
       for (let i = 0; i < toolbarActions.length; i++) {
-        toolbarActions[i].classList.contains(fixture.componentInstance.toolbarActions[i]);
+        toolbarActions[i].classList.contains(testComponent.toolbarActions[i]);
       }
 
       const menus = fixture.nativeElement.querySelectorAll('.sky-text-editor-menu');
       expect(menus.length).toBe(3);
       for (let i = 0; i < menus.length; i++) {
-        menus[i].classList.contains(fixture.componentInstance.menus[i]);
+        menus[i].classList.contains(testComponent.menus[i]);
       }
     });
 
@@ -402,42 +415,39 @@ describe('Text editor', () => {
 
     it('should apply the placeholder', () => {
       const expectedPlaceholder = 'Please enter some text';
-      fixture.componentInstance.placeholder = expectedPlaceholder;
+      testComponent.placeholder = expectedPlaceholder;
       fixture.detectChanges();
 
-      let iframe: HTMLIFrameElement = fixture.nativeElement.querySelector('iframe');
-      let placeholder = iframe.contentDocument.body.getAttribute('data-placeholder');
+      let placeholder = iframeDocument.body.getAttribute('data-placeholder');
       expect(placeholder).toBe(expectedPlaceholder);
 
       const expectedPlaceholder2 = 'Some other placeholder text';
-      fixture.componentInstance.placeholder = expectedPlaceholder2;
+      testComponent.placeholder = expectedPlaceholder2;
       fixture.detectChanges();
 
-      iframe = fixture.nativeElement.querySelector('iframe');
-      placeholder = iframe.contentDocument.body.getAttribute('data-placeholder');
+
+      placeholder = iframeDocument.body.getAttribute('data-placeholder');
       expect(placeholder).toBe(expectedPlaceholder2);
     });
 
     it('should handle undefined placeholder', () => {
       const expectedPlaceholder = 'Please enter some text';
-      fixture.componentInstance.placeholder = expectedPlaceholder;
+      testComponent.placeholder = expectedPlaceholder;
       fixture.detectChanges();
 
-      let iframe: HTMLIFrameElement = fixture.nativeElement.querySelector('iframe');
-      let placeholder = iframe.contentDocument.body.getAttribute('data-placeholder');
+      let placeholder = iframeDocument.body.getAttribute('data-placeholder');
       expect(placeholder).toBe(expectedPlaceholder);
 
 
-      fixture.componentInstance.placeholder = undefined;
+      testComponent.placeholder = undefined;
       fixture.detectChanges();
 
-      iframe = fixture.nativeElement.querySelector('iframe');
-      placeholder = iframe.contentDocument.body.getAttribute('data-placeholder');
+      placeholder = iframeDocument.body.getAttribute('data-placeholder');
       expect(placeholder).toBe('');
     });
 
     it('Shows correct font size list', fakeAsync(() => {
-      fixture.componentInstance.fontSizeList = [
+      testComponent.fontSizeList = [
         3,
         10,
         16,
@@ -450,12 +460,12 @@ describe('Text editor', () => {
       expect(items.length).toBe(4);
       for (let i = 0; i < items.length; i++) {
         expect(items[i].textContent.trim())
-          .toBe(fixture.componentInstance.fontSizeList[i].toString() + 'px');
+          .toBe(testComponent.fontSizeList[i].toString() + 'px');
       }
     }));
 
     it('Shows correct font list', fakeAsync(() => {
-      fixture.componentInstance.fontList = [
+      testComponent.fontList = [
         {
           name: 'Blackbaud Sans',
           value: '"Blackbaud Sans", Arial, sans-serif'
@@ -477,46 +487,32 @@ describe('Text editor', () => {
       expect(items.length).toBe(3);
       for (let i = 0; i < items.length; i++) {
         expect(items[i].textContent.trim())
-          .toBe(fixture.componentInstance.fontList[i].name);
+          .toBe(testComponent.fontList[i].name);
       }
     }));
 
-    // Autofocus does not work in Firefox and IE
-  /*   it('should respect autofocus', () => {
-      fixture.componentInstance.autofocus = true;
-      fixture.detectChanges();
-      const iframe = fixture.nativeElement.querySelector('iframe');
-
-      expect(document.activeElement).toBe(iframe);
-      expect(iframe.contentDocument.activeElement).toBe(iframe.contentDocument.body);
-    }); */
-
     it('should revert a single <br> tag to an empty string', fakeAsync(() => {
-      fixture.componentInstance.value = 'foobar';
+      testComponent.value = HELLO_WORLD;
       fixture.detectChanges();
       tick();
-      fixture.detectChanges();
-      expect(fixture.componentInstance.value).toEqual('foobar');
+      expect(ngModel.value).toEqual(HELLO_WORLD);
 
-      fixture.componentInstance.value = '<br>';
+      testComponent.value = '<br>';
       fixture.detectChanges();
       tick();
-      fixture.detectChanges();
-      expect(fixture.componentInstance.value).toEqual('');
+      expect(ngModel.value).toEqual('');
     }));
 
     it('should revert a single empty <p> tag to an empty string', fakeAsync(() => {
-      fixture.componentInstance.value = 'foobar';
+      testComponent.value = HELLO_WORLD;
       fixture.detectChanges();
       tick();
-      fixture.detectChanges();
-      expect(fixture.componentInstance.value).toEqual('foobar');
+      expect(ngModel.value).toEqual(HELLO_WORLD);
 
-      fixture.componentInstance.value = '<p></p>';
+      testComponent.value = '<p></p>';
       fixture.detectChanges();
       tick();
-      fixture.detectChanges();
-      expect(fixture.componentInstance.value).toEqual('');
+      expect(ngModel.value).toEqual('');
     }));
 
     it('should close dropdowns when editor is clicked', fakeAsync(() => {
@@ -527,8 +523,7 @@ describe('Text editor', () => {
       openDropdown('.sky-text-editor-menu-merge-field');
       expect(document.querySelector('.sky-dropdown-item')).toBeTruthy();
 
-      const iframe: HTMLIFrameElement = fixture.nativeElement.querySelector('iframe');
-      SkyAppTestUtility.fireDomEvent(iframe.contentDocument, 'mousedown');
+      SkyAppTestUtility.fireDomEvent(iframeDocument, 'mousedown');
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -556,65 +551,61 @@ describe('Text editor', () => {
       openDropdown('.sky-text-editor-menu-merge-field');
       const optionButtons = document.querySelectorAll('.sky-dropdown-item button');
       expect(optionButtons.length).toBe(3);
-      iframeDocumentEl.body.focus();
+      iframeDocument.body.focus();
       SkyAppTestUtility.fireDomEvent(optionButtons[0], 'click');
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
 
-      expect(fixture.componentInstance.value).toContain('data-fieldid="0"');
-      expect(fixture.componentInstance.value).toContain('data-fielddisplay="Best field"');
+      expect(testComponent.value).toContain('data-fieldid="0"');
+      expect(testComponent.value).toContain('data-fielddisplay="Best field"');
     }));
 
-    // IE11 has trouble with focus being set inside the iframe while clicking on dropdown buttons.
-    // This will be a moot problem in SKYUX 5.
-    if (!isIE) {
-      it('should use preview img for merge field commands if supplied', fakeAsync(() => {
-        // Setup in fixture
-        const imageUrl = 'https://unavailable.blackbaud.com/images/blackbaud.png';
-        fixture.componentInstance.mergeFields[0].previewImageUrl = imageUrl;
-        fixture.detectChanges();
-        tick();
-        fixture.detectChanges();
+    it('should use preview img for merge field commands if supplied', fakeAsync(() => {
+      // Setup in fixture
+      const imageUrl = 'https://unavailable.blackbaud.com/images/blackbaud.png';
+      testComponent.mergeFields[0].previewImageUrl = imageUrl;
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
 
-        openDropdown('.sky-text-editor-menu-merge-field');
-        expect(document.querySelector('.sky-dropdown-item')).toBeTruthy();
+      openDropdown('.sky-text-editor-menu-merge-field');
+      expect(document.querySelector('.sky-dropdown-item')).toBeTruthy();
 
-        iframeDocumentEl.body.focus();
-        const mergeFieldOption = document.querySelector('.sky-dropdown-item button');
-        SkyAppTestUtility.fireDomEvent(mergeFieldOption, 'click');
-        fixture.detectChanges();
-        tick();
-        fixture.detectChanges();
+      iframeDocument.body.focus();
+      const mergeFieldOption = document.querySelector('.sky-dropdown-item button');
+      SkyAppTestUtility.fireDomEvent(mergeFieldOption, 'click');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
 
-        expect(fixture.componentInstance.value).toContain('src="' + imageUrl + '"');
-      }));
+      expect(testComponent.value).toContain('src="' + imageUrl + '"');
+    }));
 
-      it('should truncate oversized labels of merge field commands', fakeAsync(() => {
-        // Setup in fixture
-        fixture.detectChanges();
-        tick();
-        fixture.detectChanges();
+    it('should truncate oversized labels of merge field commands', fakeAsync(() => {
+      // Setup in fixture
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
 
-        openDropdown('.sky-text-editor-menu-merge-field');
-        expect(document.querySelector('.sky-dropdown-item')).toBeTruthy();
+      openDropdown('.sky-text-editor-menu-merge-field');
+      expect(document.querySelector('.sky-dropdown-item')).toBeTruthy();
 
-        iframeDocumentEl.body.focus();
-        const mergeFieldOption = document.querySelectorAll('.sky-dropdown-item button')[2];
-        SkyAppTestUtility.fireDomEvent(mergeFieldOption, 'click');
-        fixture.detectChanges();
-        tick();
-        fixture.detectChanges();
-        tick();
-        fixture.detectChanges();
+      iframeDocument.body.focus();
+      const mergeFieldOption = document.querySelectorAll('.sky-dropdown-item button')[2];
+      SkyAppTestUtility.fireDomEvent(mergeFieldOption, 'click');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
 
-        expect(fixture.componentInstance.value).toContain('data-fieldid="2"');
-        expect(fixture.componentInstance.value).toContain('data-fielddisplay="A field that is really too long for its own good"');
-      }));
-    }
+      expect(testComponent.value).toContain('data-fieldid="2"');
+      expect(testComponent.value).toContain('data-fielddisplay="A field that is really too long for its own good"');
+    }));
 
     it('Toolbar values should update based on selection', fakeAsync(() => {
-      fixture.componentInstance.value =
+      testComponent.value =
       '<font style="font-size: 16px" face="Arial" color="#c14040">' +
         '<b>' +
           '<i>' +
@@ -630,8 +621,7 @@ describe('Text editor', () => {
 
       selectContent('u');
 
-      const iframe = fixture.nativeElement.querySelector('iframe');
-      SkyAppTestUtility.fireDomEvent(iframe.contentDocument, 'selectionchange');
+      SkyAppTestUtility.fireDomEvent(iframeDocument, 'selectionchange');
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -653,8 +643,8 @@ describe('Text editor', () => {
       tick();
       fixture.detectChanges();
 
-      iframeDocumentEl.body.focus();
-      iframeDocumentEl.execCommand = (command: string, _: boolean, value: string) => {
+      iframeDocument.body.focus();
+      iframeDocument.execCommand = (command: string, _: boolean, value: string) => {
         execCommandCalled = true;
         expect(command).toBe(expectedCommand);
         expect(value).toBe(expectedValue);
@@ -678,8 +668,8 @@ describe('Text editor', () => {
       tick();
       fixture.detectChanges();
 
-      iframeDocumentEl.body.focus();
-      iframeDocumentEl.execCommand = (command: string, _: boolean, value: any) => {
+      iframeDocument.body.focus();
+      iframeDocument.execCommand = (command: string, _: boolean, value: any) => {
         execCommandCalled = true;
         expect(command).toBe(expectedCommand);
         expect(value).toBe(expectedValue);
@@ -696,7 +686,7 @@ describe('Text editor', () => {
     }));
 
     it('should set font size when selecting inner text content of element', fakeAsync(() => {
-      fixture.componentInstance.value = '<p>Click here</p>';
+      testComponent.value = '<p>Click here</p>';
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -710,7 +700,7 @@ describe('Text editor', () => {
       tick();
       fixture.detectChanges();
 
-      iframeDocumentEl.execCommand = (command: string, _: boolean, value: any) => {
+      iframeDocument.execCommand = (command: string, _: boolean, value: any) => {
         execCommandCalled = true;
         expect(command).toBe(expectedCommand);
         expect(value).toBe(expectedValue);
@@ -727,7 +717,7 @@ describe('Text editor', () => {
     }));
 
     it('should not leave stale elements when setting font size', fakeAsync(() => {
-      fixture.componentInstance.value = '<font style="font-size: 26px;"><span>Super</span> styled text</font>';
+      testComponent.value = '<font style="font-size: 26px;"><span>Super</span> styled text</font>';
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -750,7 +740,7 @@ describe('Text editor', () => {
         '<font style="font-size: 14px;">Super</font><font style="font-size: 26px;"> styled text</font>', // Edge
         '<font style="font-size: 26px;"><font style="font-size: 14px;">Super</font> styled text</font>' // IE11
       ]).toContain(
-        fixture.componentInstance.value
+        testComponent.value
       );
     }));
 
@@ -762,8 +752,8 @@ describe('Text editor', () => {
       tick();
       fixture.detectChanges();
 
-      iframeDocumentEl.body.focus();
-      iframeDocumentEl.execCommand = (command: string, _: boolean, value: string) => {
+      iframeDocument.body.focus();
+      iframeDocument.execCommand = (command: string, _: boolean, value: string) => {
         execCommandCalled = true;
         expect(command).toBe(expectedCommand);
         expect(value).toBe(expectedValue);
@@ -790,8 +780,8 @@ describe('Text editor', () => {
       tick();
       fixture.detectChanges();
 
-      iframeDocumentEl.body.focus();
-      iframeDocumentEl.execCommand = (command: string, _: boolean, value: string) => {
+      iframeDocument.body.focus();
+      iframeDocument.execCommand = (command: string, _: boolean, value: string) => {
         execCommandCalled = true;
         expect(command).toBe(expectedCommand);
         expect(value).toBe(expectedValue);
@@ -883,7 +873,7 @@ describe('Text editor', () => {
     }));
 
     it('should create a link targetting the same window', fakeAsync(() => {
-      fixture.componentInstance.value = '<p>Click here</p>';
+      testComponent.value = '<p>Click here</p>';
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -908,11 +898,11 @@ describe('Text editor', () => {
       fixture.detectChanges();
 
       expect(document.querySelector('.sky-modal')).toBeFalsy();
-      expect(fixture.componentInstance.value).toContain('<a href="https://google.com">');
+      expect(testComponent.value).toContain('<a href="https://google.com">');
     }));
 
     it('should create a link targetting a new window', fakeAsync(() => {
-      fixture.componentInstance.value = '<p>Click here</p>';
+      testComponent.value = '<p>Click here</p>';
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -945,13 +935,13 @@ describe('Text editor', () => {
       fixture.detectChanges();
 
       expect(document.querySelector('.sky-modal')).toBeFalsy();
-      expect(fixture.componentInstance.value).toContain('href="https://google.com');
-      expect(fixture.componentInstance.value).toContain('rel="noopener noreferrer"');
-      expect(fixture.componentInstance.value).toContain('target="_blank"');
+      expect(testComponent.value).toContain('href="https://google.com');
+      expect(testComponent.value).toContain('rel="noopener noreferrer"');
+      expect(testComponent.value).toContain('target="_blank"');
     }));
 
     it('should create an email address link', fakeAsync(() => {
-      fixture.componentInstance.value = '<p>Click here</p>';
+      testComponent.value = '<p>Click here</p>';
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -983,11 +973,11 @@ describe('Text editor', () => {
       fixture.detectChanges();
 
       expect(document.querySelector('.sky-modal')).toBeFalsy();
-      expect(fixture.componentInstance.value).toContain('<a href="mailto:harima.kenji@schooldays.asia">');
+      expect(testComponent.value).toContain('<a href="mailto:harima.kenji@schooldays.asia">');
     }));
 
     it('should create an email address link with subject', fakeAsync(() => {
-      fixture.componentInstance.value = '<p>Click here</p>';
+      testComponent.value = '<p>Click here</p>';
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -1026,11 +1016,11 @@ describe('Text editor', () => {
       fixture.detectChanges();
 
       expect(document.querySelector('.sky-modal')).toBeFalsy();
-      expect(fixture.componentInstance.value).toContain('<a href="mailto:harima.kenji@schooldays.asia?Subject=none%20really">');
+      expect(testComponent.value).toContain('<a href="mailto:harima.kenji@schooldays.asia?Subject=none%20really">');
     }));
 
     it('should be able to update an existing link', fakeAsync(() => {
-      fixture.componentInstance.value = '<a href="https://google.com" target="_blank">Click here</p>';
+      testComponent.value = '<a href="https://google.com" target="_blank">Click here</p>';
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -1053,11 +1043,11 @@ describe('Text editor', () => {
       fixture.detectChanges();
 
       expect(document.querySelector('.sky-modal')).toBeFalsy();
-      expect(fixture.componentInstance.value).toContain('href="https://uncyclopedia.org"');
+      expect(testComponent.value).toContain('href="https://uncyclopedia.org"');
     }));
 
     it('should load in selected link data', fakeAsync(() => {
-      fixture.componentInstance.value = '<a href="https://google.com">Click here</a>';
+      testComponent.value = '<a href="https://google.com">Click here</a>';
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -1085,7 +1075,7 @@ describe('Text editor', () => {
     }));
 
     it('should load in selected email link data', fakeAsync(() => {
-      fixture.componentInstance.value = '<a href="mailto:nero.claudius@pharoah-emperors.gov?Subject=Padoru%20Padoru">Click here</a>';
+      testComponent.value = '<a href="mailto:nero.claudius@pharoah-emperors.gov?Subject=Padoru%20Padoru">Click here</a>';
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -1112,7 +1102,7 @@ describe('Text editor', () => {
     }));
 
     it('should load in selected email link data with case-sensitive "subject"', fakeAsync(() => {
-      fixture.componentInstance.value = '<a href="mailto:nero.claudius@pharoah-emperors.gov?subject=Padoru%20Padoru">Click here</a>';
+      testComponent.value = '<a href="mailto:nero.claudius@pharoah-emperors.gov?subject=Padoru%20Padoru">Click here</a>';
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -1139,7 +1129,7 @@ describe('Text editor', () => {
     }));
 
     it('should disable unlink button when non-link selection is made', fakeAsync(() => {
-      fixture.componentInstance.value = '<div><p>gary is awesome</p><a href="https://google.com">Click here</a></div>';
+      testComponent.value = '<div><p>gary is awesome</p><a href="https://google.com">Click here</a></div>';
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -1155,7 +1145,7 @@ describe('Text editor', () => {
     }));
 
     it('should unlink active link element', fakeAsync(() => {
-      fixture.componentInstance.value = '<a href="https://google.com">Click here</a>';
+      testComponent.value = '<a href="https://google.com">Click here</a>';
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -1175,7 +1165,7 @@ describe('Text editor', () => {
     it('should set the style of the iframe body to the default style if a style state is not provided', fakeAsync(() => {
       fixture.detectChanges();
 
-      let style: CSSStyleDeclaration = iframeDocumentEl.querySelector('body').style;
+      let style: CSSStyleDeclaration = iframeDocument.querySelector('body').style;
       expect(style.getPropertyValue('background-color')).toEqual('rgba(0, 0, 0, 0)');
       expect([
         'rgb(0, 0, 0)', // Normal
@@ -1193,7 +1183,7 @@ describe('Text editor', () => {
       const font: string = 'Times New Roman';
       const fontSize: number = 22;
 
-      fixture.componentInstance.initialStyleState = {
+      testComponent.initialStyleState = {
         backColor: backColor,
         fontColor: fontColor,
         font: font,
@@ -1201,7 +1191,7 @@ describe('Text editor', () => {
       } as SkyTextEditorStyleState;
       fixture.detectChanges();
 
-      let style: CSSStyleDeclaration = iframeDocumentEl.querySelector('body').style;
+      let style: CSSStyleDeclaration = iframeDocument.querySelector('body').style;
       expect(style.getPropertyValue('background-color')).toEqual('rgb(51, 51, 51)');
       expect([
         'rgb(238, 238, 238)', // Normal
@@ -1234,8 +1224,7 @@ describe('Text editor', () => {
       fixture.detectChanges();
 
       const coreAdapterService = TestBed.inject(SkyCoreAdapterService);
-      const iframe = fixture.nativeElement.querySelector('iframe');
-      const focusableElements = coreAdapterService.getFocusableChildren(iframe.contentDocument.body, {
+      const focusableElements = coreAdapterService.getFocusableChildren(iframeDocument.body, {
         ignoreVisibility: true
       });
 
@@ -1260,13 +1249,11 @@ describe('Text editor', () => {
       })
     });
 
-    it('should enable and disable AfterViewInit using a template-driven form', async () => {
+    it('should add CSS classes when disabled', async () => {
       await fixture.whenStable();
       fixture.detectChanges();
 
-      let outermostDiv = fixture.debugElement.query(By.css('div > sky-text-editor > div > iframe')).nativeElement;
-
-      expect(outermostDiv).not.toHaveCssClass('sky-text-editor-wrapper-disabled');
+      expect(iframeElement).not.toHaveCssClass('sky-text-editor-wrapper-disabled');
 
       testComponent.disabled = true;
 
@@ -1274,7 +1261,7 @@ describe('Text editor', () => {
       await fixture.whenStable();
       fixture.detectChanges();
 
-      expect(outermostDiv).toHaveCssClass('sky-text-editor-wrapper-disabled');
+      expect(iframeElement).toHaveCssClass('sky-text-editor-wrapper-disabled');
 
       testComponent.disabled = false;
 
@@ -1282,18 +1269,17 @@ describe('Text editor', () => {
       await fixture.whenStable();
       fixture.detectChanges();
 
-      expect(outermostDiv).not.toHaveCssClass('sky-text-editor-wrapper-disabled');
+      expect(iframeElement).not.toHaveCssClass('sky-text-editor-wrapper-disabled');
     });
 
     it('should reinitialize text editor when iframe is loaded', fakeAsync(() => {
-      fixture.componentInstance.value = '<p>FOO BAR</p>';
+      testComponent.value = '<p>FOO BAR</p>';
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
       const textEditorEl: HTMLElement = document.querySelector('#fixture-wrapper');
-      const iframe = textEditorEl.querySelector('iframe');
 
-      expect(iframe.contentDocument.body.innerHTML).toEqual('<p>FOO BAR</p>');
+      expect(iframeDocument.body.innerHTML).toEqual('<p>FOO BAR</p>');
 
       // Move text editor in DOM, which will destroy and reload the iframe.
       document.body.appendChild(textEditorEl);
@@ -1386,7 +1372,7 @@ describe('Text editor', () => {
       }));
 
       it('should execute select all and clear formatting when nothing is highlighted', fakeAsync(() => {
-        fixture.componentInstance.value = '<p>some kinda stuff</p>';
+        testComponent.value = '<p>some kinda stuff</p>';
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -1398,7 +1384,7 @@ describe('Text editor', () => {
         tick();
         fixture.detectChanges();
 
-        iframeDocumentEl.execCommand = (command: string, _: boolean, __: string) => {
+        iframeDocument.execCommand = (command: string, _: boolean, __: string) => {
           execCommandCalled = true;
           commandsCalled.push(command);
         };
@@ -1421,36 +1407,134 @@ describe('Text editor', () => {
     });
   });
 
-  describe('reactive configuration', () => {
-
-    let testReactiveComponent: TextEditorReactiveFixtureComponent;
+  describe('with ngModel', () => {
+    let ngModel: NgModel;
+    let testComponent: TextEditorWithNgModel;
 
     beforeEach(() => {
-      fixture = TestBed.createComponent(TextEditorReactiveFixtureComponent);
-      testReactiveComponent = <TextEditorReactiveFixtureComponent> fixture.componentInstance;
+      fixture = createComponent(TextEditorWithNgModel);
+      testComponent = fixture.componentInstance;
+      testComponent.isRequired = false;
+
+      textEditorDebugElement = fixture.debugElement.query(By.directive(SkyTextEditorComponent))!;
+      textEditorNativeElement = textEditorDebugElement.nativeElement;
+      editableElement = getIframeDocument().body;
+      ngModel = textEditorDebugElement.injector.get<NgModel>(NgModel);
+      iframeDocument = getIframeDocument();
     });
 
-    it('should enable and disable AfterViewInit using a reactive form', async () => {
-      await fixture.whenStable();
+    it('should be pristine, untouched, and valid initially', () => {
       fixture.detectChanges();
 
-      let outermostDiv = fixture.debugElement.query(By.css('form > sky-text-editor > div > iframe')).nativeElement;
+      expect(ngModel.valid).toBe(true);
+      expect(ngModel.pristine).toBe(true);
+      expect(ngModel.touched).toBe(false);
+    });
 
-      expect(outermostDiv).not.toHaveCssClass('sky-text-editor-wrapper-disabled');
-
-      testReactiveComponent.textEditorForm.controls['textEditorControl'].disable();
-
-      await fixture.whenStable();
+    it('should be pristine, untouched, and valid when initialized with a value', fakeAsync(() => {
+      testComponent.value = HELLO_WORLD;
+      fixture.detectChanges();
+      tick();
       fixture.detectChanges();
 
-      expect(outermostDiv).toHaveCssClass('sky-text-editor-wrapper-disabled');
+      expect(ngModel.valid).toBe(true);
+      expect(ngModel.pristine).toBe(true);
+      expect(ngModel.touched).toBe(false);
+    }));
 
-      testReactiveComponent.textEditorForm.controls['textEditorControl'].enable();
-
-      await fixture.whenStable();
+    it('should update text editor when model changes', fakeAsync(() => {
       fixture.detectChanges();
 
-      expect(outermostDiv).not.toHaveCssClass('sky-text-editor-wrapper-disabled');
+      expect(textEditorDebugElement.componentInstance.value).toEqual('');
+      expect(ngModel.value).toEqual('');
+
+      testComponent.value = HELLO_WORLD;
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      expect(textEditorDebugElement.componentInstance.value).toEqual(HELLO_WORLD);
+      expect(ngModel.value).toEqual(HELLO_WORLD);
+    }));
+
+    it('should mark text editor dirty after input event', () => {
+      fixture.detectChanges();
+
+      expect(textEditorNativeElement.classList).toContain('ng-pristine');
+
+      iframeDocument.body.innerHTML = '<p>Hello world</p>';
+      SkyAppTestUtility.fireDomEvent(iframeDocument, 'input');
+      fixture.detectChanges();
+
+      expect(textEditorNativeElement.classList).toContain('ng-dirty');
+    });
+
+    it('should mark input touched on blur', () => {
+      fixture.detectChanges();
+
+      expect(textEditorNativeElement.classList).toContain('ng-untouched');
+
+      SkyAppTestUtility.fireDomEvent(iframeDocument.body, 'focus');
+      fixture.detectChanges();
+
+      expect(textEditorNativeElement.classList).toContain('ng-untouched');
+
+      SkyAppTestUtility.fireDomEvent(iframeDocument.body, 'blur');
+      fixture.detectChanges();
+
+      expect(textEditorNativeElement.classList).toContain('ng-touched');
+    });
+
+    it('should validate with RequiredTrue validator', () => {
+      testComponent.isRequired = true;
+      fixture.detectChanges();
+
+      expect(ngModel.valid).toBe(false);
+
+      iframeDocument.body.innerHTML = HELLO_WORLD;
+      SkyAppTestUtility.fireDomEvent(iframeDocument, 'input');
+      fixture.detectChanges();
+
+      expect(ngModel.valid).toBe(true);
+
+      iframeDocument.body.innerHTML = "";
+      SkyAppTestUtility.fireDomEvent(iframeDocument, 'input');
+      fixture.detectChanges();
+
+      expect(ngModel.valid).toBe(false);
+    });
+  });
+
+  describe('with form control', () => {
+    let testComponent: TextEditorWithFormControl;
+
+    beforeEach(() => {
+      fixture = createComponent(TextEditorWithFormControl);
+      fixture.detectChanges();
+
+      testComponent = fixture.componentInstance;
+      editableElement = getIframeDocument().body;
+      textEditorDebugElement = fixture.debugElement.query(By.directive(SkyTextEditorComponent))!;
+      textEditorComponent = textEditorDebugElement.componentInstance;
+      iframeElement = getIframeElement();
+    });
+
+    it('should toggle the disabled state', () => {
+      expect(textEditorComponent.disabled).toBe(false);
+
+      testComponent.formControl.disable();
+      fixture.detectChanges();
+
+      expect(textEditorComponent.disabled).toBe(true);
+      expect(editableElement.getAttribute('contenteditable')).toEqual('false');
+      expect(iframeElement).toHaveCssClass('sky-text-editor-wrapper-disabled');
+
+      testComponent.formControl.enable();
+      fixture.detectChanges();
+
+      expect(textEditorComponent.disabled).toBe(false);
+      expect(editableElement.getAttribute('contenteditable')).toEqual('true');
+      expect(iframeElement).not.toHaveCssClass('sky-text-editor-wrapper-disabled');
     });
   });
 });
