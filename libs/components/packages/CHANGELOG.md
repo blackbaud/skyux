@@ -1,3 +1,7 @@
+# 5.26.0 (2021-11-10)
+
+- `@skyux/ag-grid@5.1.1` [Release notes](https://github.com/blackbaud/skyux-ag-grid/blob/5.1.1/CHANGELOG.md)
+
 # 5.25.0 (2021-11-10)
 
 - `@skyux/text-editor@5.0.2` [Release notes](https://github.com/blackbaud/skyux-text-editor/blob/5.0.2/CHANGELOG.md)
