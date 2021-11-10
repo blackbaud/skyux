@@ -1,39 +1,18 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  SkyToolbarModule
-} from '@skyux/layout';
+import { SkyToolbarModule } from '@skyux/layout';
 
-import {
-  SkyRepeaterModule
-} from '@skyux/lists';
+import { SkyRepeaterModule } from '@skyux/lists';
 
-import {
-  SkySearchModule
-} from 'projects/lookup/src/public-api';
+import { SkySearchModule } from 'projects/lookup/src/public-api';
 
-import {
-  SearchDemoComponent
-} from './search-demo.component';
+import { SearchDemoComponent } from './search-demo.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SkyRepeaterModule,
-    SkySearchModule,
-    SkyToolbarModule
-  ],
-  declarations: [
-    SearchDemoComponent
-  ],
-  exports: [
-    SearchDemoComponent
-  ]
+  imports: [CommonModule, SkyRepeaterModule, SkySearchModule, SkyToolbarModule],
+  declarations: [SearchDemoComponent],
+  exports: [SearchDemoComponent],
 })
-export class SearchDemoModule { }
+export class SearchDemoModule {}

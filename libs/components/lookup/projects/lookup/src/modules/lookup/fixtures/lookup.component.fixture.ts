@@ -1,58 +1,36 @@
-import {
-  Component,
-  OnInit,
-  TemplateRef,
-  ViewChild
-} from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 
 import {
   FormBuilder,
   FormControl,
   FormGroup,
-  Validators
+  Validators,
 } from '@angular/forms';
 
-import {
-  SkyAutocompleteSearchFunction
-} from '../../autocomplete/types/autocomplete-search-function';
+import { SkyAutocompleteSearchFunction } from '../../autocomplete/types/autocomplete-search-function';
 
-import {
-  SkyLookupComponent
-} from '../lookup.component';
+import { SkyLookupComponent } from '../lookup.component';
 
-import {
-  SkyLookupAddCallbackArgs
-} from '../types/lookup-add-click-callback-args';
+import { SkyLookupAddCallbackArgs } from '../types/lookup-add-click-callback-args';
 
-import {
-  SkyLookupAddClickEventArgs
-} from '../types/lookup-add-click-event-args';
+import { SkyLookupAddClickEventArgs } from '../types/lookup-add-click-event-args';
 
-import {
-  SkyLookupSelectModeType
-} from '../types/lookup-select-mode-type';
+import { SkyLookupSelectModeType } from '../types/lookup-select-mode-type';
 
-import {
-  SkyLookupShowMoreConfig
-} from '../types/lookup-show-more-config';
+import { SkyLookupShowMoreConfig } from '../types/lookup-show-more-config';
 
-import {
-  SkyLookupShowMoreCustomPickerContext
-} from '../types/lookup-show-more-custom-picker-context';
+import { SkyLookupShowMoreCustomPickerContext } from '../types/lookup-show-more-custom-picker-context';
 
-import {
-  SkyLookupShowMoreNativePickerConfig
-} from '../types/lookup-show-more-native-picker-config';
+import { SkyLookupShowMoreNativePickerConfig } from '../types/lookup-show-more-native-picker-config';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './lookup.component.fixture.html'
+  templateUrl: './lookup.component.fixture.html',
 })
 export class SkyLookupTestComponent implements OnInit {
-
   @ViewChild(SkyLookupComponent, {
     read: SkyLookupComponent,
-    static: true
+    static: true,
   })
   public lookupComponent: SkyLookupComponent;
 
@@ -93,16 +71,14 @@ export class SkyLookupTestComponent implements OnInit {
 
   private _friends: any[];
 
-  constructor(
-    private formBuilder: FormBuilder
-  ) { }
+  constructor(private formBuilder: FormBuilder) {}
 
   public ngOnInit(): void {
     this.data = [
       {
         name: 'Andy',
         description: 'Mr. Andy',
-        birthDate: '1/1/1995'
+        birthDate: '1/1/1995',
       },
       { name: 'Beth' },
       { name: 'Dan' },
@@ -118,12 +94,12 @@ export class SkyLookupTestComponent implements OnInit {
       {
         name: 'Patty',
         description: 'Ms. Patty',
-        birthDate: '1/1/1996'
+        birthDate: '1/1/1996',
       },
       {
         name: 'Paul',
         description: 'Mr. Paul',
-        birthDate: '11/1997'
+        birthDate: '11/1997',
       },
       { name: 'Sally' },
       { name: 'Susan' },
@@ -131,18 +107,20 @@ export class SkyLookupTestComponent implements OnInit {
       { name: 'Vinny' },
       { name: 'Xavier' },
       { name: 'Yolanda' },
-      { name: 'Zack' }
+      { name: 'Zack' },
     ];
 
     this.createForm();
   }
 
-  public addButtonClicked(addButtonClickArgs: SkyLookupAddClickEventArgs): void {
+  public addButtonClicked(
+    addButtonClickArgs: SkyLookupAddClickEventArgs
+  ): void {
     const newItem = { name: 'New item' };
     const newItems = [newItem].concat(this.data);
     const callbackArgs: SkyLookupAddCallbackArgs = {
       item: newItem,
-      data: this.ignoreAddDataUpdate ? undefined : newItems
+      data: this.ignoreAddDataUpdate ? undefined : newItems,
     };
     addButtonClickArgs.itemAdded(callbackArgs);
   }
@@ -151,7 +129,7 @@ export class SkyLookupTestComponent implements OnInit {
     this.showMoreConfig.customPicker = {
       open: (context: SkyLookupShowMoreCustomPickerContext) => {
         return;
-      }
+      },
     };
   }
 
@@ -179,7 +157,9 @@ export class SkyLookupTestComponent implements OnInit {
     this.form.controls.friends.setValidators([Validators.required]);
   }
 
-  public setShowMoreNativePickerConfig(config: SkyLookupShowMoreNativePickerConfig): void {
+  public setShowMoreNativePickerConfig(
+    config: SkyLookupShowMoreNativePickerConfig
+  ): void {
     this.showMoreConfig.nativePickerConfig = config;
   }
 
@@ -197,7 +177,7 @@ export class SkyLookupTestComponent implements OnInit {
 
   private createForm(): void {
     this.form = this.formBuilder.group({
-      friends: new FormControl(this.friends)
+      friends: new FormControl(this.friends),
     });
   }
 }

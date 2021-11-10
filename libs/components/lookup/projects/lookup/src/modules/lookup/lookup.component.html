@@ -2,9 +2,7 @@
   <ng-container *ngTemplateOutlet="inputTemplateRef"></ng-container>
 </ng-container>
 
-<ng-template
-  #inputTemplateRef
->
+<ng-template #inputTemplateRef>
   <div
     class="sky-lookup"
     [ngClass]="{
@@ -33,7 +31,6 @@
       (selectionChange)="onAutocompleteSelectionChange($event)"
       (showMoreClick)="onShowMoreClick($event)"
     >
-
       <div class="sky-lookup-search-flex-wrapper">
         <div
           class="sky-lookup-search"
@@ -41,7 +38,8 @@
             'sky-field-status-active': isInputFocused && !disabled
           }"
         >
-          <sky-tokens *ngIf="selectMode === 'multiple'"
+          <sky-tokens
+            *ngIf="selectMode === 'multiple'"
             class="sky-lookup-tokens"
             [disabled]="disabled"
             [displayWith]="descriptorProperty"
@@ -69,7 +67,8 @@
               (keyup)="inputKeyup($event)"
             ></textarea>
           </sky-tokens>
-          <div *ngIf="selectMode === 'single'"
+          <div
+            *ngIf="selectMode === 'single'"
             class="sky-lookup-single-control"
           >
             <textarea
@@ -87,34 +86,35 @@
           </div>
         </div>
         <ng-container *ngIf="!inputBoxHostSvc && enableShowMore">
-          <ng-container *ngTemplateOutlet="showMoreButtonTemplateRef"></ng-container>
+          <ng-container
+            *ngTemplateOutlet="showMoreButtonTemplateRef"
+          ></ng-container>
         </ng-container>
         <ng-container *ngIf="!inputBoxHostSvc && !enableShowMore">
-          <ng-container *ngTemplateOutlet="searchIconTemplateRef"></ng-container>
+          <ng-container
+            *ngTemplateOutlet="searchIconTemplateRef"
+          ></ng-container>
         </ng-container>
       </div>
     </sky-autocomplete>
   </div>
 </ng-template>
 
-<ng-template
-  #showMoreButtonTemplateRef
->
-  <div
-    class="sky-input-group-btn"
-  >
+<ng-template #showMoreButtonTemplateRef>
+  <div class="sky-input-group-btn">
     <button
       class="sky-btn sky-btn-default"
       [disabled]="disabled"
-      [ngClass]="{'sky-btn-disabled': disabled}"
+      [ngClass]="{ 'sky-btn-disabled': disabled }"
       type="button"
-      [attr.aria-label]="'skyux_lookup_search_button_show_more' | skyLibResources"
+      [attr.aria-label]="
+        'skyux_lookup_search_button_show_more' | skyLibResources
+      "
       (click)="onSearchButtonClick()"
     >
-      <sky-icon *skyThemeIf="'default'"
-        icon="search"
-      ></sky-icon>
-      <sky-icon *skyThemeIf="'modern'"
+      <sky-icon *skyThemeIf="'default'" icon="search"></sky-icon>
+      <sky-icon
+        *skyThemeIf="'modern'"
         iconType="skyux"
         icon="search"
       ></sky-icon>
@@ -122,18 +122,18 @@
   </div>
 </ng-template>
 
-<ng-template
-  #searchIconTemplateRef
->
+<ng-template #searchIconTemplateRef>
   <div
     class="sky-input-group-icon sky-input-box-icon-inset"
-    [ngClass]="{'sky-lookup-disabled': disabled}"
+    [ngClass]="{ 'sky-lookup-disabled': disabled }"
   >
-    <sky-icon *skyThemeIf="'default'"
+    <sky-icon
+      *skyThemeIf="'default'"
       icon="search"
       [attr.aria-label]="'skyux_lookup_search_icon' | skyLibResources"
     ></sky-icon>
-    <sky-icon *skyThemeIf="'modern'"
+    <sky-icon
+      *skyThemeIf="'modern'"
       iconType="skyux"
       icon="search"
       [attr.aria-label]="'skyux_lookup_search_icon' | skyLibResources"

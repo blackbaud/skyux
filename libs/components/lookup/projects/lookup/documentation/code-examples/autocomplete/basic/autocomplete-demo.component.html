@@ -1,19 +1,9 @@
-<form
-  novalidate
-  [formGroup]="myForm"
->
-  <div
-    class="sky-form-group"
-  >
-    <label
-      class="sky-control-label"
-      [for]="favoriteColorInput.id"
-    >
+<form novalidate [formGroup]="myForm">
+  <div class="sky-form-group">
+    <label class="sky-control-label" [for]="favoriteColorInput.id">
       Favorite color
     </label>
-    <sky-autocomplete
-      [data]="colors"
-    >
+    <sky-autocomplete [data]="colors">
       <input
         formControlName="favoriteColor"
         id="my-autocomplete-reactive-basic"
@@ -21,13 +11,9 @@
         skyAutocomplete
         skyId
         #favoriteColorInput
-      >
+      />
     </sky-autocomplete>
   </div>
-  <p
-    class="sky-emphasized"
-  >
-    Form model:
-  </p>
+  <p class="sky-emphasized">Form model:</p>
   <pre>{{ myForm.value | json }}</pre>
 </form>

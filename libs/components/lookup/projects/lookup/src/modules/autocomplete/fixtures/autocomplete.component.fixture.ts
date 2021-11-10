@@ -1,41 +1,24 @@
-import {
-  Component,
-  TemplateRef,
-  ViewChild
-} from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 
-import {
-  NgForm
-} from '@angular/forms';
+import { NgForm } from '@angular/forms';
 
-import {
-  SkyAutocompleteSearchFunction
-} from '../types/autocomplete-search-function';
+import { SkyAutocompleteSearchFunction } from '../types/autocomplete-search-function';
 
-import {
-  SkyAutocompleteSearchFunctionFilter
-} from '../types/autocomplete-search-function-filter';
+import { SkyAutocompleteSearchFunctionFilter } from '../types/autocomplete-search-function-filter';
 
-import {
-  SkyAutocompleteSelectionChange
-} from '../types/autocomplete-selection-change';
+import { SkyAutocompleteSelectionChange } from '../types/autocomplete-selection-change';
 
-import {
-  SkyAutocompleteComponent
-} from '../autocomplete.component';
+import { SkyAutocompleteComponent } from '../autocomplete.component';
 
-import {
-  SkyAutocompleteInputDirective
-} from '../autocomplete-input.directive';
+import { SkyAutocompleteInputDirective } from '../autocomplete-input.directive';
 import { SkyAutocompleteMessage } from '../types/autocomplete-message';
 import { Subject } from 'rxjs';
 
 @Component({
   selector: 'sky-autocomplete-fixture',
-  templateUrl: './autocomplete.component.fixture.html'
+  templateUrl: './autocomplete.component.fixture.html',
 })
 export class SkyAutocompleteFixtureComponent {
-
   public autocompleteAttribute: string;
 
   public data: any[] = [
@@ -45,15 +28,15 @@ export class SkyAutocompleteFixtureComponent {
     { name: 'Orange', objectid: 'jkl' },
     { name: 'Pink', objectid: 'mno' },
     { name: 'Purple', objectid: 'pqr' },
-    { name: 'Yellow', objectid: 'stu'},
+    { name: 'Yellow', objectid: 'stu' },
     { name: 'Brown', objectid: 'vwx' },
     { name: 'Turquoise', objectid: 'yz0' },
     { name: 'White', objectid: '123' },
-    { name: 'Black', objectid: '456' }
+    { name: 'Black', objectid: '456' },
   ];
 
   public model: any = {
-    favoriteColor: undefined
+    favoriteColor: undefined,
   };
   public customNoResultsMessage: string;
   public debounceTime: number;
@@ -73,24 +56,24 @@ export class SkyAutocompleteFixtureComponent {
 
   @ViewChild(SkyAutocompleteComponent, {
     read: SkyAutocompleteComponent,
-    static: true
+    static: true,
   })
   public autocomplete: SkyAutocompleteComponent;
 
   @ViewChild(SkyAutocompleteInputDirective, {
-    read: SkyAutocompleteInputDirective
+    read: SkyAutocompleteInputDirective,
   })
   public autocompleteInput: SkyAutocompleteInputDirective;
 
   @ViewChild('myForm', {
     read: NgForm,
-    static: true
+    static: true,
   })
   public myForm: NgForm;
 
   @ViewChild('customSearchResultTemplate', {
     read: TemplateRef,
-    static: true
+    static: true,
   })
   public customSearchResultTemplate: TemplateRef<any>;
 

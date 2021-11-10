@@ -1,24 +1,16 @@
-import {
-  Component,
-  ViewChild
-} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
-import {
-  SkyCountryFieldComponent
-} from '../country-field.component';
+import { SkyCountryFieldComponent } from '../country-field.component';
 
-import {
-  SkyCountryFieldCountry
-} from '../types/country';
+import { SkyCountryFieldCountry } from '../types/country';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './country-field-no-form.component.fixture.html'
+  templateUrl: './country-field-no-form.component.fixture.html',
 })
 export class CountryFieldNoFormTestComponent {
-
   @ViewChild(SkyCountryFieldComponent, {
-    static: true
+    static: true,
   })
   public countryFieldComponent: SkyCountryFieldComponent;
 
@@ -33,5 +25,4 @@ export class CountryFieldNoFormTestComponent {
   public countryChanged(country: SkyCountryFieldCountry): void {
     return;
   }
-
 }

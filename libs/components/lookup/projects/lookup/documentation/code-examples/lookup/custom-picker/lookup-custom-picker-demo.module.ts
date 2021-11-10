@@ -1,39 +1,20 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  ReactiveFormsModule
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import {
-  SkyIdModule
-} from '@skyux/core';
+import { SkyIdModule } from '@skyux/core';
 
-import {
-  SkyCheckboxModule,
-  SkyInputBoxModule
-} from '@skyux/forms';
+import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
 
-import {
-  SkyLookupModule
-} from 'projects/lookup/src/public-api';
+import { SkyLookupModule } from 'projects/lookup/src/public-api';
 
-import {
-  SkyModalModule
-} from '@skyux/modals';
+import { SkyModalModule } from '@skyux/modals';
 
-import {
-  LookupCustomPickerDemoComponent
-} from './lookup-custom-picker-demo.component';
+import { LookupCustomPickerDemoComponent } from './lookup-custom-picker-demo.component';
 
-import {
-  LookupCustomPickerDemoModalComponent
-} from './lookup-custom-picker-demo-modal.component';
+import { LookupCustomPickerDemoModalComponent } from './lookup-custom-picker-demo-modal.component';
 
 @NgModule({
   imports: [
@@ -43,17 +24,13 @@ import {
     SkyIdModule,
     SkyInputBoxModule,
     SkyLookupModule,
-    SkyModalModule
+    SkyModalModule,
   ],
   declarations: [
     LookupCustomPickerDemoComponent,
-    LookupCustomPickerDemoModalComponent
+    LookupCustomPickerDemoModalComponent,
   ],
-  exports: [
-    LookupCustomPickerDemoComponent
-  ],
-  entryComponents: [
-    LookupCustomPickerDemoModalComponent
-  ]
+  exports: [LookupCustomPickerDemoComponent],
+  entryComponents: [LookupCustomPickerDemoModalComponent],
 })
-export class LookupCustomPickerDemoModule { }
+export class LookupCustomPickerDemoModule {}

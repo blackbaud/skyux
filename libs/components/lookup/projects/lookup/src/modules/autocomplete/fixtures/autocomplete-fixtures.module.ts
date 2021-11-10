@@ -1,42 +1,29 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  FormsModule,
-  ReactiveFormsModule
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import {
-  SkyAutocompleteModule
-} from '../autocomplete.module';
+import { SkyAutocompleteModule } from '../autocomplete.module';
 
-import {
-  SkyAutocompleteFixtureComponent
-} from './autocomplete.component.fixture';
+import { SkyAutocompleteFixtureComponent } from './autocomplete.component.fixture';
 
-import {
-  SkyAutocompleteReactiveFixtureComponent
-} from './autocomplete-reactive.component.fixture';
+import { SkyAutocompleteReactiveFixtureComponent } from './autocomplete-reactive.component.fixture';
 
 @NgModule({
   declarations: [
     SkyAutocompleteFixtureComponent,
-    SkyAutocompleteReactiveFixtureComponent
+    SkyAutocompleteReactiveFixtureComponent,
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    SkyAutocompleteModule
+    SkyAutocompleteModule,
   ],
   exports: [
     SkyAutocompleteFixtureComponent,
-    SkyAutocompleteReactiveFixtureComponent
-  ]
+    SkyAutocompleteReactiveFixtureComponent,
+  ],
 })
-export class SkyAutocompleteFixturesModule { }
+export class SkyAutocompleteFixturesModule {}

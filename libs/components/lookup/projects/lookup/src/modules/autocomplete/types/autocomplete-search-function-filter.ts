@@ -1,2 +1,4 @@
-export type SkyAutocompleteSearchFunctionFilter =
-  (searchText: string, item: any) => boolean;
+export type SkyAutocompleteSearchFunctionFilter = (
+  searchText: string,
+  item: any
+) => boolean;

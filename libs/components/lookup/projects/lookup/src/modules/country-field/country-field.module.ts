@@ -1,44 +1,23 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  FormsModule,
-  ReactiveFormsModule
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import {
-  SkyI18nModule
-} from '@skyux/i18n';
+import { SkyI18nModule } from '@skyux/i18n';
 
-import {
-  SkyIconModule
-} from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/indicators';
 
-import {
-  SkyThemeModule
-} from '@skyux/theme';
+import { SkyThemeModule } from '@skyux/theme';
 
-import {
-  SkyAutocompleteModule
-} from '../autocomplete/autocomplete.module';
+import { SkyAutocompleteModule } from '../autocomplete/autocomplete.module';
 
-import {
-  SkyLookupResourcesModule
-} from '../shared/sky-lookup-resources.module';
+import { SkyLookupResourcesModule } from '../shared/sky-lookup-resources.module';
 
-import {
-  SkyCountryFieldComponent
-} from './country-field.component';
+import { SkyCountryFieldComponent } from './country-field.component';
 
 @NgModule({
-  declarations: [
-    SkyCountryFieldComponent
-  ],
+  declarations: [SkyCountryFieldComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -47,10 +26,8 @@ import {
     SkyIconModule,
     SkyI18nModule,
     SkyLookupResourcesModule,
-    SkyThemeModule
+    SkyThemeModule,
   ],
-  exports: [
-    SkyCountryFieldComponent
-  ]
+  exports: [SkyCountryFieldComponent],
 })
-export class SkyCountryFieldModule { }
+export class SkyCountryFieldModule {}

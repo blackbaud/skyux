@@ -1,37 +1,23 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  OnInit
-} from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import {
   SkyAutocompleteSearchFunctionFilter,
   SkyLookupShowMoreConfig,
-  SkyLookupShowMoreCustomPickerContext
+  SkyLookupShowMoreCustomPickerContext,
 } from 'projects/lookup/src/public-api';
 
-import {
-  SkyModalCloseArgs,
-  SkyModalService
-} from '@skyux/modals';
+import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 
-import {
-  LookupCustomPickerDemoModalComponent
-} from './lookup-custom-picker-demo-modal.component';
+import { LookupCustomPickerDemoModalComponent } from './lookup-custom-picker-demo-modal.component';
 
 @Component({
   selector: 'app-lookup-demo',
   templateUrl: './lookup-custom-picker-demo.component.html',
-  styleUrls: ['./lookup-custom-picker-demo.component.scss']
+  styleUrls: ['./lookup-custom-picker-demo.component.scss'],
 })
 export class LookupCustomPickerDemoComponent implements OnInit {
-
   public showMoreConfig: SkyLookupShowMoreConfig;
 
   public myForm: FormGroup;
@@ -56,12 +42,10 @@ export class LookupCustomPickerDemoComponent implements OnInit {
     { name: 'Todd' },
     { name: 'Troy' },
     { name: 'Vaughn' },
-    { name: 'Vicki' }
+    { name: 'Vicki' },
   ];
 
-  public names: any[] = [
-    this.people[15]
-  ];
+  public names: any[] = [this.people[15]];
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -71,26 +55,30 @@ export class LookupCustomPickerDemoComponent implements OnInit {
     this.showMoreConfig = {
       customPicker: {
         open: (context: SkyLookupShowMoreCustomPickerContext) => {
-          const instance = this.modalService.open(LookupCustomPickerDemoModalComponent, {
-            providers: [
-              {
-                provide: SkyLookupShowMoreCustomPickerContext,
-                useValue: context
-              }
-            ]
-          });
+          const instance = this.modalService.open(
+            LookupCustomPickerDemoModalComponent,
+            {
+              providers: [
+                {
+                  provide: SkyLookupShowMoreCustomPickerContext,
+                  useValue: context,
+                },
+              ],
+            }
+          );
 
           instance.closed.subscribe((closeArgs: SkyModalCloseArgs) => {
             if (closeArgs.reason === 'save') {
               if (closeArgs.data) {
-                this.myForm
-                  .setValue({ 'names': [this.people[this.people.length - 1]] });
+                this.myForm.setValue({
+                  names: [this.people[this.people.length - 1]],
+                });
                 this.changeDetector.markForCheck();
               }
             }
           });
-        }
-      }
+        },
+      },
     };
   }
 
@@ -99,7 +87,7 @@ export class LookupCustomPickerDemoComponent implements OnInit {
 
     // If you need to execute some logic after the lookup values change,
     // subscribe to Angular's built-in value changes observable.
-    this.myForm.valueChanges.subscribe(changes => {
+    this.myForm.valueChanges.subscribe((changes) => {
       console.log('Lookup value changes:', changes);
     });
   }
@@ -109,9 +97,9 @@ export class LookupCustomPickerDemoComponent implements OnInit {
     const names: any[] = this.myForm.controls.names.value;
     return [
       (searchText: string, item: any): boolean => {
-        const found = names.find(option => option.name === item.name);
+        const found = names.find((option) => option.name === item.name);
         return !found;
-      }
+      },
     ];
   }
 
@@ -121,8 +109,7 @@ export class LookupCustomPickerDemoComponent implements OnInit {
 
   private createForm(): void {
     this.myForm = this.formBuilder.group({
-      names: new FormControl(this.names)
+      names: new FormControl(this.names),
     });
   }
-
 }

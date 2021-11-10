@@ -1,66 +1,48 @@
-import {
-  TestBed
-} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {
-  SkySearchTestingModule
-} from './search-testing.module';
+import { SkySearchTestingModule } from './search-testing.module';
 
-import {
-  SkySearchFixture
-} from './search-fixture';
+import { SkySearchFixture } from './search-fixture';
 
-import {
-  NoopAnimationsModule
-} from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 //#region Test component
 @Component({
   selector: 'search-test',
   template: `
-  <sky-search
-    [placeholderText]="placeholderText"
-    [searchText]="searchText"
-    (searchApply)="searchApplied($event)"
-    (searchClear)="searchCleared()"
-    data-sky-id="test-search"
-  >
-  </sky-search>
-  `
+    <sky-search
+      [placeholderText]="placeholderText"
+      [searchText]="searchText"
+      (searchApply)="searchApplied($event)"
+      (searchClear)="searchCleared()"
+      data-sky-id="test-search"
+    >
+    </sky-search>
+  `,
 })
 class TestComponent {
   public placeholderText = 'Search placeholder text';
 
   public searchText = 'Search test text';
 
-  public searchApplied(query: string) { }
+  public searchApplied(query: string) {}
 
-  public searchCleared() { }
+  public searchCleared() {}
 }
 //#endregion Test component
 
 describe('Search fixture', () => {
-
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TestComponent
-      ],
-      imports: [
-        NoopAnimationsModule,
-        SkySearchTestingModule
-      ]
+      declarations: [TestComponent],
+      imports: [NoopAnimationsModule, SkySearchTestingModule],
     });
   });
 
   it('should expose the expected properties', async () => {
-    const fixture = TestBed.createComponent(
-      TestComponent
-    );
+    const fixture = TestBed.createComponent(TestComponent);
 
     fixture.detectChanges();
 
@@ -72,9 +54,7 @@ describe('Search fixture', () => {
   });
 
   it('should provide a method to apply the search text', () => {
-    const fixture = TestBed.createComponent(
-      TestComponent
-    );
+    const fixture = TestBed.createComponent(TestComponent);
 
     fixture.detectChanges();
 
@@ -92,9 +72,7 @@ describe('Search fixture', () => {
   });
 
   it('should provide a method to clear the search text', () => {
-    const fixture = TestBed.createComponent(
-      TestComponent
-    );
+    const fixture = TestBed.createComponent(TestComponent);
 
     fixture.detectChanges();
 
@@ -114,8 +92,7 @@ describe('Search fixture', () => {
       search.clear();
     }).toThrowError(
       'There currently is no search text or the current search text has not been applied, ' +
-      'so the clear button is not visible.'
+        'so the clear button is not visible.'
     );
   });
-
 });

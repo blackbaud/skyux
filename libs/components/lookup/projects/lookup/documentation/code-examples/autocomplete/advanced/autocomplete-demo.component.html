@@ -1,11 +1,6 @@
-<form
-  novalidate
-  [formGroup]="myForm"
->
-  <div
-    class="sky-margin-stacked-default"
-  >
-    The following field:<br>
+<form novalidate [formGroup]="myForm">
+  <div class="sky-margin-stacked-default">
+    The following field:<br />
     <ul>
       <li>utilizes a custom search result template,</li>
       <li>searches against the name and description properties,</li>
@@ -15,14 +10,9 @@
     </ul>
   </div>
 
-  <div
-    class="sky-form-group"
-  >
-    <label
-      class="sky-control-label"
-      [for]="planetInput.id"
-    >
-     Farthest planet from the sun
+  <div class="sky-form-group">
+    <label class="sky-control-label" [for]="planetInput.id">
+      Farthest planet from the sun
     </label>
     <sky-autocomplete
       [data]="planets"
@@ -38,24 +28,17 @@
         skyId
         type="text"
         #planetInput
-      >
+      />
     </sky-autocomplete>
   </div>
-  <p
-    class="sky-emphasized"
-  >
-    Form model:
-  </p>
+  <p class="sky-emphasized">Form model:</p>
   <pre>{{ myForm.value | json }}</pre>
 </form>
 
-<ng-template
-  let-item="item"
-  #planetSearchResultTemplate
->
+<ng-template let-item="item" #planetSearchResultTemplate>
   <strong>
     {{ item.name }}
   </strong>
-  <br>
+  <br />
   {{ item.description }}
 </ng-template>

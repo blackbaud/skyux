@@ -1,5 +1,5 @@
-@import "~@skyux/theme/scss/mixins";
-@import "~@skyux/theme/scss/_compat/mixins";
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
 
 .sky-lookup {
   .sky-lookup-input.sky-form-control {
@@ -97,7 +97,6 @@ sky-input-box .sky-lookup {
 }
 
 @include sky-theme-modern {
-
   sky-tokens.sky-lookup-tokens {
     .sky-tokens {
       margin-top: -6px;

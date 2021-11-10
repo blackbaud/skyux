@@ -1,25 +1,15 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
-import {
-  SkyAutocompleteSearchFunctionFilter
-} from 'projects/lookup/src/public-api';
+import { SkyAutocompleteSearchFunctionFilter } from 'projects/lookup/src/public-api';
 
 @Component({
   selector: 'app-lookup-demo',
   templateUrl: './lookup-multiple-demo.component.html',
-  styleUrls: ['./lookup-multiple-demo.component.scss']
+  styleUrls: ['./lookup-multiple-demo.component.scss'],
 })
 export class LookupMultipleSelectDemoComponent implements OnInit {
-
   public myForm: FormGroup;
 
   public people: any[] = [
@@ -42,23 +32,19 @@ export class LookupMultipleSelectDemoComponent implements OnInit {
     { name: 'Todd' },
     { name: 'Troy' },
     { name: 'Vaughn' },
-    { name: 'Vicki' }
+    { name: 'Vicki' },
   ];
 
-  public names: any[] = [
-    this.people[15]
-  ];
+  public names: any[] = [this.people[15]];
 
-  constructor(
-    private formBuilder: FormBuilder
-  ) { }
+  constructor(private formBuilder: FormBuilder) {}
 
   public ngOnInit(): void {
     this.createForm();
 
     // If you need to execute some logic after the lookup values change,
     // subscribe to Angular's built-in value changes observable.
-    this.myForm.valueChanges.subscribe(changes => {
+    this.myForm.valueChanges.subscribe((changes) => {
       console.log('Lookup value changes:', changes);
     });
   }
@@ -68,9 +54,9 @@ export class LookupMultipleSelectDemoComponent implements OnInit {
     const names: any[] = this.myForm.controls.names.value;
     return [
       (searchText: string, item: any): boolean => {
-        const found = names.find(option => option.name === item.name);
+        const found = names.find((option) => option.name === item.name);
         return !found;
-      }
+      },
     ];
   }
 
@@ -80,8 +66,7 @@ export class LookupMultipleSelectDemoComponent implements OnInit {
 
   private createForm(): void {
     this.myForm = this.formBuilder.group({
-      names: new FormControl(this.names)
+      names: new FormControl(this.names),
     });
   }
-
 }

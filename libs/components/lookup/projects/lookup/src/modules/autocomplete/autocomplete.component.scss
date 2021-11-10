@@ -1,6 +1,6 @@
-@import "~@skyux/theme/scss/mixins";
-@import "~@skyux/theme/scss/variables";
-@import "~@skyux/theme/scss/_compat/mixins";
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/variables';
+@import '~@skyux/theme/scss/_compat/mixins';
 
 .sky-autocomplete-results-container {
   position: fixed;
@@ -15,8 +15,8 @@
   overflow-x: hidden;
   min-height: 35px;
   max-height: -webkit-calc(50vh - 50px);
-  max-height:    -moz-calc(50vh - 50px);
-  max-height:         calc(50vh - 50px);
+  max-height: -moz-calc(50vh - 50px);
+  max-height: calc(50vh - 50px);
 }
 
 .sky-autocomplete-result {
@@ -73,7 +73,8 @@
 
   .sky-autocomplete-result {
     margin-bottom: 0;
-    padding: $sky-theme-modern-space-sm 0 $sky-theme-modern-space-sm $sky-theme-modern-space-md;
+    padding: $sky-theme-modern-space-sm 0 $sky-theme-modern-space-sm
+      $sky-theme-modern-space-md;
   }
 
   .sky-autocomplete-descendant-focus:not(.sky-autocomplete-action) {

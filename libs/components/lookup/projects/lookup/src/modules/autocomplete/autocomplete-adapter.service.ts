@@ -2,13 +2,10 @@ import {
   ElementRef,
   Injectable,
   Renderer2,
-  RendererFactory2
+  RendererFactory2,
 } from '@angular/core';
 
-import {
-  SkyCoreAdapterService,
-  SkyOverlayInstance
-} from '@skyux/core';
+import { SkyCoreAdapterService, SkyOverlayInstance } from '@skyux/core';
 
 import '../../polyfills';
 
@@ -37,7 +34,9 @@ export class SkyAutocompleteAdapterService {
     }
   }
 
-  public getOverlayFocusableElements(overlay: SkyOverlayInstance): HTMLElement[] {
+  public getOverlayFocusableElements(
+    overlay: SkyOverlayInstance
+  ): HTMLElement[] {
     return this.coreAdapterService.getFocusableChildren(
       /* Sanity check - calling function also has null check */
       /* istanbul ignore next */

@@ -1,18 +1,10 @@
 <sky-modal>
-  <sky-modal-header>
-    Custom picker
-  </sky-modal-header>
+  <sky-modal-header> Custom picker </sky-modal-header>
   <sky-modal-content>
     This is a custom picker!
-    <form
-      [formGroup]="myForm"
-    >
-      <sky-checkbox
-        formControlName="selectLast"
-      >
-        <sky-checkbox-label>
-          Select last item
-        </sky-checkbox-label>
+    <form [formGroup]="myForm">
+      <sky-checkbox formControlName="selectLast">
+        <sky-checkbox-label> Select last item </sky-checkbox-label>
       </sky-checkbox>
     </form>
   </sky-modal-content>

@@ -5,7 +5,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Renderer2
+  Renderer2,
 } from '@angular/core';
 
 import {
@@ -14,46 +14,36 @@ import {
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
   ValidationErrors,
-  Validator
+  Validator,
 } from '@angular/forms';
 
-import {
-  fromEvent as observableFromEvent,
-  Observable,
-  Subject
-} from 'rxjs';
+import { fromEvent as observableFromEvent, Observable, Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkyAutocompleteInputTextChange
-} from './types/autocomplete-input-text-change';
+import { SkyAutocompleteInputTextChange } from './types/autocomplete-input-text-change';
 
 // tslint:disable:no-forward-ref no-use-before-declare
 const SKY_AUTOCOMPLETE_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => SkyAutocompleteInputDirective),
-  multi: true
+  multi: true,
 };
 
 const SKY_AUTOCOMPLETE_VALIDATOR = {
   provide: NG_VALIDATORS,
   useExisting: forwardRef(() => SkyAutocompleteInputDirective),
-  multi: true
+  multi: true,
 };
 // tslint:enable
 
 @Directive({
   selector: 'input[skyAutocomplete], textarea[skyAutocomplete]',
-  providers: [
-    SKY_AUTOCOMPLETE_VALUE_ACCESSOR,
-    SKY_AUTOCOMPLETE_VALIDATOR
-  ]
+  providers: [SKY_AUTOCOMPLETE_VALUE_ACCESSOR, SKY_AUTOCOMPLETE_VALIDATOR],
 })
-export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, ControlValueAccessor, Validator {
-
+export class SkyAutocompleteInputDirective
+  implements OnInit, OnDestroy, ControlValueAccessor, Validator
+{
   /**
    * Specifies the value for the `autocomplete` attribute on the form input.
    * @default "off"
@@ -67,7 +57,9 @@ export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, Control
     }
 
     this.renderer.setAttribute(
-      this.elementRef.nativeElement, 'autocomplete', this.autocompleteAttribute
+      this.elementRef.nativeElement,
+      'autocomplete',
+      this.autocompleteAttribute
     );
   }
 
@@ -82,11 +74,7 @@ export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, Control
   @Input()
   public set disabled(value: boolean) {
     this._disabled = value;
-    this.renderer.setProperty(
-      this.elementRef.nativeElement,
-      'disabled',
-      value
-    );
+    this.renderer.setProperty(this.elementRef.nativeElement, 'disabled', value);
   }
 
   public get disabled(): boolean {
@@ -174,10 +162,7 @@ export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, Control
 
   private _value: any;
 
-  constructor(
-    private elementRef: ElementRef,
-    private renderer: Renderer2
-  ) { }
+  constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
 
   public ngOnInit() {
     const element = this.elementRef.nativeElement;
@@ -190,7 +175,7 @@ export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, Control
         /** Sanity check */
         if (!this.disabled) {
           this._textChanges.next({
-            value: this.elementRef.nativeElement.value
+            value: this.elementRef.nativeElement.value,
           });
         }
       });
@@ -231,9 +216,7 @@ export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, Control
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
 
-    this._blur =
-      this._textChanges =
-      this.ngUnsubscribe = undefined;
+    this._blur = this._textChanges = this.ngUnsubscribe = undefined;
   }
 
   public writeValue(value: any): void {
@@ -293,14 +276,18 @@ export class SkyAutocompleteInputDirective implements OnInit, OnDestroy, Control
 
   // Angular automatically constructs these methods.
   /* istanbul ignore next */
-  public onChange(value: any): void { }
+  public onChange(value: any): void {}
   /* istanbul ignore next */
-  public onTouched(): void { }
+  public onTouched(): void {}
   /* istanbul ignore next */
-  public onValidatorChange = () => { };
+  public onValidatorChange = () => {};
 
   private setAttributes(element: any): void {
-    this.renderer.setAttribute(element, 'autocomplete', this.autocompleteAttribute);
+    this.renderer.setAttribute(
+      element,
+      'autocomplete',
+      this.autocompleteAttribute
+    );
     this.renderer.setAttribute(element, 'autocapitalize', 'none');
     this.renderer.setAttribute(element, 'autocorrect', 'off');
     this.renderer.setAttribute(element, 'spellcheck', 'false');

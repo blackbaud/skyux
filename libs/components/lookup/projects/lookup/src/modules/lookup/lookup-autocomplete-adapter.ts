@@ -1,27 +1,16 @@
-import {
-  Directive,
-  Input,
-  TemplateRef
-} from '@angular/core';
+import { Directive, Input, TemplateRef } from '@angular/core';
 
-import {
-  skyAutocompleteDefaultSearchFunction
-} from '../autocomplete/autocomplete-default-search-function';
+import { skyAutocompleteDefaultSearchFunction } from '../autocomplete/autocomplete-default-search-function';
 
-import {
-  SkyAutocompleteSearchFunction
-} from '../autocomplete/types/autocomplete-search-function';
+import { SkyAutocompleteSearchFunction } from '../autocomplete/types/autocomplete-search-function';
 
-import {
-  SkyAutocompleteSearchFunctionFilter
-} from '../autocomplete/types/autocomplete-search-function-filter';
+import { SkyAutocompleteSearchFunctionFilter } from '../autocomplete/types/autocomplete-search-function-filter';
 
 /**
  * @internal
  */
- @Directive()
+@Directive()
 export class SkyLookupAutocompleteAdapter {
-
   /**
    * Specifies how many milliseconds to wait before searching while users
    * enter text in the lookup field.
@@ -48,14 +37,14 @@ export class SkyLookupAutocompleteAdapter {
    * Specifies an array of object properties to search.
    * @default ['name']
    */
-   @Input()
-   public set propertiesToSearch(value: string[]) {
-     this._propertiesToSearch = value;
-   }
+  @Input()
+  public set propertiesToSearch(value: string[]) {
+    this._propertiesToSearch = value;
+  }
 
-   public get propertiesToSearch(): string[] {
-     return this._propertiesToSearch || ['name'];
-   }
+  public get propertiesToSearch(): string[] {
+    return this._propertiesToSearch || ['name'];
+  }
 
   /**
    * Specifies a function to dynamically manage the data source when users
@@ -63,17 +52,20 @@ export class SkyLookupAutocompleteAdapter {
    * an array or a promise of an array. The `search` property is particularly
    * useful when the data source does not live in the source code.
    */
-   @Input()
-   public set search(value: SkyAutocompleteSearchFunction) {
-     this._search = value;
-   }
+  @Input()
+  public set search(value: SkyAutocompleteSearchFunction) {
+    this._search = value;
+  }
 
-   public get search(): SkyAutocompleteSearchFunction {
-     return this._search || skyAutocompleteDefaultSearchFunction({
-       propertiesToSearch: this.propertiesToSearch,
-       searchFilters: this.searchFilters
-     });
-   }
+  public get search(): SkyAutocompleteSearchFunction {
+    return (
+      this._search ||
+      skyAutocompleteDefaultSearchFunction({
+        propertiesToSearch: this.propertiesToSearch,
+        searchFilters: this.searchFilters,
+      })
+    );
+  }
 
   /**
    * Specifies a template to format each option in the dropdown list. The lookup component

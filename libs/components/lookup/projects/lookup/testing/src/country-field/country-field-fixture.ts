@@ -1,18 +1,10 @@
-import {
-  DebugElement
-} from '@angular/core';
+import { DebugElement } from '@angular/core';
 
-import {
-  ComponentFixture
-} from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 /**
  * Allows interaction with a SKY UX country field component.
@@ -51,11 +43,12 @@ export class SkyCountryFieldFixture {
     return this.getInputElement().value;
   }
 
-  constructor(
-    private fixture: ComponentFixture<any>,
-    skyTestId: string
-  ) {
-    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(fixture, skyTestId, 'sky-country-field');
+  constructor(private fixture: ComponentFixture<any>, skyTestId: string) {
+    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
+      fixture,
+      skyTestId,
+      'sky-country-field'
+    );
   }
 
   /**
@@ -64,7 +57,10 @@ export class SkyCountryFieldFixture {
    * @returns The list of country names matching the search text.
    */
   public async search(searchText: string): Promise<string[]> {
-    const resultNodes = await this.searchAndGetResults(searchText, this.fixture);
+    const resultNodes = await this.searchAndGetResults(
+      searchText,
+      this.fixture
+    );
     const resultArray = Array.prototype.slice.call(resultNodes);
     const results = resultArray.map((result: HTMLElement) => {
       const countryNameEl = result.querySelector('.sky-highlight-mark');
@@ -139,7 +135,9 @@ export class SkyCountryFieldFixture {
     await this.enterSearch(newValue, fixture);
     fixture.detectChanges();
     await fixture.whenStable();
-    return this.getAutocompleteElement().querySelectorAll('.sky-autocomplete-result');
+    return this.getAutocompleteElement().querySelectorAll(
+      '.sky-autocomplete-result'
+    );
   }
 
   private async searchAndSelect(
@@ -150,7 +148,7 @@ export class SkyCountryFieldFixture {
     const inputElement = this.getInputElement();
     const searchResults = await this.searchAndGetResults(newValue, fixture);
 
-    if (searchResults.length < (index + 1)) {
+    if (searchResults.length < index + 1) {
       throw new Error('Index out of range for results');
     }
 

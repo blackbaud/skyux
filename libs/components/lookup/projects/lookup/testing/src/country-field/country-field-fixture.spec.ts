@@ -1,35 +1,20 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  SkyCountryFieldCountry
-} from '@skyux/lookup';
+import { SkyCountryFieldCountry } from '@skyux/lookup';
 
-import {
-  SkyThemeService
-} from '@skyux/theme';
+import { SkyThemeService } from '@skyux/theme';
 
-import {
-  SkyCountryFieldTestingModule
-} from './country-field-testing.module';
+import { SkyCountryFieldTestingModule } from './country-field-testing.module';
 
-import {
-  SkyCountryFieldFixture
-} from './country-field-fixture';
+import { SkyCountryFieldFixture } from './country-field-fixture';
 
 const COUNTRY: SkyCountryFieldCountry = {
   name: 'United States',
-  iso2: 'us'
+  iso2: 'us',
 };
 const DATA_SKY_ID = 'test-country-field';
 
@@ -37,23 +22,23 @@ const DATA_SKY_ID = 'test-country-field';
 @Component({
   selector: 'country-field-test',
   template: `
-  <sky-country-field
-    data-sky-id="${DATA_SKY_ID}"
-    formControlName="countryControl"
-    [autocompleteAttribute]="autocompleteAttribute"
-    [disabled]="disabled"
-    [hideSelectedCountryFlag]="hideSelectedCountryFlag"
-    (selectedCountryChange)="selectedCountryChange($event)"
-  >
-  </sky-country-field>
-  `
+    <sky-country-field
+      data-sky-id="${DATA_SKY_ID}"
+      formControlName="countryControl"
+      [autocompleteAttribute]="autocompleteAttribute"
+      [disabled]="disabled"
+      [hideSelectedCountryFlag]="hideSelectedCountryFlag"
+      (selectedCountryChange)="selectedCountryChange($event)"
+    >
+    </sky-country-field>
+  `,
 })
 class CountryFieldTestComponent {
   public autocompleteAttribute: string;
   public disabled: boolean;
   public hideSelectedCountryFlag: boolean;
 
-  public selectedCountryChange(query: string): void { }
+  public selectedCountryChange(query: string): void {}
 }
 //#endregion Test component
 
@@ -64,20 +49,12 @@ describe('Country field fixture', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        CountryFieldTestComponent
-      ],
-      imports: [
-        SkyCountryFieldTestingModule
-      ],
-      providers: [
-        SkyThemeService
-      ]
+      declarations: [CountryFieldTestComponent],
+      imports: [SkyCountryFieldTestingModule],
+      providers: [SkyThemeService],
     });
 
-    fixture = TestBed.createComponent(
-      CountryFieldTestComponent
-    );
+    fixture = TestBed.createComponent(CountryFieldTestComponent);
     testComponent = fixture.componentInstance;
     fixture.detectChanges();
     countryFieldFixture = new SkyCountryFieldFixture(fixture, DATA_SKY_ID);
@@ -96,12 +73,17 @@ describe('Country field fixture', () => {
     fixture.detectChanges();
 
     // verify updated values
-    expect(countryFieldFixture.autocompleteAttribute).toBe(testComponent.autocompleteAttribute);
+    expect(countryFieldFixture.autocompleteAttribute).toBe(
+      testComponent.autocompleteAttribute
+    );
     expect(countryFieldFixture.disabled).toBe(testComponent.disabled);
   });
 
   it('should properly select country', async () => {
-    const selectedCountryChangeSpy = spyOn(fixture.componentInstance, 'selectedCountryChange');
+    const selectedCountryChangeSpy = spyOn(
+      fixture.componentInstance,
+      'selectedCountryChange'
+    );
 
     // make a selection
     await countryFieldFixture.searchAndSelectFirstResult(COUNTRY.name);
@@ -123,7 +105,10 @@ describe('Country field fixture', () => {
   });
 
   it('should return undefined properties for no selection', async () => {
-    const selectedCountryChangeSpy = spyOn(fixture.componentInstance, 'selectedCountryChange');
+    const selectedCountryChangeSpy = spyOn(
+      fixture.componentInstance,
+      'selectedCountryChange'
+    );
 
     // make a selection
     const invalidCountryName = 'not-my-country';

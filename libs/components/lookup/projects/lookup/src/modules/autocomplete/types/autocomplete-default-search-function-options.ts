@@ -1,6 +1,4 @@
-import {
-  SkyAutocompleteSearchFunctionFilter
-} from './autocomplete-search-function-filter';
+import { SkyAutocompleteSearchFunctionFilter } from './autocomplete-search-function-filter';
 
 /**
  * @internal

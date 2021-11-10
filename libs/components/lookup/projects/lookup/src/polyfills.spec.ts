@@ -1,10 +1,6 @@
-import {
-  TestBed
-} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 import './polyfills';
 
@@ -22,10 +18,9 @@ import './polyfills';
         </a>
       </div>
     </div>
-  `
+  `,
 })
-export class PolyfillTestComponent {
-}
+export class PolyfillTestComponent {}
 
 describe('Polyfills', () => {
   let fixture;
@@ -34,7 +29,7 @@ describe('Polyfills', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [PolyfillTestComponent],
-      providers: []
+      providers: [],
     });
     fixture = TestBed.createComponent(PolyfillTestComponent);
     nativeElement = fixture.nativeElement as HTMLElement;
@@ -42,7 +37,6 @@ describe('Polyfills', () => {
   });
 
   describe('matches()', () => {
-
     it('should return true if element matches', () => {
       let targetEl = nativeElement.querySelector('#one');
       let actual = targetEl.matches('#one');
@@ -56,11 +50,9 @@ describe('Polyfills', () => {
 
       expect(actual).toBe(false);
     });
-
   });
 
   describe('closest()', () => {
-
     it('should find the closest element through several ancestors', () => {
       let parentEl = nativeElement.querySelector('#parent');
       let childEl = nativeElement.querySelector('#child');
@@ -83,7 +75,5 @@ describe('Polyfills', () => {
 
       expect(actual).toBeNull();
     });
-
   });
-
 });

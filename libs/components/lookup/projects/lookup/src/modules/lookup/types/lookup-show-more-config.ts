@@ -1,10 +1,6 @@
-import {
-  SkyLookupShowMoreCustomPicker
-} from './lookup-show-more-custom-picker';
+import { SkyLookupShowMoreCustomPicker } from './lookup-show-more-custom-picker';
 
-import {
-  SkyLookupShowMoreNativePickerConfig
-} from './lookup-show-more-native-picker-config';
+import { SkyLookupShowMoreNativePickerConfig } from './lookup-show-more-native-picker-config';
 
 /**
  * Specifies configuration options for the picker to display when users select the button

@@ -1,30 +1,20 @@
-import {
-  Component,
-  ViewChild
-} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
-import {
-  NgModel
-} from '@angular/forms';
+import { NgModel } from '@angular/forms';
 
-import {
-  SkyCountryFieldComponent
-} from '../country-field.component';
+import { SkyCountryFieldComponent } from '../country-field.component';
 
-import {
-  SkyCountryFieldCountry
-} from '../types/country';
+import { SkyCountryFieldCountry } from '../types/country';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './country-field.component.fixture.html'
+  templateUrl: './country-field.component.fixture.html',
 })
 export class CountryFieldTestComponent {
-
   public autocompleteAttribute: string;
 
   @ViewChild(SkyCountryFieldComponent, {
-    static: true
+    static: true,
   })
   public countryFieldComponent: SkyCountryFieldComponent;
 
@@ -44,5 +34,4 @@ export class CountryFieldTestComponent {
   public countryChanged(country: SkyCountryFieldCountry): void {
     return;
   }
-
 }

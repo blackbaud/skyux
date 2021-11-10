@@ -1,13 +1,5 @@
-
-<form
-  novalidate
-  [formGroup]="reactiveForm"
->
-  <label
-    for="my-autocomplete-input"
-  >
-    Favorite color
-  </label>
+<form novalidate [formGroup]="reactiveForm">
+  <label for="my-autocomplete-input"> Favorite color </label>
   <sky-autocomplete
     [data]="data"
     [enableShowMore]="enableShowMore"

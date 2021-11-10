@@ -3,7 +3,6 @@
  * @internal
  */
 export enum SkyLookupSelectMode {
-
   /**
    * Restricts users to a single selection.
    */
@@ -12,6 +11,5 @@ export enum SkyLookupSelectMode {
   /**
    * Allows users to select multiple items.
    */
-  multiple = 'multiple'
-
+  multiple = 'multiple',
 }

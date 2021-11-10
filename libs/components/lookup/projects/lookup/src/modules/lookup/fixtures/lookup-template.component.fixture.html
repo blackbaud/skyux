@@ -1,5 +1,4 @@
-<form
-  novalidate>
+<form novalidate>
   <sky-lookup
     name="friends"
     [ariaLabel]="ariaLabel"
@@ -22,16 +21,10 @@
   </sky-lookup>
 </form>
 
-<ng-template
-  let-item="item"
-  #customSearchResultTemplate
->
+<ng-template let-item="item" #customSearchResultTemplate>
   {{ item.description }}
 </ng-template>
 
-<ng-template
-  let-item="item"
-  #customShowMoreTemplate
->
+<ng-template let-item="item" #customShowMoreTemplate>
   {{ item.name }} - {{ item.birthDate }}
 </ng-template>

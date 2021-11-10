@@ -1,23 +1,14 @@
-import {
-  SkyAutocompleteSearchFunction
-} from './types/autocomplete-search-function';
+import { SkyAutocompleteSearchFunction } from './types/autocomplete-search-function';
 
-import {
-  SkyAutocompleteSearchFunctionFilter
-} from './types/autocomplete-search-function-filter';
+import { SkyAutocompleteSearchFunctionFilter } from './types/autocomplete-search-function-filter';
 
-import {
-  SkyAutocompleteSearchFunctionResponse
-} from './types/autocomplete-search-function-response';
+import { SkyAutocompleteSearchFunctionResponse } from './types/autocomplete-search-function-response';
 
-import {
-  SkyAutocompleteDefaultSearchFunctionOptions
-} from './types/autocomplete-default-search-function-options';
+import { SkyAutocompleteDefaultSearchFunctionOptions } from './types/autocomplete-default-search-function-options';
 
 export function skyAutocompleteDefaultSearchFunction(
   options: SkyAutocompleteDefaultSearchFunctionOptions
 ): SkyAutocompleteSearchFunction {
-
   const filterData = function (searchText: string, data: any[]): any[] {
     return data.filter((item: any) => {
       if (!options.searchFilters || !options.searchFilters.length) {
@@ -25,12 +16,13 @@ export function skyAutocompleteDefaultSearchFunction(
       }
 
       // Find the first failing filter (we can skip the others if one fails).
-      const failedFilter = options.searchFilters
-        .find((filter: SkyAutocompleteSearchFunctionFilter) => {
-          return !(filter.call({}, searchText, item));
-        });
+      const failedFilter = options.searchFilters.find(
+        (filter: SkyAutocompleteSearchFunctionFilter) => {
+          return !filter.call({}, searchText, item);
+        }
+      );
 
-      return (failedFilter === undefined);
+      return failedFilter === undefined;
     });
   };
 
@@ -38,7 +30,6 @@ export function skyAutocompleteDefaultSearchFunction(
     searchText: string,
     data: any[]
   ): SkyAutocompleteSearchFunctionResponse {
-
     const results = [];
 
     /* Sanity check - autocomplete will not call search with empty search text */
@@ -54,7 +45,7 @@ export function skyAutocompleteDefaultSearchFunction(
       const result = filteredData[i];
       const isMatch = options.propertiesToSearch.find((property: string) => {
         const value = (result[property] || '').toString().toUpperCase();
-        return (value.indexOf(searchTextUpper) > -1);
+        return value.indexOf(searchTextUpper) > -1;
       });
 
       if (isMatch) {

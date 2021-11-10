@@ -1,31 +1,18 @@
-import {
-  Component,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
-import {
-  FormControl,
-  FormGroup,
-  Validators
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import {
-  SkyCountryFieldComponent
-} from '../country-field.component';
+import { SkyCountryFieldComponent } from '../country-field.component';
 
-import {
-  SkyCountryFieldCountry
-} from '../types/country';
+import { SkyCountryFieldCountry } from '../types/country';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './country-field-reactive.component.fixture.html'
+  templateUrl: './country-field-reactive.component.fixture.html',
 })
 export class CountryFieldReactiveTestComponent implements OnInit {
-
   @ViewChild(SkyCountryFieldComponent, {
-    static: true
+    static: true,
   })
   public countryFieldComponent: SkyCountryFieldComponent;
 
@@ -81,10 +68,12 @@ export class CountryFieldReactiveTestComponent implements OnInit {
     }
 
     this.countryForm = new FormGroup({
-      'countryControl': this.countryControl
+      countryControl: this.countryControl,
     });
 
-    this.countryControl.valueChanges.subscribe(value => this.formValueChanged(value));
+    this.countryControl.valueChanges.subscribe((value) =>
+      this.formValueChanged(value)
+    );
   }
 
   public countryChanged(country: SkyCountryFieldCountry): void {
@@ -98,5 +87,4 @@ export class CountryFieldReactiveTestComponent implements OnInit {
   public setValue(country: SkyCountryFieldCountry): void {
     this.countryControl.setValue(country);
   }
-
 }

@@ -2,9 +2,7 @@
   <ng-container *ngTemplateOutlet="inputTemplateRef"></ng-container>
 </ng-container>
 
-<ng-template
-  #inputTemplateRef
->
+<ng-template #inputTemplateRef>
   <span
     class="sky-country-field-container"
     [ngClass]="{
@@ -26,7 +24,10 @@
             selectedCountry && selectedCountry.iso2 && !hideSelectedCountryFlag
         }"
       >
-        <div *ngIf="selectedCountry && selectedCountry.iso2 && !hideSelectedCountryFlag"
+        <div
+          *ngIf="
+            selectedCountry && selectedCountry.iso2 && !hideSelectedCountryFlag
+          "
           class="sky-country-field-flag"
         >
           <div
@@ -39,12 +40,18 @@
           name="selectedCountry"
           rows="1"
           skyAutocomplete
-          [attr.aria-label]="'skyux_country_field_search_placeholder' | skyLibResources"
+          [attr.aria-label]="
+            'skyux_country_field_search_placeholder' | skyLibResources
+          "
           [attr.disabled]="disabled ? true : undefined"
           [attr.id]="inputId"
           [autocompleteAttribute]="autocompleteAttribute"
           [formControl]="countrySearchFormControl"
-          [placeholder]="currentTheme === 'default' ? ('skyux_country_field_search_placeholder' | skyLibResources) : ''"
+          [placeholder]="
+            currentTheme === 'default'
+              ? ('skyux_country_field_search_placeholder' | skyLibResources)
+              : ''
+          "
           (blur)="onAutocompleteBlur()"
         ></textarea>
       </div>
@@ -52,33 +59,20 @@
   </span>
 </ng-template>
 
-<ng-template
-  let-item="item"
-  #countrySearchResultTemplate
->
+<ng-template let-item="item" #countrySearchResultTemplate>
   <div
     class="sky-country-field-search-result-flag"
     [ngClass]="'iti-flag ' + item.iso2.toLowerCase()"
-  >
-  </div>
+  ></div>
   {{ item.name }}
-  <span *ngIf="includePhoneInfo"
-    class="sky-deemphasized"
-  >
+  <span *ngIf="includePhoneInfo" class="sky-deemphasized">
     {{ item.dialCode }}
   </span>
 </ng-template>
 
 <!-- This template should only be used in modern theme input boxes. -->
-<ng-template
-  #searchIconTemplateRef
->
-  <div
-    class="sky-input-group-icon sky-input-box-icon-inset"
-  >
-    <sky-icon
-      iconType="skyux"
-      icon="search"
-    ></sky-icon>
+<ng-template #searchIconTemplateRef>
+  <div class="sky-input-group-icon sky-input-box-icon-inset">
+    <sky-icon iconType="skyux" icon="search"></sky-icon>
   </div>
 </ng-template>

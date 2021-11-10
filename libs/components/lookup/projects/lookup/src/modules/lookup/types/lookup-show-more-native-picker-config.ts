@@ -1,6 +1,4 @@
-import {
-  TemplateRef
-} from '@angular/core';
+import { TemplateRef } from '@angular/core';
 
 /**
  * Specifies configuration options to display the native picker when users select

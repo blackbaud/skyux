@@ -1,30 +1,16 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  ReactiveFormsModule
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import {
-  SkyIdModule
-} from '@skyux/core';
+import { SkyIdModule } from '@skyux/core';
 
-import {
-  SkyInputBoxModule
-} from '@skyux/forms';
+import { SkyInputBoxModule } from '@skyux/forms';
 
-import {
-  SkyLookupModule
-} from 'projects/lookup/src/public-api';
+import { SkyLookupModule } from 'projects/lookup/src/public-api';
 
-import {
-  LookupMultipleSelectDemoComponent
-} from './lookup-multiple-demo.component';
+import { LookupMultipleSelectDemoComponent } from './lookup-multiple-demo.component';
 
 @NgModule({
   imports: [
@@ -32,13 +18,9 @@ import {
     ReactiveFormsModule,
     SkyIdModule,
     SkyInputBoxModule,
-    SkyLookupModule
+    SkyLookupModule,
   ],
-  declarations: [
-    LookupMultipleSelectDemoComponent
-  ],
-  exports: [
-    LookupMultipleSelectDemoComponent
-  ]
+  declarations: [LookupMultipleSelectDemoComponent],
+  exports: [LookupMultipleSelectDemoComponent],
 })
-export class LookupMultipleSelectDemoModule { }
+export class LookupMultipleSelectDemoModule {}

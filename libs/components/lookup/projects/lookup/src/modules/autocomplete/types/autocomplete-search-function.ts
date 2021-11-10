@@ -1,6 +1,6 @@
-import {
-  SkyAutocompleteSearchFunctionResponse
-} from './autocomplete-search-function-response';
+import { SkyAutocompleteSearchFunctionResponse } from './autocomplete-search-function-response';
 
-export type SkyAutocompleteSearchFunction =
-  (searchText: string, data: any[]) => SkyAutocompleteSearchFunctionResponse;
+export type SkyAutocompleteSearchFunction = (
+  searchText: string,
+  data: any[]
+) => SkyAutocompleteSearchFunctionResponse;

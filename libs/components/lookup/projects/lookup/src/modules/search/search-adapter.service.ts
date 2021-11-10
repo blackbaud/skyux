@@ -1,16 +1,11 @@
-import {
-  ElementRef,
-  Injectable,
-  Renderer2
-} from '@angular/core';
+import { ElementRef, Injectable, Renderer2 } from '@angular/core';
 
 /**
  * @internal
  */
 @Injectable()
 export class SkySearchAdapterService {
-
-  constructor(private renderer: Renderer2) { }
+  constructor(private renderer: Renderer2) {}
 
   public selectInput(searchEl: ElementRef) {
     this.getInputEl(searchEl).select();
@@ -25,15 +20,18 @@ export class SkySearchAdapterService {
     let offsetWidth = this.getSearchContainerEl(searchEl).offsetLeft;
     let minWidth = buttonWidth + offsetWidth;
 
-    this.getInputContainerEl(searchEl).style.minWidth = minWidth.toString() + 'px';
+    this.getInputContainerEl(searchEl).style.minWidth =
+      minWidth.toString() + 'px';
 
-    this.renderer.setStyle(this.getInputContainerEl(searchEl),
-      'min-width', minWidth.toString() + 'px');
+    this.renderer.setStyle(
+      this.getInputContainerEl(searchEl),
+      'min-width',
+      minWidth.toString() + 'px'
+    );
   }
 
   public endInputAnimation(searchEl: ElementRef) {
-    this.renderer.setStyle(this.getInputContainerEl(searchEl),
-      'min-width', '');
+    this.renderer.setStyle(this.getInputContainerEl(searchEl), 'min-width', '');
   }
 
   private getInputContainerEl(searchEl: ElementRef) {

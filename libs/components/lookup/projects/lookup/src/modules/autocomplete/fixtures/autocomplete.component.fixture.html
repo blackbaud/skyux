@@ -1,17 +1,8 @@
-<button
-  class="sky-btn sky-btn-primary"
-  id="previousButton"
-  type="button"
->
+<button class="sky-btn sky-btn-primary" id="previousButton" type="button">
   Previous Button
 </button>
-<form
-  #myForm="ngForm"
-  novalidate>
-  <label
-    for="my-autocomplete-input"
-    id="my-autocomplete-label"
-  >
+<form #myForm="ngForm" novalidate>
+  <label for="my-autocomplete-input" id="my-autocomplete-label">
     Favorite color
   </label>
   <sky-autocomplete
@@ -33,7 +24,8 @@
     (selectionChange)="onSelectionChange($event)"
     (showMoreClick)="onShowMoreClick()"
   >
-    <input *ngIf="!hideInput"
+    <input
+      *ngIf="!hideInput"
       id="my-autocomplete-input"
       name="favoriteColor"
       skyAutocomplete
@@ -41,15 +33,11 @@
       [autocompleteAttribute]="autocompleteAttribute"
       [disabled]="disabled"
       [(ngModel)]="model.favoriteColor"
-    >
+    />
   </sky-autocomplete>
 </form>
 
-<ng-template
-  let-item="item"
-  #customSearchResultTemplate>
+<ng-template let-item="item" #customSearchResultTemplate>
   {{ item.name }} &bull;
-  <span class="custom-search-result-id">
-    ID {{ item.objectid }}
-  </span>
+  <span class="custom-search-result-id"> ID {{ item.objectid }} </span>
 </ng-template>

@@ -1,119 +1,107 @@
-import {
-  Component,
-  OnInit,
-  TemplateRef,
-  ViewChild
-} from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import {
   SkyAutocompleteSearchFunctionFilter,
-  SkyLookupShowMoreConfig
+  SkyLookupShowMoreConfig,
 } from 'projects/lookup/src/public-api';
 
 @Component({
   selector: 'app-lookup-demo',
   templateUrl: './lookup-result-templates-demo.component.html',
-  styleUrls: ['./lookup-result-templates-demo.component.scss']
+  styleUrls: ['./lookup-result-templates-demo.component.scss'],
 })
 export class LookupResultTemplatesDemoComponent implements OnInit {
-
   public myForm: FormGroup;
 
   public people: any[] = [
     {
       name: 'Abed',
-      formal: 'Mr. Nadir'
+      formal: 'Mr. Nadir',
     },
     {
       name: 'Alex',
-      formal: 'Mr. Osbourne'
+      formal: 'Mr. Osbourne',
     },
     {
       name: 'Ben',
-      formal: 'Mr. Chang'
+      formal: 'Mr. Chang',
     },
     {
       name: 'Britta',
-      formal: 'Ms. Perry'
+      formal: 'Ms. Perry',
     },
     {
       name: 'Buzz',
-      formal: 'Mr. Hickey'
+      formal: 'Mr. Hickey',
     },
     {
       name: 'Craig',
-      formal: 'Mr. Pelton'
+      formal: 'Mr. Pelton',
     },
     {
       name: 'Elroy',
-      formal: 'Mr. Patashnik'
+      formal: 'Mr. Patashnik',
     },
     {
       name: 'Garrett',
-      formal: 'Mr. Lambert'
+      formal: 'Mr. Lambert',
     },
     {
       name: 'Ian',
-      formal: 'Mr. Duncan'
+      formal: 'Mr. Duncan',
     },
     {
       name: 'Jeff',
-      formal: 'Mr. Winger'
+      formal: 'Mr. Winger',
     },
     {
       name: 'Leonard',
-      formal: 'Mr. Rodriguez'
+      formal: 'Mr. Rodriguez',
     },
     {
       name: 'Neil',
-      formal: 'Mr. Neil'
+      formal: 'Mr. Neil',
     },
     {
       name: 'Pierce',
-      formal: 'Mr. Hawthorne'
+      formal: 'Mr. Hawthorne',
     },
     {
       name: 'Preston',
-      formal: 'Mr. Koogler'
+      formal: 'Mr. Koogler',
     },
     {
       name: 'Rachel',
-      formal: 'Ms. Rachel'
+      formal: 'Ms. Rachel',
     },
     {
       name: 'Shirley',
-      formal: 'Ms. Bennett'
+      formal: 'Ms. Bennett',
     },
     {
       name: 'Todd',
-      formal: 'Mr. Jacobson'
+      formal: 'Mr. Jacobson',
     },
     {
       name: 'Troy',
-      formal: 'Mr. Barnes'
+      formal: 'Mr. Barnes',
     },
     {
       name: 'Vaughn',
-      formal: 'Mr. Miller'
+      formal: 'Mr. Miller',
     },
     {
       name: 'Vicki',
-      formal: 'Ms. Jenkins'
-    }
+      formal: 'Ms. Jenkins',
+    },
   ];
 
-  public names: any[] = [
-    this.people[15]
-  ];
+  public names: any[] = [this.people[15]];
 
   public showMoreConfig: SkyLookupShowMoreConfig = {
-    nativePickerConfig: {}
+    nativePickerConfig: {},
   };
 
   @ViewChild('modalItemTemplate')
@@ -121,16 +109,14 @@ export class LookupResultTemplatesDemoComponent implements OnInit {
     this.showMoreConfig.nativePickerConfig.itemTemplate = template;
   }
 
-  constructor(
-    private formBuilder: FormBuilder
-  ) { }
+  constructor(private formBuilder: FormBuilder) {}
 
   public ngOnInit(): void {
     this.createForm();
 
     // If you need to execute some logic after the lookup values change,
     // subscribe to Angular's built-in value changes observable.
-    this.myForm.valueChanges.subscribe(changes => {
+    this.myForm.valueChanges.subscribe((changes) => {
       console.log('Lookup value changes:', changes);
     });
   }
@@ -140,9 +126,9 @@ export class LookupResultTemplatesDemoComponent implements OnInit {
     const names: any[] = this.myForm.controls.names.value;
     return [
       (searchText: string, item: any): boolean => {
-        const found = names.find(option => option.name === item.name);
+        const found = names.find((option) => option.name === item.name);
         return !found;
-      }
+      },
     ];
   }
 
@@ -152,8 +138,7 @@ export class LookupResultTemplatesDemoComponent implements OnInit {
 
   private createForm(): void {
     this.myForm = this.formBuilder.group({
-      names: new FormControl(this.names)
+      names: new FormControl(this.names),
     });
   }
-
 }

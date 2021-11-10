@@ -2,7 +2,6 @@
  * Specifies the information for the callback used when adding a new item to the lookup component.
  */
 export interface SkyLookupAddCallbackArgs {
-
   /**
    * The new item which has been added to the data. This item will be automatically selected.
    */

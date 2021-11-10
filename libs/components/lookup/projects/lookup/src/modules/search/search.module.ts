@@ -1,43 +1,23 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  FormsModule
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
-import {
-  SkyIdModule
-} from '@skyux/core';
+import { SkyIdModule } from '@skyux/core';
 
-import {
-  SkyInputBoxModule
-} from '@skyux/forms';
+import { SkyInputBoxModule } from '@skyux/forms';
 
-import {
-  SkyIconModule
-} from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/indicators';
 
-import {
-  SkyThemeModule
-} from '@skyux/theme';
+import { SkyThemeModule } from '@skyux/theme';
 
-import {
-  SkyLookupResourcesModule
-} from '../shared/sky-lookup-resources.module';
+import { SkyLookupResourcesModule } from '../shared/sky-lookup-resources.module';
 
-import {
-  SkySearchComponent
-} from './search.component';
+import { SkySearchComponent } from './search.component';
 
 @NgModule({
-  declarations: [
-    SkySearchComponent
-  ],
+  declarations: [SkySearchComponent],
   imports: [
     CommonModule,
     SkyInputBoxModule,
@@ -45,10 +25,8 @@ import {
     FormsModule,
     SkyIconModule,
     SkyThemeModule,
-    SkyIdModule
+    SkyIdModule,
   ],
-  exports: [
-    SkySearchComponent
-  ]
+  exports: [SkySearchComponent],
 })
-export class SkySearchModule { }
+export class SkySearchModule {}

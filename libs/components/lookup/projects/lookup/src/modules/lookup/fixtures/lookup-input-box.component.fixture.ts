@@ -1,27 +1,16 @@
-import {
-  Component,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
-import {
-  SkyLookupComponent
-} from '../lookup.component';
+import { SkyLookupComponent } from '../lookup.component';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './lookup-input-box.component.fixture.html'
+  templateUrl: './lookup-input-box.component.fixture.html',
 })
 export class SkyLookupInputBoxTestComponent implements OnInit {
-
   @ViewChild(SkyLookupComponent, {
-    static: true
+    static: true,
   })
   public lookupComponent: SkyLookupComponent;
 
@@ -31,9 +20,7 @@ export class SkyLookupInputBoxTestComponent implements OnInit {
   public friends: any[];
   public form: FormGroup;
 
-  constructor(
-    private formBuilder: FormBuilder
-  ) { }
+  constructor(private formBuilder: FormBuilder) {}
 
   public ngOnInit(): void {
     this.data = [
@@ -53,7 +40,7 @@ export class SkyLookupInputBoxTestComponent implements OnInit {
       { id: 14, name: 'Vanessa' },
       { id: 15, name: 'Xavier' },
       { id: 16, name: 'Yolanda' },
-      { id: 17, name: 'Zack' }
+      { id: 17, name: 'Zack' },
     ];
 
     this.createForm();
@@ -61,7 +48,7 @@ export class SkyLookupInputBoxTestComponent implements OnInit {
 
   private createForm(): void {
     this.form = this.formBuilder.group({
-      friends: new FormControl(this.friends)
+      friends: new FormControl(this.friends),
     });
   }
 }

@@ -1,74 +1,37 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  FormsModule
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
-import {
-  SkyViewkeeperModule
-} from '@skyux/core';
+import { SkyViewkeeperModule } from '@skyux/core';
 
-import {
-  SkyCheckboxModule
-} from '@skyux/forms';
+import { SkyCheckboxModule } from '@skyux/forms';
 
-import {
-  SkyI18nModule
-} from '@skyux/i18n';
+import { SkyI18nModule } from '@skyux/i18n';
 
-import {
-  SkyIconModule,
-  SkyTokensModule
-} from '@skyux/indicators';
+import { SkyIconModule, SkyTokensModule } from '@skyux/indicators';
 
-import {
-  SkyToolbarModule
-} from '@skyux/layout';
+import { SkyToolbarModule } from '@skyux/layout';
 
-import {
-  SkyInfiniteScrollModule,
-  SkyRepeaterModule
-} from '@skyux/lists';
+import { SkyInfiniteScrollModule, SkyRepeaterModule } from '@skyux/lists';
 
-import {
-  SkyModalModule
-} from '@skyux/modals';
+import { SkyModalModule } from '@skyux/modals';
 
-import {
-  SkyThemeModule
-} from '@skyux/theme';
+import { SkyThemeModule } from '@skyux/theme';
 
-import {
-  SkyLookupComponent
-} from './lookup.component';
+import { SkyLookupComponent } from './lookup.component';
 
-import {
-  SkyLookupShowMoreModalComponent
-} from './lookup-show-more-modal.component';
+import { SkyLookupShowMoreModalComponent } from './lookup-show-more-modal.component';
 
-import {
-  SkyAutocompleteModule
-} from '../autocomplete/autocomplete.module';
+import { SkyAutocompleteModule } from '../autocomplete/autocomplete.module';
 
-import {
-  SkySearchModule
-} from '../search/search.module';
+import { SkySearchModule } from '../search/search.module';
 
-import {
-  SkyLookupResourcesModule
-} from '../shared/sky-lookup-resources.module';
+import { SkyLookupResourcesModule } from '../shared/sky-lookup-resources.module';
 
 @NgModule({
-  declarations: [
-    SkyLookupComponent,
-    SkyLookupShowMoreModalComponent
-  ],
+  declarations: [SkyLookupComponent, SkyLookupShowMoreModalComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -84,13 +47,9 @@ import {
     SkyThemeModule,
     SkyTokensModule,
     SkyToolbarModule,
-    SkyViewkeeperModule
+    SkyViewkeeperModule,
   ],
-  entryComponents: [
-    SkyLookupShowMoreModalComponent
-  ],
-  exports: [
-    SkyLookupComponent
-  ]
+  entryComponents: [SkyLookupShowMoreModalComponent],
+  exports: [SkyLookupComponent],
 })
-export class SkyLookupModule { }
+export class SkyLookupModule {}

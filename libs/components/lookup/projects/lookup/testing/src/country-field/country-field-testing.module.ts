@@ -1,14 +1,8 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  SkyCountryFieldModule
-} from '@skyux/lookup';
+import { SkyCountryFieldModule } from '@skyux/lookup';
 
 @NgModule({
-  exports: [
-    SkyCountryFieldModule
-  ]
+  exports: [SkyCountryFieldModule],
 })
-export class SkyCountryFieldTestingModule { }
+export class SkyCountryFieldTestingModule {}

@@ -1,21 +1,15 @@
-import {
-  Component,
-  ViewChild
-} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
-import {
-  SkySearchComponent
-} from '../search.component';
+import { SkySearchComponent } from '../search.component';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './search.component.fixture.html'
+  templateUrl: './search.component.fixture.html',
 })
 export class SearchTestComponent {
-
   @ViewChild(SkySearchComponent, {
     read: SkySearchComponent,
-    static: false
+    static: false,
   })
   public searchComponent: SkySearchComponent;
 
