@@ -1,3 +1,7 @@
+# 5.1.1 (2021-11-10)
+
+- Fixed an issue with `skyAgGridRowDelete` when using an infinite row model type. [#164](https://github.com/blackbaud/skyux-ag-grid/pull/164)
+
 # 5.1.0 (2021-10-29)
 
 - Added the lookup cell type. [#157](https://github.com/blackbaud/skyux-ag-grid/pull/157)
