@@ -1,3 +1,7 @@
+# 5.0.2 (2021-11-10)
+
+- Fixed the text editor to properly track the state and validation status of the form control. [#30](https://github.com/blackbaud/skyux-text-editor/pull/30)
+
 # 5.0.1 (2021-11-01)
 
 - Fixed the text editor to work properly when placed inside the tile component. [#27](https://github.com/blackbaud/skyux-text-editor/pull/27)

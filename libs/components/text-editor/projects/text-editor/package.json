@@ -1,18 +1,18 @@
 {
   "name": "@skyux/text-editor",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "peerDependencies": {
-    "@angular/common": "^12.2.12",
-    "@angular/core": "^12.2.12",
-    "@angular/forms": "^12.2.12",
-    "@angular/router": "^12.2.12",
+    "@angular/common": "^12.2.13",
+    "@angular/core": "^12.2.13",
+    "@angular/forms": "^12.2.13",
+    "@angular/router": "^12.2.13",
     "@skyux/colorpicker": "^5.1.0",
     "@skyux/core": "^5.1.1",
     "@skyux/i18n": "^5.0.0",
     "@skyux/indicators": "^5.0.0",
     "@skyux/modals": "^5.0.1",
     "@skyux/tabs": "^5.0.1",
-    "@skyux/theme": "^5.0.2",
+    "@skyux/theme": "^5.0.3",
     "@skyux/validation": "^5.0.0"
   },
   "dependencies": {
