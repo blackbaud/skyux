@@ -34,6 +34,7 @@
       "@blackbaud/skyux-lib-stache": "^5.0.0-beta.0",
       "@skyux-sdk/documentation-schematics": "^5.0.0",
       "@skyux-sdk/prettier-schematics": "^5.0.0-beta.0",
+      "@skyux-sdk/angular-builders": "^5.0.0-beta.0",
       "@skyux-sdk/e2e": "^5.0.0",
       "@skyux-sdk/testing": "^5.0.0",
       "@skyux/a11y": "^5.0.0",
