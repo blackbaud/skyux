@@ -1,3 +1,7 @@
+# 5.0.1 (2021-11-09)
+
+- Fixed the toolbar's disabled button styles in modern theme. [#261](https://github.com/blackbaud/skyux-layout/pull/261)
+
 # 5.0.0 (2021-10-01)
 
 ### New features
