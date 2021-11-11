@@ -1,6 +1,6 @@
 <div
   class="sky-alert"
-  [skyThemeClass]= "{
+  [skyThemeClass]="{
     'sky-rounded-corners': 'default',
     'sky-box sky-elevation-1': 'modern'
   }"
@@ -14,19 +14,11 @@
     'sky-alert-closeable': closeable
   }"
 >
-  <div
-    aria-hidden="true"
-    class="sky-alert-icon-theme-modern"
-  >
-    <sky-icon-stack
-      [baseIcon]="alertBaseIcon"
-      [topIcon]="alertTopIcon"
-    >
+  <div aria-hidden="true" class="sky-alert-icon-theme-modern">
+    <sky-icon-stack [baseIcon]="alertBaseIcon" [topIcon]="alertTopIcon">
     </sky-icon-stack>
   </div>
-  <div
-    class="sky-alert-content"
-  >
+  <div class="sky-alert-content">
     <ng-content></ng-content>
   </div>
   <button
@@ -36,13 +28,8 @@
     [hidden]="!closeable"
     (click)="close()"
   >
-    <span
-      aria-hidden="true"
-    >
-      <sky-icon
-        class="sky-alert-close-icon-theme-default"
-        icon="close"
-      >
+    <span aria-hidden="true">
+      <sky-icon class="sky-alert-close-icon-theme-default" icon="close">
       </sky-icon>
       <sky-icon
         class="sky-alert-close-icon-theme-modern"

@@ -1,19 +1,13 @@
-import {
-  Component,
-  Input
-} from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-import {
-  SkyIconStackItem
-} from './icon-stack-item';
+import { SkyIconStackItem } from './icon-stack-item';
 
 @Component({
   selector: 'sky-icon-stack',
   templateUrl: './icon-stack.component.html',
-  styleUrls: ['./icon-stack.component.scss']
+  styleUrls: ['./icon-stack.component.scss'],
 })
 export class SkyIconStackComponent {
-
   /**
    * Specifies the size of the icon using
    * [Font Awesome sizes](https://fontawesome.com/how-to-use/on-the-web/styling/sizing-icons).
@@ -32,5 +26,4 @@ export class SkyIconStackComponent {
    */
   @Input()
   public topIcon: SkyIconStackItem;
-
 }

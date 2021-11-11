@@ -1,39 +1,23 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  SkyI18nModule
-} from '@skyux/i18n';
+import { SkyI18nModule } from '@skyux/i18n';
 
-import {
-  SkyThemeModule
-} from '@skyux/theme';
+import { SkyThemeModule } from '@skyux/theme';
 
-import {
-  SkyIndicatorsResourcesModule
-} from '../shared/sky-indicators-resources.module';
+import { SkyIndicatorsResourcesModule } from '../shared/sky-indicators-resources.module';
 
-import {
-  SkyChevronComponent
-} from './chevron.component';
+import { SkyChevronComponent } from './chevron.component';
 
 @NgModule({
-  declarations: [
-    SkyChevronComponent
-  ],
+  declarations: [SkyChevronComponent],
   imports: [
     CommonModule,
     SkyI18nModule,
     SkyIndicatorsResourcesModule,
-    SkyThemeModule
+    SkyThemeModule,
   ],
-  exports: [
-    SkyChevronComponent
-  ]
+  exports: [SkyChevronComponent],
 })
-export class SkyChevronModule { }
+export class SkyChevronModule {}

@@ -1,4 +1,5 @@
-<button *ngIf="showAnchor0"
+<button
+  *ngIf="showAnchor0"
   class="sky-btn sky-btn-secondary"
   href="/"
   id="anchor-0"
@@ -9,32 +10,24 @@
 >
   Anchor tag 0
 </button>
-<button
-  class="sky-btn sky-btn-secondary"
-  href="/"
-  id="anchor-1"
->
+<button class="sky-btn sky-btn-secondary" href="/" id="anchor-1">
   Anchor tag 1
 </button>
-  <div
-    class="sky-wait-test-component"
+<div class="sky-wait-test-component">
+  <button class="sky-btn sky-btn-primary" id="inside-button">
+    I am button
+  </button>
+  <sky-wait
+    [ariaLabel]="ariaLabel"
+    [isFullPage]="isFullPage"
+    [isNonBlocking]="isNonBlocking"
+    [isWaiting]="isWaiting"
   >
-    <button
-      class='sky-btn sky-btn-primary'
-      id="inside-button"
-    >
-      I am button
-    </button>
-    <sky-wait
-      [ariaLabel]="ariaLabel"
-      [isFullPage]="isFullPage"
-      [isNonBlocking]="isNonBlocking"
-      [isWaiting]="isWaiting"
-    >
-    </sky-wait>
+  </sky-wait>
 </div>
 <div>
-  <button *ngIf="showAnchor2"
+  <button
+    *ngIf="showAnchor2"
     class="sky-btn sky-btn-secondary"
     href="/"
     id="anchor-2"

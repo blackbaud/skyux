@@ -1,29 +1,14 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  SkyWaitModule
-} from '@skyux/indicators';
+import { SkyWaitModule } from '@skyux/indicators';
 
-import {
-  WaitDemoComponent
-} from './wait-demo.component';
+import { WaitDemoComponent } from './wait-demo.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SkyWaitModule
-  ],
-  exports: [
-    WaitDemoComponent
-  ],
-  declarations: [
-    WaitDemoComponent
-  ]
+  imports: [CommonModule, SkyWaitModule],
+  exports: [WaitDemoComponent],
+  declarations: [WaitDemoComponent],
 })
-export class WaitDemoModule { }
+export class WaitDemoModule {}

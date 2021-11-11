@@ -1,38 +1,26 @@
 import {
   ApplicationRef,
   ComponentFactoryResolver,
-  Injectable
+  Injectable,
 } from '@angular/core';
 
-import {
-  SkyAppWindowRef
-} from '@skyux/core';
+import { SkyAppWindowRef } from '@skyux/core';
 
-import {
-  defer as observableDefer,
-  Observable
-} from 'rxjs';
+import { defer as observableDefer, Observable } from 'rxjs';
 
-import {
-  finalize
-} from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 
-import {
-  SkyWaitPageAdapterService
-} from './wait-page-adapter.service';
+import { SkyWaitPageAdapterService } from './wait-page-adapter.service';
 
-import {
-  SkyWaitPageComponent
-} from './wait-page.component';
+import { SkyWaitPageComponent } from './wait-page.component';
 
 // Need to add the following to classes which contain static methods.
 // See: https://github.com/ng-packagr/ng-packagr/issues/641
 // @dynamic
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SkyWaitService {
-
   private static waitComponent: SkyWaitPageComponent;
   private static pageWaitBlockingCount = 0;
   private static pageWaitNonBlockingCount = 0;
@@ -135,7 +123,8 @@ export class SkyWaitService {
         // Ensuring here that we recheck this after the setTimeout is over so that we don't clash
         // with any other waits that are created.
         if (!SkyWaitService.waitComponent) {
-          const factory = this.resolver.resolveComponentFactory(SkyWaitPageComponent);
+          const factory =
+            this.resolver.resolveComponentFactory(SkyWaitPageComponent);
           this.waitAdapter.addPageWaitEl();
 
           const cmpRef = this.appRef.bootstrap(factory);
@@ -144,11 +133,9 @@ export class SkyWaitService {
 
         this.setWaitComponentProperties(isBlocking);
       });
-
     } else {
       this.setWaitComponentProperties(isBlocking);
     }
-
   }
 
   private endPageWait(isBlocking: boolean): void {

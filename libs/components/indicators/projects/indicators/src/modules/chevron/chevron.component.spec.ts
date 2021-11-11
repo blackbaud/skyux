@@ -1,40 +1,22 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  expect,
-  expectAsync
-} from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import {
-  SkyThemeService
-} from '@skyux/theme';
+import { SkyThemeService } from '@skyux/theme';
 
-import {
-  take
-} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
-import {
-  SkyChevronComponent
-} from './chevron.component';
+import { SkyChevronComponent } from './chevron.component';
 
-import {
-  SkyChevronModule
-} from './chevron.module';
+import { SkyChevronModule } from './chevron.module';
 
 describe('Chevron component', () => {
   let fixture: ComponentFixture<SkyChevronComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyChevronModule
-      ],
-      providers: [
-        SkyThemeService
-      ]
+      imports: [SkyChevronModule],
+      providers: [SkyThemeService],
     });
 
     fixture = TestBed.createComponent(SkyChevronComponent);
@@ -47,7 +29,9 @@ describe('Chevron component', () => {
     fixture.detectChanges();
 
     expect(fixture.componentInstance.direction).toBe(expectedDirection);
-    expect(chevronEl.classList.contains('sky-chevron-' + expectedDirection)).toBe(true);
+    expect(
+      chevronEl.classList.contains('sky-chevron-' + expectedDirection)
+    ).toBe(true);
   }
 
   function clickChevron(el: any): void {

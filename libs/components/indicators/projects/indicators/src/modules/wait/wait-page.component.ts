@@ -1,7 +1,4 @@
-import {
-  Component,
-  Input
-} from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 /**
  * @internal
@@ -9,7 +6,7 @@ import {
 @Component({
   selector: 'sky-wait-page',
   templateUrl: './wait-page.component.html',
-  styleUrls: ['./wait-page.component.scss']
+  styleUrls: ['./wait-page.component.scss'],
 })
 export class SkyWaitPageComponent {
   @Input()

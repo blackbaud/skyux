@@ -1,17 +1,14 @@
-import {
-  SkyIndicatorIcon
-} from './indicator-icon';
+import { SkyIndicatorIcon } from './indicator-icon';
 
-import {
-  SkyIndicatorIconType
-} from './indicator-icon-type';
+import { SkyIndicatorIconType } from './indicator-icon-type';
 
 /**
  * @internl
  */
-export  class SkyIndicatorIconUtility {
-
-  public static getIconsForType(indicatorType: SkyIndicatorIconType): SkyIndicatorIcon {
+export class SkyIndicatorIconUtility {
+  public static getIconsForType(
+    indicatorType: SkyIndicatorIconType
+  ): SkyIndicatorIcon {
     let icon: string;
     let baseIcon: string;
     let topIcon: string;
@@ -40,12 +37,12 @@ export  class SkyIndicatorIconUtility {
       defaultThemeIcon: icon,
       modernThemeBaseIcon: {
         icon: baseIcon,
-        iconType: 'skyux'
+        iconType: 'skyux',
       },
       modernThemeTopIcon: {
         icon: topIcon,
-        iconType: 'skyux'
-      }
+        iconType: 'skyux',
+      },
     };
   }
 }

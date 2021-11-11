@@ -4,21 +4,18 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  Output
+  Output,
 } from '@angular/core';
 
-import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
 @Component({
   selector: 'sky-token',
   templateUrl: './token.component.html',
   styleUrls: ['./token.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyTokenComponent {
-
   /**
    * Indicates whether to disable the token to prevent users from selecting it, dismissing it,
    * or navigating to it with the arrow keys. When the token is disabled,
@@ -45,7 +42,9 @@ export class SkyTokenComponent {
   }
 
   public get ariaLabel(): string {
-    return this._ariaLabel || this.getString('skyux_tokens_dismiss_button_title');
+    return (
+      this._ariaLabel || this.getString('skyux_tokens_dismiss_button_title')
+    );
   }
 
   /**
@@ -73,7 +72,7 @@ export class SkyTokenComponent {
   }
 
   public get focusable(): boolean {
-    return (this._focusable !== false);
+    return this._focusable !== false;
   }
 
   /**
@@ -92,7 +91,7 @@ export class SkyTokenComponent {
    * @internal
    */
   public get tabIndex(): number | boolean {
-    return (this.focusable) ? 0 : -1;
+    return this.focusable ? 0 : -1;
   }
 
   /**
@@ -113,7 +112,7 @@ export class SkyTokenComponent {
   constructor(
     private elementRef: ElementRef,
     private resourcesService: SkyLibResourcesService
-  ) { }
+  ) {}
 
   public dismissToken(event: Event): void {
     event.stopPropagation();
@@ -126,9 +125,6 @@ export class SkyTokenComponent {
 
   private getString(key: string): string {
     // TODO: Need to implement the async `getString` method in a breaking change.
-    return this.resourcesService.getStringForLocale(
-      { locale: 'en-US' },
-      key
-    );
+    return this.resourcesService.getStringForLocale({ locale: 'en-US' }, key);
   }
 }

@@ -3,25 +3,16 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
-import {
-  expect,
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  SkyTokensMessageType
-} from './types/tokens-message-type';
+import { SkyTokensMessageType } from './types/tokens-message-type';
 
-import {
-  SkyTokensFixturesModule
-} from './fixtures/tokens-fixtures.module';
+import { SkyTokensFixturesModule } from './fixtures/tokens-fixtures.module';
 
-import {
-  SkyTokensTestComponent
-} from './fixtures/tokens.component.fixture';
+import { SkyTokensTestComponent } from './fixtures/tokens.component.fixture';
 
 describe('Tokens component', () => {
   let fixture: ComponentFixture<SkyTokensTestComponent>;
@@ -42,15 +33,17 @@ describe('Tokens component', () => {
 
     const tokenElements = getTokenElements();
     SkyAppTestUtility.fireDomEvent(tokenElements.item(0), 'keydown', {
-      keyboardEventInit: { key: keyRight }
+      keyboardEventInit: { key: keyRight },
     });
 
     fixture.detectChanges();
     expect(component.tokensComponent.activeIndex).toEqual(1);
-    expect(document.activeElement).toEqual(tokenElements.item(1).querySelector('.sky-token'));
+    expect(document.activeElement).toEqual(
+      tokenElements.item(1).querySelector('.sky-token')
+    );
 
     SkyAppTestUtility.fireDomEvent(tokenElements.item(1), 'keydown', {
-      keyboardEventInit: { key: keyLeft }
+      keyboardEventInit: { key: keyLeft },
     });
     fixture.detectChanges();
 
@@ -60,7 +53,10 @@ describe('Tokens component', () => {
     );
   }
 
-  function verifyItemFocusedWithMessage(type: SkyTokensMessageType, index: number): void {
+  function verifyItemFocusedWithMessage(
+    type: SkyTokensMessageType,
+    index: number
+  ): void {
     component.messageStream.next({ type });
     fixture.detectChanges();
 
@@ -73,7 +69,7 @@ describe('Tokens component', () => {
 
   function removeActiveItemAndVerifyLength(length: number): void {
     component.messageStream.next({
-      type: SkyTokensMessageType.RemoveActiveToken
+      type: SkyTokensMessageType.RemoveActiveToken,
     });
     fixture.detectChanges();
 
@@ -84,9 +80,7 @@ describe('Tokens component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyTokensFixturesModule
-      ]
+      imports: [SkyTokensFixturesModule],
     });
 
     fixture = TestBed.createComponent(SkyTokensTestComponent);
@@ -115,7 +109,9 @@ describe('Tokens component', () => {
 
     it('should wrap internal content', () => {
       fixture.detectChanges();
-      expect(component.tokensElementRef.nativeElement).toHaveText('INNER CONTENT');
+      expect(component.tokensElementRef.nativeElement).toHaveText(
+        'INNER CONTENT'
+      );
     });
 
     it('should respect trackWith', () => {
@@ -123,7 +119,7 @@ describe('Tokens component', () => {
       component.data = [
         { id: 1, name: 'Red' },
         { id: 2, name: 'White' },
-        { id: 3, name: 'Blue' }
+        { id: 3, name: 'Blue' },
       ];
 
       component.publishTokens();
@@ -137,7 +133,7 @@ describe('Tokens component', () => {
         { id: 1, name: 'Red' },
         { id: 2, name: 'White' },
         { id: 3, name: 'Blue' },
-        { id: 4, name: 'Black' }
+        { id: 4, name: 'Black' },
       ];
 
       component.publishTokens();
@@ -167,7 +163,7 @@ describe('Tokens component', () => {
       const spy = spyOn(component, 'onFocusIndexOverRange').and.callThrough();
 
       SkyAppTestUtility.fireDomEvent(tokenElements.item(2), 'keydown', {
-        keyboardEventInit: { key: 'ArrowRight' }
+        keyboardEventInit: { key: 'ArrowRight' },
       });
       fixture.detectChanges();
 
@@ -187,7 +183,7 @@ describe('Tokens component', () => {
       const spy = spyOn(component, 'onFocusIndexUnderRange').and.callThrough();
 
       SkyAppTestUtility.fireDomEvent(tokenElements.item(0), 'keydown', {
-        keyboardEventInit: { key: 'ArrowLeft' }
+        keyboardEventInit: { key: 'ArrowLeft' },
       });
       fixture.detectChanges();
 
@@ -208,7 +204,7 @@ describe('Tokens component', () => {
       fixture.detectChanges();
 
       expect(spy).toHaveBeenCalledWith({
-        token: component.tokensComponent.tokens[0]
+        token: component.tokensComponent.tokens[0],
       });
     });
 
@@ -267,7 +263,8 @@ describe('Tokens component', () => {
       component.publishTokens();
       fixture.detectChanges();
 
-      const tokenElements = fixture.nativeElement.querySelectorAll('.sky-token');
+      const tokenElements =
+        fixture.nativeElement.querySelectorAll('.sky-token');
       verifyItemFocusedWithMessage(
         SkyTokensMessageType.FocusLastToken,
         tokenElements.length - 1
@@ -302,10 +299,13 @@ describe('Tokens component', () => {
       component.publishMessageStream();
       fixture.detectChanges();
 
-      const spy = spyOn((component.tokensComponent as any), 'focusLastToken').and.callThrough();
+      const spy = spyOn(
+        component.tokensComponent as any,
+        'focusLastToken'
+      ).and.callThrough();
 
       component.messageStream.next({
-        type: SkyTokensMessageType.FocusLastToken
+        type: SkyTokensMessageType.FocusLastToken,
       });
       fixture.detectChanges();
 
@@ -313,15 +313,18 @@ describe('Tokens component', () => {
       fixture.detectChanges();
 
       component.messageStream.next({
-        type: SkyTokensMessageType.FocusLastToken
+        type: SkyTokensMessageType.FocusLastToken,
       });
       fixture.detectChanges();
 
-      const tokenElements = fixture.nativeElement.querySelectorAll('.sky-token');
+      const tokenElements =
+        fixture.nativeElement.querySelectorAll('.sky-token');
       const lastToken = tokenElements[tokenElements.length - 1] as HTMLElement;
 
       expect(spy.calls.count()).toEqual(2);
-      expect(component.tokensComponent.activeIndex).toEqual(tokenElements.length - 1);
+      expect(component.tokensComponent.activeIndex).toEqual(
+        tokenElements.length - 1
+      );
       expect(document.activeElement).toEqual(lastToken);
     });
 
@@ -334,7 +337,7 @@ describe('Tokens component', () => {
       expect(component.tokensComponent.activeIndex).toEqual(0);
 
       component.messageStream.next({
-        type: SkyTokensMessageType.FocusLastToken
+        type: SkyTokensMessageType.FocusLastToken,
       });
       fixture.detectChanges();
       expect(component.tokensComponent.activeIndex).toEqual(0);
@@ -363,7 +366,7 @@ describe('Tokens component', () => {
       const spy = spyOn(component.messageStream, 'next').and.callThrough();
 
       SkyAppTestUtility.fireDomEvent(tokenElements.item(0), 'keydown', {
-        keyboardEventInit: { key: 'ArrowLeft' }
+        keyboardEventInit: { key: 'ArrowLeft' },
       });
       fixture.detectChanges();
 
@@ -379,12 +382,12 @@ describe('Tokens component', () => {
 
       const tokenElements = getTokenElements();
       SkyAppTestUtility.fireDomEvent(tokenElements.item(0), 'keyup', {
-        keyboardEventInit: { key: 'Enter' }
+        keyboardEventInit: { key: 'Enter' },
       });
       fixture.detectChanges();
 
       expect(spy).toHaveBeenCalledWith({
-        token: component.tokensComponent.tokens[0]
+        token: component.tokensComponent.tokens[0],
       });
     });
 
@@ -398,7 +401,7 @@ describe('Tokens component', () => {
 
       const tokenElements = getTokenElements();
       SkyAppTestUtility.fireDomEvent(tokenElements.item(0), 'keyup', {
-        keyboardEventInit: { key: 'Enter' }
+        keyboardEventInit: { key: 'Enter' },
       });
       fixture.detectChanges();
 
@@ -414,10 +417,17 @@ describe('Tokens component', () => {
       expect(component.tokensComponent.tokens.length).toEqual(3);
 
       const removedToken = component.tokensComponent.tokens[0];
-      const spy = spyOn(component.tokensComponent, 'removeToken').and.callThrough();
+      const spy = spyOn(
+        component.tokensComponent,
+        'removeToken'
+      ).and.callThrough();
 
       let tokenElements = getTokenElements();
-      (tokenElements.item(0).querySelector('.sky-token-btn-close') as HTMLElement).click();
+      (
+        tokenElements
+          .item(0)
+          .querySelector('.sky-token-btn-close') as HTMLElement
+      ).click();
       fixture.detectChanges();
 
       tokenElements = getTokenElements();
@@ -433,14 +443,23 @@ describe('Tokens component', () => {
 
       expect(component.tokensComponent.tokens.length).toEqual(3);
 
-      const spy = spyOn(component.tokensComponent, 'removeToken').and.callThrough();
+      const spy = spyOn(
+        component.tokensComponent,
+        'removeToken'
+      ).and.callThrough();
 
       let tokenElements = getTokenElements();
-      (tokenElements.item(0).querySelector('.sky-token-btn-close') as HTMLElement).click();
+      (
+        tokenElements
+          .item(0)
+          .querySelector('.sky-token-btn-close') as HTMLElement
+      ).click();
       fixture.detectChanges();
 
       tokenElements = getTokenElements();
-      expect(tokenElements.item(0).querySelector('.sky-btn-disabled')).not.toBeNull();
+      expect(
+        tokenElements.item(0).querySelector('.sky-btn-disabled')
+      ).not.toBeNull();
       expect(component.tokensComponent.tokens.length).toEqual(3);
       expect(spy).not.toHaveBeenCalled();
 
@@ -454,15 +473,15 @@ describe('Tokens component', () => {
       component.publishTokens();
       fixture.detectChanges();
 
-      let tokenDivs: NodeListOf<HTMLDivElement> = component.tokensElementRef.nativeElement
-        .querySelectorAll('.sky-token');
+      let tokenDivs: NodeListOf<HTMLDivElement> =
+        component.tokensElementRef.nativeElement.querySelectorAll('.sky-token');
 
       expect(tokenDivs.item(0).tabIndex).toEqual(0);
 
       component.focusable = false;
       fixture.detectChanges();
-      tokenDivs = component.tokensElementRef.nativeElement
-        .querySelectorAll('.sky-token');
+      tokenDivs =
+        component.tokensElementRef.nativeElement.querySelectorAll('.sky-token');
       expect(tokenDivs.item(0).tabIndex).toEqual(-1);
 
       fixture.whenStable().then(() => {

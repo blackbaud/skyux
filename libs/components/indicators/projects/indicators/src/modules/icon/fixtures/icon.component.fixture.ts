@@ -1,14 +1,10 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {
-  SkyIconVariantType
-} from '../types/icon-variant-type';
+import { SkyIconVariantType } from '../types/icon-variant-type';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './icon.component.fixture.html'
+  templateUrl: './icon.component.fixture.html',
 })
 export class IconTestComponent {
   public icon = 'circle';

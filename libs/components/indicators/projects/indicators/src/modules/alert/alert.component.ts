@@ -1,29 +1,17 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-import {
-  SkyIndicatorIconType
-} from '../shared/indicator-icon-type';
+import { SkyIndicatorIconType } from '../shared/indicator-icon-type';
 
-import {
-  SkyIndicatorIconUtility
-} from '../shared/indicator-icon-utility';
+import { SkyIndicatorIconUtility } from '../shared/indicator-icon-utility';
 
-import {
-  SkyIconStackItem
-} from '../icon/icon-stack-item';
+import { SkyIconStackItem } from '../icon/icon-stack-item';
 
 const ALERT_TYPE_DEFAULT = 'warning';
 
 @Component({
   selector: 'sky-alert',
   styleUrls: ['./alert.component.scss'],
-  templateUrl: './alert.component.html'
+  templateUrl: './alert.component.html',
 })
 export class SkyAlertComponent implements OnInit {
   /**

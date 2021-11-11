@@ -1,14 +1,8 @@
-<div
-  class="sky-form-group"
-  style="width:200px;"
->
-  <label
-    [for]="searchTermInput.id"
-    class="sky-control-label"
-  >
+<div class="sky-form-group" style="width: 200px">
+  <label [for]="searchTermInput.id" class="sky-control-label">
     Text to highlight
   </label>
-  <br>
+  <br />
   <input
     class="sky-form-control"
     id="sky-demo-search-term"
@@ -16,24 +10,16 @@
     type="text"
     [(ngModel)]="searchTerm"
     #searchTermInput="skyId"
-  >
+  />
 </div>
 
-<div
-  class="sky-margin-stacked-default"
->
-  <sky-checkbox
-    [(ngModel)]="showAdditionalContent"
-  >
-    <sky-checkbox-label>
-      Display additional content
-    </sky-checkbox-label>
+<div class="sky-margin-stacked-default">
+  <sky-checkbox [(ngModel)]="showAdditionalContent">
+    <sky-checkbox-label> Display additional content </sky-checkbox-label>
   </sky-checkbox>
 </div>
 
-<div
-  [skyHighlight]="searchTerm"
->
+<div [skyHighlight]="searchTerm">
   The text that you enter is highlighted here.
   <div *ngIf="showAdditionalContent">
     This additional content is highlighted too!

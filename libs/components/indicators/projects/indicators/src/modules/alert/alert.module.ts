@@ -1,44 +1,26 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  SkyI18nModule
-} from '@skyux/i18n';
+import { SkyI18nModule } from '@skyux/i18n';
 
-import {
-  SkyIndicatorsResourcesModule
-} from '../shared/sky-indicators-resources.module';
+import { SkyIndicatorsResourcesModule } from '../shared/sky-indicators-resources.module';
 
-import {
-  SkyIconModule
-} from '../icon/icon.module';
+import { SkyIconModule } from '../icon/icon.module';
 
-import {
-  SkyThemeModule
-} from '@skyux/theme';
+import { SkyThemeModule } from '@skyux/theme';
 
-import {
-  SkyAlertComponent
-} from './alert.component';
+import { SkyAlertComponent } from './alert.component';
 
 @NgModule({
-  declarations: [
-    SkyAlertComponent
-  ],
+  declarations: [SkyAlertComponent],
   imports: [
     CommonModule,
     SkyI18nModule,
     SkyIconModule,
     SkyIndicatorsResourcesModule,
-    SkyThemeModule
+    SkyThemeModule,
   ],
-  exports: [
-    SkyAlertComponent
-  ]
+  exports: [SkyAlertComponent],
 })
-export class SkyAlertModule { }
+export class SkyAlertModule {}

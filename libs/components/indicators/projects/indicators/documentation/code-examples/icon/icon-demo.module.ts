@@ -1,30 +1,14 @@
+import { NgModule } from '@angular/core';
 
-import {
-  NgModule
-} from '@angular/core';
+import { CommonModule } from '@angular/common';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { SkyIconModule } from '@skyux/indicators';
 
-import {
-  SkyIconModule
-} from '@skyux/indicators';
-
-import {
-  IconDemoComponent
-} from './icon-demo.component';
+import { IconDemoComponent } from './icon-demo.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SkyIconModule
-  ],
-  declarations: [
-    IconDemoComponent
-  ],
-  exports: [
-    IconDemoComponent
-  ]
+  imports: [CommonModule, SkyIconModule],
+  declarations: [IconDemoComponent],
+  exports: [IconDemoComponent],
 })
-export class IconDemoModule { }
+export class IconDemoModule {}

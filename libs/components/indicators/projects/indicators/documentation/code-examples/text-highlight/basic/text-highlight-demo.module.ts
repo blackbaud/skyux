@@ -1,30 +1,16 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  FormsModule
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
-import {
-  SkyIdModule
-} from '@skyux/core';
+import { SkyIdModule } from '@skyux/core';
 
-import {
-  SkyCheckboxModule
-} from '@skyux/forms';
+import { SkyCheckboxModule } from '@skyux/forms';
 
-import {
-  SkyTextHighlightModule
-} from '@skyux/indicators';
+import { SkyTextHighlightModule } from '@skyux/indicators';
 
-import {
-  TextHighlightDemoComponent
-} from './text-highlight-demo.component';
+import { TextHighlightDemoComponent } from './text-highlight-demo.component';
 
 @NgModule({
   imports: [
@@ -32,13 +18,9 @@ import {
     FormsModule,
     SkyCheckboxModule,
     SkyIdModule,
-    SkyTextHighlightModule
+    SkyTextHighlightModule,
   ],
-  exports: [
-    TextHighlightDemoComponent
-  ],
-  declarations: [
-    TextHighlightDemoComponent
-  ]
+  exports: [TextHighlightDemoComponent],
+  declarations: [TextHighlightDemoComponent],
 })
-export class TextHighlightDemoModule { }
+export class TextHighlightDemoModule {}

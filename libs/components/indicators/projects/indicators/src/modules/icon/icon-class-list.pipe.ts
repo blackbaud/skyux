@@ -1,25 +1,17 @@
-import {
-  Pipe,
-  PipeTransform
-} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
-import {
-  SkyIconResolverService
-} from './icon-resolver.service';
+import { SkyIconResolverService } from './icon-resolver.service';
 
-import {
-  SkyIconVariantType
-} from './types/icon-variant-type';
+import { SkyIconVariantType } from './types/icon-variant-type';
 
 /**
  * @internal
  */
 @Pipe({
-  name: 'skyIconClassList'
+  name: 'skyIconClassList',
 })
 export class SkyIconClassListPipe implements PipeTransform {
-
-  constructor(private resolver: SkyIconResolverService) { }
+  constructor(private resolver: SkyIconResolverService) {}
 
   public transform(
     icon: string,
@@ -47,5 +39,4 @@ export class SkyIconClassListPipe implements PipeTransform {
 
     return classList;
   }
-
 }

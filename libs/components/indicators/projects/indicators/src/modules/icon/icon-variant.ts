@@ -12,5 +12,5 @@ export const enum SkyIconVariant {
   /**
    * Displays the solid variant.
    */
-  Solid = 'solid'
+  Solid = 'solid',
 }

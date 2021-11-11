@@ -1,26 +1,15 @@
-import {
-  async,
-  TestBed
-} from '@angular/core/testing';
+import { async, TestBed } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  SkyLabelFixturesModule
-} from './fixtures/label-fixtures.module';
+import { SkyLabelFixturesModule } from './fixtures/label-fixtures.module';
 
-import {
-  LabelTestComponent
-} from './fixtures/label.component.fixture';
+import { LabelTestComponent } from './fixtures/label.component.fixture';
 
 describe('Label component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyLabelFixturesModule
-      ]
+      imports: [SkyLabelFixturesModule],
     });
   });
 
@@ -34,7 +23,7 @@ describe('Label component', () => {
     expect(el.querySelector('.sky-label')).toHaveCssClass('sky-label-danger');
   });
 
-  it('should render the label\'s contents in the expected location', async(() => {
+  it("should render the label's contents in the expected location", async(() => {
     const fixture = TestBed.createComponent(LabelTestComponent);
     const el = fixture.nativeElement as HTMLElement;
 

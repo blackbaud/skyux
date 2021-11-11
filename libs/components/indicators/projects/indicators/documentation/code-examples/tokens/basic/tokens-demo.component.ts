@@ -1,17 +1,12 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {
-  SkyToken
-} from '@skyux/indicators';
+import { SkyToken } from '@skyux/indicators';
 
 @Component({
   selector: 'app-tokens-demo',
-  templateUrl: './tokens-demo.component.html'
+  templateUrl: './tokens-demo.component.html',
 })
-export class TokensDemoComponent  {
-
+export class TokensDemoComponent {
   public colors: SkyToken[];
 
   private defaultColors = [
@@ -25,7 +20,7 @@ export class TokensDemoComponent  {
     { name: 'Purple' },
     { name: 'Turquoise' },
     { name: 'White' },
-    { name: 'Yellow' }
+    { name: 'Yellow' },
   ];
 
   constructor() {
@@ -35,7 +30,7 @@ export class TokensDemoComponent  {
   private getTokens(data: any[]): SkyToken[] {
     return data.map((item: any) => {
       return {
-        value: item
+        value: item,
       } as SkyToken;
     });
   }

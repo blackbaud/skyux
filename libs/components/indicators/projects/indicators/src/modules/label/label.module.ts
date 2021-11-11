@@ -1,29 +1,14 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  SkyIconModule
-} from '../icon/icon.module';
+import { SkyIconModule } from '../icon/icon.module';
 
-import {
-  SkyLabelComponent
-} from './label.component';
+import { SkyLabelComponent } from './label.component';
 
 @NgModule({
-  declarations: [
-    SkyLabelComponent
-  ],
-  imports: [
-    CommonModule,
-    SkyIconModule
-  ],
-  exports: [
-    SkyLabelComponent
-  ]
+  declarations: [SkyLabelComponent],
+  imports: [CommonModule, SkyIconModule],
+  exports: [SkyLabelComponent],
 })
-export class SkyLabelModule { }
+export class SkyLabelModule {}

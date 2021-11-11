@@ -1,51 +1,44 @@
-import {
-  async,
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  FormsModule
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
-import {
-  expect,
-  expectAsync
-} from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import {
-  MutationObserverService
-} from '@skyux/core';
+import { MutationObserverService } from '@skyux/core';
 
-import {
-  SkyTextHighlightTestComponent
-} from './fixtures/text-highlight.component.fixture';
+import { SkyTextHighlightTestComponent } from './fixtures/text-highlight.component.fixture';
 
-import {
-  SkyTextHighlightModule
-} from './text-highlight.module';
+import { SkyTextHighlightModule } from './text-highlight.module';
 
-function getContainerEl(fixture: ComponentFixture<SkyTextHighlightTestComponent>): HTMLElement {
-  return fixture.nativeElement.querySelector('.sky-test-div-container') as HTMLElement;
+function getContainerEl(
+  fixture: ComponentFixture<SkyTextHighlightTestComponent>
+): HTMLElement {
+  return fixture.nativeElement.querySelector(
+    '.sky-test-div-container'
+  ) as HTMLElement;
 }
 
-function updateInputText(fixture: ComponentFixture<SkyTextHighlightTestComponent>, text: string): void {
+function updateInputText(
+  fixture: ComponentFixture<SkyTextHighlightTestComponent>,
+  text: string
+): void {
   const params = {
     bubbles: false,
-    cancelable: false
+    cancelable: false,
   };
 
   const inputEvent = document.createEvent('Event');
   inputEvent.initEvent('input', params.bubbles, params.cancelable);
 
-  const inputEl = fixture.nativeElement.querySelector('.sky-input-search-term') as HTMLInputElement;
+  const inputEl = fixture.nativeElement.querySelector(
+    '.sky-input-search-term'
+  ) as HTMLInputElement;
   inputEl.value = text;
   inputEl.dispatchEvent(inputEvent);
   fixture.detectChanges();
 }
 
 describe('Text Highlight', () => {
-
   let fixture: ComponentFixture<SkyTextHighlightTestComponent>;
   let component: SkyTextHighlightTestComponent;
   let nativeElement: HTMLElement;
@@ -54,26 +47,23 @@ describe('Text Highlight', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SkyTextHighlightTestComponent
-      ],
-      imports: [
-        SkyTextHighlightModule,
-        FormsModule
-      ],
-      providers: [{
-        provide: MutationObserverService,
-        useValue: {
-          create: function(callback: Function): any {
-            callbacks.push(callback);
+      declarations: [SkyTextHighlightTestComponent],
+      imports: [SkyTextHighlightModule, FormsModule],
+      providers: [
+        {
+          provide: MutationObserverService,
+          useValue: {
+            create: function (callback: Function): any {
+              callbacks.push(callback);
 
-            return {
-              observe: () => {},
-              disconnect: () => {}
-            };
-          }
-        }
-      }]
+              return {
+                observe: () => {},
+                disconnect: () => {},
+              };
+            },
+          },
+        },
+      ],
     });
 
     callbacks = [];
@@ -110,8 +100,11 @@ describe('Text Highlight', () => {
     expect(mark.innerHTML.trim()).toBe('text');
   });
 
-  it('highlight should NOT be called when DOM attributes are changed', ((done) => {
-    const spy = spyOn<any>(component.textHighlightDirective, 'highlight').and.callThrough();
+  it('highlight should NOT be called when DOM attributes are changed', (done) => {
+    const spy = spyOn<any>(
+      component.textHighlightDirective,
+      'highlight'
+    ).and.callThrough();
 
     updateInputText(fixture, 'text');
 
@@ -123,7 +116,7 @@ describe('Text Highlight', () => {
       expect(spy).toHaveBeenCalledTimes(1);
       done();
     });
-  }));
+  });
 
   it('should highlight case insensitive search term', () => {
     updateInputText(fixture, 'here');
@@ -145,13 +138,13 @@ describe('Text Highlight', () => {
   });
 
   it('should support illegal characters in the search term', () => {
-    component.innerText1 = 'foo-\/^$*+?.()|{}[]bar';
+    component.innerText1 = 'foo-/^$*+?.()|{}[]bar';
     fixture.detectChanges();
-    updateInputText(fixture, '-\/^$*+?.()|{}[]');
+    updateInputText(fixture, '-/^$*+?.()|{}[]');
 
     const mark = fixture.nativeElement.querySelector('mark');
     expect(mark).toBeTruthy();
-    expect(mark.innerHTML.trim()).toBe('-\/^$*+?.()|{}[]');
+    expect(mark.innerHTML.trim()).toBe('-/^$*+?.()|{}[]');
   });
 
   it('changed search term should highlight new term and old term should not highlight', () => {
@@ -177,8 +170,9 @@ describe('Text Highlight', () => {
     expect(mark.innerHTML.trim()).toBe('is');
 
     // check box to show extra content
-    const checkboxEl =
-      fixture.nativeElement.querySelector('.sky-test-checkbox') as HTMLInputElement;
+    const checkboxEl = fixture.nativeElement.querySelector(
+      '.sky-test-checkbox'
+    ) as HTMLInputElement;
 
     checkboxEl.click();
     fixture.detectChanges();
@@ -202,8 +196,9 @@ describe('Text Highlight', () => {
     expect(mark).toBeFalsy();
 
     // check box to show extra content
-    const checkboxEl =
-      fixture.nativeElement.querySelector('.sky-test-checkbox') as HTMLInputElement;
+    const checkboxEl = fixture.nativeElement.querySelector(
+      '.sky-test-checkbox'
+    ) as HTMLInputElement;
 
     checkboxEl.click();
     fixture.detectChanges();

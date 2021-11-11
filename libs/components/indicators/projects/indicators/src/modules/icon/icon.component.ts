@@ -1,25 +1,16 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import {
-  SkyIconType
-} from './types/icon-type';
+import { SkyIconType } from './types/icon-type';
 
-import {
-  SkyIconVariantType
-} from './types/icon-variant-type';
+import { SkyIconVariantType } from './types/icon-variant-type';
 
 @Component({
   selector: 'sky-icon',
   templateUrl: './icon.component.html',
   styleUrls: ['./icon.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyIconComponent {
-
   /**
    * Specifies the name of
    * [the Font Awesome 4.7 icon](https://fontawesome.com/v4.7/icons/) to

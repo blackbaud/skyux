@@ -1,24 +1,19 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import {
   SkyThemeIconManifestGlyph,
-  SkyThemeIconManifestService
+  SkyThemeIconManifestService,
 } from '@skyux/theme';
 
-import {
-  SkyIconVariantType
-} from './types/icon-variant-type';
+import { SkyIconVariantType } from './types/icon-variant-type';
 
 /**
  * @internal
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SkyIconResolverService {
-
   private glyphMap = new Map<string, SkyThemeIconManifestGlyph>();
 
   constructor(manifestSvc: SkyThemeIconManifestService) {
@@ -49,5 +44,4 @@ export class SkyIconResolverService {
     // Fall back to the icon name as-is.
     return iconName;
   }
-
 }

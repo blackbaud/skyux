@@ -1,22 +1,15 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {
-  SkyWaitService
-} from '@skyux/indicators';
+import { SkyWaitService } from '@skyux/indicators';
 
 @Component({
   selector: 'app-wait-demo',
-  templateUrl: './wait-demo.component.html'
+  templateUrl: './wait-demo.component.html',
 })
 export class WaitDemoComponent {
-
   public isWaiting = false;
 
-  constructor(
-    private waitSvc: SkyWaitService
-  ) { }
+  constructor(private waitSvc: SkyWaitService) {}
 
   public showPageWait(isBlocking: boolean): void {
     if (isBlocking) {
@@ -31,5 +24,4 @@ export class WaitDemoComponent {
       }, 2000);
     }
   }
-
 }

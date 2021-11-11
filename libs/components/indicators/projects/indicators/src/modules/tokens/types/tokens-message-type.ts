@@ -1,5 +1,4 @@
 export enum SkyTokensMessageType {
-
   /**
    * Places focus on the last token in the list.
    */
@@ -23,6 +22,5 @@ export enum SkyTokensMessageType {
   /**
    * Removes the token that is currently selected from the list of tokens.
    */
-  RemoveActiveToken = 4
-
+  RemoveActiveToken = 4,
 }

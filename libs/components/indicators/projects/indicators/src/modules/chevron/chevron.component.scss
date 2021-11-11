@@ -1,6 +1,6 @@
-@import "~@skyux/theme/scss/mixins";
-@import "~@skyux/theme/scss/variables";
-@import "~@skyux/theme/scss/_compat/mixins";
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/variables';
+@import '~@skyux/theme/scss/_compat/mixins';
 
 button {
   background: lightblue;
@@ -31,7 +31,8 @@ button {
   height: 10px;
   position: absolute;
   top: 10px;
-  transition: transform $sky-transition-time-medium, left $sky-transition-time-medium;
+  transition: transform $sky-transition-time-medium,
+    left $sky-transition-time-medium;
   vertical-align: top;
   width: 10px;
 }
@@ -75,7 +76,7 @@ button {
   }
 
   .chevron-glyph-container {
-    transform: scale(.68);
+    transform: scale(0.68);
     display: inline-block;
     position: absolute;
     top: 3.5px;

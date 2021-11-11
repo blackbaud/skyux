@@ -1,24 +1,15 @@
-import {
-  ComponentFixture
-} from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
 
-import {
-  DebugElement
-} from '@angular/core';
+import { DebugElement } from '@angular/core';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 /**
  * Allows interaction with a SKY UX alert component.
  */
 export class SkyAlertFixture {
-
   /**
    * The alert's current text.
    */
@@ -39,9 +30,7 @@ export class SkyAlertFixture {
    * Returns a flag indicating whether the alert is closed.
    */
   public get closed(): boolean {
-    return !SkyAppTestUtility.isVisible(
-      this.getAlertEl()
-    );
+    return !SkyAppTestUtility.isVisible(this.getAlertEl());
   }
 
   /**
@@ -71,11 +60,12 @@ export class SkyAlertFixture {
 
   private debugEl: DebugElement;
 
-  constructor(
-    fixture: ComponentFixture<any>,
-    skyTestId: string
-  ) {
-    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(fixture, skyTestId, 'sky-alert');
+  constructor(fixture: ComponentFixture<any>, skyTestId: string) {
+    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
+      fixture,
+      skyTestId,
+      'sky-alert'
+    );
   }
 
   /**
@@ -98,5 +88,4 @@ export class SkyAlertFixture {
   private getCloseBtnEl(): DebugElement {
     return this.debugEl.query(By.css('.sky-alert-close'));
   }
-
 }

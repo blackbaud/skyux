@@ -1,19 +1,12 @@
-import {
-  Component,
-  ViewChild
-} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
-import {
-  SkyWaitComponent
-} from '../wait.component';
+import { SkyWaitComponent } from '../wait.component';
 
-import {
-  SkyWaitService
-} from '../wait.service';
+import { SkyWaitService } from '../wait.service';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './wait.component.fixture.html'
+  templateUrl: './wait.component.fixture.html',
 })
 export class SkyWaitTestComponent {
   public ariaLabel: string;

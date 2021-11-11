@@ -1,24 +1,12 @@
-import {
-  async,
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  SkyIconModule
-} from './icon.module';
+import { SkyIconModule } from './icon.module';
 
-import {
-  IconTestComponent
-} from './fixtures/icon.component.fixture';
+import { IconTestComponent } from './fixtures/icon.component.fixture';
 
-import {
-  SkyIconResolverService
-} from './icon-resolver.service';
+import { SkyIconResolverService } from './icon-resolver.service';
 
 describe('Icon component', () => {
   let fixture: ComponentFixture<IconTestComponent>;
@@ -27,34 +15,25 @@ describe('Icon component', () => {
   let mockResolver: jasmine.SpyObj<SkyIconResolverService>;
 
   beforeEach(() => {
-    mockResolver = jasmine.createSpyObj(
-      'mockResolver',
-      ['resolveIcon']
-    );
+    mockResolver = jasmine.createSpyObj('mockResolver', ['resolveIcon']);
 
-    mockResolver.resolveIcon.and.callFake(
-      (iconName, variant) => {
-        if (iconName === 'variant-test') {
-          return 'variant-test-' + variant;
-        }
-
-        return iconName;
+    mockResolver.resolveIcon.and.callFake((iconName, variant) => {
+      if (iconName === 'variant-test') {
+        return 'variant-test-' + variant;
       }
-    );
+
+      return iconName;
+    });
 
     TestBed.configureTestingModule({
-      declarations: [
-        IconTestComponent
-      ],
-      imports: [
-        SkyIconModule
-      ],
+      declarations: [IconTestComponent],
+      imports: [SkyIconModule],
       providers: [
         {
           provide: SkyIconResolverService,
-          useValue: mockResolver
-        }
-      ]
+          useValue: mockResolver,
+        },
+      ],
     });
 
     fixture = TestBed.createComponent(IconTestComponent);
@@ -67,7 +46,9 @@ describe('Icon component', () => {
     expect(element.querySelector('.sky-icon')).toHaveCssClass('fa-circle');
     expect(element.querySelector('.sky-icon')).toHaveCssClass('fa-3x');
     expect(element.querySelector('.sky-icon')).not.toHaveCssClass('fa-fw');
-    expect(element.querySelector('.sky-icon').getAttribute('aria-hidden')).toBe('true');
+    expect(element.querySelector('.sky-icon').getAttribute('aria-hidden')).toBe(
+      'true'
+    );
     expect(element.querySelector('.sky-icon').classList.length).toBe(4);
 
     // Accessibility checks
@@ -87,7 +68,9 @@ describe('Icon component', () => {
     expect(element.querySelector('.sky-icon')).toHaveCssClass('fa-5x');
     expect(element.querySelector('.sky-icon')).toHaveCssClass('fa-fw');
     expect(element.querySelector('.sky-icon').classList.length).toBe(5);
-    expect(element.querySelector('.sky-icon').getAttribute('aria-hidden')).toBe('true');
+    expect(element.querySelector('.sky-icon').getAttribute('aria-hidden')).toBe(
+      'true'
+    );
   });
 
   it('should show an icon without optional inputs', () => {
@@ -108,6 +91,8 @@ describe('Icon component', () => {
     cmp.variant = 'solid';
     fixture.detectChanges();
 
-    expect(element.querySelector('.sky-icon')).toHaveCssClass('sky-i-variant-test-solid');
+    expect(element.querySelector('.sky-icon')).toHaveCssClass(
+      'sky-i-variant-test-solid'
+    );
   });
 });

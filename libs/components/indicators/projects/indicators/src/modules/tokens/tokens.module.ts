@@ -1,45 +1,25 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  SkyI18nModule
-} from '@skyux/i18n';
+import { SkyI18nModule } from '@skyux/i18n';
 
-import {
-  SkyTokenComponent
-} from './token.component';
+import { SkyTokenComponent } from './token.component';
 
-import {
-  SkyTokensComponent
-} from './tokens.component';
+import { SkyTokensComponent } from './tokens.component';
 
-import {
-  SkyIconModule
-} from '../icon/icon.module';
+import { SkyIconModule } from '../icon/icon.module';
 
-import {
-  SkyIndicatorsResourcesModule
-} from '../shared/sky-indicators-resources.module';
+import { SkyIndicatorsResourcesModule } from '../shared/sky-indicators-resources.module';
 
 @NgModule({
-  declarations: [
-    SkyTokenComponent,
-    SkyTokensComponent
-  ],
+  declarations: [SkyTokenComponent, SkyTokensComponent],
   imports: [
     CommonModule,
     SkyI18nModule,
     SkyIconModule,
-    SkyIndicatorsResourcesModule
+    SkyIndicatorsResourcesModule,
   ],
-  exports: [
-    SkyTokenComponent,
-    SkyTokensComponent
-  ]
+  exports: [SkyTokenComponent, SkyTokensComponent],
 })
-export class SkyTokensModule { }
+export class SkyTokensModule {}

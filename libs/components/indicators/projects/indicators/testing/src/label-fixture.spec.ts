@@ -1,30 +1,19 @@
-import {
-  TestBed
-} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {
-  SkyLabelModule
-} from '@skyux/indicators';
+import { SkyLabelModule } from '@skyux/indicators';
 
-import {
-  SkyLabelFixture
-} from './label-fixture';
+import { SkyLabelFixture } from './label-fixture';
 
 //#region Test component
 @Component({
   selector: 'label-test',
   template: `
-<sky-label
-  [labelType]="labelType"
-  data-sky-id="test-label"
->
-  This is a sample label.
-</sky-label>
-  `
+    <sky-label [labelType]="labelType" data-sky-id="test-label">
+      This is a sample label.
+    </sky-label>
+  `,
 })
 class TestComponent {
   public labelType = 'warning';
@@ -32,39 +21,24 @@ class TestComponent {
 //#endregion Test component
 
 describe('Label fixture', () => {
-
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TestComponent
-      ],
-      imports: [
-        SkyLabelModule
-      ]
+      declarations: [TestComponent],
+      imports: [SkyLabelModule],
     });
   });
 
   it('should expose the expected properties', () => {
-    const fixture = TestBed.createComponent(
-      TestComponent
-    );
+    const fixture = TestBed.createComponent(TestComponent);
 
     fixture.detectChanges();
 
-    const label = new SkyLabelFixture(
-      fixture,
-      'test-label'
-    );
+    const label = new SkyLabelFixture(fixture, 'test-label');
 
     expect(label.labelType).toBe('warning');
     expect(label.text).toBe('This is a sample label.');
 
-    const validLabelTypes = [
-      'info',
-      'success',
-      'warning',
-      'danger'
-    ];
+    const validLabelTypes = ['info', 'success', 'warning', 'danger'];
 
     for (const validLabelType of validLabelTypes) {
       fixture.componentInstance.labelType = validLabelType;
@@ -80,5 +54,4 @@ describe('Label fixture', () => {
 
     expect(label.labelType).toBeUndefined();
   });
-
 });

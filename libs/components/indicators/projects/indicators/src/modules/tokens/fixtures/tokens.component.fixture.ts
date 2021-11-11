@@ -1,33 +1,18 @@
-import {
-  Component,
-  ElementRef,
-  OnDestroy,
-  ViewChild
-} from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  SkyToken
-} from '../types/token';
+import { SkyToken } from '../types/token';
 
-import {
-  SkyTokenSelectedEventArgs
-} from '../types/token-selected-event-args';
+import { SkyTokenSelectedEventArgs } from '../types/token-selected-event-args';
 
-import {
-  SkyTokensMessage
-} from '../types/tokens-message';
+import { SkyTokensMessage } from '../types/tokens-message';
 
-import {
-  SkyTokensComponent
-} from '../tokens.component';
+import { SkyTokensComponent } from '../tokens.component';
 
 @Component({
   selector: 'sky-tokens-test',
-  templateUrl: './tokens.component.fixture.html'
+  templateUrl: './tokens.component.fixture.html',
 })
 export class SkyTokensTestComponent implements OnDestroy {
   @ViewChild(SkyTokensComponent, { read: ElementRef })
@@ -47,11 +32,7 @@ export class SkyTokensTestComponent implements OnDestroy {
 
   public includeSingleToken = false;
 
-  public data: any[] = [
-    { name: 'Red' },
-    { name: 'White' },
-    { name: 'Blue' }
-  ];
+  public data: any[] = [{ name: 'Red' }, { name: 'White' }, { name: 'Blue' }];
 
   public ngOnDestroy(): void {
     if (this.messageStream) {
@@ -59,14 +40,14 @@ export class SkyTokensTestComponent implements OnDestroy {
     }
   }
 
-  public onFocusIndexOverRange(): void { }
+  public onFocusIndexOverRange(): void {}
 
-  public onFocusIndexUnderRange(): void { }
+  public onFocusIndexUnderRange(): void {}
 
-  public onTokenSelected(args: SkyTokenSelectedEventArgs): void { }
+  public onTokenSelected(args: SkyTokenSelectedEventArgs): void {}
 
   public publishTokens(): void {
-    this.tokens = this.data.map(value => ({ value }));
+    this.tokens = this.data.map((value) => ({ value }));
   }
 
   public publishMessageStream(): void {

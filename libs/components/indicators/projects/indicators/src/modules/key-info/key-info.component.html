@@ -1,23 +1,13 @@
 <div
-    class="sky-key-info"
-    [ngClass]="{
-      'sky-key-info-horizontal': layout === 'horizontal'
-    }"
+  class="sky-key-info"
+  [ngClass]="{
+    'sky-key-info-horizontal': layout === 'horizontal'
+  }"
 >
-  <div
-    class="sky-key-info-value sky-headline"
-  >
-    <ng-content
-      select="sky-key-info-value"
-    >
-    </ng-content>
+  <div class="sky-key-info-value sky-headline">
+    <ng-content select="sky-key-info-value"> </ng-content>
   </div>
-  <div
-    class="sky-key-info-label sky-field-label sky-font-data-label"
-  >
-    <ng-content
-      select="sky-key-info-label"
-    >
-    </ng-content>
+  <div class="sky-key-info-label sky-field-label sky-font-data-label">
+    <ng-content select="sky-key-info-label"> </ng-content>
   </div>
 </div>

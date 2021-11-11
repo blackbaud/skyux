@@ -1,44 +1,26 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  SkyI18nModule
-} from '@skyux/i18n';
+import { SkyI18nModule } from '@skyux/i18n';
 
-import {
-  SkyThemeModule
-} from '@skyux/theme';
+import { SkyThemeModule } from '@skyux/theme';
 
-import {
-  SkyIconModule
-} from '../icon/icon.module';
+import { SkyIconModule } from '../icon/icon.module';
 
-import {
-  SkyIndicatorsResourcesModule
-} from '../shared/sky-indicators-resources.module';
+import { SkyIndicatorsResourcesModule } from '../shared/sky-indicators-resources.module';
 
-import {
-  SkyHelpInlineComponent
-} from './help-inline.component';
+import { SkyHelpInlineComponent } from './help-inline.component';
 
 @NgModule({
-  declarations: [
-    SkyHelpInlineComponent
-  ],
+  declarations: [SkyHelpInlineComponent],
   imports: [
     CommonModule,
     SkyI18nModule,
     SkyIconModule,
     SkyIndicatorsResourcesModule,
-    SkyThemeModule
+    SkyThemeModule,
   ],
-  exports: [
-    SkyHelpInlineComponent
-  ]
+  exports: [SkyHelpInlineComponent],
 })
-export class SkyHelpInlineModule { }
+export class SkyHelpInlineModule {}

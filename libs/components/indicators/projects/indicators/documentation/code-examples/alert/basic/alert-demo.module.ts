@@ -1,30 +1,14 @@
+import { NgModule } from '@angular/core';
 
-import {
-  NgModule
-} from '@angular/core';
+import { CommonModule } from '@angular/common';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { SkyAlertModule } from '@skyux/indicators';
 
-import {
-  SkyAlertModule
-} from '@skyux/indicators';
-
-import {
-  AlertDemoComponent
-} from './alert-demo.component';
+import { AlertDemoComponent } from './alert-demo.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SkyAlertModule
-  ],
-  declarations: [
-    AlertDemoComponent
-  ],
-  exports: [
-    AlertDemoComponent
-  ]
+  imports: [CommonModule, SkyAlertModule],
+  declarations: [AlertDemoComponent],
+  exports: [AlertDemoComponent],
 })
-export class AlertDemoModule { }
+export class AlertDemoModule {}

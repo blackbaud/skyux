@@ -1,26 +1,15 @@
-import {
-  async,
-  TestBed
-} from '@angular/core/testing';
+import { async, TestBed } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  SkyKeyInfoFixturesModule
-} from './fixtures/key-info-fixtures.module';
+import { SkyKeyInfoFixturesModule } from './fixtures/key-info-fixtures.module';
 
-import {
-  KeyInfoTestComponent
-} from './fixtures/key-info.component.fixture';
+import { KeyInfoTestComponent } from './fixtures/key-info.component.fixture';
 
 describe('Key info component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyKeyInfoFixturesModule
-      ]
+      imports: [SkyKeyInfoFixturesModule],
     });
   });
 
@@ -51,8 +40,12 @@ describe('Key info component', () => {
 
     fixture.detectChanges();
 
-    expect(el.querySelectorAll('.sky-key-info-value sky-key-info-value').length).toBe(1);
-    expect(el.querySelectorAll('.sky-key-info-label sky-key-info-label').length).toBe(1);
+    expect(
+      el.querySelectorAll('.sky-key-info-value sky-key-info-value').length
+    ).toBe(1);
+    expect(
+      el.querySelectorAll('.sky-key-info-label sky-key-info-label').length
+    ).toBe(1);
     expect(fixture.nativeElement).toBeAccessible();
   }));
 });

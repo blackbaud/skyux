@@ -1,27 +1,17 @@
-import {
-  Component,
-  Input
-} from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-import {
-  SkyIndicatorIconUtility
-} from '../shared/indicator-icon-utility';
+import { SkyIndicatorIconUtility } from '../shared/indicator-icon-utility';
 
-import {
-  SkyIconStackItem
-} from '../icon/icon-stack-item';
+import { SkyIconStackItem } from '../icon/icon-stack-item';
 
-import {
-  SkyLabelType
-} from './label-type';
+import { SkyLabelType } from './label-type';
 
 @Component({
   selector: 'sky-label',
   templateUrl: './label.component.html',
-  styleUrls: ['./label.component.scss']
+  styleUrls: ['./label.component.scss'],
 })
 export class SkyLabelComponent {
-
   /**
    * The type of label to display.
    * @required
@@ -45,7 +35,9 @@ export class SkyLabelComponent {
   private _labelType: SkyLabelType;
 
   private updateIcon(): void {
-    const indicatorIcon = SkyIndicatorIconUtility.getIconsForType(this.labelType);
+    const indicatorIcon = SkyIndicatorIconUtility.getIconsForType(
+      this.labelType
+    );
 
     this.icon = indicatorIcon.defaultThemeIcon;
     this.baseIcon = indicatorIcon.modernThemeBaseIcon;

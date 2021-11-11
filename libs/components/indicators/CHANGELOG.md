@@ -1,3 +1,7 @@
+# 5.0.1 (2021-11-11)
+
+- Fixed the UMD bundle to work in StackBlitz. [#196](https://github.com/blackbaud/skyux-indicators/pull/196)
+
 # 5.0.0 (2021-09-30)
 
 ### New features
@@ -197,7 +201,6 @@
 # 3.0.0-rc.5 (2018-11-19)
 
 - Updated peer dependencies to support Angular versions greater than `4.3.6`. [#13](https://github.com/blackbaud/skyux-indicators/pull/19)
-
 
 # 3.0.0-rc.4 (2018-11-12)
 

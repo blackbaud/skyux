@@ -1,36 +1,18 @@
-import {
-  ApplicationRef
-} from '@angular/core';
+import { ApplicationRef } from '@angular/core';
 
-import {
-  fakeAsync,
-  inject,
-  TestBed,
-  tick
-} from '@angular/core/testing';
+import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 
-import {
-  SkyAppWindowRef
-} from '@skyux/core';
+import { SkyAppWindowRef } from '@skyux/core';
 
-import {
-  ReplaySubject
-} from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 
-import {
-  SkyWaitFixturesModule
-} from './fixtures/wait-fixtures.module';
+import { SkyWaitFixturesModule } from './fixtures/wait-fixtures.module';
 
-import {
-  SkyWaitTestComponent
-} from './fixtures/wait.component.fixture';
+import { SkyWaitTestComponent } from './fixtures/wait.component.fixture';
 
-import {
-  SkyWaitService
-} from './wait.service';
+import { SkyWaitService } from './wait.service';
 
-const NO_OP_FUNC: () => void = () => {
-};
+const NO_OP_FUNC: () => void = () => {};
 
 describe('Wait service', () => {
   let waitService: SkyWaitService;
@@ -43,38 +25,29 @@ describe('Wait service', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyWaitFixturesModule
-      ]
+      imports: [SkyWaitFixturesModule],
     });
   });
 
-  beforeEach(
-    inject(
-      [
-        ApplicationRef,
-        SkyWaitService,
-        SkyAppWindowRef
-      ],
-      (
-        _applicationRef: ApplicationRef,
-        _waitService: SkyWaitService
-      ) => {
-        applicationRef = _applicationRef;
-        waitService = _waitService;
-        waitService.dispose();
-      }
-    )
-  );
+  beforeEach(inject(
+    [ApplicationRef, SkyWaitService, SkyAppWindowRef],
+    (_applicationRef: ApplicationRef, _waitService: SkyWaitService) => {
+      applicationRef = _applicationRef;
+      waitService = _waitService;
+      waitService.dispose();
+    }
+  ));
 
   afterEach(() => {
     waitService.dispose();
-  })
+  });
 
   function verifyBlockingPageWaitExists(doesExist: boolean): void {
     if (doesExist) {
       expect(document.body.querySelector(pageBlockingSelector)).not.toBeNull();
-      expect(document.body.querySelectorAll(pageBlockingSelector).length).toBe(1);
+      expect(document.body.querySelectorAll(pageBlockingSelector).length).toBe(
+        1
+      );
     } else {
       expect(document.body.querySelector(pageBlockingSelector)).toBeNull();
     }
@@ -82,15 +55,18 @@ describe('Wait service', () => {
 
   function verifyNonBlockingPageWaitExists(doesExist: boolean): void {
     if (doesExist) {
-      expect(document.body.querySelector(pageNonBlockingSelector)).not.toBeNull();
-      expect(document.body.querySelectorAll(pageNonBlockingSelector).length).toBe(1);
+      expect(
+        document.body.querySelector(pageNonBlockingSelector)
+      ).not.toBeNull();
+      expect(
+        document.body.querySelectorAll(pageNonBlockingSelector).length
+      ).toBe(1);
     } else {
       expect(document.body.querySelector(pageNonBlockingSelector)).toBeNull();
     }
   }
 
-  it('should add a blocking page wait when beginPageWait is called with isBlocking true',
-    fakeAsync(() => {
+  it('should add a blocking page wait when beginPageWait is called with isBlocking true', fakeAsync(() => {
     waitService.beginBlockingPageWait();
     tick();
     applicationRef.tick();
@@ -111,7 +87,6 @@ describe('Wait service', () => {
     tick();
     applicationRef.tick();
     verifyBlockingPageWaitExists(false);
-
   }));
 
   it('should block tab navigation when a blocking page wait is active', fakeAsync(() => {
@@ -123,15 +98,16 @@ describe('Wait service', () => {
     verifyBlockingPageWaitExists(true);
 
     const button = document.body.querySelector('button');
-    const event = Object.assign(document.createEvent('CustomEvent'), { relatedTarget: document.body });
+    const event = Object.assign(document.createEvent('CustomEvent'), {
+      relatedTarget: document.body,
+    });
     event.initEvent('focusin', true, true);
     button.dispatchEvent(event);
 
     expect(document.activeElement).toBe(document.body);
   }));
 
-  it('should add a nonblocking page wait when beginPageWait is called with isBlocking false',
-    fakeAsync(() => {
+  it('should add a nonblocking page wait when beginPageWait is called with isBlocking false', fakeAsync(() => {
     waitService.beginNonBlockingPageWait();
     tick();
     applicationRef.tick();
@@ -258,7 +234,9 @@ describe('Wait service', () => {
 
   it('should wrap with blocking wait when the given observable throws error', fakeAsync(() => {
     const subject = new ReplaySubject();
-    waitService.blockingWrap(subject.asObservable()).subscribe(NO_OP_FUNC, NO_OP_FUNC);
+    waitService
+      .blockingWrap(subject.asObservable())
+      .subscribe(NO_OP_FUNC, NO_OP_FUNC);
     subject.next('A');
     tick();
     applicationRef.tick();
@@ -297,7 +275,9 @@ describe('Wait service', () => {
 
   it('should wrap with nonblocking wait when the given observable throws error', fakeAsync(() => {
     const subject = new ReplaySubject();
-    waitService.nonBlockingWrap(subject.asObservable()).subscribe(NO_OP_FUNC, NO_OP_FUNC);
+    waitService
+      .nonBlockingWrap(subject.asObservable())
+      .subscribe(NO_OP_FUNC, NO_OP_FUNC);
     subject.next('A');
     tick();
     applicationRef.tick();

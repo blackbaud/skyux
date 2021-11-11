@@ -3,7 +3,7 @@ import {
   Injectable,
   OnDestroy,
   Renderer2,
-  RendererFactory2
+  RendererFactory2,
 } from '@angular/core';
 
 // Need to add the following to classes which contain static methods.
@@ -15,15 +15,15 @@ import {
 @Injectable()
 export class SkyWaitAdapterService implements OnDestroy {
   private static isPageWaitActive = false;
-  private static busyElements: {[key: string]: {busyEl: HTMLElement, listener: any}} = {};
+  private static busyElements: {
+    [key: string]: { busyEl: HTMLElement; listener: any };
+  } = {};
 
   private focussableElements: HTMLElement[];
 
   private renderer: Renderer2;
 
-  constructor(
-    private rendererFactory: RendererFactory2
-  ) {
+  constructor(private rendererFactory: RendererFactory2) {
     this.renderer = this.rendererFactory.createRenderer(undefined, undefined);
   }
 
@@ -32,7 +32,11 @@ export class SkyWaitAdapterService implements OnDestroy {
   }
 
   public setWaitBounds(waitEl: ElementRef): void {
-    this.renderer.setStyle(waitEl.nativeElement.parentElement, 'position', 'relative');
+    this.renderer.setStyle(
+      waitEl.nativeElement.parentElement,
+      'position',
+      'relative'
+    );
   }
 
   public removeWaitBounds(waitEl: ElementRef): void {
@@ -46,7 +50,9 @@ export class SkyWaitAdapterService implements OnDestroy {
     isNonBlocking = false,
     waitComponentId?: string
   ): void {
-    const busyEl = isFullPage ? document.body : waitEl.nativeElement.parentElement;
+    const busyEl = isFullPage
+      ? document.body
+      : waitEl.nativeElement.parentElement;
 
     if (!isNonBlocking) {
       if (isWaiting) {
@@ -74,10 +80,11 @@ export class SkyWaitAdapterService implements OnDestroy {
                   this.clearDocumentFocus();
                 }
               }
-          });
+            }
+          );
           SkyWaitAdapterService.busyElements[waitComponentId] = {
             listener: endListenerFunc,
-            busyEl: undefined
+            busyEl: undefined,
           };
         } else {
           const endListenerFunc = this.renderer.listen(
@@ -99,10 +106,11 @@ export class SkyWaitAdapterService implements OnDestroy {
                   this.focusNextElement(target, this.isShift(event), busyEl);
                 }
               }
-          });
+            }
+          );
           SkyWaitAdapterService.busyElements[waitComponentId] = {
             listener: endListenerFunc,
-            busyEl: busyEl
+            busyEl: busyEl,
           };
         }
       } else {
@@ -119,7 +127,11 @@ export class SkyWaitAdapterService implements OnDestroy {
     }
   }
 
-  private focusNextElement(targetElement: HTMLElement, shiftKey: boolean, busyEl: Element): void {
+  private focusNextElement(
+    targetElement: HTMLElement,
+    shiftKey: boolean,
+    busyEl: Element
+  ): void {
     const focussable = this.getFocussableElements();
 
     // If shift tab, go in the other direction
@@ -128,11 +140,17 @@ export class SkyWaitAdapterService implements OnDestroy {
     // Find the next navigable element that isn't waiting
     const startingIndex = focussable.indexOf(targetElement);
     let curIndex = startingIndex + modifier;
-    while (focussable[curIndex] && this.isElementBusyOrHidden(focussable[curIndex])) {
+    while (
+      focussable[curIndex] &&
+      this.isElementBusyOrHidden(focussable[curIndex])
+    ) {
       curIndex += modifier;
     }
 
-    if (focussable[curIndex] && !this.isElementBusyOrHidden(focussable[curIndex])) {
+    if (
+      focussable[curIndex] &&
+      !this.isElementBusyOrHidden(focussable[curIndex])
+    ) {
       focussable[curIndex].focus();
     } else {
       // Try wrapping the navigation
@@ -151,7 +169,10 @@ export class SkyWaitAdapterService implements OnDestroy {
 
       /* istanbul ignore else */
       /* sanity check */
-      if (focussable[curIndex] && !this.isElementBusyOrHidden(focussable[curIndex])) {
+      if (
+        focussable[curIndex] &&
+        !this.isElementBusyOrHidden(focussable[curIndex])
+      ) {
         focussable[curIndex].focus();
       } else {
         // No valid target, wipe focus
@@ -165,15 +186,19 @@ export class SkyWaitAdapterService implements OnDestroy {
 
   private isShift(event: Event): boolean {
     // Determine if shift+tab was used based on element order
-    const elements = this.getFocussableElements().filter(elem => !this.isElementHidden(elem));
+    const elements = this.getFocussableElements().filter(
+      (elem) => !this.isElementHidden(elem)
+    );
 
     const previousInd = elements.indexOf((event as any).relatedTarget);
     const currentInd = elements.indexOf(event.target as HTMLElement);
 
-    return previousInd === currentInd + 1
-      || (previousInd === 0 && currentInd === elements.length - 1)
-      || (previousInd > currentInd)
-      || !(event as any).relatedTarget;
+    return (
+      previousInd === currentInd + 1 ||
+      (previousInd === 0 && currentInd === elements.length - 1) ||
+      previousInd > currentInd ||
+      !(event as any).relatedTarget
+    );
   }
 
   private isElementHidden(element: any): boolean {
@@ -213,19 +238,24 @@ export class SkyWaitAdapterService implements OnDestroy {
     const focussableElements =
       'a[href], ' +
       'area[href], ' +
-      'input:not([disabled]):not([tabindex=\'-1\']), ' +
-      'button:not([disabled]):not([tabindex=\'-1\']), ' +
-      'select:not([disabled]):not([tabindex=\'-1\']), ' +
-      'textarea:not([disabled]):not([tabindex=\'-1\']), ' +
+      "input:not([disabled]):not([tabindex='-1']), " +
+      "button:not([disabled]):not([tabindex='-1']), " +
+      "select:not([disabled]):not([tabindex='-1']), " +
+      "textarea:not([disabled]):not([tabindex='-1']), " +
       'iframe, object, embed, ' +
-      '*[tabindex]:not([tabindex=\'-1\']), ' +
+      "*[tabindex]:not([tabindex='-1']), " +
       '*[contenteditable=true]';
 
     this.focussableElements = Array.prototype.filter.call(
       document.body.querySelectorAll(focussableElements),
-        (element: any) => {
-          return element.offsetWidth > 0 || element.offsetHeight > 0 || element === document.activeElement;
-    });
+      (element: any) => {
+        return (
+          element.offsetWidth > 0 ||
+          element.offsetHeight > 0 ||
+          element === document.activeElement
+        );
+      }
+    );
     return this.focussableElements;
   }
 

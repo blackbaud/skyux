@@ -1,33 +1,25 @@
-import {
-  TestBed
-} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {
-  SkyAlertModule
-} from '@skyux/indicators';
+import { SkyAlertModule } from '@skyux/indicators';
 
-import {
-  SkyAlertFixture
-} from './alert-fixture';
+import { SkyAlertFixture } from './alert-fixture';
 
 //#region Test component
 @Component({
   selector: 'alert-test',
   template: `
-<sky-alert
-  [alertType]="alertType"
-  [closeable]="closeable"
-  [closed]="closed"
-  (closedChange)="closedChange()"
-  data-sky-id="test-alert"
->
-  This is a sample alert.
-</sky-alert>
-  `
+    <sky-alert
+      [alertType]="alertType"
+      [closeable]="closeable"
+      [closed]="closed"
+      (closedChange)="closedChange()"
+      data-sky-id="test-alert"
+    >
+      This is a sample alert.
+    </sky-alert>
+  `,
 })
 class TestComponent {
   public alertType = 'warning';
@@ -36,45 +28,30 @@ class TestComponent {
 
   public closed = false;
 
-  public closedChange() { }
+  public closedChange() {}
 }
 //#endregion Test component
 
 describe('Alert fixture', () => {
-
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TestComponent
-      ],
-      imports: [
-        SkyAlertModule
-      ]
+      declarations: [TestComponent],
+      imports: [SkyAlertModule],
     });
   });
 
   it('should expose the expected properties', () => {
-    const fixture = TestBed.createComponent(
-      TestComponent
-    );
+    const fixture = TestBed.createComponent(TestComponent);
 
     fixture.detectChanges();
 
-    const alert = new SkyAlertFixture(
-      fixture,
-      'test-alert'
-    );
+    const alert = new SkyAlertFixture(fixture, 'test-alert');
 
     expect(alert.closeable).toBe(true);
     expect(alert.closed).toBe(false);
     expect(alert.text).toBe('This is a sample alert.');
 
-    const validAlertTypes = [
-      'info',
-      'success',
-      'warning',
-      'danger'
-    ];
+    const validAlertTypes = ['info', 'success', 'warning', 'danger'];
 
     for (const validAlertType of validAlertTypes) {
       fixture.componentInstance.alertType = validAlertType;
@@ -92,18 +69,13 @@ describe('Alert fixture', () => {
   });
 
   it('should provide a method for closing the alert', () => {
-    const fixture = TestBed.createComponent(
-      TestComponent
-    );
+    const fixture = TestBed.createComponent(TestComponent);
 
     fixture.componentInstance.closeable = false;
 
     fixture.detectChanges();
 
-    const alert = new SkyAlertFixture(
-      fixture,
-      'test-alert'
-    );
+    const alert = new SkyAlertFixture(fixture, 'test-alert');
 
     expect(() => alert.close()).toThrowError('The alert is not closeable.');
 
@@ -122,5 +94,4 @@ describe('Alert fixture', () => {
     expect(closedChangeSpy).toHaveBeenCalled();
     expect(alert.closed).toBe(true);
   });
-
 });

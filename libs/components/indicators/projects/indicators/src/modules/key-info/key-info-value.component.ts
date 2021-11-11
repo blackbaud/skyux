@@ -1,6 +1,4 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * Specifies a value to display in larger, bold text.
@@ -8,6 +6,6 @@ import {
  */
 @Component({
   selector: 'sky-key-info-value',
-  template: '<ng-content></ng-content>'
+  template: '<ng-content></ng-content>',
 })
 export class SkyKeyInfoValueComponent {}

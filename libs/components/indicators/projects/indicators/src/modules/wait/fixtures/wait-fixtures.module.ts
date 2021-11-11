@@ -1,36 +1,17 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  SkyAppWindowRef
-} from '@skyux/core';
+import { SkyAppWindowRef } from '@skyux/core';
 
-import {
-  SkyWaitModule
-} from '../wait.module';
+import { SkyWaitModule } from '../wait.module';
 
-import {
-  SkyWaitTestComponent
-} from './wait.component.fixture';
+import { SkyWaitTestComponent } from './wait.component.fixture';
 
 @NgModule({
-  declarations: [
-    SkyWaitTestComponent
-  ],
-  imports: [
-    CommonModule,
-    SkyWaitModule
-  ],
-  providers: [
-    SkyAppWindowRef
-  ],
-  entryComponents: [
-    SkyWaitTestComponent
-  ]
+  declarations: [SkyWaitTestComponent],
+  imports: [CommonModule, SkyWaitModule],
+  providers: [SkyAppWindowRef],
+  entryComponents: [SkyWaitTestComponent],
 })
-export class SkyWaitFixturesModule { }
+export class SkyWaitFixturesModule {}

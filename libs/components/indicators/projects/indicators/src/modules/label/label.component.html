@@ -1,22 +1,9 @@
-<span
-  class="sky-label"
-  [ngClass]="'sky-label-' + labelType"
->
-  <span
-    class="sky-label-icon-theme-default"
-  >
-    <sky-icon
-      [icon]="icon"
-    ></sky-icon>
+<span class="sky-label" [ngClass]="'sky-label-' + labelType">
+  <span class="sky-label-icon-theme-default">
+    <sky-icon [icon]="icon"></sky-icon>
   </span>
-  <span
-    class="sky-label-icon-theme-modern"
-  >
-    <sky-icon-stack
-      size="xs"
-      [baseIcon]="baseIcon"
-      [topIcon]="topIcon"
-    >
+  <span class="sky-label-icon-theme-modern">
+    <sky-icon-stack size="xs" [baseIcon]="baseIcon" [topIcon]="topIcon">
     </sky-icon-stack>
   </span>
   <span class="sky-label-text">

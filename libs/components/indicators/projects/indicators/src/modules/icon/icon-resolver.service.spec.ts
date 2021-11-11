@@ -1,13 +1,8 @@
-import {
-  SkyThemeIconManifestService
-} from '@skyux/theme';
+import { SkyThemeIconManifestService } from '@skyux/theme';
 
-import {
-  SkyIconResolverService
-} from './icon-resolver.service';
+import { SkyIconResolverService } from './icon-resolver.service';
 
 describe('Icon resolver service', () => {
-
   let mockManfiestSvc: Partial<SkyThemeIconManifestService>;
   let svc: SkyIconResolverService;
 
@@ -20,32 +15,32 @@ describe('Icon resolver service', () => {
             {
               code: 1,
               name: 'no-variant',
-              usage: []
+              usage: [],
             },
             {
               code: 10,
               name: 'widget',
-              usage: []
+              usage: [],
             },
             {
               code: 11,
               name: 'widget-solid',
-              usage: []
+              usage: [],
             },
             {
               code: 12,
               name: 'widget-line',
-              usage: []
+              usage: [],
             },
             {
               code: 13,
               name: 'line-only-line',
-              usage: []
-            }
+              usage: [],
+            },
           ],
-          name: 'test'
+          name: 'test',
         };
-      }
+      },
     };
 
     svc = new SkyIconResolverService(mockManfiestSvc as any);
@@ -74,5 +69,4 @@ describe('Icon resolver service', () => {
   it('should return the solid variant if it exists', () => {
     expect(svc.resolveIcon('widget', 'solid')).toBe('widget-solid');
   });
-
 });

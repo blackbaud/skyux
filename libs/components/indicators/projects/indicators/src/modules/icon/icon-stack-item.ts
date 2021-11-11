@@ -1,9 +1,6 @@
-import {
-  SkyIconType
-} from './types/icon-type';
+import { SkyIconType } from './types/icon-type';
 
 export interface SkyIconStackItem {
-
   /**
    * Specifies the name of
    * [the Font Awesome 4.7 icon](https://fontawesome.com/v4.7/icons/) to

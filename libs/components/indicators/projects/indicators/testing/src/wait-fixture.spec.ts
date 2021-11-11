@@ -1,29 +1,22 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {
-  TestBed
-} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {
-  SkyWaitModule
-} from '@skyux/indicators';
+import { SkyWaitModule } from '@skyux/indicators';
 
-import {
-  SkyWaitFixture
-} from './wait-fixture';
+import { SkyWaitFixture } from './wait-fixture';
 
 @Component({
   selector: 'wait-test',
   template: `
-    <sky-wait [isWaiting]="isWaiting"
-              [isFullPage]="isFullPage"
-              [isNonBlocking]="isNonBlocking"
-              [ariaLabel]="label"
-              data-sky-id="test-wait"
+    <sky-wait
+      [isWaiting]="isWaiting"
+      [isFullPage]="isFullPage"
+      [isNonBlocking]="isNonBlocking"
+      [ariaLabel]="label"
+      data-sky-id="test-wait"
     ></sky-wait>
-  `
+  `,
 })
 class TestComponent {
   public isWaiting: boolean = true;
@@ -33,22 +26,15 @@ class TestComponent {
 }
 
 describe('Wait fixture', () => {
-
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TestComponent
-      ],
-      imports: [
-        SkyWaitModule
-      ]
+      declarations: [TestComponent],
+      imports: [SkyWaitModule],
     });
   });
 
   it('should expose expected properties', () => {
-    const fixture = TestBed.createComponent(
-      TestComponent
-    );
+    const fixture = TestBed.createComponent(TestComponent);
 
     fixture.detectChanges();
     const waitFixture: SkyWaitFixture = new SkyWaitFixture(

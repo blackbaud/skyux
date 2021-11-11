@@ -1,22 +1,10 @@
-import {
-  Component,
-  ElementRef,
-  Input,
-  OnInit,
-  Optional
-} from '@angular/core';
+import { Component, ElementRef, Input, OnInit, Optional } from '@angular/core';
 
-import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
-import {
-  BehaviorSubject
-} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
-import {
-  SkyWaitAdapterService
-} from './wait-adapter.service';
+import { SkyWaitAdapterService } from './wait-adapter.service';
 
 let nextId = 0;
 
@@ -24,12 +12,9 @@ let nextId = 0;
   selector: 'sky-wait',
   templateUrl: './wait.component.html',
   styleUrls: ['./wait.component.scss'],
-  providers: [
-    SkyWaitAdapterService
-  ]
+  providers: [SkyWaitAdapterService],
 })
 export class SkyWaitComponent implements OnInit {
-
   /**
    * Specifies an ARIA label for the wait icon while an element or page loads.
    * This sets the icon's `aria-label` attribute
@@ -76,9 +61,10 @@ export class SkyWaitComponent implements OnInit {
    */
   @Input()
   public set isFullPage(value: boolean) {
+    /* istanbul ignore else: untestable */
     if (value) {
       this.adapterService.removeWaitBounds(this.elRef);
-    } else /* istanbul ignore if: untestable */if (!value && this._isWaiting) {
+    } else if (!value && this._isWaiting) {
       this.adapterService.setWaitBounds(this.elRef);
     }
 
@@ -107,7 +93,7 @@ export class SkyWaitComponent implements OnInit {
     private elRef: ElementRef,
     private adapterService: SkyWaitAdapterService,
     @Optional() private resourceService: SkyLibResourcesService
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     this.publishAriaLabel();
@@ -121,8 +107,8 @@ export class SkyWaitComponent implements OnInit {
 
     /* istanbul ignore else */
     if (this.resourceService) {
-      const type = (this.isFullPage) ? '_page' : '';
-      const blocking = (this.isNonBlocking) ? '' : '_blocking';
+      const type = this.isFullPage ? '_page' : '';
+      const blocking = this.isNonBlocking ? '' : '_blocking';
       const key = `skyux_wait${type}${blocking}_aria_alt_text`;
       this.resourceService.getString(key).subscribe((value: string) => {
         this.ariaLabelStream.next(value);

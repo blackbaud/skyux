@@ -1,15 +1,12 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 /**
  * @internal
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SkyWaitPageAdapterService {
-
   public addPageWaitEl(): void {
     document.body.appendChild(document.createElement('sky-wait-page'));
   }

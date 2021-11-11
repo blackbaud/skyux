@@ -1,10 +1,8 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './alert.component.fixture.html'
+  templateUrl: './alert.component.fixture.html',
 })
 export class AlertTestComponent {
   public closeable = false;

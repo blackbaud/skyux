@@ -1,22 +1,12 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  StatusIndicatorTestComponent
-} from './fixtures/status-indicator.component.fixture';
+import { StatusIndicatorTestComponent } from './fixtures/status-indicator.component.fixture';
 
-import {
-  SkyStatusIndicatorModule
-} from './status-indicator.module';
+import { SkyStatusIndicatorModule } from './status-indicator.module';
 
 describe('Status indicator component', () => {
-
   function getStatusIndicatorEl(
     fixture: ComponentFixture<StatusIndicatorTestComponent>
   ): HTMLDivElement {
@@ -27,9 +17,13 @@ describe('Status indicator component', () => {
     statusIndicatorEl: HTMLElement,
     indicatorType: string
   ): void {
-    const iconWrapperEl = statusIndicatorEl.querySelector('.sky-status-indicator-icon');
+    const iconWrapperEl = statusIndicatorEl.querySelector(
+      '.sky-status-indicator-icon'
+    );
 
-    expect(iconWrapperEl).toHaveCssClass(`sky-status-indicator-icon-${indicatorType || 'warning'}`);
+    expect(iconWrapperEl).toHaveCssClass(
+      `sky-status-indicator-icon-${indicatorType || 'warning'}`
+    );
   }
 
   function validateIcon(
@@ -74,12 +68,8 @@ describe('Status indicator component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        StatusIndicatorTestComponent
-      ],
-      imports: [
-        SkyStatusIndicatorModule
-      ]
+      declarations: [StatusIndicatorTestComponent],
+      imports: [SkyStatusIndicatorModule],
     });
   });
 
@@ -99,7 +89,9 @@ describe('Status indicator component', () => {
 
     const statusIndicatorEl = getStatusIndicatorEl(fixture);
 
-    const messageEl = statusIndicatorEl.querySelector('.sky-status-indicator-message');
+    const messageEl = statusIndicatorEl.querySelector(
+      '.sky-status-indicator-message'
+    );
 
     expect(messageEl).toHaveText('Indicator text');
   });
@@ -121,7 +113,11 @@ describe('Status indicator component', () => {
     fixture.componentInstance.customDescription = 'Custom description';
 
     validateDescription(fixture, 'completed', 'Completed:');
-    validateDescription(fixture, 'custom', fixture.componentInstance.customDescription);
+    validateDescription(
+      fixture,
+      'custom',
+      fixture.componentInstance.customDescription
+    );
     validateDescription(fixture, 'error', 'Error:');
     validateDescription(fixture, 'important-info', 'Important information:');
     validateDescription(fixture, 'none');
@@ -139,7 +135,6 @@ describe('Status indicator component', () => {
   });
 
   describe('when modern theme', () => {
-
     function validateIconStack(
       fixture: ComponentFixture<StatusIndicatorTestComponent>,
       indicatorType: string,
@@ -173,7 +168,5 @@ describe('Status indicator component', () => {
       validateIconStack(fixture, 'success', 'circle-solid', 'check');
       validateIconStack(fixture, 'warning', 'triangle-solid', 'exclamation');
     });
-
   });
-
 });

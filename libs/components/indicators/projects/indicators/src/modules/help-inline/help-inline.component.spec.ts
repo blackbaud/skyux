@@ -1,29 +1,14 @@
-import {
-  DebugElement
-} from '@angular/core';
+import { DebugElement } from '@angular/core';
 
-import {
-  async,
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  BrowserModule,
-  By
-} from '@angular/platform-browser';
+import { BrowserModule, By } from '@angular/platform-browser';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  SkyHelpInlineModule
-} from '../help-inline/help-inline.module';
+import { SkyHelpInlineModule } from '../help-inline/help-inline.module';
 
-import {
-  HelpInlineTestComponent
-} from './fixtures/help-inline.component.fixture';
+import { HelpInlineTestComponent } from './fixtures/help-inline.component.fixture';
 
 describe('Help inline component', () => {
   let fixture: ComponentFixture<HelpInlineTestComponent>;
@@ -32,13 +17,8 @@ describe('Help inline component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        HelpInlineTestComponent
-      ],
-      imports: [
-        BrowserModule,
-        SkyHelpInlineModule
-      ]
+      declarations: [HelpInlineTestComponent],
+      imports: [BrowserModule, SkyHelpInlineModule],
     });
 
     fixture = TestBed.createComponent(HelpInlineTestComponent);
@@ -49,7 +29,9 @@ describe('Help inline component', () => {
   });
 
   it('should emit a click event on button click', () => {
-    debugElement.query(By.css('.sky-help-inline')).triggerEventHandler('click', undefined);
+    debugElement
+      .query(By.css('.sky-help-inline'))
+      .triggerEventHandler('click', undefined);
     fixture.detectChanges();
     expect(cmp.buttonIsClicked).toBe(true);
   });

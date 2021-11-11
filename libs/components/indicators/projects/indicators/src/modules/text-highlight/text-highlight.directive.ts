@@ -5,12 +5,10 @@ import {
   Input,
   OnChanges,
   OnDestroy,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 
-import {
-  MutationObserverService
-} from '@skyux/core';
+import { MutationObserverService } from '@skyux/core';
 
 const className = 'sky-highlight-mark';
 
@@ -23,10 +21,11 @@ const className = 'sky-highlight-mark';
  * cannot place it on `ng-template`, `ng-content`, or `ng-container` tags.
  */
 @Directive({
-  selector: '[skyHighlight]'
+  selector: '[skyHighlight]',
 })
-export class SkyTextHighlightDirective implements OnChanges, AfterViewInit, OnDestroy {
-
+export class SkyTextHighlightDirective
+  implements OnChanges, AfterViewInit, OnDestroy
+{
   /**
    * Specifies the text to highlight.
    */
@@ -40,7 +39,7 @@ export class SkyTextHighlightDirective implements OnChanges, AfterViewInit, OnDe
   constructor(
     private el: ElementRef,
     private observerService: MutationObserverService
-  ) { }
+  ) {}
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.skyHighlight && !changes.skyHighlight.firstChange) {
@@ -50,9 +49,11 @@ export class SkyTextHighlightDirective implements OnChanges, AfterViewInit, OnDe
 
   public ngAfterViewInit(): void {
     const self = this;
-    this.observer = this.observerService.create((mutations: MutationRecord[]) => {
-      self.highlight();
-    });
+    this.observer = this.observerService.create(
+      (mutations: MutationRecord[]) => {
+        self.highlight();
+      }
+    );
 
     this.observeDom();
     if (this.skyHighlight) {
@@ -98,7 +99,11 @@ export class SkyTextHighlightDirective implements OnChanges, AfterViewInit, OnDe
   private observeDom(): void {
     /* istanbul ignore else */
     if (this.observer) {
-      const config = { attributes: false, childList: true, characterData: true };
+      const config = {
+        attributes: false,
+        childList: true,
+        characterData: true,
+      };
       this.observer.observe(this.el.nativeElement, config);
     }
   }
@@ -107,7 +112,10 @@ export class SkyTextHighlightDirective implements OnChanges, AfterViewInit, OnDe
     return regex.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
   }
 
-  private static getRegexMatch(node: HTMLElement, searchText: string): RegExpExecArray {
+  private static getRegexMatch(
+    node: HTMLElement,
+    searchText: string
+  ): RegExpExecArray {
     const text = node.nodeValue;
     const newSearchText = this.cleanRegex(searchText);
     const searchRegex = new RegExp(newSearchText, 'gi');
@@ -116,11 +124,13 @@ export class SkyTextHighlightDirective implements OnChanges, AfterViewInit, OnDe
   }
 
   private static markNode(node: any, searchText: string): number {
-    const regexMatch = SkyTextHighlightDirective.getRegexMatch(node, searchText);
+    const regexMatch = SkyTextHighlightDirective.getRegexMatch(
+      node,
+      searchText
+    );
 
     // found match
     if (regexMatch && regexMatch.length > 0) {
-
       // split apart text node with mark tags in the middle on the search term
       const matchIndex = regexMatch.index;
 
@@ -142,7 +152,6 @@ export class SkyTextHighlightDirective implements OnChanges, AfterViewInit, OnDe
   private static markTextNodes(node: HTMLElement, searchText: string): number {
     if (node.nodeType === 3) {
       return SkyTextHighlightDirective.markNode(node, searchText);
-
     } else if (node.nodeType === 1 && node.childNodes) {
       for (let i = 0; i < node.childNodes.length; i++) {
         const childNode = node.childNodes[i] as HTMLElement;
@@ -154,8 +163,9 @@ export class SkyTextHighlightDirective implements OnChanges, AfterViewInit, OnDe
   }
 
   private static removeHighlight(el: ElementRef): void {
-    const matchedElements =
-      el.nativeElement.querySelectorAll(`mark.${className}`) as NodeList;
+    const matchedElements = el.nativeElement.querySelectorAll(
+      `mark.${className}`
+    ) as NodeList;
 
     /* istanbul ignore else */
     /* sanity check */

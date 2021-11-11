@@ -1,11 +1,14 @@
 <button
   class="sky-chevron"
   type="button"
-  [attr.aria-label]="(direction === 'down' ? 'skyux_chevron_expand' : 'skyux_chevron_collapse') | skyLibResources"
+  [attr.aria-label]="
+    (direction === 'down' ? 'skyux_chevron_expand' : 'skyux_chevron_collapse')
+      | skyLibResources
+  "
   [disabled]="disabled"
   [ngClass]="['sky-chevron-' + direction]"
   [skyThemeClass]="{
-    'sky-btn sky-btn-icon-borderless' : 'modern'
+    'sky-btn sky-btn-icon-borderless': 'modern'
   }"
   (click)="chevronClick($event)"
 >
@@ -13,23 +16,13 @@
     <ng-container *ngTemplateOutlet="icon"></ng-container>
   </ng-container>
   <ng-container *skyThemeIf="'modern'">
-    <span
-      class="chevron-glyph-container"
-    >
+    <span class="chevron-glyph-container">
       <ng-container *ngTemplateOutlet="icon"></ng-container>
     </span>
   </ng-container>
 </button>
 
 <ng-template #icon>
-  <i
-    aria-hidden="true"
-    class="sky-chevron-part sky-chevron-left"
-  >
-  </i>
-  <i
-    aria-hidden="true"
-    class="sky-chevron-part sky-chevron-right"
-  >
-  </i>
+  <i aria-hidden="true" class="sky-chevron-part sky-chevron-left"> </i>
+  <i aria-hidden="true" class="sky-chevron-part sky-chevron-right"> </i>
 </ng-template>

@@ -1,63 +1,46 @@
-import {
-  async,
-  TestBed
-} from '@angular/core/testing';
+import { async, TestBed } from '@angular/core/testing';
 
-import {
-  BehaviorSubject
-} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import {
   SkyTheme,
   SkyThemeMode,
   SkyThemeService,
   SkyThemeSettings,
-  SkyThemeSettingsChange
+  SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  AlertTestComponent
-} from './fixtures/alert.component.fixture';
+import { AlertTestComponent } from './fixtures/alert.component.fixture';
 
-import {
-  SkyAlertModule
-} from '../alert/alert.module';
+import { SkyAlertModule } from '../alert/alert.module';
 
 describe('Alert component', () => {
   let mockThemeSvc: {
-    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
 
   beforeEach(() => {
     mockThemeSvc = {
-      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
-        {
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.default,
-            SkyThemeMode.presets.light
-          ),
-          previousSettings: undefined
-        }
-      )
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.default,
+          SkyThemeMode.presets.light
+        ),
+        previousSettings: undefined,
+      }),
     };
 
     TestBed.configureTestingModule({
-      declarations: [
-        AlertTestComponent
-      ],
-      imports: [
-        SkyAlertModule
-      ],
+      declarations: [AlertTestComponent],
+      imports: [SkyAlertModule],
       providers: [
         {
           provide: SkyThemeService,
-          useValue: mockThemeSvc
-        }
-      ]
+          useValue: mockThemeSvc,
+        },
+      ],
     });
   });
 
@@ -146,7 +129,6 @@ describe('Alert component', () => {
   }));
 
   describe('in modern theme', () => {
-
     function validateStackedIcon(
       el: HTMLElement,
       expectedBaseIcon: string,
@@ -156,20 +138,23 @@ describe('Alert component', () => {
       const baseIconEl = iconEl.querySelector('.fa-stack-2x');
       const topIconEl = iconEl.querySelector('.fa-stack-1x');
 
-      expect(baseIconEl.classList.contains('sky-i-' + expectedBaseIcon)).toBe(true);
-      expect(topIconEl.classList.contains('sky-i-' + expectedTopIcon)).toBe(true);
+      expect(baseIconEl.classList.contains('sky-i-' + expectedBaseIcon)).toBe(
+        true
+      );
+      expect(topIconEl.classList.contains('sky-i-' + expectedTopIcon)).toBe(
+        true
+      );
     }
 
     beforeEach(() => {
-      mockThemeSvc.settingsChange.next(
-        {
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.modern,
-            SkyThemeMode.presets.light
-          ),
-          previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings
-        }
-      );
+      mockThemeSvc.settingsChange.next({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.light
+        ),
+        previousSettings:
+          mockThemeSvc.settingsChange.getValue().currentSettings,
+      });
     });
 
     it('should show the expected icon', async(() => {

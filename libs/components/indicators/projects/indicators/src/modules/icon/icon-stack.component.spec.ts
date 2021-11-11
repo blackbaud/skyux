@@ -1,20 +1,10 @@
-import {
-  async,
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  SkyIconModule
-} from './icon.module';
+import { SkyIconModule } from './icon.module';
 
-import {
-  IconStackTestComponent
-} from './fixtures/icon-stack.component.fixture';
+import { IconStackTestComponent } from './fixtures/icon-stack.component.fixture';
 
 describe('Icon stack component', () => {
   let fixture: ComponentFixture<IconStackTestComponent>;
@@ -22,12 +12,8 @@ describe('Icon stack component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        IconStackTestComponent
-      ],
-      imports: [
-        SkyIconModule
-      ]
+      declarations: [IconStackTestComponent],
+      imports: [SkyIconModule],
     });
 
     fixture = TestBed.createComponent(IconStackTestComponent);

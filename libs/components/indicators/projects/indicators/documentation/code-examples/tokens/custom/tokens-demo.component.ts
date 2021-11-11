@@ -1,32 +1,26 @@
-import {
-  Component,
-  OnDestroy
-} from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 
 import {
   SkyToken,
   SkyTokenSelectedEventArgs,
   SkyTokensMessage,
-  SkyTokensMessageType
+  SkyTokensMessageType,
 } from '@skyux/indicators';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-tokens-demo',
-  templateUrl: './tokens-demo.component.html'
+  templateUrl: './tokens-demo.component.html',
 })
 export class TokensDemoComponent implements OnDestroy {
-
   public myTokens: SkyToken[];
 
   private defaultTokens = [
     { label: 'Canada' },
     { label: 'Older than 55' },
     { label: 'Employed' },
-    { label: 'Added before 2018' }
+    { label: 'Added before 2018' },
   ];
 
   public tokensController: Subject<SkyTokensMessage>;
@@ -49,7 +43,7 @@ export class TokensDemoComponent implements OnDestroy {
     this.myTokens = this.getTokens([
       { label: 'Paid' },
       { label: 'Pending' },
-      { label: 'Past due' }
+      { label: 'Past due' },
     ]);
   }
 
@@ -79,14 +73,14 @@ export class TokensDemoComponent implements OnDestroy {
     }
 
     this.tokensController.next({
-      type: SkyTokensMessageType.FocusLastToken
+      type: SkyTokensMessageType.FocusLastToken,
     });
   }
 
   private getTokens(data: any[]): SkyToken[] {
     return data.map((item: any) => {
       return {
-        value: item
+        value: item,
       } as SkyToken;
     });
   }

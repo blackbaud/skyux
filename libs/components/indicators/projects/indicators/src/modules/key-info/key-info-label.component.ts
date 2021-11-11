@@ -1,6 +1,4 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * Specifies a label to display in smaller, plain text under or beside the value.
@@ -8,6 +6,6 @@ import {
  */
 @Component({
   selector: 'sky-key-info-label',
-  template: '<ng-content></ng-content>'
+  template: '<ng-content></ng-content>',
 })
-export class SkyKeyInfoLabelComponent { }
+export class SkyKeyInfoLabelComponent {}

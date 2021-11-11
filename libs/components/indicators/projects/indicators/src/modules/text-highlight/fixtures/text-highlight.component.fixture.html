@@ -12,12 +12,7 @@
   [(ngModel)]="showAdditionalContent"
 />
 
-<div
-  class="sky-test-div-container"
-  [skyHighlight]="searchTerm"
->
+<div class="sky-test-div-container" [skyHighlight]="searchTerm">
   {{innerText1}}
-  <div *ngIf="showAdditionalContent">
-    {{innerText2}}
-  </div>
+  <div *ngIf="showAdditionalContent">{{innerText2}}</div>
 </div>
