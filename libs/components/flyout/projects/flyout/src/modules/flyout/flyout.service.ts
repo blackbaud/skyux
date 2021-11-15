@@ -53,7 +53,7 @@ import {
  * document's `body` element. The `SkyFlyoutInstance` class watches for and triggers flyout events.
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'any'
 })
 export class SkyFlyoutService implements OnDestroy {
   private host: ComponentRef<SkyFlyoutComponent>;
