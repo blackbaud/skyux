@@ -9,6 +9,7 @@ sky-repeater-item {
     padding-top: 0;
     position: relative;
     transition: box-shadow $sky-transition-time-short;
+    align-items: flex-start;
 
     sky-inline-form {
       display: block;
