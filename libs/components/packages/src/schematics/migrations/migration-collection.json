@@ -1,7 +1,7 @@
 {
   "schematics": {
     "noop": {
-      "version": "5.29.0",
+      "version": "5.30.0",
       "factory": "./noop/noop.schematic",
       "description": "Update all SKY UX component packages"
     },
