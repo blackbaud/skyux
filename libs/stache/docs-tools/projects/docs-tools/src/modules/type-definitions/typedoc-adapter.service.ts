@@ -230,7 +230,16 @@ export class SkyDocsTypeDocAdapterService {
     const definitions = entry.children
       .filter(child => child.kindString === 'Property' || child.kindString === 'Accessor')
       .map(child => {
-        const tags = this.getCommentTags(child.comment);
+        let comment: TypeDocComment;
+
+        /* Ensure we are properly capturing definitions which use a getter/setter. Final check is a sanity check */
+        if (child.kindString === 'Accessor' && !child.comment?.shortText && child.getSignature?.length > 0) {
+          comment = child.getSignature[0].comment;
+        } else {
+          comment = child.comment;
+        }
+
+        const tags = this.getCommentTags(comment);
         const definition: SkyDocsClassPropertyDefinition = {
           isOptional: !tags.extras.required,
           name: this.getPropertyName(child),
@@ -400,7 +409,7 @@ export class SkyDocsTypeDocAdapterService {
             } else if (declaration.indexSignature) {
               const indexSignature = declaration.indexSignature;
               definition.indexSignature = this.getIndexSignatureDefinition(indexSignature);
-            } else if (declaration.children) {
+            } else /* istanbul ignore else */ if (declaration.children) {
               definition.typeLiteral = {
                 properties: this.getInterfaceProperties({
                   children: declaration.children
