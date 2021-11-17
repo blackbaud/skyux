@@ -38,6 +38,7 @@ To use a [custom set of options](https://github.com/autoNumeric/autoNumeric#opti
 To configure all `skyAutonumeric` instances in your SPA the same way, create a class that extends the base class `SkyAutonumericOptionsProvider` and supply it in the module providers.
 
 **my-autonumeric-options-provider.ts**
+
 ```
 export class MyAutonumericOptionsProvider extends SkyAutonumericOptionsProvider {
   constructor() {
@@ -53,6 +54,7 @@ export class MyAutonumericOptionsProvider extends SkyAutonumericOptionsProvider 
 ```
 
 **app.module.ts**
+
 ```
 providers: [
   {

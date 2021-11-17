@@ -1,30 +1,16 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
- ReactiveFormsModule
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import {
-  SkyAutonumericModule
-} from 'projects/sky-autonumeric/src/public-api';
+import { SkyAutonumericModule } from 'projects/sky-autonumeric/src/public-api';
 
-import {
-  SkyIdModule
-} from '@skyux/core';
+import { SkyIdModule } from '@skyux/core';
 
-import {
-  SkyInputBoxModule
-} from '@skyux/forms';
+import { SkyInputBoxModule } from '@skyux/forms';
 
-import {
-  AutonumericDemoComponent
-} from './autonumeric-demo.component';
+import { AutonumericDemoComponent } from './autonumeric-demo.component';
 
 @NgModule({
   imports: [
@@ -32,13 +18,9 @@ import {
     ReactiveFormsModule,
     SkyAutonumericModule,
     SkyIdModule,
-    SkyInputBoxModule
+    SkyInputBoxModule,
   ],
-  declarations: [
-    AutonumericDemoComponent
-  ],
-  exports: [
-    AutonumericDemoComponent
-  ]
+  declarations: [AutonumericDemoComponent],
+  exports: [AutonumericDemoComponent],
 })
-export class AutonumericDemoModule { }
+export class AutonumericDemoModule {}

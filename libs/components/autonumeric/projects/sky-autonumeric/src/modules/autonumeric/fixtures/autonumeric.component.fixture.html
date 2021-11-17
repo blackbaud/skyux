@@ -1,7 +1,4 @@
-<form
-  [formGroup]="formGroup"
-  novalidate
->
+<form [formGroup]="formGroup" novalidate>
   <input
     aria-label="Donation amount"
     class="sky-form-control app-reactive-form-input"
@@ -13,9 +10,7 @@
   />
 </form>
 
-<form
-  #templateDrivenForm="ngForm"
->
+<form #templateDrivenForm="ngForm">
   <input
     aria-label="Donation amount"
     class="sky-form-control app-template-driven-input"

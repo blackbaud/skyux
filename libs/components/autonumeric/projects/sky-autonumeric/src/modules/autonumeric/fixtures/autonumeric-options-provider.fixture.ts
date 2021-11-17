@@ -1,15 +1,10 @@
 import { Injectable } from '@angular/core';
-import {
-  SkyAutonumericOptions
-} from '../autonumeric-options';
+import { SkyAutonumericOptions } from '../autonumeric-options';
 
-import {
-  SkyAutonumericOptionsProvider
-} from '../autonumeric-options-provider';
+import { SkyAutonumericOptionsProvider } from '../autonumeric-options-provider';
 
 @Injectable()
 export class AutonumericFixtureOptionsProvider extends SkyAutonumericOptionsProvider {
-
   constructor() {
     super();
   }
@@ -17,7 +12,7 @@ export class AutonumericFixtureOptionsProvider extends SkyAutonumericOptionsProv
   public getConfig(): SkyAutonumericOptions {
     return {
       currencySymbol: '%',
-      decimalPlaces: 5
+      decimalPlaces: 5,
     };
   }
 }

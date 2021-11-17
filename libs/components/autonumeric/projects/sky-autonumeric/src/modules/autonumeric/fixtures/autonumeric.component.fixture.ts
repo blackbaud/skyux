@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
 import {
@@ -10,24 +10,19 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
-  NgModel
+  NgModel,
 } from '@angular/forms';
 
-import {
-  SkyAutonumericDirective
-} from '../autonumeric.directive';
+import { SkyAutonumericDirective } from '../autonumeric.directive';
 
-import {
-  SkyAutonumericOptions
-} from '../autonumeric-options';
+import { SkyAutonumericOptions } from '../autonumeric-options';
 
 @Component({
   selector: 'sky-autonumeric-directive-test',
   templateUrl: './autonumeric.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AutonumericFixtureComponent implements OnInit {
-
   @ViewChild(SkyAutonumericDirective)
   public autonumericDirective: SkyAutonumericDirective;
 
@@ -39,7 +34,7 @@ export class AutonumericFixtureComponent implements OnInit {
   public formGroup: FormGroup;
 
   public templateDrivenModel: any = {
-    donationAmount: 1000
+    donationAmount: 1000,
   };
 
   public get formControl(): AbstractControl {
@@ -48,13 +43,11 @@ export class AutonumericFixtureComponent implements OnInit {
 
   public required: boolean;
 
-  constructor(
-    private formBuilder: FormBuilder
-  ) { }
+  constructor(private formBuilder: FormBuilder) {}
 
   public ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
-      donationAmount: new FormControl()
+      donationAmount: new FormControl(),
     });
   }
 }

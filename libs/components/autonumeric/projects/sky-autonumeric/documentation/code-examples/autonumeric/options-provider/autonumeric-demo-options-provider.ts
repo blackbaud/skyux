@@ -1,13 +1,8 @@
-import {
-  SkyAutonumericOptions
-} from 'projects/sky-autonumeric/src/public-api';
+import { SkyAutonumericOptions } from 'projects/sky-autonumeric/src/public-api';
 
-import {
-  SkyAutonumericOptionsProvider
-} from 'projects/sky-autonumeric/src/public-api';
+import { SkyAutonumericOptionsProvider } from 'projects/sky-autonumeric/src/public-api';
 
 export class AutonumericDemoOptionsProvider extends SkyAutonumericOptionsProvider {
-
   constructor() {
     super();
   }
@@ -18,7 +13,7 @@ export class AutonumericDemoOptionsProvider extends SkyAutonumericOptionsProvide
       currencySymbolPlacement: 's',
       decimalPlaces: 2,
       decimalCharacter: ',',
-      digitGroupSeparator: ''
+      digitGroupSeparator: '',
     };
   }
 }

@@ -1,3 +1,7 @@
+# 5.0.2 (2021-11-17)
+
+- Added support for prettier code formatting and updated the builder to support StackBlitz. [#65](https://github.com/blackbaud/skyux-autonumeric/pull/65)
+
 # 5.0.1 (2021-10-28)
 
 - Fixed an issue with `skyAutonumeric` where mouse interactions did not update values. [#62](https://github.com/blackbaud/skyux-autonumeric/pull/62)
@@ -102,6 +106,7 @@
 - Fixed the `skyAutonumeric` directive to work with reactive forms. [#3](https://github.com/blackbaud/skyux-autonumeric/pull/3)
 
 ### Breaking changes
+
 - Removed the `skyAutonumericOptions` and `skyAutonumericPreset` inputs on the `skyAutonumeric` directive. `AutoNumeric` options can now be set directly using the `skyAutonumeric` attribute (e.g., `[skyAutonumeric]="options"`).
 - Replaced the `SkyAutonumericConfig` with `SkyAutonumericOptionsProvider`. See README.md for details.
 

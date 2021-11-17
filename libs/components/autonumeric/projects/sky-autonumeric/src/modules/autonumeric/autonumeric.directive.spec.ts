@@ -3,44 +3,26 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
-import {
-  Validators
-} from '@angular/forms';
+import { Validators } from '@angular/forms';
 
-import {
-  expect,
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  AutonumericFixtureOptionsProvider
-} from './fixtures/autonumeric-options-provider.fixture';
+import { AutonumericFixtureOptionsProvider } from './fixtures/autonumeric-options-provider.fixture';
 
-import {
-  AutonumericFixtureComponent
-} from './fixtures/autonumeric.component.fixture';
+import { AutonumericFixtureComponent } from './fixtures/autonumeric.component.fixture';
 
-import {
-  AutonumericFixtureModule
-} from './fixtures/autonumeric.module.fixture';
+import { AutonumericFixtureModule } from './fixtures/autonumeric.module.fixture';
 
-import {
-  SkyAutonumericDirective
-} from './autonumeric.directive';
+import { SkyAutonumericDirective } from './autonumeric.directive';
 
-import {
-  SkyAutonumericOptions
-} from './autonumeric-options';
+import { SkyAutonumericOptions } from './autonumeric-options';
 
-import {
-  SkyAutonumericOptionsProvider
-} from './autonumeric-options-provider';
+import { SkyAutonumericOptionsProvider } from './autonumeric-options-provider';
 
 describe('Autonumeric directive', () => {
-
   let fixture: ComponentFixture<AutonumericFixtureComponent>;
 
   // #region helpers
@@ -50,7 +32,9 @@ describe('Autonumeric directive', () => {
   }
 
   function getReactiveInput(): HTMLInputElement {
-    return fixture.nativeElement.querySelector('#donationAmount') as HTMLInputElement;
+    return fixture.nativeElement.querySelector(
+      '#donationAmount'
+    ) as HTMLInputElement;
   }
 
   function setValue(value: number): void {
@@ -63,11 +47,17 @@ describe('Autonumeric directive', () => {
   }
 
   function getFormattedValue(): string {
-    const reactiveValue = fixture.nativeElement.querySelector('.app-reactive-form-input').value;
-    const templateDrivenValue = fixture.nativeElement.querySelector('.app-template-driven-input').value;
+    const reactiveValue = fixture.nativeElement.querySelector(
+      '.app-reactive-form-input'
+    ).value;
+    const templateDrivenValue = fixture.nativeElement.querySelector(
+      '.app-template-driven-input'
+    ).value;
 
     if (reactiveValue !== templateDrivenValue) {
-      fail(`The reactive and template-driven forms's formatted values do not match! ('${reactiveValue}' versus '${templateDrivenValue}')`);
+      fail(
+        `The reactive and template-driven forms's formatted values do not match! ('${reactiveValue}' versus '${templateDrivenValue}')`
+      );
     }
 
     return reactiveValue;
@@ -75,34 +65,45 @@ describe('Autonumeric directive', () => {
 
   function getModelValue(): number {
     const reactiveValue = fixture.componentInstance.formControl.value;
-    const templateDrivenValue = fixture.componentInstance.donationAmountTemplateDriven.value;
+    const templateDrivenValue =
+      fixture.componentInstance.donationAmountTemplateDriven.value;
 
     if (reactiveValue !== templateDrivenValue) {
-      fail(`The reactive and template-driven forms's model values do not match! ('${reactiveValue}' versus '${templateDrivenValue}')`);
+      fail(
+        `The reactive and template-driven forms's model values do not match! ('${reactiveValue}' versus '${templateDrivenValue}')`
+      );
     }
 
     return reactiveValue;
   }
 
   function triggerBlur(): void {
-    SkyAppTestUtility.fireDomEvent(fixture.nativeElement.querySelector('.app-reactive-form-input'), 'blur');
-    SkyAppTestUtility.fireDomEvent(fixture.nativeElement.querySelector('.app-template-driven-input'), 'blur');
+    SkyAppTestUtility.fireDomEvent(
+      fixture.nativeElement.querySelector('.app-reactive-form-input'),
+      'blur'
+    );
+    SkyAppTestUtility.fireDomEvent(
+      fixture.nativeElement.querySelector('.app-template-driven-input'),
+      'blur'
+    );
   }
 
   function triggerInput(): void {
-    SkyAppTestUtility.fireDomEvent(fixture.nativeElement.querySelector('.app-reactive-form-input'), 'input');
-    SkyAppTestUtility.fireDomEvent(fixture.nativeElement.querySelector('.app-template-driven-input'), 'input');
+    SkyAppTestUtility.fireDomEvent(
+      fixture.nativeElement.querySelector('.app-reactive-form-input'),
+      'input'
+    );
+    SkyAppTestUtility.fireDomEvent(
+      fixture.nativeElement.querySelector('.app-template-driven-input'),
+      'input'
+    );
   }
 
   /**
    * Checks both the reactive and template-driven controls against various statuses.
    * @param statuses A set of Angular NgModel statuses to check against (e.g., pristine, touched, valid).
    */
-  function verifyFormControlStatuses(
-    statuses: {
-      [_: string]: boolean;
-    }
-  ): void {
+  function verifyFormControlStatuses(statuses: { [_: string]: boolean }): void {
     const control: any = fixture.componentInstance.formControl;
     const model: any = fixture.componentInstance.donationAmountTemplateDriven;
 
@@ -115,9 +116,7 @@ describe('Autonumeric directive', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        AutonumericFixtureModule
-      ]
+      imports: [AutonumericFixtureModule],
     });
 
     fixture = TestBed.createComponent(AutonumericFixtureComponent);
@@ -173,7 +172,7 @@ describe('Autonumeric directive', () => {
 
   it('should support custom configuration', fakeAsync(() => {
     setOptions({
-      decimalPlaces: 5
+      decimalPlaces: 5,
     });
 
     detectChanges();
@@ -192,7 +191,8 @@ describe('Autonumeric directive', () => {
   it('should update numeric value on keyup', fakeAsync(() => {
     detectChanges();
 
-    const autonumericInstance = fixture.componentInstance.autonumericDirective['autonumericInstance'];
+    const autonumericInstance =
+      fixture.componentInstance.autonumericDirective['autonumericInstance'];
     const spy = spyOn(autonumericInstance, 'getNumber').and.callThrough();
 
     const input = fixture.nativeElement.querySelector('input');
@@ -208,7 +208,8 @@ describe('Autonumeric directive', () => {
   it('should not update numeric value on keyup when no change is made', fakeAsync(() => {
     detectChanges();
 
-    const autonumericInstance = fixture.componentInstance.autonumericDirective['autonumericInstance'];
+    const autonumericInstance =
+      fixture.componentInstance.autonumericDirective['autonumericInstance'];
     const spy = spyOn(autonumericInstance, 'getNumber').and.callThrough();
 
     const input = fixture.nativeElement.querySelector('input');
@@ -226,7 +227,8 @@ describe('Autonumeric directive', () => {
 
     detectChanges();
 
-    const autonumericInstance = fixture.componentInstance.autonumericDirective['autonumericInstance'];
+    const autonumericInstance =
+      fixture.componentInstance.autonumericDirective['autonumericInstance'];
     const spy = spyOn(autonumericInstance, 'getNumber').and.callThrough();
 
     const input = fixture.nativeElement.querySelector('input');
@@ -242,7 +244,10 @@ describe('Autonumeric directive', () => {
   it('should not notify identical value changes', fakeAsync(() => {
     detectChanges();
 
-    const spy = spyOn(fixture.componentInstance.autonumericDirective as any, 'onChange').and.callThrough();
+    const spy = spyOn(
+      fixture.componentInstance.autonumericDirective as any,
+      'onChange'
+    ).and.callThrough();
 
     setValue(1000);
     detectChanges();
@@ -269,20 +274,17 @@ describe('Autonumeric directive', () => {
   }));
 
   describe('global configuration', () => {
-
     beforeEach(() => {
       TestBed.resetTestingModule();
 
       TestBed.configureTestingModule({
-        imports: [
-          AutonumericFixtureModule
-        ],
+        imports: [AutonumericFixtureModule],
         providers: [
           {
             provide: SkyAutonumericOptionsProvider,
-            useClass: AutonumericFixtureOptionsProvider
-          }
-        ]
+            useClass: AutonumericFixtureOptionsProvider,
+          },
+        ],
       });
 
       fixture = TestBed.createComponent(AutonumericFixtureComponent);
@@ -303,7 +305,11 @@ describe('Autonumeric directive', () => {
     }));
 
     it('should support global configuration when the local configuration setter is not called', fakeAsync(() => {
-      spyOnProperty(SkyAutonumericDirective.prototype, 'skyAutonumeric', 'set').and.stub();
+      spyOnProperty(
+        SkyAutonumericDirective.prototype,
+        'skyAutonumeric',
+        'set'
+      ).and.stub();
 
       detectChanges();
 
@@ -352,7 +358,6 @@ describe('Autonumeric directive', () => {
   });
 
   describe('Angular form control statuses', () => {
-
     it('should set correct statuses when initialized without value', fakeAsync(() => {
       detectChanges();
 
@@ -360,7 +365,7 @@ describe('Autonumeric directive', () => {
         dirty: false,
         pristine: true,
         touched: false,
-        valid: true
+        valid: true,
       });
     }));
 
@@ -373,7 +378,7 @@ describe('Autonumeric directive', () => {
         dirty: false,
         pristine: true,
         touched: false,
-        valid: true
+        valid: true,
       });
     }));
 
@@ -388,7 +393,7 @@ describe('Autonumeric directive', () => {
         dirty: false,
         pristine: true,
         touched: false,
-        valid: true
+        valid: true,
       });
     }));
 
@@ -396,7 +401,7 @@ describe('Autonumeric directive', () => {
       detectChanges();
 
       verifyFormControlStatuses({
-        touched: false
+        touched: false,
       });
 
       triggerBlur();
@@ -404,18 +409,20 @@ describe('Autonumeric directive', () => {
       detectChanges();
 
       verifyFormControlStatuses({
-        touched: true
+        touched: true,
       });
     }));
 
     it('should mark the control as invalid on keyup if the field is required and the value is undefined', fakeAsync(() => {
       detectChanges();
-      fixture.componentInstance.formControl.setValidators([Validators.required]);
+      fixture.componentInstance.formControl.setValidators([
+        Validators.required,
+      ]);
       fixture.componentInstance.required = true;
       detectChanges();
 
       verifyFormControlStatuses({
-        valid: true
+        valid: true,
       });
 
       const inputs = fixture.nativeElement.querySelectorAll('input');
@@ -427,7 +434,7 @@ describe('Autonumeric directive', () => {
       detectChanges();
 
       verifyFormControlStatuses({
-        valid: false
+        valid: false,
       });
     }));
 
@@ -435,7 +442,7 @@ describe('Autonumeric directive', () => {
       detectChanges();
 
       verifyFormControlStatuses({
-        valid: true
+        valid: true,
       });
 
       fixture.componentInstance.formGroup.get('donationAmount').setValue('foo');
@@ -443,7 +450,7 @@ describe('Autonumeric directive', () => {
       detectChanges();
 
       verifyFormControlStatuses({
-        valid: false
+        valid: false,
       });
     }));
 
@@ -451,7 +458,7 @@ describe('Autonumeric directive', () => {
       detectChanges();
 
       verifyFormControlStatuses({
-        dirty: false
+        dirty: false,
       });
 
       triggerInput();
@@ -459,13 +466,14 @@ describe('Autonumeric directive', () => {
       detectChanges();
 
       verifyFormControlStatuses({
-        dirty: true
+        dirty: true,
       });
     }));
 
     it('should disable the form when the form control disabled() method is called', fakeAsync(() => {
       detectChanges();
-      const formControl = fixture.componentInstance.formGroup.get('donationAmount');
+      const formControl =
+        fixture.componentInstance.formGroup.get('donationAmount');
       const input = getReactiveInput();
 
       // Disable the form via form control.
@@ -484,7 +492,5 @@ describe('Autonumeric directive', () => {
       expect(input.disabled).toEqual(false);
       expect(formControl.disabled).toEqual(false);
     }));
-
   });
-
 });

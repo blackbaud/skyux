@@ -1,31 +1,14 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  FormsModule,
-  ReactiveFormsModule
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import {
-  SkyAutonumericDirective
-} from './autonumeric.directive';
+import { SkyAutonumericDirective } from './autonumeric.directive';
 
 @NgModule({
-  declarations: [
-    SkyAutonumericDirective
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule
-  ],
-  exports: [
-    SkyAutonumericDirective
-  ]
+  declarations: [SkyAutonumericDirective],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  exports: [SkyAutonumericDirective],
 })
-export class SkyAutonumericModule { }
+export class SkyAutonumericModule {}
