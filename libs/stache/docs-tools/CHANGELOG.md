@@ -1,3 +1,7 @@
+# 5.0.0-beta.4 (2021-11-17)
+
+- Fixed the `SkyDocsTypeDocAdapterService` to properly handle accessor properties. [#183](https://github.com/blackbaud/skyux-docs-tools/pull/183)
+
 # 5.0.0-beta.3 (2021-11-16)
 
 - Fixed the StackBlitz code examples to work with Angular 12. [#182](https://github.com/blackbaud/skyux-docs-tools/pull/182)
