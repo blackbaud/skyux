@@ -1,51 +1,26 @@
-import {
-  ComponentRef,
-  Injectable,
-  OnDestroy,
-  Type
-} from '@angular/core';
+import { ComponentRef, Injectable, OnDestroy, Type } from '@angular/core';
 
-import {
-  NavigationStart,
-  Router
-} from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
 
 import {
   SkyAppWindowRef,
   SkyCoreAdapterService,
-  SkyDynamicComponentService
+  SkyDynamicComponentService,
 } from '@skyux/core';
 
-import {
-  fromEvent,
-  Subject
-} from 'rxjs';
+import { fromEvent, Subject } from 'rxjs';
 
-import {
-  take,
-  takeUntil,
-  takeWhile
-} from 'rxjs/operators';
+import { take, takeUntil, takeWhile } from 'rxjs/operators';
 
-import {
-  SkyFlyoutComponent
-} from './flyout.component';
+import { SkyFlyoutComponent } from './flyout.component';
 
-import {
-  SkyFlyoutInstance
-} from './flyout-instance';
+import { SkyFlyoutInstance } from './flyout-instance';
 
-import {
-  SkyFlyoutConfig
-} from './types/flyout-config';
+import { SkyFlyoutConfig } from './types/flyout-config';
 
-import {
-  SkyFlyoutMessage
-} from './types/flyout-message';
+import { SkyFlyoutMessage } from './types/flyout-message';
 
-import {
-  SkyFlyoutMessageType
-} from './types/flyout-message-type';
+import { SkyFlyoutMessageType } from './types/flyout-message-type';
 
 /**
  * Launches flyouts and provides a common look and feel.
@@ -53,7 +28,7 @@ import {
  * document's `body` element. The `SkyFlyoutInstance` class watches for and triggers flyout events.
  */
 @Injectable({
-  providedIn: 'any'
+  providedIn: 'any',
 })
 export class SkyFlyoutService implements OnDestroy {
   private host: ComponentRef<SkyFlyoutComponent>;
@@ -66,7 +41,7 @@ export class SkyFlyoutService implements OnDestroy {
     private windowRef: SkyAppWindowRef,
     private dynamicComponentService: SkyDynamicComponentService,
     private router: Router
-  ) { }
+  ) {}
 
   public ngOnDestroy(): void {
     this.removeListners();
@@ -82,7 +57,7 @@ export class SkyFlyoutService implements OnDestroy {
     if (this.host && !this.isOpening) {
       this.removeAfterClosed = true;
       this.host.instance.messageStream.next({
-        type: SkyFlyoutMessageType.Close
+        type: SkyFlyoutMessageType.Close,
       });
     }
   }
@@ -95,7 +70,10 @@ export class SkyFlyoutService implements OnDestroy {
    * [entry components tutorial](https://developer.blackbaud.com/skyux/learn/get-started/advanced/entry-components).
    * @param config Specifies the flyout configuration passed to the specified component's constructor.
    */
-  public open<T>(component: Type<T>, config?: SkyFlyoutConfig): SkyFlyoutInstance<T> {
+  public open<T>(
+    component: Type<T>,
+    config?: SkyFlyoutConfig
+  ): SkyFlyoutInstance<T> {
     // isOpening flag will prevent close() from firing when open() is also fired.
     this.isOpening = true;
     this.windowRef.nativeWindow.setTimeout(() => {
@@ -106,12 +84,12 @@ export class SkyFlyoutService implements OnDestroy {
       this.host = this.createHostComponent();
 
       this.router.events
-      .pipe(takeWhile(() => this.host !== undefined))
-      .subscribe((event) => {
-        if (event instanceof NavigationStart) {
-          this.close();
-        }
-      });
+        .pipe(takeWhile(() => this.host !== undefined))
+        .subscribe((event) => {
+          if (event instanceof NavigationStart) {
+            this.close();
+          }
+        });
     }
 
     const flyout = this.host.instance.attach(component, config);
@@ -122,7 +100,8 @@ export class SkyFlyoutService implements OnDestroy {
   }
 
   private createHostComponent(): ComponentRef<SkyFlyoutComponent> {
-    this.host = this.dynamicComponentService.createComponent(SkyFlyoutComponent);
+    this.host =
+      this.dynamicComponentService.createComponent(SkyFlyoutComponent);
     return this.host;
   }
 
@@ -160,10 +139,13 @@ export class SkyFlyoutService implements OnDestroy {
             return;
           }
 
-          const isAbove = event.target === document ? false : this.coreAdapter.isTargetAboveElement(
-            event.target,
-            flyoutInstance.flyoutRef.nativeElement
-          );
+          const isAbove =
+            event.target === document
+              ? false
+              : this.coreAdapter.isTargetAboveElement(
+                  event.target,
+                  flyoutInstance.flyoutRef.nativeElement
+                );
 
           /* istanbul ignore else */
           if (!isAbove) {

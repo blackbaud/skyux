@@ -1,43 +1,22 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  SkyAvatarModule
-} from '@skyux/avatar';
+import { SkyAvatarModule } from '@skyux/avatar';
 
-import {
-  SkyFlyoutModule
-} from 'projects/flyout/src/public-api';
+import { SkyFlyoutModule } from 'projects/flyout/src/public-api';
 
-import {
-  SkyKeyInfoModule,
-  SkyLabelModule
-} from '@skyux/indicators';
+import { SkyKeyInfoModule, SkyLabelModule } from '@skyux/indicators';
 
-import {
-  SkyPageSummaryModule
-} from '@skyux/layout';
+import { SkyPageSummaryModule } from '@skyux/layout';
 
-import {
-  SkyListModule
-} from '@skyux/list-builder';
+import { SkyListModule } from '@skyux/list-builder';
 
-import {
-  SkyListViewGridModule
-} from '@skyux/list-builder-view-grids';
+import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
 
-import {
-  FlyoutDemoComponent
-} from './flyout-demo.component';
+import { FlyoutDemoComponent } from './flyout-demo.component';
 
-import {
-  FlyoutDemoFlyoutComponent
-} from './flyout-demo-flyout.component';
+import { FlyoutDemoFlyoutComponent } from './flyout-demo-flyout.component';
 
 @NgModule({
   imports: [
@@ -48,17 +27,10 @@ import {
     SkyKeyInfoModule,
     SkyLabelModule,
     SkyListViewGridModule,
-    SkyPageSummaryModule
+    SkyPageSummaryModule,
   ],
-  declarations: [
-    FlyoutDemoComponent,
-    FlyoutDemoFlyoutComponent
-  ],
-  entryComponents: [
-    FlyoutDemoFlyoutComponent
-  ],
-  exports: [
-    FlyoutDemoComponent
-  ]
+  declarations: [FlyoutDemoComponent, FlyoutDemoFlyoutComponent],
+  entryComponents: [FlyoutDemoFlyoutComponent],
+  exports: [FlyoutDemoComponent],
 })
-export class AutocompleteDemoModule { }
+export class AutocompleteDemoModule {}

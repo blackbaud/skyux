@@ -12,11 +12,21 @@ import {
   SkyI18nModule,
   SkyLibResources,
   SkyLibResourcesProvider,
-  SKY_LIB_RESOURCES_PROVIDERS
+  SKY_LIB_RESOURCES_PROVIDERS,
 } from '@skyux/i18n';
 
 const RESOURCES: { [locale: string]: SkyLibResources } = {
-  'EN-US': {"skyux_flyout_close":{"message":"Close flyout"},"skyux_flyout_iterator_previous_button":{"message":"Previous"},"skyux_flyout_iterator_next_button":{"message":"Next"},"skyux_flyout_permalink_button":{"message":"View record"},"skyux_flyout_primary_action_button":{"message":"Create list"},"skyux_flyout_resize_handle":{"message":"Resize the flyout window. Use left arrow key to expand the flyout window and right arrow key to shrink the flyout window."}},
+  'EN-US': {
+    skyux_flyout_close: { message: 'Close flyout' },
+    skyux_flyout_iterator_previous_button: { message: 'Previous' },
+    skyux_flyout_iterator_next_button: { message: 'Next' },
+    skyux_flyout_permalink_button: { message: 'View record' },
+    skyux_flyout_primary_action_button: { message: 'Create list' },
+    skyux_flyout_resize_handle: {
+      message:
+        'Resize the flyout window. Use left arrow key to expand the flyout window and right arrow key to shrink the flyout window.',
+    },
+  },
 };
 
 export class SkyFlyoutResourcesProvider implements SkyLibResourcesProvider {
@@ -30,10 +40,12 @@ export class SkyFlyoutResourcesProvider implements SkyLibResourcesProvider {
  */
 @NgModule({
   exports: [SkyI18nModule],
-  providers: [{
-    provide: SKY_LIB_RESOURCES_PROVIDERS,
-    useClass: SkyFlyoutResourcesProvider,
-    multi: true
-  }]
+  providers: [
+    {
+      provide: SKY_LIB_RESOURCES_PROVIDERS,
+      useClass: SkyFlyoutResourcesProvider,
+      multi: true,
+    },
+  ],
 })
-export class SkyFlyoutResourcesModule { }
+export class SkyFlyoutResourcesModule {}

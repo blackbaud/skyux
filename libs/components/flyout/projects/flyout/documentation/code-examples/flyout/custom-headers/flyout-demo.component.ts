@@ -1,36 +1,32 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 import {
   SkyFlyoutConfig,
   SkyFlyoutInstance,
-  SkyFlyoutService
+  SkyFlyoutService,
 } from 'projects/flyout/src/public-api';
 
-import {
-  FlyoutDemoFlyoutComponent
-} from './flyout-demo-flyout.component';
+import { FlyoutDemoFlyoutComponent } from './flyout-demo-flyout.component';
 
 @Component({
   selector: 'app-flyout-demo',
-  templateUrl: './flyout-demo.component.html'
+  templateUrl: './flyout-demo.component.html',
 })
 export class FlyoutDemoComponent {
-
   public flyout: SkyFlyoutInstance<any>;
 
-  constructor(
-    private flyoutService: SkyFlyoutService
-  ) { }
+  constructor(private flyoutService: SkyFlyoutService) {}
 
   public openFlyoutWithIterators(): void {
     const flyoutConfig: SkyFlyoutConfig = {
       ariaLabelledBy: 'flyout-title',
       ariaRole: 'dialog',
-      showIterator: true
+      showIterator: true,
     };
-    this.flyout = this.flyoutService.open(FlyoutDemoFlyoutComponent, flyoutConfig);
+    this.flyout = this.flyoutService.open(
+      FlyoutDemoFlyoutComponent,
+      flyoutConfig
+    );
 
     this.flyout.iteratorNextButtonClick.subscribe(() => {
       alert('Next iterator button clicked!');
@@ -56,13 +52,16 @@ export class FlyoutDemoComponent {
           extras: {
             fragment: 'helloWorld',
             queryParams: {
-              foo: 'bar'
-            }
-          }
-        }
-      }
+              foo: 'bar',
+            },
+          },
+        },
+      },
     };
-    this.flyout = this.flyoutService.open(FlyoutDemoFlyoutComponent, flyoutConfig);
+    this.flyout = this.flyoutService.open(
+      FlyoutDemoFlyoutComponent,
+      flyoutConfig
+    );
 
     this.flyout.closed.subscribe(() => {
       this.flyout = undefined;
@@ -75,10 +74,13 @@ export class FlyoutDemoComponent {
       ariaRole: 'dialog',
       permalink: {
         label: `Visit blackbaud.com`,
-        url: 'http://www.blackbaud.com'
-      }
+        url: 'http://www.blackbaud.com',
+      },
     };
-    this.flyout = this.flyoutService.open(FlyoutDemoFlyoutComponent, flyoutConfig);
+    this.flyout = this.flyoutService.open(
+      FlyoutDemoFlyoutComponent,
+      flyoutConfig
+    );
 
     this.flyout.closed.subscribe(() => {
       this.flyout = undefined;

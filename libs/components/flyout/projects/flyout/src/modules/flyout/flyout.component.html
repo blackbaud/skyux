@@ -18,7 +18,6 @@
   [style.width.px]="flyoutWidth"
   #flyoutRef
 >
-
   <input
     class="sky-flyout-resize-handle"
     role="separator"
@@ -32,7 +31,8 @@
     [max]="config.maxWidth"
     [min]="config.minWidth"
     [(ngModel)]="flyoutWidth"
-    (mousedown)="onResizeHandleMouseDown($event)" />
+    (mousedown)="onResizeHandleMouseDown($event)"
+  />
 
   <div
     class="sky-flyout-header"
@@ -42,22 +42,23 @@
     #flyoutHeader
   >
     <div class="sky-flyout-header-content">
-
-      <button *skyThemeIf="'modern'"
-        class="sky-btn sky-btn-icon-borderless sky-margin-inline-sm sky-flyout-header-grab-handle"
+      <button
+        *skyThemeIf="'modern'"
+        class="
+          sky-btn
+          sky-btn-icon-borderless
+          sky-margin-inline-sm
+          sky-flyout-header-grab-handle
+        "
         [attr.aria-label]="'skyux_flyout_resize_handle' | skyLibResources"
         (keydown)="onHeaderGrabHandleKeyDown($event)"
         (mousedown)="onHeaderGrabHandleMouseDown($event)"
       >
-        <sky-icon
-          icon="tile-drag"
-          iconType="skyux"
-          size="lg"
-        >
-        </sky-icon>
+        <sky-icon icon="tile-drag" iconType="skyux" size="lg"> </sky-icon>
       </button>
 
-      <sky-flyout-iterator *ngIf="config.showIterator"
+      <sky-flyout-iterator
+        *ngIf="config.showIterator"
         [nextButtonDisabled]="config.iteratorNextButtonDisabled"
         [previousButtonDisabled]="config.iteratorPreviousButtonDisabled"
         (nextButtonClick)="onIteratorNextButtonClick()"
@@ -65,11 +66,9 @@
       >
       </sky-flyout-iterator>
     </div>
-      <div class="sky-flyout-header-buttons">
-      <ng-container *ngTemplateOutlet="permalinkTemplate">
-      </ng-container>
-      <ng-container *ngTemplateOutlet="primaryActionTemplate">
-      </ng-container>
+    <div class="sky-flyout-header-buttons">
+      <ng-container *ngTemplateOutlet="permalinkTemplate"> </ng-container>
+      <ng-container *ngTemplateOutlet="primaryActionTemplate"> </ng-container>
       <button
         class="sky-btn sky-flyout-btn-close sky-label-icon-theme-default"
         type="button"
@@ -80,11 +79,9 @@
         }"
         (click)="close()"
       >
-        <sky-icon *skyThemeIf="'default'"
-          icon="close"
-        >
-        </sky-icon>
-        <sky-icon *skyThemeIf="'modern'"
+        <sky-icon *skyThemeIf="'default'" icon="close"> </sky-icon>
+        <sky-icon
+          *skyThemeIf="'modern'"
           icon="close"
           iconType="skyux"
           size="lg"
@@ -137,10 +134,15 @@
   <ng-template [ngIf]="primaryAction && primaryAction.callback">
     <button
       type="button"
-      class="sky-btn sky-btn-default sky-flyout-btn-primary-action sky-margin-inline-default"
+      class="
+        sky-btn
+        sky-btn-default
+        sky-flyout-btn-primary-action
+        sky-margin-inline-default
+      "
       (click)="invokePrimaryAction()"
     >
-        {{ primaryActionLabel }}
+      {{ primaryActionLabel }}
     </button>
   </ng-template>
 </ng-template>

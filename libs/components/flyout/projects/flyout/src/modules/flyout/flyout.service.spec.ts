@@ -1,46 +1,22 @@
-import {
-  ApplicationRef
-} from '@angular/core';
+import { ApplicationRef } from '@angular/core';
 
-import {
-  inject,
-  TestBed,
-  fakeAsync,
-  tick
-} from '@angular/core/testing';
+import { inject, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
-import {
-  Router
-} from '@angular/router';
+import { Router } from '@angular/router';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  SkyAppWindowRef,
-  SkyDynamicComponentService
-} from '@skyux/core';
+import { SkyAppWindowRef, SkyDynamicComponentService } from '@skyux/core';
 
-import {
-  SkyFlyoutAdapterService
-} from './flyout-adapter.service';
+import { SkyFlyoutAdapterService } from './flyout-adapter.service';
 
-import {
-  SkyFlyoutFixturesModule
-} from './fixtures/flyout-fixtures.module';
+import { SkyFlyoutFixturesModule } from './fixtures/flyout-fixtures.module';
 
-import {
-  SkyFlyoutHostsTestComponent
-} from './fixtures/flyout-hosts.component.fixture';
+import { SkyFlyoutHostsTestComponent } from './fixtures/flyout-hosts.component.fixture';
 
-import {
-  SkyFlyoutMessageType
-} from './types/flyout-message-type';
+import { SkyFlyoutMessageType } from './types/flyout-message-type';
 
-import {
-  SkyFlyoutService
-} from './flyout.service';
+import { SkyFlyoutService } from './flyout.service';
 
 describe('Flyout service', () => {
   let service: SkyFlyoutService;
@@ -49,13 +25,8 @@ describe('Flyout service', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyFlyoutFixturesModule
-      ],
-      providers: [
-        SkyAppWindowRef,
-        SkyFlyoutAdapterService
-      ]
+      imports: [SkyFlyoutFixturesModule],
+      providers: [SkyAppWindowRef, SkyFlyoutAdapterService],
     });
 
     service = TestBed.inject(SkyFlyoutService);
@@ -64,35 +35,25 @@ describe('Flyout service', () => {
     spyOnProperty(window, 'innerWidth', 'get').and.returnValue(1100);
   });
 
-  beforeEach(
-    inject(
-      [
-        ApplicationRef,
-        Router
-      ],
-      (
-        _applicationRef: ApplicationRef,
-        _router: Router
-      ) => {
-        applicationRef = _applicationRef;
-        router = _router;
-      }
-    )
-  );
+  beforeEach(inject(
+    [ApplicationRef, Router],
+    (_applicationRef: ApplicationRef, _router: Router) => {
+      applicationRef = _applicationRef;
+      router = _router;
+    }
+  ));
 
   it('should only create a single host component', () => {
     const spy = spyOn(service as any, 'createHostComponent').and.callThrough();
     service.open(SkyFlyoutHostsTestComponent);
     service.open(SkyFlyoutHostsTestComponent);
     expect(spy.calls.count()).toEqual(1);
-  }
-  );
+  });
 
   it('should return an instance with a close method', () => {
     const flyout = service.open(SkyFlyoutHostsTestComponent);
     expect(typeof flyout.close).toEqual('function');
-  }
-  );
+  });
 
   it('should expose a method to remove the flyout from the DOM', () => {
     spyOn(window as any, 'setTimeout').and.callFake((fun: any) => {
@@ -101,14 +62,16 @@ describe('Flyout service', () => {
     });
     service.open(SkyFlyoutHostsTestComponent);
     applicationRef.tick();
-    const spy = spyOn(service['host'].instance.messageStream, 'next').and.callThrough();
+    const spy = spyOn(
+      service['host'].instance.messageStream,
+      'next'
+    ).and.callThrough();
     service.close();
     applicationRef.tick();
     expect(spy).toHaveBeenCalledWith({
-      type: SkyFlyoutMessageType.Close
+      type: SkyFlyoutMessageType.Close,
     });
-  }
-  );
+  });
 
   it('should dispose of any open host if the service is destroyed', () => {
     spyOn(window as any, 'setTimeout').and.callFake((fun: any) => {

@@ -1,23 +1,17 @@
 <sky-modal>
   <sky-modal-header>
-    {{title}}
+    {{ title }}
   </sky-modal-header>
   <sky-modal-content>
-    <div id="docs-modal-content">
-      This modal can have content!
-    </div>
-    <button
-      class="delete-me-button"
-      type="button"
-    >
-      Delete me
-    </button>
+    <div id="docs-modal-content">This modal can have content!</div>
+    <button class="delete-me-button" type="button">Delete me</button>
   </sky-modal-content>
   <sky-modal-footer>
     <button
       type="button"
       class="sky-btn sky-btn-primary"
-      (click)="instance.save('Something cool')">
+      (click)="instance.save('Something cool')"
+    >
       Close
     </button>
   </sky-modal-footer>

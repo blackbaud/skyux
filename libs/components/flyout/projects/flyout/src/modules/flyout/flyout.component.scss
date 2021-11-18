@@ -1,6 +1,6 @@
-@import "~@skyux/theme/scss/mixins";
-@import "~@skyux/theme/scss/variables";
-@import "~@skyux/theme/scss/_compat/mixins";
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/variables';
+@import '~@skyux/theme/scss/_compat/mixins';
 
 .sky-flyout {
   position: fixed;
@@ -59,7 +59,8 @@
   bottom: 0;
   direction: rtl;
 
-  &::-moz-range-thumb, &::-moz-range-track{
+  &::-moz-range-thumb,
+  &::-moz-range-track {
     -webkit-appearance: none;
     -moz-appearance: none;
     width: 0;
@@ -70,7 +71,8 @@
     display: none;
   }
 
-  &::-ms-thumb, &::-ms-track {
+  &::-ms-thumb,
+  &::-ms-track {
     -webkit-appearance: none;
     -moz-appearance: none;
     width: 0;

@@ -1,100 +1,79 @@
-import {
-  ApplicationRef
-} from '@angular/core';
+import { ApplicationRef } from '@angular/core';
 
 import {
   ComponentFixture,
   fakeAsync,
   inject,
   tick,
-  TestBed
+  TestBed,
 } from '@angular/core/testing';
 
-import {
-  RouterTestingModule
-} from '@angular/router/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
-import {
-  Router
-} from '@angular/router';
+import { Router } from '@angular/router';
 
-import {
-  expect,
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  SkyUIConfigService
-} from '@skyux/core';
+import { SkyUIConfigService } from '@skyux/core';
 
-import {
-  SkyModalService
-} from '@skyux/modals'
+import { SkyModalService } from '@skyux/modals';
 
 import {
   SkyTheme,
   SkyThemeMode,
   SkyThemeService,
   SkyThemeSettings,
-  SkyThemeSettingsChange
+  SkyThemeSettingsChange,
 } from '@skyux/theme';
 
 import {
   BehaviorSubject,
   of as observableOf,
-  throwError as observableThrow
+  throwError as observableThrow,
 } from 'rxjs';
 
-import {
-  SkyFlyoutFixturesModule
-} from './fixtures/flyout-fixtures.module';
+import { SkyFlyoutFixturesModule } from './fixtures/flyout-fixtures.module';
 
-import {
-  SkyFlyoutConfig
-} from './types/flyout-config';
+import { SkyFlyoutConfig } from './types/flyout-config';
 
-import {
-  SkyFlyoutInstance
-} from './flyout-instance';
+import { SkyFlyoutInstance } from './flyout-instance';
 
-import {
-  SkyFlyoutService
-} from './flyout.service';
+import { SkyFlyoutService } from './flyout.service';
 
-import {
-  SkyFlyoutTestComponent
-} from './fixtures/flyout.component.fixture';
+import { SkyFlyoutTestComponent } from './fixtures/flyout.component.fixture';
 
-import {
-  SkyFlyoutTestSampleContext
-} from './fixtures/flyout-sample-context.fixture';
+import { SkyFlyoutTestSampleContext } from './fixtures/flyout-sample-context.fixture';
 
-import {
-  SkyFlyoutComponent
-} from './flyout.component';
+import { SkyFlyoutComponent } from './flyout.component';
 
-import {
-  SkyFlyoutMediaQueryService
-} from './flyout-media-query.service';
+import { SkyFlyoutMediaQueryService } from './flyout-media-query.service';
 
 describe('Flyout component', () => {
   let applicationRef: ApplicationRef;
   let fixture: ComponentFixture<SkyFlyoutTestComponent>;
   let flyoutService: SkyFlyoutService;
   let mockThemeSvc: {
-    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
 
   let windowSizeSpy: jasmine.Spy;
 
   //#region helpers
-  function openFlyout(config: SkyFlyoutConfig = {}, showIframe?: boolean): SkyFlyoutInstance<any> {
-    config = Object.assign({
-      providers: [{
-        provide: SkyFlyoutTestSampleContext,
-        useValue: { name: 'Sam', showIframe: showIframe }
-      }]
-    }, config);
+  function openFlyout(
+    config: SkyFlyoutConfig = {},
+    showIframe?: boolean
+  ): SkyFlyoutInstance<any> {
+    config = Object.assign(
+      {
+        providers: [
+          {
+            provide: SkyFlyoutTestSampleContext,
+            useValue: { name: 'Sam', showIframe: showIframe },
+          },
+        ],
+      },
+      config
+    );
 
     const flyoutInstance = fixture.componentInstance.openFlyout(config);
 
@@ -125,16 +104,46 @@ describe('Flyout component', () => {
 
   function makeEvent(eventType: string, evtObj: any): void {
     let evt = document.createEvent('MouseEvents');
-    evt.initMouseEvent(eventType, false, false, window, 0, 0, 0, evtObj.clientX,
-      0, false, false, false, false, 0, undefined);
+    evt.initMouseEvent(
+      eventType,
+      false,
+      false,
+      window,
+      0,
+      0,
+      0,
+      evtObj.clientX,
+      0,
+      false,
+      false,
+      false,
+      false,
+      0,
+      undefined
+    );
     document.dispatchEvent(evt);
   }
 
   function grabDragHandle(handleXCord: number): void {
     const handleElement = getFlyoutHandleElement();
     let evt = document.createEvent('MouseEvents');
-    evt.initMouseEvent('mousedown', false, false, window, 0, 0, 0, handleXCord,
-      0, false, false, false, false, 0, undefined);
+    evt.initMouseEvent(
+      'mousedown',
+      false,
+      false,
+      window,
+      0,
+      0,
+      0,
+      handleXCord,
+      0,
+      false,
+      false,
+      false,
+      false,
+      0,
+      undefined
+    );
 
     handleElement.dispatchEvent(evt);
   }
@@ -142,8 +151,23 @@ describe('Flyout component', () => {
   function grabHeaderDragHandle(handleXCord: number): void {
     const handleElement = getFlyoutHeaderGrabHandle();
     let evt = document.createEvent('MouseEvents');
-    evt.initMouseEvent('mousedown', false, false, window, 0, 0, 0, handleXCord,
-      0, false, false, false, false, 0, undefined);
+    evt.initMouseEvent(
+      'mousedown',
+      false,
+      false,
+      window,
+      0,
+      0,
+      0,
+      handleXCord,
+      0,
+      false,
+      false,
+      false,
+      false,
+      0,
+      undefined
+    );
 
     handleElement.dispatchEvent(evt);
   }
@@ -170,7 +194,10 @@ describe('Flyout component', () => {
     releaseDragHandle();
   }
 
-  function resizeFlyoutWithHeaderGrabHandle(startingXCord: number, endingXCord: number): void {
+  function resizeFlyoutWithHeaderGrabHandle(
+    startingXCord: number,
+    endingXCord: number
+  ): void {
     grabHeaderDragHandle(startingXCord);
     dragHandle(endingXCord);
     releaseDragHandle();
@@ -179,7 +206,7 @@ describe('Flyout component', () => {
   function fireKeyDownOnHeaderGrabHandle(keyName: string): void {
     const handleElement = getFlyoutHeaderGrabHandle();
     SkyAppTestUtility.fireDomEvent(handleElement, 'keydown', {
-      keyboardEventInit: { key: keyName }
+      keyboardEventInit: { key: keyName },
     });
     fixture.detectChanges();
     tick();
@@ -198,7 +225,9 @@ describe('Flyout component', () => {
   }
 
   function getFlyoutHeaderGrabHandle(): HTMLElement {
-    return document.querySelector('.sky-flyout-header-grab-handle') as HTMLElement;
+    return document.querySelector(
+      '.sky-flyout-header-grab-handle'
+    ) as HTMLElement;
   }
 
   function getFlyoutHeaderElement(): HTMLElement {
@@ -218,7 +247,9 @@ describe('Flyout component', () => {
   }
 
   function getPrimaryActionButtonElement(): HTMLElement {
-    return document.querySelector('.sky-flyout-btn-primary-action') as HTMLElement;
+    return document.querySelector(
+      '.sky-flyout-btn-primary-action'
+    ) as HTMLElement;
   }
 
   function getFlyoutModalTriggerElement(): HTMLElement {
@@ -252,41 +283,36 @@ describe('Flyout component', () => {
 
   beforeEach(() => {
     mockThemeSvc = {
-      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
-        {
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.default,
-            SkyThemeMode.presets.light
-          ),
-          previousSettings: undefined
-        }
-      )
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.default,
+          SkyThemeMode.presets.light
+        ),
+        previousSettings: undefined,
+      }),
     };
 
     TestBed.configureTestingModule({
-      imports: [
-        SkyFlyoutFixturesModule,
-        RouterTestingModule.withRoutes([])
-      ],
+      imports: [SkyFlyoutFixturesModule, RouterTestingModule.withRoutes([])],
       providers: [
         {
           provide: SkyThemeService,
-          useValue: mockThemeSvc
-        }
-      ]
+          useValue: mockThemeSvc,
+        },
+      ],
     });
 
     fixture = TestBed.createComponent(SkyFlyoutTestComponent);
     fixture.detectChanges();
 
-    windowSizeSpy = spyOnProperty(window, 'innerWidth', 'get').and.returnValue(1500);
+    windowSizeSpy = spyOnProperty(window, 'innerWidth', 'get').and.returnValue(
+      1500
+    );
   });
 
-  beforeEach(inject([ApplicationRef, SkyFlyoutService],
-    (
-      _applicationRef: ApplicationRef,
-      _flyoutService: SkyFlyoutService
-    ) => {
+  beforeEach(inject(
+    [ApplicationRef, SkyFlyoutService],
+    (_applicationRef: ApplicationRef, _flyoutService: SkyFlyoutService) => {
       applicationRef = _applicationRef;
       flyoutService = _flyoutService;
       flyoutService.close();
@@ -375,7 +401,8 @@ describe('Flyout component', () => {
     fixture.detectChanges();
     tick();
 
-    const deleteMeButton: HTMLButtonElement = getModalElement().querySelector('.delete-me-button');
+    const deleteMeButton: HTMLButtonElement =
+      getModalElement().querySelector('.delete-me-button');
     // Remove the button before triggering the click event.
     // Angular fires the click event before removing the element in unit tests.
     deleteMeButton.parentElement.removeChild(deleteMeButton);
@@ -383,7 +410,7 @@ describe('Flyout component', () => {
     // Pass in the removed element as the target.
     const event = document.createEvent('CustomEvent');
     Object.defineProperty(event, 'target', {
-      value: deleteMeButton
+      value: deleteMeButton,
     });
     event.initEvent('click', true, true);
     document.dispatchEvent(event);
@@ -472,75 +499,70 @@ describe('Flyout component', () => {
     expect(flyout.isOpen).toBe(false);
   }));
 
-  it('should emit closed event of previously opened flyouts when a new one is opened',
-    fakeAsync(() => {
-      const flyout = openFlyout({});
+  it('should emit closed event of previously opened flyouts when a new one is opened', fakeAsync(() => {
+    const flyout = openFlyout({});
 
-      let closedCalled = false;
-      flyout.closed.subscribe(() => {
-        closedCalled = true;
-      });
+    let closedCalled = false;
+    flyout.closed.subscribe(() => {
+      closedCalled = true;
+    });
 
-      // Open a new flyout before closing the last one:
-      openFlyout({});
+    // Open a new flyout before closing the last one:
+    openFlyout({});
 
-      expect(closedCalled).toEqual(true);
-    })
-  );
+    expect(closedCalled).toEqual(true);
+  }));
 
   it('should pass providers to the flyout', fakeAsync(() => {
     openFlyout({
-      providers: [{
-        provide: SkyFlyoutTestSampleContext,
-        useValue: {
-          name: 'Sally'
-        }
-      }]
+      providers: [
+        {
+          provide: SkyFlyoutTestSampleContext,
+          useValue: {
+            name: 'Sally',
+          },
+        },
+      ],
     });
 
-    const flyoutContentElement = getFlyoutElement()
-      .querySelector('.sky-flyout-content') as HTMLElement;
+    const flyoutContentElement = getFlyoutElement().querySelector(
+      '.sky-flyout-content'
+    ) as HTMLElement;
 
     expect(flyoutContentElement).toHaveText('Sally');
   }));
 
-  it('should accept configuration options for aria-labelledBy, aria-describedby, role, and width',
-    fakeAsync(() => {
-      const expectedLabel = 'customlabelledby';
-      const expectedDescribed = 'customdescribedby';
-      const expectedRole = 'customrole';
-      const expectedDefault = 500;
+  it('should accept configuration options for aria-labelledBy, aria-describedby, role, and width', fakeAsync(() => {
+    const expectedLabel = 'customlabelledby';
+    const expectedDescribed = 'customdescribedby';
+    const expectedRole = 'customrole';
+    const expectedDefault = 500;
 
-      openFlyout({
-        ariaLabelledBy: expectedLabel,
-        ariaDescribedBy: expectedDescribed,
-        ariaRole: expectedRole,
-        defaultWidth: expectedDefault
-      });
+    openFlyout({
+      ariaLabelledBy: expectedLabel,
+      ariaDescribedBy: expectedDescribed,
+      ariaRole: expectedRole,
+      defaultWidth: expectedDefault,
+    });
 
-      const flyoutElement = getFlyoutElement();
+    const flyoutElement = getFlyoutElement();
 
-      expect(flyoutElement.getAttribute('aria-labelledby'))
-        .toBe(expectedLabel);
-      expect(flyoutElement.getAttribute('aria-describedby'))
-        .toBe(expectedDescribed);
-      expect(flyoutElement.getAttribute('role'))
-        .toBe(expectedRole);
-      expect(flyoutElement.style.width)
-        .toBe(expectedDefault + 'px');
-    })
-  );
+    expect(flyoutElement.getAttribute('aria-labelledby')).toBe(expectedLabel);
+    expect(flyoutElement.getAttribute('aria-describedby')).toBe(
+      expectedDescribed
+    );
+    expect(flyoutElement.getAttribute('role')).toBe(expectedRole);
+    expect(flyoutElement.style.width).toBe(expectedDefault + 'px');
+  }));
 
-  it('should set the flyout size to half the window size when no default width is given',
-    fakeAsync(() => {
-      openFlyout();
+  it('should set the flyout size to half the window size when no default width is given', fakeAsync(() => {
+    openFlyout();
 
-      const windowSize = window.innerWidth;
+    const windowSize = window.innerWidth;
 
-      const flyoutElement = getFlyoutElement();
-      expect(flyoutElement.style.width).toBe((windowSize / 2) + 'px');
-    })
-  );
+    const flyoutElement = getFlyoutElement();
+    expect(flyoutElement.style.width).toBe(windowSize / 2 + 'px');
+  }));
 
   it('should set the flyout size to the min width if the default width is less than the min', fakeAsync(() => {
     openFlyout({ minWidth: 400, defaultWidth: 200 });
@@ -556,83 +578,79 @@ describe('Flyout component', () => {
     expect(flyoutElement.style.width).toBe('400px');
   }));
 
-  it('should set the flyout size to the value returned from the UI config service',
-    fakeAsync(() => {
-      spyOn(SkyUIConfigService.prototype, 'getConfig')
-        .and.returnValue(observableOf({ flyoutWidth: 557 }));
+  it('should set the flyout size to the value returned from the UI config service', fakeAsync(() => {
+    spyOn(SkyUIConfigService.prototype, 'getConfig').and.returnValue(
+      observableOf({ flyoutWidth: 557 })
+    );
 
-      openFlyout({ settingsKey: 'testKey', minWidth: 320, maxWidth: 1000 });
+    openFlyout({ settingsKey: 'testKey', minWidth: 320, maxWidth: 1000 });
 
-      fixture.detectChanges();
-      tick();
+    fixture.detectChanges();
+    tick();
 
-      const flyoutElement = getFlyoutElement();
-      expect(flyoutElement.style.width).toBe('557px');
-    })
-  );
+    const flyoutElement = getFlyoutElement();
+    expect(flyoutElement.style.width).toBe('557px');
+  }));
 
-  it('should set the flyout size to the min width if value returned from the UI config service is too small',
-    fakeAsync(() => {
-      spyOn(SkyUIConfigService.prototype, 'getConfig')
-        .and.returnValue(observableOf({ flyoutWidth: 200 }));
+  it('should set the flyout size to the min width if value returned from the UI config service is too small', fakeAsync(() => {
+    spyOn(SkyUIConfigService.prototype, 'getConfig').and.returnValue(
+      observableOf({ flyoutWidth: 200 })
+    );
 
-      openFlyout({ settingsKey: 'testKey', minWidth: 320, maxWidth: 1000 });
+    openFlyout({ settingsKey: 'testKey', minWidth: 320, maxWidth: 1000 });
 
-      fixture.detectChanges();
-      tick();
+    fixture.detectChanges();
+    tick();
 
-      const flyoutElement = getFlyoutElement();
-      expect(flyoutElement.style.width).toBe('320px');
-    })
-  );
+    const flyoutElement = getFlyoutElement();
+    expect(flyoutElement.style.width).toBe('320px');
+  }));
 
-  it('should set the flyout size to the max width if value returned from the UI config service is too big',
-    fakeAsync(() => {
-      spyOn(SkyUIConfigService.prototype, 'getConfig')
-        .and.returnValue(observableOf({ flyoutWidth: 1200 }));
+  it('should set the flyout size to the max width if value returned from the UI config service is too big', fakeAsync(() => {
+    spyOn(SkyUIConfigService.prototype, 'getConfig').and.returnValue(
+      observableOf({ flyoutWidth: 1200 })
+    );
 
-      openFlyout({ settingsKey: 'testKey', minWidth: 320, maxWidth: 800 });
+    openFlyout({ settingsKey: 'testKey', minWidth: 320, maxWidth: 800 });
 
-      fixture.detectChanges();
-      tick();
+    fixture.detectChanges();
+    tick();
 
-      const flyoutElement = getFlyoutElement();
-      expect(flyoutElement.style.width).toBe('800px');
-    }));
+    const flyoutElement = getFlyoutElement();
+    expect(flyoutElement.style.width).toBe('800px');
+  }));
 
-  it('should set the flyout size to the default value when nothing is returned from the UI config service',
-    fakeAsync(() => {
-      spyOn(SkyUIConfigService.prototype, 'getConfig')
-        .and.returnValue(observableOf(undefined));
+  it('should set the flyout size to the default value when nothing is returned from the UI config service', fakeAsync(() => {
+    spyOn(SkyUIConfigService.prototype, 'getConfig').and.returnValue(
+      observableOf(undefined)
+    );
 
-      openFlyout({ defaultWidth: 590, settingsKey: 'testKey' });
+    openFlyout({ defaultWidth: 590, settingsKey: 'testKey' });
 
-      fixture.detectChanges();
-      tick();
+    fixture.detectChanges();
+    tick();
 
-      const flyoutElement = getFlyoutElement();
-      expect(flyoutElement.style.width).toBe('590px');
-    })
-  );
+    const flyoutElement = getFlyoutElement();
+    expect(flyoutElement.style.width).toBe('590px');
+  }));
 
-  it('should set the flyout size to the default value when a value without a flyout width is returned from the UI config service',
-    fakeAsync(() => {
-      spyOn(SkyUIConfigService.prototype, 'getConfig')
-        .and.returnValue(observableOf({ otherValue: 557 }));
+  it('should set the flyout size to the default value when a value without a flyout width is returned from the UI config service', fakeAsync(() => {
+    spyOn(SkyUIConfigService.prototype, 'getConfig').and.returnValue(
+      observableOf({ otherValue: 557 })
+    );
 
-      openFlyout({ defaultWidth: 590, settingsKey: 'testKey' });
+    openFlyout({ defaultWidth: 590, settingsKey: 'testKey' });
 
-      fixture.detectChanges();
-      tick();
+    fixture.detectChanges();
+    tick();
 
-      const flyoutElement = getFlyoutElement();
-      expect(flyoutElement.style.width).toBe('590px');
-    })
-  );
+    const flyoutElement = getFlyoutElement();
+    expect(flyoutElement.style.width).toBe('590px');
+  }));
 
   it('should only load to 20px less than the window size', fakeAsync(() => {
     const windowSize = window.innerWidth;
-    openFlyout({ maxWidth: 5000, minWidth: 0, defaultWidth: (windowSize + 100) });
+    openFlyout({ maxWidth: 5000, minWidth: 0, defaultWidth: windowSize + 100 });
     const flyoutElement = getFlyoutElement();
 
     expect(flyoutElement.style.width).toBe(window.innerWidth - 20 + 'px');
@@ -640,39 +658,54 @@ describe('Flyout component', () => {
 
   it('should send the new sticky settings when load goes to 20px less than the window size', fakeAsync(() => {
     const windowSize = window.innerWidth;
-    const uiSettingsSaveSpy = spyOn(SkyUIConfigService.prototype, 'setConfig').and.callThrough();
+    const uiSettingsSaveSpy = spyOn(
+      SkyUIConfigService.prototype,
+      'setConfig'
+    ).and.callThrough();
 
-    openFlyout({ maxWidth: 5000, minWidth: 0, defaultWidth: (windowSize + 100), settingsKey: 'testKey' });
+    openFlyout({
+      maxWidth: 5000,
+      minWidth: 0,
+      defaultWidth: windowSize + 100,
+      settingsKey: 'testKey',
+    });
     const flyoutElement = getFlyoutElement();
 
     expect(flyoutElement.style.width).toBe(window.innerWidth - 20 + 'px');
-    expect(uiSettingsSaveSpy).toHaveBeenCalledWith('testKey',
-      { flyoutWidth: window.innerWidth - 20 });
+    expect(uiSettingsSaveSpy).toHaveBeenCalledWith('testKey', {
+      flyoutWidth: window.innerWidth - 20,
+    });
   }));
 
-  it('should not have the sky-flyout-help-shim class if the help widget is not present',
-    fakeAsync(() => {
-      openFlyout({});
-      const headerElement = getFlyoutHeaderElement();
-      expect(headerElement.classList.contains('sky-flyout-help-shim')).toBeFalsy();
-    })
-  );
+  it('should not have the sky-flyout-help-shim class if the help widget is not present', fakeAsync(() => {
+    openFlyout({});
+    const headerElement = getFlyoutHeaderElement();
+    expect(
+      headerElement.classList.contains('sky-flyout-help-shim')
+    ).toBeFalsy();
+  }));
 
-  it('should have the sky-flyout-help-shim class if the help widget is present',
-    fakeAsync(() => {
-      spyOn(window.document, 'getElementById').and.returnValue({} as HTMLElement);
-      openFlyout({});
-      const headerElement = getFlyoutHeaderElement();
-      expect(headerElement.classList.contains('sky-flyout-help-shim')).toBeTruthy();
-    })
-  );
+  it('should have the sky-flyout-help-shim class if the help widget is present', fakeAsync(() => {
+    spyOn(window.document, 'getElementById').and.returnValue({} as HTMLElement);
+    openFlyout({});
+    const headerElement = getFlyoutHeaderElement();
+    expect(
+      headerElement.classList.contains('sky-flyout-help-shim')
+    ).toBeTruthy();
+  }));
 
   it('should resize when handle is dragged', fakeAsync(() => {
     openFlyout({ defaultWidth: 500 });
     fixture.detectChanges();
     tick();
-    const moveSpy = spyOn(SkyFlyoutComponent.prototype, 'onMouseMove').and.callThrough();
-    const mouseUpSpy = spyOn(SkyFlyoutComponent.prototype, 'onHandleRelease').and.callThrough();
+    const moveSpy = spyOn(
+      SkyFlyoutComponent.prototype,
+      'onMouseMove'
+    ).and.callThrough();
+    const mouseUpSpy = spyOn(
+      SkyFlyoutComponent.prototype,
+      'onHandleRelease'
+    ).and.callThrough();
     const flyoutElement = getFlyoutElement();
 
     expect(flyoutElement.style.width).toBe('500px');
@@ -691,19 +724,26 @@ describe('Flyout component', () => {
     openFlyout({ defaultWidth: 500, settingsKey: 'testKey' });
     fixture.detectChanges();
     tick();
-    const uiSettingsSaveSpy = spyOn(SkyUIConfigService.prototype, 'setConfig').and.callThrough();
+    const uiSettingsSaveSpy = spyOn(
+      SkyUIConfigService.prototype,
+      'setConfig'
+    ).and.callThrough();
 
     expect(uiSettingsSaveSpy).not.toHaveBeenCalled();
 
     resizeFlyout(1000, 1100);
 
-    expect(uiSettingsSaveSpy).toHaveBeenCalledWith('testKey', { flyoutWidth: 400 });
+    expect(uiSettingsSaveSpy).toHaveBeenCalledWith('testKey', {
+      flyoutWidth: 400,
+    });
 
     uiSettingsSaveSpy.calls.reset();
 
     resizeFlyout(1100, 1000);
 
-    expect(uiSettingsSaveSpy).toHaveBeenCalledWith('testKey', { flyoutWidth: 500 });
+    expect(uiSettingsSaveSpy).toHaveBeenCalledWith('testKey', {
+      flyoutWidth: 500,
+    });
   }));
 
   it('should not show the header resize grab handle when in default mode', fakeAsync(() => {
@@ -727,25 +767,31 @@ describe('Flyout component', () => {
     /**
      * NOTE: We need to update this to use the new throwError Observable creation function
      */
-    spyOn(SkyUIConfigService.prototype, 'setConfig')
-      .and.returnValue(observableThrow({ message: 'Test error' }));
+    spyOn(SkyUIConfigService.prototype, 'setConfig').and.returnValue(
+      observableThrow({ message: 'Test error' })
+    );
     /* tslint:enable:deprecation */
 
     resizeFlyout(1000, 1100);
 
     expect(warnSpy).toHaveBeenCalledWith('Could not save flyout data.');
     expect(warnSpy).toHaveBeenCalledWith({
-      message: 'Test error'
+      message: 'Test error',
     });
-  })
-  );
+  }));
 
   it('should not resize on mousemove unless the resize handle was clicked', fakeAsync(() => {
     openFlyout({ defaultWidth: 500 });
     fixture.detectChanges();
     tick();
-    const moveSpy = spyOn(SkyFlyoutComponent.prototype, 'onMouseMove').and.callThrough();
-    const mouseUpSpy = spyOn(SkyFlyoutComponent.prototype, 'onHandleRelease').and.callThrough();
+    const moveSpy = spyOn(
+      SkyFlyoutComponent.prototype,
+      'onMouseMove'
+    ).and.callThrough();
+    const mouseUpSpy = spyOn(
+      SkyFlyoutComponent.prototype,
+      'onHandleRelease'
+    ).and.callThrough();
     const flyoutElement = getFlyoutElement();
 
     expect(flyoutElement.style.width).toBe('500px');
@@ -768,7 +814,9 @@ describe('Flyout component', () => {
     openFlyout({ defaultWidth: 500 });
     const flyoutElement = getFlyoutElement();
     expect(flyoutElement.style.width).toBe('500px');
-    let resizeInput: any = flyoutElement.querySelector('.sky-flyout-resize-handle');
+    let resizeInput: any = flyoutElement.querySelector(
+      '.sky-flyout-resize-handle'
+    );
 
     resizeInput.value = '400';
     SkyAppTestUtility.fireDomEvent(resizeInput, 'input');
@@ -786,7 +834,9 @@ describe('Flyout component', () => {
   it('should have correct aria-labels on resizing range input', fakeAsync(() => {
     openFlyout({ maxWidth: 1000, minWidth: 200, defaultWidth: 500 });
     const flyoutElement = getFlyoutElement();
-    let resizeInput: any = flyoutElement.querySelector('.sky-flyout-resize-handle');
+    let resizeInput: any = flyoutElement.querySelector(
+      '.sky-flyout-resize-handle'
+    );
 
     expect(flyoutElement.style.width).toBe('500px');
     expect(resizeInput.getAttribute('aria-controls')).toBe(flyoutElement.id);
@@ -853,18 +903,15 @@ describe('Flyout component', () => {
     expect(flyoutElement.style.width).toBe(window.innerWidth - 20 + 'px');
   }));
 
-  it('should not resize when handle is not clicked',
-    fakeAsync(() => {
+  it('should not resize when handle is not clicked', fakeAsync(() => {
+    openFlyout({ defaultWidth: 500 });
+    const flyoutElement = getFlyoutElement();
 
-      openFlyout({ defaultWidth: 500 });
-      const flyoutElement = getFlyoutElement();
-
-      expect(flyoutElement.style.width).toBe('500px');
-      makeEvent('mousemove', { clientX: 1100 });
-      fixture.detectChanges();
-      expect(flyoutElement.style.width).toBe('500px');
-    })
-  );
+    expect(flyoutElement.style.width).toBe('500px');
+    makeEvent('mousemove', { clientX: 1100 });
+    fixture.detectChanges();
+    expect(flyoutElement.style.width).toBe('500px');
+  }));
 
   it('should allow click events to bubble up to the document to support 3rd-party event listeners', fakeAsync(() => {
     openFlyout({ maxWidth: 1000, minWidth: 200 });
@@ -896,252 +943,228 @@ describe('Flyout component', () => {
   }));
 
   describe('permalink', () => {
-    it('should not show the permalink button if no permalink config peroperties are defined',
-      fakeAsync(() => {
-        openFlyout({});
-        const permaLinkButton = getPermalinkButtonElement();
-        expect(permaLinkButton).toBeFalsy();
-      })
-    );
+    it('should not show the permalink button if no permalink config peroperties are defined', fakeAsync(() => {
+      openFlyout({});
+      const permaLinkButton = getPermalinkButtonElement();
+      expect(permaLinkButton).toBeFalsy();
+    }));
 
-    it('should use the default permalink label if none is defined',
-      fakeAsync(() => {
-        const expectedPermalink = 'http://bb.com';
-        const expectedLabel = 'View record';
+    it('should use the default permalink label if none is defined', fakeAsync(() => {
+      const expectedPermalink = 'http://bb.com';
+      const expectedLabel = 'View record';
 
-        openFlyout({
-          permalink: {
-            url: expectedPermalink
-          }
-        });
+      openFlyout({
+        permalink: {
+          url: expectedPermalink,
+        },
+      });
 
-        const permaLinkButton = getPermalinkButtonElement();
-        expect(permaLinkButton).toBeTruthy();
-        expect(permaLinkButton.innerHTML.trim()).toEqual(expectedLabel);
-      })
-    );
+      const permaLinkButton = getPermalinkButtonElement();
+      expect(permaLinkButton).toBeTruthy();
+      expect(permaLinkButton.innerHTML.trim()).toEqual(expectedLabel);
+    }));
 
-    it('should use the custom defined label for permalink',
-      fakeAsync(() => {
-        const expectedPermalink = 'http://bb.com';
-        const expectedLabel = 'Foo Bar';
+    it('should use the custom defined label for permalink', fakeAsync(() => {
+      const expectedPermalink = 'http://bb.com';
+      const expectedLabel = 'Foo Bar';
 
-        openFlyout({
-          permalink: {
-            label: expectedLabel,
-            url: expectedPermalink
-          }
-        });
+      openFlyout({
+        permalink: {
+          label: expectedLabel,
+          url: expectedPermalink,
+        },
+      });
 
-        const permaLinkButton = getPermalinkButtonElement();
-        expect(permaLinkButton).toBeTruthy();
-        expect(permaLinkButton.innerHTML.trim()).toEqual(expectedLabel);
-      })
-    );
+      const permaLinkButton = getPermalinkButtonElement();
+      expect(permaLinkButton).toBeTruthy();
+      expect(permaLinkButton.innerHTML.trim()).toEqual(expectedLabel);
+    }));
 
-    it('should open the defined permalink URL when clicking on the permalink button',
-      fakeAsync(() => {
-        const expectedPermalink = 'http://bb.com';
-        openFlyout({
-          permalink: {
-            url: expectedPermalink
-          }
-        });
-        const permaLinkButton = getPermalinkButtonElement();
-        expect(permaLinkButton.getAttribute('href')).toEqual(expectedPermalink);
-      })
-    );
+    it('should open the defined permalink URL when clicking on the permalink button', fakeAsync(() => {
+      const expectedPermalink = 'http://bb.com';
+      openFlyout({
+        permalink: {
+          url: expectedPermalink,
+        },
+      });
+      const permaLinkButton = getPermalinkButtonElement();
+      expect(permaLinkButton.getAttribute('href')).toEqual(expectedPermalink);
+    }));
 
-    it('should navigate to a route when clicking on the permalink button',
-      fakeAsync(() => {
-        openFlyout({
-          permalink: {
-            route: {
-              commands: ['/'],
-              extras: {
-                fragment: 'fooFragment',
-                queryParams: {
-                  envid: 'fooId'
-                }
-              }
-            }
-          }
-        });
-        const permalinkButton = getPermalinkButtonElement();
-        expect(permalinkButton.getAttribute('href')).toEqual('/?envid=fooId#fooFragment');
-      })
-    );
+    it('should navigate to a route when clicking on the permalink button', fakeAsync(() => {
+      openFlyout({
+        permalink: {
+          route: {
+            commands: ['/'],
+            extras: {
+              fragment: 'fooFragment',
+              queryParams: {
+                envid: 'fooId',
+              },
+            },
+          },
+        },
+      });
+      const permalinkButton = getPermalinkButtonElement();
+      expect(permalinkButton.getAttribute('href')).toEqual(
+        '/?envid=fooId#fooFragment'
+      );
+    }));
 
-    it('should include defined state data when navigating',
-      fakeAsync(() => {
-        openFlyout({
-          permalink: {
-            route: {
-              commands: ['/'],
-              extras: {
-                fragment: 'fooFragment',
-                queryParams: {
-                  envid: 'fooId'
-                },
-                state: {
-                  foo: 'bar'
-                }
-              }
-            }
-          }
-        });
-        getPermalinkButtonElement().click();
-        const navigation = TestBed.inject(Router).getCurrentNavigation();
-        expect(navigation.extras.state.foo).toEqual('bar');
-        tick();
-      })
-    );
+    it('should include defined state data when navigating', fakeAsync(() => {
+      openFlyout({
+        permalink: {
+          route: {
+            commands: ['/'],
+            extras: {
+              fragment: 'fooFragment',
+              queryParams: {
+                envid: 'fooId',
+              },
+              state: {
+                foo: 'bar',
+              },
+            },
+          },
+        },
+      });
+      getPermalinkButtonElement().click();
+      const navigation = TestBed.inject(Router).getCurrentNavigation();
+      expect(navigation.extras.state.foo).toEqual('bar');
+      tick();
+    }));
 
-    it('should navigate to a URL when clicking on the permalink button',
-      fakeAsync(() => {
-        openFlyout({
-          permalink: {
-            url: 'http://foo.com'
-          }
-        });
-        const permalinkButton = getPermalinkButtonElement();
-        expect(permalinkButton.getAttribute('href')).toEqual('http://foo.com');
-      })
-    );
+    it('should navigate to a URL when clicking on the permalink button', fakeAsync(() => {
+      openFlyout({
+        permalink: {
+          url: 'http://foo.com',
+        },
+      });
+      const permalinkButton = getPermalinkButtonElement();
+      expect(permalinkButton.getAttribute('href')).toEqual('http://foo.com');
+    }));
   });
 
   describe('primary action', () => {
-    it('should not show the primary action button if no action is configured',
-      fakeAsync(() => {
-        openFlyout({});
-        const primaryActionButton = getPrimaryActionButtonElement();
-        expect(primaryActionButton).toBeFalsy();
-      })
-    );
+    it('should not show the primary action button if no action is configured', fakeAsync(() => {
+      openFlyout({});
+      const primaryActionButton = getPrimaryActionButtonElement();
+      expect(primaryActionButton).toBeFalsy();
+    }));
 
-    it('should use the default primary action label if none is defined',
-      fakeAsync(() => {
-        const expectedLabel = 'Create list';
+    it('should use the default primary action label if none is defined', fakeAsync(() => {
+      const expectedLabel = 'Create list';
 
-        openFlyout({
-          primaryAction: {
-            callback: () => { }
-          }
-        });
+      openFlyout({
+        primaryAction: {
+          callback: () => {},
+        },
+      });
 
-        const primaryActionButton = getPrimaryActionButtonElement();
-        expect(primaryActionButton).toBeTruthy();
-        expect(primaryActionButton.innerHTML.trim()).toEqual(expectedLabel);
-      })
-    );
+      const primaryActionButton = getPrimaryActionButtonElement();
+      expect(primaryActionButton).toBeTruthy();
+      expect(primaryActionButton.innerHTML.trim()).toEqual(expectedLabel);
+    }));
 
-    it('should use the custom defined label for primary action',
-      fakeAsync(() => {
-        const expectedLabel = 'Create list';
+    it('should use the custom defined label for primary action', fakeAsync(() => {
+      const expectedLabel = 'Create list';
 
-        openFlyout({
-          primaryAction: {
-            callback: () => { },
-            label: expectedLabel
-          }
-        });
+      openFlyout({
+        primaryAction: {
+          callback: () => {},
+          label: expectedLabel,
+        },
+      });
 
-        const primaryActionButton = getPrimaryActionButtonElement();
-        expect(primaryActionButton).toBeTruthy();
-        expect(primaryActionButton.innerHTML.trim()).toEqual(expectedLabel);
-      })
-    );
+      const primaryActionButton = getPrimaryActionButtonElement();
+      expect(primaryActionButton).toBeTruthy();
+      expect(primaryActionButton.innerHTML.trim()).toEqual(expectedLabel);
+    }));
 
-    it('should invoke the primary action callback when clicking on the primary action button',
-      fakeAsync(() => {
-        let primaryActionInvoked = false;
+    it('should invoke the primary action callback when clicking on the primary action button', fakeAsync(() => {
+      let primaryActionInvoked = false;
 
-        openFlyout({
-          primaryAction: {
-            callback: () => {
-              primaryActionInvoked = true;
-            }
-          }
-        });
+      openFlyout({
+        primaryAction: {
+          callback: () => {
+            primaryActionInvoked = true;
+          },
+        },
+      });
 
-        const primaryActionButton = getPrimaryActionButtonElement();
-        expect(primaryActionButton).toBeTruthy();
-        primaryActionButton.click();
+      const primaryActionButton = getPrimaryActionButtonElement();
+      expect(primaryActionButton).toBeTruthy();
+      primaryActionButton.click();
 
-        // let the close message propagate
-        applicationRef.tick();
-        tick();
+      // let the close message propagate
+      applicationRef.tick();
+      tick();
 
-        expect(primaryActionInvoked).toBe(true);
-      })
-    );
+      expect(primaryActionInvoked).toBe(true);
+    }));
 
-    it('should close the flyout after invoking the primary action if configured to do so',
-      fakeAsync(() => {
-        const flyoutInstance = openFlyout({
-          primaryAction: {
-            callback: () => { },
-            closeAfterInvoking: true
-          }
-        });
+    it('should close the flyout after invoking the primary action if configured to do so', fakeAsync(() => {
+      const flyoutInstance = openFlyout({
+        primaryAction: {
+          callback: () => {},
+          closeAfterInvoking: true,
+        },
+      });
 
-        const primaryActionButton = getPrimaryActionButtonElement();
-        expect(primaryActionButton).toBeTruthy();
-        primaryActionButton.click();
+      const primaryActionButton = getPrimaryActionButtonElement();
+      expect(primaryActionButton).toBeTruthy();
+      primaryActionButton.click();
 
-        // let the close message propagate
-        applicationRef.tick();
-        tick();
+      // let the close message propagate
+      applicationRef.tick();
+      tick();
 
-        expect(flyoutInstance.isOpen).toBeFalsy();
-      })
-    );
+      expect(flyoutInstance.isOpen).toBeFalsy();
+    }));
 
-    it('should not close the flyout after invoking the primary action if not configured to do so',
-      fakeAsync(() => {
-        const flyoutInstance = openFlyout({
-          primaryAction: {
-            callback: () => { },
-            closeAfterInvoking: false
-          }
-        });
+    it('should not close the flyout after invoking the primary action if not configured to do so', fakeAsync(() => {
+      const flyoutInstance = openFlyout({
+        primaryAction: {
+          callback: () => {},
+          closeAfterInvoking: false,
+        },
+      });
 
-        const primaryActionButton = getPrimaryActionButtonElement();
-        expect(primaryActionButton).toBeTruthy();
-        primaryActionButton.click();
+      const primaryActionButton = getPrimaryActionButtonElement();
+      expect(primaryActionButton).toBeTruthy();
+      primaryActionButton.click();
 
-        // let the close message propagate
-        applicationRef.tick();
-        tick();
+      // let the close message propagate
+      applicationRef.tick();
+      tick();
 
-        expect(flyoutInstance.isOpen).toBeTruthy();
-      })
-    );
+      expect(flyoutInstance.isOpen).toBeTruthy();
+    }));
 
-    it('should not close the flyout after invoking the primary action if configuration is not set',
-      fakeAsync(() => {
-        const flyoutInstance = openFlyout({
-          primaryAction: {
-            callback: () => { }
-          }
-        });
+    it('should not close the flyout after invoking the primary action if configuration is not set', fakeAsync(() => {
+      const flyoutInstance = openFlyout({
+        primaryAction: {
+          callback: () => {},
+        },
+      });
 
-        const primaryActionButton = getPrimaryActionButtonElement();
-        expect(primaryActionButton).toBeTruthy();
-        primaryActionButton.click();
+      const primaryActionButton = getPrimaryActionButtonElement();
+      expect(primaryActionButton).toBeTruthy();
+      primaryActionButton.click();
 
-        // let the close message propagate
-        applicationRef.tick();
-        tick();
+      // let the close message propagate
+      applicationRef.tick();
+      tick();
 
-        expect(flyoutInstance.isOpen).toBeTruthy();
-      })
-    );
+      expect(flyoutInstance.isOpen).toBeTruthy();
+    }));
   });
 
   describe('iterator', () => {
     function getIteratorButtons(): NodeListOf<HTMLButtonElement> {
-      return document.querySelectorAll('#iterators button') as NodeListOf<HTMLButtonElement>;
+      return document.querySelectorAll(
+        '#iterators button'
+      ) as NodeListOf<HTMLButtonElement>;
     }
 
     it('should not show iterator buttons if config.showIterator is undefined', fakeAsync(() => {
@@ -1152,7 +1175,7 @@ describe('Flyout component', () => {
 
     it('should not show iterator buttons if config.showIterator is false', fakeAsync(() => {
       openFlyout({
-        showIterator: false
+        showIterator: false,
       });
       const iteratorButtons = getIteratorButtons();
       expect(iteratorButtons.length).toEqual(0);
@@ -1160,7 +1183,7 @@ describe('Flyout component', () => {
 
     it('should show iterator buttons if config.showIterator is true', fakeAsync(() => {
       openFlyout({
-        showIterator: true
+        showIterator: true,
       });
       const iteratorButtons = getIteratorButtons();
       expect(iteratorButtons.length).toEqual(2);
@@ -1172,7 +1195,7 @@ describe('Flyout component', () => {
       openFlyout({
         showIterator: true,
         iteratorPreviousButtonDisabled: true,
-        iteratorNextButtonDisabled: true
+        iteratorNextButtonDisabled: true,
       });
       const iteratorButtons = getIteratorButtons();
       expect(iteratorButtons.length).toEqual(2);
@@ -1184,7 +1207,7 @@ describe('Flyout component', () => {
       openFlyout({
         showIterator: true,
         iteratorPreviousButtonDisabled: false,
-        iteratorNextButtonDisabled: false
+        iteratorNextButtonDisabled: false,
       });
       const iteratorButtons = getIteratorButtons();
       expect(iteratorButtons.length).toEqual(2);
@@ -1197,7 +1220,7 @@ describe('Flyout component', () => {
       let nextCalled = false;
 
       const flyoutInstance = openFlyout({
-        showIterator: true
+        showIterator: true,
       });
 
       flyoutInstance.iteratorPreviousButtonClick.subscribe(() => {
@@ -1221,7 +1244,7 @@ describe('Flyout component', () => {
       let nextCalled = false;
 
       const flyoutInstance = openFlyout({
-        showIterator: true
+        showIterator: true,
       });
 
       flyoutInstance.iteratorPreviousButtonClick.subscribe(() => {
@@ -1247,7 +1270,7 @@ describe('Flyout component', () => {
       const flyoutInstance = openFlyout({
         showIterator: true,
         iteratorPreviousButtonDisabled: true,
-        iteratorNextButtonDisabled: true
+        iteratorNextButtonDisabled: true,
       });
 
       flyoutInstance.iteratorPreviousButtonClick.subscribe(() => {
@@ -1269,7 +1292,7 @@ describe('Flyout component', () => {
 
     it('should allow consumer to enable/disable buttons after flyout is opened', fakeAsync(() => {
       const flyout = openFlyout({
-        showIterator: true
+        showIterator: true,
       });
       const iteratorButtons = getIteratorButtons();
 
@@ -1305,20 +1328,23 @@ describe('Flyout component', () => {
   });
 
   describe('responsive states', () => {
-
     it('should not have the fullscreen class normally', fakeAsync(() => {
       openFlyout({ defaultWidth: 500, minWidth: 400 });
       const flyoutElement = getFlyoutElement();
-      expect(flyoutElement.classList.contains('sky-flyout-fullscreen')).toBeFalsy();
+      expect(
+        flyoutElement.classList.contains('sky-flyout-fullscreen')
+      ).toBeFalsy();
     }));
 
     it('should have the fullscreen class appropriately on resize', fakeAsync(() => {
       openFlyout({ defaultWidth: 500, minWidth: 400 });
 
       let flyoutElement = getFlyoutElement();
-      expect(flyoutElement.classList.contains('sky-flyout-fullscreen')).toBeFalsy();
+      expect(
+        flyoutElement.classList.contains('sky-flyout-fullscreen')
+      ).toBeFalsy();
 
-     windowSizeSpy.and.returnValue(400);
+      windowSizeSpy.and.returnValue(400);
 
       SkyAppTestUtility.fireDomEvent(window, 'resize');
 
@@ -1326,15 +1352,23 @@ describe('Flyout component', () => {
 
       flyoutElement = getFlyoutElement();
 
-      expect(flyoutElement.classList.contains('sky-flyout-fullscreen')).toBeTruthy();
+      expect(
+        flyoutElement.classList.contains('sky-flyout-fullscreen')
+      ).toBeTruthy();
     }));
 
     it('should not resize when handle is dragged and fullscreen is active', fakeAsync(() => {
       openFlyout({ defaultWidth: 500, minWidth: 400 });
       fixture.detectChanges();
       tick();
-      const moveSpy = spyOn(SkyFlyoutComponent.prototype, 'onMouseMove').and.callThrough();
-      const mouseUpSpy = spyOn(SkyFlyoutComponent.prototype, 'onHandleRelease').and.callThrough();
+      const moveSpy = spyOn(
+        SkyFlyoutComponent.prototype,
+        'onMouseMove'
+      ).and.callThrough();
+      const mouseUpSpy = spyOn(
+        SkyFlyoutComponent.prototype,
+        'onHandleRelease'
+      ).and.callThrough();
       const flyoutElement = getFlyoutElement();
 
       expect(flyoutElement.style.width).toBe('500px');
@@ -1359,11 +1393,16 @@ describe('Flyout component', () => {
       windowSizeSpy.and.returnValue(400);
       openFlyout({ defaultWidth: 500, minWidth: 400 });
       const flyoutElement = getFlyoutElement();
-      expect(flyoutElement.classList.contains('sky-flyout-fullscreen')).toBeTruthy();
+      expect(
+        flyoutElement.classList.contains('sky-flyout-fullscreen')
+      ).toBeTruthy();
     }));
 
     it('should call the host listener correctly on resize', fakeAsync(() => {
-      const resizeSpy = spyOn(SkyFlyoutComponent.prototype, 'onWindowResize').and.callThrough();
+      const resizeSpy = spyOn(
+        SkyFlyoutComponent.prototype,
+        'onWindowResize'
+      ).and.callThrough();
       windowSizeSpy.and.callThrough();
 
       openFlyout({});
@@ -1393,9 +1432,17 @@ describe('Flyout component', () => {
 
     it('should send the new sticky settings when resize caused flyout to resize to 20px less than the window size', fakeAsync(() => {
       windowSizeSpy.and.returnValue(1500);
-      const uiSettingsSaveSpy = spyOn(SkyUIConfigService.prototype, 'setConfig').and.callThrough();
+      const uiSettingsSaveSpy = spyOn(
+        SkyUIConfigService.prototype,
+        'setConfig'
+      ).and.callThrough();
 
-      openFlyout({ maxWidth: 5000, minWidth: 0, defaultWidth: 800, settingsKey: 'testKey' });
+      openFlyout({
+        maxWidth: 5000,
+        minWidth: 0,
+        defaultWidth: 800,
+        settingsKey: 'testKey',
+      });
       const flyoutElement = getFlyoutElement();
 
       expect(flyoutElement.style.width).toBe('800px');
@@ -1408,32 +1455,35 @@ describe('Flyout component', () => {
       fixture.detectChanges();
 
       expect(flyoutElement.style.width).toBe('580px');
-      expect(uiSettingsSaveSpy).toHaveBeenCalledWith('testKey',
-        { flyoutWidth: 580 });
+      expect(uiSettingsSaveSpy).toHaveBeenCalledWith('testKey', {
+        flyoutWidth: 580,
+      });
     }));
   });
 
   describe('responsive states', () => {
+    it('should set the media query service breakpoint to the window size when xs via resize', fakeAsync(() => {
+      const breakpointSpy = spyOn(
+        SkyFlyoutMediaQueryService.prototype,
+        'setBreakpointForWidth'
+      ).and.callThrough();
+      windowSizeSpy.and.callThrough();
 
-    it('should set the media query service breakpoint to the window size when xs via resize',
-      fakeAsync(() => {
-        const breakpointSpy = spyOn(SkyFlyoutMediaQueryService.prototype, 'setBreakpointForWidth')
-          .and.callThrough();
-          windowSizeSpy.and.callThrough();
+      openFlyout({ defaultWidth: 500 });
 
-        openFlyout({ defaultWidth: 500 });
+      windowSizeSpy.and.returnValue(767);
 
-        windowSizeSpy.and.returnValue(767);
+      SkyAppTestUtility.fireDomEvent(window, 'resize');
 
-        SkyAppTestUtility.fireDomEvent(window, 'resize');
-
-        expect(breakpointSpy).toHaveBeenCalledWith(767);
-      }));
+      expect(breakpointSpy).toHaveBeenCalledWith(767);
+    }));
 
     it(`should set the media query service breakpoint to the flyout size when larger
   than xs via resize`, fakeAsync(() => {
-      const breakpointSpy = spyOn(SkyFlyoutMediaQueryService.prototype, 'setBreakpointForWidth')
-        .and.callThrough();
+      const breakpointSpy = spyOn(
+        SkyFlyoutMediaQueryService.prototype,
+        'setBreakpointForWidth'
+      ).and.callThrough();
 
       openFlyout({ defaultWidth: 500 });
 
@@ -1456,22 +1506,25 @@ describe('Flyout component', () => {
       expect(breakpointSpy).toHaveBeenCalledWith(500);
     }));
 
-    it('should set the media query service breakpoint to the window size when xs via resize',
-      fakeAsync(() => {
-        const breakpointSpy = spyOn(SkyFlyoutMediaQueryService.prototype, 'setBreakpointForWidth')
-          .and.callThrough();
-          windowSizeSpy.and.returnValue(767);
+    it('should set the media query service breakpoint to the window size when xs via resize', fakeAsync(() => {
+      const breakpointSpy = spyOn(
+        SkyFlyoutMediaQueryService.prototype,
+        'setBreakpointForWidth'
+      ).and.callThrough();
+      windowSizeSpy.and.returnValue(767);
 
-        openFlyout({ defaultWidth: 500 });
+      openFlyout({ defaultWidth: 500 });
 
-        expect(breakpointSpy).toHaveBeenCalledWith(767);
-      }));
+      expect(breakpointSpy).toHaveBeenCalledWith(767);
+    }));
 
     it(`should set the media query service breakpoint to the flyout size when larger
     than xs on load`, fakeAsync(() => {
-      const breakpointSpy = spyOn(SkyFlyoutMediaQueryService.prototype, 'setBreakpointForWidth')
-        .and.callThrough();
-        windowSizeSpy.and.returnValue(800);
+      const breakpointSpy = spyOn(
+        SkyFlyoutMediaQueryService.prototype,
+        'setBreakpointForWidth'
+      ).and.callThrough();
+      windowSizeSpy.and.returnValue(800);
 
       openFlyout({ defaultWidth: 500 });
 
@@ -1490,10 +1543,18 @@ describe('Flyout component', () => {
       resizeFlyout(1000, 1100);
 
       expect(flyoutElement.style.width).toBe('400px');
-      expect(flyoutHostElement.classList.contains('sky-responsive-container-xs')).toBeTruthy();
-      expect(flyoutHostElement.classList.contains('sky-responsive-container-sm')).toBeFalsy();
-      expect(flyoutHostElement.classList.contains('sky-responsive-container-md')).toBeFalsy();
-      expect(flyoutHostElement.classList.contains('sky-responsive-container-lg')).toBeFalsy();
+      expect(
+        flyoutHostElement.classList.contains('sky-responsive-container-xs')
+      ).toBeTruthy();
+      expect(
+        flyoutHostElement.classList.contains('sky-responsive-container-sm')
+      ).toBeFalsy();
+      expect(
+        flyoutHostElement.classList.contains('sky-responsive-container-md')
+      ).toBeFalsy();
+      expect(
+        flyoutHostElement.classList.contains('sky-responsive-container-lg')
+      ).toBeFalsy();
     }));
 
     it('should add the xs class when appropriate due to xs screen size', fakeAsync(() => {
@@ -1510,10 +1571,18 @@ describe('Flyout component', () => {
 
       SkyAppTestUtility.fireDomEvent(window, 'resize');
 
-      expect(flyoutHostElement.classList.contains('sky-responsive-container-xs')).toBeTruthy();
-      expect(flyoutHostElement.classList.contains('sky-responsive-container-sm')).toBeFalsy();
-      expect(flyoutHostElement.classList.contains('sky-responsive-container-md')).toBeFalsy();
-      expect(flyoutHostElement.classList.contains('sky-responsive-container-lg')).toBeFalsy();
+      expect(
+        flyoutHostElement.classList.contains('sky-responsive-container-xs')
+      ).toBeTruthy();
+      expect(
+        flyoutHostElement.classList.contains('sky-responsive-container-sm')
+      ).toBeFalsy();
+      expect(
+        flyoutHostElement.classList.contains('sky-responsive-container-md')
+      ).toBeFalsy();
+      expect(
+        flyoutHostElement.classList.contains('sky-responsive-container-lg')
+      ).toBeFalsy();
     }));
 
     it('should add the sm class when appropriate', fakeAsync(() => {
@@ -1528,10 +1597,18 @@ describe('Flyout component', () => {
       resizeFlyout(1000, 600);
 
       expect(flyoutElement.style.width).toBe('900px');
-      expect(flyoutHostElement.classList.contains('sky-responsive-container-sm')).toBeTruthy();
-      expect(flyoutHostElement.classList.contains('sky-responsive-container-xs')).toBeFalsy();
-      expect(flyoutHostElement.classList.contains('sky-responsive-container-md')).toBeFalsy();
-      expect(flyoutHostElement.classList.contains('sky-responsive-container-lg')).toBeFalsy();
+      expect(
+        flyoutHostElement.classList.contains('sky-responsive-container-sm')
+      ).toBeTruthy();
+      expect(
+        flyoutHostElement.classList.contains('sky-responsive-container-xs')
+      ).toBeFalsy();
+      expect(
+        flyoutHostElement.classList.contains('sky-responsive-container-md')
+      ).toBeFalsy();
+      expect(
+        flyoutHostElement.classList.contains('sky-responsive-container-lg')
+      ).toBeFalsy();
     }));
 
     it('should add the md class when appropriate', fakeAsync(() => {
@@ -1546,10 +1623,18 @@ describe('Flyout component', () => {
       resizeFlyout(1000, 400);
 
       expect(flyoutElement.style.width).toBe('1100px');
-      expect(flyoutHostElement.classList.contains('sky-responsive-container-md')).toBeTruthy();
-      expect(flyoutHostElement.classList.contains('sky-responsive-container-xs')).toBeFalsy();
-      expect(flyoutHostElement.classList.contains('sky-responsive-container-sm')).toBeFalsy();
-      expect(flyoutHostElement.classList.contains('sky-responsive-container-lg')).toBeFalsy();
+      expect(
+        flyoutHostElement.classList.contains('sky-responsive-container-md')
+      ).toBeTruthy();
+      expect(
+        flyoutHostElement.classList.contains('sky-responsive-container-xs')
+      ).toBeFalsy();
+      expect(
+        flyoutHostElement.classList.contains('sky-responsive-container-sm')
+      ).toBeFalsy();
+      expect(
+        flyoutHostElement.classList.contains('sky-responsive-container-lg')
+      ).toBeFalsy();
     }));
 
     it('should add the lg class when appropriate', fakeAsync(() => {
@@ -1564,23 +1649,30 @@ describe('Flyout component', () => {
       resizeFlyout(1000, 100);
 
       expect(flyoutElement.style.width).toBe('1400px');
-      expect(flyoutHostElement.classList.contains('sky-responsive-container-lg')).toBeTruthy();
-      expect(flyoutHostElement.classList.contains('sky-responsive-container-xs')).toBeFalsy();
-      expect(flyoutHostElement.classList.contains('sky-responsive-container-sm')).toBeFalsy();
-      expect(flyoutHostElement.classList.contains('sky-responsive-container-md')).toBeFalsy();
+      expect(
+        flyoutHostElement.classList.contains('sky-responsive-container-lg')
+      ).toBeTruthy();
+      expect(
+        flyoutHostElement.classList.contains('sky-responsive-container-xs')
+      ).toBeFalsy();
+      expect(
+        flyoutHostElement.classList.contains('sky-responsive-container-sm')
+      ).toBeFalsy();
+      expect(
+        flyoutHostElement.classList.contains('sky-responsive-container-md')
+      ).toBeFalsy();
     }));
 
     describe('when in modern theme', () => {
       beforeEach(() => {
-        mockThemeSvc.settingsChange.next(
-          {
-            currentSettings: new SkyThemeSettings(
-              SkyTheme.presets.modern,
-              SkyThemeMode.presets.light
-            ),
-            previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings
-          }
-        );
+        mockThemeSvc.settingsChange.next({
+          currentSettings: new SkyThemeSettings(
+            SkyTheme.presets.modern,
+            SkyThemeMode.presets.light
+          ),
+          previousSettings:
+            mockThemeSvc.settingsChange.getValue().currentSettings,
+        });
       });
 
       it('should show the header resize grab handle when in modern theme', fakeAsync(() => {
@@ -1597,8 +1689,14 @@ describe('Flyout component', () => {
         openFlyout({ defaultWidth: 500 });
         fixture.detectChanges();
         tick();
-        const moveSpy = spyOn(SkyFlyoutComponent.prototype, 'onMouseMove').and.callThrough();
-        const mouseUpSpy = spyOn(SkyFlyoutComponent.prototype, 'onHandleRelease').and.callThrough();
+        const moveSpy = spyOn(
+          SkyFlyoutComponent.prototype,
+          'onMouseMove'
+        ).and.callThrough();
+        const mouseUpSpy = spyOn(
+          SkyFlyoutComponent.prototype,
+          'onHandleRelease'
+        ).and.callThrough();
         const flyoutElement = getFlyoutElement();
 
         expect(flyoutElement.style.width).toBe('500px');

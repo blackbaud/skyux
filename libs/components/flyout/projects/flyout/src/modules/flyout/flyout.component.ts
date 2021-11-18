@@ -11,7 +11,7 @@ import {
   ReflectiveInjector,
   Type,
   ViewChild,
-  ViewContainerRef
+  ViewContainerRef,
 } from '@angular/core';
 
 import {
@@ -20,61 +20,36 @@ import {
   state,
   style,
   transition,
-  trigger
+  trigger,
 } from '@angular/animations';
 
-import {
-  fromEvent,
-  Subject
-} from 'rxjs';
+import { fromEvent, Subject } from 'rxjs';
 
-import {
-  take,
-  takeUntil,
-  takeWhile
-} from 'rxjs/operators';
+import { take, takeUntil, takeWhile } from 'rxjs/operators';
 
 import {
   SkyMediaBreakpoints,
   SkyMediaQueryService,
-  SkyUIConfigService
+  SkyUIConfigService,
 } from '@skyux/core';
 
-import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
-import {
-  SkyFlyoutAdapterService
-} from './flyout-adapter.service';
+import { SkyFlyoutAdapterService } from './flyout-adapter.service';
 
-import {
-  SkyFlyoutInstance
-} from './flyout-instance';
+import { SkyFlyoutInstance } from './flyout-instance';
 
-import {
-  SkyFlyoutMediaQueryService
-} from './flyout-media-query.service';
+import { SkyFlyoutMediaQueryService } from './flyout-media-query.service';
 
-import {
-  SkyFlyoutAction
-} from './types/flyout-action';
+import { SkyFlyoutAction } from './types/flyout-action';
 
-import {
-  SkyFlyoutConfig
-} from './types/flyout-config';
+import { SkyFlyoutConfig } from './types/flyout-config';
 
-import {
-  SkyFlyoutMessage
-} from './types/flyout-message';
+import { SkyFlyoutMessage } from './types/flyout-message';
 
-import {
-  SkyFlyoutMessageType
-} from './types/flyout-message-type';
+import { SkyFlyoutMessageType } from './types/flyout-message-type';
 
-import {
-  SkyFlyoutPermalink
-} from './types/flyout-permalink';
+import { SkyFlyoutPermalink } from './types/flyout-permalink';
 
 const FLYOUT_OPEN_STATE = 'flyoutOpen';
 const FLYOUT_CLOSED_STATE = 'flyoutClosed';
@@ -91,7 +66,7 @@ let nextId = 0;
   providers: [
     SkyFlyoutAdapterService,
     SkyFlyoutMediaQueryService,
-    { provide: SkyMediaQueryService, useExisting: SkyFlyoutMediaQueryService }
+    { provide: SkyMediaQueryService, useExisting: SkyFlyoutMediaQueryService },
   ],
   animations: [
     trigger('flyoutState', [
@@ -99,13 +74,13 @@ let nextId = 0;
       state(FLYOUT_CLOSED_STATE, style({ transform: 'translateX(100%)' })),
       transition('void => *', [
         style({ transform: 'translateX(100%)' }),
-        animate(250)
+        animate(250),
       ]),
-      transition(`* <=> *`, animate('250ms ease-in'))
-    ])
+      transition(`* <=> *`, animate('250ms ease-in')),
+    ]),
   ],
   // Allow automatic change detection for child components.
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class SkyFlyoutComponent implements OnDestroy, OnInit {
   public config: SkyFlyoutConfig;
@@ -171,19 +146,19 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
    */
   @ViewChild('flyoutRef', {
     read: ElementRef,
-    static: true
+    static: true,
   })
   public flyoutRef: ElementRef;
 
   @ViewChild('target', {
     read: ViewContainerRef,
-    static: true
+    static: true,
   })
   private target: ViewContainerRef;
 
   @ViewChild('flyoutHeader', {
     read: ElementRef,
-    static: true
+    static: true,
   })
   private flyoutHeader: ElementRef;
 
@@ -222,8 +197,12 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
   @HostListener('window:resize', ['$event'])
   public onWindowResize(event: any): void {
-    if (this.flyoutMediaQueryService.isWidthWithinBreakpiont(event.target.innerWidth,
-      SkyMediaBreakpoints.xs)) {
+    if (
+      this.flyoutMediaQueryService.isWidthWithinBreakpiont(
+        event.target.innerWidth,
+        SkyMediaBreakpoints.xs
+      )
+    ) {
       this.updateBreakpointAndResponsiveClass(event.target.innerWidth);
     } else {
       this.updateBreakpointAndResponsiveClass(this.flyoutWidth);
@@ -238,7 +217,10 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     }
   }
 
-  public attach<T>(component: Type<T>, config: SkyFlyoutConfig): SkyFlyoutInstance<T> {
+  public attach<T>(
+    component: Type<T>,
+    config: SkyFlyoutConfig
+  ): SkyFlyoutInstance<T> {
     this.cleanTemplate();
 
     // Emit the closed event on any previously opened flyout instance
@@ -247,13 +229,16 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     }
 
     this.config = Object.assign({ providers: [] }, config);
-    this.config.defaultWidth = this.config.defaultWidth || (window.innerWidth / 2);
+    this.config.defaultWidth =
+      this.config.defaultWidth || window.innerWidth / 2;
     this.config.minWidth = this.config.minWidth || 320;
     this.config.maxWidth = this.config.maxWidth || this.config.defaultWidth;
 
     this.config.showIterator = this.config.showIterator || false;
-    this.config.iteratorNextButtonDisabled = this.config.iteratorNextButtonDisabled || false;
-    this.config.iteratorPreviousButtonDisabled = this.config.iteratorPreviousButtonDisabled || false;
+    this.config.iteratorNextButtonDisabled =
+      this.config.iteratorNextButtonDisabled || false;
+    this.config.iteratorPreviousButtonDisabled =
+      this.config.iteratorPreviousButtonDisabled || false;
 
     const factory = this.resolver.resolveComponentFactory(component);
 
@@ -263,20 +248,28 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
      * after Angular 4 support is dropped.
      */
     const providers = ReflectiveInjector.resolve(this.config.providers);
-    const injector = ReflectiveInjector.fromResolvedProviders(providers, this.injector);
+    const injector = ReflectiveInjector.fromResolvedProviders(
+      providers,
+      this.injector
+    );
     /* tslint:enable:deprecation */
 
-    const componentRef = this.target.createComponent(factory, undefined, injector);
+    const componentRef = this.target.createComponent(
+      factory,
+      undefined,
+      injector
+    );
 
     this.flyoutInstance = this.createFlyoutInstance<T>(componentRef.instance);
 
     // Open the flyout immediately.
     this.messageStream.next({
-      type: SkyFlyoutMessageType.Open
+      type: SkyFlyoutMessageType.Open,
     });
 
     if (this.config.settingsKey) {
-      this.uiConfigService.getConfig(this.config.settingsKey)
+      this.uiConfigService
+        .getConfig(this.config.settingsKey)
         .pipe(take(1))
         .subscribe((value: any) => {
           if (value && value.flyoutWidth) {
@@ -297,7 +290,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
   public close(): void {
     this.messageStream.next({
-      type: SkyFlyoutMessageType.Close
+      type: SkyFlyoutMessageType.Close,
     });
   }
 
@@ -312,7 +305,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   }
 
   public getAnimationState(): string {
-    return (this.isOpening) ? FLYOUT_OPEN_STATE : FLYOUT_CLOSED_STATE;
+    return this.isOpening ? FLYOUT_OPEN_STATE : FLYOUT_CLOSED_STATE;
   }
 
   public animationDone(event: AnimationEvent): void {
@@ -339,14 +332,20 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
         case 'left':
           /* istanbul ignore else */
           if (this.flyoutWidth < this.config.maxWidth) {
-            this.flyoutWidth = Math.min(this.flyoutWidth + this.widthStep, this.config.maxWidth);
+            this.flyoutWidth = Math.min(
+              this.flyoutWidth + this.widthStep,
+              this.config.maxWidth
+            );
           }
           break;
 
         case 'right':
           /* istanbul ignore else */
           if (this.flyoutWidth > this.config.minWidth) {
-            this.flyoutWidth = Math.max(this.flyoutWidth - this.widthStep, this.config.minWidth);
+            this.flyoutWidth = Math.max(
+              this.flyoutWidth - this.widthStep,
+              this.config.minWidth
+            );
           }
           break;
 
@@ -358,7 +357,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   }
 
   public onResizeHandleMouseDown(event: MouseEvent): void {
-
     event.preventDefault();
     event.stopPropagation();
 
@@ -506,7 +504,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   }
 
   private setFullscreen(): void {
-    if ((window.innerWidth - this.windowBufferSize) < this.config.minWidth) {
+    if (window.innerWidth - this.windowBufferSize < this.config.minWidth) {
       this.isFullscreen = true;
     } else {
       this.isFullscreen = false;
@@ -515,15 +513,13 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
   private setUserData(): void {
     if (this.config.settingsKey) {
-      this.uiConfigService.setConfig(
-        this.config.settingsKey,
-        {
-          flyoutWidth: this.flyoutWidth
-        }
-      )
+      this.uiConfigService
+        .setConfig(this.config.settingsKey, {
+          flyoutWidth: this.flyoutWidth,
+        })
         .pipe(take(1))
         .subscribe(
-          () => { },
+          () => {},
           (err) => {
             console.warn('Could not save flyout data.');
             console.warn(err);
@@ -548,8 +544,12 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       this.setUserData();
     }
 
-    if (this.flyoutMediaQueryService.isWidthWithinBreakpiont(window.innerWidth,
-      SkyMediaBreakpoints.xs)) {
+    if (
+      this.flyoutMediaQueryService.isWidthWithinBreakpiont(
+        window.innerWidth,
+        SkyMediaBreakpoints.xs
+      )
+    ) {
       this.updateBreakpointAndResponsiveClass(window.innerWidth);
     } else {
       this.updateBreakpointAndResponsiveClass(this.flyoutWidth);
@@ -560,9 +560,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
   private getString(key: string): string {
     // TODO: Need to implement the async `getString` method in a breaking change.
-    return this.resourcesService.getStringForLocale(
-      { locale: 'en-US' },
-      key
-    );
+    return this.resourcesService.getStringForLocale({ locale: 'en-US' }, key);
   }
 }

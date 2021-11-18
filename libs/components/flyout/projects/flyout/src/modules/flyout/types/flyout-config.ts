@@ -1,16 +1,11 @@
-import {
-  SkyFlyoutAction
-} from './flyout-action';
+import { SkyFlyoutAction } from './flyout-action';
 
-import {
-  SkyFlyoutPermalink
-} from './flyout-permalink';
+import { SkyFlyoutPermalink } from './flyout-permalink';
 
 /**
  * Specifies the configuration options to set up a flyout.
  */
 export interface SkyFlyoutConfig {
-
   /**
    * Specifies the HTML element ID (without the leading `#`) of the element that describes
    * the flyout. This sets the flyout's `aria-describedby` attribute

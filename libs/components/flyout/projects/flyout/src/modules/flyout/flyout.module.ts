@@ -1,52 +1,27 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  FormsModule
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
-import {
-  RouterModule
-} from '@angular/router';
+import { RouterModule } from '@angular/router';
 
-import {
-  SkyIconModule
-} from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/indicators';
 
-import {
-  SkyI18nModule
-} from '@skyux/i18n';
+import { SkyI18nModule } from '@skyux/i18n';
 
-import {
-  SkyHrefModule
-} from '@skyux/router';
+import { SkyHrefModule } from '@skyux/router';
 
-import {
-  SkyThemeModule
-} from '@skyux/theme';
+import { SkyThemeModule } from '@skyux/theme';
 
-import {
-  SkyFlyoutResourcesModule
-} from '../shared/flyout-resources.module';
+import { SkyFlyoutResourcesModule } from '../shared/flyout-resources.module';
 
-import {
-  SkyFlyoutComponent
-} from './flyout.component';
+import { SkyFlyoutComponent } from './flyout.component';
 
-import {
-  SkyFlyoutIteratorComponent
-} from './flyout-iterator.component';
+import { SkyFlyoutIteratorComponent } from './flyout-iterator.component';
 
 @NgModule({
-  declarations: [
-    SkyFlyoutComponent,
-    SkyFlyoutIteratorComponent
-  ],
+  declarations: [SkyFlyoutComponent, SkyFlyoutIteratorComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -55,13 +30,9 @@ import {
     SkyIconModule,
     SkyFlyoutResourcesModule,
     SkyThemeModule,
-    SkyHrefModule
+    SkyHrefModule,
   ],
-  exports: [
-    SkyFlyoutComponent
-  ],
-  entryComponents: [
-    SkyFlyoutComponent
-  ]
+  exports: [SkyFlyoutComponent],
+  entryComponents: [SkyFlyoutComponent],
 })
-export class SkyFlyoutModule { }
+export class SkyFlyoutModule {}

@@ -2,13 +2,10 @@ import {
   ElementRef,
   Injectable,
   Renderer2,
-  RendererFactory2
+  RendererFactory2,
 } from '@angular/core';
 
-import {
-  SkyAppWindowRef,
-  SkyMediaBreakpoints
-} from '@skyux/core';
+import { SkyAppWindowRef, SkyMediaBreakpoints } from '@skyux/core';
 
 /**
  * @internal
@@ -33,7 +30,10 @@ export class SkyFlyoutAdapterService {
     }
   }
 
-  public setResponsiveClass(element: ElementRef, breakpoint: SkyMediaBreakpoints): void {
+  public setResponsiveClass(
+    element: ElementRef,
+    breakpoint: SkyMediaBreakpoints
+  ): void {
     const nativeEl: HTMLElement = element.nativeElement;
 
     this.renderer.removeClass(nativeEl, 'sky-responsive-container-xs');

@@ -1,9 +1,6 @@
-import {
-  NavigationExtras
-} from '@angular/router';
+import { NavigationExtras } from '@angular/router';
 
 export interface SkyFlyoutPermalink {
-
   /**
    * Specifies a text label for the permalink button.
    */
@@ -16,7 +13,7 @@ export interface SkyFlyoutPermalink {
    * `Router.navigate(commands, extras?)` method.
    */
   route?: {
-    commands: any[],
+    commands: any[];
     extras?: NavigationExtras;
   };
 

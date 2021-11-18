@@ -1,3 +1,7 @@
+# 5.0.2 (2021-11-18)
+
+- Added support for Prettier code formatting and updated the builder to support StackBlitz. [#130](https://github.com/blackbaud/skyux-flyout/pull/130)
+
 # 5.0.1 (2021-11-16)
 
 - Fixed the flyout component to properly display resource strings for lazy-loaded modules. [#128](https://github.com/blackbaud/skyux-flyout/pull/128)
@@ -121,7 +125,7 @@
 
 # 3.0.2 (2019-04-15)
 
-- Added missing RxJS imports that caused compilation errors in some consuming applications. [#27](https://github.com/blackbaud/skyux-flyout/pull/27)  (Thanks @Blackbaud-KevinHutson)
+- Added missing RxJS imports that caused compilation errors in some consuming applications. [#27](https://github.com/blackbaud/skyux-flyout/pull/27) (Thanks @Blackbaud-KevinHutson)
 
 # 3.0.1 (2019-03-20)
 

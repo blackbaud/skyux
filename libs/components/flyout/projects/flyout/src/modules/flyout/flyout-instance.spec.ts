@@ -1,14 +1,8 @@
-import {
-  take
-} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
-import {
-  SkyFlyoutMessageType
- } from './types/flyout-message-type';
+import { SkyFlyoutMessageType } from './types/flyout-message-type';
 
- import {
-  SkyFlyoutInstance
-} from './flyout-instance';
+import { SkyFlyoutInstance } from './flyout-instance';
 
 describe('Flyout instance', () => {
   it('should expose observables for closed event', () => {
@@ -30,7 +24,7 @@ describe('Flyout instance', () => {
 
     flyout.close();
     expect(spy).toHaveBeenCalledWith({
-      type: SkyFlyoutMessageType.Close
+      type: SkyFlyoutMessageType.Close,
     });
   });
 
@@ -40,12 +34,12 @@ describe('Flyout instance', () => {
 
     flyout.iteratorNextButtonDisabled = true;
     expect(spy).toHaveBeenCalledWith({
-      type: SkyFlyoutMessageType.DisableIteratorNextButton
+      type: SkyFlyoutMessageType.DisableIteratorNextButton,
     });
 
     flyout.iteratorNextButtonDisabled = false;
     expect(spy).toHaveBeenCalledWith({
-      type: SkyFlyoutMessageType.EnableIteratorNextButton
+      type: SkyFlyoutMessageType.EnableIteratorNextButton,
     });
   });
 
@@ -55,19 +49,25 @@ describe('Flyout instance', () => {
 
     flyout.iteratorPreviousButtonDisabled = true;
     expect(spy).toHaveBeenCalledWith({
-      type: SkyFlyoutMessageType.DisableIteratorPreviousButton
+      type: SkyFlyoutMessageType.DisableIteratorPreviousButton,
     });
 
     flyout.iteratorPreviousButtonDisabled = false;
     expect(spy).toHaveBeenCalledWith({
-      type: SkyFlyoutMessageType.EnableIteratorPreviousButton
+      type: SkyFlyoutMessageType.EnableIteratorPreviousButton,
     });
   });
 
   it('should complete iterator emitters when the flyout closes', () => {
     const flyout = new SkyFlyoutInstance();
-    const previousSpy = spyOn(flyout.iteratorPreviousButtonClick, 'complete').and.callThrough();
-    const nextSpy = spyOn(flyout.iteratorNextButtonClick, 'complete').and.callThrough();
+    const previousSpy = spyOn(
+      flyout.iteratorPreviousButtonClick,
+      'complete'
+    ).and.callThrough();
+    const nextSpy = spyOn(
+      flyout.iteratorNextButtonClick,
+      'complete'
+    ).and.callThrough();
 
     flyout.close();
     expect(previousSpy).toHaveBeenCalled();

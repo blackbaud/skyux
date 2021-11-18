@@ -1,10 +1,9 @@
-<div
-  id="iterators"
-  class="sky-flyout-iterators"
->
+<div id="iterators" class="sky-flyout-iterators">
   <button
     class="sky-btn"
-    [attr.aria-label]="'skyux_flyout_iterator_previous_button' | skyLibResources"
+    [attr.aria-label]="
+      'skyux_flyout_iterator_previous_button' | skyLibResources
+    "
     [disabled]="previousButtonDisabled"
     [skyThemeClass]="{
       'sky-btn-default sky-margin-inline-compact': 'default',
@@ -12,11 +11,9 @@
     }"
     (click)="onIteratorPreviousClick()"
   >
-    <sky-icon *skyThemeIf="'default'"
-      icon="chevron-up"
-    >
-    </sky-icon>
-    <sky-icon *skyThemeIf="'modern'"
+    <sky-icon *skyThemeIf="'default'" icon="chevron-up"> </sky-icon>
+    <sky-icon
+      *skyThemeIf="'modern'"
       icon="chevron-up"
       iconType="skyux"
       size="lg"
@@ -33,11 +30,9 @@
     }"
     (click)="onIteratorNextClick()"
   >
-    <sky-icon *skyThemeIf="'default'"
-      icon="chevron-down"
-    >
-    </sky-icon>
-    <sky-icon *skyThemeIf="'modern'"
+    <sky-icon *skyThemeIf="'default'" icon="chevron-down"> </sky-icon>
+    <sky-icon
+      *skyThemeIf="'modern'"
       icon="chevron-down"
       iconType="skyux"
       size="lg"

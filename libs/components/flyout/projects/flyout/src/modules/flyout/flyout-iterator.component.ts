@@ -3,12 +3,10 @@ import {
   OnDestroy,
   EventEmitter,
   Input,
-  Output
+  Output,
 } from '@angular/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
 /**
  * @internal
@@ -16,10 +14,9 @@ import {
 @Component({
   selector: 'sky-flyout-iterator',
   templateUrl: './flyout-iterator.component.html',
-  styleUrls: ['./flyout-iterator.component.scss']
+  styleUrls: ['./flyout-iterator.component.scss'],
 })
 export class SkyFlyoutIteratorComponent implements OnDestroy {
-
   @Input()
   public nextButtonDisabled: boolean;
 

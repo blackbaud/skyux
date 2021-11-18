@@ -1,28 +1,21 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  SkyMediaBreakpoints,
-  SkyMediaQueryListener
-} from '@skyux/core';
+import { SkyMediaBreakpoints, SkyMediaQueryListener } from '@skyux/core';
 
-import {
-  BehaviorSubject,
-  Subscription
-} from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 /**
  * @internal
  */
 @Injectable()
 export class SkyFlyoutMediaQueryService {
-
   public get current(): SkyMediaBreakpoints {
     return this._current;
   }
 
-  private currentSubject = new BehaviorSubject<SkyMediaBreakpoints>(this.current);
+  private currentSubject = new BehaviorSubject<SkyMediaBreakpoints>(
+    this.current
+  );
 
   private _current = SkyMediaBreakpoints.xs;
 
@@ -34,7 +27,7 @@ export class SkyFlyoutMediaQueryService {
     return this.currentSubject.subscribe({
       next: (breakpoints: SkyMediaBreakpoints) => {
         listener(breakpoints);
-      }
+      },
     });
   }
 
@@ -55,7 +48,10 @@ export class SkyFlyoutMediaQueryService {
     this.currentSubject.next(this._current);
   }
 
-  public isWidthWithinBreakpiont(width: number, breakpoint: SkyMediaBreakpoints): boolean {
+  public isWidthWithinBreakpiont(
+    width: number,
+    breakpoint: SkyMediaBreakpoints
+  ): boolean {
     const xsBreakpointMaxPixels = 767;
     const smBreakpointMinPixels = 768;
     const smBreakpointMaxPixels = 991;
@@ -65,16 +61,16 @@ export class SkyFlyoutMediaQueryService {
 
     switch (breakpoint) {
       case SkyMediaBreakpoints.xs: {
-        return (width <= xsBreakpointMaxPixels);
+        return width <= xsBreakpointMaxPixels;
       }
       case SkyMediaBreakpoints.sm: {
-        return (width >= smBreakpointMinPixels && width <= smBreakpointMaxPixels);
+        return width >= smBreakpointMinPixels && width <= smBreakpointMaxPixels;
       }
       case SkyMediaBreakpoints.md: {
-        return (width >= mdBreakpointMinPixels && width <= mdBreakpointMaxPixels);
+        return width >= mdBreakpointMinPixels && width <= mdBreakpointMaxPixels;
       }
       default: {
-        return (width >= lgBreakpointMinPixels);
+        return width >= lgBreakpointMinPixels;
       }
     }
   }

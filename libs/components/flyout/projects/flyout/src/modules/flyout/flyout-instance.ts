@@ -1,24 +1,15 @@
-import {
-  EventEmitter
-} from '@angular/core';
+import { EventEmitter } from '@angular/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  SkyFlyoutMessage
-} from './types/flyout-message';
+import { SkyFlyoutMessage } from './types/flyout-message';
 
-import {
-  SkyFlyoutMessageType
-} from './types/flyout-message-type';
+import { SkyFlyoutMessageType } from './types/flyout-message-type';
 
 /**
  * Represents a single displayed flyout.
  */
 export class SkyFlyoutInstance<T> {
-
   /**
    * An event that the flyout instance emits when it closes.
    */
@@ -65,11 +56,11 @@ export class SkyFlyoutInstance<T> {
     this._iteratorNextButtonDisabled = newValue;
     if (newValue) {
       this.hostController.next({
-        type: SkyFlyoutMessageType.DisableIteratorNextButton
+        type: SkyFlyoutMessageType.DisableIteratorNextButton,
       });
     } else {
       this.hostController.next({
-        type: SkyFlyoutMessageType.EnableIteratorNextButton
+        type: SkyFlyoutMessageType.EnableIteratorNextButton,
       });
     }
   }
@@ -86,11 +77,11 @@ export class SkyFlyoutInstance<T> {
     this._iteratorPreviousButtonDisabled = newValue;
     if (newValue) {
       this.hostController.next({
-        type: SkyFlyoutMessageType.DisableIteratorPreviousButton
+        type: SkyFlyoutMessageType.DisableIteratorPreviousButton,
       });
     } else {
       this.hostController.next({
-        type: SkyFlyoutMessageType.EnableIteratorPreviousButton
+        type: SkyFlyoutMessageType.EnableIteratorPreviousButton,
       });
     }
   }
@@ -120,7 +111,7 @@ export class SkyFlyoutInstance<T> {
    */
   public close(): void {
     this.hostController.next({
-      type: SkyFlyoutMessageType.Close
+      type: SkyFlyoutMessageType.Close,
     });
 
     this._iteratorPreviousButtonClick.complete();

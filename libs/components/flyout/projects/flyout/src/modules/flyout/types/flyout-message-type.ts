@@ -7,5 +7,5 @@ export enum SkyFlyoutMessageType {
   EnableIteratorNextButton,
   EnableIteratorPreviousButton,
   DisableIteratorNextButton,
-  DisableIteratorPreviousButton
+  DisableIteratorPreviousButton,
 }

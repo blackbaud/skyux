@@ -1,6 +1,4 @@
-import {
-  SkyFlyoutMessageType
-} from './flyout-message-type';
+import { SkyFlyoutMessageType } from './flyout-message-type';
 
 /**
  * @internal
