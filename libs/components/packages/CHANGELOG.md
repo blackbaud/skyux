@@ -1,3 +1,7 @@
+# 5.46.0 (2021-11-18)
+
+- `@skyux/tiles@5.0.1` [Release notes](https://github.com/blackbaud/skyux-tiles/blob/5.0.1/CHANGELOG.md)
+
 # 5.45.0 (2021-11-18)
 
 - `@skyux/validation@5.0.1` [Release notes](https://github.com/blackbaud/skyux-validation/blob/5.0.1/CHANGELOG.md)
