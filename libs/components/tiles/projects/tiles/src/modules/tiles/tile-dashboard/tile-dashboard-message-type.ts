@@ -2,7 +2,6 @@
  * Specifies the type of message to send to the tile dashboard component.
  */
 export enum SkyTileDashboardMessageType {
-
   /**
    * Expands all tiles within the tile dashboard.
    */
@@ -11,5 +10,5 @@ export enum SkyTileDashboardMessageType {
   /**
    * Collapses all tiles within the tile dashboard.
    */
-  CollapseAll = 1
+  CollapseAll = 1,
 }

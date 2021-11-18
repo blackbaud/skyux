@@ -7,24 +7,16 @@ import {
   OnDestroy,
   Optional,
   Output,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
-import {
-  skyAnimationSlide
-} from '@skyux/animations';
+import { skyAnimationSlide } from '@skyux/animations';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkyTileDashboardService
-} from '../tile-dashboard/tile-dashboard.service';
+import { SkyTileDashboardService } from '../tile-dashboard/tile-dashboard.service';
 
 /**
  * Provides a common look-and-feel for tab content.
@@ -33,10 +25,9 @@ import {
   selector: 'sky-tile',
   styleUrls: ['./tile.component.scss'],
   templateUrl: './tile.component.html',
-  animations: [skyAnimationSlide]
+  animations: [skyAnimationSlide],
 })
 export class SkyTileComponent implements OnDestroy {
-
   /**
    * Indicates whether to display a settings button in the tile header. To display the
    * button, you must also listen for the `settingsClick` event.
@@ -102,13 +93,13 @@ export class SkyTileComponent implements OnDestroy {
 
   @ViewChild('grabHandle', {
     read: ElementRef,
-    static: false
+    static: false,
   })
   private grabHandle: ElementRef;
 
   @ViewChild('titleContainer', {
     read: ElementRef,
-    static: false
+    static: false,
   })
   private title: ElementRef;
 
@@ -171,17 +162,19 @@ export class SkyTileComponent implements OnDestroy {
     if (this.isInDashboardColumn) {
       let direction = event.key.toLowerCase().replace('arrow', '');
       /* istanbul ignore else */
-      if (direction === 'up'
-        || direction === 'down'
-        || direction === 'left'
-        || direction === 'right'
+      if (
+        direction === 'up' ||
+        direction === 'down' ||
+        direction === 'left' ||
+        direction === 'right'
       ) {
         this.dashboardService.moveTileOnKeyDown(
           this,
           direction,
-          this.title ? this.title.nativeElement.innerText :
-            /* istanbul ignore next */
-            undefined
+          this.title
+            ? this.title.nativeElement.innerText
+            : /* istanbul ignore next */
+              undefined
         );
         this.focusHandle();
       }

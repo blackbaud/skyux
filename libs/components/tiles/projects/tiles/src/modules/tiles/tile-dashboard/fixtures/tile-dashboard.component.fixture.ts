@@ -1,41 +1,24 @@
-import {
-  Component,
-  ViewChild
-} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  SkyTileDashboardConfig
-} from '../../tile-dashboard-config/tile-dashboard-config';
-import {
-  SkyTileDashboardComponent
-} from '../../tile-dashboard/tile-dashboard.component';
+import { SkyTileDashboardConfig } from '../../tile-dashboard-config/tile-dashboard-config';
+import { SkyTileDashboardComponent } from '../../tile-dashboard/tile-dashboard.component';
 
-import {
-  Tile1TestComponent
-} from './tile1.component.fixture';
-import {
-  Tile2TestComponent
-} from './tile2.component.fixture';
-import {
-  TileTestContext
-} from './tile-context.fixture';
+import { Tile1TestComponent } from './tile1.component.fixture';
+import { Tile2TestComponent } from './tile2.component.fixture';
+import { TileTestContext } from './tile-context.fixture';
 
-import {
-  SkyTileDashboardMessageType
-} from '../tile-dashboard-message-type';
+import { SkyTileDashboardMessageType } from '../tile-dashboard-message-type';
 
 @Component({
   selector: 'sky-demo-app',
-  templateUrl: './tile-dashboard.component.fixture.html'
+  templateUrl: './tile-dashboard.component.fixture.html',
 })
 export class TileDashboardTestComponent {
   @ViewChild(SkyTileDashboardComponent, {
     read: SkyTileDashboardComponent,
-    static: false
+    static: false,
   })
   public dashboardComponent: SkyTileDashboardComponent;
 
@@ -50,7 +33,7 @@ export class TileDashboardTestComponent {
       tiles: [
         {
           id: 'sky-test-tile-1',
-          componentType: Tile1TestComponent
+          componentType: Tile1TestComponent,
         },
         {
           id: 'sky-test-tile-2',
@@ -59,10 +42,10 @@ export class TileDashboardTestComponent {
             {
               provide: TileTestContext,
               useValue: {
-                id: 3
-              }
-            }
-          ]
+                id: 3,
+              },
+            },
+          ],
         },
         {
           id: 'sky-test-tile-3',
@@ -71,10 +54,10 @@ export class TileDashboardTestComponent {
             {
               provide: TileTestContext,
               useValue: {
-                id: 3
-              }
-            }
-          ]
+                id: 3,
+              },
+            },
+          ],
         },
         {
           id: 'sky-test-tile-4',
@@ -83,60 +66,60 @@ export class TileDashboardTestComponent {
             {
               provide: TileTestContext,
               useValue: {
-                id: 3
-              }
-            }
-          ]
-        }
+                id: 3,
+              },
+            },
+          ],
+        },
       ],
       layout: {
         singleColumn: {
           tiles: [
             {
               id: 'sky-test-tile-2',
-              isCollapsed: false
+              isCollapsed: false,
             },
             {
               id: 'sky-test-tile-1',
-              isCollapsed: true
+              isCollapsed: true,
             },
             {
               id: 'sky-test-tile-3',
-              isCollapsed: false
+              isCollapsed: false,
             },
             {
               id: 'sky-test-tile-4',
-              isCollapsed: false
-            }
-          ]
+              isCollapsed: false,
+            },
+          ],
         },
         multiColumn: [
           {
             tiles: [
               {
                 id: 'sky-test-tile-1',
-                isCollapsed: true
+                isCollapsed: true,
               },
               {
                 id: 'sky-test-tile-3',
-                isCollapsed: false
+                isCollapsed: false,
               },
               {
                 id: 'sky-test-tile-4',
-                isCollapsed: false
-              }
-            ]
+                isCollapsed: false,
+              },
+            ],
           },
           {
             tiles: [
               {
                 id: 'sky-test-tile-2',
-                isCollapsed: false
-              }
-            ]
-          }
-        ]
-      }
+                isCollapsed: false,
+              },
+            ],
+          },
+        ],
+      },
     };
   }
 

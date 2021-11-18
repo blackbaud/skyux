@@ -26,20 +26,20 @@ export class MockTileDashboardService {
 
   public getTileComponentType(tile: SkyTileDashboardConfigTile): any {
     switch (tile.id) {
-    case 'tile-1':
-      return Tile1TestComponent;
-    case 'tile-2':
-      return Tile2TestComponent;
-    default:
-      return undefined;
+      case 'tile-1':
+        return Tile1TestComponent;
+      case 'tile-2':
+        return Tile2TestComponent;
+      default:
+        return undefined;
     }
   }
 
-  public addTileComponent() { }
+  public addTileComponent() {}
 
-  public tileIsCollapsed() { }
+  public tileIsCollapsed() {}
 
-  public setColumns() { }
+  public setColumns() {}
 
-  public destroy() { }
+  public destroy() {}
 }

@@ -8,45 +8,24 @@ import {
   QueryList,
   ViewChild,
   ViewChildren,
-  Optional
+  Optional,
 } from '@angular/core';
 
-import {
-  Observable,
-  Subject
-} from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
-import {
-  take,
-  takeUntil
-} from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 
-import {
-  SkyMediaQueryService,
-  SkyMediaBreakpoints
-} from '@skyux/core';
+import { SkyMediaQueryService, SkyMediaBreakpoints } from '@skyux/core';
 
-import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
-import {
-  SkyTileDashboardColumnComponent
-} from '../tile-dashboard-column/tile-dashboard-column.component';
-import {
-  SkyTileDashboardConfig
-} from '../tile-dashboard-config/tile-dashboard-config';
-import {
-  SkyTileDashboardService
-} from './tile-dashboard.service';
+import { SkyTileDashboardColumnComponent } from '../tile-dashboard-column/tile-dashboard-column.component';
+import { SkyTileDashboardConfig } from '../tile-dashboard-config/tile-dashboard-config';
+import { SkyTileDashboardService } from './tile-dashboard.service';
 
-import {
-  SkyTileDashboardMessage
-} from './tile-dashboard-message';
+import { SkyTileDashboardMessage } from './tile-dashboard-message';
 
-import {
-  SkyTileDashboardMessageType
-} from './tile-dashboard-message-type';
+import { SkyTileDashboardMessageType } from './tile-dashboard-message-type';
 
 /**
  * Specifies a container to group multiple tiles.
@@ -55,10 +34,9 @@ import {
   selector: 'sky-tile-dashboard',
   styleUrls: ['./tile-dashboard.component.scss'],
   templateUrl: './tile-dashboard.component.html',
-  providers: [SkyTileDashboardService]
+  providers: [SkyTileDashboardService],
 })
 export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
-
   /**
    * Populates the tile dashboard based on the `SkyTileDashboardConfig` object.
    * @required
@@ -106,7 +84,7 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('singleColumn', {
     read: SkyTileDashboardColumnComponent,
-    static: false
+    static: false,
   })
   public singleColumn: SkyTileDashboardColumnComponent;
 
@@ -125,37 +103,43 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
     private mediaQuery: SkyMediaQueryService,
     @Optional() private resourcesService?: SkyLibResourcesService
   ) {
-    this.dashboardService.configChange.subscribe((config: SkyTileDashboardConfig) => {
-      this.configChange.emit(config);
+    this.dashboardService.configChange.subscribe(
+      (config: SkyTileDashboardConfig) => {
+        this.configChange.emit(config);
 
-      // Update aria live region with tile drag info
-      if (config.movedTile && this.resourcesService) {
-        let messageObservable: Observable<string>;
-        if (
-          this.mediaQuery.current === SkyMediaBreakpoints.xs ||
-          this.mediaQuery.current === SkyMediaBreakpoints.sm
-        ) {
-          messageObservable = this.resourcesService.getString('skyux_tile_moved_assistive_text',
-            config.movedTile.tileDescription,
-            '1',
-            '1',
-            config.movedTile.position.toString(),
-            config.layout.singleColumn.tiles.length.toString());
-        } else {
-          messageObservable = this.resourcesService.getString('skyux_tile_moved_assistive_text',
-            config.movedTile.tileDescription,
-            config.movedTile.column.toString(),
-            config.layout.multiColumn.length.toString(),
-            config.movedTile.position.toString(),
-            config.layout.multiColumn[config.movedTile.column - 1].tiles.length.toString());
-        }
-        messageObservable
-          .pipe(take(1))
-          .subscribe((message: string) => {
+        // Update aria live region with tile drag info
+        if (config.movedTile && this.resourcesService) {
+          let messageObservable: Observable<string>;
+          if (
+            this.mediaQuery.current === SkyMediaBreakpoints.xs ||
+            this.mediaQuery.current === SkyMediaBreakpoints.sm
+          ) {
+            messageObservable = this.resourcesService.getString(
+              'skyux_tile_moved_assistive_text',
+              config.movedTile.tileDescription,
+              '1',
+              '1',
+              config.movedTile.position.toString(),
+              config.layout.singleColumn.tiles.length.toString()
+            );
+          } else {
+            messageObservable = this.resourcesService.getString(
+              'skyux_tile_moved_assistive_text',
+              config.movedTile.tileDescription,
+              config.movedTile.column.toString(),
+              config.layout.multiColumn.length.toString(),
+              config.movedTile.position.toString(),
+              config.layout.multiColumn[
+                config.movedTile.column - 1
+              ].tiles.length.toString()
+            );
+          }
+          messageObservable.pipe(take(1)).subscribe((message: string) => {
             this.tileMovedReport = message;
           });
+        }
       }
-    });
+    );
   }
 
   public ngAfterViewInit(): void {
@@ -178,7 +162,12 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
   private checkReady(): void {
     if (this.viewReady && this.config) {
       setTimeout(() => {
-        this.dashboardService.init(this.config, this.columns, this.singleColumn, this.settingsKey);
+        this.dashboardService.init(
+          this.config,
+          this.columns,
+          this.singleColumn,
+          this.settingsKey
+        );
       }, 0);
     }
   }

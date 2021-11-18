@@ -3,12 +3,10 @@ import {
   ComponentFactoryResolver,
   Injector,
   ViewChild,
-  ViewContainerRef
+  ViewContainerRef,
 } from '@angular/core';
 
-import {
-  SkyTileDashboardService
-} from '../tile-dashboard/tile-dashboard.service';
+import { SkyTileDashboardService } from '../tile-dashboard/tile-dashboard.service';
 
 let columnIdIndex = 0;
 
@@ -18,17 +16,16 @@ let columnIdIndex = 0;
 @Component({
   selector: 'sky-tile-dashboard-column',
   styleUrls: ['./tile-dashboard-column.component.scss'],
-  templateUrl: './tile-dashboard-column.component.html'
+  templateUrl: './tile-dashboard-column.component.html',
 })
 export class SkyTileDashboardColumnComponent {
-
   public bagId: string;
 
   public columnId: string;
 
   @ViewChild('content', {
     read: ViewContainerRef,
-    static: false
+    static: false,
   })
   public content: ViewContainerRef;
 

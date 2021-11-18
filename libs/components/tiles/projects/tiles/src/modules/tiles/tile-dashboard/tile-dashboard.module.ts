@@ -7,18 +7,9 @@ import { SkyTileDashboardComponent } from './tile-dashboard.component';
 import { SkyTileDashboardColumnModule } from '../tile-dashboard-column/tile-dashboard-column.module';
 
 @NgModule({
-  declarations: [
-    SkyTileDashboardComponent
-  ],
-  providers: [
-    DragulaService
-  ],
-  imports: [
-    CommonModule,
-    SkyTileDashboardColumnModule
-  ],
-  exports: [
-    SkyTileDashboardComponent
-  ]
+  declarations: [SkyTileDashboardComponent],
+  providers: [DragulaService],
+  imports: [CommonModule, SkyTileDashboardColumnModule],
+  exports: [SkyTileDashboardComponent],
 })
-export class SkyTileDashboardModule { }
+export class SkyTileDashboardModule {}

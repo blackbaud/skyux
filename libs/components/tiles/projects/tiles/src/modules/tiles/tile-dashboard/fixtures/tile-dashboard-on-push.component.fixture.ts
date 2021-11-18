@@ -1,41 +1,25 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewChild
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  SkyTileDashboardComponent
-} from '../../../tiles/tile-dashboard/tile-dashboard.component';
+import { SkyTileDashboardComponent } from '../../../tiles/tile-dashboard/tile-dashboard.component';
 
-import {
-  SkyTileDashboardConfig
-} from '../../../tiles/tile-dashboard-config/tile-dashboard-config';
+import { SkyTileDashboardConfig } from '../../../tiles/tile-dashboard-config/tile-dashboard-config';
 
-import {
-  Tile1TestComponent
-} from './tile1.component.fixture';
-import {
-  Tile2TestComponent
-} from './tile2.component.fixture';
+import { Tile1TestComponent } from './tile1.component.fixture';
+import { Tile2TestComponent } from './tile2.component.fixture';
 
-import {
-  TileTestContext
-} from './tile-context.fixture';
+import { TileTestContext } from './tile-context.fixture';
 
 @Component({
   selector: 'sky-demo-app',
   templateUrl: './tile-dashboard.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TileDashboardOnPushTestComponent {
   @ViewChild(SkyTileDashboardComponent, {
     read: SkyTileDashboardComponent,
-    static: false
+    static: false,
   })
   public dashboardComponent: SkyTileDashboardComponent;
 
@@ -48,7 +32,7 @@ export class TileDashboardOnPushTestComponent {
       tiles: [
         {
           id: 'sky-test-tile-1',
-          componentType: Tile1TestComponent
+          componentType: Tile1TestComponent,
         },
         {
           id: 'sky-test-tile-2',
@@ -57,44 +41,44 @@ export class TileDashboardOnPushTestComponent {
             {
               provide: TileTestContext,
               useValue: {
-                id: 3
-              }
-            }
-          ]
-        }
+                id: 3,
+              },
+            },
+          ],
+        },
       ],
       layout: {
         singleColumn: {
           tiles: [
             {
               id: 'sky-test-tile-2',
-              isCollapsed: false
+              isCollapsed: false,
             },
             {
               id: 'sky-test-tile-1',
-              isCollapsed: true
-            }
-          ]
+              isCollapsed: true,
+            },
+          ],
         },
         multiColumn: [
           {
             tiles: [
               {
                 id: 'sky-test-tile-1',
-                isCollapsed: true
-              }
-            ]
+                isCollapsed: true,
+              },
+            ],
           },
           {
             tiles: [
               {
                 id: 'sky-test-tile-2',
-                isCollapsed: false
-              }
-            ]
-          }
-        ]
-      }
+                isCollapsed: false,
+              },
+            ],
+          },
+        ],
+      },
     };
   }
 }

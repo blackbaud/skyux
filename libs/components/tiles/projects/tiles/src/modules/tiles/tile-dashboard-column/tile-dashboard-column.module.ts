@@ -6,15 +6,8 @@ import { DragulaModule } from 'ng2-dragula';
 import { SkyTileDashboardColumnComponent } from './tile-dashboard-column.component';
 
 @NgModule({
-  declarations: [
-    SkyTileDashboardColumnComponent
-  ],
-  imports: [
-    CommonModule,
-    DragulaModule
-  ],
-  exports: [
-    SkyTileDashboardColumnComponent
-  ]
+  declarations: [SkyTileDashboardColumnComponent],
+  imports: [CommonModule, DragulaModule],
+  exports: [SkyTileDashboardColumnComponent],
 })
-export class SkyTileDashboardColumnModule { }
+export class SkyTileDashboardColumnModule {}

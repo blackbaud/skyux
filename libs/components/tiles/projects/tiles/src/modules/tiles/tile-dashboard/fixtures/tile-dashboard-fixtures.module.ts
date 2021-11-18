@@ -11,21 +11,15 @@ import { TileDashboardOnPushTestComponent } from './tile-dashboard-on-push.compo
     Tile1TestComponent,
     Tile2TestComponent,
     TileDashboardTestComponent,
-    TileDashboardOnPushTestComponent
+    TileDashboardOnPushTestComponent,
   ],
-  imports: [
-    CommonModule,
-    SkyTilesModule
-  ],
+  imports: [CommonModule, SkyTilesModule],
   exports: [
     Tile1TestComponent,
     Tile2TestComponent,
     TileDashboardTestComponent,
-    TileDashboardOnPushTestComponent
+    TileDashboardOnPushTestComponent,
   ],
-  entryComponents: [
-    Tile1TestComponent,
-    Tile2TestComponent
-  ]
+  entryComponents: [Tile1TestComponent, Tile2TestComponent],
 })
-export class SkyTileDashboardFixturesModule { }
+export class SkyTileDashboardFixturesModule {}

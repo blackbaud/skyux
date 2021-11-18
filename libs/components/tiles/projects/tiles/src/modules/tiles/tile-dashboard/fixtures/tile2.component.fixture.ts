@@ -2,31 +2,27 @@ import {
   ChangeDetectionStrategy,
   Component,
   Optional,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
-import {
-  SkyTileComponent
-} from '../../tile/tile.component';
+import { SkyTileComponent } from '../../tile/tile.component';
 
-import {
-  TileTestContext
-} from './tile-context.fixture';
+import { TileTestContext } from './tile-context.fixture';
 
 @Component({
-  // tslint:disable-next-line
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'div.sky-test-tile-2',
   templateUrl: './tile2.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Tile2TestComponent {
   @ViewChild(SkyTileComponent, {
     read: SkyTileComponent,
-    static: false
+    static: false,
   })
   public tile: SkyTileComponent;
 
-  constructor(@Optional() public context: TileTestContext) { }
+  constructor(@Optional() public context: TileTestContext) {}
 
-  public tileSettingsClick() { }
+  public tileSettingsClick() {}
 }

@@ -1,6 +1,6 @@
-@import "~@skyux/theme/scss/mixins";
-@import "~@skyux/theme/scss/variables";
-@import "~@skyux/theme/scss/_compat/mixins";
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/variables';
+@import '~@skyux/theme/scss/_compat/mixins';
 
 .sky-tile {
   background-color: #fff;
@@ -100,7 +100,7 @@
   }
 
   .sky-tile-content {
-    ::ng-deep  .sky-tile-content-section {
+    ::ng-deep .sky-tile-content-section {
       border-bottom: 1px dotted $sky-theme-modern-color-gray-30;
     }
 

@@ -1,27 +1,21 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewChild
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 
-import {
-  SkyTileComponent
-} from '../../tile/tile.component';
+import { SkyTileComponent } from '../../tile/tile.component';
 
 @Component({
-  // tslint:disable-next-line
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'div.sky-test-tile-1',
   templateUrl: './tile1.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Tile1TestComponent {
   @ViewChild(SkyTileComponent, {
     read: SkyTileComponent,
-    static: false
+    static: false,
   })
   public tile: SkyTileComponent;
 
   public title = 'Tile 1';
 
-  public tileSettingsClick() { }
+  public tileSettingsClick() {}
 }

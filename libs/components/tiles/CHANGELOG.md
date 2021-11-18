@@ -1,3 +1,7 @@
+# 5.0.1 (2021-11-18)
+
+- Added support for Prettier code formatting and updated the builder to support StackBlitz. [#87](https://github.com/blackbaud/skyux-tiles/pull/87)
+
 # 5.0.0 (2021-10-01)
 
 ### New features

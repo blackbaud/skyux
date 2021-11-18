@@ -4,25 +4,19 @@
     'sky-tile-collapsed': isCollapsed
   }"
   [skyThemeClass]="{
-    'sky-box sky-elevation-1-bordered sky-padding-even-xl' : 'modern'
+    'sky-box sky-elevation-1-bordered sky-padding-even-xl': 'modern'
   }"
 >
   <header class="sky-tile-header">
-    <div
-      class="sky-tile-header-content"
-      (click)="titleClick()"
-    >
-      <div
-        class="sky-tile-header-title"
-        #titleContainer
-      >
+    <div class="sky-tile-header-content" (click)="titleClick()">
+      <div class="sky-tile-header-title" #titleContainer>
         <ng-content select="sky-tile-title"></ng-content>
       </div>
       <div
         class="sky-tile-summary"
         [skyThemeClass]="{
-          'sky-font-display-3' : 'modern',
-          'sky-headline' : 'default'
+          'sky-font-display-3': 'modern',
+          'sky-headline': 'default'
         }"
       >
         <ng-content select="sky-tile-summary"></ng-content>
@@ -31,62 +25,61 @@
     <div class="sky-tile-header-column-tools">
       <div class="sky-tile-tools">
         <ng-container *skyThemeIf="'default'">
-          <button *ngIf="hasHelp"
+          <button
+            *ngIf="hasHelp"
             class="sky-btn sky-tile-tools-control sky-tile-help"
             type="button"
             [attr.aria-label]="'skyux_tile_help' | skyLibResources"
             [skyThemeClass]="{
-              'sky-btn-icon-borderless' : 'modern'
+              'sky-btn-icon-borderless': 'modern'
             }"
-            (click)="helpButtonClicked();"
+            (click)="helpButtonClicked()"
           >
-            <sky-icon
-              icon="question-circle"
-            ></sky-icon>
+            <sky-icon icon="question-circle"></sky-icon>
           </button>
         </ng-container>
         <sky-chevron
           [direction]="isCollapsed ? 'down' : 'up'"
           [skyThemeClass]="{
-            'sky-tile-tools-control' : 'default',
-            'sky-margin-inline-default' : 'modern'
+            'sky-tile-tools-control': 'default',
+            'sky-margin-inline-default': 'modern'
           }"
           (directionChange)="chevronDirectionChange($event)"
         >
         </sky-chevron>
-        <button *ngIf="hasSettings"
+        <button
+          *ngIf="hasSettings"
           class="sky-btn sky-tile-settings"
           type="button"
           [attr.aria-label]="'skyux_tile_settings' | skyLibResources"
           [skyThemeClass]="{
-            'sky-tile-tools-control' : 'default',
-            'sky-btn-icon-borderless sky-margin-inline-default' : 'modern'
+            'sky-tile-tools-control': 'default',
+            'sky-btn-icon-borderless sky-margin-inline-default': 'modern'
           }"
-          (click)="settingsButtonClicked();"
+          (click)="settingsButtonClicked()"
         >
-          <sky-icon *skyThemeIf="'default'"
-            icon="cog"
-          ></sky-icon>
-          <sky-icon *skyThemeIf="'modern'"
+          <sky-icon *skyThemeIf="'default'" icon="cog"></sky-icon>
+          <sky-icon
+            *skyThemeIf="'modern'"
             icon="cog-line"
             iconType="skyux"
           ></sky-icon>
         </button>
-        <button *ngIf="isInDashboardColumn"
+        <button
+          *ngIf="isInDashboardColumn"
           class="sky-btn sky-tile-grab-handle"
           [attr.aria-label]="'skyux_tile_grab_handle' | skyLibResources"
           [skyThemeClass]="{
-            'sky-tile-tools-control' : 'default',
-            'sky-btn-icon-borderless' : 'modern'
+            'sky-tile-tools-control': 'default',
+            'sky-btn-icon-borderless': 'modern'
           }"
           (click)="$event.stopPropagation()"
           (keydown)="moveTile($event)"
           #grabHandle
         >
-          <sky-icon *skyThemeIf="'default'"
-            icon="th"
-          ></sky-icon>
-          <sky-icon *skyThemeIf="'modern'"
+          <sky-icon *skyThemeIf="'default'" icon="th"></sky-icon>
+          <sky-icon
+            *skyThemeIf="'modern'"
             icon="tile-drag"
             iconType="skyux"
           ></sky-icon>
@@ -94,7 +87,10 @@
       </div>
     </div>
   </header>
-  <div class="sky-tile-content" [@skyAnimationSlide]="isCollapsed ? 'up' : 'down'">
+  <div
+    class="sky-tile-content"
+    [@skyAnimationSlide]="isCollapsed ? 'up' : 'down'"
+  >
     <ng-content select="sky-tile-content"></ng-content>
   </div>
 </section>

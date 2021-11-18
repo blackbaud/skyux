@@ -7,14 +7,12 @@ import { SkyTileDashboardModule } from './tile-dashboard/tile-dashboard.module';
 import { SkyTileDashboardColumnModule } from './tile-dashboard-column/tile-dashboard-column.module';
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   exports: [
     SkyTileContentModule,
     SkyTileModule,
     SkyTileDashboardColumnModule,
-    SkyTileDashboardModule
-  ]
+    SkyTileDashboardModule,
+  ],
 })
-export class SkyTilesModule { }
+export class SkyTilesModule {}

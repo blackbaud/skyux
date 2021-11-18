@@ -1,81 +1,54 @@
-import {
-  fakeAsync,
-  TestBed,
-  tick
-} from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 
-import {
-  NoopAnimationsModule
-} from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import {
-  expect, expectAsync
-} from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import {
   SkyTheme,
   SkyThemeMode,
   SkyThemeService,
   SkyThemeSettings,
-  SkyThemeSettingsChange
+  SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import {
-  BehaviorSubject
-} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
-import {
-  MockSkyTileDashboardService
-} from './fixtures/mock-tile-dashboard.service';
+import { MockSkyTileDashboardService } from './fixtures/mock-tile-dashboard.service';
 
-import {
-  TileTestComponent
-} from './fixtures/tile.component.fixture';
+import { TileTestComponent } from './fixtures/tile.component.fixture';
 
-import {
-  SkyTileComponent
-} from './tile.component';
+import { SkyTileComponent } from './tile.component';
 
-import {
-  SkyTilesModule
-} from '../tiles.module';
+import { SkyTilesModule } from '../tiles.module';
 
-import {
-  SkyTileDashboardService
-} from '../tile-dashboard/tile-dashboard.service';
+import { SkyTileDashboardService } from '../tile-dashboard/tile-dashboard.service';
 
 describe('Tile component', () => {
   let mockThemeSvc: {
-    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
 
   beforeEach(() => {
     mockThemeSvc = {
-      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
-        {
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.default,
-            SkyThemeMode.presets.light
-          ),
-          previousSettings: undefined
-        }
-      )
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.default,
+          SkyThemeMode.presets.light
+        ),
+        previousSettings: undefined,
+      }),
     };
 
     TestBed.configureTestingModule({
-      declarations: [
-        TileTestComponent
-      ],
-      imports: [
-        NoopAnimationsModule,
-        SkyTilesModule
-      ],
+      declarations: [TileTestComponent],
+      imports: [NoopAnimationsModule, SkyTilesModule],
       providers: [
         {
           provide: SkyThemeService,
-          useValue: mockThemeSvc
-        }
-      ]
+          useValue: mockThemeSvc,
+        },
+      ],
     });
   });
 
@@ -174,40 +147,39 @@ describe('Tile component', () => {
     expect(contentAttrs['hidden']).not.toBeNull();
   });
 
-  it('should notify the tile dashboard when the tile is collapsed',
-    () => {
-      let mockTileDashboardService = new MockSkyTileDashboardService();
+  it('should notify the tile dashboard when the tile is collapsed', () => {
+    let mockTileDashboardService = new MockSkyTileDashboardService();
 
-      let fixture = TestBed
-        .overrideComponent(
-          TileTestComponent,
+    let fixture = TestBed.overrideComponent(TileTestComponent, {
+      add: {
+        providers: [
           {
-            add: {
-              providers: [
-                {
-                  provide: SkyTileDashboardService,
-                  useValue: mockTileDashboardService
-                }
-              ]
-            }
-          }
-        )
-        .createComponent(TileTestComponent);
+            provide: SkyTileDashboardService,
+            useValue: mockTileDashboardService,
+          },
+        ],
+      },
+    }).createComponent(TileTestComponent);
 
-      let el = fixture.nativeElement;
-      let dashboardSpy = spyOn(mockTileDashboardService, 'setTileCollapsed').and.callThrough();
+    let el = fixture.nativeElement;
+    let dashboardSpy = spyOn(
+      mockTileDashboardService,
+      'setTileCollapsed'
+    ).and.callThrough();
 
-      fixture.detectChanges();
+    fixture.detectChanges();
 
-      let chevronEl = el.querySelector('.sky-chevron');
+    let chevronEl = el.querySelector('.sky-chevron');
 
-      chevronEl.click();
+    chevronEl.click();
 
-      fixture.detectChanges();
+    fixture.detectChanges();
 
-      expect(dashboardSpy).toHaveBeenCalledWith(jasmine.any(SkyTileComponent), true);
-    }
-  );
+    expect(dashboardSpy).toHaveBeenCalledWith(
+      jasmine.any(SkyTileComponent),
+      true
+    );
+  });
 
   describe('settings button', () => {
     it('should be absent if a callback is not provided', () => {
@@ -218,16 +190,11 @@ describe('Tile component', () => {
         </sky-tile>
       `;
 
-      let fixture = TestBed
-        .overrideComponent(
-          TileTestComponent,
-          {
-            set: {
-              template: html
-            }
-          }
-        )
-        .createComponent(TileTestComponent);
+      let fixture = TestBed.overrideComponent(TileTestComponent, {
+        set: {
+          template: html,
+        },
+      }).createComponent(TileTestComponent);
 
       let el = fixture.nativeElement;
 
@@ -253,16 +220,11 @@ describe('Tile component', () => {
         </sky-tile>
       `;
 
-      let fixture = TestBed
-        .overrideComponent(
-          TileTestComponent,
-          {
-            set: {
-              template: html
-            }
-          }
-        )
-        .createComponent(TileTestComponent);
+      let fixture = TestBed.overrideComponent(TileTestComponent, {
+        set: {
+          template: html,
+        },
+      }).createComponent(TileTestComponent);
 
       let el = fixture.nativeElement;
 
@@ -308,16 +270,11 @@ describe('Tile component', () => {
         </sky-tile>
       `;
 
-      let fixture = TestBed
-        .overrideComponent(
-          TileTestComponent,
-          {
-            set: {
-              template: html
-            }
-          }
-        )
-        .createComponent(TileTestComponent);
+      let fixture = TestBed.overrideComponent(TileTestComponent, {
+        set: {
+          template: html,
+        },
+      }).createComponent(TileTestComponent);
 
       let el = fixture.nativeElement;
 
@@ -350,16 +307,11 @@ describe('Tile component', () => {
         </sky-tile>
       `;
 
-      let fixture = TestBed
-        .overrideComponent(
-          TileTestComponent,
-          {
-            set: {
-              template: html
-            }
-          }
-        )
-        .createComponent(TileTestComponent);
+      let fixture = TestBed.overrideComponent(TileTestComponent, {
+        set: {
+          template: html,
+        },
+      }).createComponent(TileTestComponent);
 
       let el = fixture.nativeElement;
 
@@ -399,7 +351,7 @@ describe('Tile component', () => {
   it('should pass accessibility', async () => {
     let fixture = TestBed.createComponent(TileTestComponent);
     fixture.detectChanges();
-    await fixture.whenStable()
+    await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
 });

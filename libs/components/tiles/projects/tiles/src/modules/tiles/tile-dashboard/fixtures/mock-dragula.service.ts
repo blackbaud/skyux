@@ -1,9 +1,9 @@
 import { DragulaService } from 'ng2-dragula';
 
 export class MockDragulaService extends DragulaService {
-  public add() { }
+  public add() {}
 
-  public setOptions() { }
+  public setOptions() {}
 
   public find() {
     return {
@@ -15,10 +15,10 @@ export class MockDragulaService extends DragulaService {
                 {
                   getAttribute: () => {
                     return 'tile-2';
-                  }
-                }
+                  },
+                },
               ] as any[];
-            }
+            },
           },
           {
             querySelectorAll: () => {
@@ -26,13 +26,13 @@ export class MockDragulaService extends DragulaService {
                 {
                   getAttribute: () => {
                     return 'tile-1';
-                  }
-                }
+                  },
+                },
               ] as any[];
-            }
-          }
-        ]
-      }
+            },
+          },
+        ],
+      },
     };
   }
 }

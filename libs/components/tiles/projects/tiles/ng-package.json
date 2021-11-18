@@ -4,8 +4,5 @@
   "lib": {
     "entryFile": "src/public-api.ts"
   },
-  "allowedNonPeerDependencies": [
-    "dragula",
-    "ng2-dragula"
-  ]
+  "allowedNonPeerDependencies": ["dragula", "ng2-dragula"]
 }

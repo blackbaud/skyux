@@ -1,15 +1,11 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  SkyUIConfigService
-} from '@skyux/core';
+import { SkyUIConfigService } from '@skyux/core';
 
 import {
   Observable,
   of as observableOf,
-  throwError as observableThrowError
+  throwError as observableThrowError,
 } from 'rxjs';
 
 @Injectable()
@@ -19,9 +15,9 @@ export class MockSkyUIConfigService extends SkyUIConfigService {
       case 'defaultSettings':
         return observableOf(defaultConfig);
       case 'badData':
-        return observableOf({invalidProperty: 'invalidData'});
+        return observableOf({ invalidProperty: 'invalidData' });
       case 'error':
-        return observableThrowError({message: 'Test error'});
+        return observableThrowError({ message: 'Test error' });
       default: {
         return observableOf({
           layout: {
@@ -29,38 +25,35 @@ export class MockSkyUIConfigService extends SkyUIConfigService {
               tiles: [
                 {
                   id: 'tile-1',
-                  isCollapsed: true
+                  isCollapsed: true,
                 },
                 {
                   id: 'tile-2',
-                  isCollapsed: true
-                }
-              ]
+                  isCollapsed: true,
+                },
+              ],
             },
             multiColumn: [
               {
                 tiles: [
                   {
                     id: 'tile-2',
-                    isCollapsed: true
-                  }
-                ]
+                    isCollapsed: true,
+                  },
+                ],
               },
               {
                 tiles: [
                   {
                     id: 'tile-1',
-                    isCollapsed: true
-                  }
-                ]
-              }
-            ]
+                    isCollapsed: true,
+                  },
+                ],
+              },
+            ],
           },
           persisted: true,
-          tileIds: [
-            'tile-1',
-            'tile-2'
-          ]
+          tileIds: ['tile-1', 'tile-2'],
         });
       }
     }
@@ -69,7 +62,7 @@ export class MockSkyUIConfigService extends SkyUIConfigService {
   public setConfig(key: string, value: any): Observable<any> {
     switch (key) {
       case 'badData':
-        return observableThrowError({message: 'Test error'});
+        return observableThrowError({ message: 'Test error' });
       default:
         return observableOf({});
     }
