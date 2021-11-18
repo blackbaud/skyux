@@ -1,12 +1,9 @@
-import {
-  ElementRef
-} from '@angular/core';
+import { ElementRef } from '@angular/core';
 
 /**
  * A "skip link" that allows a user to skip parts of the page and go directly to the main content.
  */
 export interface SkySkipLink {
-
   /**
    * The title of the skip link.
    */
@@ -18,5 +15,4 @@ export interface SkySkipLink {
    * as a `button` or `a` element) or by setting `tabindex="-1" on the specified element.
    */
   elementRef: ElementRef;
-
 }

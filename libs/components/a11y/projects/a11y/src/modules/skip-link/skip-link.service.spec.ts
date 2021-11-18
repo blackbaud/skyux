@@ -1,38 +1,18 @@
-import {
-  ApplicationRef,
-  ElementRef
-} from '@angular/core';
+import { ApplicationRef, ElementRef } from '@angular/core';
 
-import {
-  fakeAsync,
-  inject,
-  TestBed,
-  tick
-} from '@angular/core/testing';
+import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  SkyA11yForRootCompatModule
-} from '../shared/a11y-for-root-compat.module';
+import { SkyA11yForRootCompatModule } from '../shared/a11y-for-root-compat.module';
 
-import {
-  SkySkipLink
-} from './skip-link';
+import { SkySkipLink } from './skip-link';
 
-import {
-  SkySkipLinkModule
-} from './skip-link.module';
+import { SkySkipLinkModule } from './skip-link.module';
 
-import {
-  SkySkipLinkService
-} from './skip-link.service';
+import { SkySkipLinkService } from './skip-link.service';
 
-import {
-  SkySkipLinkArgs
-} from './skip-link-args';
+import { SkySkipLinkArgs } from './skip-link-args';
 
 describe('Skip link service', () => {
   let service: SkySkipLinkService;
@@ -43,9 +23,9 @@ describe('Skip link service', () => {
       links: links || [
         {
           elementRef: new ElementRef({}),
-          title: 'Test 1'
-        }
-      ]
+          title: 'Test 1',
+        },
+      ],
     };
 
     service.setSkipLinks(args);
@@ -56,10 +36,7 @@ describe('Skip link service', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkySkipLinkModule,
-        SkyA11yForRootCompatModule
-      ]
+      imports: [SkySkipLinkModule, SkyA11yForRootCompatModule],
     });
   });
 
@@ -101,13 +78,12 @@ describe('Skip link service', () => {
     setTestSkipLinks([
       {
         elementRef: undefined,
-        title: 'Test 1'
-      }
+        title: 'Test 1',
+      },
     ]);
 
     const linkEl = document.querySelectorAll('.sky-skip-link');
 
     expect(linkEl.length).toEqual(0);
   }));
-
 });

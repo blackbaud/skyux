@@ -1,8 +1,6 @@
 //#region imports
 
-import {
-  SkySkipLink
-} from './skip-link';
+import { SkySkipLink } from './skip-link';
 
 //#endregion
 
@@ -10,10 +8,8 @@ import {
  * Options specified when setting the page's skip links.
  */
 export interface SkySkipLinkArgs {
-
   /**
    * The skip links to create.
    */
   links: SkySkipLink[];
-
 }

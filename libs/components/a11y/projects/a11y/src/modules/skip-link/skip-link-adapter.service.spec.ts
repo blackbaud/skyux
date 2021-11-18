@@ -1,25 +1,14 @@
-import {
-  ElementRef
-} from '@angular/core';
+import { ElementRef } from '@angular/core';
 
-import {
-  TestBed
-} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {
-  SkyAppWindowRef
-} from '@skyux/core';
+import { SkyAppWindowRef } from '@skyux/core';
 
-import {
-  SkyA11yForRootCompatModule
-} from '../shared/a11y-for-root-compat.module';
+import { SkyA11yForRootCompatModule } from '../shared/a11y-for-root-compat.module';
 
-import {
-  SkySkipLinkAdapterService
-} from './skip-link-adapter.service';
+import { SkySkipLinkAdapterService } from './skip-link-adapter.service';
 
 describe('Skip link adapter service', () => {
-
   const BODY_MARGIN_TOP = 56;
   const TEST_EL_TOP = 83;
   const ADAPTER_SVC_PADDING = 10;
@@ -35,30 +24,30 @@ describe('Skip link adapter service', () => {
     mockWindowService = {
       nativeWindow: {
         document: {
-          body: { }
+          body: {},
         },
         getComputedStyle: () => ({
-          marginTop: BODY_MARGIN_TOP + 'px'
+          marginTop: BODY_MARGIN_TOP + 'px',
         }),
-        scroll: scrollSpy
-      }
+        scroll: scrollSpy,
+      },
     };
 
     TestBed.configureTestingModule({
       providers: [
         {
           provide: SkyAppWindowRef,
-          useValue: mockWindowService
+          useValue: mockWindowService,
         },
         SkyA11yForRootCompatModule,
-        SkySkipLinkAdapterService
-      ]
+        SkySkipLinkAdapterService,
+      ],
     });
 
     service = TestBed.get(SkySkipLinkAdapterService);
 
     testEl = document.createElement('div');
-    testEl.style.height = (window.outerHeight + 1000) + 'px';
+    testEl.style.height = window.outerHeight + 1000 + 'px';
     testEl.style.position = 'absolute';
     testEl.style.top = TEST_EL_TOP + 'px';
 
@@ -73,10 +62,10 @@ describe('Skip link adapter service', () => {
     testEl = undefined;
   });
 
-  it('should account for the browser\'s margin top property', () => {
+  it("should account for the browser's margin top property", () => {
     service.skipTo({
       title: 'Test 1',
-      elementRef: new ElementRef(testEl)
+      elementRef: new ElementRef(testEl),
     });
 
     expect(scrollSpy).toHaveBeenCalledWith(
@@ -84,5 +73,4 @@ describe('Skip link adapter service', () => {
       TEST_EL_TOP - BODY_MARGIN_TOP - ADAPTER_SVC_PADDING
     );
   });
-
 });

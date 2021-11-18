@@ -1,24 +1,15 @@
-import {
-  ComponentRef,
-  Injectable
-} from '@angular/core';
+import { ComponentRef, Injectable } from '@angular/core';
 
 import {
   SkyDynamicComponentLocation,
-  SkyDynamicComponentService
+  SkyDynamicComponentService,
 } from '@skyux/core';
 
-import {
-  SkySkipLink
-} from './skip-link';
+import { SkySkipLink } from './skip-link';
 
-import {
-  SkySkipLinkArgs
-} from './skip-link-args';
+import { SkySkipLinkArgs } from './skip-link-args';
 
-import {
-  SkySkipLinkHostComponent
-} from './skip-link-host.component';
+import { SkySkipLinkHostComponent } from './skip-link-host.component';
 
 /**
  * An Angular service that adds "skip links" to the page.  Skip links will only be displayed
@@ -29,19 +20,17 @@ import {
  * @dynamic
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SkySkipLinkService {
   private static host: ComponentRef<SkySkipLinkHostComponent>;
 
-  constructor(
-    private dynamicComponentService: SkyDynamicComponentService
-  ) { }
+  constructor(private dynamicComponentService: SkyDynamicComponentService) {}
 
   public setSkipLinks(args: SkySkipLinkArgs) {
     args.links = args.links.filter((link: SkySkipLink) => {
-      const elementRefExists = (link.elementRef);
-      return (elementRefExists);
+      const elementRefExists = link.elementRef;
+      return elementRefExists;
     });
 
     // Timeout needed in case the consumer sets the skip links within an Angular lifecycle hook.
@@ -61,7 +50,7 @@ export class SkySkipLinkService {
       const componentRef = this.dynamicComponentService.createComponent(
         SkySkipLinkHostComponent,
         {
-          location: SkyDynamicComponentLocation.BodyTop
+          location: SkyDynamicComponentLocation.BodyTop,
         }
       );
 
@@ -70,5 +59,4 @@ export class SkySkipLinkService {
 
     return SkySkipLinkService.host;
   }
-
 }
