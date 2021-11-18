@@ -1,15 +1,10 @@
-<div
-  class="sky-split-view"
-  [@blockAnimationOnLoad]
->
+<div class="sky-split-view" [@blockAnimationOnLoad]>
   <div
     class="sky-split-view-drawer-flex-container"
     [hidden]="!drawerVisible"
     [@drawerEnter]="drawerVisible"
   >
-    <ng-content
-      select="sky-split-view-drawer"
-    ></ng-content>
+    <ng-content select="sky-split-view-drawer"></ng-content>
   </div>
 
   <div
@@ -18,8 +13,6 @@
     [@workspaceEnter]="workspaceVisible"
     (@workspaceEnter.done)="onWorkspaceEnterComplete()"
   >
-    <ng-content
-      select="sky-split-view-workspace"
-    ></ng-content>
+    <ng-content select="sky-split-view-workspace"></ng-content>
   </div>
 </div>

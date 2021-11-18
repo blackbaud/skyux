@@ -1,64 +1,32 @@
-import {
-  DebugElement
-} from '@angular/core';
+import { DebugElement } from '@angular/core';
 
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  ReactiveFormsModule
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  NoopAnimationsModule
-} from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import {
-  SkySummaryActionBarModule
-} from '@skyux/action-bars';
+import { SkySummaryActionBarModule } from '@skyux/action-bars';
 
-import {
-  SkyMediaBreakpoints,
-  SkyMediaQueryService
-} from '@skyux/core';
+import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 
-import {
-  MockSkyMediaQueryService
-} from '@skyux/core/testing';
+import { MockSkyMediaQueryService } from '@skyux/core/testing';
 
-import {
-  SkyDefinitionListModule
-} from '@skyux/layout';
+import { SkyDefinitionListModule } from '@skyux/layout';
 
-import {
-  SkyRepeaterModule
-} from '@skyux/lists';
+import { SkyRepeaterModule } from '@skyux/lists';
 
-import {
-  SkyConfirmModule
-} from '@skyux/modals';
+import { SkyConfirmModule } from '@skyux/modals';
 
-import {
-  SkyThemeService
-} from '@skyux/theme';
+import { SkyThemeService } from '@skyux/theme';
 
-import {
-  SkySplitViewFixture
-} from './split-view-fixture';
+import { SkySplitViewFixture } from './split-view-fixture';
 
-import {
-  SplitViewTestComponent
-} from './fixtures/split-view-fixture-test.component';
+import { SplitViewTestComponent } from './fixtures/split-view-fixture-test.component';
 
-import {
-  SkySplitViewTestingModule
-} from './split-view-testing.module';
+import { SkySplitViewTestingModule } from './split-view-testing.module';
 
 const DEFAULT_DRAWER_ARIA_LABEL = 'Transaction list';
 const DEFAULT_DRAWER_WIDTH = '320px';
@@ -73,7 +41,9 @@ describe('SplitView fixture', () => {
 
   //#region helpers
 
-  async function initiateResponsiveMode(breakpoint: SkyMediaBreakpoints): Promise<void> {
+  async function initiateResponsiveMode(
+    breakpoint: SkyMediaBreakpoints
+  ): Promise<void> {
     mockQueryService.fire(breakpoint);
     fixture.detectChanges();
     return fixture.whenStable();
@@ -98,9 +68,7 @@ describe('SplitView fixture', () => {
     mockQueryService = new MockSkyMediaQueryService();
 
     TestBed.configureTestingModule({
-      declarations: [
-        SplitViewTestComponent
-      ],
+      declarations: [SplitViewTestComponent],
       imports: [
         NoopAnimationsModule,
         ReactiveFormsModule,
@@ -108,22 +76,23 @@ describe('SplitView fixture', () => {
         SkyDefinitionListModule,
         SkyRepeaterModule,
         SkySummaryActionBarModule,
-        SkySplitViewTestingModule
+        SkySplitViewTestingModule,
       ],
       providers: [
         SkyThemeService,
         {
           provide: SkyMediaQueryService,
-          useValue: mockQueryService
-        }
-      ]
+          useValue: mockQueryService,
+        },
+      ],
     });
 
-    fixture = TestBed.createComponent(
-      SplitViewTestComponent
-    );
+    fixture = TestBed.createComponent(SplitViewTestComponent);
     testComponent = fixture.componentInstance;
-    splitViewFixture = new SkySplitViewFixture(fixture, SplitViewTestComponent.dataSkyId);
+    splitViewFixture = new SkySplitViewFixture(
+      fixture,
+      SplitViewTestComponent.dataSkyId
+    );
   });
 
   it('should expose drawer properties', async () => {
@@ -153,14 +122,20 @@ describe('SplitView fixture', () => {
 
   it('should expose workspace properties', async () => {
     // non-reponsive mode
-    expect(splitViewFixture.workspace.ariaLabel).toBe(DEFAULT_WORKSPACE_ARIA_LABEL);
+    expect(splitViewFixture.workspace.ariaLabel).toBe(
+      DEFAULT_WORKSPACE_ARIA_LABEL
+    );
     expect(splitViewFixture.workspace.backButtonText).toBeUndefined();
     expect(splitViewFixture.workspace.isVisible).toBeTrue();
 
     // responsive mode
     await initiateResponsiveMode(SkyMediaBreakpoints.xs);
-    expect(splitViewFixture.workspace.ariaLabel).toBe(DEFAULT_WORKSPACE_ARIA_LABEL);
-    expect(splitViewFixture.workspace.backButtonText).toBe(DEFAULT_BACK_BUTTON_TEXT);
+    expect(splitViewFixture.workspace.ariaLabel).toBe(
+      DEFAULT_WORKSPACE_ARIA_LABEL
+    );
+    expect(splitViewFixture.workspace.backButtonText).toBe(
+      DEFAULT_BACK_BUTTON_TEXT
+    );
     expect(splitViewFixture.workspace.isVisible).toBeTrue();
   });
 
@@ -173,8 +148,12 @@ describe('SplitView fixture', () => {
 
     // verify updates
     await initiateResponsiveMode(SkyMediaBreakpoints.xs);
-    expect(splitViewFixture.workspace.ariaLabel).toBe(testComponent.workspaceAriaLabel);
-    expect(splitViewFixture.workspace.backButtonText).toBe(testComponent.backButtonText);
+    expect(splitViewFixture.workspace.ariaLabel).toBe(
+      testComponent.workspaceAriaLabel
+    );
+    expect(splitViewFixture.workspace.backButtonText).toBe(
+      testComponent.backButtonText
+    );
   });
 
   it('should open drawer when in responsive mode', async () => {

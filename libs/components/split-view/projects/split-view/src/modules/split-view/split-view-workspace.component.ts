@@ -8,44 +8,37 @@ import {
   HostListener,
   Input,
   OnDestroy,
-  OnInit
+  OnInit,
 } from '@angular/core';
 
-import {
-  SkyCoreAdapterService,
-  SkyMediaQueryService
-} from '@skyux/core';
+import { SkyCoreAdapterService, SkyMediaQueryService } from '@skyux/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkySplitViewMediaQueryService
-} from './split-view-media-query.service';
+import { SkySplitViewMediaQueryService } from './split-view-media-query.service';
 
-import {
-  SkySplitViewService
-} from './split-view.service';
+import { SkySplitViewService } from './split-view.service';
 
-  /**
-   * Contains the content, footer, and header to display in the split view's workspace panel.
-   */
-  @Component({
+/**
+ * Contains the content, footer, and header to display in the split view's workspace panel.
+ */
+@Component({
   selector: 'sky-split-view-workspace',
   templateUrl: 'split-view-workspace.component.html',
   styleUrls: ['./split-view-workspace.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    { provide: SkyMediaQueryService, useExisting: SkySplitViewMediaQueryService }
-  ]
+    {
+      provide: SkyMediaQueryService,
+      useExisting: SkySplitViewMediaQueryService,
+    },
+  ],
 })
-export class SkySplitViewWorkspaceComponent implements AfterViewInit, OnDestroy, OnInit {
-
+export class SkySplitViewWorkspaceComponent
+  implements AfterViewInit, OnDestroy, OnInit
+{
   public set isMobile(value: boolean) {
     this._isMobile = value;
     this.changeDetectorRef.markForCheck();
@@ -109,7 +102,10 @@ export class SkySplitViewWorkspaceComponent implements AfterViewInit, OnDestroy,
     const width = this.elementRef.nativeElement.parentElement.clientWidth;
     this.splitViewMediaQueryService.setBreakpointForWidth(width);
     const newDrawerBreakpoint = this.splitViewMediaQueryService.current;
-    this.coreAdapterService.setResponsiveContainerClass(this.elementRef, newDrawerBreakpoint);
+    this.coreAdapterService.setResponsiveContainerClass(
+      this.elementRef,
+      newDrawerBreakpoint
+    );
     this.changeDetectorRef.markForCheck();
   }
 }

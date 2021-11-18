@@ -1,35 +1,26 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import {
-  FormControl,
-  FormGroup
-} from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
 import {
   SkyConfirmCloseEventArgs,
   SkyConfirmService,
-  SkyConfirmType
+  SkyConfirmType,
 } from '@skyux/modals';
 
 import {
   SkySplitViewMessage,
-  SkySplitViewMessageType
+  SkySplitViewMessageType,
 } from '@skyux/split-view';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-split-view-page-bound-demo',
   templateUrl: './split-view-page-bound-demo.component.html',
-  styleUrls: ['./split-view-page-bound-demo.component.scss']
+  styleUrls: ['./split-view-page-bound-demo.component.scss'],
 })
 export class SplitViewPageBoundDemoComponent implements OnInit {
-
   public set activeIndex(value: number) {
     this._activeIndex = value;
     this.activeRecord = this.items[this._activeIndex];
@@ -50,7 +41,7 @@ export class SplitViewPageBoundDemoComponent implements OnInit {
       vendor: 'amazon.com',
       receiptImage: 'amzn-office-supply-order-5-13-19.png',
       approvedAmount: 73.19,
-      comments: ''
+      comments: '',
     },
     {
       id: 2,
@@ -59,7 +50,7 @@ export class SplitViewPageBoundDemoComponent implements OnInit {
       vendor: 'Office Max',
       receiptImage: 'office-max-order.png',
       approvedAmount: 214.12,
-      comments: ''
+      comments: '',
     },
     {
       id: 3,
@@ -68,7 +59,7 @@ export class SplitViewPageBoundDemoComponent implements OnInit {
       vendor: 'amazon.com',
       receiptImage: 'amzn-office-supply-order-5-14-19.png',
       approvedAmount: 29.99,
-      comments: ''
+      comments: '',
     },
     {
       id: 4,
@@ -77,7 +68,7 @@ export class SplitViewPageBoundDemoComponent implements OnInit {
       vendor: 'Fresh Catering, LLC',
       receiptImage: 'fresh-catering-llc-order.png',
       approvedAmount: 1500,
-      comments: ''
+      comments: '',
     },
     {
       id: 5,
@@ -86,7 +77,7 @@ export class SplitViewPageBoundDemoComponent implements OnInit {
       vendor: 'Kerblam',
       receiptImage: 'kerblam-delivery-order.png',
       approvedAmount: 456.24,
-      comments: ''
+      comments: '',
     },
     {
       id: 6,
@@ -95,7 +86,7 @@ export class SplitViewPageBoundDemoComponent implements OnInit {
       vendor: 'Staples',
       receiptImage: 'staples-paper-bulk-order.png',
       approvedAmount: 62.37,
-      comments: ''
+      comments: '',
     },
     {
       id: 7,
@@ -104,7 +95,7 @@ export class SplitViewPageBoundDemoComponent implements OnInit {
       vendor: 'amazon.com',
       receiptImage: 'amzn-office-supply-order-5-17-19.png',
       approvedAmount: 51.84,
-      comments: ''
+      comments: '',
     },
     {
       id: 8,
@@ -112,8 +103,8 @@ export class SplitViewPageBoundDemoComponent implements OnInit {
       date: '5/18/2020',
       vendor: 'Lowes',
       receiptImage: 'lowes-order.png',
-      approvedAmount: 0.00,
-      comments: ''
+      approvedAmount: 0.0,
+      comments: '',
     },
     {
       id: 9,
@@ -122,8 +113,8 @@ export class SplitViewPageBoundDemoComponent implements OnInit {
       vendor: 'Papa Johns',
       receiptImage: 'papa-johns-order.png',
       approvedAmount: 38.29,
-      comments: ''
-    }
+      comments: '',
+    },
   ];
 
   public listWidth: number;
@@ -138,9 +129,7 @@ export class SplitViewPageBoundDemoComponent implements OnInit {
 
   private _activeIndex = 0;
 
-  constructor(
-    public confirmService: SkyConfirmService
-  ) {
+  constructor(public confirmService: SkyConfirmService) {
     // Start with the first item selected.
     this.activeIndex = 0;
   }
@@ -172,7 +161,7 @@ export class SplitViewPageBoundDemoComponent implements OnInit {
   private loadFormGroup(record: any): void {
     this.splitViewDemoForm = new FormGroup({
       approvedAmount: new FormControl(record.approvedAmount),
-      comments: new FormControl(record.comments)
+      comments: new FormControl(record.comments),
     });
   }
 
@@ -182,43 +171,48 @@ export class SplitViewPageBoundDemoComponent implements OnInit {
   }
 
   private openConfirmModal(index: number): void {
-    this.confirmService.open({
-      message: 'You have unsaved work. Would you like to save it before you change records?',
-      type: SkyConfirmType.Custom,
-      buttons: [
-        {
-          action: 'yes',
-          text: 'Yes',
-          styleType: 'primary'
-        },
-        {
-          action: 'discard',
-          text: 'Discard changes',
-          styleType: 'link'
+    this.confirmService
+      .open({
+        message:
+          'You have unsaved work. Would you like to save it before you change records?',
+        type: SkyConfirmType.Custom,
+        buttons: [
+          {
+            action: 'yes',
+            text: 'Yes',
+            styleType: 'primary',
+          },
+          {
+            action: 'discard',
+            text: 'Discard changes',
+            styleType: 'link',
+          },
+        ],
+      })
+      .closed.subscribe((closeArgs: SkyConfirmCloseEventArgs) => {
+        if (closeArgs.action.toLowerCase() === 'yes') {
+          this.saveForm();
         }
-      ]
-    }).closed.subscribe((closeArgs: SkyConfirmCloseEventArgs) => {
-      if (closeArgs.action.toLowerCase() === 'yes') {
-        this.saveForm();
-      }
-      this.loadWorkspace(index);
-    });
+        this.loadWorkspace(index);
+      });
   }
 
   private saveForm(): void {
-    this.activeRecord.approvedAmount = parseFloat(this.splitViewDemoForm.value.approvedAmount);
+    this.activeRecord.approvedAmount = parseFloat(
+      this.splitViewDemoForm.value.approvedAmount
+    );
     this.activeRecord.comments = this.splitViewDemoForm.value.comments;
 
-    this.unapprovedTransaction = this.items.findIndex(item => item.amount !== item.approvedAmount) >= 0;
+    this.unapprovedTransaction =
+      this.items.findIndex((item) => item.amount !== item.approvedAmount) >= 0;
 
     this.splitViewDemoForm.reset(this.splitViewDemoForm.value);
   }
 
   private setFocusInWorkspace(): void {
     const message: SkySplitViewMessage = {
-      type: SkySplitViewMessageType.FocusWorkspace
+      type: SkySplitViewMessageType.FocusWorkspace,
     };
     this.splitViewStream.next(message);
   }
-
 }

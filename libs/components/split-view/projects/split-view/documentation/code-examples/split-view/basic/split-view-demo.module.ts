@@ -1,51 +1,27 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  ReactiveFormsModule
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import {
-  SkySummaryActionBarModule
-} from '@skyux/action-bars';
+import { SkySummaryActionBarModule } from '@skyux/action-bars';
 
-import {
-  SkyIdModule
-} from '@skyux/core';
+import { SkyIdModule } from '@skyux/core';
 
-import {
-  SkyInputBoxModule
-} from '@skyux/forms';
+import { SkyInputBoxModule } from '@skyux/forms';
 
-import {
-  SkyDefinitionListModule
-} from '@skyux/layout';
+import { SkyDefinitionListModule } from '@skyux/layout';
 
-import {
-  SkyRepeaterModule
-} from '@skyux/lists';
+import { SkyRepeaterModule } from '@skyux/lists';
 
-import {
-  SkyConfirmModule
-} from '@skyux/modals';
+import { SkyConfirmModule } from '@skyux/modals';
 
-import {
-  SkySplitViewModule
-} from '@skyux/split-view';
+import { SkySplitViewModule } from '@skyux/split-view';
 
-import {
-  SplitViewDemoComponent
-} from './split-view-demo.component';
+import { SplitViewDemoComponent } from './split-view-demo.component';
 
 @NgModule({
-  declarations: [
-    SplitViewDemoComponent
-  ],
+  declarations: [SplitViewDemoComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -55,10 +31,8 @@ import {
     SkyInputBoxModule,
     SkyRepeaterModule,
     SkySplitViewModule,
-    SkySummaryActionBarModule
+    SkySummaryActionBarModule,
   ],
-  exports: [
-    SplitViewDemoComponent
-  ]
+  exports: [SplitViewDemoComponent],
 })
-export class SplitViewDemoModule { }
+export class SplitViewDemoModule {}

@@ -1,56 +1,29 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  ReactiveFormsModule
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import {
-  SkySummaryActionBarModule
-} from '@skyux/action-bars';
+import { SkySummaryActionBarModule } from '@skyux/action-bars';
 
-import {
-  SkyIdModule
-} from '@skyux/core';
+import { SkyIdModule } from '@skyux/core';
 
-import {
-  SkyInputBoxModule
-} from '@skyux/forms';
+import { SkyInputBoxModule } from '@skyux/forms';
 
-import {
-  SkyAlertModule
-} from '@skyux/indicators';
+import { SkyAlertModule } from '@skyux/indicators';
 
-import {
-  SkyDefinitionListModule,
-  SkyPageSummaryModule
-} from '@skyux/layout';
+import { SkyDefinitionListModule, SkyPageSummaryModule } from '@skyux/layout';
 
-import {
-  SkyRepeaterModule
-} from '@skyux/lists';
+import { SkyRepeaterModule } from '@skyux/lists';
 
-import {
-  SkyConfirmModule
-} from '@skyux/modals';
+import { SkyConfirmModule } from '@skyux/modals';
 
-import {
-  SkySplitViewModule
-} from '@skyux/split-view';
+import { SkySplitViewModule } from '@skyux/split-view';
 
-import {
-  SplitViewPageBoundDemoComponent
-} from './split-view-page-bound-demo.component';
+import { SplitViewPageBoundDemoComponent } from './split-view-page-bound-demo.component';
 
 @NgModule({
-  declarations: [
-    SplitViewPageBoundDemoComponent
-  ],
+  declarations: [SplitViewPageBoundDemoComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -62,10 +35,8 @@ import {
     SkyPageSummaryModule,
     SkyRepeaterModule,
     SkySplitViewModule,
-    SkySummaryActionBarModule
+    SkySummaryActionBarModule,
   ],
-  exports: [
-    SplitViewPageBoundDemoComponent
-  ]
+  exports: [SplitViewPageBoundDemoComponent],
 })
-export class SplitViewDemoModule { }
+export class SplitViewDemoModule {}

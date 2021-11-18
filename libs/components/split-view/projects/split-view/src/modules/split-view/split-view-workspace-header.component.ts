@@ -4,24 +4,16 @@ import {
   Component,
   OnDestroy,
   OnInit,
-  Optional
+  Optional,
 } from '@angular/core';
 
-import {
-  SkyThemeService
-} from '@skyux/theme';
+import { SkyThemeService } from '@skyux/theme';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkySplitViewService
-} from './split-view.service';
+import { SkySplitViewService } from './split-view.service';
 
 /**
  * Specifies the header to display in the split view's workspace panel.
@@ -30,10 +22,9 @@ import {
   selector: 'sky-split-view-workspace-header',
   templateUrl: 'split-view-workspace-header.component.html',
   styleUrls: ['split-view-workspace-header.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkySplitViewWorkspaceHeaderComponent implements OnDestroy, OnInit {
-
   public backButtonText: string;
 
   private ngUnsubscribe = new Subject<void>();

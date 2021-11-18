@@ -1,30 +1,23 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {
-  FormControl,
-  FormGroup
-} from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
 import {
   SkyConfirmCloseEventArgs,
   SkyConfirmService,
-  SkyConfirmType
+  SkyConfirmType,
 } from '@skyux/modals';
 
 import {
   SkySplitViewMessage,
-  SkySplitViewMessageType
+  SkySplitViewMessageType,
 } from '@skyux/split-view';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Component({
-  selector: 'split-view-test',
-  templateUrl: './split-view-fixture-test.component.html'
+  selector: 'sky-split-view-test',
+  templateUrl: './split-view-fixture-test.component.html',
 })
 export class SplitViewTestComponent {
   public static dataSkyId: string = 'test-split-view';
@@ -51,7 +44,7 @@ export class SplitViewTestComponent {
       vendor: 'amazon.com',
       receiptImage: 'amzn-office-supply-order-5-13-19.png',
       approvedAmount: 73.19,
-      comments: ''
+      comments: '',
     },
     {
       id: 2,
@@ -60,7 +53,7 @@ export class SplitViewTestComponent {
       vendor: 'Office Max',
       receiptImage: 'office-max-order.png',
       approvedAmount: 214.12,
-      comments: ''
+      comments: '',
     },
     {
       id: 3,
@@ -69,7 +62,7 @@ export class SplitViewTestComponent {
       vendor: 'amazon.com',
       receiptImage: 'amzn-office-supply-order-5-14-19.png',
       approvedAmount: 29.99,
-      comments: ''
+      comments: '',
     },
     {
       id: 4,
@@ -78,8 +71,8 @@ export class SplitViewTestComponent {
       vendor: 'Fresh Catering, LLC',
       receiptImage: 'fresh-catering-llc-order.png',
       approvedAmount: 1500,
-      comments: ''
-    }
+      comments: '',
+    },
   ];
 
   public listAriaLabel: string = 'Transaction list';
@@ -94,9 +87,7 @@ export class SplitViewTestComponent {
 
   private _activeIndex = 0;
 
-  constructor(
-    public confirmService: SkyConfirmService
-  ) {
+  constructor(public confirmService: SkyConfirmService) {
     // Start with the first item selected.
     this.activeIndex = 0;
   }
@@ -124,7 +115,7 @@ export class SplitViewTestComponent {
   private loadFormGroup(record: any): void {
     this.splitViewDemoForm = new FormGroup({
       approvedAmount: new FormControl(record.approvedAmount),
-      comments: new FormControl(record.comments)
+      comments: new FormControl(record.comments),
     });
   }
 
@@ -134,38 +125,42 @@ export class SplitViewTestComponent {
   }
 
   private openConfirmModal(index: number): void {
-    this.confirmService.open({
-      message: 'You have unsaved work. Would you like to save it before you change records?',
-      type: SkyConfirmType.Custom,
-      buttons: [
-        {
-          action: 'yes',
-          text: 'Yes',
-          styleType: 'primary'
-        },
-        {
-          action: 'discard',
-          text: 'Discard changes',
-          styleType: 'link'
+    this.confirmService
+      .open({
+        message:
+          'You have unsaved work. Would you like to save it before you change records?',
+        type: SkyConfirmType.Custom,
+        buttons: [
+          {
+            action: 'yes',
+            text: 'Yes',
+            styleType: 'primary',
+          },
+          {
+            action: 'discard',
+            text: 'Discard changes',
+            styleType: 'link',
+          },
+        ],
+      })
+      .closed.subscribe((closeArgs: SkyConfirmCloseEventArgs) => {
+        if (closeArgs.action.toLowerCase() === 'yes') {
+          this.saveForm();
         }
-      ]
-    }).closed.subscribe((closeArgs: SkyConfirmCloseEventArgs) => {
-      if (closeArgs.action.toLowerCase() === 'yes') {
-        this.saveForm();
-      }
-      this.loadWorkspace(index);
-    });
+        this.loadWorkspace(index);
+      });
   }
 
   private saveForm(): void {
-    this.activeRecord.approvedAmount = this.splitViewDemoForm.value.approvedAmount;
+    this.activeRecord.approvedAmount =
+      this.splitViewDemoForm.value.approvedAmount;
     this.activeRecord.comments = this.splitViewDemoForm.value.comments;
     this.splitViewDemoForm.reset(this.splitViewDemoForm.value);
   }
 
   private setFocusInWorkspace(): void {
     const message: SkySplitViewMessage = {
-      type: SkySplitViewMessageType.FocusWorkspace
+      type: SkySplitViewMessageType.FocusWorkspace,
     };
     this.splitViewStream.next(message);
   }

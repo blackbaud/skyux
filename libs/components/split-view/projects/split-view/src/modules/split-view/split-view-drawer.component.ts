@@ -7,32 +7,22 @@ import {
   HostListener,
   Input,
   OnDestroy,
-  OnInit
+  OnInit,
 } from '@angular/core';
 
 import {
   SkyCoreAdapterService,
   SkyMediaBreakpoints,
-  SkyMediaQueryService
+  SkyMediaQueryService,
 } from '@skyux/core';
 
-import {
-  takeUntil,
-  takeWhile
-} from 'rxjs/operators';
+import { takeUntil, takeWhile } from 'rxjs/operators';
 
-import {
-  fromEvent,
-  Subject
-} from 'rxjs';
+import { fromEvent, Subject } from 'rxjs';
 
-import {
-  SkySplitViewMediaQueryService
-} from './split-view-media-query.service';
+import { SkySplitViewMediaQueryService } from './split-view-media-query.service';
 
-import {
-  SkySplitViewService
-} from './split-view.service';
+import { SkySplitViewService } from './split-view.service';
 
 let skySplitViewNextId = 0;
 
@@ -45,11 +35,15 @@ let skySplitViewNextId = 0;
   styleUrls: ['split-view-drawer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    { provide: SkyMediaQueryService, useExisting: SkySplitViewMediaQueryService }
-  ]
+    {
+      provide: SkyMediaQueryService,
+      useExisting: SkySplitViewMediaQueryService,
+    },
+  ],
 })
-export class SkySplitViewDrawerComponent implements AfterViewInit, OnInit, OnDestroy {
-
+export class SkySplitViewDrawerComponent
+  implements AfterViewInit, OnInit, OnDestroy
+{
   /**
    * Specifies an ARIA label for the list panel. This sets the panel's `aria-label` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
@@ -138,9 +132,13 @@ export class SkySplitViewDrawerComponent implements AfterViewInit, OnInit, OnDes
     event.preventDefault();
     event.stopPropagation();
 
-    if (this.splitViewMediaQueryService.isWidthWithinBreakpiont(window.innerWidth,
-      SkyMediaBreakpoints.xs)) {
-        return;
+    if (
+      this.splitViewMediaQueryService.isWidthWithinBreakpiont(
+        window.innerWidth,
+        SkyMediaBreakpoints.xs
+      )
+    ) {
+      return;
     }
 
     this.setMaxWidth();
@@ -150,17 +148,21 @@ export class SkySplitViewDrawerComponent implements AfterViewInit, OnInit, OnDes
     this.coreAdapterService.toggleIframePointerEvents(false);
 
     fromEvent(document, 'mousemove')
-      .pipe(takeWhile(() => {
-        return this.isDragging;
-      }))
+      .pipe(
+        takeWhile(() => {
+          return this.isDragging;
+        })
+      )
       .subscribe((moveEvent: any) => {
         this.onMouseMove(moveEvent);
       });
 
     fromEvent(document, 'mouseup')
-      .pipe(takeWhile(() => {
-        return this.isDragging;
-      }))
+      .pipe(
+        takeWhile(() => {
+          return this.isDragging;
+        })
+      )
       .subscribe((mouseUpEvent: any) => {
         this.onHandleRelease(mouseUpEvent);
       });
@@ -202,7 +204,10 @@ export class SkySplitViewDrawerComponent implements AfterViewInit, OnInit, OnDes
   @HostListener('window:resize', ['$event'])
   public onWindowResize(event: any): void {
     // If window size is smaller than width + tolerance, shrink width.
-    if (!this.isMobile && event.target.innerWidth < this.width + this.widthTolerance) {
+    if (
+      !this.isMobile &&
+      event.target.innerWidth < this.width + this.widthTolerance
+    ) {
       this.width = event.target.innerWidth - this.widthTolerance;
     }
   }
@@ -210,11 +215,17 @@ export class SkySplitViewDrawerComponent implements AfterViewInit, OnInit, OnDes
   private updateBreakpoint(): void {
     this.splitViewMediaQueryService.setBreakpointForWidth(this.width);
     const newDrawerBreakpoint = this.splitViewMediaQueryService.current;
-    this.coreAdapterService.setResponsiveContainerClass(this.elementRef, newDrawerBreakpoint);
+    this.coreAdapterService.setResponsiveContainerClass(
+      this.elementRef,
+      newDrawerBreakpoint
+    );
   }
 
   private setMaxWidth(): void {
-    const splitView = this.splitViewService.splitViewElementRef.nativeElement.querySelector('.sky-split-view');
+    const splitView =
+      this.splitViewService.splitViewElementRef.nativeElement.querySelector(
+        '.sky-split-view'
+      );
     this.widthMax = splitView.clientWidth - this.widthTolerance;
   }
 }

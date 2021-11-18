@@ -1,5 +1,5 @@
-@import "~@skyux/theme/scss/mixins";
-@import "~@skyux/theme/scss/variables";
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/variables';
 
 .sky-split-view-workspace {
   background: #ffffff;
@@ -9,11 +9,9 @@
 }
 
 @include sky-theme-modern {
-
   .sky-split-view-workspace {
     border: 1px solid $sky-theme-modern-border-color-neutral-medium;
   }
-
 }
 
 @include sky-theme-modern-dark {

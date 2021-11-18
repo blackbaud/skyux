@@ -1,3 +1,7 @@
+# 5.0.1 (2021-11-18)
+
+- Added support for Prettier code formatting and updated the builder to support StackBlitz. [#75](https://github.com/blackbaud/skyux-split-view/pull/75)
+
 # 5.0.0 (2021-09-30)
 
 ### New features

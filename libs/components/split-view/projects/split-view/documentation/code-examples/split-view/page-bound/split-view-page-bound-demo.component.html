@@ -1,35 +1,30 @@
-<div
-  class="page-flex"
-  [style.top.px]="pageFlexOffsetTop"
->
+<div class="page-flex" [style.top.px]="pageFlexOffsetTop">
   <div class="page-flex-header">
     <sky-page-summary>
       <sky-page-summary-alert *ngIf="unapprovedTransaction">
-        <sky-alert alertType="info">There is an unapproved transaction.</sky-alert>
+        <sky-alert alertType="info"
+          >There is an unapproved transaction.</sky-alert
+        >
       </sky-page-summary-alert>
-      <sky-page-summary-title>
-        SKY Developers, LLC
-      </sky-page-summary-title>
+      <sky-page-summary-title> SKY Developers, LLC </sky-page-summary-title>
       <sky-page-summary-subtitle>
         Petty Cash Transactions
       </sky-page-summary-subtitle>
       <sky-page-summary-content>
-        The transactions below cover various operating expenses which do not fall under one of the budgets areas of expenditures.
+        The transactions below cover various operating expenses which do not
+        fall under one of the budgets areas of expenditures.
       </sky-page-summary-content>
     </sky-page-summary>
   </div>
   <div class="page-flex-main">
-    <sky-split-view
-      [messageStream]="splitViewStream"
-    >
+    <sky-split-view [messageStream]="splitViewStream">
       <sky-split-view-drawer
         [ariaLabel]="'Transaction list'"
         [width]="listWidth"
       >
-        <sky-repeater
-          [activeIndex]="activeIndex"
-        >
-          <sky-repeater-item *ngFor="let item of items; let i = index"
+        <sky-repeater [activeIndex]="activeIndex">
+          <sky-repeater-item
+            *ngFor="let item of items; let i = index"
             (click)="onItemClick(i)"
             (keyup.enter)="onItemClick(i)"
           >
@@ -42,19 +37,10 @@
         </sky-repeater>
       </sky-split-view-drawer>
 
-      <sky-split-view-workspace
-        [ariaLabel]="'Transaction form'"
-      >
-        <sky-split-view-workspace-content
-          class="sky-padding-even-large"
-        >
-          <form
-            [formGroup]="splitViewDemoForm"
-            (ngSubmit)="onApprove()"
-          >
-            <sky-definition-list
-              labelWidth="150px"
-            >
+      <sky-split-view-workspace [ariaLabel]="'Transaction form'">
+        <sky-split-view-workspace-content class="sky-padding-even-large">
+          <form [formGroup]="splitViewDemoForm" (ngSubmit)="onApprove()">
+            <sky-definition-list labelWidth="150px">
               <sky-definition-list-content>
                 <sky-definition-list-label>
                   Receipt amount
@@ -64,17 +50,13 @@
                 </sky-definition-list-value>
               </sky-definition-list-content>
               <sky-definition-list-content>
-                <sky-definition-list-label>
-                  Date
-                </sky-definition-list-label>
+                <sky-definition-list-label> Date </sky-definition-list-label>
                 <sky-definition-list-value>
                   {{ activeRecord.date }}
                 </sky-definition-list-value>
               </sky-definition-list-content>
               <sky-definition-list-content>
-                <sky-definition-list-label>
-                  Vendor
-                </sky-definition-list-label>
+                <sky-definition-list-label> Vendor </sky-definition-list-label>
                 <sky-definition-list-value>
                   {{ activeRecord.vendor }}
                 </sky-definition-list-value>
@@ -88,14 +70,9 @@
                 </sky-definition-list-value>
               </sky-definition-list-content>
             </sky-definition-list>
-            <div
-              class="sky-form-group"
-            >
+            <div class="sky-form-group">
               <sky-input-box>
-                <label
-                  class="sky-control-label"
-                  [for]="amountInput.id"
-                >
+                <label class="sky-control-label" [for]="amountInput.id">
                   Approved amount
                 </label>
                 <input
@@ -109,14 +86,9 @@
               </sky-input-box>
             </div>
 
-            <div
-              class="sky-form-group"
-            >
+            <div class="sky-form-group">
               <sky-input-box>
-                <label
-                  class="sky-control-label"
-                  [for]="commentsInput.id"
-                >
+                <label class="sky-control-label" [for]="commentsInput.id">
                   Comments
                 </label>
                 <textarea
@@ -131,9 +103,7 @@
           </form>
         </sky-split-view-workspace-content>
         <sky-split-view-workspace-footer>
-          <sky-summary-action-bar
-            id="summary-action-bar"
-          >
+          <sky-summary-action-bar id="summary-action-bar">
             <sky-summary-action-bar-actions>
               <sky-summary-action-bar-primary-action
                 (actionClick)="onApprove()"

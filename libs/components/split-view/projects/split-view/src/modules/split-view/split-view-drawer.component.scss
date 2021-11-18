@@ -1,6 +1,6 @@
-@import "~@skyux/theme/scss/mixins";
-@import "~@skyux/theme/scss/_compat/mixins";
-@import "~@skyux/theme/scss/variables";
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+@import '~@skyux/theme/scss/variables';
 
 .sky-split-view-drawer {
   background: #ffffff;
@@ -25,7 +25,8 @@
   top: 0;
   bottom: 0;
 
-  &::-moz-range-thumb, &::-moz-range-track {
+  &::-moz-range-thumb,
+  &::-moz-range-track {
     -webkit-appearance: none;
     -moz-appearance: none;
     width: 0;
@@ -36,7 +37,8 @@
     display: none;
   }
 
-  &::-ms-thumb, &::-ms-track {
+  &::-ms-thumb,
+  &::-ms-track {
     -webkit-appearance: none;
     -moz-appearance: none;
     width: 0;
@@ -60,7 +62,6 @@
 }
 
 @include sky-theme-modern {
-
   .sky-split-view-drawer {
     background: transparent;
     border: none;
@@ -71,11 +72,9 @@
 
     &:focus {
       border: solid 2px $sky-theme-modern-background-color-primary-dark;
-      box-shadow:
-        $sky-theme-modern-elevation-3-shadow-size
+      box-shadow: $sky-theme-modern-elevation-3-shadow-size
         $sky-theme-modern-elevation-3-shadow-color;
       outline: none;
     }
   }
-
 }

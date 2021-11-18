@@ -6,7 +6,7 @@ import {
   ElementRef,
   Input,
   OnDestroy,
-  OnInit
+  OnInit,
 } from '@angular/core';
 
 import {
@@ -14,45 +14,26 @@ import {
   state,
   style,
   transition,
-  trigger
+  trigger,
 } from '@angular/animations';
 
-import {
-  SkyCoreAdapterService
-} from '@skyux/core';
+import { SkyCoreAdapterService } from '@skyux/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  take,
-  takeUntil
-} from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 
-import {
-  SkySplitViewAdapterService
-} from './split-view-adapter.service';
+import { SkySplitViewAdapterService } from './split-view-adapter.service';
 
-import {
-  SkySplitViewMessage
-} from './types/split-view-message';
+import { SkySplitViewMessage } from './types/split-view-message';
 
-import {
-  SkySplitViewMessageType
-} from './types/split-view-message-type';
+import { SkySplitViewMessageType } from './types/split-view-message-type';
 
-import {
-  SkySplitViewDrawerComponent
-} from './split-view-drawer.component';
+import { SkySplitViewDrawerComponent } from './split-view-drawer.component';
 
-import {
-  SkySplitViewMediaQueryService
-} from './split-view-media-query.service';
+import { SkySplitViewMediaQueryService } from './split-view-media-query.service';
 
-import {
-  SkySplitViewService
-} from './split-view.service';
+import { SkySplitViewService } from './split-view.service';
 
 /**
  * Displays a list alongside a workspace where users can view details for selected items
@@ -65,30 +46,22 @@ import {
   providers: [
     SkySplitViewAdapterService,
     SkySplitViewMediaQueryService,
-    SkySplitViewService
+    SkySplitViewService,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
-    trigger(
-      'blockAnimationOnLoad', [
-      transition(':enter', [])
-    ]
-    ),
-    trigger(
-      'drawerEnter', [
+    trigger('blockAnimationOnLoad', [transition(':enter', [])]),
+    trigger('drawerEnter', [
       state('false', style({ transform: 'translate(-100%)' })),
-      transition('* => true', animate('150ms ease-in'))
+      transition('* => true', animate('150ms ease-in')),
     ]),
-    trigger(
-      'workspaceEnter', [
+    trigger('workspaceEnter', [
       state('false', style({ transform: 'translate(100%)' })),
-      transition('* => true', animate('150ms ease-in'))
-    ]
-    )
-  ]
+      transition('* => true', animate('150ms ease-in')),
+    ]),
+  ],
 })
 export class SkySplitViewComponent implements OnInit, OnDestroy {
-
   /**
    * Specifies a label for the button that appears in the workspace header in responsive mode.
    * The button returns users to the list.
@@ -114,7 +87,10 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
 
     if (bindToHeight) {
       this.bindHeightToWindowUnsubscribe = new Subject();
-      this.adapter.bindHeightToWindow(this.elementRef, this.bindHeightToWindowUnsubscribe);
+      this.adapter.bindHeightToWindow(
+        this.elementRef,
+        this.bindHeightToWindowUnsubscribe
+      );
     } else if (this.bindHeightToWindowUnsubscribe) {
       this.bindHeightToWindowUnsubscribe.next();
       this.bindHeightToWindowUnsubscribe.complete();
@@ -210,10 +186,15 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
   }
 
   private applyAutofocus(): void {
-    const applyAutoFocus = this.coreAdapterService.applyAutoFocus(this.elementRef);
+    const applyAutoFocus = this.coreAdapterService.applyAutoFocus(
+      this.elementRef
+    );
     /*istanbul ignore else*/
     if (!applyAutoFocus) {
-      this.coreAdapterService.getFocusableChildrenAndApplyFocus(this.elementRef, '.sky-split-view-workspace-content');
+      this.coreAdapterService.getFocusableChildrenAndApplyFocus(
+        this.elementRef,
+        '.sky-split-view-workspace-content'
+      );
     }
   }
 
@@ -225,11 +206,9 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
         // Otherwise, just set focus right away.
         if (!this.workspaceVisible) {
           this.drawerVisible = false;
-          this.animationComplete
-            .pipe(take(1))
-            .subscribe(() => {
-              this.applyAutofocus();
-            });
+          this.animationComplete.pipe(take(1)).subscribe(() => {
+            this.applyAutofocus();
+          });
         } else {
           this.applyAutofocus();
         }

@@ -12,11 +12,17 @@ import {
   SkyI18nModule,
   SkyLibResources,
   SkyLibResourcesProvider,
-  SKY_LIB_RESOURCES_PROVIDERS
+  SKY_LIB_RESOURCES_PROVIDERS,
 } from '@skyux/i18n';
 
 const RESOURCES: { [locale: string]: SkyLibResources } = {
-  'EN-US': {"skyux_split_view_resize_handle":{"message":"Resize the drawer panel. Use right arrow key to expand and left arrow key to shrink."},"skyux_split_view_back_to_list":{"message":"Back to list"}},
+  'EN-US': {
+    skyux_split_view_resize_handle: {
+      message:
+        'Resize the drawer panel. Use right arrow key to expand and left arrow key to shrink.',
+    },
+    skyux_split_view_back_to_list: { message: 'Back to list' },
+  },
 };
 
 export class SplitViewResourcesProvider implements SkyLibResourcesProvider {
@@ -30,10 +36,12 @@ export class SplitViewResourcesProvider implements SkyLibResourcesProvider {
  */
 @NgModule({
   exports: [SkyI18nModule],
-  providers: [{
-    provide: SKY_LIB_RESOURCES_PROVIDERS,
-    useClass: SplitViewResourcesProvider,
-    multi: true
-  }]
+  providers: [
+    {
+      provide: SKY_LIB_RESOURCES_PROVIDERS,
+      useClass: SplitViewResourcesProvider,
+      multi: true,
+    },
+  ],
 })
-export class SplitViewResourcesModule { }
+export class SplitViewResourcesModule {}

@@ -1,71 +1,42 @@
-import {
-  DebugElement,
-  Renderer2,
-  RendererFactory2
-} from '@angular/core';
+import { DebugElement, Renderer2, RendererFactory2 } from '@angular/core';
 
 import {
   ComponentFixture,
   fakeAsync,
   TestBed,
   tick,
-  waitForAsync
+  waitForAsync,
 } from '@angular/core/testing';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  NoopAnimationsModule
-} from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import {
-  expect,
-  expectAsync,
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  SkyMediaBreakpoints,
-  SkyMediaQueryService
-} from '@skyux/core';
+import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 
-import {
-  MockSkyMediaQueryService
-} from '@skyux/core/testing';
+import { MockSkyMediaQueryService } from '@skyux/core/testing';
 
 import {
   SkyTheme,
   SkyThemeMode,
   SkyThemeService,
   SkyThemeSettings,
-  SkyThemeSettingsChange
+  SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import {
-  BehaviorSubject
-} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
-import {
-  SplitViewFixturesModule
-} from './fixtures/split-view-fixtures.module';
+import { SplitViewFixturesModule } from './fixtures/split-view-fixtures.module';
 
-import {
-  SplitViewFixtureComponent
-} from './fixtures/split-view.fixture';
+import { SplitViewFixtureComponent } from './fixtures/split-view.fixture';
 
-import {
-  SkySplitViewDrawerComponent
-} from './split-view-drawer.component';
+import { SkySplitViewDrawerComponent } from './split-view-drawer.component';
 
-import {
-  SkySplitViewMessage
-} from './types/split-view-message';
+import { SkySplitViewMessage } from './types/split-view-message';
 
-import {
-  SkySplitViewMessageType
-} from './types/split-view-message-type';
+import { SkySplitViewMessageType } from './types/split-view-message-type';
 
 let mockQueryService: MockSkyMediaQueryService;
 
@@ -75,7 +46,9 @@ function getListPanel(): HTMLElement {
 }
 
 function listPanelHidden(): boolean {
-  const listPanel = document.querySelector('.sky-split-view-drawer-flex-container') as HTMLElement;
+  const listPanel = document.querySelector(
+    '.sky-split-view-drawer-flex-container'
+  ) as HTMLElement;
   return listPanel.hasAttribute('hidden');
 }
 
@@ -91,10 +64,29 @@ function getMaxWidth(): number {
   return window.innerWidth - 102; // Account for some padding.
 }
 
-function dispatchMouseEvent(eventType: string, clientXArg: number, fixture: ComponentFixture<any>): void {
+function dispatchMouseEvent(
+  eventType: string,
+  clientXArg: number,
+  fixture: ComponentFixture<any>
+): void {
   let evt = document.createEvent('MouseEvents');
-  evt.initMouseEvent(eventType, false, false, window, 0, 0, 0, clientXArg,
-    0, false, false, false, false, 0, undefined);
+  evt.initMouseEvent(
+    eventType,
+    false,
+    false,
+    window,
+    0,
+    0,
+    0,
+    clientXArg,
+    0,
+    false,
+    false,
+    false,
+    false,
+    0,
+    undefined
+  );
   document.dispatchEvent(evt);
   fixture.detectChanges();
 }
@@ -105,10 +97,10 @@ function resizeList(deltaX: number, fixture: ComponentFixture<any>): void {
   let axis = getElementCords(resizeHandle);
   let event = {
     target: resizeHandle.nativeElement,
-    'clientX': axis.x,
-    'clientY': axis.y,
-    'preventDefault': function () { },
-    'stopPropagation': function () { }
+    clientX: axis.x,
+    clientY: axis.y,
+    preventDefault: function () {},
+    stopPropagation: function () {},
   };
   resizeHandle.triggerEventHandler('mousedown', event);
   fixture.detectChanges();
@@ -124,10 +116,12 @@ function resizeList(deltaX: number, fixture: ComponentFixture<any>): void {
 }
 
 function getElementCords(elementRef: any): any {
-  const rect = (elementRef.nativeElement as HTMLElement).getBoundingClientRect();
+  const rect = (
+    elementRef.nativeElement as HTMLElement
+  ).getBoundingClientRect();
   const coords = {
-    x: Math.round(rect.left + (rect.width / 2)),
-    y: Math.round(rect.top + (rect.height / 2))
+    x: Math.round(rect.left + rect.width / 2),
+    y: Math.round(rect.top + rect.height / 2),
   };
 
   return coords;
@@ -147,11 +141,15 @@ function initiateResponsiveMode(fixture: ComponentFixture<any>): void {
 }
 
 function getBackToListButton(): HTMLElement {
-  return document.querySelector('.sky-split-view-workspace-header-content > button') as HTMLElement;
+  return document.querySelector(
+    '.sky-split-view-workspace-header-content > button'
+  ) as HTMLElement;
 }
 
 function getHeader(): HTMLElement {
-  return document.querySelector('.sky-split-view-workspace-header-content') as HTMLElement;
+  return document.querySelector(
+    '.sky-split-view-workspace-header-content'
+  ) as HTMLElement;
 }
 
 function isWithin(actual: number, base: number, distance: number): boolean {
@@ -165,39 +163,34 @@ describe('Split view component', () => {
   let minWidth = 100;
   let maxWidth: number;
   let mockThemeSvc: {
-    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
   let rendererFactory: RendererFactory2;
   let renderer: Renderer2;
 
   beforeEach(() => {
     mockThemeSvc = {
-      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
-        {
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.default,
-            SkyThemeMode.presets.light
-          ),
-          previousSettings: undefined
-        }
-      )
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.default,
+          SkyThemeMode.presets.light
+        ),
+        previousSettings: undefined,
+      }),
     };
 
     // replace the mock service before using in the test bed to avoid change detection errors
     mockQueryService = new MockSkyMediaQueryService();
 
     TestBed.configureTestingModule({
-      imports: [
-        NoopAnimationsModule,
-        SplitViewFixturesModule
-      ],
+      imports: [NoopAnimationsModule, SplitViewFixturesModule],
       providers: [
         { provide: SkyMediaQueryService, useValue: mockQueryService },
         {
           provide: SkyThemeService,
-          useValue: mockThemeSvc
-        }
-      ]
+          useValue: mockThemeSvc,
+        },
+      ],
     });
 
     rendererFactory = TestBed.inject(RendererFactory2);
@@ -208,8 +201,7 @@ describe('Split view component', () => {
   });
 
   describe('before properties initialize', () => {
-    beforeEach(() => {
-    });
+    beforeEach(() => {});
 
     it('should resize list panel when listPanelWidth input property has a numeric value', fakeAsync(() => {
       component.width = 500;
@@ -220,25 +212,26 @@ describe('Split view component', () => {
       expect(listPanelElement.style.width).toBe('500px');
     }));
 
-    it('should accept configuration options for aria-label',
-      fakeAsync(() => {
-        const expectedLabelForList = 'customlabelledby';
-        const expectedLabelForWorkspace = 'customlabelledby';
+    it('should accept configuration options for aria-label', fakeAsync(() => {
+      const expectedLabelForList = 'customlabelledby';
+      const expectedLabelForWorkspace = 'customlabelledby';
 
-        component.ariaLabelForDrawer = expectedLabelForList;
-        component.ariaLabelForWorkspace = expectedLabelForWorkspace;
+      component.ariaLabelForDrawer = expectedLabelForList;
+      component.ariaLabelForWorkspace = expectedLabelForWorkspace;
 
-        fixture.detectChanges();
-        tick();
+      fixture.detectChanges();
+      tick();
 
-        const list = getListPanel();
-        const workspace = getWorkspacePanel();
+      const list = getListPanel();
+      const workspace = getWorkspacePanel();
 
-        expect(list.getAttribute('aria-label')).toBe(expectedLabelForList);
-        expect(list.getAttribute('role')).toBe('region');
-        expect(workspace.getAttribute('aria-label')).toBe(expectedLabelForWorkspace);
-        expect(workspace.getAttribute('role')).toBe('region');
-      }));
+      expect(list.getAttribute('aria-label')).toBe(expectedLabelForList);
+      expect(list.getAttribute('role')).toBe('region');
+      expect(workspace.getAttribute('aria-label')).toBe(
+        expectedLabelForWorkspace
+      );
+      expect(workspace.getAttribute('role')).toBe('region');
+    }));
 
     it('should set iframe styles correctly during dragging', fakeAsync(() => {
       component.showIframe = true;
@@ -252,10 +245,10 @@ describe('Split view component', () => {
       let axis = getElementCords(resizeHandle);
       let event = {
         target: resizeHandle.nativeElement,
-        'clientX': axis.x,
-        'clientY': axis.y,
-        'preventDefault': function () { },
-        'stopPropagation': function () { }
+        clientX: axis.x,
+        clientY: axis.y,
+        preventDefault: function () {},
+        stopPropagation: function () {},
       };
       resizeHandle.triggerEventHandler('mousedown', event);
       fixture.detectChanges();
@@ -280,31 +273,58 @@ describe('Split view component', () => {
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
-      const splitViewElement: HTMLElement = document.querySelector('.sky-split-view');
+      const splitViewElement: HTMLElement =
+        document.querySelector('.sky-split-view');
       expect(component.splitViewComponent.bindHeightToWindow).toBeTruthy();
-      expect(rendererSpy).toHaveBeenCalledWith(splitViewElement, 'min-height', '300px');
-      expect(rendererSpy).toHaveBeenCalledWith(splitViewElement, 'max-height', 'calc(100vh - ' + splitViewElement.offsetTop + 'px - 0px)');
+      expect(rendererSpy).toHaveBeenCalledWith(
+        splitViewElement,
+        'min-height',
+        '300px'
+      );
+      expect(rendererSpy).toHaveBeenCalledWith(
+        splitViewElement,
+        'max-height',
+        'calc(100vh - ' + splitViewElement.offsetTop + 'px - 0px)'
+      );
     }));
 
     it('should not bind the split view hight when the `bindHeightToWindow` property is removed', fakeAsync(() => {
       component.bindHeightToWindow = true;
       let rendererSpySetStyle = spyOn(renderer, 'setStyle').and.callThrough();
-      let rendererSpyRemoveStyle = spyOn(renderer, 'removeStyle').and.callThrough();
+      let rendererSpyRemoveStyle = spyOn(
+        renderer,
+        'removeStyle'
+      ).and.callThrough();
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
       expect(component.splitViewComponent.bindHeightToWindow).toBeTruthy();
-      let splitViewElement: HTMLElement = document.querySelector('.sky-split-view');
-      expect(rendererSpySetStyle).toHaveBeenCalledWith(splitViewElement, 'min-height', '300px');
-      expect(rendererSpySetStyle).toHaveBeenCalledWith(splitViewElement, 'max-height', 'calc(100vh - ' + splitViewElement.offsetTop + 'px - 0px)');
+      let splitViewElement: HTMLElement =
+        document.querySelector('.sky-split-view');
+      expect(rendererSpySetStyle).toHaveBeenCalledWith(
+        splitViewElement,
+        'min-height',
+        '300px'
+      );
+      expect(rendererSpySetStyle).toHaveBeenCalledWith(
+        splitViewElement,
+        'max-height',
+        'calc(100vh - ' + splitViewElement.offsetTop + 'px - 0px)'
+      );
       component.bindHeightToWindow = false;
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
       expect(component.splitViewComponent.bindHeightToWindow).toBeFalsy();
       splitViewElement = document.querySelector('.sky-split-view');
-      expect(rendererSpyRemoveStyle).toHaveBeenCalledWith(splitViewElement, 'min-height');
-      expect(rendererSpyRemoveStyle).toHaveBeenCalledWith(splitViewElement, 'max-height');
+      expect(rendererSpyRemoveStyle).toHaveBeenCalledWith(
+        splitViewElement,
+        'min-height'
+      );
+      expect(rendererSpyRemoveStyle).toHaveBeenCalledWith(
+        splitViewElement,
+        'max-height'
+      );
     }));
 
     it('should bind the split view hight when the `bindHeightToWindow` property is set with an element above it', fakeAsync(() => {
@@ -315,9 +335,18 @@ describe('Split view component', () => {
       tick();
       fixture.detectChanges();
       expect(component.splitViewComponent.bindHeightToWindow).toBeTruthy();
-      const splitViewElement: HTMLElement = document.querySelector('.sky-split-view');
-      expect(rendererSpy).toHaveBeenCalledWith(splitViewElement, 'min-height', '300px');
-      expect(rendererSpy).toHaveBeenCalledWith(splitViewElement, 'max-height', 'calc(100vh - 100px - 0px)');
+      const splitViewElement: HTMLElement =
+        document.querySelector('.sky-split-view');
+      expect(rendererSpy).toHaveBeenCalledWith(
+        splitViewElement,
+        'min-height',
+        '300px'
+      );
+      expect(rendererSpy).toHaveBeenCalledWith(
+        splitViewElement,
+        'max-height',
+        'calc(100vh - 100px - 0px)'
+      );
     }));
 
     it('should bind the split view height when the `bindHeightToWindow` property is set with a body bottom margin', () => {
@@ -327,27 +356,40 @@ describe('Split view component', () => {
       expect(component.splitViewComponent.bindHeightToWindow).toBeTruthy();
     });
 
-    it(`should bind the split view hight when the 'bindHeightToWindow' property is set with a body
-    bottom margin and element above it`, waitForAsync(() => {
-      let rendererSpy = spyOn(renderer, 'setStyle').and.callThrough();
-      component.bindHeightToWindow = true;
-      component.lowerSplitView = true;
-      component.showActionBar = true;
-      fixture.detectChanges();
-      // Without the `setTimeout` the mutation observer isn't hit
-      setTimeout(() => {
+    it(
+      `should bind the split view hight when the 'bindHeightToWindow' property is set with a body
+    bottom margin and element above it`,
+      waitForAsync(() => {
+        let rendererSpy = spyOn(renderer, 'setStyle').and.callThrough();
+        component.bindHeightToWindow = true;
+        component.lowerSplitView = true;
+        component.showActionBar = true;
         fixture.detectChanges();
-        expect(component.splitViewComponent.bindHeightToWindow).toBeTruthy();
-        const splitViewElement: HTMLElement = document.querySelector('.sky-split-view');
-        const actionBar: HTMLElement = document.querySelector('.sky-summary-action-bar');
-        expect(rendererSpy).toHaveBeenCalledWith(splitViewElement, 'min-height', '300px');
-        expect(rendererSpy).toHaveBeenCalledWith(splitViewElement, 'max-height', 'calc(100vh - 100px - ' + actionBar.offsetHeight + 'px)');
-      }, 10);
-    }));
+        // Without the `setTimeout` the mutation observer isn't hit
+        setTimeout(() => {
+          fixture.detectChanges();
+          expect(component.splitViewComponent.bindHeightToWindow).toBeTruthy();
+          const splitViewElement: HTMLElement =
+            document.querySelector('.sky-split-view');
+          const actionBar: HTMLElement = document.querySelector(
+            '.sky-summary-action-bar'
+          );
+          expect(rendererSpy).toHaveBeenCalledWith(
+            splitViewElement,
+            'min-height',
+            '300px'
+          );
+          expect(rendererSpy).toHaveBeenCalledWith(
+            splitViewElement,
+            'max-height',
+            'calc(100vh - 100px - ' + actionBar.offsetHeight + 'px)'
+          );
+        }, 10);
+      })
+    );
   });
 
   describe('after properties initialize', () => {
-
     // Runs the initial getters. Make sure we always have a baseline of lg media breakpoint.
     beforeEach(fakeAsync(() => {
       mockQueryService.fire(SkyMediaBreakpoints.lg);
@@ -393,8 +435,14 @@ describe('Split view component', () => {
     }));
 
     it('should resize when handle is dragged', fakeAsync(() => {
-      const moveSpy = spyOn(SkySplitViewDrawerComponent.prototype, 'onMouseMove').and.callThrough();
-      const mouseUpSpy = spyOn(SkySplitViewDrawerComponent.prototype, 'onHandleRelease').and.callThrough();
+      const moveSpy = spyOn(
+        SkySplitViewDrawerComponent.prototype,
+        'onMouseMove'
+      ).and.callThrough();
+      const mouseUpSpy = spyOn(
+        SkySplitViewDrawerComponent.prototype,
+        'onHandleRelease'
+      ).and.callThrough();
       const listPanelElement = getListPanel();
       const resizeHandle = getResizeHandle(fixture).nativeElement;
 
@@ -417,15 +465,33 @@ describe('Split view component', () => {
     it('should not run any resizing logic when in responsive mode', fakeAsync(() => {
       const drawerComponent = component.splitViewComponent.drawerComponent;
       const moveSpy = spyOn(drawerComponent, 'onMouseMove').and.callThrough();
-      const mouseUpSpy = spyOn(drawerComponent, 'onHandleRelease').and.callThrough();
+      const mouseUpSpy = spyOn(
+        drawerComponent,
+        'onHandleRelease'
+      ).and.callThrough();
 
       // Window should fake a small size.
       spyOnProperty(window, 'innerWidth', 'get').and.returnValue(400);
 
       // Get split view component and fire a mouse down event.
       const mouseEvent = document.createEvent('MouseEvents');
-      mouseEvent.initMouseEvent('mousedown', false, false, window, 0, 0, 0, 12,
-        0, false, false, false, false, 0, undefined);
+      mouseEvent.initMouseEvent(
+        'mousedown',
+        false,
+        false,
+        window,
+        0,
+        0,
+        0,
+        12,
+        0,
+        false,
+        false,
+        false,
+        false,
+        0,
+        undefined
+      );
       drawerComponent.onResizeHandleMouseDown(mouseEvent);
       fixture.detectChanges();
       tick();
@@ -438,7 +504,10 @@ describe('Split view component', () => {
     it('should not resize on mousemove unless the resize handle was clicked', fakeAsync(() => {
       const drawerComponent = component.splitViewComponent.drawerComponent;
       const moveSpy = spyOn(drawerComponent, 'onMouseMove').and.callThrough();
-      const mouseUpSpy = spyOn(drawerComponent, 'onHandleRelease').and.callThrough();
+      const mouseUpSpy = spyOn(
+        drawerComponent,
+        'onHandleRelease'
+      ).and.callThrough();
       const listPanelElement = getListPanel();
       const resizeHandle = getResizeHandle(fixture).nativeElement;
 
@@ -458,7 +527,8 @@ describe('Split view component', () => {
 
     it('should resize list panel when range input is changed', fakeAsync(() => {
       const listPanelElement = getListPanel();
-      const resizeInput = getResizeHandle(fixture).nativeElement as HTMLInputElement;
+      const resizeInput = getResizeHandle(fixture)
+        .nativeElement as HTMLInputElement;
 
       resizeInput.value = '400';
       SkyAppTestUtility.fireDomEvent(resizeInput, 'input');
@@ -499,13 +569,20 @@ describe('Split view component', () => {
 
     it('should have correct aria-labels on resizing range input', fakeAsync(() => {
       const listPanelElement = getListPanel();
-      const resizeInput = getResizeHandle(fixture).nativeElement as HTMLInputElement;
+      const resizeInput = getResizeHandle(fixture)
+        .nativeElement as HTMLInputElement;
 
       expect(listPanelElement.style.width).toBe('320px');
-      expect(resizeInput.getAttribute('aria-controls')).toBe(listPanelElement.id);
+      expect(resizeInput.getAttribute('aria-controls')).toBe(
+        listPanelElement.id
+      );
       expect(resizeInput.getAttribute('aria-valuenow')).toBe('320');
-      expect(resizeInput.getAttribute('aria-valuemax')).toBe(maxWidth.toString());
-      expect(resizeInput.getAttribute('aria-valuemin')).toBe(minWidth.toString());
+      expect(resizeInput.getAttribute('aria-valuemax')).toBe(
+        maxWidth.toString()
+      );
+      expect(resizeInput.getAttribute('aria-valuemin')).toBe(
+        minWidth.toString()
+      );
       expect(resizeInput.getAttribute('max')).toBe(maxWidth.toString());
       expect(resizeInput.getAttribute('min')).toBe(minWidth.toString());
     }));
@@ -531,14 +608,16 @@ describe('Split view component', () => {
     it('should set focus in the workspace when messages are sent to the stream', fakeAsync(() => {
       // Send message to focus on workspace.
       const message: SkySplitViewMessage = {
-        type: SkySplitViewMessageType.FocusWorkspace
+        type: SkySplitViewMessageType.FocusWorkspace,
       };
       component.splitViewMessageStream.next(message);
       fixture.detectChanges();
       tick();
 
       // Expect first element in workspace to have focus.
-      const firstInputElement: HTMLElement = document.querySelector('#sky-test-first-input');
+      const firstInputElement: HTMLElement = document.querySelector(
+        '#sky-test-first-input'
+      );
       expect(getFocusedElement()).toEqual(firstInputElement);
     }));
 
@@ -552,14 +631,16 @@ describe('Split view component', () => {
 
       // Send message to show and focus on workspace.
       const message: SkySplitViewMessage = {
-        type: SkySplitViewMessageType.FocusWorkspace
+        type: SkySplitViewMessageType.FocusWorkspace,
       };
       component.splitViewMessageStream.next(message);
       fixture.detectChanges();
       tick();
 
       // Expect first element in workspace to have focus.
-      const firstInputElement: HTMLElement = document.querySelector('#sky-test-first-input');
+      const firstInputElement: HTMLElement = document.querySelector(
+        '#sky-test-first-input'
+      );
       expect(getFocusedElement()).toEqual(firstInputElement);
     }));
 
@@ -629,49 +710,82 @@ describe('Split view component', () => {
       expect(isWithin(listPanel.clientWidth, newWidth, 10)).toEqual(true);
     }));
 
-    it(`should bind the split view hight when the 'bindHeightToWindow' property is set after
-    initialization and update correctly`, waitForAsync(() => {
-      component.bindHeightToWindow = true;
-      let rendererSpy = spyOn(renderer, 'setStyle').and.callThrough();
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        fixture.detectChanges();
-        expect(component.splitViewComponent.bindHeightToWindow).toBeTruthy();
-        let splitViewElement: HTMLElement = document.querySelector('.sky-split-view');
-        expect(rendererSpy).toHaveBeenCalledWith(splitViewElement, 'min-height', '300px');
-        expect(rendererSpy).toHaveBeenCalledWith(splitViewElement, 'max-height', 'calc(100vh - 0px - 0px)');
-        rendererSpy.calls.reset();
-        component.showActionBar = true;
+    it(
+      `should bind the split view hight when the 'bindHeightToWindow' property is set after
+    initialization and update correctly`,
+      waitForAsync(() => {
+        component.bindHeightToWindow = true;
+        let rendererSpy = spyOn(renderer, 'setStyle').and.callThrough();
         fixture.detectChanges();
         fixture.whenStable().then(() => {
           fixture.detectChanges();
-          // Without the `setTimeout` the mutation observer isn't hit
-          setTimeout(() => {
+          expect(component.splitViewComponent.bindHeightToWindow).toBeTruthy();
+          let splitViewElement: HTMLElement =
+            document.querySelector('.sky-split-view');
+          expect(rendererSpy).toHaveBeenCalledWith(
+            splitViewElement,
+            'min-height',
+            '300px'
+          );
+          expect(rendererSpy).toHaveBeenCalledWith(
+            splitViewElement,
+            'max-height',
+            'calc(100vh - 0px - 0px)'
+          );
+          rendererSpy.calls.reset();
+          component.showActionBar = true;
+          fixture.detectChanges();
+          fixture.whenStable().then(() => {
             fixture.detectChanges();
-            splitViewElement = document.querySelector('.sky-split-view');
-            let actionBar: HTMLElement = document.querySelector('.sky-summary-action-bar');
+            // Without the `setTimeout` the mutation observer isn't hit
+            setTimeout(() => {
+              fixture.detectChanges();
+              splitViewElement = document.querySelector('.sky-split-view');
+              let actionBar: HTMLElement = document.querySelector(
+                '.sky-summary-action-bar'
+              );
 
-            expect(component.splitViewComponent.bindHeightToWindow).toBeTruthy();
-            expect(rendererSpy).toHaveBeenCalledWith(splitViewElement, 'min-height', '300px');
-            expect(rendererSpy)
-              .toHaveBeenCalledWith(splitViewElement, 'max-height', 'calc(100vh - 0px - ' + actionBar.offsetHeight + 'px)');
-            rendererSpy.calls.reset();
+              expect(
+                component.splitViewComponent.bindHeightToWindow
+              ).toBeTruthy();
+              expect(rendererSpy).toHaveBeenCalledWith(
+                splitViewElement,
+                'min-height',
+                '300px'
+              );
+              expect(rendererSpy).toHaveBeenCalledWith(
+                splitViewElement,
+                'max-height',
+                'calc(100vh - 0px - ' + actionBar.offsetHeight + 'px)'
+              );
+              rendererSpy.calls.reset();
 
-            component.lowerSplitView = true;
-            fixture.detectChanges();
+              component.lowerSplitView = true;
+              fixture.detectChanges();
 
-            // Fire a window resize to trigger a sizing update.
-            SkyAppTestUtility.fireDomEvent(window, 'resize');
-            fixture.detectChanges();
-            expect(component.splitViewComponent.bindHeightToWindow).toBeTruthy();
-            splitViewElement = document.querySelector('.sky-split-view');
-            actionBar = document.querySelector('.sky-summary-action-bar');
-            expect(rendererSpy).toHaveBeenCalledWith(splitViewElement, 'min-height', '300px');
-            expect(rendererSpy).toHaveBeenCalledWith(splitViewElement, 'max-height', 'calc(100vh - 100px - ' + actionBar.offsetHeight + 'px)');
-          }, 10);
+              // Fire a window resize to trigger a sizing update.
+              SkyAppTestUtility.fireDomEvent(window, 'resize');
+              fixture.detectChanges();
+              expect(
+                component.splitViewComponent.bindHeightToWindow
+              ).toBeTruthy();
+              splitViewElement = document.querySelector('.sky-split-view');
+              actionBar = document.querySelector('.sky-summary-action-bar');
+              expect(rendererSpy).toHaveBeenCalledWith(
+                splitViewElement,
+                'min-height',
+                '300px'
+              );
+              expect(rendererSpy).toHaveBeenCalledWith(
+                splitViewElement,
+                'max-height',
+                'calc(100vh - 100px - ' + actionBar.offsetHeight + 'px)'
+              );
+            }, 10);
+          });
         });
-      });
-    }));
+      })
+    );
 
     it('should pass accessibility', async () => {
       fixture.componentInstance.ariaLabelForDrawer = 'My drawer';
@@ -691,7 +805,7 @@ describe('Split view component', () => {
       Array.from(Array(70).keys()).forEach((i) => {
         component.items.push({
           id: `${component.items.length + 1}`,
-          name: `item ${component.items.length + 1}`
+          name: `item ${component.items.length + 1}`,
         });
         component.additionalItems.push(`additional item ${i + 1}`);
       });

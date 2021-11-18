@@ -1,5 +1,5 @@
-@import "~@skyux/theme/scss/mixins";
-@import "~@skyux/theme/scss/_compat/mixins";
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
 
 .sky-split-view {
   // Set position:relative to give resize handle's absolute positioning a new origin.
@@ -14,7 +14,6 @@
     flex-shrink: 99;
     overflow: auto;
   }
-
 }
 
 // Drawer should be full-width when in mobile view.
@@ -30,9 +29,7 @@
 }
 
 @include sky-theme-modern {
-
   .sky-split-view {
     border: none;
   }
-
 }

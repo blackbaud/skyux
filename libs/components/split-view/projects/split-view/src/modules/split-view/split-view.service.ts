@@ -1,27 +1,12 @@
-import {
-  Injectable,
-  ElementRef,
-  OnDestroy
-} from '@angular/core';
+import { Injectable, ElementRef, OnDestroy } from '@angular/core';
 
-import {
-  SkyMediaBreakpoints,
-  SkyMediaQueryService
-} from '@skyux/core';
+import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 
-import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
-import {
-  BehaviorSubject,
-  Observable,
-  Subscription
-} from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
-import {
-  take
-} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
 /**
  * Internal service for operations between the split view drawer and workspace.
@@ -29,7 +14,6 @@ import {
  */
 @Injectable()
 export class SkySplitViewService implements OnDestroy {
-
   public get backButtonTextStream(): Observable<string> {
     return this._backButtonTextStream;
   }
@@ -69,24 +53,29 @@ export class SkySplitViewService implements OnDestroy {
     private resources: SkyLibResourcesService
   ) {
     // Set default back button text.
-    this.resources.getString('skyux_split_view_back_to_list').pipe(take(1)).subscribe(resource => {
-      this.updateBackButtonText(resource);
-    });
+    this.resources
+      .getString('skyux_split_view_back_to_list')
+      .pipe(take(1))
+      .subscribe((resource) => {
+        this.updateBackButtonText(resource);
+      });
 
     // Set breakpoint.
-    this.mediaQueryServiceSubscription = this.mediaQueryService.subscribe(breakpoint => {
-      const nowMobile = breakpoint === SkyMediaBreakpoints.xs;
-      if (nowMobile && !this.isMobile) {
-        // switching to mobile
-        this._isMobileStream.next(true);
-        this.drawerVisible.next(false);
-      } else if (!nowMobile && this.isMobile) {
-        // switching to widescreen
-        this._isMobileStream.next(false);
-        this.drawerVisible.next(true);
+    this.mediaQueryServiceSubscription = this.mediaQueryService.subscribe(
+      (breakpoint) => {
+        const nowMobile = breakpoint === SkyMediaBreakpoints.xs;
+        if (nowMobile && !this.isMobile) {
+          // switching to mobile
+          this._isMobileStream.next(true);
+          this.drawerVisible.next(false);
+        } else if (!nowMobile && this.isMobile) {
+          // switching to widescreen
+          this._isMobileStream.next(false);
+          this.drawerVisible.next(true);
+        }
+        this.isMobile = nowMobile;
       }
-      this.isMobile = nowMobile;
-    });
+    );
   }
 
   public ngOnDestroy(): void {
@@ -104,5 +93,4 @@ export class SkySplitViewService implements OnDestroy {
   public updateDrawerWidth(drawerWidth: number): void {
     this._drawerWidthStream.next(drawerWidth);
   }
-
 }

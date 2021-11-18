@@ -1,21 +1,11 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  SkySplitViewModule
-} from '@skyux/split-view';
+import { SkySplitViewModule } from '@skyux/split-view';
 
-import {
-  SkyThemeService
-} from '@skyux/theme';
+import { SkyThemeService } from '@skyux/theme';
 
 @NgModule({
-  exports: [
-    SkySplitViewModule
-  ],
-  providers: [
-    SkyThemeService
-  ]
+  exports: [SkySplitViewModule],
+  providers: [SkyThemeService],
 })
-export class SkySplitViewTestingModule { }
+export class SkySplitViewTestingModule {}

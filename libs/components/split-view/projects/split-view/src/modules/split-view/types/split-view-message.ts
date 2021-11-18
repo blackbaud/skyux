@@ -1,6 +1,4 @@
-import {
-  SkySplitViewMessageType
-} from './split-view-message-type';
+import { SkySplitViewMessageType } from './split-view-message-type';
 
 export interface SkySplitViewMessage {
   /**

@@ -1,26 +1,14 @@
-import {
-  DebugElement
-} from '@angular/core';
+import { DebugElement } from '@angular/core';
 
-import {
-  ComponentFixture
-} from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  SkySplitViewFixtureDrawer
-} from './split-view-fixture-drawer';
+import { SkySplitViewFixtureDrawer } from './split-view-fixture-drawer';
 
-import {
-  SkySplitViewFixtureWorkspace
-} from './split-view-fixture-workspace';
+import { SkySplitViewFixtureWorkspace } from './split-view-fixture-workspace';
 
 /**
  * Provides information for and interaction with a SKY UX split view component.
@@ -39,7 +27,7 @@ export class SkySplitViewFixture {
     return {
       ariaLabel: drawer.getAttribute('aria-label'),
       isVisible: !this.drawerIsHidden(),
-      width: drawer.style.width
+      width: drawer.style.width,
     };
   }
 
@@ -55,15 +43,16 @@ export class SkySplitViewFixture {
       ariaLabel: workspace.getAttribute('aria-label'),
       backButtonIsVisible: !workspaceIsHidden && backButton !== undefined,
       backButtonText: SkyAppTestUtility.getText(backButton),
-      isVisible: !workspaceIsHidden
+      isVisible: !workspaceIsHidden,
     };
   }
 
-  constructor(
-    private fixture: ComponentFixture<any>,
-    skyTestId: string
-  ) {
-    this._debugEl = SkyAppTestUtility.getDebugElementByTestId(fixture, skyTestId, 'sky-split-view');
+  constructor(private fixture: ComponentFixture<any>, skyTestId: string) {
+    this._debugEl = SkyAppTestUtility.getDebugElementByTestId(
+      fixture,
+      skyTestId,
+      'sky-split-view'
+    );
 
     // the component takes a while to initialize so we need to wait
     this.waitForComponent();
@@ -96,7 +85,8 @@ export class SkySplitViewFixture {
   }
 
   private getWorkspace(): HTMLElement {
-    return this._debugEl.query(By.css('.sky-split-view-workspace')).nativeElement;
+    return this._debugEl.query(By.css('.sky-split-view-workspace'))
+      .nativeElement;
   }
 
   private workspaceIsHidden(): boolean {
