@@ -1,3 +1,7 @@
+# 5.36.0 (2021-11-18)
+
+- `@skyux/list-builder-common@5.0.1` [Release notes](https://github.com/blackbaud/skyux-list-builder-common/blob/5.0.1/CHANGELOG.md)
+
 # 5.35.0 (2021-11-18)
 
 - `@skyux/assets@5.0.1` [Release notes](https://github.com/blackbaud/skyux-assets/blob/5.0.1/CHANGELOG.md)
