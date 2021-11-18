@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { SkySummaryActionBarFixtureAction } from '../summary-action-bar-fixture-action';
 
 @Component({
-  selector: 'summary-action-bar',
+  selector: 'sky-summary-action-bar-test',
   templateUrl: './summary-action-bar-fixture-test.component.html',
 })
 export class SummaryActionBarTestComponent {
