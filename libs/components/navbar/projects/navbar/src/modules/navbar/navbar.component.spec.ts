@@ -1,21 +1,13 @@
-import {
-  TestBed
-} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {
-  SkyNavbarFixturesModule
-} from './fixtures/navbar-fixtures.module';
+import { SkyNavbarFixturesModule } from './fixtures/navbar-fixtures.module';
 
-import {
-  SkyNavbarTestComponent
-} from './fixtures/navbar.component.fixture';
+import { SkyNavbarTestComponent } from './fixtures/navbar.component.fixture';
 
 describe('Navbar component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyNavbarFixturesModule
-      ]
+      imports: [SkyNavbarFixturesModule],
     });
   });
 

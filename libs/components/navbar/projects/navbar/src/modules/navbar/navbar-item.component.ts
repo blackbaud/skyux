@@ -1,7 +1,4 @@
-import {
-  Component,
-  Input
-} from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 /**
  * Displays a navigation item in the navbar. It can include sub-navigation items in
@@ -10,7 +7,7 @@ import {
 @Component({
   selector: 'sky-navbar-item',
   templateUrl: './navbar-item.component.html',
-  styleUrls: ['./navbar-item.component.scss']
+  styleUrls: ['./navbar-item.component.scss'],
 })
 export class SkyNavbarItemComponent {
   /**

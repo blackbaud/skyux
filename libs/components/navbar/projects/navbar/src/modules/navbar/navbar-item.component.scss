@@ -1,4 +1,4 @@
-@import "scss/variables";
+@import 'scss/variables';
 
 .sky-navbar-item {
   display: block;
@@ -45,8 +45,7 @@
   ::ng-deep .sky-dropdown:hover .sky-dropdown-button,
   ::ng-deep .sky-navbar-item-active,
   &.sky-navbar-item-active ::ng-deep > *,
-  &.sky-navbar-item-active ::ng-deep .sky-dropdown-button
-  {
+  &.sky-navbar-item-active ::ng-deep .sky-dropdown-button {
     background-color: $sky-nav-selected-background-color;
     color: $sky-nav-selected-color;
     border-bottom: $sky-nav-selected-border-width solid #1c84c6;

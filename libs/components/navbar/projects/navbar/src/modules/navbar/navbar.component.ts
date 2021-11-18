@@ -1,6 +1,4 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * Displays top-level navigation.
@@ -8,6 +6,6 @@ import {
 @Component({
   selector: 'sky-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  styleUrls: ['./navbar.component.scss'],
 })
-export class SkyNavbarComponent { }
+export class SkyNavbarComponent {}
