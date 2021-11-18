@@ -1,3 +1,7 @@
+# 5.50.0 (2021-11-18)
+
+- `@skyux/flyout@5.0.2` [Release notes](https://github.com/blackbaud/skyux-flyout/blob/5.0.2/CHANGELOG.md)
+
 # 5.49.0 (2021-11-18)
 
 - `@skyux/toast@5.0.1` [Release notes](https://github.com/blackbaud/skyux-toast/blob/5.0.1/CHANGELOG.md)
