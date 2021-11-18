@@ -8,48 +8,28 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  TemplateRef
+  TemplateRef,
 } from '@angular/core';
 
-import {
-  SkyAppWindowRef
-} from '@skyux/core';
+import { SkyAppWindowRef } from '@skyux/core';
 
-import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
-import {
-  zip as observableZip
-} from 'rxjs';
+import { zip as observableZip } from 'rxjs';
 
-import {
-  take
-} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
-import {
-  skySlideDissolve
-} from './animations/slide-dissolve';
+import { skySlideDissolve } from './animations/slide-dissolve';
 
-import {
-  SkyInlineFormButtonConfig
-} from './types/inline-form-button-config';
+import { SkyInlineFormButtonConfig } from './types/inline-form-button-config';
 
-import {
-  SkyInlineFormButtonLayout
-} from './types/inline-form-button-layout';
+import { SkyInlineFormButtonLayout } from './types/inline-form-button-layout';
 
-import {
-  SkyInlineFormCloseArgs
-} from './types/inline-form-close-args';
+import { SkyInlineFormCloseArgs } from './types/inline-form-close-args';
 
-import {
-  SkyInlineFormConfig
-} from './types/inline-form-config';
+import { SkyInlineFormConfig } from './types/inline-form-config';
 
-import {
-  SkyInlineFormAdapterService
-} from './inline-form-adapter.service';
+import { SkyInlineFormAdapterService } from './inline-form-adapter.service';
 
 /**
  * Renders form content in the current view instead of a separate modal.
@@ -59,13 +39,10 @@ import {
   templateUrl: './inline-form.component.html',
   styleUrls: ['./inline-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    SkyInlineFormAdapterService
-  ],
-  animations: [ skySlideDissolve ]
+  providers: [SkyInlineFormAdapterService],
+  animations: [skySlideDissolve],
 })
 export class SkyInlineFormComponent implements OnInit, OnDestroy {
-
   /**
    * Specifies configuration options for the buttons to display with the inline form.
    * @required
@@ -116,6 +93,7 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
    * Fires when users close the inline form.
    */
   @Output()
+  // eslint-disable-next-line @angular-eslint/no-output-native
   public close = new EventEmitter<SkyInlineFormCloseArgs>();
 
   public buttons: SkyInlineFormButtonConfig[];
@@ -142,7 +120,7 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
 
   public closeInlineForm(event: SkyInlineFormButtonConfig): void {
     const args: SkyInlineFormCloseArgs = {
-      reason: event.action
+      reason: event.action,
     };
     this.close.emit(args);
   }
@@ -161,8 +139,9 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
   }
 
   private getPresetButtons(): Promise<SkyInlineFormButtonConfig[]> {
-    let buttonType =
-      this.config ? this.config.buttonLayout : SkyInlineFormButtonLayout.DoneCancel;
+    let buttonType = this.config
+      ? this.config.buttonLayout
+      : SkyInlineFormButtonLayout.DoneCancel;
 
     let promise: Promise<SkyInlineFormButtonConfig[]>;
 
@@ -176,20 +155,22 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
         )
           .pipe(take(1))
           .subscribe((values: any) => {
-            promise = new Promise<SkyInlineFormButtonConfig[]>((resolve: any) => {
-              resolve([
-                {
-                  text: values[0],
-                  styleType: 'primary',
-                  action: 'done'
-                },
-                {
-                  text: values[1],
-                  styleType: 'link',
-                  action: 'cancel'
-                }
-              ]);
-            });
+            promise = new Promise<SkyInlineFormButtonConfig[]>(
+              (resolve: any) => {
+                resolve([
+                  {
+                    text: values[0],
+                    styleType: 'primary',
+                    action: 'done',
+                  },
+                  {
+                    text: values[1],
+                    styleType: 'link',
+                    action: 'cancel',
+                  },
+                ]);
+              }
+            );
           });
         break;
 
@@ -200,20 +181,22 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
         )
           .pipe(take(1))
           .subscribe((values: any) => {
-            promise = new Promise<SkyInlineFormButtonConfig[]>((resolve: any) => {
-              resolve([
-                {
-                  text: values[0],
-                  styleType: 'primary',
-                  action: 'save'
-                },
-                {
-                  text: values[1],
-                  styleType: 'link',
-                  action: 'cancel'
-                }
-              ]);
-            });
+            promise = new Promise<SkyInlineFormButtonConfig[]>(
+              (resolve: any) => {
+                resolve([
+                  {
+                    text: values[0],
+                    styleType: 'primary',
+                    action: 'save',
+                  },
+                  {
+                    text: values[1],
+                    styleType: 'link',
+                    action: 'cancel',
+                  },
+                ]);
+              }
+            );
           });
         break;
 
@@ -225,25 +208,27 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
         )
           .pipe(take(1))
           .subscribe((values: any) => {
-            promise = new Promise<SkyInlineFormButtonConfig[]>((resolve: any) => {
-              resolve([
-                {
-                  text: values[0],
-                  styleType: 'primary',
-                  action: 'done'
-                },
-                {
-                  text: values[1],
-                  styleType: 'default',
-                  action: 'delete'
-                },
-                {
-                  text: values[2],
-                  styleType: 'link',
-                  action: 'cancel'
-                }
-              ]);
-            });
+            promise = new Promise<SkyInlineFormButtonConfig[]>(
+              (resolve: any) => {
+                resolve([
+                  {
+                    text: values[0],
+                    styleType: 'primary',
+                    action: 'done',
+                  },
+                  {
+                    text: values[1],
+                    styleType: 'default',
+                    action: 'delete',
+                  },
+                  {
+                    text: values[2],
+                    styleType: 'link',
+                    action: 'cancel',
+                  },
+                ]);
+              }
+            );
           });
         break;
 
@@ -255,33 +240,37 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
         )
           .pipe(take(1))
           .subscribe((values: any) => {
-            promise = new Promise<SkyInlineFormButtonConfig[]>((resolve: any) => {
-              resolve([
-              {
-                text: values[0],
-                styleType: 'primary',
-                action: 'save'
-              },
-              {
-                text: values[1],
-                styleType: 'default',
-                action: 'delete'
-              },
-              {
-                text: values[2],
-                styleType: 'link',
-                action: 'cancel'
+            promise = new Promise<SkyInlineFormButtonConfig[]>(
+              (resolve: any) => {
+                resolve([
+                  {
+                    text: values[0],
+                    styleType: 'primary',
+                    action: 'save',
+                  },
+                  {
+                    text: values[1],
+                    styleType: 'default',
+                    action: 'delete',
+                  },
+                  {
+                    text: values[2],
+                    styleType: 'link',
+                    action: 'cancel',
+                  },
+                ]);
               }
-            ]);
+            );
           });
-        });
-      break;
+        break;
     }
 
     return promise;
   }
 
-  private getCustomButtons(buttonConfigs: SkyInlineFormButtonConfig[]): SkyInlineFormButtonConfig[] {
+  private getCustomButtons(
+    buttonConfigs: SkyInlineFormButtonConfig[]
+  ): SkyInlineFormButtonConfig[] {
     const buttons: SkyInlineFormButtonConfig[] = [];
 
     buttonConfigs.forEach((config: SkyInlineFormButtonConfig) => {
@@ -292,7 +281,7 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
         action: config.action,
         disabled: config.disabled,
         styleType: styleType,
-        text: config.text
+        text: config.text,
       } as SkyInlineFormButtonConfig);
     });
 
@@ -306,5 +295,4 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
       config.buttons.length > 0
     );
   }
-
 }

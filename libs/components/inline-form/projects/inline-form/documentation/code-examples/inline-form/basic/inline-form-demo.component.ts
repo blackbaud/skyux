@@ -1,32 +1,24 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import {
   SkyInlineFormButtonLayout,
   SkyInlineFormCloseArgs,
-  SkyInlineFormConfig
+  SkyInlineFormConfig,
 } from 'projects/inline-form/src/public-api';
 
 @Component({
   selector: 'app-inline-form-demo',
-  templateUrl: './inline-form-demo.component.html'
+  templateUrl: './inline-form-demo.component.html',
 })
 export class InlineFormDemoComponent implements OnInit {
-
   public firstName: string = 'Jane';
 
   public myForm: FormGroup;
 
   public inlineFormConfig: SkyInlineFormConfig = {
-    buttonLayout: SkyInlineFormButtonLayout.SaveCancel
+    buttonLayout: SkyInlineFormButtonLayout.SaveCancel,
   };
 
   public showForm: boolean = false;
@@ -35,7 +27,7 @@ export class InlineFormDemoComponent implements OnInit {
 
   public ngOnInit(): void {
     this.myForm = this.formBuilder.group({
-      myFirstName: new FormControl()
+      myFirstName: new FormControl(),
     });
   }
 
@@ -46,15 +38,14 @@ export class InlineFormDemoComponent implements OnInit {
 
     this.showForm = false;
     this.myForm.patchValue({
-      myFirstName: undefined
+      myFirstName: undefined,
     });
   }
 
   public onInlineFormOpen(): void {
     this.showForm = true;
     this.myForm.patchValue({
-      myFirstName: this.firstName
+      myFirstName: this.firstName,
     });
   }
-
 }

@@ -1,38 +1,24 @@
-import {
-  DebugElement
-} from '@angular/core';
+import { DebugElement } from '@angular/core';
 
-import {
-  NoopAnimationsModule
-} from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import {
   async,
   ComponentFixture,
   TestBed,
   tick,
-  fakeAsync
+  fakeAsync,
 } from '@angular/core/testing';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  expect, expectAsync
-} from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import {
-  SkyInlineFormFixtureComponent
-} from './fixtures/inline-form.fixture';
+import { SkyInlineFormFixtureComponent } from './fixtures/inline-form.fixture';
 
-import {
-  SkyInlineFormFixtureModule
-} from './fixtures/inline-form.fixture.module';
+import { SkyInlineFormFixtureModule } from './fixtures/inline-form.fixture.module';
 
-import {
-  SkyInlineFormButtonLayout
-} from './types/inline-form-button-layout';
+import { SkyInlineFormButtonLayout } from './types/inline-form-button-layout';
 
 function getPrimaryButton(fixture: ComponentFixture<any>): DebugElement {
   return fixture.debugElement.query(
@@ -52,7 +38,10 @@ function getLinkButton(fixture: ComponentFixture<any>): DebugElement {
   );
 }
 
-function verifyDoneButtonisDefined(fixture: ComponentFixture<any>, isDefined: boolean): void {
+function verifyDoneButtonisDefined(
+  fixture: ComponentFixture<any>,
+  isDefined: boolean
+): void {
   const doneButton = getPrimaryButton(fixture);
   expect(doneButton).not.toBeNull();
 
@@ -63,7 +52,10 @@ function verifyDoneButtonisDefined(fixture: ComponentFixture<any>, isDefined: bo
   }
 }
 
-function verifySaveButtonisDefined(fixture: ComponentFixture<any>, isDefined: boolean): void {
+function verifySaveButtonisDefined(
+  fixture: ComponentFixture<any>,
+  isDefined: boolean
+): void {
   const saveButton = getPrimaryButton(fixture);
   expect(saveButton).not.toBeNull();
 
@@ -74,7 +66,10 @@ function verifySaveButtonisDefined(fixture: ComponentFixture<any>, isDefined: bo
   }
 }
 
-function verifyDeleteButtonIsDefined(fixture: ComponentFixture<SkyInlineFormFixtureComponent>, isDefined: boolean): void {
+function verifyDeleteButtonIsDefined(
+  fixture: ComponentFixture<SkyInlineFormFixtureComponent>,
+  isDefined: boolean
+): void {
   const deleteButton = getDefaultButton(fixture);
   if (isDefined) {
     expect(deleteButton).not.toBeNull();
@@ -84,7 +79,10 @@ function verifyDeleteButtonIsDefined(fixture: ComponentFixture<SkyInlineFormFixt
   }
 }
 
-function verifyCancelButtonIsDefined(fixture: ComponentFixture<SkyInlineFormFixtureComponent>, isDefined: boolean): void {
+function verifyCancelButtonIsDefined(
+  fixture: ComponentFixture<SkyInlineFormFixtureComponent>,
+  isDefined: boolean
+): void {
   const cancelButton = getLinkButton(fixture);
   if (isDefined) {
     expect(cancelButton).not.toBeNull();
@@ -96,7 +94,7 @@ function verifyCancelButtonIsDefined(fixture: ComponentFixture<SkyInlineFormFixt
 
 describe('Inline form component', () => {
   let component: SkyInlineFormFixtureComponent,
-  fixture: ComponentFixture<SkyInlineFormFixtureComponent>;
+    fixture: ComponentFixture<SkyInlineFormFixtureComponent>;
 
   function showForm() {
     component.showForm = true;
@@ -107,10 +105,7 @@ describe('Inline form component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        NoopAnimationsModule,
-        SkyInlineFormFixtureModule
-      ]
+      imports: [NoopAnimationsModule, SkyInlineFormFixtureModule],
     });
 
     fixture = TestBed.createComponent(SkyInlineFormFixtureComponent);
@@ -128,7 +123,7 @@ describe('Inline form component', () => {
 
   it('should show delete Done/Delete/Cancel buttons when SkyInlineFormConfig is defined', fakeAsync(() => {
     component.config = {
-      buttonLayout: SkyInlineFormButtonLayout.DoneDeleteCancel
+      buttonLayout: SkyInlineFormButtonLayout.DoneDeleteCancel,
     };
     showForm();
 
@@ -140,7 +135,7 @@ describe('Inline form component', () => {
 
   it('should show delete Save/Delete/Cancel buttons when SkyInlineFormConfig is defined', fakeAsync(() => {
     component.config = {
-      buttonLayout: SkyInlineFormButtonLayout.SaveDeleteCancel
+      buttonLayout: SkyInlineFormButtonLayout.SaveDeleteCancel,
     };
     showForm();
 
@@ -152,7 +147,7 @@ describe('Inline form component', () => {
 
   it('should show delete Save/Cancel buttons when SkyInlineFormConfig is defined', fakeAsync(() => {
     component.config = {
-      buttonLayout: SkyInlineFormButtonLayout.SaveCancel
+      buttonLayout: SkyInlineFormButtonLayout.SaveCancel,
     };
     showForm();
 
@@ -172,7 +167,7 @@ describe('Inline form component', () => {
     fixture.detectChanges();
 
     expect(spy).toHaveBeenCalledWith({
-      reason: 'done'
+      reason: 'done',
     });
   }));
 
@@ -186,13 +181,13 @@ describe('Inline form component', () => {
     fixture.detectChanges();
 
     expect(spy).toHaveBeenCalledWith({
-      reason: 'cancel'
+      reason: 'cancel',
     });
   }));
 
   it('should emit when delete button is clicked', fakeAsync(() => {
     component.config = {
-      buttonLayout: SkyInlineFormButtonLayout.SaveDeleteCancel
+      buttonLayout: SkyInlineFormButtonLayout.SaveDeleteCancel,
     };
     showForm();
 
@@ -203,13 +198,13 @@ describe('Inline form component', () => {
     fixture.detectChanges();
 
     expect(spy).toHaveBeenCalledWith({
-      reason: 'delete'
+      reason: 'delete',
     });
   }));
 
   it('should emit when save button is clicked', fakeAsync(() => {
     component.config = {
-      buttonLayout: SkyInlineFormButtonLayout.SaveCancel
+      buttonLayout: SkyInlineFormButtonLayout.SaveCancel,
     };
     showForm();
 
@@ -220,7 +215,7 @@ describe('Inline form component', () => {
     fixture.detectChanges();
 
     expect(spy).toHaveBeenCalledWith({
-      reason: 'save'
+      reason: 'save',
     });
   }));
 
@@ -228,10 +223,18 @@ describe('Inline form component', () => {
     component.config = {
       buttonLayout: SkyInlineFormButtonLayout.Custom,
       buttons: [
-        { action: 'CUSTOM_ACTION_1', text: 'CUSTOM_TEXT_1', styleType: 'primary' },
-        { action: 'CUSTOM_ACTION_2', text: 'CUSTOM_TEXT_2', styleType: 'default' },
-        { action: 'CUSTOM_ACTION_3', text: 'CUSTOM_TEXT_3', styleType: 'link' }
-      ]
+        {
+          action: 'CUSTOM_ACTION_1',
+          text: 'CUSTOM_TEXT_1',
+          styleType: 'primary',
+        },
+        {
+          action: 'CUSTOM_ACTION_2',
+          text: 'CUSTOM_TEXT_2',
+          styleType: 'default',
+        },
+        { action: 'CUSTOM_ACTION_3', text: 'CUSTOM_TEXT_3', styleType: 'link' },
+      ],
     };
     showForm();
 
@@ -248,7 +251,7 @@ describe('Inline form component', () => {
     expect(button2.nativeElement.textContent).toContain('CUSTOM_TEXT_2');
     expect(button3.nativeElement.textContent).toContain('CUSTOM_TEXT_3');
     expect(spy).toHaveBeenCalledWith({
-      reason: 'CUSTOM_ACTION_1'
+      reason: 'CUSTOM_ACTION_1',
     });
   }));
 
@@ -257,7 +260,9 @@ describe('Inline form component', () => {
     showForm();
 
     fixture.whenStable().then(() => {
-      expect(document.activeElement).toEqual(document.querySelector('#demo-input-3'));
+      expect(document.activeElement).toEqual(
+        document.querySelector('#demo-input-3')
+      );
     });
   }));
 
@@ -266,7 +271,9 @@ describe('Inline form component', () => {
     showForm();
 
     fixture.whenStable().then(() => {
-      expect(document.activeElement).toEqual(document.querySelector('#demo-input-6'));
+      expect(document.activeElement).toEqual(
+        document.querySelector('#demo-input-6')
+      );
     });
   }));
 
@@ -275,7 +282,9 @@ describe('Inline form component', () => {
     showForm();
 
     fixture.whenStable().then(() => {
-      expect(document.activeElement).toEqual(document.querySelector('#demo-input-8'));
+      expect(document.activeElement).toEqual(
+        document.querySelector('#demo-input-8')
+      );
     });
   }));
 
@@ -284,7 +293,9 @@ describe('Inline form component', () => {
     showForm();
 
     fixture.whenStable().then(() => {
-      expect(document.activeElement).toEqual(document.querySelector('#demo-input-1'));
+      expect(document.activeElement).toEqual(
+        document.querySelector('#demo-input-1')
+      );
     });
   }));
 
@@ -292,19 +303,35 @@ describe('Inline form component', () => {
     component.config = {
       buttonLayout: SkyInlineFormButtonLayout.Custom,
       buttons: [
-        { action: 'CUSTOM_ACTION_1', text: 'CUSTOM_TEXT_1', styleType: 'primary' },
-        { action: 'CUSTOM_ACTION_2', text: 'CUSTOM_TEXT_2', styleType: 'default' },
-        { action: 'CUSTOM_ACTION_3', text: 'CUSTOM_TEXT_3', styleType: 'link' }
-      ]
+        {
+          action: 'CUSTOM_ACTION_1',
+          text: 'CUSTOM_TEXT_1',
+          styleType: 'primary',
+        },
+        {
+          action: 'CUSTOM_ACTION_2',
+          text: 'CUSTOM_TEXT_2',
+          styleType: 'default',
+        },
+        { action: 'CUSTOM_ACTION_3', text: 'CUSTOM_TEXT_3', styleType: 'link' },
+      ],
     };
     showForm();
 
     component.config = {
       buttonLayout: SkyInlineFormButtonLayout.Custom,
       buttons: [
-        { action: 'CUSTOM_ACTION_1', text: 'CUSTOM_TEXT_CHANGED_1', styleType: 'primary' },
-        { action: 'CUSTOM_ACTION_2', text: 'CUSTOM_TEXT_CHANGED_2', styleType: 'default' }
-      ]
+        {
+          action: 'CUSTOM_ACTION_1',
+          text: 'CUSTOM_TEXT_CHANGED_1',
+          styleType: 'primary',
+        },
+        {
+          action: 'CUSTOM_ACTION_2',
+          text: 'CUSTOM_TEXT_CHANGED_2',
+          styleType: 'default',
+        },
+      ],
     };
 
     fixture.detectChanges();
@@ -313,8 +340,12 @@ describe('Inline form component', () => {
     const button2 = getDefaultButton(fixture);
     const button3 = getLinkButton(fixture);
 
-    expect(button1.nativeElement.textContent).toContain('CUSTOM_TEXT_CHANGED_1');
-    expect(button2.nativeElement.textContent).toContain('CUSTOM_TEXT_CHANGED_2');
+    expect(button1.nativeElement.textContent).toContain(
+      'CUSTOM_TEXT_CHANGED_1'
+    );
+    expect(button2.nativeElement.textContent).toContain(
+      'CUSTOM_TEXT_CHANGED_2'
+    );
     expect(button3).toBeNull();
   }));
 
@@ -322,9 +353,17 @@ describe('Inline form component', () => {
     component.config = {
       buttonLayout: SkyInlineFormButtonLayout.Custom,
       buttons: [
-        { action: 'CUSTOM_ACTION_1', text: 'CUSTOM_TEXT_1', styleType: 'primary' },
-        { action: 'CUSTOM_ACTION_2', text: 'CUSTOM_TEXT_2', styleType: 'default' }
-      ]
+        {
+          action: 'CUSTOM_ACTION_1',
+          text: 'CUSTOM_TEXT_1',
+          styleType: 'primary',
+        },
+        {
+          action: 'CUSTOM_ACTION_2',
+          text: 'CUSTOM_TEXT_2',
+          styleType: 'default',
+        },
+      ],
     };
     showForm();
     let button1 = getPrimaryButton(fixture).nativeElement;
@@ -338,9 +377,18 @@ describe('Inline form component', () => {
     component.config = {
       buttonLayout: SkyInlineFormButtonLayout.Custom,
       buttons: [
-        { action: 'CUSTOM_ACTION_1', text: 'CUSTOM_TEXT_1', styleType: 'primary', disabled: true },
-        { action: 'CUSTOM_ACTION_2', text: 'CUSTOM_TEXT_2', styleType: 'default' }
-      ]
+        {
+          action: 'CUSTOM_ACTION_1',
+          text: 'CUSTOM_TEXT_1',
+          styleType: 'primary',
+          disabled: true,
+        },
+        {
+          action: 'CUSTOM_ACTION_2',
+          text: 'CUSTOM_TEXT_2',
+          styleType: 'default',
+        },
+      ],
     };
     fixture.detectChanges();
     button1 = getPrimaryButton(fixture).nativeElement;
@@ -356,7 +404,7 @@ describe('Inline form component', () => {
     component.showForm = true;
     fixture.detectChanges();
 
-    await fixture.whenStable()
+    await fixture.whenStable();
     fixture.detectChanges();
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });

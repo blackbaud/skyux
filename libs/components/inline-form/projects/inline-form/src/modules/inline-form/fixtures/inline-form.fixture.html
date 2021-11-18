@@ -10,35 +10,18 @@
 
 <ng-template #myForm>
   <div class="sky-form-group">
-    <label
-      class="sky-control-label"
-      for="demo-input-1"
-    >
-      Something
-    </label>
-    <input
-      id="demo-input-1"
-      class="sky-form-control"
-      type="text"
-    />
+    <label class="sky-control-label" for="demo-input-1"> Something </label>
+    <input id="demo-input-1" class="sky-form-control" type="text" />
   </div>
   <div class="sky-form-group">
-    <label
-      class="sky-control-label"
-      for="demo-input-2"
-    >
-      Something else
-    </label>
-    <input
-      id="demo-input-2"
-      class="sky-form-control"
-      type="text"
-    />
+    <label class="sky-control-label" for="demo-input-2"> Something else </label>
+    <input id="demo-input-2" class="sky-form-control" type="text" />
   </div>
 </ng-template>
 
 <!-- The following forms are for testing autocomplete behavior on init. -->
-<sky-inline-form *ngIf="showFormWithOutAutocomplete"
+<sky-inline-form
+  *ngIf="showFormWithOutAutocomplete"
   [config]="config"
   [showForm]="showForm"
   [template]="formWithOutAutocomplete"
@@ -50,34 +33,17 @@
 
 <ng-template #formWithOutAutocomplete>
   <div class="sky-form-group">
-    <label
-      class="sky-control-label"
-      for="demo-input-3"
-    >
-      Something
-    </label>
-    <input
-      id="demo-input-3"
-      class="sky-form-control"
-      type="text"
-    />
+    <label class="sky-control-label" for="demo-input-3"> Something </label>
+    <input id="demo-input-3" class="sky-form-control" type="text" />
   </div>
   <div class="sky-form-group">
-    <label
-      class="sky-control-label"
-      for="demo-input-4"
-    >
-      Something else
-    </label>
-    <input
-      id="demo-input-4"
-      class="sky-form-control"
-      type="text"
-    />
+    <label class="sky-control-label" for="demo-input-4"> Something else </label>
+    <input id="demo-input-4" class="sky-form-control" type="text" />
   </div>
 </ng-template>
 
-<sky-inline-form *ngIf="showFormWithAutocomplete"
+<sky-inline-form
+  *ngIf="showFormWithAutocomplete"
   [config]="config"
   [showForm]="showForm"
   [template]="formWithAutocomplete"
@@ -88,35 +54,17 @@
 </sky-inline-form>
 <ng-template #formWithAutocomplete>
   <div class="sky-form-group">
-    <label
-      class="sky-control-label"
-      for="demo-input-5"
-    >
-      Something
-    </label>
-    <input
-      id="demo-input-5"
-      class="sky-form-control"
-      type="text"
-    />
+    <label class="sky-control-label" for="demo-input-5"> Something </label>
+    <input id="demo-input-5" class="sky-form-control" type="text" />
   </div>
   <div class="sky-form-group">
-    <label
-      class="sky-control-label"
-      for="demo-input-6"
-    >
-      Something else
-    </label>
-    <input
-      autofocus
-      id="demo-input-6"
-      class="sky-form-control"
-      type="text"
-    />
+    <label class="sky-control-label" for="demo-input-6"> Something else </label>
+    <input autofocus id="demo-input-6" class="sky-form-control" type="text" />
   </div>
 </ng-template>
 
-<sky-inline-form *ngIf="showFormWithHiddenElements"
+<sky-inline-form
+  *ngIf="showFormWithHiddenElements"
   [config]="config"
   [showForm]="showForm"
   [template]="formWithHiddenElements"
@@ -125,35 +73,22 @@
 </sky-inline-form>
 <ng-template #formWithHiddenElements>
   <div class="sky-form-group">
-    <label
-      class="sky-control-label"
-      for="demo-input-5"
-    >
-      Something
-    </label>
+    <label class="sky-control-label" for="demo-input-5"> Something </label>
     <input
       id="demo-input-7"
       class="sky-form-control"
       type="text"
-      style="display:none;"
+      style="display: none"
     />
   </div>
   <div class="sky-form-group">
-    <label
-      class="sky-control-label"
-      for="demo-input-6"
-    >
-      Something else
-    </label>
-    <input
-      id="demo-input-8"
-      class="sky-form-control"
-      type="text"
-    />
+    <label class="sky-control-label" for="demo-input-6"> Something else </label>
+    <input id="demo-input-8" class="sky-form-control" type="text" />
   </div>
 </ng-template>
 
-<sky-inline-form *ngIf="showFormWithNoElements"
+<sky-inline-form
+  *ngIf="showFormWithNoElements"
   [config]="config"
   [showForm]="showForm"
   [template]="formWithNoElements"
@@ -164,4 +99,3 @@
 <ng-template #formWithNoElements>
   <p>This form is empty!</p>
 </ng-template>
-

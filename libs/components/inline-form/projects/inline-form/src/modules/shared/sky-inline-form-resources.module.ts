@@ -12,11 +12,16 @@ import {
   SkyI18nModule,
   SkyLibResources,
   SkyLibResourcesProvider,
-  SKY_LIB_RESOURCES_PROVIDERS
+  SKY_LIB_RESOURCES_PROVIDERS,
 } from '@skyux/i18n';
 
 const RESOURCES: { [locale: string]: SkyLibResources } = {
-  'EN-US': {"skyux_inline_form_button_cancel":{"message":"Cancel"},"skyux_inline_form_button_delete":{"message":"Delete"},"skyux_inline_form_button_done":{"message":"Done"},"skyux_inline_form_button_save":{"message":"Save"}},
+  'EN-US': {
+    skyux_inline_form_button_cancel: { message: 'Cancel' },
+    skyux_inline_form_button_delete: { message: 'Delete' },
+    skyux_inline_form_button_done: { message: 'Done' },
+    skyux_inline_form_button_save: { message: 'Save' },
+  },
 };
 
 export class SkyInlineFormResourcesProvider implements SkyLibResourcesProvider {
@@ -30,10 +35,12 @@ export class SkyInlineFormResourcesProvider implements SkyLibResourcesProvider {
  */
 @NgModule({
   exports: [SkyI18nModule],
-  providers: [{
-    provide: SKY_LIB_RESOURCES_PROVIDERS,
-    useClass: SkyInlineFormResourcesProvider,
-    multi: true
-  }]
+  providers: [
+    {
+      provide: SKY_LIB_RESOURCES_PROVIDERS,
+      useClass: SkyInlineFormResourcesProvider,
+      multi: true,
+    },
+  ],
 })
-export class SkyInlineFormResourcesModule { }
+export class SkyInlineFormResourcesModule {}

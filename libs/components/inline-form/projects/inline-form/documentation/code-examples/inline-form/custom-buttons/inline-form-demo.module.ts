@@ -1,34 +1,18 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  ReactiveFormsModule
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import {
-  SkyIdModule
-} from '@skyux/core';
+import { SkyIdModule } from '@skyux/core';
 
-import {
-  SkyInputBoxModule
-} from '@skyux/forms';
+import { SkyInputBoxModule } from '@skyux/forms';
 
-import {
-  SkyIconModule
-} from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/indicators';
 
-import {
-  SkyInlineFormModule
-} from 'projects/inline-form/src/public-api';
+import { SkyInlineFormModule } from 'projects/inline-form/src/public-api';
 
-import {
-  InlineFormDemoComponent
-} from './inline-form-demo.component';
+import { InlineFormDemoComponent } from './inline-form-demo.component';
 
 @NgModule({
   imports: [
@@ -37,13 +21,9 @@ import {
     SkyIconModule,
     SkyIdModule,
     SkyInlineFormModule,
-    SkyInputBoxModule
+    SkyInputBoxModule,
   ],
-  exports: [
-    InlineFormDemoComponent
-  ],
-  declarations: [
-    InlineFormDemoComponent
-  ]
+  exports: [InlineFormDemoComponent],
+  declarations: [InlineFormDemoComponent],
 })
-export class InlineFormDemoModule { }
+export class InlineFormDemoModule {}

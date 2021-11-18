@@ -2,7 +2,6 @@
  * Specifies configuration options for the inline form's buttons.
  */
 export interface SkyInlineFormButtonConfig {
-
   /**
    * Specifies the action that the button performs.
    * The valid options are `cancel`, `delete`, `done`, and `save`.

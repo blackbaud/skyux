@@ -1,8 +1,4 @@
 /**
  * @internal
  */
-export type SkyInlineFormButtonAction =
-    'done'
-  | 'save'
-  | 'delete'
-  | 'cancel';
+export type SkyInlineFormButtonAction = 'done' | 'save' | 'delete' | 'cancel';

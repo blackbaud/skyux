@@ -1,10 +1,6 @@
-import {
-  SkyInlineFormButtonConfig
-} from './inline-form-button-config';
+import { SkyInlineFormButtonConfig } from './inline-form-button-config';
 
-import {
-  SkyInlineFormButtonLayout
-} from './inline-form-button-layout';
+import { SkyInlineFormButtonLayout } from './inline-form-button-layout';
 
 /**
  * Specifies configuration options for the buttons to display with the inline form.

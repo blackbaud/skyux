@@ -6,9 +6,7 @@
 >
   <table>
     <tr>
-      <th>
-        First name:
-      </th>
+      <th>First name:</th>
       <td>
         {{ firstName }}
       </td>
@@ -18,25 +16,16 @@
           class="sky-btn sky-btn-link sky-demo-btn-edit"
           (click)="onInlineFormOpen()"
         >
-          <sky-icon
-            icon="pencil"
-          ></sky-icon>
+          <sky-icon icon="pencil"></sky-icon>
         </button>
       </td>
     </tr>
   </table>
 </sky-inline-form>
 
-<ng-template
-  #inlineFormTemplate
->
-  <form
-    novalidate
-    [formGroup]="myForm"
-  >
-    <div
-      class="sky-form-group"
-    >
+<ng-template #inlineFormTemplate>
+  <form novalidate [formGroup]="myForm">
+    <div class="sky-form-group">
       <sky-input-box>
         <label
           class="sky-control-label sky-control-label-required"

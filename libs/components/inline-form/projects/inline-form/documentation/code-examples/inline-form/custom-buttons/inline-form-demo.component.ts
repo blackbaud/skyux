@@ -1,26 +1,18 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import {
   SkyInlineFormButtonLayout,
   SkyInlineFormCloseArgs,
-  SkyInlineFormConfig
+  SkyInlineFormConfig,
 } from 'projects/inline-form/src/public-api';
 
 @Component({
   selector: 'app-inline-form-demo',
-  templateUrl: './inline-form-demo.component.html'
+  templateUrl: './inline-form-demo.component.html',
 })
 export class InlineFormDemoComponent implements OnInit {
-
   public firstName: string = 'Jane';
 
   public myForm: FormGroup;
@@ -31,24 +23,24 @@ export class InlineFormDemoComponent implements OnInit {
       {
         action: 'save',
         text: 'Save',
-        styleType: 'primary'
+        styleType: 'primary',
       },
       {
         action: 'delete',
         text: 'Delete',
-        styleType: 'default'
+        styleType: 'default',
       },
       {
         action: 'reset',
         text: 'Reset',
-        styleType: 'default'
+        styleType: 'default',
       },
       {
         action: 'cancel',
         text: 'Cancel',
-        styleType: 'link'
-      }
-    ]
+        styleType: 'link',
+      },
+    ],
   };
 
   public showForm: boolean = false;
@@ -57,13 +49,13 @@ export class InlineFormDemoComponent implements OnInit {
 
   public ngOnInit(): void {
     this.myForm = this.formBuilder.group({
-      myFirstName: new FormControl()
+      myFirstName: new FormControl(),
     });
 
     this.myForm.valueChanges.subscribe(() => {
       if (this.inlineFormConfig.buttons[0].disabled !== this.myForm.invalid) {
         this.inlineFormConfig.buttons[0].disabled = this.myForm.invalid;
-        this.inlineFormConfig = {...{ }, ...this.inlineFormConfig};
+        this.inlineFormConfig = { ...{}, ...this.inlineFormConfig };
       }
     });
   }
@@ -75,15 +67,14 @@ export class InlineFormDemoComponent implements OnInit {
 
     this.showForm = false;
     this.myForm.patchValue({
-      myFirstName: undefined
+      myFirstName: undefined,
     });
   }
 
   public onInlineFormOpen(): void {
     this.showForm = true;
     this.myForm.patchValue({
-      myFirstName: this.firstName
+      myFirstName: this.firstName,
     });
   }
-
 }

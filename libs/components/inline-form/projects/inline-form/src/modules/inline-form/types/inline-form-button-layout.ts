@@ -3,5 +3,5 @@ export enum SkyInlineFormButtonLayout {
   DoneCancel = 1,
   DoneDeleteCancel = 2,
   SaveCancel = 3,
-  SaveDeleteCancel = 4
+  SaveDeleteCancel = 4,
 }
