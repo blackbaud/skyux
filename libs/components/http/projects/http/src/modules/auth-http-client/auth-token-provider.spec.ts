@@ -1,44 +1,38 @@
 //#region imports
 
-import {
-  BBAuthClientFactory
-} from '@skyux/auth-client-factory';
+import { BBAuthClientFactory } from '@skyux/auth-client-factory';
 
-import {
-  SkyAuthToken
-} from './auth-token';
+import { SkyAuthToken } from './auth-token';
 
-import {
-  SkyAuthTokenProvider
-} from './auth-token-provider';
+import { SkyAuthTokenProvider } from './auth-token-provider';
 
 //#endregion
 
 describe('Auth token provider', () => {
-
   let testToken: string;
 
   let testDecodedToken: SkyAuthToken;
 
   beforeEach(() => {
-    testToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9' +
-      '.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZ2l2ZW5fbmFtZSI6IkpvaG4iLCJmYW1pbHl' + 'fbmFtZSI6IkRvZSIsImlhdCI6MTUxNjIzOTAyMn0' +
+    testToken =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9' +
+      '.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZ2l2ZW5fbmFtZSI6IkpvaG4iLCJmYW1pbHl' +
+      'fbmFtZSI6IkRvZSIsImlhdCI6MTUxNjIzOTAyMn0' +
       '.M44YpCNOgfbfofdWeIGLHoMwmeKAEibhDIcDCgRM5Nc';
 
     testDecodedToken = {
       sub: '1234567890',
       given_name: 'John',
       family_name: 'Doe',
-      iat: 1516239022
+      iat: 1516239022,
     };
   });
 
   describe('getToken() method', () => {
-
     it('should call BBAuth.getToken and add return its promise', (done) => {
-      spyOn(BBAuthClientFactory.BBAuth, 'getToken')
-        .and
-        .returnValue(Promise.resolve(testToken));
+      spyOn(BBAuthClientFactory.BBAuth, 'getToken').and.returnValue(
+        Promise.resolve(testToken)
+      );
 
       const provider = new SkyAuthTokenProvider();
 
@@ -47,15 +41,13 @@ describe('Auth token provider', () => {
         done();
       });
     });
-
   });
 
   describe('getDecodedToken() method', () => {
-
     it('should return a decoded token', (done) => {
-      spyOn(BBAuthClientFactory.BBAuth, 'getToken')
-        .and
-        .returnValue(Promise.resolve(testToken));
+      spyOn(BBAuthClientFactory.BBAuth, 'getToken').and.returnValue(
+        Promise.resolve(testToken)
+      );
 
       const provider = new SkyAuthTokenProvider();
 
@@ -65,12 +57,10 @@ describe('Auth token provider', () => {
         done();
       });
     });
-
   });
 
   describe('getContextToken() method', () => {
-
-    it('should call BBAuth.getToken() with the SPA\'s context parameters', () => {
+    it("should call BBAuth.getToken() with the SPA's context parameters", () => {
       const getTokenSpy = spyOn(BBAuthClientFactory.BBAuth, 'getToken');
 
       let provider = new SkyAuthTokenProvider({
@@ -83,15 +73,15 @@ describe('Auth token provider', () => {
                 default:
                   return undefined;
               }
-            }
-          }
-        }
+            },
+          },
+        },
       } as any);
 
       provider.getContextToken();
 
       expect(getTokenSpy).toHaveBeenCalledWith({
-        envId: 'test-envid'
+        envId: 'test-envid',
       });
 
       provider = new SkyAuthTokenProvider({
@@ -104,15 +94,15 @@ describe('Auth token provider', () => {
                 default:
                   return undefined;
               }
-            }
-          }
-        }
+            },
+          },
+        },
       } as any);
 
       provider.getContextToken();
 
       expect(getTokenSpy).toHaveBeenCalledWith({
-        leId: 'test-leid'
+        leId: 'test-leid',
       });
     });
 
@@ -132,36 +122,38 @@ describe('Auth token provider', () => {
       const provider = new SkyAuthTokenProvider();
 
       provider.getContextToken({
-        permissionScope: 'abc'
+        permissionScope: 'abc',
       });
 
       expect(getTokenSpy).toHaveBeenCalledWith({
-        permissionScope: 'abc'
+        permissionScope: 'abc',
       });
     });
-
   });
 
   describe('getDecodedContextToken() method', () => {
     let testParams: any;
 
     function validate(provider: SkyAuthTokenProvider, done: DoneFn): void {
-      const getTokenSpy = spyOn(BBAuthClientFactory.BBAuth, 'getToken')
-        .and
-        .returnValue(Promise.resolve(testToken));
+      const getTokenSpy = spyOn(
+        BBAuthClientFactory.BBAuth,
+        'getToken'
+      ).and.returnValue(Promise.resolve(testToken));
 
-      provider.getDecodedContextToken({
-        permissionScope: 'xyz'
-      }).then((token) => {
-        expect(getTokenSpy).toHaveBeenCalledWith({
-          leId: 'test-leid',
-          permissionScope: 'xyz'
+      provider
+        .getDecodedContextToken({
+          permissionScope: 'xyz',
+        })
+        .then((token) => {
+          expect(getTokenSpy).toHaveBeenCalledWith({
+            leId: 'test-leid',
+            permissionScope: 'xyz',
+          });
+
+          expect(token).toEqual(testDecodedToken);
+
+          done();
         });
-
-        expect(token).toEqual(testDecodedToken);
-
-        done();
-      });
     }
 
     beforeEach(() => {
@@ -173,34 +165,26 @@ describe('Auth token provider', () => {
             default:
               return undefined;
           }
-        }
+        },
       };
     });
 
-    it(
-      'should call BBAuth.getToken() with the SPA\'s context parameters and decode the token',
-      (done) => {
-        const provider = new SkyAuthTokenProvider({
-          runtime: {
-            params: testParams
-          }
-        } as any);
-
-        validate(provider, done);
-      }
-    );
-
-    it('should fall back to the params provider if no config is provided', (done) => {
-      const provider = new SkyAuthTokenProvider(
-        undefined,
-        {
-          params: testParams
-        } as any
-      );
+    it("should call BBAuth.getToken() with the SPA's context parameters and decode the token", (done) => {
+      const provider = new SkyAuthTokenProvider({
+        runtime: {
+          params: testParams,
+        },
+      } as any);
 
       validate(provider, done);
     });
 
-  });
+    it('should fall back to the params provider if no config is provided', (done) => {
+      const provider = new SkyAuthTokenProvider(undefined, {
+        params: testParams,
+      } as any);
 
+      validate(provider, done);
+    });
+  });
 });

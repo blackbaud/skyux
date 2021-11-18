@@ -1,24 +1,22 @@
 /* istanbul ignore file */
-import {
-  HttpHandler,
-  HttpParams,
-  HttpRequest
-} from '@angular/common/http';
+import { HttpHandler, HttpParams, HttpRequest } from '@angular/common/http';
 
-import {
-  of
-} from 'rxjs';
+import { of } from 'rxjs';
 
 import {
   SKY_AUTH_PARAM_AUTH,
-  SKY_AUTH_PARAM_PERMISSION_SCOPE
+  SKY_AUTH_PARAM_PERMISSION_SCOPE,
 } from '../auth-interceptor-params';
 
 export const EXAMPLE_URL = 'https://example.com/get/';
 
-export type Spy<T> = { [Method in keyof T]: jasmine.Spy; };
+export type Spy<T> = { [Method in keyof T]: jasmine.Spy };
 
-export function createRequest(isSkyAuth?: boolean, url?: string, permissionScope?: string) {
+export function createRequest(
+  isSkyAuth?: boolean,
+  url?: string,
+  permissionScope?: string
+) {
   let params: HttpParams;
 
   if (isSkyAuth) {
@@ -34,18 +32,11 @@ export function createRequest(isSkyAuth?: boolean, url?: string, permissionScope
   let request: HttpRequest<any>;
 
   if (params) {
-    request = new HttpRequest(
-      'GET',
-      url || EXAMPLE_URL,
-      {
-        params
-      }
-    );
+    request = new HttpRequest('GET', url || EXAMPLE_URL, {
+      params,
+    });
   } else {
-    request = new HttpRequest(
-      'GET',
-      url || EXAMPLE_URL
-    );
+    request = new HttpRequest('GET', url || EXAMPLE_URL);
   }
 
   return request;
@@ -63,7 +54,11 @@ export function validateRequest(
   });
 }
 
-export function createAppConfig(envId?: string, leId?: string, getUrlResult?: string) {
+export function createAppConfig(
+  envId?: string,
+  leId?: string,
+  getUrlResult?: string
+) {
   return {
     runtime: {
       params: {
@@ -77,9 +72,9 @@ export function createAppConfig(envId?: string, leId?: string, getUrlResult?: st
               return undefined;
           }
         },
-        getUrl: (url: string) => getUrlResult || url || EXAMPLE_URL
-      }
+        getUrl: (url: string) => getUrlResult || url || EXAMPLE_URL,
+      },
     } as any,
-    skyux: {}
+    skyux: {},
   };
 }

@@ -1,3 +1,7 @@
+# 5.0.1 (2021-11-18)
+
+- Added support for Prettier code formatting and updated the builder to support StackBlitz. [#86](https://github.com/blackbaud/skyux-http/pull/86)
+
 # 5.0.0 (2021-09-29)
 
 ### New features

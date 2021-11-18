@@ -1,5 +1,3 @@
-import {
-  BBContextArgs
-} from '@blackbaud/auth-client';
+import { BBContextArgs } from '@blackbaud/auth-client';
 
-export interface SkyAuthContextArgs extends BBContextArgs { }
+export interface SkyAuthContextArgs extends BBContextArgs {}

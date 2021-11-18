@@ -1,11 +1,8 @@
-import {
-  HttpHeaders,
-  HttpParams
-} from '@angular/common/http';
+import { HttpHeaders, HttpParams } from '@angular/common/http';
 
 import {
   SKY_AUTH_PARAM_AUTH,
-  SKY_AUTH_PARAM_PERMISSION_SCOPE
+  SKY_AUTH_PARAM_PERMISSION_SCOPE,
 } from './auth-interceptor-params';
 
 /**
@@ -14,14 +11,14 @@ import {
  * @param options
  */
 export function skyAuthHttpOptions(options?: {
-  body?: any,
-  headers?: HttpHeaders,
-  observe?: 'body'|'events'|'response',
-  params?: HttpParams,
-  reportProgress?: boolean,
-  permissionScope?: string,
-  responseType?: 'arraybuffer'|'blob'|'json'|'text',
-  withCredentials?: boolean
+  body?: any;
+  headers?: HttpHeaders;
+  observe?: 'body' | 'events' | 'response';
+  params?: HttpParams;
+  reportProgress?: boolean;
+  permissionScope?: string;
+  responseType?: 'arraybuffer' | 'blob' | 'json' | 'text';
+  withCredentials?: boolean;
 }): any {
   options = options || {};
   options.params = options.params || new HttpParams();
@@ -29,7 +26,10 @@ export function skyAuthHttpOptions(options?: {
   options.params = options.params.set(SKY_AUTH_PARAM_AUTH, 'true');
 
   if (options.permissionScope) {
-    options.params = options.params.set(SKY_AUTH_PARAM_PERMISSION_SCOPE, options.permissionScope);
+    options.params = options.params.set(
+      SKY_AUTH_PARAM_PERMISSION_SCOPE,
+      options.permissionScope
+    );
   }
 
   delete options.permissionScope;
@@ -45,23 +45,23 @@ export function skyAuthHttpOptions(options?: {
  * @param options
  */
 export function skyAuthHttpJsonOptions(options?: {
-  body?: any,
-  headers?: HttpHeaders,
-  observe?: 'body',
-  params?: HttpParams,
-  reportProgress?: boolean,
-  permissionScope?: string,
-  responseType?: 'json',
-  withCredentials?: boolean
+  body?: any;
+  headers?: HttpHeaders;
+  observe?: 'body';
+  params?: HttpParams;
+  reportProgress?: boolean;
+  permissionScope?: string;
+  responseType?: 'json';
+  withCredentials?: boolean;
 }): {
-  body?: any,
-  headers?: HttpHeaders,
-  observe?: 'body',
-  params?: HttpParams,
-  reportProgress?: boolean,
-  permissionScope?: string,
-  responseType?: 'json',
-  withCredentials?: boolean
+  body?: any;
+  headers?: HttpHeaders;
+  observe?: 'body';
+  params?: HttpParams;
+  reportProgress?: boolean;
+  permissionScope?: string;
+  responseType?: 'json';
+  withCredentials?: boolean;
 } {
   options = options || {};
 

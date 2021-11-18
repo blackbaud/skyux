@@ -1,25 +1,16 @@
-import {
-  HttpHandler
-} from '@angular/common/http';
+import { HttpHandler } from '@angular/common/http';
 
-import {
-  SkyAppConfig,
-  SkyAppRuntimeConfigParams
-} from '@skyux/config';
+import { SkyAppConfig, SkyAppRuntimeConfigParams } from '@skyux/config';
 
-import {
-  TestBed
-} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {
-  SkyNoAuthInterceptor
-} from './no-auth-interceptor';
+import { SkyNoAuthInterceptor } from './no-auth-interceptor';
 
 import {
   createAppConfig,
   createRequest,
   Spy,
-  validateRequest
+  validateRequest,
 } from './testing/sky-http-interceptor.test-utils';
 
 describe('No-auth interceptor', () => {
@@ -27,14 +18,16 @@ describe('No-auth interceptor', () => {
   let mockConfig: SkyAppConfig;
   let next: Spy<HttpHandler>;
 
-  function validateTokenizedUrl(interceptor: SkyNoAuthInterceptor, done: DoneFn): void {
-    const request = createRequest(
-      false,
-      '1bb://eng-hub00-pusa01/version'
-    );
+  function validateTokenizedUrl(
+    interceptor: SkyNoAuthInterceptor,
+    done: DoneFn
+  ): void {
+    const request = createRequest(false, '1bb://eng-hub00-pusa01/version');
 
     validateRequest(next, done, (authRequest) => {
-      expect(authRequest.url).toBe('https://eng-pusa01.app.blackbaud.net/hub00/version');
+      expect(authRequest.url).toBe(
+        'https://eng-pusa01.app.blackbaud.net/hub00/version'
+      );
     });
 
     interceptor.intercept(request, next).subscribe();
@@ -48,9 +41,9 @@ describe('No-auth interceptor', () => {
 
     mockConfig = {
       runtime: {
-        params: mockRuntimeConfigParameters
+        params: mockRuntimeConfigParameters,
       } as any,
-      skyux: {}
+      skyux: {},
     };
 
     next = jasmine.createSpyObj('HttpHandler', ['handle']);
@@ -59,15 +52,16 @@ describe('No-auth interceptor', () => {
       providers: [
         {
           provide: SkyAppConfig,
-          useValue: mockConfig
+          useValue: mockConfig,
         },
-        SkyNoAuthInterceptor
-      ]
+        SkyNoAuthInterceptor,
+      ],
     });
   });
 
   it('should pass through the existing request when a bb-authed request', () => {
-    const interceptor: SkyNoAuthInterceptor = TestBed.inject(SkyNoAuthInterceptor);
+    const interceptor: SkyNoAuthInterceptor =
+      TestBed.inject(SkyNoAuthInterceptor);
     const request = createRequest(true);
 
     next.handle.and.stub();
@@ -80,10 +74,7 @@ describe('No-auth interceptor', () => {
   it('should preserve urls not matching the 1bb protocol', (done) => {
     const interceptor = new SkyNoAuthInterceptor(createAppConfig());
 
-    const request = createRequest(
-      false,
-      'google.com'
-    );
+    const request = createRequest(false, 'google.com');
 
     validateRequest(next, done, (authRequest) => {
       expect(authRequest.url).toBe('google.com');
@@ -102,12 +93,9 @@ describe('No-auth interceptor', () => {
     it('should fall back to params provider if SkyAppConfig is undefined', (done) => {
       const config = createAppConfig();
 
-      const interceptor = new SkyNoAuthInterceptor(
-        undefined,
-        {
-          params: config.runtime.params
-        } as any
-      );
+      const interceptor = new SkyNoAuthInterceptor(undefined, {
+        params: config.runtime.params,
+      } as any);
 
       validateTokenizedUrl(interceptor, done);
     });

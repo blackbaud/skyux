@@ -1,5 +1,4 @@
 export interface SkyAuthToken {
-
   /**
    * The subject of the token and contains the user's Blackbaud Authentication Id (GUID).
    */
@@ -74,5 +73,4 @@ export interface SkyAuthToken {
    * The intended audience of the JWT.
    */
   aud?: string;
-
 }

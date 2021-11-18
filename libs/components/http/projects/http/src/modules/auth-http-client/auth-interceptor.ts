@@ -4,49 +4,29 @@ import {
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
-  HttpRequest
+  HttpRequest,
 } from '@angular/common/http';
 
-import {
-  Inject,
-  Injectable,
-  Optional
-} from '@angular/core';
+import { Inject, Injectable, Optional } from '@angular/core';
 
-import {
-  from as observableFrom,
-  Observable
-} from 'rxjs';
+import { from as observableFrom, Observable } from 'rxjs';
 
-import {
-  switchMap
-} from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 
-import {
-  BBAuthClientFactory
-} from '@skyux/auth-client-factory';
+import { BBAuthClientFactory } from '@skyux/auth-client-factory';
 
-import {
-  SkyAppConfig,
-  SkyAppRuntimeConfigParamsProvider
-} from '@skyux/config';
+import { SkyAppConfig, SkyAppRuntimeConfigParamsProvider } from '@skyux/config';
 
-import {
-  SKY_AUTH_DEFAULT_PERMISSION_SCOPE
-} from './auth-interceptor-default-permission-scope';
+import { SKY_AUTH_DEFAULT_PERMISSION_SCOPE } from './auth-interceptor-default-permission-scope';
 
 import {
   SKY_AUTH_PARAM_AUTH,
-  SKY_AUTH_PARAM_PERMISSION_SCOPE
+  SKY_AUTH_PARAM_PERMISSION_SCOPE,
 } from './auth-interceptor-params';
 
-import {
-  SkyAuthTokenContextArgs
-} from './auth-token-context-args';
+import { SkyAuthTokenContextArgs } from './auth-token-context-args';
 
-import {
-  SkyAuthTokenProvider
-} from './auth-token-provider';
+import { SkyAuthTokenProvider } from './auth-token-provider';
 
 //#endregion
 
@@ -56,13 +36,11 @@ function removeSkyParams(request: HttpRequest<any>): HttpRequest<any> {
   // it's not provided when the HTTP request is created.
   /* istanbul ignore else */
   if (request.params) {
-    request = request.clone(
-      {
-        params: request.params
-          .delete(SKY_AUTH_PARAM_AUTH)
-          .delete(SKY_AUTH_PARAM_PERMISSION_SCOPE)
-      }
-    );
+    request = request.clone({
+      params: request.params
+        .delete(SKY_AUTH_PARAM_AUTH)
+        .delete(SKY_AUTH_PARAM_PERMISSION_SCOPE),
+    });
   }
 
   return request;
@@ -73,11 +51,16 @@ export class SkyAuthInterceptor implements HttpInterceptor {
   constructor(
     private tokenProvider: SkyAuthTokenProvider,
     @Optional() private config: SkyAppConfig,
-    @Inject(SKY_AUTH_DEFAULT_PERMISSION_SCOPE) @Optional() private defaultPermissionScope?: string,
+    @Inject(SKY_AUTH_DEFAULT_PERMISSION_SCOPE)
+    @Optional()
+    private defaultPermissionScope?: string,
     @Optional() private paramsProvider?: SkyAppRuntimeConfigParamsProvider
-  ) { }
+  ) {}
 
-  public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  public intercept(
+    request: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
     let auth: boolean;
     let permissionScope: string;
 
@@ -85,10 +68,8 @@ export class SkyAuthInterceptor implements HttpInterceptor {
 
     if (
       params &&
-      (
-        params.has(SKY_AUTH_PARAM_AUTH) ||
-        params.has(SKY_AUTH_PARAM_PERMISSION_SCOPE)
-      )
+      (params.has(SKY_AUTH_PARAM_AUTH) ||
+        params.has(SKY_AUTH_PARAM_PERMISSION_SCOPE))
     ) {
       auth = params.get(SKY_AUTH_PARAM_AUTH) === 'true';
       permissionScope = params.get(SKY_AUTH_PARAM_PERMISSION_SCOPE);
@@ -112,17 +93,18 @@ export class SkyAuthInterceptor implements HttpInterceptor {
           const decodedToken = this.tokenProvider.decodeToken(token);
           return observableFrom(
             BBAuthClientFactory.BBAuth.getUrl(request.url, {
-              zone: decodedToken['1bb.zone']
+              zone: decodedToken['1bb.zone'],
             })
           ).pipe(
             switchMap((url) => {
-              const runtimeParams = this.config?.runtime.params || this.paramsProvider.params;
+              const runtimeParams =
+                this.config?.runtime.params || this.paramsProvider.params;
 
               const authRequest = request.clone({
                 setHeaders: {
-                  Authorization: `Bearer ${token}`
+                  Authorization: `Bearer ${token}`,
                 },
-                url: runtimeParams.getUrl(url)
+                url: runtimeParams.getUrl(url),
               });
               return next.handle(authRequest);
             })
@@ -133,5 +115,4 @@ export class SkyAuthInterceptor implements HttpInterceptor {
 
     return next.handle(request);
   }
-
 }

@@ -1,21 +1,12 @@
 //#region imports
 
-import {
-  HTTP_INTERCEPTORS,
-  HttpClientModule
-} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  SkyAuthInterceptor
-} from './auth-interceptor';
+import { SkyAuthInterceptor } from './auth-interceptor';
 
-import {
-  SkyNoAuthInterceptor
-} from './no-auth-interceptor';
+import { SkyNoAuthInterceptor } from './no-auth-interceptor';
 
 //#endregion
 
@@ -24,16 +15,14 @@ import {
     {
       provide: HTTP_INTERCEPTORS,
       useClass: SkyNoAuthInterceptor,
-      multi: true
+      multi: true,
     },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: SkyAuthInterceptor,
-      multi: true
-    }
+      multi: true,
+    },
   ],
-  exports: [
-    HttpClientModule
-  ]
+  exports: [HttpClientModule],
 })
-export class SkyAuthHttpClientModule { }
+export class SkyAuthHttpClientModule {}

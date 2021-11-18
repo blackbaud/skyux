@@ -1,5 +1,3 @@
-import {
-  BBAuthGetTokenArgs
-} from '@blackbaud/auth-client';
+import { BBAuthGetTokenArgs } from '@blackbaud/auth-client';
 
-export interface SkyAuthGetTokenArgs extends BBAuthGetTokenArgs { }
+export interface SkyAuthGetTokenArgs extends BBAuthGetTokenArgs {}

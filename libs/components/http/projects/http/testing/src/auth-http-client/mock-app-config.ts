@@ -1,12 +1,10 @@
 export class SkyMockAppConfig {
-
   public runtime = {
     app: {
-      name: 'test'
+      name: 'test',
     },
     params: {
-      getUrl: (url: string) => url
-    }
+      getUrl: (url: string) => url,
+    },
   };
-
 }
