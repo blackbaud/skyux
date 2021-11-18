@@ -1,3 +1,7 @@
+# 5.44.0 (2021-11-18)
+
+- `@skyux/a11y@5.0.1` [Release notes](https://github.com/blackbaud/skyux-a11y/blob/5.0.1/CHANGELOG.md)
+
 # 5.43.0 (2021-11-18)
 
 - `@skyux/action-bars@5.0.1` [Release notes](https://github.com/blackbaud/skyux-action-bars/blob/5.0.1/CHANGELOG.md)
