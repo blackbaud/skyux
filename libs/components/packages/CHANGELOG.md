@@ -1,3 +1,7 @@
+# 5.40.0 (2021-11-18)
+
+- `@skyux/navbar@5.0.1` [Release notes](https://github.com/blackbaud/skyux-navbar/blob/5.0.1/CHANGELOG.md)
+
 # 5.39.0 (2021-11-18)
 
 - `@skyux/theme@5.0.4` [Release notes](https://github.com/blackbaud/skyux-theme/blob/5.0.4/CHANGELOG.md)
