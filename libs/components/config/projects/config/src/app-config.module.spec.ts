@@ -1,45 +1,32 @@
-import {
-  TestBed
-} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {
-  SkyAppConfigModule
-} from './app-config.module';
+import { SkyAppConfigModule } from './app-config.module';
 
-import {
-  SkyAppConfigHost
-} from './app-config-host';
+import { SkyAppConfigHost } from './app-config-host';
 
-import {
-  SkyAppConfigParams
-} from './app-config-params';
+import { SkyAppConfigParams } from './app-config-params';
 
 describe('SkyAppConfigModule', () => {
-
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyAppConfigModule
-      ]
+      imports: [SkyAppConfigModule],
     });
   });
 
   it('should not add providers by default', () => {
-    expect(() => TestBed.inject(SkyAppConfigHost))
-      .toThrowError(/No provider for SkyAppConfigHost/);
-    expect(() => TestBed.inject(SkyAppConfigParams))
-      .toThrowError(/No provider for SkyAppConfigParams/);
+    expect(() => TestBed.inject(SkyAppConfigHost)).toThrowError(
+      /No provider for SkyAppConfigHost/
+    );
+    expect(() => TestBed.inject(SkyAppConfigParams)).toThrowError(
+      /No provider for SkyAppConfigParams/
+    );
   });
-
 });
 
 describe('SkyAppConfigModule.forRoot()', () => {
-
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyAppConfigModule.forRoot()
-      ]
+      imports: [SkyAppConfigModule.forRoot()],
     });
   });
 
@@ -47,39 +34,37 @@ describe('SkyAppConfigModule.forRoot()', () => {
     const hostConfig = TestBed.inject(SkyAppConfigHost);
     expect(hostConfig.host).toEqual({
       frameOptions: {
-        none: true
+        none: true,
       },
-      url: 'https://host.nxt.blackbaud.com/'
+      url: 'https://host.nxt.blackbaud.com/',
     });
 
     const paramsConfig = TestBed.inject(SkyAppConfigParams);
     expect(paramsConfig.params).toEqual({
       envid: { required: false },
       leid: { required: false },
-      svcid: { required: false }
+      svcid: { required: false },
     });
   });
-
 });
 
 describe('SkyAppConfigModule.forRoot(config)', () => {
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         SkyAppConfigModule.forRoot({
           host: {
             frameOptions: {
-              blackbaud: true
-            }
+              blackbaud: true,
+            },
           },
           params: {
             foo: {
-              value: 'bar'
-            }
-          }
-        })
-      ]
+              value: 'bar',
+            },
+          },
+        }),
+      ],
     });
   });
 
@@ -87,11 +72,10 @@ describe('SkyAppConfigModule.forRoot(config)', () => {
     const hostConfig = TestBed.inject(SkyAppConfigHost);
     const configParams = TestBed.inject(SkyAppConfigParams);
     expect(hostConfig.host.frameOptions).toEqual({
-      blackbaud: true
+      blackbaud: true,
     });
     expect(configParams.params.foo).toEqual({
-      value: 'bar'
+      value: 'bar',
     });
   });
-
 });

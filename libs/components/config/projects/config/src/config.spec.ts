@@ -1,7 +1,4 @@
-import {
-  SkyAppConfig,
-  SkyuxPactConfig
-} from './config';
+import { SkyAppConfig, SkyuxPactConfig } from './config';
 
 describe('SkyAppConfig', () => {
   it('should export classes', () => {

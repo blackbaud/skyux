@@ -1,21 +1,18 @@
-import {
-  SkyAppParamsConfig
-} from './params-config';
+import { SkyAppParamsConfig } from './params-config';
 
 describe('SkyAppParamsConfig', () => {
-
   it('should return defaults', () => {
     const config = new SkyAppParamsConfig();
     expect(config.params).toEqual({
       envid: {
-        required: false
+        required: false,
       },
       leid: {
-        required: false
+        required: false,
       },
       svcid: {
-        required: false
-      }
+        required: false,
+      },
     });
   });
 
@@ -23,24 +20,23 @@ describe('SkyAppParamsConfig', () => {
     const config = new SkyAppParamsConfig({
       params: {
         foo: {
-          value: 'bar'
-        }
-      }
+          value: 'bar',
+        },
+      },
     });
     expect(config.params).toEqual({
       envid: {
-        required: false
+        required: false,
       },
       foo: {
-        value: 'bar'
+        value: 'bar',
       },
       leid: {
-        required: false
+        required: false,
       },
       svcid: {
-        required: false
-      }
+        required: false,
+      },
     });
   });
-
 });

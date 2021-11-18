@@ -1,51 +1,40 @@
-import {
-  Injectable,
-  Optional
-} from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 
-import {
-  SkyuxConfigParams
-} from './config-params';
+import { SkyuxConfigParams } from './config-params';
 
-import {
-  SkyAppParamsConfigArgs
-} from './params-config-args';
+import { SkyAppParamsConfigArgs } from './params-config-args';
 
 const DEFAULTS = {
   params: {
     envid: {
-      required: false
+      required: false,
     },
     leid: {
-      required: false
+      required: false,
     },
     svcid: {
-      required: false
-    }
-  }
+      required: false,
+    },
+  },
 };
 
 /**
  * @deprecated Use `SkyAppConfigParams` instead.
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SkyAppParamsConfig {
-
   public get params(): SkyuxConfigParams {
     return this._params;
   }
 
   private _params: SkyuxConfigParams;
 
-  constructor(
-    @Optional() args?: SkyAppParamsConfigArgs
-  ) {
+  constructor(@Optional() args?: SkyAppParamsConfigArgs) {
     this._params = {
       ...DEFAULTS.params,
-      ...args?.params || {}
+      ...(args?.params || {}),
     };
   }
-
 }

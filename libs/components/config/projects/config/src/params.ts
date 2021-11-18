@@ -1,17 +1,12 @@
-import {
-  HttpParams
-} from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 
-import {
-  SkyuxConfigParams
-} from './config-params';
+import { SkyuxConfigParams } from './config-params';
 
 /**
  * Given a "url" (could be just querystring, or fully qualified),
  * Returns the extracted HttpParams.
  */
 function getUrlSearchParams(url: string): HttpParams {
-
   let qs = '';
 
   if (url.indexOf('?') > -1) {
@@ -20,12 +15,11 @@ function getUrlSearchParams(url: string): HttpParams {
   }
 
   return new HttpParams({
-    fromString: qs
+    fromString: qs,
   });
 }
 
 export class SkyAppRuntimeConfigParams {
-
   private params: { [key: string]: string } = {};
 
   private defaultParamValues: { [key: string]: string } = {};
@@ -36,10 +30,7 @@ export class SkyAppRuntimeConfigParams {
 
   private excludeFromRequestsParams: string[] = [];
 
-  constructor(
-    url: string,
-    configParams: SkyuxConfigParams
-  ) {
+  constructor(url: string, configParams: SkyuxConfigParams) {
     const allowed: string[] = [];
 
     for (const paramName of Object.keys(configParams)) {
@@ -74,11 +65,11 @@ export class SkyAppRuntimeConfigParams {
     const httpParams = getUrlSearchParams(url);
 
     // Get uppercase keys.
-    const allowedKeysUC = allowed.map(key => key.toUpperCase());
+    const allowedKeysUC = allowed.map((key) => key.toUpperCase());
     const urlSearchParamKeys = Array.from(httpParams.keys());
 
     // Filter to allowed params and override default values.
-    urlSearchParamKeys.forEach(givenKey => {
+    urlSearchParamKeys.forEach((givenKey) => {
       const givenKeyUC = givenKey.toUpperCase();
       allowedKeysUC.forEach((allowedKeyUC, index) => {
         if (givenKeyUC === allowedKeyUC) {
@@ -136,10 +127,13 @@ export class SkyAppRuntimeConfigParams {
    * @param excludeDefaults Exclude params that have default values
    */
   public getAll(excludeDefaults?: boolean): Object {
-    const filteredParams: { [key: string]: string} = {};
+    const filteredParams: { [key: string]: string } = {};
 
-    this.getAllKeys().forEach(key => {
-      if (!excludeDefaults || this.params[key] !== this.defaultParamValues[key]) {
+    this.getAllKeys().forEach((key) => {
+      if (
+        !excludeDefaults ||
+        this.params[key] !== this.defaultParamValues[key]
+      ) {
         filteredParams[key] = this.params[key];
       }
     });
@@ -162,7 +156,7 @@ export class SkyAppRuntimeConfigParams {
     const delimiter = url.indexOf('?') === -1 ? '?' : '&';
     const joined: string[] = [];
 
-    this.getAllKeys().forEach(key => {
+    this.getAllKeys().forEach((key) => {
       if (
         this.excludeFromRequestsParams.indexOf(key) === -1 &&
         !httpParams.has(key)

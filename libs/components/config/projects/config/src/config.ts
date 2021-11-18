@@ -15,7 +15,7 @@ export class SkyuxPactConfig {
       host?: string;
       port?: string;
       fullUrl?: string;
-    }
+    };
   };
   public pactProxyServer?: string;
 }
@@ -39,10 +39,10 @@ export interface SkyuxConfigLibrarySettings {
 
 export interface RuntimeConfig {
   app: RuntimeConfigApp;
-  command?: string;  // Dynamically added in "higher up" webpacks
+  command?: string; // Dynamically added in "higher up" webpacks
   componentsPattern: string;
   componentsIgnorePattern: string;
-  handle404?: boolean;  // Dynamically added in sky-pages-module-generator.js
+  handle404?: boolean; // Dynamically added in sky-pages-module-generator.js
   includeRouteModule: boolean;
   pactConfig?: SkyuxPactConfig;
   params: SkyAppRuntimeConfigParams;
@@ -103,7 +103,9 @@ export interface SkyuxConfigHostFrameOptionsOthers {
  */
 export interface SkyuxConfigHost {
   bbCheckout?: SkyuxConfigHostBBCheckout;
-  frameOptions?: SkyuxConfigHostFrameOptionsNone | SkyuxConfigHostFrameOptionsOthers;
+  frameOptions?:
+    | SkyuxConfigHostFrameOptionsNone
+    | SkyuxConfigHostFrameOptionsOthers;
   url?: string;
 }
 
@@ -130,33 +132,33 @@ export interface SkyuxConfig {
   importPath?: string;
   librarySettings?: SkyuxConfigLibrarySettings;
   mode?: string;
-  moduleAliases?: {[key: string]: string};
+  moduleAliases?: { [key: string]: string };
   name?: string;
   pacts?: any[];
   params?: SkyuxConfigParams; // List of allowed params
   pipelineSettings?: any;
   plugins?: string[];
-  redirects?: {[from: string]: string};
+  redirects?: { [from: string]: string };
   routes?: {
     public?: {
-      title?: string
-      description?: string
-      global?: boolean,
-      route: string,
-      claims?: SkyuxConfigAnyAllSet,
-      entitlementType?: string,
-      entitlements?: SkyuxConfigAnyAllSet,
-      permissionId?: string,
+      title?: string;
+      description?: string;
+      global?: boolean;
+      route: string;
+      claims?: SkyuxConfigAnyAllSet;
+      entitlementType?: string;
+      entitlements?: SkyuxConfigAnyAllSet;
+      permissionId?: string;
       permissions?: {
-        admin?: boolean,
-        legalEntityAdmin?: boolean,
-        permissionIds?: SkyuxConfigAnyAllSet
-      }
-    }[],
+        admin?: boolean;
+        legalEntityAdmin?: boolean;
+        permissionIds?: SkyuxConfigAnyAllSet;
+      };
+    }[];
     referenced?: {
-      app: string,
-      route: string
-    }[]
+      app: string;
+      route: string;
+    }[];
   };
   testSettings?: SkyuxConfigTestSettings;
   omnibar?: any;
@@ -166,11 +168,9 @@ export interface SkyuxConfig {
 
 @Injectable()
 export class SkyAppConfig {
-
   // Any properties dynamically added via code
   public runtime: RuntimeConfig;
 
   // Any properties defined in or inherited from skyuxconfig.json / skyuxconfig.command.json
   public skyux: SkyuxConfig;
-
 }
