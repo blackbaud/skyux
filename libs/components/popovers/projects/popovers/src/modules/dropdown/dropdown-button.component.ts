@@ -1,9 +1,7 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'sky-dropdown-button',
-  templateUrl: './dropdown-button.component.html'
+  templateUrl: './dropdown-button.component.html',
 })
-export class SkyDropdownButtonComponent { }
+export class SkyDropdownButtonComponent {}

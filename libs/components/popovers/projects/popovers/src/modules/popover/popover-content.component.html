@@ -20,14 +20,16 @@
       'sky-elevation-4': 'modern'
     }"
   >
-    <header *ngIf="popoverTitle"
+    <header
+      *ngIf="popoverTitle"
       class="sky-popover-header"
       [skyThemeClass]="{
         'sky-padding-even-default': 'default',
         'sky-padding-even-lg sky-margin-stacked-lg': 'modern'
       }"
     >
-      <h1 *ngIf="popoverTitle"
+      <h1
+        *ngIf="popoverTitle"
         class="sky-popover-title"
         [skyThemeClass]="{
           'sky-emphasized': 'default',

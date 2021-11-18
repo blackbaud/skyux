@@ -1,6 +1,4 @@
-import {
-  AnimationEvent
-} from '@angular/animations';
+import { AnimationEvent } from '@angular/animations';
 
 import {
   ChangeDetectorRef,
@@ -10,7 +8,7 @@ import {
   OnInit,
   Optional,
   ViewChild,
-  ViewContainerRef
+  ViewContainerRef,
 } from '@angular/core';
 
 import {
@@ -18,50 +16,30 @@ import {
   SkyAffixConfig,
   SkyAffixer,
   SkyAffixService,
-  SkyCoreAdapterService
+  SkyCoreAdapterService,
 } from '@skyux/core';
 
-import {
-  SkyThemeService
-} from '@skyux/theme';
+import { SkyThemeService } from '@skyux/theme';
 
-import {
-  fromEvent as observableFromEvent,
-  Observable,
-  Subject
-} from 'rxjs';
+import { fromEvent as observableFromEvent, Observable, Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkyPopoverAlignment
-} from './types/popover-alignment';
+import { SkyPopoverAlignment } from './types/popover-alignment';
 
-import {
-  SkyPopoverPlacement
-} from './types/popover-placement';
+import { SkyPopoverPlacement } from './types/popover-placement';
 
-import {
-  SkyPopoverAdapterService
-} from './popover-adapter.service';
+import { SkyPopoverAdapterService } from './popover-adapter.service';
 
-import {
-  skyPopoverAnimation
-} from './popover-animation';
+import { skyPopoverAnimation } from './popover-animation';
 
-import {
-  SkyPopoverAnimationState
-} from './popover-animation-state';
+import { SkyPopoverAnimationState } from './popover-animation-state';
 
-import {
-  SkyPopoverContext
-} from './popover-context';
+import { SkyPopoverContext } from './popover-context';
 
 import {
   parseAffixHorizontalAlignment,
-  parseAffixPlacement
+  parseAffixPlacement,
 } from './popover-extensions';
 
 /**
@@ -72,12 +50,9 @@ import {
   templateUrl: './popover-content.component.html',
   styleUrls: ['./popover-content.component.scss'],
   animations: [skyPopoverAnimation],
-  providers: [
-    SkyPopoverAdapterService
-  ]
+  providers: [SkyPopoverAdapterService],
 })
 export class SkyPopoverContentComponent implements OnInit, OnDestroy {
-
   public get animationState(): SkyPopoverAnimationState {
     return this.isOpen ? 'open' : 'closed';
   }
@@ -118,19 +93,19 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
 
   @ViewChild('arrowRef', {
     read: ElementRef,
-    static: true
+    static: true,
   })
   private arrowRef: ElementRef;
 
   @ViewChild('popoverRef', {
     read: ElementRef,
-    static: true
+    static: true,
   })
   private popoverRef: ElementRef;
 
   @ViewChild('contentTarget', {
     read: ViewContainerRef,
-    static: true
+    static: true,
   })
   private contentTarget: ViewContainerRef;
 
@@ -152,7 +127,7 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     private adapterService: SkyPopoverAdapterService,
     @Optional() private context?: SkyPopoverContext,
     @Optional() private themeSvc?: SkyThemeService
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     /*istanbul ignore next*/
@@ -162,9 +137,7 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     /*istanbul ignore else*/
     if (this.themeSvc) {
       this.themeSvc.settingsChange
-        .pipe(
-          takeUntil(this.ngUnsubscribe)
-        )
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((themeSettings) => {
           /*istanbul ignore next*/
           this.themeName = themeSettings.currentSettings?.theme?.name;
@@ -189,7 +162,8 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
       this._isMouseEnter =
       this._opened =
       this.affixer =
-      this.ngUnsubscribe = undefined;
+      this.ngUnsubscribe =
+        undefined;
   }
 
   public onAnimationEvent(event: AnimationEvent): void {
@@ -245,7 +219,11 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     // Let the styles render before gauging the affix dimensions.
     setTimeout(() => {
       /*istanbul ignore next*/
-      if (!this.popoverRef?.nativeElement || !this.ngUnsubscribe || this.ngUnsubscribe.isStopped) {
+      if (
+        !this.popoverRef?.nativeElement ||
+        !this.ngUnsubscribe ||
+        this.ngUnsubscribe.isStopped
+      ) {
         return;
       }
 
@@ -256,14 +234,19 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
       const affixOptions: SkyAffixConfig = {
         autoFitContext: SkyAffixAutoFitContext.Viewport,
         enableAutoFit: true,
-        horizontalAlignment: parseAffixHorizontalAlignment(this.horizontalAlignment),
+        horizontalAlignment: parseAffixHorizontalAlignment(
+          this.horizontalAlignment
+        ),
         isSticky: true,
-        placement: parseAffixPlacement(this.placement)
+        placement: parseAffixPlacement(this.placement),
       };
 
       // Ensure that we are positioning the vertical alginment correctly. These
       // are the default alignments for all popovers but ensure that we are future proof here.
-      if (affixOptions.placement === 'left' || affixOptions.placement === 'right') {
+      if (
+        affixOptions.placement === 'left' ||
+        affixOptions.placement === 'right'
+      ) {
         affixOptions.verticalAlignment = 'middle';
       } else if (affixOptions.placement === 'above') {
         affixOptions.verticalAlignment = 'bottom';
@@ -298,28 +281,18 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
   private setupAffixer(): void {
     const affixer = this.affixService.createAffixer(this.popoverRef);
 
-    affixer.offsetChange
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
-      .subscribe(() => {
-        this.updateArrowOffset();
-        this.changeDetector.markForCheck();
-      });
+    affixer.offsetChange.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
+      this.updateArrowOffset();
+      this.changeDetector.markForCheck();
+    });
 
-    affixer.overflowScroll
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
-      .subscribe(() => {
-        this.updateArrowOffset();
-        this.changeDetector.markForCheck();
-      });
+    affixer.overflowScroll.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
+      this.updateArrowOffset();
+      this.changeDetector.markForCheck();
+    });
 
     affixer.placementChange
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((change) => {
         this.placement = change.placement;
         this.changeDetector.markForCheck();
@@ -333,7 +306,7 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
       {
         caller: this.caller,
         popover: this.popoverRef,
-        popoverArrow: this.arrowRef
+        popoverArrow: this.arrowRef,
       },
       this.placement,
       this.themeName
@@ -341,33 +314,26 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
 
     this.arrowTop = top;
     this.arrowLeft = left;
-    }
+  }
 
   private addEventListeners(): void {
     const hostElement = this.elementRef.nativeElement;
 
     observableFromEvent(hostElement, 'mouseenter')
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => this._isMouseEnter.next(true));
 
     observableFromEvent(hostElement, 'mouseleave')
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => this._isMouseEnter.next(false));
 
     observableFromEvent(hostElement, 'keydown')
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((event: KeyboardEvent) => {
         const key = event.key.toLowerCase();
 
         /* tslint:disable-next-line:switch-default */
         switch (key) {
-
           case 'escape':
             this.close();
             this.caller.nativeElement.focus();
@@ -383,17 +349,15 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
               return;
             }
 
-            const focusableItems = this.coreAdapterService.getFocusableChildren(hostElement);
+            const focusableItems =
+              this.coreAdapterService.getFocusableChildren(hostElement);
 
-            const isFirstItem = (
-              focusableItems[0] === event.target &&
-              event.shiftKey
-            );
+            const isFirstItem =
+              focusableItems[0] === event.target && event.shiftKey;
 
-            const isLastItem = (
+            const isLastItem =
               focusableItems[focusableItems.length - 1] === event.target &&
-              !event.shiftKey
-            );
+              !event.shiftKey;
 
             /*istanbul ignore else*/
             if (focusableItems.length === 0 || isFirstItem || isLastItem) {
@@ -406,5 +370,4 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
         }
       });
   }
-
 }

@@ -3,48 +3,31 @@ import {
   Component,
   ElementRef,
   OnInit,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  SkyPopoverAlignment
-} from '../types/popover-alignment';
+import { SkyPopoverAlignment } from '../types/popover-alignment';
 
-import {
-  SkyPopoverMessage
-} from '../types/popover-message';
+import { SkyPopoverMessage } from '../types/popover-message';
 
-import {
-  SkyPopoverMessageType
-} from '../types/popover-message-type';
+import { SkyPopoverMessageType } from '../types/popover-message-type';
 
-import {
-  SkyPopoverPlacement
-} from '../types/popover-placement';
+import { SkyPopoverPlacement } from '../types/popover-placement';
 
-import {
-  SkyPopoverTrigger
-} from '../types/popover-trigger';
+import { SkyPopoverTrigger } from '../types/popover-trigger';
 
-import {
-  SkyPopoverComponent
-} from '../popover.component';
+import { SkyPopoverComponent } from '../popover.component';
 
-import {
-  SkyPopoverDirective
-} from '../popover.directive';
+import { SkyPopoverDirective } from '../popover.directive';
 
 @Component({
   selector: 'sky-test-component',
   templateUrl: './popover.component.fixture.html',
-  styleUrls: ['./popover.component.fixture.scss']
+  styleUrls: ['./popover.component.fixture.scss'],
 })
 export class PopoverFixtureComponent implements OnInit, AfterViewInit {
-
   //#region directive properties
 
   public alignment: SkyPopoverAlignment;
@@ -68,18 +51,18 @@ export class PopoverFixtureComponent implements OnInit, AfterViewInit {
   //#endregion directive properties
 
   @ViewChild('directiveRef', {
-    read: ElementRef
+    read: ElementRef,
   })
   public callerElementRef: ElementRef;
 
   @ViewChild('directiveRef', {
-    read: SkyPopoverDirective
+    read: SkyPopoverDirective,
   })
   public directiveRef: SkyPopoverDirective;
 
   @ViewChild('popoverRef', {
     read: SkyPopoverComponent,
-    static: true
+    static: true,
   })
   public popoverRef: SkyPopoverComponent;
 
@@ -100,9 +83,9 @@ export class PopoverFixtureComponent implements OnInit, AfterViewInit {
     });
   }
 
-  public onPopoverClosed(): void { }
+  public onPopoverClosed(): void {}
 
-  public onPopoverOpened(): void { }
+  public onPopoverOpened(): void {}
 
   public sendMessage(messageType: SkyPopoverMessageType): void {
     this.messageStream.next({ type: messageType });
@@ -111,5 +94,4 @@ export class PopoverFixtureComponent implements OnInit, AfterViewInit {
   public setHeight(height: number): void {
     this.height = height;
   }
-
 }

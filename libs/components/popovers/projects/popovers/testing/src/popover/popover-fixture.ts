@@ -1,10 +1,6 @@
-import {
-  ComponentFixture
-} from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
 
-import {
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 /**
  * Provides information for and interaction with a SKY UX popover component.
@@ -12,12 +8,14 @@ import {
  * of a component, such as changing its DOM structure.
  */
 export class SkyPopoverFixture {
-
   /**
    * Returns the popover alignment if the popover is open, otherwise undefined.
    */
   public get alignment(): string {
-    return this.getClassSuffixByClassPrefix(this.containerElement, 'sky-popover-alignment-');
+    return this.getClassSuffixByClassPrefix(
+      this.containerElement,
+      'sky-popover-alignment-'
+    );
   }
 
   /**
@@ -31,7 +29,10 @@ export class SkyPopoverFixture {
    * Returns the popover position if the popover is open, otherwise undefined.
    */
   public get placement(): string {
-    return this.getClassSuffixByClassPrefix(this.containerElement, 'sky-popover-placement-');
+    return this.getClassSuffixByClassPrefix(
+      this.containerElement,
+      'sky-popover-placement-'
+    );
   }
 
   /**
@@ -48,9 +49,7 @@ export class SkyPopoverFixture {
     return this.contentElement !== undefined;
   }
 
-  constructor(
-    private fixture: ComponentFixture<any>
-  ) { }
+  constructor(private fixture: ComponentFixture<any>) {}
 
   /**
    * Triggers the blur event for the popover.
@@ -87,9 +86,7 @@ export class SkyPopoverFixture {
   private queryOverlay(query: string): HTMLElement {
     const overlay = this.getOverlay();
 
-    return !overlay
-      ? undefined
-      : overlay.querySelector(query);
+    return !overlay ? undefined : overlay.querySelector(query);
   }
 
   /**
@@ -102,13 +99,14 @@ export class SkyPopoverFixture {
    *   should return the value 'right'.
    * @param prefix
    */
-  private getClassSuffixByClassPrefix(element: HTMLElement, prefix: string): string {
+  private getClassSuffixByClassPrefix(
+    element: HTMLElement,
+    prefix: string
+  ): string {
     let containerClasses = element?.className.split(' ');
-    let prefixedClass = containerClasses?.find(x => x.startsWith(prefix));
+    let prefixedClass = containerClasses?.find((x) => x.startsWith(prefix));
 
-    return !prefixedClass
-      ? undefined
-      : prefixedClass.slice(prefix.length);
+    return !prefixedClass ? undefined : prefixedClass.slice(prefix.length);
   }
   //#endregion
 }

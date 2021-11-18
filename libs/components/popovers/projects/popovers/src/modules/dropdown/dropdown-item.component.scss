@@ -1,6 +1,6 @@
-@import "~@skyux/theme/scss/mixins";
-@import "~@skyux/theme/scss/_compat/mixins";
-@import "~@skyux/theme/scss/variables";
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+@import '~@skyux/theme/scss/variables';
 
 .sky-dropdown-item {
   background-color: transparent;
@@ -73,8 +73,7 @@
       }
 
       &:focus:not(:active) {
-        box-shadow:
-          $sky-theme-modern-elevation-3-shadow-size
+        box-shadow: $sky-theme-modern-elevation-3-shadow-size
           $sky-theme-modern-elevation-3-shadow-color;
       }
     }

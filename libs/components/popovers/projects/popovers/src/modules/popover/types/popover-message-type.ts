@@ -2,7 +2,6 @@
  * Specifies the type of message to send to the popover component.
  */
 export enum SkyPopoverMessageType {
-
   /**
    * Opens the popover.
    */
@@ -22,5 +21,5 @@ export enum SkyPopoverMessageType {
   /**
    * Brings focus to the popover element.
    */
-  Focus = 3
+  Focus = 3,
 }

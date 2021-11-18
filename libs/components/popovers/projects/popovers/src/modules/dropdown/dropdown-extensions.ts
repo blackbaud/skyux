@@ -1,10 +1,6 @@
-import {
-  SkyAffixHorizontalAlignment
-} from '@skyux/core';
+import { SkyAffixHorizontalAlignment } from '@skyux/core';
 
-import {
-  SkyDropdownHorizontalAlignment
-} from './types/dropdown-horizontal-alignment';
+import { SkyDropdownHorizontalAlignment } from './types/dropdown-horizontal-alignment';
 
 export function parseAffixHorizontalAlignment(
   alignment: SkyDropdownHorizontalAlignment

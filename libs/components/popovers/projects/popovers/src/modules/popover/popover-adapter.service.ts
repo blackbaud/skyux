@@ -1,25 +1,16 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  SkyPopoverAdapterArrowCoordinates
-} from './types/popover-adapter-arrow-coordinates';
+import { SkyPopoverAdapterArrowCoordinates } from './types/popover-adapter-arrow-coordinates';
 
-import {
-  SkyPopoverAdapterElements
-} from './types/popover-adapter-elements';
+import { SkyPopoverAdapterElements } from './types/popover-adapter-elements';
 
-import {
-  SkyPopoverPlacement
-} from './types/popover-placement';
+import { SkyPopoverPlacement } from './types/popover-placement';
 
 /**
  * @internal
  */
 @Injectable()
 export class SkyPopoverAdapterService {
-
   public getArrowCoordinates(
     elements: SkyPopoverAdapterElements,
     placement: SkyPopoverPlacement,
@@ -27,7 +18,8 @@ export class SkyPopoverAdapterService {
   ): SkyPopoverAdapterArrowCoordinates {
     const callerRect = elements.caller.nativeElement.getBoundingClientRect();
     const popoverRect = elements.popover.nativeElement.getBoundingClientRect();
-    const arrowRect = elements.popoverArrow.nativeElement.getBoundingClientRect();
+    const arrowRect =
+      elements.popoverArrow.nativeElement.getBoundingClientRect();
 
     const pixelTolerance = 20;
 
@@ -35,7 +27,7 @@ export class SkyPopoverAdapterService {
     let left: number;
 
     if (placement === 'above' || placement === 'below') {
-      left = callerRect.left + (callerRect.width / 2);
+      left = callerRect.left + callerRect.width / 2;
 
       // Make sure the arrow never detaches from the popover.
       if (left - pixelTolerance < popoverRect.left) {
@@ -58,7 +50,7 @@ export class SkyPopoverAdapterService {
         }
       }
     } else {
-      top = callerRect.top + (callerRect.height / 2);
+      top = callerRect.top + callerRect.height / 2;
 
       // Make sure the arrow never detaches from the popover.
       if (top - pixelTolerance < popoverRect.top) {
@@ -84,5 +76,4 @@ export class SkyPopoverAdapterService {
 
     return { top, left };
   }
-
 }

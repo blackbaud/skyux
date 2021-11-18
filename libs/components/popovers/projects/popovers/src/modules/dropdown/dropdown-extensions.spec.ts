@@ -1,13 +1,8 @@
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  parseAffixHorizontalAlignment
-} from './dropdown-extensions';
+import { parseAffixHorizontalAlignment } from './dropdown-extensions';
 
 describe('Dropdown extensions', function () {
-
   it('should parse affix types', () => {
     let result = parseAffixHorizontalAlignment('center');
     expect(result).toEqual('center');
@@ -18,7 +13,8 @@ describe('Dropdown extensions', function () {
 
     expect(() => {
       parseAffixHorizontalAlignment('foobar' as any);
-    }).toThrow('SkyAffixHorizontalAlignment does not have a matching value for \'foobar\'!');
+    }).toThrow(
+      "SkyAffixHorizontalAlignment does not have a matching value for 'foobar'!"
+    );
   });
-
 });

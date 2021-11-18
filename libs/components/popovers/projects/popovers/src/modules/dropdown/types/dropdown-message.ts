@@ -1,9 +1,6 @@
-import {
-  SkyDropdownMessageType
-} from './dropdown-message-type';
+import { SkyDropdownMessageType } from './dropdown-message-type';
 
 export interface SkyDropdownMessage {
-
   /**
    * Indicates the type of message to send.
    */

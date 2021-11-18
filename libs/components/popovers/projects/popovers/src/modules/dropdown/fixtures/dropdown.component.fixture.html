@@ -10,10 +10,7 @@
   [trigger]="trigger"
   #dropdownRef
 >
-
-  <sky-dropdown-button>
-    Show dropdown
-  </sky-dropdown-button>
+  <sky-dropdown-button> Show dropdown </sky-dropdown-button>
 
   <sky-dropdown-menu
     [ariaLabelledBy]="menuAriaLabelledBy"
@@ -22,10 +19,7 @@
     (menuChanges)="onMenuChanges($event)"
     #dropdownMenuRef
   >
-
-    <sky-dropdown-item *ngFor="let item of items"
-      [ariaRole]="itemAriaRole"
-    >
+    <sky-dropdown-item *ngFor="let item of items" [ariaRole]="itemAriaRole">
       <button
         type="button"
         [attr.disabled]="item.disabled ? '' : null"
@@ -34,6 +28,5 @@
         {{ item.name }}
       </button>
     </sky-dropdown-item>
-
   </sky-dropdown-menu>
 </sky-dropdown>

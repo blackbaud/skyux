@@ -6,7 +6,7 @@ import {
   ElementRef,
   Input,
   Renderer2,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 
 @Component({
@@ -14,10 +14,9 @@ import {
   templateUrl: './dropdown-item.component.html',
   styleUrls: ['./dropdown-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class SkyDropdownItemComponent implements AfterViewInit {
-
   /**
    * Specifies an ARIA role for the dropdown menu item
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility)
@@ -49,7 +48,7 @@ export class SkyDropdownItemComponent implements AfterViewInit {
     public elementRef: ElementRef,
     private changeDetector: ChangeDetectorRef,
     private renderer: Renderer2
-  ) { }
+  ) {}
 
   public ngAfterViewInit(): void {
     this.isDisabled = !this.isFocusable();
@@ -76,10 +75,9 @@ export class SkyDropdownItemComponent implements AfterViewInit {
 
   public isFocusable(): boolean {
     /*tslint:disable no-null-keyword */
-    const isFocusable = (
+    const isFocusable =
       this.buttonElement &&
-      this.buttonElement.getAttribute('disabled') === null
-    );
+      this.buttonElement.getAttribute('disabled') === null;
     /*tslint:enable */
     return isFocusable;
   }

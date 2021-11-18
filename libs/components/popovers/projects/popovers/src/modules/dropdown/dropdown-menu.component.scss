@@ -1,5 +1,5 @@
-@import "~@skyux/theme/scss/variables";
-@import "../../styles/mixins";
+@import '~@skyux/theme/scss/variables';
+@import '../../styles/mixins';
 
 .sky-dropdown-menu {
   @include popoverMaxHeight();

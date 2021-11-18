@@ -1,6 +1,4 @@
-import {
-  ElementRef
-} from '@angular/core';
+import { ElementRef } from '@angular/core';
 
 /**
  * @internal

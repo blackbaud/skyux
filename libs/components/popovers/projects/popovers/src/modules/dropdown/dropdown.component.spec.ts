@@ -4,13 +4,10 @@ import {
   fakeAsync,
   inject,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
-import {
-  SkyAffixConfig,
-  SkyAffixService
-} from '@skyux/core';
+import { SkyAffixConfig, SkyAffixService } from '@skyux/core';
 
 import {
   SkyTheme,
@@ -18,40 +15,25 @@ import {
   SkyThemeModule,
   SkyThemeService,
   SkyThemeSettings,
-  SkyThemeSettingsChange
+  SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import {
-  expect,
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  BehaviorSubject,
-  of as observableOf
-} from 'rxjs';
+import { BehaviorSubject, of as observableOf } from 'rxjs';
 
-import {
-  SkyDropdownFixturesModule
-} from './fixtures/dropdown-fixtures.module';
+import { SkyDropdownFixturesModule } from './fixtures/dropdown-fixtures.module';
 
-import {
-  DropdownFixtureComponent
-} from './fixtures/dropdown.component.fixture';
+import { DropdownFixtureComponent } from './fixtures/dropdown.component.fixture';
 
-import {
-  SkyDropdownMessageType
-} from './types/dropdown-message-type';
+import { SkyDropdownMessageType } from './types/dropdown-message-type';
 
-import {
-  SkyDropdownItemComponent
-} from './dropdown-item.component';
+import { SkyDropdownItemComponent } from './dropdown-item.component';
 
 describe('Dropdown component', function () {
-
   let fixture: ComponentFixture<DropdownFixtureComponent>;
   let mockThemeService: {
-    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
 
   //#region helpers
@@ -87,29 +69,31 @@ describe('Dropdown component', function () {
     menuItems.forEach((item: SkyDropdownItemComponent, i: number) => {
       if (i === index) {
         expect(item.isActive).toEqual(true);
-        expect(item.elementRef.nativeElement
-          .querySelector('.sky-dropdown-item'))
-          .toHaveCssClass('sky-dropdown-item-active');
+        expect(
+          item.elementRef.nativeElement.querySelector('.sky-dropdown-item')
+        ).toHaveCssClass('sky-dropdown-item-active');
       } else {
         expect(item.isActive).toEqual(false);
-        expect(item.elementRef.nativeElement
-          .querySelector('.sky-dropdown-item'))
-          .not.toHaveCssClass('sky-dropdown-item-active');
+        expect(
+          item.elementRef.nativeElement.querySelector('.sky-dropdown-item')
+        ).not.toHaveCssClass('sky-dropdown-item-active');
       }
     });
   }
 
   function isMenuItemFocused(index: number): boolean {
-    const menuItemButtons = document.querySelectorAll('.sky-dropdown-item button');
+    const menuItemButtons = document.querySelectorAll(
+      '.sky-dropdown-item button'
+    );
     return isElementFocused(menuItemButtons[index]);
   }
 
   function isElementFocused(elem: Element): boolean {
-    return (elem === document.activeElement);
+    return elem === document.activeElement;
   }
 
   function isElementVisible(elem: Element): boolean {
-    return (getComputedStyle(elem).visibility !== 'hidden');
+    return getComputedStyle(elem).visibility !== 'hidden';
   }
 
   /**
@@ -126,27 +110,22 @@ describe('Dropdown component', function () {
 
   beforeEach(() => {
     mockThemeService = {
-      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
-        {
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.default,
-            SkyThemeMode.presets.light
-          ),
-          previousSettings: undefined
-        }
-      )
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.default,
+          SkyThemeMode.presets.light
+        ),
+        previousSettings: undefined,
+      }),
     };
     TestBed.configureTestingModule({
-      imports: [
-        SkyDropdownFixturesModule,
-        SkyThemeModule
-      ],
+      imports: [SkyDropdownFixturesModule, SkyThemeModule],
       providers: [
         {
           provide: SkyThemeService,
-          useValue: mockThemeService
-        }
-      ]
+          useValue: mockThemeService,
+        },
+      ],
     });
 
     fixture = TestBed.createComponent(DropdownFixtureComponent);
@@ -184,16 +163,18 @@ describe('Dropdown component', function () {
         SkyTheme.presets.modern,
         SkyThemeMode.presets.light
       ),
-      previousSettings: mockThemeService.settingsChange.getValue().currentSettings
+      previousSettings:
+        mockThemeService.settingsChange.getValue().currentSettings,
     });
     detectChangesFakeAsync();
-    const icon = fixture.nativeElement.querySelector('[ng-reflect-icon-type="skyux"]');
+    const icon = fixture.nativeElement.querySelector(
+      '[ng-reflect-icon-type="skyux"]'
+    );
     expect(icon).toExist();
   }));
 
-  it('should allow setting the horizontal alignment', fakeAsync(inject(
-    [SkyAffixService],
-    (affixService: SkyAffixService) => {
+  it('should allow setting the horizontal alignment', fakeAsync(
+    inject([SkyAffixService], (affixService: SkyAffixService) => {
       const expectedAlignment = 'center';
 
       fixture.componentInstance.horizontalAlignment = expectedAlignment;
@@ -202,15 +183,18 @@ describe('Dropdown component', function () {
 
       const mockAffixer: any = {
         placementChange: observableOf({}),
-        affixTo(elem: any, config: SkyAffixConfig ) {
+        affixTo(elem: any, config: SkyAffixConfig) {
           actualConfig = config;
         },
         destroy() {},
-        reaffix() {}
+        reaffix() {},
       };
 
       const button = getButtonElement();
-      const createAffixerSpy = spyOn(affixService, 'createAffixer').and.returnValue(mockAffixer);
+      const createAffixerSpy = spyOn(
+        affixService,
+        'createAffixer'
+      ).and.returnValue(mockAffixer);
 
       detectChangesFakeAsync();
       button.click();
@@ -220,8 +204,8 @@ describe('Dropdown component', function () {
 
       // Clear the spy to return the service to normal.
       createAffixerSpy.and.callThrough();
-    }
-  )));
+    })
+  ));
 
   it('should allow setting button style and type', fakeAsync(() => {
     fixture.componentInstance.buttonStyle = 'danger';
@@ -244,14 +228,17 @@ describe('Dropdown component', function () {
 
     expect(fixture.componentInstance.dropdownItemRefs.length).toEqual(4);
 
-    const spy = spyOn(fixture.componentInstance.messageStream, 'next').and.callThrough();
+    const spy = spyOn(
+      fixture.componentInstance.messageStream,
+      'next'
+    ).and.callThrough();
     fixture.componentInstance.changeItems();
 
     detectChangesFakeAsync();
 
     expect(fixture.componentInstance.dropdownItemRefs.length).toEqual(3);
     expect(spy).toHaveBeenCalledWith({
-      type: SkyDropdownMessageType.Reposition
+      type: SkyDropdownMessageType.Reposition,
     });
   }));
 
@@ -276,8 +263,14 @@ describe('Dropdown component', function () {
   }));
 
   it('should emit when a menu item is clicked', fakeAsync(() => {
-    const menuChangesSpy = spyOn(fixture.componentInstance, 'onMenuChanges').and.callThrough();
-    const itemClickSpy = spyOn(fixture.componentInstance, 'onItemClick').and.callThrough();
+    const menuChangesSpy = spyOn(
+      fixture.componentInstance,
+      'onMenuChanges'
+    ).and.callThrough();
+    const itemClickSpy = spyOn(
+      fixture.componentInstance,
+      'onItemClick'
+    ).and.callThrough();
     detectChangesFakeAsync();
 
     const button = getButtonElement();
@@ -288,17 +281,23 @@ describe('Dropdown component', function () {
 
     // Click third item button.
     const buttonIndex = 2;
-    const firstItemButton = getMenuItems().item(buttonIndex).querySelector('button');
+    const firstItemButton = getMenuItems()
+      .item(buttonIndex)
+      .querySelector('button');
     firstItemButton.click();
     detectChangesFakeAsync();
 
-    const selectedItem = fixture.componentInstance.dropdownItemRefs.find((item, i) => {
-      return (i === buttonIndex);
-    });
+    const selectedItem = fixture.componentInstance.dropdownItemRefs.find(
+      (item, i) => {
+        return i === buttonIndex;
+      }
+    );
 
     expect(menuChangesSpy).toHaveBeenCalledWith({ activeIndex: buttonIndex });
     expect(menuChangesSpy).toHaveBeenCalledWith({ selectedItem });
-    expect(itemClickSpy).toHaveBeenCalledWith(fixture.componentInstance.items[buttonIndex].name);
+    expect(itemClickSpy).toHaveBeenCalledWith(
+      fixture.componentInstance.items[buttonIndex].name
+    );
   }));
 
   it('should survive reposition when items change as the menu opens', fakeAsync(() => {
@@ -452,17 +451,18 @@ describe('Dropdown component', function () {
 
     it('should focus on first menu item when clicked', fakeAsync(() => {
       detectChangesFakeAsync();
-      const spy = spyOn(fixture.componentInstance.messageStream, 'next').and.callThrough();
+      const spy = spyOn(
+        fixture.componentInstance.messageStream,
+        'next'
+      ).and.callThrough();
       const button = getButtonElement();
       button.click();
       detectChangesFakeAsync();
 
-      expect(spy).toHaveBeenCalledWith(
-        { type: SkyDropdownMessageType.Open }
-      );
-      expect(spy).toHaveBeenCalledWith(
-        { type: SkyDropdownMessageType.FocusFirstItem }
-      );
+      expect(spy).toHaveBeenCalledWith({ type: SkyDropdownMessageType.Open });
+      expect(spy).toHaveBeenCalledWith({
+        type: SkyDropdownMessageType.FocusFirstItem,
+      });
     }));
   });
 
@@ -474,8 +474,8 @@ describe('Dropdown component', function () {
 
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
         keyboardEventInit: {
-          key: 'arrowdown'
-        }
+          key: 'arrowdown',
+        },
       });
 
       detectChangesFakeAsync();
@@ -495,8 +495,8 @@ describe('Dropdown component', function () {
       // IE 11 uses 'down'.
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
         keyboardEventInit: {
-          key: 'down'
-        }
+          key: 'down',
+        },
       });
 
       detectChangesFakeAsync();
@@ -516,8 +516,8 @@ describe('Dropdown component', function () {
 
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
         keyboardEventInit: {
-          key: 'arrowup'
-        }
+          key: 'arrowup',
+        },
       });
 
       detectChangesFakeAsync();
@@ -537,30 +537,34 @@ describe('Dropdown component', function () {
       // IE 11 uses 'up'.
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
         keyboardEventInit: {
-          key: 'up'
-        }
+          key: 'up',
+        },
       });
 
       detectChangesFakeAsync();
 
       container = getMenuContainerElement();
       const menuItems = getMenuItems();
-      const lastButton = menuItems.item(menuItems.length - 1).querySelector('button');
+      const lastButton = menuItems
+        .item(menuItems.length - 1)
+        .querySelector('button');
 
       expect(isElementVisible(container)).toEqual(true);
       expect(isElementFocused(lastButton)).toEqual(true);
     }));
 
     it('should not focus last item if it is disabled', fakeAsync(() => {
-      fixture.componentInstance.items[fixture.componentInstance.items.length - 1].disabled = true;
+      fixture.componentInstance.items[
+        fixture.componentInstance.items.length - 1
+      ].disabled = true;
       detectChangesFakeAsync();
 
       const button = getButtonElement();
 
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
         keyboardEventInit: {
-          key: 'arrowup'
-        }
+          key: 'arrowup',
+        },
       });
 
       detectChangesFakeAsync();
@@ -585,8 +589,8 @@ describe('Dropdown component', function () {
 
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
         keyboardEventInit: {
-          key: 'escape'
-        }
+          key: 'escape',
+        },
       });
 
       detectChangesFakeAsync();
@@ -610,8 +614,8 @@ describe('Dropdown component', function () {
 
       SkyAppTestUtility.fireDomEvent(firstItem, 'keydown', {
         keyboardEventInit: {
-          key: 'escape'
-        }
+          key: 'escape',
+        },
       });
 
       detectChangesFakeAsync();
@@ -629,8 +633,8 @@ describe('Dropdown component', function () {
 
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
         keyboardEventInit: {
-          key: 'enter'
-        }
+          key: 'enter',
+        },
       });
 
       detectChangesFakeAsync();
@@ -649,8 +653,8 @@ describe('Dropdown component', function () {
 
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
         keyboardEventInit: {
-          key: 'enter'
-        }
+          key: 'enter',
+        },
       });
 
       detectChangesFakeAsync();
@@ -670,8 +674,8 @@ describe('Dropdown component', function () {
 
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
         keyboardEventInit: {
-          key: 'enter'
-        }
+          key: 'enter',
+        },
       });
 
       detectChangesFakeAsync();
@@ -687,12 +691,12 @@ describe('Dropdown component', function () {
       fixture.componentInstance.items = [
         {
           name: 'Option 1',
-          disabled: true
+          disabled: true,
         },
         {
           name: 'Option 2',
-          disabled: true
-        }
+          disabled: true,
+        },
       ];
       detectChangesFakeAsync();
 
@@ -700,8 +704,8 @@ describe('Dropdown component', function () {
 
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
         keyboardEventInit: {
-          key: 'enter'
-        }
+          key: 'enter',
+        },
       });
 
       detectChangesFakeAsync();
@@ -714,8 +718,8 @@ describe('Dropdown component', function () {
       // Attempt to move to next item.
       SkyAppTestUtility.fireDomEvent(menu, 'keydown', {
         keyboardEventInit: {
-          key: 'arrowdown'
-        }
+          key: 'arrowdown',
+        },
       });
 
       detectChangesFakeAsync();
@@ -726,8 +730,8 @@ describe('Dropdown component', function () {
       // Attempt to move to previous item.
       SkyAppTestUtility.fireDomEvent(menu, 'keydown', {
         keyboardEventInit: {
-          key: 'arrowup'
-        }
+          key: 'arrowup',
+        },
       });
 
       detectChangesFakeAsync();
@@ -738,8 +742,8 @@ describe('Dropdown component', function () {
       // Try to focus the last item using the up arrow.
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
         keyboardEventInit: {
-          key: 'up'
-        }
+          key: 'up',
+        },
       });
 
       detectChangesFakeAsync();
@@ -755,8 +759,8 @@ describe('Dropdown component', function () {
 
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
         keyboardEventInit: {
-          key: 'enter'
-        }
+          key: 'enter',
+        },
       });
 
       detectChangesFakeAsync();
@@ -767,8 +771,8 @@ describe('Dropdown component', function () {
 
       SkyAppTestUtility.fireDomEvent(menu, 'keydown', {
         keyboardEventInit: {
-          key: 'arrowdown'
-        }
+          key: 'arrowdown',
+        },
       });
 
       detectChangesFakeAsync();
@@ -779,8 +783,8 @@ describe('Dropdown component', function () {
       // Try IE 11 'down' key.
       SkyAppTestUtility.fireDomEvent(menu, 'keydown', {
         keyboardEventInit: {
-          key: 'down'
-        }
+          key: 'down',
+        },
       });
 
       detectChangesFakeAsync();
@@ -789,8 +793,8 @@ describe('Dropdown component', function () {
 
       SkyAppTestUtility.fireDomEvent(menu, 'keydown', {
         keyboardEventInit: {
-          key: 'arrowdown'
-        }
+          key: 'arrowdown',
+        },
       });
 
       detectChangesFakeAsync();
@@ -800,8 +804,8 @@ describe('Dropdown component', function () {
 
       SkyAppTestUtility.fireDomEvent(menu, 'keydown', {
         keyboardEventInit: {
-          key: 'arrowup'
-        }
+          key: 'arrowup',
+        },
       });
 
       detectChangesFakeAsync();
@@ -812,8 +816,8 @@ describe('Dropdown component', function () {
       // Try IE 11's 'up' key.
       SkyAppTestUtility.fireDomEvent(menu, 'keydown', {
         keyboardEventInit: {
-          key: 'up'
-        }
+          key: 'up',
+        },
       });
 
       detectChangesFakeAsync();
@@ -828,8 +832,8 @@ describe('Dropdown component', function () {
 
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
         keyboardEventInit: {
-          key: 'enter'
-        }
+          key: 'enter',
+        },
       });
 
       detectChangesFakeAsync();
@@ -841,8 +845,8 @@ describe('Dropdown component', function () {
       // Run 'tab' on trigger button.
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
         keyboardEventInit: {
-          key: 'tab'
-        }
+          key: 'tab',
+        },
       });
       button.blur();
 
@@ -862,8 +866,8 @@ describe('Dropdown component', function () {
 
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
         keyboardEventInit: {
-          key: 'enter'
-        }
+          key: 'enter',
+        },
       });
 
       detectChangesFakeAsync();
@@ -875,8 +879,8 @@ describe('Dropdown component', function () {
       // Run 'tab' on trigger button.
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
         keyboardEventInit: {
-          key: 'tab'
-        }
+          key: 'tab',
+        },
       });
       button.blur();
 
@@ -895,8 +899,8 @@ describe('Dropdown component', function () {
 
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
         keyboardEventInit: {
-          key: 'enter'
-        }
+          key: 'enter',
+        },
       });
 
       detectChangesFakeAsync();
@@ -910,8 +914,8 @@ describe('Dropdown component', function () {
       // Run 'tab' on first item.
       SkyAppTestUtility.fireDomEvent(firstButton, 'keydown', {
         keyboardEventInit: {
-          key: 'tab'
-        }
+          key: 'tab',
+        },
       });
       firstButton.blur();
 
@@ -929,8 +933,8 @@ describe('Dropdown component', function () {
 
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
         keyboardEventInit: {
-          key: 'down'
-        }
+          key: 'down',
+        },
       });
 
       detectChangesFakeAsync();
@@ -943,8 +947,8 @@ describe('Dropdown component', function () {
 
       SkyAppTestUtility.fireDomEvent(menuItems.item(0), 'keydown', {
         keyboardEventInit: {
-          key: 'tab'
-        }
+          key: 'tab',
+        },
       });
 
       detectChangesFakeAsync();
@@ -986,7 +990,9 @@ describe('Dropdown component', function () {
 
       expect(isElementFocused(button)).toEqual(false);
 
-      fixture.componentInstance.sendMessage(SkyDropdownMessageType.FocusTriggerButton);
+      fixture.componentInstance.sendMessage(
+        SkyDropdownMessageType.FocusTriggerButton
+      );
       detectChangesFakeAsync();
 
       expect(isElementFocused(button)).toEqual(true);
@@ -1000,14 +1006,18 @@ describe('Dropdown component', function () {
       detectChangesFakeAsync();
 
       // Focus the first item.
-      fixture.componentInstance.sendMessage(SkyDropdownMessageType.FocusFirstItem);
+      fixture.componentInstance.sendMessage(
+        SkyDropdownMessageType.FocusFirstItem
+      );
       detectChangesFakeAsync();
 
       verifyActiveMenuItemByIndex(0);
       expect(isMenuItemFocused(0)).toEqual(true);
 
       // Focus the next item.
-      fixture.componentInstance.sendMessage(SkyDropdownMessageType.FocusNextItem);
+      fixture.componentInstance.sendMessage(
+        SkyDropdownMessageType.FocusNextItem
+      );
       detectChangesFakeAsync();
 
       // It should skip the second item because it is disabled.
@@ -1015,7 +1025,9 @@ describe('Dropdown component', function () {
       expect(isMenuItemFocused(2)).toEqual(true);
 
       // Focus the previous item.
-      fixture.componentInstance.sendMessage(SkyDropdownMessageType.FocusPreviousItem);
+      fixture.componentInstance.sendMessage(
+        SkyDropdownMessageType.FocusPreviousItem
+      );
       detectChangesFakeAsync();
 
       verifyActiveMenuItemByIndex(0);
@@ -1057,7 +1069,9 @@ describe('Dropdown component', function () {
       detectChangesFakeAsync();
 
       fixture.componentInstance.sendMessage(SkyDropdownMessageType.Open);
-      fixture.componentInstance.sendMessage(SkyDropdownMessageType.FocusLastItem);
+      fixture.componentInstance.sendMessage(
+        SkyDropdownMessageType.FocusLastItem
+      );
 
       detectChangesFakeAsync();
 
@@ -1071,7 +1085,9 @@ describe('Dropdown component', function () {
 
       detectChangesFakeAsync();
 
-      fixture.componentInstance.sendMessage(SkyDropdownMessageType.FocusLastItem);
+      fixture.componentInstance.sendMessage(
+        SkyDropdownMessageType.FocusLastItem
+      );
 
       detectChangesFakeAsync();
 
@@ -1093,7 +1109,9 @@ describe('Dropdown component', function () {
       const menu = getMenuElement();
       const item = getFirstMenuItem();
 
-      expect(button.getAttribute('aria-haspopup')).toEqual(menu.getAttribute('role'));
+      expect(button.getAttribute('aria-haspopup')).toEqual(
+        menu.getAttribute('role')
+      );
       expect(button.getAttribute('aria-label')).toEqual('Context menu');
       expect(button.getAttribute('aria-expanded')).toEqual('true');
       expect(menu.getAttribute('role')).toEqual('menu');
@@ -1109,7 +1127,8 @@ describe('Dropdown component', function () {
       detectChangesFakeAsync();
 
       fixture.componentInstance.menuAriaRole = 'menu-role-override';
-      fixture.componentInstance.menuAriaLabelledBy = 'menu-labelled-by-override';
+      fixture.componentInstance.menuAriaLabelledBy =
+        'menu-labelled-by-override';
       fixture.componentInstance.itemAriaRole = 'item-role-override';
       fixture.componentInstance.label = 'button-label-override';
 
@@ -1119,9 +1138,13 @@ describe('Dropdown component', function () {
       const menu = getMenuElement();
       const item = getFirstMenuItem();
 
-      expect(button.getAttribute('aria-label')).toEqual('button-label-override');
+      expect(button.getAttribute('aria-label')).toEqual(
+        'button-label-override'
+      );
       expect(menu.getAttribute('role')).toEqual('menu-role-override');
-      expect(menu.getAttribute('aria-labelledby')).toEqual('menu-labelled-by-override');
+      expect(menu.getAttribute('aria-labelledby')).toEqual(
+        'menu-labelled-by-override'
+      );
       expect(item.getAttribute('role')).toEqual('item-role-override');
     }));
 
@@ -1152,7 +1175,9 @@ describe('Dropdown component', function () {
       detectChangesFakeAsync();
 
       const menu = getMenuElement();
-      expect(button.getAttribute('aria-controls')).toEqual(menu.getAttribute('id'));
+      expect(button.getAttribute('aria-controls')).toEqual(
+        menu.getAttribute('id')
+      );
 
       button.click();
       detectChangesFakeAsync();
@@ -1184,9 +1209,9 @@ describe('Dropdown component', function () {
           expect(window.document.body).toBeAccessible(() => {}, {
             rules: {
               region: {
-                enabled: false
-              }
-            }
+                enabled: false,
+              },
+            },
           });
         });
       });
@@ -1205,9 +1230,9 @@ describe('Dropdown component', function () {
           expect(window.document.body).toBeAccessible(() => {}, {
             rules: {
               region: {
-                enabled: false
-              }
-            }
+                enabled: false,
+              },
+            },
           });
         });
       });
@@ -1216,7 +1241,6 @@ describe('Dropdown component', function () {
 });
 
 describe('Dropdown component without theme service', function () {
-
   let fixture: ComponentFixture<DropdownFixtureComponent>;
 
   //#region helpers
@@ -1224,7 +1248,7 @@ describe('Dropdown component without theme service', function () {
   /**
    * Multiple ticks are needed to accommodate setTimeout and observable streams.
    */
-   function detectChangesFakeAsync(): void {
+  function detectChangesFakeAsync(): void {
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
@@ -1235,10 +1259,7 @@ describe('Dropdown component without theme service', function () {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyDropdownFixturesModule,
-        SkyThemeModule
-      ]
+      imports: [SkyDropdownFixturesModule, SkyThemeModule],
     });
 
     fixture = TestBed.createComponent(DropdownFixtureComponent);

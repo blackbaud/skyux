@@ -1,48 +1,36 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  expect,
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  SkyPopoverFixture
-} from './popover-fixture';
+import { SkyPopoverFixture } from './popover-fixture';
 
-import {
-  SkyPopoverTestingModule
-} from './popover-testing.module';
+import { SkyPopoverTestingModule } from './popover-testing.module';
 
 //#region Test component
 @Component({
-  selector: 'popover-test',
+  selector: 'sky-popover-test',
   template: `
-<button
-  class="sky-btn sky-margin-inline-compact"
-  type="button"
-  [skyPopover]="myPopover"
-  [skyPopoverAlignment]="popoverAlignment"
-  [skyPopoverPlacement]="popoverPlacement"
-  #directiveRef
->
-  Open popover on click
-</button>
+    <button
+      class="sky-btn sky-margin-inline-compact"
+      type="button"
+      [skyPopover]="myPopover"
+      [skyPopoverAlignment]="popoverAlignment"
+      [skyPopoverPlacement]="popoverPlacement"
+      #directiveRef
+    >
+      Open popover on click
+    </button>
 
-<sky-popover
-  [dismissOnBlur]="dismissOnBlur"
-  [popoverTitle]="popoverTitle"
-  #myPopover
->
-  {{popoverBody}}
-</sky-popover>
-`
+    <sky-popover
+      [dismissOnBlur]="dismissOnBlur"
+      [popoverTitle]="popoverTitle"
+      #myPopover
+    >
+      {{ popoverBody }}
+    </sky-popover>
+  `,
 })
 class PopoverTestComponent {
   public dismissOnBlur: boolean;
@@ -78,17 +66,11 @@ describe('Popover fixture', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        PopoverTestComponent
-      ],
-      imports: [
-        SkyPopoverTestingModule
-      ]
+      declarations: [PopoverTestComponent],
+      imports: [SkyPopoverTestingModule],
     });
 
-    fixture = TestBed.createComponent(
-      PopoverTestComponent
-    );
+    fixture = TestBed.createComponent(PopoverTestComponent);
     testComponent = fixture.componentInstance;
     fixture.detectChanges();
     popoverFixture = new SkyPopoverFixture(fixture);
@@ -118,7 +100,9 @@ describe('Popover fixture', () => {
 
     // expect the values to match our updates
     expect(popoverFixture.popoverTitle).toEqual(testComponent.popoverTitle);
-    expect(SkyAppTestUtility.getText(popoverFixture.body)).toEqual(testComponent.popoverBody);
+    expect(SkyAppTestUtility.getText(popoverFixture.body)).toEqual(
+      testComponent.popoverBody
+    );
     expect(popoverFixture.alignment).toEqual(testComponent.popoverAlignment);
     expect(popoverFixture.placement).toEqual(testComponent.popoverPlacement);
   });

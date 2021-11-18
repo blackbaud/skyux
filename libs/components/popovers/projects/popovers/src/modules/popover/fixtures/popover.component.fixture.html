@@ -1,6 +1,4 @@
-<div
-  class="canvas"
->
+<div class="canvas">
   <button
     class="sky-btn sky-btn-default"
     type="button"
@@ -24,15 +22,11 @@
     (popoverOpened)="onPopoverOpened()"
     #popoverRef
   >
-    <div
-      [style.height.px]="height ? height : null"
-    >
+    <div [style.height.px]="height ? height : null">
       Popover content.
       <ng-container *ngIf="showFocusableChildren">
         <input type="text" />
-        <button type="button">
-          Button
-        </button>
+        <button type="button">Button</button>
       </ng-container>
     </div>
   </sky-popover>

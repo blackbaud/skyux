@@ -1,24 +1,18 @@
-import {
-  ChangeDetectorRef,
-  Component
-} from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 
 import {
   SkyDropdownMessage,
   SkyDropdownMessageType,
-  SkyDropdownMenuChange
+  SkyDropdownMenuChange,
 } from '@skyux/popovers';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-dropdown-demo',
-  templateUrl: './dropdown-demo.component.html'
+  templateUrl: './dropdown-demo.component.html',
 })
 export class DropdownDemoComponent {
-
   public dropdownController = new Subject<SkyDropdownMessage>();
 
   public items: any[] = [
@@ -26,12 +20,10 @@ export class DropdownDemoComponent {
     { name: 'Disabled option', disabled: true },
     { name: 'Option 3', disabled: false },
     { name: 'Option 4', disabled: false },
-    { name: 'Option 5', disabled: false }
+    { name: 'Option 5', disabled: false },
   ];
 
-  constructor(
-    private changeDetector: ChangeDetectorRef
-  ) { }
+  constructor(private changeDetector: ChangeDetectorRef) {}
 
   public actionClicked(action: string): void {
     alert(`You selected ${action}.`);

@@ -3,18 +3,15 @@ import {
   fakeAsync,
   inject,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
-import {
-  expect,
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
 
 import {
   SkyAffixAutoFitContext,
   SkyAffixPlacementChange,
-  SkyAffixService
+  SkyAffixService,
 } from '@skyux/core';
 
 import {
@@ -22,32 +19,22 @@ import {
   SkyThemeMode,
   SkyThemeService,
   SkyThemeSettings,
-  SkyThemeSettingsChange
+  SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import {
-  BehaviorSubject,
-  Subject
-} from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
-import {
-  PopoverFixtureComponent
-} from './fixtures/popover.component.fixture';
+import { PopoverFixtureComponent } from './fixtures/popover.component.fixture';
 
-import {
-  PopoverFixturesModule
-} from './fixtures/popover.module.fixture';
+import { PopoverFixturesModule } from './fixtures/popover.module.fixture';
 
-import {
-  SkyPopoverMessageType
-} from './types/popover-message-type';
+import { SkyPopoverMessageType } from './types/popover-message-type';
 
 describe('Popover directive', () => {
-
   let fixture: ComponentFixture<PopoverFixtureComponent>;
 
   let mockThemeSvc: {
-    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
 
   //#region helpers
@@ -61,11 +48,11 @@ describe('Popover directive', () => {
   }
 
   function isElementFocused(elem: Element): boolean {
-    return (elem === document.activeElement);
+    return elem === document.activeElement;
   }
 
   function isElementVisible(elem: Element): boolean {
-    return (getComputedStyle(elem).visibility !== 'hidden');
+    return getComputedStyle(elem).visibility !== 'hidden';
   }
 
   function detectChangesFakeAsync(): void {
@@ -83,27 +70,23 @@ describe('Popover directive', () => {
 
   beforeEach(() => {
     mockThemeSvc = {
-      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
-        {
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.default,
-            SkyThemeMode.presets.light
-          ),
-          previousSettings: undefined
-        }
-      )
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.default,
+          SkyThemeMode.presets.light
+        ),
+        previousSettings: undefined,
+      }),
     };
 
     TestBed.configureTestingModule({
-      imports: [
-        PopoverFixturesModule
-      ],
+      imports: [PopoverFixturesModule],
       providers: [
         {
           provide: SkyThemeService,
-          useValue: mockThemeSvc
-        }
-      ]
+          useValue: mockThemeSvc,
+        },
+      ],
     });
 
     fixture = TestBed.createComponent(PopoverFixtureComponent);
@@ -227,10 +210,11 @@ describe('Popover directive', () => {
     button.click();
     detectChangesFakeAsync();
 
-    const headingElement = getPopoverElement().querySelector('.sky-popover-header');
+    const headingElement = getPopoverElement().querySelector(
+      '.sky-popover-header'
+    );
 
     expect(headingElement).toHaveText('Did you know?');
-
   }));
 
   it('should add scrollbars for tall popover', fakeAsync(() => {
@@ -479,8 +463,8 @@ describe('Popover directive', () => {
 
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
         keyboardEventInit: {
-          key: 'escape'
-        }
+          key: 'escape',
+        },
       });
 
       detectChangesFakeAsync();
@@ -489,13 +473,16 @@ describe('Popover directive', () => {
 
       expect(popover).toBeNull();
 
-      const messageSpy = spyOn(fixture.componentInstance.messageStream, 'next').and.callThrough();
+      const messageSpy = spyOn(
+        fixture.componentInstance.messageStream,
+        'next'
+      ).and.callThrough();
 
       // Escape key detection shouldn't work while the popover is closed.
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
         keyboardEventInit: {
-          key: 'escape'
-        }
+          key: 'escape',
+        },
       });
 
       detectChangesFakeAsync();
@@ -516,8 +503,8 @@ describe('Popover directive', () => {
 
       SkyAppTestUtility.fireDomEvent(popover, 'keydown', {
         keyboardEventInit: {
-          key: 'escape'
-        }
+          key: 'escape',
+        },
       });
 
       detectChangesFakeAsync();
@@ -539,8 +526,8 @@ describe('Popover directive', () => {
 
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
         keyboardEventInit: {
-          key: 'arrowdown'
-        }
+          key: 'arrowdown',
+        },
       });
 
       detectChangesFakeAsync();
@@ -557,8 +544,8 @@ describe('Popover directive', () => {
       // Test IE11-specific key names.
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
         keyboardEventInit: {
-          key: 'down'
-        }
+          key: 'down',
+        },
       });
 
       detectChangesFakeAsync();
@@ -569,12 +556,15 @@ describe('Popover directive', () => {
       button.click();
       detectChangesFakeAsync();
 
-      const messageSpy = spyOn(fixture.componentInstance.messageStream, 'next').and.callThrough();
+      const messageSpy = spyOn(
+        fixture.componentInstance.messageStream,
+        'next'
+      ).and.callThrough();
 
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
         keyboardEventInit: {
-          key: 'arrowleft'
-        }
+          key: 'arrowleft',
+        },
       });
 
       detectChangesFakeAsync();
@@ -598,8 +588,8 @@ describe('Popover directive', () => {
 
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
         keyboardEventInit: {
-          key: 'arrowup'
-        }
+          key: 'arrowup',
+        },
       });
       // Also confirm focusin event fires correctly.
       SkyAppTestUtility.fireDomEvent(focusableItems.item(0), 'focusin');
@@ -613,8 +603,8 @@ describe('Popover directive', () => {
       SkyAppTestUtility.fireDomEvent(focusableItems.item(0), 'keydown', {
         keyboardEventInit: {
           key: 'tab',
-          shiftKey: true
-        }
+          shiftKey: true,
+        },
       });
 
       detectChangesFakeAsync();
@@ -631,8 +621,8 @@ describe('Popover directive', () => {
 
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
         keyboardEventInit: {
-          key: 'arrowright'
-        }
+          key: 'arrowright',
+        },
       });
 
       detectChangesFakeAsync();
@@ -643,8 +633,8 @@ describe('Popover directive', () => {
 
       SkyAppTestUtility.fireDomEvent(focusableItems.item(1), 'keydown', {
         keyboardEventInit: {
-          key: 'tab'
-        }
+          key: 'tab',
+        },
       });
 
       detectChangesFakeAsync();
@@ -669,8 +659,8 @@ describe('Popover directive', () => {
 
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
         keyboardEventInit: {
-          key: 'TAB'
-        }
+          key: 'TAB',
+        },
       });
       detectChangesFakeAsync();
 
@@ -693,8 +683,8 @@ describe('Popover directive', () => {
 
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
         keyboardEventInit: {
-          key: 'tab'
-        }
+          key: 'tab',
+        },
       });
       detectChangesFakeAsync();
 
@@ -720,8 +710,8 @@ describe('Popover directive', () => {
 
       SkyAppTestUtility.fireDomEvent(popover, 'keydown', {
         keyboardEventInit: {
-          key: 'tab'
-        }
+          key: 'tab',
+        },
       });
       detectChangesFakeAsync();
 
@@ -766,7 +756,9 @@ describe('Popover directive', () => {
       expect(isElementFocused(popover)).toEqual(true);
 
       const applyFocusSpy = spyOn(
-        fixture.componentInstance.popoverRef['contentRef']['coreAdapterService'],
+        fixture.componentInstance.popoverRef['contentRef'][
+          'coreAdapterService'
+        ],
         'getFocusableChildrenAndApplyFocus'
       ).and.callThrough();
 
@@ -778,16 +770,15 @@ describe('Popover directive', () => {
       expect(applyFocusSpy).not.toHaveBeenCalled();
     }));
 
-    it('should allow repositioning the popover', fakeAsync(inject(
-      [SkyAffixService], (affixService: SkyAffixService) => {
-
+    it('should allow repositioning the popover', fakeAsync(
+      inject([SkyAffixService], (affixService: SkyAffixService) => {
         const mockAffixer: any = {
           offsetChange: new Subject(),
           overflowScroll: new Subject(),
           placementChange: new Subject(),
           affixTo() {},
           destroy() {},
-          reaffix() {}
+          reaffix() {},
         };
 
         spyOn(affixService, 'createAffixer').and.returnValue(mockAffixer);
@@ -810,7 +801,7 @@ describe('Popover directive', () => {
 
         // Trigger a temporary placement change.
         mockAffixer.placementChange.next({
-          placement: 'above'
+          placement: 'above',
         });
 
         detectChangesFakeAsync();
@@ -827,31 +818,30 @@ describe('Popover directive', () => {
         detectChangesFakeAsync();
 
         // The original, preferred placement should be re-applied.
-        expect((affixSpy.calls.argsFor(0)[1] as SkyAffixPlacementChange).placement).toEqual('below');
+        expect(
+          (affixSpy.calls.argsFor(0)[1] as SkyAffixPlacementChange).placement
+        ).toEqual('below');
         expect(popover).toHaveCssClass('sky-popover-placement-below');
-      }
-    )));
+      })
+    ));
   });
 
   describe('affixer events', function () {
     let mockAffixer: any;
     let affixService: SkyAffixService;
 
-    beforeEach(inject(
-      [SkyAffixService],
-      (_affixService: SkyAffixService) => {
-        affixService = _affixService;
-        mockAffixer = {
-          offsetChange: new Subject(),
-          overflowScroll: new Subject(),
-          placementChange: new Subject(),
-          affixTo() {},
-          destroy() {}
-        };
+    beforeEach(inject([SkyAffixService], (_affixService: SkyAffixService) => {
+      affixService = _affixService;
+      mockAffixer = {
+        offsetChange: new Subject(),
+        overflowScroll: new Subject(),
+        placementChange: new Subject(),
+        affixTo() {},
+        destroy() {},
+      };
 
-        spyOn(affixService, 'createAffixer').and.returnValue(mockAffixer);
-      }
-    ));
+      spyOn(affixService, 'createAffixer').and.returnValue(mockAffixer);
+    }));
 
     it('should create the affixer with proper arguments', fakeAsync(() => {
       const affixToSpy = spyOn(mockAffixer, 'affixTo').and.callThrough();
@@ -867,7 +857,7 @@ describe('Popover directive', () => {
         horizontalAlignment: 'center',
         isSticky: true,
         placement: 'above',
-        verticalAlignment: 'bottom'
+        verticalAlignment: 'bottom',
       });
 
       fixture.componentInstance.sendMessage(SkyPopoverMessageType.Close);
@@ -886,7 +876,7 @@ describe('Popover directive', () => {
         horizontalAlignment: 'center',
         isSticky: true,
         placement: 'below',
-        verticalAlignment: 'top'
+        verticalAlignment: 'top',
       });
 
       fixture.componentInstance.sendMessage(SkyPopoverMessageType.Close);
@@ -905,7 +895,7 @@ describe('Popover directive', () => {
         horizontalAlignment: 'center',
         isSticky: true,
         placement: 'left',
-        verticalAlignment: 'middle'
+        verticalAlignment: 'middle',
       });
 
       fixture.componentInstance.sendMessage(SkyPopoverMessageType.Close);
@@ -924,7 +914,7 @@ describe('Popover directive', () => {
         horizontalAlignment: 'center',
         isSticky: true,
         placement: 'right',
-        verticalAlignment: 'middle'
+        verticalAlignment: 'middle',
       });
     }));
 
@@ -940,7 +930,7 @@ describe('Popover directive', () => {
       expect(popover).toHaveCssClass('sky-popover-placement-above');
 
       mockAffixer.placementChange.next({
-        placement: 'below'
+        placement: 'below',
       });
 
       detectChangesFakeAsync();
@@ -962,7 +952,7 @@ describe('Popover directive', () => {
       // Trigger a null placement change.
       /*tslint:disable:no-null-keyword*/
       mockAffixer.placementChange.next({
-        placement: null
+        placement: null,
       });
       /*tslint:enable:no-null-keyword*/
 
@@ -988,8 +978,6 @@ describe('Popover directive', () => {
       detectChangesFakeAsync();
 
       expect(arrowSpy).toHaveBeenCalled();
-
     }));
   });
-
 });

@@ -3,47 +3,30 @@ import {
   Component,
   QueryList,
   ViewChild,
-  ViewChildren
+  ViewChildren,
 } from '@angular/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  SkyDropdownHorizontalAlignment
-} from '../types/dropdown-horizontal-alignment';
+import { SkyDropdownHorizontalAlignment } from '../types/dropdown-horizontal-alignment';
 
-import {
-  SkyDropdownMessage
-} from '../types/dropdown-message';
+import { SkyDropdownMessage } from '../types/dropdown-message';
 
-import {
-  SkyDropdownMessageType
-} from '../types/dropdown-message-type';
+import { SkyDropdownMessageType } from '../types/dropdown-message-type';
 
-import {
-  SkyDropdownTriggerType
-} from '../types/dropdown-trigger-type';
+import { SkyDropdownTriggerType } from '../types/dropdown-trigger-type';
 
-import {
-  SkyDropdownItemComponent
-} from '../dropdown-item.component';
+import { SkyDropdownItemComponent } from '../dropdown-item.component';
 
-import {
-  SkyDropdownMenuComponent
-} from '../dropdown-menu.component';
+import { SkyDropdownMenuComponent } from '../dropdown-menu.component';
 
-import {
-  SkyDropdownComponent
-} from '../dropdown.component';
+import { SkyDropdownComponent } from '../dropdown.component';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './dropdown.component.fixture.html'
+  templateUrl: './dropdown.component.fixture.html',
 })
 export class DropdownFixtureComponent {
-
   //#region directive properties
 
   public buttonStyle: string;
@@ -75,12 +58,12 @@ export class DropdownFixtureComponent {
   //#endregion directive properties
 
   @ViewChild('dropdownRef', {
-    read: SkyDropdownComponent
+    read: SkyDropdownComponent,
   })
   public dropdownRef: SkyDropdownComponent;
 
   @ViewChild('dropdownMenuRef', {
-    read: SkyDropdownMenuComponent
+    read: SkyDropdownMenuComponent,
   })
   public dropdownMenuRef: SkyDropdownMenuComponent;
 
@@ -91,14 +74,12 @@ export class DropdownFixtureComponent {
     { name: 'Option 1', disabled: false },
     { name: 'Option 2', disabled: true },
     { name: 'Option 3', disabled: false },
-    { name: 'Option 4', disabled: false }
+    { name: 'Option 4', disabled: false },
   ];
 
-  constructor(
-    private changeDetector: ChangeDetectorRef
-  ) { }
+  constructor(private changeDetector: ChangeDetectorRef) {}
 
-  public onMenuChanges(): void { }
+  public onMenuChanges(): void {}
 
   public onItemClick(): void {}
 
@@ -113,7 +94,7 @@ export class DropdownFixtureComponent {
     for (let i = 0; i < 50; i++) {
       items.push({
         name: `Option ${i}`,
-        disabled: false
+        disabled: false,
       });
     }
 
@@ -124,5 +105,4 @@ export class DropdownFixtureComponent {
   public sendMessage(type: SkyDropdownMessageType) {
     this.messageStream.next({ type });
   }
-
 }

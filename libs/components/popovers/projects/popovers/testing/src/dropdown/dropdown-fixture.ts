@@ -1,30 +1,16 @@
-import {
-  DebugElement
-} from '@angular/core';
+import { DebugElement } from '@angular/core';
 
-import {
-  ComponentFixture
-} from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  SkyPopoversFixtureDropdown
-} from './popovers-fixture-dropdown';
+import { SkyPopoversFixtureDropdown } from './popovers-fixture-dropdown';
 
-import {
-  SkyPopoversFixtureDropdownItem
-} from './popovers-fixture-dropdown-item';
+import { SkyPopoversFixtureDropdownItem } from './popovers-fixture-dropdown-item';
 
-import {
-  SkyPopoversFixtureDropdownMenu
-} from './popovers-fixture-dropdown-menu';
+import { SkyPopoversFixtureDropdownMenu } from './popovers-fixture-dropdown-menu';
 
 /**
  * Provides information for and interaction with a SKY UX dropdown component.
@@ -32,7 +18,6 @@ import {
  * of a component, such as changing its DOM structure.
  */
 export class SkyDropdownFixture {
-
   /**
    * Returns information about the dropdown component.
    */
@@ -48,7 +33,7 @@ export class SkyDropdownFixture {
       buttonType: this.getButtonType(button.classes),
       disabled: button.nativeElement.disabled,
       label: button.nativeElement.getAttribute('aria-label'),
-      title: button.nativeElement.getAttribute('title')
+      title: button.nativeElement.getAttribute('title'),
     };
   }
 
@@ -70,7 +55,7 @@ export class SkyDropdownFixture {
 
     return {
       ariaLabelledBy: menu.getAttribute('aria-labelledby'),
-      ariaRole: menu.getAttribute('role')
+      ariaRole: menu.getAttribute('role'),
     };
   }
 
@@ -82,18 +67,17 @@ export class SkyDropdownFixture {
   }
 
   private get buttonDebugElement(): DebugElement {
-    return this.debugEl.query(
-      By.css('.sky-dropdown-button')
-    );
+    return this.debugEl.query(By.css('.sky-dropdown-button'));
   }
 
   private debugEl: DebugElement;
 
-  constructor(
-    private fixture: ComponentFixture<any>,
-    skyTestId: string
-  ) {
-    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(fixture, skyTestId, 'sky-dropdown');
+  constructor(private fixture: ComponentFixture<any>, skyTestId: string) {
+    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
+      fixture,
+      skyTestId,
+      'sky-dropdown'
+    );
   }
 
   /**
@@ -135,7 +119,7 @@ export class SkyDropdownFixture {
     }
 
     return {
-      ariaRole: item.getAttribute('role')
+      ariaRole: item.getAttribute('role'),
     };
   }
 

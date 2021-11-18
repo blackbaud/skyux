@@ -11,37 +11,22 @@ import {
   Optional,
   Output,
   QueryList,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 
-import {
-  fromEvent as observableFromEvent,
-  Subject
-} from 'rxjs';
+import { fromEvent as observableFromEvent, Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkyDropdownComponent
-} from './dropdown.component';
+import { SkyDropdownComponent } from './dropdown.component';
 
-import {
-  SkyDropdownItemComponent
-} from './dropdown-item.component';
+import { SkyDropdownItemComponent } from './dropdown-item.component';
 
-import {
-  SkyDropdownMenuChange
-} from './types/dropdown-menu-change';
+import { SkyDropdownMenuChange } from './types/dropdown-menu-change';
 
-import {
-  SkyDropdownMessage
-} from './types/dropdown-message';
+import { SkyDropdownMessage } from './types/dropdown-message';
 
-import {
-  SkyDropdownMessageType
-} from './types/dropdown-message-type';
+import { SkyDropdownMessageType } from './types/dropdown-message-type';
 
 let nextId = 0;
 
@@ -50,10 +35,9 @@ let nextId = 0;
   templateUrl: './dropdown-menu.component.html',
   styleUrls: ['./dropdown-menu.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
-
   /**
    * Specifies the HTML element ID (without the leading `#`) of the element that labels
    * the dropdown menu. This sets the dropdown menu's `aria-labelledby` attribute
@@ -111,8 +95,8 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
   public dropdownMenuId: string = `sky-dropdown-menu-${++nextId}`;
 
   private get hasFocusableItems(): boolean {
-    const found = this.menuItems.find(item => item.isFocusable());
-    return (found !== undefined);
+    const found = this.menuItems.find((item) => item.isFocusable());
+    return found !== undefined;
   }
 
   public set menuIndex(value: number) {
@@ -131,7 +115,7 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
     return this._menuIndex;
   }
 
-  @ContentChildren(SkyDropdownItemComponent, {descendants: true})
+  @ContentChildren(SkyDropdownItemComponent, { descendants: true })
   public menuItems: QueryList<SkyDropdownItemComponent>;
 
   private ngUnsubscribe = new Subject();
@@ -146,7 +130,7 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
     private changeDetector: ChangeDetectorRef,
     private elementRef: ElementRef,
     @Optional() private dropdownComponent: SkyDropdownComponent
-  ) { }
+  ) {}
 
   public ngAfterContentInit(): void {
     /* istanbul ignore else */
@@ -155,39 +139,35 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
       this.dropdownComponent.menuAriaRole = this.ariaRole;
 
       this.dropdownComponent.messageStream
-        .pipe(
-          takeUntil(this.ngUnsubscribe)
-        )
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((message: SkyDropdownMessage) => {
           /* tslint:disable-next-line:switch-default */
           switch (message.type) {
             case SkyDropdownMessageType.Open:
             case SkyDropdownMessageType.Close:
-            this.reset();
-            break;
+              this.reset();
+              break;
 
             case SkyDropdownMessageType.FocusFirstItem:
-            this.focusFirstItem();
-            break;
+              this.focusFirstItem();
+              break;
 
             case SkyDropdownMessageType.FocusNextItem:
-            this.focusNextItem();
-            break;
+              this.focusNextItem();
+              break;
 
             case SkyDropdownMessageType.FocusPreviousItem:
-            this.focusPreviousItem();
-            break;
+              this.focusPreviousItem();
+              break;
 
             case SkyDropdownMessageType.FocusLastItem:
-            this.focusLastItem();
-            break;
+              this.focusLastItem();
+              break;
           }
         });
 
       this.menuChanges
-        .pipe(
-          takeUntil(this.ngUnsubscribe)
-        )
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((change: SkyDropdownMenuChange) => {
           // Close the dropdown when a menu item is selected.
           if (change.selectedItem) {
@@ -204,13 +184,11 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
 
     // Reset dropdown whenever the menu items change.
     this.menuItems.changes
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((items: QueryList<SkyDropdownItemComponent>) => {
         this.reset();
         this.menuChanges.emit({
-          items: items.toArray()
+          items: items.toArray(),
         });
       });
 
@@ -299,34 +277,36 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
     this.resetItemsActiveState();
     item.focusElement(this.useNativeFocus);
     this.menuChanges.emit({
-      activeIndex: this.menuIndex
+      activeIndex: this.menuIndex,
     });
   }
 
   private getItemByIndex(index: number): SkyDropdownItemComponent {
     return this.menuItems.find((item: any, i: number) => {
-      return (i === index);
+      return i === index;
     });
   }
 
   private selectItemByEventTarget(target: EventTarget): void {
-    const selectedItem = this.menuItems.find((item: SkyDropdownItemComponent, i: number) => {
-      const found = (item.elementRef.nativeElement.contains(target));
+    const selectedItem = this.menuItems.find(
+      (item: SkyDropdownItemComponent, i: number) => {
+        const found = item.elementRef.nativeElement.contains(target);
 
-      if (found) {
-        this.menuIndex = i;
-        this.menuChanges.next({
-          activeIndex: this.menuIndex
-        });
+        if (found) {
+          this.menuIndex = i;
+          this.menuChanges.next({
+            activeIndex: this.menuIndex,
+          });
+        }
+
+        return found;
       }
-
-      return found;
-    });
+    );
 
     /* istanbul ignore else */
     if (selectedItem) {
       this.menuChanges.next({
-        selectedItem
+        selectedItem,
       });
     }
   }
@@ -339,17 +319,13 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
     const dropdownMenuElement = this.elementRef.nativeElement;
 
     observableFromEvent(dropdownMenuElement, 'click')
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((event: MouseEvent) => {
         this.selectItemByEventTarget(event.target);
       });
 
     observableFromEvent(dropdownMenuElement, 'keydown')
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((event: KeyboardEvent) => {
         const key = event.key.toLowerCase();
 
@@ -384,17 +360,13 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
       });
 
     observableFromEvent(dropdownMenuElement, 'mouseenter')
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         this.dropdownComponent.isMouseEnter = true;
       });
 
     observableFromEvent(dropdownMenuElement, 'mouseleave')
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         this.dropdownComponent.isMouseEnter = false;
         // Allow the dropdown component to set isMouseEnter before checking if the close action
@@ -409,5 +381,4 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
         });
       });
   }
-
 }

@@ -1,3 +1,7 @@
+# 5.0.1 (2021-11-18)
+
+- Added support for Prettier code formatting and updated the builder to support StackBlitz. [#168](https://github.com/blackbaud/skyux-popovers/pull/168)
+
 # 5.0.0 (2021-09-30)
 
 ### New features
@@ -78,6 +82,7 @@
 # 4.1.0 (2020-07-21)
 
 - Added a test fixture for the dropdown component to use in consumer unit tests. [#99](https://github.com/blackbaud/skyux-popovers/pull/99)
+
   ```
   import { SkyDropdownFixture } from '@skyux/popovers/testing';
 

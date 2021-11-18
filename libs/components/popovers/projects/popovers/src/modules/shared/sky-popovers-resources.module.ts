@@ -12,11 +12,13 @@ import {
   SkyI18nModule,
   SkyLibResources,
   SkyLibResourcesProvider,
-  SKY_LIB_RESOURCES_PROVIDERS
+  SKY_LIB_RESOURCES_PROVIDERS,
 } from '@skyux/i18n';
 
 const RESOURCES: { [locale: string]: SkyLibResources } = {
-  'EN-US': {"skyux_dropdown_context_menu_default_label":{"message":"Context menu"}},
+  'EN-US': {
+    skyux_dropdown_context_menu_default_label: { message: 'Context menu' },
+  },
 };
 
 export class SkyPopoversResourcesProvider implements SkyLibResourcesProvider {
@@ -30,10 +32,12 @@ export class SkyPopoversResourcesProvider implements SkyLibResourcesProvider {
  */
 @NgModule({
   exports: [SkyI18nModule],
-  providers: [{
-    provide: SKY_LIB_RESOURCES_PROVIDERS,
-    useClass: SkyPopoversResourcesProvider,
-    multi: true
-  }]
+  providers: [
+    {
+      provide: SKY_LIB_RESOURCES_PROVIDERS,
+      useClass: SkyPopoversResourcesProvider,
+      multi: true,
+    },
+  ],
 })
-export class SkyPopoversResourcesModule { }
+export class SkyPopoversResourcesModule {}

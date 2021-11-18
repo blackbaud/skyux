@@ -1,22 +1,14 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {
-  SkyPopoverMessage,
-  SkyPopoverMessageType
-} from '@skyux/popovers';
+import { SkyPopoverMessage, SkyPopoverMessageType } from '@skyux/popovers';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-popover-demo',
-  templateUrl: './popover-demo.component.html'
+  templateUrl: './popover-demo.component.html',
 })
 export class PopoverDemoComponent {
-
   public popoverController = new Subject<SkyPopoverMessage>();
 
   private popoverOpen: boolean = false;

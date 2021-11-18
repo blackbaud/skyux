@@ -53,9 +53,7 @@
   [dismissOnBlur]="false"
   [messageStream]="dropdownController"
 >
-  <sky-dropdown-button>
-    Open
-  </sky-dropdown-button>
+  <sky-dropdown-button> Open </sky-dropdown-button>
   <sky-dropdown-menu
     [useNativeFocus]="false"
     (menuChanges)="onMenuChanges($event)"
@@ -73,5 +71,6 @@
 </sky-dropdown>
 
 <p>
-  This menu does not bring the active items to focus; this is useful for custom implementations where the focus should remain on a different control.
+  This menu does not bring the active items to focus; this is useful for custom
+  implementations where the focus should remain on a different control.
 </p>

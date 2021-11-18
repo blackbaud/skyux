@@ -1,14 +1,8 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  SkyDropdownModule
-} from '@skyux/popovers';
+import { SkyDropdownModule } from '@skyux/popovers';
 
 @NgModule({
-  exports: [
-    SkyDropdownModule
-  ]
+  exports: [SkyDropdownModule],
 })
-export class SkyDropdownTestingModule { }
+export class SkyDropdownTestingModule {}

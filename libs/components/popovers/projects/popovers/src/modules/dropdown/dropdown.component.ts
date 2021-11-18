@@ -8,7 +8,7 @@ import {
   OnInit,
   Optional,
   TemplateRef,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
 import {
@@ -16,50 +16,32 @@ import {
   SkyAffixer,
   SkyAffixService,
   SkyOverlayInstance,
-  SkyOverlayService
+  SkyOverlayService,
 } from '@skyux/core';
 
-import {
-  SkyThemeService
-} from '@skyux/theme';
+import { SkyThemeService } from '@skyux/theme';
 
-import {
-  fromEvent as observableFromEvent,
-  Subject
-} from 'rxjs';
+import { fromEvent as observableFromEvent, Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkyDropdownHorizontalAlignment
-} from './types/dropdown-horizontal-alignment';
+import { SkyDropdownHorizontalAlignment } from './types/dropdown-horizontal-alignment';
 
-import {
-  SkyDropdownMessage
-} from './types/dropdown-message';
+import { SkyDropdownMessage } from './types/dropdown-message';
 
-import {
-  SkyDropdownMessageType
-} from './types/dropdown-message-type';
+import { SkyDropdownMessageType } from './types/dropdown-message-type';
 
-import {
-  SkyDropdownTriggerType
-} from './types/dropdown-trigger-type';
+import { SkyDropdownTriggerType } from './types/dropdown-trigger-type';
 
-import {
-  parseAffixHorizontalAlignment
-} from './dropdown-extensions';
+import { parseAffixHorizontalAlignment } from './dropdown-extensions';
 
 @Component({
   selector: 'sky-dropdown',
   templateUrl: './dropdown.component.html',
   styleUrls: ['./dropdown.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDropdownComponent implements OnInit, OnDestroy {
-
   /**
    * Specifies a background color for the dropdown button. Available values are `default` and
    * `primary`. These values set the background color from the
@@ -185,7 +167,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   }
 
   @ViewChild('menuContainerElementRef', {
-    read: ElementRef
+    read: ElementRef,
   })
   public set menuContainerElementRef(value: ElementRef) {
     if (value) {
@@ -210,13 +192,13 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
 
   @ViewChild('menuContainerTemplateRef', {
     read: TemplateRef,
-    static: true
+    static: true,
   })
   private menuContainerTemplateRef: TemplateRef<any>;
 
   @ViewChild('triggerButton', {
     read: ElementRef,
-    static: true
+    static: true,
   })
   private triggerButton: ElementRef;
 
@@ -253,18 +235,14 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     this.addEventListeners();
 
     this.messageStream
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((message: SkyDropdownMessage) => {
         this.handleIncomingMessages(message);
       });
 
     // Load proper icons on theme change.
     this.themeSvc?.settingsChange
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         this.changeDetector.markForCheck();
       });
@@ -283,9 +261,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     const buttonElement = this.triggerButton.nativeElement;
 
     observableFromEvent(buttonElement, 'click')
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         if (this.isOpen) {
           this.sendMessage(SkyDropdownMessageType.Close);
@@ -299,9 +275,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
       });
 
     observableFromEvent(buttonElement, 'keydown')
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((event: KeyboardEvent) => {
         const key = event.key.toLowerCase();
 
@@ -348,9 +322,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
       });
 
     observableFromEvent(buttonElement, 'mouseenter')
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         this.isMouseEnter = true;
         if (this.trigger === 'hover') {
@@ -359,9 +331,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
       });
 
     observableFromEvent(buttonElement, 'mouseleave')
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         this.isMouseEnter = false;
         if (this.trigger === 'hover') {
@@ -383,20 +353,16 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
 
     const overlay = this.overlayService.create({
       enableScroll: true,
-      enablePointerEvents: true
+      enablePointerEvents: true,
     });
 
     overlay.attachTemplate(this.menuContainerTemplateRef);
 
-    overlay.backdropClick
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
-      .subscribe(() => {
-        if (this.dismissOnBlur) {
-          this.sendMessage(SkyDropdownMessageType.Close);
-        }
-      });
+    overlay.backdropClick.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
+      if (this.dismissOnBlur) {
+        this.sendMessage(SkyDropdownMessageType.Close);
+      }
+    });
 
     this.overlay = overlay;
   }
@@ -418,14 +384,14 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   }
 
   private createAffixer(): void {
-    const affixer = this.affixService.createAffixer(this.menuContainerElementRef);
+    const affixer = this.affixService.createAffixer(
+      this.menuContainerElementRef
+    );
 
     affixer.placementChange
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((change) => {
-        this.isVisible = (change.placement !== null);
+        this.isVisible = change.placement !== null;
         this.changeDetector.markForCheck();
       });
 
@@ -474,14 +440,15 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
       this.affixer.affixTo(this.triggerButton.nativeElement, {
         autoFitContext: SkyAffixAutoFitContext.Viewport,
         enableAutoFit: true,
-        horizontalAlignment: parseAffixHorizontalAlignment(this.horizontalAlignment),
+        horizontalAlignment: parseAffixHorizontalAlignment(
+          this.horizontalAlignment
+        ),
         isSticky: true,
-        placement: 'below'
+        placement: 'below',
       });
 
       this.isVisible = true;
       this.changeDetector.markForCheck();
     });
   }
-
 }

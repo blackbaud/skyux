@@ -1,29 +1,14 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  SkyPopoverModule
-} from '@skyux/popovers';
+import { SkyPopoverModule } from '@skyux/popovers';
 
-import {
-  PopoverDemoComponent
-} from './popover-demo.component';
+import { PopoverDemoComponent } from './popover-demo.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SkyPopoverModule
-  ],
-  declarations: [
-    PopoverDemoComponent
-  ],
-  exports: [
-    PopoverDemoComponent
-  ]
+  imports: [CommonModule, SkyPopoverModule],
+  declarations: [PopoverDemoComponent],
+  exports: [PopoverDemoComponent],
 })
-export class PopoverDemoModule { }
+export class PopoverDemoModule {}

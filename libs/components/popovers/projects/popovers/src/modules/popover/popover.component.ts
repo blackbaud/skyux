@@ -6,44 +6,28 @@ import {
   OnDestroy,
   Output,
   TemplateRef,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
-import {
-  SkyOverlayInstance,
-  SkyOverlayService
-} from '@skyux/core';
+import { SkyOverlayInstance, SkyOverlayService } from '@skyux/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkyPopoverAlignment
-} from './types/popover-alignment';
+import { SkyPopoverAlignment } from './types/popover-alignment';
 
-import {
-  SkyPopoverPlacement
-} from './types/popover-placement';
+import { SkyPopoverPlacement } from './types/popover-placement';
 
-import {
-  SkyPopoverContentComponent
-} from './popover-content.component';
+import { SkyPopoverContentComponent } from './popover-content.component';
 
-import {
-  SkyPopoverContext
-} from './popover-context';
+import { SkyPopoverContext } from './popover-context';
 
 @Component({
   selector: 'sky-popover',
-  templateUrl: './popover.component.html'
+  templateUrl: './popover.component.html',
 })
 export class SkyPopoverComponent implements OnDestroy {
-
   /**
    * Specifies the horizontal alignment of the popover in relation to the trigger element.
    * The `skyPopoverAlignment` property on the popover directive overwrites this property.
@@ -132,7 +116,7 @@ export class SkyPopoverComponent implements OnDestroy {
 
   @ViewChild('templateRef', {
     read: TemplateRef,
-    static: true
+    static: true,
   })
   private templateRef: TemplateRef<any>;
 
@@ -150,9 +134,7 @@ export class SkyPopoverComponent implements OnDestroy {
 
   private _placement: SkyPopoverPlacement;
 
-  constructor(
-    private overlayService: SkyOverlayService
-  ) { }
+  constructor(private overlayService: SkyOverlayService) {}
 
   public ngOnDestroy(): void {
     this.ngUnsubscribe.next();
@@ -185,18 +167,15 @@ export class SkyPopoverComponent implements OnDestroy {
     this.alignment = alignment;
     this.isActive = true;
 
-    this.contentRef.open(
-      caller,
-      {
-        dismissOnBlur: this.dismissOnBlur,
-        enableAnimations: this.enableAnimations,
-        horizontalAlignment: this.alignment,
-        isStatic: false,
-        placement: this.placement,
-        popoverTitle: this.popoverTitle,
-        popoverType: this.popoverType
-      }
-    );
+    this.contentRef.open(caller, {
+      dismissOnBlur: this.dismissOnBlur,
+      enableAnimations: this.enableAnimations,
+      horizontalAlignment: this.alignment,
+      isStatic: false,
+      placement: this.placement,
+      popoverTitle: this.popoverTitle,
+      popoverType: this.popoverType,
+    });
   }
 
   /**
@@ -228,52 +207,40 @@ export class SkyPopoverComponent implements OnDestroy {
   private setupOverlay(): void {
     const overlay = this.overlayService.create({
       enableScroll: true,
-      enablePointerEvents: true
+      enablePointerEvents: true,
     });
 
-    overlay.backdropClick
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
-      .subscribe(() => {
-        if (this.dismissOnBlur) {
-          this.close();
-        }
-      });
+    overlay.backdropClick.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
+      if (this.dismissOnBlur) {
+        this.close();
+      }
+    });
 
-    const contentRef = overlay.attachComponent(SkyPopoverContentComponent, [{
-      provide: SkyPopoverContext,
-      useValue: new SkyPopoverContext({
-        contentTemplateRef: this.templateRef
-      })
-    }]);
+    const contentRef = overlay.attachComponent(SkyPopoverContentComponent, [
+      {
+        provide: SkyPopoverContext,
+        useValue: new SkyPopoverContext({
+          contentTemplateRef: this.templateRef,
+        }),
+      },
+    ]);
 
-    contentRef.opened
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
-      .subscribe(() => {
-        this.popoverOpened.emit(this);
-      });
+    contentRef.opened.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
+      this.popoverOpened.emit(this);
+    });
 
-    contentRef.closed
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
-      .subscribe(() => {
-        /*istanbul ignore else*/
-        if (this.isActive) {
-          this.overlayService.close(this.overlay);
-          this.overlay = undefined;
-          this.isActive = false;
-          this.popoverClosed.emit(this);
-        }
-      });
+    contentRef.closed.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
+      /*istanbul ignore else*/
+      if (this.isActive) {
+        this.overlayService.close(this.overlay);
+        this.overlay = undefined;
+        this.isActive = false;
+        this.popoverClosed.emit(this);
+      }
+    });
 
     contentRef.isMouseEnter
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((isMouseEnter) => {
         this.isMouseEnter = isMouseEnter;
         if (this.isMarkedForCloseOnMouseLeave) {
@@ -285,5 +252,4 @@ export class SkyPopoverComponent implements OnDestroy {
     this.overlay = overlay;
     this.contentRef = contentRef;
   }
-
 }

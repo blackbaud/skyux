@@ -1,35 +1,16 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  NoopAnimationsModule
-} from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
+import { SkyPopoverModule } from '../popover.module';
 
-import {
-  SkyPopoverModule
-} from '../popover.module';
-
-import {
-  PopoverFixtureComponent
-} from './popover.component.fixture';
+import { PopoverFixtureComponent } from './popover.component.fixture';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    NoopAnimationsModule,
-    SkyPopoverModule
-  ],
-  exports: [
-    PopoverFixtureComponent
-  ],
-  declarations: [
-    PopoverFixtureComponent
-  ]
+  imports: [CommonModule, NoopAnimationsModule, SkyPopoverModule],
+  exports: [PopoverFixtureComponent],
+  declarations: [PopoverFixtureComponent],
 })
-export class PopoverFixturesModule { }
+export class PopoverFixturesModule {}

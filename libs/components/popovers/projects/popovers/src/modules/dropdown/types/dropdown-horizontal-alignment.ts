@@ -1,5 +1,3 @@
-import {
-  SkyAffixHorizontalAlignment
-} from '@skyux/core';
+import { SkyAffixHorizontalAlignment } from '@skyux/core';
 
 export type SkyDropdownHorizontalAlignment = SkyAffixHorizontalAlignment;
