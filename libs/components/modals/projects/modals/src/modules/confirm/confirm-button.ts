@@ -1,6 +1,4 @@
-import {
-  SkyConfirmButtonAction
-} from './confirm-button-action';
+import { SkyConfirmButtonAction } from './confirm-button-action';
 
 export interface SkyConfirmButton {
   action: SkyConfirmButtonAction;

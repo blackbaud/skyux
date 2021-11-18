@@ -1,3 +1,7 @@
+# 5.0.2 (2021-11-18)
+
+- Added support for Prettier code formatting and updated the builder to support StackBlitz. [#180](https://github.com/blackbaud/skyux-modals/pull/180)
+
 # 5.0.1 (2021-10-14)
 
 - Added support for wrapping modals in a CSS class. [#177](https://github.com/blackbaud/skyux-modals/pull/177)
@@ -65,6 +69,7 @@
 # 4.5.0 (2020-08-05)
 
 - Added a test fixture for the modal component to use in consumer unit tests. [#116](https://github.com/blackbaud/skyux-modals/pull/116)
+
   ```
   import { SkyModalFixture } from '@skyux/modals/testing';
 

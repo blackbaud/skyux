@@ -1,99 +1,70 @@
-
 import {
   fakeAsync,
   TestBed,
   tick,
-  ComponentFixture
+  ComponentFixture,
 } from '@angular/core/testing';
 
-import {
-  Component,
-  NgModule
-} from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 
-import {
-  RouterTestingModule
-} from '@angular/router/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
-import {
-  SkyThemeService
-} from '@skyux/theme';
+import { SkyThemeService } from '@skyux/theme';
 
-import {
-  SkyModalFixture
-} from './modal-fixture';
+import { SkyModalFixture } from './modal-fixture';
 
-import {
-  SkyModalModule
-} from '../../../modals/src/modules/modal/modal.module';
+import { SkyModalModule } from '../../../modals/src/modules/modal/modal.module';
 
-import {
-  SkyModalService
-} from '../../../modals/src/modules/modal/modal.service';
+import { SkyModalService } from '../../../modals/src/modules/modal/modal.service';
 
-import {
-  ModalMockThemeService
-} from '../../../modals/src/modules/modal/fixtures/mock-theme.service';
+import { ModalMockThemeService } from '../../../modals/src/modules/modal/fixtures/mock-theme.service';
 
-import {
-  SkyModalInstance
-} from '../../../modals/src/modules/modal/modal-instance';
+import { SkyModalInstance } from '../../../modals/src/modules/modal/modal-instance';
 
 //#region Test component
 @Component({
   selector: 'sky-modal-test',
   template: `
-<sky-modal
-  data-sky-id="test-modal"
->
-  <sky-modal-header>
-    Test Title
-  </sky-modal-header>
-  <sky-modal-content>
-    <div
-      class="test-class"
-      id="test-modal-content-1"
-    >
-      This modal can have content!
-    </div>
-  </sky-modal-content>
-  <sky-modal-footer>
-    <button
-      class="sky-btn sky-btn-primary"
-      id="test-modal-button"
-      type="button"
-    >
-      Close
-    </button>
-  </sky-modal-footer>
-</sky-modal>
+    <sky-modal data-sky-id="test-modal">
+      <sky-modal-header> Test Title </sky-modal-header>
+      <sky-modal-content>
+        <div class="test-class" id="test-modal-content-1">
+          This modal can have content!
+        </div>
+      </sky-modal-content>
+      <sky-modal-footer>
+        <button
+          class="sky-btn sky-btn-primary"
+          id="test-modal-button"
+          type="button"
+        >
+          Close
+        </button>
+      </sky-modal-footer>
+    </sky-modal>
 
-<!-- This span is important to test the querySelectorAll function -->
-<span
-  class="test-class"
-  id="test-modal-content-2"
->
-  Non-modal content
-</span>
-`
+    <!-- This span is important to test the querySelectorAll function -->
+    <span class="test-class" id="test-modal-content-2">
+      Non-modal content
+    </span>
+  `,
 })
 class TestModalComponent {}
 
 @Component({
   selector: 'sky-modal-test',
   template: `
-<button
-  class="sky-btn sky-btn-primary"
-  id="test-launch-button"
-  type="button"
-  (click)="launchModal()"
->
-  Launch modal
-</button>
-`
+    <button
+      class="sky-btn sky-btn-primary"
+      id="test-launch-button"
+      type="button"
+      (click)="launchModal()"
+    >
+      Launch modal
+    </button>
+  `,
 })
 class TestComponent {
-
   public ariaDescribedBy: string;
 
   public ariaLabelledBy: string;
@@ -120,7 +91,7 @@ class TestComponent {
       helpKey: this.helpKey,
       size: this.size,
       fullPage: this.fullPage,
-      tiledBody: this.tiledBody
+      tiledBody: this.tiledBody,
     });
 
     this.modalInstance.helpOpened.subscribe((key: string) => {
@@ -135,34 +106,24 @@ class TestComponent {
   public helpTriggered(key: string) {
     return;
   }
-
 }
 
 @NgModule({
-  declarations: [
-    TestComponent,
-    TestModalComponent
-  ],
-  imports: [
-    RouterTestingModule,
-    SkyModalModule
-  ],
+  declarations: [TestComponent, TestModalComponent],
+  imports: [RouterTestingModule, SkyModalModule],
   providers: [
     {
       provide: SkyThemeService,
-      useClass: ModalMockThemeService
-    }
+      useClass: ModalMockThemeService,
+    },
   ],
-  entryComponents: [
-    TestModalComponent
-  ]
+  entryComponents: [TestModalComponent],
 })
-class TestModule { }
+class TestModule {}
 
 //#endregion Test component
 
 describe('Modal fixture', () => {
-
   function launchTestModal(): SkyModalFixture {
     fixture.componentInstance.launchModal();
 
@@ -170,10 +131,7 @@ describe('Modal fixture', () => {
     tick();
     fixture.detectChanges();
 
-    const modal = new SkyModalFixture(
-      fixture,
-      'test-modal'
-    );
+    const modal = new SkyModalFixture(fixture, 'test-modal');
 
     fixture.detectChanges();
     return modal;
@@ -184,9 +142,7 @@ describe('Modal fixture', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TestModule
-      ]
+      imports: [TestModule],
     });
 
     modalService = TestBed.inject(SkyModalService);
@@ -206,9 +162,7 @@ describe('Modal fixture', () => {
   });
 
   it('should retun the `ariaDescribedBy` property correctly', fakeAsync(() => {
-    fixture = TestBed.createComponent(
-      TestComponent
-    );
+    fixture = TestBed.createComponent(TestComponent);
 
     fixture.detectChanges();
 
@@ -219,9 +173,7 @@ describe('Modal fixture', () => {
   }));
 
   it('should retun the `ariaLabelledBy` property correctly', fakeAsync(() => {
-    fixture = TestBed.createComponent(
-      TestComponent
-    );
+    fixture = TestBed.createComponent(TestComponent);
 
     fixture.detectChanges();
 
@@ -232,9 +184,7 @@ describe('Modal fixture', () => {
   }));
 
   it('should retun the `ariaRole` property correctly', fakeAsync(() => {
-    fixture = TestBed.createComponent(
-      TestComponent
-    );
+    fixture = TestBed.createComponent(TestComponent);
 
     fixture.detectChanges();
 
@@ -245,9 +195,7 @@ describe('Modal fixture', () => {
   }));
 
   it('should retun the `fullPage` property correctly', fakeAsync(() => {
-    fixture = TestBed.createComponent(
-      TestComponent
-    );
+    fixture = TestBed.createComponent(TestComponent);
 
     fixture.detectChanges();
 
@@ -259,9 +207,7 @@ describe('Modal fixture', () => {
   }));
 
   it('should retun the `size` property correctly', fakeAsync(() => {
-    fixture = TestBed.createComponent(
-      TestComponent
-    );
+    fixture = TestBed.createComponent(TestComponent);
 
     fixture.detectChanges();
 
@@ -273,9 +219,7 @@ describe('Modal fixture', () => {
   }));
 
   it('should retun the `tiledBody` property correctly', fakeAsync(() => {
-    fixture = TestBed.createComponent(
-      TestComponent
-    );
+    fixture = TestBed.createComponent(TestComponent);
 
     fixture.detectChanges();
 
@@ -286,22 +230,20 @@ describe('Modal fixture', () => {
   }));
 
   it('should close the modal when the close button click is triggered', fakeAsync(() => {
-    fixture = TestBed.createComponent(
-      TestComponent
-    );
+    fixture = TestBed.createComponent(TestComponent);
 
     fixture.detectChanges();
     const modal = launchTestModal();
 
     modal.clickHeaderCloseButton();
 
-    expect(document.querySelector('sky-modal[data-sky-id="test-modal"]')).toBeNull();
+    expect(
+      document.querySelector('sky-modal[data-sky-id="test-modal"]')
+    ).toBeNull();
   }));
 
   it('should click the help button correctly when it is triggered', fakeAsync(() => {
-    fixture = TestBed.createComponent(
-      TestComponent
-    );
+    fixture = TestBed.createComponent(TestComponent);
 
     fixture.detectChanges();
 
@@ -314,13 +256,13 @@ describe('Modal fixture', () => {
 
     fixture.detectChanges();
 
-    expect(fixture.componentInstance.helpTriggered).toHaveBeenCalledWith('test-key');
+    expect(fixture.componentInstance.helpTriggered).toHaveBeenCalledWith(
+      'test-key'
+    );
   }));
 
   it('should select the correct element when calling `getModalEl`', fakeAsync(() => {
-    fixture = TestBed.createComponent(
-      TestComponent
-    );
+    fixture = TestBed.createComponent(TestComponent);
 
     fixture.detectChanges();
 
@@ -333,9 +275,7 @@ describe('Modal fixture', () => {
   }));
 
   it('should select the correct element when calling `getModalContentEl`', fakeAsync(() => {
-    fixture = TestBed.createComponent(
-      TestComponent
-    );
+    fixture = TestBed.createComponent(TestComponent);
 
     fixture.detectChanges();
 
@@ -348,9 +288,7 @@ describe('Modal fixture', () => {
   }));
 
   it('should select the correct element when calling `getModalHeaderEl`', fakeAsync(() => {
-    fixture = TestBed.createComponent(
-      TestComponent
-    );
+    fixture = TestBed.createComponent(TestComponent);
 
     fixture.detectChanges();
 
@@ -363,9 +301,7 @@ describe('Modal fixture', () => {
   }));
 
   it('should select the correct element when calling `getModalFooterEl`', fakeAsync(() => {
-    fixture = TestBed.createComponent(
-      TestComponent
-    );
+    fixture = TestBed.createComponent(TestComponent);
 
     fixture.detectChanges();
 
@@ -376,5 +312,4 @@ describe('Modal fixture', () => {
     expect(queriedElement.tagName.toLowerCase()).toBe('div');
     expect(queriedElement.classList).toContain('sky-modal-footer');
   }));
-
 });

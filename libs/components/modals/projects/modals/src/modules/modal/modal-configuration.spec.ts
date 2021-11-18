@@ -1,6 +1,4 @@
-import {
-  SkyModalConfiguration
-} from './modal-configuration';
+import { SkyModalConfiguration } from './modal-configuration';
 
 describe('Modal configuration', () => {
   let testService: SkyModalConfiguration;

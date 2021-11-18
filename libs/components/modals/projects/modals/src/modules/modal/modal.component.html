@@ -17,15 +17,15 @@
     tabindex="-1"
     [ngClass]="{
       'sky-modal-full-page': modalFullPage,
-      'sky-modal-small' : isSmallSize,
-      'sky-modal-medium' : isMediumSize,
-      'sky-modal-large' : isLargeSize,
-      'sky-modal-tiled' : isTiledBody
-      }"
+      'sky-modal-small': isSmallSize,
+      'sky-modal-medium': isMediumSize,
+      'sky-modal-large': isLargeSize,
+      'sky-modal-tiled': isTiledBody
+    }"
     [ngStyle]="{
-        zIndex: modalZIndex
-      }">
-
+      zIndex: modalZIndex
+    }"
+  >
     <div
       class="sky-modal-header"
       [hidden]="!headerContent || !headerContent.children || headerContent.children.length &lt; 1"
@@ -44,7 +44,8 @@
         <ng-content select="sky-modal-header"></ng-content>
       </div>
       <div class="sky-modal-header-buttons">
-        <button *ngIf="helpKey"
+        <button
+          *ngIf="helpKey"
           class="sky-btn sky-modal-btn-help"
           name="help-button"
           type="button"
@@ -54,11 +55,15 @@
           <sky-icon icon="question-circle"></sky-icon>
         </button>
 
-        <button type="button" class="sky-btn sky-modal-btn-close" [attr.aria-label]="'skyux_modal_close' | skyLibResources" (click)="closeButtonClick()">
+        <button
+          type="button"
+          class="sky-btn sky-modal-btn-close"
+          [attr.aria-label]="'skyux_modal_close' | skyLibResources"
+          (click)="closeButtonClick()"
+        >
           <sky-icon icon="close"></sky-icon>
         </button>
       </div>
-
     </div>
     <div
       class="sky-modal-content sky-padding-even-large"

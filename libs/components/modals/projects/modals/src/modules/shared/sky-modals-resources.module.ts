@@ -12,11 +12,20 @@ import {
   SkyI18nModule,
   SkyLibResources,
   SkyLibResourcesProvider,
-  SKY_LIB_RESOURCES_PROVIDERS
+  SKY_LIB_RESOURCES_PROVIDERS,
 } from '@skyux/i18n';
 
 const RESOURCES: { [locale: string]: SkyLibResources } = {
-  'EN-US': {"skyux_confirm_dialog_default_ok_text":{"message":"OK"},"skyux_confirm_dialog_default_yes_text":{"message":"Yes"},"skyux_confirm_dialog_default_no_text":{"message":"No"},"skyux_confirm_dialog_default_cancel_text":{"message":"Cancel"},"skyux_modal_close":{"message":"Close modal"},"skyux_modal_open_help":{"message":"Open Help"},"skyux_modal_footer_cancel_button":{"message":"Cancel"},"skyux_modal_footer_primary_button":{"message":"Save"}},
+  'EN-US': {
+    skyux_confirm_dialog_default_ok_text: { message: 'OK' },
+    skyux_confirm_dialog_default_yes_text: { message: 'Yes' },
+    skyux_confirm_dialog_default_no_text: { message: 'No' },
+    skyux_confirm_dialog_default_cancel_text: { message: 'Cancel' },
+    skyux_modal_close: { message: 'Close modal' },
+    skyux_modal_open_help: { message: 'Open Help' },
+    skyux_modal_footer_cancel_button: { message: 'Cancel' },
+    skyux_modal_footer_primary_button: { message: 'Save' },
+  },
 };
 
 export class SkyModalsResourcesProvider implements SkyLibResourcesProvider {
@@ -30,10 +39,12 @@ export class SkyModalsResourcesProvider implements SkyLibResourcesProvider {
  */
 @NgModule({
   exports: [SkyI18nModule],
-  providers: [{
-    provide: SKY_LIB_RESOURCES_PROVIDERS,
-    useClass: SkyModalsResourcesProvider,
-    multi: true
-  }]
+  providers: [
+    {
+      provide: SKY_LIB_RESOURCES_PROVIDERS,
+      useClass: SkyModalsResourcesProvider,
+      multi: true,
+    },
+  ],
 })
-export class SkyModalsResourcesModule { }
+export class SkyModalsResourcesModule {}

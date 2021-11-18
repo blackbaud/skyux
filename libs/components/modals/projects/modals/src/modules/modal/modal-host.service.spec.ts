@@ -1,16 +1,14 @@
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  SkyModalHostService
-} from './modal-host.service';
+import { SkyModalHostService } from './modal-host.service';
 
 describe('Modal host service', () => {
   it('should return a modal z-index that is 1 greater than the backdrop z-index', () => {
     let service = new SkyModalHostService();
 
-    expect(service.getModalZIndex()).toBe(SkyModalHostService.backdropZIndex + 1);
+    expect(service.getModalZIndex()).toBe(
+      SkyModalHostService.backdropZIndex + 1
+    );
     service.destroy();
   });
 
@@ -32,7 +30,9 @@ describe('Modal host service', () => {
 
     service2.destroy();
 
-    expect(SkyModalHostService.backdropZIndex).toBe(twoModalBackdropZIndex - 10);
+    expect(SkyModalHostService.backdropZIndex).toBe(
+      twoModalBackdropZIndex - 10
+    );
 
     service1.destroy();
   });

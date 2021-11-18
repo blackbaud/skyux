@@ -1,42 +1,24 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  SkyThemeModule
-} from '@skyux/theme';
+import { SkyThemeModule } from '@skyux/theme';
 
-import {
-  SkyModalModule
-} from '../modal/modal.module';
+import { SkyModalModule } from '../modal/modal.module';
 
-import {
-  SkyModalsResourcesModule
-} from '../shared/sky-modals-resources.module';
+import { SkyModalsResourcesModule } from '../shared/sky-modals-resources.module';
 
-import {
-  SkyConfirmComponent
-} from './confirm.component';
+import { SkyConfirmComponent } from './confirm.component';
 
 @NgModule({
-  declarations: [
-    SkyConfirmComponent
-  ],
+  declarations: [SkyConfirmComponent],
   imports: [
     CommonModule,
     SkyModalModule,
     SkyModalsResourcesModule,
-    SkyThemeModule
+    SkyThemeModule,
   ],
-  exports: [
-    SkyConfirmComponent
-  ],
-  entryComponents: [
-    SkyConfirmComponent
-  ]
+  exports: [SkyConfirmComponent],
+  entryComponents: [SkyConfirmComponent],
 })
-export class SkyConfirmModule { }
+export class SkyConfirmModule {}

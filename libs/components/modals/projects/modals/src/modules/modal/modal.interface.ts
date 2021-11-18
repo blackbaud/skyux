@@ -5,7 +5,6 @@
  * Specifies configuration options for creating a modal.
  */
 export interface SkyModalConfigurationInterface {
-
   /**
    * Indicates whether to display the modal full screen.
    * This property defaults to `false`.

@@ -1,23 +1,21 @@
-import {
-  EventEmitter,
-  Injectable
-} from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 
 /**
  * @internal
  * @dynamic
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SkyModalHostService {
-
   public static get openModalCount(): number {
     return SkyModalHostService.modalHosts.length;
   }
 
   public static get fullPageModalCount(): number {
-    let fullPageModals = SkyModalHostService.modalHosts.filter(modal => modal.fullPage);
+    let fullPageModals = SkyModalHostService.modalHosts.filter(
+      (modal) => modal.fullPage
+    );
     return fullPageModals.length;
   }
 
@@ -26,11 +24,16 @@ export class SkyModalHostService {
   }
 
   public static get backdropZIndex(): number {
-    return SkyModalHostService.BASE_Z_INDEX + SkyModalHostService.modalHosts.length * 10;
+    return (
+      SkyModalHostService.BASE_Z_INDEX +
+      SkyModalHostService.modalHosts.length * 10
+    );
   }
 
   public static get topModal(): SkyModalHostService {
-    return SkyModalHostService.modalHosts[SkyModalHostService.modalHosts.length - 1];
+    return SkyModalHostService.modalHosts[
+      SkyModalHostService.modalHosts.length - 1
+    ];
   }
 
   private static modalHosts: SkyModalHostService[] = [];
@@ -58,6 +61,9 @@ export class SkyModalHostService {
   }
 
   public destroy(): void {
-    SkyModalHostService.modalHosts.splice(SkyModalHostService.modalHosts.indexOf(this), 1);
+    SkyModalHostService.modalHosts.splice(
+      SkyModalHostService.modalHosts.indexOf(this),
+      1
+    );
   }
 }

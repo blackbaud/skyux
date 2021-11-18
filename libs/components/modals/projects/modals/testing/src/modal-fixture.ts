@@ -1,22 +1,20 @@
-import {
-  ComponentFixture
-} from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
 
 /**
  * Allows interaction with a SKY UX modal component.
  */
 export class SkyModalFixture {
-
   private modalElement: HTMLElement;
 
-  constructor(
-    private fixture: ComponentFixture<any>,
-    skyTestId: string
-  ) {
-    this.modalElement = document.querySelector('sky-modal[data-sky-id="' + skyTestId + '"]');
+  constructor(private fixture: ComponentFixture<any>, skyTestId: string) {
+    this.modalElement = document.querySelector(
+      'sky-modal[data-sky-id="' + skyTestId + '"]'
+    );
 
     if (!this.modalElement) {
-      throw new Error(`No element was found with a \`data-sky-id\` value of "${skyTestId}".`);
+      throw new Error(
+        `No element was found with a \`data-sky-id\` value of "${skyTestId}".`
+      );
     }
   }
 
@@ -103,8 +101,9 @@ export class SkyModalFixture {
    * Clicks the modal header's "close" button.
    */
   public clickHeaderCloseButton(): void {
-    const closeButton: HTMLElement = this.modalElement
-      .querySelector('.sky-modal .sky-modal-btn-close');
+    const closeButton: HTMLElement = this.modalElement.querySelector(
+      '.sky-modal .sky-modal-btn-close'
+    );
 
     if (closeButton) {
       closeButton.click();
@@ -118,8 +117,9 @@ export class SkyModalFixture {
    * Clicks the modal header's "help" button.
    */
   public clickHelpButton(): void {
-    const helpButton: HTMLElement = this.modalElement
-      .querySelector('.sky-modal .sky-modal-header-buttons button[name="help-button"]');
+    const helpButton: HTMLElement = this.modalElement.querySelector(
+      '.sky-modal .sky-modal-header-buttons button[name="help-button"]'
+    );
 
     if (helpButton) {
       helpButton.click();
@@ -180,5 +180,4 @@ export class SkyModalFixture {
       throw new Error(`No modal exists.`);
     }
   }
-
 }

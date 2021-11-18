@@ -1,34 +1,18 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  FormsModule
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
-import {
-  SkyIdModule
-} from '@skyux/core';
+import { SkyIdModule } from '@skyux/core';
 
-import {
-  SkyInputBoxModule
-} from '@skyux/forms';
+import { SkyInputBoxModule } from '@skyux/forms';
 
-import {
-  SkyModalModule
-} from '@skyux/modals';
+import { SkyModalModule } from '@skyux/modals';
 
-import {
-  ModalDemoComponent
-} from './modal-demo.component';
+import { ModalDemoComponent } from './modal-demo.component';
 
-import {
-  ModalDemoModalComponent
-} from './modal-demo-modal.component';
+import { ModalDemoModalComponent } from './modal-demo-modal.component';
 
 @NgModule({
   imports: [
@@ -36,19 +20,10 @@ import {
     FormsModule,
     SkyIdModule,
     SkyInputBoxModule,
-    SkyModalModule
+    SkyModalModule,
   ],
-  declarations: [
-    ModalDemoComponent,
-    ModalDemoModalComponent
-  ],
-  exports: [
-    ModalDemoComponent
-  ],
-  entryComponents: [
-    ModalDemoModalComponent
-  ]
+  declarations: [ModalDemoComponent, ModalDemoModalComponent],
+  exports: [ModalDemoComponent],
+  entryComponents: [ModalDemoModalComponent],
 })
-
-export class ModalDemoModule {
-}
+export class ModalDemoModule {}

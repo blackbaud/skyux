@@ -1,14 +1,11 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 /**
  * @internal
  */
 @Injectable({
-  providedIn: 'any'
+  providedIn: 'any',
 })
-
 export class SkyModalConfiguration {
   public fullPage?: boolean;
   public size?: string;

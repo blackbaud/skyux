@@ -6,35 +6,25 @@ import {
   Host,
   HostBinding,
   HostListener,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
 import {
   SkyAppWindowRef,
   SkyCoreAdapterService,
   SkyDockLocation,
-  SkyDockService
+  SkyDockService,
 } from '@skyux/core';
 
-import {
-  SkyModalHostService
-} from './modal-host.service';
+import { SkyModalHostService } from './modal-host.service';
 
-import {
-  SkyModalConfiguration
-} from './modal-configuration';
+import { SkyModalConfiguration } from './modal-configuration';
 
-import {
-  SkyModalComponentAdapterService
-} from './modal-component-adapter.service';
+import { SkyModalComponentAdapterService } from './modal-component-adapter.service';
 
-import {
-  SkyModalScrollShadowEventArgs
-} from './modal-scroll-shadow-event-args';
+import { SkyModalScrollShadowEventArgs } from './modal-scroll-shadow-event-args';
 
-import {
-  skyAnimationModalState
-} from './modal-state-animation';
+import { skyAnimationModalState } from './modal-state-animation';
 
 let skyModalUniqueIdentifier: number = 0;
 
@@ -48,13 +38,8 @@ let skyModalUniqueIdentifier: number = 0;
   selector: 'sky-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
-  animations: [
-    skyAnimationModalState
-  ],
-  providers: [
-    SkyModalComponentAdapterService,
-    SkyDockService
-  ]
+  animations: [skyAnimationModalState],
+  providers: [SkyModalComponentAdapterService, SkyDockService],
 })
 export class SkyModalComponent implements AfterViewInit {
   @HostBinding('class')
@@ -119,9 +104,11 @@ export class SkyModalComponent implements AfterViewInit {
 
   public modalState = 'in';
 
-  public modalContentId: string = 'sky-modal-content-id-' + skyModalUniqueIdentifier.toString();
+  public modalContentId: string =
+    'sky-modal-content-id-' + skyModalUniqueIdentifier.toString();
 
-  public modalHeaderId: string = 'sky-modal-header-id-' + skyModalUniqueIdentifier.toString();
+  public modalHeaderId: string =
+    'sky-modal-header-id-' + skyModalUniqueIdentifier.toString();
 
   public scrollShadow: SkyModalScrollShadowEventArgs;
 
@@ -136,7 +123,7 @@ export class SkyModalComponent implements AfterViewInit {
     private componentAdapter: SkyModalComponentAdapterService,
     private coreAdapter: SkyCoreAdapterService,
     @Host() private dockService: SkyDockService
-  ) { }
+  ) {}
 
   @HostListener('document:keyup', ['$event'])
   public onDocumentKeyUp(event: KeyboardEvent) {
@@ -145,7 +132,8 @@ export class SkyModalComponent implements AfterViewInit {
     if (SkyModalHostService.openModalCount > 0) {
       let topModal = SkyModalHostService.topModal;
       if (topModal && topModal === this.hostService) {
-        if (event.which === 27) { // Escape key up
+        if (event.which === 27) {
+          // Escape key up
           event.preventDefault();
           this.closeButtonClick();
         }
@@ -160,20 +148,30 @@ export class SkyModalComponent implements AfterViewInit {
     if (SkyModalHostService.openModalCount > 0) {
       let topModal = SkyModalHostService.topModal;
       if (topModal && topModal === this.hostService) {
-        if (event.which === 9) { // Tab pressed
+        if (event.which === 9) {
+          // Tab pressed
           let focusChanged = false;
 
-          let focusElementList = this.coreAdapter.getFocusableChildren(this.elRef.nativeElement);
+          let focusElementList = this.coreAdapter.getFocusableChildren(
+            this.elRef.nativeElement
+          );
 
           if (
             event.shiftKey &&
-            (this.componentAdapter.isFocusInFirstItem(event, focusElementList) ||
-            this.componentAdapter.isModalFocused(event, this.elRef))) {
-
-            focusChanged = this.componentAdapter.focusLastElement(focusElementList);
+            (this.componentAdapter.isFocusInFirstItem(
+              event,
+              focusElementList
+            ) ||
+              this.componentAdapter.isModalFocused(event, this.elRef))
+          ) {
+            focusChanged =
+              this.componentAdapter.focusLastElement(focusElementList);
           } else if (
-            !event.shiftKey && this.componentAdapter.isFocusInLastItem(event, focusElementList)) {
-            focusChanged = this.componentAdapter.focusFirstElement(focusElementList);
+            !event.shiftKey &&
+            this.componentAdapter.isFocusInLastItem(event, focusElementList)
+          ) {
+            focusChanged =
+              this.componentAdapter.focusFirstElement(focusElementList);
           }
 
           if (focusChanged) {
@@ -198,7 +196,7 @@ export class SkyModalComponent implements AfterViewInit {
     this.dockService.setDockOptions({
       location: SkyDockLocation.ElementBottom,
       referenceEl: this.modalContentWrapperElement.nativeElement,
-      zIndex: 5
+      zIndex: 5,
     });
   }
 

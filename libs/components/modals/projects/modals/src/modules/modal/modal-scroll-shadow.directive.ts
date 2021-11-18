@@ -7,29 +7,18 @@ import {
   OnInit,
   Optional,
   Output,
-  NgZone
+  NgZone,
 } from '@angular/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  MutationObserverService
-} from '@skyux/core';
+import { MutationObserverService } from '@skyux/core';
 
-import {
-  SkyTheme,
-  SkyThemeService
-} from '@skyux/theme';
+import { SkyTheme, SkyThemeService } from '@skyux/theme';
 
-import {
-  SkyModalScrollShadowEventArgs
-} from './modal-scroll-shadow-event-args';
+import { SkyModalScrollShadowEventArgs } from './modal-scroll-shadow-event-args';
 
 /**
  * Raises an event when the box shadow for the modal header or footer should be adjusted
@@ -37,10 +26,9 @@ import {
  * @internal
  */
 @Directive({
-  selector: '[skyModalScrollShadow]'
+  selector: '[skyModalScrollShadow]',
 })
 export class SkyModalScrollShadowDirective implements OnInit, OnDestroy {
-
   @Output()
   public skyModalScrollShadow = new EventEmitter<SkyModalScrollShadowEventArgs>();
 
@@ -57,7 +45,7 @@ export class SkyModalScrollShadowDirective implements OnInit, OnDestroy {
     @Optional() private themeSvc: SkyThemeService,
     private mutationObserverSvc: MutationObserverService,
     private ngZone: NgZone
-  ) { }
+  ) {}
 
   @HostListener('window:resize')
   public windowResize(): void {
@@ -72,9 +60,7 @@ export class SkyModalScrollShadowDirective implements OnInit, OnDestroy {
   public ngOnInit(): void {
     if (this.themeSvc) {
       this.themeSvc.settingsChange
-        .pipe(
-          takeUntil(this.ngUnsubscribe)
-        )
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((themeSettings) => {
           this.currentTheme = themeSettings.currentSettings.theme;
 
@@ -83,7 +69,7 @@ export class SkyModalScrollShadowDirective implements OnInit, OnDestroy {
           } else {
             this.emitShadow({
               bottomShadow: 'none',
-              topShadow: 'none'
+              topShadow: 'none',
             });
 
             this.destroyMutationObserver();
@@ -111,15 +97,12 @@ export class SkyModalScrollShadowDirective implements OnInit, OnDestroy {
           this.checkForShadow();
         });
 
-        this.mutationObserver.observe(
-          el,
-          {
-            attributes: true,
-            characterData: true,
-            childList: true,
-            subtree: true
-          }
-        );
+        this.mutationObserver.observe(el, {
+          attributes: true,
+          characterData: true,
+          childList: true,
+          subtree: true,
+        });
       });
     }
   }
@@ -135,17 +118,15 @@ export class SkyModalScrollShadowDirective implements OnInit, OnDestroy {
     if (this.currentTheme === SkyTheme.presets.modern) {
       const el = this.elRef.nativeElement;
 
-      const topShadow = this.buildShadowStyle(
-        el.scrollTop
-      );
+      const topShadow = this.buildShadowStyle(el.scrollTop);
 
       const bottomShadow = this.buildShadowStyle(
-        (el.scrollHeight - el.scrollTop) - el.clientHeight
+        el.scrollHeight - el.scrollTop - el.clientHeight
       );
 
       this.emitShadow({
         bottomShadow,
-        topShadow
+        topShadow,
       });
     }
   }
@@ -155,9 +136,7 @@ export class SkyModalScrollShadowDirective implements OnInit, OnDestroy {
     // of the scrollable element, with a max opacity of 0.3.
     const opacity = Math.min(pixelsFromEnd / 30, 1) * 0.3;
 
-    return opacity > 0 ?
-      `0px 1px 8px 0px rgba(0, 0, 0, ${opacity})` :
-      'none';
+    return opacity > 0 ? `0px 1px 8px 0px rgba(0, 0, 0, ${opacity})` : 'none';
   }
 
   private emitShadow(shadow: SkyModalScrollShadowEventArgs): void {

@@ -1,45 +1,22 @@
-import {
-  fakeAsync,
-  inject,
-  TestBed,
-  tick
-} from '@angular/core/testing';
+import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  ApplicationRef
-} from '@angular/core';
+import { ApplicationRef } from '@angular/core';
 
-import {
-  SkyModalInstance
-} from './modal-instance';
+import { SkyModalInstance } from './modal-instance';
 
-import {
-  SkyModalService
-} from './modal.service';
+import { SkyModalService } from './modal.service';
 
-import {
-  SkyModalModule
-} from './modal.module';
+import { SkyModalModule } from './modal.module';
 
-import {
-  SkyModalFixturesModule
-} from './fixtures/modal-fixtures.module';
+import { SkyModalFixturesModule } from './fixtures/modal-fixtures.module';
 
-import {
-  ModalTestValues
-} from './fixtures/modal-values.fixture';
+import { ModalTestValues } from './fixtures/modal-values.fixture';
 
-import {
-  ModalTestComponent
-} from './fixtures/modal.component.fixture';
+import { ModalTestComponent } from './fixtures/modal.component.fixture';
 
-import {
-  ModalWithValuesTestComponent
-} from './fixtures/modal-with-values.component.fixture';
+import { ModalWithValuesTestComponent } from './fixtures/modal-with-values.component.fixture';
 
 describe('Modal service', () => {
   let modalService: SkyModalService;
@@ -61,28 +38,17 @@ describe('Modal service', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyModalModule,
-        SkyModalFixturesModule
-      ]
+      imports: [SkyModalModule, SkyModalFixturesModule],
     });
   });
 
-  beforeEach(
-    inject(
-      [
-        SkyModalService,
-        ApplicationRef
-      ],
-      (
-        _modalService: SkyModalService,
-        _applicationRef: ApplicationRef
-      ) => {
-        modalService = _modalService;
-        applicationRef = _applicationRef;
-      }
-    )
-  );
+  beforeEach(inject(
+    [SkyModalService, ApplicationRef],
+    (_modalService: SkyModalService, _applicationRef: ApplicationRef) => {
+      modalService = _modalService;
+      applicationRef = _applicationRef;
+    }
+  ));
 
   afterEach(() => {
     // NOTE: This is important as it ensures that the modal host component is fully disposed of
@@ -127,49 +93,46 @@ describe('Modal service', () => {
   }));
 
   it('should add the sky-modal-body-full-page class to the body', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent, { 'fullPage': false });
+    let modalInstance = openModal(ModalTestComponent, { fullPage: false });
     expect(document.body).toHaveCssClass('sky-modal-body-open');
     expect(document.body).not.toHaveCssClass('sky-modal-body-full-page');
 
     closeModal(modalInstance);
 
-    modalInstance = openModal(ModalTestComponent, { 'fullPage': true });
+    modalInstance = openModal(ModalTestComponent, { fullPage: true });
     expect(document.body).toHaveCssClass('sky-modal-body-open');
     expect(document.body).toHaveCssClass('sky-modal-body-full-page');
 
     closeModal(modalInstance);
   }));
 
-  it('should remove the sky-modal-body-full-page only when all fullPage modals are closed.',
-    fakeAsync(() => {
-      let modalInstance = openModal(ModalTestComponent, { 'fullPage': false });
-      let modalInstance1 = openModal(ModalTestComponent, { 'fullPage': false });
-      let fullPageModal = openModal(ModalTestComponent, { 'fullPage': true });
-      let fullPageModal2 = openModal(ModalTestComponent, { 'fullPage': true });
+  it('should remove the sky-modal-body-full-page only when all fullPage modals are closed.', fakeAsync(() => {
+    let modalInstance = openModal(ModalTestComponent, { fullPage: false });
+    let modalInstance1 = openModal(ModalTestComponent, { fullPage: false });
+    let fullPageModal = openModal(ModalTestComponent, { fullPage: true });
+    let fullPageModal2 = openModal(ModalTestComponent, { fullPage: true });
 
-      expect(document.body).toHaveCssClass('sky-modal-body-open');
-      expect(document.body).toHaveCssClass('sky-modal-body-full-page');
+    expect(document.body).toHaveCssClass('sky-modal-body-open');
+    expect(document.body).toHaveCssClass('sky-modal-body-full-page');
 
-      closeModal(modalInstance);
-      closeModal(fullPageModal);
+    closeModal(modalInstance);
+    closeModal(fullPageModal);
 
-      expect(document.body).toHaveCssClass('sky-modal-body-open');
-      expect(document.body).toHaveCssClass('sky-modal-body-full-page');
+    expect(document.body).toHaveCssClass('sky-modal-body-open');
+    expect(document.body).toHaveCssClass('sky-modal-body-full-page');
 
-      closeModal(modalInstance1);
+    closeModal(modalInstance1);
 
-      expect(document.body).toHaveCssClass('sky-modal-body-open');
-      expect(document.body).toHaveCssClass('sky-modal-body-full-page');
+    expect(document.body).toHaveCssClass('sky-modal-body-open');
+    expect(document.body).toHaveCssClass('sky-modal-body-full-page');
 
-      closeModal(fullPageModal2);
+    closeModal(fullPageModal2);
 
-      expect(document.body).not.toHaveCssClass('sky-modal-body-open');
-      expect(document.body).not.toHaveCssClass('sky-modal-body-full-page');
-    })
-  );
+    expect(document.body).not.toHaveCssClass('sky-modal-body-open');
+    expect(document.body).not.toHaveCssClass('sky-modal-body-full-page');
+  }));
 
-  it('should pass a "close" reason to the closed subscription when modal close button clicked',
-  fakeAsync(() => {
+  it('should pass a "close" reason to the closed subscription when modal close button clicked', fakeAsync(() => {
     let modalInstance = openModal(ModalTestComponent);
     modalInstance.closed.subscribe((result: any) => {
       expect(result.reason).toEqual('close');
@@ -177,7 +140,9 @@ describe('Modal service', () => {
     });
 
     applicationRef.tick();
-    (document.body.querySelector('.sky-modal-btn-close') as HTMLElement).click();
+    (
+      document.body.querySelector('.sky-modal-btn-close') as HTMLElement
+    ).click();
     tick();
     applicationRef.tick();
   }));
@@ -210,9 +175,9 @@ describe('Modal service', () => {
       {
         provide: ModalTestValues,
         useValue: {
-          valueA: 'A'
-        }
-      }
+          valueA: 'A',
+        },
+      },
     ]);
 
     expect(modalInstance.componentInstance.values.valueA).toBe('A');

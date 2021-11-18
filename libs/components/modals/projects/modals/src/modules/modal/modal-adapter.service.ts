@@ -1,10 +1,6 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  SkyAppWindowRef
-} from '@skyux/core';
+import { SkyAppWindowRef } from '@skyux/core';
 
 /**
  * @internal
@@ -17,9 +13,7 @@ export class SkyModalAdapterService {
   private docRef: any;
   private bodyEl: HTMLElement;
 
-  constructor(
-    private windowRef: SkyAppWindowRef
-  ) {
+  constructor(private windowRef: SkyAppWindowRef) {
     this.docRef = this.windowRef.nativeWindow.document;
     this.bodyEl = this.windowRef.nativeWindow.document.body;
   }

@@ -1,17 +1,13 @@
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  SkyModalCloseArgs
-} from '../../modal/modal-close-args';
+import { SkyModalCloseArgs } from '../../modal/modal-close-args';
 
 export class MockSkyModalInstance {
   public closed = new Subject<SkyModalCloseArgs>();
   public close(result?: any) {
     this.closed.next({
       data: result,
-      reason: 'save'
+      reason: 'save',
     });
   }
 
@@ -35,7 +31,7 @@ export class MockSkyModalService {
   public open(component: any, config?: any): any {
     this.openCalls.push({
       component,
-      config
+      config,
     });
 
     this.instance = new MockSkyModalInstance();

@@ -1,79 +1,56 @@
-import {
-  async,
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  SkyModalConfiguration
-} from '../modal/modal-configuration';
+import { SkyModalConfiguration } from '../modal/modal-configuration';
 
-import {
-  SkyModalHostService
-} from '../modal/modal-host.service';
+import { SkyModalHostService } from '../modal/modal-host.service';
 
-import {
-  SkyModalInstance
-} from '../modal/modal-instance';
+import { SkyModalInstance } from '../modal/modal-instance';
 
-import {
-  SkyModalModule
-} from '../modal/modal.module';
+import { SkyModalModule } from '../modal/modal.module';
 
 import {
   MockSkyModalHostService,
-  MockSkyModalInstance
+  MockSkyModalInstance,
 } from './fixtures/mocks';
 
-import {
-  SkyConfirmConfig
-} from './confirm-config';
+import { SkyConfirmConfig } from './confirm-config';
 
-import {
-  SkyConfirmType
-} from './confirm-type';
+import { SkyConfirmType } from './confirm-type';
 
-import {
-  SkyConfirmModule
-} from './confirm.module';
+import { SkyConfirmModule } from './confirm.module';
 
-import {
-  SkyConfirmComponent
-} from './confirm.component';
+import { SkyConfirmComponent } from './confirm.component';
 
-import {
-  SkyConfirmModalContext
-} from './confirm-modal-context';
+import { SkyConfirmModalContext } from './confirm-modal-context';
 
 describe('Confirm component', () => {
   const modalInstance = new MockSkyModalInstance();
   const modalHost = new MockSkyModalHostService();
 
-  function createConfirm(config: SkyConfirmConfig): ComponentFixture<SkyConfirmComponent> {
-    TestBed.overrideComponent(SkyConfirmComponent, { set: {
-      providers: [
-        { provide: SkyConfirmModalContext, useValue: config },
-        { provide: SkyModalInstance, useValue: modalInstance }
-      ]
-    }});
+  function createConfirm(
+    config: SkyConfirmConfig
+  ): ComponentFixture<SkyConfirmComponent> {
+    TestBed.overrideComponent(SkyConfirmComponent, {
+      set: {
+        providers: [
+          { provide: SkyConfirmModalContext, useValue: config },
+          { provide: SkyModalInstance, useValue: modalInstance },
+        ],
+      },
+    });
 
     return TestBed.createComponent(SkyConfirmComponent);
   }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyModalModule,
-        SkyConfirmModule
-      ],
+      imports: [SkyModalModule, SkyConfirmModule],
       providers: [
         { provide: SkyModalHostService, useValue: modalHost },
-        { provide: SkyModalConfiguration, useValue: {} }
-      ]
+        { provide: SkyModalConfiguration, useValue: {} },
+      ],
     });
   });
 
@@ -86,13 +63,17 @@ describe('Confirm component', () => {
 
   it('should display an OK confirm by default', async(() => {
     const fixture = createConfirm({
-      message: 'confirm message'
+      message: 'confirm message',
     });
 
     fixture.detectChanges();
 
-    const messageElem = fixture.nativeElement.querySelector('.sky-confirm-message');
-    const buttons = fixture.nativeElement.querySelectorAll('.sky-confirm-buttons .sky-btn');
+    const messageElem = fixture.nativeElement.querySelector(
+      '.sky-confirm-message'
+    );
+    const buttons = fixture.nativeElement.querySelectorAll(
+      '.sky-confirm-buttons .sky-btn'
+    );
 
     expect(messageElem).toHaveText('confirm message');
     expect(buttons.length).toEqual(1);
@@ -103,13 +84,17 @@ describe('Confirm component', () => {
   it('should display an OK confirm', async(() => {
     const fixture = createConfirm({
       message: 'confirm message',
-      type: SkyConfirmType.OK
+      type: SkyConfirmType.OK,
     });
 
     fixture.detectChanges();
 
-    const messageElem = fixture.nativeElement.querySelector('.sky-confirm-message');
-    const buttons = fixture.nativeElement.querySelectorAll('.sky-confirm-buttons .sky-btn');
+    const messageElem = fixture.nativeElement.querySelector(
+      '.sky-confirm-message'
+    );
+    const buttons = fixture.nativeElement.querySelectorAll(
+      '.sky-confirm-buttons .sky-btn'
+    );
 
     expect(messageElem).toHaveText('confirm message');
     expect(buttons.length).toEqual(1);
@@ -121,14 +106,18 @@ describe('Confirm component', () => {
     const fixture = createConfirm({
       message: 'confirm message',
       body: 'additional text',
-      type: SkyConfirmType.OK
+      type: SkyConfirmType.OK,
     });
 
     fixture.detectChanges();
 
-    const messageElem = fixture.nativeElement.querySelector('.sky-confirm-message');
+    const messageElem = fixture.nativeElement.querySelector(
+      '.sky-confirm-message'
+    );
     const bodyElem = fixture.nativeElement.querySelector('.sky-confirm-body');
-    const buttons = fixture.nativeElement.querySelectorAll('.sky-confirm-buttons .sky-btn');
+    const buttons = fixture.nativeElement.querySelectorAll(
+      '.sky-confirm-buttons .sky-btn'
+    );
 
     expect(messageElem).toHaveText('confirm message');
     expect(bodyElem).toHaveText('additional text');
@@ -140,13 +129,17 @@ describe('Confirm component', () => {
   it('should display a YesCancel confirm', async(() => {
     const fixture = createConfirm({
       message: 'confirm message',
-      type: SkyConfirmType.YesCancel
+      type: SkyConfirmType.YesCancel,
     });
 
     fixture.detectChanges();
 
-    const messageElem = fixture.nativeElement.querySelector('.sky-confirm-message');
-    const buttons = fixture.nativeElement.querySelectorAll('.sky-confirm-buttons .sky-btn');
+    const messageElem = fixture.nativeElement.querySelector(
+      '.sky-confirm-message'
+    );
+    const buttons = fixture.nativeElement.querySelectorAll(
+      '.sky-confirm-buttons .sky-btn'
+    );
 
     expect(messageElem).toHaveText('confirm message');
     expect(buttons.length).toEqual(2);
@@ -158,13 +151,17 @@ describe('Confirm component', () => {
   it('should display a YesNoCancel confirm', async(() => {
     const fixture = createConfirm({
       message: 'confirm message',
-      type: SkyConfirmType.YesNoCancel
+      type: SkyConfirmType.YesNoCancel,
     });
 
     fixture.detectChanges();
 
-    const messageElem = fixture.nativeElement.querySelector('.sky-confirm-message');
-    const buttons = fixture.nativeElement.querySelectorAll('.sky-confirm-buttons .sky-btn');
+    const messageElem = fixture.nativeElement.querySelector(
+      '.sky-confirm-message'
+    );
+    const buttons = fixture.nativeElement.querySelectorAll(
+      '.sky-confirm-buttons .sky-btn'
+    );
 
     expect(messageElem).toHaveText('confirm message');
     expect(buttons.length).toEqual(3);
@@ -181,15 +178,19 @@ describe('Confirm component', () => {
       buttons: [
         {
           text: 'Custom label',
-          action: 'foo'
-        }
-      ]
+          action: 'foo',
+        },
+      ],
     });
 
     fixture.detectChanges();
 
-    const messageElem = fixture.nativeElement.querySelector('.sky-confirm-message');
-    const buttons = fixture.nativeElement.querySelectorAll('.sky-confirm-buttons .sky-btn');
+    const messageElem = fixture.nativeElement.querySelector(
+      '.sky-confirm-message'
+    );
+    const buttons = fixture.nativeElement.querySelectorAll(
+      '.sky-confirm-buttons .sky-btn'
+    );
 
     expect(messageElem).toHaveText('confirm message');
     expect(buttons.length).toEqual(1);
@@ -204,15 +205,19 @@ describe('Confirm component', () => {
       buttons: [
         {
           text: undefined,
-          foo: true
-        }
-      ] as any
+          foo: true,
+        },
+      ] as any,
     });
 
     fixture.detectChanges();
 
-    const messageElem = fixture.nativeElement.querySelector('.sky-confirm-message');
-    const buttons = fixture.nativeElement.querySelectorAll('.sky-confirm-buttons .sky-btn');
+    const messageElem = fixture.nativeElement.querySelector(
+      '.sky-confirm-message'
+    );
+    const buttons = fixture.nativeElement.querySelectorAll(
+      '.sky-confirm-buttons .sky-btn'
+    );
 
     expect(messageElem).toHaveText('confirm message');
     expect(buttons.length).toEqual(1);
@@ -224,13 +229,17 @@ describe('Confirm component', () => {
     const fixture = createConfirm({
       message: 'confirm message',
       type: SkyConfirmType.Custom,
-      buttons: []
+      buttons: [],
     });
 
     fixture.detectChanges();
 
-    const messageElem = fixture.nativeElement.querySelector('.sky-confirm-message');
-    const buttons = fixture.nativeElement.querySelectorAll('.sky-confirm-buttons .sky-btn');
+    const messageElem = fixture.nativeElement.querySelector(
+      '.sky-confirm-message'
+    );
+    const buttons = fixture.nativeElement.querySelectorAll(
+      '.sky-confirm-buttons .sky-btn'
+    );
 
     expect(messageElem).toHaveText('confirm message');
     expect(buttons.length).toEqual(1);
@@ -240,19 +249,21 @@ describe('Confirm component', () => {
 
   it('should invoke close method and return arguments', async(() => {
     const fixture = createConfirm({
-      message: 'confirm message'
+      message: 'confirm message',
     });
 
     const spy = spyOn(modalInstance, 'close');
 
     fixture.detectChanges();
 
-    const button = fixture.nativeElement.querySelector('.sky-confirm-buttons .sky-btn');
+    const button = fixture.nativeElement.querySelector(
+      '.sky-confirm-buttons .sky-btn'
+    );
 
     button.click();
 
     expect(spy).toHaveBeenCalledWith({
-      action: 'ok'
+      action: 'ok',
     });
   }));
 
@@ -263,23 +274,25 @@ describe('Confirm component', () => {
       buttons: [
         {
           text: 'foo',
-          action: 'foo'
+          action: 'foo',
         },
         {
           text: 'bar',
-          action: 'bar'
+          action: 'bar',
         },
         {
           text: 'baz',
           action: 'baz',
-          autofocus: true
-        }
-      ]
+          autofocus: true,
+        },
+      ],
     });
 
     fixture.detectChanges();
 
-    const buttons = fixture.nativeElement.querySelectorAll('.sky-confirm-buttons .sky-btn');
+    const buttons = fixture.nativeElement.querySelectorAll(
+      '.sky-confirm-buttons .sky-btn'
+    );
 
     expect(buttons[0].hasAttribute('autofocus')).toEqual(false);
     expect(buttons[1].hasAttribute('autofocus')).toEqual(false);
@@ -291,18 +304,26 @@ describe('Confirm component', () => {
     const fixture = createConfirm({
       message: 'confirm message',
       body: 'additional text',
-      type: SkyConfirmType.OK
+      type: SkyConfirmType.OK,
     });
 
     fixture.detectChanges();
 
-    const messageElem = fixture.nativeElement.querySelector('.sky-confirm-message');
+    const messageElem = fixture.nativeElement.querySelector(
+      '.sky-confirm-message'
+    );
     const bodyElem = fixture.nativeElement.querySelector('.sky-confirm-body');
-    const buttons = fixture.nativeElement.querySelectorAll('.sky-confirm-buttons .sky-btn');
+    const buttons = fixture.nativeElement.querySelectorAll(
+      '.sky-confirm-buttons .sky-btn'
+    );
 
     expect(fixture.componentInstance.preserveWhiteSpace).toEqual(false);
-    expect(messageElem.classList).not.toContain('sky-confirm-preserve-white-space');
-    expect(bodyElem.classList).not.toContain('sky-confirm-preserve-white-space');
+    expect(messageElem.classList).not.toContain(
+      'sky-confirm-preserve-white-space'
+    );
+    expect(bodyElem.classList).not.toContain(
+      'sky-confirm-preserve-white-space'
+    );
 
     buttons[0].click();
   }));
@@ -312,14 +333,18 @@ describe('Confirm component', () => {
       message: 'confirm message',
       body: 'additional text',
       preserveWhiteSpace: true,
-      type: SkyConfirmType.OK
+      type: SkyConfirmType.OK,
     });
 
     fixture.detectChanges();
 
-    const messageElem = fixture.nativeElement.querySelector('.sky-confirm-message');
+    const messageElem = fixture.nativeElement.querySelector(
+      '.sky-confirm-message'
+    );
     const bodyElem = fixture.nativeElement.querySelector('.sky-confirm-body');
-    const buttons = fixture.nativeElement.querySelectorAll('.sky-confirm-buttons .sky-btn');
+    const buttons = fixture.nativeElement.querySelectorAll(
+      '.sky-confirm-buttons .sky-btn'
+    );
 
     expect(fixture.componentInstance.preserveWhiteSpace).toEqual(true);
     expect(messageElem.classList).toContain('sky-confirm-preserve-white-space');

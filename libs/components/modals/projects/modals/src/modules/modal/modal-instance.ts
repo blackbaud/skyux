@@ -1,15 +1,8 @@
-import {
-  Observable,
-  Subject
-} from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
-import {
-  SkyModalCloseArgs
-} from './modal-close-args';
+import { SkyModalCloseArgs } from './modal-close-args';
 
-import {
-  SkyModalBeforeCloseHandler
-} from './modal-before-close-handler';
+import { SkyModalBeforeCloseHandler } from './modal-before-close-handler';
 
 // TODO: this class won't show in the generated docs until this work is done:
 // https://github.com/blackbaud/skyux-docs-tools/issues/30
@@ -18,7 +11,6 @@ import {
  * Allows you to close the modal and return data from the launched modal.
  */
 export class SkyModalInstance {
-
   /**
    * An event that the modal instance emits when it is about to close.
    * It emits a `SkyModalBeforeCloseHandler` object with a `closeModal` method
@@ -69,7 +61,11 @@ export class SkyModalInstance {
    * @param reason Specifies the reason for the modal closing, with the default reason of `close`.
    * @param ignoreBeforeClose Indicates whether to ignore the modal instance's `beforeClose` event.
    */
-  public close(result?: any, reason?: string, ignoreBeforeClose?: boolean): void {
+  public close(
+    result?: any,
+    reason?: string,
+    ignoreBeforeClose?: boolean
+  ): void {
     if (reason === undefined) {
       reason = 'close';
     }
@@ -108,7 +104,11 @@ export class SkyModalInstance {
     this._helpOpened.next(helpKey);
   }
 
-  private closeModal(type: string, result?: any, ignoreBeforeClose = false): void {
+  private closeModal(
+    type: string,
+    result?: any,
+    ignoreBeforeClose = false
+  ): void {
     const args = new SkyModalCloseArgs();
 
     args.reason = type;
@@ -117,9 +117,11 @@ export class SkyModalInstance {
     if (this._beforeClose.observers.length === 0 || ignoreBeforeClose) {
       this.notifyClosed(args);
     } else {
-      this._beforeClose.next(new SkyModalBeforeCloseHandler(() => {
-        this.notifyClosed(args);
-      }, args));
+      this._beforeClose.next(
+        new SkyModalBeforeCloseHandler(() => {
+          this.notifyClosed(args);
+        }, args)
+      );
     }
   }
 

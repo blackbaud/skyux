@@ -1,11 +1,7 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './modal-no-header.component.fixture.html'
+  templateUrl: './modal-no-header.component.fixture.html',
 })
-export class ModalNoHeaderTestComponent {
-
-}
+export class ModalNoHeaderTestComponent {}

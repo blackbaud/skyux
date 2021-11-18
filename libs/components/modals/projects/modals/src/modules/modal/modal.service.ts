@@ -1,23 +1,12 @@
-import {
-  ComponentRef,
-  Injectable
-} from '@angular/core';
+import { ComponentRef, Injectable } from '@angular/core';
 
-import {
-  SkyDynamicComponentService
-} from '@skyux/core';
+import { SkyDynamicComponentService } from '@skyux/core';
 
-import {
-  SkyModalInstance
-} from './modal-instance';
+import { SkyModalInstance } from './modal-instance';
 
-import {
-  SkyModalHostComponent
-} from './modal-host.component';
+import { SkyModalHostComponent } from './modal-host.component';
 
-import {
-  SkyModalConfigurationInterface
-} from './modal.interface';
+import { SkyModalConfigurationInterface } from './modal.interface';
 
 /**
  * A service that lauches modals. For information about how to test modals in SKY UX, see
@@ -28,17 +17,14 @@ import {
   // Must be 'any' so that the modal component is created in the context of its module's injector.
   // If set to 'root', the component's dependency injections would only be derived from the root
   // injector and may loose context if the modal was opened from within a lazy-loaded module.
-  providedIn: 'any'
+  providedIn: 'any',
 })
 export class SkyModalService {
-
   private static host: ComponentRef<SkyModalHostComponent>;
 
   // TODO: In future breaking change - remove extra parameters as they are no longer used.
   /* tslint:disable:no-unused-variable */
-  constructor(
-    private dynamicComponentService?: SkyDynamicComponentService
-  ) { }
+  constructor(private dynamicComponentService?: SkyDynamicComponentService) {}
 
   /**
    * @private
@@ -60,14 +46,17 @@ export class SkyModalService {
    * [entry components tutorial](https://developer.blackbaud.com/skyux/learn/get-started/advanced/entry-components).
    * @param {SkyModalConfigurationInterface} config Populates the modal based on the `SkyModalConfigurationInterface` object.
    */
-  public open(component: any, config?: SkyModalConfigurationInterface | any[]): SkyModalInstance {
+  public open(
+    component: any,
+    config?: SkyModalConfigurationInterface | any[]
+  ): SkyModalInstance {
     let modalInstance = new SkyModalInstance();
     this.createHostComponent();
     let params = this.getConfigFromParameter(config);
 
     params.providers.push({
       provide: SkyModalInstance,
-      useValue: modalInstance
+      useValue: modalInstance,
     });
 
     SkyModalService.host.instance.open(modalInstance, component, params);
@@ -75,20 +64,24 @@ export class SkyModalService {
     return modalInstance;
   }
 
-  private getConfigFromParameter(providersOrConfig: any): SkyModalConfigurationInterface {
+  private getConfigFromParameter(
+    providersOrConfig: any
+  ): SkyModalConfigurationInterface {
     let defaultParams: SkyModalConfigurationInterface = {
-      'providers': [],
-      'fullPage': false,
-      'size': 'medium',
-      'tiledBody': false
+      providers: [],
+      fullPage: false,
+      size: 'medium',
+      tiledBody: false,
     };
     let params: SkyModalConfigurationInterface = undefined;
     let method: any = undefined;
 
     // Object Literal Lookup for backwards compatability.
     method = {
-      'providers?': Object.assign({}, defaultParams, { 'providers': providersOrConfig }),
-      'config': Object.assign({}, defaultParams, providersOrConfig)
+      'providers?': Object.assign({}, defaultParams, {
+        providers: providersOrConfig,
+      }),
+      config: Object.assign({}, defaultParams, providersOrConfig),
     };
 
     if (Array.isArray(providersOrConfig) === true) {
@@ -102,7 +95,9 @@ export class SkyModalService {
 
   private createHostComponent(): void {
     if (!SkyModalService.host) {
-      SkyModalService.host = this.dynamicComponentService.createComponent(SkyModalHostComponent);
+      SkyModalService.host = this.dynamicComponentService.createComponent(
+        SkyModalHostComponent
+      );
     }
   }
 }

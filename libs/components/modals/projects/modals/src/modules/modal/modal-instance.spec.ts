@@ -1,14 +1,8 @@
-import {
-  take
-} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
-import {
-  SkyModalInstance
-} from './modal-instance';
+import { SkyModalInstance } from './modal-instance';
 
-import {
-  SkyModalCloseArgs
-} from './modal-close-args';
+import { SkyModalCloseArgs } from './modal-close-args';
 
 describe('Modal instance', () => {
   it('should not error if no close callback is specified', () => {
@@ -59,8 +53,8 @@ describe('Modal instance', () => {
     let wasClosedCompleted = false;
 
     instance.closed.subscribe({
-      next: () => wasClosedEmitted = true,
-      complete: () => wasClosedCompleted = true
+      next: () => (wasClosedEmitted = true),
+      complete: () => (wasClosedCompleted = true),
     });
 
     instance.close();

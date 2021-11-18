@@ -1,5 +1,5 @@
-@import "~@skyux/theme/scss/mixins";
-@import "~@skyux/theme/scss/variables";
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/variables';
 
 sky-modal-content {
   display: block;
@@ -8,10 +8,7 @@ sky-modal-content {
 
 .sky-theme-modern {
   sky-modal-content {
-    padding:
-      $sky-theme-modern-space-sm
-      $sky-theme-modern-space-xl
-      $sky-theme-modern-space-xl
-      $sky-theme-modern-space-xl;
+    padding: $sky-theme-modern-space-sm $sky-theme-modern-space-xl
+      $sky-theme-modern-space-xl $sky-theme-modern-space-xl;
   }
 }

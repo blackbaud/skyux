@@ -1,23 +1,13 @@
-import {
-  BehaviorSubject
-} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
-import {
-  SkyTheme,
-  SkyThemeMode,
-  SkyThemeSettingsChange
-} from '@skyux/theme';
+import { SkyTheme, SkyThemeMode, SkyThemeSettingsChange } from '@skyux/theme';
 
 export class ModalMockThemeService {
-
-  public settingsChange = new BehaviorSubject<SkyThemeSettingsChange>(
-    {
-      currentSettings: {
-        mode: SkyThemeMode.presets.light,
-        theme: SkyTheme.presets.default
-      },
-      previousSettings: undefined
-    }
-  );
-
+  public settingsChange = new BehaviorSubject<SkyThemeSettingsChange>({
+    currentSettings: {
+      mode: SkyThemeMode.presets.light,
+      theme: SkyTheme.presets.default,
+    },
+    previousSettings: undefined,
+  });
 }

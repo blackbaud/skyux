@@ -1,95 +1,54 @@
-import {
-  ApplicationRef
-} from '@angular/core';
+import { ApplicationRef } from '@angular/core';
 
-import {
-  fakeAsync,
-  tick,
-  TestBed
-} from '@angular/core/testing';
+import { fakeAsync, tick, TestBed } from '@angular/core/testing';
 
-import {
-  Router
-} from '@angular/router';
+import { Router } from '@angular/router';
 
 import {
   MutationObserverService,
   SkyCoreAdapterService,
   SkyDockLocation,
-  SkyDockService
+  SkyDockService,
 } from '@skyux/core';
 
 import {
   SkyTheme,
   SkyThemeMode,
   SkyThemeSettings,
-  SkyThemeService
+  SkyThemeService,
 } from '@skyux/theme';
 
-import {
-  expect,
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  SkyModalInstance
-} from './modal-instance';
+import { SkyModalInstance } from './modal-instance';
 
-import {
-  SkyModalService
-} from './modal.service';
+import { SkyModalService } from './modal.service';
 
-import {
-  SkyModalComponentAdapterService
-} from './modal-component-adapter.service';
+import { SkyModalComponentAdapterService } from './modal-component-adapter.service';
 
-import {
-  SkyModalFixturesModule
-} from './fixtures/modal-fixtures.module';
+import { SkyModalFixturesModule } from './fixtures/modal-fixtures.module';
 
-import {
-  ModalTestComponent
-} from './fixtures/modal.component.fixture';
+import { ModalTestComponent } from './fixtures/modal.component.fixture';
 
-import {
-  ModalWithCloseConfirmTestComponent
-} from './fixtures/modal-with-close-confirm.component.fixture';
+import { ModalWithCloseConfirmTestComponent } from './fixtures/modal-with-close-confirm.component.fixture';
 
-import {
-  ModalAutofocusTestComponent
-} from './fixtures/modal-autofocus.component.fixture';
+import { ModalAutofocusTestComponent } from './fixtures/modal-autofocus.component.fixture';
 
-import {
-  ModalFooterTestComponent
-} from './fixtures/modal-footer.component.fixture';
+import { ModalFooterTestComponent } from './fixtures/modal-footer.component.fixture';
 
-import {
-  ModalNoHeaderTestComponent
-} from './fixtures/modal-no-header.component.fixture';
+import { ModalNoHeaderTestComponent } from './fixtures/modal-no-header.component.fixture';
 
-import {
-  ModalTiledBodyTestComponent
-} from './fixtures/modal-tiled-body.component.fixture';
+import { ModalTiledBodyTestComponent } from './fixtures/modal-tiled-body.component.fixture';
 
-import {
-  ModalWithFocusContentTestComponent
-} from './fixtures/modal-with-focus-content.fixture';
+import { ModalWithFocusContentTestComponent } from './fixtures/modal-with-focus-content.fixture';
 
-import {
-  ModalWithFocusContext
-} from './fixtures/modal-with-focus-context.fixture';
+import { ModalWithFocusContext } from './fixtures/modal-with-focus-context.fixture';
 
-import {
-  ModalMockThemeService
-} from './fixtures/mock-theme.service';
+import { ModalMockThemeService } from './fixtures/mock-theme.service';
 
-import {
-  ModalMockMutationObserverService
-} from './fixtures/mock-modal-mutation-observer';
+import { ModalMockMutationObserverService } from './fixtures/mock-modal-mutation-observer';
 
-import {
-  SkyModalBeforeCloseHandler
-} from './modal-before-close-handler';
+import { SkyModalBeforeCloseHandler } from './modal-before-close-handler';
 
 describe('Modal component', () => {
   let testModals: SkyModalInstance[];
@@ -137,9 +96,7 @@ describe('Modal component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyModalFixturesModule
-      ]
+      imports: [SkyModalFixturesModule],
     });
 
     testModals = [];
@@ -177,7 +134,9 @@ describe('Modal component', () => {
 
   it('should focus the first focusable element when no autofocus is inside of content', fakeAsync(() => {
     let modalInstance1 = openModal(ModalWithFocusContentTestComponent);
-    expect(document.activeElement).toEqual(document.querySelector('#visible-btn'));
+    expect(document.activeElement).toEqual(
+      document.querySelector('#visible-btn')
+    );
     closeModal(modalInstance1);
   }));
 
@@ -187,18 +146,22 @@ describe('Modal component', () => {
         {
           provide: ModalWithFocusContext,
           useValue: {
-            disableFirstContent: true
-          }
-        }
-      ]
+            disableFirstContent: true,
+          },
+        },
+      ],
     });
-    expect(document.activeElement).toEqual(document.querySelector('#visible-btn-2'));
+    expect(document.activeElement).toEqual(
+      document.querySelector('#visible-btn-2')
+    );
     closeModal(modalInstance1);
   }));
 
   it('should focus the dialog when no autofocus or focus element is inside of content', fakeAsync(() => {
     let modalInstance1 = openModal(ModalTestComponent);
-    expect(document.activeElement).toEqual(document.querySelector('.sky-modal-content'));
+    expect(document.activeElement).toEqual(
+      document.querySelector('.sky-modal-content')
+    );
     closeModal(modalInstance1);
   }));
 
@@ -209,18 +172,22 @@ describe('Modal component', () => {
           provide: ModalWithFocusContext,
           useValue: {
             disableFirstContent: true,
-            disableSecondContent: true
-          }
-        }
-      ]
+            disableSecondContent: true,
+          },
+        },
+      ],
     });
-    expect(document.activeElement).toEqual(document.querySelector('.sky-modal-content'));
+    expect(document.activeElement).toEqual(
+      document.querySelector('.sky-modal-content')
+    );
     closeModal(modalInstance1);
   }));
 
   it('should focus the autofocus element when autofocus is inside of content', fakeAsync(() => {
     let modalInstance1 = openModal(ModalAutofocusTestComponent);
-    expect(document.activeElement).toEqual(document.querySelector('#autofocus-el'));
+    expect(document.activeElement).toEqual(
+      document.querySelector('#autofocus-el')
+    );
     closeModal(modalInstance1);
   }));
 
@@ -237,7 +204,6 @@ describe('Modal component', () => {
     getApplicationRef().tick();
 
     expect(document.querySelector('.sky-modal')).not.toExist();
-
   }));
 
   it('should handle escape when modals are stacked', fakeAsync(() => {
@@ -276,7 +242,9 @@ describe('Modal component', () => {
     tick();
     getApplicationRef().tick();
 
-    expect(document.activeElement).not.toEqual(document.querySelector('.sky-modal-btn-close'));
+    expect(document.activeElement).not.toEqual(
+      document.querySelector('.sky-modal-btn-close')
+    );
     expect(document.querySelector('.sky-modal')).toExist();
 
     closeModal(modalInstance1);
@@ -295,13 +263,14 @@ describe('Modal component', () => {
     tick();
     getApplicationRef().tick();
 
-    expect(document.activeElement).toEqual(document.querySelector('.sky-btn-primary'));
+    expect(document.activeElement).toEqual(
+      document.querySelector('.sky-btn-primary')
+    );
 
     closeModal(modalInstance1);
   }));
 
   it('should handle tab with shift when focus is in first item and in top modal', fakeAsync(() => {
-
     let modalInstance1 = openModal(ModalFooterTestComponent);
 
     let tabEvent: any = document.createEvent('CustomEvent');
@@ -315,14 +284,14 @@ describe('Modal component', () => {
     tick();
     getApplicationRef().tick();
 
-    expect(document.activeElement).toEqual(document.querySelector('.sky-btn-primary'));
+    expect(document.activeElement).toEqual(
+      document.querySelector('.sky-btn-primary')
+    );
 
     closeModal(modalInstance1);
-
   }));
 
   it('should handle tab with shift when focus is in last item and in top modal', fakeAsync(() => {
-
     let modalInstance1 = openModal(ModalFooterTestComponent);
 
     let tabEvent: any = document.createEvent('CustomEvent');
@@ -339,7 +308,6 @@ describe('Modal component', () => {
     expect(document.activeElement).toEqual(document.querySelector('input'));
 
     closeModal(modalInstance1);
-
   }));
 
   it('should handle tab when focus is in last item and in top modal', fakeAsync(() => {
@@ -356,7 +324,9 @@ describe('Modal component', () => {
     tick();
     getApplicationRef().tick();
 
-    expect(document.activeElement).toEqual(document.querySelector('.sky-modal-btn-close'));
+    expect(document.activeElement).toEqual(
+      document.querySelector('.sky-modal-btn-close')
+    );
 
     closeModal(modalInstance1);
   }));
@@ -375,7 +345,9 @@ describe('Modal component', () => {
     tick();
     getApplicationRef().tick();
 
-    expect(document.activeElement).not.toEqual(document.querySelector('.sky-modal-btn-close'));
+    expect(document.activeElement).not.toEqual(
+      document.querySelector('.sky-modal-btn-close')
+    );
 
     closeModal(modalInstance1);
   }));
@@ -395,7 +367,9 @@ describe('Modal component', () => {
     tick();
     getApplicationRef().tick();
 
-    expect(document.activeElement).toEqual(document.querySelector('.sky-modal-btn-close'));
+    expect(document.activeElement).toEqual(
+      document.querySelector('.sky-modal-btn-close')
+    );
 
     closeModal(modalInstance1);
     closeModal(modalInstance2);
@@ -415,7 +389,9 @@ describe('Modal component', () => {
     tick();
     getApplicationRef().tick();
 
-    expect(document.activeElement).not.toEqual(document.querySelector('.sky-modal-btn-close'));
+    expect(document.activeElement).not.toEqual(
+      document.querySelector('.sky-modal-btn-close')
+    );
 
     closeModal(modalInstance1);
   }));
@@ -434,13 +410,17 @@ describe('Modal component', () => {
     tick();
     getApplicationRef().tick();
 
-    expect(document.activeElement).not.toEqual(document.querySelector('.sky-modal-btn-close'));
+    expect(document.activeElement).not.toEqual(
+      document.querySelector('.sky-modal-btn-close')
+    );
 
     closeModal(modalInstance1);
   }));
 
   it('should handle empty list for focus first and last element functions', fakeAsync(() => {
-    let adapterService = new SkyModalComponentAdapterService(TestBed.inject(SkyCoreAdapterService));
+    let adapterService = new SkyModalComponentAdapterService(
+      TestBed.inject(SkyCoreAdapterService)
+    );
     let firstResult = adapterService.focusFirstElement([]);
     expect(firstResult).toBe(false);
 
@@ -469,7 +449,10 @@ describe('Modal component', () => {
     getApplicationRef().tick();
     expect(document.querySelector('.sky-modal')).toExist();
 
-    const closeHandlerSpy = spyOn(instance.componentInstance, 'beforeCloseHandler').and.callThrough();
+    const closeHandlerSpy = spyOn(
+      instance.componentInstance,
+      'beforeCloseHandler'
+    ).and.callThrough();
 
     instance.close();
     tick();
@@ -477,7 +460,8 @@ describe('Modal component', () => {
     expect(document.querySelector('.sky-modal')).toExist();
 
     // Verify the close handler has the correct data.
-    const closeHandler = closeHandlerSpy.calls.allArgs()[0][0] as SkyModalBeforeCloseHandler;
+    const closeHandler =
+      closeHandlerSpy.calls.allArgs()[0][0] as SkyModalBeforeCloseHandler;
     expect(typeof closeHandler.closeModal).toEqual('function');
     expect(closeHandler.closeArgs.reason).toEqual('close');
     expect(closeHandler.closeArgs.data).toBeUndefined();
@@ -550,7 +534,9 @@ describe('Modal component', () => {
   }));
 
   it('should trigger the help modal when the help button is clicked', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent, { helpKey: 'default.html' });
+    let modalInstance = openModal(ModalTestComponent, {
+      helpKey: 'default.html',
+    });
     spyOn(modalInstance, 'openHelp').and.callThrough();
 
     expect(document.querySelector('.sky-modal')).toExist();
@@ -585,8 +571,7 @@ describe('Modal component', () => {
   }));
 
   it('should be a full screen modal and scale when window resizes', fakeAsync(() => {
-
-    let modalInstance = openModal(ModalTestComponent, { 'fullPage': true });
+    let modalInstance = openModal(ModalTestComponent, { fullPage: true });
     let modalEl = document.querySelector('.sky-modal-full-page');
     let height = parseInt(getComputedStyle(modalEl).height, 10);
     // innerHeight -2 is for IE Box Model Fix
@@ -602,7 +587,7 @@ describe('Modal component', () => {
   }));
 
   it('should not contain small,medium, or large classes in full size mode', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent, { 'fullPage': true });
+    let modalInstance = openModal(ModalTestComponent, { fullPage: true });
 
     expect(document.querySelector('.sky-modal-small')).not.toExist();
     expect(document.querySelector('.sky-modal-medium')).not.toExist();
@@ -612,7 +597,7 @@ describe('Modal component', () => {
   }));
 
   it('should account for margins when setting full-page modal height', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent, { 'fullPage': true });
+    let modalInstance = openModal(ModalTestComponent, { fullPage: true });
     let modalEl = document.querySelector('.sky-modal-full-page') as HTMLElement;
 
     modalEl.style.marginBottom = '20px';
@@ -630,7 +615,7 @@ describe('Modal component', () => {
   }));
 
   it('should default to medium size', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent, { 'fullPage': false });
+    let modalInstance = openModal(ModalTestComponent, { fullPage: false });
 
     expect(document.querySelector('.sky-modal-small')).not.toExist();
     expect(document.querySelector('.sky-modal-medium')).toExist();
@@ -640,7 +625,10 @@ describe('Modal component', () => {
   }));
 
   it('should respect medium config setting size', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent, { 'fullPage': false, 'size': 'medium' });
+    let modalInstance = openModal(ModalTestComponent, {
+      fullPage: false,
+      size: 'medium',
+    });
 
     expect(document.querySelector('.sky-modal-small')).not.toExist();
     expect(document.querySelector('.sky-modal-medium')).toExist();
@@ -650,7 +638,10 @@ describe('Modal component', () => {
   }));
 
   it('should respect small config setting size', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent, { 'fullPage': false, 'size': 'small' });
+    let modalInstance = openModal(ModalTestComponent, {
+      fullPage: false,
+      size: 'small',
+    });
 
     expect(document.querySelector('.sky-modal-small')).toExist();
     expect(document.querySelector('.sky-modal-medium')).not.toExist();
@@ -660,7 +651,10 @@ describe('Modal component', () => {
   }));
 
   it('should respect large config setting size', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent, { 'fullPage': false, 'size': 'large' });
+    let modalInstance = openModal(ModalTestComponent, {
+      fullPage: false,
+      size: 'large',
+    });
 
     expect(document.querySelector('.sky-modal-small')).not.toExist();
     expect(document.querySelector('.sky-modal-medium')).not.toExist();
@@ -672,36 +666,50 @@ describe('Modal component', () => {
   it('should default the role, aria-labelledby, and aria-describedby', fakeAsync(() => {
     let modalInstance = openModal(ModalTestComponent);
 
-    expect(document.querySelector('.sky-modal-dialog').getAttribute('role')).toBe('dialog');
-    expect(document.querySelector('.sky-modal-dialog').getAttribute('aria-labelledby')
-      .indexOf('sky-modal-header-id-'))
-      .not.toBe(-1);
-    expect(document.querySelector('.sky-modal-dialog').getAttribute('aria-describedby')
-      .indexOf('sky-modal-content-id-'))
-      .not.toBe(-1);
+    expect(
+      document.querySelector('.sky-modal-dialog').getAttribute('role')
+    ).toBe('dialog');
+    expect(
+      document
+        .querySelector('.sky-modal-dialog')
+        .getAttribute('aria-labelledby')
+        .indexOf('sky-modal-header-id-')
+    ).not.toBe(-1);
+    expect(
+      document
+        .querySelector('.sky-modal-dialog')
+        .getAttribute('aria-describedby')
+        .indexOf('sky-modal-content-id-')
+    ).not.toBe(-1);
     closeModal(modalInstance);
   }));
 
-  it('should accept configuration options for role, aria-labelledBy, and aria-describedby',
-    fakeAsync(() => {
-      let modalInstance = openModal(ModalTestComponent, {
-        'ariaLabelledBy': 'customlabelledby',
-        'ariaDescribedBy': 'customdescribedby',
-        'ariaRole': 'alertdialog'
-      });
+  it('should accept configuration options for role, aria-labelledBy, and aria-describedby', fakeAsync(() => {
+    let modalInstance = openModal(ModalTestComponent, {
+      ariaLabelledBy: 'customlabelledby',
+      ariaDescribedBy: 'customdescribedby',
+      ariaRole: 'alertdialog',
+    });
 
-      expect(document.querySelector('.sky-modal-dialog').getAttribute('role')).toBe('alertdialog');
-      expect(document.querySelector('.sky-modal-dialog').getAttribute('aria-labelledby'))
-        .toBe('customlabelledby');
-      expect(document.querySelector('.sky-modal-dialog').getAttribute('aria-describedby'))
-        .toBe('customdescribedby');
+    expect(
+      document.querySelector('.sky-modal-dialog').getAttribute('role')
+    ).toBe('alertdialog');
+    expect(
+      document
+        .querySelector('.sky-modal-dialog')
+        .getAttribute('aria-labelledby')
+    ).toBe('customlabelledby');
+    expect(
+      document
+        .querySelector('.sky-modal-dialog')
+        .getAttribute('aria-describedby')
+    ).toBe('customdescribedby');
 
-      closeModal(modalInstance);
-
-    }));
+    closeModal(modalInstance);
+  }));
 
   it('should default to tiled modal false', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent, { 'tiledBody': false });
+    let modalInstance = openModal(ModalTestComponent, { tiledBody: false });
 
     expect(document.querySelector('.sky-modal-tiled')).not.toExist();
 
@@ -710,7 +718,7 @@ describe('Modal component', () => {
 
   it('should accept configuration options for tiledBody', fakeAsync(() => {
     let modalInstance = openModal(ModalTestComponent, {
-      'tiledBody': true
+      tiledBody: true,
     });
 
     expect(document.querySelector('.sky-modal-tiled')).toExist();
@@ -749,12 +757,9 @@ describe('Modal component', () => {
   }));
 
   it('should not error when no theme service is provided', fakeAsync(() => {
-    TestBed.overrideProvider(
-      SkyThemeService,
-      {
-        useValue: undefined
-      }
-    );
+    TestBed.overrideProvider(SkyThemeService, {
+      useValue: undefined,
+    });
 
     const modalInstance = openModal(ModalTiledBodyTestComponent);
 
@@ -762,7 +767,10 @@ describe('Modal component', () => {
   }));
 
   it('should set the dock service location to between the modal content and footer', fakeAsync(() => {
-    const dockServiceLocationSpy = spyOn(SkyDockService.prototype, 'setDockOptions');
+    const dockServiceLocationSpy = spyOn(
+      SkyDockService.prototype,
+      'setDockOptions'
+    );
 
     const modalInstance = openModal(ModalTestComponent);
 
@@ -774,7 +782,7 @@ describe('Modal component', () => {
     expect(dockServiceLocationSpy).toHaveBeenCalledWith({
       location: SkyDockLocation.ElementBottom,
       referenceEl: modalContent,
-      zIndex: 5
+      zIndex: 5,
     });
 
     closeModal(modalInstance);
@@ -796,7 +804,9 @@ describe('Modal component', () => {
       const boxShadowStyle = getComputedStyle(el).boxShadow;
 
       if (expectedAlpha) {
-        const rgbaMatch = boxShadowStyle.match(/rgba\(0,\s*0,\s*0,\s*([0-9\.]*)\)/);
+        const rgbaMatch = boxShadowStyle.match(
+          /rgba\(0,\s*0,\s*0,\s*([0-9\.]*)\)/
+        );
         const alpha = parseFloat(rgbaMatch[1]);
 
         expect(expectedAlpha).toBeCloseTo(alpha, 2);
@@ -806,21 +816,23 @@ describe('Modal component', () => {
     }
 
     function setModernTheme(): void {
-      let themeSvc: ModalMockThemeService = TestBed.inject<any>(SkyThemeService);
+      let themeSvc: ModalMockThemeService =
+        TestBed.inject<any>(SkyThemeService);
 
       themeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.modern,
           SkyThemeMode.presets.light
         ),
-        previousSettings: themeSvc.settingsChange.value.currentSettings
+        previousSettings: themeSvc.settingsChange.value.currentSettings,
       });
     }
 
     beforeEach(() => {
-      mutationObserverCreateSpy = spyOn(getMockMutationObserverService(), 'create')
-        .and
-        .callThrough();
+      mutationObserverCreateSpy = spyOn(
+        getMockMutationObserverService(),
+        'create'
+      ).and.callThrough();
 
       setModernTheme();
     });
@@ -828,12 +840,20 @@ describe('Modal component', () => {
     it('should progressively show a drop shadow as the modal content scrolls', fakeAsync(() => {
       let modalInstance1 = openModal(ModalTestComponent);
 
-      const modalHeaderEl = document.querySelector('.sky-modal-header') as HTMLElement;
-      const modalContentEl = document.querySelector('.sky-modal-content') as HTMLElement;
-      const modalFooterEl = document.querySelector('.sky-modal-footer') as HTMLElement;
+      const modalHeaderEl = document.querySelector(
+        '.sky-modal-header'
+      ) as HTMLElement;
+      const modalContentEl = document.querySelector(
+        '.sky-modal-content'
+      ) as HTMLElement;
+      const modalFooterEl = document.querySelector(
+        '.sky-modal-footer'
+      ) as HTMLElement;
 
-      const fixtureContentEl = document.querySelector('.modal-fixture-content') as HTMLElement;
-      fixtureContentEl.style.height = `${(window.innerHeight + 100)}px`;
+      const fixtureContentEl = document.querySelector(
+        '.modal-fixture-content'
+      ) as HTMLElement;
+      fixtureContentEl.style.height = `${window.innerHeight + 100}px`;
 
       scrollContent(modalContentEl, 0);
       validateShadow(modalHeaderEl);
@@ -853,12 +873,15 @@ describe('Modal component', () => {
 
       scrollContent(
         modalContentEl,
-        (modalContentEl.scrollHeight - 15) - modalContentEl.clientHeight
+        modalContentEl.scrollHeight - 15 - modalContentEl.clientHeight
       );
       validateShadow(modalHeaderEl, 0.3);
       validateShadow(modalFooterEl, 0.15);
 
-      scrollContent(modalContentEl, modalContentEl.scrollHeight - modalContentEl.clientHeight);
+      scrollContent(
+        modalContentEl,
+        modalContentEl.scrollHeight - modalContentEl.clientHeight
+      );
       validateShadow(modalHeaderEl, 0.3);
       validateShadow(modalFooterEl);
 
@@ -870,25 +893,27 @@ describe('Modal component', () => {
 
       const fakeMutationObserver = {
         observe: jasmine.createSpy('observe'),
-        disconnect: jasmine.createSpy('disconnect')
+        disconnect: jasmine.createSpy('disconnect'),
       };
 
-      mutationObserverCreateSpy
-        .and
-        .callFake((cb) => {
-          mutateCallback = cb;
+      mutationObserverCreateSpy.and.callFake((cb) => {
+        mutateCallback = cb;
 
-          return fakeMutationObserver;
-        });
+        return fakeMutationObserver;
+      });
 
       let modalInstance1 = openModal(ModalTestComponent);
 
-      const modalFooterEl = document.querySelector('.sky-modal-footer') as HTMLElement;
+      const modalFooterEl = document.querySelector(
+        '.sky-modal-footer'
+      ) as HTMLElement;
 
-      const fixtureContentEl = document.querySelector('.modal-fixture-content') as HTMLElement;
+      const fixtureContentEl = document.querySelector(
+        '.modal-fixture-content'
+      ) as HTMLElement;
 
       const childEl = document.createElement('div');
-      childEl.style.height = `${(window.innerHeight + 100)}px`;
+      childEl.style.height = `${window.innerHeight + 100}px`;
       childEl.style.backgroundColor = 'red';
 
       fixtureContentEl.appendChild(childEl);
@@ -923,7 +948,5 @@ describe('Modal component', () => {
 
       closeModal(modalInstance1);
     }));
-
   });
-
 });

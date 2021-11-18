@@ -1,14 +1,8 @@
-import {
-  SkyConfirmButtonConfig
-} from './confirm-button-config';
+import { SkyConfirmButtonConfig } from './confirm-button-config';
 
-import {
-  SkyConfirmConfig
-} from './confirm-config';
+import { SkyConfirmConfig } from './confirm-config';
 
-import {
-  SkyConfirmType
-} from './confirm-type';
+import { SkyConfirmType } from './confirm-type';
 
 /* istanbul ignore next */
 export class SkyConfirmModalContext implements SkyConfirmConfig {

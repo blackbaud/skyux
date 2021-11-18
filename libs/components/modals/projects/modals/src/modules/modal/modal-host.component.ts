@@ -4,37 +4,22 @@ import {
   ComponentFactoryResolver,
   Injector,
   ViewChild,
-  ViewContainerRef
+  ViewContainerRef,
 } from '@angular/core';
 
-import {
-  NavigationStart,
-  Router
-} from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
 
-import {
-  takeWhile
-} from 'rxjs/operators';
+import { takeWhile } from 'rxjs/operators';
 
-import {
-  SkyModalAdapterService
-} from './modal-adapter.service';
+import { SkyModalAdapterService } from './modal-adapter.service';
 
-import {
-  SkyModalInstance
-} from './modal-instance';
+import { SkyModalInstance } from './modal-instance';
 
-import {
-  SkyModalHostService
-} from './modal-host.service';
+import { SkyModalHostService } from './modal-host.service';
 
-import {
-  SkyModalConfigurationInterface
-} from './modal.interface';
+import { SkyModalConfigurationInterface } from './modal.interface';
 
-import {
-  SkyModalConfiguration
-} from './modal-configuration';
+import { SkyModalConfiguration } from './modal-configuration';
 
 /**
  * @internal
@@ -43,7 +28,7 @@ import {
   selector: 'sky-modal-host',
   templateUrl: './modal-host.component.html',
   styleUrls: ['./modal-host.component.scss'],
-  viewProviders: [SkyModalAdapterService]
+  viewProviders: [SkyModalAdapterService],
 })
 export class SkyModalHostComponent {
   public get modalOpen() {
@@ -62,7 +47,7 @@ export class SkyModalHostComponent {
    */
   @ViewChild('target', {
     read: ViewContainerRef,
-    static: true
+    static: true,
   } as any)
   public target: ViewContainerRef;
 
@@ -72,7 +57,7 @@ export class SkyModalHostComponent {
     private injector: Injector,
     private router: Router,
     private changeDetector: ChangeDetectorRef
-  ) { }
+  ) {}
 
   public open(
     modalInstance: SkyModalInstance,
@@ -92,30 +77,38 @@ export class SkyModalHostComponent {
 
     params.providers.push({
       provide: SkyModalHostService,
-      useValue: hostService
+      useValue: hostService,
     });
     params.providers.push({
       provide: SkyModalConfiguration,
-      useValue: params
+      useValue: params,
     });
 
     adapter.setPageScroll(SkyModalHostService.openModalCount > 0);
-    adapter.toggleFullPageModalClass(SkyModalHostService.fullPageModalCount > 0);
+    adapter.toggleFullPageModalClass(
+      SkyModalHostService.fullPageModalCount > 0
+    );
 
     let providers = params.providers || /* istanbul ignore next */ [];
     const injector = Injector.create({
       providers,
-      parent: this.injector
+      parent: this.injector,
     });
 
-    let modalComponentRef = this.target.createComponent(factory, undefined, injector);
+    let modalComponentRef = this.target.createComponent(
+      factory,
+      undefined,
+      injector
+    );
 
     modalInstance.componentInstance = modalComponentRef.instance;
 
     function closeModal() {
       hostService.destroy();
       adapter.setPageScroll(SkyModalHostService.openModalCount > 0);
-      adapter.toggleFullPageModalClass(SkyModalHostService.fullPageModalCount > 0);
+      adapter.toggleFullPageModalClass(
+        SkyModalHostService.fullPageModalCount > 0
+      );
       /* istanbul ignore else */
       /* sanity check */
       if (modalOpener && modalOpener.focus) {
@@ -132,16 +125,12 @@ export class SkyModalHostComponent {
       modalInstance.close();
     });
 
-    this.router.events
-      .pipe(
-        takeWhile(() => isOpen)
-      )
-      .subscribe((event) => {
-        /* istanbul ignore else */
-        if (event instanceof NavigationStart) {
-          modalInstance.close();
-        }
-      });
+    this.router.events.pipe(takeWhile(() => isOpen)).subscribe((event) => {
+      /* istanbul ignore else */
+      if (event instanceof NavigationStart) {
+        modalInstance.close();
+      }
+    });
 
     modalInstance.closed.subscribe(() => {
       isOpen = false;

@@ -19,5 +19,5 @@ export enum SkyConfirmType {
    * @deprecated Use the `Custom` type to follow the guidance that labels
    * should clearly indicate the actions that occur when users select buttons.
    */
-  YesNoCancel = 3
+  YesNoCancel = 3,
 }

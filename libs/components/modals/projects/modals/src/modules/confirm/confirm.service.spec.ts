@@ -1,22 +1,12 @@
-import {
-  SkyConfirmService
-} from './confirm.service';
+import { SkyConfirmService } from './confirm.service';
 
-import {
-  SkyConfirmConfig
-} from './confirm-config';
+import { SkyConfirmConfig } from './confirm-config';
 
-import {
-  MockSkyModalService
-} from './fixtures/mocks';
+import { MockSkyModalService } from './fixtures/mocks';
 
-import {
-  SkyConfirmComponent
-} from './confirm.component';
+import { SkyConfirmComponent } from './confirm.component';
 
-import {
-  SkyConfirmModalContext
-} from './confirm-modal-context';
+import { SkyConfirmModalContext } from './confirm-modal-context';
 
 describe('Confirm service', () => {
   let modalService: MockSkyModalService;
@@ -29,14 +19,16 @@ describe('Confirm service', () => {
 
   it('should open confirmation dialog with correct parameters', () => {
     const config: SkyConfirmConfig = {
-      message: 'dialog description'
+      message: 'dialog description',
     };
 
     const expectedConfig = {
-      providers: [{
-        provide: SkyConfirmModalContext,
-        useValue: config
-      }]
+      providers: [
+        {
+          provide: SkyConfirmModalContext,
+          useValue: config,
+        },
+      ],
     };
 
     confirmService.open(config);
@@ -48,7 +40,7 @@ describe('Confirm service', () => {
 
   it('should subscribe to the modal closed event and emit args', () => {
     const config: SkyConfirmConfig = {
-      message: 'dialog description'
+      message: 'dialog description',
     };
 
     const instance = confirmService.open(config);
@@ -58,13 +50,13 @@ describe('Confirm service', () => {
     });
 
     modalService.instance.close({
-      action: 'ok'
+      action: 'ok',
     });
   });
 
   it('should handle undefined modal closed args', () => {
     const config: SkyConfirmConfig = {
-      message: 'dialog description'
+      message: 'dialog description',
     };
 
     const instance = confirmService.open(config);

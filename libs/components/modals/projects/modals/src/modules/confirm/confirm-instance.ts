@@ -1,10 +1,6 @@
-import {
-  EventEmitter
-} from '@angular/core';
+import { EventEmitter } from '@angular/core';
 
-import {
-  SkyConfirmCloseEventArgs
-} from './confirm-closed-event-args';
+import { SkyConfirmCloseEventArgs } from './confirm-closed-event-args';
 
 export class SkyConfirmInstance {
   /**

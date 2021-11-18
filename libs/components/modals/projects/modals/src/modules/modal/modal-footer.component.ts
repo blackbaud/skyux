@@ -1,6 +1,4 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * Specifies content to display in the modal's footer.
@@ -8,7 +6,6 @@ import {
 @Component({
   selector: 'sky-modal-footer',
   templateUrl: './modal-footer.component.html',
-  styleUrls: ['./modal-footer.component.scss']
+  styleUrls: ['./modal-footer.component.scss'],
 })
-export class SkyModalFooterComponent {
-}
+export class SkyModalFooterComponent {}

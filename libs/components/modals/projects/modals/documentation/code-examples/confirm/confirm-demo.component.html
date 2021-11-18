@@ -1,11 +1,10 @@
-<div
-  class="sky-margin-stacked-default"
->
+<div class="sky-margin-stacked-default">
   <button
     aria-haspopup="dialog"
     class="sky-btn sky-btn-default sky-margin-inline-default"
     type="button"
-    (click)="openOKConfirm()">
+    (click)="openOKConfirm()"
+  >
     OK confirm
   </button>
 
@@ -13,13 +12,16 @@
     aria-haspopup="dialog"
     class="sky-btn sky-btn-default sky-margin-inline-default"
     type="button"
-    (click)="openCustomConfirm()">
+    (click)="openCustomConfirm()"
+  >
     Custom confirm
   </button>
 </div>
 
 <p *ngIf="selectedAction && selectedText">
-  You selected the "{{ selectedText }}" button, which has an action of "{{ selectedAction }}."
+  You selected the "{{ selectedText }}" button, which has an action of "{{
+    selectedAction
+  }}."
 </p>
 <p *ngIf="selectedAction && !selectedText">
   You selected the "{{ selectedAction }}" action.
