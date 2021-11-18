@@ -1,35 +1,18 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  FormsModule,
-  ReactiveFormsModule
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import {
-  SkyIdModule
-} from '@skyux/core';
+import { SkyIdModule } from '@skyux/core';
 
-import {
-  SkyIconModule
-} from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/indicators';
 
-import {
-  SkyCharacterCounterModule
-} from '../../character-counter/character-counter.module';
+import { SkyCharacterCounterModule } from '../../character-counter/character-counter.module';
 
-import {
-  SkyInputBoxModule
-} from '../input-box.module';
+import { SkyInputBoxModule } from '../input-box.module';
 
-import {
-  InputBoxFixtureComponent
-} from './input-box.component.fixture';
+import { InputBoxFixtureComponent } from './input-box.component.fixture';
 
-import {
-  InputBoxHostServiceFixtureComponent
-} from './input-box-host-service.component.fixture';
+import { InputBoxHostServiceFixtureComponent } from './input-box-host-service.component.fixture';
 
 @NgModule({
   imports: [
@@ -38,15 +21,9 @@ import {
     SkyCharacterCounterModule,
     SkyIconModule,
     SkyIdModule,
-    SkyInputBoxModule
+    SkyInputBoxModule,
   ],
-  exports: [
-    InputBoxFixtureComponent,
-    InputBoxHostServiceFixtureComponent
-  ],
-  declarations: [
-    InputBoxFixtureComponent,
-    InputBoxHostServiceFixtureComponent
-  ]
+  exports: [InputBoxFixtureComponent, InputBoxHostServiceFixtureComponent],
+  declarations: [InputBoxFixtureComponent, InputBoxHostServiceFixtureComponent],
 })
-export class InputBoxFixturesModule { }
+export class InputBoxFixturesModule {}

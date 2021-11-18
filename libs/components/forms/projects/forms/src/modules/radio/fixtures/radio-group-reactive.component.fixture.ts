@@ -1,23 +1,13 @@
-import {
-  Component,
-  ViewChild
-} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
-import {
-  FormGroup,
-  FormBuilder,
-  FormControl
-} from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 
-import {
-  SkyRadioGroupComponent
-} from '../radio-group.component';
+import { SkyRadioGroupComponent } from '../radio-group.component';
 
 @Component({
-  templateUrl: './radio-group-reactive.component.fixture.html'
+  templateUrl: './radio-group-reactive.component.fixture.html',
 })
 export class SkyRadioGroupReactiveFixtureComponent {
-
   public ariaLabel: string;
 
   public ariaLabelledBy: string = 'radio-group-label';
@@ -25,7 +15,7 @@ export class SkyRadioGroupReactiveFixtureComponent {
   public options = [
     { name: 'Lillith Corharvest', disabled: false },
     { name: 'Harima Kenji', disabled: false },
-    { name: 'Harry Mckenzie', disabled: false }
+    { name: 'Harry Mckenzie', disabled: false },
   ];
 
   public radioControl = new FormControl();
@@ -41,11 +31,9 @@ export class SkyRadioGroupReactiveFixtureComponent {
   @ViewChild(SkyRadioGroupComponent)
   public radioGroupComponent: SkyRadioGroupComponent;
 
-  constructor(
-    private fb: FormBuilder
-  ) {
+  constructor(private fb: FormBuilder) {
     this.radioForm = this.fb.group({
-      radioGroup: this.radioControl
+      radioGroup: this.radioControl,
     });
   }
 
@@ -54,7 +42,7 @@ export class SkyRadioGroupReactiveFixtureComponent {
       { name: 'Lillith Corharvest', disabled: false },
       { name: 'Hank Salizar', disabled: false },
       { name: 'Harima Kenji', disabled: false },
-      { name: 'Harry Mckenzie', disabled: false }
+      { name: 'Harry Mckenzie', disabled: false },
     ];
   }
 }

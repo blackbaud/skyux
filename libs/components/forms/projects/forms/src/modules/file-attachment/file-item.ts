@@ -1,6 +1,4 @@
-import {
-  SkyFileItemErrorType
-} from './file-item-error-type';
+import { SkyFileItemErrorType } from './file-item-error-type';
 
 export interface SkyFileItem {
   /**

@@ -1,36 +1,16 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  ReactiveFormsModule
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import {
-  SkyRadioModule
-} from 'projects/forms/src/public-api';
+import { SkyRadioModule } from 'projects/forms/src/public-api';
 
-import {
-  RadioDemoComponent
-} from './radio-demo.component';
+import { RadioDemoComponent } from './radio-demo.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    SkyRadioModule
-  ],
-  declarations: [
-    RadioDemoComponent
-  ],
-  exports: [
-    RadioDemoComponent
-  ]
+  imports: [CommonModule, ReactiveFormsModule, SkyRadioModule],
+  declarations: [RadioDemoComponent],
+  exports: [RadioDemoComponent],
 })
-
-export class SkyRadioDemoModule {
-}
+export class SkyRadioDemoModule {}

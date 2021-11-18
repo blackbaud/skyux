@@ -3,49 +3,28 @@ import {
   fakeAsync,
   TestBed,
   tick,
-  async
+  async,
 } from '@angular/core/testing';
 
-import {
-  DebugElement
-} from '@angular/core';
+import { DebugElement } from '@angular/core';
 
-import {
-  NgModel
-} from '@angular/forms';
+import { NgModel } from '@angular/forms';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  expect,
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  SkyRadioTestComponent
-} from './fixtures/radio.component.fixture';
+import { SkyRadioTestComponent } from './fixtures/radio.component.fixture';
 
-import {
-  SkyRadioFixturesModule
-} from './fixtures/radio-fixtures.module';
+import { SkyRadioFixturesModule } from './fixtures/radio-fixtures.module';
 
-import {
-  SkyRadioOnPushTestComponent
-} from './fixtures/radio-on-push.component.fixture';
+import { SkyRadioOnPushTestComponent } from './fixtures/radio-on-push.component.fixture';
 
-import {
-  SkySingleRadioComponent
-} from './fixtures/radio-single.component.fixture';
+import { SkySingleRadioComponent } from './fixtures/radio-single.component.fixture';
 
-import {
-  SkyRadioComponent
-} from './radio.component';
+import { SkyRadioComponent } from './radio.component';
 
-import {
-  SkyRadioLabelComponent
-} from './radio-label.component';
+import { SkyRadioLabelComponent } from './radio-label.component';
 
 describe('Radio component', function () {
   let fixture: ComponentFixture<any>;
@@ -53,9 +32,7 @@ describe('Radio component', function () {
 
   beforeEach(function () {
     TestBed.configureTestingModule({
-      imports: [
-        SkyRadioFixturesModule
-      ]
+      imports: [SkyRadioFixturesModule],
     });
   });
 
@@ -87,7 +64,9 @@ describe('Radio component', function () {
     });
 
     it('should update the ngModel properly when radio button is changed', fakeAsync(function () {
-      let radioElement = fixture.debugElement.queryAll(By.directive(SkyRadioComponent))[0];
+      let radioElement = fixture.debugElement.queryAll(
+        By.directive(SkyRadioComponent)
+      )[0];
       let ngModel = <NgModel>radioElement.injector.get(NgModel);
       const radios = fixture.nativeElement.querySelectorAll('input');
 
@@ -114,7 +93,9 @@ describe('Radio component', function () {
       fixture.detectChanges();
       tick();
 
-      const radioElement = fixture.debugElement.queryAll(By.directive(SkyRadioComponent))[0];
+      const radioElement = fixture.debugElement.queryAll(
+        By.directive(SkyRadioComponent)
+      )[0];
       const ngModel = <NgModel>radioElement.injector.get(NgModel);
 
       expect(ngModel.touched).toBe(false);
@@ -141,7 +122,7 @@ describe('Radio component', function () {
       expect(radios.item(2).checked).toBeFalsy();
     }));
 
-    it('should maintain checked state when value is changed', fakeAsync(function() {
+    it('should maintain checked state when value is changed', fakeAsync(function () {
       fixture.detectChanges();
       tick();
 
@@ -227,12 +208,14 @@ describe('Radio component', function () {
     }));
 
     it('should not change the selected value if input is disabled', fakeAsync(() => {
-      const radioElement = fixture.debugElement.queryAll(By.directive(SkyRadioComponent))[2];
+      const radioElement = fixture.debugElement.queryAll(
+        By.directive(SkyRadioComponent)
+      )[2];
       const radioComponent = radioElement.componentInstance;
 
       radioComponent.selectedValue = '1';
       radioComponent.disabled = true;
-      radioComponent.onInputChange({stopPropagation: () => {}});
+      radioComponent.onInputChange({ stopPropagation: () => {} });
 
       expect(radioComponent.selectedValue).toEqual('1');
     }));
@@ -241,7 +224,9 @@ describe('Radio component', function () {
       fixture.detectChanges();
       tick();
 
-      const radioElement = fixture.debugElement.queryAll(By.directive(SkyRadioComponent))[2];
+      const radioElement = fixture.debugElement.queryAll(
+        By.directive(SkyRadioComponent)
+      )[2];
       const radioComponent = radioElement.componentInstance;
 
       radioComponent.selectedValue = 'foo';

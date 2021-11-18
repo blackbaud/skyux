@@ -1,35 +1,16 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  FormsModule
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
-import {
-  SkyToggleSwitchComponent
-} from './toggle-switch.component';
+import { SkyToggleSwitchComponent } from './toggle-switch.component';
 
-import {
-  SkyToggleSwitchLabelComponent
-} from './toggle-switch-label.component';
+import { SkyToggleSwitchLabelComponent } from './toggle-switch-label.component';
 
 @NgModule({
-  declarations: [
-    SkyToggleSwitchLabelComponent,
-    SkyToggleSwitchComponent
-  ],
-  imports: [
-    CommonModule,
-    FormsModule
-  ],
-  exports: [
-    SkyToggleSwitchLabelComponent,
-    SkyToggleSwitchComponent
-  ]
+  declarations: [SkyToggleSwitchLabelComponent, SkyToggleSwitchComponent],
+  imports: [CommonModule, FormsModule],
+  exports: [SkyToggleSwitchLabelComponent, SkyToggleSwitchComponent],
 })
-export class SkyToggleSwitchModule { }
+export class SkyToggleSwitchModule {}

@@ -1,54 +1,33 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  SkyThemeModule
-} from '@skyux/theme';
+import { SkyThemeModule } from '@skyux/theme';
 
-import {
-  SkySelectionBoxAdapterService
-} from './selection-box-adapter.service';
+import { SkySelectionBoxAdapterService } from './selection-box-adapter.service';
 
-import {
-  SkySelectionBoxDescriptionComponent
-} from './selection-box-description.component';
+import { SkySelectionBoxDescriptionComponent } from './selection-box-description.component';
 
-import {
-  SkySelectionBoxHeaderComponent
-} from './selection-box-header.component';
+import { SkySelectionBoxHeaderComponent } from './selection-box-header.component';
 
-import {
-  SkySelectionBoxGridComponent
-} from './selection-box-grid.component';
+import { SkySelectionBoxGridComponent } from './selection-box-grid.component';
 
-import {
-  SkySelectionBoxComponent
-} from './selection-box.component';
+import { SkySelectionBoxComponent } from './selection-box.component';
 
 @NgModule({
   declarations: [
     SkySelectionBoxGridComponent,
     SkySelectionBoxComponent,
     SkySelectionBoxDescriptionComponent,
-    SkySelectionBoxHeaderComponent
+    SkySelectionBoxHeaderComponent,
   ],
-  imports: [
-    CommonModule,
-    SkyThemeModule
-  ],
+  imports: [CommonModule, SkyThemeModule],
   exports: [
     SkySelectionBoxGridComponent,
     SkySelectionBoxComponent,
     SkySelectionBoxDescriptionComponent,
-    SkySelectionBoxHeaderComponent
+    SkySelectionBoxHeaderComponent,
   ],
-  providers: [
-    SkySelectionBoxAdapterService
-  ]
+  providers: [SkySelectionBoxAdapterService],
 })
-export class SkySelectionBoxModule { }
+export class SkySelectionBoxModule {}

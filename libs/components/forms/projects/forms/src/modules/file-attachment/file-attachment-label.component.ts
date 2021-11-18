@@ -1,7 +1,4 @@
-import {
-  Component,
-  ChangeDetectionStrategy
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 /**
  * Displays a label above the file attachment element.
@@ -9,9 +6,7 @@ import {
 @Component({
   selector: 'sky-file-attachment-label',
   templateUrl: './file-attachment-label.component.html',
-  styleUrls: [
-    'file-attachment-label.component.scss'
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['file-attachment-label.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyFileAttachmentLabelComponent { }
+export class SkyFileAttachmentLabelComponent {}

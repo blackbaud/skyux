@@ -1,38 +1,30 @@
-import {
-  ComponentFixture
-} from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
 
-import {
-  DebugElement
-} from '@angular/core';
+import { DebugElement } from '@angular/core';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 /**
  * Allows interaction with a SKY UX checkbox component.
  */
 export class SkyCheckboxFixture {
-
   private debugEl: DebugElement;
 
-  constructor(
-    fixture: ComponentFixture<any>,
-    skyTestId: string
-  ) {
-    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(fixture, skyTestId, 'sky-checkbox');
+  constructor(fixture: ComponentFixture<any>, skyTestId: string) {
+    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
+      fixture,
+      skyTestId,
+      'sky-checkbox'
+    );
   }
 
   /**
    * A flag indicating whether the checkbox is currently selected.
    */
   public get selected(): boolean {
-      return this.getCheckboxInputEl().nativeElement.checked;
+    return this.getCheckboxInputEl().nativeElement.checked;
   }
 
   /**
@@ -48,9 +40,8 @@ export class SkyCheckboxFixture {
    * The checkbox's icon type
    */
   public get iconType(): string {
-    const classList = this.debugEl.query(
-      By.css('.fa.sky-icon')
-    ).nativeElement.classList;
+    const classList = this.debugEl.query(By.css('.fa.sky-icon')).nativeElement
+      .classList;
 
     for (let i = 0, n = classList.length; i < n; i++) {
       const cls = classList.item(i);
@@ -112,20 +103,16 @@ export class SkyCheckboxFixture {
   }
 
   private clickCheckboxLabelEl(): void {
-    this.debugEl.query(
-      By.css('label.sky-checkbox-wrapper')
-    ).nativeElement.click();
+    this.debugEl
+      .query(By.css('label.sky-checkbox-wrapper'))
+      .nativeElement.click();
   }
 
   private getCheckboxInputEl(): DebugElement {
-    return this.debugEl.query(
-      By.css('.sky-checkbox-wrapper input')
-    );
+    return this.debugEl.query(By.css('.sky-checkbox-wrapper input'));
   }
 
   private getCheckboxBoxEl(): DebugElement {
-    return this.debugEl.query(
-      By.css('label.sky-checkbox-wrapper span')
-    );
+    return this.debugEl.query(By.css('label.sky-checkbox-wrapper span'));
   }
 }

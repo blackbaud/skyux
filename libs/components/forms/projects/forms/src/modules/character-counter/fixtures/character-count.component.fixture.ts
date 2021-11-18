@@ -3,23 +3,17 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   OnInit,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
-import {
-  SkyCharacterCounterInputDirective
-} from '../character-counter.directive';
+import { SkyCharacterCounterInputDirective } from '../character-counter.directive';
 
 @Component({
-  selector: 'character-count-test',
+  selector: 'sky-character-count-test',
   templateUrl: './character-count.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CharacterCountTestComponent implements OnInit {
   public testForm: FormGroup;
@@ -33,15 +27,14 @@ export class CharacterCountTestComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private changeDetector: ChangeDetectorRef
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     this.firstName = this.formBuilder.control('test');
 
     this.testForm = this.formBuilder.group({
-      firstName: this.firstName
+      firstName: this.firstName,
     });
-
   }
 
   public setCharacterCountLimit(limit: number): void {

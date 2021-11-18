@@ -1,60 +1,40 @@
-import {
-  Component,
-  ElementRef,
-  ViewChild
-} from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  SkyMediaBreakpoints
-} from '@skyux/core';
+import { SkyMediaBreakpoints } from '@skyux/core';
 
-import {
-  SkySelectionBoxAdapterService
-} from './selection-box-adapter.service';
+import { SkySelectionBoxAdapterService } from './selection-box-adapter.service';
 
 @Component({
   selector: 'sky-test-cmp',
   template: `
-    <div
-      [style.width]="parentWidth"
-      #parent
-    >
-      <div #child>
-        Hello world
-      </div>
+    <div [style.width]="parentWidth" #parent>
+      <div #child>Hello world</div>
     </div>
-    <div #outisde>
-      I'm outside the parent!
-    </div>
-  `
+    <div #outisde>I'm outside the parent!</div>
+  `,
 })
 class SkySelectionBoxAdapterTestComponent {
-
   public parentWidth: string;
 
   @ViewChild('child', {
     read: ElementRef,
-    static: true
+    static: true,
   })
   public childRef: ElementRef;
 
   @ViewChild('outisde', {
     read: ElementRef,
-    static: true
+    static: true,
   })
   public outsideRef: ElementRef;
 
   @ViewChild('parent', {
     read: ElementRef,
-    static: true
+    static: true,
   })
   public parentRef: ElementRef;
-
 }
 
 describe('Action button adapter service', () => {
@@ -66,12 +46,8 @@ describe('Action button adapter service', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SkySelectionBoxAdapterTestComponent
-      ],
-      providers: [
-        SkySelectionBoxAdapterService
-      ]
+      declarations: [SkySelectionBoxAdapterTestComponent],
+      providers: [SkySelectionBoxAdapterService],
     });
 
     fixture = TestBed.createComponent(SkySelectionBoxAdapterTestComponent);
@@ -90,12 +66,18 @@ describe('Action button adapter service', () => {
   });
 
   it('should return true when element is a descendant', () => {
-    const isDescendant = adapter.isDescendant(parentRef, inputRef.nativeElement);
+    const isDescendant = adapter.isDescendant(
+      parentRef,
+      inputRef.nativeElement
+    );
     expect(isDescendant).toBeTrue();
   });
 
   it('should return false when element is not a descendant', () => {
-    const isDescendant = adapter.isDescendant(parentRef, outisdeRef.nativeElement);
+    const isDescendant = adapter.isDescendant(
+      parentRef,
+      outisdeRef.nativeElement
+    );
     expect(isDescendant).toBeFalse();
   });
 
@@ -123,40 +105,71 @@ describe('Action button adapter service', () => {
     adapter.setResponsiveClass(inputRef, SkyMediaBreakpoints.xs);
     fixture.detectChanges();
 
-    expect(inputRef.nativeElement).toHaveClass('sky-selection-box-container-xs');
-    expect(inputRef.nativeElement).not.toHaveClass('sky-selection-box-container-sm');
-    expect(inputRef.nativeElement).not.toHaveClass('sky-selection-box-container-md');
-    expect(inputRef.nativeElement).not.toHaveClass('sky-selection-box-container-lg');
+    expect(inputRef.nativeElement).toHaveClass(
+      'sky-selection-box-container-xs'
+    );
+    expect(inputRef.nativeElement).not.toHaveClass(
+      'sky-selection-box-container-sm'
+    );
+    expect(inputRef.nativeElement).not.toHaveClass(
+      'sky-selection-box-container-md'
+    );
+    expect(inputRef.nativeElement).not.toHaveClass(
+      'sky-selection-box-container-lg'
+    );
   });
 
   it('should set responsive sm class when breakpoint is sm', () => {
     adapter.setResponsiveClass(inputRef, SkyMediaBreakpoints.sm);
     fixture.detectChanges();
 
-    expect(inputRef.nativeElement).not.toHaveClass('sky-selection-box-container-xs');
-    expect(inputRef.nativeElement).toHaveClass('sky-selection-box-container-sm');
-    expect(inputRef.nativeElement).not.toHaveClass('sky-selection-box-container-md');
-    expect(inputRef.nativeElement).not.toHaveClass('sky-selection-box-container-lg');
+    expect(inputRef.nativeElement).not.toHaveClass(
+      'sky-selection-box-container-xs'
+    );
+    expect(inputRef.nativeElement).toHaveClass(
+      'sky-selection-box-container-sm'
+    );
+    expect(inputRef.nativeElement).not.toHaveClass(
+      'sky-selection-box-container-md'
+    );
+    expect(inputRef.nativeElement).not.toHaveClass(
+      'sky-selection-box-container-lg'
+    );
   });
 
   it('should set responsive md class when breakpoint is md', () => {
     adapter.setResponsiveClass(inputRef, SkyMediaBreakpoints.md);
     fixture.detectChanges();
 
-    expect(inputRef.nativeElement).not.toHaveClass('sky-selection-box-container-xs');
-    expect(inputRef.nativeElement).not.toHaveClass('sky-selection-box-container-sm');
-    expect(inputRef.nativeElement).toHaveClass('sky-selection-box-container-md');
-    expect(inputRef.nativeElement).not.toHaveClass('sky-selection-box-container-lg');
+    expect(inputRef.nativeElement).not.toHaveClass(
+      'sky-selection-box-container-xs'
+    );
+    expect(inputRef.nativeElement).not.toHaveClass(
+      'sky-selection-box-container-sm'
+    );
+    expect(inputRef.nativeElement).toHaveClass(
+      'sky-selection-box-container-md'
+    );
+    expect(inputRef.nativeElement).not.toHaveClass(
+      'sky-selection-box-container-lg'
+    );
   });
 
   it('should set responsive lg class when breakpoint is lg', () => {
     adapter.setResponsiveClass(inputRef, SkyMediaBreakpoints.lg);
     fixture.detectChanges();
 
-    expect(inputRef.nativeElement).not.toHaveClass('sky-selection-box-container-xs');
-    expect(inputRef.nativeElement).not.toHaveClass('sky-selection-box-container-sm');
-    expect(inputRef.nativeElement).not.toHaveClass('sky-selection-box-container-md');
-    expect(inputRef.nativeElement).toHaveClass('sky-selection-box-container-lg');
+    expect(inputRef.nativeElement).not.toHaveClass(
+      'sky-selection-box-container-xs'
+    );
+    expect(inputRef.nativeElement).not.toHaveClass(
+      'sky-selection-box-container-sm'
+    );
+    expect(inputRef.nativeElement).not.toHaveClass(
+      'sky-selection-box-container-md'
+    );
+    expect(inputRef.nativeElement).toHaveClass(
+      'sky-selection-box-container-lg'
+    );
   });
-
 });

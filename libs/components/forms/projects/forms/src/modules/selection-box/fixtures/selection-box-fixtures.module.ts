@@ -1,48 +1,25 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  ReactiveFormsModule
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import {
-  SkyIdModule
-} from '@skyux/core';
+import { SkyIdModule } from '@skyux/core';
 
-import {
-  SkyIconModule
-} from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/indicators';
 
-import {
-  SkyCheckboxModule
-} from '../../checkbox/checkbox.module';
+import { SkyCheckboxModule } from '../../checkbox/checkbox.module';
 
-import {
-  SkyRadioModule
-} from '../../radio/radio.module';
+import { SkyRadioModule } from '../../radio/radio.module';
 
-import {
-  SkySelectionBoxModule
-} from '../selection-box.module';
+import { SkySelectionBoxModule } from '../selection-box.module';
 
-import {
-  SelectionBoxGridTestComponent
-} from './selection-box-grid.component.fixture';
+import { SelectionBoxGridTestComponent } from './selection-box-grid.component.fixture';
 
-import {
-  SelectionBoxTestComponent
-} from './selection-box.component.fixture';
+import { SelectionBoxTestComponent } from './selection-box.component.fixture';
 
 @NgModule({
-  declarations: [
-    SelectionBoxTestComponent,
-    SelectionBoxGridTestComponent
-  ],
+  declarations: [SelectionBoxTestComponent, SelectionBoxGridTestComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -50,7 +27,7 @@ import {
     SkyIconModule,
     SkyIdModule,
     SkyRadioModule,
-    SkySelectionBoxModule
-  ]
+    SkySelectionBoxModule,
+  ],
 })
-export class SkySelectionBoxFixturesModule { }
+export class SkySelectionBoxFixturesModule {}

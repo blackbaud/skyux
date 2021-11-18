@@ -6,27 +6,21 @@ import {
   Input,
   OnInit,
   TemplateRef,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 
 import {
   AbstractControlDirective,
   FormControlDirective,
   FormControlName,
-  NgModel
+  NgModel,
 } from '@angular/forms';
 
-import {
-  SkyInputBoxAdapterService
-} from './input-box-adapter.service';
+import { SkyInputBoxAdapterService } from './input-box-adapter.service';
 
-import {
-  SkyInputBoxHostService
-} from './input-box-host.service';
+import { SkyInputBoxHostService } from './input-box-host.service';
 
-import {
-  SkyInputBoxPopulateArgs
-} from './input-box-populate-args';
+import { SkyInputBoxPopulateArgs } from './input-box-populate-args';
 
 /**
  * Creates a wrapper to provide styling for `input` and `label` elements. To render the
@@ -39,16 +33,12 @@ import {
   selector: 'sky-input-box',
   templateUrl: './input-box.component.html',
   styleUrls: ['./input-box.component.scss'],
-  providers: [
-    SkyInputBoxAdapterService,
-    SkyInputBoxHostService
-  ],
+  providers: [SkyInputBoxAdapterService, SkyInputBoxHostService],
   // Note that change detection is not set to OnPush; default change detection allows the
   // invalid CSS class to be added when the content control's invalid/dirty state changes.
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class SkyInputBoxComponent implements OnInit {
-
   /**
    * Indicates whether to visually highlight the input box in an error state. If `hasErrors` is `false`, the input box still
    * displays in an error state when either the `ngModel` or the Angular `FormControl` contain an error.
@@ -92,9 +82,11 @@ export class SkyInputBoxComponent implements OnInit {
 
   public get hasErrorsComputed(): boolean {
     if (this.hasErrors === undefined) {
-      return this.controlHasErrors(this.formControl) ||
+      return (
+        this.controlHasErrors(this.formControl) ||
         this.controlHasErrors(this.formControlByName) ||
-        this.controlHasErrors(this.ngModel);
+        this.controlHasErrors(this.ngModel)
+      );
     }
 
     return this.hasErrors;
@@ -105,14 +97,16 @@ export class SkyInputBoxComponent implements OnInit {
     private inputBoxHostSvc: SkyInputBoxHostService,
     private adapterService: SkyInputBoxAdapterService,
     private elementRef: ElementRef
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     this.inputBoxHostSvc.init(this);
   }
 
   public formControlFocusIn(): void {
-    const inlineHelpEl = this.adapterService.getInlineHelpElement(this.elementRef);
+    const inlineHelpEl = this.adapterService.getInlineHelpElement(
+      this.elementRef
+    );
     if (!this.adapterService.isFocusInElement(inlineHelpEl)) {
       this.updateHasFocus(true);
     }
@@ -150,5 +144,4 @@ export class SkyInputBoxComponent implements OnInit {
   private controlHasErrors(control: AbstractControlDirective) {
     return control && control.invalid && (control.dirty || control.touched);
   }
-
 }

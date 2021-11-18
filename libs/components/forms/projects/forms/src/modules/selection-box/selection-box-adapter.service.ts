@@ -2,13 +2,10 @@ import {
   ElementRef,
   Injectable,
   Renderer2,
-  RendererFactory2
+  RendererFactory2,
 } from '@angular/core';
 
-import {
-  SkyCoreAdapterService,
-  SkyMediaBreakpoints
-} from '@skyux/core';
+import { SkyCoreAdapterService, SkyMediaBreakpoints } from '@skyux/core';
 
 const RESPONSIVE_CLASS_XS = 'sky-selection-box-container-xs';
 const RESPONSIVE_CLASS_SM = 'sky-selection-box-container-sm';
@@ -26,7 +23,6 @@ const BREAKPOINT_MD_MAX_PIXELS = 1439;
  */
 @Injectable()
 export class SkySelectionBoxAdapterService {
-
   private renderer: Renderer2;
 
   constructor(
@@ -58,9 +54,15 @@ export class SkySelectionBoxAdapterService {
   public getBreakpointForWidth(width: number): SkyMediaBreakpoints {
     if (width <= BREAKPOINT_XS_MAX_PIXELS) {
       return SkyMediaBreakpoints.xs;
-    } else if (width >= BREAKPOINT_SM_MIN_PIXELS && width <= BREAKPOINT_SM_MAX_PIXELS) {
+    } else if (
+      width >= BREAKPOINT_SM_MIN_PIXELS &&
+      width <= BREAKPOINT_SM_MAX_PIXELS
+    ) {
       return SkyMediaBreakpoints.sm;
-    } else if (width >= BREAKPOINT_MD_MIN_PIXELS && width <= BREAKPOINT_MD_MAX_PIXELS) {
+    } else if (
+      width >= BREAKPOINT_MD_MIN_PIXELS &&
+      width <= BREAKPOINT_MD_MAX_PIXELS
+    ) {
       return SkyMediaBreakpoints.md;
     } else {
       return SkyMediaBreakpoints.lg;
@@ -87,7 +89,7 @@ export class SkySelectionBoxAdapterService {
   public setChildrenTabIndex(element: ElementRef, tabIndex: number): void {
     const el = element.nativeElement;
     const focusableElems = this.coreAdapterService.getFocusableChildren(el, {
-      ignoreVisibility: true
+      ignoreVisibility: true,
     });
     let index = focusableElems.length;
     while (index--) {
@@ -98,7 +100,10 @@ export class SkySelectionBoxAdapterService {
   /**
    * Adds a responsive CSS class on the provided element based on its current width.
    */
-  public setResponsiveClass(element: ElementRef, breakpoint: SkyMediaBreakpoints): void {
+  public setResponsiveClass(
+    element: ElementRef,
+    breakpoint: SkyMediaBreakpoints
+  ): void {
     const nativeEl: HTMLElement = element.nativeElement;
 
     this.renderer.removeClass(nativeEl, RESPONSIVE_CLASS_XS);
@@ -138,5 +143,4 @@ export class SkySelectionBoxAdapterService {
     const el = element.nativeElement;
     el.tabIndex = tabIndex;
   }
-
 }

@@ -1,19 +1,16 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 import {
   SkyFileDropChange,
   SkyFileItem,
-  SkyFileLink
+  SkyFileLink,
 } from 'projects/forms/src/public-api';
 
 @Component({
   selector: 'app-file-attachment-demo',
-  templateUrl: './file-attachment-demo.component.html'
+  templateUrl: './file-attachment-demo.component.html',
 })
 export class FileAttachmentDemoComponent {
-
   public acceptedTypes: string = 'image/png,image/jpeg';
 
   public allItems: (SkyFileItem | SkyFileLink)[];
@@ -65,5 +62,4 @@ export class FileAttachmentDemoComponent {
       }
     }
   }
-
 }

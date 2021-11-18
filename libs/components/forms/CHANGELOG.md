@@ -1,3 +1,7 @@
+# 5.0.1 (2021-11-18)
+
+- Added support for Prettier code formatting and updated the builder to support StackBlitz. [#301](https://github.com/blackbaud/skyux-forms/pull/301)
+
 # 5.0.0 (2021-09-30)
 
 ### New features
@@ -89,6 +93,7 @@
 - Fixed the single file attachment component to utilize the correct modern theme styles. [#237](https://github.com/blackbaud/skyux-forms/pull/237)
 
 # 4.15.0 (2021-01-15)
+
 - Added a test fixture for the radio button component to use in consumer unit tests. [#182](https://github.com/blackbaud/skyux-forms/pull/182)
 
 # 4.14.0 (2020-12-02)
@@ -98,7 +103,7 @@
 
 # 4.13.4 (2020-10-29)
 
-- Fixed the single file attachment component to use ARIA labels consistently.  [#223](https://github.com/blackbaud/skyux-forms/pull/223)
+- Fixed the single file attachment component to use ARIA labels consistently. [#223](https://github.com/blackbaud/skyux-forms/pull/223)
 
 # 4.13.3 (2020-10-23)
 

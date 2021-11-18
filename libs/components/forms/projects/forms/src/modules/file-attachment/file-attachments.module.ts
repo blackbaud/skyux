@@ -1,55 +1,28 @@
-import {
-  CommonModule,
-  DecimalPipe
-} from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 
-import {
-  FormsModule
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  SkyI18nModule
-} from '@skyux/i18n';
+import { SkyI18nModule } from '@skyux/i18n';
 
-import {
-  SkyIconModule
-} from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/indicators';
 
-import {
-  SkyThemeModule
-} from '@skyux/theme';
+import { SkyThemeModule } from '@skyux/theme';
 
-import {
-  SkyFileAttachmentComponent
-} from './file-attachment.component';
+import { SkyFileAttachmentComponent } from './file-attachment.component';
 
-import {
-  SkyFileAttachmentLabelComponent
-} from './file-attachment-label.component';
+import { SkyFileAttachmentLabelComponent } from './file-attachment-label.component';
 
-import {
-  SkyFileDropComponent
-} from './file-drop.component';
+import { SkyFileDropComponent } from './file-drop.component';
 
-import {
-  SkyFileItemComponent
-} from './file-item.component';
+import { SkyFileItemComponent } from './file-item.component';
 
-import {
-  SkyFileItemService
-} from './file-item.service';
+import { SkyFileItemService } from './file-item.service';
 
-import {
-  SkyFileSizePipe
-} from './file-size.pipe';
+import { SkyFileSizePipe } from './file-size.pipe';
 
-import {
-  SkyFormsResourcesModule
-} from '../shared/sky-forms-resources.module';
+import { SkyFormsResourcesModule } from '../shared/sky-forms-resources.module';
 
 @NgModule({
   declarations: [
@@ -57,7 +30,7 @@ import {
     SkyFileAttachmentLabelComponent,
     SkyFileDropComponent,
     SkyFileItemComponent,
-    SkyFileSizePipe
+    SkyFileSizePipe,
   ],
   imports: [
     CommonModule,
@@ -65,18 +38,15 @@ import {
     SkyFormsResourcesModule,
     SkyI18nModule,
     SkyIconModule,
-    SkyThemeModule
+    SkyThemeModule,
   ],
   exports: [
     SkyFileAttachmentComponent,
     SkyFileAttachmentLabelComponent,
     SkyFileDropComponent,
     SkyFileItemComponent,
-    SkyFileSizePipe
+    SkyFileSizePipe,
   ],
-  providers: [
-    DecimalPipe,
-    SkyFileItemService
-  ]
+  providers: [DecimalPipe, SkyFileItemService],
 })
-export class SkyFileAttachmentsModule { }
+export class SkyFileAttachmentsModule {}

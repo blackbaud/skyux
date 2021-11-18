@@ -1,6 +1,6 @@
-@import "~@skyux/theme/scss/mixins";
-@import "~@skyux/theme/scss/_compat/mixins";
-@import "~@skyux/theme/scss/variables";
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+@import '~@skyux/theme/scss/variables';
 
 .sky-file-attachment-wrapper {
   display: inline-block;
@@ -94,10 +94,8 @@
     }
 
     .sky-file-attachment-icon {
-      margin: $sky-theme-modern-space-xs
-              $sky-theme-modern-space-sm
-              $sky-theme-modern-space-xs
-              $sky-theme-modern-space-xs;
+      margin: $sky-theme-modern-space-xs $sky-theme-modern-space-sm
+        $sky-theme-modern-space-xs $sky-theme-modern-space-xs;
     }
 
     .sky-file-attachment-upload {

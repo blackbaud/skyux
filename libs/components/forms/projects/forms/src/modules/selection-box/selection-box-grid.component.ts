@@ -11,38 +11,26 @@ import {
   OnInit,
   QueryList,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 
 import {
   MutationObserverService,
   SkyCoreAdapterService,
-  SkyMediaBreakpoints
+  SkyMediaBreakpoints,
 } from '@skyux/core';
 
-import {
-  SkyThemeService
-} from '@skyux/theme';
+import { SkyThemeService } from '@skyux/theme';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  SkySelectionBoxComponent
-} from './selection-box.component';
+import { SkySelectionBoxComponent } from './selection-box.component';
 
-import {
-  SkySelectionBoxAdapterService
-} from './selection-box-adapter.service';
+import { SkySelectionBoxAdapterService } from './selection-box-adapter.service';
 
-import {
-  SkySelectionBoxGridAlignItemsType
-} from './types/selection-box-grid-align-items-type';
+import { SkySelectionBoxGridAlignItemsType } from './types/selection-box-grid-align-items-type';
 
 const SKY_SELECTION_BOX_CLASS_NAME = '.sky-selection-box';
 
@@ -52,14 +40,13 @@ const SKY_SELECTION_BOX_CLASS_NAME = '.sky-selection-box';
 @Component({
   selector: 'sky-selection-box-grid',
   templateUrl: './selection-box-grid.component.html',
-  styleUrls: [
-    './selection-box-grid.component.scss'
-  ],
+  styleUrls: ['./selection-box-grid.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
-export class SkySelectionBoxGridComponent implements AfterViewInit, OnDestroy, OnInit {
-
+export class SkySelectionBoxGridComponent
+  implements AfterViewInit, OnDestroy, OnInit
+{
   /**
    * @internal
    * Specifies how to display the selection boxes in the grid.
@@ -75,7 +62,7 @@ export class SkySelectionBoxGridComponent implements AfterViewInit, OnDestroy, O
   }
 
   @ContentChildren(SkySelectionBoxComponent, {
-    read: SkySelectionBoxComponent
+    read: SkySelectionBoxComponent,
   })
   public selectionBoxes: QueryList<SkySelectionBoxComponent>;
 
@@ -89,7 +76,7 @@ export class SkySelectionBoxGridComponent implements AfterViewInit, OnDestroy, O
 
   @ViewChild('container', {
     read: ElementRef,
-    static: true
+    static: true,
   })
   private elementRef: ElementRef<any>;
 
@@ -114,9 +101,7 @@ export class SkySelectionBoxGridComponent implements AfterViewInit, OnDestroy, O
     /* istanbul ignore else */
     if (this.themeSvc) {
       this.themeSvc.settingsChange
-        .pipe(
-          takeUntil(this.ngUnsubscribe)
-        )
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(() => {
           this.updateBreakpointClass();
           this.updateChildrenHeights();
@@ -155,13 +140,10 @@ export class SkySelectionBoxGridComponent implements AfterViewInit, OnDestroy, O
           this.updateChildrenHeights();
         });
 
-        this.mutationObserver.observe(
-          el,
-          {
-            characterData: true,
-            subtree: true
-          }
-        );
+        this.mutationObserver.observe(el, {
+          characterData: true,
+          subtree: true,
+        });
       });
     }
   }
@@ -176,12 +158,18 @@ export class SkySelectionBoxGridComponent implements AfterViewInit, OnDestroy, O
 
   private updateBreakpointClass(): void {
     const parentWidth = this.selectionBoxAdapter.getParentWidth(this.hostElRef);
-    this.currentBreakpoint = this.selectionBoxAdapter.getBreakpointForWidth(parentWidth);
+    this.currentBreakpoint =
+      this.selectionBoxAdapter.getBreakpointForWidth(parentWidth);
   }
 
   private updateChildrenHeights(): void {
-    this.coreAdapterService.resetHeight(this.elementRef, SKY_SELECTION_BOX_CLASS_NAME);
-    this.coreAdapterService.syncMaxHeight(this.elementRef, SKY_SELECTION_BOX_CLASS_NAME);
+    this.coreAdapterService.resetHeight(
+      this.elementRef,
+      SKY_SELECTION_BOX_CLASS_NAME
+    );
+    this.coreAdapterService.syncMaxHeight(
+      this.elementRef,
+      SKY_SELECTION_BOX_CLASS_NAME
+    );
   }
-
 }

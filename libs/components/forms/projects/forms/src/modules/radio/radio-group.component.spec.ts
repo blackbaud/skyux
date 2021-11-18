@@ -3,35 +3,25 @@ import {
   fakeAsync,
   TestBed,
   tick,
-  async
+  async,
 } from '@angular/core/testing';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  SkyRadioFixturesModule
-} from './fixtures/radio-fixtures.module';
+import { SkyRadioFixturesModule } from './fixtures/radio-fixtures.module';
 
-import {
-  SkyRadioGroupBooleanTestComponent
-} from './fixtures/radio-group-boolean.component.fixture';
+import { SkyRadioGroupBooleanTestComponent } from './fixtures/radio-group-boolean.component.fixture';
 
-import {
-  SkyRadioGroupReactiveFixtureComponent
-} from './fixtures/radio-group-reactive.component.fixture';
+import { SkyRadioGroupReactiveFixtureComponent } from './fixtures/radio-group-reactive.component.fixture';
 
-import {
-  SkyRadioGroupFixtureComponent
-} from './fixtures/radio-group.component.fixture';
+import { SkyRadioGroupFixtureComponent } from './fixtures/radio-group.component.fixture';
 
 //#region helpers
-function getRadios(radioFixture: ComponentFixture<any>): NodeListOf<HTMLInputElement> {
+function getRadios(
+  radioFixture: ComponentFixture<any>
+): NodeListOf<HTMLInputElement> {
   return radioFixture.nativeElement.querySelectorAll('.sky-radio-input');
 }
 
@@ -39,7 +29,9 @@ function getRadioGroup(radioFixture: ComponentFixture<any>): HTMLElement {
   return radioFixture.nativeElement.querySelector('.sky-radio-group');
 }
 
-function getRadioLabels(fixture: ComponentFixture<any>): NodeListOf<HTMLElement> {
+function getRadioLabels(
+  fixture: ComponentFixture<any>
+): NodeListOf<HTMLElement> {
   return fixture.nativeElement.querySelectorAll('.sky-radio-wrapper');
 }
 
@@ -57,9 +49,7 @@ describe('Radio group component (reactive)', function () {
 
   beforeEach(function () {
     TestBed.configureTestingModule({
-      imports: [
-        SkyRadioFixturesModule
-      ]
+      imports: [SkyRadioFixturesModule],
     });
 
     fixture = TestBed.createComponent(SkyRadioGroupReactiveFixtureComponent);
@@ -82,7 +72,9 @@ describe('Radio group component (reactive)', function () {
 
     clickCheckbox(fixture, 0);
 
-    expect(componentInstance.radioForm.value).toEqual({ radioGroup: { name: 'Lillith Corharvest', disabled: false } });
+    expect(componentInstance.radioForm.value).toEqual({
+      radioGroup: { name: 'Lillith Corharvest', disabled: false },
+    });
     expect(componentInstance.radioForm.touched).toEqual(true);
     expect(componentInstance.radioForm.pristine).toEqual(false);
     expect(componentInstance.radioForm.dirty).toEqual(true);
@@ -90,13 +82,15 @@ describe('Radio group component (reactive)', function () {
 
   it('should update ngModel properly when form is initialized with values', fakeAsync(function () {
     componentInstance.radioForm.patchValue({
-      radioGroup: componentInstance.options[0]
+      radioGroup: componentInstance.options[0],
     });
 
     fixture.detectChanges();
 
     // tslint:disable-next-line:no-null-keyword
-    expect(componentInstance.radioForm.value).toEqual({ radioGroup: { name: 'Lillith Corharvest', disabled: false } });
+    expect(componentInstance.radioForm.value).toEqual({
+      radioGroup: { name: 'Lillith Corharvest', disabled: false },
+    });
     expect(componentInstance.radioForm.touched).toEqual(false);
     expect(componentInstance.radioForm.pristine).toEqual(true);
     expect(componentInstance.radioForm.dirty).toEqual(false);
@@ -104,7 +98,9 @@ describe('Radio group component (reactive)', function () {
 
     clickCheckbox(fixture, 1);
 
-    expect(componentInstance.radioForm.value).toEqual({ radioGroup: { name: 'Harima Kenji', disabled: false } });
+    expect(componentInstance.radioForm.value).toEqual({
+      radioGroup: { name: 'Harima Kenji', disabled: false },
+    });
     expect(componentInstance.radioForm.touched).toEqual(true);
     expect(componentInstance.radioForm.pristine).toEqual(false);
     expect(componentInstance.radioForm.dirty).toEqual(true);
@@ -116,7 +112,9 @@ describe('Radio group component (reactive)', function () {
 
     expect(componentInstance.radioForm.touched).toEqual(false);
 
-    const debugElement = fixture.debugElement.query(By.css('input[type="radio"]'));
+    const debugElement = fixture.debugElement.query(
+      By.css('input[type="radio"]')
+    );
     expect(debugElement.nativeElement).toExist();
     debugElement.triggerEventHandler('focus', {});
     debugElement.triggerEventHandler('blur', {});
@@ -140,15 +138,19 @@ describe('Radio group component (reactive)', function () {
   it('should update the radio buttons properly when ngModel is changed', fakeAsync(function () {
     fixture.detectChanges();
     clickCheckbox(fixture, 0);
-    expect(componentInstance.radioGroupComponent.value.name).toEqual('Lillith Corharvest');
+    expect(componentInstance.radioGroupComponent.value.name).toEqual(
+      'Lillith Corharvest'
+    );
 
     componentInstance.radioForm.patchValue({
-      radioGroup: componentInstance.options[1]
+      radioGroup: componentInstance.options[1],
     });
     fixture.detectChanges();
     tick();
 
-    expect(componentInstance.radioGroupComponent.value.name).toEqual('Harima Kenji');
+    expect(componentInstance.radioGroupComponent.value.name).toEqual(
+      'Harima Kenji'
+    );
   }));
 
   it('should not show a required state when not required', fakeAsync(() => {
@@ -214,13 +216,17 @@ describe('Radio group component (reactive)', function () {
   it('should update selected value when options change', fakeAsync(function () {
     fixture.detectChanges();
     clickCheckbox(fixture, 0);
-    expect(componentInstance.radioGroupComponent.value.name).toEqual('Lillith Corharvest');
+    expect(componentInstance.radioGroupComponent.value.name).toEqual(
+      'Lillith Corharvest'
+    );
 
     componentInstance.changeOptions();
 
     fixture.detectChanges();
     clickCheckbox(fixture, 1);
-    expect(componentInstance.radioGroupComponent.value.name).toEqual('Hank Salizar');
+    expect(componentInstance.radioGroupComponent.value.name).toEqual(
+      'Hank Salizar'
+    );
   }));
 
   it('should set the radio name properties correctly', fakeAsync(() => {
@@ -255,7 +261,7 @@ describe('Radio group component (reactive)', function () {
 
     let newValue = {
       name: 'Jerry Salmonella',
-      disabled: false
+      disabled: false,
     };
 
     let radioDebugElement = fixture.debugElement.query(By.css('sky-radio'));
@@ -267,7 +273,7 @@ describe('Radio group component (reactive)', function () {
 
     newValue = {
       name: 'Sarah Jellyman',
-      disabled: false
+      disabled: false,
     };
 
     radioDebugElement = fixture.debugElement.query(By.css('sky-radio'));
@@ -285,7 +291,7 @@ describe('Radio group component (reactive)', function () {
 
     let newValue = {
       name: 'Jerry Salmonella',
-      disabled: false
+      disabled: false,
     };
 
     let radioDebugElement = fixture.debugElement.query(By.css('sky-radio'));
@@ -308,7 +314,9 @@ describe('Radio group component (reactive)', function () {
     tick();
 
     const radioGroupDiv = getRadioGroup(fixture);
-    expect(radioGroupDiv.getAttribute('aria-labelledby')).toBe('radio-group-label');
+    expect(radioGroupDiv.getAttribute('aria-labelledby')).toBe(
+      'radio-group-label'
+    );
   }));
 
   it('should set the aria-label property correctly', fakeAsync(() => {
@@ -319,11 +327,15 @@ describe('Radio group component (reactive)', function () {
     tick();
 
     const radioGroupDiv = getRadioGroup(fixture);
-    expect(radioGroupDiv.getAttribute('aria-label')).toBe('radio-group-label-manual');
+    expect(radioGroupDiv.getAttribute('aria-label')).toBe(
+      'radio-group-label-manual'
+    );
   }));
 
   it('should support boolean values', fakeAsync(function () {
-    const booleanFixture = TestBed.createComponent(SkyRadioGroupBooleanTestComponent);
+    const booleanFixture = TestBed.createComponent(
+      SkyRadioGroupBooleanTestComponent
+    );
     const booleanComponent = booleanFixture.componentInstance;
 
     booleanFixture.detectChanges();
@@ -353,12 +365,14 @@ describe('Radio group component (reactive)', function () {
 
   it('should support resetting form control when fields are added dynamically', fakeAsync(function () {
     componentInstance.radioForm.patchValue({
-      radioGroup: componentInstance.options[0]
+      radioGroup: componentInstance.options[0],
     });
 
     fixture.detectChanges();
 
-    const expectedValue = { radioGroup: { name: 'Lillith Corharvest', disabled: false } };
+    const expectedValue = {
+      radioGroup: { name: 'Lillith Corharvest', disabled: false },
+    };
 
     expect(componentInstance.radioForm.value).toEqual(expectedValue);
 
@@ -384,7 +398,7 @@ describe('Radio group component (reactive)', function () {
 
     /* tslint:disable:no-null-keyword */
     expect(componentInstance.radioForm.value).toEqual({
-      radioGroup: null
+      radioGroup: null,
     });
     /* tslint:enable */
   }));
@@ -440,9 +454,7 @@ describe('Radio group component (template-driven)', () => {
 
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyRadioFixturesModule
-      ]
+      imports: [SkyRadioFixturesModule],
     });
 
     fixture = TestBed.createComponent(SkyRadioGroupFixtureComponent);
@@ -491,5 +503,4 @@ describe('Radio group component (template-driven)', () => {
       expect(label).not.toHaveCssClass('sky-switch-disabled');
     }
   }));
-
 });

@@ -14,52 +14,30 @@ import {
   Output,
   QueryList,
   Self,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
-import {
-  NgControl
-} from '@angular/forms';
+import { NgControl } from '@angular/forms';
 
-import {
-  SkyThemeService
-} from '@skyux/theme';
+import { SkyThemeService } from '@skyux/theme';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkyFormsUtility
-} from '../shared/forms-utility';
+import { SkyFormsUtility } from '../shared/forms-utility';
 
-import {
-  SkyFileAttachmentChange
-} from './types/file-attachment-change';
+import { SkyFileAttachmentChange } from './types/file-attachment-change';
 
-import {
-  SkyFileAttachmentClick
-} from './types/file-attachment-click';
+import { SkyFileAttachmentClick } from './types/file-attachment-click';
 
-import {
-  SkyFileAttachmentLabelComponent
-} from './file-attachment-label.component';
+import { SkyFileAttachmentLabelComponent } from './file-attachment-label.component';
 
-import {
-  SkyFileAttachmentService
-} from './file-attachment.service';
+import { SkyFileAttachmentService } from './file-attachment.service';
 
-import {
-  SkyFileItem
-} from './file-item';
+import { SkyFileItem } from './file-item';
 
-import {
-  SkyFileItemService
-} from './file-item.service';
+import { SkyFileItemService } from './file-item.service';
 
 let uniqueId = 0;
 
@@ -70,13 +48,12 @@ let uniqueId = 0;
   selector: 'sky-file-attachment',
   templateUrl: './file-attachment.component.html',
   styleUrls: ['./file-attachment.component.scss'],
-  providers: [
-    SkyFileAttachmentService
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  providers: [SkyFileAttachmentService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyFileAttachmentComponent implements AfterViewInit, AfterContentInit, OnInit, OnDestroy {
-
+export class SkyFileAttachmentComponent
+  implements AfterViewInit, AfterContentInit, OnInit, OnDestroy
+{
   /**
    * Specifies a comma-delimited string literal of MIME types that users can attach.
    * By default, all file types are allowed.
@@ -208,9 +185,7 @@ export class SkyFileAttachmentComponent implements AfterViewInit, AfterContentIn
 
   public ngOnInit(): void {
     this.themeSvc.settingsChange
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((themeSettings) => {
         this.currentThemeName = themeSettings.currentSettings.theme.name;
         this.updateFileAttachmentButton();
@@ -227,22 +202,21 @@ export class SkyFileAttachmentComponent implements AfterViewInit, AfterContentIn
     if (this.ngControl) {
       setTimeout(() => {
         this.ngControl.control.setValue(this.value, {
-          emitEvent: false
+          emitEvent: false,
         });
         this.changeDetector.markForCheck();
       });
 
       // Backwards compatibility support for anyone still using Validators.Required.
-      this.required = this.required || SkyFormsUtility.hasRequiredValidation(this.ngControl);
+      this.required =
+        this.required || SkyFormsUtility.hasRequiredValidation(this.ngControl);
     }
   }
 
   public ngAfterContentInit(): void {
     // Handles updating classes when label changes
     this.labelComponents.changes
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         this.changeDetector.detectChanges();
       });
@@ -281,7 +255,13 @@ export class SkyFileAttachmentComponent implements AfterViewInit, AfterContentIn
         for (let index = 0; index < files.length; index++) {
           const file: any = files[index];
 
-          if (file.type && this.fileAttachmentService.fileTypeRejected(file.type, this.acceptedTypes)) {
+          if (
+            file.type &&
+            this.fileAttachmentService.fileTypeRejected(
+              file.type,
+              this.acceptedTypes
+            )
+          ) {
             this.rejectedOver = true;
             this.acceptedOver = false;
             return;
@@ -292,7 +272,6 @@ export class SkyFileAttachmentComponent implements AfterViewInit, AfterContentIn
           this.rejectedOver = false;
           this.acceptedOver = true;
         }
-
       } else if (transfer.files) {
         // If the browser does not support DataTransfer.items,
         // defer file-type checking to drop handler.
@@ -316,7 +295,9 @@ export class SkyFileAttachmentComponent implements AfterViewInit, AfterContentIn
         return;
       }
 
-      if (this.fileAttachmentService.hasDirectory(dropEvent.dataTransfer.files)) {
+      if (
+        this.fileAttachmentService.hasDirectory(dropEvent.dataTransfer.files)
+      ) {
         return;
       }
 
@@ -340,7 +321,10 @@ export class SkyFileAttachmentComponent implements AfterViewInit, AfterContentIn
   public getFileName(truncate = true): string | undefined {
     if (this.value) {
       // tslint:disable-next-line: max-line-length
-      let dropName = this.fileItemService.isFile(this.value) && this.value.file.name ? this.value.file.name : this.value.url;
+      let dropName =
+        this.fileItemService.isFile(this.value) && this.value.file.name
+          ? this.value.file.name
+          : this.value.url;
 
       if (truncate && dropName.length > 26) {
         return dropName.slice(0, 26) + '...';
@@ -358,8 +342,12 @@ export class SkyFileAttachmentComponent implements AfterViewInit, AfterContentIn
     this.ngUnsubscribe.complete();
   }
 
-  public registerOnChange(fn: (value: any) => any): void { this._onChange = fn; }
-  public registerOnTouched(fn: () => any): void { this._onTouched = fn; }
+  public registerOnChange(fn: (value: any) => any): void {
+    this._onChange = fn;
+  }
+  public registerOnTouched(fn: () => any): void {
+    this._onTouched = fn;
+  }
 
   public writeValue(value: any): void {
     this.value = value;
@@ -378,7 +366,7 @@ export class SkyFileAttachmentComponent implements AfterViewInit, AfterContentIn
 
   public emitClick(): void {
     this.fileClick.emit({
-      file: this.value
+      file: this.value,
     });
   }
 
@@ -387,7 +375,7 @@ export class SkyFileAttachmentComponent implements AfterViewInit, AfterContentIn
       this.writeValue(currentFile);
     }
     this.fileChange.emit({
-      file: currentFile
+      file: currentFile,
     } as SkyFileAttachmentChange);
 
     this.inputEl.nativeElement.value = '';
@@ -414,7 +402,13 @@ export class SkyFileAttachmentComponent implements AfterViewInit, AfterContentIn
 
   private handleFiles(files: FileList): void {
     // tslint:disable-next-line: max-line-length
-    let processedFiles = this.fileAttachmentService.checkFiles(files, this.minFileSize, this.maxFileSize, this.acceptedTypes, this.validateFn);
+    let processedFiles = this.fileAttachmentService.checkFiles(
+      files,
+      this.minFileSize,
+      this.maxFileSize,
+      this.acceptedTypes,
+      this.validateFn
+    );
 
     for (let file of processedFiles) {
       if (file.errorType) {
@@ -426,12 +420,14 @@ export class SkyFileAttachmentComponent implements AfterViewInit, AfterContentIn
   }
 
   private updateFileAttachmentButton(): void {
-    this.showFileAttachmentButton = !(this.value && this.currentThemeName === 'modern');
+    this.showFileAttachmentButton = !(
+      this.value && this.currentThemeName === 'modern'
+    );
     this.changeDetector.markForCheck();
   }
 
   /*istanbul ignore next */
-  private _onChange = (_: any) => { };
+  private _onChange = (_: any) => {};
   /*istanbul ignore next */
-  private _onTouched = () => { };
+  private _onTouched = () => {};
 }

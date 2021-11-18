@@ -1,54 +1,43 @@
 import { DebugElement } from '@angular/core';
 
-import {
-  async,
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  expect,
-  expectAsync,
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
 
 import {
   SkyTheme,
   SkyThemeMode,
   SkyThemeService,
   SkyThemeSettings,
-  SkyThemeSettingsChange
+  SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import {
-  BehaviorSubject
-} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
-import {
-  SkySelectionBoxFixturesModule
-} from './fixtures/selection-box-fixtures.module';
+import { SkySelectionBoxFixturesModule } from './fixtures/selection-box-fixtures.module';
 
-import {
-  SelectionBoxTestComponent
-} from './fixtures/selection-box.component.fixture';
+import { SelectionBoxTestComponent } from './fixtures/selection-box.component.fixture';
 
 describe('Selection box component', () => {
-
   //#region helpers
   function getRadioSelectionBoxes(): NodeListOf<HTMLElement> {
-    return fixture.nativeElement.querySelectorAll('#radioSelectionBoxes .sky-selection-box');
+    return fixture.nativeElement.querySelectorAll(
+      '#radioSelectionBoxes .sky-selection-box'
+    );
   }
 
   function getCheckboxSelectionBoxes(): NodeListOf<HTMLElement> {
-    return fixture.nativeElement.querySelectorAll('#checkboxSelectionBoxes .sky-selection-box');
+    return fixture.nativeElement.querySelectorAll(
+      '#checkboxSelectionBoxes .sky-selection-box'
+    );
   }
 
   function getDescription(): NodeListOf<HTMLElement> {
-    return fixture.nativeElement.querySelectorAll('.sky-selection-box-description');
+    return fixture.nativeElement.querySelectorAll(
+      '.sky-selection-box-description'
+    );
   }
 
   function getHeader(): NodeListOf<HTMLElement> {
@@ -64,7 +53,9 @@ describe('Selection box component', () => {
   }
 
   function getCheckboxes(): NodeListOf<HTMLInputElement> {
-    return fixture.nativeElement.querySelectorAll('#checkboxSelectionBoxes input');
+    return fixture.nativeElement.querySelectorAll(
+      '#checkboxSelectionBoxes input'
+    );
   }
   //#endregion
 
@@ -72,32 +63,28 @@ describe('Selection box component', () => {
   let testComponent: SelectionBoxTestComponent;
   let debugElement: DebugElement;
   let mockThemeSvc: {
-    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
 
   beforeEach(() => {
     mockThemeSvc = {
-      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
-        {
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.default,
-            SkyThemeMode.presets.light
-          ),
-          previousSettings: undefined
-        }
-      )
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.default,
+          SkyThemeMode.presets.light
+        ),
+        previousSettings: undefined,
+      }),
     };
 
     fixture = TestBed.configureTestingModule({
-      imports: [
-        SkySelectionBoxFixturesModule
-      ],
+      imports: [SkySelectionBoxFixturesModule],
       providers: [
         {
           provide: SkyThemeService,
-          useValue: mockThemeSvc
-        }
-      ]
+          useValue: mockThemeSvc,
+        },
+      ],
     }).createComponent(SelectionBoxTestComponent);
 
     debugElement = fixture.debugElement;
@@ -108,8 +95,9 @@ describe('Selection box component', () => {
   });
 
   it('should enable and disable AfterViewInit', async () => {
-
-    let outermostDiv = debugElement.query(By.css('div#checkboxSelectionBoxes > form > sky-selection-box > div')).nativeElement;
+    let outermostDiv = debugElement.query(
+      By.css('div#checkboxSelectionBoxes > form > sky-selection-box > div')
+    ).nativeElement;
     fixture.detectChanges();
 
     expect(outermostDiv).not.toHaveCssClass('sky-selection-box-disabled');
@@ -184,9 +172,13 @@ describe('Selection box component', () => {
 
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      expect(selectionBoxes[0]).not.toHaveCssClass('sky-selection-box-selected');
+      expect(selectionBoxes[0]).not.toHaveCssClass(
+        'sky-selection-box-selected'
+      );
       expect(selectionBoxes[1]).toHaveCssClass('sky-selection-box-selected');
-      expect(selectionBoxes[2]).not.toHaveCssClass('sky-selection-box-selected');
+      expect(selectionBoxes[2]).not.toHaveCssClass(
+        'sky-selection-box-selected'
+      );
     });
   }));
 
@@ -196,16 +188,20 @@ describe('Selection box component', () => {
 
     SkyAppTestUtility.fireDomEvent(selectionBoxes[1], 'keydown', {
       customEventInit: {
-        key: ' '
-      }
+        key: ' ',
+      },
     });
     fixture.detectChanges();
 
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      expect(selectionBoxes[0]).not.toHaveCssClass('sky-selection-box-selected');
+      expect(selectionBoxes[0]).not.toHaveCssClass(
+        'sky-selection-box-selected'
+      );
       expect(selectionBoxes[1]).toHaveCssClass('sky-selection-box-selected');
-      expect(selectionBoxes[2]).not.toHaveCssClass('sky-selection-box-selected');
+      expect(selectionBoxes[2]).not.toHaveCssClass(
+        'sky-selection-box-selected'
+      );
     });
   }));
 
@@ -218,9 +214,13 @@ describe('Selection box component', () => {
 
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      expect(selectionBoxes[0]).not.toHaveCssClass('sky-selection-box-selected');
+      expect(selectionBoxes[0]).not.toHaveCssClass(
+        'sky-selection-box-selected'
+      );
       expect(selectionBoxes[1]).toHaveCssClass('sky-selection-box-selected');
-      expect(selectionBoxes[2]).not.toHaveCssClass('sky-selection-box-selected');
+      expect(selectionBoxes[2]).not.toHaveCssClass(
+        'sky-selection-box-selected'
+      );
     });
   }));
 
@@ -233,9 +233,13 @@ describe('Selection box component', () => {
 
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      expect(selectionBoxes[0]).not.toHaveCssClass('sky-selection-box-selected');
+      expect(selectionBoxes[0]).not.toHaveCssClass(
+        'sky-selection-box-selected'
+      );
       expect(selectionBoxes[1]).toHaveCssClass('sky-selection-box-selected');
-      expect(selectionBoxes[2]).not.toHaveCssClass('sky-selection-box-selected');
+      expect(selectionBoxes[2]).not.toHaveCssClass(
+        'sky-selection-box-selected'
+      );
     });
   }));
 
@@ -245,15 +249,17 @@ describe('Selection box component', () => {
   });
 
   it('should have a tabindex of 0', () => {
-    const tabIndex: string = getRadioSelectionBoxes()[0].getAttribute('tabindex');
+    const tabIndex: string =
+      getRadioSelectionBoxes()[0].getAttribute('tabindex');
     expect(tabIndex).toBe('0');
   });
 
   it('should have a tabindex of -1 when the control is disabled', async(() => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      const disabledSelectionBox =
-        fixture.nativeElement.querySelector('#disabled-selection-box .sky-selection-box');
+      const disabledSelectionBox = fixture.nativeElement.querySelector(
+        '#disabled-selection-box .sky-selection-box'
+      );
       const tabIndex: string = disabledSelectionBox.getAttribute('tabindex');
       expect(tabIndex).toBe('-1');
     });
@@ -272,5 +278,4 @@ describe('Selection box component', () => {
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
-
 });

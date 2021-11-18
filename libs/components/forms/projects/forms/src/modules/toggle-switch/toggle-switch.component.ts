@@ -9,7 +9,7 @@ import {
   Input,
   Output,
   QueryList,
-  OnDestroy
+  OnDestroy,
 } from '@angular/core';
 
 import {
@@ -18,35 +18,27 @@ import {
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
   ValidationErrors,
-  Validator
+  Validator,
 } from '@angular/forms';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkyToggleSwitchChange
-} from './types/toggle-switch-change';
+import { SkyToggleSwitchChange } from './types/toggle-switch-change';
 
-import {
-  SkyToggleSwitchLabelComponent
-} from './toggle-switch-label.component';
+import { SkyToggleSwitchLabelComponent } from './toggle-switch-label.component';
 
 // tslint:disable:no-forward-ref no-use-before-declare
 const SKY_TOGGLE_SWITCH_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => SkyToggleSwitchComponent),
-  multi: true
+  multi: true,
 };
 const SKY_TOGGLE_SWITCH_VALIDATOR = {
   provide: NG_VALIDATORS,
   useExisting: forwardRef(() => SkyToggleSwitchComponent),
-  multi: true
+  multi: true,
 };
 // tslint:enable
 
@@ -58,12 +50,13 @@ let uniqueId = 0;
   styleUrls: ['./toggle-switch.component.scss'],
   providers: [
     SKY_TOGGLE_SWITCH_CONTROL_VALUE_ACCESSOR,
-    SKY_TOGGLE_SWITCH_VALIDATOR
+    SKY_TOGGLE_SWITCH_VALIDATOR,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyToggleSwitchComponent implements AfterContentInit, OnDestroy, ControlValueAccessor, Validator {
-
+export class SkyToggleSwitchComponent
+  implements AfterContentInit, OnDestroy, ControlValueAccessor, Validator
+{
   /**
    * Specifies an ARIA label for the toggle switch. This sets the toggle switch's `aria-label`
    * attribute [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
@@ -134,15 +127,11 @@ export class SkyToggleSwitchComponent implements AfterContentInit, OnDestroy, Co
 
   private _checked: boolean = false;
 
-  constructor(
-    private changeDetector: ChangeDetectorRef
-  ) { }
+  constructor(private changeDetector: ChangeDetectorRef) {}
 
   public ngAfterContentInit(): void {
     this.labelComponents.changes
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         // Allow the template to reload any ARIA attributes that are relying on the
         // label component existing in the DOM.
@@ -204,7 +193,7 @@ export class SkyToggleSwitchComponent implements AfterContentInit, OnDestroy, Co
   private emitChangeEvent(): void {
     this.onChange(this._checked);
     this.toggleChange.emit({
-      checked: this._checked
+      checked: this._checked,
     });
   }
 

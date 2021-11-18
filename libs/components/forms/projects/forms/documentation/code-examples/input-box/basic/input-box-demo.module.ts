@@ -1,44 +1,24 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  SkyDatepickerModule
-} from '@skyux/datetime';
+import { SkyDatepickerModule } from '@skyux/datetime';
 
-import {
-  SkyInputBoxModule
-} from 'projects/forms/src/public-api';
+import { SkyInputBoxModule } from 'projects/forms/src/public-api';
 
-import {
-  SkyThemeModule,
-  SkyThemeService
-} from '@skyux/theme';
+import { SkyThemeModule, SkyThemeService } from '@skyux/theme';
 
-import {
-  InputBoxDemoComponent
-} from './input-box-demo.component';
+import { InputBoxDemoComponent } from './input-box-demo.component';
 
 @NgModule({
   imports: [
     CommonModule,
     SkyDatepickerModule,
     SkyInputBoxModule,
-    SkyThemeModule
+    SkyThemeModule,
   ],
-  declarations: [
-    InputBoxDemoComponent
-  ],
-  exports: [
-    InputBoxDemoComponent
-  ],
-  providers: [
-    SkyThemeService
-  ]
+  declarations: [InputBoxDemoComponent],
+  exports: [InputBoxDemoComponent],
+  providers: [SkyThemeService],
 })
-
 export class SkyInputBoxDemoModule {}

@@ -1,14 +1,14 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component
+  Component,
 } from '@angular/core';
 
 @Component({
   selector: 'sky-character-counter-indicator',
   templateUrl: './character-counter-indicator.component.html',
   styleUrls: ['./character-counter-indicator.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyCharacterCounterIndicatorComponent {
   public characterCountMessage: string;
@@ -17,9 +17,7 @@ export class SkyCharacterCounterIndicatorComponent {
   private currentCharacterCountLimit: number = 0;
   private currentCharacterCount: number = 0;
 
-  constructor(
-    private changeDetector: ChangeDetectorRef
-  ) { }
+  constructor(private changeDetector: ChangeDetectorRef) {}
 
   public get characterCount(): number {
     return this.currentCharacterCount;

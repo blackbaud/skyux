@@ -1,33 +1,15 @@
-<form
-  novalidate
-  [formGroup]="myForm"
->
-  <sky-radio-group
-    ariaLabel="Demo options"
-    formControlName="myOption"
-  >
+<form novalidate [formGroup]="myForm">
+  <sky-radio-group ariaLabel="Demo options" formControlName="myOption">
     <sky-selection-box-grid>
-      <sky-selection-box *ngFor="let item of items"
-        [control]="radio"
-      >
-        <sky-icon
-          iconType="skyux"
-          [icon]="item.icon"
-        ></sky-icon>
-        <sky-selection-box-header
-          skyId
-          #radioHeaderId="skyId"
-        >
+      <sky-selection-box *ngFor="let item of items" [control]="radio">
+        <sky-icon iconType="skyux" [icon]="item.icon"></sky-icon>
+        <sky-selection-box-header skyId #radioHeaderId="skyId">
           {{ item.name }}
         </sky-selection-box-header>
         <sky-selection-box-description>
           {{ item.description }}
         </sky-selection-box-description>
-        <sky-radio
-          [labelledBy]="radioHeaderId.id"
-          [value]="item.value"
-          #radio
-        >
+        <sky-radio [labelledBy]="radioHeaderId.id" [value]="item.value" #radio>
         </sky-radio>
       </sky-selection-box>
     </sky-selection-box-grid>

@@ -1,28 +1,15 @@
-<form
-  novalidate
-  [formGroup]="myForm"
->
-<sky-radio-group
-  ariaLabel="Demo options"
-  formControlName="myOption"
->
-  <ul
-    class="sky-list-unstyled"
-  >
-    <li *ngFor="let option of options">
-      <sky-radio
-        [disabled]="option.disabled"
-        [value]="option.name"
-      >
-        <sky-radio-label>
-          {{ option.name }}
-        </sky-radio-label>
-      </sky-radio>
-    </li>
-  </ul>
-</sky-radio-group>
+<form novalidate [formGroup]="myForm">
+  <sky-radio-group ariaLabel="Demo options" formControlName="myOption">
+    <ul class="sky-list-unstyled">
+      <li *ngFor="let option of options">
+        <sky-radio [disabled]="option.disabled" [value]="option.name">
+          <sky-radio-label>
+            {{ option.name }}
+          </sky-radio-label>
+        </sky-radio>
+      </li>
+    </ul>
+  </sky-radio-group>
 </form>
 
-<p>
-  {{ myForm.value.myOption }} is selected
-</p>
+<p>{{ myForm.value.myOption }} is selected</p>

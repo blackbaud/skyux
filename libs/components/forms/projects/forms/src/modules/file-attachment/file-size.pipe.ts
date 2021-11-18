@@ -1,40 +1,31 @@
-import {
-  Pipe,
-  PipeTransform
-} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
-import {
-  DecimalPipe
-} from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 
-import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
 /**
  * @internal
  */
 @Pipe({
-  name: 'skyFileSize'
+  name: 'skyFileSize',
 })
 export class SkyFileSizePipe implements PipeTransform {
-
   constructor(
     private decimalPipe: DecimalPipe,
     private resourcesService: SkyLibResourcesService
-  ) { }
+  ) {}
 
   public transform(input: number): string {
-
     let decimalPlaces = 0,
-                dividend = 1,
-                formattedSize: string,
-                roundedSize: number,
-                template: string;
+      dividend = 1,
+      formattedSize: string,
+      roundedSize: number,
+      template: string;
 
     /* tslint:disable */
     if (input === null || input === undefined) {
-        return '';
+      return '';
     }
     /* tslint:enable */
 
@@ -56,7 +47,8 @@ export class SkyFileSizePipe implements PipeTransform {
     }
 
     roundedSize =
-      Math.floor(input / (dividend / Math.pow(10, decimalPlaces))) / Math.pow(10, decimalPlaces);
+      Math.floor(input / (dividend / Math.pow(10, decimalPlaces))) /
+      Math.pow(10, decimalPlaces);
 
     formattedSize = this.decimalPipe.transform(roundedSize, '.0-3');
 

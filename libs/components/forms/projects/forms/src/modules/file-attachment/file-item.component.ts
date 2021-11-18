@@ -5,28 +5,21 @@ import {
   DoCheck,
   KeyValueDiffers,
   KeyValueDiffer,
-  EventEmitter
+  EventEmitter,
 } from '@angular/core';
 
-import {
-  SkyFileItem
-} from './file-item';
+import { SkyFileItem } from './file-item';
 
-import {
-  SkyFileLink
-} from './file-link';
+import { SkyFileLink } from './file-link';
 
-import {
-  SkyFileItemService
-} from './file-item.service';
+import { SkyFileItemService } from './file-item.service';
 
 @Component({
   selector: 'sky-file-item',
   templateUrl: './file-item.component.html',
-  styleUrls: ['./file-item.component.scss']
+  styleUrls: ['./file-item.component.scss'],
 })
 export class SkyFileItemComponent implements DoCheck {
-
   /**
    * Specifies the summary information to display about file attachments. For local files,
    * the default summary includes the file name, file size, file preview, and a delete button.
@@ -63,7 +56,7 @@ export class SkyFileItemComponent implements DoCheck {
   public constructor(
     private differs: KeyValueDiffers,
     private fileItemService: SkyFileItemService
-    ) {
+  ) {
     this.differ = this.differs.find({}).create();
   }
 
@@ -72,8 +65,10 @@ export class SkyFileItemComponent implements DoCheck {
 
     if (changes) {
       let cls: string,
-          extensionUpper = this.fileItemService.getFileExtensionUpper(<SkyFileItem>this.fileItem),
-          fileTypeUpper: string;
+        extensionUpper = this.fileItemService.getFileExtensionUpper(
+          <SkyFileItem>this.fileItem
+        ),
+        fileTypeUpper: string;
 
       switch (extensionUpper) {
         case '.PDF':
@@ -95,7 +90,7 @@ export class SkyFileItemComponent implements DoCheck {
           break;
         case '.XLS':
         case '.XLSX':
-          cls  = 'excel';
+          cls = 'excel';
           break;
         case '.TXT':
           cls = 'text';
@@ -109,7 +104,9 @@ export class SkyFileItemComponent implements DoCheck {
       }
 
       if (!cls) {
-        fileTypeUpper = this.fileItemService.getFileTypeUpper(<SkyFileItem>this.fileItem);
+        fileTypeUpper = this.fileItemService.getFileTypeUpper(
+          <SkyFileItem>this.fileItem
+        );
 
         switch (fileTypeUpper.substr(0, fileTypeUpper.indexOf('/'))) {
           case 'AUDIO':
@@ -146,5 +143,4 @@ export class SkyFileItemComponent implements DoCheck {
   public isImage() {
     return this.fileItemService.isImage(<SkyFileItem>this.fileItem);
   }
-
 }

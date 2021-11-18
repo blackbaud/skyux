@@ -5,24 +5,16 @@ import {
   EventEmitter,
   ElementRef,
   OnDestroy,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
-import {
-  SkyFileItem
-} from './file-item';
+import { SkyFileItem } from './file-item';
 
-import {
-  SkyFileLink
-} from './file-link';
+import { SkyFileLink } from './file-link';
 
-import {
-  SkyFileDropChange
-} from './types/file-drop-change';
+import { SkyFileDropChange } from './types/file-drop-change';
 
-import {
-  SkyFileAttachmentService
-} from './file-attachment.service';
+import { SkyFileAttachmentService } from './file-attachment.service';
 
 /**
  * Provides an element to attach multiple files where users can browse or drag and drop local files
@@ -38,9 +30,7 @@ import {
   selector: 'sky-file-drop',
   templateUrl: './file-drop.component.html',
   styleUrls: ['./file-drop.component.scss'],
-  providers: [
-    SkyFileAttachmentService
-  ]
+  providers: [SkyFileAttachmentService],
 })
 export class SkyFileDropComponent implements OnDestroy {
   /**
@@ -129,9 +119,7 @@ export class SkyFileDropComponent implements OnDestroy {
 
   private enterEventTarget: any;
 
-  constructor(
-    private fileAttachmentService: SkyFileAttachmentService
-  ) { }
+  constructor(private fileAttachmentService: SkyFileAttachmentService) {}
 
   public ngOnDestroy() {
     this.filesChanged.complete();
@@ -169,7 +157,13 @@ export class SkyFileDropComponent implements OnDestroy {
         for (let index = 0; index < files.length; index++) {
           const file: any = files[index];
 
-          if (file.type && this.fileAttachmentService.fileTypeRejected(file.type, this.acceptedTypes)) {
+          if (
+            file.type &&
+            this.fileAttachmentService.fileTypeRejected(
+              file.type,
+              this.acceptedTypes
+            )
+          ) {
             this.rejectedOver = true;
             this.acceptedOver = false;
             return;
@@ -180,8 +174,7 @@ export class SkyFileDropComponent implements OnDestroy {
           this.rejectedOver = false;
           this.acceptedOver = true;
         }
-
-      } else /* istanbul ignore else: untestable */if (transfer.files) {
+      } else /* istanbul ignore next: untestable */ if (transfer.files) {
         // If the browser does not support DataTransfer.items,
         // defer file-type checking to drop handler.
         // https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/items#Browser_compatibility
@@ -200,8 +193,11 @@ export class SkyFileDropComponent implements OnDestroy {
     this.acceptedOver = false;
 
     if (dropEvent.dataTransfer && dropEvent.dataTransfer.files) {
-      const hasDirectory = this.fileAttachmentService.hasDirectory(dropEvent.dataTransfer.files);
-      const invalidNumberOfFiles = !this.multiple && dropEvent.dataTransfer.files.length > 1;
+      const hasDirectory = this.fileAttachmentService.hasDirectory(
+        dropEvent.dataTransfer.files
+      );
+      const invalidNumberOfFiles =
+        !this.multiple && dropEvent.dataTransfer.files.length > 1;
 
       if (hasDirectory || invalidNumberOfFiles) {
         return;
@@ -242,7 +238,7 @@ export class SkyFileDropComponent implements OnDestroy {
     if (totalFiles === rejectedFileArray.length + validFileArray.length) {
       this.filesChanged.emit({
         files: validFileArray,
-        rejectedFiles: rejectedFileArray
+        rejectedFiles: rejectedFileArray,
       } as SkyFileDropChange);
 
       this.inputEl.nativeElement.value = '';
@@ -271,15 +267,29 @@ export class SkyFileDropComponent implements OnDestroy {
     reader.addEventListener('load', (event: any) => {
       file.url = event.target.result;
       validFileArray.push(file);
-      fileDrop.emitFileChangeEvent(totalFiles, rejectedFileArray, validFileArray);
+      fileDrop.emitFileChangeEvent(
+        totalFiles,
+        rejectedFileArray,
+        validFileArray
+      );
     });
 
     reader.addEventListener('error', (event: any) => {
-      fileDrop.filesRejected(file, validFileArray, rejectedFileArray, totalFiles);
+      fileDrop.filesRejected(
+        file,
+        validFileArray,
+        rejectedFileArray,
+        totalFiles
+      );
     });
 
     reader.addEventListener('abort', (event: any) => {
-      fileDrop.filesRejected(file, validFileArray, rejectedFileArray, totalFiles);
+      fileDrop.filesRejected(
+        file,
+        validFileArray,
+        rejectedFileArray,
+        totalFiles
+      );
     });
 
     reader.readAsDataURL(file.file);
@@ -292,13 +302,25 @@ export class SkyFileDropComponent implements OnDestroy {
     let fileDrop = this;
 
     // tslint:disable-next-line: max-line-length
-    let processedFiles = this.fileAttachmentService.checkFiles(files, this.minFileSize, this.maxFileSize, this.acceptedTypes, this.validateFn);
+    let processedFiles = this.fileAttachmentService.checkFiles(
+      files,
+      this.minFileSize,
+      this.maxFileSize,
+      this.acceptedTypes,
+      this.validateFn
+    );
 
     for (let file of processedFiles) {
       if (file.errorType) {
         this.filesRejected(file, validFileArray, rejectedFileArray, totalFiles);
       } else {
-        this.loadFile(fileDrop, file, validFileArray, rejectedFileArray, totalFiles);
+        this.loadFile(
+          fileDrop,
+          file,
+          validFileArray,
+          rejectedFileArray,
+          totalFiles
+        );
       }
     }
   }

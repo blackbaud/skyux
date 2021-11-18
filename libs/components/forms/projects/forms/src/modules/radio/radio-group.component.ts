@@ -8,32 +8,20 @@ import {
   OnDestroy,
   Optional,
   QueryList,
-  Self
+  Self,
 } from '@angular/core';
 
-import {
-  NgControl
-} from '@angular/forms';
+import { NgControl } from '@angular/forms';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkyFormsUtility
-} from '../shared/forms-utility';
+import { SkyFormsUtility } from '../shared/forms-utility';
 
-import {
-  SkyRadioChange
-} from './types/radio-change';
+import { SkyRadioChange } from './types/radio-change';
 
-import {
-  SkyRadioComponent
-} from './radio.component';
+import { SkyRadioComponent } from './radio.component';
 
 let nextUniqueId = 0;
 
@@ -45,10 +33,11 @@ let nextUniqueId = 0;
  */
 @Component({
   selector: 'sky-radio-group',
-  templateUrl: './radio-group.component.html'
+  templateUrl: './radio-group.component.html',
 })
-export class SkyRadioGroupComponent implements AfterContentInit, AfterViewInit, OnDestroy {
-
+export class SkyRadioGroupComponent
+  implements AfterContentInit, AfterViewInit, OnDestroy
+{
   /**
    * Specifies the HTML element ID (without the leading `#`) of the element that labels
    * the radio button group. This sets the radio button group's `aria-labelledby` attribute
@@ -178,25 +167,22 @@ export class SkyRadioGroupComponent implements AfterContentInit, AfterViewInit, 
     // Watch for radio selections.
     this.watchForSelections();
 
-    this.radios.changes
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
-      .subscribe(() => {
-        // Wait for child radio components to finish any rendering updates.
-        setTimeout(() => {
-          this.resetRadioButtons();
-        });
-
-        // Subscribe to the new radio buttons
-        this.watchForSelections();
+    this.radios.changes.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
+      // Wait for child radio components to finish any rendering updates.
+      setTimeout(() => {
+        this.resetRadioButtons();
       });
+
+      // Subscribe to the new radio buttons
+      this.watchForSelections();
+    });
   }
 
   public ngAfterViewInit(): void {
     if (this.ngControl) {
       // Backwards compatibility support for anyone still using Validators.Required.
-      this.required = this.required || SkyFormsUtility.hasRequiredValidation(this.ngControl);
+      this.required =
+        this.required || SkyFormsUtility.hasRequiredValidation(this.ngControl);
 
       // Avoid an ExpressionChangedAfterItHasBeenCheckedError.
       this.changeDetector.detectChanges();
@@ -206,21 +192,15 @@ export class SkyRadioGroupComponent implements AfterContentInit, AfterViewInit, 
   public watchForSelections() {
     this.radios.forEach((radio) => {
       radio.change
-        .pipe(
-          takeUntil(this.ngUnsubscribe)
-        )
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((change: SkyRadioChange) => {
           this.onTouched();
           this.writeValue(change.value);
         });
-      radio.blur
-        .pipe(
-          takeUntil(this.ngUnsubscribe)
-        )
-        .subscribe(() => {
-          this.onTouched();
-          this.changeDetector.markForCheck();
-        });
+      radio.blur.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
+        this.onTouched();
+        this.changeDetector.markForCheck();
+      });
     });
   }
 
@@ -256,7 +236,7 @@ export class SkyRadioGroupComponent implements AfterContentInit, AfterViewInit, 
 
   private updateRadioButtonDisabled(): void {
     if (this.radios) {
-      this.radios.forEach(radio => {
+      this.radios.forEach((radio) => {
         radio.disabled = this.disabled;
       });
     }
@@ -264,7 +244,7 @@ export class SkyRadioGroupComponent implements AfterContentInit, AfterViewInit, 
 
   private updateRadioButtonNames(): void {
     if (this.radios) {
-      this.radios.forEach(radio => {
+      this.radios.forEach((radio) => {
         radio.name = this.name;
       });
     }
@@ -272,7 +252,7 @@ export class SkyRadioGroupComponent implements AfterContentInit, AfterViewInit, 
 
   private updateRadioButtonTabIndexes(): void {
     if (this.radios) {
-      this.radios.forEach(radio => {
+      this.radios.forEach((radio) => {
         radio.groupTabIndex = this.tabIndex;
       });
     }
@@ -284,7 +264,7 @@ export class SkyRadioGroupComponent implements AfterContentInit, AfterViewInit, 
     }
 
     this.radios.forEach((radio) => {
-      radio.checked = (this._value === radio.value);
+      radio.checked = this._value === radio.value;
     });
   }
 

@@ -1,18 +1,13 @@
-import {
-  Directive,
-  Input
-} from '@angular/core';
+import { Directive, Input } from '@angular/core';
 
 import {
   AbstractControl,
   NG_VALIDATORS,
   ValidationErrors,
-  Validator
+  Validator,
 } from '@angular/forms';
 
-import {
-  SkyCharacterCounterIndicatorComponent
-} from './character-counter-indicator.component';
+import { SkyCharacterCounterIndicatorComponent } from './character-counter-indicator.component';
 
 /**
  * Creates an input field that validates the number of characters. Place this directive on
@@ -26,9 +21,9 @@ import {
     {
       provide: NG_VALIDATORS,
       useExisting: SkyCharacterCounterInputDirective,
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class SkyCharacterCounterInputDirective implements Validator {
   /**
@@ -60,7 +55,7 @@ export class SkyCharacterCounterInputDirective implements Validator {
   public validate(control: AbstractControl): ValidationErrors {
     const value = control.value;
 
-    this.updateIndicatorCount(value && value.length || 0);
+    this.updateIndicatorCount((value && value.length) || 0);
 
     if (!value) {
       return;
@@ -71,14 +66,16 @@ export class SkyCharacterCounterInputDirective implements Validator {
       control.markAsTouched();
 
       return {
-        'skyCharacterCounter': {
-          invalid: value
-        }
+        skyCharacterCounter: {
+          invalid: value,
+        },
       };
     }
   }
 
-  public registerOnValidatorChange(fn: () => void): void { this._validatorChange = fn; }
+  public registerOnValidatorChange(fn: () => void): void {
+    this._validatorChange = fn;
+  }
 
   private updateIndicatorCount(count: number): void {
     if (this.skyCharacterCounterIndicator) {
@@ -92,6 +89,5 @@ export class SkyCharacterCounterInputDirective implements Validator {
     }
   }
 
-  private _validatorChange = () => { };
-
+  private _validatorChange = () => {};
 }

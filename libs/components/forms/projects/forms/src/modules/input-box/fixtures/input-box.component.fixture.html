@@ -1,59 +1,30 @@
-<div
-  class="input-basic"
->
-  <sky-input-box
-    [disabled]="basicDisabled"
-  >
-    <label
-      class="sky-control-label"
-      [for]="basicInput.id"
-    >
-      Basic input
-    </label>
+<div class="input-basic">
+  <sky-input-box [disabled]="basicDisabled">
+    <label class="sky-control-label" [for]="basicInput.id"> Basic input </label>
     <input
       class="sky-form-control"
       skyId
       [disabled]="basicDisabled"
       #basicInput="skyId"
-    >
+    />
   </sky-input-box>
 </div>
 
-<div
-  class="input-inline-help"
->
+<div class="input-inline-help">
   <sky-input-box>
-    <label
-      class="sky-control-label"
-      [for]="inlineHelp.id"
-    >
+    <label class="sky-control-label" [for]="inlineHelp.id">
       Basic input with inline help
     </label>
-    <div
-      class="sky-control-help"
-    >
-      <button
-        type="button"
-      >
-        CUSTOM HELP WIDGET
-      </button>
+    <div class="sky-control-help">
+      <button type="button">CUSTOM HELP WIDGET</button>
     </div>
-    <input
-      class="sky-form-control"
-      skyId
-      #inlineHelp="skyId"
-    >
+    <input class="sky-form-control" skyId #inlineHelp="skyId" />
   </sky-input-box>
 </div>
 
-<div
-  class="input-multiple-buttons"
->
+<div class="input-multiple-buttons">
   <sky-input-box>
-    <label
-      class="sky-control-label"
-      [for]="multipleButtonsInput.id"
-    >
+    <label class="sky-control-label" [for]="multipleButtonsInput.id">
       Input with multiple buttons
     </label>
     <input
@@ -61,19 +32,15 @@
       skyId
       type="text"
       #multipleButtonsInput="skyId"
-    >
-    <div
-      class="sky-input-group-btn"
-    >
+    />
+    <div class="sky-input-group-btn">
       <button
         aria-label="Button 1"
         class="sky-btn sky-btn-default test-button-1"
         type="button"
       ></button>
     </div>
-    <div
-      class="sky-input-group-btn"
-    >
+    <div class="sky-input-group-btn">
       <button
         aria-label="Button 2"
         class="sky-btn sky-btn-default test-button-2"
@@ -83,14 +50,9 @@
   </sky-input-box>
 </div>
 
-<div
-  class="input-host-service"
->
+<div class="input-host-service">
   <sky-input-box>
-    <label
-      class="sky-control-label"
-      [for]="hostServiceInput.id"
-    >
+    <label class="sky-control-label" [for]="hostServiceInput.id">
       Input using host service
     </label>
     <app-input-box-host-service-fixture>
@@ -99,22 +61,14 @@
         skyId
         type="text"
         #hostServiceInput="skyId"
-      >
+      />
     </app-input-box-host-service-fixture>
   </sky-input-box>
 </div>
 
-<div
-  class="input-box-haserrors"
->
-  <sky-input-box
-    class="sky-margin-stacked-lg"
-    [hasErrors]="hasErrors"
-  >
-    <label
-      class="sky-control-label"
-      [for]="hasErrorsInput.id"
-    >
+<div class="input-box-haserrors">
+  <sky-input-box class="sky-margin-stacked-lg" [hasErrors]="hasErrors">
+    <label class="sky-control-label" [for]="hasErrorsInput.id">
       hasErrors
     </label>
     <input
@@ -123,25 +77,14 @@
       skyId
       type="text"
       #hasErrorsInput="skyId"
-    >
-    <div
-      class="sky-error-label"
-    >
-      Field is required.
-    </div>
+    />
+    <div class="sky-error-label">Field is required.</div>
   </sky-input-box>
 </div>
 
-<div
-  class="input-box-form-control-error"
->
-  <sky-input-box
-    class="sky-margin-stacked-lg"
-  >
-    <label
-      class="sky-control-label"
-      [for]="formControlErrorInput.id"
-    >
+<div class="input-box-form-control-error">
+  <sky-input-box class="sky-margin-stacked-lg">
+    <label class="sky-control-label" [for]="formControlErrorInput.id">
       Form control error
     </label>
     <input
@@ -150,28 +93,15 @@
       type="text"
       [formControl]="errorField"
       #formControlErrorInput="skyId"
-    >
-    <div
-      class="sky-error-label"
-    >
-      Field is required.
-    </div>
+    />
+    <div class="sky-error-label">Field is required.</div>
   </sky-input-box>
 </div>
 
-<div
-  class="input-box-form-control-name-error"
->
-  <form
-    [formGroup]="errorForm"
-  >
-    <sky-input-box
-      class="sky-margin-stacked-lg"
-    >
-      <label
-        class="sky-control-label"
-        [for]="formControlByNameInput.id"
-      >
+<div class="input-box-form-control-name-error">
+  <form [formGroup]="errorForm">
+    <sky-input-box class="sky-margin-stacked-lg">
+      <label class="sky-control-label" [for]="formControlByNameInput.id">
         Form control by name error
       </label>
       <input
@@ -180,26 +110,15 @@
         skyId
         type="text"
         #formControlByNameInput="skyId"
-      >
-      <div
-        class="sky-error-label"
-      >
-        Field is required.
-      </div>
+      />
+      <div class="sky-error-label">Field is required.</div>
     </sky-input-box>
   </form>
 </div>
 
-<div
-  class="input-box-ngmodel-error"
->
-  <sky-input-box
-    class="sky-margin-stacked-lg"
-  >
-    <label
-      class="sky-control-label"
-      [for]="errorNgModelInput.id"
-    >
+<div class="input-box-ngmodel-error">
+  <sky-input-box class="sky-margin-stacked-lg">
+    <label class="sky-control-label" [for]="errorNgModelInput.id">
       NgModel error
     </label>
     <input
@@ -211,28 +130,17 @@
       [(ngModel)]="errorNgModelValue"
       #errorNgModel="ngModel"
       #errorNgModelInput="skyId"
-    >
-    <div
-      class="sky-error-label"
-    >
-      Field is required.
-    </div>
+    />
+    <div class="sky-error-label">Field is required.</div>
   </sky-input-box>
 </div>
 
-<div
-  class="input-single-button-left"
->
+<div class="input-single-button-left">
   <sky-input-box>
-    <label
-      class="sky-control-label"
-      [for]="singleButtonLeftInput.id"
-    >
+    <label class="sky-control-label" [for]="singleButtonLeftInput.id">
       Input with single button on left
     </label>
-    <div
-      class="sky-input-group-btn sky-input-box-btn-left"
-    >
+    <div class="sky-input-group-btn sky-input-box-btn-left">
       <button
         aria-label="Button 1"
         class="sky-btn sky-btn-default test-button-left"
@@ -244,23 +152,16 @@
       skyId
       type="text"
       #singleButtonLeftInput="skyId"
-    >
+    />
   </sky-input-box>
 </div>
 
-<div
-  class="input-character-count"
->
+<div class="input-character-count">
   <sky-input-box>
-    <label
-      class="sky-control-label"
-      [for]="characterCountInput.id"
-    >
+    <label class="sky-control-label" [for]="characterCountInput.id">
       With character count
     </label>
-    <sky-character-counter-indicator
-      #characterCount
-    >
+    <sky-character-counter-indicator #characterCount>
     </sky-character-counter-indicator>
     <input
       class="sky-form-control"
@@ -269,18 +170,13 @@
       [skyCharacterCounterIndicator]="characterCount"
       [skyCharacterCounterLimit]="10"
       #characterCountInput="skyId"
-    >
+    />
   </sky-input-box>
 </div>
 
-<div
-  class="input-button-inset"
->
+<div class="input-button-inset">
   <sky-input-box>
-    <label
-      class="sky-control-label"
-      [for]="inputBoxButtonInset.id"
-    >
+    <label class="sky-control-label" [for]="inputBoxButtonInset.id">
       Input with inset button
     </label>
     <input
@@ -288,10 +184,8 @@
       skyId
       type="text"
       #inputBoxButtonInset="skyId"
-    >
-    <div
-      class="sky-input-group-btn sky-input-box-btn-inset"
-    >
+    />
+    <div class="sky-input-group-btn sky-input-box-btn-inset">
       <button
         aria-label="Inset button"
         class="sky-btn sky-btn-default test-button-inset"
@@ -301,16 +195,9 @@
   </sky-input-box>
 </div>
 
-<div
-  class="input-icon-inset"
->
-  <sky-input-box
-    [disabled]="insetIconDisabled"
-  >
-    <label
-      class="sky-control-label"
-      [for]="inputBoxIconInset.id"
-    >
+<div class="input-icon-inset">
+  <sky-input-box [disabled]="insetIconDisabled">
+    <label class="sky-control-label" [for]="inputBoxIconInset.id">
       Input with inset icon
     </label>
     <input
@@ -319,26 +206,16 @@
       type="text"
       [disabled]="insetIconDisabled"
       #inputBoxIconInset="skyId"
-    >
-    <div
-      class="sky-input-group-icon sky-input-box-icon-inset"
-    >
-      <sky-icon
-        class="test-icon-inset"
-        icon="search"
-      ></sky-icon>
+    />
+    <div class="sky-input-group-icon sky-input-box-icon-inset">
+      <sky-icon class="test-icon-inset" icon="search"></sky-icon>
     </div>
   </sky-input-box>
 </div>
 
-<div
-  class="input-icon-inset-left"
->
+<div class="input-icon-inset-left">
   <sky-input-box>
-    <label
-      class="sky-control-label"
-      [for]="inputBoxIconInsetLeft.id"
-    >
+    <label class="sky-control-label" [for]="inputBoxIconInsetLeft.id">
       Input with left inset icon
     </label>
     <input
@@ -346,14 +223,9 @@
       skyId
       type="text"
       #inputBoxIconInsetLeft="skyId"
-    >
-    <div
-      class="sky-input-group-icon sky-input-box-icon-inset-left"
-    >
-      <sky-icon
-        class="test-icon-inset"
-        icon="search"
-      ></sky-icon>
+    />
+    <div class="sky-input-group-icon sky-input-box-icon-inset-left">
+      <sky-icon class="test-icon-inset" icon="search"></sky-icon>
     </div>
   </sky-input-box>
 </div>

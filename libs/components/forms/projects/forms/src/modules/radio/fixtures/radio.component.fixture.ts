@@ -1,15 +1,9 @@
-import {
-  AfterViewInit,
-  Component,
-  ViewChild
-} from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 
-import {
-  SkyRadioComponent
-} from '../radio.component';
+import { SkyRadioComponent } from '../radio.component';
 
 @Component({
-  templateUrl: './radio.component.fixture.html'
+  templateUrl: './radio.component.fixture.html',
 })
 export class SkyRadioTestComponent implements AfterViewInit {
   public selectedValue = '1';

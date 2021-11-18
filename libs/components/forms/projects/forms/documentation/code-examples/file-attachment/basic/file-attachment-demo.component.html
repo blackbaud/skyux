@@ -1,6 +1,4 @@
-<div
-  style="width: 60%;"
->
+<div style="width: 60%">
   <sky-file-drop
     [acceptedTypes]="acceptedTypes"
     [allowLinks]="true"
@@ -11,20 +9,20 @@
   >
   </sky-file-drop>
 
-  <sky-status-indicator *ngIf="rejectedFiles.length > 0"
+  <sky-status-indicator
+    *ngIf="rejectedFiles.length > 0"
     descriptionType="error"
     indicatorType="danger"
   >
-    The file <strong>{{rejectedFiles[rejectedFiles.length - 1].file.name}}</strong> is invalid.
-    Reason: {{rejectedFiles[rejectedFiles.length - 1].errorType}} violation.
-    Error param: {{rejectedFiles[rejectedFiles.length - 1].errorParam}}
+    The file
+    <strong>{{ rejectedFiles[rejectedFiles.length - 1].file.name }}</strong> is
+    invalid. Reason:
+    {{ rejectedFiles[rejectedFiles.length - 1].errorType }} violation. Error
+    param: {{ rejectedFiles[rejectedFiles.length - 1].errorParam }}
   </sky-status-indicator>
 
   <div *ngFor="let file of allItems">
-    <sky-file-item
-      [fileItem]="file"
-      (deleteFile)="deleteFile($event)"
-    >
+    <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)">
     </sky-file-item>
   </div>
 </div>

@@ -12,11 +12,55 @@ import {
   SkyI18nModule,
   SkyLibResources,
   SkyLibResourcesProvider,
-  SKY_LIB_RESOURCES_PROVIDERS
+  SKY_LIB_RESOURCES_PROVIDERS,
 } from '@skyux/i18n';
 
 const RESOURCES: { [locale: string]: SkyLibResources } = {
-  'EN-US': {"skyux_character_count_message":{"message":"characters out of"},"skyux_character_count_over_limit":{"message":"You are over the character limit."},"skyux_file_attachment_button_label_choose_file":{"message":"Choose file"},"skyux_file_attachment_button_label_replace_file":{"message":"Replace file"},"skyux_file_attachment_file_item_delete":{"message":"Delete file"},"skyux_file_attachment_file_size_b_plural":{"message":"{0} bytes"},"skyux_file_attachment_file_size_b_singular":{"message":"{0} byte"},"skyux_file_attachment_file_size_gb":{"message":"{0} GB"},"skyux_file_attachment_file_size_kb":{"message":"{0} KB"},"skyux_file_attachment_file_size_mb":{"message":"{0} MB"},"skyux_file_attachment_file_upload_drag_file_here":{"message":"Drag a file here"},"skyux_file_attachment_file_upload_drag_or_click":{"message":"Drag a file here or click to browse"},"skyux_file_attachment_file_upload_drop_files_here":{"message":"Drop files here"},"skyux_file_attachment_file_upload_image_preview_alt_text":{"message":"Image preview"},"skyux_file_attachment_file_upload_invalid_file":{"message":"This file type is invalid"},"skyux_file_attachment_file_upload_link_input":{"message":"Add a link to a file"},"skyux_file_attachment_file_upload_link_placeholder":{"message":"http://www.something.com/file"},"skyux_file_attachment_file_upload_or_click_to_browse":{"message":"or click to browse"},"skyux_file_attachment_file_upload_paste_link":{"message":"Paste a link to a file"},"skyux_file_attachment_file_upload_paste_link_done":{"message":"Done"},"skyux_file_attachment_label_no_file_chosen":{"message":"No file chosen"}},
+  'EN-US': {
+    skyux_character_count_message: { message: 'characters out of' },
+    skyux_character_count_over_limit: {
+      message: 'You are over the character limit.',
+    },
+    skyux_file_attachment_button_label_choose_file: { message: 'Choose file' },
+    skyux_file_attachment_button_label_replace_file: {
+      message: 'Replace file',
+    },
+    skyux_file_attachment_file_item_delete: { message: 'Delete file' },
+    skyux_file_attachment_file_size_b_plural: { message: '{0} bytes' },
+    skyux_file_attachment_file_size_b_singular: { message: '{0} byte' },
+    skyux_file_attachment_file_size_gb: { message: '{0} GB' },
+    skyux_file_attachment_file_size_kb: { message: '{0} KB' },
+    skyux_file_attachment_file_size_mb: { message: '{0} MB' },
+    skyux_file_attachment_file_upload_drag_file_here: {
+      message: 'Drag a file here',
+    },
+    skyux_file_attachment_file_upload_drag_or_click: {
+      message: 'Drag a file here or click to browse',
+    },
+    skyux_file_attachment_file_upload_drop_files_here: {
+      message: 'Drop files here',
+    },
+    skyux_file_attachment_file_upload_image_preview_alt_text: {
+      message: 'Image preview',
+    },
+    skyux_file_attachment_file_upload_invalid_file: {
+      message: 'This file type is invalid',
+    },
+    skyux_file_attachment_file_upload_link_input: {
+      message: 'Add a link to a file',
+    },
+    skyux_file_attachment_file_upload_link_placeholder: {
+      message: 'http://www.something.com/file',
+    },
+    skyux_file_attachment_file_upload_or_click_to_browse: {
+      message: 'or click to browse',
+    },
+    skyux_file_attachment_file_upload_paste_link: {
+      message: 'Paste a link to a file',
+    },
+    skyux_file_attachment_file_upload_paste_link_done: { message: 'Done' },
+    skyux_file_attachment_label_no_file_chosen: { message: 'No file chosen' },
+  },
 };
 
 export class SkyFormsResourcesProvider implements SkyLibResourcesProvider {
@@ -30,10 +74,12 @@ export class SkyFormsResourcesProvider implements SkyLibResourcesProvider {
  */
 @NgModule({
   exports: [SkyI18nModule],
-  providers: [{
-    provide: SKY_LIB_RESOURCES_PROVIDERS,
-    useClass: SkyFormsResourcesProvider,
-    multi: true
-  }]
+  providers: [
+    {
+      provide: SKY_LIB_RESOURCES_PROVIDERS,
+      useClass: SkyFormsResourcesProvider,
+      multi: true,
+    },
+  ],
 })
-export class SkyFormsResourcesModule { }
+export class SkyFormsResourcesModule {}

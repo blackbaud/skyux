@@ -1,9 +1,14 @@
 <div
-  class="sky-file-drop-row" [ngClass]="{ 'sky-file-drop-allow-links': allowLinks }">
+  class="sky-file-drop-row"
+  [ngClass]="{ 'sky-file-drop-allow-links': allowLinks }"
+>
   <div
     class="sky-file-drop-col"
-    [ngClass]="{ 'sky-file-drop-accept': acceptedOver, 'sky-file-drop-reject': rejectedOver }">
-
+    [ngClass]="{
+      'sky-file-drop-accept': acceptedOver,
+      'sky-file-drop-reject': rejectedOver
+    }"
+  >
     <button
       class="sky-file-drop sky-file-drop-target"
       type="button"
@@ -12,42 +17,59 @@
       (dragenter)="fileDragEnter($event)"
       (dragleave)="fileDragLeave($event)"
       (drop)="fileDrop($event)"
-      [attr.aria-label]="fileUploadAriaLabel || ('skyux_file_attachment_file_upload_drag_or_click' | skyLibResources)">
-    </button>
+      [attr.aria-label]="
+        fileUploadAriaLabel ||
+        ('skyux_file_attachment_file_upload_drag_or_click' | skyLibResources)
+      "
+    ></button>
 
     <input
       tabindex="-1"
       aria-hidden="true"
       type="file"
       class="sky-file-input-hidden"
-      [attr.multiple]="multiple ? multiple: null"
-      [attr.accept]="acceptedTypes ? acceptedTypes: null"
+      [attr.multiple]="multiple ? multiple : null"
+      [attr.accept]="acceptedTypes ? acceptedTypes : null"
       (change)="fileChangeEvent($event)"
-      #fileInput>
+      #fileInput
+    />
 
-    <div class="sky-file-drop-contents sky-padding-even-default" *ngIf="customEl.children.length === 0">
+    <div
+      class="sky-file-drop-contents sky-padding-even-default"
+      *ngIf="customEl.children.length === 0"
+    >
       <div class="sky-file-drop-contents-not-over">
         <div class="sky-file-drop-text-header sky-headline">
-          {{ 'skyux_file_attachment_file_upload_drag_file_here' | skyLibResources }}
+          {{
+            'skyux_file_attachment_file_upload_drag_file_here' | skyLibResources
+          }}
         </div>
         <div class="sky-file-drop-text">
-          {{ 'skyux_file_attachment_file_upload_or_click_to_browse' | skyLibResources }}
+          {{
+            'skyux_file_attachment_file_upload_or_click_to_browse'
+              | skyLibResources
+          }}
         </div>
         <sky-icon icon="cloud-upload" class="sky-file-upload-icon"></sky-icon>
       </div>
 
       <!-- This will appear when file is dragged over and is valid -->
-      <div class="sky-file-drop-contents-accept" >
+      <div class="sky-file-drop-contents-accept">
         <div class="sky-file-drop-text-header sky-headline">
-          {{ 'skyux_file_attachment_file_upload_drop_files_here' | skyLibResources }}
+          {{
+            'skyux_file_attachment_file_upload_drop_files_here'
+              | skyLibResources
+          }}
         </div>
         <sky-icon icon="bullseye" class="sky-file-upload-icon"></sky-icon>
       </div>
 
       <!-- This will appear when file is dragged over and is invalid -->
-      <div class="sky-file-drop-contents-reject" >
+      <div class="sky-file-drop-contents-reject">
         <div class="sky-file-drop-text-header sky-headline">
-          {{ 'skyux_file_attachment_file_upload_invalid_file' | skyLibResources }}
+          {{
+            'skyux_file_attachment_file_upload_invalid_file' | skyLibResources
+          }}
         </div>
         <sky-icon icon="times-circle" class="sky-file-upload-icon"></sky-icon>
       </div>
@@ -62,26 +84,38 @@
       <div class="sky-file-drop-link">
         <div class="sky-file-drop-link-header">
           <div class="sky-file-drop-text-header sky-headline">
-            {{ 'skyux_file_attachment_file_upload_paste_link' | skyLibResources }}
+            {{
+              'skyux_file_attachment_file_upload_paste_link' | skyLibResources
+            }}
           </div>
         </div>
         <div class="sky-form-group">
           <input
             type="text"
             class="sky-form-control"
-            [attr.aria-label]="linkUploadAriaLabel || ('skyux_file_attachment_file_upload_link_input' | skyLibResources)"
-            [attr.placeholder]="'skyux_file_attachment_file_upload_link_placeholder' | skyLibResources"
+            [attr.aria-label]="
+              linkUploadAriaLabel ||
+              ('skyux_file_attachment_file_upload_link_input' | skyLibResources)
+            "
+            [attr.placeholder]="
+              'skyux_file_attachment_file_upload_link_placeholder'
+                | skyLibResources
+            "
             [(ngModel)]="linkUrl"
             (blur)="onLinkBlur()"
             (keyup)="addLinkEnter($event)"
-          >
+          />
         </div>
         <button
           type="button"
           class="sky-btn sky-btn-primary"
           [disabled]="!linkUrl"
-          (click)="addLink($event)">
-          {{ 'skyux_file_attachment_file_upload_paste_link_done' | skyLibResources }}
+          (click)="addLink($event)"
+        >
+          {{
+            'skyux_file_attachment_file_upload_paste_link_done'
+              | skyLibResources
+          }}
         </button>
       </div>
     </div>

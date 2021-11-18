@@ -1,58 +1,46 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 import {
-  ComponentFixture, fakeAsync,
-  TestBed, tick
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
 } from '@angular/core/testing';
 
-import {
-  FormsModule
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
-import {
-  SkyRadioModule
-} from 'projects/forms/src/public-api';
+import { SkyRadioModule } from 'projects/forms/src/public-api';
 
-import {
-  SkyRadioFixture
-} from './radio-fixture';
+import { SkyRadioFixture } from './radio-fixture';
 
 //#region Test component
 @Component({
-  selector: 'radio-test',
+  selector: 'sky-radio-test',
   template: `
-<sky-radio-group
-  data-sky-id="test-radio"
-  name="favoriteSeason"
-  [value]="favoriteSeason"
-  [(ngModel)]="favoriteSeason"
->
-  <ul
-    class="sky-list-unstyled"
-  >
-    <li *ngFor="let season of seasons">
-      <sky-radio
-        [disabled]="season.disabled"
-        [value]="season.id"
-      >
-        <sky-radio-label>
-          {{ season.name }}
-        </sky-radio-label>
-      </sky-radio>
-    </li>
-  </ul>
-</sky-radio-group>
-`
+    <sky-radio-group
+      data-sky-id="test-radio"
+      name="favoriteSeason"
+      [value]="favoriteSeason"
+      [(ngModel)]="favoriteSeason"
+    >
+      <ul class="sky-list-unstyled">
+        <li *ngFor="let season of seasons">
+          <sky-radio [disabled]="season.disabled" [value]="season.id">
+            <sky-radio-label>
+              {{ season.name }}
+            </sky-radio-label>
+          </sky-radio>
+        </li>
+      </ul>
+    </sky-radio-group>
+  `,
 })
 class TestComponent {
-
   public seasons = [
     { name: 'Spring', id: '1', disabled: false },
     { name: 'Summer', id: '2', disabled: false },
     { name: 'Fall', id: '3', disabled: true },
-    { name: 'Winter', id: '4', disabled: false }
+    { name: 'Winter', id: '4', disabled: false },
   ];
 
   public favoriteSeason = this.seasons[0].id;
@@ -65,26 +53,16 @@ describe('Radio fixture', () => {
 
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TestComponent
-      ],
-      imports: [
-        SkyRadioModule,
-        FormsModule
-      ]
+      declarations: [TestComponent],
+      imports: [SkyRadioModule, FormsModule],
     });
 
-    fixture = TestBed.createComponent(
-      TestComponent
-    );
+    fixture = TestBed.createComponent(TestComponent);
 
     fixture.detectChanges();
     tick();
 
-    radioGroup = new SkyRadioFixture(
-      fixture,
-      'test-radio'
-    );
+    radioGroup = new SkyRadioFixture(fixture, 'test-radio');
     fixture.detectChanges();
   }));
 

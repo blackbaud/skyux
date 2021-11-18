@@ -7,28 +7,18 @@ import {
   Input,
   OnDestroy,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkyCheckboxComponent
-} from '../checkbox/checkbox.component';
+import { SkyCheckboxComponent } from '../checkbox/checkbox.component';
 
-import {
-  SkyRadioComponent
-} from '../radio/radio.component';
+import { SkyRadioComponent } from '../radio/radio.component';
 
-import {
-  SkySelectionBoxAdapterService
-} from './selection-box-adapter.service';
+import { SkySelectionBoxAdapterService } from './selection-box-adapter.service';
 
 /**
  * Creates a button to present users with a choice or question before proceeding with a one-time process.
@@ -38,10 +28,9 @@ import {
   styleUrls: ['./selection-box.component.scss'],
   templateUrl: './selection-box.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class SkySelectionBoxComponent implements AfterViewInit, OnDestroy {
-
   /**
    * Specifies the radio button or checkbox to display in the selection box.
    * @required
@@ -59,7 +48,10 @@ export class SkySelectionBoxComponent implements AfterViewInit, OnDestroy {
   }
 
   public set disabled(value: boolean) {
-    this.selectionBoxAdapterService.setTabIndex(this.selectionBoxEl, value ? -1 : 0);
+    this.selectionBoxAdapterService.setTabIndex(
+      this.selectionBoxEl,
+      value ? -1 : 0
+    );
     this._disabled = value;
     this.changeDetector.markForCheck();
   }
@@ -70,13 +62,13 @@ export class SkySelectionBoxComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('control', {
     read: ElementRef,
-    static: false
+    static: false,
   })
   private controlEl: ElementRef;
 
   @ViewChild('selectionBox', {
     read: ElementRef,
-    static: false
+    static: false,
   })
   private selectionBoxEl: ElementRef;
 
@@ -94,7 +86,10 @@ export class SkySelectionBoxComponent implements AfterViewInit, OnDestroy {
   public ngAfterViewInit(): void {
     // Wait for consumer form controls to initialize before setting selected/disabled states.
     setTimeout(() => {
-      this.selectionBoxAdapterService.setChildrenTabIndex(this.selectionBoxEl, -1);
+      this.selectionBoxAdapterService.setChildrenTabIndex(
+        this.selectionBoxEl,
+        -1
+      );
       this.updateCheckedOnControlChange();
       this.updateDisabledState();
     });
@@ -110,8 +105,10 @@ export class SkySelectionBoxComponent implements AfterViewInit, OnDestroy {
    * make sure user is not clicking on the control before firing click logic.
    */
   public onClick(event: any): void {
-    const isControlClick =
-      this.selectionBoxAdapterService.isDescendant(this.controlEl, event.target);
+    const isControlClick = this.selectionBoxAdapterService.isDescendant(
+      this.controlEl,
+      event.target
+    );
     if (!isControlClick) {
       this.selectControl();
     }
@@ -132,19 +129,17 @@ export class SkySelectionBoxComponent implements AfterViewInit, OnDestroy {
 
   private updateCheckedOnControlChange(): void {
     this.control.checkedChange
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      ).subscribe((value) => {
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((value) => {
         this.checked = value;
-    });
+      });
   }
 
   private updateDisabledState(): void {
     this.control.disabledChange
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      ).subscribe((value) => {
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((value) => {
         this.disabled = value;
-    });
+      });
   }
 }

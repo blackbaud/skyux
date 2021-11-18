@@ -1,31 +1,26 @@
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  ComponentFixture
-} from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
 
-import {
-  DebugElement
-} from '@angular/core';
+import { DebugElement } from '@angular/core';
 
-import {
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 /**
  * Allows interaction with a SKY UX radio buttons within a radio group.
  */
 export class SkyRadioFixture {
-
   private debugEl: DebugElement;
 
   constructor(
     private fixture: ComponentFixture<any>,
     private skyTestId: string
   ) {
-    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(this.fixture, this.skyTestId, 'sky-radio-group');
+    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
+      this.fixture,
+      this.skyTestId,
+      'sky-radio-group'
+    );
   }
 
   /**
@@ -79,15 +74,11 @@ export class SkyRadioFixture {
   }
 
   private getAllSkyRadioButtonEls(): DebugElement[] {
-    return this.debugEl.queryAll(
-      By.css('.sky-radio-group sky-radio')
-    );
+    return this.debugEl.queryAll(By.css('.sky-radio-group sky-radio'));
   }
 
   private getAllRadioInputEls(): DebugElement[] {
-    return this.debugEl.queryAll(
-      By.css('.sky-radio-group sky-radio input')
-    );
+    return this.debugEl.queryAll(By.css('.sky-radio-group sky-radio input'));
   }
 
   private getRadioButtonInputEl(index: number): DebugElement {

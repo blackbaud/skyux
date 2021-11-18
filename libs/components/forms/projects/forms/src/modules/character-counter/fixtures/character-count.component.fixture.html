@@ -1,21 +1,15 @@
 <div>
-  <form
-    [formGroup]="testForm"
-  >
-    <div
-      style="display: flex;"
-    >
+  <form [formGroup]="testForm">
+    <div style="display: flex">
       <label
         for="input-count-example"
         class="sky-control-label"
-        style="flex-grow: 1;"
+        style="flex-grow: 1"
       >
         First name
       </label>
 
-      <sky-character-counter-indicator
-        #indicator
-      >
+      <sky-character-counter-indicator #indicator>
       </sky-character-counter-indicator>
     </div>
 
@@ -29,11 +23,8 @@
       [skyCharacterCounterLimit]="maxCharacterCount"
     />
 
-    <div *ngIf="firstName.errors?.skyCharacterCounter"
-      class="sky-error-label"
-    >
+    <div *ngIf="firstName.errors?.skyCharacterCounter" class="sky-error-label">
       Limit First name to {{maxCharacterCount}} characters.
     </div>
   </form>
 </div>
-

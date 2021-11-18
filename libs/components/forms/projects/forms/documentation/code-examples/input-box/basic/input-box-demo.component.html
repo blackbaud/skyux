@@ -1,48 +1,21 @@
-<div
-  [skyTheme]="modernLightTheme"
->
-
+<div [skyTheme]="modernLightTheme">
   <h3>With basic HTML elements</h3>
   <sky-input-box>
-    <label
-      class="sky-control-label"
-      for="myInput"
-    >
-      HTML &lt;input&gt;
-    </label>
-    <input
-      class="sky-form-control"
-      id="myInput"
-      type="text"
-    >
+    <label class="sky-control-label" for="myInput"> HTML &lt;input&gt; </label>
+    <input class="sky-form-control" id="myInput" type="text" />
   </sky-input-box>
   <sky-input-box>
-    <label
-      class="sky-control-label"
-      for="myTextarea"
-    >
+    <label class="sky-control-label" for="myTextarea">
       HTML &lt;textarea&gt;
     </label>
-    <textarea
-      class="sky-form-control"
-      id="myTextarea"
-    ></textarea>
+    <textarea class="sky-form-control" id="myTextarea"></textarea>
   </sky-input-box>
 
   <h3>With SKY UX components</h3>
   <sky-input-box>
-    <label
-      class="sky-control-label"
-      for="myDatepicker"
-    >
-      Datepicker
-    </label>
+    <label class="sky-control-label" for="myDatepicker"> Datepicker </label>
     <sky-datepicker>
-      <input
-        id="myDatepicker"
-        skyDatepickerInput
-      >
+      <input id="myDatepicker" skyDatepickerInput />
     </sky-datepicker>
   </sky-input-box>
-
 </div>

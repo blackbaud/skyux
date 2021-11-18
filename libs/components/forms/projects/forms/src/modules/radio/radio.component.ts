@@ -7,27 +7,16 @@ import {
   Input,
   OnDestroy,
   Output,
-  Provider
+  Provider,
 } from '@angular/core';
 
-import {
-  ControlValueAccessor,
-  NG_VALUE_ACCESSOR
-} from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import {
-  BehaviorSubject,
-  Observable,
-  Subject
-} from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
-import {
-  SkyFormsUtility
-} from '../shared/forms-utility';
+import { SkyFormsUtility } from '../shared/forms-utility';
 
-import {
-  SkyRadioChange
-} from './types/radio-change';
+import { SkyRadioChange } from './types/radio-change';
 
 /**
  * Auto-incrementing integer that generates unique IDs for radio components.
@@ -42,7 +31,7 @@ let nextUniqueId = 0;
 const SKY_RADIO_CONTROL_VALUE_ACCESSOR: Provider = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => SkyRadioComponent),
-  multi: true
+  multi: true,
 };
 // tslint:enable
 
@@ -55,13 +44,10 @@ const SKY_RADIO_CONTROL_VALUE_ACCESSOR: Provider = {
   selector: 'sky-radio',
   templateUrl: './radio.component.html',
   styleUrls: ['./radio.component.scss'],
-  providers: [
-    SKY_RADIO_CONTROL_VALUE_ACCESSOR
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  providers: [SKY_RADIO_CONTROL_VALUE_ACCESSOR],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
-
   /**
    * Fires when users focus off a radio button.
    */
@@ -158,7 +144,9 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    */
   @Input()
   public set tabindex(value: number) {
-    console.warn('The sky-radio `tabindex` property is deprecated. Please use the `tabindex` property on the sky-radio-group component.');
+    console.warn(
+      'The sky-radio `tabindex` property is deprecated. Please use the `tabindex` property on the sky-radio-group component.'
+    );
     this._tabindex = value;
     this.changeDetector.markForCheck();
   }
@@ -228,6 +216,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    * Fires when users select a radio button.
    */
   @Output()
+  // eslint-disable-next-line @angular-eslint/no-output-native
   public get change(): Observable<SkyRadioChange> {
     return this._change;
   }
@@ -243,10 +232,10 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   /**
    * Fires when the selected value changes.
    */
-   @Output()
-   public get disabledChange(): Observable<boolean> {
-     return this._disabledChange;
-   }
+  @Output()
+  public get disabledChange(): Observable<boolean> {
+    return this._disabledChange;
+  }
 
   public get inputId(): string {
     return `sky-radio-${this.id}-input`;
@@ -272,9 +261,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   private _tabindex: number;
   private _value: any;
 
-  constructor(
-    private changeDetector: ChangeDetectorRef
-  ) { }
+  constructor(private changeDetector: ChangeDetectorRef) {}
 
   public ngOnDestroy(): void {
     this.removeUniqueSelectionListener();
@@ -314,7 +301,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
       this.checked = true;
       this._change.emit({
         source: this,
-        value: this._value
+        value: this._value,
       });
 
       this.onInputFocusChange(undefined);

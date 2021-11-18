@@ -1,10 +1,5 @@
-<form
-  novalidate
-  [formGroup]="fileForm"
->
-  <div
-    style="margin-bottom:50px;"
-  >
+<form novalidate [formGroup]="fileForm">
+  <div style="margin-bottom: 50px">
     <sky-file-attachment
       formControlName="attachment"
       [maxFileSize]="maxFileSize"
@@ -12,20 +7,17 @@
       (fileChange)="reactiveFileUpdated($event)"
       (fileClick)="fileClick($event)"
     >
-      <sky-file-attachment-label>
-        Attach any file
-      </sky-file-attachment-label>
+      <sky-file-attachment-label> Attach any file </sky-file-attachment-label>
     </sky-file-attachment>
 
-    <div *ngIf="attachment?.invalid && attachment?.dirty"
+    <div
+      *ngIf="attachment?.invalid && attachment?.dirty"
       class="sky-error-label"
     >
       Attach a file.
     </div>
-    <div *ngIf="reactiveUploadError"
-      class="sky-error-label"
-    >
-      {{reactiveUploadError}}
+    <div *ngIf="reactiveUploadError" class="sky-error-label">
+      {{ reactiveUploadError }}
     </div>
   </div>
 </form>

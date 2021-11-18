@@ -1,16 +1,10 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-toggle-switch-demo',
-  templateUrl: './toggle-switch-demo.component.html'
+  templateUrl: './toggle-switch-demo.component.html',
 })
 export class ToggleSwitchDemoComponent {
   public checked: boolean = false;
@@ -18,11 +12,9 @@ export class ToggleSwitchDemoComponent {
 
   public formGroup: FormGroup;
 
-  constructor(
-    private formBuilder: FormBuilder
-  ) {
+  constructor(private formBuilder: FormBuilder) {
     this.formGroup = this.formBuilder.group({
-      dynamicToggle: new FormControl(true)
+      dynamicToggle: new FormControl(true),
     });
   }
 

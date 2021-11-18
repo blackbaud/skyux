@@ -1,6 +1,4 @@
-import {
-  SkyCheckboxComponent
-} from './checkbox.component';
+import { SkyCheckboxComponent } from './checkbox.component';
 
 /**
  * Fires when users select or deselect the checkbox.

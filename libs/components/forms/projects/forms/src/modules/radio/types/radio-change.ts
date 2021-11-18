@@ -1,6 +1,4 @@
-import {
-  SkyRadioComponent
-} from '../radio.component';
+import { SkyRadioComponent } from '../radio.component';
 
 export interface SkyRadioChange {
   /**

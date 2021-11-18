@@ -1,21 +1,14 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  SkyInputBoxComponent
-} from './input-box.component';
+import { SkyInputBoxComponent } from './input-box.component';
 
-import {
-  SkyInputBoxPopulateArgs
-} from './input-box-populate-args';
+import { SkyInputBoxPopulateArgs } from './input-box-populate-args';
 
 /**
  * @internal
  */
 @Injectable()
 export class SkyInputBoxHostService {
-
   private host: SkyInputBoxComponent;
 
   public init(host: SkyInputBoxComponent): void {
@@ -25,5 +18,4 @@ export class SkyInputBoxHostService {
   public populate(args: SkyInputBoxPopulateArgs): void {
     this.host.populate(args);
   }
-
 }

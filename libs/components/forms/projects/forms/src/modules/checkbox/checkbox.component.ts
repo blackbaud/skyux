@@ -1,4 +1,3 @@
-
 import {
   Component,
   EventEmitter,
@@ -6,26 +5,16 @@ import {
   OnInit,
   Optional,
   Output,
-  Self
+  Self,
 } from '@angular/core';
 
-import {
-  ControlValueAccessor,
-  NgControl
-} from '@angular/forms';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
 
-import {
-  BehaviorSubject,
-  Observable
-} from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
-import {
-  SkyFormsUtility
-} from '../shared/forms-utility';
+import { SkyFormsUtility } from '../shared/forms-utility';
 
-import {
-  SkyCheckboxChange
-} from './checkbox-change';
+import { SkyCheckboxChange } from './checkbox-change';
 
 /**
  * Monotonically increasing integer used to auto-generate unique ids for checkbox components.
@@ -39,10 +28,9 @@ let nextId = 0;
 @Component({
   selector: 'sky-checkbox',
   templateUrl: './checkbox.component.html',
-  styleUrls: ['./checkbox.component.scss']
+  styleUrls: ['./checkbox.component.scss'],
 })
 export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
-
   /**
    * Specifies an ARIA label for the checkbox. This sets the checkbox's `aria-label` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility)
@@ -72,14 +60,14 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    * Indicates whether to disable the checkbox.
    * @default false
    */
-   @Input()
-   public set disabled(value: boolean) {
-     const coercedValue = SkyFormsUtility.coerceBooleanProperty(value);
-     if (coercedValue !== this.disabled) {
-       this._disabled = coercedValue;
-       this._disabledChange.next(this._disabled);
-     }
-   }
+  @Input()
+  public set disabled(value: boolean) {
+    const coercedValue = SkyFormsUtility.coerceBooleanProperty(value);
+    if (coercedValue !== this.disabled) {
+      this._disabled = coercedValue;
+      this._disabledChange.next(this._disabled);
+    }
+  }
 
   /**
    * Indicates whether the checkbox is disabled.
@@ -106,6 +94,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    * Fires when the selected value changes.
    */
   @Output()
+  // eslint-disable-next-line @angular-eslint/no-output-native
   public change = new EventEmitter<SkyCheckboxChange>();
 
   /**
@@ -162,9 +151,9 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   /**
    * Indicates whether the checkbox is selected.
    */
-   public get checked() {
-     return this._checked;
-   }
+  public get checked() {
+    return this._checked;
+  }
 
   /**
    * Indicates whether the input is required for form validation.
@@ -193,10 +182,10 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   /**
    * Fires when the selected value changes.
    */
-   @Output()
-   public get disabledChange(): Observable<boolean> {
-     return this._disabledChange;
-   }
+  @Output()
+  public get disabledChange(): Observable<boolean> {
+    return this._disabledChange;
+  }
 
   private isFirstChange = true;
 
@@ -212,9 +201,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
 
   private _required: boolean = false;
 
-  constructor(
-    @Self() @Optional() private ngControl: NgControl
-  ) {
+  constructor(@Self() @Optional() private ngControl: NgControl) {
     if (this.ngControl) {
       this.ngControl.valueAccessor = this;
     }
@@ -223,7 +210,8 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   public ngOnInit(): void {
     if (this.ngControl) {
       // Backwards compatibility support for anyone still using Validators.Required.
-      this.required = this.required || SkyFormsUtility.hasRequiredValidation(this.ngControl);
+      this.required =
+        this.required || SkyFormsUtility.hasRequiredValidation(this.ngControl);
     }
   }
 
@@ -296,5 +284,4 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   private _toggle() {
     this.checked = !this.checked;
   }
-
 }

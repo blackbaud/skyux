@@ -1,14 +1,10 @@
-import {
-  ElementRef,
-  Injectable
-} from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 
 /**
  * @internal
  */
- @Injectable()
- export class SkyInputBoxAdapterService {
-
+@Injectable()
+export class SkyInputBoxAdapterService {
   public focusControl(elRef: ElementRef): void {
     const control = elRef.nativeElement.querySelector('.sky-form-control');
     /* istanbul ignore else */
@@ -29,9 +25,10 @@ import {
    */
   public isFocusInElement(el: HTMLElement): boolean {
     if (el) {
-      return el === document.activeElement || el.contains(document.activeElement);
+      return (
+        el === document.activeElement || el.contains(document.activeElement)
+      );
     }
     return false;
   }
-
- }
+}

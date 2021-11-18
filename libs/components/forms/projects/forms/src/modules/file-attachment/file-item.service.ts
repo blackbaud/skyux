@@ -1,29 +1,29 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  SkyFileItem
-} from './file-item';
+import { SkyFileItem } from './file-item';
 
 /**
  * @internal
  */
 @Injectable()
 export class SkyFileItemService {
-
   public isFile(fileItem: SkyFileItem): boolean {
     let file = fileItem.file;
 
     /* tslint:disable */
-    return file && file !== undefined && file !== null && file.size !== undefined
-      && file.size !== null;
+    return (
+      file &&
+      file !== undefined &&
+      file !== null &&
+      file.size !== undefined &&
+      file.size !== null
+    );
     /* tslint:enable */
   }
 
   public isImage(fileItem: SkyFileItem): boolean {
     let fileTypeUpper = this.getFileTypeUpper(fileItem),
-                        slashIndex: number;
+      slashIndex: number;
 
     slashIndex = fileTypeUpper.indexOf('/');
 
@@ -44,7 +44,7 @@ export class SkyFileItemService {
 
   public getFileExtensionUpper(fileItem: SkyFileItem): string {
     let extension = '',
-        name: string;
+      name: string;
 
     /* istanbul ignore else */
     /* sanity check */
@@ -58,7 +58,6 @@ export class SkyFileItemService {
       } else {
         extension = '';
       }
-
     }
 
     return extension.toUpperCase();

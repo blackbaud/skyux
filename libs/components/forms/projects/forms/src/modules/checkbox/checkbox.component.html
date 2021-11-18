@@ -16,9 +16,10 @@
     [tabIndex]="tabindex"
     [attr.aria-label]="label"
     [attr.aria-labelledby]="labelledBy"
-    [attr.aria-required]="(required) ? true : null"
+    [attr.aria-required]="required ? true : null"
     (blur)="onInputBlur()"
-    (change)="onInteractionEvent($event)"/>
+    (change)="onInteractionEvent($event)"
+  />
   <span
     class="sky-switch-control sky-rounded-corners"
     [ngClass]="{
@@ -29,24 +30,23 @@
       'sky-switch-control-danger': checkboxType === 'danger'
     }"
   >
-    <sky-icon *ngIf="icon || checked"
+    <sky-icon
+      *ngIf="icon || checked"
       class="sky-checkbox-icon-default"
       fixedWidth="true"
       [icon]="icon || 'check'"
     >
     </sky-icon>
-    <div
-      class="sky-checkbox-icon-modern"
-    >
-      <sky-icon *ngIf="icon; else checkedTemplate"
+    <div class="sky-checkbox-icon-modern">
+      <sky-icon
+        *ngIf="icon; else checkedTemplate"
         fixedWidth="true"
         [icon]="icon"
       >
       </sky-icon>
-      <ng-template
-        #checkedTemplate
-      >
-        <sky-icon *ngIf="checked"
+      <ng-template #checkedTemplate>
+        <sky-icon
+          *ngIf="checked"
           class="sky-checkbox-icon-modern-checked"
           fixedWidth="true"
           icon="check"
@@ -56,6 +56,5 @@
       </ng-template>
     </div>
   </span>
-  <ng-content select="sky-checkbox-label">
-  </ng-content>
+  <ng-content select="sky-checkbox-label"> </ng-content>
 </label>

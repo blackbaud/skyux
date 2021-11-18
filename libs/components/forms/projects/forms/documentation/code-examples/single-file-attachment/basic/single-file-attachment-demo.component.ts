@@ -3,26 +3,22 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
-  Validators
+  Validators,
 } from '@angular/forms';
 
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import {
   SkyFileAttachmentChange,
   SkyFileAttachmentClick,
-  SkyFileItem
+  SkyFileItem,
 } from 'projects/forms/src/public-api';
 
 @Component({
   selector: 'app-single-file-attachment-demo',
-  templateUrl: './single-file-attachment-demo.component.html'
+  templateUrl: './single-file-attachment-demo.component.html',
 })
 export class SingleFileAttachmentDemoComponent implements OnInit {
-
   public attachment: FormControl;
 
   public fileForm: FormGroup;
@@ -35,9 +31,7 @@ export class SingleFileAttachmentDemoComponent implements OnInit {
 
   public reactiveUploadError: string;
 
-  constructor(
-    private formBuilder: FormBuilder
-  ) {}
+  constructor(private formBuilder: FormBuilder) {}
 
   public fileClick($event: SkyFileAttachmentClick): void {
     const link = document.createElement('a');
@@ -49,7 +43,7 @@ export class SingleFileAttachmentDemoComponent implements OnInit {
   public ngOnInit(): void {
     this.attachment = new FormControl(undefined, Validators.required);
     this.fileForm = this.formBuilder.group({
-      attachment: this.attachment
+      attachment: this.attachment,
     });
   }
 
@@ -58,8 +52,10 @@ export class SingleFileAttachmentDemoComponent implements OnInit {
 
     if (file && file.errorType) {
       this.reactiveFile.setValue(undefined);
-      this.reactiveUploadError = this.getErrorMessage(file.errorType, file.errorParam);
-
+      this.reactiveUploadError = this.getErrorMessage(
+        file.errorType,
+        file.errorParam
+      );
     } else {
       this.reactiveFile.setValue(file);
       this.reactiveUploadError = undefined;

@@ -1,42 +1,33 @@
-import {
-  TestBed
-} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {
-  SkyCheckboxModule
-} from 'projects/forms/src/public-api';
+import { SkyCheckboxModule } from 'projects/forms/src/public-api';
 
-import {
-  SkyCheckboxFixture
-} from './checkbox-fixture';
+import { SkyCheckboxFixture } from './checkbox-fixture';
 
 //#region Test component
 @Component({
-  selector: 'checkbox-test',
+  selector: 'sky-checkbox-test',
   template: `
-<sky-checkbox
-  [checkboxType]="checkboxType"
-  [checked]="selected"
-  [disabled]="disabled"
-  [icon]="icon"
-  [id]="id"
-  [label]="label"
-  [labelledBy]="labelledBy"
-  [name]="name"
-  data-sky-id="test-checkbox"
->
-  <sky-checkbox-label id="checkbox-label">
-    {{ label }}
-  </sky-checkbox-label>
-</sky-checkbox>
-`
+    <sky-checkbox
+      [checkboxType]="checkboxType"
+      [checked]="selected"
+      [disabled]="disabled"
+      [icon]="icon"
+      [id]="id"
+      [label]="label"
+      [labelledBy]="labelledBy"
+      [name]="name"
+      data-sky-id="test-checkbox"
+    >
+      <sky-checkbox-label id="checkbox-label">
+        {{ label }}
+      </sky-checkbox-label>
+    </sky-checkbox>
+  `,
 })
 class TestComponent {
-
   public checkboxType = 'success';
 
   public disabled = false;
@@ -48,47 +39,33 @@ class TestComponent {
   public labelledBy = 'checkbox-label';
 
   public selected = false;
-
 }
 //#endregion Test component
 
 describe('Checkbox fixture', () => {
-
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TestComponent
-      ],
-      imports: [
-        SkyCheckboxModule
-      ]
+      declarations: [TestComponent],
+      imports: [SkyCheckboxModule],
     });
   });
 
   it('should expose the provided properties', () => {
-    const fixture = TestBed.createComponent(
-      TestComponent
-    );
+    const fixture = TestBed.createComponent(TestComponent);
 
     fixture.detectChanges();
 
-    const checkbox = new SkyCheckboxFixture(
-      fixture,
-      'test-checkbox'
-    );
+    const checkbox = new SkyCheckboxFixture(fixture, 'test-checkbox');
 
     expect(checkbox.selected).toBe(false);
     expect(checkbox.disabled).toBe(false);
     expect(checkbox.labelText).toEqual(fixture.componentInstance.label);
     expect(checkbox.iconType).toEqual(fixture.componentInstance.icon);
-    expect(checkbox.checkboxType).toEqual(fixture.componentInstance.checkboxType);
+    expect(checkbox.checkboxType).toEqual(
+      fixture.componentInstance.checkboxType
+    );
 
-    const validCheckboxTypes = [
-      'info',
-      'success',
-      'warning',
-      'danger'
-    ];
+    const validCheckboxTypes = ['info', 'success', 'warning', 'danger'];
 
     for (const validCheckboxType of validCheckboxTypes) {
       fixture.componentInstance.checkboxType = validCheckboxType;
@@ -106,18 +83,13 @@ describe('Checkbox fixture', () => {
   });
 
   it('should provide a method for selecting the checkbox', () => {
-    const fixture = TestBed.createComponent(
-      TestComponent
-    );
+    const fixture = TestBed.createComponent(TestComponent);
 
     fixture.detectChanges();
 
     expect(fixture.componentInstance.selected).toBe(false);
 
-    const checkbox = new SkyCheckboxFixture(
-      fixture,
-      'test-checkbox'
-    );
+    const checkbox = new SkyCheckboxFixture(fixture, 'test-checkbox');
 
     checkbox.select();
     expect(checkbox.selected).toBe(true);

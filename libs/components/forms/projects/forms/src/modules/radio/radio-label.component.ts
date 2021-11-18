@@ -1,14 +1,11 @@
-import {
-  Component,
-  HostListener
-} from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 /**
  * Specifies a label for the radio button.
  */
 @Component({
   selector: 'sky-radio-label',
-  templateUrl: './radio-label.component.html'
+  templateUrl: './radio-label.component.html',
 })
 export class SkyRadioLabelComponent {
   // When clicking on a checkbox label, Angular registers two click events.

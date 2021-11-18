@@ -1,7 +1,7 @@
-@import "~@skyux/theme/scss/mixins";
-@import "~@skyux/theme/scss/_compat/mixins";
-@import "~@skyux/theme/scss/variables";
-@import "~@skyux/theme/scss/_compat/variables";
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+@import '~@skyux/theme/scss/variables';
+@import '~@skyux/theme/scss/_compat/variables';
 
 $input-box-transitions: border-color 150ms, box-shadow 150ms, color 150ms;
 
@@ -58,7 +58,7 @@ sky-input-box {
 
   .sky-input-box-disabled {
     .sky-input-box-icon-inset-wrapper,
-    .sky-input-box-icon-inset-left-wrapper  {
+    .sky-input-box-icon-inset-left-wrapper {
       background-color: $sky-background-color-disabled;
 
       .sky-icon {

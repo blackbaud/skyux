@@ -1,15 +1,7 @@
 <form>
+  <h1 id="radio-group-label">Radio label</h1>
 
-  <h1
-    id="radio-group-label"
-  >
-    Radio label
-  </h1>
-
-  <div
-    role="radiogroup"
-    aria-labelledby="radio-group-label">
-
+  <div role="radiogroup" aria-labelledby="radio-group-label">
     <sky-radio
       id="hey"
       name="testName"
@@ -18,9 +10,7 @@
       [value]="value1"
       [(ngModel)]="selectedValue"
     >
-      <sky-radio-label>
-        My label
-      </sky-radio-label>
+      <sky-radio-label> My label </sky-radio-label>
     </sky-radio>
 
     <sky-radio
@@ -30,9 +20,7 @@
       [value]="value2"
       [(ngModel)]="selectedValue"
     >
-      <sky-radio-label>
-        My label
-      </sky-radio-label>
+      <sky-radio-label> My label </sky-radio-label>
     </sky-radio>
 
     <sky-radio
@@ -42,19 +30,11 @@
       [value]="value3"
       [(ngModel)]="selectedValue"
     >
-      <sky-radio-label>
-        My label
-      </sky-radio-label>
+      <sky-radio-label> My label </sky-radio-label>
     </sky-radio>
-
   </div>
 
-  <sky-radio
-    id="radio-clickable"
-    (click)="onClick()"
-  >
-    <sky-radio-label>
-      Label
-    </sky-radio-label>
+  <sky-radio id="radio-clickable" (click)="onClick()">
+    <sky-radio-label> Label </sky-radio-label>
   </sky-radio>
 </form>

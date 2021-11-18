@@ -1,38 +1,30 @@
-import {
-  DecimalPipe
-} from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 
-import {
-  TestBed
-} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
-import {
-  FileAttachmentTestModule
-} from './fixtures/file-attachment.module.fixture';
+import { FileAttachmentTestModule } from './fixtures/file-attachment.module.fixture';
 
-import {
-  SkyFileSizePipe
-} from './file-size.pipe';
+import { SkyFileSizePipe } from './file-size.pipe';
 
 describe('File size pipe', () => {
   let fileSizePipe: SkyFileSizePipe;
   let decimalPipe: DecimalPipe;
 
-  function validateFormatted(value: number, expected: string, newFileSizePipe: SkyFileSizePipe) {
+  function validateFormatted(
+    value: number,
+    expected: string,
+    newFileSizePipe: SkyFileSizePipe
+  ) {
     let result = newFileSizePipe.transform(value);
 
     expect(result).toBe(expected);
   }
 
-  beforeEach(function() {
+  beforeEach(function () {
     TestBed.configureTestingModule({
-      imports: [
-        FileAttachmentTestModule
-      ]
+      imports: [FileAttachmentTestModule],
     });
 
     decimalPipe = new DecimalPipe('en');
@@ -78,5 +70,4 @@ describe('File size pipe', () => {
     validateFormatted(null, '', fileSizePipe);
     /* tslint:enable */
   });
-
 });

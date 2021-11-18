@@ -1,49 +1,32 @@
-import {
-  FormsModule,
-  ReactiveFormsModule
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  SkyThemeService
-} from '@skyux/theme';
+import { SkyThemeService } from '@skyux/theme';
 
-import {
-  FileAttachmentTestComponent
-} from './file-attachment.component.fixture';
+import { FileAttachmentTestComponent } from './file-attachment.component.fixture';
 
-import {
-  SkyFileAttachmentsModule
-} from '../file-attachments.module';
+import { SkyFileAttachmentsModule } from '../file-attachments.module';
 
-import {
-  TemplateDrivenFileAttachmentTestComponent
-} from './template-driven-file-attachment.component.fixture';
+import { TemplateDrivenFileAttachmentTestComponent } from './template-driven-file-attachment.component.fixture';
 
 @NgModule({
   declarations: [
     FileAttachmentTestComponent,
-    TemplateDrivenFileAttachmentTestComponent
+    TemplateDrivenFileAttachmentTestComponent,
   ],
   imports: [
     SkyFileAttachmentsModule,
     FormsModule,
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   exports: [
     FileAttachmentTestComponent,
-    TemplateDrivenFileAttachmentTestComponent
+    TemplateDrivenFileAttachmentTestComponent,
   ],
-  providers: [
-    SkyThemeService
-  ]
+  providers: [SkyThemeService],
 })
-export class FileAttachmentTestModule { }
+export class FileAttachmentTestModule {}

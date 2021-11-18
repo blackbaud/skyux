@@ -1,22 +1,14 @@
-import {
-  Component,
-  ViewChild
-} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
-import {
-  SkySelectionBoxGridComponent
-} from '../selection-box-grid.component';
+import { SkySelectionBoxGridComponent } from '../selection-box-grid.component';
 
-import {
-  SkySelectionBoxGridAlignItemsType
-} from '../types/selection-box-grid-align-items-type';
+import { SkySelectionBoxGridAlignItemsType } from '../types/selection-box-grid-align-items-type';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './selection-box-grid.component.fixture.html'
+  templateUrl: './selection-box-grid.component.fixture.html',
 })
 export class SelectionBoxGridTestComponent {
-
   public alignItems: SkySelectionBoxGridAlignItemsType;
 
   public firstBoxHeight: string = '500px';
@@ -25,8 +17,7 @@ export class SelectionBoxGridTestComponent {
 
   @ViewChild(SkySelectionBoxGridComponent, {
     read: SkySelectionBoxGridComponent,
-    static: false
+    static: false,
   })
   public selectionBoxGrid: SkySelectionBoxGridComponent;
-
 }

@@ -3,21 +3,14 @@ import {
   ComponentFixture,
   TestBed,
   tick,
-  fakeAsync
+  fakeAsync,
 } from '@angular/core/testing';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  DebugElement
-} from '@angular/core';
+import { DebugElement } from '@angular/core';
 
-import {
-  expect,
-  expectAsync
-} from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import {
   SkyTheme,
@@ -25,36 +18,22 @@ import {
   SkyThemeModule,
   SkyThemeService,
   SkyThemeSettings,
-  SkyThemeSettingsChange
+  SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import {
-  BehaviorSubject
-} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
-import {
-  SkyFileAttachmentComponent
-} from './file-attachment.component';
+import { SkyFileAttachmentComponent } from './file-attachment.component';
 
-import {
-  SkyFileAttachmentChange
-} from './types/file-attachment-change';
+import { SkyFileAttachmentChange } from './types/file-attachment-change';
 
-import {
-  SkyFileItem
-} from './file-item';
+import { SkyFileItem } from './file-item';
 
-import {
-  FileAttachmentTestComponent
-} from './fixtures/file-attachment.component.fixture';
+import { FileAttachmentTestComponent } from './fixtures/file-attachment.component.fixture';
 
-import {
-  FileAttachmentTestModule
-} from './fixtures/file-attachment.module.fixture';
+import { FileAttachmentTestModule } from './fixtures/file-attachment.module.fixture';
 
-import {
-  TemplateDrivenFileAttachmentTestComponent
-} from './fixtures/template-driven-file-attachment.component.fixture';
+import { TemplateDrivenFileAttachmentTestComponent } from './fixtures/template-driven-file-attachment.component.fixture';
 
 function getInputDebugEl(fixture: ComponentFixture<any>): DebugElement {
   return fixture.debugElement.query(By.css('input'));
@@ -65,37 +44,31 @@ function getButtonEl(el: HTMLElement): HTMLElement {
 }
 
 describe('File attachment', () => {
-
   let fixture: ComponentFixture<FileAttachmentTestComponent>;
   let el: HTMLElement;
   let fileAttachmentInstance: SkyFileAttachmentComponent;
   let mockThemeSvc: {
-    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
 
   beforeEach(() => {
     mockThemeSvc = {
-      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
-        {
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.default,
-            SkyThemeMode.presets.light
-          ),
-          previousSettings: undefined
-        }
-      )
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.default,
+          SkyThemeMode.presets.light
+        ),
+        previousSettings: undefined,
+      }),
     };
     TestBed.configureTestingModule({
-      imports: [
-        FileAttachmentTestModule,
-        SkyThemeModule
-      ],
+      imports: [FileAttachmentTestModule, SkyThemeModule],
       providers: [
         {
           provide: SkyThemeService,
-          useValue: mockThemeSvc
-        }
-      ]
+          useValue: mockThemeSvc,
+        },
+      ],
     });
   });
 
@@ -127,40 +100,52 @@ describe('File attachment', () => {
     return el.querySelector('.sky-file-attachment-delete');
   }
 
-  function validateDropClasses(hasAccept: boolean, hasReject: boolean, dropEl: any): void {
-    expect(dropEl.classList.contains('sky-file-attachment-accept')).toBe(hasAccept);
-    expect(dropEl.classList.contains('sky-file-attachment-reject')).toBe(hasReject);
+  function validateDropClasses(
+    hasAccept: boolean,
+    hasReject: boolean,
+    dropEl: any
+  ): void {
+    expect(dropEl.classList.contains('sky-file-attachment-accept')).toBe(
+      hasAccept
+    );
+    expect(dropEl.classList.contains('sky-file-attachment-reject')).toBe(
+      hasReject
+    );
   }
 
   function getImage(): DebugElement {
-    return fixture.debugElement.query(By.css('.sky-file-attachment-preview-img'));
+    return fixture.debugElement.query(
+      By.css('.sky-file-attachment-preview-img')
+    );
   }
 
   function testImage(extension: string): void {
-    const testFile = <SkyFileItem> {
+    const testFile = <SkyFileItem>{
       file: {
         name: 'myFile.' + extension,
         type: 'image/' + extension,
-        size: 1000
+        size: 1000,
       },
-      url: 'myFile.' + extension
+      url: 'myFile.' + extension,
     };
     fileAttachmentInstance.writeValue(testFile);
 
     fixture.detectChanges();
 
     const imageEl = getImage();
-    expect(imageEl.nativeElement.getAttribute('src')).toBe('myFile.' + extension);
+    expect(imageEl.nativeElement.getAttribute('src')).toBe(
+      'myFile.' + extension
+    );
   }
 
   function testNonImageType(extension: string, type: string): void {
-    const testFile = <SkyFileItem> {
+    const testFile = <SkyFileItem>{
       file: {
         name: 'myFile.' + extension,
-        type:  type + '/' + extension,
-        size: 1000
+        type: type + '/' + extension,
+        size: 1000,
       },
-      url: 'myFile.' + extension
+      url: 'myFile.' + extension,
     };
     fileAttachmentInstance.writeValue(testFile);
     fixture.detectChanges();
@@ -182,24 +167,26 @@ describe('File attachment', () => {
           length: expectedChangeFiles.length,
           item: function (index: number): any {
             return expectedChangeFiles[index];
-          }
-        }
-      }
+          },
+        },
+      },
     };
 
     inputEl.triggerEventHandler('change', fileChangeEvent);
   }
 
-  function getFileReaderSpy(): { loadCallbacks: Function[], errorCallbacks: Function[], abortCallbacks: Function[] } {
+  function getFileReaderSpy(): {
+    loadCallbacks: Function[];
+    errorCallbacks: Function[];
+    abortCallbacks: Function[];
+  } {
     const loadCallbacks: Function[] = [];
     const errorCallbacks: Function[] = [];
     const abortCallbacks: Function[] = [];
 
-    spyOn((window as any), 'FileReader').and.returnValue({
-      readAsDataURL: function(file: any): void {
-
-      },
-      addEventListener: function(type: string, callback: Function): void {
+    spyOn(window as any, 'FileReader').and.returnValue({
+      readAsDataURL: function (file: any): void {},
+      addEventListener: function (type: string, callback: Function): void {
         if (type === 'load') {
           loadCallbacks.push(callback);
         } else if (type === 'error') {
@@ -207,13 +194,13 @@ describe('File attachment', () => {
         } else if (type === 'abort') {
           abortCallbacks.push(callback);
         }
-      }
+      },
     });
 
     return {
       loadCallbacks,
       errorCallbacks,
-      abortCallbacks
+      abortCallbacks,
     };
   }
 
@@ -225,8 +212,8 @@ describe('File attachment', () => {
         {
           name: 'foo.txt',
           size: 1000,
-          type: 'image/png'
-        }
+          type: 'image/png',
+        },
       ];
     }
     triggerChangeEvent(files);
@@ -234,18 +221,18 @@ describe('File attachment', () => {
     fixture.detectChanges();
 
     if (fileReaderSpy.loadCallbacks[0]) {
-       fileReaderSpy.loadCallbacks[0]({
+      fileReaderSpy.loadCallbacks[0]({
         target: {
-          result: 'url'
-        }
+          result: 'url',
+        },
       });
     }
 
     if (fileReaderSpy.loadCallbacks[1]) {
       fileReaderSpy.loadCallbacks[1]({
         target: {
-          result: 'newurl'
-        }
+          result: 'newurl',
+        },
       });
     }
 
@@ -259,7 +246,7 @@ describe('File attachment', () => {
     const dragEnterEvent = {
       target: enterTarget,
       stopPropagation: dragEnterPropStoppedSpy,
-      preventDefault: dragEnterPreventDefaultSpy
+      preventDefault: dragEnterPreventDefaultSpy,
     };
 
     expect(dragEnterPropStoppedSpy).not.toHaveBeenCalled();
@@ -272,17 +259,21 @@ describe('File attachment', () => {
     expect(dragEnterPreventDefaultSpy).toHaveBeenCalled();
   }
 
-  function triggerDragOver(files: any[], items: any[], dropDebugEl: DebugElement): void {
+  function triggerDragOver(
+    files: any[],
+    items: any[],
+    dropDebugEl: DebugElement
+  ): void {
     const dragOverPropStoppedSpy = jasmine.createSpy();
     const dragOverPreventDefaultSpy = jasmine.createSpy();
 
     const dragOverEvent = {
       dataTransfer: {
         files: files,
-        items: items
+        items: items,
       },
       stopPropagation: dragOverPropStoppedSpy,
-      preventDefault: dragOverPreventDefaultSpy
+      preventDefault: dragOverPreventDefaultSpy,
     };
 
     expect(dragOverPropStoppedSpy).not.toHaveBeenCalled();
@@ -306,12 +297,12 @@ describe('File attachment', () => {
           length: fileLength,
           item: function (index: number): any {
             return files[index];
-          }
+          },
         },
-        items: files
+        items: files,
       },
       stopPropagation: dropPropStoppedSpy,
-      preventDefault: dropPreventDefaultSpy
+      preventDefault: dropPreventDefaultSpy,
     };
 
     expect(dropPropStoppedSpy).not.toHaveBeenCalled();
@@ -326,7 +317,7 @@ describe('File attachment', () => {
 
   function triggerDragLeave(leaveTarget: any, dropDebugEl: DebugElement): void {
     const dragLeaveEvent = {
-      target: leaveTarget
+      target: leaveTarget,
     };
 
     dropDebugEl.triggerEventHandler('dragleave', dragLeaveEvent);
@@ -342,7 +333,9 @@ describe('File attachment', () => {
     const input = getInputDebugEl(fixture);
 
     expect(input.nativeElement.getAttribute('required')).toBeNull();
-    expect(labelWrapper.classList.contains('sky-control-label-required')).toBe(false);
+    expect(labelWrapper.classList.contains('sky-control-label-required')).toBe(
+      false
+    );
     expect(labelWrapper.getAttribute('aria-required')).toBeNull();
   }));
 
@@ -355,19 +348,21 @@ describe('File attachment', () => {
     const input = getInputDebugEl(fixture);
 
     expect(input.nativeElement.getAttribute('required')).not.toBeNull();
-    expect(labelWrapper.classList.contains('sky-control-label-required')).toBe(true);
+    expect(labelWrapper.classList.contains('sky-control-label-required')).toBe(
+      true
+    );
     expect(labelWrapper.getAttribute('aria-required')).toBe('true');
   }));
 
   it('should have appropriate classes when file is required and initialized with file', fakeAsync(() => {
     fixture.componentInstance.required = true;
-    const testFile = <SkyFileItem> {
+    const testFile = <SkyFileItem>{
       file: {
         name: 'myFile',
         type: '',
-        size: 1
+        size: 1,
       },
-      url: 'myFile'
+      url: 'myFile',
     };
     fileAttachmentInstance.value = testFile;
     fileAttachmentInstance.ngAfterViewInit();
@@ -377,7 +372,9 @@ describe('File attachment', () => {
     const input = getInputDebugEl(fixture);
 
     expect(input.nativeElement.getAttribute('required')).not.toBeNull();
-    expect(labelWrapper.classList.contains('sky-control-label-required')).toBe(true);
+    expect(labelWrapper.classList.contains('sky-control-label-required')).toBe(
+      true
+    );
     expect(labelWrapper.getAttribute('aria-required')).toBe('true');
   }));
 
@@ -420,12 +417,16 @@ describe('File attachment', () => {
 
     const labelWrapper = getLabelWrapper();
 
-    expect(labelWrapper.classList.contains('sky-control-label-required')).toBe(true);
+    expect(labelWrapper.classList.contains('sky-control-label-required')).toBe(
+      true
+    );
 
     fixture.componentInstance.showLabel = false;
     fixture.detectChanges();
 
-    expect(labelWrapper.classList.contains('sky-control-label-required')).toBe(false);
+    expect(labelWrapper.classList.contains('sky-control-label-required')).toBe(
+      false
+    );
   }));
 
   it('should click the file input on choose file button click', () => {
@@ -457,8 +458,8 @@ describe('File attachment', () => {
       {
         name: 'foo.txt',
         size: 1000,
-        type: 'image/png'
-      }
+        type: 'image/png',
+      },
     ];
 
     setupStandardFileChangeEvent(file);
@@ -479,7 +480,8 @@ describe('File attachment', () => {
     let fileChangeActual: SkyFileAttachmentChange;
 
     fileAttachmentInstance.fileChange.subscribe(
-      (fileChange: SkyFileAttachmentChange) => fileChangeActual = fileChange );
+      (fileChange: SkyFileAttachmentChange) => (fileChangeActual = fileChange)
+    );
 
     fixture.detectChanges();
 
@@ -487,8 +489,8 @@ describe('File attachment', () => {
       {
         name: 'foo.txt',
         size: 1000,
-        type: 'image/png'
-      }
+        type: 'image/png',
+      },
     ];
 
     setupStandardFileChangeEvent(file);
@@ -499,22 +501,22 @@ describe('File attachment', () => {
     expect(fileChangeActual.file.file.size).toBe(1000);
   });
 
-  it('should load and emit files on file change event when file reader has an error and aborts',
-  () => {
+  it('should load and emit files on file change event when file reader has an error and aborts', () => {
     let filesChangedActual: SkyFileAttachmentChange;
 
     fileAttachmentInstance.fileChange.subscribe(
       (filesChanged: SkyFileAttachmentChange) => {
         filesChangedActual = filesChanged;
-      });
+      }
+    );
 
     const fileReaderSpy = getFileReaderSpy();
 
     triggerChangeEvent([
       {
         name: 'woo.txt',
-        size: 3000
-      }
+        size: 3000,
+      },
     ]);
     fixture.detectChanges();
 
@@ -528,8 +530,8 @@ describe('File attachment', () => {
     triggerChangeEvent([
       {
         name: 'foo.txt',
-        size: 2000
-      }
+        size: 2000,
+      },
     ]);
     fixture.detectChanges();
 
@@ -545,7 +547,8 @@ describe('File attachment', () => {
     let fileChangeActual: SkyFileAttachmentChange;
 
     fileAttachmentInstance.fileChange.subscribe(
-      (fileChange: SkyFileAttachmentChange) => fileChangeActual = fileChange );
+      (fileChange: SkyFileAttachmentChange) => (fileChangeActual = fileChange)
+    );
 
     fixture.detectChanges();
 
@@ -553,8 +556,8 @@ describe('File attachment', () => {
       {
         name: 'foo.txt',
         size: 1000,
-        type: 'image/png'
-      }
+        type: 'image/png',
+      },
     ];
 
     setupStandardFileChangeEvent(file);
@@ -569,15 +572,14 @@ describe('File attachment', () => {
   });
 
   it('should show the appropriate file name', () => {
-
     // Regular file
-    let testFile = <SkyFileItem> {
+    let testFile = <SkyFileItem>{
       file: {
         name: 'test.png',
         size: 1000,
-        type: 'image/png'
+        type: 'image/png',
       },
-      url: 'myFile'
+      url: 'myFile',
     };
     fileAttachmentInstance.writeValue(testFile);
     fixture.detectChanges();
@@ -585,34 +587,34 @@ describe('File attachment', () => {
     expect(getFileNameText()).toBe('test.png');
 
     // File with truncated name
-    testFile = <SkyFileItem> {
+    testFile = <SkyFileItem>{
       file: {
         name: 'abcdefghijklmnopqrstuvwxyz12345.png',
         size: 1000,
-        type: 'image/png'
+        type: 'image/png',
       },
-      url: 'myFile'
+      url: 'myFile',
     };
     fileAttachmentInstance.writeValue(testFile);
     fixture.detectChanges();
 
     expect(getFileNameText()).toBe('abcdefghijklmnopqrstuvwxyz...');
 
-    expect(el.querySelector('.sky-file-attachment-name > a')
-      .getAttribute('title'))
-      .toBe(
-        'abcdefghijklmnopqrstuvwxyz12345.png',
-        'Expected the anchor title to display the full file name.'
-      );
+    expect(
+      el.querySelector('.sky-file-attachment-name > a').getAttribute('title')
+    ).toBe(
+      'abcdefghijklmnopqrstuvwxyz12345.png',
+      'Expected the anchor title to display the full file name.'
+    );
 
     // File with no name
-    testFile = <SkyFileItem> {
+    testFile = <SkyFileItem>{
       file: {
         name: undefined,
         size: 1000,
-        type: 'image/png'
+        type: 'image/png',
       },
-      url: 'myFile'
+      url: 'myFile',
     };
     fileAttachmentInstance.writeValue(testFile);
     fixture.detectChanges();
@@ -627,13 +629,13 @@ describe('File attachment', () => {
     expect(fileAttachmentInstance.getFileName()).toBeUndefined();
 
     // File with no name and truncated url
-    testFile = <SkyFileItem> {
+    testFile = <SkyFileItem>{
       file: {
         name: undefined,
         size: 1000,
-        type: 'image/txt'
+        type: 'image/txt',
       },
-      url: 'abcdefghijklmnopqrstuvwxyz12345'
+      url: 'abcdefghijklmnopqrstuvwxyz12345',
     };
     fileAttachmentInstance.writeValue(testFile);
     fixture.detectChanges();
@@ -642,13 +644,13 @@ describe('File attachment', () => {
   });
 
   it('should emit fileClick even when the uploaded file link is clicked', () => {
-    const testFile: SkyFileItem = <SkyFileItem> {
+    const testFile: SkyFileItem = <SkyFileItem>{
       file: {
         name: 'test.png',
         size: 1000,
-        type: 'image/png'
+        type: 'image/png',
       },
-      url: 'myFile'
+      url: 'myFile',
     };
 
     spyOn(fileAttachmentInstance.fileClick, 'emit');
@@ -660,14 +662,17 @@ describe('File attachment', () => {
 
     fileNameEl.click();
 
-    expect(fileAttachmentInstance.fileClick.emit).toHaveBeenCalledWith({ file: testFile });
+    expect(fileAttachmentInstance.fileClick.emit).toHaveBeenCalledWith({
+      file: testFile,
+    });
   });
 
   it('should load files and set classes on drag and drop', () => {
     let fileChangeActual: SkyFileAttachmentChange;
 
     fileAttachmentInstance.fileChange.subscribe(
-      (fileChange: SkyFileAttachmentChange) => fileChangeActual = fileChange );
+      (fileChange: SkyFileAttachmentChange) => (fileChangeActual = fileChange)
+    );
 
     const fileReaderSpy = getFileReaderSpy();
 
@@ -682,16 +687,16 @@ describe('File attachment', () => {
       {
         name: 'foo.txt',
         size: 1000,
-        type: 'image/png'
-      }
+        type: 'image/png',
+      },
     ];
 
     const invalidFiles = [
       {
         name: 'foo.txt',
         size: 1000,
-        type: 'image/jpeg'
-      }
+        type: 'image/jpeg',
+      },
     ];
 
     triggerDragEnter('sky-file-attachment', dropDebugEl);
@@ -703,8 +708,8 @@ describe('File attachment', () => {
 
     fileReaderSpy.loadCallbacks[0]({
       target: {
-        result: 'url'
-      }
+        result: 'url',
+      },
     });
 
     fixture.detectChanges();
@@ -736,7 +741,7 @@ describe('File attachment', () => {
 
     const emptyEvent = {
       stopPropagation: () => {},
-      preventDefault: () => {}
+      preventDefault: () => {},
     };
 
     // Verify no dataTransfer drag
@@ -749,47 +754,49 @@ describe('File attachment', () => {
     dropDebugEl.triggerEventHandler('drop', emptyEvent);
     fixture.detectChanges();
     expect(fileReaderSpy.loadCallbacks.length).toBe(0);
-
   });
 
-  it('should accept a file of rejected type on drag (but not on drop) ' +
-    'if the browser does not support dataTransfer.items', () => {
-    fileAttachmentInstance.acceptedTypes = 'image/png, image/tiff';
+  it(
+    'should accept a file of rejected type on drag (but not on drop) ' +
+      'if the browser does not support dataTransfer.items',
+    () => {
+      fileAttachmentInstance.acceptedTypes = 'image/png, image/tiff';
 
-    fixture.detectChanges();
+      fixture.detectChanges();
 
-    const dropDebugEl = getDropDebugEl();
+      const dropDebugEl = getDropDebugEl();
 
-    const invalidFiles = [
-      {
-        name: 'foo.txt',
-        size: 1000,
-        type: 'image/jpeg'
-      }
-    ];
+      const invalidFiles = [
+        {
+          name: 'foo.txt',
+          size: 1000,
+          type: 'image/jpeg',
+        },
+      ];
 
-    const dropEl = getDropEl();
+      const dropEl = getDropEl();
 
-    triggerDragEnter('sky-file-attachment', dropDebugEl);
-    triggerDragOver(invalidFiles, undefined, dropDebugEl);
-    validateDropClasses(true, false, dropEl);
+      triggerDragEnter('sky-file-attachment', dropDebugEl);
+      triggerDragOver(invalidFiles, undefined, dropDebugEl);
+      validateDropClasses(true, false, dropEl);
 
-    triggerDrop(invalidFiles, dropDebugEl);
-    validateDropClasses(false, false, dropEl);
-  });
+      triggerDrop(invalidFiles, dropDebugEl);
+      validateDropClasses(false, false, dropEl);
+    }
+  );
 
   it('should prevent loading multiple files on drag and drop', () => {
     const files = [
       {
         name: 'foo.txt',
         size: 1000,
-        type: 'image/png'
+        type: 'image/png',
       },
       {
         name: 'goo.txt',
         size: 1000,
-        type: 'image/png'
-      }
+        type: 'image/png',
+      },
     ];
 
     const fileReaderSpy = getFileReaderSpy();
@@ -810,10 +817,10 @@ describe('File attachment', () => {
         type: 'image/png',
         webkitGetAsEntry: function (): { isDirectory: boolean } {
           return {
-            isDirectory: true
+            isDirectory: true,
           };
-        }
-      }
+        },
+      },
     ];
 
     const fileReaderSpy = getFileReaderSpy();
@@ -831,7 +838,8 @@ describe('File attachment', () => {
     let fileChangeActual: SkyFileAttachmentChange;
 
     fileAttachmentInstance.fileChange.subscribe(
-      (fileChange: SkyFileAttachmentChange) => fileChangeActual = fileChange );
+      (fileChange: SkyFileAttachmentChange) => (fileChangeActual = fileChange)
+    );
 
     fileAttachmentInstance.minFileSize = 1500;
     fixture.detectChanges();
@@ -850,7 +858,8 @@ describe('File attachment', () => {
     let fileChangeActual: SkyFileAttachmentChange;
 
     fileAttachmentInstance.fileChange.subscribe(
-      (fileChange: SkyFileAttachmentChange) => fileChangeActual = fileChange );
+      (fileChange: SkyFileAttachmentChange) => (fileChangeActual = fileChange)
+    );
 
     fileAttachmentInstance.maxFileSize = 1500;
     fixture.detectChanges();
@@ -859,8 +868,8 @@ describe('File attachment', () => {
       {
         name: 'woo.txt',
         size: 2000,
-        type: 'image/png'
-      }
+        type: 'image/png',
+      },
     ];
 
     setupStandardFileChangeEvent(file);
@@ -877,11 +886,13 @@ describe('File attachment', () => {
     let fileChangeActual: SkyFileAttachmentChange;
 
     fileAttachmentInstance.fileChange.subscribe(
-      (fileChange: SkyFileAttachmentChange) => fileChangeActual = fileChange );
+      (fileChange: SkyFileAttachmentChange) => (fileChangeActual = fileChange)
+    );
 
-    const errorMessage = 'You may not upload a file that begins with the letter "w."';
+    const errorMessage =
+      'You may not upload a file that begins with the letter "w."';
 
-    fileAttachmentInstance.validateFn = function(inputFile: any): string {
+    fileAttachmentInstance.validateFn = function (inputFile: any): string {
       if (inputFile.file.name.indexOf('w') === 0) {
         return errorMessage;
       }
@@ -893,8 +904,8 @@ describe('File attachment', () => {
       {
         name: 'woo.txt',
         size: 2000,
-        type: 'image/png'
-      }
+        type: 'image/png',
+      },
     ];
 
     setupStandardFileChangeEvent(file);
@@ -911,11 +922,13 @@ describe('File attachment', () => {
     let fileChangeActual: SkyFileAttachmentChange;
 
     fileAttachmentInstance.fileChange.subscribe(
-      (fileChange: SkyFileAttachmentChange) => fileChangeActual = fileChange );
+      (fileChange: SkyFileAttachmentChange) => (fileChangeActual = fileChange)
+    );
 
-    const errorMessage = 'You may not upload a file that begins with the letter "w."';
+    const errorMessage =
+      'You may not upload a file that begins with the letter "w."';
 
-    fileAttachmentInstance.validateFn = function(inputFile: any): string {
+    fileAttachmentInstance.validateFn = function (inputFile: any): string {
       if (inputFile.file.name.indexOf('w') === 0) {
         return errorMessage;
       }
@@ -927,8 +940,8 @@ describe('File attachment', () => {
       {
         name: 'foo.txt',
         size: 1000,
-        type: 'image/png'
-      }
+        type: 'image/png',
+      },
     ];
 
     setupStandardFileChangeEvent(file);
@@ -944,7 +957,8 @@ describe('File attachment', () => {
     let fileChangeActual: SkyFileAttachmentChange;
 
     fileAttachmentInstance.fileChange.subscribe(
-      (fileChange: SkyFileAttachmentChange) => fileChangeActual = fileChange );
+      (fileChange: SkyFileAttachmentChange) => (fileChangeActual = fileChange)
+    );
 
     fileAttachmentInstance.acceptedTypes = 'image/png,image/tiff';
 
@@ -954,8 +968,8 @@ describe('File attachment', () => {
       {
         name: 'foo.txt',
         size: 1000,
-        type: 'image/png'
-      }
+        type: 'image/png',
+      },
     ];
 
     setupStandardFileChangeEvent(file);
@@ -969,7 +983,8 @@ describe('File attachment', () => {
     let fileChangeActual: SkyFileAttachmentChange;
 
     fileAttachmentInstance.fileChange.subscribe(
-      (fileChange: SkyFileAttachmentChange) => fileChangeActual = fileChange );
+      (fileChange: SkyFileAttachmentChange) => (fileChangeActual = fileChange)
+    );
 
     fileAttachmentInstance.acceptedTypes = 'image/png,image/tiff';
 
@@ -979,8 +994,8 @@ describe('File attachment', () => {
       {
         name: 'woo.txt',
         size: 2000,
-        type: 'image/jpeg'
-      }
+        type: 'image/jpeg',
+      },
     ];
 
     setupStandardFileChangeEvent(file);
@@ -988,14 +1003,17 @@ describe('File attachment', () => {
     expect(fileChangeActual.file.file.name).toBe('woo.txt');
     expect(fileChangeActual.file.file.size).toBe(2000);
     expect(fileChangeActual.file.errorType).toBe('fileType');
-    expect(fileChangeActual.file.errorParam).toBe(fileAttachmentInstance.acceptedTypes);
+    expect(fileChangeActual.file.errorParam).toBe(
+      fileAttachmentInstance.acceptedTypes
+    );
   });
 
   it('should reject a file with no type when accepted types are defined', () => {
     let fileChangeActual: SkyFileAttachmentChange;
 
     fileAttachmentInstance.fileChange.subscribe(
-      (fileChange: SkyFileAttachmentChange) => fileChangeActual = fileChange );
+      (fileChange: SkyFileAttachmentChange) => (fileChangeActual = fileChange)
+    );
 
     fileAttachmentInstance.acceptedTypes = 'image/png,image/tiff';
 
@@ -1004,8 +1022,8 @@ describe('File attachment', () => {
     const file = [
       {
         name: 'foo.txt',
-        size: 1000
-      }
+        size: 1000,
+      },
     ];
 
     setupStandardFileChangeEvent(file);
@@ -1013,14 +1031,17 @@ describe('File attachment', () => {
     expect(fileChangeActual.file.file.name).toBe('foo.txt');
     expect(fileChangeActual.file.file.size).toBe(1000);
     expect(fileChangeActual.file.errorType).toBe('fileType');
-    expect(fileChangeActual.file.errorParam).toBe(fileAttachmentInstance.acceptedTypes);
+    expect(fileChangeActual.file.errorParam).toBe(
+      fileAttachmentInstance.acceptedTypes
+    );
   });
 
   it('should allow the user to specify accepted type with wildcards', () => {
     let fileChangeActual: SkyFileAttachmentChange;
 
     fileAttachmentInstance.fileChange.subscribe(
-      (fileChange: SkyFileAttachmentChange) => fileChangeActual = fileChange );
+      (fileChange: SkyFileAttachmentChange) => (fileChangeActual = fileChange)
+    );
 
     fileAttachmentInstance.acceptedTypes = 'application/*,image/*';
 
@@ -1030,8 +1051,8 @@ describe('File attachment', () => {
       {
         name: 'woo.txt',
         size: 2000,
-        type: 'image/jpeg'
-      }
+        type: 'image/jpeg',
+      },
     ];
 
     setupStandardFileChangeEvent(file);
@@ -1045,7 +1066,8 @@ describe('File attachment', () => {
     let fileChangeActual: SkyFileAttachmentChange;
 
     fileAttachmentInstance.fileChange.subscribe(
-      (fileChange: SkyFileAttachmentChange) => fileChangeActual = fileChange );
+      (fileChange: SkyFileAttachmentChange) => (fileChangeActual = fileChange)
+    );
 
     fileAttachmentInstance.acceptedTypes = 'application/*,image/*';
 
@@ -1055,8 +1077,8 @@ describe('File attachment', () => {
       {
         name: 'foo.txt',
         size: 1000,
-        type: 'image/png'
-      }
+        type: 'image/png',
+      },
     ];
 
     setupStandardFileChangeEvent(file);
@@ -1098,21 +1120,21 @@ describe('File attachment', () => {
     const imageEl = getImage();
     expect(imageEl).toBeFalsy();
 
-    fileAttachmentInstance.value = <SkyFileItem> {
+    fileAttachmentInstance.value = <SkyFileItem>{
       file: undefined,
-      url: 'myFile'
+      url: 'myFile',
     };
     fixture.detectChanges();
 
     expect(imageEl).toBeFalsy();
 
-    fileAttachmentInstance.value = <SkyFileItem> {
+    fileAttachmentInstance.value = <SkyFileItem>{
       file: {
         name: 'myFile.png',
         type: undefined,
-        size: 1000
+        size: 1000,
       },
-      url: 'myFile'
+      url: 'myFile',
     };
     fixture.detectChanges();
 
@@ -1140,33 +1162,31 @@ describe('File attachment (template-driven)', () => {
   let fileAttachmentInstance: SkyFileAttachmentComponent;
   let el: HTMLElement;
   let mockThemeSvc: {
-    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
 
   beforeEach(() => {
     mockThemeSvc = {
-      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
-        {
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.default,
-            SkyThemeMode.presets.light
-          ),
-          previousSettings: undefined
-        }
-      )
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.default,
+          SkyThemeMode.presets.light
+        ),
+        previousSettings: undefined,
+      }),
     };
     TestBed.configureTestingModule({
-      imports: [
-        FileAttachmentTestModule
-      ],
+      imports: [FileAttachmentTestModule],
       providers: [
         {
           provide: SkyThemeService,
-          useValue: mockThemeSvc
-        }
-      ]
+          useValue: mockThemeSvc,
+        },
+      ],
     });
-    fixture = TestBed.createComponent(TemplateDrivenFileAttachmentTestComponent);
+    fixture = TestBed.createComponent(
+      TemplateDrivenFileAttachmentTestComponent
+    );
     fixture.detectChanges();
     el = fixture.nativeElement;
     fileAttachmentInstance = fixture.componentInstance.fileAttachmentComponent;

@@ -1,12 +1,9 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
-  templateUrl: './toggle-switch.component.fixture.html'
+  templateUrl: './toggle-switch.component.fixture.html',
 })
 export class SkyToggleSwitchFixtureComponent {
-
   public isChecked: boolean = false;
   public isDisabled: boolean = false;
   public customTabIndex: number = 0;

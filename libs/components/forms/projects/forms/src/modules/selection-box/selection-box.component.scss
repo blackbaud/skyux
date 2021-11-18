@@ -1,6 +1,6 @@
-@import "~@skyux/theme/scss/mixins";
-@import "~@skyux/theme/scss/_compat/mixins";
-@import "~@skyux/theme/scss/themes/modern/_compat/mixins";
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+@import '~@skyux/theme/scss/themes/modern/_compat/mixins';
 
 .sky-selection-box {
   display: flex;
@@ -11,7 +11,7 @@
   &:hover {
     background: #ffffff;
     box-shadow: 0px 0px 5px 0 rgba(0, 0, 0, 0.3),
-                inset 0 0 0 1px $sky-highlight-color-info;
+      inset 0 0 0 1px $sky-highlight-color-info;
 
     .sky-switch-control {
       border: solid 1px $sky-highlight-color-info;
@@ -76,8 +76,9 @@
     padding: $sky-theme-modern-padding-even-xl;
 
     &:hover {
-      box-shadow: $sky-theme-modern-elevation-1-shadow-size $sky-theme-modern-elevation-1-shadow-color,
-      inset 0 0 0 1px $sky-theme-modern-background-color-primary-dark;
+      box-shadow: $sky-theme-modern-elevation-1-shadow-size
+          $sky-theme-modern-elevation-1-shadow-color,
+        inset 0 0 0 1px $sky-theme-modern-background-color-primary-dark;
 
       .sky-switch-control {
         border: solid 1px $sky-theme-modern-background-color-primary-dark;
@@ -99,12 +100,13 @@
     &.sky-selection-box-selected,
     &:focus.sky-selection-box-selected {
       background: #e8f8ff;
-      box-shadow: inset 0 0 0 2px #1870B8, 0px 1px 8px 0px rgba(0, 0, 0, 0.3), inset 6px 0 0 0 $sky-background-color-primary-dark;
+      box-shadow: inset 0 0 0 2px #1870b8, 0px 1px 8px 0px rgba(0, 0, 0, 0.3),
+        inset 6px 0 0 0 $sky-background-color-primary-dark;
     }
 
     &.sky-selection-box-disabled {
       .sky-selection-box-icon {
-        background: #D2D2D2;
+        background: #d2d2d2;
         color: $sky-text-color-deemphasized;
       }
     }

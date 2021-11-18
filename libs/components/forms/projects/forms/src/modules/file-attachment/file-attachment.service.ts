@@ -1,40 +1,38 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  SkyFileItem
-} from './file-item';
+import { SkyFileItem } from './file-item';
 
 /**
  * @internal
  */
 @Injectable()
 export class SkyFileAttachmentService {
-
-  public checkFiles(files: FileList, minFileSize: number, maxFileSize: number, acceptedTypes: string, validateFn: Function): SkyFileItem[] {
+  public checkFiles(
+    files: FileList,
+    minFileSize: number,
+    maxFileSize: number,
+    acceptedTypes: string,
+    validateFn: Function
+  ): SkyFileItem[] {
     let fileResults: SkyFileItem[] = [];
 
     for (let index = 0; index < files.length; index++) {
       let fileItem = {
-        file: files.item(index)
+        file: files.item(index),
       } as SkyFileItem;
 
       if (fileItem.file.size < minFileSize) {
         fileItem.errorType = 'minFileSize';
         fileItem.errorParam = minFileSize.toString();
         fileResults.push(fileItem);
-
       } else if (fileItem.file.size > maxFileSize) {
         fileItem.errorType = 'maxFileSize';
         fileItem.errorParam = maxFileSize.toString();
         fileResults.push(fileItem);
-
       } else if (this.fileTypeRejected(fileItem.file.type, acceptedTypes)) {
         fileItem.errorType = 'fileType';
         fileItem.errorParam = acceptedTypes;
         fileResults.push(fileItem);
-
       } else if (validateFn) {
         let errorParam = validateFn(fileItem);
 
@@ -43,7 +41,6 @@ export class SkyFileAttachmentService {
           fileItem.errorParam = errorParam;
         }
         fileResults.push(fileItem);
-
       } else {
         fileResults.push(fileItem);
       }
@@ -57,7 +54,11 @@ export class SkyFileAttachmentService {
   public hasDirectory(files: FileList): boolean {
     for (let index = 0; index < files.length; index++) {
       const file: any = files.item(index);
-      if (file.webkitGetAsEntry && file.webkitGetAsEntry() && file.webkitGetAsEntry().isDirectory) {
+      if (
+        file.webkitGetAsEntry &&
+        file.webkitGetAsEntry() &&
+        file.webkitGetAsEntry().isDirectory
+      ) {
         return true;
       }
     }

@@ -1,21 +1,11 @@
-<form
-  novalidate
-  [formGroup]="fileForm"
->
-  <sky-file-attachment
-    formControlName="attachment"
-    [required]="required"
-  >
-    <sky-file-attachment-label
-      *ngIf="showLabel"
-    >
+<form novalidate [formGroup]="fileForm">
+  <sky-file-attachment formControlName="attachment" [required]="required">
+    <sky-file-attachment-label *ngIf="showLabel">
       {{ labelText }}
     </sky-file-attachment-label>
   </sky-file-attachment>
 
-  <div *ngIf="attachment?.invalid && attachment?.dirty"
-    class="sky-error-label"
-  >
+  <div *ngIf="attachment?.invalid && attachment?.dirty" class="sky-error-label">
     Attach a file.
   </div>
 </form>

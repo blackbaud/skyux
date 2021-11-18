@@ -3,33 +3,24 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  CharacterCountTestComponent
-} from './fixtures/character-count.component.fixture';
+import { CharacterCountTestComponent } from './fixtures/character-count.component.fixture';
 
-import {
-  CharacterCountNoIndicatorTestComponent
-} from './fixtures/character-count-no-indicator.component.fixture';
+import { CharacterCountNoIndicatorTestComponent } from './fixtures/character-count-no-indicator.component.fixture';
 
-import {
-  CharacterCountTestModule
-} from './fixtures/character-count.module.fixture';
+import { CharacterCountTestModule } from './fixtures/character-count.module.fixture';
 
-import {
-  SkyCharacterCounterIndicatorComponent
-} from './character-counter-indicator.component';
+import { SkyCharacterCounterIndicatorComponent } from './character-counter-indicator.component';
 
 describe('Character Counter component', () => {
-
   function setInputValue(
-    fixture: ComponentFixture<CharacterCountTestComponent | CharacterCountNoIndicatorTestComponent>,
+    fixture: ComponentFixture<
+      CharacterCountTestComponent | CharacterCountNoIndicatorTestComponent
+    >,
     value: string
   ): void {
     fixture.componentInstance.firstName.setValue(value);
@@ -39,9 +30,7 @@ describe('Character Counter component', () => {
 
   beforeEach(function () {
     TestBed.configureTestingModule({
-      imports: [
-        CharacterCountTestModule
-      ]
+      imports: [CharacterCountTestModule],
     });
   });
 
@@ -59,8 +48,11 @@ describe('Character Counter component', () => {
 
       fixture.detectChanges();
 
-      characterCountComponent = component.inputDirective.skyCharacterCounterIndicator;
-      characterCountLabel = nativeElement.querySelector('.sky-character-count-label') as HTMLLabelElement;
+      characterCountComponent =
+        component.inputDirective.skyCharacterCounterIndicator;
+      characterCountLabel = nativeElement.querySelector(
+        '.sky-character-count-label'
+      ) as HTMLLabelElement;
     });
 
     it('should set the count with the initial length', () => {
@@ -92,10 +84,14 @@ describe('Character Counter component', () => {
 
     it('should show the error icon on the character count when appropriate', fakeAsync(() => {
       setInputValue(fixture, 'abcde');
-      expect(characterCountLabel.classList.contains('sky-error-label')).toBeFalsy();
+      expect(
+        characterCountLabel.classList.contains('sky-error-label')
+      ).toBeFalsy();
 
       setInputValue(fixture, 'abcdef');
-      expect(characterCountLabel.classList.contains('sky-error-label')).toBeTruthy();
+      expect(
+        characterCountLabel.classList.contains('sky-error-label')
+      ).toBeTruthy();
     }));
 
     it('should show the error detail message when appropriate', fakeAsync(() => {
@@ -111,16 +107,24 @@ describe('Character Counter component', () => {
       component.setCharacterCountLimit(3);
       fixture.detectChanges();
       expect(component.firstName.valid).toBeFalsy();
-      expect(characterCountLabel.classList.contains('sky-error-label')).toBeTruthy();
+      expect(
+        characterCountLabel.classList.contains('sky-error-label')
+      ).toBeTruthy();
 
       component.setCharacterCountLimit(4);
       fixture.detectChanges();
       expect(component.firstName.valid).toBeTruthy();
-      expect(characterCountLabel.classList.contains('sky-error-label')).toBeFalsy();
+      expect(
+        characterCountLabel.classList.contains('sky-error-label')
+      ).toBeFalsy();
     }));
 
     it('should only update the limit if different', async(() => {
-      const spy = spyOnProperty(characterCountComponent, 'characterCountLimit', 'set').and.callThrough();
+      const spy = spyOnProperty(
+        characterCountComponent,
+        'characterCountLimit',
+        'set'
+      ).and.callThrough();
 
       component.setCharacterCountLimit(15);
       fixture.detectChanges();

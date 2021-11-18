@@ -1,46 +1,28 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  FormsModule
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
-import {
-  SkyIconModule
-} from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/indicators';
 
-import {
-  SkyCheckboxComponent
-} from './checkbox.component';
+import { SkyCheckboxComponent } from './checkbox.component';
 
-import {
-  SkyCheckboxLabelComponent
-} from './checkbox-label.component';
+import { SkyCheckboxLabelComponent } from './checkbox-label.component';
 
-import {
-  SkyCheckboxRequiredValidatorDirective
-} from './checkbox-required-validator.directive';
+import { SkyCheckboxRequiredValidatorDirective } from './checkbox-required-validator.directive';
 
 @NgModule({
   declarations: [
     SkyCheckboxComponent,
     SkyCheckboxLabelComponent,
-    SkyCheckboxRequiredValidatorDirective
+    SkyCheckboxRequiredValidatorDirective,
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    SkyIconModule
-  ],
+  imports: [CommonModule, FormsModule, SkyIconModule],
   exports: [
     SkyCheckboxComponent,
     SkyCheckboxLabelComponent,
-    SkyCheckboxRequiredValidatorDirective
-  ]
+    SkyCheckboxRequiredValidatorDirective,
+  ],
 })
-export class SkyCheckboxModule { }
+export class SkyCheckboxModule {}
