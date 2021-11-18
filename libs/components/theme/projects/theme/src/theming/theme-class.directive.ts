@@ -4,26 +4,18 @@ import {
   Input,
   OnDestroy,
   Optional,
-  Renderer2
+  Renderer2,
 } from '@angular/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkyThemeSettings
-} from './theme-settings';
+import { SkyThemeSettings } from './theme-settings';
 
-import {
-  SkyThemeService
-} from './theme.service';
+import { SkyThemeService } from './theme.service';
 
-type SkyThemeClassMap = {[key: string]: string};
+type SkyThemeClassMap = { [key: string]: string };
 
 /**
  * Component to add classes conditionally based on the current theme.
@@ -31,7 +23,7 @@ type SkyThemeClassMap = {[key: string]: string};
  * If the directive is within a `skyTheme` directive, it uses settings from that directive.
  */
 @Directive({
-  selector: '[skyThemeClass]'
+  selector: '[skyThemeClass]',
 })
 export class SkyThemeClassDirective implements OnDestroy {
   /**
@@ -39,8 +31,8 @@ export class SkyThemeClassDirective implements OnDestroy {
    *
    * @param value
    */
-  @Input('class')
-  public set className(value: string) {
+  @Input()
+  public set class(value: string) {
     this.removeInitialClasses(this.initialClasses);
     this.initialClasses = typeof value === 'string' ? value.split(/\s+/) : [];
     this.applyInitialClasses(this.initialClasses);
@@ -52,7 +44,7 @@ export class SkyThemeClassDirective implements OnDestroy {
    *
    * @param value
    */
-  @Input('skyThemeClass')
+  @Input()
   public set skyThemeClass(value: SkyThemeClassMap) {
     this.removeSkyThemeClassMap(this.skyThemeClassMap);
     this.applyInitialClasses(this.initialClasses);
@@ -85,7 +77,7 @@ export class SkyThemeClassDirective implements OnDestroy {
     if (themeSvc) {
       themeSvc.settingsChange
         .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(settingsChange => {
+        .subscribe((settingsChange) => {
           this.themeSettings = settingsChange.currentSettings;
         });
     }
@@ -99,14 +91,14 @@ export class SkyThemeClassDirective implements OnDestroy {
   private applyInitialClasses(classes: string[]): void {
     /* istanbul ignore else */
     if (classes) {
-      classes.forEach(className => this.toggleClass(className, true));
+      classes.forEach((className) => this.toggleClass(className, true));
     }
   }
 
   private applySkyThemeClassMap(skyThemeClassMap: SkyThemeClassMap): void {
     if (skyThemeClassMap) {
       const themeName = this.currentTheme?.theme.name || 'default';
-      Object.keys(skyThemeClassMap).forEach(className => {
+      Object.keys(skyThemeClassMap).forEach((className) => {
         const enabled = themeName === skyThemeClassMap[className];
         this.toggleClass(className, enabled);
       });
@@ -116,13 +108,15 @@ export class SkyThemeClassDirective implements OnDestroy {
   private removeInitialClasses(classes: string[]): void {
     /* istanbul ignore else */
     if (classes) {
-      classes.forEach(className => this.toggleClass(className, false));
+      classes.forEach((className) => this.toggleClass(className, false));
     }
   }
 
   private removeSkyThemeClassMap(skyThemeClassMap: SkyThemeClassMap): void {
     if (skyThemeClassMap) {
-      Object.keys(skyThemeClassMap).forEach(className => this.toggleClass(className, false));
+      Object.keys(skyThemeClassMap).forEach((className) =>
+        this.toggleClass(className, false)
+      );
     }
   }
 
@@ -130,7 +124,7 @@ export class SkyThemeClassDirective implements OnDestroy {
     className = className.trim();
     /* istanbul ignore else */
     if (className) {
-      className.split(/\s+/g).forEach(classNameItem => {
+      className.split(/\s+/g).forEach((classNameItem) => {
         if (enabled) {
           this.renderer.addClass(this.ngEl.nativeElement, classNameItem);
         } else {

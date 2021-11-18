@@ -1,4 +1,4 @@
-@import "mixins";
+@import 'mixins';
 
 @for $i from 1 through length($sky-palette-multi) {
   .sky-palette-multi-#{$i} {

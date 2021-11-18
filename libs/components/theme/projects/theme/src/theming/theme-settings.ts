@@ -1,16 +1,11 @@
-import {
-  SkyThemeMode
-} from './theme-mode';
+import { SkyThemeMode } from './theme-mode';
 
-import {
-  SkyTheme
-} from './theme';
+import { SkyTheme } from './theme';
 
 /**
  * Specifies the theme and mode to be applied to a host element.
  */
 export class SkyThemeSettings {
-
   /**
    * Creates a new SkyThemeSettings instance.
    * @param theme The theme configuration.
@@ -19,6 +14,5 @@ export class SkyThemeSettings {
   constructor(
     public readonly theme: SkyTheme,
     public readonly mode: SkyThemeMode
-  ) { }
-
+  ) {}
 }

@@ -5,24 +5,16 @@ import {
   OnDestroy,
   Optional,
   TemplateRef,
-  ViewContainerRef
+  ViewContainerRef,
 } from '@angular/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkyThemeSettings
-} from './theme-settings';
+import { SkyThemeSettings } from './theme-settings';
 
-import {
-  SkyThemeService
-} from './theme.service';
+import { SkyThemeService } from './theme.service';
 
 /**
  * Component that works like `ngIf` to show markup for matching theme.
@@ -30,7 +22,7 @@ import {
  * If the directive is within a `skyTheme` directive, it uses settings from that directive.
  */
 @Directive({
-  selector: '[skyThemeIf]'
+  selector: '[skyThemeIf]',
 })
 export class SkyThemeIfDirective implements OnDestroy {
   /**
@@ -58,7 +50,7 @@ export class SkyThemeIfDirective implements OnDestroy {
     if (themeSvc) {
       themeSvc.settingsChange
         .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(settingsChange => {
+        .subscribe((settingsChange) => {
           this.currentTheme = settingsChange.currentSettings;
           this.updateView();
 

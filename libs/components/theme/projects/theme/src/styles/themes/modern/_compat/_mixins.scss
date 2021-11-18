@@ -49,11 +49,7 @@
   }
 }
 
-@mixin sky-theme-modern-btn-disabled(
-  $color,
-  $background,
-  $border
-) {
+@mixin sky-theme-modern-btn-disabled($color, $background, $border) {
   &.sky-btn-disabled,
   &[disabled],
   fieldset[disabled] & {
@@ -75,8 +71,7 @@
   border: none;
   border-radius: 0;
   font-weight: $sky-theme-modern-font-body-default-weight;
-  padding:
-    $sky-theme-modern-tab-btn-padding-top-bottom
+  padding: $sky-theme-modern-tab-btn-padding-top-bottom
     $sky-theme-modern-tab-btn-padding-left-right;
   transition: box-shadow $sky-transition-time-short;
 
@@ -94,8 +89,7 @@
   &:focus:not(:active) {
     outline: solid 2px $sky-theme-modern-background-color-primary-dark;
     outline-offset: -2px;
-    box-shadow:
-      $sky-theme-modern-elevation-3-shadow-size
+    box-shadow: $sky-theme-modern-elevation-3-shadow-size
       $sky-theme-modern-elevation-3-shadow-color;
   }
 
@@ -135,8 +129,7 @@
 
   &:focus:not(:active) {
     background-color: transparent;
-    box-shadow:
-      $sky-theme-modern-elevation-3-shadow-size
+    box-shadow: $sky-theme-modern-elevation-3-shadow-size
       $sky-theme-modern-elevation-3-shadow-color;
     outline: solid 2px $sky-theme-modern-background-color-primary-dark;
     outline-offset: -2px;

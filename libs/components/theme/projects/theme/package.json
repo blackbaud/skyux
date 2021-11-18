@@ -1,9 +1,9 @@
 {
   "name": "@skyux/theme",
-  "version": "5.0.3",
+  "version": "5.0.4",
   "peerDependencies": {
-    "@angular/core": "^12.2.9",
-    "@angular/common": "^12.2.9"
+    "@angular/core": "^12.2.13",
+    "@angular/common": "^12.2.13"
   },
   "dependencies": {
     "@blackbaud/skyux-design-tokens": "0.0.24",

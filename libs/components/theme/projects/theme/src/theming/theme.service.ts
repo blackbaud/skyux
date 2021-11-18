@@ -1,27 +1,16 @@
-import {
-  Injectable,
-  Renderer2
-} from '@angular/core';
+import { Injectable, Renderer2 } from '@angular/core';
 
-import {
-  Observable,
-  ReplaySubject
-} from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 
-import {
-  SkyThemeSettings
-} from './theme-settings';
+import { SkyThemeSettings } from './theme-settings';
 
-import {
-  SkyThemeSettingsChange
-} from './theme-settings-change';
+import { SkyThemeSettingsChange } from './theme-settings-change';
 
 /**
  * Provides methods for updating and handling changes to the current theme.
  */
 @Injectable()
 export class SkyThemeService {
-
   /**
    * Notifies consumers when the current theme settings have changed.
    */
@@ -51,11 +40,7 @@ export class SkyThemeService {
    * @param renderer A Renderer2 instance for updating the host element with theme changes.
    * @param theme The initial theme.
    */
-  public init(
-    hostEl: any,
-    renderer: Renderer2,
-    theme: SkyThemeSettings
-  ): void {
+  public init(hostEl: any, renderer: Renderer2, theme: SkyThemeSettings): void {
     this.hostEl = hostEl;
     this.renderer = renderer;
 
@@ -69,9 +54,7 @@ export class SkyThemeService {
   public destroy(): void {
     this.settings.complete();
 
-    this.hostEl =
-      this.renderer =
-      undefined;
+    this.hostEl = this.renderer = undefined;
   }
 
   /**
@@ -86,13 +69,16 @@ export class SkyThemeService {
 
     this.settings.next({
       currentSettings: settings,
-      previousSettings
+      previousSettings,
     });
 
     this.current = settings;
   }
 
-  private applySettings(previous: SkyThemeSettings, current: SkyThemeSettings): void {
+  private applySettings(
+    previous: SkyThemeSettings,
+    current: SkyThemeSettings
+  ): void {
     const previousClass = previous && previous.theme.hostClass;
     const currentClass = current.theme.hostClass;
 
@@ -107,7 +93,10 @@ export class SkyThemeService {
     }
   }
 
-  private applyThemeMode(previous: SkyThemeSettings, current: SkyThemeSettings): void {
+  private applyThemeMode(
+    previous: SkyThemeSettings,
+    current: SkyThemeSettings
+  ): void {
     const previousClass = previous && previous.mode.hostClass;
     const currentClass = current.mode.hostClass;
 

@@ -1,10 +1,6 @@
-import {
-  ReplaySubject
-} from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 
-import {
-  SkyAppViewportService
-} from './viewport.service';
+import { SkyAppViewportService } from './viewport.service';
 
 describe('Viewport service', () => {
   it('should return an observable when the content is visible', () => {

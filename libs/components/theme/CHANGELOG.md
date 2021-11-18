@@ -1,3 +1,7 @@
+# 5.0.4 (2021-11-18)
+
+- Added support for prettier code formatting and updated the builder to support StackBlitz. [#279](https://github.com/blackbaud/skyux-theme/pull/279)
+
 # 5.0.3 (2021-11-08)
 
 - Fixed deprecation warnings which appeared when consumers used any public mixins or variables. [#277](https://github.com/blackbaud/skyux-theme/pull/277)
@@ -420,7 +424,6 @@
 - Added types for `fontfaceobserver` NPM package. (#4)[https://github.com/blackbaud/skyux-theme/pull/4]
 - Added missing repository fields to package.json. [#4](https://github.com/blackbaud/skyux-theme/pull/4)
 - Updated unit tests for 100% code coverage. [#4](https://github.com/blackbaud/skyux-theme/pull/4)
-
 
 # 3.0.0-alpha.0 (2018-08-03)
 

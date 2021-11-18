@@ -1,14 +1,8 @@
-import {
-  BehaviorSubject
-} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
-import {
-  SkyThemeSettings
-} from '../theme-settings';
+import { SkyThemeSettings } from '../theme-settings';
 
-import {
-  SkyThemeSettingsChange
-} from '../theme-settings-change';
+import { SkyThemeSettingsChange } from '../theme-settings-change';
 
 export class MockThemeService {
   public settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
@@ -20,7 +14,7 @@ export class MockThemeService {
   public setTheme(settings: SkyThemeSettings): void {
     this.settingsChange.next({
       currentSettings: settings,
-      previousSettings: this.settingsChange.getValue().currentSettings
+      previousSettings: this.settingsChange.getValue().currentSettings,
     });
   }
 }

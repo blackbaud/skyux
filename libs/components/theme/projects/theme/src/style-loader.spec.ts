@@ -1,12 +1,8 @@
 import FontFaceObserver from 'fontfaceobserver';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  SkyAppStyleLoader
-} from './style-loader';
+import { SkyAppStyleLoader } from './style-loader';
 
 describe('Style loader', () => {
   it('should resolve a promise after loading fonts', (done) => {
@@ -16,11 +12,10 @@ describe('Style loader', () => {
 
     const styleLoader = new SkyAppStyleLoader();
 
-    styleLoader.loadStyles()
-      .then(() => {
-        expect(styleLoader.isLoaded).toBe(true);
-        done();
-      });
+    styleLoader.loadStyles().then(() => {
+      expect(styleLoader.isLoaded).toBe(true);
+      done();
+    });
   });
 
   it('should pass errors to the resolve', (done) => {
@@ -30,11 +25,10 @@ describe('Style loader', () => {
 
     const styleLoader = new SkyAppStyleLoader();
 
-    styleLoader.loadStyles()
-      .then((response) => {
-        expect(response.error.message).toBe('Fonts not loaded.');
-        done();
-      });
+    styleLoader.loadStyles().then((response) => {
+      expect(response.error.message).toBe('Fonts not loaded.');
+      done();
+    });
   });
 
   it('should resolve the promise if the fonts are not loaded within the timeout', (done) => {
@@ -46,11 +40,10 @@ describe('Style loader', () => {
 
     const styleLoader = new SkyAppStyleLoader();
 
-    styleLoader.loadStyles()
-      .then((result) => {
-        expect(result.error).toBeDefined();
-        done();
-      });
+    styleLoader.loadStyles().then((result) => {
+      expect(result.error).toBeDefined();
+      done();
+    });
   });
 
   it('should resolve if fonts already loaded', (done) => {
@@ -61,11 +54,10 @@ describe('Style loader', () => {
     const styleLoader = new SkyAppStyleLoader();
     styleLoader.isLoaded = true;
 
-    styleLoader.loadStyles()
-      .then(() => {
-        expect(spy).not.toHaveBeenCalled();
-        done();
-      });
+    styleLoader.loadStyles().then(() => {
+      expect(spy).not.toHaveBeenCalled();
+      done();
+    });
   });
 
   it('should resolve a promise after initial theme settings have been provided', (done) => {
@@ -74,16 +66,15 @@ describe('Style loader', () => {
     );
 
     const mockThemeSvc: any = {
-      settingsChange: new Subject<any>()
+      settingsChange: new Subject<any>(),
     };
 
     const styleLoader = new SkyAppStyleLoader(mockThemeSvc);
 
-    styleLoader.loadStyles()
-      .then(() => {
-        expect(styleLoader.isLoaded).toBe(true);
-        done();
-      });
+    styleLoader.loadStyles().then(() => {
+      expect(styleLoader.isLoaded).toBe(true);
+      done();
+    });
 
     expect(styleLoader.isLoaded).toBe(false);
 

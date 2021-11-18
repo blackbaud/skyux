@@ -15,8 +15,7 @@ $sky-switch-size-modern: 26px !default;
     }
 
     &:focus:not(:active) + .sky-switch-control {
-      box-shadow:
-        $sky-theme-modern-elevation-3-shadow-size
+      box-shadow: $sky-theme-modern-elevation-3-shadow-size
         $sky-theme-modern-elevation-3-shadow-color;
       outline: none;
     }

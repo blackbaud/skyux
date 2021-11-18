@@ -2,19 +2,12 @@
  * Defines properties of a SKY UX theme mode.
  */
 export class SkyThemeMode {
-
   /**
    * The preset themes available in SKY UX.
    */
   public static readonly presets = {
-    light: new SkyThemeMode(
-      'light',
-      'sky-theme-mode-light'
-    ),
-    dark: new SkyThemeMode(
-      'dark',
-      'sky-theme-mode-dark'
-    )
+    light: new SkyThemeMode('light', 'sky-theme-mode-light'),
+    dark: new SkyThemeMode('dark', 'sky-theme-mode-dark'),
   };
 
   /**
@@ -26,6 +19,5 @@ export class SkyThemeMode {
   constructor(
     public readonly name: string,
     public readonly hostClass: string
-  ) { }
-
+  ) {}
 }

@@ -1,12 +1,9 @@
-import {
-  SkyThemeSettings
-} from './theme-settings';
+import { SkyThemeSettings } from './theme-settings';
 
 /**
  * Describes a change to the current theme.
  */
 export interface SkyThemeSettingsChange {
-
   /**
    * The theme settings being applied as a result of the change.
    */
@@ -17,5 +14,4 @@ export interface SkyThemeSettingsChange {
    * settings are being set for the first time.
    */
   previousSettings: SkyThemeSettings;
-
 }

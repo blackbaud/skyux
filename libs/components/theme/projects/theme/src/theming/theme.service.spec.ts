@@ -1,21 +1,12 @@
-import {
-  SkyTheme
-} from './theme';
+import { SkyTheme } from './theme';
 
-import {
-  SkyThemeMode
-} from './theme-mode';
+import { SkyThemeMode } from './theme-mode';
 
-import {
-  SkyThemeService
-} from './theme.service';
+import { SkyThemeService } from './theme.service';
 
-import {
-  SkyThemeSettings
-} from './theme-settings';
+import { SkyThemeSettings } from './theme-settings';
 
 describe('Theme service', () => {
-
   let mockHostEl: any;
   let mockRenderer: any;
 
@@ -50,16 +41,13 @@ describe('Theme service', () => {
   }
 
   beforeEach(() => {
-    mockRenderer = jasmine.createSpyObj(
-      'mockRenderer',
-      [
-        'addClass',
-        'removeClass'
-      ]
-    );
+    mockRenderer = jasmine.createSpyObj('mockRenderer', [
+      'addClass',
+      'removeClass',
+    ]);
 
     mockHostEl = {
-      foo: 'bar'
+      foo: 'bar',
     };
   });
 
@@ -71,11 +59,7 @@ describe('Theme service', () => {
       SkyThemeMode.presets.dark
     );
 
-    themeSvc.init(
-      mockHostEl,
-      mockRenderer,
-      settings
-    );
+    themeSvc.init(mockHostEl, mockRenderer, settings);
 
     validateSettingsApplied(settings);
 
@@ -93,11 +77,7 @@ describe('Theme service', () => {
       SkyThemeMode.presets.dark
     );
 
-    themeSvc.init(
-      mockHostEl,
-      mockRenderer,
-      settings
-    );
+    themeSvc.init(mockHostEl, mockRenderer, settings);
 
     let expectedCurrentSettings = settings;
     let expectedPreviousSettings: SkyThemeSettings;
@@ -106,7 +86,10 @@ describe('Theme service', () => {
       expect(settingsChange.currentSettings).toBe(expectedCurrentSettings);
       expect(settingsChange.previousSettings).toBe(expectedPreviousSettings);
 
-      validateSettingsApplied(settingsChange.currentSettings, settingsChange.previousSettings);
+      validateSettingsApplied(
+        settingsChange.currentSettings,
+        settingsChange.previousSettings
+      );
     });
 
     const newSettings = new SkyThemeSettings(
@@ -128,11 +111,7 @@ describe('Theme service', () => {
       SkyThemeMode.presets.dark
     );
 
-    themeSvc.init(
-      mockHostEl,
-      mockRenderer,
-      settings
-    );
+    themeSvc.init(mockHostEl, mockRenderer, settings);
 
     validateSettingsApplied(settings);
   });
@@ -145,11 +124,7 @@ describe('Theme service', () => {
       SkyThemeMode.presets.dark
     );
 
-    themeSvc.init(
-      mockHostEl,
-      mockRenderer,
-      settings
-    );
+    themeSvc.init(mockHostEl, mockRenderer, settings);
 
     themeSvc.setTheme(settings);
 
@@ -164,11 +139,7 @@ describe('Theme service', () => {
       SkyThemeMode.presets.dark
     );
 
-    themeSvc.init(
-      mockHostEl,
-      mockRenderer,
-      settings
-    );
+    themeSvc.init(mockHostEl, mockRenderer, settings);
 
     validateSettingsApplied(settings);
   });
@@ -181,11 +152,7 @@ describe('Theme service', () => {
       SkyThemeMode.presets.dark
     );
 
-    themeSvc.init(
-      mockHostEl,
-      mockRenderer,
-      settings
-    );
+    themeSvc.init(mockHostEl, mockRenderer, settings);
 
     const sub = themeSvc.settingsChange.subscribe();
 

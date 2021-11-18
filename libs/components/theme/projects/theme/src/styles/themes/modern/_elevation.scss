@@ -7,7 +7,8 @@
 
   .sky-elevation-1,
   .sky-elevation-1-bordered {
-    box-shadow: $sky-theme-modern-elevation-1-shadow-size $sky-theme-modern-elevation-1-shadow-color;
+    box-shadow: $sky-theme-modern-elevation-1-shadow-size
+      $sky-theme-modern-elevation-1-shadow-color;
   }
 
   .sky-elevation-1-bordered {
@@ -15,23 +16,28 @@
   }
 
   .sky-elevation-3 {
-    box-shadow: $sky-theme-modern-elevation-3-shadow-size $sky-theme-modern-elevation-3-shadow-color;
+    box-shadow: $sky-theme-modern-elevation-3-shadow-size
+      $sky-theme-modern-elevation-3-shadow-color;
   }
 
   .sky-elevation-4 {
-    box-shadow: $sky-theme-modern-elevation-4-shadow-size $sky-theme-modern-elevation-4-shadow-color;
+    box-shadow: $sky-theme-modern-elevation-4-shadow-size
+      $sky-theme-modern-elevation-4-shadow-color;
   }
 
   .sky-elevation-8 {
-    box-shadow: $sky-theme-modern-elevation-8-shadow-size $sky-theme-modern-elevation-8-shadow-color;
+    box-shadow: $sky-theme-modern-elevation-8-shadow-size
+      $sky-theme-modern-elevation-8-shadow-color;
   }
 
   .sky-elevation-16 {
-    box-shadow: $sky-theme-modern-elevation-16-shadow-size $sky-theme-modern-elevation-16-shadow-color;
+    box-shadow: $sky-theme-modern-elevation-16-shadow-size
+      $sky-theme-modern-elevation-16-shadow-color;
   }
 
   .sky-elevation-24 {
-    box-shadow: $sky-theme-modern-elevation-24-shadow-size $sky-theme-modern-elevation-24-shadow-color;
+    box-shadow: $sky-theme-modern-elevation-24-shadow-size
+      $sky-theme-modern-elevation-24-shadow-color;
   }
 
   &.sky-theme-mode-dark {

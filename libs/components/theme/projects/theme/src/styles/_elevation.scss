@@ -1,17 +1,17 @@
 @import 'variables-public';
 @import 'mixins-public';
 
-  .sky-elevation-0-bordered,
-  .sky-elevation-1-bordered {
-    @include sky-border(dark, top, bottom, left, right);
-  }
+.sky-elevation-0-bordered,
+.sky-elevation-1-bordered {
+  @include sky-border(dark, top, bottom, left, right);
+}
 
-  .sky-elevation-1,
-  .sky-elevation-1-bordered,
-  .sky-elevation-3,
-  .sky-elevation-4,
-  .sky-elevation-8,
-  .sky-elevation-16,
-  .sky-elevation-24 {
-    box-shadow: 0px 0px 5px 0 rgba(0, 0, 0, 0.3);
-  }
+.sky-elevation-1,
+.sky-elevation-1-bordered,
+.sky-elevation-3,
+.sky-elevation-4,
+.sky-elevation-8,
+.sky-elevation-16,
+.sky-elevation-24 {
+  box-shadow: 0px 0px 5px 0 rgba(0, 0, 0, 0.3);
+}

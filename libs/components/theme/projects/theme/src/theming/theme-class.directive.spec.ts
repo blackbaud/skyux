@@ -1,47 +1,24 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  BehaviorSubject
-} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  SkyTheme
-} from './theme';
+import { SkyTheme } from './theme';
 
-import {
-  MockThemeService
-} from './fixtures/mock-theme.service';
+import { MockThemeService } from './fixtures/mock-theme.service';
 
-import {
-  SkyThemeClassTestComponent
-} from './fixtures/theme-class-test.component';
+import { SkyThemeClassTestComponent } from './fixtures/theme-class-test.component';
 
-import {
-  SkyThemeMode
-} from './theme-mode';
+import { SkyThemeMode } from './theme-mode';
 
-import {
-  SkyThemeModule
-} from '../theme.module';
+import { SkyThemeModule } from '../theme.module';
 
-import {
-  SkyThemeService
-} from './theme.service';
+import { SkyThemeService } from './theme.service';
 
-import {
-  SkyThemeSettings
-} from './theme-settings';
+import { SkyThemeSettings } from './theme-settings';
 
-import {
-  SkyThemeSettingsChange
-} from './theme-settings-change';
+import { SkyThemeSettingsChange } from './theme-settings-change';
 
 const DEFAULT_THEME = new SkyThemeSettings(
   SkyTheme.presets.default,
@@ -53,7 +30,6 @@ const MODERN_THEME = new SkyThemeSettings(
 );
 
 describe('ThemeClass directive', () => {
-
   //#region helpers
   function expectElementWithClasses(
     fixture: ComponentFixture<any>,
@@ -61,7 +37,9 @@ describe('ThemeClass directive', () => {
     expected: string
   ): void {
     const element = fixture.debugElement.nativeElement.querySelector(selector);
-    expected.split(' ').forEach(className => expect(element).toHaveCssClass(className));
+    expected
+      .split(' ')
+      .forEach((className) => expect(element).toHaveCssClass(className));
   }
 
   async function changeTheme(
@@ -71,7 +49,7 @@ describe('ThemeClass directive', () => {
   ): Promise<void> {
     mockThemeSvc.settingsChange.next({
       currentSettings: theme,
-      previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings
+      previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings,
     });
     fixture.detectChanges();
     await fixture.whenStable();
@@ -84,12 +62,8 @@ describe('ThemeClass directive', () => {
 
     beforeEach(async () => {
       TestBed.configureTestingModule({
-        declarations: [
-          SkyThemeClassTestComponent
-        ],
-        imports: [
-          SkyThemeModule
-        ]
+        declarations: [SkyThemeClassTestComponent],
+        imports: [SkyThemeModule],
       });
       fixture = TestBed.createComponent(SkyThemeClassTestComponent);
       fixture.detectChanges();
@@ -98,14 +72,19 @@ describe('ThemeClass directive', () => {
 
     // Establish that our test is set up correctly.
     it('should not have a SkyThemeService provider', () => {
-      expect(() => TestBed.inject(SkyThemeService))
-        .toThrowError(/No provider for SkyThemeService/);
+      expect(() => TestBed.inject(SkyThemeService)).toThrowError(
+        /No provider for SkyThemeService/
+      );
     });
 
     it('should show default class', () => {
       fixture.componentInstance.className = 'sky-theme-class-test';
       fixture.detectChanges();
-      expectElementWithClasses(fixture, '.sky-theme-class-test', 'example-default');
+      expectElementWithClasses(
+        fixture,
+        '.sky-theme-class-test',
+        'example-default'
+      );
     });
   });
 
@@ -118,20 +97,14 @@ describe('ThemeClass directive', () => {
       mockThemeSvc.settingsChange = new BehaviorSubject<SkyThemeSettingsChange>(
         {
           currentSettings: DEFAULT_THEME,
-          previousSettings: undefined
+          previousSettings: undefined,
         }
       );
 
       TestBed.configureTestingModule({
-        declarations: [
-          SkyThemeClassTestComponent
-        ],
-        imports: [
-          SkyThemeModule
-        ],
-        providers: [
-          { provide: SkyThemeService, useValue: mockThemeSvc }
-        ]
+        declarations: [SkyThemeClassTestComponent],
+        imports: [SkyThemeModule],
+        providers: [{ provide: SkyThemeService, useValue: mockThemeSvc }],
       });
       fixture = TestBed.createComponent(SkyThemeClassTestComponent);
       fixture.detectChanges();
@@ -140,8 +113,9 @@ describe('ThemeClass directive', () => {
 
     // Establish that our test is set up correctly.
     it('should have a SkyThemeService provider', () => {
-      expect(() => TestBed.inject(SkyThemeService))
-        .not.toThrowError(/No provider for SkyThemeService/);
+      expect(() => TestBed.inject(SkyThemeService)).not.toThrowError(
+        /No provider for SkyThemeService/
+      );
     });
 
     it('should not change provided class and ngClass values', () => {
@@ -229,22 +203,22 @@ describe('ThemeClass directive', () => {
   describe('with SkyThemeService provider', () => {
     it('should use the default theme if the theme service is not initialized', async () => {
       TestBed.configureTestingModule({
-        declarations: [
-          SkyThemeClassTestComponent
-        ],
-        imports: [
-          SkyThemeModule
-        ],
+        declarations: [SkyThemeClassTestComponent],
+        imports: [SkyThemeModule],
         providers: [
           {
             provide: SkyThemeService,
-            useValue: new SkyThemeService()
-          }
-        ]
+            useValue: new SkyThemeService(),
+          },
+        ],
       });
       const fixture = TestBed.createComponent(SkyThemeClassTestComponent);
       fixture.detectChanges();
-      expectElementWithClasses(fixture, '.sky-theme-class-test', 'example-default');
+      expectElementWithClasses(
+        fixture,
+        '.sky-theme-class-test',
+        'example-default'
+      );
     });
   });
 });

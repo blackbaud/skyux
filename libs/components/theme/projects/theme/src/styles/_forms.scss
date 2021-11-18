@@ -1,4 +1,4 @@
-@import "mixins";
+@import 'mixins';
 
 .sky-form-control {
   width: 100%;
@@ -8,7 +8,7 @@
   font-size: $sky-font-size-base;
   color: $sky-text-color-default;
 
-  &:not([type="range"]):not([type="radio"]):not([type="checkbox"]):not(select){
+  &:not([type='range']):not([type='radio']):not([type='checkbox']):not(select) {
     /* Remove device-specific styles */
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -42,7 +42,7 @@ textarea.ng-invalid.ng-touched {
 }
 
 .sky-error-label::before {
-  content: "\f071";
+  content: '\f071';
   font-family: FontAwesome;
   margin-right: 5px;
   color: $sky-highlight-color-danger;
@@ -71,7 +71,9 @@ select {
   -ms-appearance: none;
   -o-appearance: none;
   appearance: none;
-  background: #fff url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1IDEwIiB3aWR0aD0iNSIgaGVpZ2h0PSIxMCI+Cgk8c3R5bGU+CgkJdHNwYW4geyB3aGl0ZS1zcGFjZTpwcmUgfQoJCS5zaHAwIHsgZmlsbDogIzQ0NDQ0NCB9IAoJPC9zdHlsZT4KCTxwYXRoIGlkPSJMYXllciIgY2xhc3M9InNocDAiIGQ9Ik0xLjQxIDQuNjdMMi40OCAzLjE4TDMuNTQgNC42N0wxLjQxIDQuNjdMMS40MSA0LjY3WiIgLz4KCTxwYXRoIGlkPSJMYXllciIgY2xhc3M9InNocDAiIGQ9Ik0zLjU0IDUuMzNMMi40OCA2LjgyTDEuNDEgNS4zM0wzLjU0IDUuMzNMMy41NCA1LjMzWiIgLz4KPC9zdmc+) no-repeat right 50%;
+  background: #fff
+    url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1IDEwIiB3aWR0aD0iNSIgaGVpZ2h0PSIxMCI+Cgk8c3R5bGU+CgkJdHNwYW4geyB3aGl0ZS1zcGFjZTpwcmUgfQoJCS5zaHAwIHsgZmlsbDogIzQ0NDQ0NCB9IAoJPC9zdHlsZT4KCTxwYXRoIGlkPSJMYXllciIgY2xhc3M9InNocDAiIGQ9Ik0xLjQxIDQuNjdMMi40OCAzLjE4TDMuNTQgNC42N0wxLjQxIDQuNjdMMS40MSA0LjY3WiIgLz4KCTxwYXRoIGlkPSJMYXllciIgY2xhc3M9InNocDAiIGQ9Ik0zLjU0IDUuMzNMMi40OCA2LjgyTDEuNDEgNS4zM0wzLjU0IDUuMzNMMy41NCA1LjMzWiIgLz4KPC9zdmc+)
+    no-repeat right 50%;
   background-size: 15px 30px;
   @include sky-border(light, top, bottom, left, right);
   border-radius: $sky-border-radius;
@@ -83,7 +85,8 @@ select {
 // Firefox-specific padding
 @-moz-document url-prefix() {
   select {
-    padding: $sky-padding-half $sky-padding + 7 $sky-padding-half $sky-padding - 3;
+    padding: $sky-padding-half $sky-padding + 7 $sky-padding-half $sky-padding -
+      3;
   }
 }
 
@@ -95,14 +98,16 @@ select::-ms-expand {
 // IE11-specific padding
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
   select {
-    padding: $sky-padding-half $sky-padding + 9 $sky-padding-half $sky-padding - 2;
+    padding: $sky-padding-half $sky-padding + 9 $sky-padding-half $sky-padding -
+      2;
   }
 }
 
 // Edge-specific padding
 @supports (-ms-ime-align: auto) {
   select {
-    padding: $sky-padding-half $sky-padding + 8 $sky-padding-half $sky-padding - 3;
+    padding: $sky-padding-half $sky-padding + 8 $sky-padding-half $sky-padding -
+      3;
   }
 }
 
@@ -112,17 +117,20 @@ select::-ms-expand {
   opacity: 1;
 }
 
-::-moz-placeholder { /* Firefox 19+ */
+::-moz-placeholder {
+  /* Firefox 19+ */
   @include sky-deemphasized;
   opacity: 1;
 }
 
-input:-moz-placeholder { /* Firefox 18- */
+input:-moz-placeholder {
+  /* Firefox 18- */
   @include sky-deemphasized;
   opacity: 1;
 }
 
-:-ms-input-placeholder { /* IE */
+:-ms-input-placeholder {
+  /* IE */
   @include sky-deemphasized;
   opacity: 1;
 }

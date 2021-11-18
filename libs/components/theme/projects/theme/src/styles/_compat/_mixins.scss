@@ -42,7 +42,7 @@
 }
 
 @mixin sky-danger {
-  content: "\f071";
+  content: '\f071';
   font-family: FontAwesome;
   margin-right: 5px;
   color: $sky-highlight-color-danger;
@@ -90,17 +90,17 @@
 }
 
 @mixin sky-field-status($status) {
-  @if($status == "active") {
+  @if ($status == 'active') {
     box-shadow: 0 0 8px rgba($sky-highlight-color-info, 0.6);
     border: 1px solid $sky-highlight-color-info;
     outline: none;
   }
-  @if($status == "invalid") {
+  @if ($status == 'invalid') {
     box-shadow: 0 0 8px rgba($sky-highlight-color-danger, 0.6);
     border: 1px solid $sky-highlight-color-danger;
     outline: none;
   }
-  @if($status == "success") {
+  @if ($status == 'success') {
     box-shadow: 0 0 8px rgba($sky-highlight-color-success, 0.6);
     border: 1px solid $sky-highlight-color-success;
     outline: none;
@@ -126,7 +126,7 @@
 }
 
 @mixin sky-required-field {
-  content: "*";
+  content: '*';
   color: $sky-highlight-color-danger;
   padding-left: $sky-padding-half;
 }

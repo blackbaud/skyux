@@ -38,12 +38,12 @@ $sky-switch-size: 22px !default;
 
     &.sky-switch-control-success {
       background-color: lighten($sky-background-color-success, 10%);
-      border-color: $sky-highlight-color-success
+      border-color: $sky-highlight-color-success;
     }
 
     &.sky-switch-control-warning {
       background-color: lighten($sky-background-color-warning, 10%);
-      border-color: $sky-highlight-color-warning
+      border-color: $sky-highlight-color-warning;
     }
 
     &.sky-switch-control-danger {
@@ -80,7 +80,7 @@ $sky-switch-size: 22px !default;
 
   &.sky-switch-control-icon {
     max-width: none;
-		width: 35px;
+    width: 35px;
     height: 35px;
     flex: 1 0 35px;
     font-size: 18px;
@@ -103,21 +103,23 @@ $sky-switch-size: 22px !default;
 }
 
 .sky-switch-icon-group {
-	display: flex;
+  display: flex;
 
-	.sky-switch-control-icon {
+  .sky-switch-control-icon {
     margin-left: 0;
     margin-right: 0;
     border-radius: 0;
-	}
+  }
 
-	sky-radio:first-of-type .sky-switch-control-icon, sky-checkbox:first-of-type .sky-switch-control-icon {
-		border-top-left-radius: $sky-border-radius;
-		border-bottom-left-radius: $sky-border-radius;
-	}
+  sky-radio:first-of-type .sky-switch-control-icon,
+  sky-checkbox:first-of-type .sky-switch-control-icon {
+    border-top-left-radius: $sky-border-radius;
+    border-bottom-left-radius: $sky-border-radius;
+  }
 
-	sky-radio:last-of-type .sky-switch-control-icon, sky-checkbox:last-of-type .sky-switch-control-icon {
-		border-top-right-radius: $sky-border-radius;
-		border-bottom-right-radius: $sky-border-radius;
-	}
+  sky-radio:last-of-type .sky-switch-control-icon,
+  sky-checkbox:last-of-type .sky-switch-control-icon {
+    border-top-right-radius: $sky-border-radius;
+    border-bottom-right-radius: $sky-border-radius;
+  }
 }

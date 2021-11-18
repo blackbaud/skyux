@@ -1,16 +1,12 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  ReplaySubject
-} from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 
 /**
  * Provides information about the state of the application's viewport.
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SkyAppViewportService {
   /**

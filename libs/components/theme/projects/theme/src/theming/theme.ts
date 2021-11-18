@@ -1,31 +1,20 @@
-import {
-  SkyThemeMode
-} from './theme-mode';
+import { SkyThemeMode } from './theme-mode';
 
 /**
  * Defines properties of a SKY UX theme.
  */
 export class SkyTheme {
-
   /**
    * The preset themes available in SKY UX.
    */
   public static readonly presets = {
-    default: new SkyTheme(
-      'default',
-      'sky-theme-default',
-      [
-        SkyThemeMode.presets.light
-      ]
-    ),
-    modern: new SkyTheme(
-      'modern',
-      'sky-theme-modern',
-      [
-        SkyThemeMode.presets.light,
-        SkyThemeMode.presets.dark
-      ]
-    )
+    default: new SkyTheme('default', 'sky-theme-default', [
+      SkyThemeMode.presets.light,
+    ]),
+    modern: new SkyTheme('modern', 'sky-theme-modern', [
+      SkyThemeMode.presets.light,
+      SkyThemeMode.presets.dark,
+    ]),
   };
 
   /**
@@ -39,6 +28,5 @@ export class SkyTheme {
     public readonly name: string,
     public readonly hostClass: string,
     public readonly supportedModes: SkyThemeMode[]
-  ) { }
-
+  ) {}
 }

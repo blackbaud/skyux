@@ -1,4 +1,4 @@
-@import "mixins";
+@import 'mixins';
 
 .sky-page-heading {
   font-family: $sky-font-family-condensed;
@@ -48,7 +48,7 @@
   color: $sky-text-color-default;
 
   &:before {
-    content: "\f06a";
+    content: '\f06a';
     font-family: FontAwesome;
     margin-right: 5px;
     color: $sky-highlight-color-info;
@@ -59,7 +59,7 @@
   color: $sky-text-color-default;
 
   &:before {
-    content: "\f00c";
+    content: '\f00c';
     font-family: FontAwesome;
     margin-right: 5px;
     color: $sky-highlight-color-success;
@@ -70,7 +70,7 @@
   color: $sky-text-color-default;
 
   &:before {
-    content: "\f071";
+    content: '\f071';
     font-family: FontAwesome;
     margin-right: 5px;
     color: $sky-highlight-color-warning;

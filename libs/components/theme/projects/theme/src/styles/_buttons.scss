@@ -7,7 +7,7 @@ button {
   }
 }
 
-[role="button"] {
+[role='button'] {
   cursor: pointer;
 }
 
@@ -32,7 +32,7 @@ button {
   &[disabled] {
     cursor: not-allowed;
     pointer-events: none;
-    opacity: .65;
+    opacity: 0.65;
     box-shadow: none;
   }
 }
@@ -44,15 +44,28 @@ a.sky-btn {
 }
 
 .sky-btn-default {
-  @include sky-button-variant($sky-text-color-default, $sky-color-white, $sky-border-color-neutral-medium, $sky-background-color-neutral-light);
+  @include sky-button-variant(
+    $sky-text-color-default,
+    $sky-color-white,
+    $sky-border-color-neutral-medium,
+    $sky-background-color-neutral-light
+  );
 }
 
 .sky-btn-primary {
-  @include sky-button-variant($sky-color-white, $sky-background-color-primary-dark, $sky-background-color-primary-dark);
+  @include sky-button-variant(
+    $sky-color-white,
+    $sky-background-color-primary-dark,
+    $sky-background-color-primary-dark
+  );
 }
 
 .sky-btn-danger {
-  @include sky-button-variant($sky-color-white, $sky-background-color-danger-dark, $sky-background-color-danger-dark);
+  @include sky-button-variant(
+    $sky-color-white,
+    $sky-background-color-danger-dark,
+    $sky-background-color-danger-dark
+  );
 }
 
 .sky-btn-link {
@@ -121,15 +134,16 @@ a.sky-btn {
 }
 
 .sky-tab-header-count {
-    font-weight: 400;
-    color: $sky-text-color-action-primary;
-    margin-left: $sky-margin-half;
+  font-weight: 400;
+  color: $sky-text-color-action-primary;
+  margin-left: $sky-margin-half;
 }
 
 .sky-btn-tab-selected:not(.sky-btn-tab-disabled) {
   @include sky-btn-tab-selected;
 
-  .sky-btn-tab-close, .sky-tab-header-count {
+  .sky-btn-tab-close,
+  .sky-tab-header-count {
     color: #fff;
   }
 }
@@ -145,7 +159,8 @@ a.sky-btn {
   padding-bottom: $sky-padding-half;
   padding-top: $sky-padding-half;
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     text-decoration: none;
     color: $sky-text-color-default;
     background-color: $sky-background-color-neutral-light;
@@ -164,7 +179,6 @@ a.sky-btn {
     color: $sky-text-color-deemphasized;
     box-shadow: none;
   }
-
 }
 
 .sky-btn-borderless {
