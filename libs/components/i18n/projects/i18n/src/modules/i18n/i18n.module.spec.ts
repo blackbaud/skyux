@@ -1,10 +1,5 @@
-import {
-  expect
-} from '@skyux-sdk/testing';
-
-import {
-  SkyI18nModule
-} from './i18n.module';
+import { SkyI18nModule } from './i18n.module';
+import { expect } from '@skyux-sdk/testing';
 
 describe('SkyI18nModule', () => {
   it('should export', () => {

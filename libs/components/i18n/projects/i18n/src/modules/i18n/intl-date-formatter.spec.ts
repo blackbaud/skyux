@@ -1,6 +1,4 @@
-import {
-  SkyIntlDateFormatter
-} from './intl-date-formatter';
+import { SkyIntlDateFormatter } from './intl-date-formatter';
 
 describe('Intl date formatter', function () {
   let testDate: Date;
@@ -16,14 +14,18 @@ describe('Intl date formatter', function () {
       'MMM d': 'Apr 24',
       'dd/MM/yyyy': '24/04/2019',
       'MM/dd/yyyy': '04/24/2019',
-      'yMEEEd': '20194Wed24',
-      'MEEEd': '4Wed24',
-      'MMMd': 'Apr24',
-      'yMMMMEEEEd': 'Wednesday, April 24, 2019'
+      yMEEEd: '20194Wed24',
+      MEEEd: '4Wed24',
+      MMMd: 'Apr24',
+      yMMMMEEEEd: 'Wednesday, April 24, 2019',
     };
 
     Object.keys(dateFixtures).forEach((pattern: string) => {
-      const formattedDate = SkyIntlDateFormatter.format(testDate, 'en-US', pattern);
+      const formattedDate = SkyIntlDateFormatter.format(
+        testDate,
+        'en-US',
+        pattern
+      );
       const expectation = dateFixtures[pattern];
 
       expect(formattedDate).toEqual(expectation);
@@ -42,14 +44,18 @@ describe('Intl date formatter', function () {
       hours = `0${hours}`;
     }
 
-    const meridiem = testDate.toLocaleString('en-US', {
-      hour: 'numeric',
-      hour12: true
-    }).substr(-2);
+    const meridiem = testDate
+      .toLocaleString('en-US', {
+        hour: 'numeric',
+        hour12: true,
+      })
+      .substr(-2);
 
-    const timezoneFragments = testDate.toLocaleString('en-US', {
-      timeZoneName: 'short'
-    }).split(' ');
+    const timezoneFragments = testDate
+      .toLocaleString('en-US', {
+        timeZoneName: 'short',
+      })
+      .split(' ');
 
     let timezone = timezoneFragments[timezoneFragments.length - 1];
 
@@ -60,10 +66,10 @@ describe('Intl date formatter', function () {
     const formattedDate = SkyIntlDateFormatter.format(
       testDate,
       'en-US',
-      'yyyy~\'\'M'
+      "yyyy~''M"
     );
 
-    expect(formattedDate).toBe('2019~\'4');
+    expect(formattedDate).toBe("2019~'4");
   });
 
   it('should handle invalid dates', function () {

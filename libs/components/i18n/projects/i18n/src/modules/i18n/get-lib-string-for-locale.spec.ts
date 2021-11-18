@@ -1,23 +1,18 @@
-import {
-  getLibStringForLocale
-} from './get-lib-string-for-locale';
-
-import {
-  SkyLibResources
-} from './lib-resources';
+import { getLibStringForLocale } from './get-lib-string-for-locale';
+import { SkyLibResources } from './lib-resources';
 
 describe('Get library string', () => {
   let resources: {
-    [locale: string]: SkyLibResources
+    [locale: string]: SkyLibResources;
   };
 
   beforeEach(() => {
     resources = {
       'EN-US': {
-        'foo': {
-          message: 'bar'
-        }
-      }
+        foo: {
+          message: 'bar',
+        },
+      },
     };
   });
 

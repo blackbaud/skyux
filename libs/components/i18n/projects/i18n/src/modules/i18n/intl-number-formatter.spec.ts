@@ -1,10 +1,5 @@
-import {
-  SkyIntlNumberFormatStyle
-} from './intl-number-format-style';
-
-import {
-  SkyIntlNumberFormatter
-} from './intl-number-formatter';
+import { SkyIntlNumberFormatStyle } from './intl-number-format-style';
+import { SkyIntlNumberFormatter } from './intl-number-formatter';
 
 function verifyResult(result: string, expectation: string): void {
   // Intl API uses non-breaking spaces in the result.
@@ -12,14 +7,13 @@ function verifyResult(result: string, expectation: string): void {
 }
 
 describe('Intl number formatter', function () {
-
   it('should format currency for a locale', function () {
     const result = SkyIntlNumberFormatter.format(
       123456.789,
       'de-DE',
       SkyIntlNumberFormatStyle.Currency,
       {
-        currency: 'EUR'
+        currency: 'EUR',
       }
     );
 
@@ -33,7 +27,7 @@ describe('Intl number formatter', function () {
       SkyIntlNumberFormatStyle.Currency,
       {
         currency: 'EUR',
-        currencyAsSymbol: true
+        currencyAsSymbol: true,
       }
     );
 
@@ -73,7 +67,7 @@ describe('Intl number formatter', function () {
     verifyResult(result, '48 %');
   });
 
-  it('should format positive accounting values', function() {
+  it('should format positive accounting values', function () {
     const result = SkyIntlNumberFormatter.format(
       100.12,
       'en-US',
@@ -81,14 +75,14 @@ describe('Intl number formatter', function () {
       {
         currency: 'USD',
         currencyAsSymbol: true,
-        currencySign: 'accounting'
+        currencySign: 'accounting',
       }
     );
 
     verifyResult(result, '$100.12');
   });
 
-  it('should format negative accounting values', function() {
+  it('should format negative accounting values', function () {
     const result = SkyIntlNumberFormatter.format(
       -100.12,
       'en-US',
@@ -96,7 +90,7 @@ describe('Intl number formatter', function () {
       {
         currency: 'USD',
         currencyAsSymbol: true,
-        currencySign: 'accounting'
+        currencySign: 'accounting',
       }
     );
 

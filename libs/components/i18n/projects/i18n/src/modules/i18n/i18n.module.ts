@@ -1,23 +1,9 @@
-import {
-  NgModule
-} from '@angular/core';
-
-import {
-  SkyLibResourcesPipe
-} from './lib-resources.pipe';
-
-import {
-  SkyAppResourcesPipe
-} from './resources.pipe';
+import { SkyLibResourcesPipe } from './lib-resources.pipe';
+import { SkyAppResourcesPipe } from './resources.pipe';
+import { NgModule } from '@angular/core';
 
 @NgModule({
-  declarations: [
-    SkyAppResourcesPipe,
-    SkyLibResourcesPipe
-  ],
-  exports: [
-    SkyAppResourcesPipe,
-    SkyLibResourcesPipe
-  ]
+  declarations: [SkyAppResourcesPipe, SkyLibResourcesPipe],
+  exports: [SkyAppResourcesPipe, SkyLibResourcesPipe],
 })
-export class SkyI18nModule { }
+export class SkyI18nModule {}

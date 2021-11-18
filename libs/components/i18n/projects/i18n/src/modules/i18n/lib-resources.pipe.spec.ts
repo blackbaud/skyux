@@ -1,15 +1,8 @@
 // #region imports
-import {
-  of as observableOf
-} from 'rxjs';
+import { SkyLibResourcesPipe } from './lib-resources.pipe';
+import { SkyLibResourcesService } from './lib-resources.service';
+import { of as observableOf } from 'rxjs';
 
-import {
-  SkyLibResourcesPipe
-} from './lib-resources.pipe';
-
-import {
-  SkyLibResourcesService
-} from './lib-resources.service';
 // #endregion
 
 describe('Library resources pipe', () => {
@@ -19,7 +12,7 @@ describe('Library resources pipe', () => {
 
   beforeEach(() => {
     changeDetector = {
-      markForCheck: jasmine.createSpy('markForCheck')
+      markForCheck: jasmine.createSpy('markForCheck'),
     };
 
     resources = {
@@ -33,7 +26,7 @@ describe('Library resources pipe', () => {
         }
 
         return observableOf(value);
-      }
+      },
     } as SkyLibResourcesService;
   });
 

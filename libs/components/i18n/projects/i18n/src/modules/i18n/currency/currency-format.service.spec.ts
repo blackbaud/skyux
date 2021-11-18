@@ -1,15 +1,10 @@
-import {
-  SkyI18nCurrencyFormatService
-} from './currency-format.service';
-
-import {
-  SkyI18nCurrencyFormat
-} from './currency-format';
+import { SkyI18nCurrencyFormat } from './currency-format';
+import { SkyI18nCurrencyFormatService } from './currency-format.service';
 
 describe('SkyI18nCurrencyFormatService', () => {
   let service: SkyI18nCurrencyFormatService;
 
-  beforeEach(() => service = new SkyI18nCurrencyFormatService());
+  beforeEach(() => (service = new SkyI18nCurrencyFormatService()));
 
   describe('getCurrencyFormat', () => {
     describe('currency code source', () => {
@@ -67,7 +62,7 @@ describe('SkyI18nCurrencyFormatService', () => {
         ['USD', 2],
         ['AUD', 2],
         ['CAD', 2],
-        ['EUR', 2]
+        ['EUR', 2],
       ];
 
       currencyAndPrecision.forEach(([currency, precision]) => {
@@ -78,5 +73,4 @@ describe('SkyI18nCurrencyFormatService', () => {
       });
     });
   });
-
 });

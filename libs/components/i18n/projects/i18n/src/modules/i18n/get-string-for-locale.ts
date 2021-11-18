@@ -1,6 +1,4 @@
-import {
-  SkyAppResources
-} from './resources';
+import { SkyAppResources } from './resources';
 
 /**
  * @internal
@@ -10,19 +8,20 @@ export function getStringForLocale(
   resources: {
     [locale: string]: {
       [name: string]: string;
-    }
+    };
   },
   preferredLocale: string,
   name: string
 ): string | undefined {
   const defaultLocale = 'en-US';
 
-  function getResourcesForLocale(locale: string): {[name: string]: string} {
+  function getResourcesForLocale(locale: string): { [name: string]: string } {
     const parsedLocale = locale.toUpperCase().replace('_', '-');
     return resources[parsedLocale];
   }
 
-  let values: {[name: string]: string} = getResourcesForLocale(preferredLocale);
+  let values: { [name: string]: string } =
+    getResourcesForLocale(preferredLocale);
 
   if (values && values[name]) {
     return values[name];

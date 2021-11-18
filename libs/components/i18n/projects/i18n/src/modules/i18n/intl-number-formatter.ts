@@ -1,27 +1,20 @@
-import {
-  SkyIntlNumberFormatterOptions
-} from './intl-number-formatter-options';
-
-import {
-  SkyIntlNumberFormatStyle
-} from './intl-number-format-style';
+import { SkyIntlNumberFormatStyle } from './intl-number-format-style';
+import { SkyIntlNumberFormatterOptions } from './intl-number-formatter-options';
 
 export abstract class SkyIntlNumberFormatter {
-
   public static format(
     num: number,
     locale: string,
     style: SkyIntlNumberFormatStyle,
     opts: SkyIntlNumberFormatterOptions = {}
   ): string {
-
     const {
       minimumIntegerDigits,
       minimumFractionDigits,
       maximumFractionDigits,
       currency,
       currencyAsSymbol = false,
-      currencySign = 'standard'
+      currencySign = 'standard',
     } = opts;
 
     const options: Intl.NumberFormatOptions & { currencySign: string } = {
@@ -29,12 +22,12 @@ export abstract class SkyIntlNumberFormatter {
       minimumFractionDigits,
       maximumFractionDigits,
       style: SkyIntlNumberFormatStyle[style].toLowerCase(),
-      currencySign
+      currencySign,
     };
 
     if (style === SkyIntlNumberFormatStyle.Currency) {
-      options.currency = (typeof currency === 'string') ? currency : undefined;
-      options.currencyDisplay = (currencyAsSymbol) ? 'symbol' : 'code';
+      options.currency = typeof currency === 'string' ? currency : undefined;
+      options.currencyDisplay = currencyAsSymbol ? 'symbol' : 'code';
     }
 
     return new Intl.NumberFormat(locale, options).format(num);

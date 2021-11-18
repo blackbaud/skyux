@@ -1,14 +1,6 @@
-import {
-  of as observableOf
-} from 'rxjs';
-
-import {
-  SkyAppResourcesPipe
-} from './resources.pipe';
-
-import {
-  SkyAppResourcesService
-} from './resources.service';
+import { SkyAppResourcesPipe } from './resources.pipe';
+import { SkyAppResourcesService } from './resources.service';
+import { of as observableOf } from 'rxjs';
 
 describe('Resources pipe', () => {
   let resources: SkyAppResourcesService;
@@ -17,7 +9,7 @@ describe('Resources pipe', () => {
 
   beforeEach(() => {
     changeDetector = {
-      markForCheck: jasmine.createSpy('markForCheck')
+      markForCheck: jasmine.createSpy('markForCheck'),
     };
 
     resources = {
@@ -31,7 +23,7 @@ describe('Resources pipe', () => {
         }
 
         return observableOf(value);
-      }
+      },
     } as SkyAppResourcesService;
   });
 

@@ -1,6 +1,4 @@
-import {
-  SkyI18nCurrencySymbolLocation
-} from './currency-symbol-location';
+import { SkyI18nCurrencySymbolLocation } from './currency-symbol-location';
 
 /**
  * Used to describe a locale-specific currency format.

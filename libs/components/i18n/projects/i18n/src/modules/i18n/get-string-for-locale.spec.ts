@@ -1,6 +1,4 @@
-import {
-  getStringForLocale
-} from './get-string-for-locale';
+import { getStringForLocale } from './get-string-for-locale';
 
 describe('Get string', () => {
   let resources: any;
@@ -8,8 +6,8 @@ describe('Get string', () => {
   beforeEach(() => {
     resources = {
       'EN-US': {
-        'foo': 'bar'
-      }
+        foo: 'bar',
+      },
     };
   });
 

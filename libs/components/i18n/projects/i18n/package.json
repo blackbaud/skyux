@@ -1,6 +1,6 @@
 {
   "name": "@skyux/i18n",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "schematics": "./schematics/collection.json",
   "scripts": {
     "test": "../../node_modules/.bin/nyc npm run test:unit",
@@ -10,11 +10,11 @@
     "save": "dependencies"
   },
   "peerDependencies": {
-    "@angular/core": "^12.2.7",
-    "@angular/common": "^12.2.7",
-    "@skyux/assets": "^5.0.0-beta.2"
+    "@angular/core": "^12.2.13",
+    "@angular/common": "^12.2.13",
+    "@skyux/assets": "^5.0.1"
   },
   "dependencies": {
-    "tslib": "^2.2.0"
+    "tslib": "^2.3.1"
   }
 }

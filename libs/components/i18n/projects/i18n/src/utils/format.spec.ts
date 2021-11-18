@@ -1,6 +1,4 @@
-import {
-  Format
-} from './format';
+import { Format } from './format';
 
 describe('Format', () => {
   it('should replace the templated string with the correct parameters', () => {
@@ -14,9 +12,7 @@ describe('Format', () => {
   });
 
   it('should not replace tokens with missing parameter values', () => {
-    const result = Format.formatText(
-      'This is the {0} test string.'
-    );
+    const result = Format.formatText('This is the {0} test string.');
 
     expect(result).toBe('This is the {0} test string.');
   });

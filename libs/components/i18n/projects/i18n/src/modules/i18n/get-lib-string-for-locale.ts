@@ -1,13 +1,11 @@
-import {
-  SkyLibResources
-} from './lib-resources';
+import { SkyLibResources } from './lib-resources';
 
 /**
  * @internal
  */
- export function getLibStringForLocale(
+export function getLibStringForLocale(
   resources: {
-    [locale: string]: SkyLibResources
+    [locale: string]: SkyLibResources;
   },
   preferredLocale: string,
   name: string
