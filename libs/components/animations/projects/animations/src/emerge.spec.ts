@@ -1,6 +1,4 @@
-import {
-  skyAnimationEmerge
-} from './emerge';
+import { skyAnimationEmerge } from './emerge';
 
 describe('Animation emerge', () => {
   it('should define an animation trigger', () => {

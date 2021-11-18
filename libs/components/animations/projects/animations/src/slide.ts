@@ -4,20 +4,26 @@ import {
   state,
   style,
   transition,
-  trigger
+  trigger,
 } from '@angular/animations';
 
-export const skyAnimationSlide: AnimationTriggerMetadata = trigger('skyAnimationSlide', [
-  state('down', style({
-    overflow: 'visible',
-    height: '*'
-  })),
-  state('up', style({
-    overflow: 'hidden',
-    height: 0
-  })),
-  transition(
-    'up <=> down',
-    animate('150ms ease-in')
-  )
-]);
+export const skyAnimationSlide: AnimationTriggerMetadata = trigger(
+  'skyAnimationSlide',
+  [
+    state(
+      'down',
+      style({
+        overflow: 'visible',
+        height: '*',
+      })
+    ),
+    state(
+      'up',
+      style({
+        overflow: 'hidden',
+        height: 0,
+      })
+    ),
+    transition('up <=> down', animate('150ms ease-in')),
+  ]
+);
