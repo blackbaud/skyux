@@ -1,3 +1,7 @@
+# 5.53.0 (2021-11-18)
+
+- `@skyux/modals@5.0.2` [Release notes](https://github.com/blackbaud/skyux-modals/blob/5.0.2/CHANGELOG.md)
+
 # 5.52.0 (2021-11-18)
 
 - `@skyux/router@5.0.2` [Release notes](https://github.com/blackbaud/skyux-router/blob/5.0.2/CHANGELOG.md)
