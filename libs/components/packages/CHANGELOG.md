@@ -1,3 +1,7 @@
+# 5.48.0 (2021-11-18)
+
+- `@skyux/split-view@5.0.1` [Release notes](https://github.com/blackbaud/skyux-split-view/blob/5.0.1/CHANGELOG.md)
+
 # 5.47.0 (2021-11-18)
 
 - `@skyux/popovers@5.0.1` [Release notes](https://github.com/blackbaud/skyux-popovers/blob/5.0.1/CHANGELOG.md)
