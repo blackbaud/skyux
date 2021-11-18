@@ -1,3 +1,7 @@
+# 5.41.0 (2021-11-18)
+
+- `@skyux/progress-indicator@5.0.1` [Release notes](https://github.com/blackbaud/skyux-progress-indicator/blob/5.0.1/CHANGELOG.md)
+
 # 5.40.0 (2021-11-18)
 
 - `@skyux/navbar@5.0.1` [Release notes](https://github.com/blackbaud/skyux-navbar/blob/5.0.1/CHANGELOG.md)
