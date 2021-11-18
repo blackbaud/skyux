@@ -1,11 +1,9 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
-    selector: 'sky-test-cmp',
-    templateUrl: './email-validation.component.fixture.html'
+  selector: 'sky-test-cmp',
+  templateUrl: './email-validation.component.fixture.html',
 })
 export class EmailValidationTestComponent {
-    public emailValidator: string;
+  public emailValidator: string;
 }

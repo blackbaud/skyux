@@ -3,36 +3,26 @@ import {
   TestBed,
   ComponentFixture,
   fakeAsync,
-  tick
+  tick,
 } from '@angular/core/testing';
-import {
-  FormsModule,
-  NgModel
-} from '@angular/forms';
-import {
-  By
-} from '@angular/platform-browser';
+import { FormsModule, NgModel } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  SkyUrlValidationFixturesModule
-} from './fixtures/url-validation-fixtures.module';
-import {
-  UrlValidationTestComponent
-} from './fixtures/url-validation.component.fixture';
+import { SkyUrlValidationFixturesModule } from './fixtures/url-validation-fixtures.module';
+import { UrlValidationTestComponent } from './fixtures/url-validation.component.fixture';
 
 describe('Url validation', () => {
   function setInput(
     element: HTMLElement,
     text: string,
-    compFixture: ComponentFixture<any>) {
+    compFixture: ComponentFixture<any>
+  ) {
     let inputEvent = document.createEvent('Event');
     let params = {
       bubbles: false,
-      cancelable: false
+      cancelable: false,
     };
 
     inputEvent.initEvent('input', params.bubbles, params.cancelable);
@@ -56,10 +46,7 @@ describe('Url validation', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyUrlValidationFixturesModule,
-        FormsModule
-      ]
+      imports: [SkyUrlValidationFixturesModule, FormsModule],
     });
     fixture = TestBed.createComponent(UrlValidationTestComponent);
     nativeElement = fixture.nativeElement as HTMLElement;
@@ -74,7 +61,9 @@ describe('Url validation', () => {
     setInput(nativeElement, 'https://blackbaud.com', fixture);
     fixture.detectChanges();
 
-    expect(nativeElement.querySelector('input').value).toBe('https://blackbaud.com');
+    expect(nativeElement.querySelector('input').value).toBe(
+      'https://blackbaud.com'
+    );
 
     expect(ngModel.control.valid).toBe(true);
     expect(ngModel.control.pristine).toBe(false);
@@ -87,7 +76,9 @@ describe('Url validation', () => {
     setInput(nativeElement, '[]awefhawenfc0293ejwf]', fixture);
     fixture.detectChanges();
 
-    expect(nativeElement.querySelector('input').value).toBe('[]awefhawenfc0293ejwf]');
+    expect(nativeElement.querySelector('input').value).toBe(
+      '[]awefhawenfc0293ejwf]'
+    );
 
     expect(ngModel.control.valid).toBe(false);
     expect(ngModel.control.pristine).toBe(false);

@@ -1,14 +1,7 @@
-<form
-  novalidate
->
-  <div
-    class="sky-form-group"
-  >
+<form novalidate>
+  <div class="sky-form-group">
     <sky-input-box>
-      <label
-        class="sky-control-label"
-        [for]="emailInput.id"
-      >
+      <label class="sky-control-label" [for]="emailInput.id">
         Email address
       </label>
       <input
@@ -23,7 +16,12 @@
     </sky-input-box>
   </div>
 
-  <div *ngIf="emailControl.errors?.skyEmail && emailControl.dirty && emailControl.touched"
+  <div
+    *ngIf="
+      emailControl.errors?.skyEmail &&
+      emailControl.dirty &&
+      emailControl.touched
+    "
     class="sky-error-label"
   >
     Enter a valid email in the "joe@abc.com" format.

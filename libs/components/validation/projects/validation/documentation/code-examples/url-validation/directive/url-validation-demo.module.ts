@@ -1,30 +1,16 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  FormsModule
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
-import {
-  SkyIdModule
-} from '@skyux/core';
+import { SkyIdModule } from '@skyux/core';
 
-import {
-  SkyInputBoxModule
-} from '@skyux/forms';
+import { SkyInputBoxModule } from '@skyux/forms';
 
-import {
-  SkyUrlValidationModule
-} from 'projects/validation/src/public-api';
+import { SkyUrlValidationModule } from 'projects/validation/src/public-api';
 
-import {
-  UrlValidationDemoComponent
-} from './url-validation-demo.component';
+import { UrlValidationDemoComponent } from './url-validation-demo.component';
 
 @NgModule({
   imports: [
@@ -32,13 +18,9 @@ import {
     FormsModule,
     SkyIdModule,
     SkyInputBoxModule,
-    SkyUrlValidationModule
+    SkyUrlValidationModule,
   ],
-  exports: [
-    UrlValidationDemoComponent
-  ],
-  declarations: [
-    UrlValidationDemoComponent
-  ]
+  exports: [UrlValidationDemoComponent],
+  declarations: [UrlValidationDemoComponent],
 })
-export class UrlValidationDemoModule { }
+export class UrlValidationDemoModule {}

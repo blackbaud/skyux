@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { SkyValidators } from './validators';
 
-
-
 @NgModule({
-  exports: [SkyValidators]
+  exports: [SkyValidators],
 })
-export class ValidatorsModule { }
+export class ValidatorsModule {}

@@ -1,30 +1,16 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  FormsModule
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
-import {
-  SkyIdModule
-} from '@skyux/core';
+import { SkyIdModule } from '@skyux/core';
 
-import {
-  SkyInputBoxModule
-} from '@skyux/forms';
+import { SkyInputBoxModule } from '@skyux/forms';
 
-import {
-  SkyEmailValidationModule
-} from 'projects/validation/src/public-api';
+import { SkyEmailValidationModule } from 'projects/validation/src/public-api';
 
-import {
-  EmailValidationDemoComponent
-} from './email-validation-demo.component';
+import { EmailValidationDemoComponent } from './email-validation-demo.component';
 
 @NgModule({
   imports: [
@@ -32,13 +18,9 @@ import {
     FormsModule,
     SkyEmailValidationModule,
     SkyIdModule,
-    SkyInputBoxModule
+    SkyInputBoxModule,
   ],
-  exports: [
-    EmailValidationDemoComponent
-  ],
-  declarations: [
-    EmailValidationDemoComponent
-  ]
+  exports: [EmailValidationDemoComponent],
+  declarations: [EmailValidationDemoComponent],
 })
-export class EmailValidationDemoModule { }
+export class EmailValidationDemoModule {}

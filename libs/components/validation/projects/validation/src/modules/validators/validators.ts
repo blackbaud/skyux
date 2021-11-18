@@ -1,17 +1,11 @@
-import {
-  AbstractControl,
-  ValidationErrors
-} from '@angular/forms';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
 
-import {
-  SkyValidation
-} from '../validation/validation';
+import { SkyValidation } from '../validation/validation';
 
 // Need to add the following to classes which contain static methods.
 // See: https://github.com/ng-packagr/ng-packagr/issues/641
 // @dynamic
 export class SkyValidators {
-
   /**
    * Validates email addresses in reactive forms. Add this validator directly to the form control
    * model in the component class. If users enter values that are not valid email addresses, the
@@ -26,7 +20,9 @@ export class SkyValidators {
       return undefined;
     }
 
-    return SkyValidation.isEmail(value) ? undefined : { 'skyEmail': { invalid: value } };
+    return SkyValidation.isEmail(value)
+      ? undefined
+      : { skyEmail: { invalid: value } };
   }
 
   /**
@@ -43,6 +39,8 @@ export class SkyValidators {
       return undefined;
     }
 
-    return SkyValidation.isUrl(value) ? undefined : { 'skyUrl': { invalid: value } };
+    return SkyValidation.isUrl(value)
+      ? undefined
+      : { skyUrl: { invalid: value } };
   }
 }

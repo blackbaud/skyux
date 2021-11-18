@@ -1,10 +1,6 @@
-import {
-  FormControl
-} from '@angular/forms';
+import { FormControl } from '@angular/forms';
 
-import {
-  SkyValidators
-} from './validators';
+import { SkyValidators } from './validators';
 
 describe('Validators', () => {
   describe('Email', () => {

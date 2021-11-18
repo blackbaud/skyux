@@ -1,6 +1,4 @@
-import {
-  SkyValidation
-} from './validation';
+import { SkyValidation } from './validation';
 
 describe('Validation', () => {
   describe('Email validation', () => {
