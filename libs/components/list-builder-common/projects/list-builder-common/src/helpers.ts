@@ -1,6 +1,4 @@
-import {
-  Observable
-} from 'rxjs';
+import { Observable } from 'rxjs';
 
 export function getData(item: any, selector: string): any {
   if (!selector) {
@@ -17,7 +15,7 @@ export function getData(item: any, selector: string): any {
   /* istanbul ignore else */
   if (resultFieldParts.length > 0) {
     for (let index = 0; index < resultFieldParts.length; index++) {
-    let part = resultFieldParts[index];
+      let part = resultFieldParts[index];
       /* tslint:disable:no-null-keyword */
       /* istanbul ignore else */
       if (result[part] === null || result[part] === undefined) {
@@ -62,5 +60,9 @@ export function compare(value1: any, value2: any) {
 */
 export function isObservable<T>(obj: any): obj is Observable<T> {
   /* istanbul ignore next */
-  return !!obj && (obj instanceof Observable || (typeof obj.lift === 'function' && typeof obj.subscribe === 'function'));
+  return (
+    !!obj &&
+    (obj instanceof Observable ||
+      (typeof obj.lift === 'function' && typeof obj.subscribe === 'function'))
+  );
 }

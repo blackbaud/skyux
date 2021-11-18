@@ -1,25 +1,15 @@
-import {
-  EventEmitter
-} from '@angular/core';
+import { EventEmitter } from '@angular/core';
 
-import {
-  Observable,
-  Subject
-} from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
-import {
-  compare,
-  getData,
-  isObservable
-} from './helpers';
+import { compare, getData, isObservable } from './helpers';
 
 describe('list helpers', () => {
-
   describe('getData', () => {
     it('gets data based on a standard selector', () => {
       let data = {
         myResult: 'something',
-        otherResult: 'nothing'
+        otherResult: 'nothing',
       };
       let result = getData(data, 'myResult');
       expect(result).toBe('something');
@@ -28,7 +18,7 @@ describe('list helpers', () => {
     it('shifts data appropriately when a selector is at the front', () => {
       let data = {
         myResult: 'something',
-        otherResult: 'nothing'
+        otherResult: 'nothing',
       };
       let result = getData(data, '.myResult');
       expect(result).toBe('something');
@@ -38,7 +28,7 @@ describe('list helpers', () => {
       /* tslint:disable */
       let data: any = {
         myResult: null,
-        otherResult: 'nothing'
+        otherResult: 'nothing',
       };
       /* tslint:enable */
 
@@ -48,8 +38,8 @@ describe('list helpers', () => {
 
     it('returns property when selector is a nested selector', () => {
       let data: any = {
-        myResults: { nestedValue: 'expected'},
-        otherResult: 'nothing'
+        myResults: { nestedValue: 'expected' },
+        otherResult: 'nothing',
       };
       let result = getData(data, 'myResults.nestedValue');
       expect(result).toBe('expected');
@@ -58,7 +48,7 @@ describe('list helpers', () => {
     it('returns property when selector is a nested selector that does not exits', () => {
       let data: any = {
         myResults: {},
-        otherResult: 'nothing'
+        otherResult: 'nothing',
       };
       let result = getData(data, 'myResults.nestedValue');
       expect(result).toBeNull();
@@ -67,7 +57,7 @@ describe('list helpers', () => {
     it('returns property when selector is a nested selector that is undefined', () => {
       let data: any = {
         myResults: { nestedValue: undefined },
-        otherResult: 'nothing'
+        otherResult: 'nothing',
       };
       let result = getData(data, 'myResults.nestedValue');
       expect(result).toBeNull();
@@ -76,7 +66,7 @@ describe('list helpers', () => {
     it('returns undefined when empty string selector defined', () => {
       let data = {
         myResult: 'something',
-        otherResult: 'nothing'
+        otherResult: 'nothing',
       };
       let result = getData(data, '');
       expect(result).toBe(undefined);
@@ -85,7 +75,7 @@ describe('list helpers', () => {
     it('returns undefined when no selector is supplied', () => {
       let data: any = {
         myResult: 'something',
-        otherResult: 'somethingtoo'
+        otherResult: 'somethingtoo',
       };
       let result = getData(data, undefined);
       expect(result).toBeUndefined();

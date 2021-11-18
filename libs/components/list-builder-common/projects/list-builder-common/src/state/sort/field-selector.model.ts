@@ -1,5 +1,4 @@
 export class ListSortFieldSelectorModel {
-
   /**
    * Indicates whether to sort in descending order.
    */
@@ -16,5 +15,4 @@ export class ListSortFieldSelectorModel {
       this.descending = data.descending;
     }
   }
-
 }

@@ -1,21 +1,13 @@
-import {
-  BehaviorSubject,
-  zip
-} from 'rxjs';
+import { BehaviorSubject, zip } from 'rxjs';
 
-import {
-  map as observableMap
-} from 'rxjs/operators';
+import { map as observableMap } from 'rxjs/operators';
 
-import {
-  StateDispatcher
-} from './state-dispatcher';
+import { StateDispatcher } from './state-dispatcher';
 
 /**
  * @internal
  */
 export class StateNode<T> extends BehaviorSubject<T> {
-
   private stateMap: { [stateKey: string]: any } = {};
 
   constructor(
@@ -38,20 +30,23 @@ export class StateNode<T> extends BehaviorSubject<T> {
     const stateKeys: Array<string> = Object.keys(this.stateMap);
     const init: { [stateKey: string]: any } = this.initialState;
 
-    const orchestrators = stateKeys.map(key => new (this.stateMap[key])().scan(
-      init[key],
-      this.dispatcher
-    ));
+    const orchestrators = stateKeys.map((key) =>
+      new this.stateMap[key]().scan(init[key], this.dispatcher)
+    );
 
-    zip.apply(this, orchestrators)
-      .pipe(observableMap((s: any) => {
-        let result: any = <T>{};
-        for (let i = 0; i < stateKeys.length; i++) {
-          const key = stateKeys[i];
-          result[key] = s[i];
-        }
+    zip
+      .apply(this, orchestrators)
+      .pipe(
+        observableMap((s: any) => {
+          let result: any = <T>{};
+          for (let i = 0; i < stateKeys.length; i++) {
+            const key = stateKeys[i];
+            result[key] = s[i];
+          }
 
-        return result;
-      })).subscribe((s: any) => this.next(s));
+          return result;
+        })
+      )
+      .subscribe((s: any) => this.next(s));
   }
 }

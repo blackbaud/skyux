@@ -7,5 +7,5 @@ export class AsyncItem<T> {
     public item: T = <T>{},
     public lastUpdate: any = null,
     public loading: boolean = false
-  ) { }
+  ) {}
 }

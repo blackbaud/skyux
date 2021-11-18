@@ -1,6 +1,4 @@
-import {
-  ListItemModel
-} from './item.model';
+import { ListItemModel } from './item.model';
 
 describe('list items', () => {
   describe('list item model', () => {

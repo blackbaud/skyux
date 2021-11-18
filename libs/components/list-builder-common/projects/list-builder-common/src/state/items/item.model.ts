@@ -1,5 +1,4 @@
 export class ListItemModel {
-
   /**
    * Specifies the data for the item in the list.
    */
