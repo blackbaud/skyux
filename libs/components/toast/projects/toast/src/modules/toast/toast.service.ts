@@ -1,48 +1,25 @@
-import {
-  ComponentRef,
-  Injectable,
-  OnDestroy,
-  Provider
-} from '@angular/core';
+import { ComponentRef, Injectable, OnDestroy, Provider } from '@angular/core';
 
-import {
-  BehaviorSubject,
-  Observable
-} from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
-import {
-  SkyDynamicComponentService
-} from '@skyux/core';
+import { SkyDynamicComponentService } from '@skyux/core';
 
-import {
-  SkyToastConfig
-} from './types/toast-config';
+import { SkyToastConfig } from './types/toast-config';
 
-import {
-  SkyToast
-} from './toast';
+import { SkyToast } from './toast';
 
-import {
-  SkyToastBodyComponent
-} from './toast-body.component';
+import { SkyToastBodyComponent } from './toast-body.component';
 
-import {
-  SkyToastInstance
-} from './toast-instance';
+import { SkyToastInstance } from './toast-instance';
 
-import {
-  SkyToastBodyContext
-} from './toast-body-context';
+import { SkyToastBodyContext } from './toast-body-context';
 
-import {
-  SkyToasterComponent
-} from './toaster.component';
+import { SkyToasterComponent } from './toaster.component';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SkyToastService implements OnDestroy {
-
   /**
    * @internal
    */
@@ -56,9 +33,7 @@ export class SkyToastService implements OnDestroy {
 
   private _toastStream = new BehaviorSubject<SkyToast[]>([]);
 
-  constructor(
-    private dynamicComponentService: SkyDynamicComponentService
-  ) { }
+  constructor(private dynamicComponentService: SkyDynamicComponentService) {}
 
   public ngOnDestroy(): void {
     if (this.host) {
@@ -80,10 +55,12 @@ export class SkyToastService implements OnDestroy {
     const context = new SkyToastBodyContext();
     context.message = message;
 
-    const providers = [{
-      provide: SkyToastBodyContext,
-      useValue: context
-    }];
+    const providers = [
+      {
+        provide: SkyToastBodyContext,
+        useValue: context,
+      },
+    ];
 
     return this.openComponent(SkyToastBodyComponent, config, providers);
   }
@@ -104,7 +81,7 @@ export class SkyToastService implements OnDestroy {
 
     providers.push({
       provide: SkyToastInstance,
-      useValue: instance
+      useValue: instance,
     });
 
     const toast = new SkyToast(component, providers, config);
@@ -138,7 +115,7 @@ export class SkyToastService implements OnDestroy {
   }
 
   private removeToast(toast: SkyToast): void {
-    this.toasts = this.toasts.filter(t => t !== toast);
+    this.toasts = this.toasts.filter((t) => t !== toast);
     this._toastStream.next(this.toasts);
 
     if (this.toasts.length === 0) {
@@ -147,7 +124,8 @@ export class SkyToastService implements OnDestroy {
   }
 
   private createHostComponent(): ComponentRef<SkyToasterComponent> {
-    this.host = this.dynamicComponentService.createComponent(SkyToasterComponent);
+    this.host =
+      this.dynamicComponentService.createComponent(SkyToasterComponent);
     return this.host;
   }
 
@@ -156,6 +134,5 @@ export class SkyToastService implements OnDestroy {
       this.dynamicComponentService.removeComponent(this.host);
       this.host = undefined;
     }
-
   }
 }

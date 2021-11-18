@@ -1,24 +1,15 @@
-import {
-  ComponentFixture
-} from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
 
-import {
-  DebugElement
-} from '@angular/core';
+import { DebugElement } from '@angular/core';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 /**
  * Allows interaction with a SKY UX toast component.
  */
 export class SkyToastFixture {
-
   /**
    * The toast's current text.
    */
@@ -57,11 +48,12 @@ export class SkyToastFixture {
 
   private debugEl: DebugElement;
 
-  constructor(
-    fixture: ComponentFixture<any>,
-    skyTestId: string
-  ) {
-    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(fixture, skyTestId, 'sky-toast');
+  constructor(fixture: ComponentFixture<any>, skyTestId: string) {
+    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
+      fixture,
+      skyTestId,
+      'sky-toast'
+    );
   }
 
   /**
@@ -80,5 +72,4 @@ export class SkyToastFixture {
   private getCloseBtnEl(): DebugElement {
     return this.debugEl.query(By.css('.sky-toast-btn-close'));
   }
-
 }

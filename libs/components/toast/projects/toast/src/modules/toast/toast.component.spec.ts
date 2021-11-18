@@ -3,40 +3,24 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  SkyToastFixturesModule
-} from './fixtures/toast-fixtures.module';
+import { SkyToastFixturesModule } from './fixtures/toast-fixtures.module';
 
-import {
-  SkyToastTestComponent
-} from './fixtures/toast.component.fixture';
+import { SkyToastTestComponent } from './fixtures/toast.component.fixture';
 
-import {
-  SkyToastWithToasterServiceTestComponent
-} from './fixtures/toast-with-toaster-service.component.fixture';
+import { SkyToastWithToasterServiceTestComponent } from './fixtures/toast-with-toaster-service.component.fixture';
 
-import {
-  SkyToastComponent
-} from './toast.component';
+import { SkyToastComponent } from './toast.component';
 
-import {
-  SkyToastService
-} from './toast.service';
+import { SkyToastService } from './toast.service';
 
-import {
-  SkyToasterService
-} from './toaster.service';
+import { SkyToasterService } from './toaster.service';
 
-import {
-  SkyToastType
-} from './types/toast-type';
+import { SkyToastType } from './types/toast-type';
 
 describe('Toast component', () => {
   let fixture: ComponentFixture<SkyToastTestComponent>;
@@ -45,21 +29,14 @@ describe('Toast component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyToastFixturesModule
-      ]
+      imports: [SkyToastFixturesModule],
     });
 
-    TestBed.overrideComponent(
-      SkyToastWithToasterServiceTestComponent,
-      {
-        add: {
-          providers: [
-            SkyToasterService
-          ]
-        }
-      }
-    );
+    TestBed.overrideComponent(SkyToastWithToasterServiceTestComponent, {
+      add: {
+        providers: [SkyToasterService],
+      },
+    });
 
     fixture = TestBed.createComponent(SkyToastTestComponent);
   });
@@ -160,51 +137,49 @@ describe('Toast component', () => {
       }
 
       beforeEach(() => {
-        withServiceFixture = TestBed.createComponent(SkyToastWithToasterServiceTestComponent);
+        withServiceFixture = TestBed.createComponent(
+          SkyToastWithToasterServiceTestComponent
+        );
         fixture.detectChanges();
         withServiceComponent = withServiceFixture.componentInstance;
         withServiceToastComponent = withServiceComponent.toastComponent;
       });
 
-      it(
-        'should not auto-close when the toaster service reports the cursor is over the toast area', fakeAsync(() => {
-          withServiceComponent.autoClose = true;
+      it('should not auto-close when the toaster service reports the cursor is over the toast area', fakeAsync(() => {
+        withServiceComponent.autoClose = true;
 
-          withServiceFixture.detectChanges();
+        withServiceFixture.detectChanges();
 
-          withServiceComponent.toasterService.mouseOver.next(true);
+        withServiceComponent.toasterService.mouseOver.next(true);
 
-          waitForAutoClose();
+        waitForAutoClose();
 
-          validateToastOpen(true);
+        validateToastOpen(true);
 
-          withServiceComponent.toasterService.mouseOver.next(false);
+        withServiceComponent.toasterService.mouseOver.next(false);
 
-          waitForAutoClose();
+        waitForAutoClose();
 
-          validateToastOpen(false);
-        })
-      );
+        validateToastOpen(false);
+      }));
 
-      it('should not auto-close when the toaster service reports focus is in the toast area',
-        fakeAsync(() => {
-          withServiceComponent.autoClose = true;
+      it('should not auto-close when the toaster service reports focus is in the toast area', fakeAsync(() => {
+        withServiceComponent.autoClose = true;
 
-          withServiceFixture.detectChanges();
+        withServiceFixture.detectChanges();
 
-          withServiceComponent.toasterService.focusIn.next(true);
+        withServiceComponent.toasterService.focusIn.next(true);
 
-          waitForAutoClose();
+        waitForAutoClose();
 
-          validateToastOpen(true);
+        validateToastOpen(true);
 
-          withServiceComponent.toasterService.focusIn.next(false);
+        withServiceComponent.toasterService.focusIn.next(false);
 
-          waitForAutoClose();
+        waitForAutoClose();
 
-          validateToastOpen(false);
-        })
-      );
+        validateToastOpen(false);
+      }));
     });
   });
 });

@@ -14,5 +14,5 @@ export enum SkyToastType {
   /**
    * Sets the toast's icon and background color to the `warning` style.
    */
-  Warning
+  Warning,
 }

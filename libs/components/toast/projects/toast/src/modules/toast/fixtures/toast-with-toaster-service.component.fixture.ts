@@ -1,31 +1,24 @@
 // #region imports
-import {
-  Component,
-  ViewChild
-} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
-import {
-  SkyToastComponent
-} from '../toast.component';
+import { SkyToastComponent } from '../toast.component';
 
-import {
-  SkyToasterService
-} from '../toaster.service';
+import { SkyToasterService } from '../toaster.service';
 // #endregion
 
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './toast.component.fixture.html',
-  providers: [SkyToasterService]
+  providers: [SkyToasterService],
 })
 export class SkyToastWithToasterServiceTestComponent {
   public autoClose: boolean;
 
   @ViewChild(SkyToastComponent, {
     read: SkyToastComponent,
-    static: true
+    static: true,
   })
   public toastComponent: SkyToastComponent;
 
-  constructor(public toasterService: SkyToasterService) { }
+  constructor(public toasterService: SkyToasterService) {}
 }

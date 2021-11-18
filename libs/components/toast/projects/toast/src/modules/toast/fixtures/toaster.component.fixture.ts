@@ -1,11 +1,9 @@
 // #region imports
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 // #endregion
 
 @Component({
   selector: 'sky-test-cmp',
-  template: 'noop'
+  template: 'noop',
 })
-export class SkyToasterTestComponent { }
+export class SkyToasterTestComponent {}

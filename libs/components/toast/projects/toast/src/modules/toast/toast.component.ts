@@ -1,6 +1,4 @@
-import {
-  AnimationEvent
-} from '@angular/animations';
+import { AnimationEvent } from '@angular/animations';
 
 import {
   ChangeDetectionStrategy,
@@ -12,33 +10,20 @@ import {
   OnInit,
   Optional,
   Output,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 
-import {
-  combineLatest,
-  Subject
-} from 'rxjs';
+import { combineLatest, Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  skyAnimationEmerge
-} from '@skyux/animations';
+import { skyAnimationEmerge } from '@skyux/animations';
 
-import {
-  SkyIconStackItem
-} from '@skyux/indicators';
+import { SkyIconStackItem } from '@skyux/indicators';
 
-import {
-  SkyToastType
-} from './types/toast-type';
+import { SkyToastType } from './types/toast-type';
 
-import {
-  SkyToasterService
-} from './toaster.service';
+import { SkyToasterService } from './toaster.service';
 
 const AUTO_CLOSE_MILLISECONDS = 6000;
 
@@ -49,14 +34,11 @@ const AUTO_CLOSE_MILLISECONDS = 6000;
   selector: 'sky-toast',
   templateUrl: './toast.component.html',
   styleUrls: ['./toast.component.scss'],
-  animations: [
-    skyAnimationEmerge
-  ],
+  animations: [skyAnimationEmerge],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class SkyToastComponent implements OnInit, OnDestroy {
-
   /**
    * Indicates whether to automatically close the toast. Only close toasts
    * automatically if users can access the messages after the toasts close.
@@ -74,7 +56,7 @@ export class SkyToastComponent implements OnInit, OnDestroy {
   }
 
   public get toastType(): SkyToastType {
-    return (this._toastType === undefined) ? SkyToastType.Info : this._toastType;
+    return this._toastType === undefined ? SkyToastType.Info : this._toastType;
   }
 
   /**
@@ -84,15 +66,15 @@ export class SkyToastComponent implements OnInit, OnDestroy {
   public closed = new EventEmitter<void>();
 
   public get animationState(): string {
-    return (this.isOpen) ? 'open' : 'closed';
+    return this.isOpen ? 'open' : 'closed';
   }
 
   public get ariaLive(): string {
-    return (this.toastType === SkyToastType.Danger) ? 'assertive' : 'polite';
+    return this.toastType === SkyToastType.Danger ? 'assertive' : 'polite';
   }
 
   public get ariaRole(): string {
-    return (this.toastType === SkyToastType.Danger) ? 'alert' : undefined;
+    return this.toastType === SkyToastType.Danger ? 'alert' : undefined;
   }
 
   public get classNames(): string {
@@ -101,26 +83,24 @@ export class SkyToastComponent implements OnInit, OnDestroy {
     let typeLabel: string;
     switch (this.toastType) {
       case SkyToastType.Danger:
-      typeLabel = 'danger';
-      break;
+        typeLabel = 'danger';
+        break;
 
       case SkyToastType.Info:
       default:
-      typeLabel = 'info';
-      break;
+        typeLabel = 'info';
+        break;
 
       case SkyToastType.Success:
-      typeLabel = 'success';
-      break;
+        typeLabel = 'success';
+        break;
 
       case SkyToastType.Warning:
-      typeLabel = 'warning';
-      break;
+        typeLabel = 'warning';
+        break;
     }
 
-    classNames.push(
-      `sky-toast-${typeLabel}`
-    );
+    classNames.push(`sky-toast-${typeLabel}`);
 
     return classNames.join(' ');
   }
@@ -142,7 +122,7 @@ export class SkyToastComponent implements OnInit, OnDestroy {
   constructor(
     private changeDetector: ChangeDetectorRef,
     @Optional() private toasterService?: SkyToasterService
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     this.isOpen = true;
@@ -152,7 +132,7 @@ export class SkyToastComponent implements OnInit, OnDestroy {
     if (this.toasterService) {
       combineLatest([
         this.toasterService.focusIn,
-        this.toasterService.mouseOver
+        this.toasterService.mouseOver,
       ])
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(([hasFocus, hasMouseOver]) => {
@@ -187,14 +167,11 @@ export class SkyToastComponent implements OnInit, OnDestroy {
   }
 
   public startAutoCloseTimer(): void {
-    if (this.autoClose &&
-      (
-        !this.toasterService ||
-        (
-          !this.toasterService.focusIn.getValue() &&
-          !this.toasterService.mouseOver.getValue()
-        )
-      )
+    if (
+      this.autoClose &&
+      (!this.toasterService ||
+        (!this.toasterService.focusIn.getValue() &&
+          !this.toasterService.mouseOver.getValue()))
     ) {
       this.stopAutoCloseTimer();
 
@@ -237,12 +214,12 @@ export class SkyToastComponent implements OnInit, OnDestroy {
 
     this.baseIcon = {
       icon: baseIcon,
-      iconType: 'skyux'
+      iconType: 'skyux',
     };
 
     this.topIcon = {
       icon: topIcon,
-      iconType: 'skyux'
+      iconType: 'skyux',
     };
 
     this.icon = icon;

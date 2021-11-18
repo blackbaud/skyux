@@ -1,31 +1,17 @@
 // #region imports
-import {
-  TestBed
-} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  SkyDynamicComponentService
-} from '@skyux/core';
+import { SkyDynamicComponentService } from '@skyux/core';
 
-import {
-  take
-} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
-import {
-  SkyToastType
-} from './types/toast-type';
+import { SkyToastType } from './types/toast-type';
 
-import {
-  SkyToast
-} from './toast';
+import { SkyToast } from './toast';
 
-import {
-  SkyToastService
-} from './toast.service';
+import { SkyToastService } from './toast.service';
 // #endregion
 
 describe('Toast service', () => {
@@ -41,21 +27,24 @@ describe('Toast service', () => {
             createComponent() {
               return {
                 instance: {
-                  closeAll() {}
-                }
+                  closeAll() {},
+                },
               };
             },
-            removeComponent() {}
-          }
-        }
-      ]
+            removeComponent() {},
+          },
+        },
+      ],
     });
 
     toastService = TestBed.get(SkyToastService);
   });
 
   it('should only create a single host component', () => {
-    const spy = spyOn(toastService as any, 'createHostComponent').and.callThrough();
+    const spy = spyOn(
+      toastService as any,
+      'createHostComponent'
+    ).and.callThrough();
     toastService.openMessage('message');
     toastService.openMessage('message');
     expect(spy.calls.count()).toEqual(1);
@@ -77,22 +66,24 @@ describe('Toast service', () => {
 
   it('should expose a method to remove the toast from the DOM', () => {
     toastService.openMessage('message');
-    const spy = spyOn(toastService['host'].instance, 'closeAll').and.callFake(() => {});
+    const spy = spyOn(toastService['host'].instance, 'closeAll').and.callFake(
+      () => {}
+    );
     toastService.ngOnDestroy();
     expect(spy).toHaveBeenCalledWith();
   });
 
   describe('openMessage() method', () => {
-    it('should open a toast with the given message and configuration', function() {
+    it('should open a toast with the given message and configuration', function () {
       const instance = toastService.openMessage('Real message', {
-        type: SkyToastType.Danger
+        type: SkyToastType.Danger,
       });
 
       expect(instance).toBeTruthy();
       expect(instance.close).toBeTruthy();
 
       let isClosedCalled = false;
-      instance.closed.subscribe(() => isClosedCalled = true);
+      instance.closed.subscribe(() => (isClosedCalled = true));
 
       expect(isClosedCalled).toEqual(false);
       instance.close();
@@ -103,7 +94,7 @@ describe('Toast service', () => {
       const instance = toastService.openMessage('My message');
 
       let isClosedCalled = false;
-      instance.closed.subscribe(() => isClosedCalled = true);
+      instance.closed.subscribe(() => (isClosedCalled = true));
 
       instance.close();
 
@@ -131,7 +122,7 @@ describe('Toast service', () => {
       public message: string;
     }
 
-    class TestComponent { }
+    class TestComponent {}
 
     it('should open a custom toast with the given component type and configuration', () => {
       const context = new TestContext();
@@ -139,13 +130,13 @@ describe('Toast service', () => {
 
       const providers = {
         provide: TestContext,
-        useValue: context
+        useValue: context,
       };
 
       const instance = toastService.openComponent(
         TestComponent,
         {
-          type: SkyToastType.Danger
+          type: SkyToastType.Danger,
         },
         [providers]
       );
@@ -158,7 +149,7 @@ describe('Toast service', () => {
       expect(instance.close).toBeTruthy();
 
       let isClosedCalled = false;
-      instance.closed.subscribe(() => isClosedCalled = true);
+      instance.closed.subscribe(() => (isClosedCalled = true));
 
       expect(isClosedCalled).toEqual(false);
       instance.close();
@@ -167,7 +158,7 @@ describe('Toast service', () => {
 
     it('should handle empty providers', () => {
       toastService.openComponent(TestComponent, {
-        type: SkyToastType.Danger
+        type: SkyToastType.Danger,
       });
 
       toastService.toastStream.pipe(take(1)).subscribe((toasts: SkyToast[]) => {

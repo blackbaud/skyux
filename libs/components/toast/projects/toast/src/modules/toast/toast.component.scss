@@ -1,11 +1,8 @@
-@import "~@skyux/theme/scss/mixins";
-@import "~@skyux/theme/scss/_compat/mixins";
-@import "~@skyux/theme/scss/variables";
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+@import '~@skyux/theme/scss/variables';
 
-@mixin sky-toast-variant(
-  $background-color,
-  $border-color
-) {
+@mixin sky-toast-variant($background-color, $border-color) {
   background-color: $background-color;
   border-color: $border-color;
 }
@@ -107,7 +104,6 @@ sky-toast {
   }
 }
 
-
 .sky-theme-modern {
   sky-toast {
     .sky-toast {
@@ -130,8 +126,7 @@ sky-toast {
       margin-right: -10px;
       opacity: 1;
       padding: 1px;
-      transition:
-        border-color $sky-transition-time-short,
+      transition: border-color $sky-transition-time-short,
         box-shadow $sky-transition-time-short;
 
       &:hover {
@@ -147,8 +142,7 @@ sky-toast {
       }
 
       &:focus:not(:active) {
-        box-shadow:
-          $sky-theme-modern-elevation-1-shadow-size
+        box-shadow: $sky-theme-modern-elevation-1-shadow-size
           $sky-theme-modern-elevation-3-shadow-color;
       }
     }

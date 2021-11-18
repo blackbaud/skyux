@@ -15,46 +15,26 @@ import {
   ViewChild,
   ViewChildren,
   ViewContainerRef,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 
-import {
-  Observable,
-  Subject
-} from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
-import {
-  take,
-  takeUntil
-} from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 
-import {
-  SkyToast
-} from './toast';
+import { SkyToast } from './toast';
 
-import {
-  SkyToastAdapterService
-} from './toast-adapter.service';
+import { SkyToastAdapterService } from './toast-adapter.service';
 
-import {
-  SkyToastComponent
-} from './toast.component';
+import { SkyToastComponent } from './toast.component';
 
-import {
-  SkyToastService
-} from './toast.service';
+import { SkyToastService } from './toast.service';
 
-import {
-  SkyToasterService
-} from './toaster.service';
+import { SkyToasterService } from './toaster.service';
 
-import {
-  SkyToastContainerOptions
-} from './types/toast-container-options';
+import { SkyToastContainerOptions } from './types/toast-container-options';
 
-import {
-  SkyToastDisplayDirection
-} from './types/toast-display-direction';
+import { SkyToastDisplayDirection } from './types/toast-display-direction';
 
 /**
  * @internal
@@ -63,15 +43,11 @@ import {
   selector: 'sky-toaster',
   templateUrl: './toaster.component.html',
   styleUrls: ['./toaster.component.scss'],
-  providers: [
-    SkyToastAdapterService,
-    SkyToasterService
-  ],
+  providers: [SkyToastAdapterService, SkyToasterService],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class SkyToasterComponent implements AfterViewInit, OnDestroy {
-
   public toastsForDisplay: SkyToast[];
 
   public get toastStream(): Observable<SkyToast[]> {
@@ -98,7 +74,7 @@ export class SkyToasterComponent implements AfterViewInit, OnDestroy {
     private toasterService: SkyToasterService,
     private changeDetector: ChangeDetectorRef,
     @Optional() private containerOptions?: SkyToastContainerOptions
-  ) { }
+  ) {}
 
   public ngAfterViewInit(): void {
     this.toastContent.changes.subscribe(() => {
@@ -113,7 +89,8 @@ export class SkyToasterComponent implements AfterViewInit, OnDestroy {
         // Scroll to the bottom of the toaster element when a new toast is added.
         if (
           !this.containerOptions ||
-          this.containerOptions.displayDirection === SkyToastDisplayDirection.OldestOnTop
+          this.containerOptions.displayDirection ===
+            SkyToastDisplayDirection.OldestOnTop
         ) {
           this.domAdapter.scrollBottom(this.toaster);
         }
@@ -163,14 +140,14 @@ export class SkyToasterComponent implements AfterViewInit, OnDestroy {
       this.toastContent.toArray().forEach((target: ViewContainerRef) => {
         const toastId = this.domAdapter.getToastId(target);
 
-        const toast = toasts.find(item => item.toastId === toastId);
+        const toast = toasts.find((item) => item.toastId === toastId);
 
         if (!toast.isRendered) {
           target.clear();
 
           const injector = Injector.create({
             providers: toast.bodyComponentProviders as StaticProvider[],
-            parent: this.injector
+            parent: this.injector,
           });
 
           const componentRef = this.resolver
@@ -179,8 +156,11 @@ export class SkyToasterComponent implements AfterViewInit, OnDestroy {
 
           this.applicationRef.attachView(componentRef.hostView);
 
-          const el = (componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0];
-          document.querySelector(`[data-toast-id="${toast.toastId}"]`).appendChild(el);
+          const el = (componentRef.hostView as EmbeddedViewRef<any>)
+            .rootNodes[0];
+          document
+            .querySelector(`[data-toast-id="${toast.toastId}"]`)
+            .appendChild(el);
           componentRef.changeDetectorRef.detectChanges();
 
           toast.isRendered = true;
@@ -195,7 +175,8 @@ export class SkyToasterComponent implements AfterViewInit, OnDestroy {
     if (
       sortedToasts &&
       this.containerOptions &&
-      this.containerOptions.displayDirection === SkyToastDisplayDirection.NewestOnTop
+      this.containerOptions.displayDirection ===
+        SkyToastDisplayDirection.NewestOnTop
     ) {
       sortedToasts.reverse();
     }

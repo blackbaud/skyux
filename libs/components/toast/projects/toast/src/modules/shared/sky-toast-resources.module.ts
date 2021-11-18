@@ -12,11 +12,11 @@ import {
   SkyI18nModule,
   SkyLibResources,
   SkyLibResourcesProvider,
-  SKY_LIB_RESOURCES_PROVIDERS
+  SKY_LIB_RESOURCES_PROVIDERS,
 } from '@skyux/i18n';
 
 const RESOURCES: { [locale: string]: SkyLibResources } = {
-  'EN-US': {"skyux_toast_close_button":{"message":"Close the message"}},
+  'EN-US': { skyux_toast_close_button: { message: 'Close the message' } },
 };
 
 export class SkyToastResourcesProvider implements SkyLibResourcesProvider {
@@ -30,10 +30,12 @@ export class SkyToastResourcesProvider implements SkyLibResourcesProvider {
  */
 @NgModule({
   exports: [SkyI18nModule],
-  providers: [{
-    provide: SKY_LIB_RESOURCES_PROVIDERS,
-    useClass: SkyToastResourcesProvider,
-    multi: true
-  }]
+  providers: [
+    {
+      provide: SKY_LIB_RESOURCES_PROVIDERS,
+      useClass: SkyToastResourcesProvider,
+      multi: true,
+    },
+  ],
 })
-export class SkyToastResourcesModule { }
+export class SkyToastResourcesModule {}

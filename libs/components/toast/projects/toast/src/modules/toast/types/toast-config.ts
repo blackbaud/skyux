@@ -1,7 +1,5 @@
 // #region imports
-import {
-  SkyToastType
-} from './toast-type';
+import { SkyToastType } from './toast-type';
 // #endregion
 
 /**

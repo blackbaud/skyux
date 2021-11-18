@@ -1,54 +1,32 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  SkyI18nModule
-} from '@skyux/i18n';
+import { SkyI18nModule } from '@skyux/i18n';
 
-import {
-  SkyIconModule
-} from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/indicators';
 
-import {
-  SkyToastResourcesModule
-} from '../shared/sky-toast-resources.module';
+import { SkyToastResourcesModule } from '../shared/sky-toast-resources.module';
 
-import {
-  SkyToastBodyComponent
-} from './toast-body.component';
+import { SkyToastBodyComponent } from './toast-body.component';
 
-import {
-  SkyToastComponent
-} from './toast.component';
+import { SkyToastComponent } from './toast.component';
 
-import {
-  SkyToasterComponent
-} from './toaster.component';
+import { SkyToasterComponent } from './toaster.component';
 
 @NgModule({
-  declarations: [
-    SkyToastBodyComponent,
-    SkyToastComponent,
-    SkyToasterComponent
-  ],
+  declarations: [SkyToastBodyComponent, SkyToastComponent, SkyToasterComponent],
   imports: [
     CommonModule,
     SkyI18nModule,
     SkyIconModule,
-    SkyToastResourcesModule
+    SkyToastResourcesModule,
   ],
-  exports: [
-    SkyToastComponent
-  ],
+  exports: [SkyToastComponent],
   entryComponents: [
     SkyToastBodyComponent,
     SkyToastComponent,
-    SkyToasterComponent
-  ]
+    SkyToasterComponent,
+  ],
 })
-export class SkyToastModule { }
+export class SkyToastModule {}

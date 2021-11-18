@@ -6,5 +6,5 @@ export enum SkyToastDisplayDirection {
   /**
    * Displays new toasts on top of previous toasts.
    */
-  NewestOnTop
+  NewestOnTop,
 }

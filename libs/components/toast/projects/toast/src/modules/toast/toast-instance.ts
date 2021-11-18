@@ -1,11 +1,7 @@
 // #region imports
-import {
-  EventEmitter
-} from '@angular/core';
+import { EventEmitter } from '@angular/core';
 
-import {
-  Observable
-} from 'rxjs';
+import { Observable } from 'rxjs';
 // #endregion
 
 export class SkyToastInstance {

@@ -1,63 +1,36 @@
-import {
-  ApplicationRef
-} from '@angular/core';
+import { ApplicationRef } from '@angular/core';
 
 import {
   ComponentFixture,
   fakeAsync,
   inject,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
-import {
-  NoopAnimationsModule
-} from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import {
-  expect,
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  SkyToastFixturesModule
-} from './fixtures/toast-fixtures.module';
+import { SkyToastFixturesModule } from './fixtures/toast-fixtures.module';
 
-import {
-  SkyToasterTestComponent
-} from './fixtures/toaster.component.fixture';
+import { SkyToasterTestComponent } from './fixtures/toaster.component.fixture';
 
-import {
-  SkyToastBodyTestComponent
-} from './fixtures/toast-body.component.fixture';
+import { SkyToastBodyTestComponent } from './fixtures/toast-body.component.fixture';
 
-import {
-  SkyToastBodyTestContext
-} from './fixtures/toast-body-context';
+import { SkyToastBodyTestContext } from './fixtures/toast-body-context';
 
-import {
-  SkyToastInstance
-} from './toast-instance';
+import { SkyToastInstance } from './toast-instance';
 
-import {
-  SkyToastService
-} from './toast.service';
+import { SkyToastService } from './toast.service';
 
-import {
-  SkyToasterComponent
-} from './toaster.component';
+import { SkyToasterComponent } from './toaster.component';
 
-import {
-  SkyToasterService
-} from './toaster.service';
+import { SkyToasterService } from './toaster.service';
 
-import {
-  SkyToastContainerOptions
-} from './types/toast-container-options';
+import { SkyToastContainerOptions } from './types/toast-container-options';
 
-import {
-  SkyToastDisplayDirection
-} from './types/toast-display-direction';
+import { SkyToastDisplayDirection } from './types/toast-display-direction';
 
 describe('Toast component', () => {
   let fixture: ComponentFixture<SkyToasterTestComponent>;
@@ -68,37 +41,29 @@ describe('Toast component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyToastFixturesModule,
-        NoopAnimationsModule
-      ],
+      imports: [SkyToastFixturesModule, NoopAnimationsModule],
       providers: [
         {
           provide: SkyToastContainerOptions,
           useValue: {
-            displayDirection: SkyToastDisplayDirection.OldestOnTop
-          } as SkyToastContainerOptions
-        }
-      ]
+            displayDirection: SkyToastDisplayDirection.OldestOnTop,
+          } as SkyToastContainerOptions,
+        },
+      ],
     });
 
     toasterService = new SkyToasterService();
 
-    fixture = TestBed
-      .overrideComponent(
-        SkyToasterComponent,
-        {
-          add: {
-            providers: [
-              {
-                provide: SkyToasterService,
-                useValue: toasterService
-              }
-            ]
-          }
-        }
-      )
-      .createComponent(SkyToasterTestComponent);
+    fixture = TestBed.overrideComponent(SkyToasterComponent, {
+      add: {
+        providers: [
+          {
+            provide: SkyToasterService,
+            useValue: toasterService,
+          },
+        ],
+      },
+    }).createComponent(SkyToasterTestComponent);
   });
 
   beforeEach(inject(
@@ -134,10 +99,12 @@ describe('Toast component', () => {
   }
 
   function openComponent(message = ''): SkyToastInstance {
-    const providers = [{
-      provide: SkyToastBodyTestContext,
-      useValue: new SkyToastBodyTestContext(message)
-    }];
+    const providers = [
+      {
+        provide: SkyToastBodyTestContext,
+        useValue: new SkyToastBodyTestContext(message),
+      },
+    ];
     const instance = toastService.openComponent(
       SkyToastBodyTestComponent,
       {},
@@ -149,7 +116,10 @@ describe('Toast component', () => {
   }
 
   function validateToastMessage(toastEl: any, message: string): void {
-    expect(toastEl.querySelector('.sky-toast-content')).toHaveText(message, true);
+    expect(toastEl.querySelector('.sky-toast-content')).toHaveText(
+      message,
+      true
+    );
   }
 
   it('should not create a toaster element if one exists', fakeAsync(() => {
@@ -198,7 +168,9 @@ describe('Toast component', () => {
 
     let toasts = getToastElements();
     expect(toasts.length).toEqual(1);
-    expect(toasts.item(0).querySelector('.sky-toast-body-test-content')).toHaveText(message, true);
+    expect(
+      toasts.item(0).querySelector('.sky-toast-body-test-content')
+    ).toHaveText(message, true);
 
     toasts.item(0).querySelector('.sky-toast-body-test-btn-close').click();
     fixture.detectChanges();
@@ -209,7 +181,10 @@ describe('Toast component', () => {
   }));
 
   it('should close all toasts', fakeAsync(() => {
-    const cloaseAllSpy = spyOn(SkyToasterComponent.prototype, 'closeAll').and.callThrough();
+    const cloaseAllSpy = spyOn(
+      SkyToasterComponent.prototype,
+      'closeAll'
+    ).and.callThrough();
     openMessage();
     openMessage();
     openMessage();
@@ -229,7 +204,10 @@ describe('Toast component', () => {
   }));
 
   it('should close all toasts', fakeAsync(() => {
-    const cloaseAllSpy = spyOn(SkyToasterComponent.prototype, 'closeAll').and.callThrough();
+    const cloaseAllSpy = spyOn(
+      SkyToasterComponent.prototype,
+      'closeAll'
+    ).and.callThrough();
     let toasts = getToastElements();
     expect(toasts.length).toEqual(0);
 
