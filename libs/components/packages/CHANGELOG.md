@@ -1,3 +1,7 @@
+# 5.52.0 (2021-11-18)
+
+- `@skyux/router@5.0.2` [Release notes](https://github.com/blackbaud/skyux-router/blob/5.0.2/CHANGELOG.md)
+
 # 5.51.0 (2021-11-18)
 
 - `@skyux/forms@5.0.1` [Release notes](https://github.com/blackbaud/skyux-forms/blob/5.0.1/CHANGELOG.md)
