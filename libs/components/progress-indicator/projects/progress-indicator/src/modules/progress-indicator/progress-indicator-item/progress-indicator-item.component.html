@@ -1,16 +1,17 @@
-<div *ngIf="isVisible"
+<div
+  *ngIf="isVisible"
   class="sky-progress-indicator-item"
   [ngClass]="'sky-progress-indicator-item-status-' + statusName"
 >
-  <sky-progress-indicator-status-marker *ngIf="showStatusMarker"
+  <sky-progress-indicator-status-marker
+    *ngIf="showStatusMarker"
     [status]="status"
   >
   </sky-progress-indicator-status-marker>
 
-  <div
-    class="sky-progress-indicator-item-content"
-  >
-    <div *ngIf="showTitle"
+  <div class="sky-progress-indicator-item-content">
+    <div
+      *ngIf="showTitle"
       aria-level="2"
       class="sky-progress-indicator-item-heading"
       role="heading"
@@ -23,9 +24,7 @@
     >
       {{ formattedTitle }}
     </div>
-    <div
-      class="sky-progress-indicator-item-body"
-    >
+    <div class="sky-progress-indicator-item-body">
       <ng-template [ngIf]="statusName !== 'incomplete'">
         <ng-content></ng-content>
       </ng-template>

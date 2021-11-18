@@ -12,14 +12,21 @@ import {
   SkyI18nModule,
   SkyLibResources,
   SkyLibResourcesProvider,
-  SKY_LIB_RESOURCES_PROVIDERS
+  SKY_LIB_RESOURCES_PROVIDERS,
 } from '@skyux/i18n';
 
 const RESOURCES: { [locale: string]: SkyLibResources } = {
-  'EN-US': {"skyux_progress_indicator_navigator_finish":{"message":"Finish"},"skyux_progress_indicator_navigator_next":{"message":"Next"},"skyux_progress_indicator_navigator_previous":{"message":"Previous"},"skyux_progress_indicator_navigator_reset":{"message":"Reset"}},
+  'EN-US': {
+    skyux_progress_indicator_navigator_finish: { message: 'Finish' },
+    skyux_progress_indicator_navigator_next: { message: 'Next' },
+    skyux_progress_indicator_navigator_previous: { message: 'Previous' },
+    skyux_progress_indicator_navigator_reset: { message: 'Reset' },
+  },
 };
 
-export class SkyProgressIndicatorResourcesProvider implements SkyLibResourcesProvider {
+export class SkyProgressIndicatorResourcesProvider
+  implements SkyLibResourcesProvider
+{
   public getString(localeInfo: SkyAppLocaleInfo, name: string): string {
     return getLibStringForLocale(RESOURCES, localeInfo.locale, name);
   }
@@ -30,10 +37,12 @@ export class SkyProgressIndicatorResourcesProvider implements SkyLibResourcesPro
  */
 @NgModule({
   exports: [SkyI18nModule],
-  providers: [{
-    provide: SKY_LIB_RESOURCES_PROVIDERS,
-    useClass: SkyProgressIndicatorResourcesProvider,
-    multi: true
-  }]
+  providers: [
+    {
+      provide: SKY_LIB_RESOURCES_PROVIDERS,
+      useClass: SkyProgressIndicatorResourcesProvider,
+      multi: true,
+    },
+  ],
 })
-export class SkyProgressIndicatorResourcesModule { }
+export class SkyProgressIndicatorResourcesModule {}

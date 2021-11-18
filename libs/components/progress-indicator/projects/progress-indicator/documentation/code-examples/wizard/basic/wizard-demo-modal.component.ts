@@ -1,29 +1,20 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import {
-  FormBuilder,
-  FormGroup
-} from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
-import {
-  SkyModalInstance
-} from '@skyux/modals';
+import { SkyModalInstance } from '@skyux/modals';
 
 import {
   SkyProgressIndicatorActionClickArgs,
   SkyProgressIndicatorChange,
-  SkyProgressIndicatorDisplayMode
+  SkyProgressIndicatorDisplayMode,
 } from '@skyux/progress-indicator';
 
 @Component({
   selector: 'app-wizard-demo-modal',
-  templateUrl: './wizard-demo-modal.component.html'
+  templateUrl: './wizard-demo-modal.component.html',
 })
 export class WizardDemoModalComponent implements OnInit {
-
   public activeIndex = 0;
 
   public displayMode = SkyProgressIndicatorDisplayMode.Horizontal;
@@ -46,23 +37,22 @@ export class WizardDemoModalComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public instance: SkyModalInstance
-  ) { }
+  ) {}
 
   public ngOnInit() {
     this.myForm = this.formBuilder.group({
       requiredValue1: undefined,
-      requiredValue2: undefined
+      requiredValue2: undefined,
     });
-
   }
 
   public onCancelClick(): void {
-      this.instance.cancel();
+    this.instance.cancel();
   }
 
   public onSaveClick(args: SkyProgressIndicatorActionClickArgs): void {
-      args.progressHandler.advance();
-      this.instance.save();
+    args.progressHandler.advance();
+    this.instance.save();
   }
 
   public updateIndex(changes: SkyProgressIndicatorChange): void {

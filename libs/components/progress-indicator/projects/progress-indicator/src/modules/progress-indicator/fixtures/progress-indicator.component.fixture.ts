@@ -6,98 +6,77 @@ import {
   ViewChild,
   ViewChildren,
   QueryList,
-  TemplateRef
+  TemplateRef,
 } from '@angular/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  SkyProgressIndicatorItemComponent
-} from '../progress-indicator-item/progress-indicator-item.component';
+import { SkyProgressIndicatorItemComponent } from '../progress-indicator-item/progress-indicator-item.component';
 
-import {
-  SkyProgressIndicatorNavButtonComponent
-} from '../progress-indicator-nav-button/progress-indicator-nav-button.component';
+import { SkyProgressIndicatorNavButtonComponent } from '../progress-indicator-nav-button/progress-indicator-nav-button.component';
 
-import {
-  SkyProgressIndicatorResetButtonComponent
-} from '../progress-indicator-reset-button/progress-indicator-reset-button.component';
+import { SkyProgressIndicatorResetButtonComponent } from '../progress-indicator-reset-button/progress-indicator-reset-button.component';
 
-import {
-  SkyProgressIndicatorChange
-} from '../types/progress-indicator-change';
+import { SkyProgressIndicatorChange } from '../types/progress-indicator-change';
 
-import {
-  SkyProgressIndicatorMessage
-} from '../types/progress-indicator-message';
+import { SkyProgressIndicatorMessage } from '../types/progress-indicator-message';
 
-import {
-  SkyProgressIndicatorMessageType
-} from '../types/progress-indicator-message-type';
+import { SkyProgressIndicatorMessageType } from '../types/progress-indicator-message-type';
 
-import {
-  SkyProgressIndicatorDisplayModeType
-} from '../types/progress-indicator-display-mode-type';
+import { SkyProgressIndicatorDisplayModeType } from '../types/progress-indicator-display-mode-type';
 
-import {
-  SkyProgressIndicatorNavButtonType
-} from '../types/progress-indicator-nav-button-type';
+import { SkyProgressIndicatorNavButtonType } from '../types/progress-indicator-nav-button-type';
 
-import {
-  SkyProgressIndicatorComponent
-} from '../progress-indicator.component';
+import { SkyProgressIndicatorComponent } from '../progress-indicator.component';
 
 @Component({
   selector: 'sky-progress-indicator-fixture',
   templateUrl: './progress-indicator.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyProgressIndicatorFixtureComponent {
-
   @ViewChild(SkyProgressIndicatorComponent, {
-    static: true
+    static: true,
   })
   public emptyProgressIndicator: SkyProgressIndicatorComponent;
 
   @ViewChild(SkyProgressIndicatorComponent, {
-    static: true
+    static: true,
   })
   public progressIndicator: SkyProgressIndicatorComponent;
 
   @ViewChild('progressIndicator', {
     read: TemplateRef,
-    static: true
+    static: true,
   })
   public progressIndicatorTemplateRef: TemplateRef<any>;
 
   @ViewChild(SkyProgressIndicatorResetButtonComponent, {
-    static: true
+    static: true,
   })
   public resetButtonComponentLegacy: SkyProgressIndicatorResetButtonComponent;
 
   @ViewChild('legacyResetButton', {
     read: ElementRef,
-    static: false
+    static: false,
   })
   public legacyResetButton: ElementRef;
 
   @ViewChild('legacyIsolatedResetButton', {
     read: ElementRef,
-    static: false
+    static: false,
   })
   public legacyIsolatedResetButton: ElementRef;
 
   @ViewChild('defaultNavButton', {
     read: SkyProgressIndicatorNavButtonComponent,
-    static: false
+    static: false,
   })
   public defaultNavButtonComponent: SkyProgressIndicatorNavButtonComponent;
 
   @ViewChild('defaultNavButton', {
     read: ElementRef,
-    static: false
+    static: false,
   })
   public defaultNavButtonElement: ElementRef;
 
@@ -113,7 +92,9 @@ export class SkyProgressIndicatorFixtureComponent {
   // Progress indicator component inputs.
   public displayMode: SkyProgressIndicatorDisplayModeType;
   public isPassive: boolean;
-  public messageStream = new Subject<SkyProgressIndicatorMessage | SkyProgressIndicatorMessageType>();
+  public messageStream = new Subject<
+    SkyProgressIndicatorMessage | SkyProgressIndicatorMessageType
+  >();
   public startingIndex: number;
 
   // Nav button inputs.
@@ -131,22 +112,20 @@ export class SkyProgressIndicatorFixtureComponent {
   public progressIndicatorTemplateRefLegacy: SkyProgressIndicatorComponent;
   public showFourthItem = false;
 
-  constructor(
-    private changeDetector: ChangeDetectorRef
-  ) {
+  constructor(private changeDetector: ChangeDetectorRef) {
     this.buttonConfigs = [
       {
-        type: 'finish'
+        type: 'finish',
       },
       {
-        type: 'next'
+        type: 'next',
       },
       {
-        type: 'previous'
+        type: 'previous',
       },
       {
-        type: 'reset'
-      }
+        type: 'reset',
+      },
     ];
   }
 
@@ -154,7 +133,7 @@ export class SkyProgressIndicatorFixtureComponent {
     this.lastChange = change;
   }
 
-  public onResetClick(): void { }
+  public onResetClick(): void {}
 
   public sendMessage(message: SkyProgressIndicatorMessage): void {
     this.messageStream.next(message);
@@ -168,20 +147,20 @@ export class SkyProgressIndicatorFixtureComponent {
     this.buttonConfigs = [
       {
         text: 'My Finish',
-        type: 'finish'
+        type: 'finish',
       },
       {
         text: 'My Next',
-        type: 'next'
+        type: 'next',
       },
       {
         text: 'My Previous',
-        type: 'previous'
+        type: 'previous',
       },
       {
         text: 'My Reset',
-        type: 'reset'
-      }
+        type: 'reset',
+      },
     ];
   }
 

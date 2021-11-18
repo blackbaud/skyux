@@ -1,5 +1,4 @@
 export enum SkyProgressIndicatorMessageType {
-
   /**
    * Indicates that the current step is complete.
    * This completes the active item and moves to the next item.
@@ -27,5 +26,5 @@ export enum SkyProgressIndicatorMessageType {
   /**
    * Indicates that progress should move to the item indicated by the `data.activeIndex` property.
    */
-  GoTo = 4
+  GoTo = 4,
 }

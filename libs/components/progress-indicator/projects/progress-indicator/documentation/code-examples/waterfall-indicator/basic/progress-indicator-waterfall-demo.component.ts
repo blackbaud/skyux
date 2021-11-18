@@ -1,43 +1,30 @@
 import {
   Component,
   ChangeDetectionStrategy,
-  ChangeDetectorRef
+  ChangeDetectorRef,
 } from '@angular/core';
 
-import {
-  SkyModalService,
-  SkyModalCloseArgs
-} from '@skyux/modals';
+import { SkyModalService, SkyModalCloseArgs } from '@skyux/modals';
 
 import {
   SkyProgressIndicatorChange,
-  SkyProgressIndicatorMessageType
+  SkyProgressIndicatorMessageType,
 } from '@skyux/progress-indicator';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  take
-} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
-import {
-  SkyProgressIndicatorWaterfallDemoContext
-} from './progress-indicator-waterfall-demo-context';
+import { SkyProgressIndicatorWaterfallDemoContext } from './progress-indicator-waterfall-demo-context';
 
-import {
-  SkyProgressIndicatorWaterfallDemoFormComponent
-} from './progress-indicator-waterfall-demo-form.component';
+import { SkyProgressIndicatorWaterfallDemoFormComponent } from './progress-indicator-waterfall-demo-form.component';
 
 @Component({
   selector: 'app-waterfall-indicator-docs',
   templateUrl: './progress-indicator-waterfall-demo.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class WaterfallIndicatorDocsComponent {
-
   public activeIndex = 0;
 
   public progressMessageStream = new Subject<SkyProgressIndicatorMessageType>();
@@ -45,13 +32,13 @@ export class WaterfallIndicatorDocsComponent {
   constructor(
     private changeDetector: ChangeDetectorRef,
     private modal: SkyModalService
-  ) { }
+  ) {}
 
   public configureConnection(isProgress: boolean): void {
     this.openModalForm(
       {
         title: 'Configure connection',
-        buttonText: 'Submit connection settings'
+        buttonText: 'Submit connection settings',
       },
       isProgress
     );
@@ -61,7 +48,7 @@ export class WaterfallIndicatorDocsComponent {
     this.openModalForm(
       {
         title: 'Select remote server',
-        buttonText: 'Submit server choice'
+        buttonText: 'Submit server choice',
       },
       isProgress
     );
@@ -71,7 +58,7 @@ export class WaterfallIndicatorDocsComponent {
     this.openModalForm(
       {
         title: 'Connection confirmed.',
-        buttonText: 'OK'
+        buttonText: 'OK',
       },
       isProgress
     );
@@ -94,11 +81,19 @@ export class WaterfallIndicatorDocsComponent {
     this.progressMessageStream.next(SkyProgressIndicatorMessageType.Progress);
   }
 
-  private openModalForm(context: SkyProgressIndicatorWaterfallDemoContext, isProgress: boolean): void {
-    const modalForm = this.modal.open(SkyProgressIndicatorWaterfallDemoFormComponent, [{
-      provide: SkyProgressIndicatorWaterfallDemoContext,
-      useValue: context
-    }]);
+  private openModalForm(
+    context: SkyProgressIndicatorWaterfallDemoContext,
+    isProgress: boolean
+  ): void {
+    const modalForm = this.modal.open(
+      SkyProgressIndicatorWaterfallDemoFormComponent,
+      [
+        {
+          provide: SkyProgressIndicatorWaterfallDemoContext,
+          useValue: context,
+        },
+      ]
+    );
 
     modalForm.closed.pipe(take(1)).subscribe((args: SkyModalCloseArgs) => {
       if (args.reason === 'save' && isProgress) {
@@ -106,5 +101,4 @@ export class WaterfallIndicatorDocsComponent {
       }
     });
   }
-
 }

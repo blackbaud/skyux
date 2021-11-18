@@ -3,7 +3,6 @@
  * @internal
  */
 export enum SkyProgressIndicatorDisplayMode {
-
   /**
    * Specifies a vertical layout for the progress indicator.
    */
@@ -12,6 +11,5 @@ export enum SkyProgressIndicatorDisplayMode {
   /**
    * Specifies a horizontal layout for the progress indicator.
    */
-  Horizontal
-
+  Horizontal,
 }

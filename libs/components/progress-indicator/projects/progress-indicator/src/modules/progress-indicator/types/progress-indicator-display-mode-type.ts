@@ -1,1 +1,5 @@
-export type SkyProgressIndicatorDisplayModeType = 0 | 1 | 'vertical' | 'horizontal';
+export type SkyProgressIndicatorDisplayModeType =
+  | 0
+  | 1
+  | 'vertical'
+  | 'horizontal';

@@ -1,5 +1,4 @@
 export enum SkyProgressIndicatorItemStatus {
-
   /**
    * Indicates the item is active.
    */
@@ -18,5 +17,5 @@ export enum SkyProgressIndicatorItemStatus {
   /**
    * Indicates the item is pending.
    */
-  Pending
+  Pending,
 }

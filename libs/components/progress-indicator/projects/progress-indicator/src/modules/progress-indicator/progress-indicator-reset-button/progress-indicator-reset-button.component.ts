@@ -5,16 +5,12 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
-  Output
+  Output,
 } from '@angular/core';
 
-import {
-  SkyProgressIndicatorMessageType
-} from '../types/progress-indicator-message-type';
+import { SkyProgressIndicatorMessageType } from '../types/progress-indicator-message-type';
 
-import {
-  SkyProgressIndicatorComponent
-} from '../progress-indicator.component';
+import { SkyProgressIndicatorComponent } from '../progress-indicator.component';
 
 /**
  * Displays a button to mark all items in the progress indicator as incomplete and set the
@@ -24,10 +20,9 @@ import {
 @Component({
   selector: 'sky-progress-indicator-reset-button',
   templateUrl: './progress-indicator-reset-button.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyProgressIndicatorResetButtonComponent implements OnDestroy {
-
   /**
    * Indicates whether to disable the reset button.
    * @default false
@@ -58,13 +53,11 @@ export class SkyProgressIndicatorResetButtonComponent implements OnDestroy {
 
   private _disabled: boolean;
 
-  constructor(
-    private changeDetector: ChangeDetectorRef
-  ) {
+  constructor(private changeDetector: ChangeDetectorRef) {
     console.warn(
       '[Deprecation warning] The `<sky-progress-indicator-reset-button>` component is ' +
-      'deprecated. Please use the `<sky-progress-indicator-nav-button>` component instead, with ' +
-      '`buttonType` set to "reset".'
+        'deprecated. Please use the `<sky-progress-indicator-nav-button>` component instead, with ' +
+        '`buttonType` set to "reset".'
     );
   }
 
@@ -76,7 +69,7 @@ export class SkyProgressIndicatorResetButtonComponent implements OnDestroy {
     this.resetClick.emit();
 
     this.progressIndicator.sendMessage({
-      type: SkyProgressIndicatorMessageType.Reset
+      type: SkyProgressIndicatorMessageType.Reset,
     });
   }
 }

@@ -3,62 +3,38 @@ import {
   fakeAsync,
   TestBed,
   tick,
-  waitForAsync
+  waitForAsync,
 } from '@angular/core/testing';
 
-import {
-  expect,
-  expectAsync
-} from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import {
   SkyTheme,
   SkyThemeMode,
   SkyThemeService,
   SkyThemeSettings,
-  SkyThemeSettingsChange
+  SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import {
-  BehaviorSubject,
-  Subject
-} from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
-import {
-  SkyProgressIndicatorProgressHandlerFixtureComponent
-} from './fixtures/progress-indicator-progress-handler.component.fixture';
+import { SkyProgressIndicatorProgressHandlerFixtureComponent } from './fixtures/progress-indicator-progress-handler.component.fixture';
 
-import {
-  SkyProgressIndicatorFixtureComponent
-} from './fixtures/progress-indicator.component.fixture';
+import { SkyProgressIndicatorFixtureComponent } from './fixtures/progress-indicator.component.fixture';
 
-import {
-  SkyProgressIndicatorFixtureModule
-} from './fixtures/progress-indicator.module.fixture';
+import { SkyProgressIndicatorFixtureModule } from './fixtures/progress-indicator.module.fixture';
 
-import {
-  SkyProgressIndicatorDisplayModeType
-} from './types/progress-indicator-display-mode-type';
+import { SkyProgressIndicatorDisplayModeType } from './types/progress-indicator-display-mode-type';
 
-import {
-  SkyProgressIndicatorDisplayMode
-} from './types/progress-indicator-mode';
+import { SkyProgressIndicatorDisplayMode } from './types/progress-indicator-mode';
 
-import {
-  SkyProgressIndicatorItemStatus
-} from './types/progress-indicator-item-status';
+import { SkyProgressIndicatorItemStatus } from './types/progress-indicator-item-status';
 
-import {
-  SkyProgressIndicatorMessageType
-} from './types/progress-indicator-message-type';
+import { SkyProgressIndicatorMessageType } from './types/progress-indicator-message-type';
 
-import {
-  SkyProgressIndicatorNavButtonType
-} from './types/progress-indicator-nav-button-type';
+import { SkyProgressIndicatorNavButtonType } from './types/progress-indicator-nav-button-type';
 
-import {
-  SkyProgressIndicatorComponent
-} from './progress-indicator.component';
+import { SkyProgressIndicatorComponent } from './progress-indicator.component';
 
 describe('Progress indicator component', function () {
   let fixture: ComponentFixture<SkyProgressIndicatorFixtureComponent>;
@@ -66,7 +42,7 @@ describe('Progress indicator component', function () {
   let progressIndicator: SkyProgressIndicatorComponent;
   let consoleWarnSpy: jasmine.Spy;
   let mockThemeSvc: {
-    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
 
   function detectChanges(): void {
@@ -78,14 +54,14 @@ describe('Progress indicator component', function () {
 
   function stepBackward(): void {
     componentInstance.sendMessage({
-      type: SkyProgressIndicatorMessageType.Regress
+      type: SkyProgressIndicatorMessageType.Regress,
     });
     detectChanges();
   }
 
   function stepForward(): void {
     componentInstance.sendMessage({
-      type: SkyProgressIndicatorMessageType.Progress
+      type: SkyProgressIndicatorMessageType.Progress,
     });
     detectChanges();
   }
@@ -94,13 +70,15 @@ describe('Progress indicator component', function () {
     componentInstance.sendMessage({
       type: SkyProgressIndicatorMessageType.GoTo,
       data: {
-        activeIndex: index
-      }
+        activeIndex: index,
+      },
     });
     detectChanges();
   }
 
-  function verifyItemStatuses(statuses: SkyProgressIndicatorItemStatus[]): void {
+  function verifyItemStatuses(
+    statuses: SkyProgressIndicatorItemStatus[]
+  ): void {
     expect(statuses.length).toBe(componentInstance.progressItems.length);
     componentInstance.progressItems.forEach((item, i) => {
       expect(item.status).toEqual(statuses[i]);
@@ -118,32 +96,30 @@ describe('Progress indicator component', function () {
   }
 
   function getStepHeadingElements(): NodeList {
-    return fixture.nativeElement.querySelectorAll('.sky-progress-indicator-item-heading');
+    return fixture.nativeElement.querySelectorAll(
+      '.sky-progress-indicator-item-heading'
+    );
   }
 
   beforeEach(function () {
     mockThemeSvc = {
-      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
-        {
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.default,
-            SkyThemeMode.presets.light
-          ),
-          previousSettings: undefined
-        }
-      )
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.default,
+          SkyThemeMode.presets.light
+        ),
+        previousSettings: undefined,
+      }),
     };
 
     TestBed.configureTestingModule({
-      imports: [
-        SkyProgressIndicatorFixtureModule
-      ],
+      imports: [SkyProgressIndicatorFixtureModule],
       providers: [
         {
           provide: SkyThemeService,
-          useValue: mockThemeSvc
-        }
-      ]
+          useValue: mockThemeSvc,
+        },
+      ],
     });
 
     fixture = TestBed.createComponent(SkyProgressIndicatorFixtureComponent);
@@ -177,8 +153,16 @@ describe('Progress indicator component', function () {
 
       const element = fixture.nativeElement;
 
-      expect(element.querySelector('.sky-progress-indicator-horizontal-status-markers')).toBeTruthy();
-      expect(element.querySelector('.sky-progress-indicator-item .sky-progress-indicator-status-marker')).toBeFalsy();
+      expect(
+        element.querySelector(
+          '.sky-progress-indicator-horizontal-status-markers'
+        )
+      ).toBeTruthy();
+      expect(
+        element.querySelector(
+          '.sky-progress-indicator-item .sky-progress-indicator-status-marker'
+        )
+      ).toBeFalsy();
     }
 
     validate(SkyProgressIndicatorDisplayMode.Horizontal);
@@ -196,7 +180,7 @@ describe('Progress indicator component', function () {
     verifyItemStatuses([
       SkyProgressIndicatorItemStatus.Complete,
       SkyProgressIndicatorItemStatus.Complete,
-      SkyProgressIndicatorItemStatus.Active
+      SkyProgressIndicatorItemStatus.Active,
     ]);
   }));
 
@@ -209,7 +193,9 @@ describe('Progress indicator component', function () {
       const stepHeadingElements = getStepHeadingElements();
       const headingElement = stepHeadingElements.item(0);
 
-      expect(headingElement.textContent.trim()).toEqual('1 - Do the first thing');
+      expect(headingElement.textContent.trim()).toEqual(
+        '1 - Do the first thing'
+      );
     }
 
     validate(SkyProgressIndicatorDisplayMode.Vertical);
@@ -220,21 +206,63 @@ describe('Progress indicator component', function () {
     expect(componentInstance.emptyProgressIndicator.itemStatuses).toEqual([]);
   }));
 
-  it('should handle dynamic steps being added and removed', waitForAsync(function () {
-    componentInstance.startingIndex = 2;
+  it(
+    'should handle dynamic steps being added and removed',
+    waitForAsync(function () {
+      componentInstance.startingIndex = 2;
 
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        // Verify that the desired index is set to Active,
+        // and all previous steps are set to Complete.
+        verifyActiveIndex(2);
+        verifyItemStatuses([
+          SkyProgressIndicatorItemStatus.Complete,
+          SkyProgressIndicatorItemStatus.Complete,
+          SkyProgressIndicatorItemStatus.Active,
+        ]);
 
-      // Verify that the desired index is set to Active,
-      // and all previous steps are set to Complete.
-      verifyActiveIndex(2);
-      verifyItemStatuses([
-        SkyProgressIndicatorItemStatus.Complete,
-        SkyProgressIndicatorItemStatus.Complete,
-        SkyProgressIndicatorItemStatus.Active
-      ]);
+        componentInstance.displayFourthItem();
 
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          fixture.detectChanges();
+
+          // Verify that the desired index is set to Active,
+          // and all previous steps are set to Complete.
+          verifyActiveIndex(2);
+          verifyItemStatuses([
+            SkyProgressIndicatorItemStatus.Complete,
+            SkyProgressIndicatorItemStatus.Complete,
+            SkyProgressIndicatorItemStatus.Active,
+            SkyProgressIndicatorItemStatus.Incomplete,
+          ]);
+
+          componentInstance.sendMessage({
+            type: SkyProgressIndicatorMessageType.Progress,
+          });
+
+          fixture.detectChanges();
+          fixture.whenStable().then(() => {
+            // Verify that the desired index is set to Active,
+            // and all previous steps are set to Complete.
+            verifyActiveIndex(3);
+            verifyItemStatuses([
+              SkyProgressIndicatorItemStatus.Complete,
+              SkyProgressIndicatorItemStatus.Complete,
+              SkyProgressIndicatorItemStatus.Complete,
+              SkyProgressIndicatorItemStatus.Active,
+            ]);
+          });
+        });
+      });
+    })
+  );
+
+  it(
+    'should handle an index which is past the number of items',
+    waitForAsync(function () {
+      componentInstance.startingIndex = 3;
       componentInstance.displayFourthItem();
 
       fixture.detectChanges();
@@ -243,67 +271,29 @@ describe('Progress indicator component', function () {
 
         // Verify that the desired index is set to Active,
         // and all previous steps are set to Complete.
-        verifyActiveIndex(2);
+        verifyActiveIndex(3);
         verifyItemStatuses([
           SkyProgressIndicatorItemStatus.Complete,
           SkyProgressIndicatorItemStatus.Complete,
+          SkyProgressIndicatorItemStatus.Complete,
           SkyProgressIndicatorItemStatus.Active,
-          SkyProgressIndicatorItemStatus.Incomplete
         ]);
 
-        componentInstance.sendMessage({
-          type: SkyProgressIndicatorMessageType.Progress
-        });
-
+        componentInstance.hideFourthItem();
         fixture.detectChanges();
         fixture.whenStable().then(() => {
           // Verify that the desired index is set to Active,
           // and all previous steps are set to Complete.
-          verifyActiveIndex(3);
+          verifyActiveIndex(2);
           verifyItemStatuses([
             SkyProgressIndicatorItemStatus.Complete,
             SkyProgressIndicatorItemStatus.Complete,
-            SkyProgressIndicatorItemStatus.Complete,
-            SkyProgressIndicatorItemStatus.Active
+            SkyProgressIndicatorItemStatus.Active,
           ]);
         });
       });
-    });
-  }));
-
-  it('should handle an index which is past the number of items', waitForAsync(function () {
-    componentInstance.startingIndex = 3;
-    componentInstance.displayFourthItem();
-
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-
-      // Verify that the desired index is set to Active,
-      // and all previous steps are set to Complete.
-      verifyActiveIndex(3);
-      verifyItemStatuses([
-        SkyProgressIndicatorItemStatus.Complete,
-        SkyProgressIndicatorItemStatus.Complete,
-        SkyProgressIndicatorItemStatus.Complete,
-        SkyProgressIndicatorItemStatus.Active
-      ]);
-
-      componentInstance.hideFourthItem();
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-
-        // Verify that the desired index is set to Active,
-        // and all previous steps are set to Complete.
-        verifyActiveIndex(2);
-        verifyItemStatuses([
-          SkyProgressIndicatorItemStatus.Complete,
-          SkyProgressIndicatorItemStatus.Complete,
-          SkyProgressIndicatorItemStatus.Active
-        ]);
-      });
-    });
-  }));
+    })
+  );
 
   describe('Passive mode', function () {
     beforeEach(function () {
@@ -322,7 +312,7 @@ describe('Progress indicator component', function () {
       verifyItemStatuses([
         SkyProgressIndicatorItemStatus.Pending,
         SkyProgressIndicatorItemStatus.Incomplete,
-        SkyProgressIndicatorItemStatus.Incomplete
+        SkyProgressIndicatorItemStatus.Incomplete,
       ]);
     }));
 
@@ -352,7 +342,7 @@ describe('Progress indicator component', function () {
       verifyItemStatuses([
         SkyProgressIndicatorItemStatus.Active,
         SkyProgressIndicatorItemStatus.Incomplete,
-        SkyProgressIndicatorItemStatus.Incomplete
+        SkyProgressIndicatorItemStatus.Incomplete,
       ]);
 
       stepForward();
@@ -361,7 +351,7 @@ describe('Progress indicator component', function () {
       verifyItemStatuses([
         SkyProgressIndicatorItemStatus.Complete,
         SkyProgressIndicatorItemStatus.Active,
-        SkyProgressIndicatorItemStatus.Incomplete
+        SkyProgressIndicatorItemStatus.Incomplete,
       ]);
 
       stepBackward();
@@ -370,7 +360,7 @@ describe('Progress indicator component', function () {
       verifyItemStatuses([
         SkyProgressIndicatorItemStatus.Active,
         SkyProgressIndicatorItemStatus.Incomplete,
-        SkyProgressIndicatorItemStatus.Incomplete
+        SkyProgressIndicatorItemStatus.Incomplete,
       ]);
     }));
 
@@ -385,7 +375,7 @@ describe('Progress indicator component', function () {
       verifyItemStatuses([
         SkyProgressIndicatorItemStatus.Complete,
         SkyProgressIndicatorItemStatus.Complete,
-        SkyProgressIndicatorItemStatus.Active
+        SkyProgressIndicatorItemStatus.Active,
       ]);
 
       stepForward();
@@ -394,7 +384,7 @@ describe('Progress indicator component', function () {
       verifyItemStatuses([
         SkyProgressIndicatorItemStatus.Complete,
         SkyProgressIndicatorItemStatus.Complete,
-        SkyProgressIndicatorItemStatus.Active
+        SkyProgressIndicatorItemStatus.Active,
       ]);
     }));
 
@@ -405,7 +395,7 @@ describe('Progress indicator component', function () {
       verifyItemStatuses([
         SkyProgressIndicatorItemStatus.Active,
         SkyProgressIndicatorItemStatus.Incomplete,
-        SkyProgressIndicatorItemStatus.Incomplete
+        SkyProgressIndicatorItemStatus.Incomplete,
       ]);
 
       stepBackward();
@@ -414,7 +404,7 @@ describe('Progress indicator component', function () {
       verifyItemStatuses([
         SkyProgressIndicatorItemStatus.Active,
         SkyProgressIndicatorItemStatus.Incomplete,
-        SkyProgressIndicatorItemStatus.Incomplete
+        SkyProgressIndicatorItemStatus.Incomplete,
       ]);
     }));
 
@@ -427,11 +417,11 @@ describe('Progress indicator component', function () {
       verifyItemStatuses([
         SkyProgressIndicatorItemStatus.Complete,
         SkyProgressIndicatorItemStatus.Complete,
-        SkyProgressIndicatorItemStatus.Active
+        SkyProgressIndicatorItemStatus.Active,
       ]);
 
       componentInstance.sendMessage({
-        type: SkyProgressIndicatorMessageType.Reset
+        type: SkyProgressIndicatorMessageType.Reset,
       });
 
       detectChanges();
@@ -440,7 +430,7 @@ describe('Progress indicator component', function () {
       verifyItemStatuses([
         SkyProgressIndicatorItemStatus.Active,
         SkyProgressIndicatorItemStatus.Incomplete,
-        SkyProgressIndicatorItemStatus.Incomplete
+        SkyProgressIndicatorItemStatus.Incomplete,
       ]);
     }));
 
@@ -453,7 +443,7 @@ describe('Progress indicator component', function () {
       verifyItemStatuses([
         SkyProgressIndicatorItemStatus.Complete,
         SkyProgressIndicatorItemStatus.Active,
-        SkyProgressIndicatorItemStatus.Incomplete
+        SkyProgressIndicatorItemStatus.Incomplete,
       ]);
     }));
 
@@ -466,7 +456,7 @@ describe('Progress indicator component', function () {
       verifyItemStatuses([
         SkyProgressIndicatorItemStatus.Complete,
         SkyProgressIndicatorItemStatus.Complete,
-        SkyProgressIndicatorItemStatus.Active
+        SkyProgressIndicatorItemStatus.Active,
       ]);
 
       gotoStep(-20);
@@ -475,7 +465,7 @@ describe('Progress indicator component', function () {
       verifyItemStatuses([
         SkyProgressIndicatorItemStatus.Active,
         SkyProgressIndicatorItemStatus.Incomplete,
-        SkyProgressIndicatorItemStatus.Incomplete
+        SkyProgressIndicatorItemStatus.Incomplete,
       ]);
     }));
 
@@ -490,10 +480,13 @@ describe('Progress indicator component', function () {
     it('should finish all steps', fakeAsync(function () {
       detectChanges();
 
-      const spy = spyOn(componentInstance, 'onProgressChanges').and.callThrough();
+      const spy = spyOn(
+        componentInstance,
+        'onProgressChanges'
+      ).and.callThrough();
 
       componentInstance.sendMessage({
-        type: SkyProgressIndicatorMessageType.Finish
+        type: SkyProgressIndicatorMessageType.Finish,
       });
 
       detectChanges();
@@ -502,7 +495,7 @@ describe('Progress indicator component', function () {
       verifyItemStatuses([
         SkyProgressIndicatorItemStatus.Complete,
         SkyProgressIndicatorItemStatus.Complete,
-        SkyProgressIndicatorItemStatus.Complete
+        SkyProgressIndicatorItemStatus.Complete,
       ]);
 
       expect(spy).toHaveBeenCalledWith({
@@ -511,18 +504,21 @@ describe('Progress indicator component', function () {
         itemStatuses: [
           SkyProgressIndicatorItemStatus.Complete,
           SkyProgressIndicatorItemStatus.Complete,
-          SkyProgressIndicatorItemStatus.Complete
-        ]
+          SkyProgressIndicatorItemStatus.Complete,
+        ],
       });
     }));
 
     it('should handle undefined message types', fakeAsync(function () {
       detectChanges();
 
-      const spy = spyOn(progressIndicator as any, 'updateSteps').and.callThrough();
+      const spy = spyOn(
+        progressIndicator as any,
+        'updateSteps'
+      ).and.callThrough();
 
       componentInstance.sendMessage({
-        type: 1000
+        type: 1000,
       });
 
       detectChanges();
@@ -561,14 +557,17 @@ describe('Progress indicator component', function () {
   describe('Navigation buttons', function () {
     beforeEach(function () {
       componentInstance.showNavButtons = true;
-      componentInstance.defaultNavButtonProgressIndicatorRef = componentInstance.progressIndicator;
+      componentInstance.defaultNavButtonProgressIndicatorRef =
+        componentInstance.progressIndicator;
     });
 
     it('should set defaults', fakeAsync(() => {
       detectChanges();
 
-      const defaultButtonComponent = componentInstance.defaultNavButtonComponent;
-      const defaultButtonElement = componentInstance.defaultNavButtonElement.nativeElement;
+      const defaultButtonComponent =
+        componentInstance.defaultNavButtonComponent;
+      const defaultButtonElement =
+        componentInstance.defaultNavButtonElement.nativeElement;
 
       expect(defaultButtonComponent.buttonType).toEqual('next');
       expect(defaultButtonElement.textContent).toContain('Next');
@@ -598,7 +597,7 @@ describe('Progress indicator component', function () {
       verifyItemStatuses([
         SkyProgressIndicatorItemStatus.Active,
         SkyProgressIndicatorItemStatus.Incomplete,
-        SkyProgressIndicatorItemStatus.Incomplete
+        SkyProgressIndicatorItemStatus.Incomplete,
       ]);
 
       const previousButtonElement = getNavButtonElement('previous');
@@ -611,7 +610,7 @@ describe('Progress indicator component', function () {
       verifyItemStatuses([
         SkyProgressIndicatorItemStatus.Complete,
         SkyProgressIndicatorItemStatus.Active,
-        SkyProgressIndicatorItemStatus.Incomplete
+        SkyProgressIndicatorItemStatus.Incomplete,
       ]);
 
       previousButtonElement.click();
@@ -621,7 +620,7 @@ describe('Progress indicator component', function () {
       verifyItemStatuses([
         SkyProgressIndicatorItemStatus.Active,
         SkyProgressIndicatorItemStatus.Incomplete,
-        SkyProgressIndicatorItemStatus.Incomplete
+        SkyProgressIndicatorItemStatus.Incomplete,
       ]);
 
       gotoStep(4);
@@ -631,7 +630,7 @@ describe('Progress indicator component', function () {
       verifyItemStatuses([
         SkyProgressIndicatorItemStatus.Complete,
         SkyProgressIndicatorItemStatus.Complete,
-        SkyProgressIndicatorItemStatus.Active
+        SkyProgressIndicatorItemStatus.Active,
       ]);
 
       const finishButtonElement = getNavButtonElement('finish');
@@ -643,7 +642,7 @@ describe('Progress indicator component', function () {
       verifyItemStatuses([
         SkyProgressIndicatorItemStatus.Complete,
         SkyProgressIndicatorItemStatus.Complete,
-        SkyProgressIndicatorItemStatus.Complete
+        SkyProgressIndicatorItemStatus.Complete,
       ]);
     }));
 
@@ -657,7 +656,7 @@ describe('Progress indicator component', function () {
       verifyItemStatuses([
         SkyProgressIndicatorItemStatus.Complete,
         SkyProgressIndicatorItemStatus.Active,
-        SkyProgressIndicatorItemStatus.Incomplete
+        SkyProgressIndicatorItemStatus.Incomplete,
       ]);
 
       const resetButton = fixture.nativeElement.querySelector(
@@ -671,7 +670,7 @@ describe('Progress indicator component', function () {
       verifyItemStatuses([
         SkyProgressIndicatorItemStatus.Active,
         SkyProgressIndicatorItemStatus.Incomplete,
-        SkyProgressIndicatorItemStatus.Incomplete
+        SkyProgressIndicatorItemStatus.Incomplete,
       ]);
     }));
 
@@ -682,13 +681,20 @@ describe('Progress indicator component', function () {
       verifyItemStatuses([
         SkyProgressIndicatorItemStatus.Active,
         SkyProgressIndicatorItemStatus.Incomplete,
-        SkyProgressIndicatorItemStatus.Incomplete
+        SkyProgressIndicatorItemStatus.Incomplete,
       ]);
 
-      const defaultButtonComponent = componentInstance.defaultNavButtonComponent;
-      const defaultButtonElement = componentInstance.defaultNavButtonElement.nativeElement.querySelector('button');
+      const defaultButtonComponent =
+        componentInstance.defaultNavButtonComponent;
+      const defaultButtonElement =
+        componentInstance.defaultNavButtonElement.nativeElement.querySelector(
+          'button'
+        );
 
-      const clickSpy = spyOn(defaultButtonComponent, 'onClick').and.callThrough();
+      const clickSpy = spyOn(
+        defaultButtonComponent,
+        'onClick'
+      ).and.callThrough();
 
       defaultButtonComponent.buttonType = 'foobar' as any;
 
@@ -700,7 +706,7 @@ describe('Progress indicator component', function () {
       verifyItemStatuses([
         SkyProgressIndicatorItemStatus.Active,
         SkyProgressIndicatorItemStatus.Incomplete,
-        SkyProgressIndicatorItemStatus.Incomplete
+        SkyProgressIndicatorItemStatus.Incomplete,
       ]);
     }));
 
@@ -727,11 +733,11 @@ describe('Progress indicator component', function () {
       // Create a custom button config that does not include a finish button.
       componentInstance.buttonConfigs = [
         {
-          type: 'previous'
+          type: 'previous',
         },
         {
-          type: 'next'
-        }
+          type: 'next',
+        },
       ];
 
       detectChanges();
@@ -753,23 +759,30 @@ describe('Progress indicator component', function () {
       componentInstance.defaultNavButtonProgressIndicatorRef = undefined;
 
       detectChanges();
-      expect(() => { tick(100); }).toThrowError();
+      expect(() => {
+        tick(100);
+      }).toThrowError();
       /**
        * Note: I'm not sure why this second expectation is needed but without it the test yells
        * that a timer is still in the queue even though debugging only shows the timeout hitting
        * once and in manual testing the error is only thrown once
        */
-      expect(() => { tick(100); }).toThrowError();
+      expect(() => {
+        tick(100);
+      }).toThrowError();
     }));
   });
 
   describe('Progress handler', function () {
-    const finishButtonSelector = '[data-test-selector="finish-button"] .sky-btn';
+    const finishButtonSelector =
+      '[data-test-selector="finish-button"] .sky-btn';
 
     let handlerFixture: ComponentFixture<SkyProgressIndicatorProgressHandlerFixtureComponent>;
 
     beforeEach(function () {
-      handlerFixture = TestBed.createComponent(SkyProgressIndicatorProgressHandlerFixtureComponent);
+      handlerFixture = TestBed.createComponent(
+        SkyProgressIndicatorProgressHandlerFixtureComponent
+      );
     });
 
     it('should allow consumers to manually advance each step', fakeAsync(function () {
@@ -785,14 +798,15 @@ describe('Progress indicator component', function () {
       component.sendMessage({
         type: SkyProgressIndicatorMessageType.GoTo,
         data: {
-          activeIndex: 3
-        }
+          activeIndex: 3,
+        },
       });
 
       handlerFixture.detectChanges();
       tick();
 
-      let button = handlerFixture.nativeElement.querySelector(finishButtonSelector);
+      let button =
+        handlerFixture.nativeElement.querySelector(finishButtonSelector);
       button.click();
 
       expect(component.isLoading).toEqual(true);
@@ -842,7 +856,9 @@ describe('Progress indicator component', function () {
     it('should warn when message stream called with only the type', fakeAsync(function () {
       detectChanges();
 
-      componentInstance.sendMessageLegacy(SkyProgressIndicatorMessageType.Progress);
+      componentInstance.sendMessageLegacy(
+        SkyProgressIndicatorMessageType.Progress
+      );
 
       detectChanges();
 
@@ -852,14 +868,15 @@ describe('Progress indicator component', function () {
       verifyItemStatuses([
         SkyProgressIndicatorItemStatus.Complete,
         SkyProgressIndicatorItemStatus.Active,
-        SkyProgressIndicatorItemStatus.Incomplete
+        SkyProgressIndicatorItemStatus.Incomplete,
       ]);
     }));
 
     it('should warn if using template reference variable with legacy reset button', fakeAsync(function () {
       detectChanges();
 
-      componentInstance.progressIndicatorTemplateRefLegacy = componentInstance.progressIndicator;
+      componentInstance.progressIndicatorTemplateRefLegacy =
+        componentInstance.progressIndicator;
 
       detectChanges();
 
@@ -871,7 +888,9 @@ describe('Progress indicator component', function () {
 
       const resetClickSpy = spyOn(componentInstance, 'onResetClick');
 
-      componentInstance.legacyResetButton.nativeElement.querySelector('button').click();
+      componentInstance.legacyResetButton.nativeElement
+        .querySelector('button')
+        .click();
 
       detectChanges();
 
@@ -887,7 +906,9 @@ describe('Progress indicator component', function () {
 
       detectChanges();
 
-      componentInstance.legacyIsolatedResetButton.nativeElement.querySelector('button').click();
+      componentInstance.legacyIsolatedResetButton.nativeElement
+        .querySelector('button')
+        .click();
 
       detectChanges();
 

@@ -2,12 +2,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Input
+  Input,
 } from '@angular/core';
 
-import {
-  SkyProgressIndicatorItemStatus
-} from '../types/progress-indicator-item-status';
+import { SkyProgressIndicatorItemStatus } from '../types/progress-indicator-item-status';
 
 /**
  * Specifies a step to include in the progress indicator. Each step requires a label,
@@ -17,14 +15,13 @@ import {
   selector: 'sky-progress-indicator-item',
   templateUrl: './progress-indicator-item.component.html',
   styleUrls: ['./progress-indicator-item.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyProgressIndicatorItemComponent {
-
-/**
- * Specifies a step label for the step in the progress indicator.
- * @required
- */
+  /**
+   * Specifies a step label for the step in the progress indicator.
+   * @required
+   */
   @Input()
   public title: string;
 
@@ -56,20 +53,20 @@ export class SkyProgressIndicatorItemComponent {
     /* tslint:disable-next-line:switch-default */
     switch (this.status) {
       case SkyProgressIndicatorItemStatus.Active:
-      name = 'active';
-      break;
+        name = 'active';
+        break;
 
       case SkyProgressIndicatorItemStatus.Complete:
-      name = 'complete';
-      break;
+        name = 'complete';
+        break;
 
       case SkyProgressIndicatorItemStatus.Incomplete:
-      name = 'incomplete';
-      break;
+        name = 'incomplete';
+        break;
 
       case SkyProgressIndicatorItemStatus.Pending:
-      name = 'pending';
-      break;
+        name = 'pending';
+        break;
     }
 
     return name;
@@ -83,9 +80,7 @@ export class SkyProgressIndicatorItemComponent {
 
   private _status: SkyProgressIndicatorItemStatus;
 
-  constructor(
-    private changeDetector: ChangeDetectorRef
-  ) { }
+  constructor(private changeDetector: ChangeDetectorRef) {}
 
   public showStepNumber(step: number): void {
     this.titlePrefix = `${step} - `;

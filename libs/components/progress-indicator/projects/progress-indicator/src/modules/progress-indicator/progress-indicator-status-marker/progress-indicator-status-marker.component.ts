@@ -4,24 +4,16 @@ import {
   Component,
   Input,
   OnDestroy,
-  Optional
+  Optional,
 } from '@angular/core';
 
-import {
-  SkyThemeService
-} from '@skyux/theme';
+import { SkyThemeService } from '@skyux/theme';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  SkyProgressIndicatorItemStatus
-} from '../types/progress-indicator-item-status';
+import { SkyProgressIndicatorItemStatus } from '../types/progress-indicator-item-status';
 
 /**
  * Specifies the content to display in the status marker.
@@ -31,10 +23,9 @@ import {
   selector: 'sky-progress-indicator-status-marker',
   templateUrl: './progress-indicator-status-marker.component.html',
   styleUrls: ['./progress-indicator-status-marker.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyProgressIndicatorStatusMarkerComponent implements OnDestroy {
-
   @Input()
   public set displayMode(value: 'vertical' | 'horizontal') {
     this._displayMode = value;
@@ -57,7 +48,7 @@ export class SkyProgressIndicatorStatusMarkerComponent implements OnDestroy {
   public get cssClassNames(): string {
     const classNames = [
       `sky-progress-indicator-status-marker-mode-${this.displayMode}`,
-      `sky-progress-indicator-status-marker-status-${this.statusName}`
+      `sky-progress-indicator-status-marker-status-${this.statusName}`,
     ];
 
     return classNames.join(' ');
@@ -69,20 +60,20 @@ export class SkyProgressIndicatorStatusMarkerComponent implements OnDestroy {
     /* tslint:disable-next-line:switch-default */
     switch (this._status) {
       case SkyProgressIndicatorItemStatus.Active:
-      name = 'active';
-      break;
+        name = 'active';
+        break;
 
       case SkyProgressIndicatorItemStatus.Complete:
-      name = 'complete';
-      break;
+        name = 'complete';
+        break;
 
       case SkyProgressIndicatorItemStatus.Incomplete:
-      name = 'incomplete';
-      break;
+        name = 'incomplete';
+        break;
 
       case SkyProgressIndicatorItemStatus.Pending:
-      name = 'pending';
-      break;
+        name = 'pending';
+        break;
     }
 
     return name;

@@ -1,34 +1,18 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  ReactiveFormsModule
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import {
-  SkyCheckboxModule
-} from '@skyux/forms';
+import { SkyCheckboxModule } from '@skyux/forms';
 
-import {
-  SkyModalModule
-} from '@skyux/modals';
+import { SkyModalModule } from '@skyux/modals';
 
-import {
-  SkyProgressIndicatorModule
-} from '@skyux/progress-indicator';
+import { SkyProgressIndicatorModule } from '@skyux/progress-indicator';
 
-import {
-  WizardDemoComponent
-} from './wizard-demo.component';
+import { WizardDemoComponent } from './wizard-demo.component';
 
-import {
-  WizardDemoModalComponent
-} from './wizard-demo-modal.component';
+import { WizardDemoModalComponent } from './wizard-demo-modal.component';
 
 @NgModule({
   imports: [
@@ -36,17 +20,10 @@ import {
     ReactiveFormsModule,
     SkyCheckboxModule,
     SkyModalModule,
-    SkyProgressIndicatorModule
+    SkyProgressIndicatorModule,
   ],
-  exports: [
-    WizardDemoComponent
-  ],
-  declarations: [
-    WizardDemoComponent,
-    WizardDemoModalComponent
-  ],
-  entryComponents: [
-    WizardDemoModalComponent
-  ]
+  exports: [WizardDemoComponent],
+  declarations: [WizardDemoComponent, WizardDemoModalComponent],
+  entryComponents: [WizardDemoModalComponent],
 })
-export class SkyProgressIndicatorPassiveDemoModule { }
+export class SkyProgressIndicatorPassiveDemoModule {}

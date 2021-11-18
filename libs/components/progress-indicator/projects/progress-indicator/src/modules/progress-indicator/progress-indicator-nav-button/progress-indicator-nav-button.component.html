@@ -1,11 +1,12 @@
-<button *ngIf="isVisible"
+<button
+  *ngIf="isVisible"
   class="sky-btn"
   type="button"
   [disabled]="disabled"
   [ngClass]="cssClassNames"
   [skyThemeClass]="{
-    'sky-margin-inline-compact' : 'default',
-    'sky-btn-link' : 'modern'
+    'sky-margin-inline-compact': 'default',
+    'sky-btn-link': 'modern'
   }"
   (click)="onClick($event)"
 >

@@ -3,18 +3,13 @@
     {{ title }}
   </sky-modal-header>
   <sky-modal-content>
-    <form
-      [formGroup]="myForm"
-    >
+    <form [formGroup]="myForm">
       <sky-progress-indicator
         [displayMode]="displayMode"
         (progressChanges)="updateIndex($event)"
         #wizardDemo
       >
-
-        <sky-progress-indicator-item
-          title="First step"
-        >
+        <sky-progress-indicator-item title="First step">
           <div>
             <label class="sky-control-label sky-control-label-required">
               Enter text to continue
@@ -27,28 +22,17 @@
           </div>
         </sky-progress-indicator-item>
 
-        <sky-progress-indicator-item
-          title="Second step"
-        >
+        <sky-progress-indicator-item title="Second step">
           <div>
-            <sky-checkbox
-              formControlName="requiredValue2"
-            >
-              <sky-checkbox-label>
-                Select to continue
-              </sky-checkbox-label>
+            <sky-checkbox formControlName="requiredValue2">
+              <sky-checkbox-label> Select to continue </sky-checkbox-label>
             </sky-checkbox>
           </div>
         </sky-progress-indicator-item>
 
-        <sky-progress-indicator-item
-          title="Third step"
-        >
-          <div>
-            Additional content or tasks go here.
-          </div>
+        <sky-progress-indicator-item title="Third step">
+          <div>Additional content or tasks go here.</div>
         </sky-progress-indicator-item>
-
       </sky-progress-indicator>
     </form>
   </sky-modal-content>

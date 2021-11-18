@@ -9,66 +9,46 @@ import {
   OnDestroy,
   Output,
   QueryList,
-  ChangeDetectorRef
+  ChangeDetectorRef,
 } from '@angular/core';
 
-import {
-  SkyAppWindowRef
-} from '@skyux/core';
+import { SkyAppWindowRef } from '@skyux/core';
 
-import {
-  Subject, Subscription
-} from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
-import {
-  delay,
-  takeUntil
-} from 'rxjs/operators';
+import { delay, takeUntil } from 'rxjs/operators';
 
-import {
-  SkyProgressIndicatorItemComponent
-} from './progress-indicator-item/progress-indicator-item.component';
+import { SkyProgressIndicatorItemComponent } from './progress-indicator-item/progress-indicator-item.component';
 
-import {
-  SkyProgressIndicatorChange
-} from './types/progress-indicator-change';
+import { SkyProgressIndicatorChange } from './types/progress-indicator-change';
 
-import {
-  SkyProgressIndicatorDisplayMode
-} from './types/progress-indicator-mode';
+import { SkyProgressIndicatorDisplayMode } from './types/progress-indicator-mode';
 
-import {
-  SkyProgressIndicatorDisplayModeType
-} from './types/progress-indicator-display-mode-type';
+import { SkyProgressIndicatorDisplayModeType } from './types/progress-indicator-display-mode-type';
 
-import {
-  SkyProgressIndicatorItemStatus
-} from './types/progress-indicator-item-status';
+import { SkyProgressIndicatorItemStatus } from './types/progress-indicator-item-status';
 
-import {
-  SkyProgressIndicatorMessage
-} from './types/progress-indicator-message';
+import { SkyProgressIndicatorMessage } from './types/progress-indicator-message';
 
-import {
-  SkyProgressIndicatorMessageType
-} from './types/progress-indicator-message-type';
+import { SkyProgressIndicatorMessageType } from './types/progress-indicator-message-type';
 
 @Component({
   selector: 'sky-progress-indicator',
   templateUrl: './progress-indicator.component.html',
   styleUrls: ['./progress-indicator.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyProgressIndicatorComponent implements OnInit, AfterContentInit, OnDestroy {
-
-/**
- * Specifies whether to display the progress indicator vertically or horizontally.
- * For [passive progress indicators](https://developer.blackbaud.com/skyux-progress-indicator/docs/passive-indicator)
- * and [waterfall progress indicators](https://developer.blackbaud.com/skyux/components/progress-indicator/waterfall-progress-indicator),
- * use the vertical display mode. For [modal wizards](https://developer.blackbaud.com/skyux/components/wizard),
- * use the horizontal display mode.
- * @default 'vertical'
- */
+export class SkyProgressIndicatorComponent
+  implements OnInit, AfterContentInit, OnDestroy
+{
+  /**
+   * Specifies whether to display the progress indicator vertically or horizontally.
+   * For [passive progress indicators](https://developer.blackbaud.com/skyux-progress-indicator/docs/passive-indicator)
+   * and [waterfall progress indicators](https://developer.blackbaud.com/skyux/components/progress-indicator/waterfall-progress-indicator),
+   * use the vertical display mode. For [modal wizards](https://developer.blackbaud.com/skyux/components/wizard),
+   * use the horizontal display mode.
+   * @default 'vertical'
+   */
   @Input()
   public set displayMode(value: SkyProgressIndicatorDisplayModeType) {
     this._displayMode = value;
@@ -82,11 +62,11 @@ export class SkyProgressIndicatorComponent implements OnInit, AfterContentInit, 
     return this._displayMode;
   }
 
-/**
- * Indicates whether the progress indicator is passive. Passive progress indicators inform users of
- * progress that concerns them but that they are not responsible for, and they must use the vertical display mode.
- * @default false
- */
+  /**
+   * Indicates whether the progress indicator is passive. Passive progress indicators inform users of
+   * progress that concerns them but that they are not responsible for, and they must use the vertical display mode.
+   * @default false
+   */
   @Input()
   public set isPassive(value: boolean) {
     this._isPassive = value;
@@ -101,25 +81,27 @@ export class SkyProgressIndicatorComponent implements OnInit, AfterContentInit, 
     return this._isPassive || false;
   }
 
-/**
- * Specifies an observable of `SkyProgressIndicatorMessage` that determines the status to
- * display for items in the progress indicator. The message stream is a queue of
- * commanding messages to change the state of the progress indicator based on the message type.
- */
+  /**
+   * Specifies an observable of `SkyProgressIndicatorMessage` that determines the status to
+   * display for items in the progress indicator. The message stream is a queue of
+   * commanding messages to change the state of the progress indicator based on the message type.
+   */
   @Input()
   public set messageStream(
-    value: Subject<SkyProgressIndicatorMessage | SkyProgressIndicatorMessageType>
+    value: Subject<
+      SkyProgressIndicatorMessage | SkyProgressIndicatorMessageType
+    >
   ) {
     this._messageStream = value;
 
     this.subscribeToMessageStream();
   }
 
-/**
- * Specifies the index for the item to make active when the progress indicator
- * loads. All steps that precede the active item are marked as complete, and all steps
- * that follow the active item are marked as incomplete.
- */
+  /**
+   * Specifies the index for the item to make active when the progress indicator
+   * loads. All steps that precede the active item are marked as complete, and all steps
+   * that follow the active item are marked as incomplete.
+   */
   @Input()
   public set startingIndex(value: number) {
     this._startingIndex = value;
@@ -129,15 +111,15 @@ export class SkyProgressIndicatorComponent implements OnInit, AfterContentInit, 
     return this._startingIndex || 0;
   }
 
-/**
- * Fires when the progress indicator changes the status of an item.
- */
+  /**
+   * Fires when the progress indicator changes the status of an item.
+   */
   @Output()
   public progressChanges = new EventEmitter<SkyProgressIndicatorChange>();
 
   public get cssClassNames(): string {
     const classNames = [
-      `sky-progress-indicator-mode-${this.displayModeResolved}`
+      `sky-progress-indicator-mode-${this.displayModeResolved}`,
     ];
 
     if (this.isPassive) {
@@ -174,7 +156,7 @@ export class SkyProgressIndicatorComponent implements OnInit, AfterContentInit, 
       return [];
     }
 
-    return this.itemComponents.map(c => c.status);
+    return this.itemComponents.map((c) => c.status);
   }
 
   @ContentChildren(SkyProgressIndicatorItemComponent)
@@ -206,13 +188,15 @@ export class SkyProgressIndicatorComponent implements OnInit, AfterContentInit, 
   private _displayMode: SkyProgressIndicatorDisplayModeType;
   private _hasFinishButton: boolean;
   private _isPassive: boolean;
-  private _messageStream = new Subject<SkyProgressIndicatorMessage | SkyProgressIndicatorMessageType>();
+  private _messageStream = new Subject<
+    SkyProgressIndicatorMessage | SkyProgressIndicatorMessageType
+  >();
   private _startingIndex: number;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
     private windowRef: SkyAppWindowRef
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     this.initialized = true;
@@ -228,10 +212,7 @@ export class SkyProgressIndicatorComponent implements OnInit, AfterContentInit, 
     // Note: The delay here is to ensure all change detection on the items has finished. Without
     // the delay we receive a changed before checked error for vertical progress indicators
     this.itemComponents.changes
-      .pipe(
-        takeUntil(this.ngUnsubscribe),
-        delay(0)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe), delay(0))
       .subscribe(() => {
         this.updateSteps();
         this.notifyChange();
@@ -288,7 +269,7 @@ export class SkyProgressIndicatorComponent implements OnInit, AfterContentInit, 
     });
 
     this.notifyChange({
-      isComplete: true
+      isComplete: true,
     });
   }
 
@@ -297,21 +278,17 @@ export class SkyProgressIndicatorComponent implements OnInit, AfterContentInit, 
   }
 
   private updateSteps(): void {
-    if (this.activeIndex > (this.itemComponents.length - 1)) {
+    if (this.activeIndex > this.itemComponents.length - 1) {
       this.activeIndex--;
     }
 
     const activeIndex = this.activeIndex;
     const isPassive = this.isPassive;
-    const isVertical = (this.displayModeResolved === 'vertical');
+    const isVertical = this.displayModeResolved === 'vertical';
 
     this.itemComponents.forEach((component, i) => {
-
       // Set visibility.
-      component.isVisible = (
-        activeIndex === i ||
-        isVertical
-      );
+      component.isVisible = activeIndex === i || isVertical;
 
       // Set status.
       let status: SkyProgressIndicatorItemStatus;
@@ -340,10 +317,7 @@ export class SkyProgressIndicatorComponent implements OnInit, AfterContentInit, 
       }
 
       // If we're in passive mode, don't show titles for incomplete items.
-      component.showTitle = !(
-        isPassive &&
-        activeIndex < i
-      );
+      component.showTitle = !(isPassive && activeIndex < i);
     });
   }
 
@@ -357,10 +331,10 @@ export class SkyProgressIndicatorComponent implements OnInit, AfterContentInit, 
     // Prints a deprecation warning if the consumer provides only `SkyProgressIndicatorMessageType`.
     if (value.type === undefined) {
       console.warn(
-        '[Deprecation warning] The progress indicator component\'s `messageStream` input is set ' +
-        'to `Subject<SkyProgressIndicatorMessageType>`. We will remove this deprecated type in ' +
-        'the next major version release. Instead, set the `messageStream` input to a value of ' +
-        '`Subject<SkyProgressIndicatorMessage>`.'
+        "[Deprecation warning] The progress indicator component's `messageStream` input is set " +
+          'to `Subject<SkyProgressIndicatorMessageType>`. We will remove this deprecated type in ' +
+          'the next major version release. Instead, set the `messageStream` input to a value of ' +
+          '`Subject<SkyProgressIndicatorMessage>`.'
       );
 
       type = value;
@@ -386,18 +360,15 @@ export class SkyProgressIndicatorComponent implements OnInit, AfterContentInit, 
         break;
 
       case SkyProgressIndicatorMessageType.GoTo:
-        if (
-          !value.data ||
-          value.data.activeIndex === undefined
-        ) {
+        if (!value.data || value.data.activeIndex === undefined) {
           console.warn(
             'A message type of `SkyProgressIndicatorMessageType.GoTo` was passed to the progress ' +
-            'indicator, but no step index was provided. You can pass the desired active ' +
-            'index via:\n' +
-            '{\n' +
-            '  type: SkyProgressIndicatorMessageType.GoTo,\n' +
-            '  data: { activeIndex: 0 }\n' +
-            '}'
+              'indicator, but no step index was provided. You can pass the desired active ' +
+              'index via:\n' +
+              '{\n' +
+              '  type: SkyProgressIndicatorMessageType.GoTo,\n' +
+              '  data: { activeIndex: 0 }\n' +
+              '}'
           );
           return;
         }
@@ -432,10 +403,14 @@ export class SkyProgressIndicatorComponent implements OnInit, AfterContentInit, 
 
   private notifyChange(change?: SkyProgressIndicatorChange): void {
     this.progressChanges.next(
-      Object.assign({}, {
-        activeIndex: this.activeIndex,
-        itemStatuses: this.itemStatuses
-      }, change)
+      Object.assign(
+        {},
+        {
+          activeIndex: this.activeIndex,
+          itemStatuses: this.itemStatuses,
+        },
+        change
+      )
     );
   }
 }

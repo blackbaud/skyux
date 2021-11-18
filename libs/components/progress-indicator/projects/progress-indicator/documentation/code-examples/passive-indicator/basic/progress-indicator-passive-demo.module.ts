@@ -1,29 +1,14 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  SkyProgressIndicatorModule
-} from '@skyux/progress-indicator';
+import { SkyProgressIndicatorModule } from '@skyux/progress-indicator';
 
-import {
-  SkyProgressIndicatorPassiveDemoComponent
-} from './progress-indicator-passive-demo.component';
+import { SkyProgressIndicatorPassiveDemoComponent } from './progress-indicator-passive-demo.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SkyProgressIndicatorModule
-  ],
-  exports: [
-    SkyProgressIndicatorPassiveDemoComponent
-  ],
-  declarations: [
-    SkyProgressIndicatorPassiveDemoComponent
-  ]
+  imports: [CommonModule, SkyProgressIndicatorModule],
+  exports: [SkyProgressIndicatorPassiveDemoComponent],
+  declarations: [SkyProgressIndicatorPassiveDemoComponent],
 })
-export class SkyProgressIndicatorPassiveDemoModule { }
+export class SkyProgressIndicatorPassiveDemoModule {}

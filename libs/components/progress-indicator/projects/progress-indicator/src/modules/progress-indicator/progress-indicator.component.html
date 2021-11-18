@@ -1,11 +1,10 @@
-<div
-  class="sky-progress-indicator"
-  [ngClass]="cssClassNames"
->
-  <div *ngIf="displayModeResolved === 'horizontal'"
+<div class="sky-progress-indicator" [ngClass]="cssClassNames">
+  <div
+    *ngIf="displayModeResolved === 'horizontal'"
     class="sky-progress-indicator-horizontal-status-markers"
   >
-    <sky-progress-indicator-status-marker *ngFor="let status of itemStatuses"
+    <sky-progress-indicator-status-marker
+      *ngFor="let status of itemStatuses"
       [displayMode]="displayModeResolved"
       [status]="status"
     >
