@@ -1,3 +1,7 @@
+# 5.35.0 (2021-11-18)
+
+- `@skyux/assets@5.0.1` [Release notes](https://github.com/blackbaud/skyux-assets/blob/5.0.1/CHANGELOG.md)
+
 # 5.34.0 (2021-11-17)
 
 - `@skyux/autonumeric@5.0.2` [Release notes](https://github.com/blackbaud/skyux-autonumeric/blob/5.0.2/CHANGELOG.md)
