@@ -1,10 +1,6 @@
-import {
-  FONT_LIST_DEFAULTS
-} from './font-list-defaults';
+import { FONT_LIST_DEFAULTS } from './font-list-defaults';
 
-import {
-  SkyTextEditorStyleState
-} from '../types/style-state';
+import { SkyTextEditorStyleState } from '../types/style-state';
 
 /**
  * @internal
@@ -17,5 +13,5 @@ export const STYLE_STATE_DEFAULTS: SkyTextEditorStyleState = {
   boldState: false,
   italicState: false,
   underlineState: false,
-  linkState: false
+  linkState: false,
 };

@@ -1,5 +1,4 @@
 export interface SkyTextEditorFont {
-
   /**
    * Specifies the display name of the font.
    */
@@ -9,5 +8,4 @@ export interface SkyTextEditorFont {
    * Specifies the CSS `font-family` value for the font.
    */
   value: string;
-
 }

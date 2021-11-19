@@ -1,33 +1,21 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
-import {
-  RouterTestingModule
-} from '@angular/router/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
-import {
-  FormsModule
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  RichTextDisplayFixtureComponent
-} from './fixtures/rich-text-display-fixture.component';
+import { RichTextDisplayFixtureComponent } from './fixtures/rich-text-display-fixture.component';
 
-import {
-  SkyRichTextDisplayModule
-} from './rich-text-display.module';
+import { SkyRichTextDisplayModule } from './rich-text-display.module';
 
 //#region helpers
 function detectChanges(fixture: ComponentFixture<any>): void {
@@ -50,11 +38,9 @@ describe('Rich text display', () => {
         CommonModule,
         FormsModule,
         RouterTestingModule,
-        SkyRichTextDisplayModule
+        SkyRichTextDisplayModule,
       ],
-      declarations: [
-        RichTextDisplayFixtureComponent
-      ]
+      declarations: [RichTextDisplayFixtureComponent],
     });
 
     fixture = TestBed.createComponent(RichTextDisplayFixtureComponent);
@@ -69,11 +55,14 @@ describe('Rich text display', () => {
   }));
 
   it('Should remove malicious content', fakeAsync(() => {
-    fixture.componentInstance.richText = '<a id="hyperlink" href="javascript:alert(1)">foo</a>';
+    fixture.componentInstance.richText =
+      '<a id="hyperlink" href="javascript:alert(1)">foo</a>';
     detectChanges(fixture);
 
     const text = getText(fixture);
     expect(text.textContent).toBe('foo');
-    expect(fixture.nativeElement.querySelector('#hyperlink').getAttribute('href')).toBeNull();
+    expect(
+      fixture.nativeElement.querySelector('#hyperlink').getAttribute('href')
+    ).toBeNull();
   }));
 });

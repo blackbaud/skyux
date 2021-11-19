@@ -1,6 +1,4 @@
-import {
-  UrlModalResult
-} from './text-editor-url-modal-result';
+import { UrlModalResult } from './text-editor-url-modal-result';
 
 /**
  * @internal

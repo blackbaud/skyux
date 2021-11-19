@@ -1,5 +1,4 @@
 export interface SkyTextEditorMergeField {
-
   /**
    * Specifies an identifier for the merge field.
    */
@@ -15,5 +14,4 @@ export interface SkyTextEditorMergeField {
    * in the text editor. By default, the `name` value appears in a blue rectangle.
    */
   previewImageUrl?: string;
-
 }

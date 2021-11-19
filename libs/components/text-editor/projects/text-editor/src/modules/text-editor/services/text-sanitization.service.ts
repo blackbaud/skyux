@@ -1,8 +1,6 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import createDOMPurify from "dompurify";
+import createDOMPurify from 'dompurify';
 const domPurify = createDOMPurify(window);
 
 domPurify.addHook('afterSanitizeAttributes', (node: Element) => {
@@ -21,10 +19,9 @@ domPurify.addHook('afterSanitizeAttributes', (node: Element) => {
  * @internal
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SkyTextSanitizationService {
-
   private allowedAttributes: string[] = ['target'];
 
   /**
@@ -33,5 +30,4 @@ export class SkyTextSanitizationService {
   public sanitize(htmlString: string): string {
     return domPurify.sanitize(htmlString, { ADD_ATTR: this.allowedAttributes });
   }
-
 }

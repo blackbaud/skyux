@@ -1,23 +1,16 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  Observable
-} from 'rxjs';
+import { Observable } from 'rxjs';
 
-import {
-  EditorSetting
-} from '../types/editor-setting';
+import { EditorSetting } from '../types/editor-setting';
 
 /**
  * @internal
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SkyTextEditorService {
-
   /**
    * A dictionary representing all active text editors and their settings.
    */
@@ -26,7 +19,7 @@ export class SkyTextEditorService {
   /**
    * Returns the blur observable from the editor with the corresponding id.
    */
-   public blurListener(id: string): Observable<unknown> {
+  public blurListener(id: string): Observable<unknown> {
     return this.editors[id].blurObservable;
   }
 
@@ -67,5 +60,4 @@ export class SkyTextEditorService {
   public selectionChangeListener(id: string): Observable<unknown> {
     return this.editors[id].selectionChangeObservable;
   }
-
 }

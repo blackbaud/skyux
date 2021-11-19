@@ -1,6 +1,4 @@
-import {
-  UrlTarget
-} from './text-editor-url-target';
+import { UrlTarget } from './text-editor-url-target';
 
 /**
  * @internal

@@ -1,5 +1,4 @@
 export interface SkyTextEditorStyleState {
-
   /**
    * Specifies the background color. Accepts any CSS color value.
    */

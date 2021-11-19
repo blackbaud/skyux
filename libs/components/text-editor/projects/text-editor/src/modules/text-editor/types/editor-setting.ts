@@ -1,12 +1,9 @@
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
 /**
  * @internal
  */
 export interface EditorSetting {
-
   blurListener: () => void;
 
   blurObservable: Subject<unknown>;
@@ -28,5 +25,4 @@ export interface EditorSetting {
   selectionChangeObservable: Subject<unknown>;
 
   selectionListener: () => void;
-
 }

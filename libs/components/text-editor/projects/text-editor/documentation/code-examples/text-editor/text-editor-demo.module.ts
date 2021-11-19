@@ -1,39 +1,23 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  ReactiveFormsModule
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import {
-  SkyIdModule
-} from '@skyux/core';
+import { SkyIdModule } from '@skyux/core';
 
-import {
-  SkyTextEditorModule
-} from '@skyux/text-editor';
+import { SkyTextEditorModule } from '@skyux/text-editor';
 
-import {
-  TextEditorDemoComponent
-} from './text-editor-demo.component';
+import { TextEditorDemoComponent } from './text-editor-demo.component';
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
     SkyIdModule,
-    SkyTextEditorModule
+    SkyTextEditorModule,
   ],
-  declarations: [
-    TextEditorDemoComponent
-  ],
-  exports: [
-    TextEditorDemoComponent
-  ]
+  declarations: [TextEditorDemoComponent],
+  exports: [TextEditorDemoComponent],
 })
-export class TextEditorDemoModule { }
+export class TextEditorDemoModule {}

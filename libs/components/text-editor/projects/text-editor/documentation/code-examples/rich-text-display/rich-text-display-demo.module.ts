@@ -1,29 +1,14 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  SkyRichTextDisplayModule
-} from '@skyux/text-editor';
+import { SkyRichTextDisplayModule } from '@skyux/text-editor';
 
-import {
-  RichTextDisplayDemoComponent
-} from './rich-text-display-demo.component';
+import { RichTextDisplayDemoComponent } from './rich-text-display-demo.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SkyRichTextDisplayModule
-  ],
-  declarations: [
-    RichTextDisplayDemoComponent
-  ],
-  exports: [
-    RichTextDisplayDemoComponent
-  ]
+  imports: [CommonModule, SkyRichTextDisplayModule],
+  declarations: [RichTextDisplayDemoComponent],
+  exports: [RichTextDisplayDemoComponent],
 })
-export class RichTextDisplayDemoModule { }
+export class RichTextDisplayDemoModule {}

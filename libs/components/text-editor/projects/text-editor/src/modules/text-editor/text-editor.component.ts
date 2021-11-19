@@ -11,77 +11,41 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-import {
-  NgControl
-} from '@angular/forms';
+import { NgControl } from '@angular/forms';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  SkyCoreAdapterService
-} from '@skyux/core';
+import { SkyCoreAdapterService } from '@skyux/core';
 
-import {
-  MENU_DEFAULTS
-} from './defaults/menu-defaults';
+import { MENU_DEFAULTS } from './defaults/menu-defaults';
 
-import {
-  STYLE_STATE_DEFAULTS
-} from './defaults/style-state-defaults';
+import { STYLE_STATE_DEFAULTS } from './defaults/style-state-defaults';
 
-import {
-  TOOLBAR_ACTION_DEFAULTS
-} from './defaults/toolbar-action-defaults';
+import { TOOLBAR_ACTION_DEFAULTS } from './defaults/toolbar-action-defaults';
 
-import {
-  SkyTextEditorAdapterService
-} from './services/text-editor-adapter.service';
+import { SkyTextEditorAdapterService } from './services/text-editor-adapter.service';
 
-import {
-  SkyTextEditorService
-} from './services/text-editor.service';
+import { SkyTextEditorService } from './services/text-editor.service';
 
-import {
-  SkyTextSanitizationService
-} from './services/text-sanitization.service';
+import { SkyTextSanitizationService } from './services/text-sanitization.service';
 
-import {
-  FONT_LIST_DEFAULTS
-} from './defaults/font-list-defaults';
+import { FONT_LIST_DEFAULTS } from './defaults/font-list-defaults';
 
-import {
-  FONT_SIZE_LIST_DEFAULTS
-} from './defaults/font-size-list-defaults';
+import { FONT_SIZE_LIST_DEFAULTS } from './defaults/font-size-list-defaults';
 
-import {
-  SkyTextEditorFont
-} from './types/font-state';
+import { SkyTextEditorFont } from './types/font-state';
 
-import {
-  SkyTextEditorMenuType
-} from './types/menu-type';
+import { SkyTextEditorMenuType } from './types/menu-type';
 
-import {
-  SkyTextEditorStyleState
-} from './types/style-state';
+import { SkyTextEditorStyleState } from './types/style-state';
 
-import {
-  SkyTextEditorMergeField
-} from './types/text-editor-merge-field';
+import { SkyTextEditorMergeField } from './types/text-editor-merge-field';
 
-import {
-  SkyTextEditorToolbarActionType
-} from './types/toolbar-action-type';
+import { SkyTextEditorToolbarActionType } from './types/toolbar-action-type';
 
-import {
-  SkyFormsUtility
-} from '../shared/forms-utility';
+import { SkyFormsUtility } from '../shared/forms-utility';
 
 /**
  * Auto-incrementing integer used to generate unique ids for radio components.
@@ -96,10 +60,9 @@ let nextUniqueId = 0;
   templateUrl: './text-editor.component.html',
   styleUrls: ['./text-editor.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
-
   /**
    * Indicates whether to put focus on the editor after it renders.
    */
@@ -120,16 +83,27 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
       let focusableChildren: HTMLElement[];
       /* istanbul ignore else */
       if (this.iframeRef) {
-        focusableChildren = this.coreAdapterService.getFocusableChildren(this.iframeRef.nativeElement.contentDocument.body, {
-          ignoreVisibility: true,
-          ignoreTabIndex: true
-        });
+        focusableChildren = this.coreAdapterService.getFocusableChildren(
+          this.iframeRef.nativeElement.contentDocument.body,
+          {
+            ignoreVisibility: true,
+            ignoreTabIndex: true,
+          }
+        );
       }
 
       if (this._disabled) {
-        this.adapterService.disableEditor(this.id, focusableChildren, this.iframeRef.nativeElement);
+        this.adapterService.disableEditor(
+          this.id,
+          focusableChildren,
+          this.iframeRef.nativeElement
+        );
       } else {
-        this.adapterService.enableEditor(this.id, focusableChildren, this.iframeRef.nativeElement);
+        this.adapterService.enableEditor(
+          this.id,
+          focusableChildren,
+          this.iframeRef.nativeElement
+        );
       }
       this.changeDetector.markForCheck();
     }
@@ -172,7 +146,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
     if (!this.initialized) {
       this._initialStyleState = {
         ...STYLE_STATE_DEFAULTS,
-        ...state
+        ...state,
       };
     }
   }
@@ -223,10 +197,14 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
    * The internal value of the control.
    */
   public set value(value: string) {
-
     // Normalize value and set any empty state to an empty string.
     let normalizedValue: string = value;
-    if (!value || value.trim() === '<p></p>' || value.trim() === '<br>' || value.trim() === '<p><br></p>') {
+    if (
+      !value ||
+      value.trim() === '<p></p>' ||
+      value.trim() === '<br>' ||
+      value.trim() === '<p><br></p>'
+    ) {
       normalizedValue = '';
     }
     normalizedValue = this.sanitizationService.sanitize(normalizedValue).trim();
@@ -239,7 +217,9 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
       if (this.ngControl && this.ngControl.control) {
         /* istanbul ignore else */
         if (normalizedValue !== this.ngControl.control.value) {
-          this.ngControl.control.setValue(normalizedValue, { emitModelToViewChange: false });
+          this.ngControl.control.setValue(normalizedValue, {
+            emitModelToViewChange: false,
+          });
         }
       }
 
@@ -273,14 +253,14 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
 
   private _value: string = '<p></p>';
 
-  constructor (
+  constructor(
     private changeDetector: ChangeDetectorRef,
     private coreAdapterService: SkyCoreAdapterService,
     private adapterService: SkyTextEditorAdapterService,
     private editorService: SkyTextEditorService,
     private sanitizationService: SkyTextSanitizationService,
     private ngControl: NgControl,
-    private zone: NgZone,
+    private zone: NgZone
   ) {
     this.ngControl.valueAccessor = this;
   }
@@ -342,7 +322,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
   private updateStyle(): void {
     this._initialStyleState = {
       ...this._initialStyleState,
-      ...this.adapterService.getStyleState(this.id) as any
+      ...(this.adapterService.getStyleState(this.id) as any),
     };
   }
 
@@ -354,10 +334,9 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
       this.placeholder
     );
 
-    this.editorService.inputListener(this.id)
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+    this.editorService
+      .inputListener(this.id)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         // Angular doesn't run change detection for changes originating inside an iframe,
         // so we have to call the onChange() event inside NgZone to force change propigation to consuming components.
@@ -366,27 +345,24 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
         });
       });
 
-    this.editorService.selectionChangeListener(this.id)
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+    this.editorService
+      .selectionChangeListener(this.id)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         this.updateStyle();
         this.editorFocusStream.next();
       });
 
-    this.editorService.clickListener(this.id)
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+    this.editorService
+      .clickListener(this.id)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         this.editorFocusStream.next();
       });
 
-    this.editorService.blurListener(this.id)
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+    this.editorService
+      .blurListener(this.id)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         // Angular doesn't run change detection for changes originating inside an iframe,
         // so we have to run markForCheck() inside the NgZone to force change propigation to consuming components.
@@ -395,10 +371,9 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
         });
       });
 
-    this.editorService.commandChangeListener(this.id)
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+    this.editorService
+      .commandChangeListener(this.id)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         this.updateStyle();
         this.ViewToModelUpdate();

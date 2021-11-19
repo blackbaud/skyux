@@ -1,8 +1,7 @@
-@import "~@skyux/theme/scss/variables";
-@import "~@skyux/theme/scss/mixins";
+@import '~@skyux/theme/scss/variables';
+@import '~@skyux/theme/scss/mixins';
 
 .sky-text-editor {
-
   .sky-text-editor-wrapper {
     display: flex;
     flex-wrap: wrap;
@@ -11,7 +10,7 @@
     height: 300px;
     padding: 1rem;
     font-size: 1.2rem;
-    border: 1px solid #C0C0C0;
+    border: 1px solid #c0c0c0;
     overflow-y: auto;
     outline: none;
     &.sky-text-editor-wrapper-disabled {
@@ -20,7 +19,6 @@
   }
 
   .sky-text-editor-toolbar {
-
     .sky-toolbar-section {
       padding: 10px 10px 0 10px;
     }
@@ -44,14 +42,11 @@
       display: flex;
       flex-wrap: wrap;
     }
-
   }
 }
 
 .sky-theme-modern {
-
   .sky-text-editor {
-
     .sky-text-editor-wrapper {
       border: 1px solid $sky-theme-modern-border-color-neutral-medium;
       &.sky-text-editor-wrapper-disabled {
@@ -60,7 +55,6 @@
     }
 
     .sky-text-editor-toolbar {
-
       .sky-toolbar {
         padding: 10px 10px 0 10px;
       }
@@ -79,8 +73,6 @@
       .sky-toolbar-item {
         margin: 0 20px 0 0 !important;
       }
-
     }
   }
-
 }

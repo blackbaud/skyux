@@ -1,77 +1,38 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  FormsModule,
-  ReactiveFormsModule
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import {
-  SkyColorpickerModule
-} from '@skyux/colorpicker';
+import { SkyColorpickerModule } from '@skyux/colorpicker';
 
-import {
-  SkyCoreAdapterModule,
-  SkyIdModule
-} from '@skyux/core';
+import { SkyCoreAdapterModule, SkyIdModule } from '@skyux/core';
 
-import {
-  SkyCheckboxModule,
-  SkyInputBoxModule
-} from '@skyux/forms';
+import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
 
-import {
-  SkyModalModule
-} from '@skyux/modals';
+import { SkyModalModule } from '@skyux/modals';
 
-import {
-  SkyI18nModule
-} from '@skyux/i18n';
+import { SkyI18nModule } from '@skyux/i18n';
 
-import {
-  SkyIconModule
-} from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/indicators';
 
-import {
-  SkyToolbarModule
-} from '@skyux/layout';
+import { SkyToolbarModule } from '@skyux/layout';
 
-import {
-  SkyDropdownModule
-} from '@skyux/popovers';
+import { SkyDropdownModule } from '@skyux/popovers';
 
-import {
-  SkyTabsModule
-} from '@skyux/tabs';
+import { SkyTabsModule } from '@skyux/tabs';
 
-import {
-  SkyThemeModule
-} from '@skyux/theme';
+import { SkyThemeModule } from '@skyux/theme';
 
-import {
-  SkyTextEditorResourcesModule
-} from '../../modules/shared/sky-text-editor-resources.module';
+import { SkyTextEditorResourcesModule } from '../../modules/shared/sky-text-editor-resources.module';
 
-import {
-  SkyTextEditorMenubarComponent
-} from './menubar/text-editor-menubar.component';
+import { SkyTextEditorMenubarComponent } from './menubar/text-editor-menubar.component';
 
-import {
-  SkyTextEditorToolbarComponent
-} from './toolbar/text-editor-toolbar.component';
+import { SkyTextEditorToolbarComponent } from './toolbar/text-editor-toolbar.component';
 
-import {
-  SkyTextEditorUrlModalComponent
-} from './url-modal/text-editor-url-modal.component';
+import { SkyTextEditorUrlModalComponent } from './url-modal/text-editor-url-modal.component';
 
-import {
-  SkyTextEditorComponent
-} from './text-editor.component';
+import { SkyTextEditorComponent } from './text-editor.component';
 
 @NgModule({
   imports: [
@@ -90,22 +51,20 @@ import {
     SkyModalModule,
     SkyTabsModule,
     SkyThemeModule,
-    SkyToolbarModule
+    SkyToolbarModule,
   ],
   exports: [
     SkyTextEditorComponent,
     SkyTextEditorUrlModalComponent,
     SkyTextEditorToolbarComponent,
-    SkyTextEditorMenubarComponent
+    SkyTextEditorMenubarComponent,
   ],
   declarations: [
     SkyTextEditorComponent,
     SkyTextEditorUrlModalComponent,
     SkyTextEditorToolbarComponent,
-    SkyTextEditorMenubarComponent
+    SkyTextEditorMenubarComponent,
   ],
-  entryComponents: [
-    SkyTextEditorUrlModalComponent
-  ]
+  entryComponents: [SkyTextEditorUrlModalComponent],
 })
-export class SkyTextEditorModule { }
+export class SkyTextEditorModule {}

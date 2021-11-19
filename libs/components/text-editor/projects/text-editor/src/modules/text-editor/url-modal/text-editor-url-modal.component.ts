@@ -1,26 +1,14 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {
-  SkyModalInstance
-} from '@skyux/modals';
+import { SkyModalInstance } from '@skyux/modals';
 
-import {
-  SkyValidation
-} from '@skyux/validation';
+import { SkyValidation } from '@skyux/validation';
 
-import {
-  UrlModalResult
-} from './text-editor-url-modal-result';
+import { UrlModalResult } from './text-editor-url-modal-result';
 
-import {
-  SkyUrlModalContext
-} from './text-editor-url-modal-context';
+import { SkyUrlModalContext } from './text-editor-url-modal-context';
 
-import {
-  UrlTarget
-} from './text-editor-url-target';
+import { UrlTarget } from './text-editor-url-target';
 
 const emailKey = 'mailto:';
 const queryStringParamKey = '?Subject=';
@@ -31,18 +19,16 @@ const queryStringParamKey = '?Subject=';
 @Component({
   selector: 'sky-text-editor-url-modal',
   templateUrl: './text-editor-url-modal.component.html',
-  styleUrls: ['./text-editor-url-modal.component.scss']
+  styleUrls: ['./text-editor-url-modal.component.scss'],
 })
 export class SkyTextEditorUrlModalComponent {
-
   public set activeTab(value: number) {
     this._activeTab = value;
     this.valid = this.isValid();
   }
   public get activeTab(): number {
     return this._activeTab;
-
-}
+  }
   public set emailAddress(value: string) {
     this._emailAddress = value;
     this.valid = this.isValid();
@@ -52,11 +38,11 @@ export class SkyTextEditorUrlModalComponent {
   }
 
   public set url(value: string) {
-      this._url = value;
-      this.valid = this.isValid();
+    this._url = value;
+    this.valid = this.isValid();
   }
   public get url(): string {
-      return this._url;
+    return this._url;
   }
 
   public emailAddressValid: boolean = false;
@@ -82,19 +68,24 @@ export class SkyTextEditorUrlModalComponent {
         this.emailAddress = modalContext.urlResult.url.replace(emailKey, '');
 
         let queryStringIndex = this.emailAddress.indexOf(queryStringParamKey);
-        queryStringIndex = queryStringIndex > -1 ? queryStringIndex : this.emailAddress.indexOf(queryStringParamKey.toLowerCase());
+        queryStringIndex =
+          queryStringIndex > -1
+            ? queryStringIndex
+            : this.emailAddress.indexOf(queryStringParamKey.toLowerCase());
 
         /* istanbul ignore else */
         if (queryStringIndex > -1) {
-          this.subject = decodeURI(this.emailAddress).slice(queryStringIndex + queryStringParamKey.length);
+          this.subject = decodeURI(this.emailAddress).slice(
+            queryStringIndex + queryStringParamKey.length
+          );
           this.emailAddress = this.emailAddress.slice(0, queryStringIndex);
         }
 
         // Set active tab to email
         this.activeTab = 1;
       } else {
-        this.url = modalContext.urlResult.url,
-        this.target = modalContext.urlResult.target as any;
+        (this.url = modalContext.urlResult.url),
+          (this.target = modalContext.urlResult.target as any);
 
         // set active tab to web page
         this.activeTab = 0;
@@ -111,13 +102,15 @@ export class SkyTextEditorUrlModalComponent {
     if (this.isValid()) {
       if (this.activeTab === 0) {
         this.modalInstance.save({
-            url: this.url,
-            target: this.target ? parseInt(this.target as any, undefined) : UrlTarget.None
+          url: this.url,
+          target: this.target
+            ? parseInt(this.target as any, undefined)
+            : UrlTarget.None,
         } as UrlModalResult);
       } else {
         this.modalInstance.save({
-            url: this.getEmailUrl(),
-            target: UrlTarget.None
+          url: this.getEmailUrl(),
+          target: UrlTarget.None,
         } as UrlModalResult);
       }
     }
@@ -128,7 +121,11 @@ export class SkyTextEditorUrlModalComponent {
   }
 
   private getEmailUrl(): string {
-    return emailKey + this.emailAddress + (this.subject ? '?Subject=' + encodeURI(this.subject) : '');
+    return (
+      emailKey +
+      this.emailAddress +
+      (this.subject ? '?Subject=' + encodeURI(this.subject) : '')
+    );
   }
 
   private isValid(): boolean {
@@ -137,5 +134,4 @@ export class SkyTextEditorUrlModalComponent {
     }
     return !!this.emailAddress && SkyValidation.isEmail(this.emailAddress);
   }
-
 }
