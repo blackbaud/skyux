@@ -1,3 +1,7 @@
+# 5.0.4 (2021-11-19)
+
+- Updated the builder to support StackBlitz. [#240](https://github.com/blackbaud/skyux-lookup/pull/240)
+
 # 5.0.3 (2021-10-19)
 
 - Fixed the lookup component to disable the button when the component is disabled. [#229](https://github.com/blackbaud/skyux-lookup/pull/229)
