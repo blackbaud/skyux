@@ -1,20 +1,20 @@
 {
   "name": "@skyux/layout",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "peerDependencies": {
-    "@angular/common": "^12.2.7",
-    "@angular/core": "^12.2.7",
-    "@angular/forms": "^12.2.7",
-    "@angular/router": "^12.2.7",
-    "@skyux/core": "^5.0.0",
-    "@skyux/i18n": "^5.0.0",
-    "@skyux/forms": "^5.0.0-beta.5",
-    "@skyux/indicators": "^5.0.0-beta.4",
-    "@skyux/modals": "^5.0.0-beta.6",
-    "@skyux/router": "^5.0.0-beta.3",
-    "@skyux/theme": "^5.0.0"
+    "@angular/common": "^12.2.13",
+    "@angular/core": "^12.2.13",
+    "@angular/forms": "^12.2.13",
+    "@angular/router": "^12.2.13",
+    "@skyux/core": "^5.1.2",
+    "@skyux/i18n": "^5.0.1",
+    "@skyux/forms": "^5.0.1",
+    "@skyux/indicators": "^5.0.2",
+    "@skyux/modals": "^5.0.2",
+    "@skyux/router": "^5.0.2",
+    "@skyux/theme": "^5.0.4"
   },
   "dependencies": {
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.1"
   }
 }
