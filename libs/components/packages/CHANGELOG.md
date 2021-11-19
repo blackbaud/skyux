@@ -1,3 +1,7 @@
+# 5.60.0 (2021-11-19)
+
+- `@skyux/list-builder-view-checklist@5.0.1` [Release notes](https://github.com/blackbaud/skyux-list-builder-view-checklist/blob/5.0.1/CHANGELOG.md)
+
 # 5.59.0 (2021-11-19)
 
 - `@skyux/text-editor@5.0.3` [Release notes](https://github.com/blackbaud/skyux-text-editor/blob/5.0.3/CHANGELOG.md)
