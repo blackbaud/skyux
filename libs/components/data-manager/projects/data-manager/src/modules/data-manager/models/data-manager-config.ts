@@ -1,6 +1,4 @@
-import {
-  SkyDataManagerSortOption
-} from './data-manager-sort-option';
+import { SkyDataManagerSortOption } from './data-manager-sort-option';
 
 /**
  * The data manager config contains settings that apply to the data manager across all views,

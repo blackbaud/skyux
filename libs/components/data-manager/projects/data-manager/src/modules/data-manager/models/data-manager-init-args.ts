@@ -1,10 +1,6 @@
-import {
-  SkyDataManagerConfig
-} from './data-manager-config';
+import { SkyDataManagerConfig } from './data-manager-config';
 
-import {
-  SkyDataManagerState
-} from './data-manager-state';
+import { SkyDataManagerState } from './data-manager-state';
 
 export interface SkyDataManagerInitArgs {
   /**

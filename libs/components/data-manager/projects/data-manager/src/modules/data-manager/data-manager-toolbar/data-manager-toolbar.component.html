@@ -1,115 +1,118 @@
 <div class="sky-data-manager-toolbar">
-<sky-toolbar>
-  <sky-toolbar-section>
+  <sky-toolbar>
+    <sky-toolbar-section>
+      <ng-content select="sky-data-manager-toolbar-primary-item"></ng-content>
 
-    <ng-content select="sky-data-manager-toolbar-primary-item"></ng-content>
-
-    <sky-toolbar-item *ngIf="activeView?.filterButtonEnabled">
-      <sky-filter-button
-        [showButtonText]="activeView?.showFilterButtonText"
-        (filterButtonClick)="filterButtonClicked()"
-      >
-      </sky-filter-button>
-    </sky-toolbar-item>
-
-    <sky-toolbar-item *ngIf="activeView?.sortEnabled">
-      <sky-sort [showButtonText]="activeView?.showSortButtonText">
-        <sky-sort-item
-          *ngFor="let item of dataManagerConfig?.sortOptions"
-          [active]="activeSortOptionId && activeSortOptionId === item.id"
-          (itemSelect)="sortSelected(item)"
+      <sky-toolbar-item *ngIf="activeView?.filterButtonEnabled">
+        <sky-filter-button
+          [showButtonText]="activeView?.showFilterButtonText"
+          (filterButtonClick)="filterButtonClicked()"
         >
-          {{item.label}}
-        </sky-sort-item>
-      </sky-sort>
-    </sky-toolbar-item>
+        </sky-filter-button>
+      </sky-toolbar-item>
 
-    <sky-toolbar-item *ngIf="activeView?.columnPickerEnabled">
-      <button
-        class="sky-btn sky-btn-default sky-col-picker-btn"
-        type="button"
-        [attr.aria-label]="'skyux_data_manager_columns_button_title' | skyLibResources"
-        [attr.title]="'skyux_data_manager_columns_button_title' | skyLibResources"
-        (click)="openColumnPicker()"
-      >
-        <sky-icon
-          icon="columns"
-        ></sky-icon>
-        <span
-          class="sky-column-selector-action-btn-text"
+      <sky-toolbar-item *ngIf="activeView?.sortEnabled">
+        <sky-sort [showButtonText]="activeView?.showSortButtonText">
+          <sky-sort-item
+            *ngFor="let item of dataManagerConfig?.sortOptions"
+            [active]="activeSortOptionId && activeSortOptionId === item.id"
+            (itemSelect)="sortSelected(item)"
+          >
+            {{ item.label }}
+          </sky-sort-item>
+        </sky-sort>
+      </sky-toolbar-item>
+
+      <sky-toolbar-item *ngIf="activeView?.columnPickerEnabled">
+        <button
+          class="sky-btn sky-btn-default sky-col-picker-btn"
+          type="button"
+          [attr.aria-label]="
+            'skyux_data_manager_columns_button_title' | skyLibResources
+          "
+          [attr.title]="
+            'skyux_data_manager_columns_button_title' | skyLibResources
+          "
+          (click)="openColumnPicker()"
         >
-          {{'skyux_data_manager_columns_button_title' | skyLibResources}}
-        </span>
-      </button>
-    </sky-toolbar-item>
+          <sky-icon icon="columns"></sky-icon>
+          <span class="sky-column-selector-action-btn-text">
+            {{ 'skyux_data_manager_columns_button_title' | skyLibResources }}
+          </span>
+        </button>
+      </sky-toolbar-item>
 
-    <ng-content select="sky-data-manager-toolbar-left-item"></ng-content>
+      <ng-content select="sky-data-manager-toolbar-left-item"></ng-content>
 
-    <sky-toolbar-item *ngIf="activeView?.searchEnabled">
-      <sky-search
-        [expandMode]="activeView?.searchExpandMode"
-        [placeholderText]="activeView?.searchPlaceholderText"
-        [searchText]="dataState?.searchText"
-        (searchApply)="searchApplied($event)"
-      >
-      </sky-search>
-    </sky-toolbar-item>
-
-    <sky-toolbar-view-actions>
-      <ng-content select="sky-data-manager-toolbar-right-item"></ng-content>
-      <sky-radio-group *ngIf="activeView && views && views.length > 1"
-        [ariaLabel]="'data view switcher'"
-        class="sky-switch-icon-group"
-      >
-        <sky-radio *ngFor="let view of views"
-          [attr.name]="view.name"
-          [attr.aria-label]="view.name"
-          [icon]="view.icon"
-          [value]="view.id"
-          [label]="view.name"
-          [(ngModel)]="activeView.id"
-          (change)="onViewChange(view.id)"
+      <sky-toolbar-item *ngIf="activeView?.searchEnabled">
+        <sky-search
+          [expandMode]="activeView?.searchExpandMode"
+          [placeholderText]="activeView?.searchPlaceholderText"
+          [searchText]="dataState?.searchText"
+          (searchApply)="searchApplied($event)"
         >
-        </sky-radio>
-      </sky-radio-group>
-    </sky-toolbar-view-actions>
-  </sky-toolbar-section>
-  <ng-content select="sky-data-manager-toolbar-section"></ng-content>
-</sky-toolbar
->
+        </sky-search>
+      </sky-toolbar-item>
 
-<sky-toolbar *ngIf="activeView?.multiselectToolbarEnabled"
-  class="sky-data-manager-multiselect-toolbar"
->
-  <sky-toolbar-section>
-    <sky-toolbar-item>
-      <button
-      class="sky-btn sky-btn-link sky-data-manager-select-all-btn"
-      type="button"
-      (click)="selectAll()"
-      >
-        {{'skyux_data_manager_select_all_button_title' | skyLibResources}}
-      </button>
-    </sky-toolbar-item>
-    <sky-toolbar-item>
-      <button
-        class="sky-btn sky-btn-link sky-data-manager-clear-all-btn"
-        type="button"
-        (click)="clearAll()"
-      >
-        {{'skyux_data_manager_clear_all_button_title' | skyLibResources}}
-      </button>
-    </sky-toolbar-item>
-    <sky-toolbar-view-actions>
-      <sky-checkbox
-        [checked]="onlyShowSelected"
-        (change)="onOnlyShowSelected($event)"
-      >
-        <sky-checkbox-label>
-          {{'skyux_data_manager_show_selected_option_title' | skyLibResources}}
-        </sky-checkbox-label>
-      </sky-checkbox>
-    </sky-toolbar-view-actions>
-  </sky-toolbar-section>
-</sky-toolbar>
+      <sky-toolbar-view-actions>
+        <ng-content select="sky-data-manager-toolbar-right-item"></ng-content>
+        <sky-radio-group
+          *ngIf="activeView && views && views.length > 1"
+          [ariaLabel]="'data view switcher'"
+          class="sky-switch-icon-group"
+        >
+          <sky-radio
+            *ngFor="let view of views"
+            [attr.name]="view.name"
+            [attr.aria-label]="view.name"
+            [icon]="view.icon"
+            [value]="view.id"
+            [label]="view.name"
+            [(ngModel)]="activeView.id"
+            (change)="onViewChange(view.id)"
+          >
+          </sky-radio>
+        </sky-radio-group>
+      </sky-toolbar-view-actions>
+    </sky-toolbar-section>
+    <ng-content select="sky-data-manager-toolbar-section"></ng-content>
+  </sky-toolbar>
+
+  <sky-toolbar
+    *ngIf="activeView?.multiselectToolbarEnabled"
+    class="sky-data-manager-multiselect-toolbar"
+  >
+    <sky-toolbar-section>
+      <sky-toolbar-item>
+        <button
+          class="sky-btn sky-btn-link sky-data-manager-select-all-btn"
+          type="button"
+          (click)="selectAll()"
+        >
+          {{ 'skyux_data_manager_select_all_button_title' | skyLibResources }}
+        </button>
+      </sky-toolbar-item>
+      <sky-toolbar-item>
+        <button
+          class="sky-btn sky-btn-link sky-data-manager-clear-all-btn"
+          type="button"
+          (click)="clearAll()"
+        >
+          {{ 'skyux_data_manager_clear_all_button_title' | skyLibResources }}
+        </button>
+      </sky-toolbar-item>
+      <sky-toolbar-view-actions>
+        <sky-checkbox
+          [checked]="onlyShowSelected"
+          (change)="onOnlyShowSelected($event)"
+        >
+          <sky-checkbox-label>
+            {{
+              'skyux_data_manager_show_selected_option_title' | skyLibResources
+            }}
+          </sky-checkbox-label>
+        </sky-checkbox>
+      </sky-toolbar-view-actions>
+    </sky-toolbar-section>
+  </sky-toolbar>
 </div>

@@ -3,61 +3,34 @@ import {
   ChangeDetectorRef,
   Component,
   OnDestroy,
-  OnInit
+  OnInit,
 } from '@angular/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkyCheckboxChange
-} from '@skyux/forms';
+import { SkyCheckboxChange } from '@skyux/forms';
 
-import {
-  SkyModalCloseArgs,
-  SkyModalService
-} from '@skyux/modals';
+import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 
-import {
-  SkyDataManagerService
-} from '../data-manager.service';
+import { SkyDataManagerService } from '../data-manager.service';
 
-import {
-  SkyDataManagerColumnPickerContext
-} from '../data-manager-column-picker/data-manager-column-picker-context';
+import { SkyDataManagerColumnPickerContext } from '../data-manager-column-picker/data-manager-column-picker-context';
 
-import {
-  SkyDataManagerColumnPickerOption
-} from '../models/data-manager-column-picker-option';
+import { SkyDataManagerColumnPickerOption } from '../models/data-manager-column-picker-option';
 
-import {
-  SkyDataManagerColumnPickerService
-} from '../data-manager-column-picker/data-manager-column-picker.service';
+import { SkyDataManagerColumnPickerService } from '../data-manager-column-picker/data-manager-column-picker.service';
 
-import {
-  SkyDataManagerConfig
-} from '../models/data-manager-config';
+import { SkyDataManagerConfig } from '../models/data-manager-config';
 
-import {
-  SkyDataManagerSortOption
-} from '../models/data-manager-sort-option';
+import { SkyDataManagerSortOption } from '../models/data-manager-sort-option';
 
-import {
-  SkyDataManagerState
-} from '../models/data-manager-state';
+import { SkyDataManagerState } from '../models/data-manager-state';
 
-import {
-  SkyDataViewConfig
-} from '../models/data-view-config';
+import { SkyDataViewConfig } from '../models/data-view-config';
 
-import {
-  SkyDataManagerFilterModalContext
-} from '../data-manager-filter-context';
+import { SkyDataManagerFilterModalContext } from '../data-manager-filter-context';
 
 /**
  * Renders a `sky-toolbar` with the contents specified by the active view's `SkyDataViewConfig`
@@ -68,10 +41,9 @@ import {
   selector: 'sky-data-manager-toolbar',
   templateUrl: './data-manager-toolbar.component.html',
   styleUrls: ['./data-manager-toolbar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
-
   public get activeSortOptionId(): string {
     const activeSortOption = this.dataState && this.dataState.activeSortOption;
     return activeSortOption && activeSortOption.id;
@@ -128,12 +100,13 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
     private dataManagerService: SkyDataManagerService,
     private modalService: SkyModalService,
     private columnPickerService: SkyDataManagerColumnPickerService
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
-    this.dataManagerService.getActiveViewIdUpdates()
+    this.dataManagerService
+      .getActiveViewIdUpdates()
       .pipe(takeUntil(this._ngUnsubscribe))
-      .subscribe(activeViewId => {
+      .subscribe((activeViewId) => {
         /* istanbul ignore else */
         if (activeViewId) {
           this.activeView = this.dataManagerService.getViewById(activeViewId);
@@ -141,23 +114,26 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
         }
       });
 
-    this.dataManagerService.getDataViewsUpdates()
+    this.dataManagerService
+      .getDataViewsUpdates()
       .pipe(takeUntil(this._ngUnsubscribe))
-      .subscribe(views => {
+      .subscribe((views) => {
         this.views = views;
       });
 
-    this.dataManagerService.getDataStateUpdates(this._source)
+    this.dataManagerService
+      .getDataStateUpdates(this._source)
       .pipe(takeUntil(this._ngUnsubscribe))
-      .subscribe(dataState => {
+      .subscribe((dataState) => {
         this._dataState = dataState;
         this.onlyShowSelected = dataState.onlyShowSelected;
         this.changeDetector.markForCheck();
       });
 
-    this.dataManagerService.getDataManagerConfigUpdates()
+    this.dataManagerService
+      .getDataManagerConfigUpdates()
       .pipe(takeUntil(this._ngUnsubscribe))
-      .subscribe(config => {
+      .subscribe((config) => {
         this.dataManagerConfig = config;
       });
   }
@@ -183,12 +159,15 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
 
   public filterButtonClicked(): void {
     const context = new SkyDataManagerFilterModalContext();
-    const filterModal = this.dataManagerConfig && this.dataManagerConfig.filterModalComponent;
+    const filterModal =
+      this.dataManagerConfig && this.dataManagerConfig.filterModalComponent;
 
     context.filterData = this.dataState && this.dataState.filterData;
 
     const options: any = {
-      providers: [{ provide: SkyDataManagerFilterModalContext, useValue: context }]
+      providers: [
+        { provide: SkyDataManagerFilterModalContext, useValue: context },
+      ],
     };
 
     if (filterModal) {
@@ -206,14 +185,20 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
   public openColumnPicker(): void {
     const columnOptions = this.activeView && this.activeView.columnOptions;
     const viewState = this.dataState.getViewStateById(this.activeView.id);
-    const context = new SkyDataManagerColumnPickerContext(columnOptions, viewState.displayedColumnIds);
+    const context = new SkyDataManagerColumnPickerContext(
+      columnOptions,
+      viewState.displayedColumnIds
+    );
 
     if (this.activeView.columnPickerSortStrategy) {
-      context.columnPickerSortStrategy = this.activeView.columnPickerSortStrategy;
+      context.columnPickerSortStrategy =
+        this.activeView.columnPickerSortStrategy;
     }
 
     const options: any = {
-      providers: [{ provide: SkyDataManagerColumnPickerContext, useValue: context }]
+      providers: [
+        { provide: SkyDataManagerColumnPickerContext, useValue: context },
+      ],
     };
 
     const modalInstance = this.modalService.open(
@@ -223,11 +208,16 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
 
     modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
       if (result.reason === 'save') {
-        const displayedColumnIds = result.data.map((col: SkyDataManagerColumnPickerOption) => col.id);
+        const displayedColumnIds = result.data.map(
+          (col: SkyDataManagerColumnPickerOption) => col.id
+        );
 
         viewState.displayedColumnIds = displayedColumnIds;
-        this.dataState = this.dataState.addOrUpdateView(this.activeView.id, viewState);
-        }
+        this.dataState = this.dataState.addOrUpdateView(
+          this.activeView.id,
+          viewState
+        );
+      }
     });
   }
 

@@ -2,44 +2,26 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
-  OnInit
+  OnInit,
 } from '@angular/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkyModalInstance
-} from '@skyux/modals';
+import { SkyModalInstance } from '@skyux/modals';
 
-import {
-  SkyDataManagerColumnPickerContext
-} from './data-manager-column-picker-context';
+import { SkyDataManagerColumnPickerContext } from './data-manager-column-picker-context';
 
-import {
-  SkyDataManagerService
-} from '../data-manager.service';
+import { SkyDataManagerService } from '../data-manager.service';
 
-import {
-  SkyDataManagerColumnPickerOption
-} from '../models/data-manager-column-picker-option';
+import { SkyDataManagerColumnPickerOption } from '../models/data-manager-column-picker-option';
 
-import {
-  SkyDataManagerColumnPickerSortStrategy
-} from '../models/data-manager-column-picker-sort-strategy';
+import { SkyDataManagerColumnPickerSortStrategy } from '../models/data-manager-column-picker-sort-strategy';
 
-import {
-  SkyDataManagerState
-} from '../models/data-manager-state';
+import { SkyDataManagerState } from '../models/data-manager-state';
 
-import {
-  SkyDataViewConfig
-} from '../models/data-view-config';
+import { SkyDataViewConfig } from '../models/data-view-config';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 /**
@@ -57,7 +39,7 @@ interface Column extends SkyDataManagerColumnPickerOption {
   templateUrl: './data-manager-column-picker.component.html',
   styleUrls: ['./data-manager-column-picker.component.scss'],
   providers: [SkyDataManagerService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
   public get dataState(): SkyDataManagerState {
@@ -66,10 +48,14 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
 
   public set dataState(value: SkyDataManagerState) {
     this._dataState = value;
-    this.displayedColumnData = this.searchColumns(this.columnData.filter(col => !col.alwaysDisplayed));
+    this.displayedColumnData = this.searchColumns(
+      this.columnData.filter((col) => !col.alwaysDisplayed)
+    );
 
     if (value.onlyShowSelected) {
-      this.displayedColumnData = this.displayedColumnData.filter(col => col.isSelected);
+      this.displayedColumnData = this.displayedColumnData.filter(
+        (col) => col.isSelected
+      );
     }
   }
 
@@ -83,7 +69,7 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
     searchExpandMode: 'fit',
     multiselectToolbarEnabled: true,
     onSelectAllClick: this.selectAll.bind(this),
-    onClearAllClick: this.clearAll.bind(this)
+    onClearAllClick: this.clearAll.bind(this),
   };
 
   private _dataState = new SkyDataManagerState({});
@@ -94,26 +80,29 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
     public dataManagerService: SkyDataManagerService,
     public instance: SkyModalInstance,
     private libResources: SkyLibResourcesService
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
-    this.libResources.getString('skyux_data_manager_column_picker_title').subscribe((value) => {
-      console.log(value);
-    })
+    this.libResources
+      .getString('skyux_data_manager_column_picker_title')
+      .subscribe((value) => {
+        console.log(value);
+      });
     this.dataManagerService.initDataManager({
       activeViewId: this.viewConfig.id,
       dataManagerConfig: {},
-      defaultDataState: this.dataState
+      defaultDataState: this.dataState,
     });
     this.dataManagerService.initDataView(this.viewConfig);
 
     this.columnData = this.formatColumnOptions();
 
-    this.dataManagerService.getDataStateUpdates('columnPicker')
-    .pipe(takeUntil(this._ngUnsubscribe))
-    .subscribe(state => {
-      this.dataState = state;
-    });
+    this.dataManagerService
+      .getDataStateUpdates('columnPicker')
+      .pipe(takeUntil(this._ngUnsubscribe))
+      .subscribe((state) => {
+        this.dataState = state;
+      });
   }
 
   public ngOnDestroy(): void {
@@ -130,8 +119,12 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
         let property: any;
 
         for (property in item) {
-          if (item.hasOwnProperty(property) && (property === 'label' || property === 'description')) {
-            const propertyText: string = item[property] && item[property].toUpperCase();
+          if (
+            item.hasOwnProperty(property) &&
+            (property === 'label' || property === 'description')
+          ) {
+            const propertyText: string =
+              item[property] && item[property].toUpperCase();
             if (propertyText && propertyText.indexOf(searchText) > -1) {
               return true;
             }
@@ -145,11 +138,11 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
   }
 
   public selectAll(): void {
-    this.displayedColumnData.forEach(column => column.isSelected = true);
+    this.displayedColumnData.forEach((column) => (column.isSelected = true));
   }
 
   public clearAll(): void {
-    this.displayedColumnData.forEach(column => column.isSelected = false);
+    this.displayedColumnData.forEach((column) => (column.isSelected = false));
   }
 
   public cancelChanges(): void {
@@ -157,11 +150,15 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
   }
 
   public isSelected(id: string): boolean {
-    return this.context.displayedColumnIds.findIndex(colId => colId === id) !== -1;
+    return (
+      this.context.displayedColumnIds.findIndex((colId) => colId === id) !== -1
+    );
   }
 
   public applyChanges(): void {
-    this.instance.save(this.columnData.filter(col => col.isSelected || col.alwaysDisplayed));
+    this.instance.save(
+      this.columnData.filter((col) => col.isSelected || col.alwaysDisplayed)
+    );
   }
 
   private formatColumnOptions(): Column[] {
@@ -178,12 +175,15 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
         id: columnOption.id,
         label: columnOption.label,
         description: columnOption.description,
-        isSelected: colIndex !== -1
+        isSelected: colIndex !== -1,
       };
 
       // if column picker sorting is currently enabled sort columns by order displayed then alphabetical
       // else display column in order they were specified in the columnOptions
-      if (this.context.columnPickerSortStrategy === SkyDataManagerColumnPickerSortStrategy.SelectedThenAlphabetical) {
+      if (
+        this.context.columnPickerSortStrategy ===
+        SkyDataManagerColumnPickerSortStrategy.SelectedThenAlphabetical
+      ) {
         if (formattedColumn.isSelected) {
           formattedColumnOptions[colIndex] = formattedColumn;
         } else {
@@ -196,9 +196,16 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
 
     // if column picker sorting is enabled, sort the columns that are not currently displayed
     // and add them after the currently displayed options
-    if (this.context.columnPickerSortStrategy === SkyDataManagerColumnPickerSortStrategy.SelectedThenAlphabetical) {
-      unselectedColumnOptions.sort((col1, col2) => col1.label.localeCompare(col2.label));
-      formattedColumnOptions = formattedColumnOptions.concat(unselectedColumnOptions);
+    if (
+      this.context.columnPickerSortStrategy ===
+      SkyDataManagerColumnPickerSortStrategy.SelectedThenAlphabetical
+    ) {
+      unselectedColumnOptions.sort((col1, col2) =>
+        col1.label.localeCompare(col2.label)
+      );
+      formattedColumnOptions = formattedColumnOptions.concat(
+        unselectedColumnOptions
+      );
     }
 
     return formattedColumnOptions;

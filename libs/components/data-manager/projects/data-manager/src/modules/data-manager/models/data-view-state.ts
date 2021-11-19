@@ -1,6 +1,4 @@
-import {
-  SkyDataViewStateOptions
-} from './data-view-state-options';
+import { SkyDataViewStateOptions } from './data-view-state-options';
 
 export class SkyDataViewState {
   public columnIds: string[] = [];
@@ -20,7 +18,7 @@ export class SkyDataViewState {
       viewId: this.viewId,
       columnIds: this.columnIds,
       displayedColumnIds: this.displayedColumnIds,
-      additionalData: this.additionalData
+      additionalData: this.additionalData,
     };
   }
 }

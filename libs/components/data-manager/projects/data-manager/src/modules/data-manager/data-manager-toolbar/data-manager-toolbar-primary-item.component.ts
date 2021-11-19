@@ -1,6 +1,4 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * A wrapper for an item to be rendered in `SkyDataManagerToolbarComponent`. The contents are
@@ -9,6 +7,6 @@ import {
  */
 @Component({
   selector: 'sky-data-manager-toolbar-primary-item',
-  templateUrl: './data-manager-toolbar-primary-item.component.html'
+  templateUrl: './data-manager-toolbar-primary-item.component.html',
 })
-export class SkyDataManagerToolbarPrimaryItemComponent { }
+export class SkyDataManagerToolbarPrimaryItemComponent {}

@@ -1,3 +1,7 @@
+# 5.0.2 (2021-11-19)
+
+- Added support for Prettier code formatting and updated the builder to support StackBlitz. [#56](https://github.com/blackbaud/skyux-data-manager/pull/56)
+
 # 5.0.1 (2021-11-01)
 
 - Updated the description for the `columnIds` input. [#54](https://github.com/blackbaud/skyux-data-manager/pull/54)
@@ -69,9 +73,11 @@
 - Fixed the data manager toolbar component to only execute searches when users press "Enter" or select the search button. [#25](https://github.com/blackbaud/skyux-data-manager/pull/25)
 
 # 4.0.1 (2021-01-19)
+
 - Updated the `SkyDataManagerColumnPickerSortStrategy` export to be referenceable. [#22](https://github.com/blackbaud/skyux-data-manager/pull/22)
 
 # 4.0.0 (2020-10-09)
+
 - Added an option to disable column picker sorting to render column options in the order provided. [#12](https://github.com/blackbaud/skyux-data-manager/pull/12)
 - Updated the data manager component to scroll to the top of the data view when the active view changes. [#15](https://github.com/blackbaud/skyux-data-manager/pull/15)
 - Updated the data manager service to log a warning if `initDataManager` or `initDataView` are called after a data manager or view is initialized. [#14](https://github.com/blackbaud/skyux-data-manager/pull/14)

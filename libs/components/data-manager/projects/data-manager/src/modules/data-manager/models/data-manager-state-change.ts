@@ -1,6 +1,4 @@
-import {
-  SkyDataManagerState
-} from './data-manager-state';
+import { SkyDataManagerState } from './data-manager-state';
 
 /**
  * @internal

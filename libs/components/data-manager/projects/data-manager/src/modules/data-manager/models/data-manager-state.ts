@@ -1,22 +1,12 @@
-import {
-  SkyDataManagerFilterData
-} from './data-manager-filter-data';
+import { SkyDataManagerFilterData } from './data-manager-filter-data';
 
-import {
-  SkyDataManagerStateOptions
-} from './data-manager-state-options';
+import { SkyDataManagerStateOptions } from './data-manager-state-options';
 
-import {
-  SkyDataManagerSortOption
-} from './data-manager-sort-option';
+import { SkyDataManagerSortOption } from './data-manager-sort-option';
 
-import {
-  SkyDataViewState
-} from './data-view-state';
+import { SkyDataViewState } from './data-view-state';
 
-import {
-  SkyDataViewStateOptions
-} from './data-view-state-options';
+import { SkyDataViewStateOptions } from './data-view-state-options';
 
 export class SkyDataManagerState {
   public activeSortOption: SkyDataManagerSortOption;
@@ -28,7 +18,8 @@ export class SkyDataManagerState {
   public views: SkyDataViewState[] = [];
 
   constructor(data: SkyDataManagerStateOptions) {
-    let views = data.views && data.views.map(view => new SkyDataViewState(view));
+    let views =
+      data.views && data.views.map((view) => new SkyDataViewState(view));
 
     this.activeSortOption = data.activeSortOption;
     this.additionalData = data.additionalData;
@@ -40,7 +31,7 @@ export class SkyDataManagerState {
   }
 
   public getStateOptions(): SkyDataManagerStateOptions {
-    let viewStates: SkyDataViewStateOptions[] = this.views.map(view => {
+    let viewStates: SkyDataViewStateOptions[] = this.views.map((view) => {
       return view.getViewStateOptions();
     });
 
@@ -51,16 +42,19 @@ export class SkyDataManagerState {
       onlyShowSelected: this.onlyShowSelected,
       searchText: this.searchText,
       selectedIds: this.selectedIds,
-      views: viewStates
+      views: viewStates,
     };
   }
 
   public getViewStateById(viewId: string): SkyDataViewState {
-    return this.views.find(view => view.viewId === viewId);
+    return this.views.find((view) => view.viewId === viewId);
   }
 
-  public addOrUpdateView(viewId: string, view: SkyDataViewState): SkyDataManagerState {
-    const existingViewIndex = this.views.findIndex(v => v.viewId === viewId);
+  public addOrUpdateView(
+    viewId: string,
+    view: SkyDataViewState
+  ): SkyDataManagerState {
+    const existingViewIndex = this.views.findIndex((v) => v.viewId === viewId);
 
     if (existingViewIndex !== -1) {
       this.views[existingViewIndex] = view;
@@ -74,7 +68,7 @@ export class SkyDataManagerState {
       filterData: this.filterData,
       searchText: this.searchText,
       selectedIds: this.selectedIds,
-      views: this.views
+      views: this.views,
     });
   }
 }

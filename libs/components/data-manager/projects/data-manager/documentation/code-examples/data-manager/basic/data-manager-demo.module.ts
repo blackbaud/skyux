@@ -1,58 +1,33 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  FormsModule
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
-import {
-  SkyCardModule,
-  SkyToolbarModule
-} from '@skyux/layout';
+import { SkyCardModule, SkyToolbarModule } from '@skyux/layout';
 
-import {
-  SkyCheckboxModule
-} from '@skyux/forms';
+import { SkyCheckboxModule } from '@skyux/forms';
 
-import {
-  SkyDataManagerModule
-} from '@skyux/data-manager';
+import { SkyDataManagerModule } from '@skyux/data-manager';
 
-import {
-  SkyModalModule
-} from '@skyux/modals';
+import { SkyModalModule } from '@skyux/modals';
 
-import {
-  SkyRepeaterModule
-} from '@skyux/lists';
+import { SkyRepeaterModule } from '@skyux/lists';
 
-import {
-  DataManagerDemoComponent
-} from './data-manager-demo.component';
+import { DataManagerDemoComponent } from './data-manager-demo.component';
 
-import {
-  DataManagerFiltersModalDemoComponent
-} from './data-filter-modal.component';
+import { DataManagerFiltersModalDemoComponent } from './data-filter-modal.component';
 
-import {
-  DataViewCardsDemoComponent
-} from './data-view-cards.component';
+import { DataViewCardsDemoComponent } from './data-view-cards.component';
 
-import {
-  DataViewRepeaterDemoComponent
-} from './data-view-repeater.component';
+import { DataViewRepeaterDemoComponent } from './data-view-repeater.component';
 
 @NgModule({
   declarations: [
     DataManagerDemoComponent,
     DataManagerFiltersModalDemoComponent,
     DataViewCardsDemoComponent,
-    DataViewRepeaterDemoComponent
+    DataViewRepeaterDemoComponent,
   ],
   imports: [
     CommonModule,
@@ -62,14 +37,12 @@ import {
     SkyDataManagerModule,
     SkyModalModule,
     SkyRepeaterModule,
-    SkyToolbarModule
+    SkyToolbarModule,
   ],
-  exports: [
-    DataManagerDemoComponent
-  ],
+  exports: [DataManagerDemoComponent],
   entryComponents: [
     DataManagerDemoComponent,
-    DataManagerFiltersModalDemoComponent
-  ]
+    DataManagerFiltersModalDemoComponent,
+  ],
 })
-export class DataManagerDemoModule { }
+export class DataManagerDemoModule {}

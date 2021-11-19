@@ -1,10 +1,6 @@
-import {
-  SkyDataManagerColumnPickerOption
-} from './data-manager-column-picker-option';
+import { SkyDataManagerColumnPickerOption } from './data-manager-column-picker-option';
 
-import {
-  SkyDataManagerColumnPickerSortStrategy
-} from './data-manager-column-picker-sort-strategy';
+import { SkyDataManagerColumnPickerSortStrategy } from './data-manager-column-picker-sort-strategy';
 
 /**
  * The data view config contains settings that apply to the specific view, such as

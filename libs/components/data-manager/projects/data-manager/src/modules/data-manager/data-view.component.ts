@@ -4,20 +4,14 @@ import {
   Component,
   Input,
   OnDestroy,
-  OnInit
+  OnInit,
 } from '@angular/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkyDataManagerService
-} from './data-manager.service';
+import { SkyDataManagerService } from './data-manager.service';
 
 /**
  * A data view is rendered within a data manager component.
@@ -27,10 +21,9 @@ import {
 @Component({
   selector: 'sky-data-view',
   templateUrl: './data-view.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDataViewComponent implements OnDestroy, OnInit {
-
   /**
    * The configuration for the view. See the `SkyDataViewConfig` interface.
    * @required
@@ -54,12 +47,13 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
   constructor(
     private changeDetector: ChangeDetectorRef,
     private dataManagerService: SkyDataManagerService
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
-    this.dataManagerService.getActiveViewIdUpdates()
+    this.dataManagerService
+      .getActiveViewIdUpdates()
       .pipe(takeUntil(this._ngUnsubscribe))
-      .subscribe(activeViewId => {
+      .subscribe((activeViewId) => {
         this.isActive = this.viewId === activeViewId;
       });
   }

@@ -1,90 +1,48 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  FormsModule
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  SkyViewkeeperModule
-} from '@skyux/core';
+import { SkyViewkeeperModule } from '@skyux/core';
 
-import {
-  SkyIconModule
-} from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/indicators';
 
-import {
-  SkyCheckboxModule,
-  SkyRadioModule
-} from '@skyux/forms';
+import { SkyCheckboxModule, SkyRadioModule } from '@skyux/forms';
 
-import {
-  SkyBackToTopModule,
-  SkyToolbarModule
-} from '@skyux/layout';
+import { SkyBackToTopModule, SkyToolbarModule } from '@skyux/layout';
 
 import {
   SkyFilterModule,
   SkyRepeaterModule,
-  SkySortModule
+  SkySortModule,
 } from '@skyux/lists';
 
-import {
-  SkySearchModule
-} from '@skyux/lookup';
+import { SkySearchModule } from '@skyux/lookup';
 
-import {
-  SkyModalModule
-} from '@skyux/modals';
+import { SkyModalModule } from '@skyux/modals';
 
-import {
-  SkyDataManagerResourcesModule
-} from '../shared/sky-data-manager-resources.module';
+import { SkyDataManagerResourcesModule } from '../shared/sky-data-manager-resources.module';
 
-import {
-  SkyDataManagerColumnPickerComponent
-} from './data-manager-column-picker/data-manager-column-picker.component';
+import { SkyDataManagerColumnPickerComponent } from './data-manager-column-picker/data-manager-column-picker.component';
 
-import {
-  SkyDataManagerComponent
-} from './data-manager.component';
+import { SkyDataManagerComponent } from './data-manager.component';
 
-import {
-  SkyDataManagerToolbarLeftItemComponent
-} from './data-manager-toolbar/data-manager-toolbar-left-item.component';
+import { SkyDataManagerToolbarLeftItemComponent } from './data-manager-toolbar/data-manager-toolbar-left-item.component';
 
-import {
-  SkyDataManagerToolbarPrimaryItemComponent
-} from './data-manager-toolbar/data-manager-toolbar-primary-item.component';
+import { SkyDataManagerToolbarPrimaryItemComponent } from './data-manager-toolbar/data-manager-toolbar-primary-item.component';
 
-import {
-  SkyDataManagerToolbarRightItemComponent
-} from './data-manager-toolbar/data-manager-toolbar-right-item.component';
+import { SkyDataManagerToolbarRightItemComponent } from './data-manager-toolbar/data-manager-toolbar-right-item.component';
 
-import {
-  SkyDataManagerToolbarSectionComponent
-} from './data-manager-toolbar/data-manager-toolbar-section.component';
+import { SkyDataManagerToolbarSectionComponent } from './data-manager-toolbar/data-manager-toolbar-section.component';
 
-import {
-  SkyDataManagerToolbarComponent
-} from './data-manager-toolbar/data-manager-toolbar.component';
+import { SkyDataManagerToolbarComponent } from './data-manager-toolbar/data-manager-toolbar.component';
 
-import {
-  SkyDataViewComponent
-} from './data-view.component';
+import { SkyDataViewComponent } from './data-view.component';
 
-import {
-  SkyDataManagerColumnPickerService
-} from './data-manager-column-picker/data-manager-column-picker.service';
+import { SkyDataManagerColumnPickerService } from './data-manager-column-picker/data-manager-column-picker.service';
 
-import {
-  SkyDataManagerColumnPickerImplService
-} from './data-manager-column-picker/data-manager-column-picker-impl.service';
+import { SkyDataManagerColumnPickerImplService } from './data-manager-column-picker/data-manager-column-picker-impl.service';
 
 @NgModule({
   declarations: [
@@ -95,7 +53,7 @@ import {
     SkyDataManagerToolbarRightItemComponent,
     SkyDataManagerToolbarSectionComponent,
     SkyDataManagerToolbarComponent,
-    SkyDataViewComponent
+    SkyDataViewComponent,
   ],
   imports: [
     CommonModule,
@@ -111,7 +69,7 @@ import {
     SkySearchModule,
     SkySortModule,
     SkyToolbarModule,
-    SkyViewkeeperModule
+    SkyViewkeeperModule,
   ],
   exports: [
     SkyDataManagerColumnPickerComponent,
@@ -121,16 +79,14 @@ import {
     SkyDataManagerToolbarRightItemComponent,
     SkyDataManagerToolbarSectionComponent,
     SkyDataManagerToolbarComponent,
-    SkyDataViewComponent
+    SkyDataViewComponent,
   ],
-  entryComponents: [
-    SkyDataManagerColumnPickerComponent
-  ],
+  entryComponents: [SkyDataManagerColumnPickerComponent],
   providers: [
     {
       provide: SkyDataManagerColumnPickerService,
-      useClass: SkyDataManagerColumnPickerImplService
-    }
-  ]
+      useClass: SkyDataManagerColumnPickerImplService,
+    },
+  ],
 })
-export class SkyDataManagerModule { }
+export class SkyDataManagerModule {}

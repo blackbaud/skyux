@@ -1,18 +1,12 @@
-<sky-data-view
-  [viewId]="viewConfig.id"
->
+<sky-data-view [viewId]="viewConfig.id">
   <div style="margin: 10px">
     <sky-card size="small" *ngFor="let item of displayedItems">
-      <sky-card-title>{{item.name}}</sky-card-title>
-      <sky-card-content>{{item.description}}</sky-card-content>
+      <sky-card-title>{{ item.name }}</sky-card-title>
+      <sky-card-content>{{ item.description }}</sky-card-content>
     </sky-card>
   </div>
 
-  <button
-    type="button"
-    class="sky-btn sky-btn-primary"
-    (click)="searchBe()"
-  >
+  <button type="button" class="sky-btn sky-btn-primary" (click)="searchBe()">
     Set search text to "be"
   </button>
 </sky-data-view>

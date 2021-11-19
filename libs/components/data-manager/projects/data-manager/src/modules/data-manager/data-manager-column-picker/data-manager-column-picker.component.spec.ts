@@ -1,39 +1,22 @@
-import {
-  ComponentFixture,
-  TestBed,
-  waitForAsync
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import {
-  expect,
-  expectAsync
-} from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
 import {
   SkyModalConfiguration,
   SkyModalHostService,
-  SkyModalInstance
+  SkyModalInstance,
 } from '@skyux/modals';
 
-import {
-  DataManagerFixtureModule
-} from '../fixtures/data-manager.module.fixture';
+import { DataManagerFixtureModule } from '../fixtures/data-manager.module.fixture';
 
-import {
-  SkyDataManagerColumnPickerComponent
-} from './data-manager-column-picker.component';
+import { SkyDataManagerColumnPickerComponent } from './data-manager-column-picker.component';
 
-import {
-  SkyDataManagerColumnPickerContext
-} from './data-manager-column-picker-context';
+import { SkyDataManagerColumnPickerContext } from './data-manager-column-picker-context';
 
-import {
-  SkyDataManagerColumnPickerSortStrategy
-} from '../../../public-api';
+import { SkyDataManagerColumnPickerSortStrategy } from '../../../public-api';
 
 class MockModalInstance {
   public saveResult: any;
@@ -41,7 +24,7 @@ class MockModalInstance {
   public closeResult: any;
   public closeReason: any;
 
-  constructor() { }
+  constructor() {}
 
   public save(result: any): void {
     this.saveResult = result;
@@ -62,7 +45,6 @@ class MockModalHostService {
 
   public getModalZIndex(): void {}
   public onClose(): void {}
-
 }
 
 class MockModalConfiguration {
@@ -77,7 +59,7 @@ describe('SkyDataManagerColumnPickerComponent', () => {
     label: 'Column 1',
     description: 'The first column.',
     alwaysDisplayed: true,
-    isSelected: true
+    isSelected: true,
   };
 
   const column2 = {
@@ -85,7 +67,7 @@ describe('SkyDataManagerColumnPickerComponent', () => {
     label: 'Column 2',
     description: 'The second column.',
     alwaysDisplayed: false,
-    isSelected: false
+    isSelected: false,
   };
 
   const column3 = {
@@ -93,7 +75,7 @@ describe('SkyDataManagerColumnPickerComponent', () => {
     label: 'Column 3',
     description: 'The third column.',
     alwaysDisplayed: false,
-    isSelected: true
+    isSelected: true,
   };
 
   const column4 = {
@@ -101,15 +83,16 @@ describe('SkyDataManagerColumnPickerComponent', () => {
     label: 'Column 4',
     description: 'The fourth column.',
     alwaysDisplayed: false,
-    isSelected: false
+    isSelected: false,
   };
 
-  const columns = [ column1, column2, column3, column4 ];
+  const columns = [column1, column2, column3, column4];
 
   const modalContext: SkyDataManagerColumnPickerContext = {
     columnOptions: columns,
-    columnPickerSortStrategy: SkyDataManagerColumnPickerSortStrategy.SelectedThenAlphabetical,
-    displayedColumnIds: ['1', '3']
+    columnPickerSortStrategy:
+      SkyDataManagerColumnPickerSortStrategy.SelectedThenAlphabetical,
+    displayedColumnIds: ['1', '3'],
   };
 
   let dataManagerColumnPickerFixture: ComponentFixture<SkyDataManagerColumnPickerComponent>;
@@ -121,53 +104,64 @@ describe('SkyDataManagerColumnPickerComponent', () => {
     modalInstance = new MockModalInstance();
 
     TestBed.configureTestingModule({
-      imports: [
-        DataManagerFixtureModule
-      ],
+      imports: [DataManagerFixtureModule],
       providers: [
         {
           provide: SkyModalConfiguration,
-          useValue: new MockModalConfiguration()
+          useValue: new MockModalConfiguration(),
         },
         {
           provide: SkyModalHostService,
-          useValue: new MockModalHostService()
+          useValue: new MockModalHostService(),
         },
         {
           provide: SkyModalInstance,
-          useValue: modalInstance
+          useValue: modalInstance,
         },
         {
           provide: SkyDataManagerColumnPickerContext,
-          useValue: modalContext
-        }
-      ]
+          useValue: modalContext,
+        },
+      ],
     });
 
-    dataManagerColumnPickerFixture = TestBed.createComponent(SkyDataManagerColumnPickerComponent);
-    dataManagerColumnPickerElement = dataManagerColumnPickerFixture.nativeElement;
-    dataManagerColumnPickerComponent = dataManagerColumnPickerFixture.componentInstance;
+    dataManagerColumnPickerFixture = TestBed.createComponent(
+      SkyDataManagerColumnPickerComponent
+    );
+    dataManagerColumnPickerElement =
+      dataManagerColumnPickerFixture.nativeElement;
+    dataManagerColumnPickerComponent =
+      dataManagerColumnPickerFixture.componentInstance;
 
     dataManagerColumnPickerFixture.detectChanges();
   });
 
   describe('column search', () => {
-    it('should display the expected title', waitForAsync(() => {
-      const libResources = dataManagerColumnPickerFixture.debugElement.injector.get(SkyLibResourcesService);
+    it(
+      'should display the expected title',
+      waitForAsync(() => {
+        const libResources =
+          dataManagerColumnPickerFixture.debugElement.injector.get(
+            SkyLibResourcesService
+          );
 
-      libResources.getString('skyux_data_manager_column_picker_title').subscribe((value) => {
-        console.log(value);
-      });
+        libResources
+          .getString('skyux_data_manager_column_picker_title')
+          .subscribe((value) => {
+            console.log(value);
+          });
 
-      expect(
-        dataManagerColumnPickerElement.querySelector('sky-modal-header')
-      ).toHaveText('Choose columns to show in the list');
-    }));
+        expect(
+          dataManagerColumnPickerElement.querySelector('sky-modal-header')
+        ).toHaveText('Choose columns to show in the list');
+      })
+    );
 
     it('should return all columns when the data state search text is "col"', () => {
       dataManagerColumnPickerComponent.dataState.searchText = 'col';
 
-      const searchResults = dataManagerColumnPickerComponent.searchColumns(columns);
+      const searchResults =
+        dataManagerColumnPickerComponent.searchColumns(columns);
 
       expect(searchResults).toEqual(columns);
     });
@@ -175,7 +169,8 @@ describe('SkyDataManagerColumnPickerComponent', () => {
     it('should return all columns when the data state search text does not match casing', () => {
       dataManagerColumnPickerComponent.dataState.searchText = 'CoL';
 
-      const searchResults = dataManagerColumnPickerComponent.searchColumns(columns);
+      const searchResults =
+        dataManagerColumnPickerComponent.searchColumns(columns);
 
       expect(searchResults).toEqual(columns);
     });
@@ -183,24 +178,25 @@ describe('SkyDataManagerColumnPickerComponent', () => {
     it('should return column1 when the data state search text is "1"', () => {
       dataManagerColumnPickerComponent.dataState.searchText = '1';
 
-      const searchResults = dataManagerColumnPickerComponent.searchColumns(columns);
+      const searchResults =
+        dataManagerColumnPickerComponent.searchColumns(columns);
 
       expect(searchResults).toEqual([column1]);
     });
   });
 
-  it('should set all columns\'s isSelected property to true when selectAll is called', () => {
+  it("should set all columns's isSelected property to true when selectAll is called", () => {
     dataManagerColumnPickerComponent.selectAll();
 
-    dataManagerColumnPickerComponent.displayedColumnData.forEach(col => {
+    dataManagerColumnPickerComponent.displayedColumnData.forEach((col) => {
       expect(col.isSelected).toBeTrue();
     });
   });
 
-  it('should set all columns\'s isSelected property to false when clearAll is called', () => {
+  it("should set all columns's isSelected property to false when clearAll is called", () => {
     dataManagerColumnPickerComponent.clearAll();
 
-    dataManagerColumnPickerComponent.displayedColumnData.forEach(col => {
+    dataManagerColumnPickerComponent.displayedColumnData.forEach((col) => {
       expect(col.isSelected).toBeFalse();
     });
   });
@@ -234,22 +230,36 @@ describe('SkyDataManagerColumnPickerComponent', () => {
     dataManagerColumnPickerComponent.dataState = dataState;
 
     expect(dataManagerColumnPickerComponent.displayedColumnData.length).toBe(1);
-    dataManagerColumnPickerComponent.displayedColumnData.forEach(col => {
+    dataManagerColumnPickerComponent.displayedColumnData.forEach((col) => {
       expect(col.isSelected).toBeTrue();
     });
   });
 
-  it ('should sort columns if column picker sorting is set to selected then alphabetical', () => {
-    expect(dataManagerColumnPickerComponent.columnData).toEqual([column1, column3, column2, column4]);
+  it('should sort columns if column picker sorting is set to selected then alphabetical', () => {
+    expect(dataManagerColumnPickerComponent.columnData).toEqual([
+      column1,
+      column3,
+      column2,
+      column4,
+    ]);
   });
 
-  it ('should not sort columns if column picker sorting is set to none', () => {
-    dataManagerColumnPickerFixture = TestBed.createComponent(SkyDataManagerColumnPickerComponent);
-    dataManagerColumnPickerComponent = dataManagerColumnPickerFixture.componentInstance;
-    dataManagerColumnPickerComponent.context.columnPickerSortStrategy = SkyDataManagerColumnPickerSortStrategy.None;
+  it('should not sort columns if column picker sorting is set to none', () => {
+    dataManagerColumnPickerFixture = TestBed.createComponent(
+      SkyDataManagerColumnPickerComponent
+    );
+    dataManagerColumnPickerComponent =
+      dataManagerColumnPickerFixture.componentInstance;
+    dataManagerColumnPickerComponent.context.columnPickerSortStrategy =
+      SkyDataManagerColumnPickerSortStrategy.None;
     dataManagerColumnPickerFixture.detectChanges();
 
-    expect(dataManagerColumnPickerComponent.columnData).toEqual([column1, column2, column3, column4]);
+    expect(dataManagerColumnPickerComponent.columnData).toEqual([
+      column1,
+      column2,
+      column3,
+      column4,
+    ]);
   });
 
   it('should pass accessibility', async () => {

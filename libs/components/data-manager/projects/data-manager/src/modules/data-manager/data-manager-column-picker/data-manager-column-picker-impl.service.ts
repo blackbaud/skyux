@@ -1,10 +1,6 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  SkyDataManagerColumnPickerComponent
-} from './data-manager-column-picker.component';
+import { SkyDataManagerColumnPickerComponent } from './data-manager-column-picker.component';
 
 @Injectable()
 export class SkyDataManagerColumnPickerImplService {

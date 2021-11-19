@@ -1,6 +1,4 @@
-import {
-  SkyDataManagerState
-} from './data-manager-state';
+import { SkyDataManagerState } from './data-manager-state';
 
 /**
  * Optional arguments to pass to `getDataStateUpdates`.
@@ -15,5 +13,8 @@ export interface SkyDataManagerStateUpdateFilterArgs {
   /**
    * A comparator function called to test if the new `SkyDataManagerState` is distinct from the previous.
    */
-  comparator?: (state1: SkyDataManagerState, state2: SkyDataManagerState) => boolean;
+  comparator?: (
+    state1: SkyDataManagerState,
+    state2: SkyDataManagerState
+  ) => boolean;
 }

@@ -2,25 +2,16 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
-import {
-  expect,
-  expectAsync
-} from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import {
-  DataManagerFixtureModule
-} from './fixtures/data-manager.module.fixture';
+import { DataManagerFixtureModule } from './fixtures/data-manager.module.fixture';
 
-import {
-  DataViewRepeaterFixtureComponent
-} from './fixtures/data-manager-repeater-view.component.fixture';
+import { DataViewRepeaterFixtureComponent } from './fixtures/data-manager-repeater-view.component.fixture';
 
-import {
-  SkyDataManagerService
-} from '../../public-api';
+import { SkyDataManagerService } from '../../public-api';
 
 describe('SkyDataViewComponent', () => {
   let dataViewFixture: ComponentFixture<DataViewRepeaterFixtureComponent>;
@@ -30,12 +21,8 @@ describe('SkyDataViewComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        DataViewRepeaterFixtureComponent
-      ],
-      imports: [
-        DataManagerFixtureModule
-      ]
+      declarations: [DataViewRepeaterFixtureComponent],
+      imports: [DataManagerFixtureModule],
     });
 
     dataViewFixture = TestBed.createComponent(DataViewRepeaterFixtureComponent);
@@ -52,10 +39,12 @@ describe('SkyDataViewComponent', () => {
     tick();
     dataViewFixture.detectChanges();
 
-    expect(dataManagerService.initDataView).toHaveBeenCalledWith(dataViewComponent.viewConfig);
+    expect(dataManagerService.initDataView).toHaveBeenCalledWith(
+      dataViewComponent.viewConfig
+    );
   }));
 
-  it('should update its isActive property to true when the data manager service updates the activeViewId to the view\'s id', () => {
+  it("should update its isActive property to true when the data manager service updates the activeViewId to the view's id", () => {
     dataViewComponent.isActive = false;
     dataViewFixture.detectChanges();
 

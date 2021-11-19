@@ -20,4 +20,3 @@ export { SkyDataManagerToolbarRightItemComponent as λ5 } from './modules/data-m
 export { SkyDataManagerToolbarSectionComponent as λ6 } from './modules/data-manager/data-manager-toolbar/data-manager-toolbar-section.component';
 export { SkyDataManagerToolbarComponent as λ7 } from './modules/data-manager/data-manager-toolbar/data-manager-toolbar.component';
 export { SkyDataViewComponent as λ8 } from './modules/data-manager/data-view.component';
-
