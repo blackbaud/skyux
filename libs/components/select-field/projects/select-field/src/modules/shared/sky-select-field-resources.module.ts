@@ -12,14 +12,40 @@ import {
   SkyI18nModule,
   SkyLibResources,
   SkyLibResourcesProvider,
-  SKY_LIB_RESOURCES_PROVIDERS
+  SKY_LIB_RESOURCES_PROVIDERS,
 } from '@skyux/i18n';
 
 const RESOURCES: { [locale: string]: SkyLibResources } = {
-  'EN-US': {"skyux_select_field_add_new_record_button":{"message":"New"},"skyux_select_field_multiple_select_open_button":{"message":"Select values"},"skyux_select_field_multiple_select_picker_heading":{"message":"Select values"},"skyux_select_field_multiple_select_summary":{"message":"{0} items selected"},"skyux_select_field_single_select_placeholder":{"message":"Select a value"},"skyux_select_field_single_select_picker_heading":{"message":"Select a value"},"skyux_select_field_single_select_open_button_title":{"message":"Click to select a value"},"skyux_select_field_single_select_clear_button_title":{"message":"Clear selection"},"skyux_select_field_picker_close_button":{"message":"Cancel"},"skyux_select_field_picker_save_button":{"message":"Select"},"skyux_select_field_picker_show_all_category":{"message":"Show all"}},
+  'EN-US': {
+    skyux_select_field_add_new_record_button: { message: 'New' },
+    skyux_select_field_multiple_select_open_button: {
+      message: 'Select values',
+    },
+    skyux_select_field_multiple_select_picker_heading: {
+      message: 'Select values',
+    },
+    skyux_select_field_multiple_select_summary: {
+      message: '{0} items selected',
+    },
+    skyux_select_field_single_select_placeholder: { message: 'Select a value' },
+    skyux_select_field_single_select_picker_heading: {
+      message: 'Select a value',
+    },
+    skyux_select_field_single_select_open_button_title: {
+      message: 'Click to select a value',
+    },
+    skyux_select_field_single_select_clear_button_title: {
+      message: 'Clear selection',
+    },
+    skyux_select_field_picker_close_button: { message: 'Cancel' },
+    skyux_select_field_picker_save_button: { message: 'Select' },
+    skyux_select_field_picker_show_all_category: { message: 'Show all' },
+  },
 };
 
-export class SkySelectFieldResourcesProvider implements SkyLibResourcesProvider {
+export class SkySelectFieldResourcesProvider
+  implements SkyLibResourcesProvider
+{
   public getString(localeInfo: SkyAppLocaleInfo, name: string): string {
     return getLibStringForLocale(RESOURCES, localeInfo.locale, name);
   }
@@ -30,10 +56,12 @@ export class SkySelectFieldResourcesProvider implements SkyLibResourcesProvider 
  */
 @NgModule({
   exports: [SkyI18nModule],
-  providers: [{
-    provide: SKY_LIB_RESOURCES_PROVIDERS,
-    useClass: SkySelectFieldResourcesProvider,
-    multi: true
-  }]
+  providers: [
+    {
+      provide: SKY_LIB_RESOURCES_PROVIDERS,
+      useClass: SkySelectFieldResourcesProvider,
+      multi: true,
+    },
+  ],
 })
-export class SkySelectFieldResourcesModule { }
+export class SkySelectFieldResourcesModule {}

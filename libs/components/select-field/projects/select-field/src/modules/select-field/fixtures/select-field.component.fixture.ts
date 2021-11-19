@@ -3,27 +3,20 @@ import {
   ElementRef,
   OnDestroy,
   OnInit,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
-import {
-  BehaviorSubject
-} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
-import {
-  SkySelectFieldComponent
-} from '../select-field.component';
+import { SkySelectFieldComponent } from '../select-field.component';
 
-import {
-  SkySelectFieldCustomPicker
-} from '../types/select-field-custom-picker';
+import { SkySelectFieldCustomPicker } from '../types/select-field-custom-picker';
 
 @Component({
   selector: 'sky-select-field-test',
-  templateUrl: './select-field.component.fixture.html'
+  templateUrl: './select-field.component.fixture.html',
 })
 export class SkySelectFieldTestComponent implements OnInit, OnDestroy {
-
   public ariaLabel: string;
 
   public ariaLabelledBy: string;
@@ -53,26 +46,61 @@ export class SkySelectFieldTestComponent implements OnInit, OnDestroy {
   public singleSelectPlaceholderText: string;
 
   public staticData = [
-    { id: '1', category: 'Pome', label: 'Apple', description: 'Anne eats apples' },
-    { id: '2', category: 'Berry', label: 'Banana', description: 'Ben eats bananas' },
-    { id: '3', category: 'Pome', label: 'Pear', description: 'Patty eats pears' },
-    { id: '4', category: 'Berry', label: 'Grape', description: 'George eats grapes' },
-    { id: '5', category: 'Berry', label: 'Banana', description: 'Becky eats bananas' },
-    { id: '6', category: 'Citrus', label: 'Lemon', description: 'Larry eats lemons' },
-    { id: '7', category: 'Aggregate fruit', label: 'Strawberry', description: 'Sally eats strawberries' }
+    {
+      id: '1',
+      category: 'Pome',
+      label: 'Apple',
+      description: 'Anne eats apples',
+    },
+    {
+      id: '2',
+      category: 'Berry',
+      label: 'Banana',
+      description: 'Ben eats bananas',
+    },
+    {
+      id: '3',
+      category: 'Pome',
+      label: 'Pear',
+      description: 'Patty eats pears',
+    },
+    {
+      id: '4',
+      category: 'Berry',
+      label: 'Grape',
+      description: 'George eats grapes',
+    },
+    {
+      id: '5',
+      category: 'Berry',
+      label: 'Banana',
+      description: 'Becky eats bananas',
+    },
+    {
+      id: '6',
+      category: 'Citrus',
+      label: 'Lemon',
+      description: 'Larry eats lemons',
+    },
+    {
+      id: '7',
+      category: 'Aggregate fruit',
+      label: 'Strawberry',
+      description: 'Sally eats strawberries',
+    },
   ];
 
   public touched = 0;
 
   @ViewChild(SkySelectFieldComponent, {
     read: ElementRef,
-    static: true
+    static: true,
   })
   public selectFieldElementRef: ElementRef;
 
   @ViewChild(SkySelectFieldComponent, {
     read: SkySelectFieldComponent,
-    static: true
+    static: true,
   })
   public selectField: SkySelectFieldComponent;
 

@@ -7,63 +7,40 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
-import {
-  SkyAppWindowRef
-} from '@skyux/core';
+import { SkyAppWindowRef } from '@skyux/core';
 
-import {
-  SkyListToolbarComponent
-} from '@skyux/list-builder';
+import { SkyListToolbarComponent } from '@skyux/list-builder';
 
-import {
-  ListItemModel
-} from '@skyux/list-builder-common';
+import { ListItemModel } from '@skyux/list-builder-common';
 
-import {
-  SkyListFilterInlineModel
-} from '@skyux/list-builder';
+import { SkyListFilterInlineModel } from '@skyux/list-builder';
 
-import {
-  SkyListViewChecklistComponent
-} from '@skyux/list-builder-view-checklist';
+import { SkyListViewChecklistComponent } from '@skyux/list-builder-view-checklist';
 
-import {
-  SkyModalInstance
-} from '@skyux/modals';
+import { SkyModalInstance } from '@skyux/modals';
 
-import {
-  Observable,
-  Subject
-} from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
-import {
-  take,
-  takeUntil
-} from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 
-import {
-  SkySelectFieldPickerContext
-} from './select-field-picker-context';
+import { SkySelectFieldPickerContext } from './select-field-picker-context';
 
-import {
-  SkySelectField
-} from './types/select-field';
+import { SkySelectField } from './types/select-field';
 
-import {
-  SkySelectFieldSelectMode
-} from './types/select-field-select-mode';
+import { SkySelectFieldSelectMode } from './types/select-field-select-mode';
 
 @Component({
   selector: 'sky-select-field-picker',
   templateUrl: './select-field-picker.component.html',
   styleUrls: ['./select-field-picker.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkySelectFieldPickerComponent implements OnInit, AfterContentInit, OnDestroy {
-
+export class SkySelectFieldPickerComponent
+  implements OnInit, AfterContentInit, OnDestroy
+{
   /**
    * Fires when a search is submitted from the picker's toolbar.
    * @internal
@@ -101,12 +78,12 @@ export class SkySelectFieldPickerComponent implements OnInit, AfterContentInit, 
   }
 
   @ViewChild(SkyListViewChecklistComponent, {
-    static: true
+    static: true,
   })
   private listViewChecklist: SkyListViewChecklistComponent;
 
   @ViewChild(SkyListToolbarComponent, {
-    static: true
+    static: true,
   })
   private listToolbar: SkyListToolbarComponent;
 
@@ -119,7 +96,7 @@ export class SkySelectFieldPickerComponent implements OnInit, AfterContentInit, 
     private instance: SkyModalInstance,
     private elementRef: ElementRef,
     private windowRef: SkyAppWindowRef
-  ) { }
+  ) {}
 
   public ngOnInit() {
     this.data = this.context.data;
@@ -157,7 +134,7 @@ export class SkySelectFieldPickerComponent implements OnInit, AfterContentInit, 
   public save() {
     this.latestData.subscribe((items: SkySelectField[]) => {
       const results = items.filter((item: SkySelectField) => {
-        return (this.selectedIds.indexOf(item.id) > -1);
+        return this.selectedIds.indexOf(item.id) > -1;
       });
       this.instance.save(results);
     });
@@ -168,7 +145,9 @@ export class SkySelectFieldPickerComponent implements OnInit, AfterContentInit, 
   }
 
   public filterByCategory(model: ListItemModel, category: string) {
-    return (category === this.defaultCategory || model.data.category === category);
+    return (
+      category === this.defaultCategory || model.data.category === category
+    );
   }
 
   public onCategoryChange(change: SkyListFilterInlineModel, filter: any) {
@@ -179,18 +158,21 @@ export class SkySelectFieldPickerComponent implements OnInit, AfterContentInit, 
 
   public onSelectedIdsChange(selectedMap: Map<string, boolean>) {
     this.latestData.subscribe((items: SkySelectField[]) => {
-      this.selectedIds = items.filter(item => selectedMap.get(item.id))
-        .map(item => item.id);
+      this.selectedIds = items
+        .filter((item) => selectedMap.get(item.id))
+        .map((item) => item.id);
     });
   }
 
   private assignCategories() {
     this.latestData.subscribe((items: SkySelectField[]) => {
-      const allCategories = items.map(item => item.category);
+      const allCategories = items.map((item) => item.category);
       // Remove duplicate category names:
-      this.categories = allCategories.filter((category: string, i: number, categories: string[]) => {
-        return (category && categories.indexOf(category) === i);
-      });
+      this.categories = allCategories.filter(
+        (category: string, i: number, categories: string[]) => {
+          return category && categories.indexOf(category) === i;
+        }
+      );
     });
   }
 

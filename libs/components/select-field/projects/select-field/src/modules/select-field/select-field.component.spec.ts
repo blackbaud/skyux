@@ -3,45 +3,26 @@ import {
   fakeAsync,
   inject,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
-import {
-  NoopAnimationsModule
-} from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import {
-  expect,
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  SkyModalService
-} from '@skyux/modals';
+import { SkyModalService } from '@skyux/modals';
 
-import {
-  SkySelectFieldComponent
-} from './select-field.component';
+import { SkySelectFieldComponent } from './select-field.component';
 
-import {
-  SkySelectFieldFixturesModule
-} from './fixtures/select-field-fixtures.module';
+import { SkySelectFieldFixturesModule } from './fixtures/select-field-fixtures.module';
 
-import {
-  SkySelectFieldTestComponent
-} from './fixtures/select-field.component.fixture';
+import { SkySelectFieldTestComponent } from './fixtures/select-field.component.fixture';
 
-import {
-  SkySelectField
-} from './types/select-field';
+import { SkySelectField } from './types/select-field';
 
-import {
-  SkySelectFieldCustomPicker
-} from './types/select-field-custom-picker';
+import { SkySelectFieldCustomPicker } from './types/select-field-custom-picker';
 
-import {
-  SkySelectFieldPickerContext
-} from './select-field-picker-context';
+import { SkySelectFieldPickerContext } from './select-field-picker-context';
 
 describe('Select field component', () => {
   let fixture: ComponentFixture<SkySelectFieldTestComponent>;
@@ -74,22 +55,30 @@ describe('Select field component', () => {
   }
 
   function savePicker() {
-    const modalCloseButton = document.querySelector('.sky-select-field-picker-btn-save');
+    const modalCloseButton = document.querySelector(
+      '.sky-select-field-picker-btn-save'
+    );
     (modalCloseButton as HTMLElement).click();
     tick();
     fixture.detectChanges();
   }
 
   function closePicker() {
-    const modalCloseButton = document.querySelector('.sky-select-field-picker-btn-close');
+    const modalCloseButton = document.querySelector(
+      '.sky-select-field-picker-btn-close'
+    );
     (modalCloseButton as HTMLElement).click();
     tick();
     fixture.detectChanges();
   }
 
   function applySearch(searchText: string): void {
-    const searchInput = document.querySelector('.sky-search-input') as HTMLInputElement;
-    const searchButton = document.querySelector('.sky-select-field-picker .sky-search-btn-apply') as HTMLButtonElement;
+    const searchInput = document.querySelector(
+      '.sky-search-input'
+    ) as HTMLInputElement;
+    const searchButton = document.querySelector(
+      '.sky-select-field-picker .sky-search-btn-apply'
+    ) as HTMLButtonElement;
     searchInput.value = searchText;
     fixture.detectChanges();
     SkyAppTestUtility.fireDomEvent(searchInput, 'change');
@@ -101,7 +90,9 @@ describe('Select field component', () => {
   }
 
   function clickNewButton(): void {
-    const modalCloseButton = document.querySelector('.sky-select-field-picker-btn-new');
+    const modalCloseButton = document.querySelector(
+      '.sky-select-field-picker-btn-new'
+    );
     (modalCloseButton as HTMLElement).click();
 
     tick();
@@ -120,7 +111,9 @@ describe('Select field component', () => {
   }
 
   function selectOptions(numToSelect: number) {
-    const checkboxes = document.querySelectorAll('.sky-list-view-checklist sky-checkbox input');
+    const checkboxes = document.querySelectorAll(
+      '.sky-list-view-checklist sky-checkbox input'
+    );
 
     for (let i = 0; i < numToSelect; i++) {
       (checkboxes.item(i) as HTMLElement).click();
@@ -130,24 +123,24 @@ describe('Select field component', () => {
   }
 
   function selectOption(index: number) {
-    const buttons = document.querySelectorAll('.sky-list-view-checklist-single-button');
+    const buttons = document.querySelectorAll(
+      '.sky-list-view-checklist-single-button'
+    );
     (buttons.item(index) as HTMLElement).click();
     tick();
     fixture.detectChanges();
   }
 
   function getSingleSelectInnerText(): string {
-    return (document.querySelector('.sky-form-control') as HTMLElement).innerText;
+    return (document.querySelector('.sky-form-control') as HTMLElement)
+      .innerText;
   }
 
   //#endregion
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        NoopAnimationsModule,
-        SkySelectFieldFixturesModule
-      ]
+      imports: [NoopAnimationsModule, SkySelectFieldFixturesModule],
     });
 
     fixture = TestBed.createComponent(SkySelectFieldTestComponent);
@@ -203,7 +196,9 @@ describe('Select field component', () => {
       openPicker();
       fixture.detectChanges();
 
-      const selectFieldHeading: HTMLElement = document.querySelector('.sky-modal-header-content');
+      const selectFieldHeading: HTMLElement = document.querySelector(
+        '.sky-modal-header-content'
+      );
 
       expect(selectFieldHeading.innerText.trim()).toEqual('FOOBAR');
 
@@ -218,7 +213,8 @@ describe('Select field component', () => {
       openPicker();
       fixture.detectChanges();
 
-      const selectFieldContainer: HTMLElement = fixture.nativeElement.querySelector('.sky-select-field');
+      const selectFieldContainer: HTMLElement =
+        fixture.nativeElement.querySelector('.sky-select-field');
       SkyAppTestUtility.fireDomEvent(selectFieldContainer, 'focusout');
       fixture.detectChanges();
 
@@ -313,7 +309,11 @@ describe('Select field component', () => {
 
     it('should handle closing a subsection of all the tokens', fakeAsync(() => {
       fixture.detectChanges();
-      setValue([component.staticData[0], component.staticData[3], component.staticData[5]]);
+      setValue([
+        component.staticData[0],
+        component.staticData[3],
+        component.staticData[5],
+      ]);
       openPicker();
       selectOptions(2); // Click the selected option to unselect it!
       savePicker();
@@ -384,7 +384,8 @@ describe('Select field component', () => {
       fixture.detectChanges();
       setValue({});
       openPicker();
-      const selectHTML = fixture.nativeElement.querySelector('sky-select-field');
+      const selectHTML =
+        fixture.nativeElement.querySelector('sky-select-field');
       expect(selectHTML.classList.contains('ng-touched')).toBeFalsy();
       selectOption(0);
       savePicker();
@@ -397,12 +398,15 @@ describe('Select field component', () => {
       setValue(component.staticData[0]);
       expect(selectField.value.id).toEqual('1');
       const selector = '.sky-input-group-btn .sky-btn';
-      (fixture.nativeElement.querySelectorAll(selector).item(0) as HTMLElement)
-        .click();
+      (
+        fixture.nativeElement.querySelectorAll(selector).item(0) as HTMLElement
+      ).click();
       tick();
       fixture.detectChanges();
       expect(selectField.value).toEqual(undefined);
-      expect(document.activeElement.classList).toContain('sky-select-field-btn');
+      expect(document.activeElement.classList).toContain(
+        'sky-select-field-btn'
+      );
     }));
 
     it('should reset placeholder text when value is programmatically set to undefined', fakeAsync(() => {
@@ -464,7 +468,9 @@ describe('Select field component', () => {
       tick();
       fixture.detectChanges();
 
-      let values = document.querySelectorAll('.sky-list-view-checklist sky-checkbox input');
+      let values = document.querySelectorAll(
+        '.sky-list-view-checklist sky-checkbox input'
+      );
       expect(values.length).toEqual(6);
 
       const select = document.querySelector('select') as HTMLSelectElement;
@@ -476,7 +482,9 @@ describe('Select field component', () => {
       tick();
       fixture.detectChanges();
 
-      values = document.querySelectorAll('.sky-list-view-checklist sky-checkbox input');
+      values = document.querySelectorAll(
+        '.sky-list-view-checklist sky-checkbox input'
+      );
       expect(select.options.length).toEqual(5);
       expect(values.length).toEqual(2);
     }));
@@ -485,14 +493,16 @@ describe('Select field component', () => {
       let updateValueFn: (value: SkySelectField[]) => void;
 
       const customPicker: SkySelectFieldCustomPicker = {
-        open: jasmine.createSpy('open').and.callFake(
-          (
-            _pickerContext: SkySelectFieldPickerContext,
-            updateValue: (value: SkySelectField[]) => void
-          ) => {
-            updateValueFn = updateValue;
-          }
-        )
+        open: jasmine
+          .createSpy('open')
+          .and.callFake(
+            (
+              _pickerContext: SkySelectFieldPickerContext,
+              updateValue: (value: SkySelectField[]) => void
+            ) => {
+              updateValueFn = updateValue;
+            }
+          ),
       };
 
       fixture.componentInstance.customPicker = customPicker;
@@ -506,27 +516,20 @@ describe('Select field component', () => {
       expect(customPicker.open).toHaveBeenCalledWith(
         jasmine.objectContaining({
           data: fixture.componentInstance.data,
-          selectedValue: [component.staticData[1]]
+          selectedValue: [component.staticData[1]],
         }),
         updateValueFn
       );
 
       // Test multi-select mode.
-      updateValueFn(
-        [
-          component.staticData[4],
-          component.staticData[6]
-        ]
-      );
+      updateValueFn([component.staticData[4], component.staticData[6]]);
 
       detectNewValue();
 
-      expect(selectField.value).toEqual(
-        [
-          component.staticData[4],
-          component.staticData[6]
-        ]
-      );
+      expect(selectField.value).toEqual([
+        component.staticData[4],
+        component.staticData[6],
+      ]);
 
       // Test single-select mode.
       fixture.componentInstance.selectMode = 'single';
@@ -545,20 +548,23 @@ describe('Select field component', () => {
       let updateValueFn: (value: SkySelectField[]) => void;
 
       const customPicker: SkySelectFieldCustomPicker = {
-        open: jasmine.createSpy('open').and.callFake(
-          (
-            _pickerContext: SkySelectFieldPickerContext,
-            updateValue: (value: SkySelectField[]) => void
-          ) => {
-            updateValueFn = updateValue;
-          }
-        )
+        open: jasmine
+          .createSpy('open')
+          .and.callFake(
+            (
+              _pickerContext: SkySelectFieldPickerContext,
+              updateValue: (value: SkySelectField[]) => void
+            ) => {
+              updateValueFn = updateValue;
+            }
+          ),
       };
 
       fixture.componentInstance.customPicker = customPicker;
 
       fixture.detectChanges();
-      const selectHTML = fixture.nativeElement.querySelector('sky-select-field');
+      const selectHTML =
+        fixture.nativeElement.querySelector('sky-select-field');
       expect(selectHTML.classList.contains('ng-touched')).toBeFalsy();
 
       setValue([component.staticData[1]]);
@@ -584,11 +590,9 @@ describe('Select field component', () => {
     describe('inMemorySearchEnabled', function () {
       let modalService: SkyModalService;
 
-      beforeEach(inject(
-        [SkyModalService], (_modalService: SkyModalService) => {
-          modalService = _modalService;
-        }
-      ));
+      beforeEach(inject([SkyModalService], (_modalService: SkyModalService) => {
+        modalService = _modalService;
+      }));
 
       it('should set inMemorySearchEnabled to true when the corresponding context property is undefined', fakeAsync(() => {
         const modalSpy = spyOn(modalService, 'open').and.callThrough();
@@ -640,9 +644,7 @@ describe('Select field component', () => {
 
         expect(picker.inMemorySearchEnabled).toEqual(true);
       }));
-
     });
-
   });
 
   describe('Add new record button', () => {

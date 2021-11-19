@@ -1,14 +1,8 @@
-import {
-  Observable
-} from 'rxjs';
+import { Observable } from 'rxjs';
 
-import {
-  SkySelectField
-} from './types/select-field';
+import { SkySelectField } from './types/select-field';
 
-import {
-  SkySelectFieldSelectMode
-} from './types/select-field-select-mode';
+import { SkySelectFieldSelectMode } from './types/select-field-select-mode';
 
 /**
  * Provides values to a custom picker.

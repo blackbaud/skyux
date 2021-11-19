@@ -1,40 +1,23 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  ReactiveFormsModule
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import {
-  SkyIdModule
-} from '@skyux/core';
+import { SkyIdModule } from '@skyux/core';
 
-import {
-  SkySelectFieldModule
-} from '@skyux/select-field';
+import { SkySelectFieldModule } from '@skyux/select-field';
 
-import {
-  SelectFieldDemoComponent
-} from './select-field-demo.component';
+import { SelectFieldDemoComponent } from './select-field-demo.component';
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
     SkyIdModule,
-    SkySelectFieldModule
+    SkySelectFieldModule,
   ],
-  declarations: [
-    SelectFieldDemoComponent
-  ],
-  exports: [
-    SelectFieldDemoComponent
-  ]
+  declarations: [SelectFieldDemoComponent],
+  exports: [SelectFieldDemoComponent],
 })
-
-export class SelectFieldDemoModule { }
+export class SelectFieldDemoModule {}

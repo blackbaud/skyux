@@ -7,55 +7,30 @@ import {
   forwardRef,
   Input,
   Output,
-  OnDestroy
+  OnDestroy,
 } from '@angular/core';
 
-import {
-  ControlValueAccessor,
-  NG_VALUE_ACCESSOR
-} from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import {
-  SkyModalService,
-  SkyModalCloseArgs
-} from '@skyux/modals';
+import { SkyModalService, SkyModalCloseArgs } from '@skyux/modals';
 
-import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
-import {
-  SkyToken
-} from '@skyux/indicators';
+import { SkyToken } from '@skyux/indicators';
 
-import {
-  Observable,
-  of as observableOf
-} from 'rxjs';
+import { Observable, of as observableOf } from 'rxjs';
 
-import {
-  take
-} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
-import {
-  SkySelectField
-} from './types/select-field';
+import { SkySelectField } from './types/select-field';
 
-import {
-  SkySelectFieldCustomPicker
-} from './types/select-field-custom-picker';
+import { SkySelectFieldCustomPicker } from './types/select-field-custom-picker';
 
-import {
-  SkySelectFieldSelectMode
-} from './types/select-field-select-mode';
+import { SkySelectFieldSelectMode } from './types/select-field-select-mode';
 
-import {
-  SkySelectFieldPickerContext
-} from './select-field-picker-context';
+import { SkySelectFieldPickerContext } from './select-field-picker-context';
 
-import {
-  SkySelectFieldPickerComponent
-} from './select-field-picker.component';
+import { SkySelectFieldPickerComponent } from './select-field-picker.component';
 
 @Component({
   selector: 'sky-select-field',
@@ -67,11 +42,13 @@ import {
       provide: NG_VALUE_ACCESSOR,
       /* tslint:disable-next-line:no-forward-ref */
       useExisting: forwardRef(() => SkySelectFieldComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
-export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy {
+export class SkySelectFieldComponent
+  implements ControlValueAccessor, OnDestroy
+{
   /**
    * Specifies an ARIA label for the text input or button. This sets the `aria-label` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
@@ -207,6 +184,7 @@ export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy 
    * Fires when the component loses focus. This event does not emit a value.
    */
   @Output()
+  // eslint-disable-next-line @angular-eslint/no-output-native
   public blur = new EventEmitter();
 
   /**
@@ -256,7 +234,7 @@ export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy 
     private modalService: SkyModalService,
     private resourcesService: SkyLibResourcesService,
     private elementRef: ElementRef
-  ) { }
+  ) {}
 
   public ngOnDestroy() {
     this.blur.complete();
@@ -268,10 +246,10 @@ export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy 
       return;
     }
 
-    const newIds = change.map(token => token.value.id);
+    const newIds = change.map((token) => token.value.id);
 
     this.data.pipe(take(1)).subscribe((items: SkySelectField[]) => {
-      const newValues = items.filter(item => newIds.indexOf(item.id) > -1);
+      const newValues = items.filter((item) => newIds.indexOf(item.id) > -1);
       this.value = newValues;
       this.setTokensFromValue();
       this.changeDetector.markForCheck();
@@ -279,10 +257,9 @@ export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy 
   }
 
   public openPicker() {
-    (
-      this.pickerHeading ?
-        observableOf(this.pickerHeading) :
-        this.resourcesService.getString(
+    (this.pickerHeading
+      ? observableOf(this.pickerHeading)
+      : this.resourcesService.getString(
           `skyux_select_field_${this.selectMode}_select_picker_heading`
         )
     )
@@ -330,7 +307,7 @@ export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy 
 
   // Angular automatically constructs these methods.
   /* istanbul ignore next */
-  public onChange = (value: any) => { };
+  public onChange = (value: any) => {};
 
   public registerOnChange(fn: (value: any) => void) {
     this.onChange = fn;
@@ -346,12 +323,14 @@ export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy 
   }
 
   public clearSelection() {
-    this.elementRef.nativeElement.querySelector('.sky-select-field-btn').focus();
+    this.elementRef.nativeElement
+      .querySelector('.sky-select-field-btn')
+      .focus();
     this.value = undefined;
   }
 
   /* istanbul ignore next */
-  private _registeredTouchCallback = () => { };
+  private _registeredTouchCallback = () => {};
 
   private setTokensFromValue() {
     // Tokens only appear for multiple select mode.
@@ -367,17 +346,20 @@ export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy 
 
     // Collapse the tokens into a single token if the user has selected many options.
     if (this.value.length > 5) {
-      this.resourcesService.getString(
-        'skyux_select_field_multiple_select_summary',
-        this.value.length.toString()
-      )
+      this.resourcesService
+        .getString(
+          'skyux_select_field_multiple_select_summary',
+          this.value.length.toString()
+        )
         .pipe(take(1))
         .subscribe((label) => {
-          this.tokens = [{
-            value: {
-              [this.descriptorKey]: label
-            }
-          }];
+          this.tokens = [
+            {
+              value: {
+                [this.descriptorKey]: label,
+              },
+            },
+          ];
         });
     } else {
       this.tokens = this.value.map((value: any) => ({ value }));
@@ -385,14 +367,20 @@ export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy 
   }
 
   private openStandardPicker(pickerContext: SkySelectFieldPickerContext) {
-    const modalInstance = this.modalService.open(SkySelectFieldPickerComponent, {
-      providers: [{
-        provide: SkySelectFieldPickerContext,
-        useValue: pickerContext
-      }]
-    });
+    const modalInstance = this.modalService.open(
+      SkySelectFieldPickerComponent,
+      {
+        providers: [
+          {
+            provide: SkySelectFieldPickerContext,
+            useValue: pickerContext,
+          },
+        ],
+      }
+    );
 
-    const picker = modalInstance.componentInstance as SkySelectFieldPickerComponent;
+    const picker =
+      modalInstance.componentInstance as SkySelectFieldPickerComponent;
 
     picker.searchApplied.subscribe((searchText: string) => {
       this.searchApplied.emit(searchText);
@@ -419,17 +407,14 @@ export class SkySelectFieldComponent implements ControlValueAccessor, OnDestroy 
 
   private openCustomPicker(pickerContext: SkySelectFieldPickerContext) {
     this.isPickerOpen = true;
-    this.customPicker.open(
-      pickerContext,
-      (value) => {
-        if (this.selectMode === 'single') {
-          this.writeValue(value[0]);
-        } else {
-          this.writeValue(value);
-        }
-        this.onTouched(false);
-        this.isPickerOpen = false;
+    this.customPicker.open(pickerContext, (value) => {
+      if (this.selectMode === 'single') {
+        this.writeValue(value[0]);
+      } else {
+        this.writeValue(value);
       }
-    );
+      this.onTouched(false);
+      this.isPickerOpen = false;
+    });
   }
 }

@@ -1,9 +1,9 @@
-<div
-  class="sky-select-field"
-  (focusout)="onHostFocusOut()"
->
+<div class="sky-select-field" (focusout)="onHostFocusOut()">
   <ng-container
-    *ngTemplateOutlet="(selectMode === 'multiple') ? multipleSelectMode : singleSelectMode ">
+    *ngTemplateOutlet="
+      selectMode === 'multiple' ? multipleSelectMode : singleSelectMode
+    "
+  >
   </ng-container>
 </div>
 
@@ -15,11 +15,12 @@
       [attr.aria-label]="ariaLabel"
       [attr.aria-labelledby]="ariaLabelledBy"
       [disabled]="disabled"
-      (click)="openPicker()">
+      (click)="openPicker()"
+    >
       <sky-icon icon="plus-circle"></sky-icon>
       {{
         multipleSelectOpenButtonText ||
-        ('skyux_select_field_multiple_select_open_button' | skyLibResources)
+          ('skyux_select_field_multiple_select_open_button' | skyLibResources)
       }}
     </button>
     <sky-tokens
@@ -28,7 +29,8 @@
       [displayWith]="descriptorKey"
       [tokens]="tokens"
       (tokensChange)="onTokensChange($event)"
-      (tokenSelected)="openPicker()">
+      (tokenSelected)="openPicker()"
+    >
     </sky-tokens>
   </div>
 </ng-template>
@@ -38,7 +40,7 @@
     <div
       class="sky-input-group sky-btn sky-btn-default sky-select-field-btn"
       role="button"
-      [attr.tabindex]="(disabled) ? false : 0"
+      [attr.tabindex]="disabled ? false : 0"
       [attr.aria-label]="ariaLabel"
       [attr.aria-labelledby]="ariaLabelledBy"
       [attr.title]="
@@ -47,15 +49,16 @@
       "
       [ngClass]="{ 'sky-btn-disabled': disabled }"
       (click)="openPicker()"
-      (keydown.enter)="openPicker();$event.preventDefault();$event.stopPropagation();">
+      (keydown.enter)="
+        openPicker(); $event.preventDefault(); $event.stopPropagation()
+      "
+    >
       <div class="sky-form-control">
         {{ singleSelectModeValue }}
-        <div
-          *ngIf="!singleSelectModeValue"
-          class="sky-deemphasized">
+        <div *ngIf="!singleSelectModeValue" class="sky-deemphasized">
           {{
             singleSelectPlaceholderText ||
-            ('skyux_select_field_single_select_placeholder' | skyLibResources)
+              ('skyux_select_field_single_select_placeholder' | skyLibResources)
           }}
         </div>
       </div>
@@ -66,11 +69,15 @@
           type="button"
           [attr.title]="
             singleSelectClearButtonTitle ||
-            ('skyux_select_field_single_select_clear_button_title' | skyLibResources)
+            ('skyux_select_field_single_select_clear_button_title'
+              | skyLibResources)
           "
           [disabled]="disabled"
-          (click)="clearSelection();$event.stopPropagation();"
-          (keydown.enter)="clearSelection();$event.preventDefault();$event.stopPropagation();">
+          (click)="clearSelection(); $event.stopPropagation()"
+          (keydown.enter)="
+            clearSelection(); $event.preventDefault(); $event.stopPropagation()
+          "
+        >
           <sky-icon icon="times"></sky-icon>
         </button>
       </div>
@@ -78,9 +85,13 @@
         <button
           class="sky-btn"
           type="button"
-          [attr.title]="'skyux_select_field_single_select_open_button_title' | skyLibResources"
+          [attr.title]="
+            'skyux_select_field_single_select_open_button_title'
+              | skyLibResources
+          "
           [disabled]="disabled"
-          (click)="openPicker();$event.stopPropagation();">
+          (click)="openPicker(); $event.stopPropagation()"
+        >
           <sky-icon icon="sort"></sky-icon>
         </button>
       </div>

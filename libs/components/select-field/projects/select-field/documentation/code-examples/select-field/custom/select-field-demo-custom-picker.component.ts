@@ -1,34 +1,24 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import {
-  SkyModalInstance
-} from '@skyux/modals';
+import { SkyModalInstance } from '@skyux/modals';
 
-import {
-  SkySelectField
-} from '@skyux/select-field';
+import { SkySelectField } from '@skyux/select-field';
 
-import {
-  SelectFieldDemoCustomPickerContext
-} from './select-field-demo-custom-picker-context';
+import { SelectFieldDemoCustomPickerContext } from './select-field-demo-custom-picker-context';
 
 @Component({
   selector: 'app-select-field-demo-custom-picker',
   templateUrl: './select-field-demo-custom-picker.component.html',
-  styleUrls: ['./select-field-demo-custom-picker.component.scss']
+  styleUrls: ['./select-field-demo-custom-picker.component.scss'],
 })
 export class SelectFieldDemoCustomPickerComponent implements OnInit {
-
   public fruitMap: any = {
     '1': '🍎',
     '2': '🍌',
     '3': '🍈',
     '4': '🍇',
     '5': '🍋',
-    '6': '🍓'
+    '6': '🍓',
   };
 
   private fruitValues: SkySelectField[];
@@ -40,7 +30,8 @@ export class SelectFieldDemoCustomPickerComponent implements OnInit {
     public instance: SkyModalInstance
   ) {
     if (context.pickerType === 'fruit') {
-      this.fruitValues = context.pickerContext.selectedValue &&
+      this.fruitValues =
+        context.pickerContext.selectedValue &&
         context.pickerContext.selectedValue.slice();
     }
   }
@@ -50,10 +41,10 @@ export class SelectFieldDemoCustomPickerComponent implements OnInit {
   }
 
   public fruitIsSelected(fruitId: string): boolean {
-    return !!(this.fruitValues &&
-      this.fruitValues.find(
-        (fruit: SkySelectField) => fruit.id === fruitId
-      ));
+    return !!(
+      this.fruitValues &&
+      this.fruitValues.find((fruit: SkySelectField) => fruit.id === fruitId)
+    );
   }
 
   public toggleFruit(fruit: SkySelectField): void {
@@ -77,5 +68,4 @@ export class SelectFieldDemoCustomPickerComponent implements OnInit {
   public saveFruits(): void {
     this.instance.save(this.fruitValues);
   }
-
 }

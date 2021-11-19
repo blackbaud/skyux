@@ -1,13 +1,8 @@
-import {
-  SkySelectField
-} from './select-field';
+import { SkySelectField } from './select-field';
 
-import {
-  SkySelectFieldPickerContext
-} from '../select-field-picker-context';
+import { SkySelectFieldPickerContext } from '../select-field-picker-context';
 
 export interface SkySelectFieldCustomPicker {
-
   /**
    * Specifies a function to call when users select the text field or button.
    * @param pickerContext A `SkySelectFieldPickerContext` object that provides values to the
@@ -19,5 +14,4 @@ export interface SkySelectFieldCustomPicker {
     pickerContext: SkySelectFieldPickerContext,
     updateValue: (value: SkySelectField[]) => void
   ) => void;
-
 }

@@ -1,51 +1,29 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  FormsModule,
-  ReactiveFormsModule
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import {
   SkyListModule,
   SkyListFiltersModule,
   SkyListPagingModule,
-  SkyListToolbarModule
+  SkyListToolbarModule,
 } from '@skyux/list-builder';
 
-import {
-  SkyListViewChecklistModule
-} from '@skyux/list-builder-view-checklist';
+import { SkyListViewChecklistModule } from '@skyux/list-builder-view-checklist';
 
-import {
-  SkyModalModule
-} from '@skyux/modals';
+import { SkyModalModule } from '@skyux/modals';
 
-import {
-  SkyI18nModule
-} from '@skyux/i18n';
+import { SkyI18nModule } from '@skyux/i18n';
 
-import {
-  SkyIconModule,
-  SkyTokensModule
-} from '@skyux/indicators';
+import { SkyIconModule, SkyTokensModule } from '@skyux/indicators';
 
-import {
-  SkySelectFieldResourcesModule
-} from '../shared/sky-select-field-resources.module';
+import { SkySelectFieldResourcesModule } from '../shared/sky-select-field-resources.module';
 
-import {
-  SkySelectFieldComponent
-} from './select-field.component';
+import { SkySelectFieldComponent } from './select-field.component';
 
-import {
-  SkySelectFieldPickerComponent
-} from './select-field-picker.component';
+import { SkySelectFieldPickerComponent } from './select-field-picker.component';
 
 @NgModule({
   imports: [
@@ -61,17 +39,10 @@ import {
     SkyListViewChecklistModule,
     SkyModalModule,
     SkyTokensModule,
-    SkyIconModule
+    SkyIconModule,
   ],
-  exports: [
-    SkySelectFieldComponent
-  ],
-  declarations: [
-    SkySelectFieldComponent,
-    SkySelectFieldPickerComponent
-  ],
-  entryComponents: [
-    SkySelectFieldPickerComponent
-  ]
+  exports: [SkySelectFieldComponent],
+  declarations: [SkySelectFieldComponent, SkySelectFieldPickerComponent],
+  entryComponents: [SkySelectFieldPickerComponent],
 })
-export class SkySelectFieldModule { }
+export class SkySelectFieldModule {}

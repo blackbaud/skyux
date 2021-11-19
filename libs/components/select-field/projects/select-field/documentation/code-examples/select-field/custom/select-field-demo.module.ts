@@ -1,34 +1,18 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  ReactiveFormsModule
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import {
-  SkyIdModule
-} from '@skyux/core';
+import { SkyIdModule } from '@skyux/core';
 
-import {
-  SkyModalModule
-} from '@skyux/modals';
+import { SkyModalModule } from '@skyux/modals';
 
-import {
-  SkySelectFieldModule
-} from '@skyux/select-field';
+import { SkySelectFieldModule } from '@skyux/select-field';
 
-import {
-  SelectFieldDemoComponent
-} from './select-field-demo.component';
+import { SelectFieldDemoComponent } from './select-field-demo.component';
 
-import {
-  SelectFieldDemoCustomPickerComponent
-} from './select-field-demo-custom-picker.component';
+import { SelectFieldDemoCustomPickerComponent } from './select-field-demo-custom-picker.component';
 
 @NgModule({
   imports: [
@@ -36,18 +20,13 @@ import {
     ReactiveFormsModule,
     SkyIdModule,
     SkyModalModule,
-    SkySelectFieldModule
+    SkySelectFieldModule,
   ],
   declarations: [
     SelectFieldDemoComponent,
-    SelectFieldDemoCustomPickerComponent
+    SelectFieldDemoCustomPickerComponent,
   ],
-  entryComponents: [
-    SelectFieldDemoCustomPickerComponent
-  ],
-  exports: [
-    SelectFieldDemoComponent
-  ]
+  entryComponents: [SelectFieldDemoCustomPickerComponent],
+  exports: [SelectFieldDemoComponent],
 })
-
-export class SelectFieldDemoModule { }
+export class SelectFieldDemoModule {}

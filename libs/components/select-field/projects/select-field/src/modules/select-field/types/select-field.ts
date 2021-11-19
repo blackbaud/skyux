@@ -3,7 +3,6 @@
  * the select field component to populate the picker.
  */
 export interface SkySelectField {
-
   /**
    * Specifies a category for an item.
    */
@@ -29,5 +28,4 @@ export interface SkySelectField {
    * Specifies all other properties for an item.
    */
   [index: string]: any;
-
 }
