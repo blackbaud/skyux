@@ -12,11 +12,42 @@ import {
   SkyI18nModule,
   SkyLibResources,
   SkyLibResourcesProvider,
-  SKY_LIB_RESOURCES_PROVIDERS
+  SKY_LIB_RESOURCES_PROVIDERS,
 } from '@skyux/i18n';
 
 const RESOURCES: { [locale: string]: SkyLibResources } = {
-  'EN-US': {"skyux_filter_button_title":{"message":"Filter"},"skyux_filter_summary_close":{"message":"Remove filter"},"skyux_filter_summary_header":{"message":"Filter"},"skyux_infinite_scroll_load_more_button":{"message":"Load more"},"skyux_paging_label":{"message":"Pagination"},"skyux_paging_next":{"message":"Next"},"skyux_paging_previous":{"message":"Previous"},"skyux_repeater_label":{"message":"List of items"},"skyux_repeater_item_checkbox_label":{"message":"Select row"},"skyux_repeater_item_reorder_cancel":{"message":"Item reordering was canceled. The item was returned to its original position."},"skyux_repeater_item_reorder_finish":{"message":"Dropped the item in position"},"skyux_repeater_item_reorder_instructions":{"message":"Item grabbed. Press the up and down arrow keys to change position. Press the spacebar or enter key to drop. And press the escape key to cancel."},"skyux_repeater_item_reorder_moved":{"message":"Moved the item to position"},"skyux_repeater_item_reorder_operation":{"message":"Press the spacebar or enter key to reorder."},"skyux_repeater_item_reorder_top":{"message":"Top"},"skyux_repeater_item_reorder_top_label":{"message":"Move to top"},"skyux_sort_button_label":{"message":"Sort"},"skyux_sort_menu_heading":{"message":"Sort by"}},
+  'EN-US': {
+    skyux_filter_button_title: { message: 'Filter' },
+    skyux_filter_summary_close: { message: 'Remove filter' },
+    skyux_filter_summary_header: { message: 'Filter' },
+    skyux_infinite_scroll_load_more_button: { message: 'Load more' },
+    skyux_paging_label: { message: 'Pagination' },
+    skyux_paging_next: { message: 'Next' },
+    skyux_paging_previous: { message: 'Previous' },
+    skyux_repeater_label: { message: 'List of items' },
+    skyux_repeater_item_checkbox_label: { message: 'Select row' },
+    skyux_repeater_item_reorder_cancel: {
+      message:
+        'Item reordering was canceled. The item was returned to its original position.',
+    },
+    skyux_repeater_item_reorder_finish: {
+      message: 'Dropped the item in position',
+    },
+    skyux_repeater_item_reorder_instructions: {
+      message:
+        'Item grabbed. Press the up and down arrow keys to change position. Press the spacebar or enter key to drop. And press the escape key to cancel.',
+    },
+    skyux_repeater_item_reorder_moved: {
+      message: 'Moved the item to position',
+    },
+    skyux_repeater_item_reorder_operation: {
+      message: 'Press the spacebar or enter key to reorder.',
+    },
+    skyux_repeater_item_reorder_top: { message: 'Top' },
+    skyux_repeater_item_reorder_top_label: { message: 'Move to top' },
+    skyux_sort_button_label: { message: 'Sort' },
+    skyux_sort_menu_heading: { message: 'Sort by' },
+  },
 };
 
 export class SkyListsResourcesProvider implements SkyLibResourcesProvider {
@@ -30,10 +61,12 @@ export class SkyListsResourcesProvider implements SkyLibResourcesProvider {
  */
 @NgModule({
   exports: [SkyI18nModule],
-  providers: [{
-    provide: SKY_LIB_RESOURCES_PROVIDERS,
-    useClass: SkyListsResourcesProvider,
-    multi: true
-  }]
+  providers: [
+    {
+      provide: SKY_LIB_RESOURCES_PROVIDERS,
+      useClass: SkyListsResourcesProvider,
+      multi: true,
+    },
+  ],
 })
-export class SkyListsResourcesModule { }
+export class SkyListsResourcesModule {}

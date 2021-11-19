@@ -3,7 +3,7 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output
+  Output,
 } from '@angular/core';
 
 /**
@@ -13,10 +13,9 @@ import {
   selector: 'sky-filter-summary-item',
   styleUrls: ['./filter-summary-item.component.scss'],
   templateUrl: './filter-summary-item.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyFilterSummaryItemComponent {
-
   /**
    * Indicates whether the filter summary item has a close button.
    */

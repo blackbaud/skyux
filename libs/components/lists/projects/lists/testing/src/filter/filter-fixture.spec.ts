@@ -1,34 +1,21 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  SkyFilterTestingModule
-} from './filter-testing.module';
+import { SkyFilterTestingModule } from './filter-testing.module';
 
-import {
-  SkyFilterFixtureSummary
-} from './filter-fixture-summary';
+import { SkyFilterFixtureSummary } from './filter-fixture-summary';
 
-import {
-  SkyFilterFixtureButton
-} from './filter-fixture-button';
+import { SkyFilterFixtureButton } from './filter-fixture-button';
 
 const DATA_SKY_ID_SUMMARY = 'test-filter-summary';
 const DATA_SKY_ID_BUTTON = 'test-filter-button';
 
 //#region Test component
 @Component({
-  selector: 'filter-fixture',
+  selector: 'sky-filter-fixture',
   template: `
     <sky-filter-button
       data-sky-id="${DATA_SKY_ID_BUTTON}"
@@ -40,17 +27,15 @@ const DATA_SKY_ID_BUTTON = 'test-filter-button';
     >
     </sky-filter-button>
 
-    <sky-filter-summary
-      data-sky-id="${DATA_SKY_ID_SUMMARY}"
-    >
+    <sky-filter-summary data-sky-id="${DATA_SKY_ID_SUMMARY}">
       <sky-filter-summary-item
         *ngFor="let item of appliedFilters; let i = index"
         (dismiss)="onDismiss(i)"
       >
-        {{item}}
+        {{ item }}
       </sky-filter-summary-item>
     </sky-filter-summary>
-  `
+  `,
 })
 class FilterTestComponent {
   public appliedFilters: string[] = [];
@@ -88,12 +73,18 @@ describe('Filter fixture', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [FilterTestComponent],
-      imports: [SkyFilterTestingModule]
+      imports: [SkyFilterTestingModule],
     });
     fixture = TestBed.createComponent(FilterTestComponent);
     testComponent = fixture.componentInstance;
-    filterSummaryFixture = new SkyFilterFixtureSummary(fixture, DATA_SKY_ID_SUMMARY);
-    filterButtonFixture = new SkyFilterFixtureButton(fixture, DATA_SKY_ID_BUTTON);
+    filterSummaryFixture = new SkyFilterFixtureSummary(
+      fixture,
+      DATA_SKY_ID_SUMMARY
+    );
+    filterButtonFixture = new SkyFilterFixtureButton(
+      fixture,
+      DATA_SKY_ID_BUTTON
+    );
   });
 
   describe('Summary items', () => {
@@ -131,7 +122,9 @@ describe('Filter fixture', () => {
         expect('Error').toBeTrue();
       } catch (e) {
         expect(e).toBeInstanceOf(Error);
-        expect((e as Error).message).toBe('Unable to click close for a filter index 5');
+        expect((e as Error).message).toBe(
+          'Unable to click close for a filter index 5'
+        );
       }
     });
   });

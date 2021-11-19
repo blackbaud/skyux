@@ -1,23 +1,11 @@
-<div
-  style="overflow-y: auto; max-height: 400px; position: relative;"
->
-  <sky-list
-    [data]="items"
-  >
-    <sky-list-view-grid
-      fit="scroll"
-    >
-      <sky-grid-column
-        field="name"
-        heading="Name"
-      ></sky-grid-column>
+<div style="overflow-y: auto; max-height: 400px; position: relative">
+  <sky-list [data]="items">
+    <sky-list-view-grid fit="scroll">
+      <sky-grid-column field="name" heading="Name"></sky-grid-column>
     </sky-list-view-grid>
   </sky-list>
-  <sky-infinite-scroll
-    [enabled]="itemsHaveMore"
-    (scrollEnd)="onScrollEnd()"
-  >
+  <sky-infinite-scroll [enabled]="itemsHaveMore" (scrollEnd)="onScrollEnd()">
   </sky-infinite-scroll>
 </div>
-<br>
-<br>
+<br />
+<br />

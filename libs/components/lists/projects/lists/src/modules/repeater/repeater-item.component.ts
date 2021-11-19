@@ -14,50 +14,31 @@ import {
   QueryList,
   TemplateRef,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 
-import {
-  skyAnimationSlide
-} from '@skyux/animations';
+import { skyAnimationSlide } from '@skyux/animations';
 
-import {
-  SkyCheckboxChange
-} from '@skyux/forms';
+import { SkyCheckboxChange } from '@skyux/forms';
 
-import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
 import {
   SkyInlineFormCloseArgs,
-  SkyInlineFormConfig
+  SkyInlineFormConfig,
 } from '@skyux/inline-form';
 
-import {
-  forkJoin as observableForkJoin,
-  Subject
-} from 'rxjs';
+import { forkJoin as observableForkJoin, Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkyRepeaterAdapterService
-} from './repeater-adapter.service';
+import { SkyRepeaterAdapterService } from './repeater-adapter.service';
 
-import {
-  SkyRepeaterItemContentComponent
-} from './repeater-item-content.component';
+import { SkyRepeaterItemContentComponent } from './repeater-item-content.component';
 
-import {
-  SkyRepeaterItemContextMenuComponent
-} from './repeater-item-context-menu.component';
+import { SkyRepeaterItemContextMenuComponent } from './repeater-item-context-menu.component';
 
-import {
-  SkyRepeaterService
-} from './repeater.service';
+import { SkyRepeaterService } from './repeater.service';
 
 let nextContentId: number = 0;
 
@@ -69,10 +50,11 @@ let nextContentId: number = 0;
   styleUrls: ['./repeater-item.component.scss'],
   templateUrl: './repeater-item.component.html',
   animations: [skyAnimationSlide],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
-export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewInit {
-
+export class SkyRepeaterItemComponent
+  implements OnDestroy, OnInit, AfterViewInit
+{
   /**
    * Specifies configuration options for the buttons to display on an inline form
    * within the repeater. This property accepts
@@ -260,11 +242,12 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
     observableForkJoin(
       this.resourceService.getString('skyux_repeater_item_reorder_cancel'),
       this.resourceService.getString('skyux_repeater_item_reorder_finish'),
-      this.resourceService.getString('skyux_repeater_item_reorder_instructions'),
+      this.resourceService.getString(
+        'skyux_repeater_item_reorder_instructions'
+      ),
       this.resourceService.getString('skyux_repeater_item_reorder_operation'),
       this.resourceService.getString('skyux_repeater_item_reorder_moved')
-    )
-    .subscribe((translatedStrings: string[]) => {
+    ).subscribe((translatedStrings: string[]) => {
       this.reorderCancelText = translatedStrings[0];
       this.reorderFinishText = translatedStrings[1];
       this.reorderStateDescription = translatedStrings[2];
@@ -285,7 +268,7 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
           this.isActive = newIsActiveValue;
           this.changeDetector.markForCheck();
         }
-    });
+      });
   }
 
   public ngAfterViewInit(): void {
@@ -319,9 +302,11 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
     // Only activate item if clicking on the title, content, or parent item div.
     // This will avoid accidental activations when clicking inside interactive elements like
     // the expand/collapse chevron, dropdown, inline-delete, etc...
-    if (event.target === this.itemRef.nativeElement ||
-        this.itemContentRef.nativeElement.contains(event.target) ||
-        this.itemHeaderRef.nativeElement.contains(event.target)) {
+    if (
+      event.target === this.itemRef.nativeElement ||
+      this.itemContentRef.nativeElement.contains(event.target) ||
+      this.itemHeaderRef.nativeElement.contains(event.target)
+    ) {
       this.repeaterService.activateItem(this);
     }
   }
@@ -358,7 +343,7 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
   public moveToTop(event: Event): void {
     event.stopPropagation();
     this.adapterService.moveItemUp(this.elementRef.nativeElement, true);
-    this.adapterService.focusElement(<HTMLElement> event.target);
+    this.adapterService.focusElement(<HTMLElement>event.target);
     this.repeaterService.registerOrderChange();
   }
 
@@ -378,8 +363,9 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
           if (this.keyboardReorderingEnabled) {
             this.keyboardReorderingEnabled = false;
             this.revertReorderSteps();
-            this.reorderButtonLabel = this.reorderCancelText + ' ' + this.reorderInstructions;
-            this.adapterService.focusElement(<HTMLElement> event.target);
+            this.reorderButtonLabel =
+              this.reorderCancelText + ' ' + this.reorderInstructions;
+            this.adapterService.focusElement(<HTMLElement>event.target);
             event.preventDefault();
             event.stopPropagation();
           }
@@ -457,19 +443,27 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
   }
 
   private keyboardReorderUp(): void {
-    this.reorderCurrentIndex = this.adapterService.moveItemUp(this.elementRef.nativeElement);
+    this.reorderCurrentIndex = this.adapterService.moveItemUp(
+      this.elementRef.nativeElement
+    );
     this.reorderSteps--;
     this.adapterService.focusElement(this.grabHandle);
     this.keyboardReorderingEnabled = true;
-    this.reorderButtonLabel = `${this.reorderMovedText} ${this.reorderCurrentIndex + 1}`;
+    this.reorderButtonLabel = `${this.reorderMovedText} ${
+      this.reorderCurrentIndex + 1
+    }`;
   }
 
   private keyboardReorderDown(): void {
-    this.reorderCurrentIndex = this.adapterService.moveItemDown(this.elementRef.nativeElement);
+    this.reorderCurrentIndex = this.adapterService.moveItemDown(
+      this.elementRef.nativeElement
+    );
     this.reorderSteps++;
     this.adapterService.focusElement(this.grabHandle);
     this.keyboardReorderingEnabled = true;
-    this.reorderButtonLabel = `${this.reorderMovedText} ${this.reorderCurrentIndex + 1}`;
+    this.reorderButtonLabel = `${this.reorderMovedText} ${
+      this.reorderCurrentIndex + 1
+    }`;
   }
 
   private keyboardToggleReorder(): void {
@@ -479,16 +473,24 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
     if (this.keyboardReorderingEnabled) {
       this.reorderState = this.reorderStateDescription;
     } else {
-      this.reorderState =
-        `${this.reorderFinishText} ${this.reorderCurrentIndex + 1} ${this.reorderInstructions}`;
+      this.reorderState = `${this.reorderFinishText} ${
+        this.reorderCurrentIndex + 1
+      } ${this.reorderInstructions}`;
     }
   }
 
   private revertReorderSteps(): void {
     if (this.reorderSteps < 0) {
-      this.adapterService.moveItemDown(this.elementRef.nativeElement, Math.abs(this.reorderSteps));
+      this.adapterService.moveItemDown(
+        this.elementRef.nativeElement,
+        Math.abs(this.reorderSteps)
+      );
     } else if (this.reorderSteps > 0) {
-      this.adapterService.moveItemUp(this.elementRef.nativeElement, false, this.reorderSteps);
+      this.adapterService.moveItemUp(
+        this.elementRef.nativeElement,
+        false,
+        this.reorderSteps
+      );
     }
     this.repeaterService.registerOrderChange();
   }
@@ -499,7 +501,8 @@ export class SkyRepeaterItemComponent implements OnDestroy, OnInit, AfterViewIni
       .subscribe(() => {
         this.hasItemContent = this.repeaterItemContentComponents.length > 0;
         /* istanbul ignore next */
-        this.isCollapsible = this.hasItemContent && this.repeaterService.expandMode !== 'none';
+        this.isCollapsible =
+          this.hasItemContent && this.repeaterService.expandMode !== 'none';
         /* istanbul ignore else */
         if (this.repeaterService.expandMode === 'single') {
           this.repeaterService.onItemCollapseStateChange(this);

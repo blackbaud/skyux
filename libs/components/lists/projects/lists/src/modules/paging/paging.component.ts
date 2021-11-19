@@ -5,17 +5,16 @@ import {
   Input,
   OnChanges,
   Output,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 
 @Component({
   selector: 'sky-paging',
   templateUrl: './paging.component.html',
   styleUrls: ['./paging.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyPagingComponent implements OnChanges {
-
   /**
    * Specifies the page number of the current page. Page numbers start at 1 and increment.
    */
@@ -82,7 +81,6 @@ export class SkyPagingComponent implements OnChanges {
     if (previousPage !== this.currentPage) {
       this.currentPageChange.emit(this.currentPage);
     }
-
   }
 
   public nextPage(): void {
@@ -94,11 +92,11 @@ export class SkyPagingComponent implements OnChanges {
   }
 
   public get isPreviousButtonDisabled(): boolean {
-    return (this.currentPage === 1);
+    return this.currentPage === 1;
   }
 
   public get isNextButtonDisabled(): boolean {
-    return (this.currentPage === this.pageCount);
+    return this.currentPage === this.pageCount;
   }
 
   private getDisplayedPageNumbers(
@@ -149,7 +147,10 @@ export class SkyPagingComponent implements OnChanges {
   }
 
   private setDisplayedPages(): void {
-    this.displayedPages =
-      this.getDisplayedPageNumbers(this.pageCount, this.maxPages, this.currentPage);
+    this.displayedPages = this.getDisplayedPageNumbers(
+      this.pageCount,
+      this.maxPages,
+      this.currentPage
+    );
   }
 }

@@ -1,6 +1,4 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * Wraps and styles a
@@ -8,8 +6,8 @@ import {
  */
 @Component({
   selector: 'sky-repeater-item-context-menu',
-  templateUrl: './repeater-item-context-menu.component.html'
+  templateUrl: './repeater-item-context-menu.component.html',
 })
 /* istanbul ignore next */
 /* Code coverage having problems with no statements in classes */
-export class SkyRepeaterItemContextMenuComponent { }
+export class SkyRepeaterItemContextMenuComponent {}

@@ -3,13 +3,10 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
-import {
-  expect,
-  expectAsync
-} from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import {
   SkyTheme,
@@ -17,20 +14,14 @@ import {
   SkyThemeModule,
   SkyThemeService,
   SkyThemeSettings,
-  SkyThemeSettingsChange
+  SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import {
-  BehaviorSubject
-} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
-import {
-  SortTestComponent
-} from './fixtures/sort.component.fixture';
+import { SortTestComponent } from './fixtures/sort.component.fixture';
 
-import {
-  SkySortModule
-} from './sort.module';
+import { SkySortModule } from './sort.module';
 
 describe('Sort component', () => {
   let fixture: ComponentFixture<SortTestComponent>;
@@ -42,7 +33,7 @@ describe('Sort component', () => {
       setTheme(settings) {
         this.settingsChange.next({
           currentSettings: settings,
-          previousSettings: this.currentSettings
+          previousSettings: this.currentSettings,
         });
 
         this.currentSettings = settings;
@@ -52,24 +43,19 @@ describe('Sort component', () => {
           SkyTheme.presets.default,
           SkyThemeMode.presets.light
         ),
-        previousSettings: undefined
-      })
+        previousSettings: undefined,
+      }),
     };
 
     TestBed.configureTestingModule({
-      declarations: [
-        SortTestComponent
-      ],
-      imports: [
-        SkySortModule,
-        SkyThemeModule
-      ],
+      declarations: [SortTestComponent],
+      imports: [SkySortModule, SkyThemeModule],
       providers: [
         {
           provide: SkyThemeService,
-          useValue: mockThemeSvc
-        }
-      ]
+          useValue: mockThemeSvc,
+        },
+      ],
     });
 
     fixture = TestBed.createComponent(SortTestComponent);
@@ -154,7 +140,7 @@ describe('Sort component', () => {
       id: 2,
       label: 'Assigned to (Z - A)',
       name: 'assignee',
-      descending: true
+      descending: true,
     });
 
     dropdownButtonEl.click();
@@ -202,7 +188,9 @@ describe('Sort component', () => {
   it('should use modern icon when applicable', async () => {
     fixture.detectChanges();
     await fixture.whenStable();
-    const defaultIcon = fixture.nativeElement.querySelector('sky-dropdown-button sky-icon i');
+    const defaultIcon = fixture.nativeElement.querySelector(
+      'sky-dropdown-button sky-icon i'
+    );
     expect(defaultIcon).toHaveCssClass('fa-sort');
 
     mockThemeSvc.setTheme(
@@ -210,7 +198,9 @@ describe('Sort component', () => {
     );
 
     fixture.detectChanges();
-    const modernIcon = fixture.nativeElement.querySelector('sky-dropdown-button sky-icon i');
+    const modernIcon = fixture.nativeElement.querySelector(
+      'sky-dropdown-button sky-icon i'
+    );
     expect(modernIcon).toHaveCssClass('sky-i-sort');
   });
 });

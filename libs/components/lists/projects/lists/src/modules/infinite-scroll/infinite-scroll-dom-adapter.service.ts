@@ -1,41 +1,23 @@
-import {
-  ElementRef,
-  EventEmitter,
-  Injectable,
-  OnDestroy
-} from '@angular/core';
+import { ElementRef, EventEmitter, Injectable, OnDestroy } from '@angular/core';
 
-import {
-  SkyAppWindowRef
-} from '@skyux/core';
+import { SkyAppWindowRef } from '@skyux/core';
 
-import {
-  fromEvent as observableFromEvent,
-  Observable,
-  Subject
-} from 'rxjs';
+import { fromEvent as observableFromEvent, Observable, Subject } from 'rxjs';
 
-import {
-  filter,
-  map,
-  takeUntil
-} from 'rxjs/operators';
+import { filter, map, takeUntil } from 'rxjs/operators';
 
 /**
  * @internal
  */
 @Injectable()
 export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
-
   private ngUnsubscribe = new Subject<void>();
 
   private observer: MutationObserver;
 
   private _parentChanges = new EventEmitter<void>();
 
-  constructor(
-    private windowRef: SkyAppWindowRef
-  ) { }
+  constructor(private windowRef: SkyAppWindowRef) {}
 
   public ngOnDestroy(): void {
     this._parentChanges.complete();
@@ -61,25 +43,20 @@ export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
   public scrollTo(elementRef: ElementRef): Observable<void> {
     const parent = this.findScrollableParent(elementRef.nativeElement);
 
-    return observableFromEvent(parent, 'scroll')
-      .pipe(
-        takeUntil(this.ngUnsubscribe),
-        filter(() => {
-          return this.isElementScrolledInView(
-            elementRef.nativeElement,
-            parent
-          );
-        }),
-        map(() => undefined) // Change to void return type
-      );
+    return observableFromEvent(parent, 'scroll').pipe(
+      takeUntil(this.ngUnsubscribe),
+      filter(() => {
+        return this.isElementScrolledInView(elementRef.nativeElement, parent);
+      }),
+      map(() => undefined) // Change to void return type
+    );
   }
 
   private createObserver(element: any): void {
     this.observer = new MutationObserver((mutations: MutationRecord[]) => {
       const hasUpdates = !!mutations.find((mutation) => {
         return (
-          !element.contains(mutation.target) &&
-          mutation.addedNodes.length > 0
+          !element.contains(mutation.target) && mutation.addedNodes.length > 0
         );
       });
 
@@ -90,15 +67,13 @@ export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
 
     const windowObj = this.windowRef.nativeWindow;
     const parent = this.findScrollableParent(element);
-    const observedParent = (parent === windowObj) ? windowObj.document.body : parent;
+    const observedParent =
+      parent === windowObj ? windowObj.document.body : parent;
 
-    this.observer.observe(
-      observedParent,
-      {
-        childList: true,
-        subtree: true
-      }
-    );
+    this.observer.observe(observedParent, {
+      childList: true,
+      subtree: true,
+    });
   }
 
   private findScrollableParent(element: any): any {
@@ -126,19 +101,19 @@ export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
     return parent;
   }
 
-  private isElementScrolledInView(
-    element: any,
-    parentElement: any
-  ): boolean {
+  private isElementScrolledInView(element: any, parentElement: any): boolean {
     const windowObj = this.windowRef.nativeWindow;
 
     if (parentElement === windowObj) {
-      return (parentElement.pageYOffset + parentElement.innerHeight > element.offsetTop);
+      return (
+        parentElement.pageYOffset + parentElement.innerHeight >
+        element.offsetTop
+      );
     }
 
     const elementRect = element.getBoundingClientRect();
     const parentRect = parentElement.getBoundingClientRect();
 
-    return (elementRect.top < parentRect.top + parentRect.height);
+    return elementRect.top < parentRect.top + parentRect.height;
   }
 }

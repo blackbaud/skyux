@@ -8,17 +8,12 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 
-import {
-  BehaviorSubject,
-  Subscription
-} from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
-import {
-  SkySortService
-} from './sort.service';
+import { SkySortService } from './sort.service';
 
 const SORT_ITEM_ID_PREFIX = 'sky-sort-item-';
 
@@ -28,10 +23,9 @@ let sortItemIdNumber: number = 0;
   selector: 'sky-sort-item',
   styleUrls: ['./sort-item.component.scss'],
   templateUrl: './sort-item.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkySortItemComponent implements OnInit, OnChanges, OnDestroy {
-
   /**
    * Indicates whether the sorting option is active.
    */
@@ -44,22 +38,28 @@ export class SkySortItemComponent implements OnInit, OnChanges, OnDestroy {
   @Output()
   public itemSelect: EventEmitter<any> = new EventEmitter();
 
-  public isSelected: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public isSelected: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false
+  );
 
   private subscription: Subscription;
 
   private sortItemId: string;
 
-  constructor(private sortService: SkySortService, private detector: ChangeDetectorRef) {}
+  constructor(
+    private sortService: SkySortService,
+    private detector: ChangeDetectorRef
+  ) {}
 
   public ngOnInit() {
-
     sortItemIdNumber++;
     this.sortItemId = SORT_ITEM_ID_PREFIX + sortItemIdNumber.toString();
-    this.subscription = this.sortService.selectedItem.subscribe((itemId: string) => {
-      this.isSelected.next(itemId === this.sortItemId);
-      this.detector.detectChanges();
-    });
+    this.subscription = this.sortService.selectedItem.subscribe(
+      (itemId: string) => {
+        this.isSelected.next(itemId === this.sortItemId);
+        this.detector.detectChanges();
+      }
+    );
 
     if (this.active) {
       this.sortService.selectItem(this.sortItemId);
@@ -67,9 +67,12 @@ export class SkySortItemComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public ngOnChanges(changes: SimpleChanges) {
-    if (changes && changes['active']
-      && changes['active'].currentValue
-      && changes['active'].currentValue !== changes['active'].previousValue) {
+    if (
+      changes &&
+      changes['active'] &&
+      changes['active'].currentValue &&
+      changes['active'].currentValue !== changes['active'].previousValue
+    ) {
       this.sortService.selectItem(this.sortItemId);
     }
   }

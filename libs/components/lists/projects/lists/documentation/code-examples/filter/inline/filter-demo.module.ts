@@ -1,35 +1,18 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  FormsModule
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
-import {
-  SkyIdModule
-} from '@skyux/core';
+import { SkyIdModule } from '@skyux/core';
 
-import {
-  SkyCheckboxModule
-} from '@skyux/forms';
+import { SkyCheckboxModule } from '@skyux/forms';
 
-import {
-  SkyToolbarModule
-} from '@skyux/layout';
+import { SkyToolbarModule } from '@skyux/layout';
 
-import {
-  SkyFilterModule,
-  SkyRepeaterModule
-} from '@skyux/lists';
+import { SkyFilterModule, SkyRepeaterModule } from '@skyux/lists';
 
-import {
-  FilterDemoComponent
-} from './filter-demo.component';
+import { FilterDemoComponent } from './filter-demo.component';
 
 @NgModule({
   imports: [
@@ -39,13 +22,9 @@ import {
     SkyIdModule,
     SkyFilterModule,
     SkyRepeaterModule,
-    SkyToolbarModule
+    SkyToolbarModule,
   ],
-  declarations: [
-    FilterDemoComponent
-  ],
-  exports: [
-    FilterDemoComponent
-  ]
+  declarations: [FilterDemoComponent],
+  exports: [FilterDemoComponent],
 })
-export class FilterDemoModule { }
+export class FilterDemoModule {}

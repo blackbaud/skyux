@@ -1,29 +1,18 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  SkyInfiniteScrollFixture
-} from './infinite-scroll-fixture';
+import { SkyInfiniteScrollFixture } from './infinite-scroll-fixture';
 
-import {
-  SkyInfiniteScrollTestingModule
-} from './infinite-scroll-testing.module';
+import { SkyInfiniteScrollTestingModule } from './infinite-scroll-testing.module';
 
 const DATA_SKY_ID = 'test-infinite-scroll';
 
 //#region Test component
 @Component({
-  selector: 'infinite-scroll-fixture',
+  selector: 'sky-infinite-scroll-fixture',
   template: `
     <ul style="scroll-behavior: auto; height: 40px;">
       <li *ngFor="let i of items">{{ i }}</li>
@@ -31,10 +20,11 @@ const DATA_SKY_ID = 'test-infinite-scroll';
       <sky-infinite-scroll
         data-sky-id="${DATA_SKY_ID}"
         [enabled]="true"
-        (scrollEnd)="loadMore()">
+        (scrollEnd)="loadMore()"
+      >
       </sky-infinite-scroll>
     </ul>
-  `
+  `,
 })
 class InfiniteScrollTestComponent {
   public items: string[] = [];
@@ -62,17 +52,11 @@ describe('Infinite scroll fixture component', () => {
    */
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        InfiniteScrollTestComponent
-      ],
-      imports: [
-        SkyInfiniteScrollTestingModule
-      ]
+      declarations: [InfiniteScrollTestComponent],
+      imports: [SkyInfiniteScrollTestingModule],
     });
 
-    fixture = TestBed.createComponent(
-      InfiniteScrollTestComponent
-    );
+    fixture = TestBed.createComponent(InfiniteScrollTestComponent);
     testComponent = fixture.componentInstance;
     infiniteScrollFixture = new SkyInfiniteScrollFixture(fixture, DATA_SKY_ID);
   });

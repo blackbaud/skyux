@@ -1,21 +1,14 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {
-  SkyModalInstance
-} from '@skyux/modals';
+import { SkyModalInstance } from '@skyux/modals';
 
-import {
-  FilterDemoModalContext
-} from './filter-demo-modal-context';
+import { FilterDemoModalContext } from './filter-demo-modal-context';
 
 @Component({
   selector: 'app-filter-demo-modal',
-  templateUrl: './filter-demo-modal.component.html'
+  templateUrl: './filter-demo-modal.component.html',
 })
 export class FilterDemoModalComponent {
-
   public hideOrange: boolean;
 
   public fruitType = 'any';
@@ -55,7 +48,7 @@ export class FilterDemoModalComponent {
       appliedFilters.push({
         name: 'fruitType',
         value: this.fruitType,
-        label: this.fruitType
+        label: this.fruitType,
       });
     }
 
@@ -63,7 +56,7 @@ export class FilterDemoModalComponent {
       appliedFilters.push({
         name: 'hideOrange',
         value: true,
-        label: 'hide orange fruits'
+        label: 'hide orange fruits',
       });
     }
 

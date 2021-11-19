@@ -4,7 +4,7 @@ import {
   EventEmitter,
   Input,
   OnInit,
-  Output
+  Output,
 } from '@angular/core';
 
 let nextId = 0;
@@ -13,10 +13,9 @@ let nextId = 0;
   selector: 'sky-filter-button',
   styleUrls: ['./filter-button.component.scss'],
   templateUrl: './filter-button.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyFilterButtonComponent {
-
   /**
    * Specifies an ID for the filter button.
    */

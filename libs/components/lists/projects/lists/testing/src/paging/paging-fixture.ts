@@ -1,22 +1,12 @@
-import {
-  DebugElement
-} from '@angular/core';
+import { DebugElement } from '@angular/core';
 
-import {
-  ComponentFixture
-} from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  SkyPagingFixtureButton
-} from './paging-fixture-button';
+import { SkyPagingFixtureButton } from './paging-fixture-button';
 
 /**
  * Provides information for and interaction with a SKY UX paging component.
@@ -41,16 +31,17 @@ export class SkyPagingFixture {
       return {
         id: this.getPageId(page.nativeElement),
         isActive: page.nativeElement.classList.contains('sky-paging-current'),
-        isEnabled: !page.nativeElement.disabled
+        isEnabled: !page.nativeElement.disabled,
       };
     });
   }
 
-  constructor(
-    private fixture: ComponentFixture<any>,
-    skyTestId: string
-  ) {
-    this._debugEl = SkyAppTestUtility.getDebugElementByTestId(fixture, skyTestId, 'sky-paging');
+  constructor(private fixture: ComponentFixture<any>, skyTestId: string) {
+    this._debugEl = SkyAppTestUtility.getDebugElementByTestId(
+      fixture,
+      skyTestId,
+      'sky-paging'
+    );
 
     this.waitForComponentInitialization();
   }
@@ -106,15 +97,13 @@ export class SkyPagingFixture {
   }
 
   private get nextPageButton(): HTMLButtonElement {
-    return this._debugEl.query(
-      By.css('.sky-paging-btn[sky-cmp-id="next"]')
-    )?.nativeElement as HTMLButtonElement;
+    return this._debugEl.query(By.css('.sky-paging-btn[sky-cmp-id="next"]'))
+      ?.nativeElement as HTMLButtonElement;
   }
 
   private get previousPageButton(): HTMLButtonElement {
-    return this._debugEl.query(
-      By.css('.sky-paging-btn[sky-cmp-id="previous"]')
-    )?.nativeElement as HTMLButtonElement;
+    return this._debugEl.query(By.css('.sky-paging-btn[sky-cmp-id="previous"]'))
+      ?.nativeElement as HTMLButtonElement;
   }
 
   private get pagingLinks(): DebugElement[] {

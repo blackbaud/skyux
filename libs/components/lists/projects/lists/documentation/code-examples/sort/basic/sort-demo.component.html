@@ -1,37 +1,28 @@
 <sky-toolbar>
   <sky-toolbar-item>
-    <sky-sort
-      [showButtonText]="true"
-    >
-      <sky-sort-item *ngFor="let item of sortOptions"
+    <sky-sort [showButtonText]="true">
+      <sky-sort-item
+        *ngFor="let item of sortOptions"
         [active]="initialState === item.id"
         (itemSelect)="sortItems(item)"
       >
-        {{item.label}}
+        {{ item.label }}
       </sky-sort-item>
     </sky-sort>
   </sky-toolbar-item>
 </sky-toolbar>
-<sky-repeater
-  expandMode="none"
->
+<sky-repeater expandMode="none">
   <sky-repeater-item *ngFor="let item of sortedItems">
     <sky-repeater-item-title>
-      {{item.title}}
+      {{ item.title }}
     </sky-repeater-item-title>
     <sky-repeater-item-content>
-      <div
-        style="display: flex; justify-content: space-between"
-      >
-        <div>
-          Assigned to {{item.assignee}}
-        </div>
-        <div>
-          Created {{item.date | date}}
-        </div>
+      <div style="display: flex; justify-content: space-between">
+        <div>Assigned to {{ item.assignee }}</div>
+        <div>Created {{ item.date | date }}</div>
       </div>
       <div>
-        {{item.note}}
+        {{ item.note }}
       </div>
     </sky-repeater-item-content>
   </sky-repeater-item>

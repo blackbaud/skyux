@@ -1,29 +1,14 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  SkyInfiniteScrollModule
-} from '../infinite-scroll.module';
+import { SkyInfiniteScrollModule } from '../infinite-scroll.module';
 
-import {
-  SkyInfiniteScrollTestComponent
-} from './infinite-scroll.component.fixture';
+import { SkyInfiniteScrollTestComponent } from './infinite-scroll.component.fixture';
 
 @NgModule({
-  declarations: [
-    SkyInfiniteScrollTestComponent
-  ],
-  imports: [
-    CommonModule,
-    SkyInfiniteScrollModule
-  ],
-  exports: [
-    SkyInfiniteScrollTestComponent
-  ]
+  declarations: [SkyInfiniteScrollTestComponent],
+  imports: [CommonModule, SkyInfiniteScrollModule],
+  exports: [SkyInfiniteScrollTestComponent],
 })
-export class SkyInfiniteScrollFixturesModule { }
+export class SkyInfiniteScrollFixturesModule {}

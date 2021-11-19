@@ -1,43 +1,22 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  SkyIconModule,
-  SkyTokensModule
-} from '@skyux/indicators';
+import { SkyIconModule, SkyTokensModule } from '@skyux/indicators';
 
-import {
-  SkyThemeModule
-} from '@skyux/theme';
+import { SkyThemeModule } from '@skyux/theme';
 
-import {
-  SkyListsResourcesModule
-} from '../shared/sky-lists-resources.module';
+import { SkyListsResourcesModule } from '../shared/sky-lists-resources.module';
 
-import {
-  SkyFilterButtonComponent
-} from './filter-button.component';
+import { SkyFilterButtonComponent } from './filter-button.component';
 
-import {
-  SkyFilterInlineComponent
-} from './filter-inline.component';
+import { SkyFilterInlineComponent } from './filter-inline.component';
 
-import {
-  SkyFilterInlineItemComponent
-} from './filter-inline-item.component';
+import { SkyFilterInlineItemComponent } from './filter-inline-item.component';
 
-import {
-  SkyFilterSummaryItemComponent
-} from './filter-summary-item.component';
+import { SkyFilterSummaryItemComponent } from './filter-summary-item.component';
 
-import {
-  SkyFilterSummaryComponent
-} from './filter-summary.component';
+import { SkyFilterSummaryComponent } from './filter-summary.component';
 
 @NgModule({
   declarations: [
@@ -45,21 +24,21 @@ import {
     SkyFilterInlineComponent,
     SkyFilterInlineItemComponent,
     SkyFilterSummaryComponent,
-    SkyFilterSummaryItemComponent
+    SkyFilterSummaryItemComponent,
   ],
   imports: [
     CommonModule,
     SkyIconModule,
     SkyListsResourcesModule,
     SkyTokensModule,
-    SkyThemeModule
+    SkyThemeModule,
   ],
   exports: [
     SkyFilterButtonComponent,
     SkyFilterInlineComponent,
     SkyFilterInlineItemComponent,
     SkyFilterSummaryComponent,
-    SkyFilterSummaryItemComponent
-  ]
+    SkyFilterSummaryItemComponent,
+  ],
 })
-export class SkyFilterModule { }
+export class SkyFilterModule {}

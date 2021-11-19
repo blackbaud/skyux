@@ -1,13 +1,10 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-filter-demo',
-  templateUrl: './filter-demo.component.html'
+  templateUrl: './filter-demo.component.html',
 })
 export class FilterDemoComponent {
-
   public appliedFilters: any[] = [];
 
   public filteredItems: any[];
@@ -22,28 +19,28 @@ export class FilterDemoComponent {
     {
       name: 'Orange',
       type: 'citrus',
-      color: 'orange'
+      color: 'orange',
     },
     {
       name: 'Mango',
       type: 'other',
-      color: 'orange'
+      color: 'orange',
     },
     {
       name: 'Lime',
       type: 'citrus',
-      color: 'green'
+      color: 'green',
     },
     {
       name: 'Strawberry',
       type: 'berry',
-      color: 'red'
+      color: 'red',
     },
     {
       name: 'Blueberry',
       type: 'berry',
-      color: 'blue'
-    }
+      color: 'blue',
+    },
   ];
 
   public showInlineFilters: boolean = false;
@@ -71,13 +68,13 @@ export class FilterDemoComponent {
     if (this.fruitType !== 'any') {
       this.appliedFilters.push({
         name: 'fruitType',
-        value: this.fruitType
+        value: this.fruitType,
       });
     }
     if (this.hideOrange) {
       this.appliedFilters.push({
         name: 'hideOrange',
-        value: true
+        value: true,
       });
     }
     this.filtersActive = this.appliedFilters.length > 0;
@@ -86,16 +83,22 @@ export class FilterDemoComponent {
   }
 
   private orangeFilterFailed(filter: any, item: any): any {
-    return filter.name === 'hideOrange' && filter.value && item.color === 'orange';
+    return (
+      filter.name === 'hideOrange' && filter.value && item.color === 'orange'
+    );
   }
 
   private fruitTypeFilterFailed(filter: any, item: any): any {
-    return filter.name === 'fruitType' && filter.value !== 'any' && filter.value !== item.type;
+    return (
+      filter.name === 'fruitType' &&
+      filter.value !== 'any' &&
+      filter.value !== item.type
+    );
   }
 
   private itemIsShown(filters: any[], item: any[]): boolean {
     let passesFilter = true,
-        j: number;
+      j: number;
 
     for (j = 0; j < filters.length; j++) {
       if (this.orangeFilterFailed(filters[j], item)) {
@@ -109,18 +112,17 @@ export class FilterDemoComponent {
   }
 
   private filterItems(items: any[], filters: any[]): any[] {
-      let i: number,
-          passesFilter: boolean,
-          result: any[] = [];
+    let i: number,
+      passesFilter: boolean,
+      result: any[] = [];
 
-      for (i = 0; i < items.length; i++) {
-        passesFilter = this.itemIsShown(filters, items[i]);
-        if (passesFilter) {
-          result.push(items[i]);
-        }
+    for (i = 0; i < items.length; i++) {
+      passesFilter = this.itemIsShown(filters, items[i]);
+      if (passesFilter) {
+        result.push(items[i]);
       }
+    }
 
-      return result;
+    return result;
   }
-
 }

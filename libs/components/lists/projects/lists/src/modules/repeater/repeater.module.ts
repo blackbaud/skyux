@@ -1,51 +1,26 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  SkyCheckboxModule
-} from '@skyux/forms';
+import { SkyCheckboxModule } from '@skyux/forms';
 
-import {
-  SkyChevronModule,
-  SkyIconModule
-} from '@skyux/indicators';
+import { SkyChevronModule, SkyIconModule } from '@skyux/indicators';
 
-import {
-  SkyInlineFormModule
-} from '@skyux/inline-form';
+import { SkyInlineFormModule } from '@skyux/inline-form';
 
-import {
-  DragulaModule
-} from 'ng2-dragula';
+import { DragulaModule } from 'ng2-dragula';
 
-import {
-  SkyRepeaterComponent
-} from './repeater.component';
+import { SkyRepeaterComponent } from './repeater.component';
 
-import {
-  SkyRepeaterItemContentComponent
-} from './repeater-item-content.component';
+import { SkyRepeaterItemContentComponent } from './repeater-item-content.component';
 
-import {
-  SkyRepeaterItemContextMenuComponent
-} from './repeater-item-context-menu.component';
+import { SkyRepeaterItemContextMenuComponent } from './repeater-item-context-menu.component';
 
-import {
-  SkyRepeaterItemComponent
-} from './repeater-item.component';
+import { SkyRepeaterItemComponent } from './repeater-item.component';
 
-import {
-  SkyRepeaterItemTitleComponent
-} from './repeater-item-title.component';
+import { SkyRepeaterItemTitleComponent } from './repeater-item-title.component';
 
-import {
-  SkyListsResourcesModule
-} from '../shared/sky-lists-resources.module';
+import { SkyListsResourcesModule } from '../shared/sky-lists-resources.module';
 
 @NgModule({
   declarations: [
@@ -53,7 +28,7 @@ import {
     SkyRepeaterItemComponent,
     SkyRepeaterItemContentComponent,
     SkyRepeaterItemContextMenuComponent,
-    SkyRepeaterItemTitleComponent
+    SkyRepeaterItemTitleComponent,
   ],
   imports: [
     CommonModule,
@@ -62,14 +37,14 @@ import {
     SkyCheckboxModule,
     SkyIconModule,
     SkyInlineFormModule,
-    SkyListsResourcesModule
+    SkyListsResourcesModule,
   ],
   exports: [
     SkyRepeaterComponent,
     SkyRepeaterItemComponent,
     SkyRepeaterItemContentComponent,
     SkyRepeaterItemContextMenuComponent,
-    SkyRepeaterItemTitleComponent
-  ]
+    SkyRepeaterItemTitleComponent,
+  ],
 })
-export class SkyRepeaterModule { }
+export class SkyRepeaterModule {}

@@ -1,14 +1,8 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  SkyPagingModule
-} from '@skyux/lists';
+import { SkyPagingModule } from '@skyux/lists';
 
 @NgModule({
-  exports: [
-    SkyPagingModule
-  ]
+  exports: [SkyPagingModule],
 })
-export class SkyPagingTestingModule { }
+export class SkyPagingTestingModule {}

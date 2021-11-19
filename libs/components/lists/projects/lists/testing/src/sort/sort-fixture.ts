@@ -1,26 +1,14 @@
-import {
-  DebugElement
-} from '@angular/core';
+import { DebugElement } from '@angular/core';
 
-import {
-  ComponentFixture
-} from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  SkySortFixtureMenu
-} from './sort-fixture-menu';
+import { SkySortFixtureMenu } from './sort-fixture-menu';
 
-import {
-  SkySortFixtureMenuItem
-} from './sort-fixture-menu-item';
+import { SkySortFixtureMenuItem } from './sort-fixture-menu-item';
 
 /**
  * Provides information for and interaction with a SKY UX sort component.
@@ -28,13 +16,12 @@ import {
  * of a component, such as changing its DOM structure.
  */
 export class SkySortFixture {
-
   /**
    * The active sort menu item, if one exists. Menu items are only available when the menu dropdown
    * is open. If the menu dropdown is closed, this property will be undefined.
    */
   public get activeMenuItem(): SkySortFixtureMenuItem {
-    return this.menuItems?.find(x => x.isActive);
+    return this.menuItems?.find((x) => x.isActive);
   }
 
   /**
@@ -43,7 +30,7 @@ export class SkySortFixture {
   public get menu(): SkySortFixtureMenu {
     return {
       buttonText: SkyAppTestUtility.getText(this.getSortButtonTextEl()),
-      isOpen: this.getDropdownMenuEl() !== null
+      isOpen: this.getDropdownMenuEl() !== null,
     };
   }
 
@@ -58,32 +45,31 @@ export class SkySortFixture {
       return;
     }
 
-    return this.getSortItems()
-      .map((item: HTMLElement, i: number) => {
-        const itemButton = item.querySelector('button');
+    return this.getSortItems().map((item: HTMLElement, i: number) => {
+      const itemButton = item.querySelector('button');
 
-        return {
-          index: i,
-          isActive: item.classList.contains('sky-sort-item-selected'),
-          text: SkyAppTestUtility.getText(itemButton)
-        };
-      });
+      return {
+        index: i,
+        isActive: item.classList.contains('sky-sort-item-selected'),
+        text: SkyAppTestUtility.getText(itemButton),
+      };
+    });
   }
 
   private _debugEl: DebugElement;
 
-  constructor(
-    private fixture: ComponentFixture<any>,
-    skyTestId: string
-  ) {
-    this._debugEl = SkyAppTestUtility.getDebugElementByTestId(fixture, skyTestId, 'sky-sort');
+  constructor(private fixture: ComponentFixture<any>, skyTestId: string) {
+    this._debugEl = SkyAppTestUtility.getDebugElementByTestId(
+      fixture,
+      skyTestId,
+      'sky-sort'
+    );
   }
 
   /**
    * Closes the sort dropdown menu if it isn't closed already.
    */
   public async closeMenu(): Promise<void> {
-
     // if the menu is already closed, do nothing
     if (!this.menu.isOpen) {
       return;
@@ -147,9 +133,8 @@ export class SkySortFixture {
   //#region helpers
 
   private getDropdownButtonEl(): HTMLButtonElement {
-    return this._debugEl.query(
-      By.css('.sky-dropdown-button')
-    )?.nativeElement as HTMLButtonElement;
+    return this._debugEl.query(By.css('.sky-dropdown-button'))
+      ?.nativeElement as HTMLButtonElement;
   }
 
   private getDropdownMenuEl(): HTMLElement {
@@ -157,9 +142,8 @@ export class SkySortFixture {
   }
 
   private getSortButtonTextEl(): HTMLElement {
-    return this._debugEl.query(
-      By.css('.sky-sort-btn-text')
-    )?.nativeElement as HTMLElement;
+    return this._debugEl.query(By.css('.sky-sort-btn-text'))
+      ?.nativeElement as HTMLElement;
   }
 
   private getSortItems(): HTMLElement[] {
@@ -175,7 +159,6 @@ export class SkySortFixture {
   private async selectMenuItem(
     selectionPredicate: (item: HTMLElement, index: number) => boolean
   ): Promise<void> {
-
     // make sure the sort menu is open
     if (!this.menu.isOpen) {
       await this.openMenu();
@@ -183,8 +166,8 @@ export class SkySortFixture {
 
     // find the requested menu item using the selectionPredicate parameter
     const items = this.getSortItems();
-    const targetItem = items.find(
-      (item: HTMLElement, index: number) => selectionPredicate(item, index)
+    const targetItem = items.find((item: HTMLElement, index: number) =>
+      selectionPredicate(item, index)
     );
 
     // if we found the item, select it

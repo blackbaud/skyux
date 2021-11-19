@@ -1,5 +1,5 @@
-@import "~@skyux/theme/scss/mixins";
-@import "~@skyux/theme/scss/_compat/mixins";
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
 
 .sky-filter-summary-header {
   margin: $sky-margin-half $sky-margin 0 0;
@@ -23,4 +23,3 @@
     margin: 0 $sky-margin 0 0;
   }
 }
-

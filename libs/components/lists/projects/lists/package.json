@@ -1,18 +1,18 @@
 {
   "name": "@skyux/lists",
-  "version": "5.0.3",
+  "version": "5.0.4",
   "peerDependencies": {
     "@angular/common": "^12.2.13",
     "@angular/core": "^12.2.13",
     "@angular/platform-browser": "^12.2.13",
-    "@skyux/animations": "^5.0.0",
+    "@skyux/animations": "^5.0.1",
     "@skyux/core": "^5.1.1",
-    "@skyux/forms": "^5.0.0",
-    "@skyux/i18n": "^5.0.0",
+    "@skyux/forms": "^5.0.1",
+    "@skyux/i18n": "^5.0.1",
     "@skyux/indicators": "^5.0.2",
-    "@skyux/inline-form": "^5.0.0",
-    "@skyux/popovers": "^5.0.0",
-    "@skyux/theme": "^5.0.3"
+    "@skyux/inline-form": "^5.0.1",
+    "@skyux/popovers": "^5.0.1",
+    "@skyux/theme": "^5.0.4"
   },
   "dependencies": {
     "dragula": "3.7.3",

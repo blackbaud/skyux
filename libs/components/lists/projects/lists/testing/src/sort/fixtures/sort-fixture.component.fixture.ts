@@ -1,13 +1,10 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'sort-fixture-test-cmp',
-  templateUrl: './sort-fixture.component.fixture.html'
+  selector: 'sky-sort-fixture-test-cmp',
+  templateUrl: './sort-fixture.component.fixture.html',
 })
-export class SortFixtureTestComponent  implements OnInit {
+export class SortFixtureTestComponent implements OnInit {
   public static dataSkyId: string = 'test-sort-fixture';
 
   public initialState: number;
@@ -18,32 +15,32 @@ export class SortFixtureTestComponent  implements OnInit {
       title: 'Call Robert Hernandez',
       note: 'Robert recently gave a very generous gift. We should call to thank him.',
       assignee: 'Debby Fowler',
-      date: new Date('12/22/2015')
+      date: new Date('12/22/2015'),
     },
     {
       title: 'Send invitation to ball',
-      note: 'The Spring Ball is coming up soon. Let\'s get those invitations out!',
+      note: "The Spring Ball is coming up soon. Let's get those invitations out!",
       assignee: 'Debby Fowler',
-      date: new Date('1/1/2016')
+      date: new Date('1/1/2016'),
     },
     {
       title: 'Clean up desk',
       note: 'File and organize papers.',
       assignee: 'Tim Howard',
-      date: new Date('2/2/2016')
+      date: new Date('2/2/2016'),
     },
     {
       title: 'Investigate leads',
       note: 'Check out leads for important charity event funding.',
       assignee: 'Larry Williams',
-      date: new Date('4/5/2016')
+      date: new Date('4/5/2016'),
     },
     {
       title: 'Send thank you note',
       note: 'Send a thank you note to Timothy for his donation.',
       assignee: 'Catherine Hooper',
-      date: new Date('11/11/2015')
-    }
+      date: new Date('11/11/2015'),
+    },
   ];
 
   public sortOptions: any[] = [
@@ -51,38 +48,38 @@ export class SortFixtureTestComponent  implements OnInit {
       id: 1,
       label: 'Assigned to (A - Z)',
       name: 'assignee',
-      descending: false
+      descending: false,
     },
     {
       id: 2,
       label: 'Assigned to (Z - A)',
       name: 'assignee',
-      descending: true
+      descending: true,
     },
     {
       id: 3,
       label: 'Date created (newest first)',
       name: 'date',
-      descending: true
+      descending: true,
     },
     {
       id: 4,
       label: 'Date created (oldest first)',
       name: 'date',
-      descending: false
+      descending: false,
     },
     {
       id: 5,
       label: 'Note title (A - Z)',
       name: 'title',
-      descending: false
+      descending: false,
     },
     {
       id: 6,
       label: 'Note title (Z - A)',
       name: 'title',
-      descending: true
-    }
+      descending: true,
+    },
   ];
 
   public ngOnInit(): void {
@@ -96,9 +93,9 @@ export class SortFixtureTestComponent  implements OnInit {
       const sortProperty = item.name;
 
       if (a[sortProperty] > b[sortProperty]) {
-        return (descending);
+        return descending;
       } else if (a[sortProperty] < b[sortProperty]) {
-        return (-1 * descending);
+        return -1 * descending;
       } else {
         return 0;
       }

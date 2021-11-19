@@ -3,7 +3,8 @@
     *ngFor="let item of appliedFilters; let i = index"
     [dismissible]="item.dismissible"
     (dismiss)="onDismiss(i)"
-    (itemClick)="filterButtonClicked()">
+    (itemClick)="filterButtonClicked()"
+  >
     {{item.label}}
   </sky-filter-summary-item>
 </sky-filter-summary>

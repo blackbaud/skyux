@@ -1,16 +1,12 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 let nextId = 0;
 
 @Component({
   selector: 'app-infinite-scroll-demo',
-  templateUrl: './infinite-scroll-demo.component.html'
+  templateUrl: './infinite-scroll-demo.component.html',
 })
 export class InfiniteScrollDemoComponent implements OnInit {
-
   public items: any[] = [];
 
   public itemsHaveMore = true;
@@ -37,7 +33,7 @@ export class InfiniteScrollDemoComponent implements OnInit {
 
     for (let i = 0; i < 8; i++) {
       data.push({
-        name: `Item #${++nextId}`
+        name: `Item #${++nextId}`,
       });
     }
 
@@ -46,7 +42,7 @@ export class InfiniteScrollDemoComponent implements OnInit {
       setTimeout(() => {
         resolve({
           data,
-          hasMore: (nextId < 50)
+          hasMore: nextId < 50,
         });
       }, 1000);
     });

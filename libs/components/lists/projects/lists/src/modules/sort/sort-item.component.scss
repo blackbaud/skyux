@@ -1,15 +1,15 @@
-@import "~@skyux/theme/scss/mixins";
-@import "~@skyux/theme/scss/_compat/mixins";
-@import "~@skyux/theme/scss/themes/modern/_compat/mixins";
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+@import '~@skyux/theme/scss/themes/modern/_compat/mixins';
 
 .sky-sort-item {
   @include sky-dropdown-item();
 }
 
 .sky-sort-item-selected {
-    background-color: $sky-background-color-selected;
-    padding: 4px;
-    margin: 0;
+  background-color: $sky-background-color-selected;
+  padding: 4px;
+  margin: 0;
 }
 
 @include sky-theme-modern {

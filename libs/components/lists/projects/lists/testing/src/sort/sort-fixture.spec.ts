@@ -1,35 +1,18 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  SkyToolbarModule
-} from '@skyux/layout';
+import { SkyToolbarModule } from '@skyux/layout';
 
-import {
-  SkyRepeaterModule
-} from '@skyux/lists';
+import { SkyRepeaterModule } from '@skyux/lists';
 
-import {
-  SortFixtureTestComponent
-} from './fixtures/sort-fixture.component.fixture';
+import { SortFixtureTestComponent } from './fixtures/sort-fixture.component.fixture';
 
-import {
-  SkySortFixture
-} from './sort-fixture';
+import { SkySortFixture } from './sort-fixture';
 
-import {
-  SkySortFixtureMenuItem
-} from './sort-fixture-menu-item';
+import { SkySortFixtureMenuItem } from './sort-fixture-menu-item';
 
-import {
-  SkySortTestingModule
-} from './sort-testing.module';
+import { SkySortTestingModule } from './sort-testing.module';
 
 describe('Sort fixture', () => {
   let fixture: ComponentFixture<SortFixtureTestComponent>;
@@ -46,7 +29,7 @@ describe('Sort fixture', () => {
 
   async function lookupInactiveMenuItem(): Promise<SkySortFixtureMenuItem> {
     return menuLookup((sortFxtr: SkySortFixture) => {
-      return sortFxtr.menuItems.find(x => !x.isActive);
+      return sortFxtr.menuItems.find((x) => !x.isActive);
     });
   }
 
@@ -81,37 +64,29 @@ describe('Sort fixture', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      declarations: [
-        SortFixtureTestComponent
-      ],
-      imports: [
-        SkyRepeaterModule,
-        SkySortTestingModule,
-        SkyToolbarModule
-      ]
+      declarations: [SortFixtureTestComponent],
+      imports: [SkyRepeaterModule, SkySortTestingModule, SkyToolbarModule],
     });
 
-    fixture = TestBed.createComponent(
-      SortFixtureTestComponent
-    );
+    fixture = TestBed.createComponent(SortFixtureTestComponent);
     testComponent = fixture.componentInstance;
-    sortFixture = new SkySortFixture(fixture, SortFixtureTestComponent.dataSkyId);
+    sortFixture = new SkySortFixture(
+      fixture,
+      SortFixtureTestComponent.dataSkyId
+    );
 
     fixture.detectChanges();
     await fixture.whenStable();
   });
 
   describe('Sort menu', () => {
-
     it('should expose default menu properties', () => {
       expect(sortFixture.menu.buttonText).toEqual('Sort');
       expect(sortFixture.menu.isOpen).toBeFalse();
     });
-
   });
 
   describe('Menu items', () => {
-
     it('should return undefined for menu items when the menu is closed', () => {
       expect(sortFixture.menu.isOpen).toBeFalse();
       expect(sortFixture.menuItems).toBeUndefined();
@@ -128,20 +103,19 @@ describe('Sort fixture', () => {
       // verify the count is the same and each item is represented
       expect(menuItems.length).toEqual(testComponent.sortOptions.length);
       menuItems.forEach((item: SkySortFixtureMenuItem) => {
-
         // there should be an associated sort option
-        const option = testComponent.sortOptions.find(x => x.label === item.text);
+        const option = testComponent.sortOptions.find(
+          (x) => x.label === item.text
+        );
         expect(option).toExist();
 
         // verify each property (text was already verified)
         expect(item.isActive).toEqual(option.id === testComponent.initialState);
       });
     });
-
   });
 
   describe('Open menu', () => {
-
     it('should do nothing when the menu is already open', async () => {
       // the menu should start closed
       expect(sortFixture.menu.isOpen).toBeFalse();
@@ -163,11 +137,9 @@ describe('Sort fixture', () => {
       await sortFixture.openMenu();
       expect(sortFixture.menu.isOpen).toBeTrue();
     });
-
   });
 
   describe('Close menu', () => {
-
     it('should do nothing when the menu is already closed', async () => {
       // the menu should start closed
       expect(sortFixture.menu.isOpen).toBeFalse();
@@ -189,27 +161,25 @@ describe('Sort fixture', () => {
       await sortFixture.closeMenu();
       expect(sortFixture.menu.isOpen).toBeFalse();
     });
-
   });
 
   describe('Select menu item', () => {
     const parameters = [
       {
         selectLabel: 'by text',
-        selectMenuItem : async (item: SkySortFixtureMenuItem) => {
+        selectMenuItem: async (item: SkySortFixtureMenuItem) => {
           await sortFixture.selectMenuItemByText(item.text);
-        }
+        },
       },
       {
         selectLabel: 'by index',
-        selectMenuItem : async (item: SkySortFixtureMenuItem) => {
+        selectMenuItem: async (item: SkySortFixtureMenuItem) => {
           await sortFixture.selectMenuItemByIndex(item.index);
-        }
-      }
+        },
+      },
     ];
 
     parameters.forEach((parameter) => {
-
       it(`${parameter.selectLabel} should select inactive item if available`, async () => {
         const sortItemsSpy = spyOn(fixture.componentInstance, 'sortItems');
         const existingSelection = await lookupActiveMenuItem();
@@ -225,7 +195,7 @@ describe('Sort fixture', () => {
         expect(resultingSelection.text).toEqual(newSelection.text);
         expect(sortItemsSpy).toHaveBeenCalledWith(
           jasmine.objectContaining({
-            label: newSelection.text
+            label: newSelection.text,
           })
         );
       });
@@ -243,7 +213,7 @@ describe('Sort fixture', () => {
         expect(resultingSelection.text).toEqual(existingSelection.text);
         expect(sortItemsSpy).toHaveBeenCalledWith(
           jasmine.objectContaining({
-            label: existingSelection.text
+            label: existingSelection.text,
           })
         );
       });
@@ -254,7 +224,7 @@ describe('Sort fixture', () => {
         const invalidOption: SkySortFixtureMenuItem = {
           index: -1,
           isActive: false,
-          text: 'some-invalid-option'
+          text: 'some-invalid-option',
         };
 
         // try to select an invalid option
@@ -284,13 +254,10 @@ describe('Sort fixture', () => {
         expect(resultingSelection.text).toEqual(newSelection.text);
         expect(sortItemsSpy).toHaveBeenCalledWith(
           jasmine.objectContaining({
-            label: newSelection.text
+            label: newSelection.text,
           })
         );
       });
-
     });
-
   });
-
 });

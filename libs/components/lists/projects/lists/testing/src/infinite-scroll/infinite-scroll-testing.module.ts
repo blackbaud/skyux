@@ -1,14 +1,8 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  SkyInfiniteScrollModule
-} from '@skyux/lists';
+import { SkyInfiniteScrollModule } from '@skyux/lists';
 
 @NgModule({
-  exports: [
-    SkyInfiniteScrollModule
-  ]
+  exports: [SkyInfiniteScrollModule],
 })
-export class SkyInfiniteScrollTestingModule { }
+export class SkyInfiniteScrollTestingModule {}

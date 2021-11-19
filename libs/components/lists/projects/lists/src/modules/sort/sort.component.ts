@@ -2,32 +2,22 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit
+  OnInit,
 } from '@angular/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  SkyDropdownMessage,
-  SkyDropdownMessageType
-} from '@skyux/popovers';
+import { SkyDropdownMessage, SkyDropdownMessageType } from '@skyux/popovers';
 
-import {
-  SkySortService
-} from './sort.service';
+import { SkySortService } from './sort.service';
 @Component({
   selector: 'sky-sort',
   styleUrls: ['./sort.component.scss'],
   templateUrl: './sort.component.html',
-  providers: [
-    SkySortService
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  providers: [SkySortService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkySortComponent {
-
   /**
    * Indicates whether to display a "Sort" label beside the icon on the sort button.
    */
@@ -38,7 +28,7 @@ export class SkySortComponent {
 
   public dropdownClicked(): void {
     this.dropdownController.next({
-      type: SkyDropdownMessageType.Close
+      type: SkyDropdownMessageType.Close,
     });
   }
 }

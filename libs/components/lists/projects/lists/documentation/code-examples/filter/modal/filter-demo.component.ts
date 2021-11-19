@@ -1,29 +1,21 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component
+  Component,
 } from '@angular/core';
 
-import {
-  SkyModalCloseArgs,
-  SkyModalService
-} from '@skyux/modals';
+import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 
-import {
-  FilterDemoModalContext
-} from './filter-demo-modal-context';
+import { FilterDemoModalContext } from './filter-demo-modal-context';
 
-import {
-  FilterDemoModalComponent
-} from './filter-demo-modal.component';
+import { FilterDemoModalComponent } from './filter-demo-modal.component';
 
 @Component({
   selector: 'app-filter-demo',
   templateUrl: './filter-demo.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilterDemoComponent {
-
   public appliedFilters: any[] = [];
 
   public filteredItems: any[];
@@ -32,28 +24,28 @@ export class FilterDemoComponent {
     {
       name: 'Orange',
       type: 'citrus',
-      color: 'orange'
+      color: 'orange',
     },
     {
       name: 'Mango',
       type: 'other',
-      color: 'orange'
+      color: 'orange',
     },
     {
       name: 'Lime',
       type: 'citrus',
-      color: 'green'
+      color: 'green',
     },
     {
       name: 'Strawberry',
       type: 'berry',
-      color: 'red'
+      color: 'red',
     },
     {
       name: 'Blueberry',
       type: 'berry',
-      color: 'blue'
-    }
+      color: 'blue',
+    },
   ];
 
   public showInlineFilters: boolean = false;
@@ -75,15 +67,14 @@ export class FilterDemoComponent {
   }
 
   public onModalFilterButtonClick(): void {
-    let modalInstance = this.modal.open(
-      FilterDemoModalComponent,
-      [{
+    let modalInstance = this.modal.open(FilterDemoModalComponent, [
+      {
         provide: FilterDemoModalContext,
         useValue: {
-          appliedFilters: this.appliedFilters
-        }
-      }]
-    );
+          appliedFilters: this.appliedFilters,
+        },
+      },
+    ]);
 
     modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
       if (result.reason === 'save') {
@@ -95,12 +86,16 @@ export class FilterDemoComponent {
   }
 
   private fruitTypeFilterFailed(filter: any, item: any): boolean {
-    return filter.name === 'fruitType' && filter.value !== 'any' && filter.value !== item.type;
+    return (
+      filter.name === 'fruitType' &&
+      filter.value !== 'any' &&
+      filter.value !== item.type
+    );
   }
 
   private itemIsShown(filters: any[], item: any[]): boolean {
     let passesFilter = true,
-        j: number;
+      j: number;
 
     for (j = 0; j < filters.length; j++) {
       if (this.orangeFilterFailed(filters[j], item)) {
@@ -129,6 +124,8 @@ export class FilterDemoComponent {
   }
 
   private orangeFilterFailed(filter: any, item: any): boolean {
-    return filter.name === 'hideOrange' && filter.value && item.color === 'orange';
+    return (
+      filter.name === 'hideOrange' && filter.value && item.color === 'orange'
+    );
   }
 }

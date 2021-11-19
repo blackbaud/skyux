@@ -1,20 +1,15 @@
-import {
-  Component,
-  ViewChild
-} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
-import {
-  SkyPagingComponent
-} from '../paging.component';
+import { SkyPagingComponent } from '../paging.component';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './paging.component.fixture.html'
+  templateUrl: './paging.component.fixture.html',
 })
 export class PagingTestComponent {
   @ViewChild(SkyPagingComponent, {
     read: SkyPagingComponent,
-    static: true
+    static: true,
   })
   public pagingComponent: SkyPagingComponent;
 

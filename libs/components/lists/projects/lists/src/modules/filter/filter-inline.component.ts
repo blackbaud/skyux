@@ -1,6 +1,4 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * Specifies a wrapper for the inline filters.
@@ -8,6 +6,6 @@ import {
 @Component({
   selector: 'sky-filter-inline',
   styleUrls: ['./filter-inline.component.scss'],
-  templateUrl: './filter-inline.component.html'
+  templateUrl: './filter-inline.component.html',
 })
-export class SkyFilterInlineComponent { }
+export class SkyFilterInlineComponent {}

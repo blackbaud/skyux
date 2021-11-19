@@ -1,22 +1,19 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './filter-summary.component.fixture.html'
+  templateUrl: './filter-summary.component.fixture.html',
 })
 export class FilterSummaryTestComponent {
-
   public appliedFilters: Array<any> = [
     {
       label: 'hide orange',
-      dismissible: false
+      dismissible: false,
     },
     {
       label: 'berry fruit type',
-      dismissible: true
-    }
+      dismissible: true,
+    },
   ];
 
   public dismissed: boolean = false;
@@ -30,5 +27,4 @@ export class FilterSummaryTestComponent {
   public filterButtonClicked() {
     this.summaryClicked = true;
   }
-
 }

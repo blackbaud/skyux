@@ -1,29 +1,14 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  SkyPagingModule
-} from '@skyux/lists';
+import { SkyPagingModule } from '@skyux/lists';
 
-import {
-  PagingDemoComponent
-} from './paging-demo.component';
+import { PagingDemoComponent } from './paging-demo.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SkyPagingModule
-  ],
-  declarations: [
-    PagingDemoComponent
-  ],
-  exports: [
-    PagingDemoComponent
-  ]
+  imports: [CommonModule, SkyPagingModule],
+  declarations: [PagingDemoComponent],
+  exports: [PagingDemoComponent],
 })
-export class PagingDemoModule { }
+export class PagingDemoModule {}

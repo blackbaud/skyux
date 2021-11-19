@@ -1,48 +1,28 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  SkyIdModule
-} from '@skyux/core';
+import { SkyIdModule } from '@skyux/core';
 
-import {
-  SkyIconModule
-} from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/indicators';
 
-import {
-  SkyDropdownModule
-} from '@skyux/popovers';
+import { SkyDropdownModule } from '@skyux/popovers';
 
-import {
-  SkyThemeModule
-} from '@skyux/theme';
+import { SkyThemeModule } from '@skyux/theme';
 
-import {
-  SkyListsResourcesModule
-} from '../shared/sky-lists-resources.module';
+import { SkyListsResourcesModule } from '../shared/sky-lists-resources.module';
 
-import {
-  SkySortItemComponent
-} from './sort-item.component';
+import { SkySortItemComponent } from './sort-item.component';
 
-import {
-  SkySortMenuHeadingComponent
-} from './sort-menu-heading.component';
+import { SkySortMenuHeadingComponent } from './sort-menu-heading.component';
 
-import {
-  SkySortComponent
-} from './sort.component';
+import { SkySortComponent } from './sort.component';
 
 @NgModule({
   declarations: [
     SkySortComponent,
     SkySortItemComponent,
-    SkySortMenuHeadingComponent
+    SkySortMenuHeadingComponent,
   ],
   imports: [
     CommonModule,
@@ -50,11 +30,8 @@ import {
     SkyIconModule,
     SkyIdModule,
     SkyListsResourcesModule,
-    SkyThemeModule
+    SkyThemeModule,
   ],
-  exports: [
-    SkySortComponent,
-    SkySortItemComponent
-  ]
+  exports: [SkySortComponent, SkySortItemComponent],
 })
-export class SkySortModule { }
+export class SkySortModule {}

@@ -1,65 +1,37 @@
-<div
-  class="sky-margin-stacked-default"
->
-  <sky-repeater
-    [reorderable]="true"
-    (orderChange)="changeItems($event)"
-  >
-    <sky-repeater-item
-      *ngFor="let item of items"
-      [tag]="item"
-    >
-      <sky-repeater-item-title
-        class="demo-repeater-flex"
-      >
-        <div
-          class="sky-emphasized"
-        >
-          {{item.title}}
+<div class="sky-margin-stacked-default">
+  <sky-repeater [reorderable]="true" (orderChange)="changeItems($event)">
+    <sky-repeater-item *ngFor="let item of items" [tag]="item">
+      <sky-repeater-item-title class="demo-repeater-flex">
+        <div class="sky-emphasized">
+          {{ item.title }}
         </div>
         <div>
-          {{item.status}}
+          {{ item.status }}
         </div>
       </sky-repeater-item-title>
       <sky-repeater-item-context-menu>
-        <sky-dropdown
-          buttonType="context-menu"
-        >
+        <sky-dropdown buttonType="context-menu">
           <sky-dropdown-menu>
             <sky-dropdown-item>
-              <button
-                type="button"
-              >
-                Action 1
-              </button>
+              <button type="button">Action 1</button>
             </sky-dropdown-item>
             <sky-dropdown-item>
-              <button
-                type="button"
-              >
-                Action 2
-              </button>
+              <button type="button">Action 2</button>
             </sky-dropdown-item>
           </sky-dropdown-menu>
         </sky-dropdown>
       </sky-repeater-item-context-menu>
       <sky-repeater-item-content>
-          {{item.note}}
+        {{ item.note }}
       </sky-repeater-item-content>
     </sky-repeater-item>
   </sky-repeater>
 </div>
 
-<button
-  class="sky-btn sky-margin-inline-default"
-  (click)="addItem()"
->
+<button class="sky-btn sky-margin-inline-default" (click)="addItem()">
   Add item
 </button>
 
-<button
-  class="sky-btn sky-margin-inline-default"
-  (click)="removeItem()"
->
+<button class="sky-btn sky-margin-inline-default" (click)="removeItem()">
   Remove item
 </button>

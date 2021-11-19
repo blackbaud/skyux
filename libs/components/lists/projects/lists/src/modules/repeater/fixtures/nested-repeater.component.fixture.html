@@ -1,43 +1,22 @@
-<sky-repeater
-  [reorderable]="true"
->
-  <sky-repeater-item
-    tag="top-item"
-    [reorderable]="true"
-  >
-    <sky-repeater-item-title>
-      Outer title 1
-    </sky-repeater-item-title>
+<sky-repeater [reorderable]="true">
+  <sky-repeater-item tag="top-item" [reorderable]="true">
+    <sky-repeater-item-title> Outer title 1 </sky-repeater-item-title>
     <sky-repeater-item-content>
       <sky-repeater>
         <sky-repeater-item>
-          <sky-repeater-item-title>
-            Inner Title 1
-          </sky-repeater-item-title>
-          <sky-repeater-item-content>
-            Inner Title 1
-          </sky-repeater-item-content>
+          <sky-repeater-item-title> Inner Title 1 </sky-repeater-item-title>
+          <sky-repeater-item-content> Inner Title 1 </sky-repeater-item-content>
         </sky-repeater-item>
       </sky-repeater>
     </sky-repeater-item-content>
   </sky-repeater-item>
-  <sky-repeater-item
-    class="top-level"
-    tag="bottom-item"
-    [reorderable]="true"
-  >
-    <sky-repeater-item-title>
-      Outer title 2
-    </sky-repeater-item-title>
+  <sky-repeater-item class="top-level" tag="bottom-item" [reorderable]="true">
+    <sky-repeater-item-title> Outer title 2 </sky-repeater-item-title>
     <sky-repeater-item-content>
       <sky-repeater>
         <sky-repeater-item>
-          <sky-repeater-item-title>
-            Inner Title 2
-          </sky-repeater-item-title>
-          <sky-repeater-item-content>
-            Inner Title 2
-          </sky-repeater-item-content>
+          <sky-repeater-item-title> Inner Title 2 </sky-repeater-item-title>
+          <sky-repeater-item-content> Inner Title 2 </sky-repeater-item-content>
         </sky-repeater-item>
       </sky-repeater>
     </sky-repeater-item-content>

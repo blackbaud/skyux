@@ -1,3 +1,7 @@
+# 5.0.4 (2021-11-19)
+
+- Added support for Prettier code formatting and updated the builder to support StackBlitz. [#259](https://github.com/blackbaud/skyux-lists/pull/259)
+
 # 5.0.3 (2021-11-15)
 
 - Updated the repeater component to align the context menu and checkbox with the title. [#257](https://github.com/blackbaud/skyux-lists/pull/257)

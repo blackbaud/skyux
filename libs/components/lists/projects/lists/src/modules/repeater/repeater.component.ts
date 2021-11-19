@@ -12,32 +12,20 @@ import {
   Output,
   QueryList,
   Renderer2,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 
-import {
-  DragulaService
-} from 'ng2-dragula';
+import { DragulaService } from 'ng2-dragula';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkyRepeaterItemComponent
-} from './repeater-item.component';
+import { SkyRepeaterItemComponent } from './repeater-item.component';
 
-import {
-  SkyRepeaterService
-} from './repeater.service';
+import { SkyRepeaterService } from './repeater.service';
 
-import {
-  SkyRepeaterAdapterService
-} from './repeater-adapter.service';
+import { SkyRepeaterAdapterService } from './repeater-adapter.service';
 
 let uniqueId = 0;
 
@@ -49,10 +37,11 @@ let uniqueId = 0;
   styleUrls: ['./repeater.component.scss'],
   templateUrl: './repeater.component.html',
   providers: [SkyRepeaterService, SkyRepeaterAdapterService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDestroy {
-
+export class SkyRepeaterComponent
+  implements AfterContentInit, OnChanges, OnDestroy
+{
   /**
    * Specifies the index of the repeater item to visually highlight as active.
    * For example, use this property in conjunction with the
@@ -148,7 +137,11 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
       .subscribe((item: SkyRepeaterItemComponent) => {
         if (this.expandMode === 'single' && item.isExpanded) {
           this.items.forEach((otherItem) => {
-            if (otherItem !== item && otherItem.isExpanded && otherItem.isCollapsible) {
+            if (
+              otherItem !== item &&
+              otherItem.isExpanded &&
+              otherItem.isCollapsible
+            ) {
               otherItem.isExpanded = false;
             }
           });
@@ -187,31 +180,31 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
       }
 
       if (this.reorderable && !this.everyItemHasTag()) {
-        console.warn('Please supply tag properties for each repeater item when reordering functionality is enabled.');
+        console.warn(
+          'Please supply tag properties for each repeater item when reordering functionality is enabled.'
+        );
       }
     });
 
     // HACK: Not updating for expand mode in a timeout causes an error.
     // https://github.com/angular/angular/issues/6005
-    this.items.changes
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(() => {
-        setTimeout(() => {
-          if (!!this.items.last) {
-            this.updateForExpandMode(this.items.last);
-            this.items.last.reorderable = this.reorderable;
-          }
+    this.items.changes.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
+      setTimeout(() => {
+        if (!!this.items.last) {
+          this.updateForExpandMode(this.items.last);
+          this.items.last.reorderable = this.reorderable;
+        }
 
-          if (this.activeIndex !== undefined) {
-            this.repeaterService.activateItemByIndex(this.activeIndex);
-          }
-        });
+        if (this.activeIndex !== undefined) {
+          this.repeaterService.activateItemByIndex(this.activeIndex);
+        }
       });
+    });
 
     setTimeout(() => {
       this.updateForExpandMode();
 
-      this.items.forEach(item => {
+      this.items.forEach((item) => {
         item.reorderable = this.reorderable;
       });
     }, 0);
@@ -220,14 +213,17 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes['activeIndex']) {
       this.repeaterService.enableActiveState = true;
-      if (changes['activeIndex'].currentValue !== changes['activeIndex'].previousValue) {
+      if (
+        changes['activeIndex'].currentValue !==
+        changes['activeIndex'].previousValue
+      ) {
         this.repeaterService.activateItemByIndex(this.activeIndex);
       }
     }
 
     if (changes.reorderable) {
       if (this.items) {
-        this.items.forEach(item => item.reorderable = this.reorderable);
+        this.items.forEach((item) => (item.reorderable = this.reorderable));
       }
 
       this.changeDetector.markForCheck();
@@ -270,10 +266,14 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
     /* istanbul ignore else */
     if (!this.dragulaService.find(this.dragulaGroupName)) {
       this.dragulaService.setOptions(this.dragulaGroupName, {
-        moves: (el: HTMLElement, container: HTMLElement, handle: HTMLElement) => {
+        moves: (
+          el: HTMLElement,
+          container: HTMLElement,
+          handle: HTMLElement
+        ) => {
           const target = el.querySelector('.sky-repeater-item-grab-handle');
-          return (this.reorderable && target && target.contains(handle));
-        }
+          return this.reorderable && target && target.contains(handle);
+        },
       });
     }
 
@@ -322,7 +322,7 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
   }
 
   private emitTags(): void {
-    const tags = this.repeaterService.items.map(item => item.tag);
+    const tags = this.repeaterService.items.map((item) => item.tag);
     this.orderChange.emit(tags);
   }
 
@@ -332,7 +332,7 @@ export class SkyRepeaterComponent implements AfterContentInit, OnChanges, OnDest
     if (!this.items || this.items.length === 0) {
       return false;
     }
-    return this.items.toArray().every(item => {
+    return this.items.toArray().every((item) => {
       return item.tag !== undefined;
     });
   }

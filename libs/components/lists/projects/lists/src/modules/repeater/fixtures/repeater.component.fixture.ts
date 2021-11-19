@@ -1,20 +1,14 @@
-import {
-  Component,
-  ViewChild
-} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
-import {
-  SkyRepeaterComponent
-} from '../repeater.component';
+import { SkyRepeaterComponent } from '../repeater.component';
 
 let nextItemId: number = 0;
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './repeater.component.fixture.html'
+  templateUrl: './repeater.component.fixture.html',
 })
 export class RepeaterTestComponent {
-
   public set activeIndex(value: number) {
     this._activeIndex = value;
   }
@@ -28,16 +22,16 @@ export class RepeaterTestComponent {
   public items = [
     {
       id: 'item1',
-      title: 'Item 1'
+      title: 'Item 1',
     },
     {
       id: 'item2',
-      title: 'Item 2'
+      title: 'Item 2',
     },
     {
       id: 'item3',
-      title: 'Item 3'
-    }
+      title: 'Item 3',
+    },
   ];
 
   public lastItemExpanded: boolean;
@@ -64,7 +58,7 @@ export class RepeaterTestComponent {
 
   @ViewChild(SkyRepeaterComponent, {
     read: SkyRepeaterComponent,
-    static: false
+    static: false,
   })
   public repeater: SkyRepeaterComponent;
 
@@ -79,12 +73,12 @@ export class RepeaterTestComponent {
   public addItem(): void {
     const newItem = {
       id: `item${nextItemId++}`,
-      title: 'New record ' + nextItemId
+      title: 'New record ' + nextItemId,
     };
     this.items.push(newItem);
   }
 
-  public onOrderChange(tags: any[]): void {
+  public onOrderChange(tags: any[]): void {
     this.sortedItemTags = tags;
-  }
+  }
 }

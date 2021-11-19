@@ -1,18 +1,10 @@
-import {
-  DebugElement
-} from '@angular/core';
+import { DebugElement } from '@angular/core';
 
-import {
-  ComponentFixture
-} from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
 
-import {
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  SkyListsFilterFixtureButton
-} from './lists-filter-fixture-button';
+import { SkyListsFilterFixtureButton } from './lists-filter-fixture-button';
 
 /**
  * Provides information for and interaction with a SKY UX filter button component.
@@ -22,11 +14,12 @@ import {
 export class SkyFilterFixtureButton {
   private debugElement: DebugElement;
 
-  constructor(
-    private fixture: ComponentFixture<any>,
-    skyTestId: string
-  ) {
-    this.debugElement = SkyAppTestUtility.getDebugElementByTestId(this.fixture, skyTestId, 'sky-filter-button');
+  constructor(private fixture: ComponentFixture<any>, skyTestId: string) {
+    this.debugElement = SkyAppTestUtility.getDebugElementByTestId(
+      this.fixture,
+      skyTestId,
+      'sky-filter-button'
+    );
   }
 
   /**
@@ -47,7 +40,7 @@ export class SkyFilterFixtureButton {
       ariaControls: buttonElement.getAttribute('aria-controls'),
       ariaExpanded: buttonElement.getAttribute('aria-expanded') === 'true',
       disabled: buttonElement.disabled,
-      id: buttonElement.id
+      id: buttonElement.id,
     };
   }
   /**

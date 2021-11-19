@@ -6,32 +6,23 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
-  Output
+  Output,
 } from '@angular/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkyInfiniteScrollDomAdapterService
-} from './infinite-scroll-dom-adapter.service';
+import { SkyInfiniteScrollDomAdapterService } from './infinite-scroll-dom-adapter.service';
 
 @Component({
   selector: 'sky-infinite-scroll',
   templateUrl: './infinite-scroll.component.html',
   styleUrls: ['./infinite-scroll.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    SkyInfiniteScrollDomAdapterService
-  ]
+  providers: [SkyInfiniteScrollDomAdapterService],
 })
 export class SkyInfiniteScrollComponent implements OnDestroy {
-
   /**
    * Indicates whether to make the infinite scroll component active when more data is available
    * to load. By default, infinite scroll is inactive and does not call the load function.
@@ -91,7 +82,7 @@ export class SkyInfiniteScrollComponent implements OnDestroy {
     private changeDetector: ChangeDetectorRef,
     private elementRef: ElementRef,
     private domAdapter: SkyInfiniteScrollDomAdapterService
-  ) { }
+  ) {}
 
   public ngOnDestroy(): void {
     this.enabled = false;
@@ -112,7 +103,8 @@ export class SkyInfiniteScrollComponent implements OnDestroy {
   private setListeners(): void {
     if (this.enabled) {
       // The user has scrolled to the infinite scroll element.
-      this.domAdapter.scrollTo(this.elementRef)
+      this.domAdapter
+        .scrollTo(this.elementRef)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(() => {
           if (!this.isWaiting && this.enabled) {
@@ -121,7 +113,8 @@ export class SkyInfiniteScrollComponent implements OnDestroy {
         });
 
       // New items have been loaded into the parent element.
-      this.domAdapter.parentChanges(this.elementRef)
+      this.domAdapter
+        .parentChanges(this.elementRef)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(() => {
           if (!this.loading) {

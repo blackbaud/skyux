@@ -1,9 +1,7 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './nested-repeater.component.fixture.html'
+  templateUrl: './nested-repeater.component.fixture.html',
 })
 export class NestedRepeaterTestComponent {}

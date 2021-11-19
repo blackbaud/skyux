@@ -1,39 +1,23 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  SkyIconModule
-} from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/indicators';
 
-import {
-  SkyThemeModule
-} from '@skyux/theme';
+import { SkyThemeModule } from '@skyux/theme';
 
-import {
-  SkyListsResourcesModule
-} from '../shared/sky-lists-resources.module';
+import { SkyListsResourcesModule } from '../shared/sky-lists-resources.module';
 
-import {
-  SkyPagingComponent
-} from './paging.component';
+import { SkyPagingComponent } from './paging.component';
 
 @NgModule({
-  declarations: [
-    SkyPagingComponent
+  declarations: [SkyPagingComponent],
+  imports: [
+    CommonModule,
+    SkyIconModule,
+    SkyListsResourcesModule,
+    SkyThemeModule,
   ],
-    imports: [
-        CommonModule,
-        SkyIconModule,
-        SkyListsResourcesModule,
-        SkyThemeModule
-    ],
-  exports: [
-    SkyPagingComponent
-  ]
+  exports: [SkyPagingComponent],
 })
-export class SkyPagingModule { }
+export class SkyPagingModule {}

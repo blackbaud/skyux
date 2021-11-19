@@ -1,6 +1,6 @@
-@import "~@skyux/theme/scss/mixins";
-@import "~@skyux/theme/scss/_compat/mixins";
-@import "~@skyux/theme/scss/variables";
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+@import '~@skyux/theme/scss/variables';
 
 $sky-paging-modern-padding-top-bottom: 3px;
 
@@ -49,7 +49,7 @@ li {
     background-color: darken($sky-background-color-neutral-light, 10%);
   }
 
-   &:disabled {
+  &:disabled {
     color: $sky-text-color-deemphasized;
     cursor: not-allowed;
     pointer-events: none;
@@ -74,7 +74,8 @@ li {
     &:hover {
       background-color: transparent;
       border: solid 1px $sky-theme-modern-background-color-primary-dark;
-      padding: $sky-paging-modern-padding-top-bottom - 1 $sky-theme-modern-space-sm - 1;
+      padding: $sky-paging-modern-padding-top-bottom - 1
+        $sky-theme-modern-space-sm - 1;
       z-index: 1;
     }
 
@@ -82,13 +83,13 @@ li {
     &:focus {
       border: solid 2px $sky-theme-modern-background-color-primary-dark;
       color: $sky-text-color-default;
-      padding: $sky-paging-modern-padding-top-bottom - 2 $sky-theme-modern-space-sm - 2;
+      padding: $sky-paging-modern-padding-top-bottom - 2
+        $sky-theme-modern-space-sm - 2;
     }
 
     &:focus:not(:active) {
       outline: none;
-      box-shadow:
-        $sky-theme-modern-elevation-1-shadow-size
+      box-shadow: $sky-theme-modern-elevation-1-shadow-size
         $sky-theme-modern-elevation-1-shadow-color;
     }
   }

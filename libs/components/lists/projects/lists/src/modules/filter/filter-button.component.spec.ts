@@ -1,24 +1,12 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  expect,
-  expectAsync
-} from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import {
-  SkyThemeModule
-} from '@skyux/theme';
+import { SkyThemeModule } from '@skyux/theme';
 
-import {
-  FilterButtonTestComponent
-} from './fixtures/filter-button.component.fixture';
+import { FilterButtonTestComponent } from './fixtures/filter-button.component.fixture';
 
-import {
-  SkyFilterModule
-} from './filter.module';
+import { SkyFilterModule } from './filter.module';
 
 describe('Filter button', () => {
   let fixture: ComponentFixture<FilterButtonTestComponent>;
@@ -27,13 +15,8 @@ describe('Filter button', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        FilterButtonTestComponent
-      ],
-      imports: [
-        SkyFilterModule,
-        SkyThemeModule
-      ]
+      declarations: [FilterButtonTestComponent],
+      imports: [SkyFilterModule, SkyThemeModule],
     });
 
     fixture = TestBed.createComponent(FilterButtonTestComponent);
@@ -57,13 +40,17 @@ describe('Filter button', () => {
   it('should allow setting active state', () => {
     component.filtersActive = true;
     fixture.detectChanges();
-    expect(nativeElement.querySelector('.sky-btn')).toHaveCssClass('sky-filter-btn-active');
+    expect(nativeElement.querySelector('.sky-btn')).toHaveCssClass(
+      'sky-filter-btn-active'
+    );
   });
 
   it('should allow setting id', () => {
     component.buttonId = 'i-am-an-id-look-at-me';
     fixture.detectChanges();
-    expect(nativeElement.querySelector('.sky-btn').id).toBe('i-am-an-id-look-at-me');
+    expect(nativeElement.querySelector('.sky-btn').id).toBe(
+      'i-am-an-id-look-at-me'
+    );
   });
 
   it('should allow setting aria labels', () => {
@@ -98,11 +85,15 @@ describe('Filter button', () => {
   });
 
   it('should use modern icon when applicable', async () => {
-    const defaultIcon = fixture.nativeElement.querySelector('sky-filter-button sky-icon i');
+    const defaultIcon = fixture.nativeElement.querySelector(
+      'sky-filter-button sky-icon i'
+    );
     expect(defaultIcon).toHaveCssClass('fa-filter');
     fixture.componentInstance.useModernTheme();
     fixture.detectChanges();
-    const modernIcon = fixture.nativeElement.querySelector('sky-filter-button sky-icon i');
+    const modernIcon = fixture.nativeElement.querySelector(
+      'sky-filter-button sky-icon i'
+    );
     expect(modernIcon).toHaveCssClass('sky-i-filter');
   });
 });

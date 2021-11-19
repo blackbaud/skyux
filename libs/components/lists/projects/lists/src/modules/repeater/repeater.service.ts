@@ -1,24 +1,17 @@
-import {
-  EventEmitter,
-  Injectable,
-  OnDestroy
-} from '@angular/core';
+import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
 
-import {
-  BehaviorSubject
-} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
-import {
-  SkyRepeaterItemComponent
-} from './repeater-item.component';
+import { SkyRepeaterItemComponent } from './repeater-item.component';
 
 /**
  * @internal
  */
 @Injectable()
 export class SkyRepeaterService implements OnDestroy {
-
-  public activeItemChange = new BehaviorSubject<SkyRepeaterItemComponent>(undefined);
+  public activeItemChange = new BehaviorSubject<SkyRepeaterItemComponent>(
+    undefined
+  );
 
   public activeItemIndexChange = new BehaviorSubject<number>(undefined);
 
@@ -44,7 +37,7 @@ export class SkyRepeaterService implements OnDestroy {
     if (this.enableActiveState) {
       /* istanbul ignore else */
       if (item) {
-        const index = this.items.findIndex(i => i === item);
+        const index = this.items.findIndex((i) => i === item);
         this.activeItemIndexChange.next(index);
         this.activeItemChange.next(item);
       }
