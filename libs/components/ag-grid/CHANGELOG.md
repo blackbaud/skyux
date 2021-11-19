@@ -1,3 +1,7 @@
+# 5.1.2 (2021-11-19)
+
+- Added  AG Grid component documentation. [#167](https://github.com/blackbaud/skyux-ag-grid/pull/167)
+
 # 5.1.1 (2021-11-10)
 
 - Fixed an issue with `skyAgGridRowDelete` when using an infinite row model type. [#164](https://github.com/blackbaud/skyux-ag-grid/pull/164)
