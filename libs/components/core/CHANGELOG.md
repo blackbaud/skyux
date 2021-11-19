@@ -1,3 +1,7 @@
+# 5.1.3 (2021-11-19)
+
+- Updated the builder to support StackBlitz. [#274](https://github.com/blackbaud/skyux-core/pull/274)
+
 # 5.1.2 (2021-11-19)
 
 - Fixed the numeric pipe to properly update when the locale provided by the `SkyAppLocaleProvider` is updated. [#267](https://github.com/blackbaud/skyux-core/pull/267)
