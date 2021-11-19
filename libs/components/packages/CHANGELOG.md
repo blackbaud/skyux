@@ -1,3 +1,7 @@
+# 5.63.0 (2021-11-19)
+
+- `@skyux/avatar@5.0.1` [Release notes](https://github.com/blackbaud/skyux-avatar/blob/5.0.1/CHANGELOG.md)
+
 # 5.62.0 (2021-11-19)
 
 - `@skyux/phone-field@5.0.1` [Release notes](https://github.com/blackbaud/skyux-phone-field/blob/5.0.1/CHANGELOG.md)
