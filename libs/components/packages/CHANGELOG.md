@@ -1,3 +1,7 @@
+# 5.69.0 (2021-11-19)
+
+- `@skyux/lists@5.0.4` [Release notes](https://github.com/blackbaud/skyux-lists/blob/5.0.4/CHANGELOG.md)
+
 # 5.68.0 (2021-11-19)
 
 - `@skyux/datetime@5.0.2` [Release notes](https://github.com/blackbaud/skyux-datetime/blob/5.0.2/CHANGELOG.md)
