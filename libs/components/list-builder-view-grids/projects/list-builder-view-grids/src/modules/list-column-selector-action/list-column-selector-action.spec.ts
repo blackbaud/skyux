@@ -1,4 +1,3 @@
-
 import {
   async,
   ComponentFixture,
@@ -6,24 +5,14 @@ import {
   flush,
   inject,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
-import {
-  DebugElement
-} from '@angular/core';
-import {
-  NoopAnimationsModule
-} from '@angular/platform-browser/animations';
-import {
-  By
-} from '@angular/platform-browser';
-import {
-  RouterTestingModule
-} from '@angular/router/testing';
+import { DebugElement } from '@angular/core';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 
-import {
-  expect, expectAsync
-} from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import {
   ListState,
@@ -31,41 +20,32 @@ import {
   SkyListComponent,
   SkyListModule,
   SkyListSecondaryActionsModule,
-  SkyListToolbarModule
+  SkyListToolbarModule,
 } from '@skyux/list-builder';
 
-import {
-  SkyGridModule
-} from '@skyux/grids';
+import { SkyGridModule } from '@skyux/grids';
 
-import {
-  SkyModalService
-} from '@skyux/modals';
+import { SkyModalService } from '@skyux/modals';
 
-import {
-  skip,
-  take
-} from 'rxjs/operators';
+import { skip, take } from 'rxjs/operators';
 
-import {
-  SkyListViewGridModule
-} from '../list-view-grid/list-view-grid.module';
-import {
-  ListColumnSelectorActionTestComponent
-} from './fixtures/list-column-selector-action.component.fixture';
+import { SkyListViewGridModule } from '../list-view-grid/list-view-grid.module';
+import { ListColumnSelectorActionTestComponent } from './fixtures/list-column-selector-action.component.fixture';
 
-import {
-  ListColumnSelectorActionDeprecatedTestComponent
-} from './fixtures/list-column-selector-action-deprecated.component.fixture';
+import { ListColumnSelectorActionDeprecatedTestComponent } from './fixtures/list-column-selector-action-deprecated.component.fixture';
 
 describe('List column selector action', () => {
   let fixture: ComponentFixture<any>;
   let nativeElement: HTMLElement;
 
   function getChooseColumnsButton() {
-    let button = document.querySelector('.sky-dropdown-menu button') as HTMLElement;
+    let button = document.querySelector(
+      '.sky-dropdown-menu button'
+    ) as HTMLElement;
     if (!button) {
-      button = nativeElement.querySelector('[sky-cmp-id="column-chooser"] button') as HTMLElement;
+      button = nativeElement.querySelector(
+        '[sky-cmp-id="column-chooser"] button'
+      ) as HTMLElement;
     }
     return button;
   }
@@ -76,7 +56,9 @@ describe('List column selector action', () => {
     tick();
     fixture.detectChanges();
 
-    const button = nativeElement.querySelector('.sky-dropdown-button') as HTMLButtonElement;
+    const button = nativeElement.querySelector(
+      '.sky-dropdown-button'
+    ) as HTMLButtonElement;
     expect(button).toBeDefined();
 
     button.click();
@@ -91,7 +73,9 @@ describe('List column selector action', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
 
-      const button = nativeElement.querySelector('.sky-dropdown-button') as HTMLButtonElement;
+      const button = nativeElement.querySelector(
+        '.sky-dropdown-button'
+      ) as HTMLButtonElement;
       expect(button).toBeDefined();
 
       button.click();
@@ -100,7 +84,9 @@ describe('List column selector action', () => {
   }
 
   function getButtonEl() {
-    return nativeElement.querySelector('[sky-cmp-id="column-chooser"] .sky-btn') as HTMLButtonElement;
+    return nativeElement.querySelector(
+      '[sky-cmp-id="column-chooser"] .sky-btn'
+    ) as HTMLButtonElement;
   }
 
   describe('toolbar button', () => {
@@ -110,9 +96,7 @@ describe('List column selector action', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [
-          ListColumnSelectorActionTestComponent
-        ],
+        declarations: [ListColumnSelectorActionTestComponent],
         imports: [
           RouterTestingModule,
           SkyListModule,
@@ -120,17 +104,13 @@ describe('List column selector action', () => {
           SkyListSecondaryActionsModule,
           SkyGridModule,
           SkyListViewGridModule,
-          NoopAnimationsModule
-        ]
-      })
-        .overrideComponent(SkyListComponent, {
-          set: {
-            providers: [
-              ListState,
-              ListStateDispatcher
-            ]
-          }
-        });
+          NoopAnimationsModule,
+        ],
+      }).overrideComponent(SkyListComponent, {
+        set: {
+          providers: [ListState, ListStateDispatcher],
+        },
+      });
     });
 
     beforeEach(() => {
@@ -139,7 +119,9 @@ describe('List column selector action', () => {
       nativeElement = fixture.nativeElement as HTMLElement;
       fixture.detectChanges();
 
-      let skyListDebugEl: DebugElement = fixture.debugElement.query(By.directive(SkyListComponent));
+      let skyListDebugEl: DebugElement = fixture.debugElement.query(
+        By.directive(SkyListComponent)
+      );
       state = skyListDebugEl.injector.get(ListState);
       dispatcher = skyListDebugEl.injector.get(ListStateDispatcher);
 
@@ -187,7 +169,9 @@ describe('List column selector action', () => {
         checkboxLabelEl.item(0).click();
         fixture.detectChanges();
 
-        const submitButtonEl = document.querySelector('.sky-modal .sky-btn-primary') as HTMLButtonElement;
+        const submitButtonEl = document.querySelector(
+          '.sky-modal .sky-btn-primary'
+        ) as HTMLButtonElement;
 
         submitButtonEl.click();
         fixture.detectChanges();
@@ -203,7 +187,6 @@ describe('List column selector action', () => {
       fixture.componentInstance.helpKey = 'foo.html';
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-
         const chooseColumnsButton = getChooseColumnsButton();
         chooseColumnsButton.click();
         fixture.detectChanges();
@@ -211,10 +194,14 @@ describe('List column selector action', () => {
         fixture.whenStable().then(() => {
           fixture.detectChanges();
 
-          const helpButton = document.querySelector('button[name="help-button"]');
+          const helpButton = document.querySelector(
+            'button[name="help-button"]'
+          );
           expect(helpButton).toExist();
 
-          const cancelButtonEl = document.querySelector('.sky-modal [sky-cmp-id="cancel"]') as HTMLButtonElement;
+          const cancelButtonEl = document.querySelector(
+            '.sky-modal [sky-cmp-id="cancel"]'
+          ) as HTMLButtonElement;
           cancelButtonEl.click();
           fixture.detectChanges();
         });
@@ -222,11 +209,13 @@ describe('List column selector action', () => {
     }));
 
     it('should emit help key when help button clicked', async(() => {
-      const spy = spyOn(fixture.componentInstance, 'onHelpOpened').and.callThrough();
+      const spy = spyOn(
+        fixture.componentInstance,
+        'onHelpOpened'
+      ).and.callThrough();
       fixture.componentInstance.helpKey = 'foo.html';
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-
         const chooseColumnsButton = getChooseColumnsButton();
         chooseColumnsButton.click();
         fixture.detectChanges();
@@ -234,12 +223,16 @@ describe('List column selector action', () => {
         fixture.whenStable().then(() => {
           fixture.detectChanges();
 
-          const helpButton = document.querySelector('button[name="help-button"]');
+          const helpButton = document.querySelector(
+            'button[name="help-button"]'
+          );
           (helpButton as any).click();
           fixture.detectChanges();
           expect(spy).toHaveBeenCalledWith('foo.html');
 
-          const cancelButtonEl = document.querySelector('.sky-modal [sky-cmp-id="cancel"]') as HTMLButtonElement;
+          const cancelButtonEl = document.querySelector(
+            '.sky-modal [sky-cmp-id="cancel"]'
+          ) as HTMLButtonElement;
           cancelButtonEl.click();
           fixture.detectChanges();
         });
@@ -260,9 +253,7 @@ describe('List column selector action', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [
-          ListColumnSelectorActionDeprecatedTestComponent
-        ],
+        declarations: [ListColumnSelectorActionDeprecatedTestComponent],
         imports: [
           RouterTestingModule,
           SkyListModule,
@@ -270,25 +261,25 @@ describe('List column selector action', () => {
           SkyListSecondaryActionsModule,
           SkyGridModule,
           SkyListViewGridModule,
-          NoopAnimationsModule
-        ]
-      })
-        .overrideComponent(SkyListComponent, {
-          set: {
-            providers: [
-              ListStateDispatcher,
-              ListState
-            ]
-          }
-        });
+          NoopAnimationsModule,
+        ],
+      }).overrideComponent(SkyListComponent, {
+        set: {
+          providers: [ListStateDispatcher, ListState],
+        },
+      });
     });
 
     beforeEach(() => {
-      fixture = TestBed.createComponent(ListColumnSelectorActionDeprecatedTestComponent);
+      fixture = TestBed.createComponent(
+        ListColumnSelectorActionDeprecatedTestComponent
+      );
       nativeElement = fixture.nativeElement as HTMLElement;
       component = fixture.componentInstance;
 
-      let skyListDebugEl: DebugElement = fixture.debugElement.query(By.directive(SkyListComponent));
+      let skyListDebugEl: DebugElement = fixture.debugElement.query(
+        By.directive(SkyListComponent)
+      );
       state = skyListDebugEl.injector.get(ListState);
       dispatcher = skyListDebugEl.injector.get(ListStateDispatcher);
     });
@@ -321,7 +312,9 @@ describe('List column selector action', () => {
       checkboxLabelEl.item(0).click();
       tick();
 
-      const submitButtonEl = document.querySelector('.sky-modal .sky-btn-primary') as HTMLButtonElement;
+      const submitButtonEl = document.querySelector(
+        '.sky-modal .sky-btn-primary'
+      ) as HTMLButtonElement;
 
       submitButtonEl.click();
       tick();
@@ -350,7 +343,9 @@ describe('List column selector action', () => {
       fixture.detectChanges();
       tick();
 
-      const cancelButtonEl = document.querySelector('.sky-modal [sky-cmp-id="cancel"]') as HTMLButtonElement;
+      const cancelButtonEl = document.querySelector(
+        '.sky-modal [sky-cmp-id="cancel"]'
+      ) as HTMLButtonElement;
       cancelButtonEl.click();
       fixture.detectChanges();
       tick();

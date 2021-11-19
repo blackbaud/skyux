@@ -1,24 +1,14 @@
-import {
-  Component,
-  ViewChild
-} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
-import {
-  SkyListToolbarComponent
-} from '@skyux/list-builder';
+import { SkyListToolbarComponent } from '@skyux/list-builder';
 
-import {
-  Observable,
-  of as observableOf
-} from 'rxjs';
+import { Observable, of as observableOf } from 'rxjs';
 
-import {
-  SkyListViewGridComponent
-} from '../../list-view-grid/list-view-grid.component';
+import { SkyListViewGridComponent } from '../../list-view-grid/list-view-grid.component';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './list-column-selector-action.component.fixture.html'
+  templateUrl: './list-column-selector-action.component.fixture.html',
 })
 export class ListColumnSelectorActionTestComponent {
   public items: Observable<Array<any>> = observableOf([
@@ -28,21 +18,26 @@ export class ListColumnSelectorActionTestComponent {
     { id: '4', column1: 404, column2: 'Grape', column3: 'George eats grapes' },
     { id: '5', column1: 505, column2: 'Banana', column3: 'Becky eats bananas' },
     { id: '6', column1: 606, column2: 'Lemon', column3: 'Larry eats lemons' },
-    { id: '7', column1: 707, column2: 'Strawberry', column3: 'Sally eats strawberries' }
+    {
+      id: '7',
+      column1: 707,
+      column2: 'Strawberry',
+      column3: 'Sally eats strawberries',
+    },
   ]);
 
   @ViewChild(SkyListViewGridComponent, {
-    static: true
+    static: true,
   })
   public grid: SkyListViewGridComponent;
 
   @ViewChild(SkyListToolbarComponent, {
-    static: true
+    static: true,
   })
   public toolbar: SkyListToolbarComponent;
 
   public helpKey: string;
   public searchText: string;
 
-  public onHelpOpened(): void { }
+  public onHelpOpened(): void {}
 }

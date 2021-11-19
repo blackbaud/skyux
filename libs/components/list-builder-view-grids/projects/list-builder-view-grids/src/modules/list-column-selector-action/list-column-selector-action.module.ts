@@ -1,43 +1,27 @@
-import {
-  NgModule
-} from '@angular/core';
-import {
-  CommonModule
-} from '@angular/common';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
-import {
-  SkyI18nModule
-} from '@skyux/i18n';
+import { SkyI18nModule } from '@skyux/i18n';
 
-import {
-  SkyIconModule
-} from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/indicators';
 
 import {
   SkyListToolbarModule,
-  SkyListSecondaryActionsModule
+  SkyListSecondaryActionsModule,
 } from '@skyux/list-builder';
 
-import {
-  SkyModalModule
-} from '@skyux/modals';
+import { SkyModalModule } from '@skyux/modals';
 
-import {
-  SkyColumnSelectorModule
-} from '../column-selector/column-selector-modal.module';
+import { SkyColumnSelectorModule } from '../column-selector/column-selector-modal.module';
 
-import {
-  SkyListColumnSelectorActionComponent
-} from './list-column-selector-action.component';
+import { SkyListColumnSelectorActionComponent } from './list-column-selector-action.component';
 
-import {
-  SkyListColumnSelectorButtonComponent
-} from './list-column-selector-button.component';
+import { SkyListColumnSelectorButtonComponent } from './list-column-selector-button.component';
 
 @NgModule({
   declarations: [
     SkyListColumnSelectorActionComponent,
-    SkyListColumnSelectorButtonComponent
+    SkyListColumnSelectorButtonComponent,
   ],
   imports: [
     CommonModule,
@@ -45,12 +29,8 @@ import {
     SkyModalModule,
     SkyListSecondaryActionsModule,
     SkyListToolbarModule,
-    SkyIconModule
+    SkyIconModule,
   ],
-  exports: [
-    SkyListColumnSelectorActionComponent,
-    SkyColumnSelectorModule
-  ]
+  exports: [SkyListColumnSelectorActionComponent, SkyColumnSelectorModule],
 })
-export class SkyListColumnSelectorActionModule {
-}
+export class SkyListColumnSelectorActionModule {}

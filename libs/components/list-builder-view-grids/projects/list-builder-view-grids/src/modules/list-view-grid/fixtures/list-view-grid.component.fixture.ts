@@ -5,44 +5,28 @@ import {
   QueryList,
   TemplateRef,
   ViewChild,
-  ViewChildren
+  ViewChildren,
 } from '@angular/core';
 
-import {
-  SkyGridSelectedRowsModelChange
-} from '@skyux/grids';
+import { SkyGridSelectedRowsModelChange } from '@skyux/grids';
 
-import {
-  BehaviorSubject
-} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  SkyListViewGridMessage
-} from '../types/list-view-grid-message';
+import { SkyListViewGridMessage } from '../types/list-view-grid-message';
 
-import {
-  SkyListViewGridMessageType
-} from '../types/list-view-grid-message-type';
+import { SkyListViewGridMessageType } from '../types/list-view-grid-message-type';
 
-import {
-  SkyListViewGridRowDeleteCancelArgs
-} from '../types/list-view-grid-row-delete-cancel-args';
+import { SkyListViewGridRowDeleteCancelArgs } from '../types/list-view-grid-row-delete-cancel-args';
 
-import {
-  SkyListViewGridRowDeleteConfirmArgs
-} from '../types/list-view-grid-row-delete-confirm-args';
+import { SkyListViewGridRowDeleteConfirmArgs } from '../types/list-view-grid-row-delete-confirm-args';
 
-import {
-  SkyListViewGridComponent
-} from '../list-view-grid.component';
+import { SkyListViewGridComponent } from '../list-view-grid.component';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './list-view-grid.component.fixture.html'
+  templateUrl: './list-view-grid.component.fixture.html',
 })
 export class ListViewGridFixtureComponent implements OnInit {
   public hiddenColumns: string[] = ['hiddenCol1', 'hiddenCol2'];
@@ -75,7 +59,9 @@ export class ListViewGridFixtureComponent implements OnInit {
     }, 100);
   }
 
-  public multiselectSelectionChange(multiselectSelectionChange: SkyGridSelectedRowsModelChange) {
+  public multiselectSelectionChange(
+    multiselectSelectionChange: SkyGridSelectedRowsModelChange
+  ) {
     console.log(multiselectSelectionChange);
   }
 
@@ -84,9 +70,9 @@ export class ListViewGridFixtureComponent implements OnInit {
       type: SkyListViewGridMessageType.AbortDeleteRow,
       data: {
         abortDeleteRow: {
-          id: cancelArgs.id
-        }
-      }
+          id: cancelArgs.id,
+        },
+      },
     });
   }
 
@@ -95,13 +81,15 @@ export class ListViewGridFixtureComponent implements OnInit {
       type: SkyListViewGridMessageType.PromptDeleteRow,
       data: {
         promptDeleteRow: {
-          id: id
-        }
-      }
+          id: id,
+        },
+      },
     });
   }
 
-  public finishRowDelete(confirmArgs: SkyListViewGridRowDeleteConfirmArgs): void {
+  public finishRowDelete(
+    confirmArgs: SkyListViewGridRowDeleteConfirmArgs
+  ): void {
     return;
   }
 }

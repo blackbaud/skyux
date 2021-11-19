@@ -1,6 +1,4 @@
-<sky-list
-  [data]="data"
->
+<sky-list [data]="data">
   <sky-list-toolbar>
     <sky-list-column-selector-action
       helpKey="default.htm"
@@ -9,23 +7,9 @@
     >
     </sky-list-column-selector-action>
   </sky-list-toolbar>
-  <sky-list-view-grid
-    #grid
-  >
-    <sky-grid-column
-      field="name"
-      heading="Name"
-    >
-    </sky-grid-column>
-    <sky-grid-column
-      field="email"
-      heading="Email"
-    >
-    </sky-grid-column>
-    <sky-grid-column
-      field="amount"
-      heading="Amount"
-    >
-    </sky-grid-column>
+  <sky-list-view-grid #grid>
+    <sky-grid-column field="name" heading="Name"> </sky-grid-column>
+    <sky-grid-column field="email" heading="Email"> </sky-grid-column>
+    <sky-grid-column field="amount" heading="Amount"> </sky-grid-column>
   </sky-list-view-grid>
 </sky-list>

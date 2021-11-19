@@ -1,16 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import {
-  NoopAnimationsModule
-} from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import {
-  SkyGridModule
-} from '@skyux/grids';
-import {
-  SkyListModule
-} from '@skyux/list-builder';
+import { SkyGridModule } from '@skyux/grids';
+import { SkyListModule } from '@skyux/list-builder';
 
 import { SkyListViewGridModule } from '../list-view-grid.module';
 import { ListViewGridFixtureComponent } from './list-view-grid.component.fixture';
@@ -23,20 +17,20 @@ import { ListViewGridDynamicTestComponent } from './list-view-grid-dynamic.compo
     ListViewGridFixtureComponent,
     ListViewGridDisplayTestComponent,
     ListViewGridEmptyTestComponent,
-    ListViewGridDynamicTestComponent
+    ListViewGridDynamicTestComponent,
   ],
   imports: [
     CommonModule,
     SkyGridModule,
     SkyListViewGridModule,
     SkyListModule,
-    NoopAnimationsModule
+    NoopAnimationsModule,
   ],
   exports: [
     ListViewGridFixtureComponent,
     ListViewGridDisplayTestComponent,
     ListViewGridEmptyTestComponent,
-    ListViewGridDynamicTestComponent
-  ]
+    ListViewGridDynamicTestComponent,
+  ],
 })
-export class ListViewGridFixturesModule { }
+export class ListViewGridFixturesModule {}

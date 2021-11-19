@@ -1,6 +1,4 @@
-import {
-  DebugElement
-} from '@angular/core';
+import { DebugElement } from '@angular/core';
 
 /**
  * Properties of a list view grid cell.

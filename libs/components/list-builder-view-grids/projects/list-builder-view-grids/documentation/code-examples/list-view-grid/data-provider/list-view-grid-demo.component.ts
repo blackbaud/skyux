@@ -1,31 +1,19 @@
-import {
-  Component,
-  Injectable
-} from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 
-import {
-  ListItemModel
-} from '@skyux/list-builder-common';
+import { ListItemModel } from '@skyux/list-builder-common';
 
 import {
   ListDataProvider,
   ListDataRequestModel,
-  ListDataResponseModel
+  ListDataResponseModel,
 } from '@skyux/list-builder';
 
-import {
-  BehaviorSubject,
-  Observable,
-  of
-} from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
-import {
-  map
-} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class DemoListProvider extends ListDataProvider {
-
   public items: Observable<ListItemModel[]>;
 
   public remoteCount: BehaviorSubject<number> = new BehaviorSubject<number>(0);
@@ -41,19 +29,19 @@ export class DemoListProvider extends ListDataProvider {
           type: 'citrus',
           color: 'orange',
           highAcidity: 'True',
-          ph: 3.71
-        }
+          ph: 3.71,
+        },
       },
       {
         id: '1',
         data: {
           name: 'Mango',
-          description: 'Delicious in smoothies, but don\'t eat the skin.',
+          description: "Delicious in smoothies, but don't eat the skin.",
           type: 'other',
           color: 'orange',
           highAcidity: 'False',
-          ph: 5.92
-        }
+          ph: 5.92,
+        },
       },
       {
         id: '2',
@@ -63,8 +51,8 @@ export class DemoListProvider extends ListDataProvider {
           type: 'citrus',
           color: 'green',
           highAcidity: 'True',
-          ph: 2.50
-        }
+          ph: 2.5,
+        },
       },
       {
         id: '3',
@@ -74,8 +62,8 @@ export class DemoListProvider extends ListDataProvider {
           type: 'berry',
           color: 'red',
           highAcidity: 'True',
-          ph: 3.84
-        }
+          ph: 3.84,
+        },
       },
       {
         id: '4',
@@ -85,8 +73,8 @@ export class DemoListProvider extends ListDataProvider {
           type: 'berry',
           color: 'blue',
           highAcidity: 'True',
-          ph: 3.21
-        }
+          ph: 3.21,
+        },
       },
       {
         id: '5',
@@ -96,9 +84,9 @@ export class DemoListProvider extends ListDataProvider {
           type: 'other',
           color: 'black',
           highAcidity: 'False',
-          ph: 6.14
-        }
-      }
+          ph: 6.14,
+        },
+      },
     ]);
   }
 
@@ -114,73 +102,79 @@ export class DemoListProvider extends ListDataProvider {
     return this.remoteCount;
   }
 
-  private fakeHttpRequest(request: ListDataRequestModel): Observable<ListDataResponseModel> {
-    return this.items.pipe(map((items: ListItemModel[]) => {
-      let modifiedList = items;
+  private fakeHttpRequest(
+    request: ListDataRequestModel
+  ): Observable<ListDataResponseModel> {
+    return this.items.pipe(
+      map((items: ListItemModel[]) => {
+        let modifiedList = items;
 
-      if (request.search.searchText) {
-        let searchText = request.search.searchText.toLowerCase();
+        if (request.search.searchText) {
+          let searchText = request.search.searchText.toLowerCase();
 
-        modifiedList = modifiedList.filter((item) => {
-          return (
-            item.data.name.toLowerCase().indexOf(searchText) > -1 ||
-            item.data.description.toLowerCase().indexOf(searchText) > -1
-          );
+          modifiedList = modifiedList.filter((item) => {
+            return (
+              item.data.name.toLowerCase().indexOf(searchText) > -1 ||
+              item.data.description.toLowerCase().indexOf(searchText) > -1
+            );
+          });
+        }
+
+        if (request.filters) {
+          for (let filter of request.filters) {
+            if (filter.name === 'fruitType' && filter.value !== 'any') {
+              modifiedList = modifiedList.filter((item) => {
+                return item.data.type === request.filters[0].value;
+              });
+            } else if (filter.name === 'hideOrange' && filter.value) {
+              modifiedList = modifiedList.filter(filter.filterFunction);
+            }
+          }
+        }
+
+        if (request.sort) {
+          for (let fieldSelector of request.sort.fieldSelectors) {
+            if (fieldSelector.fieldSelector === 'highAcidity') {
+              modifiedList = modifiedList.sort((itemA: any, itemB: any) => {
+                if (fieldSelector.descending) {
+                  return itemA.data.ph < itemB.data.ph ? 1 : -1;
+                } else {
+                  return itemA.data.ph < itemB.data.ph ? -1 : 1;
+                }
+              });
+            }
+          }
+        }
+
+        let itemStart = (request.pageNumber - 1) * request.pageSize;
+        let pagedResult = modifiedList.slice(
+          itemStart,
+          itemStart + request.pageSize
+        );
+
+        this.remoteCount.next(modifiedList.length);
+
+        return new ListDataResponseModel({
+          count: modifiedList.length,
+          items: pagedResult,
         });
-      }
-
-      if (request.filters) {
-        for (let filter of request.filters) {
-          if (filter.name === 'fruitType' && filter.value !== 'any') {
-            modifiedList = modifiedList.filter((item) => {
-              return item.data.type === request.filters[0].value;
-            });
-          } else if (filter.name === 'hideOrange' && filter.value) {
-            modifiedList = modifiedList.filter(filter.filterFunction);
-          }
-        }
-      }
-
-      if (request.sort) {
-        for (let fieldSelector of request.sort.fieldSelectors) {
-          if (fieldSelector.fieldSelector === 'highAcidity') {
-            modifiedList = modifiedList.sort((itemA: any, itemB: any) => {
-              if (fieldSelector.descending) {
-                return itemA.data.ph < itemB.data.ph ? 1 : -1;
-              } else {
-                return itemA.data.ph < itemB.data.ph ? -1 : 1;
-              }
-            });
-          }
-        }
-      }
-
-      let itemStart = (request.pageNumber - 1) * request.pageSize;
-      let pagedResult = modifiedList.slice(itemStart, itemStart + request.pageSize);
-
-      this.remoteCount.next(modifiedList.length);
-
-      return new ListDataResponseModel({
-        count: modifiedList.length,
-        items: pagedResult
-      });
-    }));
+      })
+    );
   }
 }
 
 @Component({
   selector: 'app-list-view-grid-demo',
   templateUrl: './list-view-grid-demo.component.html',
-  providers: [DemoListProvider]
+  providers: [DemoListProvider],
 })
 export class ListViewGridDemoComponent {
+  constructor(public listDataProvider: DemoListProvider) {}
 
-  constructor(
-    public listDataProvider: DemoListProvider
-  ) { }
-
-  public hideOrangeFilterFunction(item: ListItemModel, filterValue: any): boolean {
+  public hideOrangeFilterFunction(
+    item: ListItemModel,
+    filterValue: any
+  ): boolean {
     return !filterValue || (filterValue && item.data.color !== 'orange');
   }
-
 }

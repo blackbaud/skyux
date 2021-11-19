@@ -3,30 +3,19 @@ import {
   fakeAsync,
   inject,
   tick,
-  TestBed
+  TestBed,
 } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import {
-  RouterTestingModule
-} from '@angular/router/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
-import {
-  expect, expectAsync
-} from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import {
-  SkyModalModule,
-  SkyModalService
-} from '@skyux/modals';
+import { SkyModalModule, SkyModalService } from '@skyux/modals';
 
-import {
-  SkyColumnSelectorModule
-} from './column-selector-modal.module';
+import { SkyColumnSelectorModule } from './column-selector-modal.module';
 
-import {
-  ColumnSelectorTestComponent
-} from './fixtures/column-selector-modal.component.fixture';
+import { ColumnSelectorTestComponent } from './fixtures/column-selector-modal.component.fixture';
 
 describe('Column selector component', () => {
   let fixture: ComponentFixture<ColumnSelectorTestComponent>;
@@ -35,15 +24,13 @@ describe('Column selector component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ColumnSelectorTestComponent
-      ],
+      declarations: [ColumnSelectorTestComponent],
       imports: [
         NoopAnimationsModule,
         RouterTestingModule,
         SkyColumnSelectorModule,
-        SkyModalModule
-      ]
+        SkyModalModule,
+      ],
     });
 
     fixture = TestBed.createComponent(ColumnSelectorTestComponent);
@@ -51,44 +38,36 @@ describe('Column selector component', () => {
     component = fixture.componentInstance;
   });
 
-  afterEach(
-    inject(
-      [
-        SkyModalService
-      ],
-      (
-        _modalService: SkyModalService
-      ) => {
-        _modalService.dispose();
-        fixture.detectChanges();
-      }
-    )
-  );
+  afterEach(inject([SkyModalService], (_modalService: SkyModalService) => {
+    _modalService.dispose();
+    fixture.detectChanges();
+  }));
 
   it('should render a checklist with column headers and descriptions', fakeAsync(() => {
-
     nativeElement.querySelector('button').click();
     fixture.detectChanges();
     tick();
-    let checklistItemQuery = '.sky-modal .sky-list-view-checklist-item sky-checkbox-label';
+    let checklistItemQuery =
+      '.sky-modal .sky-list-view-checklist-item sky-checkbox-label';
 
-    expect(document.body.querySelector(checklistItemQuery).querySelector('.sky-emphasized'))
-      .toHaveText('Column 1');
+    expect(
+      document.body
+        .querySelector(checklistItemQuery)
+        .querySelector('.sky-emphasized')
+    ).toHaveText('Column 1');
 
-    expect(document.body.querySelector(checklistItemQuery).querySelectorAll('div')[1])
-      .toHaveText('Column 1 desc');
+    expect(
+      document.body.querySelector(checklistItemQuery).querySelectorAll('div')[1]
+    ).toHaveText('Column 1 desc');
 
-    let closeButton = document.body.querySelector('.sky-modal-btn-close') as HTMLButtonElement;
+    let closeButton = document.body.querySelector(
+      '.sky-modal-btn-close'
+    ) as HTMLButtonElement;
     closeButton.click();
 
     fixture.detectChanges();
     tick();
-    expect(component.selectedColumnIds).toEqual([
-      '1',
-      '2',
-      '3'
-    ]);
-
+    expect(component.selectedColumnIds).toEqual(['1', '2', '3']);
   }));
 
   it('should save appropriate data when save clicked', fakeAsync(() => {
@@ -97,23 +76,22 @@ describe('Column selector component', () => {
 
     tick();
 
-    let checkboxLabelEl =
-      document.querySelector('.sky-modal .sky-list-view-checklist-item input') as HTMLElement;
+    let checkboxLabelEl = document.querySelector(
+      '.sky-modal .sky-list-view-checklist-item input'
+    ) as HTMLElement;
     checkboxLabelEl.click();
 
     tick();
     fixture.detectChanges();
 
-    let submitButtonEl =
-      document.querySelector('.sky-modal .sky-btn-primary') as HTMLButtonElement;
+    let submitButtonEl = document.querySelector(
+      '.sky-modal .sky-btn-primary'
+    ) as HTMLButtonElement;
 
     submitButtonEl.click();
     fixture.detectChanges();
     tick();
-    expect(component.selectedColumnIds).toEqual([
-      '2',
-      '3'
-    ]);
+    expect(component.selectedColumnIds).toEqual(['2', '3']);
   }));
 
   it('should close with appropriate no data when cancel clicked', fakeAsync(() => {
@@ -122,24 +100,22 @@ describe('Column selector component', () => {
 
     tick();
 
-    let checkboxLabelEl =
-      document.querySelector('.sky-modal .sky-list-view-checklist-item input') as HTMLElement;
+    let checkboxLabelEl = document.querySelector(
+      '.sky-modal .sky-list-view-checklist-item input'
+    ) as HTMLElement;
     checkboxLabelEl.click();
 
     tick();
     fixture.detectChanges();
 
-    let cancelButtonEl =
-      document.querySelector('.sky-modal [sky-cmp-id="cancel"]') as HTMLButtonElement;
+    let cancelButtonEl = document.querySelector(
+      '.sky-modal [sky-cmp-id="cancel"]'
+    ) as HTMLButtonElement;
 
     cancelButtonEl.click();
     fixture.detectChanges();
     tick();
-    expect(component.selectedColumnIds).toEqual([
-      '1',
-      '2',
-      '3'
-    ]);
+    expect(component.selectedColumnIds).toEqual(['1', '2', '3']);
   }));
 
   it('should pass accessibility', async () => {

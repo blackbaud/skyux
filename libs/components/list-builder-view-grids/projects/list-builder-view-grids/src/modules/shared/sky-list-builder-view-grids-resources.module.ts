@@ -12,14 +12,27 @@ import {
   SkyI18nModule,
   SkyLibResources,
   SkyLibResourcesProvider,
-  SKY_LIB_RESOURCES_PROVIDERS
+  SKY_LIB_RESOURCES_PROVIDERS,
 } from '@skyux/i18n';
 
 const RESOURCES: { [locale: string]: SkyLibResources } = {
-  'EN-US': {"skyux_grid_column_picker_cancel":{"message":"Cancel"},"skyux_grid_column_picker_header":{"message":"Choose columns to show in the list"},"skyux_grid_column_picker_search_placeholder":{"message":"Search for columns"},"skyux_grid_column_picker_submit":{"message":"Apply changes"},"skyux_grid_columns_button":{"message":"Choose columns"},"skyux_grid_columns_toolbar_button":{"message":"Columns"}},
+  'EN-US': {
+    skyux_grid_column_picker_cancel: { message: 'Cancel' },
+    skyux_grid_column_picker_header: {
+      message: 'Choose columns to show in the list',
+    },
+    skyux_grid_column_picker_search_placeholder: {
+      message: 'Search for columns',
+    },
+    skyux_grid_column_picker_submit: { message: 'Apply changes' },
+    skyux_grid_columns_button: { message: 'Choose columns' },
+    skyux_grid_columns_toolbar_button: { message: 'Columns' },
+  },
 };
 
-export class SkyListBuilderViewGridsResourcesProvider implements SkyLibResourcesProvider {
+export class SkyListBuilderViewGridsResourcesProvider
+  implements SkyLibResourcesProvider
+{
   public getString(localeInfo: SkyAppLocaleInfo, name: string): string {
     return getLibStringForLocale(RESOURCES, localeInfo.locale, name);
   }
@@ -30,10 +43,12 @@ export class SkyListBuilderViewGridsResourcesProvider implements SkyLibResources
  */
 @NgModule({
   exports: [SkyI18nModule],
-  providers: [{
-    provide: SKY_LIB_RESOURCES_PROVIDERS,
-    useClass: SkyListBuilderViewGridsResourcesProvider,
-    multi: true
-  }]
+  providers: [
+    {
+      provide: SKY_LIB_RESOURCES_PROVIDERS,
+      useClass: SkyListBuilderViewGridsResourcesProvider,
+      multi: true,
+    },
+  ],
 })
-export class SkyListBuilderViewGridsResourcesModule { }
+export class SkyListBuilderViewGridsResourcesModule {}

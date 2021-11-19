@@ -1,18 +1,12 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {
-  SkyModalInstance
-} from '@skyux/modals';
+import { SkyModalInstance } from '@skyux/modals';
 
-import {
-  SkyColumnSelectorContext
-} from './column-selector-context';
+import { SkyColumnSelectorContext } from './column-selector-context';
 
 @Component({
   selector: 'sky-column-selector',
-  templateUrl: './column-selector-modal.component.html'
+  templateUrl: './column-selector-modal.component.html',
 })
 export class SkyColumnSelectorComponent {
   public newSelectedColumnIds: Array<string> = [];

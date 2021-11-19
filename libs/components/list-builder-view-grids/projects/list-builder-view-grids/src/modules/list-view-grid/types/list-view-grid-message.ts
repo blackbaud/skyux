@@ -1,6 +1,4 @@
-import {
-  SkyListViewGridMessageType
-} from './list-view-grid-message-type';
+import { SkyListViewGridMessageType } from './list-view-grid-message-type';
 
 /**
  * Communicates commands to the list view grid.
@@ -17,9 +15,9 @@ export interface SkyListViewGridMessage {
   data?: {
     abortDeleteRow?: {
       id: string;
-    },
+    };
     promptDeleteRow?: {
       id: string;
-    }
+    };
   };
 }

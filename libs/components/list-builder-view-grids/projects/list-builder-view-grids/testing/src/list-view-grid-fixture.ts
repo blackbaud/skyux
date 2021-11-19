@@ -1,42 +1,24 @@
-import {
-  ComponentFixture
-} from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
 
-import {
-  DebugElement
-} from '@angular/core';
+import { DebugElement } from '@angular/core';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  SkyListViewGridFixtureCell
-} from './list-view-grid-fixture-cell';
+import { SkyListViewGridFixtureCell } from './list-view-grid-fixture-cell';
 
-import {
-  SkyListViewGridFixtureHeader
-} from './list-view-grid-fixture-header';
+import { SkyListViewGridFixtureHeader } from './list-view-grid-fixture-header';
 
-import {
-  SkyListViewGridFixtureRow
-} from './list-view-grid-fixture-row';
+import { SkyListViewGridFixtureRow } from './list-view-grid-fixture-row';
 
 /**
  * Allows interaction with a SKY UX list view grid component.
  */
 export class SkyListViewGridFixture {
-
   private debugEl: DebugElement;
 
-  constructor(
-    fixture: ComponentFixture<any>,
-    skyTestId: string
-  ) {
+  constructor(fixture: ComponentFixture<any>, skyTestId: string) {
     this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
@@ -56,13 +38,13 @@ export class SkyListViewGridFixture {
       (cellEl: DebugElement) => {
         return {
           el: cellEl,
-          textContent: SkyAppTestUtility.getText(cellEl)
+          textContent: SkyAppTestUtility.getText(cellEl),
         };
       }
     );
 
     return {
-      cells: rowCells
+      cells: rowCells,
     };
   }
 
@@ -84,8 +66,10 @@ export class SkyListViewGridFixture {
     }
 
     return {
-      locked: headerEl.nativeElement.classList.contains('sky-grid-header-locked'),
-      textContent: SkyAppTestUtility.getText(headerEl)
+      locked: headerEl.nativeElement.classList.contains(
+        'sky-grid-header-locked'
+      ),
+      textContent: SkyAppTestUtility.getText(headerEl),
     };
   }
 
@@ -116,5 +100,4 @@ export class SkyListViewGridFixture {
   private getCellEls(rowEl: DebugElement) {
     return rowEl.queryAll(By.css('.sky-grid-cell sky-grid-cell'));
   }
-
 }

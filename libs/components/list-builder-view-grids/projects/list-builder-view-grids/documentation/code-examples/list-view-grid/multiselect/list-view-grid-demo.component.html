@@ -1,26 +1,8 @@
-<sky-list
-  [data]="data"
-  (selectedIdsChange)="onSelectedIdsChange($event)"
->
+<sky-list [data]="data" (selectedIdsChange)="onSelectedIdsChange($event)">
   <sky-list-toolbar></sky-list-toolbar>
-  <sky-list-view-grid
-    [enableMultiselect]="true"
-    #grid
-  >
-    <sky-grid-column
-      field="name"
-      heading="Name"
-    >
-    </sky-grid-column>
-    <sky-grid-column
-      field="email"
-      heading="Email"
-    >
-    </sky-grid-column>
-    <sky-grid-column
-      field="amount"
-      heading="Amount"
-    >
-    </sky-grid-column>
+  <sky-list-view-grid [enableMultiselect]="true" #grid>
+    <sky-grid-column field="name" heading="Name"> </sky-grid-column>
+    <sky-grid-column field="email" heading="Email"> </sky-grid-column>
+    <sky-grid-column field="amount" heading="Amount"> </sky-grid-column>
   </sky-list-view-grid>
 </sky-list>

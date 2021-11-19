@@ -1,3 +1,7 @@
+# 5.0.1 (2021-11-19)
+
+- Added support for Prettier code formatting and updated the builder to support StackBlitz. [#104](https://github.com/blackbaud/skyux-list-builder-view-grids/pull/104)
+
 # 5.0.0 (2021-10-01)
 
 ### New features

@@ -1,45 +1,29 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  SkyWaitModule
-} from '@skyux/indicators';
+import { SkyWaitModule } from '@skyux/indicators';
 
-import {
-  SkyGridModule
-} from '@skyux/grids';
+import { SkyGridModule } from '@skyux/grids';
 
-import {
-  SkyListBuilderViewGridsResourcesModule
-} from '../shared/sky-list-builder-view-grids-resources.module';
+import { SkyListBuilderViewGridsResourcesModule } from '../shared/sky-list-builder-view-grids-resources.module';
 
-import {
-  SkyListColumnSelectorActionModule
-} from '../list-column-selector-action/list-column-selector-action.module';
+import { SkyListColumnSelectorActionModule } from '../list-column-selector-action/list-column-selector-action.module';
 
-import {
-  SkyListViewGridComponent
-} from './list-view-grid.component';
+import { SkyListViewGridComponent } from './list-view-grid.component';
 
 @NgModule({
-  declarations: [
-    SkyListViewGridComponent
-  ],
+  declarations: [SkyListViewGridComponent],
   imports: [
     CommonModule,
     SkyWaitModule,
     SkyGridModule,
-    SkyListBuilderViewGridsResourcesModule
+    SkyListBuilderViewGridsResourcesModule,
   ],
   exports: [
     SkyListViewGridComponent,
     SkyListColumnSelectorActionModule,
-    SkyGridModule
-  ]
+    SkyGridModule,
+  ],
 })
-export class SkyListViewGridModule { }
+export class SkyListViewGridModule {}

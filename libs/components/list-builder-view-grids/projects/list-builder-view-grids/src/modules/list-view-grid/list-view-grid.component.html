@@ -5,7 +5,9 @@
     [enableMultiselect]="enableMultiselect"
     [fit]="fit"
     [height]="gridHeight | async"
-    [highlightText]="highlightSearchText ? (currentSearchText | async) : undefined"
+    [highlightText]="
+      highlightSearchText ? (currentSearchText | async) : undefined
+    "
     [rowHighlightedId]="rowHighlightedId"
     [messageStream]="gridMessageStream"
     [selectedColumnIds]="selectedColumnIds | async"
@@ -21,8 +23,5 @@
     #skyGrid
   >
   </sky-grid>
-  <sky-wait
-    [isWaiting]="loading | async"
-  >
-  </sky-wait>
+  <sky-wait [isWaiting]="loading | async"> </sky-wait>
 </div>

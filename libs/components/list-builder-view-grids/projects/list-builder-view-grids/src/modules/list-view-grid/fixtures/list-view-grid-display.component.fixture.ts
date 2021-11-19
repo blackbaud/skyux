@@ -1,13 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
 import { SkyListViewGridComponent } from '../list-view-grid.component';
 
-import {
-  ListItemModel
-} from '@skyux/list-builder-common';
+import { ListItemModel } from '@skyux/list-builder-common';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './list-view-grid-display.component.fixture.html'
+  templateUrl: './list-view-grid-display.component.fixture.html',
 })
 export class ListViewGridDisplayTestComponent {
   public displayedColumns: Array<string> = ['column3', 'column4'];

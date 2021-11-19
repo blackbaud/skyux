@@ -1,14 +1,11 @@
 <sky-list [data]="items" [defaultView]="grid">
-  <sky-list-toolbar
-    [searchEnabled]="true"
-    [searchText]="searchText"
-  >
-  <sky-list-column-selector-action
-    [gridView]="grid"
-    [helpKey]="helpKey"
-    (helpOpened)="onHelpOpened($event)"
-  >
-  </sky-list-column-selector-action>
+  <sky-list-toolbar [searchEnabled]="true" [searchText]="searchText">
+    <sky-list-column-selector-action
+      [gridView]="grid"
+      [helpKey]="helpKey"
+      (helpOpened)="onHelpOpened($event)"
+    >
+    </sky-list-column-selector-action>
   </sky-list-toolbar>
 
   <sky-list-view-grid fit="scroll" #grid>
@@ -16,17 +13,20 @@
       [locked]="true"
       field="column1"
       heading="Column1"
-      description="A numbered column">
+      description="A numbered column"
+    >
     </sky-grid-column>
     <sky-grid-column
       field="column2"
       heading="Column2"
-      description="A fruit column">
+      description="A fruit column"
+    >
     </sky-grid-column>
     <sky-grid-column
       field="column3"
       heading="Column3"
-      description="A sentence column">
+      description="A sentence column"
+    >
     </sky-grid-column>
   </sky-list-view-grid>
 </sky-list>
