@@ -3,22 +3,14 @@ import {
   fakeAsync,
   flush,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
-import {
-  expect,
-  expectAsync,
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  SkyTreeViewFixtureComponent
-} from './fixtures/tree-view.fixture.component';
+import { SkyTreeViewFixtureComponent } from './fixtures/tree-view.fixture.component';
 
-import {
-  SkyTreeViewFixturesModule
-} from './fixtures/tree-view.fixture.module';
+import { SkyTreeViewFixturesModule } from './fixtures/tree-view.fixture.module';
 
 describe('tree view', () => {
   let component: SkyTreeViewFixtureComponent;
@@ -34,11 +26,15 @@ describe('tree view', () => {
   }
 
   function getSelectAllButton(): HTMLElement {
-    return document.querySelector('.sky-angular-tree-select-all-btn') as HTMLElement;
+    return document.querySelector(
+      '.sky-angular-tree-select-all-btn'
+    ) as HTMLElement;
   }
 
   function getClearAllButton(): HTMLElement {
-    return document.querySelector('.sky-angular-tree-clear-all-btn') as HTMLElement;
+    return document.querySelector(
+      '.sky-angular-tree-clear-all-btn'
+    ) as HTMLElement;
   }
 
   function getSkyCheckboxes(): NodeListOf<HTMLElement> {
@@ -50,15 +46,21 @@ describe('tree view', () => {
   }
 
   function getExpandAllButton(): HTMLElement {
-    return document.querySelector('.sky-angular-tree-expand-all-btn') as HTMLElement;
+    return document.querySelector(
+      '.sky-angular-tree-expand-all-btn'
+    ) as HTMLElement;
   }
 
   function getCollapseAllButton(): HTMLElement {
-    return document.querySelector('.sky-angular-tree-collapse-all-btn') as HTMLElement;
+    return document.querySelector(
+      '.sky-angular-tree-collapse-all-btn'
+    ) as HTMLElement;
   }
 
   function getToggleChildrenButtons(): NodeListOf<HTMLElement> {
-    return document.querySelectorAll('.sky-toggle-children') as NodeListOf<HTMLElement>;
+    return document.querySelectorAll(
+      '.sky-toggle-children'
+    ) as NodeListOf<HTMLElement>;
   }
 
   function getNodeContentWrappers(): NodeListOf<HTMLElement> {
@@ -113,16 +115,23 @@ describe('tree view', () => {
     const nodeWrappers = getNodeWrappers();
 
     if (selected) {
-      expect(nodeWrappers[nodeIndex - 1]).toHaveCssClass('sky-angular-tree-node-selected');
+      expect(nodeWrappers[nodeIndex - 1]).toHaveCssClass(
+        'sky-angular-tree-node-selected'
+      );
       expect(component.selectedLeafNodeIds[nodeIndex]).toEqual(true);
     } else {
-      expect(nodeWrappers[nodeIndex - 1]).not.toHaveCssClass('sky-angular-tree-node-selected');
+      expect(nodeWrappers[nodeIndex - 1]).not.toHaveCssClass(
+        'sky-angular-tree-node-selected'
+      );
       expect(!!component.selectedLeafNodeIds[nodeIndex]).toEqual(false);
     }
   }
 
   // nodeIndex should use 1-based indexes!
-  function expectCheckboxToBeChecked(nodeIndex: number, selected: boolean): void {
+  function expectCheckboxToBeChecked(
+    nodeIndex: number,
+    selected: boolean
+  ): void {
     const checkboxInputs = getCheckboxInputs();
     expect(checkboxInputs[nodeIndex - 1].checked).toEqual(selected);
   }
@@ -131,7 +140,7 @@ describe('tree view', () => {
     component.showToolbar = true;
     component.options = {
       useCheckbox: true,
-      useTriState: true
+      useTriState: true,
     };
   }
 
@@ -139,7 +148,7 @@ describe('tree view', () => {
     component.showToolbar = true;
     component.options = {
       useCheckbox: true,
-      useTriState: false
+      useTriState: false,
     };
   }
 
@@ -157,15 +166,19 @@ describe('tree view', () => {
     component.readOnly = true;
   }
 
-  function keyDownOnElement(node: HTMLElement, eventName: string, keyCode: number): void {
+  function keyDownOnElement(
+    node: HTMLElement,
+    eventName: string,
+    keyCode: number
+  ): void {
     // Note: We have to use a customEventInit, because the angular-tree-component library goess off of keyCode,
     // which the keyboardEventInit doesn't support yet :( .
     SkyAppTestUtility.fireDomEvent(node, 'keydown', {
       customEventInit: {
         key: eventName,
         keyCode: keyCode,
-        which: keyCode
-      }
+        which: keyCode,
+      },
     });
     fixture.detectChanges();
   }
@@ -173,12 +186,12 @@ describe('tree view', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyTreeViewFixturesModule
-      ]
+      imports: [SkyTreeViewFixturesModule],
     });
 
-    fixture = TestBed.createComponent(SkyTreeViewFixtureComponent) as ComponentFixture<SkyTreeViewFixtureComponent>;
+    fixture = TestBed.createComponent(
+      SkyTreeViewFixtureComponent
+    ) as ComponentFixture<SkyTreeViewFixtureComponent>;
     component = fixture.componentInstance as SkyTreeViewFixtureComponent;
   });
 
@@ -186,8 +199,14 @@ describe('tree view', () => {
     it('should show toggle children buttons for parent nodes', () => {
       fixture.detectChanges();
       const toggleChildrenButtons = getToggleChildrenButtons();
-      const unitedStates = toggleChildrenButtons[0].parentElement.parentElement.querySelector('tree-node-content');
-      const indiana = toggleChildrenButtons[1].parentElement.parentElement.querySelector('tree-node-content');
+      const unitedStates =
+        toggleChildrenButtons[0].parentElement.parentElement.querySelector(
+          'tree-node-content'
+        );
+      const indiana =
+        toggleChildrenButtons[1].parentElement.parentElement.querySelector(
+          'tree-node-content'
+        );
 
       expect(toggleChildrenButtons.length).toEqual(2);
       expect(unitedStates).toBeDefined();
@@ -218,11 +237,15 @@ describe('tree view', () => {
       fixture.detectChanges();
       const toggleChildrenButtons = getToggleChildrenButtons();
 
-      expect(toggleChildrenButtons[0].querySelector('i')).toHaveCssClass('fa-chevron-down');
+      expect(toggleChildrenButtons[0].querySelector('i')).toHaveCssClass(
+        'fa-chevron-down'
+      );
 
       toggleChildrenButtons[0].click();
 
-      expect(toggleChildrenButtons[0].querySelector('i')).toHaveCssClass('fa-chevron-right');
+      expect(toggleChildrenButtons[0].querySelector('i')).toHaveCssClass(
+        'fa-chevron-right'
+      );
     });
   });
 
@@ -246,7 +269,7 @@ describe('tree view', () => {
     it('should hide select all / clear all buttons when useCheckbox is false', () => {
       component.showToolbar = true;
       component.options = {
-        useCheckbox: false
+        useCheckbox: false,
       };
       fixture.detectChanges();
       const selectAllButton = getSelectAllButton();
@@ -322,8 +345,14 @@ describe('tree view', () => {
     it('should send proper commands to API when expand all / collapse all buttons are clicked', () => {
       component.showToolbar = true;
       fixture.detectChanges();
-      const expandSpy = spyOn(component.treeComponent.treeModel, 'expandAll').and.callThrough();
-      const collapseSpy = spyOn(component.treeComponent.treeModel, 'collapseAll').and.callThrough();
+      const expandSpy = spyOn(
+        component.treeComponent.treeModel,
+        'expandAll'
+      ).and.callThrough();
+      const collapseSpy = spyOn(
+        component.treeComponent.treeModel,
+        'collapseAll'
+      ).and.callThrough();
 
       clickExpand();
       expect(expandSpy).toHaveBeenCalledTimes(1);
@@ -356,7 +385,7 @@ describe('tree view', () => {
   describe('select mode', () => {
     it('should show sky-checkboxes when useCheckbox is true', () => {
       component.options = {
-        useCheckbox: true
+        useCheckbox: true,
       };
       fixture.detectChanges();
       const checkboxes = getSkyCheckboxes();
@@ -366,7 +395,7 @@ describe('tree view', () => {
 
     it('should not show sky-checkboxes when useCheckbox is false', () => {
       component.options = {
-        useCheckbox: false
+        useCheckbox: false,
       };
       fixture.detectChanges();
       const skyCheckboxes = getSkyCheckboxes();
@@ -616,7 +645,7 @@ describe('tree view', () => {
       fixture.detectChanges();
       const expectedExpandedNodeIds = {
         1: true,
-        3: true
+        3: true,
       };
       const expectedActiveNodeIds = {};
 
@@ -665,10 +694,12 @@ describe('tree view', () => {
     it('should retain focus when select all is clicked', fakeAsync(() => {
       setupCascadingMode();
       fixture.detectChanges();
-      const expectedFocusedNode = component.treeComponent.treeModel.getFocusedNode();
+      const expectedFocusedNode =
+        component.treeComponent.treeModel.getFocusedNode();
 
       clickSelectAll();
-      const actualFocusedNode = component.treeComponent.treeModel.getFocusedNode();
+      const actualFocusedNode =
+        component.treeComponent.treeModel.getFocusedNode();
 
       expect(actualFocusedNode).toEqual(expectedFocusedNode);
 
@@ -679,10 +710,12 @@ describe('tree view', () => {
     it('should retain focus when clear all is clicked', fakeAsync(() => {
       setupCascadingMode();
       fixture.detectChanges();
-      const expectedFocusedNode = component.treeComponent.treeModel.getFocusedNode();
+      const expectedFocusedNode =
+        component.treeComponent.treeModel.getFocusedNode();
 
       clickClearAll();
-      const actualFocusedNode = component.treeComponent.treeModel.getFocusedNode();
+      const actualFocusedNode =
+        component.treeComponent.treeModel.getFocusedNode();
 
       expect(actualFocusedNode).toEqual(expectedFocusedNode);
 
@@ -874,7 +907,9 @@ describe('tree view', () => {
       component.showContextMenus = true;
       fixture.detectChanges();
       tick(1000); // Allow angular-tree-node-component to set tabindexes & render context dropdown.
-      const dropdownButtons = document.querySelectorAll('.sky-dropdown-button') as NodeListOf<HTMLButtonElement>;
+      const dropdownButtons = document.querySelectorAll(
+        '.sky-dropdown-button'
+      ) as NodeListOf<HTMLButtonElement>;
 
       expect(dropdownButtons[0].tabIndex).toEqual(-1);
       expect(dropdownButtons[1].tabIndex).toEqual(-1);
@@ -891,7 +926,9 @@ describe('tree view', () => {
       component.showContextMenus = true;
       fixture.detectChanges();
       tick(1000); // Allow angular-tree-node-component to set tabindexes & render context dropdown.
-      const dropdownButtons = document.querySelectorAll('.sky-dropdown-button') as NodeListOf<HTMLButtonElement>;
+      const dropdownButtons = document.querySelectorAll(
+        '.sky-dropdown-button'
+      ) as NodeListOf<HTMLButtonElement>;
       const checkboxInputs = getCheckboxInputs();
       const nodes = getNodeContentWrappers();
 
@@ -929,7 +966,9 @@ describe('tree view', () => {
       component.showContextMenus = true;
       fixture.detectChanges();
       tick(1000); // Allow angular-tree-node-component to set tabindexes & render context dropdown.
-      const dropdownButtons = document.querySelectorAll('.sky-dropdown-button') as NodeListOf<HTMLButtonElement>;
+      const dropdownButtons = document.querySelectorAll(
+        '.sky-dropdown-button'
+      ) as NodeListOf<HTMLButtonElement>;
       const checkboxInputs = getCheckboxInputs();
       const nodes = getNodeContentWrappers();
 
@@ -1042,7 +1081,9 @@ describe('tree view', () => {
       setupNonCascadingMode();
       fixture.detectChanges();
       tick(1000); // Allow angular-tree-node-component to set tabindexes & render context dropdown.
-      const dropdownButtons = document.querySelectorAll('.sky-dropdown-button') as NodeListOf<HTMLButtonElement>;
+      const dropdownButtons = document.querySelectorAll(
+        '.sky-dropdown-button'
+      ) as NodeListOf<HTMLButtonElement>;
       const nodes = getNodeContentWrappers();
 
       // Set focus on first dropdown.
@@ -1056,7 +1097,9 @@ describe('tree view', () => {
       fixture.detectChanges();
       tick();
       const dropdownMenu = document.querySelector('.sky-dropdown-menu');
-      const dropdownItems = document.querySelectorAll('.sky-dropdown-item') as NodeListOf<HTMLElement>;
+      const dropdownItems = document.querySelectorAll(
+        '.sky-dropdown-item'
+      ) as NodeListOf<HTMLElement>;
 
       // Expect node NOT to be selected.
       expectNodeToBeSelected(1, false);
@@ -1078,7 +1121,9 @@ describe('tree view', () => {
       setupNonCascadingMode();
       fixture.detectChanges();
       tick(1000); // Allow angular-tree-node-component to set tabindexes & render context dropdown.
-      const dropdownButtons = document.querySelectorAll('.sky-dropdown-button') as NodeListOf<HTMLButtonElement>;
+      const dropdownButtons = document.querySelectorAll(
+        '.sky-dropdown-button'
+      ) as NodeListOf<HTMLButtonElement>;
       const nodes = getNodeContentWrappers();
 
       // Open fourth dropdown with arrow keys.
@@ -1093,7 +1138,9 @@ describe('tree view', () => {
       expect(component.focusedNodeId).toEqual(4);
 
       // Navigate down context menu with arrow keys.
-      const dropdownItems = document.querySelectorAll('.sky-dropdown-item') as NodeListOf<HTMLElement>;
+      const dropdownItems = document.querySelectorAll(
+        '.sky-dropdown-item'
+      ) as NodeListOf<HTMLElement>;
       keyDownOnElement(dropdownItems[0], 'ArrowDown', 40);
 
       // Expect fourth node to still be focused.
@@ -1110,8 +1157,7 @@ describe('tree view', () => {
     }));
   });
 
-  describe('accessibility', (() => {
-
+  describe('accessibility', () => {
     it('should have role="tree" on tree wrapper', () => {
       fixture.detectChanges();
       const tree = getTreeWrapper();
@@ -1124,7 +1170,7 @@ describe('tree view', () => {
       const nodes = document.querySelectorAll('.node-content-wrapper');
 
       const nodeList: Array<Element> = Array.prototype.slice.call(nodes);
-      nodeList.forEach(node => {
+      nodeList.forEach((node) => {
         expect(node.getAttribute('role')).toEqual('treeitem');
       });
     });
@@ -1133,8 +1179,9 @@ describe('tree view', () => {
       fixture.detectChanges();
       const childrenWrappers = document.querySelectorAll('tree-node-children');
 
-      const wrappersList: Array<Element> = Array.prototype.slice.call(childrenWrappers);
-      wrappersList.forEach(wrapper => {
+      const wrappersList: Array<Element> =
+        Array.prototype.slice.call(childrenWrappers);
+      wrappersList.forEach((wrapper) => {
         expect(wrapper.getAttribute('role')).toEqual('group');
       });
     });
@@ -1307,5 +1354,5 @@ describe('tree view', () => {
         await expectAsync(fixture.nativeElement).toBeAccessible();
       });
     });
-  }));
+  });
 });

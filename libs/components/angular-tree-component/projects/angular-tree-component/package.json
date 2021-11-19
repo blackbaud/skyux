@@ -1,12 +1,12 @@
 {
   "name": "@skyux/angular-tree-component",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "peerDependencies": {
-    "@angular/common": "^12.2.11",
-    "@angular/core": "^12.2.11",
-    "@skyux/core": "^5.0.0",
-    "@skyux/i18n": "^5.0.0",
-    "@skyux/indicators": "^5.0.0",
+    "@angular/common": "^12.2.13",
+    "@angular/core": "^12.2.13",
+    "@skyux/core": "^5.1.1",
+    "@skyux/i18n": "^5.0.1",
+    "@skyux/indicators": "^5.0.2",
     "@skyux/layout": "^5.0.0",
     "@circlon/angular-tree-component": "^11.0.0"
   },

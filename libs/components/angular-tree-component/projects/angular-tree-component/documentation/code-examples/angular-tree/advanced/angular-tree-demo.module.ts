@@ -1,39 +1,20 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  ReactiveFormsModule
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import {
-  SkyAngularTreeModule
-} from 'projects/angular-tree-component/src/public-api';
+import { SkyAngularTreeModule } from 'projects/angular-tree-component/src/public-api';
 
-import {
-  SkyCheckboxModule,
-  SkyRadioModule
-} from '@skyux/forms';
+import { SkyCheckboxModule, SkyRadioModule } from '@skyux/forms';
 
-import {
-  SkyFluidGridModule
-} from '@skyux/layout';
+import { SkyFluidGridModule } from '@skyux/layout';
 
-import {
-  SkyDropdownModule
-} from '@skyux/popovers';
+import { SkyDropdownModule } from '@skyux/popovers';
 
-import {
-  TreeModule
-} from '@circlon/angular-tree-component';
+import { TreeModule } from '@circlon/angular-tree-component';
 
-import {
-  AngularTreeDemoComponent
-} from './angular-tree-demo.component';
+import { AngularTreeDemoComponent } from './angular-tree-demo.component';
 
 @NgModule({
   imports: [
@@ -44,13 +25,9 @@ import {
     SkyDropdownModule,
     SkyFluidGridModule,
     SkyRadioModule,
-    TreeModule
+    TreeModule,
   ],
-  declarations: [
-    AngularTreeDemoComponent
-  ],
-  exports: [
-    AngularTreeDemoComponent
-  ]
+  declarations: [AngularTreeDemoComponent],
+  exports: [AngularTreeDemoComponent],
 })
-export class AngularTreeDemoModule { }
+export class AngularTreeDemoModule {}

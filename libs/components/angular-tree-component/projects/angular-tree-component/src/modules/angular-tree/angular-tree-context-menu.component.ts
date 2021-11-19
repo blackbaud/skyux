@@ -1,7 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * @internal
@@ -9,7 +6,6 @@ import {
 @Component({
   selector: 'sky-angular-tree-context-menu',
   templateUrl: './angular-tree-context-menu.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyAngularTreeContextMenuComponent {
-}
+export class SkyAngularTreeContextMenuComponent {}

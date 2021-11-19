@@ -1,57 +1,33 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  SkyCoreAdapterService
-} from '@skyux/core';
+import { SkyCoreAdapterService } from '@skyux/core';
 
-import {
-  SkyCheckboxModule
-} from '@skyux/forms';
+import { SkyCheckboxModule } from '@skyux/forms';
 
-import {
-  SkyIconModule
-} from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/indicators';
 
-import {
-  SkyToolbarModule
-} from '@skyux/layout';
+import { SkyToolbarModule } from '@skyux/layout';
 
-import {
-  TreeModule
-} from '@circlon/angular-tree-component';
+import { TreeModule } from '@circlon/angular-tree-component';
 
-import {
-  SkyAngularTreeComponentResourcesModule
-} from '../shared/sky-angular-tree-component-resources.module';
+import { SkyAngularTreeComponentResourcesModule } from '../shared/sky-angular-tree-component-resources.module';
 
-import {
-  SkyAngularTreeContextMenuComponent
-} from './angular-tree-context-menu.component';
+import { SkyAngularTreeContextMenuComponent } from './angular-tree-context-menu.component';
 
-import {
-  SkyAngularTreeNodeComponent
-} from './angular-tree-node.component';
+import { SkyAngularTreeNodeComponent } from './angular-tree-node.component';
 
-import {
-  SkyTreeViewToolbarComponent
-} from './angular-tree-toolbar.component';
+import { SkyTreeViewToolbarComponent } from './angular-tree-toolbar.component';
 
-import {
-  SkyAngularTreeWrapperComponent
-} from './angular-tree-wrapper.component';
+import { SkyAngularTreeWrapperComponent } from './angular-tree-wrapper.component';
 
 @NgModule({
   declarations: [
     SkyAngularTreeContextMenuComponent,
     SkyAngularTreeNodeComponent,
     SkyAngularTreeWrapperComponent,
-    SkyTreeViewToolbarComponent
+    SkyTreeViewToolbarComponent,
   ],
   imports: [
     CommonModule,
@@ -59,14 +35,9 @@ import {
     SkyCheckboxModule,
     SkyIconModule,
     SkyToolbarModule,
-    TreeModule
+    TreeModule,
   ],
-  providers: [
-    SkyCoreAdapterService
-  ],
-  exports: [
-    SkyAngularTreeNodeComponent,
-    SkyAngularTreeWrapperComponent
-  ]
+  providers: [SkyCoreAdapterService],
+  exports: [SkyAngularTreeNodeComponent, SkyAngularTreeWrapperComponent],
 })
-export class SkyAngularTreeModule { }
+export class SkyAngularTreeModule {}

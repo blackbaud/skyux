@@ -4,7 +4,8 @@
   [attr.aria-multiselectable]="multiselectable()"
   [class.sky-angular-tree-read-only]="readOnly"
 >
-  <sky-angular-tree-toolbar *ngIf="showToolbar"
+  <sky-angular-tree-toolbar
+    *ngIf="showToolbar"
     [showSelectButtons]="showSelectButtons()"
     (clearAllClick)="onClearAllClick()"
     (collapseAllClick)="onCollapseAllClick()"
@@ -12,7 +13,5 @@
     (selectAllClick)="onSelectAllClick()"
   >
   </sky-angular-tree-toolbar>
-  <ng-content
-    select="tree-root"
-  ></ng-content>
+  <ng-content select="tree-root"></ng-content>
 </div>

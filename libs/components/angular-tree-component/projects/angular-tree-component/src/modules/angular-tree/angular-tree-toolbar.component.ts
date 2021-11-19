@@ -3,7 +3,7 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output
+  Output,
 } from '@angular/core';
 
 /**
@@ -12,10 +12,9 @@ import {
 @Component({
   selector: 'sky-angular-tree-toolbar',
   templateUrl: './angular-tree-toolbar.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyTreeViewToolbarComponent {
-
   @Input()
   public showSelectButtons: boolean;
 
@@ -46,5 +45,4 @@ export class SkyTreeViewToolbarComponent {
   public onSelectAllClick(): void {
     this.selectAllClick.emit();
   }
-
 }

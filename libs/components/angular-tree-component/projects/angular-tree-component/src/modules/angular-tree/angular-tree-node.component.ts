@@ -6,21 +6,14 @@ import {
   Input,
   OnInit,
   Optional,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
-import {
-  ITreeState,
-  TreeNode
-} from '@circlon/angular-tree-component';
+import { ITreeState, TreeNode } from '@circlon/angular-tree-component';
 
-import {
-  SkyAngularTreeAdapterService
-} from './angular-tree-adapter.service';
+import { SkyAngularTreeAdapterService } from './angular-tree-adapter.service';
 
-import {
-  SkyAngularTreeWrapperComponent
-} from './angular-tree-wrapper.component';
+import { SkyAngularTreeWrapperComponent } from './angular-tree-wrapper.component';
 
 /**
  * Replaces the default tree node template with a SKY UX node as part of the `SkyAngularTreeModule` that
@@ -35,12 +28,9 @@ import {
 @Component({
   selector: 'sky-angular-tree-node',
   templateUrl: './angular-tree-node.component.html',
-  providers: [
-    SkyAngularTreeAdapterService
-  ]
+  providers: [SkyAngularTreeAdapterService],
 })
 export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
-
   /**
    * Specifies the `index` property from the parent `ng-template`.
    */
@@ -131,11 +121,13 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
     private changeDetectorRef: ChangeDetectorRef,
     private adapterService: SkyAngularTreeAdapterService,
     @Optional() private skyAngularTreeWrapper: SkyAngularTreeWrapperComponent
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     if (!this.skyAngularTreeWrapper) {
-      console.error(`<sky-angular-tree-node-wrapper> must be wrapped inside a <sky-angular-tree-wrapper> component.`);
+      console.error(
+        `<sky-angular-tree-node-wrapper> must be wrapped inside a <sky-angular-tree-wrapper> component.`
+      );
     }
 
     // Because we're binding the checkbox to node's children properties, we need to manually control change detection.
@@ -159,8 +151,13 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
     // Wait 1s for the node to render, then reset all child tabIndexes to -1.
     // Units smaller than 1s may consistently fail if there are many nodes, or multiple trees are on the same screen.
     setTimeout(() => {
-      this.focusableChildren = this.adapterService.getFocusableChildren(this.nodeContentWrapperRef.nativeElement);
-      this.adapterService.setTabIndexOfFocusableElems(this.nodeContentWrapperRef.nativeElement, -1);
+      this.focusableChildren = this.adapterService.getFocusableChildren(
+        this.nodeContentWrapperRef.nativeElement
+      );
+      this.adapterService.setTabIndexOfFocusableElems(
+        this.nodeContentWrapperRef.nativeElement,
+        -1
+      );
     }, 1000);
   }
 
@@ -188,7 +185,11 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
 
   public showCheckbox(): boolean {
     // Check for checkbox mode enabled, but also respect leaf-node and single-select settings.
-    return this.node.options.useCheckbox && this.isSelectable() && !this.skyAngularTreeWrapper.selectSingle;
+    return (
+      this.node.options.useCheckbox &&
+      this.isSelectable() &&
+      !this.skyAngularTreeWrapper.selectSingle
+    );
   }
 
   public showSelectedClass(): boolean {
@@ -200,7 +201,9 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
   }
 
   public showTogglePlaceholder(): boolean {
-    return !this.node.hasChildren && !this.skyAngularTreeWrapper?.selectLeafNodesOnly;
+    return (
+      !this.node.hasChildren && !this.skyAngularTreeWrapper?.selectLeafNodesOnly
+    );
   }
 
   public onFocus(): void {
@@ -261,7 +264,10 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
           // Cyle forward through interactive child elements.
           // If user reaches the end, activate drill down.
           /* istanbul ignore else */
-          if (this.focusableChildren.length <= 0 || this.childFocusIndex === this.focusableChildren.length - 1) {
+          if (
+            this.focusableChildren.length <= 0 ||
+            this.childFocusIndex === this.focusableChildren.length - 1
+          ) {
             this.node.setIsExpanded(true);
           } else {
             if (this.childFocusIndex === undefined) {
@@ -282,7 +288,11 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
 
   private isSelectable(): boolean {
     if (this.skyAngularTreeWrapper) {
-      return this.node.isLeaf || !this.node.hasChildren || !this.skyAngularTreeWrapper.selectLeafNodesOnly;
+      return (
+        this.node.isLeaf ||
+        !this.node.hasChildren ||
+        !this.skyAngularTreeWrapper.selectLeafNodesOnly
+      );
     }
   }
 }

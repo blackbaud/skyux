@@ -7,8 +7,8 @@
   [class.tree-node-focused]="node.isFocused"
   [class.tree-node-leaf]="node.isLeaf"
 >
-
-  <tree-node-drop-slot *ngIf="index === 0"
+  <tree-node-drop-slot
+    *ngIf="index === 0"
     [dropIndex]="node.index"
     [node]="node.parent"
   >
@@ -21,14 +21,16 @@
     [class.sky-angular-tree-node-selected]="showSelectedClass()"
     [style.padding-left]="node.getNodePadding()"
   >
-
     <!-- #region <tree-node-expander> custom template --->
     <div class="sky-toggle-children-wrapper">
-      <button *ngIf="node.hasChildren"
+      <button
+        *ngIf="node.hasChildren"
         class="sky-btn sky-btn-link sky-toggle-children"
         tabindex="-1"
         type="button"
-        [attr.aria-label]="'skyux_angular_tree_click_to_expand' | skyLibResources"
+        [attr.aria-label]="
+          'skyux_angular_tree_click_to_expand' | skyLibResources
+        "
         [class.toggle-children-wrapper-expanded]="node.isExpanded"
         [class.toggle-children-wrapper-collapsed]="node.isCollapsed"
         (click)="node.mouseAction('expanderClick', $event)"
@@ -39,9 +41,7 @@
         >
         </sky-icon>
       </button>
-      <span *ngIf="showTogglePlaceholder()"
-        class="toggle-children-placeholder"
-      >
+      <span *ngIf="showTogglePlaceholder()" class="toggle-children-placeholder">
       </span>
     </div>
     <!-- #endregion <tree-node-expander> --->
@@ -72,7 +72,8 @@
       (treeDropDragOver)="node.mouseAction('dragOver', $event)"
       #nodeContentWrapper
     >
-      <sky-checkbox *ngIf="showCheckbox()"
+      <sky-checkbox
+        *ngIf="showCheckbox()"
         [checked]="isSelected"
         [id]="node.data.id"
         [label]="node.data.name"
@@ -82,9 +83,7 @@
       </sky-checkbox>
 
       <sky-angular-tree-context-menu>
-        <ng-content
-          select="sky-dropdown"
-        ></ng-content>
+        <ng-content select="sky-dropdown"></ng-content>
       </sky-angular-tree-context-menu>
 
       <tree-node-content
@@ -99,21 +98,19 @@
 
   <ng-container
     [ngTemplateOutlet]="templates?.treeNodeWrapperTemplate"
-    [ngTemplateOutletContext]="{ $implicit: node, node: node, index: index, templates: templates }">
+    [ngTemplateOutletContext]="{
+      $implicit: node,
+      node: node,
+      index: index,
+      templates: templates
+    }"
+  >
   </ng-container>
   <!-- #endregion <tree-node-wrapper> -->
 
-  <tree-node-children
-    role="group"
-    [node]="node"
-    [templates]="templates"
-  >
+  <tree-node-children role="group" [node]="node" [templates]="templates">
   </tree-node-children>
 
-  <tree-node-drop-slot
-    [dropIndex]="node.index + 1"
-    [node]="node.parent"
-  >
+  <tree-node-drop-slot [dropIndex]="node.index + 1" [node]="node.parent">
   </tree-node-drop-slot>
-
 </div>

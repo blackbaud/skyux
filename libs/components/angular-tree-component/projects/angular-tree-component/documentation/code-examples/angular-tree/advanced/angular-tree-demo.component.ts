@@ -3,39 +3,36 @@ import {
   ChangeDetectorRef,
   Component,
   OnInit,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import {
   ITreeOptions,
   ITreeState,
   TreeModel,
-  TreeNode
+  TreeNode,
 } from '@circlon/angular-tree-component';
 
 @Component({
   selector: 'app-angular-tree-component-demo',
-  styles: [`
-    .app-demo-container {
-      border: 1px solid #cdcfd2;
-      padding: 20px;
+  styles: [
+    `
+      .app-demo-container {
+        border: 1px solid #cdcfd2;
+        padding: 20px;
 
-      .angular-tree-component {
-        background: #fff;
+        .angular-tree-component {
+          background: #fff;
+        }
       }
-    }`
+    `,
   ],
   templateUrl: './angular-tree-demo.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AngularTreeDemoComponent implements OnInit {
-
   public demoOptions: FormGroup;
 
   public set enableCascading(value: boolean) {
@@ -81,7 +78,7 @@ export class AngularTreeDemoComponent implements OnInit {
 
   public treeOptions: ITreeOptions = {
     animateExpand: true,
-    useTriState: false
+    useTriState: false,
   };
 
   public dropdownItems: any = [
@@ -92,7 +89,7 @@ export class AngularTreeDemoComponent implements OnInit {
     { name: 'Move left', disabled: false },
     { name: 'Move right', disabled: false },
     { name: 'Edit', disabled: false },
-    { name: 'Delete', disabled: false }
+    { name: 'Delete', disabled: false },
   ];
 
   public nodes: any[] = [
@@ -100,20 +97,26 @@ export class AngularTreeDemoComponent implements OnInit {
       name: 'Animals',
       isExpanded: true,
       children: [
-        { name: 'Cats', isExpanded: true, children: [
-          { name: 'Burmese' },
-          { name: 'Persian' },
-          { name: 'Tabby' }
-          ]
+        {
+          name: 'Cats',
+          isExpanded: true,
+          children: [
+            { name: 'Burmese' },
+            { name: 'Persian' },
+            { name: 'Tabby' },
+          ],
         },
-        { name: 'Dogs', isExpanded: true, children: [
-          { name: 'Beagle' },
-          { name: 'German shepherd' },
-          { name: 'Labrador retriever' }
-          ]
-        }
-      ]
-    }
+        {
+          name: 'Dogs',
+          isExpanded: true,
+          children: [
+            { name: 'Beagle' },
+            { name: 'German shepherd' },
+            { name: 'Labrador retriever' },
+          ],
+        },
+      ],
+    },
   ];
 
   @ViewChild(TreeModel)
@@ -131,10 +134,10 @@ export class AngularTreeDemoComponent implements OnInit {
       selectLeafNodesOnly: new FormControl(),
       enableCascading: new FormControl(),
       showToolbar: new FormControl(),
-      showContextMenus: new FormControl()
+      showContextMenus: new FormControl(),
     });
 
-    this.demoOptions.valueChanges.subscribe(value => {
+    this.demoOptions.valueChanges.subscribe((value) => {
       if (value.treeMode) {
         switch (value.treeMode) {
           case 'selection':
@@ -160,15 +163,15 @@ export class AngularTreeDemoComponent implements OnInit {
       if (value.selectMode) {
         switch (value.selectMode) {
           case 'singleSelect':
-              this.resetSelection();
-              this.selectSingle = true;
-              this.enableCascading = false;
+            this.resetSelection();
+            this.selectSingle = true;
+            this.enableCascading = false;
             break;
 
           case 'multiSelect':
-              this.resetSelection();
-              this.selectSingle = false;
-              this.enableCascading = false;
+            this.resetSelection();
+            this.selectSingle = false;
+            this.enableCascading = false;
             break;
 
           default:

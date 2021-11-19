@@ -1,23 +1,17 @@
-import {
-  Component,
-  ViewChild
-} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import {
   ITreeOptions,
   ITreeState,
-  TreeComponent
+  TreeComponent,
 } from '@circlon/angular-tree-component';
 
-import {
-  IDTypeDictionary
-} from '@circlon/angular-tree-component/lib/defs/api';
+import { IDTypeDictionary } from '@circlon/angular-tree-component/lib/defs/api';
 
 @Component({
-  templateUrl: './tree-view.fixture.component.html'
+  templateUrl: './tree-view.fixture.component.html',
 })
 export class SkyTreeViewFixtureComponent {
-
   public activeNodeIds: any;
 
   public expandedNodeIds: IDTypeDictionary;
@@ -31,17 +25,21 @@ export class SkyTreeViewFixtureComponent {
       isExpanded: true,
       children: [
         { id: 2, name: 'California' },
-        { id: 3, name: 'Indiana', isExpanded: true, children: [
+        {
+          id: 3,
+          name: 'Indiana',
+          isExpanded: true,
+          children: [
             { id: 4, name: 'Adams' },
-            { id: 5, name: 'Allen' }
-          ]
-        }
-      ]
+            { id: 5, name: 'Allen' },
+          ],
+        },
+      ],
     },
     {
       id: 6,
-      name: 'Mexico'
-    }
+      name: 'Mexico',
+    },
   ];
 
   public options: ITreeOptions;
@@ -78,9 +76,8 @@ export class SkyTreeViewFixtureComponent {
   public updateState(): void {
     this.state = {
       selectedLeafNodeIds: {
-        1: true
-      }
+        1: true,
+      },
     };
   }
-
 }

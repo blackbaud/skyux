@@ -12,14 +12,22 @@ import {
   SkyI18nModule,
   SkyLibResources,
   SkyLibResourcesProvider,
-  SKY_LIB_RESOURCES_PROVIDERS
+  SKY_LIB_RESOURCES_PROVIDERS,
 } from '@skyux/i18n';
 
 const RESOURCES: { [locale: string]: SkyLibResources } = {
-  'EN-US': {"skyux_angular_tree_clear_all":{"message":"Clear all"},"skyux_angular_tree_click_to_expand":{"message":"Click to expand"},"skyux_angular_tree_collapse_all":{"message":"Collapse"},"skyux_angular_tree_expand_all":{"message":"Expand"},"skyux_angular_tree_select_all":{"message":"Select all"}},
+  'EN-US': {
+    skyux_angular_tree_clear_all: { message: 'Clear all' },
+    skyux_angular_tree_click_to_expand: { message: 'Click to expand' },
+    skyux_angular_tree_collapse_all: { message: 'Collapse' },
+    skyux_angular_tree_expand_all: { message: 'Expand' },
+    skyux_angular_tree_select_all: { message: 'Select all' },
+  },
 };
 
-export class SkyAngularTreeComponentResourcesProvider implements SkyLibResourcesProvider {
+export class SkyAngularTreeComponentResourcesProvider
+  implements SkyLibResourcesProvider
+{
   public getString(localeInfo: SkyAppLocaleInfo, name: string): string {
     return getLibStringForLocale(RESOURCES, localeInfo.locale, name);
   }
@@ -30,10 +38,12 @@ export class SkyAngularTreeComponentResourcesProvider implements SkyLibResources
  */
 @NgModule({
   exports: [SkyI18nModule],
-  providers: [{
-    provide: SKY_LIB_RESOURCES_PROVIDERS,
-    useClass: SkyAngularTreeComponentResourcesProvider,
-    multi: true
-  }]
+  providers: [
+    {
+      provide: SKY_LIB_RESOURCES_PROVIDERS,
+      useClass: SkyAngularTreeComponentResourcesProvider,
+      multi: true,
+    },
+  ],
 })
-export class SkyAngularTreeComponentResourcesModule { }
+export class SkyAngularTreeComponentResourcesModule {}
