@@ -1,3 +1,7 @@
+# 5.1.2 (2021-11-19)
+
+- Fixed the numeric pipe to properly update when the locale provided by the `SkyAppLocaleProvider` is updated. [#267](https://github.com/blackbaud/skyux-core/pull/267)
+
 # 5.1.1 (2021-10-29)
 
 - Fixed the scrollable host service to properly handle a race condition where elements are removed from the DOM prior to the mutation observer subscription firing. [#266](https://github.com/blackbaud/skyux-core/pull/266)
