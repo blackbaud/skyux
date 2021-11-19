@@ -1,3 +1,7 @@
+# 5.57.0 (2021-11-19)
+
+- `@skyux/colorpicker@5.1.1` [Release notes](https://github.com/blackbaud/skyux-colorpicker/blob/5.1.1/CHANGELOG.md)
+
 # 5.56.0 (2021-11-19)
 
 - `@skyux/angular-tree-component@5.0.2` [Release notes](https://github.com/blackbaud/skyux-angular-tree-component/blob/5.0.2/CHANGELOG.md)
