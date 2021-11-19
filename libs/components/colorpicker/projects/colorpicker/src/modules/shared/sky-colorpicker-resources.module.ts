@@ -12,15 +12,36 @@ import {
   SkyI18nModule,
   SkyLibResources,
   SkyLibResourcesProvider,
-  SKY_LIB_RESOURCES_PROVIDERS
+  SKY_LIB_RESOURCES_PROVIDERS,
 } from '@skyux/i18n';
 
 const RESOURCES: { [locale: string]: SkyLibResources } = {
-  'EN-US': {"skyux_colorpicker_alpha":{"message":"A:"},"skyux_colorpicker_apply":{"message":"Apply"},"skyux_colorpicker_aria_alpha":{"message":"Alpha channel value between 0 and 1"},"skyux_colorpicker_aria_blue":{"message":"Blue value between 0 and 255"},"skyux_colorpicker_aria_green":{"message":"Green value between 0 and 255"},"skyux_colorpicker_aria_hex":{"message":"Hexadecimal color code"},"skyux_colorpicker_aria_red":{"message":"Red value between 0 and 255"},"skyux_colorpicker_blue":{"message":"B:"},"skyux_colorpicker_close":{"message":"Cancel"},"skyux_colorpicker_dropdown_button":{"message":"Select color value"},"skyux_colorpicker_green":{"message":"G:"},"skyux_colorpicker_hex":{"message":"Hex:"},"skyux_colorpicker_input_default_label":{"message":"Color value"},"skyux_colorpicker_preset_color":{"message":"Preset Color:"},"skyux_colorpicker_red":{"message":"R:"},"skyux_colorpicker_reset":{"message":"Reset color value to white"}},
+  'EN-US': {
+    skyux_colorpicker_alpha: { message: 'A:' },
+    skyux_colorpicker_apply: { message: 'Apply' },
+    skyux_colorpicker_aria_alpha: {
+      message: 'Alpha channel value between 0 and 1',
+    },
+    skyux_colorpicker_aria_blue: { message: 'Blue value between 0 and 255' },
+    skyux_colorpicker_aria_green: { message: 'Green value between 0 and 255' },
+    skyux_colorpicker_aria_hex: { message: 'Hexadecimal color code' },
+    skyux_colorpicker_aria_red: { message: 'Red value between 0 and 255' },
+    skyux_colorpicker_blue: { message: 'B:' },
+    skyux_colorpicker_close: { message: 'Cancel' },
+    skyux_colorpicker_dropdown_button: { message: 'Select color value' },
+    skyux_colorpicker_green: { message: 'G:' },
+    skyux_colorpicker_hex: { message: 'Hex:' },
+    skyux_colorpicker_input_default_label: { message: 'Color value' },
+    skyux_colorpicker_preset_color: { message: 'Preset Color:' },
+    skyux_colorpicker_red: { message: 'R:' },
+    skyux_colorpicker_reset: { message: 'Reset color value to white' },
+  },
 };
 
 @Injectable()
-export class SkyColorpickerResourcesProvider implements SkyLibResourcesProvider {
+export class SkyColorpickerResourcesProvider
+  implements SkyLibResourcesProvider
+{
   public getString(localeInfo: SkyAppLocaleInfo, name: string): string {
     return getLibStringForLocale(RESOURCES, localeInfo.locale, name);
   }
@@ -31,10 +52,12 @@ export class SkyColorpickerResourcesProvider implements SkyLibResourcesProvider 
  */
 @NgModule({
   exports: [SkyI18nModule],
-  providers: [{
-    provide: SKY_LIB_RESOURCES_PROVIDERS,
-    useClass: SkyColorpickerResourcesProvider,
-    multi: true
-  }]
+  providers: [
+    {
+      provide: SKY_LIB_RESOURCES_PROVIDERS,
+      useClass: SkyColorpickerResourcesProvider,
+      multi: true,
+    },
+  ],
 })
-export class SkyColorpickerResourcesModule { }
+export class SkyColorpickerResourcesModule {}

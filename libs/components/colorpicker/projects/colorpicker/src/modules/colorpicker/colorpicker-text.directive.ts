@@ -4,18 +4,16 @@ import {
   Input,
   Output,
   EventEmitter,
-  HostListener
+  HostListener,
 } from '@angular/core';
 
-import {
-  SkyColorpickerChangeColor
-} from './types/colorpicker-color';
+import { SkyColorpickerChangeColor } from './types/colorpicker-color';
 
 /**
  * @internal
  */
 @Directive({
-  selector: '[skyColorpickerText]'
+  selector: '[skyColorpickerText]',
 })
 export class SkyColorpickerTextDirective {
   @Output()
@@ -35,15 +33,19 @@ export class SkyColorpickerTextDirective {
       this.newColorContrast.emit({
         color: element.value,
         colorValue: undefined,
-        maxRange: undefined
+        maxRange: undefined,
       } as SkyColorpickerChangeColor);
     }
 
-    if (!isNaN(elementValue) && elementValue >= 0 && elementValue <= this.maxRange) {
+    if (
+      !isNaN(elementValue) &&
+      elementValue >= 0 &&
+      elementValue <= this.maxRange
+    ) {
       this.newColorContrast.emit({
         color: this.color,
         colorValue: elementValue,
-        maxRange: this.maxRange
+        maxRange: this.maxRange,
       } as SkyColorpickerChangeColor);
     }
   }

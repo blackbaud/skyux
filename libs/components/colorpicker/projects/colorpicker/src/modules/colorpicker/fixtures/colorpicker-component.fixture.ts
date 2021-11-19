@@ -1,27 +1,16 @@
-import {
-  Component,
-  ViewChild
-} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  SkyColorpickerMessage
-} from '../types/colorpicker-message';
+import { SkyColorpickerMessage } from '../types/colorpicker-message';
 
-import {
-  SkyColorpickerMessageType
-} from '../types/colorpicker-message-type';
+import { SkyColorpickerMessageType } from '../types/colorpicker-message-type';
 
-import {
-  SkyColorpickerComponent
-} from '../colorpicker.component';
+import { SkyColorpickerComponent } from '../colorpicker.component';
 
 @Component({
   selector: 'sky-colorpicker-fixture',
-  templateUrl: './colorpicker-component.fixture.html'
+  templateUrl: './colorpicker-component.fixture.html',
 })
 export class ColorpickerTestComponent {
   public pickerButtonIcon: string;
@@ -43,14 +32,14 @@ export class ColorpickerTestComponent {
     '#E87134',
     '#DA9C9C',
     '#A1B1A7',
-    '#68AFEF'
+    '#68AFEF',
   ];
   public inputType = 'text';
   public selectedTransparency = true;
   public disabled = false;
 
   @ViewChild(SkyColorpickerComponent, {
-    static: true
+    static: true,
   })
   public colorpickerComponent: SkyColorpickerComponent;
   public colorpickerController = new Subject<SkyColorpickerMessage>();

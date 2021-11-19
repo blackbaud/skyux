@@ -10,7 +10,7 @@ import {
   Output,
   TemplateRef,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 
 import {
@@ -19,66 +19,36 @@ import {
   SkyAffixService,
   SkyOverlayInstance,
   SkyOverlayService,
-  SkyCoreAdapterService
+  SkyCoreAdapterService,
 } from '@skyux/core';
 
-import {
-  SkyThemeService
-} from '@skyux/theme';
+import { SkyThemeService } from '@skyux/theme';
 
-import {
-  fromEvent,
-  Subject
-} from 'rxjs';
+import { fromEvent, Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkyColorpickerChangeAxis
-} from './types/colorpicker-axis';
+import { SkyColorpickerChangeAxis } from './types/colorpicker-axis';
 
-import {
-  SkyColorpickerChangeColor
-} from './types/colorpicker-color';
+import { SkyColorpickerChangeColor } from './types/colorpicker-color';
 
-import {
-  SkyColorpickerHsla
-} from './types/colorpicker-hsla';
+import { SkyColorpickerHsla } from './types/colorpicker-hsla';
 
-import {
-  SkyColorpickerHsva
-} from './types/colorpicker-hsva';
+import { SkyColorpickerHsva } from './types/colorpicker-hsva';
 
-import {
-  SkyColorpickerMessage
-} from './types/colorpicker-message';
+import { SkyColorpickerMessage } from './types/colorpicker-message';
 
-import {
-  SkyColorpickerMessageType
-} from './types/colorpicker-message-type';
+import { SkyColorpickerMessageType } from './types/colorpicker-message-type';
 
-import {
-  SkyColorpickerOutput
-} from './types/colorpicker-output';
+import { SkyColorpickerOutput } from './types/colorpicker-output';
 
-import {
-  SkyColorpickerRgba
-} from './types/colorpicker-rgba';
+import { SkyColorpickerRgba } from './types/colorpicker-rgba';
 
-import {
-  SkyColorpickerResult
-} from './types/colorpicker-result';
+import { SkyColorpickerResult } from './types/colorpicker-result';
 
-import {
-  SkyColorpickerService
-} from './colorpicker.service';
+import { SkyColorpickerService } from './colorpicker.service';
 
-import {
-  SliderPosition,
-  SliderDimension
-} from './colorpicker-classes';
+import { SliderPosition, SliderDimension } from './colorpicker-classes';
 
 let componentIdIndex = 0;
 
@@ -91,13 +61,10 @@ let componentIdIndex = 0;
   selector: 'sky-colorpicker',
   templateUrl: './colorpicker.component.html',
   styleUrls: ['./colorpicker.component.scss'],
-  providers: [
-    SkyColorpickerService
-  ],
-  encapsulation: ViewEncapsulation.None
+  providers: [SkyColorpickerService],
+  encapsulation: ViewEncapsulation.None,
 })
 export class SkyColorpickerComponent implements OnInit, OnDestroy {
-
   /**
    * Specifies the name of the [Font Awesome 4.7](https://fontawesome.com/v4.7/icons/) icon to overlay on top of the picker. Do not specify the `fa fa-` classes.
    * @internal
@@ -210,17 +177,17 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   public triggerButtonId: string;
 
   @ViewChild('colorpickerTemplateRef', {
-    read: TemplateRef
+    read: TemplateRef,
   })
   private colorpickerTemplateRef: TemplateRef<any>;
 
   @ViewChild('triggerButtonRef', {
-    read: ElementRef
+    read: ElementRef,
   })
   private triggerButtonRef: ElementRef;
 
   @ViewChild('colorpickerRef', {
-    read: ElementRef
+    read: ElementRef,
   })
   private set colorpickerRef(value: ElementRef) {
     if (value) {
@@ -236,7 +203,11 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
         this.createAffixer();
         this.isPickerVisible = true;
 
-        this.coreAdapter.getFocusableChildrenAndApplyFocus(value, '.sky-colorpicker', false);
+        this.coreAdapter.getFocusableChildrenAndApplyFocus(
+          value,
+          '.sky-colorpicker',
+          false
+        );
         this.changeDetector.markForCheck();
       });
     }
@@ -321,9 +292,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     /* istanbul ignore else */
     if (this.themeSvc) {
       this.themeSvc.settingsChange
-        .pipe(
-          takeUntil(this.ngUnsubscribe)
-        )
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((themeSettings) => {
           /* istanbul ignore next */
           const themeName = themeSettings.currentSettings?.theme?.name;
@@ -444,15 +413,13 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     let dRgba: SkyColorpickerRgba = this.service.denormalizeRGBA(rgba);
 
     let hsva: SkyColorpickerHsva = {
-      'hue': this.hsva.hue,
-      'saturation': 1,
-      'value': 1,
-      'alpha': 1
+      hue: this.hsva.hue,
+      saturation: 1,
+      value: 1,
+      alpha: 1,
     };
 
-    let hueRgba = this.service.denormalizeRGBA(
-      this.service.hsvaToRgba(hsva)
-    );
+    let hueRgba = this.service.denormalizeRGBA(this.service.hsvaToRgba(hsva));
 
     this.hslaText = dHsla;
     this.rgbaText = dRgba;
@@ -461,14 +428,19 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     this.alphaSliderColor = `rgba(${dRgba.red},${dRgba.green},${dRgba.blue},${dRgba.alpha})`;
     this.hueSliderColor = `rgba(${hueRgba.red},${hueRgba.green},${hueRgba.blue},${rgba.alpha})`;
 
-    if (this.format === 0 && this.hsva.alpha < 1 && this.alphaChannel === 'hex6') {
+    if (
+      this.format === 0 &&
+      this.hsva.alpha < 1 &&
+      this.alphaChannel === 'hex6'
+    ) {
       this.format++;
     }
 
     this.service.outputFormat(
       this.hsva,
       this.outputFormat,
-      this.alphaChannel === 'hex8');
+      this.alphaChannel === 'hex8'
+    );
     this.selectedColor = this.service.skyColorpickerOut(this.hsva);
 
     this.updateSlider();
@@ -477,7 +449,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   private updateSlider(): void {
     if (this.hsva && this.sliderDimMax) {
       this.slider = new SliderPosition(
-        (this.hsva.hue) * this.sliderDimMax.hue - 8,
+        this.hsva.hue * this.sliderDimMax.hue - 8,
         this.hsva.saturation * this.sliderDimMax.saturation - 8,
         (1 - this.hsva.value) * this.sliderDimMax.value - 8,
         this.hsva.alpha * this.sliderDimMax.alpha - 8
@@ -531,7 +503,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     affixer.placementChange
       .pipe(takeUntil(this.pickerUnsubscribe))
       .subscribe((change) => {
-        this.isPickerVisible = (change.placement !== null);
+        this.isPickerVisible = change.placement !== null;
       });
 
     affixer.affixTo(this.triggerButtonRef.nativeElement, {
@@ -539,7 +511,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
       enableAutoFit: true,
       horizontalAlignment: 'left',
       isSticky: true,
-      placement: 'below'
+      placement: 'below',
     });
 
     this.affixer = affixer;
@@ -557,7 +529,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     const overlay = this.overlayService.create({
       enableClose: false,
       enablePointerEvents: false,
-      enableScroll: true
+      enableScroll: true,
     });
 
     overlay.attachTemplate(this.colorpickerTemplateRef);
@@ -602,7 +574,6 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
       if (!hsva && !this.hsva) {
         hsva = this.service.stringToHsva(value, false);
       }
-
     } else {
       hsva = this.service.stringToHsva(value, false);
     }
@@ -611,11 +582,13 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   }
 
   // http://www.w3.org/TR/AERT#color-contrast
-  private getAccessibleIconColor(backgroundColor: SkyColorpickerOutput): string {
+  private getAccessibleIconColor(
+    backgroundColor: SkyColorpickerOutput
+  ): string {
     const rgb = backgroundColor.rgba;
-    const brightness = Math.round(((rgb.red * 299) +
-                        (rgb.green * 587) +
-                        (rgb.blue * 114)) / 1000);
-    return (brightness > 125) ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)';
+    const brightness = Math.round(
+      (rgb.red * 299 + rgb.green * 587 + rgb.blue * 114) / 1000
+    );
+    return brightness > 125 ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)';
   }
 }

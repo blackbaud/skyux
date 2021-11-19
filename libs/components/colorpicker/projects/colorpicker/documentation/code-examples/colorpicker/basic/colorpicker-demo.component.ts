@@ -1,24 +1,14 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
-import {
-  SkyColorpickerOutput
-} from 'projects/colorpicker/src/public-api';
+import { SkyColorpickerOutput } from 'projects/colorpicker/src/public-api';
 
 @Component({
   selector: 'app-colorpicker-demo',
-  templateUrl: './colorpicker-demo.component.html'
+  templateUrl: './colorpicker-demo.component.html',
 })
 export class ColorpickerDemoComponent implements OnInit {
-
   public reactiveForm: FormGroup;
 
   public swatches: string[] = [
@@ -27,12 +17,10 @@ export class ColorpickerDemoComponent implements OnInit {
     '#60AC68',
     '#3486BA',
     '#E87134',
-    '#DA9C9C'
+    '#DA9C9C',
   ];
 
-  constructor(
-    private formBuilder: FormBuilder
-  ) { }
+  constructor(private formBuilder: FormBuilder) {}
 
   public ngOnInit(): void {
     this.createForm();
@@ -50,7 +38,7 @@ export class ColorpickerDemoComponent implements OnInit {
 
   private createForm(): void {
     this.reactiveForm = this.formBuilder.group({
-      favoriteColor: new FormControl('#f00')
+      favoriteColor: new FormControl('#f00'),
     });
   }
 }

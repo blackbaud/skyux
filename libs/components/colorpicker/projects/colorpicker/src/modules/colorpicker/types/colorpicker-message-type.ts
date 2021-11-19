@@ -17,5 +17,5 @@ export enum SkyColorpickerMessageType {
   /**
    * Closes the colorpicker.
    */
-  Close = 3
+  Close = 3,
 }

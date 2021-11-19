@@ -1,13 +1,9 @@
-
 <sky-colorpicker
   [messageStream]="colorpickerController"
   [showResetButton]="showResetButton"
   #colorPicker
 >
-  <input
-    [skyColorpickerInput]="colorPicker"
-    [(ngModel)]="model"
-  />
+  <input [skyColorpickerInput]="colorPicker" [(ngModel)]="model" />
 </sky-colorpicker>
 
 <p>

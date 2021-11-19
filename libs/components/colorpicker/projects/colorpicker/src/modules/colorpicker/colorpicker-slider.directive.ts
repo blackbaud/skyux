@@ -5,21 +5,18 @@ import {
   Output,
   ElementRef,
   EventEmitter,
-  HostListener
+  HostListener,
 } from '@angular/core';
 
-import {
-  SkyColorpickerChangeAxis
-} from './types/colorpicker-axis';
+import { SkyColorpickerChangeAxis } from './types/colorpicker-axis';
 
 /**
  * @internal
  */
 @Directive({
-  selector: '[skyColorpickerSlider]'
+  selector: '[skyColorpickerSlider]',
 })
 export class SkyColorpickerSliderDirective {
-
   @Output()
   public newColorContrast = new EventEmitter<SkyColorpickerChangeAxis>();
   @Input()
@@ -35,8 +32,12 @@ export class SkyColorpickerSliderDirective {
   private listenerStop: any;
 
   constructor(private el: ElementRef) {
-    this.listenerMove = (event: any) => { this.move(event); };
-    this.listenerStop = () => { this.stop(); };
+    this.listenerMove = (event: any) => {
+      this.move(event);
+    };
+    this.listenerStop = () => {
+      this.stop();
+    };
   }
 
   public setCursor(event: any) {
@@ -47,21 +48,20 @@ export class SkyColorpickerSliderDirective {
     if (this.xAxis !== undefined && this.yAxis !== undefined) {
       this.newColorContrast.emit({
         xCoordinate: xAxis / width,
-        yCoordinate: (1 - yAxis / height),
+        yCoordinate: 1 - yAxis / height,
         xAxis: this.xAxis,
-        yAxis: this.yAxis
+        yAxis: this.yAxis,
       } as SkyColorpickerChangeAxis);
     } else {
       this.newColorContrast.emit({
         xCoordinate: xAxis / width,
-        maxRange: this.xAxis
+        maxRange: this.xAxis,
       } as SkyColorpickerChangeAxis);
     }
     /* // No vertical bars
      if (this.xAxis === undefined && this.yAxis !== undefined) {
           this.newColorContrast.emit({ yCoordinate: yAxis / height, maxRange: this.yAxis });
     } */
-
   }
 
   public move(event: any) {
@@ -86,19 +86,21 @@ export class SkyColorpickerSliderDirective {
   }
 
   public getX(event: any): number {
+    /* Ignoring event.touches as tests are not run on a touch device. */
+    /* istanbul ignore next */
     return (
-      /* Ignoring event.touches as tests are not run on a touch device. */
-      /* istanbul ignore next */
-      event.pageX !== undefined ? event.pageX : event.touches[0].pageX)
-      - this.el.nativeElement.getBoundingClientRect().left
-      - window.pageXOffset;
+      (event.pageX !== undefined ? event.pageX : event.touches[0].pageX) -
+      this.el.nativeElement.getBoundingClientRect().left -
+      window.pageXOffset
+    );
   }
   public getY(event: any): number {
+    /* Ignoring event.touches as tests are not run on a touch device. */
+    /* istanbul ignore next */
     return (
-      /* Ignoring event.touches as tests are not run on a touch device. */
-      /* istanbul ignore next */
-      event.pageY !== undefined ? event.pageY : event.touches[0].pageY)
-      - this.el.nativeElement.getBoundingClientRect().top
-      - window.pageYOffset;
+      (event.pageY !== undefined ? event.pageY : event.touches[0].pageY) -
+      this.el.nativeElement.getBoundingClientRect().top -
+      window.pageYOffset
+    );
   }
 }

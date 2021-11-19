@@ -1,13 +1,6 @@
-<form
-  novalidate
-  [formGroup]="reactiveForm"
-  (ngSubmit)="submit()"
->
+<form novalidate [formGroup]="reactiveForm" (ngSubmit)="submit()">
   <div class="sky-form-group">
-    <label
-      class="sky-control-label"
-      [for]="colorInput.id"
-    >
+    <label class="sky-control-label" [for]="colorInput.id">
       What is your favorite color?
     </label>
     <sky-colorpicker
@@ -25,10 +18,5 @@
     </sky-colorpicker>
   </div>
 
-  <button
-    class="sky-btn sky-btn-primary"
-    type="submit"
-  >
-    Submit
-  </button>
+  <button class="sky-btn sky-btn-primary" type="submit">Submit</button>
 </form>

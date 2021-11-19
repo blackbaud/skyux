@@ -8,7 +8,8 @@ export class SliderPosition {
     public hue: number,
     public saturation: number,
     public value: number,
-    public alpha: number) { }
+    public alpha: number
+  ) {}
 }
 /**
  * @internal
@@ -18,5 +19,6 @@ export class SliderDimension {
     public hue: number,
     public saturation: number,
     public value: number,
-    public alpha: number) { }
+    public alpha: number
+  ) {}
 }

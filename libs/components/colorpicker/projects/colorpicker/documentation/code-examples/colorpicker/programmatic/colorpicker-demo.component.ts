@@ -1,23 +1,19 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 import {
   SkyColorpickerMessage,
-  SkyColorpickerMessageType
+  SkyColorpickerMessageType,
 } from 'projects/colorpicker/src/public-api';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-colorpicker-demo',
-  templateUrl: './colorpicker-demo.component.html'
+  templateUrl: './colorpicker-demo.component.html',
 })
 export class ColorpickerDemoComponent {
-
-  public colorpickerController: Subject<SkyColorpickerMessage> = new Subject<SkyColorpickerMessage>();
+  public colorpickerController: Subject<SkyColorpickerMessage> =
+    new Subject<SkyColorpickerMessage>();
 
   public model: any;
 
