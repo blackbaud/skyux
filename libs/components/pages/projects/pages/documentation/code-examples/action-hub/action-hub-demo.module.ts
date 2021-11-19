@@ -7,6 +7,6 @@ import { ActionHubDemoComponent } from './action-hub-demo.component';
 @NgModule({
   declarations: [ActionHubDemoComponent],
   exports: [ActionHubDemoComponent],
-  imports: [CommonModule, SkyActionHubModule]
+  imports: [CommonModule, SkyActionHubModule],
 })
 export class ActionHubDemoModule {}

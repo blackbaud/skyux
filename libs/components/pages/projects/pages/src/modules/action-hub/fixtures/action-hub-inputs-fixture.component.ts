@@ -6,7 +6,7 @@ import { SkyRecentLink } from '../types/recent-link';
 
 @Component({
   selector: 'sky-action-hub-inputs-fixture',
-  templateUrl: 'action-hub-inputs-fixture.component.html'
+  templateUrl: 'action-hub-inputs-fixture.component.html',
 })
 export class ActionHubInputsFixtureComponent {
   public title: string;

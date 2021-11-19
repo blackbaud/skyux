@@ -8,7 +8,7 @@ const pastHours = Array.from(Array(5).keys()).map((i) => {
 
 @Component({
   selector: 'app-action-hub-visual',
-  templateUrl: './action-hub-demo.component.html'
+  templateUrl: './action-hub-demo.component.html',
 })
 export class ActionHubDemoComponent {
   public data = {
@@ -18,143 +18,143 @@ export class ActionHubDemoComponent {
         title: '9',
         message: 'updates from portal',
         permalink: {
-          url: '#'
-        }
+          url: '#',
+        },
       },
       {
         title: '8',
         message: 'new messages from online donation',
         permalink: {
-          url: '#'
-        }
+          url: '#',
+        },
       },
       {
         title: '7',
         message: 'possible duplicates from constituent lists',
         permalink: {
-          url: '#'
-        }
+          url: '#',
+        },
       },
       {
         title: '6',
         message: 'updates from portal',
         permalink: {
-          url: '#'
-        }
+          url: '#',
+        },
       },
       {
         title: '5',
         message: 'new messages from online donation',
         permalink: {
-          url: '#'
-        }
+          url: '#',
+        },
       },
       {
         title: '4',
         message: 'possible duplicates from constituent lists',
         permalink: {
-          url: '#'
-        }
+          url: '#',
+        },
       },
       {
         title: '3',
         message: 'update from portal',
         permalink: {
-          url: '#'
-        }
+          url: '#',
+        },
       },
       {
         title: '2',
         message: 'new messages from online donation',
         permalink: {
-          url: '#'
-        }
+          url: '#',
+        },
       },
       {
         title: '1',
         message: 'possible duplicate from constituent lists',
         permalink: {
-          url: '#'
-        }
-      }
+          url: '#',
+        },
+      },
     ],
     recentLinks: [
       {
         label: 'Recent 1',
         permalink: {
-          url: '#'
+          url: '#',
         },
-        lastAccessed: pastHours[0]
+        lastAccessed: pastHours[0],
       },
       {
         label: 'Recent 2',
         permalink: {
-          url: '#'
+          url: '#',
         },
-        lastAccessed: pastHours[1]
+        lastAccessed: pastHours[1],
       },
       {
         label: 'Recent 3',
         permalink: {
-          url: '#'
+          url: '#',
         },
-        lastAccessed: pastHours[2]
+        lastAccessed: pastHours[2],
       },
       {
         label: 'Recent 4',
         permalink: {
-          url: '#'
+          url: '#',
         },
-        lastAccessed: pastHours[3]
+        lastAccessed: pastHours[3],
       },
       {
         label: 'Recent 5',
         permalink: {
-          url: '#'
+          url: '#',
         },
-        lastAccessed: pastHours[4]
-      }
+        lastAccessed: pastHours[4],
+      },
     ],
     relatedLinks: [
       {
         label: 'Link 1',
         permalink: {
-          url: '#'
-        }
+          url: '#',
+        },
       },
       {
         label: 'Link 2',
         permalink: {
-          url: '#'
-        }
+          url: '#',
+        },
       },
       {
         label: 'Link 3',
         permalink: {
-          url: '#'
-        }
-      }
-    ]
+          url: '#',
+        },
+      },
+    ],
   };
 
   public buttons = [
     {
       label: 'Action 1',
       permalink: {
-        url: '#'
-      }
+        url: '#',
+      },
     },
     {
       label: 'Action 2',
       permalink: {
-        url: '#'
-      }
+        url: '#',
+      },
     },
     {
       label: 'Action 3',
       permalink: {
-        url: '#'
-      }
-    }
+        url: '#',
+      },
+    },
   ];
 }

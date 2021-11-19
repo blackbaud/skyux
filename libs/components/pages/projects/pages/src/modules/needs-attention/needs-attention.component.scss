@@ -1,5 +1,5 @@
-@import "~@skyux/theme/scss/variables";
-@import "~@skyux/theme/scss/mixins";
+@import '~@skyux/theme/scss/variables';
+@import '~@skyux/theme/scss/mixins';
 
 .sky-needs-attention-container {
   background-color: #fff;
@@ -27,7 +27,8 @@
   }
 
   &:hover {
-    sky-key-info-value, sky-key-info-label {
+    sky-key-info-value,
+    sky-key-info-label {
       text-decoration: underline;
     }
   }

@@ -15,8 +15,8 @@ describe('Needs attention component', () => {
       imports: [
         SkyActionHubModule,
         SkyHrefModule,
-        RouterTestingModule.withRoutes([])
-      ]
+        RouterTestingModule.withRoutes([]),
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SkyNeedsAttentionComponent);
@@ -28,9 +28,9 @@ describe('Needs attention component', () => {
         title: 'Item 1',
         message: 'Message details 1',
         permalink: {
-          url: '#'
-        }
-      }
+          url: '#',
+        },
+      },
     ];
     fixture.detectChanges();
     const firstColumn = fixture.nativeElement.querySelector('.sky-column');
@@ -43,8 +43,8 @@ describe('Needs attention component', () => {
         title: `Item ${i + 1}`,
         message: `Message details ${i + 1}`,
         permalink: {
-          url: '#'
-        }
+          url: '#',
+        },
       };
     });
     fixture.detectChanges();

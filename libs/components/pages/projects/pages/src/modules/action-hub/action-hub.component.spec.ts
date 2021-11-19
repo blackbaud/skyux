@@ -15,7 +15,7 @@ describe('Action hub component', async () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [SkyActionHubModule, RouterTestingModule.withRoutes([])]
+        imports: [SkyActionHubModule, RouterTestingModule.withRoutes([])],
       });
       fixture = TestBed.createComponent(SkyActionHubComponent);
     });
@@ -34,27 +34,27 @@ describe('Action hub component', async () => {
         {
           label: 'Test Link B',
           permalink: {
-            url: '#'
-          }
+            url: '#',
+          },
         },
         {
           label: 'Test Link B',
           permalink: {
-            url: '#'
-          }
+            url: '#',
+          },
         },
         {
           label: 'Test Link C',
           permalink: {
-            url: '#'
-          }
+            url: '#',
+          },
         },
         {
           label: 'Test Link A',
           permalink: {
-            url: '#'
-          }
-        }
+            url: '#',
+          },
+        },
       ];
 
       fixture.detectChanges();
@@ -73,31 +73,31 @@ describe('Action hub component', async () => {
         {
           label: 'Recent Link B',
           permalink: {
-            url: '#'
+            url: '#',
           },
-          lastAccessed: '2011-10-05T14:48:00.000Z'
+          lastAccessed: '2011-10-05T14:48:00.000Z',
         },
         {
           label: 'Recent Link A',
           permalink: {
-            url: '#'
+            url: '#',
           },
-          lastAccessed: new Date('2011-10-06T14:48:00.000Z')
+          lastAccessed: new Date('2011-10-06T14:48:00.000Z'),
         },
         {
           label: 'Recent Link C',
           permalink: {
-            url: '#'
+            url: '#',
           },
-          lastAccessed: new Date('2011-10-04T14:48:00.000Z')
+          lastAccessed: new Date('2011-10-04T14:48:00.000Z'),
         },
         {
           label: 'Recent Link D',
           permalink: {
-            url: '#'
+            url: '#',
           },
-          lastAccessed: '2011-10-04T14:48:00.000Z'
-        }
+          lastAccessed: '2011-10-04T14:48:00.000Z',
+        },
       ];
 
       fixture.detectChanges();
@@ -124,7 +124,7 @@ describe('Action hub component', async () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [ActionHubAsyncFixtureComponent],
-        imports: [SkyActionHubModule, RouterTestingModule.withRoutes([])]
+        imports: [SkyActionHubModule, RouterTestingModule.withRoutes([])],
       });
       fixture = TestBed.createComponent(ActionHubAsyncFixtureComponent);
     });
@@ -138,10 +138,10 @@ describe('Action hub component', async () => {
         {
           label: 'Recent Link',
           permalink: {
-            url: '#'
+            url: '#',
           },
-          lastAccessed: new Date()
-        }
+          lastAccessed: new Date(),
+        },
       ]);
       fixture.componentInstance.needsAttention.next([]);
       fixture.detectChanges();
@@ -179,7 +179,7 @@ describe('Action hub component', async () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [ActionHubInputsFixtureComponent],
-        imports: [SkyActionHubModule, RouterTestingModule.withRoutes([])]
+        imports: [SkyActionHubModule, RouterTestingModule.withRoutes([])],
       });
       fixture = TestBed.createComponent(ActionHubInputsFixtureComponent);
     });
@@ -196,35 +196,35 @@ describe('Action hub component', async () => {
           title: '1',
           message: 'Action',
           permalink: {
-            url: '/'
-          }
-        }
+            url: '/',
+          },
+        },
       ];
 
       fixture.componentInstance.relatedLinks = [
         {
           label: 'Related',
           permalink: {
-            url: '/'
-          }
-        }
+            url: '/',
+          },
+        },
       ];
 
       fixture.componentInstance.recentLinks = [
         {
           label: 'Recent',
           permalink: {
-            url: '/'
+            url: '/',
           },
-          lastAccessed: new Date()
-        }
+          lastAccessed: new Date(),
+        },
       ];
 
       fixture.componentInstance.parentLink = {
         label: 'Parent',
         permalink: {
-          url: '/'
-        }
+          url: '/',
+        },
       };
 
       fixture.componentInstance.title = 'Action Hub';
@@ -251,8 +251,8 @@ describe('Action hub component', async () => {
         imports: [
           SkyActionHubModule,
           SkyKeyInfoModule,
-          RouterTestingModule.withRoutes([])
-        ]
+          RouterTestingModule.withRoutes([]),
+        ],
       });
       fixture = TestBed.createComponent(ActionHubContentFixtureComponent);
     });

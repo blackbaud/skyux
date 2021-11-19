@@ -12,11 +12,18 @@ import {
   SkyI18nModule,
   SkyLibResources,
   SkyLibResourcesProvider,
-  SKY_LIB_RESOURCES_PROVIDERS
+  SKY_LIB_RESOURCES_PROVIDERS,
 } from '@skyux/i18n';
 
 const RESOURCES: { [locale: string]: SkyLibResources } = {
-  'EN-US': {"sky_action_hub_related_links":{"message":"Related Links"},"sky_action_hub_recent_links":{"message":"Recently Accessed"},"sky_action_hub_needs_attention":{"message":"Needs Attention"},"sky_action_hub_needs_attention_empty":{"message":"No issues currently need attention"}},
+  'EN-US': {
+    sky_action_hub_related_links: { message: 'Related Links' },
+    sky_action_hub_recent_links: { message: 'Recently Accessed' },
+    sky_action_hub_needs_attention: { message: 'Needs Attention' },
+    sky_action_hub_needs_attention_empty: {
+      message: 'No issues currently need attention',
+    },
+  },
 };
 
 export class PagesResourcesProvider implements SkyLibResourcesProvider {
@@ -30,10 +37,12 @@ export class PagesResourcesProvider implements SkyLibResourcesProvider {
  */
 @NgModule({
   exports: [SkyI18nModule],
-  providers: [{
-    provide: SKY_LIB_RESOURCES_PROVIDERS,
-    useClass: PagesResourcesProvider,
-    multi: true
-  }]
+  providers: [
+    {
+      provide: SKY_LIB_RESOURCES_PROVIDERS,
+      useClass: PagesResourcesProvider,
+      multi: true,
+    },
+  ],
 })
-export class PagesResourcesModule { }
+export class PagesResourcesModule {}

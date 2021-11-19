@@ -21,8 +21,8 @@ describe('Page header component', () => {
         SkyThemeModule,
         SkyIconModule,
         SkyHrefModule,
-        RouterTestingModule.withRoutes([])
-      ]
+        RouterTestingModule.withRoutes([]),
+      ],
     });
   });
 

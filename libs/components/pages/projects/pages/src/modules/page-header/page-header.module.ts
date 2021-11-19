@@ -14,9 +14,9 @@ import { SkyPageHeaderComponent } from './page-header.component';
     SkyAppLinkModule,
     SkyIconModule,
     SkyThemeModule,
-    SkyHrefModule
+    SkyHrefModule,
   ],
   declarations: [SkyPageHeaderComponent],
-  exports: [SkyPageHeaderComponent]
+  exports: [SkyPageHeaderComponent],
 })
 export class SkyPageHeaderModule {}

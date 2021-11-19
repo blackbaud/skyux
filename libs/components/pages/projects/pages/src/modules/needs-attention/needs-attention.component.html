@@ -57,14 +57,22 @@
           [skipLocationChange]="item.permalink.route.extras?.skipLocationChange"
           [replaceUrl]="item.permalink.route.extras?.replaceUrl"
           [state]="item.permalink.route.extras?.state"
-          class="sky-needs-attention-item sky-padding-vertical-lg sky-border-bottom-row"
+          class="
+            sky-needs-attention-item
+            sky-padding-vertical-lg
+            sky-border-bottom-row
+          "
         >
           <ng-container *ngTemplateOutlet="link"></ng-container>
         </a>
         <a
           *ngIf="item.permalink.url"
           [skyHref]="item.permalink.url"
-          class="sky-needs-attention-item sky-padding-vertical-lg sky-border-bottom-row"
+          class="
+            sky-needs-attention-item
+            sky-padding-vertical-lg
+            sky-border-bottom-row
+          "
         >
           <ng-container *ngTemplateOutlet="link"></ng-container>
         </a>

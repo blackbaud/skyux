@@ -7,7 +7,7 @@ let parentLink: SkyPageLink;
 @Component({
   selector: 'sky-page-header',
   templateUrl: './page-header.component.html',
-  styleUrls: ['./page-header.component.scss']
+  styleUrls: ['./page-header.component.scss'],
 })
 export class SkyPageHeaderComponent {
   @Input()

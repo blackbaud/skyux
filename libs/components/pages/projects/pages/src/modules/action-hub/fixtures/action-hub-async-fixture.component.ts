@@ -8,7 +8,7 @@ import { SkyRecentLink } from '../types/recent-link';
 
 @Component({
   selector: 'sky-action-hub-async-fixture',
-  templateUrl: 'action-hub-async-fixture.component.html'
+  templateUrl: 'action-hub-async-fixture.component.html',
 })
 export class ActionHubAsyncFixtureComponent {
   public title = new BehaviorSubject<string>('Page title');

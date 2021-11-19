@@ -11,7 +11,7 @@ describe('Link list component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyActionHubModule, RouterTestingModule.withRoutes([])]
+      imports: [SkyActionHubModule, RouterTestingModule.withRoutes([])],
     });
     fixture = TestBed.createComponent(SkyLinkListComponent);
   });
@@ -22,21 +22,21 @@ describe('Link list component', () => {
       {
         label: 'Link 1',
         permalink: {
-          url: '#'
-        }
+          url: '#',
+        },
       },
       {
         label: 'Link 2',
         permalink: {
-          url: '#'
-        }
+          url: '#',
+        },
       },
       {
         label: 'Link 3',
         permalink: {
-          url: '#'
-        }
-      }
+          url: '#',
+        },
+      },
     ];
 
     fixture.detectChanges();

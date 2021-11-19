@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'sky-action-hub-content-fixture',
-  templateUrl: 'action-hub-content-fixture.component.html'
+  templateUrl: 'action-hub-content-fixture.component.html',
 })
 export class ActionHubContentFixtureComponent {
   public title = 'Page title';
