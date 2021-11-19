@@ -2,7 +2,7 @@ import {
   combineLatest as observableCombineLatest,
   Observable,
   of as observableOf,
-  Subject
+  Subject,
 } from 'rxjs';
 
 import {
@@ -11,7 +11,7 @@ import {
   map as observableMap,
   skip,
   take,
-  takeUntil
+  takeUntil,
 } from 'rxjs/operators';
 
 import {
@@ -25,99 +25,56 @@ import {
   OnChanges,
   OnDestroy,
   QueryList,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 
-import {
-  AsyncItem,
-  getValue
-} from '@skyux/list-builder-common';
+import { AsyncItem, getValue } from '@skyux/list-builder-common';
 
-import {
-  ListItemsLoadAction
-} from './state/items/load.action';
+import { ListItemsLoadAction } from './state/items/load.action';
 
-import {
-  ListItemsSetLoadingAction
-} from './state/items/set-loading.action';
+import { ListItemsSetLoadingAction } from './state/items/set-loading.action';
 
-import {
-  ListSelectedLoadAction
-} from './state/selected/load.action';
+import { ListSelectedLoadAction } from './state/selected/load.action';
 
-import {
-  ListSelectedSetLoadingAction
-} from './state/selected/set-loading.action';
+import { ListSelectedSetLoadingAction } from './state/selected/set-loading.action';
 
-import {
-  ListSelectedModel
-} from './state/selected/selected.model';
+import { ListSelectedModel } from './state/selected/selected.model';
 
-import {
-  ListSortModel
-} from './state/sort/sort.model';
+import { ListSortModel } from './state/sort/sort.model';
 
-import {
-  ListSortSetFieldSelectorsAction
-} from './state/sort/set-field-selectors.action';
+import { ListSortSetFieldSelectorsAction } from './state/sort/set-field-selectors.action';
 
-import {
-  ListFilterModel
-} from '../list-filters/filter.model';
+import { ListFilterModel } from '../list-filters/filter.model';
 
-import {
-  ListDataRequestModel
-} from './list-data-request.model';
+import { ListDataRequestModel } from './list-data-request.model';
 
-import {
-  ListDataResponseModel
-} from './list-data-response.model';
+import { ListDataResponseModel } from './list-data-response.model';
 
-import {
-  ListDataProvider
-} from './list-data.provider';
+import { ListDataProvider } from './list-data.provider';
 
-import {
-  SkyListInMemoryDataProvider
-} from '../list-data-provider-in-memory/list-data-in-memory.provider';
+import { SkyListInMemoryDataProvider } from '../list-data-provider-in-memory/list-data-in-memory.provider';
 
-import {
-  ListState
-} from './state/list-state.state-node';
+import { ListState } from './state/list-state.state-node';
 
-import {
-  ListStateDispatcher
-} from './state/list-state.rxstate';
+import { ListStateDispatcher } from './state/list-state.rxstate';
 
 import {
   isObservable,
   ListItemModel,
-  ListSortFieldSelectorModel
+  ListSortFieldSelectorModel,
 } from '@skyux/list-builder-common';
 
-import {
-  ListViewComponent
-} from './list-view.component';
+import { ListViewComponent } from './list-view.component';
 
-import {
-  ListPagingSetPageNumberAction
-} from './state/paging/set-page-number.action';
+import { ListPagingSetPageNumberAction } from './state/paging/set-page-number.action';
 
-import {
-  ListSearchModel
-} from './state/search/search.model';
+import { ListSearchModel } from './state/search/search.model';
 
-import {
-  ListViewsLoadAction
-} from './state/views/load.action';
+import { ListViewsLoadAction } from './state/views/load.action';
 
-import {
-  ListViewsSetActiveAction
-} from './state/views/set-active.action';
+import { ListViewsSetActiveAction } from './state/views/set-active.action';
 
-import {
-  ListViewModel
-} from './state/views/view.model';
+import { ListViewModel } from './state/views/view.model';
 
 let idIndex = 0;
 
@@ -125,9 +82,11 @@ let idIndex = 0;
   selector: 'sky-list',
   template: '<ng-content></ng-content>',
   providers: [ListState, ListStateDispatcher],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyListComponent implements AfterContentInit, OnChanges, OnDestroy {
+export class SkyListComponent
+  implements AfterContentInit, OnChanges, OnDestroy
+{
   public id: string = `sky-list-cmp-${++idIndex}`;
   /**
    * Specifies the data to display. The list component requires this property or the
@@ -177,10 +136,11 @@ export class SkyListComponent implements AfterContentInit, OnChanges, OnDestroy 
    * [shared classes for lists](https://developer.blackbaud.com/skyux-list-builder-common/docs/list-builder-common).
    */
   @Input()
-  public sortFields?: ListSortFieldSelectorModel |
-    Array<ListSortFieldSelectorModel> |
-    Observable<Array<ListSortFieldSelectorModel>> |
-    Observable<ListSortFieldSelectorModel>;
+  public sortFields?:
+    | ListSortFieldSelectorModel
+    | Array<ListSortFieldSelectorModel>
+    | Observable<Array<ListSortFieldSelectorModel>>
+    | Observable<ListSortFieldSelectorModel>;
 
   /**
    * Specifies a set of filters to apply to list data.
@@ -206,10 +166,9 @@ export class SkyListComponent implements AfterContentInit, OnChanges, OnDestroy 
   /**
    * Specifies a function to apply as a global sort on the list.
    */
-  /* tslint:disable */
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('search')
   public searchFunction: (data: any, searchText: string) => boolean;
-  /* tslint:enable */
 
   private dataFirstLoad: boolean = false;
 
@@ -225,7 +184,7 @@ export class SkyListComponent implements AfterContentInit, OnChanges, OnDestroy 
   constructor(
     private state: ListState,
     private dispatcher: ListStateDispatcher
-  ) { }
+  ) {}
 
   public ngAfterContentInit(): void {
     if (this.data && this.dataProvider && this.initialTotal) {
@@ -234,10 +193,14 @@ export class SkyListComponent implements AfterContentInit, OnChanges, OnDestroy 
 
     if (this.listViews.length > 0) {
       let defaultView: ListViewComponent =
-        (this.defaultView === undefined) ? this.listViews.first : this.defaultView;
+        this.defaultView === undefined
+          ? this.listViews.first
+          : this.defaultView;
 
       this.dispatcher.next(
-        new ListViewsLoadAction(this.listViews.map(v => new ListViewModel(v.id, v.label)))
+        new ListViewsLoadAction(
+          this.listViews.map((v) => new ListViewModel(v.id, v.label))
+        )
       );
 
       // activate the default view
@@ -247,31 +210,38 @@ export class SkyListComponent implements AfterContentInit, OnChanges, OnDestroy 
     }
 
     // set sort fields
-    getValue(this.sortFields,
-      (sortFields: ListSortFieldSelectorModel[] | ListSortFieldSelectorModel) => {
+    getValue(
+      this.sortFields,
+      (
+        sortFields: ListSortFieldSelectorModel[] | ListSortFieldSelectorModel
+      ) => {
         let sortArray: ListSortFieldSelectorModel[];
         if (!Array.isArray(sortFields) && sortFields) {
           sortArray = [sortFields];
         } else {
           sortArray = sortFields as ListSortFieldSelectorModel[];
         }
-        this.dispatcher.next(new ListSortSetFieldSelectorsAction(sortArray || []));
-      });
+        this.dispatcher.next(
+          new ListSortSetFieldSelectorsAction(sortArray || [])
+        );
+      }
+    );
 
-    this.displayedItems.subscribe(result => {
+    this.displayedItems.subscribe((result) => {
       this.dispatcher.next(new ListItemsSetLoadingAction());
-      this.dispatcher.next(new ListItemsLoadAction(result.items, true, true, result.count));
+      this.dispatcher.next(
+        new ListItemsLoadAction(result.items, true, true, result.count)
+      );
     });
 
     // Watch for selection changes.
     this.state
       .pipe(
-        observableMap(current => current.selected),
+        observableMap((current) => current.selected),
         takeUntil(this.ngUnsubscribe),
         distinctUntilChanged()
       )
-      .subscribe(selected => {
-
+      .subscribe((selected) => {
         // Update lastSelectedIds to help us retain user selections.
         let selectedIdsList: string[] = [];
         selected.item.selectedIdMap.forEach((value, key) => {
@@ -281,7 +251,10 @@ export class SkyListComponent implements AfterContentInit, OnChanges, OnDestroy 
         });
 
         // If changes are distinct, emit selectedIdsChange.
-        const distinctChanges = !this.arraysEqual(this.lastSelectedIds, selectedIdsList);
+        const distinctChanges = !this.arraysEqual(
+          this.lastSelectedIds,
+          selectedIdsList
+        );
         if (this.selectedIdsChange.observers.length > 0 && distinctChanges) {
           this.selectedIdsChange.emit(selected.item.selectedIdMap);
         }
@@ -292,7 +265,7 @@ export class SkyListComponent implements AfterContentInit, OnChanges, OnDestroy 
     if (this.appliedFiltersChange.observers.length > 0) {
       this.state
         .pipe(
-          observableMap(current => current.filters),
+          observableMap((current) => current.filters),
           takeUntil(this.ngUnsubscribe),
           skip(1)
         )
@@ -308,17 +281,20 @@ export class SkyListComponent implements AfterContentInit, OnChanges, OnDestroy 
           }
         });
     }
-
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes['appliedFilters'] &&
-      changes['appliedFilters'].currentValue !== changes['appliedFilters'].previousValue) {
+    if (
+      changes['appliedFilters'] &&
+      changes['appliedFilters'].currentValue !==
+        changes['appliedFilters'].previousValue
+    ) {
       this.state.pipe(take(1)).subscribe((currentState) => {
-        if (currentState.paging.pageNumber && currentState.paging.pageNumber !== 1) {
-          this.dispatcher.next(
-            new ListPagingSetPageNumberAction(Number(1))
-          );
+        if (
+          currentState.paging.pageNumber &&
+          currentState.paging.pageNumber !== 1
+        ) {
+          this.dispatcher.next(new ListPagingSetPageNumberAction(Number(1)));
         }
 
         this.dispatcher.filtersUpdate(this.appliedFilters);
@@ -341,7 +317,9 @@ export class SkyListComponent implements AfterContentInit, OnChanges, OnDestroy 
   public refreshDisplayedItems(): void {
     this.displayedItems.pipe(take(1)).subscribe((result) => {
       this.dispatcher.next(new ListItemsSetLoadingAction());
-      this.dispatcher.next(new ListItemsLoadAction(result.items, true, true, result.count));
+      this.dispatcher.next(
+        new ListItemsLoadAction(result.items, true, true, result.count)
+      );
     });
   }
 
@@ -356,7 +334,10 @@ export class SkyListComponent implements AfterContentInit, OnChanges, OnDestroy 
     }
 
     if (!this.dataProvider) {
-      this.dataProvider = new SkyListInMemoryDataProvider(data, this.searchFunction);
+      this.dataProvider = new SkyListInMemoryDataProvider(
+        data,
+        this.searchFunction
+      );
     }
 
     let selectedIds = this.selectedIds || observableOf([]);
@@ -371,102 +352,135 @@ export class SkyListComponent implements AfterContentInit, OnChanges, OnDestroy 
     // with adding a debounce time to the Observable which watches for state changes.
     let cancelLastRequest = new Subject();
 
-    return observableCombineLatest([
-      this.state.pipe(observableMap(s => s.filters), distinctUntilChanged()),
-      this.state.pipe(observableMap(s => s.search), distinctUntilChanged()),
-      this.state.pipe(observableMap(s => s.sort.fieldSelectors), distinctUntilChanged()),
-      this.state.pipe(observableMap(s => s.paging.itemsPerPage), distinctUntilChanged()),
-      this.state.pipe(observableMap(s => s.paging.pageNumber), distinctUntilChanged()),
-      this.state.pipe(observableMap(s => s.toolbar.disabled), distinctUntilChanged()),
-      selectedIds.pipe(
-        distinctUntilChanged(),
-        observableMap(selected => {
-          selectedChanged = true;
-          return selected;
-        })
-      ),
-      data.pipe(distinctUntilChanged())
-    ], (
-      filters: ListFilterModel[],
-      search: ListSearchModel,
-      sortFieldSelectors: Array<ListSortFieldSelectorModel>,
-      itemsPerPage: number,
-      pageNumber: number,
-      isToolbarDisabled: boolean,
-      selected: Array<string>,
-      itemsData: Array<any>
-    ) => {
-      cancelLastRequest.next();
-      cancelLastRequest.complete();
-      if (selectedChanged) {
-        this.dispatcher.next(new ListSelectedSetLoadingAction());
-        this.dispatcher.next(new ListSelectedLoadAction(selected));
-        this.dispatcher.next(new ListSelectedSetLoadingAction(false));
-        selectedChanged = false;
+    return observableCombineLatest(
+      [
+        this.state.pipe(
+          observableMap((s) => s.filters),
+          distinctUntilChanged()
+        ),
+        this.state.pipe(
+          observableMap((s) => s.search),
+          distinctUntilChanged()
+        ),
+        this.state.pipe(
+          observableMap((s) => s.sort.fieldSelectors),
+          distinctUntilChanged()
+        ),
+        this.state.pipe(
+          observableMap((s) => s.paging.itemsPerPage),
+          distinctUntilChanged()
+        ),
+        this.state.pipe(
+          observableMap((s) => s.paging.pageNumber),
+          distinctUntilChanged()
+        ),
+        this.state.pipe(
+          observableMap((s) => s.toolbar.disabled),
+          distinctUntilChanged()
+        ),
+        selectedIds.pipe(
+          distinctUntilChanged(),
+          observableMap((selected) => {
+            selectedChanged = true;
+            return selected;
+          })
+        ),
+        data.pipe(distinctUntilChanged()),
+      ],
+      (
+        filters: ListFilterModel[],
+        search: ListSearchModel,
+        sortFieldSelectors: Array<ListSortFieldSelectorModel>,
+        itemsPerPage: number,
+        pageNumber: number,
+        isToolbarDisabled: boolean,
+        selected: Array<string>,
+        itemsData: Array<any>
+      ) => {
+        cancelLastRequest.next();
+        cancelLastRequest.complete();
+        if (selectedChanged) {
+          this.dispatcher.next(new ListSelectedSetLoadingAction());
+          this.dispatcher.next(new ListSelectedLoadAction(selected));
+          this.dispatcher.next(new ListSelectedSetLoadingAction(false));
+          selectedChanged = false;
+        }
+
+        let response: Observable<ListDataResponseModel>;
+        if (this.dataFirstLoad) {
+          this.dataFirstLoad = false;
+          let initialItems = itemsData.map(
+            (d) =>
+              new ListItemModel(d.id || `sky-list-item-model-${++idIndex}`, d)
+          );
+          response = observableOf(
+            new ListDataResponseModel({
+              count: this.initialTotal,
+              items: initialItems,
+            })
+          ).pipe(takeUntil(cancelLastRequest));
+        } else {
+          response = this.dataProvider
+            .get(
+              new ListDataRequestModel({
+                filters: filters,
+                pageSize: itemsPerPage,
+                pageNumber: pageNumber,
+                search: search,
+                sort: new ListSortModel({ fieldSelectors: sortFieldSelectors }),
+                isToolbarDisabled: isToolbarDisabled,
+              })
+            )
+            .pipe(takeUntil(cancelLastRequest));
+        }
+
+        return response;
       }
+    ).pipe(
+      takeUntil(this.ngUnsubscribe),
 
-      let response: Observable<ListDataResponseModel>;
-      if (this.dataFirstLoad) {
-        this.dataFirstLoad = false;
-        let initialItems = itemsData.map(d => new ListItemModel(
-          d.id || `sky-list-item-model-${++idIndex}`, d
-        ));
-        response = observableOf(new ListDataResponseModel({
-          count: this.initialTotal,
-          items: initialItems
-        })).pipe(
-          takeUntil(cancelLastRequest)
-        );
-      } else {
-        response = this.dataProvider.get(new ListDataRequestModel({
-          filters: filters,
-          pageSize: itemsPerPage,
-          pageNumber: pageNumber,
-          search: search,
-          sort: new ListSortModel({ fieldSelectors: sortFieldSelectors }),
-          isToolbarDisabled: isToolbarDisabled
-        })).pipe(
-          takeUntil(cancelLastRequest)
-        );
-      }
-
-      return response;
-    })
-      .pipe(
-        takeUntil(this.ngUnsubscribe),
-
-        // Retain user selections from previous state.
-        // This is only necessary for grids component (based on item.isSelected).
-        observableMap(response => {
-          return response.pipe(observableMap(listDataResponseModel => {
+      // Retain user selections from previous state.
+      // This is only necessary for grids component (based on item.isSelected).
+      observableMap((response) => {
+        return response.pipe(
+          observableMap((listDataResponseModel) => {
             return new ListDataResponseModel({
               count: listDataResponseModel.count,
-              items: this.getItemsAndRetainSelections(listDataResponseModel.items, this.lastSelectedIds)
+              items: this.getItemsAndRetainSelections(
+                listDataResponseModel.items,
+                this.lastSelectedIds
+              ),
             });
-          }));
-        }),
-        flatMap(value => value)
-      );
+          })
+        );
+      }),
+      flatMap((value) => value)
+    );
   }
 
   public get selectedItems(): Observable<Array<ListItemModel>> {
     return observableCombineLatest(
-      this.state.pipe(observableMap(current => current.items.items), distinctUntilChanged()),
-      this.state.pipe(observableMap(current => current.selected), distinctUntilChanged()),
+      this.state.pipe(
+        observableMap((current) => current.items.items),
+        distinctUntilChanged()
+      ),
+      this.state.pipe(
+        observableMap((current) => current.selected),
+        distinctUntilChanged()
+      ),
       (items: Array<ListItemModel>, selected: AsyncItem<ListSelectedModel>) => {
-        return items.filter(i => selected.item.selectedIdMap.get(i.id));
+        return items.filter((i) => selected.item.selectedIdMap.get(i.id));
       }
     ).pipe(takeUntil(this.ngUnsubscribe));
   }
 
   public get lastUpdate(): Observable<Date> {
-    return this.state
-      .pipe(
-        takeUntil(this.ngUnsubscribe),
-        observableMap(s =>
-          s.items.lastUpdate ? new Date(s.items.lastUpdate) : undefined
-        )
-      );
+    return this.state.pipe(
+      takeUntil(this.ngUnsubscribe),
+      observableMap((s) =>
+        s.items.lastUpdate ? new Date(s.items.lastUpdate) : undefined
+      )
+    );
   }
 
   public get views(): Array<ListViewComponent> {
@@ -477,9 +491,12 @@ export class SkyListComponent implements AfterContentInit, OnChanges, OnDestroy 
     return this.dataProvider.count();
   }
 
-  private getItemsAndRetainSelections(newList: ListItemModel[], selectedIds: string[]): ListItemModel[] {
+  private getItemsAndRetainSelections(
+    newList: ListItemModel[],
+    selectedIds: string[]
+  ): ListItemModel[] {
     let updatedListModel = newList.slice();
-    updatedListModel.forEach(item => {
+    updatedListModel.forEach((item) => {
       item.isSelected = selectedIds.indexOf(item.id) > -1 ? true : false;
     });
     return updatedListModel;

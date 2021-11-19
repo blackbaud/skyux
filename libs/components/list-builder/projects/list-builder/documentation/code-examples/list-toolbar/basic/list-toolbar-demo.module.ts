@@ -1,42 +1,25 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  FormsModule,
-  ReactiveFormsModule
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import {
-  SkyRadioModule
-} from '@skyux/forms';
+import { SkyRadioModule } from '@skyux/forms';
 
-import {
-  SkyIconModule
-} from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/indicators';
 
 import {
   SkyListFiltersModule,
   SkyListModule,
   SkyListSecondaryActionsModule,
-  SkyListToolbarModule
+  SkyListToolbarModule,
 } from 'projects/list-builder/src/public-api';
 
-import {
-  SkyFilterModule
-} from '@skyux/lists';
+import { SkyFilterModule } from '@skyux/lists';
 
-import {
-SkyDropdownModule
-} from '@skyux/popovers';
+import { SkyDropdownModule } from '@skyux/popovers';
 
-import {
-  ListToolbarDemoComponent
-} from './list-toolbar-demo.component';
+import { ListToolbarDemoComponent } from './list-toolbar-demo.component';
 
 @NgModule({
   imports: [
@@ -50,13 +33,9 @@ import {
     SkyListSecondaryActionsModule,
     SkyListToolbarModule,
     SkyRadioModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  declarations: [
-    ListToolbarDemoComponent
-  ],
-  exports: [
-    ListToolbarDemoComponent
-  ]
+  declarations: [ListToolbarDemoComponent],
+  exports: [ListToolbarDemoComponent],
 })
-export class ListToolbarDemoModule { }
+export class ListToolbarDemoModule {}

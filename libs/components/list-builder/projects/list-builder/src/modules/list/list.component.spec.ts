@@ -3,168 +3,98 @@ import {
   async,
   fakeAsync,
   tick,
-  ComponentFixture
+  ComponentFixture,
 } from '@angular/core/testing';
 
-import {
-  DebugElement
-} from '@angular/core';
+import { DebugElement } from '@angular/core';
 
-import {
-  FormsModule
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 import {
   ListItemModel,
-  ListSortFieldSelectorModel
+  ListSortFieldSelectorModel,
 } from '@skyux/list-builder-common';
 
-import {
-  BehaviorSubject,
-  Observable
-} from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
-import {
-  map as observableMap,
-  skip,
-  take
-} from 'rxjs/operators';
+import { map as observableMap, skip, take } from 'rxjs/operators';
 
-import {
-  ListState
-} from '../list/state/list-state.state-node';
+import { ListState } from '../list/state/list-state.state-node';
 
-import {
-  ListStateDispatcher
-} from '../list/state/list-state.rxstate';
+import { ListStateDispatcher } from '../list/state/list-state.rxstate';
 
-import {
-  ListPagingSetPageNumberAction
-} from '../list/state/paging/set-page-number.action';
+import { ListPagingSetPageNumberAction } from '../list/state/paging/set-page-number.action';
 
-import {
-  ListToolbarShowMultiselectToolbarAction
-} from '../list/state/toolbar/show-multiselect-toolbar.action';
+import { ListToolbarShowMultiselectToolbarAction } from '../list/state/toolbar/show-multiselect-toolbar.action';
 
-import {
-  SkyListInMemoryDataProvider
-} from '../list-data-provider-in-memory/list-data-in-memory.provider';
+import { SkyListInMemoryDataProvider } from '../list-data-provider-in-memory/list-data-in-memory.provider';
 
-import {
-  SkyListToolbarModule
-} from '../list-toolbar/list-toolbar.module';
+import { SkyListToolbarModule } from '../list-toolbar/list-toolbar.module';
 
-import {
-  ListDualTestComponent
-} from './fixtures/list-dual.component.fixture';
+import { ListDualTestComponent } from './fixtures/list-dual.component.fixture';
 
-import {
-  ListEmptyTestComponent
-} from './fixtures/list-empty.component.fixture';
+import { ListEmptyTestComponent } from './fixtures/list-empty.component.fixture';
 
-import {
-  ListFilteredTestComponent
-} from './fixtures/list-filtered.component.fixture';
+import { ListFilteredTestComponent } from './fixtures/list-filtered.component.fixture';
 
-import {
-  ListFixturesModule
-} from './fixtures/list-fixtures.module';
+import { ListFixturesModule } from './fixtures/list-fixtures.module';
 
-import {
-  ListSelectedTestComponent
-} from './fixtures/list-selected.component.fixture';
+import { ListSelectedTestComponent } from './fixtures/list-selected.component.fixture';
 
-import {
-  ListTestComponent
-} from './fixtures/list.component.fixture';
+import { ListTestComponent } from './fixtures/list.component.fixture';
 
-import {
-  ListViewTestComponent
-} from './fixtures/list-view-test.component.fixture';
+import { ListViewTestComponent } from './fixtures/list-view-test.component.fixture';
 
-import {
-  ListDataRequestModel
-} from './list-data-request.model';
+import { ListDataRequestModel } from './list-data-request.model';
 
-import {
-  ListDataResponseModel
-} from './list-data-response.model';
+import { ListDataResponseModel } from './list-data-response.model';
 
-import {
-  SkyListComponent
-} from './list.component';
+import { SkyListComponent } from './list.component';
 
-import {
-  SkyListModule
-} from './list.module';
+import { SkyListModule } from './list.module';
 
-import {
-  ListFilterModel
-} from '../list-filters/filter.model';
+import { ListFilterModel } from '../list-filters/filter.model';
 
-import {
-  ListItemsSetSelectedAction
-} from './state/items/set-items-selected.action';
+import { ListItemsSetSelectedAction } from './state/items/set-items-selected.action';
 
-import {
-  ListPagingModel
-} from './state/paging/paging.model';
+import { ListPagingModel } from './state/paging/paging.model';
 
-import {
-  ListSearchModel
-} from './state/search/search.model';
+import { ListSearchModel } from './state/search/search.model';
 
-import {
-  ListSearchSetFunctionsAction
-} from './state/search/set-functions.action';
+import { ListSearchSetFunctionsAction } from './state/search/set-functions.action';
 
-import {
-  ListSearchSetFieldSelectorsAction
-} from './state/search/set-field-selectors.action';
+import { ListSearchSetFieldSelectorsAction } from './state/search/set-field-selectors.action';
 
-import {
-  ListSelectedSetItemsSelectedAction
-} from './state/selected/set-items-selected.action';
+import { ListSelectedSetItemsSelectedAction } from './state/selected/set-items-selected.action';
 
-import {
-  ListSelectedSetItemSelectedAction
-} from './state/selected/set-item-selected.action';
+import { ListSelectedSetItemSelectedAction } from './state/selected/set-item-selected.action';
 
-import {
-  ListSortSetFieldSelectorsAction
-} from './state/sort/set-field-selectors.action';
+import { ListSortSetFieldSelectorsAction } from './state/sort/set-field-selectors.action';
 
-import {
-  ListSortLabelModel
-} from './state/sort/label.model';
+import { ListSortLabelModel } from './state/sort/label.model';
 
-import {
-  ListToolbarItemModel
-} from './state/toolbar/toolbar-item.model';
+import { ListToolbarItemModel } from './state/toolbar/toolbar-item.model';
 
-import {
-  ListToolbarItemsLoadAction
-} from './state/toolbar/load.action';
+import { ListToolbarItemsLoadAction } from './state/toolbar/load.action';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('List Component', () => {
   describe('List Fixture', () => {
-
     function validateRowCount(element: DebugElement, expectedCount: number) {
-      expect(element.queryAll(By.css('.list-view-test-item')).length).toBe(expectedCount);
+      expect(element.queryAll(By.css('.list-view-test-item')).length).toBe(
+        expectedCount
+      );
     }
 
     describe('List Component with Observable', () => {
       let state: ListState,
-          dispatcher: ListStateDispatcher,
-          component: ListTestComponent,
-          fixture: any,
-          element: DebugElement,
-          items: Observable<any>,
-          bs: BehaviorSubject<any>;
+        dispatcher: ListStateDispatcher,
+        component: ListTestComponent,
+        fixture: any,
+        element: DebugElement,
+        items: Observable<any>,
+        bs: BehaviorSubject<any>;
 
       beforeEach(async(() => {
         dispatcher = new ListStateDispatcher();
@@ -172,20 +102,31 @@ describe('List Component', () => {
 
         /* tslint:disable */
         let itemsArray = [
-          { id: '1', column1: '30', column2: 'Apple',
-            column3: 1, column4: 1 },
-          { id: '2', column1: '01', column2: 'Banana',
-            column3: 3, column4: 6 },
-          { id: '3', column1: '11', column2: 'Banana',
-            column3: 11, column4: 4 },
-          { id: '4', column1: '12', column2: 'Carrot',
-            column3: 12, column4: 2 },
-          { id: '5', column1: '12', column2: 'Edamame',
-            column3: 12, column4: 5 },
-          { id: '6', column1: null, column2: null,
-            column3: 20, column4: 3 },
-          { id: '7', column1: '22', column2: 'Grape',
-            column3: 21, column4: 7 }
+          { id: '1', column1: '30', column2: 'Apple', column3: 1, column4: 1 },
+          { id: '2', column1: '01', column2: 'Banana', column3: 3, column4: 6 },
+          {
+            id: '3',
+            column1: '11',
+            column2: 'Banana',
+            column3: 11,
+            column4: 4,
+          },
+          {
+            id: '4',
+            column1: '12',
+            column2: 'Carrot',
+            column3: 12,
+            column4: 2,
+          },
+          {
+            id: '5',
+            column1: '12',
+            column2: 'Edamame',
+            column3: 12,
+            column4: 5,
+          },
+          { id: '6', column1: null, column2: null, column3: 20, column4: 3 },
+          { id: '7', column1: '22', column2: 'Grape', column3: 21, column4: 7 },
         ];
 
         bs = new BehaviorSubject<Array<any>>(itemsArray);
@@ -197,25 +138,21 @@ describe('List Component', () => {
             SkyListModule,
             SkyListToolbarModule,
             FormsModule,
-            NoopAnimationsModule
+            NoopAnimationsModule,
           ],
-          providers: [
-            { provide: 'items', useValue: items }
-          ]
-        })
-        .overrideComponent(SkyListComponent, {
+          providers: [{ provide: 'items', useValue: items }],
+        }).overrideComponent(SkyListComponent, {
           set: {
             providers: [
               { provide: ListState, useValue: state },
-              { provide: ListStateDispatcher, useValue: dispatcher }
-            ]
-          }
+              { provide: ListStateDispatcher, useValue: dispatcher },
+            ],
+          },
         });
 
         fixture = TestBed.createComponent(ListTestComponent);
         element = fixture.debugElement as DebugElement;
         component = fixture.componentInstance;
-
       }));
 
       function initializeList() {
@@ -233,10 +170,16 @@ describe('List Component', () => {
         return fixture.whenStable();
       }
 
-      function validateRowValue(rowIndex: number, columnNumber: number, expectedValue: string) {
+      function validateRowValue(
+        rowIndex: number,
+        columnNumber: number,
+        expectedValue: string
+      ) {
         const row = element.queryAll(By.css('.list-view-test-item'));
 
-        const cell = row[rowIndex].query(By.css('.list-view-test-item-column' + columnNumber));
+        const cell = row[rowIndex].query(
+          By.css('.list-view-test-item-column' + columnNumber)
+        );
 
         expect(cell.nativeElement.innerText.trim()).toBe(expectedValue);
       }
@@ -247,7 +190,6 @@ describe('List Component', () => {
         }));
 
         it('should load data', () => {
-
           validateRowCount(element, 7);
         });
 
@@ -255,12 +197,27 @@ describe('List Component', () => {
           validateRowCount(element, 7);
           fixture.detectChanges();
           bs.next([
-            { id: '1', column1: '1', column2: 'Large',
-              column3: 2, column4: 15 },
-            { id: '2', column1: '22', column2: 'Small',
-              column3: 3, column4: 60 },
-            { id: '3', column1: '33', column2: 'Medium',
-              column3: 4, column4: 45 }
+            {
+              id: '1',
+              column1: '1',
+              column2: 'Large',
+              column3: 2,
+              column4: 15,
+            },
+            {
+              id: '2',
+              column1: '22',
+              column2: 'Small',
+              column3: 3,
+              column4: 60,
+            },
+            {
+              id: '3',
+              column1: '33',
+              column2: 'Medium',
+              column3: 4,
+              column4: 45,
+            },
           ]);
           fixture.detectChanges();
           validateRowCount(element, 3);
@@ -268,10 +225,20 @@ describe('List Component', () => {
 
         it('should update displayed items when data is updated', () => {
           let newItems = [
-            { id: '11', column1: '11', column2: 'Coffee',
-              column3: 11, column4: 11 },
-            { id: '12', column1: '12', column2: 'Tea',
-              column3: 12, column4: 12 }
+            {
+              id: '11',
+              column1: '11',
+              column2: 'Coffee',
+              column3: 11,
+              column4: 11,
+            },
+            {
+              id: '12',
+              column1: '12',
+              column2: 'Tea',
+              column3: 12,
+              column4: 12,
+            },
           ];
 
           bs.next(newItems);
@@ -283,7 +250,6 @@ describe('List Component', () => {
         it('should search based on input text', async(() => {
           fixture.detectChanges();
           applySearch('banana').then(() => {
-
             fixture.detectChanges();
             validateRowCount(element, 2);
 
@@ -300,31 +266,37 @@ describe('List Component', () => {
           initializeList();
           tick();
           validateRowCount(element, 7);
-          dispatcher.next(new ListSortSetFieldSelectorsAction([
-            {
-              fieldSelector: 'column1',
-              descending: true
-            }
-          ]));
+          dispatcher.next(
+            new ListSortSetFieldSelectorsAction([
+              {
+                fieldSelector: 'column1',
+                descending: true,
+              },
+            ])
+          );
 
           validateRowValue(0, 1, '30');
           fixture.detectChanges();
 
-          dispatcher.next(new ListSortSetFieldSelectorsAction([
-            {
-              fieldSelector: 'column1',
-              descending: false
-            }
-          ]));
+          dispatcher.next(
+            new ListSortSetFieldSelectorsAction([
+              {
+                fieldSelector: 'column1',
+                descending: false,
+              },
+            ])
+          );
           fixture.detectChanges();
           validateRowValue(0, 1, '01');
           fixture.detectChanges();
-          dispatcher.next(new ListSortSetFieldSelectorsAction([
-            {
-              fieldSelector: 'column3',
-              descending: true
-            }
-          ]));
+          dispatcher.next(
+            new ListSortSetFieldSelectorsAction([
+              {
+                fieldSelector: 'column3',
+                descending: true,
+              },
+            ])
+          );
           fixture.detectChanges();
           validateRowValue(0, 3, '21');
         }));
@@ -353,9 +325,9 @@ describe('List Component', () => {
 
         it('should set initial sort with non-array', fakeAsync(() => {
           component.sortFields = {
-              fieldSelector: 'column3',
-              descending: true
-            };
+            fieldSelector: 'column3',
+            descending: true,
+          };
 
           initializeList();
           tick();
@@ -364,17 +336,18 @@ describe('List Component', () => {
         }));
 
         it('should set initial sort with array', fakeAsync(() => {
-          component.sortFields = [{
+          component.sortFields = [
+            {
               fieldSelector: 'column3',
-              descending: true
-            }];
+              descending: true,
+            },
+          ];
 
           initializeList();
           tick();
 
           validateRowValue(0, 3, '21');
         }));
-
       });
 
       describe('refreshDisplayedItems', () => {
@@ -391,7 +364,7 @@ describe('List Component', () => {
         it('should return item count', fakeAsync(() => {
           initializeList();
           tick();
-          component.list.itemCount.pipe(take(1)).subscribe(u => {
+          component.list.itemCount.pipe(take(1)).subscribe((u) => {
             state.pipe(take(1)).subscribe((s) => {
               expect(u).toBe(s.items.count);
             });
@@ -403,9 +376,9 @@ describe('List Component', () => {
         it('should return last updated date', fakeAsync(() => {
           initializeList();
           tick();
-          component.list.lastUpdate.pipe(take(1)).subscribe(u => {
+          component.list.lastUpdate.pipe(take(1)).subscribe((u) => {
             state.pipe(take(1)).subscribe((s) => {
-              expect(u.getTime()).toEqual(s.items.lastUpdate)
+              expect(u.getTime()).toEqual(s.items.lastUpdate);
             });
           });
         }));
@@ -413,7 +386,12 @@ describe('List Component', () => {
         it('should return undefined if not defined', fakeAsync(() => {
           initializeList();
           tick();
-          state.pipe(observableMap((s) => s.items.lastUpdate = undefined), take(1)).subscribe();
+          state
+            .pipe(
+              observableMap((s) => (s.items.lastUpdate = undefined)),
+              take(1)
+            )
+            .subscribe();
           component.list.lastUpdate.pipe(take(1)).subscribe((u) => {
             expect(u).toBeUndefined();
           });
@@ -423,11 +401,11 @@ describe('List Component', () => {
 
     describe('selected items', () => {
       let state: ListState,
-          dispatcher: ListStateDispatcher,
-          component: ListSelectedTestComponent,
-          fixture: ComponentFixture<ListSelectedTestComponent>,
-          items: Observable<any>,
-          bs: BehaviorSubject<any>;
+        dispatcher: ListStateDispatcher,
+        component: ListSelectedTestComponent,
+        fixture: ComponentFixture<ListSelectedTestComponent>,
+        items: Observable<any>,
+        bs: BehaviorSubject<any>;
 
       beforeEach(async(() => {
         dispatcher = new ListStateDispatcher();
@@ -435,20 +413,31 @@ describe('List Component', () => {
 
         /* tslint:disable */
         let itemsArray = [
-          { id: '1', column1: '30', column2: 'Apple',
-            column3: 1, column4: 1 },
-          { id: '2', column1: '01', column2: 'Banana',
-            column3: 3, column4: 6 },
-          { id: '3', column1: '11', column2: 'Banana',
-            column3: 11, column4: 4 },
-          { id: '4', column1: '12', column2: 'Carrot',
-            column3: 12, column4: 2 },
-          { id: '5', column1: '12', column2: 'Edamame',
-            column3: 12, column4: 5 },
-          { id: '6', column1: null, column2: null,
-            column3: 20, column4: 3 },
-          { id: '7', column1: '22', column2: 'Grape',
-            column3: 21, column4: 7 }
+          { id: '1', column1: '30', column2: 'Apple', column3: 1, column4: 1 },
+          { id: '2', column1: '01', column2: 'Banana', column3: 3, column4: 6 },
+          {
+            id: '3',
+            column1: '11',
+            column2: 'Banana',
+            column3: 11,
+            column4: 4,
+          },
+          {
+            id: '4',
+            column1: '12',
+            column2: 'Carrot',
+            column3: 12,
+            column4: 2,
+          },
+          {
+            id: '5',
+            column1: '12',
+            column2: 'Edamame',
+            column3: 12,
+            column4: 5,
+          },
+          { id: '6', column1: null, column2: null, column3: 20, column4: 3 },
+          { id: '7', column1: '22', column2: 'Grape', column3: 21, column4: 7 },
         ];
 
         bs = new BehaviorSubject<Array<any>>(itemsArray);
@@ -460,19 +449,16 @@ describe('List Component', () => {
             SkyListModule,
             SkyListToolbarModule,
             FormsModule,
-            NoopAnimationsModule
+            NoopAnimationsModule,
           ],
-          providers: [
-            { provide: 'items', useValue: items }
-          ]
-        })
-        .overrideComponent(SkyListComponent, {
+          providers: [{ provide: 'items', useValue: items }],
+        }).overrideComponent(SkyListComponent, {
           set: {
             providers: [
               { provide: ListState, useValue: state },
-              { provide: ListStateDispatcher, useValue: dispatcher }
-            ]
-          }
+              { provide: ListStateDispatcher, useValue: dispatcher },
+            ],
+          },
         });
 
         fixture = TestBed.createComponent(ListSelectedTestComponent);
@@ -484,12 +470,13 @@ describe('List Component', () => {
         // run detectChanges once more then begin tests
         state.pipe(skip(1), take(1)).subscribe(() => fixture.detectChanges());
         fixture.detectChanges();
-
       }));
 
       describe('models and actions', () => {
         it('should set items properly', fakeAsync(() => {
-          dispatcher.next(new ListSelectedSetItemsSelectedAction(['1', '2'], true));
+          dispatcher.next(
+            new ListSelectedSetItemsSelectedAction(['1', '2'], true)
+          );
 
           tick();
 
@@ -501,7 +488,9 @@ describe('List Component', () => {
 
           tick();
 
-          dispatcher.next(new ListSelectedSetItemsSelectedAction(['1'], false, false));
+          dispatcher.next(
+            new ListSelectedSetItemsSelectedAction(['1'], false, false)
+          );
 
           tick();
 
@@ -513,7 +502,9 @@ describe('List Component', () => {
 
           tick();
 
-          dispatcher.next(new ListSelectedSetItemsSelectedAction(['3'], true, true));
+          dispatcher.next(
+            new ListSelectedSetItemsSelectedAction(['3'], true, true)
+          );
 
           tick();
 
@@ -524,7 +515,6 @@ describe('List Component', () => {
           });
 
           tick();
-
         }));
 
         it('should set item properly', fakeAsync(() => {
@@ -566,7 +556,6 @@ describe('List Component', () => {
       });
 
       it('should allow users to initialize selectedIds', fakeAsync(() => {
-
         tick();
         fixture.detectChanges();
         state.pipe(take(1)).subscribe((current) => {
@@ -599,7 +588,7 @@ describe('List Component', () => {
         tick();
         fixture.detectChanges();
 
-        component.selectedIds = ['3', '4']
+        component.selectedIds = ['3', '4'];
         tick();
         fixture.detectChanges();
         state.pipe(take(1)).subscribe((current) => {
@@ -613,7 +602,7 @@ describe('List Component', () => {
           expect(selectedIdMap.get('7')).toBeUndefined();
         });
 
-        component.selectedIds = []
+        component.selectedIds = [];
         tick();
         fixture.detectChanges();
         state.pipe(take(1)).subscribe((current) => {
@@ -669,15 +658,18 @@ describe('List Component', () => {
       it('should not change selectedIds if the values are not distinct', fakeAsync(() => {
         tick();
         fixture.detectChanges();
-        const dispatcherSpy = spyOn(dispatcher, 'setSelected').and.callThrough();
+        const dispatcherSpy = spyOn(
+          dispatcher,
+          'setSelected'
+        ).and.callThrough();
 
-        component.selectedIds = ['3', '4']
+        component.selectedIds = ['3', '4'];
         tick();
         fixture.detectChanges();
         expect(dispatcherSpy).toHaveBeenCalledTimes(1);
         dispatcherSpy.calls.reset();
 
-        component.selectedIds = ['3', '4']
+        component.selectedIds = ['3', '4'];
         tick();
         fixture.detectChanges();
         expect(dispatcherSpy).not.toHaveBeenCalled();
@@ -689,15 +681,18 @@ describe('List Component', () => {
       it('should handle an undefined value for selectedIds', fakeAsync(() => {
         tick();
         fixture.detectChanges();
-        const dispatcherSpy = spyOn(dispatcher, 'setSelected').and.callThrough();
+        const dispatcherSpy = spyOn(
+          dispatcher,
+          'setSelected'
+        ).and.callThrough();
 
-        component.selectedIds = ['3', '4']
+        component.selectedIds = ['3', '4'];
         tick();
         fixture.detectChanges();
         expect(dispatcherSpy).toHaveBeenCalledTimes(1);
         dispatcherSpy.calls.reset();
 
-        component.selectedIds = undefined
+        component.selectedIds = undefined;
         tick();
         fixture.detectChanges();
         expect(dispatcherSpy).toHaveBeenCalledTimes(1);
@@ -719,7 +714,7 @@ describe('List Component', () => {
       it('should allow users to access displayed selectedItems', fakeAsync(() => {
         tick();
         fixture.detectChanges();
-        component.list.selectedItems.subscribe((items)=> {
+        component.list.selectedItems.subscribe((items) => {
           expect(items[0].data.column2).toBe('Apple');
           expect(items[1].data.column2).toBe('Banana');
         });
@@ -732,12 +727,16 @@ describe('List Component', () => {
         tick();
         fixture.detectChanges();
 
-        dispatcher.next(new ListSelectedSetItemsSelectedAction(['1', '2'], true));
+        dispatcher.next(
+          new ListSelectedSetItemsSelectedAction(['1', '2'], true)
+        );
 
         tick();
 
         fixture.detectChanges();
-        let selectedIds: Array<string> = Array.from(component.selectedItems.entries())
+        let selectedIds: Array<string> = Array.from(
+          component.selectedItems.entries()
+        )
           .filter((item) => item[1])
           .map((item) => item[0]);
 
@@ -748,17 +747,17 @@ describe('List Component', () => {
       it('should retain selections after applying/removing filters', fakeAsync(() => {
         const filters = [
           new ListFilterModel({
-            name: 'show-selected'
-          })
+            name: 'show-selected',
+          }),
         ];
 
         // Select rows and apply "Show only selected" filter.
-        dispatcher.setSelected(['1','2'], true);
+        dispatcher.setSelected(['1', '2'], true);
         dispatcher.filtersUpdate(filters);
         fixture.detectChanges();
 
         // Expect rows to still be selected.
-        component.list.selectedItems.pipe(take(1)).subscribe((items)=> {
+        component.list.selectedItems.pipe(take(1)).subscribe((items) => {
           expect(items.length === 2);
           expect(items[0].data.column2).toBe('Apple');
           expect(items[1].data.column2).toBe('Banana');
@@ -770,38 +769,42 @@ describe('List Component', () => {
         fixture.detectChanges();
 
         // Expect new rows to be selected.
-        component.list.selectedItems.pipe(take(1)).subscribe((items)=> {
+        component.list.selectedItems.pipe(take(1)).subscribe((items) => {
           expect(items.length === 2);
           expect(items[0].data.column2).toBe('Apple');
           expect(items[1].data.column2).toBe('Banana');
           expect(items[2].data.column2).toBe('Carrot');
         });
-
       }));
 
       it('should properly retain selections and update item.isSelected after selecting and clearing all, then updating the filters', fakeAsync(() => {
         // Simulate 'select all' click.
-        dispatcher.setSelected(['1','2','3','4','5','6','7'], true);
+        dispatcher.setSelected(['1', '2', '3', '4', '5', '6', '7'], true);
         fixture.detectChanges();
 
         // Apply "Show only selected" filter.
         const filters = [
           new ListFilterModel({
-            name: 'show-selected'
-          })
+            name: 'show-selected',
+          }),
         ];
         dispatcher.filtersUpdate(filters);
         fixture.detectChanges();
 
         // Expect all rows to be selected.
-        state.pipe(observableMap(s => s.items.items), take(1)).subscribe((items)=> {
-          items.forEach(i => {
-            expect(i.isSelected).toEqual(true);
+        state
+          .pipe(
+            observableMap((s) => s.items.items),
+            take(1)
+          )
+          .subscribe((items) => {
+            items.forEach((i) => {
+              expect(i.isSelected).toEqual(true);
+            });
           });
-        });
 
         // Simulate 'clear all' click.
-        dispatcher.setSelected(['1','2','3','4','5','6','7'], false);
+        dispatcher.setSelected(['1', '2', '3', '4', '5', '6', '7'], false);
         fixture.detectChanges();
 
         // Disable the "Show only selected" filter.
@@ -809,21 +812,26 @@ describe('List Component', () => {
         fixture.detectChanges();
 
         // Expect no rows to be selected.
-        state.pipe(observableMap(s => s.items.items), take(1)).subscribe((items)=> {
-          items.forEach(i => {
-            expect(i.isSelected).toEqual(false);
+        state
+          .pipe(
+            observableMap((s) => s.items.items),
+            take(1)
+          )
+          .subscribe((items) => {
+            items.forEach((i) => {
+              expect(i.isSelected).toEqual(false);
+            });
           });
-        });
       }));
     });
 
     describe('filtering', () => {
-       let state: ListState,
-          dispatcher: ListStateDispatcher,
-          component: ListFilteredTestComponent,
-          fixture: ComponentFixture<ListFilteredTestComponent>,
-          items: Observable<any>,
-          bs: BehaviorSubject<any>;
+      let state: ListState,
+        dispatcher: ListStateDispatcher,
+        component: ListFilteredTestComponent,
+        fixture: ComponentFixture<ListFilteredTestComponent>,
+        items: Observable<any>,
+        bs: BehaviorSubject<any>;
 
       beforeEach(async(() => {
         dispatcher = new ListStateDispatcher();
@@ -831,20 +839,31 @@ describe('List Component', () => {
 
         /* tslint:disable */
         let itemsArray = [
-          { id: '1', column1: '30', column2: 'Apple',
-            column3: 1, column4: 1 },
-          { id: '2', column1: '01', column2: 'Banana',
-            column3: 3, column4: 6 },
-          { id: '3', column1: '11', column2: 'Banana',
-            column3: 11, column4: 4 },
-          { id: '4', column1: '12', column2: 'Carrot',
-            column3: 12, column4: 2 },
-          { id: '5', column1: '12', column2: 'Edamame',
-            column3: 12, column4: 5 },
-          { id: '6', column1: null, column2: null,
-            column3: 20, column4: 3 },
-          { id: '7', column1: '22', column2: 'Grape',
-            column3: 21, column4: 7 }
+          { id: '1', column1: '30', column2: 'Apple', column3: 1, column4: 1 },
+          { id: '2', column1: '01', column2: 'Banana', column3: 3, column4: 6 },
+          {
+            id: '3',
+            column1: '11',
+            column2: 'Banana',
+            column3: 11,
+            column4: 4,
+          },
+          {
+            id: '4',
+            column1: '12',
+            column2: 'Carrot',
+            column3: 12,
+            column4: 2,
+          },
+          {
+            id: '5',
+            column1: '12',
+            column2: 'Edamame',
+            column3: 12,
+            column4: 5,
+          },
+          { id: '6', column1: null, column2: null, column3: 20, column4: 3 },
+          { id: '7', column1: '22', column2: 'Grape', column3: 21, column4: 7 },
         ];
 
         bs = new BehaviorSubject<Array<any>>(itemsArray);
@@ -856,19 +875,16 @@ describe('List Component', () => {
             SkyListModule,
             SkyListToolbarModule,
             FormsModule,
-            NoopAnimationsModule
+            NoopAnimationsModule,
           ],
-          providers: [
-            { provide: 'items', useValue: items }
-          ]
-        })
-        .overrideComponent(SkyListComponent, {
+          providers: [{ provide: 'items', useValue: items }],
+        }).overrideComponent(SkyListComponent, {
           set: {
             providers: [
               { provide: ListState, useValue: state },
-              { provide: ListStateDispatcher, useValue: dispatcher }
-            ]
-          }
+              { provide: ListStateDispatcher, useValue: dispatcher },
+            ],
+          },
         });
 
         fixture = TestBed.createComponent(ListFilteredTestComponent);
@@ -880,7 +896,6 @@ describe('List Component', () => {
         // run detectChanges once more then begin tests
         state.pipe(skip(1), take(1)).subscribe(() => fixture.detectChanges());
         fixture.detectChanges();
-
       }));
 
       function appleFilterFunction(item: ListItemModel, filterValue: any) {
@@ -892,8 +907,8 @@ describe('List Component', () => {
           new ListFilterModel({
             name: 'filter1',
             value: 'Apple',
-            filterFunction: appleFilterFunction
-          })
+            filterFunction: appleFilterFunction,
+          }),
         ];
 
         component.listFilters = appliedFilters;
@@ -907,9 +922,7 @@ describe('List Component', () => {
       }));
 
       it('should return the list to page 1 when filters are changed', fakeAsync(() => {
-        dispatcher.next(
-          new ListPagingSetPageNumberAction(Number(2))
-        );
+        dispatcher.next(new ListPagingSetPageNumberAction(Number(2)));
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -923,8 +936,8 @@ describe('List Component', () => {
           new ListFilterModel({
             name: 'filter1',
             value: 'Apple',
-            filterFunction: appleFilterFunction
-          })
+            filterFunction: appleFilterFunction,
+          }),
         ];
 
         component.listFilters = appliedFilters;
@@ -939,9 +952,7 @@ describe('List Component', () => {
       }));
 
       it('should return the list to page 1 when filters are changed', fakeAsync(() => {
-        dispatcher.next(
-          new ListPagingSetPageNumberAction(Number(2))
-        );
+        dispatcher.next(new ListPagingSetPageNumberAction(Number(2)));
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -955,8 +966,8 @@ describe('List Component', () => {
           new ListFilterModel({
             name: 'filter1',
             value: 'Apple',
-            filterFunction: appleFilterFunction
-          })
+            filterFunction: appleFilterFunction,
+          }),
         ];
 
         component.listFilters = appliedFilters;
@@ -975,25 +986,31 @@ describe('List Component', () => {
           new ListFilterModel({
             name: 'filter1',
             value: 'Apple',
-            filterFunction: appleFilterFunction
-          })
+            filterFunction: appleFilterFunction,
+          }),
         ];
         spyOn(component.list.appliedFiltersChange, 'emit').and.callThrough();
         dispatcher.filtersUpdate(appliedFilters);
-        fixture.detectChanges()
+        fixture.detectChanges();
         tick();
         fixture.detectChanges();
 
         expect(component.appliedFilters).toEqual(appliedFilters);
-        expect(component.list.appliedFiltersChange.emit).toHaveBeenCalledTimes(1);
+        expect(component.list.appliedFiltersChange.emit).toHaveBeenCalledTimes(
+          1
+        );
 
-        fixture.nativeElement.querySelector('sky-filter-summary-item .sky-token-btn-close').click();
-        fixture.detectChanges()
+        fixture.nativeElement
+          .querySelector('sky-filter-summary-item .sky-token-btn-close')
+          .click();
+        fixture.detectChanges();
         tick();
         fixture.detectChanges();
 
         expect(component.appliedFilters).toEqual([]);
-        expect(component.list.appliedFiltersChange.emit).toHaveBeenCalledTimes(2);
+        expect(component.list.appliedFiltersChange.emit).toHaveBeenCalledTimes(
+          2
+        );
       }));
 
       describe('models and state', () => {
@@ -1005,29 +1022,40 @@ describe('List Component', () => {
 
     describe('List Component with Array', () => {
       let state: ListState,
-          dispatcher: ListStateDispatcher,
-          fixture: any,
-          element: DebugElement;
+        dispatcher: ListStateDispatcher,
+        fixture: any,
+        element: DebugElement;
 
       beforeEach(async(() => {
         dispatcher = new ListStateDispatcher();
         state = new ListState(dispatcher);
 
         let items = [
-          { id: '1', column1: '1', column2: 'Apple',
-            column3: 1, column4: 1 },
-          { id: '2', column1: '01', column2: 'Banana',
-            column3: 1, column4: 6 },
-          { id: '3', column1: '11', column2: 'Carrot',
-            column3: 11, column4: 4 },
-          { id: '4', column1: '12', column2: 'Daikon',
-            column3: 12, column4: 2 },
-          { id: '5', column1: '13', column2: 'Edamame',
-            column3: 13, column4: 5 },
-          { id: '6', column1: '20', column2: 'Fig',
-            column3: 20, column4: 3 },
-          { id: '7', column1: '21', column2: 'Grape',
-            column3: 21, column4: 7 }
+          { id: '1', column1: '1', column2: 'Apple', column3: 1, column4: 1 },
+          { id: '2', column1: '01', column2: 'Banana', column3: 1, column4: 6 },
+          {
+            id: '3',
+            column1: '11',
+            column2: 'Carrot',
+            column3: 11,
+            column4: 4,
+          },
+          {
+            id: '4',
+            column1: '12',
+            column2: 'Daikon',
+            column3: 12,
+            column4: 2,
+          },
+          {
+            id: '5',
+            column1: '13',
+            column2: 'Edamame',
+            column3: 13,
+            column4: 5,
+          },
+          { id: '6', column1: '20', column2: 'Fig', column3: 20, column4: 3 },
+          { id: '7', column1: '21', column2: 'Grape', column3: 21, column4: 7 },
         ];
 
         TestBed.configureTestingModule({
@@ -1036,19 +1064,16 @@ describe('List Component', () => {
             SkyListModule,
             SkyListToolbarModule,
             FormsModule,
-            NoopAnimationsModule
+            NoopAnimationsModule,
           ],
-          providers: [
-            { provide: 'items', useValue: items }
-          ]
-        })
-        .overrideComponent(SkyListComponent, {
+          providers: [{ provide: 'items', useValue: items }],
+        }).overrideComponent(SkyListComponent, {
           set: {
             providers: [
               { provide: ListState, useValue: state },
-              { provide: ListStateDispatcher, useValue: dispatcher }
-            ]
-          }
+              { provide: ListStateDispatcher, useValue: dispatcher },
+            ],
+          },
         });
 
         fixture = TestBed.createComponent(ListTestComponent);
@@ -1070,22 +1095,20 @@ describe('List Component', () => {
   describe('Empty List Fixture', () => {
     describe('List Component with Observable', () => {
       let state: ListState,
-          dispatcher: ListStateDispatcher,
-          fixture: any,
-          dataProvider: SkyListInMemoryDataProvider,
-          element: DebugElement,
-          items: Observable<any>,
-          bs: BehaviorSubject<any>;
+        dispatcher: ListStateDispatcher,
+        fixture: any,
+        dataProvider: SkyListInMemoryDataProvider,
+        element: DebugElement,
+        items: Observable<any>,
+        bs: BehaviorSubject<any>;
 
       beforeEach(async(() => {
         dispatcher = new ListStateDispatcher();
         state = new ListState(dispatcher);
 
         let itemsArray = [
-          { id: '1', column1: '1', column2: 'Apple',
-            column3: 1, column4: 1 },
-          { id: '2', column1: '01', column2: 'Banana',
-            column3: 1, column4: 6 }
+          { id: '1', column1: '1', column2: 'Apple', column3: 1, column4: 1 },
+          { id: '2', column1: '01', column2: 'Banana', column3: 1, column4: 6 },
         ];
 
         bs = new BehaviorSubject<Array<any>>(itemsArray);
@@ -1098,20 +1121,19 @@ describe('List Component', () => {
             SkyListModule,
             SkyListToolbarModule,
             FormsModule,
-            NoopAnimationsModule
+            NoopAnimationsModule,
           ],
           providers: [
             { provide: 'items', useValue: items },
-            { provide: SkyListInMemoryDataProvider, useValue: dataProvider }
-          ]
-        })
-        .overrideComponent(SkyListComponent, {
+            { provide: SkyListInMemoryDataProvider, useValue: dataProvider },
+          ],
+        }).overrideComponent(SkyListComponent, {
           set: {
             providers: [
               { provide: ListState, useValue: state },
-              { provide: ListStateDispatcher, useValue: dispatcher }
-            ]
-          }
+              { provide: ListStateDispatcher, useValue: dispatcher },
+            ],
+          },
         });
 
         fixture = TestBed.createComponent(ListEmptyTestComponent);
@@ -1143,10 +1165,8 @@ describe('List Component', () => {
         let list = fixture.componentInstance.list;
 
         bs.next([
-          { column1: '1', column2: 'Apple',
-            column3: 1, column4: 1 },
-          { column1: '01', column2: 'Banana',
-            column3: 1, column4: 6 }
+          { column1: '1', column2: 'Apple', column3: 1, column4: 1 },
+          { column1: '01', column2: 'Banana', column3: 1, column4: 6 },
         ]);
         fixture.detectChanges();
 
@@ -1154,7 +1174,7 @@ describe('List Component', () => {
           expect(d.count).toBe(2);
           expect(d.items.length).toBe(2);
           expect(d.items[0].id).not.toBe(1);
-           expect(d.items[1].id).not.toBe(2);
+          expect(d.items[1].id).not.toBe(2);
         });
 
         expect(list.displayedItems).not.toBe(null);
@@ -1166,36 +1186,38 @@ describe('List Component', () => {
           pageSize: 10,
           pageNumber: 1,
           search: new ListSearchModel(),
-
         });
 
         let response = provider.get(request);
         response.pipe(take(1)).subscribe();
         response.pipe(take(1)).subscribe((r: any) => expect(r.count).toBe(2));
-
       });
 
       it('data provider filteredItems with defined search function', () => {
         let provider = fixture.componentInstance.list.dataProvider;
-        provider.searchFunction = (data: any, searchText: string) => { return 'search'; }
+        provider.searchFunction = (data: any, searchText: string) => {
+          return 'search';
+        };
 
         let request = new ListDataRequestModel({
           pageSize: 10,
-         pageNumber: 1,
-         search: new ListSearchModel({ searchText: 'search', functions: [() => {}] }),
+          pageNumber: 1,
+          search: new ListSearchModel({
+            searchText: 'search',
+            functions: [() => {}],
+          }),
         });
 
         let response = provider.get(request);
         response.pipe(take(1)).subscribe((r: any) => expect(r.count).toBe(2));
-
       });
     });
 
     describe('List Component with no data', () => {
       let state: ListState,
-          dispatcher: ListStateDispatcher,
-          fixture: any,
-          dataProvider: SkyListInMemoryDataProvider;
+        dispatcher: ListStateDispatcher,
+        fixture: any,
+        dataProvider: SkyListInMemoryDataProvider;
 
       beforeEach(async(() => {
         dispatcher = new ListStateDispatcher();
@@ -1208,20 +1230,19 @@ describe('List Component', () => {
             SkyListModule,
             SkyListToolbarModule,
             FormsModule,
-            NoopAnimationsModule
+            NoopAnimationsModule,
           ],
           providers: [
             { provide: 'items', useValue: null },
-            { provide: SkyListInMemoryDataProvider, useValue: dataProvider }
-          ]
-        })
-        .overrideComponent(SkyListComponent, {
+            { provide: SkyListInMemoryDataProvider, useValue: dataProvider },
+          ],
+        }).overrideComponent(SkyListComponent, {
           set: {
             providers: [
               { provide: ListState, useValue: state },
-              { provide: ListStateDispatcher, useValue: dispatcher }
-            ]
-          }
+              { provide: ListStateDispatcher, useValue: dispatcher },
+            ],
+          },
         });
 
         fixture = TestBed.createComponent(ListEmptyTestComponent);
@@ -1239,18 +1260,17 @@ describe('List Component', () => {
         expect(list.data).toBe(null);
         expect(list.dataProvider).not.toBe(null);
 
-        list.dataProvider.count()
+        list.dataProvider
+          .count()
           .pipe(take(1))
           .subscribe((count: any) => {
             expect(count).toBe(0);
-        });
+          });
       });
     });
 
     describe('List Component with no data and no data provider', () => {
-      let state: ListState,
-          dispatcher: ListStateDispatcher,
-          fixture: any;
+      let state: ListState, dispatcher: ListStateDispatcher, fixture: any;
 
       beforeEach(async(() => {
         dispatcher = new ListStateDispatcher();
@@ -1262,20 +1282,19 @@ describe('List Component', () => {
             SkyListModule,
             SkyListToolbarModule,
             FormsModule,
-            NoopAnimationsModule
+            NoopAnimationsModule,
           ],
           providers: [
             { provide: 'items', useValue: null },
-            { provide: SkyListInMemoryDataProvider, useValue: null }
-          ]
-        })
-        .overrideComponent(SkyListComponent, {
+            { provide: SkyListInMemoryDataProvider, useValue: null },
+          ],
+        }).overrideComponent(SkyListComponent, {
           set: {
             providers: [
               { provide: ListState, useValue: state },
-              { provide: ListStateDispatcher, useValue: dispatcher }
-            ]
-          }
+              { provide: ListStateDispatcher, useValue: dispatcher },
+            ],
+          },
         });
 
         fixture = TestBed.createComponent(ListEmptyTestComponent);
@@ -1292,7 +1311,9 @@ describe('List Component', () => {
         try {
           list.displayedItems;
         } catch (error) {
-          expect(error.message).toBe('List requires data or dataProvider to be set.');
+          expect(error.message).toBe(
+            'List requires data or dataProvider to be set.'
+          );
         }
       });
     });
@@ -1301,12 +1322,12 @@ describe('List Component', () => {
   describe('Dual view Fixture', () => {
     describe('List Component with Observable', () => {
       let state: ListState,
-          dispatcher: ListStateDispatcher,
-          component: ListTestComponent,
-          fixture: any,
-          element: DebugElement,
-          items: Observable<any>,
-          bs: BehaviorSubject<any>;
+        dispatcher: ListStateDispatcher,
+        component: ListTestComponent,
+        fixture: any,
+        element: DebugElement,
+        items: Observable<any>,
+        bs: BehaviorSubject<any>;
 
       beforeEach(async(() => {
         dispatcher = new ListStateDispatcher();
@@ -1314,20 +1335,31 @@ describe('List Component', () => {
 
         /* tslint:disable */
         let itemsArray = [
-          { id: '1', column1: '30', column2: 'Apple',
-            column3: 1, column4: 1 },
-          { id: '2', column1: '01', column2: 'Banana',
-            column3: 3, column4: 6 },
-          { id: '3', column1: '11', column2: 'Banana',
-            column3: 11, column4: 4 },
-          { id: '4', column1: '12', column2: 'Carrot',
-            column3: 12, column4: 2 },
-          { id: '5', column1: '12', column2: 'Edamame',
-            column3: 12, column4: 5 },
-          { id: '6', column1: null, column2: null,
-            column3: 20, column4: 3 },
-          { id: '7', column1: '22', column2: 'Grape',
-            column3: 21, column4: 7 }
+          { id: '1', column1: '30', column2: 'Apple', column3: 1, column4: 1 },
+          { id: '2', column1: '01', column2: 'Banana', column3: 3, column4: 6 },
+          {
+            id: '3',
+            column1: '11',
+            column2: 'Banana',
+            column3: 11,
+            column4: 4,
+          },
+          {
+            id: '4',
+            column1: '12',
+            column2: 'Carrot',
+            column3: 12,
+            column4: 2,
+          },
+          {
+            id: '5',
+            column1: '12',
+            column2: 'Edamame',
+            column3: 12,
+            column4: 5,
+          },
+          { id: '6', column1: null, column2: null, column3: 20, column4: 3 },
+          { id: '7', column1: '22', column2: 'Grape', column3: 21, column4: 7 },
         ];
 
         bs = new BehaviorSubject<Array<any>>(itemsArray);
@@ -1339,19 +1371,16 @@ describe('List Component', () => {
             SkyListModule,
             SkyListToolbarModule,
             FormsModule,
-            NoopAnimationsModule
+            NoopAnimationsModule,
           ],
-          providers: [
-            { provide: 'items', useValue: items }
-          ]
-        })
-        .overrideComponent(SkyListComponent, {
+          providers: [{ provide: 'items', useValue: items }],
+        }).overrideComponent(SkyListComponent, {
           set: {
             providers: [
               { provide: ListState, useValue: state },
-              { provide: ListStateDispatcher, useValue: dispatcher }
-            ]
-          }
+              { provide: ListStateDispatcher, useValue: dispatcher },
+            ],
+          },
         });
 
         fixture = TestBed.createComponent(ListDualTestComponent);
@@ -1367,24 +1396,35 @@ describe('List Component', () => {
 
       it('should switch views when setting view active', () => {
         fixture.detectChanges();
-        expect(element.queryAll(
-          By.css('sky-list-view-test[ng-reflect-name="First"] .list-view-test-item')
-        ).length).toBe(7);
+        expect(
+          element.queryAll(
+            By.css(
+              'sky-list-view-test[ng-reflect-name="First"] .list-view-test-item'
+            )
+          ).length
+        ).toBe(7);
         dispatcher.viewsSetActive(component.list.views[1].id);
 
         fixture.detectChanges();
 
-        expect(element.queryAll(
-          By.css('sky-list-view-test[ng-reflect-name="Second"] .list-view-test-item')
-        ).length).toBe(7);
-
+        expect(
+          element.queryAll(
+            By.css(
+              'sky-list-view-test[ng-reflect-name="Second"] .list-view-test-item'
+            )
+          ).length
+        ).toBe(7);
       });
 
       it('should return list of views', () => {
         expect(component.list.views.length).toBe(2);
-        expect(component.list.views[0] instanceof ListViewTestComponent).toBeTruthy();
+        expect(
+          component.list.views[0] instanceof ListViewTestComponent
+        ).toBeTruthy();
         expect(component.list.views[0].label).toBe('First');
-        expect(component.list.views[1] instanceof ListViewTestComponent).toBeTruthy();
+        expect(
+          component.list.views[1] instanceof ListViewTestComponent
+        ).toBeTruthy();
         expect(component.list.views[1].label).toBe('Second');
       });
     });
@@ -1447,27 +1487,41 @@ describe('List Component', () => {
       it('should call searchSetOptions with undefined parameters', fakeAsync(() => {
         dispatcher.searchSetOptions(new ListSearchModel());
 
-        state.pipe(observableMap(s => s.search), take(1)).subscribe(search => {
-          expect(search.searchText).toBe('');
-          expect(search.functions.length).toBe(0);
-          expect(search.fieldSelectors.length).toBe(0);
-        });
+        state
+          .pipe(
+            observableMap((s) => s.search),
+            take(1)
+          )
+          .subscribe((search) => {
+            expect(search.searchText).toBe('');
+            expect(search.functions.length).toBe(0);
+            expect(search.fieldSelectors.length).toBe(0);
+          });
       }));
 
       it('should call searchSetOptions with defined actions', fakeAsync(() => {
-        let searchFunc = (data: any, searchText: string) => {return true;}
+        let searchFunc = (data: any, searchText: string) => {
+          return true;
+        };
 
-        dispatcher.searchSetOptions(new ListSearchModel({
-          searchText: 'search text',
-          functions: [searchFunc],
-          fieldSelectors: ['fields']
-        }));
+        dispatcher.searchSetOptions(
+          new ListSearchModel({
+            searchText: 'search text',
+            functions: [searchFunc],
+            fieldSelectors: ['fields'],
+          })
+        );
 
-        state.pipe(observableMap(s => s.search), take(1)).subscribe(search => {
-          expect(search.searchText).toBe('search text');
-          expect(search.functions.length).toBe(1);
-          expect(search.fieldSelectors.length).toBe(1);
-        });
+        state
+          .pipe(
+            observableMap((s) => s.search),
+            take(1)
+          )
+          .subscribe((search) => {
+            expect(search.searchText).toBe('search text');
+            expect(search.functions.length).toBe(1);
+            expect(search.fieldSelectors.length).toBe(1);
+          });
       }));
     });
 
@@ -1484,14 +1538,13 @@ describe('List Component', () => {
       }));
 
       it('should handle index of -1 or greater than current length', fakeAsync(() => {
-
         let newItems: ListToolbarItemModel[] = [
           new ListToolbarItemModel({
-            id: '0'
+            id: '0',
           }),
           new ListToolbarItemModel({
-            id: '2'
-          })
+            id: '2',
+          }),
         ];
         dispatcher.toolbarAddItems(newItems, -1);
 
@@ -1505,8 +1558,8 @@ describe('List Component', () => {
 
         newItems = [
           new ListToolbarItemModel({
-            id: 'blue'
-          })
+            id: 'blue',
+          }),
         ];
 
         dispatcher.toolbarAddItems(newItems, 6);
@@ -1518,18 +1571,16 @@ describe('List Component', () => {
         });
 
         tick();
-
       }));
 
       it('should handle index of 0', fakeAsync(() => {
-
         let newItems: ListToolbarItemModel[] = [
           new ListToolbarItemModel({
-            id: '0'
+            id: '0',
           }),
           new ListToolbarItemModel({
-            id: '2'
-          })
+            id: '2',
+          }),
         ];
         dispatcher.toolbarAddItems(newItems);
 
@@ -1537,8 +1588,8 @@ describe('List Component', () => {
 
         newItems = [
           new ListToolbarItemModel({
-            id: 'blue'
-          })
+            id: 'blue',
+          }),
         ];
 
         dispatcher.toolbarAddItems(newItems, 0);
@@ -1555,14 +1606,13 @@ describe('List Component', () => {
       }));
 
       it('should handle index of less than current length', fakeAsync(() => {
-
         let newItems: ListToolbarItemModel[] = [
           new ListToolbarItemModel({
-            id: '0'
+            id: '0',
           }),
           new ListToolbarItemModel({
-            id: '2'
-          })
+            id: '2',
+          }),
         ];
         dispatcher.toolbarAddItems(newItems);
 
@@ -1570,8 +1620,8 @@ describe('List Component', () => {
 
         newItems = [
           new ListToolbarItemModel({
-            id: 'blue'
-          })
+            id: 'blue',
+          }),
         ];
 
         dispatcher.toolbarAddItems(newItems, 1);
@@ -1588,16 +1638,15 @@ describe('List Component', () => {
       }));
 
       it('should handle index set on the items', fakeAsync(() => {
-
         let newItems: ListToolbarItemModel[] = [
           new ListToolbarItemModel({
             id: '0',
-            index: 2
+            index: 2,
           }),
           new ListToolbarItemModel({
             id: '2',
-            index: 0
-          })
+            index: 0,
+          }),
         ];
         dispatcher.toolbarAddItems(newItems);
 
@@ -1606,8 +1655,8 @@ describe('List Component', () => {
         newItems = [
           new ListToolbarItemModel({
             id: 'blue',
-            index: 1
-          })
+            index: 1,
+          }),
         ];
 
         dispatcher.toolbarAddItems(newItems);
@@ -1648,7 +1697,7 @@ describe('List Component', () => {
     it('should construct ListSortFieldSelectorModel without data', () => {
       let model = new ListSortFieldSelectorModel({
         fieldSelector: 'hey',
-        descending: true
+        descending: true,
       });
       expect(model.descending).toBe(true);
       expect(model.fieldSelector).toBe('hey');
@@ -1660,7 +1709,6 @@ describe('List Component', () => {
       expect(model.text).toBeUndefined();
       expect(model.fieldSelector).toBeUndefined();
       expect(model.fieldType).toBeUndefined();
-   });
+    });
   });
-
 });

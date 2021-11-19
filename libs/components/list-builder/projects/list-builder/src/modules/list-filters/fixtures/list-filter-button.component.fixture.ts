@@ -1,10 +1,7 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
- @Component({
-   selector: 'sky-test-cmp',
-   templateUrl: './list-filter-button.component.fixture.html'
- })
- export class ListFilterButtonTestComponent {
- }
+@Component({
+  selector: 'sky-test-cmp',
+  templateUrl: './list-filter-button.component.fixture.html',
+})
+export class ListFilterButtonTestComponent {}

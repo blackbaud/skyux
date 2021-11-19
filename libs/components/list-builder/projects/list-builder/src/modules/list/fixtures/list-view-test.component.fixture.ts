@@ -1,35 +1,18 @@
 //#region imports
 
-import {
-  Component,
-  Input,
-  forwardRef
-} from '@angular/core';
+import { Component, Input, forwardRef } from '@angular/core';
 
-import {
-  Observable
-} from 'rxjs';
+import { Observable } from 'rxjs';
 
-import {
-  distinctUntilChanged,
-  map as observableMap
-} from 'rxjs/operators';
+import { distinctUntilChanged, map as observableMap } from 'rxjs/operators';
 
-import {
-  ListItemModel
-} from '@skyux/list-builder-common';
+import { ListItemModel } from '@skyux/list-builder-common';
 
-import {
-  ListState
-} from '../state/list-state.state-node';
+import { ListState } from '../state/list-state.state-node';
 
-import {
-  ListStateDispatcher
-} from '../state/list-state.rxstate';
+import { ListStateDispatcher } from '../state/list-state.rxstate';
 
-import {
-  ListViewComponent
-} from '../list-view.component';
+import { ListViewComponent } from '../list-view.component';
 
 //#endregion
 
@@ -38,15 +21,18 @@ import {
   templateUrl: './list-view-test.component.fixture.html',
   providers: [
     /* tslint:disable-next-line */
-    { provide: ListViewComponent, useExisting: forwardRef(() => ListViewTestComponent) },
-  ]
+    {
+      provide: ListViewComponent,
+      useExisting: forwardRef(() => ListViewTestComponent),
+    },
+  ],
 })
 export class ListViewTestComponent extends ListViewComponent {
-
   public currentSearchText: Observable<string>;
 
   @Input()
-  public search: (data: any, searchText: string) => boolean = this.searchFunction();
+  public search: (data: any, searchText: string) => boolean =
+    this.searchFunction();
 
   @Input()
   public set name(value: string) {
@@ -55,15 +41,12 @@ export class ListViewTestComponent extends ListViewComponent {
 
   public items: ListItemModel[];
 
-  constructor(
-    state: ListState,
-    private dispatcher: ListStateDispatcher
-  ) {
+  constructor(state: ListState, private dispatcher: ListStateDispatcher) {
     super(state, 'Test View');
 
     state
       .pipe(
-        observableMap(s => s.items),
+        observableMap((s) => s.items),
         distinctUntilChanged()
       )
       .subscribe((items) => {
@@ -74,7 +57,10 @@ export class ListViewTestComponent extends ListViewComponent {
   public searchFunction() {
     return (data: any, searchText: string) => {
       for (const p in data) {
-        if (data[p] && data[p].toString().toLowerCase().indexOf(searchText) >= 0) {
+        if (
+          data[p] &&
+          data[p].toString().toLowerCase().indexOf(searchText) >= 0
+        ) {
           return true;
         }
       }
@@ -88,5 +74,4 @@ export class ListViewTestComponent extends ListViewComponent {
       this.dispatcher.searchSetFunctions([this.search]);
     }
   }
-
 }

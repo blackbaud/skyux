@@ -1,6 +1,4 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * Adds a section on the right side of the toolbar for items that substantially change
@@ -11,6 +9,6 @@ import {
 @Component({
   selector: 'sky-list-toolbar-view-actions',
   templateUrl: './list-toolbar-view-actions.component.html',
-  styleUrls: ['./list-toolbar-view-actions.component.scss']
+  styleUrls: ['./list-toolbar-view-actions.component.scss'],
 })
-export class SkyListToolbarViewActionsComponent { }
+export class SkyListToolbarViewActionsComponent {}

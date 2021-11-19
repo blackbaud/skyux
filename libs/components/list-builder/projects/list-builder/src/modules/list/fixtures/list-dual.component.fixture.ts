@@ -3,17 +3,14 @@ import { SkyListComponent } from '../list.component';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './list-dual.component.fixture.html'
+  templateUrl: './list-dual.component.fixture.html',
 })
 export class ListDualTestComponent {
-
   @ViewChild(SkyListComponent, {
     read: SkyListComponent,
-    static: true
+    static: true,
   })
   public list: SkyListComponent;
 
-  constructor(
-    @Inject('items') public items: any
-  ) { }
+  constructor(@Inject('items') public items: any) {}
 }

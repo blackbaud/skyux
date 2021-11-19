@@ -1,48 +1,27 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  OnDestroy
-} from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
 import {
   distinctUntilChanged,
   map as observableMap,
   take,
-  takeUntil
+  takeUntil,
 } from 'rxjs/operators';
 
-import {
-  SkyCheckboxChange
-} from '@skyux/forms';
+import { SkyCheckboxChange } from '@skyux/forms';
 
-import {
-  ListFilterModel
-} from '../list-filters/filter.model';
+import { ListFilterModel } from '../list-filters/filter.model';
 
-import {
-  ListItemModel
-} from '@skyux/list-builder-common';
+import { ListItemModel } from '@skyux/list-builder-common';
 
-import {
-  ListPagingSetPageNumberAction
-} from '../list/state/paging/set-page-number.action';
+import { ListPagingSetPageNumberAction } from '../list/state/paging/set-page-number.action';
 
-import {
-  ListSelectedModel
-} from '../list/state/selected/selected.model';
+import { ListSelectedModel } from '../list/state/selected/selected.model';
 
-import {
-  ListState
-} from '../list/state/list-state.state-node';
+import { ListState } from '../list/state/list-state.state-node';
 
-import {
-  ListStateDispatcher
-} from '../list/state/list-state.rxstate';
+import { ListStateDispatcher } from '../list/state/list-state.rxstate';
 
 let uniqueId = 0;
 
@@ -52,10 +31,9 @@ let uniqueId = 0;
 @Component({
   selector: 'sky-list-multiselect-toolbar',
   templateUrl: './list-multiselect-toolbar.component.html',
-  styleUrls: ['./list-multiselect-toolbar.component.scss']
+  styleUrls: ['./list-multiselect-toolbar.component.scss'],
 })
 export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
-
   @Input()
   public showOnlySelected = false;
 
@@ -73,7 +51,7 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.state
       .pipe(
-        observableMap(t => t.selected.item),
+        observableMap((t) => t.selected.item),
         takeUntil(this.ngUnsubscribe),
         distinctUntilChanged(this.selectedMapEqual)
       )
@@ -89,16 +67,18 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
     // make sure the checked state of the 'show-selected' checkbox stays in sync.
     this.state
       .pipe(
-        observableMap(t => t.filters),
+        observableMap((t) => t.filters),
         takeUntil(this.ngUnsubscribe),
         distinctUntilChanged(this.showSelectedValuesEqual)
       )
       .subscribe((filters: ListFilterModel[]) => {
-        const showSelectedFilter = filters.find(filter => filter.name === 'show-selected');
+        const showSelectedFilter = filters.find(
+          (filter) => filter.name === 'show-selected'
+        );
         if (showSelectedFilter) {
-          this.showOnlySelected = (showSelectedFilter.value === 'true');
+          this.showOnlySelected = showSelectedFilter.value === 'true';
         }
-    });
+      });
   }
 
   public ngOnDestroy(): void {
@@ -109,11 +89,14 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
   public selectAll(): void {
     this.state
       .pipe(
-        observableMap(state => state.items.items),
+        observableMap((state) => state.items.items),
         take(1)
       )
-      .subscribe(items => {
-        this.dispatcher.setSelected(items.map(item => item.id), true);
+      .subscribe((items) => {
+        this.dispatcher.setSelected(
+          items.map((item) => item.id),
+          true
+        );
         if (this.showOnlySelected) {
           this.reapplyFilter(this.showOnlySelected);
         }
@@ -123,11 +106,14 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
   public clearSelections(): void {
     this.state
       .pipe(
-        observableMap(state => state.items.items),
+        observableMap((state) => state.items.items),
         take(1)
       )
-      .subscribe(items => {
-        this.dispatcher.setSelected(items.map(item => item.id), false);
+      .subscribe((items) => {
+        this.dispatcher.setSelected(
+          items.map((item) => item.id),
+          false
+        );
         if (this.showOnlySelected) {
           this.reapplyFilter(this.showOnlySelected);
         }
@@ -144,11 +130,11 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
 
     this.state
       .pipe(
-        observableMap(state => state.filters),
+        observableMap((state) => state.filters),
         take(1)
       )
       .subscribe((filters: ListFilterModel[]) => {
-        filters = filters.filter(filter => filter.name !== 'show-selected');
+        filters = filters.filter((filter) => filter.name !== 'show-selected');
         filters.push(self.getShowSelectedFilter(isSelected));
         this.dispatcher.filtersUpdate(filters);
       });
@@ -156,13 +142,13 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
     // If "show selected" is checked and paging is enabled, go to page one.
     /* istanbul ignore else */
     if (isSelected) {
-      this.state.pipe(take(1))
-        .subscribe((currentState) => {
-          if (currentState.paging.pageNumber && currentState.paging.pageNumber !== 1) {
-            this.dispatcher.next(
-              new ListPagingSetPageNumberAction(Number(1))
-            );
-          }
+      this.state.pipe(take(1)).subscribe((currentState) => {
+        if (
+          currentState.paging.pageNumber &&
+          currentState.paging.pageNumber !== 1
+        ) {
+          this.dispatcher.next(new ListPagingSetPageNumberAction(Number(1)));
+        }
       });
     }
     this.dispatcher.toolbarSetDisabled(isSelected);
@@ -178,13 +164,20 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
           return this.selectedIdMap.get(model.id);
         }
       },
-      defaultValue: false.toString()
+      defaultValue: false.toString(),
     });
   }
 
-  private showSelectedValuesEqual(prev: ListFilterModel[], next: ListFilterModel[]): boolean {
-    const prevShowSelectedFilter = prev.find(filter => filter.name === 'show-selected');
-    const nextShowSelectedFilter = next.find(filter => filter.name === 'show-selected');
+  private showSelectedValuesEqual(
+    prev: ListFilterModel[],
+    next: ListFilterModel[]
+  ): boolean {
+    const prevShowSelectedFilter = prev.find(
+      (filter) => filter.name === 'show-selected'
+    );
+    const nextShowSelectedFilter = next.find(
+      (filter) => filter.name === 'show-selected'
+    );
 
     // Both undefined.
     if (!prevShowSelectedFilter && !nextShowSelectedFilter) {
@@ -192,7 +185,10 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
     }
 
     // Only one undefined.
-    if ((prevShowSelectedFilter && !nextShowSelectedFilter) || (!prevShowSelectedFilter && nextShowSelectedFilter)) {
+    if (
+      (prevShowSelectedFilter && !nextShowSelectedFilter) ||
+      (!prevShowSelectedFilter && nextShowSelectedFilter)
+    ) {
       return false;
     }
 
@@ -200,7 +196,10 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
     return prevShowSelectedFilter.value === nextShowSelectedFilter.value;
   }
 
-  private selectedMapEqual(prev: ListSelectedModel, next: ListSelectedModel): boolean {
+  private selectedMapEqual(
+    prev: ListSelectedModel,
+    next: ListSelectedModel
+  ): boolean {
     if (prev.selectedIdMap.size !== next.selectedIdMap.size) {
       return false;
     }
@@ -216,5 +215,4 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
 
     return true;
   }
-
 }

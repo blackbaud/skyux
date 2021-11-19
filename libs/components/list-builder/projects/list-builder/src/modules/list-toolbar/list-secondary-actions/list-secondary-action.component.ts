@@ -2,7 +2,7 @@ import {
   AfterContentInit,
   Component,
   TemplateRef,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
 import { SkyListSecondaryActionsService } from './list-secondary-actions.service';
@@ -12,23 +12,20 @@ import { SkyListSecondaryActionsService } from './list-secondary-actions.service
  */
 @Component({
   selector: 'sky-list-secondary-action',
-  templateUrl: './list-secondary-action.component.html'
+  templateUrl: './list-secondary-action.component.html',
 })
 export class SkyListSecondaryActionComponent implements AfterContentInit {
-
   @ViewChild('listSecondaryAction', {
     read: TemplateRef,
-    static: true
+    static: true,
   })
   private templateRef: TemplateRef<any>;
 
-  constructor(
-    private actionService: SkyListSecondaryActionsService
-  ) { }
+  constructor(private actionService: SkyListSecondaryActionsService) {}
 
   public ngAfterContentInit() {
     this.actionService.addSecondaryAction({
-      template: this.templateRef
+      template: this.templateRef,
     });
   }
 }

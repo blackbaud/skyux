@@ -1,10 +1,15 @@
 import {
   combineLatest as observableCombineLatest,
   Observable,
-  Subject
+  Subject,
 } from 'rxjs';
 
-import {map as observableMap, takeUntil, take, distinctUntilChanged} from 'rxjs/operators';
+import {
+  map as observableMap,
+  takeUntil,
+  take,
+  distinctUntilChanged,
+} from 'rxjs/operators';
 
 import {
   AfterContentInit,
@@ -17,92 +22,50 @@ import {
   OnInit,
   QueryList,
   TemplateRef,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
-import {
-  getValue
-} from '@skyux/list-builder-common';
+import { getValue } from '@skyux/list-builder-common';
 
-import {
-  ListSortFieldSelectorModel
-} from '@skyux/list-builder-common';
+import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
 
-import {
-  SkySearchComponent
-} from '@skyux/lookup';
+import { SkySearchComponent } from '@skyux/lookup';
 
-import {
-  ListToolbarModel
-} from '../list/state/toolbar/toolbar.model';
+import { ListToolbarModel } from '../list/state/toolbar/toolbar.model';
 
-import {
-  ListToolbarItemModel
-} from '../list/state/toolbar/toolbar-item.model';
+import { ListToolbarItemModel } from '../list/state/toolbar/toolbar-item.model';
 
-import {
-  ListToolbarSetTypeAction
-} from '../list/state/toolbar/set-type.action';
+import { ListToolbarSetTypeAction } from '../list/state/toolbar/set-type.action';
 
-import {
-  ListState
-} from '../list/state/list-state.state-node';
+import { ListState } from '../list/state/list-state.state-node';
 
-import {
-  ListStateDispatcher
-} from '../list/state/list-state.rxstate';
+import { ListStateDispatcher } from '../list/state/list-state.rxstate';
 
-import {
-  ListSortLabelModel
-} from '../list/state/sort/label.model';
+import { ListSortLabelModel } from '../list/state/sort/label.model';
 
-import {
-  ListFilterModel
-} from '../list-filters/filter.model';
+import { ListFilterModel } from '../list-filters/filter.model';
 
-import {
-  ListPagingSetPageNumberAction
-} from '../list/state/paging/set-page-number.action';
+import { ListPagingSetPageNumberAction } from '../list/state/paging/set-page-number.action';
 
-import {
-  SkyListFilterInlineComponent
-} from '../list-filters/list-filter-inline.component';
+import { SkyListFilterInlineComponent } from '../list-filters/list-filter-inline.component';
 
-import {
-  SkyListFilterSummaryComponent
-} from '../list-filters/list-filter-summary.component';
+import { SkyListFilterSummaryComponent } from '../list-filters/list-filter-summary.component';
 
-import {
-  SkyListToolbarItemComponent
-} from './list-toolbar-item.component';
+import { SkyListToolbarItemComponent } from './list-toolbar-item.component';
 
-import {
-  SkyListToolbarSortComponent
-} from './list-toolbar-sort.component';
+import { SkyListToolbarSortComponent } from './list-toolbar-sort.component';
 
-import {
-  SkyListToolbarViewActionsComponent
-} from './list-toolbar-view-actions.component';
+import { SkyListToolbarViewActionsComponent } from './list-toolbar-view-actions.component';
 
-import {
-  ListToolbarConfigSetSearchEnabledAction
-} from './state/config/set-search-enabled.action';
+import { ListToolbarConfigSetSearchEnabledAction } from './state/config/set-search-enabled.action';
 
-import {
-  ListToolbarConfigSetSortSelectorEnabledAction
-} from './state/config/set-sort-selector-enabled.action';
+import { ListToolbarConfigSetSortSelectorEnabledAction } from './state/config/set-sort-selector-enabled.action';
 
-import {
-  ListToolbarState
-} from './state/toolbar-state.state-node';
+import { ListToolbarState } from './state/toolbar-state.state-node';
 
-import {
-  ListToolbarStateDispatcher
-} from './state/toolbar-state.rxstate';
+import { ListToolbarStateDispatcher } from './state/toolbar-state.rxstate';
 
-import {
-  ListToolbarStateModel
-} from './state/toolbar-state.model';
+import { ListToolbarStateModel } from './state/toolbar-state.model';
 
 let nextId = 0;
 
@@ -116,12 +79,13 @@ let nextId = 0;
   providers: [
     ListToolbarState,
     ListToolbarStateDispatcher,
-    ListToolbarStateModel
+    ListToolbarStateModel,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyListToolbarComponent implements OnInit, AfterContentInit, OnDestroy {
-
+export class SkyListToolbarComponent
+  implements OnInit, AfterContentInit, OnDestroy
+{
   /**
    * Indicates whether to use the in-memory search.
    * Setting this to `false` will allow consumers to run their own searches remotely,
@@ -158,7 +122,7 @@ export class SkyListToolbarComponent implements OnInit, AfterContentInit, OnDest
 
   @ViewChild(SkySearchComponent, {
     read: SkySearchComponent,
-    static: false
+    static: false,
   })
   public searchComponent: SkySearchComponent;
 
@@ -185,7 +149,11 @@ export class SkyListToolbarComponent implements OnInit, AfterContentInit, OnDest
   public searchText: string | Observable<string>;
 
   public get isFilterBarDisplayed(): boolean {
-    return !this.isToolbarDisabled && this.hasInlineFilters && this.inlineFilterBarExpanded;
+    return (
+      !this.isToolbarDisabled &&
+      this.hasInlineFilters &&
+      this.inlineFilterBarExpanded
+    );
   }
 
   public get filterButtonAriaControls(): string {
@@ -237,19 +205,19 @@ export class SkyListToolbarComponent implements OnInit, AfterContentInit, OnDest
 
   @ViewChild('search', {
     read: TemplateRef,
-    static: true
+    static: true,
   })
   private searchTemplate: TemplateRef<any>;
 
   @ViewChild('sortSelector', {
     read: TemplateRef,
-    static: true
+    static: true,
   })
   private sortSelectorTemplate: TemplateRef<any>;
 
   @ViewChild('inlineFilterButton', {
     read: TemplateRef,
-    static: true
+    static: true,
   })
   private inlineFilterButtonTemplate: TemplateRef<any>;
 
@@ -267,7 +235,7 @@ export class SkyListToolbarComponent implements OnInit, AfterContentInit, OnDest
     private dispatcher: ListStateDispatcher,
     private toolbarState: ListToolbarState,
     public toolbarDispatcher: ListToolbarStateDispatcher
-  ) { }
+  ) {}
 
   public ngOnInit() {
     this.dispatcher.toolbarExists(true);
@@ -300,134 +268,125 @@ export class SkyListToolbarComponent implements OnInit, AfterContentInit, OnDest
 
     // Initialize the sort toolbar item if necessary
     this.sortSelectors
-      .pipe(
-        takeUntil(this.ngUnsubscribe),
-        distinctUntilChanged()
-      )
+      .pipe(takeUntil(this.ngUnsubscribe), distinctUntilChanged())
       .subscribe((currentSort) => {
         if (currentSort.length > 0 && !this.hasSortSelectors) {
           this.hasSortSelectors = true;
-          this.dispatcher.toolbarAddItems(
-            [
-              new ListToolbarItemModel({
-                id: 'sort-selector',
-                template: this.sortSelectorTemplate,
-                location: 'left',
-                index: this.sortSelectorItemToolbarIndex
-              })
-            ]
-          );
+          this.dispatcher.toolbarAddItems([
+            new ListToolbarItemModel({
+              id: 'sort-selector',
+              template: this.sortSelectorTemplate,
+              location: 'left',
+              index: this.sortSelectorItemToolbarIndex,
+            }),
+          ]);
         } else if (currentSort.length < 1 && this.hasSortSelectors) {
           this.hasSortSelectors = false;
-          this.dispatcher.toolbarRemoveItems([
-            'sort-selector'
-          ]);
+          this.dispatcher.toolbarRemoveItems(['sort-selector']);
         }
       });
 
     this.searchTextInput = this.state.pipe(
       takeUntil(this.ngUnsubscribe),
-      observableMap(s => s.search.searchText),
-      distinctUntilChanged());
+      observableMap((s) => s.search.searchText),
+      distinctUntilChanged()
+    );
 
     this.view = this.state.pipe(
       takeUntil(this.ngUnsubscribe),
-      observableMap(s => s.views.active),
-      distinctUntilChanged());
+      observableMap((s) => s.views.active),
+      distinctUntilChanged()
+    );
 
     this.watchTemplates();
 
     this.type = this.state.pipe(
       takeUntil(this.ngUnsubscribe),
       observableMap((state) => state.toolbar.type),
-      distinctUntilChanged());
+      distinctUntilChanged()
+    );
 
-    this.type.pipe(
-      takeUntil(this.ngUnsubscribe))
-      .subscribe((toolbarType) => {
-        if (toolbarType === 'search') {
-          this.dispatcher.toolbarRemoveItems(['search']);
-        } else {
-          this.dispatcher.toolbarAddItems(
-            [
-              new ListToolbarItemModel({
-                id: 'search',
-                template: this.searchTemplate,
-                location: 'right'
-              })
-            ]
-          );
-        }
-      });
+    this.type.pipe(takeUntil(this.ngUnsubscribe)).subscribe((toolbarType) => {
+      if (toolbarType === 'search') {
+        this.dispatcher.toolbarRemoveItems(['search']);
+      } else {
+        this.dispatcher.toolbarAddItems([
+          new ListToolbarItemModel({
+            id: 'search',
+            template: this.searchTemplate,
+            location: 'right',
+          }),
+        ]);
+      }
+    });
 
     this.isSearchEnabled = this.toolbarState.pipe(
       takeUntil(this.ngUnsubscribe),
-      observableMap(s => s.config),
+      observableMap((s) => s.config),
       distinctUntilChanged(),
-      observableMap(c => c.searchEnabled));
+      observableMap((c) => c.searchEnabled)
+    );
 
-    this.state.pipe(observableMap(s => s.toolbar),
-      takeUntil(this.ngUnsubscribe),
-      distinctUntilChanged(),
-      observableMap(c => c.disabled))
-      .subscribe(isDisabled => this.isToolbarDisabled = isDisabled);
+    this.state
+      .pipe(
+        observableMap((s) => s.toolbar),
+        takeUntil(this.ngUnsubscribe),
+        distinctUntilChanged(),
+        observableMap((c) => c.disabled)
+      )
+      .subscribe((isDisabled) => (this.isToolbarDisabled = isDisabled));
 
     this.isSortSelectorEnabled = this.toolbarState.pipe(
       takeUntil(this.ngUnsubscribe),
-      observableMap(s => s.config),
+      observableMap((s) => s.config),
       distinctUntilChanged(),
-      observableMap(c => c.sortSelectorEnabled));
+      observableMap((c) => c.sortSelectorEnabled)
+    );
 
     this.isMultiselectEnabled = this.state.pipe(
       takeUntil(this.ngUnsubscribe),
-      observableMap(s => s.toolbar),
+      observableMap((s) => s.toolbar),
       distinctUntilChanged(),
-      observableMap(t => t.showMultiselectToolbar));
+      observableMap((t) => t.showMultiselectToolbar)
+    );
 
     this.hasAppliedFilters = this.state.pipe(
       takeUntil(this.ngUnsubscribe),
-      observableMap(s => s.filters),
+      observableMap((s) => s.filters),
       distinctUntilChanged(),
       observableMap((filters) => {
         let activeFilters = filters.filter((f) => {
-          return f.value !== '' &&
+          return (
+            f.value !== '' &&
             f.value !== undefined &&
             f.value !== false &&
-            f.value !== f.defaultValue;
+            f.value !== f.defaultValue
+          );
         });
         return activeFilters.length > 0;
-      }));
+      })
+    );
 
-    this.state.pipe(
-      takeUntil(this.ngUnsubscribe))
-      .subscribe((current: any) => {
-        this.hasAdditionalToolbarSection = (current.toolbar.items.length > 0);
-        this.changeDetector.detectChanges();
-      });
+    this.state.pipe(takeUntil(this.ngUnsubscribe)).subscribe((current: any) => {
+      this.hasAdditionalToolbarSection = current.toolbar.items.length > 0;
+      this.changeDetector.detectChanges();
+    });
   }
 
   public ngAfterContentInit() {
     // Inject custom toolbar items.
     this.toolbarItems.forEach((toolbarItem) => {
-      this.dispatcher.toolbarAddItems(
-        [
-          new ListToolbarItemModel(toolbarItem)
-        ]
-      );
+      this.dispatcher.toolbarAddItems([new ListToolbarItemModel(toolbarItem)]);
 
       this.customItemIds.push(toolbarItem.id);
     });
 
-    this.toolbarItems.changes.pipe(
-      takeUntil(this.ngUnsubscribe))
+    this.toolbarItems.changes
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((newItems: QueryList<SkyListToolbarItemComponent>) => {
-        newItems.forEach(item => {
+        newItems.forEach((item) => {
           if (this.customItemIds.indexOf(item.id) < 0) {
-            this.dispatcher.toolbarAddItems(
-              [
-                new ListToolbarItemModel(item)
-              ]
-            );
+            this.dispatcher.toolbarAddItems([new ListToolbarItemModel(item)]);
 
             this.customItemIds.push(item.id);
           }
@@ -436,7 +395,7 @@ export class SkyListToolbarComponent implements OnInit, AfterContentInit, OnDest
         const itemsToRemove: string[] = [];
 
         this.customItemIds.forEach((itemId, index) => {
-          if (!newItems.find(item => item.id === itemId)) {
+          if (!newItems.find((item) => item.id === itemId)) {
             itemsToRemove.push(itemId);
             this.customItemIds.splice(index, 1);
           }
@@ -445,38 +404,35 @@ export class SkyListToolbarComponent implements OnInit, AfterContentInit, OnDest
         this.dispatcher.toolbarRemoveItems(itemsToRemove);
       });
 
-    const sortModels = this.toolbarSorts.map(sort =>
-      new ListSortLabelModel(
-        {
+    const sortModels = this.toolbarSorts.map(
+      (sort) =>
+        new ListSortLabelModel({
           text: sort.label,
           fieldSelector: sort.field,
           fieldType: sort.type,
           global: true,
-          descending: sort.descending
-        }
-      )
+          descending: sort.descending,
+        })
     );
 
     this.dispatcher.sortSetGlobal(sortModels);
 
     // Add inline filters.
-    this.showFilterSummary = (this.filterSummary.length > 0);
-    this.hasInlineFilters = (this.inlineFilter.length > 0);
+    this.showFilterSummary = this.filterSummary.length > 0;
+    this.hasInlineFilters = this.inlineFilter.length > 0;
 
     if (this.hasInlineFilters) {
-      this.dispatcher.toolbarAddItems(
-        [
-          new ListToolbarItemModel({
-            template: this.inlineFilterButtonTemplate,
-            location: 'left',
-            index: this.inlineFiltersItemToolbarIndex
-          })
-        ]
-      );
+      this.dispatcher.toolbarAddItems([
+        new ListToolbarItemModel({
+          template: this.inlineFilterButtonTemplate,
+          location: 'left',
+          index: this.inlineFiltersItemToolbarIndex,
+        }),
+      ]);
     }
 
     // Check for view actions
-    this.hasViewActions = (this.viewActions.length > 0);
+    this.hasViewActions = this.viewActions.length > 0;
   }
 
   public ngOnDestroy() {
@@ -487,15 +443,16 @@ export class SkyListToolbarComponent implements OnInit, AfterContentInit, OnDest
 
   public setSort(sort: ListSortLabelModel): void {
     this.state.pipe(take(1)).subscribe((currentState) => {
-      if (currentState.paging.pageNumber && currentState.paging.pageNumber !== 1) {
-        this.dispatcher.next(
-          new ListPagingSetPageNumberAction(Number(1))
-        );
+      if (
+        currentState.paging.pageNumber &&
+        currentState.paging.pageNumber !== 1
+      ) {
+        this.dispatcher.next(new ListPagingSetPageNumberAction(Number(1)));
       }
 
-      this.dispatcher.sortSetFieldSelectors(
-        [{ fieldSelector: sort.fieldSelector, descending: sort.descending }]
-      );
+      this.dispatcher.sortSetFieldSelectors([
+        { fieldSelector: sort.fieldSelector, descending: sort.descending },
+      ]);
     });
   }
 
@@ -507,10 +464,11 @@ export class SkyListToolbarComponent implements OnInit, AfterContentInit, OnDest
     this.searchApplied.next(searchText);
     if (this.inMemorySearchEnabled) {
       this.state.pipe(take(1)).subscribe((currentState) => {
-        if (currentState.paging.pageNumber && currentState.paging.pageNumber !== 1) {
-          this.dispatcher.next(
-            new ListPagingSetPageNumberAction(Number(1))
-          );
+        if (
+          currentState.paging.pageNumber &&
+          currentState.paging.pageNumber !== 1
+        ) {
+          this.dispatcher.next(new ListPagingSetPageNumberAction(Number(1)));
         }
 
         this.dispatcher.searchSetText(searchText);
@@ -519,29 +477,41 @@ export class SkyListToolbarComponent implements OnInit, AfterContentInit, OnDest
   }
 
   private itemIsInView(itemView: string, activeView: string) {
-    return (itemView === undefined || itemView === activeView);
+    return itemView === undefined || itemView === activeView;
   }
 
   private getSortSelectors() {
     return observableCombineLatest(
-      this.state.pipe(observableMap(s => s.sort.available), distinctUntilChanged()),
-      this.state.pipe(observableMap(s => s.sort.global), distinctUntilChanged()),
-      this.state.pipe(observableMap(s => s.sort.fieldSelectors), distinctUntilChanged()),
+      this.state.pipe(
+        observableMap((s) => s.sort.available),
+        distinctUntilChanged()
+      ),
+      this.state.pipe(
+        observableMap((s) => s.sort.global),
+        distinctUntilChanged()
+      ),
+      this.state.pipe(
+        observableMap((s) => s.sort.fieldSelectors),
+        distinctUntilChanged()
+      ),
       (
         available: Array<ListSortLabelModel>,
         global: Array<ListSortLabelModel>,
         fieldSelectors: Array<ListSortFieldSelectorModel>
       ) => {
-
         // Get sorts that are in the global that are not in the available
         let sorts = global.filter(
-          g => available.filter(a => a.fieldSelector === g.fieldSelector).length === 0
+          (g) =>
+            available.filter((a) => a.fieldSelector === g.fieldSelector)
+              .length === 0
         );
 
-        let resultSortSelectors = [...sorts, ...available].map(sortLabels => {
-          let fs = fieldSelectors.filter(f => {
-            return f.fieldSelector === sortLabels.fieldSelector
-              && f.descending === sortLabels.descending;
+        let resultSortSelectors = [...sorts, ...available].map((sortLabels) => {
+          let fs = fieldSelectors.filter((f) => {
+            return (
+              f.fieldSelector === sortLabels.fieldSelector &&
+              f.descending === sortLabels.descending
+            );
           });
           let selected = false;
           if (fs.length > 0) {
@@ -550,20 +520,21 @@ export class SkyListToolbarComponent implements OnInit, AfterContentInit, OnDest
 
           return {
             sort: sortLabels,
-            selected: selected
+            selected: selected,
           };
         });
 
         return resultSortSelectors;
       }
-    ).pipe(
-      takeUntil(this.ngUnsubscribe)
-    );
+    ).pipe(takeUntil(this.ngUnsubscribe));
   }
 
   private watchTemplates() {
     observableCombineLatest(
-      this.state.pipe(observableMap(s => s.toolbar), distinctUntilChanged()),
+      this.state.pipe(
+        observableMap((s) => s.toolbar),
+        distinctUntilChanged()
+      ),
       this.view.pipe(distinctUntilChanged()),
       (toolbar: ListToolbarModel, view: string) => {
         const items = toolbar.items.filter((i: ListToolbarItemModel) => {
@@ -579,9 +550,8 @@ export class SkyListToolbarComponent implements OnInit, AfterContentInit, OnDest
 
         return templates;
       }
-    ).pipe(
-      takeUntil(this.ngUnsubscribe)
     )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((value) => {
         this.leftTemplates = value.left;
         this.centerTemplates = value.center;

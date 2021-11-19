@@ -1,55 +1,34 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  SkyI18nModule
-} from '@skyux/i18n';
+import { SkyI18nModule } from '@skyux/i18n';
 
-import {
-  SkyIconModule
-} from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/indicators';
 
-import {
-  SkyDropdownModule
-} from '@skyux/popovers';
+import { SkyDropdownModule } from '@skyux/popovers';
 
-import {
-  SkyListBuilderResourcesModule
-} from '../../shared/sky-list-builder-resources.module';
+import { SkyListBuilderResourcesModule } from '../../shared/sky-list-builder-resources.module';
 
-import {
-  SkyListSecondaryActionsComponent
-} from './list-secondary-actions.component';
+import { SkyListSecondaryActionsComponent } from './list-secondary-actions.component';
 
-import {
-  SkyListSecondaryActionComponent
-} from './list-secondary-action.component';
+import { SkyListSecondaryActionComponent } from './list-secondary-action.component';
 
-import {
-  SkyListSecondaryActionsHostComponent
-} from './list-secondary-actions-host.component';
+import { SkyListSecondaryActionsHostComponent } from './list-secondary-actions-host.component';
 
 @NgModule({
   declarations: [
     SkyListSecondaryActionsComponent,
     SkyListSecondaryActionsHostComponent,
-    SkyListSecondaryActionComponent
+    SkyListSecondaryActionComponent,
   ],
   imports: [
     CommonModule,
     SkyDropdownModule,
     SkyI18nModule,
     SkyIconModule,
-    SkyListBuilderResourcesModule
+    SkyListBuilderResourcesModule,
   ],
-  exports: [
-    SkyListSecondaryActionsComponent,
-    SkyListSecondaryActionComponent
-  ]
+  exports: [SkyListSecondaryActionsComponent, SkyListSecondaryActionComponent],
 })
-export class SkyListSecondaryActionsModule { }
+export class SkyListSecondaryActionsModule {}

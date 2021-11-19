@@ -1,71 +1,36 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  SkyToolbarModule
-} from '@skyux/layout';
+import { SkyToolbarModule } from '@skyux/layout';
 
-import {
-  SkySearchModule
-} from '@skyux/lookup';
+import { SkySearchModule } from '@skyux/lookup';
 
-import {
-  SkyFilterModule,
-  SkySortModule
-} from '@skyux/lists';
+import { SkyFilterModule, SkySortModule } from '@skyux/lists';
 
-import {
-  SkyCheckboxModule
-} from '@skyux/forms';
+import { SkyCheckboxModule } from '@skyux/forms';
 
-import {
-  SkyI18nModule
-} from '@skyux/i18n';
+import { SkyI18nModule } from '@skyux/i18n';
 
-import {
-  SkyListFiltersModule
-} from '../list-filters/list-filters.module';
+import { SkyListFiltersModule } from '../list-filters/list-filters.module';
 
-import {
-  SkyIconModule
-} from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/indicators';
 
-import {
-  SkyListToolbarComponent
-} from './list-toolbar.component';
+import { SkyListToolbarComponent } from './list-toolbar.component';
 
-import {
-  SkyListToolbarItemComponent
-} from './list-toolbar-item.component';
+import { SkyListToolbarItemComponent } from './list-toolbar-item.component';
 
-import {
-  SkyListToolbarItemRendererComponent
-} from './list-toolbar-item-renderer.component';
+import { SkyListToolbarItemRendererComponent } from './list-toolbar-item-renderer.component';
 
-import {
-  SkyListToolbarSortComponent
-} from './list-toolbar-sort.component';
+import { SkyListToolbarSortComponent } from './list-toolbar-sort.component';
 
-import {
-  SkyListMultiselectToolbarComponent
-} from './list-multiselect-toolbar.component';
+import { SkyListMultiselectToolbarComponent } from './list-multiselect-toolbar.component';
 
-import {
-  SkyListToolbarViewActionsComponent
-} from './list-toolbar-view-actions.component';
+import { SkyListToolbarViewActionsComponent } from './list-toolbar-view-actions.component';
 
-import {
-  SkyListBuilderResourcesModule
-} from '../shared/sky-list-builder-resources.module';
+import { SkyListBuilderResourcesModule } from '../shared/sky-list-builder-resources.module';
 
-import {
-  SkyListToolbarSearchActionsComponent
-} from './list-toolbar-search-actions.component';
+import { SkyListToolbarSearchActionsComponent } from './list-toolbar-search-actions.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +40,7 @@ import {
     SkyListMultiselectToolbarComponent,
     SkyListToolbarSearchActionsComponent,
     SkyListToolbarSortComponent,
-    SkyListToolbarViewActionsComponent
+    SkyListToolbarViewActionsComponent,
   ],
   imports: [
     CommonModule,
@@ -87,14 +52,14 @@ import {
     SkyFilterModule,
     SkyListFiltersModule,
     SkyIconModule,
-    SkyListBuilderResourcesModule
+    SkyListBuilderResourcesModule,
   ],
   exports: [
     SkyListToolbarComponent,
     SkyListToolbarItemComponent,
     SkyListToolbarSearchActionsComponent,
     SkyListToolbarSortComponent,
-    SkyListToolbarViewActionsComponent
-  ]
+    SkyListToolbarViewActionsComponent,
+  ],
 })
-export class SkyListToolbarModule { }
+export class SkyListToolbarModule {}

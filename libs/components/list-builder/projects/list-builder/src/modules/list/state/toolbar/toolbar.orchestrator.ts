@@ -1,55 +1,38 @@
-import {
-  ListStateOrchestrator
-} from '../list-state.rxstate';
+import { ListStateOrchestrator } from '../list-state.rxstate';
 
-import {
-  ListToolbarModel
-} from './toolbar.model';
+import { ListToolbarModel } from './toolbar.model';
 
-import {
-  ListToolbarItemModel
-} from './toolbar-item.model';
+import { ListToolbarItemModel } from './toolbar-item.model';
 
-import {
-  ListToolbarItemsLoadAction
-} from './load.action';
+import { ListToolbarItemsLoadAction } from './load.action';
 
-import {
-  ListToolbarItemsRemoveAction
-} from './remove.action';
+import { ListToolbarItemsRemoveAction } from './remove.action';
 
-import {
-  ListToolbarSetExistsAction
-} from './set-exists.action';
+import { ListToolbarSetExistsAction } from './set-exists.action';
 
-import {
-  ListToolbarSetTypeAction
-} from './set-type.action';
+import { ListToolbarSetTypeAction } from './set-type.action';
 
-import {
-  ListToolbarItemsDisableAction
-} from './disable.action';
+import { ListToolbarItemsDisableAction } from './disable.action';
 
-import {
-  ListToolbarShowMultiselectToolbarAction
-} from './show-multiselect-toolbar.action';
+import { ListToolbarShowMultiselectToolbarAction } from './show-multiselect-toolbar.action';
 
 /**
  * @internal
  */
-export class ListToolbarOrchestrator
-  extends ListStateOrchestrator<ListToolbarModel> {
+export class ListToolbarOrchestrator extends ListStateOrchestrator<ListToolbarModel> {
   /* istanbul ignore next */
   constructor() {
     super();
 
-    this
-      .register(ListToolbarSetExistsAction, this.setExists)
+    this.register(ListToolbarSetExistsAction, this.setExists)
       .register(ListToolbarItemsDisableAction, this.setDisabled)
       .register(ListToolbarItemsLoadAction, this.load)
       .register(ListToolbarSetTypeAction, this.setType)
       .register(ListToolbarItemsRemoveAction, this.remove)
-      .register(ListToolbarShowMultiselectToolbarAction, this.showMultiselectToolbar);
+      .register(
+        ListToolbarShowMultiselectToolbarAction,
+        this.showMultiselectToolbar
+      );
   }
 
   private setExists(
@@ -85,7 +68,7 @@ export class ListToolbarOrchestrator
   ): ListToolbarModel {
     const newModel = new ListToolbarModel(state);
 
-    const newListItems = action.items.map(item => {
+    const newListItems = action.items.map((item) => {
       /**
        * NOTE: Originally this function went off the action index and item models did not include
        * the index. We changed this but must leave functionality to convert the action index for

@@ -1,4 +1,10 @@
-import { Component, Input, ContentChildren, TemplateRef, QueryList } from '@angular/core';
+import {
+  Component,
+  Input,
+  ContentChildren,
+  TemplateRef,
+  QueryList,
+} from '@angular/core';
 
 let idIndex = 0;
 
@@ -7,7 +13,7 @@ let idIndex = 0;
  */
 @Component({
   selector: 'sky-list-toolbar-item',
-  template: '<ng-content></ng-content>'
+  template: '<ng-content></ng-content>',
 })
 export class SkyListToolbarItemComponent {
   /**

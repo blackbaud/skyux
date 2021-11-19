@@ -1,108 +1,62 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  StateDispatcher,
-  StateOrchestrator
-} from '@skyux/list-builder-common';
+import { StateDispatcher, StateOrchestrator } from '@skyux/list-builder-common';
 
-import {
-  ListSortFieldSelectorModel
-} from '@skyux/list-builder-common';
+import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
 
-import {
-  ListFilterModel
-} from '../../list-filters/filter.model';
+import { ListFilterModel } from '../../list-filters/filter.model';
 
-import {
-  ListFiltersUpdateAction
-} from './filters/update.action';
+import { ListFiltersUpdateAction } from './filters/update.action';
 
-import {
-  ListStateAction
-} from './list-state-action.type';
+import { ListStateAction } from './list-state-action.type';
 
-import {
-  ListSearchSetFunctionsAction
-} from './search/set-functions.action';
+import { ListSearchSetFunctionsAction } from './search/set-functions.action';
 
-import {
-  ListSearchSetSearchTextAction
-} from './search/set-search-text.action';
+import { ListSearchSetSearchTextAction } from './search/set-search-text.action';
 
-import {
-  ListSearchSetFieldSelectorsAction
-} from './search/set-field-selectors.action';
+import { ListSearchSetFieldSelectorsAction } from './search/set-field-selectors.action';
 
-import {
-  ListSearchSetOptionsAction
-} from './search/set-options.action';
+import { ListSearchSetOptionsAction } from './search/set-options.action';
 
-import {
-  ListSearchModel
-} from './search/search.model';
+import { ListSearchModel } from './search/search.model';
 
-import {
-  ListSelectedSetItemsSelectedAction
-} from './selected/set-items-selected.action';
+import { ListSelectedSetItemsSelectedAction } from './selected/set-items-selected.action';
 
-import {
-  ListSortSetAvailableAction
-} from './sort/set-available.action';
+import { ListSortSetAvailableAction } from './sort/set-available.action';
 
-import {
-  ListSortSetFieldSelectorsAction
-} from './sort/set-field-selectors.action';
+import { ListSortSetFieldSelectorsAction } from './sort/set-field-selectors.action';
 
-import {
-  ListSortSetGlobalAction
-} from './sort/set-global.action';
+import { ListSortSetGlobalAction } from './sort/set-global.action';
 
-import {
-  ListSortLabelModel
-} from './sort/label.model';
+import { ListSortLabelModel } from './sort/label.model';
 
-import {
-  ListToolbarItemsDisableAction
-} from './toolbar/disable.action';
+import { ListToolbarItemsDisableAction } from './toolbar/disable.action';
 
-import {
-  ListToolbarItemsLoadAction
-} from './toolbar/load.action';
+import { ListToolbarItemsLoadAction } from './toolbar/load.action';
 
-import {
-  ListToolbarItemsRemoveAction
-} from './toolbar/remove.action';
+import { ListToolbarItemsRemoveAction } from './toolbar/remove.action';
 
-import {
-  ListToolbarSetExistsAction
-} from './toolbar/set-exists.action';
+import { ListToolbarSetExistsAction } from './toolbar/set-exists.action';
 
-import {
-  ListToolbarShowMultiselectToolbarAction
-} from './toolbar/show-multiselect-toolbar.action';
+import { ListToolbarShowMultiselectToolbarAction } from './toolbar/show-multiselect-toolbar.action';
 
-import {
-  ListToolbarItemModel
-} from './toolbar/toolbar-item.model';
+import { ListToolbarItemModel } from './toolbar/toolbar-item.model';
 
-import {
-  ListViewsSetActiveAction
-} from './views/set-active.action';
+import { ListViewsSetActiveAction } from './views/set-active.action';
 
 /**
  * @internal
  */
-export class ListStateOrchestrator<T> extends StateOrchestrator<T, ListStateAction> {
-}
+export class ListStateOrchestrator<T> extends StateOrchestrator<
+  T,
+  ListStateAction
+> {}
 
 /**
  * @internal
  */
 @Injectable()
 export class ListStateDispatcher extends StateDispatcher<ListStateAction> {
-
   public viewsSetActive(id: string) {
     this.next(new ListViewsSetActiveAction(id));
   }
@@ -115,7 +69,10 @@ export class ListStateDispatcher extends StateDispatcher<ListStateAction> {
     this.next(new ListToolbarItemsDisableAction(disabled));
   }
 
-  public toolbarAddItems(items: ListToolbarItemModel[], index: number = -1): void {
+  public toolbarAddItems(
+    items: ListToolbarItemModel[],
+    index: number = -1
+  ): void {
     this.next(new ListToolbarItemsLoadAction(items, index));
   }
 
@@ -127,7 +84,9 @@ export class ListStateDispatcher extends StateDispatcher<ListStateAction> {
     this.next(new ListToolbarShowMultiselectToolbarAction(show));
   }
 
-  public searchSetFunctions(sortFunctions: ((data: any, searchText: string) => boolean)[]): void {
+  public searchSetFunctions(
+    sortFunctions: ((data: any, searchText: string) => boolean)[]
+  ): void {
     this.next(new ListSearchSetFunctionsAction(sortFunctions));
   }
 
@@ -141,18 +100,22 @@ export class ListStateDispatcher extends StateDispatcher<ListStateAction> {
   }
 
   public searchSetOptions(searchOptions: ListSearchModel) {
-    this.next(new ListSearchSetOptionsAction(
-      new ListSearchSetSearchTextAction(searchOptions.searchText),
-      new ListSearchSetFieldSelectorsAction(searchOptions.fieldSelectors),
-      new ListSearchSetFunctionsAction(searchOptions.functions)
-    ));
+    this.next(
+      new ListSearchSetOptionsAction(
+        new ListSearchSetSearchTextAction(searchOptions.searchText),
+        new ListSearchSetFieldSelectorsAction(searchOptions.fieldSelectors),
+        new ListSearchSetFunctionsAction(searchOptions.functions)
+      )
+    );
   }
 
   public sortSetAvailable(sortLabels: ListSortLabelModel[]): void {
     this.next(new ListSortSetAvailableAction(sortLabels));
   }
 
-  public sortSetFieldSelectors(fieldSelectors: ListSortFieldSelectorModel[]): void {
+  public sortSetFieldSelectors(
+    fieldSelectors: ListSortFieldSelectorModel[]
+  ): void {
     this.next(new ListSortSetFieldSelectorsAction(fieldSelectors));
   }
 
@@ -164,7 +127,13 @@ export class ListStateDispatcher extends StateDispatcher<ListStateAction> {
     this.next(new ListFiltersUpdateAction(filters));
   }
 
-  public setSelected(selectedIds: string[], selected: boolean, refresh: boolean = false): void {
-    this.next(new ListSelectedSetItemsSelectedAction(selectedIds, selected, refresh));
+  public setSelected(
+    selectedIds: string[],
+    selected: boolean,
+    refresh: boolean = false
+  ): void {
+    this.next(
+      new ListSelectedSetItemsSelectedAction(selectedIds, selected, refresh)
+    );
   }
 }

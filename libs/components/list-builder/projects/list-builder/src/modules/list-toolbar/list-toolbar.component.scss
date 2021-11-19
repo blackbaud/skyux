@@ -1,10 +1,9 @@
-@import "~@skyux/theme/scss/mixins";
+@import '~@skyux/theme/scss/mixins';
 
 .sky-list-toolbar-search-wrapper {
   display: flex;
 
   ::ng-deep {
-
     .sky-search-dismiss-absolute {
       padding: 0;
       position: static;
@@ -39,7 +38,6 @@
 
 .sky-list-toolbar-search {
   ::ng-deep {
-
     .sky-toolbar-section {
       padding-top: 0;
     }
@@ -58,8 +56,8 @@
       background-color: $sky-background-color-neutral-light;
     }
 
-    input[type="text"]:disabled,
-    .sky-search-btn:disabled  {
+    input[type='text']:disabled,
+    .sky-search-btn:disabled {
       background-color: $sky-background-color-disabled;
       opacity: 1;
     }
@@ -67,12 +65,12 @@
 }
 
 .sky-list-toolbar-container {
-  ::ng-deep sky-toolbar-item[sky-toolbar-id="sort-selector"] .sky-toolbar-item {
+  ::ng-deep sky-toolbar-item[sky-toolbar-id='sort-selector'] .sky-toolbar-item {
     margin-right: 0;
   }
 
   ::ng-deep sky-checkbox {
     position: relative;
-    top:-2px;
+    top: -2px;
   }
 }

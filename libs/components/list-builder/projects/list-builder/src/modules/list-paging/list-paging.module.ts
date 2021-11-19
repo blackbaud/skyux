@@ -4,16 +4,8 @@ import { SkyListPagingComponent } from './list-paging.component';
 import { SkyPagingModule } from '@skyux/lists';
 
 @NgModule({
-  declarations: [
-    SkyListPagingComponent
-  ],
-  imports: [
-    CommonModule,
-    SkyPagingModule
-  ],
-  exports: [
-    SkyListPagingComponent
-  ]
+  declarations: [SkyListPagingComponent],
+  imports: [CommonModule, SkyPagingModule],
+  exports: [SkyListPagingComponent],
 })
-export class SkyListPagingModule {
-}
+export class SkyListPagingModule {}

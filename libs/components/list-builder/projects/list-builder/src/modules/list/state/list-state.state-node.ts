@@ -21,8 +21,7 @@ export class ListState extends StateNode<ListStateModel> {
   constructor(dispatcher: ListStateDispatcher) {
     super(new ListStateModel(), dispatcher);
 
-    this
-      .register('filters', ListFiltersOrchestrator)
+    this.register('filters', ListFiltersOrchestrator)
       .register('items', ListItemsOrchestrator)
       .register('paging', ListPagingOrchestrator)
       .register('search', ListSearchOrchestrator)

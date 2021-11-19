@@ -13,36 +13,45 @@ export class ListSearchOrchestrator extends ListStateOrchestrator<ListSearchMode
   constructor() {
     super();
 
-    this
-      .register(ListSearchSetSearchTextAction, this.setSearchText)
+    this.register(ListSearchSetSearchTextAction, this.setSearchText)
       .register(ListSearchSetFunctionsAction, this.setFunctions)
       .register(ListSearchSetFieldSelectorsAction, this.setFieldSelectors)
       .register(ListSearchSetOptionsAction, this.setOptions);
-   }
+  }
 
   private setSearchText(
     state: ListSearchModel,
-    action: ListSearchSetSearchTextAction): ListSearchModel {
+    action: ListSearchSetSearchTextAction
+  ): ListSearchModel {
     return new ListSearchModel(
-      Object.assign({}, state, { searchText: action.searchText ? action.searchText : '' })
+      Object.assign({}, state, {
+        searchText: action.searchText ? action.searchText : '',
+      })
     );
   }
 
   private setFunctions(
     state: ListSearchModel,
-    action: ListSearchSetFunctionsAction): ListSearchModel {
-    return new ListSearchModel(Object.assign({}, state, { functions: [...action.functions] }));
+    action: ListSearchSetFunctionsAction
+  ): ListSearchModel {
+    return new ListSearchModel(
+      Object.assign({}, state, { functions: [...action.functions] })
+    );
   }
 
   private setFieldSelectors(
     state: ListSearchModel,
-    action: ListSearchSetFieldSelectorsAction): ListSearchModel {
+    action: ListSearchSetFieldSelectorsAction
+  ): ListSearchModel {
     return new ListSearchModel(
       Object.assign({}, state, { fieldSelectors: [...action.fieldSelectors] })
     );
   }
 
-  private setOptions(state: ListSearchModel, action: ListSearchSetOptionsAction) {
+  private setOptions(
+    state: ListSearchModel,
+    action: ListSearchSetOptionsAction
+  ) {
     let result = state;
 
     /* istanbul ignore else */

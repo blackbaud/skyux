@@ -1,49 +1,32 @@
-import {
-  AsyncItem
-} from '@skyux/list-builder-common';
+import { AsyncItem } from '@skyux/list-builder-common';
 
-import {
-  Observable
-} from 'rxjs';
+import { Observable } from 'rxjs';
 
-import {
-  take
-} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
-import {
-  ListStateOrchestrator
-} from '../list-state.rxstate';
+import { ListStateOrchestrator } from '../list-state.rxstate';
 
-import {
-  ListSelectedModel
-} from './selected.model';
+import { ListSelectedModel } from './selected.model';
 
-import {
-  ListSelectedSetLoadingAction
-} from './set-loading.action';
+import { ListSelectedSetLoadingAction } from './set-loading.action';
 
-import {
-  ListSelectedSetItemSelectedAction
-} from './set-item-selected.action';
+import { ListSelectedSetItemSelectedAction } from './set-item-selected.action';
 
-import {
-  ListSelectedSetItemsSelectedAction
-} from './set-items-selected.action';
+import { ListSelectedSetItemsSelectedAction } from './set-items-selected.action';
 
-import {
-  ListSelectedLoadAction
-} from './load.action';
+import { ListSelectedLoadAction } from './load.action';
 
 /**
  * @internal
  */
-export class ListSelectedOrchestrator extends ListStateOrchestrator<AsyncItem<ListSelectedModel>> {
+export class ListSelectedOrchestrator extends ListStateOrchestrator<
+  AsyncItem<ListSelectedModel>
+> {
   /* istanbul ignore next */
   constructor() {
     super();
 
-    this
-      .register(ListSelectedSetLoadingAction, this.setLoading)
+    this.register(ListSelectedSetLoadingAction, this.setLoading)
       .register(ListSelectedSetItemSelectedAction, this.setItemSelected)
       .register(ListSelectedSetItemsSelectedAction, this.setItemsSelected)
       .register(ListSelectedLoadAction, this.load);
@@ -53,7 +36,11 @@ export class ListSelectedOrchestrator extends ListStateOrchestrator<AsyncItem<Li
     state: AsyncItem<ListSelectedModel>,
     action: ListSelectedSetLoadingAction
   ): AsyncItem<ListSelectedModel> {
-    return new AsyncItem<ListSelectedModel>(state.item, state.lastUpdate, action.loading);
+    return new AsyncItem<ListSelectedModel>(
+      state.item,
+      state.lastUpdate,
+      action.loading
+    );
   }
 
   private load(
@@ -61,7 +48,7 @@ export class ListSelectedOrchestrator extends ListStateOrchestrator<AsyncItem<Li
     action: ListSelectedLoadAction
   ): AsyncItem<ListSelectedModel> {
     const newSelected = new ListSelectedModel();
-    action.items.map(s => newSelected.selectedIdMap.set(s, true));
+    action.items.map((s) => newSelected.selectedIdMap.set(s, true));
 
     return new AsyncItem<ListSelectedModel>(
       Object.assign({}, state.item, newSelected),
@@ -78,7 +65,11 @@ export class ListSelectedOrchestrator extends ListStateOrchestrator<AsyncItem<Li
 
     newSelected.selectedIdMap.set(action.id, action.selected);
 
-    return new AsyncItem<ListSelectedModel>(newSelected, state.lastUpdate, state.loading);
+    return new AsyncItem<ListSelectedModel>(
+      newSelected,
+      state.lastUpdate,
+      state.loading
+    );
   }
 
   private setItemsSelected(
@@ -86,19 +77,27 @@ export class ListSelectedOrchestrator extends ListStateOrchestrator<AsyncItem<Li
     action: ListSelectedSetItemsSelectedAction
   ): AsyncItem<ListSelectedModel> {
     const newSelectedIds = action.items || [];
-    const newListSelectedModel = action.refresh ? new ListSelectedModel() : this.cloneListSelectedModel(state.item);
+    const newListSelectedModel = action.refresh
+      ? new ListSelectedModel()
+      : this.cloneListSelectedModel(state.item);
 
     if (newSelectedIds instanceof Observable) {
-      newSelectedIds
-        .pipe(take(1))
-        .subscribe(selectedIds => {
-          selectedIds.map(s => newListSelectedModel.selectedIdMap.set(s, action.selected));
-        });
+      newSelectedIds.pipe(take(1)).subscribe((selectedIds) => {
+        selectedIds.map((s) =>
+          newListSelectedModel.selectedIdMap.set(s, action.selected)
+        );
+      });
     } else {
-      newSelectedIds.map(s => newListSelectedModel.selectedIdMap.set(s, action.selected));
+      newSelectedIds.map((s) =>
+        newListSelectedModel.selectedIdMap.set(s, action.selected)
+      );
     }
 
-    return new AsyncItem<ListSelectedModel>(newListSelectedModel, state.lastUpdate, state.loading);
+    return new AsyncItem<ListSelectedModel>(
+      newListSelectedModel,
+      state.lastUpdate,
+      state.loading
+    );
   }
 
   private cloneListSelectedModel(source: ListSelectedModel) {

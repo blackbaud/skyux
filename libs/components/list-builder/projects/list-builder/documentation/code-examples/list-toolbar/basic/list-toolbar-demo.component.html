@@ -1,20 +1,10 @@
-<sky-list
-  [data]="data"
->
+<sky-list [data]="data">
   <sky-list-toolbar>
-    <sky-list-toolbar-item
-      id="custom-item"
-      index="0"
-      location="left"
-    >
+    <sky-list-toolbar-item id="custom-item" index="0" location="left">
       <ng-template>
-        <sky-dropdown
-          buttonStyle="primary"
-        >
+        <sky-dropdown buttonStyle="primary">
           <sky-dropdown-button>
-            <sky-icon
-              icon="plus-circle"
-            ></sky-icon>
+            <sky-icon icon="plus-circle"></sky-icon>
             Add
           </sky-dropdown-button>
         </sky-dropdown>
@@ -27,9 +17,7 @@
       >
       </sky-filter-button>
     </sky-list-filter-button>
-    <sky-list-filter-summary
-      (summaryItemClick)="onSummaryItemClick()"
-    >
+    <sky-list-filter-summary (summaryItemClick)="onSummaryItemClick()">
     </sky-list-filter-summary>
     <sky-list-toolbar-sort
       field="column2"
@@ -45,31 +33,19 @@
       [descending]="true"
     >
     </sky-list-toolbar-sort>
-    <sky-list-column-selector-action
-      [gridView]="grid"
-    >
+    <sky-list-column-selector-action [gridView]="grid">
     </sky-list-column-selector-action>
     <sky-list-secondary-actions>
       <sky-list-secondary-action>
-        <button
-          type="button"
-        >
-          Option
-        </button>
+        <button type="button">Option</button>
       </sky-list-secondary-action>
     </sky-list-secondary-actions>
     <sky-list-toolbar-view-actions>
-      <form
-        novalidate
-        [formGroup]="myForm"
-      >
-        <sky-radio-group
-          formControlName="myView"
-        >
-          <div
-            class="sky-switch-icon-group"
-          >
-            <sky-radio *ngFor="let view of views"
+      <form novalidate [formGroup]="myForm">
+        <sky-radio-group formControlName="myView">
+          <div class="sky-switch-icon-group">
+            <sky-radio
+              *ngFor="let view of views"
               [icon]="view.icon"
               [label]="view.label"
               [value]="view.name"

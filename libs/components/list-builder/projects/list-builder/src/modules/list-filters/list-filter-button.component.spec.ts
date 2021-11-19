@@ -1,33 +1,16 @@
-import {
-  ListState
-} from '../list/state/list-state.state-node';
+import { ListState } from '../list/state/list-state.state-node';
 
-import {
-  ListStateDispatcher
-} from '../list/state/list-state.rxstate';
+import { ListStateDispatcher } from '../list/state/list-state.rxstate';
 
-import {
-  TestBed,
-  async,
-  ComponentFixture
-} from '@angular/core/testing';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 
-import {
-  skip,
-  take
-} from 'rxjs/operators';
+import { skip, take } from 'rxjs/operators';
 
-import {
-  ListFilterButtonTestComponent
-} from './fixtures/list-filter-button.component.fixture';
+import { ListFilterButtonTestComponent } from './fixtures/list-filter-button.component.fixture';
 
-import {
-  SkyListToolbarModule
-} from '../list-toolbar/list-toolbar.module';
+import { SkyListToolbarModule } from '../list-toolbar/list-toolbar.module';
 
-import {
-  SkyListFiltersModule
-} from './list-filters.module';
+import { SkyListFiltersModule } from './list-filters.module';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('List filter button', () => {
@@ -41,18 +24,16 @@ describe('List filter button', () => {
     state = new ListState(dispatcher);
 
     TestBed.configureTestingModule({
-      declarations: [
-        ListFilterButtonTestComponent
-      ],
+      declarations: [ListFilterButtonTestComponent],
       imports: [
         SkyListToolbarModule,
         SkyListFiltersModule,
-        NoopAnimationsModule
+        NoopAnimationsModule,
       ],
       providers: [
         { provide: ListState, useValue: state },
-        { provide: ListStateDispatcher, useValue: dispatcher }
-      ]
+        { provide: ListStateDispatcher, useValue: dispatcher },
+      ],
     });
 
     fixture = TestBed.createComponent(ListFilterButtonTestComponent);
@@ -65,8 +46,9 @@ describe('List filter button', () => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      expect(nativeElement.querySelector('.sky-toolbar-item .sky-test-content')).not.toBeNull();
+      expect(
+        nativeElement.querySelector('.sky-toolbar-item .sky-test-content')
+      ).not.toBeNull();
     });
-
   }));
 });

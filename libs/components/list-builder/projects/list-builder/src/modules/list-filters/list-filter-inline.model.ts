@@ -1,11 +1,6 @@
-import {
-  ListItemModel
-} from '@skyux/list-builder-common';
+import { ListItemModel } from '@skyux/list-builder-common';
 
-import {
-  EventEmitter,
-  TemplateRef
-} from '@angular/core';
+import { EventEmitter, TemplateRef } from '@angular/core';
 
 /**
  * @internal

@@ -4,7 +4,7 @@ import {
   ViewChild,
   Input,
   TemplateRef,
-  OnInit
+  OnInit,
 } from '@angular/core';
 
 /**
@@ -12,7 +12,7 @@ import {
  */
 @Component({
   selector: 'sky-list-filter-inline-item-renderer',
-  template: '<ng-template #container></ng-template>'
+  template: '<ng-template #container></ng-template>',
 })
 export class SkyListFilterInlineItemRendererComponent implements OnInit {
   @Input()
@@ -22,7 +22,7 @@ export class SkyListFilterInlineItemRendererComponent implements OnInit {
 
   @ViewChild('container', {
     read: ViewContainerRef,
-    static: true
+    static: true,
   })
   private container: ViewContainerRef;
 

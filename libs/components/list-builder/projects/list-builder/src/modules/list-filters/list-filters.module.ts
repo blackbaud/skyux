@@ -7,9 +7,7 @@ import { SkyListFilterButtonComponent } from './list-filter-button.component';
 import { SkyListFilterSummaryComponent } from './list-filter-summary.component';
 import { SkyListFilterInlineItemComponent } from './list-filter-inline-item.component';
 import { SkyListFilterInlineComponent } from './list-filter-inline.component';
-import {
-  SkyListFilterInlineItemRendererComponent
-} from './list-filter-inline-item-renderer.component';
+import { SkyListFilterInlineItemRendererComponent } from './list-filter-inline-item-renderer.component';
 
 @NgModule({
   declarations: [
@@ -17,17 +15,14 @@ import {
     SkyListFilterSummaryComponent,
     SkyListFilterInlineItemComponent,
     SkyListFilterInlineComponent,
-    SkyListFilterInlineItemRendererComponent
+    SkyListFilterInlineItemRendererComponent,
   ],
-  imports: [
-    CommonModule,
-    SkyFilterModule
-  ],
+  imports: [CommonModule, SkyFilterModule],
   exports: [
     SkyListFilterButtonComponent,
     SkyListFilterSummaryComponent,
     SkyListFilterInlineItemComponent,
-    SkyListFilterInlineComponent
-  ]
+    SkyListFilterInlineComponent,
+  ],
 })
-export class SkyListFiltersModule { }
+export class SkyListFiltersModule {}

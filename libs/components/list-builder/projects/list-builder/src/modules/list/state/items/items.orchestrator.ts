@@ -1,37 +1,26 @@
-import {
-  ListItemModel
-} from '@skyux/list-builder-common';
+import { ListItemModel } from '@skyux/list-builder-common';
 
-import {
-  AsyncList
-} from '@skyux/list-builder-common';
+import { AsyncList } from '@skyux/list-builder-common';
 
-import {
-  ListStateOrchestrator
-} from '../list-state.rxstate';
+import { ListStateOrchestrator } from '../list-state.rxstate';
 
-import {
-  ListItemsLoadAction
-} from './load.action';
+import { ListItemsLoadAction } from './load.action';
 
-import {
-  ListItemsSetLoadingAction
-} from './set-loading.action';
+import { ListItemsSetLoadingAction } from './set-loading.action';
 
-import {
-  ListItemsSetSelectedAction
-} from './set-items-selected.action';
+import { ListItemsSetSelectedAction } from './set-items-selected.action';
 
 /**
  * @internal
  */
-export class ListItemsOrchestrator extends ListStateOrchestrator<AsyncList<ListItemModel>> {
+export class ListItemsOrchestrator extends ListStateOrchestrator<
+  AsyncList<ListItemModel>
+> {
   /* istanbul ignore next */
   constructor() {
     super();
 
-    this
-      .register(ListItemsSetLoadingAction, this.setLoading)
+    this.register(ListItemsSetLoadingAction, this.setLoading)
       .register(ListItemsLoadAction, this.load)
       .register(ListItemsSetSelectedAction, this.setItemsSelected);
   }
@@ -40,15 +29,24 @@ export class ListItemsOrchestrator extends ListStateOrchestrator<AsyncList<ListI
     state: AsyncList<ListItemModel>,
     action: ListItemsSetLoadingAction
   ): AsyncList<ListItemModel> {
-    return new AsyncList<ListItemModel>(state.items, state.lastUpdate, action.loading, state.count);
+    return new AsyncList<ListItemModel>(
+      state.items,
+      state.lastUpdate,
+      action.loading,
+      state.count
+    );
   }
 
   private load(
     state: AsyncList<ListItemModel>,
     action: ListItemsLoadAction
   ): AsyncList<ListItemModel> {
-    const newListItems = action.items.map(g => new ListItemModel(g.id, g.data, g.isSelected));
-    const resultItems = (action.refresh) ? [...newListItems] : [...state.items, ...newListItems];
+    const newListItems = action.items.map(
+      (g) => new ListItemModel(g.id, g.data, g.isSelected)
+    );
+    const resultItems = action.refresh
+      ? [...newListItems]
+      : [...state.items, ...newListItems];
 
     let count = action.count === undefined ? resultItems.length : action.count;
     return new AsyncList<ListItemModel>(
@@ -68,11 +66,11 @@ export class ListItemsOrchestrator extends ListStateOrchestrator<AsyncList<ListI
     let newListItemModels = this.cloneListItemModelArray(state.items);
 
     if (action.refresh) {
-      newListItemModels.forEach(item => item.isSelected = undefined);
+      newListItemModels.forEach((item) => (item.isSelected = undefined));
     }
 
-    newSelectedIds.map(s => {
-      let newItem = newListItemModels.find(i => i.id === s);
+    newSelectedIds.map((s) => {
+      let newItem = newListItemModels.find((i) => i.id === s);
       /* istanbul ignore next */
       if (newItem) {
         newItem.isSelected = action.selected;
@@ -87,11 +85,17 @@ export class ListItemsOrchestrator extends ListStateOrchestrator<AsyncList<ListI
     );
   }
 
-  private cloneListItemModelArray(source: Array<ListItemModel>): ListItemModel[] {
+  private cloneListItemModelArray(
+    source: Array<ListItemModel>
+  ): ListItemModel[] {
     let newListItems: Array<ListItemModel> = [];
-    source.forEach(item => {
+    source.forEach((item) => {
       newListItems.push(
-        new ListItemModel(item.id, Object.assign({}, item.data), item.isSelected)
+        new ListItemModel(
+          item.id,
+          Object.assign({}, item.data),
+          item.isSelected
+        )
       );
     });
     return newListItems;

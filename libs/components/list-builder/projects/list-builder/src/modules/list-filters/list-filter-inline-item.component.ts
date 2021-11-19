@@ -5,19 +5,17 @@ import {
   TemplateRef,
   QueryList,
   OnInit,
-  EventEmitter
+  EventEmitter,
 } from '@angular/core';
 
-import {
-  ListItemModel
-} from '@skyux/list-builder-common';
+import { ListItemModel } from '@skyux/list-builder-common';
 
 /**
  * Creates a filter in the list's inline filter area.
  */
 @Component({
   selector: 'sky-list-filter-inline-item',
-  template: '<ng-content></ng-content>'
+  template: '<ng-content></ng-content>',
 })
 export class SkyListFilterInlineItemComponent implements OnInit {
   /**
@@ -46,7 +44,7 @@ export class SkyListFilterInlineItemComponent implements OnInit {
    * about `ListItemModel`, see the
    * [shared classes for lists](https://developer.blackbaud.com/skyux-list-builder-common/docs/list-builder-common).
    */
-  /* tslint:disable:no-input-rename */
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('filter')
   public filterFunction: (item: ListItemModel, filter: any) => boolean;
 
@@ -56,9 +54,9 @@ export class SkyListFilterInlineItemComponent implements OnInit {
    * `ngModel`, and the `changed` function, which should be called when the model changes.
    * @required
    */
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('template')
   public templateInput: TemplateRef<any>;
-  /* tslint:enable:no-input-rename */
 
   public onChange: EventEmitter<any> = new EventEmitter<any>();
 
@@ -72,6 +70,8 @@ export class SkyListFilterInlineItemComponent implements OnInit {
   }
 
   public get template(): TemplateRef<any> {
-      return this.templates.length > 0 ? this.templates.first : this.templateInput;
+    return this.templates.length > 0
+      ? this.templates.first
+      : this.templateInput;
   }
 }

@@ -1,6 +1,4 @@
-import {
-  ListItemModel
-} from '@skyux/list-builder-common';
+import { ListItemModel } from '@skyux/list-builder-common';
 
 /**
  * @internal
@@ -11,6 +9,5 @@ export class ListItemsLoadAction {
     public refresh: boolean = false,
     public dataChanged: boolean = true,
     public count?: number
-  ) {
-  }
+  ) {}
 }

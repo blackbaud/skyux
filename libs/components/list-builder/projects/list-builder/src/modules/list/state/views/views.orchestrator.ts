@@ -11,16 +11,27 @@ export class ListViewsOrchestrator extends ListStateOrchestrator<ListViewsModel>
   constructor() {
     super();
 
-    this
-      .register(ListViewsSetActiveAction, this.setActive)
-      .register(ListViewsLoadAction, this.load);
+    this.register(ListViewsSetActiveAction, this.setActive).register(
+      ListViewsLoadAction,
+      this.load
+    );
   }
 
-  private setActive(state: ListViewsModel, action: ListViewsSetActiveAction): ListViewsModel {
-    return new ListViewsModel(Object.assign({}, state, { active: action.view }));
+  private setActive(
+    state: ListViewsModel,
+    action: ListViewsSetActiveAction
+  ): ListViewsModel {
+    return new ListViewsModel(
+      Object.assign({}, state, { active: action.view })
+    );
   }
 
-  private load(state: ListViewsModel, action: ListViewsLoadAction): ListViewsModel {
-    return new ListViewsModel(Object.assign({}, state, { views: action.views }));
+  private load(
+    state: ListViewsModel,
+    action: ListViewsLoadAction
+  ): ListViewsModel {
+    return new ListViewsModel(
+      Object.assign({}, state, { views: action.views })
+    );
   }
 }

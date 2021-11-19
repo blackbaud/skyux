@@ -1,11 +1,6 @@
-import {
-  Injectable,
-  OnDestroy
-} from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 
-import {
-  BehaviorSubject
-} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import { SkyListSecondaryAction } from './list-secondary-action';
 
@@ -29,7 +24,9 @@ export class SkyListSecondaryActionsService implements OnDestroy {
   public removeSecondaryAction(action: any) {
     this.secondaryActionsCount--;
     this.secondaryActionsSubject.next(this.secondaryActionsCount);
-    this.actions = this.actions.filter(existingItem => existingItem !== action);
+    this.actions = this.actions.filter(
+      (existingItem) => existingItem !== action
+    );
     this.actionsStream.next(this.actions);
   }
 

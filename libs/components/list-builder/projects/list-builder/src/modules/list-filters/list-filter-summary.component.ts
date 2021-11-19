@@ -2,29 +2,18 @@ import {
   AfterContentInit,
   Component,
   EventEmitter,
-  Output
+  Output,
 } from '@angular/core';
 
-import {
-  Observable
-} from 'rxjs';
+import { Observable } from 'rxjs';
 
-import {
-  map as observableMap,
-  take
-} from 'rxjs/operators';
+import { map as observableMap, take } from 'rxjs/operators';
 
-import {
-  ListState
-} from '../list/state/list-state.state-node';
+import { ListState } from '../list/state/list-state.state-node';
 
-import {
-  ListStateDispatcher
-} from '../list/state/list-state.rxstate';
+import { ListStateDispatcher } from '../list/state/list-state.rxstate';
 
-import {
-  ListFilterModel
-} from './filter.model';
+import { ListFilterModel } from './filter.model';
 
 /**
  * Creates a filter summary based on the
@@ -34,10 +23,9 @@ import {
  */
 @Component({
   selector: 'sky-list-filter-summary',
-  templateUrl: './list-filter-summary.component.html'
+  templateUrl: './list-filter-summary.component.html',
 })
 export class SkyListFilterSummaryComponent implements AfterContentInit {
-
   /**
    * Emits a `ListFilterModel` when users select a summary item. A common use case is
    * to open a filter modal when this event is received.
@@ -55,14 +43,18 @@ export class SkyListFilterSummaryComponent implements AfterContentInit {
   public ngAfterContentInit() {
     // The setTimeout here is to ensure we avoid any ExpressionChangedAfterItHasBeenCheckedError issues.
     setTimeout(() => {
-      this.appliedFilters = this.state.pipe(observableMap((state) => {
-        return state.filters.filter((filter) => {
-          return filter.value !== '' &&
-            filter.value !== undefined &&
-            filter.value !== false &&
-            filter.value !== filter.defaultValue;
-        });
-      }));
+      this.appliedFilters = this.state.pipe(
+        observableMap((state) => {
+          return state.filters.filter((filter) => {
+            return (
+              filter.value !== '' &&
+              filter.value !== undefined &&
+              filter.value !== false &&
+              filter.value !== filter.defaultValue
+            );
+          });
+        })
+      );
     });
   }
 

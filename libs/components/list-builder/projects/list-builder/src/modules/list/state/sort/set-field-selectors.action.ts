@@ -1,6 +1,4 @@
-import {
-  ListSortFieldSelectorModel
-} from '@skyux/list-builder-common';
+import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
 
 /**
  * @internal

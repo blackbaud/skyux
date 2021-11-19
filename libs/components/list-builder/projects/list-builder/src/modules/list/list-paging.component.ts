@@ -1,6 +1,4 @@
-import {
-  BehaviorSubject
-} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import { ListState } from './state/list-state.state-node';
 import { ListStateDispatcher } from './state/list-state.rxstate';

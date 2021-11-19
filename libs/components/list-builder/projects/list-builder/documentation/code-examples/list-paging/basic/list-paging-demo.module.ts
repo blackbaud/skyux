@@ -1,31 +1,17 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 import {
   SkyListModule,
-  SkyListPagingModule
+  SkyListPagingModule,
 } from 'projects/list-builder/src/public-api';
 
-import {
-  ListPagingDemoComponent
-} from './list-paging-demo.component';
+import { ListPagingDemoComponent } from './list-paging-demo.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SkyListModule,
-    SkyListPagingModule
-  ],
-  declarations: [
-    ListPagingDemoComponent
-  ],
-  exports: [
-    ListPagingDemoComponent
-  ]
+  imports: [CommonModule, SkyListModule, SkyListPagingModule],
+  declarations: [ListPagingDemoComponent],
+  exports: [ListPagingDemoComponent],
 })
-export class ListPagingDemoModule { }
+export class ListPagingDemoModule {}

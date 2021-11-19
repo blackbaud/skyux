@@ -1,6 +1,4 @@
-import {
-  ListItemModel
-} from '@skyux/list-builder-common';
+import { ListItemModel } from '@skyux/list-builder-common';
 
 import { AsyncList, AsyncItem } from '@skyux/list-builder-common';
 
@@ -16,12 +14,12 @@ import { ListViewsModel } from './views/views.model';
  * @internal
  */
 export class ListStateModel {
-
   public filters: ListFilterModel[] = [];
   public items: AsyncList<ListItemModel> = new AsyncList<ListItemModel>();
   public paging: ListPagingModel = new ListPagingModel();
   public search: ListSearchModel = new ListSearchModel();
-  public selected: AsyncItem<ListSelectedModel> = new AsyncItem<ListSelectedModel>();
+  public selected: AsyncItem<ListSelectedModel> =
+    new AsyncItem<ListSelectedModel>();
   public sort: ListSortModel = new ListSortModel();
   public toolbar: ListToolbarModel = new ListToolbarModel();
   public views: ListViewsModel = new ListViewsModel();
@@ -29,5 +27,4 @@ export class ListStateModel {
   constructor() {
     this.selected.item = new ListSelectedModel();
   }
-
 }

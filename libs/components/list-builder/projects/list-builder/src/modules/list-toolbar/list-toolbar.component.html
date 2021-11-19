@@ -1,6 +1,5 @@
 <div class="sky-list-toolbar-container">
   <sky-toolbar *ngIf="(type | async) !== 'search'">
-
     <sky-toolbar-section>
       <sky-toolbar-item *ngFor="let item of leftTemplates">
         <sky-list-toolbar-item-renderer
@@ -16,7 +15,8 @@
         >
         </sky-list-toolbar-item-renderer>
       </sky-toolbar-item>
-      <sky-toolbar-item *ngFor="let item of rightTemplates"
+      <sky-toolbar-item
+        *ngFor="let item of rightTemplates"
         [attr.sky-toolbar-id]="item.id"
       >
         <sky-list-toolbar-item-renderer
@@ -29,25 +29,26 @@
       <ng-content></ng-content>
 
       <sky-toolbar-view-actions *ngIf="hasViewActions">
-        <ng-content
-          select="sky-list-toolbar-view-actions"
-        >
-        </ng-content>
+        <ng-content select="sky-list-toolbar-view-actions"> </ng-content>
       </sky-toolbar-view-actions>
     </sky-toolbar-section>
 
-    <sky-toolbar-section *ngIf="showFilterSummary && (hasAppliedFilters | async)">
-      <ng-content select="sky-list-filter-summary">
-      </ng-content>
+    <sky-toolbar-section
+      *ngIf="showFilterSummary && (hasAppliedFilters | async)"
+    >
+      <ng-content select="sky-list-filter-summary"> </ng-content>
     </sky-toolbar-section>
   </sky-toolbar>
 
-  <div *ngIf="(type | async) === 'search' &&
-    ((isSearchEnabled | async) || hasAdditionalToolbarSection)"
+  <div
+    *ngIf="
+      (type | async) === 'search' &&
+      ((isSearchEnabled | async) || hasAdditionalToolbarSection)
+    "
     class="sky-list-toolbar-search"
   >
     <sky-toolbar>
-      <sky-toolbar-section *ngIf="(isSearchEnabled | async)">
+      <sky-toolbar-section *ngIf="isSearchEnabled | async">
         <sky-toolbar-item>
           <sky-list-toolbar-item-renderer
             sky-cmp-id="search"
@@ -71,10 +72,12 @@
           >
           </sky-list-toolbar-item-renderer>
         </sky-toolbar-item>
-        <sky-toolbar-item *ngFor="let item of rightTemplates"
+        <sky-toolbar-item
+          *ngFor="let item of rightTemplates"
           [attr.sky-toolbar-id]="item.id"
         >
-          <sky-list-toolbar-item-renderer *ngIf="item.id !== 'search'"
+          <sky-list-toolbar-item-renderer
+            *ngIf="item.id !== 'search'"
             [attr.sky-cmp-id]="item.id"
             [template]="item.template"
           >
@@ -83,10 +86,7 @@
         <ng-content></ng-content>
 
         <sky-toolbar-view-actions *ngIf="hasViewActions">
-          <ng-content
-            select="sky-list-toolbar-view-actions"
-          >
-          </ng-content>
+          <ng-content select="sky-list-toolbar-view-actions"> </ng-content>
         </sky-toolbar-view-actions>
       </sky-toolbar-section>
     </sky-toolbar>
@@ -96,17 +96,14 @@
     [attr.aria-labelledby]="filterButtonId"
     [id]="listFilterInlineId"
   >
-    <ng-content select="sky-list-filter-inline">
-    </ng-content>
+    <ng-content select="sky-list-filter-inline"> </ng-content>
   </div>
   <sky-list-multiselect-toolbar *ngIf="isMultiselectEnabled | async">
   </sky-list-multiselect-toolbar>
 </div>
 
 <ng-template #search>
-  <div *ngIf="isSearchEnabled | async"
-    class="sky-list-toolbar-search-wrapper"
-  >
+  <div *ngIf="isSearchEnabled | async" class="sky-list-toolbar-search-wrapper">
     <sky-search
       [disabled]="isToolbarDisabled"
       [expandMode]="(type | async) === 'search' ? 'fit' : 'responsive'"
@@ -115,18 +112,20 @@
       (searchApply)="updateSearchText($event)"
     >
     </sky-search>
-    <ng-content
-      select="sky-list-toolbar-search-actions"
-    ></ng-content>
+    <ng-content select="sky-list-toolbar-search-actions"></ng-content>
   </div>
 </ng-template>
 
 <ng-template #sortSelector>
-  <div *ngIf="(isSortSelectorEnabled | async) && (sortSelectors | async).length > 0"
+  <div
+    *ngIf="
+      (isSortSelectorEnabled | async) && (sortSelectors | async).length > 0
+    "
     class="sky-toolbar-item-sort-container"
   >
     <sky-sort [showButtonText]="true">
-      <sky-sort-item *ngFor="let item of sortSelectors | async"
+      <sky-sort-item
+        *ngFor="let item of sortSelectors | async"
         [active]="item.selected"
         (itemSelect)="setSort(item.sort)"
       >

@@ -1,16 +1,10 @@
 import { ListStateOrchestrator } from '../list-state.rxstate';
 import { ListPagingModel } from './paging.model';
-import {
-  ListPagingSetMaxPagesAction
-} from './set-max-pages.action';
+import { ListPagingSetMaxPagesAction } from './set-max-pages.action';
 
-import {
-  ListPagingSetItemsPerPageAction
-} from './set-items-per-page.action';
+import { ListPagingSetItemsPerPageAction } from './set-items-per-page.action';
 
-import {
-  ListPagingSetPageNumberAction
-} from './set-page-number.action';
+import { ListPagingSetPageNumberAction } from './set-page-number.action';
 
 /**
  * @internal
@@ -20,15 +14,15 @@ export class ListPagingOrchestrator extends ListStateOrchestrator<ListPagingMode
   constructor() {
     super();
 
-    this
-      .register(ListPagingSetMaxPagesAction, this.setMaxPages)
+    this.register(ListPagingSetMaxPagesAction, this.setMaxPages)
       .register(ListPagingSetItemsPerPageAction, this.setItemsPerPage)
       .register(ListPagingSetPageNumberAction, this.setPageNumber);
   }
 
   private setMaxPages(
     state: ListPagingModel,
-    action: ListPagingSetMaxPagesAction): ListPagingModel {
+    action: ListPagingSetMaxPagesAction
+  ): ListPagingModel {
     return new ListPagingModel(
       Object.assign({}, state, { maxDisplayedPages: Number(action.maxPages) })
     );
@@ -36,7 +30,8 @@ export class ListPagingOrchestrator extends ListStateOrchestrator<ListPagingMode
 
   private setItemsPerPage(
     state: ListPagingModel,
-    action: ListPagingSetItemsPerPageAction): ListPagingModel {
+    action: ListPagingSetItemsPerPageAction
+  ): ListPagingModel {
     return new ListPagingModel(
       Object.assign({}, state, { itemsPerPage: Number(action.itemsPerPage) })
     );
@@ -44,7 +39,8 @@ export class ListPagingOrchestrator extends ListStateOrchestrator<ListPagingMode
 
   private setPageNumber(
     state: ListPagingModel,
-    action: ListPagingSetPageNumberAction): ListPagingModel {
+    action: ListPagingSetPageNumberAction
+  ): ListPagingModel {
     return new ListPagingModel(
       Object.assign({}, state, { pageNumber: Number(action.pageNumber) })
     );

@@ -9,11 +9,12 @@ import { ListToolbarConfigOrchestrator } from './config/config.orchestrator';
  */
 @Injectable()
 export class ListToolbarState extends StateNode<ListToolbarStateModel> {
-  constructor(initialState: ListToolbarStateModel, dispatcher: ListToolbarStateDispatcher) {
+  constructor(
+    initialState: ListToolbarStateModel,
+    dispatcher: ListToolbarStateDispatcher
+  ) {
     super(initialState, dispatcher);
 
-    this
-      .register('config', ListToolbarConfigOrchestrator)
-      .begin();
+    this.register('config', ListToolbarConfigOrchestrator).begin();
   }
 }

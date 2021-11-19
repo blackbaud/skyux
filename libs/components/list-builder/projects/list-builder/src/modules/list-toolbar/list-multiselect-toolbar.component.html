@@ -1,17 +1,11 @@
-<sky-toolbar
-  class="sky-list-multiselect-toolbar"
->
+<sky-toolbar class="sky-list-multiselect-toolbar">
   <sky-toolbar-section>
     <sky-toolbar-item>
-      <sky-list-toolbar-item-renderer
-        [template]="selectAllTemplate"
-      >
+      <sky-list-toolbar-item-renderer [template]="selectAllTemplate">
       </sky-list-toolbar-item-renderer>
     </sky-toolbar-item>
     <sky-toolbar-item>
-      <sky-list-toolbar-item-renderer
-        [template]="clearSelectionsTemplate"
-      >
+      <sky-list-toolbar-item-renderer [template]="clearSelectionsTemplate">
       </sky-list-toolbar-item-renderer>
     </sky-toolbar-item>
     <sky-toolbar-view-actions>
@@ -25,7 +19,7 @@
     class="sky-btn sky-btn-link"
     type="button"
     [attr.id]="multiselectToolbarId + '-select-all'"
-    (click)="selectAll();$event.preventDefault();"
+    (click)="selectAll(); $event.preventDefault()"
   >
     {{ 'skyux_list_mutliselect_select_all' | skyLibResources }}
   </button>
@@ -36,7 +30,7 @@
     class="sky-btn sky-btn-link"
     type="button"
     [attr.id]="multiselectToolbarId + '-clear-all'"
-    (click)="clearSelections();$event.preventDefault();"
+    (click)="clearSelections(); $event.preventDefault()"
   >
     {{ 'skyux_list_multiselect_clear_all' | skyLibResources }}
   </button>

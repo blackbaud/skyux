@@ -1,41 +1,20 @@
-import {
-  ListState
-} from '../list/state/list-state.state-node';
+import { ListState } from '../list/state/list-state.state-node';
 
-import {
-  ListStateDispatcher
-} from '../list/state/list-state.rxstate';
+import { ListStateDispatcher } from '../list/state/list-state.rxstate';
 
-import {
-  ListFilterModel
-} from './filter.model';
+import { ListFilterModel } from './filter.model';
 
-import {
-  TestBed,
-  async,
-  ComponentFixture
-} from '@angular/core/testing';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  skip,
-  take
-} from 'rxjs/operators';
+import { skip, take } from 'rxjs/operators';
 
-import {
-  ListFilterSummaryTestComponent
-} from './fixtures/list-filter-summary.component.fixture';
+import { ListFilterSummaryTestComponent } from './fixtures/list-filter-summary.component.fixture';
 
-import {
-  SkyListToolbarModule
-} from '../list-toolbar/list-toolbar.module';
+import { SkyListToolbarModule } from '../list-toolbar/list-toolbar.module';
 
-import {
-  SkyListFiltersModule
-} from './list-filters.module';
+import { SkyListFiltersModule } from './list-filters.module';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('List filter summary', () => {
@@ -51,7 +30,7 @@ describe('List filter summary', () => {
         filterFunction: function () {
           return false;
         },
-        dismissible: false
+        dismissible: false,
       }),
       new ListFilterModel({
         name: 'type',
@@ -59,17 +38,17 @@ describe('List filter summary', () => {
         value: 'berry',
         filterFunction: function () {
           return true;
-        }
+        },
       }),
       new ListFilterModel({
         name: 'size',
         label: 'Fruit size',
         value: 'large',
         defaultValue: 'large',
-        filterFunction: function() {
+        filterFunction: function () {
           return true;
-        }
-      })
+        },
+      }),
     ];
 
   beforeEach(async(() => {
@@ -77,18 +56,16 @@ describe('List filter summary', () => {
     state = new ListState(dispatcher);
 
     TestBed.configureTestingModule({
-      declarations: [
-        ListFilterSummaryTestComponent
-      ],
+      declarations: [ListFilterSummaryTestComponent],
       imports: [
         SkyListToolbarModule,
         SkyListFiltersModule,
-        NoopAnimationsModule
+        NoopAnimationsModule,
       ],
       providers: [
         { provide: ListState, useValue: state },
-        { provide: ListStateDispatcher, useValue: dispatcher }
-      ]
+        { provide: ListStateDispatcher, useValue: dispatcher },
+      ],
     });
 
     fixture = TestBed.createComponent(ListFilterSummaryTestComponent);
@@ -102,7 +79,9 @@ describe('List filter summary', () => {
 
   function getSummaryItems() {
     /* tslint:disable */
-    return nativeElement.querySelectorAll('.sky-list-toolbar-container .sky-toolbar-section .sky-filter-summary .sky-filter-summary-item');
+    return nativeElement.querySelectorAll(
+      '.sky-list-toolbar-container .sky-toolbar-section .sky-filter-summary .sky-filter-summary-item'
+    );
     /* tslint:enable */
   }
 
@@ -132,7 +111,7 @@ describe('List filter summary', () => {
         defaultValue: 'joe',
         filterFunction: function () {
           return true;
-        }
+        },
       }),
       new ListFilterModel({
         name: 'size',
@@ -140,7 +119,7 @@ describe('List filter summary', () => {
         value: '',
         filterFunction: function () {
           return true;
-        }
+        },
       }),
       new ListFilterModel({
         name: 'type',
@@ -148,7 +127,7 @@ describe('List filter summary', () => {
         value: undefined,
         filterFunction: function () {
           return true;
-        }
+        },
       }),
       new ListFilterModel({
         name: 'canEat',
@@ -156,8 +135,8 @@ describe('List filter summary', () => {
         value: false,
         filterFunction: function () {
           return true;
-        }
-      })
+        },
+      }),
     ]);
     fixture.detectChanges();
     fixture.whenStable().then(() => {
@@ -198,7 +177,9 @@ describe('List filter summary', () => {
       fixture.detectChanges();
 
       let summaryItems = getSummaryItems();
-      let closeButton = summaryItems.item(1).querySelector('.sky-token-btn-close') as HTMLElement;
+      let closeButton = summaryItems
+        .item(1)
+        .querySelector('.sky-token-btn-close') as HTMLElement;
       closeButton.click();
       fixture.detectChanges();
       fixture.whenStable().then(() => {

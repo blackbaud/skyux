@@ -28,11 +28,28 @@ import { ListToolbarItemsDisableAction } from './toolbar/disable.action';
  * @internal
  */
 export type ListStateAction =
-  ListItemsSetLoadingAction | ListItemsLoadAction | ListItemsSetSelectedAction |
-  ListPagingSetMaxPagesAction | ListPagingSetItemsPerPageAction | ListPagingSetPageNumberAction |
-  ListViewsLoadAction | ListViewsSetActiveAction | ListToolbarItemsLoadAction |
-  ListToolbarSetExistsAction | ListSearchSetSearchTextAction | ListSearchSetFunctionsAction |
-  ListSearchSetFieldSelectorsAction | ListSearchSetOptionsAction | ListSelectedSetLoadingAction |
-  ListSelectedLoadAction | ListSelectedSetItemSelectedAction | ListSelectedSetItemsSelectedAction |
-  ListToolbarSetTypeAction | ListSortSetFieldSelectorsAction | ListSortSetAvailableAction |
-  ListSortSetGlobalAction | ListFiltersUpdateAction | ListToolbarItemsRemoveAction | ListToolbarItemsDisableAction;
+  | ListItemsSetLoadingAction
+  | ListItemsLoadAction
+  | ListItemsSetSelectedAction
+  | ListPagingSetMaxPagesAction
+  | ListPagingSetItemsPerPageAction
+  | ListPagingSetPageNumberAction
+  | ListViewsLoadAction
+  | ListViewsSetActiveAction
+  | ListToolbarItemsLoadAction
+  | ListToolbarSetExistsAction
+  | ListSearchSetSearchTextAction
+  | ListSearchSetFunctionsAction
+  | ListSearchSetFieldSelectorsAction
+  | ListSearchSetOptionsAction
+  | ListSelectedSetLoadingAction
+  | ListSelectedLoadAction
+  | ListSelectedSetItemSelectedAction
+  | ListSelectedSetItemsSelectedAction
+  | ListToolbarSetTypeAction
+  | ListSortSetFieldSelectorsAction
+  | ListSortSetAvailableAction
+  | ListSortSetGlobalAction
+  | ListFiltersUpdateAction
+  | ListToolbarItemsRemoveAction
+  | ListToolbarItemsDisableAction;

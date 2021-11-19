@@ -1,36 +1,22 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  FormsModule
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
-import {
-  SkyIdModule
-} from '@skyux/core';
+import { SkyIdModule } from '@skyux/core';
 
-import {
-  SkyCheckboxModule
-} from '@skyux/forms';
+import { SkyCheckboxModule } from '@skyux/forms';
 
 import {
   SkyListFiltersModule,
   SkyListModule,
-  SkyListToolbarModule
+  SkyListToolbarModule,
 } from 'projects/list-builder/src/public-api';
 
-import {
-  SkyFilterModule
-} from '@skyux/lists';
+import { SkyFilterModule } from '@skyux/lists';
 
-import {
-  ListFiltersDemoComponent
-} from './list-filters-demo.component';
+import { ListFiltersDemoComponent } from './list-filters-demo.component';
 
 @NgModule({
   imports: [
@@ -41,13 +27,9 @@ import {
     SkyIdModule,
     SkyListFiltersModule,
     SkyListModule,
-    SkyListToolbarModule
+    SkyListToolbarModule,
   ],
-  declarations: [
-    ListFiltersDemoComponent
-  ],
-  exports: [
-    ListFiltersDemoComponent
-  ]
+  declarations: [ListFiltersDemoComponent],
+  exports: [ListFiltersDemoComponent],
 })
-export class ListFiltersDemoModule { }
+export class ListFiltersDemoModule {}

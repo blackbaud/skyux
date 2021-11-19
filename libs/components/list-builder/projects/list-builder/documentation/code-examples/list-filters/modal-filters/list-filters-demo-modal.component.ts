@@ -1,29 +1,18 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {
-  ListItemModel
-} from '@skyux/list-builder-common';
+import { ListItemModel } from '@skyux/list-builder-common';
 
-import {
-  ListFilterModel
-} from 'projects/list-builder/src/public-api';
+import { ListFilterModel } from 'projects/list-builder/src/public-api';
 
-import {
-  SkyModalInstance
-} from '@skyux/modals';
+import { SkyModalInstance } from '@skyux/modals';
 
-import {
-  ListFiltersDemoModalContext
-} from './list-filters-demo-modal-context';
+import { ListFiltersDemoModalContext } from './list-filters-demo-modal-context';
 
 @Component({
   selector: 'app-demo-filter-modal-form',
-  templateUrl: './list-filters-demo-modal.component.html'
+  templateUrl: './list-filters-demo-modal.component.html',
 })
 export class ListFilterDemoModalComponent {
-
   public fruitType: string = 'any';
 
   public hideOrange: boolean;
@@ -34,7 +23,11 @@ export class ListFilterDemoModalComponent {
     public context: ListFiltersDemoModalContext,
     public instance: SkyModalInstance
   ) {
-    if (this.context && this.context.appliedFilters && this.context.appliedFilters.length > 0) {
+    if (
+      this.context &&
+      this.context.appliedFilters &&
+      this.context.appliedFilters.length > 0
+    ) {
       this.setFormFilters(this.context.appliedFilters);
     } else {
       this.clearAllFilters();
@@ -55,35 +48,44 @@ export class ListFilterDemoModalComponent {
     this.fruitType = 'any';
   }
 
-  private fruitTypeFilterFunction(item: ListItemModel, filterValue: any): boolean {
+  private fruitTypeFilterFunction(
+    item: ListItemModel,
+    filterValue: any
+  ): boolean {
     return filterValue === item.data.type;
   }
 
   private getAppliedFiltersArray(): ListFilterModel[] {
     let appliedFilters: ListFilterModel[] = [];
     if (this.fruitType !== 'any') {
-
-      appliedFilters.push(new ListFilterModel({
-        name: 'fruitType',
-        value: this.fruitType,
-        label: this.fruitType,
-        filterFunction: this.fruitTypeFilterFunction
-      }));
+      appliedFilters.push(
+        new ListFilterModel({
+          name: 'fruitType',
+          value: this.fruitType,
+          label: this.fruitType,
+          filterFunction: this.fruitTypeFilterFunction,
+        })
+      );
     }
 
     if (this.hideOrange) {
-      appliedFilters.push(new ListFilterModel({
-        name: 'hideOrange',
-        value: true,
-        label: 'hide orange fruits',
-        filterFunction: this.hideOrangeFilterFunction
-      }));
+      appliedFilters.push(
+        new ListFilterModel({
+          name: 'hideOrange',
+          value: true,
+          label: 'hide orange fruits',
+          filterFunction: this.hideOrangeFilterFunction,
+        })
+      );
     }
 
     return appliedFilters;
   }
 
-  private hideOrangeFilterFunction(item: ListItemModel, filterValue: any): boolean {
+  private hideOrangeFilterFunction(
+    item: ListItemModel,
+    filterValue: any
+  ): boolean {
     return !filterValue || (filterValue && item.data.color !== 'orange');
   }
 

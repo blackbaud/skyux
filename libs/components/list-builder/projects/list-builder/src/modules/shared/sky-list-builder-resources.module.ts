@@ -12,14 +12,24 @@ import {
   SkyI18nModule,
   SkyLibResources,
   SkyLibResourcesProvider,
-  SKY_LIB_RESOURCES_PROVIDERS
+  SKY_LIB_RESOURCES_PROVIDERS,
 } from '@skyux/i18n';
 
 const RESOURCES: { [locale: string]: SkyLibResources } = {
-  'EN-US': {"skyux_list_show_secondary_actions_button":{"message":"More"},"skyux_list_multiselect_clear_all":{"message":"Clear all"},"skyux_list_mutliselect_select_all":{"message":"Select all"},"skyux_list_mutliselect_show_selected":{"message":"Only show selected items"},"skyux_list_view_switcher_dropdown_title":{"message":"Select view"}},
+  'EN-US': {
+    skyux_list_show_secondary_actions_button: { message: 'More' },
+    skyux_list_multiselect_clear_all: { message: 'Clear all' },
+    skyux_list_mutliselect_select_all: { message: 'Select all' },
+    skyux_list_mutliselect_show_selected: {
+      message: 'Only show selected items',
+    },
+    skyux_list_view_switcher_dropdown_title: { message: 'Select view' },
+  },
 };
 
-export class SkyListBuilderResourcesProvider implements SkyLibResourcesProvider {
+export class SkyListBuilderResourcesProvider
+  implements SkyLibResourcesProvider
+{
   public getString(localeInfo: SkyAppLocaleInfo, name: string): string {
     return getLibStringForLocale(RESOURCES, localeInfo.locale, name);
   }
@@ -30,10 +40,12 @@ export class SkyListBuilderResourcesProvider implements SkyLibResourcesProvider 
  */
 @NgModule({
   exports: [SkyI18nModule],
-  providers: [{
-    provide: SKY_LIB_RESOURCES_PROVIDERS,
-    useClass: SkyListBuilderResourcesProvider,
-    multi: true
-  }]
+  providers: [
+    {
+      provide: SKY_LIB_RESOURCES_PROVIDERS,
+      useClass: SkyListBuilderResourcesProvider,
+      multi: true,
+    },
+  ],
 })
-export class SkyListBuilderResourcesModule { }
+export class SkyListBuilderResourcesModule {}

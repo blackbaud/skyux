@@ -6,11 +6,12 @@ import { ListToolbarStateAction } from './toolbar-state-action.type';
  * @internal
  */
 @Injectable()
-export class ListToolbarStateDispatcher extends StateDispatcher<ListToolbarStateAction> {
-}
+export class ListToolbarStateDispatcher extends StateDispatcher<ListToolbarStateAction> {}
 
 /**
  * @internal
  */
-export class ListToolbarStateOrchestrator<T> extends StateOrchestrator<T, ListToolbarStateAction> {
-}
+export class ListToolbarStateOrchestrator<T> extends StateOrchestrator<
+  T,
+  ListToolbarStateAction
+> {}

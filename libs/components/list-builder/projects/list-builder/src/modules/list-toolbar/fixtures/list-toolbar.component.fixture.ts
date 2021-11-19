@@ -1,18 +1,12 @@
-import {
-  Component,
-  ViewChild,
-  TemplateRef
-} from '@angular/core';
+import { Component, ViewChild, TemplateRef } from '@angular/core';
 
-import {
-  SkyListToolbarComponent
-} from '../list-toolbar.component';
+import { SkyListToolbarComponent } from '../list-toolbar.component';
 
- @Component({
-   selector: 'sky-test-cmp',
-   templateUrl: './list-toolbar.component.fixture.html'
- })
- export class ListToolbarTestComponent {
+@Component({
+  selector: 'sky-test-cmp',
+  templateUrl: './list-toolbar.component.fixture.html',
+})
+export class ListToolbarTestComponent {
   public inMemorySearchEnabled: boolean;
   public toolbarType: string;
   public searchEnabled: boolean;
@@ -22,13 +16,13 @@ import {
 
   @ViewChild(SkyListToolbarComponent, {
     read: SkyListToolbarComponent,
-    static: false
+    static: false,
   })
   public toolbar: SkyListToolbarComponent;
 
   @ViewChild('default', {
     read: TemplateRef,
-    static: true
+    static: true,
   })
   public default: TemplateRef<any>;
 }

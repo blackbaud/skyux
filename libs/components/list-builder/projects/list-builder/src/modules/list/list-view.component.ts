@@ -1,11 +1,6 @@
-import {
-  Observable
-} from 'rxjs';
+import { Observable } from 'rxjs';
 
-import {
-  distinctUntilChanged,
-  map as observableMap
-} from 'rxjs/operators';
+import { distinctUntilChanged, map as observableMap } from 'rxjs/operators';
 
 import { ListState } from './state/list-state.state-node';
 import { SkyListComponent } from '../list/list.component';
@@ -29,19 +24,17 @@ export abstract class ListViewComponent {
     this.viewName = defaultName;
 
     /* istanbul ignore next */
-    this.hasToolbar = this.state.pipe(
-      observableMap(s => s.toolbar.exists)
-    );
+    this.hasToolbar = this.state.pipe(observableMap((s) => s.toolbar.exists));
 
     this.active = this.state.pipe(
-      observableMap(s => s.views.active === this.viewId)
+      observableMap((s) => s.views.active === this.viewId)
     );
 
-    this.active.pipe(
-      distinctUntilChanged()
-    ).subscribe(
-      isActive => isActive ? this.onViewActive() : this.onViewInactive()
-    );
+    this.active
+      .pipe(distinctUntilChanged())
+      .subscribe((isActive) =>
+        isActive ? this.onViewActive() : this.onViewInactive()
+      );
   }
 
   get id() {
@@ -53,9 +46,7 @@ export abstract class ListViewComponent {
   }
 
   /* istanbul ignore next */
-  public onViewActive() {
-  }
+  public onViewActive() {}
 
-  public onViewInactive() {
-  }
+  public onViewInactive() {}
 }

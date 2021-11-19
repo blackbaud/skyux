@@ -1,50 +1,26 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  FormsModule
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
-import {
-  SkyListModule
-} from '../list.module';
+import { SkyListModule } from '../list.module';
 
-import {
-  SkyListFiltersModule
-} from '../../list-filters/list-filters.module';
+import { SkyListFiltersModule } from '../../list-filters/list-filters.module';
 
-import {
-  SkyListToolbarModule
-} from '../../list-toolbar/list-toolbar.module';
+import { SkyListToolbarModule } from '../../list-toolbar/list-toolbar.module';
 
-import {
-  ListTestComponent
-} from './list.component.fixture';
+import { ListTestComponent } from './list.component.fixture';
 
-import {
-  ListDualTestComponent
-} from './list-dual.component.fixture';
+import { ListDualTestComponent } from './list-dual.component.fixture';
 
-import {
-  ListEmptyTestComponent
-} from './list-empty.component.fixture';
+import { ListEmptyTestComponent } from './list-empty.component.fixture';
 
-import {
-  ListSelectedTestComponent
-} from './list-selected.component.fixture';
+import { ListSelectedTestComponent } from './list-selected.component.fixture';
 
-import {
-  ListFilteredTestComponent
-} from './list-filtered.component.fixture';
+import { ListFilteredTestComponent } from './list-filtered.component.fixture';
 
-import {
-  ListViewTestComponent
-} from './list-view-test.component.fixture';
+import { ListViewTestComponent } from './list-view-test.component.fixture';
 
 @NgModule({
   declarations: [
@@ -53,14 +29,14 @@ import {
     ListEmptyTestComponent,
     ListSelectedTestComponent,
     ListFilteredTestComponent,
-    ListViewTestComponent
+    ListViewTestComponent,
   ],
   imports: [
     CommonModule,
     SkyListModule,
     SkyListFiltersModule,
     SkyListToolbarModule,
-    FormsModule
+    FormsModule,
   ],
   exports: [
     ListTestComponent,
@@ -68,7 +44,7 @@ import {
     ListEmptyTestComponent,
     ListSelectedTestComponent,
     ListFilteredTestComponent,
-    ListViewTestComponent
-  ]
+    ListViewTestComponent,
+  ],
 })
-export class ListFixturesModule { }
+export class ListFixturesModule {}

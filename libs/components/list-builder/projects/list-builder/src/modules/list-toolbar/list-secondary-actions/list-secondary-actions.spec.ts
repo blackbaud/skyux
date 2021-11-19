@@ -3,31 +3,19 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  ListState
-} from '../../list/state/list-state.state-node';
+import { ListState } from '../../list/state/list-state.state-node';
 
-import {
-  ListStateDispatcher
-} from '../../list/state/list-state.rxstate';
+import { ListStateDispatcher } from '../../list/state/list-state.rxstate';
 
-import {
-  SkyListToolbarModule
-} from '../../list-toolbar/list-toolbar.module';
+import { SkyListToolbarModule } from '../../list-toolbar/list-toolbar.module';
 
-import {
-  ListSecondaryActionsTestComponent
-} from './fixtures/list-secondary-actions.component.fixture';
-import {
-  SkyListSecondaryActionsModule
-} from './list-secondary-actions.module';
+import { ListSecondaryActionsTestComponent } from './fixtures/list-secondary-actions.component.fixture';
+import { SkyListSecondaryActionsModule } from './list-secondary-actions.module';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('List Secondary Actions Component', () => {
@@ -42,18 +30,16 @@ describe('List Secondary Actions Component', () => {
     state = new ListState(dispatcher);
 
     TestBed.configureTestingModule({
-      declarations: [
-        ListSecondaryActionsTestComponent
-      ],
+      declarations: [ListSecondaryActionsTestComponent],
       imports: [
         SkyListToolbarModule,
         SkyListSecondaryActionsModule,
-        NoopAnimationsModule
+        NoopAnimationsModule,
       ],
       providers: [
         { provide: ListState, useValue: state },
-        { provide: ListStateDispatcher, useValue: dispatcher }
-      ]
+        { provide: ListStateDispatcher, useValue: dispatcher },
+      ],
     });
 
     fixture = TestBed.createComponent(ListSecondaryActionsTestComponent);
@@ -80,12 +66,16 @@ describe('List Secondary Actions Component', () => {
     tick();
     fixture.detectChanges();
 
-    expect(nativeElement.querySelector('.sky-list-secondary-actions-hidden')).not.toBeNull();
+    expect(
+      nativeElement.querySelector('.sky-list-secondary-actions-hidden')
+    ).not.toBeNull();
 
     component.showOption = true;
     fixture.detectChanges();
     tick();
 
-    expect(nativeElement.querySelector('.sky-list-secondary-actions-hidden')).toBeNull();
+    expect(
+      nativeElement.querySelector('.sky-list-secondary-actions-hidden')
+    ).toBeNull();
   }));
 });

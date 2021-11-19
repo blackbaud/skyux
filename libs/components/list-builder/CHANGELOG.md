@@ -1,3 +1,7 @@
+# 5.0.1 (2021-11-19)
+
+- Added support for Prettier code formatting and updated the builder to support StackBlitz. [#140](https://github.com/blackbaud/skyux-list-builder/pull/140)
+
 # 5.0.0 (2021-10-01)
 
 ### New features
@@ -151,8 +155,8 @@
 
 # 3.0.0-rc.4 (2018-11-20)
 
- - Added support for `@skyux/list-builder-common@3.0.0-rc.1`. [#9](https://github.com/blackbaud/skyux-list-builder/pull/9)
- - Updated peer dependencies to support Angular versions greater than `4.3.6`. [#10](https://github.com/blackbaud/skyux-list-builder/pull/10)
+- Added support for `@skyux/list-builder-common@3.0.0-rc.1`. [#9](https://github.com/blackbaud/skyux-list-builder/pull/9)
+- Updated peer dependencies to support Angular versions greater than `4.3.6`. [#10](https://github.com/blackbaud/skyux-list-builder/pull/10)
 
 # 3.0.0-rc.3 (2018-11-12)
 

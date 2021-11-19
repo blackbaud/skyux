@@ -1,9 +1,6 @@
-import {
-  ListItemModel
-} from '@skyux/list-builder-common';
+import { ListItemModel } from '@skyux/list-builder-common';
 
 export class ListFilterModel {
-
   /**
    * Specifies the name of the filter.
    * @required

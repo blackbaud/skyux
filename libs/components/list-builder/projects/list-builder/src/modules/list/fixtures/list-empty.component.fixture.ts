@@ -1,24 +1,19 @@
 import { Component, ViewChild, Inject } from '@angular/core';
 
-import {
-  BehaviorSubject
-} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
-import {
-  SkyListInMemoryDataProvider
-} from '../../list-data-provider-in-memory/list-data-in-memory.provider';
+import { SkyListInMemoryDataProvider } from '../../list-data-provider-in-memory/list-data-in-memory.provider';
 
 import { SkyListComponent } from '../list.component';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './list-empty.component.fixture.html'
+  templateUrl: './list-empty.component.fixture.html',
 })
 export class ListEmptyTestComponent {
-
   @ViewChild(SkyListComponent, {
     read: SkyListComponent,
-    static: true
+    static: true,
   })
   public list: SkyListComponent;
 
@@ -27,8 +22,7 @@ export class ListEmptyTestComponent {
   constructor(
     @Inject('items') public items: any,
     public dataProvider: SkyListInMemoryDataProvider
-  ) {
-  }
+  ) {}
 
   public get options() {
     let bs = new BehaviorSubject<Array<any>>(['banana', 'apple']);

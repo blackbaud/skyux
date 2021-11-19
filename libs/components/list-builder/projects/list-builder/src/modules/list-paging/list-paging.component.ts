@@ -3,39 +3,27 @@ import {
   Input,
   ChangeDetectionStrategy,
   forwardRef,
-  OnInit
+  OnInit,
 } from '@angular/core';
 
-import {
-  AsyncList,
-  getValue,
-  ListItemModel
-} from '@skyux/list-builder-common';
+import { AsyncList, getValue, ListItemModel } from '@skyux/list-builder-common';
 
-import {
-  Observable
-} from 'rxjs';
+import { Observable } from 'rxjs';
 
 import {
   distinctUntilChanged,
   map as observableMap,
-  scan
+  scan,
 } from 'rxjs/operators';
 
 import { ListPagingComponent } from '../list/list-paging.component';
 import { ListState } from '../list/state/list-state.state-node';
 import { ListStateDispatcher } from '../list/state/list-state.rxstate';
-import {
-  ListPagingSetMaxPagesAction
-} from '../list/state/paging/set-max-pages.action';
+import { ListPagingSetMaxPagesAction } from '../list/state/paging/set-max-pages.action';
 
-import {
-  ListPagingSetItemsPerPageAction
-} from '../list/state/paging/set-items-per-page.action';
+import { ListPagingSetItemsPerPageAction } from '../list/state/paging/set-items-per-page.action';
 
-import {
-  ListPagingSetPageNumberAction
-} from '../list/state/paging/set-page-number.action';
+import { ListPagingSetPageNumberAction } from '../list/state/paging/set-page-number.action';
 
 /* istanbul ignore next */
 const listPagingComponentRef = forwardRef(() => SkyListPagingComponent);
@@ -47,11 +35,14 @@ const listPagingComponentRef = forwardRef(() => SkyListPagingComponent);
   selector: 'sky-list-paging',
   templateUrl: './list-paging.component.html',
   providers: [
-    { provide: ListPagingComponent, useExisting: listPagingComponentRef }
+    { provide: ListPagingComponent, useExisting: listPagingComponentRef },
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyListPagingComponent extends ListPagingComponent implements OnInit {
+export class SkyListPagingComponent
+  extends ListPagingComponent
+  implements OnInit
+{
   /**
    * Specifies the number of list items per page.
    * @default 10
@@ -81,38 +72,44 @@ export class SkyListPagingComponent extends ListPagingComponent implements OnIni
 
   public itemCount: Observable<number>;
 
-  constructor(
-    state: ListState,
-    dispatcher: ListStateDispatcher
-  ) {
+  constructor(state: ListState, dispatcher: ListStateDispatcher) {
     super(state, dispatcher);
   }
 
   public ngOnInit() {
+    this.currentPageNumber = this.state.pipe(
+      observableMap((s) => s.paging.pageNumber)
+    );
 
-    this.currentPageNumber = this.state.pipe(observableMap(s => s.paging.pageNumber));
+    this.maxDisplayedPages = this.state.pipe(
+      observableMap((s) => s.paging.maxDisplayedPages)
+    );
 
-    this.maxDisplayedPages = this.state.pipe(observableMap(s => s.paging.maxDisplayedPages));
+    this.itemsPerPage = this.state.pipe(
+      observableMap((s) => s.paging.itemsPerPage)
+    );
 
-    this.itemsPerPage = this.state.pipe(observableMap(s => s.paging.itemsPerPage));
-
-    this.itemCount = this.state
-      .pipe(
-        observableMap((s) => {
-          return s.items;
-        }),
-        scan((previousValue: AsyncList<ListItemModel>, newValue: AsyncList<ListItemModel>) => {
+    this.itemCount = this.state.pipe(
+      observableMap((s) => {
+        return s.items;
+      }),
+      scan(
+        (
+          previousValue: AsyncList<ListItemModel>,
+          newValue: AsyncList<ListItemModel>
+        ) => {
           if (previousValue.lastUpdate > newValue.lastUpdate) {
             return previousValue;
           } else {
             return newValue;
           }
-        }),
-        observableMap((result: AsyncList<ListItemModel>) => {
-          return result.count;
-        }),
-        distinctUntilChanged()
-      );
+        }
+      ),
+      observableMap((result: AsyncList<ListItemModel>) => {
+        return result.count;
+      }),
+      distinctUntilChanged()
+    );
 
     // subscribe to or use inputs
     getValue(this.pageSize, (pageSize: number) =>
@@ -121,14 +118,13 @@ export class SkyListPagingComponent extends ListPagingComponent implements OnIni
       )
     );
     getValue(this.maxPages, (maxPages: number) =>
-      this.dispatcher.next(
-        new ListPagingSetMaxPagesAction(Number(maxPages))
-      )
+      this.dispatcher.next(new ListPagingSetMaxPagesAction(Number(maxPages)))
     );
     getValue(this.pageNumber, (pageNumber: number) =>
       this.dispatcher.next(
         new ListPagingSetPageNumberAction(Number(pageNumber))
-      ));
+      )
+    );
   }
 
   public pageChange(currentPage: number) {
@@ -140,5 +136,4 @@ export class SkyListPagingComponent extends ListPagingComponent implements OnIni
       );
     });
   }
-
 }
