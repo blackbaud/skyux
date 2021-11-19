@@ -1,21 +1,14 @@
-import {
-  ChecklistStateOrchestrator
-} from '../checklist-state.rxstate';
+import { ChecklistStateOrchestrator } from '../checklist-state.rxstate';
 
-import {
-  AsyncList
-} from '@skyux/list-builder-common';
+import { AsyncList } from '@skyux/list-builder-common';
 
-import {
-  ListViewChecklistItemModel
-} from './item.model';
+import { ListViewChecklistItemModel } from './item.model';
 
-import {
-  ListViewChecklistItemsLoadAction
-} from './load.action';
+import { ListViewChecklistItemsLoadAction } from './load.action';
 
-export class ListViewChecklistItemsOrchestrator
-  extends ChecklistStateOrchestrator<AsyncList<ListViewChecklistItemModel>> {
+export class ListViewChecklistItemsOrchestrator extends ChecklistStateOrchestrator<
+  AsyncList<ListViewChecklistItemModel>
+> {
   /* istanbul ignore next */
   constructor() {
     super();
@@ -24,9 +17,11 @@ export class ListViewChecklistItemsOrchestrator
 
   private load(
     state: AsyncList<ListViewChecklistItemModel>,
-    action: ListViewChecklistItemsLoadAction): AsyncList<ListViewChecklistItemModel> {
-
-    const newListItems = action.items.map(item => new ListViewChecklistItemModel(item.id, item));
+    action: ListViewChecklistItemsLoadAction
+  ): AsyncList<ListViewChecklistItemModel> {
+    const newListItems = action.items.map(
+      (item) => new ListViewChecklistItemModel(item.id, item)
+    );
 
     if (action.refresh) {
       return new AsyncList<ListViewChecklistItemModel>(

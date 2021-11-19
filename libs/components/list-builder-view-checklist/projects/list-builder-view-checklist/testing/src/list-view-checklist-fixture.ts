@@ -1,37 +1,25 @@
-import {
-  ComponentFixture
-} from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
 
-import {
-  DebugElement
-} from '@angular/core';
+import { DebugElement } from '@angular/core';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  SkyListViewChecklistItem
-} from './list-view-checklist-item';
+import { SkyListViewChecklistItem } from './list-view-checklist-item';
 
 const MULTI_SELECT_EL_SELECTOR = By.css('.sky-checkbox-wrapper > input');
-const SINGLE_SELECT_EL_SELECTOR = By.css('.sky-list-view-checklist-single-button');
+const SINGLE_SELECT_EL_SELECTOR = By.css(
+  '.sky-list-view-checklist-single-button'
+);
 
 /**
  * Allows interaction with a SKY UX list view checklist component.
  */
 export class SkyListViewChecklistFixture {
-
   private debugEl: DebugElement;
 
-  constructor(
-    fixture: ComponentFixture<any>,
-    skyTestId: string
-  ) {
+  constructor(fixture: ComponentFixture<any>, skyTestId: string) {
     this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
@@ -54,7 +42,7 @@ export class SkyListViewChecklistFixture {
       description: SkyAppTestUtility.getText(
         selectWrapperEl.query(By.css('div:not(.sky-emphasized)'))
       ),
-      selected: this.isChecked(selectEl)
+      selected: this.isChecked(selectEl),
     };
   }
 
@@ -87,7 +75,9 @@ export class SkyListViewChecklistFixture {
   }
 
   private getItemEl(index: number): DebugElement {
-    const itemEls = this.debugEl.queryAll(By.css('sky-list-view-checklist-item'));
+    const itemEls = this.debugEl.queryAll(
+      By.css('sky-list-view-checklist-item')
+    );
 
     const itemEl = itemEls[index];
 
@@ -134,5 +124,4 @@ export class SkyListViewChecklistFixture {
     // Assume the list is in single-select mode.
     return el.getAttribute('aria-checked') === 'true';
   }
-
 }

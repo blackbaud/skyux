@@ -1,12 +1,13 @@
-@import "~@skyux/theme/scss/mixins";
-@import "~@skyux/theme/scss/_compat/mixins";
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
 
 .sky-list-view-checklist {
   ::ng-deep .sky-checkbox-wrapper {
     display: flex;
     align-items: flex-start;
 
-    > .sky-checkbox, > input {
+    > .sky-checkbox,
+    > input {
       flex: 1;
       max-width: 22px;
     }
@@ -17,7 +18,7 @@
   }
 
   ::ng-deep .sky-switch-label {
-    margin:0;
+    margin: 0;
   }
 
   ::ng-deep sky-checkbox-label {

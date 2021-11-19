@@ -1,31 +1,16 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  FormsModule
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
-import {
-  SkyRadioModule
-} from '@skyux/forms';
+import { SkyRadioModule } from '@skyux/forms';
 
-import {
-  SkyListModule,
-  SkyListToolbarModule
-} from '@skyux/list-builder';
+import { SkyListModule, SkyListToolbarModule } from '@skyux/list-builder';
 
-import {
-  SkyListViewChecklistModule
-} from 'projects/list-builder-view-checklist/src/public-api';
+import { SkyListViewChecklistModule } from 'projects/list-builder-view-checklist/src/public-api';
 
-import {
-  ListViewChecklistDemoComponent
-} from './list-view-checklist-demo.component';
+import { ListViewChecklistDemoComponent } from './list-view-checklist-demo.component';
 
 @NgModule({
   imports: [
@@ -34,13 +19,9 @@ import {
     SkyListModule,
     SkyListToolbarModule,
     SkyListViewChecklistModule,
-    SkyRadioModule
+    SkyRadioModule,
   ],
-  declarations: [
-    ListViewChecklistDemoComponent
-  ],
-  exports: [
-    ListViewChecklistDemoComponent
-  ]
+  declarations: [ListViewChecklistDemoComponent],
+  exports: [ListViewChecklistDemoComponent],
 })
-export class ListViewChecklistDemoModule { }
+export class ListViewChecklistDemoModule {}

@@ -1,5 +1,5 @@
-@import "~@skyux/theme/scss/mixins";
-@import "~@skyux/theme/scss/_compat/mixins";
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
 
 .sky-list-view-checklist-item {
   display: block;
@@ -38,7 +38,8 @@
     width: 100%;
     cursor: pointer;
   }
-  ::ng-deep .sky-list-view-checklist-single-button.sky-list-view-checklist-row-selected {
+  ::ng-deep
+    .sky-list-view-checklist-single-button.sky-list-view-checklist-row-selected {
     background-color: $sky-background-color-selected;
   }
 }

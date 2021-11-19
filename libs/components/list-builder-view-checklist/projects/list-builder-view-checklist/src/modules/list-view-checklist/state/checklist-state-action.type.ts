@@ -1,6 +1,3 @@
-import {
-  ListViewChecklistItemsLoadAction
-} from './items/load.action';
+import { ListViewChecklistItemsLoadAction } from './items/load.action';
 
-export type ChecklistStateAction =
-  ListViewChecklistItemsLoadAction;
+export type ChecklistStateAction = ListViewChecklistItemsLoadAction;

@@ -1,23 +1,14 @@
-import {
-  Component,
-  Inject,
-  ViewChild
-} from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 
-import {
-  SkyCheckboxChange
-} from '@skyux/forms';
+import { SkyCheckboxChange } from '@skyux/forms';
 
-import {
-  SkyListViewChecklistComponent
-} from '../list-view-checklist.component';
+import { SkyListViewChecklistComponent } from '../list-view-checklist.component';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './list-view-checklist-toolbar.component.fixture.html'
+  templateUrl: './list-view-checklist-toolbar.component.fixture.html',
 })
 export class ListViewChecklistToolbarTestComponent {
-
   public selectedItems: Map<string, boolean>;
 
   public selectMode: string = 'multiple';
@@ -27,8 +18,7 @@ export class ListViewChecklistToolbarTestComponent {
   @ViewChild(SkyListViewChecklistComponent)
   public checklist: SkyListViewChecklistComponent;
 
-  constructor(@Inject('items') public items: any) {
-  }
+  constructor(@Inject('items') public items: any) {}
 
   public selectedItemsChange(selectedMap: Map<string, boolean>): void {
     this.selectedItems = selectedMap;

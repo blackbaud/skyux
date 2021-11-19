@@ -2,7 +2,6 @@
  * Properties of a list view checklist item.
  */
 export interface SkyListViewChecklistItem {
-
   /**
    * The item's label.
    */

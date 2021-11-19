@@ -6,12 +6,10 @@ import {
   OnDestroy,
   SimpleChanges,
   OnChanges,
-  OnInit
+  OnInit,
 } from '@angular/core';
 
-import {
-  SkyCheckboxChange
-} from '@skyux/forms';
+import { SkyCheckboxChange } from '@skyux/forms';
 
 import {
   ListState,
@@ -21,61 +19,54 @@ import {
   ListSelectedSetItemSelectedAction,
   ListSelectedSetItemsSelectedAction,
   ListToolbarSetTypeAction,
-  ListViewComponent
+  ListViewComponent,
 } from '@skyux/list-builder';
 
 import {
   AsyncItem,
   AsyncList,
   getData,
-  ListItemModel
+  ListItemModel,
 } from '@skyux/list-builder-common';
 
-import {
-  Observable,
-  Subject
-} from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import {
   distinctUntilChanged,
   map as observableMap,
   take,
-  takeUntil
+  takeUntil,
 } from 'rxjs/operators';
 
-import {
-  ChecklistState
-} from './state/checklist-state.state-node';
+import { ChecklistState } from './state/checklist-state.state-node';
 
-import {
-  ChecklistStateDispatcher
-} from './state/checklist-state.rxstate';
+import { ChecklistStateDispatcher } from './state/checklist-state.rxstate';
 
-import {
-  ChecklistStateModel
-} from './state/checklist-state.model';
+import { ChecklistStateModel } from './state/checklist-state.model';
 
-import {
-  ListViewChecklistItemsLoadAction
-} from './state/items/load.action';
+import { ListViewChecklistItemsLoadAction } from './state/items/load.action';
 
-import {
-  ListViewChecklistItemModel
-} from './state/items/item.model';
+import { ListViewChecklistItemModel } from './state/items/item.model';
 
 @Component({
   selector: 'sky-list-view-checklist',
   templateUrl: './list-view-checklist.component.html',
   styleUrls: ['./list-view-checklist.component.scss'],
   providers: [
-    { provide: ListViewComponent, useExisting: forwardRef(() => SkyListViewChecklistComponent) },
+    {
+      provide: ListViewComponent,
+      useExisting: forwardRef(() => SkyListViewChecklistComponent),
+    },
     ChecklistState,
     ChecklistStateDispatcher,
-    ChecklistStateModel
+    ChecklistStateModel,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyListViewChecklistComponent extends ListViewComponent implements OnInit, OnDestroy, OnChanges {
+export class SkyListViewChecklistComponent
+  extends ListViewComponent
+  implements OnInit, OnDestroy, OnChanges
+{
   /**
    * Specifies the name of the view.
    * @required
@@ -92,7 +83,8 @@ export class SkyListViewChecklistComponent extends ListViewComponent implements 
    * @default default search function
    */
   @Input()
-  public search: (data: any, searchText: string) => boolean = this.searchFunction();
+  public search: (data: any, searchText: string) => boolean =
+    this.searchFunction();
 
   /**
    * Specifies the name of the label field selector.
@@ -165,22 +157,30 @@ export class SkyListViewChecklistComponent extends ListViewComponent implements 
     let lastUpdate: any;
     this.state
       .pipe(
-        observableMap(s => s.items),
+        observableMap((s) => s.items),
         distinctUntilChanged(),
         observableMap((items: AsyncList<ListItemModel>) => {
-          let dataChanged = lastUpdate === undefined || items.lastUpdate !== lastUpdate;
+          let dataChanged =
+            lastUpdate === undefined || items.lastUpdate !== lastUpdate;
           lastUpdate = items.lastUpdate;
-          let newItems = items.items.map(item => {
+          let newItems = items.items.map((item) => {
             return new ListViewChecklistItemModel(item.id, {
-              label:
-                this.labelFieldSelector ? getData(item.data, this.labelFieldSelector) : undefined,
-              description:
-                this.description ? getData(item.data, this.description) : undefined
+              label: this.labelFieldSelector
+                ? getData(item.data, this.labelFieldSelector)
+                : undefined,
+              description: this.description
+                ? getData(item.data, this.description)
+                : undefined,
             });
           });
 
           this.checklistDispatcher.next(
-            new ListViewChecklistItemsLoadAction(newItems, true, dataChanged, items.count)
+            new ListViewChecklistItemsLoadAction(
+              newItems,
+              true,
+              dataChanged,
+              items.count
+            )
           );
         })
       )
@@ -189,7 +189,7 @@ export class SkyListViewChecklistComponent extends ListViewComponent implements 
 
     this.state
       .pipe(
-        observableMap(t => t.selected),
+        observableMap((t) => t.selected),
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe((selectedItems: AsyncItem<ListSelectedModel>) => {
@@ -206,21 +206,26 @@ export class SkyListViewChecklistComponent extends ListViewComponent implements 
     // make sure the private variable _showOnlySelected stays in sync.
     this.state
       .pipe(
-        observableMap(t => t.filters),
+        observableMap((t) => t.filters),
         takeUntil(this.ngUnsubscribe),
         distinctUntilChanged(this.showSelectedValuesEqual)
       )
       .subscribe((filters: ListFilterModel[]) => {
-        const showSelectedFilter = filters.find((filter: ListFilterModel) => filter.name === 'show-selected');
+        const showSelectedFilter = filters.find(
+          (filter: ListFilterModel) => filter.name === 'show-selected'
+        );
         if (showSelectedFilter) {
-          this._showOnlySelected = (showSelectedFilter.value === 'true');
+          this._showOnlySelected = showSelectedFilter.value === 'true';
         }
-    });
+      });
   }
 
   public ngOnChanges(changes: SimpleChanges) {
-    if (changes['showOnlySelected'] &&
-      changes['showOnlySelected'].currentValue !== changes['showOnlySelected'].previousValue) {
+    if (
+      changes['showOnlySelected'] &&
+      changes['showOnlySelected'].currentValue !==
+        changes['showOnlySelected'].previousValue
+    ) {
       this.reapplyFilter(changes['showOnlySelected'].currentValue);
     }
   }
@@ -242,17 +247,22 @@ export class SkyListViewChecklistComponent extends ListViewComponent implements 
   public clearSelections() {
     this.state
       .pipe(
-        observableMap(state => state.items.items),
+        observableMap((state) => state.items.items),
         take(1)
       )
-      .subscribe(items => {
-        this.dispatcher
-          .next(new ListSelectedSetItemsSelectedAction(items.map(item => item.id), false, false));
+      .subscribe((items) => {
+        this.dispatcher.next(
+          new ListSelectedSetItemsSelectedAction(
+            items.map((item) => item.id),
+            false,
+            false
+          )
+        );
 
-          /* istanbul ignore else */
-          if (this.showOnlySelected) {
-            this.reapplyFilter(this.showOnlySelected);
-          }
+        /* istanbul ignore else */
+        if (this.showOnlySelected) {
+          this.reapplyFilter(this.showOnlySelected);
+        }
       });
   }
 
@@ -264,12 +274,17 @@ export class SkyListViewChecklistComponent extends ListViewComponent implements 
   public selectAll() {
     this.state
       .pipe(
-        observableMap(state => state.items.items),
+        observableMap((state) => state.items.items),
         take(1)
       )
-      .subscribe(items => {
-        this.dispatcher
-          .next(new ListSelectedSetItemsSelectedAction(items.map(item => item.id), true, false));
+      .subscribe((items) => {
+        this.dispatcher.next(
+          new ListSelectedSetItemsSelectedAction(
+            items.map((item) => item.id),
+            true,
+            false
+          )
+        );
 
         /* istanbul ignore else */
         if (this.showOnlySelected) {
@@ -303,7 +318,9 @@ export class SkyListViewChecklistComponent extends ListViewComponent implements 
   }
 
   get items(): Observable<ListViewChecklistItemModel[]> {
-    return this.checklistState.pipe(observableMap(state => state.items.items));
+    return this.checklistState.pipe(
+      observableMap((state) => state.items.items)
+    );
   }
 
   public searchFunction() {
@@ -335,15 +352,21 @@ export class SkyListViewChecklistComponent extends ListViewComponent implements 
   }
 
   public itemSelected(id: string): Observable<boolean> {
-    return this.state.pipe(observableMap(state => state.selected.item.selectedIdMap.get(id)));
+    return this.state.pipe(
+      observableMap((state) => state.selected.item.selectedIdMap.get(id))
+    );
   }
 
   public setItemSelection(item: ListItemModel, event: any) {
-    this.dispatcher.next(new ListSelectedSetItemSelectedAction(item.id, event.checked));
+    this.dispatcher.next(
+      new ListSelectedSetItemSelectedAction(item.id, event.checked)
+    );
   }
 
   public singleSelectRowClick(item: ListItemModel) {
-    this.dispatcher.next(new ListSelectedSetItemsSelectedAction([item.id], true, true));
+    this.dispatcher.next(
+      new ListSelectedSetItemsSelectedAction([item.id], true, true)
+    );
   }
 
   private getShowSelectedFilter(isSelected: boolean) {
@@ -356,7 +379,7 @@ export class SkyListViewChecklistComponent extends ListViewComponent implements 
           return this._selectedIdMap.get(model.id);
         }
       },
-      defaultValue: false.toString()
+      defaultValue: false.toString(),
     });
   }
 
@@ -365,19 +388,26 @@ export class SkyListViewChecklistComponent extends ListViewComponent implements 
 
     this.state
       .pipe(
-        observableMap(state => state.filters),
+        observableMap((state) => state.filters),
         take(1)
       )
       .subscribe((filters: ListFilterModel[]) => {
-        filters = filters.filter(filter => filter.name !== 'show-selected');
+        filters = filters.filter((filter) => filter.name !== 'show-selected');
         filters.push(self.getShowSelectedFilter(isSelected));
         this.dispatcher.filtersUpdate(filters);
       });
   }
 
-  private showSelectedValuesEqual(prev: ListFilterModel[], next: ListFilterModel[]) {
-    const prevShowSelectedFilter = prev.find(filter => filter.name === 'show-selected');
-    const nextShowSelectedFilter = next.find(filter => filter.name === 'show-selected');
+  private showSelectedValuesEqual(
+    prev: ListFilterModel[],
+    next: ListFilterModel[]
+  ) {
+    const prevShowSelectedFilter = prev.find(
+      (filter) => filter.name === 'show-selected'
+    );
+    const nextShowSelectedFilter = next.find(
+      (filter) => filter.name === 'show-selected'
+    );
 
     if (prevShowSelectedFilter && nextShowSelectedFilter) {
       return prevShowSelectedFilter.value === nextShowSelectedFilter.value;

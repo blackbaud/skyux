@@ -6,7 +6,5 @@ export class ListViewChecklistItemsLoadAction {
     public refresh: boolean = false,
     public dataChanged: boolean = true,
     public itemCount: number = items.length
-  ) {
-
-  }
+  ) {}
 }
