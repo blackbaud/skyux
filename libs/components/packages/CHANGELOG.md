@@ -1,3 +1,7 @@
+# 5.64.0 (2021-11-19)
+
+- `@skyux/list-builder@5.0.1` [Release notes](https://github.com/blackbaud/skyux-list-builder/blob/5.0.1/CHANGELOG.md)
+
 # 5.63.0 (2021-11-19)
 
 - `@skyux/avatar@5.0.1` [Release notes](https://github.com/blackbaud/skyux-avatar/blob/5.0.1/CHANGELOG.md)
