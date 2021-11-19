@@ -8,7 +8,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional
+  Optional,
 } from '@angular/core';
 
 import {
@@ -17,47 +17,32 @@ import {
   NG_VALUE_ACCESSOR,
   NG_VALIDATORS,
   ValidationErrors,
-  Validator
+  Validator,
 } from '@angular/forms';
 
-import {
-  BehaviorSubject,
-  Subject
-} from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
-import {
-  debounceTime,
-  takeUntil
-} from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 
-import {
-  PhoneNumberFormat,
-  PhoneNumberUtil
-} from 'google-libphonenumber';
+import { PhoneNumberFormat, PhoneNumberUtil } from 'google-libphonenumber';
 
-import {
-  SkyPhoneFieldComponent
-} from './phone-field.component';
+import { SkyPhoneFieldComponent } from './phone-field.component';
 
-import {
-  SkyPhoneFieldAdapterService
-} from './phone-field-adapter.service';
+import { SkyPhoneFieldAdapterService } from './phone-field-adapter.service';
 
-import {
-  SkyPhoneFieldCountry
-} from './types/country';
+import { SkyPhoneFieldCountry } from './types/country';
 
 // tslint:disable:no-forward-ref no-use-before-declare
 const SKY_PHONE_FIELD_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => SkyPhoneFieldInputDirective),
-  multi: true
+  multi: true,
 };
 
 const SKY_PHONE_FIELD_VALIDATOR = {
   provide: NG_VALIDATORS,
   useExisting: forwardRef(() => SkyPhoneFieldInputDirective),
-  multi: true
+  multi: true,
 };
 // tslint:enable
 
@@ -76,14 +61,11 @@ const SKY_PHONE_FIELD_VALIDATOR = {
  */
 @Directive({
   selector: '[skyPhoneFieldInput]',
-  providers: [
-    SKY_PHONE_FIELD_VALUE_ACCESSOR,
-    SKY_PHONE_FIELD_VALIDATOR
-  ]
+  providers: [SKY_PHONE_FIELD_VALUE_ACCESSOR, SKY_PHONE_FIELD_VALIDATOR],
 })
-export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterViewInit,
-  ControlValueAccessor, Validator {
-
+export class SkyPhoneFieldInputDirective
+  implements OnInit, OnDestroy, AfterViewInit, ControlValueAccessor, Validator
+{
   /**
    * Indicates whether to disable the phone field.
    * @default false
@@ -145,21 +127,23 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
     private elRef: ElementRef,
     @Optional() private adapterService: SkyPhoneFieldAdapterService,
     @Optional() private phoneFieldComponent: SkyPhoneFieldComponent
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     if (!this.phoneFieldComponent) {
       throw new Error(
         'You must wrap the `skyPhoneFieldInput` directive within a ' +
-        '`<sky-phone-field>` component!'
+          '`<sky-phone-field>` component!'
       );
     }
 
     this.adapterService.setElementType(this.elRef);
     this.adapterService.addElementClass(this.elRef, 'sky-form-control');
     if (this.phoneFieldComponent.selectedCountry) {
-      this.adapterService.setElementPlaceholder(this.elRef,
-        this.phoneFieldComponent.selectedCountry.exampleNumber);
+      this.adapterService.setElementPlaceholder(
+        this.elRef,
+        this.phoneFieldComponent.selectedCountry.exampleNumber
+      );
     }
 
     this.adapterService.setAriaLabel(this.elRef);
@@ -170,7 +154,10 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((country: SkyPhoneFieldCountry) => {
         this.modelValue = this.elRef.nativeElement.value;
-        this.adapterService.setElementPlaceholder(this.elRef, country.exampleNumber);
+        this.adapterService.setElementPlaceholder(
+          this.elRef,
+          country.exampleNumber
+        );
       });
 
     // This is needed to address a bug in Angular 4, where the value is not changed on the view.
@@ -227,11 +214,17 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
     this.modelValue = value;
   }
 
-  public registerOnChange(fn: (value: any) => any): void { this.onChange = fn; }
+  public registerOnChange(fn: (value: any) => any): void {
+    this.onChange = fn;
+  }
 
-  public registerOnTouched(fn: () => any): void { this.onTouched = fn; }
+  public registerOnTouched(fn: () => any): void {
+    this.onTouched = fn;
+  }
 
-  public registerOnValidatorChange(fn: () => void): void { this.validatorChange = fn; }
+  public registerOnValidatorChange(fn: () => void): void {
+    this.validatorChange = fn;
+  }
 
   /**
    * Sets the disabled state on the input
@@ -246,7 +239,6 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
    * @param control the form control for the input
    */
   public validate(control: AbstractControl): ValidationErrors {
-
     if (!this.control) {
       this.control = control;
     }
@@ -261,8 +253,10 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
       return;
     }
 
-    if (this.phoneFieldComponent.selectedCountry && !this.validateNumber(value)) {
-
+    if (
+      this.phoneFieldComponent.selectedCountry &&
+      !this.validateNumber(value)
+    ) {
       if (!this.textChanges) {
         // Mark the invalid control as touched so that the input's invalid CSS styles appear.
         // (This is only required when the invalid value is set by the FormControl constructor.)
@@ -272,9 +266,9 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
       }
 
       return {
-        'skyPhoneField': {
-          invalid: value
-        }
+        skyPhoneField: {
+          invalid: value,
+        },
       };
     }
   }
@@ -282,10 +276,8 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
   private setupTextChangeSubscription(text: string) {
     this.textChanges = new BehaviorSubject(text);
 
-    this.textChanges.pipe(
-      debounceTime(500),
-      takeUntil(this.ngUnsubscribe)
-    )
+    this.textChanges
+      .pipe(debounceTime(500), takeUntil(this.ngUnsubscribe))
       .subscribe((newValue) => {
         this.writeValue(newValue);
       });
@@ -293,10 +285,15 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
 
   private validateNumber(phoneNumber: string): boolean {
     try {
-      const numberObj = this.phoneUtils.parseAndKeepRawInput(phoneNumber,
-        this.phoneFieldComponent.selectedCountry.iso2);
+      const numberObj = this.phoneUtils.parseAndKeepRawInput(
+        phoneNumber,
+        this.phoneFieldComponent.selectedCountry.iso2
+      );
 
-      if (!this.phoneFieldComponent.allowExtensions && numberObj.getExtension()) {
+      if (
+        !this.phoneFieldComponent.allowExtensions &&
+        numberObj.getExtension()
+      ) {
         return false;
       }
 
@@ -312,23 +309,39 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
    */
   private formatNumber(phoneNumber: string): string {
     try {
-      const numberObj = this.phoneUtils.parseAndKeepRawInput(phoneNumber,
-        this.phoneFieldComponent.selectedCountry.iso2);
+      const numberObj = this.phoneUtils.parseAndKeepRawInput(
+        phoneNumber,
+        this.phoneFieldComponent.selectedCountry.iso2
+      );
       if (this.phoneUtils.isPossibleNumber(numberObj)) {
         switch (this.phoneFieldComponent.returnFormat) {
           case 'international':
-            return this.phoneUtils.format(numberObj, PhoneNumberFormat.INTERNATIONAL);
+            return this.phoneUtils.format(
+              numberObj,
+              PhoneNumberFormat.INTERNATIONAL
+            );
           case 'national':
-            return this.phoneUtils.format(numberObj, PhoneNumberFormat.NATIONAL);
+            return this.phoneUtils.format(
+              numberObj,
+              PhoneNumberFormat.NATIONAL
+            );
           case 'default':
           default:
-            if (this.phoneFieldComponent.selectedCountry.iso2 !== this.phoneFieldComponent.defaultCountry) {
-              return this.phoneUtils.format(numberObj, PhoneNumberFormat.INTERNATIONAL);
+            if (
+              this.phoneFieldComponent.selectedCountry.iso2 !==
+              this.phoneFieldComponent.defaultCountry
+            ) {
+              return this.phoneUtils.format(
+                numberObj,
+                PhoneNumberFormat.INTERNATIONAL
+              );
             } else {
-              return this.phoneUtils.format(numberObj, PhoneNumberFormat.NATIONAL);
+              return this.phoneUtils.format(
+                numberObj,
+                PhoneNumberFormat.NATIONAL
+              );
             }
         }
-
       } else {
         return phoneNumber;
       }
@@ -339,11 +352,11 @@ export class SkyPhoneFieldInputDirective implements OnInit, OnDestroy, AfterView
     }
   }
 
-  private onChange = (_: any) => { };
+  private onChange = (_: any) => {};
 
   /* istanbul ignore next */
-  private onTouched = () => { };
+  private onTouched = () => {};
 
   /* istanbul ignore next */
-  private validatorChange = () => { };
+  private validatorChange = () => {};
 }

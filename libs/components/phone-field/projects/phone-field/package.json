@@ -1,16 +1,16 @@
 {
   "name": "@skyux/phone-field",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "peerDependencies": {
-    "@angular/animations": "^12.2.8",
-    "@angular/common": "^12.2.8",
-    "@angular/core": "^12.2.8",
-    "@angular/forms": "^12.2.8",
-    "@skyux/forms": "^5.0.0",
-    "@skyux/i18n": "^5.0.0",
-    "@skyux/indicators": "^5.0.0",
-    "@skyux/lookup": "^5.0.0",
-    "@skyux/theme": "^5.0.0"
+    "@angular/animations": "^12.2.13",
+    "@angular/common": "^12.2.13",
+    "@angular/core": "^12.2.13",
+    "@angular/forms": "^12.2.13",
+    "@skyux/forms": "^5.0.1",
+    "@skyux/i18n": "^5.0.1",
+    "@skyux/indicators": "^5.0.2",
+    "@skyux/lookup": "^5.0.3",
+    "@skyux/theme": "^5.0.4"
   },
   "dependencies": {
     "google-libphonenumber": "3.2.21",

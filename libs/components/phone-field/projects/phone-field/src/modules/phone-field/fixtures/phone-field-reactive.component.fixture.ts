@@ -1,36 +1,20 @@
-import {
-  Component,
-  ViewChild,
-  OnInit
-} from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 
-import {
-  FormControl,
-  FormGroup
-} from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
-import {
-  SkyPhoneFieldComponent
-} from '../phone-field.component';
+import { SkyPhoneFieldComponent } from '../phone-field.component';
 
-import {
-  SkyPhoneFieldInputDirective
-} from '../phone-field-input.directive';
+import { SkyPhoneFieldInputDirective } from '../phone-field-input.directive';
 
-import {
- SkyPhoneFieldCountry
-} from '../types/country';
+import { SkyPhoneFieldCountry } from '../types/country';
 
-import {
-  SkyPhoneFieldNumberReturnFormat
-} from '../types/number-return-format';
+import { SkyPhoneFieldNumberReturnFormat } from '../types/number-return-format';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './phone-field-reactive.component.fixture.html'
+  templateUrl: './phone-field-reactive.component.fixture.html',
 })
 export class PhoneFieldReactiveTestComponent implements OnInit {
-
   public allowExtensions: boolean = true;
 
   public defaultCountry: string;
@@ -57,25 +41,24 @@ export class PhoneFieldReactiveTestComponent implements OnInit {
 
   @ViewChild(SkyPhoneFieldInputDirective, {
     read: SkyPhoneFieldInputDirective,
-    static: false
+    static: false,
   })
   public inputDirective: SkyPhoneFieldInputDirective;
 
   @ViewChild(SkyPhoneFieldComponent, {
     read: SkyPhoneFieldComponent,
-    static: false
+    static: false,
   })
   public phoneFieldComponent: SkyPhoneFieldComponent;
 
   public ngOnInit(): void {
     this.phoneControl = new FormControl(this.initialValue);
     this.phoneForm = new FormGroup({
-      'phone': this.phoneControl
+      phone: this.phoneControl,
     });
   }
 
   public setValue(value: string) {
     this.phoneControl.setValue(value);
   }
-
 }

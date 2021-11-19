@@ -1,19 +1,12 @@
-<form
-  class='phone-field-demo'
-  [formGroup]="phoneForm"
->
+<form class="phone-field-demo" [formGroup]="phoneForm">
   <sky-input-box>
-    <sky-phone-field
-      [defaultCountry]="'us'"
-    >
-      <input
-        formControlName="phoneControl"
-        skyPhoneFieldInput
-      >
+    <sky-phone-field [defaultCountry]="'us'">
+      <input formControlName="phoneControl" skyPhoneFieldInput />
     </sky-phone-field>
   </sky-input-box>
 
-  <sky-status-indicator *ngIf="!phoneControl.valid"
+  <sky-status-indicator
+    *ngIf="!phoneControl.valid"
     descriptionType="none"
     indicatorType="danger"
   >

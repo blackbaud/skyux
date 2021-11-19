@@ -1,7 +1,6 @@
-<form
-  [formGroup]="phoneForm"
->
-  <sky-phone-field *ngIf="showPhoneField"
+<form [formGroup]="phoneForm">
+  <sky-phone-field
+    *ngIf="showPhoneField"
     [allowExtensions]="allowExtensions"
     [defaultCountry]="defaultCountry"
     [returnFormat]="returnFormat"
@@ -12,13 +11,10 @@
       formControlName="phone"
       skyPhoneFieldInput
       [skyPhoneFieldNoValidate]="noValidate"
-    >
+    />
   </sky-phone-field>
 
   <div *ngIf="showInvalidDirective">
-    <input
-      type="text"
-      skyPhoneFieldInput
-    />
+    <input type="text" skyPhoneFieldInput />
   </div>
 </form>

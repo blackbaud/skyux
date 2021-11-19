@@ -1,14 +1,9 @@
 {
-  "extends": "../../.eslintrc.json",
-  "ignorePatterns": [
-    "!**/*",
-    "documentation/**/*"
-  ],
+  "extends": ["../../.eslintrc.json", "prettier"],
+  "ignorePatterns": ["!**/*", "documentation/**/*"],
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
       "parserOptions": {
         "project": [
           "projects/phone-field/tsconfig.lib.json",
@@ -36,9 +31,7 @@
       }
     },
     {
-      "files": [
-        "*.html"
-      ],
+      "files": ["*.html"],
       "rules": {}
     }
   ]

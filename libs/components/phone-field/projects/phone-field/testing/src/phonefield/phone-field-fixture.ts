@@ -1,22 +1,12 @@
-import {
-  DebugElement
-} from '@angular/core';
+import { DebugElement } from '@angular/core';
 
-import {
-  ComponentFixture
-} from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  SkyCountryFieldFixture
-} from '@skyux/lookup/testing';
+import { SkyCountryFieldFixture } from '@skyux/lookup/testing';
 
 /**
  * Provides information for and interaction with a SKY UX phone field component.
@@ -24,7 +14,6 @@ import {
  * of a component, such as changing its DOM structure.
  */
 export class SkyPhoneFieldFixture {
-
   /**
    * The value of the input field for the phone field.
    */
@@ -43,8 +32,11 @@ export class SkyPhoneFieldFixture {
     private fixture: ComponentFixture<any>,
     private skyTestId: string
   ) {
-    this._debugEl = SkyAppTestUtility
-      .getDebugElementByTestId(fixture, skyTestId, 'sky-phone-field');
+    this._debugEl = SkyAppTestUtility.getDebugElementByTestId(
+      fixture,
+      skyTestId,
+      'sky-phone-field'
+    );
 
     // The country selector needs extra time to initialize.
     // Consumers shouldn't need to work around this so we do an extra detect here
@@ -134,7 +126,7 @@ export class SkyPhoneFieldFixture {
    * Gets a boolean promise indicating if the phone field is valid.
    */
   public async isValid(): Promise<boolean> {
-    if (!await this.hasFormControl()) {
+    if (!(await this.hasFormControl())) {
       throw new Error(`Form control not found.`);
     }
     return this.phoneFieldInput.classList.contains('ng-valid');
@@ -145,15 +137,18 @@ export class SkyPhoneFieldFixture {
   }
 
   private get countryFlagButtonContainer(): HTMLInputElement {
-    return this._debugEl.query(By.css('.sky-phone-field-country-btn')).nativeElement;
+    return this._debugEl.query(By.css('.sky-phone-field-country-btn'))
+      .nativeElement;
   }
 
   private get countryFlagButton(): HTMLInputElement {
-    return this._debugEl.query(By.css('.sky-phone-field-country-btn .sky-btn')).nativeElement;
+    return this._debugEl.query(By.css('.sky-phone-field-country-btn .sky-btn'))
+      .nativeElement;
   }
 
   private get phoneFieldInput(): HTMLInputElement {
-    return this._debugEl.query(By.css('input[skyPhoneFieldInput]')).nativeElement;
+    return this._debugEl.query(By.css('input[skyPhoneFieldInput]'))
+      .nativeElement;
   }
 
   /**
@@ -168,7 +163,10 @@ export class SkyPhoneFieldFixture {
       this.setSkyTestId(this.countryElement, countrySkyTestId);
 
       // initialize the country fixture
-      this._countryFixture = new SkyCountryFieldFixture(this.fixture, countrySkyTestId);
+      this._countryFixture = new SkyCountryFieldFixture(
+        this.fixture,
+        countrySkyTestId
+      );
 
       this.fixture.detectChanges();
       await this.fixture.whenStable();

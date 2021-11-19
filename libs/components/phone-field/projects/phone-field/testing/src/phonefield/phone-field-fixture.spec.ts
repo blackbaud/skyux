@@ -1,28 +1,20 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import {
   FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  Validators
+  Validators,
 } from '@angular/forms';
 
-import {
-  SkyStatusIndicatorModule
-} from '@skyux/indicators';
+import { SkyStatusIndicatorModule } from '@skyux/indicators';
 
 import {
   SkyPhoneFieldCountry,
-  SkyPhoneFieldNumberReturnFormat
+  SkyPhoneFieldNumberReturnFormat,
 } from '@skyux/phone-field';
 
 import {
@@ -30,30 +22,24 @@ import {
   SkyThemeMode,
   SkyThemeService,
   SkyThemeSettings,
-  SkyThemeSettingsChange
+  SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import {
-  BehaviorSubject
-} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
-import {
-  SkyPhoneFieldFixture
-} from './phone-field-fixture';
+import { SkyPhoneFieldFixture } from './phone-field-fixture';
 
-import {
-  SkyPhoneFieldTestingModule
-} from './phone-field-testing.module';
+import { SkyPhoneFieldTestingModule } from './phone-field-testing.module';
 
 const COUNTRY_AU: SkyPhoneFieldCountry = {
   name: 'Australia',
   iso2: 'au',
-  dialCode: '+61'
+  dialCode: '+61',
 };
 const COUNTRY_US: SkyPhoneFieldCountry = {
   name: 'United States',
   iso2: 'us',
-  dialCode: '+1'
+  dialCode: '+1',
 };
 const DATA_SKY_ID = 'test-phone-field';
 const VALID_AU_NUMBER = '0212345678';
@@ -61,37 +47,35 @@ const VALID_US_NUMBER = '8675555309';
 
 //#region Test component
 @Component({
-  selector: 'phone-field-test',
+  selector: 'sky-phone-field-test',
   template: `
-  <form
-    class='phone-field-demo'
-    [formGroup]="phoneForm"
-  >
-    <sky-phone-field
-      data-sky-id="${DATA_SKY_ID}"
-      [allowExtensions]="allowExtensions"
-      [defaultCountry]="defaultCountry"
-      [returnFormat]="returnFormat"
-      [supportedCountryISOs]="supportedCountryISOs"
-      [(selectedCountry)]="selectedCountry"
-      (selectedCountryChange)="selectedCountryChange($event)"
-    >
-      <input
-        formControlName="phoneControl"
-        skyPhoneFieldInput
-        [attr.disabled]="disabled"
-        [skyPhoneFieldNoValidate]="noValidate"
+    <form class="phone-field-demo" [formGroup]="phoneForm">
+      <sky-phone-field
+        data-sky-id="${DATA_SKY_ID}"
+        [allowExtensions]="allowExtensions"
+        [defaultCountry]="defaultCountry"
+        [returnFormat]="returnFormat"
+        [supportedCountryISOs]="supportedCountryISOs"
+        [(selectedCountry)]="selectedCountry"
+        (selectedCountryChange)="selectedCountryChange($event)"
       >
-    </sky-phone-field>
+        <input
+          formControlName="phoneControl"
+          skyPhoneFieldInput
+          [attr.disabled]="disabled"
+          [skyPhoneFieldNoValidate]="noValidate"
+        />
+      </sky-phone-field>
 
-    <sky-status-indicator *ngIf="!phoneControl.valid"
-      descriptionType="none"
-      indicatorType="danger"
-    >
-      Enter a phone number matching the format for the selected country.
-    </sky-status-indicator>
-  </form>
-`
+      <sky-status-indicator
+        *ngIf="!phoneControl.valid"
+        descriptionType="none"
+        indicatorType="danger"
+      >
+        Enter a phone number matching the format for the selected country.
+      </sky-status-indicator>
+    </form>
+  `,
 })
 class PhoneFieldTestComponent implements OnInit {
   public allowExtensions: boolean = true;
@@ -106,12 +90,12 @@ class PhoneFieldTestComponent implements OnInit {
   public phoneControl: FormControl;
   public phoneForm: FormGroup;
 
-  public selectedCountryChange(query: string): void { }
+  public selectedCountryChange(query: string): void {}
 
   public ngOnInit(): void {
     this.phoneControl = new FormControl();
     this.phoneForm = new FormGroup({
-      'phoneControl': this.phoneControl
+      phoneControl: this.phoneControl,
     });
   }
 }
@@ -125,39 +109,33 @@ describe('PhoneField fixture', () => {
 
   beforeEach(async () => {
     mockThemeSvc = {
-      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
-        {
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.default,
-            SkyThemeMode.presets.light
-          ),
-          previousSettings: undefined
-        }
-      )
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.default,
+          SkyThemeMode.presets.light
+        ),
+        previousSettings: undefined,
+      }),
     };
 
     TestBed.configureTestingModule({
-      declarations: [
-        PhoneFieldTestComponent
-      ],
+      declarations: [PhoneFieldTestComponent],
       imports: [
         FormsModule,
         ReactiveFormsModule,
         SkyPhoneFieldTestingModule,
-        SkyStatusIndicatorModule
+        SkyStatusIndicatorModule,
       ],
       providers: [
         {
           provide: SkyThemeService,
-          useValue: mockThemeSvc
-        }
-      ]
+          useValue: mockThemeSvc,
+        },
+      ],
     });
 
     // create the fixture, waiting until it's stable since it selects a country on init
-    fixture = TestBed.createComponent(
-      PhoneFieldTestComponent
-    );
+    fixture = TestBed.createComponent(PhoneFieldTestComponent);
     testComponent = fixture.componentInstance;
     phonefieldFixture = new SkyPhoneFieldFixture(fixture, DATA_SKY_ID);
   });
@@ -193,7 +171,10 @@ describe('PhoneField fixture', () => {
   });
 
   it('should use newly selected country', async () => {
-    const selectedCountryChangeSpy = spyOn(fixture.componentInstance, 'selectedCountryChange');
+    const selectedCountryChangeSpy = spyOn(
+      fixture.componentInstance,
+      'selectedCountryChange'
+    );
 
     // change the country
     await phonefieldFixture.selectCountry(COUNTRY_AU.name);
@@ -202,7 +183,9 @@ describe('PhoneField fixture', () => {
     await fixture.whenStable();
 
     expect(testComponent.selectedCountry.name).toBe(COUNTRY_AU.name);
-    expect(selectedCountryChangeSpy).toHaveBeenCalledWith(jasmine.objectContaining(COUNTRY_AU));
+    expect(selectedCountryChangeSpy).toHaveBeenCalledWith(
+      jasmine.objectContaining(COUNTRY_AU)
+    );
 
     // enter a valid phone number for the new country
     await phonefieldFixture.setInputText(VALID_AU_NUMBER);
@@ -213,11 +196,13 @@ describe('PhoneField fixture', () => {
   });
 
   it('should return expected country search results', async () => {
-
     // wait for initial country selection to finish before setting up the spy
     fixture.detectChanges();
     await fixture.whenStable();
-    const selectedCountryChangeSpy = spyOn(fixture.componentInstance, 'selectedCountryChange');
+    const selectedCountryChangeSpy = spyOn(
+      fixture.componentInstance,
+      'selectedCountryChange'
+    );
 
     // search for a country by name
     const results = await phonefieldFixture.searchCountry(COUNTRY_AU.name);

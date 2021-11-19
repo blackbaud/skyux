@@ -1,21 +1,10 @@
-import {
-  Injectable,
-  OnDestroy,
-  Renderer2,
-  ElementRef
-} from '@angular/core';
+import { Injectable, OnDestroy, Renderer2, ElementRef } from '@angular/core';
 
-import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 /**
  * Service for interacting with the DOM elements of the phone field.
@@ -23,13 +12,12 @@ import {
  */
 @Injectable()
 export class SkyPhoneFieldAdapterService implements OnDestroy {
-
   private ngUnsubscribe = new Subject();
 
   constructor(
     private renderer: Renderer2,
     private resourcesService: SkyLibResourcesService
-  ) { }
+  ) {}
 
   public ngOnDestroy(): void {
     this.ngUnsubscribe.next();
@@ -40,16 +28,22 @@ export class SkyPhoneFieldAdapterService implements OnDestroy {
     this.renderer.addClass(elementRef.nativeElement, className);
   }
 
-  public setElementDisabledState(elementRef: ElementRef, disabled: boolean): void {
-    this.renderer.setProperty(
-      elementRef.nativeElement,
-      'disabled',
-      disabled
-    );
+  public setElementDisabledState(
+    elementRef: ElementRef,
+    disabled: boolean
+  ): void {
+    this.renderer.setProperty(elementRef.nativeElement, 'disabled', disabled);
   }
 
-  public setElementPlaceholder(elementRef: ElementRef, placeholder: string): void {
-    this.renderer.setAttribute(elementRef.nativeElement, 'placeholder', placeholder);
+  public setElementPlaceholder(
+    elementRef: ElementRef,
+    placeholder: string
+  ): void {
+    this.renderer.setAttribute(
+      elementRef.nativeElement,
+      'placeholder',
+      placeholder
+    );
   }
 
   public setElementType(elementRef: ElementRef): void {
@@ -58,11 +52,7 @@ export class SkyPhoneFieldAdapterService implements OnDestroy {
 
   public setElementValue(elementRef: ElementRef, value: string): void {
     if (value) {
-      this.renderer.setProperty(
-        elementRef.nativeElement,
-        'value',
-        value
-      );
+      this.renderer.setProperty(elementRef.nativeElement, 'value', value);
     }
   }
 
@@ -70,7 +60,8 @@ export class SkyPhoneFieldAdapterService implements OnDestroy {
     /* Sanity check */
     /* istanbul ignore else */
     if (!element.nativeElement.getAttribute('aria-label')) {
-      this.resourcesService.getString('skyux_phone_field_default_label')
+      this.resourcesService
+        .getString('skyux_phone_field_default_label')
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((value: string) => {
           this.renderer.setAttribute(
@@ -88,8 +79,9 @@ export class SkyPhoneFieldAdapterService implements OnDestroy {
   }
 
   public focusPhoneInput(el: Element): void {
-    const input: HTMLElement = el.querySelector('.sky-phone-field-container input');
+    const input: HTMLElement = el.querySelector(
+      '.sky-phone-field-container input'
+    );
     input.focus();
   }
-
 }
