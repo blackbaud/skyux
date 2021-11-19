@@ -1,3 +1,7 @@
+# 5.72.0 (2021-11-19)
+
+- `@skyux/lookup@5.0.4` [Release notes](https://github.com/blackbaud/skyux-lookup/blob/5.0.4/CHANGELOG.md)
+
 # 5.71.0 (2021-11-19)
 
 - `@skyux/tabs@5.0.2` [Release notes](https://github.com/blackbaud/skyux-tabs/blob/5.0.2/CHANGELOG.md)
