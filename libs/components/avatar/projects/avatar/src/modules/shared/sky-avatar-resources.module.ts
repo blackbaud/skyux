@@ -12,11 +12,29 @@ import {
   SkyI18nModule,
   SkyLibResources,
   SkyLibResourcesProvider,
-  SKY_LIB_RESOURCES_PROVIDERS
+  SKY_LIB_RESOURCES_PROVIDERS,
 } from '@skyux/i18n';
 
 const RESOURCES: { [locale: string]: SkyLibResources } = {
-  'EN-US': {"skyux_avatar_error_not_image_description":{"message":"Please choose a file that is a valid image."},"skyux_avatar_error_not_image_title":{"message":"File is not an image."},"skyux_avatar_error_too_large_description":{"message":"Please choose an image that is less than {0}."},"skyux_avatar_error_too_large_title":{"message":"File is too large."},"skyux_avatar_errormodal_ok":{"message":"OK"},"skyux_avatar_inner_description":{"message":"Profile picture of {0}"},"skyux_avatar_upload_change_aria_label":{"message":"Change profile photo of {0}. Drag a file here or click to browse."},"skyux_avatar_upload_new_aria_label":{"message":"Add profile photo of {0}. Drag a file here or click to browse."}},
+  'EN-US': {
+    skyux_avatar_error_not_image_description: {
+      message: 'Please choose a file that is a valid image.',
+    },
+    skyux_avatar_error_not_image_title: { message: 'File is not an image.' },
+    skyux_avatar_error_too_large_description: {
+      message: 'Please choose an image that is less than {0}.',
+    },
+    skyux_avatar_error_too_large_title: { message: 'File is too large.' },
+    skyux_avatar_errormodal_ok: { message: 'OK' },
+    skyux_avatar_inner_description: { message: 'Profile picture of {0}' },
+    skyux_avatar_upload_change_aria_label: {
+      message:
+        'Change profile photo of {0}. Drag a file here or click to browse.',
+    },
+    skyux_avatar_upload_new_aria_label: {
+      message: 'Add profile photo of {0}. Drag a file here or click to browse.',
+    },
+  },
 };
 
 export class SkyAvatarResourcesProvider implements SkyLibResourcesProvider {
@@ -30,10 +48,12 @@ export class SkyAvatarResourcesProvider implements SkyLibResourcesProvider {
  */
 @NgModule({
   exports: [SkyI18nModule],
-  providers: [{
-    provide: SKY_LIB_RESOURCES_PROVIDERS,
-    useClass: SkyAvatarResourcesProvider,
-    multi: true
-  }]
+  providers: [
+    {
+      provide: SKY_LIB_RESOURCES_PROVIDERS,
+      useClass: SkyAvatarResourcesProvider,
+      multi: true,
+    },
+  ],
 })
-export class SkyAvatarResourcesModule { }
+export class SkyAvatarResourcesModule {}

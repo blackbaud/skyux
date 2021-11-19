@@ -1,17 +1,12 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {
-  SkyFileItem
-} from '@skyux/forms';
+import { SkyFileItem } from '@skyux/forms';
 
 @Component({
   selector: 'app-avatar-demo',
-  templateUrl: './avatar-demo.component.html'
+  templateUrl: './avatar-demo.component.html',
 })
 export class AvatarDemoComponent {
-
   public avatarUrl: string | File = 'https://imgur.com/tBiGElW.png';
 
   public name = 'Robert C. Hernandez';
@@ -25,5 +20,4 @@ export class AvatarDemoComponent {
       this.avatarUrl = fileItem.file;
     }
   }
-
 }

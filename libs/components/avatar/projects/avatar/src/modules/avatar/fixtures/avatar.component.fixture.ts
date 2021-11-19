@@ -1,26 +1,16 @@
-import {
-  Component,
-  ViewChild
-} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
-import {
-  SkyAvatarComponent
-} from '../avatar.component';
+import { SkyAvatarComponent } from '../avatar.component';
 
-import {
-  SkyAvatarSize
-} from '../avatar-size';
+import { SkyAvatarSize } from '../avatar-size';
 
-import {
-  SkyAvatarSrc
-} from '../avatar-src';
+import { SkyAvatarSrc } from '../avatar-src';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './avatar.component.fixture.html'
+  templateUrl: './avatar.component.fixture.html',
 })
 export class AvatarTestComponent {
-
   @ViewChild(SkyAvatarComponent)
   public avatarComponent: SkyAvatarComponent;
 
@@ -31,5 +21,4 @@ export class AvatarTestComponent {
   public size: SkyAvatarSize;
 
   public src: SkyAvatarSrc;
-
 }

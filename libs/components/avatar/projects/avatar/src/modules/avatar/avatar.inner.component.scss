@@ -1,6 +1,6 @@
-@import "~@skyux/theme/scss/mixins";
-@import "~@skyux/theme/scss/_compat/mixins";
-@import "~@skyux/theme/scss/variables";
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+@import '~@skyux/theme/scss/variables';
 
 $avatar-size-large: $sky-avatar-height;
 $avatar-size-medium: 65px;
@@ -193,8 +193,7 @@ $modern-avatar-padding-small: 2px;
 
     &:focus-within:not(:active) {
       .sky-avatar-wrapper {
-        box-shadow:
-          $sky-theme-modern-elevation-3-shadow-size
+        box-shadow: $sky-theme-modern-elevation-3-shadow-size
           $sky-theme-modern-elevation-3-shadow-color;
       }
     }

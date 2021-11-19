@@ -2,37 +2,41 @@
   class="sky-elevation-1 sky-avatar-wrapper"
   [ngClass]="'sky-avatar-wrapper-size-' + (size || 'large')"
 >
-  <div
-    class="sky-avatar-image"
-    [hidden]="!src"
-  ></div>
-  <div *ngIf="src"
-    class="sky-screen-reader-only"
-  >
-    {{'skyux_avatar_inner_description' | skyLibResources:name}}
+  <div class="sky-avatar-image" [hidden]="!src"></div>
+  <div *ngIf="src" class="sky-screen-reader-only">
+    {{ 'skyux_avatar_inner_description' | skyLibResources: name }}
   </div>
   <div
     class="sky-avatar-initials"
     [hidden]="src || !name"
     [ngClass]="'sky-palette-multi-' + (colorIndex + 1)"
   >
-    <div *ngIf="size === 'small'"
+    <div
+      *ngIf="size === 'small'"
       class="sky-avatar-initials-inner"
       [skyThemeClass]="{
         'sky-font-body-sm': 'modern'
       }"
-    >{{ initials }}</div>
-    <div *ngIf="size === 'medium'"
+    >
+      {{ initials }}
+    </div>
+    <div
+      *ngIf="size === 'medium'"
       class="sky-avatar-initials-inner"
       [skyThemeClass]="{
         'sky-font-display-3': 'modern'
       }"
-    >{{ initials }}</div>
-    <div *ngIf="size !== 'small' && size !== 'medium'"
+    >
+      {{ initials }}
+    </div>
+    <div
+      *ngIf="size !== 'small' && size !== 'medium'"
       class="sky-avatar-initials-inner"
       [skyThemeClass]="{
         'sky-font-display-2': 'modern'
       }"
-    >{{ initials }}</div>
+    >
+      {{ initials }}
+    </div>
   </div>
 </div>

@@ -4,20 +4,14 @@ import {
   ElementRef,
   Input,
   OnDestroy,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 
-import {
-  SkyAvatarAdapterService
-} from './avatar-adapter.service';
+import { SkyAvatarAdapterService } from './avatar-adapter.service';
 
-import {
-  SkyAvatarSize
-} from './avatar-size';
+import { SkyAvatarSize } from './avatar-size';
 
-import {
-  SkyAvatarSrc
-} from './avatar-src';
+import { SkyAvatarSrc } from './avatar-src';
 
 /**
  * @internal
@@ -27,7 +21,7 @@ import {
   templateUrl: './avatar.inner.component.html',
   styleUrls: ['./avatar.inner.component.scss'],
   providers: [SkyAvatarAdapterService],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class SkyAvatarInnerComponent implements AfterViewInit, OnDestroy {
   public get src(): SkyAvatarSrc {
@@ -61,7 +55,7 @@ export class SkyAvatarInnerComponent implements AfterViewInit, OnDestroy {
   constructor(
     private elementRef: ElementRef,
     private adapter: SkyAvatarAdapterService
-  ) { }
+  ) {}
 
   public get initials(): string {
     let initials: string;
@@ -83,12 +77,13 @@ export class SkyAvatarInnerComponent implements AfterViewInit, OnDestroy {
     let colorIndex: number;
 
     if (name) {
-        // Generate a unique-ish color based on the record name.  This is deterministic
-        // so that a given name will always generate the same color.
-        let seed = name.charCodeAt(0) + name.charCodeAt(name.length - 1) + name.length;
-        colorIndex = Math.abs(seed % 6);
+      // Generate a unique-ish color based on the record name.  This is deterministic
+      // so that a given name will always generate the same color.
+      let seed =
+        name.charCodeAt(0) + name.charCodeAt(name.length - 1) + name.length;
+      colorIndex = Math.abs(seed % 6);
     } else {
-        colorIndex = 0;
+      colorIndex = 0;
     }
 
     return colorIndex;

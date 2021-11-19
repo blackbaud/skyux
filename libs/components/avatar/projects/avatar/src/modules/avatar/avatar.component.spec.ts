@@ -2,63 +2,43 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
-import {
-  BehaviorSubject
-} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
-import {
-  expect,
-  SkyMatchers
-} from '@skyux-sdk/testing';
+import { expect, SkyMatchers } from '@skyux-sdk/testing';
 
-import {
-  SkyErrorModalService,
-  ErrorModalConfig
-} from '@skyux/errors';
+import { SkyErrorModalService, ErrorModalConfig } from '@skyux/errors';
 
-import {
-  SkyFileItem,
-  SkyFileDropChange
-} from '@skyux/forms';
+import { SkyFileItem, SkyFileDropChange } from '@skyux/forms';
 
 import {
   SkyTheme,
   SkyThemeMode,
   SkyThemeService,
   SkyThemeSettings,
-  SkyThemeSettingsChange
+  SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import {
-  AvatarTestComponent
-} from './fixtures/avatar.component.fixture';
+import { AvatarTestComponent } from './fixtures/avatar.component.fixture';
 
-import {
-  SkyAvatarFixturesModule
-} from './fixtures/avatar-fixtures.module';
+import { SkyAvatarFixturesModule } from './fixtures/avatar-fixtures.module';
 
-import {
-  MockErrorModalService
-} from './fixtures/mock-error-modal.service';
+import { MockErrorModalService } from './fixtures/mock-error-modal.service';
 
-import {
-  SkyAvatarSize
-} from './avatar-size';
+import { SkyAvatarSize } from './avatar-size';
 
-import {
-  SkyAvatarComponent
-} from './avatar.component';
+import { SkyAvatarComponent } from './avatar.component';
 
 describe('Avatar component', () => {
   let mockThemeSvc: {
-    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
 
   /* tslint:disable-next-line max-line-length */
-  let imgBase64 = 'iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAYAAAD0In+KAAAAFElEQVR42gEJAPb/AP//////////I+UH+Rtap+gAAAAASUVORK5CYII=';
+  let imgBase64 =
+    'iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAYAAAD0In+KAAAAFElEQVR42gEJAPb/AP//////////I+UH+Rtap+gAAAAASUVORK5CYII=';
   let imgUrl = 'data:image/png;base64,' + imgBase64;
 
   const mockErrorModalService = new MockErrorModalService();
@@ -113,7 +93,11 @@ describe('Avatar component', () => {
     return url;
   }
 
-  function validateImageUrl(el: Element, url: string, startsWith: boolean = false) {
+  function validateImageUrl(
+    el: Element,
+    url: string,
+    startsWith: boolean = false
+  ) {
     let backgroundImageUrl = getBackgroundImageUrl(el);
 
     if (startsWith) {
@@ -125,15 +109,13 @@ describe('Avatar component', () => {
 
   beforeEach(() => {
     mockThemeSvc = {
-      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
-        {
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.default,
-            SkyThemeMode.presets.light
-          ),
-          previousSettings: undefined
-        }
-      )
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.default,
+          SkyThemeMode.presets.light
+        ),
+        previousSettings: undefined,
+      }),
     };
 
     TestBed.configureTestingModule({
@@ -141,13 +123,13 @@ describe('Avatar component', () => {
       providers: [
         {
           provide: SkyErrorModalService,
-          useValue: mockErrorModalService
+          useValue: mockErrorModalService,
         },
         {
           provide: SkyThemeService,
-          useValue: mockThemeSvc
-        }
-      ]
+          useValue: mockThemeSvc,
+        },
+      ],
     });
   });
 
@@ -195,10 +177,12 @@ describe('Avatar component', () => {
 
     const screenReaderEl: HTMLElement = <HTMLElement>getScreenReaderEl(el);
     expect(screenReaderEl).not.toBeNull();
-    expect(screenReaderEl.textContent.trim()).toBe('Profile picture of Robert Hernandez');
+    expect(screenReaderEl.textContent.trim()).toBe(
+      'Profile picture of Robert Hernandez'
+    );
   });
 
-  it('should display the record name\'s initials when no image is specified', () => {
+  it("should display the record name's initials when no image is specified", () => {
     let fixture = TestBed.createComponent(AvatarTestComponent);
 
     fixture.componentInstance.name = 'Robert Hernandez';
@@ -256,7 +240,13 @@ describe('Avatar component', () => {
     tick();
     fixture.detectChanges();
 
-    expect(getFileDropTargetEl(fixture.nativeElement).attributes.getNamedItem('aria-label').value).toBe('Add profile photo of Robert Hernandez. Drag a file here or click to browse.');
+    expect(
+      getFileDropTargetEl(fixture.nativeElement).attributes.getNamedItem(
+        'aria-label'
+      ).value
+    ).toBe(
+      'Add profile photo of Robert Hernandez. Drag a file here or click to browse.'
+    );
   }));
 
   it(`should provide a aria label describing changing a profile image when one has been uploaded`, fakeAsync(() => {
@@ -272,7 +262,13 @@ describe('Avatar component', () => {
     tick();
     fixture.detectChanges();
 
-    expect(getFileDropTargetEl(fixture.nativeElement).attributes.getNamedItem('aria-label').value).toBe('Change profile photo of Robert Hernandez. Drag a file here or click to browse.');
+    expect(
+      getFileDropTargetEl(fixture.nativeElement).attributes.getNamedItem(
+        'aria-label'
+      ).value
+    ).toBe(
+      'Change profile photo of Robert Hernandez. Drag a file here or click to browse.'
+    );
   }));
 
   it('should show the avatar when the specified source is a Blob object', function () {
@@ -287,25 +283,22 @@ describe('Avatar component', () => {
     validateImageUrl(el, 'blob:', true);
   });
 
-  it(
-    `should clean up the current object URL created when the specified source is a Blbo object
-    and the scope is destroyed`,
-    () => {
-      let fixture = TestBed.createComponent(AvatarTestComponent);
+  it(`should clean up the current object URL created when the specified source is a Blbo object
+    and the scope is destroyed`, () => {
+    let fixture = TestBed.createComponent(AvatarTestComponent);
 
-      fixture.componentInstance.src = getImgBlob();
+    fixture.componentInstance.src = getImgBlob();
 
-      fixture.detectChanges();
+    fixture.detectChanges();
 
-      let objectUrl = getBackgroundImageUrl(fixture.nativeElement);
+    let objectUrl = getBackgroundImageUrl(fixture.nativeElement);
 
-      let revokeSpy = spyOn(URL, 'revokeObjectURL');
+    let revokeSpy = spyOn(URL, 'revokeObjectURL');
 
-      fixture.destroy();
+    fixture.destroy();
 
-      expect(revokeSpy).toHaveBeenCalledWith(objectUrl);
-    }
-  );
+    expect(revokeSpy).toHaveBeenCalledWith(objectUrl);
+  });
 
   it('should notify the consumer when the user chooses a new image', function () {
     let fixture = TestBed.createComponent(SkyAvatarComponent);
@@ -315,18 +308,17 @@ describe('Avatar component', () => {
       file: <File>{
         name: 'foo.png',
         type: 'image/png',
-        size: 1000
-      }
+        size: 1000,
+      },
     };
     instance.canChange = true;
     instance.avatarChanged.subscribe(
-      (newFile: SkyFileItem) => expectedFile = newFile);
+      (newFile: SkyFileItem) => (expectedFile = newFile)
+    );
 
     instance.photoDrop(<SkyFileDropChange>{
-      files: [
-        actualFile
-      ],
-      rejectedFiles: []
+      files: [actualFile],
+      rejectedFiles: [],
     });
 
     fixture.detectChanges();
@@ -341,21 +333,18 @@ describe('Avatar component', () => {
       file: <File>{
         name: 'foo.png',
         type: 'image/png',
-        size: 1000
-      }
+        size: 1000,
+      },
     };
 
     instance.canChange = true;
     instance.avatarChanged.subscribe(
-      (newFile: SkyFileItem) => expectedFile = newFile);
+      (newFile: SkyFileItem) => (expectedFile = newFile)
+    );
 
     instance.photoDrop(<SkyFileDropChange>{
-      files: [
-
-      ],
-      rejectedFiles: [
-        actualFile
-      ]
+      files: [],
+      rejectedFiles: [actualFile],
     });
 
     fixture.detectChanges();
@@ -370,22 +359,22 @@ describe('Avatar component', () => {
       file: <File>{
         name: 'foo.txt',
         type: 'text',
-        size: 1
+        size: 1,
       },
-      errorType: 'fileType'
+      errorType: 'fileType',
     };
 
     spyOn(mockErrorModalService, 'open');
 
     instance.photoDrop(<SkyFileDropChange>{
       files: [],
-      rejectedFiles: [badFileType]
+      rejectedFiles: [badFileType],
     });
 
     const config: ErrorModalConfig = {
       errorTitle: 'File is not an image.',
       errorDescription: 'Please choose a file that is a valid image.',
-      errorCloseText: 'OK'
+      errorCloseText: 'OK',
     };
 
     expect(mockErrorModalService.open).toHaveBeenCalledWith(config);
@@ -399,22 +388,22 @@ describe('Avatar component', () => {
       file: <File>{
         name: 'foo.txt',
         type: 'text',
-        size: 1
+        size: 1,
       },
-      errorType: 'maxFileSize'
+      errorType: 'maxFileSize',
     };
 
     spyOn(mockErrorModalService, 'open');
 
     instance.photoDrop(<SkyFileDropChange>{
       files: [],
-      rejectedFiles: [badFileType]
+      rejectedFiles: [badFileType],
     });
 
     const config: ErrorModalConfig = {
       errorTitle: 'File is too large.',
       errorDescription: 'Please choose an image that is less than 500 KB.',
-      errorCloseText: 'OK'
+      errorCloseText: 'OK',
     };
 
     expect(mockErrorModalService.open).toHaveBeenCalledWith(config);
@@ -430,22 +419,22 @@ describe('Avatar component', () => {
       file: <File>{
         name: 'foo.txt',
         type: 'text',
-        size: 1
+        size: 1,
       },
-      errorType: 'maxFileSize'
+      errorType: 'maxFileSize',
     };
 
     spyOn(mockErrorModalService, 'open');
 
     instance.photoDrop(<SkyFileDropChange>{
       files: [],
-      rejectedFiles: [badFileType]
+      rejectedFiles: [badFileType],
     });
 
     const config: ErrorModalConfig = {
       errorTitle: 'File is too large.',
       errorDescription: 'Please choose an image that is less than 5 MB.',
-      errorCloseText: 'OK'
+      errorCloseText: 'OK',
     };
 
     expect(mockErrorModalService.open).toHaveBeenCalledWith(config);
@@ -460,9 +449,11 @@ describe('Avatar component', () => {
 
     const wrapperEl = getWrapperEl(fixture.nativeElement);
 
-    (expect(wrapperEl)
-      .withContext(`When size is set to ${size}`) as SkyMatchers<Element>)
-      .toHaveCssClass(`sky-avatar-wrapper-size-${size || 'large'}`);
+    (
+      expect(wrapperEl).withContext(
+        `When size is set to ${size}`
+      ) as SkyMatchers<Element>
+    ).toHaveCssClass(`sky-avatar-wrapper-size-${size || 'large'}`);
   }
 
   it('should add the expected CSS class for the specified size', () => {
@@ -484,23 +475,26 @@ describe('Avatar component', () => {
       fixture.componentInstance.size = size;
       fixture.detectChanges();
 
-      const initialsEl = fixture.nativeElement.querySelector('.sky-avatar-initials-inner');
+      const initialsEl = fixture.nativeElement.querySelector(
+        '.sky-avatar-initials-inner'
+      );
 
-      (expect(initialsEl)
-        .withContext(`When size is set to ${size}`) as SkyMatchers<Element>)
-        .toHaveCssClass(expectedClass);
+      (
+        expect(initialsEl).withContext(
+          `When size is set to ${size}`
+        ) as SkyMatchers<Element>
+      ).toHaveCssClass(expectedClass);
     }
 
     beforeEach(() => {
-      mockThemeSvc.settingsChange.next(
-        {
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.modern,
-            SkyThemeMode.presets.light
-          ),
-          previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings
-        }
-      );
+      mockThemeSvc.settingsChange.next({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.light
+        ),
+        previousSettings:
+          mockThemeSvc.settingsChange.getValue().currentSettings,
+      });
     });
 
     it('should add the expected class to the initials element for the specified size', () => {

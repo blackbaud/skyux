@@ -1,32 +1,24 @@
-import {
-  TestBed
-} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {
-  SkyAvatarModule
-} from '@skyux/avatar';
+import { SkyAvatarModule } from '@skyux/avatar';
 
-import {
-  SkyAvatarFixture
-} from './avatar-fixture';
+import { SkyAvatarFixture } from './avatar-fixture';
 
 //#region Test component
 @Component({
-  selector: 'avatar-test',
+  selector: 'sky-avatar-test',
   template: `
-<sky-avatar
-  [name]="name"
-  [src]="src"
-  [canChange]="true"
-  (avatarChanged)="avatarChanged"
-  data-sky-id="test-avatar"
->
-</sky-avatar>
-  `
+    <sky-avatar
+      [name]="name"
+      [src]="src"
+      [canChange]="true"
+      (avatarChanged)="(avatarChanged)"
+      data-sky-id="test-avatar"
+    >
+    </sky-avatar>
+  `,
 })
 class TestComponent {
   public name: string;
@@ -35,27 +27,20 @@ class TestComponent {
 
   public canChange: false;
 
-  public avatarChanged() { }
+  public avatarChanged() {}
 }
 //#endregion Test component
 
 describe('Avatar fixture', () => {
-
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TestComponent
-      ],
-      imports: [
-        SkyAvatarModule
-      ]
+      declarations: [TestComponent],
+      imports: [SkyAvatarModule],
     });
   });
 
   it('should expose the expected properties', () => {
-    const fixture = TestBed.createComponent(
-      TestComponent
-    );
+    const fixture = TestBed.createComponent(TestComponent);
 
     fixture.componentInstance.name = 'Robert Hernandez';
     fixture.detectChanges();
@@ -71,5 +56,4 @@ describe('Avatar fixture', () => {
     expect(avatar.initials).toBeUndefined();
     expect(avatar.imageUrl).toBe('https://example.com/img/');
   });
-
 });

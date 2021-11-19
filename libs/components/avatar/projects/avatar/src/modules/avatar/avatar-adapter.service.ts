@@ -41,12 +41,12 @@ export class SkyAvatarAdapterService {
   }
 
   private createBlobUrl(src: Blob | File) {
-     let url = URL.createObjectURL(src);
+    let url = URL.createObjectURL(src);
 
-      // Keep the last blob URL around so we can revoke it later.
-      // https://developer.mozilla.org/en-US/docs/Web/API/URL/revokeObjectURL
-      this.blobUrl = url;
-      return url;
+    // Keep the last blob URL around so we can revoke it later.
+    // https://developer.mozilla.org/en-US/docs/Web/API/URL/revokeObjectURL
+    this.blobUrl = url;
+    return url;
   }
 
   private revokeBlobUrl() {

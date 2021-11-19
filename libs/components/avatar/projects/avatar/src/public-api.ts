@@ -4,6 +4,4 @@ export * from './modules/avatar/avatar.module';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of public API.
-export {
-  SkyAvatarComponent as λ1
-} from './modules/avatar/avatar.component';
+export { SkyAvatarComponent as λ1 } from './modules/avatar/avatar.component';

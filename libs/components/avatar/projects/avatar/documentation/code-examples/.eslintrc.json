@@ -1,22 +1,14 @@
 {
-  "extends": ["../../.eslintrc.json", "prettier"],
-  "ignorePatterns": ["!**/*", "documentation/**/*"],
+  "extends": ["../../.eslintrc.json"],
   "overrides": [
     {
       "files": ["*.ts"],
-      "parserOptions": {
-        "project": [
-          "projects/avatar/tsconfig.lib.json",
-          "projects/avatar/tsconfig.spec.json"
-        ],
-        "createDefaultProgram": true
-      },
       "rules": {
         "@angular-eslint/directive-selector": [
           "error",
           {
             "type": "attribute",
-            "prefix": "sky",
+            "prefix": "app",
             "style": "camelCase"
           }
         ],
@@ -24,15 +16,11 @@
           "error",
           {
             "type": "element",
-            "prefix": "sky",
+            "prefix": "app",
             "style": "kebab-case"
           }
         ]
       }
-    },
-    {
-      "files": ["*.html"],
-      "rules": {}
     }
   ]
 }

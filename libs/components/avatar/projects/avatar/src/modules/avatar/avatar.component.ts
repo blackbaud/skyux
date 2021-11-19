@@ -3,40 +3,26 @@ import {
   EventEmitter,
   Input,
   Output,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 
-import {
-  ErrorModalConfig,
-  SkyErrorModalService
-} from '@skyux/errors';
+import { ErrorModalConfig, SkyErrorModalService } from '@skyux/errors';
 
-import {
-  SkyFileDropChange,
-  SkyFileItem,
-  SkyFileSizePipe
-} from '@skyux/forms';
+import { SkyFileDropChange, SkyFileItem, SkyFileSizePipe } from '@skyux/forms';
 
-import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
-import {
-  SkyAvatarSize
-} from './avatar-size';
+import { SkyAvatarSize } from './avatar-size';
 
-import {
-  SkyAvatarSrc
-} from './avatar-src';
+import { SkyAvatarSrc } from './avatar-src';
 
 @Component({
   selector: 'sky-avatar',
   templateUrl: './avatar.component.html',
   styleUrls: ['./avatar.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class SkyAvatarComponent {
-
   /**
    * Indicates whether users can change the image. To select a different image,
    * users click the image or drag another image on top of it,
@@ -111,7 +97,7 @@ export class SkyAvatarComponent {
     private errorService: SkyErrorModalService,
     private fileSizePipe: SkyFileSizePipe,
     private resourcesService: SkyLibResourcesService
-  ) { }
+  ) {}
 
   public photoDrop(result: SkyFileDropChange): void {
     /* sanity check */
@@ -134,10 +120,11 @@ export class SkyAvatarComponent {
       );
 
       this.openErrorModal(title, description);
-
     } else if (rejectedFile.errorType === 'fileType') {
       const title = this.getString('skyux_avatar_error_not_image_title');
-      const description = this.getString('skyux_avatar_error_not_image_description');
+      const description = this.getString(
+        'skyux_avatar_error_not_image_description'
+      );
 
       this.openErrorModal(title, description);
     }
@@ -151,7 +138,7 @@ export class SkyAvatarComponent {
     const config: ErrorModalConfig = {
       errorTitle: title,
       errorDescription: description,
-      errorCloseText: this.getString('skyux_avatar_errormodal_ok')
+      errorCloseText: this.getString('skyux_avatar_errormodal_ok'),
     };
 
     this.errorService.open(config);
