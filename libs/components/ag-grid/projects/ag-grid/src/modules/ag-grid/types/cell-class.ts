@@ -1,3 +1,6 @@
+/**
+ * @internal
+ */
 export enum SkyCellClass {
   Autocomplete = 'sky-ag-grid-cell-autocomplete',
   Currency = 'sky-ag-grid-cell-currency',

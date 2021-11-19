@@ -4,11 +4,11 @@ import {
 
 export interface SkyGetGridOptionsArgs {
   /**
-   * agGrid gridOptions to override the default SKY UX grid options.
+   * Specifies the [AG Grid `gridOptions`](https://www.ag-grid.com/javascript-grid-properties/) used to override default SKY UX gridOptions. SKY UX column types for components and column `cellClassRules` enforce required cell styling and cannot be overridden.
    */
   gridOptions: GridOptions;
   /**
-   * the locale used in the date value formatter.
+   * Specifies the locale used for location-specific formatting, such as date values for the `SkyCellType.Date` column. This property accepts string values.
    */
   locale?: string;
 }

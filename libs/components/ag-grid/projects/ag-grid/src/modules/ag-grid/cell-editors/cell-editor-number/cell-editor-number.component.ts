@@ -13,6 +13,9 @@ import {
   ICellEditorParams
 } from 'ag-grid-community';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-ag-grid-cell-editor-number',
   templateUrl: './cell-editor-number.component.html',

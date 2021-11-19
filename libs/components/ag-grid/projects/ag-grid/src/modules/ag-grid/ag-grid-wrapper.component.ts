@@ -21,6 +21,9 @@ import {
 
 let idIndex = 0;
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-ag-grid-wrapper',
   templateUrl: './ag-grid-wrapper.component.html',

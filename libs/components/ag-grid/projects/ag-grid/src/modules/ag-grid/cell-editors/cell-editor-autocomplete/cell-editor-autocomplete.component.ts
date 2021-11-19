@@ -17,6 +17,9 @@ import {
   SkyAutocompleteProperties
 } from '../../types/autocomplete-properties';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-ag-grid-cell-editor-autocomplete',
   templateUrl: './cell-editor-autocomplete.component.html',

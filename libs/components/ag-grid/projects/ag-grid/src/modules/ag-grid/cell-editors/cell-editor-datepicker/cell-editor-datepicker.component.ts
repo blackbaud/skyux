@@ -27,6 +27,9 @@ import {
   SkyDatepickerProperties
 } from '../../types/datepicker-properties';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-ag-grid-cell-editor-datepicker',
   templateUrl: './cell-editor-datepicker.component.html',

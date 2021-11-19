@@ -15,6 +15,9 @@ import {
   RowSelectedEvent
 } from 'ag-grid-community';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-ag-grid-cell-renderer-row-selector',
   templateUrl: './cell-renderer-row-selector.component.html',

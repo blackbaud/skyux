@@ -16,6 +16,9 @@ import {
   ValidatorOptions
 } from '../../types/validator-options';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-ag-grid-cell-renderer-currency',
   templateUrl: './cell-renderer-currency.component.html',

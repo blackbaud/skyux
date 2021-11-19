@@ -2,6 +2,9 @@ import {
   TemplateRef
 } from '@angular/core';
 
+/**
+ * @internal
+ */
 export interface SkyAutocompleteProperties {
   data?: any[];
   debounceTime?: number;

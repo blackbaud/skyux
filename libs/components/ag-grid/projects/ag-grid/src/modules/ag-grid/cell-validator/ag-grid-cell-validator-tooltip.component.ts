@@ -4,6 +4,9 @@ import { CellFocusedEvent, Events } from 'ag-grid-community';
 import { Subject } from 'rxjs';
 import { SkyCellRendererValidatorParams } from '../types/cell-renderer-validator-params';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-ag-grid-cell-validator-tooltip',
   styleUrls: ['ag-grid-cell-validator-tooltip.component.scss'],

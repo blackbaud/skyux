@@ -45,7 +45,7 @@ import {
 
 import {
   SkyAgGridRowDeleteConfig
-} from './types/ag-gird-row-delete-config';
+} from './types/ag-grid-row-delete-config';
 
 import {
   SkyAgGridRowDeleteConfirmArgs
@@ -55,6 +55,9 @@ import {
   SkyAgGridRowDeleteContents
 } from './types/ag-grid-row-delete-contents';
 
+/**
+ * @internal
+ */
 @Directive({
   selector: '[skyAgGridRowDelete]'
 })

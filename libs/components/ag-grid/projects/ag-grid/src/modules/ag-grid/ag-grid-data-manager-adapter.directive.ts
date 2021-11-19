@@ -37,6 +37,9 @@ import {
   SkyAgGridWrapperComponent
 } from './ag-grid-wrapper.component';
 
+/**
+ * @internal
+ */
 @Directive({
   selector: '[skyAgGridDataManagerAdapter]'
 })

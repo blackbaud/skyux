@@ -1,5 +1,6 @@
 /**
  * Information regarding a row whose deletion has been confirmed.
+ * @internal
  */
 export interface SkyAgGridRowDeleteConfirmArgs {
   /**

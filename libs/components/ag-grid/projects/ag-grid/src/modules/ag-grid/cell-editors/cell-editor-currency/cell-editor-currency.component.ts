@@ -17,6 +17,9 @@ import {
   SkyCurrencyProperties
 } from '../../types/currency-properties';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-ag-grid-cell-editor-currency',
   templateUrl: './cell-editor-currency.component.html',

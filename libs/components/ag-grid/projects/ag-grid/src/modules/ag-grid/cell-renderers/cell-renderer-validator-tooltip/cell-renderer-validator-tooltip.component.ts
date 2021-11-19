@@ -3,6 +3,9 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ValueFormatterParams } from 'ag-grid-community';
 import { SkyCellRendererValidatorParams } from '../../types/cell-renderer-validator-params';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-ag-grid-cell-renderer-validator-tooltip',
   templateUrl: 'cell-renderer-validator-tooltip.component.html',

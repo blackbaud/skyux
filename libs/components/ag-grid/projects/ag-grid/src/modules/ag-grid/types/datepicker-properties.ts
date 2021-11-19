@@ -1,3 +1,6 @@
+/**
+ * @internal
+ */
 export interface SkyDatepickerProperties {
   dateFormat?: string;
   disabled?: boolean;
