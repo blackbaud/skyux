@@ -1,3 +1,7 @@
+# 5.75.0 (2021-11-19)
+
+- `@skyux/ag-grid@5.1.3` [Release notes](https://github.com/blackbaud/skyux-ag-grid/blob/5.1.3/CHANGELOG.md)
+
 # 5.74.0 (2021-11-19)
 
 - `@skyux/ag-grid@5.1.2` [Release notes](https://github.com/blackbaud/skyux-ag-grid/blob/5.1.2/CHANGELOG.md)
