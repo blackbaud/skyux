@@ -1,46 +1,22 @@
-import {
-  async,
-  TestBed,
-  ComponentFixture
-} from '@angular/core/testing';
+import { async, TestBed, ComponentFixture } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  SkyModalHostService
-} from '@skyux/modals';
-import {
-  SkyModalConfiguration
-} from '@skyux/modals';
-import {
-  SkyModalInstance
-} from '@skyux/modals';
-import {
-  SkyModalModule
-} from '@skyux/modals';
+import { SkyModalHostService } from '@skyux/modals';
+import { SkyModalConfiguration } from '@skyux/modals';
+import { SkyModalInstance } from '@skyux/modals';
+import { SkyModalModule } from '@skyux/modals';
 
-import {
-  ErrorModalConfig
-} from './error-modal-config';
-import {
-  MockHostService,
-  SkyModalInstanceMock
-} from './fixtures/mocks';
-import {
-  SkyErrorModule
-} from './error.module';
-import {
-  SkyErrorModalFormComponent
-} from './error-modal-form.component';
+import { ErrorModalConfig } from './error-modal-config';
+import { MockHostService, SkyModalInstanceMock } from './fixtures/mocks';
+import { SkyErrorModule } from './error.module';
+import { SkyErrorModalFormComponent } from './error-modal-form.component';
 
 describe('Error modal form component', () => {
-
   const config: ErrorModalConfig = {
     errorTitle: 'Some error title',
     errorDescription: 'Description of error',
-    errorCloseText: 'Close button text'
+    errorCloseText: 'Close button text',
   };
 
   const modalInstance = new SkyModalInstanceMock();
@@ -50,16 +26,13 @@ describe('Error modal form component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyModalModule,
-        SkyErrorModule
-      ],
+      imports: [SkyModalModule, SkyErrorModule],
       providers: [
         { provide: ErrorModalConfig, useValue: config },
         { provide: SkyModalInstance, useValue: modalInstance },
         { provide: SkyModalHostService, useValue: mockHost },
-        { provide: SkyModalConfiguration, useValue: {} }
-      ]
+        { provide: SkyModalConfiguration, useValue: {} },
+      ],
     });
 
     fixture = TestBed.createComponent(SkyErrorModalFormComponent);

@@ -1,17 +1,12 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {
-  SkyErrorType
-} from '../error-type';
+import { SkyErrorType } from '../error-type';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: 'error.component.fixture.html'
+  templateUrl: 'error.component.fixture.html',
 })
 export class ErrorTestComponent {
-
   public buttonText: string = 'Try again';
 
   public customDescription: string = 'custom description value';
@@ -32,5 +27,4 @@ export class ErrorTestComponent {
   public customAction(): void {
     console.log('custom action happened');
   }
-
 }

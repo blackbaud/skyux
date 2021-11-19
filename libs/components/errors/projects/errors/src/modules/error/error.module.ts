@@ -1,42 +1,22 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  SkyModalModule
-} from '@skyux/modals';
+import { SkyModalModule } from '@skyux/modals';
 
-import {
-  SkyErrorsResourcesModule
-} from '../shared/sky-errors-resources.module';
+import { SkyErrorsResourcesModule } from '../shared/sky-errors-resources.module';
 
-import {
-  SkyErrorComponent
-} from './error.component';
+import { SkyErrorComponent } from './error.component';
 
-import {
-  SkyErrorImageComponent
-} from './error-image.component';
+import { SkyErrorImageComponent } from './error-image.component';
 
-import {
-  SkyErrorTitleComponent
-} from './error-title.component';
+import { SkyErrorTitleComponent } from './error-title.component';
 
-import {
-  SkyErrorDescriptionComponent
-} from './error-description.component';
+import { SkyErrorDescriptionComponent } from './error-description.component';
 
-import {
-  SkyErrorActionComponent
-} from './error-action.component';
+import { SkyErrorActionComponent } from './error-action.component';
 
-import {
-  SkyErrorModalFormComponent
-} from './error-modal-form.component';
+import { SkyErrorModalFormComponent } from './error-modal-form.component';
 
 @NgModule({
   declarations: [
@@ -45,22 +25,16 @@ import {
     SkyErrorTitleComponent,
     SkyErrorDescriptionComponent,
     SkyErrorActionComponent,
-    SkyErrorModalFormComponent
+    SkyErrorModalFormComponent,
   ],
-  imports: [
-    CommonModule,
-    SkyErrorsResourcesModule,
-    SkyModalModule
-  ],
+  imports: [CommonModule, SkyErrorsResourcesModule, SkyModalModule],
   exports: [
     SkyErrorComponent,
     SkyErrorImageComponent,
     SkyErrorTitleComponent,
     SkyErrorDescriptionComponent,
-    SkyErrorActionComponent
+    SkyErrorActionComponent,
   ],
-  entryComponents: [
-    SkyErrorModalFormComponent
-  ]
+  entryComponents: [SkyErrorModalFormComponent],
 })
-export class SkyErrorModule { }
+export class SkyErrorModule {}

@@ -1,6 +1,4 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * Specifies an action to include in the error message.
@@ -8,7 +6,6 @@ import {
  */
 @Component({
   selector: 'sky-error-action',
-  template: '<ng-content></ng-content>'
+  template: '<ng-content></ng-content>',
 })
-export class SkyErrorActionComponent {
-}
+export class SkyErrorActionComponent {}

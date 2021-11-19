@@ -1,3 +1,7 @@
+# 5.0.1 (2021-11-18)
+
+- Added support for prettier code formatting and updated the builder to support StackBlitz. [#64](https://github.com/blackbaud/skyux-errors/pull/64)
+
 # 5.0.0 (2021-09-30)
 
 ### New features
@@ -82,7 +86,8 @@
 - Added support for `@skyux/i18n@3.2.0`.
 
 # 3.0.0-rc.0 (2018-10-05)
- - Initial release candidate.
+
+- Initial release candidate.
 
 # 3.0.0-alpha.0 (2018-10-04)
 

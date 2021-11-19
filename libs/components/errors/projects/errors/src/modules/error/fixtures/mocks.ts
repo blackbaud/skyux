@@ -1,7 +1,4 @@
-import {
-  SkyModalInstance,
-  SkyModalService
-} from '@skyux/modals';
+import { SkyModalInstance, SkyModalService } from '@skyux/modals';
 
 export class SkyModalInstanceMock {
   /* istanbul ignore next */
@@ -23,7 +20,7 @@ export class MockModalService extends SkyModalService {
   public openCalls: OpenParameters[] = [];
 
   public open(component: any, config: any): SkyModalInstance {
-    this.openCalls.push({component: component, providers: config});
+    this.openCalls.push({ component: component, providers: config });
 
     return undefined;
   }

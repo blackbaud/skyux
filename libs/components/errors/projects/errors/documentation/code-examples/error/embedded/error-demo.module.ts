@@ -1,29 +1,14 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  SkyErrorModule
-} from '@skyux/errors';
+import { SkyErrorModule } from '@skyux/errors';
 
-import {
-  ErrorDemoComponent
-} from './error-demo.component';
+import { ErrorDemoComponent } from './error-demo.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SkyErrorModule
-  ],
-  declarations: [
-    ErrorDemoComponent
-  ],
-  exports: [
-    ErrorDemoComponent
-  ]
+  imports: [CommonModule, SkyErrorModule],
+  declarations: [ErrorDemoComponent],
+  exports: [ErrorDemoComponent],
 })
-export class ErrorDemoModule { }
+export class ErrorDemoModule {}

@@ -1,10 +1,5 @@
-<div
-  id="test-error"
->
-  <sky-error
-    [errorType]="errorType"
-    [showImage]="showImage"
-  >
+<div id="test-error">
+  <sky-error [errorType]="errorType" [showImage]="showImage">
     <sky-error-action>
       <button
         class="sky-btn sky-btn-link"
@@ -17,19 +12,11 @@
   </sky-error>
 </div>
 
-<div
-  id="test-error-custom"
->
+<div id="test-error-custom">
   <sky-error>
-    <sky-error-image>
-      {{ customImage }}
-    </sky-error-image>
-    <sky-error-title>
-    {{ customTitle }}
-    </sky-error-title>
-    <sky-error-description>
-    {{ customDescription }}
-    </sky-error-description>
+    <sky-error-image> {{ customImage }} </sky-error-image>
+    <sky-error-title> {{ customTitle }} </sky-error-title>
+    <sky-error-description> {{ customDescription }} </sky-error-description>
     <sky-error-action>
       <button
         class="sky-btn sky-btn-link"
@@ -42,21 +29,15 @@
   </sky-error>
 </div>
 
-<div
-  id="test-error-custom-replace-default"
->
-  <sky-error
-    [errorType]="errorType"
-  >
-    <sky-error-title
-      [replaceDefaultTitle]="replaceDefaultTitle"
-    >
+<div id="test-error-custom-replace-default">
+  <sky-error [errorType]="errorType">
+    <sky-error-title [replaceDefaultTitle]="replaceDefaultTitle">
       {{ customTitle }}
     </sky-error-title>
     <sky-error-description
       [replaceDefaultDescription]="replaceDefaultDescription"
     >
-    {{ customDescription }}
+      {{ customDescription }}
     </sky-error-description>
     <sky-error-action>
       <button
