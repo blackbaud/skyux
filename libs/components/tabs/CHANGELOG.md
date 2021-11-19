@@ -1,3 +1,7 @@
+# 5.0.2 (2021-11-19)
+
+- Updated the builder to support StackBlitz. [#197](https://github.com/blackbaud/skyux-tabs/pull/197)
+
 # 5.0.1 (2021-10-26)
 
 - Fixed the tab content in the vertical tabset component to allow focus and scrolling with keyboard controls. [#195](https://github.com/blackbaud/skyux-tabs/pull/195)
