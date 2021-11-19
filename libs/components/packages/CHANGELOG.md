@@ -1,3 +1,7 @@
+# 5.67.0 (2021-11-19)
+
+- `@skyux/indicators@5.0.3` [Release notes](https://github.com/blackbaud/skyux-indicators/blob/5.0.3/CHANGELOG.md)
+
 # 5.66.0 (2021-11-19)
 
 - `@skyux/layout@5.0.2` [Release notes](https://github.com/blackbaud/skyux-layout/blob/5.0.2/CHANGELOG.md)
