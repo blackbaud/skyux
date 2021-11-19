@@ -1,3 +1,7 @@
+# 5.55.0 (2021-11-19)
+
+- `@skyux/pages@5.0.1` [Release notes](https://github.com/blackbaud/skyux-pages/blob/5.0.1/CHANGELOG.md)
+
 # 5.54.0 (2021-11-19)
 
 - `@skyux/errors@5.0.1` [Release notes](https://github.com/blackbaud/skyux-errors/blob/5.0.1/CHANGELOG.md)
