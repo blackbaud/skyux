@@ -78,5 +78,5 @@ export enum SkyCellType {
    * <br/>
    * Specifies cell in the column will be passed to a validator function which flags erroneous entries. You can set the validator function and message by passing them to [column definition's `cellRendererParams` property](https://www.ag-grid.com/javascript-grid-column-properties/) as `skyComponentProperties.validator` and `skyComponentProperties.validatorMessage`. SkyCellType.Validator can be combined with other cell types, such as SkyCellType.Autocomplete or SkyCellType.Date, by using the array syntax for the [column definition's `type` property](https://www.ag-grid.com/javascript-grid-column-properties/).
    */
-  Validator = 'skyCellValidator'
+  Validator = 'skyCellValidator',
 }

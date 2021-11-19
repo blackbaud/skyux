@@ -1,33 +1,16 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  expect,
-  expectAsync
-} from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import {
-  Column,
-  ICellEditorParams
-} from 'ag-grid-community';
+import { Column, ICellEditorParams } from 'ag-grid-community';
 
-import {
-  SkyCellClass
-} from '../../types/cell-class';
+import { SkyCellClass } from '../../types/cell-class';
 
-import {
-  SkyAgGridFixtureComponent
-} from '../../fixtures/ag-grid.component.fixture';
+import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 
-import {
-  SkyAgGridFixtureModule
-} from '../../fixtures/ag-grid.module.fixture';
+import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
 
-import {
-  SkyAgGridCellEditorCurrencyComponent
-} from './cell-editor-currency.component';
+import { SkyAgGridCellEditorCurrencyComponent } from './cell-editor-currency.component';
 
 describe('SkyCellEditorCurrencyComponent', () => {
   // We've had some issue with grid rendering causing the specs to timeout in IE. Extending it slightly to help.
@@ -39,12 +22,12 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyAgGridFixtureModule
-      ]
+      imports: [SkyAgGridFixtureModule],
     });
 
-    currencyEditorFixture = TestBed.createComponent(SkyAgGridCellEditorCurrencyComponent);
+    currencyEditorFixture = TestBed.createComponent(
+      SkyAgGridCellEditorCurrencyComponent
+    );
     currencyEditorNativeElement = currencyEditorFixture.nativeElement;
     currencyEditorComponent = currencyEditorFixture.componentInstance;
 
@@ -57,7 +40,9 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
     gridFixture.detectChanges();
 
-    const currencyCellElement = gridNativeElement.querySelector(`.${SkyCellClass.Currency}`);
+    const currencyCellElement = gridNativeElement.querySelector(
+      `.${SkyCellClass.Currency}`
+    );
 
     expect(currencyCellElement).toBeVisible();
   });
@@ -68,11 +53,12 @@ describe('SkyCellEditorCurrencyComponent', () => {
       const columnWidth = 100;
       const column = new Column(
         {
-          colId: 'col'
+          colId: 'col',
         },
         undefined,
         'col',
-        true);
+        true
+      );
 
       column.setActualWidth(columnWidth);
 
@@ -94,7 +80,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
         stopEditing: undefined,
         eGridCell: undefined,
         parseValue: undefined,
-        formatValue: undefined
+        formatValue: undefined,
       };
 
       expect(currencyEditorComponent.value).toBeUndefined();
@@ -107,8 +93,8 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
       // @ts-ignore
       cellEditorParams.node = {
-        rowHeight: 100
-      }
+        rowHeight: 100,
+      };
 
       currencyEditorComponent.agInit(cellEditorParams);
 
@@ -160,5 +146,4 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
     await expectAsync(currencyEditorFixture.nativeElement).toBeAccessible();
   });
-
 });

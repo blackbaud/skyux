@@ -1,45 +1,32 @@
-import {
-  Component,
-  OnInit,
-  ViewEncapsulation
-} from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
-import {
-  SkyAgGridService
-} from '../ag-grid.service';
+import { SkyAgGridService } from '../ag-grid.service';
 
 import {
   ColumnApi,
   GridApi,
   GridOptions,
-  GridReadyEvent
+  GridReadyEvent,
 } from 'ag-grid-community';
 
 import {
   SKY_AG_GRID_DATA,
-  SKY_AG_GRID_LONG_DATA
+  SKY_AG_GRID_LONG_DATA,
 } from './ag-grid-data.fixture';
 
-import {
-  SkyAgGridRowDeleteCancelArgs
-} from '../types/ag-grid-row-delete-cancel-args';
+import { SkyAgGridRowDeleteCancelArgs } from '../types/ag-grid-row-delete-cancel-args';
 
-import {
-  SkyAgGridRowDeleteConfirmArgs
-} from '../types/ag-grid-row-delete-confirm-args';
+import { SkyAgGridRowDeleteConfirmArgs } from '../types/ag-grid-row-delete-confirm-args';
 
-import {
-  SkyCellType
-} from '../types/cell-type';
+import { SkyCellType } from '../types/cell-type';
 
 @Component({
   selector: 'sky-ag-grid-row-delete-component-fixture',
   templateUrl: './ag-grid-row-delete.component.fixture.html',
   styleUrls: ['../../../styles/ag-grid-styles.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
-
   public allColumnWidth: number = undefined;
 
   public columnDefs = [
@@ -49,40 +36,40 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
       maxWidth: 50,
       sortable: false,
       type: SkyCellType.RowSelector,
-      width: this.allColumnWidth
+      width: this.allColumnWidth,
     },
     {
       field: 'name',
       headerName: 'First Name',
-      width: this.allColumnWidth
+      width: this.allColumnWidth,
     },
     {
       field: 'nickname',
       headerName: 'Nickname',
       editable: true,
       type: SkyCellType.Text,
-      width: this.allColumnWidth
+      width: this.allColumnWidth,
     },
     {
       field: 'value',
       headerName: 'Current Value',
       editable: true,
       type: SkyCellType.Number,
-      width: this.allColumnWidth
+      width: this.allColumnWidth,
     },
     {
       field: 'target',
       headerName: 'Goal',
       type: SkyCellType.Number,
-      width: this.allColumnWidth
+      width: this.allColumnWidth,
     },
     {
       field: 'date',
       headerName: 'Completed Date',
       editable: true,
       type: SkyCellType.Date,
-      width: this.allColumnWidth
-    }
+      width: this.allColumnWidth,
+    },
   ];
 
   public columnApi: ColumnApi;
@@ -91,25 +78,29 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
 
   public gridOptions: GridOptions = {
     columnDefs: this.columnDefs,
-    onGridReady: gridReadyEvent => this.onGridReady(gridReadyEvent)
+    onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
   };
 
   public rowDeleteIds: string[] = [];
 
-  constructor(private gridService: SkyAgGridService) { }
+  constructor(private gridService: SkyAgGridService) {}
 
   public ngOnInit(): void {
-    this.gridOptions = this.gridService.getEditableGridOptions({ gridOptions: this.gridOptions });
+    this.gridOptions = this.gridService.getEditableGridOptions({
+      gridOptions: this.gridOptions,
+    });
   }
 
   public addDataPoint(): void {
     this.gridApi.applyTransaction({
-      add: [{
-        id: '4',
-        name: 'John',
-        target: 11,
-        selected: false
-      }]
+      add: [
+        {
+          id: '4',
+          name: 'John',
+          target: 11,
+          selected: false,
+        },
+      ],
     });
   }
 
@@ -126,8 +117,8 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
       name: {
         filterType: 'text',
         type: 'startsWith',
-        filter: 'Mar'
-      }
+        filter: 'Mar',
+      },
     });
   }
 
@@ -149,9 +140,9 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
       state: [
         {
           colId: 'name',
-          sort: 'desc'
-        }
-      ]
+          sort: 'desc',
+        },
+      ],
     });
   }
 }

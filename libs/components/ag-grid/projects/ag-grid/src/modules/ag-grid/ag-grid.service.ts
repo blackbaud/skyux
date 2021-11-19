@@ -1,12 +1,6 @@
-import {
-  Injectable,
-  OnDestroy,
-  Optional
-} from '@angular/core';
+import { Injectable, OnDestroy, Optional } from '@angular/core';
 
-import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
 import {
   CellClassParams,
@@ -15,92 +9,54 @@ import {
   RowClassParams,
   RowNode,
   SuppressKeyboardEventParams,
-  ValueFormatterParams
+  ValueFormatterParams,
 } from 'ag-grid-community';
 
-import {
-  EditableCallbackParams
-} from 'ag-grid-community/dist/lib/entities/colDef';
+import { EditableCallbackParams } from 'ag-grid-community/dist/lib/entities/colDef';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkyThemeService,
-  SkyThemeSettings
-} from '@skyux/theme';
+import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
-import {
-  SkyAgGridCellEditorAutocompleteComponent
-} from './cell-editors/cell-editor-autocomplete/cell-editor-autocomplete.component';
+import { SkyAgGridCellEditorAutocompleteComponent } from './cell-editors/cell-editor-autocomplete/cell-editor-autocomplete.component';
 
-import {
-  SkyAgGridCellEditorDatepickerComponent
-} from './cell-editors/cell-editor-datepicker/cell-editor-datepicker.component';
+import { SkyAgGridCellEditorDatepickerComponent } from './cell-editors/cell-editor-datepicker/cell-editor-datepicker.component';
 
-import {
-  SkyAgGridCellEditorLookupComponent
-} from './cell-editors/cell-editor-lookup/cell-editor-lookup.component';
+import { SkyAgGridCellEditorLookupComponent } from './cell-editors/cell-editor-lookup/cell-editor-lookup.component';
 
-import {
-  SkyAgGridCellEditorNumberComponent
-} from './cell-editors/cell-editor-number/cell-editor-number.component';
+import { SkyAgGridCellEditorNumberComponent } from './cell-editors/cell-editor-number/cell-editor-number.component';
 
-import {
-  SkyAgGridCellEditorTextComponent
-} from './cell-editors/cell-editor-text/cell-editor-text.component';
+import { SkyAgGridCellEditorTextComponent } from './cell-editors/cell-editor-text/cell-editor-text.component';
 
-import {
-  SkyAgGridCellRendererCurrencyValidatorComponent
-} from './cell-renderers/cell-renderer-currency/cell-renderer-currency-validator.component';
+import { SkyAgGridCellRendererCurrencyValidatorComponent } from './cell-renderers/cell-renderer-currency/cell-renderer-currency-validator.component';
 
-import {
-  SkyAgGridCellRendererLookupComponent
-} from './cell-renderers/cell-renderer-lookup/cell-renderer-lookup.component';
+import { SkyAgGridCellRendererLookupComponent } from './cell-renderers/cell-renderer-lookup/cell-renderer-lookup.component';
 
-import {
-  SkyAgGridCellRendererRowSelectorComponent
-} from './cell-renderers/cell-renderer-row-selector/cell-renderer-row-selector.component';
+import { SkyAgGridCellRendererRowSelectorComponent } from './cell-renderers/cell-renderer-row-selector/cell-renderer-row-selector.component';
 
-import {
-  SkyAgGridCellRendererValidatorTooltipComponent
-} from './cell-renderers/cell-renderer-validator-tooltip/cell-renderer-validator-tooltip.component';
+import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderers/cell-renderer-validator-tooltip/cell-renderer-validator-tooltip.component';
 
-import {
-  SkyCellClass
-} from './types/cell-class';
+import { SkyCellClass } from './types/cell-class';
 
-import {
-  SkyCellType
-} from './types/cell-type';
+import { SkyCellType } from './types/cell-type';
 
-import {
-  SkyHeaderClass
-} from './types/header-class';
+import { SkyHeaderClass } from './types/header-class';
 import { applySkyLookupPropertiesDefaults } from './types/lookup-properties';
 
-import {
-  SkyGetGridOptionsArgs
-} from './types/sky-grid-options';
+import { SkyGetGridOptionsArgs } from './types/sky-grid-options';
 
-import {
-  SkyAgGridAdapterService
-} from './ag-grid-adapter.service';
+import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 
-import {
-  SkyAgGridCellRendererCurrencyComponent
-} from './cell-renderers/cell-renderer-currency/cell-renderer-currency.component';
+import { SkyAgGridCellRendererCurrencyComponent } from './cell-renderers/cell-renderer-currency/cell-renderer-currency.component';
 
-import {
-  SkyAgGridCellEditorCurrencyComponent
-} from './cell-editors/cell-editor-currency/cell-editor-currency.component';
+import { SkyAgGridCellEditorCurrencyComponent } from './cell-editors/cell-editor-currency/cell-editor-currency.component';
 
-function autocompleteComparator(value1: { name: string }, value2: { name: string }): number {
+function autocompleteComparator(
+  value1: { name: string },
+  value2: { name: string }
+): number {
   if (value1 && value2) {
     if (value1.name > value2.name) {
       return 1;
@@ -116,7 +72,9 @@ function autocompleteComparator(value1: { name: string }, value2: { name: string
   return value1 ? 1 : -1;
 }
 
-function autocompleteFormatter(params: ValueFormatterParams): string | undefined {
+function autocompleteFormatter(
+  params: ValueFormatterParams
+): string | undefined {
   return params.value && params.value.name;
 }
 
@@ -149,13 +107,23 @@ function dateComparator(date1: any, date2: any): number {
 
 function getValidatorCellRendererSelector(component: string, fallback?: any) {
   return (params: ICellRendererParams) => {
-    if (params.colDef && typeof params.colDef.cellRendererParams?.skyComponentProperties?.validator === 'function') {
-      if (!params.colDef.cellRendererParams.skyComponentProperties.validator(params.value, params.data, params.rowIndex)) {
+    if (
+      params.colDef &&
+      typeof params.colDef.cellRendererParams?.skyComponentProperties
+        ?.validator === 'function'
+    ) {
+      if (
+        !params.colDef.cellRendererParams.skyComponentProperties.validator(
+          params.value,
+          params.data,
+          params.rowIndex
+        )
+      ) {
         return {
           component,
           params: {
-            ...params.colDef.cellRendererParams
-          }
+            ...params.colDef.cellRendererParams,
+          },
         };
       }
     }
@@ -169,7 +137,7 @@ let rowNodeId = 1;
  * `SkyAgGridService` provides methods to get AG Grid `gridOptions` to ensure grids match SKY UX functionality. The `gridOptions` can be overridden, and include registered SKY UX column types.
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SkyAgGridService implements OnDestroy {
   /**
@@ -186,8 +154,11 @@ export class SkyAgGridService implements OnDestroy {
     /*istanbul ignore else*/
     if (this.themeSvc) {
       this.themeSvc.settingsChange
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(settingsChange => this.currentTheme = settingsChange.currentSettings);
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(
+          (settingsChange) =>
+            (this.currentTheme = settingsChange.currentSettings)
+        );
     }
   }
 
@@ -203,7 +174,10 @@ export class SkyAgGridService implements OnDestroy {
    */
   public getGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
     const defaultGridOptions = this.getDefaultGridOptions(args);
-    const mergedGridOptions = this.mergeGridOptions(defaultGridOptions, args.gridOptions);
+    const mergedGridOptions = this.mergeGridOptions(
+      defaultGridOptions,
+      args.gridOptions
+    );
 
     return mergedGridOptions;
   }
@@ -215,30 +189,36 @@ export class SkyAgGridService implements OnDestroy {
    */
   public getEditableGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
     const defaultGridOptions = this.getDefaultEditableGridOptions(args);
-    const mergedGridOptions = this.mergeGridOptions(defaultGridOptions, args.gridOptions);
+    const mergedGridOptions = this.mergeGridOptions(
+      defaultGridOptions,
+      args.gridOptions
+    );
 
     return mergedGridOptions;
   }
 
-  private mergeGridOptions(defaultGridOptions: GridOptions, providedGridOptions: GridOptions): GridOptions {
+  private mergeGridOptions(
+    defaultGridOptions: GridOptions,
+    providedGridOptions: GridOptions
+  ): GridOptions {
     let mergedGridOptions = {
       ...defaultGridOptions,
       ...providedGridOptions,
       columnTypes: {
         ...providedGridOptions.columnTypes,
         // apply default second to prevent consumers from overwriting our default column types
-        ...defaultGridOptions.columnTypes
+        ...defaultGridOptions.columnTypes,
       },
       defaultColDef: {
         ...defaultGridOptions.defaultColDef,
         ...providedGridOptions.defaultColDef,
         // allow consumers to override all defaultColDef properties except cellClassRules, which we reserve for styling
-        cellClassRules: defaultGridOptions.defaultColDef.cellClassRules
+        cellClassRules: defaultGridOptions.defaultColDef.cellClassRules,
       },
       icons: {
         ...defaultGridOptions.icons,
-        ...providedGridOptions.icons
-      }
+        ...providedGridOptions.icons,
+      },
     };
 
     return mergedGridOptions;
@@ -248,13 +228,18 @@ export class SkyAgGridService implements OnDestroy {
     // cellClassRules can be functions or string expressions
     const cellClassRuleTrueExpression = 'true';
 
-    function getEditableFn(isUneditable?: boolean): ((params: CellClassParams) => boolean) {
+    function getEditableFn(
+      isUneditable?: boolean
+    ): (params: CellClassParams) => boolean {
       return function (params: CellClassParams): boolean {
         let isEditable = params.colDef.editable;
 
         if (typeof isEditable === 'function') {
           const column = params.columnApi.getColumn(params.colDef.field);
-          isEditable = isEditable({ ...params, column } as EditableCallbackParams);
+          isEditable = isEditable({
+            ...params,
+            column,
+          } as EditableCallbackParams);
         }
 
         return isUneditable ? !isEditable : isEditable;
@@ -263,20 +248,28 @@ export class SkyAgGridService implements OnDestroy {
 
     const editableCellClassRules = {
       [SkyCellClass.Editable]: getEditableFn(),
-      [SkyCellClass.Uneditable]: getEditableFn(true)
+      [SkyCellClass.Uneditable]: getEditableFn(true),
     };
 
-    function getValidatorFn(): ((params: CellClassParams) => boolean) {
+    function getValidatorFn(): (params: CellClassParams) => boolean {
       return function (param: CellClassParams) {
-        if (param.colDef && typeof param.colDef.cellRendererParams?.skyComponentProperties?.validator === 'function') {
-          return !param.colDef.cellRendererParams.skyComponentProperties.validator(param.value, param.data, param.rowIndex);
+        if (
+          param.colDef &&
+          typeof param.colDef.cellRendererParams?.skyComponentProperties
+            ?.validator === 'function'
+        ) {
+          return !param.colDef.cellRendererParams.skyComponentProperties.validator(
+            param.value,
+            param.data,
+            param.rowIndex
+          );
         }
         return false;
       };
     }
 
     const validatorCellClassRules = {
-      [SkyCellClass.Invalid]: getValidatorFn()
+      [SkyCellClass.Invalid]: getValidatorFn(),
     };
 
     const defaultSkyGridOptions: GridOptions = {
@@ -284,18 +277,18 @@ export class SkyAgGridService implements OnDestroy {
         [SkyCellType.Autocomplete]: {
           cellClassRules: {
             [SkyCellClass.Autocomplete]: cellClassRuleTrueExpression,
-            ...editableCellClassRules
+            ...editableCellClassRules,
           },
           cellEditorFramework: SkyAgGridCellEditorAutocompleteComponent,
           valueFormatter: autocompleteFormatter,
           comparator: autocompleteComparator,
-          minWidth: 185
+          minWidth: 185,
         },
         [SkyCellType.Currency]: {
           cellClassRules: {
             [SkyCellClass.Currency]: cellClassRuleTrueExpression,
             ...validatorCellClassRules,
-            ...editableCellClassRules
+            ...editableCellClassRules,
           },
           cellRendererSelector: getValidatorCellRendererSelector(
             'sky-ag-grid-cell-renderer-currency-validator',
@@ -303,22 +296,23 @@ export class SkyAgGridService implements OnDestroy {
           ),
           cellEditorFramework: SkyAgGridCellEditorCurrencyComponent,
           headerClass: SkyHeaderClass.RightAligned,
-          minWidth: 185
+          minWidth: 185,
         },
         [SkyCellType.Date]: {
           cellClassRules: {
             [SkyCellClass.Date]: cellClassRuleTrueExpression,
-            ...editableCellClassRules
+            ...editableCellClassRules,
           },
           cellEditorFramework: SkyAgGridCellEditorDatepickerComponent,
           comparator: dateComparator,
           minWidth: this.currentTheme?.theme?.name === 'modern' ? 180 : 160,
-          valueFormatter: (params: ValueFormatterParams) => this.dateFormatter(params, args.locale)
+          valueFormatter: (params: ValueFormatterParams) =>
+            this.dateFormatter(params, args.locale),
         },
         [SkyCellType.Lookup]: {
           cellClassRules: {
             [SkyCellClass.Lookup]: cellClassRuleTrueExpression,
-            ...editableCellClassRules
+            ...editableCellClassRules,
           },
           cellEditorFramework: SkyAgGridCellEditorLookupComponent,
           cellRendererFramework: SkyAgGridCellRendererLookupComponent,
@@ -329,58 +323,64 @@ export class SkyAgGridService implements OnDestroy {
                 return value[lookupProperties.descriptorProperty];
               })
               .filter((value) => value !== '' && value !== undefined)
-              .join('; ')
+              .join('; ');
           },
-          minWidth: 185
+          minWidth: 185,
         },
         [SkyCellType.Number]: {
           cellClassRules: {
             [SkyCellClass.Number]: cellClassRuleTrueExpression,
-            ...editableCellClassRules
+            ...editableCellClassRules,
           },
           cellEditorFramework: SkyAgGridCellEditorNumberComponent,
-          headerClass: SkyHeaderClass.RightAligned
+          headerClass: SkyHeaderClass.RightAligned,
         },
         [SkyCellType.RowSelector]: {
           cellClassRules: {
             [SkyCellClass.RowSelector]: cellClassRuleTrueExpression,
-            [SkyCellClass.Uneditable]: cellClassRuleTrueExpression
+            [SkyCellClass.Uneditable]: cellClassRuleTrueExpression,
           },
           cellRendererFramework: SkyAgGridCellRendererRowSelectorComponent,
           headerName: '',
           minWidth: 55,
           maxWidth: 55,
           sortable: false,
-          width: 55
+          width: 55,
         },
         [SkyCellType.Text]: {
           cellClassRules: {
             [SkyCellClass.Text]: cellClassRuleTrueExpression,
-            ...editableCellClassRules
+            ...editableCellClassRules,
           },
-          cellEditorFramework: SkyAgGridCellEditorTextComponent
+          cellEditorFramework: SkyAgGridCellEditorTextComponent,
         },
         [SkyCellType.Validator]: {
           cellClassRules: {
             ...validatorCellClassRules,
-            ...editableCellClassRules
+            ...editableCellClassRules,
           },
-          cellRendererSelector: getValidatorCellRendererSelector('sky-ag-grid-cell-renderer-validator-tooltip')
-        }
+          cellRendererSelector: getValidatorCellRendererSelector(
+            'sky-ag-grid-cell-renderer-validator-tooltip'
+          ),
+        },
       },
       defaultColDef: {
         cellClassRules: editableCellClassRules,
         minWidth: 100,
         resizable: true,
         sortable: true,
-        suppressKeyboardEvent: (keypress: SuppressKeyboardEventParams) => this.suppressTab(keypress)
+        suppressKeyboardEvent: (keypress: SuppressKeyboardEventParams) =>
+          this.suppressTab(keypress),
       },
       domLayout: 'autoHeight',
       enterMovesDownAfterEdit: true,
       frameworkComponents: {
-        'sky-ag-grid-cell-renderer-currency': SkyAgGridCellRendererCurrencyComponent,
-        'sky-ag-grid-cell-renderer-currency-validator': SkyAgGridCellRendererCurrencyValidatorComponent,
-        'sky-ag-grid-cell-renderer-validator-tooltip': SkyAgGridCellRendererValidatorTooltipComponent
+        'sky-ag-grid-cell-renderer-currency':
+          SkyAgGridCellRendererCurrencyComponent,
+        'sky-ag-grid-cell-renderer-currency-validator':
+          SkyAgGridCellRendererCurrencyValidatorComponent,
+        'sky-ag-grid-cell-renderer-validator-tooltip':
+          SkyAgGridCellRendererValidatorTooltipComponent,
       },
       getRowNodeId(data: any): string {
         if ('id' in data && data.id) {
@@ -403,7 +403,7 @@ export class SkyAgGridService implements OnDestroy {
         columnMoveHide: this.getIconTemplate('arrows'),
         columnMoveLeft: this.getIconTemplate('arrows'),
         columnMoveRight: this.getIconTemplate('arrows'),
-        columnMovePin: this.getIconTemplate('arrows')
+        columnMovePin: this.getIconTemplate('arrows'),
       },
       onCellFocused: () => this.onCellFocused(),
       rowHeight: this.currentTheme?.theme?.name === 'modern' ? 60 : 38,
@@ -414,7 +414,7 @@ export class SkyAgGridService implements OnDestroy {
       sortingOrder: ['desc', 'asc', null],
       stopEditingWhenGridLosesFocus: false,
       suppressRowClickSelection: true,
-      suppressDragLeaveHidesColumns: true
+      suppressDragLeaveHidesColumns: true,
     };
 
     defaultSkyGridOptions.columnTypes[SkyCellType.CurrencyValidator] = {
@@ -424,38 +424,47 @@ export class SkyAgGridService implements OnDestroy {
           validator: (value: any, data: any, rowIndex: number) => {
             return !!`${value || ''}`.match(/^[^0-9]*(\d+[,.]?)+\d*[^0-9]*$/);
           },
-          validatorMessage: 'Please enter a valid currency'
-        }
-      }
+          validatorMessage: 'Please enter a valid currency',
+        },
+      },
     };
     /*istanbul ignore else*/
     if (this.resources) {
-      this.resources.getString('sky_ag_grid_cell_renderer_currency_validator_message').subscribe((value) => {
-        defaultSkyGridOptions.columnTypes[SkyCellType.CurrencyValidator].cellRendererParams.skyComponentProperties.validatorMessage = value;
-      });
+      this.resources
+        .getString('sky_ag_grid_cell_renderer_currency_validator_message')
+        .subscribe((value) => {
+          defaultSkyGridOptions.columnTypes[
+            SkyCellType.CurrencyValidator
+          ].cellRendererParams.skyComponentProperties.validatorMessage = value;
+        });
     }
 
     defaultSkyGridOptions.columnTypes[SkyCellType.NumberValidator] = {
       ...defaultSkyGridOptions.columnTypes[SkyCellType.Validator],
       ...defaultSkyGridOptions.columnTypes[SkyCellType.Number],
       cellClassRules: {
-        ...defaultSkyGridOptions.columnTypes[SkyCellType.Validator].cellClassRules,
-        ...defaultSkyGridOptions.columnTypes[SkyCellType.Number].cellClassRules
+        ...defaultSkyGridOptions.columnTypes[SkyCellType.Validator]
+          .cellClassRules,
+        ...defaultSkyGridOptions.columnTypes[SkyCellType.Number].cellClassRules,
       },
       cellRendererParams: {
         skyComponentProperties: {
           validator: (value: any, data: any, rowIndex: number) => {
             return !!value && !isNaN(parseFloat(value));
           },
-          validatorMessage: 'Please enter a valid number'
-        }
-      }
+          validatorMessage: 'Please enter a valid number',
+        },
+      },
     };
     /*istanbul ignore else*/
     if (this.resources) {
-      this.resources.getString('sky_ag_grid_cell_renderer_number_validator_message').subscribe((value) => {
-        defaultSkyGridOptions.columnTypes[SkyCellType.NumberValidator].cellRendererParams.skyComponentProperties.validatorMessage = value;
-      });
+      this.resources
+        .getString('sky_ag_grid_cell_renderer_number_validator_message')
+        .subscribe((value) => {
+          defaultSkyGridOptions.columnTypes[
+            SkyCellType.NumberValidator
+          ].cellRendererParams.skyComponentProperties.validatorMessage = value;
+        });
     }
 
     return defaultSkyGridOptions;
@@ -467,7 +476,9 @@ export class SkyAgGridService implements OnDestroy {
     this.agGridAdapterService.focusOnFocusableChildren(currentElement);
   }
 
-  private getDefaultEditableGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
+  private getDefaultEditableGridOptions(
+    args: SkyGetGridOptionsArgs
+  ): GridOptions {
     let defaultGridOptions = this.getDefaultGridOptions(args);
 
     defaultGridOptions.rowSelection = 'none';
@@ -475,7 +486,10 @@ export class SkyAgGridService implements OnDestroy {
     return defaultGridOptions;
   }
 
-  private dateFormatter(params: ValueFormatterParams, locale: string = 'en-us'): string | undefined {
+  private dateFormatter(
+    params: ValueFormatterParams,
+    locale: string = 'en-us'
+  ): string | undefined {
     const dateConfig = { year: 'numeric', month: '2-digit', day: '2-digit' };
     let date: Date = params.value;
 
@@ -483,8 +497,10 @@ export class SkyAgGridService implements OnDestroy {
       date = new Date(params.value);
     }
 
-    // @ts-ignore
-    let formattedDate = date && date.toLocaleDateString && date.toLocaleDateString(locale, dateConfig);
+    let formattedDate =
+      date &&
+      date.toLocaleDateString &&
+      date.toLocaleDateString(locale, dateConfig as Intl.DateTimeFormatOptions);
 
     if (date && date.getTime && !isNaN(date.getTime())) {
       return formattedDate;
@@ -498,14 +514,25 @@ export class SkyAgGridService implements OnDestroy {
   private suppressTab(params: SuppressKeyboardEventParams): boolean {
     if (params.event.code === 'Tab') {
       if (params.editing) {
-        const currentlyFocusedEl = this.agGridAdapterService.getFocusedElement();
+        const currentlyFocusedEl =
+          this.agGridAdapterService.getFocusedElement();
         // inline cell editors have the 'ag-cell' class, while popup editors have the 'ag-popup-editor' class
-        const cellEl = this.agGridAdapterService.getElementOrParentWithClass(currentlyFocusedEl, 'ag-cell');
-        const popupEl = this.agGridAdapterService.getElementOrParentWithClass(currentlyFocusedEl, 'ag-popup-editor');
+        const cellEl = this.agGridAdapterService.getElementOrParentWithClass(
+          currentlyFocusedEl,
+          'ag-cell'
+        );
+        const popupEl = this.agGridAdapterService.getElementOrParentWithClass(
+          currentlyFocusedEl,
+          'ag-popup-editor'
+        );
         const parentEl = cellEl || popupEl;
 
         const nextFocusableElementInCell =
-          this.agGridAdapterService.getNextFocusableElement(currentlyFocusedEl, parentEl, params.event.shiftKey);
+          this.agGridAdapterService.getNextFocusableElement(
+            currentlyFocusedEl,
+            parentEl,
+            params.event.shiftKey
+          );
         return !!nextFocusableElementInCell;
       }
       return true;

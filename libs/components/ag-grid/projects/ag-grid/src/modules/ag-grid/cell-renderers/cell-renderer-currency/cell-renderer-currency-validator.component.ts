@@ -1,16 +1,13 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
-  Input
+  Input,
 } from '@angular/core';
 
-import {
-  ICellRendererAngularComp
-} from 'ag-grid-angular';
+import { ICellRendererAngularComp } from 'ag-grid-angular';
 
-import {
-  SkyCellRendererCurrencyParams
-} from '../../types/cell-renderer-currency-params';
+import { SkyCellRendererCurrencyParams } from '../../types/cell-renderer-currency-params';
 
 /**
  * @internal
@@ -18,9 +15,11 @@ import {
 @Component({
   selector: 'sky-ag-grid-cell-renderer-currency-validator',
   templateUrl: 'cell-renderer-currency-validator.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyAgGridCellRendererCurrencyValidatorComponent implements ICellRendererAngularComp {
+export class SkyAgGridCellRendererCurrencyValidatorComponent
+  implements ICellRendererAngularComp
+{
   @Input()
   public set parameters(value: SkyCellRendererCurrencyParams) {
     this.agInit(value);
@@ -28,10 +27,7 @@ export class SkyAgGridCellRendererCurrencyValidatorComponent implements ICellRen
 
   public cellRendererParams: SkyCellRendererCurrencyParams;
 
-  constructor(
-    private changeDetector: ChangeDetectorRef
-  ) {
-  }
+  constructor(private changeDetector: ChangeDetectorRef) {}
 
   /**
    * agInit is called by agGrid once after the renderer is created and provides the renderer with the information it needs.

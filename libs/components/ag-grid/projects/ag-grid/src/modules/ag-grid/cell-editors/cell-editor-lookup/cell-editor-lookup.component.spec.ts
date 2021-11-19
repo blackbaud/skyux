@@ -15,7 +15,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
     cellStartedEdit: false,
     charPress: undefined,
     colDef: {
-      headerName: 'header'
+      headerName: 'header',
     },
     column: undefined,
     columnApi: undefined,
@@ -29,22 +29,22 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
     parseValue(): any {},
     rowIndex: 0,
     skyComponentProperties: {
-      data: []
+      data: [],
     },
     stopEditing(): void {},
-    value: []
+    value: [],
   };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SkyAgGridCellEditorLookupComponent ],
+      declarations: [SkyAgGridCellEditorLookupComponent],
       imports: [
         NoopAnimationsModule,
         ReactiveFormsModule,
         SkyInputBoxModule,
-        SkyLookupModule ]
-    })
-      .compileComponents();
+        SkyLookupModule,
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -63,7 +63,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
   });
 
   it('should initialize with empty value', () => {
-    component.agInit({...params});
+    component.agInit({ ...params });
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
@@ -71,7 +71,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
   it('should initialize with value', () => {
     component.agInit({
       ...params,
-      value: [{ name: 'hello world' }]
+      value: [{ name: 'hello world' }],
     });
     fixture.detectChanges();
     expect(component).toBeTruthy();
@@ -82,8 +82,8 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
       ...params,
       skyComponentProperties: {
         ...params.skyComponentProperties,
-        disabled: true
-      }
+        disabled: true,
+      },
     });
     fixture.detectChanges();
     expect(component).toBeTruthy();
@@ -93,7 +93,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
     try {
       component.agInit({
         ...params,
-        value: false
+        value: false,
       });
       fail(`should have thrown an error`);
     } catch (e) {

@@ -1,30 +1,14 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  FormsModule
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
-import {
-  AgGridResourcesModule
-} from '../../../shared/ag-grid-resources.module';
+import { AgGridResourcesModule } from '../../../shared/ag-grid-resources.module';
 
-import {
-  SkyAgGridCellEditorNumberComponent
-} from '../cell-editor-number/cell-editor-number.component';
+import { SkyAgGridCellEditorNumberComponent } from '../cell-editor-number/cell-editor-number.component';
 
 @NgModule({
-  imports: [
-    AgGridResourcesModule,
-    FormsModule
-  ],
-  declarations: [
-    SkyAgGridCellEditorNumberComponent
-  ],
-  exports: [
-    SkyAgGridCellEditorNumberComponent
-  ]
+  imports: [AgGridResourcesModule, FormsModule],
+  declarations: [SkyAgGridCellEditorNumberComponent],
+  exports: [SkyAgGridCellEditorNumberComponent],
 })
-export class SkyAgGridCellEditorNumberModule {
-}
+export class SkyAgGridCellEditorNumberModule {}

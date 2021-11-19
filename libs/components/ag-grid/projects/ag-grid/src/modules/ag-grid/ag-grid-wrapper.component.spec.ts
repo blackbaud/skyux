@@ -1,34 +1,16 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  SkyAppTestUtility,
-  expect
-} from '@skyux-sdk/testing';
+import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
-import {
-  AgGridAngular
-} from 'ag-grid-angular';
+import { AgGridAngular } from 'ag-grid-angular';
 
-import {
-  Column,
-  ColumnApi,
-  GridApi
-} from 'ag-grid-community';
+import { Column, ColumnApi, GridApi } from 'ag-grid-community';
 
-import {
-  SkyAgGridAdapterService
-} from './ag-grid-adapter.service';
+import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 
-import {
-  SkyAgGridModule
-} from './ag-grid.module';
+import { SkyAgGridModule } from './ag-grid.module';
 
-import {
-  SkyAgGridWrapperComponent
-} from './ag-grid-wrapper.component';
+import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';
 
 describe('SkyAgGridWrapperComponent', () => {
   let gridAdapterService: SkyAgGridAdapterService;
@@ -38,14 +20,12 @@ describe('SkyAgGridWrapperComponent', () => {
 
   const agGrid: AgGridAngular = {
     api: new GridApi(),
-    columnApi: new ColumnApi()
+    columnApi: new ColumnApi(),
   } as AgGridAngular;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyAgGridModule
-      ]
+      imports: [SkyAgGridModule],
     });
 
     gridWrapperFixture = TestBed.createComponent(SkyAgGridWrapperComponent);
@@ -64,36 +44,45 @@ describe('SkyAgGridWrapperComponent', () => {
   it('should add .ag-header to the viewkeeper classes when the domLayout is set to autoHeight', () => {
     agGrid.gridOptions = { domLayout: 'autoHeight' };
 
-    const autoHeightGridWrapperFixture = TestBed.createComponent(SkyAgGridWrapperComponent);
-    const autoHeightGridWrapperComponent = autoHeightGridWrapperFixture.componentInstance;
+    const autoHeightGridWrapperFixture = TestBed.createComponent(
+      SkyAgGridWrapperComponent
+    );
+    const autoHeightGridWrapperComponent =
+      autoHeightGridWrapperFixture.componentInstance;
     autoHeightGridWrapperComponent.agGrid = agGrid;
 
     autoHeightGridWrapperFixture.detectChanges();
 
-    expect(autoHeightGridWrapperComponent.viewkeeperClasses.indexOf('.ag-header')).not.toEqual(-1);
+    expect(
+      autoHeightGridWrapperComponent.viewkeeperClasses.indexOf('.ag-header')
+    ).not.toEqual(-1);
   });
 
   describe('onGridKeydown', () => {
     let skyAgGridDivEl: HTMLElement;
     beforeEach(() => {
-      skyAgGridDivEl = gridWrapperNativeElement.querySelector(`#${gridWrapperComponent.gridId}`);
+      skyAgGridDivEl = gridWrapperNativeElement.querySelector(
+        `#${gridWrapperComponent.gridId}`
+      );
     });
 
     function fireKeydownOnGrid(key: string, shiftKey: boolean): void {
       SkyAppTestUtility.fireDomEvent(skyAgGridDivEl, 'keydown', {
         keyboardEventInit: {
           key,
-          shiftKey
-        }
+          shiftKey,
+        },
       });
 
       gridWrapperFixture.detectChanges();
     }
 
     it('should not move focus when tab is pressed but cells are being edited', () => {
-      let col = { } as Column;
+      let col = {} as Column;
       spyOn(gridAdapterService, 'setFocusedElementById');
-      spyOn(agGrid.api, 'getEditingCells').and.returnValue([{ rowIndex: 0, column: col, rowPinned: '' }]);
+      spyOn(agGrid.api, 'getEditingCells').and.returnValue([
+        { rowIndex: 0, column: col, rowPinned: '' },
+      ]);
 
       fireKeydownOnGrid('Tab', false);
 
@@ -101,12 +90,20 @@ describe('SkyAgGridWrapperComponent', () => {
     });
 
     it('should not move focus when tab is pressed but master/detail cells are being edited', () => {
-      let col = { } as Column;
+      let col = {} as Column;
       spyOn(gridAdapterService, 'setFocusedElementById');
       spyOn(agGrid.api, 'getEditingCells').and.returnValue([]);
-      spyOn(agGrid.api, 'forEachDetailGridInfo').and.callFake((fn: Function) => {
-        fn({ api: { getEditingCells: (): any[] => { return [{ rowIndex: 0, column: col, rowPinned: '' }]; }}});
-      });
+      spyOn(agGrid.api, 'forEachDetailGridInfo').and.callFake(
+        (fn: Function) => {
+          fn({
+            api: {
+              getEditingCells: (): any[] => {
+                return [{ rowIndex: 0, column: col, rowPinned: '' }];
+              },
+            },
+          });
+        }
+      );
 
       fireKeydownOnGrid('Tab', false);
 
@@ -125,50 +122,74 @@ describe('SkyAgGridWrapperComponent', () => {
     it(`should move focus to the anchor after the grid when tab is pressed, no cells are being edited,
       and the grid was previously focused`, () => {
       spyOn(agGrid.api, 'getEditingCells').and.returnValue([]);
-      spyOn(agGrid.api, 'forEachDetailGridInfo').and.callFake((fn: Function) => {
-        fn({ api: { getEditingCells: (): any[] => { return []; } }});
-      });
-      spyOn(gridAdapterService, 'getFocusedElement').and.returnValue(skyAgGridDivEl);
+      spyOn(agGrid.api, 'forEachDetailGridInfo').and.callFake(
+        (fn: Function) => {
+          fn({
+            api: {
+              getEditingCells: (): any[] => {
+                return [];
+              },
+            },
+          });
+        }
+      );
+      spyOn(gridAdapterService, 'getFocusedElement').and.returnValue(
+        skyAgGridDivEl
+      );
       spyOn(gridAdapterService, 'setFocusedElementById');
 
       fireKeydownOnGrid('Tab', false);
 
       expect(gridAdapterService.setFocusedElementById).toHaveBeenCalledWith(
-        gridWrapperNativeElement, gridWrapperComponent.afterAnchorId);
+        gridWrapperNativeElement,
+        gridWrapperComponent.afterAnchorId
+      );
     });
 
     it(`should move focus to the anchor before the grid when shift + tab is pressed, no cells are being edited,
       and the grid was previous focused`, () => {
       spyOn(agGrid.api, 'getEditingCells').and.returnValue([]);
-      spyOn(gridAdapterService, 'getFocusedElement').and.returnValue(skyAgGridDivEl);
+      spyOn(gridAdapterService, 'getFocusedElement').and.returnValue(
+        skyAgGridDivEl
+      );
       spyOn(gridAdapterService, 'setFocusedElementById');
 
       fireKeydownOnGrid('Tab', true);
 
       expect(gridAdapterService.setFocusedElementById).toHaveBeenCalledWith(
-        gridWrapperNativeElement, gridWrapperComponent.beforeAnchorId);
+        gridWrapperNativeElement,
+        gridWrapperComponent.beforeAnchorId
+      );
     });
   });
 
   describe('onAnchorFocus', () => {
-
-    function focusOnAnchor(anchorEl: HTMLElement, previousFocusedEl: HTMLElement): void {
+    function focusOnAnchor(
+      anchorEl: HTMLElement,
+      previousFocusedEl: HTMLElement
+    ): void {
       SkyAppTestUtility.fireDomEvent(anchorEl, 'focusin', {
         customEventInit: {
-          relatedTarget: previousFocusedEl
-        }
+          relatedTarget: previousFocusedEl,
+        },
       });
 
       gridWrapperFixture.detectChanges();
     }
 
     it('should shift focus to the first grid cell if it was not the previously focused element and there is a cell', () => {
-      const afterAnchorEl = gridWrapperNativeElement.querySelector(`#${gridWrapperComponent.afterAnchorId}`) as HTMLElement;
-      const afterButtonEl = gridWrapperNativeElement.querySelector('#button-after-grid') as HTMLElement;
+      const afterAnchorEl = gridWrapperNativeElement.querySelector(
+        `#${gridWrapperComponent.afterAnchorId}`
+      ) as HTMLElement;
+      const afterButtonEl = gridWrapperNativeElement.querySelector(
+        '#button-after-grid'
+      ) as HTMLElement;
       const column = new Column({}, {}, 'name', true);
       const rowIndex = 0;
 
-      spyOn(agGrid.columnApi, 'getAllDisplayedColumns').and.returnValue([column]);
+      spyOn(agGrid.columnApi, 'getAllDisplayedColumns').and.returnValue([
+        column,
+      ]);
       spyOn(agGrid.api, 'getFirstDisplayedRow').and.returnValue(rowIndex);
       spyOn(agGrid.api, 'setFocusedCell');
 
@@ -178,11 +199,17 @@ describe('SkyAgGridWrapperComponent', () => {
     });
 
     it('should not shift focus to the first grid cell if there is no cell', () => {
-      const afterAnchorEl = gridWrapperNativeElement.querySelector(`#${gridWrapperComponent.afterAnchorId}`) as HTMLElement;
-      const afterButtonEl = gridWrapperNativeElement.querySelector('#button-after-grid') as HTMLElement;
+      const afterAnchorEl = gridWrapperNativeElement.querySelector(
+        `#${gridWrapperComponent.afterAnchorId}`
+      ) as HTMLElement;
+      const afterButtonEl = gridWrapperNativeElement.querySelector(
+        '#button-after-grid'
+      ) as HTMLElement;
       const column = new Column({}, {}, 'name', true);
 
-      spyOn(agGrid.columnApi, 'getAllDisplayedColumns').and.returnValue([column]);
+      spyOn(agGrid.columnApi, 'getAllDisplayedColumns').and.returnValue([
+        column,
+      ]);
       spyOn(agGrid.api, 'getFirstDisplayedRow').and.returnValue(undefined);
       spyOn(agGrid.api, 'setFocusedCell');
 
@@ -192,8 +219,12 @@ describe('SkyAgGridWrapperComponent', () => {
     });
 
     it('should not shift focus to the grid if it was the previously focused element', () => {
-      const afterAnchorEl = gridWrapperNativeElement.querySelector(`#${gridWrapperComponent.afterAnchorId}`) as HTMLElement;
-      const gridEl = gridWrapperNativeElement.querySelector(`#${gridWrapperComponent.gridId}`) as HTMLElement;
+      const afterAnchorEl = gridWrapperNativeElement.querySelector(
+        `#${gridWrapperComponent.afterAnchorId}`
+      ) as HTMLElement;
+      const gridEl = gridWrapperNativeElement.querySelector(
+        `#${gridWrapperComponent.gridId}`
+      ) as HTMLElement;
       spyOn(gridAdapterService, 'setFocusedElementById');
 
       focusOnAnchor(afterAnchorEl, gridEl);

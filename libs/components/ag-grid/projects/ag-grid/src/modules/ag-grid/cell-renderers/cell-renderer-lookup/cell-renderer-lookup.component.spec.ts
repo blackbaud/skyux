@@ -20,15 +20,14 @@ describe('CellRendererLookupComponent', () => {
     valueFormatted: undefined,
     skyComponentProperties: {
       data: [],
-      descriptorProperty: 'name'
-    }
+      descriptorProperty: 'name',
+    },
   };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SkyAgGridCellRendererLookupComponent ]
-    })
-    .compileComponents();
+      declarations: [SkyAgGridCellRendererLookupComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -42,7 +41,7 @@ describe('CellRendererLookupComponent', () => {
   });
 
   it('should initialize with empty value', () => {
-    component.agInit({...params});
+    component.agInit({ ...params });
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
@@ -50,7 +49,7 @@ describe('CellRendererLookupComponent', () => {
   it('should initialize with value', () => {
     component.agInit({
       ...params,
-      value: [{ name: 'hello world' }]
+      value: [{ name: 'hello world' }],
     });
     fixture.detectChanges();
     expect(component).toBeTruthy();
@@ -59,14 +58,14 @@ describe('CellRendererLookupComponent', () => {
   it('should initialize with formatted value', () => {
     component.agInit({
       ...params,
-      valueFormatted: 'hello world'
+      valueFormatted: 'hello world',
     });
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should refresh', () => {
-    component.refresh({...params});
+    component.refresh({ ...params });
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });

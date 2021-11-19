@@ -1,4 +1,4 @@
 <ng-container *ngIf="summaryCount > 5; else showValue">
-  {{ 'skyux_lookup_tokens_summary' | skyLibResources:summaryCount }}
+  {{ 'skyux_lookup_tokens_summary' | skyLibResources: summaryCount }}
 </ng-container>
 <ng-template #showValue>{{ value }}</ng-template>

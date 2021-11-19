@@ -1,31 +1,18 @@
-import {
-  Component,
-  OnInit,
-  ViewEncapsulation
-} from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
-import {
-  GridOptions
-} from 'ag-grid-community';
+import { GridOptions } from 'ag-grid-community';
 
-import {
-  SkyCellType
-} from '../types/cell-type';
+import { SkyCellType } from '../types/cell-type';
 
-import {
-  SkyAgGridService
-} from '../ag-grid.service';
+import { SkyAgGridService } from '../ag-grid.service';
 
-import {
-  SKY_AG_GRID_LOOKUP,
-  SKY_AG_GRID_DATA
-} from './ag-grid-data.fixture';
+import { SKY_AG_GRID_LOOKUP, SKY_AG_GRID_DATA } from './ag-grid-data.fixture';
 
 @Component({
   selector: 'sky-ag-grid-component-fixture',
   templateUrl: './ag-grid.component.fixture.html',
   styleUrls: ['../../../styles/ag-grid-styles.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class SkyAgGridFixtureComponent implements OnInit {
   public gridData = SKY_AG_GRID_DATA;
@@ -35,52 +22,52 @@ export class SkyAgGridFixtureComponent implements OnInit {
       headerName: '',
       maxWidth: 50,
       sortable: false,
-      type: SkyCellType.RowSelector
+      type: SkyCellType.RowSelector,
     },
     {
       field: 'name',
-      headerName: 'First Name'
+      headerName: 'First Name',
     },
     {
       field: 'nickname',
       headerName: 'Nickname',
       editable: true,
-      type: SkyCellType.Text
+      type: SkyCellType.Text,
     },
     {
       field: 'value',
       headerName: 'Current Value',
       editable: true,
-      type: SkyCellType.Number
+      type: SkyCellType.Number,
     },
     {
       field: 'target',
       headerName: 'Goal',
-      type: SkyCellType.Number
+      type: SkyCellType.Number,
     },
     {
       field: 'date',
       headerName: 'Completed Date',
       editable: true,
-      type: SkyCellType.Date
+      type: SkyCellType.Date,
     },
     {
       field: 'currency',
       headerName: 'Currency amount',
       editable: true,
-      type: SkyCellType.Currency
+      type: SkyCellType.Currency,
     },
     {
       field: 'validNumber',
       headerName: 'Valid number',
       editable: true,
-      type: SkyCellType.NumberValidator
+      type: SkyCellType.NumberValidator,
     },
     {
       field: 'validCurrency',
       headerName: 'Valid currency',
       editable: true,
-      type: SkyCellType.Currency
+      type: SkyCellType.Currency,
     },
     {
       field: 'validDate',
@@ -93,9 +80,9 @@ export class SkyAgGridFixtureComponent implements OnInit {
             const dt = new Date(1985, 10, 5, 12);
             return !!value && value > dt;
           },
-          validatorMessage: 'Please enter a future date'
-        }
-      }
+          validatorMessage: 'Please enter a future date',
+        },
+      },
     },
     {
       colId: 'lookupSingle',
@@ -109,14 +96,14 @@ export class SkyAgGridFixtureComponent implements OnInit {
           data: SKY_AG_GRID_LOOKUP,
           idProperty: 'id',
           descriptorProperty: 'name',
-          selectMode: 'single'
-        }
+          selectMode: 'single',
+        },
       },
       cellRendererParams: {
         skyComponentProperties: {
-          descriptorProperty: 'name'
-        }
-      }
+          descriptorProperty: 'name',
+        },
+      },
     },
     {
       colId: 'lookupMultiple',
@@ -131,24 +118,26 @@ export class SkyAgGridFixtureComponent implements OnInit {
           idProperty: 'id',
           descriptorProperty: 'name',
           selectMode: 'multiple',
-          enableShowMore: true
-        }
+          enableShowMore: true,
+        },
       },
       cellRendererParams: {
         skyComponentProperties: {
-          descriptorProperty: 'name'
-        }
-      }
-    }
+          descriptorProperty: 'name',
+        },
+      },
+    },
   ];
 
   public gridOptions: GridOptions = {
-    columnDefs: this.columnDefs
+    columnDefs: this.columnDefs,
   };
 
-  constructor(private gridService: SkyAgGridService) { }
+  constructor(private gridService: SkyAgGridService) {}
 
   public ngOnInit(): void {
-    this.gridOptions = this.gridService.getEditableGridOptions({ gridOptions: this.gridOptions });
+    this.gridOptions = this.gridService.getEditableGridOptions({
+      gridOptions: this.gridOptions,
+    });
   }
 }

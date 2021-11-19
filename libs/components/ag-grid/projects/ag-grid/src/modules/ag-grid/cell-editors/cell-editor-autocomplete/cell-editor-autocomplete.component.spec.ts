@@ -1,25 +1,12 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  expect,
-  expectAsync
-} from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import {
-  Column,
-  RowNode
-} from 'ag-grid-community';
+import { Column, RowNode } from 'ag-grid-community';
 
-import {
-  SkyAgGridCellEditorAutocompleteComponent
-} from '../cell-editor-autocomplete/cell-editor-autocomplete.component';
+import { SkyAgGridCellEditorAutocompleteComponent } from '../cell-editor-autocomplete/cell-editor-autocomplete.component';
 
-import {
-  SkyCellEditorAutocompleteParams
-} from '../../types/cell-editor-autocomplete-params';
+import { SkyCellEditorAutocompleteParams } from '../../types/cell-editor-autocomplete-params';
 
 describe('SkyCellEditorAutocompleteComponent', () => {
   // We've had some issue with grid rendering causing the specs to timeout in IE. Extending it slightly to help.
@@ -33,7 +20,7 @@ describe('SkyCellEditorAutocompleteComponent', () => {
     { id: '1', name: 'John Doe', town: 'Daniel Island' },
     { id: '2', name: 'Jane Doe', town: 'Daniel Island' },
     { id: '3', name: 'John Smith', town: 'West Ashley' },
-    { id: '4', name: 'Jane Smith', town: 'Mt Pleasant' }
+    { id: '4', name: 'Jane Smith', town: 'Mt Pleasant' },
   ];
 
   beforeEach(() => {
@@ -60,11 +47,12 @@ describe('SkyCellEditorAutocompleteComponent', () => {
     beforeEach(() => {
       column = new Column(
         {
-          colId: 'col'
+          colId: 'col',
         },
         undefined,
         'col',
-        true);
+        true
+      );
 
       column.setActualWidth(columnWidth);
 
@@ -86,7 +74,7 @@ describe('SkyCellEditorAutocompleteComponent', () => {
         stopEditing: undefined,
         eGridCell: undefined,
         parseValue: undefined,
-        formatValue: undefined
+        formatValue: undefined,
       };
     });
 
@@ -133,5 +121,4 @@ describe('SkyCellEditorAutocompleteComponent', () => {
 
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
-
 });

@@ -1,43 +1,27 @@
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  ViewEncapsulation
-} from '@angular/core';
+import { AgGridAngular } from 'ag-grid-angular';
 
-import {
-  AgGridAngular
-} from 'ag-grid-angular';
-
-import {
-  GridOptions
-} from 'ag-grid-community';
+import { GridOptions } from 'ag-grid-community';
 
 import {
   SkyDataManagerService,
   SkyDataManagerState,
   SkyDataManagerConfig,
-  SkyDataViewConfig
+  SkyDataViewConfig,
 } from '@skyux/data-manager';
 
-import {
-  SkyCellType
-} from '../types/cell-type';
+import { SkyCellType } from '../types/cell-type';
 
-import {
-  SkyAgGridService
-} from '../ag-grid.service';
+import { SkyAgGridService } from '../ag-grid.service';
 
-import {
-  SKY_AG_GRID_DATA
-} from './ag-grid-data.fixture';
+import { SKY_AG_GRID_DATA } from './ag-grid-data.fixture';
 
 @Component({
   selector: 'sky-ag-grid-data-manager-component-fixture',
   templateUrl: './ag-grid-data-manager.component.fixture.html',
   styleUrls: ['../../../styles/ag-grid-styles.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class SkyAgGridDataManagerFixtureComponent implements OnInit {
   @ViewChild(AgGridAngular)
@@ -49,17 +33,17 @@ export class SkyAgGridDataManagerFixtureComponent implements OnInit {
       headerName: '',
       maxWidth: 50,
       sortable: false,
-      type: SkyCellType.RowSelector
+      type: SkyCellType.RowSelector,
     },
     {
       field: 'name',
-      headerName: 'First Name'
+      headerName: 'First Name',
     },
     {
       field: 'target',
       headerName: 'Goal',
-      type: SkyCellType.Number
-    }
+      type: SkyCellType.Number,
+    },
   ];
 
   public dataConfig: SkyDataManagerConfig = {
@@ -68,9 +52,9 @@ export class SkyAgGridDataManagerFixtureComponent implements OnInit {
         id: 'name',
         descending: true,
         propertyName: 'name',
-        label: 'Name'
-      }
-    ]
+        label: 'Name',
+      },
+    ],
   };
 
   public displayFirstGrid = true;
@@ -79,35 +63,37 @@ export class SkyAgGridDataManagerFixtureComponent implements OnInit {
   public gridData = SKY_AG_GRID_DATA;
 
   public gridOptions: GridOptions = {
-    columnDefs: this.columnDefs
+    columnDefs: this.columnDefs,
   };
 
   public viewConfig: SkyDataViewConfig = {
     id: 'gridView',
-    name: 'Grid View'
+    name: 'Grid View',
   };
 
   public initialDataState = new SkyDataManagerState({
     views: [
       {
         viewId: this.viewConfig.id,
-        displayedColumnIds: ['selected', 'name', 'target']
-      }
-    ]
+        displayedColumnIds: ['selected', 'name', 'target'],
+      },
+    ],
   });
 
   constructor(
     private dataManagerService: SkyDataManagerService,
     private gridService: SkyAgGridService
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
-    this.gridOptions = this.gridService.getEditableGridOptions({ gridOptions: this.gridOptions });
+    this.gridOptions = this.gridService.getEditableGridOptions({
+      gridOptions: this.gridOptions,
+    });
     this.dataManagerService.initDataManager({
       dataManagerConfig: this.dataConfig,
       defaultDataState: this.initialDataState,
       activeViewId: this.viewConfig.id,
-      settingsKey: 'test'
+      settingsKey: 'test',
     });
 
     this.dataManagerService.initDataView(this.viewConfig);

@@ -2,16 +2,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
-import {
-  ICellEditorAngularComp
-} from 'ag-grid-angular';
+import { ICellEditorAngularComp } from 'ag-grid-angular';
 
-import {
-  ICellEditorParams
-} from 'ag-grid-community';
+import { ICellEditorParams } from 'ag-grid-community';
 
 /**
  * @internal
@@ -20,10 +16,11 @@ import {
   selector: 'sky-ag-grid-cell-editor-number',
   templateUrl: './cell-editor-number.component.html',
   styleUrls: ['./cell-editor-number.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
-export class SkyAgGridCellEditorNumberComponent implements ICellEditorAngularComp {
+export class SkyAgGridCellEditorNumberComponent
+  implements ICellEditorAngularComp
+{
   public value: number;
   public columnHeader: string;
   public columnWidth: number;
@@ -32,7 +29,7 @@ export class SkyAgGridCellEditorNumberComponent implements ICellEditorAngularCom
 
   private params: ICellEditorParams;
 
-  @ViewChild('skyCellEditorNumber', {read: ElementRef})
+  @ViewChild('skyCellEditorNumber', { read: ElementRef })
   private input: ElementRef;
 
   /**
@@ -45,7 +42,8 @@ export class SkyAgGridCellEditorNumberComponent implements ICellEditorAngularCom
     this.columnHeader = this.params.colDef.headerName;
     this.rowNumber = this.params.rowIndex + 1;
     this.columnWidth = this.params.column.getActualWidth();
-    this.rowHeightWithoutBorders = this.params.node && this.params.node.rowHeight - 4;
+    this.rowHeightWithoutBorders =
+      this.params.node && this.params.node.rowHeight - 4;
   }
 
   /**

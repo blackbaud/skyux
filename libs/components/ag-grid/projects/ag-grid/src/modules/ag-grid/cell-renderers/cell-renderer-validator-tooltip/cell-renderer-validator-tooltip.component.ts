@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+} from '@angular/core';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ValueFormatterParams } from 'ag-grid-community';
 import { SkyCellRendererValidatorParams } from '../../types/cell-renderer-validator-params';
@@ -9,9 +14,11 @@ import { SkyCellRendererValidatorParams } from '../../types/cell-renderer-valida
 @Component({
   selector: 'sky-ag-grid-cell-renderer-validator-tooltip',
   templateUrl: 'cell-renderer-validator-tooltip.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyAgGridCellRendererValidatorTooltipComponent implements ICellRendererAngularComp {
+export class SkyAgGridCellRendererValidatorTooltipComponent
+  implements ICellRendererAngularComp
+{
   @Input()
   public set params(value: SkyCellRendererValidatorParams) {
     this.agInit(value);
@@ -20,10 +27,7 @@ export class SkyAgGridCellRendererValidatorTooltipComponent implements ICellRend
   public cellRendererParams: SkyCellRendererValidatorParams;
   public value: any;
 
-  constructor(
-    private changeDetector: ChangeDetectorRef
-  ) {
-  }
+  constructor(private changeDetector: ChangeDetectorRef) {}
 
   public agInit(params: SkyCellRendererValidatorParams): void {
     this.cellRendererParams = params;

@@ -14,8 +14,7 @@ import { SkyAgGridCellEditorLookupComponent } from './cell-editor-lookup.compone
     ReactiveFormsModule,
     SkyI18nModule,
     SkyInputBoxModule,
-    SkyLookupModule
-  ]
+    SkyLookupModule,
+  ],
 })
-export class SkyAgGridCellEditorLookupModule {
-}
+export class SkyAgGridCellEditorLookupModule {}

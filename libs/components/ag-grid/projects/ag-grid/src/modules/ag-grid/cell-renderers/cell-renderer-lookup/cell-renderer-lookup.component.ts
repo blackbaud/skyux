@@ -1,23 +1,29 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+} from '@angular/core';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { SkyCellRendererLookupParams } from '../../types/cell-renderer-lookup-params';
-import { applySkyLookupPropertiesDefaults, SkyLookupProperties } from '../../types/lookup-properties';
+import {
+  applySkyLookupPropertiesDefaults,
+  SkyLookupProperties,
+} from '../../types/lookup-properties';
 
 @Component({
   selector: 'sky-cell-renderer-lookup',
   templateUrl: './cell-renderer-lookup.component.html',
   styleUrls: ['./cell-renderer-lookup.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyAgGridCellRendererLookupComponent implements ICellRendererAngularComp {
+export class SkyAgGridCellRendererLookupComponent
+  implements ICellRendererAngularComp
+{
   public value: string = '';
   public summaryCount = 0;
   private lookupProperties: SkyLookupProperties;
 
-  constructor(
-    private changeDetector: ChangeDetectorRef
-  ) {
-  }
+  constructor(private changeDetector: ChangeDetectorRef) {}
 
   public agInit(params: SkyCellRendererLookupParams): void {
     this.lookupProperties = applySkyLookupPropertiesDefaults(params);

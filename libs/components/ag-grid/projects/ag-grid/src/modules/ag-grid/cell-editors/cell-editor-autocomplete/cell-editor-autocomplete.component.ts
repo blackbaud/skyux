@@ -2,20 +2,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
-import {
-  ICellEditorAngularComp
-} from 'ag-grid-angular';
+import { ICellEditorAngularComp } from 'ag-grid-angular';
 
-import {
-  SkyCellEditorAutocompleteParams
-} from '../../types/cell-editor-autocomplete-params';
+import { SkyCellEditorAutocompleteParams } from '../../types/cell-editor-autocomplete-params';
 
-import {
-  SkyAutocompleteProperties
-} from '../../types/autocomplete-properties';
+import { SkyAutocompleteProperties } from '../../types/autocomplete-properties';
 
 /**
  * @internal
@@ -24,16 +18,18 @@ import {
   selector: 'sky-ag-grid-cell-editor-autocomplete',
   templateUrl: './cell-editor-autocomplete.component.html',
   styleUrls: ['./cell-editor-autocomplete.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyAgGridCellEditorAutocompleteComponent implements ICellEditorAngularComp {
+export class SkyAgGridCellEditorAutocompleteComponent
+  implements ICellEditorAngularComp
+{
   public currentSelection: any;
   public columnHeader: string;
   public rowNumber: number;
   public skyComponentProperties: SkyAutocompleteProperties = {};
   private params: SkyCellEditorAutocompleteParams;
 
-  @ViewChild('skyCellEditorAutocomplete', {read: ElementRef})
+  @ViewChild('skyCellEditorAutocomplete', { read: ElementRef })
   public input: ElementRef;
 
   public agInit(params: SkyCellEditorAutocompleteParams) {

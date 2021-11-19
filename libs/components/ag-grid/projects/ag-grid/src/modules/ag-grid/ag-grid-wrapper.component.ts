@@ -4,20 +4,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   ContentChild,
-  ElementRef
+  ElementRef,
 } from '@angular/core';
 
-import {
-  AgGridAngular
-} from 'ag-grid-angular';
+import { AgGridAngular } from 'ag-grid-angular';
 
-import {
-  DetailGridInfo
-} from 'ag-grid-community';
+import { DetailGridInfo } from 'ag-grid-community';
 
-import {
-  SkyAgGridAdapterService
-} from './ag-grid-adapter.service';
+import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 
 let idIndex = 0;
 
@@ -27,12 +21,11 @@ let idIndex = 0;
 @Component({
   selector: 'sky-ag-grid-wrapper',
   templateUrl: './ag-grid-wrapper.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyAgGridWrapperComponent implements AfterContentInit {
-
   @ContentChild(AgGridAngular, {
-    static: true
+    static: true,
   })
   public agGrid: AgGridAngular;
 
@@ -63,15 +56,23 @@ export class SkyAgGridWrapperComponent implements AfterContentInit {
   }
 
   public ngAfterContentInit(): void {
-    if (this.agGrid.gridOptions && this.agGrid.gridOptions.domLayout === 'autoHeight') {
+    if (
+      this.agGrid.gridOptions &&
+      this.agGrid.gridOptions.domLayout === 'autoHeight'
+    ) {
       this.viewkeeperClasses.push('.ag-header');
     }
   }
 
   public onGridKeydown(event: KeyboardEvent): void {
     if (this.agGrid && !this.isInEditMode && event.key === 'Tab') {
-      const idToFocus = event.shiftKey ? this.beforeAnchorId : this.afterAnchorId;
-      this.adapterService.setFocusedElementById(this.elementRef.nativeElement, idToFocus);
+      const idToFocus = event.shiftKey
+        ? this.beforeAnchorId
+        : this.afterAnchorId;
+      this.adapterService.setFocusedElementById(
+        this.elementRef.nativeElement,
+        idToFocus
+      );
     }
   }
 
@@ -79,7 +80,12 @@ export class SkyAgGridWrapperComponent implements AfterContentInit {
     const gridId = this.gridId;
     const relatedTarget = event.relatedTarget as HTMLElement;
     const previousFocusedId = relatedTarget && relatedTarget.id;
-    const previousWasCell = relatedTarget && !!this.adapterService.getElementOrParentWithClass(relatedTarget, 'ag-cell');
+    const previousWasCell =
+      relatedTarget &&
+      !!this.adapterService.getElementOrParentWithClass(
+        relatedTarget,
+        'ag-cell'
+      );
 
     if (previousFocusedId !== gridId && !previousWasCell) {
       const columns = this.agGrid.columnApi.getAllDisplayedColumns();

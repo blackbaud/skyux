@@ -2,20 +2,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
-import {
-  ICellEditorAngularComp
-} from 'ag-grid-angular';
+import { ICellEditorAngularComp } from 'ag-grid-angular';
 
-import {
-  SkyCellEditorCurrencyParams
-} from '../../types/cell-editor-currency-params';
+import { SkyCellEditorCurrencyParams } from '../../types/cell-editor-currency-params';
 
-import {
-  SkyCurrencyProperties
-} from '../../types/currency-properties';
+import { SkyCurrencyProperties } from '../../types/currency-properties';
 
 /**
  * @internal
@@ -24,10 +18,11 @@ import {
   selector: 'sky-ag-grid-cell-editor-currency',
   templateUrl: './cell-editor-currency.component.html',
   styleUrls: ['./cell-editor-currency.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
-export class SkyAgGridCellEditorCurrencyComponent implements ICellEditorAngularComp {
+export class SkyAgGridCellEditorCurrencyComponent
+  implements ICellEditorAngularComp
+{
   public value: number;
   public skyComponentProperties: SkyCurrencyProperties = {};
   public columnHeader: string;
@@ -37,7 +32,7 @@ export class SkyAgGridCellEditorCurrencyComponent implements ICellEditorAngularC
 
   private params: SkyCellEditorCurrencyParams;
 
-  @ViewChild('skyCellEditorCurrency', {read: ElementRef})
+  @ViewChild('skyCellEditorCurrency', { read: ElementRef })
   private input: ElementRef;
 
   /**
@@ -50,8 +45,12 @@ export class SkyAgGridCellEditorCurrencyComponent implements ICellEditorAngularC
     this.columnHeader = this.params.colDef.headerName;
     this.rowNumber = this.params.rowIndex + 1;
     this.columnWidth = this.params.column.getActualWidth();
-    this.rowHeightWithoutBorders = this.params.node && this.params.node.rowHeight - 4;
-    this.skyComponentProperties = this.params.skyComponentProperties || { decimalPlaces: 2 , currencySymbol: '$' };
+    this.rowHeightWithoutBorders =
+      this.params.node && this.params.node.rowHeight - 4;
+    this.skyComponentProperties = this.params.skyComponentProperties || {
+      decimalPlaces: 2,
+      currencySymbol: '$',
+    };
   }
 
   /**

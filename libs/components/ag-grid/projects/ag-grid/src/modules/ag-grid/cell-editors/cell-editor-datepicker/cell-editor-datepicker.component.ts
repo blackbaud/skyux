@@ -4,28 +4,18 @@ import {
   ElementRef,
   Optional,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 
-import {
-  SkyThemeService
-} from '@skyux/theme';
+import { SkyThemeService } from '@skyux/theme';
 
-import {
-  ICellEditorAngularComp
-} from 'ag-grid-angular';
+import { ICellEditorAngularComp } from 'ag-grid-angular';
 
-import {
-  PopupComponent
-} from 'ag-grid-community';
+import { PopupComponent } from 'ag-grid-community';
 
-import {
-  SkyCellEditorDatepickerParams
-} from '../../types/cell-editor-datepicker-params';
+import { SkyCellEditorDatepickerParams } from '../../types/cell-editor-datepicker-params';
 
-import {
-  SkyDatepickerProperties
-} from '../../types/datepicker-properties';
+import { SkyDatepickerProperties } from '../../types/datepicker-properties';
 
 /**
  * @internal
@@ -35,9 +25,12 @@ import {
   templateUrl: './cell-editor-datepicker.component.html',
   styleUrls: ['./cell-editor-datepicker.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
-export class SkyAgGridCellEditorDatepickerComponent extends PopupComponent implements ICellEditorAngularComp {
+export class SkyAgGridCellEditorDatepickerComponent
+  extends PopupComponent
+  implements ICellEditorAngularComp
+{
   public columnWidth: number;
   public currentDate: Date;
   public columnWidthWithoutBorders: number;
@@ -48,9 +41,7 @@ export class SkyAgGridCellEditorDatepickerComponent extends PopupComponent imple
   @ViewChild('skyCellEditorDatepickerInput', { read: ElementRef })
   private datepickerInput: ElementRef;
 
-  constructor(
-    @Optional() private themeSvc?: SkyThemeService
-  ) {
+  constructor(@Optional() private themeSvc?: SkyThemeService) {
     super();
   }
 
@@ -64,14 +55,17 @@ export class SkyAgGridCellEditorDatepickerComponent extends PopupComponent imple
     this.skyComponentProperties = this.params.skyComponentProperties || {};
     this.columnWidth = this.params.column.getActualWidth();
     this.columnWidthWithoutBorders = this.columnWidth - 2;
-    this.rowHeightWithoutBorders = this.params.node && this.params.node.rowHeight - 3;
+    this.rowHeightWithoutBorders =
+      this.params.node && this.params.node.rowHeight - 3;
     this.themeSvc?.settingsChange.subscribe((themeSettings) => {
       if (themeSettings.currentSettings.theme.name === 'modern') {
         this.columnWidthWithoutBorders = this.columnWidth;
-        this.rowHeightWithoutBorders = this.params.node && this.params.node.rowHeight;
+        this.rowHeightWithoutBorders =
+          this.params.node && this.params.node.rowHeight;
       } else {
         this.columnWidthWithoutBorders = this.columnWidth - 2;
-        this.rowHeightWithoutBorders = this.params.node && this.params.node.rowHeight - 3;
+        this.rowHeightWithoutBorders =
+          this.params.node && this.params.node.rowHeight - 3;
       }
     });
   }

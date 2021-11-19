@@ -11,5 +11,5 @@ export enum SkyCellClass {
   Number = 'sky-ag-grid-cell-number',
   RowSelector = 'sky-ag-grid-cell-row-selector',
   Text = 'sky-ag-grid-cell-text',
-  Uneditable = 'sky-ag-grid-cell-uneditable'
+  Uneditable = 'sky-ag-grid-cell-uneditable',
 }

@@ -1,47 +1,30 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  DebugElement
-} from '@angular/core';
+import { DebugElement } from '@angular/core';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  AgGridAngular
-} from 'ag-grid-angular';
+import { AgGridAngular } from 'ag-grid-angular';
 
 import {
   Column,
   ColumnMovedEvent,
   RowNode,
-  RowSelectedEvent
+  RowSelectedEvent,
 } from 'ag-grid-community';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
 import {
   SkyDataManagerService,
-  SkyDataManagerState
+  SkyDataManagerState,
 } from '@skyux/data-manager';
 
-import {
-  SkyAgGridDataManagerAdapterDirective
-} from './ag-grid-data-manager-adapter.directive';
+import { SkyAgGridDataManagerAdapterDirective } from './ag-grid-data-manager-adapter.directive';
 
-import {
-  SkyAgGridDataManagerFixtureComponent
-} from './fixtures/ag-grid-data-manager.component.fixture';
+import { SkyAgGridDataManagerFixtureComponent } from './fixtures/ag-grid-data-manager.component.fixture';
 
-import {
-  SkyAgGridFixtureModule
-} from './fixtures/ag-grid.module.fixture';
+import { SkyAgGridFixtureModule } from './fixtures/ag-grid.module.fixture';
 
 describe('SkyAgGridDataManagerAdapterDirective', () => {
   let agGridDataManagerFixture: ComponentFixture<SkyAgGridDataManagerFixtureComponent>;
@@ -55,20 +38,29 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyAgGridFixtureModule],
-      providers: [SkyDataManagerService]
+      providers: [SkyDataManagerService],
     });
 
-    agGridDataManagerFixture = TestBed.createComponent(SkyAgGridDataManagerFixtureComponent);
-    agGridDataManagerFixtureComponent = agGridDataManagerFixture.componentInstance;
+    agGridDataManagerFixture = TestBed.createComponent(
+      SkyAgGridDataManagerFixtureComponent
+    );
+    agGridDataManagerFixtureComponent =
+      agGridDataManagerFixture.componentInstance;
     dataManagerService = TestBed.inject(SkyDataManagerService);
 
     agGridDataManagerFixture.detectChanges();
 
     agGridComponent = agGridDataManagerFixtureComponent.agGrid;
-    dataViewEl = agGridDataManagerFixture.debugElement.query(By.directive(SkyAgGridDataManagerAdapterDirective));
-    agGridDataManagerDirective = dataViewEl.injector.get(SkyAgGridDataManagerAdapterDirective);
+    dataViewEl = agGridDataManagerFixture.debugElement.query(
+      By.directive(SkyAgGridDataManagerAdapterDirective)
+    );
+    agGridDataManagerDirective = dataViewEl.injector.get(
+      SkyAgGridDataManagerAdapterDirective
+    );
 
-    dataManagerService.getDataStateUpdates('test').subscribe(state => dataState = state);
+    dataManagerService
+      .getDataStateUpdates('test')
+      .subscribe((state) => (dataState = state));
   });
 
   it('should update the data state when a row is selected', async () => {
@@ -80,16 +72,19 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     spyOn(dataManagerService, 'updateDataState');
 
     const rowSelected = {
-      node: rowNode
+      node: rowNode,
     } as RowSelectedEvent;
 
-    dataState.selectedIds = [ '3', '1' ];
+    dataState.selectedIds = ['3', '1'];
 
     agGridDataManagerFixture.detectChanges();
 
     agGridComponent.rowSelected.emit(rowSelected);
 
-    expect(dataManagerService.updateDataState).toHaveBeenCalledWith(dataState, agGridDataManagerFixtureComponent.viewConfig.id);
+    expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
+      dataState,
+      agGridDataManagerFixtureComponent.viewConfig.id
+    );
   });
 
   it('should update the data state when a row is deselected', async () => {
@@ -101,22 +96,28 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     spyOn(dataManagerService, 'updateDataState');
 
     const rowSelected = {
-      node: rowNode
+      node: rowNode,
     } as RowSelectedEvent;
 
-    dataState.selectedIds = [ ];
+    dataState.selectedIds = [];
 
     agGridDataManagerFixture.detectChanges();
 
     agGridComponent.rowSelected.emit(rowSelected);
 
-    expect(dataManagerService.updateDataState).toHaveBeenCalledWith(dataState, agGridDataManagerFixtureComponent.viewConfig.id);
+    expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
+      dataState,
+      agGridDataManagerFixtureComponent.viewConfig.id
+    );
   });
 
   it('should set columns visible based on the data state changes', async () => {
     spyOn(agGridComponent.columnApi, 'setColumnVisible');
 
-    dataManagerService.updateDataState(agGridDataManagerFixtureComponent.initialDataState, 'unitTest');
+    dataManagerService.updateDataState(
+      agGridDataManagerFixtureComponent.initialDataState,
+      'unitTest'
+    );
 
     agGridDataManagerFixture.detectChanges();
     await agGridDataManagerFixture.whenStable();
@@ -131,19 +132,25 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     const colDef = { colId };
     const column = new Column(colDef, undefined, colId, true);
 
-    spyOn(agGridComponent.columnApi, 'getAllDisplayedVirtualColumns').and.returnValue([column]);
+    spyOn(
+      agGridComponent.columnApi,
+      'getAllDisplayedVirtualColumns'
+    ).and.returnValue([column]);
     spyOn(dataManagerService, 'updateDataState');
 
     const columnMoved = {
-      source: 'uiColumnMoved'
+      source: 'uiColumnMoved',
     } as ColumnMovedEvent;
 
     const viewState = dataState.views[0];
-    viewState.displayedColumnIds = [ colId ];
+    viewState.displayedColumnIds = [colId];
 
     agGridComponent.columnMoved.emit(columnMoved);
 
-    expect(dataManagerService.updateDataState).toHaveBeenCalledWith(dataState, agGridDataManagerFixtureComponent.viewConfig.id);
+    expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
+      dataState,
+      agGridDataManagerFixtureComponent.viewConfig.id
+    );
   });
 
   it('should update the data state when the sort changes', async () => {
@@ -158,23 +165,27 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       id: 'name',
       descending: true,
       propertyName: 'name',
-      label: 'Name'
+      label: 'Name',
     };
 
     agGridComponent.sortChanged.emit();
 
-    expect(dataManagerService.updateDataState).toHaveBeenCalledWith(dataState, agGridDataManagerFixtureComponent.viewConfig.id);
+    expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
+      dataState,
+      agGridDataManagerFixtureComponent.viewConfig.id
+    );
   });
 
   describe('selecting rows', () => {
-
     it('should use the ag grid API to select all rows when onSelectAllClick is called', async () => {
       spyOn(agGridComponent.api, 'selectAll');
 
       agGridDataManagerFixture.detectChanges();
       await agGridDataManagerFixture.whenStable();
 
-      const viewConfig = dataManagerService.getViewById(agGridDataManagerFixtureComponent.viewConfig.id);
+      const viewConfig = dataManagerService.getViewById(
+        agGridDataManagerFixtureComponent.viewConfig.id
+      );
       viewConfig.onSelectAllClick();
 
       expect(agGridComponent.api.selectAll).toHaveBeenCalled();
@@ -186,7 +197,9 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       agGridDataManagerFixture.detectChanges();
       await agGridDataManagerFixture.whenStable();
 
-      const viewConfig = dataManagerService.getViewById(agGridDataManagerFixtureComponent.viewConfig.id);
+      const viewConfig = dataManagerService.getViewById(
+        agGridDataManagerFixtureComponent.viewConfig.id
+      );
       viewConfig.onClearAllClick();
 
       expect(agGridComponent.api.deselectAll).toHaveBeenCalled();
@@ -198,7 +211,9 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     agGridDataManagerFixtureComponent.displaySecondGrid = true;
     agGridDataManagerFixture.detectChanges();
 
-    expect(console.warn).toHaveBeenCalledWith('More than one ag-grid child component was found. Using the first ag-Grid.');
+    expect(console.warn).toHaveBeenCalledWith(
+      'More than one ag-grid child component was found. Using the first ag-Grid.'
+    );
   });
 
   it('should unregister the grid if no grids are rendered', () => {

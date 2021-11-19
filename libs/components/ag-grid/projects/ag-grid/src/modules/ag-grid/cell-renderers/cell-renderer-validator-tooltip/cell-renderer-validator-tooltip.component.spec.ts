@@ -7,18 +7,17 @@ import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderer-
 describe('SkyAgGridCellRendererValidatorTooltipComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyAgGridFixtureModule
-      ]
+      imports: [SkyAgGridFixtureModule],
     });
   });
 
   it('should create an instance', () => {
-    const fixture = TestBed.createComponent(SkyAgGridCellRendererValidatorTooltipComponent);
+    const fixture = TestBed.createComponent(
+      SkyAgGridCellRendererValidatorTooltipComponent
+    );
     fixture.componentInstance.cellRendererParams = {
       $scope: undefined,
-      addRenderedRowListener(): void {
-      },
+      addRenderedRowListener(): void {},
       // @ts-ignore
       api: undefined,
       colDef: undefined,
@@ -26,46 +25,51 @@ describe('SkyAgGridCellRendererValidatorTooltipComponent', () => {
       column: {
         getActualWidth(): number {
           return -1;
-        }
+        },
       },
       columnApi: undefined,
       context: undefined,
       data: undefined,
       eGridCell: undefined,
       eParentOfValue: undefined,
-      formatValue(): any {
-      },
-      getValue(): any {
-      },
+      formatValue(): any {},
+      getValue(): any {},
       node: undefined,
-      refreshCell(): void {
-      },
+      refreshCell(): void {},
       rowIndex: 0,
-      setValue(): void {
-      },
+      setValue(): void {},
       skyComponentProperties: {} as ValidatorOptions,
       value: undefined,
-      valueFormatted: undefined
+      valueFormatted: undefined,
     } as unknown as SkyCellRendererValidatorParams;
     fixture.detectChanges();
     expect(fixture.componentInstance).toBeTruthy();
 
     fixture.componentInstance.params = {
-      ...fixture.componentInstance.cellRendererParams
+      ...fixture.componentInstance.cellRendererParams,
     };
     fixture.detectChanges();
     expect(fixture.componentInstance).toBeTruthy();
 
-    expect(fixture.componentInstance.refresh(fixture.componentInstance.cellRendererParams)).toBeFalse();
+    expect(
+      fixture.componentInstance.refresh(
+        fixture.componentInstance.cellRendererParams
+      )
+    ).toBeFalse();
 
-    const valueFormatter = (value: {[value: string]: any}) => `${value.value}`.toUpperCase();
+    const valueFormatter = (value: { [value: string]: any }) =>
+      `${value.value}`.toUpperCase();
     fixture.componentInstance.cellRendererParams.colDef = { valueFormatter };
     spyOn(
       fixture.componentInstance.cellRendererParams.colDef,
       // @ts-ignore
       'valueFormatter'
     );
-    fixture.componentInstance.agInit(fixture.componentInstance.cellRendererParams);
-    expect(fixture.componentInstance.cellRendererParams.colDef.valueFormatter).toHaveBeenCalled();
+    fixture.componentInstance.agInit(
+      fixture.componentInstance.cellRendererParams
+    );
+    expect(
+      fixture.componentInstance.cellRendererParams.colDef.valueFormatter
+    ).toHaveBeenCalled();
   });
 });

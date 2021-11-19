@@ -3,14 +3,8 @@ import { SkyAgGridCellValidatorModule } from '../../cell-validator/ag-grid-cell-
 import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderer-validator-tooltip.component';
 
 @NgModule({
-  declarations: [
-    SkyAgGridCellRendererValidatorTooltipComponent
-  ],
-  exports: [
-    SkyAgGridCellRendererValidatorTooltipComponent
-  ],
-  imports: [
-    SkyAgGridCellValidatorModule
-  ]
+  declarations: [SkyAgGridCellRendererValidatorTooltipComponent],
+  exports: [SkyAgGridCellRendererValidatorTooltipComponent],
+  imports: [SkyAgGridCellValidatorModule],
 })
 export class SkyAgGridCellRendererValidatorTooltipModule {}

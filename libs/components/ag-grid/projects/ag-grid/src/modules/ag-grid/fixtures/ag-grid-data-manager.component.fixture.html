@@ -1,8 +1,5 @@
 <sky-data-manager>
-  <sky-data-view
-    skyAgGridDataManagerAdapter
-    [viewId]="viewConfig.id"
-  >
+  <sky-data-view skyAgGridDataManagerAdapter [viewId]="viewConfig.id">
     <sky-ag-grid-wrapper *ngIf="displayFirstGrid">
       <ag-grid-angular
         class="sky-ag-grid-editable"
@@ -20,5 +17,5 @@
       >
       </ag-grid-angular>
     </sky-ag-grid-wrapper>
-</sky-data-view>
+  </sky-data-view>
 </sky-data-manager>

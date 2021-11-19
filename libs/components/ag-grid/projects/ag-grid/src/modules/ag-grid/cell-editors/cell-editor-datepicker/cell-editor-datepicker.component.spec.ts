@@ -2,7 +2,7 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
 import {
@@ -10,46 +10,26 @@ import {
   SkyThemeMode,
   SkyThemeService,
   SkyThemeSettings,
-  SkyThemeSettingsChange
+  SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import {
-  Column,
-  RowNode
-} from 'ag-grid-community';
+import { Column, RowNode } from 'ag-grid-community';
 
-import {
-  expect,
-  expectAsync
-} from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import {
-  SkyDatepickerFixture
-} from '@skyux/datetime/testing';
+import { SkyDatepickerFixture } from '@skyux/datetime/testing';
 
-import {
-  BehaviorSubject
-} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
-import {
-  SkyCellClass
-} from '../../types/cell-class';
+import { SkyCellClass } from '../../types/cell-class';
 
-import {
-  SkyAgGridFixtureComponent
-} from '../../fixtures/ag-grid.component.fixture';
+import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 
-import {
-  SkyAgGridFixtureModule
-} from '../../fixtures/ag-grid.module.fixture';
+import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
 
-import {
-  SkyAgGridCellEditorDatepickerComponent
-} from '../cell-editor-datepicker/cell-editor-datepicker.component';
+import { SkyAgGridCellEditorDatepickerComponent } from '../cell-editor-datepicker/cell-editor-datepicker.component';
 
-import {
-  SkyCellEditorDatepickerParams
-} from '../../types/cell-editor-datepicker-params';
+import { SkyCellEditorDatepickerParams } from '../../types/cell-editor-datepicker-params';
 
 describe('SkyCellEditorDatepickerComponent', () => {
   // We've had some issue with grid rendering causing the specs to timeout in IE. Extending it slightly to help.
@@ -59,35 +39,33 @@ describe('SkyCellEditorDatepickerComponent', () => {
   let datepickerEditorComponent: SkyAgGridCellEditorDatepickerComponent;
   let datepickerEditorNativeElement: HTMLElement;
   let mockThemeSvc: {
-    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
 
   beforeEach(() => {
     mockThemeSvc = {
-      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
-        {
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.default,
-            SkyThemeMode.presets.light
-          ),
-          previousSettings: undefined
-        }
-      )
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.default,
+          SkyThemeMode.presets.light
+        ),
+        previousSettings: undefined,
+      }),
     };
 
     TestBed.configureTestingModule({
-      imports: [
-        SkyAgGridFixtureModule
-      ],
+      imports: [SkyAgGridFixtureModule],
       providers: [
         {
           provide: SkyThemeService,
-          useValue: mockThemeSvc
-        }
-      ]
+          useValue: mockThemeSvc,
+        },
+      ],
     });
 
-    datepickerEditorFixture = TestBed.createComponent(SkyAgGridCellEditorDatepickerComponent);
+    datepickerEditorFixture = TestBed.createComponent(
+      SkyAgGridCellEditorDatepickerComponent
+    );
     datepickerEditorNativeElement = datepickerEditorFixture.nativeElement;
     datepickerEditorComponent = datepickerEditorFixture.componentInstance;
   });
@@ -103,18 +81,24 @@ describe('SkyCellEditorDatepickerComponent', () => {
 
       gridFixture.detectChanges();
 
-      dateCellElement = gridNativeElement.querySelector(`.${SkyCellClass.Date}`) as HTMLElement;
+      dateCellElement = gridNativeElement.querySelector(
+        `.${SkyCellClass.Date}`
+      ) as HTMLElement;
     });
 
     it('renders a skyux datepicker', () => {
       const datepickerEditorSelector = `.sky-ag-grid-cell-editor-datepicker`;
-      let datepickerEditorElement = gridNativeElement.querySelector(datepickerEditorSelector);
+      let datepickerEditorElement = gridNativeElement.querySelector(
+        datepickerEditorSelector
+      );
 
       expect(datepickerEditorElement).toBeNull();
 
       dateCellElement.click();
 
-      datepickerEditorElement = gridNativeElement.querySelector(datepickerEditorSelector);
+      datepickerEditorElement = gridNativeElement.querySelector(
+        datepickerEditorSelector
+      );
 
       expect(datepickerEditorElement).toBeVisible();
     });
@@ -130,11 +114,12 @@ describe('SkyCellEditorDatepickerComponent', () => {
     beforeEach(() => {
       column = new Column(
         {
-          colId: 'col'
+          colId: 'col',
         },
         undefined,
         'col',
-        true);
+        true
+      );
 
       column.setActualWidth(columnWidth);
 
@@ -156,7 +141,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
         stopEditing: undefined,
         eGridCell: undefined,
         parseValue: undefined,
-        formatValue: undefined
+        formatValue: undefined,
       };
     });
 
@@ -184,18 +169,24 @@ describe('SkyCellEditorDatepickerComponent', () => {
     it('should work with theme change', fakeAsync(() => {
       datepickerEditorComponent.agInit(cellEditorParams);
 
-      const initialColumnWidthWithoutBorders = datepickerEditorComponent.columnWidthWithoutBorders;
-      const initialRowHeightWithoutBorders = datepickerEditorComponent.rowHeightWithoutBorders;
+      const initialColumnWidthWithoutBorders =
+        datepickerEditorComponent.columnWidthWithoutBorders;
+      const initialRowHeightWithoutBorders =
+        datepickerEditorComponent.rowHeightWithoutBorders;
 
       mockThemeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.modern,
           SkyThemeMode.presets.light
         ),
-        previousSettings: mockThemeSvc.settingsChange.value.currentSettings
+        previousSettings: mockThemeSvc.settingsChange.value.currentSettings,
       });
-      expect(datepickerEditorComponent.columnWidthWithoutBorders).toBeGreaterThan(initialColumnWidthWithoutBorders);
-      expect(datepickerEditorComponent.rowHeightWithoutBorders).toBeGreaterThan(initialRowHeightWithoutBorders);
+      expect(
+        datepickerEditorComponent.columnWidthWithoutBorders
+      ).toBeGreaterThan(initialColumnWidthWithoutBorders);
+      expect(datepickerEditorComponent.rowHeightWithoutBorders).toBeGreaterThan(
+        initialRowHeightWithoutBorders
+      );
     }));
   });
 
@@ -233,9 +224,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
 
     await expectAsync(datepickerEditorNativeElement).toBeAccessible();
   });
-
 });
-
 
 describe('SkyCellEditorDatepickerComponent without theme', () => {
   // We've had some issue with grid rendering causing the specs to timeout in IE. Extending it slightly to help.
@@ -247,18 +236,18 @@ describe('SkyCellEditorDatepickerComponent without theme', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyAgGridFixtureModule
-      ],
+      imports: [SkyAgGridFixtureModule],
       providers: [
         {
           provide: SkyThemeService,
-          useValue: undefined
-        }
-      ]
+          useValue: undefined,
+        },
+      ],
     });
 
-    datepickerEditorFixture = TestBed.createComponent(SkyAgGridCellEditorDatepickerComponent);
+    datepickerEditorFixture = TestBed.createComponent(
+      SkyAgGridCellEditorDatepickerComponent
+    );
     datepickerEditorNativeElement = datepickerEditorFixture.nativeElement;
     datepickerEditorComponent = datepickerEditorFixture.componentInstance;
   });
@@ -274,18 +263,24 @@ describe('SkyCellEditorDatepickerComponent without theme', () => {
 
       gridFixture.detectChanges();
 
-      dateCellElement = gridNativeElement.querySelector(`.${SkyCellClass.Date}`) as HTMLElement;
+      dateCellElement = gridNativeElement.querySelector(
+        `.${SkyCellClass.Date}`
+      ) as HTMLElement;
     });
 
     it('renders a skyux datepicker', () => {
       const datepickerEditorSelector = `.sky-ag-grid-cell-editor-datepicker`;
-      let datepickerEditorElement = gridNativeElement.querySelector(datepickerEditorSelector);
+      let datepickerEditorElement = gridNativeElement.querySelector(
+        datepickerEditorSelector
+      );
 
       expect(datepickerEditorElement).toBeNull();
 
       dateCellElement.click();
 
-      datepickerEditorElement = gridNativeElement.querySelector(datepickerEditorSelector);
+      datepickerEditorElement = gridNativeElement.querySelector(
+        datepickerEditorSelector
+      );
 
       expect(datepickerEditorElement).toBeVisible();
     });

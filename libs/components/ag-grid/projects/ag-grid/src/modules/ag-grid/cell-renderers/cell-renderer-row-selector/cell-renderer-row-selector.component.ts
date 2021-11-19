@@ -2,17 +2,15 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy,
   Component,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 
-import {
-  ICellRendererAngularComp
-} from 'ag-grid-angular';
+import { ICellRendererAngularComp } from 'ag-grid-angular';
 
 import {
   ICellRendererParams,
   RowNode,
-  RowSelectedEvent
+  RowSelectedEvent,
 } from 'ag-grid-community';
 
 /**
@@ -23,9 +21,11 @@ import {
   templateUrl: './cell-renderer-row-selector.component.html',
   styleUrls: ['./cell-renderer-row-selector.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
-export class SkyAgGridCellRendererRowSelectorComponent implements ICellRendererAngularComp {
+export class SkyAgGridCellRendererRowSelectorComponent
+  implements ICellRendererAngularComp
+{
   public checked: boolean;
   public dataField: string;
   public rowNode: RowNode;
@@ -33,9 +33,7 @@ export class SkyAgGridCellRendererRowSelectorComponent implements ICellRendererA
 
   private params: ICellRendererParams;
 
-  constructor(
-    private changeDetection: ChangeDetectorRef
-  ) { }
+  constructor(private changeDetection: ChangeDetectorRef) {}
 
   /**
    * agInit is called by agGrid once after the cell is created and provides the renderer with the information it needs.
@@ -54,9 +52,12 @@ export class SkyAgGridCellRendererRowSelectorComponent implements ICellRendererA
       this.checked = this.rowNode.isSelected();
     }
 
-    this.rowNode.addEventListener(RowNode.EVENT_ROW_SELECTED, (event: RowSelectedEvent) => {
-      this.rowSelectedListener(event);
-    });
+    this.rowNode.addEventListener(
+      RowNode.EVENT_ROW_SELECTED,
+      (event: RowSelectedEvent) => {
+        this.rowSelectedListener(event);
+      }
+    );
   }
 
   /**

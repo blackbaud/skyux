@@ -2,29 +2,33 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef
+  ElementRef,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 import { IPopupComponent } from 'ag-grid-community/dist/lib/interfaces/iPopupComponent';
 import { SkyCellEditorLookupParams } from '../../types/cell-editor-lookup-params';
-import { applySkyLookupPropertiesDefaults, SkyLookupProperties } from '../../types/lookup-properties';
+import {
+  applySkyLookupPropertiesDefaults,
+  SkyLookupProperties,
+} from '../../types/lookup-properties';
 
 @Component({
   selector: 'sky-ag-grid-cell-editor-lookup',
   templateUrl: './cell-editor-lookup.component.html',
   styleUrls: ['./cell-editor-lookup.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyAgGridCellEditorLookupComponent implements ICellEditorAngularComp, IPopupComponent<any> {
-
+export class SkyAgGridCellEditorLookupComponent
+  implements ICellEditorAngularComp, IPopupComponent<any>
+{
   public skyComponentProperties?: SkyLookupProperties;
   public isAlive = true;
   public lookupForm = new FormGroup({
     currentSelection: new FormControl({
       value: [],
-      disabled: false
-    })
+      disabled: false,
+    }),
   });
 
   private params: SkyCellEditorLookupParams;
@@ -32,8 +36,7 @@ export class SkyAgGridCellEditorLookupComponent implements ICellEditorAngularCom
   constructor(
     private changeDetector: ChangeDetectorRef,
     private elementRef: ElementRef
-  ) {
-  }
+  ) {}
 
   public agInit(params: SkyCellEditorLookupParams): void {
     this.params = params;
@@ -73,7 +76,9 @@ export class SkyAgGridCellEditorLookupComponent implements ICellEditorAngularCom
     this.elementRef.nativeElement.querySelector('.sky-lookup-input')?.focus();
   }
 
-  private updateComponentProperties(params: SkyCellEditorLookupParams): SkyLookupProperties {
+  private updateComponentProperties(
+    params: SkyCellEditorLookupParams
+  ): SkyLookupProperties {
     const skyLookupProperties = params.skyComponentProperties;
     return applySkyLookupPropertiesDefaults(skyLookupProperties);
   }

@@ -6,7 +6,6 @@ import { SkyAgGridCellRendererLookupComponent } from './cell-renderer-lookup.com
 @NgModule({
   declarations: [SkyAgGridCellRendererLookupComponent],
   exports: [SkyAgGridCellRendererLookupComponent],
-    imports: [CommonModule, AgGridResourcesModule]
+  imports: [CommonModule, AgGridResourcesModule],
 })
-export class SkyAgGridCellRendererLookupModule {
-}
+export class SkyAgGridCellRendererLookupModule {}

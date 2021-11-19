@@ -2,5 +2,5 @@
  * @internal
  */
 export enum SkyHeaderClass {
-  RightAligned = 'sky-ag-grid-header-right-aligned'
+  RightAligned = 'sky-ag-grid-header-right-aligned',
 }

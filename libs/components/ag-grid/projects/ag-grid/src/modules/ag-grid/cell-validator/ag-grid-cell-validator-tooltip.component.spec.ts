@@ -8,14 +8,14 @@ import { SkyAgGridCellValidatorTooltipComponent } from './ag-grid-cell-validator
 describe('SkyAgGridCellValidatorTooltipComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyAgGridFixtureModule
-      ]
+      imports: [SkyAgGridFixtureModule],
     });
   });
 
   it('should create an instance', () => {
-    const fixture = TestBed.createComponent(SkyAgGridCellValidatorTooltipFixtureComponent);
+    const fixture = TestBed.createComponent(
+      SkyAgGridCellValidatorTooltipFixtureComponent
+    );
     fixture.componentInstance.parameters = {
       $scope: undefined,
       addRenderedRowListener(): void {},
@@ -23,7 +23,9 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
       colDef: undefined,
       // @ts-ignore
       column: {
-        getActualWidth(): number { return -1; }
+        getActualWidth(): number {
+          return -1;
+        },
       },
       columnApi: undefined,
       context: undefined,
@@ -38,14 +40,16 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
       setValue(): void {},
       skyComponentProperties: undefined,
       value: undefined,
-      valueFormatted: undefined
+      valueFormatted: undefined,
     };
     fixture.detectChanges();
     expect(fixture.componentInstance).toBeTruthy();
   });
 
   it('should toggle popover', fakeAsync(() => {
-    const fixture = TestBed.createComponent(SkyAgGridCellValidatorTooltipComponent);
+    const fixture = TestBed.createComponent(
+      SkyAgGridCellValidatorTooltipComponent
+    );
     const parameters: SkyCellRendererValidatorParams = {
       $scope: undefined,
       addRenderedRowListener(): void {},
@@ -53,7 +57,9 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
       colDef: undefined,
       // @ts-ignore
       column: {
-        getActualWidth(): number { return -1; }
+        getActualWidth(): number {
+          return -1;
+        },
       },
       columnApi: undefined,
       context: undefined,
@@ -68,13 +74,13 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
       setValue(): void {},
       skyComponentProperties: undefined,
       value: undefined,
-      valueFormatted: undefined
+      valueFormatted: undefined,
     };
     fixture.componentInstance.params = {
       ...parameters,
       skyComponentProperties: {
-        validatorMessage: 'Test message ABC'
-      }
+        validatorMessage: 'Test message ABC',
+      },
     };
     fixture.detectChanges();
     expect(fixture.componentInstance).toBeTruthy();
@@ -92,8 +98,8 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
     fixture.componentInstance.params = {
       ...parameters,
       skyComponentProperties: {
-        validatorMessage: () => 'Test message XYZ'
-      }
+        validatorMessage: () => 'Test message XYZ',
+      },
     };
     expect(fixture.componentInstance.validatorMessage).toBe('Test message XYZ');
   }));

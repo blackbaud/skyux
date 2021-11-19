@@ -1,33 +1,16 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  expect,
-  expectAsync
-} from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import {
-  Column,
-  ICellEditorParams
-} from 'ag-grid-community';
+import { Column, ICellEditorParams } from 'ag-grid-community';
 
-import {
-  SkyCellClass
-} from '../../types/cell-class';
+import { SkyCellClass } from '../../types/cell-class';
 
-import {
-  SkyAgGridFixtureComponent
-} from '../../fixtures/ag-grid.component.fixture';
+import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 
-import {
-  SkyAgGridFixtureModule
-} from '../../fixtures/ag-grid.module.fixture';
+import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
 
-import {
-  SkyAgGridCellEditorTextComponent
-} from './cell-editor-text.component';
+import { SkyAgGridCellEditorTextComponent } from './cell-editor-text.component';
 
 describe('SkyCellEditorTextComponent', () => {
   // We've had some issue with grid rendering causing the specs to timeout in IE. Extending it slightly to help.
@@ -39,12 +22,12 @@ describe('SkyCellEditorTextComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyAgGridFixtureModule
-      ]
+      imports: [SkyAgGridFixtureModule],
     });
 
-    textEditorFixture = TestBed.createComponent(SkyAgGridCellEditorTextComponent);
+    textEditorFixture = TestBed.createComponent(
+      SkyAgGridCellEditorTextComponent
+    );
     textEditorNativeElement = textEditorFixture.nativeElement;
     textEditorComponent = textEditorFixture.componentInstance;
 
@@ -57,7 +40,9 @@ describe('SkyCellEditorTextComponent', () => {
 
     gridFixture.detectChanges();
 
-    const textCellElement = gridNativeElement.querySelector(`.${SkyCellClass.Text}`);
+    const textCellElement = gridNativeElement.querySelector(
+      `.${SkyCellClass.Text}`
+    );
     const textCellEditorSelector = `.ag-cell-inline-editing.${SkyCellClass.Text}`;
     let inputElement = gridNativeElement.querySelector(textCellEditorSelector);
 
@@ -76,11 +61,12 @@ describe('SkyCellEditorTextComponent', () => {
       const columnWidth = 100;
       const column = new Column(
         {
-          colId: 'col'
+          colId: 'col',
         },
         undefined,
         'col',
-        true);
+        true
+      );
 
       column.setActualWidth(columnWidth);
 
@@ -102,7 +88,7 @@ describe('SkyCellEditorTextComponent', () => {
         stopEditing: undefined,
         eGridCell: undefined,
         parseValue: undefined,
-        formatValue: undefined
+        formatValue: undefined,
       };
 
       expect(textEditorComponent.value).toBeUndefined();
@@ -150,5 +136,4 @@ describe('SkyCellEditorTextComponent', () => {
 
     await expectAsync(textEditorFixture.nativeElement).toBeAccessible();
   });
-
 });

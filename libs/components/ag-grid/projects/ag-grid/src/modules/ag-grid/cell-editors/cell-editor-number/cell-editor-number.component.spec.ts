@@ -1,33 +1,16 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  expect,
-  expectAsync
-} from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import {
-  Column,
-  ICellEditorParams
-} from 'ag-grid-community';
+import { Column, ICellEditorParams } from 'ag-grid-community';
 
-import {
-  SkyCellClass
-} from '../../types/cell-class';
+import { SkyCellClass } from '../../types/cell-class';
 
-import {
-  SkyAgGridFixtureComponent
-} from '../../fixtures/ag-grid.component.fixture';
+import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 
-import {
-  SkyAgGridFixtureModule
-} from '../../fixtures/ag-grid.module.fixture';
+import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
 
-import {
-  SkyAgGridCellEditorNumberComponent
-} from '../cell-editor-number/cell-editor-number.component';
+import { SkyAgGridCellEditorNumberComponent } from '../cell-editor-number/cell-editor-number.component';
 
 describe('SkyCellEditorNumberComponent', () => {
   // We've had some issue with grid rendering causing the specs to timeout in IE. Extending it slightly to help.
@@ -39,12 +22,12 @@ describe('SkyCellEditorNumberComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyAgGridFixtureModule
-      ]
+      imports: [SkyAgGridFixtureModule],
     });
 
-    numberEditorFixture = TestBed.createComponent(SkyAgGridCellEditorNumberComponent);
+    numberEditorFixture = TestBed.createComponent(
+      SkyAgGridCellEditorNumberComponent
+    );
     numberEditorNativeElement = numberEditorFixture.nativeElement;
     numberEditorComponent = numberEditorFixture.componentInstance;
 
@@ -57,9 +40,13 @@ describe('SkyCellEditorNumberComponent', () => {
 
     gridFixture.detectChanges();
 
-    const numberCellElement = gridNativeElement.querySelector(`.${SkyCellClass.Number}`);
+    const numberCellElement = gridNativeElement.querySelector(
+      `.${SkyCellClass.Number}`
+    );
     const numberCellEditorSelector = `.ag-cell-inline-editing.${SkyCellClass.Number}`;
-    let inputElement = gridNativeElement.querySelector(numberCellEditorSelector);
+    let inputElement = gridNativeElement.querySelector(
+      numberCellEditorSelector
+    );
 
     expect(inputElement).toBeNull();
 
@@ -76,11 +63,12 @@ describe('SkyCellEditorNumberComponent', () => {
       const columnWidth = 100;
       const column = new Column(
         {
-          colId: 'col'
+          colId: 'col',
         },
         undefined,
         'col',
-        true);
+        true
+      );
 
       column.setActualWidth(columnWidth);
 
@@ -102,7 +90,7 @@ describe('SkyCellEditorNumberComponent', () => {
         stopEditing: undefined,
         eGridCell: undefined,
         parseValue: undefined,
-        formatValue: undefined
+        formatValue: undefined,
       };
 
       expect(numberEditorComponent.value).toBeUndefined();
@@ -159,5 +147,4 @@ describe('SkyCellEditorNumberComponent', () => {
 
     await expectAsync(numberEditorFixture.nativeElement).toBeAccessible();
   });
-
 });

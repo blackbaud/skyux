@@ -1,6 +1,7 @@
-<sky-input-box *ngIf="isAlive"
-               [disabled]="skyComponentProperties?.disabled"
-               [formGroup]="lookupForm"
+<sky-input-box
+  *ngIf="isAlive"
+  [disabled]="skyComponentProperties?.disabled"
+  [formGroup]="lookupForm"
 >
   <sky-lookup
     [ariaLabel]="skyComponentProperties?.ariaLabel"
@@ -17,7 +18,9 @@
     [searchFilters]="skyComponentProperties?.searchFilters"
     [searchResultsLimit]="skyComponentProperties?.searchResultsLimit"
     [searchResultTemplate]="skyComponentProperties?.searchResultTemplate"
-    [searchTextMinimumCharacters]="skyComponentProperties?.searchTextMinimumCharacters"
+    [searchTextMinimumCharacters]="
+      skyComponentProperties?.searchTextMinimumCharacters
+    "
     [selectMode]="skyComponentProperties?.selectMode"
     [showAddButton]="skyComponentProperties?.showAddButton"
     [showMoreConfig]="skyComponentProperties?.showMoreConfig"

@@ -1,20 +1,11 @@
-import {
-  ChangeDetectionStrategy,
-  Component, Input
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NumericOptions } from '@skyux/core';
 
-import {
-  ICellRendererAngularComp
-} from 'ag-grid-angular';
+import { ICellRendererAngularComp } from 'ag-grid-angular';
 
-import {
-  SkyCellRendererCurrencyParams
-} from '../../types/cell-renderer-currency-params';
+import { SkyCellRendererCurrencyParams } from '../../types/cell-renderer-currency-params';
 
-import {
-  ValidatorOptions
-} from '../../types/validator-options';
+import { ValidatorOptions } from '../../types/validator-options';
 
 /**
  * @internal
@@ -23,10 +14,11 @@ import {
   selector: 'sky-ag-grid-cell-renderer-currency',
   templateUrl: './cell-renderer-currency.component.html',
   styleUrls: ['./cell-renderer-currency.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
-export class SkyAgGridCellRendererCurrencyComponent implements ICellRendererAngularComp {
+export class SkyAgGridCellRendererCurrencyComponent
+  implements ICellRendererAngularComp
+{
   @Input()
   public set params(value: SkyCellRendererCurrencyParams) {
     this.agInit(value);
@@ -60,7 +52,8 @@ export class SkyAgGridCellRendererCurrencyComponent implements ICellRendererAngu
     this.columnHeader = this._params.colDef && this._params.colDef.headerName;
     this.rowNumber = this._params.rowIndex + 1;
     this.columnWidth = this._params.column?.getActualWidth();
-    this.rowHeightWithoutBorders = this._params.node && this._params.node.rowHeight - 4;
+    this.rowHeightWithoutBorders =
+      this._params.node && this._params.node.rowHeight - 4;
     this.skyComponentProperties = this._params.skyComponentProperties || {};
     this.skyComponentProperties.format = 'currency';
     this.skyComponentProperties.minDigits = 2;

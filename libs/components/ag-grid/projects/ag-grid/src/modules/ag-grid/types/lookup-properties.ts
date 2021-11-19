@@ -3,7 +3,7 @@ import {
   SkyAutocompleteSearchFunction,
   SkyAutocompleteSearchFunctionFilter,
   SkyLookupSelectModeType,
-  SkyLookupShowMoreConfig
+  SkyLookupShowMoreConfig,
 } from '@skyux/lookup';
 
 export interface SkyLookupProperties {
@@ -28,7 +28,9 @@ export interface SkyLookupProperties {
   wrapperClass?: string;
 }
 
-export function applySkyLookupPropertiesDefaults(skyLookupProperties: SkyLookupProperties) {
+export function applySkyLookupPropertiesDefaults(
+  skyLookupProperties: SkyLookupProperties
+) {
   return {
     ariaLabel: skyLookupProperties.ariaLabel || '',
     autocompleteAttribute: skyLookupProperties.autocompleteAttribute || 'off',
@@ -44,10 +46,11 @@ export function applySkyLookupPropertiesDefaults(skyLookupProperties: SkyLookupP
     searchFilters: skyLookupProperties.searchFilters || [],
     searchResultsLimit: skyLookupProperties.searchResultsLimit || undefined,
     searchResultTemplate: skyLookupProperties.searchResultTemplate || undefined,
-    searchTextMinimumCharacters: skyLookupProperties.searchTextMinimumCharacters || 1,
+    searchTextMinimumCharacters:
+      skyLookupProperties.searchTextMinimumCharacters || 1,
     selectMode: skyLookupProperties.selectMode || undefined,
     showAddButton: skyLookupProperties.showAddButton || false,
     showMoreConfig: skyLookupProperties.showMoreConfig || {},
-    wrapperClass: 'ag-custom-component-popup'
+    wrapperClass: 'ag-custom-component-popup',
   };
 }
