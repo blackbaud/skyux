@@ -1,5 +1,4 @@
 export interface SkyGridColumnWidthModelChange {
-
   /**
    * Specifies the id of the column.
    */

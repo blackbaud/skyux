@@ -1,35 +1,27 @@
-import {
-  Component,
-  ViewChild,
-  TemplateRef
-} from '@angular/core';
+import { Component, ViewChild, TemplateRef } from '@angular/core';
 
-import {
-  SkyGridColumnModel
-} from '../grid-column.model';
+import { SkyGridColumnModel } from '../grid-column.model';
 
-import { SkyGridComponent
-} from '../grid.component';
+import { SkyGridComponent } from '../grid.component';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './grid-no-header.component.fixture.html'
+  templateUrl: './grid-no-header.component.fixture.html',
 })
 export class GridNoHeaderTestComponent {
-
   public columns: Array<SkyGridColumnModel>;
 
   public data: any[] = [
     {
       id: '1',
       column1: '1',
-      column2: 'Apple'
+      column2: 'Apple',
     },
     {
       id: '2',
       column1: '01',
-      column2: 'Banana'
-    }
+      column2: 'Banana',
+    },
   ];
 
   public selectedColumnIds: string[];

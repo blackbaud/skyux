@@ -32,11 +32,9 @@
     heading="Column2"
     [width]="150"
     [isSortable]="false"
-    [search]="searchFunction">
-    <ng-template
-      let-row="row">
-      {{row?.column2}}
-    </ng-template>
+    [search]="searchFunction"
+  >
+    <ng-template let-row="row"> {{row?.column2}} </ng-template>
   </sky-grid-column>
   <sky-grid-column
     id="column3"
@@ -56,11 +54,7 @@
     [width]="allColumnWidth"
   >
   </sky-grid-column>
-  <sky-grid-column
-    field="column5"
-    heading="Column5"
-    [width]="50"
-   >
+  <sky-grid-column field="column5" heading="Column5" [width]="50">
   </sky-grid-column>
   <sky-grid-column
     id="hiddenCol1"
@@ -76,7 +70,8 @@
     [width]="allColumnWidth"
   >
   </sky-grid-column>
-  <sky-grid-column *ngIf="showWideColumn"
+  <sky-grid-column
+    *ngIf="showWideColumn"
     id="column6"
     field="column1"
     heading="Column8"
@@ -85,18 +80,12 @@
   </sky-grid-column>
 </sky-grid>
 
-<sky-popover #column1Help>
-  Help content for column 1.
-</sky-popover>
+<sky-popover #column1Help> Help content for column 1. </sky-popover>
 
-<sky-popover #column4Help>
-  Help content for column 4.
-</sky-popover>
+<sky-popover #column4Help> Help content for column 4. </sky-popover>
 
 <ng-template let-value="value" #template1>
-  <div class="sky-test-custom-template">
-  {{value}}
-  </div>
+  <div class="sky-test-custom-template">{{value}}</div>
 </ng-template>
 
 <button

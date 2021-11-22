@@ -1,5 +1,6 @@
 <div class="sky-grid">
-  <div *ngIf="showTopScroll"
+  <div
+    *ngIf="showTopScroll"
     class="sky-grid-top-scroll-container"
     (scroll)="onTopScroll($event)"
     #topScrollContainer
@@ -16,14 +17,14 @@
     (scroll)="onGridScroll($event)"
     #gridContainer
   >
-    <table
-      class="sky-grid-table"
-      [ngClass]="getTableClassNames()"
-      #gridTable>
+    <table class="sky-grid-table" [ngClass]="getTableClassNames()" #gridTable>
       <thead>
         <tr dragula="sky-grid-heading">
-          <th *ngIf="enableMultiselect"
-            class="sky-grid-heading sky-grid-multiselect-cell sky-grid-header-locked"
+          <th
+            *ngIf="enableMultiselect"
+            class="
+              sky-grid-heading sky-grid-multiselect-cell sky-grid-header-locked
+            "
             scope="col"
             [style.max-width.px]="minColWidth"
             [style.width.px]="minColWidth"
@@ -32,7 +33,12 @@
               {{ 'skyux_grid_multiselect_select_row' | skyLibResources }}
             </span>
           </th>
-          <th *ngFor="let column of displayedColumns; let last = last, let i = index"
+          <th
+            *ngFor="
+              let column of displayedColumns;
+              let last = last;
+              let i = index
+            "
             class="sky-grid-heading sky-field-label"
             scope="col"
             [attr.sky-cmp-index]="i"
@@ -54,22 +60,28 @@
               [style.max-width.px]="column.width - 1"
               [style.width.px]="column.width - 1"
             >
-              <span *ngIf="(getCaretVisibility(column.field) | async) === 'hidden'"
+              <span
+                *ngIf="(getCaretVisibility(column.field) | async) === 'hidden'"
                 class="sky-grid-header-caret-hidden-spacing"
               ></span>
               <!-- The no spacing here is intentional to avoid extra spaces due to these being inline elements -->
-              <span
-                class="sky-grid-header-text"
-              >{{column.heading?.trim()}}</span>
+              <span class="sky-grid-header-text">{{
+                column.heading?.trim()
+              }}</span>
               <sky-icon
                 class="sky-grid-heading-sort"
-                [ngClass]="'sky-grid-heading-sort-' + (getCaretVisibility(column.field) | async)"
+                [ngClass]="
+                  'sky-grid-heading-sort-' +
+                  (getCaretVisibility(column.field) | async)
+                "
                 [icon]="getCaretIconNames(column)"
               >
               </sky-icon>
-              <sky-help-inline *ngIf="column.inlineHelpPopover"
+              <sky-help-inline
+                *ngIf="column.inlineHelpPopover"
                 [ngClass]="{
-                  'sky-grid-help-inline-sort-hidden' : getHelpInlineClass(column.field) | async
+                  'sky-grid-help-inline-sort-hidden':
+                    getHelpInlineClass(column.field) | async
                 }"
                 [skyPopover]="column.inlineHelpPopover"
                 (keydown.enter)="$event.stopPropagation()"
@@ -80,7 +92,7 @@
               </sky-help-inline>
             </div>
             <span
-              *ngIf="(fit==='width' && !last) || (fit==='scroll')"
+              *ngIf="(fit === 'width' && !last) || fit === 'scroll'"
               aria-hidden="true"
               class="sky-grid-resize-handle"
               tabindex="-1"
@@ -107,7 +119,8 @@
               (focus)="onResizeHandleFocus($event)"
               (keydown)="onKeydownResizeCol($event)"
               (change)="onInputChangeResizeCol($event)"
-              #colSizeRange />
+              #colSizeRange
+            />
           </th>
         </tr>
       </thead>
@@ -119,13 +132,14 @@
           [attr.aria-selected]="item.isSelected"
           [attr.sky-cmp-id]="item.id"
           [ngClass]="{
-            'sky-grid-multiselect-selected-row' : item.isSelected,
-            'sky-grid-multiselect-row' : enableMultiselect,
-            'sky-grid-row-highlight' : isRowHighlighted(item.id)
+            'sky-grid-multiselect-selected-row': item.isSelected,
+            'sky-grid-multiselect-row': enableMultiselect,
+            'sky-grid-row-highlight': isRowHighlighted(item.id)
           }"
           (click)="onRowClick($event, item)"
         >
-          <td *ngIf="enableMultiselect"
+          <td
+            *ngIf="enableMultiselect"
             class="sky-grid-multiselect-cell sky-grid-header-locked"
           >
             <div
@@ -140,47 +154,54 @@
               </sky-checkbox>
             </div>
           </td>
-          <td *ngFor="let column of displayedColumns; let last = last; let i = index"
+          <td
+            *ngFor="
+              let column of displayedColumns;
+              let last = last;
+              let i = index
+            "
             class="sky-grid-cell"
             [ngClass]="'sky-grid-column-alignment-' + column.alignment"
             [style.max-width.px]="column.width"
             [style.width.px]="column.width"
           >
             <sky-grid-cell
-              [skyHighlight]="!column.excludeFromHighlighting ? highlightText : undefined"
+              [skyHighlight]="
+                !column.excludeFromHighlighting ? highlightText : undefined
+              "
               [template]="column.template || defaultCellTemplate"
               [fieldSelector]="column.field"
               [item]="item"
               [columnId]="column.id"
-              [attr.sky-cmp-id]="column.id || column.field">
+              [attr.sky-cmp-id]="column.id || column.field"
+            >
             </sky-grid-cell>
           </td>
         </tr>
       </tbody>
     </table>
-    <div *ngIf="showResizeBar"
+    <div
+      *ngIf="showResizeBar"
       aria-hidden="true"
       id="sky-grid-resize-bar"
       tabindex="-1"
       #resizeBar
-    >
-    </div>
+    ></div>
   </div>
 </div>
 
-<ng-template #defaultCellTemplate let-row="row" let-value="value">{{value}}</ng-template>
+<ng-template #defaultCellTemplate let-row="row" let-value="value">{{
+  value
+}}</ng-template>
 
-<ng-template
-  let-item
-  #inlineDeleteTemplateRef
->
+<ng-template let-item #inlineDeleteTemplateRef>
   <div
     [id]="'row-delete-ref-' + item.id"
-    [ngStyle]='{
-      "height": getRowHeight(0),
-      "position": "fixed",
-      "width": tableWidth + "px"
-    }'
+    [ngStyle]="{
+      height: getRowHeight(0),
+      position: 'fixed',
+      width: tableWidth + 'px'
+    }"
     #inlineDeleteRef
   >
     <sky-inline-delete

@@ -1,3 +1,7 @@
+# 5.0.1 (2021-11-22)
+
+- Added support for Prettier code formatting and updated the builder to support StackBlitz. [#171](https://github.com/blackbaud/skyux-grids/pull/171)
+
 # 5.0.0 (2021-10-01)
 
 ### New features
@@ -120,7 +124,7 @@
 # 3.2.1 (2019-09-27)
 
 - Fixed the grid component to restrict how users reorder the columns beside locked columns. You can no longer reorder the columns on the left side of a locked column, and you can no longer move columns from the right side of a locked column to the left side.
- [#72](https://github.com/blackbaud/skyux-grids/pull/72)
+  [#72](https://github.com/blackbaud/skyux-grids/pull/72)
 - Fixed the grid component to prevent users from reordering locked columns with the sort indicator. [#71](https://github.com/blackbaud/skyux-grids/pull/71)
 - Fixed the grid component to prevent scrolling when users reorder columns on mobile devices. [#70](https://github.com/blackbaud/skyux-grids/pull/70)
 
@@ -182,9 +186,9 @@
 
 # 3.0.0-rc.2 (2018-11-20)
 
- - Added support for `@skyux/list-builder-common@3.0.0-rc.1`. [#14](https://github.com/blackbaud/skyux-grids/pull/14)
- - Fixed the grid component's column resize drag handle to not inadvertently trigger a column sort. [#17](https://github.com/blackbaud/skyux-grids/pull/17)
- - Fixed grid cells to properly handle text overflow when column widths are fixed. [#13](https://github.com/blackbaud/skyux-grids/pull/13)
+- Added support for `@skyux/list-builder-common@3.0.0-rc.1`. [#14](https://github.com/blackbaud/skyux-grids/pull/14)
+- Fixed the grid component's column resize drag handle to not inadvertently trigger a column sort. [#17](https://github.com/blackbaud/skyux-grids/pull/17)
+- Fixed grid cells to properly handle text overflow when column widths are fixed. [#13](https://github.com/blackbaud/skyux-grids/pull/13)
 
 # 3.0.0-rc.1 (2018-11-12)
 

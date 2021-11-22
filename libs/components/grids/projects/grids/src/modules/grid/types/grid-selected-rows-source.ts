@@ -6,5 +6,5 @@ export enum SkyGridSelectedRowsSource {
   ClearAll,
   RowClick,
   SelectAll,
-  SelectedRowIdsChange
+  SelectedRowIdsChange,
 }

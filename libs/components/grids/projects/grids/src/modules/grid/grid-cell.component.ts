@@ -5,13 +5,10 @@ import {
   ViewContainerRef,
   TemplateRef,
   OnInit,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
-import {
-  getData,
-  ListItemModel
-} from '@skyux/list-builder-common';
+import { getData, ListItemModel } from '@skyux/list-builder-common';
 
 /**
  * @internal
@@ -20,7 +17,7 @@ import {
   selector: 'sky-grid-cell',
   template: '<ng-template #cell></ng-template>',
   styleUrls: ['./grid-cell.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyGridCellComponent implements OnInit {
   @Input()
@@ -37,7 +34,7 @@ export class SkyGridCellComponent implements OnInit {
 
   @ViewChild('cell', {
     read: ViewContainerRef,
-    static: true
+    static: true,
   })
   private container: ViewContainerRef;
 

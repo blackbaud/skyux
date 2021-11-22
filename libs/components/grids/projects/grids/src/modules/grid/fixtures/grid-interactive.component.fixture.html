@@ -4,31 +4,19 @@
   [width]="600"
   [height]="400"
   [enableMultiselect]="true"
-  [multiselectRowId]="multiselectRowId">
-  <sky-grid-column
-    field="column1"
-    heading="Column1">
+  [multiselectRowId]="multiselectRowId"
+>
+  <sky-grid-column field="column1" heading="Column1"> </sky-grid-column>
+  <sky-grid-column field="column2" heading="Column2" [template]="template1">
   </sky-grid-column>
-  <sky-grid-column
-    field="column2"
-    heading="Column2"
-    [template]="template1">
-  </sky-grid-column>
-  <sky-grid-column
-    field="column3"
-    heading="Column3"
-    [template]="template2">
+  <sky-grid-column field="column3" heading="Column3" [template]="template2">
   </sky-grid-column>
 </sky-grid>
 
 <ng-template let-value="value" #template1>
-  <a href="http://www.example.com">
-  {{value}}
-  </a>
+  <a href="http://www.example.com"> {{value}} </a>
 </ng-template>
 
 <ng-template let-value="value" #template2>
-  <button>
-  {{value}}
-  </button>
+  <button>{{value}}</button>
 </ng-template>

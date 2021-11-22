@@ -7,24 +7,16 @@ import {
   OnChanges,
   QueryList,
   SimpleChanges,
-  TemplateRef
+  TemplateRef,
 } from '@angular/core';
 
-import {
-  SkyGridColumnAlignment
-} from './types/grid-column-alignment';
+import { SkyGridColumnAlignment } from './types/grid-column-alignment';
 
-import {
-  SkyGridColumnDescriptionModelChange
-} from './types/grid-column-description-model-change';
+import { SkyGridColumnDescriptionModelChange } from './types/grid-column-description-model-change';
 
-import {
-  SkyGridColumnHeadingModelChange
-} from './types/grid-column-heading-model-change';
+import { SkyGridColumnHeadingModelChange } from './types/grid-column-heading-model-change';
 
-import {
-  SkyGridColumnInlineHelpPopoverModelChange
-} from './types/grid-column-inline-help-popover-model-change';
+import { SkyGridColumnInlineHelpPopoverModelChange } from './types/grid-column-inline-help-popover-model-change';
 
 /**
  * Specifies the column information.
@@ -32,10 +24,9 @@ import {
 @Component({
   selector: 'sky-grid-column',
   template: '<ng-content></ng-content>',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyGridColumnComponent implements OnChanges {
-
   /**
    * Specifies the horizontal alignment of the column's data and header.
    * @default 'left'
@@ -113,9 +104,10 @@ export class SkyGridColumnComponent implements OnChanges {
    * the column executes a string compare on the column data.
    * @default (value, searchText) => value.toString().toLowerCase().indexOf(searchText) !== -1
    */
-  /* tslint:disable-next-line:no-input-rename */
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('search')
-  public searchFunction: (value: any, searchText: string) => boolean = this.search;
+  public searchFunction: (value: any, searchText: string) => boolean =
+    this.search;
 
   /**
    * @internal
@@ -130,7 +122,7 @@ export class SkyGridColumnComponent implements OnChanges {
    * which contains the value passed to the column, and the `row` variable, which contains
    * the entire row data.
    */
-  /* tslint:disable-next-line:no-input-rename */
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('template')
   public templateInput: TemplateRef<any>;
 
@@ -143,13 +135,16 @@ export class SkyGridColumnComponent implements OnChanges {
 
   public descriptionChanges: EventEmitter<string> = new EventEmitter<string>();
 
-  public descriptionModelChanges = new EventEmitter<SkyGridColumnDescriptionModelChange>();
+  public descriptionModelChanges =
+    new EventEmitter<SkyGridColumnDescriptionModelChange>();
 
   public headingChanges: EventEmitter<string> = new EventEmitter<string>();
 
-  public headingModelChanges = new EventEmitter<SkyGridColumnHeadingModelChange>();
+  public headingModelChanges =
+    new EventEmitter<SkyGridColumnHeadingModelChange>();
 
-  public inlineHelpPopoverModelChanges = new EventEmitter<SkyGridColumnInlineHelpPopoverModelChange>();
+  public inlineHelpPopoverModelChanges =
+    new EventEmitter<SkyGridColumnInlineHelpPopoverModelChange>();
 
   @ContentChildren(TemplateRef)
   private templates: QueryList<TemplateRef<any>>;
@@ -160,7 +155,7 @@ export class SkyGridColumnComponent implements OnChanges {
       this.headingModelChanges.emit({
         value: this.heading,
         id: this.id,
-        field: this.field
+        field: this.field,
       });
     }
     if (changes.description && changes.description.firstChange === false) {
@@ -168,14 +163,17 @@ export class SkyGridColumnComponent implements OnChanges {
       this.descriptionModelChanges.emit({
         value: this.description,
         id: this.id,
-        field: this.field
+        field: this.field,
       });
     }
-    if (changes.inlineHelpPopover && changes.inlineHelpPopover.firstChange === false) {
+    if (
+      changes.inlineHelpPopover &&
+      changes.inlineHelpPopover.firstChange === false
+    ) {
       this.inlineHelpPopoverModelChanges.emit({
         value: this.inlineHelpPopover,
         id: this.id,
-        field: this.field
+        field: this.field,
       });
     }
   }

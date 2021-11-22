@@ -1,5 +1,4 @@
 export enum SkyGridMessageType {
-
   /**
    * Selects the multiselect checkboxes for all rows in the grid.
    */
@@ -18,5 +17,5 @@ export enum SkyGridMessageType {
   /**
    * @internal
    */
-  AbortDeleteRow = 3
+  AbortDeleteRow = 3,
 }

@@ -4,55 +4,34 @@ import {
   TemplateRef,
   ContentChildren,
   QueryList,
-  ViewChildren
+  ViewChildren,
 } from '@angular/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  ListSortFieldSelectorModel
-} from '@skyux/list-builder-common';
+import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
 
-import {
-  SkyGridColumnWidthModelChange
-} from '../types/grid-column-width-model-change';
+import { SkyGridColumnWidthModelChange } from '../types/grid-column-width-model-change';
 
-import {
-  SkyGridMessage
-} from '../types/grid-message';
+import { SkyGridMessage } from '../types/grid-message';
 
-import {
-  SkyGridMessageType
-} from '../types/grid-message-type';
+import { SkyGridMessageType } from '../types/grid-message-type';
 
-import {
-  SkyGridRowDeleteCancelArgs
-} from '../types/grid-row-delete-cancel-args';
+import { SkyGridRowDeleteCancelArgs } from '../types/grid-row-delete-cancel-args';
 
-import {
-  SkyGridRowDeleteConfig
-} from '../types/grid-row-delete-config';
+import { SkyGridRowDeleteConfig } from '../types/grid-row-delete-config';
 
-import {
-  SkyGridRowDeleteConfirmArgs
-} from '../types/grid-row-delete-confirm-args';
+import { SkyGridRowDeleteConfirmArgs } from '../types/grid-row-delete-confirm-args';
 
-import {
-  SkyGridSelectedRowsModelChange
-} from '../types/grid-selected-rows-model-change';
+import { SkyGridSelectedRowsModelChange } from '../types/grid-selected-rows-model-change';
 
-import {
-  SkyGridComponent
-} from '../grid.component';
+import { SkyGridComponent } from '../grid.component';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './grid.component.fixture.html'
+  templateUrl: './grid.component.fixture.html',
 })
 export class GridTestComponent {
-
   public activeSortSelector: ListSortFieldSelectorModel;
 
   public allColumnWidth: number;
@@ -66,7 +45,7 @@ export class GridTestComponent {
       column2: 'Apple',
       column3: 1,
       column4: new Date().getTime() + 600000,
-      customId: '101'
+      customId: '101',
     },
     {
       id: '2',
@@ -75,7 +54,7 @@ export class GridTestComponent {
       column3: 1,
       column4: new Date().getTime() + 3600000,
       column5: 'test',
-      customId: '102'
+      customId: '102',
     },
     {
       id: '3',
@@ -83,7 +62,7 @@ export class GridTestComponent {
       column2: 'Carrot',
       column3: 11,
       column4: new Date().getTime() + 2400000,
-      customId: '103'
+      customId: '103',
     },
     {
       id: '4',
@@ -91,7 +70,7 @@ export class GridTestComponent {
       column2: 'Daikon',
       column3: 12,
       column4: new Date().getTime() + 1200000,
-      customId: '104'
+      customId: '104',
     },
     {
       id: '5',
@@ -99,7 +78,7 @@ export class GridTestComponent {
       column2: 'Edamame',
       column3: 13,
       column4: new Date().getTime() + 3000000,
-      customId: '105'
+      customId: '105',
     },
     {
       id: '6',
@@ -107,16 +86,17 @@ export class GridTestComponent {
       column2: 'Fig',
       column3: 20,
       column4: new Date().getTime() + 1800000,
-      customId: '106'
+      customId: '106',
     },
     {
       id: '7',
       column1: '21',
-      column2: 'Some long text that would provoke an overflow of monster proportions!',
+      column2:
+        'Some long text that would provoke an overflow of monster proportions!',
       column3: 21,
       column4: new Date().getTime() + 5600000,
-      customId: '107'
-    }
+      customId: '107',
+    },
   ];
 
   public dynamicWidth: number;
@@ -149,7 +129,9 @@ export class GridTestComponent {
     if (showCol) {
       this.selectedColumnIds.push('column6');
     } else {
-      this.selectedColumnIds = this.selectedColumnIds.filter(id => id !== 'column6');
+      this.selectedColumnIds = this.selectedColumnIds.filter(
+        (id) => id !== 'column6'
+      );
     }
 
     this._showWideColumn = showCol;
@@ -166,7 +148,7 @@ export class GridTestComponent {
     'column2',
     'column3',
     'column4',
-    'column5'
+    'column5',
   ];
 
   @ViewChild(SkyGridComponent)
@@ -180,43 +162,48 @@ export class GridTestComponent {
 
   public _showWideColumn: boolean = false;
 
-  public searchFunction: (data: any, searchText: string) => boolean =
-    (data: any, searchText: string) => {
-      this.searchedData = data;
-      this.searchText = searchText;
-      return true;
-    }
+  public searchFunction: (data: any, searchText: string) => boolean = (
+    data: any,
+    searchText: string
+  ) => {
+    this.searchedData = data;
+    this.searchText = searchText;
+    return true;
+  };
 
   public onSort(sortSelector: ListSortFieldSelectorModel): void {
     this.activeSortSelector = sortSelector;
     const sortField = sortSelector.fieldSelector;
     const descending = sortSelector.descending;
-    this.data = this.data.sort((a: any, b: any) => {
-      let value1 = a[sortField];
-      let value2 = b[sortField];
-      if (value1 && typeof value1 === 'string') {
-        value1 = value1.toLowerCase();
-      }
-      if (value2 && typeof value2 === 'string') {
-        value2 = value2.toLowerCase();
-      }
-      if (value1 === value2) {
-        return 0;
-      }
-      let result = value1 > value2 ? 1 : -1;
-      if (descending) {
-        result *= -1;
-      }
-      return result;
-    }).slice();
-
+    this.data = this.data
+      .sort((a: any, b: any) => {
+        let value1 = a[sortField];
+        let value2 = b[sortField];
+        if (value1 && typeof value1 === 'string') {
+          value1 = value1.toLowerCase();
+        }
+        if (value2 && typeof value2 === 'string') {
+          value2 = value2.toLowerCase();
+        }
+        if (value1 === value2) {
+          return 0;
+        }
+        let result = value1 > value2 ? 1 : -1;
+        if (descending) {
+          result *= -1;
+        }
+        return result;
+      })
+      .slice();
   }
 
   public onResize(columnWidths: Array<SkyGridColumnWidthModelChange>): void {
     this.columnWidthsChange = columnWidths;
   }
 
-  public onMultiselectChange(selectedRows: SkyGridSelectedRowsModelChange): void {
+  public onMultiselectChange(
+    selectedRows: SkyGridSelectedRowsModelChange
+  ): void {
     this.selectedRowsChange = selectedRows;
   }
 
@@ -225,26 +212,34 @@ export class GridTestComponent {
     const newData = this.data.slice();
     newData.push({
       id: '8',
-      column1: 'Some long text that would provoke an overflow of monster proportions!',
-      column2: 'Some long text that would provoke an overflow of monster proportions!',
-      column3: 'Some long text that would provoke an overflow of monster proportions!',
+      column1:
+        'Some long text that would provoke an overflow of monster proportions!',
+      column2:
+        'Some long text that would provoke an overflow of monster proportions!',
+      column3:
+        'Some long text that would provoke an overflow of monster proportions!',
       column4: 21,
       column5: new Date().getTime() + 5600000,
-      customId: '107'
+      customId: '107',
     });
     this.data = newData;
   }
 
   public setLongData(): void {
-    this.data = [{
-      id: '8',
-      column1: 'Some long text that would provoke an overflow of monster proportions!',
-      column2: 'Some long text that would provoke an overflow of monster proportions!',
-      column3: 'Some long text that would provoke an overflow of monster proportions!',
-      column4: 21,
-      column5: new Date().getTime() + 5600000,
-      customId: '107'
-    }];
+    this.data = [
+      {
+        id: '8',
+        column1:
+          'Some long text that would provoke an overflow of monster proportions! Some long text that would provoke an overflow of monster proportions! Some long text that would provoke an overflow of monster proportions!',
+        column2:
+          'Some long text that would provoke an overflow of monster proportions! Some long text that would provoke an overflow of monster proportions! Some long text that would provoke an overflow of monster proportions!',
+        column3:
+          'Some long text that would provoke an overflow of monster proportions! Some long text that would provoke an overflow of monster proportions! Some long text that would provoke an overflow of monster proportions!',
+        column4: 21,
+        column5: new Date().getTime() + 5600000,
+        customId: '107',
+      },
+    ];
   }
 
   public removeFirstItem(): void {
@@ -262,7 +257,13 @@ export class GridTestComponent {
   }
 
   public showColumn(): void {
-    this.selectedColumnIds = ['column1', 'column2', 'column3', 'column4', 'column5'];
+    this.selectedColumnIds = [
+      'column1',
+      'column2',
+      'column3',
+      'column4',
+      'column5',
+    ];
 
     if (this.showWideColumn) {
       this.selectedColumnIds.push('column6');
@@ -273,14 +274,16 @@ export class GridTestComponent {
     return;
   }
 
-  public cancelRowDeleteViaMessageStream(cancelArgs: SkyGridRowDeleteCancelArgs): void {
+  public cancelRowDeleteViaMessageStream(
+    cancelArgs: SkyGridRowDeleteCancelArgs
+  ): void {
     this.gridController.next({
       type: SkyGridMessageType.AbortDeleteRow,
       data: {
         abortDeleteRow: {
-          id: cancelArgs.id
-        }
-      }
+          id: cancelArgs.id,
+        },
+      },
     });
   }
 
@@ -289,9 +292,9 @@ export class GridTestComponent {
       type: SkyGridMessageType.PromptDeleteRow,
       data: {
         promptDeleteRow: {
-          id: id
-        }
-      }
+          id: id,
+        },
+      },
     });
   }
 

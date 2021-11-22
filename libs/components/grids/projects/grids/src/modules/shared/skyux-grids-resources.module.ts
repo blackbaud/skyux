@@ -12,11 +12,11 @@ import {
   SkyI18nModule,
   SkyLibResources,
   SkyLibResourcesProvider,
-  SKY_LIB_RESOURCES_PROVIDERS
+  SKY_LIB_RESOURCES_PROVIDERS,
 } from '@skyux/i18n';
 
 const RESOURCES: { [locale: string]: SkyLibResources } = {
-  'EN-US': {"skyux_grid_multiselect_select_row":{"message":"Select row"}},
+  'EN-US': { skyux_grid_multiselect_select_row: { message: 'Select row' } },
 };
 
 export class SkyuxGridsResourcesProvider implements SkyLibResourcesProvider {
@@ -30,10 +30,12 @@ export class SkyuxGridsResourcesProvider implements SkyLibResourcesProvider {
  */
 @NgModule({
   exports: [SkyI18nModule],
-  providers: [{
-    provide: SKY_LIB_RESOURCES_PROVIDERS,
-    useClass: SkyuxGridsResourcesProvider,
-    multi: true
-  }]
+  providers: [
+    {
+      provide: SKY_LIB_RESOURCES_PROVIDERS,
+      useClass: SkyuxGridsResourcesProvider,
+      multi: true,
+    },
+  ],
 })
-export class SkyuxGridsResourcesModule { }
+export class SkyuxGridsResourcesModule {}

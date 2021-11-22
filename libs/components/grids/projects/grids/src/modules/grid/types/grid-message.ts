@@ -1,9 +1,6 @@
-import {
-  SkyGridMessageType
-} from './grid-message-type';
+import { SkyGridMessageType } from './grid-message-type';
 
 export interface SkyGridMessage {
-
   /**
    * Indicates what type of message is being sent.
    */
@@ -15,9 +12,9 @@ export interface SkyGridMessage {
   data?: {
     abortDeleteRow?: {
       id: string;
-    },
+    };
     promptDeleteRow?: {
       id: string;
-    }
+    };
   };
 }

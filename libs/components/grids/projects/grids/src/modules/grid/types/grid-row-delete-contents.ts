@@ -1,7 +1,4 @@
-import {
-  SkyAffixer,
-  SkyOverlayInstance
-} from '@skyux/core';
+import { SkyAffixer, SkyOverlayInstance } from '@skyux/core';
 
 /**
  * Model for tracking the affixer and overlay of a row delete's inline delete.

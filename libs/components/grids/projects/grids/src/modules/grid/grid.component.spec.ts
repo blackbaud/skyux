@@ -1,140 +1,109 @@
+import { DebugElement } from '@angular/core';
 import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
-import {
-  DebugElement
-} from '@angular/core';
+import { By } from '@angular/platform-browser';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  expect,
-  expectAsync,
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { SkyAppWindowRef, SkyUIConfigService } from '@skyux/core';
 
-import {
-  SkyAppWindowRef,
-  SkyUIConfigService
-} from '@skyux/core';
+import { DragulaService } from 'ng2-dragula';
 
-import {
-  DragulaService
-} from 'ng2-dragula';
+import { of as observableOf, throwError as observableThrowError } from 'rxjs';
 
-import {
-  of as observableOf,
-  throwError as observableThrowError
-} from 'rxjs';
+import { GridAsyncTestComponent } from './fixtures/grid-async.component.fixture';
 
-import {
-  GridEmptyTestComponent
-} from './fixtures/grid-empty.component.fixture';
+import { GridDynamicTestComponent } from './fixtures/grid-dynamic.component.fixture';
 
-import {
-  GridDynamicTestComponent
-} from './fixtures/grid-dynamic.component.fixture';
+import { GridEmptyTestComponent } from './fixtures/grid-empty.component.fixture';
 
-import {
-  GridAsyncTestComponent
-} from './fixtures/grid-async.component.fixture';
+import { GridFixturesModule } from './fixtures/grid-fixtures.module';
 
-import {
-  GridFixturesModule
-} from './fixtures/grid-fixtures.module';
+import { GridInteractiveTestComponent } from './fixtures/grid-interactive.component.fixture';
 
-import {
-  GridTestComponent
-} from './fixtures/grid.component.fixture';
+import { GridNoHeaderTestComponent } from './fixtures/grid-no-header.component.fixture';
 
-import {
-  GridInteractiveTestComponent
-} from './fixtures/grid-interactive.component.fixture';
+import { GridUndefinedTestComponent } from './fixtures/grid-undefined.component.fixture';
 
-import {
-  GridNoHeaderTestComponent
-} from './fixtures/grid-no-header.component.fixture';
+import { GridTestComponent } from './fixtures/grid.component.fixture';
 
-import {
-  GridUndefinedTestComponent
-} from './fixtures/grid-undefined.component.fixture';
+import { MockDragulaService } from './fixtures/mock-dragula.service';
 
-import {
-  MockDragulaService
-} from './fixtures/mock-dragula.service';
+import { SkyGridColumnModel } from './grid-column.model';
 
-import {
-  SkyGridColumnModel
-} from './grid-column.model';
+import { SkyGridComponent } from './grid.component';
 
-import {
-  SkyGridComponent
-} from './grid.component';
+import { SkyGridMessage } from './types/grid-message';
 
-import {
-  SkyGridMessage
-} from './types/grid-message';
+import { SkyGridMessageType } from './types/grid-message-type';
 
-import {
-  SkyGridMessageType
-} from './types/grid-message-type';
+import { SkyGridSelectedRowsModelChange } from './types/grid-selected-rows-model-change';
 
-import {
-  SkyGridSelectedRowsModelChange
-} from './types/grid-selected-rows-model-change';
-
-import {
-  SkyGridSelectedRowsSource
-} from './types/grid-selected-rows-source';
+import { SkyGridSelectedRowsSource } from './types/grid-selected-rows-source';
 
 //#region helpers
 function getColumnHeader(id: string, element: DebugElement): DebugElement {
-  return element.query(
-    By.css('th[sky-cmp-id="' + id + '"]')
-  );
+  return element.query(By.css('th[sky-cmp-id="' + id + '"]'));
 }
 
-function getCell(rowId: string, columnId: string, element: DebugElement): DebugElement {
+function getCell(
+  rowId: string,
+  columnId: string,
+  element: DebugElement
+): DebugElement {
   return element.query(
-    By.css('tr[sky-cmp-id="' + rowId + '"] sky-grid-cell[sky-cmp-id="' + columnId + '"]')
+    By.css(
+      'tr[sky-cmp-id="' +
+        rowId +
+        '"] sky-grid-cell[sky-cmp-id="' +
+        columnId +
+        '"]'
+    )
   );
 }
 
 function getElementCords(elementRef: any): any {
-  const rect = (elementRef.nativeElement as HTMLElement).getBoundingClientRect();
-  const coords = {
-    x: Math.round(rect.left + (rect.width / 2)),
-    y: Math.round(rect.top + (rect.height / 2))
+  const rect = (
+    elementRef.nativeElement as HTMLElement
+  ).getBoundingClientRect();
+  return {
+    x: Math.round(rect.left + rect.width / 2),
+    y: Math.round(rect.top + rect.height / 2),
   };
-
-  return coords;
 }
 
 function getColumnWidths(fixture: ComponentFixture<any>): number[] {
   let expectedColumnWidths = new Array<number>();
-  const tableHeaders = fixture.debugElement.queryAll(By.css('.sky-grid-heading'));
-  tableHeaders.forEach(th => {
+  const tableHeaders = fixture.debugElement.queryAll(
+    By.css('.sky-grid-heading')
+  );
+  tableHeaders.forEach((th) => {
     expectedColumnWidths.push(Number(th.nativeElement.offsetWidth));
   });
 
   return expectedColumnWidths;
 }
 
-function getColumnResizeHandles(fixture: ComponentFixture<any>): DebugElement[] {
+function getColumnResizeHandles(
+  fixture: ComponentFixture<any>
+): DebugElement[] {
   return fixture.debugElement.queryAll(By.css('.sky-grid-resize-handle'));
 }
 
 function getColumnRangeInputs(fixture: ComponentFixture<any>): DebugElement[] {
-  return fixture.debugElement.queryAll(By.css('.sky-grid-column-input-aria-only'));
+  return fixture.debugElement.queryAll(
+    By.css('.sky-grid-column-input-aria-only')
+  );
 }
 
-function getColumnResizeInputMaxValues(fixture: ComponentFixture<any>): number[] {
+function getColumnResizeInputMaxValues(
+  fixture: ComponentFixture<any>
+): number[] {
   let resizeInputs = getColumnRangeInputs(fixture);
   let maxValues = new Array<number>();
 
@@ -144,39 +113,77 @@ function getColumnResizeInputMaxValues(fixture: ComponentFixture<any>): number[]
   return maxValues;
 }
 
-function resizeColumn(fixture: ComponentFixture<any>, deltaX: number, columnIndex: number): void {
+function resizeColumn(
+  fixture: ComponentFixture<any>,
+  deltaX: number,
+  columnIndex: number
+): void {
   const resizeHandles = getColumnResizeHandles(fixture);
   let axis = getElementCords(resizeHandles[columnIndex]);
   let event = {
     target: resizeHandles[columnIndex].nativeElement,
-    'pageX': axis.x,
-    'preventDefault': function () { },
-    'stopPropagation': function () { }
+    pageX: axis.x,
+    preventDefault: function () {},
+    stopPropagation: function () {},
   };
 
   resizeHandles[columnIndex].triggerEventHandler('mousedown', event);
   fixture.detectChanges();
 
   let evt = document.createEvent('MouseEvents');
-  evt.initMouseEvent('mousemove', false, false, window, 0, 0, 0, axis.x + deltaX,
-    0, false, false, false, false, 0, undefined);
+  evt.initMouseEvent(
+    'mousemove',
+    false,
+    false,
+    window,
+    0,
+    0,
+    0,
+    axis.x + deltaX,
+    0,
+    false,
+    false,
+    false,
+    false,
+    0,
+    undefined
+  );
   document.dispatchEvent(evt);
   fixture.detectChanges();
   evt = document.createEvent('MouseEvents');
-  evt.initMouseEvent('mouseup', false, false, window, 0, 0, 0, axis.x + deltaX,
-    0, false, false, false, false, 0, undefined);
+  evt.initMouseEvent(
+    'mouseup',
+    false,
+    false,
+    window,
+    0,
+    0,
+    0,
+    axis.x + deltaX,
+    0,
+    false,
+    false,
+    false,
+    false,
+    0,
+    undefined
+  );
   document.dispatchEvent(evt);
   fixture.detectChanges();
 }
 
-function resizeColumnWithTouch(fixture: ComponentFixture<any>, deltaX: number, columnIndex: number): void {
+function resizeColumnWithTouch(
+  fixture: ComponentFixture<any>,
+  deltaX: number,
+  columnIndex: number
+): void {
   const resizeHandles = getColumnResizeHandles(fixture);
   let axis = getElementCords(resizeHandles[columnIndex]);
   let event = {
     target: resizeHandles[columnIndex].nativeElement,
-    'pageX': axis.x,
-    'preventDefault': function () { },
-    'stopPropagation': function () { }
+    pageX: axis.x,
+    preventDefault: function () {},
+    stopPropagation: function () {},
   };
 
   resizeHandles[columnIndex].triggerEventHandler('touchstart', event);
@@ -184,29 +191,41 @@ function resizeColumnWithTouch(fixture: ComponentFixture<any>, deltaX: number, c
 
   SkyAppTestUtility.fireDomEvent(document, 'touchmove', {
     customEventInit: {
-      pageX: axis.x + deltaX
-    }
+      pageX: axis.x + deltaX,
+    },
   });
 
   fixture.detectChanges();
 
   SkyAppTestUtility.fireDomEvent(document, 'touchend', {
     customEventInit: {
-      pageX: axis.x + deltaX
-    }
+      pageX: axis.x + deltaX,
+    },
   });
 
   fixture.detectChanges();
 }
 
-function resizeColumnByRangeInput(fixture: ComponentFixture<any>, columnIndex: number, deltaX: number): void {
+function resizeColumnByRangeInput(
+  fixture: ComponentFixture<any>,
+  columnIndex: number,
+  deltaX: number
+): void {
   const resizeInputs = getColumnRangeInputs(fixture);
-  SkyAppTestUtility.fireDomEvent(resizeInputs[columnIndex].nativeElement, 'keydown', {
-    keyboardEventInit: { key: 'ArrowRight' }
-  });
-  let newValue = Number(resizeInputs[columnIndex].nativeElement.value) + deltaX;
-  resizeInputs[columnIndex].nativeElement.value = newValue;
-  SkyAppTestUtility.fireDomEvent(resizeInputs[columnIndex].nativeElement, 'change', {});
+  SkyAppTestUtility.fireDomEvent(
+    resizeInputs[columnIndex].nativeElement,
+    'keydown',
+    {
+      keyboardEventInit: { key: 'ArrowRight' },
+    }
+  );
+  resizeInputs[columnIndex].nativeElement.value =
+    Number(resizeInputs[columnIndex].nativeElement.value) + deltaX;
+  SkyAppTestUtility.fireDomEvent(
+    resizeInputs[columnIndex].nativeElement,
+    'change',
+    {}
+  );
 }
 
 function getTable(fixture: ComponentFixture<any>): DebugElement {
@@ -250,7 +269,10 @@ function verifyWidthsMatch(actual: number, expected: number): void {
   expect(isWithin(actual, expected, 5)).toEqual(true);
 }
 
-function verifyAllWidthsMatch(actualWidths: number[], expectedWidths: number[]): void {
+function verifyAllWidthsMatch(
+  actualWidths: number[],
+  expectedWidths: number[]
+): void {
   expect(actualWidths.length).toEqual(expectedWidths.length);
   for (let i = 0; i < actualWidths.length; i++) {
     expect(isWithin(actualWidths[i], expectedWidths[i], 1)).toEqual(true);
@@ -278,9 +300,7 @@ describe('Grid Component', () => {
 
     beforeEach(async () => {
       TestBed.configureTestingModule({
-        imports: [
-          GridFixturesModule
-        ]
+        imports: [GridFixturesModule],
       });
 
       fixture = TestBed.createComponent(GridUndefinedTestComponent);
@@ -292,9 +312,7 @@ describe('Grid Component', () => {
       fixture.detectChanges();
       expect(component.grid.items).toBeUndefined();
 
-      component.data = [
-        { id: '1', column1: 'foo' }
-      ];
+      component.data = [{ id: '1', column1: 'foo' }];
 
       fixture.detectChanges();
       fixture.detectChanges();
@@ -310,9 +328,7 @@ describe('Grid Component', () => {
 
     beforeEach(async () => {
       TestBed.configureTestingModule({
-        imports: [
-          GridFixturesModule
-        ]
+        imports: [GridFixturesModule],
       });
     });
 
@@ -330,52 +346,85 @@ describe('Grid Component', () => {
         headerCount = 6;
       }
 
-      expect(element.queryAll(By.css('th.sky-grid-heading')).length).toBe(headerCount);
-      expect(getColumnHeader('column1', element).nativeElement.textContent.trim()).toBe('Column1');
-      expect(getColumnHeader('column2', element).nativeElement.textContent.trim()).toBe('Column2');
-      expect(getColumnHeader('column3', element).nativeElement.textContent.trim()).toBe('Column3');
+      expect(element.queryAll(By.css('th.sky-grid-heading')).length).toBe(
+        headerCount
+      );
+      expect(
+        getColumnHeader('column1', element).nativeElement.textContent.trim()
+      ).toBe('Column1');
+      expect(
+        getColumnHeader('column2', element).nativeElement.textContent.trim()
+      ).toBe('Column2');
+      expect(
+        getColumnHeader('column3', element).nativeElement.textContent.trim()
+      ).toBe('Column3');
 
       if (!hiddenCol) {
-        expect(getColumnHeader('column4', element).nativeElement.textContent.trim())
-          .toBe('Column4');
+        expect(
+          getColumnHeader('column4', element).nativeElement.textContent.trim()
+        ).toBe('Column4');
       }
 
-      expect(getColumnHeader('column5', element).nativeElement.textContent.trim()).toBe('Column5');
+      expect(
+        getColumnHeader('column5', element).nativeElement.textContent.trim()
+      ).toBe('Column5');
 
       if (useAllHeaders) {
-        expect(getColumnHeader('hiddenCol1', element).nativeElement.textContent.trim())
-          .toBe('Column6');
-        expect(getColumnHeader('hiddenCol2', element).nativeElement.textContent.trim())
-          .toBe('Column7');
+        expect(
+          getColumnHeader(
+            'hiddenCol1',
+            element
+          ).nativeElement.textContent.trim()
+        ).toBe('Column6');
+        expect(
+          getColumnHeader(
+            'hiddenCol2',
+            element
+          ).nativeElement.textContent.trim()
+        ).toBe('Column7');
       }
     }
 
-    function verifyData(flatData = false, useAllHeaders = false, hiddenCol = false) {
+    function verifyData(
+      flatData = false,
+      useAllHeaders = false,
+      hiddenCol = false
+    ) {
       for (let i = 0; i < component.data.length; i++) {
         let row = component.data[i];
 
-        expect(getCell(row.id, 'column1', element).nativeElement.textContent.trim())
-          .toBe(row.column1);
-        expect(getCell(row.id, 'column2', element).nativeElement.textContent.trim())
-          .toBe(row.column2);
-        expect(getCell(row.id, 'column3', element).nativeElement.textContent.trim())
-          .toBe(row.column3.toString());
-        expect(getCell(row.id, 'column3', element)
-          .query(By.css('div.sky-test-custom-template'))).not.toBeNull();
+        expect(
+          getCell(row.id, 'column1', element).nativeElement.textContent.trim()
+        ).toBe(row.column1);
+        expect(
+          getCell(row.id, 'column2', element).nativeElement.textContent.trim()
+        ).toBe(row.column2);
+        expect(
+          getCell(row.id, 'column3', element).nativeElement.textContent.trim()
+        ).toBe(row.column3.toString());
+        expect(
+          getCell(row.id, 'column3', element).query(
+            By.css('div.sky-test-custom-template')
+          )
+        ).not.toBeNull();
 
         if (!hiddenCol) {
-          expect(getCell(row.id, 'column4', element).nativeElement.textContent.trim())
-            .toBe(row.column4.toString());
+          expect(
+            getCell(row.id, 'column4', element).nativeElement.textContent.trim()
+          ).toBe(row.column4.toString());
         }
 
-        expect(getCell(row.id, 'column5', element).nativeElement.textContent.trim())
-          .toBe(row.column5 || '');
+        expect(
+          getCell(row.id, 'column5', element).nativeElement.textContent.trim()
+        ).toBe(row.column5 || '');
 
         if (useAllHeaders) {
-          expect(getCell(row.id, 'hiddenCol1', element).nativeElement.textContent)
-            .toBe(row.column1);
-          expect(getCell(row.id, 'hiddenCol2', element).nativeElement.textContent)
-            .toBe(row.column1);
+          expect(
+            getCell(row.id, 'hiddenCol1', element).nativeElement.textContent
+          ).toBe(row.column1);
+          expect(
+            getCell(row.id, 'hiddenCol2', element).nativeElement.textContent
+          ).toBe(row.column1);
         }
       }
     }
@@ -412,7 +461,7 @@ describe('Grid Component', () => {
             column1: '1',
             column2: 'Apple',
             column3: 1,
-            column4: new Date().getTime() + 600000
+            column4: new Date().getTime() + 600000,
           },
           {
             id: '2',
@@ -420,50 +469,49 @@ describe('Grid Component', () => {
             column2: 'Banana',
             column3: 1,
             column4: new Date().getTime() + 3000000,
-            column5: 'test'
+            column5: 'test',
           },
           {
             id: '3',
             column1: '11',
             column2: 'Carrot',
             column3: 11,
-            column4: new Date().getTime() + 2400000
+            column4: new Date().getTime() + 2400000,
           },
           {
             id: '4',
             column1: '12',
             column2: 'Daikon',
             column3: 12,
-            column4: new Date().getTime() + 1200000
+            column4: new Date().getTime() + 1200000,
           },
           {
             id: '5',
             column1: '13',
             column2: 'Edamame',
             column3: 13,
-            column4: new Date().getTime() + 3000000
+            column4: new Date().getTime() + 3000000,
           },
           {
             id: '6',
             column1: '20',
             column2: 'Fig',
             column3: 20,
-            column4: new Date().getTime() + 1800000
+            column4: new Date().getTime() + 1800000,
           },
           {
             id: '7',
             column1: '21',
             column2: 'Grape',
             column3: 21,
-            column4: new Date().getTime() + 5600000
-          }
+            column4: new Date().getTime() + 5600000,
+          },
         ];
 
         fixture.detectChanges();
         fixture.detectChanges();
 
         verifyData(true);
-
       });
 
       it('should change displayed headers and data when selected columnids change and emit the change event', async () => {
@@ -476,10 +524,13 @@ describe('Grid Component', () => {
           'column4',
           'column5',
           'hiddenCol1',
-          'hiddenCol2'
+          'hiddenCol2',
         ];
 
-        const changeSpy = spyOn(component.grid.selectedColumnIdsChange, 'emit').and.callThrough();
+        const changeSpy = spyOn(
+          component.grid.selectedColumnIdsChange,
+          'emit'
+        ).and.callThrough();
 
         component.selectedColumnIds = selectedColumnIds;
         fixture.detectChanges();
@@ -519,7 +570,7 @@ describe('Grid Component', () => {
       });
 
       it('should allow the access of search function on displayed columns', () => {
-        let searchFunctions = component.grid.displayedColumns.map(column => {
+        let searchFunctions = component.grid.displayedColumns.map((column) => {
           return column.searchFunction;
         });
 
@@ -544,7 +595,6 @@ describe('Grid Component', () => {
           }
           component.searchText = '';
           component.searchedData = '';
-
         }
 
         for (let i = 0; i < searchFunctions.length; i++) {
@@ -567,19 +617,25 @@ describe('Grid Component', () => {
         const tableRows = getTableRows(fixture);
 
         // Start with no class.
-        expect(tableRows[0].nativeElement).not.toHaveCssClass('sky-grid-row-highlight');
+        expect(tableRows[0].nativeElement).not.toHaveCssClass(
+          'sky-grid-row-highlight'
+        );
 
         component.rowHighlightedId = '1';
         fixture.detectChanges();
 
         // Row should now have the highlight class.
-        expect(tableRows[0].nativeElement).toHaveCssClass('sky-grid-row-highlight');
+        expect(tableRows[0].nativeElement).toHaveCssClass(
+          'sky-grid-row-highlight'
+        );
 
         component.rowHighlightedId = undefined;
         fixture.detectChanges();
 
         // Row should NOT have the highlight class.
-        expect(tableRows[0].nativeElement).not.toHaveCssClass('sky-grid-row-highlight');
+        expect(tableRows[0].nativeElement).not.toHaveCssClass(
+          'sky-grid-row-highlight'
+        );
       });
 
       it('should show inline help component when inlineHelpPopover is provided', () => {
@@ -588,9 +644,15 @@ describe('Grid Component', () => {
         const header4 = getColumnHeader('column4', element);
 
         // Coulumns 1 and 3 should have inline help icons.
-        expect(header1.nativeElement.querySelector('sky-help-inline')).not.toBeNull();
-        expect(header2.nativeElement.querySelector('sky-help-inline')).toBeNull();
-        expect(header4.nativeElement.querySelector('sky-help-inline')).not.toBeNull();
+        expect(
+          header1.nativeElement.querySelector('sky-help-inline')
+        ).not.toBeNull();
+        expect(
+          header2.nativeElement.querySelector('sky-help-inline')
+        ).toBeNull();
+        expect(
+          header4.nativeElement.querySelector('sky-help-inline')
+        ).not.toBeNull();
       });
 
       it('should handle different inlineHelpPopover content for different columns', async () => {
@@ -599,8 +661,10 @@ describe('Grid Component', () => {
 
         const header1 = getColumnHeader('column1', element);
         const header4 = getColumnHeader('column4', element);
-        const inlineHelp1 = header1.nativeElement.querySelector('sky-help-inline');
-        const inlineHelp4 = header4.nativeElement.querySelector('sky-help-inline');
+        const inlineHelp1 =
+          header1.nativeElement.querySelector('sky-help-inline');
+        const inlineHelp4 =
+          header4.nativeElement.querySelector('sky-help-inline');
 
         // Open column 1 help popup.
         inlineHelp1.click();
@@ -613,7 +677,9 @@ describe('Grid Component', () => {
         let popupContent = document.querySelector('.sky-popover-body');
 
         // Expect column 1 popup to contain column 1 content.
-        expect(popupContent.textContent.trim()).toEqual('Help content for column 1.');
+        expect(popupContent.textContent.trim()).toEqual(
+          'Help content for column 1.'
+        );
 
         // Open column 4 help popup.
         popupContent.parentNode.removeChild(popupContent);
@@ -626,12 +692,14 @@ describe('Grid Component', () => {
         popupContent = document.querySelector('.sky-popover-body');
 
         // Expect column 4 popup to contain column 4 content.
-        expect(popupContent.textContent.trim()).toEqual('Help content for column 4.');
+        expect(popupContent.textContent.trim()).toEqual(
+          'Help content for column 4.'
+        );
       });
 
       it('should pass accessibility', async () => {
         fixture.detectChanges();
-        await fixture.whenStable()
+        await fixture.whenStable();
         fixture.detectChanges();
 
         await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -639,74 +707,109 @@ describe('Grid Component', () => {
 
       describe('sorting', () => {
         it('adds appropriate icons and styles, and emits event on click to headers', () => {
-          let headerEl = nativeElement.querySelectorAll('th').item(0) as HTMLElement;
+          let headerEl = nativeElement
+            .querySelectorAll('th')
+            .item(0) as HTMLElement;
           let skyIcon = headerEl.querySelector('sky-icon') as HTMLElement;
           expect(skyIcon).toHaveCssClass('sky-grid-heading-sort-hidden');
-          SkyAppTestUtility.fireDomEvent(headerEl, 'mouseup',
-            { bubbles: false, cancelable: false });
+          SkyAppTestUtility.fireDomEvent(headerEl, 'mouseup', {
+            bubbles: false,
+            cancelable: false,
+          });
           fixture.detectChanges();
 
-          headerEl = nativeElement.querySelectorAll('th').item(0) as HTMLElement;
-          expect(component.activeSortSelector)
-            .toEqual({ fieldSelector: 'column1', descending: true });
+          headerEl = nativeElement
+            .querySelectorAll('th')
+            .item(0) as HTMLElement;
+          expect(component.activeSortSelector).toEqual({
+            fieldSelector: 'column1',
+            descending: true,
+          });
           expect(headerEl.querySelector('i')).toHaveCssClass('fa-caret-down');
           expect(skyIcon).toHaveCssClass('sky-grid-heading-sort-visible');
 
-          SkyAppTestUtility.fireDomEvent(headerEl, 'mouseup',
-            { bubbles: false, cancelable: false });
+          SkyAppTestUtility.fireDomEvent(headerEl, 'mouseup', {
+            bubbles: false,
+            cancelable: false,
+          });
           fixture.detectChanges();
 
-          headerEl = nativeElement.querySelectorAll('th').item(0) as HTMLElement;
-          expect(component.activeSortSelector)
-            .toEqual({ fieldSelector: 'column1', descending: false });
+          headerEl = nativeElement
+            .querySelectorAll('th')
+            .item(0) as HTMLElement;
+          expect(component.activeSortSelector).toEqual({
+            fieldSelector: 'column1',
+            descending: false,
+          });
           expect(headerEl.querySelector('i')).toHaveCssClass('fa-caret-up');
           expect(skyIcon).toHaveCssClass('sky-grid-heading-sort-visible');
         });
 
         it('should not respond to click when the appropriate column option is set', () => {
-          let headerEl = nativeElement.querySelectorAll('th').item(1) as HTMLElement;
-          SkyAppTestUtility.fireDomEvent(headerEl, 'mouseup',
-            { bubbles: false, cancelable: false });
+          let headerEl = nativeElement
+            .querySelectorAll('th')
+            .item(1) as HTMLElement;
+          SkyAppTestUtility.fireDomEvent(headerEl, 'mouseup', {
+            bubbles: false,
+            cancelable: false,
+          });
           fixture.detectChanges();
 
-          headerEl = nativeElement.querySelectorAll('th').item(1) as HTMLElement;
-          expect(component.activeSortSelector)
-            .toEqual(undefined);
+          headerEl = nativeElement
+            .querySelectorAll('th')
+            .item(1) as HTMLElement;
+          expect(component.activeSortSelector).toEqual(undefined);
           expect(headerEl.querySelector('i')).toBeNull();
         });
 
         it('responds to sort selector input change', () => {
           component.sortField = {
             fieldSelector: 'column1',
-            descending: false
+            descending: false,
           };
           fixture.detectChanges();
 
-          let headerEl = nativeElement.querySelectorAll('th').item(0) as HTMLElement;
+          let headerEl = nativeElement
+            .querySelectorAll('th')
+            .item(0) as HTMLElement;
 
           expect(headerEl.querySelector('i')).toHaveCssClass('fa-caret-up');
         });
 
         it('should have proper aria-sort labels', async () => {
-          let headerEl = nativeElement.querySelectorAll('th').item(0) as HTMLElement;
-          SkyAppTestUtility.fireDomEvent(headerEl, 'mouseup',
-            { bubbles: false, cancelable: false });
+          let headerEl = nativeElement
+            .querySelectorAll('th')
+            .item(0) as HTMLElement;
+          SkyAppTestUtility.fireDomEvent(headerEl, 'mouseup', {
+            bubbles: false,
+            cancelable: false,
+          });
           fixture.detectChanges();
 
-          headerEl = nativeElement.querySelectorAll('th').item(0) as HTMLElement;
+          headerEl = nativeElement
+            .querySelectorAll('th')
+            .item(0) as HTMLElement;
           expect(headerEl.getAttribute('aria-sort')).toBe('descending');
 
-          SkyAppTestUtility.fireDomEvent(headerEl, 'mouseup',
-            { bubbles: false, cancelable: false });
+          SkyAppTestUtility.fireDomEvent(headerEl, 'mouseup', {
+            bubbles: false,
+            cancelable: false,
+          });
           fixture.detectChanges();
 
-          headerEl = nativeElement.querySelectorAll('th').item(0) as HTMLElement;
+          headerEl = nativeElement
+            .querySelectorAll('th')
+            .item(0) as HTMLElement;
           expect(headerEl.getAttribute('aria-sort')).toBe('ascending');
 
-          let noSortHeaderEl = nativeElement.querySelectorAll('th').item(1) as HTMLElement;
+          let noSortHeaderEl = nativeElement
+            .querySelectorAll('th')
+            .item(1) as HTMLElement;
           expect(noSortHeaderEl.getAttribute('aria-sort')).toBeNull();
 
-          let unSortedHeaderEl = nativeElement.querySelectorAll('th').item(2) as HTMLElement;
+          let unSortedHeaderEl = nativeElement
+            .querySelectorAll('th')
+            .item(2) as HTMLElement;
           expect(unSortedHeaderEl.getAttribute('aria-sort')).toBe('none');
 
           // Run accessibility test.
@@ -719,21 +822,28 @@ describe('Grid Component', () => {
           headerEl.triggerEventHandler('keydown', { key: 'Enter' });
           fixture.detectChanges();
 
-          expect(component.activeSortSelector)
-            .toEqual({ fieldSelector: 'column1', descending: true });
-          expect(headerEl.nativeElement.querySelector('i')).toHaveCssClass('fa-caret-down');
+          expect(component.activeSortSelector).toEqual({
+            fieldSelector: 'column1',
+            descending: true,
+          });
+          expect(headerEl.nativeElement.querySelector('i')).toHaveCssClass(
+            'fa-caret-down'
+          );
 
           headerEl.triggerEventHandler('keydown', { key: ' ' });
           fixture.detectChanges();
 
-          expect(component.activeSortSelector)
-            .toEqual({ fieldSelector: 'column1', descending: false });
-          expect(headerEl.nativeElement.querySelector('i')).toHaveCssClass('fa-caret-up');
+          expect(component.activeSortSelector).toEqual({
+            fieldSelector: 'column1',
+            descending: false,
+          });
+          expect(headerEl.nativeElement.querySelector('i')).toHaveCssClass(
+            'fa-caret-up'
+          );
         });
       });
 
       describe('Models and State', () => {
-
         it('should construct ListViewGridColumnModel without data', () => {
           let model = new SkyGridColumnModel(component.viewtemplates.first);
           expect(model.template).not.toBeUndefined();
@@ -748,7 +858,6 @@ describe('Grid Component', () => {
       });
 
       describe('Resizeable columns', () => {
-
         it('should not resize if user does not use resize handle', fakeAsync(() => {
           // Get initial baseline for comparison.
           let initialTableWidth = getTableWidth(fixture);
@@ -808,11 +917,21 @@ describe('Grid Component', () => {
           const resizeInputs = getColumnRangeInputs(fixture);
           let colWidths = getColumnWidths(fixture);
           resizeInputs.forEach((resizeInput, index) => {
-            expect(resizeInput.nativeElement.getAttribute('aria-controls')).not.toBeNull();
-            expect(resizeInput.nativeElement.getAttribute('aria-valuemax')).toBe(maxColWidth);
-            expect(resizeInput.nativeElement.getAttribute('aria-valuemin')).toBe(minColWidth);
-            expect(resizeInput.nativeElement.getAttribute('max')).toBe(maxColWidth);
-            expect(resizeInput.nativeElement.getAttribute('min')).toBe(minColWidth);
+            expect(
+              resizeInput.nativeElement.getAttribute('aria-controls')
+            ).not.toBeNull();
+            expect(
+              resizeInput.nativeElement.getAttribute('aria-valuemax')
+            ).toBe(maxColWidth);
+            expect(
+              resizeInput.nativeElement.getAttribute('aria-valuemin')
+            ).toBe(minColWidth);
+            expect(resizeInput.nativeElement.getAttribute('max')).toBe(
+              maxColWidth
+            );
+            expect(resizeInput.nativeElement.getAttribute('min')).toBe(
+              minColWidth
+            );
           });
 
           // Increase first column.
@@ -822,7 +941,8 @@ describe('Grid Component', () => {
 
           // Expect valuenow to be updated with new width values.
           resizeInputs.forEach((resizeInput, index) => {
-            let valuenow = resizeInput.nativeElement.getAttribute('aria-valuenow');
+            let valuenow =
+              resizeInput.nativeElement.getAttribute('aria-valuenow');
             verifyWidthsMatch(valuenow, colWidths[index]);
           });
         }));
@@ -832,13 +952,17 @@ describe('Grid Component', () => {
           let inputRange = getColumnRangeInputs(fixture)[1];
 
           SkyAppTestUtility.fireDomEvent(inputRange.nativeElement, 'focus');
-          let resizeBar = fixture.nativeElement.querySelector('#sky-grid-resize-bar');
+          let resizeBar = fixture.nativeElement.querySelector(
+            '#sky-grid-resize-bar'
+          );
 
           expect(resizeBar).not.toBeNull();
 
           SkyAppTestUtility.fireDomEvent(inputRange.nativeElement, 'blur');
           fixture.detectChanges();
-          resizeBar = fixture.nativeElement.querySelector('#sky-grid-resize-bar');
+          resizeBar = fixture.nativeElement.querySelector(
+            '#sky-grid-resize-bar'
+          );
 
           expect(resizeBar).toBeNull();
         }));
@@ -862,11 +986,15 @@ describe('Grid Component', () => {
 
           // Assert table was resized properly, and input range was updated correctly.
           let expectedColumnWidths: any = cloneItems(initialColumnWidths);
-          expectedColumnWidths[columnIndex] = expectedColumnWidths[columnIndex] + deltaX;
+          expectedColumnWidths[columnIndex] =
+            expectedColumnWidths[columnIndex] + deltaX;
 
           verifyWidthsMatch(getTableWidth(fixture), initialTableWidth + deltaX);
           verifyAllWidthsMatch(getColumnWidths(fixture), expectedColumnWidths);
-          verifyWidthsMatch(Number(inputRange.nativeElement.value), initialColumnWidths[columnIndex] + deltaX);
+          verifyWidthsMatch(
+            Number(inputRange.nativeElement.value),
+            initialColumnWidths[columnIndex] + deltaX
+          );
           component.columnWidthsChange.forEach((cwc, index) => {
             if (cwc.id.indexOf('hidden') === -1) {
               verifyWidthsMatch(cwc.width, expectedColumnWidths[index]);
@@ -881,10 +1009,14 @@ describe('Grid Component', () => {
 
           // Assert table was resized properly, and input range was updated correctly.
           expectedColumnWidths = cloneItems(initialColumnWidths);
-          expectedColumnWidths[columnIndex] = expectedColumnWidths[columnIndex] + deltaX;
+          expectedColumnWidths[columnIndex] =
+            expectedColumnWidths[columnIndex] + deltaX;
           verifyWidthsMatch(getTableWidth(fixture), initialTableWidth + deltaX);
           verifyAllWidthsMatch(getColumnWidths(fixture), expectedColumnWidths);
-          verifyWidthsMatch(Number(inputRange.nativeElement.value), initialColumnWidths[columnIndex] + deltaX);
+          verifyWidthsMatch(
+            Number(inputRange.nativeElement.value),
+            initialColumnWidths[columnIndex] + deltaX
+          );
           component.columnWidthsChange.forEach((cwc, index) => {
             if (cwc.id.indexOf('hidden') === -1) {
               verifyWidthsMatch(cwc.width, expectedColumnWidths[index]);
@@ -950,7 +1082,9 @@ describe('Grid Component', () => {
           resizeColumn(fixture, resizeXDistance, 0);
 
           // Expect hidden column to be in emitted array.
-          let column2 = component.columnWidthsChange.find(cwc => cwc.id === 'column2');
+          let column2 = component.columnWidthsChange.find(
+            (cwc) => cwc.id === 'column2'
+          );
           expect(column2).not.toBeNull();
         }));
 
@@ -980,7 +1114,11 @@ describe('Grid Component', () => {
 
       it('should set top scroll width to the tables width on window resize when needed', async () => {
         fixture.detectChanges();
-        spyOnProperty(TestBed.inject(SkyAppWindowRef), 'nativeWindow', 'get').and.returnValue({ innerWidth: 100 });
+        spyOnProperty(
+          TestBed.inject(SkyAppWindowRef),
+          'nativeWindow',
+          'get'
+        ).and.returnValue({ innerWidth: 100 });
         SkyAppTestUtility.fireDomEvent(window, 'resize');
         fixture.detectChanges();
         await fixture.whenStable();
@@ -1005,11 +1143,24 @@ describe('Grid Component', () => {
         await fixture.whenStable();
         fixture.detectChanges();
 
-        let topScrollSpy = spyOn(fixture.componentInstance.grid, 'onTopScroll').and.callThrough();
-        let tableContainerScrollSpy = spyOnProperty(getTableContainer(fixture).nativeElement, 'scrollLeft', 'set');
+        let topScrollSpy = spyOn(
+          fixture.componentInstance.grid,
+          'onTopScroll'
+        ).and.callThrough();
+        let tableContainerScrollSpy = spyOnProperty(
+          getTableContainer(fixture).nativeElement,
+          'scrollLeft',
+          'set'
+        );
         getTopScrollContainer(fixture).nativeElement.scrollLeft = '400';
-        SkyAppTestUtility.fireDomEvent(getTopScrollContainer(fixture).nativeElement, 'scroll');
-        SkyAppTestUtility.fireDomEvent(getTopScrollContainer(fixture).nativeElement, 'scroll');
+        SkyAppTestUtility.fireDomEvent(
+          getTopScrollContainer(fixture).nativeElement,
+          'scroll'
+        );
+        SkyAppTestUtility.fireDomEvent(
+          getTopScrollContainer(fixture).nativeElement,
+          'scroll'
+        );
         fixture.detectChanges();
 
         expect(topScrollSpy).toHaveBeenCalled();
@@ -1022,11 +1173,24 @@ describe('Grid Component', () => {
         await fixture.whenStable();
         fixture.detectChanges();
 
-        let tableContainerScrollSpy = spyOn(fixture.componentInstance.grid, 'onGridScroll').and.callThrough();
-        let topScrollSpy = spyOnProperty(getTopScrollContainer(fixture).nativeElement, 'scrollLeft', 'set');
+        let tableContainerScrollSpy = spyOn(
+          fixture.componentInstance.grid,
+          'onGridScroll'
+        ).and.callThrough();
+        let topScrollSpy = spyOnProperty(
+          getTopScrollContainer(fixture).nativeElement,
+          'scrollLeft',
+          'set'
+        );
         getTableContainer(fixture).nativeElement.scrollLeft = '400';
-        SkyAppTestUtility.fireDomEvent(getTableContainer(fixture).nativeElement, 'scroll');
-        SkyAppTestUtility.fireDomEvent(getTableContainer(fixture).nativeElement, 'scroll');
+        SkyAppTestUtility.fireDomEvent(
+          getTableContainer(fixture).nativeElement,
+          'scroll'
+        );
+        SkyAppTestUtility.fireDomEvent(
+          getTableContainer(fixture).nativeElement,
+          'scroll'
+        );
         fixture.detectChanges();
 
         expect(topScrollSpy).toHaveBeenCalled();
@@ -1066,109 +1230,151 @@ describe('Grid Component', () => {
     });
 
     describe('row delete', () => {
-
       it('should show row delete elements correctly', fakeAsync(() => {
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
-        expect(document.querySelector('.sky-inline-delete-standared')).toBeNull();
+        expect(
+          document.querySelector('.sky-inline-delete-standared')
+        ).toBeNull();
         fixture.componentInstance.deleteItem('1');
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
         expect(document.querySelector('#row-delete-ref-1')).not.toBeNull();
-        expect(document.querySelectorAll('.sky-inline-delete-standard').length).toBe(1);
+        expect(
+          document.querySelectorAll('.sky-inline-delete-standard').length
+        ).toBe(1);
         fixture.componentInstance.deleteItem('2');
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
         expect(document.querySelector('#row-delete-ref-2')).not.toBeNull();
-        expect(document.querySelectorAll('.sky-inline-delete-standard').length).toBe(2);
+        expect(
+          document.querySelectorAll('.sky-inline-delete-standard').length
+        ).toBe(2);
         fixture.componentInstance.addLongData();
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
         expect(document.querySelector('#row-delete-ref-1')).not.toBeNull();
         expect(document.querySelector('#row-delete-ref-2')).not.toBeNull();
-        expect(document.querySelectorAll('.sky-inline-delete-standard').length).toBe(2);
+        expect(
+          document.querySelectorAll('.sky-inline-delete-standard').length
+        ).toBe(2);
         fixture.componentInstance.removeFirstItem();
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
         expect(document.querySelector('#row-delete-ref-1')).toBeNull();
         expect(document.querySelector('#row-delete-ref-2')).not.toBeNull();
-        expect(document.querySelectorAll('.sky-inline-delete-standard').length).toBe(1);
+        expect(
+          document.querySelectorAll('.sky-inline-delete-standard').length
+        ).toBe(1);
       }));
 
       it('should cancel row delete elements correctly via the message stream', fakeAsync(() => {
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
-        expect(document.querySelector('.sky-inline-delete-standard')).toBeNull();
+        expect(
+          document.querySelector('.sky-inline-delete-standard')
+        ).toBeNull();
         fixture.componentInstance.deleteItem('1');
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
         expect(document.querySelector('#row-delete-ref-1')).not.toBeNull();
-        expect(document.querySelectorAll('.sky-inline-delete-standard').length).toBe(1);
+        expect(
+          document.querySelectorAll('.sky-inline-delete-standard').length
+        ).toBe(1);
         fixture.componentInstance.cancelRowDeleteViaMessageStream({ id: '1' });
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
-        expect(document.querySelector('.sky-inline-delete-standard')).toBeNull();
+        expect(
+          document.querySelector('.sky-inline-delete-standard')
+        ).toBeNull();
       }));
 
       it('should cancel row delete elements correctly via click', fakeAsync(() => {
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
-        expect(document.querySelector('.sky-inline-delete-standard')).toBeNull();
+        expect(
+          document.querySelector('.sky-inline-delete-standard')
+        ).toBeNull();
         fixture.componentInstance.deleteItem('1');
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
         expect(document.querySelector('#row-delete-ref-1')).not.toBeNull();
-        expect(document.querySelectorAll('.sky-inline-delete-standard').length).toBe(1);
+        expect(
+          document.querySelectorAll('.sky-inline-delete-standard').length
+        ).toBe(1);
 
-        (<HTMLElement>document.querySelectorAll('.sky-inline-delete .sky-btn-default')[0]).click();
+        (<HTMLElement>(
+          document.querySelectorAll('.sky-inline-delete .sky-btn-default')[0]
+        )).click();
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
-        expect(document.querySelector('.sky-inline-delete-standard')).toBeNull();
+        expect(
+          document.querySelector('.sky-inline-delete-standard')
+        ).toBeNull();
       }));
 
       it('should update the pending status of a row being deleted correctly', fakeAsync(() => {
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
-        expect(document.querySelector('.sky-inline-delete-standard')).toBeNull();
+        expect(
+          document.querySelector('.sky-inline-delete-standard')
+        ).toBeNull();
 
         fixture.componentInstance.deleteItem('1');
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
         expect(document.querySelector('#row-delete-ref-1')).not.toBeNull();
-        expect(document.querySelectorAll('.sky-inline-delete-standard').length).toBe(1);
-        expect(document.querySelectorAll('.sky-inline-delete-standard .sky-wait-mask-loading-blocking').length)
-          .toBe(0);
+        expect(
+          document.querySelectorAll('.sky-inline-delete-standard').length
+        ).toBe(1);
+        expect(
+          document.querySelectorAll(
+            '.sky-inline-delete-standard .sky-wait-mask-loading-blocking'
+          ).length
+        ).toBe(0);
 
-        (<HTMLElement>document.querySelectorAll('.sky-inline-delete-button')[0]).click();
+        (<HTMLElement>(
+          document.querySelectorAll('.sky-inline-delete-button')[0]
+        )).click();
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
         expect(document.querySelector('#row-delete-ref-1')).not.toBeNull();
-        expect(document.querySelectorAll('.sky-inline-delete-standard').length).toBe(1);
-        expect(document.querySelectorAll('.sky-inline-delete-standard .sky-wait-mask-loading-blocking').length)
-          .toBe(1);
+        expect(
+          document.querySelectorAll('.sky-inline-delete-standard').length
+        ).toBe(1);
+        expect(
+          document.querySelectorAll(
+            '.sky-inline-delete-standard .sky-wait-mask-loading-blocking'
+          ).length
+        ).toBe(1);
 
         fixture.componentInstance.deleteItem('1');
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
         expect(document.querySelector('#row-delete-ref-1')).not.toBeNull();
-        expect(document.querySelectorAll('.sky-inline-delete-standard').length).toBe(1);
-        expect(document.querySelectorAll('.sky-inline-delete-standard .sky-wait-mask-loading-blocking').length)
-          .toBe(0);
+        expect(
+          document.querySelectorAll('.sky-inline-delete-standard').length
+        ).toBe(1);
+        expect(
+          document.querySelectorAll(
+            '.sky-inline-delete-standard .sky-wait-mask-loading-blocking'
+          ).length
+        ).toBe(0);
       }));
 
       it('should output the delete event correctly', fakeAsync(() => {
@@ -1182,13 +1388,21 @@ describe('Grid Component', () => {
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
-        expect(fixture.componentInstance.finishRowDelete).not.toHaveBeenCalled();
-        (<HTMLElement>document.querySelectorAll('.sky-inline-delete-button')[0]).click();
+        expect(
+          fixture.componentInstance.finishRowDelete
+        ).not.toHaveBeenCalled();
+        (<HTMLElement>(
+          document.querySelectorAll('.sky-inline-delete-button')[0]
+        )).click();
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
-        expect(fixture.componentInstance.cancelRowDelete).not.toHaveBeenCalled();
-        expect(fixture.componentInstance.finishRowDelete).toHaveBeenCalledWith({ id: '1' });
+        expect(
+          fixture.componentInstance.cancelRowDelete
+        ).not.toHaveBeenCalled();
+        expect(fixture.componentInstance.finishRowDelete).toHaveBeenCalledWith({
+          id: '1',
+        });
       }));
 
       it('should output the cancel event correctly', fakeAsync(() => {
@@ -1200,14 +1414,25 @@ describe('Grid Component', () => {
         fixture.componentInstance.deleteItem('2');
         fixture.detectChanges();
         tick();
-        expect(document.querySelectorAll('.sky-inline-delete-standard').length).toBe(2);
-        expect(fixture.componentInstance.cancelRowDelete).not.toHaveBeenCalled();
-        (<HTMLElement>document.querySelectorAll('.sky-inline-delete-standard .sky-btn-default')[0])
-          .click();
+        expect(
+          document.querySelectorAll('.sky-inline-delete-standard').length
+        ).toBe(2);
+        expect(
+          fixture.componentInstance.cancelRowDelete
+        ).not.toHaveBeenCalled();
+        (<HTMLElement>(
+          document.querySelectorAll(
+            '.sky-inline-delete-standard .sky-btn-default'
+          )[0]
+        )).click();
         fixture.detectChanges();
         tick();
-        expect(fixture.componentInstance.cancelRowDelete).toHaveBeenCalledWith({ id: '1' });
-        expect(fixture.componentInstance.finishRowDelete).not.toHaveBeenCalled();
+        expect(fixture.componentInstance.cancelRowDelete).toHaveBeenCalledWith({
+          id: '1',
+        });
+        expect(
+          fixture.componentInstance.finishRowDelete
+        ).not.toHaveBeenCalled();
       }));
 
       it('should set the z-index of the row delete overlays correctly', fakeAsync(() => {
@@ -1222,7 +1447,9 @@ describe('Grid Component', () => {
         const overlays = Array.from(document.querySelectorAll('.sky-overlay'));
         // The `toString` here is to address IE returning a number but all other browsers
         // returning a string
-        overlays.forEach((overlay: HTMLElement) => expect(overlay.style.zIndex.toString()).toBe('999'));
+        overlays.forEach((overlay: HTMLElement) =>
+          expect(overlay.style.zIndex.toString()).toBe('999')
+        );
       }));
 
       it('should not change the column widths when a row delete is triggered', fakeAsync(() => {
@@ -1230,15 +1457,21 @@ describe('Grid Component', () => {
         tick();
         fixture.detectChanges();
         const columnWidths: number[] = [];
-        let columns = Array.from(document.querySelectorAll('.sky-grid-heading'));
-        columns.forEach((column: HTMLElement) => columnWidths.push(column.offsetWidth));
+        let columns = Array.from(
+          document.querySelectorAll('.sky-grid-heading')
+        );
+        columns.forEach((column: HTMLElement) =>
+          columnWidths.push(column.offsetWidth)
+        );
         fixture.componentInstance.deleteItem('1');
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
         columns = Array.from(document.querySelectorAll('.sky-grid-heading'));
         for (let i = 0; i < columns.length; i++) {
-          expect((<HTMLElement>columns[i]).offsetWidth).toEqual(columnWidths[i]);
+          expect((<HTMLElement>columns[i]).offsetWidth).toEqual(
+            columnWidths[i]
+          );
         }
       }));
 
@@ -1248,15 +1481,21 @@ describe('Grid Component', () => {
         tick();
         fixture.detectChanges();
         const columnWidths: number[] = [];
-        let columns = Array.from(document.querySelectorAll('.sky-grid-heading'));
-        columns.forEach((column: HTMLElement) => columnWidths.push(column.offsetWidth));
+        let columns = Array.from(
+          document.querySelectorAll('.sky-grid-heading')
+        );
+        columns.forEach((column: HTMLElement) =>
+          columnWidths.push(column.offsetWidth)
+        );
         fixture.componentInstance.deleteItem('1');
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
         columns = Array.from(document.querySelectorAll('.sky-grid-heading'));
         for (let i = 0; i < columns.length; i++) {
-          expect((<HTMLElement>columns[i]).offsetWidth).toEqual(columnWidths[i]);
+          expect((<HTMLElement>columns[i]).offsetWidth).toEqual(
+            columnWidths[i]
+          );
         }
       }));
 
@@ -1268,23 +1507,30 @@ describe('Grid Component', () => {
         fixture.componentInstance.deleteItem('2');
         fixture.detectChanges();
         tick();
-        const row1Rect = fixture.nativeElement.querySelector('[sky-cmp-id="1"]')
+        const row1Rect = fixture.nativeElement
+          .querySelector('[sky-cmp-id="1"]')
           .getBoundingClientRect();
-        const row2Rect = fixture.nativeElement.querySelector('[sky-cmp-id="2"]')
+        const row2Rect = fixture.nativeElement
+          .querySelector('[sky-cmp-id="2"]')
           .getBoundingClientRect();
-        const inlineDelete1: HTMLElement = document.querySelector('#row-delete-ref-1');
-        const inlineDelete2: HTMLElement = document.querySelector('#row-delete-ref-2');
+        const inlineDelete1: HTMLElement =
+          document.querySelector('#row-delete-ref-1');
+        const inlineDelete2: HTMLElement =
+          document.querySelector('#row-delete-ref-2');
         inlineDelete1.getBoundingClientRect().left;
-        expect(inlineDelete1.getBoundingClientRect().left.toFixed(1))
-          .toEqual(row1Rect.left.toFixed(1));
-        expect(inlineDelete1.getBoundingClientRect().top.toFixed(1))
-          .toEqual(row1Rect.top.toFixed(1));
-        expect(inlineDelete2.getBoundingClientRect().left.toFixed(1))
-          .toEqual(row2Rect.left.toFixed(1));
-        expect(inlineDelete2.getBoundingClientRect().top.toFixed(1))
-          .toEqual(row2Rect.top.toFixed(1));
+        expect(inlineDelete1.getBoundingClientRect().left.toFixed(1)).toEqual(
+          row1Rect.left.toFixed(1)
+        );
+        expect(inlineDelete1.getBoundingClientRect().top.toFixed(1)).toEqual(
+          row1Rect.top.toFixed(1)
+        );
+        expect(inlineDelete2.getBoundingClientRect().left.toFixed(1)).toEqual(
+          row2Rect.left.toFixed(1)
+        );
+        expect(inlineDelete2.getBoundingClientRect().top.toFixed(1)).toEqual(
+          row2Rect.top.toFixed(1)
+        );
       }));
-
     });
 
     describe('selectedColumnIds undefined on load', () => {
@@ -1294,12 +1540,10 @@ describe('Grid Component', () => {
         fixture.detectChanges();
       });
 
-      it(
-        'should hide columns based on the hidden property on initialization',
-        () => {
-          verifyHeaders(true, true);
-          verifyData(false, true, true);
-        });
+      it('should hide columns based on the hidden property on initialization', () => {
+        verifyHeaders(true, true);
+        verifyData(false, true, true);
+      });
     });
 
     describe('strange data', () => {
@@ -1309,14 +1553,7 @@ describe('Grid Component', () => {
       });
 
       it('should return undefined when shape of data is bad', () => {
-        component.data = [
-          {
-
-          },
-          {
-
-          }
-        ];
+        component.data = [{}, {}];
         fixture.detectChanges();
       });
     });
@@ -1328,9 +1565,7 @@ describe('Grid Component', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [
-          GridFixturesModule
-        ]
+        imports: [GridFixturesModule],
       });
     });
 
@@ -1360,7 +1595,6 @@ describe('Grid Component', () => {
     });
 
     describe('Resiazable columns', () => {
-
       it('should not allow resizing when the final column is at the minimum width', fakeAsync(() => {
         // Get initial baseline for comparison.
         let initialTableWidth = getTableWidth(fixture);
@@ -1379,7 +1613,10 @@ describe('Grid Component', () => {
       }));
 
       it('should resize columns on mousemove', fakeAsync(() => {
-        const spy = spyOn(fixture.componentInstance.grid, 'onResizeHandleMove').and.callThrough();
+        const spy = spyOn(
+          fixture.componentInstance.grid,
+          'onResizeHandleMove'
+        ).and.callThrough();
         // Get initial baseline for comparison.
         let initialTableWidth = getTableWidth(fixture);
         let initialColumnWidths = getColumnWidths(fixture);
@@ -1405,14 +1642,32 @@ describe('Grid Component', () => {
       }));
 
       it('should not resize on mousemove unless the resize handle was clicked', fakeAsync(() => {
-        const spy = spyOn(fixture.componentInstance.grid, 'onResizeHandleMove').and.callThrough();
+        const spy = spyOn(
+          fixture.componentInstance.grid,
+          'onResizeHandleMove'
+        ).and.callThrough();
         // Get initial baseline for comparison.
         let initialTableWidth = getTableWidth(fixture);
         let initialColumnWidths = getColumnWidths(fixture);
 
         let evt = document.createEvent('MouseEvents');
-        evt.initMouseEvent('mousemove', false, false, window, 0, 0, 0, 70,
-          0, false, false, false, false, 0, undefined);
+        evt.initMouseEvent(
+          'mousemove',
+          false,
+          false,
+          window,
+          0,
+          0,
+          0,
+          70,
+          0,
+          false,
+          false,
+          false,
+          false,
+          0,
+          undefined
+        );
 
         // Assert table width did not change, and only first and last column were resized.
         let newTableWidth = getTableWidth(fixture);
@@ -1440,9 +1695,18 @@ describe('Grid Component', () => {
       }));
 
       it('should support touch events', fakeAsync(() => {
-        const startSpy = spyOn(fixture.componentInstance.grid, 'onResizeColumnStart').and.callThrough();
-        const moveSpy = spyOn(fixture.componentInstance.grid, 'onResizeHandleMove').and.callThrough();
-        const releaseSpy = spyOn(fixture.componentInstance.grid, 'onResizeHandleRelease').and.callThrough();
+        const startSpy = spyOn(
+          fixture.componentInstance.grid,
+          'onResizeColumnStart'
+        ).and.callThrough();
+        const moveSpy = spyOn(
+          fixture.componentInstance.grid,
+          'onResizeHandleMove'
+        ).and.callThrough();
+        const releaseSpy = spyOn(
+          fixture.componentInstance.grid,
+          'onResizeHandleRelease'
+        ).and.callThrough();
 
         // Resize first column with touch event.
         resizeColumnWithTouch(fixture, 50, 0);
@@ -1461,9 +1725,7 @@ describe('Grid Component', () => {
       element: DebugElement;
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [
-          GridFixturesModule
-        ]
+        imports: [GridFixturesModule],
       });
     });
     beforeEach(() => {
@@ -1478,19 +1740,25 @@ describe('Grid Component', () => {
 
     //#region multiselect helpers
     function getMultiselectInputs(): DebugElement[] {
-      return fixture.debugElement.queryAll(By.css('tbody .sky-grid-multiselect-cell input'));
+      return fixture.debugElement.queryAll(
+        By.css('tbody .sky-grid-multiselect-cell input')
+      );
     }
 
     function verifyCheckbox(index: number, checked: boolean): void {
       const checkboxes = getMultiselectInputs();
       const tableRows = getTableRows(fixture);
 
-      expect(component.data[index].isSelected = checked);
-      expect(checkboxes[index].nativeElement.checked = checked);
+      expect((component.data[index].isSelected = checked));
+      expect((checkboxes[index].nativeElement.checked = checked));
       if (checked) {
-        expect(tableRows[index].nativeElement).toHaveCssClass('sky-grid-multiselect-selected-row');
+        expect(tableRows[index].nativeElement).toHaveCssClass(
+          'sky-grid-multiselect-selected-row'
+        );
       } else {
-        expect(tableRows[index].nativeElement).not.toHaveCssClass('sky-grid-multiselect-selected-row');
+        expect(tableRows[index].nativeElement).not.toHaveCssClass(
+          'sky-grid-multiselect-selected-row'
+        );
       }
     }
     //#endregion
@@ -1501,13 +1769,17 @@ describe('Grid Component', () => {
 
         expect(checkboxes).not.toBeNull();
         expect(checkboxes.length).toEqual(component.data.length);
-        checkboxes.forEach(checkbox => {
-          expect(checkbox.nativeElement.getAttribute('aria-label')).not.toBeNull();
+        checkboxes.forEach((checkbox) => {
+          expect(
+            checkbox.nativeElement.getAttribute('aria-label')
+          ).not.toBeNull();
         });
       });
 
       it('should set the multiselect column to the minimum width', () => {
-        let headerEl = fixture.nativeElement.querySelector('th.sky-grid-multiselect-cell') as HTMLElement;
+        let headerEl = fixture.nativeElement.querySelector(
+          'th.sky-grid-multiselect-cell'
+        ) as HTMLElement;
 
         verifyWidthsMatch(headerEl.offsetWidth, parseInt(minColWidth, 10));
       });
@@ -1524,8 +1796,10 @@ describe('Grid Component', () => {
         const tableRows = getTableRows(fixture);
 
         expect(checkboxes.length).toEqual(0);
-        tableRows.forEach(row => {
-          expect(row.nativeElement).not.toHaveCssClass('sky-grid-multiselect-selected-row');
+        tableRows.forEach((row) => {
+          expect(row.nativeElement).not.toHaveCssClass(
+            'sky-grid-multiselect-selected-row'
+          );
         });
       });
 
@@ -1541,8 +1815,10 @@ describe('Grid Component', () => {
         const tableRows = getTableRows(fixture);
 
         expect(checkboxes.length).toEqual(0);
-        tableRows.forEach(row => {
-          expect(row.nativeElement).not.toHaveCssClass('sky-grid-multiselect-selected-row');
+        tableRows.forEach((row) => {
+          expect(row.nativeElement).not.toHaveCssClass(
+            'sky-grid-multiselect-selected-row'
+          );
         });
       });
 
@@ -1551,19 +1827,25 @@ describe('Grid Component', () => {
         const tableRows = getTableRows(fixture);
 
         // Start with no class.
-        expect(tableRows[0].nativeElement).not.toHaveCssClass('sky-grid-multiselect-selected-row');
+        expect(tableRows[0].nativeElement).not.toHaveCssClass(
+          'sky-grid-multiselect-selected-row'
+        );
 
         // Check to add class.
         checkboxes[0].nativeElement.click();
         fixture.detectChanges();
 
-        expect(tableRows[0].nativeElement).toHaveCssClass('sky-grid-multiselect-selected-row');
+        expect(tableRows[0].nativeElement).toHaveCssClass(
+          'sky-grid-multiselect-selected-row'
+        );
 
         // Uncheck to remove class.
         checkboxes[0].nativeElement.click();
         fixture.detectChanges();
 
-        expect(tableRows[0].nativeElement).not.toHaveCssClass('sky-grid-multiselect-selected-row');
+        expect(tableRows[0].nativeElement).not.toHaveCssClass(
+          'sky-grid-multiselect-selected-row'
+        );
       });
 
       it('should select checkbox when clicking on row', async () => {
@@ -1582,7 +1864,9 @@ describe('Grid Component', () => {
 
         // Expect first row to have class.
         expect(checkboxes[0].nativeElement.checked).toBe(true);
-        expect(tableRows[0].nativeElement).toHaveCssClass('sky-grid-multiselect-selected-row');
+        expect(tableRows[0].nativeElement).toHaveCssClass(
+          'sky-grid-multiselect-selected-row'
+        );
 
         // Uncheck to remove class.
         tableRows[0].nativeElement.click();
@@ -1593,7 +1877,9 @@ describe('Grid Component', () => {
 
         // Expect class to be removed and checkbox to be unchecked.
         expect(checkboxes[0].nativeElement.checked).toBe(false);
-        expect(tableRows[0].nativeElement).not.toHaveCssClass('sky-grid-multiselect-selected-row');
+        expect(tableRows[0].nativeElement).not.toHaveCssClass(
+          'sky-grid-multiselect-selected-row'
+        );
       });
 
       it('should emit a change when checkboxes are checked', fakeAsync(() => {
@@ -1614,7 +1900,7 @@ describe('Grid Component', () => {
         // In this example, 'id'.
         let expectedRows: SkyGridSelectedRowsModelChange = {
           selectedRowIds: ['1', '2', '5'],
-          source: SkyGridSelectedRowsSource.CheckboxChange
+          source: SkyGridSelectedRowsSource.CheckboxChange,
         };
         expect(component.selectedRowsChange).toEqual(expectedRows);
       }));
@@ -1640,7 +1926,7 @@ describe('Grid Component', () => {
         // In this example, 'id'.
         let expectedRows: SkyGridSelectedRowsModelChange = {
           selectedRowIds: ['1', '2', '5'],
-          source: SkyGridSelectedRowsSource.RowClick
+          source: SkyGridSelectedRowsSource.RowClick,
         };
         expect(component.selectedRowsChange).toEqual(expectedRows);
       });
@@ -1672,7 +1958,7 @@ describe('Grid Component', () => {
         // In this example, 'customId'.
         let expectedRows: SkyGridSelectedRowsModelChange = {
           selectedRowIds: ['101', '102', '105'],
-          source: SkyGridSelectedRowsSource.CheckboxChange
+          source: SkyGridSelectedRowsSource.CheckboxChange,
         };
         expect(component.selectedRowsChange).toEqual(expectedRows);
       }));
@@ -1704,7 +1990,7 @@ describe('Grid Component', () => {
         // In this example, there is no match so it should fall back to the 'id' property.
         let expectedRows: SkyGridSelectedRowsModelChange = {
           selectedRowIds: ['1', '2', '5'],
-          source: SkyGridSelectedRowsSource.CheckboxChange
+          source: SkyGridSelectedRowsSource.CheckboxChange,
         };
         expect(component.selectedRowsChange).toEqual(expectedRows);
       }));
@@ -1728,21 +2014,27 @@ describe('Grid Component', () => {
         fixture.detectChanges();
 
         // Expect only the above 3 rows are checked.
-        tableRows.forEach(row => {
+        tableRows.forEach((row) => {
           let id = row.nativeElement.getAttribute('sky-cmp-id');
           if (id === '1' || id === '2' || id === '5') {
             expect(row.query(By.css('input')).nativeElement.checked).toBe(true);
           } else {
-            expect(row.query(By.css('input')).nativeElement.checked).toBe(false);
+            expect(row.query(By.css('input')).nativeElement.checked).toBe(
+              false
+            );
           }
         });
       });
 
       it('should not be sortable when clicking on multiselect column', () => {
         let sortSpy = spyOn(component, 'onSort');
-        let headerEl = fixture.nativeElement.querySelector('th.sky-grid-multiselect-cell') as HTMLElement;
-        SkyAppTestUtility.fireDomEvent(headerEl, 'mouseup',
-          { bubbles: false, cancelable: false });
+        let headerEl = fixture.nativeElement.querySelector(
+          'th.sky-grid-multiselect-cell'
+        ) as HTMLElement;
+        SkyAppTestUtility.fireDomEvent(headerEl, 'mouseup', {
+          bubbles: false,
+          cancelable: false,
+        });
         fixture.detectChanges();
 
         expect(sortSpy).not.toHaveBeenCalled();
@@ -1753,10 +2045,14 @@ describe('Grid Component', () => {
         const tableRows = getTableRows(fixture);
 
         // Start with no class.
-        expect(tableRows[0].nativeElement).not.toHaveCssClass('sky-grid-multiselect-selected-row');
+        expect(tableRows[0].nativeElement).not.toHaveCssClass(
+          'sky-grid-multiselect-selected-row'
+        );
 
         // Select all.
-        const selectAllMessage: SkyGridMessage = { type: SkyGridMessageType.SelectAll };
+        const selectAllMessage: SkyGridMessage = {
+          type: SkyGridMessageType.SelectAll,
+        };
         fixture.componentInstance.gridController.next(selectAllMessage);
         fixture.detectChanges();
 
@@ -1766,11 +2062,13 @@ describe('Grid Component', () => {
 
         let expectedRows: SkyGridSelectedRowsModelChange = {
           selectedRowIds: ['1', '2', '3', '4', '5', '6', '7'],
-          source: SkyGridSelectedRowsSource.SelectAll
+          source: SkyGridSelectedRowsSource.SelectAll,
         };
         expect(component.selectedRowsChange).toEqual(expectedRows);
 
-        const clearAllMessage: SkyGridMessage = { type: SkyGridMessageType.ClearAll };
+        const clearAllMessage: SkyGridMessage = {
+          type: SkyGridMessageType.ClearAll,
+        };
         fixture.componentInstance.gridController.next(clearAllMessage);
         fixture.detectChanges();
 
@@ -1780,7 +2078,7 @@ describe('Grid Component', () => {
 
         expectedRows = {
           selectedRowIds: [],
-          source: SkyGridSelectedRowsSource.ClearAll
+          source: SkyGridSelectedRowsSource.ClearAll,
         };
         expect(component.selectedRowsChange).toEqual(expectedRows);
       });
@@ -1875,9 +2173,7 @@ describe('Grid Component', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [
-          GridFixturesModule
-        ]
+        imports: [GridFixturesModule],
       });
     });
     beforeEach(() => {
@@ -1890,7 +2186,9 @@ describe('Grid Component', () => {
     });
 
     function getMultiselectInputs(): DebugElement[] {
-      return fixture.debugElement.queryAll(By.css('tbody .sky-grid-multiselect-cell input'));
+      return fixture.debugElement.queryAll(
+        By.css('tbody .sky-grid-multiselect-cell input')
+      );
     }
 
     function getButtons(): DebugElement[] {
@@ -1912,9 +2210,13 @@ describe('Grid Component', () => {
 
       // Expect nothing to be checked or emitted.
       expect(checkboxes[0].nativeElement.checked).toBe(false);
-      expect(tableRows[0].nativeElement).not.toHaveCssClass('sky-grid-multiselect-selected-row');
+      expect(tableRows[0].nativeElement).not.toHaveCssClass(
+        'sky-grid-multiselect-selected-row'
+      );
       expect(checkboxes[1].nativeElement.checked).toBe(false);
-      expect(tableRows[1].nativeElement).not.toHaveCssClass('sky-grid-multiselect-selected-row');
+      expect(tableRows[1].nativeElement).not.toHaveCssClass(
+        'sky-grid-multiselect-selected-row'
+      );
       expect(component.selectedRowsChange).toEqual(undefined);
     });
   });
@@ -1929,9 +2231,7 @@ describe('Grid Component', () => {
       mockDragulaService = new MockDragulaService();
 
       TestBed.configureTestingModule({
-        imports: [
-          GridFixturesModule
-        ]
+        imports: [GridFixturesModule],
       });
 
       fixture = TestBed.overrideComponent(SkyGridComponent, {
@@ -1939,10 +2239,10 @@ describe('Grid Component', () => {
           viewProviders: [
             {
               provide: DragulaService,
-              useValue: mockDragulaService
-            }
-          ]
-        }
+              useValue: mockDragulaService,
+            },
+          ],
+        },
       }).createComponent(GridTestComponent);
 
       element = fixture.debugElement as DebugElement;
@@ -1963,9 +2263,9 @@ describe('Grid Component', () => {
             add(cls: string) {
               addCalled = true;
               expect(cls).toBe('sky-grid-header-dragging');
-            }
-          }
-        }
+            },
+          },
+        },
       ]);
 
       tick();
@@ -1987,9 +2287,9 @@ describe('Grid Component', () => {
             remove(cls: string) {
               removeCalled = true;
               expect(cls).toBe('sky-grid-header-dragging');
-            }
-          }
-        }
+            },
+          },
+        },
       ]);
 
       tick();
@@ -1997,184 +2297,193 @@ describe('Grid Component', () => {
       expect(removeCalled).toBe(true);
     }));
 
-    it('should set selectedColumnIds to the new column order on drop and update headers and data',
-      fakeAsync(() => {
-        let newSelectedColumnIds: string[];
-        let expectedColumnIds = [
+    it('should set selectedColumnIds to the new column order on drop and update headers and data', fakeAsync(() => {
+      let newSelectedColumnIds: string[];
+      let expectedColumnIds = [
+        'column2',
+        'column1',
+        'column3',
+        'column4',
+        'column5',
+      ];
+
+      fixture.detectChanges();
+
+      fixture.detectChanges();
+
+      component.grid.selectedColumnIdsChange.subscribe(() => {
+        newSelectedColumnIds = [
           'column2',
           'column1',
           'column3',
           'column4',
-          'column5'
+          'column5',
         ];
+      });
 
-        fixture.detectChanges();
-
-        fixture.detectChanges();
-
-        component.grid.selectedColumnIdsChange.subscribe(() => {
-          newSelectedColumnIds = [
-            'column2',
-            'column1',
-            'column3',
-            'column4',
-            'column5'
-          ];
-        });
-
-        mockDragulaService.drop.emit([
-          undefined,
-          undefined,
-          {
-            querySelectorAll(elementSelector: string) {
-              expect(elementSelector).toBe('th:not(.sky-grid-multiselect-cell):not(.sky-grid-row-delete-heading)');
-              return [
-                {
-                  getAttribute(idSelector: string) {
-                    expect(idSelector).toBe('sky-cmp-id');
-                    return 'column2';
-                  }
+      mockDragulaService.drop.emit([
+        undefined,
+        undefined,
+        {
+          querySelectorAll(elementSelector: string) {
+            expect(elementSelector).toBe(
+              'th:not(.sky-grid-multiselect-cell):not(.sky-grid-row-delete-heading)'
+            );
+            return [
+              {
+                getAttribute(idSelector: string) {
+                  expect(idSelector).toBe('sky-cmp-id');
+                  return 'column2';
                 },
-                {
-                  getAttribute(idSelector: string) {
-                    return 'column1';
-                  }
+              },
+              {
+                getAttribute(idSelector: string) {
+                  return 'column1';
                 },
-                {
-                  getAttribute(idSelector: string) {
-                    return 'column3';
-                  }
+              },
+              {
+                getAttribute(idSelector: string) {
+                  return 'column3';
                 },
-                {
-                  getAttribute(idSelector: string) {
-                    return 'column4';
-                  }
+              },
+              {
+                getAttribute(idSelector: string) {
+                  return 'column4';
                 },
-                {
-                  getAttribute(idSelector: string) {
-                    return 'column5';
-                  }
-                }
-              ];
-            }
-          }
-        ]);
-        tick();
-        fixture.detectChanges();
-
-        expect(newSelectedColumnIds).toEqual(expectedColumnIds);
-        expect(component.grid.selectedColumnIds).toEqual(expectedColumnIds);
-
-        const headerAttribute = element.nativeElement
-          .getElementsByTagName('th')[0].getAttribute('sky-cmp-id');
-
-        expect(headerAttribute).toBe('column2');
-
-        const cellAttribute = element.nativeElement
-          .getElementsByTagName('sky-grid-cell')[0].getAttribute('sky-cmp-id');
-
-        expect(cellAttribute).toBe('column2');
-      })
-    );
-
-    it('should emit selectedColumnIds when a column is reorded on drop',
-      fakeAsync(() => {
-        fixture.detectChanges();
-        fixture.detectChanges();
-
-        const spy = spyOn(component, 'onSelectedColumnIdsChange').and.callThrough();
-
-        mockDragulaService.drop.emit([
-          undefined,
-          undefined,
-          {
-            querySelectorAll(elementSelector: string) {
-              expect(elementSelector).toBe('th:not(.sky-grid-multiselect-cell):not(.sky-grid-row-delete-heading)');
-              return [
-                {
-                  getAttribute(idSelector: string) {
-                    expect(idSelector).toBe('sky-cmp-id');
-                    return 'column2';
-                  }
+              },
+              {
+                getAttribute(idSelector: string) {
+                  return 'column5';
                 },
-                {
-                  getAttribute(idSelector: string) {
-                    return 'column1';
-                  }
-                },
-                {
-                  getAttribute(idSelector: string) {
-                    return 'column3';
-                  }
-                },
-                {
-                  getAttribute(idSelector: string) {
-                    return 'column4';
-                  }
-                },
-                {
-                  getAttribute(idSelector: string) {
-                    return 'column5';
-                  }
-                }
-              ];
-            }
-          }
-        ]);
-        tick();
-        fixture.detectChanges();
+              },
+            ];
+          },
+        },
+      ]);
+      tick();
+      fixture.detectChanges();
 
-        expect(spy).toHaveBeenCalledTimes(1);
-        expect(spy).toHaveBeenCalledWith(
-          ['column2', 'column1', 'column3', 'column4', 'column5']
-        );
-      })
-    );
+      expect(newSelectedColumnIds).toEqual(expectedColumnIds);
+      expect(component.grid.selectedColumnIds).toEqual(expectedColumnIds);
+
+      const headerAttribute = element.nativeElement
+        .getElementsByTagName('th')[0]
+        .getAttribute('sky-cmp-id');
+
+      expect(headerAttribute).toBe('column2');
+
+      const cellAttribute = element.nativeElement
+        .getElementsByTagName('sky-grid-cell')[0]
+        .getAttribute('sky-cmp-id');
+
+      expect(cellAttribute).toBe('column2');
+    }));
+
+    it('should emit selectedColumnIds when a column is reorded on drop', fakeAsync(() => {
+      fixture.detectChanges();
+      fixture.detectChanges();
+
+      const spy = spyOn(
+        component,
+        'onSelectedColumnIdsChange'
+      ).and.callThrough();
+
+      mockDragulaService.drop.emit([
+        undefined,
+        undefined,
+        {
+          querySelectorAll(elementSelector: string) {
+            expect(elementSelector).toBe(
+              'th:not(.sky-grid-multiselect-cell):not(.sky-grid-row-delete-heading)'
+            );
+            return [
+              {
+                getAttribute(idSelector: string) {
+                  expect(idSelector).toBe('sky-cmp-id');
+                  return 'column2';
+                },
+              },
+              {
+                getAttribute(idSelector: string) {
+                  return 'column1';
+                },
+              },
+              {
+                getAttribute(idSelector: string) {
+                  return 'column3';
+                },
+              },
+              {
+                getAttribute(idSelector: string) {
+                  return 'column4';
+                },
+              },
+              {
+                getAttribute(idSelector: string) {
+                  return 'column5';
+                },
+              },
+            ];
+          },
+        },
+      ]);
+      tick();
+      fixture.detectChanges();
+
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith([
+        'column2',
+        'column1',
+        'column3',
+        'column4',
+        'column5',
+      ]);
+    }));
 
     it('should set dragula options for locked and resizable columns', () => {
       const standardHandleElement: any = {
         classList: {
           contains(classSelector: string) {
             return false;
-          }
+          },
         },
         matches(selector: string) {
-          return (selector === '.sky-grid-header');
+          return selector === '.sky-grid-header';
         },
         querySelector(selector: string): any {
           return undefined;
         },
         contains(el: HTMLElement) {
           return false;
-        }
+        },
       };
 
       const lockedHandleElement: any = {
         classList: {
           contains(classSelector: string) {
             return false;
-          }
+          },
         },
         matches(selector: string) {
-          return (selector === '.sky-grid-header-locked');
+          return selector === '.sky-grid-header-locked';
         },
         querySelector(selector: string): any {
           return undefined;
-        }
+        },
       };
 
       const resizeHandleElement: any = {
         classList: {
           contains(classSelector: string) {
             return false;
-          }
+          },
         },
         matches(selector: string) {
-          return (selector === '.sky-grid-resize-handle');
+          return selector === '.sky-grid-resize-handle';
         },
         querySelector(selector: string): any {
           return undefined;
-        }
+        },
       };
 
       const standardMockElement: any = {
@@ -2182,10 +2491,8 @@ describe('Grid Component', () => {
           return undefined;
         },
         querySelectorAll(selector: string) {
-          return [
-            standardHandleElement
-          ];
-        }
+          return [standardHandleElement];
+        },
       };
 
       const lockedColumnMockElement: any = {
@@ -2196,10 +2503,8 @@ describe('Grid Component', () => {
           return document;
         },
         querySelectorAll(selector: string) {
-          return [
-            standardHandleElement
-          ];
-        }
+          return [standardHandleElement];
+        },
       };
 
       const lockedSiblingMockElement: any = {
@@ -2212,14 +2517,14 @@ describe('Grid Component', () => {
               classList: {
                 contains(classSelector: string) {
                   return true;
-                }
+                },
               },
               contains(el: HTMLElement) {
                 return false;
-              }
-            }
+              },
+            },
           ];
-        }
+        },
       };
 
       const lockedSiblingHandleNotDirectMockElement: any = {
@@ -2232,126 +2537,128 @@ describe('Grid Component', () => {
               classList: {
                 contains(classSelector: string) {
                   return true;
-                }
+                },
               },
               contains(el: HTMLElement) {
                 return false;
-              }
+              },
             },
             {
               classList: {
                 contains(classSelector: string) {
                   return false;
-                }
+                },
               },
               contains(el: HTMLElement) {
                 return true;
-              }
-            }
+              },
+            },
           ];
-        }
+        },
       };
 
-      const setOptionsSpy = spyOn(mockDragulaService, 'setOptions').and
-        .callFake((bagId: any, options: any) => {
-          const moveOptionValid = options.moves(
-            standardMockElement,
-            standardMockElement,
-            standardHandleElement
-          );
+      const setOptionsSpy = spyOn(
+        mockDragulaService,
+        'setOptions'
+      ).and.callFake((bagId: any, options: any) => {
+        const moveOptionValid = options.moves(
+          standardMockElement,
+          standardMockElement,
+          standardHandleElement
+        );
 
-          const moveOptionLeftOfLocked = options.moves(
-            standardMockElement,
-            lockedSiblingMockElement,
-            standardHandleElement
-          );
+        const moveOptionLeftOfLocked = options.moves(
+          standardMockElement,
+          lockedSiblingMockElement,
+          standardHandleElement
+        );
 
-          const moveOptionLeftOfLockedNonDirect = options.moves(
-            standardMockElement,
-            lockedSiblingHandleNotDirectMockElement,
-            standardHandleElement
-          );
+        const moveOptionLeftOfLockedNonDirect = options.moves(
+          standardMockElement,
+          lockedSiblingHandleNotDirectMockElement,
+          standardHandleElement
+        );
 
-          const moveOptionLockedHeader = options.moves(
-            lockedColumnMockElement,
-            standardMockElement,
-            standardHandleElement
-          );
+        const moveOptionLockedHeader = options.moves(
+          lockedColumnMockElement,
+          standardMockElement,
+          standardHandleElement
+        );
 
-          const moveOptionFromResize = options.moves(
-            standardMockElement,
-            standardMockElement,
-            resizeHandleElement
-          );
+        const moveOptionFromResize = options.moves(
+          standardMockElement,
+          standardMockElement,
+          resizeHandleElement
+        );
 
-          const moveOptionUndefinedHandle = options.moves(
-            standardMockElement,
-            standardMockElement,
-            undefined
-          );
+        const moveOptionUndefinedHandle = options.moves(
+          standardMockElement,
+          standardMockElement,
+          undefined
+        );
 
-          const acceptsOption = options.accepts(
-            undefined,
-            undefined,
-            standardMockElement,
-            standardHandleElement
-          );
+        const acceptsOption = options.accepts(
+          undefined,
+          undefined,
+          standardMockElement,
+          standardHandleElement
+        );
 
-          const acceptsOptionLoopBreak = options.accepts(
-            undefined,
-            undefined,
-            standardMockElement,
-            {
-              querySelector(selector: string) {
-                return standardHandleElement;
-              },
-              matches(selector: string) {
-                return false;
-              }
-            }
-          );
+        const acceptsOptionLoopBreak = options.accepts(
+          undefined,
+          undefined,
+          standardMockElement,
+          {
+            querySelector(selector: string) {
+              return standardHandleElement;
+            },
+            matches(selector: string) {
+              return false;
+            },
+          } as HTMLElement
+        );
 
-          const acceptsOptionUndefinedSibiling = options.accepts(
-            undefined,
-            undefined,
-            standardMockElement,
-            undefined
-          );
+        const acceptsOptionUndefinedSibiling = options.accepts(
+          undefined,
+          undefined,
+          standardMockElement,
+          undefined
+        );
 
-          const acceptsOptionLockedHandle = options.accepts(
-            undefined,
-            undefined,
-            standardMockElement,
-            lockedHandleElement
-          );
+        const acceptsOptionLockedHandle = options.accepts(
+          undefined,
+          undefined,
+          standardMockElement,
+          lockedHandleElement
+        );
 
-          const acceptsOptionResizeHandle = options.accepts(
-            undefined,
-            undefined,
-            standardMockElement,
-            resizeHandleElement
-          );
+        const acceptsOptionResizeHandle = options.accepts(
+          undefined,
+          undefined,
+          standardMockElement,
+          resizeHandleElement
+        );
 
-          const acceptsOptionLeftOfLocked = options.accepts(
-            undefined,
-            undefined,
-            lockedSiblingMockElement,
-            standardHandleElement
-          );
+        const acceptsOptionLeftOfLocked = options.accepts(
+          undefined,
+          undefined,
+          lockedSiblingMockElement,
+          standardHandleElement
+        );
 
-          expect(moveOptionValid).toBeTruthy();
-          expect(moveOptionLockedHeader).toBeFalsy();
-          expect(moveOptionLeftOfLocked).toBeFalsy();
-          expect(moveOptionLeftOfLockedNonDirect).toBeTruthy();
-          expect(moveOptionFromResize).toBeFalsy();
-          expect(moveOptionUndefinedHandle).toBeFalsy();
-          expect(acceptsOption).toBeTruthy();
-          expect(acceptsOptionLoopBreak).toBeTruthy();
-          expect(acceptsOptionUndefinedSibiling).toBeTruthy();
-          expect(acceptsOptionLockedHandle).toBeFalsy();
-          expect(acceptsOptionResizeHandle).toBeFalsy();
-          expect(acceptsOptionLeftOfLocked).toBeFalsy();
-        });
+        expect(moveOptionValid).toBeTruthy();
+        expect(moveOptionLockedHeader).toBeFalsy();
+        expect(moveOptionLeftOfLocked).toBeFalsy();
+        expect(moveOptionLeftOfLockedNonDirect).toBeTruthy();
+        expect(moveOptionFromResize).toBeFalsy();
+        expect(moveOptionUndefinedHandle).toBeFalsy();
+        expect(acceptsOption).toBeTruthy();
+        expect(acceptsOptionLoopBreak).toBeTruthy();
+        expect(acceptsOptionUndefinedSibiling).toBeTruthy();
+        expect(acceptsOptionLockedHandle).toBeFalsy();
+        expect(acceptsOptionResizeHandle).toBeFalsy();
+        expect(acceptsOptionLeftOfLocked).toBeFalsy();
+      });
 
       fixture.detectChanges();
       fixture.detectChanges();
@@ -2378,9 +2685,9 @@ describe('Grid Component', () => {
           classList: {
             add(cls: string) {
               expect(cls).toBe('sky-grid-header-dragging');
-            }
-          }
-        }
+            },
+          },
+        },
       ]);
 
       fixture.detectChanges();
@@ -2396,9 +2703,7 @@ describe('Grid Component', () => {
 
     beforeEach(async () => {
       TestBed.configureTestingModule({
-        imports: [
-          GridFixturesModule
-        ]
+        imports: [GridFixturesModule],
       });
     });
 
@@ -2415,19 +2720,25 @@ describe('Grid Component', () => {
         headerCount--;
       }
 
-      expect(element.queryAll(By.css('th.sky-grid-heading')).length).toBe(headerCount);
-      expect(getColumnHeader('column1', element).nativeElement.textContent.trim()).toBe('Column 1');
+      expect(element.queryAll(By.css('th.sky-grid-heading')).length).toBe(
+        headerCount
+      );
+      expect(
+        getColumnHeader('column1', element).nativeElement.textContent.trim()
+      ).toBe('Column 1');
 
       if (!hideColumn) {
-        expect(getColumnHeader('column2', element).nativeElement.textContent.trim())
-          .toBe('Column 2');
+        expect(
+          getColumnHeader('column2', element).nativeElement.textContent.trim()
+        ).toBe('Column 2');
       } else {
         expect(getColumnHeader('column2', element)).toBeNull();
       }
 
       if (thirdColumn) {
-        expect(getColumnHeader('column3', element).nativeElement.textContent.trim())
-          .toBe('Column 3');
+        expect(
+          getColumnHeader('column3', element).nativeElement.textContent.trim()
+        ).toBe('Column 3');
       } else {
         expect(getColumnHeader('column3', element)).toBeNull();
       }
@@ -2437,19 +2748,22 @@ describe('Grid Component', () => {
       for (let i = 0; i < component.data.length; i++) {
         const row = component.data[i];
 
-        expect(getCell(row.id, 'column1', element).nativeElement.textContent.trim())
-          .toBe(row.column1);
+        expect(
+          getCell(row.id, 'column1', element).nativeElement.textContent.trim()
+        ).toBe(row.column1);
 
         if (hideColumn) {
           expect(getCell(row.id, 'column2', element)).toBeNull();
         } else {
-          expect(getCell(row.id, 'column2', element).nativeElement.textContent.trim())
-            .toBe(row.column2);
+          expect(
+            getCell(row.id, 'column2', element).nativeElement.textContent.trim()
+          ).toBe(row.column2);
         }
 
         if (thirdColumn) {
-          expect(getCell(row.id, 'column3', element).nativeElement.textContent.trim())
-            .toBe(row.column3);
+          expect(
+            getCell(row.id, 'column3', element).nativeElement.textContent.trim()
+          ).toBe(row.column3);
         } else {
           expect(getCell(row.id, 'column3', element)).toBeNull();
         }
@@ -2461,12 +2775,12 @@ describe('Grid Component', () => {
       component.columns = [
         new SkyGridColumnModel(component.template, {
           id: 'column1',
-          heading: 'Column 1'
+          heading: 'Column 1',
         }),
         new SkyGridColumnModel(component.template, {
           id: 'column2',
-          heading: 'Column 2'
-        })
+          heading: 'Column 2',
+        }),
       ];
 
       fixture.detectChanges();
@@ -2480,13 +2794,13 @@ describe('Grid Component', () => {
       component.columns = [
         new SkyGridColumnModel(component.template, {
           id: 'column1',
-          heading: 'Column 1'
+          heading: 'Column 1',
         }),
         new SkyGridColumnModel(component.template, {
           id: 'column2',
           heading: 'Column 2',
-          hidden: true
-        })
+          hidden: true,
+        }),
       ];
 
       fixture.detectChanges();
@@ -2499,12 +2813,12 @@ describe('Grid Component', () => {
       component.columns = [
         new SkyGridColumnModel(component.template, {
           id: 'column1',
-          heading: 'Column 1'
+          heading: 'Column 1',
         }),
         new SkyGridColumnModel(component.template, {
           id: 'column2',
-          heading: 'Column 2'
-        })
+          heading: 'Column 2',
+        }),
       ];
 
       fixture.detectChanges();
@@ -2516,16 +2830,16 @@ describe('Grid Component', () => {
       component.columns = [
         new SkyGridColumnModel(component.template, {
           id: 'column1',
-          heading: 'Column 1'
+          heading: 'Column 1',
         }),
         new SkyGridColumnModel(component.template, {
           id: 'column2',
-          heading: 'Column 2'
+          heading: 'Column 2',
         }),
         new SkyGridColumnModel(component.template, {
           id: 'column3',
-          heading: 'Column 3'
-        })
+          heading: 'Column 3',
+        }),
       ];
 
       fixture.detectChanges();
@@ -2537,12 +2851,12 @@ describe('Grid Component', () => {
       component.columns = [
         new SkyGridColumnModel(component.template, {
           id: 'column1',
-          heading: 'Column 1'
+          heading: 'Column 1',
         }),
         new SkyGridColumnModel(component.template, {
           id: 'column2',
-          heading: 'Column 2'
-        })
+          heading: 'Column 2',
+        }),
       ];
 
       fixture.detectChanges();
@@ -2557,18 +2871,15 @@ describe('Grid Component', () => {
       component.columns = [
         new SkyGridColumnModel(component.template, {
           id: 'column1',
-          heading: 'Column 1'
+          heading: 'Column 1',
         }),
         new SkyGridColumnModel(component.template, {
           id: 'column2',
-          heading: 'Column 2'
-        })
+          heading: 'Column 2',
+        }),
       ];
 
-      let selectedColumnIds = [
-        'column1',
-        'column2'
-      ];
+      let selectedColumnIds = ['column1', 'column2'];
       fixture.componentInstance.selectedColumnIds = selectedColumnIds;
 
       fixture.detectChanges();
@@ -2580,16 +2891,16 @@ describe('Grid Component', () => {
       component.columns = [
         new SkyGridColumnModel(component.template, {
           id: 'column1',
-          heading: 'Column 1'
+          heading: 'Column 1',
         }),
         new SkyGridColumnModel(component.template, {
           id: 'column2',
-          heading: 'Column 2'
+          heading: 'Column 2',
         }),
         new SkyGridColumnModel(component.template, {
           id: 'column3',
-          heading: 'Column 3'
-        })
+          heading: 'Column 3',
+        }),
       ];
 
       fixture.detectChanges();
@@ -2598,11 +2909,7 @@ describe('Grid Component', () => {
 
       verifyData();
 
-      selectedColumnIds = [
-        'column1',
-        'column2',
-        'column3'
-      ];
+      selectedColumnIds = ['column1', 'column2', 'column3'];
       fixture.componentInstance.selectedColumnIds = selectedColumnIds;
 
       fixture.detectChanges();
@@ -2614,12 +2921,12 @@ describe('Grid Component', () => {
       component.columns = [
         new SkyGridColumnModel(component.template, {
           id: 'column1',
-          heading: 'Column 1'
+          heading: 'Column 1',
         }),
         new SkyGridColumnModel(component.template, {
           id: 'column2',
-          heading: 'Column 2'
-        })
+          heading: 'Column 2',
+        }),
       ];
 
       fixture.detectChanges();
@@ -2634,16 +2941,16 @@ describe('Grid Component', () => {
       component.columns = [
         new SkyGridColumnModel(component.template, {
           id: 'column1',
-          heading: 'Column 1'
+          heading: 'Column 1',
         }),
         new SkyGridColumnModel(component.template, {
           id: 'column2',
-          heading: 'Column 2'
+          heading: 'Column 2',
         }),
         new SkyGridColumnModel(component.template, {
           id: 'column3',
-          heading: 'Column 3'
-        })
+          heading: 'Column 3',
+        }),
       ];
 
       fixture.detectChanges();
@@ -2661,9 +2968,7 @@ describe('Grid Component', () => {
         element: DebugElement;
 
       TestBed.configureTestingModule({
-        imports: [
-          GridFixturesModule
-        ]
+        imports: [GridFixturesModule],
       });
 
       fixture = TestBed.createComponent(GridDynamicTestComponent);
@@ -2673,19 +2978,23 @@ describe('Grid Component', () => {
       fixture.detectChanges();
 
       expect(element.queryAll(By.css('th.sky-grid-heading')).length).toBe(2);
-      expect(getColumnHeader('name', element).nativeElement.textContent.trim())
-        .toBe('Name Initial');
-      expect(getColumnHeader('email', element).nativeElement.textContent.trim())
-        .toBe('Email Initial');
+      expect(
+        getColumnHeader('name', element).nativeElement.textContent.trim()
+      ).toBe('Name Initial');
+      expect(
+        getColumnHeader('email', element).nativeElement.textContent.trim()
+      ).toBe('Email Initial');
 
       component.changeColumns();
       fixture.detectChanges();
 
       expect(element.queryAll(By.css('th.sky-grid-heading')).length).toBe(2);
-      expect(getColumnHeader('name', element).nativeElement.textContent.trim())
-        .toBe('Name');
-      expect(getColumnHeader('email', element).nativeElement.textContent.trim())
-        .toBe('Email');
+      expect(
+        getColumnHeader('name', element).nativeElement.textContent.trim()
+      ).toBe('Name');
+      expect(
+        getColumnHeader('email', element).nativeElement.textContent.trim()
+      ).toBe('Email');
     });
   });
 
@@ -2694,10 +3003,8 @@ describe('Grid Component', () => {
     let element: DebugElement;
 
     beforeEach(async () => {
-      TestBed.configureTestingModule({
-        imports: [
-          GridFixturesModule
-        ]
+      await TestBed.configureTestingModule({
+        imports: [GridFixturesModule],
       }).compileComponents();
     });
 
@@ -2707,13 +3014,17 @@ describe('Grid Component', () => {
     });
 
     function verifyColumnHeaders(id: string): void {
-      expect(getColumnHeader(id, element).nativeElement.textContent.trim()).toBe('');
+      expect(
+        getColumnHeader(id, element).nativeElement.textContent.trim()
+      ).toBe('');
 
       tick(110); // wait for setTimeout
       fixture.detectChanges();
       tick();
 
-      expect(getColumnHeader(id, element).nativeElement.textContent.trim()).toBe('Column1');
+      expect(
+        getColumnHeader(id, element).nativeElement.textContent.trim()
+      ).toBe('Column1');
     }
 
     it('should handle async column headings', fakeAsync(() => {
@@ -2724,7 +3035,9 @@ describe('Grid Component', () => {
     it('should handle async column descriptions', fakeAsync(() => {
       fixture.detectChanges();
 
-      let col1 = fixture.componentInstance.grid.columns.find(col => col.id === 'column1');
+      let col1 = fixture.componentInstance.grid.columns.find(
+        (col) => col.id === 'column1'
+      );
       expect(col1.description).toBe('');
 
       tick(110); // wait for setTimeout
@@ -2737,7 +3050,8 @@ describe('Grid Component', () => {
     it('should handle async column inline help', fakeAsync(() => {
       fixture.detectChanges();
 
-      const missingInlineHelp = fixture.nativeElement.querySelector('sky-help-inline');
+      const missingInlineHelp =
+        fixture.nativeElement.querySelector('sky-help-inline');
       expect(missingInlineHelp).toBeNull();
 
       tick(110); // wait for setTimeout
@@ -2760,10 +3074,8 @@ describe('Grid Component', () => {
     let element: DebugElement;
 
     beforeEach(async () => {
-      TestBed.configureTestingModule({
-        imports: [
-          GridFixturesModule
-        ]
+      await TestBed.configureTestingModule({
+        imports: [GridFixturesModule],
       }).compileComponents();
     });
 
@@ -2775,15 +3087,16 @@ describe('Grid Component', () => {
     it('should allow columns with undefined headers', async () => {
       fixture.detectChanges();
 
-      const selectedColumnIds = [
-        'columnNoHeader'
-      ];
-
-      fixture.componentInstance.selectedColumnIds = selectedColumnIds;
+      fixture.componentInstance.selectedColumnIds = ['columnNoHeader'];
       fixture.detectChanges();
 
       expect(element.queryAll(By.css('th.sky-grid-heading')).length).toBe(3);
-      expect(getColumnHeader('columnNoHeader', element).nativeElement.textContent.trim()).toBe('');
+      expect(
+        getColumnHeader(
+          'columnNoHeader',
+          element
+        ).nativeElement.textContent.trim()
+      ).toBe('');
     });
   });
 
@@ -2795,9 +3108,7 @@ describe('Grid Component', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [
-          GridFixturesModule
-        ]
+        imports: [GridFixturesModule],
       });
 
       fixture = TestBed.createComponent(GridEmptyTestComponent);
@@ -2810,12 +3121,12 @@ describe('Grid Component', () => {
       component.columns = [
         new SkyGridColumnModel(component.template, {
           id: 'column1',
-          heading: 'Column 1'
+          heading: 'Column 1',
         }),
         new SkyGridColumnModel(component.template, {
           id: 'column2',
-          heading: 'Column 2'
-        })
+          heading: 'Column 2',
+        }),
       ];
 
       fixture.detectChanges();
@@ -2850,24 +3161,32 @@ describe('Grid Component', () => {
       component.columns = [
         new SkyGridColumnModel(component.template, {
           id: 'column1',
-          heading: 'Column 1'
+          heading: 'Column 1',
         }),
         new SkyGridColumnModel(component.template, {
           id: 'column2',
-          heading: 'Column 2'
-        })
+          heading: 'Column 2',
+        }),
       ];
 
       // Return a fake from the uiConfigService of the two columns above, plus one bad column.
-      const columns = { selectedColumnIds: ['column1', 'column2', 'columnBAD'] };
-      spyOn(uiConfigService, 'getConfig').and.returnValue(observableOf(columns));
+      const columns = {
+        selectedColumnIds: ['column1', 'column2', 'columnBAD'],
+      };
+      spyOn(uiConfigService, 'getConfig').and.returnValue(
+        observableOf(columns)
+      );
       component.settingsKey = 'foobar';
       fixture.detectChanges();
 
       // Expect only the two good columns to show on the grid.
       expect(element.queryAll(By.css('th.sky-grid-heading')).length).toBe(2);
-      expect(getColumnHeader('column1', element).nativeElement.textContent.trim()).toBe('Column 1');
-      expect(getColumnHeader('column2', element).nativeElement.textContent.trim()).toBe('Column 2');
+      expect(
+        getColumnHeader('column1', element).nativeElement.textContent.trim()
+      ).toBe('Column 1');
+      expect(
+        getColumnHeader('column2', element).nativeElement.textContent.trim()
+      ).toBe('Column 2');
     });
 
     it('should handle errors when setting config', () => {
@@ -2881,12 +3200,12 @@ describe('Grid Component', () => {
       component.columns = [
         new SkyGridColumnModel(component.template, {
           id: 'column1',
-          heading: 'Column 1'
+          heading: 'Column 1',
         }),
         new SkyGridColumnModel(component.template, {
           id: 'column2',
-          heading: 'Column 2'
-        })
+          heading: 'Column 2',
+        }),
       ];
 
       fixture.detectChanges();
@@ -2904,13 +3223,16 @@ describe('Grid Component', () => {
         return observableThrowError(new Error());
       });
 
-      const spy = spyOn(fixture.componentInstance.grid as any, 'initColumns').and.callThrough();
+      const spy = spyOn(
+        fixture.componentInstance.grid as any,
+        'initColumns'
+      ).and.callThrough();
 
       component.columns = [
         new SkyGridColumnModel(component.template, {
           id: 'column1',
-          heading: 'Column 1'
-        })
+          heading: 'Column 1',
+        }),
       ];
 
       component.settingsKey = 'foobar';

@@ -1,10 +1,6 @@
-import {
-  TemplateRef
-} from '@angular/core';
+import { TemplateRef } from '@angular/core';
 
-import {
-  SkyGridColumnAlignment
-} from './types/grid-column-alignment';
+import { SkyGridColumnAlignment } from './types/grid-column-alignment';
 
 /**
  * @internal

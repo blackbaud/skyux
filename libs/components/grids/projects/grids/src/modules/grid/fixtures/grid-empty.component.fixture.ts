@@ -1,26 +1,17 @@
-import {
-  Component,
-  ViewChild,
-  TemplateRef
-} from '@angular/core';
+import { Component, ViewChild, TemplateRef } from '@angular/core';
 
-import {
-  SkyGridColumnModel
-} from '../grid-column.model';
+import { SkyGridColumnModel } from '../grid-column.model';
 
-import {
-  SkyGridComponent
-} from '../grid.component';
+import { SkyGridComponent } from '../grid.component';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './grid-empty.component.fixture.html'
+  templateUrl: './grid-empty.component.fixture.html',
 })
 export class GridEmptyTestComponent {
-
   @ViewChild(SkyGridComponent, {
     read: SkyGridComponent,
-    static: true
+    static: true,
   })
   public grid: SkyGridComponent;
 
@@ -36,13 +27,13 @@ export class GridEmptyTestComponent {
       id: '1',
       column1: '1',
       column2: 'Apple',
-      column3: 'Fruit'
+      column3: 'Fruit',
     },
     {
       id: '2',
       column1: '01',
       column2: 'Banana',
-      column3: 'Fruit'
-    }
+      column3: 'Fruit',
+    },
   ];
 }

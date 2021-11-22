@@ -1,5 +1,5 @@
-@import "~@skyux/theme/scss/mixins";
-@import "~@skyux/theme/scss/_compat/mixins";
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
 
 $sky-grid-resize-handle-width: 5px;
 
@@ -68,7 +68,8 @@ $sky-grid-resize-handle-width: 5px;
     background-color: $sky-background-color-neutral-light;
   }
 
-  &.sky-grid-column-alignment-left, &.sky-grid-column-alignment-center {
+  &.sky-grid-column-alignment-left,
+  &.sky-grid-column-alignment-center {
     // This ensures that the sort icon is a strict size. It is 13.98px without the style. It also
     // ensures that things don't jump when the sort icon is not visible
     .sky-grid-heading-sort {
@@ -113,7 +114,7 @@ $sky-grid-resize-handle-width: 5px;
     position: relative;
     z-index: 1;
     overflow: hidden;
-    min-width:100%;
+    min-width: 100%;
   }
 
   .sky-grid-column-input-aria-only {
@@ -142,7 +143,7 @@ $sky-grid-resize-handle-width: 5px;
       display: none;
     }
 
-     &::-ms-thumb {
+    &::-ms-thumb {
       -webkit-appearance: none;
       -moz-appearance: none;
       width: 0;
@@ -162,9 +163,9 @@ $sky-grid-resize-handle-width: 5px;
       border: 0 none;
       background: none;
       display: none;
-     }
+    }
 
-     &:focus {
+    &:focus {
       background-color: $sky-highlight-color-info;
     }
   }
@@ -185,7 +186,7 @@ $sky-grid-resize-handle-width: 5px;
 .sky-grid-multiselect-cell {
   padding: 0;
   text-align: center;
-   ::ng-deep.sky-switch-control {
+  ::ng-deep.sky-switch-control {
     margin: 0 auto;
   }
 }
@@ -202,29 +203,29 @@ th.sky-grid-multiselect-cell {
 @-moz-document url-prefix() {
   .sky-grid-multiselect-row {
     td {
-      border-left:0px solid transparent;
-      border-right:0px solid transparent;
+      border-left: 0px solid transparent;
+      border-right: 0px solid transparent;
     }
   }
 }
 
 .sky-grid-multiselect-row:hover {
-  background-color:darken($sky-background-color-selected, 3%);
+  background-color: darken($sky-background-color-selected, 3%);
 
   // Override zebra stribing.
   &:nth-child(odd) {
-    background:darken($sky-background-color-selected, 3%);
+    background: darken($sky-background-color-selected, 3%);
   }
 }
 
 .sky-grid-multiselect-selected-row {
-  background:$sky-background-color-selected;
-  border-top:1px solid #dadbf6;
-  border-bottom:1px solid #dadbf6;
+  background: $sky-background-color-selected;
+  border-top: 1px solid #dadbf6;
+  border-bottom: 1px solid #dadbf6;
 
   // Override zebra stribing.
   &:nth-child(odd) {
-    background:$sky-background-color-selected;
+    background: $sky-background-color-selected;
   }
 }
 
@@ -237,7 +238,6 @@ th.sky-grid-multiselect-cell {
   This prevents grid header width from changing when sort indication changes
 */
 .sky-grid-heading-sort {
-
   &.sky-grid-heading-sort-hidden {
     visibility: hidden;
   }
@@ -271,7 +271,7 @@ th.sky-grid-multiselect-cell {
     bottom: 0;
     width: $sky-grid-resize-handle-width;
     height: 100%;
-    content: "";
+    content: '';
   }
 }
 

@@ -1,20 +1,5 @@
-<sky-grid
-  fit="scroll"
-  [data]="data"
->
-  <sky-grid-column
-    field="column1"
-    heading="Column1"
-  >
-  </sky-grid-column>
-  <sky-grid-column
-    field="column2"
-    heading="Column2"
-  >
-  </sky-grid-column>
-  <sky-grid-column
-    field="columnNoHeader"
-  >
-    foo bar
-  </sky-grid-column>
+<sky-grid fit="scroll" [data]="data">
+  <sky-grid-column field="column1" heading="Column1"> </sky-grid-column>
+  <sky-grid-column field="column2" heading="Column2"> </sky-grid-column>
+  <sky-grid-column field="columnNoHeader"> foo bar </sky-grid-column>
 </sky-grid>
