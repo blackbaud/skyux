@@ -1,3 +1,7 @@
+# 5.1.0 (2021-11-23)
+
+- Added support for tokenized resource matchers. [#60](https://github.com/blackbaud/skyux-sdk-testing/pull/60) (Thanks [@Blackbaud-ChrisMecklenborg](https://github.com/Blackbaud-ChrisMecklenborg)!)
+
 # 5.0.1 (2021-11-19)
 
 - Updated the builder to support StackBlitz. [#59](https://github.com/blackbaud/skyux-sdk-testing/pull/59)
