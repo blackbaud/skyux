@@ -153,10 +153,33 @@ describe('Text expand repeater component', () => {
       expect(seeMoreButton).toBeNull();
     });
 
-    it('should expand and collapse correctly', fakeAsync(() => {
-      let container: HTMLElement
-        = <HTMLElement>document.querySelector('.sky-text-expand-repeater-container');
+    it(`should set class on see more button when listStyle property is set to none`, () => {
+      cmp.data = ['john', 'bob', 'hank'];
+      cmp.numItems = 2;
+      cmp.listStyle = 'unstyled';
+      fixture.detectChanges();
+      let seeMoreButton: any = el.querySelector('.sky-text-expand-repeater-see-more');
+      expect(seeMoreButton).toHaveCssClass('sky-text-expand-repeater-see-more-list-style-none');
+    });
 
+    it(`should use an unordered list when listStyle property is not set`, () => {
+      cmp.data = ['john', 'bob', 'hank'];
+      cmp.numItems = 2;
+      fixture.detectChanges();
+      let contentSection: any = el.querySelector('ul.sky-text-expand-repeater-container');
+      expect(contentSection).toExist();
+    });
+
+    it(`should use an ordered list when listStyle property is set to ordered`, () => {
+      cmp.data = ['john', 'bob', 'hank'];
+      cmp.numItems = 2;
+      cmp.listStyle = 'ordered';
+      fixture.detectChanges();
+      let contentSection: any = el.querySelector('ol.sky-text-expand-repeater-container');
+      expect(contentSection).toExist();
+    });
+
+    it('should expand and collapse correctly', fakeAsync(() => {
       cmp.data = ['john', 'bob', 'hank'];
       cmp.numItems = 2;
 
@@ -164,6 +187,8 @@ describe('Text expand repeater component', () => {
       let hiddenItemsSelector = '.sky-text-expand-repeater-item[style*="display: none"]';
 
       fixture.detectChanges();
+      let container: HTMLElement
+        = <HTMLElement>document.querySelector('.sky-text-expand-repeater-container');
       let seeMoreButton: any = el.querySelector('.sky-text-expand-repeater-see-more');
       let shownItems: any =
         el.querySelectorAll(shownItemsSelector);

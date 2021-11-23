@@ -32,6 +32,7 @@ export * from './modules/page-summary/page-summary.module';
 
 export * from './modules/text-expand/text-expand.module';
 
+export * from './modules/text-expand-repeater/types/text-expand-repeater-list-style-type';
 export * from './modules/text-expand-repeater/text-expand-repeater.module';
 
 export * from './modules/toolbar/toolbar.module';

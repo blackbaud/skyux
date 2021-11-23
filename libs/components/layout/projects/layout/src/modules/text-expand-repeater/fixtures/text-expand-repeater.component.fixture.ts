@@ -3,6 +3,7 @@ import {
   QueryList,
   ViewChildren
 } from '@angular/core';
+import { SkyTextExpandRepeaterListStyleType } from '../types/text-expand-repeater-list-style-type';
 
 import {
   SkyTextExpandRepeaterComponent
@@ -24,5 +25,7 @@ export class TextExpandRepeaterTestComponent {
     read: SkyTextExpandRepeaterComponent
   })
   public textExpand: QueryList<SkyTextExpandRepeaterComponent>;
+
+  public listStyle: SkyTextExpandRepeaterListStyleType = 'unordered';
 
 }

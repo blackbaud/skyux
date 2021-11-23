@@ -1,18 +1,36 @@
 <div class="sky-text-expand-repeater">
-  <ul class="sky-text-expand-repeater-container" [id]="contentSectionId" (transitionend)="animationEnd()" #container>
-    <li *ngFor="let item of contentItems" class="sky-text-expand-repeater-item">
+  <ul *ngIf="listStyle !== 'ordered'"
+      class="sky-text-expand-repeater-container"
+      [id]="contentSectionId"
+      (transitionend)="animationEnd()"
+      [ngClass]="{
+        'sky-text-expand-repeater-list-style-none' : listStyle === 'unstyled'
+      }"
+      #container
+    >
       <ng-template
-        [ngTemplateOutlet]="itemTemplate || defaultItemTemplate"
-        [ngTemplateOutletContext]="{ $implicit: item }"
+        [ngTemplateOutlet]="listItemTemplate"
       ></ng-template>
-    </li>
   </ul>
+  <ol *ngIf="listStyle === 'ordered'"
+      class="sky-text-expand-repeater-container"
+      [id]="contentSectionId"
+      (transitionend)="animationEnd()"
+      #container
+    >
+      <ng-template
+        [ngTemplateOutlet]="listItemTemplate"
+      ></ng-template>
+  </ol>
   <button *ngIf="expandable"
     type="button"
     class="sky-btn sky-btn-link-inline sky-text-expand-repeater-see-more"
     [attr.aria-expanded]="isExpanded"
     [attr.aria-controls]="contentSectionId"
     (click)="repeaterExpand()"
+    [ngClass]="{
+      'sky-text-expand-repeater-see-more-list-style-none' : listStyle === 'unstyled'
+    }"
   >
     {{buttonText}}
   </button>
@@ -23,4 +41,14 @@
   #defaultItemTemplate
 >
   {{ item }}
+</ng-template>
+
+<ng-template
+  #listItemTemplate>
+  <li *ngFor="let item of contentItems" class="sky-text-expand-repeater-item">
+    <ng-template
+      [ngTemplateOutlet]="itemTemplate || defaultItemTemplate"
+      [ngTemplateOutletContext]="{ $implicit: item }"
+    ></ng-template>
+  </li>
 </ng-template>
