@@ -1,3 +1,7 @@
+# 5.77.0 (2021-11-23)
+
+- `@skyux-sdk/testing@5.1.0` [Release notes](https://github.com/blackbaud/skyux-sdk-testing/blob/5.1.0/CHANGELOG.md)
+
 # 5.76.0 (2021-11-22)
 
 - `@skyux/grids@5.0.1` [Release notes](https://github.com/blackbaud/skyux-grids/blob/5.0.1/CHANGELOG.md)
