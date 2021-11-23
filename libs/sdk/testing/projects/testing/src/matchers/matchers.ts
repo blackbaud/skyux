@@ -29,6 +29,20 @@ function getResourcesObservable(name: string, args: any[] = []): Observable<stri
   return resourcesService.getString(name, ...args);
 }
 
+function isTemplateMatch(sample:string, template:string): boolean {
+  let matches = true;
+  let templateTokens = template.split(new RegExp("{\\d+}")).reverse();
+  let currentToken = templateTokens.pop();
+  let lastPosition = 0;
+  while(currentToken != undefined && matches) {
+    let tokenPosition:number = sample.indexOf(currentToken, lastPosition);
+    matches = tokenPosition >= lastPosition;
+    lastPosition = tokenPosition + currentToken.length;
+    currentToken = templateTokens.pop();
+  }
+  return matches;
+}
+
 const matchers: jasmine.CustomMatcherFactories = {
   toBeAccessible(): jasmine.CustomMatcher {
     return {
@@ -298,6 +312,40 @@ const matchers: jasmine.CustomMatcherFactories = {
         };
       }
     };
+  },
+
+  toMatchResourceTemplate(): jasmine.CustomMatcher {
+    return {
+      compare(
+        el: any,
+        name: string,
+        callback?: () => void
+      ): jasmine.CustomMatcherResult {
+        let actual = el.textContent;
+
+        getResourcesObservable(name).toPromise().then(message => {
+          if (!isTemplateMatch(actual, message)) {
+            windowRef.fail(`Expected element's text "${actual}" to match "${message}"`);
+          }
+          /*istanbul ignore else*/
+          if (callback) {
+            callback();
+          }
+        });
+
+        // Asynchronous matchers are currently unsupported, but
+        // the method above works to fail the specific test in the
+        // callback manually, if checks do not pass.
+        // ---
+        // A side effect of this technique is the matcher cannot be
+        // paired with a `.not.toHaveResourceText` operator (since the returned
+        // result is always `true`).
+        return {
+          message: '',
+          pass: true
+        };
+      }
+    };
   }
 };
 
@@ -379,6 +427,33 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
         });
       }
     };
+  },
+
+  toMatchResourceTemplate(): jasmine.CustomAsyncMatcher {
+    return {
+      compare(
+        element: any,
+        name: string
+      ): Promise<jasmine.CustomMatcherResult> {
+
+        return new Promise((resolve) => {
+          let actual = element.textContent;
+
+          getResourcesObservable(name).toPromise().then(message => {
+            if (isTemplateMatch(actual, message)) {
+              resolve({
+                pass: true
+              });
+            } else {
+              resolve({
+                pass: false,
+                message: `Expected element's text "${actual}" to match "${message}"`
+              });
+            }
+          });
+        });
+      }
+    };
   }
 };
 
@@ -423,6 +498,16 @@ export interface SkyAsyncMatchers<T> {
    * @param trimWhitespace [true] Whether or not to trim whitespace from the actual element text before comparison.
    */
   toHaveResourceText(name: string, args?: any[], trimWhitespace?: boolean): Promise<jasmine.CustomMatcherResult>;
+
+  /**
+   * `expect` the actual element to have the text for the expected resource string.
+   * Uses `SkyAppResourcesService.getString(name, args)` to fetch the expected resource string
+   * and compares the tokenized element text against the template.
+   * Essentially this matches any text that has the non-parameterized text of the template in the order of the template,
+   * regardless of the value of each of the parameters.
+   * @param name The resource string to fetch from the resource file and compare against.
+   */
+  toMatchResourceTemplate(name: string): Promise<jasmine.CustomMatcherResult>;
 
 }
 
@@ -497,6 +582,18 @@ export interface SkyMatchers<T> extends jasmine.Matchers<T> {
    * @param callback The callback to execute when the comparison fails.
    */
   toHaveResourceText(name: string, args?: any[], trimWhitespace?: boolean, callback?: () => void): void;
+
+  /**
+   * `expect` the actual element to have the text for the expected resource string.
+   * Uses `SkyAppResourcesService.getString(name, args)` to fetch the expected resource string
+   * and compares the tokenized element text against the template.
+   * Essentially this matches any text that has the non-parameterized text of the template in the order of the template,
+   * regardless of the value of each of the parameters.
+   * @deprecated Use `await expectAsync(element).toMatchResourceTemplate('foo_bar_key')` instead.
+   * @param name The resource string to fetch from the resource file and compare against.
+   * @param callback The callback to execute when the comparison fails.
+   */
+  toMatchResourceTemplate(name: string, callback?: () => void): void;
 }
 
 /**
