@@ -1,3 +1,7 @@
+# 5.79.0 (2021-11-29)
+
+- `@skyux-sdk/testing@5.1.1` [Release notes](https://github.com/blackbaud/skyux-sdk-testing/blob/5.1.1/CHANGELOG.md)
+
 # 5.78.0 (2021-11-24)
 
 - `@skyux/layout@5.1.0` [Release notes](https://github.com/blackbaud/skyux-layout/blob/5.1.0/CHANGELOG.md)
