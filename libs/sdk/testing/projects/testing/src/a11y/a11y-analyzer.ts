@@ -1,25 +1,26 @@
 import * as axe from 'axe-core';
 
-import {
-  SkyA11yAnalyzerConfig
-} from './a11y-analyzer-config';
+import { SkyA11yAnalyzerConfig } from './a11y-analyzer-config';
 
 function parseMessage(violations: axe.Result[]): string {
   let message = 'Expected element to pass accessibility checks.\n\n';
 
   violations.forEach((violation) => {
     const wcagTags = violation.tags
-      .filter(tag => tag.match(/wcag\d{3}|^best*/gi))
+      .filter((tag) => tag.match(/wcag\d{3}|^best*/gi))
       .join(', ');
 
-    const html = violation.nodes.reduce((accumulator: string, node: axe.NodeResult) => {
-      return `${accumulator}\n${node.html}\n`;
-    }, '       Elements:\n');
+    const html = violation.nodes.reduce(
+      (accumulator: string, node: axe.NodeResult) => {
+        return `${accumulator}\n${node.html}\n`;
+      },
+      '       Elements:\n'
+    );
 
     const error = [
       `aXe - [Rule: \'${violation.id}\'] ${violation.help} - WCAG: ${wcagTags}`,
       `       Get help at: ${violation.helpUrl}\n`,
-      `${html}\n\n`
+      `${html}\n\n`,
     ].join('\n');
 
     message += `${error}\n`;
@@ -29,16 +30,14 @@ function parseMessage(violations: axe.Result[]): string {
 }
 
 export abstract class SkyA11yAnalyzer {
-
   private static analyzer = axe;
 
   public static run(
     element?: axe.ElementContext,
     config?: SkyA11yAnalyzerConfig
   ): Promise<void> {
-
     const defaults: SkyA11yAnalyzerConfig = {
-      rules: { }
+      rules: {},
     };
 
     // Enable all rules by default.
@@ -53,7 +52,6 @@ export abstract class SkyA11yAnalyzer {
     defaults.rules['autocomplete-valid'] = { enabled: false };
 
     return new Promise((resolve, reject) => {
-
       const callback: axe.RunCallback = (error, results) => {
         if (error) {
           reject(error);
@@ -70,10 +68,9 @@ export abstract class SkyA11yAnalyzer {
 
       SkyA11yAnalyzer.analyzer.run(
         element!,
-        {...defaults, ...config},
+        { ...defaults, ...config },
         callback
       );
     });
   }
-
 }

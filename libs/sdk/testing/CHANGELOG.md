@@ -1,3 +1,7 @@
+# 5.1.1 (2021-11-29)
+
+- Added support for Prettier code formatting. [#62](https://github.com/blackbaud/skyux-sdk-testing/pull/62)
+
 # 5.1.0 (2021-11-23)
 
 - Added support for tokenized resource matchers. [#60](https://github.com/blackbaud/skyux-sdk-testing/pull/60) (Thanks [@Blackbaud-ChrisMecklenborg](https://github.com/Blackbaud-ChrisMecklenborg)!)
@@ -44,6 +48,7 @@
 # 4.2.0 (2020-10-1)
 
 - Added support for `expectAsync` for the following Jasmine matchers: `toBeAccessible`, `toEqualResourceString`, and `toContainResourceString`. The older, synchronous versions have been deprecated. [#37](https://github.com/blackbaud/skyux-sdk-testing/pull/37) To convert existing synchronous matchers to the new synchronous versions do the following:
+
 ```
 // Instead of...
 import { expect } from '@skyux-sdk/testing';

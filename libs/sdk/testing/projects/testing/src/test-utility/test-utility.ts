@@ -1,18 +1,10 @@
-import {
-  ComponentFixture
-} from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
 
-import {
-  DebugElement
-} from '@angular/core';
+import { DebugElement } from '@angular/core';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  SkyAppTestUtilityDomEventOptions
-} from './test-utility-dom-event-options';
+import { SkyAppTestUtilityDomEventOptions } from './test-utility-dom-event-options';
 
 function getNativeEl(el: any): any {
   if (!el) {
@@ -35,7 +27,7 @@ export class SkyAppTestUtility {
     const defaults = {
       bubbles: true,
       cancelable: true,
-      keyboardEventInit: {}
+      keyboardEventInit: {},
     };
 
     const settings = Object.assign({}, defaults, options);
@@ -128,13 +120,14 @@ export class SkyAppTestUtility {
     skyTestId: string,
     componentSelector: string
   ): DebugElement {
-
     const skyEl = fixture.debugElement.query(
       By.css(`[data-sky-id="${skyTestId}"]`)
     );
 
     if (!skyEl) {
-      throw new Error(`No element was found with a \`data-sky-id\` value of "${skyTestId}".`);
+      throw new Error(
+        `No element was found with a \`data-sky-id\` value of "${skyTestId}".`
+      );
     }
 
     if (skyEl.name !== componentSelector) {
@@ -145,5 +138,4 @@ export class SkyAppTestUtility {
 
     return skyEl;
   }
-
 }

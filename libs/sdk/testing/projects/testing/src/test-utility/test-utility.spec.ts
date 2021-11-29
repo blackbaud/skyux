@@ -4,17 +4,12 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
-import {
-  Component,
-  DebugElement
-} from '@angular/core';
+import { Component, DebugElement } from '@angular/core';
 
-import {
-  SkyAppTestUtility
-} from './test-utility';
+import { SkyAppTestUtility } from './test-utility';
 
 //#endregion
 
@@ -23,20 +18,16 @@ import {
 @Component({
   selector: 'test-parent-cmp',
   template: `
-<test-cmp
-  [attr.data-sky-id]="'my-id'"
->
-  My component.
-</test-cmp>
-`
+    <test-cmp [attr.data-sky-id]="'my-id'"> My component. </test-cmp>
+  `,
 })
-class TestParentComponent { }
+class TestParentComponent {}
 
 @Component({
   selector: 'test-cmp',
-  template: `<ng-content></ng-content>`
+  template: `<ng-content></ng-content>`,
 })
-class TestComponent { }
+class TestComponent {}
 
 //#endregion
 
@@ -84,8 +75,8 @@ describe('Test utility', () => {
         altKey: true,
         ctrlKey: true,
         metaKey: true,
-        shiftKey: true
-      }
+        shiftKey: true,
+      },
     });
 
     tick();
@@ -104,8 +95,8 @@ describe('Test utility', () => {
 
     SkyAppTestUtility.fireDomEvent(elem, 'focusin', {
       customEventInit: {
-        relatedTarget: elem
-      }
+        relatedTarget: elem,
+      },
     });
 
     tick();
@@ -122,7 +113,7 @@ describe('Test utility', () => {
     expect(SkyAppTestUtility.isVisible(undefined)).toBeUndefined();
   });
 
-  it('should retrieve an element\'s inner text', () => {
+  it("should retrieve an element's inner text", () => {
     expect(SkyAppTestUtility.getText(textEl)).toBe('');
 
     textEl.innerText = '    test   ';
@@ -132,7 +123,7 @@ describe('Test utility', () => {
     expect(SkyAppTestUtility.getText(undefined)).toBeUndefined();
   });
 
-  it('should retrieve an element\'s background URL', () => {
+  it("should retrieve an element's background URL", () => {
     let imageUrl: string | undefined;
 
     imageUrl = SkyAppTestUtility.getBackgroundImageUrl(bgEl);
@@ -167,10 +158,7 @@ describe('Test utility', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [
-          TestComponent,
-          TestParentComponent
-        ]
+        declarations: [TestComponent, TestParentComponent],
       });
       fixture = TestBed.createComponent(TestParentComponent);
     });
@@ -197,12 +185,10 @@ describe('Test utility', () => {
       fixture.detectChanges();
 
       expect(() => {
-        SkyAppTestUtility.getDebugElementByTestId(
-          fixture,
-          testId,
-          'test-cmp'
-        );
-      }).toThrowError(`No element was found with a \`data-sky-id\` value of "${testId}".`);
+        SkyAppTestUtility.getDebugElementByTestId(fixture, testId, 'test-cmp');
+      }).toThrowError(
+        `No element was found with a \`data-sky-id\` value of "${testId}".`
+      );
     });
 
     it('should throw if selector invalid', () => {
@@ -212,11 +198,7 @@ describe('Test utility', () => {
       fixture.detectChanges();
 
       expect(() => {
-        SkyAppTestUtility.getDebugElementByTestId(
-          fixture,
-          testId,
-          selector
-        );
+        SkyAppTestUtility.getDebugElementByTestId(fixture, testId, selector);
       }).toThrowError(
         `The element with the test ID "${testId}" is not a component of type ${selector}."`
       );
