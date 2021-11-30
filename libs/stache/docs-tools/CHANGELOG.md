@@ -1,6 +1,10 @@
+# 5.0.0-beta.5 (2021-11-30)
+
+- Fixed the `SkyDocsTypeDocAdapterService` to properly handle deprecated, required, and optional accessor properties. [#185](https://github.com/blackbaud/skyux-docs-tools/pull/185)
+
 # 5.0.0-beta.4 (2021-11-17)
 
-- Fixed the `SkyDocsTypeDocAdapterService` to properly handle accessor properties. [#183](https://github.com/blackbaud/skyux-docs-tools/pull/183)
+- Fixed the `SkyDocsTypeDocAdapterService` to properly handle accessor property descriptions. [#183](https://github.com/blackbaud/skyux-docs-tools/pull/183)
 
 # 5.0.0-beta.3 (2021-11-16)
 

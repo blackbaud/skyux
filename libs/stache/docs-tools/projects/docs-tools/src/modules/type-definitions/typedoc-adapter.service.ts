@@ -97,7 +97,7 @@ export class SkyDocsTypeDocAdapterService {
 
   constructor(
     @Optional() private typeDefinitionsProvider?: SkyDocsTypeDefinitionsProvider
-  ) {}
+  ) { }
 
   public toClassDefinition(entry: TypeDocEntry): SkyDocsClassDefinition {
     const definition: SkyDocsClassDefinition = {
@@ -230,32 +230,50 @@ export class SkyDocsTypeDocAdapterService {
     const definitions = entry.children
       .filter(child => child.kindString === 'Property' || child.kindString === 'Accessor')
       .map(child => {
-        let comment: TypeDocComment;
-
-        /* Ensure we are properly capturing definitions which use a getter/setter. Final check is a sanity check */
-        if (child.kindString === 'Accessor' && !child.comment?.shortText && child.getSignature?.length > 0) {
-          comment = child.getSignature[0].comment;
-        } else {
-          comment = child.comment;
-        }
-
-        const tags = this.getCommentTags(comment);
-        const definition: SkyDocsClassPropertyDefinition = {
-          isOptional: !tags.extras.required,
+        let definition: SkyDocsClassPropertyDefinition = {
+          isOptional: true,
           name: this.getPropertyName(child),
           type: this.getTypeDefinition(child)
         };
+        let defaultValue: string;
 
-        this.applyCommentTagValues(definition, tags);
+        /* Ensure we are properly capturing definitions which use a getter/setter. Final check is a sanity check */
+        if (child.kindString === 'Accessor' && !child.comment?.shortText && child.getSignature?.length > 0) {
+          const mainTags = this.getCommentTags(child.comment);
+          const getTags = this.getCommentTags(child.getSignature[0].comment);
+
+          this.applyCommentTagValues(definition, mainTags);
+          this.applyCommentTagValues(definition, getTags);
+
+          if (child.setSignature?.length > 0) {
+            const setTags = this.getCommentTags(child.setSignature[0].comment);
+
+            this.applyCommentTagValues(definition, setTags);
+
+            definition.isOptional = !setTags.extras.required;
+            defaultValue = this.getDefaultValue(child, setTags);
+          } else {
+            definition.isOptional = !mainTags.extras.required;
+            defaultValue = this.getDefaultValue(child, mainTags);
+          }
+
+        } else {
+          const tags = this.getCommentTags(child.comment);
+
+          definition.isOptional = !tags.extras.required;
+
+          this.applyCommentTagValues(definition, tags);
+
+          defaultValue = this.getDefaultValue(child, tags);
+        }
+
+        if (defaultValue) {
+          definition.defaultValue = defaultValue;
+        }
 
         const decorator = this.getDecorator(child);
         if (decorator) {
           definition.decorator = decorator;
-        }
-
-        const defaultValue = this.getDefaultValue(child, tags);
-        if (defaultValue) {
-          definition.defaultValue = defaultValue;
         }
 
         return definition;
