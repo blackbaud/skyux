@@ -1,3 +1,7 @@
+# 5.80.0 (2021-11-30)
+
+- `@skyux/docs-tools@5.0.0-beta.5` [Release notes](https://github.com/blackbaud/skyux-docs-tools/blob/5.0.0-beta.5/CHANGELOG.md)
+
 # 5.79.0 (2021-11-29)
 
 - `@skyux-sdk/testing@5.1.1` [Release notes](https://github.com/blackbaud/skyux-sdk-testing/blob/5.1.1/CHANGELOG.md)
