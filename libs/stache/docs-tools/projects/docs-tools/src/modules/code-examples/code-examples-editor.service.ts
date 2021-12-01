@@ -332,7 +332,7 @@ body {
 
     fragment = fragment.split(']')[0];
 
-    const components = fragment.split(',');
+    const components = fragment.split(',').filter(x => x);
 
     if (components.length > 1) {
       throw 'You may only export a single component from the code example module' +

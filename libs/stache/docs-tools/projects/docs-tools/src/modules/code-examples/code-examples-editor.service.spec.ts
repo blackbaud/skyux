@@ -192,4 +192,49 @@ describe('Code examples editor service', () => {
     }
   });
 
+  it('should handle code example module with a component with a trailing comma in the exports section', () => {
+    const example: SkyDocsCodeExample = {
+      heading: 'Basic example',
+      packageDependencies: {},
+      sourceCode: [
+        {
+          fileName: 'foo.component.ts',
+          filePath: './',
+          rawContents: sampleComponentContents
+        },
+        {
+          fileName: 'foo.module.ts',
+          filePath: './',
+          rawContents: `
+            import {
+              NgModule
+            } from '@angular/core';
+
+            import {
+              SampleDemoComponent
+            } from './foo.component';
+
+            import {
+              BarComponent
+            } from './bar.component';
+
+            @NgModule({
+              declarations: [
+                SampleDemoComponent,
+                BarComponent
+              ],
+              exports: [
+                SampleDemoComponent,
+              ]
+            })
+            export class SampleDemoModule {}
+            ` // ^ Important, add trailing comma after component listed in exports.
+        }
+      ],
+      theme: SkyDocsCodeExampleTheme.Default
+    };
+
+    expect(() => service.launchEditor(example)).not.toThrow();
+  });
+
 });
