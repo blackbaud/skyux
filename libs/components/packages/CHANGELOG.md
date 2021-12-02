@@ -1,3 +1,7 @@
+# 5.85.0 (2021-12-02)
+
+- `@skyux/indicators@5.1.0` [Release notes](https://github.com/blackbaud/skyux-indicators/blob/5.1.0/CHANGELOG.md)
+
 # 5.84.0 (2021-12-02)
 
 - `@skyux/core@5.2.1` [Release notes](https://github.com/blackbaud/skyux-core/blob/5.2.1/CHANGELOG.md)
