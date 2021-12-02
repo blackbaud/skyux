@@ -38,6 +38,10 @@ function updateInputText(
   fixture.detectChanges();
 }
 
+function validateInnerHTML(el: HTMLElement, expectedText: string): void {
+  expect(el.innerHTML.trim()).toBe(expectedText);
+}
+
 describe('Text Highlight', () => {
   let fixture: ComponentFixture<SkyTextHighlightTestComponent>;
   let component: SkyTextHighlightTestComponent;
@@ -89,7 +93,7 @@ describe('Text Highlight', () => {
 
     const mark = containerEl.querySelector('mark');
     expect(mark).toBeTruthy();
-    expect(mark.innerHTML.trim()).toBe('test');
+    validateInnerHTML(mark, 'test');
   }));
 
   it('should highlight search term', () => {
@@ -97,7 +101,63 @@ describe('Text Highlight', () => {
 
     const mark = fixture.nativeElement.querySelector('mark');
     expect(mark).toBeTruthy();
-    expect(mark.innerHTML.trim()).toBe('text');
+    validateInnerHTML(mark, 'text');
+  });
+
+  it('should handle empty strings and empty arrays', () => {
+    component.searchTerm = '';
+    fixture.detectChanges();
+
+    expect(containerEl.querySelector('mark')).toBeFalsy();
+
+    component.searchTerm = [];
+    fixture.detectChanges();
+
+    expect(containerEl.querySelector('mark')).toBeFalsy();
+  });
+
+  it('should highlight search terms when using an array', () => {
+    component.searchTerm = ['Here', 'some', 'text'];
+    fixture.detectChanges();
+
+    const marks: NodeListOf<HTMLElement> =
+      fixture.nativeElement.querySelectorAll('mark');
+    expect(marks.length).toEqual(3);
+    validateInnerHTML(marks[0], 'Here');
+    validateInnerHTML(marks[1], 'some');
+    validateInnerHTML(marks[2], 'text');
+
+    component.searchTerm = ['text'];
+    fixture.detectChanges();
+
+    const newMarks: NodeListOf<HTMLElement> =
+      fixture.nativeElement.querySelectorAll('mark');
+    expect(newMarks.length).toEqual(1);
+    validateInnerHTML(newMarks[0], 'text');
+  });
+
+  it('should highlight search terms when using an array and the array contains substrings of other strings in the same array', () => {
+    component.innerText1 = 'The pandas have ten pans.';
+    fixture.detectChanges();
+    component.searchTerm = ['pan', 'panda'];
+    fixture.detectChanges();
+
+    // If a match is found that contains a substring of another match, the larger string should be marked.
+    const marks: NodeListOf<HTMLElement> =
+      fixture.nativeElement.querySelectorAll('mark');
+    expect(marks.length).toEqual(2);
+    validateInnerHTML(marks[0], 'panda');
+    validateInnerHTML(marks[1], 'pan');
+
+    // Also check for a different order of the same terms.
+    component.searchTerm = ['panda', 'pan'];
+    fixture.detectChanges();
+
+    const newMarks: NodeListOf<HTMLElement> =
+      fixture.nativeElement.querySelectorAll('mark');
+    expect(newMarks.length).toEqual(2);
+    validateInnerHTML(newMarks[0], 'panda');
+    validateInnerHTML(newMarks[1], 'pan');
   });
 
   it('highlight should NOT be called when DOM attributes are changed', (done) => {
@@ -123,7 +183,7 @@ describe('Text Highlight', () => {
 
     const mark = fixture.nativeElement.querySelector('mark');
     expect(mark).toBeTruthy();
-    expect(mark.innerHTML.trim()).toBe('Here');
+    validateInnerHTML(mark, 'Here');
   });
 
   it('should highlight search term in nested component', () => {
@@ -133,8 +193,8 @@ describe('Text Highlight', () => {
 
     const mark = fixture.nativeElement.querySelectorAll('mark');
     expect(mark.length).toBe(2);
-    expect(mark[0].innerHTML.trim()).toBe('Here');
-    expect(mark[1].innerHTML.trim()).toBe('Here');
+    validateInnerHTML(mark[0], 'Here');
+    validateInnerHTML(mark[1], 'Here');
   });
 
   it('should support illegal characters in the search term', () => {
@@ -144,19 +204,19 @@ describe('Text Highlight', () => {
 
     const mark = fixture.nativeElement.querySelector('mark');
     expect(mark).toBeTruthy();
-    expect(mark.innerHTML.trim()).toBe('-/^$*+?.()|{}[]');
+    validateInnerHTML(mark, '-/^$*+?.()|{}[]');
   });
 
   it('changed search term should highlight new term and old term should not highlight', () => {
     updateInputText(fixture, 'some');
     let mark = fixture.nativeElement.querySelector('mark');
     expect(mark).toBeTruthy();
-    expect(mark.innerHTML.trim()).toBe('some');
+    validateInnerHTML(mark, 'some');
 
     updateInputText(fixture, 'Here');
     mark = fixture.nativeElement.querySelector('mark');
     expect(mark).toBeTruthy();
-    expect(mark.innerHTML.trim()).toBe('Here');
+    validateInnerHTML(mark, 'Here');
   });
 
   it('highlight search term of html that was previously hidden', () => {
@@ -167,7 +227,7 @@ describe('Text Highlight', () => {
 
     const mark = fixture.nativeElement.querySelector('mark');
     expect(mark).toBeTruthy();
-    expect(mark.innerHTML.trim()).toBe('is');
+    validateInnerHTML(mark, 'is');
 
     // check box to show extra content
     const checkboxEl = fixture.nativeElement.querySelector(
@@ -183,8 +243,8 @@ describe('Text Highlight', () => {
 
     const marks = fixture.nativeElement.querySelectorAll('mark');
     expect(marks.length).toBe(2);
-    expect(marks[0].innerHTML.trim()).toBe('is');
-    expect(marks[1].innerHTML.trim()).toBe('is');
+    validateInnerHTML(marks[0], 'is');
+    validateInnerHTML(marks[1], 'is');
   });
 
   it('highlight hidden search term where only highlighted term was hidden', () => {
@@ -209,7 +269,7 @@ describe('Text Highlight', () => {
 
     mark = fixture.nativeElement.querySelector('mark');
     expect(mark).toBeTruthy();
-    expect(mark.innerHTML.trim()).toBe('additional');
+    validateInnerHTML(mark, 'additional');
   });
 
   it('should be accessible when search term is highlighted', async () => {

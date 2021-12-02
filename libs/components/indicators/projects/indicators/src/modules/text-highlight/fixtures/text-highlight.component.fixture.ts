@@ -7,7 +7,7 @@ import { SkyTextHighlightDirective } from '../text-highlight.directive';
   templateUrl: 'text-highlight.component.fixture.html',
 })
 export class SkyTextHighlightTestComponent {
-  public searchTerm: string;
+  public searchTerm: string | string[];
   public showAdditionalContent = false;
   public innerText1 = 'Here is some test text.';
   public innerText2 =

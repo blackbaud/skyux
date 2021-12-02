@@ -30,11 +30,27 @@ export class SkyTextHighlightDirective
    * Specifies the text to highlight.
    */
   @Input()
-  public skyHighlight: string;
+  public set skyHighlight(value: string | string[]) {
+    value = value || [];
+    this._skyHighlight = [];
+
+    if (Array.isArray(value)) {
+      this._skyHighlight = value.filter((item) => !!item);
+      // Reorder strings by their length in descending order to avoid missing matches
+      // that contain substrings of other matches.
+      this._skyHighlight.sort(function (a, b) {
+        return b.length - a.length;
+      });
+    } else {
+      this._skyHighlight = [value as string];
+    }
+  }
 
   private existingHighlight = false;
 
   private observer: MutationObserver;
+
+  private _skyHighlight: string[];
 
   constructor(
     private el: ElementRef,
@@ -56,7 +72,7 @@ export class SkyTextHighlightDirective
     );
 
     this.observeDom();
-    if (this.skyHighlight) {
+    if (this._skyHighlight && this._skyHighlight.length > 0) {
       this.highlight();
     }
   }
@@ -68,8 +84,8 @@ export class SkyTextHighlightDirective
     }
   }
 
-  private readyForHighlight(searchText: string): boolean {
-    return searchText && this.el.nativeElement;
+  private readyForHighlight(searchText: string[]): boolean {
+    return searchText && searchText.length > 0 && this.el.nativeElement;
   }
 
   private highlight(): void {
@@ -78,7 +94,7 @@ export class SkyTextHighlightDirective
       this.observer.disconnect();
     }
 
-    const searchText = this.skyHighlight;
+    const searchText = this._skyHighlight;
 
     if (this.existingHighlight) {
       SkyTextHighlightDirective.removeHighlight(this.el);
@@ -112,50 +128,44 @@ export class SkyTextHighlightDirective
     return regex.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
   }
 
-  private static getRegexMatch(
-    node: HTMLElement,
-    searchText: string
-  ): RegExpExecArray {
-    const text = node.nodeValue;
-    const newSearchText = this.cleanRegex(searchText);
-    const searchRegex = new RegExp(newSearchText, 'gi');
+  private static markNode(node: any, searchTerms: string[]): number {
+    /* istanbul ignore else */
+    if (searchTerms) {
+      const text = node.nodeValue;
+      for (let i = 0; i < searchTerms.length; i++) {
+        searchTerms[i] = this.cleanRegex(searchTerms[i]);
+      }
+      const searchRegex = new RegExp(searchTerms.join('|'), 'gi');
+      const match = searchRegex.exec(text);
+      if (match) {
+        // Split apart text node with mark tags in the middle on the search term.
+        const matchIndex = match.index;
 
-    return searchRegex.exec(text);
-  }
+        const middle = node.splitText(matchIndex);
+        middle.splitText(searchRegex.lastIndex - matchIndex);
+        const middleClone = middle.cloneNode(true);
 
-  private static markNode(node: any, searchText: string): number {
-    const regexMatch = SkyTextHighlightDirective.getRegexMatch(
-      node,
-      searchText
-    );
+        const markNode = document.createElement('mark');
+        markNode.className = className;
+        markNode.appendChild(middleClone);
+        middle.parentNode.replaceChild(markNode, middle);
 
-    // found match
-    if (regexMatch && regexMatch.length > 0) {
-      // split apart text node with mark tags in the middle on the search term
-      const matchIndex = regexMatch.index;
-
-      const middle = node.splitText(matchIndex);
-      middle.splitText(searchText.length);
-      const middleClone = middle.cloneNode(true);
-
-      const markNode = document.createElement('mark');
-      markNode.className = className;
-      markNode.appendChild(middleClone);
-      middle.parentNode.replaceChild(markNode, middle);
-
-      return 1;
-    } else {
-      return 0;
+        return 1;
+      }
     }
+    return 0;
   }
 
-  private static markTextNodes(node: HTMLElement, searchText: string): number {
+  private static markTextNodes(
+    node: HTMLElement,
+    searchTerms: string[]
+  ): number {
     if (node.nodeType === 3) {
-      return SkyTextHighlightDirective.markNode(node, searchText);
+      return SkyTextHighlightDirective.markNode(node, searchTerms);
     } else if (node.nodeType === 1 && node.childNodes) {
       for (let i = 0; i < node.childNodes.length; i++) {
         const childNode = node.childNodes[i] as HTMLElement;
-        i += SkyTextHighlightDirective.markTextNodes(childNode, searchText);
+        i += SkyTextHighlightDirective.markTextNodes(childNode, searchTerms);
       }
     }
 
