@@ -123,6 +123,14 @@ export class SkyTokenComponent {
     this.elementRef.nativeElement.querySelector('.sky-token').focus();
   }
 
+  public setTokenActive(tokenActive: boolean): void {
+    this.tokenActive = tokenActive;
+  }
+
+  public setCloseActive(closeActive: boolean): void {
+    this.closeActive = closeActive;
+  }
+
   private getString(key: string): string {
     // TODO: Need to implement the async `getString` method in a breaking change.
     return this.resourcesService.getStringForLocale({ locale: 'en-US' }, key);

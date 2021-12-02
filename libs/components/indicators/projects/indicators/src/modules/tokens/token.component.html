@@ -8,11 +8,11 @@
     'sky-token-dismissable': dismissible,
     'sky-token-active': tokenActive && !closeActive
   }"
-  (document:mouseup)="tokenActive = false"
+  (document:mouseup)="setTokenActive(false)"
   (focus)="tokenFocus.emit()"
-  (mousedown)="tokenActive = true"
+  (mousedown)="setTokenActive(true)"
 >
-  <ng-content> </ng-content>
+  <ng-content></ng-content>
   <button
     *ngIf="dismissible"
     class="sky-btn sky-token-btn-close"
@@ -25,10 +25,10 @@
       'sky-token-btn-close-active': closeActive
     }"
     (click)="dismissToken($event)"
-    (document:mouseup)="closeActive = false"
-    (mousedown)="closeActive = true"
+    (document:mouseup)="setCloseActive(false)"
+    (mousedown)="setCloseActive(true)"
   >
-    <sky-icon class="sky-token-btn-close-icon-default" icon="times"> </sky-icon>
+    <sky-icon class="sky-token-btn-close-icon-default" icon="times"></sky-icon>
     <sky-icon
       class="sky-token-btn-close-icon-modern"
       icon="close"
